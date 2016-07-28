@@ -1,0 +1,10 @@
+/* = Evaluation floater = */
+#floater-evaluation-widget {
+    left: 16rem;
+    top: 10rem;
+}
+
+#evaluation-confirm {
+    margin: 0 auto;
+    width: 50%;
+}

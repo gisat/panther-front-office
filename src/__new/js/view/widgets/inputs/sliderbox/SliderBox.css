@@ -1,0 +1,81 @@
+/* === Sliders === */
+.slider-box {
+    margin: .5rem 0;
+}
+
+.slider-caption span {
+    font-weight: bold;
+    height: 1.2rem;
+    line-height: 1.2rem;
+}
+
+.slider-row {
+    width: 14.5rem;
+    margin: .5rem .4rem .35rem .4rem;
+}
+
+.slider-row.ui-slider-horizontal {
+    background: #ccc;
+    border: 0;
+    height: 4px;
+    width: 14.5rem;
+}
+
+.slider-row.ui-slider-horizontal .ui-slider-handle {
+    background: #ff7600;
+    border: 0;
+    border-radius: .5rem;
+    top: -.45em;
+    transition: background .3s ease-out;
+}
+
+.slider-row.ui-slider-horizontal .ui-slider-handle:hover, .slider-row.ui-slider-horizontal .ui-slider-handle.ui-state-focus {
+    background: #d35400;
+}
+
+.slider-row .ui-widget-header {
+    border: 0;
+    background: #ff7600;
+}
+
+.floater-row.slider-labels {
+    font-size: .7rem;
+    color: #999;
+    padding: 0 .1rem;
+    width: 15.2rem;
+}
+.slider-labels-min {
+    display: inline-block;
+    position: relative;
+    width: 50%;
+}
+.slider-labels-max {
+    display: inline-block;
+    position: relative;
+    text-align: right;
+    width: 50%;
+}
+
+.slider-popup {
+    display: none;
+    position: absolute;
+    margin: -9rem .4rem 0 .4rem;
+    width: 14.5rem;
+    height: 7rem;
+    background: white;
+    -webkit-box-shadow: 0 0 4px rgb(136, 136, 136);
+    -moz-box-shadow: 0 0 4px rgb(136, 136, 136);
+    box-shadow: 0 0 4px rgb(136, 136, 136);
+    z-index: 8888;
+}
+
+.slider-popup.open {
+    display: block;
+}
+
+.slider-popup-values {
+    color: #666;
+    font-size: .9rem;
+    margin: .5rem auto;
+    text-align: center;
+}

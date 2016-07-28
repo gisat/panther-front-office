@@ -1,0 +1,132 @@
+/* === Placeholders === */
+.placeholders-container {
+    height: 6rem;
+    left: 65rem;
+    position: absolute;
+    top: 0;
+    width: 12.5rem;
+    z-index: 10000;
+}
+
+.placeholder {
+    background: rgb(140,140,140);
+    border-radius: .1rem;
+    height: 2rem;
+    position: relative;
+    margin: .5rem;
+    transition: background .3s ease-in-out;
+    width: 10rem;
+}
+
+.placeholder.open {
+    background: #ff7600;
+}
+
+.placeholder:hover {
+    background: rgb(120,120,120);
+    cursor: pointer;
+}
+
+.placeholder.open:hover {
+    background: #d35400;
+}
+
+.placeholder > span, .floater-header > span {
+    color: white;
+    font-size: .8rem;
+    font-weight: bold;
+    line-height: 1.95rem;
+    padding: 0 .5rem;
+}
+
+.placeholder-tools-container, .floater-tools-container, .tool-window-tools-container {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 2rem;
+}
+
+.placeholder-tool, .floater-tool {
+    float: right;
+    height: 1.3rem;
+    margin: .4rem .4rem .4rem 0;
+    position: relative;
+    width: 1.3rem;
+}
+
+.placeholder-tool > img, .floater-tool > img {
+    margin: .1rem;
+}
+
+/* === Floaters === */
+.floater {
+    background: rgba(255,255,255,.9);
+    border: 1px solid #ccc;
+    border-radius: .1rem;
+    -webkit-box-shadow: 0 0 4px rgb(136, 136, 136);
+    -moz-box-shadow: 0 0 4px rgb(136, 136, 136);
+    box-shadow: 0 0 4px rgb(136, 136, 136);
+    display: none;
+    padding: .2rem;
+    position: absolute;
+    transition: height 0.5s ease-out;
+    width: 18rem;
+    z-index: 10000;
+}
+
+.floater.open {
+    display: block;
+    height: 24rem;
+}
+
+.floater-header {
+    background: #ff7600;
+    height: 2rem;
+    position: relative;
+    cursor: move;
+}
+
+.floater-body {
+    padding: .5rem;
+    height: calc(100% - 5rem);
+    overflow: auto;
+}
+
+.floater-footer {
+    border-top: 2px solid #ddd;
+    padding: .5rem;
+    height: 3rem;
+}
+
+.floater-row {
+    width: 100%;
+}
+
+.floater-row a {
+    display: block;
+    height: 1.5rem;
+    line-height: 1.4rem;
+    transition: background .3s ease-out;
+    width: 100%;
+}
+.floater-row a:hover {
+    background: rgb(235,235,235);
+}
+.floater-row a > * {
+    vertical-align: middle;
+}
+
+.floater-tool:hover {
+    cursor: pointer;
+}
+
+@media screen and (max-width: 1250px) {
+    .placeholders-container {
+        left: 870px;
+    }
+}
+@media screen and (max-width: 1070px) {
+    .placeholders-container {
+        left: 800px;
+    }
+}
