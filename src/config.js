@@ -1,5 +1,5 @@
 var Config = {
-	url: 'http://localhost',
+	url: 'http://localhost/',
 	signupAddress: 'http://localhost/geonode/account/signup/',
 	geoserver2Workspace: "puma",
 	initialBaseMap: "terrain",
@@ -13,11 +13,13 @@ var Config = {
 		noGeoserverLayerGroups: false,
 		useWBAgreement: false,
 		useWBHeader: false,
+		useHeader: false,
 		useWBFooter: false,
 		allowPumaHelp: false,
 		allowDownloadsLink: false,
 		usePumaLogo: false,
-		advancedFiltersFirst: false
+		advancedFiltersFirst: false,
+		isUrbis: false
 	},
 	googleAnalyticsTracker: '',
 	googleAnalyticsCookieDomain: 'auto',
