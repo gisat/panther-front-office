@@ -1,0 +1,31 @@
+{
+  "name": "application-name",
+  "version": "0.0.1",
+  "main": "karma.conf.js",
+  "dependencies": {
+    "babel-preset-react": "^6.5.0",
+    "jasmine-core": "^2.4.1",
+    "karma": "^0.13.19",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-firefox-launcher": "^0.1.7",
+    "karma-jasmine": "^0.3.7",
+    "karma-requirejs": "^0.2.4",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7",
+    "requirejs": "^2.1.22"
+  },
+  "devDependencies": {
+    "babel-core": "^6.5.1",
+    "babel-loader": "^6.2.2",
+    "jasmine-expect": "^2.0.1",
+    "jasmine-jquery": "^2.1.1",
+    "karma-jasmine-jquery": "^0.1.1",
+    "karma-jasmine-matchers": "^2.0.1",
+    "karma-requirejs": "^0.2.4",
+    "webpack": "^1.12.13",
+    "webpack-merge": "^0.7.3"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
