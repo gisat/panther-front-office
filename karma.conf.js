@@ -16,7 +16,13 @@ module.exports = function (config) {
         // list of files / patterns to load in the browser
         files: [
             'test/test-main.js',
+            {pattern: 'src/__new/lib/*.js', included: false},
+            {pattern: 'src/__new/js/*.js', included: false},
             {pattern: 'src/__new/js/util/*.js', included: false},
+            {pattern: 'src/__new/js/error/*.js', included: false},
+            {pattern: 'src/__new/js/view/*.js', included: false},
+            {pattern: 'src/__new/js/view/widgets/inputs/checkbox/*.js', included: false},
+            {pattern: 'src/__new/js/view/widgets/inputs/checkbox/*.html', included: false},
             {pattern: 'test/__new/util/*Spec.js', included: false}
         ],
 

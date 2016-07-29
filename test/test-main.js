@@ -17,14 +17,14 @@ require.config({
     baseUrl: '/base',
 
     paths: {
-        'css': '../lib/css.min',
-        'jquery': '../lib/jquery-3.0.0',
-        'jquery-private': '../js/jquery-private',
-        'jquery-touch': '../lib/jquery-ui.touch-punch.min',
-        'jquery-ui': '../lib/jquery-ui.min',
-        'string': '../lib/string',
-        'underscore': '../lib/underscore-min',
-        'text': '../lib/text'
+        'css': 'src/__new/lib/css.min',
+        'jquery': 'src/__new/lib/jquery-3.0.0',
+        'jquery-private': 'src/__new/js/jquery-private',
+        'jquery-touch': 'src/__new/lib/jquery-ui.touch-punch.min',
+        'jquery-ui': 'src/__new/lib/jquery-ui.min',
+        'string': 'src/__new/lib/string',
+        'underscore': 'src/__new/lib/underscore-min',
+        'text': 'src/__new/lib/text'
     },
 
     map: {

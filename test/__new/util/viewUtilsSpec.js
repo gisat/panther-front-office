@@ -3,7 +3,7 @@ define([
 ], function (viewUtils) {
     "use strict";
 
-    describe('Given number', function(){
+    describe('Given number for thousands separating', function(){
         var number = 102000;
         describe('When a long number is given', function(){
             var output = viewUtils.thousandSeparator(number);

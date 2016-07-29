@@ -20,7 +20,7 @@ define(['../../../../error/ArgumentError',
     /**
      * This class represents the row with the checkbox
      * @param options {Object}
-     * @param options.containerId {Object} JQuery object for attaching listeners
+     * @param options.containerId {string} id of container
      * @param options.checked {boolean} true, if checkbox is checked
      * @param options.dataId {string}
      * @param options.id {string} ID of the checkbox
