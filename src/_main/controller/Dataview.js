@@ -76,7 +76,7 @@ Ext.define('PumaMain.controller.Dataview', {
         var id = search ? search.split('=')[1] : null;
         if (id) {
             Ext.Ajax.request({
-            url: Config.url + '/api/urlview/getView',
+            url: Config.url + 'api/urlview/getView',
             params: {_id: id},
             scope: this,
             //method: 'GET',

@@ -230,7 +230,7 @@ Ext.define('PumaMain.controller.Layers', {
 		}
 		Puma.util.Msg.msg('Search for metadata has started. Please wait.','','l');
 		Ext.Ajax.request({
-			url: Config.url + '/api/layers/getMetadata',
+			url: Config.url + 'api/layers/getMetadata',
 			rec: rec,
 			params: {
 				layers: JSON.stringify(layers)
@@ -610,7 +610,7 @@ Ext.define('PumaMain.controller.Layers', {
 		}
 		var me = this;
 		Ext.Ajax.request({
-			url: Config.url + '/api/proxy/saveSld',
+			url: Config.url + 'api/proxy/saveSld',
 			params: Ext.apply({
 				sldBody: sldText,
 				legendSld: legendSld || ''
@@ -895,7 +895,7 @@ Ext.define('PumaMain.controller.Layers', {
 			var size = new OpenLayers.Filter.Function({name: 'Add', params: [min, sizeAdd]});
 			var sizeSqrt = new OpenLayers.Filter.Function({name: 'pow', params: [size, 0.5]});
 
-			var url = Config.url + '/api/chart/drawChart/#url#';
+			var url = Config.url + 'api/chart/drawChart/#url#';
 			symbolizer['Point'] = new OpenLayers.Symbolizer.Point({externalGraphic: url, graphicFormat: 'image/svg+xml', graphicWidth: sizeSqrt});
 			var rule1 = {
 				symbolizer: symbolizer
@@ -980,8 +980,8 @@ Ext.define('PumaMain.controller.Layers', {
 		var params = this.getController('Chart').getParams(cfg);
 
 
-		var layer1 = new OpenLayers.Layer.WMS('WMS', Config.url + '/api/proxy/wms', Ext.clone(layerDefaults.params), Ext.clone(layerDefaults.layerParams));
-		var layer2 = new OpenLayers.Layer.WMS('WMS', Config.url + '/api/proxy/wms', Ext.clone(layerDefaults.params), Ext.clone(layerDefaults.layerParams));
+		var layer1 = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', Ext.clone(layerDefaults.params), Ext.clone(layerDefaults.layerParams));
+		var layer2 = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', Ext.clone(layerDefaults.params), Ext.clone(layerDefaults.layerParams));
 		layer1.events.register('visibilitychanged',{layer:layer1,me:this},function(a,b,c) {
 			this.me.onLayerLegend(null,this.layer.nodeRec,this.layer.visibility);
 		});
@@ -1095,7 +1095,7 @@ Ext.define('PumaMain.controller.Layers', {
 			obj['STYLE'] = symbologyId;
 		}
 		var query = Ext.Object.toQueryString(obj);
-		return Config.url + '/api/proxy/wms?' + query;
+		return Config.url + 'api/proxy/wms?' + query;
 	},
 
 	initChartLayer: function(node) {

@@ -441,7 +441,7 @@ Ext.define('PumaMain.controller.Filter', {
         
     
         Ext.Ajax.request({
-            url: Config.url + '/api/filter/filter',
+            url: Config.url + 'api/filter/filter',
             params: params,
             scope: this,
             //method: 'GET',

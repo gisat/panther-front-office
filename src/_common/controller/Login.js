@@ -44,7 +44,7 @@ Ext.define('Puma.controller.Login', {
         var pass = form.getComponent('password').getValue();
         var me = this;
         Ext.Ajax.request({
-            url: Config.url+'/api/login/login',
+            url: Config.url+'api/login/login',
             params: {
                 username: userName,
                 password: pass
@@ -58,7 +58,7 @@ Ext.define('Puma.controller.Login', {
     onLogoutClicked: function() {
         var me = this;
         Ext.Ajax.request({
-            url: Config.url+'/api/login/logout',
+            url: Config.url+'api/login/logout',
             method: 'POST',
             success: function(response) {
                 Config.auth = null;
@@ -69,7 +69,7 @@ Ext.define('Puma.controller.Login', {
     checkLogin: function(fromLogin) {
         var me = this;
         Ext.Ajax.request({
-            url: Config.url+'/api/login/getLoginInfo',
+            url: Config.url+'api/login/getLoginInfo',
             method: 'POST',
             success: function(response) {
                 var response = JSON.parse(response.responseText);

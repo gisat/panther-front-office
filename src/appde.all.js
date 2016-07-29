@@ -100090,7 +100090,7 @@ Ext.define('PumaMain.controller.Export', {
         var id = window.location.search.split('?')[1].split('&')[0].split('=')[1];
         this.forDownload = window.location.search.search('fordownload')>-1;
         Ext.Ajax.request({
-            url: Config.url + '/api/urlview/getChart',
+            url: Config.url + 'api/urlview/getChart',
             params: {_id: id},
             scope: this,
             //method: 'GET',
@@ -100156,7 +100156,7 @@ Ext.define('PumaMain.controller.Export', {
         var params = chartController.getParams(cfg);
         params['forExport'] = true;
         Ext.Ajax.request({
-            url: Config.url + '/api/chart/getChart',
+            url: Config.url + 'api/chart/getChart',
             params: params,
             singlePage: true,
             scope: chartController,
@@ -100244,7 +100244,7 @@ Ext.define('PumaMain.controller.Export', {
                             name: layerCfg.name
                         })
                     }
-                    layer = new OpenLayers.Layer.WMS('WMS', Config.url + '/api/proxy/wms', params, layerParams);
+                    layer = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', params, layerParams);
                     counterObj.desired++;
 
                 }
@@ -100559,7 +100559,7 @@ Ext.define('PumaMain.controller.Map', {
 			zoom: map1.zoom
 		}
 		Ext.Ajax.request({
-			url: Config.url + '/api/urlview/saveChart',
+			url: Config.url + 'api/urlview/saveChart',
 			params: {
 				cfg: JSON.stringify(mapCfg)
 			},
@@ -100850,8 +100850,8 @@ Ext.define('PumaMain.controller.Map', {
 		layerDefaultsTiled.layerParams.tileSize = new OpenLayers.Size(256,256);
 		layerDefaultsTiled.layerParams.removeBackBufferDelay = 0;
 		layerDefaultsTiled.layerParams.transitionEffect = null;
-		map.layer1 = new OpenLayers.Layer.WMS('WMS', Config.url + '/api/proxy/wms', Ext.apply(layerDefaultsTiled.params), Ext.clone(layerDefaultsTiled.layerParams));
-		map.layer2 = new OpenLayers.Layer.WMS('WMS', Config.url + '/api/proxy/wms', Ext.clone(layerDefaults.params), Ext.clone(layerDefaults.layerParams));
+		map.layer1 = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', Ext.apply(layerDefaultsTiled.params), Ext.clone(layerDefaultsTiled.layerParams));
+		map.layer2 = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', Ext.clone(layerDefaults.params), Ext.clone(layerDefaults.layerParams));
 		map.layer1.opacity = cmp.opacity;
 		map.addLayers([hybridLayer, map.layer1, map.layer2]);
 		var counterObj = {cnt:0, desired: 3};
@@ -101158,26 +101158,26 @@ Ext.define('PumaMain.controller.Map', {
 		//params.layers = 'puma:layer_260,puma:layer_266'
 		
 
-		map.selectInMapLayer = new OpenLayers.Layer.WMS('WMS', Config.url+'/api/proxy/wms', params, {
+		map.selectInMapLayer = new OpenLayers.Layer.WMS('WMS', Config.url+'api/proxy/wms', params, {
 			visibility: true
 		});
 		map.selectInMapLayer.projection = map.projection;
 		
-		map.getFeatureInfoLayer = new OpenLayers.Layer.WMS('WMS', Config.url+'/api/proxy/wms', params, {
+		map.getFeatureInfoLayer = new OpenLayers.Layer.WMS('WMS', Config.url+'api/proxy/wms', params, {
 			visibility: true
 		});
 		map.getFeatureInfoLayer.projection = map.projection;
 		
 		var infoControls = {
 			click: new OpenLayers.Control.WMSGetFeatureInfo({
-				url: Config.url+'/api/proxy/wms', 
+				url: Config.url+'api/proxy/wms',
 				vendorParams: {
 					propertyName: 'gid'
 				},
 				layers: [map.selectInMapLayer]
 			}), 
 			hover: new OpenLayers.Control.WMSGetFeatureInfo({
-				url: Config.url+'/api/proxy/wms', 
+				url: Config.url+'api/proxy/wms',
 				vendorParams: {
 					propertyName: 'gid',
 					buffer: 1
@@ -101187,7 +101187,7 @@ Ext.define('PumaMain.controller.Map', {
 			})
 		};
 		map.featureInfoControl = new OpenLayers.Control.WMSGetFeatureInfo({
-			url: Config.url+'/api/proxy/wms',
+			url: Config.url+'api/proxy/wms',
 			vendorParams: {
 				propertyName: 'gid',
 				buffer: 1,
@@ -101870,7 +101870,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         }
         var me = this;
         Ext.Ajax.request({
-            url: Config.url+'/api/theme/getThemeYearConf',
+            url: Config.url+'api/theme/getThemeYearConf',
             params: params,
             scope: this,
             originatingCnt: cnt,
@@ -102287,8 +102287,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
                         layerParams.removeBackBufferDelay = 0;
                         layerParams.transitionEffect = null;
                     }
-                    var layer1 = new OpenLayers.Layer.WMS('WMS', Config.url + '/api/proxy/wms', Ext.clone(params), Ext.clone(layerParams));
-                    var layer2 = new OpenLayers.Layer.WMS('WMS', Config.url + '/api/proxy/wms', Ext.clone(params), Ext.clone(layerParams));
+                    var layer1 = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', Ext.clone(params), Ext.clone(layerParams));
+                    var layer2 = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', Ext.clone(params), Ext.clone(layerParams));
                     if (node.get('type') == 'thematicgroup') {
                         layer1.events.register('visibilitychanged',{layer:layer1,me:this},function(a,b,c) {
                             this.me.getController('Layers').onLayerLegend(null,this.layer.nodeRec,this.layer.visibility);
@@ -102519,7 +102519,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         
     checkUserPolygons: function(years,analysis,callback) {
         Ext.Ajax.request({
-            url: Config.url+'/api/userpolygon/checkAnalysis',
+            url: Config.url+'api/userpolygon/checkAnalysis',
             params: {
                 analysis: JSON.stringify(analysis || [955]),
                 years: JSON.stringify(years || [277])
@@ -103856,7 +103856,7 @@ Ext.define('Puma.model.LayerServer', {
     proxy: {
         type: 'ajax',
         actionMethods: {create: 'POST', read: 'POST', update: 'POST', destroy: 'POST'},
-        url : Config.url+'/api/layers/getLayers',
+        url : Config.url+'api/layers/getLayers',
         reader: {
             type: 'json',
             root: 'data'
@@ -107497,7 +107497,7 @@ Ext.define('PumaMain.controller.Layers', {
 		}
 		Puma.util.Msg.msg('Search for metadata has started. Please wait.','','l');
 		Ext.Ajax.request({
-			url: Config.url + '/api/layers/getMetadata',
+			url: Config.url + 'api/layers/getMetadata',
 			rec: rec,
 			params: {
 				layers: JSON.stringify(layers)
@@ -107877,7 +107877,7 @@ Ext.define('PumaMain.controller.Layers', {
 		}
 		var me = this;
 		Ext.Ajax.request({
-			url: Config.url + '/api/proxy/saveSld',
+			url: Config.url + 'api/proxy/saveSld',
 			params: Ext.apply({
 				sldBody: sldText,
 				legendSld: legendSld || ''
@@ -108162,7 +108162,7 @@ Ext.define('PumaMain.controller.Layers', {
 			var size = new OpenLayers.Filter.Function({name: 'Add', params: [min, sizeAdd]});
 			var sizeSqrt = new OpenLayers.Filter.Function({name: 'pow', params: [size, 0.5]});
 
-			var url = Config.url + '/api/chart/drawChart/#url#';
+			var url = Config.url + 'api/chart/drawChart/#url#';
 			symbolizer['Point'] = new OpenLayers.Symbolizer.Point({externalGraphic: url, graphicFormat: 'image/svg+xml', graphicWidth: sizeSqrt});
 			var rule1 = {
 				symbolizer: symbolizer
@@ -108247,8 +108247,8 @@ Ext.define('PumaMain.controller.Layers', {
 		var params = this.getController('Chart').getParams(cfg);
 
 
-		var layer1 = new OpenLayers.Layer.WMS('WMS', Config.url + '/api/proxy/wms', Ext.clone(layerDefaults.params), Ext.clone(layerDefaults.layerParams));
-		var layer2 = new OpenLayers.Layer.WMS('WMS', Config.url + '/api/proxy/wms', Ext.clone(layerDefaults.params), Ext.clone(layerDefaults.layerParams));
+		var layer1 = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', Ext.clone(layerDefaults.params), Ext.clone(layerDefaults.layerParams));
+		var layer2 = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', Ext.clone(layerDefaults.params), Ext.clone(layerDefaults.layerParams));
 		layer1.events.register('visibilitychanged',{layer:layer1,me:this},function(a,b,c) {
 			this.me.onLayerLegend(null,this.layer.nodeRec,this.layer.visibility);
 		});
@@ -108362,7 +108362,7 @@ Ext.define('PumaMain.controller.Layers', {
 			obj['STYLE'] = symbologyId;
 		}
 		var query = Ext.Object.toQueryString(obj);
-		return Config.url + '/api/proxy/wms?' + query;
+		return Config.url + 'api/proxy/wms?' + query;
 	},
 
 	initChartLayer: function(node) {
@@ -109000,7 +109000,7 @@ Ext.define('PumaMain.controller.Filter', {
         
     
         Ext.Ajax.request({
-            url: Config.url + '/api/filter/filter',
+            url: Config.url + 'api/filter/filter',
             params: params,
             scope: this,
             //method: 'GET',
@@ -109723,7 +109723,7 @@ Ext.define('PumaMain.controller.Chart', {
         cfg.selMap = this.getController('Select').selMap;
         //cfg.multipleMaps = Ext.ComponentQuery.query('initialbar #multiplemapsbtn')[0].pressed==true;
         Ext.Ajax.request({
-            url: Config.url + '/api/urlview/saveView',
+            url: Config.url + 'api/urlview/saveView',
             params: {
                 cfg: JSON.stringify(cfg)
             },
@@ -110056,7 +110056,7 @@ Ext.define('PumaMain.controller.Chart', {
             return;
         }
         Ext.Ajax.request({
-            url: Config.url + '/api/chart/getChart',
+            url: Config.url + 'api/chart/getChart',
             params: params,
             scope: this,
             //method: 'GET',
@@ -110142,7 +110142,7 @@ Ext.define('PumaMain.controller.Chart', {
             items: items
         });
         form.getForm().submit({
-            url: Config.url + '/api/chart/getGridDataCsv',
+            url: Config.url + 'api/chart/getGridDataCsv',
             success: function() {
             },
             failure: function() {
@@ -110459,7 +110459,7 @@ Ext.define('PumaMain.controller.Chart', {
         }
         Puma.util.Msg.msg('Snapshot creation started','','r');
         Ext.Ajax.request({
-            url: Config.url + '/api/urlview/saveChart',
+            url: Config.url + 'api/urlview/saveChart',
             params: {
                 cfg: JSON.stringify(cfg)
             },
@@ -110736,7 +110736,7 @@ Ext.define('PumaMain.controller.Chart', {
                     type: 'json',
                     root: 'data'
                 },
-                url: Config.url + '/api/chart/getGridData',
+                url: Config.url + 'api/chart/getGridData',
                 getMethod: function() {
                     return 'POST'
                 },
@@ -112300,7 +112300,7 @@ Ext.define('Puma.model.Area', {
     proxy: {
         type: 'ajax',
         actionMethods: {create: 'POST', read: 'POST', update: 'POST', destroy: 'POST'},
-        url : Config.url+'/api/theme/getThemeYearConf',
+        url : Config.url+'api/theme/getThemeYearConf',
         reader: {
             type: 'json',
             root: 'data'
@@ -112510,7 +112510,7 @@ Ext.define('PumaMain.controller.Store', {
         var store = Ext.StoreMgr.lookup('location4init');
         store.loading = true;
         Ext.Ajax.request({
-            url: Config.url + '/api/theme/getLocationConf',
+            url: Config.url + 'api/theme/getLocationConf',
             scope: this,
             method: 'POST',
             success: function(response) {
@@ -119671,7 +119671,7 @@ Ext.define('PumaMain.controller.Dataview', {
         var id = search ? search.split('=')[1] : null;
         if (id) {
             Ext.Ajax.request({
-            url: Config.url + '/api/urlview/getView',
+            url: Config.url + 'api/urlview/getView',
             params: {_id: id},
             scope: this,
             //method: 'GET',
@@ -119785,7 +119785,7 @@ Ext.define('Puma.controller.Login', {
         var pass = form.getComponent('password').getValue();
         var me = this;
         Ext.Ajax.request({
-            url: Config.url+'/api/login/login',
+            url: Config.url+'api/login/login',
             params: {
                 username: userName,
                 password: pass
@@ -119799,7 +119799,7 @@ Ext.define('Puma.controller.Login', {
     onLogoutClicked: function() {
         var me = this;
         Ext.Ajax.request({
-            url: Config.url+'/api/login/logout',
+            url: Config.url+'api/login/logout',
             method: 'POST',
             success: function(response) {
                 Config.auth = null;
@@ -119810,7 +119810,7 @@ Ext.define('Puma.controller.Login', {
     checkLogin: function(fromLogin) {
         var me = this;
         Ext.Ajax.request({
-            url: Config.url+'/api/login/getLoginInfo',
+            url: Config.url+'api/login/getLoginInfo',
             method: 'POST',
             success: function(response) {
                 var response = JSON.parse(response.responseText);
