@@ -103,7 +103,8 @@ define(function () {
             missingTargetElementId: "Required target element ID is null or undefined!",
             missingTarget: "Target is null or undefined!",
             missingWidgetId: "Widget Id is null or undefined!",
-            missingWidgetName: "Widget Name is null or undefined!"
+            missingWidgetName: "Widget Name is null or undefined!",
+            notNaturalNumber: "Parameter is not a natural number!"
         }
     };
 

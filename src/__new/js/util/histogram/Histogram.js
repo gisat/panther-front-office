@@ -1,6 +1,7 @@
 define(['../../error/ArgumentError',
         '../Logger',
         '../../error/NotFoundError',
+        '../../util/viewUtils',
 
         'jquery',
 
@@ -8,6 +9,7 @@ define(['../../error/ArgumentError',
 ], function (ArgumentError,
              Logger,
              NotFoundError,
+             viewUtil,
 
              $) {
     "use strict";
@@ -28,10 +30,13 @@ define(['../../error/ArgumentError',
         if (!options.numClasses){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Histogram", "constructor", "missingNumClasses"));
         }
-        if (!options.minimum){
+        if (!viewUtil.isNaturalNumber(options.numClasses)){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Histogram", "constructor", "notNaturalNumber"));
+        }
+        if (!options.minimum && options.minimum != 0){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Histogram", "constructor", "missingMinimum"));
         }
-        if (!options.maximum){
+        if (!options.maximum && options.maximum != 0){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Histogram", "constructor", "missingMaximum"));
         }
 
@@ -41,8 +46,8 @@ define(['../../error/ArgumentError',
         this._maximum = options.maximum;
 
         this._classes = this.buildClasses();
-        this._histogram = $('#histogram-' + this._id);
 
+        this._histogram = $('#histogram-' + this._id);
         if (this._histogram.length == 0){
             throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "Histogram", "constructor", "missingHTMLelement"));
         }
@@ -91,7 +96,7 @@ define(['../../error/ArgumentError',
      * It redraws colour of histogram bars according to slider position
      * @param values {Array} min and max value
      */
-    Histogram.prototype.redrawColours = function(values) {
+    Histogram.prototype.selectBars = function(values) {
         var minIndex = -1;
         var maxIndex = this._numClasses;
         this._classes.forEach(function(klass, index){

@@ -132,7 +132,7 @@ define(['../../../../error/ArgumentError',
         selector.off('slide').on('slide', function(e){
             if (isRange){
                 var values = $(this).slider("values");
-                self.histogram.redrawColours(values);
+                self.histogram.selectBars(values);
             }
         })
     };
