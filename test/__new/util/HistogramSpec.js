@@ -1,8 +1,10 @@
 define([
     'src/__new/js/util/histogram/Histogram',
-    'jquery'
+    'jquery',
+    'underscore'
 ], function (Histogram,
-             $) {
+             $,
+             _) {
     "use strict";
 
     describe('Initialize histogram', function(){
@@ -65,16 +67,16 @@ define([
 
         describe('When slider is positioned as min value is 1.1 and max is 1.4', function(){
             histogram.selectBars([1.1,1.4]);
-            var first = $('.histogram-bar:nth-child(2)').hasClass("selected");
+            var first = $('.histogram-bar:nth-child(1)').hasClass("selected");
             var second = $('.histogram-bar:nth-child(2)').hasClass("selected");
-            var third = $('.histogram-bar:nth-child(2)').hasClass("selected");
+            var third = $('.histogram-bar:nth-child(3)').hasClass("selected");
 
             it("Then the second bar is selected", function(){
-                expect(second).toBeTruthy;
+                expect(second).toBeTruthy();
             });
             it("Then the first and third bars are not selected", function(){
-                expect(first).toBeFalsy;
-                expect(third).toBeFalsy;
+                expect(first).toBeFalsy();
+                expect(third).toBeFalsy();
             });
         });
     });

@@ -21,7 +21,8 @@ define([
     /**
      * It builds the settings window and control all operations in it
      * @params options {Object}
-     * @params options.inputs {Object} All the categories
+     * @params options.dataSet {JSON} Data set
+     * @params options.target {Object} JQuery - target object, where should be the settings rendered
      * @params options.widgetId {string} Id of the connected widget
      * @constructor
      */
@@ -63,7 +64,7 @@ define([
      * Add the category for filtering
      */
     Settings.prototype.addCategories = function(){
-        this._target = $('#' + this._id + ' .tool-window-body');
+        this._checkboxTarget = $('#' + this._id + ' .tool-window-body');
         var data = this._dataSet[0].data;
 
         for (var key in data){
@@ -93,7 +94,7 @@ define([
     };
 
     /**
-     * It renurs the checkbox row
+     * It returns the checkbox row
      * @param key {string} id of the checkbox row
      * @param name {string} label
      * @returns {Checkbox}
@@ -105,7 +106,7 @@ define([
             dataId: key,
             id: 'settings-' + key,
             name: name,
-            target: this._target
+            target: this._checkboxTarget
         });
     };
 

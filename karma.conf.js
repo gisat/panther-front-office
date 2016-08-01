@@ -22,9 +22,10 @@ module.exports = function (config) {
             {pattern: 'src/__new/js/util/histogram/*.js', included: false},
             {pattern: 'src/__new/js/error/*.js', included: false},
             {pattern: 'src/__new/js/view/*.js', included: false},
-            {pattern: 'src/__new/js/view/widgets/inputs/checkbox/*.js', included: false},
-            {pattern: 'src/__new/js/view/widgets/inputs/checkbox/*.html', included: false},
-            {pattern: 'test/__new/util/*Spec.js', included: false}
+            {pattern: 'src/__new/js/view/**/**/**/*.js', included: false},
+            {pattern: 'src/__new/js/view/**/**/**/*.html', included: false},
+            {pattern: 'test/__new/util/*Spec.js', included: false},
+            {pattern: 'test/__new/view/widgets/tools/*Spec.js', included: false}
         ],
 
 
