@@ -228,7 +228,7 @@ define([
             if (inputs.checkboxes.length == 0 && inputs.sliders.length == 0 && inputs.selects.length == 0){
                 filteredData = self._dataSet;
             }
-            select.addSelectOpenListener(filteredData);
+            select.addSelectOpenListener(filteredData, select._id);
 
         });
     };
