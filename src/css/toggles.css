@@ -1,0 +1,64 @@
+/* useWBAgreement */
+.toggle-useWBAgreement body.intro div#content-intro-terms{
+	display: block;
+}
+.toggle-useWBAgreement body.dataview div#content-intro-terms{
+	display: block;
+}
+
+
+/* useWBHeader */
+.toggle-useWBHeader #wb-header{
+	display: block;
+	height: 42px;
+}
+.toggle-useWBHeader #header{
+	top: 42px;
+}
+.toggle-useWBHeader #main{
+	padding-top: 72px;
+}
+.toggle-useWBHeader body.application #main {
+	padding-top: 162px;
+}
+.toggle-useWBHeader #content-application {
+	top: 72px;
+}
+
+
+/* useWBFooter */
+.toggle-useWBFooter #footer-bar,
+.toggle-useWBFooter #puma-footer-links,
+.toggle-useWBFooter #puma-wb-copyright,
+.toggle-useWBFooter #puma-contact{
+	display: block;
+}
+.toggle-useWBFooter #footer-legal{
+	border-top: 1px solid #d3d2d2;
+}
+.toggle-useWBFooter #main{
+	padding-bottom: 108px;
+}
+.toggle-useWBFooter #gisat-copyright{
+	display: none;
+}
+
+
+/* usePumaLogo */
+.toggle-usePumaLogo .fields-holder > .label {
+	background: url(../images/puma-logo.png) no-repeat 0 8px;
+	padding-left: 81px;
+}
+
+
+/* allowDownloadsLink */
+.toggle-allowDownloadsLink #downloads-link{
+	display: block;
+}
+
+
+/* allowPumaHelp */
+.toggle-allowPumaHelp #help-link,
+.toggle-allowPumaHelp #toolbar .group .field.help{
+	display: inline;
+}
