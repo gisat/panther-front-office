@@ -8,7 +8,7 @@ Ext.define('Puma.model.Symbology', {
     idProperty: '_id',
     proxy: {
         type: 'rest',
-        url : Config.url+'/rest/symbology',
+        url : Config.url+'rest/symbology',
         reader: {
             type: 'json',
             root: 'data'

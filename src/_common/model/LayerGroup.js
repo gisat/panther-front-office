@@ -7,7 +7,7 @@ Ext.define('Puma.model.LayerGroup', {
     idProperty: '_id',
     proxy: {
         type: 'rest',
-        url : Config.url+'/rest/layergroup',
+        url : Config.url+'rest/layergroup',
         reader: {
             type: 'json',
             root: 'data'

@@ -7,7 +7,7 @@ Ext.define('Puma.model.DataView', {
     idProperty: '_id',
     proxy: {
         type: 'rest',
-        url : Config.url+'/rest/dataview',
+        url : Config.url+'rest/dataview',
         extraParams: {
             justMine: true
         },
