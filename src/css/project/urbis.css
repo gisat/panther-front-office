@@ -550,10 +550,16 @@
     background-color     : #eee;
 }
 
-@media screen and (max-width: 1140px){
+@media screen and (max-width: 1240px){
     .urbis #toolbar > .label {
         width: 60px;
         padding-left: 65px;
+    }
+}
+
+@media screen and (max-width: 1040px){
+    .urbis #toolbar > .label {
+        display: none;
     }
 }
 

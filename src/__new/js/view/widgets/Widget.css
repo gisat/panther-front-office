@@ -120,12 +120,12 @@
     cursor: pointer;
 }
 
-@media screen and (max-width: 1250px) {
+@media screen and (max-width: 1240px) {
     .placeholders-container {
-        left: 870px;
+        left: 860px;
     }
 }
-@media screen and (max-width: 1070px) {
+@media screen and (max-width: 1040px) {
     .placeholders-container {
         left: 800px;
     }
