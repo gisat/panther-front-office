@@ -509,6 +509,9 @@ strong {
 		width            : 100%;
 		z-index          : 10000;
 		background-color : #f4f3ef;
+
+		display: none; /* useWBFooter toggle default */
+		height: 0; /* useWBFooter toggle default */
 	}
 	#footer a {
 		text-decoration  : none;

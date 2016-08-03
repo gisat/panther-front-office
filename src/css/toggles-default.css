@@ -1,22 +1,6 @@
 /* This file should be only temporary file, until these rules are changed in main panther styles */
 
 
-/* useWBFooter */
-#footer-bar,
-#footer-legal,
-#puma-wb-copyright,
-#puma-contact{
-  display: none;
-}
-#footer-legal{
-	border: 0 none transparent;
-}
-#main{
-	padding-bottom: 34px;
-}
-
-
-
 /* allowDownloadsLink */
 #downloads-link{
 	display: none;

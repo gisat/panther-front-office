@@ -54,20 +54,12 @@
 
 
 /* useWBFooter */
-.toggle-useWBFooter #footer-bar,
-.toggle-useWBFooter #puma-footer-links,
-.toggle-useWBFooter #puma-wb-copyright,
-.toggle-useWBFooter #puma-contact{
+.toggle-useWBFooter #footer{
 	display: block;
-}
-.toggle-useWBFooter #footer-legal{
-	border-top: 1px solid #d3d2d2;
+	height: auto;
 }
 .toggle-useWBFooter #main{
 	padding-bottom: 108px;
-}
-.toggle-useWBFooter #gisat-copyright{
-	display: none;
 }
 
 
