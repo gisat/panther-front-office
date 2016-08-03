@@ -8,7 +8,7 @@ Ext.define('Puma.model.Area', {
     proxy: {
         type: 'ajax',
         actionMethods: {create: 'POST', read: 'POST', update: 'POST', destroy: 'POST'},
-        url : Config.url+'/api/theme/getThemeYearConf',
+        url : Config.url+'api/theme/getThemeYearConf',
         reader: {
             type: 'json',
             root: 'data'

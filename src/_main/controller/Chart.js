@@ -145,7 +145,7 @@ Ext.define('PumaMain.controller.Chart', {
         cfg.selMap = this.getController('Select').selMap;
         //cfg.multipleMaps = Ext.ComponentQuery.query('initialbar #multiplemapsbtn')[0].pressed==true;
         Ext.Ajax.request({
-            url: Config.url + '/api/urlview/saveView',
+            url: Config.url + 'api/urlview/saveView',
             params: {
                 cfg: JSON.stringify(cfg)
             },
@@ -478,7 +478,7 @@ Ext.define('PumaMain.controller.Chart', {
             return;
         }
         Ext.Ajax.request({
-            url: Config.url + '/api/chart/getChart',
+            url: Config.url + 'api/chart/getChart',
             params: params,
             scope: this,
             //method: 'GET',
@@ -564,7 +564,7 @@ Ext.define('PumaMain.controller.Chart', {
             items: items
         });
         form.getForm().submit({
-            url: Config.url + '/api/chart/getGridDataCsv',
+            url: Config.url + 'api/chart/getGridDataCsv',
             success: function() {
             },
             failure: function() {
@@ -881,7 +881,7 @@ Ext.define('PumaMain.controller.Chart', {
         }
         Puma.util.Msg.msg('Snapshot creation started','','r');
         Ext.Ajax.request({
-            url: Config.url + '/api/urlview/saveChart',
+            url: Config.url + 'api/urlview/saveChart',
             params: {
                 cfg: JSON.stringify(cfg)
             },
@@ -1158,7 +1158,7 @@ Ext.define('PumaMain.controller.Chart', {
                     type: 'json',
                     root: 'data'
                 },
-                url: Config.url + '/api/chart/getGridData',
+                url: Config.url + 'api/chart/getGridData',
                 getMethod: function() {
                     return 'POST'
                 },

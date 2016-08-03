@@ -11,7 +11,7 @@ Ext.define('PumaMain.controller.Export', {
         var id = window.location.search.split('?')[1].split('&')[0].split('=')[1];
         this.forDownload = window.location.search.search('fordownload')>-1;
         Ext.Ajax.request({
-            url: Config.url + '/api/urlview/getChart',
+            url: Config.url + 'api/urlview/getChart',
             params: {_id: id},
             scope: this,
             //method: 'GET',
@@ -77,7 +77,7 @@ Ext.define('PumaMain.controller.Export', {
         var params = chartController.getParams(cfg);
         params['forExport'] = true;
         Ext.Ajax.request({
-            url: Config.url + '/api/chart/getChart',
+            url: Config.url + 'api/chart/getChart',
             params: params,
             singlePage: true,
             scope: chartController,
@@ -165,7 +165,7 @@ Ext.define('PumaMain.controller.Export', {
                             name: layerCfg.name
                         })
                     }
-                    layer = new OpenLayers.Layer.WMS('WMS', Config.url + '/api/proxy/wms', params, layerParams);
+                    layer = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', params, layerParams);
                     counterObj.desired++;
 
                 }

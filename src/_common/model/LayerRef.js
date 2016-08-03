@@ -8,7 +8,7 @@ Ext.define('Puma.model.LayerRef', {
     proxy: {
         type: 'rest',
         timeout: 120000,
-        url : Config.url+'/rest/layerref',
+        url : Config.url+'rest/layerref',
         reader: {
             type: 'json',
             root: 'data'

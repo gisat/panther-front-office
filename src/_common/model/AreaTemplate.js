@@ -7,7 +7,7 @@ Ext.define('Puma.model.AreaTemplate', {
     idProperty: '_id',
     proxy: {
         type: 'rest',
-        url : Config.url+'/rest/areatemplate',
+        url : Config.url+'rest/areatemplate',
         reader: {
             type: 'json',
             root: 'data'

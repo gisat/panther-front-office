@@ -47,7 +47,7 @@ Ext.define('PumaMain.controller.Store', {
         var store = Ext.StoreMgr.lookup('location4init');
         store.loading = true;
         Ext.Ajax.request({
-            url: Config.url + '/api/theme/getLocationConf',
+            url: Config.url + 'api/theme/getLocationConf',
             scope: this,
             method: 'POST',
             success: function(response) {
