@@ -10,24 +10,6 @@ body.dataview div#content-intro-terms{
 }
 
 
-/* useWBHeader */
-#wb-header{
-	display: none;
-	height: 0;
-}
-#header{
-	top: 0;
-}
-#main{
-	padding-top: 30px;
-}
-body.application #main {
-	padding-top: 120px;
-}
-#content-application {
-	top: 30px;
-}
-
 
 /* useWBFooter */
 #footer-bar,
