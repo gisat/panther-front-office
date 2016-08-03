@@ -1,3 +1,7 @@
+#placeholder-evaluation-widget {
+    display: none;
+}
+
 /* = Evaluation floater = */
 #floater-evaluation-widget {
     left: 16rem;

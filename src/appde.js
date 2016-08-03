@@ -33,7 +33,13 @@ Ext.application({
 		$("#toolbar > .label").html(Config.texts.appName);
 		$("#content-intro > .label").html(Config.texts.appName);
 
+		if(Config.toggles.hasNewEvaluationTool){
+			$("#placeholder-evaluation-widget").css("display","block");
+		}
+
 		if (Config.toggles.isUrbis){
+			$("html").addClass("urbis");
+
 			$(".field.scope .label").html(Config.texts.scopeName);
 			$(".field.teritory .label").html(Config.texts.placeName);
 			$(".field.theme .label").html(Config.texts.themeName);
@@ -47,6 +53,9 @@ Ext.application({
 			$("#content-intro-guide").append(aboutProject);
 		}
 
+		if(Config.toggles.isNewDesign){
+			$("html").addClass("newDesign");
+		}
 
 		if(Config.toggles.useWBAgreement){
 			$("html").addClass("toggle-useWBAgreement");
@@ -74,12 +83,6 @@ Ext.application({
 
 		if(Config.toggles.usePumaLogo){
 			$("html").addClass("toggle-usePumaLogo");
-		}
-		if(Config.toggles.isUrbis){
-			$("html").addClass("newDesign");
-		}
-		if(Config.toggles.isUrbis){
-			$("html").addClass("urbis");
 		}
 
 		window.location.origin = window.location.origin || (window.location.protocol+'//'+window.location.hostname+ (window.location.port ? (':'+window.location.port) : ''));

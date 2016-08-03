@@ -9,7 +9,7 @@ requirejs.config({
         'jquery-ui': '../lib/jquery-ui.min',
         'string': '../lib/string',
         'underscore': '../lib/underscore-min',
-        'text': '../lib/text'
+        'text': '../lib/text',
     },
 
     map: {
@@ -65,6 +65,7 @@ define(['view/widgets/EvaluationWidget/EvaluationWidget',
             targetId: 'widget-container',
             tools: ['settings']
         });
+
 
         var widgets = $("#widget-container");
         widgets.on("click", ".placeholder", function(e){
