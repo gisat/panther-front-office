@@ -178,6 +178,9 @@ strong {
 		top              : 7px;
 		background-color : #bbb;
 	}
+	#help-link{
+		display: none; /* usePumaHelp toggle default */
+	}
 
 	#header .user {
 		position         : absolute;
@@ -303,6 +306,10 @@ strong {
 		.fields-holder .field > .widget .x-btn,
 		.fields-holder .field > .widget .x-field {
 			vertical-align   : top;
+		}
+
+		.field.help {
+			display: none; /* usePumaHelp toggle default */
 		}
 
 		/* Intro */

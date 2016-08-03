@@ -77,7 +77,9 @@
 
 
 /* allowPumaHelp */
-.toggle-allowPumaHelp #help-link,
-.toggle-allowPumaHelp #toolbar .group .field.help{
+.toggle-allowPumaHelp #help-link{
 	display: inline;
+}
+.toggle-allowPumaHelp #toolbar .group .field.help{
+	display: inline-table;
 }
