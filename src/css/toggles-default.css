@@ -1,16 +1,6 @@
 /* This file should be only temporary file, until these rules are changed in main panther styles */
 
 
-/* useWBAgreement */
-body.intro div#content-intro-terms{
-	display: none;
-}
-body.dataview div#content-intro-terms{
-	display: none;
-}
-
-
-
 /* useWBFooter */
 #footer-bar,
 #footer-legal,

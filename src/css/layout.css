@@ -237,10 +237,12 @@ strong {
 	body.intro #content-intro, body.intro #content-intro-guide,body.intro #content-intro-terms, body.application #content-application {
 		display          : block;
 	}
-        body.dataview #content-intro-terms {
-            display: block;
-            z-index:1000000;
-        }
+	body.dataview #content-intro-terms,
+	body.intro #content-intro-terms {
+			display: none; /* useWBAgreement toggle default */
+			z-index:1000000;
+	}
+
 		/* Fields */
 		.fields-holder {
 			background-color : #434254;
