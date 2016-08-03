@@ -74,10 +74,13 @@
 					return createScript('__new/lib/require.js', '__new/app.js');
 				});
 			}
+			// load project styles depending on the toggles
+			if(Config.toggles.isUrbis){
+				createLink("css/project/urbis.css");
+			}
 		</script>
 
 		<link rel="stylesheet" type="text/css" href="__new/styles/jquery-ui.css">
-		<link rel="stylesheet" type="text/css" href="css/project/urbis.css">
 		<link rel="stylesheet" type="text/css" href="__new/styles/style.css">
 
 		<script type="text/javascript"
