@@ -39,6 +39,10 @@ Ext.application({
 			$("html").addClass("toggle-useWBHeader");
 		}
 
+		if(Config.toggles.useHeader){
+			$("html").addClass("toggle-useHeader");
+		}
+
 		if(Config.toggles.useWBFooter){
 			$("html").addClass("toggle-useWBFooter");
 		}

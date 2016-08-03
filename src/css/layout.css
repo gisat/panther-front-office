@@ -45,12 +45,12 @@ strong {
 	#main {
 		width            : 100%;
 		height           : 100%;
-		padding          : 30px; /* useWBHeader and useWBfooter toggle default */
+		padding          : 0; /* useWBHeader, useHeader and useWBfooter toggle default */
 		position         : relative;
 	}
 
 	body.application #main {
-		padding-top      : 120px; /* useWBHeader and useWBfooter toggle default */
+		padding-top      : 90px; /* useWBHeader, useHeader and useWBfooter toggle default */
 	}
 
 	/* Maps */
@@ -120,7 +120,6 @@ strong {
 	#header {
 		font-family      : arial,verdana,sans-serif;
 		text-transform   : uppercase;
-		height           : 30px;
 		line-height      : 30px;
 		background       : #4d5146 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAeCAIAAABi9+OQAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAC1JREFUeNpiiIkPZWJgYGD6//8/mP73/x+YhuH///7jlIfJESP+7x+KuQABBgDF4B8flBhaWQAAAABJRU5ErkJggg==) repeat-x 0 0;
 		color            : #fff;
@@ -129,6 +128,9 @@ strong {
 		top              : 0; /* useWBHeader toggle default */
 		left             : 0;
 		width            : 100%;
+
+		display: none; /* useHeader toggle default */
+		height: 0; /* useWBHeader toggle default */
 	}
 	#header a {
 		padding          : 0 10px;
@@ -383,7 +385,7 @@ strong {
 
 		/* Application */
 		#content-application {
-			top              : 30px; /* useWBHeader toggle default */
+			top              : 0; /* useWBHeader, useHeader toggle default */
 			width            : 100%;
 		}
 		#toolbar {

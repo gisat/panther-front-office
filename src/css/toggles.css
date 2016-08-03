@@ -12,16 +12,43 @@
 	display: block;
 	height: 42px;
 }
+.toggle-useWBHeader #main{
+	padding-top: 42px;
+}
+.toggle-useWBHeader body.application #main {
+	padding-top: 132px;
+}
+.toggle-useWBHeader #content-application {
+	top: 42px;
+}
+
+/* useHeader */
+.toggle-useHeader #header{
+	display: block;
+	height: 30px;
+}
+.toggle-useHeader #main{
+	padding-top: 30px;
+}
+.toggle-useHeader body.application #main {
+	padding-top: 120px;
+}
+.toggle-useHeader #content-application{
+	top: 30px;
+}
+
+
+/* useHeader && useWBHeader */
 .toggle-useWBHeader #header{
 	top: 42px;
 }
-.toggle-useWBHeader #main{
+.toggle-useWBHeader.toggle-useHeader #main{
 	padding-top: 72px;
 }
-.toggle-useWBHeader body.application #main {
+.toggle-useWBHeader.toggle-useHeader body.application #main {
 	padding-top: 162px;
 }
-.toggle-useWBHeader #content-application {
+.toggle-useWBHeader.toggle-useHeader #content-application {
 	top: 72px;
 }
 
