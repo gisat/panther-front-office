@@ -1,19 +1,4 @@
 /* Main components */
-.urbis #header {
-    display: none;
-}
-.urbis #footer {
-    display: none;
-}
-.urbis #main {
-    padding-top: 0;
-}
-.urbis #content-application {
-    top: 0;
-}
-.urbis body.application #main {
-    padding-top: 90px;
-}
 
 /* Intro ========= */
 .urbis .intro #app-map {
