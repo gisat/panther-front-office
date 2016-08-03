@@ -32,7 +32,6 @@ Ext.application({
 		$("title").html(Config.texts.appTitle);
 		$("#toolbar > .label").html(Config.texts.appName);
 		$("#content-intro > .label").html(Config.texts.appName);
-		$("html").addClass(Config.htmlTagClasses);
 
 		if (Config.toggles.isUrbis){
 			$(".field.scope .label").html(Config.texts.scopeName);
@@ -75,6 +74,12 @@ Ext.application({
 
 		if(Config.toggles.usePumaLogo){
 			$("html").addClass("toggle-usePumaLogo");
+		}
+		if(Config.toggles.isUrbis){
+			$("html").addClass("newDesign");
+		}
+		if(Config.toggles.isUrbis){
+			$("html").addClass("urbis");
 		}
 
 		window.location.origin = window.location.origin || (window.location.protocol+'//'+window.location.hostname+ (window.location.port ? (':'+window.location.port) : ''));

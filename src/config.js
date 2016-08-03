@@ -10,8 +10,6 @@ var Config = {
 		-6.9809544265
 	],
 
-	htmlTagClasses: "urbis",
-
 	toggles: {
 		noGeoserverLayerGroups: false,
 		useWBAgreement: false,
@@ -21,9 +19,8 @@ var Config = {
 		allowPumaHelp: false,
 		allowDownloadsLink: false,
 		usePumaLogo: false,
-		advancedFiltersFirst: false,
-		isUrbis: false
 		advancedFiltersFirst: true,
+		isNewDesign: true,
 		isUrbis: true
 	},
 
