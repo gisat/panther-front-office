@@ -30,6 +30,35 @@ Ext.application({
 		// set Home link in header // todo Move this somewhere else?
 		$("#home-link").attr("href", Config.projectHome);
 
+
+		if(Config.toggles.useWBAgreement){
+			$("html").addClass("toggle-useWBAgreement");
+		}
+
+		if(Config.toggles.useWBHeader){
+			$("html").addClass("toggle-useWBHeader");
+		}
+
+		if(Config.toggles.useHeader){
+			$("html").addClass("toggle-useHeader");
+		}
+
+		if(Config.toggles.useWBFooter){
+			$("html").addClass("toggle-useWBFooter");
+		}
+
+		if(Config.toggles.allowPumaHelp){
+			$("html").addClass("toggle-allowPumaHelp");
+		}
+
+		if(Config.toggles.allowDownloadsLink){
+			$("html").addClass("toggle-allowDownloadsLink");
+		}
+
+		if(Config.toggles.usePumaLogo){
+			$("html").addClass("toggle-usePumaLogo");
+		}
+
 		window.location.origin = window.location.origin || (window.location.protocol+'//'+window.location.hostname+ (window.location.port ? (':'+window.location.port) : ''));
 		Ext.Ajax.method = 'POST';
 		if (Config.exportPage) {

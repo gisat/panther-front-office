@@ -1,0 +1,85 @@
+/* useWBAgreement */
+.toggle-useWBAgreement body.intro div#content-intro-terms{
+	display: block;
+}
+.toggle-useWBAgreement body.dataview div#content-intro-terms{
+	display: block;
+}
+
+
+/* useWBHeader */
+.toggle-useWBHeader #wb-header{
+	display: block;
+	height: 42px;
+}
+.toggle-useWBHeader #main{
+	padding-top: 42px;
+}
+.toggle-useWBHeader body.application #main {
+	padding-top: 132px;
+}
+.toggle-useWBHeader #content-application {
+	top: 42px;
+}
+
+/* useHeader */
+.toggle-useHeader #header{
+	display: block;
+	height: 30px;
+}
+.toggle-useHeader #main{
+	padding-top: 30px;
+}
+.toggle-useHeader body.application #main {
+	padding-top: 120px;
+}
+.toggle-useHeader #content-application{
+	top: 30px;
+}
+
+
+/* useHeader && useWBHeader */
+.toggle-useWBHeader #header{
+	top: 42px;
+}
+.toggle-useWBHeader.toggle-useHeader #main{
+	padding-top: 72px;
+}
+.toggle-useWBHeader.toggle-useHeader body.application #main {
+	padding-top: 162px;
+}
+.toggle-useWBHeader.toggle-useHeader #content-application {
+	top: 72px;
+}
+
+
+/* useWBFooter */
+.toggle-useWBFooter #footer{
+	display: block;
+	height: auto;
+}
+.toggle-useWBFooter #main{
+	padding-bottom: 108px;
+}
+
+
+/* usePumaLogo */
+.toggle-usePumaLogo .fields-holder > .label {
+	background: url(../images/puma-logo.png) no-repeat 0 8px;
+	padding-left: 81px;
+}
+
+
+/* allowDownloadsLink */
+.toggle-allowDownloadsLink #downloads-link{
+	display: block;
+}
+
+
+/* allowPumaHelp */
+.toggle-allowPumaHelp #help-link{
+	display: inline;
+}
+.toggle-allowPumaHelp #toolbar .group .field.help{
+	display: inline-table;
+}
