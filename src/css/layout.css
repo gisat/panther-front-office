@@ -181,6 +181,9 @@ strong {
 	#help-link{
 		display: none; /* usePumaHelp toggle default */
 	}
+	#downloads-link{
+		display: none; /* useDownloadsLink toggle default */
+	}
 
 	#header .user {
 		position         : absolute;
