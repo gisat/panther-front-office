@@ -57,6 +57,10 @@ Ext.application({
 			$("html").addClass("newDesign");
 		}
 
+		if(Config.toggles.isEea){
+			$("html").addClass("eea");
+		}
+
 		if(Config.toggles.useWBAgreement){
 			$("html").addClass("toggle-useWBAgreement");
 		}
