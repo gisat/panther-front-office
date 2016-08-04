@@ -1,10 +1,10 @@
 /* Intro ========= */
 .eea .intro #app-map {
-	/*display: none;*/
+	display: none;
 }
 .eea .intro #map-holder {
-	/*background: url('../../images/eea/eea-background.jpg') no-repeat;*/
-	/*background-size: cover;*/
+	background: url('../../images/eea/background.jpg') no-repeat;
+	background-size: cover;
 }
 
 .eea #content-intro, .eea #content-intro-guide {
