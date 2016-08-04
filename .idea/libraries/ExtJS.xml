@@ -1,11 +1,11 @@
 <component name="libraryTable">
-  <library name="ExtJS" type="javaScript">
-    <properties>
-      <option name="frameworkName" value="ExtJS 4.1" />
-    </properties>
-    <CLASSES>
-      <root url="file://$PROJECT_DIR$/public/extjs-4.1.3" />
-    </CLASSES>
-    <SOURCES />
-  </library>
+	<library name="ExtJS" type="javaScript">
+		<properties>
+			<option name="frameworkName" value="ExtJS 4.1" />
+		</properties>
+		<CLASSES>
+			<root url="file://$PROJECT_DIR$/public/extjs-4.1.3" />
+		</CLASSES>
+		<SOURCES />
+	</library>
 </component>

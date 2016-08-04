@@ -1,18 +1,17 @@
 /* useWBAgreement */
-.toggle-useWBAgreement body.intro div#content-intro-terms{
+.toggle-useWBAgreement body.intro div#content-intro-terms {
 	display: block;
 }
-.toggle-useWBAgreement body.dataview div#content-intro-terms{
+.toggle-useWBAgreement body.dataview div#content-intro-terms {
 	display: block;
 }
-
 
 /* useWBHeader */
-.toggle-useWBHeader #wb-header{
+.toggle-useWBHeader #wb-header {
 	display: block;
 	height: 42px;
 }
-.toggle-useWBHeader #main{
+.toggle-useWBHeader #main {
 	padding-top: 42px;
 }
 .toggle-useWBHeader body.application #main {
@@ -23,26 +22,25 @@
 }
 
 /* useHeader */
-.toggle-useHeader #header{
+.toggle-useHeader #header {
 	display: block;
 	height: 30px;
 }
-.toggle-useHeader #main{
+.toggle-useHeader #main {
 	padding-top: 30px;
 }
 .toggle-useHeader body.application #main {
 	padding-top: 120px;
 }
-.toggle-useHeader #content-application{
+.toggle-useHeader #content-application {
 	top: 30px;
 }
 
-
 /* useHeader && useWBHeader */
-.toggle-useWBHeader #header{
+.toggle-useWBHeader #header {
 	top: 42px;
 }
-.toggle-useWBHeader.toggle-useHeader #main{
+.toggle-useWBHeader.toggle-useHeader #main {
 	padding-top: 72px;
 }
 .toggle-useWBHeader.toggle-useHeader body.application #main {
@@ -52,16 +50,14 @@
 	top: 72px;
 }
 
-
 /* useWBFooter */
-.toggle-useWBFooter #footer{
+.toggle-useWBFooter #footer {
 	display: block;
 	height: auto;
 }
-.toggle-useWBFooter #main{
+.toggle-useWBFooter #main {
 	padding-bottom: 108px;
 }
-
 
 /* usePumaLogo */
 .toggle-usePumaLogo .fields-holder > .label {
@@ -69,17 +65,15 @@
 	padding-left: 81px;
 }
 
-
 /* allowDownloadsLink */
-.toggle-allowDownloadsLink #downloads-link{
+.toggle-allowDownloadsLink #downloads-link {
 	display: block;
 }
 
-
 /* allowPumaHelp */
-.toggle-allowPumaHelp #help-link{
+.toggle-allowPumaHelp #help-link {
 	display: inline;
 }
-.toggle-allowPumaHelp #toolbar .group .field.help{
+.toggle-allowPumaHelp #toolbar .group .field.help {
 	display: inline-table;
 }
