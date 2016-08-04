@@ -20,10 +20,10 @@ var Config = {
 		allowDownloadsLink: false,
 		usePumaLogo: false,
 		advancedFiltersFirst: true,
-		hasNewEvaluationTool: true,
+		hasNewEvaluationTool: false,
 		isNewDesign: true,
-		isUrbis: true,
-		isEea: false
+		isUrbis: false,
+		isEea: true
 	},
 
 	texts: {

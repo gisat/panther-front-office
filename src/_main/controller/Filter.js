@@ -315,6 +315,9 @@ Ext.define('PumaMain.controller.Filter', {
             if(Config.toggles.isUrbis){
                 chartCol = "#d35400";
             }
+            if(Config.toggles.isEea){
+                chartCol = "#077db8";
+            }
         }
 
         var chart = new Highcharts.Chart({

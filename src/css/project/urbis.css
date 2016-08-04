@@ -47,7 +47,7 @@
 .urbis .x-btn.custom-button.btn-confirm .x-btn-inner {
     color                : #fff;
 }
-.urbis .x-btn.custom-button.btn-confirm:hover, .x-btn.btn-confirm:focus {
+.urbis .x-btn.custom-button.btn-confirm:hover, .urbis .x-btn.btn-confirm:focus {
     background           : #d35400;
     border: 1px solid #d35400;
 }
