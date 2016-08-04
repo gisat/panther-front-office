@@ -26,8 +26,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="4.2266253"
-     inkscape:cx="56.720676"
-     inkscape:cy="-26.981775"
+     inkscape:cx="16.381164"
+     inkscape:cy="-11.877087"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -60,46 +60,9 @@
      inkscape:label="Vrstva 1"
      inkscape:groupmode="layer"
      id="layer1">
-    <rect
-       style="opacity:1;fill:#eeeeee;fill-opacity:1;stroke:#cccccc;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.94117647"
-       id="rect4529"
-       width="13"
-       height="13"
-       x="46.07996"
-       y="1012.1467"
-       inkscape:export-filename="D:\DATA\urbis\puma\public\images\urbis-unchecked.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90"
-       rx="2"
-       ry="2" />
-    <g
-       id="g4170"
-       transform="translate(-21.29735,969.4002)">
-      <rect
-         ry="1.9999999"
-         rx="1.9999999"
-         inkscape:export-ydpi="90"
-         inkscape:export-xdpi="90"
-         inkscape:export-filename="D:\DATA\urbis\puma\public\images\urbis-checked.png"
-         y="42.229435"
-         x="46.211575"
-         height="13.5"
-         width="13.5"
-         id="rect4529-6"
-         style="opacity:1;fill:#ff7600;fill-opacity:1;stroke:#ffffff;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0" />
-      <path
-         inkscape:export-ydpi="90"
-         inkscape:export-xdpi="90"
-         inkscape:export-filename="D:\DATA\urbis\puma\public\images\urbis-checked.png"
-         sodipodi:nodetypes="ccc"
-         inkscape:connector-curvature="0"
-         id="path4560"
-         d="m 48.365351,49.067802 2.8284,2.8284 6.36399,-6.3639"
-         style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-    </g>
     <g
        id="g4174"
-       transform="translate(-30.473878,983.39654)">
+       transform="translate(-70.473878,981.39654)">
       <rect
          transform="scale(-1,-1)"
          ry="0"
@@ -142,7 +105,7 @@
     </g>
     <g
        id="g4180"
-       transform="translate(-33.473873,982.39652)">
+       transform="translate(-73.473873,980.39652)">
       <rect
          transform="scale(-1,-1)"
          ry="0"
@@ -168,7 +131,7 @@
     <g
        id="Page-1"
        style="fill:#f6f6f6;fill-rule:evenodd;stroke:none;stroke-width:1"
-       transform="matrix(0,-0.81612184,0.80402009,0,105.3472,1027.0924)"
+       transform="matrix(0,-0.81612184,0.80402009,0,65.3472,1025.0924)"
        inkscape:export-filename="D:\DATA\urbis\puma\public\__new\img\settings.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90">
@@ -197,7 +160,7 @@
        y="1009.8635" />
     <g
        id="g4850"
-       transform="matrix(-0.70710678,-0.70710678,-0.70710678,0.70710678,988.53839,692.92858)"
+       transform="matrix(-0.70710678,-0.70710678,-0.70710678,0.70710678,948.53839,690.92858)"
        inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-expand.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90">
@@ -222,7 +185,7 @@
     </g>
     <g
        id="g4808"
-       transform="translate(-313,234.19998)"
+       transform="translate(-211.98916,206.64768)"
        inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-close.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90">

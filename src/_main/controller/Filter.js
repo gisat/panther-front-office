@@ -104,7 +104,7 @@ Ext.define('PumaMain.controller.Filter', {
             var diff = slider.maxValue-slider.minValue;
 
             // Urbis sliders
-            if (Config.toggles.isUrbis){
+            if (Config.toggles.isNewDesign){
                 var sliderInner  = Ext.get(slider.el.id + "-innerEl");
                 if (sliderInner){
                     var sliderUnit = sliderInner.dom.offsetWidth/diff;
@@ -309,6 +309,14 @@ Ext.define('PumaMain.controller.Filter', {
         cmp.show();
         cmp.hide();
 
+        var chartCol;
+        if(Config.toggles.isNewDesign){
+            chartCol = "#a71e1e";
+            if(Config.toggles.isUrbis){
+                chartCol = "#d35400";
+            }
+        }
+
         var chart = new Highcharts.Chart({
             chart: {
                 renderTo: cmp.el.dom,
@@ -369,7 +377,7 @@ Ext.define('PumaMain.controller.Filter', {
                 color: '#ccc',
                 states: {
                     select: {
-                        color: '#d35400'
+                        color: chartCol
                     }
                 }
             }]

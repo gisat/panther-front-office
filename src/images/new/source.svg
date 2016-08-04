@@ -1,0 +1,2069 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 744.09448819 1052.3622047"
+   id="svg2"
+   version="1.1"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="source.svg"
+   inkscape:export-filename="D:\DATA\panther-front-office\src\images\urbis\panther-slider-bg.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
+  <defs
+     id="defs4">
+    <pattern
+       y="0"
+       x="0"
+       height="6"
+       width="6"
+       patternUnits="userSpaceOnUse"
+       id="EMFhbasepattern" />
+    <marker
+       inkscape:stockid="Arrow2Mstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Mstart"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         inkscape:connector-curvature="0"
+         id="path5342"
+         style="fill:#686774;fill-opacity:1;fill-rule:evenodd;stroke:#686774;stroke-width:0.625;stroke-linejoin:round;stroke-opacity:1"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="scale(0.6,0.6)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Mstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Mstart-9"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         inkscape:connector-curvature="0"
+         id="path5342-0"
+         style="fill:#d35400;fill-opacity:1;fill-rule:evenodd;stroke:#d35400;stroke-width:0.625;stroke-linejoin:round;stroke-opacity:1"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="scale(0.6,0.6)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Mstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Mstart-9-4"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         inkscape:connector-curvature="0"
+         id="path5342-0-0"
+         style="fill:#d35400;fill-opacity:1;fill-rule:evenodd;stroke:#d35400;stroke-width:0.625;stroke-linejoin:round;stroke-opacity:1"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="scale(0.6,0.6)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Mstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Mstart-0"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         inkscape:connector-curvature="0"
+         id="path5342-3"
+         style="fill:#686774;fill-opacity:1;fill-rule:evenodd;stroke:#686774;stroke-width:0.625;stroke-linejoin:round;stroke-opacity:1"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="scale(0.6,0.6)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Mstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Mstart-0-6"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         inkscape:connector-curvature="0"
+         id="path5342-3-7"
+         style="fill:#686774;fill-opacity:1;fill-rule:evenodd;stroke:#686774;stroke-width:0.625;stroke-linejoin:round;stroke-opacity:1"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="scale(0.6,0.6)" />
+    </marker>
+    <marker
+       inkscape:stockid="Arrow2Mstart"
+       orient="auto"
+       refY="0"
+       refX="0"
+       id="Arrow2Mstart-9-4-6"
+       style="overflow:visible"
+       inkscape:isstock="true">
+      <path
+         inkscape:connector-curvature="0"
+         id="path5342-0-0-1"
+         style="fill:#c83737;fill-opacity:1;fill-rule:evenodd;stroke:#c83737;stroke-width:0.625;stroke-linejoin:round;stroke-opacity:1"
+         d="M 8.7185878,4.0337352 -2.2072895,0.01601326 8.7185884,-4.0017078 c -1.7454984,2.3720609 -1.7354408,5.6174519 -6e-7,8.035443 z"
+         transform="scale(0.6,0.6)" />
+    </marker>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath4556">
+      <rect
+         style="opacity:1;fill:#f4d7d7;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect4558"
+         width="30"
+         height="30"
+         x="34.98378"
+         y="1022.1622" />
+    </clipPath>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       inkscape:label="Tritone"
+       id="filter4514">
+      <feColorMatrix
+         type="hueRotate"
+         values="0"
+         result="colormatrix1"
+         id="feColorMatrix4516" />
+      <feColorMatrix
+         in="colormatrix1"
+         type="matrix"
+         values="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 1 "
+         result="colormatrix2"
+         id="feColorMatrix4518" />
+      <feColorMatrix
+         in="colormatrix1"
+         type="matrix"
+         values="0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 1 "
+         result="colormatrix3"
+         id="feColorMatrix4520" />
+      <feColorMatrix
+         in="colormatrix1"
+         type="matrix"
+         values="0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 1 "
+         result="colormatrix4"
+         id="feColorMatrix4522" />
+      <feBlend
+         in="colormatrix2"
+         in2="colormatrix3"
+         mode="darken"
+         result="blend1"
+         id="feBlend4524" />
+      <feBlend
+         in="blend1"
+         in2="colormatrix4"
+         mode="darken"
+         result="blend2"
+         id="feBlend4526" />
+      <feBlend
+         in="colormatrix2"
+         in2="colormatrix3"
+         mode="lighten"
+         result="blend3"
+         id="feBlend4528" />
+      <feBlend
+         in="blend3"
+         in2="colormatrix4"
+         mode="lighten"
+         result="blend4"
+         id="feBlend4530" />
+      <feComponentTransfer
+         in="blend4"
+         result="componentTransfer"
+         id="feComponentTransfer4532">
+        <feFuncR
+           type="linear"
+           slope="0"
+           id="feFuncR4534" />
+      </feComponentTransfer>
+      <feBlend
+         in="blend2"
+         in2="componentTransfer"
+         mode="lighten"
+         result="blend5"
+         id="feBlend4536" />
+      <feColorMatrix
+         in="blend5"
+         type="matrix"
+         values="-1 1 0 0 0 -1 1 0 0 0 -1 1 0 0 0 0 0 0 0 1 "
+         result="colormatrix5"
+         id="feColorMatrix4538" />
+      <feFlood
+         flood-opacity="1"
+         flood-color="rgb(255,73,8)"
+         result="flood"
+         id="feFlood4540" />
+      <feComposite
+         k4="0"
+         k3="0"
+         k2="0"
+         in="colormatrix5"
+         in2="flood"
+         operator="arithmetic"
+         k1="1"
+         result="composite1"
+         id="feComposite4542" />
+      <feGaussianBlur
+         stdDeviation="0.01"
+         result="blur"
+         id="feGaussianBlur4544" />
+      <feBlend
+         in2="blur"
+         mode="normal"
+         result="blend6"
+         id="feBlend4546" />
+      <feComposite
+         in="blend2"
+         in2="blend6"
+         operator="arithmetic"
+         k1="0"
+         k2="1"
+         k3="1"
+         k4="0"
+         result="composite2"
+         id="feComposite4548" />
+      <feComposite
+         in2="SourceGraphic"
+         operator="in"
+         result="composite3"
+         id="feComposite4550" />
+    </filter>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath4600">
+      <rect
+         style="opacity:1;fill:#4d4d4d;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect4602"
+         width="30"
+         height="30"
+         x="0"
+         y="1022.3622" />
+    </clipPath>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       inkscape:label="Tritone"
+       id="filter4562">
+      <feColorMatrix
+         type="hueRotate"
+         values="0"
+         result="colormatrix1"
+         id="feColorMatrix4564" />
+      <feColorMatrix
+         in="colormatrix1"
+         type="matrix"
+         values="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 1 "
+         result="colormatrix2"
+         id="feColorMatrix4566" />
+      <feColorMatrix
+         in="colormatrix1"
+         type="matrix"
+         values="0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 1 "
+         result="colormatrix3"
+         id="feColorMatrix4568" />
+      <feColorMatrix
+         in="colormatrix1"
+         type="matrix"
+         values="0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 1 "
+         result="colormatrix4"
+         id="feColorMatrix4570" />
+      <feBlend
+         in="colormatrix2"
+         in2="colormatrix3"
+         mode="darken"
+         result="blend1"
+         id="feBlend4572" />
+      <feBlend
+         in="blend1"
+         in2="colormatrix4"
+         mode="darken"
+         result="blend2"
+         id="feBlend4574" />
+      <feBlend
+         in="colormatrix2"
+         in2="colormatrix3"
+         mode="lighten"
+         result="blend3"
+         id="feBlend4576" />
+      <feBlend
+         in="blend3"
+         in2="colormatrix4"
+         mode="lighten"
+         result="blend4"
+         id="feBlend4578" />
+      <feComponentTransfer
+         in="blend4"
+         result="componentTransfer"
+         id="feComponentTransfer4580">
+        <feFuncR
+           type="linear"
+           slope="0"
+           id="feFuncR4582" />
+      </feComponentTransfer>
+      <feBlend
+         in="blend2"
+         in2="componentTransfer"
+         mode="lighten"
+         result="blend5"
+         id="feBlend4584" />
+      <feColorMatrix
+         in="blend5"
+         type="matrix"
+         values="-1 1 0 0 0 -1 1 0 0 0 -1 1 0 0 0 0 0 0 0 1 "
+         result="colormatrix5"
+         id="feColorMatrix4586" />
+      <feFlood
+         flood-opacity="1"
+         flood-color="rgb(255,73,8)"
+         result="flood"
+         id="feFlood4588" />
+      <feComposite
+         k4="0"
+         k3="0"
+         k2="0"
+         in="colormatrix5"
+         in2="flood"
+         operator="arithmetic"
+         k1="1"
+         result="composite1"
+         id="feComposite4590" />
+      <feGaussianBlur
+         stdDeviation="0.01"
+         result="blur"
+         id="feGaussianBlur4592" />
+      <feBlend
+         in2="blur"
+         mode="normal"
+         result="blend6"
+         id="feBlend4594" />
+      <feComposite
+         in="blend2"
+         in2="blend6"
+         operator="arithmetic"
+         k1="0"
+         k2="1"
+         k3="1"
+         k4="0"
+         result="composite2"
+         id="feComposite4596" />
+      <feComposite
+         in2="SourceGraphic"
+         operator="in"
+         result="composite3"
+         id="feComposite4598" />
+    </filter>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath8316">
+      <rect
+         style="opacity:1;fill:#d35400;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect8318"
+         width="44"
+         height="35"
+         x="4.4000015"
+         y="1007.0514" />
+    </clipPath>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       inkscape:label="Tritone"
+       id="filter8248">
+      <feColorMatrix
+         type="hueRotate"
+         values="0"
+         result="colormatrix1"
+         id="feColorMatrix8250" />
+      <feColorMatrix
+         in="colormatrix1"
+         type="matrix"
+         values="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 1 "
+         result="colormatrix2"
+         id="feColorMatrix8252" />
+      <feColorMatrix
+         in="colormatrix1"
+         type="matrix"
+         values="0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 1 "
+         result="colormatrix3"
+         id="feColorMatrix8254" />
+      <feColorMatrix
+         in="colormatrix1"
+         type="matrix"
+         values="0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 1 "
+         result="colormatrix4"
+         id="feColorMatrix8256" />
+      <feBlend
+         in="colormatrix2"
+         in2="colormatrix3"
+         mode="darken"
+         result="blend1"
+         id="feBlend8258" />
+      <feBlend
+         in="blend1"
+         in2="colormatrix4"
+         mode="darken"
+         result="blend2"
+         id="feBlend8260" />
+      <feBlend
+         in="colormatrix2"
+         in2="colormatrix3"
+         mode="lighten"
+         result="blend3"
+         id="feBlend8262" />
+      <feBlend
+         in="blend3"
+         in2="colormatrix4"
+         mode="lighten"
+         result="blend4"
+         id="feBlend8264" />
+      <feComponentTransfer
+         in="blend4"
+         result="componentTransfer"
+         id="feComponentTransfer8266">
+        <feFuncR
+           type="linear"
+           slope="0"
+           id="feFuncR8268" />
+      </feComponentTransfer>
+      <feBlend
+         in="blend2"
+         in2="componentTransfer"
+         mode="lighten"
+         result="blend5"
+         id="feBlend8270" />
+      <feColorMatrix
+         in="blend5"
+         type="matrix"
+         values="-1 1 0 0 0 -1 1 0 0 0 -1 1 0 0 0 0 0 0 0 1 "
+         result="colormatrix5"
+         id="feColorMatrix8272" />
+      <feFlood
+         flood-opacity="1"
+         flood-color="rgb(255,73,8)"
+         result="flood"
+         id="feFlood8274" />
+      <feComposite
+         k4="0"
+         k3="0"
+         k2="0"
+         in="colormatrix5"
+         in2="flood"
+         operator="arithmetic"
+         k1="1"
+         result="composite1"
+         id="feComposite8276" />
+      <feGaussianBlur
+         stdDeviation="0.01"
+         result="blur"
+         id="feGaussianBlur8278" />
+      <feBlend
+         in2="blur"
+         mode="normal"
+         result="blend6"
+         id="feBlend8280" />
+      <feComposite
+         in="blend2"
+         in2="blend6"
+         operator="arithmetic"
+         k1="0"
+         k2="1"
+         k3="1"
+         k4="0"
+         result="composite2"
+         id="feComposite8282" />
+      <feComposite
+         in2="SourceGraphic"
+         operator="in"
+         result="composite3"
+         id="feComposite8284" />
+    </filter>
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath8286">
+      <rect
+         style="opacity:1;fill:#d35400;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         id="rect8288"
+         width="39"
+         height="36"
+         x="48.575676"
+         y="1029.254" />
+    </clipPath>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       inkscape:label="Tritone"
+       id="filter8210">
+      <feColorMatrix
+         type="hueRotate"
+         values="0"
+         result="colormatrix1"
+         id="feColorMatrix8212" />
+      <feColorMatrix
+         in="colormatrix1"
+         type="matrix"
+         values="1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 0 1 "
+         result="colormatrix2"
+         id="feColorMatrix8214" />
+      <feColorMatrix
+         in="colormatrix1"
+         type="matrix"
+         values="0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 0 1 "
+         result="colormatrix3"
+         id="feColorMatrix8216" />
+      <feColorMatrix
+         in="colormatrix1"
+         type="matrix"
+         values="0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 0 0 1 "
+         result="colormatrix4"
+         id="feColorMatrix8218" />
+      <feBlend
+         in="colormatrix2"
+         in2="colormatrix3"
+         mode="darken"
+         result="blend1"
+         id="feBlend8220" />
+      <feBlend
+         in="blend1"
+         in2="colormatrix4"
+         mode="darken"
+         result="blend2"
+         id="feBlend8222" />
+      <feBlend
+         in="colormatrix2"
+         in2="colormatrix3"
+         mode="lighten"
+         result="blend3"
+         id="feBlend8224" />
+      <feBlend
+         in="blend3"
+         in2="colormatrix4"
+         mode="lighten"
+         result="blend4"
+         id="feBlend8226" />
+      <feComponentTransfer
+         in="blend4"
+         result="componentTransfer"
+         id="feComponentTransfer8228">
+        <feFuncR
+           type="linear"
+           slope="0"
+           id="feFuncR8230" />
+      </feComponentTransfer>
+      <feBlend
+         in="blend2"
+         in2="componentTransfer"
+         mode="lighten"
+         result="blend5"
+         id="feBlend8232" />
+      <feColorMatrix
+         in="blend5"
+         type="matrix"
+         values="-1 1 0 0 0 -1 1 0 0 0 -1 1 0 0 0 0 0 0 0 1 "
+         result="colormatrix5"
+         id="feColorMatrix8234" />
+      <feFlood
+         flood-opacity="1"
+         flood-color="rgb(255,73,8)"
+         result="flood"
+         id="feFlood8236" />
+      <feComposite
+         k4="0"
+         k3="0"
+         k2="0"
+         in="colormatrix5"
+         in2="flood"
+         operator="arithmetic"
+         k1="1"
+         result="composite1"
+         id="feComposite8238" />
+      <feGaussianBlur
+         stdDeviation="0.01"
+         result="blur"
+         id="feGaussianBlur8240" />
+      <feBlend
+         in2="blur"
+         mode="normal"
+         result="blend6"
+         id="feBlend8242" />
+      <feComposite
+         in="blend2"
+         in2="blend6"
+         operator="arithmetic"
+         k1="0"
+         k2="1"
+         k3="1"
+         k4="0"
+         result="composite2"
+         id="feComposite8244" />
+      <feComposite
+         in2="SourceGraphic"
+         operator="in"
+         result="composite3"
+         id="feComposite8246" />
+    </filter>
+    <filter
+       inkscape:collect="always"
+       style="color-interpolation-filters:sRGB"
+       id="filter5394">
+      <feGaussianBlur
+         inkscape:collect="always"
+         stdDeviation="0.8985"
+         id="feGaussianBlur5396" />
+    </filter>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="9.2331606"
+     inkscape:cx="882.13462"
+     inkscape:cy="107.74327"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     showgrid="true"
+     inkscape:window-width="1818"
+     inkscape:window-height="1058"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:snap-bbox="true"
+     inkscape:bbox-nodes="true"
+     inkscape:snap-bbox-midpoints="false"
+     inkscape:snap-grids="true"
+     inkscape:object-paths="true"
+     inkscape:object-nodes="false"
+     inkscape:snap-nodes="true">
+    <inkscape:grid
+       type="xygrid"
+       id="grid4136" />
+    <sodipodi:guide
+       position="0,115"
+       orientation="0,1"
+       id="guide4167" />
+    <sodipodi:guide
+       position="0,165"
+       orientation="0,1"
+       id="guide4169" />
+    <sodipodi:guide
+       position="650.00001,65.000001"
+       orientation="0,1"
+       id="guide4171" />
+    <sodipodi:guide
+       position="85.000001,115"
+       orientation="1,0"
+       id="guide4173" />
+    <sodipodi:guide
+       position="100,65.000001"
+       orientation="1,0"
+       id="guide4193" />
+    <sodipodi:guide
+       position="120,65.000001"
+       orientation="1,0"
+       id="guide4195" />
+    <sodipodi:guide
+       position="145,65.000001"
+       orientation="1,0"
+       id="guide4197" />
+    <sodipodi:guide
+       position="170,65.000001"
+       orientation="1,0"
+       id="guide4199" />
+    <sodipodi:guide
+       position="195,65.000001"
+       orientation="1,0"
+       id="guide4201" />
+    <sodipodi:guide
+       position="215,65.000001"
+       orientation="1,0"
+       id="guide4238" />
+    <sodipodi:guide
+       position="235,65.000001"
+       orientation="1,0"
+       id="guide4343" />
+    <sodipodi:guide
+       position="260,65.000001"
+       orientation="1,0"
+       id="guide4345" />
+    <sodipodi:guide
+       position="285,65.000001"
+       orientation="1,0"
+       id="guide4347" />
+    <sodipodi:guide
+       position="310,65.000001"
+       orientation="1,0"
+       id="guide4349" />
+    <sodipodi:guide
+       position="360,65.000001"
+       orientation="1,0"
+       id="guide4384" />
+    <sodipodi:guide
+       position="390,65.000001"
+       orientation="1,0"
+       id="guide4458" />
+    <sodipodi:guide
+       position="415,115"
+       orientation="1,0"
+       id="guide4571" />
+    <sodipodi:guide
+       position="450,65.000001"
+       orientation="1,0"
+       id="guide4696" />
+    <sodipodi:guide
+       position="485,65.000001"
+       orientation="1,0"
+       id="guide4713" />
+    <sodipodi:guide
+       position="535,65.000001"
+       orientation="1,0"
+       id="guide4833" />
+    <sodipodi:guide
+       position="585,65.000001"
+       orientation="1,0"
+       id="guide4835" />
+    <sodipodi:guide
+       position="610,65.000001"
+       orientation="1,0"
+       id="guide4889" />
+    <sodipodi:guide
+       position="655.00001,75.000002"
+       orientation="1,0"
+       id="guide5254" />
+    <sodipodi:guide
+       position="700.00001,65.000001"
+       orientation="1,0"
+       id="guide5256" />
+    <sodipodi:guide
+       position="730.00001,65.000001"
+       orientation="1,0"
+       id="guide5476" />
+    <sodipodi:guide
+       position="750.00001,65.000001"
+       orientation="1,0"
+       id="guide5524" />
+    <sodipodi:guide
+       position="810.00001,115"
+       orientation="1,0"
+       id="guide4472" />
+    <sodipodi:guide
+       position="875.00001,120"
+       orientation="1,0"
+       id="guide4750" />
+    <sodipodi:guide
+       position="890.00001,135"
+       orientation="1,0"
+       id="guide4752" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata7">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Vrstva 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="opacity:1;fill:#999999;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4160-6-9-7-3-1-0-6"
+       width="25"
+       height="66"
+       x="845"
+       y="892.36218" />
+    <rect
+       style="opacity:1;fill:#999999;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4160-6-9-7-3-1-0-2"
+       width="42"
+       height="45"
+       x="758"
+       y="942.36218" />
+    <rect
+       style="opacity:1;fill:#999999;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4160-6-9-7-3-1-0"
+       width="42"
+       height="45"
+       x="758"
+       y="892.36218" />
+    <rect
+       style="opacity:1;fill:#999999;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4160-6-9-7-3-1"
+       width="43"
+       height="45"
+       x="542"
+       y="942.36218" />
+    <rect
+       style="opacity:1;fill:#999999;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4160-6-9-7-3"
+       width="43"
+       height="45"
+       x="492"
+       y="942.36218" />
+    <rect
+       style="opacity:1;fill:#686774;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4160"
+       width="16"
+       height="16"
+       x="69"
+       y="971.36218" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 93.116122,986.47832 5.999999,-6"
+       id="path4683-0-9-0-4-2-4"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 94.883889,986.47832 -5.999999,-6"
+       id="path4683-0-9-0-4-2-4-2"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <g
+       id="g4808"
+       transform="translate(-181.26263,171.93738)"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-close.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path4683-0-9-0-4-2"
+         d="m 317,806.1622 8,8"
+         style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path4683-0-9-0-4-2-3"
+         d="m 325,806.1622 -8,8"
+         style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <rect
+       style="opacity:1;fill:#eeeeee;fill-opacity:1;stroke:#cccccc;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.94117647"
+       id="rect4529"
+       width="13"
+       height="13"
+       x="156.5"
+       y="973.86218"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\urbis-unchecked.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       rx="2"
+       ry="2" />
+    <rect
+       style="opacity:1;fill:#ff7600;fill-opacity:1;stroke:#ffffff;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       id="rect4529-6"
+       width="13.5"
+       height="13.5"
+       x="180.75"
+       y="923.11218"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\urbis-checked.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       rx="1.9999999"
+       ry="1.9999999" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 182.90378,929.95057 2.8284,2.8284 6.36399,-6.3639"
+       id="path4560"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\urbis-checked.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="3.6962891"
+       y="937.14978"
+       id="text4145"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4147"
+         x="3.6962891"
+         y="937.14978"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:sans-serif;-inkscape-font-specification:sans-serif">Urbis</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="3.527832"
+       y="887.36218"
+       id="text4145-1"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4147-3"
+         x="3.527832"
+         y="887.36218"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:sans-serif;-inkscape-font-specification:sans-serif">EEA</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.5px;line-height:125%;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="3.6962891"
+       y="983.14978"
+       id="text4145-9"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan4147-7"
+         x="3.6962891"
+         y="983.14978"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:sans-serif;-inkscape-font-specification:sans-serif">Basic</tspan></text>
+    <rect
+       style="opacity:1;fill:#c83737;fill-opacity:1;stroke:#ffffff;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       id="rect4529-6-1"
+       width="13.5"
+       height="13.5"
+       x="180.75"
+       y="973.11218"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\urbis-checked.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       rx="1.9999999"
+       ry="1.9999999" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 182.90378,979.95057 2.8284,2.8284 6.36399,-6.3639"
+       id="path4560-9"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\urbis-checked.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2.5;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 209.25,977.11221 0,9"
+       id="path4683-0-9-0-4-2-3-3"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-add.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2.5;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 204.75,981.61221 9,0"
+       id="path4683-0-9-0-4-2-3-3-2"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-add.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <g
+       id="g4850-8"
+       transform="matrix(-0.70710678,0.70710678,-0.70710678,-0.70710678,970.56242,1310.0694)"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-expand.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path4683-0-9-0-4-2-4-24"
+         d="m 373.25,839.3622 0,-8.48528"
+         style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path4683-0-9-0-4-2-4-2-7"
+         d="m 372,838.1122 8.48528,0"
+         style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#686774;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4595-4"
+       width="12"
+       height="12.000022"
+       x="272"
+       y="971.36218"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       ry="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 268.99999,973.36218 0,14.00002"
+       id="path4683"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 281.99999,986.36218 -14,2e-5"
+       id="path4683-5"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 274.99999,980.3622 6,-6.00002"
+       id="path4683-0"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter5394)"
+       d="m 281.99999,974.36218 -6,0"
+       id="path4683-0-7"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 280.99999,973.36218 0,6"
+       id="path4683-0-7-0"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#686774;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4595-4-4"
+       width="12"
+       height="12.000022"
+       x="222"
+       y="974.36218"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-unselect.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       ry="0" />
+    <g
+       id="g4681"
+       transform="translate(-139.20001,182.40002)"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path4683-0-9-1"
+         d="m 364.2,800.96221 6,-6.00002"
+         style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path4683-0-9-0-4"
+         d="m 364.19999,794.9622 6.00002,6"
+         style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#686774;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4595-4-4-7"
+       width="12"
+       height="12.000022"
+       x="247"
+       y="974.36218"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-unselect-all.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       ry="0" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 244,973.36221 0,14.00002"
+       id="path4683-1"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-unselect-all.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 241,973.36221 0,14.00002"
+       id="path4683-1-8"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-unselect-all.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <g
+       id="g4681-7"
+       transform="translate(-114.2,182.40002)"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-unselect-all.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path4683-0-9-1-9"
+         d="m 364.2,800.96221 6,-6.00002"
+         style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path4683-0-9-0-4-9"
+         d="m 364.19999,794.9622 6.00002,6"
+         style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <g
+       id="g4751-5"
+       transform="matrix(-1,0,0,-1,707.6,1761.1244)"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-attach.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <rect
+         ry="0"
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+         y="774.76221"
+         x="401.60001"
+         height="12.000022"
+         width="12"
+         id="rect4595-4-0"
+         style="opacity:1;fill:none;fill-opacity:1;stroke:#686774;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path4683-08"
+         d="m 398.6,776.7622 0,14.00002"
+         style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path4683-5-1"
+         d="m 411.6,789.7622 -14,2e-5"
+         style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path4683-0-1"
+         d="m 404.6,783.76222 6,-6.00002"
+         style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path4683-0-7-02"
+         d="m 411.6,777.7622 -6,0"
+         style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path4683-0-7-0-6"
+         d="m 410.6,776.7622 0,6"
+         style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <rect
+       style="opacity:1;fill:#999999;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4160-6"
+       width="42"
+       height="35"
+       x="318"
+       y="952.36218" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 346.49999,970.7461 6,-6"
+       id="path4683-0-9-0-4-2-4-9"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 346.49999,968.97833 6,6"
+       id="path4683-0-9-0-4-2-4-2-5"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <g
+       id="g4850-0-2"
+       transform="matrix(-0.70710678,0.70710678,0.70710678,0.70710678,1.9088894,113.29979)">
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path4683-0-9-0-4-2-4-22-4"
+         d="m 373.25,839.3622 0,-8.48528"
+         style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path4683-0-9-0-4-2-4-2-1-6"
+         d="m 372,838.1122 8.48528,0"
+         style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <g
+       id="g6919"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       transform="translate(255.63612,18.028278)">
+      <rect
+         y="955.36218"
+         x="116"
+         height="2"
+         width="2"
+         id="rect4532"
+         style="opacity:1;fill:#686774;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0" />
+      <path
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path5058-2"
+         d="m 123,958.3622 10,9"
+         style="fill:#686774;fill-opacity:1;fill-rule:evenodd;stroke:#686774;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Arrow2Mstart)" />
+      <rect
+         y="959.36218"
+         x="116"
+         height="2"
+         width="2"
+         id="rect4532-8"
+         style="opacity:1;fill:#686774;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0" />
+      <rect
+         y="963.36218"
+         x="116"
+         height="2"
+         width="2"
+         id="rect4532-3"
+         style="opacity:1;fill:#686774;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0" />
+      <rect
+         y="963.36218"
+         x="120"
+         height="2"
+         width="2"
+         id="rect4532-6"
+         style="opacity:1;fill:#686774;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0" />
+      <rect
+         y="951.36218"
+         x="116"
+         height="2"
+         width="2"
+         id="rect4532-0"
+         style="opacity:1;fill:#686774;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0" />
+      <rect
+         y="951.36218"
+         x="120"
+         height="2"
+         width="2"
+         id="rect4532-00"
+         style="opacity:1;fill:#686774;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0" />
+      <rect
+         y="951.36218"
+         x="124"
+         height="2"
+         width="2"
+         id="rect4532-4"
+         style="opacity:1;fill:#686774;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0" />
+      <rect
+         y="951.36218"
+         x="128"
+         height="2"
+         width="2"
+         id="rect4532-48"
+         style="opacity:1;fill:#686774;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0" />
+      <rect
+         y="955.36218"
+         x="128"
+         height="2"
+         width="2"
+         id="rect4532-5"
+         style="opacity:1;fill:#686774;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0" />
+    </g>
+    <rect
+       style="opacity:1;fill:#d35400;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       id="rect4532-2"
+       width="2"
+       height="2"
+       x="0"
+       y="4"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#d35400;fill-opacity:1;fill-rule:evenodd;stroke:#d35400;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:"
+       d="M 7,7.0000174 17,16.000017"
+       id="path5058-2-1"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="opacity:1;fill:#d35400;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       id="rect4532-8-3"
+       width="2"
+       height="2"
+       x="0"
+       y="8"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="opacity:1;fill:#d35400;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       id="rect4532-3-3"
+       width="2"
+       height="2"
+       x="0"
+       y="12"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="opacity:1;fill:#d35400;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       id="rect4532-6-6"
+       width="2"
+       height="2"
+       x="4"
+       y="12"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="opacity:1;fill:#d35400;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       id="rect4532-0-2"
+       width="2"
+       height="2"
+       x="0"
+       y="0"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="opacity:1;fill:#d35400;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       id="rect4532-00-1"
+       width="2"
+       height="2"
+       x="4"
+       y="0"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="opacity:1;fill:#d35400;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       id="rect4532-4-3"
+       width="2"
+       height="2"
+       x="8"
+       y="0"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="opacity:1;fill:#d35400;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       id="rect4532-48-0"
+       width="2"
+       height="2"
+       x="12"
+       y="0"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="opacity:1;fill:#d35400;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       id="rect4532-5-2"
+       width="2"
+       height="2"
+       x="12"
+       y="4"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <g
+       id="g5242">
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+         y="923.39044"
+         x="396.63611"
+         height="2"
+         width="2"
+         id="rect4532-2-4"
+         style="opacity:1;fill:#d35400;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path5058-2-1-2"
+         d="m 403.63612,926.39048 10,9"
+         style="fill:#d35400;fill-opacity:1;fill-rule:evenodd;stroke:#d35400;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Arrow2Mstart-9-4)" />
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+         y="927.39044"
+         x="396.63611"
+         height="2"
+         width="2"
+         id="rect4532-8-3-0"
+         style="opacity:1;fill:#d35400;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0" />
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+         y="931.39044"
+         x="396.63611"
+         height="2"
+         width="2"
+         id="rect4532-3-3-4"
+         style="opacity:1;fill:#d35400;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0" />
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+         y="931.39044"
+         x="400.63611"
+         height="2"
+         width="2"
+         id="rect4532-6-6-5"
+         style="opacity:1;fill:#d35400;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0" />
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+         y="919.39044"
+         x="396.63611"
+         height="2"
+         width="2"
+         id="rect4532-0-2-8"
+         style="opacity:1;fill:#d35400;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0" />
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+         y="919.39044"
+         x="400.63611"
+         height="2"
+         width="2"
+         id="rect4532-00-1-4"
+         style="opacity:1;fill:#d35400;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0" />
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+         y="919.39044"
+         x="404.63611"
+         height="2"
+         width="2"
+         id="rect4532-4-3-3"
+         style="opacity:1;fill:#d35400;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0" />
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+         y="919.39044"
+         x="408.63611"
+         height="2"
+         width="2"
+         id="rect4532-48-0-2"
+         style="opacity:1;fill:#d35400;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0" />
+      <rect
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+         y="923.39044"
+         x="408.63611"
+         height="2"
+         width="2"
+         id="rect4532-5-2-3"
+         style="opacity:1;fill:#d35400;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0" />
+    </g>
+    <rect
+       style="opacity:1;fill:#999999;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4160-6-9"
+       width="30"
+       height="30"
+       x="420"
+       y="957.36218" />
+    <rect
+       style="opacity:1;fill:#999999;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4160-6-9-7"
+       width="30"
+       height="30"
+       x="455"
+       y="957.36218" />
+    <g
+       id="g4676"
+       transform="translate(-39.000001,58.000015)">
+      <text
+         transform="scale(0.99958068,1.0004195)"
+         sodipodi:linespacing="125%"
+         id="text5036"
+         y="921.98651"
+         x="476.43054"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:41.07595825px;line-height:125%;font-family:'Open Sans';-inkscape-font-specification:'Open Sans Bold';letter-spacing:0px;word-spacing:0px;fill:#686774;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         xml:space="preserve"><tspan
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:12.83623791px;font-family:'Open Sans';-inkscape-font-specification:'Open Sans Bold';fill:#686774;fill-opacity:1;stroke:none;stroke-opacity:1"
+           y="921.98651"
+           x="476.43054"
+           id="tspan5038"
+           sodipodi:role="line">?</tspan></text>
+      <path
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path5058-2-6"
+         d="m 467.38343,908.98713 5.25952,12.38295"
+         style="fill:#686774;fill-opacity:1;fill-rule:evenodd;stroke:#686774;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Arrow2Mstart-0)" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:61.9139328px;line-height:125%;font-family:'Open Sans';-inkscape-font-specification:'Open Sans Bold';letter-spacing:0px;word-spacing:0px;fill:#686774;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="465.5881"
+       y="979.23981"
+       id="text5036-8"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan5038-1"
+         x="465.5881"
+         y="979.23981"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:19.34810257px;font-family:'Open Sans';-inkscape-font-specification:'Open Sans Bold';fill:#686774">?</tspan></text>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#eeeeee;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 498.9616,948.02712 0,10"
+       id="path4907"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\panther-slider-thumb-2.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#ffffff;fill-rule:evenodd;stroke:#eeeeee;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 512.8011,963.74092 0,10"
+       id="path4907-2"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\panther-slider-thumb-2.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="star"
+       style="opacity:1;fill:#eeeeee;fill-opacity:1;stroke:#eeeeee;stroke-width:3.06860018;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path4926"
+       sodipodi:sides="3"
+       sodipodi:cx="615"
+       sodipodi:cy="207.3622"
+       sodipodi:r1="5"
+       sodipodi:r2="10"
+       sodipodi:arg1="1.5707963"
+       sodipodi:arg2="2.6179939"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m 615,212.3622 -8.66025,0 4.33012,-7.5 4.33013,-7.5 4.33013,7.5 4.33012,7.5 z"
+       inkscape:transform-center-y="1.6169164"
+       transform="matrix(0.656798,0,0,0.64676657,123.63576,849.0211)"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\panther-slider-thumb-2.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="star"
+       style="opacity:1;fill:#eeeeee;fill-opacity:1;stroke:#eeeeee;stroke-width:3.06860018;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path4926-5"
+       sodipodi:sides="3"
+       sodipodi:cx="615"
+       sodipodi:cy="207.3622"
+       sodipodi:r1="5"
+       sodipodi:r2="10"
+       sodipodi:arg1="1.5707963"
+       sodipodi:arg2="2.6179939"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m 615,212.3622 -8.66025,0 4.33012,-7.5 4.33013,-7.5 4.33013,7.5 4.33012,7.5 z"
+       inkscape:transform-center-y="1.6169164"
+       transform="matrix(0.656798,0,0,0.64676657,173.63576,849.0211)"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\urbis-slider-thumb.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="star"
+       style="opacity:1;fill:#777777;fill-opacity:1;stroke:#777777;stroke-width:3.06860018;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path4926-5-4"
+       sodipodi:sides="3"
+       sodipodi:cx="615"
+       sodipodi:cy="207.3622"
+       sodipodi:r1="5"
+       sodipodi:r2="10"
+       sodipodi:arg1="1.5707963"
+       sodipodi:arg2="2.6179939"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m 615,212.3622 -8.66025,0 4.33012,-7.5 4.33013,-7.5 4.33013,7.5 4.33012,7.5 z"
+       inkscape:transform-center-y="1.6169164"
+       transform="matrix(0.656798,0,0,0.64676657,159.6627,833.59686)"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\urbis-slider-thumb.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:type="star"
+       style="opacity:1;fill:#777777;fill-opacity:1;stroke:#777777;stroke-width:3.06860018;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path4926-5-0"
+       sodipodi:sides="3"
+       sodipodi:cx="615"
+       sodipodi:cy="207.3622"
+       sodipodi:r1="5"
+       sodipodi:r2="10"
+       sodipodi:arg1="1.5707963"
+       sodipodi:arg2="2.6179939"
+       inkscape:flatsided="false"
+       inkscape:rounded="0"
+       inkscape:randomized="0"
+       d="m 615,212.3622 -8.66025,0 4.33012,-7.5 4.33013,-7.5 4.33013,7.5 4.33012,7.5 z"
+       inkscape:transform-center-y="1.6169164"
+       transform="matrix(0.656798,0,0,0.64676657,145.86809,818.44085)"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\urbis-slider-thumb.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <g
+       id="g4891"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         transform="translate(-3.370409,4.2500051)"
+         id="g4885">
+        <path
+           id="path5"
+           d="m 611.49815,972.46691 c -1.12604,-2.58847 -3.64433,-4.25099 -6.48266,-4.25099 -2.9026,0 -5.55551,1.81901 -6.60057,4.52561 l 2.19999,0.84964 c 0.69652,-1.80519 2.46526,-3.01749 4.40058,-3.01749 1.86754,0 3.51984,1.08382 4.28476,2.77029 l -1.60518,0.64124 4.1045,2.36793 1.20043,-4.48587 -1.50185,0.59964 z"
+           inkscape:connector-curvature="0"
+           style="fill:#686774;stroke:#686774;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none" />
+        <path
+           id="path7"
+           d="m 605.01549,980.50457 c -1.85061,0 -3.53841,-1.11621 -4.29294,-2.79193 l 1.58239,-0.61168 -4.06161,-2.31639 -1.24333,4.36659 1.51466,-0.58542 c 1.10452,2.57856 3.68259,4.29646 6.50083,4.29646 2.91335,0 5.4932,-1.74826 6.57199,-4.45312 l -2.18967,-0.87342 c -0.71977,1.80341 -2.43945,2.96891 -4.38232,2.96891 z"
+           inkscape:connector-curvature="0"
+           style="fill:#686774;stroke:#686774;stroke-width:0.5;stroke-miterlimit:4;stroke-dasharray:none" />
+      </g>
+    </g>
+    <rect
+       style="opacity:1;fill:#c83737;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       id="rect4532-2-4-6"
+       width="2"
+       height="2"
+       x="396.63611"
+       y="973.39044"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:#c83737;fill-opacity:1;fill-rule:evenodd;stroke:#c83737;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-start:url(#Arrow2Mstart-9-4-6)"
+       d="m 403.63612,976.39048 10,9"
+       id="path5058-2-1-2-8"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="opacity:1;fill:#c83737;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       id="rect4532-8-3-0-7"
+       width="2"
+       height="2"
+       x="396.63611"
+       y="977.39044"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="opacity:1;fill:#c83737;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       id="rect4532-3-3-4-5"
+       width="2"
+       height="2"
+       x="396.63611"
+       y="981.39044"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="opacity:1;fill:#c83737;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       id="rect4532-6-6-5-6"
+       width="2"
+       height="2"
+       x="400.63611"
+       y="981.39044"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="opacity:1;fill:#c83737;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       id="rect4532-0-2-8-5"
+       width="2"
+       height="2"
+       x="396.63611"
+       y="969.39044"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="opacity:1;fill:#c83737;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       id="rect4532-00-1-4-8"
+       width="2"
+       height="2"
+       x="400.63611"
+       y="969.39044"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="opacity:1;fill:#c83737;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       id="rect4532-4-3-3-3"
+       width="2"
+       height="2"
+       x="404.63611"
+       y="969.39044"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="opacity:1;fill:#c83737;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       id="rect4532-48-0-2-7"
+       width="2"
+       height="2"
+       x="408.63611"
+       y="969.39044"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="opacity:1;fill:#c83737;fill-opacity:1;stroke:none;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       id="rect4532-5-2-3-1"
+       width="2"
+       height="2"
+       x="408.63611"
+       y="973.39044"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-map-select-active.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <image
+       y="1007.0514"
+       x="4.4000001"
+       id="image8135"
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACwAAAAjCAYAAADv0ujUAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ bWFnZVJlYWR5ccllPAAAATRJREFUeNrcmNEGAkEUhmdPPUGJiIiI6A2WZR+gd60HiKWbriMiIiKW 3iB1linHtM2ZbmbOzPAzF7v+r+mb2bZstygVM5aYlZIx1uBwUankjE1ywD3MXM/vmC4m85g+5kH6 Dxxwgeno+Zbc7GvkpL9q+uEPHTYBFPjqd1lhKcAVB9z4u6D+eIY198+eAzY/nW9/6f75fLsQk78c cG76E2CFFTmhrMADw999AH/f/TXth5h0sAGLO8444LzNH89PuNZ+YPytA/hr7YeY/P0FXAg6zqrk gIfk+X0L8PuB7YeY/G0DFnucJbHCI8xMz6+Yo2dYp36I5XRIAli8vxR4jJnq+QVz8gzr3A+S3y5s wFHoEC1w48+E+HMJ4O+Y9J9tF3cNf5obnyrcYPcPKGF/pyYH/BJgAD7nVmt65kfTAAAAAElFTkSu QmCC "
+       preserveAspectRatio="none"
+       height="35"
+       width="44"
+       style="filter:url(#filter8248)"
+       clip-path="url(#clipPath8316)"
+       transform="translate(490.1,-112.68922)"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-tools-measure-polygon-pressed.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <image
+       y="1022.3622"
+       x="0"
+       id="image4450"
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAIAAAC0Ujn1AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ bWFnZVJlYWR5ccllPAAAAHtJREFUeNpiPKnrxEAbwMRAMzBqNP2MZiFeqeHx1RDGectQSo3W2TST VVQIjx1A8P32gxtxpSQHCFZz0QCnqgI5ribS42SGNbLfSbV+GKfrv1++AT2ORo5m9FGj6VHyMfNw QbIlMjmIA+Tt5n1kyzKONhZGjR4oowECDABWjyugsjNq3wAAAABJRU5ErkJggg== "
+       preserveAspectRatio="none"
+       height="30"
+       width="30"
+       style="filter:url(#filter4562)"
+       clip-path="url(#clipPath4600)"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-snapshot-delete.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       transform="translate(568.5,-122.99992)" />
+    <image
+       y="1022.1622"
+       x="34.98378"
+       id="image4461"
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAIAAAC0Ujn1AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ bWFnZVJlYWR5ccllPAAAAShJREFUeNpiPKnrxEAbwMRAMzBq9DA22vD4aiDCr5OgGhaSHAI367xl 6EAGCGmuJsaxZLpaKjMaGCZaqydzqip8PHyGfFdjxtIFu0hBdxt2GQnl/urbWfVsUmJUc7XBoeUv F60HMliFBSQSgu8WtlIzGt9tPfDv5y8gA+h8RlYWahoNNPfH3UdABiMTE4eiDBVSCHLaYOLkoHLi U2guFHSxQhZR7qkEkr+evboRX/r3yzcSAgQtFT9qmfr99gM0Nf9//7lX0Y1pLgGjkRMfMG1wKMsB Tfnz4ROymsfdszHtIy0agYlBqasc6MYH9RP///sHTy1vN+/DqYWMalcs0kc6Lx7o2Fup1ZCESIUy BAJeLd/CLif9aulGPOaS6erRunHUaKoAgAADAHMSc+/7NW7dAAAAAElFTkSuQmCC "
+       preserveAspectRatio="none"
+       height="30"
+       width="30"
+       style="filter:url(#filter4514)"
+       clip-path="url(#clipPath4556)"
+       transform="translate(503.51622,-122.79992)"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-snapshot-download.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#c83737;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 661.34842,985.88513 34.44396,-31.44397"
+       id="path5219"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 616.34842,985.88513 34.44396,-31.44397"
+       id="path5219-0"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#d35400;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 661.34842,935.88513 34.44396,-31.44397"
+       id="path5219-05"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\panther-front-office\src\images\urbis\tools-measure-line-pressed.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="opacity:1;fill:#999999;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4160-2"
+       width="16"
+       height="16"
+       x="-18"
+       y="971.36218" />
+    <rect
+       style="opacity:1;fill:#a71e1e;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4160-2-7"
+       width="16"
+       height="16"
+       x="-16"
+       y="951.36218" />
+    <rect
+       style="opacity:1;fill:#d35400;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4160-2-5"
+       width="16"
+       height="16"
+       x="-16"
+       y="921.36218" />
+    <g
+       transform="matrix(0.89073479,0,0,0.89205283,66.611574,85.121409)"
+       id="g4891-1"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         transform="translate(-3.370409,4.2500051)"
+         id="g4885-3">
+        <path
+           id="path5-7"
+           d="m 611.49815,972.46691 c -1.12604,-2.58847 -3.64433,-4.25099 -6.48266,-4.25099 -2.9026,0 -5.55551,1.81901 -6.60057,4.52561 l 2.19999,0.84964 c 0.69652,-1.80519 2.46526,-3.01749 4.40058,-3.01749 1.86754,0 3.51984,1.08382 4.28476,2.77029 l -1.60518,0.64124 4.1045,2.36793 1.20043,-4.48587 -1.50185,0.59964 z"
+           inkscape:connector-curvature="0"
+           style="fill:#686774;stroke:#686774;stroke-width:0.56091946;stroke-miterlimit:4;stroke-dasharray:none" />
+        <path
+           id="path7-0"
+           d="m 605.01549,980.50457 c -1.85061,0 -3.53841,-1.11621 -4.29294,-2.79193 l 1.58239,-0.61168 -4.06161,-2.31639 -1.24333,4.36659 1.51466,-0.58542 c 1.10452,2.57856 3.68259,4.29646 6.50083,4.29646 2.91335,0 5.4932,-1.74826 6.57199,-4.45312 l -2.18967,-0.87342 c -0.71977,1.80341 -2.43945,2.96891 -4.38232,2.96891 z"
+           inkscape:connector-curvature="0"
+           style="fill:#686774;stroke:#686774;stroke-width:0.56091946;stroke-miterlimit:4;stroke-dasharray:none" />
+      </g>
+    </g>
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 282,974.3622 -6,0"
+       id="path4683-0-7-0-9"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <g
+       id="Page-1"
+       style="fill:#686774;fill-rule:evenodd;stroke:none;stroke-width:1"
+       transform="matrix(0,-0.81612184,0.80402009,0,714,987.57502)"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\__new\img\settings.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <g
+         transform="translate(-464,-380)"
+         id="Core"
+         style="fill:#686774">
+        <g
+           transform="translate(464,380)"
+           id="settings"
+           style="fill:#686774">
+          <path
+             id="Shape"
+             d="m 17.4,11 c 0,-0.3 0.1,-0.6 0.1,-1 0,-0.4 0,-0.7 -0.1,-1 l 2.1,-1.7 c 0.2,-0.2 0.2,-0.4 0.1,-0.6 l -2,-3.5 C 17.5,3.1 17.3,3 17,3.1 l -2.5,1 C 14,3.7 13.4,3.4 12.8,3.1 L 12.4,0.5 C 12.5,0.2 12.2,0 12,0 L 8,0 C 7.8,0 7.5,0.2 7.5,0.4 L 7.1,3.1 C 6.5,3.3 6,3.7 5.4,4.1 L 3,3.1 C 2.7,3 2.5,3.1 2.3,3.3 l -2,3.5 c -0.1,0.1 0,0.4 0.2,0.6 L 2.6,9 c 0,0.3 -0.1,0.6 -0.1,1 0,0.4 0,0.7 0.1,1 l -2.1,1.7 c -0.2,0.2 -0.2,0.4 -0.1,0.6 l 2,3.5 C 2.5,16.9 2.7,17 3,16.9 l 2.5,-1 c 0.5,0.4 1.1,0.7 1.7,1 l 0.4,2.6 c 0,0.2 0.2,0.4 0.5,0.4 l 4,0 c 0.2,0 0.5,-0.2 0.5,-0.4 L 13,16.9 c 0.6,-0.3 1.2,-0.6 1.7,-1 l 2.5,1 c 0.2,0.1 0.5,0 0.6,-0.2 l 2,-3.5 c 0.1,-0.2 0.1,-0.5 -0.1,-0.6 l -2.3,-1.6 0,0 z M 10,13.5 C 8.1,13.5 6.5,11.9 6.5,10 6.5,8.1 8.1,6.5 10,6.5 c 1.9,0 3.5,1.6 3.5,3.5 0,1.9 -1.6,3.5 -3.5,3.5 l 0,0 z"
+             inkscape:connector-curvature="0"
+             style="fill:#686774" />
+        </g>
+      </g>
+    </g>
+    <g
+       id="g5526"
+       transform="translate(-14.99997,1.5088372e-5)"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <path
+         id="path5517"
+         d="m 761.51827,975.15718 a 6.2511263,6.2031317 0 0 1 1.85599,6.87347 6.2511263,6.2031317 0 0 1 -5.87414,4.08154 6.2511263,6.2031317 0 0 1 -5.87414,-4.08154 6.2511263,6.2031317 0 0 1 1.856,-6.87347"
+         style="opacity:1;fill:none;fill-opacity:1;stroke:#686774;stroke-width:2.5;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+         inkscape:connector-curvature="0" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path5521"
+         d="m 757.5,971.3622 0,8"
+         style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
+    <rect
+       style="opacity:1;fill:#ff7600;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4160-2-5-4"
+       width="16"
+       height="16"
+       x="-41"
+       y="921.36218" />
+    <rect
+       style="opacity:1;fill:#c83737;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4160-2-7-5"
+       width="16"
+       height="16"
+       x="-41"
+       y="951.36218" />
+    <ellipse
+       style="opacity:1;fill:#ff7600;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path5174"
+       cx="765.09998"
+       cy="900.26221"
+       rx="7.0999999"
+       ry="7.1000113" />
+    <ellipse
+       style="opacity:1;fill:#d35400;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path5174-9"
+       cx="778.90002"
+       cy="915.26221"
+       rx="7.099997"
+       ry="7.1000113" />
+    <ellipse
+       style="opacity:1;fill:#d35400;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path5174-9-6"
+       cx="792.90002"
+       cy="930.26221"
+       rx="7.099997"
+       ry="7.1000113" />
+    <ellipse
+       style="opacity:1;fill:#c83737;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path5174-8"
+       cx="765.09998"
+       cy="950.26221"
+       rx="7.099997"
+       ry="7.1000113" />
+    <ellipse
+       style="opacity:1;fill:#a71e1e;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path5174-9-7"
+       cx="778.90002"
+       cy="965.26221"
+       rx="7.099997"
+       ry="7.1000113" />
+    <ellipse
+       style="opacity:1;fill:#a71e1e;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path5174-9-6-7"
+       cx="792.90002"
+       cy="980.26221"
+       rx="7.099997"
+       ry="7.1000113" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#ff7600;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 845,903.3622 25,0"
+       id="path4635"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#cccccc;fill-rule:evenodd;stroke:#cccccc;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 845,925.3622 25,0"
+       id="path4637"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#e6e6e6;fill-rule:evenodd;stroke:#cccccc;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
+       d="m 845,947.3622 25,0"
+       id="path4654"
+       inkscape:connector-curvature="0" />
+    <rect
+       style="opacity:1;fill:#999999;fill-opacity:1;stroke:none;stroke-width:2;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4160-6-9-7-3-1-0-6-9"
+       width="25"
+       height="66"
+       x="815"
+       y="921.36218" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#c83737;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 815,932.36222 25,0"
+       id="path4635-2"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#cccccc;fill-rule:evenodd;stroke:#cccccc;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 815,954.36222 25,0"
+       id="path4637-1"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#e6e6e6;fill-rule:evenodd;stroke:#cccccc;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 815,976.36222 25,0"
+       id="path4654-8"
+       inkscape:connector-curvature="0" />
+    <rect
+       style="opacity:1;fill:#ff7600;fill-opacity:1;stroke:none;stroke-width:2.5;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4754"
+       width="3"
+       height="4"
+       x="882"
+       y="933.36218"
+       inkscape:export-filename="D:\DATA\panther-front-office\src\images\urbis\slider-colored-4.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="opacity:1;fill:#c83737;fill-opacity:1;stroke:none;stroke-width:2.5;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="rect4754-1"
+       width="3"
+       height="4"
+       x="882"
+       y="983.36218"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+  </g>
+</svg>
