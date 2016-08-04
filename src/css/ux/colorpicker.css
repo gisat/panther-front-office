@@ -1,7 +1,8 @@
 .x-colorpicker {
-	border : 1px solid #98C0F4;
-	background : #FFF;
+	border: 1px solid #98C0F4;
+	background: #FFF;
 }
+
 .x-cp-rgbpicker {
 	background-image: url(../../images/ux/mask.png);
 	background-repeat: no-repeat;
