@@ -5,11 +5,10 @@ requirejs.config({
         'css': '../lib/css.min',
         'jquery': '../lib/jquery-3.0.0',
         'jquery-private': '../js/jquery-private',
-        'jquery-touch': '../lib/jquery-ui.touch-punch.min',
         'jquery-ui': '../lib/jquery-ui.min',
         'string': '../lib/string',
         'underscore': '../lib/underscore-min',
-        'text': '../lib/text',
+        'text': '../lib/text'
     },
 
     map: {
@@ -26,7 +25,6 @@ requirejs.config({
     },
 
     shim: {
-        'jquery-touch': ['jquery','jquery-ui'],
         'jquery-ui': ['jquery'],
         'underscore': {
             exports: '_'
@@ -40,11 +38,11 @@ define(['view/widgets/EvaluationWidget/EvaluationWidget',
         'util/Logger',
         'data/mockData',
         'util/Placeholder',
+        'util/Remote',
 
         'string',
         'jquery',
         'jquery-ui',
-        'jquery-touch',
         'underscore'
 ], function (EvaluationWidget,
              DataFilters,
@@ -52,20 +50,41 @@ define(['view/widgets/EvaluationWidget/EvaluationWidget',
              Logger,
              mockData,
              Placeholder,
+             Remote,
 
              S,
              $){
 
-    $(document).ready(function() {
-        new EvaluationWidget({
-            data: mockData,
-            elementId: 'evaluation-widget',
-            filter: new DataFilters(),
-            name: 'Evaluation Tool',
-            targetId: 'widget-container',
-            tools: ['settings']
-        });
+	var rebuild = function(){
+		new Remote({
+			method: "POST",
+			url: window.Config.url + "api/theme/getThemeYearConf",
+			params: {
+				theme: ThemeYearConfParams.theme,
+				years: ThemeYearConfParams.years,
+				dataset: ThemeYearConfParams.dataset,
+				refreshLayers: ThemeYearConfParams.refreshLayers,
+				refreshAreas: ThemeYearConfParams.refreshAreas,
+				queryTopics: ''
+			}
+		}).then(function(result){
+			console.log(result);
+		});
+	};
+	Observer.addListener(rebuild);
 
+    $(document).ready(function() {
+
+		if(window.Config.toggles.hasNewEvaluationTool){
+			new EvaluationWidget({
+				data: mockData,
+				elementId: 'evaluation-widget',
+				filter: new DataFilters(),
+				name: 'Evaluation Tool',
+				targetId: 'widget-container',
+				tools: ['settings']
+			});
+		}
 
         var widgets = $("#widget-container");
         widgets.on("click", ".placeholder", function(e){

@@ -305,8 +305,11 @@ Ext.define('PumaMain.controller.LocationTheme', {
         var detailLevelChanged = cnt.itemId == 'detaillevel';
         
         var theme = Ext.ComponentQuery.query('#seltheme')[0].getValue();
+        ThemeYearConfParams.theme = theme.toString();
         var dataset = Ext.ComponentQuery.query('#seldataset')[0].getValue();
+        ThemeYearConfParams.dataset = dataset.toString();
         var years = Ext.ComponentQuery.query('#selyear')[0].getValue();
+        ThemeYearConfParams.years = "[" + years.toString() + "]";
         var vis = Ext.ComponentQuery.query('#selvisualization')[0].getValue();
         var params = {
 						theme: theme,
@@ -323,6 +326,15 @@ Ext.define('PumaMain.controller.LocationTheme', {
         var root = Ext.StoreMgr.lookup('area').getRootNode();
         params['refreshLayers'] = (this.themeChanged) ? true : null;
         params['refreshAreas'] = (this.yearChanged || this.datasetChanged || this.locationChanged || detailLevelChanged || isFilter) ? true : false;
+
+        if (params['refreshAreas'] != null){
+            ThemeYearConfParams.refreshAreas = params['refreshAreas'].toString();
+        }
+        if (params['refreshLayers'] != null){
+            ThemeYearConfParams.refreshLayers = params['refreshLayers'].toString();
+        }
+        Observer.notify('rebuild');
+
         if (params['refreshLayers']) {
             params['queryTopics'] = this.getQueryTopics(theme);
         }

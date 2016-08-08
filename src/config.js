@@ -1,5 +1,5 @@
 var Config = {
-	url: 'http://localhost/',
+	url: 'http://localhost:4000/',
 	signupAddress: 'http://localhost/geonode/account/signup/',
 	geoserver2Workspace: "puma",
 	initialBaseMap: "terrain",
@@ -20,10 +20,10 @@ var Config = {
 		allowDownloadsLink: false,
 		usePumaLogo: false,
 		advancedFiltersFirst: true,
-		hasNewEvaluationTool: false,
+		hasNewEvaluationTool: true,
 		isNewDesign: true,
-		isUrbis: false,
-		isEea: true
+		isUrbis: true,
+		isEea: false
 	},
 
 	texts: {

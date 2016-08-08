@@ -5,6 +5,8 @@
 		<meta charset="utf-8">
 
 		<script type="text/javascript" src="config.js"></script>
+		<script type="text/javascript" src="observer.js"></script>
+		<script type="text/javascript" src="themeYearConfParams.js"></script>
 		<script type="text/javascript" src="lib/es6-promise.js"></script>
 
 		<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:400,800,700">
@@ -60,9 +62,7 @@
 				}).then(function(){
 					return createScript('appde.js');
 				}).then(function(){
-					if (Config.toggles.hasNewEvaluationTool){
-						return createScript('__new/lib/require.js', '__new/app.js');
-					}
+					return createScript('__new/lib/require.js', '__new/app.js');
 				});
 			} else {
 				createScript('lib/OpenLayers.min.js').then(function(){
@@ -70,9 +70,7 @@
 				}).then(function(){
 					return createScript('appde.min.js');
 				}).then(function(){
-					if (Config.toggles.hasNewEvaluationTool){
-						return createScript('__new/lib/require.js', '__new/app.js');
-					}
+					return createScript('__new/lib/require.js', '__new/app.js');
 				});
 			}
 			// load project styles depending on the toggles
