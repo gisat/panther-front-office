@@ -3,6 +3,7 @@ define([
     '../../../error/NotFoundError',
     '../inputs/checkbox/Checkbox',
     '../../../util/Logger',
+	'../../../util/Remote',
     '../inputs/selectbox/SelectBox',
     '../tools/settings/Settings',
     '../inputs/sliderbox/SliderBox',
@@ -15,6 +16,7 @@ define([
             NotFoundError,
             Checkbox,
             Logger,
+			Remote,
             SelectBox,
             Settings,
             SliderBox,
@@ -58,9 +60,28 @@ define([
         this._widgetSelector = $("#floater-" + this._widgetId);
         this._widgetBodySelector = this._widgetSelector.find(".floater-body");
         this.build();
+        Observer.addListener(this.rebuild.bind(this));
     };
 
     EvaluationWidget.prototype = Object.create(Widget.prototype);
+
+    EvaluationWidget.prototype.rebuild = function(){
+        return new Remote({
+                method: "POST",
+                url: window.Config.url + "api/theme/getThemeYearConf",
+                params: {
+                    theme: ThemeYearConfParams.theme,
+                    years: ThemeYearConfParams.years,
+                    dataset: ThemeYearConfParams.dataset,
+                    refreshLayers: ThemeYearConfParams.refreshLayers,
+                    refreshAreas: ThemeYearConfParams.refreshAreas,
+                    queryTopics: ''
+                }
+            }).then(function(result){
+				var output = JSON.parse(result);
+                console.log(output.data.attrSets);
+        });
+    };
 
     /**
      * It builds the widget

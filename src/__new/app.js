@@ -1,14 +1,14 @@
 requirejs.config({
-    baseUrl: './__new/js',
+    baseUrl: './__new',
 
     paths: {
-        'css': '../lib/css.min',
-        'jquery': '../lib/jquery-3.0.0',
-        'jquery-private': '../js/jquery-private',
-        'jquery-ui': '../lib/jquery-ui.min',
-        'string': '../lib/string',
-        'underscore': '../lib/underscore-min',
-        'text': '../lib/text'
+        'css': 'lib/css.min',
+        'jquery': 'lib/jquery-3.0.0',
+        'jquery-private': 'js/jquery-private',
+        'jquery-ui': 'lib/jquery-ui.min',
+        'string': 'lib/string',
+        'underscore': 'lib/underscore-min',
+        'text': 'lib/text'
     },
 
     map: {
@@ -32,13 +32,14 @@ requirejs.config({
     }
 });
 
-define(['view/widgets/EvaluationWidget/EvaluationWidget',
-        'util/DataFilters',
-        'util/Floater',
-        'util/Logger',
-        'data/mockData',
-        'util/Placeholder',
-        'util/Remote',
+define(['js/view/widgets/EvaluationWidget/EvaluationWidget',
+        'js/util/DataFilters',
+        'js/util/Floater',
+		'./FrontOffice',
+        'js/util/Logger',
+        'js/data/mockData',
+        'js/util/Placeholder',
+		'js/stores/Stores',
 
         'string',
         'jquery',
@@ -47,31 +48,18 @@ define(['view/widgets/EvaluationWidget/EvaluationWidget',
 ], function (EvaluationWidget,
              DataFilters,
              Floater,
+			 FrontOffice,
              Logger,
              mockData,
              Placeholder,
-             Remote,
+			 Stores,
 
              S,
              $){
 
-	var rebuild = function(){
-		new Remote({
-			method: "POST",
-			url: window.Config.url + "api/theme/getThemeYearConf",
-			params: {
-				theme: ThemeYearConfParams.theme,
-				years: ThemeYearConfParams.years,
-				dataset: ThemeYearConfParams.dataset,
-				refreshLayers: ThemeYearConfParams.refreshLayers,
-				refreshAreas: ThemeYearConfParams.refreshAreas,
-				queryTopics: ''
-			}
-		}).then(function(result){
-			console.log(result);
-		});
-	};
-	Observer.addListener(rebuild);
+	new FrontOffice();
+
+	var dataFilters = new DataFilters();
 
     $(document).ready(function() {
 
@@ -79,7 +67,7 @@ define(['view/widgets/EvaluationWidget/EvaluationWidget',
 			new EvaluationWidget({
 				data: mockData,
 				elementId: 'evaluation-widget',
-				filter: new DataFilters(),
+				filter: dataFilters,
 				name: 'Evaluation Tool',
 				targetId: 'widget-container',
 				tools: ['settings']
