@@ -39,6 +39,7 @@ define(['js/view/widgets/EvaluationWidget/EvaluationWidget',
         'js/util/Logger',
         'js/data/mockData',
         'js/util/Placeholder',
+		'js/util/Remote',
 		'js/stores/Stores',
 
         'string',
@@ -52,6 +53,7 @@ define(['js/view/widgets/EvaluationWidget/EvaluationWidget',
              Logger,
              mockData,
              Placeholder,
+			 Remote,
 			 Stores,
 
              S,
@@ -59,7 +61,36 @@ define(['js/view/widgets/EvaluationWidget/EvaluationWidget',
 
 	new FrontOffice();
 
-	var dataFilters = new DataFilters();
+
+	//$('body').on("click", "#evaluation-confirm", function(){
+	//	new Remote({
+	//		method: "POST",
+	//		url: window.Config.url + "api/filter/filter",
+	//		params: {
+	//			dataset: JSON.stringify(2), // scope
+	//			years: JSON.stringify([7]), // years id
+	//			areas: JSON.stringify({
+	//				"1":{ //place
+	//					"6":[ // level
+	//						"CZ010","CZ063","CZ064","CZ020","CZ031","CZ032","CZ041","CZ042","CZ051","CZ052","CZ053","CZ072","CZ071","CZ080"
+	//					]}
+	//			}),
+	//			filters: JSON.stringify([]),
+	//			attrs: JSON.stringify([{
+	//				"as": 8,
+	//				"attr": 10,
+	//				"normType": "area"
+	//			},{
+	//				"as": 8,
+	//				"attr": 21,
+	//				"normType": "area"
+	//			}])
+	//		}
+	//	}).then(function(result){
+	//		var output = JSON.parse(result);
+	//		console.log(output);
+	//	});
+	//});
 
     $(document).ready(function() {
 
@@ -67,7 +98,7 @@ define(['js/view/widgets/EvaluationWidget/EvaluationWidget',
 			new EvaluationWidget({
 				data: mockData,
 				elementId: 'evaluation-widget',
-				filter: dataFilters,
+				filter: new DataFilters(),
 				name: 'Evaluation Tool',
 				targetId: 'widget-container',
 				tools: ['settings']

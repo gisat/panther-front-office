@@ -7,6 +7,7 @@ define([
     '../inputs/selectbox/SelectBox',
     '../tools/settings/Settings',
     '../inputs/sliderbox/SliderBox',
+	'../../../stores/Stores',
     '../Widget',
 
     'jquery',
@@ -20,6 +21,7 @@ define([
             SelectBox,
             Settings,
             SliderBox,
+			Stores,
             Widget,
 
             $){
@@ -79,7 +81,14 @@ define([
                 }
             }).then(function(result){
 				var output = JSON.parse(result);
-                console.log(output.data.attrSets);
+				output.data.attrSets.forEach(function(attrSet){
+					Stores.retrieve("attributeSet").byId(attrSet).then(function(attributeSets){
+						attributeSets[0].attributes.forEach(function(attribute){
+							console.log(attribute);
+							console.log(ThemeYearConfParams);
+						});
+					});
+				});
         });
     };
 
