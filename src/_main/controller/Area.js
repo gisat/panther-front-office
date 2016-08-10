@@ -107,7 +107,7 @@ Ext.define('PumaMain.controller.Area', {
 		} else {
 			this.getController('DomManipulation').deactivateLoadingMask();
 		}
-		
+		//Observer.notify("rebuild");
 	},
    
 		
@@ -149,6 +149,7 @@ Ext.define('PumaMain.controller.Area', {
 		} else {
 			this.getController('DomManipulation').activateLoadingMask();
 		}
+		//Observer.notify("rebuild");
 	},
 
 	onCollapseAll: function() {
