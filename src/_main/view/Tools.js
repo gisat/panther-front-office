@@ -98,7 +98,7 @@ Ext.define('PumaMain.view.Tools', {
 //                disabled: true,
 //                itemId: 'filterselect'
 //            }],
-            title: Config.texts.advancedFiltersName,
+            title: Config.basicTexts.advancedFiltersName,
             bodyCls: 'tools-filters-list'
         };
         var layers = {
@@ -121,7 +121,7 @@ Ext.define('PumaMain.view.Tools', {
         };
         var areas = {
             xtype: 'treepanel',
-            title: Config.texts.areasSectionName,
+            title: Config.basicTexts.areasSectionName,
             itemId: 'areatree',
             helpId: 'TreeofanalyticalunitsAREAS',
             collapsed: true,
