@@ -1,5 +1,6 @@
 define([
     '../../../error/ArgumentError',
+    '../../../util/dataRequest/attributesMetadata',
     '../../../error/NotFoundError',
     '../inputs/checkbox/Checkbox',
     '../../../util/Logger',
@@ -14,6 +15,7 @@ define([
 
     'css!./EvaluationWidget'
 ], function(ArgumentError,
+            attributesMetadata,
             NotFoundError,
             Checkbox,
             Logger,
@@ -74,116 +76,9 @@ define([
     EvaluationWidget.prototype = Object.create(Widget.prototype);
 
     EvaluationWidget.prototype.rebuild = function(){
-        var self = this;
-
-        var years = JSON.parse(ThemeYearConfParams.years);
-        var dataset = JSON.parse(ThemeYearConfParams.dataset);
-
-        var attrSetId = null;
-        var attrSetName = null;
-
-        var attrId = null;
-        var attrName = null;
-        var attrType = null;
-
-        var normType = "";
-
-        new Remote({
-                method: "POST",
-                url: window.Config.url + "api/theme/getThemeYearConf",
-                params: {
-                    theme: ThemeYearConfParams.theme,
-                    years: ThemeYearConfParams.years,
-                    dataset: ThemeYearConfParams.dataset,
-                    refreshLayers: ThemeYearConfParams.refreshLayers,
-                    refreshAreas: ThemeYearConfParams.refreshAreas,
-                    queryTopics: ThemeYearConfParams.queryTopics,
-                    expanded: ThemeYearConfParams.expanded,
-                    parentgids: ThemeYearConfParams.parentgids,
-                    fids: ThemeYearConfParams.fids,
-                    artifexpand: ThemeYearConfParams.artifexpand
-                }
-            }).then(function(response){
-				var output = JSON.parse(response);
-
-                if (output.data.hasOwnProperty("areas")){
-                   var areas = output.data.areas;
-                   self._gids = [];
-                   self._place = areas[0].loc;
-                   self._level = areas[0].at;
-                   areas.forEach(function(area){
-                       self._gids.push(area.gid);
-                   })
-                }
-
-                if (output.data.hasOwnProperty("attrSets")){
-                    self._attributes = [];
-                    output.data.attrSets.forEach(function(attrSet){
-                        Stores.retrieve("attributeSet").byId(attrSet).then(function(attributeSet){
-                            var attributes = attributeSet[0].attributes;
-                            attributes.forEach(function(attribute){
-                                Stores.retrieve("attribute").byId(attribute).then(function(attr){
-                                    attrSetId = attributeSet[0].id;
-                                    attrSetName = attributeSet[0].name;
-                                    attrName = attr[0].name; // attribute name
-                                    attrType = attr[0].type; // attribute type
-                                    attrId = attr[0].id;
-                                    self._attributes.push({
-                                        attrSetId: attrSetId,
-                                        attrId: attrId
-                                    });
-
-                                    console.log("=============");
-                                    console.log(attrName);
-                                    console.log("Years: " + years, "Dataset: " + dataset, "Place: " + self._place, "Level: " +
-                                    self._level, "Gids: " + self._gids, "AttributeSet: " + attrSetId, "Attribute: " + attrId);
-
-                                    var attrs = {
-                                        as: attrSetId,
-                                        attr: attrId,
-                                        normType: normType
-                                    };
-                                    var location = {};
-                                    var loc2 = {};
-                                    loc2[self._level] = self._gids;
-                                    location[self._place] = loc2;
-
-
-                                    var params = {
-                                        dataset: JSON.stringify(dataset),
-                                        years: JSON.stringify(years),
-                                        attrs: JSON.stringify([attrs]),
-                                        areas: JSON.stringify(location)
-                                    };
-
-                                    self.getDataDistribution(params).then(function(result){
-                                        var output = JSON.parse(result);
-                                        var metadata = output.data.metadata["as_" + attrSetId + "_attr_" + attrId];
-                                        console.log(metadata);
-                                    });
-                                });
-                            });
-                        });
-                    });
-                }
-                else {
-                    // if zoom
-                }
-            });
-    };
-
-    EvaluationWidget.prototype.getDataDistribution = function(params){
-        return new Remote({
-                    method: "POST",
-                    url: window.Config.url + "api/filter/filter",
-                    params: {
-                        dataset: params.dataset, // scope
-                        years: params.years, // years id
-                        areas: params.areas,
-                        filters: JSON.stringify([]),
-                        attrs: params.attrs
-                    }
-                });
+        new attributesMetadata().getData().then(function(result){
+           console.log(result);
+        });
     };
 
     /**

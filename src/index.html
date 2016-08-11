@@ -62,7 +62,9 @@
 				}).then(function(){
 					return createScript('appde.js');
 				}).then(function(){
-					return createScript('__new/lib/require.js', '__new/app.js');
+					if (Config.toggles.hasNewEvaluationTool){
+						return createScript('__new/lib/require.js', '__new/app.js');
+					}
 				});
 			} else {
 				createScript('lib/OpenLayers.min.js').then(function(){
@@ -70,7 +72,9 @@
 				}).then(function(){
 					return createScript('appde.min.js');
 				}).then(function(){
-					return createScript('__new/lib/require.js', '__new/app.js');
+					if (Config.toggles.hasNewEvaluationTool){
+						return createScript('__new/lib/require.js', '__new/app.js');
+					}
 				});
 			}
 			// load project styles depending on the toggles
