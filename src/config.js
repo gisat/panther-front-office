@@ -1,6 +1,6 @@
 var Config = {
-	url: 'http://localhost:4000/',
-	signupAddress: 'http://localhost/geonode/account/signup/',
+	url: 'http://clc-live.gisat.cz/tool/',
+	signupAddress: 'http://clc-live.gisat.cz/geonode/account/signup/',
 	geoserver2Workspace: "puma",
 	initialBaseMap: "terrain",
 	initialMapBounds: [
@@ -47,5 +47,5 @@ var Config = {
 	},
 	googleAnalyticsTracker: '',
 	googleAnalyticsCookieDomain: 'auto',
-	environment: 'development'
+	environment: 'production'
 };
