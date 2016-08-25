@@ -8,5 +8,6 @@ var ThemeYearConfParams = {
 	parentgids: '',
 	queryTopics: '',
 	fids: '',
-	artifexpand: ''
+	artifexpand: '',
+	layerRef: ''
 };

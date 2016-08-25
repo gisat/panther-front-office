@@ -59,7 +59,7 @@ define([
             max: self._range[1],
             values: self._values,
             slide: function( event, ui ) {
-                $(this).siblings().find('.slider-popup-values').html("From: <b>" + viewUtils.thousandSeparator(ui.values[ 0 ]) + "</b>&nbsp;&nbsp; To: <b>" + viewUtils.thousandSeparator(ui.values[ 1 ]) + "</b>");
+                $(this).siblings().find('.slider-popup-values').html("From: <b>" + viewUtils.numberFormat(ui.values[ 0 ], true, 2) + "</b>&nbsp;&nbsp; To: <b>" + viewUtils.numberFormat(ui.values[ 1 ], true, 2) + "</b>");
             }
         });
     };
@@ -75,7 +75,7 @@ define([
             max: self._range[1],
             value: self._values[0],
             slide: function( event, ui ) {
-                $(this).siblings().find('.slider-popup-values').html("Value: <b>" + viewUtils.thousandSeparator(ui.value) + "</b>");
+                $(this).siblings().find('.slider-popup-values').html("Value: <b>" + viewUtils.numberFormat(ui.value, true, 2) + "</b>");
             }
         });
     };

@@ -31,7 +31,7 @@ define([
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Settings", "constructor", "missingWidgetId"));
         }
 
-        this._dataSet = options.dataSet;
+        this._attributes = options.attributes;
         this._target = options.target;
         this._widgetId = options.widgetId;
         this._id = options.widgetId + '-settings';
@@ -45,7 +45,9 @@ define([
      */
     Settings.prototype.build = function(){
         var html = S(htmlContent).template({id: this._id}).toString();
-        this._target.append(html);
+        if (!$("#" + this._id).length){
+            this._target.append(html);
+        }
 
         this.addCategories();
         this.addCloseListener();
@@ -65,46 +67,46 @@ define([
      */
     Settings.prototype.addCategories = function(){
         this._checkboxTarget = $('#' + this._id + ' .tool-window-body');
-        var data = this._dataSet[0].data;
+        this._checkboxTarget.html("");
+        var self = this;
+        this._attributes.forEach(function(attribute){
+            var type = attribute.type;
+            var name = attribute.name;
+            var id = "attr-" + attribute._id;
+            var input = "";
 
-        for (var key in data){
-            if (data.hasOwnProperty(key)){
-                var value = data[key].value;
-                var name = data[key].name;
-                var input = "";
-
-                if (typeof value == "boolean"){
-                    input = "checkbox";
-                }
-                else if (typeof value == "number") {
-                    input = "slider";
-                }
-                else if (typeof value == "string") {
-                    input = "select";
-                }
-
-                this.addCheckbox(key, name);
-                this._categories[key] = {
-                    name: name,
-                    input: input,
-                    active: true
-                };
+            if (type == "boolean"){
+                input = "checkbox";
             }
-        }
+            else if (type == "numeric") {
+                input = "slider";
+            }
+            else if (type == "text") {
+                input = "select";
+            }
+
+            self.addCheckbox(id, name);
+            self._categories[id] = {
+                attrData: attribute,
+                name: name,
+                input: input,
+                active: true
+            };
+        });
     };
 
     /**
      * It returns the checkbox row
-     * @param key {string} id of the checkbox row
+     * @param id {string} id of the checkbox row
      * @param name {string} label
      * @returns {Checkbox}
      */
-    Settings.prototype.addCheckbox = function(key, name){
+    Settings.prototype.addCheckbox = function(id, name){
         return new Checkbox({
             containerId: this._id,
             checked: true,
-            dataId: key,
-            id: 'settings-' + key,
+            dataId: id,
+            id: 'settings-' + id,
             name: name,
             target: this._checkboxTarget
         });
@@ -123,7 +125,7 @@ define([
      */
     Settings.prototype.addCloseListener = function(){
         var self = this;
-        $('#' + this._id + ' .window-close').on("click", function(){
+        $('#' + this._id + ' .window-close').off("click").on("click", function(){
             $('#' + self._id).hide("drop", {direction: "up"}, 200)
                 .removeClass("open");
         });
@@ -134,7 +136,8 @@ define([
      */
     Settings.prototype.addConfirmListener = function(){
         var self = this;
-        $('#' + this._id + ' .settings-confirm').on("click", function(){
+
+        $('#' + this._id + ' .settings-confirm').off("click").on("click", function(){
             $('#' + self._id + ' .checkbox-row').each(function(){
                 var checked = $(this).hasClass("checked");
                 var id = $(this).attr('data-id');

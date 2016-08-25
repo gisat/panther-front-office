@@ -69,8 +69,7 @@ define(['js/view/widgets/EvaluationWidget/EvaluationWidget',
 				elementId: 'evaluation-widget',
 				filter: new DataFilters(),
 				name: 'Evaluation Tool',
-				targetId: 'widget-container',
-				tools: ['settings']
+				targetId: 'widget-container'
 			});
 		}
 

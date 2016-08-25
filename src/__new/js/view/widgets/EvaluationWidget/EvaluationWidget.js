@@ -31,7 +31,7 @@ define([
     /**
      * It creates an Evaluation Tool
      * @param options {Object}
-     * @param options.elementId {String} ID of widget I
+     * @param options.elementId {String} ID of widget
      * @param options.targetId {String} ID of an element in which should be the widget rendered
      * @param options.name {String} Name of the widget
      * @param options.tools {Array} List of tools which should be connected with this widget
@@ -47,7 +47,6 @@ define([
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingTargetElementId"));
         }
 
-        this._tools = options.tools || [];
         this._name = options.name || "";
         this._widgetId = options.elementId;
         this._target = $("#" + options.targetId);
@@ -55,8 +54,8 @@ define([
             throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingHTMLElement"));
         }
 
-        this._dataSet = options.data;
-        this._filter = options.filter;
+        this._dataSet = options.data; // todo not used
+        this._filter = options.filter; // todo not used
 
         // Call the method from parent
         Widget.prototype.build.call(this, this._widgetId, this._target, this._name);
@@ -64,10 +63,8 @@ define([
         this._widgetSelector = $("#floater-" + this._widgetId);
         this._widgetBodySelector = this._widgetSelector.find(".floater-body");
 
-        this._attributes = [];
-        this._gids = []; //codes of areas
-        this._place = null;
-        this._level = null;
+        this._attributesMetadata = new attributesMetadata();
+        this._settings = null;
 
         this.build();
         Observer.addListener(this.rebuild.bind(this));
@@ -75,50 +72,63 @@ define([
 
     EvaluationWidget.prototype = Object.create(Widget.prototype);
 
+	/**
+     * It rebuilds the widget for given attributes
+     */
     EvaluationWidget.prototype.rebuild = function(){
-        new attributesMetadata().getData().then(function(result){
-           console.log(result);
+        var self = this;
+        this._attributesMetadata.getData().then(function(result){
+            self._attributes = [];
+            result.forEach(function(attrSet){
+               attrSet.forEach(function(attribute){
+                   var attrMetadata = JSON.parse(attribute);
+                   self._attributes.push(attrMetadata.data[0]);
+               });
+            });
+            self.rebuildSettings();
         });
     };
 
     /**
-     * It builds the widget
+     * Build the widget basic view
      */
     EvaluationWidget.prototype.build = function(){
-        console.log("build");
+        this.buildSettings();
         this.prepareFooter();
-        this.prepareTools();
     };
 
-    /**
-     * It prepares a set of tools connected with this widget
+	/**
+     * Create settings icon and attach the listener for opening
      */
-    EvaluationWidget.prototype.prepareTools = function(){
-        var self = this;
-        this._tools.forEach(function(tool){
-            var name = tool.charAt(0).toUpperCase() + tool.slice(1);
-            self._widgetSelector.find(".floater-tools-container").append('<div title="'+ name +'" class="floater-tool widget-'+ tool +'">' +
-                '<img alt="' + name + '" src="__new/img/'+ tool +'.png"/>' +
-                '</div>');
-
-            if (tool == "settings"){
-                self._settings = new Settings({
-                    dataSet: self._dataSet,
-                    target: self._target,
-                    widgetId: self._widgetId
-                });
-                self._categories = self._settings.getCategories();
-                self._settingsConfirm = self._settings.getConfirmButton();
-
-                self.rebuildInputs(self._categories);
-                self.addSettingsChangeListener(self._settingsConfirm);
-            }
-            self.addToolListener(tool);
-        });
+    EvaluationWidget.prototype.buildSettings = function(){
+        var tool = "settings";
+        var name = "Settings";
+        this._widgetSelector.find(".floater-tools-container").append('<div title="'+ name +'" class="floater-tool widget-'+ tool +'">' +
+            '<img alt="' + name + '" src="__new/img/'+ tool +'.png"/>' +
+            '</div>');
+        this.addSettingsListener();
     };
 
-    /**
+	/**
+     * Rebuild settings with given attributes, create categories and rebuild the inputs
+     */
+    EvaluationWidget.prototype.rebuildSettings = function(){
+        this._settings = new Settings({
+            attributes: this._attributes,
+            target: this._target,
+            widgetId: this._widgetId
+        });
+        this._categories = this._settings.getCategories();
+        this.rebuildInputs(this._categories);
+
+        this._settingsConfirm = this._settings.getConfirmButton();
+        this.addSettingsChangeListener(this._settingsConfirm);
+    };
+
+
+	/**
      * It prepares all the inputs for data filtering
+     * @param categories {Object} data about categories
      */
     EvaluationWidget.prototype.rebuildInputs = function(categories){
         this._widgetBodySelector.html('');
@@ -128,31 +138,35 @@ define([
             selects: []
         };
 
+        var self = this;
         for (var key in categories){
             if (categories.hasOwnProperty(key) && categories[key].active == true){
                 var input = categories[key].input;
                 var name = categories[key].name;
-
-                if (input == "checkbox"){
-                    var checkbox = this.buildCheckboxInput(key, name);
-                    this._inputs.checkboxes.push(checkbox);
-                }
-                else if (input == "slider") {
-                    var thresholds = this._filter.getMinMax(this._dataSet, key);
-                    var slider = this.buildSliderInput(key, name, thresholds);
+                var id = "attr-" + categories[key].attrData._id;
+                if (input == "slider") {
+                    var thresholds = [categories[key].attrData.minValue, categories[key].attrData.maxValue];
+                    var slider = self.buildSliderInput(id, name, thresholds);
                     this._inputs.sliders.push(slider);
                 }
-                else if (input == "select") {
-                    var options = this._filter.getUniqueValues(this._dataSet, key);
-                    var select = this.buildSelectInput(key, name, options);
-                    this._inputs.selects.push(select);
-                }
+
+                // todo modify other inputs as well
+                //else if (input == "checkbox"){
+                //    var checkbox = this.buildCheckboxInput(key, name);
+                //    this._inputs.checkboxes.push(checkbox);
+                //}
+
+                //else if (input == "select") {
+                //    var options = this._filter.getUniqueValues(this._dataSet, key);
+                //    var select = this.buildSelectInput(key, name, options);
+                //    this._inputs.selects.push(select);
+                //}
             }
         }
 
-        this.filter();
-        this.addSliderListener();
-        this.addInputsListener();
+        //this.filter();
+        //this.addSliderListener();
+        //this.addInputsListener();
     };
 
     /**
@@ -195,7 +209,7 @@ define([
      */
     EvaluationWidget.prototype.buildSliderInput = function(id, name, thresholds){
         return new SliderBox({
-            data: this._dataSet,
+            attributes: this._attributes,
             id: id,
             name: name,
             target: this._widgetBodySelector,
@@ -254,11 +268,11 @@ define([
     };
 
     /**
-     * It adds onclick listener to particular widget tool
-     * @param tool {string} name of the tool
+     * It adds onclick listener to settings tool
      */
-    EvaluationWidget.prototype.addToolListener = function(tool) {
+    EvaluationWidget.prototype.addSettingsListener = function() {
         var self = this;
+        var tool = "settings";
         $('#floater-' + self._widgetId + ' .widget-' + tool).on("click", function(){
             $('#' + self._widgetId + '-' + tool).show("drop", {direction: "up"}, 200)
                 .addClass('open');

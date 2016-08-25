@@ -324,6 +324,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         var cntId = cnt.itemId;
         
         var root = Ext.StoreMgr.lookup('area').getRootNode();
+
         params['refreshLayers'] = (this.themeChanged) ? true : null;
         params['refreshAreas'] = (this.yearChanged || this.datasetChanged || this.locationChanged || detailLevelChanged || isFilter) ? true : false;
 
@@ -394,7 +395,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
         } else {
             ThemeYearConfParams.artifexpand = "";
         }
-
 
         var me = this;
         Ext.Ajax.request({
@@ -963,7 +963,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
         }
         
         delete Config.cfg;
-
     },
     checkFeatureLayers: function() {
         var themeId = Ext.ComponentQuery.query('#seltheme')[0].getValue();

@@ -2,10 +2,18 @@ define([], function () {
     /**
      * It returns string representing the value. There is a comma after every third digit
      * @param  value {number}
+     * @param  separateThousands {boolean} true if thousands should be separated by comma
+     * @param  decimalDigits {number} number of decimal digits
      * @returns {string}
      */
-    function thousandSeparator (value) {
-        return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    function numberFormat (value, separateThousands, decimalDigits) {
+        if (value < 1000){
+            return parseFloat(value).toFixed(decimalDigits);
+        }
+
+        else if (separateThousands && value >= 1000){
+            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
     }
 
     function isNaturalNumber(n) {
@@ -17,6 +25,6 @@ define([], function () {
 
     return {
         isNaturalNumber: isNaturalNumber,
-        thousandSeparator: thousandSeparator
+        numberFormat: numberFormat
     };
 });

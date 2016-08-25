@@ -48,7 +48,7 @@ define(['../../../../error/ArgumentError',
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "SliderBox", "constructor", "missingTarget"));
         }
 
-        this._dataSet = options.data;
+        this._attributes = options.attributes;
         this._id = options.id;
         this._name = options.name;
         this._target = options.target;
@@ -67,18 +67,17 @@ define(['../../../../error/ArgumentError',
      */
     SliderBox.prototype.build = function (){
         var self = this;
-
         var html = S(htmlContent).template({
             id: this._id,
             name: this._name,
-            labelMin: viewUtils.thousandSeparator(this._range[0]),
-            labelMax: viewUtils.thousandSeparator(this._range[1])
+            labelMin: viewUtils.numberFormat(this._range[0], true, 2),
+            labelMax: viewUtils.numberFormat(this._range[1], true, 2)
         }).toString();
 
         this._target.append(html).ready(function(){
                 self.buildSlider();
-                self.histogram = self.buildHistogram();
-                self.histogram.rebuild(self._dataSet);
+                //self.histogram = self.buildHistogram();
+                //self.histogram.rebuild(self._dataSet);
                 self.addSlideListeners(self._id, self._isRange);
         });
     };
@@ -132,7 +131,7 @@ define(['../../../../error/ArgumentError',
         selector.off('slide').on('slide', function(e){
             if (isRange){
                 var values = $(this).slider("values");
-                self.histogram.selectBars(values);
+                //self.histogram.selectBars(values);
             }
         })
     };

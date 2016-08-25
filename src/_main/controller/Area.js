@@ -75,6 +75,9 @@ Ext.define('PumaMain.controller.Area', {
 			this.getController('DomManipulation').deactivateLoadingMask();
 			return;
 		}
+
+
+		var layerRef = "";
 		areaRoot.cascadeBy(function(node) {
 			var at = node.get('at');
 			if (node.get('leaf') || at!=lastAt || !node.parentNode.get('expanded')) return;
@@ -91,23 +94,35 @@ Ext.define('PumaMain.controller.Area', {
 			node.suppress = true;
 			node.expand();
 			node.suppress = false;
+
+			if(at == lastAt && node.childNodes.length > 0){
+				layerRef = node.childNodes[0].get('lr');
+				ThemeYearConfParams.layerRef = JSON.stringify(layerRef);
+			}
 		});
+
+
 		tree.resumeEvents();
-		
 		if (needQuery) {
 			this.detailLevelParents = toExpand;
 			this.getController('LocationTheme').onYearChange({itemId:'detaillevel'});
 			this.detailLevelParents = null;
-			
 		} else if (needChange) {
 			this.scanTree();
 			this.getController('DomManipulation').deactivateLoadingMask();
 			this.getController('Chart').reconfigureAll();
 			this.getController('Layers').reconfigureAll();
+
+			ThemeYearConfParams.refreshAreas = false;
+			ThemeYearConfParams.refreshLayers = false;
+			Observer.notify("rebuild");
 		} else {
 			this.getController('DomManipulation').deactivateLoadingMask();
+
+			ThemeYearConfParams.refreshAreas = false;
+			ThemeYearConfParams.refreshLayers = false;
+			Observer.notify("rebuild");
 		}
-		//Observer.notify("rebuild");
 	},
    
 		
@@ -149,7 +164,12 @@ Ext.define('PumaMain.controller.Area', {
 		} else {
 			this.getController('DomManipulation').activateLoadingMask();
 		}
-		//Observer.notify("rebuild");
+
+		var layerRef = nodesToCollapse[nodesToCollapse.length - 1].get("lr");
+		ThemeYearConfParams.layerRef = JSON.stringify(layerRef);
+		ThemeYearConfParams.refreshAreas = false;
+		ThemeYearConfParams.refreshLayers = false;
+		Observer.notify("rebuild");
 	},
 
 	onCollapseAll: function() {
