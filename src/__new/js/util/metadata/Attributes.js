@@ -3,15 +3,22 @@ define(['../../util/Remote',
 ],function(Remote,
 		   Stores){
 
-	var AttributesMetadata = function(){
+	/**
+	 * Class for gathering metadata of attributes from server
+	 * @constructor
+	 */
+
+	var Attributes = function(options){
 		this._attributeSets = null;
 		this._layerRef = null;
+		this._place = null;
+		this.levels = options.levels;
 	};
 
 	/**
 	 * @returns {Promise}
 	 */
-	AttributesMetadata.prototype.getData = function(){
+	Attributes.prototype.getData = function(){
 		var self = this;
 
 		var areasChange = ThemeYearConfParams.refreshAreas;
@@ -24,11 +31,19 @@ define(['../../util/Remote',
 				params: self.getThemeYearConfParams()
 			}).then(function(response){
 				var output = JSON.parse(response);
+				var level, areas;
 				if (output.data.hasOwnProperty("areas")){
-					var areas = output.data.areas;
+					areas = output.data.areas;
+					level = areas[areas.length-1].at;
+					self.levels.addAreas(level,self.getAreasGids(areas, level));
 					self._layerRef = areas[0].lr;
+					self._place = areas[0].loc;
+					ThemeYearConfParams.level = level;
 				} else if (output.data.length > 0) {
+					level = output.data[0].at;
+					self.levels.addAreas(level,self.getAreasGids(output.data, level));
 					self._layerRef = output.data[0].lr;
+					self._place = output.data[0].loc;
 				}
 				if (output.data.hasOwnProperty("attrSets")) {
 					self._attributeSets = output.data.attrSets;
@@ -48,7 +63,7 @@ define(['../../util/Remote',
 	 * @param layerRef {number} Id of layerRef
 	 * @returns {Promise}
 	 */
-	AttributesMetadata.prototype.getAttributeSetsData = function(attributeSets, layerRef){
+	Attributes.prototype.getAttributeSetsData = function(attributeSets, layerRef){
 		var self = this;
 		return Promise.all(attributeSets.map(function (attributeSet) {
 			return Stores.retrieve("attributeSet").byId(attributeSet).then(function (attrSet) {
@@ -74,7 +89,7 @@ define(['../../util/Remote',
 	 * @param params.layerRef {number} Id of layerRef
 	 * @returns {Remote} promise
 	 */
-	AttributesMetadata.prototype.metadataRequest = function(params){
+	Attributes.prototype.metadataRequest = function(params){
 		return new Remote({
 			method: "GET",
 			url: window.Config.url + "rest/attribute" + "/" + params.attr,
@@ -89,7 +104,7 @@ define(['../../util/Remote',
 	 * It returns current state of ThemeYearConfParams global object
 	 * @returns {{theme: string, years: string, dataset: string, refreshLayers: string, refreshAreas: string, queryTopics: string, expanded: string, parentgids: string, fids: string, artifexpand: string, layerRef: string}}
 	 */
-	AttributesMetadata.prototype.getThemeYearConfParams = function(){
+	Attributes.prototype.getThemeYearConfParams = function(){
 		return {
 			theme: ThemeYearConfParams.theme,
 			years: ThemeYearConfParams.years,
@@ -105,5 +120,29 @@ define(['../../util/Remote',
 		};
 	};
 
-	return AttributesMetadata;
+	/**
+	 * It returns ids of areas
+	 * @param areas {Array} metadata about areas
+	 * @param level {number} id of the level
+	 * @returns {Array} areas gids
+	 */
+	Attributes.prototype.getAreasGids = function(areas, level){
+		var areasGids = [];
+		areas.forEach(function(area){
+			if(area.hasOwnProperty("gid")){
+				if(area.hasOwnProperty("at")){
+					if (area.at == level){
+						areasGids.push(area.gid);
+					}
+				}
+			}
+		});
+		return areasGids;
+	};
+
+	Attributes.prototype.getPlace = function(){
+		return this._place;
+	};
+
+	return Attributes;
 });

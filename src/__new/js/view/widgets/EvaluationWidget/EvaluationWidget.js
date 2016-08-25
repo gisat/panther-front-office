@@ -1,6 +1,5 @@
 define([
     '../../../error/ArgumentError',
-    '../../../util/dataRequest/attributesMetadata',
     '../../../error/NotFoundError',
     '../inputs/checkbox/Checkbox',
     '../../../util/Logger',
@@ -15,7 +14,6 @@ define([
 
     'css!./EvaluationWidget'
 ], function(ArgumentError,
-            attributesMetadata,
             NotFoundError,
             Checkbox,
             Logger,
@@ -54,16 +52,13 @@ define([
             throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingHTMLElement"));
         }
 
-        this._dataSet = options.data; // todo not used
-        this._filter = options.filter; // todo not used
-
         // Call the method from parent
         Widget.prototype.build.call(this, this._widgetId, this._target, this._name);
 
         this._widgetSelector = $("#floater-" + this._widgetId);
         this._widgetBodySelector = this._widgetSelector.find(".floater-body");
 
-        this._attributesMetadata = new attributesMetadata();
+        this._attributesMetadata = options.attributesMetadata;
         this._settings = null;
 
         this.build();
@@ -164,9 +159,9 @@ define([
             }
         }
 
-        //this.filter();
-        //this.addSliderListener();
-        //this.addInputsListener();
+        this.filter();
+        this.addSliderListener();
+        this.addInputsListener();
     };
 
     /**
@@ -232,13 +227,63 @@ define([
      * Filter data and redraw the footer button
      */
     EvaluationWidget.prototype.filter = function(){
-        var self = this;
-        setTimeout(function(){
-            var filtered = self._filter.filter(self._dataSet, self._inputs);
-            var count = _.size(filtered);
-            self.rebuildHints(filtered);
-            $('#evaluation-confirm').html(count + " selected");
-        },100);
+        var place = this._attributesMetadata.getPlace();
+        var level = JSON.parse(ThemeYearConfParams.level);
+        var areas = this._attributesMetadata.levels.getAreas(level);
+        var placeF = {};
+        var levelF = {};
+        levelF[level] = areas;
+        placeF[place] = levelF;
+        var areasReady = JSON.stringify(placeF);
+
+        var dataset = ThemeYearConfParams.dataset;
+        var years = ThemeYearConfParams.years;
+
+        var attrs = [];
+        var filters = [];
+        this._attributes.forEach(function(attribute){
+            var sliderEl = $("#attr-" + attribute._id);
+            var min, max;
+
+            if (sliderEl.hasClass("ui-slider")){
+                var values = sliderEl.slider("values");
+                min = values[0];
+                max = values[1];
+            } else {
+                min = attribute.minValue;
+                max = attribute.maxValue;
+            }
+
+            var filter = {
+                attr: attribute._id,
+                as: attribute.attrSet,
+                minOrig: attribute.minValue,
+                maxOrig: attribute.maxValue,
+                min: min,
+                max: max
+            };
+            var attr = {
+                attr: attribute._id,
+                as: attribute.attrSet
+            };
+            filters.push(filter);
+            attrs.push(attr);
+        });
+
+        return new Remote({
+            method: "POST",
+            url: window.Config.url + "api/filter/filter",
+            params: {
+                dataset: dataset,
+                years: years,
+                filters: JSON.stringify(filters),
+                attrs: JSON.stringify(attrs),
+                areas: areasReady,
+                requireData: 1
+            }
+        }).then(function(response){
+            console.log(response);
+        });
     };
 
     /**
@@ -296,9 +341,9 @@ define([
      */
     EvaluationWidget.prototype.addInputsListener = function(){
         var self = this;
-        this._widgetSelector.find(".selectmenu" ).off("selectmenuselect").on( "selectmenuselect", self.filter.bind(self));
+        //this._widgetSelector.find(".selectmenu" ).off("selectmenuselect").on( "selectmenuselect", self.filter.bind(self));
         this._widgetSelector.find(".slider-row").off("slidechange").on("slidechange", self.filter.bind(self));
-        this._widgetSelector.find(".checkbox-row").off("click.inputs").on( "click.inputs", self.filter.bind(self));
+        //this._widgetSelector.find(".checkbox-row").off("click.inputs").on( "click.inputs", self.filter.bind(self));
     };
 
     /**

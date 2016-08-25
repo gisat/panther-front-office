@@ -9,5 +9,6 @@ var ThemeYearConfParams = {
 	queryTopics: '',
 	fids: '',
 	artifexpand: '',
-	layerRef: ''
+	layerRef: '',
+	level: ''
 };

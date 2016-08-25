@@ -32,12 +32,12 @@ requirejs.config({
     }
 });
 
-define(['js/view/widgets/EvaluationWidget/EvaluationWidget',
-        'js/util/DataFilters',
+define(['js/util/metadata/Attributes',
+        'js/view/widgets/EvaluationWidget/EvaluationWidget',
         'js/util/Floater',
 		'./FrontOffice',
+        'js/util/metadata/Levels',
         'js/util/Logger',
-        'js/data/mockData',
         'js/util/Placeholder',
 		'js/util/Remote',
 		'js/stores/Stores',
@@ -46,12 +46,12 @@ define(['js/view/widgets/EvaluationWidget/EvaluationWidget',
         'jquery',
         'jquery-ui',
         'underscore'
-], function (EvaluationWidget,
-             DataFilters,
+], function (Attributes,
+             EvaluationWidget,
              Floater,
 			 FrontOffice,
+             Levels,
              Logger,
-             mockData,
              Placeholder,
 			 Remote,
 			 Stores,
@@ -65,9 +65,10 @@ define(['js/view/widgets/EvaluationWidget/EvaluationWidget',
 
 		if(window.Config.toggles.hasNewEvaluationTool){
 			new EvaluationWidget({
-				data: mockData,
+				attributesMetadata: new Attributes({
+                    levels: new Levels()
+                }),
 				elementId: 'evaluation-widget',
-				filter: new DataFilters(),
 				name: 'Evaluation Tool',
 				targetId: 'widget-container'
 			});

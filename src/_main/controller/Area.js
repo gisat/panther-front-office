@@ -123,6 +123,8 @@ Ext.define('PumaMain.controller.Area', {
 			ThemeYearConfParams.refreshLayers = false;
 			Observer.notify("rebuild");
 		}
+
+		ThemeYearConfParams.level = JSON.stringify(Number(lastAt) + 1);
 	},
    
 		
@@ -166,7 +168,9 @@ Ext.define('PumaMain.controller.Area', {
 		}
 
 		var layerRef = nodesToCollapse[nodesToCollapse.length - 1].get("lr");
+		var level = nodesToCollapse[nodesToCollapse.length - 1].get("at");
 		ThemeYearConfParams.layerRef = JSON.stringify(layerRef);
+		ThemeYearConfParams.level = JSON.stringify(level);
 		ThemeYearConfParams.refreshAreas = false;
 		ThemeYearConfParams.refreshLayers = false;
 		Observer.notify("rebuild");
