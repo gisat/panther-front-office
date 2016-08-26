@@ -55,7 +55,6 @@ define([
      */
     Slider.prototype.buildRangeSlider = function(){
         var self = this;
-        console.log(self._step);
         return $(this._id).slider({
             range: self._type,
             step: self._step,
@@ -75,6 +74,7 @@ define([
         var self = this;
         return $( this._id ).slider({
             range: "min",
+            step: self._step,
             min: self._range[0],
             max: self._range[1],
             value: self._values[0],

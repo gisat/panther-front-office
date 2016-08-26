@@ -7,12 +7,17 @@ var Observer = {
 	listeners: []
 };
 
-Observer.addListener = function(listener) {
-	Observer.listeners.push(listener);
+Observer.addListener = function(flag, listener) {
+	Observer.listeners.push({
+		flag: flag,
+		listener: listener
+	});
 };
 
 Observer.notify = function(event){
-	Observer.listeners.forEach(function(listener){
-		listener(event);
+	Observer.listeners.forEach(function(lst){
+		if (event == lst.flag){
+			lst.listener();
+		}
 	});
 };

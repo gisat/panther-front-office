@@ -62,7 +62,7 @@ define([
         this._settings = null;
 
         this.build();
-        Observer.addListener(this.rebuild.bind(this));
+        Observer.addListener("rebuild", this.rebuild.bind(this));
     };
 
     EvaluationWidget.prototype = Object.create(Widget.prototype);
@@ -294,10 +294,18 @@ define([
             var count;
             if (filteredData.data.hasOwnProperty("data")){
                 count = filteredData.data.data.length;
+                $('#evaluation-confirm').html(count + " selected")
+                    .off("click.confirm")
+                    .on("click.confirm",function(){
+                        DataExchange.data = filteredData.data.data;
+                        console.log(DataExchange);
+                        Observer.notify("selectAreas");
+                    });
             } else {
                 count = 0;
+                $('#evaluation-confirm').html(count + " selected")
+                    .off("click.confirm");
             }
-            $('#evaluation-confirm').html(count + " selected");
         });
     };
 
