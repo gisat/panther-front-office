@@ -31,6 +31,7 @@ define(['../../../../error/ArgumentError',
      * @param options.name {string} slider label
      * @param options.target {Object} JQuery selector representing the target element where should be the slider rendered
      * @param options.range {Array} min and max value of the slider
+     * @param options.step {number} step of the slider
      * @param options.values {Array} current slider values
      * @param options.isRange {boolean} true, if the slider should have two handles
      * @constructor
@@ -48,10 +49,10 @@ define(['../../../../error/ArgumentError',
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "SliderBox", "constructor", "missingTarget"));
         }
 
-        this._attributes = options.attributes;
         this._id = options.id;
         this._name = options.name;
         this._target = options.target;
+        this._step = options.step || 1;
 
         this._range = options.range;
         this._values = options.values;
@@ -91,6 +92,7 @@ define(['../../../../error/ArgumentError',
             id: this._id,
             type: this._isRange,
             range: this._range,
+            step: this._step,
             values: this._values
         });
     };
