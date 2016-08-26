@@ -3,6 +3,7 @@ Ext.define('PumaMain.controller.Filter', {
     views: [],
     requires: ['Puma.util.Msg'],
     init: function() {
+        Observer.addListener("selectAreas",this.applyFiltersCallback.bind(this));
         this.control(
                 {
                     '#advancedfilters multislider' : {
@@ -504,18 +505,23 @@ Ext.define('PumaMain.controller.Filter', {
     },
         
     applyFiltersCallback: function(response) {
-        var data = JSON.parse(response.responseText).data
-        var areas = data.data;
-        this.filterData['dist'] = data.dist;
-        for (var attrName in data.dist) {
-            var slider = Ext.ComponentQuery.query('multislider[attrname='+attrName+']')[0];
-            this.createChart(slider,data.dist[attrName]);
+        var data;
+        if (response){
+            data = JSON.parse(response.responseText).data;
+            this.filterData['dist'] = data.dist;
+            for (var attrName in data.dist) {
+                var slider = Ext.ComponentQuery.query('multislider[attrname='+attrName+']')[0];
+                this.createChart(slider,data.dist[attrName]);
+            }
         }
-        
-        
+        else {
+            data = DataExchange.data;
+            this.filterActive = true;
+        }
+        var areas = data.data;
         
         if (this.filterActive) {
-            
+            console.log(areas);
             this.getController('DomManipulation').deactivateLoadingMask();
             this.getController('Select').selectInternal(areas || []);
             

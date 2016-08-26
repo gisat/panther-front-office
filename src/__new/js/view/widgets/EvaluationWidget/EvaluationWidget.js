@@ -297,8 +297,7 @@ define([
                 $('#evaluation-confirm').html(count + " selected")
                     .off("click.confirm")
                     .on("click.confirm",function(){
-                        DataExchange.data = filteredData.data.data;
-                        console.log(DataExchange);
+                        DataExchange.data = filteredData.data;
                         Observer.notify("selectAreas");
                     });
             } else {
