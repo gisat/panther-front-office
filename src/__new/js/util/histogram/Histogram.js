@@ -55,20 +55,13 @@ define(['../../error/ArgumentError',
 
     /**
      * Rebuild the histogram for given dataset
-     * @param dataSet {JSON}
+     * @param frequencies {Array}
      */
-    Histogram.prototype.rebuild = function(dataSet){
+    Histogram.prototype.rebuild = function(frequencies){
         this.emptyClasses();
-
-        var self = this;
-        dataSet.forEach(function(item){
-            var value = item.data[self._id].value;
-            self._classes.forEach(function(klass){
-                if (value >= klass.minimum && value <= klass.maximum){
-                    return klass.count +=1;
-                }
-            });
-        });
+        for (var i = 0; i < frequencies.length; i++){
+            this._classes[i].count = frequencies[i];
+        }
         this.redraw();
     };
 

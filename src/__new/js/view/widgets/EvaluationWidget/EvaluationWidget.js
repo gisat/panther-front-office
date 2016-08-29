@@ -142,6 +142,8 @@ define([
             if (categories.hasOwnProperty(key) && categories[key].active == true){
                 var input = categories[key].input;
                 var name = categories[key].name;
+                var attrId = categories[key].attrData._id;
+                var attrSetId = categories[key].attrData.attrSet;
                 var id = "attr-" + categories[key].attrData._id;
                 if (input == "slider") {
                     var min = categories[key].attrData.minValue;
@@ -151,7 +153,7 @@ define([
                         step = 1
                     }
                     var thresholds = [min, max];
-                    var slider = self.buildSliderInput(id, name, thresholds, step);
+                    var slider = self.buildSliderInput(id, name, thresholds, step, attrId, attrSetId);
                     this._inputs.sliders.push(slider);
                 }
 
@@ -207,15 +209,18 @@ define([
 
     /**
      * It returns the slider box
+     * @param attrId {string} ID of the attribute
+     * @param attrSetId {string} ID of the attribute set ID
      * @param id {string} ID of the data theme
      * @param name {string} Name of the data theme
      * @param thresholds {Array} Start and end value of the slider
      * @param step {number} step of the slider
      * @returns {SliderBox}
      */
-    EvaluationWidget.prototype.buildSliderInput = function(id, name, thresholds, step){
+    EvaluationWidget.prototype.buildSliderInput = function(id, name, thresholds, step, attrId, attrSetId){
         return new SliderBox({
-            attributes: this._attributes,
+            attrId: attrId,
+            attrSetId: attrSetId,
             id: id,
             name: name,
             target: this._widgetBodySelector,
@@ -255,6 +260,20 @@ define([
                 count = 0;
             }
             self.addSelectionConfirmListener(count, filteredData);
+            console.log(filteredData);
+            self.rebuildHistograms(self._inputs.sliders, filteredData);
+        });
+    };
+
+    EvaluationWidget.prototype.rebuildHistograms = function(sliders, data){
+        sliders.forEach(function(slider){
+            if (data.data.hasOwnProperty("dist")){
+                for (var key in data.data.dist){
+                    if (key == "as_"+ slider._attrSetId + "_attr_" + slider._attrId){
+                        slider.histogram.rebuild(data.data.dist[key]);
+                    }
+                }
+            }
         });
     };
 
@@ -264,10 +283,7 @@ define([
     // */
     //EvaluationWidget.prototype.rebuildHints = function(data){
     //    var self = this;
-    //    this._inputs.sliders.forEach(function(slider){
-    //        slider.histogram.rebuild(data);
-    //    });
-		//
+    //
     //    this._inputs.selects.forEach(function(select){
     //        var inputs = $.extend(true, {}, self._inputs);
     //        inputs.selects.forEach(function(item, index){

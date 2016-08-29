@@ -26,7 +26,8 @@ define(['../../../../error/ArgumentError',
     /**
      * This class represents the row with the slider
      * @param options {Object}
-     * @param options.data {JSON}
+     * @param options.attrId {string} ID of the attribute
+     * @param options.attrSetId {string} ID of the attribute set ID
      * @param options.id {string} ID of the slider
      * @param options.name {string} slider label
      * @param options.target {Object} JQuery selector representing the target element where should be the slider rendered
@@ -49,6 +50,8 @@ define(['../../../../error/ArgumentError',
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "SliderBox", "constructor", "missingTarget"));
         }
 
+        this._attrId = options.attrId;
+        this._attrSetId = options.attrSetId;
         this._id = options.id;
         this._name = options.name;
         this._target = options.target;
@@ -77,8 +80,7 @@ define(['../../../../error/ArgumentError',
 
         this._target.append(html).ready(function(){
                 self.buildSlider();
-                //self.histogram = self.buildHistogram();
-                //self.histogram.rebuild(self._dataSet);
+                self.histogram = self.buildHistogram();
                 self.addSlideListeners(self._id, self._isRange);
         });
     };
@@ -104,7 +106,7 @@ define(['../../../../error/ArgumentError',
     SliderBox.prototype.buildHistogram = function(){
         return new Histogram({
             id: this._id,
-            numClasses: 30,
+            numClasses: 20,
             minimum: this._range[0],
             maximum: this._range[1]
         });
@@ -133,7 +135,7 @@ define(['../../../../error/ArgumentError',
         selector.off('slide').on('slide', function(e){
             if (isRange){
                 var values = $(this).slider("values");
-                //self.histogram.selectBars(values);
+                self.histogram.selectBars(values);
             }
         })
     };
