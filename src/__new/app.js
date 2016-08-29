@@ -34,6 +34,7 @@ requirejs.config({
 
 define(['js/util/metadata/Attributes',
         'js/view/widgets/EvaluationWidget/EvaluationWidget',
+        'js/util/Filter',
         'js/util/Floater',
 		'./FrontOffice',
         'js/util/metadata/Levels',
@@ -48,6 +49,7 @@ define(['js/util/metadata/Attributes',
         'underscore'
 ], function (Attributes,
              EvaluationWidget,
+             Filter,
              Floater,
 			 FrontOffice,
              Levels,
@@ -68,6 +70,7 @@ define(['js/util/metadata/Attributes',
 				attributesMetadata: new Attributes({
                     levels: new Levels()
                 }),
+                filter: new Filter(),
 				elementId: 'evaluation-widget',
 				name: 'Evaluation Tool',
 				targetId: 'widget-container'

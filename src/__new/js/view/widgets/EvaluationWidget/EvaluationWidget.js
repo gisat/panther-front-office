@@ -29,7 +29,9 @@ define([
     /**
      * It creates an Evaluation Tool
      * @param options {Object}
+     * @param options.attributesMetadata {Object} instance of class for collecting of attributes metadata
      * @param options.elementId {String} ID of widget
+     * @param options.filter {Object} instance of class for data filtering
      * @param options.targetId {String} ID of an element in which should be the widget rendered
      * @param options.name {String} Name of the widget
      * @param options.tools {Array} List of tools which should be connected with this widget
@@ -59,6 +61,7 @@ define([
         this._widgetBodySelector = this._widgetSelector.find(".floater-body");
 
         this._attributesMetadata = options.attributesMetadata;
+        this._filter = options.filter;
         this._settings = null;
 
         this.build();
@@ -68,7 +71,7 @@ define([
     EvaluationWidget.prototype = Object.create(Widget.prototype);
 
 	/**
-     * It rebuilds the widget for given attributes
+     * It rebuilds the widget for given attributes. First, it collects attributes metadata. Secondly, it rebuilds the view of the widget and settings window
      */
     EvaluationWidget.prototype.rebuild = function(){
         var self = this;
@@ -80,12 +83,12 @@ define([
                    self._attributes.push(attrMetadata.data[0]);
                });
             });
-            self.rebuildSettings();
+            self.rebuildViewAndSettings();
         });
     };
 
     /**
-     * Build the widget basic view
+     * Build the widget basic view of the widget
      */
     EvaluationWidget.prototype.build = function(){
         this.buildSettings();
@@ -105,9 +108,9 @@ define([
     };
 
 	/**
-     * Rebuild settings with given attributes, create categories and rebuild the inputs
+     * Rebuild settings with given attributes, get all categories (one category per attribute) and rebuild the inputs (one input per attribute - slider, checkbox or select menu).
      */
-    EvaluationWidget.prototype.rebuildSettings = function(){
+    EvaluationWidget.prototype.rebuildViewAndSettings = function(){
         this._settings = new Settings({
             attributes: this._attributes,
             target: this._target,
@@ -122,7 +125,8 @@ define([
 
 
 	/**
-     * It prepares all the inputs for data filtering
+     * It prepares all the inputs for data filtering (checkbox for attributes with boolean values, slider for numeric, select menu for text).
+     * Finally, filter the data according current values of inputs.
      * @param categories {Object} data about categories
      */
     EvaluationWidget.prototype.rebuildInputs = function(categories){
@@ -232,110 +236,71 @@ define([
     };
 
     /**
-     * Filter data and redraw the footer button
+     * Filter data and redraw the footer button and attach confirm listener
      */
     EvaluationWidget.prototype.filter = function(){
-        var place = this._attributesMetadata.getPlace();
         var level = JSON.parse(ThemeYearConfParams.level);
-        var areas = this._attributesMetadata.levels.getAreas(level);
-        var placeF = {};
-        var levelF = {};
-        levelF[level] = areas;
-        placeF[place] = levelF;
-        var areasReady = JSON.stringify(placeF);
+        var areas = {
+            place: this._attributesMetadata.getPlace(),
+            level: level,
+            gids: this._attributesMetadata.levels.getAreas(level)
+        };
 
-        var dataset = ThemeYearConfParams.dataset;
-        var years = ThemeYearConfParams.years;
-
-        var attrs = [];
-        var filters = [];
-        this._attributes.forEach(function(attribute){
-            var sliderEl = $("#attr-" + attribute._id);
-            var min, max;
-
-            if (sliderEl.hasClass("ui-slider")){
-                var values = sliderEl.slider("values");
-                min = values[0];
-                max = values[1];
-            } else {
-                min = attribute.minValue;
-                max = attribute.maxValue;
-            }
-
-            var filter = {
-                attr: attribute._id,
-                as: attribute.attrSet,
-                minOrig: attribute.minValue,
-                maxOrig: attribute.maxValue,
-                min: min,
-                max: max
-            };
-            var attr = {
-                attr: attribute._id,
-                as: attribute.attrSet
-            };
-            filters.push(filter);
-            attrs.push(attr);
-        });
-
-        return new Remote({
-            method: "POST",
-            url: window.Config.url + "api/filter/filter",
-            params: {
-                dataset: dataset,
-                years: years,
-                filters: JSON.stringify(filters),
-                attrs: JSON.stringify(attrs),
-                areas: areasReady,
-                requireData: 1
-            }
-        }).then(function(response){
-            var filteredData = JSON.parse(response);
+        var self = this;
+        this._filter.filterAreasByAttributes(this._attributes, areas).then(function(filteredData){
             var count;
             if (filteredData.data.hasOwnProperty("data")){
                 count = filteredData.data.data.length;
-                $('#evaluation-confirm').html(count + " selected")
-                    .off("click.confirm")
-                    .on("click.confirm",function(){
-                        DataExchange.data = filteredData.data;
-                        Observer.notify("selectAreas");
-                    });
             } else {
                 count = 0;
-                $('#evaluation-confirm').html(count + " selected")
-                    .off("click.confirm");
             }
+            self.addSelectionConfirmListener(count, filteredData);
         });
     };
 
-    /**
-     * It rebuilds hints in selectmenus and histograms in slider popups
-     * @param data {JSON} filtered data
-     */
-    EvaluationWidget.prototype.rebuildHints = function(data){
-        var self = this;
-        this._inputs.sliders.forEach(function(slider){
-            slider.histogram.rebuild(data);
-        });
+    ///**
+    // * It rebuilds hints in selectmenu and histograms in slider popups
+    // * @param data {JSON} filtered data
+    // */
+    //EvaluationWidget.prototype.rebuildHints = function(data){
+    //    var self = this;
+    //    this._inputs.sliders.forEach(function(slider){
+    //        slider.histogram.rebuild(data);
+    //    });
+		//
+    //    this._inputs.selects.forEach(function(select){
+    //        var inputs = $.extend(true, {}, self._inputs);
+    //        inputs.selects.forEach(function(item, index){
+    //            if (item._id == select._id){
+    //                inputs.selects.splice(index, 1);
+    //            }
+    //        });
+    //        var filteredData = self._filter.filter(self._dataSet, inputs);
+    //        if (inputs.checkboxes.length == 0 && inputs.sliders.length == 0 && inputs.selects.length == 0){
+    //            filteredData = self._dataSet;
+    //        }
+    //        select.addSelectOpenListener(filteredData, select._id);
+		//
+    //    });
+    //};
 
-        this._inputs.selects.forEach(function(select){
-            var inputs = $.extend(true, {}, self._inputs);
-            inputs.selects.forEach(function(item, index){
-                if (item._id == select._id){
-                    inputs.selects.splice(index, 1);
-                }
-            });
-            var filteredData = self._filter.filter(self._dataSet, inputs);
-            if (inputs.checkboxes.length == 0 && inputs.sliders.length == 0 && inputs.selects.length == 0){
-                filteredData = self._dataSet;
-            }
-            select.addSelectOpenListener(filteredData, select._id);
-
-        });
+    EvaluationWidget.prototype.addSelectionConfirmListener = function(count, filteredData){
+        if (count > 0){
+            $('#evaluation-confirm').html(count + " selected")
+                .off("click.confirm")
+                .on("click.confirm",function(){
+                    DataExchange.data = filteredData.data;
+                    Observer.notify("selectAreas");
+                });
+        }
+        else {
+            $('#evaluation-confirm').html(count + " selected")
+                .off("click.confirm");
+        }
     };
 
     /**
-     * It adds onclick listener to settings tool
+     * It adds onclick listener to settings tool for opening of the settings dialog window
      */
     EvaluationWidget.prototype.addSettingsListener = function() {
         var self = this;
@@ -347,7 +312,7 @@ define([
     };
 
     /**
-     * It adds the onclick listener to the tool dialog window
+     * It adds the onclick listener to the settings dialog window for rebuilding of the wiget's view
      * @param button {Object} JQuery object representing dailog confirm button
      */
     EvaluationWidget.prototype.addSettingsChangeListener = function(button){
