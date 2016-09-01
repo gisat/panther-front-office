@@ -151,9 +151,6 @@ Ext.define('PumaMain.controller.Filter', {
         var labelEl = label.el;
         if (!labelEl) return;
         labelEl.addCls('sliding');
-
-        console.log(slider.chart);
-        console.log(slider.chart.container.id);
         var chartId = slider.chart.container.id;
         Ext.get(chartId).setStyle('display', 'block');
         if (slider.chartEl) {
@@ -454,7 +451,8 @@ Ext.define('PumaMain.controller.Filter', {
         else {
             areas = this.getController('Area').allMap;
         }
-        
+
+        console.log(areas);
         
         var datasetId = Ext.ComponentQuery.query('#seldataset')[0].getValue();
         var years = Ext.ComponentQuery.query('#selyear')[0].getValue();

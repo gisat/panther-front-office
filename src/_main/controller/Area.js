@@ -53,6 +53,41 @@ Ext.define('PumaMain.controller.Area', {
 			obj: rec
 		};
 	},
+
+	newGetAreas: function() {
+		var areas = {};
+		var placeNode = this.placeNode;
+		if (placeNode) {
+			var maxAt = null;
+			var maxDepth = 0;
+			placeNode.cascadeBy(function(node) {
+				var at = node.get('at');
+				var depth = node.getDepth();
+				if (depth>maxDepth) {
+					maxAt = at;
+					maxDepth = depth;
+				}
+				var loc = node.get('loc');
+				if (!at || !loc || !node.isVisible() || (node.isExpanded() && node.hasChildNodes()))
+					return;
+				var gid = node.get('gid');
+				areas[loc] = areas[loc] || {};
+				areas[loc][at] = areas[loc][at] || [];
+				areas[loc][at].push(gid);
+			});
+			for (var loc in areas) {
+				for (var at in areas[loc]) {
+					if (at!=maxAt) {
+						delete areas[loc][at];
+					}
+				}
+			}
+		}
+		else {
+			areas = this.allMap;
+		}
+		return areas;
+	},
 	
 	onShowMoreDetailed: function() {
 		var toExpand = {};
@@ -67,6 +102,7 @@ Ext.define('PumaMain.controller.Area', {
 		for (var loc in this.lowestMap) {
 			for (var at in this.lowestMap[loc]) {
 				lastAt = at;
+				console.log("Down: " + lastAt);
 				break;
 			}
 			break;
@@ -94,15 +130,11 @@ Ext.define('PumaMain.controller.Area', {
 			node.suppress = true;
 			node.expand();
 			node.suppress = false;
-
-			if(at == lastAt && node.childNodes.length > 0){
-				layerRef = node.childNodes[0].get('lr');
-				ThemeYearConfParams.layerRef = JSON.stringify(layerRef);
-			}
 		});
 
 
 		tree.resumeEvents();
+		var self = this;
 		if (needQuery) {
 			this.detailLevelParents = toExpand;
 			this.getController('LocationTheme').onYearChange({itemId:'detaillevel'});
@@ -112,24 +144,16 @@ Ext.define('PumaMain.controller.Area', {
 			this.getController('DomManipulation').deactivateLoadingMask();
 			this.getController('Chart').reconfigureAll();
 			this.getController('Layers').reconfigureAll();
-
-			ThemeYearConfParams.refreshAreas = false;
-			ThemeYearConfParams.refreshLayers = false;
-			Observer.notify("rebuild");
+			Observer.notify('rebuild');
 		} else {
 			this.getController('DomManipulation').deactivateLoadingMask();
-
-			ThemeYearConfParams.refreshAreas = false;
-			ThemeYearConfParams.refreshLayers = false;
-			Observer.notify("rebuild");
+			Observer.notify('rebuild');
 		}
-
-		ThemeYearConfParams.level = JSON.stringify(Number(lastAt) + 1);
 	},
    
 		
 	onShowLessDetailed: function() {
-		
+		var self = this;
 		var nodesToCollapse = [];
 		var tree = Ext.ComponentQuery.query('#areatree')[0];
 		tree.suspendEvents();
@@ -138,6 +162,7 @@ Ext.define('PumaMain.controller.Area', {
 		for (var loc in this.lowestMap) {
 			for (var at in this.lowestMap[loc]) {
 				lastAt = at;
+				console.log(lastAt);
 				break;
 			}
 			break;
@@ -167,13 +192,10 @@ Ext.define('PumaMain.controller.Area', {
 			this.getController('DomManipulation').activateLoadingMask();
 		}
 
-		var layerRef = nodesToCollapse[nodesToCollapse.length - 1].get("lr");
-		var level = nodesToCollapse[nodesToCollapse.length - 1].get("at");
-		ThemeYearConfParams.layerRef = JSON.stringify(layerRef);
-		ThemeYearConfParams.level = JSON.stringify(level);
-		ThemeYearConfParams.refreshAreas = false;
-		ThemeYearConfParams.refreshLayers = false;
-		Observer.notify("rebuild");
+		setTimeout(function(){
+			console.log(self.getExpandedAndFids());
+			Observer.notify('rebuild');
+		},1000);
 	},
 
 	onCollapseAll: function() {

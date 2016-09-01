@@ -79,12 +79,19 @@ define([
             self._attributes = [];
             result.forEach(function(attrSet){
                attrSet.forEach(function(attribute){
-                   var attrMetadata = JSON.parse(attribute);
-                   self._attributes.push(attrMetadata.data[0]);
+                   var about = attribute.about;
+                   self._attributes.push({
+                       metadata: attribute.response.data.metaData["as_" + about.as + "_attr_" + about.attr],
+                       distribution: attribute.response.data.dist["as_" + about.as + "_attr_" + about.attr],
+                       about: about
+                   });
                });
             });
             self.rebuildViewAndSettings();
         });
+
+        ThemeYearConfParams.datasetChanged = false;
+        ThemeYearConfParams.themeChanged = false;
     };
 
     /**
@@ -142,12 +149,12 @@ define([
             if (categories.hasOwnProperty(key) && categories[key].active == true){
                 var input = categories[key].input;
                 var name = categories[key].name;
-                var attrId = categories[key].attrData._id;
-                var attrSetId = categories[key].attrData.attrSet;
-                var id = "attr-" + categories[key].attrData._id;
+                var attrId = categories[key].attrData.about.attr;
+                var attrSetId = categories[key].attrData.about.as;
+                var id = "attr-" + categories[key].attrData.about.attr;
                 if (input == "slider") {
-                    var min = categories[key].attrData.minValue;
-                    var max = categories[key].attrData.maxValue;
+                    var min = categories[key].attrData.metadata.min;
+                    var max = categories[key].attrData.metadata.max;
                     var step = 0.01;
                     if (min <= -1000 || max >= 1000){
                         step = 1
@@ -244,15 +251,8 @@ define([
      * Filter data and redraw the footer button and attach confirm listener
      */
     EvaluationWidget.prototype.filter = function(){
-        var level = JSON.parse(ThemeYearConfParams.level);
-        var areas = {
-            place: this._attributesMetadata.getPlace(),
-            level: level,
-            gids: this._attributesMetadata.levels.getAreas(level)
-        };
-
         var self = this;
-        this._filter.filterAreasByAttributes(this._attributes, areas).then(function(filteredData){
+        this._filter.filterAreasByAttributes(this._attributes, AreasExchange).then(function(filteredData){
             var count;
             if (filteredData.data.hasOwnProperty("data")){
                 count = filteredData.data.data.length;
@@ -260,7 +260,6 @@ define([
                 count = 0;
             }
             self.addSelectionConfirmListener(count, filteredData);
-            console.log(filteredData);
             self.rebuildHistograms(self._inputs.sliders, filteredData);
         });
     };
@@ -270,7 +269,9 @@ define([
             if (data.data.hasOwnProperty("dist")){
                 for (var key in data.data.dist){
                     if (key == "as_"+ slider._attrSetId + "_attr_" + slider._attrId){
-                        slider.histogram.rebuild(data.data.dist[key]);
+                        if(slider.hasOwnProperty("histogram")){
+                            slider.histogram.rebuild(data.data.dist[key]);
+                        }
                     }
                 }
             }

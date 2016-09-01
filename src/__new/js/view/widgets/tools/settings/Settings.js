@@ -70,9 +70,9 @@ define([
         this._checkboxTarget.html("");
         var self = this;
         this._attributes.forEach(function(attribute){
-            var type = attribute.type;
-            var name = attribute.name;
-            var id = "attr-" + attribute._id;
+            var type = attribute.about.normType;
+            var name = attribute.about.attrName;
+            var id = "attr-" + attribute.about.attr;
             var input = "";
 
             if (type == "boolean"){

@@ -5,18 +5,25 @@
 
 var ThemeYearConfParams = {
 	theme: '',
+	themeChanged: '',
 	dataset: '',
+	datasetChanged: '',
 	years: '',
 	refreshLayers: '',
 	refreshAreas: '',
 	expanded: '',
+	expandedAndFids: '',
 	parentgids: '',
 	queryTopics: '',
 	fids: '',
 	artifexpand: '',
 	layerRef: '',
-	level: ''
+	level: '',
+	place: '',
+	placeChanged: ''
 };
+
+var AreasExchange = {};
 
 var DataExchange = {
 	data: null

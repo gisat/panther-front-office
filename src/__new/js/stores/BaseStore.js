@@ -153,12 +153,16 @@ define([
 								shouldRemain = false;
 							}
 						} else {
-							if (!model[key] || model[key] != value) {
+							if (typeof model[key] == "boolean"){
+								if (model[key] != value){
+									shouldRemain = false;
+								}
+							}
+							else if (!model[key] || model[key] != value) {
 								shouldRemain = false;
 							}
 						}
 					});
-
 					return shouldRemain;
 				});
 
