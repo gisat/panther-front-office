@@ -417,13 +417,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         var years = Ext.ComponentQuery.query('#selyear')[0].getValue();
         ThemeYearConfParams.years = "[" + years.toString() + "]";
 
-        var self = this;
-        setTimeout(function(){
-            // current areas
-            AreasExchange = self.getController('Area').newGetAreas();
-            console.log(self.getController('Area').getExpandedAndFids());
-            Observer.notify('rebuild');
-        },1000);
+        this.getController('Area').newAreasChange();
     },
     onVisChange: function(cnt) {
         if (cnt.eventsSuspended) {

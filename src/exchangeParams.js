@@ -17,10 +17,9 @@ var ThemeYearConfParams = {
 	queryTopics: '',
 	fids: '',
 	artifexpand: '',
-	layerRef: '',
-	level: '',
 	place: '',
-	placeChanged: ''
+	placeChanged: '',
+	auCurrentAt: ''
 };
 
 var AreasExchange = {};

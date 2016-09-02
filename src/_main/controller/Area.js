@@ -54,39 +54,37 @@ Ext.define('PumaMain.controller.Area', {
 		};
 	},
 
-	newGetAreas: function() {
-		var areas = {};
-		var placeNode = this.placeNode;
-		if (placeNode) {
-			var maxAt = null;
-			var maxDepth = 0;
-			placeNode.cascadeBy(function(node) {
-				var at = node.get('at');
-				var depth = node.getDepth();
-				if (depth>maxDepth) {
-					maxAt = at;
-					maxDepth = depth;
-				}
-				var loc = node.get('loc');
-				if (!at || !loc || !node.isVisible() || (node.isExpanded() && node.hasChildNodes()))
-					return;
-				var gid = node.get('gid');
-				areas[loc] = areas[loc] || {};
-				areas[loc][at] = areas[loc][at] || [];
-				areas[loc][at].push(gid);
-			});
-			for (var loc in areas) {
-				for (var at in areas[loc]) {
-					if (at!=maxAt) {
-						delete areas[loc][at];
+	// New URBIS function for detecting areas change
+	newAreasChange: function(){
+		var self = this;
+		setTimeout(function(){
+			// current areas
+			var level = ThemeYearConfParams.auCurrentAt;
+			var place = ThemeYearConfParams.place;
+
+			var allAreasExpanded = self.getExpandedAndFids().fids;
+			var areasOutput = {};
+			if (place){
+				if (allAreasExpanded.hasOwnProperty(place)){
+					var pom = allAreasExpanded[place];
+					areasOutput[place] = {};
+					if (pom.hasOwnProperty(level)){
+						areasOutput[place][level] = pom[level];
 					}
 				}
 			}
-		}
-		else {
-			areas = this.allMap;
-		}
-		return areas;
+			else {
+				for (var key in allAreasExpanded){
+					var pom2 = allAreasExpanded[key];
+					areasOutput[key] = {};
+					if (pom2.hasOwnProperty(level)){
+						areasOutput[key][level] = pom2[level];
+					}
+				}
+			}
+			AreasExchange = areasOutput;
+			Observer.notify('rebuild');
+		},1000);
 	},
 	
 	onShowMoreDetailed: function() {
@@ -102,7 +100,6 @@ Ext.define('PumaMain.controller.Area', {
 		for (var loc in this.lowestMap) {
 			for (var at in this.lowestMap[loc]) {
 				lastAt = at;
-				console.log("Down: " + lastAt);
 				break;
 			}
 			break;
@@ -134,7 +131,7 @@ Ext.define('PumaMain.controller.Area', {
 
 
 		tree.resumeEvents();
-		var self = this;
+
 		if (needQuery) {
 			this.detailLevelParents = toExpand;
 			this.getController('LocationTheme').onYearChange({itemId:'detaillevel'});
@@ -144,10 +141,14 @@ Ext.define('PumaMain.controller.Area', {
 			this.getController('DomManipulation').deactivateLoadingMask();
 			this.getController('Chart').reconfigureAll();
 			this.getController('Layers').reconfigureAll();
-			Observer.notify('rebuild');
+
+			// new URBIS change
+			this.newAreasChange();
 		} else {
 			this.getController('DomManipulation').deactivateLoadingMask();
-			Observer.notify('rebuild');
+
+			// new URBIS change
+			this.newAreasChange();
 		}
 	},
    
@@ -162,7 +163,6 @@ Ext.define('PumaMain.controller.Area', {
 		for (var loc in this.lowestMap) {
 			for (var at in this.lowestMap[loc]) {
 				lastAt = at;
-				console.log(lastAt);
 				break;
 			}
 			break;
@@ -192,10 +192,8 @@ Ext.define('PumaMain.controller.Area', {
 			this.getController('DomManipulation').activateLoadingMask();
 		}
 
-		setTimeout(function(){
-			console.log(self.getExpandedAndFids());
-			Observer.notify('rebuild');
-		},1000);
+		// new URBIS change
+		this.newAreasChange();
 	},
 
 	onCollapseAll: function() {
@@ -418,7 +416,6 @@ Ext.define('PumaMain.controller.Area', {
 	},
 	scanTree: function() {
 		var me = this;
-
 		var root = Ext.StoreMgr.lookup('area').getRootNode();
 		var areaTemplates = [];
 		var leafMap = {};
@@ -516,6 +513,10 @@ Ext.define('PumaMain.controller.Area', {
 				}
 			}
 		}
+
+		// new URBIS change
+		ThemeYearConfParams.auCurrentAt = this.areaTemplates[this.areaTemplates.length-1];
+
 		this.getController('Map').updateGetFeatureControl();
 		this.lowestCount = lowestCount;
 		this.allMap = allMap;
