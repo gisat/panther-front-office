@@ -252,7 +252,7 @@ define([
      */
     EvaluationWidget.prototype.filter = function(){
         var self = this;
-        this._filter.filterAreasByAttributes(this._attributes, AreasExchange).then(function(filteredData){
+        this._filter.filterAreasByAttributes(this._attributes, ExpandedAreasExchange).then(function(filteredData){
             var count;
             if (filteredData.data.hasOwnProperty("data")){
                 count = filteredData.data.data.length;
@@ -264,6 +264,11 @@ define([
         });
     };
 
+	/**
+     * It rebuilds the histograms with current values
+     * @param sliders {Array} array of slider objects
+     * @param data {Object} filtered data
+     */
     EvaluationWidget.prototype.rebuildHistograms = function(sliders, data){
         sliders.forEach(function(slider){
             if (data.data.hasOwnProperty("dist")){
@@ -301,12 +306,17 @@ define([
     //    });
     //};
 
+	/**
+     * It adds listener to confirm button. If there is at least one filtered area, listener notifies the Observer
+     * @param count {number} Number of currently filtered areas
+     * @param filteredData {Object} filtered data
+     */
     EvaluationWidget.prototype.addSelectionConfirmListener = function(count, filteredData){
         if (count > 0){
             $('#evaluation-confirm').html(count + " selected")
                 .off("click.confirm")
                 .on("click.confirm",function(){
-                    DataExchange.data = filteredData.data;
+                    SelectedAreasExchange.data = filteredData.data;
                     Observer.notify("selectAreas");
                 });
         }

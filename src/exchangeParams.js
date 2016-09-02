@@ -22,8 +22,16 @@ var ThemeYearConfParams = {
 	auCurrentAt: ''
 };
 
-var AreasExchange = {};
+/**
+ * Object for currently expanded areas
+ * @type {{}}
+ */
+var ExpandedAreasExchange = {};
 
-var DataExchange = {
+/**
+ * Object for currently selected areas
+ * @type {{data: null}}
+ */
+var SelectedAreasExchange = {
 	data: null
 };

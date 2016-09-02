@@ -10,7 +10,6 @@ define(['../../util/Remote',
 
 	var Attributes = function(options){
 		this._attributeSets = null;
-		this.levels = options.levels;
 	};
 
 	/**
@@ -74,7 +73,7 @@ define(['../../util/Remote',
 				years: ThemeYearConfParams.years,
 				filters: JSON.stringify([]),
 				attrs: JSON.stringify([params]),
-				areas: JSON.stringify(AreasExchange)
+				areas: JSON.stringify(ExpandedAreasExchange)
 			}
 		}).then(function(response){
 			return {

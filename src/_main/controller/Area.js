@@ -63,6 +63,7 @@ Ext.define('PumaMain.controller.Area', {
 			var place = ThemeYearConfParams.place;
 
 			var allAreasExpanded = self.getExpandedAndFids().fids;
+			console.log(allAreasExpanded);
 			var areasOutput = {};
 			if (place){
 				if (allAreasExpanded.hasOwnProperty(place)){
@@ -82,7 +83,7 @@ Ext.define('PumaMain.controller.Area', {
 					}
 				}
 			}
-			AreasExchange = areasOutput;
+			ExpandedAreasExchange = areasOutput;
 			Observer.notify('rebuild');
 		},1000);
 	},
@@ -141,14 +142,8 @@ Ext.define('PumaMain.controller.Area', {
 			this.getController('DomManipulation').deactivateLoadingMask();
 			this.getController('Chart').reconfigureAll();
 			this.getController('Layers').reconfigureAll();
-
-			// new URBIS change
-			this.newAreasChange();
 		} else {
 			this.getController('DomManipulation').deactivateLoadingMask();
-
-			// new URBIS change
-			this.newAreasChange();
 		}
 	},
    
@@ -191,9 +186,6 @@ Ext.define('PumaMain.controller.Area', {
 		} else {
 			this.getController('DomManipulation').activateLoadingMask();
 		}
-
-		// new URBIS change
-		this.newAreasChange();
 	},
 
 	onCollapseAll: function() {
@@ -415,6 +407,7 @@ Ext.define('PumaMain.controller.Area', {
 		return locations;
 	},
 	scanTree: function() {
+		console.log("scaned");
 		var me = this;
 		var root = Ext.StoreMgr.lookup('area').getRootNode();
 		var areaTemplates = [];
@@ -516,6 +509,7 @@ Ext.define('PumaMain.controller.Area', {
 
 		// new URBIS change
 		ThemeYearConfParams.auCurrentAt = this.areaTemplates[this.areaTemplates.length-1];
+		this.newAreasChange();
 
 		this.getController('Map').updateGetFeatureControl();
 		this.lowestCount = lowestCount;

@@ -37,7 +37,6 @@ define(['js/util/metadata/Attributes',
         'js/util/Filter',
         'js/util/Floater',
 		'./FrontOffice',
-        'js/util/metadata/Levels',
         'js/util/Logger',
         'js/util/Placeholder',
 		'js/util/Remote',
@@ -52,7 +51,6 @@ define(['js/util/metadata/Attributes',
              Filter,
              Floater,
 			 FrontOffice,
-             Levels,
              Logger,
              Placeholder,
 			 Remote,
@@ -67,9 +65,7 @@ define(['js/util/metadata/Attributes',
 
 		if(window.Config.toggles.hasNewEvaluationTool){
 			new EvaluationWidget({
-				attributesMetadata: new Attributes({
-                    levels: new Levels()
-                }),
+				attributesMetadata: new Attributes(),
                 filter: new Filter(),
 				elementId: 'evaluation-widget',
 				name: 'Evaluation Tool',

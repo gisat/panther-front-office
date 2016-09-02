@@ -452,7 +452,6 @@ Ext.define('PumaMain.controller.Filter', {
             areas = this.getController('Area').allMap;
         }
 
-        console.log(areas);
         
         var datasetId = Ext.ComponentQuery.query('#seldataset')[0].getValue();
         var years = Ext.ComponentQuery.query('#selyear')[0].getValue();
@@ -513,7 +512,7 @@ Ext.define('PumaMain.controller.Filter', {
             }
         }
         else {
-            data = DataExchange.data;
+            data = SelectedAreasExchange.data;
             this.filterActive = true;
         }
         var areas = data.data;

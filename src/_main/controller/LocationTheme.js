@@ -132,6 +132,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         locationComboAlt.resumeEvents();
         themeComboAlt.resumeEvents();
 
+        // new URBIS change
         ThemeYearConfParams.datasetChanged = true;
     },
     
@@ -212,6 +213,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         this.updateLayerContext();
         this.forceInit = false;
 
+        // new URBIS change
         this.newOnChange({
             placeChanged: true
         });
@@ -293,6 +295,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
         yearCnt.resumeEvents();
         visCnt.resumeEvents();
         this.onYearChange(themeCombo);
+
+        // new URBIS change
         ThemeYearConfParams.datasetChanged = true;
     },
     
@@ -388,8 +392,11 @@ Ext.define('PumaMain.controller.LocationTheme', {
         this.themeChanged = null;
         this.yearChanged = null;
 
+        // new URBIS change
         this.newOnChange();
     },
+
+    // new URBIS change
     newOnChange: function(params){
         // detect if place has been changed
         if (params && params.hasOwnProperty("placeChanged")){
@@ -416,8 +423,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
         // current years
         var years = Ext.ComponentQuery.query('#selyear')[0].getValue();
         ThemeYearConfParams.years = "[" + years.toString() + "]";
-
-        this.getController('Area').newAreasChange();
     },
     onVisChange: function(cnt) {
         if (cnt.eventsSuspended) {
