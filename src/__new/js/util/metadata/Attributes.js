@@ -17,7 +17,7 @@ define(['../../util/Remote',
 	 */
 	Attributes.prototype.getData = function(){
 		var self = this;
-		if (ThemeYearConfParams.datasetChanged || ThemeYearConfParams.themeChanged){
+		if (ThemeYearConfParams.datasetChanged || ThemeYearConfParams.themeChanged || ThemeYearConfParams.placeChanged){
 			return new Remote({
 				method: "POST",
 				url: window.Config.url + "api/theme/getThemeYearConf",
@@ -54,9 +54,19 @@ define(['../../util/Remote',
 								attrName: attr[0].name,
 								as: attributeSet.id,
 								asName: attributeSet.name,
-								normType: attr[0].type
+								attrType: attr[0].type
 							};
-							return self.filterRequest(params);
+							if (params.attrType == "numeric"){
+								//return "TypeNotAllowed";
+								return self.filterRequest(params);
+							}
+							else if (params.attrType == "boolean") {
+								return {
+									about: params
+								};
+								//return self.filterRequest(params);
+								//return "TypeNotAllowed";
+							}
 						});
 					}));
 				});
@@ -95,26 +105,6 @@ define(['../../util/Remote',
 			refreshAreas: 'true'
 		};
 	};
-
-	///**
-	// * It returns ids of areas
-	// * @param areas {Array} metadata about areas
-	// * @param level {number} id of the level
-	// * @returns {Array} areas gids
-	// */
-	//Attributes.prototype.getAreasGids = function(areas, level){
-	//	var areasGids = [];
-	//	areas.forEach(function(area){
-	//		if(area.hasOwnProperty("gid")){
-	//			if(area.hasOwnProperty("at")){
-	//				if (area.at == level){
-	//					areasGids.push(area.gid);
-	//				}
-	//			}
-	//		}
-	//	});
-	//	return areasGids;
-	//};
 
 	return Attributes;
 });

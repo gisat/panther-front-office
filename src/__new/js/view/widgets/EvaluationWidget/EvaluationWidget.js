@@ -79,12 +79,21 @@ define([
             self._attributes = [];
             result.forEach(function(attrSet){
                attrSet.forEach(function(attribute){
-                   var about = attribute.about;
-                   self._attributes.push({
-                       metadata: attribute.response.data.metaData["as_" + about.as + "_attr_" + about.attr],
-                       distribution: attribute.response.data.dist["as_" + about.as + "_attr_" + about.attr],
-                       about: about
-                   });
+                   if (typeof attribute == "object"){
+                       var about = attribute.about;
+                       if (about.attrType == "numeric"){
+                           self._attributes.push({
+                               metadata: attribute.response.data.metaData["as_" + about.as + "_attr_" + about.attr],
+                               distribution: attribute.response.data.dist["as_" + about.as + "_attr_" + about.attr],
+                               about: about
+                           });
+                       }
+                       else {
+                           self._attributes.push({
+                               about: about
+                           });
+                       }
+                   }
                });
             });
             self.rebuildViewAndSettings();
@@ -164,10 +173,10 @@ define([
                 }
 
                 // todo modify other inputs as well
-                //else if (input == "checkbox"){
-                //    var checkbox = this.buildCheckboxInput(key, name);
-                //    this._inputs.checkboxes.push(checkbox);
-                //}
+                else if (input == "checkbox"){
+                    var checkbox = this.buildCheckboxInput(id, name);
+                    this._inputs.checkboxes.push(checkbox);
+                }
 
                 //else if (input == "select") {
                 //    var options = this._filter.getUniqueValues(this._dataSet, key);

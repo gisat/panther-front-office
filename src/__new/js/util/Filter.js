@@ -27,31 +27,33 @@ define(['./Remote',
 		var attrs = [];
 		var filters = [];
 		attributes.forEach(function(attribute){
-			var sliderEl = $("#attr-" + attribute.about.attr);
-			var min, max;
-			if (sliderEl.hasClass("ui-slider")){
-				var values = sliderEl.slider("values");
-				min = values[0];
-				max = values[1];
-			} else {
-				min = attribute.metadata.min;
-				max = attribute.metadata.max;
-			}
+			if (attribute.about.attrType == "numeric"){
+				var sliderEl = $("#attr-" + attribute.about.attr);
+				var min, max;
+				if (sliderEl.hasClass("ui-slider")){
+					var values = sliderEl.slider("values");
+					min = values[0];
+					max = values[1];
+				} else {
+					min = attribute.metadata.min;
+					max = attribute.metadata.max;
+				}
 
-			var filter = {
-				attr: attribute.about.attr,
-				as: attribute.about.as,
-				minOrig: attribute.metadata.min,
-				maxOrig: attribute.metadata.max,
-				min: min,
-				max: max
-			};
-			var attr = {
-				attr: attribute.about.attr,
-				as: attribute.about.as
-			};
-			filters.push(filter);
-			attrs.push(attr);
+				var filter = {
+					attr: attribute.about.attr,
+					as: attribute.about.as,
+					minOrig: attribute.metadata.min,
+					maxOrig: attribute.metadata.max,
+					min: min,
+					max: max
+				};
+				var attr = {
+					attr: attribute.about.attr,
+					as: attribute.about.as
+				};
+				filters.push(filter);
+				attrs.push(attr);
+			}
 		});
 
 		return new Remote({
