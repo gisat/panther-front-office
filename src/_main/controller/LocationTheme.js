@@ -297,7 +297,9 @@ Ext.define('PumaMain.controller.LocationTheme', {
         this.onYearChange(themeCombo);
 
         // new URBIS change
-        ThemeYearConfParams.datasetChanged = true;
+        this.newOnChange({
+            themeChanged: true
+        });
     },
     
     onYearChange: function(cnt) {
@@ -398,12 +400,31 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
     // new URBIS change
     newOnChange: function(params){
-        // detect if place has been changed
-        if (params && params.hasOwnProperty("placeChanged")){
-			ThemeYearConfParams.placeChanged = params.placeChanged;
-        }
-        else {
-            ThemeYearConfParams.placeChanged = false;
+
+        if (!ThemeYearConfParams.datasetChanged){
+            // detect if place has been changed
+            if (params && params.hasOwnProperty("placeChanged")){
+                ThemeYearConfParams.placeChanged = params.placeChanged;
+            }
+            else {
+                ThemeYearConfParams.placeChanged = false;
+            }
+
+            // detect if theme has been changed
+            if (params && params.hasOwnProperty("themeChanged")){
+                ThemeYearConfParams.themeChanged = params.themeChanged;
+                Observer.notify("rebuild");
+            }
+            else {
+                ThemeYearConfParams.themeChanged = false;
+            }
+
+            // detect if year has been changed
+            var currentYears = Ext.ComponentQuery.query('#selyear')[0].getValue();
+            var cYears = "[" + currentYears.toString() + "]";
+            if (ThemeYearConfParams.years != cYears){
+                Observer.notify("rebuild");
+            }
         }
 
         // current dataset
@@ -415,7 +436,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
         if (locObj.location){
             ThemeYearConfParams.place = locObj.location.toString();
         }
-
         //current theme
         var theme = Ext.ComponentQuery.query('#seltheme')[0].getValue();
         ThemeYearConfParams.theme = theme.toString();

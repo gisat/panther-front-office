@@ -91,7 +91,6 @@ define([
         });
 
         ThemeYearConfParams.datasetChanged = false;
-        ThemeYearConfParams.themeChanged = false;
     };
 
     /**

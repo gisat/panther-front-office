@@ -63,7 +63,6 @@ Ext.define('PumaMain.controller.Area', {
 			var place = ThemeYearConfParams.place;
 
 			var allAreasExpanded = self.getExpandedAndFids().fids;
-			console.log(allAreasExpanded);
 			var areasOutput = {};
 			if (place){
 				if (allAreasExpanded.hasOwnProperty(place)){
@@ -84,8 +83,13 @@ Ext.define('PumaMain.controller.Area', {
 				}
 			}
 			ExpandedAreasExchange = areasOutput;
-			Observer.notify('rebuild');
+			self.newNotifyChange();
 		},1000);
+	},
+
+	// new URBIS function for change notifying
+	newNotifyChange: function(){
+		Observer.notify('rebuild');
 	},
 	
 	onShowMoreDetailed: function() {
@@ -407,7 +411,6 @@ Ext.define('PumaMain.controller.Area', {
 		return locations;
 	},
 	scanTree: function() {
-		console.log("scaned");
 		var me = this;
 		var root = Ext.StoreMgr.lookup('area').getRootNode();
 		var areaTemplates = [];

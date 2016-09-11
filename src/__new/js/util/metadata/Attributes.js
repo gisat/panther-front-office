@@ -17,7 +17,6 @@ define(['../../util/Remote',
 	 */
 	Attributes.prototype.getData = function(){
 		var self = this;
-
 		if (ThemeYearConfParams.datasetChanged || ThemeYearConfParams.themeChanged){
 			return new Remote({
 				method: "POST",
