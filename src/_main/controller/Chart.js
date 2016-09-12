@@ -900,7 +900,6 @@ Ext.define('PumaMain.controller.Chart', {
         if(true){
             var url = (window.location.origin + window.location.pathname).split('public')[0]; /// JJJJ co s tim? Public uz neni.
         }
-        // TODO:
         if (isPrint) {
             url = url + 'print/index-for-export.html?id=' + id;
             var form = Ext.widget('form'

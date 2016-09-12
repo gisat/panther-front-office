@@ -1,5 +1,5 @@
 var Config = {
-	url: 'http://localhost:4000',
+	url: 'http://localhost/',
 	signupAddress: 'http://localhost/geonode/account/signup/',
 	geoserver2Workspace: "puma",
 	initialBaseMap: "terrain",
