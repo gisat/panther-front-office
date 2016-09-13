@@ -914,14 +914,13 @@ Ext.define('PumaMain.controller.Chart', {
             form.getForm().submit({
                 url: url
             });
-        }
-        else {
+        } else {
             url = url + 'index.html?id=' + id + '&print';
             var rec = Ext.StoreMgr.lookup('screenshot').findRecord('large',true);
             var screenshot = Ext.create('Puma.model.Screenshot',{
                 src: url,
                 visible: rec ? 0 : 1
-            })
+            });
             var snapshotPanel = Ext.ComponentQuery.query('chartbar #screenshotpanel')[0];
             snapshotPanel.show();
             Ext.StoreMgr.lookup('screenshot').loadData([screenshot],true);
