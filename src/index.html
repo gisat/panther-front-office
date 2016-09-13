@@ -64,12 +64,40 @@
 				return createScript('extjs-4.1.3/ext-debug.js');
 			}).then(function(){
 				return createScript('appde.js');
+			}).then(function(){
+				// If printing hide wrong parts.
+				if(window.location.toString().indexOf("print") != -1) {
+					Config.exportPage = true;
+					$('#main').hide();
+					$('#loading-mask-shim').hide();
+					$('#loading-mask').hide();
+					$('#loading-screen').hide();
+					$('body').removeClass('intro');
+					$('body').css('background', 'none');
+				} else {
+					$('#rendering').hide();
+					$('#legend').hide();
+				}
 			});
 		} else {
 			createScript('lib/OpenLayers.min.js').then(function(){
 				return createScript('extjs-4.1.3/ext.js');
 			}).then(function(){
 				return createScript('appde.min.js');
+			}).then(function(){
+				// If printing hide wrong parts.
+				if(window.location.toString().indexOf("print") != -1) {
+					Config.exportPage = true;
+					$('#main').hide();
+					$('#loading-mask-shim').hide();
+					$('#loading-mask').hide();
+					$('#loading-screen').hide();
+					$('body').removeClass('intro');
+					$('body').css('background', 'none');
+				} else {
+					$('#rendering').hide();
+					$('#legend').hide();
+				}
 			});
 		}
 	</script>
@@ -107,6 +135,9 @@
 	ga('create', Config.googleAnalyticsTracker, Config.googleAnalyticsCookieDomain);
 	ga('send', 'pageview');
 </script>
+<div id="rendering"></div>
+<div id="legend"></div>
+
 <div id="main">
 	<div id="wb-header">
 		<a href="http://www.worldbank.org/"><span>The World Bank</span></a>
