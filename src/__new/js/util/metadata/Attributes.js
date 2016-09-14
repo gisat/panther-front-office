@@ -58,7 +58,10 @@ define(['../../util/Remote',
 								attrType: attr[0].type
 							};
 							if (params.attrType == "numeric"){
-								return self.filterRequest(params);
+								return self.filterAttributes("filter",params);
+							}
+							else if (params.attrType == "text"){
+								return self.filterAttributes("getUniqueValues",params);
 							}
 							else if (params.attrType == "boolean") {
 								return {
@@ -73,6 +76,7 @@ define(['../../util/Remote',
 
 	/**
 	 * It returns information about all current numeric attributes (metadata and distribution)
+	 * @param filterType {string} Type of the filter to use
 	 * @param attrParams {Object} attribute parameters
 	 * @param attrParams.attr {Number} ID of attribute
 	 * @param attrParams.attrName {string} Name of attribute
@@ -81,10 +85,10 @@ define(['../../util/Remote',
 	 * @param attrParams.attrType {string} Date type of attribute
 	 * @returns {*|Promise}
 	 */
-	Attributes.prototype.filterRequest = function(attrParams){
+	Attributes.prototype.filterAttributes = function(filterType, attrParams){
 		return new Remote({
 			method: "POST",
-			url: window.Config.url + "api/filter/filter",
+			url: window.Config.url + "api/filter/" + filterType,
 			params: {
 				dataset: ThemeYearConfParams.dataset,
 				years: ThemeYearConfParams.years,

@@ -80,23 +80,30 @@ define([
         this._attributesMetadata.getData().then(function(result){
             self._attributes = [];
             result.forEach(function(attrSet){
-               attrSet.forEach(function(attribute){
-                   if (typeof attribute == "object"){
-                       var about = attribute.about;
-                       if (about.attrType == "numeric"){
-                           self._attributes.push({
-                               metadata: attribute.response.data.metaData["as_" + about.as + "_attr_" + about.attr],
-                               distribution: attribute.response.data.dist["as_" + about.as + "_attr_" + about.attr],
-                               about: about
-                           });
-                       }
-                       else {
-                           self._attributes.push({
-                               about: about
-                           });
-                       }
-                   }
-               });
+                attrSet.forEach(function(attribute){
+                    if (typeof attribute == "object"){
+                        var about = attribute.about;
+                        if (about.attrType == "numeric"){
+                            self._attributes.push({
+                                metadata: attribute.response.data.metaData["as_" + about.as + "_attr_" + about.attr],
+                                distribution: attribute.response.data.dist["as_" + about.as + "_attr_" + about.attr],
+                                about: about
+                            });
+                        }
+                        else if (about.attrType == "boolean") {
+                            self._attributes.push({
+                                about: about
+                            });
+                        }
+                        else if (about.attrType == "text"){
+                            self._attributes.push({
+                                about: about,
+                                metadata: attribute.response.data.data
+                            });
+                        }
+                    }
+                });
+                console.log(self._attributes);
             });
             self.rebuildViewAndSettings();
         });
@@ -179,12 +186,11 @@ define([
                     this._inputs.checkboxes.push(checkbox);
                 }
 
-                // todo modify other inputs as well
-                //else if (input == "select") {
-                //    var options = this._filter.getUniqueValues(this._dataSet, key);
-                //    var select = this.buildSelectInput(key, name, options);
-                //    this._inputs.selects.push(select);
-                //}
+                else if (input == "select") {
+                    var options = _.unique(categories[key].attrData.metadata);
+                    var select = this.buildSelectInput(key, name, options);
+                    this._inputs.selects.push(select);
+                }
             }
         }
 
@@ -378,7 +384,7 @@ define([
      */
     EvaluationWidget.prototype.addInputsListener = function(){
         var self = this;
-        //this._widgetSelector.find(".selectmenu" ).off("selectmenuselect").on( "selectmenuselect", self.filter.bind(self));
+        this._widgetSelector.find(".selectmenu" ).off("selectmenuselect").on( "selectmenuselect", self.filter.bind(self));
         this._widgetSelector.find(".slider-row").off("slidechange").on("slidechange", self.filter.bind(self));
         this._widgetSelector.find(".checkbox-row").off("click.inputs").on( "click.inputs", self.filter.bind(self));
     };

@@ -31,10 +31,17 @@ define(['./Remote',
 					var attribute = categories[key].attrData;
 
 					var currentValues;
+
 					if (attribute.about.attrType == "boolean"){
 						var checkboxEl = $("#attr-" + attribute.about.attr);
 						currentValues = {
 							value: checkboxEl.hasClass("checked")
+						};
+					}
+					else if (attribute.about.attrType == "text"){
+						var selectEl = $("#attr-" + attribute.about.attr + "-button .ui-selectmenu-text");
+						currentValues = {
+							value: selectEl.html()
 						};
 					}
 
