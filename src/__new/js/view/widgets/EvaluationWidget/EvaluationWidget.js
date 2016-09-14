@@ -11,6 +11,7 @@ define([
     '../Widget',
 
     'jquery',
+    'underscore',
 
     'css!./EvaluationWidget'
 ], function(ArgumentError,
@@ -24,7 +25,8 @@ define([
 			Stores,
             Widget,
 
-            $){
+            $,
+            _){
 
     /**
      * It creates an Evaluation Tool
@@ -163,7 +165,7 @@ define([
                 if (input == "slider") {
                     var min = categories[key].attrData.metadata.min;
                     var max = categories[key].attrData.metadata.max;
-                    var step = 0.01;
+                    var step = 0.005;
                     if (min <= -1000 || max >= 1000){
                         step = 1
                     }
@@ -172,12 +174,12 @@ define([
                     this._inputs.sliders.push(slider);
                 }
 
-                // todo modify other inputs as well
                 else if (input == "checkbox"){
                     var checkbox = this.buildCheckboxInput(id, name);
                     this._inputs.checkboxes.push(checkbox);
                 }
 
+                // todo modify other inputs as well
                 //else if (input == "select") {
                 //    var options = this._filter.getUniqueValues(this._dataSet, key);
                 //    var select = this.buildSelectInput(key, name, options);
@@ -256,20 +258,33 @@ define([
     };
 
     /**
-     * Filter data and redraw the footer button and attach confirm listener
+     * Pre-filter the areas according current values for non-numeric attributes
+     * Then, filter data according to current values ´for numeric attributes, redraw the footer button and attach confirm listener
      */
     EvaluationWidget.prototype.filter = function(){
         var self = this;
-        this._filter.filterAreasByAttributes(this._attributes, ExpandedAreasExchange).then(function(filteredData){
-            var count;
-            if (filteredData.data.hasOwnProperty("data")){
-                count = filteredData.data.data.length;
-            } else {
-                count = 0;
-            }
-            self.addSelectionConfirmListener(count, filteredData);
-            self.rebuildHistograms(self._inputs.sliders, filteredData);
-        });
+
+        setTimeout(function(){
+            self._filter.preFilter(self._categories, ExpandedAreasExchange).then(function(result){
+                var areas = result.data.data;
+                var noAreas = _.isEmpty(areas);
+                var count;
+                if (!noAreas){
+                    self._filter.numericFilter(self._attributes, areas).then(function(filteredData){
+                        if (filteredData.data.hasOwnProperty("data")){
+                            count = filteredData.data.data.length;
+                        } else {
+                            count = 0;
+                        }
+                        self.addSelectionConfirmListener(count, filteredData);
+                        self.rebuildHistograms(self._inputs.sliders, filteredData);
+                    });
+                }
+                else {
+                    self.addSelectionConfirmListener(0, []);
+                }
+            });
+        },100);
     };
 
 	/**
@@ -365,7 +380,7 @@ define([
         var self = this;
         //this._widgetSelector.find(".selectmenu" ).off("selectmenuselect").on( "selectmenuselect", self.filter.bind(self));
         this._widgetSelector.find(".slider-row").off("slidechange").on("slidechange", self.filter.bind(self));
-        //this._widgetSelector.find(".checkbox-row").off("click.inputs").on( "click.inputs", self.filter.bind(self));
+        this._widgetSelector.find(".checkbox-row").off("click.inputs").on( "click.inputs", self.filter.bind(self));
     };
 
     /**

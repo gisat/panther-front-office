@@ -13,13 +13,70 @@ define(['./Remote',
 	};
 
 	/**
-	 * Filter areas according to values of attributes
-	 * @param attributes {Array} IDs of active attributes
-	 * @param areasData {Object}
+	 * Pre-filter areas according to values of boolean and string attributes
+	 * @param categories {Object} One category per attribute
+	 * @param areasData
 	 * @returns {*|Promise} Filtered areas
 	 */
-	Filter.prototype.filterAreasByAttributes = function(attributes, areasData){
+	Filter.prototype.preFilter = function(categories, areasData){
+		var areas = JSON.stringify(areasData);
+		var dataset = ThemeYearConfParams.dataset;
+		var years = ThemeYearConfParams.years;
 
+		var attrs = [];
+		var filters = [];
+		for (var key in categories){
+			if (categories[key].hasOwnProperty('attrData')){
+				if (categories[key].active == true){
+					var attribute = categories[key].attrData;
+
+					var currentValues;
+					if (attribute.about.attrType == "boolean"){
+						var checkboxEl = $("#attr-" + attribute.about.attr);
+						currentValues = {
+							value: checkboxEl.hasClass("checked")
+						};
+					}
+
+					var filter = {
+						attr: attribute.about.attr,
+						as: attribute.about.as,
+						attrType: attribute.about.attrType,
+						values: currentValues
+					};
+					var attr = {
+						attr: attribute.about.attr,
+						as: attribute.about.as,
+						attrType: attribute.about.attrType
+					};
+					filters.push(filter);
+					attrs.push(attr);
+				}
+			}
+		}
+
+		return new Remote({
+			method: "POST",
+			url: window.Config.url + "api/filter/multifilter",
+			params: {
+				dataset: dataset,
+				years: years,
+				filters: JSON.stringify(filters),
+				attrs: JSON.stringify(attrs),
+				areas: areas
+			}
+		}).then(function(response){
+			return JSON.parse(response);
+		});
+	};
+
+	/**
+	 * Filter areas according to values of numeric attributes
+	 * @param attributes {Array} IDs of all attributes
+	 * @param areasData {Object}
+	 * @returns {*|Promise} Filtered areas, metadata and distribution of values
+	 */
+	Filter.prototype.numericFilter = function(attributes, areasData){
 		var areas = JSON.stringify(areasData);
 		var dataset = ThemeYearConfParams.dataset;
 		var years = ThemeYearConfParams.years;
@@ -34,6 +91,10 @@ define(['./Remote',
 					var values = sliderEl.slider("values");
 					min = values[0];
 					max = values[1];
+					if (min == max){
+						min = min - 0.005;
+						max = max + 0.005;
+					}
 				} else {
 					min = attribute.metadata.min;
 					max = attribute.metadata.max;
@@ -49,7 +110,8 @@ define(['./Remote',
 				};
 				var attr = {
 					attr: attribute.about.attr,
-					as: attribute.about.as
+					as: attribute.about.as,
+					attrType: attribute.about.attrType
 				};
 				filters.push(filter);
 				attrs.push(attr);

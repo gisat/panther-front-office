@@ -13,6 +13,7 @@ define(['../../util/Remote',
 	};
 
 	/**
+	 * It returns information about all atributtes grouped by attribute sets
 	 * @returns {Promise}
 	 */
 	Attributes.prototype.getData = function(){
@@ -36,8 +37,8 @@ define(['../../util/Remote',
 	};
 
 	/**
-	 * It returns a Promise of metadata for all attribute sets with given layerRef
-	 * @param attributeSets {Array} Ids of attroibute sets
+	 * It returns a Promise of metadata for all attribute sets
+	 * @param attributeSets {Array} Ids of attribute sets
 	 * @returns {Promise}
 	 */
 	Attributes.prototype.getAttributeSetsData = function(attributeSets){
@@ -57,15 +58,12 @@ define(['../../util/Remote',
 								attrType: attr[0].type
 							};
 							if (params.attrType == "numeric"){
-								//return "TypeNotAllowed";
 								return self.filterRequest(params);
 							}
 							else if (params.attrType == "boolean") {
 								return {
 									about: params
 								};
-								//return self.filterRequest(params);
-								//return "TypeNotAllowed";
 							}
 						});
 					}));
@@ -73,7 +71,17 @@ define(['../../util/Remote',
 		}));
 	};
 
-	Attributes.prototype.filterRequest = function(params){
+	/**
+	 * It returns information about all current numeric attributes (metadata and distribution)
+	 * @param attrParams {Object} attribute parameters
+	 * @param attrParams.attr {Number} ID of attribute
+	 * @param attrParams.attrName {string} Name of attribute
+	 * @param attrParams.as {Number} ID of attribute set
+	 * @param attrParams.asName {string} Name of atributte set
+	 * @param attrParams.attrType {string} Date type of attribute
+	 * @returns {*|Promise}
+	 */
+	Attributes.prototype.filterRequest = function(attrParams){
 		return new Remote({
 			method: "POST",
 			url: window.Config.url + "api/filter/filter",
@@ -81,19 +89,19 @@ define(['../../util/Remote',
 				dataset: ThemeYearConfParams.dataset,
 				years: ThemeYearConfParams.years,
 				filters: JSON.stringify([]),
-				attrs: JSON.stringify([params]),
+				attrs: JSON.stringify([attrParams]),
 				areas: JSON.stringify(ExpandedAreasExchange)
 			}
 		}).then(function(response){
 			return {
-				about: params,
+				about: attrParams,
 				response: JSON.parse(response)
 			};
 		});
 	};
 
 	/**
-	 *
+	 * It prepares the parameters for getThemeYearConf request
 	 * @returns {{theme: string, years: string, dataset: string, refreshLayers: string, refreshAreas: string}}
 	 */
 	Attributes.prototype.getThemeYearConfParams = function(){
