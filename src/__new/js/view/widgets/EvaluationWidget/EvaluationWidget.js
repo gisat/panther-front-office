@@ -103,7 +103,6 @@ define([
                         }
                     }
                 });
-                console.log(self._attributes);
             });
             self.rebuildViewAndSettings();
         });

@@ -68,8 +68,13 @@ define([
     Settings.prototype.addCategories = function(){
         this._checkboxTarget = $('#' + this._id + ' .tool-window-body');
         this._checkboxTarget.html("");
+        var asName = "";
         var self = this;
         this._attributes.forEach(function(attribute){
+            if (attribute.about.asName != asName){
+                asName = attribute.about.asName;
+                self.addAttributeSetName(asName);
+            }
             var type = attribute.about.attrType;
             var name = attribute.about.attrName;
             var id = "attr-" + attribute.about.attr;
@@ -85,7 +90,7 @@ define([
                 input = "select";
             }
 
-            self.addCheckbox(id, name);
+            self.addAttribute(id, name);
             self._categories[id] = {
                 attrData: attribute,
                 name: name,
@@ -95,13 +100,18 @@ define([
         });
     };
 
+    Settings.prototype.addAttributeSetName = function(name){
+        var html = '<div class="floater-row section-header">' + name + '</div>';
+        this._checkboxTarget.append(html);
+    };
+
     /**
      * It returns the checkbox row
      * @param id {string} id of the checkbox row
      * @param name {string} label
      * @returns {Checkbox}
      */
-    Settings.prototype.addCheckbox = function(id, name){
+    Settings.prototype.addAttribute = function(id, name){
         return new Checkbox({
             containerId: this._id,
             checked: true,
