@@ -69,7 +69,6 @@ define(['../../error/ArgumentError',
      * Redraw the histogram
      */
     Histogram.prototype.redraw = function(range) {
-        console.log("redraw");
         this._histogram.html('');
         var containerHeight = this._histogram.css('height').slice(0,-2);
         var containerWidth = this._histogram.css('width').slice(0,-2);
@@ -91,7 +90,6 @@ define(['../../error/ArgumentError',
      * @param values {Array} min and max value
      */
     Histogram.prototype.selectBars = function(values) {
-        console.log("selectBars");
         var minIndex = -1;
         var maxIndex = this._numClasses;
         this._classes.forEach(function(klass, index){

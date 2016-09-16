@@ -1,5 +1,4 @@
 define(['../../../../error/ArgumentError',
-        '../../../../util/DataGrouping',
         '../../../../util/Logger',
         '../../../../error/NotFoundError',
         '../../../View',
@@ -10,7 +9,6 @@ define(['../../../../error/ArgumentError',
         'text!./SelectBox.html',
         'css!./SelectBox'
 ], function (ArgumentError,
-             DataGrouping,
              Logger,
              NotFoundError,
              View,
@@ -51,10 +49,6 @@ define(['../../../../error/ArgumentError',
         this._target = options.target;
         this._data = options.data;
 
-        this._grouping = new DataGrouping({
-            groupingOptions: this._data
-        });
-
         this.build();
     };
 
@@ -85,26 +79,6 @@ define(['../../../../error/ArgumentError',
      */
     SelectBox.prototype.getValue = function(){
         return $('#' + this._id).selectmenu().val();
-    };
-
-    /**
-     * It adds the listener to selectmenu. After opening the menu, the occurencies of attribute values are counted in currently filtered data
-     * @param dataSet
-     * @param key
-     */
-    SelectBox.prototype.addSelectOpenListener = function(dataSet, key){
-        var self = this;
-        var classes = this._grouping.groupData(dataSet,key);
-
-        $('#' + this._id).off("selectmenuopen")
-            .on( "selectmenuopen", function() {
-                $('#' + self._id + '-menu li > div').each(function(index, item){
-                    var text = $(this).text().split(" ")[0];
-                    $(this).html('');
-                    $(this).append(text + '<i class="option-count"> ' + classes[index].count + '</i>');
-                });
-                $('#' + self._id + '-menu').css("display","none").slideDown( "fast" );
-            })
     };
 
     return SelectBox;
