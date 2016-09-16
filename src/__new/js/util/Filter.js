@@ -29,35 +29,35 @@ define(['./Remote',
 			if (categories[key].hasOwnProperty('attrData')){
 				if (categories[key].active == true){
 					var attribute = categories[key].attrData;
-
 					var currentValues;
+					if (attribute.about.attrType != "numeric"){
+						if (attribute.about.attrType == "boolean"){
+							var checkboxEl = $("#attr-" + attribute.about.attr);
+							currentValues = {
+								value: checkboxEl.hasClass("checked")
+							};
+						}
+						else if (attribute.about.attrType == "text"){
+							var selectEl = $("#attr-" + attribute.about.attr + "-button .ui-selectmenu-text");
+							currentValues = {
+								value: selectEl.html()
+							};
+						}
 
-					if (attribute.about.attrType == "boolean"){
-						var checkboxEl = $("#attr-" + attribute.about.attr);
-						currentValues = {
-							value: checkboxEl.hasClass("checked")
+						var filter = {
+							attr: attribute.about.attr,
+							as: attribute.about.as,
+							attrType: attribute.about.attrType,
+							values: currentValues
 						};
-					}
-					else if (attribute.about.attrType == "text"){
-						var selectEl = $("#attr-" + attribute.about.attr + "-button .ui-selectmenu-text");
-						currentValues = {
-							value: selectEl.html()
+						var attr = {
+							attr: attribute.about.attr,
+							as: attribute.about.as,
+							attrType: attribute.about.attrType
 						};
+						filters.push(filter);
+						attrs.push(attr);
 					}
-
-					var filter = {
-						attr: attribute.about.attr,
-						as: attribute.about.as,
-						attrType: attribute.about.attrType,
-						values: currentValues
-					};
-					var attr = {
-						attr: attribute.about.attr,
-						as: attribute.about.as,
-						attrType: attribute.about.attrType
-					};
-					filters.push(filter);
-					attrs.push(attr);
 				}
 			}
 		}

@@ -110,16 +110,5 @@ define(['js/util/metadata/Attributes',
                 });
             }
         });
-        $(".tool-window").draggable({
-            containment: "window",
-            handle: ".tool-window-header",
-            stop: function (ev, ui) {
-                var element = $(this);
-                element.css({
-                    width: "",
-                    height: ""
-                });
-            }
-        });
     });
 });

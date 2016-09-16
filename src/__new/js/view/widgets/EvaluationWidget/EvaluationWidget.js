@@ -287,6 +287,7 @@ define([
                 }
                 else {
                     self.addSelectionConfirmListener(0, []);
+                    //self.rebuildHistograms(self._inputs.sliders, {data:{}});
                 }
             });
         },100);
@@ -302,8 +303,9 @@ define([
             if (data.data.hasOwnProperty("dist")){
                 for (var key in data.data.dist){
                     if (key == "as_"+ slider._attrSetId + "_attr_" + slider._attrId){
+                        console.log(slider);
                         if(slider.hasOwnProperty("histogram")){
-                            slider.histogram.rebuild(data.data.dist[key]);
+                            slider.histogram.rebuild(data.data.dist[key],slider._values);
                         }
                     }
                 }

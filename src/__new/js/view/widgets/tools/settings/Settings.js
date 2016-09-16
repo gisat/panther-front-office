@@ -52,6 +52,7 @@ define([
         this.addCategories();
         this.addCloseListener();
         this.addConfirmListener();
+        this.addDragging();
     };
 
     /**
@@ -155,6 +156,20 @@ define([
             });
             $('#' + self._id).hide("drop", {direction: "up"}, 200)
                 .removeClass("open");
+        });
+    };
+
+    Settings.prototype.addDragging = function(){
+        $("#" + this._id).draggable({
+            containment: "window",
+            handle: ".tool-window-header",
+            stop: function (ev, ui) {
+                var element = $(this);
+                element.css({
+                    width: "",
+                    height: ""
+                });
+            }
         });
     };
 

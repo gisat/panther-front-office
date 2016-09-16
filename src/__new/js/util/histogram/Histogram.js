@@ -57,18 +57,19 @@ define(['../../error/ArgumentError',
      * Rebuild the histogram for given dataset
      * @param frequencies {Array}
      */
-    Histogram.prototype.rebuild = function(frequencies){
+    Histogram.prototype.rebuild = function(frequencies, range){
         this.emptyClasses();
         for (var i = 0; i < frequencies.length; i++){
             this._classes[i].count = frequencies[i];
         }
-        this.redraw();
+        this.redraw(range);
     };
 
     /**
      * Redraw the histogram
      */
-    Histogram.prototype.redraw = function() {
+    Histogram.prototype.redraw = function(range) {
+        console.log("redraw");
         this._histogram.html('');
         var containerHeight = this._histogram.css('height').slice(0,-2);
         var containerWidth = this._histogram.css('width').slice(0,-2);
@@ -81,8 +82,8 @@ define(['../../error/ArgumentError',
             var margin = containerHeight - height;
             content += '<div class="histogram-bar selected" style="height: ' + height + 'px ; width: ' + width + 'px ;margin-top: '+ margin +'px"></div>';
         });
-
         this._histogram.append(content);
+        this.selectBars(range);
     };
 
     /**
@@ -90,6 +91,7 @@ define(['../../error/ArgumentError',
      * @param values {Array} min and max value
      */
     Histogram.prototype.selectBars = function(values) {
+        console.log("selectBars");
         var minIndex = -1;
         var maxIndex = this._numClasses;
         this._classes.forEach(function(klass, index){
