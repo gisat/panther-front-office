@@ -95,8 +95,12 @@ define(['../../error/ArgumentError',
     Histogram.prototype.redraw = function(frequencies, sliderRange, dataMinMax) {
         this._histogram.html('');
         var widthRatio = (dataMinMax[1] - dataMinMax[0])/(this._maximum - this._minimum);
-        var containerHeight = this._histogram.css('height').slice(0,-2);
-        var containerWidth = this._histogram.css('width').slice(0,-2);
+        if (Math.abs(dataMinMax[1] - dataMinMax[0]) < 0.01){
+            widthRatio = 0.05;
+        }
+
+        var containerHeight = Number(this._histogram.css('height').slice(0,-2));
+        var containerWidth = Number(this._histogram.css('width').slice(0,-2));
         var originalBarWidth = widthRatio*(containerWidth - 2)/this._numOfClasses;
 
         if (originalBarWidth <= 8){
