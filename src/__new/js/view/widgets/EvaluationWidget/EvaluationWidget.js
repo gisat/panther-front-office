@@ -303,9 +303,10 @@ define([
             if (data.data.hasOwnProperty("dist")){
                 for (var key in data.data.dist){
                     if (key == "as_"+ slider._attrSetId + "_attr_" + slider._attrId){
-                        console.log(slider);
+                        var metadata = data.data.metaData[key];
+                        var dataMinMax = [metadata.min,metadata.max]
                         if(slider.hasOwnProperty("histogram")){
-                            slider.histogram.rebuild(data.data.dist[key],slider._values);
+                            slider.histogram.rebuild(data.data.dist[key],slider._values, dataMinMax);
                         }
                     }
                 }

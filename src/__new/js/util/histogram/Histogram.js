@@ -45,8 +45,6 @@ define(['../../error/ArgumentError',
         this._minimum = options.minimum;
         this._maximum = options.maximum;
 
-        this._classes = this.buildClasses();
-
         this._histogram = $('#histogram-' + this._id);
         if (this._histogram.length == 0){
             throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "Histogram", "constructor", "missingHTMLelement"));
@@ -55,34 +53,47 @@ define(['../../error/ArgumentError',
 
     /**
      * Rebuild the histogram for given dataset
-     * @param frequencies {Array}
+     * @param frequencies {Array} Distribution of data
+     * @param sliderRange {Array} Current values of slider handles
+     * @param dataMinMax {Array} Minimum and maximum of data
      */
-    Histogram.prototype.rebuild = function(frequencies, range){
-        this.emptyClasses();
+    Histogram.prototype.rebuild = function(frequencies, sliderRange, dataMinMax){
+        if (this._classes){
+            this.emptyClasses();
+        }
+
+        this._classes = this.buildClasses(dataMinMax);
         for (var i = 0; i < frequencies.length; i++){
             this._classes[i].count = frequencies[i];
         }
-        this.redraw(range);
+        this.redraw(sliderRange, dataMinMax);
     };
 
     /**
      * Redraw the histogram
+     * @param sliderRange {Array} Current values of slider handles
+     * @param dataMinMax {Array} Minimum and maximum of data
      */
-    Histogram.prototype.redraw = function(range) {
+    Histogram.prototype.redraw = function(sliderRange, dataMinMax) {
         this._histogram.html('');
+        var widthRatio = (dataMinMax[1] - dataMinMax[0])/(this._maximum - this._minimum);
         var containerHeight = this._histogram.css('height').slice(0,-2);
         var containerWidth = this._histogram.css('width').slice(0,-2);
-        var width = (containerWidth - 1)/this._numClasses;
+        var width = widthRatio*(containerWidth - 2)/this._numClasses;
         var heightRatio = containerHeight/this.getMostFrequented();
+
+        var histogramMargin = (dataMinMax[0] - this._minimum) * (containerWidth/(this._maximum - this._minimum));
+        this._histogram.css("margin-left", histogramMargin);
+
         var content = "";
 
         this._classes.forEach(function(bar){
             var height = (bar.count * heightRatio);
-            var margin = containerHeight - height;
-            content += '<div class="histogram-bar selected" style="height: ' + height + 'px ; width: ' + width + 'px ;margin-top: '+ margin +'px"></div>';
+            var marginTop = containerHeight - height;
+            content += '<div class="histogram-bar selected" style="height: ' + height + 'px ; width: ' + width + 'px ;margin-top: '+ marginTop +'px"></div>';
         });
         this._histogram.append(content);
-        this.selectBars(range);
+        this.selectBars(sliderRange);
     };
 
     /**
@@ -119,11 +130,11 @@ define(['../../error/ArgumentError',
      * It returns classes for histogram and their thresholds
      * @returns {Object}
      */
-    Histogram.prototype.buildClasses = function() {
+    Histogram.prototype.buildClasses = function(range) {
         var classes = [];
 
-        var threshold = this._minimum;
-        var interval = (this._maximum - this._minimum)/this._numClasses;
+        var threshold = range[0];
+        var interval = (range[1] - range[0])/this._numClasses;
 
         for (var i = 0; i < this._numClasses; i++){
             classes[i] = {
