@@ -165,6 +165,7 @@ define([
             if (categories.hasOwnProperty(key) && categories[key].active == true){
                 var input = categories[key].input;
                 var name = categories[key].name;
+                var units = categories[key].attrData.about.units;
                 var attrId = categories[key].attrData.about.attr;
                 var attrSetId = categories[key].attrData.about.as;
                 var id = "attr-" + categories[key].attrData.about.attr;
@@ -176,7 +177,7 @@ define([
                         step = 1
                     }
                     var thresholds = [min, max];
-                    var slider = self.buildSliderInput(id, name, thresholds, step, attrId, attrSetId);
+                    var slider = self.buildSliderInput(id, name, units, thresholds, step, attrId, attrSetId);
                     this._inputs.sliders.push(slider);
                 }
 
@@ -235,16 +236,18 @@ define([
      * @param attrSetId {string} ID of the attribute set ID
      * @param id {string} ID of the data theme
      * @param name {string} Name of the data theme
+     * @param units {string} Units
      * @param thresholds {Array} Start and end value of the slider
      * @param step {number} step of the slider
      * @returns {SliderBox}
      */
-    EvaluationWidget.prototype.buildSliderInput = function(id, name, thresholds, step, attrId, attrSetId){
+    EvaluationWidget.prototype.buildSliderInput = function(id, name, units, thresholds, step, attrId, attrSetId){
         return new SliderBox({
             attrId: attrId,
             attrSetId: attrSetId,
             id: id,
             name: name,
+            units: units,
             target: this._widgetBodySelector,
             range: thresholds,
             step: step,

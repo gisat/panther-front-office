@@ -53,9 +53,10 @@ define(['../../util/Remote',
 							var params = {
 								attr: attr[0].id,
 								attrName: attr[0].name,
+								attrType: attr[0].type,
 								as: attributeSet.id,
 								asName: attributeSet.name,
-								attrType: attr[0].type
+								units: attr[0].standardUnits
 							};
 							if (params.attrType == "numeric"){
 								return self.filterAttributes("filter",params);

@@ -61,6 +61,10 @@ define(['../../../../error/ArgumentError',
         this._values = options.values;
         this._isRange = options.isRange;
 
+        if (options.units){
+            this._name = this._name + " (" + options.units + ")";
+        }
+
         this.build();
     };
 
