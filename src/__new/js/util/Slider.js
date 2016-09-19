@@ -60,10 +60,7 @@ define([
             step: self._step,
             min: self._range[0],
             max: self._range[1],
-            values: self._values,
-            slide: function( event, ui ) {
-                $(this).siblings().find('.slider-popup-values').html("From: <b>" + viewUtils.numberFormat(ui.values[ 0 ], true, 2) + "</b>&nbsp;&nbsp; To: <b>" + viewUtils.numberFormat(ui.values[ 1 ], true, 2) + "</b>");
-            }
+            values: self._values
         });
     };
 
@@ -77,10 +74,7 @@ define([
             step: self._step,
             min: self._range[0],
             max: self._range[1],
-            value: self._values[0],
-            slide: function( event, ui ) {
-                $(this).siblings().find('.slider-popup-values').html("Value: <b>" + viewUtils.numberFormat(ui.value, true, 2) + "</b>");
-            }
+            value: self._values[0]
         });
     };
 

@@ -141,6 +141,7 @@ define(['../../../../error/ArgumentError',
                 if (values[0] != values[1]){
                     self.histogram.selectBars(values);
                 }
+                $(this).siblings().find('.slider-popup-values').html("From: <b>" + viewUtils.numberFormat(values[ 0 ], true, 2) + "</b>&nbsp;&nbsp; To: <b>" + viewUtils.numberFormat(values[ 1 ], true, 2) + "</b>");
             }
         })
     };
