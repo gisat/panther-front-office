@@ -21,7 +21,7 @@ define([
     /**
      * It builds the settings window and control all operations in it
      * @params options {Object}
-     * @params options.dataSet {JSON} Data set
+     * @params options.attributes {JSON} Data set
      * @params options.target {Object} JQuery - target object, where should be the settings rendered
      * @params options.widgetId {string} Id of the connected widget
      * @constructor
@@ -32,6 +32,7 @@ define([
         }
 
         this._attributes = options.attributes;
+        console.log(this._attributes);
         this._target = options.target;
         this._widgetId = options.widgetId;
         this._id = options.widgetId + '-settings';

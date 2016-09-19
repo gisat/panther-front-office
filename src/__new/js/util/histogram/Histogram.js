@@ -56,7 +56,7 @@ define(['../../error/ArgumentError',
      */
     Histogram.prototype.rebuild = function(distribution, sliderRange, dataMinMax){
         if (this._classes){
-            this.emptyClasses();
+            this._classes = this.emptyClasses(this._classes);
         }
         this._classes = this.buildClasses(distribution, dataMinMax);
         this.redraw(distribution, sliderRange, dataMinMax);
@@ -155,13 +155,15 @@ define(['../../error/ArgumentError',
         }
     };
 
-    /**
+	/**
      * It clears counts for all classes
+     * @param classes {Array}
      */
-    Histogram.prototype.emptyClasses = function() {
-        this._classes.forEach(function(klass){
+    Histogram.prototype.emptyClasses = function(classes) {
+        classes.forEach(function(klass){
             klass.count = 0;
         });
+        return classes;
     };
 
 	/**
