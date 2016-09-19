@@ -1,9 +1,9 @@
 define([], function () {
     /**
      * It returns string representing the value. There is a comma after every third digit
-     * @param  value {number}
-     * @param  separateThousands {boolean} true if thousands should be separated by comma
-     * @param  decimalDigits {number} number of decimal digits
+     * @param value {number}
+     * @param separateThousands {boolean} true if thousands should be separated by comma
+     * @param decimalDigits {number} number of decimal digits
      * @returns {string}
      */
     function numberFormat (value, separateThousands, decimalDigits) {
@@ -12,7 +12,7 @@ define([], function () {
         }
 
         else if (separateThousands && value >= 1000){
-            return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return Math.round(value).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
     }
 
