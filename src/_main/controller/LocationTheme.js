@@ -65,6 +65,15 @@ Ext.define('PumaMain.controller.LocationTheme', {
         window.location = '/';
     },
     onDatasetChange: function(cnt,val) {
+        // new URBIS change
+        if (!$('body').hasClass("intro")){
+            $("#loading-screen").css({
+                display: "block",
+                background: "radial-gradient(rgba(230, 230, 230, .85), rgba(180, 180, 180, .85))"
+            })
+        }
+        ThemeYearConfParams.datasetChanged = true;
+
         if (cnt.eventsSuspended) {
             return;
         }
@@ -131,9 +140,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
         locationCombo.resumeEvents();
         locationComboAlt.resumeEvents();
         themeComboAlt.resumeEvents();
-
-        // new URBIS change
-        ThemeYearConfParams.datasetChanged = true;
     },
     
     onLocationChange: function(cnt,val) {
@@ -400,9 +406,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
     // new URBIS change
     newOnChange: function(params){
-
         if (!ThemeYearConfParams.datasetChanged){
-            // detect if place has been changed
             if (params && params.hasOwnProperty("placeChanged")){
                 ThemeYearConfParams.placeChanged = params.placeChanged;
             }

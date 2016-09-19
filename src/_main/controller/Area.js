@@ -57,6 +57,10 @@ Ext.define('PumaMain.controller.Area', {
 	// New URBIS function for detecting areas change
 	newAreasChange: function(){
 		var self = this;
+		$("#loading-screen").css({
+			display: "block",
+			background: "radial-gradient(rgba(230, 230, 230, .85), rgba(180, 180, 180, .85))"
+		});
 		setTimeout(function(){
 			// current areas
 			var level = ThemeYearConfParams.auCurrentAt;
@@ -90,6 +94,9 @@ Ext.define('PumaMain.controller.Area', {
 	// new URBIS function for change notifying
 	newNotifyChange: function(){
 		Observer.notify('rebuild');
+		$("#loading-screen").css({
+			display: "none"
+		});
 	},
 	
 	onShowMoreDetailed: function() {
