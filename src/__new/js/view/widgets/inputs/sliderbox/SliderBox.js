@@ -106,7 +106,6 @@ define(['../../../../error/ArgumentError',
     SliderBox.prototype.buildHistogram = function(){
         return new Histogram({
             id: this._id,
-            numClasses: 20,
             minimum: this._range[0],
             maximum: this._range[1]
         });
@@ -135,7 +134,9 @@ define(['../../../../error/ArgumentError',
         selector.off('slide').on('slide', function(e){
             if (isRange){
                 var values = $(this).slider("values");
-                self.histogram.selectBars(values);
+                if (values[0] != values[1]){
+                    self.histogram.selectBars(values);
+                }
             }
         })
     };
