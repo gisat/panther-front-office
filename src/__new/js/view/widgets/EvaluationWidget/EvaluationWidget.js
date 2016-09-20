@@ -290,7 +290,6 @@ define([
                 }
                 else {
                     self.addSelectionConfirmListener(0, []);
-                    //self.rebuildHistograms(self._inputs.sliders, {data:{}});
                 }
             });
         },100);
@@ -307,7 +306,7 @@ define([
                 for (var key in data.data.dist){
                     if (key == "as_"+ slider._attrSetId + "_attr_" + slider._attrId){
                         var metadata = data.data.metaData[key];
-                        var dataMinMax = [metadata.min,metadata.max]
+                        var dataMinMax = [metadata.min,metadata.max];
                         if(slider.hasOwnProperty("histogram")){
                             slider.histogram.rebuild(data.data.dist[key],slider._values, dataMinMax);
                         }
@@ -316,29 +315,6 @@ define([
             }
         });
     };
-
-    ///**
-    // * It rebuilds hints in selectmenu and histograms in slider popups
-    // * @param data {JSON} filtered data
-    // */
-    //EvaluationWidget.prototype.rebuildHints = function(data){
-    //    var self = this;
-    //
-    //    this._inputs.selects.forEach(function(select){
-    //        var inputs = $.extend(true, {}, self._inputs);
-    //        inputs.selects.forEach(function(item, index){
-    //            if (item._id == select._id){
-    //                inputs.selects.splice(index, 1);
-    //            }
-    //        });
-    //        var filteredData = self._filter.filter(self._dataSet, inputs);
-    //        if (inputs.checkboxes.length == 0 && inputs.sliders.length == 0 && inputs.selects.length == 0){
-    //            filteredData = self._dataSet;
-    //        }
-    //        select.addSelectOpenListener(filteredData, select._id);
-		//
-    //    });
-    //};
 
 	/**
      * It adds listener to confirm button. If there is at least one filtered area, listener notifies the Observer
