@@ -1,0 +1,96 @@
+/* Main components */
+
+/* Intro ========= */
+.urbis .intro #app-map {
+    display: none;
+}
+.urbis .intro #map-holder {
+    background: url('../../images/urbis/urbis-background.jpg') no-repeat;
+    background-size: cover;
+}
+
+/* About project info === */
+.urbis #about-urbis a {
+    color: #ff7600;
+    text-decoration: underline;
+}
+.urbis #about-urbis a:hover {
+    color: #d35400;
+}
+
+
+/* Header === */
+.urbis .fields-holder > .label {
+    background: url("../../images/urbis/urbis-colour-white.png") no-repeat 15px 11px;
+    background-size: 200px;
+}
+
+/* Form ================== */
+/* Box ============= */
+/* Accordion =============== */
+/* Tables ================ */
+/* Tabs ================= */
+
+
+/* Buttons ================ */
+/*Basic buttons*/
+.urbis .x-btn-default-small {
+    background: #ff7600;
+}
+.urbis .x-btn-default-small:hover {
+    background: #d35400;
+}
+.urbis .x-btn.custom-button.btn-confirm {
+    background: #ff7600;
+    border: 1px solid #ff7600;
+}
+.urbis .x-btn.custom-button.btn-confirm .x-btn-inner {
+    color                : #fff;
+}
+.urbis .x-btn.custom-button.btn-confirm:hover, .urbis .x-btn.btn-confirm:focus {
+    background           : #d35400;
+    border: 1px solid #d35400;
+}
+/* top tools buttons */
+.urbis .btn-map-select.x-pressed .x-btn-icon {
+    background-image: url('../../images/urbis/map-select-active.png') !important;
+}
+/* map ttols buttons */
+.urbis .x-btn-pressed.btn-tool-hover button .x-btn-icon {
+    background: url('../../images/urbis/tools-hover-pressed.png') !important;
+}
+.urbis .x-btn-pressed.btn-tool-multiple-maps button .x-btn-icon {
+    background-image: url('../../images/urbis/tools-maps-multiple-pressed.png') !important;
+}
+.urbis .x-btn-pressed.btn-tool-measure-line button .x-btn-icon {
+    background-image: url('../../images/urbis/tools-measure-line-pressed.png') !important;
+}
+.urbis .x-btn-pressed.btn-tool-measure-polygon button .x-btn-icon {
+    background-image: url('../../images/urbis/tools-measure-polygon-pressed.png') !important;
+}
+.urbis .x-btn-pressed.btn-map-tool button .x-btn-inner,  .urbis #app-tools-actions .x-btn-pressed span.x-btn-inner{
+    color: #d35400;
+}
+
+/* Checkbox ========== */
+.urbis .x-grid-checkheader-checked {
+    background-image: url('../../images/urbis/checked.png');
+}
+.newDesign .x-tree-checkbox-checked {
+    background-image: url('../../images/urbis/checked.png');
+}
+
+/* Slider ======== */
+.urbis .x-slider-thumb {
+    background-image: url('../../images/urbis/panther-slider-thumb.png');
+}
+.urbis .slider-thumb-label.sliding {
+    color: #d35400;
+}
+
+/* advanced filters slider */
+.urbis .tools-filters-list .x-slider-horz .x-slider-inner{
+    background-repeat: no-repeat;
+    background-image: url("../../images/urbis/slider-colored-4.png");
+    background-position: 0;
+}

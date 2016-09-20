@@ -8,7 +8,16 @@ Ext.define('PumaMain.view.ScreenshotView', {
         this.itemSelector = 'div.screenshot';
         this.style = {
             overflowY: 'auto'
+        };
+
+        var snapshotDownload = 'images/icons/snapshot-download.png';
+        var snapshotDelete = 'images/icons/snapshot-delete.png';
+
+        if (Config.toggles.isUrbis){
+            snapshotDownload = 'images/urbis/snapshot-download.png';
+            snapshotDelete = 'images/urbis/snapshot-delete.png';
         }
+
         this.tpl = [
             '<tpl for=".">',
             '<div class="screenshot" style="display:<tpl if="visible==1">inline-block<tpl else>none</tpl>;width:<tpl if="large">536px<tpl else>172px</tpl>;height:<tpl if="large">350px<tpl else>118px</tpl>">',
@@ -16,8 +25,8 @@ Ext.define('PumaMain.view.ScreenshotView', {
             //'<img class="screenshotimg" src="{src}"/>',
             '<div>',
             '</div>',
-            '<img class="screenshoticon screenshotpng" height=30 width=30 src="images/icons/snapshot-download.png" />',
-            '<tpl if="!large"><img class="screenshoticon screenshotremove" height=30 width=30 src="images/icons/snapshot-delete.png" /></tpl>',    
+            '<img class="screenshoticon screenshotpng" height=30 width=30 src="' + snapshotDownload + '" />',
+            '<tpl if="!large"><img class="screenshoticon screenshotremove" height=30 width=30 src="' + snapshotDelete + '" /></tpl>',
             '<img class="screenshoticon screenshotenlarge" height=36 width=36 src="images/icons/snapshot-enlarge.png" />',    
             '</div>',
             '</tpl>'

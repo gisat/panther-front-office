@@ -1,0 +1,89 @@
+/* Intro ========= */
+.eea .intro #app-map {
+	display: none;
+}
+.eea .intro #map-holder {
+	background: url('../../images/eea/background.jpg') no-repeat;
+	background-size: cover;
+}
+
+.eea #content-intro, .eea #content-intro-guide {
+	background-color: rgb(0, 63, 95);
+	background-color: rgba(0, 63, 95, .95);
+}
+
+/* Header === */
+.eea #toolbar {
+	background-color: rgb(0, 63, 95);
+	border-bottom: 2px solid #006699;
+}
+
+.eea .fields-holder > .label {
+	background: url("../../images/eea/logo.png") no-repeat 15px 3px;
+	background-size: 200px;
+	height: 73px;
+}
+
+/* Buttons ================ */
+/*Basic buttons*/
+.eea .x-btn-default-small {
+	background: #077db8;
+}
+.eea .x-btn-default-small:hover {
+	background: #006699;
+}
+.eea .x-btn.custom-button.btn-confirm {
+	background: #077db8;
+	border: 1px solid #077db8;
+}
+.eea .x-btn.custom-button.btn-confirm .x-btn-inner {
+	color                : #fff;
+}
+.eea .x-btn.custom-button.btn-confirm:hover, .eea .x-btn.btn-confirm:focus {
+	background           : #006699;
+	border: 1px solid white;
+}
+
+/* top tools buttons */
+.eea .btn-map-select.x-pressed .x-btn-icon {
+	background-image: url('../../images/eea/map-select-active.png') !important;
+}
+/* map ttols buttons */
+.eea .x-btn-pressed.btn-tool-hover button .x-btn-icon {
+	background: url('../../images/eea/tools-hover-pressed.png') !important;
+}
+.eea .x-btn-pressed.btn-tool-multiple-maps button .x-btn-icon {
+	background-image: url('../../images/eea/tools-maps-multiple-pressed.png') !important;
+}
+.eea .x-btn-pressed.btn-tool-measure-line button .x-btn-icon {
+	background-image: url('../../images/eea/tools-measure-line-pressed.png') !important;
+}
+.eea .x-btn-pressed.btn-tool-measure-polygon button .x-btn-icon {
+	background-image: url('../../images/eea/tools-measure-polygon-pressed.png') !important;
+}
+.eea .x-btn-pressed.btn-map-tool button .x-btn-inner,  .eea #app-tools-actions .x-btn-pressed span.x-btn-inner{
+	color: #006699;
+}
+
+/* Checkbox ========== */
+.eea .x-grid-checkheader-checked {
+	background-image: url('../../images/eea/checked.png');
+}
+.newDesign .x-tree-checkbox-checked {
+	background-image: url('../../images/eea/checked.png');
+}
+
+/* Slider ======== */
+.eea .x-slider-thumb {
+	background-image: url('../../images/eea/panther-slider-thumb.png');
+}
+.eea .slider-thumb-label.sliding {
+	color: #006699;
+}
+
+/* advanced filters slider */
+.eea .tools-filters-list .x-slider-horz .x-slider-inner{
+	background-repeat: no-repeat;
+	background-image: url("../../images/eea/slider-colored-4.png");
+	background-position: 0;
+}
