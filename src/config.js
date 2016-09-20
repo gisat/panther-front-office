@@ -1,5 +1,5 @@
 var Config = {
-	url: 'http://localhost:4000/',
+	url: 'http://localhost/',
 	signupAddress: 'http://localhost/geonode/account/signup/',
 	geoserver2Workspace: "puma",
 	initialBaseMap: "terrain",
@@ -20,16 +20,16 @@ var Config = {
 		allowDownloadsLink: false,
 		usePumaLogo: false,
 		advancedFiltersFirst: true,
-		hasNewEvaluationTool: true,
-		isNewDesign: true,
-		isUrbis: true,
+		hasNewEvaluationTool: false,
+		isNewDesign: false,
+		isUrbis: false,
 		isEea: false
 	},
 
 	basicTexts: {
 		advancedFiltersName: "Evaluation Tool",
 		areasSectionName: "Selection level",
-		appTitle: "Urbis tool",
+		appTitle: "PUMA tool",
 		appName: "&nbsp;",
 		scopeName: "Scale"
 	},
