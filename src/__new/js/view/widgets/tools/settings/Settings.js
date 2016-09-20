@@ -21,7 +21,7 @@ define([
     /**
      * It builds the settings window and control all operations in it
      * @params options {Object}
-     * @params options.attributes {JSON} Data set
+     * @params options.attributes {Array} List of all attributes
      * @params options.target {Object} JQuery - target object, where should be the settings rendered
      * @params options.widgetId {string} Id of the connected widget
      * @constructor
@@ -32,7 +32,6 @@ define([
         }
 
         this._attributes = options.attributes;
-        console.log(this._attributes);
         this._target = options.target;
         this._widgetId = options.widgetId;
         this._id = options.widgetId + '-settings';
@@ -71,11 +70,13 @@ define([
         this._checkboxTarget = $('#' + this._id + ' .tool-window-body');
         this._checkboxTarget.html("");
         var asName = "";
+        var asId = null;
         var self = this;
         this._attributes.forEach(function(attribute){
             if (attribute.about.asName != asName){
                 asName = attribute.about.asName;
-                self.addAttributeSetName(asName);
+                asId = "settings-as-" + attribute.about.as;
+                self.addAttributeSetName(asName, asId);
             }
             var type = attribute.about.attrType;
             var name = attribute.about.attrName;
@@ -102,8 +103,13 @@ define([
         });
     };
 
-    Settings.prototype.addAttributeSetName = function(name){
-        var html = '<div class="floater-row section-header">' + name + '</div>';
+	/**
+     * Add label for attribute set to the settings window
+     * @param name {string} name of the attribute set
+     * @param id {string} id of the element
+     */
+    Settings.prototype.addAttributeSetName = function(name, id){
+        var html = '<div class="floater-row section-header" id="'+ id +'">' + name + '</div>';
         this._checkboxTarget.append(html);
     };
 
@@ -129,6 +135,7 @@ define([
      * @returns {Object}
      */
     Settings.prototype.getCategories = function(){
+        console.log(this._categories);
         return this._categories;
     };
 
