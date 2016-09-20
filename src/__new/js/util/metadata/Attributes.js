@@ -4,16 +4,16 @@ define(['../../util/Remote',
 		   Stores){
 
 	/**
-	 * Class for gathering metadata of attributes from server
+	 * Class for gathering attributes metadata
 	 * @constructor
 	 */
 
-	var Attributes = function(options){
+	var Attributes = function(){
 		this._attributeSets = null;
 	};
 
 	/**
-	 * It returns information about all atributtes grouped by attribute sets
+	 * It returns information about all attributes grouped by attribute sets
 	 * @returns {Promise}
 	 */
 	Attributes.prototype.getData = function(){
@@ -28,65 +28,115 @@ define(['../../util/Remote',
 				if (output.data.hasOwnProperty("attrSets")){
 					self._attributeSets = output.data.attrSets;
 				}
-				return self.getAttributeSetsData(self._attributeSets);
+				return self.getAttributesFromAllAttributeSets(self._attributeSets);
 			});
 		}
 		else {
-			return this.getAttributeSetsData(this._attributeSets);
+			return this.getAttributesFromAllAttributeSets(this._attributeSets);
 		}
 	};
 
 	/**
-	 * It returns a Promise of metadata for all attribute sets
+	 * It returns a Promise of attributes metadata for all attribute sets
 	 * @param attributeSets {Array} Ids of attribute sets
 	 * @returns {Promise}
 	 */
-	Attributes.prototype.getAttributeSetsData = function(attributeSets){
+	Attributes.prototype.getAttributesFromAllAttributeSets = function(attributeSets){
 		var self = this;
-
-		return Promise.all(attributeSets.map(function (attributeSet) {
-			return Stores.retrieve("attributeSet").byId(attributeSet).then(function (attrSet) {
-					return attrSet[0];
-				}).then(function(attributeSet){
-					return Promise.all(attributeSet.attributes.map(function (attribute) {
-						return Stores.retrieve("attribute").byId(attribute).then(function(attr){
-							var params = {
-								attr: attr[0].id,
-								attrName: attr[0].name,
-								attrType: attr[0].type,
-								as: attributeSet.id,
-								asName: attributeSet.name,
-								units: attr[0].standardUnits
-							};
-							if (params.attrType == "numeric"){
-								return self.filterAttributes("filter",params);
-							}
-							else if (params.attrType == "text"){
-								return self.filterAttributes("getUniqueValues",params);
-							}
-							else if (params.attrType == "boolean") {
-								return {
-									about: params
-								};
-							}
-						});
-					}));
-				});
-		}));
+		return Promise.all(attributeSets.map(self.getAttributeSet.bind(self)));
 	};
 
 	/**
-	 * It returns information about all current numeric attributes (metadata and distribution)
-	 * @param filterType {string} Type of the filter to use
+	 * Get attribute set data
+	 *
+	 * @param attributeSet {number} ID of attribute set
+	 * @returns {*|Promise}
+	 */
+	Attributes.prototype.getAttributeSet = function (attributeSet) {
+		var self = this;
+		return Stores.retrieve("attributeSet").byId(attributeSet).then(function (attrSet) {
+			return attrSet[0];
+		}).then(self.getAttributesFromAttributeSet.bind(self));
+	};
+
+	/**
+	 * Return the data of all atributes in give attribute set
+	 * @param attributeSet {Object}
+	 * @param attributeSet.attributes {Array} IDs of attributes
+	 * @returns {Promise}
+	 */
+	Attributes.prototype.getAttributesFromAttributeSet = function(attributeSet){
+		var self = this;
+		return Promise.all(attributeSet.attributes.map(self.getAttribute.bind(self, attributeSet)));
+	};
+
+	/**
+	 * Get the attribute data
+	 *
+	 * @param attributeSet {Object} attribute set
+	 * @param attributeSet.id {number} attribute set id
+	 * @param attributeSet.name {string} attribute set name
+	 * @param attribute {number} id of the attribute
+	 * @returns {*|Promise}
+	 */
+	Attributes.prototype.getAttribute = function(attributeSet, attribute){
+		var self = this;
+		return Stores.retrieve("attribute").byId(attribute).then(
+			self.getAttributeDataByType.bind(self, attributeSet)
+		);
+	};
+
+	/**
+	 * Use the filter according to attribute type and return the attribute data
+	 *
+	 * @param attributeSet {Object} attribute set
+	 * @param attributeSet.id {number} attribute set id
+	 * @param attributeSet.name {string} attribute set name
+	 * @param attribute {Object[]} attribute
+	 * @param attribute.id {number} attribute id
+	 * @param attribute.name {string} attribute name
+	 * @param attribute.type {('numeric'|'text'|'boolean')} attribute type
+	 * @param attribute.standardUnits {string}
+	 * @returns {Object|Promise}
+	 */
+	Attributes.prototype.getAttributeDataByType = function(attributeSet, attribute) {
+		var attr = attribute[0];
+
+		var params = {
+			attr: attr.id,
+			attrName: attr.name,
+			attrType: attr.type,
+			as: attributeSet.id,
+			asName: attributeSet.name,
+			units: attr.standardUnits
+		};
+		if (params.attrType == "numeric") {
+			return this.filterAttribute("filter", params);
+		}
+		else if (params.attrType == "text") {
+			return this.filterAttribute("getUniqueValues", params);
+		}
+		else if (params.attrType == "boolean") {
+			return {
+				about: params
+			};
+		}
+	};
+
+	/**
+	 * It returns information about all current numeric attributes (metadata and distribution) or text attributes (metadata)
+	 * based on type of the filter
+	 *
+	 * @param filterType {('filter'|'getUniqueValues')} Type of the filter to use
 	 * @param attrParams {Object} attribute parameters
 	 * @param attrParams.attr {Number} ID of attribute
 	 * @param attrParams.attrName {string} Name of attribute
 	 * @param attrParams.as {Number} ID of attribute set
 	 * @param attrParams.asName {string} Name of atributte set
-	 * @param attrParams.attrType {string} Date type of attribute
+	 * @param attrParams.attrType {('numeric'|'text'|'boolean')} Type of attribute
 	 * @returns {*|Promise}
 	 */
-	Attributes.prototype.filterAttributes = function(filterType, attrParams){
+	Attributes.prototype.filterAttribute = function(filterType, attrParams){
 		return new Remote({
 			method: "POST",
 			url: window.Config.url + "api/filter/" + filterType,

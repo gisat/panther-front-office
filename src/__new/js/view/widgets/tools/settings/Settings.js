@@ -135,7 +135,6 @@ define([
      * @returns {Object}
      */
     Settings.prototype.getCategories = function(){
-        console.log(this._categories);
         return this._categories;
     };
 
