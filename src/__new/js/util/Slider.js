@@ -17,6 +17,7 @@ define([
      * @param options.id {String} Id of the element in which should be slider rendered
      * @param options.type {boolean} true, if the slider should have two handles
      * @param options.range {Array} min and max value of the slider
+     * @param options.step {number} step of the slider
      * @param options.values {Array} current slider values
      * @constructor
      */
@@ -35,6 +36,7 @@ define([
         this._id = "#" + options.id;
         this._range = options.range;
         this._values = options.values;
+        this._step = options.step || 1;
 
         if (options.type){
             this._type = options.type;
@@ -55,12 +57,10 @@ define([
         var self = this;
         return $(this._id).slider({
             range: self._type,
+            step: self._step,
             min: self._range[0],
             max: self._range[1],
-            values: self._values,
-            slide: function( event, ui ) {
-                $(this).siblings().find('.slider-popup-values').html("From: <b>" + viewUtils.thousandSeparator(ui.values[ 0 ]) + "</b>&nbsp;&nbsp; To: <b>" + viewUtils.thousandSeparator(ui.values[ 1 ]) + "</b>");
-            }
+            values: self._values
         });
     };
 
@@ -71,12 +71,10 @@ define([
         var self = this;
         return $( this._id ).slider({
             range: "min",
+            step: self._step,
             min: self._range[0],
             max: self._range[1],
-            value: self._values[0],
-            slide: function( event, ui ) {
-                $(this).siblings().find('.slider-popup-values').html("Value: <b>" + viewUtils.thousandSeparator(ui.value) + "</b>");
-            }
+            value: self._values[0]
         });
     };
 

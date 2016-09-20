@@ -163,6 +163,9 @@ Ext.define('PumaMain.view.Tools', {
         if (Config.toggles.advancedFiltersFirst){
             this.items = [colourSelection,advancedFilters,layers,areas,maptools]
         }
+        if (Config.toggles.hasNewEvaluationTool){
+            this.items = [colourSelection,layers,areas,maptools]
+        }
 
         this.callParent();
         

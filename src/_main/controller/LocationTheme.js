@@ -65,6 +65,15 @@ Ext.define('PumaMain.controller.LocationTheme', {
         window.location = '/';
     },
     onDatasetChange: function(cnt,val) {
+        // new URBIS change
+        if (!$('body').hasClass("intro")){
+            $("#loading-screen").css({
+                display: "block",
+                background: "radial-gradient(rgba(230, 230, 230, .85), rgba(180, 180, 180, .85))"
+            })
+        }
+        ThemeYearConfParams.datasetChanged = true;
+
         if (cnt.eventsSuspended) {
             return;
         }
@@ -155,7 +164,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
             this.onYearChange(cnt);
             return;
         }
-        
         var areaRoot = Ext.StoreMgr.lookup('area').getRootNode();
         
         var nodesToCollapse = [];
@@ -210,7 +218,11 @@ Ext.define('PumaMain.controller.LocationTheme', {
         this.forceInit = true;
         this.updateLayerContext();
         this.forceInit = false;
-   
+
+        // new URBIS change
+        this.newOnChange({
+            placeChanged: true
+        });
     },
     
     onConfirm: function() {
@@ -219,7 +231,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
             return;
         }
         var val = Ext.ComponentQuery.query('#initialtheme')[0].getValue();
-        this.onThemeChange({switching:true},val)
+        this.onThemeChange({switching:true},val);
     },
     
     onThemeChange: function(cnt,val) {
@@ -289,7 +301,11 @@ Ext.define('PumaMain.controller.LocationTheme', {
         yearCnt.resumeEvents();
         visCnt.resumeEvents();
         this.onYearChange(themeCombo);
-  
+
+        // new URBIS change
+        this.newOnChange({
+            themeChanged: true
+        });
     },
     
     onYearChange: function(cnt) {
@@ -305,11 +321,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
         var detailLevelChanged = cnt.itemId == 'detaillevel';
         
         var theme = Ext.ComponentQuery.query('#seltheme')[0].getValue();
-        ThemeYearConfParams.theme = theme.toString();
         var dataset = Ext.ComponentQuery.query('#seldataset')[0].getValue();
-        ThemeYearConfParams.dataset = dataset.toString();
         var years = Ext.ComponentQuery.query('#selyear')[0].getValue();
-        ThemeYearConfParams.years = "[" + years.toString() + "]";
         var vis = Ext.ComponentQuery.query('#selvisualization')[0].getValue();
         var params = {
 						theme: theme,
@@ -324,6 +337,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         var cntId = cnt.itemId;
         
         var root = Ext.StoreMgr.lookup('area').getRootNode();
+
         params['refreshLayers'] = (this.themeChanged) ? true : null;
         params['refreshAreas'] = (this.yearChanged || this.datasetChanged || this.locationChanged || detailLevelChanged || isFilter) ? true : false;
 
@@ -359,43 +373,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
             delete params['fids'];
         }
 
-        if (params['refreshAreas'] != null){
-            ThemeYearConfParams.refreshAreas = params['refreshAreas'].toString();
-        } else {
-            ThemeYearConfParams.refreshAreas = "";
-        }
-        if (params['refreshLayers'] != null){
-            ThemeYearConfParams.refreshLayers = params['refreshLayers'].toString();
-        } else {
-            ThemeYearConfParams.refreshLayers = "";
-        }
-        if (params['queryTopics'] != null){
-            ThemeYearConfParams.queryTopics = params['queryTopics'].toString();
-        } else {
-            ThemeYearConfParams.queryTopics = "";
-        }
-        if (params['expanded'] != null){
-            ThemeYearConfParams.expanded = params['expanded'].toString();
-        } else {
-            ThemeYearConfParams.expanded = "";
-        }
-        if (params['fids'] != null){
-            ThemeYearConfParams.fids = params['fids'].toString();
-        } else {
-            ThemeYearConfParams.fids = "";
-        }
-        if (params['parentgids'] != null){
-            ThemeYearConfParams.parentgids = params['parentgids'].toString();
-        } else {
-            ThemeYearConfParams.parentgids = "";
-        }
-        if (params['artifexpand'] != null){
-            ThemeYearConfParams.artifexpand = params['artifexpand'].toString();
-        } else {
-            ThemeYearConfParams.artifexpand = "";
-        }
-
-
         var me = this;
         Ext.Ajax.request({
             url: Config.url+'api/theme/getThemeYearConf',
@@ -423,9 +400,54 @@ Ext.define('PumaMain.controller.LocationTheme', {
         this.themeChanged = null;
         this.yearChanged = null;
 
-        Observer.notify('rebuild');
+        // new URBIS change
+        this.newOnChange();
     },
-        
+
+    // new URBIS change
+    newOnChange: function(params){
+        if (!ThemeYearConfParams.datasetChanged){
+            if (params && params.hasOwnProperty("placeChanged")){
+                ThemeYearConfParams.placeChanged = params.placeChanged;
+            }
+            else {
+                ThemeYearConfParams.placeChanged = false;
+            }
+
+            // detect if theme has been changed
+            if (params && params.hasOwnProperty("themeChanged")){
+                ThemeYearConfParams.themeChanged = params.themeChanged;
+                Observer.notify("rebuild");
+            }
+            else {
+                ThemeYearConfParams.themeChanged = false;
+            }
+
+            // detect if year has been changed
+            var currentYears = Ext.ComponentQuery.query('#selyear')[0].getValue();
+            var cYears = "[" + currentYears.toString() + "]";
+            if (ThemeYearConfParams.years != cYears){
+                Observer.notify("rebuild");
+            }
+        }
+
+        // current dataset
+        var dataset = Ext.ComponentQuery.query('#seldataset')[0].getValue();
+        ThemeYearConfParams.dataset = dataset.toString();
+
+        // current place
+        var locObj = this.getController('Area').getLocationObj();
+        if (locObj.location){
+            ThemeYearConfParams.place = locObj.location.toString();
+        }
+        //current theme
+        var theme = Ext.ComponentQuery.query('#seltheme')[0].getValue();
+        ThemeYearConfParams.theme = theme.toString();
+
+        // current years
+        var years = Ext.ComponentQuery.query('#selyear')[0].getValue();
+        ThemeYearConfParams.years = "[" + years.toString() + "]";
+    },
     onVisChange: function(cnt) {
         if (cnt.eventsSuspended) {
             return;
@@ -963,7 +985,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
         }
         
         delete Config.cfg;
-
     },
     checkFeatureLayers: function() {
         var themeId = Ext.ComponentQuery.query('#seltheme')[0].getValue();

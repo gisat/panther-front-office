@@ -28,15 +28,8 @@ define([
 	 * What type of request should be used
 	 */
 	Remote.prototype.request = function(){
-		var url;
 		var options = this.prepareParams(this._params);
-
-		if (this._method == "GET"){
-			url = this.prepareUrl(this._url, this._params || {});
-		}
-		else if (this._method == "POST") {
-			url = this.prepareUrl(this._url, {});
-		}
+		var url = this.prepareUrl(this._url, this._params || {});
 
 		// Returns promise.
 		return this.ajax(url, options);

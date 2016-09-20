@@ -18,7 +18,6 @@ define(['../../error/ArgumentError',
      * This class builds the histogram from data according to given number of classes
      * @param options {Object}
      * @param options.id {String} Id of connected slider
-     * @param options.numClasses {number} Number of classes in which will be the data divided
      * @param options.maximum {number} Maximal value
      * @param options.minimum {number} Minimal value
      * @constructor
@@ -26,12 +25,6 @@ define(['../../error/ArgumentError',
     var Histogram = function(options) {
         if (!options.id){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Histogram", "constructor", "missingElementId"));
-        }
-        if (!options.numClasses){
-            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Histogram", "constructor", "missingNumClasses"));
-        }
-        if (!viewUtil.isNaturalNumber(options.numClasses)){
-            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Histogram", "constructor", "notNaturalNumber"));
         }
         if (!options.minimum && options.minimum != 0){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Histogram", "constructor", "missingMinimum"));
@@ -41,11 +34,13 @@ define(['../../error/ArgumentError',
         }
 
         this._id = options.id;
-        this._numClasses = options.numClasses;
         this._minimum = options.minimum;
         this._maximum = options.maximum;
 
-        this._classes = this.buildClasses();
+        this._classes = null;
+        this._numOfClasses = null;
+        this._readyClasses = null;
+        this._numOfReadyClasses = null;
 
         this._histogram = $('#histogram-' + this._id);
         if (this._histogram.length == 0){
@@ -55,87 +50,35 @@ define(['../../error/ArgumentError',
 
     /**
      * Rebuild the histogram for given dataset
-     * @param dataSet {JSON}
+     * @param distribution {Array} Distribution of data
+     * @param sliderRange {Array} Current values of slider handles
+     * @param dataMinMax {Array} Minimum and maximum of data
      */
-    Histogram.prototype.rebuild = function(dataSet){
-        this.emptyClasses();
-
-        var self = this;
-        dataSet.forEach(function(item){
-            var value = item.data[self._id].value;
-            self._classes.forEach(function(klass){
-                if (value >= klass.minimum && value <= klass.maximum){
-                    return klass.count +=1;
-                }
-            });
-        });
-        this.redraw();
+    Histogram.prototype.rebuild = function(distribution, sliderRange, dataMinMax){
+        if (this._classes){
+            this._classes = this.emptyClasses(this._classes);
+        }
+        this._classes = this.buildClasses(distribution, dataMinMax);
+        this.redraw(distribution, sliderRange, dataMinMax);
+        this.selectBars(sliderRange);
     };
 
-    /**
-     * Redraw the histogram
+	/**
+	 * Build the histogram classes (thresholds and frequency for each class)
+     * @param distribution {Array} Distribution of original data
+     * @param range {Array} Min and max value of the original data
+     * @returns {Array.<{minimum: number, maximum: number, count: number}>} Histogram classes
      */
-    Histogram.prototype.redraw = function() {
-        this._histogram.html('');
-        var containerHeight = this._histogram.css('height').slice(0,-2);
-        var containerWidth = this._histogram.css('width').slice(0,-2);
-        var width = (containerWidth - 1)/this._numClasses;
-        var heightRatio = containerHeight/this.getMostFrequented();
-        var content = "";
-
-        this._classes.forEach(function(bar){
-            var height = (bar.count * heightRatio);
-            var margin = containerHeight - height;
-            content += '<div class="histogram-bar selected" style="height: ' + height + 'px ; width: ' + width + 'px ;margin-top: '+ margin +'px"></div>';
-        });
-
-        this._histogram.append(content);
-    };
-
-    /**
-     * It redraws colour of histogram bars according to slider position
-     * @param values {Array} min and max value
-     */
-    Histogram.prototype.selectBars = function(values) {
-        var minIndex = -1;
-        var maxIndex = this._numClasses;
-        this._classes.forEach(function(klass, index){
-            if (klass.maximum < values[0]){
-                if (index > minIndex){
-                    minIndex = index;
-                }
-            }
-            if (klass.minimum > values[1]){
-                if (index < maxIndex){
-                    maxIndex = index;
-                }
-            }
-        });
-
-        this._histogram.children().each(function(index, bar){
-            if (index <= minIndex || index >=  maxIndex){
-                $(bar).removeClass('selected');
-            }
-            else {
-                $(bar).addClass('selected');
-            }
-        });
-    };
-
-    /**
-     * It returns classes for histogram and their thresholds
-     * @returns {Object}
-     */
-    Histogram.prototype.buildClasses = function() {
+    Histogram.prototype.buildClasses = function(distribution, range){
+        this._numOfClasses = distribution.length;
         var classes = [];
+        var threshold = range[0];
+        var interval = (range[1] - range[0])/this._numOfClasses;
 
-        var threshold = this._minimum;
-        var interval = (this._maximum - this._minimum)/this._numClasses;
-
-        for (var i = 0; i < this._numClasses; i++){
+        for (var i = 0; i < this._numOfClasses; i++){
             classes[i] = {
                 minimum: threshold,
-                count: 0
+                count: distribution[i]
             };
             threshold += interval;
             classes[i].maximum = threshold;
@@ -144,22 +87,155 @@ define(['../../error/ArgumentError',
     };
 
     /**
-     * It clears counts for all classes
+     * Redraw the histogram
+     * @param frequencies {Array} Distribution of original data
+     * @param sliderRange {Array.<number,number>} Current values of slider handles
+     * @param dataMinMax {Array} Minimum and maximum value of data
      */
-    Histogram.prototype.emptyClasses = function() {
-        this._classes.forEach(function(klass){
-            klass.count = 0;
+    Histogram.prototype.redraw = function(frequencies, sliderRange, dataMinMax) {
+        this._histogram.html('');
+        var widthRatio = (dataMinMax[1] - dataMinMax[0])/(this._maximum - this._minimum);
+        if (Math.abs(dataMinMax[1] - dataMinMax[0]) < 0.01){
+            widthRatio = 0.05;
+        }
+
+        var containerHeight = Number(this._histogram.css('height').slice(0,-2));
+        var containerWidth = Number(this._histogram.css('width').slice(0,-2));
+        var originalBarWidth = widthRatio*(containerWidth - 2)/this._numOfClasses;
+
+        if (originalBarWidth <= 8){
+            this._numOfReadyClasses = this.adjustNumberOfClasses(this._numOfClasses, originalBarWidth);
+            this._readyClasses = this.groupClasses(this._numOfReadyClasses, this._classes);
+        }
+        else {
+            this._numOfReadyClasses = this._numOfClasses;
+            this._readyClasses = this._classes;
+        }
+
+        var width = widthRatio * (containerWidth - 2)/this._numOfReadyClasses;
+        var heightRatio = containerHeight/this.getMostFrequented(this._readyClasses);
+        var histogramMargin = (dataMinMax[0] - this._minimum) * (containerWidth/(this._maximum - this._minimum));
+
+        var content = "";
+        this._readyClasses.forEach(function(bar){
+            var height = (bar.count * heightRatio);
+            var marginTop = containerHeight - height;
+            content += '<div class="histogram-bar selected" style="height: ' + height + 'px ; width: ' + width + 'px ;margin-top: '+ marginTop +'px"></div>';
+        });
+        this._histogram.append(content).css({
+            marginLeft: histogramMargin
         });
     };
 
-    /**
+	/**
+	 * Group the classes, if the number of original classes is divisible by the number of new classes
+     * @param numClasses {number} Number of resulting classes
+     * @param originalClasses {Array}
+     * @returns {Array} grouped classes
+     */
+    Histogram.prototype.groupClasses = function(numClasses, originalClasses){
+        var groupedClasses = [];
+        var classesInGroup = originalClasses.length/numClasses;
+        if (originalClasses.length % numClasses == 0){
+            for (var k = 0; k < numClasses; k++){
+                var sum = 0;
+                var l = 0;
+                for (l; l < classesInGroup; l++ ){
+                    sum = sum + originalClasses[k*classesInGroup + l].count;
+                }
+                groupedClasses[k] = {};
+                groupedClasses[k].minimum = originalClasses[k*classesInGroup].minimum;
+                groupedClasses[k].maximum = originalClasses[(k*classesInGroup + l) - 1].maximum;
+                groupedClasses[k].count = sum;
+            }
+            return groupedClasses;
+        }
+        else {
+            return originalClasses;
+        }
+    };
+
+	/**
+     * It clears counts for all classes
+     * @param classes {Array}
+     */
+    Histogram.prototype.emptyClasses = function(classes) {
+        classes.forEach(function(klass){
+            klass.count = 0;
+        });
+        return classes;
+    };
+
+	/**
+	 * Adjust the number of classes of histogram. It prevents histogram from having thin bars.
+     * @param originalWidth {number} Width of bar in pixels
+     * @param num {number} original number of classes
+     * @returns {number} number of classes
+     */
+    Histogram.prototype.adjustNumberOfClasses = function(num, originalWidth){
+        var adjustedNumOfClasses = num;
+
+        if (num % 20 == 0){
+            if (originalWidth > 5 && originalWidth <= 8){
+                adjustedNumOfClasses = num/2;
+            }
+            else if (originalWidth > 3 && originalWidth <= 5){
+                adjustedNumOfClasses = num/4;
+            }
+            else if (originalWidth > 1.5 && originalWidth <= 3){
+                adjustedNumOfClasses = num/5;
+            }
+            else if (originalWidth > .8 && originalWidth <= 1.5){
+                adjustedNumOfClasses = num/10;
+            }
+            else {
+                adjustedNumOfClasses = num/20;
+            }
+        }
+        return adjustedNumOfClasses;
+    };
+
+	/**
      * It returns the count for a class with highest frequency
+     * @param {Array} classes
      * @returns {number}
      */
-    Histogram.prototype.getMostFrequented = function() {
-        return _.max(this._classes, function(item) {
+    Histogram.prototype.getMostFrequented = function(classes) {
+        return _.max(classes, function(item) {
             return item.count;
         }).count;
+    };
+
+    /**
+     * It redraws colour of histogram bars according to slider position
+     * @param values {Array} current min and max value of the slider
+     */
+    Histogram.prototype.selectBars = function(values) {
+        var minIndex = -1;
+        var maxIndex = this._numOfReadyClasses;
+        if (this._readyClasses){
+            this._readyClasses.forEach(function(klass, index){
+                if (klass.maximum < values[0]){
+                    if (index > minIndex){
+                        minIndex = index;
+                    }
+                }
+                if (klass.minimum > values[1]){
+                    if (index < maxIndex){
+                        maxIndex = index;
+                    }
+                }
+            });
+
+            this._histogram.children().each(function(index, bar){
+                if (index <= minIndex || index >=  maxIndex){
+                    $(bar).removeClass('selected');
+                }
+                else {
+                    $(bar).addClass('selected');
+                }
+            });
+        }
     };
 
     return Histogram;

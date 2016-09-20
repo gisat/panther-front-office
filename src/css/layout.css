@@ -697,7 +697,7 @@ body.application #sidebar-reports {
 	background: -webkit-radial-gradient(rgb(200, 200, 200), rgb(150, 150, 150)); /* For Safari 5.1 to 6.0 */
 	background: -o-radial-gradient(rgb(200, 200, 200), rgb(150, 150, 150)); /* For Opera 11.6 to 12.0 */
 	background: -moz-radial-gradient(rgb(200, 200, 200), rgb(150, 150, 150)); /* For Fx 3.6 to 15 */
-	background: radial-gradient(rgb(230, 230, 230), rgb(180, 180, 180));
+	background: radial-gradient(rgba(230, 230, 230, 1), rgba(180, 180, 180, 1));
 }
 
 #loading-screen-content-wrap {

@@ -32,12 +32,12 @@ requirejs.config({
     }
 });
 
-define(['js/view/widgets/EvaluationWidget/EvaluationWidget',
-        'js/util/DataFilters',
+define(['js/util/metadata/Attributes',
+        'js/view/widgets/EvaluationWidget/EvaluationWidget',
+        'js/util/Filter',
         'js/util/Floater',
 		'./FrontOffice',
         'js/util/Logger',
-        'js/data/mockData',
         'js/util/Placeholder',
 		'js/util/Remote',
 		'js/stores/Stores',
@@ -46,12 +46,12 @@ define(['js/view/widgets/EvaluationWidget/EvaluationWidget',
         'jquery',
         'jquery-ui',
         'underscore'
-], function (EvaluationWidget,
-             DataFilters,
+], function (Attributes,
+             EvaluationWidget,
+             Filter,
              Floater,
 			 FrontOffice,
              Logger,
-             mockData,
              Placeholder,
 			 Remote,
 			 Stores,
@@ -65,12 +65,11 @@ define(['js/view/widgets/EvaluationWidget/EvaluationWidget',
 
 		if(window.Config.toggles.hasNewEvaluationTool){
 			new EvaluationWidget({
-				data: mockData,
+				attributesMetadata: new Attributes(),
+                filter: new Filter(),
 				elementId: 'evaluation-widget',
-				filter: new DataFilters(),
 				name: 'Evaluation Tool',
-				targetId: 'widget-container',
-				tools: ['settings']
+				targetId: 'widget-container'
 			});
 		}
 
@@ -103,17 +102,6 @@ define(['js/view/widgets/EvaluationWidget/EvaluationWidget',
         $(".floater").draggable({
             containment: "window",
             handle: ".floater-header",
-            stop: function (ev, ui) {
-                var element = $(this);
-                element.css({
-                    width: "",
-                    height: ""
-                });
-            }
-        });
-        $(".tool-window").draggable({
-            containment: "window",
-            handle: ".tool-window-header",
             stop: function (ev, ui) {
                 var element = $(this);
                 element.css({

@@ -1,5 +1,10 @@
 var allTestFiles = [];
 var TEST_REGEXP = /(Spec|Test)\.js$/i;
+var ThemeYearConfParams = {
+    dataset: 2,
+    theme: 3,
+    years: [4]
+};
 
 // Get a list of all the test files to include
 Object.keys(window.__karma__.files).forEach(function (file) {

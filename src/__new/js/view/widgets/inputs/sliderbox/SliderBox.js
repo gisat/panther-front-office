@@ -26,11 +26,13 @@ define(['../../../../error/ArgumentError',
     /**
      * This class represents the row with the slider
      * @param options {Object}
-     * @param options.data {JSON}
+     * @param options.attrId {string} ID of the attribute
+     * @param options.attrSetId {string} ID of the attribute set ID
      * @param options.id {string} ID of the slider
      * @param options.name {string} slider label
      * @param options.target {Object} JQuery selector representing the target element where should be the slider rendered
      * @param options.range {Array} min and max value of the slider
+     * @param options.step {number} step of the slider
      * @param options.values {Array} current slider values
      * @param options.isRange {boolean} true, if the slider should have two handles
      * @constructor
@@ -48,14 +50,20 @@ define(['../../../../error/ArgumentError',
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "SliderBox", "constructor", "missingTarget"));
         }
 
-        this._dataSet = options.data;
+        this._attrId = options.attrId;
+        this._attrSetId = options.attrSetId;
         this._id = options.id;
         this._name = options.name;
         this._target = options.target;
+        this._step = options.step || 1;
 
         this._range = options.range;
         this._values = options.values;
         this._isRange = options.isRange;
+
+        if (options.units){
+            this._name = this._name + " (" + options.units + ")";
+        }
 
         this.build();
     };
@@ -67,18 +75,16 @@ define(['../../../../error/ArgumentError',
      */
     SliderBox.prototype.build = function (){
         var self = this;
-
         var html = S(htmlContent).template({
             id: this._id,
             name: this._name,
-            labelMin: viewUtils.thousandSeparator(this._range[0]),
-            labelMax: viewUtils.thousandSeparator(this._range[1])
+            labelMin: viewUtils.numberFormat(this._range[0], true, 2),
+            labelMax: viewUtils.numberFormat(this._range[1], true, 2)
         }).toString();
 
         this._target.append(html).ready(function(){
                 self.buildSlider();
                 self.histogram = self.buildHistogram();
-                self.histogram.rebuild(self._dataSet);
                 self.addSlideListeners(self._id, self._isRange);
         });
     };
@@ -92,6 +98,7 @@ define(['../../../../error/ArgumentError',
             id: this._id,
             type: this._isRange,
             range: this._range,
+            step: this._step,
             values: this._values
         });
     };
@@ -103,7 +110,6 @@ define(['../../../../error/ArgumentError',
     SliderBox.prototype.buildHistogram = function(){
         return new Histogram({
             id: this._id,
-            numClasses: 30,
             minimum: this._range[0],
             maximum: this._range[1]
         });
@@ -132,7 +138,10 @@ define(['../../../../error/ArgumentError',
         selector.off('slide').on('slide', function(e){
             if (isRange){
                 var values = $(this).slider("values");
-                self.histogram.selectBars(values);
+                if (values[0] != values[1]){
+                    self.histogram.selectBars(values);
+                }
+                $(this).siblings().find('.slider-popup-values').html("From: <b>" + viewUtils.numberFormat(values[ 0 ], true, 2) + "</b>&nbsp;&nbsp; To: <b>" + viewUtils.numberFormat(values[ 1 ], true, 2) + "</b>");
             }
         })
     };

@@ -3,6 +3,7 @@ Ext.define('PumaMain.controller.Filter', {
     views: [],
     requires: ['Puma.util.Msg'],
     init: function() {
+        Observer.addListener("selectAreas",this.applyFiltersCallback.bind(this));
         this.control(
                 {
                     '#advancedfilters multislider' : {
@@ -150,9 +151,6 @@ Ext.define('PumaMain.controller.Filter', {
         var labelEl = label.el;
         if (!labelEl) return;
         labelEl.addCls('sliding');
-
-        console.log(slider.chart);
-        console.log(slider.chart.container.id);
         var chartId = slider.chart.container.id;
         Ext.get(chartId).setStyle('display', 'block');
         if (slider.chartEl) {
@@ -453,7 +451,7 @@ Ext.define('PumaMain.controller.Filter', {
         else {
             areas = this.getController('Area').allMap;
         }
-        
+
         
         var datasetId = Ext.ComponentQuery.query('#seldataset')[0].getValue();
         var years = Ext.ComponentQuery.query('#selyear')[0].getValue();
@@ -504,18 +502,23 @@ Ext.define('PumaMain.controller.Filter', {
     },
         
     applyFiltersCallback: function(response) {
-        var data = JSON.parse(response.responseText).data
-        var areas = data.data;
-        this.filterData['dist'] = data.dist;
-        for (var attrName in data.dist) {
-            var slider = Ext.ComponentQuery.query('multislider[attrname='+attrName+']')[0];
-            this.createChart(slider,data.dist[attrName]);
+        var data;
+        if (response){
+            data = JSON.parse(response.responseText).data;
+            this.filterData['dist'] = data.dist;
+            for (var attrName in data.dist) {
+                var slider = Ext.ComponentQuery.query('multislider[attrname='+attrName+']')[0];
+                this.createChart(slider,data.dist[attrName]);
+            }
         }
-        
-        
+        else {
+            data = SelectedAreasExchange.data;
+            this.filterActive = true;
+        }
+        var areas = data.data;
         
         if (this.filterActive) {
-            
+            console.log(areas);
             this.getController('DomManipulation').deactivateLoadingMask();
             this.getController('Select').selectInternal(areas || []);
             

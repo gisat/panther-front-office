@@ -21,7 +21,7 @@ define([
     /**
      * It builds the settings window and control all operations in it
      * @params options {Object}
-     * @params options.dataSet {JSON} Data set
+     * @params options.attributes {Array} List of all attributes
      * @params options.target {Object} JQuery - target object, where should be the settings rendered
      * @params options.widgetId {string} Id of the connected widget
      * @constructor
@@ -31,7 +31,7 @@ define([
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Settings", "constructor", "missingWidgetId"));
         }
 
-        this._dataSet = options.dataSet;
+        this._attributes = options.attributes;
         this._target = options.target;
         this._widgetId = options.widgetId;
         this._id = options.widgetId + '-settings';
@@ -45,11 +45,14 @@ define([
      */
     Settings.prototype.build = function(){
         var html = S(htmlContent).template({id: this._id}).toString();
-        this._target.append(html);
+        if (!$("#" + this._id).length){
+            this._target.append(html);
+        }
 
         this.addCategories();
         this.addCloseListener();
         this.addConfirmListener();
+        this.addDragging();
     };
 
     /**
@@ -65,46 +68,63 @@ define([
      */
     Settings.prototype.addCategories = function(){
         this._checkboxTarget = $('#' + this._id + ' .tool-window-body');
-        var data = this._dataSet[0].data;
-
-        for (var key in data){
-            if (data.hasOwnProperty(key)){
-                var value = data[key].value;
-                var name = data[key].name;
-                var input = "";
-
-                if (typeof value == "boolean"){
-                    input = "checkbox";
-                }
-                else if (typeof value == "number") {
-                    input = "slider";
-                }
-                else if (typeof value == "string") {
-                    input = "select";
-                }
-
-                this.addCheckbox(key, name);
-                this._categories[key] = {
-                    name: name,
-                    input: input,
-                    active: true
-                };
+        this._checkboxTarget.html("");
+        var asName = "";
+        var asId = null;
+        var self = this;
+        this._attributes.forEach(function(attribute){
+            if (attribute.about.asName != asName){
+                asName = attribute.about.asName;
+                asId = "settings-as-" + attribute.about.as;
+                self.addAttributeSetName(asName, asId);
             }
-        }
+            var type = attribute.about.attrType;
+            var name = attribute.about.attrName;
+            var id = "attr-" + attribute.about.attr;
+            var input = "";
+
+            if (type == "boolean"){
+                input = "checkbox";
+            }
+            else if (type == "numeric") {
+                input = "slider";
+            }
+            else if (type == "text") {
+                input = "select";
+            }
+
+            self.addAttribute(id, name);
+            self._categories[id] = {
+                attrData: attribute,
+                name: name,
+                input: input,
+                active: true
+            };
+        });
+    };
+
+	/**
+     * Add label for attribute set to the settings window
+     * @param name {string} name of the attribute set
+     * @param id {string} id of the element
+     */
+    Settings.prototype.addAttributeSetName = function(name, id){
+        var html = '<div class="floater-row section-header" id="'+ id +'">' + name + '</div>';
+        this._checkboxTarget.append(html);
     };
 
     /**
      * It returns the checkbox row
-     * @param key {string} id of the checkbox row
+     * @param id {string} id of the checkbox row
      * @param name {string} label
      * @returns {Checkbox}
      */
-    Settings.prototype.addCheckbox = function(key, name){
+    Settings.prototype.addAttribute = function(id, name){
         return new Checkbox({
             containerId: this._id,
             checked: true,
-            dataId: key,
-            id: 'settings-' + key,
+            dataId: id,
+            id: 'settings-' + id,
             name: name,
             target: this._checkboxTarget
         });
@@ -123,7 +143,7 @@ define([
      */
     Settings.prototype.addCloseListener = function(){
         var self = this;
-        $('#' + this._id + ' .window-close').on("click", function(){
+        $('#' + this._id + ' .window-close').off("click").on("click", function(){
             $('#' + self._id).hide("drop", {direction: "up"}, 200)
                 .removeClass("open");
         });
@@ -134,7 +154,8 @@ define([
      */
     Settings.prototype.addConfirmListener = function(){
         var self = this;
-        $('#' + this._id + ' .settings-confirm').on("click", function(){
+
+        $('#' + this._id + ' .settings-confirm').off("click").on("click", function(){
             $('#' + self._id + ' .checkbox-row').each(function(){
                 var checked = $(this).hasClass("checked");
                 var id = $(this).attr('data-id');
@@ -142,6 +163,20 @@ define([
             });
             $('#' + self._id).hide("drop", {direction: "up"}, 200)
                 .removeClass("open");
+        });
+    };
+
+    Settings.prototype.addDragging = function(){
+        $("#" + this._id).draggable({
+            containment: "window",
+            handle: ".tool-window-header",
+            stop: function (ev, ui) {
+                var element = $(this);
+                element.css({
+                    width: "",
+                    height: ""
+                });
+            }
         });
     };
 
