@@ -1,0 +1,20 @@
+/* === Checkboxes === */
+.checkbox-row.checked .checkbox-icon {
+    background: url('./checkbox-checked.png') no-repeat center center;
+}
+
+.checkbox-icon {
+    background: url('./checkbox-unchecked.png') no-repeat center center;
+    display: inline-block;
+    margin-right: .5rem;
+    width: 1.2rem;
+    height: 1.2rem;
+    line-height: 1.2rem;
+}
+
+.checkbox-label {
+    display: inline-block;
+    font-weight: bold;
+    height: 1.2rem;
+    line-height: 1.2rem;
+}

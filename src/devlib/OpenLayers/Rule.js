@@ -7,7 +7,7 @@
 /**
  * @requires OpenLayers/BaseTypes/Class.js
  * @requires OpenLayers/Util.js
- * @requires OpenLayers/RestStyle.js
+ * @requires OpenLayers/Style.js
  */
 
 /**

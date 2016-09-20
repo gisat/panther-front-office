@@ -1,0 +1,114 @@
+/* === Building blocks === */
+
+.intro .widgets {
+    display: none;
+}
+
+.widgets {
+    display: block;
+}
+
+.widgets p, .widgets a, .widgets span, .widgets label {
+    color: #666;
+    font-size: .75rem;
+}
+
+.ui-front {
+    z-index: 10000;
+}
+.ui-menu .ui-menu-item .ui-menu-item-wrapper {
+    background: #eee;
+    color: #555;
+    border: 0;
+    border-bottom: 1px solid #ddd;
+    padding: .4rem;
+    transition: background .3s ease-out;
+}
+.ui-menu .ui-menu-item .ui-menu-item-wrapper.ui-state-active {
+    background: #ddd;
+    border: 0;
+    border-bottom: 1px solid #ddd;
+    margin: 0;
+}
+
+/* === Buttons === */
+.widget-button {
+    background: #ff7600;
+    border-radius: .1rem;
+    color: white;
+    padding: .4rem;
+    text-align: center;
+    text-transform: uppercase;
+    transition: background .3s ease-out;
+}
+.widget-button:hover {
+    background: #d35400;
+    cursor: pointer;
+}
+
+.tool-window-button {
+    position: absolute;
+    right: 0;
+    width: 10rem;
+}
+
+/* == tool window == */
+.tool-window {
+    background: rgb(255,255,255);
+    border-radius: .1rem;
+    -webkit-box-shadow: 0 0 4px rgb(136, 136, 136);
+    -moz-box-shadow: 0 0 4px rgb(136, 136, 136);
+    box-shadow: 0 0 4px rgb(136, 136, 136);
+
+    display: none;
+    height: 30rem;
+    width: 40rem;
+    padding: .5rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -15rem 0 0 -20rem;
+    z-index: 99999;
+}
+
+.tool-window.open {
+    display: block;
+}
+
+.tool-window-header {
+    cursor: move;
+    height: 2rem;
+    position: relative;
+}
+
+.tool-window-header span {
+    color: #666;
+    font-size: .9rem;
+    font-weight: bold;
+    padding: .2rem;
+}
+
+.tool-window-header .window-close {
+    float: right;
+}
+
+.tool-window-header .window-close:hover {
+    cursor: pointer;
+}
+
+.tool-window-body {
+    background: rgb(250,250,250);
+    border: 1px solid rgb(230,230,230);
+    height: calc(100% - 4.5rem);
+    padding: .2rem .3rem;
+}
+
+.tool-window-body .floater-row a {
+    border-bottom: 1px solid rgb(235,235,235);
+}
+
+.tool-window-footer {
+    height: 2.5rem;
+    padding: .5rem 0;
+    position: relative;
+}

@@ -1,0 +1,549 @@
+/* Intro === */
+.newDesign #content-intro{
+    background-color: rgb(67, 66, 84);
+    background-color: rgba(67, 66, 84, .95);
+    padding: 19px;
+    border: 1px solid #666;
+    border-left: 0;
+    width: 810px;
+}
+
+.newDesign #content-intro-guide {
+    background-color: rgb(67, 66, 84);
+    background-color: rgba(67, 66, 84, .95);
+    border: 1px solid #666;
+    border-right: 0;
+    color: #eee;
+    top: auto;
+    bottom: 50px;
+}
+
+.newDesign #about-urbis h2 {
+    margin-top: 15px;
+}
+
+.newDesign #content-intro-terms h2,
+.newDesign #content-intro-guide h2 {
+    border: 0;
+}
+.newDesign #toolbar {
+    background: rgb(67, 66, 84);
+    border-bottom: 2px solid rgb(36, 36, 49);
+}
+.newDesign #toolbar > .label {
+    margin-top       : 7px;
+}
+
+/* Header === */
+.newDesign .fields-holder > .label {
+    width: 250px;
+}
+.newDesign .fields-holder .field > .label {
+    color            : #eee;
+}
+.newDesign .field.level .x-btn {
+    background           : #eee;
+}
+.newDesign .field.level .x-btn .x-btn-inner {
+    color: #686774;
+}
+.newDesign .field.help .help-btn .x-btn {
+    background: #eee;
+}
+.newDesign .field.year .widget .x-field .x-form-item-body{
+    color: #eee;
+}
+.newDesign .yearselector .x-slider-horz .x-slider-thumb{
+    background-image: url("../images/new/slider-thumb-2.png")
+}
+.newDesign #button-1033-btnIconEl{
+    color: #555;
+}
+
+/* Form ================== */
+.newDesign.x-border-box .x-form-text {
+    color                : #555;
+    background           : #eee;
+    border-radius: 1px 0 0 1px;
+}
+.newDesign.x-border-box .x-form-text.x-trigger-noedit {
+    border-right: 0;
+}
+.newDesign.x-border-box .x-form-trigger {
+    background           : #eee url("../images/new/expand.png") no-repeat 50% 50%;
+    border-radius: 0 1px 1px 0;
+    border-left: 0;
+}
+.newDesign.x-border-box .x-form-trigger.x-form-refresh-trigger {
+    background           : #eee url("../images/new/refresh.png") no-repeat 50% 50% !important;
+    margin-left: -1px;
+}
+.newDesign.x-border-box .x-form-trigger.x-form-spinner-up {
+    background           : #eee url("../images/new/collapse.png") no-repeat 50% 50%;
+}
+.newDesign.x-border-box .x-tbar-loading {
+    background           : #eee url("../images/new/refresh-small.png") no-repeat 50% 50% !important;
+}
+
+.newDesign.x-border-box .custom-combo .x-form-text {
+    border-radius: 1px 0 0 1px;
+    color                : #333;
+    background           : #eee;
+}
+.newDesign.x-border-box .custom-combo .x-form-trigger {
+    background-color     : #eee;
+    border-radius: 0 1px 1px 0;
+}
+
+.newDesign.x-border-box .x-tbar-page-number .x-form-text {
+    border: 1px solid #aaa;
+}
+
+.newDesign #sidebar-reports {
+    background: rgb(245,245,245);
+    border-left: 1px solid white;
+}
+
+/* === Box === */
+.newDesign #sidebar-tools {
+    background: rgb(245,245,245);
+    border-right: 1px solid white;
+}
+.newDesign #app-reports-paging, #app-tools-actions, #maptools-1059 {
+    border-bottom: 1px solid white;
+}
+.newDesign #app-reports-paging .paging-toolbar {
+    background: none;
+}
+.newDesign #app-tools-accordeon > .x-container {
+    background: #fff;
+}
+.newDesign #app-tools-actions span {
+    color: #555;
+}
+.newDesign .btn-map-tool span.x-btn-inner {
+    color: #555;
+}
+
+/* box toggles */
+.newDesign #sidebar-reports-toggle, .newDesign #sidebar-reports-add {
+    left: -22px;
+}
+.newDesign #sidebar-tools-toggle {
+    right: -22px;
+}
+
+/* Accordion =============== */
+.newDesign .x-box-inner {
+    background: none;
+}
+.newDesign .x-accordion-hd  {
+    border-color: white !important;
+}
+.newDesign .x-accordion-hd .x-panel-header-text {
+    color: #333;
+}
+.newDesign .x-accordion-body {
+    border: 0;
+}
+.newDesign .x-panel-header {
+    background: #ddd !important;
+    border-bottom: 1px solid white;
+}
+.newDesign .x-panel-header:hover {
+    background: #d3d3d3 !important;
+}
+.newDesign .x-accordion-hd .x-tool-over .x-tool-collapse-top {
+    background-position: 50% 50%;
+}
+.newDesign .x-accordion-hd .x-tool-over .x-tool-expand-bottom {
+    background-position: 50% 50%;
+}
+
+/* Tables ================ */
+.newDesign .x-grid-with-row-lines {
+    border: 0;
+    padding: 10px;
+}
+.newDesign .x-grid-with-row-lines.x-grid-locked .x-grid-inner-locked, .newDesign .x-grid-with-row-lines.x-grid-locked .x-grid-with-row-lines {
+    padding: 0;
+    border: 0;
+}
+.newDesign .x-grid-locked .x-grid-inner-locked {
+    border-width: 1px !important;
+    padding-right: 0;
+}
+.newDesign .x-grid-with-row-lines .x-grid-cell{
+    border: 0;
+}
+.newDesign .x-grid-header-ct {
+    border: 1px solid #ddd !important;
+}
+.newDesign .x-column-header {
+    background: #eee;
+    border: 0;
+}
+.newDesign .x-column-header-over {
+    background: #ddd;
+    border: 0;
+}
+.newDesign .x-grid-body {
+    border: 1px solid #ddd !important;
+    border-top: 0 !important;
+}
+.newDesign .x-tree-panel .x-grid-header-ct {
+    border: 0 !important;
+}
+.newDesign .x-tree-panel .x-grid-body {
+    border: 0 !important;
+}
+.newDesign .x-tree-panel .x-grid-body .x-grid-table {
+    padding: 5px 0;
+}
+.newDesign .x-window .x-tree-panel {
+    border: 1px solid #ddd;
+}
+.newDesign #layerselectedpanel div {
+    border: 0 !important;
+}
+
+/* Tabs ================= */
+
+.newDesign.x-border-box .x-tab-bar {
+    background: white;
+    border-bottom: 1px solid #ddd !important;
+}
+
+.newDesign.x-border-box .x-tab-bar-strip {
+    height: 0;
+    border: 0;
+}
+.newDesign .x-tab-bar-top .x-tab-bar-body {
+    padding: 3px 0 3px;
+    border: 0;
+}
+.newDesign.x-border-box .x-tab-default-top {
+    background: white;
+    border-bottom: 1px solid #ddd !important;
+    height: 28px;
+}
+.newDesign.x-border-box .x-tab-top-active {
+    border: 0;
+    background: #eee;
+}
+.newDesign.x-border-box .x-tab-inner {
+    font-size: 11px;
+}
+
+/* Buttons ================= */
+/* Sidebars buttons */
+.newDesign #sidebar-tools-toggle, .newDesign #sidebar-reports-toggle {
+    background: #ddd url('../images/new/sidebar-toggle.png');
+    border: 1px solid white;
+    border-top: 0;
+}
+.newDesign #sidebar-reports-add {
+    background: #ddd url('../images/new/add.png') no-repeat center center;
+    border-left: 1px solid white;
+    border-bottom: 1px solid white;
+    height: 31px;
+}
+.newDesign #sidebar-tools-toggle:hover, .newDesign #sidebar-reports-toggle:hover, .newDesign #sidebar-reports-add:hover {
+    background-color: #d3d3d3;
+}
+.newDesign #sidebar-tools-toggle {
+    background-position: -23px -3px;
+    border-left: 0;
+}
+.newDesign #sidebar-reports-toggle {
+    background-position: -1px -3px;
+    border-right: 0;
+}
+.newDesign #sidebar-reports.hidden #sidebar-reports-toggle {
+    background-position: -23px -3px;
+}
+.newDesign #sidebar-tools.hidden #sidebar-tools-toggle {
+    background-position: -1px -3px;
+}
+/*Basic buttons*/
+.newDesign .x-btn-default-small {
+    background: #c83737;
+    border: 0;
+    border-radius: 1px;
+}
+.newDesign .x-btn-default-small:hover {
+    background: #a71e1e;
+}
+.newDesign .x-btn-default-small .x-btn-inner {
+    color: #fff;
+}
+.newDesign .x-btn-default-toolbar-small-over {
+    background: #bbbbc0;
+    border: 1px solid #bbbbc0;
+}
+
+.newDesign #app-toolbar-save .x-btn-default-small .x-btn-inner, .newDesign #app-toolbar-share .x-btn-default-small .x-btn-inner {
+    color: #666;
+}
+
+.newDesign #agreement-btns .x-btn-default-small .x-btn-inner {
+    color: #fff;
+}
+.newDesign .x-btn.custom-button.x-btn-default-small {
+    background: #eee;
+}
+.newDesign .x-btn.custom-button.btn-confirm {
+    background: #c83737;
+    border: 1px solid #c83737;
+}
+.newDesign .x-btn.custom-button.btn-confirm .x-btn-inner {
+    color                : #fff;
+}
+.newDesign .x-btn.custom-button.btn-confirm:hover, .x-btn.btn-confirm:focus {
+    background           : #a71e1e;
+    border: 1px solid #a71e1e;
+}
+.newDesign #agreement-cancel .x-btn {
+    background: #777777;
+    border: 0;
+}
+.newDesign #agreement-cancel .x-btn:hover {
+    background: #555555;
+}
+.newDesign #agreement-accept .x-btn {
+    background: #2ecc71;
+    border: 0;
+}
+.newDesign #agreement-accept .x-btn:hover {
+    background: #27ae60;
+}
+
+.newDesign #app-tools-actions .x-btn {
+    background: #eee;
+}
+.newDesign #app-tools-actions .x-btn:hover {
+    background: #ddd;
+}
+/* top tools buttons */
+.newDesign .btn-map-select .x-btn-icon {
+    background-image: url('../images/new/map-select.png') !important;
+    width: 18px;
+    top: 3px;
+}
+.newDesign .btn-map-select.x-pressed .x-btn-icon {
+    background-image: url('../images/new/map-select-active.png') !important;
+}
+
+/* panel header buttons */
+.newDesign .x-panel-header .x-tool-unselect {
+    background-image: url("../images/new/unselect.png") !important;
+}
+.newDesign .x-panel-header .x-tool-unselectall {
+    background-image: url("../images/new/unselect-all.png") !important;
+}
+.newDesign .x-panel-header .x-tool-detach {
+    background-image: url("../images/new/detach.png") !important;
+}
+.newDesign .x-panel-header .x-tool-gear {
+    background-image: url("../images/new/settings.png") !important;
+}
+.newDesign .x-panel-header .x-tool-poweron {
+    background-image: url("../images/new/power.png") !important;
+    margin-top: -1px;
+}
+.newDesign .x-panel-header .x-tool-areacollapse {
+    background-image: url("../images/new/areacollapse.png") !important;
+}
+
+.newDesign .x-tool-collapse-top, .newDesign .x-tool-collapse-right, .newDesign .x-tool-collapse-bottom, .newDesign .x-tool-collapse-left,
+.newDesign .x-tool-over .x-tool-collapse-top, .newDesign .x-tool-over .x-tool-collapse-right, .newDesign .x-tool-over .x-tool-collapse-bottom, .newDesign .x-tool-over .x-tool-collapse-left{
+    background: url("../images/new/collapse.png") no-repeat 50% 50%;
+}
+.newDesign .x-tool-expand-top, .newDesign .x-tool-expand-right, .newDesign .x-tool-expand-bottom, .newDesign .x-tool-expand-left,
+.newDesign .x-tool-over .x-tool-expand-top, .newDesign .x-tool-over .x-tool-expand-right, .newDesign .x-tool-over .x-tool-expand-bottom, .newDesign .x-tool-over .x-tool-expand-left{
+    background: url("../images/new/expand.png") no-repeat 50% 50%;
+}
+.newDesign .x-tool-close, .newDesign .legend-window .x-tool-close, .newDesign .x-window-header .x-tool-close  {
+    background: url("../images/new/close.png") no-repeat 50% 50% !important;
+}
+.newDesign .detached-window .x-window-header .x-tool-close {
+    background: url("../images/new/attach.png") no-repeat 50% 50% !important;
+    width: 20px;
+    height: 20px;
+}
+
+/* help buttons */
+.newDesign #app-toolbar-contexthelp span.x-btn-icon {
+    background: url('../images/new/help-context.png') !important;
+}
+.newDesign #app-toolbar-webhelp span.x-btn-icon {
+    background: url('../images/new/help-web.png') !important;
+}
+
+/* map tools buttons */
+.newDesign .x-btn.btn-map-tool {
+    background: #fff !important;
+}
+.newDesign .x-btn.btn-map-tool:hover {
+    background: #eee !important;
+}
+.newDesign .x-btn.btn-tool-measure-line button .x-btn-icon {
+    background-image: url('../images/new/tools-measure-line.png') !important;
+}
+.newDesign .x-btn.btn-tool-measure-polygon button .x-btn-icon {
+    background-image: url('../images/new/tools-measure-polygon.png') !important;
+}
+.newDesign .x-btn-pressed.btn-tool-measure-line button .x-btn-icon {
+    background-image: url('../images/new/tools-measure-line-pressed.png') !important;
+}
+.newDesign .x-btn-pressed.btn-tool-measure-polygon button .x-btn-icon {
+    background-image: url('../images/new/tools-measure-polygon-pressed.png') !important;
+}
+.newDesign .x-btn-pressed.btn-map-tool button .x-btn-inner, .newDesign #app-tools-actions .x-btn-pressed span.x-btn-inner{
+    color: #c83737;
+}
+.newDesign .x-btn.btn-map-tool:focus, .newDesign .x-btn.btn-map-tool:hover, .newDesign .x-btn.btn-snapshot:hover, .newDesign .x-btn.btn-map-select:hover {
+    background: #eee;
+}
+
+/* Checkbox ========== */
+.newDesign .x-grid-checkheader {
+    background-image: url('../images/new/unchecked.png');
+    background-position: 50% 0;
+    height: 16px;
+}
+.newDesign .x-grid-checkheader-checked {
+    background-image: url('../images/new/checked.png');
+}
+.newDesign .x-tree-checkbox {
+    background-image: url('../images/new/unchecked.png');
+    margin-top: 2px;
+    width: 16px;
+    height: 16px;
+}
+.newDesign .x-tree-checkbox-checked {
+    background-image: url('../images/new/checked.png');
+}
+
+/* Slider ======== */
+.newDesign .x-slider-thumb {
+    background-image: url('../images/new/panther-slider-thumb.png');
+}
+.newDesign .slider-thumb-label.sliding {
+    color: #c83737;
+}
+.newDesign .x-slider-horz, .newDesign .x-slider-horz .x-slider-end, .newDesign .x-slider-horz .x-slider-inner {
+    background-image: url("../images/new/slider-gray-3.png");
+}
+.newDesign .x-slider-horz {
+    background-repeat: repeat-x;
+    background-position: 0;
+}
+.newDesign .x-slider-horz .x-slider-inner{
+    background-image: url("../images/new/slider-gray-3.png");
+    background-repeat: no-repeat;
+    background-position: 0;
+}
+.newDesign .x-slider-horz .x-slider-end{
+    background-repeat: repeat-x;
+    background-position: 0;
+}
+/* yearselector slider*/
+.newDesign .yearselector .x-slider-horz, .newDesign .yearselector .x-slider-horz .x-slider-inner, .newDesign .yearselector .x-slider-horz .x-slider-end  {
+    background-image: url("../images/new/panther-slider-bg-2.png");
+}
+.newDesign .yearselector .x-slider-horz .x-slider-inner{
+    background-repeat: repeat;
+}
+
+/* advanced filters slider */
+.newDesign .tools-filters-list .x-slider-horz, .newDesign .tools-filters-list .x-slider-horz .x-slider-end, .newDesign .tools-filters-list .x-slider-horz .x-slider-inner {
+    background-image: url("../images/new/slider-gray-3.png");
+}
+
+.newDesign .tools-filters-list .x-slider-horz {
+    background-repeat: repeat-x;
+    background-position: 0;
+}
+.newDesign .tools-filters-list .x-slider-horz .x-slider-inner{
+    background-repeat: no-repeat;
+    background-image: url("../images/new/slider-colored-4.png");
+    background-position: 0;
+}
+.newDesign .tools-filters-list .x-slider-horz .x-slider-end {
+    background-position: 0;
+}
+
+/* Windows ================= */
+.newDesign .x-window-default {
+    background: #fff;
+    border: 1px solid #ccc;
+}
+.newDesign .x-tool {
+    padding-bottom: 1px;
+}
+.newDesign .x-window-header-text-default {
+    padding-left: 5px;
+    color: #333;
+}
+.newDesign .x-window-body {
+    border: 0;
+}
+
+.newDesign .x-toolbar-footer {
+    background: none;
+    border: 0;
+}
+.newDesign .x-toolbar-footer.x-docked-bottom {
+    border: 0 !important;
+}
+
+.newDesign .x-window .x-grid .x-toolbar-default.x-docked-top {
+    background: #CFCFD3;
+    margin-bottom: 5px !important;
+    border-bottom: 0 !important;
+}
+
+.newDesign .x-action-col-icon:hover {
+    cursor: pointer;
+}
+.newDesign .x-boundlist .x-boundlist-item {
+    border-top           : 1px solid #ddd;
+}
+
+.newDesign .x-boundlist.custom-combo-list .x-boundlist-item {
+    background           : #eee;
+    color                : #555;
+}
+
+.newDesign .x-boundlist.custom-combo-list .x-boundlist-item:hover,
+.newDesign .x-boundlist.custom-combo-list .x-boundlist-item-over {
+    background           : #ddd;
+}
+
+.newDesign .x-grid-row-over .x-grid-cell, .newDesign .x-grid-row-over .x-grid-rowwrap-div,
+.newDesign .x-grid-row-focused .x-grid-cell, .newDesign .x-grid-row-focused .x-grid-rowwrap-div {
+    background-color     : #eee;
+}
+
+@media screen and (max-width: 1240px){
+    .newDesign #toolbar > .label {
+        width: 60px;
+        padding-left: 65px;
+    }
+}
+
+@media screen and (max-width: 1040px){
+    .newDesign #toolbar > .label {
+        display: none;
+    }
+}
+
+@media screen and (max-height: 700px){
+    .newDesign #content-intro {
+        top: 30px;
+    }
+    .newDesign #content-intro-guide {
+        bottom: 20px;
+    }
+}
