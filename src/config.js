@@ -18,8 +18,11 @@ var Config = {
 		allowPumaHelp: false,
 		allowDownloadsLink: false,
 		usePumaLogo: false,
-		advancedFiltersFirst: false,
-		isUrbis: false
+		advancedFiltersFirst: true,
+		hasNewEvaluationTool: false,
+		isNewDesign: false,
+		isUrbis: false,
+		isEea: false
 	},
 	googleAnalyticsTracker: '',
 	googleAnalyticsCookieDomain: 'auto',
