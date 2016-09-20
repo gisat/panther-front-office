@@ -24,11 +24,6 @@ var Config = {
 		isNewDesign: false,
 		isUrbis: false,
 		isEea: false
-		advancedFiltersFirst: true,
-		hasNewEvaluationTool: false,
-		isNewDesign: true,
-		isUrbis: false,
-		isEea: true
 	},
 
 	basicTexts: {
