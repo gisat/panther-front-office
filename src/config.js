@@ -1,5 +1,5 @@
 var Config = {
-	url: 'http://localhost/',
+	url: 'http://localhost:4000/',
 	signupAddress: 'http://localhost/geonode/account/signup/',
 	geoserver2Workspace: "puma",
 	initialBaseMap: "terrain",
@@ -29,7 +29,7 @@ var Config = {
 	basicTexts: {
 		advancedFiltersName: "Evaluation Tool",
 		areasSectionName: "Selection level",
-		appTitle: "EEA tool",
+		appTitle: "Urbis tool",
 		appName: "&nbsp;",
 		scopeName: "Scale"
 	},
@@ -47,5 +47,5 @@ var Config = {
 	},
 	googleAnalyticsTracker: '',
 	googleAnalyticsCookieDomain: 'auto',
-	environment: 'production'
+	environment: 'development'
 };
