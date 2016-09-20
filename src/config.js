@@ -1,5 +1,5 @@
 var Config = {
-	url: 'http://localhost:4000/',
+	url: 'http://localhost/',
 	signupAddress: 'http://localhost/geonode/account/signup/',
 	geoserver2Workspace: "puma",
 	initialBaseMap: "terrain",
@@ -26,11 +26,14 @@ var Config = {
 		isEea: false
 	},
 
-	texts: {
+	basicTexts: {
 		advancedFiltersName: "Evaluation Tool",
 		areasSectionName: "Selection level",
-		appTitle: "URBIS tool",
+		appTitle: "EEA tool",
 		appName: "&nbsp;",
+		scopeName: "Scale"
+	},
+	urbisTexts: {
 		scopeName: "Scale",
 		scopeAbout: "Different type of data and information address different scales of analysis, which correspond to different levels of urban-related decision making. Please choose your scale of interest first.",
 		placeName: "Pilot",
@@ -38,7 +41,11 @@ var Config = {
 		themeName: "Theme",
 		themeAbout: "URBIS services are focused on different thematic information, including Green and Grey infrastructure or Urban Land Typology and Dynamics. Please select theme/service according your thematic interests."
 	},
+	eeaTexts: {
+		placeName: "Country",
+		placeAbout: ""
+	},
 	googleAnalyticsTracker: '',
 	googleAnalyticsCookieDomain: 'auto',
-	environment: 'development'
+	environment: 'production'
 };

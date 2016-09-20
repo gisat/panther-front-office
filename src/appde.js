@@ -29,36 +29,39 @@ Ext.application({
 
 		// set Home link in header // todo Move this somewhere else?
 		$("#home-link").attr("href", Config.projectHome);
-		$("title").html(Config.texts.appTitle);
-		$("#toolbar > .label").html(Config.texts.appName);
-		$("#content-intro > .label").html(Config.texts.appName);
+		$("title").html(Config.basicTexts.appTitle);
+		$("#toolbar > .label").html(Config.basicTexts.appName);
+		$("#content-intro > .label").html(Config.basicTexts.appName);
 
 		if(Config.toggles.hasNewEvaluationTool){
 			$("#placeholder-evaluation-widget").css("display","block");
-		}
-
-		if (Config.toggles.isUrbis){
-			$("html").addClass("urbis");
-
-			$(".field.scope .label").html(Config.texts.scopeName);
-			$(".field.teritory .label").html(Config.texts.placeName);
-			$(".field.theme .label").html(Config.texts.themeName);
-
-			$("#content-intro-guide").html("<h2>Selection guide</h2><h3>" + Config.texts.scopeName + "</h3><p>" +
-				Config.texts.scopeAbout + "</p><h3>" + Config.texts.placeName + "</h3><p>" +
-				Config.texts.placeAbout + "</p><h3>" + Config.texts.themeName + "</h3><p>" +
-				Config.texts.themeAbout + "</p>");
-
-			var aboutProject = "<div id='about-urbis'><h2>About project</h2><p>To get an overview about the URBIS project - Urban Land Recycling Information Services for Sustainable Cities, please visit the <a href='http://www.ict-urbis.eu/' target='_blank'>URBIS homepage</a>.</p></div>";
-			$("#content-intro-guide").append(aboutProject);
 		}
 
 		if(Config.toggles.isNewDesign){
 			$("html").addClass("newDesign");
 		}
 
+		if (Config.toggles.isUrbis){
+			$("html").addClass("urbis");
+
+			$(".field.scope .label").html(Config.urbisTexts.scopeName);
+			$(".field.teritory .label").html(Config.urbisTexts.placeName);
+			$(".field.theme .label").html(Config.urbisTexts.themeName);
+
+			$("#content-intro-guide").html("<h2>Selection guide</h2><h3>" + Config.urbisTexts.scopeName + "</h3><p>" +
+				Config.urbisTexts.scopeAbout + "</p><h3>" + Config.urbisTexts.placeName + "</h3><p>" +
+				Config.urbisTexts.placeAbout + "</p><h3>" + Config.urbisTexts.themeName + "</h3><p>" +
+				Config.urbisTexts.themeAbout + "</p>");
+
+			var aboutProject = "<div id='about-urbis'><h2>About project</h2><p>To get an overview about the URBIS project - Urban Land Recycling Information Services for Sustainable Cities, please visit the <a href='http://www.ict-urbis.eu/' target='_blank'>URBIS homepage</a>.</p></div>";
+			$("#content-intro-guide").append(aboutProject);
+		}
+
 		if(Config.toggles.isEea){
 			$("html").addClass("eea");
+			$(".field.teritory .label").html(Config.eeaTexts.placeName);
+			$("#content-intro-guide h3:nth-child(4)").html("");
+			$("#content-intro-guide p:nth-child(5)").html("");
 		}
 
 		if(Config.toggles.useWBAgreement){
