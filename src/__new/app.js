@@ -100,7 +100,7 @@ define(['js/util/metadata/Attributes',
             }
         });
         $(".floater").draggable({
-            containment: "window",
+            containment: "body",
             handle: ".floater-header",
             stop: function (ev, ui) {
                 var element = $(this);

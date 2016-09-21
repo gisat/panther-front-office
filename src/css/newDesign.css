@@ -104,12 +104,17 @@
 .newDesign #toolbar {
     background: rgb(67, 66, 84);
     border-bottom: 2px solid rgb(36, 36, 49);
+    z-index: 99999;
 }
 .newDesign #toolbar > .label {
     margin-top       : 7px;
 }
 
-/* Header === */
+.newDesign #content-application{
+    z-index: initial;
+}
+
+/* App Header === */
 .newDesign .fields-holder > .label {
     width: 290px;
 }

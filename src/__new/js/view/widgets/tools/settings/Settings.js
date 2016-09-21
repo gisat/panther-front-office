@@ -168,7 +168,7 @@ define([
 
     Settings.prototype.addDragging = function(){
         $("#" + this._id).draggable({
-            containment: "window",
+            containment: "body",
             handle: ".tool-window-header",
             stop: function (ev, ui) {
                 var element = $(this);
