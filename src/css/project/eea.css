@@ -69,7 +69,7 @@
 .eea .x-grid-checkheader-checked {
 	background-image: url('../../images/eea/checked.png');
 }
-.newDesign .x-tree-checkbox-checked {
+.eea .x-tree-checkbox-checked {
 	background-image: url('../../images/eea/checked.png');
 }
 
@@ -86,4 +86,58 @@
 	background-repeat: no-repeat;
 	background-image: url("../../images/eea/slider-colored-4.png");
 	background-position: 0;
+}
+
+/* ================================ */
+/* ====== Evaluation tool ========= */
+/* ================================ */
+
+/* Common features */
+.eea .widget-button {
+	background: #077db8;
+}
+.eea .widget-button:hover {
+	background: #006699;
+}
+
+/* Widget */
+.eea .placeholder.open {
+	background: #077db8;
+}
+.eea .placeholder.open:hover {
+	background: #006699;
+}
+.eea .floater-header {
+	background: #077db8;
+}
+
+/* Slider box */
+.eea .slider-row.ui-slider-horizontal .ui-slider-handle {
+	background: #077db8;
+}
+.eea .slider-row.ui-slider-horizontal .ui-slider-handle:hover, .eea .slider-row.ui-slider-horizontal .ui-slider-handle.ui-state-focus {
+	background: #006699;
+}
+.eea .slider-row .ui-widget-header {
+	background: #077db8;
+}
+
+/* Checkbox */
+.eea .checkbox-row.checked .checkbox-icon {
+	background: url('../../images/eea/checked.png') no-repeat center center;
+}
+
+/* Histogram */
+.eea .histogram-bar.selected {
+	background: #58a3c8;
+}
+
+/* ================================ */
+/* ====== Media queries =========== */
+/* ================================ */
+
+@media screen and (max-width: 1240px){
+	.eea #toolbar > .label {
+		width: 85px;
+	}
 }

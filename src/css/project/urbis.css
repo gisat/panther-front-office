@@ -98,10 +98,10 @@
 /* ================================ */
 
 /* Common features */
-.widget-button {
+.urbis .widget-button {
     background: #ff7600;
 }
-.widget-button:hover {
+.urbis .widget-button:hover {
     background: #d35400;
 }
 
