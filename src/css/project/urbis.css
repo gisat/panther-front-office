@@ -7,6 +7,15 @@
     background-size: cover;
 }
 
+/* Intro === */
+.urbis #content-intro, .urbis #content-intro-guide{
+    background-color: rgba(67, 66, 84, .95);
+}
+
+.urbis #content-intro {
+    width: 810px;
+}
+
 /* About project info === */
 .urbis #about-urbis a {
     color: #ff7600;
@@ -21,6 +30,7 @@
 .urbis .fields-holder > .label {
     background: url("../../images/urbis/urbis-colour-white.png") no-repeat 15px 11px;
     background-size: 200px;
+    width: 250px;
 }
 
 /* Form ================== */

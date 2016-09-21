@@ -1,16 +1,16 @@
 /* Intro === */
 .newDesign #content-intro{
     background-color: rgb(67, 66, 84);
-    background-color: rgba(67, 66, 84, .95);
+    background-color: rgba(67, 66, 84, .85);
     padding: 19px;
     border: 1px solid #666;
     border-left: 0;
-    width: 810px;
+    width: 850px;
 }
 
 .newDesign #content-intro-guide {
     background-color: rgb(67, 66, 84);
-    background-color: rgba(67, 66, 84, .95);
+    background-color: rgba(67, 66, 84, .85);
     border: 1px solid #666;
     border-right: 0;
     color: #eee;
@@ -36,7 +36,7 @@
 
 /* Header === */
 .newDesign .fields-holder > .label {
-    width: 250px;
+    width: 290px;
 }
 .newDesign .fields-holder .field > .label {
     color            : #eee;
@@ -530,6 +530,7 @@
     .newDesign #toolbar > .label {
         width: 60px;
         padding-left: 65px;
+        overflow: hidden;
     }
 }
 
