@@ -54,7 +54,8 @@ Ext.define('PumaMain.controller.Screenshot', {
     },
     onScreenshotExport: function(view, rec) {
         var url = rec.get('src');
-        var id = url.split('id=')[1];
+        var partsOfUrl = url.split('/');
+        var id = partsOfUrl[partsOfUrl.length - 1];
         Puma.util.Msg.msg('Snapshot creation started','','r');
         this.getController('Chart').onUrlCallback(id, true);
     }
