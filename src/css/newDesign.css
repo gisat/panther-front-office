@@ -27,10 +27,56 @@
     background-image: url('../images/new/checked.png');
 }
 
+/* Header === */
+.newDesign #wb-header {
+    background: #333;
+    border-bottom: 1px solid #222;
+}
+.newDesign #wb-header a {
+    background: url('../images/new/world-bank-logo.png') no-repeat center center;
+}
+.newDesign #header {
+    background: #333;
+    border-bottom: 2px solid rgb(36, 36, 49);
+    padding-left: 5px;
+}
+.newDesign #header .home {
+    left: 15px;
+}
+.newDesign #header .menu li:before {
+    background-color: #888;
+}
+.newDesign #header a {
+    font-family: "Open sans", "arial", sans-serif;
+    font-size: 11px;
+    color: #ddd;
+}
+.newDesign #header .menu li a {
+    padding: 0 15px;
+}
+.newDesign #header .user {
+    background: #333;
+    height: 28px;
+    padding-right: 10px;
+}
+.newDesign #header .user a {
+    padding: 0 10px;
+}
+/* Footer === */
+.newDesign #footer-bar {
+    border-top: 2px solid #d3d2d2;
+}
+.newDesign #footer-bar ul li a, .newDesign #footer-legal {
+    font-family: "Open sans", "arial", sans-serif;
+    color: #555;
+}
+.newDesign #footer-legal {
+    line-height: 14px;
+}
 /* Intro === */
 .newDesign #content-intro{
     background-color: rgb(67, 66, 84);
-    background-color: rgba(67, 66, 84, .85);
+    background-color: rgba(67, 66, 84, .9);
     padding: 19px;
     border: 1px solid #666;
     border-left: 0;
@@ -39,12 +85,12 @@
 
 .newDesign #content-intro-guide {
     background-color: rgb(67, 66, 84);
-    background-color: rgba(67, 66, 84, .85);
+    background-color: rgba(67, 66, 84, .9);
     border: 1px solid #666;
     border-right: 0;
     color: #eee;
     top: auto;
-    bottom: 50px;
+    bottom: 150px;
 }
 
 .newDesign #about-urbis h2 {
@@ -349,6 +395,11 @@
 }
 .newDesign .btn-map-select.x-pressed .x-btn-icon {
     background-image: url('../images/new/map-select-active.png') !important;
+}
+
+/* login buttons */
+.newDesign #loginwindow .x-btn-default-small {
+    margin-right: 5px;
 }
 
 /* panel header buttons */

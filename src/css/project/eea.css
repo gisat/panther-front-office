@@ -7,13 +7,15 @@
 	background-size: cover;
 }
 
-.eea #content-intro, .eea #content-intro-guide {
+.eea #content-intro {
 	background-color: rgb(0, 63, 95);
 	background-color: rgba(0, 63, 95, .95);
-}
-
-.eea #content-intro {
 	width: 810px;
+}
+.eea #content-intro-guide {
+	background-color: rgb(0, 63, 95);
+	background-color: rgba(0, 63, 95, .95);
+	bottom: 50px;
 }
 
 /* Header === */

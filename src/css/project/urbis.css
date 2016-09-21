@@ -8,12 +8,13 @@
 }
 
 /* Intro === */
-.urbis #content-intro, .urbis #content-intro-guide{
-    background-color: rgba(67, 66, 84, .95);
-}
-
 .urbis #content-intro {
+    background-color: rgba(67, 66, 84, .95);
     width: 810px;
+}
+.urbis #content-intro-guide {
+    background-color: rgba(67, 66, 84, .95);
+    bottom: 50px;
 }
 
 /* About project info === */
