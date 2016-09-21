@@ -22,7 +22,7 @@
 }
 
 .slider-row.ui-slider-horizontal .ui-slider-handle {
-    background: #ff7600;
+    background: #c92d42;
     border: 0;
     border-radius: .5rem;
     top: -.45em;
@@ -30,12 +30,12 @@
 }
 
 .slider-row.ui-slider-horizontal .ui-slider-handle:hover, .slider-row.ui-slider-horizontal .ui-slider-handle.ui-state-focus {
-    background: #d35400;
+    background: #ad2738;
 }
 
 .slider-row .ui-widget-header {
     border: 0;
-    background: #ff7600;
+    background: #c92d42;
 }
 
 .floater-row.slider-labels {

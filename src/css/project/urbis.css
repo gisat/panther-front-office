@@ -1,5 +1,3 @@
-/* Main components */
-
 /* Intro ========= */
 .urbis .intro #app-map {
     display: none;
@@ -55,7 +53,7 @@
 .urbis .btn-map-select.x-pressed .x-btn-icon {
     background-image: url('../../images/urbis/map-select-active.png') !important;
 }
-/* map ttols buttons */
+/* map tools buttons */
 .urbis .x-btn-pressed.btn-tool-hover button .x-btn-icon {
     background: url('../../images/urbis/tools-hover-pressed.png') !important;
 }
@@ -93,4 +91,48 @@
     background-repeat: no-repeat;
     background-image: url("../../images/urbis/slider-colored-4.png");
     background-position: 0;
+}
+
+/* ================================ */
+/* ====== Evaluation tool ========= */
+/* ================================ */
+
+/* Common features */
+.widget-button {
+    background: #ff7600;
+}
+.widget-button:hover {
+    background: #d35400;
+}
+
+/* Widget */
+.urbis .placeholder.open {
+    background: #ff7600;
+}
+.urbis .placeholder.open:hover {
+    background: #d35400;
+}
+.urbis .floater-header {
+    background: #ff7600;
+}
+
+/* Slider box */
+.urbis .slider-row.ui-slider-horizontal .ui-slider-handle {
+    background: #ff7600;
+}
+.urbis .slider-row.ui-slider-horizontal .ui-slider-handle:hover, .urbis .slider-row.ui-slider-horizontal .ui-slider-handle.ui-state-focus {
+    background: #d35400;
+}
+.urbis .slider-row .ui-widget-header {
+    background: #ff7600;
+}
+
+/* Checkbox */
+.urbis .checkbox-row.checked .checkbox-icon {
+    background: url('../../images/urbis/checked.png') no-repeat center center;
+}
+
+/* Histogram */
+.urbis .histogram-bar.selected {
+    background: #ffa04e;
 }

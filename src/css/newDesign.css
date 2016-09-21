@@ -267,12 +267,12 @@
 }
 /*Basic buttons*/
 .newDesign .x-btn-default-small {
-    background: #c83737;
+    background: #c92d42;
     border: 0;
     border-radius: 1px;
 }
 .newDesign .x-btn-default-small:hover {
-    background: #a71e1e;
+    background: #ad2738;
 }
 .newDesign .x-btn-default-small .x-btn-inner {
     color: #fff;
@@ -293,15 +293,15 @@
     background: #eee;
 }
 .newDesign .x-btn.custom-button.btn-confirm {
-    background: #c83737;
-    border: 1px solid #c83737;
+    background: #c92d42;
+    border: 1px solid #c92d42;
 }
 .newDesign .x-btn.custom-button.btn-confirm .x-btn-inner {
     color                : #fff;
 }
 .newDesign .x-btn.custom-button.btn-confirm:hover, .x-btn.btn-confirm:focus {
-    background           : #a71e1e;
-    border: 1px solid #a71e1e;
+    background           : #ad2738;
+    border: 1px solid #ad2738;
 }
 .newDesign #agreement-cancel .x-btn {
     background: #777777;
@@ -400,7 +400,7 @@
     background-image: url('../images/new/tools-measure-polygon-pressed.png') !important;
 }
 .newDesign .x-btn-pressed.btn-map-tool button .x-btn-inner, .newDesign #app-tools-actions .x-btn-pressed span.x-btn-inner{
-    color: #c83737;
+    color: #c92d42;
 }
 .newDesign .x-btn.btn-map-tool:focus, .newDesign .x-btn.btn-map-tool:hover, .newDesign .x-btn.btn-snapshot:hover, .newDesign .x-btn.btn-map-select:hover {
     background: #eee;
@@ -430,7 +430,7 @@
     background-image: url('../images/new/panther-slider-thumb.png');
 }
 .newDesign .slider-thumb-label.sliding {
-    color: #c83737;
+    color: #c92d42;
 }
 .newDesign .x-slider-horz, .newDesign .x-slider-horz .x-slider-end, .newDesign .x-slider-horz .x-slider-inner {
     background-image: url("../images/new/slider-gray-3.png");

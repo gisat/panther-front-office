@@ -33,7 +33,7 @@
 
 /* === Buttons === */
 .widget-button {
-    background: #ff7600;
+    background: #c92d42;
     border-radius: .1rem;
     color: white;
     padding: .4rem;
@@ -42,7 +42,7 @@
     transition: background .3s ease-out;
 }
 .widget-button:hover {
-    background: #d35400;
+    background: #ad2738;
     cursor: pointer;
 }
 

@@ -1,6 +1,6 @@
 /* === Checkboxes === */
 .checkbox-row.checked .checkbox-icon {
-    background: url('./checkbox-checked.png') no-repeat center center;
+    background: url('../../../../../img/checkbox-checked.png') no-repeat center center;
 }
 
 .checkbox-icon {

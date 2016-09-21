@@ -19,7 +19,7 @@
 }
 
 .placeholder.open {
-    background: #ff7600;
+    background: #c92d42;
 }
 
 .placeholder:hover {
@@ -28,7 +28,7 @@
 }
 
 .placeholder.open:hover {
-    background: #d35400;
+    background: #ad2738;
 }
 
 .placeholder > span, .floater-header > span {
@@ -80,7 +80,7 @@
 }
 
 .floater-header {
-    background: #ff7600;
+    background: #c92d42;
     height: 2rem;
     position: relative;
     cursor: move;
