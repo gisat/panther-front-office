@@ -1,3 +1,32 @@
+/* Agreement === */
+.newDesign #content-intro-terms{
+    color: #555;
+}
+
+.newDesign #content-intro-terms #agreement-accept .x-btn{
+    background: #c92d42;
+    transition: background .3s ease-out;
+}
+.newDesign #content-intro-terms #agreement-accept .x-btn-over{
+    background: #ad2738;
+}
+.newDesign #content-intro-terms #agreement-cancel .x-btn{
+    background: #aaa;
+    transition: background .3s ease-out;
+}
+.newDesign #content-intro-terms #agreement-cancel .x-btn-over{
+    background: #888;
+}
+
+.newDesign #agreement-accept-chb input {
+    background-image: url('../images/new/unchecked.png');
+    height: 15px;
+    width: 15px;
+}
+.newDesign #agreement-accept-chb .x-form-cb-checked input {
+    background-image: url('../images/new/checked.png');
+}
+
 /* Intro === */
 .newDesign #content-intro{
     background-color: rgb(67, 66, 84);
@@ -270,6 +299,7 @@
     background: #c92d42;
     border: 0;
     border-radius: 1px;
+    transition: background .3s ease-out;
 }
 .newDesign .x-btn-default-small:hover {
     background: #ad2738;
@@ -295,6 +325,7 @@
 .newDesign .x-btn.custom-button.btn-confirm {
     background: #c92d42;
     border: 1px solid #c92d42;
+    transition: background .3s ease-out;
 }
 .newDesign .x-btn.custom-button.btn-confirm .x-btn-inner {
     color                : #fff;
@@ -302,20 +333,6 @@
 .newDesign .x-btn.custom-button.btn-confirm:hover, .x-btn.btn-confirm:focus {
     background           : #ad2738;
     border: 1px solid #ad2738;
-}
-.newDesign #agreement-cancel .x-btn {
-    background: #777777;
-    border: 0;
-}
-.newDesign #agreement-cancel .x-btn:hover {
-    background: #555555;
-}
-.newDesign #agreement-accept .x-btn {
-    background: #2ecc71;
-    border: 0;
-}
-.newDesign #agreement-accept .x-btn:hover {
-    background: #27ae60;
 }
 
 .newDesign #app-tools-actions .x-btn {
