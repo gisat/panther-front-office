@@ -6,7 +6,10 @@
 	box-shadow: 0 1px 5px 0 rgba(0,0,0,0.2);
 	z-index: 5;
 }
-
+.melodies .application #header {
+	border-bottom: 1px solid #eee;
+	box-shadow: 0 0;
+}
 .melodies #header .menu, .melodies #header .home, .melodies #header .user .signup, .melodies #header .user .sep {
 	display: none;
 }
@@ -27,6 +30,10 @@
 	height: 65px;
 	padding: 0;
 	position: absolute;
+}
+.melodies .application #footer {
+	box-shadow: 0 0;
+	border-top: 0;
 }
 
 .melodies #footer-bar {
@@ -72,16 +79,30 @@
 .melodies #content-intro-guide {
 	bottom: 150px;
 }
-
 .melodies .fields-holder .field > .label, .melodies #content-intro-guide {
 	color: #666;
 }
 
 /* Header toolbar === */
+.melodies #toolbar {
+	background: #fff;
+	border-bottom: 2px solid #ddd;
+}
+
 .melodies .fields-holder > .label {
 	background: url("../../images/melodies/melodies-logo-en.gif") no-repeat 15px 11px;
 	margin-left: 20px;
 	width: 170px;
+}
+
+/* Panels */
+.melodies .x-panel-header {
+	background: #d8f4fe !important;
+	border-bottom: 1px solid white;
+	transition: background .3s ease-out;
+}
+.melodies .x-panel-header:hover {
+	background: #ace2f9 !important;
 }
 
 /* Selects */
@@ -92,4 +113,53 @@
 .newDesign.x-border-box .custom-combo .x-form-trigger {
 	border: 1px solid #aaa;
 	border-left-width: 0;
+}
+
+/* Buttons ================ */
+#app-toolbar-level > div {
+	border: 1px solid #aaa;
+}
+
+/* ================================ */
+/* ====== Evaluation tool ========= */
+/* ================================ */
+
+/* Common features */
+.melodies .widget-button {
+	background: #009fe3;
+}
+.melodies .widget-button:hover {
+	background: #0f70b7;
+}
+
+/* Widget */
+.melodies .placeholder.open {
+	background: #009fe3;
+}
+.melodies .placeholder.open:hover {
+	background: #0f70b7;
+}
+.melodies .floater-header {
+	background: #009fe3;
+}
+
+/* Slider box */
+.melodies .slider-row.ui-slider-horizontal .ui-slider-handle {
+	background: #009fe3;
+}
+.melodies .slider-row.ui-slider-horizontal .ui-slider-handle:hover, .melodies .slider-row.ui-slider-horizontal .ui-slider-handle.ui-state-focus {
+	background: #0f70b7;
+}
+.melodies .slider-row .ui-widget-header {
+	background: #009fe3;
+}
+
+/* Checkbox */
+.melodies .checkbox-row.checked .checkbox-icon {
+	background: url('../../images/melodies/checked.png') no-repeat center center;
+}
+
+/* Histogram */
+.melodies .histogram-bar.selected {
+	background: #ace2f9;
 }
