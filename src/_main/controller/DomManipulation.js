@@ -60,7 +60,7 @@ Ext.define('PumaMain.controller.DomManipulation', {
 		var w  = availableSize.width;
 		var h  = availableSize.height;
 		var sl = $("#sidebar-reports").position().left;
-		
+
 		if ($("body").hasClass("application") && sl > 0) {
 			w = sl;
 		}
@@ -111,8 +111,8 @@ Ext.define('PumaMain.controller.DomManipulation', {
 	
 	getContentAvailableSize: function() {
 		var w  = $(window).width();
-		//var h  = $(window).height() - $("#wb-header").outerHeight(true) - $("#header").outerHeight(true) - $("#footer").outerHeight(true);
-		var h  = $(window).height();
+		var h  = $(window).height() - $("#wb-header").outerHeight(true) - $("#header").outerHeight(true) - $("#footer").outerHeight(true);
+		//var h  = $(window).height();
 
 		if ($("body").hasClass("application")) {
 			h -= $("#toolbar").outerHeight(true);

@@ -77,6 +77,10 @@
 }
 
 /* Footer === */
+.newDesign #footer {
+    z-index: initial;
+}
+
 .newDesign #footer-bar {
     border-top: 2px solid #d3d2d2;
 }
@@ -118,7 +122,7 @@
 .newDesign #toolbar {
     background: rgb(67, 66, 84);
     border-bottom: 2px solid rgb(36, 36, 49);
-    z-index: 99999;
+    /*z-index: 99999;*/
 }
 .newDesign #toolbar > .label {
     margin-top       : 7px;
