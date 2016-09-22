@@ -1,0 +1,95 @@
+/* Header === */
+.melodies #header {
+	background: #fff;
+	border-bottom: 1px solid #ccc;
+	border-top: 2px solid #0f70b7;
+	box-shadow: 0 1px 5px 0 rgba(0,0,0,0.2);
+	z-index: 5;
+}
+
+.melodies #header .menu, .melodies #header .home, .melodies #header .user .signup, .melodies #header .user .sep {
+	display: none;
+}
+.melodies #header .user {
+	background: #fff;
+	height: 25px;
+}
+.melodies #header .user a {
+	color: #aaa;
+}
+
+/* Footer === */
+.melodies #footer {
+	border-top: 1px solid #ccc;
+	border-bottom: 3px solid #0f70b7;
+	box-shadow: 0 -1px 5px 0 rgba(0,0,0,0.2);
+	background: #fff;
+	height: 65px;
+	padding: 0;
+	position: absolute;
+}
+
+.melodies #footer-bar {
+	border: 0;
+	background: #fff;
+	float: left;
+	padding: 5px 0 0 10px;
+	width: 70%;
+}
+.melodies #footer-bar img {
+	display: inline-block;
+	vertical-align: middle;
+}
+.melodies #footer-bar p {
+	color: #666;
+	display: inline-block;
+	padding-left: 20px;
+	vertical-align: middle;
+	width: 480px;
+}
+
+.melodies #footer-legal {
+	border: 0;
+	background: #fff;
+	float: right;
+	margin: 0;
+	padding: 0 10px 0 0;
+	text-align: right;
+	width: 30%;
+}
+.melodies #footer-legal > img {
+	margin: 5px -10px -3px 0;
+}
+
+/* Intro === */
+.melodies #content-intro, .melodies #content-intro-guide {
+	background-color: rgba(255,255,255, .95);
+	border: 1px solid #ccc;
+}
+.melodies #content-intro {
+	width: 760px;
+}
+.melodies #content-intro-guide {
+	bottom: 150px;
+}
+
+.melodies .fields-holder .field > .label, .melodies #content-intro-guide {
+	color: #666;
+}
+
+/* Header toolbar === */
+.melodies .fields-holder > .label {
+	background: url("../../images/melodies/melodies-logo-en.gif") no-repeat 15px 11px;
+	margin-left: 20px;
+	width: 170px;
+}
+
+/* Selects */
+.melodies.x-border-box .custom-combo .x-form-text {
+	border: 1px solid #aaa;
+	border-right-width: 0;
+}
+.newDesign.x-border-box .custom-combo .x-form-trigger {
+	border: 1px solid #aaa;
+	border-left-width: 0;
+}
