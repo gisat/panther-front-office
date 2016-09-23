@@ -13,7 +13,7 @@ Ext.define('PumaMain.view.ScreenshotView', {
         var snapshotDownload = 'images/icons/snapshot-download.png';
         var snapshotDelete = 'images/icons/snapshot-delete.png';
 
-        if (Config.toggles.isUrbis){
+        if (Config.toggles.hasOwnProperty("isUrbis") && Config.toggles.isUrbis){
             snapshotDownload = 'images/urbis/snapshot-download.png';
             snapshotDelete = 'images/urbis/snapshot-delete.png';
         }

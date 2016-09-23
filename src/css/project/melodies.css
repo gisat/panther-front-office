@@ -79,20 +79,38 @@
 .melodies #content-intro-guide {
 	bottom: 150px;
 }
-.melodies .fields-holder .field > .label, .melodies #content-intro-guide {
+.melodies .fields-holder .field > .label, .melodies #content-intro-guide, .melodies .timeline-label {
 	color: #666;
 }
 
-/* Header toolbar === */
+/* Select menu*/
+.melodies .x-css-shadow {
+	position: static;
+}
+.melodies .custom-combo-list {
+	border: 1px solid #aaa;
+}
+.melodies .x-boundlist.custom-combo-list .x-boundlist-item  {
+	background: #fff;
+	transition: background .3s ease-out;
+}
+.melodies .x-boundlist.custom-combo-list .x-boundlist-item:hover,
+.melodies .x-boundlist.custom-combo-list .x-boundlist-item-over {
+	background: #eee;
+}
+
+/* App Header === */
 .melodies #toolbar {
 	background: #fff;
 	border-bottom: 2px solid #ddd;
 }
-
 .melodies .fields-holder > .label {
 	background: url("../../images/melodies/melodies-logo-en.gif") no-repeat 15px 11px;
 	margin-left: 20px;
 	width: 170px;
+}
+.melodies .yearselector .x-slider-horz .x-slider-thumb{
+	background-image: url("../../images/melodies/slider-thumb-2.png")
 }
 
 /* Panels */
@@ -118,6 +136,68 @@
 /* Buttons ================ */
 #app-toolbar-level > div {
 	border: 1px solid #aaa;
+}
+/*Basic buttons*/
+.melodies .x-btn-default-small {
+	background: #009fe3;
+}
+.melodies .x-btn-default-small:hover {
+	background: #0f70b7;
+}
+.melodies .x-btn.custom-button.btn-confirm {
+	background: #009fe3;
+	border: 1px solid #009fe3;
+}
+.melodies .x-btn.custom-button.btn-confirm .x-btn-inner {
+	color                : #fff;
+}
+.melodies .x-btn.custom-button.btn-confirm:hover, .melodies .x-btn.btn-confirm:focus {
+	background           : #0f70b7;
+	border: 1px solid #0f70b7;
+}
+
+/* top tools buttons */
+.melodies .btn-map-select.x-pressed .x-btn-icon {
+	background-image: url('../../images/melodies/map-select-active.png') !important;
+}
+/* map tools buttons */
+.melodies .x-btn-pressed.btn-tool-hover button .x-btn-icon {
+	background: url('../../images/melodies/tools-hover-pressed.png') !important;
+}
+.melodies .x-btn-pressed.btn-tool-multiple-maps button .x-btn-icon {
+	background-image: url('../../images/melodies/tools-maps-multiple-pressed.png') !important;
+}
+.melodies .x-btn-pressed.btn-tool-measure-line button .x-btn-icon {
+	background-image: url('../../images/melodies/tools-measure-line-pressed.png') !important;
+}
+.melodies .x-btn-pressed.btn-tool-measure-polygon button .x-btn-icon {
+	background-image: url('../../images/melodies/tools-measure-polygon-pressed.png') !important;
+}
+.melodies .x-btn-pressed.btn-map-tool button .x-btn-inner,  .melodies #app-tools-actions .x-btn-pressed span.x-btn-inner{
+	color: #0f70b7;
+}
+
+/* Checkbox ========== */
+.melodies .x-grid-checkheader-checked {
+	background-image: url('../../images/melodies/checked.png');
+}
+.melodies .x-tree-checkbox-checked {
+	background-image: url('../../images/melodies/checked.png');
+}
+
+/* Slider ======== */
+.melodies .x-slider-thumb {
+	background-image: url('../../images/melodies/panther-slider-thumb.png');
+}
+.melodies .slider-thumb-label.sliding {
+	color: #0f70b7;
+}
+
+/* advanced filters slider */
+.melodies .tools-filters-list .x-slider-horz .x-slider-inner{
+	background-repeat: no-repeat;
+	background-image: url("../../images/melodies/slider-colored-4.png");
+	background-position: 0;
 }
 
 /* ================================ */
