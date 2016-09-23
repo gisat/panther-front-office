@@ -243,3 +243,18 @@
 .melodies .histogram-bar.selected {
 	background: #ace2f9;
 }
+
+@media screen and (max-width: 1240px){
+	.melodies #toolbar > .label {
+		background: url('../../images/melodies/melodies-logo.png') no-repeat center center;
+		background-size: 50px;
+		width: 60px;
+		padding-left: 65px;
+	}
+}
+
+@media screen and (max-width: 1040px){
+	.melodies #toolbar > .label {
+		display: none;
+	}
+}
