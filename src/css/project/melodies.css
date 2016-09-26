@@ -3,17 +3,16 @@
 	display: block;
 	height: 30px;
 	background: #fff;
-	border-bottom: 1px solid #ccc;
-	border-top: 2px solid #0f70b7;
+	border: 0;
 	box-shadow: 0 1px 5px 0 rgba(0,0,0,0.2);
 	position: absolute;
 	left: auto;
 	right: 0;
 	z-index: 5;
-	width: 70px;
+	width: 80px;
 }
 .melodies .application #header {
-	border-bottom: 1px solid #eee;
+	border: 0;
 	box-shadow: 0 0;
 }
 .melodies #header .menu, .melodies #header .home, .melodies #header .user .signup, .melodies #header .user .sep {
@@ -21,10 +20,22 @@
 }
 .melodies #header .user {
 	background: #fff;
+	padding: 0;
 	height: 25px;
 }
 .melodies #header .user a {
 	color: #aaa;
+	padding: 0 10px;
+}
+.melodies #header .user a:before {
+	content: url("../../images/melodies/login.png");
+	display: inline-block;
+	width: 15px;
+	height: 15px;
+	line-height: 15px;
+	margin: -3px 5px 0 0;
+	padding: 0;
+	vertical-align: middle;
 }
 
 /* Footer === */
