@@ -33,6 +33,7 @@ requirejs.config({
 });
 
 define(['js/util/metadata/Attributes',
+        'js/view/widgets/BasicWidget/BasicWidget',
         'js/view/widgets/EvaluationWidget/EvaluationWidget',
         'js/util/Filter',
         'js/util/Floater',
@@ -47,6 +48,7 @@ define(['js/util/metadata/Attributes',
         'jquery-ui',
         'underscore'
 ], function (Attributes,
+             BasicWidget,
              EvaluationWidget,
              Filter,
              Floater,
@@ -62,8 +64,7 @@ define(['js/util/metadata/Attributes',
 	new FrontOffice();
 
     $(document).ready(function() {
-
-		if(window.Config.toggles.hasNewEvaluationTool){
+		if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
 			new EvaluationWidget({
 				attributesMetadata: new Attributes(),
                 filter: new Filter(),
@@ -72,6 +73,19 @@ define(['js/util/metadata/Attributes',
 				targetId: 'widget-container'
 			});
 		}
+
+        if (Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies){
+            new BasicWidget({
+                elementId: 'city-selection',
+                name: 'City selection',
+                targetId: 'widget-container',
+                selection: [{
+                    id: 'melodies-city-selection',
+                    name: 'Select city',
+                    options: ['Prague','Rome','London','Moscow']
+                }]
+            })
+        }
 
         var widgets = $("#widget-container");
         widgets.on("click", ".placeholder", function(e){

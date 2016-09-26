@@ -62,7 +62,8 @@
 				}).then(function(){
 					return createScript('appde.js');
 				}).then(function(){
-					if (Config.toggles.hasNewEvaluationTool){
+					if ((Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool) ||
+							(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies)){
 						return createScript('__new/lib/require.js', '__new/app.js');
 					}
 				}).then(function(){
@@ -86,7 +87,8 @@
 				}).then(function(){
 					return createScript('appde.min.js');
 				}).then(function(){
-					if (Config.toggles.hasNewEvaluationTool){
+					if ((Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool) ||
+							(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies)){
 						return createScript('__new/lib/require.js', '__new/app.js');
 					}
 				}).then(function(){
@@ -106,7 +108,8 @@
 				});
 			}
 			// load project styles depending on the toggles
-			if(Config.toggles.hasNewEvaluationTool){
+			if((Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool) ||
+					(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies)){
 				createLink("__new/styles/jquery-ui.css");
 				createLink("__new/styles/style.css");
 			}
@@ -399,7 +402,8 @@
 						<div id="app-toolbar-manage" class="widget"></div>
 					</div>
 						<div id="widget-container" class="widgets">
-
+							<div class="placeholders-container">
+							</div>
 						</div>
 				</div>
 				<div id="sidebar-tools">
