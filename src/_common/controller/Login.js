@@ -91,8 +91,15 @@ Ext.define('Puma.controller.Login', {
             if (window) {
                 window.close();
             }
-            $('.login').html(Config.auth ? Config.auth.userName : 'Log in')
-            $('.signup').html(Config.auth ? 'Log out' : 'Sign up')
+            $('.login').html(Config.auth ? Config.auth.userName : 'Log in');
+            $('.signup').html(Config.auth ? 'Log out' : 'Sign up');
+
+            if ($('.signup').html() == "Log in"){
+                $('.signup, .login').addClass("logged");
+            }
+            else {
+                $('.signup, .login').removeClass("logged");
+            }
             this.application.fireEvent('login', loggedIn);
             return;
         }

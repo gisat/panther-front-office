@@ -81,12 +81,7 @@ Ext.application({
 		}
 
 		if(Config.toggles.useHeader){
-			if (Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies){
-				//$("html").addClass("toggle-useHeader");
-			}
-			else {
-				$("html").addClass("toggle-useHeader");
-			}
+			$("html").addClass("toggle-useHeader");
 		}
 
 		if(Config.toggles.useWBFooter){

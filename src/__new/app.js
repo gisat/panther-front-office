@@ -124,13 +124,5 @@ define(['js/util/metadata/Attributes',
                 });
             }
         });
-
-        // positioning of tools container
-        var container = $("#widget-container .placeholders-container");
-        if (Config.toggles.allowPumaHelp){
-            container.css({
-                paddingLeft: "6rem"
-            })
-        }
     });
 });

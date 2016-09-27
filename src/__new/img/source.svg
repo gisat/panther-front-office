@@ -26,7 +26,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="4.2266253"
-     inkscape:cx="16.381164"
+     inkscape:cx="-23.958348"
      inkscape:cy="-11.877087"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -62,7 +62,9 @@
      id="layer1">
     <g
        id="g4174"
-       transform="translate(-70.473878,981.39654)">
+       transform="matrix(0.82352941,0,0,0.8125,-53.564276,989.54962)"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
       <rect
          transform="scale(-1,-1)"
          ry="0"
@@ -74,7 +76,7 @@
          height="12.000022"
          width="12"
          id="rect4595-4-0-0-8"
-         style="opacity:1;fill:none;fill-opacity:1;stroke:#f6f6f6;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+         style="opacity:1;fill:none;fill-opacity:1;stroke:#f6f6f6;stroke-width:2.44499946;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <path
          inkscape:export-ydpi="90"
          inkscape:export-xdpi="90"
@@ -83,7 +85,7 @@
          inkscape:connector-curvature="0"
          id="path4683-08-4-7"
          d="m 111.82108,41.483093 0,-14"
-         style="fill:none;fill-rule:evenodd;stroke:#f6f6f6;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+         style="fill:none;fill-rule:evenodd;stroke:#f6f6f6;stroke-width:2.44499946;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <path
          inkscape:export-ydpi="90"
          inkscape:export-xdpi="90"
@@ -92,7 +94,7 @@
          inkscape:connector-curvature="0"
          id="path4683-5-1-9-6"
          d="m 98.82109,28.483093 13.99999,0"
-         style="fill:none;fill-rule:evenodd;stroke:#f6f6f6;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+         style="fill:none;fill-rule:evenodd;stroke:#f6f6f6;stroke-width:2.44499946;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
       <path
          inkscape:export-ydpi="90"
          inkscape:export-xdpi="90"
@@ -101,7 +103,7 @@
          inkscape:connector-curvature="0"
          id="path4683-5-1-9-6-2"
          d="m 95.82108,33.483093 14,0"
-         style="fill:none;fill-rule:evenodd;stroke:#f6f6f6;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+         style="fill:none;fill-rule:evenodd;stroke:#f6f6f6;stroke-width:2.44499946;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
     <g
        id="g4180"

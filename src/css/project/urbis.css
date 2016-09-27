@@ -1,3 +1,8 @@
+/* Header ======== */
+.urbis #header .home, .urbis #header .menu {
+    display: none;
+}
+
 /* Intro ========= */
 .urbis .intro #app-map {
     display: none;

@@ -1,42 +1,41 @@
-/* Header === */
-.melodies #header {
-	display: block;
-	height: 30px;
-	background: #fff;
-	border: 0;
-	box-shadow: 0 1px 5px 0 rgba(0,0,0,0.2);
-	position: absolute;
-	left: auto;
-	right: 0;
-	z-index: 5;
-	width: 80px;
-}
-.melodies .application #header {
-	border: 0;
-	box-shadow: 0 0;
-}
-.melodies #header .menu, .melodies #header .home, .melodies #header .user .signup, .melodies #header .user .sep {
+/* Header ======== */
+.melodies #header .home, .melodies #header .menu {
 	display: none;
 }
-.melodies #header .user {
-	background: #fff;
-	padding: 0;
-	height: 25px;
-}
-.melodies #header .user a {
-	color: #aaa;
-	padding: 0 10px;
-}
-.melodies #header .user a:before {
-	content: url("../../images/melodies/login.png");
-	display: inline-block;
-	width: 15px;
-	height: 15px;
-	line-height: 15px;
-	margin: -3px 5px 0 0;
-	padding: 0;
-	vertical-align: middle;
-}
+
+/*!* Header === *!*/
+/*.melodies #header {*/
+	/*display: block;*/
+	/*height: 30px;*/
+	/*background: #fff;*/
+	/*border: 0;*/
+	/*box-shadow: 0 1px 5px 0 rgba(0,0,0,0.2);*/
+	/*padding-left: 0;*/
+	/*position: absolute;*/
+	/*left: auto;*/
+	/*right: 0;*/
+	/*z-index: 5;*/
+	/*width: 90px;*/
+/*}*/
+/*.melodies .application #header {*/
+	/*border: 0;*/
+	/*box-shadow: 0 0;*/
+/*}*/
+/*.melodies #header .menu, .melodies #header .home, .melodies #header .user .signup, .melodies #header .user .sep {*/
+	/*display: none;*/
+/*}*/
+/*.melodies #header .user {*/
+	/*background: #fff;*/
+	/*padding: 0;*/
+	/*height: 25px;*/
+/*}*/
+/*.melodies #header .user a {*/
+	/*color: #aaa;*/
+	/*padding: 0 10px;*/
+/*}*/
+/*.melodies #header .user .login:before {*/
+	/*content: url("../../images/melodies/login.png");*/
+/*}*/
 
 /* Footer === */
 .melodies #footer {

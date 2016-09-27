@@ -58,9 +58,40 @@
     background: #333;
     height: 28px;
     padding-right: 10px;
+    position: absolute;
+    display: inline-block;
+    right: 0;
+}
+.newDesign #header .user .sep {
+    width: 1px;
+    background: #888;
+    display: inline-block;
+    vertical-align: middle;
+    height: 15px;
+    margin-bottom: 3px;
 }
 .newDesign #header .user a {
     padding: 0 10px;
+}
+.newDesign #header .user .login:before, .newDesign #header .user .signup:before {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    line-height: 15px;
+    margin: -3px 5px 0 0;
+    padding: 0;
+    vertical-align: middle;
+}
+.newDesign #header .user .login:before {
+    content: url("../images/new/login.png");
+}
+.newDesign #header .user .signup:before {
+    content: url("../images/new/signup.png");
+}
+.newDesign #header .user .login.logged:before, .newDesign #header .user .signup.logged:before {
+    content: "";
+    margin: 0;
+    width: 0;
 }
 
 /* login */
@@ -127,26 +158,108 @@
 .newDesign #toolbar > .label {
     margin-top       : 7px;
 }
-
+.newDesign .application #toolbar > .label {
+    margin-top       : 13px;
+}
 .newDesign #content-application{
     z-index: initial;
 }
 
+/* intro toolbar inputs */
+.newDesign #content-intro  .x-form-text, .newDesign #content-intro .x-form-trigger {
+    background: rgba(255,255,255,.2);
+    border: 1px solid rgba(255,255,255,.3);
+    height: 30px;
+}
+.newDesign #content-intro  .x-form-text {
+    border-right-width: 0;
+}
+.newDesign #content-intro  .x-form-trigger {
+    background: rgba(255,255,255,.2) url('../images/new/expand-white.png') no-repeat 50% 50%;
+    border-left-width: 0;
+}
+.newDesign #content-intro .custom-combo .x-form-text {
+    border-radius: 1px 0 0 1px;
+    color: #ddd;
+    font-size: 12px;
+    font-weight: 600;
+}
+.newDesign #content-intro .field > .label {
+    font-size: 12px;
+    font-weight: 600;
+}
+
 /* App Header === */
+.newDesign #toolbar {
+    height: 105px;
+}
 .newDesign .fields-holder > .label {
     width: 290px;
 }
 .newDesign .fields-holder .field > .label {
-    color            : #eee;
+    color            : white;
+    font-family: "Open Sans", sans-serif;
+    font-size: 11px;
+    font-weight: 700;
 }
-.newDesign .field.level .x-btn {
-    background           : #eee;
+.newDesign #toolbar .fields {
+    float: left;
+    margin-left: 35px;
+    margin-top: 4px;
+}
+.newDesign #toolbar .fields .group {
+    width: 200px;
+    float: left;
+    margin-right: 60px;
+    min-height: 90px;
+}
+.newDesign #toolbar .fields .group.group-visualization {
+    width: 380px;
+    margin-right: 5px;
+}
+.newDesign #toolbar .fields .group.group-visualization .label {
+    width: 80px;
+}
+.newDesign #app-toolbar-visualization-save, .newDesign #app-toolbar-visualization-manage {
+    height: 23px;
+    margin-top: 3px;
+}
+.newDesign #toolbar .fields .group .field {
+    margin: 1px 1px 2px 1px;
+}
+.newDesign #toolbar .field.level > .label{
+    text-align: left;
+    padding-right: 1px;
+}
+.newDesign #toolbar .timeline-labels {
+    font-size: 11px;
+    padding-left: 2px;
+    margin-top: 4px;
+    margin-bottom: -7px;
+}
+.newDesign #toolbar .fields .group .field.help {
+    bottom: 5px;
+    margin-left: -160px;
+    position: absolute;
+}
+
+/* + - */
+.newDesign .field.level .widget .button {
+    width: 23px;
+    height: 23px;
+    float: left;
+    margin-left: 1px;
+    margin-right: 3px;
 }
 .newDesign .field.level .x-btn .x-btn-inner {
-    color: #686774;
+    color: #ddd;
+    font-size: 20px;
 }
+
+/* help */
 .newDesign .field.help .help-btn .x-btn {
-    background: #eee;
+    background: rgba(255,255,255,.2);
+    border: 1px solid rgba(255,255,255,.3);
 }
 .newDesign .field.year .widget .x-field .x-form-item-body{
     color: #eee;
@@ -156,6 +269,28 @@
 }
 .newDesign #button-1033-btnIconEl{
     color: #555;
+}
+
+/* dataview field */
+.newDesign #app-toolbar-save, .newDesign #app-toolbar-manage, .newDesign #app-toolbar-share, .newDesign #app-toolbar-visualization-save, .newDesign #app-toolbar-visualization-manage {
+    background: rgba(255,255,255,.5);
+    height: 23px;
+    line-height: 23px;
+}
+
+/* === Content and Sidebars ===== */
+.newDesign .application #content {
+    padding-top: 15px;
+}
+.newDesign #sidebar-reports {
+    background: rgb(245,245,245);
+    border-left: 1px solid white;
+    top: 105px;
+}
+.newDesign #sidebar-tools {
+    background: rgb(245,245,245);
+    border-right: 1px solid white;
+    top: 105px;
 }
 
 /* Form ================== */
@@ -173,7 +308,8 @@
     border-left: 0;
 }
 .newDesign.x-border-box .x-form-trigger.x-form-refresh-trigger {
-    background           : #eee url("../images/new/refresh.png") no-repeat 50% 50% !important;
+    background           : rgba(255,255,255,.2) url("../images/new/refresh-white.png") no-repeat 50% 50% !important;
+    border-left: 0;
     margin-left: -1px;
 }
 .newDesign.x-border-box .x-form-trigger.x-form-spinner-up {
@@ -185,28 +321,26 @@
 
 .newDesign.x-border-box .custom-combo .x-form-text {
     border-radius: 1px 0 0 1px;
-    color                : #333;
-    background           : #eee;
+    color: #ddd;
+    background: rgba(255,255,255,.2);
+    border: 1px solid rgba(255,255,255,.3);
+    border-right: 0;
+    font-size: 11px;
+    font-weight: 700;
+    height: 23px;
 }
 .newDesign.x-border-box .custom-combo .x-form-trigger {
-    background-color     : #eee;
+    background: rgba(255,255,255,.2) url('../images/new/expand-white.png') no-repeat 50% 50%;;
+    border: 1px solid rgba(255,255,255,.3);
+    border-left: 0;
     border-radius: 0 1px 1px 0;
+    height: 23px;
 }
-
 .newDesign.x-border-box .x-tbar-page-number .x-form-text {
     border: 1px solid #aaa;
 }
 
-.newDesign #sidebar-reports {
-    background: rgb(245,245,245);
-    border-left: 1px solid white;
-}
-
 /* === Box === */
-.newDesign #sidebar-tools {
-    background: rgb(245,245,245);
-    border-right: 1px solid white;
-}
 .newDesign #app-reports-paging, #app-tools-actions, #maptools-1059 {
     border-bottom: 1px solid white;
 }
@@ -366,7 +500,6 @@
 /*Basic buttons*/
 .newDesign .x-btn-default-small {
     background: #c92d42;
-    border: 0;
     border-radius: 1px;
     transition: background .3s ease-out;
 }
@@ -374,26 +507,29 @@
     background: #ad2738;
 }
 .newDesign .x-btn-default-small .x-btn-inner {
-    color: #fff;
+    color: white;
+    font-size: 11px;
 }
 .newDesign .x-btn-default-toolbar-small-over {
     background: #bbbbc0;
     border: 1px solid #bbbbc0;
 }
 
-.newDesign #app-toolbar-save .x-btn-default-small .x-btn-inner, .newDesign #app-toolbar-share .x-btn-default-small .x-btn-inner {
-    color: #666;
+.newDesign #app-toolbar-visualization-save .x-btn-default-small .x-btn-inner, .newDesign #app-toolbar-visualization-manage .x-btn-default-small .x-btn-inner, .newDesign #app-toolbar-save .x-btn-default-small .x-btn-inner, .newDesign #app-toolbar-share .x-btn-default-small .x-btn-inner {
+    color: #555;
+    font-size: 11px;
 }
 
 .newDesign #agreement-btns .x-btn-default-small .x-btn-inner {
     color: #fff;
 }
 .newDesign .x-btn.custom-button.x-btn-default-small {
-    background: #eee;
+    background: rgba(255,255,255,.2);
+    border: 1px solid rgba(255,255,255,.3);
 }
 .newDesign .x-btn.custom-button.btn-confirm {
-    background: #c92d42;
-    border: 1px solid #c92d42;
+    background: rgba(201,45,66,.7);
+    border: 1px solid rgba(255,255,255,.3);
     transition: background .3s ease-out;
 }
 .newDesign .x-btn.custom-button.btn-confirm .x-btn-inner {
@@ -401,7 +537,6 @@
 }
 .newDesign .x-btn.custom-button.btn-confirm:hover, .x-btn.btn-confirm:focus {
     background           : #ad2738;
-    border: 1px solid #ad2738;
 }
 
 .newDesign #app-tools-actions .x-btn {
@@ -464,11 +599,14 @@
 }
 
 /* help buttons */
+.newDesign #app-toolbar-contexthelp {
+    height: 23px;
+}
 .newDesign #app-toolbar-contexthelp span.x-btn-icon {
-    background: url('../images/new/help-context.png') !important;
+    background: url('../images/new/help-context-white.png') no-repeat 50% 50% !important;
 }
 .newDesign #app-toolbar-webhelp span.x-btn-icon {
-    background: url('../images/new/help-web.png') !important;
+    background: url('../images/new/help-web-white.png') no-repeat 50% 50% !important;
 }
 
 /* map tools buttons */
@@ -603,8 +741,9 @@
 }
 
 .newDesign .x-boundlist.custom-combo-list .x-boundlist-item {
-    background           : #eee;
-    color                : #555;
+    /*background           : #eee;*/
+    color                : #333;
+    padding: 3px 5px;
 }
 
 .newDesign .x-boundlist.custom-combo-list .x-boundlist-item:hover,
