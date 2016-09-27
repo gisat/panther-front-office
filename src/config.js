@@ -16,16 +16,16 @@ var Config = {
 		useWBAgreement: false,
 		useWBHeader: false,
 		useHeader: true,
-		useWBFooter: false,
-		allowPumaHelp: false,
+		useWBFooter: true,
+		allowPumaHelp: true,
 		allowDownloadsLink: false,
 		usePumaLogo: false,
 		advancedFiltersFirst: false,
 		hasNewEvaluationTool: true,
 		isNewDesign: true,
 		isUrbis: false,
-		isEea: true,
-		isMelodies: false
+		isEea: false,
+		isMelodies: true
 	},
 
 	basicTexts: {

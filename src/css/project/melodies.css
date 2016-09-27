@@ -3,40 +3,6 @@
 	display: none;
 }
 
-/*!* Header === *!*/
-/*.melodies #header {*/
-	/*display: block;*/
-	/*height: 30px;*/
-	/*background: #fff;*/
-	/*border: 0;*/
-	/*box-shadow: 0 1px 5px 0 rgba(0,0,0,0.2);*/
-	/*padding-left: 0;*/
-	/*position: absolute;*/
-	/*left: auto;*/
-	/*right: 0;*/
-	/*z-index: 5;*/
-	/*width: 90px;*/
-/*}*/
-/*.melodies .application #header {*/
-	/*border: 0;*/
-	/*box-shadow: 0 0;*/
-/*}*/
-/*.melodies #header .menu, .melodies #header .home, .melodies #header .user .signup, .melodies #header .user .sep {*/
-	/*display: none;*/
-/*}*/
-/*.melodies #header .user {*/
-	/*background: #fff;*/
-	/*padding: 0;*/
-	/*height: 25px;*/
-/*}*/
-/*.melodies #header .user a {*/
-	/*color: #aaa;*/
-	/*padding: 0 10px;*/
-/*}*/
-/*.melodies #header .user .login:before {*/
-	/*content: url("../../images/melodies/login.png");*/
-/*}*/
-
 /* Footer === */
 .melodies #footer {
 	border-top: 1px solid #ccc;
@@ -99,6 +65,22 @@
 	color: #666;
 }
 
+/* intro toolbar inputs */
+.melodies #content-intro  .x-form-text, .melodies #content-intro .x-form-trigger {
+	background: #fff;
+	border: 1px solid #aaa;
+}
+.melodies #content-intro  .x-form-text {
+	border-right-width: 0;
+}
+.melodies #content-intro  .x-form-trigger {
+	background: rgb(255,255,255) url('../../images/new/expand.png') no-repeat 50% 50%;
+	border-left-width: 0;
+}
+.melodies #content-intro .custom-combo .x-form-text {
+	color: #555;
+}
+
 /* Select menu*/
 .melodies .x-css-shadow {
 	position: static;
@@ -144,9 +126,28 @@
 	border: 1px solid #aaa;
 	border-right-width: 0;
 }
-.newDesign.x-border-box .custom-combo .x-form-trigger {
+.melodies.x-border-box .custom-combo .x-form-trigger {
 	border: 1px solid #aaa;
 	border-left-width: 0;
+}
+
+/* dataview field */
+.melodies #app-toolbar-save, .melodies #app-toolbar-manage, .melodies #app-toolbar-share, .melodies #app-toolbar-visualization-save, .melodies #app-toolbar-visualization-manage {
+	background: rgba(100,100,100,.3);
+}
+
+/* Form ================== */
+.melodies.x-border-box .x-form-trigger {
+	background           : #eee url("../../images/new/expand.png") no-repeat 50% 50%;
+}
+.melodies.x-border-box .x-form-trigger.x-form-refresh-trigger {
+	background           : rgba(255,255,255,.2) url("../../images/new/refresh.png") no-repeat 50% 50% !important;
+}
+.melodies.x-border-box .custom-combo .x-form-text {
+	color: #555;
+}
+.melodies.x-border-box .custom-combo .x-form-trigger {
+	background: rgba(255,255,255,.2) url('../../images/new/expand.png') no-repeat 50% 50%;;
 }
 
 /* Buttons ================ */
