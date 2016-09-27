@@ -1,5 +1,5 @@
 /* Header ======== */
-.eea #header .home, #header .eea .menu {
+.eea #header .home, .eea #header .menu {
 	display: none;
 }
 
@@ -21,6 +21,40 @@
 	background-color: rgb(0, 63, 95);
 	background-color: rgba(0, 63, 95, .95);
 	bottom: 50px;
+}
+
+/* Toolbar ==== */
+.eea #app-toolbar-scope {
+	padding-left: 13px;
+}
+.eea #app-toolbar-theme {
+	padding-left: 7px;
+}
+/* intro toolbar inputs */
+/* intro toolbar inputs */
+.eea #content-intro  .x-form-text, .eea #content-intro .x-form-trigger {
+	background-color: rgba(255,255,255,.3);
+}
+
+/* help */
+.eea .field.help .help-btn .x-btn {
+	background-color: rgba(255,255,255,.3);
+}
+
+/* form */
+.eea.x-border-box .x-form-trigger.x-form-refresh-trigger {
+	background-color           : rgba(255,255,255,.3) !important;
+}
+.eea.x-border-box .custom-combo .x-form-text {
+	background-color: rgba(255,255,255,.3);
+}
+.eea.x-border-box .custom-combo .x-form-trigger {
+	background-color: rgba(255,255,255,.3);
+}
+
+/*basic buttons */
+.eea .x-btn.custom-button.x-btn-default-small {
+	background: rgba(255,255,255,.3);
 }
 
 /* Header === */

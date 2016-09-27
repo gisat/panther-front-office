@@ -15,16 +15,16 @@ var Config = {
 		noGeoserverLayerGroups: false,
 		useWBAgreement: false,
 		useWBHeader: false,
-		useHeader: false,
+		useHeader: true,
 		useWBFooter: false,
-		allowPumaHelp: true,
-		allowDownloadsLink: true,
-		usePumaLogo: true,
+		allowPumaHelp: false,
+		allowDownloadsLink: false,
+		usePumaLogo: false,
 		advancedFiltersFirst: false,
 		hasNewEvaluationTool: true,
 		isNewDesign: true,
 		isUrbis: false,
-		isEea: false,
+		isEea: true,
 		isMelodies: false
 	},
 
@@ -32,7 +32,7 @@ var Config = {
 		advancedFiltersName: "Evaluation Tool",
 		areasSectionName: "Selection level",
 		appTitle: "Data Exploration",
-		appName: "Data Exploration",
+		appName: "",
 		scopeName: "Scale"
 	},
 	urbisTexts: {
