@@ -1,7 +1,7 @@
 var Config = {
 	url: 'http://localhost/backend/',
 	signupAddress: 'http://localhost/geonode/account/signup/',
-	geoserver2Workspace: "puma",
+	geoserver2Workspace: "panther",
 	initialBaseMap: "terrain",
 	initialMapBounds: [
 		11.71,48.29,19.03,51.17
