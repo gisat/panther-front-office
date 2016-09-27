@@ -106,7 +106,6 @@ define([
             });
             self.rebuildViewAndSettings();
         });
-
         ThemeYearConfParams.datasetChanged = false;
     };
 

@@ -73,7 +73,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
             })
         }
         ThemeYearConfParams.datasetChanged = true;
-
         if (cnt.eventsSuspended) {
             return;
         }
