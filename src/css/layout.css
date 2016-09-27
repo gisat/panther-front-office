@@ -209,15 +209,18 @@ body.application #main {
 	display: none; /* useDownloadsLink toggle default */
 }
 
-#header .user {
+#toolbar .user {
 	position: absolute;
 	top: 0;
 	right: 0;
-	background: #85887b url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAeCAIAAABi9+OQAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAC1JREFUeNpimDpjAhMDAwMK/vPnLxMLCzOYRpf7+xdTDKLnD1ZxiB4MOYAAAwCYExDOg5WI5QAAAABJRU5ErkJggg==) repeat-x 0 0;
 	text-transform: uppercase;
+	margin-top: 10px;
+	font-size: 15px;
+	margin-right: 10px;
+	z-index: 1;
 }
 
-#header .user .sep {
+#toolbar .user .sep {
 	display: inline-block;
 	height: 12px;
 	width: 1px;
@@ -226,7 +229,7 @@ body.application #main {
 	top: 1px;
 }
 
-#header .user .login {
+#toolbar .user .login {
 	display: inline-block;
 }
 

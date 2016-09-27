@@ -4,7 +4,10 @@ var Config = {
 	geoserver2Workspace: "panther",
 	initialBaseMap: "terrain",
 	initialMapBounds: [
-		11.71,48.29,19.03,51.17
+		112.4251556396,
+		-7.7001045314,
+		113.0046844482,
+		-6.9809544265
 	],
 	melodiesRemoteUrl: "",
 
@@ -12,8 +15,8 @@ var Config = {
 		noGeoserverLayerGroups: false,
 		useWBAgreement: false,
 		useWBHeader: false,
-		useHeader: true,
-		useWBFooter: true,
+		useHeader: false,
+		useWBFooter: false,
 		allowPumaHelp: false,
 		allowDownloadsLink: false,
 		usePumaLogo: false,
@@ -22,7 +25,7 @@ var Config = {
 		isNewDesign: true,
 		isUrbis: false,
 		isEea: false,
-		isMelodies: true
+		isMelodies: false
 	},
 
 	basicTexts: {

@@ -52,7 +52,7 @@ Ext.define('PumaMain.controller.Store', {
             method: 'POST',
             success: function(response) {
                 var data = JSON.parse(response.responseText).data;
-                
+
                 store.loadData(data);
                 store.loading = false;
             },
