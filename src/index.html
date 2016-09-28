@@ -9,7 +9,7 @@
 		<script type="text/javascript" src="exchangeParams.js"></script>
 		<script type="text/javascript" src="lib/es6-promise.js"></script>
 
-		<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:400,800,700">
+		<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800">
 		<link rel="stylesheet" type="text/css" href="css/ux/ItemSelector.css">
 		<link rel="stylesheet" type="text/css" href="extjs-4.1.3/resources/css/ext-all-gray.css">
 		<link rel="stylesheet" type="text/css" href="css/ux/colorpicker.css">
@@ -62,7 +62,8 @@
 				}).then(function(){
 					return createScript('appde.js');
 				}).then(function(){
-					if (Config.toggles.hasNewEvaluationTool){
+					if ((Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool) ||
+							(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies)){
 						return createScript('__new/lib/require.js', '__new/app.js');
 					}
 				}).then(function(){
@@ -86,7 +87,8 @@
 				}).then(function(){
 					return createScript('appde.min.js');
 				}).then(function(){
-					if (Config.toggles.hasNewEvaluationTool){
+					if ((Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool) ||
+							(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies)){
 						return createScript('__new/lib/require.js', '__new/app.js');
 					}
 				}).then(function(){
@@ -106,7 +108,8 @@
 				});
 			}
 			// load project styles depending on the toggles
-			if(Config.toggles.hasNewEvaluationTool){
+			if((Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool) ||
+					(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies)){
 				createLink("__new/styles/jquery-ui.css");
 				createLink("__new/styles/style.css");
 			}
@@ -118,6 +121,9 @@
 			}
 			if(Config.toggles.isEea){
 				createLink("css/project/eea.css");
+			}
+			if(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies){
+				createLink("css/project/melodies.css");
 			}
 		</script>
 
@@ -167,6 +173,11 @@
 					<li id="downloads-link"><a href="/downloads">Downloads</a></li>
 					<li id="help-link"><a href="/help" target="_blank">Help</a></li>
 				</ul>
+				<div class="user">
+					<a href="#" class="login">LOG IN</a>
+					<span class="sep"></span>
+					<a href="#" class="signup">SIGN UP</a>
+				</div>
 			</div>
 			<div id="content">
 				<div id="map-holder">
@@ -344,7 +355,7 @@
 					<div id="toolbar" class="fields-holder">
 						<div class="label">Data Exploration</div>
 						<div class="fields">
-							<div class="group">
+							<div class="group group-scope">
 								<div class="field scope">
 									<div class="label">Scope</div>
 									<div id="app-toolbar-scope" class="widget"></div>
@@ -357,23 +368,13 @@
 									<div class="label">Theme</div>
 								<div id="app-toolbar-theme" class="widget"></div>
 							</div>
-							<div class="field help">
-								<div class="widget">
-									<div id="app-toolbar-contexthelp" class="help-btn"></div>
-									<div id="app-toolbar-webhelp" class="help-btn"></div>
-									<!-- <a id="app-toolbar-webhelp" href="help/PUMA webtool help.html" target="_blank" title="PUMA WebTool help"></a> -->
-								</div>
-							</div>
-								<div class="user">
-									<a href="#" class="login">LOG IN</a>
-									<span class="sep"></span>
-									<a href="#" class="signup">SIGN UP</a>
-								</div>
 						</div>
-						<div class="group">
-							<div class="field with-sep year">
-								<div class="label">Year (+/-)</div>
-								<div id="app-toolbar-year" class="widget"></div>
+						<div class="group group-visualization">
+							<div class="field visualization">
+								<div class="label">Visualization</div>
+								<div id="app-toolbar-visualization" class="widget"></div>
+								<div id="app-toolbar-visualization-save" class="widget"></div>
+								<div id="app-toolbar-visualization-manage" class="widget"></div>
 							</div>
 							<div class="field with-sep level">
 								<div class="label">Analysis level</div>
@@ -382,12 +383,23 @@
 									<div id="app-toolbar-level-more" class="button"></div>
 								</div>
 							</div>
-							<div class="field visualization">
-								<div class="label">Visualization</div>
-								<div id="app-toolbar-visualization" class="widget"></div>
-								<div id="app-toolbar-visualization-save" class="widget"></div>
-								<div id="app-toolbar-visualization-manage" class="widget"></div>
+							<div class="field with-sep year">
+								<div class="label">Year (+/-)</div>
+								<div id="app-toolbar-year" class="widget"></div>
 							</div>
+						</div>
+						<div class="group">
+							<div class="field help">
+								<div class="widget">
+									<div id="app-toolbar-contexthelp" class="help-btn"></div>
+									<div id="app-toolbar-webhelp" class="help-btn"></div>
+									<!-- <a id="app-toolbar-webhelp" href="help/PUMA webtool help.html" target="_blank" title="PUMA WebTool help"></a> -->
+								</div>
+							</div>
+						</div>
+					</div>
+					<div id="widget-container" class="widgets">
+						<div class="placeholders-container">
 						</div>
 					</div>
 					<div class="dataview field">
@@ -395,9 +407,6 @@
 						<div id="app-toolbar-save" class="widget"></div>
 						<div id="app-toolbar-manage" class="widget"></div>
 					</div>
-						<div id="widget-container" class="widgets">
-
-						</div>
 				</div>
 				<div id="sidebar-tools">
 					<span id="sidebar-tools-toggle" title="Tools"></span>

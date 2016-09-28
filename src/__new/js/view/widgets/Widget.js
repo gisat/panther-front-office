@@ -6,7 +6,8 @@ define(['../../error/ArgumentError',
         'string',
         'jquery',
 
-        'text!./Widget.html',
+        'text!./WidgetPlaceholder.html',
+        'text!./WidgetFloater.html',
         'css!./Widget'
 ], function (ArgumentError,
              NotFoundError,
@@ -16,7 +17,8 @@ define(['../../error/ArgumentError',
              S,
              $,
 
-             htmlContent) {
+             WidgetPlaceholder,
+             WidgetFloater) {
     "use strict";
 
     /**
@@ -59,12 +61,20 @@ define(['../../error/ArgumentError',
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Widget", "build", "missingWidgetName"));
         }
 
-        var html = S(htmlContent).template({
+        var placeholdersContainer = target.find('.placeholders-container');
+
+        var placeholder = S(WidgetPlaceholder).template({
             name: name,
             widgetId: widgetId
         }).toString();
 
-        target.append(html);
+        var floater = S(WidgetFloater).template({
+            name: name,
+            widgetId: widgetId
+        }).toString();
+
+        placeholdersContainer.append(placeholder);
+        target.append(floater);
     };
 
     return Widget;

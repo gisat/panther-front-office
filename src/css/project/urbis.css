@@ -1,3 +1,8 @@
+/* Header ======== */
+.urbis #header .home, .urbis #header .menu {
+    display: none;
+}
+
 /* Intro ========= */
 .urbis .intro #app-map {
     display: none;
@@ -50,15 +55,15 @@
     background: #d35400;
 }
 .urbis .x-btn.custom-button.btn-confirm {
-    background: #ff7600;
-    border: 1px solid #ff7600;
+    background: rgba(255,118,0,.85);
+    border: 1px solid rgba(255,255,255,.5);
 }
 .urbis .x-btn.custom-button.btn-confirm .x-btn-inner {
     color                : #fff;
 }
 .urbis .x-btn.custom-button.btn-confirm:hover, .urbis .x-btn.btn-confirm:focus {
     background           : #d35400;
-    border: 1px solid #d35400;
+    border: 1px solid rgba(255,255,255,.5);
 }
 /* top tools buttons */
 .urbis .btn-map-select.x-pressed .x-btn-icon {
@@ -85,7 +90,7 @@
 .urbis .x-grid-checkheader-checked {
     background-image: url('../../images/urbis/checked.png');
 }
-.newDesign .x-tree-checkbox-checked {
+.urbis .x-tree-checkbox-checked {
     background-image: url('../../images/urbis/checked.png');
 }
 
@@ -118,10 +123,12 @@
 
 /* Widget */
 .urbis .placeholder.open {
-    background: #ff7600;
+    background: rgba(255,118,0,.85);
+    border: 1px solid rgba(255,255,255,.5);
 }
 .urbis .placeholder.open:hover {
-    background: #d35400;
+    background           : #d35400;
+    border: 1px solid rgba(255,255,255,.5);
 }
 .urbis .floater-header {
     background: #ff7600;

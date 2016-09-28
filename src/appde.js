@@ -64,6 +64,14 @@ Ext.application({
 			$("#content-intro-guide p:nth-child(5)").html("");
 		}
 
+		if(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies){
+			$("html").addClass("melodies");
+			$("#footer-bar").html("").append("<img alt='eu-logo' src='images/melodies/eu-logo.png'>")
+				.append("<p>This research has received funding from the European Union Seventh Framework Programme (FP7/2013-2016) under grant agreement number 603525. It is coordinated by the University of Reading and operated by a 16 member consortium. </p>");
+			$("#footer-legal").html("").append("<img src='images/melodies/gisat-logo-2.png'>")
+				.append("<p>Copyright © 2014 GISAT s.r.o.</p>");
+		}
+
 		if(Config.toggles.useWBAgreement){
 			$("html").addClass("toggle-useWBAgreement");
 		}
