@@ -238,7 +238,8 @@
 }
 .newDesign #toolbar .fields .group .field.help {
     bottom: 0;
-    margin-left: -160px;
+    width: 60px;
+    margin-left: -120px;
     position: absolute;
 }
 
@@ -281,6 +282,7 @@
     color: #555;
 }
 .newDesign #app-toolbar-contexthelp {
+    margin-left: 0;
     height: 23px;
     width: 23px;
 }

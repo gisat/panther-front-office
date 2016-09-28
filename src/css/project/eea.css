@@ -33,28 +33,28 @@
 /* intro toolbar inputs */
 /* intro toolbar inputs */
 .eea #content-intro  .x-form-text, .eea #content-intro .x-form-trigger {
-	background-color: rgba(255,255,255,.3);
+	background-color: rgba(255,255,255,.2);
 }
 
 /* help */
 .eea .field.help .help-btn .x-btn {
-	background-color: rgba(255,255,255,.3);
+	background-color: rgba(255,255,255,.2);
 }
 
 /* form */
 .eea.x-border-box .x-form-trigger.x-form-refresh-trigger {
-	background-color           : rgba(255,255,255,.3) !important;
+	background-color           : rgba(255,255,255,.2) !important;
 }
 .eea.x-border-box .custom-combo .x-form-text {
-	background-color: rgba(255,255,255,.3);
+	background-color: rgba(255,255,255,.2);
 }
 .eea.x-border-box .custom-combo .x-form-trigger {
-	background-color: rgba(255,255,255,.3);
+	background-color: rgba(255,255,255,.2);
 }
 
 /*basic buttons */
 .eea .x-btn.custom-button.x-btn-default-small {
-	background: rgba(255,255,255,.3);
+	background: rgba(255,255,255,.2);
 }
 
 /* Header === */
@@ -79,15 +79,15 @@
 	background: #006699;
 }
 .eea .x-btn.custom-button.btn-confirm {
-	background: #077db8;
-	border: 1px solid #077db8;
+	background: rgba(7,125,184,.85);
+	border: 1px solid rgba(255,255,255,.4);
 }
 .eea .x-btn.custom-button.btn-confirm .x-btn-inner {
 	color                : #fff;
 }
 .eea .x-btn.custom-button.btn-confirm:hover, .eea .x-btn.btn-confirm:focus {
 	background           : #006699;
-	border: 1px solid white;
+	border: 1px solid rgba(255,255,255,.4);
 }
 
 /* top tools buttons */
@@ -145,13 +145,14 @@
 .eea .widget-button:hover {
 	background: #006699;
 }
-
 /* Widget */
 .eea .placeholder.open {
-	background: #077db8;
+	background: rgba(7,125,184,.85);
+	border: 1px solid rgba(255,255,255,.4);
 }
 .eea .placeholder.open:hover {
 	background: #006699;
+	border: 1px solid rgba(255,255,255,.4);
 }
 .eea .floater-header {
 	background: #077db8;
@@ -185,5 +186,14 @@
 @media screen and (max-width: 1240px){
 	.eea #toolbar > .label {
 		width: 85px;
+	}
+	.eea .placeholders-container {
+		left: 780px;
+	}
+}
+
+@media screen and (max-width: 1040px){
+	.eea .placeholders-container {
+		left: 680px;
 	}
 }
