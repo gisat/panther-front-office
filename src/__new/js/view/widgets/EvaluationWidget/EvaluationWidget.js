@@ -3,6 +3,7 @@ define([
     '../../../error/NotFoundError',
     '../inputs/checkbox/Checkbox',
     '../../../util/Logger',
+    '../../../util/MapExport',
 	'../../../util/Remote',
     '../inputs/selectbox/SelectBox',
     '../tools/settings/Settings',
@@ -18,6 +19,7 @@ define([
             NotFoundError,
             Checkbox,
             Logger,
+            MapExport,
 			Remote,
             SelectBox,
             Settings,
@@ -321,12 +323,25 @@ define([
      * @param filteredData {Object} filtered data
      */
     EvaluationWidget.prototype.addSelectionConfirmListener = function(count, filteredData){
+        var self = this;
         if (count > 0){
             $('#evaluation-confirm').html(count + " selected")
                 .off("click.confirm")
                 .on("click.confirm",function(){
                     SelectedAreasExchange.data = filteredData.data;
                     Observer.notify("selectAreas");
+
+                    var filteredAreas = [];
+                    filteredData.data.data.forEach(function(area){
+                        filteredAreas.push(area.gid);
+                    });
+
+                    new MapExport().export({
+                        location: filteredData.data.data[0].loc,
+                        year: JSON.parse(ThemeYearConfParams.years)[0],
+                        areaTemplate: filteredData.data.data[0].at,
+                        gids: filteredAreas
+                    });
                 });
         }
         else {

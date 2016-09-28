@@ -55,13 +55,7 @@ define([
 		var url = "";
 
 		_.each(params, function(value, key) {
-			if(_.isArray(value)) {
-				value.forEach(function(value){
-					url += key + "=" + value + "&"
-				});
-			} else {
-				url += key + "=" + value + "&"
-			}
+			url += key + "=" + value + "&"
 		});
 
 		url = url.substring(0, url.length - 1);

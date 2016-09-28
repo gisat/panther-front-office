@@ -518,7 +518,6 @@ Ext.define('PumaMain.controller.Filter', {
         var areas = data.data;
         
         if (this.filterActive) {
-            console.log(areas);
             this.getController('DomManipulation').deactivateLoadingMask();
             this.getController('Select').selectInternal(areas || []);
             
