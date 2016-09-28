@@ -301,10 +301,20 @@
     left: 0;
     top: 0;
 }
-.newDesign #app-toolbar-save, .newDesign #app-toolbar-manage, .newDesign #app-toolbar-share, .newDesign #app-toolbar-visualization-save, .newDesign #app-toolbar-visualization-manage {
-    background: rgba(255,255,255,.6);
+.newDesign #app-toolbar-save,
+.newDesign #app-toolbar-manage,
+.newDesign #app-toolbar-share,
+.newDesign #app-toolbar-visualization-save,
+.newDesign #app-toolbar-visualization-manage {
     height: 23px;
     line-height: 23px;
+}
+.newDesign #app-toolbar-save .x-btn,
+.newDesign #app-toolbar-manage .x-btn,
+.newDesign #app-toolbar-share .x-btn,
+.newDesign #app-toolbar-visualization-save .x-btn,
+.newDesign #app-toolbar-visualization-manage .x-btn {
+    background: rgba(255,255,255,.6);
 }
 
 /* === Content and Sidebars ===== */
