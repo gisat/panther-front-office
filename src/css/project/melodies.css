@@ -1,0 +1,301 @@
+/* Header ======== */
+.melodies #header .home, .melodies #header .menu {
+	display: none;
+}
+
+/* Footer === */
+.melodies #footer {
+	border-top: 1px solid #ccc;
+	border-bottom: 3px solid #0f70b7;
+	box-shadow: 0 -1px 5px 0 rgba(0,0,0,0.2);
+	background: #fff;
+	height: 65px;
+	padding: 0;
+	position: absolute;
+}
+.melodies .application #footer {
+	box-shadow: 0 0;
+	border-top: 0;
+}
+
+.melodies #footer-bar {
+	border: 0;
+	background: #fff;
+	float: left;
+	padding: 5px 0 0 10px;
+	width: 70%;
+}
+.melodies #footer-bar img {
+	display: inline-block;
+	vertical-align: middle;
+}
+.melodies #footer-bar p {
+	color: #666;
+	display: inline-block;
+	padding-left: 20px;
+	vertical-align: middle;
+	width: 480px;
+}
+
+.melodies #footer-legal {
+	border: 0;
+	background: #fff;
+	float: right;
+	margin: 0;
+	padding: 0 10px 0 0;
+	text-align: right;
+	width: 30%;
+}
+.melodies #footer-legal > img {
+	margin: 5px -10px -3px 0;
+}
+
+/* Intro === */
+.melodies #content-intro, .melodies #content-intro-guide {
+	background-color: rgba(255,255,255, .95);
+	border: 1px solid #ccc;
+}
+.melodies #content-intro {
+	width: 760px;
+}
+.melodies #content-intro-guide {
+	bottom: 150px;
+}
+.melodies .fields-holder .field > .label, .melodies #content-intro-guide, .melodies .timeline-label {
+	color: #666;
+}
+
+/* intro toolbar inputs */
+.melodies #content-intro  .x-form-text, .melodies #content-intro .x-form-trigger {
+	background: #fff;
+	border: 1px solid #aaa;
+}
+.melodies #content-intro  .x-form-text {
+	border-right-width: 0;
+}
+.melodies #content-intro  .x-form-trigger {
+	background: rgb(255,255,255) url('../../images/new/expand.png') no-repeat 50% 50%;
+	border-left-width: 0;
+}
+.melodies #content-intro .custom-combo .x-form-text {
+	color: #555;
+}
+
+/* Select menu*/
+.melodies .x-css-shadow {
+	position: static;
+}
+.melodies .custom-combo-list {
+	border: 1px solid #aaa;
+}
+.melodies .x-boundlist.custom-combo-list .x-boundlist-item  {
+	background: #fff;
+	transition: background .3s ease-out;
+}
+.melodies .x-boundlist.custom-combo-list .x-boundlist-item:hover,
+.melodies .x-boundlist.custom-combo-list .x-boundlist-item-over {
+	background: #eee;
+}
+
+/* App Header === */
+.melodies #toolbar {
+	background: #fff;
+	border-bottom: 2px solid #ddd;
+}
+.melodies .fields-holder > .label {
+	background: url("../../images/melodies/melodies-logo-en.gif") no-repeat 15px 11px;
+	margin-left: 20px;
+	width: 170px;
+}
+.melodies .yearselector .x-slider-horz .x-slider-thumb{
+	background-image: url("../../images/melodies/slider-thumb-2.png")
+}
+
+/* Panels */
+.melodies .x-panel-header {
+	background: #d8f4fe !important;
+	border-bottom: 1px solid white;
+	transition: background .3s ease-out;
+}
+.melodies .x-panel-header:hover {
+	background: #ace2f9 !important;
+}
+
+/* Selects */
+.melodies.x-border-box .custom-combo .x-form-text {
+	border: 1px solid #aaa;
+	border-right-width: 0;
+}
+.melodies.x-border-box .custom-combo .x-form-trigger {
+	border: 1px solid #aaa;
+	border-left-width: 0;
+}
+
+.melodies.x-border-box #app-toolbar-theme .x-form-trigger.x-form-refresh-trigger,
+.melodies.x-border-box #app-toolbar-visualization .x-form-trigger.x-form-refresh-trigger {
+	margin-left: -1px;
+	border-left: 0 !important;
+}
+
+/* +- */
+.melodies .field.level .x-btn .x-btn-inner {
+	color: #666;
+}
+
+/* help */
+.newDesign .field.help .help-btn .x-btn {
+	border: 1px solid #aaa;
+}
+.melodies #app-toolbar-contexthelp span.x-btn-icon {
+	background: url('../../images/melodies/help-context.png') no-repeat 50% 50% !important;
+}
+.melodies #app-toolbar-webhelp span.x-btn-icon {
+	background: url('../../images/melodies/help-web.png') no-repeat 50% 50% !important;
+}
+
+/* dataview field */
+.melodies #app-toolbar-save, .melodies #app-toolbar-manage, .melodies #app-toolbar-share, .melodies #app-toolbar-visualization-save, .melodies #app-toolbar-visualization-manage {
+	background: rgba(100,100,100,.3);
+}
+
+/* Form ================== */
+.melodies.x-border-box .x-form-trigger {
+	background           : #eee url("../../images/new/expand.png") no-repeat 50% 50%;
+}
+.melodies.x-border-box .x-form-trigger.x-form-refresh-trigger {
+	background           : rgba(255,255,255,.2) url("../../images/new/refresh.png") no-repeat 50% 50% !important;
+}
+.melodies.x-border-box .custom-combo .x-form-text {
+	color: #555;
+}
+.melodies.x-border-box .custom-combo .x-form-trigger {
+	background: rgba(255,255,255,.2) url('../../images/new/expand.png') no-repeat 50% 50%;;
+}
+
+/* Buttons ================ */
+#app-toolbar-level > div {
+	border: 1px solid #aaa;
+}
+/*Basic buttons*/
+.melodies .x-btn-default-small {
+	background: #009fe3;
+}
+.melodies .x-btn-default-small:hover {
+	background: #0f70b7;
+}
+.melodies .x-btn.custom-button.btn-confirm {
+	background: #009fe3;
+	border: 1px solid #009fe3;
+}
+.melodies .x-btn.custom-button.btn-confirm .x-btn-inner {
+	color                : #fff;
+}
+.melodies .x-btn.custom-button.btn-confirm:hover, .melodies .x-btn.btn-confirm:focus {
+	background           : #0f70b7;
+	border: 1px solid #0f70b7;
+}
+
+/* top tools buttons */
+.melodies .btn-map-select.x-pressed .x-btn-icon {
+	background-image: url('../../images/melodies/map-select-active.png') !important;
+}
+/* map tools buttons */
+.melodies .x-btn-pressed.btn-tool-hover button .x-btn-icon {
+	background: url('../../images/melodies/tools-hover-pressed.png') !important;
+}
+.melodies .x-btn-pressed.btn-tool-multiple-maps button .x-btn-icon {
+	background-image: url('../../images/melodies/tools-maps-multiple-pressed.png') !important;
+}
+.melodies .x-btn-pressed.btn-tool-measure-line button .x-btn-icon {
+	background-image: url('../../images/melodies/tools-measure-line-pressed.png') !important;
+}
+.melodies .x-btn-pressed.btn-tool-measure-polygon button .x-btn-icon {
+	background-image: url('../../images/melodies/tools-measure-polygon-pressed.png') !important;
+}
+.melodies .x-btn-pressed.btn-map-tool button .x-btn-inner,  .melodies #app-tools-actions .x-btn-pressed span.x-btn-inner{
+	color: #0f70b7;
+}
+
+/* Checkbox ========== */
+.melodies .x-grid-checkheader-checked {
+	background-image: url('../../images/melodies/checked.png');
+}
+.melodies .x-tree-checkbox-checked {
+	background-image: url('../../images/melodies/checked.png');
+}
+
+/* Slider ======== */
+.melodies .x-slider-thumb {
+	background-image: url('../../images/melodies/panther-slider-thumb.png');
+}
+.melodies .slider-thumb-label.sliding {
+	color: #0f70b7;
+}
+
+/* advanced filters slider */
+.melodies .tools-filters-list .x-slider-horz .x-slider-inner{
+	background-repeat: no-repeat;
+	background-image: url("../../images/melodies/slider-colored-4.png");
+	background-position: 0;
+}
+
+/* ================================ */
+/* ====== Evaluation tool ========= */
+/* ================================ */
+
+/* Common features */
+.melodies .widget-button {
+	background: #009fe3;
+}
+.melodies .widget-button:hover {
+	background: #0f70b7;
+}
+
+/* Widget */
+.melodies .placeholder.open {
+	background: #009fe3;
+	border: 1px solid #009fe3;
+}
+.melodies .placeholder.open:hover {
+	background: #0f70b7;
+	border: 1px solid #0f70b7;
+}
+.melodies .floater-header {
+	background: #009fe3;
+}
+
+/* Slider box */
+.melodies .slider-row.ui-slider-horizontal .ui-slider-handle {
+	background: #009fe3;
+}
+.melodies .slider-row.ui-slider-horizontal .ui-slider-handle:hover, .melodies .slider-row.ui-slider-horizontal .ui-slider-handle.ui-state-focus {
+	background: #0f70b7;
+}
+.melodies .slider-row .ui-widget-header {
+	background: #009fe3;
+}
+
+/* Checkbox */
+.melodies .checkbox-row.checked .checkbox-icon {
+	background: url('../../images/melodies/checked.png') no-repeat center center;
+}
+
+/* Histogram */
+.melodies .histogram-bar.selected {
+	background: #ace2f9;
+}
+
+@media screen and (max-width: 1240px){
+	.melodies #toolbar > .label {
+		background: url('../../images/melodies/melodies-logo.png') no-repeat center center;
+		background-size: 50px;
+		width: 60px;
+		padding-left: 65px;
+	}
+}
+
+@media screen and (max-width: 1040px){
+	.melodies #toolbar > .label {
+		display: none;
+	}
+}

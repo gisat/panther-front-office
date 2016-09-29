@@ -212,7 +212,7 @@ Ext.define('PumaMain.controller.Render', {
                 itemId: 'contexthelp',
                 tooltip: 'Context help',
                 tooltipType: 'title',
-                icon: 'images/icons/help-context.png',
+                //icon: 'images/icons/help-context.png',
                 enableToggle: true,
                 width: 30,
                 height: 30,
@@ -234,7 +234,7 @@ Ext.define('PumaMain.controller.Render', {
                 itemId: 'webhelp',
                 tooltip: 'PUMA WebTool help',
                 tooltipType: 'title',
-                icon: 'images/icons/help-web.png',
+                //icon: 'images/icons/help-web.png',
                 width: 30,
                 height: 30,
                 href: 'help/PUMA webtool help.html'
@@ -265,7 +265,7 @@ Ext.define('PumaMain.controller.Render', {
             itemId: 'managedataview',
             helpId: 'Managingdataviews',
             hidden: !Config.auth,
-            icon: 'images/icons/settings.png',
+            //icon: 'images/icons/settings.png',
             width: '100%',
             height: '100%',
             cls: 'custom-button btn-manage'
@@ -274,7 +274,7 @@ Ext.define('PumaMain.controller.Render', {
             renderTo: 'app-toolbar-visualization-manage',
             itemId: 'managevisualization',
             hidden: !Config.auth || !Config.auth.isAdmin,
-            icon: 'images/icons/settings.png',
+            //icon: 'images/icons/settings.png',
             width: '100%',
             height: '100%',
             cls: 'custom-button btn-visualization-manage'

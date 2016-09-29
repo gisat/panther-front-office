@@ -105,7 +105,7 @@ Ext.define('PumaMain.controller.Filter', {
             var diff = slider.maxValue-slider.minValue;
 
             // Urbis sliders
-            if (Config.toggles.isNewDesign){
+            if (Config.toggles.hasOwnProperty("isNewDesign") && Config.toggles.isNewDesign){
                 var sliderInner  = Ext.get(slider.el.id + "-innerEl");
                 if (sliderInner){
                     var sliderUnit = sliderInner.dom.offsetWidth/diff;
@@ -308,13 +308,16 @@ Ext.define('PumaMain.controller.Filter', {
         cmp.hide();
 
         var chartCol;
-        if(Config.toggles.isNewDesign){
+        if((Config.toggles.hasOwnProperty("isNewDesign") && Config.toggles.isNewDesign)){
             chartCol = "#a71e1e";
-            if(Config.toggles.isUrbis){
+            if((Config.toggles.hasOwnProperty("isUrbis") && Config.toggles.isUrbis)){
                 chartCol = "#d35400";
             }
-            if(Config.toggles.isEea){
+            if(Config.toggles.hasOwnProperty("isEea") && Config.toggles.isEea){
                 chartCol = "#077db8";
+            }
+            if(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies){
+                chartCol = "#ace2f9";
             }
         }
 

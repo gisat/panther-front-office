@@ -1,12 +1,10 @@
 define([
 	'js/stores/Stores',
 	'js/stores/gisat/Attributes',
-	'js/stores/gisat/AttributeSets',
-	'js/stores/gisat/LayerRefs'
+	'js/stores/gisat/AttributeSets'
 ], function(Stores,
 			Attributes,
-			AttributeSets,
-			LayerRefs){
+			AttributeSets){
 	/**
 	 * Constructor for assembling current application.
 	 * @constructor
@@ -16,11 +14,12 @@ define([
 	};
 
 	FrontOffice.prototype.loadData = function(){
-		setTimeout(function(){
-			Stores.retrieve('layerRef').load();
+		if (Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
+			//setTimeout(function(){
 			Stores.retrieve('attribute').load();
 			Stores.retrieve('attributeSet').load();
-		},200)
+			//},200)
+		}
 	};
 
 	return FrontOffice;

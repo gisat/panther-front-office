@@ -62,7 +62,14 @@ define([
         Widget.prototype.build.call(this, this._widgetId, this._target, this._name);
 
         this._widgetSelector = $("#floater-" + this._widgetId);
+        this._placeholderSelector = $("#placeholder-" + this._widgetId);
         this._widgetBodySelector = this._widgetSelector.find(".floater-body");
+
+        if (Config.toggles.hasOwnProperty("isUrbis") && Config.toggles.isUrbis){
+            this._widgetSelector.addClass("open");
+            this._widgetSelector.css("display","block"); // redundant, but necessary for animation
+            this._placeholderSelector.removeClass("open");
+        }
 
         this._attributesMetadata = options.attributesMetadata;
         this._filter = options.filter;
