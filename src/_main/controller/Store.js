@@ -52,7 +52,6 @@ Ext.define('PumaMain.controller.Store', {
             method: 'POST',
             success: function(response) {
                 var data = JSON.parse(response.responseText).data;
-
                 store.loadData(data);
                 store.loading = false;
             },
@@ -617,8 +616,8 @@ Ext.define('PumaMain.controller.Store', {
                 sorterFn: function(r1,r2) {
                     var d1 = r1.get('dataset');
                     var d2 = r2.get('dataset');
-                    if (!d1) return 1;
-                    if (!d2) return -1;
+                    if (!d1) return -1;
+                    if (!d2) return 1;
                     return 0;
                 }
             },{
