@@ -149,6 +149,7 @@ define([
         });
         this._categories = this._settings.getCategories();
         this.rebuildInputs(this._categories);
+        this.disableExports();
 
         this._settingsConfirm = this._settings.getConfirmButton();
         this.addSettingsChangeListener(this._settingsConfirm);
@@ -400,6 +401,7 @@ define([
         button.on("click",function(){
             self._categories = self._settings.getCategories();
             self.rebuildInputs(self._categories);
+            self.disableExports();
         })
     };
 

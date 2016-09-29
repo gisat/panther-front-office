@@ -165,10 +165,12 @@
     color: #ff7600;
 }
 .urbis .widget-button-export[disabled=disabled] {
+    pointer-events: none;
     background: transparent;
     color: #aaa;
 }
 .urbis .widget-button-export[disabled=disabled]:hover {
+    pointer-events: none;
     background: transparent;
     cursor: default;
 }

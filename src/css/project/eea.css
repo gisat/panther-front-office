@@ -189,10 +189,12 @@
 	color: #006699;
 }
 .eea .widget-button-export[disabled=disabled] {
+	pointer-events: none;
 	background: transparent;
 	color: #aaa;
 }
 .eea .widget-button-export[disabled=disabled]:hover {
+	pointer-events: none;
 	background: transparent;
 	cursor: default;
 }

@@ -63,10 +63,12 @@
     color: #ad2738;
 }
 .widget-button-export[disabled=disabled] {
+    pointer-events: none;
     background: transparent;
     color: #aaa;
 }
 .widget-button-export[disabled=disabled]:hover {
+    pointer-events: none;
     background: transparent;
     cursor: default;
 }

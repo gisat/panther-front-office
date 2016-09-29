@@ -298,10 +298,12 @@
 	color: #009fe3;
 }
 .melodies .widget-button-export[disabled=disabled] {
+	pointer-events: none;
 	background: transparent;
 	color: #aaa;
 }
 .melodies .widget-button-export[disabled=disabled]:hover {
+	pointer-events: none;
 	background: transparent;
 	cursor: default;
 }
