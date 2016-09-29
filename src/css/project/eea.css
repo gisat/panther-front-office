@@ -179,6 +179,30 @@
 	background: #58a3c8;
 }
 
+/* footer export buttons */
+.eea .widget-button-export {
+	background: rgba(7,125,184,.15);
+	color: #006699;
+}
+.eea .widget-button-export:hover {
+	background: rgba(7,125,184,.25);
+	color: #006699;
+}
+.eea .widget-button-export[disabled=disabled] {
+	background: transparent;
+	color: #aaa;
+}
+.eea .widget-button-export[disabled=disabled]:hover {
+	background: transparent;
+	cursor: default;
+}
+.eea #export-shp:before {
+	content: url('../../images/eea/map.png');
+}
+.eea #export-csv:before {
+	content: url('../../images/eea/table.png');
+}
+
 /* ================================ */
 /* ====== Media queries =========== */
 /* ================================ */

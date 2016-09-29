@@ -154,3 +154,27 @@
 .urbis .histogram-bar.selected {
     background: #ffa04e;
 }
+
+/* footer export buttons */
+.urbis .widget-button-export {
+    background: rgba(255,118,0,.15);
+    color: #ff7600;
+}
+.urbis .widget-button-export:hover {
+    background: rgba(255,118,0,.25);
+    color: #ff7600;
+}
+.urbis .widget-button-export[disabled=disabled] {
+    background: transparent;
+    color: #aaa;
+}
+.urbis .widget-button-export[disabled=disabled]:hover {
+    background: transparent;
+    cursor: default;
+}
+.urbis #export-shp:before {
+    content: url('../../images/urbis/map.png');
+}
+.urbis #export-csv:before {
+    content: url('../../images/urbis/table.png');
+}
