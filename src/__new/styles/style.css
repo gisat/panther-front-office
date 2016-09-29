@@ -35,7 +35,9 @@
 .widget-button {
     background: #c92d42;
     border-radius: .1rem;
+    display: inline-block;
     color: white;
+    font-weight: 700;
     padding: .4rem;
     text-align: center;
     text-transform: uppercase;
@@ -44,6 +46,31 @@
 .widget-button:hover {
     background: #ad2738;
     cursor: pointer;
+}
+.widget-button-export {
+    background: rgba(173,39,56,.15);
+    border: 0;
+    color: #c92d42;
+    font-size: 11px;
+    font-weight: 600;
+    padding: .2rem .4rem .3rem .4rem;
+    text-transform: none;
+    margin: 0 .2rem;
+    width: 7rem;
+}
+.widget-button-export:hover {
+    background: rgba(173,39,56,.2);
+    color: #ad2738;
+}
+.widget-button-export[disabled=disabled] {
+    pointer-events: none;
+    background: transparent;
+    color: #aaa;
+}
+.widget-button-export[disabled=disabled]:hover {
+    pointer-events: none;
+    background: transparent;
+    cursor: default;
 }
 
 .tool-window-button {

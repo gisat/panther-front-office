@@ -9,6 +9,26 @@
 }
 
 #evaluation-confirm {
-    margin: 0 auto;
     width: 50%;
+}
+
+.widget-button-export:before {
+    height: 100%;
+    width: 100%;
+    margin-right: 5px;
+    position: relative;
+    top: 3px;
+}
+
+#export-shp:before {
+    content: url('../../../../img/map.png');
+}
+#export-shp[disabled=disabled]:before {
+    content: url('../../../../img/map-disabled.png');
+}
+#export-csv:before {
+    content: url('../../../../img/table.png');
+}
+#export-csv[disabled=disabled]:before {
+    content: url('../../../../img/table-disabled.png');
 }

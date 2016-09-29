@@ -3,6 +3,7 @@ define([
     '../../../error/NotFoundError',
     '../inputs/checkbox/Checkbox',
     '../../../util/Logger',
+    '../../../util/MapExport',
 	'../../../util/Remote',
     '../inputs/selectbox/SelectBox',
     '../tools/settings/Settings',
@@ -11,13 +12,16 @@ define([
     '../Widget',
 
     'jquery',
+    'string',
     'underscore',
 
+    'text!./EvaluationWidgetFooter.html',
     'css!./EvaluationWidget'
 ], function(ArgumentError,
             NotFoundError,
             Checkbox,
             Logger,
+            MapExport,
 			Remote,
             SelectBox,
             Settings,
@@ -26,7 +30,9 @@ define([
             Widget,
 
             $,
-            _){
+            S,
+            _,
+            htmlFooterContent){
 
     /**
      * It creates an Evaluation Tool
@@ -147,6 +153,7 @@ define([
         });
         this._categories = this._settings.getCategories();
         this.rebuildInputs(this._categories);
+        this.disableExports();
 
         this._settingsConfirm = this._settings.getConfirmButton();
         this.addSettingsChangeListener(this._settingsConfirm);
@@ -199,7 +206,6 @@ define([
                 }
             }
         }
-
         this.filter();
         this.addSliderListener();
         this.addInputsListener();
@@ -266,9 +272,8 @@ define([
      * It builds the footer button
      */
     EvaluationWidget.prototype.prepareFooter = function (){
-        this._widgetSelector.find(".floater-footer").append(
-            '<div class="widget-button" id="evaluation-confirm"></div>'
-        );
+        var html = S(htmlFooterContent).template().toString();
+        this._widgetSelector.find(".floater-footer").append(html);
     };
 
     /**
@@ -328,18 +333,50 @@ define([
      * @param filteredData {Object} filtered data
      */
     EvaluationWidget.prototype.addSelectionConfirmListener = function(count, filteredData){
+        var self = this;
         if (count > 0){
             $('#evaluation-confirm').html(count + " selected")
                 .off("click.confirm")
                 .on("click.confirm",function(){
                     SelectedAreasExchange.data = filteredData.data;
                     Observer.notify("selectAreas");
+                    self.addDownloadListener(filteredData);
                 });
         }
         else {
             $('#evaluation-confirm').html(count + " selected")
                 .off("click.confirm");
         }
+    };
+
+	/**
+     * Disable export buttons
+     */
+    EvaluationWidget.prototype.disableExports = function(){
+        $("#export-shp, #export-csv").attr("disabled",true);
+    };
+
+    EvaluationWidget.prototype.addDownloadListener = function(filteredData){
+        var self = this;
+
+        var filteredAreas = [];
+        filteredData.data.data.forEach(function(area){
+            filteredAreas.push(area.gid);
+        });
+
+        this._mapExport = new MapExport({
+            location: filteredData.data.data[0].loc,
+            year: JSON.parse(ThemeYearConfParams.years)[0],
+            areaTemplate: filteredData.data.data[0].at,
+            gids: filteredAreas
+        });
+
+        $("#export-shp").off("click.shp").attr("disabled",false).on("click.shp", function(){
+            self._mapExport.export("shapefile");
+        });
+        $("#export-csv").off("click.csv").attr("disabled",false).on("click.csv", function(){
+            self._mapExport.export("csv");
+        });
     };
 
     /**
@@ -363,6 +400,7 @@ define([
         button.on("click",function(){
             self._categories = self._settings.getCategories();
             self.rebuildInputs(self._categories);
+            self.disableExports();
         })
     };
 
@@ -371,9 +409,15 @@ define([
      */
     EvaluationWidget.prototype.addInputsListener = function(){
         var self = this;
-        this._widgetSelector.find(".selectmenu" ).off("selectmenuselect").on( "selectmenuselect", self.filter.bind(self));
-        this._widgetSelector.find(".slider-row").off("slidechange").on("slidechange", self.filter.bind(self));
-        this._widgetSelector.find(".checkbox-row").off("click.inputs").on( "click.inputs", self.filter.bind(self));
+        this._widgetSelector.find(".selectmenu" ).off("selectmenuselect")
+            .on( "selectmenuselect", self.filter.bind(self))
+            .on( "selectmenuselect", self.disableExports.bind(self));
+        this._widgetSelector.find(".slider-row").off("slidechange")
+            .on("slidechange", self.filter.bind(self))
+            .on( "slidechange", self.disableExports.bind(self));
+        this._widgetSelector.find(".checkbox-row").off("click.inputs")
+            .on( "click.inputs", self.filter.bind(self))
+            .on( "click.inputs", self.disableExports.bind(self));
     };
 
     /**

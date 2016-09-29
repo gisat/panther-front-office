@@ -153,9 +153,12 @@
 	background: url('../../images/melodies/help-web.png') no-repeat 50% 50% !important;
 }
 
-/* dataview field */
-.melodies #app-toolbar-save, .melodies #app-toolbar-manage, .melodies #app-toolbar-share, .melodies #app-toolbar-visualization-save, .melodies #app-toolbar-visualization-manage {
-	background: rgba(100,100,100,.3);
+.melodies #app-toolbar-save .x-btn,
+.melodies #app-toolbar-manage .x-btn,
+.melodies #app-toolbar-share .x-btn,
+.melodies #app-toolbar-visualization-save .x-btn,
+.melodies #app-toolbar-visualization-manage .x-btn {
+	background: rgba(100,100,100,.2);
 }
 
 /* Form ================== */
@@ -283,6 +286,32 @@
 /* Histogram */
 .melodies .histogram-bar.selected {
 	background: #ace2f9;
+}
+
+/* footer export buttons */
+.melodies .widget-button-export {
+	background: rgba(0,159,227,.15);
+	color: #009fe3;
+}
+.melodies .widget-button-export:hover {
+	background: rgba(0,159,227,.25);
+	color: #009fe3;
+}
+.melodies .widget-button-export[disabled=disabled] {
+	pointer-events: none;
+	background: transparent;
+	color: #aaa;
+}
+.melodies .widget-button-export[disabled=disabled]:hover {
+	pointer-events: none;
+	background: transparent;
+	cursor: default;
+}
+.melodies #export-shp:before {
+	content: url('../../images/melodies/map.png');
+}
+.melodies #export-csv:before {
+	content: url('../../images/melodies/table.png');
 }
 
 @media screen and (max-width: 1240px){

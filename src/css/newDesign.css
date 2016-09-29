@@ -1,3 +1,7 @@
+.newDesign body {
+    background: rgb(163,205,255);
+}
+
 /* Agreement === */
 .newDesign #content-intro-terms{
     color: #555;
