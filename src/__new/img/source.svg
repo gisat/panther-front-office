@@ -25,9 +25,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="4.2266253"
-     inkscape:cx="-23.958348"
-     inkscape:cy="-11.877087"
+     inkscape:zoom="1"
+     inkscape:cx="104.65503"
+     inkscape:cy="34.188032"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -39,7 +39,9 @@
      inkscape:snap-bbox="true"
      inkscape:bbox-nodes="true"
      inkscape:snap-bbox-midpoints="true"
-     inkscape:snap-grids="false">
+     inkscape:snap-grids="true"
+     inkscape:snap-intersection-paths="true"
+     inkscape:object-nodes="true">
     <inkscape:grid
        type="xygrid"
        id="grid4184" />
@@ -210,5 +212,25 @@
          d="m 325,806.1622 -8,8"
          style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#aaaaaa;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4595-4-0-0-8-0-5"
+       width="14"
+       height="13.999978"
+       x="-150"
+       y="-1022.3622"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\__new\img\minimise-icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       ry="0"
+       transform="scale(-1,-1)" />
+    <path
+       style="fill:#aaaaaa;fill-rule:evenodd;stroke:#aaaaaa;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1"
+       d="m 138,1020.3622 2,-4 2,4 3,-6 3,6 z"
+       id="path4176"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cccccc"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
   </g>
 </svg>

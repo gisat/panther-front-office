@@ -269,7 +269,13 @@ define([
      */
     EvaluationWidget.prototype.prepareFooter = function (){
         this._widgetSelector.find(".floater-footer").append(
-            '<div class="widget-button" id="evaluation-confirm"></div>'
+            '<div class="floater-row">' +
+                '<div class="widget-button" id="evaluation-confirm"></div>' +
+            '</div>'+
+            '<div class="floater-row">' +
+                '<div class="widget-button widget-button-export" id="export-shp" disabled="disabled">Export to SHP</div>' +
+                '<div class="widget-button widget-button-export" id="export-csv" disabled="disabled">Export to CSV</div>' +
+            '</div>'
         );
     };
 
@@ -337,24 +343,40 @@ define([
                 .on("click.confirm",function(){
                     SelectedAreasExchange.data = filteredData.data;
                     Observer.notify("selectAreas");
-
-                    var filteredAreas = [];
-                    filteredData.data.data.forEach(function(area){
-                        filteredAreas.push(area.gid);
-                    });
-
-                    new MapExport().export({
-                        location: filteredData.data.data[0].loc,
-                        year: JSON.parse(ThemeYearConfParams.years)[0],
-                        areaTemplate: filteredData.data.data[0].at,
-                        gids: filteredAreas
-                    });
+                    self.addDownloadListener(filteredData);
                 });
         }
         else {
             $('#evaluation-confirm').html(count + " selected")
                 .off("click.confirm");
         }
+    };
+
+    EvaluationWidget.prototype.disableExports = function(){
+        $("#export-shp, #export-csv").attr("disabled",true);
+    };
+
+    EvaluationWidget.prototype.addDownloadListener = function(filteredData){
+        var self = this;
+
+        var filteredAreas = [];
+        filteredData.data.data.forEach(function(area){
+            filteredAreas.push(area.gid);
+        });
+
+        this._mapExport = new MapExport({
+            location: filteredData.data.data[0].loc,
+            year: JSON.parse(ThemeYearConfParams.years)[0],
+            areaTemplate: filteredData.data.data[0].at,
+            gids: filteredAreas
+        });
+
+        $("#export-shp").off("click.shp").attr("disabled",false).on("click.shp", function(){
+            self._mapExport.export("shapefile");
+        });
+        $("#export-csv").off("click.csv").attr("disabled",false).on("click.csv", function(){
+            self._mapExport.export("csv");
+        });
     };
 
     /**
@@ -386,9 +408,15 @@ define([
      */
     EvaluationWidget.prototype.addInputsListener = function(){
         var self = this;
-        this._widgetSelector.find(".selectmenu" ).off("selectmenuselect").on( "selectmenuselect", self.filter.bind(self));
-        this._widgetSelector.find(".slider-row").off("slidechange").on("slidechange", self.filter.bind(self));
-        this._widgetSelector.find(".checkbox-row").off("click.inputs").on( "click.inputs", self.filter.bind(self));
+        this._widgetSelector.find(".selectmenu" ).off("selectmenuselect")
+            .on( "selectmenuselect", self.filter.bind(self))
+            .on( "selectmenuselect", self.disableExports.bind(self));
+        this._widgetSelector.find(".slider-row").off("slidechange")
+            .on("slidechange", self.filter.bind(self))
+            .on( "slidechange", self.disableExports.bind(self));
+        this._widgetSelector.find(".checkbox-row").off("click.inputs")
+            .on( "click.inputs", self.filter.bind(self))
+            .on( "click.inputs", self.disableExports.bind(self));
     };
 
     /**

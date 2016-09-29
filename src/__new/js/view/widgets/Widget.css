@@ -102,18 +102,22 @@
 
 .floater-body {
     padding: .5rem;
-    height: calc(100% - 5rem);
+    height: calc(100% - 7.5rem);
     overflow: auto;
 }
 
 .floater-footer {
     border-top: 2px solid #ddd;
     padding: .5rem;
-    height: 3rem;
+    height: 5.5rem;
 }
 
 .floater-row {
     width: 100%;
+}
+.floater-footer > .floater-row {
+    margin-bottom: .5rem;
+    text-align: center;
 }
 
 .floater-row a {
