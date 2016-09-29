@@ -12,8 +12,10 @@ define([
     '../Widget',
 
     'jquery',
+    'string',
     'underscore',
 
+    'text!./EvaluationWidgetFooter.html',
     'css!./EvaluationWidget'
 ], function(ArgumentError,
             NotFoundError,
@@ -28,7 +30,9 @@ define([
             Widget,
 
             $,
-            _){
+            S,
+            _,
+            htmlFooterContent){
 
     /**
      * It creates an Evaluation Tool
@@ -202,7 +206,6 @@ define([
                 }
             }
         }
-
         this.filter();
         this.addSliderListener();
         this.addInputsListener();
@@ -269,15 +272,8 @@ define([
      * It builds the footer button
      */
     EvaluationWidget.prototype.prepareFooter = function (){
-        this._widgetSelector.find(".floater-footer").append(
-            '<div class="floater-row">' +
-                '<div class="widget-button" id="evaluation-confirm"></div>' +
-            '</div>'+
-            '<div class="floater-row">' +
-                '<div class="widget-button widget-button-export" id="export-shp" disabled="disabled">Export to SHP</div>' +
-                '<div class="widget-button widget-button-export" id="export-csv" disabled="disabled">Export to CSV</div>' +
-            '</div>'
-        );
+        var html = S(htmlFooterContent).template().toString();
+        this._widgetSelector.find(".floater-footer").append(html);
     };
 
     /**
@@ -353,6 +349,9 @@ define([
         }
     };
 
+	/**
+     * Disable export buttons
+     */
     EvaluationWidget.prototype.disableExports = function(){
         $("#export-shp, #export-csv").attr("disabled",true);
     };
