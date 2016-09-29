@@ -40,7 +40,7 @@
      inkscape:bbox-nodes="true"
      inkscape:snap-bbox-midpoints="true"
      inkscape:snap-grids="true"
-     inkscape:snap-intersection-paths="true"
+     inkscape:snap-intersection-paths="false"
      inkscape:object-nodes="true">
     <inkscape:grid
        type="xygrid"
@@ -64,7 +64,7 @@
      id="layer1">
     <g
        id="g4174"
-       transform="matrix(0.82352941,0,0,0.8125,-53.564276,989.54962)"
+       transform="matrix(0.82352941,0,0,0.8125,-54.735009,992.03219)"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90">
       <rect
@@ -109,7 +109,7 @@
     </g>
     <g
        id="g4180"
-       transform="translate(-73.473873,980.39652)">
+       transform="translate(-74.821075,983.87912)">
       <rect
          transform="scale(-1,-1)"
          ry="0"
@@ -135,7 +135,7 @@
     <g
        id="Page-1"
        style="fill:#f6f6f6;fill-rule:evenodd;stroke:none;stroke-width:1"
-       transform="matrix(0,-0.81612184,0.80402009,0,65.3472,1025.0924)"
+       transform="matrix(0,-0.81612184,0.80402009,0,67.346734,1029.2393)"
        inkscape:export-filename="D:\DATA\urbis\puma\public\__new\img\settings.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90">
@@ -160,11 +160,11 @@
        id="rect4160"
        width="16"
        height="16"
-       x="2.1293583"
-       y="1009.8635" />
+       x="0"
+       y="1011.3622" />
     <g
        id="g4850"
-       transform="matrix(-0.70710678,-0.70710678,-0.70710678,0.70710678,948.53839,690.92858)"
+       transform="matrix(-0.70710678,-0.70710678,-0.70710678,0.70710678,950.53792,695.07541)"
        inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-expand.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90">
@@ -189,7 +189,7 @@
     </g>
     <g
        id="g4808"
-       transform="translate(-211.98916,206.64768)"
+       transform="translate(-209.98963,210.79451)"
        inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-close.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90">
@@ -217,8 +217,8 @@
        id="rect4595-4-0-0-8-0-5"
        width="14"
        height="13.999978"
-       x="-150"
-       y="-1022.3622"
+       x="-145"
+       y="-1027.3622"
        inkscape:export-filename="D:\DATA\urbis\puma\public\__new\img\minimise-icon.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"
@@ -226,7 +226,7 @@
        transform="scale(-1,-1)" />
     <path
        style="fill:#aaaaaa;fill-rule:evenodd;stroke:#aaaaaa;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1"
-       d="m 138,1020.3622 2,-4 2,4 3,-6 3,6 z"
+       d="m 133,1025.3622 2,-4 2,4 3,-6 3,6 z"
        id="path4176"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccccc"
@@ -237,8 +237,8 @@
        id="rect4595-4-0-0-8-0-5-3"
        width="14"
        height="13.999978"
-       x="-151.50003"
-       y="-998.86218"
+       x="-145"
+       y="-1002.3622"
        inkscape:export-filename="D:\DATA\urbis\puma\public\__new\img\minimise-icon.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"
@@ -246,7 +246,7 @@
        transform="scale(-1,-1)" />
     <path
        style="fill:#c92d42;fill-rule:evenodd;stroke:#c92d42;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1"
-       d="m 139.50003,996.8622 2,-4 2,4 3,-6 3,6 z"
+       d="m 133,1000.3622 2,-3.99998 2,3.99998 3,-5.99998 3,5.99998 z"
        id="path4176-0"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccccc"
@@ -257,8 +257,8 @@
        id="rect4595-4-0-0-8-0-5-1"
        width="14"
        height="13.999978"
-       x="-177"
-       y="-999.36218"
+       x="-169.34"
+       y="-1002.3622"
        inkscape:export-filename="D:\DATA\urbis\puma\public\__new\img\minimise-icon.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"
@@ -266,7 +266,7 @@
        transform="scale(-1,-1)" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#c92d42;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 163,993.8622 14,0"
+       d="m 155.34,996.8622 14,0"
        id="path4214-3"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
@@ -277,13 +277,13 @@
        id="rect4246"
        width="14"
        height="4.0000443"
-       x="163"
-       y="985.36218"
+       x="155.34"
+       y="988.36218"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#c92d42;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 167.83,999.3622 0,-10"
+       d="m 160.17,1002.3622 0,-10"
        id="path4214-3-7"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
@@ -291,7 +291,7 @@
        inkscape:export-ydpi="90" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#c92d42;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 172.16,999.3622 0,-10"
+       d="m 164.5,1002.3622 0,-10"
        id="path4214-3-7-9"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
@@ -302,8 +302,8 @@
        id="rect4595-4-0-0-8-0-5-1-8"
        width="14"
        height="13.999978"
-       x="-174.67"
-       y="-1017.3622"
+       x="-170"
+       y="-1027.3622"
        inkscape:export-filename="D:\DATA\urbis\puma\public\__new\img\minimise-icon.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"
@@ -311,7 +311,7 @@
        transform="scale(-1,-1)" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#aaaaaa;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 160.67,1011.8622 14,0"
+       d="m 156,1021.8622 14,0"
        id="path4214-3-3"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
@@ -322,13 +322,13 @@
        id="rect4246-1"
        width="14"
        height="4.0000443"
-       x="160.67"
-       y="1003.3622"
+       x="156"
+       y="1013.3622"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#aaaaaa;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 165.5,1017.3622 0,-10"
+       d="m 160.83,1027.3622 0,-10"
        id="path4214-3-7-7"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
@@ -336,7 +336,7 @@
        inkscape:export-ydpi="90" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#aaaaaa;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 169.83,1017.3622 0,-10"
+       d="m 165.16,1027.3622 0,-10"
        id="path4214-3-7-9-1"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
@@ -347,8 +347,8 @@
        id="rect4595-4-0-0-8-0-5-3-4"
        width="14"
        height="13.999978"
-       x="-136.50003"
-       y="-973.86218"
+       x="-144"
+       y="-976.36218"
        inkscape:export-filename="D:\DATA\panther-front-office\src\images\urbis\map.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"
@@ -356,7 +356,7 @@
        transform="scale(-1,-1)" />
     <path
        style="fill:#ff7600;fill-rule:evenodd;stroke:#ff7600;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1"
-       d="m 124.50003,971.8622 2,-4 2,4 3,-6 3,6 z"
+       d="m 132,974.36224 2,-4 2,4 3,-6 3,6 z"
        id="path4176-0-8"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccccc"
@@ -368,8 +368,8 @@
        id="rect4595-4-0-0-8-0-5-1-6"
        width="14"
        height="13.999978"
-       x="-162"
-       y="-974.36218"
+       x="-169"
+       y="-976.36218"
        inkscape:export-filename="D:\DATA\panther-front-office\src\images\urbis\table.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"
@@ -377,7 +377,7 @@
        transform="scale(-1,-1)" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#ff7600;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 148,968.8622 14,0"
+       d="m 155,970.86222 14,0"
        id="path4214-3-4"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
@@ -389,14 +389,14 @@
        id="rect4246-6"
        width="14"
        height="4.0000443"
-       x="148"
-       y="960.36218"
+       x="155"
+       y="962.36218"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"
        inkscape:export-filename="D:\DATA\panther-front-office\src\images\urbis\table.png" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#ff7600;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 152.83,974.3622 0,-10"
+       d="m 159.83,976.36222 0,-10"
        id="path4214-3-7-5"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
@@ -405,7 +405,7 @@
        inkscape:export-filename="D:\DATA\panther-front-office\src\images\urbis\table.png" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#ff7600;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 157.16,974.3622 0,-10"
+       d="m 164.16,976.36222 0,-10"
        id="path4214-3-7-9-15"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
@@ -417,8 +417,8 @@
        id="rect4595-4-0-0-8-0-5-3-4-2"
        width="14"
        height="13.999978"
-       x="-121.50003"
-       y="-948.86218"
+       x="-144"
+       y="-951.36218"
        inkscape:export-filename="D:\DATA\panther-front-office\src\images\eea\map.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"
@@ -426,7 +426,7 @@
        transform="scale(-1,-1)" />
     <path
        style="fill:#006699;fill-rule:evenodd;stroke:#006699;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1"
-       d="m 109.50003,946.8622 2,-4 2,4 3,-6 3,6 z"
+       d="m 132,949.36228 2,-4 2,4 3,-6 3,6 z"
        id="path4176-0-8-2"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccccc"
@@ -438,8 +438,8 @@
        id="rect4595-4-0-0-8-0-5-1-6-8"
        width="14"
        height="13.999978"
-       x="-147"
-       y="-949.36218"
+       x="-169"
+       y="-951.36218"
        inkscape:export-filename="D:\DATA\panther-front-office\src\images\eea\table.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"
@@ -447,7 +447,7 @@
        transform="scale(-1,-1)" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#006699;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 133,943.8622 14,0"
+       d="m 155,945.86222 14,0"
        id="path4214-3-4-1"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
@@ -459,14 +459,14 @@
        id="rect4246-6-7"
        width="14"
        height="4.0000443"
-       x="133"
-       y="935.36218"
+       x="155"
+       y="937.36218"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"
        inkscape:export-filename="D:\DATA\panther-front-office\src\images\eea\table.png" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#006699;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 137.83,949.3622 0,-10"
+       d="m 159.83,951.36222 0,-10"
        id="path4214-3-7-5-1"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
@@ -475,7 +475,7 @@
        inkscape:export-filename="D:\DATA\panther-front-office\src\images\eea\table.png" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#006699;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 142.16,949.3622 0,-10"
+       d="m 164.16,951.36222 0,-10"
        id="path4214-3-7-9-15-0"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
@@ -487,8 +487,8 @@
        id="rect4595-4-0-0-8-0-5-3-4-2-7"
        width="14"
        height="13.999978"
-       x="-116.50003"
-       y="-923.86218"
+       x="-144"
+       y="-926.36218"
        inkscape:export-filename="D:\DATA\panther-front-office\src\images\melodies\map.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"
@@ -496,7 +496,7 @@
        transform="scale(-1,-1)" />
     <path
        style="fill:#009fe3;fill-rule:evenodd;stroke:#009fe3;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:round;stroke-opacity:1"
-       d="m 104.50003,921.8622 2,-4 2,4 3,-6 3,6 z"
+       d="m 132,924.36224 2,-4 2,4 3,-6 3,6 z"
        id="path4176-0-8-2-4"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cccccc"
@@ -508,8 +508,8 @@
        id="rect4595-4-0-0-8-0-5-1-6-8-7"
        width="14"
        height="13.999978"
-       x="-142"
-       y="-924.36218"
+       x="-169"
+       y="-926.36218"
        inkscape:export-filename="D:\DATA\panther-front-office\src\images\melodies\table.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"
@@ -517,7 +517,7 @@
        transform="scale(-1,-1)" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#009fe3;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 128,918.8622 14,0"
+       d="m 155,920.86222 14,0"
        id="path4214-3-4-1-5"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
@@ -529,14 +529,14 @@
        id="rect4246-6-7-6"
        width="14"
        height="4.0000443"
-       x="128"
-       y="910.36218"
+       x="155"
+       y="912.36218"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"
        inkscape:export-filename="D:\DATA\panther-front-office\src\images\melodies\table.png" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#009fe3;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 132.83,924.3622 0,-10"
+       d="m 159.83,926.36222 0,-10"
        id="path4214-3-7-5-1-6"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
@@ -545,7 +545,7 @@
        inkscape:export-filename="D:\DATA\panther-front-office\src\images\melodies\table.png" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#009fe3;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 137.16,924.3622 0,-10"
+       d="m 164.16,926.36222 0,-10"
        id="path4214-3-7-9-15-0-6"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
