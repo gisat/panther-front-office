@@ -142,19 +142,31 @@ Ext.define('PumaMain.controller.LocationTheme', {
     },
     
     onLocationChange: function(cnt,val) {
-        if ((val=='custom' || val=='Custom' || !val) && !cnt.initial && this.locationInitialized) {
+        // URBIS change
+        if ((!val) && !cnt.initial && this.locationInitialized) {
             this.forceInit = true;
             this.updateLayerContext();
             this.forceInit = false;
         }
+        //if ((val=='custom' || val=='Custom' || !val) && !cnt.initial && this.locationInitialized) {
+        //    this.forceInit = true;
+        //    this.updateLayerContext();
+        //    this.forceInit = false;
+        //}
         if (!cnt.initial) {
-            
             this.locationInitialized = true;
         }
-        if (cnt.eventsSuspended || cnt.initial || val=='custom' || val=='Custom' || !val) {
-            
+
+        // URBIS Change
+        if (cnt.initial || !val) {
+
             return;
         }
+
+        ////cnt.eventsSuspended ||
+        //if (cnt.initial || val=='custom' || val=='Custom' || !val) {
+        //    return;
+        //}
         
         var locObj = this.getController('Area').getLocationObj();
         if (this.datasetChanged) {
@@ -438,6 +450,9 @@ Ext.define('PumaMain.controller.LocationTheme', {
         var locObj = this.getController('Area').getLocationObj();
         if (locObj.location){
             ThemeYearConfParams.place = locObj.location.toString();
+        }
+        else {
+            ThemeYearConfParams.place = "";
         }
         //current theme
         var theme = Ext.ComponentQuery.query('#seltheme')[0].getValue();
@@ -975,11 +990,12 @@ Ext.define('PumaMain.controller.LocationTheme', {
         if (!this.placeInitialChange) {
              var locStore = Ext.StoreMgr.lookup('location4init');
                 var customRec = locStore.getById('custom');
-                if (customRec) {
-                    customRec.destroy();
-                }
-//                customRec.set('name','Custom')
-//                customRec.commit();
+                // URBIS Change
+                //if (customRec) {
+                //    customRec.destroy();
+                //}
+                //customRec.set('name','Custom');
+                //customRec.commit();
                 this.placeInitialChange = true;
         }
         

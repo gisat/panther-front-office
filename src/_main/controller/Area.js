@@ -497,7 +497,9 @@ Ext.define('PumaMain.controller.Area', {
 				//customRec = new (locStore.model)({id:'custom',name:'Custom'});
 				//locStore.add(customRec);
 			}
-			Ext.ComponentQuery.query('#sellocation')[0].setValue('Custom');
+			// Urbis change
+			Ext.ComponentQuery.query('#sellocation')[0].setValue('All places');
+			//Ext.ComponentQuery.query('#sellocation')[0].setValue('Custom');
 		}
 		this.initialized = true;
 		this.areaTemplates = areaTemplates;
