@@ -35,3 +35,13 @@ var ExpandedAreasExchange = {};
 var SelectedAreasExchange = {
 	data: null
 };
+
+/**
+ * Object for feature info functionality
+ * @type {{active: boolean, data: {}, map: {}}}
+ */
+var FeatureInfo = {
+	active: true,
+	map: {},
+	data: {}
+};

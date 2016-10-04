@@ -84,7 +84,14 @@ define(['js/util/metadata/Attributes',
                     name: 'Select city',
                     options: ['Prague','Rome','London','Moscow']
                 }]
-            })
+            });
+
+            $('body').on("click",'#feature-info',function(){
+                var button = $(this);
+				FeatureInfo.active = !button.hasClass("active");
+                Observer.notify("featureInfo");
+                button.toggleClass("active");
+            });
         }
 
         var widgets = $("#widget-container");

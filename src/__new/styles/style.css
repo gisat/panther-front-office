@@ -153,3 +153,10 @@
     padding: .5rem 0;
     position: relative;
 }
+#feature-info {
+    z-index: 9999;
+    position: absolute;
+}
+#feature-info.active {
+    background: red;
+}

@@ -3,6 +3,9 @@ Ext.define('PumaMain.controller.Map', {
 	views: [],
 	requires: [],
 	init: function() {
+		// URBIS change
+		Observer.addListener("featureInfo",this.newFeatureInfo.bind(this));
+
 		this.control({
 			'#map': {
 				afterrender: this.afterRender,
@@ -39,7 +42,60 @@ Ext.define('PumaMain.controller.Map', {
 			}
 		})
 	},
-		
+
+	// URBIS change
+	newFeatureInfo: function(){
+
+		//map.selectInMapLayer = new OpenLayers.Layer.WMS('WMS', Config.url+'api/proxy/wms', params, {
+		//	visibility: true
+		//});
+		//map.selectInMapLayer.projection = map.projection;
+		//
+		//map.getFeatureInfoLayer = new OpenLayers.Layer.WMS('WMS', Config.url+'api/proxy/wms', params, {
+		//	visibility: true
+		//});
+		//map.getFeatureInfoLayer.projection = map.projection;
+		//
+		//var infoControls = {
+		//	click: new OpenLayers.Control.WMSGetFeatureInfo({
+		//		url: Config.url+'api/proxy/wms',
+		//		vendorParams: {
+		//			propertyName: 'gid'
+		//		},
+		//		layers: [map.selectInMapLayer]
+		//	}),
+		//	hover: new OpenLayers.Control.WMSGetFeatureInfo({
+		//		url: Config.url+'api/proxy/wms',
+		//		vendorParams: {
+		//			propertyName: 'gid',
+		//			buffer: 1
+		//		},
+		//		layers: [map.selectInMapLayer],
+		//		hover: true
+		//	})
+		//};
+		//map.featureInfoControl = new OpenLayers.Control.WMSGetFeatureInfo({
+		//	url: Config.url+'api/proxy/wms',
+		//	vendorParams: {
+		//		propertyName: 'gid',
+		//		buffer: 1,
+		//		completeLayer: true
+		//	},
+		//	layers: [map.getFeatureInfoLayer]
+		//});
+
+
+
+
+		if (FeatureInfo.active){
+			console.log("on");
+			// activate
+		}
+		else {
+			// deactivate
+		}
+	},
+
 	onExportMapUrl: function(btn) {
 		var map1 = Ext.ComponentQuery.query('#map')[0].map;
 		var map2 = Ext.ComponentQuery.query('#map2')[0].map;
@@ -808,6 +864,8 @@ Ext.define('PumaMain.controller.Map', {
 			bounds.transform(proj, map.getProjectionObject());
 			map.zoomToExtent(bounds);
 		}
+		// URBIS change
+		FeatureInfo.map = map;
 	},
 
 	onMeasurePartial: function(evt) {
