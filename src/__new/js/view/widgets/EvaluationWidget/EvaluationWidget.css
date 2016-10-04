@@ -8,6 +8,16 @@
     top: 10rem;
 }
 
+#floater-evaluation-widget .floater-body {
+    height: calc(100% - 7rem);
+}
+
+#floater-evaluation-widget .floater-footer {
+    height: 5.5rem;
+}
+
+/* Footer */
+
 #evaluation-confirm {
     width: 50%;
 }
