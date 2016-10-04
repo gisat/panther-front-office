@@ -33,7 +33,7 @@ requirejs.config({
 });
 
 define(['js/util/metadata/Attributes',
-        'js/view/widgets/BasicWidget/BasicWidget',
+        'js/view/widgets/CityWidget/CityWidget',
         'js/view/widgets/EvaluationWidget/EvaluationWidget',
         'js/util/Filter',
         'js/util/Floater',
@@ -48,7 +48,7 @@ define(['js/util/metadata/Attributes',
         'jquery-ui',
         'underscore'
 ], function (Attributes,
-             BasicWidget,
+             CityWidget,
              EvaluationWidget,
              Filter,
              Floater,
@@ -75,14 +75,22 @@ define(['js/util/metadata/Attributes',
 		}
 
         if (Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies){
-            new BasicWidget({
+            new CityWidget({
                 elementId: 'city-selection',
                 name: 'City selection',
                 targetId: 'widget-container',
-                selection: [{
+                selections: [{
                     id: 'melodies-city-selection',
                     name: 'Select city',
                     options: ['Prague','Rome','London','Moscow']
+                }, {
+                    id: 'melodies-start-selection',
+                    name: 'Select start',
+                    options: ['2015','2016']
+                }, {
+                    id: 'melodies-end-selection',
+                    name: 'Select end',
+                    options: ['2015','2016']
                 }]
             })
         }

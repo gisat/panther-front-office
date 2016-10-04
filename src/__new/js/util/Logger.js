@@ -97,6 +97,7 @@ define(function () {
             missingHTMLElement: "Required HTML element wasn't found!",
             missingInputs: "Inputs parameter is null or undefined!",
             missingNumClasses: "NumClasses is null or undefined!",
+            missingSelections: "Data for selection boxes is missing",
             missingSliderRange: "Slider range is null, undefined or empty!",
             missingSliderType: "A type of slider is null or undefined!",
             missingSliderValues: "Slider default values parameter is null, undefined or empty!",
