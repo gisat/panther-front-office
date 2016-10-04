@@ -81,7 +81,9 @@ define([
 	 * It builds the footer button
 	 */
 	BasicWidget.prototype.prepareFooter = function(){
-		this._widgetSelector.find(".floater-footer").append('<div class="widget-button" id="melodies-selection-confirm">Send</div>');
+		this._widgetSelector.find(".floater-footer").append('<div class="floater-row">' +
+			'<div class="widget-button" id="melodies-selection-confirm">Send</div>' +
+		'</div>');
 		this.addFooterListener();
 	};
 
