@@ -109,6 +109,8 @@ define(['js/util/metadata/Attributes',
                 else {
                     Floater.maximise(floater);
                     Placeholder.floaterOpened(placeholder);
+                    $(".floater").removeClass("active");
+                    floater.addClass("active");
                 }
             }
         });
@@ -131,6 +133,9 @@ define(['js/util/metadata/Attributes',
                     height: ""
                 });
             }
+        }).on("click",function(){
+            $(".floater").removeClass("active");
+            $(this).addClass("active");
         });
     });
 });

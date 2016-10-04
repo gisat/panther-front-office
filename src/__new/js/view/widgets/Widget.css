@@ -84,12 +84,15 @@
     position: absolute;
     transition: height 0.5s ease-out;
     width: 18rem;
-    z-index: 10000;
 }
 
 .floater.open {
     display: block;
     height: 24rem;
+    z-index: 10000;
+}
+.floater.active {
+    z-index: 10001;
 }
 
 .floater-header {
