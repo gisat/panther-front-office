@@ -117,7 +117,13 @@ define([
                     }
                 });
             });
-            self.rebuildViewAndSettings();
+            if (self._attributes.length){
+                self.prepareFooter();
+                self.rebuildViewAndSettings();
+            }
+            else {
+                self.noDataEcho();
+            }
         });
         ThemeYearConfParams.datasetChanged = false;
     };
@@ -127,7 +133,14 @@ define([
      */
     EvaluationWidget.prototype.build = function(){
         this.buildSettings();
-        this.prepareFooter();
+    };
+
+	/**
+     * Notify the user, if no attribute sets are linked to analytical units
+     */
+    EvaluationWidget.prototype.noDataEcho = function(){
+        var info = '<p>There are no linked attribute sets to analytical units probably! Please, go to the BackOffice and link the data properly.</p>';
+        this._widgetBodySelector.html("").append(info);
     };
 
 	/**
@@ -273,7 +286,7 @@ define([
      */
     EvaluationWidget.prototype.prepareFooter = function (){
         var html = S(htmlFooterContent).template().toString();
-        this._widgetSelector.find(".floater-footer").append(html);
+        this._widgetSelector.find(".floater-footer").html("").append(html);
     };
 
     /**
