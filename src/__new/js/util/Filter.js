@@ -40,7 +40,7 @@ define(['./Remote',
 						else if (attribute.about.attrType == "text"){
 							var selectEl = $("#attr-" + attribute.about.attr + "-button .ui-selectmenu-text");
 							currentValues = {
-								value: selectEl.html()
+								value: selectEl.text()
 							};
 						}
 

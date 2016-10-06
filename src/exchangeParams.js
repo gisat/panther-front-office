@@ -23,6 +23,12 @@ var ThemeYearConfParams = {
 };
 
 /**
+ * State of area expanding
+ * @type {boolean}
+ */
+var AreasExpanding = false;
+
+/**
  * Object for currently expanded areas
  * @type {{}}
  */
@@ -34,4 +40,13 @@ var ExpandedAreasExchange = {};
  */
 var SelectedAreasExchange = {
 	data: null
+};
+
+/**
+ * Object for storing data about areas if there is only one analysis level
+ * @type {{}}
+ */
+var OneLevelAreas = {
+	hasOneLevel: false,
+	data: []
 };

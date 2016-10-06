@@ -89,6 +89,7 @@ define([
      * It rebuilds the widget for given attributes. First, it collects attributes metadata. Secondly, it rebuilds the view of the widget and settings window
      */
     EvaluationWidget.prototype.rebuild = function(){
+        console.log("rebuild");
         var self = this;
         this._attributesMetadata.getData().then(function(result){
             self._attributes = [];
@@ -301,7 +302,8 @@ define([
                 var areas = result.data.data;
                 var noAreas = _.isEmpty(areas);
                 var count;
-                if (!noAreas){
+                // if at least one numeric attribute
+                if (!noAreas && self._inputs.sliders.length > 0){
                     self._filter.numericFilter(self._attributes, areas).then(function(filteredData){
                         if (filteredData.data.hasOwnProperty("data")){
                             count = filteredData.data.data.length;
@@ -311,6 +313,25 @@ define([
                         self.addSelectionConfirmListener(count, filteredData);
                         self.rebuildHistograms(self._inputs.sliders, filteredData);
                     });
+                }
+                // if no numeric attribute
+                else if (!noAreas && self._inputs.sliders.length == 0) {
+                    var filteredData = {};
+                    filteredData.data = {};
+                    filteredData.data.data = [];
+                    for (var loc in areas){
+                        for (var at in areas[loc]){
+                            areas[loc][at].forEach(function(area){
+                                filteredData.data.data.push({
+                                    loc: loc,
+                                    at: at,
+                                    gid: area
+                                });
+                            })
+                        }
+                    }
+                    count = filteredData.data.data.length;
+                    self.addSelectionConfirmListener(count, filteredData);
                 }
                 else {
                     self.addSelectionConfirmListener(0, []);

@@ -551,7 +551,9 @@ Ext.define('PumaMain.controller.LocationTheme', {
         }
         areaRoot.removeAll();
         areaRoot.appendChild(data);
-        
+        //if (!OneLevelAreas.hasOneLevel){
+        //    areaRoot.appendChild(data);
+        //}
     },
     
     refreshAreas: function(add,remove) {
@@ -892,7 +894,19 @@ Ext.define('PumaMain.controller.LocationTheme', {
     },
     onThemeLocationConfReceived: function(response) {
         var conf = JSON.parse(response.responseText).data;
-
+        if (conf.hasOwnProperty("auRefMap")){
+            var counter = 1;
+            for (var a in conf.auRefMap){
+                var auLevels = Object.keys(conf.auRefMap[a]).length;
+                if (auLevels > 1){
+                    counter++;
+                }
+                else {
+                    ThemeYearConfParams.auCurrentAt = Object.keys(conf.auRefMap[a])[0];
+                }
+            }
+			OneLevelAreas.hasOneLevel = counter == 1;
+        }
         if (response.request.options.originatingCnt.itemId == 'selectfilter') {
             this.getController('Select').selectInternal(conf.areas, false, false, 1);
             return;
@@ -925,6 +939,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
                
                 this.initialAdd = true;
             }
+            OneLevelAreas.data = conf.areas;
         }
 
         if (conf.add || conf.remove) {
