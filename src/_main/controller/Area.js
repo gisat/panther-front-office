@@ -69,24 +69,24 @@ Ext.define('PumaMain.controller.Area', {
 
 			var areasOutput = {};
 
-			//if (OneLevelAreas.hasOneLevel){
-			//	if (place){
-			//		areasOutput[place] = {};
-			//		areasOutput[place][level] = [];
-			//	}
-			//	else {
-			//		OneLevelAreas.data.forEach(function(area){
-			//			if (!areasOutput.hasOwnProperty(area.loc)){
-			//				areasOutput[area.loc] = {};
-			//				if (!areasOutput[area.loc].hasOwnProperty(area.at)){
-			//					areasOutput[area.loc][area.at] = [];
-			//				}
-			//			}
-			//		});
-			//	}
-			//}
-			//
-			//else {
+			if (OneLevelAreas.hasOneLevel){
+				if (place){
+					areasOutput[place] = {};
+					areasOutput[place][level] = [];
+				}
+				else {
+					OneLevelAreas.data.forEach(function(area){
+						if (!areasOutput.hasOwnProperty(area.loc)){
+							areasOutput[area.loc] = {};
+							if (!areasOutput[area.loc].hasOwnProperty(area.at)){
+								areasOutput[area.loc][area.at] = [];
+							}
+						}
+					});
+				}
+			}
+
+			else {
 				var allAreasExpanded = self.getExpandedAndFids().fids;
 				if (place){
 					if (allAreasExpanded.hasOwnProperty(place)){
@@ -106,7 +106,7 @@ Ext.define('PumaMain.controller.Area', {
 						}
 					}
 				}
-			//}
+			}
 
 			ExpandedAreasExchange = areasOutput;
 			self.newNotifyChange();
@@ -442,6 +442,77 @@ Ext.define('PumaMain.controller.Area', {
 	},
 	scanTree: function() {
 		console.log("scan tree");
+
+		if (OneLevelAreas.hasOneLevel){
+			var areas = OneLevelAreas.data;
+			var level = areas[0].at;
+			var place = ThemeYearConfParams.place;
+			var self = this;
+
+			if (!AreasExpanding){
+				this.newAreasChange();
+			}
+			this.initialized = true;
+			this.areaTemplates = [level];
+			this.getController('Map').updateGetFeatureControl();
+			this.lowestCount = areas.length;
+			this.allMap = {};
+			if (place){
+				this.allMap[place] = {};
+				this.allMap[place][level] = [];
+				areas.forEach(function(area){
+					self.allMap[place][level].push(area.gid);
+				});
+			}
+
+			else {
+				areas.forEach(function(area){
+					if (!self.allMap.hasOwnProperty(area.loc)){
+						self.allMap[area.loc] = {};
+						if (!self.allMap[area.loc].hasOwnProperty(area.at)){
+							self.allMap[area.loc][area.at] = [];
+						}
+					}
+					self.allMap[area.loc][area.at].push(area.gid);
+				});
+			}
+			this.lowestMap = this.allMap;
+			this.highestMap = this.allMap;
+			this.lastMap = this.allMap;
+
+			var selMap2 = this.getController('Select').selMap;
+			var outerCount2 = 0;
+			var overallCount2 = 0;
+			for (var color2 in selMap2) {
+				var objsToRemove2 = [];
+				for (var j=0;j<selMap2[color2].length;j++) {
+					var obj2 = selMap2[color2][j];
+					overallCount2++;
+
+					if (this.lowestMap[obj2.loc] && this.lowestMap[obj2.loc][obj2.at] && Ext.Array.contains(this.lowestMap[obj2.loc][obj2.at],obj2.gid)) {
+					} else if (this.allMap[obj2.loc] && this.allMap[obj2.loc][obj2.at] && Ext.Array.contains(this.allMap[obj2.loc][obj2.at],obj2.gid)) {
+						outerCount2++;
+					} else {
+						Ext.Array.include(objsToRemove2,obj2);
+					}
+				}
+				selMap2[color2] = Ext.Array.difference(selMap2[color2],objsToRemove2);
+			}
+			this.getController('Select').prepareColorMap();
+			this.getController('Select').overallCount = overallCount2;
+			this.getController('Select').outerCount = outerCount2;
+			if (overallCount2==0) {
+				this.getController('Select').switchToAllAreas();
+			}
+			var onlySel2 = Ext.ComponentQuery.query('#areapager #onlySelected')[0].pressed;
+			var count2 = onlySel2 ? (overallCount2) : (this.lowestCount+outerCount2);
+			Ext.StoreMgr.lookup('paging').setCount(count2);
+
+			this.getController('Layers').refreshOutlines();
+			this.getController('Filter').reconfigureFiltersCall();
+			return;
+		}
+
 		var me = this;
 		var root = Ext.StoreMgr.lookup('area').getRootNode();
 
@@ -456,10 +527,12 @@ Ext.define('PumaMain.controller.Area', {
 		var containsLower = false;
 		var lowestNoLeafs = true;
 		var locObj = this.getLocationObj();
+
 		var changeLocToCustom = false;
 		var atLeastOneLoc = false;
 		var maxDepth = 0;
 		this.placeNode = null;
+
 		root.cascadeBy(function(node) {
 			var at = node.get('at');
 			var loc = node.get('loc');

@@ -550,10 +550,10 @@ Ext.define('PumaMain.controller.LocationTheme', {
             currentLevel.push(node);
         }
         areaRoot.removeAll();
-        areaRoot.appendChild(data);
-        //if (!OneLevelAreas.hasOneLevel){
-        //    areaRoot.appendChild(data);
-        //}
+        //areaRoot.appendChild(data);
+        if (!OneLevelAreas.hasOneLevel){
+            areaRoot.appendChild(data);
+        }
     },
     
     refreshAreas: function(add,remove) {
