@@ -1070,7 +1070,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 						var attrSetNode = topicNode.lastChild;
 
 						attrStore.data.each(function(attribute){ // iterate attributes (objects)
-							if( Ext.Array.contains(attrSetAttributes, attribute.get('_id')) ){
+							if( Ext.Array.contains(attrSetAttributes, attribute.get('_id')) && attribute.data.type == "numeric"){
 								attrSetNode.appendChild(Ext.create('Puma.model.MappedChartAttribute',{
 									attr: attribute.get('_id'),
 									as: attrSet.get('_id'),
