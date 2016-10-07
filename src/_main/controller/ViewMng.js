@@ -253,7 +253,8 @@ Ext.define('PumaMain.controller.ViewMng', {
         cfg.filterMap = filterMap;
         cfg.filterData = this.getController('Filter').filterData;
         cfg.filterAttrs = this.getController('Filter').attrs;
-        cfg.filterActive = $(Ext.ComponentQuery.query('#advancedfilters tool[type=poweron]')[0].el.dom).hasClass('tool-active');
+        //cfg.filterActive = $(Ext.ComponentQuery.query('#advancedfilters tool[type=poweron]')[0].el.dom).hasClass('tool-active');
+        cfg.filterActive = false;
         //cfg.minFilterFl = this.getController('Filter').minFl
         //cfg.maxFilterFl = this.getController('Filter').maxFl
         
