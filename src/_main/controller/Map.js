@@ -532,7 +532,6 @@ Ext.define('PumaMain.controller.Map', {
 			//	
 			// });
 		}
-		
 	},
 
 	onExtentOutlineComplete: function(cmp) {
@@ -569,9 +568,14 @@ Ext.define('PumaMain.controller.Map', {
 		return options;
 	},
 
+	getOlMap: function(){
+		return this.olMap;
+	},
+
 	afterRender: function(cmp) {
 		var options = this.getOptions(cmp);
 		var map = new OpenLayers.Map(options);
+
 		cmp.map = map;
 		var el = Ext.get(cmp.id);
 		el.on('contextmenu',function(e) {
@@ -586,6 +590,7 @@ Ext.define('PumaMain.controller.Map', {
 		if (cmp.itemId=='map') {
 			this.createBaseNodes();
 			this.map1 = map;
+			this.olMap = this.map1;
 			this.cursor1 = Ext.get('app-map').down('img')
 		} else {
 			this.map2 = map;
@@ -1028,6 +1033,7 @@ Ext.define('PumaMain.controller.Map', {
 				cmp.initialZoom = true;
 			}
 		}
+		OneLevelAreas.map = cmp.map;
 	},
 
 	handleMeasureModify: function(point,feature,control) {

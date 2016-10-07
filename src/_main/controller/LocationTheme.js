@@ -940,6 +940,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 this.initialAdd = true;
             }
             OneLevelAreas.data = conf.areas;
+            OneLevelAreas.map = this.getController('Map').getOlMap();
         }
 
         if (conf.add || conf.remove) {

@@ -47,6 +47,7 @@ var SelectedAreasExchange = {
  * @type {{}}
  */
 var OneLevelAreas = {
+	map: {},
 	hasOneLevel: false,
 	data: []
 };

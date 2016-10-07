@@ -3,6 +3,7 @@ define([
     '../../../error/NotFoundError',
     '../inputs/checkbox/Checkbox',
     '../../../util/Logger',
+    '../../map/Map',
     '../../../util/MapExport',
 	'../../../util/Remote',
     '../inputs/selectbox/SelectBox',
@@ -21,6 +22,7 @@ define([
             NotFoundError,
             Checkbox,
             Logger,
+            Map,
             MapExport,
 			Remote,
             SelectBox,
@@ -89,7 +91,6 @@ define([
      * It rebuilds the widget for given attributes. First, it collects attributes metadata. Secondly, it rebuilds the view of the widget and settings window
      */
     EvaluationWidget.prototype.rebuild = function(){
-        console.log("rebuild");
         var self = this;
         this._attributesMetadata.getData().then(function(result){
             self._attributes = [];
@@ -126,6 +127,7 @@ define([
                 self.noDataEcho();
             }
         });
+        this.rebuildMap();
         ThemeYearConfParams.datasetChanged = false;
     };
 
@@ -154,6 +156,17 @@ define([
             '<img alt="' + name + '" src="__new/img/'+ tool +'.png"/>' +
             '</div>');
         this.addSettingsListener();
+    };
+
+    EvaluationWidget.prototype.rebuildMap = function(){
+        if (!this._map){
+            this._map = new Map({
+                map: OneLevelAreas.map
+            });
+        }
+        else {
+            this._map.removeLayers();
+        }
     };
 
 	/**
@@ -373,8 +386,18 @@ define([
                 .off("click.confirm")
                 .on("click.confirm",function(){
                     SelectedAreasExchange.data = filteredData.data;
-                    Observer.notify("selectAreas");
                     self.addDownloadListener(filteredData);
+
+                    if (OneLevelAreas.hasOneLevel){
+                        self._map.removeLayers();
+
+                        var areas = [{geometry: 'POLYGON(1607012 6464158, 1619853 6459393, 1607000 6459393)'},
+                            {geometry: 'POLYGON(1617012 6454158, 1619853 6459393, 1617000 6452393)'}];
+                        self._map.addLayer(areas);
+                    }
+                    else {
+                        Observer.notify("selectAreas");
+                    }
                 });
         }
         else {
