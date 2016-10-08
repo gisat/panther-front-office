@@ -99,6 +99,13 @@ Ext.define('PumaMain.controller.LocationTheme', {
         var locStore = Ext.StoreMgr.lookup('location4init');
         locStore.clearFilter(true);
         var locCount = locStore.query('dataset',val).getCount();
+
+        var locationsData = locStore.query('dataset',val);
+        ThemeYearConfParams.allPlaces = [];
+        locationsData.items.forEach(function(item){
+            ThemeYearConfParams.allPlaces.push(item.raw.id);
+        });
+
         locStore.filter([
             function(rec) {
                 return rec.get('id') == 'custom' || rec.get('dataset')==val || (!rec.get('dataset') && locCount>1);

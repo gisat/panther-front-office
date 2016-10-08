@@ -20,7 +20,6 @@ define([
 		this._url = options.url;
 		this._params = options.params;
 		this._responseType = options.responseType || null;
-
 		return this.request();
 	};
 

@@ -98,22 +98,24 @@ define([
                 attrSet.forEach(function(attribute){
                     if (typeof attribute == "object"){
                         var about = attribute.about;
-                        if (about.attrType == "numeric"){
+                        var data = attribute.response.attributes[0];
+
+                        if (about.attributeType == "numeric"){
                             self._attributes.push({
-                                metadata: attribute.response.data.metaData["as_" + about.as + "_attr_" + about.attr],
-                                distribution: attribute.response.data.dist["as_" + about.as + "_attr_" + about.attr],
+                                values: [data.min, data.max],
+                                distribution: data.distribution,
                                 about: about
                             });
                         }
-                        else if (about.attrType == "boolean") {
+                        else if (about.attributeType == "boolean") {
                             self._attributes.push({
                                 about: about
                             });
                         }
-                        else if (about.attrType == "text"){
+                        else if (about.attributeType == "text"){
                             self._attributes.push({
                                 about: about,
-                                metadata: attribute.response.data.data
+                                values: data.values
                             });
                         }
                     }
@@ -206,12 +208,12 @@ define([
                 var input = categories[key].input;
                 var name = categories[key].name;
                 var units = categories[key].attrData.about.units;
-                var attrId = categories[key].attrData.about.attr;
-                var attrSetId = categories[key].attrData.about.as;
-                var id = "attr-" + categories[key].attrData.about.attr;
+                var attrId = categories[key].attrData.about.attribute;
+                var attrSetId = categories[key].attrData.about.attributeSet;
+                var id = "attr-" + categories[key].attrData.about.attribute;
                 if (input == "slider") {
-                    var min = categories[key].attrData.metadata.min;
-                    var max = categories[key].attrData.metadata.max;
+                    var min = categories[key].attrData.values[0];
+                    var max = categories[key].attrData.values[1];
                     var step = 0.005;
                     if (min <= -1000 || max >= 1000){
                         step = 1
@@ -227,7 +229,7 @@ define([
                 }
 
                 else if (input == "select") {
-                    var options = _.unique(categories[key].attrData.metadata);
+                    var options = categories[key].attrData.values;
                     var select = this.buildSelectInput(key, name, options);
                     this._inputs.selects.push(select);
                 }
@@ -303,52 +305,49 @@ define([
         this._widgetSelector.find(".floater-footer").html("").append(html);
     };
 
-    /**
-     * Pre-filter the areas according current values for non-numeric attributes
-     * Then, filter data according to current values ´for numeric attributes, redraw the footer button and attach confirm listener
-     */
     EvaluationWidget.prototype.filter = function(){
         var self = this;
 
         setTimeout(function(){
-            self._filter.preFilter(self._categories, ExpandedAreasExchange).then(function(result){
-                var areas = result.data.data;
-                var noAreas = _.isEmpty(areas);
-                var count;
-                // if at least one numeric attribute
-                if (!noAreas && self._inputs.sliders.length > 0){
-                    self._filter.numericFilter(self._attributes, areas).then(function(filteredData){
-                        if (filteredData.data.hasOwnProperty("data")){
-                            count = filteredData.data.data.length;
-                        } else {
-                            count = 0;
-                        }
-                        self.addSelectionConfirmListener(count, filteredData);
-                        self.rebuildHistograms(self._inputs.sliders, filteredData);
-                    });
-                }
-                // if no numeric attribute
-                else if (!noAreas && self._inputs.sliders.length == 0) {
-                    var filteredData = {};
-                    filteredData.data = {};
-                    filteredData.data.data = [];
-                    for (var loc in areas){
-                        for (var at in areas[loc]){
-                            areas[loc][at].forEach(function(area){
-                                filteredData.data.data.push({
-                                    loc: loc,
-                                    at: at,
-                                    gid: area
-                                });
-                            })
-                        }
-                    }
-                    count = filteredData.data.data.length;
-                    self.addSelectionConfirmListener(count, filteredData);
-                }
-                else {
-                    self.addSelectionConfirmListener(0, []);
-                }
+            self._filter.filter(self._categories).then(function(result){
+                console.log(result);
+                //var areas = result.data.data;
+                //var noAreas = _.isEmpty(areas);
+                //var count;
+                //// if at least one numeric attribute
+                //if (!noAreas && self._inputs.sliders.length > 0){
+                //    self._filter.numericFilter(self._attributes, areas).then(function(filteredData){
+                //        if (filteredData.data.hasOwnProperty("data")){
+                //            count = filteredData.data.data.length;
+                //        } else {
+                //            count = 0;
+                //        }
+                //        self.addSelectionConfirmListener(count, filteredData);
+                //        self.rebuildHistograms(self._inputs.sliders, filteredData);
+                //    });
+                //}
+                //// if no numeric attribute
+                //else if (!noAreas && self._inputs.sliders.length == 0) {
+                //    var filteredData = {};
+                //    filteredData.data = {};
+                //    filteredData.data.data = [];
+                //    for (var loc in areas){
+                //        for (var at in areas[loc]){
+                //            areas[loc][at].forEach(function(area){
+                //                filteredData.data.data.push({
+                //                    loc: loc,
+                //                    at: at,
+                //                    gid: area
+                //                });
+                //            })
+                //        }
+                //    }
+                //    count = filteredData.data.data.length;
+                //    self.addSelectionConfirmListener(count, filteredData);
+                //}
+                //else {
+                //    self.addSelectionConfirmListener(0, []);
+                //}
             });
         },100);
     };
@@ -360,17 +359,18 @@ define([
      */
     EvaluationWidget.prototype.rebuildHistograms = function(sliders, data){
         sliders.forEach(function(slider){
-            if (data.data.hasOwnProperty("dist")){
-                for (var key in data.data.dist){
-                    if (key == "as_"+ slider._attrSetId + "_attr_" + slider._attrId){
-                        var metadata = data.data.metaData[key];
-                        var dataMinMax = [metadata.min,metadata.max];
-                        if(slider.hasOwnProperty("histogram")){
-                            slider.histogram.rebuild(data.data.dist[key],slider._values, dataMinMax);
-                        }
-                    }
-                }
-            }
+
+            //if (data.data.hasOwnProperty("dist")){
+            //    for (var key in data.data.dist){
+            //        if (key == "as_"+ slider._attrSetId + "_attr_" + slider._attrId){
+            //            var values = data.data.data.values;
+            //            var dataMinMax = [metadata.min,metadata.max];
+            //            if(slider.hasOwnProperty("histogram")){
+            //                slider.histogram.rebuild(data.data.dist[key],slider._values, dataMinMax);
+            //            }
+            //        }
+            //    }
+            //}
         });
     };
 
@@ -470,7 +470,7 @@ define([
             .on( "selectmenuselect", self.filter.bind(self))
             .on( "selectmenuselect", self.disableExports.bind(self));
         this._widgetSelector.find(".slider-row").off("slidechange")
-            .on("slidechange", self.filter.bind(self))
+            .on( "slidechange", self.filter.bind(self))
             .on( "slidechange", self.disableExports.bind(self));
         this._widgetSelector.find(".checkbox-row").off("click.inputs")
             .on( "click.inputs", self.filter.bind(self))
