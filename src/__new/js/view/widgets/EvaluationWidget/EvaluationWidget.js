@@ -391,8 +391,8 @@ define([
                     if (OneLevelAreas.hasOneLevel){
                         self._map.removeLayers();
 
-                        var areas = [{geometry: 'POLYGON(1607012 6464158, 1619853 6459393, 1607000 6459393)'},
-                            {geometry: 'POLYGON(1617012 6454158, 1619853 6459393, 1617000 6452393)'}];
+                        var areas = [{geom: 'POLYGON(1607012 6464158, 1619853 6459393, 1607000 6459393)'},
+                            {geom: 'POLYGON(1617012 6454158, 1619853 6459393, 1617000 6452393)'}];
                         self._map.addLayer(areas);
                     }
                     else {

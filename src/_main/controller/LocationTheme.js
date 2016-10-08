@@ -906,6 +906,11 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 }
             }
 			OneLevelAreas.hasOneLevel = counter == 1;
+            if (OneLevelAreas.hasOneLevel){
+                $('.areaTreeSelection').hide();
+            } else {
+                $('.areaTreeSelection').show();
+            }
         }
         if (response.request.options.originatingCnt.itemId == 'selectfilter') {
             this.getController('Select').selectInternal(conf.areas, false, false, 1);

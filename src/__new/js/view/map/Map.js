@@ -43,7 +43,7 @@ define([
 		var features = [];
 		var self = this;
 		data.forEach(function(area){
-			var feature = self.createVectorFeatruefromWKT(area.geometry);
+			var feature = self.createVectorFeatruefromWKT(area.geom);
 			features.push(feature);
 		});
 		vectorLayer.addFeatures(features);
