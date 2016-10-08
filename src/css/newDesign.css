@@ -802,6 +802,12 @@
     background-color     : #eee;
 }
 
+/* sreenshots */
+.newDesign img.screenshotimg {
+    background: rgb(240,240,240);
+}
+
+
 @media screen and (max-width: 1240px){
     .newDesign #toolbar > .label {
         width: 60px;

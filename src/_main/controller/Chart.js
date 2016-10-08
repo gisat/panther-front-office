@@ -924,9 +924,12 @@ Ext.define('PumaMain.controller.Chart', {
             var snapshotPanel = Ext.ComponentQuery.query('chartbar #screenshotpanel')[0];
             snapshotPanel.show();
             Ext.StoreMgr.lookup('screenshot').loadData([screenshot],true);
+            console.log(url);
+            $('img[src="'+url+'"]').css('background', 0);
             var img = Ext.DomQuery.select('img[src="'+url+'"]');
             Ext.get(img[0]).on('load',function() {
                 Puma.util.Msg.msg('Snapshot done','','r');
+                $('img[src="'+url+'"]').css('background', 'rgb(240,240,240)');
                 var snapshotPanel = Ext.ComponentQuery.query('chartbar #screenshotpanel')[0];
                 snapshotPanel.expand();
             })
