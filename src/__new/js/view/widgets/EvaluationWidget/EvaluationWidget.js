@@ -325,7 +325,6 @@ define([
         setTimeout(function(){
             self._filter.filter(self._categories).then(function(result){
                 var areas = result;
-                var noAreas = _.isEmpty(areas);
                 var count = 0;
                 if (areas.length > 0){
                     count = areas.length;
@@ -366,7 +365,11 @@ define([
     EvaluationWidget.prototype.addSelectionConfirmListener = function(count, filteredData){
         var self = this;
         if (count > 0){
-            $('#evaluation-confirm').html(count + " selected")
+            var areasName = "areas";
+            if (count == 1){
+                areasName = "area";
+            }
+            $('#evaluation-confirm').html("Select " + count + " " + areasName)
                 .off("click.confirm")
                 .on("click.confirm",function(){
                     SelectedAreasExchange.data.data = filteredData;
@@ -379,12 +382,27 @@ define([
                     else {
                         Observer.notify("selectAreas");
                     }
+
+                    $('#evaluation-unselect').attr("disabled",false);
                 });
         }
         else {
-            $('#evaluation-confirm').html(count + " selected")
+            $('#evaluation-confirm').html("No area selected")
                 .off("click.confirm");
         }
+
+
+        $('#evaluation-unselect').off("click.unselect").on("click.unselect",
+        function(){
+            if (OneLevelAreas.hasOneLevel){
+                self._map.removeLayers();
+            } else {
+                SelectedAreasExchange.data.data = [];
+                Observer.notify("selectAreas");
+            }
+
+            $(this).attr("disabled",true);
+        });
     };
 
 	/**
