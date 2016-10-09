@@ -127,6 +127,7 @@
     border: 1px solid rgb(230,230,230);
     height: calc(100% - 4.5rem);
     padding: .2rem .3rem;
+    overflow: auto;
 }
 
 .tool-window-body .floater-row.section-header {
