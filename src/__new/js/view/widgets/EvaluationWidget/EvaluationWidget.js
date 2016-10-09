@@ -234,6 +234,8 @@ define([
                     }
                     var thresholds = [min, max];
                     var slider = self.buildSliderInput(id, name, units, thresholds, step, attrId, attrSetId);
+                    slider.distribution = categories[key].attrData.distribution;
+                    slider.origValues = categories[key].attrData.values;
                     this._inputs.sliders.push(slider);
                 }
 
@@ -330,7 +332,7 @@ define([
                     count = areas.length;
                 }
                 self.addSelectionConfirmListener(count, areas);
-                //self.rebuildHistograms(self._inputs.sliders, areas);
+                self.rebuildHistograms(self._inputs.sliders, areas);
             });
         },100);
     };
@@ -340,20 +342,13 @@ define([
      * @param sliders {Array} array of slider objects
      * @param data {Object} filtered data
      */
-    EvaluationWidget.prototype.rebuildHistograms = function(sliders, data){
+    EvaluationWidget.prototype.rebuildHistograms = function(sliders){
         sliders.forEach(function(slider){
-
-            //if (data.data.hasOwnProperty("dist")){
-            //    for (var key in data.data.dist){
-            //        if (key == "as_"+ slider._attrSetId + "_attr_" + slider._attrId){
-            //            var values = data.data.data.values;
-            //            var dataMinMax = [metadata.min,metadata.max];
-            //            if(slider.hasOwnProperty("histogram")){
-            //                slider.histogram.rebuild(data.data.dist[key],slider._values, dataMinMax);
-            //            }
-            //        }
-            //    }
-            //}
+            var origValues = slider.origValues;
+            var dist = slider.distribution;
+            if(slider.hasOwnProperty("histogram")){
+                slider.histogram.rebuild(dist,slider._values, origValues);
+            }
         });
     };
 

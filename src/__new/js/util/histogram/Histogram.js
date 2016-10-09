@@ -55,6 +55,8 @@ define(['../../error/ArgumentError',
      * @param dataMinMax {Array} Minimum and maximum of data
      */
     Histogram.prototype.rebuild = function(distribution, sliderRange, dataMinMax){
+        console.log(distribution, sliderRange, dataMinMax);
+
         if (this._classes){
             this._classes = this.emptyClasses(this._classes);
         }
