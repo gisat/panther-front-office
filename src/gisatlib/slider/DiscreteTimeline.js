@@ -125,7 +125,7 @@ Ext.define('Gisatlib.slider.DiscreteTimeline', {
             cont.appendChild(labelEl);
             var offset = 0;
         
-            labelEl.alignTo(thumb.el,"b-t",[0,0]);
+            labelEl.alignTo(thumb.el,"b-t",[0,3]);
             if (i==0 && labelEl.dom.offsetLeft<2) {
                 offset = 2 - labelEl.dom.offsetLeft
             }
@@ -133,7 +133,7 @@ Ext.define('Gisatlib.slider.DiscreteTimeline', {
                 offset = -(labelEl.dom.offsetLeft+labelEl.dom.offsetWidth-labelEl.dom.offsetParent.offsetWidth+2);
             }
             if (offset) {
-                labelEl.alignTo(thumb.el,"b-t",[0,0]);   
+                labelEl.alignTo(thumb.el,"b-t",[0,3]);
             }
             thumb.labelEl = labelEl;
         }

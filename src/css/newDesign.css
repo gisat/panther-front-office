@@ -164,7 +164,6 @@
     margin-top       : 13px;
 }
 .newDesign #content-application{
-    z-index: initial;
 }
 
 /* intro toolbar inputs */
@@ -235,16 +234,12 @@
     padding-right: 1px;
 }
 .newDesign #toolbar .timeline-labels {
-    font-size: 11px;
+    font-size: 10px;
     padding-left: 2px;
-    margin-top: 4px;
-    margin-bottom: -7px;
+    margin-bottom: -5px;
 }
-.newDesign #toolbar .fields .group .field.help {
-    bottom: 0;
-    width: 60px;
-    margin-left: -120px;
-    position: absolute;
+.newDesign #toolbar .timeline-labels > span {
+    margin-bottom: -5px;
 }
 
 /* + - */
@@ -261,6 +256,24 @@
 }
 
 /* help buttons */
+.newDesign #toolbar .fields .group.group-visualization .help-label {
+    width: 62px;
+    text-align: right;
+    padding-right: 10px;
+}
+.newDesign #toolbar .fields .group.group-visualization .app-toolbar-help {
+    width: 50px;
+    height: 30px;
+    line-height: 30px;
+    padding-top: 2px;
+}
+.newDesign #app-toolbar-contexthelp, .newDesign #app-toolbar-webhelp {
+    display: inline-block;
+    margin-left: 0;
+    height: 23px;
+    width: 23px;
+    padding: 0;
+}
 .newDesign #app-toolbar-contexthelp .x-btn, .newDesign #app-toolbar-webhelp .x-btn,
 .newDesign #app-toolbar-contexthelp .x-btn-center, .newDesign #app-toolbar-webhelp .x-btn-center,
 .newDesign #app-toolbar-contexthelp .x-btn-icon, .newDesign #app-toolbar-webhelp .x-btn-icon {
@@ -268,14 +281,24 @@
     height: 23px !important;
     top: 0;
     left: 0;
+    padding: 0;
 }
 
-.newDesign .field.help .help-btn .x-btn {
+.newDesign .app-toolbar-help .help-btn .x-btn {
     background: rgba(255,255,255,.2);
     border: 1px solid rgba(255,255,255,.3);
     width: 23px;
     height: 23px;
 }
+
+.newDesign #app-toolbar-contexthelp span.x-btn-icon {
+    background: url('../images/new/help-context-white.png') no-repeat 50% 50% !important;
+}
+.newDesign #app-toolbar-webhelp span.x-btn-icon {
+    background: url('../images/new/help-web-white.png') no-repeat 50% 50% !important;
+}
+
+/* year */
 .newDesign .field.year .widget .x-field .x-form-item-body{
     color: #eee;
 }
@@ -284,17 +307,6 @@
 }
 .newDesign #button-1033-btnIconEl{
     color: #555;
-}
-.newDesign #app-toolbar-contexthelp {
-    margin-left: 0;
-    height: 23px;
-    width: 23px;
-}
-.newDesign #app-toolbar-contexthelp span.x-btn-icon {
-    background: url('../images/new/help-context-white.png') no-repeat 50% 50% !important;
-}
-.newDesign #app-toolbar-webhelp span.x-btn-icon {
-    background: url('../images/new/help-web-white.png') no-repeat 50% 50% !important;
 }
 
 /* dataview field */
@@ -789,6 +801,12 @@
 .newDesign .x-grid-row-focused .x-grid-cell, .newDesign .x-grid-row-focused .x-grid-rowwrap-div {
     background-color     : #eee;
 }
+
+/* sreenshots */
+.newDesign img.screenshotimg {
+    background: rgb(240,240,240);
+}
+
 
 @media screen and (max-width: 1240px){
     .newDesign #toolbar > .label {

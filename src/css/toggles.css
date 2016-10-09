@@ -74,6 +74,6 @@
 .toggle-allowPumaHelp #help-link {
 	display: inline;
 }
-.toggle-allowPumaHelp #toolbar .group .field.help {
-	display: inline-table;
+.toggle-allowPumaHelp #toolbar .help-label, .toggle-allowPumaHelp #toolbar .app-toolbar-help {
+	display: inline-block;
 }

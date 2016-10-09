@@ -356,7 +356,7 @@ body.intro #content-intro-terms {
 	vertical-align: top;
 }
 
-.field.help {
+#toolbar .help-label, #toolbar .app-toolbar-help {
 	display: none; /* usePumaHelp toggle default */
 }
 

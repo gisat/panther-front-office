@@ -77,7 +77,7 @@ define(['js/util/metadata/Attributes',
         if (Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies){
             new CityWidget({
                 elementId: 'city-selection',
-                name: 'City selection',
+                name: 'UrbanDynamic Tool',
                 targetId: 'widget-container',
                 selections: [{
                     id: 'melodies-city-selection',
