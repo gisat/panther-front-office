@@ -114,13 +114,7 @@ define(['../../util/Remote',
 			attributeSetName: attributeSet.name,
 			units: attr.standardUnits
 		};
-
-		var dist = {
-			type: 'normal',
-			classes: 20
-		};
-
-		return this.filterAttribute(params,dist);
+		return params;
 	};
 
 	/**
@@ -136,19 +130,21 @@ define(['../../util/Remote',
 	 * @param attrParams.attrType {('numeric'|'text'|'boolean')} Type of attribute
 	 * @returns {*|Promise}
 	 */
-	Attributes.prototype.filterAttribute = function(attrParams,dist){
+	Attributes.prototype.filterAttribute = function(attributes){
 		var locations;
-		console.log(ThemeYearConfParams);
 		if (ThemeYearConfParams.place.length > 0){
 			locations = [Number(ThemeYearConfParams.place)];
 		} else {
 			locations = ThemeYearConfParams.allPlaces;
 		}
-		console.log(locations);
 		var periods = JSON.parse(ThemeYearConfParams.years);
-		var attributes = [attrParams];
 
-		return $.get( "http://localhost:4000/rest/filter/attribute/statistics", {
+		var dist = {
+			type: 'normal',
+			classes: 20
+		};
+
+		return $.get( Config.url + "rest/filter/attribute/statistics", {
 				areaTemplate: ThemeYearConfParams.auCurrentAt,
 				periods: periods,
 				places: locations,
@@ -156,9 +152,10 @@ define(['../../util/Remote',
 				distribution: dist
 			})
 			.then(function(response) {
-				return {
-					about: attrParams,
-					response: response
+				if (response.hasOwnProperty("attributes")){
+					return response.attributes;	
+				} else {
+					return [];
 				}
 			});
 

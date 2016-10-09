@@ -39,7 +39,7 @@ var ExpandedAreasExchange = {};
  * @type {{data: null}}
  */
 var SelectedAreasExchange = {
-	data: null
+	data: {}
 };
 
 /**

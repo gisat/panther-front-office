@@ -94,16 +94,30 @@ define([
         var self = this;
         this._attributesMetadata.getData().then(function(result){
             self._attributes = [];
+            var attrForRequest = [];
+
             result.forEach(function(attrSet){
                 attrSet.forEach(function(attribute){
-                    if (typeof attribute == "object"){
-                        var about = attribute.about;
-                        var data = attribute.response.attributes[0];
+                    attrForRequest.push(attribute);
+                });
+            });
+
+            self._attributesMetadata.filterAttribute(attrForRequest).then(function(attributes){
+                if (attributes.length > 0){
+                    attributes.forEach(function(attribute){
+                        var about = {
+                            attribute: attribute.attribute,
+                            attributeName: attribute.attributeName,
+                            attributeType: attribute.type,
+                            attributeSet: attribute.attributeSet,
+                            attributeSetName: attribute.attributeSetName,
+                            units: attribute.units
+                        };
 
                         if (about.attributeType == "numeric"){
                             self._attributes.push({
-                                values: [data.min, data.max],
-                                distribution: data.distribution,
+                                values: [Number(attribute.min), Number(attribute.max)],
+                                distribution: attribute.distribution,
                                 about: about
                             });
                         }
@@ -115,19 +129,19 @@ define([
                         else if (about.attributeType == "text"){
                             self._attributes.push({
                                 about: about,
-                                values: data.values
+                                values: attribute.values
                             });
                         }
-                    }
-                });
+                    });
+                }
+                if (self._attributes.length){
+                    self.prepareFooter();
+                    self.rebuildViewAndSettings();
+                }
+                else {
+                    self.noDataEcho();
+                }
             });
-            if (self._attributes.length){
-                self.prepareFooter();
-                self.rebuildViewAndSettings();
-            }
-            else {
-                self.noDataEcho();
-            }
         });
         this.rebuildMap();
         ThemeYearConfParams.datasetChanged = false;
@@ -310,44 +324,14 @@ define([
 
         setTimeout(function(){
             self._filter.filter(self._categories).then(function(result){
-                console.log(result);
-                //var areas = result.data.data;
-                //var noAreas = _.isEmpty(areas);
-                //var count;
-                //// if at least one numeric attribute
-                //if (!noAreas && self._inputs.sliders.length > 0){
-                //    self._filter.numericFilter(self._attributes, areas).then(function(filteredData){
-                //        if (filteredData.data.hasOwnProperty("data")){
-                //            count = filteredData.data.data.length;
-                //        } else {
-                //            count = 0;
-                //        }
-                //        self.addSelectionConfirmListener(count, filteredData);
-                //        self.rebuildHistograms(self._inputs.sliders, filteredData);
-                //    });
-                //}
-                //// if no numeric attribute
-                //else if (!noAreas && self._inputs.sliders.length == 0) {
-                //    var filteredData = {};
-                //    filteredData.data = {};
-                //    filteredData.data.data = [];
-                //    for (var loc in areas){
-                //        for (var at in areas[loc]){
-                //            areas[loc][at].forEach(function(area){
-                //                filteredData.data.data.push({
-                //                    loc: loc,
-                //                    at: at,
-                //                    gid: area
-                //                });
-                //            })
-                //        }
-                //    }
-                //    count = filteredData.data.data.length;
-                //    self.addSelectionConfirmListener(count, filteredData);
-                //}
-                //else {
-                //    self.addSelectionConfirmListener(0, []);
-                //}
+                var areas = result;
+                var noAreas = _.isEmpty(areas);
+                var count = 0;
+                if (areas.length > 0){
+                    count = areas.length;
+                }
+                self.addSelectionConfirmListener(count, areas);
+                //self.rebuildHistograms(self._inputs.sliders, areas);
             });
         },100);
     };
@@ -377,7 +361,7 @@ define([
 	/**
      * It adds listener to confirm button. If there is at least one filtered area, listener notifies the Observer
      * @param count {number} Number of currently filtered areas
-     * @param filteredData {Object} filtered data
+     * @param filteredData {Array} filtered data
      */
     EvaluationWidget.prototype.addSelectionConfirmListener = function(count, filteredData){
         var self = this;
@@ -385,15 +369,12 @@ define([
             $('#evaluation-confirm').html(count + " selected")
                 .off("click.confirm")
                 .on("click.confirm",function(){
-                    SelectedAreasExchange.data = filteredData.data;
+                    SelectedAreasExchange.data.data = filteredData;
                     self.addDownloadListener(filteredData);
 
                     if (OneLevelAreas.hasOneLevel){
                         self._map.removeLayers();
-
-                        var areas = [{geom: 'POLYGON(1607012 6464158, 1619853 6459393, 1607000 6459393)'},
-                            {geom: 'POLYGON(1617012 6454158, 1619853 6459393, 1617000 6452393)'}];
-                        self._map.addLayer(areas);
+                        self._map.addLayer(filteredData);
                     }
                     else {
                         Observer.notify("selectAreas");
@@ -413,18 +394,18 @@ define([
         $("#export-shp, #export-csv").attr("disabled",true);
     };
 
-    EvaluationWidget.prototype.addDownloadListener = function(filteredData){
+    EvaluationWidget.prototype.addDownloadListener = function(areas){
         var self = this;
 
         var filteredAreas = [];
-        filteredData.data.data.forEach(function(area){
+        areas.forEach(function(area){
             filteredAreas.push(area.gid);
         });
 
         this._mapExport = new MapExport({
-            location: filteredData.data.data[0].loc,
+            location: areas[0].loc,
             year: JSON.parse(ThemeYearConfParams.years)[0],
-            areaTemplate: filteredData.data.data[0].at,
+            areaTemplate: areas[0].at,
             gids: filteredAreas
         });
 

@@ -13,7 +13,12 @@ define(['./Remote',
 	};
 
 	Filter.prototype.filter = function(categories) {
-		var places = [Number(ThemeYearConfParams.place)];
+		var locations;
+		if (ThemeYearConfParams.place.length > 0){
+			locations = [Number(ThemeYearConfParams.place)];
+		} else {
+			locations = ThemeYearConfParams.allPlaces;
+		}
 		var periods = JSON.parse(ThemeYearConfParams.years);
 
 		var attributes = [];
@@ -53,17 +58,16 @@ define(['./Remote',
 						var attr = {
 							attribute: attribute.about.attribute,
 							attributeSet: attribute.about.attributeSet,
-							values: values
+							value: values
 						};
-						console.log(attr);
 						attributes.push(attr);
 				}
 			}
 		}
-		return $.get( "http://localhost:4000/rest/filter/attribute/filter", {
+		return $.get( Config.url + "rest/filter/attribute/filter", {
 				areaTemplate: ThemeYearConfParams.auCurrentAt,
 				periods: periods,
-				places: places,
+				places: locations,
 				attributes: attributes
 			})
 			.then(function(response) {
