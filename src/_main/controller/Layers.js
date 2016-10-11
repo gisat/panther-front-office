@@ -695,7 +695,7 @@ Ext.define('PumaMain.controller.Layers', {
 				continue;
 			}
 			var layer = i == 0 ? layer1 : layer2;
-			this.saveSld(node, namedLayers, layer);
+			// this.saveSld(node, namedLayers, layer);
 		}
 
 	},

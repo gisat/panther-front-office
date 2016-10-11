@@ -339,6 +339,7 @@ define([
                     if (OneLevelAreas.hasOneLevel) {
                         self._map.removeLayers();
                         self._map.addLayer(areas);
+                        Observer.notify("selectAreasOneLevel");
                     }
                     else {
                         Observer.notify("selectAreas");
