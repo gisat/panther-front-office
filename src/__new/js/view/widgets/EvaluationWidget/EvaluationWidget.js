@@ -339,6 +339,7 @@ define([
                     if (OneLevelAreas.hasOneLevel) {
                         self._map.removeLayers();
                         self._map.addLayer(areas);
+                        Observer.notify('selectInternal');
                     }
                     else {
                         Observer.notify("selectAreas");
@@ -403,10 +404,11 @@ define([
 
         $('#evaluation-unselect').off("click.unselect").on("click.unselect",
         function(){
+            SelectedAreasExchange.data.data = [];
             if (OneLevelAreas.hasOneLevel){
                 self._map.removeLayers();
+                Observer.notify('selectInternal');
             } else {
-                SelectedAreasExchange.data.data = [];
                 Observer.notify("selectAreas");
             }
 
