@@ -441,8 +441,6 @@ Ext.define('PumaMain.controller.Area', {
 		return locations;
 	},
 	scanTree: function() {
-		console.log("scan tree");
-
 		if (OneLevelAreas.hasOneLevel){
 			var areas = OneLevelAreas.data;
 			var level = areas[0].at;

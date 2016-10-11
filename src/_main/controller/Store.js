@@ -375,8 +375,6 @@ Ext.define('PumaMain.controller.Store', {
 				expanded: true
 			}
         });
-        
-        
         Ext.create('Ext.data.TreeStore', {
             model: 'Puma.model.MapLayer',
             storeId: 'layers',

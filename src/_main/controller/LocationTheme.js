@@ -817,21 +817,21 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 sortIndex: 0,
                 checked: false,
                 leaf: true
-            }
+            };
             selectedLayerFilledNode = {
                 type: 'selectedareasfilled',
                 name: 'Selected areas filled',
                 sortIndex: 0,
                 checked: true,
                 leaf: true
-            }
+            };
             areaLayerNode = {
                 type: 'areaoutlines',
                 sortIndex: 1,
                 name: 'Area outlines',
                 checked: true,
                 leaf: true
-            }
+            };
             systemNode.appendChild([selectedLayerNode, selectedLayerFilledNode, areaLayerNode]);
         }
 
