@@ -912,7 +912,11 @@ Ext.define('PumaMain.controller.LocationTheme', {
                     ThemeYearConfParams.auCurrentAt = Object.keys(conf.auRefMap[a])[0];
                 }
             }
-			OneLevelAreas.hasOneLevel = counter == 1;
+            if(!Config.isUrbis) {
+                OneLevelAreas.hasOneLevel = counter == 1;
+            } else {
+                OneLevelAreas.hasOneLevel = false;
+            }
             if (OneLevelAreas.hasOneLevel){
                 $('.areaTreeSelection').hide();
             } else {
