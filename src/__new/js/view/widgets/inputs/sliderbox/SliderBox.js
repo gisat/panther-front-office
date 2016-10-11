@@ -58,6 +58,8 @@ define(['../../../../error/ArgumentError',
         this._step = options.step || 1;
 
         this._range = options.range;
+        this._range[0] = this._range[0] - ((this._range[1] - this._range[0]) * 0.05);
+        this._range[1] = this._range[0] + ((this._range[1] - this._range[0]) * 0.05);
         this._values = options.values;
         this._isRange = options.isRange;
 
