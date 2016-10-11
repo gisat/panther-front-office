@@ -82,15 +82,15 @@ define(['js/util/metadata/Attributes',
                 selections: [{
                     id: 'melodies-city-selection',
                     name: 'Select city',
-                    options: ['Prague','Rome','London','Moscow']
+                    options: ['Brno', 'České Budějovice', 'Plzeň', 'Ostrava']
                 }, {
                     id: 'melodies-start-selection',
                     name: 'Select start',
-                    options: ['2015','2016']
+                    options: ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016']
                 }, {
                     id: 'melodies-end-selection',
                     name: 'Select end',
-                    options: ['2015','2016']
+                    options: ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016']
                 }]
             })
         }

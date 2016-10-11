@@ -130,7 +130,7 @@ define([
 		for (var i = data.length; i--; i >= 0){
 			var content = '<tr>';
 			content += '<td class="column-id">' + (i+1) + '</td>';
-			content += '<td>' + data[i].city + '</td>';
+			content += '<td>' + data[i].name + '</td>';
 			content += '<td>(' + data[i].from + '-' + data[i].to + ')</td>';
 			content += '<td class="column-status ' + data[i].status.toLowerCase() + '">' + data[i].status + '</td>';
 			content += '</tr>';
@@ -183,7 +183,7 @@ define([
 			method: "POST",
 			url: window.Config.url + "wps/mellodies/run",
 			params: {
-				city: this._selectBoxes[0].getValue(),
+				name: this._selectBoxes[0].getValue(),
 				from: this._selectBoxes[1].getValue(),
 				to: this._selectBoxes[2].getValue()
 			}
