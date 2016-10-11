@@ -88,10 +88,6 @@ Ext.define('PumaMain.controller.Chart', {
                 }
             }
         })
-
-        Observer.addListener('selectAreasOneLevel', function(){
-            me.reconfigure('select');
-        })
     },
     
     onChartExpand: function(panel) {
@@ -458,7 +454,6 @@ Ext.define('PumaMain.controller.Chart', {
             var onlySel = Ext.ComponentQuery.query('#areapager #onlySelected')[0].pressed;
             if (onlySel) {
                 queryCfg.areas = [];
-                queryCfg.start = 0;
             }
             Ext.apply(queryCfg,this.getPagingParams());
         }
@@ -478,10 +473,10 @@ Ext.define('PumaMain.controller.Chart', {
             return;
             
         }
-        /*if (queryCfg['start']<0) {
+        if (queryCfg['start']<0) {
             this.onChartReceived({cmp:chartCmp});
             return;
-        }*/
+        }
         Ext.Ajax.request({
             url: Config.url + 'api/chart/getChart',
             params: params,
@@ -547,13 +542,7 @@ Ext.define('PumaMain.controller.Chart', {
             }
             selectedAreas.push(map);
         }
-
-        var selectedAreas = {};
-        selectedAreas.selectedAreas = {}
-        selectedAreas.selectedAreas[ThemeYearConfParams.place] = {};
-        selectedAreas.selectedAreas[ThemeYearConfParams.place][ThemeYearConfParams.auCurrentAt] = SelectedAreasExchange.data.data;
-        selectedAreas.defArea = SelectedAreasExchange.data && SelectedAreasExchange.data.data && SelectedAreasExchange.data.data[0] || null;
-        return selectedAreas;
+        return {selectedAreas:selectedAreas,defArea:defArea};
     },
     
     handleExport: function(chartCmp, params) {
@@ -1301,9 +1290,8 @@ Ext.define('PumaMain.controller.Chart', {
             var chart = charts[i];
             if (type=='immediate') {
                 this.colourChart(chart);
-            } else if (type=='select') {
-                this.reconfigureChart(chart);
-            } else if (Ext.Array.contains(['expand'],type)) {
+            }
+            else if (Ext.Array.contains(['expand'],type)) {
                 this.reconfigureChart(chart);
             }
             

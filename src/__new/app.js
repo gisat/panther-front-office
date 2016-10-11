@@ -35,7 +35,6 @@ requirejs.config({
 define(['js/util/metadata/Attributes',
         'js/view/widgets/CityWidget/CityWidget',
         'js/view/widgets/EvaluationWidget/EvaluationWidget',
-        'js/view/widgets/FilteredTableWidget/FilteredTableWidget',
         'js/util/Filter',
         'js/util/Floater',
 		'./FrontOffice',
@@ -51,7 +50,6 @@ define(['js/util/metadata/Attributes',
 ], function (Attributes,
              CityWidget,
              EvaluationWidget,
-             FilteredTableWidget,
              Filter,
              Floater,
 			 FrontOffice,
@@ -67,7 +65,7 @@ define(['js/util/metadata/Attributes',
 
     $(document).ready(function() {
 		if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
-			var evaluationWidget = new EvaluationWidget({
+			new EvaluationWidget({
 				attributesMetadata: new Attributes(),
                 filter: new Filter(),
 				elementId: 'evaluation-widget',

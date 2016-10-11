@@ -85,19 +85,7 @@ define(['./Remote',
 		var periods = JSON.parse(ThemeYearConfParams.years);
 
 		var attributes = [];
-		this.getFilterParameters(categories, attributes);
 
-		return $.get( Config.url + "rest/filter/attribute/amount", {
-			areaTemplate: ThemeYearConfParams.auCurrentAt,
-			periods: periods,
-			places: locations,
-			attributes: attributes
-		}).then(function(response) {
-			return response.amount
-		});
-	};
-
-	Filter.prototype.getFilterParameters = function(categories, attributes) {
 		for (var key in categories) {
 			if (categories[key].hasOwnProperty('attrData')) {
 				if (categories[key].active == true) {
@@ -139,7 +127,16 @@ define(['./Remote',
 				}
 			}
 		}
-	}
+		return $.get( Config.url + "rest/filter/attribute/amount", {
+			areaTemplate: ThemeYearConfParams.auCurrentAt,
+			periods: periods,
+			places: locations,
+			attributes: attributes
+		})
+			.then(function(response) {
+				return response.amount
+			});
+	};
 
 	return Filter;
 });
