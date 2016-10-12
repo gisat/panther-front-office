@@ -57,7 +57,5 @@ var OneLevelAreas = {
  * @type {{active: boolean, data: {}, map: {}}}
  */
 var FeatureInfo = {
-	active: true,
-	map: {},
-	data: {}
+	map: {}
 };

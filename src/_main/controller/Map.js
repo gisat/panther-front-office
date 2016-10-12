@@ -45,55 +45,7 @@ Ext.define('PumaMain.controller.Map', {
 
 	// URBIS change
 	newFeatureInfo: function(){
-
-		//map.selectInMapLayer = new OpenLayers.Layer.WMS('WMS', Config.url+'api/proxy/wms', params, {
-		//	visibility: true
-		//});
-		//map.selectInMapLayer.projection = map.projection;
-		//
-		//map.getFeatureInfoLayer = new OpenLayers.Layer.WMS('WMS', Config.url+'api/proxy/wms', params, {
-		//	visibility: true
-		//});
-		//map.getFeatureInfoLayer.projection = map.projection;
-		//
-		//var infoControls = {
-		//	click: new OpenLayers.Control.WMSGetFeatureInfo({
-		//		url: Config.url+'api/proxy/wms',
-		//		vendorParams: {
-		//			propertyName: 'gid'
-		//		},
-		//		layers: [map.selectInMapLayer]
-		//	}),
-		//	hover: new OpenLayers.Control.WMSGetFeatureInfo({
-		//		url: Config.url+'api/proxy/wms',
-		//		vendorParams: {
-		//			propertyName: 'gid',
-		//			buffer: 1
-		//		},
-		//		layers: [map.selectInMapLayer],
-		//		hover: true
-		//	})
-		//};
-		//map.featureInfoControl = new OpenLayers.Control.WMSGetFeatureInfo({
-		//	url: Config.url+'api/proxy/wms',
-		//	vendorParams: {
-		//		propertyName: 'gid',
-		//		buffer: 1,
-		//		completeLayer: true
-		//	},
-		//	layers: [map.getFeatureInfoLayer]
-		//});
-
-
-
-
-		if (FeatureInfo.active){
-			console.log("on");
-			// activate
-		}
-		else {
-			// deactivate
-		}
+		FeatureInfo.map = this.getOlMap();
 	},
 
 	onExportMapUrl: function(btn) {

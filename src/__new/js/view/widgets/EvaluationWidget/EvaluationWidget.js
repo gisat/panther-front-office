@@ -7,7 +7,7 @@ define([
     '../../../util/MapExport',
 	'../../../util/Remote',
     '../inputs/selectbox/SelectBox',
-    '../tools/settings/Settings',
+    '../widgetTools/settings/Settings',
     '../inputs/sliderbox/SliderBox',
 	'../../../stores/Stores',
     '../Widget',

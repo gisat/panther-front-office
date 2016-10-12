@@ -35,6 +35,7 @@ requirejs.config({
 define(['js/util/metadata/Attributes',
         'js/view/widgets/CityWidget/CityWidget',
         'js/view/widgets/EvaluationWidget/EvaluationWidget',
+        'js/view/tools/FeatureInfoTool',
         'js/util/Filter',
         'js/util/Floater',
 		'./FrontOffice',
@@ -50,6 +51,7 @@ define(['js/util/metadata/Attributes',
 ], function (Attributes,
              CityWidget,
              EvaluationWidget,
+             FeatureInfoTool,
              Filter,
              Floater,
 			 FrontOffice,
@@ -65,14 +67,21 @@ define(['js/util/metadata/Attributes',
 
     $(document).ready(function() {
 		if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
-			new EvaluationWidget({
-				attributesMetadata: new Attributes(),
+            new EvaluationWidget({
+                attributesMetadata: new Attributes(),
                 filter: new Filter(),
-				elementId: 'evaluation-widget',
-				name: 'Evaluation Tool',
-				targetId: 'widget-container'
-			});
-		}
+                elementId: 'evaluation-widget',
+                name: 'Evaluation Tool',
+                targetId: 'widget-container'
+            });
+        }
+
+        if(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo){
+            new FeatureInfoTool({
+                elementId: 'feature-info-tool',
+                targetId: 'tools-container'
+            });
+        }
 
         if (Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies){
             new CityWidget({
@@ -92,13 +101,6 @@ define(['js/util/metadata/Attributes',
                     name: 'Select end',
                     options: ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016']
                 }]
-            });
-
-            $('body').on("click",'#feature-info',function(){
-                var button = $(this);
-				FeatureInfo.active = !button.hasClass("active");
-                Observer.notify("featureInfo");
-                button.toggleClass("active");
             });
         }
 

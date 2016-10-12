@@ -1,13 +1,10 @@
 /* === Building blocks === */
-
 .intro .widgets {
     display: none;
 }
-
 .widgets {
     display: block;
 }
-
 .widgets p, .widgets a, .widgets span, .widgets label {
     color: #666;
     font-size: .75rem;
@@ -154,10 +151,25 @@
     padding: .5rem 0;
     position: relative;
 }
-#feature-info {
-    z-index: 9999;
+
+/** new tools **/
+#tools-container {
+    height: 6.5rem;
     position: absolute;
+    right: 8rem;
+    width: 4rem;
 }
+
+#tools-container .tool {
+    border-radius: .1rem;
+    font-size: .7rem;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    padding: 0;
+    width: 3rem;
+    margin: .5rem .3rem;
+}
+
 #feature-info.active {
     background: red;
 }
