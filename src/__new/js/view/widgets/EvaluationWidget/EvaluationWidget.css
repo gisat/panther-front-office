@@ -9,16 +9,24 @@
 }
 
 #floater-evaluation-widget .floater-body {
-    padding: .5rem;
     height: calc(100% - 7rem);
-    overflow: auto;
 }
+
 #floater-evaluation-widget .floater-footer {
     height: 5.5rem;
 }
 
-#evaluation-confirm {
-    width: 50%;
+/* Footer */
+
+#evaluation-confirm, #evaluation-unselect {
+    font-size: .7rem;
+    margin: 0 .1rem;
+    width: 47%;
+}
+#evaluation-unselect[disabled=disabled] {
+    pointer-events: none;
+    color: #aaa;
+    background: #eee;
 }
 
 .widget-button-export:before {

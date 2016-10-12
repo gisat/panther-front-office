@@ -3,6 +3,7 @@ define([
     '../../../error/NotFoundError',
     '../inputs/checkbox/Checkbox',
     '../../../util/Logger',
+    '../../map/Map',
     '../../../util/MapExport',
 	'../../../util/Remote',
     '../inputs/selectbox/SelectBox',
@@ -21,6 +22,7 @@ define([
             NotFoundError,
             Checkbox,
             Logger,
+            Map,
             MapExport,
 			Remote,
             SelectBox,
@@ -90,35 +92,59 @@ define([
      */
     EvaluationWidget.prototype.rebuild = function(){
         var self = this;
+        this._widgetSelector.find(".floater-overlay").css("display","block");
         this._attributesMetadata.getData().then(function(result){
             self._attributes = [];
+            var attrForRequest = [];
+
             result.forEach(function(attrSet){
                 attrSet.forEach(function(attribute){
-                    if (typeof attribute == "object"){
-                        var about = attribute.about;
-                        if (about.attrType == "numeric"){
-                            self._attributes.push({
-                                metadata: attribute.response.data.metaData["as_" + about.as + "_attr_" + about.attr],
-                                distribution: attribute.response.data.dist["as_" + about.as + "_attr_" + about.attr],
-                                about: about
-                            });
-                        }
-                        else if (about.attrType == "boolean") {
-                            self._attributes.push({
-                                about: about
-                            });
-                        }
-                        else if (about.attrType == "text"){
-                            self._attributes.push({
-                                about: about,
-                                metadata: attribute.response.data.data
-                            });
-                        }
-                    }
+                    attrForRequest.push(attribute);
                 });
             });
-            self.rebuildViewAndSettings();
+
+            self._attributesMetadata.filterAttribute(attrForRequest).then(function(attributes){
+                if (attributes.length > 0){
+                    attributes.forEach(function(attribute){
+                        var about = {
+                            attribute: attribute.attribute,
+                            attributeName: attribute.attributeName,
+                            attributeType: attribute.type,
+                            attributeSet: attribute.attributeSet,
+                            attributeSetName: attribute.attributeSetName,
+                            units: attribute.units
+                        };
+
+                        if (about.attributeType == "numeric"){
+                            self._attributes.push({
+                                values: [Number(attribute.min), Number(attribute.max)],
+                                distribution: attribute.distribution,
+                                about: about
+                            });
+                        }
+                        else if (about.attributeType == "boolean") {
+                            self._attributes.push({
+                                about: about
+                            });
+                        }
+                        else if (about.attributeType == "text"){
+                            self._attributes.push({
+                                about: about,
+                                values: attribute.values
+                            });
+                        }
+                    });
+                }
+                if (self._attributes.length){
+                    self.prepareFooter();
+                    self.rebuildViewAndSettings();
+                }
+                else {
+                    self.noDataEcho();
+                }
+            });
         });
+        this.rebuildMap();
         ThemeYearConfParams.datasetChanged = false;
     };
 
@@ -127,7 +153,15 @@ define([
      */
     EvaluationWidget.prototype.build = function(){
         this.buildSettings();
-        this.prepareFooter();
+    };
+
+	/**
+     * Notify the user, if no attribute sets are linked to analytical units
+     */
+    EvaluationWidget.prototype.noDataEcho = function(){
+        var info = '<p>There are no linked attribute sets to analytical units probably! Please, go to the BackOffice and link the data properly.</p>';
+        this._widgetBodySelector.html("").append(info);
+        this._widgetSelector.find(".floater-overlay").css("display","none");
     };
 
 	/**
@@ -140,6 +174,17 @@ define([
             '<img alt="' + name + '" src="__new/img/'+ tool +'.png"/>' +
             '</div>');
         this.addSettingsListener();
+    };
+
+    EvaluationWidget.prototype.rebuildMap = function(){
+        if (!this._map){
+            this._map = new Map({
+                map: OneLevelAreas.map
+            });
+        }
+        else {
+            this._map.removeLayers();
+        }
     };
 
 	/**
@@ -179,18 +224,20 @@ define([
                 var input = categories[key].input;
                 var name = categories[key].name;
                 var units = categories[key].attrData.about.units;
-                var attrId = categories[key].attrData.about.attr;
-                var attrSetId = categories[key].attrData.about.as;
-                var id = "attr-" + categories[key].attrData.about.attr;
+                var attrId = categories[key].attrData.about.attribute;
+                var attrSetId = categories[key].attrData.about.attributeSet;
+                var id = "attr-" + categories[key].attrData.about.attribute;
                 if (input == "slider") {
-                    var min = categories[key].attrData.metadata.min;
-                    var max = categories[key].attrData.metadata.max;
+                    var min = categories[key].attrData.values[0];
+                    var max = categories[key].attrData.values[1];
                     var step = 0.005;
                     if (min <= -1000 || max >= 1000){
                         step = 1
                     }
                     var thresholds = [min, max];
                     var slider = self.buildSliderInput(id, name, units, thresholds, step, attrId, attrSetId);
+                    slider.distribution = categories[key].attrData.distribution;
+                    slider.origValues = categories[key].attrData.values;
                     this._inputs.sliders.push(slider);
                 }
 
@@ -200,13 +247,13 @@ define([
                 }
 
                 else if (input == "select") {
-                    var options = _.unique(categories[key].attrData.metadata);
+                    var options = categories[key].attrData.values;
                     var select = this.buildSelectInput(key, name, options);
                     this._inputs.selects.push(select);
                 }
             }
         }
-        this.filter();
+        this.amount();
         this.addSliderListener();
         this.addInputsListener();
     };
@@ -273,35 +320,48 @@ define([
      */
     EvaluationWidget.prototype.prepareFooter = function (){
         var html = S(htmlFooterContent).template().toString();
-        this._widgetSelector.find(".floater-footer").append(html);
+        this._widgetSelector.find(".floater-footer").html("").append(html);
     };
 
-    /**
-     * Pre-filter the areas according current values for non-numeric attributes
-     * Then, filter data according to current values ´for numeric attributes, redraw the footer button and attach confirm listener
-     */
     EvaluationWidget.prototype.filter = function(){
         var self = this;
 
         setTimeout(function(){
-            self._filter.preFilter(self._categories, ExpandedAreasExchange).then(function(result){
-                var areas = result.data.data;
-                var noAreas = _.isEmpty(areas);
-                var count;
-                if (!noAreas){
-                    self._filter.numericFilter(self._attributes, areas).then(function(filteredData){
-                        if (filteredData.data.hasOwnProperty("data")){
-                            count = filteredData.data.data.length;
-                        } else {
-                            count = 0;
-                        }
-                        self.addSelectionConfirmListener(count, filteredData);
-                        self.rebuildHistograms(self._inputs.sliders, filteredData);
-                    });
+            self._filter.filter(self._categories).then(function(result){
+                var areas = result;
+                var count = 0;
+                if (areas.length > 0){
+                    count = areas.length;
                 }
-                else {
-                    self.addSelectionConfirmListener(0, []);
+
+                if(count > 0 ) {
+                    SelectedAreasExchange.data.data = areas;
+                    self.addDownloadListener(areas);
+
+                    if (OneLevelAreas.hasOneLevel) {
+                        self._map.removeLayers();
+                        self._map.addLayer(areas);
+                        Observer.notify('selectInternal');
+                    }
+                    else {
+                        Observer.notify("selectAreas");
+                    }
+
+                    $('#evaluation-unselect').attr("disabled", false);
                 }
+            });
+        },100);
+    };
+
+    EvaluationWidget.prototype.amount = function() {
+        var self = this;
+        this._widgetSelector.find(".floater-overlay").css("display","block");
+        setTimeout(function(){
+            self._filter.amount(self._categories).then(function(result){
+                var amountOfAreas = result;
+                self.addSelectionConfirmListener(amountOfAreas);
+                self.rebuildHistograms(self._inputs.sliders);
+                self._widgetSelector.find(".floater-overlay").css("display","none");
             });
         },100);
     };
@@ -311,18 +371,12 @@ define([
      * @param sliders {Array} array of slider objects
      * @param data {Object} filtered data
      */
-    EvaluationWidget.prototype.rebuildHistograms = function(sliders, data){
+    EvaluationWidget.prototype.rebuildHistograms = function(sliders){
         sliders.forEach(function(slider){
-            if (data.data.hasOwnProperty("dist")){
-                for (var key in data.data.dist){
-                    if (key == "as_"+ slider._attrSetId + "_attr_" + slider._attrId){
-                        var metadata = data.data.metaData[key];
-                        var dataMinMax = [metadata.min,metadata.max];
-                        if(slider.hasOwnProperty("histogram")){
-                            slider.histogram.rebuild(data.data.dist[key],slider._values, dataMinMax);
-                        }
-                    }
-                }
+            var origValues = slider.origValues;
+            var dist = slider.distribution;
+            if(slider.hasOwnProperty("histogram")){
+                slider.histogram.rebuild(dist,slider._values, origValues);
             }
         });
     };
@@ -330,23 +384,39 @@ define([
 	/**
      * It adds listener to confirm button. If there is at least one filtered area, listener notifies the Observer
      * @param count {number} Number of currently filtered areas
-     * @param filteredData {Object} filtered data
+     * @param filteredData {Array} filtered data
      */
-    EvaluationWidget.prototype.addSelectionConfirmListener = function(count, filteredData){
+    EvaluationWidget.prototype.addSelectionConfirmListener = function(count){
         var self = this;
         if (count > 0){
-            $('#evaluation-confirm').html(count + " selected")
+            var areasName = "areas";
+            if (count == 1){
+                areasName = "area";
+            }
+            $('#evaluation-confirm').html("Select " + count + " " + areasName)
                 .off("click.confirm")
-                .on("click.confirm",function(){
-                    SelectedAreasExchange.data = filteredData.data;
-                    Observer.notify("selectAreas");
-                    self.addDownloadListener(filteredData);
+                .on("click.confirm", function(){
+                    self.filter();
                 });
         }
         else {
-            $('#evaluation-confirm').html(count + " selected")
+            $('#evaluation-confirm').html("No area selected")
                 .off("click.confirm");
         }
+
+
+        $('#evaluation-unselect').off("click.unselect").on("click.unselect",
+        function(){
+            SelectedAreasExchange.data.data = [];
+            if (OneLevelAreas.hasOneLevel){
+                self._map.removeLayers();
+                Observer.notify('selectInternal');
+            } else {
+                Observer.notify("selectAreas");
+            }
+
+            $(this).attr("disabled",true);
+        });
     };
 
 	/**
@@ -356,18 +426,18 @@ define([
         $("#export-shp, #export-csv").attr("disabled",true);
     };
 
-    EvaluationWidget.prototype.addDownloadListener = function(filteredData){
+    EvaluationWidget.prototype.addDownloadListener = function(areas){
         var self = this;
 
         var filteredAreas = [];
-        filteredData.data.data.forEach(function(area){
+        areas.forEach(function(area){
             filteredAreas.push(area.gid);
         });
 
         this._mapExport = new MapExport({
-            location: filteredData.data.data[0].loc,
+            location: areas[0].loc,
             year: JSON.parse(ThemeYearConfParams.years)[0],
-            areaTemplate: filteredData.data.data[0].at,
+            areaTemplate: areas[0].at,
             gids: filteredAreas
         });
 
@@ -410,13 +480,13 @@ define([
     EvaluationWidget.prototype.addInputsListener = function(){
         var self = this;
         this._widgetSelector.find(".selectmenu" ).off("selectmenuselect")
-            .on( "selectmenuselect", self.filter.bind(self))
+            .on( "selectmenuselect", self.amount.bind(self))
             .on( "selectmenuselect", self.disableExports.bind(self));
         this._widgetSelector.find(".slider-row").off("slidechange")
-            .on("slidechange", self.filter.bind(self))
+            .on( "slidechange", self.amount.bind(self))
             .on( "slidechange", self.disableExports.bind(self));
         this._widgetSelector.find(".checkbox-row").off("click.inputs")
-            .on( "click.inputs", self.filter.bind(self))
+            .on( "click.inputs", self.amount.bind(self))
             .on( "click.inputs", self.disableExports.bind(self));
     };
 

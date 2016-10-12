@@ -1,7 +1,10 @@
 define(['../../util/Remote',
-		'../../stores/Stores'
+		'../../stores/Stores',
+		'jquery'
 ],function(Remote,
-		   Stores){
+		   Stores,
+
+		   $){
 
 	/**
 	 * Class for gathering attributes metadata
@@ -104,24 +107,14 @@ define(['../../util/Remote',
 		var attr = attribute[0];
 
 		var params = {
-			attr: attr.id,
-			attrName: attr.name,
-			attrType: attr.type,
-			as: attributeSet.id,
-			asName: attributeSet.name,
+			attribute: attr.id,
+			attributeName: attr.name,
+			attributeType: attr.type,
+			attributeSet: attributeSet.id,
+			attributeSetName: attributeSet.name,
 			units: attr.standardUnits
 		};
-		if (params.attrType == "numeric") {
-			return this.filterAttribute("filter", params);
-		}
-		else if (params.attrType == "text") {
-			return this.filterAttribute("getUniqueValues", params);
-		}
-		else if (params.attrType == "boolean") {
-			return {
-				about: params
-			};
-		}
+		return params;
 	};
 
 	/**
@@ -137,23 +130,51 @@ define(['../../util/Remote',
 	 * @param attrParams.attrType {('numeric'|'text'|'boolean')} Type of attribute
 	 * @returns {*|Promise}
 	 */
-	Attributes.prototype.filterAttribute = function(filterType, attrParams){
-		return new Remote({
-			method: "POST",
-			url: window.Config.url + "api/filter/" + filterType,
-			params: {
-				dataset: ThemeYearConfParams.dataset,
-				years: ThemeYearConfParams.years,
-				filters: JSON.stringify([]),
-				attrs: JSON.stringify([attrParams]),
-				areas: JSON.stringify(ExpandedAreasExchange)
-			}
-		}).then(function(response){
-			return {
-				about: attrParams,
-				response: JSON.parse(response)
-			};
-		});
+	Attributes.prototype.filterAttribute = function(attributes){
+		var locations;
+		if (ThemeYearConfParams.place.length > 0){
+			locations = [Number(ThemeYearConfParams.place)];
+		} else {
+			locations = ThemeYearConfParams.allPlaces;
+		}
+		var periods = JSON.parse(ThemeYearConfParams.years);
+
+		var dist = {
+			type: 'normal',
+			classes: 20
+		};
+
+		return $.get( Config.url + "rest/filter/attribute/statistics", {
+				areaTemplate: ThemeYearConfParams.auCurrentAt,
+				periods: periods,
+				places: locations,
+				attributes: attributes,
+				distribution: dist
+			})
+			.then(function(response) {
+				if (response.hasOwnProperty("attributes")){
+					return response.attributes;	
+				} else {
+					return [];
+				}
+			});
+
+		//return new Remote({
+		//	method: "GET",
+		//	url: window.Config.url + "rest/filter/attribute/statistics",
+		//	params: {
+		//		areaTemplate: ThemeYearConfParams.auCurrentAt,
+		//		periods: ThemeYearConfParams.years,
+		//		locations: locations,
+		//		attributes: attributes,
+		//		distribution: dist
+		//	}
+		//}).then(function(response){
+		//	return {
+		//		about: attrParams,
+		//		response: JSON.parse(response)
+		//	};
+		//});
 	};
 
 	/**

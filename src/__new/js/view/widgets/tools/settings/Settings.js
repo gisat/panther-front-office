@@ -73,14 +73,14 @@ define([
         var asId = null;
         var self = this;
         this._attributes.forEach(function(attribute){
-            if (attribute.about.asName != asName){
-                asName = attribute.about.asName;
-                asId = "settings-as-" + attribute.about.as;
+            if (attribute.about.attributeSetName != asName){
+                asName = attribute.about.attributeSetName;
+                asId = "settings-as-" + attribute.about.attributeSet;
                 self.addAttributeSetName(asName, asId);
             }
-            var type = attribute.about.attrType;
-            var name = attribute.about.attrName;
-            var id = "attr-" + attribute.about.attr;
+            var type = attribute.about.attributeType;
+            var name = attribute.about.attributeName;
+            var id = "attr-" + attribute.about.attribute;
             var input = "";
 
             if (type == "boolean"){

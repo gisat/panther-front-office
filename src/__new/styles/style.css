@@ -14,7 +14,7 @@
 }
 
 .ui-front {
-    z-index: 10000;
+    z-index: 10002;
 }
 .ui-menu .ui-menu-item .ui-menu-item-wrapper {
     background: #eee;
@@ -38,7 +38,7 @@
     display: inline-block;
     color: white;
     font-weight: 700;
-    padding: .4rem;
+    padding: .4rem .2rem;
     text-align: center;
     text-transform: uppercase;
     transition: background .3s ease-out;
@@ -127,6 +127,7 @@
     border: 1px solid rgb(230,230,230);
     height: calc(100% - 5rem);
     padding: .2rem .3rem;
+    overflow: auto;
 }
 
 .tool-window-body .floater-row.section-header {

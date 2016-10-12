@@ -15,10 +15,8 @@ define([
 
 	FrontOffice.prototype.loadData = function(){
 		if (Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
-			//setTimeout(function(){
 			Stores.retrieve('attribute').load();
 			Stores.retrieve('attributeSet').load();
-			//},200)
 		}
 	};
 

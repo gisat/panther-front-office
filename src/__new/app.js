@@ -33,7 +33,7 @@ requirejs.config({
 });
 
 define(['js/util/metadata/Attributes',
-        'js/view/widgets/BasicWidget/BasicWidget',
+        'js/view/widgets/CityWidget/CityWidget',
         'js/view/widgets/EvaluationWidget/EvaluationWidget',
         'js/util/Filter',
         'js/util/Floater',
@@ -48,7 +48,7 @@ define(['js/util/metadata/Attributes',
         'jquery-ui',
         'underscore'
 ], function (Attributes,
-             BasicWidget,
+             CityWidget,
              EvaluationWidget,
              Filter,
              Floater,
@@ -75,14 +75,22 @@ define(['js/util/metadata/Attributes',
 		}
 
         if (Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies){
-            new BasicWidget({
+            new CityWidget({
                 elementId: 'city-selection',
-                name: 'City selection',
+                name: 'UrbanDynamic Tool',
                 targetId: 'widget-container',
-                selection: [{
+                selections: [{
                     id: 'melodies-city-selection',
                     name: 'Select city',
-                    options: ['Prague','Rome','London','Moscow']
+                    options: ['Brno', 'České Budějovice', 'Plzeň', 'Ostrava']
+                }, {
+                    id: 'melodies-start-selection',
+                    name: 'Select start',
+                    options: ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016']
+                }, {
+                    id: 'melodies-end-selection',
+                    name: 'Select end',
+                    options: ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016']
                 }]
             });
 
@@ -108,6 +116,8 @@ define(['js/util/metadata/Attributes',
                 else {
                     Floater.maximise(floater);
                     Placeholder.floaterOpened(placeholder);
+                    $(".floater").removeClass("active");
+                    floater.addClass("active");
                 }
             }
         });
@@ -130,6 +140,9 @@ define(['js/util/metadata/Attributes',
                     height: ""
                 });
             }
+        }).on("click",function(){
+            $(".floater").removeClass("active");
+            $(this).addClass("active");
         });
     });
 });

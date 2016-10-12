@@ -149,10 +149,15 @@ Ext.define('PumaMain.controller.Render', {
                 cls: 'custom-combo-list',
             },
             renderTo: 'app-toolbar-theme'
-        })
+        });
+
+        var timelineWidth = 150;
+        if (Config.toggles.isMelodies){
+            timelineWidth = 270;
+        }
         Ext.widget('discretetimeline',{
             renderTo: 'app-toolbar-year',
-            width: 148,
+            width: timelineWidth,
             store: Ext.StoreMgr.lookup('year4sel'),
             //forceSelection: true,
             itemId: 'selyear',
@@ -214,8 +219,8 @@ Ext.define('PumaMain.controller.Render', {
                 tooltipType: 'title',
                 //icon: 'images/icons/help-context.png',
                 enableToggle: true,
-                width: 30,
-                height: 30,
+                width: 25,
+                height: 25,
                 listeners: {
                     toggle: {
                         fn: function (btn, active) {
@@ -235,8 +240,8 @@ Ext.define('PumaMain.controller.Render', {
                 tooltip: 'PUMA WebTool help',
                 tooltipType: 'title',
                 //icon: 'images/icons/help-web.png',
-                width: 30,
-                height: 30,
+                width: 25,
+                height: 25,
                 href: 'help/PUMA webtool help.html'
             })
         }

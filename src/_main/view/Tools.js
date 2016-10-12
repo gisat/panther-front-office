@@ -123,6 +123,7 @@ Ext.define('PumaMain.view.Tools', {
             xtype: 'treepanel',
             title: Config.basicTexts.areasSectionName,
             itemId: 'areatree',
+            cls: 'areaTreeSelection',
             helpId: 'TreeofanalyticalunitsAREAS',
             collapsed: true,
             store: Ext.StoreMgr.lookup('area'),
@@ -168,7 +169,6 @@ Ext.define('PumaMain.view.Tools', {
         }
 
         this.callParent();
-        
     }
 })
 

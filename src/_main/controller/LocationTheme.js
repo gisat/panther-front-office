@@ -99,6 +99,13 @@ Ext.define('PumaMain.controller.LocationTheme', {
         var locStore = Ext.StoreMgr.lookup('location4init');
         locStore.clearFilter(true);
         var locCount = locStore.query('dataset',val).getCount();
+
+        var locationsData = locStore.query('dataset',val);
+        ThemeYearConfParams.allPlaces = [];
+        locationsData.items.forEach(function(item){
+            ThemeYearConfParams.allPlaces.push(item.raw.id);
+        });
+
         locStore.filter([
             function(rec) {
                 return rec.get('id') == 'custom' || rec.get('dataset')==val || (!rec.get('dataset') && locCount>1);
@@ -550,8 +557,10 @@ Ext.define('PumaMain.controller.LocationTheme', {
             currentLevel.push(node);
         }
         areaRoot.removeAll();
-        areaRoot.appendChild(data);
-        
+        //areaRoot.appendChild(data);
+        if (!OneLevelAreas.hasOneLevel){
+            areaRoot.appendChild(data);
+        }
     },
     
     refreshAreas: function(add,remove) {
@@ -808,21 +817,21 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 sortIndex: 0,
                 checked: false,
                 leaf: true
-            }
+            };
             selectedLayerFilledNode = {
                 type: 'selectedareasfilled',
                 name: 'Selected areas filled',
                 sortIndex: 0,
                 checked: true,
                 leaf: true
-            }
+            };
             areaLayerNode = {
                 type: 'areaoutlines',
                 sortIndex: 1,
                 name: 'Area outlines',
                 checked: true,
                 leaf: true
-            }
+            };
             systemNode.appendChild([selectedLayerNode, selectedLayerFilledNode, areaLayerNode]);
         }
 
@@ -892,7 +901,28 @@ Ext.define('PumaMain.controller.LocationTheme', {
     },
     onThemeLocationConfReceived: function(response) {
         var conf = JSON.parse(response.responseText).data;
-
+        if (conf.hasOwnProperty("auRefMap")){
+            var counter = 1;
+            for (var a in conf.auRefMap){
+                var auLevels = Object.keys(conf.auRefMap[a]).length;
+                if (auLevels > 1){
+                    counter++;
+                }
+                else {
+                    ThemeYearConfParams.auCurrentAt = Object.keys(conf.auRefMap[a])[0];
+                }
+            }
+            if(!Config.toggles.isUrbis) {
+                OneLevelAreas.hasOneLevel = counter == 1;
+            } else {
+                OneLevelAreas.hasOneLevel = false;
+            }
+            if (OneLevelAreas.hasOneLevel){
+                $('.areaTreeSelection').hide();
+            } else {
+                $('.areaTreeSelection').show();
+            }
+        }
         if (response.request.options.originatingCnt.itemId == 'selectfilter') {
             this.getController('Select').selectInternal(conf.areas, false, false, 1);
             return;
@@ -925,6 +955,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
                
                 this.initialAdd = true;
             }
+            OneLevelAreas.data = conf.areas;
+            OneLevelAreas.map = this.getController('Map').getOlMap();
         }
 
         if (conf.add || conf.remove) {
@@ -1054,7 +1086,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 						var attrSetNode = topicNode.lastChild;
 
 						attrStore.data.each(function(attribute){ // iterate attributes (objects)
-							if( Ext.Array.contains(attrSetAttributes, attribute.get('_id')) ){
+							if( Ext.Array.contains(attrSetAttributes, attribute.get('_id')) && attribute.data.type == "numeric"){
 								attrSetNode.appendChild(Ext.create('Puma.model.MappedChartAttribute',{
 									attr: attribute.get('_id'),
 									as: attrSet.get('_id'),

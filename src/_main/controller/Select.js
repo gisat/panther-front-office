@@ -3,6 +3,7 @@ Ext.define('PumaMain.controller.Select', {
     views: [],
     requires: [],
     init: function() {
+        Observer.addListener("selectInternal",this.selectInternal.bind(this));
         this.control({
             '#hoverbtn': {
                 toggle: this.onToggleHover
@@ -99,6 +100,9 @@ Ext.define('PumaMain.controller.Select', {
     },
     
     selectInternal: function(areas,add,hover,delay) {
+        if (OneLevelAreas.hasOneLevel){
+            areas = SelectedAreasExchange.data.data;
+        }
         if (!hover) {
             var sel = this.selMap[this.actualColor];
         }
@@ -140,9 +144,12 @@ Ext.define('PumaMain.controller.Select', {
         }
         
         this.colorMap = this.prepareColorMap();
-        
-        
-        
+
+        if (OneLevelAreas.hasOneLevel){
+            this.getController('Chart').reconfigure('immediate');
+            return;
+        }
+
         this.getController('Area').colourTree(this.colorMap); 
         this.getController('Chart').reconfigure('immediate'); 
         
