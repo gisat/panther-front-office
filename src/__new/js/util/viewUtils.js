@@ -8,6 +8,9 @@ define([], function () {
      */
     function numberFormat (value, separateThousands, decimalDigits) {
         if (value < 1000){
+            if (Config.toggles.isMelodies && Number(ThemeYearConfParams.dataset) == 57){
+                return parseFloat(value).toFixed(0);
+            }
             return parseFloat(value).toFixed(decimalDigits);
         }
 
