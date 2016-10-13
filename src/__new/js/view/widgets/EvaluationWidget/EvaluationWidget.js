@@ -92,6 +92,7 @@ define([
      */
     EvaluationWidget.prototype.rebuild = function(){
         var self = this;
+        this._widgetSelector.find(".floater-overlay").css("display","block");
         this._attributesMetadata.getData().then(function(result){
             self._attributes = [];
             var attrForRequest = [];
@@ -160,6 +161,7 @@ define([
     EvaluationWidget.prototype.noDataEcho = function(){
         var info = '<p>There are no linked attribute sets to analytical units probably! Please, go to the BackOffice and link the data properly.</p>';
         this._widgetBodySelector.html("").append(info);
+        this._widgetSelector.find(".floater-overlay").css("display","none");
     };
 
 	/**
@@ -353,12 +355,13 @@ define([
 
     EvaluationWidget.prototype.amount = function() {
         var self = this;
-
+        this._widgetSelector.find(".floater-overlay").css("display","block");
         setTimeout(function(){
             self._filter.amount(self._categories).then(function(result){
                 var amountOfAreas = result;
                 self.addSelectionConfirmListener(amountOfAreas);
                 self.rebuildHistograms(self._inputs.sliders);
+                self._widgetSelector.find(".floater-overlay").css("display","none");
             });
         },100);
     };
