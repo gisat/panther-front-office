@@ -85,5 +85,49 @@ define([
 		});
 	};
 
+	Map.prototype.addOnClickListener = function(){
+		var self = this;
+		var olKlass = OpenLayers.Class(OpenLayers.Control, {
+			defaultHandlerOptions: {
+				'single': true,
+				'double': false,
+				'pixelTolerance': 0,
+				'stopSingle': false,
+				'stopDouble': false
+			},
+
+			initialize: function(options) {
+				this.handlerOptions = OpenLayers.Util.extend(
+					{}, this.defaultHandlerOptions
+				);
+				OpenLayers.Control.prototype.initialize.apply(
+					this, arguments
+				);
+				this.handler = new OpenLayers.Handler.Click(
+					this, {
+						'click': this.trigger
+					}, this.handlerOptions
+				);
+			},
+
+			trigger: function(e) {
+				console.log(e);
+				console.log(e.feature);
+			}
+
+		});
+
+		this._clickControl = new olKlass();
+		this._map.addControl(this._clickControl);
+	};
+
+	Map.prototype.onClickActivate = function(){
+		this._clickControl.activate();
+	};
+
+	Map.prototype.onClickDeactivate = function(){
+		this._clickControl.deactivate();	
+	};
+
 	return Map;
 });

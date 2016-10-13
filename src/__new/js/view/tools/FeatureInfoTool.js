@@ -1,12 +1,14 @@
 define(['../../error/ArgumentError',
 	'../../error/NotFoundError',
 	'../../util/Logger',
+	'../../view/map/Map',
 	'../View',
 
 	'jquery'
 ], function (ArgumentError,
 			 NotFoundError,
 			 Logger,
+			 Map,
 			 View,
 
 			 $) {
@@ -33,6 +35,10 @@ define(['../../error/ArgumentError',
 
 	FeatureInfoTool.prototype.build = function() {
 		this._target.append('<div id="feature-info" class="widget-button tool">Info</div>');
+		this.rebuild();
+	};
+
+	FeatureInfoTool.prototype.rebuild = function() {
 		this.addOnClickListener();
 	};
 
@@ -44,15 +50,18 @@ define(['../../error/ArgumentError',
 			button.toggleClass("active");
 
 			if (self._active){
-				Observer.notify("featureInfo");
-				self.activate();
+				if (!self._map){
+					Observer.notify("featureInfo");
+					self._map = new Map({
+						map: FeatureInfo.map
+					});
+					self._map.addOnClickListener();
+				}
+				self._map.onClickActivate();
+			} else {
+				self._map.onClickDeactivate();
 			}
 		});
-	};
-
-	FeatureInfoTool.prototype.activate = function(){
-		this._map = FeatureInfo.map;
-		console.log(this._map);
 	};
 
 	return FeatureInfoTool;
