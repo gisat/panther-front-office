@@ -161,15 +161,22 @@
 }
 
 #tools-container .tool {
+    background: rgba(255,255,255,.2);
+    border: 1px solid rgba(255,255,255,.3);
     border-radius: .1rem;
+    color: #ddd;
     font-size: .7rem;
     height: 1.5rem;
     line-height: 1.5rem;
     padding: 0;
-    width: 3rem;
     margin: .5rem .3rem;
+    text-transform: none;
+    width: 3rem;
 }
-
-#feature-info.active {
-    background: red;
+#tools-container .tool:hover {
+    background: rgba(255,255,255,.3);
+}
+#tools-container .tool.active {
+    background: rgba(255,255,255,.8);
+    color: rgb(67, 66, 84);
 }
