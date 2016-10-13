@@ -31,6 +31,9 @@ Ext.define('PumaMain.controller.Login',{
         saveView.setVisible(isUser);
         manageView.setVisible(isUser);
         shareView.setVisible(isUser);
+        Ext.StoreMgr.lookup('scope').load();
+        Ext.StoreMgr.lookup('dataset').load();
+        Ext.StoreMgr.lookup('place').load();
         Ext.StoreMgr.lookup('dataview').load();
         
     }
