@@ -87,46 +87,66 @@ define([
 
 	Map.prototype.addOnClickListener = function(){
 		var self = this;
-		var olKlass = OpenLayers.Class(OpenLayers.Control, {
-			defaultHandlerOptions: {
-				'single': true,
-				'double': false,
-				'pixelTolerance': 0,
-				'stopSingle': false,
-				'stopDouble': false
-			},
+		var layers = this.getBaseLayersIds();
+		this._map.selectInMapLayer.params['LAYERS'] = layers.join(',');
+		if (!this._newInfoControl){
+			this._newInfoControl = new OpenLayers.Control.WMSGetFeatureInfo({
+				url: Config.url+'api/proxy/wms',
+				vendorParams: {
+					propertyName: 'gid'
+				},
+				layers: [this._map.selectInMapLayer]
+			});
+			this._newInfoControl.events.register("getfeatureinfo", this, this.getInfoAboutArea);
+			this._map.addControl(this._newInfoControl);
+		}
+	};
 
-			initialize: function(options) {
-				this.handlerOptions = OpenLayers.Util.extend(
-					{}, this.defaultHandlerOptions
-				);
-				OpenLayers.Control.prototype.initialize.apply(
-					this, arguments
-				);
-				this.handler = new OpenLayers.Handler.Click(
-					this, {
-						'click': this.trigger
-					}, this.handlerOptions
-				);
-			},
-
-			trigger: function(e) {
-				console.log(e);
-				console.log(e.feature);
-			}
-
-		});
-
-		this._clickControl = new olKlass();
-		this._map.addControl(this._clickControl);
+	Map.prototype.getInfoAboutArea = function(e){
+		var allFeatures = JSON.parse(e.text).features;
+		var featureGid = allFeatures[allFeatures.length - 1].properties.gid;
+		console.log(featureGid);
 	};
 
 	Map.prototype.onClickActivate = function(){
-		this._clickControl.activate();
+		this._newInfoControl.activate();
 	};
 
 	Map.prototype.onClickDeactivate = function(){
-		this._clickControl.deactivate();	
+		this._newInfoControl.deactivate();
+	};
+
+	Map.prototype.getBaseLayersIds = function(){
+		var auRefMap = FeatureInfo.auRefMap;
+		var locations;
+		if (ThemeYearConfParams.place.length > 0){
+			locations = [Number(ThemeYearConfParams.place)];
+		} else {
+			locations = ThemeYearConfParams.allPlaces;
+		}
+		var year = JSON.parse(ThemeYearConfParams.years)[0];
+		var areaTemplate = ThemeYearConfParams.auCurrentAt;
+
+		var layers = [];
+		for (var place in auRefMap){
+			locations.forEach(function(location){
+				if (auRefMap.hasOwnProperty(place) && place == location){
+					for (var aTpl in auRefMap[place]){
+						if (auRefMap[place].hasOwnProperty(aTpl) && aTpl == areaTemplate){
+							for (var currentYear in auRefMap[place][aTpl]){
+								if (auRefMap[place][aTpl].hasOwnProperty(currentYear) && currentYear == year){
+									var unit = auRefMap[place][aTpl][currentYear];
+									if (unit.hasOwnProperty("_id")){
+										layers.push(Config.geoserver2Workspace + ':layer_'+unit._id);
+									}
+								}
+							}
+						}
+					}
+				}
+			});
+		}
+		return layers;
 	};
 
 	return Map;

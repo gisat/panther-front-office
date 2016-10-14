@@ -791,7 +791,7 @@ Ext.define('PumaMain.controller.Map', {
 		//this.drawPolygonControl.activate();
 		for (var i in infoControls) { 
 			infoControls[i].events.register("getfeatureinfo", this, this.onFeatureSelected);
-			map.addControl(infoControls[i]); 
+			map.addControl(infoControls[i]);
 		}
 		
 		map.featureInfoControl.events.register('beforegetfeatureinfo',this,function() {

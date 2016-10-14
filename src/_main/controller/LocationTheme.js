@@ -902,6 +902,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
     onThemeLocationConfReceived: function(response) {
         var conf = JSON.parse(response.responseText).data;
         if (conf.hasOwnProperty("auRefMap")){
+            FeatureInfo.auRefMap = conf.auRefMap;
             var counter = 1;
             for (var a in conf.auRefMap){
                 var auLevels = Object.keys(conf.auRefMap[a]).length;

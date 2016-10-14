@@ -57,5 +57,6 @@ var OneLevelAreas = {
  * @type {{active: boolean, data: {}, map: {}}}
  */
 var FeatureInfo = {
+	auRefMap: {},
 	map: {}
 };
