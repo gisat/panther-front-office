@@ -12,10 +12,14 @@ define([], function () {
 
     /**
      * It allows to add listener for events emitted by this View.
+     * @param name {string} Name of the listener
      * @param listener {Function} Listener to be added to the pool.
      */
-    View.prototype.addListener = function(listener) {
-        this._listeners.push(listener);
+    View.prototype.addListener = function(name, listener) {
+        this._listeners.push({
+            listener: listener,
+            name: name
+        });
     };
 
     /**
@@ -24,7 +28,9 @@ define([], function () {
      */
     View.prototype.notify = function(event) {
         this._listeners.forEach(function(listener){
-            listener(event);
+            if (event == listener.name){
+                listener(event);
+            }
         });
     };
 

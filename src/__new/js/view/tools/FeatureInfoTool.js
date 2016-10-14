@@ -4,14 +4,19 @@ define(['../../error/ArgumentError',
 	'../../view/map/Map',
 	'../View',
 
-	'jquery'
+	'jquery',
+	'string',
+	'text!./FeatureInfoTool.html',
+	'css!./FeatureInfoTool'
 ], function (ArgumentError,
 			 NotFoundError,
 			 Logger,
 			 Map,
 			 View,
 
-			 $) {
+			 $,
+			 S,
+             htmlContent) {
 	"use strict";
 
 	var FeatureInfoTool = function (options) {
@@ -34,7 +39,8 @@ define(['../../error/ArgumentError',
 	FeatureInfoTool.prototype = Object.create(View.prototype);
 
 	FeatureInfoTool.prototype.build = function() {
-		this._target.append('<div id="feature-info" class="widget-button tool">Info</div>');
+		var html = S(htmlContent).template().toString();
+		this._target.append(html);
 		this.rebuild();
 	};
 

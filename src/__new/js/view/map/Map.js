@@ -104,8 +104,22 @@ define([
 
 	Map.prototype.getInfoAboutArea = function(e){
 		var allFeatures = JSON.parse(e.text).features;
-		var featureGid = allFeatures[allFeatures.length - 1].properties.gid;
-		console.log(featureGid);
+		if (allFeatures.length > 0){
+			$("#feature-info-window").show(200);
+			var featureGid = allFeatures[allFeatures.length - 1].properties.gid;
+			this.rebuildInfoWindow(featureGid, e.xy);
+		}
+		else {
+			$("#feature-info-window").hide(200);
+		}
+	};
+
+	Map.prototype.rebuildInfoWindow = function(gid, coordinates){
+		var mapOffsetTop = $('#app-map').offset().top;
+		$("#feature-info-window").offset({
+			top: coordinates.y + mapOffsetTop + 5,
+			left: coordinates.x + 5
+		});
 	};
 
 	Map.prototype.onClickActivate = function(){
@@ -114,6 +128,7 @@ define([
 
 	Map.prototype.onClickDeactivate = function(){
 		this._newInfoControl.deactivate();
+		$("#feature-info-window").hide(200);
 	};
 
 	Map.prototype.getBaseLayersIds = function(){

@@ -3,7 +3,6 @@ define(['../../util/Remote',
 		'jquery'
 ],function(Remote,
 		   Stores,
-
 		   $){
 
 	/**
@@ -21,7 +20,6 @@ define(['../../util/Remote',
 	 */
 	Attributes.prototype.getData = function(){
 		var self = this;
-
 		if (ThemeYearConfParams.datasetChanged || ThemeYearConfParams.themeChanged || ThemeYearConfParams.placeChanged){
 			return new Remote({
 				method: "POST",

@@ -153,30 +153,33 @@
 }
 
 /** new tools **/
-#tools-container {
+.tools-buttons-container {
     height: 6.5rem;
     position: absolute;
     right: 8rem;
     width: 4rem;
 }
 
-#tools-container .tool {
+.tools-buttons-container .tool {
     background: rgba(255,255,255,.2);
     border: 1px solid rgba(255,255,255,.3);
     border-radius: .1rem;
     color: #ddd;
     font-size: .7rem;
+    font-weight: 700;
     height: 1.5rem;
     line-height: 1.5rem;
     padding: 0;
     margin: .5rem .3rem;
+    text-align: center;
     text-transform: none;
     width: 3rem;
 }
-#tools-container .tool:hover {
+.tools-buttons-container .tool:hover {
     background: rgba(255,255,255,.3);
+    cursor: pointer;
 }
-#tools-container .tool.active {
+.tools-buttons-container .tool.active {
     background: rgba(255,255,255,.8);
     color: rgb(67, 66, 84);
 }
