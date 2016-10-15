@@ -15,14 +15,14 @@ define([
 		this._map = options.map;
 		this._tools = options.tools;
 		this._widgets = options.widgets;
-
 		Observer.addListener("rebuild", this.rebuild.bind(this));
 	};
-	
-	FrontOffice.prototype.rebuild = function(){
-		// get attributes current for given configuration
-		var self = this;
 
+	/**
+	 * Rebuild all components 
+	 */
+	FrontOffice.prototype.rebuild = function(){
+		var self = this;
 		this.getAttributesMetadata().then(function(attributes){
 			self._tools.forEach(function(tool){
 				tool.rebuild(attributes, self._map);
@@ -34,14 +34,14 @@ define([
 	};
 
 	/**
-	 * Get list of attributes
+	 * Get list of all attributes for given configuration
 	 * @returns {*|Promise}
 	 */
 	FrontOffice.prototype.getAttributesMetadata = function(){
 		return this._attributesMetadata.getData().then(function(result){
 			var attributes = [];
-			result.forEach(function(attrSet){
-				attrSet.forEach(function(attribute){
+			result.forEach(function(attributeSet){
+				attributeSet.forEach(function(attribute){
 					attributes.push(attribute);
 				});
 			});
@@ -49,6 +49,9 @@ define([
 		});
 	};
 
+	/**
+	 * Load metadata from server
+	 */
 	FrontOffice.prototype.loadData = function(){
 		Stores.retrieve('attribute').all();
 		Stores.retrieve('attributeSet').all();

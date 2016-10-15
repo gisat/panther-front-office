@@ -71,6 +71,7 @@ define(['js/util/metadata/Attributes',
         var attributesMetadata = new Attributes();
         var filter = new Filter();
         
+        // create tools and widgets according to configuration
 		if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
             widgets.push(new EvaluationWidget({
                 filter: filter,
@@ -108,6 +109,7 @@ define(['js/util/metadata/Attributes',
             }));
         }
 
+        // build app
         new FrontOffice({
             attributesMetadata: attributesMetadata,
             tools: tools,
