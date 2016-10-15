@@ -16,8 +16,16 @@ define([
 	 * @constructor
 	 */
 	var Map = function (options) {
-		this._map = options.map;
+		if (options){
+			this._map = options.map;
+		}
 		this._layers = [];
+	};
+	
+	Map.prototype.rebuild = function(map){
+		if (map){
+			this._map = map;
+		}
 	};
 
 	/**
@@ -120,6 +128,7 @@ define([
 			top: coordinates.y + mapOffsetTop + 5,
 			left: coordinates.x + 5
 		});
+		$("#feature-info-window .feature-info-window-header").html(gid);
 	};
 
 	Map.prototype.onClickActivate = function(){

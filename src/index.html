@@ -63,6 +63,7 @@
 					return createScript('appde.js');
 				}).then(function(){
 					if ((Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool) ||
+							(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo) ||
 							(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies)){
 						return createScript('__new/lib/require.js', '__new/app.js');
 					}
@@ -88,6 +89,7 @@
 					return createScript('appde.min.js');
 				}).then(function(){
 					if ((Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool) ||
+							(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo) ||
 							(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies)){
 						return createScript('__new/lib/require.js', '__new/app.js');
 					}
@@ -109,7 +111,9 @@
 			}
 			// load project styles depending on the toggles
 			if((Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool) ||
-					(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies)){
+					(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo) ||
+					(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies))
+			{
 				createLink("__new/styles/jquery-ui.css");
 				createLink("__new/styles/style.css");
 			}

@@ -35,11 +35,12 @@ requirejs.config({
 define(['js/util/metadata/Attributes',
         'js/view/widgets/CityWidget/CityWidget',
         'js/view/widgets/EvaluationWidget/EvaluationWidget',
-        'js/view/tools/FeatureInfoTool',
+        'js/view/tools/FeatureInfoTool/FeatureInfoTool',
         'js/util/Filter',
         'js/util/Floater',
 		'./FrontOffice',
         'js/util/Logger',
+        'js/view/map/Map',
         'js/util/Placeholder',
 		'js/util/Remote',
 		'js/stores/Stores',
@@ -56,6 +57,7 @@ define(['js/util/metadata/Attributes',
              Floater,
 			 FrontOffice,
              Logger,
+             Map,
              Placeholder,
 			 Remote,
 			 Stores,
@@ -63,9 +65,9 @@ define(['js/util/metadata/Attributes',
              S,
              $){
 
-	new FrontOffice();
-
     $(document).ready(function() {
+        var tools = [];
+        
 		if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
             new EvaluationWidget({
                 attributesMetadata: new Attributes(),
@@ -77,10 +79,10 @@ define(['js/util/metadata/Attributes',
         }
 
         if(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo){
-            new FeatureInfoTool({
+            tools.push(new FeatureInfoTool({
                 elementId: 'feature-info-tool',
                 targetId: 'tools-container'
-            });
+            }));
         }
 
         if (Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies){
@@ -103,6 +105,12 @@ define(['js/util/metadata/Attributes',
                 }]
             });
         }
+
+        new FrontOffice({
+            attributesMetadata: new Attributes(),
+            tools: tools,
+            map: new Map()
+        });
 
         var widgets = $("#widget-container");
         widgets.on("click", ".placeholder", function(e){

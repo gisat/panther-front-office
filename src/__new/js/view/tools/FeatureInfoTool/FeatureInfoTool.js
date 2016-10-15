@@ -1,8 +1,8 @@
-define(['../../error/ArgumentError',
-	'../../error/NotFoundError',
-	'../../util/Logger',
-	'../../view/map/Map',
-	'../View',
+define(['../../../error/ArgumentError',
+	'../../../error/NotFoundError',
+	'../../../util/Logger',
+	'../../../view/map/Map',
+	'../../View',
 
 	'jquery',
 	'string',
@@ -41,14 +41,13 @@ define(['../../error/ArgumentError',
 	FeatureInfoTool.prototype.build = function() {
 		var html = S(htmlContent).template().toString();
 		this._target.append(html);
-		this.rebuild();
 	};
 
-	FeatureInfoTool.prototype.rebuild = function() {
-		this.addOnClickListener();
+	FeatureInfoTool.prototype.rebuild = function(attributes, map) {
+		this.addOnClickListener(map);
 	};
 
-	FeatureInfoTool.prototype.addOnClickListener = function(){
+	FeatureInfoTool.prototype.addOnClickListener = function(map){
 		var self = this;
 		$('body').off("click.featureInfo").on("click.featureInfo", '#feature-info', function () {
 			var button = $(this);
@@ -58,9 +57,8 @@ define(['../../error/ArgumentError',
 			if (self._active){
 				if (!self._map){
 					Observer.notify("featureInfo");
-					self._map = new Map({
-						map: FeatureInfo.map
-					});
+					map.rebuild(FeatureInfo.map);
+					self._map = map;
 					self._map.addOnClickListener();
 				}
 				self._map.onClickActivate();
