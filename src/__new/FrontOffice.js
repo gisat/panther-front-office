@@ -10,11 +10,11 @@ define([
 	 * @constructor
 	 */
 	var FrontOffice = function(options) {
-		//this.widgets = options.widgets;
 		this.loadData();
 		this._attributesMetadata = options.attributesMetadata;
 		this._map = options.map;
 		this._tools = options.tools;
+		this._widgets = options.widgets;
 
 		Observer.addListener("rebuild", this.rebuild.bind(this));
 	};
@@ -22,13 +22,14 @@ define([
 	FrontOffice.prototype.rebuild = function(){
 		// get attributes current for given configuration
 		var self = this;
-		this._map.rebuild(FeatureInfo.map);
 
 		this.getAttributesMetadata().then(function(attributes){
 			self._tools.forEach(function(tool){
 				tool.rebuild(attributes, self._map);
 			});
-			// rebuild widgets with attributes (and options?)
+			self._widgets.forEach(function(widget){
+				widget.rebuild(attributes, self._map);
+			});
 		});
 	};
 

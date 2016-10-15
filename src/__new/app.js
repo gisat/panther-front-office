@@ -67,15 +67,17 @@ define(['js/util/metadata/Attributes',
 
     $(document).ready(function() {
         var tools = [];
+        var widgets = [];
+        var attributesMetadata = new Attributes();
+        var filter = new Filter();
         
 		if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
-            new EvaluationWidget({
-                attributesMetadata: new Attributes(),
-                filter: new Filter(),
+            widgets.push(new EvaluationWidget({
+                filter: filter,
                 elementId: 'evaluation-widget',
                 name: 'Evaluation Tool',
                 targetId: 'widget-container'
-            });
+            }));
         }
 
         if(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo){
@@ -86,7 +88,7 @@ define(['js/util/metadata/Attributes',
         }
 
         if (Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies){
-            new CityWidget({
+            widgets.push(new CityWidget({
                 elementId: 'city-selection',
                 name: 'UrbanDynamic Tool',
                 targetId: 'widget-container',
@@ -103,17 +105,18 @@ define(['js/util/metadata/Attributes',
                     name: 'Select end',
                     options: ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016']
                 }]
-            });
+            }));
         }
 
         new FrontOffice({
-            attributesMetadata: new Attributes(),
+            attributesMetadata: attributesMetadata,
             tools: tools,
+            widgets: widgets,
             map: new Map()
         });
 
-        var widgets = $("#widget-container");
-        widgets.on("click", ".placeholder", function(e){
+        var widgetElement = $("#widget-container");
+        widgetElement.on("click", ".placeholder", function(e){
             if (!(e.which > 1 || e.shiftKey || e.altKey || e.metaKey || e.ctrlKey)) {
                 var placeholderSelector = "#" + $(this).attr("id");
                 var floaterSelector = "#" + $(this).attr("id").replace("placeholder", "floater");
@@ -131,7 +134,7 @@ define(['js/util/metadata/Attributes',
                 }
             }
         });
-        widgets.on("click", ".widget-minimise", function(e){
+        widgetElement.on("click", ".widget-minimise", function(e){
             if (!(e.which > 1 || e.shiftKey || e.altKey || e.metaKey || e.ctrlKey)) {
                 var floater = $(this).parent().parent().parent();
                 var placeholderSelector = "#" + floater.attr("id").replace("floater", "placeholder");

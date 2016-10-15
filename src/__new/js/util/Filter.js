@@ -138,5 +138,35 @@ define(['./Remote',
 			});
 	};
 
+	Filter.prototype.statistics = function(attributes){
+		var locations;
+		if (ThemeYearConfParams.place.length > 0){
+			locations = [Number(ThemeYearConfParams.place)];
+		} else {
+			locations = ThemeYearConfParams.allPlaces;
+		}
+		var periods = JSON.parse(ThemeYearConfParams.years);
+
+		var dist = {
+			type: 'normal',
+			classes: 20
+		};
+
+		return $.get( Config.url + "rest/filter/attribute/statistics", {
+				areaTemplate: ThemeYearConfParams.auCurrentAt,
+				periods: periods,
+				places: locations,
+				attributes: attributes,
+				distribution: dist
+			})
+			.then(function(response) {
+				if (response.hasOwnProperty("attributes")){
+					return response.attributes;
+				} else {
+					return [];
+				}
+			});
+	};
+
 	return Filter;
 });
