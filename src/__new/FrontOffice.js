@@ -1,10 +1,12 @@
 define([
 	'js/stores/Stores',
 	'js/stores/gisat/Attributes',
-	'js/stores/gisat/AttributeSets'
+	'js/stores/gisat/AttributeSets',
+	'underscore'
 ], function(Stores,
 			Attributes,
-			AttributeSets){
+			AttributeSets,
+			_){
 	/**
 	 * Constructor for assembling current application.
 	 * @constructor
@@ -39,10 +41,13 @@ define([
 	 */
 	FrontOffice.prototype.getAttributesMetadata = function(){
 		return this._attributesMetadata.getData().then(function(result){
+			debugger;
 			var attributes = [];
 			result.forEach(function(attributeSet){
 				attributeSet.forEach(function(attribute){
-					attributes.push(attribute);
+					if (!_.isEmpty(attribute)){
+						attributes.push(attribute);
+					}
 				});
 			});
 			return attributes;
