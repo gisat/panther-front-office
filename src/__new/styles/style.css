@@ -1,13 +1,10 @@
 /* === Building blocks === */
-
 .intro .widgets {
     display: none;
 }
-
 .widgets {
     display: block;
 }
-
 .widgets p, .widgets a, .widgets span, .widgets label {
     color: #666;
     font-size: .75rem;
@@ -38,7 +35,7 @@
     display: inline-block;
     color: white;
     font-weight: 700;
-    padding: .4rem;
+    padding: .4rem .2rem;
     text-align: center;
     text-transform: uppercase;
     transition: background .3s ease-out;
@@ -125,7 +122,7 @@
 .tool-window-body {
     background: rgb(250,250,250);
     border: 1px solid rgb(230,230,230);
-    height: calc(100% - 4.5rem);
+    height: calc(100% - 5rem);
     padding: .2rem .3rem;
     overflow: auto;
 }
@@ -153,4 +150,36 @@
     height: 2.5rem;
     padding: .5rem 0;
     position: relative;
+}
+
+/** new tools **/
+.tools-buttons-container {
+    height: 6.5rem;
+    position: absolute;
+    right: 8rem;
+    width: 4rem;
+}
+
+.tools-buttons-container .tool {
+    background: rgba(255,255,255,.2);
+    border: 1px solid rgba(255,255,255,.3);
+    border-radius: .1rem;
+    color: #ddd;
+    font-size: .7rem;
+    font-weight: 700;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    padding: 0;
+    margin: .5rem .3rem;
+    text-align: center;
+    text-transform: none;
+    width: 3rem;
+}
+.tools-buttons-container .tool:hover {
+    background: rgba(255,255,255,.3);
+    cursor: pointer;
+}
+.tools-buttons-container .tool.active {
+    background: rgba(255,255,255,.8);
+    color: rgb(67, 66, 84);
 }

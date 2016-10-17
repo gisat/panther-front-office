@@ -3,6 +3,9 @@ Ext.define('PumaMain.controller.Map', {
 	views: [],
 	requires: [],
 	init: function() {
+		// URBIS change
+		Observer.addListener("featureInfo",this.newFeatureInfo.bind(this));
+
 		this.control({
 			'#map': {
 				afterrender: this.afterRender,
@@ -39,7 +42,12 @@ Ext.define('PumaMain.controller.Map', {
 			}
 		})
 	},
-		
+
+	// URBIS change
+	newFeatureInfo: function(){
+		FeatureInfo.map = this.getOlMap();
+	},
+
 	onExportMapUrl: function(btn) {
 		var map1 = Ext.ComponentQuery.query('#map')[0].map;
 		var map2 = Ext.ComponentQuery.query('#map2')[0].map;
@@ -783,7 +791,7 @@ Ext.define('PumaMain.controller.Map', {
 		//this.drawPolygonControl.activate();
 		for (var i in infoControls) { 
 			infoControls[i].events.register("getfeatureinfo", this, this.onFeatureSelected);
-			map.addControl(infoControls[i]); 
+			map.addControl(infoControls[i]);
 		}
 		
 		map.featureInfoControl.events.register('beforegetfeatureinfo',this,function() {
@@ -813,6 +821,8 @@ Ext.define('PumaMain.controller.Map', {
 			bounds.transform(proj, map.getProjectionObject());
 			map.zoomToExtent(bounds);
 		}
+		// URBIS change
+		FeatureInfo.map = map;
 	},
 
 	onMeasurePartial: function(evt) {

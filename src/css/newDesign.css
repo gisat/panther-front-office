@@ -310,12 +310,20 @@
 }
 
 /* dataview field */
+.newDesign #toolbar .dataview {
+    top: 8px;
+    width: 120px;
+}
+
 .newDesign #app-toolbar-visualization-manage .x-btn-icon, .newDesign #app-toolbar-manage .x-btn-icon {
     background: url(../images/new/settings.png) no-repeat 50% 50% !important;
     width: 100%;
     height: 100%;
     left: 0;
     top: 0;
+}
+.newDesign #app-toolbar-save .x-btn-icon, .newDesign #app-toolbar-share .x-btn-icon {
+    left: 3px;
 }
 .newDesign #app-toolbar-save,
 .newDesign #app-toolbar-manage,
@@ -324,6 +332,20 @@
 .newDesign #app-toolbar-visualization-manage {
     height: 23px;
     line-height: 23px;
+    width: 22px;
+}
+.newDesign #app-toolbar-visualization-save {
+    width: 50px;
+}
+.newDesign #app-toolbar-save {
+    margin-top: 8px;
+    width: 90px;
+}
+.newDesign #app-toolbar-manage {
+    margin-top: 8px;
+}
+.newDesign #app-toolbar-share {
+    width: 120px;
 }
 .newDesign #app-toolbar-save .x-btn,
 .newDesign #app-toolbar-manage .x-btn,
@@ -606,7 +628,7 @@
 .newDesign #app-tools-actions .x-btn:hover {
     background: #ddd;
 }
-/* top tools buttons */
+/* top widgetTools buttons */
 .newDesign .btn-map-select .x-btn-icon {
     background-image: url('../images/new/map-select.png') !important;
     width: 18px;
@@ -659,7 +681,7 @@
     height: 20px;
 }
 
-/* map tools buttons */
+/* map widgetTools buttons */
 .newDesign .x-btn.btn-map-tool {
     background: #fff !important;
 }
@@ -808,7 +830,7 @@
 }
 
 
-@media screen and (max-width: 1240px){
+@media screen and (max-width: 1260px){
     .newDesign #toolbar > .label {
         width: 60px;
         padding-left: 65px;
@@ -816,7 +838,7 @@
     }
 }
 
-@media screen and (max-width: 1040px){
+@media screen and (max-width: 1075px){
     .newDesign #toolbar > .label {
         display: none;
     }

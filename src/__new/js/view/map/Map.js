@@ -16,8 +16,16 @@ define([
 	 * @constructor
 	 */
 	var Map = function (options) {
-		this._map = options.map;
+		if (options){
+			this._map = options.map;
+		}
 		this._layers = [];
+	};
+	
+	Map.prototype.rebuild = function(map){
+		if (map){
+			this._map = map;
+		}
 	};
 
 	/**
@@ -83,6 +91,86 @@ define([
 			self._map.removeLayer(layer);
 			self._layers.pop();
 		});
+	};
+
+	Map.prototype.addOnClickListener = function(){
+		var self = this;
+		var layers = this.getBaseLayersIds();
+		this._map.selectInMapLayer.params['LAYERS'] = layers.join(',');
+		if (!this._newInfoControl){
+			this._newInfoControl = new OpenLayers.Control.WMSGetFeatureInfo({
+				url: Config.url+'api/proxy/wms',
+				vendorParams: {
+					propertyName: 'gid'
+				},
+				layers: [this._map.selectInMapLayer]
+			});
+			this._newInfoControl.events.register("getfeatureinfo", this, this.getInfoAboutArea);
+			this._map.addControl(this._newInfoControl);
+		}
+	};
+
+	Map.prototype.getInfoAboutArea = function(e){
+		var allFeatures = JSON.parse(e.text).features;
+		if (allFeatures.length > 0){
+			$("#feature-info-window").show(200);
+			var featureGid = allFeatures[allFeatures.length - 1].properties.gid;
+			this.rebuildInfoWindow(featureGid, e.xy);
+		}
+		else {
+			$("#feature-info-window").hide(200);
+		}
+	};
+
+	Map.prototype.rebuildInfoWindow = function(gid, coordinates){
+		var mapOffsetTop = $('#app-map').offset().top;
+		$("#feature-info-window").offset({
+			top: coordinates.y + mapOffsetTop + 5,
+			left: coordinates.x + 5
+		});
+		$("#feature-info-window .feature-info-window-header").html(gid);
+	};
+
+	Map.prototype.onClickActivate = function(){
+		this._newInfoControl.activate();
+	};
+
+	Map.prototype.onClickDeactivate = function(){
+		this._newInfoControl.deactivate();
+		$("#feature-info-window").hide(200);
+	};
+
+	Map.prototype.getBaseLayersIds = function(){
+		var auRefMap = FeatureInfo.auRefMap;
+		var locations;
+		if (ThemeYearConfParams.place.length > 0){
+			locations = [Number(ThemeYearConfParams.place)];
+		} else {
+			locations = ThemeYearConfParams.allPlaces;
+		}
+		var year = JSON.parse(ThemeYearConfParams.years)[0];
+		var areaTemplate = ThemeYearConfParams.auCurrentAt;
+
+		var layers = [];
+		for (var place in auRefMap){
+			locations.forEach(function(location){
+				if (auRefMap.hasOwnProperty(place) && place == location){
+					for (var aTpl in auRefMap[place]){
+						if (auRefMap[place].hasOwnProperty(aTpl) && aTpl == areaTemplate){
+							for (var currentYear in auRefMap[place][aTpl]){
+								if (auRefMap[place][aTpl].hasOwnProperty(currentYear) && currentYear == year){
+									var unit = auRefMap[place][aTpl][currentYear];
+									if (unit.hasOwnProperty("_id")){
+										layers.push(Config.geoserver2Workspace + ':layer_'+unit._id);
+									}
+								}
+							}
+						}
+					}
+				}
+			});
+		}
+		return layers;
 	};
 
 	return Map;

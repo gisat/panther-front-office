@@ -209,17 +209,8 @@
 /* ====== Media queries =========== */
 /* ================================ */
 
-@media screen and (max-width: 1240px){
+@media screen and (max-width: 1270px){
 	.eea #toolbar > .label {
 		width: 85px;
-	}
-	.eea .placeholders-container {
-		left: 780px;
-	}
-}
-
-@media screen and (max-width: 1040px){
-	.eea .placeholders-container {
-		left: 680px;
 	}
 }

@@ -7,7 +7,7 @@ define([
     '../../../util/MapExport',
 	'../../../util/Remote',
     '../inputs/selectbox/SelectBox',
-    '../tools/settings/Settings',
+    '../widgetTools/settings/Settings',
     '../inputs/sliderbox/SliderBox',
 	'../../../stores/Stores',
     '../Widget',
@@ -82,7 +82,6 @@ define([
         this._settings = null;
 
         this.build();
-        Observer.addListener("rebuild", this.rebuild.bind(this));
     };
 
     EvaluationWidget.prototype = Object.create(Widget.prototype);
@@ -90,20 +89,11 @@ define([
 	/**
      * It rebuilds the widget for given attributes. First, it collects attributes metadata. Secondly, it rebuilds the view of the widget and settings window
      */
-    EvaluationWidget.prototype.rebuild = function(){
+    EvaluationWidget.prototype.rebuild = function(attrForRequest, map){
         var self = this;
         this._widgetSelector.find(".floater-overlay").css("display","block");
-        this._attributesMetadata.getData().then(function(result){
             self._attributes = [];
-            var attrForRequest = [];
-
-            result.forEach(function(attrSet){
-                attrSet.forEach(function(attribute){
-                    attrForRequest.push(attribute);
-                });
-            });
-
-            self._attributesMetadata.filterAttribute(attrForRequest).then(function(attributes){
+            self._filter.statistics(attrForRequest).then(function(attributes){
                 if (attributes.length > 0){
                     attributes.forEach(function(attribute){
                         var about = {
@@ -143,7 +133,6 @@ define([
                     self.noDataEcho();
                 }
             });
-        });
         this.rebuildMap();
         ThemeYearConfParams.datasetChanged = false;
     };
