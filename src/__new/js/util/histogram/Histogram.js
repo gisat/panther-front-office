@@ -41,7 +41,6 @@ define(['../../error/ArgumentError',
         this._numOfClasses = null;
         this._readyClasses = null;
         this._numOfReadyClasses = null;
-
         this._histogram = $('#histogram-' + this._id);
         if (this._histogram.length == 0){
             throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "Histogram", "constructor", "missingHTMLelement"));

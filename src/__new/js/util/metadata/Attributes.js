@@ -99,6 +99,7 @@ define(['../../util/Remote',
 	 * @param attribute.name {string} attribute name
 	 * @param attribute.type {('numeric'|'text'|'boolean')} attribute type
 	 * @param attribute.standardUnits {string}
+	 * @param attribute.units {string}
 	 * @returns {Object|Promise}
 	 */
 	Attributes.prototype.getAttributeDataByType = function(attributeSet, attribute) {
@@ -111,7 +112,8 @@ define(['../../util/Remote',
 				attributeType: attr.type,
 				attributeSet: attributeSet.id,
 				attributeSetName: attributeSet.name,
-				units: attr.standardUnits
+				standardUnits: attr.standardUnits,
+				units: attr.units
 			}
 		}
 		return params;

@@ -85,9 +85,9 @@ define(['../../../../error/ArgumentError',
         }).toString();
 
         this._target.append(html).ready(function(){
-                self.buildSlider();
-                self.histogram = self.buildHistogram();
-                self.addSlideListeners(self._id, self._isRange);
+            self.buildSlider();
+            self.histogram = self.buildHistogram();
+            self.addSlideListeners(self._id, self._isRange);
         });
     };
 
