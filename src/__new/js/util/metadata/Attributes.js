@@ -102,7 +102,6 @@ define(['../../util/Remote',
 	 * @returns {Object|Promise}
 	 */
 	Attributes.prototype.getAttributeDataByType = function(attributeSet, attribute) {
-		debugger;
 		var attr = attribute[0];
 		var params = {};
 		if (attr){
