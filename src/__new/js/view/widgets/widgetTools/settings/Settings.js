@@ -7,7 +7,8 @@ define([
     'jquery',
     'string',
 
-    'text!./Settings.html'
+    'text!./Settings.html',
+    'css!./Settings'
 ], function (ArgumentError,
              NotFoundError,
              Checkbox,
@@ -33,7 +34,6 @@ define([
 
         this._attributes = options.attributes;
         this._target = options.target;
-        this._widgetId = options.widgetId;
         this._id = options.widgetId + '-settings';
 
         this._categories = {};
@@ -50,8 +50,9 @@ define([
         }
 
         this.addCategories();
+        this.addMultiCheckListener();
+        this.addCheckboxChangeListener();
         this.addCloseListener();
-        this.addConfirmListener();
         this.addDragging();
     };
 
@@ -64,11 +65,12 @@ define([
     };
 
     /**
-     * Add the category for filtering
+     * Add the categories for filtering
      */
     Settings.prototype.addCategories = function(){
-        this._checkboxTarget = $('#' + this._id + ' .tool-window-body');
-        this._checkboxTarget.html("");
+        this._settingsBody = $('#' + this._id + ' .tool-window-body');
+        this._settingsBody.html("");
+        this.addCheckbox("settings-all-attributes", "All attributes", "all-attributes-row", "");
         var asName = "";
         var asId = null;
         var self = this;
@@ -76,7 +78,7 @@ define([
             if (attribute.about.attributeSetName != asName){
                 asName = attribute.about.attributeSetName;
                 asId = "settings-as-" + attribute.about.attributeSet;
-                self.addAttributeSetName(asName, asId);
+                self.addCheckbox(asId, asName, "attribute-set-row", "");
             }
             var type = attribute.about.attributeType;
             var name = attribute.about.attributeName;
@@ -92,8 +94,7 @@ define([
             else if (type == "text") {
                 input = "select";
             }
-
-            self.addAttribute(id, name);
+            self.addCheckbox('settings-' + id, name, "attribute-row", asId);
             self._categories[id] = {
                 attrData: attribute,
                 name: name,
@@ -103,30 +104,23 @@ define([
         });
     };
 
-	/**
-     * Add label for attribute set to the settings window
-     * @param name {string} name of the attribute set
-     * @param id {string} id of the element
-     */
-    Settings.prototype.addAttributeSetName = function(name, id){
-        var html = '<div class="floater-row section-header" id="'+ id +'">' + name + '</div>';
-        this._checkboxTarget.append(html);
-    };
-
     /**
      * It returns the checkbox row
      * @param id {string} id of the checkbox row
      * @param name {string} label
+     * @param klass {string} additional class for checkbox row
+     * @param dataId {string} if present, id of the attribute set row
      * @returns {Checkbox}
      */
-    Settings.prototype.addAttribute = function(id, name){
+    Settings.prototype.addCheckbox = function(id, name, klass, dataId){
         return new Checkbox({
             containerId: this._id,
+            class: klass,
             checked: true,
-            dataId: id,
-            id: 'settings-' + id,
+            dataId: dataId,
+            id: id,
             name: name,
-            target: this._checkboxTarget
+            target: this._settingsBody
         });
     };
 
@@ -143,29 +137,101 @@ define([
      */
     Settings.prototype.addCloseListener = function(){
         var self = this;
-        $('#' + this._id + ' .window-close').off("click").on("click", function(){
+        $('#' + this._id + ' .window-close, #' + this._id + ' .settings-confirm').off("click").on("click", function(){
             $('#' + self._id).hide("drop", {direction: "up"}, 200)
                 .removeClass("open");
         });
     };
 
-    /**
-     * It adds the listener to each checkbox row
+	/**
+     * Check/uncheck whole attribute set or all attributes
      */
-    Settings.prototype.addConfirmListener = function(){
+    Settings.prototype.addMultiCheckListener = function(){
         var self = this;
-
-        $('#' + this._id + ' .settings-confirm').off("click").on("click", function(){
-            $('#' + self._id + ' .checkbox-row').each(function(){
-                var checked = $(this).hasClass("checked");
-                var id = $(this).attr('data-id');
-                self._categories[id].active = checked;
+        $('#' + this._id + ' .attribute-set-row').off("click.atributeSet").on("click.atributeSet", function(){
+            var asCheckbox = $(this);
+            var dataId = asCheckbox.attr("data-id");
+            var asCheckWas = asCheckbox.hasClass("checked");
+            $('#' + self._id + ' .attribute-row[data-id=' + dataId + ']').each(function() {
+                var attrCheckbox = $(this);
+                var attrCheckState = attrCheckbox.hasClass("checked");
+                if (asCheckWas == attrCheckState){
+                    if (attrCheckState){
+                        attrCheckbox.removeClass("checked");
+                    } else {
+                        attrCheckbox.addClass("checked");
+                    }
+                }
             });
-            $('#' + self._id).hide("drop", {direction: "up"}, 200)
-                .removeClass("open");
+        });
+
+        $('#settings-all-attributes').off("click.allattributes").on("click.allattributes", function(){
+            var allCheckbox = $(this);
+            var allCheckWas = allCheckbox.hasClass("checked");
+            $('#' + self._id + ' .checkbox-row').not(this).each(function() {
+                var attrCheckbox = $(this);
+                var attrCheckState = attrCheckbox.hasClass("checked");
+                if (allCheckWas == attrCheckState){
+                    if (attrCheckState){
+                        attrCheckbox.removeClass("checked");
+                    } else {
+                        attrCheckbox.addClass("checked");
+                    }
+                }
+            });
         });
     };
 
+	/**
+     * Add listener on checkbox change
+     */
+    Settings.prototype.addCheckboxChangeListener = function(){
+        $('#' + this._id).find(".checkbox-row").off("click.changeAttributeState")
+            .on("click.click.changeAttributeState", this.rebuildAttributesState.bind(this));
+    };
+
+	/**
+     * Rebuild info about current state of attribute, if it's active or not
+     */
+    Settings.prototype.rebuildAttributesState = function(){
+        var self = this;
+        var allAttributesCheckbox = $('#settings-all-attributes');
+        var numberOfCheckedAttributes = 0;
+        var allAttributes = 0;
+        var attributeSet = "";
+        setTimeout(function(){
+            $('#' + self._id + ' .attribute-row').each(function(){
+                var checked = $(this).hasClass("checked");
+                if (checked){
+                    numberOfCheckedAttributes++;
+                }
+                var id = $(this).attr('id').slice(9);
+                self._categories[id].active = checked;
+                allAttributes++;
+            });
+
+            var confirmButton = $('#' + self._id + ' .settings-confirm');
+
+            if (numberOfCheckedAttributes > 0){
+                confirmButton.attr("disabled", false);
+                if (numberOfCheckedAttributes == allAttributes){
+                    if (!allAttributesCheckbox.hasClass("checked")){
+                        allAttributesCheckbox.addClass("checked");
+                    }
+                }
+
+            } else {
+                confirmButton.attr("disabled", true);
+                if (allAttributesCheckbox.hasClass("checked")){
+                    allAttributesCheckbox.removeClass("checked");
+                }
+            }
+        },100);
+    };
+
+	/**
+     * Enable dragging of settings window
+     */
     Settings.prototype.addDragging = function(){
         $("#" + this._id).draggable({
             containment: "body",

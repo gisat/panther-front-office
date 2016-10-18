@@ -404,6 +404,7 @@ define([
                 .on("click.confirm", function(){
                     self.handleLoading("show");
                     self.filter();
+                    $(this).attr("disabled",true);
                 });
         }
         else {
@@ -428,6 +429,7 @@ define([
                     Observer.notify("selectAreas");
                 }
                 self.disableExports();
+                $('#evaluation-confirm').attr("disabled",false);
                 $(this).attr("disabled",true);
         });
     };
@@ -534,7 +536,7 @@ define([
                 display = "none";
                 break;
         }
-        this._widgetSelector.find(".floater-overlay").css("display",display);
+        this._widgetSelector.find(".floater-overlay").css("display", display);
     };
 
     return EvaluationWidget;

@@ -24,6 +24,7 @@ define(['../../../../error/ArgumentError',
      * @param options.checked {boolean} true, if checkbox is checked
      * @param options.dataId {string}
      * @param options.id {string} ID of the checkbox
+     * @param options.class {string} Class of the checkbox
      * @param options.name {string} Checkbox label
      * @param options.target {Object} JQuery object representing the target element where should be the checkbox rendered
      * @constructor
@@ -48,6 +49,11 @@ define(['../../../../error/ArgumentError',
         this._target = options.target;
         this._containerId = options.containerId;
 
+        this._class = "";
+        if (options.hasOwnProperty("class")){
+            this._class = options.class;
+        }
+
         this.build();
     };
 
@@ -60,6 +66,7 @@ define(['../../../../error/ArgumentError',
 
         var html = S(htmlContent).template({
             id: this._id,
+            class: this._class,
             dataId: this._dataId,
             name: this._name
         }).toString();
