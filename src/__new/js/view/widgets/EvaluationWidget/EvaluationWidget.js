@@ -313,6 +313,12 @@ define([
     EvaluationWidget.prototype.prepareFooter = function (){
         var html = S(htmlFooterContent).template().toString();
         this._widgetSelector.find(".floater-footer").html("").append(html);
+
+        // todo move this code to template
+        if (!Config.toggles.isUrbis){
+            var download = ('<div class="floater-row"><div class="widget-button widget-button-export" id="export-shp" disabled="disabled">Export to SHP</div><div class="widget-button widget-button-export" id="export-csv" disabled="disabled">Export to CSV</div></div>');
+            this._widgetSelector.find(".floater-footer").append(download);
+        }
     };
 
 	/**
@@ -330,7 +336,11 @@ define([
 
                 if (count > 0 ) {
                     SelectedAreasExchange.data.data = areas;
-                    self.addDownloadListener(areas);
+
+                    // todo allow download for all projects
+                    if (!Config.toggles.isUrbis){
+                        self.addDownloadListener(areas);
+                    }
 
                     if (OneLevelAreas.hasOneLevel) {
                         self._map.removeLayers();
