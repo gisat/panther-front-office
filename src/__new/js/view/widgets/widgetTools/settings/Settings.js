@@ -34,7 +34,6 @@ define([
 
         this._attributes = options.attributes;
         this._target = options.target;
-        this._widgetId = options.widgetId;
         this._id = options.widgetId + '-settings';
 
         this._categories = {};
@@ -54,7 +53,6 @@ define([
         this.addMultiCheckListener();
         this.addCheckboxChangeListener();
         this.addCloseListener();
-        this.addConfirmListener();
         this.addDragging();
     };
 
@@ -67,11 +65,12 @@ define([
     };
 
     /**
-     * Add the category for filtering
+     * Add the categories for filtering
      */
     Settings.prototype.addCategories = function(){
         this._settingsBody = $('#' + this._id + ' .tool-window-body');
         this._settingsBody.html("");
+        this.addCheckbox("settings-all-attributes", "All attributes", "all-attributes-row", "");
         var asName = "";
         var asId = null;
         var self = this;
@@ -95,7 +94,6 @@ define([
             else if (type == "text") {
                 input = "select";
             }
-
             self.addCheckbox('settings-' + id, name, "attribute-row", asId);
             self._categories[id] = {
                 attrData: attribute,
@@ -139,18 +137,18 @@ define([
      */
     Settings.prototype.addCloseListener = function(){
         var self = this;
-        $('#' + this._id + ' .window-close').off("click").on("click", function(){
+        $('#' + this._id + ' .window-close, #' + this._id + ' .settings-confirm').off("click").on("click", function(){
             $('#' + self._id).hide("drop", {direction: "up"}, 200)
                 .removeClass("open");
         });
     };
 
 	/**
-     * Check/uncheck whole attribute set
+     * Check/uncheck whole attribute set or all attributes
      */
     Settings.prototype.addMultiCheckListener = function(){
         var self = this;
-        $('#' + this._id + ' .attribute-set-row').off("click").on("click", function(){
+        $('#' + this._id + ' .attribute-set-row').off("click.atributeSet").on("click.atributeSet", function(){
             var asCheckbox = $(this);
             var dataId = asCheckbox.attr("data-id");
             var asCheckWas = asCheckbox.hasClass("checked");
@@ -166,13 +164,35 @@ define([
                 }
             });
         });
+
+        $('#settings-all-attributes').off("click.allattributes").on("click.allattributes", function(){
+            var allCheckbox = $(this);
+            var allCheckWas = allCheckbox.hasClass("checked");
+            $('#' + self._id + ' .checkbox-row').not(this).each(function() {
+                var attrCheckbox = $(this);
+                var attrCheckState = attrCheckbox.hasClass("checked");
+                if (allCheckWas == attrCheckState){
+                    if (attrCheckState){
+                        attrCheckbox.removeClass("checked");
+                    } else {
+                        attrCheckbox.addClass("checked");
+                    }
+                }
+            });
+        });
     };
 
+	/**
+     * Add listener on checkbox change
+     */
     Settings.prototype.addCheckboxChangeListener = function(){
         $('#' + this._id).find(".checkbox-row").off("click.changeAttributeState")
             .on("click.click.changeAttributeState", this.rebuildAttributesState.bind(this));
     };
 
+	/**
+     * Rebuild info about current state of attribute, if it's active or not
+     */
     Settings.prototype.rebuildAttributesState = function(){
         var self = this;
         var numberOfCheckedAttributes = 0;
@@ -196,14 +216,9 @@ define([
         },100);
     };
 
-    Settings.prototype.addConfirmListener = function(){
-        var self = this;
-        $('#' + this._id + ' .settings-confirm').off("click").on("click", function(){
-            $('#' + self._id).hide("drop", {direction: "up"}, 200)
-                .removeClass("open");
-        });
-    };
-
+	/**
+     * Enable dragging of settings window
+     */
     Settings.prototype.addDragging = function(){
         $("#" + this._id).draggable({
             containment: "body",

@@ -46,20 +46,24 @@
 	padding: .2rem .3rem;
 	overflow: auto;
 }
-.tool-window-body .floater-row.section-header:first-child {
+.tool-window-body .section-header:first-child {
 	margin-top: .2rem;
 }
-.tool-window-body .floater-row.checkbox-row a {
+.tool-window-body .checkbox-row a {
 	border-bottom: 1px solid rgb(235,235,235);
+	padding-left: 2rem;
+}
+.tool-window-body .checkbox-row.attribute-set-row a {
 	padding-left: 1rem;
 }
-.tool-window-body .floater-row.checkbox-row.attribute-set-row a {
+.tool-window-body .checkbox-row.all-attributes-row a {
 	padding-left: 0;
 }
-.tool-window-body .floater-row.checkbox-row span {
+.tool-window-body .checkbox-row span {
 	font-weight: normal;
 }
-.tool-window-body .floater-row.checkbox-row.attribute-set-row span {
+.tool-window-body .checkbox-row.attribute-set-row span,
+.tool-window-body .checkbox-row.all-attributes-row span {
 	font-weight: bold;
 	font-size: .75rem;
 }
