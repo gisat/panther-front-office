@@ -23,9 +23,9 @@
     margin: 0 .1rem;
     width: 47%;
 }
-#evaluation-unselect[disabled=disabled] {
+#evaluation-confirm[disabled=disabled], #evaluation-unselect[disabled=disabled] {
     pointer-events: none;
-    color: #aaa;
+    color: #ccc;
     background: #eee;
 }
 
