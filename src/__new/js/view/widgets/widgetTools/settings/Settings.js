@@ -195,7 +195,10 @@ define([
      */
     Settings.prototype.rebuildAttributesState = function(){
         var self = this;
+        var allAttributesCheckbox = $('#settings-all-attributes');
         var numberOfCheckedAttributes = 0;
+        var allAttributes = 0;
+        var attributeSet = "";
         setTimeout(function(){
             $('#' + self._id + ' .attribute-row').each(function(){
                 var checked = $(this).hasClass("checked");
@@ -204,14 +207,24 @@ define([
                 }
                 var id = $(this).attr('id').slice(9);
                 self._categories[id].active = checked;
-
+                allAttributes++;
             });
 
             var confirmButton = $('#' + self._id + ' .settings-confirm');
+
             if (numberOfCheckedAttributes > 0){
                 confirmButton.attr("disabled", false);
+                if (numberOfCheckedAttributes == allAttributes){
+                    if (!allAttributesCheckbox.hasClass("checked")){
+                        allAttributesCheckbox.addClass("checked");
+                    }
+                }
+
             } else {
                 confirmButton.attr("disabled", true);
+                if (allAttributesCheckbox.hasClass("checked")){
+                    allAttributesCheckbox.removeClass("checked");
+                }
             }
         },100);
     };
