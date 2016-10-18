@@ -427,7 +427,8 @@ define([
         areas.forEach(function(area){
             filteredAreas.push(area.gid);
         });
-
+        console.log("Filtered",filteredAreas);
+        console.log(areas);
         this._mapExport = new MapExport({
             location: areas[0].loc,
             year: JSON.parse(ThemeYearConfParams.years)[0],
