@@ -91,7 +91,7 @@ define(function () {
             missingBoxName: "Box name is null or undefined!",
             missingData: "Data are null, undefined or empty!",
             missingElementId: "Required ID of an element is null or undefined!",
-            missingFilter: "Filter is null, undefined or not complete!",
+            missingFilter: "Instance of Filter is missing!",
             missingHistogramMinimum: "Minimum is null or undefined!",
             missingHistogramMaximum: "Maximum is null or undefined!",
             missingHTMLElement: "Required HTML element wasn't found!",

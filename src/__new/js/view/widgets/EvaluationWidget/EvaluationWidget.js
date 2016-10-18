@@ -37,14 +37,11 @@ define([
             htmlFooterContent){
 
     /**
-     * It creates an Evaluation Tool
      * @param options {Object}
-     * @param options.attributesMetadata {Object} instance of class for collecting of attributes metadata
      * @param options.elementId {String} ID of widget
      * @param options.filter {Object} instance of class for data filtering
      * @param options.targetId {String} ID of an element in which should be the widget rendered
      * @param options.name {String} Name of the widget
-     * @param options.tools {Array} List of tools which should be connected with this widget
      * @constructor
      */
     var EvaluationWidget = function(options) {
@@ -56,7 +53,11 @@ define([
         if (!options.targetId){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingTargetElementId"));
         }
+        if (!options.filter){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingFilter"));
+        }
 
+        this._filter = options.filter;
         this._name = options.name || "";
         this._widgetId = options.elementId;
         this._target = $("#" + options.targetId);
@@ -64,7 +65,6 @@ define([
             throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingHTMLElement"));
         }
 
-        // Call the method from parent
         Widget.prototype.build.call(this, this._widgetId, this._target, this._name);
 
         this._widgetSelector = $("#floater-" + this._widgetId);
@@ -77,62 +77,62 @@ define([
             this._placeholderSelector.removeClass("open");
         }
 
-        this._attributesMetadata = options.attributesMetadata;
-        this._filter = options.filter;
         this._settings = null;
 
+        // Call the method from parent
         this.build();
     };
 
     EvaluationWidget.prototype = Object.create(Widget.prototype);
 
-	/**
-     * It rebuilds the widget for given attributes. First, it collects attributes metadata. Secondly, it rebuilds the view of the widget and settings window
+    /**
+     * It rebuilds the widget for given attributes. First, it collects metadata about each attribute, then it rebuilds all components of the widget
+     * @param attrForRequest {Array} List of attributes for current configuration
+     * @param map {Object}
      */
     EvaluationWidget.prototype.rebuild = function(attrForRequest, map){
         var self = this;
-        this._widgetSelector.find(".floater-overlay").css("display","block");
-            self._attributes = [];
-            self._filter.statistics(attrForRequest).then(function(attributes){
-                if (attributes.length > 0){
-                    attributes.forEach(function(attribute){
-                        var about = {
-                            attribute: attribute.attribute,
-                            attributeName: attribute.attributeName,
-                            attributeType: attribute.type,
-                            attributeSet: attribute.attributeSet,
-                            attributeSetName: attribute.attributeSetName,
-                            units: attribute.units
-                        };
+        this.handleLoading("show");
+        this._attributes = [];
+        this._filter.statistics(attrForRequest).then(function(attributes){
+            if (attributes.length > 0){
+                attributes.forEach(function(attribute){
+                    var about = {
+                        attribute: attribute.attribute,
+                        attributeName: attribute.attributeName,
+                        attributeType: attribute.type,
+                        attributeSet: attribute.attributeSet,
+                        attributeSetName: attribute.attributeSetName,
+                        units: attribute.units
+                    };
 
-                        if (about.attributeType == "numeric"){
-                            self._attributes.push({
-                                values: [Number(attribute.min), Number(attribute.max)],
-                                distribution: attribute.distribution,
-                                about: about
-                            });
-                        }
-                        else if (about.attributeType == "boolean") {
-                            self._attributes.push({
-                                about: about
-                            });
-                        }
-                        else if (about.attributeType == "text"){
-                            self._attributes.push({
-                                about: about,
-                                values: attribute.values
-                            });
-                        }
-                    });
-                }
-                if (self._attributes.length){
-                    self.prepareFooter();
-                    self.rebuildViewAndSettings();
-                }
-                else {
-                    self.noDataEcho();
-                }
-            });
+                    if (about.attributeType == "numeric"){
+                        self._attributes.push({
+                            values: [Number(attribute.min), Number(attribute.max)],
+                            distribution: attribute.distribution,
+                            about: about
+                        });
+                    }
+                    else if (about.attributeType == "boolean") {
+                        self._attributes.push({
+                            about: about
+                        });
+                    }
+                    else if (about.attributeType == "text"){
+                        self._attributes.push({
+                            about: about,
+                            values: attribute.values
+                        });
+                    }
+                });
+            }
+            if (self._attributes.length){
+                self.prepareFooter();
+                self.rebuildViewAndSettings();
+            } else {
+                self.noDataEcho();
+            }
+        });
         this.rebuildMap();
         ThemeYearConfParams.datasetChanged = false;
     };
@@ -150,7 +150,7 @@ define([
     EvaluationWidget.prototype.noDataEcho = function(){
         var info = '<p>There are no linked attribute sets to analytical units probably! Please, go to the BackOffice and link the data properly.</p>';
         this._widgetBodySelector.html("").append(info);
-        this._widgetSelector.find(".floater-overlay").css("display","none");
+        this.handleLoading("hide");
     };
 
 	/**
@@ -165,6 +165,9 @@ define([
         this.addSettingsListener();
     };
 
+	/**
+     * It rebuilds the map. If map is present, it removes previously added layers
+     */
     EvaluationWidget.prototype.rebuildMap = function(){
         if (!this._map){
             this._map = new Map({
@@ -196,7 +199,7 @@ define([
 
 	/**
      * It prepares all the inputs for data filtering (checkbox for attributes with boolean values, slider for numeric, select menu for text).
-     * Finally, filter the data according current values of inputs.
+     * Finally, get amount of areas which fit to current values of inputs.
      * @param categories {Object} data about categories
      */
     EvaluationWidget.prototype.rebuildInputs = function(categories){
@@ -312,18 +315,20 @@ define([
         this._widgetSelector.find(".floater-footer").html("").append(html);
     };
 
+	/**
+     * Filter the data according to current state of inputs
+     */
     EvaluationWidget.prototype.filter = function(){
         var self = this;
 
         setTimeout(function(){
-            self._filter.filter(self._categories).then(function(result){
-                var areas = result;
+            self._filter.filter(self._categories).then(function(areas){
                 var count = 0;
                 if (areas.length > 0){
                     count = areas.length;
                 }
 
-                if(count > 0 ) {
+                if (count > 0 ) {
                     SelectedAreasExchange.data.data = areas;
                     self.addDownloadListener(areas);
 
@@ -331,26 +336,27 @@ define([
                         self._map.removeLayers();
                         self._map.addLayer(areas);
                         Observer.notify('selectInternal');
-                    }
-                    else {
+                    } else {
                         Observer.notify("selectAreas");
                     }
-
                     $('#evaluation-unselect').attr("disabled", false);
                 }
+                self.handleLoading("hide");
             });
         },100);
     };
 
+	/**
+     * Get the amount of areas which fit to current values of inputs.
+     */
     EvaluationWidget.prototype.amount = function() {
         var self = this;
-        this._widgetSelector.find(".floater-overlay").css("display","block");
+        this.handleLoading("show");
         setTimeout(function(){
             self._filter.amount(self._categories).then(function(result){
-                var amountOfAreas = result;
-                self.addSelectionConfirmListener(amountOfAreas);
+                self.addSelectionConfirmListener(result);
                 self.rebuildHistograms(self._inputs.sliders);
-                self._widgetSelector.find(".floater-overlay").css("display","none");
+                self.handleLoading("hide");
             });
         },100);
     };
@@ -358,22 +364,18 @@ define([
 	/**
      * It rebuilds the histograms with current values
      * @param sliders {Array} array of slider objects
-     * @param data {Object} filtered data
      */
     EvaluationWidget.prototype.rebuildHistograms = function(sliders){
         sliders.forEach(function(slider){
-            var origValues = slider.origValues;
-            var dist = slider.distribution;
             if(slider.hasOwnProperty("histogram")){
-                slider.histogram.rebuild(dist,slider._values, origValues);
+                slider.histogram.rebuild(slider.distribution, slider._values, slider.origValues);
             }
         });
     };
 
 	/**
-     * It adds listener to confirm button. If there is at least one filtered area, listener notifies the Observer
+     * It adds listener to confirm button. If there is at least one selected area, do the filter
      * @param count {number} Number of currently filtered areas
-     * @param filteredData {Array} filtered data
      */
     EvaluationWidget.prototype.addSelectionConfirmListener = function(count){
         var self = this;
@@ -385,6 +387,7 @@ define([
             $('#evaluation-confirm').html("Select " + count + " " + areasName)
                 .off("click.confirm")
                 .on("click.confirm", function(){
+                    self.handleLoading("show");
                     self.filter();
                 });
         }
@@ -393,36 +396,39 @@ define([
                 .off("click.confirm");
         }
 
+        self.addUnselectListener();
+    };
 
-        $('#evaluation-unselect').off("click.unselect").on("click.unselect",
-        function(){
-            SelectedAreasExchange.data.data = [];
-            if (OneLevelAreas.hasOneLevel){
-                self._map.removeLayers();
-                Observer.notify('selectInternal');
-            } else {
-                Observer.notify("selectAreas");
-            }
-
-            $(this).attr("disabled",true);
+	/**
+	 * Add listener to unselect button
+     */
+    EvaluationWidget.prototype.addUnselectListener = function(){
+        var self = this;
+        $('#evaluation-unselect').off("click.unselect").on("click.unselect", function(){
+                SelectedAreasExchange.data.data = [];
+                if (OneLevelAreas.hasOneLevel){
+                    self._map.removeLayers();
+                    Observer.notify('selectInternal');
+                } else {
+                    Observer.notify("selectAreas");
+                }
+                self.disableExports();
+                $(this).attr("disabled",true);
         });
     };
 
 	/**
-     * Disable export buttons
+     * Add listener to export buttons
+     * @param areas {Array} List of selected areas
      */
-    EvaluationWidget.prototype.disableExports = function(){
-        $("#export-shp, #export-csv").attr("disabled",true);
-    };
-
     EvaluationWidget.prototype.addDownloadListener = function(areas){
         var self = this;
-
         var filteredAreas = [];
         areas.forEach(function(area){
             filteredAreas.push(area.gid);
         });
-
+        console.log("Filtered",filteredAreas);
+        console.log(areas);
         this._mapExport = new MapExport({
             location: areas[0].loc,
             year: JSON.parse(ThemeYearConfParams.years)[0],
@@ -436,6 +442,22 @@ define([
         $("#export-csv").off("click.csv").attr("disabled",false).on("click.csv", function(){
             self._mapExport.export("csv");
         });
+    };
+
+    /**
+     * It adds change listeners to inputs in widget body. Each time some change occurs, filter function is executed
+     */
+    EvaluationWidget.prototype.addInputsListener = function(){
+        var self = this;
+        this._widgetSelector.find(".selectmenu" ).off("selectmenuselect")
+            .on( "selectmenuselect", self.amount.bind(self))
+            .on( "selectmenuselect", self.disableExports.bind(self));
+        this._widgetSelector.find(".slider-row").off("slidechange")
+            .on( "slidechange", self.amount.bind(self))
+            .on( "slidechange", self.disableExports.bind(self));
+        this._widgetSelector.find(".checkbox-row").off("click.inputs")
+            .on( "click.inputs", self.amount.bind(self))
+            .on( "click.inputs", self.disableExports.bind(self));
     };
 
     /**
@@ -464,22 +486,6 @@ define([
     };
 
     /**
-     * It adds change listeners to inputs in widget body. Each time some change occurs, filter function is executed
-     */
-    EvaluationWidget.prototype.addInputsListener = function(){
-        var self = this;
-        this._widgetSelector.find(".selectmenu" ).off("selectmenuselect")
-            .on( "selectmenuselect", self.amount.bind(self))
-            .on( "selectmenuselect", self.disableExports.bind(self));
-        this._widgetSelector.find(".slider-row").off("slidechange")
-            .on( "slidechange", self.amount.bind(self))
-            .on( "slidechange", self.disableExports.bind(self));
-        this._widgetSelector.find(".checkbox-row").off("click.inputs")
-            .on( "click.inputs", self.amount.bind(self))
-            .on( "click.inputs", self.disableExports.bind(self));
-    };
-
-    /**
      * It adds listener to all sliders for positioning of slider popups
      */
     EvaluationWidget.prototype.addSliderListener = function(){
@@ -492,6 +498,30 @@ define([
                 popup.css("margin-top",(margin.slice(0,-2) - e.target.scrollTop)+"px");
             });
         }
+    };
+
+    /**
+     * Disable export buttons
+     */
+    EvaluationWidget.prototype.disableExports = function(){
+        $("#export-shp, #export-csv").attr("disabled",true);
+    };
+
+	/**
+     * Show/hide loading overlay
+     * @param state {string}
+     */
+    EvaluationWidget.prototype.handleLoading = function(state){
+        var display;
+        switch (state) {
+            case "show":
+                display = "block";
+                break;
+            case "hide":
+                display = "none";
+                break;
+        }
+        this._widgetSelector.find(".floater-overlay").css("display",display);
     };
 
     return EvaluationWidget;

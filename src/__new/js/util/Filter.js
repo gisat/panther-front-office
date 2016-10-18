@@ -42,15 +42,11 @@ define(['./Remote',
 
 							if (sliderEl.hasClass("ui-slider")){
 								var val = sliderEl.slider("values");
-								min = val[0];
-								max = val[1];
-								if (min == max){
-									min = min - 0.005;
-									max = max + 0.005;
-								}
+								min = val[0] - 0.005;
+								max = val[1] + 0.005;
 							} else {
-								min = attribute.values[0];
-								max = attribute.values[1];
+								min = attribute.values[0] - 0.005;
+								max = attribute.values[1] + 0.005;
 							}
 							values = [min, max];
 						}
@@ -105,15 +101,11 @@ define(['./Remote',
 
 						if (sliderEl.hasClass("ui-slider")){
 							var val = sliderEl.slider("values");
-							min = val[0];
-							max = val[1];
-							if (min == max){
-								min = min - 0.005;
-								max = max + 0.005;
-							}
+							min = val[0] - 0.005;
+							max = val[1] + 0.005;
 						} else {
-							min = attribute.values[0];
-							max = attribute.values[1];
+							min = attribute.values[0] - 0.005;
+							max = attribute.values[1] + 0.005;
 						}
 						values = [min, max];
 					}
