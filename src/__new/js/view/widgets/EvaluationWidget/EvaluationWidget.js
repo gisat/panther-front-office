@@ -313,6 +313,12 @@ define([
     EvaluationWidget.prototype.prepareFooter = function (){
         var html = S(htmlFooterContent).template().toString();
         this._widgetSelector.find(".floater-footer").html("").append(html);
+
+        // todo move this code to template
+        if (!Config.toggles.isUrbis){
+            var download = ('<div class="floater-row"><div class="widget-button widget-button-export" id="export-shp" disabled="disabled">Export to SHP</div><div class="widget-button widget-button-export" id="export-csv" disabled="disabled">Export to CSV</div></div>');
+            this._widgetSelector.find(".floater-footer").append(download);
+        }
     };
 
 	/**
@@ -322,7 +328,7 @@ define([
         var self = this;
 
         setTimeout(function(){
-            self._filter.filter(self._categories).then(function(areas){
+            self._filter.filter(self._categories, "filter").then(function(areas){
                 var count = 0;
                 if (areas.length > 0){
                     count = areas.length;
@@ -330,7 +336,11 @@ define([
 
                 if (count > 0 ) {
                     SelectedAreasExchange.data.data = areas;
-                    self.addDownloadListener(areas);
+
+                    // todo allow download for all projects
+                    if (!Config.toggles.isUrbis){
+                        self.addDownloadListener(areas);
+                    }
 
                     if (OneLevelAreas.hasOneLevel) {
                         self._map.removeLayers();
@@ -353,7 +363,7 @@ define([
         var self = this;
         this.handleLoading("show");
         setTimeout(function(){
-            self._filter.amount(self._categories).then(function(result){
+            self._filter.filter(self._categories, "amount").then(function(result){
                 self.addSelectionConfirmListener(result);
                 self.rebuildHistograms(self._inputs.sliders);
                 self.handleLoading("hide");
@@ -375,10 +385,15 @@ define([
 
 	/**
      * It adds listener to confirm button. If there is at least one selected area, do the filter
-     * @param count {number} Number of currently filtered areas
+     * @param amount {Object} Number of currently filtered areas
      */
-    EvaluationWidget.prototype.addSelectionConfirmListener = function(count){
+    EvaluationWidget.prototype.addSelectionConfirmListener = function(amount){
         var self = this;
+        var count = 0;
+        if (amount.hasOwnProperty("amount")){
+            count = amount.amount;
+        }
+
         if (count > 0){
             var areasName = "areas";
             if (count == 1){
@@ -427,8 +442,6 @@ define([
         areas.forEach(function(area){
             filteredAreas.push(area.gid);
         });
-        console.log("Filtered",filteredAreas);
-        console.log(areas);
         this._mapExport = new MapExport({
             location: areas[0].loc,
             year: JSON.parse(ThemeYearConfParams.years)[0],

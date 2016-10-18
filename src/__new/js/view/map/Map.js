@@ -128,7 +128,7 @@ define([
 			top: coordinates.y + mapOffsetTop + 5,
 			left: coordinates.x + 5
 		});
-		$("#feature-info-window .feature-info-window-header").html(gid);
+		$("#feature-info-window .feature-info-window-header").html("Area name (" + gid + ")");
 	};
 
 	Map.prototype.onClickActivate = function(){
