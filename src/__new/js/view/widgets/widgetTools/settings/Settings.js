@@ -200,6 +200,7 @@ define([
         var checkedAttributes = 0;
         var checkedAsAttributes = -1;
         var allAttributes = 0;
+        var allAsAttributes = 0;
         var attributeSetId = "";
 
         setTimeout(function(){
@@ -209,16 +210,23 @@ define([
                 var checked = $(this).hasClass("checked");
                 var id = $(this).attr('id').slice(9);
 
-                // change of attribute sets - if no attribute checked, uncheck attribute set checkbox; reset counter and id
+                // change of attribute sets - if no attribute checked, uncheck attribute set checkbox;
+                // if all attributes checked, check attribute set checkbox; reset counter and id
                 if (attrSet != attributeSetId){
+                    attributeSetId = attrSet;
+                    var asCheckbox = $('#' + attributeSetId);
                     if (checkedAsAttributes == 0){
-                        var asCheckbox = $('#' + attributeSetId);
                         if (asCheckbox.hasClass("checked")){
                             asCheckbox.removeClass("checked");
                         }
                     }
-                    attributeSetId = attrSet;
+                    if (checkedAsAttributes == allAsAttributes){
+                        if (!asCheckbox.hasClass("checked")){
+                            asCheckbox.addClass("checked");
+                        }
+                    }
                     checkedAsAttributes = 0;
+                    allAsAttributes = 0;
                 }
 
                 // if checked, increment counter
@@ -230,6 +238,7 @@ define([
                 // set state of attribute
                 self._categories[id].active = checked;
                 allAttributes++;
+                allAsAttributes++;
             });
 
             // review the state of last attribute set checkbox (for only one attribute set cases)
@@ -237,6 +246,12 @@ define([
             if (checkedAsAttributes == 0){
                 if (asCheckboxLast.hasClass("checked")){
                     asCheckboxLast.removeClass("checked");
+                }
+            } else {
+                if (checkedAsAttributes == allAttributes){
+                    if (!asCheckboxLast.hasClass("checked")){
+                        asCheckboxLast.addClass("checked");
+                    }
                 }
             }
 
