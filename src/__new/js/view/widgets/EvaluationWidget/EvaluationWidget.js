@@ -1,6 +1,7 @@
 define([
     '../../../error/ArgumentError',
     '../../../error/NotFoundError',
+    '../../../util/Color',
     '../inputs/checkbox/Checkbox',
     '../../../util/Logger',
     '../../map/Map',
@@ -20,6 +21,7 @@ define([
     'css!./EvaluationWidget'
 ], function(ArgumentError,
             NotFoundError,
+            Color,
             Checkbox,
             Logger,
             Map,
@@ -344,8 +346,10 @@ define([
                     }
 
                     if (OneLevelAreas.hasOneLevel) {
-                        self._map.removeLayers();
-                        self._map.addLayer(areas);
+                        var rgbColor = $('.x-color-picker .x-color-picker-selected span').css('background-color');
+                        var color = new Color(rgbColor).hex();
+                        self._map.removeLayers(color); // Remove layers with the same color.
+                        self._map.addLayer(areas, color); // $(.x-color-picker-selected) // $()
                         Observer.notify('selectInternal');
                     } else {
                         Observer.notify("selectAreas");
@@ -405,7 +409,9 @@ define([
                 .on("click.confirm", function(){
                     self.handleLoading("show");
                     self.filter();
-                    $(this).attr("disabled",true);
+                    if (!OneLevelAreas.hasOneLevel){
+                        $(this).attr("disabled",true);
+                    }
                 });
         }
         else {
