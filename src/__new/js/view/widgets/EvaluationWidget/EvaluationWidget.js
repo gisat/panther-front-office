@@ -408,7 +408,9 @@ define([
                 .on("click.confirm", function(){
                     self.handleLoading("show");
                     self.filter();
-                    $(this).attr("disabled",true);
+                    if (!OneLevelAreas.hasOneLevel){
+                        $(this).attr("disabled",true);
+                    }
                 });
         }
         else {
