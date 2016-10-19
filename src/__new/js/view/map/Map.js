@@ -23,21 +23,26 @@ define([
 	/**
 	 * Add layer to map
 	 * @param data {Array}
+	 * @param color {String}
 	 */
-	Map.prototype.addLayer = function(data){
-		var vectorLayer = this.createVectorLayer(data);
-		this._layers.push(vectorLayer);
+	Map.prototype.addLayer = function(data, color){
+		var vectorLayer = this.createVectorLayer(data, color);
+		if(!this._layers[color]) {
+			this._layers[color] = [];
+		}
+		this._layers[color].push(vectorLayer);
 		this._map.addLayer(vectorLayer);
 	};
 
 	/**
 	 * Create vector layer
 	 * @param data {Array}
+	 * @param color {String}
 	 * @returns {*}
 	 */
-	Map.prototype.createVectorLayer = function(data){
+	Map.prototype.createVectorLayer = function(data, color){
 		var vectorLayer = new OpenLayers.Layer.Vector("SelectedAreas", {
-			styleMap: this.setStyle()
+			styleMap: this.setStyle(color)
 		});
 
 		var features = [];
@@ -65,11 +70,11 @@ define([
 	 * Add
 	 * @returns {*}
 	 */
-	Map.prototype.setStyle = function(){
+	Map.prototype.setStyle = function(color){
 		return new OpenLayers.StyleMap({
 			strokeWidth: 1,
-			strokeColor: '#d22b1e',
-			fillColor: '#d22b1e',
+			strokeColor: color,
+			fillColor: color,
 			fillOpacity: 0.5
 		});
 	};
@@ -77,9 +82,13 @@ define([
 	/**
 	 * Remove all previously added layers from map
 	 */
-	Map.prototype.removeLayers = function(){
+	Map.prototype.removeLayers = function(color){
+		if(!this._layers[color]){
+			return;
+		}
+
 		var self = this;
-		this._layers.forEach(function(layer){
+		this._layers[color].forEach(function(layer){
 			self._map.removeLayer(layer);
 			self._layers.pop();
 		});
