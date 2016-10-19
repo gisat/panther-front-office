@@ -39,6 +39,9 @@ define(['./Model'], function(Model){
 			standardUnits: {
 				serverName: 'standardUnits'
 			},
+			units: {
+				serverName: 'units'
+			},
 			color: {
 				serverName: 'color'
 			}

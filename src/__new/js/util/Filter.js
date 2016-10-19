@@ -12,7 +12,7 @@ define(['./Remote',
 	var Filter = function(options){
 	};
 
-	Filter.prototype.filter = function(categories) {
+	Filter.prototype.filter = function(categories, type) {
 		var locations;
 		if (ThemeYearConfParams.place.length > 0){
 			locations = [Number(ThemeYearConfParams.place)];
@@ -42,15 +42,11 @@ define(['./Remote',
 
 							if (sliderEl.hasClass("ui-slider")){
 								var val = sliderEl.slider("values");
-								min = val[0];
-								max = val[1];
-								if (min == max){
-									min = min - 0.005;
-									max = max + 0.005;
-								}
+								min = val[0] - 0.005;
+								max = val[1] + 0.005;
 							} else {
-								min = attribute.values[0];
-								max = attribute.values[1];
+								min = attribute.values[0] - 0.005;
+								max = attribute.values[1] + 0.005;
 							}
 							values = [min, max];
 						}
@@ -64,7 +60,7 @@ define(['./Remote',
 				}
 			}
 		}
-		return $.get( Config.url + "rest/filter/attribute/filter", {
+		return $.get( Config.url + "rest/filter/attribute/" + type, {
 				areaTemplate: ThemeYearConfParams.auCurrentAt,
 				periods: periods,
 				places: locations,
@@ -75,7 +71,7 @@ define(['./Remote',
 			});
 	};
 
-	Filter.prototype.amount = function(categories) {
+	Filter.prototype.statistics = function(attributes){
 		var locations;
 		if (ThemeYearConfParams.place.length > 0){
 			locations = [Number(ThemeYearConfParams.place)];
@@ -84,57 +80,24 @@ define(['./Remote',
 		}
 		var periods = JSON.parse(ThemeYearConfParams.years);
 
-		var attributes = [];
+		var dist = {
+			type: 'normal',
+			classes: 20
+		};
 
-		for (var key in categories) {
-			if (categories[key].hasOwnProperty('attrData')) {
-				if (categories[key].active == true) {
-					var attribute = categories[key].attrData;
-					var values;
-					if (attribute.about.attributeType == "boolean") {
-						var checkboxEl = $("#attr-" + attribute.about.attribute);
-						values = checkboxEl.hasClass("checked");
-					}
-					else if (attribute.about.attributeType == "text") {
-						var selectEl = $("#attr-" + attribute.about.attribute + "-button .ui-selectmenu-text");
-						values = selectEl.text();
-					}
-					else if (attribute.about.attributeType == "numeric"){
-						var sliderEl = $("#attr-" + attribute.about.attribute);
-						var min, max;
-
-						if (sliderEl.hasClass("ui-slider")){
-							var val = sliderEl.slider("values");
-							min = val[0];
-							max = val[1];
-							if (min == max){
-								min = min - 0.005;
-								max = max + 0.005;
-							}
-						} else {
-							min = attribute.values[0];
-							max = attribute.values[1];
-						}
-						values = [min, max];
-					}
-
-					var attr = {
-						attribute: attribute.about.attribute,
-						attributeSet: attribute.about.attributeSet,
-						value: values
-					};
-					attributes.push(attr);
-				}
-			}
-		}
-		return $.get( Config.url + "rest/filter/attribute/amount", {
-			areaTemplate: ThemeYearConfParams.auCurrentAt,
-			periods: periods,
-			places: locations,
-			attributes: attributes
-		})
+		return $.get( Config.url + "rest/filter/attribute/statistics", {
+				areaTemplate: ThemeYearConfParams.auCurrentAt,
+				periods: periods,
+				places: locations,
+				attributes: attributes,
+				distribution: dist
+			})
 			.then(function(response) {
-				return response.amount
+				if (response.hasOwnProperty("attributes")){
+					return response.attributes;
+				} else {
+					return [];
+				}
 			});
 	};
 

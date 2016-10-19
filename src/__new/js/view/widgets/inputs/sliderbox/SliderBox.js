@@ -56,10 +56,7 @@ define(['../../../../error/ArgumentError',
         this._name = options.name;
         this._target = options.target;
         this._step = options.step || 1;
-
         this._range = options.range;
-        this._range[0] = this._range[0] * 0.95;
-        this._range[1] = this._range[1] * 1.05;
         this._values = options.values;
         this._isRange = options.isRange;
 
@@ -85,9 +82,9 @@ define(['../../../../error/ArgumentError',
         }).toString();
 
         this._target.append(html).ready(function(){
-                self.buildSlider();
-                self.histogram = self.buildHistogram();
-                self.addSlideListeners(self._id, self._isRange);
+            self.buildSlider();
+            self.histogram = self.buildHistogram();
+            self.addSlideListeners(self._id, self._isRange);
         });
     };
 

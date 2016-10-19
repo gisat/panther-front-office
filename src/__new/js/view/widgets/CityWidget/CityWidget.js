@@ -60,6 +60,9 @@ define([
 	};
 
 	CityWidget.prototype = Object.create(Widget.prototype);
+	
+	CityWidget.prototype.rebuild = function(){
+	};
 
 	/**
 	 * Build the widget content

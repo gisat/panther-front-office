@@ -51,3 +51,12 @@ var OneLevelAreas = {
 	hasOneLevel: false,
 	data: []
 };
+
+/**
+ * Object for feature info functionality
+ * @type {{active: boolean, data: {}, map: {}}}
+ */
+var FeatureInfo = {
+	auRefMap: {},
+	map: {}
+};

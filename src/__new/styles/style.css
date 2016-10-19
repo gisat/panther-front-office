@@ -1,13 +1,10 @@
 /* === Building blocks === */
-
 .intro .widgets {
     display: none;
 }
-
 .widgets {
     display: block;
 }
-
 .widgets p, .widgets a, .widgets span, .widgets label {
     color: #666;
     font-size: .75rem;
@@ -38,7 +35,7 @@
     display: inline-block;
     color: white;
     font-weight: 700;
-    padding: .4rem;
+    padding: .4rem .2rem;
     text-align: center;
     text-transform: uppercase;
     transition: background .3s ease-out;
@@ -73,84 +70,34 @@
     cursor: default;
 }
 
-.tool-window-button {
+/** new tools **/
+.tools-buttons-container {
+    height: 6.5rem;
     position: absolute;
-    right: 0;
-    width: 10rem;
+    right: 8rem;
+    width: 4rem;
 }
 
-/* == tool window == */
-.tool-window {
-    background: rgba(255,255,255,.95);
+.tools-buttons-container .tool {
+    background: rgba(255,255,255,.2);
+    border: 1px solid rgba(255,255,255,.3);
     border-radius: .1rem;
-    -webkit-box-shadow: 0 0 4px rgb(136, 136, 136);
-    -moz-box-shadow: 0 0 4px rgb(136, 136, 136);
-    box-shadow: 0 0 4px rgb(136, 136, 136);
-
-    display: none;
-    height: 30rem;
-    width: 40rem;
-    padding: .5rem;
-    position: absolute;
-    top: 8rem;
-    left: calc(50% - 20rem);
-    z-index: 99999;
+    color: #ddd;
+    font-size: .7rem;
+    font-weight: 700;
+    height: 1.5rem;
+    line-height: 1.5rem;
+    padding: 0;
+    margin: .5rem .3rem;
+    text-align: center;
+    text-transform: none;
+    width: 3rem;
 }
-
-.tool-window.open {
-    display: block;
-}
-
-.tool-window-header {
-    cursor: move;
-    height: 2rem;
-    position: relative;
-}
-
-.tool-window-header span {
-    color: #666;
-    font-size: .9rem;
-    font-weight: bold;
-    padding: .2rem;
-}
-
-.tool-window-header .window-close {
-    float: right;
-}
-
-.tool-window-header .window-close:hover {
+.tools-buttons-container .tool:hover {
+    background: rgba(255,255,255,.3);
     cursor: pointer;
 }
-
-.tool-window-body {
-    background: rgb(250,250,250);
-    border: 1px solid rgb(230,230,230);
-    height: calc(100% - 4.5rem);
-    padding: .2rem .3rem;
-    overflow: auto;
-}
-
-.tool-window-body .floater-row.section-header {
-    font-size: .75rem;
-    color: #666;
-    font-weight: bold;
-    margin: .5rem 0 .1rem .1rem;
-}
-
-.tool-window-body .floater-row.section-header:first-child {
-    margin-top: .2rem;
-}
-
-.tool-window-body .floater-row.checkbox-row span {
-    font-weight: normal;
-}
-
-.tool-window-body .floater-row a {
-    border-bottom: 1px solid rgb(235,235,235);
-}
-
-.tool-window-footer {
-    height: 2.5rem;
-    padding: .5rem 0;
-    position: relative;
+.tools-buttons-container .tool.active {
+    background: rgba(255,255,255,.8);
+    color: rgb(67, 66, 84);
 }

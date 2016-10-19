@@ -3,7 +3,6 @@ define(['../../util/Remote',
 		'jquery'
 ],function(Remote,
 		   Stores,
-
 		   $){
 
 	/**
@@ -21,7 +20,6 @@ define(['../../util/Remote',
 	 */
 	Attributes.prototype.getData = function(){
 		var self = this;
-
 		if (ThemeYearConfParams.datasetChanged || ThemeYearConfParams.themeChanged || ThemeYearConfParams.placeChanged){
 			return new Remote({
 				method: "POST",
@@ -101,80 +99,24 @@ define(['../../util/Remote',
 	 * @param attribute.name {string} attribute name
 	 * @param attribute.type {('numeric'|'text'|'boolean')} attribute type
 	 * @param attribute.standardUnits {string}
+	 * @param attribute.units {string}
 	 * @returns {Object|Promise}
 	 */
 	Attributes.prototype.getAttributeDataByType = function(attributeSet, attribute) {
 		var attr = attribute[0];
-
-		var params = {
-			attribute: attr.id,
-			attributeName: attr.name,
-			attributeType: attr.type,
-			attributeSet: attributeSet.id,
-			attributeSetName: attributeSet.name,
-			units: attr.standardUnits
-		};
-		return params;
-	};
-
-	/**
-	 * It returns information about all current numeric attributes (metadata and distribution) or text attributes (metadata)
-	 * based on type of the filter
-	 *
-	 * @param filterType {('filter'|'getUniqueValues')} Type of the filter to use
-	 * @param attrParams {Object} attribute parameters
-	 * @param attrParams.attr {Number} ID of attribute
-	 * @param attrParams.attrName {string} Name of attribute
-	 * @param attrParams.as {Number} ID of attribute set
-	 * @param attrParams.asName {string} Name of atributte set
-	 * @param attrParams.attrType {('numeric'|'text'|'boolean')} Type of attribute
-	 * @returns {*|Promise}
-	 */
-	Attributes.prototype.filterAttribute = function(attributes){
-		var locations;
-		if (ThemeYearConfParams.place.length > 0){
-			locations = [Number(ThemeYearConfParams.place)];
-		} else {
-			locations = ThemeYearConfParams.allPlaces;
+		var params = {};
+		if (attr){
+			params = {
+				attribute: attr.id,
+				attributeName: attr.name,
+				attributeType: attr.type,
+				attributeSet: attributeSet.id,
+				attributeSetName: attributeSet.name,
+				standardUnits: attr.standardUnits,
+				units: attr.units
+			}
 		}
-		var periods = JSON.parse(ThemeYearConfParams.years);
-
-		var dist = {
-			type: 'normal',
-			classes: 20
-		};
-
-		return $.get( Config.url + "rest/filter/attribute/statistics", {
-				areaTemplate: ThemeYearConfParams.auCurrentAt,
-				periods: periods,
-				places: locations,
-				attributes: attributes,
-				distribution: dist
-			})
-			.then(function(response) {
-				if (response.hasOwnProperty("attributes")){
-					return response.attributes;	
-				} else {
-					return [];
-				}
-			});
-
-		//return new Remote({
-		//	method: "GET",
-		//	url: window.Config.url + "rest/filter/attribute/statistics",
-		//	params: {
-		//		areaTemplate: ThemeYearConfParams.auCurrentAt,
-		//		periods: ThemeYearConfParams.years,
-		//		locations: locations,
-		//		attributes: attributes,
-		//		distribution: dist
-		//	}
-		//}).then(function(response){
-		//	return {
-		//		about: attrParams,
-		//		response: JSON.parse(response)
-		//	};
-		//});
+		return params;
 	};
 
 	/**
