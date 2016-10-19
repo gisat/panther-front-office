@@ -144,6 +144,7 @@ define([
      */
     EvaluationWidget.prototype.build = function(){
         this.buildSettings();
+        this.addOnResizeListener();
     };
 
 	/**
@@ -479,6 +480,18 @@ define([
         this._widgetSelector.find(".checkbox-row").off("click.inputs")
             .on( "click.inputs", self.amount.bind(self))
             .on( "click.inputs", self.disableExports.bind(self));
+    };
+
+	/**
+	 * Rebuild histograms on floater resize
+     */
+    EvaluationWidget.prototype.addOnResizeListener = function(){
+        var self = this;
+        this._widgetSelector.on("resizestop", function( event, ui ) {
+            setTimeout(function(){
+                self.rebuildHistograms(self._inputs.sliders);
+            },1000);
+        } );
     };
 
     /**

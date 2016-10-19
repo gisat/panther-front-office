@@ -92,14 +92,12 @@ define(['../../error/ArgumentError',
      * @param dataMinMax {Array} Minimum and maximum value of data
      */
     Histogram.prototype.redraw = function(frequencies, sliderRange, dataMinMax) {
-        this._histogram.html('');
         var widthRatio = (dataMinMax[1] - dataMinMax[0])/(this._maximum - this._minimum);
         if (Math.abs(dataMinMax[1] - dataMinMax[0]) < 0.01){
             widthRatio = 0.05;
         }
-
-        var containerHeight = Number(this._histogram.css('height').slice(0,-2));
-        var containerWidth = Number(this._histogram.css('width').slice(0,-2));
+        var containerHeight = this._histogram.height();
+        var containerWidth = this._histogram.parents(".slider-popup").width();
         var originalBarWidth = widthRatio*(containerWidth - 2)/this._numOfClasses;
 
         if (originalBarWidth <= 8){
@@ -110,7 +108,6 @@ define(['../../error/ArgumentError',
             this._numOfReadyClasses = this._numOfClasses;
             this._readyClasses = this._classes;
         }
-
         var width = widthRatio * (containerWidth - 2)/this._numOfReadyClasses;
         var heightRatio = containerHeight/this.getMostFrequented(this._readyClasses);
         var histogramMargin = (dataMinMax[0] - this._minimum) * (containerWidth/(this._maximum - this._minimum));
@@ -121,7 +118,8 @@ define(['../../error/ArgumentError',
             var marginTop = containerHeight - height;
             content += '<div class="histogram-bar selected" style="height: ' + height + 'px ; width: ' + width + 'px ;margin-top: '+ marginTop +'px"></div>';
         });
-        this._histogram.append(content).css({
+
+        this._histogram.html('').append(content).css({
             marginLeft: histogramMargin
         });
     };

@@ -50,8 +50,8 @@ define([
         }
 
         this.addCategories();
-        this.addMultiCheckListener();
         this.addCheckboxChangeListener();
+        this.addMultiCheckListener();
         this.addCloseListener();
         this.addDragging();
     };
@@ -82,19 +82,23 @@ define([
             }
             var type = attribute.about.attributeType;
             var name = attribute.about.attributeName;
+            var name4Settings = name;
             var id = "attr-" + attribute.about.attribute;
             var input = "";
 
             if (type == "boolean"){
                 input = "checkbox";
+                name4Settings = name4Settings + " <i>(Yes/No)</i>";
             }
             else if (type == "numeric") {
                 input = "slider";
+                name4Settings = name4Settings + " <i>(Range)</i>";
             }
             else if (type == "text") {
                 input = "select";
+                name4Settings = name4Settings + " <i>(Category)</i>";
             }
-            self.addCheckbox('settings-' + id, name, "attribute-row", asId);
+            self.addCheckbox('settings-' + id, name4Settings, "attribute-row", asId);
             self._categories[id] = {
                 attrData: attribute,
                 name: name,
@@ -125,7 +129,7 @@ define([
     };
 
     /**
-     * It returns selected filters
+     * It returns selected categories (filters)
      * @returns {Object}
      */
     Settings.prototype.getCategories = function(){
@@ -191,35 +195,79 @@ define([
     };
 
 	/**
-     * Rebuild info about current state of attribute, if it's active or not
+     * Rebuild info about current state of attribute, if it's active or not.
+     * Handle state of atribute sets checkboxes and All attributes checkbox.
      */
     Settings.prototype.rebuildAttributesState = function(){
         var self = this;
         var allAttributesCheckbox = $('#settings-all-attributes');
-        var numberOfCheckedAttributes = 0;
+        var checkedAttributes = 0;
+        var checkedAsAttributes = -1;
         var allAttributes = 0;
-        var attributeSet = "";
+        var allAsAttributes = 0;
+        var attributeSetId = "";
+
         setTimeout(function(){
-            $('#' + self._id + ' .attribute-row').each(function(){
+            var attributeRows = $('#' + self._id + ' .attribute-row');
+            attributeRows.each(function(){
+                var attrSet = $(this).attr("data-id");
                 var checked = $(this).hasClass("checked");
-                if (checked){
-                    numberOfCheckedAttributes++;
-                }
                 var id = $(this).attr('id').slice(9);
+
+                // change of attribute sets - if no attribute checked, uncheck attribute set checkbox;
+                // if all attributes checked, check attribute set checkbox; reset counter and id
+                if (attrSet != attributeSetId){
+                    attributeSetId = attrSet;
+                    var asCheckbox = $('#' + attributeSetId);
+                    if (checkedAsAttributes == 0){
+                        if (asCheckbox.hasClass("checked")){
+                            asCheckbox.removeClass("checked");
+                        }
+                    }
+                    if (checkedAsAttributes == allAsAttributes){
+                        if (!asCheckbox.hasClass("checked")){
+                            asCheckbox.addClass("checked");
+                        }
+                    }
+                    checkedAsAttributes = 0;
+                    allAsAttributes = 0;
+                }
+
+                // if checked, increment counter
+                if (checked){
+                    checkedAttributes++;
+                    checkedAsAttributes++;
+                }
+
+                // set state of attribute
                 self._categories[id].active = checked;
                 allAttributes++;
+                allAsAttributes++;
             });
 
-            var confirmButton = $('#' + self._id + ' .settings-confirm');
+            // review the state of last attribute set checkbox (for only one attribute set cases)
+            var asCheckboxLast = $('#' + attributeSetId);
+            if (checkedAsAttributes == 0){
+                if (asCheckboxLast.hasClass("checked")){
+                    asCheckboxLast.removeClass("checked");
+                }
+            } else {
+                if (checkedAsAttributes == allAttributes){
+                    if (!asCheckboxLast.hasClass("checked")){
+                        asCheckboxLast.addClass("checked");
+                    }
+                }
+            }
 
-            if (numberOfCheckedAttributes > 0){
+            // review the state of all attributes checkbox and confirm button
+            var confirmButton = $('#' + self._id + ' .settings-confirm');
+            if (checkedAttributes > 0){
                 confirmButton.attr("disabled", false);
-                if (numberOfCheckedAttributes == allAttributes){
+                if (checkedAttributes == allAttributes){
                     if (!allAttributesCheckbox.hasClass("checked")){
                         allAttributesCheckbox.addClass("checked");
                     }
                 }
-
             } else {
                 confirmButton.attr("disabled", true);
                 if (allAttributesCheckbox.hasClass("checked")){

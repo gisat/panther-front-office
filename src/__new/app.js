@@ -145,16 +145,13 @@ define(['js/util/metadata/Attributes',
                 Placeholder.floaterClosed(placeholder);
             }
         });
-        $(".floater").draggable({
+        $(".floater").resizable({
+            animate: true,
+            minWidth: 290,
+            maxWidth: 500
+        }).draggable({
             containment: "body",
-            handle: ".floater-header",
-            stop: function (ev, ui) {
-                var element = $(this);
-                element.css({
-                    width: "",
-                    height: ""
-                });
-            }
+            handle: ".floater-header"
         }).on("click",function(){
             $(".floater").removeClass("active");
             $(this).addClass("active");

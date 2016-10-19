@@ -10,24 +10,6 @@
     font-size: .75rem;
 }
 
-.ui-front {
-    z-index: 10002;
-}
-.ui-menu .ui-menu-item .ui-menu-item-wrapper {
-    background: #eee;
-    color: #555;
-    border: 0;
-    border-bottom: 1px solid #ddd;
-    padding: .4rem;
-    transition: background .3s ease-out;
-}
-.ui-menu .ui-menu-item .ui-menu-item-wrapper.ui-state-active {
-    background: #ddd;
-    border: 0;
-    border-bottom: 1px solid #ddd;
-    margin: 0;
-}
-
 /* === Buttons === */
 .widget-button {
     background: #c92d42;
@@ -100,4 +82,27 @@
 .tools-buttons-container .tool.active {
     background: rgba(255,255,255,.8);
     color: rgb(67, 66, 84);
+}
+
+/* JQuery UI */
+.ui-front {
+    z-index: 10002;
+}
+.ui-menu .ui-menu-item .ui-menu-item-wrapper {
+    background: #eee;
+    color: #555;
+    border: 0;
+    border-bottom: 1px solid #ddd;
+    padding: .4rem;
+    transition: background .3s ease-out;
+}
+.ui-menu .ui-menu-item .ui-menu-item-wrapper.ui-state-active {
+    background: #ddd;
+    border: 0;
+    border-bottom: 1px solid #ddd;
+    margin: 0;
+}
+.ui-resizable-helper {
+    border: 2px dotted gray;
+    z-index: 99999;
 }
