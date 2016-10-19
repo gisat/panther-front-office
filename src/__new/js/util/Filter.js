@@ -33,8 +33,9 @@ define(['./Remote',
 							values = checkboxEl.hasClass("checked");
 						}
 						else if (attribute.about.attributeType == "text") {
-							var selectEl = $("#attr-" + attribute.about.attribute + "-button .ui-selectmenu-text");
-							values = selectEl.text();
+							var selectEl = $("#attr-" + attribute.about.attribute);
+							values = selectEl.val();
+							console.log(values);
 						}
 						else if (attribute.about.attributeType == "numeric"){
 							var sliderEl = $("#attr-" + attribute.about.attribute);
@@ -56,7 +57,10 @@ define(['./Remote',
 							attributeSet: attribute.about.attributeSet,
 							value: values
 						};
-						attributes.push(attr);
+
+						if (values != "all-options"){
+							attributes.push(attr);
+						}
 				}
 			}
 		}
