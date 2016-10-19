@@ -50,8 +50,8 @@ define([
         }
 
         this.addCategories();
-        this.addMultiCheckListener();
         this.addCheckboxChangeListener();
+        this.addMultiCheckListener();
         this.addCloseListener();
         this.addDragging();
     };
@@ -125,7 +125,7 @@ define([
     };
 
     /**
-     * It returns selected filters
+     * It returns selected categories (filters)
      * @returns {Object}
      */
     Settings.prototype.getCategories = function(){
@@ -191,35 +191,64 @@ define([
     };
 
 	/**
-     * Rebuild info about current state of attribute, if it's active or not
+     * Rebuild info about current state of attribute, if it's active or not.
+     * Handle state of atribute sets checkboxes and All attributes checkbox.
      */
     Settings.prototype.rebuildAttributesState = function(){
         var self = this;
         var allAttributesCheckbox = $('#settings-all-attributes');
-        var numberOfCheckedAttributes = 0;
+        var checkedAttributes = 0;
+        var checkedAsAttributes = -1;
         var allAttributes = 0;
-        var attributeSet = "";
+        var attributeSetId = "";
+
         setTimeout(function(){
-            $('#' + self._id + ' .attribute-row').each(function(){
+            var attributeRows = $('#' + self._id + ' .attribute-row');
+            attributeRows.each(function(){
+                var attrSet = $(this).attr("data-id");
                 var checked = $(this).hasClass("checked");
-                if (checked){
-                    numberOfCheckedAttributes++;
-                }
                 var id = $(this).attr('id').slice(9);
+
+                // change of attribute sets - if no attribute checked, uncheck attribute set checkbox; reset counter and id
+                if (attrSet != attributeSetId){
+                    if (checkedAsAttributes == 0){
+                        var asCheckbox = $('#' + attributeSetId);
+                        if (asCheckbox.hasClass("checked")){
+                            asCheckbox.removeClass("checked");
+                        }
+                    }
+                    attributeSetId = attrSet;
+                    checkedAsAttributes = 0;
+                }
+
+                // if checked, increment counter
+                if (checked){
+                    checkedAttributes++;
+                    checkedAsAttributes++;
+                }
+
+                // set state of attribute
                 self._categories[id].active = checked;
                 allAttributes++;
             });
 
-            var confirmButton = $('#' + self._id + ' .settings-confirm');
+            // review the state of last attribute set checkbox (for only one attribute set cases)
+            var asCheckboxLast = $('#' + attributeSetId);
+            if (checkedAsAttributes == 0){
+                if (asCheckboxLast.hasClass("checked")){
+                    asCheckboxLast.removeClass("checked");
+                }
+            }
 
-            if (numberOfCheckedAttributes > 0){
+            // review the state of all attributes checkbox and confirm button
+            var confirmButton = $('#' + self._id + ' .settings-confirm');
+            if (checkedAttributes > 0){
                 confirmButton.attr("disabled", false);
-                if (numberOfCheckedAttributes == allAttributes){
+                if (checkedAttributes == allAttributes){
                     if (!allAttributesCheckbox.hasClass("checked")){
                         allAttributesCheckbox.addClass("checked");
                     }
                 }
-
             } else {
                 confirmButton.attr("disabled", true);
                 if (allAttributesCheckbox.hasClass("checked")){
