@@ -33,15 +33,6 @@ define(['../../error/ArgumentError',
     Widget.prototype = Object.create(View.prototype);
 
     /**
-     * True if widget is minimised(docked)
-     * @param widget
-     * @returns {boolean}
-     */
-    Widget.prototype.isMinimised = function(widget){
-        return !($(widget).hasClass("open"));
-    };
-
-    /**
      * Create the base structure of widget - placeholder and floater
      * @param widgetId {Object} JQuery object - widget Id
      * @param target {Object} JQuery object - target
