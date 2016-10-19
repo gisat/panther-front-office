@@ -35,7 +35,6 @@ define(['./Remote',
 						else if (attribute.about.attributeType == "text") {
 							var selectEl = $("#attr-" + attribute.about.attribute);
 							values = selectEl.val();
-							console.log(values);
 						}
 						else if (attribute.about.attributeType == "numeric"){
 							var sliderEl = $("#attr-" + attribute.about.attribute);

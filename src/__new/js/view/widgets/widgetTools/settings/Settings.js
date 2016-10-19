@@ -82,19 +82,23 @@ define([
             }
             var type = attribute.about.attributeType;
             var name = attribute.about.attributeName;
+            var name4Settings = name;
             var id = "attr-" + attribute.about.attribute;
             var input = "";
 
             if (type == "boolean"){
                 input = "checkbox";
+                name4Settings = name4Settings + " <i>(Yes/No)</i>";
             }
             else if (type == "numeric") {
                 input = "slider";
+                name4Settings = name4Settings + " <i>(Range)</i>";
             }
             else if (type == "text") {
                 input = "select";
+                name4Settings = name4Settings + " <i>(Category)</i>";
             }
-            self.addCheckbox('settings-' + id, name, "attribute-row", asId);
+            self.addCheckbox('settings-' + id, name4Settings, "attribute-row", asId);
             self._categories[id] = {
                 attrData: attribute,
                 name: name,

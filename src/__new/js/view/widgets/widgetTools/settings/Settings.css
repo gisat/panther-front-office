@@ -62,6 +62,12 @@
 .tool-window-body .checkbox-row span {
 	font-weight: normal;
 }
+.tool-window-body .checkbox-row span i {
+	font-style: normal;
+	font-size: .7rem;
+	color: #bbb;
+	padding-left: .3rem;
+}
 .tool-window-body .checkbox-row.attribute-set-row span,
 .tool-window-body .checkbox-row.all-attributes-row span {
 	font-weight: bold;
