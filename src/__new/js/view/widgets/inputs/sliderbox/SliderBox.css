@@ -10,7 +10,8 @@
 }
 
 .slider-row {
-    width: 14.5rem;
+    min-width: 14.5rem;
+    width: 90%;
     margin: .5rem .4rem .35rem .4rem;
 }
 
@@ -18,7 +19,8 @@
     background: #ccc;
     border: 0;
     height: 4px;
-    width: 14.5rem;
+    min-width: 14.5rem;
+    width: 90%;
 }
 
 .slider-row.ui-slider-horizontal .ui-slider-handle {
@@ -42,7 +44,8 @@
     font-size: .7rem;
     color: #999;
     padding: 0 .1rem;
-    width: 15.2rem;
+    min-width: 15.2rem;
+    width: calc(90% + .7rem);
 }
 .slider-labels-min {
     display: inline-block;
@@ -60,7 +63,8 @@
     display: none;
     position: absolute;
     margin: -9rem .4rem 0 .4rem;
-    width: 14.5rem;
+    min-width: 14.5rem;
+    width: calc(90% - 1.2rem);
     height: 7rem;
     background: white;
     -webkit-box-shadow: 0 0 4px rgb(136, 136, 136);

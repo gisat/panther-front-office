@@ -8,11 +8,11 @@
 
 	display: none;
 	height: 30rem;
-	width: 40rem;
+	width: 30rem;
 	padding: .5rem;
 	position: absolute;
 	top: 8rem;
-	left: calc(50% - 20rem);
+	left: calc(50% - 15rem);
 	z-index: 99999;
 }
 .tool-window.open {
