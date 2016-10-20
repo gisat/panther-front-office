@@ -56,7 +56,6 @@ define(['./Remote',
 							attributeSet: attribute.about.attributeSet,
 							value: values
 						};
-						console.log(values);
 						attributes.push(attr);
 				}
 			}

@@ -203,41 +203,18 @@ define([
         var self = this;
         var allAttributesCheckbox = $('#settings-all-attributes');
         var checkedAttributes = 0;
-        var checkedAsAttributes = -1;
         var allAttributes = 0;
-        var allAsAttributes = 0;
-        var attributeSetId = "";
 
         setTimeout(function(){
             var attributeRows = $('#' + self._id + ' .attribute-row');
             attributeRows.each(function(){
-                var attrSet = $(this).attr("data-id");
                 var checked = $(this).hasClass("checked");
                 var id = $(this).attr('id').slice(9);
 
-                // change of attribute sets - if no attribute checked, uncheck attribute set checkbox;
-                // if all attributes checked, check attribute set checkbox; reset counter and id
-                if (attrSet != attributeSetId){
-                    attributeSetId = attrSet;
-                    var asCheckbox = $('#' + attributeSetId);
-                    if (checkedAsAttributes == 0){
-                        if (asCheckbox.hasClass("checked")){
-                            asCheckbox.removeClass("checked");
-                        }
-                    }
-                    if (checkedAsAttributes == allAsAttributes){
-                        if (!asCheckbox.hasClass("checked")){
-                            asCheckbox.addClass("checked");
-                        }
-                    }
-                    checkedAsAttributes = 0;
-                    allAsAttributes = 0;
-                }
 
                 // if checked, increment counter
                 if (checked){
                     checkedAttributes++;
-                    checkedAsAttributes++;
                 }
 
                 // set state of attribute
@@ -245,22 +222,7 @@ define([
                 self._categories[id].attrData.about.active = checked;
 
                 allAttributes++;
-                allAsAttributes++;
             });
-
-            // review the state of last attribute set checkbox (for only one attribute set cases)
-            var asCheckboxLast = $('#' + attributeSetId);
-            if (checkedAsAttributes == 0){
-                if (asCheckboxLast.hasClass("checked")){
-                    asCheckboxLast.removeClass("checked");
-                }
-            } else {
-                if (checkedAsAttributes == allAttributes){
-                    if (!asCheckboxLast.hasClass("checked")){
-                        asCheckboxLast.addClass("checked");
-                    }
-                }
-            }
 
             // review the state of all attributes checkbox and confirm button
             var confirmButton = $('#' + self._id + ' .settings-confirm');
