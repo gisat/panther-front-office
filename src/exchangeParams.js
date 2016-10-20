@@ -34,6 +34,10 @@ var AreasExpanding = false;
  */
 var ExpandedAreasExchange = {};
 
+var ExchangeParams = {
+	attributesState: [],
+};
+
 /**
  * Object for currently selected areas
  * @type {{data: null}}

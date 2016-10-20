@@ -103,9 +103,10 @@ define([
                         attribute: attribute.attribute,
                         attributeName: attribute.attributeName,
                         attributeType: attribute.type,
-                        attributeSet: attribute.attributeSet,
+                        attributeSet: Number(attribute.attributeSet),
                         attributeSetName: attribute.attributeSetName,
-                        units: attribute.units
+                        units: attribute.units,
+                        active: attribute.active
                     };
 
                     if (about.attributeType == "numeric"){
@@ -192,6 +193,8 @@ define([
             widgetId: this._widgetId
         });
         this._categories = this._settings.getCategories();
+        this.setAttributesState(this._categories);
+
         this.rebuildInputs(this._categories);
         this.disableExports();
 
@@ -514,6 +517,7 @@ define([
         var self = this;
         button.on("click",function(){
             self._categories = self._settings.getCategories();
+            self.setAttributesState(self._categories);
             self.rebuildInputs(self._categories);
             self.disableExports();
         })
@@ -556,6 +560,20 @@ define([
                 break;
         }
         this._widgetSelector.find(".floater-overlay").css("display", display);
+    };
+
+	/**
+     * Prepare attributes for export
+     * @param categories {Object}
+     */
+    EvaluationWidget.prototype.setAttributesState = function(categories){
+        var attributes = [];
+        for (var attr in categories){
+            if (categories.hasOwnProperty(attr)){
+                attributes.push(categories[attr].attrData.about);
+            }
+        }
+        ExchangeParams.attributesState = attributes;
     };
 
     return EvaluationWidget;

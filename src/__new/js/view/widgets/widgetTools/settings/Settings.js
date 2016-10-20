@@ -103,7 +103,7 @@ define([
                 attrData: attribute,
                 name: name,
                 input: input,
-                active: true
+                active: attribute.about.active
             };
         });
     };
@@ -241,6 +241,8 @@ define([
 
                 // set state of attribute
                 self._categories[id].active = checked;
+                self._categories[id].attrData.about.active = checked;
+
                 allAttributes++;
                 allAsAttributes++;
             });

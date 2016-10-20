@@ -26,6 +26,7 @@ define([
 	FrontOffice.prototype.rebuild = function(){
 		var self = this;
 		this.getAttributesMetadata().then(function(attributes){
+			console.log(attributes);
 			self._tools.forEach(function(tool){
 				tool.rebuild(attributes, self._map);
 			});
