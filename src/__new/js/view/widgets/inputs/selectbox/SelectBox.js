@@ -76,7 +76,7 @@ define(['../../../../error/ArgumentError',
     SelectBox.prototype.getSelectOptions = function(){
         var content = "";
         if (this._data.length > 1){
-            content += '<option value="all-options" class="selectbox-all-options">All options</option>';
+            content += '<option value="" class="selectbox-all-options">All options</option>';
         }
         this._data.forEach(function(item){
             content += '<option value="' + item + '">' + item + '</option>';

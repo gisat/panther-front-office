@@ -56,10 +56,8 @@ define(['./Remote',
 							attributeSet: attribute.about.attributeSet,
 							value: values
 						};
-
-						if (values != "all-options"){
-							attributes.push(attr);
-						}
+						console.log(values);
+						attributes.push(attr);
 				}
 			}
 		}
@@ -87,7 +85,6 @@ define(['./Remote',
 			type: 'normal',
 			classes: 20
 		};
-
 		return $.get( Config.url + "rest/filter/attribute/statistics", {
 				areaTemplate: ThemeYearConfParams.auCurrentAt,
 				periods: periods,

@@ -468,6 +468,15 @@ Ext.define('PumaMain.controller.LocationTheme', {
         // current years
         var years = Ext.ComponentQuery.query('#selyear')[0].getValue();
         ThemeYearConfParams.years = "[" + years.toString() + "]";
+
+        // current visualization
+        var visualization = Ext.ComponentQuery.query('#selvisualization')[0].getValue();
+        if (visualization){
+            ThemeYearConfParams.visualization = visualization.toString();
+        } else {
+            ThemeYearConfParams.visualization = "";
+        }
+
     },
     onVisChange: function(cnt) {
         if (cnt.eventsSuspended) {
@@ -479,6 +488,9 @@ Ext.define('PumaMain.controller.LocationTheme', {
         this.getController('Chart').reconfigureAll();
         //this.getController('Layers').reconfigureAll();
         this.getController('Layers').checkVisibilityAndStyles();
+
+        ThemeYearConfParams.visualization = val.toString();
+        Observer.notify("rebuild");
     },
     
     refreshVisualization: function() {

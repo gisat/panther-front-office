@@ -70,7 +70,7 @@ define([
     Settings.prototype.addCategories = function(){
         this._settingsBody = $('#' + this._id + ' .tool-window-body');
         this._settingsBody.html("");
-        this.addCheckbox("settings-all-attributes", "All attributes", "all-attributes-row", "");
+        this.addCheckbox("settings-all-attributes", "All attributes", "all-attributes-row", "", true);
         var asName = "";
         var asId = null;
         var self = this;
@@ -78,13 +78,14 @@ define([
             if (attribute.about.attributeSetName != asName){
                 asName = attribute.about.attributeSetName;
                 asId = "settings-as-" + attribute.about.attributeSet;
-                self.addCheckbox(asId, asName, "attribute-set-row", "");
+                self.addCheckbox(asId, asName, "attribute-set-row", "", true);
             }
             var type = attribute.about.attributeType;
             var name = attribute.about.attributeName;
             var name4Settings = name;
             var id = "attr-" + attribute.about.attribute;
             var input = "";
+            var active = JSON.parse(attribute.about.active);
 
             if (type == "boolean"){
                 input = "checkbox";
@@ -98,12 +99,12 @@ define([
                 input = "select";
                 name4Settings = name4Settings + " <i>(Category)</i>";
             }
-            self.addCheckbox('settings-' + id, name4Settings, "attribute-row", asId);
+            self.addCheckbox('settings-' + id, name4Settings, "attribute-row", asId, active);
             self._categories[id] = {
                 attrData: attribute,
                 name: name,
                 input: input,
-                active: attribute.about.active
+                active: active
             };
         });
     };
@@ -116,11 +117,11 @@ define([
      * @param dataId {string} if present, id of the attribute set row
      * @returns {Checkbox}
      */
-    Settings.prototype.addCheckbox = function(id, name, klass, dataId){
+    Settings.prototype.addCheckbox = function(id, name, klass, dataId, checked){
         return new Checkbox({
             containerId: this._id,
             class: klass,
-            checked: true,
+            checked: checked,
             dataId: dataId,
             id: id,
             name: name,

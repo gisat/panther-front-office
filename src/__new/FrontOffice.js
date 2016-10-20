@@ -2,10 +2,12 @@ define([
 	'js/stores/Stores',
 	'js/stores/gisat/Attributes',
 	'js/stores/gisat/AttributeSets',
+	'js/stores/gisat/Visualizations',
 	'underscore'
 ], function(Stores,
 			Attributes,
 			AttributeSets,
+			Visualizations,
 			_){
 	/**
 	 * Constructor for assembling current application.
@@ -25,14 +27,32 @@ define([
 	 */
 	FrontOffice.prototype.rebuild = function(){
 		var self = this;
-		this.getAttributesMetadata().then(function(attributes){
-			console.log(attributes);
-			self._tools.forEach(function(tool){
-				tool.rebuild(attributes, self._map);
+		var visualization = Number(ThemeYearConfParams.visualization);
+		if (visualization > 0){
+			Stores.retrieve("visualization").byId(visualization).then(function(response){
+				var attributes = response[0].attributes;
+				if (attributes){
+					self.rebuildComponents(attributes);
+				}
+				else {
+					self.getAttributesMetadata().then(self.rebuildComponents.bind(self));
+				}
 			});
-			self._widgets.forEach(function(widget){
-				widget.rebuild(attributes, self._map);
-			});
+		}
+
+		else {
+			this.getAttributesMetadata().then(self.rebuildComponents.bind(self));
+		}
+	};
+
+	FrontOffice.prototype.rebuildComponents = function(attributes){
+		var self = this;
+
+		this._tools.forEach(function(tool){
+			tool.rebuild(attributes, self._map);
+		});
+		this._widgets.forEach(function(widget){
+			widget.rebuild(attributes, self._map);
 		});
 	};
 
@@ -60,6 +80,7 @@ define([
 	FrontOffice.prototype.loadData = function(){
 		Stores.retrieve('attribute').all();
 		Stores.retrieve('attributeSet').all();
+		Stores.retrieve('visualization').all();
 	};
 
 	return FrontOffice;
