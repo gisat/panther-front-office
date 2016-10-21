@@ -44,10 +44,10 @@ define(['../../../error/ArgumentError',
 	};
 
 	FeatureInfoTool.prototype.rebuild = function(attributes, map) {
-		this.addOnClickListener(map);
+		this.addOnClickListener(attributes, map);
 	};
 
-	FeatureInfoTool.prototype.addOnClickListener = function(map){
+	FeatureInfoTool.prototype.addOnClickListener = function(attributes, map){
 		var self = this;
 		$('body').off("click.featureInfo").on("click.featureInfo", '#feature-info', function () {
 			var button = $(this);
@@ -59,7 +59,7 @@ define(['../../../error/ArgumentError',
 					Observer.notify("featureInfo");
 					map.rebuild(FeatureInfo.map);
 					self._map = map;
-					self._map.addOnClickListener();
+					self._map.addOnClickListener(attributes);
 				}
 				self._map.onClickActivate();
 			} else {

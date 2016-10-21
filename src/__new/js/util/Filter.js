@@ -13,14 +13,7 @@ define(['./Remote',
 	};
 
 	Filter.prototype.filter = function(categories, type) {
-		var locations;
-		if (ThemeYearConfParams.place.length > 0){
-			locations = [Number(ThemeYearConfParams.place)];
-		} else {
-			locations = ThemeYearConfParams.allPlaces;
-		}
-		var periods = JSON.parse(ThemeYearConfParams.years);
-
+		var params = this.prepareParams();
 		var attributes = [];
 
 		for (var key in categories) {
@@ -61,9 +54,9 @@ define(['./Remote',
 			}
 		}
 		return $.get( Config.url + "rest/filter/attribute/" + type, {
-				areaTemplate: ThemeYearConfParams.auCurrentAt,
-				periods: periods,
-				places: locations,
+				areaTemplate: params.areaTemplate,
+				periods: params.periods,
+				places: params.locations,
 				attributes: attributes
 			})
 			.then(function(response) {
@@ -72,22 +65,15 @@ define(['./Remote',
 	};
 
 	Filter.prototype.statistics = function(attributes){
-		var locations;
-		if (ThemeYearConfParams.place.length > 0){
-			locations = [Number(ThemeYearConfParams.place)];
-		} else {
-			locations = ThemeYearConfParams.allPlaces;
-		}
-		var periods = JSON.parse(ThemeYearConfParams.years);
-
+		var params = this.prepareParams();
 		var dist = {
 			type: 'normal',
 			classes: 20
 		};
 		return $.get( Config.url + "rest/filter/attribute/statistics", {
-				areaTemplate: ThemeYearConfParams.auCurrentAt,
-				periods: periods,
-				places: locations,
+				areaTemplate: params.areaTemplate,
+				periods: params.periods,
+				places: params.locations,
 				attributes: attributes,
 				distribution: dist
 			})
@@ -98,6 +84,39 @@ define(['./Remote',
 					return [];
 				}
 			});
+	};
+
+	Filter.prototype.featureInfo = function(attributes, gid){
+		var params = this.prepareParams();
+
+		return $.get( Config.url + "rest/info/attribute", {
+				areaTemplate: params.areaTemplate,
+				periods: params.periods,
+				places: params.locations,
+				gid: gid,
+				attributes: attributes
+			})
+			.then(function(response) {
+				return response;
+			});
+	};
+
+	/**
+	 * It prepares basics parameters for request
+	 * @returns {{areaTemplate: string, locations: [], periods: []}}
+	 */
+	Filter.prototype.prepareParams = function (){
+		var locations;
+		if (ThemeYearConfParams.place.length > 0){
+			locations = [Number(ThemeYearConfParams.place)];
+		} else {
+			locations = ThemeYearConfParams.allPlaces;
+		}
+		return {
+			areaTemplate: ThemeYearConfParams.auCurrentAt,
+			locations: locations,
+			periods: JSON.parse(ThemeYearConfParams.years)
+		}
 	};
 
 	return Filter;

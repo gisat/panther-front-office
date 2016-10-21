@@ -1,9 +1,11 @@
 define([
 	'../../error/ArgumentError',
+	'../../util/Filter',
 	'../../util/Logger',
 
 	'jquery'
 ], function (ArgumentError,
+			 Filter,
 			 Logger,
 
 			 $) {
@@ -102,9 +104,10 @@ define([
 		});
 	};
 
-	Map.prototype.addOnClickListener = function(){
-		var self = this;
+	Map.prototype.addOnClickListener = function(attributes){
 		var layers = this.getBaseLayersIds();
+
+		this._attributes = attributes;
 		this._map.selectInMapLayer.params['LAYERS'] = layers.join(',');
 		if (!this._newInfoControl){
 			this._newInfoControl = new OpenLayers.Control.WMSGetFeatureInfo({
@@ -124,20 +127,36 @@ define([
 		if (allFeatures.length > 0){
 			$("#feature-info-window").show(200);
 			var featureGid = allFeatures[allFeatures.length - 1].properties.gid;
-			this.rebuildInfoWindow(featureGid, e.xy);
+			this.prepareInfoWindow(featureGid, e.xy);
 		}
 		else {
 			$("#feature-info-window").hide(200);
 		}
 	};
 
-	Map.prototype.rebuildInfoWindow = function(gid, coordinates){
+	Map.prototype.prepareInfoWindow = function(gid, coordinates){
 		var mapOffsetTop = $('#app-map').offset().top;
-		$("#feature-info-window").offset({
+		var featureInfo = $("#feature-info-window");
+
+		featureInfo.offset({
 			top: coordinates.y + mapOffsetTop + 5,
 			left: coordinates.x + 5
 		});
-		$("#feature-info-window .feature-info-window-header").html("Area name (" + gid + ")");
+
+		new Filter().featureInfo(this._attributes, gid).then(this.rebuildInfoWindowContent);
+	};
+
+	Map.prototype.rebuildInfoWindowContent = function(info){
+		var featureInfo = $("#feature-info-window");
+		var content = "";
+		var attributes = info[0].attributes;
+		for (var item in attributes){
+			if (attributes.hasOwnProperty(item)){
+				content += '<tr><td>' + item + '</td><td>' + attributes[item] + '</td></tr>';
+			}
+		}
+		featureInfo.find(".feature-info-window-header").html(info[0].name + " (" + info[0].gid + ")");
+		featureInfo.find(".feature-info-window-body table").html(content);
 	};
 
 	Map.prototype.onClickActivate = function(){
