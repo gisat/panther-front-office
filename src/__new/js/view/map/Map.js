@@ -2,11 +2,13 @@ define([
 	'../../error/ArgumentError',
 	'../../util/Filter',
 	'../../util/Logger',
+	'../../util/viewUtils',
 
 	'jquery'
 ], function (ArgumentError,
 			 Filter,
 			 Logger,
+			 viewUtils,
 
 			 $) {
 	"use strict";
@@ -150,7 +152,11 @@ define([
 		var attributes = info[0].attributes;
 		for (var item in attributes){
 			if (attributes.hasOwnProperty(item)){
-				content += '<tr><td>' + item + '</td><td>' + attributes[item] + '</td></tr>';
+				var value = attributes[item];
+				if (typeof value == "number"){
+					value = viewUtils.numberFormat(value, true, 2);
+				}
+				content += '<tr><td>' + item + '</td><td>' + value + '</td></tr>';
 			}
 		}
 		featureInfo.find(".feature-info-window-header").html(info[0].name + " (" + info[0].gid + ")");

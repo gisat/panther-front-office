@@ -5,12 +5,12 @@
 	box-shadow: 0 0 1px rgba(136,136,136,.5);
 	color: #555;
 	display: none;
-	height: 10rem;
+	height: 12rem;
 	left: 100px;
 	padding: .3rem 0 .3rem .5rem;
 	position: absolute;
 	right: 100px;
-	width: 14rem;
+	width: 18rem;
 	z-index: 9999;
 }
 #feature-info-window .feature-info-window-header {
@@ -24,7 +24,7 @@
 	margin: 0 .2rem .2rem 0;
 	overflow-x: hidden;
 	overflow-y: auto;
-	height: 7.6rem;
+	height: 9.8rem;
 }
 #feature-info-window .feature-info-window-body table {
 	width: 100%;
@@ -34,7 +34,7 @@
 }
 #feature-info-window .feature-info-window-body table tr td {
 	font-size: .7rem;
-	padding: .15rem .2rem .15rem .1rem;
+	padding: .15rem .2rem;
 }
 #feature-info-window .feature-info-window-body table tr td:first-child {
 	font-weight: 600;
