@@ -55,12 +55,10 @@ define(['../../../error/ArgumentError',
 			button.toggleClass("active");
 
 			if (self._active){
-				if (!self._map){
-					Observer.notify("featureInfo");
-					map.rebuild(FeatureInfo.map);
-					self._map = map;
-					self._map.addOnClickListener(attributes);
-				}
+				Observer.notify("featureInfo");
+				map.rebuild(FeatureInfo.map);
+				self._map = map;
+				self._map.addOnClickListener(attributes);
 				self._map.onClickActivate();
 			} else {
 				self._map.onClickDeactivate();

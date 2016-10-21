@@ -106,7 +106,6 @@ define([
 
 	Map.prototype.addOnClickListener = function(attributes){
 		var layers = this.getBaseLayersIds();
-
 		this._attributes = attributes;
 		this._map.selectInMapLayer.params['LAYERS'] = layers.join(',');
 		if (!this._newInfoControl){
@@ -142,7 +141,6 @@ define([
 			top: coordinates.y + mapOffsetTop + 5,
 			left: coordinates.x + 5
 		});
-
 		new Filter().featureInfo(this._attributes, gid).then(this.rebuildInfoWindowContent);
 	};
 
