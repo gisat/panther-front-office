@@ -1,4 +1,5 @@
 define(['../../../error/ArgumentError',
+	'./FeatureInfoWindow',
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 	'../../../view/map/Map',
@@ -9,6 +10,7 @@ define(['../../../error/ArgumentError',
 	'text!./FeatureInfoTool.html',
 	'css!./FeatureInfoTool'
 ], function (ArgumentError,
+			 FeatureInfoWindow,
 			 NotFoundError,
 			 Logger,
 			 Map,
@@ -31,18 +33,39 @@ define(['../../../error/ArgumentError',
 
 		this._target = $("#" + options.targetId);
 		this._id = options.elementId;
-		this._active = false;
 
 		this.build();
 	};
 
 	FeatureInfoTool.prototype = Object.create(View.prototype);
 
+	/**
+	 * Build Feature info basic content
+	 */
 	FeatureInfoTool.prototype.build = function() {
-		var html = S(htmlContent).template().toString();
+		var html = S(htmlContent).template({
+			id: this._id
+		}).toString();
 		this._target.append(html);
+		this._infoWindow = this.buildInfoWindow();
 	};
 
+	/**
+	 * Build new window for displaying information about feature
+	 * @returns {Object}
+	 */
+	FeatureInfoTool.prototype.buildInfoWindow = function(){
+		return new FeatureInfoWindow({
+			target: this._target,
+			id: this._id + "-window"
+		});
+	};
+
+	/**
+	 * Rebuild Feature info for specific attributes and map
+	 * @param attributes {Array}
+	 * @param map {Object}
+	 */
 	FeatureInfoTool.prototype.rebuild = function(attributes, map) {
 		this.addOnClickListener(attributes, map);
 	};
@@ -51,17 +74,17 @@ define(['../../../error/ArgumentError',
 		var self = this;
 		$('body').off("click.featureInfo").on("click.featureInfo", '#feature-info', function () {
 			var button = $(this);
-			self._active = !button.hasClass("active");
+			var active = !button.hasClass("active");
 			button.toggleClass("active");
 
-			if (self._active){
+			if (active){
 				Observer.notify("featureInfo");
 				map.rebuild(FeatureInfo.map);
 				self._map = map;
-				self._map.addOnClickListener(attributes);
+				self._map.addOnClickListener(attributes, self._infoWindow);
 				self._map.onClickActivate();
 			} else {
-				self._map.onClickDeactivate();
+				self._map.onClickDeactivate(self._infoWindow);
 			}
 		});
 	};
