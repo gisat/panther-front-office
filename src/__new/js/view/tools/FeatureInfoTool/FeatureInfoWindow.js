@@ -49,6 +49,7 @@ define(['../../../error/ArgumentError',
 	 */
 	FeatureInfoWindow.prototype.rebuild = function(attributes, gid){
 		var self = this;
+		this.handleLoading("show");
 		new Filter().featureInfo(attributes, gid).then(function(info){
 			var content = "";
 			var attributes = info[0].attributes;
@@ -63,6 +64,7 @@ define(['../../../error/ArgumentError',
 			}
 			self._infoWindow.find(".feature-info-window-header").html(info[0].name + " (" + info[0].gid + ")");
 			self._infoWindow.find(".feature-info-window-body table").html(content);
+			self.handleLoading("hide");
 		});
 	};
 
@@ -101,6 +103,23 @@ define(['../../../error/ArgumentError',
 			top: coordinates.y + mapOffsetTop + 5,
 			left: coordinates.x + 5
 		});
+	};
+
+	/**
+	 * Show/hide loading overlay
+	 * @param state {string}
+	 */
+	FeatureInfoWindow.prototype.handleLoading = function(state){
+		var display;
+		switch (state) {
+			case "show":
+				display = "block";
+				break;
+			case "hide":
+				display = "none";
+				break;
+		}
+		this._infoWindow.find(".overlay").css("display", display);
 	};
 
 	return FeatureInfoWindow;
