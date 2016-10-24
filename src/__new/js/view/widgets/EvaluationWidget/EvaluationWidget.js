@@ -319,12 +319,6 @@ define([
     EvaluationWidget.prototype.prepareFooter = function (){
         var html = S(htmlFooterContent).template().toString();
         this._widgetSelector.find(".floater-footer").html("").append(html);
-
-        // todo move this code to template
-        if (!Config.toggles.isUrbis){
-            var download = ('<div class="floater-row"><div class="widget-button widget-button-export" id="export-shp" disabled="disabled">Export to SHP</div><div class="widget-button widget-button-export" id="export-csv" disabled="disabled">Export to CSV</div></div>');
-            this._widgetSelector.find(".floater-footer").append(download);
-        }
     };
 
 	/**
@@ -342,11 +336,7 @@ define([
 
                 if (count > 0 ) {
                     SelectedAreasExchange.data.data = areas;
-
-                    // todo allow download for all projects
-                    if (!Config.toggles.isUrbis){
-                        self.addDownloadListener(areas);
-                    }
+                    self.addDownloadListener(areas);
 
                     if (OneLevelAreas.hasOneLevel) {
                         var rgbColor = $('.x-color-picker .x-color-picker-selected span').css('background-color');
@@ -455,14 +445,14 @@ define([
             filteredAreas.push(area.gid);
         });
         this._mapExport = new MapExport({
-            location: areas[0].loc,
-            year: JSON.parse(ThemeYearConfParams.years)[0],
+            places: [areas[0].loc],
+            periods: JSON.parse(ThemeYearConfParams.years),
             areaTemplate: areas[0].at,
             gids: filteredAreas
         });
 
         $("#export-shp").off("click.shp").attr("disabled",false).on("click.shp", function(){
-            self._mapExport.export("shapefile");
+            self._mapExport.export("geojson");
         });
         $("#export-csv").off("click.csv").attr("disabled",false).on("click.csv", function(){
             self._mapExport.export("csv");
