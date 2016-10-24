@@ -1,14 +1,10 @@
 define([
 	'../../error/ArgumentError',
-	'../../util/Filter',
 	'../../util/Logger',
-	'../../util/viewUtils',
 
 	'jquery'
 ], function (ArgumentError,
-			 Filter,
 			 Logger,
-			 viewUtils,
 
 			 $) {
 	"use strict";
@@ -106,7 +102,7 @@ define([
 		});
 	};
 
-	Map.prototype.addOnClickListener = function(attributes){
+	Map.prototype.addOnClickListener = function(attributes, infoWindow){
 		var layers = this.getBaseLayersIds();
 		this._attributes = attributes;
 		this._map.selectInMapLayer.params['LAYERS'] = layers.join(',');
@@ -118,58 +114,32 @@ define([
 				},
 				layers: [this._map.selectInMapLayer]
 			});
-			this._newInfoControl.events.register("getfeatureinfo", this, this.getInfoAboutArea);
+			this._newInfoControl.events.register("getfeatureinfo", this, this.getInfoAboutArea.bind(this, infoWindow));
 			this._map.addControl(this._newInfoControl);
 		}
 	};
 
-	Map.prototype.getInfoAboutArea = function(e){
+	Map.prototype.getInfoAboutArea = function(infoWindow, e){
 		var allFeatures = JSON.parse(e.text).features;
 		if (allFeatures.length > 0){
-			$("#feature-info-window").show(200);
+			infoWindow.setVisibility("show");
+			infoWindow.setScreenPosition(e.xy);
+
 			var featureGid = allFeatures[allFeatures.length - 1].properties.gid;
-			this.prepareInfoWindow(featureGid, e.xy);
+			infoWindow.rebuild(this._attributes, featureGid);
 		}
 		else {
-			$("#feature-info-window").hide(200);
+			infoWindow.setVisibility("hide");
 		}
-	};
-
-	Map.prototype.prepareInfoWindow = function(gid, coordinates){
-		var mapOffsetTop = $('#app-map').offset().top;
-		var featureInfo = $("#feature-info-window");
-
-		featureInfo.offset({
-			top: coordinates.y + mapOffsetTop + 5,
-			left: coordinates.x + 5
-		});
-		new Filter().featureInfo(this._attributes, gid).then(this.rebuildInfoWindowContent);
-	};
-
-	Map.prototype.rebuildInfoWindowContent = function(info){
-		var featureInfo = $("#feature-info-window");
-		var content = "";
-		var attributes = info[0].attributes;
-		for (var item in attributes){
-			if (attributes.hasOwnProperty(item)){
-				var value = attributes[item];
-				if (typeof value == "number"){
-					value = viewUtils.numberFormat(value, true, 2);
-				}
-				content += '<tr><td>' + item + '</td><td>' + value + '</td></tr>';
-			}
-		}
-		featureInfo.find(".feature-info-window-header").html(info[0].name + " (" + info[0].gid + ")");
-		featureInfo.find(".feature-info-window-body table").html(content);
 	};
 
 	Map.prototype.onClickActivate = function(){
 		this._newInfoControl.activate();
 	};
 
-	Map.prototype.onClickDeactivate = function(){
+	Map.prototype.onClickDeactivate = function(infoWindow){
 		this._newInfoControl.deactivate();
-		$("#feature-info-window").hide(200);
+		infoWindow.setVisibility("hide");
 	};
 
 	Map.prototype.getBaseLayersIds = function(){

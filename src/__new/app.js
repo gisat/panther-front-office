@@ -83,7 +83,7 @@ define(['js/util/metadata/Attributes',
 
         if(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo){
             tools.push(new FeatureInfoTool({
-                elementId: 'feature-info-tool',
+                elementId: 'feature-info',
                 targetId: 'tools-container'
             }));
         }
