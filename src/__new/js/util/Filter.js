@@ -64,11 +64,11 @@ define(['./Remote',
 			});
 	};
 
-	Filter.prototype.statistics = function(attributes){
+	Filter.prototype.statistics = function(attributes, numClasses){
 		var params = this.prepareParams();
 		var dist = {
 			type: 'normal',
-			classes: 20
+			classes: numClasses
 		};
 		return $.get( Config.url + "rest/filter/attribute/statistics", {
 				areaTemplate: params.areaTemplate,

@@ -96,7 +96,11 @@ define([
         var self = this;
         this.handleLoading("show");
         this._attributes = [];
-        this._filter.statistics(attrForRequest).then(function(attributes){
+        this._attrForRequest = attrForRequest;
+
+        var numClasses = this.computeNumOfClasses();
+
+        this._filter.statistics(attrForRequest, numClasses).then(function(attributes){
             if (attributes.length > 0){
                 attributes.forEach(function(attribute){
                     var about = {
@@ -138,6 +142,16 @@ define([
         });
         this.rebuildMap();
         ThemeYearConfParams.datasetChanged = false;
+    };
+
+    EvaluationWidget.prototype.computeNumOfClasses = function(){
+        var width = this._widgetSelector.width();
+        if (width > 350){
+            return 40;
+        }
+        else {
+            return 20;
+        }
     };
 
     /**
@@ -483,7 +497,8 @@ define([
         var self = this;
         this._widgetSelector.on("resizestop", function( event, ui ) {
             setTimeout(function(){
-                self.rebuildHistograms(self._inputs.sliders);
+                self.rebuildPopups(self._inputs.sliders);
+                self.rebuild(self._attrForRequest);
             },1000);
         } );
     };

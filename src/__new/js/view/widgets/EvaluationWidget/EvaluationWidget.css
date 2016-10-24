@@ -6,6 +6,7 @@
 #floater-evaluation-widget {
     left: 16rem;
     top: 10rem;
+    min-width: 20rem;
 }
 
 #floater-evaluation-widget .floater-body {
