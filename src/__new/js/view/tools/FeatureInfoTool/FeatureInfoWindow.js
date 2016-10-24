@@ -61,7 +61,6 @@ define(['../../../error/ArgumentError',
 					content += '<tr><td>' + item + '</td><td>' + value + '</td></tr>';
 				}
 			}
-			console.log(self._id);
 			self._infoWindow.find(".feature-info-window-header").html(info[0].name + " (" + info[0].gid + ")");
 			self._infoWindow.find(".feature-info-window-body table").html(content);
 		});

@@ -21,6 +21,13 @@ define(['../../../error/ArgumentError',
              htmlContent) {
 	"use strict";
 
+	/**
+	 * It creates Feature Info functionality
+	 * @param options {Object}
+	 * @param options.elementId {string} id of the tool
+	 * @param options.targetId {string} id of the target element
+	 * @constructor
+	 */
 	var FeatureInfoTool = function (options) {
 		View.apply(this, arguments);
 
@@ -70,6 +77,11 @@ define(['../../../error/ArgumentError',
 		this.addOnClickListener(attributes, map);
 	};
 
+	/**
+	 * Add on click listener to the feature button
+	 * @param attributes
+	 * @param map
+	 */
 	FeatureInfoTool.prototype.addOnClickListener = function(attributes, map){
 		var self = this;
 		$('body').off("click.featureInfo").on("click.featureInfo", '#feature-info', function () {

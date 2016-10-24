@@ -70,10 +70,11 @@
     height: 1.5rem;
     line-height: 1.5rem;
     padding: 0;
-    margin: .5rem .3rem;
+    margin: .5rem .2rem;
     text-align: center;
     text-transform: none;
-    width: 3rem;
+    transition: background .3s;
+    width: 3.5rem;
 }
 .tools-buttons-container .tool:hover {
     background: rgba(255,255,255,.3);

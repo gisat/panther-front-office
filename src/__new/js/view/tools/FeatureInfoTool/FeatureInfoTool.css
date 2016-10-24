@@ -1,0 +1,16 @@
+#feature-info {
+	line-height: 1.45rem;
+	padding: 0 .5rem;
+	text-align: left;
+}
+
+#feature-info:after {
+	content: url(../../../../img/feature-info-icon.png);
+	display: inline-block;
+	padding-top: .1rem;
+	position: absolute;
+	right: .7rem;
+}
+#feature-info.active:after {
+	content: url(../../../../img/feature-info-icon-active.png);
+}
