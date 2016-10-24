@@ -20,7 +20,7 @@
     border: 0;
     height: 4px;
     min-width: 14.5rem;
-    width: 90%;
+    width: 95%;
 }
 
 .slider-row.ui-slider-horizontal .ui-slider-handle {
@@ -45,7 +45,7 @@
     color: #999;
     padding: 0 .1rem;
     min-width: 15.2rem;
-    width: calc(90% + .7rem);
+    width: calc(95% + .7rem);
 }
 .slider-labels-min {
     display: inline-block;
@@ -64,7 +64,6 @@
     position: absolute;
     margin: -9rem .4rem 0 .4rem;
     min-width: 14.5rem;
-    width: calc(90% - 1.2rem);
     height: 7rem;
     background: white;
     -webkit-box-shadow: 0 0 4px rgb(136, 136, 136);

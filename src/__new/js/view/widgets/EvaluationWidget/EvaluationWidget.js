@@ -363,7 +363,7 @@ define([
         setTimeout(function(){
             self._filter.filter(self._categories, "amount").then(function(result){
                 self.addSelectionConfirmListener(result);
-                self.rebuildHistograms(self._inputs.sliders);
+                self.rebuildPopups(self._inputs.sliders);
                 self.handleLoading("hide");
             });
         },100);
@@ -373,8 +373,9 @@ define([
      * It rebuilds the histograms with current values
      * @param sliders {Array} array of slider objects
      */
-    EvaluationWidget.prototype.rebuildHistograms = function(sliders){
+    EvaluationWidget.prototype.rebuildPopups = function(sliders){
         sliders.forEach(function(slider){
+            slider.rebuildPopup();
             if(slider.hasOwnProperty("histogram")){
                 slider.histogram.rebuild(slider.distribution, slider._values, slider.origValues);
             }

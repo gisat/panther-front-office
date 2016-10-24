@@ -50,8 +50,6 @@ define(['../../../../error/ArgumentError',
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "SliderBox", "constructor", "missingTarget"));
         }
 
-        this._attrId = options.attrId;
-        this._attrSetId = options.attrSetId;
         this._id = options.id;
         this._name = options.name;
         this._target = options.target;
@@ -112,6 +110,15 @@ define(['../../../../error/ArgumentError',
             minimum: this._range[0],
             maximum: this._range[1]
         });
+    };
+
+	/**
+     * Set the width of the popup
+     */
+    SliderBox.prototype.rebuildPopup = function(){
+        var slider = $("#" + this._id);
+        var sliderWidth = slider.width();
+        slider.siblings(".slider-popup").css("width", sliderWidth);
     };
 
     /**
