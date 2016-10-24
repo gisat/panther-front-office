@@ -53,15 +53,19 @@ define(['../../../error/ArgumentError',
 		new Filter().featureInfo(attributes, gid).then(function(info){
 			var content = "";
 			var attributes = info[0].attributes;
-			for (var item in attributes){
-				if (attributes.hasOwnProperty(item)){
-					var value = attributes[item];
-					if (typeof value == "number"){
-						value = viewUtils.numberFormat(value, true, 2);
-					}
-					content += '<tr><td>' + item + '</td><td>' + value + '</td></tr>';
+			attributes.forEach(function(item){
+				var value = item.value;
+				var units = "";
+
+				if (typeof value == "number"){
+					value = viewUtils.numberFormat(value, true, 2);
 				}
-			}
+				if (item.units){
+					units = " (" + item.units + ")";
+				}
+
+				content += '<tr><td>' + item.name + units + '</td><td>' + value + '</td></tr>';
+			});
 			self._infoWindow.find(".feature-info-window-header").html(info[0].name + " (" + info[0].gid + ")");
 			self._infoWindow.find(".feature-info-window-body table").html(content);
 			self.handleLoading("hide");
