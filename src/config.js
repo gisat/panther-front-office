@@ -1,6 +1,8 @@
 var Config = {
-	url: 'http://localhost/backend/',
+	url: 'http://localhost:4000/',
 	signupAddress: 'http://localhost/geonode/account/signup/',
+	//url: 'http://urbis.gisat.cz/backend/',
+	//signupAddress: 'http://urbis.gisat.cz/account/signup/',
 	geoserver2Workspace: "panther",
 	initialBaseMap: "terrain",
 	initialMapBounds: [
@@ -9,7 +11,6 @@ var Config = {
 		113.0046844482,
 		-6.9809544265
 	],
-	melodiesRemoteUrl: "",
 
 	toggles: {
 		noGeoserverLayerGroups: false,
@@ -18,12 +19,13 @@ var Config = {
 		useHeader: true,
 		useWBFooter: false,
 		allowPumaHelp: true,
-		allowDownloadsLink: true,
-		usePumaLogo: true,
+		allowDownloadsLink: false,
+		usePumaLogo: false,
 		advancedFiltersFirst: false,
-		hasNewEvaluationTool: false,
+		hasNewEvaluationTool: true,
+		hasNewFeatureInfo: true,
 		isNewDesign: true,
-		isUrbis: false,
+		isUrbis: true,
 		isEea: false,
 		isMelodies: false
 	},
@@ -32,7 +34,7 @@ var Config = {
 		advancedFiltersName: "Evaluation Tool",
 		areasSectionName: "Selection level",
 		appTitle: "Data Exploration",
-		appName: "Data Exploration",
+		appName: "",
 		scopeName: "Scale"
 	},
 	urbisTexts: {

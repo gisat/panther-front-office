@@ -186,7 +186,7 @@ Ext.define('PumaMain.controller.Render', {
             itemId: 'savevisualization',
             width: '100%',
             height: '100%',
-            hidden: !Config.auth || !Config.auth.isAdmin,
+            //hidden: !Config.auth || !Config.auth.isAdmin,
             cls: 'custom-button btn-visualization-save'
         })
         Ext.widget('button',{
@@ -278,7 +278,7 @@ Ext.define('PumaMain.controller.Render', {
         Ext.widget('button',{
             renderTo: 'app-toolbar-visualization-manage',
             itemId: 'managevisualization',
-            hidden: !Config.auth || !Config.auth.isAdmin,
+            //hidden: !Config.auth || !Config.auth.isAdmin,
             //icon: 'images/icons/settings.png',
             width: '100%',
             height: '100%',
