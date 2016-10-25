@@ -6,15 +6,35 @@
 #floater-evaluation-widget {
     left: 16rem;
     top: 10rem;
-    min-width: 20rem;
+    min-width: 22rem;
 }
 
 #floater-evaluation-widget .floater-body {
     height: calc(100% - 7rem);
+    padding: 0 0 .5rem;
 }
 
 #floater-evaluation-widget .floater-footer {
     height: 5.5rem;
+}
+
+/* floater body */
+#floater-evaluation-widget .floater-body > div:nth-child(odd) {
+    padding: .5rem;
+}
+
+#floater-evaluation-widget .floater-body > div:nth-child(even){
+    padding: .5rem;
+    background: rgba(200,200,200,.2);
+    border-bottom: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
+}
+
+#floater-evaluation-widget .floater-row.slider-box,
+#floater-evaluation-widget .floater-row.checkbox-row,
+#floater-evaluation-widget .floater-row.select-menu-box
+{
+    margin: 0;
 }
 
 /* Footer */

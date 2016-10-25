@@ -147,8 +147,8 @@ define(['js/util/metadata/Attributes',
         });
         $(".floater").resizable({
             animate: true,
-            minWidth: 330,
-            maxWidth: 500,
+            minWidth: 350,
+            maxWidth: 600,
             minHeight: 350
         }).draggable({
             containment: "body",

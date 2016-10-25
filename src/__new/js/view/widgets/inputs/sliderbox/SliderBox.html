@@ -4,7 +4,14 @@
     </div>
     <div class="floater-row slider-row" id="{{id}}"></div>
     <div class="floater-row slider-labels">
-        <span class="slider-labels slider-labels-min">{{labelMin}}</span><span class="slider-labels slider-labels-max">{{labelMax}}</span>
+        <div class="slider-labels-min">{{labelMin}}</div>
+        <div class="slider-thresholds slider-thresholds-min">
+            <input title="min" type="text"/>
+        </div>
+        <div class="slider-thresholds slider-thresholds-max">
+            <input class="input-max" title="max" type="text"/>
+        </div>
+        <div class="slider-labels-max">{{labelMax}}</div>
     </div>
     <div class="slider-popup" id="{{id}}-popup">
         <div class="slider-popup-values">

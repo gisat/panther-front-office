@@ -1,6 +1,6 @@
 /* === Sliders === */
 .slider-box {
-    margin: .5rem 0;
+    padding-bottom: .7rem;
 }
 
 .slider-caption span {
@@ -41,28 +41,39 @@
 }
 
 .floater-row.slider-labels {
-    font-size: .7rem;
-    color: #999;
-    padding: 0 .1rem;
+    font-size: .75rem;
+    color: #666;
+    padding: .2rem 0;
     min-width: 15.2rem;
     width: calc(95% + .7rem);
 }
-.slider-labels-min {
+.floater-row.slider-labels > div {
     display: inline-block;
     position: relative;
-    width: 50%;
+    width: 25%;
+    margin: 0 -3px 0 0;
 }
-.slider-labels-max {
-    display: inline-block;
+.slider-thresholds {
+    height: 1.2rem;
+}
+.slider-thresholds > input {
+    background: rgba(255,255,255,.7);
+    border: 1px solid #bbb;
+    border-radius: 1px;
+    padding: 0 .2rem;
     position: relative;
+    margin: 0 2.5%;
+    width: 95%;
+}
+
+.slider-thresholds > .input-max, .slider-labels-max {
     text-align: right;
-    width: 50%;
 }
 
 .slider-popup {
     display: none;
     position: absolute;
-    margin: -9rem .4rem 0 .4rem;
+    margin: -9.5rem .4rem 0 .4rem;
     min-width: 14.5rem;
     height: 7rem;
     background: white;
