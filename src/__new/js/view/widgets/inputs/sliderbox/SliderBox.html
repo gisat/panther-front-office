@@ -6,16 +6,14 @@
     <div class="floater-row slider-labels">
         <div class="slider-labels-min">{{labelMin}}</div>
         <div class="slider-thresholds slider-thresholds-min">
-            <input title="min" type="text"/>
+            <input class="input-min" title="min" type="text" value="{{thresholdMin}}"/>
         </div>
         <div class="slider-thresholds slider-thresholds-max">
-            <input class="input-max" title="max" type="text"/>
+            <input class="input-max" title="max" type="text" value="{{thresholdMax}}"/>
         </div>
         <div class="slider-labels-max">{{labelMax}}</div>
     </div>
     <div class="slider-popup" id="{{id}}-popup">
-        <div class="slider-popup-values">
-        </div>
         <div class="histogram" id="histogram-{{id}}">
         </div>
     </div>

@@ -86,10 +86,3 @@
 .slider-popup.open {
     display: block;
 }
-
-.slider-popup-values {
-    color: #666;
-    font-size: .9rem;
-    margin: .5rem auto;
-    text-align: center;
-}

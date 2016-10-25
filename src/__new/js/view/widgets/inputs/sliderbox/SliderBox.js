@@ -76,7 +76,9 @@ define(['../../../../error/ArgumentError',
             id: this._id,
             name: this._name,
             labelMin: viewUtils.numberFormat(this._range[0], true, 2),
-            labelMax: viewUtils.numberFormat(this._range[1], true, 2)
+            labelMax: viewUtils.numberFormat(this._range[1], true, 2),
+            thresholdMin: this._range[0],
+            thresholdMax: this._range[1]
         }).toString();
 
         this._target.append(html).ready(function(){
@@ -147,7 +149,8 @@ define(['../../../../error/ArgumentError',
                 if (values[0] != values[1]){
                     self.histogram.selectBars(values);
                 }
-                $(this).siblings().find('.slider-popup-values').html("From: <b>" + viewUtils.numberFormat(values[ 0 ], true, 2) + "</b>&nbsp;&nbsp; To: <b>" + viewUtils.numberFormat(values[ 1 ], true, 2) + "</b>");
+                $(this).siblings().find('.input-min').attr("value", values[ 0 ]);
+                $(this).siblings().find('.input-max').attr("value", values[ 1 ]);
             }
         })
     };
