@@ -242,7 +242,7 @@ define([
                 if (input == "slider") {
                     var min = categories[key].attrData.values[0];
                     var max = categories[key].attrData.values[1];
-                    var step = 0.005;
+                    var step = 0.0005;
                     if (min <= -1000 || max >= 1000){
                         step = 1
                     }

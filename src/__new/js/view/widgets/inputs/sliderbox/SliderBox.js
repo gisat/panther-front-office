@@ -77,14 +77,15 @@ define(['../../../../error/ArgumentError',
             name: this._name,
             labelMin: viewUtils.numberFormat(this._range[0], true, 2),
             labelMax: viewUtils.numberFormat(this._range[1], true, 2),
-            thresholdMin: this._range[0],
-            thresholdMax: this._range[1]
+            thresholdMin: Math.round(this._range[0] * 100) / 100,
+            thresholdMax: Math.round(this._range[1] * 100) / 100
         }).toString();
 
         this._target.append(html).ready(function(){
             self.buildSlider();
             self.histogram = self.buildHistogram();
             self.addSlideListeners(self._id, self._isRange);
+            self.addInputListener(self._id);
         });
     };
 
@@ -149,10 +150,47 @@ define(['../../../../error/ArgumentError',
                 if (values[0] != values[1]){
                     self.histogram.selectBars(values);
                 }
-                $(this).siblings().find('.input-min').attr("value", values[ 0 ]);
-                $(this).siblings().find('.input-max').attr("value", values[ 1 ]);
+                $(this).siblings().find('.input-min').val(Math.round(values[0] * 100) / 100);
+                $(this).siblings().find('.input-max').val(Math.round(values[1] * 100) / 100);
             }
         })
+    };
+
+	/**
+     * If one of inputs has been changed, move slider handle
+     * @param id {string} slider id
+     */
+    SliderBox.prototype.addInputListener = function(id){
+        var slider = $("#" + id);
+        var minInput = slider.siblings(".slider-labels").find(".input-min");
+        var maxInput = slider.siblings(".slider-labels").find(".input-max");
+        var sliderMin = this._range[0] - 0.005;
+        var sliderMax = this._range[1] + 0.005;
+
+        minInput.off("focusout.inputMin").on("focusout.inputMin",function(){
+            var currentValue = slider.slider("values")[0];
+            var minValue = Number($(this).val());
+            var maxValue = Number(maxInput.val());
+            var diff = Math.abs(currentValue - minValue);
+
+            if (minValue < maxValue && minValue < sliderMax && minValue >= sliderMin && diff > 0.005){
+                slider.slider("values", 0, minValue);
+            } else {
+                $(this).val(Math.round(currentValue * 100) / 100)
+            }
+        });
+
+        maxInput.off("focusout.inputMax").on("focusout.inputMax",function(){
+            var currentValue = slider.slider("values")[1];
+            var minValue = Number(minInput.val());
+            var maxValue = Number($(this).val());
+            var diff = Math.abs(currentValue - maxValue);
+            if (minValue < maxValue && maxValue <= sliderMax && maxValue > sliderMin && diff > 0.005){
+                slider.slider("values", 1, maxValue);
+            } else {
+                $(this).val(Math.round(currentValue * 100) / 100)
+            }
+        });
     };
 
     /**
