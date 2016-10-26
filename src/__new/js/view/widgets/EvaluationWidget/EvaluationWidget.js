@@ -144,13 +144,20 @@ define([
         ThemeYearConfParams.datasetChanged = false;
     };
 
+	/**
+     * According to the width of floater set number of classes for histogram
+     * @returns {number} Number of classes
+     */
     EvaluationWidget.prototype.computeNumOfClasses = function(){
         var width = this._widgetSelector.width();
-        if (width > 350){
-            return 40;
-        }
-        else {
+        if (width < 350){
             return 20;
+        } if (width >= 350 && width < 450){
+            return 30;
+        } else if (width >= 450 && width < 550){
+            return 40;
+        } else {
+            return 50;
         }
     };
 
