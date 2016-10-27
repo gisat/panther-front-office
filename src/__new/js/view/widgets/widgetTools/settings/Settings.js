@@ -210,7 +210,6 @@ define([
     Settings.prototype.addMultioptionsChangeListener = function(){
         $('#' + this._id).find(".multioptions-input").off("click.changeMultioptions")
             .on("click.changeMultioptions", this.rebuildAttributesState.bind(this));
-        console.log($('#' + this._id).find(".multioptions-input"));
     };
 
 	/**
@@ -222,7 +221,6 @@ define([
         var allAttributesCheckbox = $('#settings-all-attributes');
         var checkedAttributes = 0;
         var allAttributes = 0;
-        console.log("rebulid");
         setTimeout(function(){
             var attributeRows = $('#' + self._id + ' .attribute-row');
             attributeRows.each(function(){

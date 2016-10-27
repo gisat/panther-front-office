@@ -27,7 +27,20 @@ define(['./Remote',
 						}
 						else if (attribute.about.attributeType == "text") {
 							var selectEl = $("#attr-" + attribute.about.attribute);
-							values = [selectEl.val()];
+							if (categories[key].multioptions){
+								values = [];
+								$("#attr-" + attribute.about.attribute + " > label").each(function(){
+									if ($(this).hasClass("ui-state-active")){
+										values.push($(this).text());
+									}
+								});
+								if (values.length == 0){
+									values.push("");
+								}
+							}
+							else {
+								values = [selectEl.val()];
+							}
 						}
 						else if (attribute.about.attributeType == "numeric"){
 							var sliderEl = $("#attr-" + attribute.about.attribute);

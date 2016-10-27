@@ -125,7 +125,7 @@
 }
 
 .tool-window-body .checkbox-row input:checked + .slider-toggle {
-	background-color: #ff7600;
+	background-color: #c92d42;
 }
 
 .tool-window-body .checkbox-row input:checked + .slider-toggle:before {

@@ -205,6 +205,11 @@
 	content: url('../../images/eea/table.png');
 }
 
+/* settings */
+.eea .tool-window-body .checkbox-row input:checked + .slider-toggle {
+	background-color: #006699;
+}
+
 /* ================================ */
 /* ====== Media queries =========== */
 /* ================================ */

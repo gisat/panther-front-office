@@ -327,6 +327,11 @@
 	content: url('../../images/melodies/table.png');
 }
 
+/* settings */
+.melodies .tool-window-body .checkbox-row input:checked + .slider-toggle {
+	background-color: #009fe3;
+}
+
 @media screen and (max-width: 1240px){
 	.melodies #toolbar > .label {
 		background: url('../../images/melodies/melodies-logo.png') no-repeat center center;
