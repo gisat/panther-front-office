@@ -1,0 +1,17 @@
+.ui-checkboxradio-label {
+	margin: .1rem;
+	transition: background .3s;
+}
+.ui-checkboxradio-label.ui-state-active.ui-checkboxradio-checked, .ui-button:active {
+	background: #ccc;
+	border: 1px solid #aaa;
+	color: #555;
+}
+.ui-checkboxradio-label.ui-state-active:hover {
+	background: #ccc;
+	border: 1px solid #aaa;
+	color: #555;
+}
+.ui-visual-focus, .ui-state-focus {
+	box-shadow: none;
+}

@@ -180,3 +180,8 @@
 .urbis #export-csv:before {
     content: url('../../images/urbis/table.png');
 }
+
+/* settings */
+.urbis .tool-window-body .checkbox-row input:checked + .slider-toggle {
+    background-color: #ff7600;
+}

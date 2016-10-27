@@ -6,6 +6,7 @@ define([
     '../../../util/Logger',
     '../../map/Map',
     '../../../util/MapExport',
+    '../inputs/multiselectbox/MultiSelectBox',
 	'../../../util/Remote',
     '../inputs/selectbox/SelectBox',
     '../widgetTools/settings/Settings',
@@ -26,6 +27,7 @@ define([
             Logger,
             Map,
             MapExport,
+            MultiSelectBox,
 			Remote,
             SelectBox,
             Settings,
@@ -238,9 +240,11 @@ define([
         };
 
         var self = this;
+
         for (var key in categories){
             if (categories.hasOwnProperty(key) && categories[key].active == true){
                 var input = categories[key].input;
+                var multioptions = categories[key].multioptions;
                 var name = categories[key].name;
                 var units = categories[key].attrData.about.units;
                 var attrId = categories[key].attrData.about.attribute;
@@ -267,7 +271,12 @@ define([
 
                 else if (input == "select") {
                     var options = categories[key].attrData.values;
-                    var select = this.buildSelectInput(key, name, options);
+                    var select;
+                    if (multioptions){
+                        select = this.buildMultiSelectInput(key, name, options);
+                    } else {
+                        select = this.buildSelectInput(key, name, options);
+                    }
                     this._inputs.selects.push(select);
                 }
             }
@@ -301,6 +310,22 @@ define([
      */
     EvaluationWidget.prototype.buildSelectInput = function(id, name, options){
         return new SelectBox({
+            id: id,
+            name: name,
+            target: this._widgetBodySelector,
+            data: options
+        });
+    };
+
+    /**
+     * It returns the box with multi select input
+     * @param id {string} ID of the data theme
+     * @param name {string} Name of the data theme
+     * @param options {Array} Select options
+     * @returns {MultiSelectBox}
+     */
+    EvaluationWidget.prototype.buildMultiSelectInput = function(id, name, options){
+        return new MultiSelectBox({
             id: id,
             name: name,
             target: this._widgetBodySelector,
@@ -486,6 +511,9 @@ define([
      */
     EvaluationWidget.prototype.addInputsListener = function(){
         var self = this;
+        this._widgetSelector.find(".ui-checkboxradio-label" ).off("click.checkboxradio")
+            .on( "click.checkboxradio", self.amount.bind(self))
+            .on( "click.checkboxradio", self.disableExports.bind(self));
         this._widgetSelector.find(".selectmenu" ).off("selectmenuselect")
             .on( "selectmenuselect", self.amount.bind(self))
             .on( "selectmenuselect", self.disableExports.bind(self));
