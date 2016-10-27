@@ -82,7 +82,7 @@
 .tool-window-body .checkbox-row .checkbox-label .multioptions {
 	position: absolute;
 	display: inline-block;
-	right: 1rem;
+	right: 2rem;
 }
 
 .tool-window-body .checkbox-row .checkbox-label .multioptions > span {
