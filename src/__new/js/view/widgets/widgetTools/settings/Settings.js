@@ -52,6 +52,7 @@ define([
         this.addCategories();
         this.addCheckboxChangeListener();
         this.addMultiCheckListener();
+        this.addMultioptionsChangeListener();
         this.addCloseListener();
         this.addDragging();
     };
@@ -93,18 +94,26 @@ define([
             }
             else if (type == "numeric") {
                 input = "slider";
-                name4Settings = name4Settings + " <i>(Range)</i>";
+                name4Settings = name4Settings + " <i>(Range)</i> ";
             }
             else if (type == "text") {
                 input = "select";
-                name4Settings = name4Settings + " <i>(Category)</i>";
+                name4Settings = name4Settings + " <i>(Category)</i>" +
+                    "<div class='multioptions'>" +
+                        "<span>Multioptions:</span>" +
+                        "<label class='switch'>" +
+                            "<input type='checkbox' class='multioptions-input'>" +
+                            "<div class='slider-toggle'></div>" +
+                        "</label>" +
+                    "</div>";
             }
             self.addCheckbox('settings-' + id, name4Settings, "attribute-row", asId, active);
             self._categories[id] = {
                 attrData: attribute,
                 name: name,
                 input: input,
-                active: active
+                active: active,
+                multioptions: false
             };
         });
     };
@@ -192,7 +201,16 @@ define([
      */
     Settings.prototype.addCheckboxChangeListener = function(){
         $('#' + this._id).find(".checkbox-row").off("click.changeAttributeState")
-            .on("click.click.changeAttributeState", this.rebuildAttributesState.bind(this));
+            .on("click.changeAttributeState", this.rebuildAttributesState.bind(this));
+    };
+
+    /**
+     * Add listener on multioptions change
+     */
+    Settings.prototype.addMultioptionsChangeListener = function(){
+        $('#' + this._id).find(".multioptions-input").off("click.changeMultioptions")
+            .on("click.changeMultioptions", this.rebuildAttributesState.bind(this));
+        console.log($('#' + this._id).find(".multioptions-input"));
     };
 
 	/**
@@ -204,21 +222,28 @@ define([
         var allAttributesCheckbox = $('#settings-all-attributes');
         var checkedAttributes = 0;
         var allAttributes = 0;
-
+        console.log("rebulid");
         setTimeout(function(){
             var attributeRows = $('#' + self._id + ' .attribute-row');
             attributeRows.each(function(){
                 var checked = $(this).hasClass("checked");
                 var id = $(this).attr('id').slice(9);
-
+                var multiToggle = $(this).find(".multioptions .switch > input:checked");
+                var multioptions = false;
 
                 // if checked, increment counter
                 if (checked){
                     checkedAttributes++;
                 }
 
+                // multioptons active?
+                if (multiToggle.length){
+                    multioptions = true;
+                }
+
                 // set state of attribute
                 self._categories[id].active = checked;
+                self._categories[id].multioptions = multioptions;
                 self._categories[id].attrData.about.active = checked;
 
                 allAttributes++;

@@ -238,6 +238,7 @@ define([
         };
 
         var self = this;
+
         for (var key in categories){
             if (categories.hasOwnProperty(key) && categories[key].active == true){
                 var input = categories[key].input;
