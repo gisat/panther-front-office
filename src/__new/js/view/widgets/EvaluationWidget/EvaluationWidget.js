@@ -100,9 +100,12 @@ define([
         this._attributes = [];
         this._attrForRequest = attrForRequest;
 
-        var numClasses = this.computeNumOfClasses();
+        var distribution = {
+            type: 'normal',
+            classes: this.computeNumOfClasses()
+        };
 
-        this._filter.statistics(attrForRequest, numClasses).then(function(attributes){
+        this._filter.statistics(attrForRequest, distribution).then(function(attributes){
             if (attributes.length > 0){
                 attributes.forEach(function(attribute){
                     var about = {
