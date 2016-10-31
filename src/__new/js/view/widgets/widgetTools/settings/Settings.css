@@ -7,7 +7,7 @@
 	box-shadow: 0 0 4px rgb(136, 136, 136);
 
 	display: none;
-	height: 30rem;
+	height: 20rem;
 	width: 35rem;
 	padding: .5rem;
 	position: absolute;
@@ -75,6 +75,7 @@
 }
 
 .tool-window-body .checkbox-row .checkbox-label {
+	position: relative;
 	width: 90%;
 }
 
@@ -82,7 +83,7 @@
 .tool-window-body .checkbox-row .checkbox-label .multioptions {
 	position: absolute;
 	display: inline-block;
-	right: 2rem;
+	right: 0;
 }
 
 .tool-window-body .checkbox-row .checkbox-label .multioptions > span {
