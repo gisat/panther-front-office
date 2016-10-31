@@ -177,8 +177,11 @@
 .urbis #export-shp:before {
     content: url('../../images/urbis/map.png');
 }
-.urbis #export-csv:before {
+.urbis #export-csv:before, .urbis #export-feature-info-csv:before {
     content: url('../../images/urbis/table.png');
+}
+.urbis #export-feature-info-csv:hover {
+    background: rgba(255,118,0,.15);
 }
 
 /* settings */

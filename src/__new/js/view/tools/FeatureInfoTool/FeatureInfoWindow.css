@@ -5,7 +5,7 @@
 	box-shadow: 0 0 1px rgba(136,136,136,.5);
 	color: #555;
 	display: none;
-	height: 12rem;
+	height: 13rem;
 	left: 100px;
 	padding: .3rem 0 .3rem .5rem;
 	position: absolute;
@@ -24,7 +24,14 @@
 	margin: 0 .2rem .2rem 0;
 	overflow-x: hidden;
 	overflow-y: auto;
-	height: 9.8rem;
+	height: 8.8rem;
+}
+#feature-info-window .feature-info-window-footer {
+	border-top: 2px solid #ddd;
+	height: 2rem;
+	margin-right: .2rem;
+	padding-top: .1rem;
+	text-align: center;
 }
 #feature-info-window .feature-info-window-body table {
 	width: 100%;
@@ -42,6 +49,20 @@
 #feature-info-window .feature-info-window-body table tr td:last-child {
 	text-align: right;
 }
+
+/* export */
+#export-feature-info-csv {
+	background: none;
+}
+#export-feature-info-csv:hover {
+	background: rgba(173,39,56,.2);
+}
+#export-feature-info-csv:before {
+	content: url('../../../../img/table.png');
+}
+
+
+/* overlay*/
 
 #feature-info-window .overlay {
 	display: none;
