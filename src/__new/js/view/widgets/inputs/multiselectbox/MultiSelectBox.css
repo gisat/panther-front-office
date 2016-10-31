@@ -15,3 +15,14 @@
 .ui-visual-focus, .ui-state-focus {
 	box-shadow: none;
 }
+
+.label-multiselect-select-all,
+.label-multiselect-clear-all,
+.label-multiselect-select-all:hover,
+.label-multiselect-clear-all:hover,
+.label-multiselect-select-all.ui-state-active.ui-checkboxradio-checked,
+.label-multiselect-clear-all.ui-state-active.ui-checkboxradio-checked {
+	background: none;
+	border: 0;
+	font-weight: bold;
+}
