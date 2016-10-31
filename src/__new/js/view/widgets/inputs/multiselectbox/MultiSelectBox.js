@@ -7,6 +7,7 @@ define(['../../../../error/ArgumentError',
 	'string',
 
 	'text!./MultiSelectBox.html',
+	'text!./MultiSelectBoxOptions.html',
 	'css!./MultiSelectBox'
 ], function (ArgumentError,
 			 Logger,
@@ -16,7 +17,8 @@ define(['../../../../error/ArgumentError',
 			 $,
 			 S,
 
-			 htmlContent) {
+			 htmlContent,
+			 htmlOptions) {
 	"use strict";
 
 	/**
@@ -73,18 +75,19 @@ define(['../../../../error/ArgumentError',
 	};
 
 	/**
-	 * Return options for select menu. If there is more than one option, add All option.
+	 * Return options for multiselect
 	 * @returns {string} String representing HTML code
 	 */
 	MultiSelectBox.prototype.getOptions = function(){
 		var content = "";
 		var self = this;
-		this._firstOptionId = this._id + '-option-0';
 
 		this._data.forEach(function(item, index){
 			var id = self._id + '-option-' + index;
-			content += '<label for="' + id +'">' + item + '</label>' +
-			'<input type="checkbox" name="' + id + '" id="' + id + '">';
+			content += S(htmlOptions).template({
+				id: id,
+				item: item
+			}).toString();
 		});
 		return content;
 	};
