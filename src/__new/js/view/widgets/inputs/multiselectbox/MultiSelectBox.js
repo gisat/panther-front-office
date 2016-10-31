@@ -84,10 +84,12 @@ define(['../../../../error/ArgumentError',
 
 		this._data.forEach(function(item, index){
 			var id = self._id + '-option-' + index;
-			content += S(htmlOptions).template({
-				id: id,
-				item: item
-			}).toString();
+			if (item){
+				content += S(htmlOptions).template({
+					id: id,
+					item: item
+				}).toString();
+			}
 		});
 		return content;
 	};

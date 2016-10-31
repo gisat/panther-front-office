@@ -1232,7 +1232,6 @@ Ext.define('PumaMain.controller.Chart', {
                 $('.x-grid .x-grid-with-row-lines:not(.x-grid-inner-locked) .x-grid-view').css('overflow','hidden');
             }
             window.setTimeout(function() {
-                console.log('loadingdone');
             }, 200)
         })
         cmp.chart = grid;

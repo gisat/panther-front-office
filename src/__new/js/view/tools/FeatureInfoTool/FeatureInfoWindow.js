@@ -52,7 +52,6 @@ define(['../../../error/ArgumentError',
 	FeatureInfoWindow.prototype.rebuild = function(attributes, gid){
 		var self = this;
 		this.handleLoading("show");
-		console.log(attributes);
 		new Filter().featureInfo(attributes, gid).then(function(info){
 			var content = "";
 			var attributes = info[0].attributes;

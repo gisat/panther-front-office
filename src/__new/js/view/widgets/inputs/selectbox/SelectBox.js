@@ -79,7 +79,9 @@ define(['../../../../error/ArgumentError',
             content += '<option value="" class="selectbox-all-options">All options</option>';
         }
         this._data.forEach(function(item){
-            content += '<option value="' + item + '">' + item + '</option>';
+            if (item){
+                content += '<option value="' + item + '">' + item + '</option>';
+            }
         });
 
         return content;

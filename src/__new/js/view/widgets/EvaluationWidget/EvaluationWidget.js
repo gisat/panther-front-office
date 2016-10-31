@@ -382,7 +382,6 @@ define([
                 if (areas.length > 0){
                     count = areas.length;
                 }
-
                 if (count > 0 ) {
                     SelectedAreasExchange.data.data = areas;
                     self.addDownloadListener(areas);
