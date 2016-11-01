@@ -106,9 +106,9 @@ define(['../../../../error/ArgumentError',
 				var option = $(this);
 				if (!option.hasClass("ui-state-active")){
 					option.addClass("ui-state-active").addClass("ui-checkboxradio-checked");
-					var inputId = option.attr("for");
-					$("#" + inputId).attr("checked", true);
 				}
+				var inputId = option.attr("for");
+				$("#" + inputId).prop("checked", true);
 			});
 		});
 	};
@@ -120,9 +120,9 @@ define(['../../../../error/ArgumentError',
 				var option = $(this);
 				if (option.hasClass("ui-state-active")){
 					option.removeClass("ui-state-active").removeClass("ui-checkboxradio-checked");
-					var inputId = option.attr("for");
-					$("#" + inputId).attr("checked", false);
 				}
+				var inputId = option.attr("for");
+				$("#" + inputId).prop("checked",false);
 			});
 		});
 	};
