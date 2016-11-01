@@ -121,7 +121,8 @@ define(['./Remote',
 						if (categories[key].multioptions){
 							values = [];
 							$("#attr-" + attribute.about.attribute + " > label").each(function(){
-								if ($(this).hasClass("ui-state-active")){
+								var label = $(this);
+								if (label.hasClass("ui-state-active") && label.hasClass("label-multiselect-option")){
 									values.push($(this).text());
 								}
 							});
