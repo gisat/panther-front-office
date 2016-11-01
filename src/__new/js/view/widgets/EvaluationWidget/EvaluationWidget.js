@@ -498,7 +498,7 @@ define([
             places: [areas[0].loc],
             periods: JSON.parse(ThemeYearConfParams.years),
             areaTemplate: areas[0].at,
-            gids: filteredAreas
+            gids: JSON.stringify(filteredAreas)
         });
 
         $("#export-shp").off("click.shp").attr("disabled",false).on("click.shp", function(){

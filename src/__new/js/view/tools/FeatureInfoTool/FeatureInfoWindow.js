@@ -51,6 +51,8 @@ define(['../../../error/ArgumentError',
 	 */
 	FeatureInfoWindow.prototype.rebuild = function(attributes, gid){
 		var self = this;
+		this._attributes = attributes;
+
 		this.handleLoading("show");
 		new Filter().featureInfo(attributes, gid).then(function(info){
 			var content = "";
@@ -70,7 +72,7 @@ define(['../../../error/ArgumentError',
 			});
 			self._infoWindow.find(".feature-info-window-header").html(info[0].name + " (" + info[0].gid + ")");
 			self._infoWindow.find(".feature-info-window-body table").html(content);
-			self.addExportListener(gid);
+			self.addExportListener(self._attributes, gid);
 			self.handleLoading("hide");
 		});
 	};
@@ -90,12 +92,13 @@ define(['../../../error/ArgumentError',
 	 * Add listener for downloading feature data
 	 * @param gid {string} Id of area
 	 */
-	FeatureInfoWindow.prototype.addExportListener = function(gid){
+	FeatureInfoWindow.prototype.addExportListener = function(attributes, gid){
 		this._mapExport = new MapExport({
+			attributes: JSON.stringify(attributes),
 			places: [ThemeYearConfParams.place],
 			periods: JSON.parse(ThemeYearConfParams.years),
 			areaTemplate: ThemeYearConfParams.auCurrentAt,
-			gids: [gid]
+			gids: JSON.stringify([gid])
 		});
 
 		var self = this;

@@ -73,7 +73,7 @@ define(['./Remote',
 				areaTemplate: params.areaTemplate,
 				periods: params.periods,
 				places: params.locations,
-				gid: gid,
+				gid: [gid],
 				attributes: attributes
 			})
 			.then(function(response) {
