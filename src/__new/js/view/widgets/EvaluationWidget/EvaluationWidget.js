@@ -574,10 +574,12 @@ define([
         var isFirefox = typeof InstallTrigger !== 'undefined';
         if (!isFirefox){
             var popup = $('.slider-popup');
-            var margin = popup.css("margin-top");
-            this._widgetBodySelector.off("scroll").on("scroll",function(e){
-                popup.css("margin-top",(margin.slice(0,-2) - e.target.scrollTop)+"px");
-            });
+            if (popup.length > 0){
+                var margin = popup.css("margin-top");
+                this._widgetBodySelector.off("scroll").on("scroll",function(e){
+                    popup.css("margin-top",(margin.slice(0,-2) - e.target.scrollTop)+"px");
+                });
+            }
         }
     };
 

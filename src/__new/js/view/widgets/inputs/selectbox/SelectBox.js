@@ -47,7 +47,9 @@ define(['../../../../error/ArgumentError',
         this._id = options.id;
         this._name = options.name;
         this._target = options.target;
-        this._data = options.data;
+        this._data = _.sortBy(options.data, function(val){
+            return val;
+        });
 
         this.build();
     };

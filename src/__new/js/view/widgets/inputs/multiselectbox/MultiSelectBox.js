@@ -5,6 +5,7 @@ define(['../../../../error/ArgumentError',
 
 	'jquery',
 	'string',
+	'underscore',
 
 	'text!./MultiSelectBox.html',
 	'text!./MultiSelectBoxOptions.html',
@@ -16,6 +17,7 @@ define(['../../../../error/ArgumentError',
 
 			 $,
 			 S,
+			 _,
 
 			 htmlContent,
 			 htmlOptions) {
@@ -49,7 +51,9 @@ define(['../../../../error/ArgumentError',
 		this._id = options.id;
 		this._name = options.name;
 		this._target = options.target;
-		this._data = options.data;
+		this._data = _.sortBy(options.data, function(val){
+			return val;
+		});
 
 		this.build();
 	};
