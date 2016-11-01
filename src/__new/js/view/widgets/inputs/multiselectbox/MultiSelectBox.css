@@ -16,6 +16,17 @@
 	box-shadow: none;
 }
 
+.label-multiselect-option {
+	padding: .3rem 1rem;
+}
+.label-multiselect-option.ui-state-active {
+	padding: .3rem .7rem .25rem 1.3rem;
+}
+.label-multiselect-option.ui-state-active:before {
+	content: url("../../../../../img/check.png");
+	position: absolute;
+	left: .5rem;
+}
 .label-multiselect-select-all,
 .label-multiselect-clear-all,
 .label-multiselect-select-all:hover,
@@ -24,5 +35,30 @@
 .label-multiselect-clear-all.ui-state-active.ui-checkboxradio-checked {
 	background: none;
 	border: 0;
+	font-family: "Open sans", sans-serif;
 	font-weight: bold;
+	padding: .4rem .4rem .1rem 1.1rem;
+}
+.widgets label.label-multiselect-select-all,
+.widgets label.label-multiselect-select-all:hover,
+.widgets label.label-multiselect-select-all.ui-state-active.ui-checkboxradio-checked {
+	color: rgba(201, 45, 66, .7);
+}
+.widgets label.label-multiselect-clear-all,
+.widgets label.label-multiselect-clear-all:hover,
+.widgets label.label-multiselect-clear-all.ui-state-active.ui-checkboxradio-checked {
+	color: rgba(96, 96, 96, .7);
+}
+
+.label-multiselect-select-all:before, .label-multiselect-clear-all:before {
+	position: absolute;
+	left: .2rem;
+}
+.label-multiselect-select-all:before {
+	content: url("../../../../../img/check-colored.png");
+	opacity: .7;
+}
+.label-multiselect-clear-all:before {
+	content: url("../../../../../img/uncheck.png");
+	opacity: .7;
 }

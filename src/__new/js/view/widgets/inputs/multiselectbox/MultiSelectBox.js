@@ -91,6 +91,7 @@ define(['../../../../error/ArgumentError',
 		});
 
 		if (this._data.length > 1){
+			content += "<br>";
 			content += self.addOption(self._id + '-option-select-all', "multiselect-select-all", "Select all");
 			content += self.addOption(self._id + '-option-clear-all', "multiselect-clear-all", "Clear all");
 			this.addSelectAllListener();

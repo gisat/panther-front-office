@@ -28,9 +28,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="23.806581"
-     inkscape:cx="248.22483"
-     inkscape:cy="29.530257"
+     inkscape:zoom="8.5673077"
+     inkscape:cx="220.72222"
+     inkscape:cy="17.986532"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -676,6 +676,15 @@
        id="path4212-1"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#606060;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 201,1035.3622 3,3 5,-7"
+       id="path4211-9"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="D:\DATA\panther-front-office\src\images\melodies\success.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
   </g>
