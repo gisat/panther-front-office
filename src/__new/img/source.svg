@@ -30,7 +30,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="8.5673077"
      inkscape:cx="220.72222"
-     inkscape:cy="17.986532"
+     inkscape:cy="46"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -614,8 +614,8 @@
        id="rect4237"
        width="26"
        height="13"
-       x="182"
-       y="995.86218" />
+       x="215"
+       y="1034.3622" />
     <path
        style="fill:#f6f6f6;fill-rule:evenodd;stroke:#f6f6f6;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 245.37487,1021.5842 -2.82659,2.2428 0.48486,-8.6749 5.94885,6.3338 -3.60712,0.098"
@@ -685,6 +685,42 @@
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccc"
        inkscape:export-filename="D:\DATA\panther-front-office\src\images\melodies\success.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#606060;stroke-width:2.5;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 187.76776,1032.1299 6.46447,6.4645"
+       id="path4683-0-9-0-4-2-5-1"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\panther-front-office\src\images\melodies\fail.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#606060;stroke-width:2.5;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 194.23223,1032.1299 -6.46447,6.4645"
+       id="path4683-0-9-0-4-2-3-3-5"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#c92d42;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 201,996.3622 3,3 5,-7"
+       id="path4211-9-1"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="D:\DATA\panther-front-office\src\images\melodies\success.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#ff7600;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 201,971.3622 3,3 5,-7"
+       id="path4211-9-1-0"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="D:\DATA\panther-front-office\src\images\urbis\check-colored.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
   </g>
