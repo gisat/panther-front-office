@@ -93,10 +93,17 @@ define(['../../../error/ArgumentError',
 	 * @param gid {string} Id of area
 	 */
 	FeatureInfoWindow.prototype.addExportListener = function(attributes, gid){
+		var locations;
+		if (ThemeYearConfParams.place.length > 0){
+			locations = [Number(ThemeYearConfParams.place)];
+		} else {
+			locations = ThemeYearConfParams.allPlaces;
+		}
+
 		this._mapExport = new MapExport({
 			attributes: JSON.stringify(attributes),
-			places: [ThemeYearConfParams.place],
-			periods: JSON.parse(ThemeYearConfParams.years),
+			places: JSON.stringify(locations),
+			periods: ThemeYearConfParams.years,
 			areaTemplate: ThemeYearConfParams.auCurrentAt,
 			gids: JSON.stringify([gid])
 		});

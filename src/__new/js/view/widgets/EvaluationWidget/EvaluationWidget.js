@@ -490,14 +490,22 @@ define([
     EvaluationWidget.prototype.addDownloadListener = function(areas){
         var self = this;
         var filteredAreas = [];
+
+        var locations;
+        if (ThemeYearConfParams.place.length > 0){
+            locations = [Number(ThemeYearConfParams.place)];
+        } else {
+            locations = ThemeYearConfParams.allPlaces;
+        }
+
         areas.forEach(function(area){
             filteredAreas.push(area.gid);
         });
         this._mapExport = new MapExport({
             attributes: JSON.stringify(this._attrForRequest),
-            places: [areas[0].loc],
-            periods: JSON.parse(ThemeYearConfParams.years),
-            areaTemplate: areas[0].at,
+            places: JSON.stringify(locations),
+            periods: ThemeYearConfParams.years,
+            areaTemplate: ThemeYearConfParams.auCurrentAt,
             gids: JSON.stringify(filteredAreas)
         });
 
