@@ -158,6 +158,6 @@
 }
 .tool-window-button[disabled=disabled] {
 	pointer-events: none;
-	color: #ccc;
-	background: #eee;
+	color: #bbb;
+	background: #e5e5e5;
 }

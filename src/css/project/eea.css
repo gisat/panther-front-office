@@ -181,7 +181,7 @@
 
 /* footer export buttons */
 .eea .widget-button-export {
-	background: rgba(7,125,184,.15);
+	background: none;
 	color: #006699;
 }
 .eea .widget-button-export:hover {

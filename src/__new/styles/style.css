@@ -27,7 +27,7 @@
     cursor: pointer;
 }
 .widget-button-export {
-    background: rgba(173,39,56,.15);
+    background: none;
     border: 0;
     color: #c92d42;
     font-size: 11px;

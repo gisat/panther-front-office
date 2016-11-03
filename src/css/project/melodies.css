@@ -303,7 +303,7 @@
 
 /* footer export buttons */
 .melodies .widget-button-export {
-	background: rgba(0,159,227,.15);
+	background: none;
 	color: #009fe3;
 }
 .melodies .widget-button-export:hover {

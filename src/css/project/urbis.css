@@ -157,7 +157,7 @@
 
 /* footer export buttons */
 .urbis .widget-button-export {
-    background: rgba(255,118,0,.15);
+    background: none;
     color: #ff7600;
 }
 .urbis .widget-button-export:hover {
