@@ -312,6 +312,7 @@
 /* dataview field */
 .newDesign #toolbar .dataview {
     top: 8px;
+    right: 5px;
     width: 120px;
 }
 
