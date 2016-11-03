@@ -191,7 +191,6 @@
 
 /* multioptions */
 .urbis .widgets label.label-multiselect-select-all,
-.urbis .widgets label.label-multiselect-select-all:hover,
 .urbis .widgets label.label-multiselect-select-all.ui-state-active.ui-checkboxradio-checked {
     color: rgba(255,118,0, .8);
 }
@@ -199,4 +198,12 @@
 .urbis .label-multiselect-select-all:before {
     content: url("../../images/urbis/check-colored.png");
     opacity: .8;
+}
+
+.urbis .widgets label.label-multiselect-select-all:hover {
+    color: rgba(255,118,0, 1);
+}
+
+.urbis .label-multiselect-select-all:hover:before {
+    opacity: 1;
 }
