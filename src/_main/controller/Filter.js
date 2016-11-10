@@ -398,6 +398,11 @@ Ext.define('PumaMain.controller.Filter', {
         if (!btn || !btn.xtype || btn.xtype!='tool') {
             var active = btn;
             btn = Ext.ComponentQuery.query('#advancedfilters tool[type=poweron]')[0];
+            // TODO: See what it breaks.
+            if(!btn || !btn.el) {
+                return;
+            }
+
             if (active) {
                 $(btn.el.dom).addClass('tool-active');
             }
