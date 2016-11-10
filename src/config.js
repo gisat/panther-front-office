@@ -1,5 +1,5 @@
 var Config = {
-	url: 'http://melodies.gisat.cz/backend/',
+	url: 'http://localhost/backend/',
 	signupAddress: 'http://localhost/geonode/account/signup/',
 	geoserver2Workspace: "panther",
 	initialBaseMap: "terrain",
@@ -21,7 +21,7 @@ var Config = {
 		allowDownloadsLink: true,
 		usePumaLogo: true,
 		advancedFiltersFirst: false,
-		hasNewEvaluationTool: true,
+		hasNewEvaluationTool: false,
 		isNewDesign: true,
 		isUrbis: false,
 		isEea: false,
