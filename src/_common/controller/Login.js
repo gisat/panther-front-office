@@ -116,10 +116,6 @@ Ext.define('Puma.controller.Login', {
         Ext.ComponentQuery.query('loginheader #loginbtn')[0].setVisible(!loggedIn)
         Ext.ComponentQuery.query('loginheader #logoutbtn')[0].setVisible(loggedIn);
         this.application.fireEvent('login', loggedIn);
-
-        if(!loggedIn && Config.reloadOnLogin) {
-            location.reload();
-        }
     }
 });
 
