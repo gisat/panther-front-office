@@ -151,9 +151,7 @@ define(['../../../../error/ArgumentError',
                     self.histogram.selectBars(values);
                 }
                 $(this).siblings().find('.input-min').val(Math.round(values[0] * 100) / 100);
-                if(!Config.isUrbanTep) {
-                    $(this).siblings().find('.input-max').val(Math.round(values[1] * 100) / 100);
-                }
+                $(this).siblings().find('.input-max').val(Math.round(values[1] * 100) / 100);
             }
         })
     };
