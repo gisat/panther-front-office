@@ -120,7 +120,7 @@ define([
 
                     if (about.attributeType == "numeric"){
                         // TODO: Fix ugly hack for showing Kathmandu.
-                        if(Config.isUrbanTep) {
+                        if(Config.toggles.isUrbanTep) {
                             self._attributes.push({
                                 values: [Number(attribute.min), Number(attribute.max) + 1000],
                                 distribution: attribute.distribution,
