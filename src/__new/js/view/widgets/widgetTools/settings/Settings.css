@@ -7,12 +7,12 @@
 	box-shadow: 0 0 4px rgb(136, 136, 136);
 
 	display: none;
-	height: 30rem;
-	width: 40rem;
+	height: 25rem;
+	width: 35rem;
 	padding: .5rem;
 	position: absolute;
 	top: 8rem;
-	left: calc(50% - 20rem);
+	left: calc(50% - 17.5rem);
 	z-index: 99999;
 }
 .tool-window.open {
@@ -59,13 +59,89 @@
 .tool-window-body .checkbox-row.all-attributes-row a {
 	padding-left: 0;
 }
-.tool-window-body .checkbox-row span {
+.tool-window-body .checkbox-row div {
 	font-weight: normal;
 }
-.tool-window-body .checkbox-row.attribute-set-row span,
-.tool-window-body .checkbox-row.all-attributes-row span {
+.tool-window-body .checkbox-row div i {
+	font-style: normal;
+	font-size: .7rem;
+	color: #bbb;
+	padding-left: .3rem;
+}
+.tool-window-body .checkbox-row.attribute-set-row div,
+.tool-window-body .checkbox-row.all-attributes-row div {
 	font-weight: bold;
-	font-size: .75rem;
+	font-size: .8rem;
+}
+
+.tool-window-body .checkbox-row .checkbox-label {
+	position: relative;
+	width: 90%;
+}
+
+/* toggle switch */
+.tool-window-body .checkbox-row .checkbox-label .multioptions {
+	position: absolute;
+	display: inline-block;
+	right: 0;
+}
+
+.tool-window-body .checkbox-row .checkbox-label .multioptions > span {
+	font-size: .7rem;
+}
+
+.tool-window-body .checkbox-row .switch {
+	position: relative;
+	display: inline-block;
+	margin-left: .3rem;
+	width: 25px;
+	height: 14px;
+	top: .15rem;
+}
+
+.tool-window-body .checkbox-row .switch input {display:none;}
+
+.tool-window-body .checkbox-row .slider-toggle {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	-webkit-transition: .4s;
+	transition: .4s;
+}
+
+.tool-window-body .checkbox-row .slider-toggle:before {
+	position: absolute;
+	content: "";
+	height: 10px;
+	width: 26px;
+	left: 2px;
+	bottom: 2px;
+	background-color: white;
+	-webkit-transition: .4s;
+	transition: .4s;
+}
+
+.tool-window-body .checkbox-row input:checked + .slider-toggle {
+	background-color: #c92d42;
+}
+
+.tool-window-body .checkbox-row input:checked + .slider-toggle:before {
+	-webkit-transform: translateX(9px);
+	-ms-transform: translateX(9px);
+	transform: translateX(9px);
+}
+
+.tool-window-body .checkbox-row .slider-toggle {
+	border-radius: 10px;
+}
+
+.tool-window-body .checkbox-row .slider-toggle:before {
+	width: 12px;
+	border-radius: 10px
 }
 
 
@@ -82,6 +158,6 @@
 }
 .tool-window-button[disabled=disabled] {
 	pointer-events: none;
-	color: #ccc;
-	background: #eee;
+	color: #bbb;
+	background: #e5e5e5;
 }

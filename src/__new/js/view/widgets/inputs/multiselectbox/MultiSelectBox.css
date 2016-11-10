@@ -1,0 +1,81 @@
+.ui-checkboxradio-label {
+	margin: .1rem;
+	transition: background .3s;
+}
+.ui-checkboxradio-label.ui-state-active.ui-checkboxradio-checked, .ui-button:active {
+	background: #ccc;
+	border: 1px solid #aaa;
+	color: #555;
+}
+.ui-checkboxradio-label.ui-state-active:hover {
+	background: #ccc;
+	border: 1px solid #aaa;
+	color: #555;
+}
+.ui-visual-focus, .ui-state-focus {
+	box-shadow: none;
+}
+
+.label-multiselect-option {
+	padding: .3rem 1rem;
+}
+.label-multiselect-option.ui-state-active {
+	padding: .3rem .7rem .25rem 1.3rem;
+}
+.label-multiselect-option.ui-state-active:before {
+	content: url("../../../../../img/check.png");
+	position: absolute;
+	left: .5rem;
+}
+.label-multiselect-select-all,
+.label-multiselect-clear-all,
+.label-multiselect-select-all:hover,
+.label-multiselect-clear-all:hover,
+.label-multiselect-select-all.ui-state-active.ui-checkboxradio-checked,
+.label-multiselect-clear-all.ui-state-active.ui-checkboxradio-checked {
+	background: none;
+	border: 0;
+	font-family: "Open sans", sans-serif;
+	font-weight: bold;
+	font-size: .7rem;
+	padding: .2rem .4rem .1rem 1.1rem;
+}
+.widgets label.label-multiselect-select-all,
+.widgets label.label-multiselect-select-all.ui-state-active.ui-checkboxradio-checked {
+	font-size: .7rem;
+	color: rgba(201, 45, 66, .7);
+	transition: color .3s;
+}
+.widgets label.label-multiselect-clear-all,
+.widgets label.label-multiselect-clear-all.ui-state-active.ui-checkboxradio-checked {
+	font-size: .7rem;
+	color: rgba(96, 96, 96, .7);
+	transition: color .3s;
+}
+.widgets label.label-multiselect-select-all:hover {
+	color: rgba(201, 45, 66, 1);
+}
+.widgets label.label-multiselect-clear-all:hover {
+	color: rgba(96, 96, 96, 1);
+}
+
+.label-multiselect-select-all:before, .label-multiselect-clear-all:before {
+	position: absolute;
+	left: .2rem;
+}
+.label-multiselect-select-all:before {
+	content: url("../../../../../img/check-colored.png");
+	opacity: .7;
+	transition: opacity .3s;
+}
+.label-multiselect-clear-all:before {
+	content: url("../../../../../img/uncheck.png");
+	opacity: .7;
+	transition: opacity .3s;
+}
+.label-multiselect-select-all:hover:before {
+	opacity: 1;
+}
+.label-multiselect-clear-all:hover:before {
+	opacity: 1;
+}

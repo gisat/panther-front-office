@@ -1,9 +1,10 @@
 .histogram {
     bottom: 0;
-    height: 60px;
+    height: 100px;
     padding-left: 1px;
     position: absolute;
-    width: 14.5rem;
+    min-width: 14.5rem;
+    width: 100%;
 }
 
 .histogram-bar {

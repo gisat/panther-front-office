@@ -50,8 +50,6 @@ define(['../../../../error/ArgumentError',
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "SliderBox", "constructor", "missingTarget"));
         }
 
-        this._attrId = options.attrId;
-        this._attrSetId = options.attrSetId;
         this._id = options.id;
         this._name = options.name;
         this._target = options.target;
@@ -78,13 +76,16 @@ define(['../../../../error/ArgumentError',
             id: this._id,
             name: this._name,
             labelMin: viewUtils.numberFormat(this._range[0], true, 2),
-            labelMax: viewUtils.numberFormat(this._range[1], true, 2)
+            labelMax: viewUtils.numberFormat(this._range[1], true, 2),
+            thresholdMin: Math.round(this._range[0] * 100) / 100,
+            thresholdMax: Math.round(this._range[1] * 100) / 100
         }).toString();
 
         this._target.append(html).ready(function(){
             self.buildSlider();
             self.histogram = self.buildHistogram();
             self.addSlideListeners(self._id, self._isRange);
+            self.addInputListener(self._id);
         });
     };
 
@@ -114,6 +115,15 @@ define(['../../../../error/ArgumentError',
         });
     };
 
+	/**
+     * Set the width of the popup
+     */
+    SliderBox.prototype.rebuildPopup = function(){
+        var slider = $("#" + this._id);
+        var sliderWidth = slider.width();
+        slider.siblings(".slider-popup").css("width", sliderWidth);
+    };
+
     /**
      * Add listener to slider and remove the old one
      * @param id {string}
@@ -140,9 +150,47 @@ define(['../../../../error/ArgumentError',
                 if (values[0] != values[1]){
                     self.histogram.selectBars(values);
                 }
-                $(this).siblings().find('.slider-popup-values').html("From: <b>" + viewUtils.numberFormat(values[ 0 ], true, 2) + "</b>&nbsp;&nbsp; To: <b>" + viewUtils.numberFormat(values[ 1 ], true, 2) + "</b>");
+                $(this).siblings().find('.input-min').val(Math.round(values[0] * 100) / 100);
+                $(this).siblings().find('.input-max').val(Math.round(values[1] * 100) / 100);
             }
         })
+    };
+
+	/**
+     * If one of inputs has been changed, move slider handle
+     * @param id {string} slider id
+     */
+    SliderBox.prototype.addInputListener = function(id){
+        var slider = $("#" + id);
+        var minInput = slider.siblings(".slider-labels").find(".input-min");
+        var maxInput = slider.siblings(".slider-labels").find(".input-max");
+        var sliderMin = this._range[0] - 0.005;
+        var sliderMax = this._range[1] + 0.005;
+
+        minInput.off("focusout.inputMin").on("focusout.inputMin",function(){
+            var currentValue = slider.slider("values")[0];
+            var minValue = Number($(this).val());
+            var maxValue = Number(maxInput.val());
+            var diff = Math.abs(currentValue - minValue);
+
+            if (minValue < maxValue && minValue < sliderMax && minValue >= sliderMin && diff > 0.005){
+                slider.slider("values", 0, minValue);
+            } else {
+                $(this).val(Math.round(currentValue * 100) / 100)
+            }
+        });
+
+        maxInput.off("focusout.inputMax").on("focusout.inputMax",function(){
+            var currentValue = slider.slider("values")[1];
+            var minValue = Number(minInput.val());
+            var maxValue = Number($(this).val());
+            var diff = Math.abs(currentValue - maxValue);
+            if (minValue < maxValue && maxValue <= sliderMax && maxValue > sliderMin && diff > 0.005){
+                slider.slider("values", 1, maxValue);
+            } else {
+                $(this).val(Math.round(currentValue * 100) / 100)
+            }
+        });
     };
 
     /**

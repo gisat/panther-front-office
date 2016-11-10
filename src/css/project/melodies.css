@@ -303,7 +303,7 @@
 
 /* footer export buttons */
 .melodies .widget-button-export {
-	background: rgba(0,159,227,.15);
+	background: none;
 	color: #009fe3;
 }
 .melodies .widget-button-export:hover {
@@ -325,6 +325,11 @@
 }
 .melodies #export-csv:before {
 	content: url('../../images/melodies/table.png');
+}
+
+/* settings */
+.melodies .tool-window-body .checkbox-row input:checked + .slider-toggle {
+	background-color: #009fe3;
 }
 
 @media screen and (max-width: 1240px){

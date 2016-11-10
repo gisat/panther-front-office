@@ -695,7 +695,6 @@ Ext.define('PumaMain.controller.Layers', {
 				continue;
 			}
 			var layer = i == 0 ? layer1 : layer2;
-			console.log("OneLevelArea" , OneLevelAreas.hasOneLevel);
 			if(!OneLevelAreas.hasOneLevel) {
 				this.saveSld(node, namedLayers, layer);
 			}

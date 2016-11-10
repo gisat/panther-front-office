@@ -113,7 +113,8 @@ define(['../../util/Remote',
 				attributeSet: attributeSet.id,
 				attributeSetName: attributeSet.name,
 				standardUnits: attr.standardUnits,
-				units: attr.units
+				units: attr.units,
+				active: true
 			}
 		}
 		return params;

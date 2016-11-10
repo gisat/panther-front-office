@@ -4,14 +4,14 @@ define([], function () {
      * @param value {number}
      * @param separateThousands {boolean} true if thousands should be separated by comma
      * @param decimalDigits {number} number of decimal digits
-     * @returns {string}
+     * @returns {string|number}
      */
     function numberFormat (value, separateThousands, decimalDigits) {
         if (value < 1000){
             if (Config.toggles.isMelodies && Number(ThemeYearConfParams.dataset) == 57){
                 return parseFloat(value).toFixed(0);
             }
-            return parseFloat(value).toFixed(decimalDigits);
+            return (Math.round(value*(100))/(100));
         }
 
         else if (separateThousands && value >= 1000){

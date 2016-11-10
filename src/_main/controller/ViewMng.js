@@ -332,7 +332,8 @@ Ext.define('PumaMain.controller.ViewMng', {
             theme: theme,
             cfg: cfgs,
             choroplethCfg: layerCfgs,
-            visibleLayers: visibleLayers
+            visibleLayers: visibleLayers,
+            attributes: ExchangeParams.attributesState
         });
         var window = Ext.widget('window',{
             layout: 'fit',

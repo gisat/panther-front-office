@@ -39,8 +39,6 @@ define(['../../error/ArgumentError',
 
         this._classes = null;
         this._numOfClasses = null;
-        this._readyClasses = null;
-        this._numOfReadyClasses = null;
         this._histogram = $('#histogram-' + this._id);
         if (this._histogram.length == 0){
             throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "Histogram", "constructor", "missingHTMLelement"));
@@ -58,7 +56,7 @@ define(['../../error/ArgumentError',
             this._classes = this.emptyClasses(this._classes);
         }
         this._classes = this.buildClasses(distribution, dataMinMax);
-        this.redraw(distribution, sliderRange, dataMinMax);
+        this.redraw(distribution, dataMinMax);
         this.selectBars(sliderRange);
     };
 
@@ -88,70 +86,30 @@ define(['../../error/ArgumentError',
     /**
      * Redraw the histogram
      * @param frequencies {Array} Distribution of original data
-     * @param sliderRange {Array.<number,number>} Current values of slider handles
      * @param dataMinMax {Array} Minimum and maximum value of data
      */
-    Histogram.prototype.redraw = function(frequencies, sliderRange, dataMinMax) {
-        this._histogram.html('');
+    Histogram.prototype.redraw = function(frequencies, dataMinMax) {
         var widthRatio = (dataMinMax[1] - dataMinMax[0])/(this._maximum - this._minimum);
         if (Math.abs(dataMinMax[1] - dataMinMax[0]) < 0.01){
             widthRatio = 0.05;
         }
+        var containerHeight = this._histogram.height();
+        var containerWidth = this._histogram.parents(".slider-popup").width();
 
-        var containerHeight = Number(this._histogram.css('height').slice(0,-2));
-        var containerWidth = Number(this._histogram.css('width').slice(0,-2));
-        var originalBarWidth = widthRatio*(containerWidth - 2)/this._numOfClasses;
-
-        if (originalBarWidth <= 8){
-            this._numOfReadyClasses = this.adjustNumberOfClasses(this._numOfClasses, originalBarWidth);
-            this._readyClasses = this.groupClasses(this._numOfReadyClasses, this._classes);
-        }
-        else {
-            this._numOfReadyClasses = this._numOfClasses;
-            this._readyClasses = this._classes;
-        }
-
-        var width = widthRatio * (containerWidth - 2)/this._numOfReadyClasses;
-        var heightRatio = containerHeight/this.getMostFrequented(this._readyClasses);
+        var width = widthRatio * (containerWidth - 2)/this._numOfClasses;
+        var heightRatio = containerHeight/this.getMostFrequented(this._classes);
         var histogramMargin = (dataMinMax[0] - this._minimum) * (containerWidth/(this._maximum - this._minimum));
 
         var content = "";
-        this._readyClasses.forEach(function(bar){
+        this._classes.forEach(function(bar){
             var height = (bar.count * heightRatio);
             var marginTop = containerHeight - height;
             content += '<div class="histogram-bar selected" style="height: ' + height + 'px ; width: ' + width + 'px ;margin-top: '+ marginTop +'px"></div>';
         });
-        this._histogram.append(content).css({
+
+        this._histogram.html('').append(content).css({
             marginLeft: histogramMargin
         });
-    };
-
-	/**
-	 * Group the classes, if the number of original classes is divisible by the number of new classes
-     * @param numClasses {number} Number of resulting classes
-     * @param originalClasses {Array}
-     * @returns {Array} grouped classes
-     */
-    Histogram.prototype.groupClasses = function(numClasses, originalClasses){
-        var groupedClasses = [];
-        var classesInGroup = originalClasses.length/numClasses;
-        if (originalClasses.length % numClasses == 0){
-            for (var k = 0; k < numClasses; k++){
-                var sum = 0;
-                var l = 0;
-                for (l; l < classesInGroup; l++ ){
-                    sum = sum + originalClasses[k*classesInGroup + l].count;
-                }
-                groupedClasses[k] = {};
-                groupedClasses[k].minimum = originalClasses[k*classesInGroup].minimum;
-                groupedClasses[k].maximum = originalClasses[(k*classesInGroup + l) - 1].maximum;
-                groupedClasses[k].count = sum;
-            }
-            return groupedClasses;
-        }
-        else {
-            return originalClasses;
-        }
     };
 
 	/**
@@ -163,35 +121,6 @@ define(['../../error/ArgumentError',
             klass.count = 0;
         });
         return classes;
-    };
-
-	/**
-	 * Adjust the number of classes of histogram. It prevents histogram from having thin bars.
-     * @param originalWidth {number} Width of bar in pixels
-     * @param num {number} original number of classes
-     * @returns {number} number of classes
-     */
-    Histogram.prototype.adjustNumberOfClasses = function(num, originalWidth){
-        var adjustedNumOfClasses = num;
-
-        if (num % 20 == 0){
-            if (originalWidth > 5 && originalWidth <= 8){
-                adjustedNumOfClasses = num/2;
-            }
-            else if (originalWidth > 3 && originalWidth <= 5){
-                adjustedNumOfClasses = num/4;
-            }
-            else if (originalWidth > 1.5 && originalWidth <= 3){
-                adjustedNumOfClasses = num/5;
-            }
-            else if (originalWidth > .8 && originalWidth <= 1.5){
-                adjustedNumOfClasses = num/10;
-            }
-            else {
-                adjustedNumOfClasses = num/20;
-            }
-        }
-        return adjustedNumOfClasses;
     };
 
 	/**
@@ -211,9 +140,9 @@ define(['../../error/ArgumentError',
      */
     Histogram.prototype.selectBars = function(values) {
         var minIndex = -1;
-        var maxIndex = this._numOfReadyClasses;
-        if (this._readyClasses){
-            this._readyClasses.forEach(function(klass, index){
+        var maxIndex = this._numOfClasses;
+        if (this._classes){
+            this._classes.forEach(function(klass, index){
                 if (klass.maximum < values[0]){
                     if (index > minIndex){
                         minIndex = index;

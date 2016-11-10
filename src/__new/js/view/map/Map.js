@@ -102,9 +102,9 @@ define([
 		});
 	};
 
-	Map.prototype.addOnClickListener = function(){
-		var self = this;
+	Map.prototype.addOnClickListener = function(attributes, infoWindow){
 		var layers = this.getBaseLayersIds();
+		this._attributes = attributes;
 		this._map.selectInMapLayer.params['LAYERS'] = layers.join(',');
 		if (!this._newInfoControl){
 			this._newInfoControl = new OpenLayers.Control.WMSGetFeatureInfo({
@@ -114,39 +114,32 @@ define([
 				},
 				layers: [this._map.selectInMapLayer]
 			});
-			this._newInfoControl.events.register("getfeatureinfo", this, this.getInfoAboutArea);
+			this._newInfoControl.events.register("getfeatureinfo", this, this.getInfoAboutArea.bind(this, infoWindow));
 			this._map.addControl(this._newInfoControl);
 		}
 	};
 
-	Map.prototype.getInfoAboutArea = function(e){
+	Map.prototype.getInfoAboutArea = function(infoWindow, e){
 		var allFeatures = JSON.parse(e.text).features;
 		if (allFeatures.length > 0){
-			$("#feature-info-window").show(200);
+			infoWindow.setVisibility("show");
+			infoWindow.setScreenPosition(e.xy);
+
 			var featureGid = allFeatures[allFeatures.length - 1].properties.gid;
-			this.rebuildInfoWindow(featureGid, e.xy);
+			infoWindow.rebuild(this._attributes, featureGid);
 		}
 		else {
-			$("#feature-info-window").hide(200);
+			infoWindow.setVisibility("hide");
 		}
-	};
-
-	Map.prototype.rebuildInfoWindow = function(gid, coordinates){
-		var mapOffsetTop = $('#app-map').offset().top;
-		$("#feature-info-window").offset({
-			top: coordinates.y + mapOffsetTop + 5,
-			left: coordinates.x + 5
-		});
-		$("#feature-info-window .feature-info-window-header").html("Area name (" + gid + ")");
 	};
 
 	Map.prototype.onClickActivate = function(){
 		this._newInfoControl.activate();
 	};
 
-	Map.prototype.onClickDeactivate = function(){
+	Map.prototype.onClickDeactivate = function(infoWindow){
 		this._newInfoControl.deactivate();
-		$("#feature-info-window").hide(200);
+		infoWindow.setVisibility("hide");
 	};
 
 	Map.prototype.getBaseLayersIds = function(){

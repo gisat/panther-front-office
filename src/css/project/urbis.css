@@ -157,7 +157,7 @@
 
 /* footer export buttons */
 .urbis .widget-button-export {
-    background: rgba(255,118,0,.15);
+    background: none;
     color: #ff7600;
 }
 .urbis .widget-button-export:hover {
@@ -177,6 +177,33 @@
 .urbis #export-shp:before {
     content: url('../../images/urbis/map.png');
 }
-.urbis #export-csv:before {
+.urbis #export-csv:before, .urbis #export-feature-info-csv:before {
     content: url('../../images/urbis/table.png');
+}
+.urbis #export-feature-info-csv:hover {
+    background: rgba(255,118,0,.15);
+}
+
+/* settings */
+.urbis .tool-window-body .checkbox-row input:checked + .slider-toggle {
+    background-color: #ff7600;
+}
+
+/* multioptions */
+.urbis .widgets label.label-multiselect-select-all,
+.urbis .widgets label.label-multiselect-select-all.ui-state-active.ui-checkboxradio-checked {
+    color: rgba(255,118,0, .8);
+}
+
+.urbis .label-multiselect-select-all:before {
+    content: url("../../images/urbis/check-colored.png");
+    opacity: .8;
+}
+
+.urbis .widgets label.label-multiselect-select-all:hover {
+    color: rgba(255,118,0, 1);
+}
+
+.urbis .label-multiselect-select-all:hover:before {
+    opacity: 1;
 }

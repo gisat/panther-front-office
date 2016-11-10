@@ -6,6 +6,7 @@ define([
     '../../../util/Logger',
     '../../map/Map',
     '../../../util/MapExport',
+    '../inputs/multiselectbox/MultiSelectBox',
 	'../../../util/Remote',
     '../inputs/selectbox/SelectBox',
     '../widgetTools/settings/Settings',
@@ -26,6 +27,7 @@ define([
             Logger,
             Map,
             MapExport,
+            MultiSelectBox,
 			Remote,
             SelectBox,
             Settings,
@@ -96,16 +98,24 @@ define([
         var self = this;
         this.handleLoading("show");
         this._attributes = [];
-        this._filter.statistics(attrForRequest).then(function(attributes){
+        this._attrForRequest = attrForRequest;
+
+        var distribution = {
+            type: 'normal',
+            classes: this.computeNumOfClasses()
+        };
+
+        this._filter.statistics(attrForRequest, distribution).then(function(attributes){
             if (attributes.length > 0){
                 attributes.forEach(function(attribute){
                     var about = {
                         attribute: attribute.attribute,
                         attributeName: attribute.attributeName,
                         attributeType: attribute.type,
-                        attributeSet: attribute.attributeSet,
+                        attributeSet: Number(attribute.attributeSet),
                         attributeSetName: attribute.attributeSetName,
-                        units: attribute.units
+                        units: attribute.units,
+                        active: attribute.active
                     };
 
                     if (about.attributeType == "numeric"){
@@ -139,11 +149,29 @@ define([
         ThemeYearConfParams.datasetChanged = false;
     };
 
+	/**
+     * According to the width of floater set number of classes for histogram
+     * @returns {number} Number of classes
+     */
+    EvaluationWidget.prototype.computeNumOfClasses = function(){
+        var width = this._widgetSelector.width();
+        if (width < 350){
+            return 20;
+        } if (width >= 350 && width < 450){
+            return 30;
+        } else if (width >= 450 && width < 550){
+            return 40;
+        } else {
+            return 50;
+        }
+    };
+
     /**
      * Build the widget basic view of the widget
      */
     EvaluationWidget.prototype.build = function(){
         this.buildSettings();
+        this.addOnResizeListener();
     };
 
 	/**
@@ -191,6 +219,8 @@ define([
             widgetId: this._widgetId
         });
         this._categories = this._settings.getCategories();
+        this.setAttributesState(this._categories);
+
         this.rebuildInputs(this._categories);
         this.disableExports();
 
@@ -213,9 +243,11 @@ define([
         };
 
         var self = this;
+
         for (var key in categories){
             if (categories.hasOwnProperty(key) && categories[key].active == true){
                 var input = categories[key].input;
+                var multioptions = categories[key].multioptions;
                 var name = categories[key].name;
                 var units = categories[key].attrData.about.units;
                 var attrId = categories[key].attrData.about.attribute;
@@ -224,7 +256,7 @@ define([
                 if (input == "slider") {
                     var min = categories[key].attrData.values[0];
                     var max = categories[key].attrData.values[1];
-                    var step = 0.005;
+                    var step = 0.0005;
                     if (min <= -1000 || max >= 1000){
                         step = 1
                     }
@@ -242,7 +274,12 @@ define([
 
                 else if (input == "select") {
                     var options = categories[key].attrData.values;
-                    var select = this.buildSelectInput(key, name, options);
+                    var select;
+                    if (multioptions){
+                        select = this.buildMultiSelectInput(key, name, options);
+                    } else {
+                        select = this.buildSelectInput(key, name, options);
+                    }
                     this._inputs.selects.push(select);
                 }
             }
@@ -284,6 +321,22 @@ define([
     };
 
     /**
+     * It returns the box with multi select input
+     * @param id {string} ID of the data theme
+     * @param name {string} Name of the data theme
+     * @param options {Array} Select options
+     * @returns {MultiSelectBox}
+     */
+    EvaluationWidget.prototype.buildMultiSelectInput = function(id, name, options){
+        return new MultiSelectBox({
+            id: id,
+            name: name,
+            target: this._widgetBodySelector,
+            data: options
+        });
+    };
+
+    /**
      * It returns the slider box
      * @param attrId {string} ID of the attribute
      * @param attrSetId {string} ID of the attribute set ID
@@ -315,12 +368,6 @@ define([
     EvaluationWidget.prototype.prepareFooter = function (){
         var html = S(htmlFooterContent).template().toString();
         this._widgetSelector.find(".floater-footer").html("").append(html);
-
-        // todo move this code to template
-        if (!Config.toggles.isUrbis){
-            var download = ('<div class="floater-row"><div class="widget-button widget-button-export" id="export-shp" disabled="disabled">Export to SHP</div><div class="widget-button widget-button-export" id="export-csv" disabled="disabled">Export to CSV</div></div>');
-            this._widgetSelector.find(".floater-footer").append(download);
-        }
     };
 
 	/**
@@ -335,14 +382,9 @@ define([
                 if (areas.length > 0){
                     count = areas.length;
                 }
-
                 if (count > 0 ) {
                     SelectedAreasExchange.data.data = areas;
-
-                    // todo allow download for all projects
-                    if (!Config.toggles.isUrbis){
-                        self.addDownloadListener(areas);
-                    }
+                    self.addDownloadListener(areas);
 
                     if (OneLevelAreas.hasOneLevel) {
                         var rgbColor = $('.x-color-picker .x-color-picker-selected span').css('background-color');
@@ -369,7 +411,7 @@ define([
         setTimeout(function(){
             self._filter.filter(self._categories, "amount").then(function(result){
                 self.addSelectionConfirmListener(result);
-                self.rebuildHistograms(self._inputs.sliders);
+                self.rebuildPopups(self._inputs.sliders);
                 self.handleLoading("hide");
             });
         },100);
@@ -379,8 +421,9 @@ define([
      * It rebuilds the histograms with current values
      * @param sliders {Array} array of slider objects
      */
-    EvaluationWidget.prototype.rebuildHistograms = function(sliders){
+    EvaluationWidget.prototype.rebuildPopups = function(sliders){
         sliders.forEach(function(slider){
+            slider.rebuildPopup();
             if(slider.hasOwnProperty("histogram")){
                 slider.histogram.rebuild(slider.distribution, slider._values, slider.origValues);
             }
@@ -447,18 +490,27 @@ define([
     EvaluationWidget.prototype.addDownloadListener = function(areas){
         var self = this;
         var filteredAreas = [];
+
+        var locations;
+        if (ThemeYearConfParams.place.length > 0){
+            locations = [Number(ThemeYearConfParams.place)];
+        } else {
+            locations = ThemeYearConfParams.allPlaces;
+        }
+
         areas.forEach(function(area){
             filteredAreas.push(area.gid);
         });
         this._mapExport = new MapExport({
-            location: areas[0].loc,
-            year: JSON.parse(ThemeYearConfParams.years)[0],
-            areaTemplate: areas[0].at,
-            gids: filteredAreas
+            attributes: JSON.stringify(this._attrForRequest),
+            places: JSON.stringify(locations),
+            periods: ThemeYearConfParams.years,
+            areaTemplate: ThemeYearConfParams.auCurrentAt,
+            gids: JSON.stringify(filteredAreas)
         });
 
         $("#export-shp").off("click.shp").attr("disabled",false).on("click.shp", function(){
-            self._mapExport.export("shapefile");
+            self._mapExport.export("geojson");
         });
         $("#export-csv").off("click.csv").attr("disabled",false).on("click.csv", function(){
             self._mapExport.export("csv");
@@ -470,6 +522,9 @@ define([
      */
     EvaluationWidget.prototype.addInputsListener = function(){
         var self = this;
+        this._widgetSelector.find(".ui-checkboxradio-label" ).off("click.checkboxradio")
+            .on( "click.checkboxradio", self.amount.bind(self))
+            .on( "click.checkboxradio", self.disableExports.bind(self));
         this._widgetSelector.find(".selectmenu" ).off("selectmenuselect")
             .on( "selectmenuselect", self.amount.bind(self))
             .on( "selectmenuselect", self.disableExports.bind(self));
@@ -479,6 +534,19 @@ define([
         this._widgetSelector.find(".checkbox-row").off("click.inputs")
             .on( "click.inputs", self.amount.bind(self))
             .on( "click.inputs", self.disableExports.bind(self));
+    };
+
+	/**
+	 * Rebuild histograms on floater resize
+     */
+    EvaluationWidget.prototype.addOnResizeListener = function(){
+        var self = this;
+        this._widgetSelector.on("resizestop", function( event, ui ) {
+            setTimeout(function(){
+                self.rebuildPopups(self._inputs.sliders);
+                self.rebuild(self._attrForRequest);
+            },1000);
+        } );
     };
 
     /**
@@ -501,6 +569,7 @@ define([
         var self = this;
         button.on("click",function(){
             self._categories = self._settings.getCategories();
+            self.setAttributesState(self._categories);
             self.rebuildInputs(self._categories);
             self.disableExports();
         })
@@ -514,10 +583,12 @@ define([
         var isFirefox = typeof InstallTrigger !== 'undefined';
         if (!isFirefox){
             var popup = $('.slider-popup');
-            var margin = popup.css("margin-top");
-            this._widgetBodySelector.off("scroll").on("scroll",function(e){
-                popup.css("margin-top",(margin.slice(0,-2) - e.target.scrollTop)+"px");
-            });
+            if (popup.length > 0){
+                var margin = popup.css("margin-top");
+                this._widgetBodySelector.off("scroll").on("scroll",function(e){
+                    popup.css("margin-top",(margin.slice(0,-2) - e.target.scrollTop)+"px");
+                });
+            }
         }
     };
 
@@ -543,6 +614,20 @@ define([
                 break;
         }
         this._widgetSelector.find(".floater-overlay").css("display", display);
+    };
+
+	/**
+     * Prepare attributes for export
+     * @param categories {Object}
+     */
+    EvaluationWidget.prototype.setAttributesState = function(categories){
+        var attributes = [];
+        for (var attr in categories){
+            if (categories.hasOwnProperty(attr)){
+                attributes.push(categories[attr].attrData.about);
+            }
+        }
+        ExchangeParams.attributesState = attributes;
     };
 
     return EvaluationWidget;

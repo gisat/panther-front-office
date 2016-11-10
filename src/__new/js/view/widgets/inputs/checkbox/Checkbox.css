@@ -10,6 +10,7 @@
     width: 1.2rem;
     height: 1.2rem;
     line-height: 1.2rem;
+    transition: background .3s;
 }
 
 .checkbox-label {
@@ -17,4 +18,5 @@
     font-weight: bold;
     height: 1.2rem;
     line-height: 1.2rem;
+    font-size: .8rem;
 }

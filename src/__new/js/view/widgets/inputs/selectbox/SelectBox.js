@@ -47,7 +47,9 @@ define(['../../../../error/ArgumentError',
         this._id = options.id;
         this._name = options.name;
         this._target = options.target;
-        this._data = options.data;
+        this._data = _.sortBy(options.data, function(val){
+            return val;
+        });
 
         this.build();
     };
@@ -65,12 +67,26 @@ define(['../../../../error/ArgumentError',
         }).toString();
 
         this._target.append(html);
-
-        var content = "";
-        this._data.forEach(function(item){
-            content += '<option>' + item + '</option>';
-        });
+        var content = this.getSelectOptions();
         $('#' + this._id).append(content).selectmenu();
+    };
+
+	/**
+	 * Return options for select menu. If there is more than one option, add All option.
+     * @returns {string} String representing HTML code
+     */
+    SelectBox.prototype.getSelectOptions = function(){
+        var content = "";
+        if (this._data.length > 1){
+            content += '<option value="" class="selectbox-all-options">All options</option>';
+        }
+        this._data.forEach(function(item){
+            if (item){
+                content += '<option value="' + item + '">' + item + '</option>';
+            }
+        });
+
+        return content;
     };
 
     /**

@@ -181,7 +181,7 @@
 
 /* footer export buttons */
 .eea .widget-button-export {
-	background: rgba(7,125,184,.15);
+	background: none;
 	color: #006699;
 }
 .eea .widget-button-export:hover {
@@ -203,6 +203,11 @@
 }
 .eea #export-csv:before {
 	content: url('../../images/eea/table.png');
+}
+
+/* settings */
+.eea .tool-window-body .checkbox-row input:checked + .slider-toggle {
+	background-color: #006699;
 }
 
 /* ================================ */

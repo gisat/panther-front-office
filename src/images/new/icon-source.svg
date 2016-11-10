@@ -16,7 +16,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="icons.svg"
+   sodipodi:docname="icon-source.svg"
    inkscape:export-filename="D:\DATA\panther-front-office\src\images\urbis\panther-slider-bg.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
@@ -3745,8 +3745,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="3.083045"
-     inkscape:cx="1101.5735"
-     inkscape:cy="100.62907"
+     inkscape:cx="185.99977"
+     inkscape:cy="165.5"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -4024,36 +4024,36 @@
          style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
     <rect
-       style="opacity:1;fill:#eeeeee;fill-opacity:1;stroke:#cccccc;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.94117647"
+       style="opacity:1;fill:#eeeeee;fill-opacity:1;stroke:#b0b0b0;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4529"
        width="13"
        height="13"
        x="156.5"
        y="973.86218"
-       inkscape:export-filename="D:\DATA\urbis\puma\public\images\urbis-unchecked.png"
+       inkscape:export-filename="D:\DATA\panther-front-office\src\__new\js\view\widgets\inputs\checkbox\checkbox-unchecked.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"
        rx="2"
        ry="2" />
     <rect
-       style="opacity:1;fill:#ff7600;fill-opacity:1;stroke:#ffffff;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       style="opacity:1;fill:#ff7600;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
        id="rect4529-6"
-       width="13.5"
-       height="13.5"
+       width="14"
+       height="14"
        x="180.75"
-       y="923.11218"
-       inkscape:export-filename="D:\DATA\urbis\puma\public\images\urbis-checked.png"
+       y="922.61218"
+       inkscape:export-filename="D:\DATA\panther-front-office\src\__new\js\view\widgets\inputs\checkbox\checkbox-checked.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"
        rx="1.9999999"
        ry="1.9999999" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:"
        d="m 182.90378,929.95057 2.8284,2.8284 6.36399,-6.3639"
        id="path4560"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccc"
-       inkscape:export-filename="D:\DATA\urbis\puma\public\images\urbis-checked.png"
+       inkscape:export-filename="D:\DATA\panther-front-office\src\__new\js\view\widgets\inputs\checkbox\checkbox-checked.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <text
@@ -4093,13 +4093,13 @@
          y="987.14978"
          style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:15px;font-family:sans-serif;-inkscape-font-specification:sans-serif">Basic</tspan></text>
     <rect
-       style="opacity:1;fill:#c92d42;fill-opacity:1;stroke:#ffffff;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       style="opacity:1;fill:#c92d42;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
        id="rect4529-6-1"
-       width="13.5"
-       height="13.5"
+       width="14"
+       height="14"
        x="180.75"
-       y="973.11218"
-       inkscape:export-filename="D:\DATA\panther-front-office\src\images\new\checked.png"
+       y="972.61218"
+       inkscape:export-filename="D:\DATA\panther-front-office\src\__new\img\checkbox-checked.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"
        rx="1.9999999"
@@ -4110,7 +4110,7 @@
        id="path4560-9"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccc"
-       inkscape:export-filename="D:\DATA\panther-front-office\src\images\new\checked.png"
+       inkscape:export-filename="D:\DATA\panther-front-office\src\__new\img\checkbox-checked.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
@@ -5208,13 +5208,13 @@
        x="-66"
        y="871.36218" />
     <rect
-       style="opacity:1;fill:#077db8;fill-opacity:1;stroke:#ffffff;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       style="opacity:1;fill:#077db8;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
        id="rect4529-6-2"
-       width="13.5"
-       height="13.5"
+       width="14"
+       height="14"
        x="180.75"
-       y="873.11218"
-       inkscape:export-filename="D:\DATA\panther-front-office\src\images\eea\checkbox-checked.png"
+       y="872.61218"
+       inkscape:export-filename="D:\DATA\panther-front-office\src\images\eea\checked.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"
        rx="1.9999999"
@@ -5225,7 +5225,7 @@
        id="path4560-95"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccc"
-       inkscape:export-filename="D:\DATA\panther-front-office\src\images\eea\checkbox-checked.png"
+       inkscape:export-filename="D:\DATA\panther-front-office\src\images\eea\checked.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <g
@@ -5666,12 +5666,12 @@
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <rect
-       style="opacity:1;fill:#009fe3;fill-opacity:1;stroke:#ffffff;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       style="opacity:1;fill:#009fe3;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
        id="rect4529-6-2-7"
-       width="13.5"
-       height="13.5"
+       width="14"
+       height="14"
        x="180.75"
-       y="818.11218"
+       y="817.61218"
        inkscape:export-filename="D:\DATA\panther-front-office\src\images\melodies\checked.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"
