@@ -138,8 +138,7 @@ Ext.define('PumaMain.controller.ViewMng', {
                 return rec.get('dataset')==Config.cfg.dataset;
             }
         ]);
-        locationCombo.setValue(Config.cfg.location);
-        
+
         var themeStore = Ext.StoreMgr.lookup('theme4sel');
         themeStore.clearFilter(true);
         themeStore.filter([
@@ -147,8 +146,7 @@ Ext.define('PumaMain.controller.ViewMng', {
                 return rec.get('dataset')==Config.cfg.dataset;
             }
         ]);
-        themeCombo.setValue(Config.cfg.theme);
-        
+
         var visStore = Ext.StoreMgr.lookup('visualization4sel');
         var yearStore = Ext.StoreMgr.lookup('year4sel');
         var themeYears = Ext.StoreMgr.lookup('theme').getById(Config.cfg.theme).get('years');
@@ -157,14 +155,19 @@ Ext.define('PumaMain.controller.ViewMng', {
         yearStore.filter([function(rec) {
             return Ext.Array.contains(themeYears,rec.get('_id'))
         }])
-        yearCombo.setValue(Config.cfg.years)
-        
+
         visStore.clearFilter(true);
         visStore.filter([function(rec) {
             return rec.get('theme')==Config.cfg.theme
         }]);
+
+        yearCombo.setValue(Config.cfg.years)
         visualizationCombo.setValue(Config.cfg.visualization);
-   
+        themeCombo.setValue(Config.cfg.theme);
+
+        locationCombo.setValue(Config.cfg.location);
+
+
         yearCombo.resumeEvents();
         datasetCombo.resumeEvents();
         themeCombo.resumeEvents();
