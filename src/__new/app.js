@@ -149,7 +149,10 @@ define(['js/util/metadata/Attributes',
             animate: true,
             minWidth: 350,
             maxWidth: 600,
-            minHeight: 350
+            minHeight: 350,
+            resize: function( event, ui ) {
+                event.preventDefault();
+            }
         }).draggable({
             containment: "body",
             handle: ".floater-header"

@@ -107,3 +107,21 @@
     border: 2px dotted gray;
     z-index: 99999;
 }
+
+.ui-resizable-e {
+    width: 20px;
+    right: -10px;
+}
+
+.ui-resizable-s {
+    height: 25px;
+    bottom: -15px;
+}
+
+.ui-resizable-se {
+    width: 30px;
+    height: 30px;
+    right: -15px;
+    bottom: -15px;
+    background-position: -82px -226px;
+}
