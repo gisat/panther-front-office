@@ -1,5 +1,5 @@
 var Config = {
-	url: 'http://localhost:4000/',
+	url: 'http://localhost/backend/',
 	signupAddress: 'http://localhost/geonode/account/signup/',
 	geoserver2Workspace: "panther",
 	initialBaseMap: "terrain",
@@ -9,6 +9,7 @@ var Config = {
 		113.0046844482,
 		-6.9809544265
 	],
+	melodiesRemoteUrl: "",
 
 	toggles: {
 		noGeoserverLayerGroups: false,
@@ -17,13 +18,12 @@ var Config = {
 		useHeader: true,
 		useWBFooter: false,
 		allowPumaHelp: true,
-		allowDownloadsLink: false,
-		usePumaLogo: false,
+		allowDownloadsLink: true,
+		usePumaLogo: true,
 		advancedFiltersFirst: false,
-		hasNewEvaluationTool: true,
-		hasNewFeatureInfo: true,
+		hasNewEvaluationTool: false,
 		isNewDesign: true,
-		isUrbis: true,
+		isUrbis: false,
 		isEea: false,
 		isMelodies: false
 	},
@@ -32,7 +32,7 @@ var Config = {
 		advancedFiltersName: "Evaluation Tool",
 		areasSectionName: "Selection level",
 		appTitle: "Data Exploration",
-		appName: "",
+		appName: "Data Exploration",
 		scopeName: "Scale"
 	},
 	urbisTexts: {

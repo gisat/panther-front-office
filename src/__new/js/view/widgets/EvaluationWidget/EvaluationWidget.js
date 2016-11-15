@@ -119,11 +119,20 @@ define([
                     };
 
                     if (about.attributeType == "numeric"){
-                        self._attributes.push({
-                            values: [Number(attribute.min), Number(attribute.max)],
-                            distribution: attribute.distribution,
-                            about: about
-                        });
+                        // TODO: Fix ugly hack for showing Kathmandu.
+                        if(Config.toggles.isUrbanTep) {
+                            self._attributes.push({
+                                values: [Number(attribute.min), Number(attribute.max) + 1000],
+                                distribution: attribute.distribution,
+                                about: about
+                            });
+                        } else {
+                            self._attributes.push({
+                                values: [Number(attribute.min), Number(attribute.max)],
+                                distribution: attribute.distribution,
+                                about: about
+                            });
+                        }
                     }
                     else if (about.attributeType == "boolean") {
                         self._attributes.push({
