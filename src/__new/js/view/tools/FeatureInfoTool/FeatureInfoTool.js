@@ -64,7 +64,8 @@ define(['../../../error/ArgumentError',
 	FeatureInfoTool.prototype.buildInfoWindow = function(){
 		return new FeatureInfoWindow({
 			target: this._target,
-			id: this._id + "-window"
+			id: this._id + "-window",
+			resizable: true
 		});
 	};
 

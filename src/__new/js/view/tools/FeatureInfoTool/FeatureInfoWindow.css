@@ -19,12 +19,13 @@
 	font-weight: 700;
 	padding: 0 .4rem .2rem .1rem;
 	margin-right: .2rem;
+	height: 1.5rem;
 }
 #feature-info-window .feature-info-window-body {
 	margin: 0 .2rem .2rem 0;
 	overflow-x: hidden;
 	overflow-y: auto;
-	height: 8.8rem;
+	height: calc(100% - 3.5rem);
 }
 #feature-info-window .feature-info-window-footer {
 	border-top: 2px solid #ddd;

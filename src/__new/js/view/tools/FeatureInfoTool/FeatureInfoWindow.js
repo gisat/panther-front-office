@@ -28,6 +28,7 @@ define(['../../../error/ArgumentError',
 	 * @param options {Object}
 	 * @param options.id {string} id of the element
 	 * @param options.target {Object} JQuery object
+	 * @param options.resizable {boolean} true if window is resizable
 	 * @constructor
 	 */
 	var FeatureInfoWindow = function (options) {
@@ -40,6 +41,7 @@ define(['../../../error/ArgumentError',
 
 		this._id = options.id;
 		this._target = options.target;
+		this._resizable = options.resizable;
 
 		this.build();
 	};
@@ -86,6 +88,18 @@ define(['../../../error/ArgumentError',
 		}).toString();
 		this._target.append(html);
 		this._infoWindow = $("#" + this._id);
+		if (this._resizable){
+			this._infoWindow.resizable({
+				animate: true,
+				minWidth: 300,
+				maxWidth: 500,
+				minHeight: 200,
+				maxHeight: 400,
+				resize: function( event, ui ) {
+					event.preventDefault();
+				}
+			})
+		}
 	};
 
 	/**
