@@ -31,11 +31,19 @@ define([
 		if (visualization > 0){
 			Stores.retrieve("visualization").byId(visualization).then(function(response){
 				var attributes = response[0].attributes;
+				var options = response[0].options;
+
 				if (attributes){
 					self.rebuildComponents(attributes);
 				}
 				else {
 					self.getAttributesMetadata().then(self.rebuildComponents.bind(self));
+				}
+
+				if (options){
+					if (options.hasOwnProperty("openWidgets")){
+						self.checkWidgetsState(options.openWidgets);
+					}
 				}
 			});
 		}
@@ -53,6 +61,16 @@ define([
 		});
 		this._widgets.forEach(function(widget){
 			widget.rebuild(attributes, self._map);
+		});
+	};
+
+	FrontOffice.prototype.checkWidgetsState = function(floaters){
+		this._widgets.forEach(function(widget){
+			for (var key in floaters){
+				if (key == "floater-" + widget._widgetId){
+					widget.setState(key, floaters[key]);
+				}
+			}
 		});
 	};
 
