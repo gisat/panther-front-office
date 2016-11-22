@@ -522,7 +522,7 @@ define([
             self._mapExport.export("geojson");
         });
         $("#export-csv").off("click.csv").attr("disabled",false).on("click.csv", function(){
-            self._mapExport.export("csv");
+            self._mapExport.export("xls");
         });
     };
 

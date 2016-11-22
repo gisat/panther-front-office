@@ -29,7 +29,7 @@ define([
 
 	/**
 	 * Export current selection
-	 * @param type {('geojson'|'csv')} format of the export output
+	 * @param type {('geojson'|'csv','xls')} format of the export output
 	 */
 	MapExport.prototype.export = function(type){
 		var url = window.Config.url + "export/" + type;

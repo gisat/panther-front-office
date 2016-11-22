@@ -124,7 +124,7 @@ define(['../../../error/ArgumentError',
 
 		var self = this;
 		$("#export-feature-info-csv").off("click.featureInfo.csv").on("click.featureInfo.csv", function(){
-			self._mapExport.export("csv");
+			self._mapExport.export("xls");
 		});
 	};
 
