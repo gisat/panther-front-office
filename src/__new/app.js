@@ -152,6 +152,7 @@ define(['js/util/metadata/Attributes',
             minHeight: 350,
             resize: function( event, ui ) {
                 event.preventDefault();
+                event.stopPropagation();
             }
         }).draggable({
             containment: "body",
