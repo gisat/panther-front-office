@@ -672,7 +672,6 @@ Ext.define('PumaMain.controller.Chart', {
     
     onChartReceived: function(response) {
         var cmp = response.cmp || response.request.options.cmp;
-        
         if (cmp.chart) {
             
             try {
@@ -1170,6 +1169,7 @@ Ext.define('PumaMain.controller.Chart', {
                 this.onChartReceived({cmp:st.cmp});
             }
         },this)
+
         var selectController = this.getController('Select');
         var me = this;
         for (var i=0;i<data.columns.length;i++) {
@@ -1196,7 +1196,6 @@ Ext.define('PumaMain.controller.Chart', {
                 }]
                 var html = me.getTooltipHtml(rec.get('name'),column.yearName,attrConf)
                 metadata.tdAttr = 'data-qtip="' + html + '"';
-                
                 return me.formatVal(val);
             }
         }
@@ -1246,7 +1245,7 @@ Ext.define('PumaMain.controller.Chart', {
             if (years.length*attrs.length<5)
                 grid.view.el.setStyle ({
                     overflow: 'hidden'
-                })  
+                })
         })
 
     },
@@ -1263,6 +1262,7 @@ Ext.define('PumaMain.controller.Chart', {
         return html;
     },
     formatVal: function(val) {
+        val = Number(val);
         if (this.isInt(val)) return val;
         var deci = 3;
         if (val>1) deci = 2;
