@@ -81,6 +81,7 @@ define([
             this._placeholderSelector.removeClass("open");
         }
 
+        ExchangeParams.options.openWidgets["floater-" + this._widgetId] = this._widgetSelector.hasClass("open");
         this._settings = null;
 
         // Call the method from parent

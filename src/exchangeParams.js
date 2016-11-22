@@ -34,8 +34,17 @@ var AreasExpanding = false;
  */
 var ExpandedAreasExchange = {};
 
+/**
+ * Exchange params for visualization
+ * @type {{attributesState: Array, options: {}}}
+ */
 var ExchangeParams = {
 	attributesState: [],
+	options: {
+		openWidgets: {
+
+		}
+	}
 };
 
 /**

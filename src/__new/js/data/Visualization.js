@@ -23,6 +23,9 @@ define(['./Model'], function(Model){
 			},
 			attributes: {
 				serverName: 'attributes'
+			},
+			options: {
+				serverName: 'options'
 			}
 		};
 	};

@@ -127,13 +127,16 @@ define(['js/util/metadata/Attributes',
                 if (floater.hasClass("open")) {
                     Floater.minimise(floater);
                     Placeholder.floaterClosed(placeholder);
+                    ExchangeParams.options.openWidgets[floaterSelector.slice(1)] = false;
                 }
                 else {
                     Floater.maximise(floater);
                     Placeholder.floaterOpened(placeholder);
                     $(".floater").removeClass("active");
                     floater.addClass("active");
+                    ExchangeParams.options.openWidgets[floaterSelector.slice(1)] = true;
                 }
+                console.log(ExchangeParams.options.openWidgets);
             }
         });
         widgetElement.on("click", ".widget-minimise", function(e){
@@ -143,6 +146,8 @@ define(['js/util/metadata/Attributes',
                 var placeholder = $(placeholderSelector);
                 Floater.minimise(floater);
                 Placeholder.floaterClosed(placeholder);
+                ExchangeParams.options.openWidgets[floater.attr("id")] = false;
+                console.log(ExchangeParams.options.openWidgets);
             }
         });
         $(".floater").resizable({
