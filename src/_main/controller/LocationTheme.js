@@ -115,6 +115,11 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 }
             }
         ]);
+        if (locCount == 1){
+            this._hasOnlyOnePlace = true;
+        }
+
+
         locationCombo.show();
         var first = locStore.findRecord('id','2450_1') || locStore.getAt(0);
         if (first && !cnt.initial) {
@@ -367,7 +372,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
             params['queryTopics'] = this.getQueryTopics(theme);
         }
         var locationId = locationObj.location;
-        if (this.datasetChanged && locationId) {
+        if (this.datasetChanged && locationId && !this._hasOnlyOnePlace) {
             var expanded = {};
             var areaTemplateId = locationObj.at;
             var locGid = locationObj.locGid;
@@ -919,6 +924,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
     },
     onThemeLocationConfReceived: function(response) {
         var conf = JSON.parse(response.responseText).data;
+
         if (conf.hasOwnProperty("auRefMap")){
             FeatureInfo.auRefMap = conf.auRefMap;
             var counter = 1;

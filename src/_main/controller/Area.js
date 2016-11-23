@@ -594,7 +594,6 @@ Ext.define('PumaMain.controller.Area', {
 				//locStore.add(customRec);
 			}
 			// Urbis change
-			debugger;
 			Ext.ComponentQuery.query('#sellocation')[0].setValue('All places');
 			//Ext.ComponentQuery.query('#sellocation')[0].setValue('Custom');
 		}
@@ -637,7 +636,8 @@ Ext.define('PumaMain.controller.Area', {
 		//debugger;
 		// TODO remove lowestCount dependency
 		showMore.setDisabled(lowestCount>5000 || (lowestNoLeafs && areaTemplates.length>1) || !Object.keys(leafMap).length);
-		showLess.setDisabled(!containsLower || (selPlace && maxDepth<3));
+		// TODO remove dependency on maxDepth
+		showLess.setDisabled(!containsLower || (selPlace && maxDepth<2));
   
 		var selMap = this.getController('Select').selMap;
 		var outerCount = 0;
