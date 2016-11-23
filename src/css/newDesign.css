@@ -526,6 +526,11 @@
     border: 0 !important;
 }
 
+.newDesign .x-column-header-sort-ASC .x-column-header-text,
+.newDesign .x-column-header-sort-DESC .x-column-header-text {
+    padding-right: 10px;
+}
+
 /* Tabs ================= */
 .newDesign.x-border-box .x-tab-bar {
     background: white;
