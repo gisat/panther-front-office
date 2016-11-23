@@ -633,8 +633,9 @@ Ext.define('PumaMain.controller.Area', {
 		var selPlace = selPlaceObj ? selPlaceObj.get('id') : null;
 		var showMore = Ext.ComponentQuery.query('#areamoredetails')[0];
 		var showLess = Ext.ComponentQuery.query('#arealessdetails')[0];
-		
-		showMore.setDisabled(lowestCount>100 || (lowestNoLeafs && areaTemplates.length>1) || !Object.keys(leafMap).length);
+		//debugger;
+		// TODO remove lowestCount dependency
+		showMore.setDisabled(lowestCount>5000 || (lowestNoLeafs && areaTemplates.length>1) || !Object.keys(leafMap).length);
 		showLess.setDisabled(!containsLower || (selPlace && maxDepth<3));
   
 		var selMap = this.getController('Select').selMap;
