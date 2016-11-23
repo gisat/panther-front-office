@@ -311,9 +311,6 @@ Ext.define('PumaMain.controller.Chart', {
     },
     addChart: function(cfg, withoutReconfigure, queryCfg) {
         var container = Ext.ComponentQuery.query('chartbar')[0];
-        if (cfg.type=='grid') {
-            
-        }
         var opts = {
             height: 400,
             width: 575,
@@ -322,6 +319,9 @@ Ext.define('PumaMain.controller.Chart', {
             },
             layout: 'fit'
         };
+        if (cfg.type=='grid') {
+            opts.height = 355;
+        }
         if (cfg.type == 'extentoutline') {
             opts.layout = {
                 type: 'absolute'
