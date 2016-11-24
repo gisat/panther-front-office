@@ -486,6 +486,7 @@
 .newDesign .x-panel-header {
     background: #ddd !important;
     border-bottom: 1px solid white;
+    transition: background .3s ease-out;
 }
 .newDesign .x-panel-header:hover {
     background: #d3d3d3 !important;
@@ -756,6 +757,10 @@
 .newDesign .x-tree-checkbox-checked {
     background-image: url('../images/new/checked.png');
 }
+.newDesign .x-tree-checkbox:hover,
+.newDesign .x-tree-checkbox-checked:hover {
+    cursor: pointer;
+}
 
 /* Slider ======== */
 .newDesign .x-slider-thumb {
@@ -851,6 +856,9 @@
     background           : #ddd;
 }
 
+.newDesign .x-grid-row .x-grid-cell {
+    transition: background-color .3s ease-out;
+}
 .newDesign .x-grid-row-over .x-grid-cell, .newDesign .x-grid-row-over .x-grid-rowwrap-div,
 .newDesign .x-grid-row-focused .x-grid-cell, .newDesign .x-grid-row-focused .x-grid-rowwrap-div {
     background-color     : #eee;
