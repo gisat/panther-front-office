@@ -28,7 +28,6 @@ define(['../../../error/ArgumentError',
 	 * @param options {Object}
 	 * @param options.id {string} id of the element
 	 * @param options.target {Object} JQuery object
-	 * @param options.resizable {boolean} true if window is resizable
 	 * @constructor
 	 */
 	var FeatureInfoWindow = function (options) {
@@ -41,7 +40,6 @@ define(['../../../error/ArgumentError',
 
 		this._id = options.id;
 		this._target = options.target;
-		this._resizable = options.resizable;
 
 		this.build();
 	};
@@ -72,7 +70,7 @@ define(['../../../error/ArgumentError',
 
 				content += '<tr><td>' + item.name + units + '</td><td>' + value + '</td></tr>';
 			});
-			self._infoWindow.find(".feature-info-window-header").html(info[0].name + " (" + info[0].gid + ")");
+			self._infoWindow.find(".feature-info-title").html(info[0].name + " (" + info[0].gid + ")");
 			self._infoWindow.find(".feature-info-window-body table").html(content);
 			self.addExportListener(self._attributes, gid);
 			self.handleLoading("hide");
@@ -88,9 +86,8 @@ define(['../../../error/ArgumentError',
 		}).toString();
 		this._target.append(html);
 		this._infoWindow = $("#" + this._id);
-		if (this._resizable){
 
-		}
+		this.addCloseListener();
 	};
 
 	/**
@@ -116,6 +113,16 @@ define(['../../../error/ArgumentError',
 		var self = this;
 		$("#export-feature-info-csv").off("click.featureInfo.csv").on("click.featureInfo.csv", function(){
 			self._mapExport.export("xls");
+		});
+	};
+
+	/**
+	 * Add onclick listener to close button
+	 */
+	FeatureInfoWindow.prototype.addCloseListener = function(){
+		var self = this;
+		this._infoWindow.find(".feature-info-close").on("click", function(){
+			self.setVisibility("hide");
 		});
 	};
 
