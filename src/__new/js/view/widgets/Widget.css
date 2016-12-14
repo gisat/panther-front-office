@@ -82,6 +82,8 @@
     display: none;
     padding: .2rem;
     position: absolute;
+    resize: both;
+    overflow: auto;
     width: 18rem;
 }
 

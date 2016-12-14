@@ -14,6 +14,7 @@ define([
 	'../../../stores/Stores',
     '../Widget',
 
+    'resize',
     'jquery',
     'string',
     'underscore',
@@ -35,6 +36,7 @@ define([
 			Stores,
             Widget,
 
+            resize,
             $,
             S,
             _,
@@ -551,12 +553,19 @@ define([
      */
     EvaluationWidget.prototype.addOnResizeListener = function(){
         var self = this;
-        this._widgetSelector.on("resizestop", function( event, ui ) {
-            setTimeout(function(){
-                self.rebuildPopups(self._inputs.sliders);
-                self.rebuild(self._attrForRequest);
-            },1000);
-        } );
+        var id = this._widgetSelector.attr("id");
+        var resizeElement = document.getElementById(id);
+
+        var timeout;
+        resize.addResizeListener(resizeElement, function(){
+            clearTimeout(timeout);
+            timeout = setTimeout(function(){
+                    if (self._inputs){
+                        self.rebuildPopups(self._inputs.sliders);
+                    }
+                    self.rebuild(self._attrForRequest);
+                }, 500);
+        });
     };
 
     /**

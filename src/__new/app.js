@@ -6,6 +6,7 @@ requirejs.config({
         'jquery': 'lib/jquery-3.0.0',
         'jquery-private': 'js/jquery-private',
         'jquery-ui': 'lib/jquery-ui.min',
+        'resize': 'lib/detect-element-resize',
         'string': 'lib/string',
         'underscore': 'lib/underscore-min',
         'text': 'lib/text'
@@ -148,16 +149,7 @@ define(['js/util/metadata/Attributes',
                 ExchangeParams.options.openWidgets[floater.attr("id")] = false;
             }
         });
-        $(".floater").resizable({
-            animate: true,
-            minWidth: 350,
-            maxWidth: 600,
-            minHeight: 350,
-            resize: function( event, ui ) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-        }).draggable({
+        $(".floater.open").draggable({
             containment: "body",
             handle: ".floater-header"
         }).on("click",function(){

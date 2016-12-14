@@ -89,16 +89,7 @@ define(['../../../error/ArgumentError',
 		this._target.append(html);
 		this._infoWindow = $("#" + this._id);
 		if (this._resizable){
-			this._infoWindow.resizable({
-				animate: true,
-				minWidth: 300,
-				maxWidth: 500,
-				minHeight: 200,
-				maxHeight: 400,
-				resize: function( event, ui ) {
-					event.preventDefault();
-				}
-			})
+
 		}
 	};
 
