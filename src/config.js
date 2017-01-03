@@ -1,5 +1,5 @@
 var Config = {
-	url: 'http://localhost/backend/',
+	url: 'http://urban-tep.gisat.cz/backend/',
 	signupAddress: 'http://localhost/geonode/account/signup/',
 	geoserver2Workspace: "panther",
 	initialBaseMap: "terrain",
@@ -25,7 +25,8 @@ var Config = {
 		isNewDesign: true,
 		isUrbis: false,
 		isEea: false,
-		isMelodies: false
+		isMelodies: false,
+		isUrbanTep: true
 	},
 
 	basicTexts: {
