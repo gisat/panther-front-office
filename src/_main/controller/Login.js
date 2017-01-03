@@ -20,6 +20,8 @@ Ext.define('PumaMain.controller.Login',{
             Config.auth.isAdmin = true;
             isAdmin = true;
         }
+
+        this.reloadStores();
         var saveVis = Ext.ComponentQuery.query('#savevisualization')[0];
         if (!saveVis) return;
         var manageVis = Ext.ComponentQuery.query('#managevisualization')[0];
@@ -32,6 +34,13 @@ Ext.define('PumaMain.controller.Login',{
         manageView.setVisible(isUser);
         shareView.setVisible(isUser);
         Ext.StoreMgr.lookup('dataview').load();
+    },
+
+    reloadStores: function() {
+        var stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'scope', 'areatemplate', 'symbology', 'area', 'dataset', 'topic', 'dataview'];
+        stores.forEach(function(store){
+			Ext.StoreMgr.lookup(store).load();
+        });
     }
 })
 
