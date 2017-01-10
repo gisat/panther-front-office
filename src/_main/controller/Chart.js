@@ -80,7 +80,7 @@ Ext.define('PumaMain.controller.Chart', {
             },
             chart: {
                 style: {
-                    fontSize: '12px',
+                    //fontSize: '12px',
                     fontFamily: '"Open Sans", sans-serif',
                     color: '#000',
                     fontWeight: 'normal'
@@ -664,7 +664,8 @@ Ext.define('PumaMain.controller.Chart', {
 
                         }
                     }]}};
-        
+
+
         var chart = new Highcharts.Chart(cfg);
         cmp.chart = chart;
         chart.cmp = cmp;
@@ -849,6 +850,9 @@ Ext.define('PumaMain.controller.Chart', {
                 data.series[i].animation = false;
             }
         }
+
+        this.setLabelsView(data);
+
         var chart = new Highcharts.Chart(data);
         cmp.chart = chart;
         chart.cmp = cmp;
@@ -858,6 +862,56 @@ Ext.define('PumaMain.controller.Chart', {
         }
         this.colourChart(cmp);
     },
+
+	/**
+	 * Set view of chart labels
+     * @param data {Object}
+     */
+    setLabelsView: function(data){
+        // set labels for pie chart
+        if (data.labels.hasOwnProperty("items")){
+            var items = data.labels.items;
+            this.setPieChartLabels(items);
+        } else if (data.hasOwnProperty("xAxis") && data.xAxis.hasOwnProperty("labels")){
+            data.xAxis.labels.formatter = function () {
+                var label = this.axis.defaultLabelFormatter.call(this);
+                if (label.length > 15){
+                    label = label.slice(0, 13) + "...";
+                }
+                return label;
+            };
+        }
+
+        console.log(data);
+    },
+
+	/**
+     * Set pie chart labels view
+     * @param labels {Array}
+     */
+    setPieChartLabels: function(labels){
+        var count = labels.length;
+        labels.forEach(function(label){
+            var text = label.html;
+            if (count <= 3){
+                if (text.length > 25){
+                    label.html = text.slice(0, 23) + "...";
+                }
+            }
+            if (count > 3 && count <= 8){
+                label.style.fontSize = "11px";
+                if (text.length > 22){
+                    label.html = text.slice(0, 20) + "...";
+                }
+            } else if (count > 8) {
+                label.style.fontSize = "11px";
+                if (text.length > 15){
+                    label.html = text.slice(0, 13) + "...";
+                }
+            }
+        });
+    },
+
     onUrlClick: function(btn) {
         var chart = btn.up('panel').chart;
         var cfg = Ext.apply(Ext.clone(chart.queryCfg),this.gatherChartCfg(chart, true));
