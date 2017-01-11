@@ -143,7 +143,7 @@ define([
 	};
 
 	Map.prototype.getBaseLayersIds = function(){
-		var auRefMap = FeatureInfo.auRefMap;
+		var auRefMap = OlMap.auRefMap;
 		var locations;
 		if (ThemeYearConfParams.place.length > 0){
 			locations = [Number(ThemeYearConfParams.place)];

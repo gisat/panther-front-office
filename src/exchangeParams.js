@@ -66,10 +66,10 @@ var OneLevelAreas = {
 };
 
 /**
- * Object for feature info functionality
+ * Object for Map functionality
  * @type {{active: boolean, data: {}, map: {}}}
  */
-var FeatureInfo = {
+var OlMap = {
 	auRefMap: {},
 	map: {}
 };

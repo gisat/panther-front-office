@@ -1,0 +1,13 @@
+/* = Evaluation floater = */
+#floater-custom-polygons-widget {
+	left: 15rem;
+	top: 9rem;
+	min-width: 15rem;
+	max-width: 25rem;
+	height: 10rem;
+}
+
+#floater-custom-polygons-widget .floater-body {
+	height: calc(100% - 5rem);
+	padding: 0 0 .5rem;
+}
