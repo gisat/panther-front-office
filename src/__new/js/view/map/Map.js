@@ -22,9 +22,10 @@ define([
 		this._layers = [];
 	};
 	
-	Map.prototype.rebuild = function(map){
-		if (map){
-			this._map = map;
+	Map.prototype.rebuild = function(){
+		if (!this._map){
+			Observer.notify("getMap");
+			this._map = OlMap.map;
 		}
 	};
 

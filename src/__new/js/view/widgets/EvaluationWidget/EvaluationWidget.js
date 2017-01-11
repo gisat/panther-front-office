@@ -71,7 +71,11 @@ define([
             throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingHTMLElement"));
         }
 
-        Widget.prototype.build.call(this, this._widgetId, this._target, this._name);
+        Widget.prototype.build.call(this, {
+            widgetId: this._widgetId,
+            name: this._name,
+            target: this._target
+        });
 
         this._widgetSelector = $("#floater-" + this._widgetId);
         this._placeholderSelector = $("#placeholder-" + this._widgetId);

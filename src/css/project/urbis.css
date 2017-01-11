@@ -117,7 +117,7 @@
 .urbis .widget-button {
     background: #ff7600;
 }
-.urbis .widget-button:hover {
+.urbis .widget-button:hover, .urbis .widget-button.active {
     background: #d35400;
 }
 

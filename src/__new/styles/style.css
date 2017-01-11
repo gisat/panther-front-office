@@ -22,7 +22,7 @@
     text-transform: uppercase;
     transition: background .3s ease-out;
 }
-.widget-button:hover {
+.widget-button:hover, .widget-button.active {
     background: #ad2738;
     cursor: pointer;
 }

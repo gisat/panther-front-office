@@ -91,8 +91,7 @@ define(['../../../error/ArgumentError',
 			button.toggleClass("active");
 
 			if (active){
-				Observer.notify("getMap");
-				map.rebuild(OlMap.map);
+				map.rebuild();
 				self._map = map;
 				self._map.addOnClickListener(attributes, self._infoWindow);
 				self._map.onClickActivate();

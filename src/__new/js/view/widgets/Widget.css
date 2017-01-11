@@ -129,6 +129,14 @@
 .floater-row {
     width: 100%;
 }
+
+.floater-row > .floater-row-caption {
+    font-size: .8rem;
+    font-weight: 700;
+    color: #666;
+    margin-bottom: .3rem;
+}
+
 .floater-footer > .floater-row {
     margin-bottom: .5rem;
     text-align: center;

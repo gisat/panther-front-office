@@ -4,10 +4,20 @@
 	top: 9rem;
 	min-width: 15rem;
 	max-width: 25rem;
-	height: 10rem;
+	height: 12rem;
 }
 
 #floater-custom-polygons-widget .floater-body {
-	height: calc(100% - 5rem);
-	padding: 0 0 .5rem;
+	height: calc(100% - 2rem);
+	padding: .5rem;
+}
+
+#floater-custom-polygons-widget .floater-body .floater-row {
+	margin: .5rem 0;
+}
+
+#floater-custom-polygons-widget .map-button {
+	min-width: 12rem;
+	text-transform: none;
+	text-align: center;
 }

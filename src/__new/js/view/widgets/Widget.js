@@ -34,38 +34,39 @@ define(['../../error/ArgumentError',
 
     /**
      * Create the base structure of widget - placeholder and floater
-     * @param widgetId {Object} JQuery object - widget Id
-     * @param target {Object} JQuery object - target
-     * @param name {Object} JQuery object - name of the widget
+     * @param options {Object}
+     * @param options.widgetId {Object} JQuery object - widget Id
+     * @param options.target {Object} JQuery object - target
+     * @param options.name {Object} JQuery object - name of the widget
      */
-    Widget.prototype.build = function(widgetId, target, name){
-        if (!widgetId){
+    Widget.prototype.build = function(options){
+        if (!options.widgetId){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Widget", "build", "missingWidgetId"));
         }
-        if (!target){
+        if (!options.target){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Widget", "build", "missingTarget"));
         }
-        if (target.length == 0){
+        if (options.target.length == 0){
             throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "Widget", "build", "missingHTMLElement"));
         }
-        if (!name){
+        if (!options.name){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Widget", "build", "missingWidgetName"));
         }
 
-        var placeholdersContainer = target.find('.placeholders-container');
+        var placeholdersContainer = options.target.find('.placeholders-container');
 
         var placeholder = S(WidgetPlaceholder).template({
-            name: name,
-            widgetId: widgetId
+            name: options.name,
+            widgetId: options.widgetId
         }).toString();
 
         var floater = S(WidgetFloater).template({
-            name: name,
-            widgetId: widgetId
+            name: options.name,
+            widgetId: options.widgetId
         }).toString();
 
         placeholdersContainer.append(placeholder);
-        target.append(floater);
+        options.target.append(floater);
     };
 
     Widget.prototype.setState = function(id, state){
@@ -80,6 +81,13 @@ define(['../../error/ArgumentError',
             floater.css("display","none"); // redundant, but necessary for animation
             placeholder.addClass("open");
         }
+    };
+
+	/**
+     * Delete floater footer
+     */
+    Widget.prototype.deleteFooter = function(floater){
+        floater.find(".floater-footer").remove();
     };
 
     return Widget;
