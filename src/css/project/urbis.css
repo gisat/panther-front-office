@@ -117,6 +117,11 @@
 .urbis .widget-button {
     background: #ff7600;
 }
+.urbis .widget-button[disabled=disabled] {
+    pointer-events: none;
+    color: #bbb;
+    background-color: #e5e5e5;
+}
 .urbis .widget-button:hover, .urbis .widget-button.active {
     background: #d35400;
 }

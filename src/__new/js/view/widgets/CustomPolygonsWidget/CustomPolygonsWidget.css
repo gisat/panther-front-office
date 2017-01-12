@@ -3,6 +3,7 @@
 	left: 15rem;
 	top: 9rem;
 	min-width: 15rem;
+	width: 22rem;
 	max-width: 25rem;
 	height: 12rem;
 }
@@ -17,7 +18,9 @@
 }
 
 #floater-custom-polygons-widget .map-button {
-	min-width: 12rem;
+	min-width: 4rem;
+	padding: .4rem .7rem;
+	margin: .2rem .2rem .2rem 0;
 	text-transform: none;
 	text-align: center;
 }

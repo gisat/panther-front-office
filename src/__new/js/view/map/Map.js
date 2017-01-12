@@ -10,7 +10,7 @@ define([
 	"use strict";
 
 	/**
-	 * Handling with map
+	 * Class for handling with map
 	 * @param options {Object}
 	 * @param options.map {Object} Open Layers map
 	 * @constructor
@@ -30,12 +30,34 @@ define([
 	};
 
 	/**
+	 * Add layer for drawing of custom polygons
+	 * @param name
+	 * @param color
+	 */
+	Map.prototype.addLayerForDrawing = function(name, color){
+		var layer = this.createVectorLayer(color, name);
+		this._map.addLayer(layer);
+		return layer;
+	};
+
+	Map.prototype.addControlsForDrawing = function(polygonLayer){
+		this._map.addControl(new OpenLayers.Control.MousePosition());
+		var drawControl = new OpenLayers.Control.DrawFeature(polygonLayer,
+			OpenLayers.Handler.Polygon);
+		this._map.addControl(drawControl);
+		return drawControl;
+	};
+
+	/**
 	 * Add layer to map
 	 * @param data {Array}
 	 * @param color {String}
+	 * @param name {String}
 	 */
-	Map.prototype.addLayer = function(data, color){
-		var vectorLayer = this.createVectorLayer(data, color);
+	Map.prototype.addLayer = function(data, color, name){
+		var vectorLayer = this.createVectorLayer(color, name);
+		vectorLayer = this.addFeaturesToVectorLayer(vectorLayer, data);
+
 		if(!this._layers[color]) {
 			this._layers[color] = [];
 		}
@@ -43,17 +65,27 @@ define([
 		this._map.addLayer(vectorLayer);
 	};
 
+
+
 	/**
 	 * Create vector layer
-	 * @param data {Array}
 	 * @param color {String}
+	 * @param name {String}
 	 * @returns {*}
 	 */
-	Map.prototype.createVectorLayer = function(data, color){
-		var vectorLayer = new OpenLayers.Layer.Vector("SelectedAreas", {
+	Map.prototype.createVectorLayer = function(color, name){
+		return new OpenLayers.Layer.Vector(name, {
 			styleMap: this.setStyle(color)
 		});
+	};
 
+	/**
+	 * Add features to vector layer
+	 * @param vectorLayer {Object}
+	 * @param data {Array}
+	 * @returns {*}
+	 */
+	Map.prototype.addFeaturesToVectorLayer = function(vectorLayer, data){
 		var features = [];
 		var self = this;
 		data.forEach(function(area){

@@ -407,7 +407,7 @@ define([
                         var rgbColor = $('.x-color-picker .x-color-picker-selected span').css('background-color');
                         var color = new Color(rgbColor).hex();
                         self._map.removeLayers(color); // Remove layers with the same color.
-                        self._map.addLayer(areas, color); // $(.x-color-picker-selected) // $()
+                        self._map.addLayer(areas, color, "selectedLayer"); // $(.x-color-picker-selected) // $()
                         Observer.notify('selectInternal');
                     } else {
                         Observer.notify("selectAreas");

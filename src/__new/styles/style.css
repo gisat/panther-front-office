@@ -26,6 +26,13 @@
     background: #ad2738;
     cursor: pointer;
 }
+
+.widget-button[disabled=disabled] {
+    pointer-events: none;
+    color: #bbb;
+    background-color: #e5e5e5;
+}
+
 .widget-button-export {
     background: none;
     border: 0;

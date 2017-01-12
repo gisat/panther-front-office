@@ -68,7 +68,17 @@ define([
 	};
 
 	CustomPolygonsWidget.prototype.rebuild = function(attributes, map){
-		this._map = map;
+		if (!this._map){
+			this._map = map;
+			this._map.rebuild();
+			this._polygonVectorLayer = this._map.addLayerForDrawing("drawPolygons","#00ff00");
+			this._drawControl = this._map.addControlsForDrawing(this._polygonVectorLayer);
+			this.addEventListeners();
+		}
+
+		if (this._polygonVectorLayer){
+			this._polygonVectorLayer.destroyFeatures();
+		}
 	};
 
 	/**
@@ -78,7 +88,9 @@ define([
 		var html = S(htmlBody).template().toString();
 		this._widgetBodySelector.append(html);
 
-		this.addEventListeners();
+		this._buttonDrawPolygons = $("#button-draw-polygons");
+		this._buttonClearPolygons = $("#button-clear-polygons");
+		this._buttonSavePolygons = $("#button-save-polygons");
 	};
 
 	/**
@@ -86,23 +98,36 @@ define([
 	 */
 	CustomPolygonsWidget.prototype.addEventListeners = function(){
 		var self = this;
-		$("#button-draw-polygons").on("click", function(){
+
+		this._buttonDrawPolygons.on("click", function(){
 			var button = $(this);
 			if (button.hasClass("active")){
 				button.removeClass("active");
+				self._drawControl.deactivate();
+				if (self._polygonVectorLayer.features.length > 0){
+					self.activateClearSaveButtons();
+				}
 			} else {
 				button.addClass("active");
-				self.activatePolygonDrawing();
+				self._drawControl.activate();
+				self.deactivateClearSaveButtons();
 			}
+		});
+
+		this._buttonClearPolygons.on("click", function(){
+			self._polygonVectorLayer.destroyFeatures();
+			self.deactivateClearSaveButtons();
 		});
 	};
 
-	/**
-	 * Activate drawing of polygons into the map
-	 */
-	CustomPolygonsWidget.prototype.activatePolygonDrawing = function(){
-		this._map.rebuild();
-		console.log(this._map);
+	CustomPolygonsWidget.prototype.deactivateClearSaveButtons = function(){
+		this._buttonClearPolygons.attr("disabled",true);
+		this._buttonSavePolygons.attr("disabled",true);
+	};
+
+	CustomPolygonsWidget.prototype.activateClearSaveButtons = function(){
+		this._buttonClearPolygons.attr("disabled",false);
+		this._buttonSavePolygons.attr("disabled",false);
 	};
 
 	return CustomPolygonsWidget;
