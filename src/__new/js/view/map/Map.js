@@ -40,10 +40,13 @@ define([
 		return layer;
 	};
 
-	Map.prototype.addControlsForDrawing = function(polygonLayer){
+	Map.prototype.addControlsForDrawing = function(polygonLayer, onDrawEnd){
 		this._map.addControl(new OpenLayers.Control.MousePosition());
 		var drawControl = new OpenLayers.Control.DrawFeature(polygonLayer,
 			OpenLayers.Handler.Polygon);
+
+		drawControl.events.register('featureadded', drawControl, onDrawEnd);
+
 		this._map.addControl(drawControl);
 		return drawControl;
 	};
@@ -133,6 +136,21 @@ define([
 			self._map.removeLayer(layer);
 			self._layers.pop();
 		});
+	};
+
+	/**
+	 * Get list of polygon's coordinates
+	 * @param polygon {OpenLayers.Geometry}
+	 * @returns {Array}
+	 */
+	Map.prototype.getPolygonVertices = function(polygon){
+		var coord = [];
+		var vertices = polygon.geometry.components[0].getVertices();
+		vertices.forEach(function(vertex){
+			coord.push([vertex.x,vertex.y]);
+		});
+
+		return coord;
 	};
 
 	Map.prototype.addOnClickListener = function(attributes, infoWindow){

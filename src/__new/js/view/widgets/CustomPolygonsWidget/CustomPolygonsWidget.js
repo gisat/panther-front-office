@@ -4,6 +4,7 @@ define([
 	'../../../util/Logger',
 	'../../map/Map',
 	'../../../util/Remote',
+	'../../table/Table',
 	'../Widget',
 
 	'resize',
@@ -16,6 +17,7 @@ define([
 			Logger,
 			Map,
 			Remote,
+			Table,
 			Widget,
 
 			resize,
@@ -34,7 +36,7 @@ define([
 		Widget.apply(this, arguments);
 
 		if (!options.elementId){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "CustomPolygonsWidgett", "constructor", "missingElementId"));
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "CustomPolygonsWidget", "constructor", "missingElementId"));
 		}
 		if (!options.targetId){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "CustomPolygonsWidget", "constructor", "missingTargetElementId"));
@@ -72,7 +74,7 @@ define([
 			this._map = map;
 			this._map.rebuild();
 			this._polygonVectorLayer = this._map.addLayerForDrawing("drawPolygons","#00ff00");
-			this._drawControl = this._map.addControlsForDrawing(this._polygonVectorLayer);
+			this._drawControl = this._map.addControlsForDrawing(this._polygonVectorLayer, this.addDrawEndListener);
 			this.addEventListeners();
 		}
 
@@ -85,8 +87,14 @@ define([
 	 * Build content of the widget
 	 */
 	CustomPolygonsWidget.prototype.buildContent = function(){
-		var html = S(htmlBody).template().toString();
+		var html = S(htmlBody).template({
+			id: this._widgetId
+		}).toString();
 		this._widgetBodySelector.append(html);
+		this._table = new Table({
+			targetId: this._widgetId + "-table-container",
+			elementId: this._widgetId + "-table"
+		});
 
 		this._buttonDrawPolygons = $("#button-draw-polygons");
 		this._buttonClearPolygons = $("#button-clear-polygons");
@@ -118,6 +126,30 @@ define([
 			self._polygonVectorLayer.destroyFeatures();
 			self.deactivateClearSaveButtons();
 		});
+
+		this._buttonSavePolygons.on("click", function(){
+			self.savePolygons();
+			self._polygonVectorLayer.destroyFeatures();
+			self.deactivateClearSaveButtons();
+		});
+	};
+
+	CustomPolygonsWidget.prototype.addDrawEndListener = function(event){
+		console.log(event.feature);
+	};
+
+	CustomPolygonsWidget.prototype.savePolygons = function(){
+		var data = [];
+		var self = this;
+		this._polygonVectorLayer.features.forEach(function(feature){
+			var unit = {
+				geom: self._map.getPolygonVertices(feature),
+				id: "0", //TODO generate uuid
+				name: "aaa" //TODO add name from attributes
+			};
+			data.push(unit);
+		});
+		console.log(data);
 	};
 
 	CustomPolygonsWidget.prototype.deactivateClearSaveButtons = function(){
