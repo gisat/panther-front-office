@@ -80,6 +80,7 @@ define([
 	DrawCustomAU.prototype.addEventListeners = function(){
 		var self = this;
 
+		// activate/deactivate drawing on btn click
 		this._buttonDrawPolygons.on("click", function(){
 			var button = $(this);
 			if (button.hasClass("active")){
@@ -95,17 +96,27 @@ define([
 			}
 		});
 
+		// clear all on btn click
 		this._buttonClearPolygons.on("click", function(){
 			self._polygonVectorLayer.destroyFeatures();
 			self._table.clear();
 			self.deactivateClearSaveButtons();
 		});
 
+		// save and clear all on btn click
 		this._buttonSavePolygons.on("click", function(){
 			self.savePolygons();
 			self._polygonVectorLayer.destroyFeatures();
 			self._table.clear();
 			self.deactivateClearSaveButtons();
+		});
+
+		// delete particular polygon
+		var table = this._table.getTable();
+		table.on("click",".delete-record",function(){
+			var id = $(this).parents('tr').attr("data-id");
+			self._table.deleteRecord(id);
+			self._map.deletePolygonFromLayer(id, self._polygonVectorLayer);
 		});
 	};
 
@@ -114,7 +125,7 @@ define([
 	 * @param event {Object}
 	 */
 	DrawCustomAU.prototype.addDrawEndListener = function(event){
-		this._table.addRecord(event.feature.geometry.id);
+		this._table.addRecord(event.feature.id);
 	};
 
 	DrawCustomAU.prototype.savePolygons = function(){

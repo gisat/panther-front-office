@@ -49,5 +49,13 @@ define([
 		return true;
 	};
 
+	/**
+	 * Delete whole row
+	 * @param dataId {string} data-id attribute value
+	 */
+	TableCustomAU.prototype.deleteRecord = function(dataId){
+		this._table.find("tr[data-id=" + dataId + "]").remove();
+	};
+
 	return TableCustomAU;
 });

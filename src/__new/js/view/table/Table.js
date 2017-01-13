@@ -50,5 +50,13 @@ define([
 		this._table.html("");
 	};
 
+	/**
+	 * Returns table JQuery object
+	 * @returns {jQuery}
+	 */
+	Table.prototype.getTable = function(){
+		return this._table;
+	};
+
 	return Table;
 });
