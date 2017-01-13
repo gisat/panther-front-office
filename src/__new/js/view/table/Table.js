@@ -3,7 +3,8 @@ define([
 	'../../error/NotFoundError',
 	'../../util/Logger',
 
-	'jquery'
+	'jquery',
+	'css!./Table'
 ], function(ArgumentError,
 			NotFoundError,
 			Logger,
@@ -38,7 +39,7 @@ define([
 	 * Build table
 	 */
 	Table.prototype.build = function(){
-		this._target.append("<table id='" + this._tableId + "'></table>");
+		this._target.append("<table class='new-table' id='" + this._tableId + "'></table>");
 		this._table = $("#" + this._tableId);
 	};
 

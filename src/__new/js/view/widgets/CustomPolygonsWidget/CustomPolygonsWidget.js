@@ -1,6 +1,7 @@
 define([
 	'../../../error/ArgumentError',
 	'../../../error/NotFoundError',
+	'./DrawCustomAU',
 	'../../../util/Logger',
 	'../../map/Map',
 	'../../../util/Remote',
@@ -14,6 +15,7 @@ define([
 	'css!./CustomPolygonsWidget'
 ], function(ArgumentError,
 			NotFoundError,
+			DrawCustomAU,
 			Logger,
 			Map,
 			Remote,
@@ -64,23 +66,25 @@ define([
 
 	CustomPolygonsWidget.prototype = Object.create(Widget.prototype);
 
+	/**
+	 * Build the basic structure of the widget
+	 */
 	CustomPolygonsWidget.prototype.build = function(){
 		this.buildContent();
 		this.deleteFooter(this._widgetSelector);
 	};
 
+	/**
+	 * Rebuild section with current settings
+	 * @param attributes {Array}
+	 * @param map
+	 */
 	CustomPolygonsWidget.prototype.rebuild = function(attributes, map){
 		if (!this._map){
 			this._map = map;
-			this._map.rebuild();
-			this._polygonVectorLayer = this._map.addLayerForDrawing("drawPolygons","#00ff00");
-			this._drawControl = this._map.addControlsForDrawing(this._polygonVectorLayer, this.addDrawEndListener);
-			this.addEventListeners();
 		}
 
-		if (this._polygonVectorLayer){
-			this._polygonVectorLayer.destroyFeatures();
-		}
+		this._drawingSection.rebuild(this._map);
 	};
 
 	/**
@@ -91,75 +95,11 @@ define([
 			id: this._widgetId
 		}).toString();
 		this._widgetBodySelector.append(html);
-		this._table = new Table({
-			targetId: this._widgetId + "-table-container",
-			elementId: this._widgetId + "-table"
-		});
 
-		this._buttonDrawPolygons = $("#button-draw-polygons");
-		this._buttonClearPolygons = $("#button-clear-polygons");
-		this._buttonSavePolygons = $("#button-save-polygons");
-	};
-
-	/**
-	 * Event listeners
-	 */
-	CustomPolygonsWidget.prototype.addEventListeners = function(){
-		var self = this;
-
-		this._buttonDrawPolygons.on("click", function(){
-			var button = $(this);
-			if (button.hasClass("active")){
-				button.removeClass("active");
-				self._drawControl.deactivate();
-				if (self._polygonVectorLayer.features.length > 0){
-					self.activateClearSaveButtons();
-				}
-			} else {
-				button.addClass("active");
-				self._drawControl.activate();
-				self.deactivateClearSaveButtons();
-			}
-		});
-
-		this._buttonClearPolygons.on("click", function(){
-			self._polygonVectorLayer.destroyFeatures();
-			self.deactivateClearSaveButtons();
-		});
-
-		this._buttonSavePolygons.on("click", function(){
-			self.savePolygons();
-			self._polygonVectorLayer.destroyFeatures();
-			self.deactivateClearSaveButtons();
-		});
-	};
-
-	CustomPolygonsWidget.prototype.addDrawEndListener = function(event){
-		console.log(event.feature);
-	};
-
-	CustomPolygonsWidget.prototype.savePolygons = function(){
-		var data = [];
-		var self = this;
-		this._polygonVectorLayer.features.forEach(function(feature){
-			var unit = {
-				geom: self._map.getPolygonVertices(feature),
-				id: "0", //TODO generate uuid
-				name: "aaa" //TODO add name from attributes
-			};
-			data.push(unit);
-		});
-		console.log(data);
-	};
-
-	CustomPolygonsWidget.prototype.deactivateClearSaveButtons = function(){
-		this._buttonClearPolygons.attr("disabled",true);
-		this._buttonSavePolygons.attr("disabled",true);
-	};
-
-	CustomPolygonsWidget.prototype.activateClearSaveButtons = function(){
-		this._buttonClearPolygons.attr("disabled",false);
-		this._buttonSavePolygons.attr("disabled",false);
+		this._drawingSection = new DrawCustomAU({
+			sectionId: this._widgetId + "-draw-polygons",
+			targetId: this._widgetId + "-draw-polygons"
+		})
 	};
 
 	return CustomPolygonsWidget;

@@ -1,0 +1,21 @@
+.new-table {
+	border: 1px solid #ccc;
+	padding: 0 .2rem;
+	width: 95%;
+}
+.new-table tr th, .new-table tr td {
+	color: #888;
+	padding: 0 .3rem;
+	min-width: 2rem;
+	line-height: 2rem;
+	border-bottom: 1px solid #ccc;
+}
+.new-table tr th {
+	color: #888;
+	font-weight: 700;
+	background: #ddd;
+	line-height: 1.5rem;
+}
+.new-table tr:last-child td {
+	border-bottom: 0;
+}

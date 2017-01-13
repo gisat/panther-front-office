@@ -1,0 +1,53 @@
+define([
+	'./Table',
+	'jquery',
+	'css!./TableCustomAU'
+], function(
+			Table,
+			$
+){
+
+	/**
+	 * @constructor
+	 */
+	var TableCustomAU = function(options) {
+		Table.apply(this, arguments);
+		this._recordCount = 1;
+	};
+
+	TableCustomAU.prototype = Object.create(Table.prototype);
+
+	/**
+	 * Add record to the table
+	 * @param id {string} id of the feature
+	 */
+	TableCustomAU.prototype.addRecord = function(id){
+		if (!this._header){
+			this._header = this.buildHeader();
+		}
+
+		var html = '<tr data-id="' + id + '">' +
+				'<td>' + this._recordCount  + '</td>' +
+				'<td><input type="text"></td>' +
+				'<td class="delete-record"><img alt="delete" src="__new/img/delete.png"></td>' +
+			'</tr>';
+		this._table.append(html);
+		this._recordCount++;
+	};
+
+	/**
+	 * Build table header
+	 * @returns {boolean}
+	 */
+	TableCustomAU.prototype.buildHeader = function(){
+		var html = '<tr>' +
+			'<th>#</th>' +
+			'<th>Name</th>' +
+			'<th></th>' +
+			'</tr>';
+		this._table.append(html);
+		return true;
+	};
+
+	return TableCustomAU;
+});

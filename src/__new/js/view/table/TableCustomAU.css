@@ -1,0 +1,6 @@
+.new-table td.delete-record {
+	text-align: right;
+	padding: 0 .5rem;
+	cursor: pointer;
+	max-width: 1.5rem;
+}
