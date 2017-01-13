@@ -6,6 +6,7 @@ define([
 
 	'jquery',
 	'string',
+	'underscore',
 	'text!./DrawCustomAU.html'
 ], function(ArgumentError,
 			NotFoundError,
@@ -14,6 +15,7 @@ define([
 
 			$,
 			S,
+			_,
 			DrawCustomAUHtml){
 
 	/**
@@ -83,58 +85,17 @@ define([
 		var self = this;
 
 		// activate/deactivate drawing on btn click
-		this._buttonDrawPolygons.on("click", function(){
-			var button = $(this);
-			if (button.hasClass("active")){
-				button.removeClass("active");
-				self._drawControl.deactivate();
-				if (self._polygonVectorLayer.features.length > 0){
-					self.activateClearSaveButtons();
-				}
-			} else {
-				button.addClass("active");
-				self._drawControl.activate();
-				self.deactivateClearSaveButtons();
-			}
-		});
-
+		this._buttonDrawPolygons.on("click", this.drawingActivation.bind(this));
 		// clear all on btn click
-		this._buttonClearPolygons.on("click", function(){
-			self._polygonVectorLayer.destroyFeatures();
-			self._table.clear();
-			self._records = [];
-			self.deactivateClearSaveButtons();
-		});
-
+		this._buttonClearPolygons.on("click", this.clearAll.bind(this));
 		// save and clear all on btn click
-		this._buttonSavePolygons.on("click", function(){
-			self.savePolygons();
-			self._polygonVectorLayer.destroyFeatures();
-			self._table.clear();
-			self.deactivateClearSaveButtons();
-		});
+		this._buttonSavePolygons.on("click", this.saveAll.bind(this));
 
 		// delete particular polygon
 		var table = this._table.getTable();
-		table.on("click",".button-delete-record",function(){
-			var id = $(this).parents('tr').attr("data-id");
-			self._table.deleteRecord(id);
-			self._map.deletePolygonFromLayer(id, self._polygonVectorLayer);
-			// self.deleteRecord TODO delete record from list
-		});
-
+		table.on("click",".button-delete-record", self.deletePolygon.bind(self));
 		// save record name
-		table.on("click",".button-save-record", function(){
-			var record = {
-				olId: $(this).parents('tr').attr("data-id"),
-				uuID: "", // TODO generate uuid,
-				name: $(this).parents('tr').find('.record-name input').val(),
-				geometry: "" // TODO get geometry
-			};
-
-			console.log(record);
-			// self.saveRecord; // TODO add record to list
-		});
+		table.on("click",".button-save-record", self.savePolygon.bind(self));
 	};
 
 	/**
@@ -143,20 +104,129 @@ define([
 	 */
 	DrawCustomAU.prototype.addDrawEndListener = function(event){
 		this._table.addRecord(event.feature.id);
+		this.checkTableRecords();
 	};
 
-	DrawCustomAU.prototype.savePolygons = function(){
-		var data = [];
-		var self = this;
-		this._polygonVectorLayer.features.forEach(function(feature){
-			var unit = {
-				geom: self._map.getPolygonVertices(feature),
-				id: "0", //TODO generate uuid
-				name: "aaa" //TODO add name from attributes
-			};
-			data.push(unit);
+	/**
+	 * Activate/deactivate drawing
+	 * @param event
+	 */
+	DrawCustomAU.prototype.drawingActivation = function(event){
+		var button = $(event.target);
+		if (button.hasClass("active")){
+			button.removeClass("active");
+			this._drawControl.deactivate();
+			if (this._polygonVectorLayer.features.length > 0){
+				this.checkTableRecords();
+				this.activateClearButton();
+			}
+		} else {
+			button.addClass("active");
+			this._drawControl.activate();
+			this.deactivateClearSaveButtons();
+		}
+	};
+
+	/**
+	 * Check if all records are saved
+	 */
+	DrawCustomAU.prototype.checkTableRecords = function(){
+		var table = this._table.getTable();
+		var recs = table.find("tr");
+		var allSaved = true;
+
+		$.each(recs, function( index, row ) {
+			if (!$(row).hasClass("saved")){
+				allSaved = false;
+			}
 		});
-		console.log(data);
+
+		if (allSaved){
+			this.activateSaveButton();
+		} else {
+			this.deactivateClearSaveButtons();
+		}
+	};
+
+	/**
+	 * Add polygon to the list of records
+	 * @param event
+	 */
+	DrawCustomAU.prototype.savePolygon = function(event){
+		var button = $(event.target);
+		var id = button.parents('tr').attr("data-id");
+		var feature = this._map.getFeatureById(id, this._polygonVectorLayer);
+		var geometry = this._map.getPolygonVertices(feature);
+		var input = $(event.target).parents('tr').find('.record-name input');
+		var name = input.val();
+		if (name.length == 0){
+			window.alert("Fill the name!");
+			return;
+		} else {
+			input.attr("disabled", true);
+		}
+
+		var record = {
+			olId: id,
+			uuID: this.generateUuid(),
+			name: name,
+			geometry: geometry
+		};
+
+		this._records.push(record);
+		button.attr("disabled", "disabled")
+			.html("Saved!")
+			.css("color", "#d35400")
+			.parents('tr').addClass("saved");
+
+		this.checkTableRecords();
+	};
+
+	/**
+	 * Delete polygon from the list of records and map
+	 * @param event
+	 */
+	DrawCustomAU.prototype.deletePolygon = function(event){
+		var id = $(event.target).parents('tr').attr("data-id");
+		this._table.deleteRecord(id);
+		this._map.deletePolygonFromLayer(id, this._polygonVectorLayer);
+		this._records = _.without(this._records, _.findWhere(this._records, {
+			olId: id
+		}));
+		this.checkTableRecords();
+	};
+
+	/**
+	 * Clear all records
+	 * @param event
+	 */
+	DrawCustomAU.prototype.clearAll = function(event){
+		var conf = confirm("Do you really want to clear all polygons?");
+		if (conf == true) {
+			this.destroy();
+		}
+	};
+
+	/**
+	 * Save all polygons
+	 * @param event
+	 */
+	DrawCustomAU.prototype.saveAll = function(event){
+		var conf = confirm("Do you really want to sent polygons for calculation?");
+		if (conf == true) {
+			console.log(this._records); // TODO sent to backend
+			this.destroy();
+		}
+	};
+
+	/**
+	 * Destroy table, record list and clear the layer
+	 */
+	DrawCustomAU.prototype.destroy = function(){
+		this._polygonVectorLayer.destroyFeatures();
+		this._table.clear();
+		this._records = [];
+		this.deactivateClearSaveButtons();
 	};
 
 	DrawCustomAU.prototype.deactivateClearSaveButtons = function(){
@@ -164,9 +234,26 @@ define([
 		this._buttonSavePolygons.attr("disabled",true);
 	};
 
-	DrawCustomAU.prototype.activateClearSaveButtons = function(){
+	DrawCustomAU.prototype.activateClearButton = function(){
 		this._buttonClearPolygons.attr("disabled",false);
+	};
+
+	DrawCustomAU.prototype.activateSaveButton = function(){
 		this._buttonSavePolygons.attr("disabled",false);
+	};
+
+	/**
+	 * Generate uuid
+	 * @returns {string}
+	 */
+	DrawCustomAU.prototype.generateUuid = function(){
+		function s4() {
+			return Math.floor((1 + Math.random()) * 0x10000)
+				.toString(16)
+				.substring(1);
+		}
+		return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+			s4() + '-' + s4() + s4() + s4();
 	};
 
 	return DrawCustomAU;

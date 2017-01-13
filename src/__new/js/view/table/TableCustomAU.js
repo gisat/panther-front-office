@@ -41,7 +41,7 @@ define([
 	 * @returns {boolean}
 	 */
 	TableCustomAU.prototype.buildHeader = function(){
-		var html = '<tr>' +
+		var html = '<tr class="saved">' +
 			'<th>#</th>' +
 			'<th>Name</th>' +
 			'<th></th>' +

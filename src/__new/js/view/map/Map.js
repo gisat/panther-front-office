@@ -232,8 +232,18 @@ define([
 	 * @param layer {OpenLayers.Layer.Vector}
 	 */
 	Map.prototype.deletePolygonFromLayer = function (id, layer) {
-		var feature = layer.getFeatureById(id);
-		layer.removeFeatures(layer.getFeatureById(id));
+		var feature = this.getFeatureById(id, layer);
+		layer.removeFeatures(feature);
+	};
+
+	/**
+	 * Get feature by id
+	 * @param id {string} id of the feature
+	 * @param layer {OpenLayers.Layer.Vector}
+	 * @returns {OpenLayers.Feature}
+	 */
+	Map.prototype.getFeatureById = function (id, layer){
+		return layer.getFeatureById(id);
 	};
 
 	return Map;
