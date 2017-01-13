@@ -115,12 +115,24 @@ define([
 	 * @returns {*}
 	 */
 	Map.prototype.setStyle = function(color){
-		return new OpenLayers.StyleMap({
+		return new OpenLayers.StyleMap(this.prepareStyle(color));
+	};
+
+	Map.prototype.prepareStyle = function(color, label){
+		var style = {
 			strokeWidth: 1,
 			strokeColor: color,
 			fillColor: color,
-			fillOpacity: 0.5
-		});
+			fillOpacity: 0.5,
+			fontColor: "#black",
+			fontSize: "12px",
+			fontFamily: "Courier New, monospace",
+			fontWeight: "bold"
+		};
+		if (label){
+			style.label = label;
+		}
+		return style;
 	};
 
 	/**

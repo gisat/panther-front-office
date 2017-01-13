@@ -174,6 +174,10 @@ define([
 		};
 
 		this._records.push(record);
+		feature.style = this._map.prepareStyle("#00ff00", name);
+
+		this._polygonVectorLayer.redraw();
+
 		button.attr("disabled", "disabled")
 			.html("Saved!")
 			.css("color", "#d35400")
