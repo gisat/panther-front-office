@@ -28,8 +28,9 @@ define([
 
 		var html = '<tr data-id="' + id + '">' +
 				'<td>' + this._recordCount  + '</td>' +
-				'<td><input type="text"></td>' +
-				'<td class="delete-record"><img alt="delete" src="__new/img/delete.png"></td>' +
+				'<td class="record-name"><input type="text"></td>' +
+				'<td class="save-record"><div class="widget-button button-save-record">Save</div></td>' +
+				'<td class="delete-record"><div class="widget-button button-delete-record">Delete</div></td>' +
 			'</tr>';
 		this._table.append(html);
 		this._recordCount++;
@@ -43,6 +44,7 @@ define([
 		var html = '<tr>' +
 			'<th>#</th>' +
 			'<th>Name</th>' +
+			'<th></th>' +
 			'<th></th>' +
 			'</tr>';
 		this._table.append(html);

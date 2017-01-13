@@ -72,6 +72,8 @@ define([
 		if (this._polygonVectorLayer){
 			this._polygonVectorLayer.destroyFeatures();
 		}
+
+		this._records = [];
 	};
 
 	/**
@@ -100,6 +102,7 @@ define([
 		this._buttonClearPolygons.on("click", function(){
 			self._polygonVectorLayer.destroyFeatures();
 			self._table.clear();
+			self._records = [];
 			self.deactivateClearSaveButtons();
 		});
 
@@ -113,10 +116,24 @@ define([
 
 		// delete particular polygon
 		var table = this._table.getTable();
-		table.on("click",".delete-record",function(){
+		table.on("click",".button-delete-record",function(){
 			var id = $(this).parents('tr').attr("data-id");
 			self._table.deleteRecord(id);
 			self._map.deletePolygonFromLayer(id, self._polygonVectorLayer);
+			// self.deleteRecord TODO delete record from list
+		});
+
+		// save record name
+		table.on("click",".button-save-record", function(){
+			var record = {
+				olId: $(this).parents('tr').attr("data-id"),
+				uuID: "", // TODO generate uuid,
+				name: $(this).parents('tr').find('.record-name input').val(),
+				geometry: "" // TODO get geometry
+			};
+
+			console.log(record);
+			// self.saveRecord; // TODO add record to list
 		});
 	};
 

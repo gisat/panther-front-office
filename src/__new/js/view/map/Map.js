@@ -233,8 +233,6 @@ define([
 	 */
 	Map.prototype.deletePolygonFromLayer = function (id, layer) {
 		var feature = layer.getFeatureById(id);
-		console.log(feature);
-		console.log(layer);
 		layer.removeFeatures(layer.getFeatureById(id));
 	};
 

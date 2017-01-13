@@ -1,6 +1,7 @@
-.new-table td.delete-record {
-	text-align: right;
-	padding: 0 .5rem;
-	cursor: pointer;
-	max-width: 1.5rem;
+.new-table td.record-name {
+	min-width: 11rem;
+}
+
+.new-table td.record-name > input {
+	width: 100%;
 }

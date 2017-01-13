@@ -48,6 +48,7 @@ define([
 	 */
 	Table.prototype.clear = function(){
 		this._table.html("");
+		this._header = false;
 	};
 
 	/**

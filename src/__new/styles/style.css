@@ -59,6 +59,14 @@
     cursor: default;
 }
 
+.button-delete-record, .button-save-record {
+    line-height: 1.5rem;
+    text-transform: none;
+    font-size: .7rem;
+    font-weight: 600;
+    padding: 0 .5rem;
+}
+
 /** new tools **/
 .tools-buttons-container {
     height: 6.5rem;
