@@ -156,7 +156,7 @@ define([
 		var button = $(event.target);
 		var id = button.parents('tr').attr("data-id");
 		var feature = this._map.getFeatureById(id, this._polygonVectorLayer);
-		var geometry = this._map.getPolygonVertices(feature);
+		var geometry = this._map.getWKT(feature);
 		var input = $(event.target).parents('tr').find('.record-name input');
 		var name = input.val();
 		if (name.length == 0){

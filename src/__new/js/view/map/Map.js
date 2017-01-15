@@ -151,18 +151,12 @@ define([
 	};
 
 	/**
-	 * Get list of polygon's coordinates
-	 * @param polygon {OpenLayers.Geometry}
-	 * @returns {Array}
+	 * Get WKT geometry of the feature
+	 * @param feature {OpenLayers.Feature}
+	 * @returns {OpenLayers.Format.WKT.write}
 	 */
-	Map.prototype.getPolygonVertices = function(polygon){
-		var coord = [];
-		var vertices = polygon.geometry.components[0].getVertices();
-		vertices.forEach(function(vertex){
-			coord.push([vertex.x,vertex.y]);
-		});
-
-		return coord;
+	Map.prototype.getWKT = function(feature){
+		return new OpenLayers.Format.WKT().write(feature);
 	};
 
 	Map.prototype.addOnClickListener = function(attributes, infoWindow){
