@@ -242,8 +242,21 @@ define([
 				areaTemplate: Number(ThemeYearConfParams.auCurrentAt)
 			};
 			console.log(toSave);
+			//this.sendData(toSave);
 			this.destroy();
 		}
+	};
+
+	/**
+	 * Send data to backend
+	 * @param data {Object}
+	 */
+	DrawCustomAU.prototype.sendData = function(data){
+		$.ajax({
+			type: "POST",
+			url: Config.url + "",
+			data: data
+		});
 	};
 
 	/**
