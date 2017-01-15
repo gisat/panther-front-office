@@ -7,7 +7,8 @@ define([
 	'jquery',
 	'string',
 	'underscore',
-	'text!./DrawCustomAU.html'
+	'text!./DrawCustomAU.html',
+	'css!./DrawCustomAU.css'
 ], function(ArgumentError,
 			NotFoundError,
 			Logger,
@@ -75,7 +76,21 @@ define([
 			this._polygonVectorLayer.destroyFeatures();
 		}
 
+		this.checkPlace();
 		this._records = [];
+	};
+
+	DrawCustomAU.prototype.checkPlace = function(){
+		var section = $("#custom-au-container");
+		var info = $("#custom-au-info");
+
+		if (ThemeYearConfParams.place.length == 0){
+			section.css("display", "none");
+			info.css("display","block");
+		} else {
+			section.css("display", "block");
+			info.css("display","none");
+		}
 	};
 
 	/**
@@ -219,6 +234,14 @@ define([
 		var conf = confirm("Do you really want to sent polygons for calculation?");
 		if (conf == true) {
 			console.log(this._records); // TODO sent to backend
+			var toSave = {
+				data: this._records,
+				dataset: Number(ThemeYearConfParams.dataset),
+				periods: Number(ThemeYearConfParams.years.charAt(1)),
+				location: Number(ThemeYearConfParams.place),
+				areaTemplate: Number(ThemeYearConfParams.auCurrentAt)
+			};
+			console.log(toSave);
 			this.destroy();
 		}
 	};
