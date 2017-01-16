@@ -26,6 +26,11 @@ define([
 	var CustomDrawingSection = function(options) {
 	};
 
+
+	CustomDrawingSection.prototype.checkActivated = function(){
+		console.log("checked");
+	};
+
 	/**
 	 * Build basic structure of section
 	 */
@@ -71,22 +76,46 @@ define([
 
 	/**
 	 * Activate/deactivate drawing
-	 * @param event {OpenLayers.Event}
+	 * @param event
 	 */
 	CustomDrawingSection.prototype.drawingActivation = function(event){
 		var button = $(event.target);
 		if (button.hasClass("active")){
-			button.removeClass("active");
-			this._drawControl.deactivate();
-			if (this._vectorLayer.features.length > 0){
-				this.checkTableRecords();
-				this.activateClearButton();
-			}
+			this.deactivateDrawing(event);
 		} else {
-			button.addClass("active");
-			this._drawControl.activate();
-			this.deactivateClearSaveButtons();
+			this.activateDrawing(event);
 		}
+	};
+
+	/**
+	 * Deactivate drawing
+	 * @param event {Object}
+	 */
+	CustomDrawingSection.prototype.deactivateDrawing = function(event){
+		var id = this._buttonDraw.attr("id");
+		$(".button-drawing-activation:not(#" + id + ")").attr("disabled", false);
+
+		var button = $(event.target);
+		button.removeClass("active");
+		this._drawControl.deactivate();
+		if (this._vectorLayer.features.length > 0){
+			this.checkTableRecords();
+			this.activateClearButton();
+		}
+	};
+
+	/**
+	 * Activate drawing
+	 * @param event {Object}
+	 */
+	CustomDrawingSection.prototype.activateDrawing = function(event){
+		var id = this._buttonDraw.attr("id");
+		$(".button-drawing-activation:not(#" + id + ")").attr("disabled", true);
+
+		var button = $(event.target);
+		button.addClass("active");
+		this._drawControl.activate();
+		this.deactivateClearSaveButtons();
 	};
 
 	/**
