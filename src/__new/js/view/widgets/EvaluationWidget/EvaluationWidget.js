@@ -403,7 +403,7 @@ define([
                     SelectedAreasExchange.data.data = areas;
                     self.addDownloadListener(areas);
 
-                    if (OneLevelAreas.hasOneLevel) {
+                    if (OneLevelAreas.hasOneLevel && !Config.toggles.isUrbis) {
                         var rgbColor = $('.x-color-picker .x-color-picker-selected span').css('background-color');
                         var color = new Color(rgbColor).hex();
                         self._map.removeLayers(color); // Remove layers with the same color.
@@ -468,7 +468,7 @@ define([
                 .on("click.confirm", function(){
                     self.handleLoading("show");
                     self.filter();
-                    if (!OneLevelAreas.hasOneLevel){
+                    if (!OneLevelAreas.hasOneLevel || Config.toggles.isUrbis){
                         $(this).attr("disabled",true);
                     }
                 });
@@ -488,7 +488,7 @@ define([
         var self = this;
         $('#evaluation-unselect').off("click.unselect").on("click.unselect", function(){
                 SelectedAreasExchange.data.data = [];
-                if (OneLevelAreas.hasOneLevel){
+                if (OneLevelAreas.hasOneLevel && !Config.toggles.isUrbis){
                     self._map.removeLayers();
                     Observer.notify('selectInternal');
                 } else {

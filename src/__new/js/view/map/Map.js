@@ -36,19 +36,27 @@ define([
 	 */
 	Map.prototype.addLayerForDrawing = function(name, color){
 		var layer = this.createVectorLayer(color, name);
+		this._map.addControl(new OpenLayers.Control.MousePosition());
 		this._map.addLayer(layer);
 		return layer;
 	};
 
-	Map.prototype.addControlsForDrawing = function(polygonLayer, onDrawEnd){
-		this._map.addControl(new OpenLayers.Control.MousePosition());
+	Map.prototype.addControlsForPolygonDrawing = function(polygonLayer, onDrawEnd){
 		var drawControl = new OpenLayers.Control.DrawFeature(polygonLayer,
 			OpenLayers.Handler.Polygon);
 
 		drawControl.events.register('featureadded', drawControl, onDrawEnd);
-
 		this._map.addControl(drawControl);
 		return drawControl;
+	};
+
+	Map.prototype.addControlsForLineDrawing = function(lineLayer, onDrawEnd){
+		var drawControl2 = new OpenLayers.Control.DrawFeature(lineLayer,
+			OpenLayers.Handler.Path);
+
+		drawControl2.events.register('featureadded', drawControl2, onDrawEnd);
+		this._map.addControl(drawControl2);
+		return drawControl2;
 	};
 
 	/**
@@ -125,8 +133,8 @@ define([
 			fillColor: color,
 			fillOpacity: 0.5,
 			fontColor: "#black",
-			fontSize: "12px",
-			fontFamily: "Courier New, monospace",
+			fontSize: "16px",
+			fontFamily: "Arial, sans-serif",
 			fontWeight: "bold"
 		};
 		if (label){
@@ -233,11 +241,11 @@ define([
 	};
 
 	/**
-	 * Delete polygon feature from vector layer
+	 * Delete feature from vector layer
 	 * @param id {string} id of the feature
 	 * @param layer {OpenLayers.Layer.Vector}
 	 */
-	Map.prototype.deletePolygonFromLayer = function (id, layer) {
+	Map.prototype.deleteFeatureFromLayer = function (id, layer) {
 		var feature = this.getFeatureById(id, layer);
 		layer.removeFeatures(feature);
 	};

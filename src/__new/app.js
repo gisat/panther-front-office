@@ -35,7 +35,7 @@ requirejs.config({
 
 define(['js/util/metadata/Attributes',
         'js/view/widgets/CityWidget/CityWidget',
-        'js/view/widgets/CustomPolygonsWidget/CustomPolygonsWidget',
+        'js/view/widgets/CustomDrawingWidget/CustomDrawingWidget',
         'js/view/widgets/EvaluationWidget/EvaluationWidget',
         'js/view/tools/FeatureInfoTool/FeatureInfoTool',
         'js/util/Filter',
@@ -53,7 +53,7 @@ define(['js/util/metadata/Attributes',
         'underscore'
 ], function (Attributes,
              CityWidget,
-             CustomPolygonsWidget,
+             CustomDrawingWidget,
              EvaluationWidget,
              FeatureInfoTool,
              Filter,
@@ -85,9 +85,9 @@ define(['js/util/metadata/Attributes',
         }
 
         if(Config.toggles.hasOwnProperty("hasNewCustomPolygonsTool") && Config.toggles.hasNewCustomPolygonsTool){
-            widgets.push(new CustomPolygonsWidget({
+            widgets.push(new CustomDrawingWidget({
                 elementId: 'custom-polygons-widget',
-                name: 'Custom AU',
+                name: 'Custom Drawing',
                 targetId: 'widget-container'
             }));
         }

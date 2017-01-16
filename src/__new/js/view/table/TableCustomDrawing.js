@@ -1,7 +1,7 @@
 define([
 	'./Table',
 	'jquery',
-	'css!./TableCustomAU'
+	'css!./TableCustomDrawing'
 ], function(
 			Table,
 			$
@@ -10,23 +10,23 @@ define([
 	/**
 	 * @constructor
 	 */
-	var TableCustomAU = function(options) {
+	var TableCustomDrawing = function(options) {
 		Table.apply(this, arguments);
 		this._recordCount = 1;
 	};
 
-	TableCustomAU.prototype = Object.create(Table.prototype);
+	TableCustomDrawing.prototype = Object.create(Table.prototype);
 
 	/**
 	 * Add record to the table
 	 * @param id {string} id of the feature
 	 */
-	TableCustomAU.prototype.addRecord = function(id){
+	TableCustomDrawing.prototype.addRecord = function(id){
 		if (!this._header){
 			this._header = this.buildHeader();
 		}
 
-		var html = '<tr data-id="' + id + '">' +
+		var html = '<tr class="record-row" data-id="' + id + '">' +
 				'<td>' + this._recordCount  + '</td>' +
 				'<td class="record-name"><input type="text"></td>' +
 				'<td class="save-record"><div class="widget-button button-save-record">Save</div></td>' +
@@ -40,8 +40,8 @@ define([
 	 * Build table header
 	 * @returns {boolean}
 	 */
-	TableCustomAU.prototype.buildHeader = function(){
-		var html = '<tr class="saved">' +
+	TableCustomDrawing.prototype.buildHeader = function(){
+		var html = '<tr class="header">' +
 			'<th>#</th>' +
 			'<th>Name</th>' +
 			'<th></th>' +
@@ -55,9 +55,9 @@ define([
 	 * Delete whole row
 	 * @param dataId {string} data-id attribute value
 	 */
-	TableCustomAU.prototype.deleteRecord = function(dataId){
+	TableCustomDrawing.prototype.deleteRecord = function(dataId){
 		this._table.find("tr[data-id=" + dataId + "]").remove();
 	};
 
-	return TableCustomAU;
+	return TableCustomDrawing;
 });

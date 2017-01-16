@@ -69,7 +69,7 @@ Ext.define('PumaMain.controller.Area', {
 
 			var areasOutput = {};
 
-			if (OneLevelAreas.hasOneLevel){
+			if (OneLevelAreas.hasOneLevel && !Config.toggles.isUrbis){
 				if (place){
 					areasOutput[place] = {};
 					areasOutput[place][level] = [];
@@ -441,7 +441,7 @@ Ext.define('PumaMain.controller.Area', {
 		return locations;
 	},
 	scanTree: function() {
-		if (OneLevelAreas.hasOneLevel){
+		if (OneLevelAreas.hasOneLevel && !Config.toggles.isUrbis){
 			var areas = OneLevelAreas.data;
 			var level = areas[0].at;
 			var place = ThemeYearConfParams.place;
