@@ -89,11 +89,10 @@ define([
 
 		if (OneLevelAreas.hasOneLevel){
 			this._placeholderSelector.css("display","block");
-
-		} else {
 			this._auSection.rebuild(this._map);
 			this._lineSection.rebuild(this._map);
 
+		} else {
 			this._placeholderSelector.css("display","none");
 		}
 	};
