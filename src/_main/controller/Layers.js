@@ -750,6 +750,9 @@ Ext.define('PumaMain.controller.Layers', {
 				var attrStore = Ext.StoreMgr.lookup('attribute');
 				var attrId = attrs[0].attr;
 				var baseColor = attrStore.getById(attrId).get('color');
+				if (baseColor.length == 0){
+					baseColor = "#000000";
+				}
 				colorRange = Puma.util.Color.determineColorRange(baseColor);
 			}
 			normalization = attrs[0].normType || normalization;

@@ -99,16 +99,19 @@ define([
      */
     EvaluationWidget.prototype.rebuild = function(attrForRequest, map){
         var self = this;
+        if (!this._resizeListener){
+            this._resizeListener = true;
+            this.addOnResizeListener();
+        }
         this.handleLoading("show");
-        this._attributes = [];
         this._attrForRequest = attrForRequest;
 
         var distribution = {
             type: 'normal',
             classes: this.computeNumOfClasses()
         };
-
         this._filter.statistics(attrForRequest, distribution).then(function(attributes){
+            self._attributes = [];
             if (attributes.length > 0){
                 attributes.forEach(function(attribute){
                     var about = {
@@ -183,7 +186,6 @@ define([
      */
     EvaluationWidget.prototype.build = function(){
         this.buildSettings();
-        this.addOnResizeListener();
     };
 
 	/**
