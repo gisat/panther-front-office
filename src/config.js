@@ -1,6 +1,8 @@
 var Config = {
-	url: 'http://urbis.gisat.cz/backend/',
-	signupAddress: 'http://urbis.gisat.cz/account/signup/',
+	//url: 'http://urbis.gisat.cz/backend/',
+	//signupAddress: 'http://urbis.gisat.cz/account/signup/',
+	url: 'http://localhost:4000/',
+	signupAddress: 'http://localhost:4000/account/signup/',
 	geoserver2Workspace: "panther",
 	initialBaseMap: "terrain",
 	initialMapBounds: [
@@ -9,6 +11,7 @@ var Config = {
 		113.0046844482,
 		-6.9809544265
 	],
+	melodiesRemoteUrl: "",
 
 	toggles: {
 		noGeoserverLayerGroups: false,
@@ -26,7 +29,8 @@ var Config = {
 		isNewDesign: true,
 		isUrbis: true,
 		isEea: false,
-		isMelodies: false
+		isMelodies: false,
+		isUrbanTep: true
 	},
 
 	basicTexts: {
