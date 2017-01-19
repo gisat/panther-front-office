@@ -5,7 +5,7 @@ Ext.define('Puma.model.MappedChartAttribute', {
 		// ostatni/puvodni
 		'as','attr','normType','normAs','normAttr','normYear','normalizationUnits','attrName',
 		'attrNameNormalized','asName','checked','numCategories','classType',
-		'zeroesAsNull','name', percentage,
+		'zeroesAsNull','name', 'percentage',
 		{
 			name: 'attrName',
 			convert: function(value,record) {
