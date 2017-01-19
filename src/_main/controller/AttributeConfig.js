@@ -280,6 +280,8 @@ Ext.define('PumaMain.controller.AttributeConfig', {
             form.down('#normType').setValue(recs[0].get('normType'));
             form.down('#normAttributeSet').setValue(recs[0].get('normAs'));
             form.down('#normAttribute').setValue(recs[0].get('normAttr'));
+			form.down('#normalizationUnits').setValue(recs[0].get('normalizationUnits'));
+			form.down('#normYear').setValue(recs[0].get('normYear'));
         }
         else {
             form.getForm().reset();
@@ -352,13 +354,15 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         var normType = normalize ? form.getComponent('normType').getValue() : null;
         var normAttr = normalize ? form.getComponent('normAttribute').getValue() : null;
         var normAs = normalize ? form.getComponent('normAttributeSet').getValue() : null;
-        //var normYear = normalize ? form.getComponent('normYear').getValue() : null;
+        var normalizationUnits = normalize ? form.getComponent('normalizationUnits').getValue(): null;
+        var normYear = normalize ? form.getComponent('normYear').getValue() : null;
         for (var i=0;i<recs.length;i++) {
             var rec = recs[i];
             rec.set('normType',normType);
             rec.set('normAttr',normAttr);
             rec.set('normAs',normAs);
-            //rec.set('normYear',normYear);
+            rec.set('normalizationUnits', normalizationUnits);
+            rec.set('normYear',normYear);
             rec.commit();
         }
         
@@ -375,19 +379,23 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         }])
     },
     onNormTypeChange: function(combo,val) {
+	    var attrUnits = combo.up('panel').down('#normalizationUnits');
         var attrCombo = combo.up('panel').down('#normAttribute');
         var attrSetCombo = combo.up('panel').down('#normAttributeSet');
         if (val=='attributeset') {
             attrSetCombo.show();
             attrCombo.hide();
+            attrUnits.hide();
         }
         else if (val=='attribute') {
             attrSetCombo.show();
             attrCombo.show();
+            attrUnits.hide();
         }
         else {
             attrSetCombo.hide();
             attrCombo.hide();
+            attrUnits.show();
         }
     },
     onChartTypeChange: function(combo,val) {

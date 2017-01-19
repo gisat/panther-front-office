@@ -32,7 +32,7 @@ Ext.define('PumaMain.view.NormalizeForm', {
 		}, {
 			xtype: 'pumacombo',
 			store: this.attrStore,
-			fieldLabel: 'NNormalization Attribute',
+			fieldLabel: 'Normalization Attribute',
 			name: 'normAttribute',
 			hidden: true,
 			itemId: 'normAttribute'
