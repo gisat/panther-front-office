@@ -385,8 +385,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         var attrYears = combo.up('panel').down('#normYear');
         if (val=='attributeset') {
             attrSetCombo.show();
-			attrYears.show();
-            attrCombo.hide();
+			attrCombo.hide();
             attrUnits.hide();
         }
         else if (val=='attribute') {
