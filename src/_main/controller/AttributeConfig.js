@@ -385,19 +385,24 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 	    var attrUnits = combo.up('panel').down('#normalizationUnits');
         var attrCombo = combo.up('panel').down('#normAttribute');
         var attrSetCombo = combo.up('panel').down('#normAttributeSet');
+        var attrYears = combo.up('panel').down('#normYear');
         if (val=='attributeset') {
             attrSetCombo.show();
+			attrYears.show();
             attrCombo.hide();
             attrUnits.hide();
         }
         else if (val=='attribute') {
             attrSetCombo.show();
             attrCombo.show();
+
+            attrYears.hide();
             attrUnits.hide();
         }
         else {
             attrSetCombo.hide();
             attrCombo.hide();
+            attrYears.hide();
             attrUnits.show();
         }
     },
