@@ -45,6 +45,13 @@ Ext.define('PumaMain.view.NormalizeForm', {
 			itemId: 'normalizationUnits'
 		}, {
 			xtype: 'pumacombo',
+			store: Ext.StoreMgr.lookup('percentage'),
+			fieldLabel: 'Transform result to percents',
+			name: 'percentage',
+			valueField: 'type',
+			itemId: 'percentage'
+		}, {
+			xtype: 'pumacombo',
 			hidden: true,
 			store: Ext.StoreMgr.lookup('year4sel'),
 			fieldLabel: 'Normalization year',

@@ -587,10 +587,21 @@ Ext.define('PumaMain.controller.Store', {
 				},{
 					name: 'km2',
 					type: 'km2'
-				}, {
-			        name: '%',
-                    type: '%'
-                }
+				}
+			]
+		});
+
+		Ext.create('Ext.data.Store',{
+			storeId: 'percentage',
+			fields: ['name','type'],
+			data: [
+				{
+					name: 'yes',
+					type: true
+				},{
+					name: 'no',
+					type: false
+				}
 			]
 		});
 

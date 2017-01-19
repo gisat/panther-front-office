@@ -282,6 +282,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
             form.down('#normAttribute').setValue(recs[0].get('normAttr'));
 			form.down('#normalizationUnits').setValue(recs[0].get('normalizationUnits'));
 			form.down('#normYear').setValue(recs[0].get('normYear'));
+			form.down('#percentage').setValue(recs[0].get('percentage'));
         }
         else {
             form.getForm().reset();
@@ -356,6 +357,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         var normAs = normalize ? form.getComponent('normAttributeSet').getValue() : null;
         var normalizationUnits = normalize ? form.getComponent('normalizationUnits').getValue(): null;
         var normYear = normalize ? form.getComponent('normYear').getValue() : null;
+        var percentage = normalize ? form.getComponent('percentage').getValue() : null;
         for (var i=0;i<recs.length;i++) {
             var rec = recs[i];
             rec.set('normType',normType);
@@ -363,6 +365,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
             rec.set('normAs',normAs);
             rec.set('normalizationUnits', normalizationUnits);
             rec.set('normYear',normYear);
+            rec.set('percentage', percentage);
             rec.commit();
         }
         
