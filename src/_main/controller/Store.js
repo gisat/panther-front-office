@@ -587,7 +587,10 @@ Ext.define('PumaMain.controller.Store', {
 				},{
 					name: 'km2',
 					type: 'km2'
-				}
+				}, {
+			        name: '%',
+                    type: '%'
+                }
 			]
 		});
 
