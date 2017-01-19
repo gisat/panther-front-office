@@ -583,7 +583,26 @@ Ext.define('PumaMain.controller.Store', {
 //                type: 'year'
 //            }
         ]
-        })
+        });
+
+		Ext.create('Ext.data.Store',{
+			storeId: 'normalization_units',
+			fields: ['name','type'],
+			data: [
+
+				{
+					name: 'm2',
+					type: 'm2'
+				},{
+					name: 'ha',
+					type: 'ha'
+				},{
+					name: 'km2',
+					type: 'km2'
+				}
+			]
+		});
+
         Ext.create('Ext.data.Store',{
             storeId: 'normalization4chartlimited',
             fields: ['name','type'],
