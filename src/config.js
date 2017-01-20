@@ -30,7 +30,7 @@ var Config = {
 		isUrbis: true,
 		isEea: false,
 		isMelodies: false,
-		isUrbanTep: true
+		isUrbanTep: false
 	},
 
 	basicTexts: {

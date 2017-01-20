@@ -57,19 +57,25 @@ define([
 	 * @param map 
 	 */
 	DrawCustomAU.prototype.rebuild = function(map){
-		if (!this._map){
-			this._map = map;
-			this._map.rebuild();
-			this._vectorLayer = this._map.addLayerForDrawing("drawPolygons","#00ff00");
-			this._drawControl = this._map.addControlsForPolygonDrawing(this._vectorLayer, this.addDrawEndListener.bind(this));
-			this.addEventListeners();
-		}
-		if (this._vectorLayer){
-			this._vectorLayer.destroyFeatures();
-		}
+		if (OneLevelAreas.hasOneLevel){
+			this._target.css("display","block");
+			if (!this._map){
+				this._map = map;
+				this._map.rebuild();
+				this._vectorLayer = this._map.addLayerForDrawing("drawPolygons","#00ff00");
+				this._drawControl = this._map.addControlsForPolygonDrawing(this._vectorLayer, this.addDrawEndListener.bind(this));
+				this.addEventListeners();
+			}
+			if (this._vectorLayer){
+				this._vectorLayer.destroyFeatures();
+			}
 
-		this.checkPlace();
-		this._records = [];
+			this.checkPlace();
+			this._records = [];
+
+		} else {
+			this._target.css("display","none");
+		}
 	};
 
 	/**

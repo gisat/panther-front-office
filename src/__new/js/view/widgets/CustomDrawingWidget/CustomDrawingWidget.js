@@ -87,14 +87,8 @@ define([
 			this._map = map;
 		}
 
-		if (OneLevelAreas.hasOneLevel){
-			this._placeholderSelector.css("display","block");
-			this._auSection.rebuild(this._map);
-			this._lineSection.rebuild(this._map);
-
-		} else {
-			this._placeholderSelector.css("display","none");
-		}
+		this._auSection.rebuild(this._map);
+		this._lineSection.rebuild(this._map);
 	};
 
 	/**
