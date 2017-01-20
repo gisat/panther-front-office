@@ -566,24 +566,45 @@ Ext.define('PumaMain.controller.Store', {
                 name: 'Attribute set',
                 type: 'attributeset'
             },
-//            {
-//                name: 'Tree',
-//                type: 'toptree'
-//            },{
-//                name: 'All',
-//                type: 'topall'
-//            },
             {
                 name: 'First selected',
                 type: 'select'
             }
-//            ,
-//            {
-//                name: 'Year',
-//                type: 'year'
-//            }
         ]
-        })
+        });
+
+		Ext.create('Ext.data.Store',{
+			storeId: 'normalization_units',
+			fields: ['name','type'],
+			data: [
+
+				{
+					name: 'm2',
+					type: 'm2'
+				},{
+					name: 'ha',
+					type: 'ha'
+				},{
+					name: 'km2',
+					type: 'km2'
+				}
+			]
+		});
+
+		Ext.create('Ext.data.Store',{
+			storeId: 'percentage',
+			fields: ['name','type'],
+			data: [
+				{
+					name: 'yes',
+					type: true
+				},{
+					name: 'no',
+					type: false
+				}
+			]
+		});
+
         Ext.create('Ext.data.Store',{
             storeId: 'normalization4chartlimited',
             fields: ['name','type'],
