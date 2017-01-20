@@ -57,18 +57,49 @@ define([
 	 * @param map
 	 */
 	DrawCustomLines.prototype.rebuild = function(map){
-		if (!this._map){
-			this._map = map;
-			this._map.rebuild();
-			this._vectorLayer = this._map.addLayerForDrawing("drawLines","#00ff00");
-			this._drawControl = this._map.addControlsForLineDrawing(this._vectorLayer, this.addDrawEndListener.bind(this));
-			this.addEventListeners();
-		}
-		if (this._vectorLayer){
-			this._vectorLayer.destroyFeatures();
-		}
+		var layerForLines = this.checkConf();
+		if (layerForLines){
+			this._target.css("display","block");
+			if (!this._map){
+				this._map = map;
+				this._map.rebuild();
+				this._vectorLayer = this._map.addLayerForDrawing("drawLines","#00ff00");
+				this._drawControl = this._map.addControlsForLineDrawing(this._vectorLayer, this.addDrawEndListener.bind(this));
+				this.addEventListeners();
+			}
+			if (this._vectorLayer){
+				this._vectorLayer.destroyFeatures();
+			}
+			this._records = [];
 
-		this._records = [];
+		} else {
+			this._target.css("display","none");
+		}
+	};
+
+	/**
+	 * It checks if layer exists for current configuration
+	 */
+	DrawCustomLines.prototype.checkConf = function(){
+		var refMap = ThemeYearConfParams.layerRefMap;
+		var exists = false;
+		for (var at in refMap){
+			for (var place in refMap[at]){
+				for (var year in refMap[at][place]){
+					var layers = refMap[at][place][year];
+					layers.forEach(function(layer){
+						if (layer.hasOwnProperty("layer")){
+							var name = layer.layer;
+							var parts = name.split(":");
+							if (parts[1] == "custom_line"){
+								exists = true;
+							}
+						}
+					});
+				}
+			}
+		}
+		return exists;
 	};
 
 	/**

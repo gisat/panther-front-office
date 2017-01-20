@@ -1003,6 +1003,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         }
         if (conf.layerRefMap) {
             this.layerRefMap = conf.layerRefMap;
+            ThemeYearConfParams.layerRefMap = conf.layerRefMap;
         }
         if (conf.layerRefMap || response.request.options.locationChanged) {
             this.updateLayerContext();

@@ -19,7 +19,8 @@ var ThemeYearConfParams = {
 	artifexpand: '',
 	place: '',
 	placeChanged: '',
-	auCurrentAt: ''
+	auCurrentAt: '',
+	layerRefMap: ''
 };
 
 /**
