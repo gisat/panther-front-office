@@ -375,7 +375,11 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         var store = combo.up('panel').down('#normAttribute').store;
         store.clearFilter(true);
         store.filter([function(rec) {
-            return Ext.Array.contains(attributes,rec.get('_id'))
+            var numeric = true;
+            if (rec.data.hasOwnProperty("type") && rec.data.type != "numeric"){
+                numeric = false;
+            }
+            return Ext.Array.contains(attributes,rec.get('_id')) && numeric
         }])
     },
     onNormTypeChange: function(combo,val) {
