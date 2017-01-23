@@ -48,6 +48,9 @@ define([
 		this._buttonDraw = $("#button-draw-polygons");
 		this._buttonClear = $("#button-clear-polygons");
 		this._buttonSave = $("#button-save-polygons");
+
+		this._section = $("#custom-au-container");
+		this._info = $("#custom-au-info");
 	};
 
 	DrawCustomAU.prototype = Object.create(CustomDrawingSection.prototype);
@@ -75,22 +78,6 @@ define([
 
 		} else {
 			this._target.css("display","none");
-		}
-	};
-
-	/**
-	 * Check if place (pilot in URBIS) is selected
-	 */
-	DrawCustomAU.prototype.checkPlace = function(){
-		var section = $("#custom-au-container");
-		var info = $("#custom-au-info");
-
-		if (ThemeYearConfParams.place.length == 0){
-			section.css("display", "none");
-			info.css("display","block");
-		} else {
-			section.css("display", "block");
-			info.css("display","none");
 		}
 	};
 

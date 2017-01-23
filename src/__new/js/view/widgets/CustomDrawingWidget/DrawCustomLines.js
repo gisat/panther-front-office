@@ -48,6 +48,9 @@ define([
 		this._buttonDraw = $("#button-draw-lines");
 		this._buttonClear = $("#button-clear-lines");
 		this._buttonSave = $("#button-save-lines");
+
+		this._section = $("#custom-lines-container");
+		this._info = $("#custom-lines-info");
 	};
 
 	DrawCustomLines.prototype = Object.create(CustomDrawingSection.prototype);
@@ -57,8 +60,9 @@ define([
 	 * @param map
 	 */
 	DrawCustomLines.prototype.rebuild = function(map){
-		var layerForLines = this.checkConf();
-		if (layerForLines){
+		var layerInfo = this.checkConf();
+
+		if (layerInfo.exists){
 			this._target.css("display","block");
 			if (!this._map){
 				this._map = map;
@@ -70,6 +74,7 @@ define([
 			if (this._vectorLayer){
 				this._vectorLayer.destroyFeatures();
 			}
+			this.checkPlace();
 			this._records = [];
 
 		} else {
@@ -82,7 +87,17 @@ define([
 	 */
 	DrawCustomLines.prototype.checkConf = function(){
 		var refMap = ThemeYearConfParams.layerRefMap;
-		var exists = false;
+		var currentYear = JSON.parse(ThemeYearConfParams.years)[0];
+		var currentPlace = JSON.parse(ThemeYearConfParams.years);
+		var status = {
+			exists: false,
+			metadata: {
+				location: currentPlace,
+				period: currentYear,
+				areaTemplate: null
+			}
+		};
+
 		for (var at in refMap){
 			for (var place in refMap[at]){
 				for (var year in refMap[at][place]){
@@ -92,14 +107,15 @@ define([
 							var name = layer.layer;
 							var parts = name.split(":");
 							if (parts[1] == "custom_line"){
-								exists = true;
+								status.exists = true;
+								status.metadata.areaTemplate = at;
 							}
 						}
 					});
 				}
 			}
 		}
-		return exists;
+		return status;
 	};
 
 	/**
@@ -118,7 +134,7 @@ define([
 	 * @param event
 	 */
 	DrawCustomLines.prototype.saveAll = function(event){
-		var conf = confirm("Do you really want to sent lines?");
+		var conf = confirm("Do you really want to save lines?");
 		if (conf == true) {
 			console.log(this._records); // TODO sent to backend
 			this.destroy();

@@ -75,6 +75,19 @@ define([
 	};
 
 	/**
+	 * Check if place (pilot in URBIS) is selected
+	 */
+	CustomDrawingSection.prototype.checkPlace = function(){
+		if (ThemeYearConfParams.place.length == 0){
+			this._section.css("display", "none");
+			this._info.css("display","block");
+		} else {
+			this._section.css("display", "block");
+			this._info.css("display","none");
+		}
+	};
+
+	/**
 	 * Activate/deactivate drawing
 	 * @param event
 	 */
