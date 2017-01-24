@@ -26,11 +26,6 @@ define([
 	var CustomDrawingSection = function(options) {
 	};
 
-
-	CustomDrawingSection.prototype.checkActivated = function(){
-		console.log("checked");
-	};
-
 	/**
 	 * Build basic structure of section
 	 */
@@ -128,7 +123,7 @@ define([
 		var button = $(event.target);
 		button.addClass("active");
 		this._drawControl.activate();
-		this.deactivateClearSaveButtons();
+		//this.deactivateClearSaveButtons();
 	};
 
 	/**
@@ -151,7 +146,7 @@ define([
 
 		var record = {
 			olId: id,
-			uuID: this.generateUuid(),
+			uuid: this.generateUuid(),
 			name: name,
 			geometry: geometry
 		};
@@ -167,6 +162,7 @@ define([
 			.parents('tr').addClass("saved");
 
 		this.checkTableRecords();
+		return record;
 	};
 
 	/**
@@ -211,7 +207,7 @@ define([
 			this._table.clear();
 		}
 
-		// hadnle state of buttons
+		// handle state of buttons
 		if (allSaved){
 			this.activateSaveButton();
 		} else {

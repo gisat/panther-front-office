@@ -46,8 +46,6 @@ define([
 		this.build(DrawCustomLinesHtml);
 
 		this._buttonDraw = $("#button-draw-lines");
-		this._buttonClear = $("#button-clear-lines");
-		this._buttonSave = $("#button-save-lines");
 
 		this._section = $("#custom-lines-container");
 		this._info = $("#custom-lines-info");
@@ -60,9 +58,8 @@ define([
 	 * @param map
 	 */
 	DrawCustomLines.prototype.rebuild = function(map){
-		var layerInfo = this.checkConf();
-
-		if (layerInfo.exists){
+		this._layerInfo = this.getLayerConf();
+		if (this._layerInfo.exists){
 			this._target.css("display","block");
 			if (!this._map){
 				this._map = map;
@@ -83,17 +80,25 @@ define([
 	};
 
 	/**
-	 * It checks if layer exists for current configuration
+	 * It returns current "Custom lines layer" configuration, if exists
 	 */
-	DrawCustomLines.prototype.checkConf = function(){
+	DrawCustomLines.prototype.getLayerConf = function(){
 		var refMap = ThemeYearConfParams.layerRefMap;
+		var dataset = Number(ThemeYearConfParams.dataset);
 		var currentYear = JSON.parse(ThemeYearConfParams.years)[0];
-		var currentPlace = JSON.parse(ThemeYearConfParams.years);
+		var currentPlace = null;
+		if (ThemeYearConfParams.place.length > 0){
+			currentPlace = JSON.parse(ThemeYearConfParams.place);
+		}
+
 		var status = {
 			exists: false,
 			metadata: {
-				location: currentPlace,
-				period: currentYear,
+				dataset: dataset,
+				currentLocation: currentPlace,
+				currentPeriod: currentYear,
+				allLocations: [],
+				allPeriod: [],
 				areaTemplate: null
 			}
 		};
@@ -108,7 +113,7 @@ define([
 							var parts = name.split(":");
 							if (parts[1] == "custom_line"){
 								status.exists = true;
-								status.metadata.areaTemplate = at;
+								status.metadata.areaTemplate = Number(at);
 							}
 						}
 					});
@@ -119,26 +124,49 @@ define([
 	};
 
 	/**
-	 * Clear all records
-	 * @param event
+	 * Add event listeners to elements
 	 */
-	DrawCustomLines.prototype.clearAll = function(event){
-		var conf = confirm("Do you really want to clear all lines?");
-		if (conf == true) {
-			this.destroy();
-		}
+	DrawCustomLines.prototype.addEventListeners = function(){
+		var self = this;
+
+		// activate/deactivate drawing on btn click
+		this._buttonDraw.on("click", this.drawingActivation.bind(this));
+
+		var table = this._table.getTable();
+
+		// add listener for records deleting
+		table.on("click",".button-delete-record", self.deleteLineFeature.bind(self));
+		// add listener for records saving
+		table.on("click",".button-save-record", self.saveLineFeature.bind(self));
 	};
 
 	/**
-	 * Save all lines
+	 * Save line
 	 * @param event
 	 */
-	DrawCustomLines.prototype.saveAll = function(event){
-		var conf = confirm("Do you really want to save lines?");
-		if (conf == true) {
-			console.log(this._records); // TODO sent to backend
-			this.destroy();
+	DrawCustomLines.prototype.saveLineFeature = function(event){
+		var feature = {
+			data: this.saveFeature(event),
+			metadata: this._layerInfo.metadata
+		};
+
+		if (feature.data){
+			this.saveRequest(feature).done(function(result){
+				console.log(result);
+				// TODO handle results
+			});
 		}
+	};
+
+
+	/**
+	 * Delete line
+	 * @param event
+	 */
+	DrawCustomLines.prototype.deleteLineFeature = function(event){
+		this.deleteFeature(event);
+		// TODO Add deleting confirmation
+		// TODO Remove feature from layer on server
 	};
 
 	/**
@@ -160,6 +188,25 @@ define([
 			style.label = name;
 		}
 		return style;
+	};
+
+	/**
+	 * Sent data for line saving to server
+	 * @param params {Object}
+	 * @returns {JQuery}
+	 */
+	DrawCustomLines.prototype.saveRequest = function(params){
+		return $.post(Config.url + "customfeatures/line", params)
+	};
+
+	DrawCustomLines.prototype.checkTableRecords = function(){
+		var table = this._table.getTable();
+		var recs = table.find("tr.record-row");
+
+		// clear the table if there is no record in it
+		if (recs.length == 0){
+			this._table.clear();
+		}
 	};
 
 	return DrawCustomLines;
