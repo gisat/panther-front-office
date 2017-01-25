@@ -17,19 +17,46 @@ define([
 
 	TableCustomDrawing.prototype = Object.create(Table.prototype);
 
+	TableCustomDrawing.prototype.rebuild = function(data){
+		this.clear();
+		this._recordCount = 1;
+
+		var self = this;
+		data.forEach(function(record){
+			self.addRecord("", record.uid, record.name);
+		});
+	};
+
 	/**
 	 * Add record to the table
-	 * @param id {string} id of the feature
+	 * @param olid {string} olid of the feature
+	 * @param uuid {string} uuid of the feature
+	 * @param name {string} name of the feature
 	 */
-	TableCustomDrawing.prototype.addRecord = function(id){
+	TableCustomDrawing.prototype.addRecord = function(olid, uuid, name){
 		if (!this._header){
 			this._header = this.buildHeader();
 		}
 
-		var html = '<tr class="record-row" data-id="' + id + '">' +
+		var featureName = "";
+		var openLayersID = "";
+		var uniqueID = "";
+		var disabled = "";
+		if (name){
+			featureName = name;
+			disabled = 'disabled="disabled"';
+		}
+		if (olid){
+			openLayersID = olid;
+		}
+		if (uuid){
+			uniqueID = uuid;
+		}
+
+		var html = '<tr class="record-row" data-olid="' + openLayersID + '" data-uuid="' + uniqueID + '">' +
 				'<td>' + this._recordCount  + '</td>' +
-				'<td class="record-name"><input type="text"></td>' +
-				'<td class="save-record"><div class="widget-button button-save-record">Save</div></td>' +
+				'<td class="record-name"><input type="text" value="' + featureName + '" ' + disabled + '></td>' +
+				'<td class="save-record"><div class="widget-button button-save-record" ' + disabled + '>Save</div></td>' +
 				'<td class="delete-record"><div class="widget-button button-delete-record">Delete</div></td>' +
 			'</tr>';
 		this._table.append(html);
@@ -53,10 +80,10 @@ define([
 
 	/**
 	 * Delete whole row
-	 * @param dataId {string} data-id attribute value
+	 * @param uuid {string} uuid of the record
 	 */
-	TableCustomDrawing.prototype.deleteRecord = function(dataId){
-		this._table.find("tr[data-id=" + dataId + "]").remove();
+	TableCustomDrawing.prototype.deleteRecord = function(uuid){
+		this._table.find("tr[data-uuid=" + uuid + "]").remove();
 	};
 
 	return TableCustomDrawing;

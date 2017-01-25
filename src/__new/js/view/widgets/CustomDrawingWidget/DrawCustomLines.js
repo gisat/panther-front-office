@@ -58,69 +58,30 @@ define([
 	 * @param map
 	 */
 	DrawCustomLines.prototype.rebuild = function(map){
-		this._layerInfo = this.getLayerConf();
-		if (this._layerInfo.exists){
-			this._target.css("display","block");
-			if (!this._map){
-				this._map = map;
-				this._map.rebuild();
-				this._vectorLayer = this._map.addLayerForDrawing("drawLines","#00ff00");
-				this._drawControl = this._map.addControlsForLineDrawing(this._vectorLayer, this.addDrawEndListener.bind(this));
-				this.addEventListeners();
-			}
-			if (this._vectorLayer){
-				this._vectorLayer.destroyFeatures();
-			}
-			this.checkPlace();
-			this._records = [];
-
-		} else {
-			this._target.css("display","none");
+		var self = this;
+		this._target.css("display","block");
+		if (!this._map){
+			this._map = map;
+			this._map.rebuild();
+			this._vectorLayer = this._map.addLayerForDrawing("drawLines","#00ff00");
+			this._drawControl = this._map.addControlsForLineDrawing(this._vectorLayer, this.addDrawEndListener.bind(this));
+			this.addEventListeners();
 		}
-	};
-
-	/**
-	 * It returns current "Custom lines layer" configuration, if exists
-	 */
-	DrawCustomLines.prototype.getLayerConf = function(){
-		var refMap = ThemeYearConfParams.layerRefMap;
-		var dataset = Number(ThemeYearConfParams.dataset);
-		var currentYear = JSON.parse(ThemeYearConfParams.years)[0];
-		var currentPlace = null;
-		if (ThemeYearConfParams.place.length > 0){
-			currentPlace = JSON.parse(ThemeYearConfParams.place);
+		if (this._vectorLayer){
+			this._vectorLayer.destroyFeatures();
 		}
 
-		var status = {
-			exists: false,
-			metadata: {
-				dataset: dataset,
-				currentLocation: currentPlace,
-				currentPeriod: currentYear,
-				allLocations: [],
-				allPeriod: [],
-				areaTemplate: null
+		this.selectRequest({
+			scope: ThemeYearConfParams.dataset
+		}).done(function(result){
+			if (result.status == "OK"){
+				self._records = result.data;
+				self._table.rebuild(self._records);
 			}
-		};
+		});
 
-		for (var at in refMap){
-			for (var place in refMap[at]){
-				for (var year in refMap[at][place]){
-					var layers = refMap[at][place][year];
-					layers.forEach(function(layer){
-						if (layer.hasOwnProperty("layer")){
-							var name = layer.layer;
-							var parts = name.split(":");
-							if (parts[1] == "custom_line"){
-								status.exists = true;
-								status.metadata.areaTemplate = Number(at);
-							}
-						}
-					});
-				}
-			}
-		}
-		return status;
+
+		//this._target.css("display","none");
 	};
 
 	/**
@@ -146,8 +107,7 @@ define([
 	 */
 	DrawCustomLines.prototype.saveLineFeature = function(event){
 		var feature = {
-			data: this.saveFeature(event),
-			metadata: this._layerInfo.metadata
+			data: this.saveFeature(event)
 		};
 
 		if (feature.data){
@@ -165,6 +125,14 @@ define([
 	 */
 	DrawCustomLines.prototype.deleteLineFeature = function(event){
 		this.deleteFeature(event);
+		var uuid = $(event.target).parents('tr').attr("data-uuid");
+		this.deleteRequest({
+			id: uuid
+		}).done(function(result){
+			console.log(result);
+			// TODO handle results
+		});
+
 		// TODO Add deleting confirmation
 		// TODO Remove feature from layer on server
 	};
@@ -196,7 +164,19 @@ define([
 	 * @returns {JQuery}
 	 */
 	DrawCustomLines.prototype.saveRequest = function(params){
-		return $.post(Config.url + "customfeatures/line", params)
+		return $.post(Config.url + "customfeatures/saveline", params)
+	};
+
+	/**
+	 * Get data about custom lines from server
+	 * @returns {JQuery}
+	 */
+	DrawCustomLines.prototype.selectRequest = function(params){
+		return $.post(Config.url + "customfeatures/selectlines", params)
+	};
+
+	DrawCustomLines.prototype.deleteRequest = function(params){
+		return $.post(Config.url + "customfeatures/deleteline", params)
 	};
 
 	DrawCustomLines.prototype.checkTableRecords = function(){

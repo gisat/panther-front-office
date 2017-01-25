@@ -12,6 +12,7 @@ var Config = {
 		-6.9809544265
 	],
 	melodiesRemoteUrl: "",
+	customDrawingLinesName: "custom_line_2",
 
 	toggles: {
 		noGeoserverLayerGroups: false,

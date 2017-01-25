@@ -73,7 +73,6 @@ define([
 				this._vectorLayer.destroyFeatures();
 			}
 
-			this.checkPlace();
 			this._records = [];
 
 		} else {

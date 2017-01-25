@@ -70,19 +70,6 @@ define([
 	};
 
 	/**
-	 * Check if place (pilot in URBIS) is selected
-	 */
-	CustomDrawingSection.prototype.checkPlace = function(){
-		if (ThemeYearConfParams.place.length == 0){
-			this._section.css("display", "none");
-			this._info.css("display","block");
-		} else {
-			this._section.css("display", "block");
-			this._info.css("display","none");
-		}
-	};
-
-	/**
 	 * Activate/deactivate drawing
 	 * @param event
 	 */
@@ -132,8 +119,8 @@ define([
 	 */
 	CustomDrawingSection.prototype.saveFeature = function(event){
 		var button = $(event.target);
-		var id = button.parents('tr').attr("data-id");
-		var feature = this._map.getFeatureById(id, this._vectorLayer);
+		var olid = button.parents('tr').attr("data-olid");
+		var feature = this._map.getFeatureById(olid, this._vectorLayer);
 		var geometry = this._map.getWKT(feature);
 		var input = $(event.target).parents('tr').find('.record-name input');
 		var name = input.val();
@@ -145,10 +132,11 @@ define([
 		}
 
 		var record = {
-			olId: id,
+			olId: olid,
 			uuid: this.generateUuid(),
 			name: name,
-			geometry: geometry
+			geometry: geometry,
+			scope: ThemeYearConfParams.dataset
 		};
 
 		this._records.push(record);
@@ -178,12 +166,16 @@ define([
 	 * @param event {OpenLayers.Event}
 	 */
 	CustomDrawingSection.prototype.deleteFeature = function(event){
-		var id = $(event.target).parents('tr').attr("data-id");
-		this._table.deleteRecord(id);
-		this._map.deleteFeatureFromLayer(id, this._vectorLayer);
+		var uuid = $(event.target).parents('tr').attr("data-uuid");
+		var olid = $(event.target).parents('tr').attr("data-olid");
+
+		this._table.deleteRecord(uuid);
+		this._map.deleteFeatureFromLayer(olid, this._vectorLayer);
 		this._records = _.without(this._records, _.findWhere(this._records, {
-			olId: id
+			uuid: uuid
 		}));
+
+
 		this.checkTableRecords();
 	};
 
