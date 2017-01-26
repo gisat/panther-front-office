@@ -105,7 +105,11 @@ define([
 	 * @returns {JQuery}
 	 */
 	DrawCustomLines.prototype.saveRequest = function(params){
-		return $.post(Config.url + "customfeatures/saveline", params)
+		var parameters = jQuery.extend(true, {}, params);
+		if (parameters.data.hasOwnProperty("olid")){
+			delete parameters.data.olid;
+		}
+		return $.post(Config.url + "customfeatures/saveline", parameters)
 	};
 
 	/**

@@ -151,7 +151,7 @@ define([
 		}
 
 		var record = {
-			olId: olid,
+			olid: olid,
 			uuid: uuid,
 			name: name,
 			geometry: geometry,

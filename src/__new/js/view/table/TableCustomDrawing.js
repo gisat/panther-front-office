@@ -23,7 +23,7 @@ define([
 
 		var self = this;
 		data.forEach(function(record){
-			self.addRecord("", record.uid, record.name);
+			self.addRecord("", record.uuid, record.name);
 		});
 	};
 
