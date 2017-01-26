@@ -695,6 +695,18 @@ Ext.define('PumaMain.controller.Chart', {
             this.createNoDataChart(cmp);
             return;
         }
+
+        // Make sure that the results are Numbers.
+        if(data.series) {
+            data.series.forEach(function(serie) {
+               if(serie.data) {
+                   serie.data.forEach(function(dataItem){
+                       dataItem.x = Number(dataItem.x);
+                       dataItem.y = Number(dataItem.y);
+                   })
+               }
+            });
+        }
         
         var singlePage = response.request.options.singlePage
         //var legendBtn = singlePage ? Ext.widget('button') : Ext.ComponentQuery.query('#legendbtn', cmp.ownerCt)[0];
