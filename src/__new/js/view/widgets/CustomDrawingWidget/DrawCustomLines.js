@@ -54,34 +54,49 @@ define([
 	DrawCustomLines.prototype = Object.create(CustomDrawingSection.prototype);
 
 	/**
-	 * Rebuild section with current map
-	 * @param map
+	 * Rebuild section with current map and load saved features
+	 * @param map {Map}
 	 */
 	DrawCustomLines.prototype.rebuild = function(map){
-		var self = this;
 		this._target.css("display","block");
 		if (!this._map){
-			this._map = map;
-			this._map.rebuild();
-			this._vectorLayer = this._map.addLayerForDrawing("drawLines","#00ff00");
-			this._drawControl = this._map.addControlsForLineDrawing(this._vectorLayer, this.addDrawEndListener.bind(this));
+			this.prepareMap(map);
 			this.addEventListeners();
 		}
 		if (this._vectorLayer){
 			this._vectorLayer.destroyFeatures();
 		}
 
+		this.getSavedFeatures();
+	};
+
+	/**
+	 * Prepare map for drawing
+	 * @param map {Map}
+	 */
+	DrawCustomLines.prototype.prepareMap = function(map){
+		this._map = map;
+		this._map.rebuild();
+		this._vectorLayer = this._map.addLayerForDrawing("drawLines","#00ff00");
+		this._drawControl = this._map.addControlsForLineDrawing(this._vectorLayer, this.addDrawEndListener.bind(this));
+	};
+
+	/**
+	 * Get saved features from database
+	 */
+	DrawCustomLines.prototype.getSavedFeatures = function(){
+		var self = this;
 		this.selectRequest({
 			scope: ThemeYearConfParams.dataset
 		}).done(function(result){
 			if (result.status == "OK"){
 				self._records = result.data;
 				self._table.rebuild(self._records);
+				self._map.addFeaturesToVectorLayer(self._vectorLayer, self._records);
+
+				// todo add features to the layer
 			}
 		});
-
-
-		//this._target.css("display","none");
 	};
 
 	/**
@@ -92,7 +107,6 @@ define([
 
 		// activate/deactivate drawing on btn click
 		this._buttonDraw.on("click", this.drawingActivation.bind(this));
-
 		var table = this._table.getTable();
 
 		// add listener for records deleting
@@ -107,34 +121,35 @@ define([
 	 */
 	DrawCustomLines.prototype.saveLineFeature = function(event){
 		var feature = {
-			data: this.saveFeature(event)
+			data: this.addFeatureToList(event)
 		};
 
 		if (feature.data){
 			this.saveRequest(feature).done(function(result){
 				console.log(result);
-				// TODO handle results
+				// TODO handle results - notification
 			});
 		}
 	};
-
 
 	/**
 	 * Delete line
 	 * @param event
 	 */
 	DrawCustomLines.prototype.deleteLineFeature = function(event){
-		this.deleteFeature(event);
+		// TODO Add deleting confirmation
 		var uuid = $(event.target).parents('tr').attr("data-uuid");
+
+		var self = this;
 		this.deleteRequest({
 			id: uuid
 		}).done(function(result){
-			console.log(result);
-			// TODO handle results
+			if (result.status == "OK"){
+				self.deleteFeature(event);
+				self._map.deleteFeatureFromLayer("uuid", uuid, self._vectorLayer);
+			}
+			// TODO handle results - notification
 		});
-
-		// TODO Add deleting confirmation
-		// TODO Remove feature from layer on server
 	};
 
 	/**
@@ -175,18 +190,13 @@ define([
 		return $.post(Config.url + "customfeatures/selectlines", params)
 	};
 
+	/**
+	 * Delete custom line
+	 * @param params {{uuid: {String}}}
+	 * @returns {JQuery}
+	 */
 	DrawCustomLines.prototype.deleteRequest = function(params){
 		return $.post(Config.url + "customfeatures/deleteline", params)
-	};
-
-	DrawCustomLines.prototype.checkTableRecords = function(){
-		var table = this._table.getTable();
-		var recs = table.find("tr.record-row");
-
-		// clear the table if there is no record in it
-		if (recs.length == 0){
-			this._table.clear();
-		}
 	};
 
 	return DrawCustomLines;

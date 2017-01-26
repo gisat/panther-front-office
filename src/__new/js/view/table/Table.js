@@ -59,5 +59,26 @@ define([
 		return this._table;
 	};
 
+	/**
+	 * Clear table when there is no record in it
+	 */
+	Table.prototype.checkRecords = function(){
+		var table = this.getTable();
+		var recs = table.find("tr.record-row");
+		var allSaved = true;
+
+		$.each(recs, function( index, row ) {
+			if (!$(row).hasClass("saved")){
+				allSaved = false;
+			}
+		});
+
+		// clear the table if there is no record in it
+		if (recs.length == 0){
+			allSaved = false;
+			this.clear();
+		}
+	};
+
 	return Table;
 });

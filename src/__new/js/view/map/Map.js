@@ -100,7 +100,11 @@ define([
 		var features = [];
 		var self = this;
 		data.forEach(function(area){
-			var feature = self.createVectorFeatruefromWKT(area.geom);
+			var attr = {};
+			if (area.hasOwnProperty("uid")){
+				attr.uuid = area.uid;
+			}
+			var feature = self.createVectorFeatruefromWKT(area.geometry, attr);
 			features.push(feature);
 		});
 		vectorLayer.addFeatures(features);
@@ -112,9 +116,9 @@ define([
 	 * @param geom {string} WKT geometry format
 	 * @returns {*}
 	 */
-	Map.prototype.createVectorFeatruefromWKT = function(geom){
+	Map.prototype.createVectorFeatruefromWKT = function(geom, attributes){
 		return new OpenLayers.Feature.Vector(
-			new OpenLayers.Geometry.fromWKT(geom)
+			new OpenLayers.Geometry.fromWKT(geom), attributes
 		);
 	};
 
@@ -242,10 +246,21 @@ define([
 
 	/**
 	 * Delete feature from vector layer
-	 * @param id {string} id of the feature
+	 * @param attrName {string} name of the attribute
+	 * @param attrValue {string} value of the attribute
 	 * @param layer {OpenLayers.Layer.Vector}
 	 */
-	Map.prototype.deleteFeatureFromLayer = function (id, layer) {
+	Map.prototype.deleteFeatureFromLayer = function (attrName, attrValue, layer) {
+		var feature = this.getFeaturesByAttribute(attrName, attrValue, layer)[0];
+		layer.removeFeatures(feature);
+	};
+
+	/**
+	 * Delete feature from vector layer
+	 * @param id {string} open layers id
+	 * @param layer {OpenLayers.Layer.Vector}
+	 */
+	Map.prototype.deleteFeatureFromLayerById = function (id, layer) {
 		var feature = this.getFeatureById(id, layer);
 		layer.removeFeatures(feature);
 	};
@@ -258,6 +273,16 @@ define([
 	 */
 	Map.prototype.getFeatureById = function (id, layer){
 		return layer.getFeatureById(id);
+	};
+
+	/**
+	 * Get features by atributte value
+	 * @param attrName {string} name of the attribute
+	 * @param attrValue {string} value of the attribute
+	 * @param layer {OpenLayers.Layer.Vector}
+	 */
+	Map.prototype.getFeaturesByAttribute = function (attrName, attrValue, layer){
+		return layer.getFeaturesByAttribute(attrName, attrValue);
 	};
 
 	return Map;

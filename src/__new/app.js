@@ -87,7 +87,7 @@ define(['js/util/metadata/Attributes',
         if(Config.toggles.hasOwnProperty("hasNewCustomPolygonsTool") && Config.toggles.hasNewCustomPolygonsTool){
             widgets.push(new CustomDrawingWidget({
                 elementId: 'custom-polygons-widget',
-                name: 'Custom Drawing',
+                name: 'Custom Features',
                 targetId: 'widget-container'
             }));
         }
