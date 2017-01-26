@@ -104,10 +104,12 @@ define([
 			if (area.hasOwnProperty("uid")){
 				attr.uuid = area.uid;
 			}
-			var feature = self.createVectorFeatruefromWKT(area.geometry, attr);
+			var style = self.prepareStyle("#00ff00", area.name);
+			var feature = self.createVectorFeatruefromWKT(area.geometry, attr, style);
 			features.push(feature);
 		});
 		vectorLayer.addFeatures(features);
+		vectorLayer.redraw();
 		return vectorLayer;
 	};
 
@@ -116,9 +118,9 @@ define([
 	 * @param geom {string} WKT geometry format
 	 * @returns {*}
 	 */
-	Map.prototype.createVectorFeatruefromWKT = function(geom, attributes){
+	Map.prototype.createVectorFeatruefromWKT = function(geom, attributes, style){
 		return new OpenLayers.Feature.Vector(
-			new OpenLayers.Geometry.fromWKT(geom), attributes
+			new OpenLayers.Geometry.fromWKT(geom), attributes, style
 		);
 	};
 
@@ -132,11 +134,11 @@ define([
 
 	Map.prototype.prepareStyle = function(color, label){
 		var style = {
-			strokeWidth: 1,
+			strokeWidth: 3,
 			strokeColor: color,
 			fillColor: color,
 			fillOpacity: 0.5,
-			fontColor: "#black",
+			fontColor: "black",
 			fontSize: "16px",
 			fontFamily: "Arial, sans-serif",
 			fontWeight: "bold"

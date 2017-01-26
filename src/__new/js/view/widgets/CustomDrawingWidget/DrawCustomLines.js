@@ -67,7 +67,9 @@ define([
 			this._vectorLayer.destroyFeatures();
 		}
 
-		this.getSavedFeatures();
+		this.getSavedFeatures({
+			scope: ThemeYearConfParams.dataset
+		});
 	};
 
 	/**
@@ -82,24 +84,6 @@ define([
 	};
 
 	/**
-	 * Get saved features from database
-	 */
-	DrawCustomLines.prototype.getSavedFeatures = function(){
-		var self = this;
-		this.selectRequest({
-			scope: ThemeYearConfParams.dataset
-		}).done(function(result){
-			if (result.status == "OK"){
-				self._records = result.data;
-				self._table.rebuild(self._records);
-				self._map.addFeaturesToVectorLayer(self._vectorLayer, self._records);
-
-				// todo add features to the layer
-			}
-		});
-	};
-
-	/**
 	 * Add event listeners to elements
 	 */
 	DrawCustomLines.prototype.addEventListeners = function(){
@@ -107,70 +91,12 @@ define([
 
 		// activate/deactivate drawing on btn click
 		this._buttonDraw.on("click", this.drawingActivation.bind(this));
+
 		var table = this._table.getTable();
-
 		// add listener for records deleting
-		table.on("click",".button-delete-record", self.deleteLineFeature.bind(self));
+		table.on("click",".button-delete-record", self.deleteFeature.bind(self));
 		// add listener for records saving
-		table.on("click",".button-save-record", self.saveLineFeature.bind(self));
-	};
-
-	/**
-	 * Save line
-	 * @param event
-	 */
-	DrawCustomLines.prototype.saveLineFeature = function(event){
-		var feature = {
-			data: this.addFeatureToList(event)
-		};
-
-		if (feature.data){
-			this.saveRequest(feature).done(function(result){
-				console.log(result);
-				// TODO handle results - notification
-			});
-		}
-	};
-
-	/**
-	 * Delete line
-	 * @param event
-	 */
-	DrawCustomLines.prototype.deleteLineFeature = function(event){
-		// TODO Add deleting confirmation
-		var uuid = $(event.target).parents('tr').attr("data-uuid");
-
-		var self = this;
-		this.deleteRequest({
-			id: uuid
-		}).done(function(result){
-			if (result.status == "OK"){
-				self.deleteFeature(event);
-				self._map.deleteFeatureFromLayer("uuid", uuid, self._vectorLayer);
-			}
-			// TODO handle results - notification
-		});
-	};
-
-	/**
-	 * Set drawing style
-	 * @param name {string} name of a feature
-	 * @returns {{strokeWidth: number, strokeColor: string, fillColor: string, fontColor: string, fontSize: string, fontFamily: string, fontWeight: string}}
-	 */
-	DrawCustomLines.prototype.setDrawingStyle = function(name){
-		var style = {
-			strokeWidth: 5,
-			strokeColor: "#33ff33",
-			fillColor: "#33ff33",
-			fontColor: "black",
-			fontSize: "16px",
-			fontFamily: "Arial, sans-serif",
-			fontWeight: "bold"
-		};
-		if (name){
-			style.label = name;
-		}
-		return style;
+		table.on("click",".button-save-record", self.saveFeature.bind(self));
 	};
 
 	/**
@@ -192,7 +118,8 @@ define([
 
 	/**
 	 * Delete custom line
-	 * @param params {{uuid: {String}}}
+	 * @param params {Object}
+	 * @param params.id {String}
 	 * @returns {JQuery}
 	 */
 	DrawCustomLines.prototype.deleteRequest = function(params){

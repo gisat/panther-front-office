@@ -44,6 +44,20 @@ define([
 	};
 
 	/**
+	 * Get saved features from database
+	 */
+	CustomDrawingSection.prototype.getSavedFeatures = function(params){
+		var self = this;
+		this.selectRequest(params).done(function(result){
+			if (result.status == "OK"){
+				self._records = result.data;
+				self._table.rebuild(self._records);
+				self._map.addFeaturesToVectorLayer(self._vectorLayer, self._records);
+			}
+		});
+	};
+
+	/**
 	 * Add draw end listener. It adds record to the table when drawing of feature has been finished.
 	 * @param event {OpenLayers.Event}
 	 */
@@ -61,21 +75,20 @@ define([
 	CustomDrawingSection.prototype.drawingActivation = function(event){
 		var button = $(event.target);
 		if (button.hasClass("active")){
-			this.deactivateDrawing(event);
+			this.deactivateDrawing(button);
 		} else {
-			this.activateDrawing(event);
+			this.activateDrawing(button);
 		}
 	};
 
 	/**
 	 * Deactivate drawing
-	 * @param event {Object}
+	 * @param button {JQuery}
 	 */
-	CustomDrawingSection.prototype.deactivateDrawing = function(event){
+	CustomDrawingSection.prototype.deactivateDrawing = function(button){
 		var id = this._buttonDraw.attr("id");
 		$(".button-drawing-activation:not(#" + id + ")").attr("disabled", false);
 
-		var button = $(event.target);
 		button.removeClass("active");
 		this._drawControl.deactivate();
 		if (this._vectorLayer.features.length > 0){
@@ -85,28 +98,43 @@ define([
 
 	/**
 	 * Activate drawing
-	 * @param event {Object}
+	 * @param button {JQuery}
 	 */
-	CustomDrawingSection.prototype.activateDrawing = function(event){
+	CustomDrawingSection.prototype.activateDrawing = function(button){
 		var id = this._buttonDraw.attr("id");
 		$(".button-drawing-activation:not(#" + id + ")").attr("disabled", true);
 
-		var button = $(event.target);
 		button.addClass("active");
 		this._drawControl.activate();
 	};
 
 	/**
-	 * Add feature to the list of records
-	 * @param event {OpenLayers.Event}
+	 * Save feature
+	 * @param event
 	 */
-	CustomDrawingSection.prototype.addFeatureToList = function(event){
+	CustomDrawingSection.prototype.saveFeature = function(event){
 		var button = $(event.target);
-		button.attr("disabled", "disabled")
-			.html("Saved!")
-			.css("color", "#d35400")
-			.parents('tr').addClass("saved");
+		var feature = {data: this.addFeatureToList(button)};
 
+		if (feature.data){
+			this.saveRequest(feature).done(function(result){
+				if (result.status == "OK"){
+					button.attr("disabled", "disabled")
+						.html("Saved!")
+						.css("color", "#d35400")
+						.parents('tr').addClass("saved");
+				} else {
+					alert(result.status + ": " + result.message);
+				}
+			});
+		}
+	};
+
+	/**
+	 * Add feature to the list of records
+	 * @param button {JQuery}
+	 */
+	CustomDrawingSection.prototype.addFeatureToList = function(button){
 		var olid = button.parents('tr').attr("data-olid");
 		var uuid = button.parents('tr').attr("data-uuid");
 		var input = button.parents('tr').find('.record-name input');
@@ -132,7 +160,7 @@ define([
 
 		this._records.push(record);
 
-		feature.style = this.setDrawingStyle(name);
+		feature.style = this._map.prepareStyle("#33ff33",name);
 		this._vectorLayer.redraw();
 
 		this._table.checkRecords();
@@ -140,30 +168,37 @@ define([
 	};
 
 	/**
-	 * Set style of drawing
-	 * @param name {string}
-	 */
-	CustomDrawingSection.prototype.setDrawingStyle = function(name){
-		return this._map.prepareStyle("#00ff00", name);
-	};
-
-	/**
-	 * Delete polygon from the list of records, table and map
-	 * @param event {OpenLayers.Event}
+	 * Delete feature
+	 * @param event
 	 */
 	CustomDrawingSection.prototype.deleteFeature = function(event){
-		var uuid = $(event.target).parents('tr').attr("data-uuid");
-		var olid = $(event.target).parents('tr').attr("data-olid");
+		var button = $(event.target);
+		var olid = button.parents('tr').attr("data-olid");
+		var uuid = button.parents('tr').attr("data-uuid");
+		var name = button.parents('tr').find(".record-name input").val();
 
-		this._table.deleteRecord(uuid);
-		this._records = _.without(this._records, _.findWhere(this._records, {
-			uuid: uuid
-		}));
-		if (olid){
-			this._map.deleteFeatureFromLayerById(olid, this._vectorLayer);
+		var conf = confirm("Do you really want to delete line " + name);
+		if (!conf){
+			return;
 		}
 
-		this._table.checkRecords();
+		var self = this;
+		this.deleteRequest({id: uuid}).done(function(result){
+			if (result.status == "OK"){
+				self._table.deleteRecord(uuid);
+				self._records = _.without(self._records, _.findWhere(self._records, {
+					uuid: uuid
+				}));
+				if (olid){
+					self._map.deleteFeatureFromLayerById(olid, self._vectorLayer);
+				} else {
+					self._map.deleteFeatureFromLayer("uuid", uuid, self._vectorLayer);
+				}
+				self._table.checkRecords();
+			} else {
+				alert(result.status + ": " + result.message);
+			}
+		});
 	};
 
 	/**
