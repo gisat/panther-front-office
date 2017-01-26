@@ -36,7 +36,6 @@ define([
 			id: this._sectionId
 		}).toString();
 		this._target.append(html);
-
 		this._table = new TableCustomDrawing({
 			targetId: this._sectionId + "-table-container",
 			elementId: this._sectionId + "-table"
@@ -215,6 +214,23 @@ define([
 		table.on("click",".button-delete-record", self.deleteFeature.bind(self));
 		// add listener for records saving
 		table.on("click",".button-save-record", self.saveFeature.bind(self));
+	};
+
+	/**
+	 * Add listener for showing/hidding of layer
+	 */
+	CustomDrawingSection.prototype.addLayerCheckboxListener = function(){
+		var self = this;
+		this._layerCheckbox.getCheckbox().on("click", function(){
+			var checkbox = $(this);
+			setTimeout(function(){
+				if (checkbox.hasClass("checked")){
+					self._vectorLayer.display(true);
+				} else {
+					self._vectorLayer.display(false);
+				}
+			}, 50);
+		})
 	};
 
 	/**

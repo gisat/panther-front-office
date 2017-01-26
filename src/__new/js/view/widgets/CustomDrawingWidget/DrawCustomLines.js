@@ -3,6 +3,7 @@ define([
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 
+	'../inputs/checkbox/Checkbox',
 	'./CustomDrawingSection',
 
 	'jquery',
@@ -14,6 +15,7 @@ define([
 			NotFoundError,
 			Logger,
 
+			Checkbox,
 			CustomDrawingSection,
 
 			$,
@@ -65,6 +67,10 @@ define([
 		if (this._vectorLayer){
 			this._vectorLayer.destroyFeatures();
 		}
+		if (!this._layerCheckbox){
+			this._layerCheckbox = this.buildLayerCheckbox();
+			this.addLayerCheckboxListener();
+		}
 
 		this.getSavedFeatures({
 			scope: ThemeYearConfParams.dataset
@@ -80,6 +86,20 @@ define([
 		this._map.rebuild();
 		this._vectorLayer = this._map.addLayerForDrawing("drawLines","#00ff00");
 		this._drawControl = this._map.addControlsForLineDrawing(this._vectorLayer, this.addDrawEndListener.bind(this));
+	};
+
+	/**
+	 * Build checkbox for showing/hidding of layer
+	 * @returns {Checkbox}
+	 */
+	DrawCustomLines.prototype.buildLayerCheckbox = function(){
+		return new Checkbox({
+			id: this._sectionId + "-layer-checkbox",
+			name: "Show Green Connectivity Layer",
+			checked: true,
+			target: this._section.find(".layer-check"),
+			containerId: this._sectionId
+		});
 	};
 
 	/**

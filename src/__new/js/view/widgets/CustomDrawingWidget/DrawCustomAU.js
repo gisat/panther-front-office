@@ -3,6 +3,7 @@ define([
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 
+	'../inputs/checkbox/Checkbox',
 	'./CustomDrawingSection',
 
 	'jquery',
@@ -14,6 +15,7 @@ define([
 			NotFoundError,
 			Logger,
 
+			Checkbox,
 			CustomDrawingSection,
 
 			$,
@@ -46,9 +48,7 @@ define([
 		this.build(DrawCustomAUHtml);
 
 		this._buttonDraw = $("#button-draw-polygons");
-
 		this._section = $("#custom-au-container");
-		this._info = $("#custom-au-info");
 	};
 
 	DrawCustomAU.prototype = Object.create(CustomDrawingSection.prototype);
@@ -65,12 +65,30 @@ define([
 		if (this._vectorLayer){
 			this._vectorLayer.destroyFeatures();
 		}
+		if (!this._layerCheckbox){
+			this._layerCheckbox = this.buildLayerCheckbox();
+			this.addLayerCheckboxListener();
+		}
 		if (this.checkConf()){
 			this.getSavedFeatures({
 				scope: ThemeYearConfParams.dataset,
 				place: ThemeYearConfParams.place
 			});
 		}
+	};
+
+	/**
+	 * Build checkbox for showing/hidding of layer
+	 * @returns {Checkbox}
+	 */
+	DrawCustomAU.prototype.buildLayerCheckbox = function(){
+		return new Checkbox({
+			id: this._sectionId + "-layer-checkbox",
+			name: "Show Custom Analytical units Layer",
+			checked: true,
+			target: this._section.find(".layer-check"),
+			containerId: this._sectionId
+		});
 	};
 
 	/**
