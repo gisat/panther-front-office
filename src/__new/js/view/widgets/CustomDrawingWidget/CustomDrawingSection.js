@@ -202,6 +202,22 @@ define([
 	};
 
 	/**
+	 * Add event listeners to elements
+	 */
+	CustomDrawingSection.prototype.addEventListeners = function(){
+		var self = this;
+
+		// activate/deactivate drawing on btn click
+		this._buttonDraw.on("click", this.drawingActivation.bind(this));
+
+		var table = this._table.getTable();
+		// add listener for records deleting
+		table.on("click",".button-delete-record", self.deleteFeature.bind(self));
+		// add listener for records saving
+		table.on("click",".button-save-record", self.saveFeature.bind(self));
+	};
+
+	/**
 	 * Destroy table, record list and clear the layer
 	 */
 	CustomDrawingSection.prototype.destroy = function(){

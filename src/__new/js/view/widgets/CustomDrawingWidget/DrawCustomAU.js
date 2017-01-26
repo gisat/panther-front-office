@@ -46,8 +46,6 @@ define([
 		this.build(DrawCustomAUHtml);
 
 		this._buttonDraw = $("#button-draw-polygons");
-		this._buttonClear = $("#button-clear-polygons");
-		this._buttonSave = $("#button-save-polygons");
 
 		this._section = $("#custom-au-container");
 		this._info = $("#custom-au-info");
@@ -60,68 +58,85 @@ define([
 	 * @param map 
 	 */
 	DrawCustomAU.prototype.rebuild = function(map){
-		//if (OneLevelAreas.hasOneLevel){
-		//	this._target.css("display","block");
-		//	if (!this._map){
-		//		this._map = map;
-		//		this._map.rebuild();
-		//		this._vectorLayer = this._map.addLayerForDrawing("drawPolygons","#00ff00");
-		//		this._drawControl = this._map.addControlsForPolygonDrawing(this._vectorLayer, this.addDrawEndListener.bind(this));
-		//		this.addEventListeners();
-		//	}
-		//	if (this._vectorLayer){
-		//		this._vectorLayer.destroyFeatures();
-		//	}
-		//
-		//	this._records = [];
-		//
-		//} else {
-		//	this._target.css("display","none");
-		//}
-	};
-
-	/**
-	 * Clear all records
-	 * @param event
-	 */
-	DrawCustomAU.prototype.clearAll = function(event){
-		var conf = confirm("Do you really want to clear all polygons?");
-		if (conf == true) {
-			this.destroy();
+		if (!this._map){
+			this.prepareMap(map);
+			this.addEventListeners();
+		}
+		if (this._vectorLayer){
+			this._vectorLayer.destroyFeatures();
+		}
+		if (this.checkConf()){
+			this.getSavedFeatures({
+				scope: ThemeYearConfParams.dataset,
+				place: ThemeYearConfParams.place
+			});
 		}
 	};
 
 	/**
-	 * Save all polygons
-	 * @param event
+	 * Check if place is selected and if there is only one AU level
 	 */
-	DrawCustomAU.prototype.saveAll = function(event){
-		var conf = confirm("Do you really want to sent polygons for calculation?");
-		if (conf == true) {
-			console.log(this._records); // TODO sent to backend
-			var toSave = {
-				data: this._records,
-				dataset: Number(ThemeYearConfParams.dataset),
-				periods: Number(ThemeYearConfParams.years.charAt(1)),
-				location: Number(ThemeYearConfParams.place),
-				areaTemplate: Number(ThemeYearConfParams.auCurrentAt)
-			};
-			console.log(toSave);
-			//this.sendData(toSave);
-			this.destroy();
+	DrawCustomAU.prototype.checkConf = function(){
+		var section = $("#custom-au-container");
+		var info = $("#custom-au-info");
+
+		if (ThemeYearConfParams.place.length == 0 || !OneLevelAreas.hasOneLevel){
+			section.css("display", "none");
+			info.css("display","block");
+			info.find("p").html("Drawing of custom analytical units is disabled for All places option. To enable drawing, please select place (pilot).");
+			if (!OneLevelAreas.hasOneLevel){
+				info.find("p").html("Drawing of custom analytical units is enabled for scopes (pilots) with one level of analytical units only!");
+			}
+			return false;
+		} else {
+			section.css("display", "block");
+			info.css("display","none");
+			return true;
 		}
 	};
 
 	/**
-	 * Send data to backend
-	 * @param data {Object}
+	 * Prepare map for drawing
+	 * @param map {Map}
 	 */
-	DrawCustomAU.prototype.sendData = function(data){
-		$.ajax({
-			type: "POST",
-			url: Config.url + "",
-			data: data
-		});
+	DrawCustomAU.prototype.prepareMap = function(map){
+		this._map = map;
+		this._map.rebuild();
+		this._vectorLayer = this._map.addLayerForDrawing("drawPolygons","#00ff00");
+		this._drawControl = this._map.addControlsForPolygonDrawing(this._vectorLayer, this.addDrawEndListener.bind(this));
+	};
+
+	/**
+	 * Sent data for polygon saving to server
+	 * @param params {Object}
+	 * @returns {JQuery}
+	 */
+	DrawCustomAU.prototype.saveRequest = function(params){
+		var parameters = jQuery.extend(true, {}, params);
+		if (parameters.data.hasOwnProperty("olid")){
+			delete parameters.data.olid;
+		}
+		parameters.data.place = ThemeYearConfParams.place;
+
+		return $.post(Config.url + "customfeatures/savepolygon", parameters)
+	};
+
+	/**
+	 * Get data about custom polygons from server
+	 * @returns {JQuery}
+	 */
+	DrawCustomAU.prototype.selectRequest = function(params){
+		return $.post(Config.url + "customfeatures/selectpolygons", params)
+	};
+
+	/**
+	 * Delete custom polygon
+	 * @param params {Object}
+	 * @param params.id {String}
+	 * @returns {JQuery}
+	 */
+	DrawCustomAU.prototype.deleteRequest = function(params){
+		return $.post(Config.url + "customfeatures/deletepolygon", params)
 	};
 
 	return DrawCustomAU;
