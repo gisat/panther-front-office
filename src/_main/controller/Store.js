@@ -412,7 +412,7 @@ Ext.define('PumaMain.controller.Store', {
                     checked: null
                 }]
             }
-        })
+        });
     
         Ext.create('Ext.data.Store', {
             model: 'Puma.model.MapLayer',
@@ -587,6 +587,21 @@ Ext.define('PumaMain.controller.Store', {
 				},{
 					name: 'km2',
 					type: 'km2'
+				}
+			]
+		});
+
+		Ext.create('Ext.data.Store',{
+			storeId: 'normalization_percentage',
+			fields: ['name','type'],
+			data: [
+
+				{
+					name: 'Yes',
+					type: true
+				},{
+					name: 'No',
+					type: false
 				}
 			]
 		});

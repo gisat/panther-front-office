@@ -25,11 +25,6 @@ Ext.define('PumaMain.controller.DomManipulation', {
 	
 	onToolsResize: function(toolPanel) {
 		this.resizeTools();
-		// toolPanel = toolPanel || Ext.ComponentQuery.query('toolspanel')[0];
-		// if (!toolPanel) return;
-		// var availableSize = this.getContentAvailableSize();
-		// var accordeonMaxH = availableSize.height - $("#app-tools-actions").outerHeight(true) - $("#sidebar-tools-colors").outerHeight(true);
-		// toolPanel.maxHeight = accordeonMaxH;
 	},
 	
 	onToolPanelResize: function(panel) {

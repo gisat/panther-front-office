@@ -244,21 +244,9 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 	},
     
     onChartBtnClick: function(parent) {
-//        var type = parent.ownerCt.itemId == 'layerpanel' ? 'choroplethpanel' : 'chartconfigpanel';
-//        var window = Ext.WindowManager.get('new' + type);
-//        
-//        //var cfg = this.getChartWindowConfig(null, false, type)
-//        window = window || Ext.widget('window', cfg)
-//        window.show();
-//        return false;
     },
         
     onReconfigureClick: function(btn) {
-//        var chart = btn.up('panel').chart;
-//        var cfg = this.getChartWindowConfig(chart, true, 'chartconfigpanel');
-//        var window = Ext.widget('window', cfg);
-//        window.down('chartconfigpanel').getForm().setValues(chart.cfg);
-//        window.show();
     },
     
 	// triggered when AddAttributeTree opened
@@ -281,6 +269,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
             form.down('#normAttributeSet').setValue(recs[0].get('normAs'));
             form.down('#normAttribute').setValue(recs[0].get('normAttr'));
 			form.down('#normalizationUnits').setValue(recs[0].get('normalizationUnits'));
+			form.down('#normalizationResultInPercentage').setValue(recs[0].get('normalizationResultInPercentage'));
 			form.down('#normYear').setValue(recs[0].get('normYear'));
         }
         else {
@@ -355,6 +344,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         var normAttr = normalize ? form.getComponent('normAttribute').getValue() : null;
         var normAs = normalize ? form.getComponent('normAttributeSet').getValue() : null;
         var normalizationUnits = normalize ? form.getComponent('normalizationUnits').getValue(): null;
+        var normalizationResultInPercentage = normalize ? form.getComponent('normalizationResultInPercentage').getValue(): null;
         var normYear = normalize ? form.getComponent('normYear').getValue() : null;
         for (var i=0;i<recs.length;i++) {
             var rec = recs[i];
@@ -362,6 +352,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
             rec.set('normAttr',normAttr);
             rec.set('normAs',normAs);
             rec.set('normalizationUnits', normalizationUnits);
+            rec.set('normalizationResultInPercentage', normalizationResultInPercentage);
             rec.set('normYear',normYear);
             rec.commit();
         }

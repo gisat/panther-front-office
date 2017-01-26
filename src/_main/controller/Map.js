@@ -146,9 +146,7 @@ Ext.define('PumaMain.controller.Map', {
 		this.map2.multiMap = pressed;
 		var method = pressed ? 'addCls':'removeCls';
 		Ext.get(this.map1.div)[method]('noattrib');
-		//var gmapNoPrint = Ext.select('#app-map .gmnoprint');
 		var controlZoom = Ext.select('#app-map .olControlZoom');
-		//gmapNoPrint.setVisible(!pressed);
 		controlZoom.setVisible(!pressed);
 		
 		this.switchMap(pressed);
@@ -165,11 +163,6 @@ Ext.define('PumaMain.controller.Map', {
 			map2.map.noSync = false;
 			this.onMapMove(map1.map);
 		}
-//		else if (second) {
-//			
-//			map1.hide();
-//			map2.show();
-//		}
 		else {
 			map2.hide();
 			map1.show();
