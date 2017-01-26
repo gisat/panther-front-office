@@ -701,8 +701,12 @@ Ext.define('PumaMain.controller.Chart', {
             data.series.forEach(function(serie) {
                if(serie.data) {
                    serie.data.forEach(function(dataItem){
-                       dataItem.x = Number(dataItem.x);
-                       dataItem.y = Number(dataItem.y);
+                       if(dataItem.x) {
+						   dataItem.x = Number(dataItem.x);
+					   }
+					   if(dataItem.y) {
+						   dataItem.y = Number(dataItem.y);
+					   }
                    })
                }
             });
