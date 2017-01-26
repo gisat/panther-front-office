@@ -58,7 +58,7 @@ define([
 	 * @param map {Map}
 	 */
 	DrawCustomLines.prototype.rebuild = function(map){
-		this._target.css("display","block");
+		//this._target.css("display","block");
 		if (!this._map){
 			this.prepareMap(map);
 			this.addEventListeners();

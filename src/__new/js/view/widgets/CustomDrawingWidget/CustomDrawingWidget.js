@@ -63,7 +63,6 @@ define([
 		this._widgetSelector = $("#floater-" + this._widgetId);
 		this._placeholderSelector = $("#placeholder-" + this._widgetId);
 		this._widgetBodySelector = this._widgetSelector.find(".floater-body");
-
 		this.build();
 	};
 
@@ -99,6 +98,8 @@ define([
 			id: this._widgetId
 		}).toString();
 		this._widgetBodySelector.append(html);
+		this._widgetTabsMenu = $("#" + this._widgetId + "-menu");
+		this.addEventListeners();
 
 		this._auSection = new DrawCustomAU({
 			sectionId: this._widgetId + "-draw-polygons",
@@ -109,6 +110,26 @@ define([
 			sectionId: this._widgetId + "-draw-lines",
 			targetId: this._widgetId + "-draw-lines"
 		});
+	};
+
+	/**
+	 * Event listeners
+	 */
+	CustomDrawingWidget.prototype.addEventListeners = function(){
+		this._widgetTabsMenu.find('a').click(this.switchTabs.bind(this));
+	};
+
+	/**
+	 * Switch tabs
+	 * @param e
+	 */
+	CustomDrawingWidget.prototype.switchTabs = function(e){
+		this._widgetBodySelector.find('.widget-tab-title').removeClass("active");
+		this._widgetBodySelector.find('.widget-tab').removeClass("active");
+
+		$(e.target).closest('li').addClass('active');
+		var target = $(e.target).closest('a').attr('data-target');
+		$("#" + target).addClass('active');
 	};
 
 	return CustomDrawingWidget;
