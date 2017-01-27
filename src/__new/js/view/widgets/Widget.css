@@ -215,6 +215,9 @@
     text-decoration: none;
     transition: background .3s ease-out;
 }
+.widget-tabs-menu li a:hover {
+    background: rgba(240,240,240,.7);
+}
 
 .widget-tabs-menu.vertical li a {
     padding: .2rem .5rem;
