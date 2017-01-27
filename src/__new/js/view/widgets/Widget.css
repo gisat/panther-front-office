@@ -185,6 +185,9 @@
 }
 
 .widget-tabs-menu.vertical li {
+    border-left: 4px solid transparent;
+    border-bottom: 1px solid transparent;
+    border-left: 4px solid transparent;
     margin-bottom: .3rem;
     width: 2.35rem;
     height: 2.5rem;
@@ -220,7 +223,7 @@
 }
 
 .widget-tabs-menu.vertical li a {
-    padding: .2rem .5rem;
+    padding: .2rem .5rem .2rem .2rem;
     display: block;
     height: 100%;
     cursor: pointer;
