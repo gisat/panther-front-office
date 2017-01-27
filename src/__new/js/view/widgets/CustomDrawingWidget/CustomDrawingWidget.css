@@ -16,11 +16,13 @@
 #floater-custom-polygons-widget .floater-body .floater-row {
 	margin: 0 0 .5rem 0;
 }
-#floater-custom-polygons-widget .floater-row.checkbox-row a:hover {
-	background: transparent;
+#floater-custom-polygons-widget .floater-body .floater-row.layer-check {
+	padding: 0 0 0 .2rem;
 }
-#floater-custom-polygons-widget .floater-row.layer-check {
-	border-bottom: 1px solid #ddd;
+#floater-custom-polygons-widget .floater-body .floater-row.export-row {
+	border-bottom: 3px solid #e9e9e9;
+	margin-bottom: 1rem;
+	padding-bottom: .8rem;
 }
 
 #floater-custom-polygons-widget .floater-body > div {

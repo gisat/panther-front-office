@@ -48,9 +48,9 @@ define([
 		this.build(DrawCustomLinesHtml);
 
 		this._buttonDraw = $("#button-draw-lines");
-
 		this._section = $("#custom-lines-container");
-		this._info = $("#custom-lines-info");
+		this._exportXLSbutton = this._section.find("#lines-export-csv");
+		this._exportJSONbutton = this._section.find("#lines-export-shp");
 	};
 
 	DrawCustomLines.prototype = Object.create(CustomDrawingSection.prototype);

@@ -52,6 +52,7 @@ define([
 				self._records = result.data;
 				self._table.rebuild(self._records);
 				self._map.addFeaturesToVectorLayer(self._vectorLayer, self._records);
+				self.enableExport();
 			}
 		});
 	};
@@ -208,6 +209,10 @@ define([
 
 		// activate/deactivate drawing on btn click
 		this._buttonDraw.on("click", this.drawingActivation.bind(this));
+		// export layer as XLS
+		this._exportXLSbutton.on("click", this.export.bind(this, "xls"));
+		// export layer as JSON
+		this._exportJSONbutton.on("click", this.export.bind(this, "json"));
 
 		var table = this._table.getTable();
 		// add listener for records deleting
@@ -240,6 +245,38 @@ define([
 		this._vectorLayer.destroyFeatures();
 		this._records = [];
 		this._table.clear();
+	};
+
+	/**
+	 * Enable export buttons
+	 */
+	CustomDrawingSection.prototype.enableExport = function(){
+		this._exportXLSbutton.attr("disabled", false);
+		this._exportJSONbutton.attr("disabled", false);
+	};
+
+	/**
+	 * Export data to a file according to type
+	 * @param type {string} export type
+	 */
+	CustomDrawingSection.prototype.export = function(type){
+		this.exportRequest(type, this._records);
+	};
+
+	/**
+	 * Send export request
+	 * @param type {string} export type
+	 * @param data {Array} data for export
+	 * @returns {JQuery}
+	 */
+	CustomDrawingSection.prototype.exportRequest = function(type, data){
+		var url = window.Config.url + "drawingexport/" + type;
+		var form = "<form id='download-form' action='" + url + "' method='get'>" +
+			"<input name='records' value='" + JSON.stringify(data) + "'>" +
+			"</form>";
+		$('body').append(form);
+		document.getElementById("download-form").submit();
+		$('#download-form').remove();
 	};
 
 	return CustomDrawingSection;

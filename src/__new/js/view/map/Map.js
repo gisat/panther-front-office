@@ -101,8 +101,8 @@ define([
 		var self = this;
 		data.forEach(function(area){
 			var attr = {};
-			if (area.hasOwnProperty("uid")){
-				attr.uuid = area.uid;
+			if (area.hasOwnProperty("uuid")){
+				attr.uuid = area.uuid;
 			}
 			var style = self.prepareStyle("#00ff00", area.name);
 			var feature = self.createVectorFeatruefromWKT(area.geometry, attr, style);
@@ -254,6 +254,7 @@ define([
 	 */
 	Map.prototype.deleteFeatureFromLayer = function (attrName, attrValue, layer) {
 		var feature = this.getFeaturesByAttribute(attrName, attrValue, layer)[0];
+		debugger;
 		layer.removeFeatures(feature);
 	};
 
