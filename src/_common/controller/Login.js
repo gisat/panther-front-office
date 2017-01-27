@@ -13,7 +13,8 @@ Ext.define('Puma.controller.Login', {
                 click: this.onLoginSubmit
             }
         })
-        this.checkLogin();
+		$('.user .administration').attr('href', Config.backOfficeUrl);
+		this.checkLogin();
         var me = this
         $('.login').click(function() {
             me.onLoginClicked();
@@ -119,7 +120,6 @@ Ext.define('Puma.controller.Login', {
 				window.close();
 			}
 
-			$('.user .administration').attr('href', Config.backOfficeUrl);
 			$('.user .administration').show();
 		} else {
             $('.user .administration').hide();
