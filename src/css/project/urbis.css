@@ -116,20 +116,20 @@
 /* Common features */
 .urbis .widget-button {
     background: #ff7600;
-    border-bottom: 3px solid #d35400;
+    border-bottom: 2px solid #d35400;
 }
 .urbis .widget-button[disabled=disabled] {
     pointer-events: none;
     color: #bbb;
     background-color: #e5e5e5;
-    border-bottom: 3px solid #ddd;
+    border-bottom: 2px solid #ddd;
 }
 .urbis .widget-button:hover {
     background: #d35400;
 }
 .urbis .widget-button.active {
     background: #d35400;
-    border-bottom: 3px solid #ff7600;
+    border-bottom: 2px solid #ff7600;
 }
 
 /* Widget */
@@ -187,10 +187,10 @@
     background: transparent;
     cursor: default;
 }
-.urbis #export-shp:before {
+.urbis #export-shp:before, .urbis #lines-export-shp:before, .urbis #polygons-export-shp:before {
     content: url('../../images/urbis/map.png');
 }
-.urbis #export-csv:before, .urbis #export-feature-info-csv:before {
+.urbis #export-csv:before, .urbis #export-feature-info-csv:before, .urbis #lines-export-csv:before, .urbis #polygons-export-csv:before {
     content: url('../../images/urbis/table.png');
 }
 .urbis #export-feature-info-csv:hover {

@@ -34,3 +34,16 @@
 	text-transform: none;
 	text-align: center;
 }
+
+#lines-export-shp:before, #polygons-export-shp:before {
+	content: url('../../../../img/map.png');
+}
+#lines-export-shp[disabled=disabled]:before, #polygons-export-shp[disabled=disabled]:before {
+	content: url('../../../../img/map-disabled.png');
+}
+#lines-export-csv:before, #polygons-export-csv:before {
+	content: url('../../../../img/table.png');
+}
+#lines-export-csv[disabled=disabled]:before, #polygons-export-csv[disabled=disabled]:before {
+	content: url('../../../../img/table-disabled.png');
+}
