@@ -30,13 +30,7 @@ Ext.define('Puma.view.LoginHeader', {
             itemId: 'logoutbtn',
             hidden: true,
             html: '<a href="">Logout</a>'
-        },{
-			xtype: 'component',
-			cls: 'administrationbtn',
-			itemId: 'administrationbtn',
-			hidden: true,
-			html: '<a href="" target="_blank">Administration</a>'
-		}];
+        }];
 
         this.callParent();
         
@@ -53,7 +47,7 @@ Ext.define('Puma.view.LoginHeader', {
             me.fireEvent('logoutclick');
             return false;
         })
-        $('.administrationbtn a').attr('href', Config.backOfficeUrl);
+        $('.user .administration').attr('href', Config.backOfficeUrl);
     }
 });
 
