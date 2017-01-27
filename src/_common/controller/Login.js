@@ -101,6 +101,13 @@ Ext.define('Puma.controller.Login', {
             else {
                 $('.signup, .login').removeClass("logged");
             }
+
+            if(loggedIn) {
+				$('.user .administration').show();
+            } else {
+				$('.user .administration').hide();
+            }
+
             this.application.fireEvent('login', loggedIn);
             return;
         }
