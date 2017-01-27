@@ -119,6 +119,7 @@ Ext.define('Puma.controller.Login', {
 				window.close();
 			}
 
+			$('.user .administration').attr('href', Config.backOfficeUrl);
 			$('.user .administration').show();
 		} else {
             $('.user .administration').hide();

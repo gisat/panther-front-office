@@ -47,7 +47,7 @@ Ext.define('Puma.view.LoginHeader', {
             me.fireEvent('logoutclick');
             return false;
         })
-        $('.user .administration').attr('href', Config.backOfficeUrl);
+
     }
 });
 
