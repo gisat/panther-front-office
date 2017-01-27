@@ -185,7 +185,7 @@
 }
 
 .widget-tabs-menu.vertical li {
-    border-left: 4px solid transparent;
+    border-top: 1px solid transparent;
     border-bottom: 1px solid transparent;
     border-left: 4px solid transparent;
     margin-bottom: .3rem;
