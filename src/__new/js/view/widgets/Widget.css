@@ -170,9 +170,7 @@
 
 .widget-tabs-menu.vertical {
     height: 100%;
-    width: 2rem;
-    background: #ddd;
-    border: 2px solid #e7e7e7;
+    width: 2.3rem;
     border-right: 0;
 }
 
@@ -188,14 +186,18 @@
 
 .widget-tabs-menu.vertical li {
     margin-bottom: .3rem;
-    width: 2rem;
+    width: 2.35rem;
     height: 2.5rem;
     text-align: center;
 }
 
 .widget-tabs-menu li.active {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-left: 4px solid #ff7600;
+    border-radius: .1rem;
+    background: rgba(245,245,245,1);
     position: relative;
-    background-color: white;
     z-index: 5;
 }
 .widget-tabs-menu.horizontal li.active {
@@ -244,8 +246,9 @@
 }
 
 .widget-tab {
-    border: 2px solid #e7e7e7;
-    border-left: 0;
+    background: rgba(220,220,220,.3);
+    border: 1px solid #ddd;
+    border-radius: .1rem;
     display: none;
     float: left;
     padding: .5rem;
@@ -254,7 +257,7 @@
 }
 
 .widget-tab.vertical {
-    width: calc(100% - 2rem);
+    width: calc(100% - 2.3rem);
 }
 
 .widget-tab.active {

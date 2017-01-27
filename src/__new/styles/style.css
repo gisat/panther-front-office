@@ -13,11 +13,11 @@
 /* === Buttons === */
 .widget-button {
     background: #c92d42;
-    border-radius: .1rem;
+    border-radius: .15rem;
     display: inline-block;
     color: white;
     font-weight: 700;
-    padding: .4rem .2rem;
+    padding: .4rem .2rem .35rem;
     text-align: center;
     text-transform: uppercase;
     transition: background .3s ease-out;
@@ -60,11 +60,14 @@
 }
 
 .button-delete-record, .button-save-record {
-    line-height: 1.5rem;
+    line-height: 1.35rem;
     text-transform: none;
     font-size: .7rem;
     font-weight: 600;
     padding: 0 .5rem;
+}
+.button-save-record {
+    min-width: 3.2rem;
 }
 
 /** new tools **/

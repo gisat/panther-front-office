@@ -1,5 +1,5 @@
 .new-table td.record-name {
-	min-width: 11rem;
+	min-width: 10rem;
 }
 
 .new-table td.record-name > input {

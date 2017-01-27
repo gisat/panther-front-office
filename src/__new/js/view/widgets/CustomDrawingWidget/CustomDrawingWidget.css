@@ -16,6 +16,12 @@
 #floater-custom-polygons-widget .floater-body .floater-row {
 	margin: 0 0 .5rem 0;
 }
+#floater-custom-polygons-widget .floater-row.checkbox-row a:hover {
+	background: transparent;
+}
+#floater-custom-polygons-widget .floater-row.layer-check {
+	border-bottom: 1px solid #ddd;
+}
 
 #floater-custom-polygons-widget .floater-body > div {
 	padding: .5rem;
@@ -23,7 +29,7 @@
 
 #floater-custom-polygons-widget .map-button {
 	min-width: 4rem;
-	padding: .4rem .7rem;
+	padding: .4rem .7rem .3rem;
 	margin: .2rem .2rem .2rem 0;
 	text-transform: none;
 	text-align: center;
