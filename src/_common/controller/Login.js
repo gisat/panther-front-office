@@ -6,7 +6,8 @@ Ext.define('Puma.controller.Login', {
         this.control({
             'loginheader': {
                 loginclick: this.onLoginClicked,
-                logoutclick: this.onLogoutClicked
+                logoutclick: this.onLogoutClicked,
+				administrationclick: this.onAdministrationClicked
             },
             'loginwindow #loginbtn': {
                 click: this.onLoginSubmit
@@ -113,8 +114,9 @@ Ext.define('Puma.controller.Login', {
         }
 
         Ext.ComponentQuery.query('loginheader #logintext')[0].update(text);
-        Ext.ComponentQuery.query('loginheader #loginbtn')[0].setVisible(!loggedIn)
+        Ext.ComponentQuery.query('loginheader #loginbtn')[0].setVisible(!loggedIn);
         Ext.ComponentQuery.query('loginheader #logoutbtn')[0].setVisible(loggedIn);
+		Ext.ComponentQuery.query('loginheader #administrationbtn')[0].setVisible(loggedIn);
         this.application.fireEvent('login', loggedIn);
     }
 });
