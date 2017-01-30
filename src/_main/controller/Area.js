@@ -595,7 +595,7 @@ Ext.define('PumaMain.controller.Area', {
 			}
 			// Urbis change
 			var recCount = locStore.data.length;
-			if (recCount > 1){
+			if (!Config.toggles.isUrbis && recCount > 1){
 				Ext.ComponentQuery.query('#sellocation')[0].setValue('All places');
 				//Ext.ComponentQuery.query('#sellocation')[0].setValue('Custom');
 			}
