@@ -53,6 +53,7 @@ define([
 				self._records = result.data;
 				self._table.rebuild(self._records);
 				self._map.addFeaturesToVectorLayer(self._vectorLayer, self._records);
+				self.enableExport();
 			}
 		});
 	};
@@ -235,6 +236,14 @@ define([
 				}
 			}, 50);
 		})
+	};
+
+	/**
+	 * Enable export buttons
+	 */
+	CustomDrawingSection.prototype.enableExport = function(){
+		this._exportSHPbutton.attr("disabled", false);
+		this._exportJSONbutton.attr("disabled", false);
 	};
 
 	/**
