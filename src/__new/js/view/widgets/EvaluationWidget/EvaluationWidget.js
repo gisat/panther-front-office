@@ -527,9 +527,15 @@ define([
         });
 
         $("#export-shp").off("click.shp").attr("disabled",false).on("click.shp", function(){
-            self._mapExport.export("geojson");
+            self._mapExport.export("shp");
         });
         $("#export-csv").off("click.csv").attr("disabled",false).on("click.csv", function(){
+            self._mapExport.export("csv");
+        });
+        $("#export-json").off("click.csv").attr("disabled",false).on("click.json", function(){
+            self._mapExport.export("json");
+        });
+        $("#export-xls").off("click.csv").attr("disabled",false).on("click.xls", function(){
             self._mapExport.export("xls");
         });
     };
@@ -620,7 +626,7 @@ define([
      * Disable export buttons
      */
     EvaluationWidget.prototype.disableExports = function(){
-        $("#export-shp, #export-csv").attr("disabled",true);
+        $("#export-shp, #export-csv, #export-xls, #export-json").attr("disabled",true);
     };
 
 	/**

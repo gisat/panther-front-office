@@ -89,7 +89,7 @@
 
 .floater.open {
     display: block;
-    height: 26rem;
+    height: 28rem;
     z-index: 10000;
 }
 .floater.active {

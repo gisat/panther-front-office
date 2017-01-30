@@ -11,12 +11,12 @@
 }
 
 #floater-evaluation-widget .floater-body {
-    height: calc(100% - 7.5rem);
+    height: calc(100% - 8.5rem);
     padding: 0 0 .5rem;
 }
 
 #floater-evaluation-widget .floater-footer {
-    height: 5.5rem;
+    height: 6.5rem;
 }
 
 /* floater body */
@@ -33,7 +33,8 @@
 
 #floater-evaluation-widget .floater-row.slider-box,
 #floater-evaluation-widget .floater-row.checkbox-row,
-#floater-evaluation-widget .floater-row.select-menu-box
+#floater-evaluation-widget .floater-row.select-menu-box,
+#floater-evaluation-widget .floater-row.row-export
 {
     margin: 0;
 }
@@ -59,15 +60,15 @@
     top: 3px;
 }
 
-#export-shp:before {
+#export-shp:before, #export-json:before {
     content: url('../../../../img/map.png');
 }
-#export-shp[disabled=disabled]:before {
+#export-shp[disabled=disabled]:before, #export-json[disabled=disabled]:before {
     content: url('../../../../img/map-disabled.png');
 }
-#export-csv:before {
+#export-csv:before, #export-xls:before {
     content: url('../../../../img/table.png');
 }
-#export-csv[disabled=disabled]:before {
+#export-csv[disabled=disabled]:before, #export-xls[disabled=disabled]:before {
     content: url('../../../../img/table-disabled.png');
 }
