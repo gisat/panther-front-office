@@ -446,9 +446,6 @@ Ext.define('PumaMain.controller.Store', {
             },{
                 name: 'Quantiles',
                 type: 'quantiles'
-            },{
-                name: 'Range',
-                type: 'range'
             }]
         })
     
