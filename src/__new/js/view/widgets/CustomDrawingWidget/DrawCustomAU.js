@@ -49,8 +49,8 @@ define([
 
 		this._buttonDraw = $("#button-draw-polygons");
 		this._section = $("#custom-au-container");
-		this._exportXLSbutton = this._section.find("#polygons-export-csv");
-		this._exportJSONbutton = this._section.find("#polygons-export-shp");
+		this._exportSHPbutton = this._section.find("#polygons-export-shp");
+		this._exportJSONbutton = this._section.find("#polygons-export-json");
 	};
 
 	DrawCustomAU.prototype = Object.create(CustomDrawingSection.prototype);

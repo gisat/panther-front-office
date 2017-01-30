@@ -210,7 +210,7 @@ define([
 		// activate/deactivate drawing on btn click
 		this._buttonDraw.on("click", this.drawingActivation.bind(this));
 		// export layer as XLS
-		this._exportXLSbutton.on("click", this.export.bind(this, "xls"));
+		this._exportSHPbutton.on("click", this.export.bind(this, "shapefile"));
 		// export layer as JSON
 		this._exportJSONbutton.on("click", this.export.bind(this, "json"));
 
@@ -251,7 +251,7 @@ define([
 	 * Enable export buttons
 	 */
 	CustomDrawingSection.prototype.enableExport = function(){
-		this._exportXLSbutton.attr("disabled", false);
+		this._exportSHPbutton.attr("disabled", false);
 		this._exportJSONbutton.attr("disabled", false);
 	};
 
