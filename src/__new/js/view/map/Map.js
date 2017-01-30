@@ -104,7 +104,7 @@ define([
 			if (area.hasOwnProperty("uuid")){
 				attr.uuid = area.uuid;
 			}
-			var style = self.prepareStyle("#00ff00", area.name);
+			var style = self.prepareStyle("#660099", area.name);
 			var feature = self.createVectorFeatruefromWKT(area.geometry, attr, style);
 			features.push(feature);
 		});
@@ -137,14 +137,17 @@ define([
 			strokeWidth: 3,
 			strokeColor: color,
 			fillColor: color,
-			fillOpacity: 0.5,
-			fontColor: "black",
+			fillOpacity: 0.3,
+			fontColor: "#333",
 			fontSize: "16px",
 			fontFamily: "Arial, sans-serif",
-			fontWeight: "bold"
+			fontWeight: "bold",
+			fontStyle: "italic"
 		};
 		if (label){
 			style.label = label;
+			style.labelOutlineColor = "white";
+			style.labelOutlineWidth = 3;
 		}
 		return style;
 	};

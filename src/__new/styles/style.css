@@ -42,7 +42,7 @@
     padding: .2rem .15rem .3rem .15rem;
     text-transform: none;
     margin: 0;
-    width: 49%;
+    min-width: 49%;
 }
 .widget-button-export:hover {
     background: rgba(173,39,56,.2);

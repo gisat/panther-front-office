@@ -84,7 +84,7 @@ define([
 	DrawCustomLines.prototype.prepareMap = function(map){
 		this._map = map;
 		this._map.rebuild();
-		this._vectorLayer = this._map.addLayerForDrawing("drawLines","#00ff00");
+		this._vectorLayer = this._map.addLayerForDrawing("drawLines","#660099");
 		this._drawControl = this._map.addControlsForLineDrawing(this._vectorLayer, this.addDrawEndListener.bind(this));
 	};
 
