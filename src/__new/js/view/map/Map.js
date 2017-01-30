@@ -104,7 +104,7 @@ define([
 			if (area.hasOwnProperty("uuid")){
 				attr.uuid = area.uuid;
 			}
-			var style = self.prepareStyle("#660099", area.name);
+			var style = self.prepareStyle("#FA6900", area.name);
 			var feature = self.createVectorFeatruefromWKT(area.geometry, attr, style);
 			features.push(feature);
 		});
@@ -134,7 +134,7 @@ define([
 
 	Map.prototype.prepareStyle = function(color, label){
 		var style = {
-			strokeWidth: 2,
+			strokeWidth: 4,
 			strokeColor: color,
 			fillColor: color,
 			fillOpacity: 0.3,
@@ -257,7 +257,6 @@ define([
 	 */
 	Map.prototype.deleteFeatureFromLayer = function (attrName, attrValue, layer) {
 		var feature = this.getFeaturesByAttribute(attrName, attrValue, layer)[0];
-		debugger;
 		layer.removeFeatures(feature);
 	};
 

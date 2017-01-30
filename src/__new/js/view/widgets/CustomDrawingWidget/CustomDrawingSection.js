@@ -160,7 +160,7 @@ define([
 
 		this._records.push(record);
 
-		feature.style = this._map.prepareStyle("#660099",name);
+		feature.style = this._map.prepareStyle("#FA6900",name);
 		this._vectorLayer.redraw();
 
 		this._table.checkRecords();
