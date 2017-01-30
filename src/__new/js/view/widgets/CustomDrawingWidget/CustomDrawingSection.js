@@ -256,6 +256,14 @@ define([
 	};
 
 	/**
+	 * Get drawing button selector
+	 * @returns {JQuery}
+	 */
+	CustomDrawingSection.prototype.getDrawingButton = function(){
+		return this._buttonDraw;
+	};
+
+	/**
 	 * Export data to a file according to type
 	 * @param type {string} export type
 	 */

@@ -77,6 +77,7 @@ define([
 				place: ThemeYearConfParams.place
 			});
 		}
+		this.deactivateDrawing(this._buttonDraw);
 	};
 
 	/**

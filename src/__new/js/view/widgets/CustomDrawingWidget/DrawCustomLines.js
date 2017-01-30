@@ -75,6 +75,7 @@ define([
 		this.getSavedFeatures({
 			scope: ThemeYearConfParams.dataset
 		});
+		this.deactivateDrawing(this._buttonDraw);
 	};
 
 	/**
