@@ -154,7 +154,7 @@ Ext.define('PumaMain.controller.Export', {
                         layerParams.transitionEffect = null;
                     }
                     if (layerCfg.sldId) {
-                        params['sld_id'] = layerCfg.sldId
+                        params['sld_id'] = layerCfg.sldId // TODO: Find out how does the layerCfg look like.
                     }
                     if (layerCfg.stylesParam) {
                         params['styles'] = layerCfg.stylesParam

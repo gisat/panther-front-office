@@ -84,9 +84,6 @@ Ext.define('PumaMain.controller.Layers', {
 				i.el.on('load',function(a, dom) {
 					this.show();
 					this.setSize(dom.clientWidth+32,dom.clientHeight+52);
-					// this.setStyle({
-					// 	zIndex: 100000+this.factor
-					// });
 					var leftPanel = Ext.ComponentQuery.query('toolspanel')[0];
 					var heightDiff = Ext.get('app-map').getBox().bottom - Ext.get('sidebar-tools').getBox().bottom;
 
@@ -966,10 +963,7 @@ Ext.define('PumaMain.controller.Layers', {
 		return namedLayers;
 	},
 
-	onLayerClick: function(panel,rec) {
-		// if (rec.get('type')!='addchoropleth') return;
-		// this.getController('Chart').onChartBtnClick(panel);
-	},
+	onLayerClick: function(panel,rec) {},
 
 	addChoropleth: function(cfg,autoActivate,index) {
 		var layerStore = Ext.StoreMgr.lookup('layers');

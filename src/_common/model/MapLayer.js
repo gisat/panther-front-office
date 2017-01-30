@@ -1,3 +1,4 @@
+// TODO: Add configuration information from thematic maps to this configuration.
 Ext.define('Puma.model.MapLayer', {
     extend: 'Ext.data.TreeModel',
     fields: [
