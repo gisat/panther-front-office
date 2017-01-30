@@ -532,10 +532,10 @@ define([
         $("#export-csv").off("click.csv").attr("disabled",false).on("click.csv", function(){
             self._mapExport.export("csv");
         });
-        $("#export-json").off("click.csv").attr("disabled",false).on("click.json", function(){
+        $("#export-json").off("click.json").attr("disabled",false).on("click.json", function(){
             self._mapExport.export("json");
         });
-        $("#export-xls").off("click.csv").attr("disabled",false).on("click.xls", function(){
+        $("#export-xls").off("click.xls").attr("disabled",false).on("click.xls", function(){
             self._mapExport.export("xls");
         });
     };
