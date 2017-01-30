@@ -45,11 +45,11 @@
     margin: 0 .1rem;
     width: 47%;
 }
-#evaluation-confirm[disabled=disabled], #evaluation-unselect[disabled=disabled] {
-    pointer-events: none;
-    color: #bbb;
-    background: #e5e5e5;
-}
+/*#evaluation-confirm[disabled=disabled], #evaluation-unselect[disabled=disabled] {*/
+    /*pointer-events: none;*/
+    /*color: #bbb;*/
+    /*background: #e5e5e5;*/
+/*}*/
 
 .widget-button-export:before {
     height: 100%;

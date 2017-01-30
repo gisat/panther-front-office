@@ -897,8 +897,6 @@ Ext.define('PumaMain.controller.Chart', {
                 return label;
             };
         }
-
-        console.log(data);
     },
 
 	/**

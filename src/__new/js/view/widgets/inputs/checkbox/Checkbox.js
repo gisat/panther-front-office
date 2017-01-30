@@ -31,7 +31,6 @@ define(['../../../../error/ArgumentError',
      */
     var Checkbox = function(options) {
         View.apply(this, arguments);
-
         if (!options.id){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Checkbox", "constructor", "missingBoxId"));
         }
@@ -85,6 +84,14 @@ define(['../../../../error/ArgumentError',
      */
     Checkbox.prototype.isChecked = function(){
         return $("#" + this._id).hasClass('checked');
+    };
+
+    /**
+     * It returns checkbox row element
+     * @returns {*|jQuery}
+     */
+    Checkbox.prototype.getCheckbox = function(){
+        return $("#" + this._id);
     };
 
     /**

@@ -580,7 +580,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         areaRoot.removeAll();
         //areaRoot.appendChild(data);
         areaRoot.suspendEvents();
-        if (!OneLevelAreas.hasOneLevel){
+        if (!OneLevelAreas.hasOneLevel || Config.toggles.isUrbis){
             areaRoot.appendChild(data);
         }
         areaRoot.resumeEvents();
@@ -926,7 +926,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         var conf = JSON.parse(response.responseText).data;
 
         if (conf.hasOwnProperty("auRefMap")){
-            FeatureInfo.auRefMap = conf.auRefMap;
+            OlMap.auRefMap = conf.auRefMap;
             var counter = 1;
             for (var a in conf.auRefMap){
                 var auLevels = Object.keys(conf.auRefMap[a]).length;
@@ -937,12 +937,10 @@ Ext.define('PumaMain.controller.LocationTheme', {
                     ThemeYearConfParams.auCurrentAt = Object.keys(conf.auRefMap[a])[0];
                 }
             }
-            if(!Config.toggles.isUrbis) {
-                OneLevelAreas.hasOneLevel = counter == 1;
-            } else {
-                OneLevelAreas.hasOneLevel = false;
-            }
-            if (OneLevelAreas.hasOneLevel){
+
+            OneLevelAreas.hasOneLevel = counter == 1;
+
+            if (OneLevelAreas.hasOneLevel && !Config.toggles.isUrbis){
                 $('.areaTreeSelection').hide();
             } else {
                 $('.areaTreeSelection').show();
@@ -1005,6 +1003,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         }
         if (conf.layerRefMap) {
             this.layerRefMap = conf.layerRefMap;
+            ThemeYearConfParams.layerRefMap = conf.layerRefMap;
         }
         if (conf.layerRefMap || response.request.options.locationChanged) {
             this.updateLayerContext();

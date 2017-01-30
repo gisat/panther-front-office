@@ -4,7 +4,7 @@ Ext.define('PumaMain.controller.Map', {
 	requires: [],
 	init: function() {
 		// URBIS change
-		Observer.addListener("featureInfo",this.newFeatureInfo.bind(this));
+		Observer.addListener("getMap",this.newGetMap.bind(this));
 
 		this.control({
 			'#map': {
@@ -44,8 +44,8 @@ Ext.define('PumaMain.controller.Map', {
 	},
 
 	// URBIS change
-	newFeatureInfo: function(){
-		FeatureInfo.map = this.getOlMap();
+	newGetMap: function(){
+		OlMap.map = this.getOlMap();
 	},
 
 	onExportMapUrl: function(btn) {
@@ -815,7 +815,7 @@ Ext.define('PumaMain.controller.Map', {
 			map.zoomToExtent(bounds);
 		}
 		// URBIS change
-		FeatureInfo.map = map;
+		OlMap.map = map;
 	},
 
 	onMeasurePartial: function(evt) {

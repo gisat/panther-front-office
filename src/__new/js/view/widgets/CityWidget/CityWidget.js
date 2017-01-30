@@ -50,7 +50,11 @@ define([
 		}
 
 		// Call the method from parent
-		Widget.prototype.build.call(this, this._widgetId, this._target, this._name);
+		Widget.prototype.build.call(this, {
+			widgetId: this._widgetId,
+			name: this._name,
+			target: this._target
+		});
 
 		this._widgetSelector = $("#floater-" + this._widgetId);
 		this._widgetBodySelector = this._widgetSelector.find(".floater-body");

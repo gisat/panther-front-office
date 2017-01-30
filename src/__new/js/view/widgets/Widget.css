@@ -129,6 +129,14 @@
 .floater-row {
     width: 100%;
 }
+
+.floater-row > .floater-row-caption {
+    font-size: .8rem;
+    font-weight: 700;
+    color: #666;
+    margin-bottom: .3rem;
+}
+
 .floater-footer > .floater-row {
     margin-bottom: .5rem;
     text-align: center;
@@ -150,4 +158,124 @@
 
 .floater-tool:hover {
     cursor: pointer;
+}
+
+/* tabs */
+/* ===== Tabs ===== */
+.widget-tabs-menu {
+    height: 2rem;
+    float: left;
+    clear: both;
+}
+
+.widget-tabs-menu.vertical {
+    height: 100%;
+    width: 2.3rem;
+    border-right: 0;
+}
+
+.widget-tabs-menu li {
+    height: 2.1rem;
+    line-height: 2.1rem;
+    float: left;
+    margin-right: .5rem;
+}
+.widget-tabs-menu.horizontal li {
+    border-radius: .2rem .2rem 0 0;
+}
+
+.widget-tabs-menu.vertical li {
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid transparent;
+    border-left: 4px solid transparent;
+    margin-bottom: .3rem;
+    width: 2.35rem;
+    height: 2.5rem;
+    text-align: center;
+}
+
+.widget-tabs-menu li.active {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    border-left: 4px solid #ff7600;
+    border-radius: .1rem;
+    background: rgba(245,245,245,1);
+    position: relative;
+    z-index: 5;
+}
+.widget-tabs-menu.horizontal li.active {
+    border-bottom: 1px solid #fff;
+}
+.widget-tabs-menu.vertical li.active {
+}
+
+.widget-tabs-menu li a {
+    padding: .4rem 1rem;
+    text-transform: uppercase;
+    font-size: .9rem;
+    font-family: Corbel Bold, Open Sans, sans-serif;
+    color: #888;
+    text-decoration: none;
+    transition: background .3s ease-out;
+}
+.widget-tabs-menu li a:hover {
+    background: rgba(240,240,240,.7);
+}
+
+.widget-tabs-menu.vertical li a {
+    padding: .2rem .5rem .2rem .2rem;
+    display: block;
+    height: 100%;
+    cursor: pointer;
+}
+
+.widget-tabs-menu li.active a {
+    color: #888;
+}
+
+.widget-tabs-menu li.active a:focus, .tabs-menu li.active a:active{
+    background-color: transparent;
+}
+
+.widget-tabs-menu .disabled a {
+    color: #ccc;
+    pointer-events: none;
+    cursor: default;
+}
+
+.widget-tabs-menu .disabled a:hover {
+    color: inherit;
+}
+
+.widget-tabs-menu .fa:before, .tabs-menu .fa:after {
+    font-size: 1rem;
+}
+
+.widget-tab {
+    background: rgba(220,220,220,.3);
+    border: 1px solid #ddd;
+    border-radius: .1rem;
+    display: none;
+    float: left;
+    padding: .5rem;
+    width: 100%;
+    min-height: 100%;
+}
+
+.widget-tab.vertical {
+    width: calc(100% - 2.3rem);
+}
+
+.widget-tab.active {
+    display: block;
+}
+
+.widget-tab p {
+    margin: .2rem 0;
+    font-size: .9rem;
+}
+
+.widget-tab span {
+    margin: .2rem 0;
+    font-size: .9rem;
 }

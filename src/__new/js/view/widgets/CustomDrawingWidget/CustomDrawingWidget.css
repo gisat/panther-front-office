@@ -1,0 +1,54 @@
+/* = Evaluation floater = */
+#floater-custom-polygons-widget {
+	left: 15rem;
+	top: 9rem;
+	min-width: 17rem;
+	width: 25rem;
+	max-width: 30rem;
+	height: 22rem;
+}
+
+#floater-custom-polygons-widget .floater-body {
+	height: calc(100% - 2rem);
+	padding: .5rem .4rem .5rem .2rem;
+}
+
+#floater-custom-polygons-widget .floater-body .floater-row {
+	margin: 0 0 .5rem 0;
+}
+#floater-custom-polygons-widget .floater-body .floater-row.layer-check {
+	padding: 0 0 0 .2rem;
+}
+#floater-custom-polygons-widget .floater-body .floater-row.export-row {
+	border-bottom: 3px solid #e9e9e9;
+	margin-bottom: 1rem;
+	padding-bottom: .8rem;
+}
+
+#floater-custom-polygons-widget .floater-body > div {
+	padding: .5rem;
+}
+
+#floater-custom-polygons-widget .map-button {
+	min-width: 4rem;
+	padding: .4rem .7rem .3rem;
+	margin: .2rem .2rem .2rem 0;
+	text-transform: none;
+	text-align: center;
+}
+
+#lines-export-csv, #polygons-export-csv {
+	display: none;
+}
+#lines-export-shp:before, #polygons-export-shp:before {
+	content: url('../../../../img/map.png');
+}
+#lines-export-shp[disabled=disabled]:before, #polygons-export-shp[disabled=disabled]:before {
+	content: url('../../../../img/map-disabled.png');
+}
+#lines-export-csv:before, #polygons-export-csv:before {
+	content: url('../../../../img/table.png');
+}
+#lines-export-csv[disabled=disabled]:before, #polygons-export-csv[disabled=disabled]:before {
+	content: url('../../../../img/table-disabled.png');
+}

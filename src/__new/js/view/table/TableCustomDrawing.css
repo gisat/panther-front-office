@@ -1,0 +1,7 @@
+.new-table td.record-name {
+	min-width: 10rem;
+}
+
+.new-table td.record-name > input {
+	width: 100%;
+}

@@ -96,6 +96,7 @@ define(function () {
             missingHistogramMaximum: "Maximum is null or undefined!",
             missingHTMLElement: "Required HTML element wasn't found!",
             missingInputs: "Inputs parameter is null or undefined!",
+			missingMap: "Map property is missing, null or undefined!",
             missingNumClasses: "NumClasses is null or undefined!",
             missingSelections: "Data for selection boxes is missing",
             missingSliderRange: "Slider range is null, undefined or empty!",

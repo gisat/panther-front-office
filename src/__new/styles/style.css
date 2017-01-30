@@ -13,19 +13,26 @@
 /* === Buttons === */
 .widget-button {
     background: #c92d42;
-    border-radius: .1rem;
+    border-radius: .15rem;
     display: inline-block;
     color: white;
     font-weight: 700;
-    padding: .4rem .2rem;
+    padding: .4rem .2rem .35rem;
     text-align: center;
     text-transform: uppercase;
     transition: background .3s ease-out;
 }
-.widget-button:hover {
+.widget-button:hover, .widget-button.active {
     background: #ad2738;
     cursor: pointer;
 }
+
+.widget-button[disabled=disabled] {
+    pointer-events: none;
+    color: #bbb;
+    background-color: #e5e5e5;
+}
+
 .widget-button-export {
     background: none;
     border: 0;
@@ -35,7 +42,7 @@
     padding: .2rem .15rem .3rem .15rem;
     text-transform: none;
     margin: 0;
-    width: 49%;
+    min-width: 49%;
 }
 .widget-button-export:hover {
     background: rgba(173,39,56,.2);
@@ -50,6 +57,17 @@
     pointer-events: none;
     background: transparent;
     cursor: default;
+}
+
+.button-delete-record, .button-save-record {
+    line-height: 1.35rem;
+    text-transform: none;
+    font-size: .7rem;
+    font-weight: 600;
+    padding: 0 .5rem;
+}
+.button-save-record {
+    min-width: 3.2rem;
 }
 
 /** new tools **/

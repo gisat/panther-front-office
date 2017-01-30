@@ -35,6 +35,7 @@ requirejs.config({
 
 define(['js/util/metadata/Attributes',
         'js/view/widgets/CityWidget/CityWidget',
+        'js/view/widgets/CustomDrawingWidget/CustomDrawingWidget',
         'js/view/widgets/EvaluationWidget/EvaluationWidget',
         'js/view/tools/FeatureInfoTool/FeatureInfoTool',
         'js/util/Filter',
@@ -52,6 +53,7 @@ define(['js/util/metadata/Attributes',
         'underscore'
 ], function (Attributes,
              CityWidget,
+             CustomDrawingWidget,
              EvaluationWidget,
              FeatureInfoTool,
              Filter,
@@ -78,6 +80,14 @@ define(['js/util/metadata/Attributes',
                 filter: filter,
                 elementId: 'evaluation-widget',
                 name: 'Evaluation Tool',
+                targetId: 'widget-container'
+            }));
+        }
+
+        if(Config.toggles.hasOwnProperty("hasNewCustomPolygonsTool") && Config.toggles.hasNewCustomPolygonsTool){
+            widgets.push(new CustomDrawingWidget({
+                elementId: 'custom-polygons-widget',
+                name: 'Custom Features',
                 targetId: 'widget-container'
             }));
         }
@@ -149,10 +159,10 @@ define(['js/util/metadata/Attributes',
                 ExchangeParams.options.openWidgets[floater.attr("id")] = false;
             }
         });
-        $(".floater.open").draggable({
+        $(".floater").draggable({
             containment: "body",
             handle: ".floater-header"
-        }).on("click",function(){
+        }).on("click drag", function(){
             $(".floater").removeClass("active");
             $(this).addClass("active");
         });
