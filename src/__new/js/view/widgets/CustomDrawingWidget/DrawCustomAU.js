@@ -101,13 +101,13 @@ define([
 		var section = $("#custom-au-container");
 		var info = $("#custom-au-info");
 
-		if (ThemeYearConfParams.place.length == 0 || !OneLevelAreas.hasOneLevel){
+		if (ThemeYearConfParams.place.length == 0){
 			section.css("display", "none");
 			info.css("display","block");
 			info.find("p").html("Drawing of custom analytical units is disabled for All places option. To enable drawing, please select place (pilot).");
-			if (!OneLevelAreas.hasOneLevel){
-				info.find("p").html("Drawing of custom analytical units is enabled for scopes (pilots) with one level of analytical units only!");
-			}
+			//if (!OneLevelAreas.hasOneLevel){
+			//	info.find("p").html("Drawing of custom analytical units is enabled for scopes (pilots) with one level of analytical units only!");
+			//}
 			return false;
 		} else {
 			section.css("display", "block");
