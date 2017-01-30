@@ -134,7 +134,7 @@ define([
 
 	Map.prototype.prepareStyle = function(color, label){
 		var style = {
-			strokeWidth: 3,
+			strokeWidth: 2,
 			strokeColor: color,
 			fillColor: color,
 			fillOpacity: 0.3,
