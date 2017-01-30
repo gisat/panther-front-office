@@ -22,14 +22,14 @@ define([
 
 	/**
 	 * Class representing Custom Drawing Widget Section
-	 * @param options {Object}
 	 * @constructor
 	 */
-	var CustomDrawingSection = function(options) {
+	var CustomDrawingSection = function() {
 	};
 
 	/**
 	 * Build basic structure of section
+	 * @param content {string} HTML code
 	 */
 	CustomDrawingSection.prototype.build = function(content){
 		var html = S(content).template({
@@ -44,6 +44,7 @@ define([
 
 	/**
 	 * Get saved features from database
+	 * @param params {Object} parameters for filtering
 	 */
 	CustomDrawingSection.prototype.getSavedFeatures = function(params){
 		var self = this;
@@ -52,7 +53,6 @@ define([
 				self._records = result.data;
 				self._table.rebuild(self._records);
 				self._map.addFeaturesToVectorLayer(self._vectorLayer, self._records);
-				self.enableExport();
 			}
 		});
 	};
@@ -64,7 +64,6 @@ define([
 	CustomDrawingSection.prototype.addDrawEndListener = function(event){
 		var recordUuid = new Uuid().generate();
 		var recordOoid = event.feature.id;
-
 		this._table.addRecord(recordOoid, recordUuid);
 	};
 
@@ -177,7 +176,7 @@ define([
 		var uuid = button.parents('tr').attr("data-uuid");
 		var name = button.parents('tr').find(".record-name input").val();
 
-		var conf = confirm("Do you really want to delete line " + name);
+		var conf = confirm("Do you really want to delete line " + name + "?");
 		if (!conf){
 			return;
 		}
@@ -236,23 +235,6 @@ define([
 				}
 			}, 50);
 		})
-	};
-
-	/**
-	 * Destroy table, record list and clear the layer
-	 */
-	CustomDrawingSection.prototype.destroy = function(){
-		this._vectorLayer.destroyFeatures();
-		this._records = [];
-		this._table.clear();
-	};
-
-	/**
-	 * Enable export buttons
-	 */
-	CustomDrawingSection.prototype.enableExport = function(){
-		this._exportSHPbutton.attr("disabled", false);
-		this._exportJSONbutton.attr("disabled", false);
 	};
 
 	/**

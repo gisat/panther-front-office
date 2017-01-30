@@ -57,7 +57,7 @@ define([
 
 	/**
 	 * Rebuild section with current map
-	 * @param map 
+	 * @param map {Map}
 	 */
 	DrawCustomAU.prototype.rebuild = function(map){
 		if (!this._map){
@@ -117,7 +117,7 @@ define([
 	};
 
 	/**
-	 * Prepare map for drawing
+	 * Prepare map for drawing, add layer and attach drawing control
 	 * @param map {Map}
 	 */
 	DrawCustomAU.prototype.prepareMap = function(map){
