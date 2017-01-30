@@ -223,10 +223,11 @@
 }
 
 .widget-tabs-menu.vertical li a {
-    padding: .2rem .5rem .2rem .2rem;
-    display: block;
-    height: 100%;
-    cursor: pointer;
+     padding: 0.5rem;
+     line-height: 1.6rem;
+     display: block;
+     height: 100%;
+     cursor: pointer;
 }
 
 .widget-tabs-menu li.active a {
