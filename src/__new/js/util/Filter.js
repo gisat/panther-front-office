@@ -21,7 +21,6 @@ define(['./Remote',
 	Filter.prototype.filter = function(categories, type) {
 		var params = this.prepareParams();
 		var attributes = this.getAttributesFromCategories(categories);
-
 		return $.get( Config.url + "rest/filter/attribute/" + type, {
 				areaTemplate: params.areaTemplate,
 				periods: params.periods,
@@ -43,7 +42,6 @@ define(['./Remote',
 	 */
 	Filter.prototype.statistics = function(attributes, dist){
 		var params = this.prepareParams();
-
 		return $.get( Config.url + "rest/filter/attribute/statistics", {
 				areaTemplate: params.areaTemplate,
 				periods: params.periods,
@@ -111,16 +109,17 @@ define(['./Remote',
 			if (categories[key].hasOwnProperty('attrData')) {
 				if (categories[key].active == true) {
 					var attribute = categories[key].attrData;
+					var selector = "#input-as-" + attribute.about.attributeSet + "-attr-" + attribute.about.attribute;
 					var values;
 					if (attribute.about.attributeType == "boolean") {
-						var checkboxEl = $("#attr-" + attribute.about.attribute);
+						var checkboxEl = $(selector);
 						values = checkboxEl.hasClass("checked");
 					}
 					else if (attribute.about.attributeType == "text") {
-						var selectEl = $("#attr-" + attribute.about.attribute);
+						var selectEl = $(selector);
 						if (categories[key].multioptions){
 							values = [];
-							$("#attr-" + attribute.about.attribute + " > label").each(function(){
+							$(selector + " > label").each(function(){
 								var label = $(this);
 								if (label.hasClass("ui-state-active") && label.hasClass("label-multiselect-option")){
 									values.push($(this).text());
@@ -135,7 +134,7 @@ define(['./Remote',
 						}
 					}
 					else if (attribute.about.attributeType == "numeric"){
-						var sliderEl = $("#attr-" + attribute.about.attribute);
+						var sliderEl = $(selector);
 						var min, max;
 
 						if (sliderEl.hasClass("ui-slider")){

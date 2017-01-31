@@ -128,6 +128,7 @@ define(['../../util/Remote',
 	 * @returns {{theme: string, years: string, dataset: string, refreshLayers: string, refreshAreas: string}}
 	 */
 	Attributes.prototype.getThemeYearConfParams = function(){
+		//console.log(ThemeYearConfParams.dataset, ThemeYearConfParams.theme, ThemeYearConfParams.years);
 		return {
 			theme: ThemeYearConfParams.theme,
 			years: ThemeYearConfParams.years,

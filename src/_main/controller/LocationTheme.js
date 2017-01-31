@@ -265,9 +265,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         if (cnt.eventsSuspended || cnt.initial || !val) {
             return;
         }
-        
         this.themeChanged = true;
-        
         var themeCombo = null;
         if (cnt.switching) {
             this.getController('DomManipulation').activateLoadingMask();

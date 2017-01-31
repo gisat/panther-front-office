@@ -233,7 +233,9 @@ Ext.define('PumaMain.controller.Filter', {
         this.cfg = null;
         this.getController('AttributeConfig').filterConfig = null;
         var panel = Ext.ComponentQuery.query('#advancedfilters')[0];
-        panel.removeAll();
+        if (panel){
+            panel.removeAll();
+        }
     },
     
     reconfigureFilters: function(cfg) {

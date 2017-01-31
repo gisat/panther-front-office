@@ -100,12 +100,13 @@ define([
      * @param attrForRequest {Array} List of attributes for current configuration
      * @param map {Object}
      */
-    EvaluationWidget.prototype.rebuild = function(attrForRequest, map){
+    EvaluationWidget.prototype.rebuild = function(attrForRequest, map, options){
         var self = this;
         if (!this._resizeListener){
             this._resizeListener = true;
             this.addOnResizeListener();
         }
+        this._initializeResize = false;
         this.handleLoading("show");
         this._attrForRequest = attrForRequest;
 
@@ -115,6 +116,7 @@ define([
         };
         this._filter.statistics(attrForRequest, distribution).then(function(attributes){
             self._attributes = [];
+            self._attrForRequest = [];
             if (attributes.length > 0){
                 attributes.forEach(function(attribute){
                     var about = {
@@ -126,6 +128,7 @@ define([
                         units: attribute.units,
                         active: attribute.active
                     };
+                    self._attrForRequest.push(about);
 
                     if (about.attributeType == "numeric"){
                         // TODO: Fix ugly hack for showing Kathmandu.
@@ -157,12 +160,15 @@ define([
                 });
             }
             if (self._attributes.length){
-                self.prepareFooter();
+                if (!options || options.rebuildFooter == true){
+                    self.prepareFooter();
+                }
                 self.rebuildViewAndSettings();
             } else {
                 self.noDataEcho();
             }
         });
+
         this.rebuildMap();
         ThemeYearConfParams.datasetChanged = false;
     };
@@ -237,7 +243,6 @@ define([
         });
         this._categories = this._settings.getCategories();
         this.setAttributesState(this._categories);
-
         this.rebuildInputs(this._categories);
         this.disableExports();
 
@@ -260,7 +265,6 @@ define([
         };
 
         var self = this;
-
         for (var key in categories){
             if (categories.hasOwnProperty(key) && categories[key].active == true){
                 var input = categories[key].input;
@@ -269,7 +273,7 @@ define([
                 var units = categories[key].attrData.about.units;
                 var attrId = categories[key].attrData.about.attribute;
                 var attrSetId = categories[key].attrData.about.attributeSet;
-                var id = "attr-" + categories[key].attrData.about.attribute;
+                var id = "input-as-" + attrSetId + "-attr-" + attrId;
                 if (input == "slider") {
                     var min = categories[key].attrData.values[0];
                     var max = categories[key].attrData.values[1];
@@ -293,9 +297,9 @@ define([
                     var options = categories[key].attrData.values;
                     var select;
                     if (multioptions){
-                        select = this.buildMultiSelectInput(key, name, options);
+                        select = this.buildMultiSelectInput(id, name, options);
                     } else {
-                        select = this.buildSelectInput(key, name, options);
+                        select = this.buildSelectInput(id, name, options);
                     }
                     this._inputs.selects.push(select);
                 }
@@ -571,10 +575,15 @@ define([
         resize.addResizeListener(resizeElement, function(){
             clearTimeout(timeout);
             timeout = setTimeout(function(){
-                    if (self._inputs){
-                        self.rebuildPopups(self._inputs.sliders);
+                    if (self._initializeResize){
+                        if (self._inputs){
+                            self.rebuildPopups(self._inputs.sliders);
+                        }
+                        self.rebuild(self._attrForRequest, {}, {
+                            rebuildFooter: false
+                        });
                     }
-                    self.rebuild(self._attrForRequest);
+                    self._initializeResize = true;
                 }, 500);
         });
     };
