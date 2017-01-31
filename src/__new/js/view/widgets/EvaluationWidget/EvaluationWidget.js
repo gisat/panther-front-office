@@ -106,6 +106,7 @@ define([
             this._resizeListener = true;
             this.addOnResizeListener();
         }
+        this._initializeResize = false;
         this.handleLoading("show");
         this._attrForRequest = attrForRequest;
 
@@ -572,10 +573,13 @@ define([
         resize.addResizeListener(resizeElement, function(){
             clearTimeout(timeout);
             timeout = setTimeout(function(){
-                    if (self._inputs){
-                        self.rebuildPopups(self._inputs.sliders);
+                    if (self._initializeResize){
+                        if (self._inputs){
+                            self.rebuildPopups(self._inputs.sliders);
+                        }
+                        self.rebuild(self._attrForRequest);
                     }
-                    self.rebuild(self._attrForRequest);
+                    self._initializeResize = true;
                 }, 500);
         });
     };

@@ -62,7 +62,6 @@ define([
 	 */
 	FrontOffice.prototype.rebuildComponents = function(attributes){
 		var self = this;
-
 		this._tools.forEach(function(tool){
 			tool.rebuild(attributes, self._map);
 		});
