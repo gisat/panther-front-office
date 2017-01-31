@@ -68,6 +68,9 @@ define(['../../util/Remote',
 	 * @returns {Promise}
 	 */
 	Attributes.prototype.getAttributesFromAttributeSet = function(attributeSet){
+		if (!attributeSet){
+			return;
+		}
 		var self = this;
 		return Promise.all(attributeSet.attributes.map(self.getAttribute.bind(self, attributeSet)));
 	};

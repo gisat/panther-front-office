@@ -91,13 +91,16 @@ define([
 	 */
 	FrontOffice.prototype.getAttributesMetadata = function(){
 		return this._attributesMetadata.getData().then(function(result){
+			debugger;
 			var attributes = [];
 			result.forEach(function(attributeSet){
-				attributeSet.forEach(function(attribute){
-					if (!_.isEmpty(attribute)){
-						attributes.push(attribute);
-					}
-				});
+				if (attributeSet){
+					attributeSet.forEach(function(attribute){
+						if (!_.isEmpty(attribute)){
+							attributes.push(attribute);
+						}
+					});
+				}
 			});
 			return attributes;
 		});
