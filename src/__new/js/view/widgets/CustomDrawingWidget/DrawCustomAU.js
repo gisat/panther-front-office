@@ -49,15 +49,15 @@ define([
 
 		this._buttonDraw = $("#button-draw-polygons");
 		this._section = $("#custom-au-container");
-		this._exportXLSbutton = this._section.find("#polygons-export-csv");
-		this._exportJSONbutton = this._section.find("#polygons-export-shp");
+		this._exportSHPbutton = this._section.find("#polygons-export-shp");
+		this._exportJSONbutton = this._section.find("#polygons-export-json");
 	};
 
 	DrawCustomAU.prototype = Object.create(CustomDrawingSection.prototype);
 
 	/**
 	 * Rebuild section with current map
-	 * @param map 
+	 * @param map {Map}
 	 */
 	DrawCustomAU.prototype.rebuild = function(map){
 		if (!this._map){
@@ -77,6 +77,7 @@ define([
 				place: ThemeYearConfParams.place
 			});
 		}
+		this.deactivateDrawing(this._buttonDraw);
 	};
 
 	/**
@@ -100,13 +101,13 @@ define([
 		var section = $("#custom-au-container");
 		var info = $("#custom-au-info");
 
-		if (ThemeYearConfParams.place.length == 0 || !OneLevelAreas.hasOneLevel){
+		if (ThemeYearConfParams.place.length == 0){
 			section.css("display", "none");
 			info.css("display","block");
 			info.find("p").html("Drawing of custom analytical units is disabled for All places option. To enable drawing, please select place (pilot).");
-			if (!OneLevelAreas.hasOneLevel){
-				info.find("p").html("Drawing of custom analytical units is enabled for scopes (pilots) with one level of analytical units only!");
-			}
+			//if (!OneLevelAreas.hasOneLevel){
+			//	info.find("p").html("Drawing of custom analytical units is enabled for scopes (pilots) with one level of analytical units only!");
+			//}
 			return false;
 		} else {
 			section.css("display", "block");
@@ -116,13 +117,13 @@ define([
 	};
 
 	/**
-	 * Prepare map for drawing
+	 * Prepare map for drawing, add layer and attach drawing control
 	 * @param map {Map}
 	 */
 	DrawCustomAU.prototype.prepareMap = function(map){
 		this._map = map;
 		this._map.rebuild();
-		this._vectorLayer = this._map.addLayerForDrawing("drawPolygons","#660099");
+		this._vectorLayer = this._map.addLayerForDrawing("drawPolygons","#FA6900");
 		this._drawControl = this._map.addControlsForPolygonDrawing(this._vectorLayer, this.addDrawEndListener.bind(this));
 	};
 

@@ -173,7 +173,7 @@
     color: #ff7600;
 }
 .urbis .widget-button-export:hover {
-    background: rgba(255,118,0,.25);
+    background: rgba(255,118,0,.15);
     color: #ff7600;
 }
 .urbis .widget-button-export[disabled=disabled] {
@@ -187,10 +187,10 @@
     background: transparent;
     cursor: default;
 }
-.urbis #export-shp:before, .urbis #lines-export-shp:before, .urbis #polygons-export-shp:before {
+.urbis #export-shp:before, .urbis #export-json:before, .urbis #lines-export-shp:before, .urbis #polygons-export-shp:before, .urbis #lines-export-json:before, .urbis #polygons-export-json:before {
     content: url('../../images/urbis/map.png');
 }
-.urbis #export-csv:before, .urbis #export-feature-info-csv:before, .urbis #lines-export-csv:before, .urbis #polygons-export-csv:before {
+.urbis #export-csv:before, .urbis #export-xls:before, .urbis #export-feature-info-csv:before {
     content: url('../../images/urbis/table.png');
 }
 .urbis #export-feature-info-csv:hover {

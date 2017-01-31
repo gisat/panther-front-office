@@ -34,7 +34,10 @@ define([
 				var options = response[0].options;
 
 				if (attributes){
-					self.rebuildComponents(attributes);
+					self.getAttributesMetadata().then(function(results){
+						var updatedAttributes = self.getAttributesWithUpdatedState(results, attributes);
+						self.rebuildComponents(updatedAttributes);
+					});
 				}
 				else {
 					self.getAttributesMetadata().then(self.rebuildComponents.bind(self));
@@ -53,6 +56,10 @@ define([
 		}
 	};
 
+	/**
+	 * Rebuild all components with given list of attributes
+	 * @param attributes {Array}
+	 */
 	FrontOffice.prototype.rebuildComponents = function(attributes){
 		var self = this;
 
@@ -64,6 +71,10 @@ define([
 		});
 	};
 
+	/**
+	 * Check if state of widgets match the configuration
+	 * @param floaters {Object}
+	 */
 	FrontOffice.prototype.checkWidgetsState = function(floaters){
 		this._widgets.forEach(function(widget){
 			for (var key in floaters){
@@ -90,6 +101,30 @@ define([
 			});
 			return attributes;
 		});
+	};
+
+	/**
+	 * Update the state of attributes (active/inactive) according to visualiyation settings
+	 * @param allAttributes {Array} list of all attributes for given configuration
+	 * @param visAttributes {Array} list of attrributes from visualization
+	 * @returns {Array} list of updated attributes
+	 */
+	FrontOffice.prototype.getAttributesWithUpdatedState = function(allAttributes, visAttributes){
+		var updated = [];
+		allAttributes.forEach(function(allAttr){
+			var isInVisualization = false;
+			visAttributes.forEach(function(visAttr){
+				if (allAttr.attribute == visAttr.attribute){
+					allAttr.active = visAttr.active;
+					isInVisualization = true;
+				}
+			});
+			if (!isInVisualization){
+				allAttr.active = false;
+			}
+			updated.push(allAttr);
+		});
+		return updated;
 	};
 
 	/**

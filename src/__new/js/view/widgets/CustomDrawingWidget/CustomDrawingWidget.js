@@ -130,6 +130,9 @@ define([
 		$(e.target).closest('li').addClass('active');
 		var target = $(e.target).closest('a').attr('data-target');
 		$("#" + target).addClass('active');
+
+		this._auSection.deactivateDrawing(this._auSection.getDrawingButton());
+		this._lineSection.deactivateDrawing(this._lineSection.getDrawingButton());
 	};
 
 	return CustomDrawingWidget;

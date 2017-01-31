@@ -49,8 +49,8 @@ define([
 
 		this._buttonDraw = $("#button-draw-lines");
 		this._section = $("#custom-lines-container");
-		this._exportXLSbutton = this._section.find("#lines-export-csv");
-		this._exportJSONbutton = this._section.find("#lines-export-shp");
+		this._exportSHPbutton = this._section.find("#lines-export-shp");
+		this._exportJSONbutton = this._section.find("#lines-export-json");
 	};
 
 	DrawCustomLines.prototype = Object.create(CustomDrawingSection.prototype);
@@ -75,6 +75,7 @@ define([
 		this.getSavedFeatures({
 			scope: ThemeYearConfParams.dataset
 		});
+		this.deactivateDrawing(this._buttonDraw);
 	};
 
 	/**
@@ -84,7 +85,7 @@ define([
 	DrawCustomLines.prototype.prepareMap = function(map){
 		this._map = map;
 		this._map.rebuild();
-		this._vectorLayer = this._map.addLayerForDrawing("drawLines","#660099");
+		this._vectorLayer = this._map.addLayerForDrawing("drawLines","#FA6900");
 		this._drawControl = this._map.addControlsForLineDrawing(this._vectorLayer, this.addDrawEndListener.bind(this));
 	};
 
