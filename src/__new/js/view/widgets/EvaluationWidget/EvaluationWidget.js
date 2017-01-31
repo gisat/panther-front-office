@@ -100,7 +100,7 @@ define([
      * @param attrForRequest {Array} List of attributes for current configuration
      * @param map {Object}
      */
-    EvaluationWidget.prototype.rebuild = function(attrForRequest, map){
+    EvaluationWidget.prototype.rebuild = function(attrForRequest, map, options){
         var self = this;
         if (!this._resizeListener){
             this._resizeListener = true;
@@ -160,7 +160,9 @@ define([
                 });
             }
             if (self._attributes.length){
-                self.prepareFooter();
+                if (!options || options.rebuildFooter == true){
+                    self.prepareFooter();
+                }
                 self.rebuildViewAndSettings();
             } else {
                 self.noDataEcho();
@@ -577,7 +579,9 @@ define([
                         if (self._inputs){
                             self.rebuildPopups(self._inputs.sliders);
                         }
-                        self.rebuild(self._attrForRequest);
+                        self.rebuild(self._attrForRequest, {}, {
+                            rebuildFooter: false
+                        });
                     }
                     self._initializeResize = true;
                 }, 500);
