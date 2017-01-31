@@ -284,7 +284,7 @@ Ext.define('PumaMain.controller.Layers', {
 						oneDiv += '<p>For more details see <a target="_blank" href="' + r.address + '">Complete Metadata</a></p>';
 					} else {
 						oneDiv += '<p class="title">Contact</p>';
-						oneDiv+= '<p><a target="_top" href="mailto:katerina.jupova@gisat.cz"></p>';
+						oneDiv+= '<p><a target="_top" href="mailto:katerina.jupova@gisat.cz">Kateřina Jupová</a></p>';
 
 						oneDiv+= '<p>' + r.abstract + '</p>';
 					}
