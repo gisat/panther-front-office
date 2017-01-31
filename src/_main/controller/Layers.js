@@ -254,35 +254,43 @@ Ext.define('PumaMain.controller.Layers', {
 					oneDiv+= '<p class="title">Title</p>';
 					oneDiv+= '<p>' + r.title + '</p>';
 
-					oneDiv+= '<p class="title">Abstract</p>';
-					oneDiv+= '<p>' + r.abstract + '</p>';
+					if(!Config.toggles.isUrbis) {
+						oneDiv+= '<p class="title">Abstract</p>';
+						oneDiv+= '<p>' + r.abstract + '</p>';
 
-					oneDiv+= '<p class="title">Temporal extent</p>';
-					oneDiv+= '<p>' + r.temporal + '</p>';
+						oneDiv += '<p class="title">Temporal extent</p>';
+						oneDiv += '<p>' + r.temporal + '</p>';
 
-					oneDiv+= '<p class="title">Keywords</p>';
-					oneDiv+= '<p>' + r.keywords + '</p>';
+						oneDiv += '<p class="title">Keywords</p>';
+						oneDiv += '<p>' + r.keywords + '</p>';
 
-					oneDiv+= '<p class="title">Producer</p>';
-					oneDiv+= '<p>';
-					if (r.organization != r.contact && r.organization != ""){
-						oneDiv+= r.organization + '<br>';
+						oneDiv += '<p class="title">Producer</p>';
+						oneDiv += '<p>';
+						if (r.organization != r.contact && r.organization != "") {
+							oneDiv += r.organization + '<br>';
+						}
+						if (r.contact != null && r.contact != "" && r.contact != " ") {
+							oneDiv += r.contact + '<br>';
+						}
+						if (r.mail != "") {
+							oneDiv += '<a target="_top" href="mailto:' + r.email + '">' + r.email + '</a>';
+						}
+						oneDiv += '</p>';
+
+						if (r.constraints_other != null && r.constraints_other != "") {
+							oneDiv += '<p>' + r.constraints_other + '</p>';
+						}
+
+						oneDiv += '<p>For more details see <a target="_blank" href="' + r.address + '">Complete Metadata</a></p>';
+					} else {
+						oneDiv += '<p class="title">Contact</p>';
+						oneDiv+= '<p><a target="_top" href="mailto:katerina.jupova@gisat.cz"></p>';
+
+						oneDiv+= '<p>' + r.abstract + '</p>';
 					}
-					if(r.contact != null && r.contact != "" && r.contact != " "){
-						oneDiv += r.contact + '<br>';
-					}
-					if(r.mail != ""){
-						oneDiv+= '<a target="_top" href="mailto:' + r.email + '">' + r.email + '</a>';
-					}
-					oneDiv+= '</p>';
-
-					if(r.constraints_other != null && r.constraints_other != ""){
-						oneDiv += '<p>' + r.constraints_other + '</p>';
-					}
-
-					oneDiv+= '<p>For more details see <a target="_blank" href="'+r.address+'">Complete Metadata</a></p>';
 
 					oneDiv+= '</div>';
+
 
 					if(searchTitle && r.title.toLowerCase().search(searchTitle.toLowerCase()) != -1){
 						var html = [oneDiv];
