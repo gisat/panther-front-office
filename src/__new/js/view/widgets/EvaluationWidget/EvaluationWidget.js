@@ -115,6 +115,7 @@ define([
         };
         this._filter.statistics(attrForRequest, distribution).then(function(attributes){
             self._attributes = [];
+            self._attrForRequest = [];
             if (attributes.length > 0){
                 attributes.forEach(function(attribute){
                     var about = {
@@ -126,6 +127,7 @@ define([
                         units: attribute.units,
                         active: attribute.active
                     };
+                    self._attrForRequest.push(about);
 
                     if (about.attributeType == "numeric"){
                         // TODO: Fix ugly hack for showing Kathmandu.
@@ -163,6 +165,7 @@ define([
                 self.noDataEcho();
             }
         });
+
         this.rebuildMap();
         ThemeYearConfParams.datasetChanged = false;
     };
@@ -237,7 +240,6 @@ define([
         });
         this._categories = this._settings.getCategories();
         this.setAttributesState(this._categories);
-
         this.rebuildInputs(this._categories);
         this.disableExports();
 
@@ -260,7 +262,6 @@ define([
         };
 
         var self = this;
-
         for (var key in categories){
             if (categories.hasOwnProperty(key) && categories[key].active == true){
                 var input = categories[key].input;
