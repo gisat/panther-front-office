@@ -273,7 +273,7 @@ define([
                 var units = categories[key].attrData.about.units;
                 var attrId = categories[key].attrData.about.attribute;
                 var attrSetId = categories[key].attrData.about.attributeSet;
-                var id = "attr-" + categories[key].attrData.about.attribute;
+                var id = "input-as-" + attrSetId + "-attr-" + attrId;
                 if (input == "slider") {
                     var min = categories[key].attrData.values[0];
                     var max = categories[key].attrData.values[1];
@@ -297,9 +297,9 @@ define([
                     var options = categories[key].attrData.values;
                     var select;
                     if (multioptions){
-                        select = this.buildMultiSelectInput(key, name, options);
+                        select = this.buildMultiSelectInput(id, name, options);
                     } else {
-                        select = this.buildSelectInput(key, name, options);
+                        select = this.buildSelectInput(id, name, options);
                     }
                     this._inputs.selects.push(select);
                 }
