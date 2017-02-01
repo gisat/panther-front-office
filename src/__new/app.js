@@ -46,6 +46,7 @@ define(['js/util/metadata/Attributes',
         'js/util/Placeholder',
 		'js/util/Remote',
 		'js/stores/Stores',
+        'js/view/widgets/WorldWindWidget/WorldWindWidget',
 
         'string',
         'jquery',
@@ -64,6 +65,7 @@ define(['js/util/metadata/Attributes',
              Placeholder,
 			 Remote,
 			 Stores,
+             WorldWindWidget,
 
              S,
              $){
@@ -88,6 +90,9 @@ define(['js/util/metadata/Attributes',
         }
         if(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo){
             tools.push(buildFeatureInfoTool());
+        }
+        if(Config.toggles.hasOwnProperty("hasNew3Dmaps") && Config.toggles.hasNew3Dmaps){
+            tools.push(buildWorldWindWidget());
         }
 
         // build app, map is class for OpenLayers map
@@ -213,6 +218,18 @@ define(['js/util/metadata/Attributes',
                 options: ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016']
             }]
         })
+    }
+
+    /**
+     * Build WorldWindWidget instance
+     * @returns {WorldWindWidget}
+     */
+    function buildWorldWindWidget (){
+        return new WorldWindWidget({
+            elementId: 'world-wind-widget',
+            name: '3D Map',
+            targetId: 'widget-container'
+        });
     }
 
 	/**
