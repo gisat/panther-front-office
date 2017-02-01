@@ -98,9 +98,9 @@ define([
     /**
      * It rebuilds the widget for given attributes. First, it collects metadata about each attribute, then it rebuilds all components of the widget
      * @param attrForRequest {Array} List of attributes for current configuration
-     * @param map {Object}
+     * @param options {Object}
      */
-    EvaluationWidget.prototype.rebuild = function(attrForRequest, map, options){
+    EvaluationWidget.prototype.rebuild = function(attrForRequest, options){
         var self = this;
         if (!this._resizeListener){
             this._resizeListener = true;
@@ -160,7 +160,7 @@ define([
                 });
             }
             if (self._attributes.length){
-                if (!options || options.rebuildFooter == true){
+                if (!options.hasOwnProperty("rebuildFooter") || options.rebuildFooter == true){
                     self.prepareFooter();
                 }
                 self.rebuildViewAndSettings();
@@ -579,7 +579,7 @@ define([
                         if (self._inputs){
                             self.rebuildPopups(self._inputs.sliders);
                         }
-                        self.rebuild(self._attrForRequest, {}, {
+                        self.rebuild(self._attrForRequest, {
                             rebuildFooter: false
                         });
                     }

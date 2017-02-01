@@ -81,9 +81,9 @@ define([
 	 * @param attributes {Array} List of attributes depends on current settings
 	 * @param map {OpenLayers.Map}
 	 */
-	CustomDrawingWidget.prototype.rebuild = function(attributes, map){
+	CustomDrawingWidget.prototype.rebuild = function(attributes, options){
 		if (!this._map){
-			this._map = map;
+			this._map = options.olMap;
 		}
 
 		this._auSection.rebuild(this._map);

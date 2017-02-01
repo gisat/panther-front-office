@@ -16,7 +16,7 @@ define([
 	var FrontOffice = function(options) {
 		this.loadData();
 		this._attributesMetadata = options.attributesMetadata;
-		this._map = options.map;
+		this._options = options.widgetOptions;
 		this._tools = options.tools;
 		this._widgets = options.widgets;
 		Observer.addListener("rebuild", this.rebuild.bind(this));
@@ -63,10 +63,10 @@ define([
 	FrontOffice.prototype.rebuildComponents = function(attributes){
 		var self = this;
 		this._tools.forEach(function(tool){
-			tool.rebuild(attributes, self._map);
+			tool.rebuild(attributes, self._options);
 		});
 		this._widgets.forEach(function(widget){
-			widget.rebuild(attributes, self._map);
+			widget.rebuild(attributes, self._options);
 		});
 	};
 
