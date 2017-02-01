@@ -62,11 +62,22 @@ define(['../../../error/ArgumentError',
 			setTimeout(function(){
 				if (checkbox.hasClass("checked")){
 					self._worldWindContainer.css("display", "block");
+					self.toggleComponents("none");
 				} else {
 					self._worldWindContainer.css("display", "none");
+					self.toggleComponents("block");
 				}
 			}, 50);
 		});
+	};
+
+	/**
+	 * Show/hide components
+	 * @param action {string} css display value
+	 */
+	WorldWindWidget.prototype.toggleComponents = function(action){
+		$("#sidebar-tools, #sidebar-reports, #tools-container, #widget-container .placeholder:not(#placeholder-" + this._widgetId + "), .floater:not(#floater-" + this._widgetId + ")")
+			.css("display", action);
 	};
 
 	return WorldWindWidget;

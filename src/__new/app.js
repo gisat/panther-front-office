@@ -82,7 +82,11 @@ define(['js/util/metadata/Attributes',
         var olMap = buildOpenLayersMap();
         
         // create tools and widgets according to configuration
-		if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
+        if(Config.toggles.hasOwnProperty("hasNew3Dmaps") && Config.toggles.hasNew3Dmaps){
+            var webWorldWind = buildWorldWindMap();
+            widgets.push(buildWorldWindWidget(webWorldWind));
+        }
+        if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
             widgets.push(buildEvaluationWidget(filter));
         }
         if(Config.toggles.hasOwnProperty("hasNewCustomPolygonsTool") && Config.toggles.hasNewCustomPolygonsTool){
@@ -93,10 +97,6 @@ define(['js/util/metadata/Attributes',
         }
         if(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo){
             tools.push(buildFeatureInfoTool());
-        }
-        if(Config.toggles.hasOwnProperty("hasNew3Dmaps") && Config.toggles.hasNew3Dmaps){
-            var webWorldWind = buildWorldWindMap();
-            widgets.push(buildWorldWindWidget(webWorldWind));
         }
 
         // build app, map is class for OpenLayers map
