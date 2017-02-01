@@ -1,8 +1,8 @@
 var Config = {
-	url: 'http://urbis.gisat.cz/backend/',
-	signupAddress: 'http://urbis.gisat.cz/account/signup/',
-	//url: 'http://localhost:4000/',
-	//signupAddress: 'http://localhost:4000/account/signup/',
+	//url: 'http://urbis.gisat.cz/backend/',
+	//signupAddress: 'http://urbis.gisat.cz/account/signup/',
+	url: 'http://localhost:4000/',
+	signupAddress: 'http://localhost:4000/account/signup/',
 	geoserver2Workspace: "panther",
 	initialBaseMap: "terrain",
 	initialMapBounds: [
@@ -12,7 +12,6 @@ var Config = {
 		-6.9809544265
 	],
 	melodiesRemoteUrl: "",
-	customDrawingLinesName: "custom_line_2",
 
 	toggles: {
 		noGeoserverLayerGroups: false,
@@ -28,7 +27,7 @@ var Config = {
 		hasNewCustomPolygonsTool: true,
 		hasNewFeatureInfo: true,
 		isNewDesign: true,
-		isUrbis: true,
+		isUrbis: false,
 		isEea: false,
 		isMelodies: false,
 		isUrbanTep: false

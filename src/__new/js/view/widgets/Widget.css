@@ -197,7 +197,7 @@
 .widget-tabs-menu li.active {
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
-    border-left: 4px solid #ff7600;
+    border-left: 4px solid #c92d42;
     border-radius: .1rem;
     background: rgba(245,245,245,1);
     position: relative;

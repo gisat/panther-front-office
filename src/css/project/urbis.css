@@ -212,7 +212,9 @@
     content: url("../../images/urbis/check-colored.png");
     opacity: .8;
 }
-
+.urbis .widget-tabs-menu li.active {
+    border-left: 4px solid #ff7600;
+}
 .urbis .widgets label.label-multiselect-select-all:hover {
     color: rgba(255,118,0, 1);
 }
