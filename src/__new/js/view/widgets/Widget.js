@@ -26,8 +26,32 @@ define(['../../error/ArgumentError',
      * @constructor
      */
 
-    var Widget = function () {
+    var Widget = function (options) {
         View.apply(this, arguments);
+
+        if (!options.elementId){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Widget", "constructor", "missingElementId"));
+        }
+        if (!options.targetId){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Widget", "constructor", "missingTargetElementId"));
+        }
+
+        this._name = options.name || "";
+        this._widgetId = options.elementId;
+        this._target = $("#" + options.targetId);
+        if (this._target.length == 0){
+            throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "Widget", "constructor", "missingHTMLElement"));
+        }
+
+        this.buildWidget({
+            widgetId: this._widgetId,
+            name: this._name,
+            target: this._target
+        });
+
+        this._widgetSelector = $("#floater-" + this._widgetId);
+        this._placeholderSelector = $("#placeholder-" + this._widgetId);
+        this._widgetBodySelector = this._widgetSelector.find(".floater-body");
     };
 
     Widget.prototype = Object.create(View.prototype);
@@ -39,7 +63,7 @@ define(['../../error/ArgumentError',
      * @param options.target {Object} JQuery object - target
      * @param options.name {Object} JQuery object - name of the widget
      */
-    Widget.prototype.build = function(options){
+    Widget.prototype.buildWidget = function(options){
         if (!options.widgetId){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Widget", "build", "missingWidgetId"));
         }

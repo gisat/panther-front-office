@@ -32,32 +32,9 @@ define([
 	var CityWidget = function(options) {
 		Widget.apply(this, arguments);
 
-		if (!options.elementId){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "CityWidget", "constructor", "missingElementId"));
-		}
-		if (!options.targetId){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "CityWidget", "constructor", "missingTargetElementId"));
-		}
 		if (!options.selections){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "CityWidget", "constructor", "missingSelections"));
 		}
-
-		this._name = options.name || "";
-		this._widgetId = options.elementId;
-		this._target = $("#" + options.targetId);
-		if (this._target.length == 0){
-			throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "CityWidget", "constructor", "missingHTMLElement"));
-		}
-
-		// Call the method from parent
-		Widget.prototype.build.call(this, {
-			widgetId: this._widgetId,
-			name: this._name,
-			target: this._target
-		});
-
-		this._widgetSelector = $("#floater-" + this._widgetId);
-		this._widgetBodySelector = this._widgetSelector.find(".floater-body");
 
 		this._selectBoxes = [];
 		this.build(options);

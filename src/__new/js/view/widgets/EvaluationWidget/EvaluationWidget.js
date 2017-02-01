@@ -53,33 +53,11 @@ define([
     var EvaluationWidget = function(options) {
         Widget.apply(this, arguments);
 
-        if (!options.elementId){
-            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingElementId"));
-        }
-        if (!options.targetId){
-            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingTargetElementId"));
-        }
         if (!options.filter){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingFilter"));
         }
 
         this._filter = options.filter;
-        this._name = options.name || "";
-        this._widgetId = options.elementId;
-        this._target = $("#" + options.targetId);
-        if (this._target.length == 0){
-            throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingHTMLElement"));
-        }
-
-        Widget.prototype.build.call(this, {
-            widgetId: this._widgetId,
-            name: this._name,
-            target: this._target
-        });
-
-        this._widgetSelector = $("#floater-" + this._widgetId);
-        this._placeholderSelector = $("#placeholder-" + this._widgetId);
-        this._widgetBodySelector = this._widgetSelector.find(".floater-body");
 
         if (Config.toggles.hasOwnProperty("isUrbis") && Config.toggles.isUrbis){
             this._widgetSelector.addClass("open");
