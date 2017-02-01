@@ -106,6 +106,7 @@ define(function () {
             missingTarget: "Target is null or undefined!",
             missingWidgetId: "Widget Id is null or undefined!",
             missingWidgetName: "Widget Name is null or undefined!",
+            missingWorldWind: "World Wind parameter is missing!",
             notNaturalNumber: "Parameter is not a natural number!"
         }
     };

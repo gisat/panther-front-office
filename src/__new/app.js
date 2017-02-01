@@ -46,6 +46,7 @@ define(['js/util/metadata/Attributes',
         'js/util/Placeholder',
 		'js/util/Remote',
 		'js/stores/Stores',
+        'js/view/worldWind/worldWindMap',
         'js/view/widgets/WorldWindWidget/WorldWindWidget',
 
         'string',
@@ -65,6 +66,7 @@ define(['js/util/metadata/Attributes',
              Placeholder,
 			 Remote,
 			 Stores,
+             WorldWindMap,
              WorldWindWidget,
 
              S,
@@ -92,7 +94,8 @@ define(['js/util/metadata/Attributes',
             tools.push(buildFeatureInfoTool());
         }
         if(Config.toggles.hasOwnProperty("hasNew3Dmaps") && Config.toggles.hasNew3Dmaps){
-            tools.push(buildWorldWindWidget());
+            var webWorldWind = buildWorldWindMap();
+            widgets.push(buildWorldWindWidget(webWorldWind));
         }
 
         // build app, map is class for OpenLayers map
@@ -169,7 +172,16 @@ define(['js/util/metadata/Attributes',
         return new Map();
     }
 
-	/**
+    /**
+     * Build World Wind Map instance
+     * @returns {WorldWindMap}
+     */
+    function buildWorldWindMap (){
+        return new WorldWindMap();
+    }
+
+
+    /**
 	 * Build Evaluation Widget instance
      * @param filter {Filter}
      * @returns {EvaluationWidget}
@@ -222,13 +234,15 @@ define(['js/util/metadata/Attributes',
 
     /**
      * Build WorldWindWidget instance
+     * @param webWorldWind {WorldWindMap}
      * @returns {WorldWindWidget}
      */
-    function buildWorldWindWidget (){
+    function buildWorldWindWidget (webWorldWind){
         return new WorldWindWidget({
             elementId: 'world-wind-widget',
             name: '3D Map',
-            targetId: 'widget-container'
+            targetId: 'widget-container',
+            worldWind: webWorldWind
         });
     }
 

@@ -1,6 +1,8 @@
 define(['../../error/ArgumentError',
         '../../error/NotFoundError',
         '../../util/Logger',
+
+        './inputs/checkbox/Checkbox',
         '../View',
 
         'string',
@@ -12,6 +14,8 @@ define(['../../error/ArgumentError',
 ], function (ArgumentError,
              NotFoundError,
              Logger,
+
+             Checkbox,
              View,
 
              S,
@@ -129,6 +133,21 @@ define(['../../error/ArgumentError',
                 break;
         }
         this._widgetSelector.find(".floater-overlay").css("display", display);
+    };
+
+    /**
+     * It returns the checkbox
+     * @param id {string} ID of the data theme
+     * @param name {string} Name of the data theme
+     * @returns {Checkbox}
+     */
+    Widget.prototype.buildCheckboxInput = function(id, name, target){
+        return new Checkbox({
+            id: id,
+            name: name,
+            target: target,
+            containerId: "floater-" + this._widgetId
+        });
     };
 
     return Widget;

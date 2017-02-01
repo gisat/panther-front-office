@@ -267,7 +267,7 @@ define([
                 }
 
                 else if (input == "checkbox"){
-                    var checkbox = this.buildCheckboxInput(id, name);
+                    var checkbox = this.buildCheckboxInput(id, name, this._widgetBodySelector);
                     this._inputs.checkboxes.push(checkbox);
                 }
 
@@ -286,21 +286,6 @@ define([
         this.amount();
         this.addSliderListener();
         this.addInputsListener();
-    };
-
-    /**
-     * It returns the checkbox
-     * @param id {string} ID of the data theme
-     * @param name {string} Name of the data theme
-     * @returns {Checkbox}
-     */
-    EvaluationWidget.prototype.buildCheckboxInput = function(id, name){
-        return new Checkbox({
-            id: id,
-            name: name,
-            target: this._widgetBodySelector,
-            containerId: "floater-" + this._widgetId
-        });
     };
 
     /**

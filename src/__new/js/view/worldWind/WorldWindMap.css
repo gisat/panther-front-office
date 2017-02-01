@@ -1,0 +1,10 @@
+body.application #world-wind-container {
+	display: none;
+
+	background: rgba(255,0,0,.3);
+	position: absolute;
+	top: 135px;
+	height: 100%;
+	width: 100%;
+	z-index: 999;
+}

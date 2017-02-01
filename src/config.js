@@ -23,6 +23,7 @@ var Config = {
 		allowDownloadsLink: false,
 		usePumaLogo: false,
 		advancedFiltersFirst: false,
+		hasNew3Dmaps: true,
 		hasNewEvaluationTool: true,
 		hasNewCustomPolygonsTool: true,
 		hasNewFeatureInfo: true,
