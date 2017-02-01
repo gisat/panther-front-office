@@ -617,23 +617,6 @@ define([
     };
 
 	/**
-     * Show/hide loading overlay
-     * @param state {string}
-     */
-    EvaluationWidget.prototype.handleLoading = function(state){
-        var display;
-        switch (state) {
-            case "show":
-                display = "block";
-                break;
-            case "hide":
-                display = "none";
-                break;
-        }
-        this._widgetSelector.find(".floater-overlay").css("display", display);
-    };
-
-	/**
      * Prepare attributes for export
      * @param categories {Object}
      */

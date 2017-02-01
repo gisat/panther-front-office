@@ -114,5 +114,22 @@ define(['../../error/ArgumentError',
         floater.find(".floater-footer").remove();
     };
 
+    /**
+     * Show/hide loading overlay
+     * @param state {string}
+     */
+    Widget.prototype.handleLoading = function(state){
+        var display;
+        switch (state) {
+            case "show":
+                display = "block";
+                break;
+            case "hide":
+                display = "none";
+                break;
+        }
+        this._widgetSelector.find(".floater-overlay").css("display", display);
+    };
+
     return Widget;
 });
