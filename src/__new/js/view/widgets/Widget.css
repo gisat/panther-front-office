@@ -73,7 +73,7 @@
 
 /* === Floaters === */
 .floater {
-    background: rgba(255,255,255,.9);
+    background: rgba(255,255,255,.95);
     border: 1px solid #ccc;
     border-radius: .1rem;
     -webkit-box-shadow: 0 0 4px rgb(136, 136, 136);

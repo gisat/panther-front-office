@@ -9,7 +9,8 @@ requirejs.config({
         'resize': 'lib/detect-element-resize',
         'string': 'lib/string',
         'underscore': 'lib/underscore-min',
-        'text': 'lib/text'
+        'text': 'lib/text',
+        'worldwind': 'lib/worldwind.min'
     },
 
     map: {
