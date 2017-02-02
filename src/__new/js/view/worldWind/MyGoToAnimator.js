@@ -28,6 +28,7 @@ define(['../../error/ArgumentError',
 
 		GoToAnimator.call(this, wwd);
 		this.wwd = wwd;
+		this._defaultLoc = [14,50];
 	};
 
 	MyGoToAnimator.prototype = Object.create(GoToAnimator.prototype);
@@ -67,6 +68,7 @@ define(['../../error/ArgumentError',
 				self.goTo(new WorldWind.Location(location.lat,location.lon));
 			} else {
 				console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "MyGoToAnimator", "setLocation", "emptyResult"));
+				self.goTo(new WorldWind.Location(self._defaultLoc[0],self._defaultLoc[1]));
 			}
 		}).catch(function(err){
 			throw new Error(Logger.log(Logger.LEVEL_SEVERE, err));
@@ -98,6 +100,9 @@ define(['../../error/ArgumentError',
 	 * @returns {{minLat, maxLat, minLon, maxLon}}
 	 */
 	MyGoToAnimator.prototype.getBoundingBox = function(boxes){
+		if (!boxes){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MyGoToAnimator", "getBoundingBox", "missingParameter"));
+		}
 		return {
 			minLat: Math.min.apply(0, boxes.map(function(box) { return box.minLat; })),
 			maxLat: Math.max.apply(0, boxes.map(function(box) { return box.maxLat; })),
