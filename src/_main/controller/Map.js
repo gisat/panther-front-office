@@ -313,6 +313,29 @@ Ext.define('PumaMain.controller.Map', {
 		Ext.StoreMgr.lookup('selectedlayers').loadData([hybridNode,streetNode,terrainNode,osmNode],true);
 		baseNode.appendChild([hybridNode,streetNode,terrainNode,osmNode]);
 		liveNode.appendChild([trafficNode]);
+
+		if(Config.toggles.hasGuf) {
+			var gufNode = Ext.StoreMgr.lookup('layers').getRootNode().findChild('type', 'customwms');
+			var guf12m = Ext.create('Puma.model.MapLayer', {
+				name: 'GUF2012-12m (for scientific use only)',
+				initialized: true,
+				allowDrag: true,
+				checked: false,
+				leaf: true,
+				sortIndex: 0,
+				type: 'guf12m'
+			});
+			var guf84m = Ext.create('Puma.model.MapLayer', {
+				name: 'GUF2012-84m (for non-profit use only)',
+				initialized: true,
+				allowDrag: true,
+				checked: false,
+				leaf: true,
+				sortIndex: 0,
+				type: 'guf84m'
+			});
+			gufNode.appendChild([guf12m, guf84m]);
+		}
 	},
 
 	onMapMove: function(map) {
@@ -634,11 +657,18 @@ Ext.define('PumaMain.controller.Map', {
 			initialized: true,
 			visibility: false
 		});
-		var trafficLayer = new google.maps.TrafficLayer()
+		var trafficLayer = new google.maps.TrafficLayer();
+		var guf12mLayer = new OpenLayers.Layer.WMS( "GUF 12M",
+			"http://vmap0.tiles.osgeo.org/wms/vmap0",
+			{layers: 'basic'});
+		var guf84mLayer = new OpenLayers.Layer.WMS( "GUF 84M",
+			"https://utep.it4i.cz/geoserver/gwc/service/wms",
+			{layers: 'ESA_UTEP:GUF28'});
 
 		var baseNode = Ext.StoreMgr.lookup('layers').getRootNode().findChild('type','basegroup');
 		var trafficNode = Ext.StoreMgr.lookup('layers').getRootNode().findChild('type','livegroup');
-		var baseNodes = Ext.Array.merge(baseNode.childNodes,trafficNode.childNodes)
+		var gufNodes = Ext.StoreMgr.lookup('layers').getRootNode().findChild('type', 'customwms');
+		var baseNodes = Ext.Array.merge(baseNode.childNodes,trafficNode.childNodes, gufNodes.childNodes);
 		var nodes = [];
 		for (var i=0;i<baseNodes.length;i++) {
 			var node = baseNodes[i];
@@ -650,6 +680,8 @@ Ext.define('PumaMain.controller.Map', {
 				case 'terrain': layer = terrainLayer; break;
 				case 'osm': layer = osmLayer; break;
 				case 'traffic': layer = trafficLayer; break;
+				case 'guf12m': layer = guf12mLayer; break;
+				case 'guf84m': layer = guf84mLayer; break;
 			}
 			var nodeProp = cmp.itemId=='map' ? 'layer1':'layer2';
 			node.set(nodeProp,layer);

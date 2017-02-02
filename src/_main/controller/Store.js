@@ -410,7 +410,12 @@ Ext.define('PumaMain.controller.Store', {
                     type: 'livegroup',
                     expanded: true,
                     checked: null
-                }]
+                }, {
+					name: 'Custom WMS',
+					type: 'customwms',
+					expanded: true,
+					checked: null
+				}]
             }
         });
     
