@@ -2,11 +2,13 @@ define([
 	'js/stores/Stores',
 	'js/stores/gisat/Attributes',
 	'js/stores/gisat/AttributeSets',
+	'js/stores/gisat/Locations',
 	'js/stores/gisat/Visualizations',
 	'underscore'
 ], function(Stores,
 			Attributes,
 			AttributeSets,
+			Locations,
 			Visualizations,
 			_){
 	/**
@@ -26,6 +28,8 @@ define([
 	 * Rebuild all components 
 	 */
 	FrontOffice.prototype.rebuild = function(){
+		this._options.config = ThemeYearConfParams;
+
 		var self = this;
 		var visualization = Number(ThemeYearConfParams.visualization);
 		if (visualization > 0){
@@ -134,6 +138,7 @@ define([
 	FrontOffice.prototype.loadData = function(){
 		Stores.retrieve('attribute').all();
 		Stores.retrieve('attributeSet').all();
+		Stores.retrieve('location').all();
 		Stores.retrieve('visualization').all();
 	};
 

@@ -21,6 +21,11 @@ define(['../../error/ArgumentError',
 		this.setupWebWorldWind();
 	};
 
+
+	WorldWindMap.prototype.rebuild = function(location){
+		console.log(location);
+	};
+
 	/**
 	 * It builds Web World Wind container
 	 */

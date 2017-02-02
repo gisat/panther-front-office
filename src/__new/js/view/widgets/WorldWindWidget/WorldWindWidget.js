@@ -53,6 +53,7 @@ define(['../../../error/ArgumentError',
 	};
 
 	WorldWindWidget.prototype.rebuild = function(attributes, options){
+		this._worldWind.rebuild(options.config);
 	};
 
 	WorldWindWidget.prototype.addEventListeners = function(){
