@@ -1,7 +1,7 @@
 var Config = {
 	//url: 'http://urbis.gisat.cz/backend/',
 	//signupAddress: 'http://urbis.gisat.cz/account/signup/',
-	url: 'http://localhost:4000/',
+	url: 'http://urbis.gisat.cz/backend/',
 	signupAddress: 'http://localhost:4000/account/signup/',
 	geoserver2Workspace: "panther",
 	initialBaseMap: "terrain",
@@ -30,7 +30,11 @@ var Config = {
 		isUrbis: false,
 		isEea: false,
 		isMelodies: false,
-		isUrbanTep: false
+		isUrbanTep: false,
+		/**
+		 * It distinguishes whether under the Custom WMS layer group the GUF will be displayed.
+		 */
+		hasGuf: true
 	},
 
 	basicTexts: {
