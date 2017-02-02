@@ -164,6 +164,7 @@
     margin-top       : 13px;
 }
 .newDesign #content-application{
+    z-index: 20500;
 }
 
 /* intro toolbar inputs */
@@ -200,6 +201,7 @@
 /* App toolbar === */
 .newDesign #toolbar {
     height: 105px;
+    z-index: 20500;
 }
 .newDesign .fields-holder > .label {
     width: 290px;

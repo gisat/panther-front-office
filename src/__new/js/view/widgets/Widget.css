@@ -90,10 +90,10 @@
 .floater.open {
     display: block;
     height: 28rem;
-    z-index: 10000;
+    z-index: 21000;
 }
 .floater.active {
-    z-index: 10001;
+    z-index: 21001;
 }
 .floater-overlay {
     display: none;
