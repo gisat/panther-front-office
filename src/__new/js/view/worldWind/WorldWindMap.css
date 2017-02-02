@@ -7,7 +7,7 @@ body.application #world-wind-container {
 	top: 135px;
 	height: calc(100% - 135px);
 	width: 100%;
-	z-index: 20499;
+	z-index: 5555;
 }
 
 #world-wind-canvas {

@@ -76,8 +76,9 @@ define(['../../../error/ArgumentError',
 	 * @param action {string} css display value
 	 */
 	WorldWindWidget.prototype.toggleComponents = function(action){
-		$("#sidebar-tools, #sidebar-reports, #tools-container, #widget-container .placeholder:not(#placeholder-" + this._widgetId + "), .floater:not(#floater-" + this._widgetId + ")")
+		$(".x-closable, #sidebar-tools, #sidebar-reports, #tools-container, #widget-container .placeholder:not(#placeholder-" + this._widgetId + "), .floater:not(#floater-" + this._widgetId + ")")
 			.css("display", action);
+		$(".x-css-shadow").css("display", "none");
 	};
 
 	return WorldWindWidget;
