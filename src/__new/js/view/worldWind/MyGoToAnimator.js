@@ -64,8 +64,8 @@ define(['../../error/ArgumentError',
 					});
 				});
 				var boundingBox = self.getBoundingBox(bboxes);
-				var location = self.getCentroidCoordinates(boundingBox);
-				self.goTo(new WorldWind.Location(location.lat,location.lon));
+				var position = self.getCentroidCoordinates(boundingBox);
+				self.goTo(new WorldWind.Position(position.lat,position.lon,position.alt));
 			} else {
 				console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "MyGoToAnimator", "setLocation", "emptyResult"));
 				self.goTo(new WorldWind.Location(self._defaultLoc[0],self._defaultLoc[1]));
@@ -82,7 +82,7 @@ define(['../../error/ArgumentError',
 	 * @param bbox.maxLat {number}
 	 * @param bbox.minLon {number}
 	 * @param bbox.maxLon {number}
-	 * @returns {{lat, lon}}
+	 * @returns {{lat, lon, alt}}
 	 */
 	MyGoToAnimator.prototype.getCentroidCoordinates = function(bbox){
 		if (!bbox){
@@ -90,7 +90,8 @@ define(['../../error/ArgumentError',
 		}
 		return {
 			lat: (bbox.maxLat + bbox.minLat)/2,
-			lon: (bbox.maxLon + bbox.minLon)/2
+			lon: (bbox.maxLon + bbox.minLon)/2,
+			alt: this.getAltitude(bbox.maxLat, bbox.minLat)
 		}
 	};
 
@@ -108,6 +109,25 @@ define(['../../error/ArgumentError',
 			maxLat: Math.max.apply(0, boxes.map(function(box) { return box.maxLat; })),
 			minLon: Math.min.apply(0, boxes.map(function(box) { return box.minLon; })),
 			maxLon: Math.max.apply(0, boxes.map(function(box) { return box.maxLon; }))
+		}
+	};
+
+	/**
+	 * It returns altitude for current bounding box to display whole area in viewport.
+	 * The coefficient is optimized for 16:9 landscape viewports.
+	 * The method is NOT optimised for areas around poles and big areas. In those cases, it returns default value
+	 *
+	 * @param maxLat {number} maximum latitude of bounding box
+	 * @param minLat {number} minimum latitude of bounding box
+	 * @returns {number} altitude in meters
+	 */
+	MyGoToAnimator.prototype.getAltitude = function(maxLat, minLat){
+		var difference = Math.abs(maxLat - minLat);
+		var coef = 350000;
+		if ((Math.abs(minLat) > 70 && Math.abs(maxLat) > 85) && difference > 20){
+			return 10000000
+		} else {
+			return (difference*coef);
 		}
 	};
 

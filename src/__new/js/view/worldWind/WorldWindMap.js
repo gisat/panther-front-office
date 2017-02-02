@@ -49,7 +49,8 @@ define(['../../error/ArgumentError',
 		this._goToAnimator = new MyGoToAnimator(this._wwd);
 
 		// Add Blue Marble Layer
-		this._wwd.addLayer(new WorldWind.BMNGLayer());
+		//this._wwd.addLayer(new WorldWind.BMNGLayer());
+		this._wwd.addLayer(new WorldWind.BingRoadsLayer());
 	};
 
 	/**
