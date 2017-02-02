@@ -1,7 +1,8 @@
 define(['../../error/ArgumentError',
 		'../../error/NotFoundError',
 		'../../util/Logger',
-		'js/stores/Stores',
+
+		'./MyGoToAnimator',
 
 		'jquery',
 		'worldwind',
@@ -9,7 +10,8 @@ define(['../../error/ArgumentError',
 ], function(ArgumentError,
 			NotFoundError,
 			Logger,
-			Stores,
+
+			MyGoToAnimator,
 
 			$
 ){
@@ -25,7 +27,7 @@ define(['../../error/ArgumentError',
 
 
 	WorldWindMap.prototype.rebuild = function(config){
-		this.setLocation(config)
+		this._goToAnimator.setLocation(config)
 	};
 
 	/**
@@ -44,7 +46,7 @@ define(['../../error/ArgumentError',
 	 */
 	WorldWindMap.prototype.setupWebWorldWind = function(){
 		this._wwd = this.buildWorldWindow();
-		this._goToAnimator = new WorldWind.GoToAnimator(this._wwd);
+		this._goToAnimator = new MyGoToAnimator(this._wwd);
 
 		// Add Blue Marble Layer
 		this._wwd.addLayer(new WorldWind.BMNGLayer());
@@ -64,24 +66,6 @@ define(['../../error/ArgumentError',
 	 */
 	WorldWindMap.prototype.getContainer = function(){
 		return $("#world-wind-container");
-	};
-
-	WorldWindMap.prototype.setLocation = function(config){
-		var self = this;
-		var place = config.place;
-		// todo handle All places (if place "", then retrieve by dataset?)
-		Stores.retrieve("location").byId(place).then(function(response){
-			if (response.length > 0){
-				self.goToLocation(response[0].bbox);
-			}
-		});
-	};
-
-	WorldWindMap.prototype.goToLocation = function(bbox){
-		// todo move Location to separate class
-		// todo get center from bbox
-		// todo get distance from bbox
-		this._goToAnimator.goTo(new WorldWind.Location(50,14));
 	};
 
 	return WorldWindMap;

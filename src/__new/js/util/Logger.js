@@ -87,9 +87,11 @@ define(function () {
         },
 
         messageTable: {
+            emptyResult: "Result is empty!",
             missingBoxId: "Box ID of an element is null or undefined!",
             missingBoxName: "Box name is null or undefined!",
             missingData: "Data are null, undefined or empty!",
+            missingDataset: "Dataset parameter is null or undefined!",
             missingElementId: "Required ID of an element is null or undefined!",
             missingFilter: "Instance of Filter is missing!",
             missingHistogramMinimum: "Minimum is null or undefined!",
@@ -98,6 +100,8 @@ define(function () {
             missingInputs: "Inputs parameter is null or undefined!",
 			missingMap: "Map property is missing, null or undefined!",
             missingNumClasses: "NumClasses is null or undefined!",
+            missingParameter: "One of parameters is null or undefined!",
+            missingPlace: "Place is null or undefined!",
             missingSelections: "Data for selection boxes is missing",
             missingSliderRange: "Slider range is null, undefined or empty!",
             missingSliderType: "A type of slider is null or undefined!",
@@ -111,7 +115,7 @@ define(function () {
         }
     };
 
-    var loggingLevel = 1; // log severe messages by default
+    var loggingLevel = 4; // log severe messages by default
 
     return Logger;
 });
