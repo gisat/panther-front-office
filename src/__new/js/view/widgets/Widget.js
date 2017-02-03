@@ -112,6 +112,36 @@ define(['../../error/ArgumentError',
     };
 
 	/**
+	 * Dock floater to the position in target
+     * @param floater {JQuery} floater selector
+     * @param target {JQuery} target container selector
+     */
+    Widget.prototype.dockFloater = function(floater, target){
+        floater.appendTo(target)
+            .addClass("docked")
+            .css({
+                left: 0,
+                top: 0
+            })
+            .draggable("disable");
+    };
+
+    /**
+     * Undock floater to the position in target
+     * @param floater {JQuery} floater selector
+     * @param target {JQuery} target container selector
+     */
+    Widget.prototype.undockFloater = function(floater, target){
+        floater.appendTo(target)
+            .removeClass("docked")
+            .css({
+                left: 100,
+                top: 100
+            })
+            .draggable("enable");
+    };
+
+	/**
      * Delete floater footer
      */
     Widget.prototype.deleteFooter = function(floater){

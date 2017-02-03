@@ -79,25 +79,8 @@ define(['../../../error/ArgumentError',
 	 */
 	WorldWindWidget.prototype.addDockingListener = function(){
 		var self = this;
-		this._widgetSelector.find(".widget-dock").on("click", function(){
-			self._widgetSelector.appendTo(self._worldWindContainer)
-				.addClass("docked")
-				.css({
-					left: 0,
-					top: 0
-				})
-				.draggable("disable");
-		});
-
-		this._widgetSelector.find(".widget-undock").on("click", function(){
-			self._widgetSelector.appendTo(self._target)
-				.removeClass("docked")
-				.css({
-					left: 100,
-					top: 100
-				})
-				.draggable("enable");
-		});
+		this._widgetSelector.find(".widget-dock").on("click", self.dockFloater.bind(self, self._widgetSelector, self._worldWindContainer));
+		this._widgetSelector.find(".widget-undock").on("click", self.undockFloater.bind(self, self._widgetSelector, self._target));
 	};
 
 	/**
@@ -110,9 +93,12 @@ define(['../../../error/ArgumentError',
 			setTimeout(function(){
 				if (checkbox.hasClass("checked")){
 					self._worldWindContainer.css("display", "block");
+					self._widgetSelector.addClass("dockable");
 					self.toggleComponents("none");
 				} else {
 					self._worldWindContainer.css("display", "none");
+					self._widgetSelector.removeClass("dockable");
+					self.undockFloater(self._widgetSelector, self._target);
 					self.toggleComponents("block");
 				}
 			}, 50);

@@ -85,12 +85,12 @@
     resize: both;
     overflow: auto;
     width: 18rem;
+    z-index: 10000;
 }
 
 .floater.open {
     display: block;
     height: 28rem;
-    z-index: 10000;
 }
 .floater.active {
     z-index: 10001;
@@ -112,16 +112,19 @@
     position: relative;
     cursor: move;
 }
-.floater-header .widget-undock {
+.floater-header .widget-undock, .floater-header .widget-dock {
     display: none;
 }
-.floater.docked .floater-header  {
+.floater.dockable.docked .floater-header  {
     cursor: default;
 }
-.floater.docked .floater-header .widget-dock {
+.floater.dockable .floater-header .widget-dock {
+    display: block;
+}
+.floater.dockable.docked .floater-header .widget-dock {
     display: none;
 }
-.floater.docked .floater-header  .widget-undock {
+.floater.dockable.docked .floater-header  .widget-undock {
     display: block;
 }
 .floater-body {
