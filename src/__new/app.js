@@ -110,6 +110,8 @@ define(['js/util/metadata/Attributes',
         });
 
         var widgetElement = $("#widget-container");
+        var floater = $(".floater");
+
         widgetElement.on("click", ".placeholder", function(e){
             if (!(e.which > 1 || e.shiftKey || e.altKey || e.metaKey || e.ctrlKey)) {
                 var placeholderSelector = "#" + $(this).attr("id");
@@ -130,7 +132,7 @@ define(['js/util/metadata/Attributes',
                 }
             }
         });
-        widgetElement.on("click", ".widget-minimise", function(e){
+        floater.on("click", ".widget-minimise", function(e){
             if (!(e.which > 1 || e.shiftKey || e.altKey || e.metaKey || e.ctrlKey)) {
                 var floater = $(this).parent().parent().parent();
                 var placeholderSelector = "#" + floater.attr("id").replace("floater", "placeholder");
@@ -140,7 +142,7 @@ define(['js/util/metadata/Attributes',
                 ExchangeParams.options.openWidgets[floater.attr("id")] = false;
             }
         });
-        $(".floater").draggable({
+        floater.draggable({
             containment: "body",
             handle: ".floater-header"
         }).on("click drag", function(){
