@@ -122,9 +122,16 @@ define(['../../../error/ArgumentError',
 	 * @param action {string} css display value
 	 */
 	WorldWindWidget.prototype.toggleComponents = function(action){
-		$(".x-closable, #sidebar-tools, #sidebar-reports, #tools-container, #widget-container .placeholder:not(#placeholder-" + this._widgetId + "), .floater:not(#floater-" + this._widgetId + ")")
+		$(".x-closable, #sidebar-tools, #sidebar-reports, #tools-container, #widget-container .placeholder:not(#placeholder-" + this._widgetId + ")")
 			.css("display", action);
 		$(".x-css-shadow").css("display", "none");
+		var self = this;
+		$(".floater").each(function(index, floaterr){
+			var floater = $(floaterr);
+			if (floater.hasClass("open") && floater.attr("id") != "floater-" + self._widgetId){
+				floater.css("display", action);
+			}
+		});
 	};
 
 	return WorldWindWidget;
