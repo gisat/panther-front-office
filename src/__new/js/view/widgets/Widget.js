@@ -121,7 +121,9 @@ define(['../../error/ArgumentError',
             .addClass("docked")
             .css({
                 left: 0,
-                top: 0
+                top: 0,
+                height: '',
+                width: ''
             })
             .draggable("disable");
     };

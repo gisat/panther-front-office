@@ -48,12 +48,13 @@ define(['../../../error/ArgumentError',
 	};
 
 	/**
-	 * Build the bodz of widget
+	 * Build the body of widget
 	 */
 	WorldWindWidget.prototype.buildBody = function(){
 		this.buildCheckboxInput(this._widgetId + "-3Dmap-switch", "Show 3D map", this._widgetBodySelector);
 
 		this._worldWindContainer = this._worldWind.getContainer();
+		this._worldWindMap = this._worldWindContainer.find("#world-wind-map");
 		this._3DmapSwitcher = $("#" + this._widgetId + "-3Dmap-switch");
 	};
 
@@ -79,8 +80,18 @@ define(['../../../error/ArgumentError',
 	 */
 	WorldWindWidget.prototype.addDockingListener = function(){
 		var self = this;
-		this._widgetSelector.find(".widget-dock").on("click", self.dockFloater.bind(self, self._widgetSelector, self._worldWindContainer));
-		this._widgetSelector.find(".widget-undock").on("click", self.undockFloater.bind(self, self._widgetSelector, self._target));
+		this._widgetSelector.find(".widget-dock").on("click", function(){
+			self.dockFloater(self._widgetSelector, self._worldWindContainer);
+			self._worldWindMap.addClass("docked");
+		});
+		this._widgetSelector.find(".widget-undock, .widget-minimise").on("click", function(){
+			self.undockFloater(self._widgetSelector, self._target);
+			self._worldWindMap.removeClass("docked");
+		});
+		$("#placeholder-world-wind-widget").on("click", function(){
+			self.undockFloater(self._widgetSelector, self._target);
+			self._worldWindMap.removeClass("docked");
+		});
 	};
 
 	/**
@@ -99,6 +110,7 @@ define(['../../../error/ArgumentError',
 					self._worldWindContainer.css("display", "none");
 					self._widgetSelector.removeClass("dockable");
 					self.undockFloater(self._widgetSelector, self._target);
+					self._worldWindMap.removeClass("docked");
 					self.toggleComponents("block");
 				}
 			}, 50);

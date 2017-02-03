@@ -9,7 +9,18 @@ body.application #world-wind-container {
 	width: 100%;
 	z-index: 5555;
 }
-
+#world-wind-map {
+	position: relative;
+	float: right;
+	width: 100%;
+	height: 100%;
+}
+#world-wind-map.docked {
+	position: relative;
+	float: right;
+	width: calc(100% - 22rem);
+	height: 100%;
+}
 #world-wind-canvas {
 	width: 100%;
 	height: 100%;

@@ -115,6 +115,10 @@
 .floater-header .widget-undock, .floater-header .widget-dock {
     display: none;
 }
+.floater.dockable.docked {
+    position: relative;
+    float: left;
+}
 .floater.dockable.docked .floater-header  {
     cursor: default;
 }
