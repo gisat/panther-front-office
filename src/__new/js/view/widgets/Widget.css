@@ -105,7 +105,6 @@
     left: 0;
     z-index: 9999;
 }
-
 .floater-header {
     background: #c92d42;
     height: 2rem;
@@ -113,7 +112,18 @@
     position: relative;
     cursor: move;
 }
-
+.floater-header .widget-undock {
+    display: none;
+}
+.floater.docked .floater-header  {
+    cursor: default;
+}
+.floater.docked .floater-header .widget-dock {
+    display: none;
+}
+.floater.docked .floater-header  .widget-undock {
+    display: block;
+}
 .floater-body {
     padding: .5rem;
     height: calc(100% - 5rem);

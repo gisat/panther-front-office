@@ -4,3 +4,14 @@
 	min-width: 22rem;
 	max-width: 40rem;
 }
+
+#floater-world-wind-widget.docked {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	resize: none;
+	border: 0;
+	border-radius: 0;
+	padding: 0;
+}

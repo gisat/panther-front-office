@@ -65,7 +65,6 @@ define(['../../error/ArgumentError',
 				});
 				var boundingBox = self.getBoundingBox(bboxes);
 				var position = self.getCentroidCoordinates(boundingBox);
-				debugger;
 				self.goTo(new WorldWind.Position(position.lat,position.lon,position.alt));
 			} else {
 				console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "MyGoToAnimator", "setLocation", "emptyResult"));

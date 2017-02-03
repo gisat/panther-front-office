@@ -31,32 +31,79 @@ define(['../../../error/ArgumentError',
 		}
 		this._worldWind = options.worldWind;
 
-		this.buildBody();
+		this.build();
 		this.deleteFooter(this._widgetSelector);
 	};
 
 	WorldWindWidget.prototype = Object.create(Widget.prototype);
 
-	WorldWindWidget.prototype.buildBody = function(){
-		//var html = S(htmlBody).template({
-		//	id: this._widgetId
-		//}).toString();
-		//
-		//this._widgetBodySelector.append(html);
+	/**
+	 * Build basic view of the widget
+	 */
+	WorldWindWidget.prototype.build = function(){
+		this.buildToolIconInHeader("Dock");
+		this.buildToolIconInHeader("Undock");
+		this.buildBody();
+		this.addEventListeners();
+	};
 
+	/**
+	 * Build the bodz of widget
+	 */
+	WorldWindWidget.prototype.buildBody = function(){
 		this.buildCheckboxInput(this._widgetId + "-3Dmap-switch", "Show 3D map", this._widgetBodySelector);
 
 		this._worldWindContainer = this._worldWind.getContainer();
 		this._3DmapSwitcher = $("#" + this._widgetId + "-3Dmap-switch");
-
-		this.addEventListeners();
 	};
 
+	/**
+	 * Rebuild with current configuration
+	 * @param attributes {Array}
+	 * @param options {Object}
+	 */
 	WorldWindWidget.prototype.rebuild = function(attributes, options){
 		this._worldWind.rebuild(options.config);
 	};
 
+	/**
+	 * Add listeners
+	 */
 	WorldWindWidget.prototype.addEventListeners = function(){
+		this.addMapSwitchListener();
+		this.addDockingListener();
+	};
+
+	/**
+	 * Add listener for docking
+	 */
+	WorldWindWidget.prototype.addDockingListener = function(){
+		var self = this;
+		this._widgetSelector.find(".widget-dock").on("click", function(){
+			self._widgetSelector.appendTo(self._worldWindContainer)
+				.addClass("docked")
+				.css({
+					left: 0,
+					top: 0
+				})
+				.draggable("disable");
+		});
+
+		this._widgetSelector.find(".widget-undock").on("click", function(){
+			self._widgetSelector.appendTo(self._target)
+				.removeClass("docked")
+				.css({
+					left: 100,
+					top: 100
+				})
+				.draggable("enable");
+		});
+	};
+
+	/**
+	 * Add listener to a "Show 3D map" checkbox
+	 */
+	WorldWindWidget.prototype.addMapSwitchListener = function(){
 		var self = this;
 		this._3DmapSwitcher.on("click", function(){
 			var checkbox = $(this);

@@ -150,5 +150,17 @@ define(['../../error/ArgumentError',
         });
     };
 
+	/**
+     * Create tool in header
+     * @param name {string}
+     */
+    Widget.prototype.buildToolIconInHeader = function(name){
+        var id = name.toLowerCase();
+        this._widgetSelector.find(".floater-tools-container")
+            .append('<div id="' + this._widgetId + '-' + id + '" title="'+ name +'" class="floater-tool widget-'+ id +'">' +
+                '<img alt="' + name + '" src="__new/img/'+ id +'.png"/>' +
+                '</div>');
+    };
+
     return Widget;
 });
