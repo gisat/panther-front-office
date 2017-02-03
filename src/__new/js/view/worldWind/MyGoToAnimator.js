@@ -65,6 +65,7 @@ define(['../../error/ArgumentError',
 				});
 				var boundingBox = self.getBoundingBox(bboxes);
 				var position = self.getCentroidCoordinates(boundingBox);
+				debugger;
 				self.goTo(new WorldWind.Position(position.lat,position.lon,position.alt));
 			} else {
 				console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "MyGoToAnimator", "setLocation", "emptyResult"));
@@ -124,7 +125,7 @@ define(['../../error/ArgumentError',
 	MyGoToAnimator.prototype.getAltitude = function(maxLat, minLat){
 		var difference = Math.abs(maxLat - minLat);
 		var coef = 350000;
-		if ((Math.abs(minLat) > 70 && Math.abs(maxLat) > 85) && difference > 20){
+		if ((Math.abs(minLat) > 70 && Math.abs(maxLat) > 85)){
 			return 10000000
 		} else {
 			return (difference*coef);
