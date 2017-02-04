@@ -94,6 +94,7 @@ define([
 	 */
 	FrontOffice.prototype.getAttributesMetadata = function(){
 		return this._attributesMetadata.getData().then(function(result){
+			debugger;
 			var attributes = [];
 			result.forEach(function(attributeSet){
 				if (attributeSet){

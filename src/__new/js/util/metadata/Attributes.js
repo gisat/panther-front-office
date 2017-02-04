@@ -1,7 +1,13 @@
-define(['../../util/Remote',
+define(['../../error/ArgumentError',
+		'../../error/NotFoundError',
+		'../../util/Logger',
+		'../../util/Remote',
 		'../../stores/Stores',
 		'jquery'
-],function(Remote,
+],function(ArgumentError,
+		   NotFoundError,
+		   Logger,
+		   Remote,
 		   Stores,
 		   $){
 
@@ -128,14 +134,21 @@ define(['../../util/Remote',
 	 * @returns {{theme: string, years: string, dataset: string, refreshLayers: string, refreshAreas: string}}
 	 */
 	Attributes.prototype.getThemeYearConfParams = function(){
-		//console.log(ThemeYearConfParams.dataset, ThemeYearConfParams.theme, ThemeYearConfParams.years);
-		return {
-			theme: ThemeYearConfParams.theme,
-			years: ThemeYearConfParams.years,
-			dataset: ThemeYearConfParams.dataset,
-			refreshLayers: 'true',
-			refreshAreas: 'true'
-		};
+		var theme = ThemeYearConfParams.theme;
+		var years = ThemeYearConfParams.years;
+		var dataset = ThemeYearConfParams.dataset;
+
+		if (theme.length == 0 || years.length == 0 || dataset.length == 0){
+			throw new Error(Logger.logMessage(Logger.LEVEL_SEVERE, "Attributes", "getThemeYearConfParams", "missingParameter"));
+		} else {
+			return {
+				theme: theme,
+				years: years,
+				dataset: dataset,
+				refreshLayers: 'true',
+				refreshAreas: 'true'
+			};
+		}
 	};
 
 	return Attributes;
