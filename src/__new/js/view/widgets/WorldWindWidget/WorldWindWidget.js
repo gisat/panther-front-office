@@ -65,6 +65,9 @@ define(['../../../error/ArgumentError',
 	 */
 	WorldWindWidget.prototype.rebuild = function(attributes, options){
 		this._worldWind.rebuild(options.config);
+		if (this._3DmapSwitcher.hasClass("checked")){
+			this.toggleComponents("none");
+		}
 	};
 
 	/**
