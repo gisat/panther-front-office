@@ -118,6 +118,8 @@ define([
 						});
 					}
 				});
+			} else {
+				console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "FrontOffice", "getAttributesMetadata", "emptyResult"));
 			}
 			return attributes;
 		});
@@ -153,7 +155,7 @@ define([
 	FrontOffice.prototype.checkConfiguration = function(){
 		if (ThemeYearConfParams.datasetChanged){
 			if (this._dataset == ThemeYearConfParams.dataset){
-				throw new Error(Logger.logMessage(Logger.LEVEL_SEVERE, "FrontOffice", "checkConfiguration", "missingDataset"));
+				console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "FrontOffice", "checkConfiguration", "missingDataset"));
 			}
 		}
 		this._dataset = ThemeYearConfParams.dataset;

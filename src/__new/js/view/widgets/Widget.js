@@ -4,6 +4,7 @@ define(['../../error/ArgumentError',
 
         './inputs/checkbox/Checkbox',
         '../View',
+        './WidgetWarning',
 
         'string',
         'jquery',
@@ -17,6 +18,7 @@ define(['../../error/ArgumentError',
 
              Checkbox,
              View,
+             WidgetWarning,
 
              S,
              $,
@@ -56,6 +58,8 @@ define(['../../error/ArgumentError',
         this._widgetSelector = $("#floater-" + this._widgetId);
         this._placeholderSelector = $("#placeholder-" + this._widgetId);
         this._widgetBodySelector = this._widgetSelector.find(".floater-body");
+        this._warningSelector = this._widgetSelector.find(".floater-warning");
+        this._widgetWarning = new WidgetWarning();
     };
 
     Widget.prototype = Object.create(View.prototype);
@@ -196,10 +200,15 @@ define(['../../error/ArgumentError',
 
 	/**
 	 * It shows in a widget body info about problems connected with this widget
-     * @param message {string}
+     * @param action {string} CSS display value
+     * @param warnings {Array} list of warnings codes
      */
-    Widget.prototype.showWarning = function(message){
-        this._widgetBodySelector.html("").append('<p>' + message + '</p>');
+    Widget.prototype.toggleWarning = function(action, warnings){
+        this._warningSelector.css("display", action);
+        if (warnings){
+            var message = this._widgetWarning.generate(warnings);
+            this._warningSelector.html(message);
+        }
     };
 
     return Widget;

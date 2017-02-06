@@ -136,10 +136,13 @@
     height: calc(100% - 5rem);
     overflow: auto;
 }
-.floater-body .warning {
+.floater-warning {
+    display: none;
     position: absolute;
-    height: 90%;
+    height: calc(100% - 2.7rem);
     background: white;
+    z-index: 10;
+    padding: .5rem;
 }
 
 .floater-footer {

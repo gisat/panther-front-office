@@ -67,9 +67,14 @@ define(['../../../error/ArgumentError',
 	 * @param options {Object}
 	 */
 	WorldWindWidget.prototype.rebuild = function(attributes, options){
-		this._worldWind.rebuild(options.config, this._widgetSelector);
-		if (this._3DmapSwitcher.hasClass("checked")){
-			this.toggleComponents("none");
+		if (attributes.length != 0){
+			this.toggleWarning("none");
+			this._worldWind.rebuild(options.config, this._widgetSelector);
+			if (this._3DmapSwitcher.hasClass("checked")){
+				this.toggleComponents("none");
+			}
+		} else {
+			this.toggleWarning("block", [2,3,4]);
 		}
 	};
 

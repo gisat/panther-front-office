@@ -80,6 +80,12 @@ define([
      */
     EvaluationWidget.prototype.rebuild = function(attrForRequest, options){
         var self = this;
+        if (attrForRequest.length == 0){
+            self.toggleWarning("block", [2,3,4]);
+            self.handleLoading("hide");
+            return;
+        }
+
         if (!this._resizeListener){
             this._resizeListener = true;
             this.addOnResizeListener();
@@ -138,12 +144,14 @@ define([
                 });
             }
             if (self._attributes.length){
+                self.toggleWarning("none");
                 if (!options.hasOwnProperty("rebuildFooter") || options.rebuildFooter == true){
                     self.prepareFooter();
                 }
                 self.rebuildViewAndSettings();
             } else {
-                self.noDataEcho();
+                self.toggleWarning("block", [1,2]);
+                self.handleLoading("hide");
             }
         });
 
@@ -173,19 +181,6 @@ define([
      */
     EvaluationWidget.prototype.build = function(){
         this.buildSettings();
-    };
-
-	/**
-     * Notify the user, if no attribute sets are linked to analytical units
-     */
-    EvaluationWidget.prototype.noDataEcho = function(){
-        var info = '<p>Attributes are missing! Possible reasons: <br>' +
-            'There are no linked attribute sets to analytical units. <br>' +
-            'Current user does not have appropriate permissions for current configuration. <br>' +
-            'Broken links in visualizations (e.g. non-existing attributes or attribute sets). Try to create visualizations again. <br>' +
-            'Choropleths includes non-existing attributes or attribute sets.</p>';
-        this._widgetBodySelector.html("").append(info);
-        this.handleLoading("hide");
     };
 
 	/**
@@ -239,7 +234,7 @@ define([
      * @param categories {Object} data about categories
      */
     EvaluationWidget.prototype.rebuildInputs = function(categories){
-        this._widgetBodySelector.html('');
+        this._widgetBodySelector.html("");
         this._inputs = {
             checkboxes: [],
             sliders: [],
