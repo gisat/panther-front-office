@@ -4,7 +4,7 @@ Ext.define('Puma.model.MapLayer', {
     fields: [
 
         'name','layer1','layer2','symbologyId','at','bindChart','checked','attribute','attributeSet',
-        'type','topic','params','src','sortIndex','cfg','legend','layerGroup','priority',
+        'type','topic','params','src','sortIndex','cfg','legend','layerGroup','priority','wmsLayer',
         {
             name: 'atWithSymbology',
             convert: function(val,rec) {

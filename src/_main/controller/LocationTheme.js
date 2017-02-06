@@ -151,7 +151,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
             this.getController('Filter').clearFilters();
             
         }
-        
+
         locationCombo.resumeEvents();
         locationComboAlt.resumeEvents();
         themeComboAlt.resumeEvents();
@@ -246,6 +246,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         this.updateLayerContext();
         this.forceInit = false;
 
+		this.reloadWmsLayers();
         // new URBIS change
         this.newOnChange({
             placeChanged: true
@@ -355,10 +356,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
 						dataset: dataset
         };
         var areaController = this.getController('Area');
-     
-        
-        
-        var locationObj = areaController.getLocationObj();
+
+		var locationObj = areaController.getLocationObj();
         var cntId = cnt.itemId;
         
         var root = Ext.StoreMgr.lookup('area').getRootNode();
@@ -398,7 +397,9 @@ Ext.define('PumaMain.controller.LocationTheme', {
             delete params['fids'];
         }
 
-        var me = this;
+		this.reloadWmsLayers();
+
+		var me = this;
         Ext.Ajax.request({
             url: Config.url+'api/theme/getThemeYearConf',
             params: params,
@@ -427,6 +428,38 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
         // new URBIS change
         this.newOnChange();
+    },
+
+    reloadWmsLayers: function() {
+		var areaController = this.getController('Area');
+
+		var dataset = Ext.ComponentQuery.query('#seldataset')[0] && Ext.ComponentQuery.query('#seldataset')[0].getValue();
+		var years = Ext.ComponentQuery.query('#selyear')[0] && Ext.ComponentQuery.query('#selyear')[0].getValue();
+		var location = areaController.getLocationObj() && areaController.getLocationObj().location;
+
+		$.get(Config.url+'rest/wms/layer', {
+			scope: dataset,
+			place: location,
+			periods: years
+		}, function(data){
+			var customWms = Ext.StoreMgr.lookup('layers').getRootNode().findChild('type', 'customwms');
+			customWms.removeAll();
+			if(data.data && data.data.length) {
+				let nodes = data.data.map(layer => {
+					return Ext.create('Puma.model.MapLayer', {
+						name: layer.name,
+						initialized: true,
+						allowDrag: true,
+						checked: false,
+						leaf: true,
+						sortIndex: 0,
+						wmsLayer: layer,
+						type: 'wmsLayer'
+					})
+				});
+				customWms.appendChild(nodes);
+			}
+		});
     },
 
     // new URBIS change

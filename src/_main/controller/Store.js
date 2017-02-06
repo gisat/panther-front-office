@@ -115,8 +115,8 @@ Ext.define('PumaMain.controller.Store', {
             autoLoad: true,
             model: 'Puma.model.Scope'
         })
-    
-        Ext.create('Ext.data.Store',{
+
+		Ext.create('Ext.data.Store',{
             storeId: 'areatemplate',
             autoLoad: true,
             model: 'Puma.model.AreaTemplate'
@@ -411,6 +411,11 @@ Ext.define('PumaMain.controller.Store', {
                     expanded: true,
                     checked: null
                 }, {
+					name: 'GUF',
+					type: 'guf',
+					expanded: true,
+					checked: null
+				}, {
 					name: 'Custom WMS',
 					type: 'customwms',
 					expanded: true,
