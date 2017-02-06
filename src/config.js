@@ -27,7 +27,7 @@ var Config = {
 		hasNewCustomPolygonsTool: true,
 		hasNewFeatureInfo: true,
 		isNewDesign: true,
-		isUrbis: true,
+		isUrbis: false,
 		isEea: false,
 		isMelodies: false,
 		isUrbanTep: false,
