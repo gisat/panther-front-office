@@ -1,11 +1,19 @@
 define([
+	'js/error/ArgumentError',
+	'js/error/NotFoundError',
+	'js/util/Logger',
+
 	'js/stores/Stores',
 	'js/stores/gisat/Attributes',
 	'js/stores/gisat/AttributeSets',
 	'js/stores/gisat/Locations',
 	'js/stores/gisat/Visualizations',
 	'underscore'
-], function(Stores,
+], function(ArgumentError,
+			NotFoundError,
+			Logger,
+
+			Stores,
 			Attributes,
 			AttributeSets,
 			Locations,
@@ -21,6 +29,10 @@ define([
 		this._options = options.widgetOptions;
 		this._tools = options.tools;
 		this._widgets = options.widgets;
+
+		this._dataset = null;
+		this._place = null;
+		this._theme = null;
 		Observer.addListener("rebuild", this.rebuild.bind(this));
 	};
 
@@ -28,6 +40,7 @@ define([
 	 * Rebuild all components 
 	 */
 	FrontOffice.prototype.rebuild = function(){
+		this.checkConfiguration();
 		this._options.config = ThemeYearConfParams;
 
 		var self = this;
@@ -94,17 +107,18 @@ define([
 	 */
 	FrontOffice.prototype.getAttributesMetadata = function(){
 		return this._attributesMetadata.getData().then(function(result){
-			debugger;
 			var attributes = [];
-			result.forEach(function(attributeSet){
-				if (attributeSet){
-					attributeSet.forEach(function(attribute){
-						if (!_.isEmpty(attribute)){
-							attributes.push(attribute);
-						}
-					});
-				}
-			});
+			if (result.length > 0){
+				result.forEach(function(attributeSet){
+					if (attributeSet){
+						attributeSet.forEach(function(attribute){
+							if (!_.isEmpty(attribute)){
+								attributes.push(attribute);
+							}
+						});
+					}
+				});
+			}
 			return attributes;
 		});
 	};
@@ -131,6 +145,18 @@ define([
 			updated.push(allAttr);
 		});
 		return updated;
+	};
+
+	/**
+	 * Basic check, if configuration is set up properly
+	 */
+	FrontOffice.prototype.checkConfiguration = function(){
+		if (ThemeYearConfParams.datasetChanged){
+			if (this._dataset == ThemeYearConfParams.dataset){
+				throw new Error(Logger.logMessage(Logger.LEVEL_SEVERE, "FrontOffice", "checkConfiguration", "missingDataset"));
+			}
+		}
+		this._dataset = ThemeYearConfParams.dataset;
 	};
 
 	/**

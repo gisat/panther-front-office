@@ -3,13 +3,15 @@ define(['../../error/ArgumentError',
 		'../../util/Logger',
 		'../../util/Remote',
 		'../../stores/Stores',
-		'jquery'
+		'jquery',
+		'underscore'
 ],function(ArgumentError,
 		   NotFoundError,
 		   Logger,
 		   Remote,
 		   Stores,
-		   $){
+		   $,
+		   _){
 
 	/**
 	 * Class for gathering attributes metadata
@@ -26,7 +28,14 @@ define(['../../error/ArgumentError',
 	 */
 	Attributes.prototype.getData = function(){
 		var self = this;
-		if (ThemeYearConfParams.datasetChanged || ThemeYearConfParams.themeChanged || ThemeYearConfParams.placeChanged){
+		var params = self.getThemeYearConfParams();
+
+		if (_.isEmpty(params)){
+			return new Promise(function(resolve, reject){
+				resolve(params);
+			})
+		}
+		else if (ThemeYearConfParams.datasetChanged || ThemeYearConfParams.themeChanged || ThemeYearConfParams.placeChanged){
 			return new Remote({
 				method: "POST",
 				url: window.Config.url + "api/theme/getThemeYearConf",
@@ -139,7 +148,8 @@ define(['../../error/ArgumentError',
 		var dataset = ThemeYearConfParams.dataset;
 
 		if (theme.length == 0 || years.length == 0 || dataset.length == 0){
-			throw new Error(Logger.logMessage(Logger.LEVEL_SEVERE, "Attributes", "getThemeYearConfParams", "missingParameter"));
+			console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "Attributes", "getThemeYearConfParams", "missingParameter"));
+			return {};
 		} else {
 			return {
 				theme: theme,

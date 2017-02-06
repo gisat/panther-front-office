@@ -108,6 +108,7 @@ define(function () {
             missingSliderValues: "Slider default values parameter is null, undefined or empty!",
             missingTargetElementId: "Required target element ID is null or undefined!",
             missingTarget: "Target is null or undefined!",
+            missingTheme: "Theme is null or undefined!",
             missingWidgetId: "Widget Id is null or undefined!",
             missingWidgetName: "Widget Name is null or undefined!",
             missingWorldWind: "World Wind parameter is missing!",

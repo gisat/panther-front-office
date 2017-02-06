@@ -26,8 +26,13 @@ define(['../../error/ArgumentError',
 	};
 
 
-	WorldWindMap.prototype.rebuild = function(config){
-		this._goToAnimator.setLocation(config)
+	/**
+	 * Rebuild world wind map
+	 * @param config {Object} ThemeYearsConfParams global object
+	 * @param widget {JQuery} JQuery widget selector
+	 */
+	WorldWindMap.prototype.rebuild = function(config, widget){
+		this._goToAnimator.setLocation(config, widget)
 	};
 
 	/**

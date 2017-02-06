@@ -179,7 +179,11 @@ define([
      * Notify the user, if no attribute sets are linked to analytical units
      */
     EvaluationWidget.prototype.noDataEcho = function(){
-        var info = '<p>There are no linked attribute sets to analytical units probably! Please, go to the BackOffice and link the data properly.</p>';
+        var info = '<p>Attributes are missing! Possible reasons: <br>' +
+            'There are no linked attribute sets to analytical units. <br>' +
+            'Current user does not have appropriate permissions for current configuration. <br>' +
+            'Broken links in visualizations (e.g. non-existing attributes or attribute sets). Try to create visualizations again. <br>' +
+            'Choropleths includes non-existing attributes or attribute sets.</p>';
         this._widgetBodySelector.html("").append(info);
         this.handleLoading("hide");
     };

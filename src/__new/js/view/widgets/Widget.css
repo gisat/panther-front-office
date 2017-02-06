@@ -136,6 +136,11 @@
     height: calc(100% - 5rem);
     overflow: auto;
 }
+.floater-body .warning {
+    position: absolute;
+    height: 90%;
+    background: white;
+}
 
 .floater-footer {
     border-top: 2px solid #ccc;

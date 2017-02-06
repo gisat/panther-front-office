@@ -194,5 +194,13 @@ define(['../../error/ArgumentError',
                 '</div>');
     };
 
+	/**
+	 * It shows in a widget body info about problems connected with this widget
+     * @param message {string}
+     */
+    Widget.prototype.showWarning = function(message){
+        this._widgetBodySelector.html("").append('<p>' + message + '</p>');
+    };
+
     return Widget;
 });

@@ -51,6 +51,9 @@ define(['../../../error/ArgumentError',
 	 * Build the body of widget
 	 */
 	WorldWindWidget.prototype.buildBody = function(){
+		var html = S(htmlBody).template().toString();
+		this._widgetBodySelector.append(html);
+
 		this.buildCheckboxInput(this._widgetId + "-3Dmap-switch", "Show 3D map", this._widgetBodySelector);
 
 		this._worldWindContainer = this._worldWind.getContainer();
@@ -64,7 +67,7 @@ define(['../../../error/ArgumentError',
 	 * @param options {Object}
 	 */
 	WorldWindWidget.prototype.rebuild = function(attributes, options){
-		this._worldWind.rebuild(options.config);
+		this._worldWind.rebuild(options.config, this._widgetSelector);
 		if (this._3DmapSwitcher.hasClass("checked")){
 			this.toggleComponents("none");
 		}

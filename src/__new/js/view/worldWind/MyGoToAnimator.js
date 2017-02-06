@@ -36,43 +36,49 @@ define(['../../error/ArgumentError',
 	/**
 	 * Set the location according to current configuration
 	 * @param config {Object} ThemeYearConfParams (configuration from global variable)
+	 * @param widget {JQuery} JQuery widget selector
 	 */
-	MyGoToAnimator.prototype.setLocation = function(config){
+	MyGoToAnimator.prototype.setLocation = function(config, widget){
 		var self = this;
+		var warningContainer = widget.find(".floater-body .warning");
 		var place = Number(config.place);
 		var dataset = Number(config.dataset);
 
 		if (!dataset){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MyGoToAnimator", "setLocation", "missingDataset"));
+			console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "MyGoToAnimator", "setLocation", "missingDataset"));
+			warningContainer.css("display", "block").html("").append('<p>No dataset detected! Possible reasons: <br> Broken links in visualizations (e.g. non-existing attributes or attribute sets). Try to create visualizations again. <br> Choropleths includes non-existing attributes or attribute sets.</p>');
 		}
+		else {
+			warningContainer.css("display", "none");
 
-		var values = {dataset: dataset};
-		if (place){
-			values.id = place;
-		}
-
-		Stores.retrieve("location").filter(values).then(function(response){
-			if (response.length > 0){
-				var bboxes = [];
-				response.forEach(function(location){
-					var bbox = location.bbox.split(",");
-					bboxes.push({
-						minLon: Number(bbox[0]),
-						maxLon: Number(bbox[2]),
-						minLat: Number(bbox[3]),
-						maxLat: Number(bbox[1])
-					});
-				});
-				var boundingBox = self.getBoundingBox(bboxes);
-				var position = self.getCentroidCoordinates(boundingBox);
-				self.goTo(new WorldWind.Position(position.lat,position.lon,position.alt));
-			} else {
-				console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "MyGoToAnimator", "setLocation", "emptyResult"));
-				self.goTo(new WorldWind.Location(self._defaultLoc[0],self._defaultLoc[1]));
+			var values = {dataset: dataset};
+			if (place && place != 0){
+				values.id = place;
 			}
-		}).catch(function(err){
-			throw new Error(Logger.log(Logger.LEVEL_SEVERE, err));
-		});
+
+			Stores.retrieve("location").filter(values).then(function(response){
+				if (response.length > 0){
+					var bboxes = [];
+					response.forEach(function(location){
+						var bbox = location.bbox.split(",");
+						bboxes.push({
+							minLon: Number(bbox[0]),
+							maxLon: Number(bbox[2]),
+							minLat: Number(bbox[3]),
+							maxLat: Number(bbox[1])
+						});
+					});
+					var boundingBox = self.getBoundingBox(bboxes);
+					var position = self.getCentroidCoordinates(boundingBox);
+					self.goTo(new WorldWind.Position(position.lat,position.lon,position.alt));
+				} else {
+					console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "MyGoToAnimator", "setLocation", "emptyResult"));
+					self.goTo(new WorldWind.Location(self._defaultLoc[0],self._defaultLoc[1]));
+				}
+			}).catch(function(err){
+				throw new Error(Logger.log(Logger.LEVEL_SEVERE, err));
+			});
+		}
 	};
 
 	/**
