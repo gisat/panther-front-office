@@ -1037,6 +1037,7 @@ Ext.define('PumaMain.controller.Layers', {
 		record.destroy();
 	},
 
+
 	reconfigureAll: function() {
 		var layerStore = Ext.StoreMgr.lookup('layers');
 		var choroplethNode = layerStore.getRootNode().findChild('type','choroplethgroup');
@@ -1138,6 +1139,9 @@ Ext.define('PumaMain.controller.Layers', {
 	},
 
 	onCheckChange: function(node, checked) {
+		if(!this.wmsLayers) {
+			this.wmsLayers = {};
+		}
 		if (node.get('type')=='traffic') {
 			var layer1 = node.get('layer1');
 			var layer2 = node.get('layer2');
@@ -1149,6 +1153,67 @@ Ext.define('PumaMain.controller.Layers', {
 			}
 			return;
 		}
+
+		var mapController = this.getController('Map');
+		// Custom WMS layers for GUF
+		// TODO: Remove once custom WMS is part.
+		if (node.get('type') == 'guf12m') {
+			if (checked) {
+				this.guf12mLayer = new OpenLayers.Layer.WMS("GUF 12M",
+					"https://puma.worldbank.org/geoserver/gwc/service/wms",
+					{
+						layers: 'guf10_dens',
+						transparent: true
+					}, {
+						visibility: true,
+						isBaseLayer: false
+					});
+				mapController.olMap.addLayers([this.guf12mLayer]);
+			} else {
+				if(this.guf12mLayer) {
+					mapController.olMap.removeLayer(this.guf12mLayer);
+				}
+			}
+		}
+		if (node.get('type') == 'guf84m') {
+			if (checked) {
+				this.guf84mLayer = new OpenLayers.Layer.WMS("GUF 84M",
+					"https://puma.worldbank.org/geoserver/gwc/service/wms",
+					{
+						layers: 'guf_75lg',
+						transparent: true
+					}, {
+						visibility: true,
+						isBaseLayer: false
+					});
+				mapController.olMap.addLayers([this.guf84mLayer]);
+			} else {
+				if(this.guf84mLayer) {
+					mapController.olMap.removeLayer(this.guf84mLayer);
+				}
+			}
+		}
+
+		if(node.get('type') == 'wmsLayer') {
+			var layer = node.get('wmsLayer');
+			if(checked) {
+				this.wmsLayers[layer.id] = new OpenLayers.Layer.WMS(layer.name,
+					layer.url,
+					{
+						layers: layer.layer,
+						transparent: true
+					}, {
+						visibility: true,
+						isBaseLayer: false
+					});
+				mapController.olMap.addLayers([this.wmsLayers[layer.id]]);
+			} else {
+				if(this.wmsLayers[layer.id]) {
+					mapController.olMap.removeLayer(this.wmsLayers[layer.id]);
+				}
+			}
+		}
+
 		if (!checked && node.get('legend')) {
 			node.get('legend').destroy();
 		}
