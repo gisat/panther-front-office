@@ -58,7 +58,7 @@ define([
 	 * @param options {Object}
 	 */
 	CustomDrawingWidget.prototype.rebuild = function(attributes, options){
-		if (attributes.length != 0){
+		if (options.config.dataset.length > 0){
 			this.toggleWarning("none");
 			if (!this._map){
 				this._map = options.olMap;
@@ -67,7 +67,7 @@ define([
 			this._lineSection.rebuild(this._map);
 
 		} else {
-			this.toggleWarning("block", [2,3,4]);
+			this.toggleWarning("block", [5]);
 		}
 	};
 

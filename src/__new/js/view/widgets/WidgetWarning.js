@@ -19,7 +19,7 @@ define([], function () {
 		var self = this;
 		var message = "<p>";
 		codes.forEach(function(code){
-			message += self.getMessage(code) + "<br>";
+			message += self.getMessage(code) + "<br><br>";
 		});
 
 	 	return message + "</p>";
@@ -44,6 +44,9 @@ define([], function () {
 				break;
 			case 4:
 				message = "Attributes are missing! Possible reason: Choropleths includes non-existing attributes or attribute sets. Try to create choropleths again.";
+				break;
+			case 5:
+				message = "Dataset is not defined!";
 				break;
 		}
 

@@ -74,7 +74,7 @@ define(['../../../error/ArgumentError',
 				this.toggleComponents("none");
 			}
 		} else {
-			this.toggleWarning("block", [2,3,4]);
+			this.toggleWarning("block", [1,2,3,4]);
 		}
 	};
 

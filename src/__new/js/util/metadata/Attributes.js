@@ -32,10 +32,12 @@ define(['../../error/ArgumentError',
 
 		if (_.isEmpty(params)){
 			return new Promise(function(resolve, reject){
+				ThemeYearConfParams.datasetChanged = false;
 				resolve(params);
 			})
 		}
 		else if (ThemeYearConfParams.datasetChanged || ThemeYearConfParams.themeChanged || ThemeYearConfParams.placeChanged){
+			ThemeYearConfParams.datasetChanged = false;
 			return new Remote({
 				method: "POST",
 				url: window.Config.url + "api/theme/getThemeYearConf",

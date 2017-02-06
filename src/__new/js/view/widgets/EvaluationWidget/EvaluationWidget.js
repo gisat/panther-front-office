@@ -81,7 +81,7 @@ define([
     EvaluationWidget.prototype.rebuild = function(attrForRequest, options){
         var self = this;
         if (attrForRequest.length == 0){
-            self.toggleWarning("block", [2,3,4]);
+            self.toggleWarning("block", [1,2,3,4]);
             self.handleLoading("hide");
             return;
         }
@@ -156,7 +156,6 @@ define([
         });
 
         this.rebuildMap();
-        ThemeYearConfParams.datasetChanged = false;
     };
 
 	/**
