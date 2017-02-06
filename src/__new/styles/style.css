@@ -5,7 +5,7 @@
 .widgets {
     display: block;
 }
-.widgets p, .widgets a, .widgets span, .widgets label {
+.floater p, .floater a, .floater span, .floater label {
     color: #666;
     font-size: .75rem;
 }

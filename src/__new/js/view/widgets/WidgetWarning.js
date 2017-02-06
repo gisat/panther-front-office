@@ -34,7 +34,7 @@ define([], function () {
 		var message;
 		switch (code) {
 			case 1:
-				message = "Attributes are missing! Possible reason: There are no linked attribute sets to analytical units.";
+				message = "Attributes are missing! Possible reason: There are no linked attribute sets to analytical units for this place.";
 				break;
 			case 2:
 				message = "Attributes are missing! Possible reason: Current user does not have appropriate permissions for current configuration.";
