@@ -1,11 +1,8 @@
-/* Panels */
-#floater-world-wind-widget-panels {
-}
 .panel-header {
-	color: #eee;
-	cursor: pointer;
 	background: rgba(67, 66, 84,.8);
 	border-bottom: 1px solid white;
+	color: #eee;
+	cursor: pointer;
 	line-height: 1.8rem;
 	padding: 0 .5rem;
 	position: relative;
@@ -21,16 +18,20 @@
 	/*display: inline-block;*/
 }
 .panel-header .panel-icon {
-	background: url(../../../../img/arrow-white-up.png) no-repeat center center;
+	background: url(../../../../img/arrow-white-down.png) no-repeat center center;
 	width: 20px;
 	height: 100%;
 	position: absolute;
 	top: 0;
 	right: .3rem;
 }
-.panel-header.closed .panel-icon {
-	background: url(../../../../img/arrow-white-down.png) no-repeat center center;
+.panel-header.open .panel-icon {
+	background: url(../../../../img/arrow-white-up.png) no-repeat center center;
 }
 .panel-body {
+	display: none;
 	padding: .3rem .3rem .5rem;
+}
+.panel-body.open {
+	display: block;
 }

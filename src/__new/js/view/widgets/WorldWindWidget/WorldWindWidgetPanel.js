@@ -15,7 +15,7 @@ define(['../../../error/ArgumentError',
 			htmlBody
 ){
 	/**
-	 * Class representing a section of WorldWindWidget
+	 * Class representing a panel of WorldWindWidgetPanels
 	 * @param options {Object}
 	 * @constructor
 	 */
@@ -32,13 +32,17 @@ define(['../../../error/ArgumentError',
 		this._id = options.id;
 		this._name = options.name;
 		this._target = options.target;
-		this._isOpen = options.isOpen || true;
+
+		this._isOpen = true;
+		if (options.hasOwnProperty("isOpen")){
+			this._isOpen = options.isOpen;
+		}
 
 		this.build();
 	};
 
 	/**
-	 * Build section of World Wind Widget
+	 * Build panel
 	 */
 	WorldWindWidgetPanel.prototype.build = function(){
 		var html = S(htmlBody).template({
@@ -47,16 +51,18 @@ define(['../../../error/ArgumentError',
 		}).toString();
 		this._target.append(html);
 
+		this._panelHeaderSelector = $("#" + this._id + "-panel-header");
 		this._panelBodySelector = $("#" + this._id + "-panel-body");
 		this.toggleState(this._isOpen);
 	};
 
+	/**
+	 * Show/hide panel
+	 * @param state {boolean} true, if panel should be shown
+	 */
 	WorldWindWidgetPanel.prototype.toggleState = function(state){
-		if (state){
-
-		} else {
-
-		}
+		this._panelHeaderSelector.toggleClass("open", state);
+		this._panelBodySelector.toggleClass("open", state);
 	};
 
 	return WorldWindWidgetPanel;

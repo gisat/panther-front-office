@@ -2,8 +2,8 @@ define(['../../../error/ArgumentError',
 		'../../../error/NotFoundError',
 		'../../../util/Logger',
 
-		'./BackgroundLayersPanel',
 		'../Widget',
+		'./WorldWindWidgetPanels',
 
 		'jquery',
 		'string',
@@ -13,8 +13,8 @@ define(['../../../error/ArgumentError',
 			NotFoundError,
 			Logger,
 
-			BackgroundLayersPanel,
 			Widget,
+			WorldWindWidgetPanels,
 
 			$,
 			S,
@@ -46,7 +46,7 @@ define(['../../../error/ArgumentError',
 		this.buildToolIconInHeader("Dock");
 		this.buildToolIconInHeader("Undock");
 		this.buildBody();
-		this.addEventListeners();
+		this.addEventsListeners();
 	};
 
 	/**
@@ -59,23 +59,16 @@ define(['../../../error/ArgumentError',
 		this._worldWindMap = this._worldWindContainer.find("#world-wind-map");
 		this._3DmapSwitcher = $("#" + this._widgetId + "-3Dmap-switch");
 
-		var html = S(htmlBody).template({
-			panelsId: this._widgetId + "-panels"
-		}).toString();
-		this._widgetBodySelector.append(html);
-		this._panelsSelector = $("#" + this._widgetId + "-panels");
-
-		this.buildPanels();
+		this._panels = this.buildPanels();
 	};
 
 	/**
 	 * Build particular panels
 	 */
 	WorldWindWidget.prototype.buildPanels = function(){
-		this._backgroundLayersPanel = new BackgroundLayersPanel({
-			id: "background-layers",
-			name: "Background Layers",
-			target: this._panelsSelector
+		return new WorldWindWidgetPanels({
+			id: this._widgetId + "-panels",
+			target: this._widgetBodySelector
 		})
 	};
 
@@ -99,10 +92,9 @@ define(['../../../error/ArgumentError',
 	/**
 	 * Add listeners
 	 */
-	WorldWindWidget.prototype.addEventListeners = function(){
+	WorldWindWidget.prototype.addEventsListeners = function(){
 		this.addMapSwitchListener();
 		this.addDockingListener();
-		this.addPanelsListener();
 	};
 
 	/**
@@ -144,17 +136,6 @@ define(['../../../error/ArgumentError',
 					self.toggleComponents("block");
 				}
 			}, 50);
-		});
-	};
-
-	/**
-	 * Toggle panels
-	 */
-	WorldWindWidget.prototype.addPanelsListener = function(){
-		this._panelsSelector.find(".panel-header").click(function() {
-			$(this).toggleClass('closed');
-			$(this).next().toggle('slow');
-			return false;
 		});
 	};
 
