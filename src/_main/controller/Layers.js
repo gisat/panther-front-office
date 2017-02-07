@@ -1168,15 +1168,9 @@ Ext.define('PumaMain.controller.Layers', {
 						isBaseLayer: false
 					});
 				mapController.olMap.addLayers([this.wmsLayers[layer.id]]);
-				if($(mapController.olMapMultipleSecond.div).is(':visible')) {
-					mapController.olMapMultipleSecond.addLayers([this.wmsLayers[layer.id]]);
-				}
 			} else {
 				if(this.wmsLayers[layer.id]) {
 					mapController.olMap.removeLayer(this.wmsLayers[layer.id]);
-					if($(mapController.olMapMultipleSecond.div).is(':visible')) {
-						mapController.olMapMultipleSecond.removeLayer(this.wmsLayers[layer.id]);
-					}
 				}
 			}
 		}
