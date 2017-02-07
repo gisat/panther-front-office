@@ -1,3 +1,8 @@
+/* === old FO === */
+#sidebar-tools.hidden-complete {
+    left: -1000px;
+}
+
 /* === Building blocks === */
 .intro .widgets {
     display: none;
@@ -5,7 +10,8 @@
 .widgets {
     display: block;
 }
-.floater p, .floater a, .floater span, .floater label {
+.floater p, .floater a, .floater span, .floater label,
+.tool-window p, .tool-window a, .tool-window span, .tool-window label {
     color: #666;
     font-size: .75rem;
 }

@@ -137,6 +137,7 @@ define(['../../../error/ArgumentError',
 	 */
 	WorldWindWidget.prototype.addPanelsListener = function(){
 		this._panelsSelector.find(".panel-header").click(function() {
+			$(this).toggleClass('closed');
 			$(this).next().toggle('slow');
 			return false;
 		});
@@ -162,9 +163,9 @@ define(['../../../error/ArgumentError',
 		});
 
 		if (action == "none"){
-			sidebarTools.css({left: -1000});
+			sidebarTools.addClass("hidden-complete");
 		} else {
-			sidebarTools.css({left: 0});
+			sidebarTools.removeClass("hidden-complete");
 		}
 	};
 
