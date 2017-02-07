@@ -82,7 +82,7 @@ define(['js/util/metadata/Attributes',
         var olMap = buildOpenLayersMap();
         
         // create tools and widgets according to configuration
-        if(Config.toggles.hasOwnProperty("hasNew3Dmaps") && Config.toggles.hasNew3Dmaps){
+        if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
             var webWorldWind = buildWorldWindMap();
             widgets.push(buildWorldWindWidget(webWorldWind));
         }

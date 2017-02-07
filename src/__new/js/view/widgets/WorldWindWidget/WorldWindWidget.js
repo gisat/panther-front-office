@@ -51,14 +51,17 @@ define(['../../../error/ArgumentError',
 	 * Build the body of widget
 	 */
 	WorldWindWidget.prototype.buildBody = function(){
-		var html = S(htmlBody).template().toString();
-		this._widgetBodySelector.append(html);
-
 		this.buildCheckboxInput(this._widgetId + "-3Dmap-switch", "Show 3D map", this._widgetBodySelector);
 
 		this._worldWindContainer = this._worldWind.getContainer();
 		this._worldWindMap = this._worldWindContainer.find("#world-wind-map");
 		this._3DmapSwitcher = $("#" + this._widgetId + "-3Dmap-switch");
+
+		var html = S(htmlBody).template({
+			panelsId: this._widgetId + "-panels"
+		}).toString();
+		this._widgetBodySelector.append(html);
+		this._panelsSelector = $("#" + this._widgetId + "-panels");
 	};
 
 	/**
@@ -84,6 +87,7 @@ define(['../../../error/ArgumentError',
 	WorldWindWidget.prototype.addEventListeners = function(){
 		this.addMapSwitchListener();
 		this.addDockingListener();
+		this.addPanelsListener();
 	};
 
 	/**
@@ -125,6 +129,16 @@ define(['../../../error/ArgumentError',
 					self.toggleComponents("block");
 				}
 			}, 50);
+		});
+	};
+
+	/**
+	 * Toggle panels
+	 */
+	WorldWindWidget.prototype.addPanelsListener = function(){
+		this._panelsSelector.find(".panel-header").click(function() {
+			$(this).next().toggle('slow');
+			return false;
 		});
 	};
 
