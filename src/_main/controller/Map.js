@@ -313,32 +313,6 @@ Ext.define('PumaMain.controller.Map', {
 		Ext.StoreMgr.lookup('selectedlayers').loadData([hybridNode,streetNode,terrainNode,osmNode],true);
 		baseNode.appendChild([hybridNode,streetNode,terrainNode,osmNode]);
 		liveNode.appendChild([trafficNode]);
-
-		if(Config.toggles.hasGuf) {
-			var gufNode = Ext.StoreMgr.lookup('layers').getRootNode().findChild('type', 'guf');
-			var guf12m = Ext.create('Puma.model.MapLayer', {
-				name: 'GUF2012-12m (for scientific use only)',
-				initialized: true,
-				allowDrag: true,
-				checked: false,
-				leaf: true,
-				sortIndex: 0,
-				type: 'guf12m'
-			});
-			var guf84m = Ext.create('Puma.model.MapLayer', {
-				name: 'GUF2012-84m (for non-profit use only)',
-				initialized: true,
-				allowDrag: true,
-				checked: false,
-				leaf: true,
-				sortIndex: 0,
-				type: 'guf84m'
-			});
-			gufNode.appendChild([guf12m, guf84m]);
-		}
-
-		// TODO: Move loading to store. Use the store here.
-
 	},
 
 	onMapMove: function(map) {
