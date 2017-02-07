@@ -411,11 +411,6 @@ Ext.define('PumaMain.controller.Store', {
                     expanded: true,
                     checked: null
                 }, {
-					name: 'GUF',
-					type: 'guf',
-					expanded: true,
-					checked: null
-				}, {
 					name: 'Custom WMS',
 					type: 'customwms',
 					expanded: true,
