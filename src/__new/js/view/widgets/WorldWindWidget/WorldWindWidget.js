@@ -2,6 +2,7 @@ define(['../../../error/ArgumentError',
 		'../../../error/NotFoundError',
 		'../../../util/Logger',
 
+		'./BackgroundLayersPanel',
 		'../Widget',
 
 		'jquery',
@@ -12,6 +13,7 @@ define(['../../../error/ArgumentError',
 			NotFoundError,
 			Logger,
 
+			BackgroundLayersPanel,
 			Widget,
 
 			$,
@@ -62,6 +64,19 @@ define(['../../../error/ArgumentError',
 		}).toString();
 		this._widgetBodySelector.append(html);
 		this._panelsSelector = $("#" + this._widgetId + "-panels");
+
+		this.buildPanels();
+	};
+
+	/**
+	 * Build particular panels
+	 */
+	WorldWindWidget.prototype.buildPanels = function(){
+		this._backgroundLayersPanel = new BackgroundLayersPanel({
+			id: "background-layers",
+			name: "Background Layers",
+			target: this._panelsSelector
+		})
 	};
 
 	/**
