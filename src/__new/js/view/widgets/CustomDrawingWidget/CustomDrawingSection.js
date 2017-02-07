@@ -54,6 +54,7 @@ define([
 				self._table.rebuild(self._records);
 				self._map.addFeaturesToVectorLayer(self._vectorLayer, self._records);
 				self.enableExport();
+				self.toggleLayer();
 			}
 		});
 	};
@@ -225,18 +226,25 @@ define([
 	 * Add listener for showing/hidding of layer
 	 */
 	CustomDrawingSection.prototype.addLayerCheckboxListener = function(){
-		var self = this;
-		this._layerCheckbox.getCheckbox().on("click", function(){
-			var checkbox = $(this);
-			setTimeout(function(){
-				if (checkbox.hasClass("checked")){
-					self._vectorLayer.display(true);
-				} else {
-					self._vectorLayer.display(false);
-				}
-			}, 50);
-		})
+		this._layerCheckbox.getCheckbox().on("click", this.toggleLayer.bind(this));
 	};
+
+	/**
+	 * Show or hide layer
+	 */
+	CustomDrawingSection.prototype.toggleLayer = function(){
+		var self = this;
+		setTimeout(function(){
+			if (self._layerCheckbox.getCheckbox().hasClass("checked")){
+				self._vectorLayer.display(true);
+				self._vectorLayer.setVisibility(true);
+			} else {
+				self._vectorLayer.display(false);
+				self._vectorLayer.setVisibility(false);
+			}
+		}, 50);
+	};
+
 
 	/**
 	 * Enable export buttons
