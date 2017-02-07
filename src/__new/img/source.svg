@@ -7,6 +7,7 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="210mm"
@@ -21,6 +22,18 @@
    inkscape:export-ydpi="90">
   <defs
      id="defs4">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4285">
+      <stop
+         style="stop-color:#cccccc;stop-opacity:1;"
+         offset="0"
+         id="stop4287" />
+      <stop
+         style="stop-color:#cccccc;stop-opacity:0;"
+         offset="1"
+         id="stop4289" />
+    </linearGradient>
     <filter
        inkscape:collect="always"
        style="color-interpolation-filters:sRGB"
@@ -30,6 +43,15 @@
          stdDeviation="0.8985"
          id="feGaussianBlur5396" />
     </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4285"
+       id="linearGradient4291"
+       x1="299.25"
+       y1="1024.3622"
+       x2="314.75"
+       y2="1024.3622"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -38,9 +60,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.8318841"
-     inkscape:cx="93.582073"
-     inkscape:cy="60.5"
+     inkscape:zoom="17.87"
+     inkscape:cx="295.0752"
+     inkscape:cy="38.285073"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -50,15 +72,16 @@
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:snap-bbox="true"
-     inkscape:bbox-nodes="true"
+     inkscape:bbox-nodes="false"
      inkscape:snap-bbox-midpoints="true"
      inkscape:snap-grids="true"
      inkscape:snap-intersection-paths="true"
      inkscape:object-nodes="true"
      inkscape:snap-smooth-nodes="true"
-     inkscape:snap-nodes="true"
+     inkscape:snap-nodes="false"
      inkscape:snap-others="false"
-     inkscape:snap-global="true">
+     inkscape:snap-global="true"
+     inkscape:snap-bbox-edge-midpoints="false">
     <inkscape:grid
        type="xygrid"
        id="grid4184" />
@@ -907,5 +930,62 @@
          d="m 372,838.1122 8.48528,0"
          style="fill:none;fill-rule:evenodd;stroke:#f6f6f6;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
+    <rect
+       style="opacity:1;fill:#eeeeee;fill-opacity:1;stroke:#cccccc;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.94117647"
+       id="rect4529"
+       width="13"
+       height="13"
+       x="280.5"
+       y="1017.8622"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\urbis-unchecked.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       rx="2"
+       ry="2" />
+    <rect
+       style="opacity:1;fill:#c92d42;fill-opacity:1;stroke:url(#linearGradient4291);stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       id="rect4529-6-1"
+       width="14"
+       height="14"
+       x="300"
+       y="1017.3622"
+       inkscape:export-filename="D:\DATA\panther-front-office\src\images\new\checked.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       rx="1.9999999"
+       ry="1.9999999" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 302.15378,1024.7006 2.8284,2.8284 6.36399,-6.3639"
+       id="path4560-9"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccc"
+       inkscape:export-filename="D:\DATA\panther-front-office\src\images\new\checked.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="opacity:1;fill:#eeeeee;fill-opacity:1;stroke:#cccccc;stroke-width:1;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0.94117647"
+       id="rect4529-7"
+       width="13"
+       height="13"
+       x="280.5"
+       y="997.86218"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\urbis-unchecked.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       rx="7"
+       ry="7" />
+    <rect
+       style="opacity:1;fill:#c92d42;fill-opacity:1;stroke:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:0"
+       id="rect4529-6-1-0"
+       width="14"
+       height="14"
+       x="300"
+       y="997.36218"
+       inkscape:export-filename="D:\DATA\panther-front-office\src\images\new\radio-checked.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       rx="7"
+       ry="7" />
   </g>
 </svg>
