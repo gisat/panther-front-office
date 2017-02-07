@@ -621,6 +621,7 @@ Ext.define('PumaMain.controller.Map', {
 			this.cursor1 = Ext.get('app-map').down('img')
 		} else {
 			this.map2 = map;
+			this.olMapMultipleSecond = this.map2;
 			this.cursor2 = Ext.get('app-map2').down('img')
 		}
 		var hybridLayer = new OpenLayers.Layer.Google(
