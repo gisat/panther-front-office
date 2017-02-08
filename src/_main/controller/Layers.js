@@ -809,9 +809,9 @@ Ext.define('PumaMain.controller.Layers', {
 					normAttr = '${' + normAttr + '}';
 				}
 
-				props = new OpenLayers.Filter.Function({name: 'Mul', params: [new OpenLayers.Filter.Function({name: 'Div', params: ['${#attr#}', 1]}), 1]});
+				props = new OpenLayers.Filter.Function({name: 'Mul', params: [new OpenLayers.Filter.Function({name: 'Div', params: ['${#attr#}', normAttr]}), factor]});
 			} else {
-				props = new OpenLayers.Filter.Function({name: 'Mul', params: ['${#attr#}', 1]});
+				props = new OpenLayers.Filter.Function({name: 'Mul', params: ['${#attr#}', factor]});
 			}
 			if (params['zeroesAsNull']) {
 				filtersNull.push(new OpenLayers.Filter.Comparison({type: '==', property: '#attr#', value: 0}));
