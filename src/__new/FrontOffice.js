@@ -3,11 +3,13 @@ define([
 	'js/stores/gisat/Attributes',
 	'js/stores/gisat/AttributeSets',
 	'js/stores/gisat/Visualizations',
+	'jquery',
 	'underscore'
 ], function(Stores,
 			Attributes,
 			AttributeSets,
 			Visualizations,
+			$,
 			_){
 	/**
 	 * Constructor for assembling current application.
@@ -32,6 +34,7 @@ define([
 			Stores.retrieve("visualization").byId(visualization).then(function(response){
 				var attributes = response[0].attributes;
 				var options = response[0].options;
+				self.toggleSidebars(options);
 
 				if (attributes){
 					self.getAttributesMetadata().then(function(results){
@@ -126,6 +129,23 @@ define([
 			updated.push(allAttr);
 		});
 		return updated;
+	};
+
+	/**
+	 * Show/hide sidebars according to visualization
+	 * @param options {Object}
+	 */
+	FrontOffice.prototype.toggleSidebars = function(options){
+		if (options && options.hasOwnProperty('openSidebars')){
+			var sidebars = options.openSidebars;
+			if (sidebars.hasOwnProperty('sidebar-tools') && !sidebars['sidebar-tools']){
+				$('#sidebar-tools').addClass("hidden");
+			}
+			if (sidebars.hasOwnProperty('sidebar-reports') && !sidebars['sidebar-reports']){
+				$('#sidebar-reports').addClass("hidden");
+				Observer.notify("resizeMap");
+			}
+		}
 	};
 
 	/**

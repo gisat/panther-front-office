@@ -328,8 +328,26 @@ Ext.define('PumaMain.controller.ViewMng', {
                 })
             }
         }
-        
-        
+
+        var visOptions = ExchangeParams.options;
+        // check if sidebar with reports or sidebar with tools is open or closed
+        var isReportBoxOpen = true;
+        var isToolBoxOpen = true;
+
+        var reportsClass = Ext.get('sidebar-reports').dom.className;
+        if (reportsClass){
+            isReportBoxOpen = false;
+        }
+
+        var toolsClass = Ext.get('sidebar-tools').dom.className;
+        if (toolsClass){
+            isToolBoxOpen = false;
+        }
+
+        visOptions.openSidebars = {
+            "sidebar-reports": isReportBoxOpen,
+            "sidebar-tools": isToolBoxOpen
+        };
         
         var vis = Ext.create('Puma.model.Visualization',{
             theme: theme,
@@ -337,7 +355,7 @@ Ext.define('PumaMain.controller.ViewMng', {
             choroplethCfg: layerCfgs,
             visibleLayers: visibleLayers,
             attributes: ExchangeParams.attributesState,
-            options: ExchangeParams.options
+            options: visOptions
         });
         var window = Ext.widget('window',{
             layout: 'fit',
