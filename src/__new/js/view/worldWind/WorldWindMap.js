@@ -2,6 +2,7 @@ define(['../../error/ArgumentError',
 		'../../error/NotFoundError',
 		'../../util/Logger',
 
+		'./Layers',
 		'./MyGoToAnimator',
 
 		'jquery',
@@ -11,6 +12,7 @@ define(['../../error/ArgumentError',
 			NotFoundError,
 			Logger,
 
+			Layers,
 			MyGoToAnimator,
 
 			$
@@ -54,10 +56,24 @@ define(['../../error/ArgumentError',
 	WorldWindMap.prototype.setupWebWorldWind = function(){
 		this._wwd = this.buildWorldWindow();
 		this._goToAnimator = new MyGoToAnimator(this._wwd);
+		this.layers = new Layers();
+	};
 
-		// Add Blue Marble Layer
-		//this._wwd.addLayer(new WorldWind.BMNGLayer());
-		this._wwd.addLayer(new WorldWind.BingRoadsLayer());
+	/**
+	 * Add layer to the map
+	 * @param layer {WorldWind.Layer}
+	 */
+	WorldWindMap.prototype.addLayer = function(layer){
+		this._wwd.addLayer(layer);
+		this._wwd.redraw();
+	};
+
+	/**
+	 * Remove layer from map
+	 * @param layer {WorldWind.Layer}
+	 */
+	WorldWindMap.prototype.removeLayer = function(layer){
+		this._wwd.removeLayer(layer);
 	};
 
 	/**

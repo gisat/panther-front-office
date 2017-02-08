@@ -22,6 +22,7 @@ define(['../../../error/ArgumentError',
 	 * @param options {Object}
 	 * @param options.id {string} id of element
 	 * @param options.target {JQuery} JQuery selector of target element
+	 * @param options.worldWind {WorldWind.WorldWindow}
 	 * @constructor
 	 */
 	var WorldWindWidgetPanels = function(options){
@@ -31,6 +32,11 @@ define(['../../../error/ArgumentError',
 		if (!options.target || options.target.length == 0){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingTarget"));
 		}
+		if (!options.worldWind){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidget", "constructor", "missingWorldWind"));
+		}
+		this._worldWind = options.worldWind;
+
 		this._id = options.id;
 		this._target = options.target;
 		this.build();
@@ -51,14 +57,15 @@ define(['../../../error/ArgumentError',
 	};
 
 	/**
-	 * Build particular panels
+	 * Build panel with background layers
 	 */
 	WorldWindWidgetPanels.prototype.buildBackgroundLayersPanel = function(){
 		return new BackgroundLayersPanel({
 			id: "background-layers",
 			name: "Background Layers",
 			target: this._panelsSelector,
-			isOpen: false
+			isOpen: true,
+			worldWind: this._worldWind
 		});
 	};
 

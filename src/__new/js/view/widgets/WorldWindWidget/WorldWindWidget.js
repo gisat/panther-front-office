@@ -68,7 +68,8 @@ define(['../../../error/ArgumentError',
 	WorldWindWidget.prototype.buildPanels = function(){
 		return new WorldWindWidgetPanels({
 			id: this._widgetId + "-panels",
-			target: this._widgetBodySelector
+			target: this._widgetBodySelector,
+			worldWind: this._worldWind
 		})
 	};
 

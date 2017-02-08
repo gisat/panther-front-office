@@ -21,6 +21,10 @@ define(['../../../error/ArgumentError',
 	/**
 	 * Class representing a panel of WorldWindWidgetPanels
 	 * @param options {Object}
+	 * @param options.id {string} id of element
+	 * @param options.name {string} name of panel
+	 * @param options.target {JQuery} JQuery selector of target element
+	 * @param options.worldWind {WorldWind.WorldWindow}
 	 * @constructor
 	 */
 	var WorldWindWidgetPanel = function(options){
@@ -33,6 +37,11 @@ define(['../../../error/ArgumentError',
 		if (!options.target || options.target.length == 0){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetSection", "constructor", "missingTarget"));
 		}
+		if (!options.worldWind){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidget", "constructor", "missingWorldWind"));
+		}
+
+		this._worldWind = options.worldWind;
 		this._id = options.id;
 		this._name = options.name;
 		this._target = options.target;
@@ -58,7 +67,8 @@ define(['../../../error/ArgumentError',
 		this._panelHeaderSelector = $("#" + this._id + "-panel-header");
 		this._panelBodySelector = $("#" + this._id + "-panel-body");
 		this.toggleState(this._isOpen);
-		this.addLayers();
+
+		this.addContent();
 	};
 
 	/**
@@ -75,15 +85,17 @@ define(['../../../error/ArgumentError',
 	 * @param id {string} id of radio box
 	 * @param name {string} label
 	 * @param target {JQuery} JQuery selector of target element
+	 * @param dataId {string} id of data connected with this radio
 	 * @param checked {boolean} true if radio should be checked
 	 * @returns {Radiobox}
 	 */
-	WorldWindWidgetPanel.prototype.addRadio = function(id, name, target, checked){
+	WorldWindWidgetPanel.prototype.addRadio = function(id, name, target, dataId, checked){
 		return new Radiobox({
 			id: id,
 			name: name,
 			target: target,
 			containerId: this._id + "-panel-body",
+			dataId: dataId,
 			checked: checked
 		});
 	};
