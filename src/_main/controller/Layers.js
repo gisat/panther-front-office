@@ -763,6 +763,7 @@ Ext.define('PumaMain.controller.Layers', {
 			normalization = attrs[0].normType || normalization;
 			var normAttrSet = attrs[0].normAs || params['normalizationAttributeSet'];
 			var normAttribute = attrs[0].normAttr || params['normalizationAttribute'];
+			var normalizationUnits = attrs[0].normalizationUnits;
 
 			var factor = 1;
 			var attrUnits = Ext.StoreMgr.lookup('attribute').getById(attrs[0].attr).get('units');
