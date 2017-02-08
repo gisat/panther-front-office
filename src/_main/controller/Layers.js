@@ -1166,7 +1166,7 @@ Ext.define('PumaMain.controller.Layers', {
 					layer.url,
 					{
 						layers: layer.layer,
-						transparent: <true></true>
+						transparent: true
 					}, {
 						visibility: true,
 						isBaseLayer: false
