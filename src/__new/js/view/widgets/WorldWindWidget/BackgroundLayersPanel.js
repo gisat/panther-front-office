@@ -26,5 +26,11 @@ define(['../../../error/ArgumentError',
 
 	BackgroundLayersPanel.prototype = Object.create(WorldWindWidgetPanel.prototype);
 
+	BackgroundLayersPanel.prototype.addLayers = function(){
+		this.addRadio("aaa", "Test aaa", this._panelBodySelector, true);
+		this.addRadio("bbb", "Test bbb", this._panelBodySelector, false);
+		this.addRadio("ccc", "Test ccc", this._panelBodySelector, false);
+	};
+
 	return BackgroundLayersPanel;
 });
