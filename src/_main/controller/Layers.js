@@ -770,23 +770,27 @@ Ext.define('PumaMain.controller.Layers', {
 			if (normalization == 'attribute' || normalization == 'attributeset') {
 				normAttrUnits = Ext.StoreMgr.lookup('attribute').getById(normAttribute).get('units');
 			}
-			if (normalization == 'area') {
-				normAttrUnits = 'm2';
+
+			let percentage = attrs[0].normalizationResultInPercentage;
+			if(typeof percentage === 'undefined') {
+				percentage = true;
 			}
-			if (normalization == 'select' || normalization=='year') {
-				normAttrUnits = attrUnits;
+			// When no normalization applies don't modify the data.
+			if(!normalization) {
+				percentage = false;
 			}
 
-			if (attrUnits && attrUnits == 'm2') {
-				factor /= 1000000;
+
+			if (normalization == 'area') {
+				attrUnits = normalizationUnits || 'm2';
+				normAttrUnits = null;
 			}
-			if (normAttrUnits && normAttrUnits == 'm2') {
-				factor *= 1000000;
-			}
-			if ((normAttrUnits == 'm2' || normAttrUnits == 'km2') && (attrUnits == 'm2' || attrUnits == 'km2')) {
-				factor *= 100;
-			} else if (attrUnits && attrUnits == normAttrUnits) {
-				factor *= 100;
+
+			if(normalization) {
+				var units = new Units();
+				factor = units.translate(attrUnits, normAttrUnits, percentage);
+			} else {
+				factor = percentage ? 100: 1;
 			}
 
 			var props = '';
@@ -1162,7 +1166,7 @@ Ext.define('PumaMain.controller.Layers', {
 					layer.url,
 					{
 						layers: layer.layer,
-						transparent: true
+						transparent: <true></true>
 					}, {
 						visibility: true,
 						isBaseLayer: false
@@ -1321,4 +1325,40 @@ Ext.define('PumaMain.controller.Layers', {
 	}
 });
 
+function Units() {
+	this.units = {
+		m2: 1,
+		ha: 10000,
+		km2: 1000000
+	};
+	this.allowedUnits = ['m2', 'km2', 'ha'];
+}
 
+Units.prototype.translate = function(unitFrom, unitTo, percentage) {
+	percentage = percentage ? 100: 1;
+
+	if(!unitFrom && !unitTo) {
+		logger.error(`Units#translate Incorrect units from and to.`);
+		return percentage;
+	}
+
+	if(!unitTo || this.allowedUnits.indexOf(unitTo) == -1) {
+		if(this.allowedUnits.indexOf(unitFrom) != -1) {
+			// Correct units give correct factor.
+			return this.units[unitFrom] * percentage;
+		} else {
+			return percentage;
+		}
+	}
+
+	if(!unitFrom || this.allowedUnits.indexOf(unitFrom) == -1) {
+		if(this.allowedUnits.indexOf(unitTo) != -1) {
+			// Correct units give correct factor.
+			return 1 / (this.units[unitTo] * percentage);
+		} else {
+			return 1 / percentage;
+		}
+	}
+
+	return (this.units[unitFrom] / this.units[unitTo]) * percentage;
+};
