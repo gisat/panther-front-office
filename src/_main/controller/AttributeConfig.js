@@ -375,20 +375,19 @@ Ext.define('PumaMain.controller.AttributeConfig', {
     },
     onNormTypeChange: function(combo,val) {
 	    var attrUnits = combo.up('panel').down('#normalizationUnits');
+	    attrUnits.show();
         var attrCombo = combo.up('panel').down('#normAttribute');
         var attrSetCombo = combo.up('panel').down('#normAttributeSet');
         var attrYears = combo.up('panel').down('#normYear');
         if (val=='attributeset') {
             attrSetCombo.show();
 			attrCombo.hide();
-            attrUnits.hide();
         }
         else if (val=='attribute') {
             attrSetCombo.show();
             attrCombo.show();
 
             attrYears.hide();
-            attrUnits.hide();
         }
         else {
             attrSetCombo.hide();
