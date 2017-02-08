@@ -76,7 +76,7 @@ define(['../../../error/ArgumentError',
 	WorldWindWidgetPanels.prototype.onPanelHeaderClick = function(){
 		this._panelsSelector.find(".panel-header").click(function(){
 			$(this).toggleClass('open');
-			$(this).next().toggle('slow');
+			$(this).next().slideToggle();
 			return false;
 		});
 	};
