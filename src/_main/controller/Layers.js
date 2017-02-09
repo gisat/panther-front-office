@@ -22,10 +22,6 @@ Ext.define('PumaMain.controller.Layers', {
 				layerlegend: this.onLayerLegend,
 				showmetadata: this.onShowMetadata
 			},
-
-			// 'layermenu #opacity': {
-			// 	click: this.openOpacityWindow
-			// },
 			'slider[itemId=opacity]': {
 				change: this.onOpacityChange
 			},
@@ -429,31 +425,6 @@ Ext.define('PumaMain.controller.Layers', {
 		window.show();
 	},
 
-	onLayerContextMenu: function(tree, rec, item, index, e) {
-		return;
-		// var bindChart = rec.get('bindChart');
-		// if (!bindChart || rec.get('type')!='chart') {
-		// 	return;
-		// }
-		// e.stopEvent();
-		// var layerMenu = Ext.widget('layermenu', {
-		// 	bindChart: bindChart
-		// });
-		// layerMenu.showAt(e.getXY());
-	},
-
-	onContextMenu: function(tree, rec, item, index, e) {
-		return;
-		// e.stopEvent();
-		//
-		// var layerMenu = Ext.widget('layermenu', {
-		// 	layer1: rec.get('layer1'),
-		// 	layer2: rec.get('layer2'),
-		// 	layerName: rec.get('name')
-		// });
-		// layerMenu.showAt(e.getXY());
-	},
-
 	colourMap: function(selectMap, map1NoChange, map2NoChange) {
 		var store = Ext.StoreMgr.lookup('layers');
 		var node = store.getRootNode().findChild('type', 'selectedareas', true);
@@ -650,7 +621,6 @@ Ext.define('PumaMain.controller.Layers', {
 				}
 				if (node.get('checked')) {
 					me.onCheckChange(node,true);
-					// Ext.ComponentQuery.query('#legendpanel')[0].refresh();
 				}
 
 			},
@@ -817,8 +787,7 @@ Ext.define('PumaMain.controller.Layers', {
 				filtersNull.push(new OpenLayers.Filter.Comparison({type: '==', property: '#attr#', value: 0}));
 				filtersNotNull.push(new OpenLayers.Filter.Comparison({type: '!=', property: '#attr#', value: 0}));
 			}
-			//var nullFilter = new OpenLayers.Filter.Function({name: 'isNull',params: ['${#attr#}']})
-			//filtersNull.push(new OpenLayers.Filter.Comparison({type: '==', property: nullFilter, value: 'true'}));
+
 			var nullFilter = new OpenLayers.Filter.Comparison({type:'NULL',property:'#attr#'});
 			filtersNotNull.push(new OpenLayers.Filter.Logical({type: '!', filters:[nullFilter]}));
 			filtersNull.push(nullFilter);
@@ -1259,9 +1228,7 @@ Ext.define('PumaMain.controller.Layers', {
 			if (type=='chartlayer') {
 				conf.attr = rec.get('attribute');
 				conf.as = rec.get('attributeSet');
-				// conf.chartId = rec.get('bindChart').cfg.chartId;
 			}
-			// conf.opacity = rec.get('layer1').opacity || 1;
 			confs.push(conf)
 		});
 		return confs;
