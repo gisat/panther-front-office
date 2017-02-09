@@ -82,6 +82,7 @@ define(['../../../error/ArgumentError',
 		if (attributes.length != 0){
 			this.toggleWarning("none");
 			this._worldWind.rebuild(options.config, this._widgetSelector);
+			this._panels.rebuild(options.config);
 			if (this._3DmapSwitcher.hasClass("checked")){
 				this.toggleComponents("none");
 			}

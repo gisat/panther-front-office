@@ -35,13 +35,24 @@ define(['../../../error/ArgumentError',
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingTarget"));
 		}
 		if (!options.worldWind){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidget", "constructor", "missingWorldWind"));
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingWorldWind"));
 		}
 		this._worldWind = options.worldWind;
 
 		this._id = options.id;
 		this._target = options.target;
 		this.build();
+	};
+
+	/**
+	 * Rebuild panels with current configuration
+	 * @param configuration {Object} configuration from global object ThemeYearConfParams
+	 */
+	WorldWindWidgetPanels.prototype.rebuild = function(configuration){
+		if (!configuration){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingParameter"));
+		}
+		this._auLayersPanel.rebuild(configuration);
 	};
 
 	/**
@@ -54,8 +65,8 @@ define(['../../../error/ArgumentError',
 		this._target.append(html);
 		this._panelsSelector = $("#" + this._id);
 
-		this.buildBackgroundLayersPanel();
-		this.buildAuLayersPanel();
+		this._backgroundLayersPanel = this.buildBackgroundLayersPanel();
+		this._auLayersPanel = this.buildAuLayersPanel();
 
 		this.addEventsListeners();
 	};

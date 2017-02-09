@@ -1,5 +1,5 @@
 .panel-header {
-	background: rgba(67, 66, 84,.6);
+	background: rgba(67, 66, 84,.7);
 	border-bottom: 1px solid white;
 	color: #f7f7f7;
 	cursor: pointer;
@@ -9,7 +9,7 @@
 	transition: background .3s ease-out;
 }
 .panel-header:hover {
-	background: rgba(67, 66, 84, .7);
+	background: rgba(67, 66, 84, .8);
 }
 .panel-header:first-child {
 	border-top: 1px solid white;

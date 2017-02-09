@@ -88,10 +88,12 @@ define(function () {
 
         messageTable: {
             emptyResult: "Result is empty!",
+            missingAreaTemplate: "Area Template parameter is null or undefined!",
             missingBoxId: "Box ID of an element is null or undefined!",
             missingBoxName: "Box name is null or undefined!",
             missingData: "Data are null, undefined or empty!",
             missingDataset: "Dataset parameter is null or undefined!",
+            missingEndpointUrl: "Endpoint url is null or undefined!",
             missingElementId: "Required ID of an element is null or undefined!",
             missingFilter: "Instance of Filter is missing!",
             missingHistogramMinimum: "Minimum is null or undefined!",

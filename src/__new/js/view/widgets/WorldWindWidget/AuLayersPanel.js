@@ -2,6 +2,7 @@ define(['../../../error/ArgumentError',
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 
+	'../../../util/AnalyticalUnits',
 	'./WorldWindWidgetPanel',
 
 	'jquery',
@@ -10,6 +11,7 @@ define(['../../../error/ArgumentError',
 			NotFoundError,
 			Logger,
 
+			AnalyticalUnits,
 			WorldWindWidgetPanel,
 
 			$,
@@ -22,6 +24,7 @@ define(['../../../error/ArgumentError',
 	 */
 	var AuLayersPanel = function(options){
 		WorldWindWidgetPanel.apply(this, arguments);
+		this._au = new AnalyticalUnits();
 	};
 
 	AuLayersPanel.prototype = Object.create(WorldWindWidgetPanel.prototype);
@@ -40,6 +43,19 @@ define(['../../../error/ArgumentError',
 	AuLayersPanel.prototype.addLayers = function(){
 		this.addCheckbox(this._id + "-au-layers", "Analytical Units outlines", this._panelBodySelector, "analyticalUnits", true);
 		this.toggleLayers();
+	};
+
+	/**
+	 * Rebuild panel with current configuration
+	 * @param configuration {Object} configuration from global object ThemeYearConfParams
+	 */
+	AuLayersPanel.prototype.rebuild = function(configuration){
+		if (!configuration){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "AuLayersPanel", "constructor", "missingParameter"));
+		}
+		this._au.getUnits(configuration).then(function(result){
+			debugger;
+		});
 	};
 
 	/**
