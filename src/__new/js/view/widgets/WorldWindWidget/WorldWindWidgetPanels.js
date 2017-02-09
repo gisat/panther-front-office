@@ -2,6 +2,7 @@ define(['../../../error/ArgumentError',
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 
+	'./AuLayersPanel',
 	'./BackgroundLayersPanel',
 
 	'jquery',
@@ -12,6 +13,7 @@ define(['../../../error/ArgumentError',
 			NotFoundError,
 			Logger,
 
+			AuLayersPanel,
 			BackgroundLayersPanel,
 
 			$,
@@ -51,7 +53,9 @@ define(['../../../error/ArgumentError',
 		}).toString();
 		this._target.append(html);
 		this._panelsSelector = $("#" + this._id);
-		this._backgroundLayersPanel = this.buildBackgroundLayersPanel();
+
+		this.buildBackgroundLayersPanel();
+		this.buildAuLayersPanel();
 
 		this.addEventsListeners();
 	};
@@ -63,6 +67,19 @@ define(['../../../error/ArgumentError',
 		return new BackgroundLayersPanel({
 			id: "background-layers",
 			name: "Background Layers",
+			target: this._panelsSelector,
+			isOpen: true,
+			worldWind: this._worldWind
+		});
+	};
+
+	/**
+	 * Build panel with analytical units layers
+	 */
+	WorldWindWidgetPanels.prototype.buildAuLayersPanel = function(){
+		return new AuLayersPanel({
+			id: "au-layers",
+			name: "Analytical Units Layers",
 			target: this._panelsSelector,
 			isOpen: true,
 			worldWind: this._worldWind
