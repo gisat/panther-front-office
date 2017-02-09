@@ -30,7 +30,7 @@
 }
 .panel-body {
 	display: none;
-	padding: 0.05rem 0 .5rem;
+	padding: 0.05rem 0 .1rem;
 }
 .panel-body.open {
 	display: block;
@@ -38,11 +38,15 @@
 .panel-body .floater-row {
 	border-bottom: 1px solid #e7e7e7;
 }
+.panel-body .floater-row:last-child {
+	border-bottom: 0;
+}
 .panel-body .floater-row a {
 	padding: 0 .3rem;
 	height: 1.7rem;
 	line-height: 1.6rem;
 }
-.panel-body .floater-row .radiobox-label {
+.panel-body .floater-row .radiobox-label,
+.panel-body .floater-row .checkbox-label {
 	font-weight: normal;
 }

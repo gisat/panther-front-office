@@ -2,6 +2,7 @@ define(['../../../error/ArgumentError',
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 
+	'../inputs/checkbox/Checkbox',
 	'../inputs/checkbox/Radiobox',
 
 	'jquery',
@@ -12,6 +13,7 @@ define(['../../../error/ArgumentError',
 			NotFoundError,
 			Logger,
 
+			Checkbox,
 			Radiobox,
 
 			$,
@@ -78,6 +80,26 @@ define(['../../../error/ArgumentError',
 	WorldWindWidgetPanel.prototype.toggleState = function(state){
 		this._panelHeaderSelector.toggleClass("open", state);
 		this._panelBodySelector.toggleClass("open", state);
+	};
+
+	/**
+	 * Add checkbox to panel
+	 * @param id {string} id of checkbox box
+	 * @param name {string} label
+	 * @param target {JQuery} JQuery selector of target element
+	 * @param dataId {string} id of data connected with this radio
+	 * @param checked {boolean} true if radio should be checked
+	 * @returns {Checkbox}
+	 */
+	WorldWindWidgetPanel.prototype.addCheckbox = function(id, name, target, dataId, checked){
+		return new Checkbox({
+			id: id,
+			name: name,
+			target: target,
+			containerId: this._id + "-panel-body",
+			dataId: dataId,
+			checked: checked
+		});
 	};
 
 	/**
