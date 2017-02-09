@@ -19,8 +19,9 @@ define(['../../error/ArgumentError',
 		this._layers = {
 			bingRoads: new WorldWind.BingRoadsLayer(),
 			bingAerial: new WorldWind.BingAerialLayer(),
-			landsat: new WorldWind.BMNGLandsatLayer()
-		}
+			landsat: new WorldWind.BMNGLandsatLayer(),
+			analyticalUnits: new WorldWind.RenderableLayer()
+		};
 	};
 
 	/**

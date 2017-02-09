@@ -77,6 +77,24 @@ define(['../../error/ArgumentError',
 	};
 
 	/**
+	 * Show layer on the top of the globe
+	 * @param layer {WorldWind.Layer}
+	 */
+	WorldWindMap.prototype.showLayer = function(layer){
+		layer.opacity = 1;
+		this._wwd.redraw();
+	};
+
+	/**
+	 * Show layer
+	 * @param layer {WorldWind.Layer}
+	 */
+	WorldWindMap.prototype.hideLayer = function(layer){
+		layer.opacity = 0;
+		this._wwd.redraw();
+	};
+
+	/**
 	 * Build the World Wind Window
 	 * @returns {WorldWind.WorldWindow}
 	 */

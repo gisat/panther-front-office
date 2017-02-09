@@ -1,8 +1,8 @@
-define(['../error/ArgumentError',
-	'../error/NotFoundError',
-	'./Logger',
-	'./Promise',
-	'./RemoteJQ',
+define(['../../error/ArgumentError',
+	'../../error/NotFoundError',
+	'../Logger',
+	'../Promise',
+	'../RemoteJQ',
 
 	'jquery'
 ], function(ArgumentError,
@@ -119,6 +119,7 @@ define(['../error/ArgumentError',
 	 * @returns {Promise}
 	 */
 	AnalyticalUnits.prototype.loadUnits = function(){
+		var self = this;
 		return new RemoteJQ({
 			url: "rest/au",
 			params: {
@@ -126,7 +127,10 @@ define(['../error/ArgumentError',
 				locations: JSON.stringify(this._locations),
 				areaTemplate: this._areaTemplate
 			}
-		}).get();
+		}).get().then(function(result){
+			self._units = result.data;
+			return self._units;
+		});
 	};
 
 	return AnalyticalUnits;

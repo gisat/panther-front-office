@@ -89,7 +89,7 @@ define(['../../../error/ArgumentError',
 	 * @param target {JQuery} JQuery selector of target element
 	 * @param dataId {string} id of data connected with thischeckbox
 	 * @param checked {boolean} true if checkbox should be checked
-	 * @returns {Radiobox}
+	 * @returns {Checkbox}
 	 */
 	WorldWindWidgetPanel.prototype.addCheckbox = function(id, name, target, dataId, checked){
 		return new Checkbox({

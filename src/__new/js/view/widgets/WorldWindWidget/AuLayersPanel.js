@@ -2,7 +2,7 @@ define(['../../../error/ArgumentError',
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 
-	'../../../util/AnalyticalUnits',
+	'../../../util/metadata/AnalyticalUnits',
 	'./WorldWindWidgetPanel',
 
 	'jquery',
@@ -33,16 +33,23 @@ define(['../../../error/ArgumentError',
 	 * Add content to panel
 	 */
 	AuLayersPanel.prototype.addContent = function(){
-		this.addLayers();
+		this.addLayer(this._id + "-outlines", "Analytical Units outlines", this._panelBodySelector, "analyticalUnits", true);
+		this.toggleLayers();
 		this.addEventsListeners();
 	};
 
 	/**
-	 * Add radios and add selected layer
+	 * Add layers to the panel and map
+	 * @param elementId {string} Id of the HTML element
+	 * @param name {string} Name of the layer
+	 * @param container {JQuery} JQuery selector of the target element
+	 * @param layerId {string} Id of the layer
+	 * @param visible {boolean} true if the layer should be shown
 	 */
-	AuLayersPanel.prototype.addLayers = function(){
-		this.addCheckbox(this._id + "-au-layers", "Analytical Units outlines", this._panelBodySelector, "analyticalUnits", true);
-		this.toggleLayers();
+	AuLayersPanel.prototype.addLayer = function(elementId, name, container, layerId, visible){
+		this.addCheckbox(elementId, name, container, layerId, visible);
+		var layer = this._worldWind.layers.getLayerById(layerId);
+		this._worldWind.addLayer(layer);
 	};
 
 	/**
@@ -53,8 +60,9 @@ define(['../../../error/ArgumentError',
 		if (!configuration){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "AuLayersPanel", "constructor", "missingParameter"));
 		}
+		var self = this;
 		this._au.getUnits(configuration).then(function(result){
-			debugger;
+			console.log(self._worldWind);
 		});
 	};
 
@@ -76,20 +84,20 @@ define(['../../../error/ArgumentError',
 	 * Hide all background layers and show only selected one
 	 */
 	AuLayersPanel.prototype.toggleLayers = function(){
-		//var self = this;
-		//var radios = this._panelBodySelector.find(".radiobox-row");
-		//setTimeout(function(){
-		//	radios.each(function(index, item){
-		//		var radio = $(item);
-		//		var dataId = radio.attr("data-id");
-		//		var layer = self._worldWind.layers.getLayerById(dataId);
-		//		if (radio.hasClass("checked")){
-		//			self._worldWind.addLayer(layer);
-		//		} else {
-		//			self._worldWind.removeLayer(layer);
-		//		}
-		//	});
-		//},50);
+		var self = this;
+		var checkboxes = this._panelBodySelector.find(".checkbox-row");
+		setTimeout(function(){
+			checkboxes.each(function(index, item){
+				var checkbox = $(item);
+				var dataId = checkbox.attr("data-id");
+				var layer = self._worldWind.layers.getLayerById(dataId);
+				if (checkbox.hasClass("checked")){
+					self._worldWind.showLayer(layer);
+				} else {
+					self._worldWind.hideLayer(layer);
+				}
+			});
+		},50);
 	};
 
 	return AuLayersPanel;

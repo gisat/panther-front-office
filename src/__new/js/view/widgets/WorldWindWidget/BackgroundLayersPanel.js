@@ -30,19 +30,29 @@ define(['../../../error/ArgumentError',
 	 * Add content to panel
 	 */
 	BackgroundLayersPanel.prototype.addContent = function(){
-		this.addLayers();
+		this.addLayer(this._id + "-bing-roads", "Bing roads", this._panelBodySelector, "bingRoads", true);
+		this.addLayer(this._id + "-bing-aerial", "Bing Aerial", this._panelBodySelector, "bingAerial", false);
+		this.addLayer(this._id + "-landsat", "Landsat", this._panelBodySelector, "landsat", false);
+		this.toggleLayers();
+
 		this.addEventsListeners();
 	};
 
 	/**
-	 * Add radios and add selected layer
+	 * Add layers to panel and map
+	 * @param elementId {string} Id of the HTML element
+	 * @param name {string} Name of the layer
+	 * @param container {JQuery} JQuery selector of the target element
+	 * @param layerId {string} Id of the layer
+	 * @param visible {boolean} true if the layer should be shown
 	 */
-	BackgroundLayersPanel.prototype.addLayers = function(){
-		this.addRadio(this._id + "-bing-roads", "Bing roads", this._panelBodySelector, "bingRoads", true);
-		this.addRadio(this._id + "-bing-aerial", "Bing Aerial", this._panelBodySelector, "bingAerial", false);
-		this.addRadio(this._id + "-landsat", "Landsat", this._panelBodySelector, "landsat", false);
-		this.toggleLayers();
+	BackgroundLayersPanel.prototype.addLayer = function(elementId, name, container, layerId, visible){
+		this.addRadio(elementId, name, container, layerId, visible);
+		var layer = this._worldWind.layers.getLayerById(layerId);
+		this._worldWind.addLayer(layer);
 	};
+
+
 
 	/**
 	 * Add listeners
@@ -70,9 +80,9 @@ define(['../../../error/ArgumentError',
 				var dataId = radio.attr("data-id");
 				var layer = self._worldWind.layers.getLayerById(dataId);
 				if (radio.hasClass("checked")){
-					self._worldWind.addLayer(layer);
+					self._worldWind.showLayer(layer);
 				} else {
-					self._worldWind.removeLayer(layer);
+					self._worldWind.hideLayer(layer);
 				}
 			});
 		},50);
