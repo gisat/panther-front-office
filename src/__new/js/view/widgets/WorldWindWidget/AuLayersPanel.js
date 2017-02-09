@@ -34,6 +34,7 @@ define(['../../../error/ArgumentError',
 	 */
 	AuLayersPanel.prototype.addContent = function(){
 		this.addLayer(this._id + "-outlines", "Analytical Units outlines", this._panelBodySelector, "analyticalUnits", true);
+
 		this.toggleLayers();
 		this.addEventsListeners();
 	};
@@ -48,7 +49,10 @@ define(['../../../error/ArgumentError',
 	 */
 	AuLayersPanel.prototype.addLayer = function(elementId, name, container, layerId, visible){
 		this.addCheckbox(elementId, name, container, layerId, visible);
-		var layer = this._worldWind.layers.getLayerById(layerId);
+		var layer = this._worldWind._layers.getLayerById(layerId);
+		if (layerId == "analyticalUnits"){
+			this._auLayer = layer;
+		}
 		this._worldWind.addLayer(layer);
 	};
 
@@ -58,11 +62,25 @@ define(['../../../error/ArgumentError',
 	 */
 	AuLayersPanel.prototype.rebuild = function(configuration){
 		if (!configuration){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "AuLayersPanel", "constructor", "missingParameter"));
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "AuLayersPanel", "rebuild", "missingParameter"));
 		}
+		this.rebuildUnits(configuration);
+	};
+
+	/**
+	 * Get units from server and rebuild layer
+	 * @param configuration
+	 */
+	AuLayersPanel.prototype.rebuildUnits = function(configuration){
 		var self = this;
 		this._au.getUnits(configuration).then(function(result){
-			console.log(self._worldWind);
+			if (result.length > 0){
+				self._auLayer.redraw(result);
+				self._worldWind.redraw();
+				console.log(self._worldWind);
+			} else {
+				console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "AuLayersPanel", "constructor", "missingParameter"))
+			}
 		});
 	};
 
@@ -90,7 +108,7 @@ define(['../../../error/ArgumentError',
 			checkboxes.each(function(index, item){
 				var checkbox = $(item);
 				var dataId = checkbox.attr("data-id");
-				var layer = self._worldWind.layers.getLayerById(dataId);
+				var layer = self._worldWind._layers.getLayerById(dataId);
 				if (checkbox.hasClass("checked")){
 					self._worldWind.showLayer(layer);
 				} else {

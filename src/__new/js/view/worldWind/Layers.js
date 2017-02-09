@@ -2,11 +2,15 @@ define(['../../error/ArgumentError',
 	'../../error/NotFoundError',
 	'../../util/Logger',
 
+	'./AnalyticalUnitsLayer',
+
 	'jquery',
 	'worldwind'
 ], function(ArgumentError,
 			NotFoundError,
 			Logger,
+
+			AnalyticalUnitsLayer,
 
 			$
 ){
@@ -20,7 +24,7 @@ define(['../../error/ArgumentError',
 			bingRoads: new WorldWind.BingRoadsLayer(),
 			bingAerial: new WorldWind.BingAerialLayer(),
 			landsat: new WorldWind.BMNGLandsatLayer(),
-			analyticalUnits: new WorldWind.RenderableLayer()
+			analyticalUnits: new AnalyticalUnitsLayer({name: "Surface Shapes"})
 		};
 	};
 

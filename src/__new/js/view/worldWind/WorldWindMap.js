@@ -56,7 +56,7 @@ define(['../../error/ArgumentError',
 	WorldWindMap.prototype.setupWebWorldWind = function(){
 		this._wwd = this.buildWorldWindow();
 		this._goToAnimator = new MyGoToAnimator(this._wwd);
-		this.layers = new Layers();
+		this._layers = new Layers();
 	};
 
 	/**
@@ -65,7 +65,7 @@ define(['../../error/ArgumentError',
 	 */
 	WorldWindMap.prototype.addLayer = function(layer){
 		this._wwd.addLayer(layer);
-		this._wwd.redraw();
+		this.redraw();
 	};
 
 	/**
@@ -82,7 +82,7 @@ define(['../../error/ArgumentError',
 	 */
 	WorldWindMap.prototype.showLayer = function(layer){
 		layer.opacity = 1;
-		this._wwd.redraw();
+		this.redraw();
 	};
 
 	/**
@@ -91,6 +91,10 @@ define(['../../error/ArgumentError',
 	 */
 	WorldWindMap.prototype.hideLayer = function(layer){
 		layer.opacity = 0;
+		this.redraw();
+	};
+
+	WorldWindMap.prototype.redraw = function(){
 		this._wwd.redraw();
 	};
 
