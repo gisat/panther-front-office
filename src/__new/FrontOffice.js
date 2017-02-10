@@ -170,6 +170,18 @@ define([
 	};
 
 	/**
+	 * Basic check, if configuration is set up properly
+	 */
+	FrontOffice.prototype.checkConfiguration = function(){
+		if (ThemeYearConfParams.datasetChanged){
+			if (this._dataset == ThemeYearConfParams.dataset){
+				console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "FrontOffice", "checkConfiguration", "missingDataset"));
+			}
+		}
+		this._dataset = ThemeYearConfParams.dataset;
+	};
+
+	/**
 	 * Load metadata from server
 	 */
 	FrontOffice.prototype.loadData = function(){
