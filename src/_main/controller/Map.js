@@ -517,7 +517,7 @@ Ext.define('PumaMain.controller.Map', {
 
 	getOptions: function(cmp) {
 		var options = {
-			projection: new OpenLayers.Projection("EPSG:900913"),
+			projection: new OpenLayers.Projection("EPSG:4326"),
 			displayProjection: new OpenLayers.Projection("EPSG:4326"),
 			units: "m",
 			maxExtent: new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34),
