@@ -449,7 +449,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
 						layer.url,
 						{
 							layers: layer.layer,
-							transparent: true
+							transparent: true,
+                            srs: new OpenLayers.Projection("EPSG:3857")
 						}, {
 							visibility: false,
 							isBaseLayer: false
@@ -458,7 +459,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
 						layer.url,
 						{
 							layers: layer.layer,
-							transparent: true
+							transparent: true,
+							srs: new OpenLayers.Projection("EPSG:3857")
 						}, {
 							visibility: false,
 							isBaseLayer: false
