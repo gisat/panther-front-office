@@ -427,32 +427,11 @@ Ext.define('PumaMain.controller.Map', {
 		var rule = new OpenLayers.Rule({
 			symbolizer: {
 				"Polygon": new OpenLayers.Symbolizer.Polygon({fillOpacity: 0, strokeOpacity: 1, strokeColor: '#'+cmp.color})
-				//,"Text":new OpenLayers.Symbolizer.Text({label:'${name}',fontFamily:'DejaVu Sans Condensed Bold',fontSize:14,fontWeight:'bold',labelAnchorPointX:0.5,labelAnchorPointY:0.5})
 			},
 			filter: filter
 		});
 		style.addRules([rule]);
-		// var rasterStyle = new OpenLayers.Style();
-		// var rasterRule = new OpenLayers.Rule({
-		// 	symbolizer: {
-		// 		"Raster": new OpenLayers.Symbolizer.Raster({colorMap:[{color:'#00ff00',quantity:-100},{color:'#0000ff',quantity:100}]})
-		// 	}
-		// });
-		// rasterStyle.addRules([rasterRule]);
-		// var rasternamedLayers = [{
-		// 		name: layerRefs.layerRef.layer,
-		// 		userStyles: [rasterStyle]
-		// }];
-		// var rastersldObject = {
-		// 	name: 'style',
-		// 	title: 'Style',
-		// 	namedLayers: rasternamedLayers
-		// }
-		// var rasterformat = new OpenLayers.Format.SLD.Geoserver23();
-		// var rastersldNode = rasterformat.write(rastersldObject);
-		// var rasterxmlFormat = new OpenLayers.Format.XML();
-		// var rastersldText = rasterxmlFormat.write(rastersldNode);
-		
+
 		var namedLayers = [{
 			name: layerName,
 			userStyles: [style]
@@ -491,9 +470,6 @@ Ext.define('PumaMain.controller.Map', {
 		}
 
 		map.layer1.mergeNewParams(layer1Conf);
-		// map.layer1.mergeNewParams({
-		// 	"SLD_BODY": rastersldText
-		// })
 		map.layer2.mergeNewParams({
 			"USE_SECOND": true,
 			"SLD_BODY": sldText
@@ -509,7 +485,6 @@ Ext.define('PumaMain.controller.Map', {
 		window.setTimeout(function() {
 			map.zoomToExtent(map.outlineExtent);
 		},1);
-		//map.zoomToExtent(map.outlineExtent);
 		if (cmp.ownerCt.items.getCount()==cmp.ownerCt.mapNum){
 			var minZoom = 10000;
 			cmp.ownerCt.items.each(function(mapCmp) {
@@ -518,20 +493,6 @@ Ext.define('PumaMain.controller.Map', {
 					minZoom = zoom;
 				}
 			});
-			//debugger;
-			// cmp.ownerCt.items.each(function(mapCmp) {
-			// 	var curMap = mapCmp.map;
-			// 	var mapToZoom = null;
-			// 	if (curMap==map) {
-			// 		mapToZoom = map;
-			// 		setTimeout(function() {
-			// 			mapToZoom.zoomTo(minZoom);
-			// 		},1000);
-			// 	} else {
-			// 		curMap.zoomTo(minZoom);
-			// 	}
-			//	
-			// });
 		}
 	},
 
@@ -549,7 +510,6 @@ Ext.define('PumaMain.controller.Map', {
 		});
 		if (loaded) {
 			setTimeout(function() {
-				
 				console.log('loadingdone');
 			},2000)
 		}
@@ -560,10 +520,8 @@ Ext.define('PumaMain.controller.Map', {
 			projection: new OpenLayers.Projection("EPSG:900913"),
 			displayProjection: new OpenLayers.Projection("EPSG:4326"),
 			units: "m",
-			//numZoomLevels: 22,
 			maxExtent: new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34),
 			featureEvents: true,
-			//allOverlays: true,
 			div: cmp.id
 		};
 		return options;
@@ -581,12 +539,6 @@ Ext.define('PumaMain.controller.Map', {
 		var el = Ext.get(cmp.id);
 		el.on('contextmenu',function(e) {
 			return;
-			// e.stopEvent();
-			// var layerMenu = Ext.widget('layermenu', {
-			// 	map: map
-			// });
-			//
-			// layerMenu.showAt(e.getXY());
 		});
 		if (cmp.itemId=='map') {
 			this.createBaseNodes();
@@ -595,6 +547,7 @@ Ext.define('PumaMain.controller.Map', {
 			this.cursor1 = Ext.get('app-map').down('img')
 		} else {
 			this.map2 = map;
+			this.olMapMultipleSecond = this.map2;
 			this.cursor2 = Ext.get('app-map2').down('img')
 		}
 		var hybridLayer = new OpenLayers.Layer.Google(
@@ -634,11 +587,12 @@ Ext.define('PumaMain.controller.Map', {
 			initialized: true,
 			visibility: false
 		});
-		var trafficLayer = new google.maps.TrafficLayer()
+		var trafficLayer = new google.maps.TrafficLayer();
 
 		var baseNode = Ext.StoreMgr.lookup('layers').getRootNode().findChild('type','basegroup');
 		var trafficNode = Ext.StoreMgr.lookup('layers').getRootNode().findChild('type','livegroup');
-		var baseNodes = Ext.Array.merge(baseNode.childNodes,trafficNode.childNodes)
+		var gufNodes = Ext.StoreMgr.lookup('layers').getRootNode().findChild('type', 'customwms');
+		var baseNodes = Ext.Array.merge(baseNode.childNodes,trafficNode.childNodes, gufNodes.childNodes);
 		var nodes = [];
 		for (var i=0;i<baseNodes.length;i++) {
 			var node = baseNodes[i];
@@ -664,11 +618,8 @@ Ext.define('PumaMain.controller.Map', {
 				pointRadius: 2
 			}
 		});
-		//bbox: 112.337169,-7.954641,112.977462,-7.029791
-		//debugger;
 		map.size = map.getCurrentSize();
 		map.addLayers([terrainLayer,streetLayer,hybridLayer,osmLayer]);
-		//trafficLayer.setMap(streetLayer.mapObject);
 		trafficLayer.oldMapObj = streetLayer.mapObject;
 		if (cmp.id=='map') {
 			Ext.StoreMgr.lookup('selectedlayers').loadData(nodes,true);
@@ -781,8 +732,8 @@ Ext.define('PumaMain.controller.Map', {
 		map.dragControl.onComplete = function(feature) {
 			me.getController('UserPolygon').onFeatureDragged(feature);
 		};
-		//this.drawPolygonControl.activate();
-		for (var i in infoControls) { 
+
+		for (var i in infoControls) {
 			infoControls[i].events.register("getfeatureinfo", this, this.onFeatureSelected);
 			map.addControl(infoControls[i]);
 		}
@@ -800,9 +751,6 @@ Ext.define('PumaMain.controller.Map', {
 			return this.onMeasurePartial(obj);
 		});
 		
-		
-		//infoControls.hover.activate();
-		//infoControls.click.activate();
 		map.infoControls = infoControls;
 		if (cmp.itemId == 'map') {
 			map.controls[0].deactivate();
@@ -883,30 +831,6 @@ Ext.define('PumaMain.controller.Map', {
 		var layerRefMap = this.getController('Area').areaTemplateMap;
 		var layers = [];
 		return;
-		// root.cascadeBy(function(node) {
-		// 	if (!node.get('checked')) return;
-		// 	var at = node.get('bindAt');
-		// 	var layerRef = layerRefMap[at];
-		// 	if (!layerRef || !layerRef.fidColumn) {
-		// 		at = node.get('at');
-		// 	}
-		// 	layerRef = layerRefMap[at];
-		// 	var layerName = node.get('layerName');
-		// 	if (!layerName || (!layerRef || !layerRef.fidColumn) && at!=-1) return;
-		// 	var layerName = (layerRef ? 'layer_'+layerRef._id : layerName);
-		// 	if (!layerName) return;
-		// 	layers.push(Config.geoserver2Workspace + ':' + layerName);
-		// });
-		// if (!layers.length) {
-		// 	return false;
-		// }
-		// // for (var loc in layerRefMap) {
-		// // 	for (var )
-		// // }
-		// // layers = layers.join(',');
-		// // tady na to pozor layer uy nevisi na controlleru
-		// this.map1.getFeatureInfoLayer.params['LAYERS'] = layers;
-		// this.map2.getFeatureInfoLayer.params['LAYERS'] = layers;
 	},
 
 	updateGetFeatureControl: function() {

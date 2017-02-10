@@ -8,6 +8,7 @@ define([
 	'js/stores/gisat/AttributeSets',
 	'js/stores/gisat/Locations',
 	'js/stores/gisat/Visualizations',
+	'jquery',
 	'underscore'
 ], function(ArgumentError,
 			NotFoundError,
@@ -18,6 +19,7 @@ define([
 			AttributeSets,
 			Locations,
 			Visualizations,
+			$,
 			_){
 	/**
 	 * Constructor for assembling current application.
@@ -49,6 +51,7 @@ define([
 			Stores.retrieve("visualization").byId(visualization).then(function(response){
 				var attributes = response[0].attributes;
 				var options = response[0].options;
+				self.toggleSidebars(options);
 
 				if (attributes){
 					self.getAttributesMetadata().then(function(results){
@@ -150,15 +153,20 @@ define([
 	};
 
 	/**
-	 * Basic check, if configuration is set up properly
+	 * Show/hide sidebars according to visualization
+	 * @param options {Object}
 	 */
-	FrontOffice.prototype.checkConfiguration = function(){
-		if (ThemeYearConfParams.datasetChanged){
-			if (this._dataset == ThemeYearConfParams.dataset){
-				console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "FrontOffice", "checkConfiguration", "missingDataset"));
+	FrontOffice.prototype.toggleSidebars = function(options){
+		if (options && options.hasOwnProperty('openSidebars')){
+			var sidebars = options.openSidebars;
+			if (sidebars.hasOwnProperty('sidebar-tools') && !sidebars['sidebar-tools']){
+				$('#sidebar-tools').addClass("hidden");
+			}
+			if (sidebars.hasOwnProperty('sidebar-reports') && !sidebars['sidebar-reports']){
+				$('#sidebar-reports').addClass("hidden");
+				Observer.notify("resizeMap");
 			}
 		}
-		this._dataset = ThemeYearConfParams.dataset;
 	};
 
 	/**

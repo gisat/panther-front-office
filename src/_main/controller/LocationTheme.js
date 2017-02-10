@@ -4,18 +4,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
     requires: [],
     init: function() {
         this.control({
-//            'initialbar #themecontainer button': {
-//                toggle: this.onThemeChange
-//            },
-//            'initialbar #yearcontainer button': {
-//                click: this.onYearChange
-//            },
-//            'initialbar #datasetcontainer button': {
-//                toggle: this.onDatasetChange
-//            },
-//            'initialbar #visualizationcontainer button': {
-//                toggle: this.onVisualizationChange
-//            },
             '#initialdataset':{
                 change: this.onDatasetChange
             },
@@ -151,7 +139,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
             this.getController('Filter').clearFilters();
             
         }
-        
+
         locationCombo.resumeEvents();
         locationComboAlt.resumeEvents();
         themeComboAlt.resumeEvents();
@@ -246,6 +234,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         this.updateLayerContext();
         this.forceInit = false;
 
+		this.reloadWmsLayers();
         // new URBIS change
         this.newOnChange({
             placeChanged: true
@@ -355,10 +344,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
 						dataset: dataset
         };
         var areaController = this.getController('Area');
-     
-        
-        
-        var locationObj = areaController.getLocationObj();
+
+		var locationObj = areaController.getLocationObj();
         var cntId = cnt.itemId;
         
         var root = Ext.StoreMgr.lookup('area').getRootNode();
@@ -398,7 +385,9 @@ Ext.define('PumaMain.controller.LocationTheme', {
             delete params['fids'];
         }
 
-        var me = this;
+		this.reloadWmsLayers();
+
+		var me = this;
         Ext.Ajax.request({
             url: Config.url+'api/theme/getThemeYearConf',
             params: params,
@@ -427,6 +416,79 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
         // new URBIS change
         this.newOnChange();
+    },
+
+    reloadWmsLayers: function() {
+		var areaController = this.getController('Area');
+
+		var dataset = Ext.ComponentQuery.query('#seldataset')[0] && Ext.ComponentQuery.query('#seldataset')[0].getValue();
+		var years = Ext.ComponentQuery.query('#selyear')[0] && Ext.ComponentQuery.query('#selyear')[0].getValue();
+		var location = areaController.getLocationObj() && areaController.getLocationObj().location;
+
+		var self = this;
+		$.get(Config.url+'rest/wms/layer', {
+			scope: dataset,
+			place: location,
+			periods: years
+		}, function(data){
+		    // TODO: Remove the test data
+			var customWms = Ext.StoreMgr.lookup('layers').getRootNode().findChild('type', 'customwms');
+			var previousNodes = customWms.childNodes;
+
+			previousNodes.forEach(function(node){
+				var mapController = self.getController('Map');
+				mapController.map1.removeLayer(node.get('layer1'));
+				mapController.map2.removeLayer(node.get('layer2'));
+            });
+			Ext.StoreMgr.lookup('selectedlayers').remove(previousNodes);
+			customWms.removeAll();
+
+			if(data.data && data.data.length) {
+				var nodes = data.data.map(function(layer) {
+				    var layer1 = new OpenLayers.Layer.WMS(layer.name,
+						layer.url,
+						{
+							layers: layer.layer,
+							transparent: true
+						}, {
+							visibility: false,
+							isBaseLayer: false
+						});
+				    var layer2 = new OpenLayers.Layer.WMS(layer.name,
+						layer.url,
+						{
+							layers: layer.layer,
+							transparent: true
+						}, {
+							visibility: false,
+							isBaseLayer: false
+						});
+				    var node = Ext.create('Puma.model.MapLayer', {
+						name: layer.name,
+						initialized: true,
+						allowDrag: true,
+						checked: false,
+						leaf: true,
+						sortIndex: 0,
+						type: 'wmsLayer',
+						layer1: layer1, // Layer which is shown when only one map is visible
+						layer2: layer2, // Layer to be shown when both maps are visible
+					});
+				    layer1.nodeRec = node;
+				    layer1.initialized = true;
+				    layer2.nodeRec = node;
+				    layer2.initialized = true;
+
+					var mapController = self.getController('Map');
+					mapController.map1.addLayers([layer1]);
+					mapController.map2.addLayers([layer2]);
+
+					return node;
+				});
+				Ext.StoreMgr.lookup('selectedlayers').loadData(nodes,true);
+				customWms.appendChild(nodes);
+			}
+		});
     },
 
     // new URBIS change

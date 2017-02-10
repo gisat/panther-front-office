@@ -41,7 +41,7 @@ Ext.define('PumaMain.controller.Dataview', {
         if (Config.dataviewId) {
             
             Ext.Ajax.request({
-                url: Config.url + '/rest/dataview/'+Config.dataviewId,
+                url: Config.url + 'rest/dataview/'+Config.dataviewId,
                 scope: this,
                 method: 'GET',
                 success: function(response) {
