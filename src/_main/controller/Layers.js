@@ -1087,9 +1087,9 @@ Ext.define('PumaMain.controller.Layers', {
 	},
 
 	initChartLayer: function(node) {
-		if (!node.get('checked')) {
-			return;
-		}
+		//if (!node.get('checked')) {
+		//	return;
+		//}
 		var years = Ext.ComponentQuery.query('#selyear')[0].getValue();
 		var params = node.get('params');
 		params['areas'] = JSON.stringify(this.getController('Area').lowestMap);
@@ -1127,7 +1127,7 @@ Ext.define('PumaMain.controller.Layers', {
 	 */
 	onCheckChange: function (node, checked) {
 		if(node.get('type') == 'traffic') {
-			this._changeVisibilityOfTrafficLayer(node, checked);
+			this.changeVisibilityOfTrafficLayer(node, checked);
 			return;
 		}
 
@@ -1156,6 +1156,7 @@ Ext.define('PumaMain.controller.Layers', {
 		var parentNode = node.parentNode;
 		var parentType = parentNode.get('type');
 		var nodeType = node.get('type');
+		var self = this;
 		if (Ext.Array.contains(['basegroup', 'choroplethgroup', 'thematicgroup', 'systemgroup'], parentType) && checked && !multi && nodeType != 'traffic') {
 
 			// switching off choropleths
@@ -1166,17 +1167,17 @@ Ext.define('PumaMain.controller.Layers', {
 			if (nodeType == 'selectedareas' || nodeType == 'selectedareasfilled') {
 				var anotherNode = parentNode.findChild('type', nodeType == 'selectedareas' ? 'selectedareasfilled' : 'selectedareas');
 				anotherNode.set('checked', false);
-				this.onCheckChange(anotherNode, false);
+				self.onCheckChange(anotherNode, false);
 				parentNode = {childNodes: []};
 			}
 
 			if (parentType == 'choroplethgroup') {
 				var anotherNode = parentNode.parentNode.findChild('type', 'systemgroup').findChild('type', 'areaoutlines');
 				anotherNode.set('checked', false);
-				this.onCheckChange(anotherNode, false);
+				self.onCheckChange(anotherNode, false);
 			}
 
-			this._hideOtherLayersInTheSameLayerGroup(parentNode, node);
+			self.hideOtherLayersInTheSameLayerGroup(parentNode, node);
 		}
 		if (layer1.initialized) {
 			layer1.setVisibility(checked);
@@ -1195,7 +1196,7 @@ Ext.define('PumaMain.controller.Layers', {
 	 * @param checked {Boolean} Whether the layer should be visible.
 	 * @private
 	 */
-	_changeVisibilityOfTrafficLayer(node, checked) {
+	changeVisibilityOfTrafficLayer: function(node, checked) {
 		var layer1 = node.get('layer1');
 		var layer2 = node.get('layer2');
 		if (layer1) {
@@ -1211,7 +1212,7 @@ Ext.define('PumaMain.controller.Layers', {
 	 * @param layerGroupNode {} Node representing the layer group.
 	 * @param chosenNode {} Node representing the currently chosen group.
 	 */
-	_hideOtherLayersInTheSameLayerGroup(layerGroupNode, chosenNode) {
+	hideOtherLayersInTheSameLayerGroup: function(layerGroupNode, chosenNode) {
 		for (var i = 0; i < layerGroupNode.childNodes.length; i++) {
 			var childNode = layerGroupNode.childNodes[i];
 			if (chosenNode != childNode) {
