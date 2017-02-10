@@ -772,7 +772,7 @@ Ext.define('PumaMain.controller.Layers', {
 				normAttrUnits = Ext.StoreMgr.lookup('attribute').getById(normAttribute).get('units');
 			}
 
-			let percentage = attrs[0].normalizationResultInPercentage;
+			var percentage = attrs[0].normalizationResultInPercentage;
 			if(typeof percentage === 'undefined') {
 				percentage = true;
 			}
@@ -999,7 +999,6 @@ Ext.define('PumaMain.controller.Layers', {
 		});
 		mapController.map1.addLayers([layer1]);
 		mapController.map2.addLayers([layer2]);
-
 		var node = Ext.create('Puma.model.MapLayer', {
 			name: attr.name || (attrObj.get('name')+' - '+attrSetObj.get('name')),
 			attribute: attr.attr,
@@ -1112,13 +1111,14 @@ Ext.define('PumaMain.controller.Layers', {
 	},
 
 	initChartLayer: function(node) {
-		if (!node.get('checked')) {
-			return;
-		}
+		//if (!node.get('checked')) {
+		//	return;
+		//}
 		var years = Ext.ComponentQuery.query('#selyear')[0].getValue();
 		var params = node.get('params');
 		params['areas'] = JSON.stringify(this.getController('Area').lowestMap);
 		params['showChoropleth'] = 'true';
+
 		var symObjs = this.getSymObj(node.get('params'));
 		var ruleObjs = symObjs.rules;
 		var legendRules = symObjs.legend;
@@ -1339,7 +1339,7 @@ Units.prototype.translate = function(unitFrom, unitTo, percentage) {
 	percentage = percentage ? 100: 1;
 
 	if(!unitFrom && !unitTo) {
-		logger.error(`Units#translate Incorrect units from and to.`);
+		logger.error('Units#translate Incorrect units from and to.');
 		return percentage;
 	}
 
