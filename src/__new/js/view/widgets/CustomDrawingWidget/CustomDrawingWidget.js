@@ -39,30 +39,6 @@ define([
 	 */
 	var CustomDrawingWidget = function(options) {
 		Widget.apply(this, arguments);
-
-		if (!options.elementId){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "CustomDrawingWidget", "constructor", "missingElementId"));
-		}
-		if (!options.targetId){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "CustomDrawingWidget", "constructor", "missingTargetElementId"));
-		}
-
-		this._name = options.name || "";
-		this._widgetId = options.elementId;
-		this._target = $("#" + options.targetId);
-		if (this._target.length == 0){
-			throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "CustomDrawingWidget", "constructor", "missingHTMLElement"));
-		}
-
-		Widget.prototype.build.call(this, {
-			widgetId: this._widgetId,
-			name: this._name,
-			target: this._target
-		});
-
-		this._widgetSelector = $("#floater-" + this._widgetId);
-		this._placeholderSelector = $("#placeholder-" + this._widgetId);
-		this._widgetBodySelector = this._widgetSelector.find(".floater-body");
 		this.build();
 	};
 

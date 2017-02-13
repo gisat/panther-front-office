@@ -53,41 +53,10 @@ define([
     var EvaluationWidget = function(options) {
         Widget.apply(this, arguments);
 
-        if (!options.elementId){
-            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingElementId"));
-        }
-        if (!options.targetId){
-            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingTargetElementId"));
-        }
         if (!options.filter){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingFilter"));
         }
-
         this._filter = options.filter;
-        this._name = options.name || "";
-        this._widgetId = options.elementId;
-        this._target = $("#" + options.targetId);
-        if (this._target.length == 0){
-            throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingHTMLElement"));
-        }
-
-        Widget.prototype.build.call(this, {
-            widgetId: this._widgetId,
-            name: this._name,
-            target: this._target
-        });
-
-        this._widgetSelector = $("#floater-" + this._widgetId);
-        this._placeholderSelector = $("#placeholder-" + this._widgetId);
-        this._widgetBodySelector = this._widgetSelector.find(".floater-body");
-
-        if (Config.toggles.hasOwnProperty("isUrbis") && Config.toggles.isUrbis){
-            this._widgetSelector.addClass("open");
-            this._widgetSelector.css("display","block"); // redundant, but necessary for animation
-            this._placeholderSelector.removeClass("open");
-        }
-
-        ExchangeParams.options.openWidgets["floater-" + this._widgetId] = this._widgetSelector.hasClass("open");
         this._settings = null;
 
         this.build();
@@ -633,23 +602,6 @@ define([
      */
     EvaluationWidget.prototype.disableExports = function(){
         $("#export-shp, #export-csv, #export-xls, #export-json").attr("disabled",true);
-    };
-
-	/**
-     * Show/hide loading overlay
-     * @param state {string}
-     */
-    EvaluationWidget.prototype.handleLoading = function(state){
-        var display;
-        switch (state) {
-            case "show":
-                display = "block";
-                break;
-            case "hide":
-                display = "none";
-                break;
-        }
-        this._widgetSelector.find(".floater-overlay").css("display", display);
     };
 
 	/**
