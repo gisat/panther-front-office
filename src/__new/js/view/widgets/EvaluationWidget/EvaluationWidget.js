@@ -56,16 +56,7 @@ define([
         if (!options.filter){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingFilter"));
         }
-
         this._filter = options.filter;
-
-        if (Config.toggles.hasOwnProperty("isUrbis") && Config.toggles.isUrbis){
-            this._widgetSelector.addClass("open");
-            this._widgetSelector.css("display","block"); // redundant, but necessary for animation
-            this._placeholderSelector.removeClass("open");
-        }
-
-        ExchangeParams.options.openWidgets["floater-" + this._widgetId] = this._widgetSelector.hasClass("open");
         this._settings = null;
 
         this.build();
@@ -254,9 +245,6 @@ define([
                     var min = categories[key].attrData.values[0];
                     var max = categories[key].attrData.values[1];
                     var step = 0.0005;
-                    if (min <= -1000 || max >= 1000){
-                        step = 1
-                    }
                     var thresholds = [min, max];
                     var slider = self.buildSliderInput(id, name, units, thresholds, step, attrId, attrSetId);
                     slider.distribution = categories[key].attrData.distribution;

@@ -60,6 +60,15 @@ define(['../../error/ArgumentError',
         this._widgetBodySelector = this._widgetSelector.find(".floater-body");
         this._warningSelector = this._widgetSelector.find(".floater-warning");
         this._widgetWarning = new WidgetWarning();
+
+        if (Config.toggles.hasOwnProperty("isUrbis") && Config.toggles.isUrbis){
+            this._widgetSelector.addClass("open");
+            this._widgetSelector.css("display","block"); // redundant, but necessary for animation
+            this._placeholderSelector.removeClass("open");
+        }
+
+        ExchangeParams.options.openWidgets["floater-" + this._widgetId] = this._widgetSelector.hasClass("open");
+        this.handleLoading("show");
     };
 
     Widget.prototype = Object.create(View.prototype);
@@ -101,6 +110,28 @@ define(['../../error/ArgumentError',
         options.target.append(floater);
     };
 
+    /**
+     * Show/hide loading overlay
+     * @param state {string}
+     */
+    Widget.prototype.handleLoading = function(state){
+        var display;
+        switch (state) {
+            case "show":
+                display = "block";
+                break;
+            case "hide":
+                display = "none";
+                break;
+        }
+        this._widgetSelector.find(".floater-overlay").css("display", display);
+    };
+
+	/**
+     * Open/close floater
+     * @param id {string} widget id
+     * @param state {string} show/hide
+     */
     Widget.prototype.setState = function(id, state){
         var floater = $("#" + id);
         var placeholder = $("#" + id.replace("floater", "placeholder"));
