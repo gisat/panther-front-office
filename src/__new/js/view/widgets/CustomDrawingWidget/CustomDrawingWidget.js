@@ -64,6 +64,7 @@ define([
 
 		this._auSection.rebuild(this._map);
 		this._lineSection.rebuild(this._map);
+		this.handleLoading("hide");
 	};
 
 	/**

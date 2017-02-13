@@ -38,6 +38,7 @@ define([
 	CityWidget.prototype = Object.create(Widget.prototype);
 	
 	CityWidget.prototype.rebuild = function(){
+		this.handleLoading("hide");
 	};
 
 	/**
