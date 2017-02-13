@@ -26,6 +26,7 @@ define(['../../error/ArgumentError',
 
 	AnalyticalUnitsLayer.prototype.redraw = function(data){
 		this.removeAllRenderables();
+		debugger;
 		var features = this.prepareFeatures(data);
 		this.addRenderables(features);
 	};

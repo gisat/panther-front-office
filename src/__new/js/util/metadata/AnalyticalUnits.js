@@ -4,14 +4,16 @@ define(['../../error/ArgumentError',
 	'../Promise',
 	'../RemoteJQ',
 
-	'jquery'
+	'jquery',
+	'wicket'
 ], function(ArgumentError,
 			NotFoundError,
 			Logger,
 			Promise,
 			RemoteJQ,
 
-			$
+			$,
+			wicket
 ){
 	/**
 	 * @param options {Object}
@@ -23,6 +25,7 @@ define(['../../error/ArgumentError',
 		this._areaTemplate = null;
 
 		this._units = null;
+		this._wkt = new wicket.Wkt();
 	};
 
 	/**
@@ -34,7 +37,7 @@ define(['../../error/ArgumentError',
 		var self = this;
 		var confUpdated = this.updateConfiguration(conf);
 		if (confUpdated) {
-			return this.loadUnits();
+			return this.loadUnits().then(this.parseUnits.bind(this));
 		} else {
 			return new Promise(function(resolve, reject){
 				resolve(self._units);
@@ -112,6 +115,26 @@ define(['../../error/ArgumentError',
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "AnalyticalUnits", "updateConfiguration", "missingPlace"));
 		}
 		return false;
+	};
+
+	/**
+	 * Convert geometry of units from wkt to array
+	 * @param units {Array} original units
+	 * @returns {Array} converted units
+	 */
+	AnalyticalUnits.prototype.parseUnits = function(units){
+		var convertedUnits = [];
+		var self = this;
+		units.forEach(function(unit){
+			var converted = self._wkt.read(unit.st_astext);
+			unit.geometry = {
+				coordinates: converted.components,
+				type: converted.type
+			};
+			delete unit.st_astext;
+			convertedUnits.push(unit);
+		});
+		return convertedUnits;
 	};
 
 	/**

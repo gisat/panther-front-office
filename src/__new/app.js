@@ -10,6 +10,7 @@ requirejs.config({
         'string': 'lib/string',
         'underscore': 'lib/underscore-min',
         'text': 'lib/text',
+        'wicket': 'lib/wicket',
         'worldwind': 'lib/worldwind.min'
     },
 
