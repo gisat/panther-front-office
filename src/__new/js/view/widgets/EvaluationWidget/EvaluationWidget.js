@@ -278,9 +278,6 @@ define([
                     var min = categories[key].attrData.values[0];
                     var max = categories[key].attrData.values[1];
                     var step = 0.0005;
-                    if (min <= -1000 || max >= 1000){
-                        step = 1
-                    }
                     var thresholds = [min, max];
                     var slider = self.buildSliderInput(id, name, units, thresholds, step, attrId, attrSetId);
                     slider.distribution = categories[key].attrData.distribution;
