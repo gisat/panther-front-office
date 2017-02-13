@@ -55,7 +55,6 @@ define(['../../error/ArgumentError',
 			if (place && place != 0){
 				values.id = place;
 			}
-
 			Stores.retrieve("location").filter(values).then(function(response){
 				if (response.length > 0){
 					var bboxes = [];
@@ -97,7 +96,7 @@ define(['../../error/ArgumentError',
 		return {
 			lat: (bbox.maxLat + bbox.minLat)/2,
 			lon: (bbox.maxLon + bbox.minLon)/2,
-			alt: this.getAltitude(bbox.maxLat, bbox.minLat)
+			alt: this.getAltitude(bbox.maxLat, bbox.minLat, bbox.maxLon, bbox.minLon)
 		}
 	};
 
@@ -125,15 +124,18 @@ define(['../../error/ArgumentError',
 	 *
 	 * @param maxLat {number} maximum latitude of bounding box
 	 * @param minLat {number} minimum latitude of bounding box
+	 * @param maxLon {number} maximum longitude of bounding box
+	 * @param minLon {number} maximum latitude of bounding box
 	 * @returns {number} altitude in meters
 	 */
-	MyGoToAnimator.prototype.getAltitude = function(maxLat, minLat){
-		var difference = Math.abs(maxLat - minLat);
+	MyGoToAnimator.prototype.getAltitude = function(maxLat, minLat, maxLon, minLon){
+		var differenceLat = Math.abs(maxLat - minLat);
+		var differenceLon = Math.abs(maxLon - minLon);
 		var coef = 350000;
-		if ((Math.abs(minLat) > 70 && Math.abs(maxLat) > 85)){
+		if ((Math.abs(minLat) > 70 && Math.abs(maxLat) > 85) || differenceLat > 50 || differenceLon > 50){
 			return 10000000
 		} else {
-			return (difference*coef);
+			return (differenceLat*coef);
 		}
 	};
 
