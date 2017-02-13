@@ -107,7 +107,7 @@ define(['../../error/ArgumentError',
 			}
 		} else if (conf.hasOwnProperty("allPlaces") && conf.allPlaces.length != 0){
 			var locations = conf.allPlaces;
-			if (locations[0] != this._locations[0] && locations.length > 1){
+			if (locations[0] != this._locations[0] || (locations.length > 1 && this._locations.length < 2)){
 				this._locations = locations;
 				return true;
 			}
