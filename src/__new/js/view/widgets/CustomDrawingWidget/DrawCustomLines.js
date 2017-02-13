@@ -56,29 +56,6 @@ define([
 	DrawCustomLines.prototype = Object.create(CustomDrawingSection.prototype);
 
 	/**
-	 * Rebuild section with current map and load saved features
-	 * @param map {Map}
-	 */
-	DrawCustomLines.prototype.rebuild = function(map){
-		if (!this._map){
-			this.prepareMap(map);
-			this.addEventListeners();
-		}
-		if (this._vectorLayer){
-			this._vectorLayer.destroyFeatures();
-		}
-		if (!this._layerCheckbox){
-			this._layerCheckbox = this.buildLayerCheckbox();
-			this.addLayerCheckboxListener();
-		}
-
-		this.getSavedFeatures({
-			scope: ThemeYearConfParams.dataset
-		});
-		this.deactivateDrawing(this._buttonDraw);
-	};
-
-	/**
 	 * Prepare map for drawing
 	 * @param map {Map}
 	 */
@@ -101,6 +78,25 @@ define([
 			target: this._section.find(".layer-check"),
 			containerId: this._sectionId
 		});
+	};
+
+	/**
+	 * Check if place is selected and if there is only one AU level
+	 */
+	DrawCustomLines.prototype.checkConf = function(){
+		var section = $("#custom-lines-container");
+		var info = $("#custom-lines-info");
+
+		if (ThemeYearConfParams.place.length == 0){
+			section.css("display", "none");
+			info.css("display","block");
+			info.find("p").html("Drawing of custom lines is disabled for All places option. To enable drawing, please select place (pilot).");
+			return false;
+		} else {
+			section.css("display", "block");
+			info.css("display","none");
+			return true;
+		}
 	};
 
 	/**

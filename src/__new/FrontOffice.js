@@ -50,6 +50,17 @@ define([
 					if (options.hasOwnProperty("openWidgets")){
 						self.checkWidgetsState(options.openWidgets);
 					}
+					if (options.hasOwnProperty("displayCustomLayers")){
+						var layers = options.displayCustomLayers;
+						for (var key in options.displayCustomLayers){
+							var checkbox = $("#" + key);
+							if (layers[key]){
+								checkbox.addClass("checked");
+							} else {
+								checkbox.removeClass("checked");
+							}
+						}
+					}
 				}
 			});
 		}
