@@ -77,7 +77,6 @@ define(['../../../error/ArgumentError',
 			if (result.length > 0){
 				self._auLayer.redraw(result);
 				self._worldWind.redraw();
-				console.log(self._worldWind);
 			} else {
 				console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "AuLayersPanel", "constructor", "missingParameter"))
 			}

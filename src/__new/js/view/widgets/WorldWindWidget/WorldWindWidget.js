@@ -89,6 +89,7 @@ define(['../../../error/ArgumentError',
 		} else {
 			this.toggleWarning("block", [1,2,3,4]);
 		}
+		this.handleLoading("hide");
 	};
 
 	/**

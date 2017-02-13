@@ -57,14 +57,6 @@ define([
 	 * @param attributes {Array} List of attributes depends on current settings
 	 * @param options {Object}
 	 */
-	CustomDrawingWidget.prototype.rebuild = function(attributes, map){
-		if (!this._map){
-			this._map = map;
-		}
-
-		this._auSection.rebuild(this._map);
-		this._lineSection.rebuild(this._map);
-		this.handleLoading("hide");
 	CustomDrawingWidget.prototype.rebuild = function(attributes, options){
 		if (options.config.dataset.length > 0){
 			this.toggleWarning("none");
@@ -77,6 +69,7 @@ define([
 		} else {
 			this.toggleWarning("block", [5]);
 		}
+		this.handleLoading("hide");
 	};
 
 	/**

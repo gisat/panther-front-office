@@ -186,23 +186,6 @@ define(['../../error/ArgumentError',
     };
 
     /**
-     * Show/hide loading overlay
-     * @param state {string}
-     */
-    Widget.prototype.handleLoading = function(state){
-        var display;
-        switch (state) {
-            case "show":
-                display = "block";
-                break;
-            case "hide":
-                display = "none";
-                break;
-        }
-        this._widgetSelector.find(".floater-overlay").css("display", display);
-    };
-
-    /**
      * It returns the checkbox
      * @param id {string} ID of the data theme
      * @param name {string} Name of the data theme
