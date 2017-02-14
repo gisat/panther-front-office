@@ -273,10 +273,10 @@ define([
         }
 
         // TODO remove and uncomment when backend is ready
-        if (this._inputs.checkboxes.length > 0 && this._inputs.sliders.length > 0 && this._inputs.selects.length > 0){
-            this.amount();
-        } else {
+        if (this._inputs.checkboxes.length == 0 && this._inputs.sliders.length == 0 && this._inputs.selects.length == 0){
             self.handleLoading("hide");
+        } else {
+            this.amount();
         }
         //this.amount();
         this.addSliderListener();
