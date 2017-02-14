@@ -126,18 +126,18 @@ define([
 	 */
 	FrontOffice.prototype.getAttributesWithUpdatedState = function(allAttributes, visAttributes){
 		var updated = [];
-		allAttributes.forEach(function(allAttr){
+		allAttributes.forEach(function(attribute){
 			var isInVisualization = false;
 			visAttributes.forEach(function(visAttr){
-				if (allAttr.attribute == visAttr.attribute){
-					allAttr.active = visAttr.active;
+				if (attribute.attribute == visAttr.attribute && attribute.attributeSet == visAttr.attributeSet){
+					attribute.active = visAttr.active;
 					isInVisualization = true;
 				}
 			});
 			if (!isInVisualization){
-				allAttr.active = false;
+				attribute.active = false;
 			}
-			updated.push(allAttr);
+			updated.push(attribute);
 		});
 		return updated;
 	};

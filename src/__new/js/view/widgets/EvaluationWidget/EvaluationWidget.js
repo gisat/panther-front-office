@@ -271,7 +271,14 @@ define([
                 }
             }
         }
-        this.amount();
+
+        // TODO remove and uncomment when backend is ready
+        if (this._inputs.checkboxes.length > 0 && this._inputs.sliders.length > 0 && this._inputs.selects.length > 0){
+            this.amount();
+        } else {
+            self.handleLoading("hide");
+        }
+        //this.amount();
         this.addSliderListener();
         this.addInputsListener();
     };
