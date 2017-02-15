@@ -31,6 +31,7 @@ define([
 		this._options = options.widgetOptions;
 		this._tools = options.tools;
 		this._widgets = options.widgets;
+		this._widgets3D = options.widgets3D;
 
 		this._dataset = null;
 		this._place = null;
@@ -87,6 +88,9 @@ define([
 		});
 		this._widgets.forEach(function(widget){
 			widget.rebuild(attributes, self._options);
+		});
+		this._widgets3D.forEach(function(widget){
+			widget.rebuild();
 		});
 	};
 

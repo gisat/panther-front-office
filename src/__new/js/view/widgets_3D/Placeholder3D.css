@@ -1,0 +1,35 @@
+#widgets3d-placeholders-container {
+	display: block;
+	height: 100%;
+	position: absolute;
+	right: 0;
+	top: 1rem;
+}
+.placeholder3D {
+	background: rgba(201,45,66,.85);
+	border-radius: .2rem 0 0 .2rem;
+	cursor: pointer;
+	margin: .3rem 0;
+	line-height: 2.5rem;
+	padding: 0 1.1rem;
+	position: relative;
+	right: -10rem;
+	transition: background .3s ease-out, right .5s ease-out;
+	width: 13rem;
+}
+.placeholder3D:hover {
+	background: rgba(201,45,66,1);
+	right: 0;
+}
+.placeholder3D-icon {
+	color: white;
+	font-size: 1rem;
+	font-weight: 700;
+	padding-right: 1rem;
+}
+.placeholder3D-label {
+	color: white;
+	font-size: 1rem;
+	font-weight: 600;
+}
+

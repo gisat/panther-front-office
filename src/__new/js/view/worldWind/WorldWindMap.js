@@ -42,10 +42,12 @@ define(['../../error/ArgumentError',
 	 */
 	WorldWindMap.prototype.buildContainer = function(){
 		$("#main").append('<div id="world-wind-container">' +
-			'<div id="world-wind-map">' +
-				'<canvas id="world-wind-canvas">' +
-					'Your browser does not support HTML5 Canvas.' +
-				'</canvas>' +
+				'<div id="world-wind-map">' +
+					'<canvas id="world-wind-canvas">' +
+						'Your browser does not support HTML5 Canvas.' +
+					'</canvas>' +
+				'</div>' +
+				'<div id="widgets3d-placeholders-container">' +
 				'</div>' +
 			'</div>');
 	};

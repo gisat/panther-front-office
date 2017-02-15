@@ -45,6 +45,7 @@ define(['js/util/metadata/Attributes',
 		'./FrontOffice',
         'js/util/Logger',
         'js/view/map/Map',
+        'js/view/widgets_3D/MapDiagramsWidget/MapDiagramsWidget',
         'js/util/Placeholder',
 		'js/util/Remote',
 		'js/stores/Stores',
@@ -65,6 +66,7 @@ define(['js/util/metadata/Attributes',
 			 FrontOffice,
              Logger,
              Map,
+             MapDiagramsWidget,
              Placeholder,
 			 Remote,
 			 Stores,
@@ -77,6 +79,7 @@ define(['js/util/metadata/Attributes',
     $(document).ready(function() {
         var tools = [];
         var widgets = [];
+        var widgets3D = [];
 
         var attributes = buildAttributes();
         var filter = buildFilter();
@@ -86,6 +89,7 @@ define(['js/util/metadata/Attributes',
         if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
             var webWorldWind = buildWorldWindMap();
             widgets.push(buildWorldWindWidget(webWorldWind));
+            widgets3D.push(buildMapDiagramsWidget(webWorldWind));
         }
         if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
             widgets.push(buildEvaluationWidget(filter));
@@ -107,7 +111,8 @@ define(['js/util/metadata/Attributes',
             widgets: widgets,
             widgetOptions: {
                 olMap: olMap
-            }
+            },
+            widgets3D: widgets3D
         });
 
         var widgetElement = $("#widget-container");
@@ -234,6 +239,19 @@ define(['js/util/metadata/Attributes',
                 options: ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016']
             }]
         })
+    }
+
+    /**
+     * Build MapDiagramsWidget instance
+     * @param webWorldWind {WorldWindMap}
+     * @returns {MapDiagramsWidget}
+     */
+    function buildMapDiagramsWidget (webWorldWind){
+        return new MapDiagramsWidget({
+            id: 'map-diagrams-widget',
+            name: 'Map Diagrams',
+            worldWind: webWorldWind
+        });
     }
 
     /**

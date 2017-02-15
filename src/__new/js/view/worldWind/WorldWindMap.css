@@ -1,3 +1,6 @@
+body.intro #world-wind-container {
+	display: none;
+}
 body.application #world-wind-container {
 	display: none;
 

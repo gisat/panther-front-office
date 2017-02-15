@@ -1,5 +1,5 @@
 .panel-header {
-	background: rgba(67, 66, 84,.2);
+	background: rgba(67, 66, 84,.15);
 	border-top: 1px solid rgba(67, 66, 84,.2);
 	color: #555;
 	cursor: pointer;
@@ -9,7 +9,7 @@
 	transition: background .3s ease-out;
 }
 .panel-header:hover {
-	background: rgba(67, 66, 84,.3);
+	background: rgba(67, 66, 84,.25);
 }
 .panel-header h3 {
 	font-size: .85rem;

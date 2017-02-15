@@ -1,0 +1,14 @@
+.floater3D {
+	background: rgba(245, 245 ,245 ,0.95);
+	border-radius: .2rem;
+	display: none;
+	height: calc(100% - 1rem);
+	margin: .5rem;
+	position: absolute;
+	top: 0;
+	width: calc(100% - 1rem);
+	z-index: 10000;
+}
+.floater3D.open {
+	display: block;
+}
