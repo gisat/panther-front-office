@@ -38,6 +38,11 @@
 	background: rgb(235,235,235);
 	cursor: pointer;
 }
+
 #world-wind-widget-3Dmap-switch {
 	padding: .5rem .3rem;
+}
+#world-wind-widget-3Dmap-switch .checkbox-label {
+	font-weight: 600;
+	font-size: .85rem;
 }

@@ -1,7 +1,7 @@
 .panel-header {
-	background: rgba(67, 66, 84,.7);
-	border-bottom: 1px solid white;
-	color: #f7f7f7;
+	background: rgba(67, 66, 84,.2);
+	border-top: 1px solid rgba(67, 66, 84,.2);
+	color: #555;
 	cursor: pointer;
 	line-height: 1.9rem;
 	padding: 0 .5rem;
@@ -9,16 +9,14 @@
 	transition: background .3s ease-out;
 }
 .panel-header:hover {
-	background: rgba(67, 66, 84, .8);
-}
-.panel-header:first-child {
-	border-top: 1px solid white;
+	background: rgba(67, 66, 84,.3);
 }
 .panel-header h3 {
-	font-size: .8rem;
+	font-size: .85rem;
+	font-weight: 600;
 }
 .panel-header .panel-icon {
-	background: url(../../../../img/arrow-white-down.png) no-repeat center center;
+	background: url(../../../../img/arrow-down-small.png) no-repeat center center;
 	width: 20px;
 	height: 100%;
 	position: absolute;
@@ -26,7 +24,7 @@
 	right: .3rem;
 }
 .panel-header.open .panel-icon {
-	background: url(../../../../img/arrow-white-up.png) no-repeat center center;
+	background: url(../../../../img/arrow-up-small.png) no-repeat center center;
 }
 .panel-body {
 	display: none;
@@ -48,5 +46,6 @@
 }
 .panel-body .floater-row .radiobox-label,
 .panel-body .floater-row .checkbox-label {
-	font-weight: normal;
+	font-weight: 500;
+	font-size: .85rem;
 }
