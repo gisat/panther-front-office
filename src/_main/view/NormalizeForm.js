@@ -59,11 +59,8 @@ Ext.define('PumaMain.view.NormalizeForm', {
 		}];
 
 		this.buttons = [{
-			text: 'Change normalization',
+			text: 'Change Settings',
 			itemId: 'normalize'
-		}, {
-			text: 'Remove normalization',
-			itemId: 'dontnormalize'
 		}, {
 			text: 'Back',
 			itemId: 'back'

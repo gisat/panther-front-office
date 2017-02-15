@@ -30,9 +30,6 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 				'normalizeform #normalize': {
 					click: this.onAttributeSetting
 				},
-				'normalizeform #dontnormalize': {
-					click: this.onAttributeSetting
-				},
 				'normalizeform #back': {
 					click: this.backToInitial
 				},
@@ -347,31 +344,31 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         this.setActiveCard(btn,0);
     },
 
-	onAttributeSetting: function(btn) {
-        var normalize = btn.itemId == 'normalize';
-        var form = btn.up('panel');
-        
-        var attrStore = form.up('[itemId=attributecontainer]').down('attributegrid').store;
-        var recs = this.getChecked(attrStore);
-        var normType = normalize ? form.getComponent('normType').getValue() : null;
-        var normAttr = normalize ? form.getComponent('normAttribute').getValue() : null;
-        var normAs = normalize ? form.getComponent('normAttributeSet').getValue() : null;
+	onAttributeSetting: function (btn) {
+		var normalize = btn.itemId == 'normalize';
+		var form = btn.up('panel');
 
-        var normalizationUnits = form.getComponent('normalizationUnits').getValue();
-		var customFactor = form.getComponent('normalizationUnits').getValue();
+		var attrStore = form.up('[itemId=attributecontainer]').down('attributegrid').store;
+		var recs = this.getChecked(attrStore);
+		var normType = normalize ? form.getComponent('normType').getValue() : null;
+		var normAttr = normalize ? form.getComponent('normAttribute').getValue() : null;
+		var normAs = normalize ? form.getComponent('normAttributeSet').getValue() : null;
 
-		for (var i=0;i<recs.length;i++) {
-            var rec = recs[i];
-            rec.set('normType',normType);
-            rec.set('normAttr',normAttr);
-            rec.set('normAs',normAs);
-            rec.set('normalizationUnits', normalizationUnits);
-            rec.set('customFactor', customFactor);
-            rec.commit();
-        }
-        
-        this.setActiveCard(btn,0);
-    },
+		var normalizationUnits = form.getComponent('normalizationUnits').getValue();
+		var customFactor = form.getComponent('customFactor').getValue();
+
+		for (var i = 0; i < recs.length; i++) {
+			var rec = recs[i];
+			rec.set('normType', normType);
+			rec.set('normAttr', normAttr);
+			rec.set('normAs', normAs);
+			rec.set('normalizationUnits', normalizationUnits);
+			rec.set('customFactor', customFactor);
+			rec.commit();
+		}
+
+		this.setActiveCard(btn, 0);
+	},
         
     onNormAttrSetChange: function(combo,val) {
         var attrSet = val ? Ext.StoreMgr.lookup('attributeset').getById(val) : null;
@@ -416,7 +413,13 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 		} else if (val == 'attribute') {
 			attrSetCombo.show();
 			attrCombo.show();
+		} else if (val == 'area') {
+			attrSetCombo.hide();
+			attrCombo.hide();
 		} else {
+			attrCombo.reset();
+			attrSetCombo.reset();
+
 			attrSetCombo.hide();
 			attrCombo.hide();
 		}

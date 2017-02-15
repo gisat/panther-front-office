@@ -557,8 +557,11 @@ Ext.define('PumaMain.controller.Store', {
             storeId: 'normalization4chart',
             fields: ['name','type'],
             data: [
-            
-            {
+
+				{
+					name: ' ',
+					type: ''
+				},{
                 name: 'Area',
                 type: 'area'
             },{
