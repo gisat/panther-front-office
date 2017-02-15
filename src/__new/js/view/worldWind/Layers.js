@@ -24,7 +24,7 @@ define(['../../error/ArgumentError',
 			bingRoads: new WorldWind.BingRoadsLayer(),
 			bingAerial: new WorldWind.BingAerialLayer(),
 			landsat: new WorldWind.BMNGLandsatLayer(),
-			analyticalUnits: new AnalyticalUnitsLayer({name: "Surface Shapes"})
+			analyticalUnits: new AnalyticalUnitsLayer({name: "Analytical units"})
 		};
 	};
 

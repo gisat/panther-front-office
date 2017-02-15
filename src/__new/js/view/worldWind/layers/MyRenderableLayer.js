@@ -15,6 +15,7 @@ define(['../../../error/ArgumentError',
 	/**
 	 * Class extending WorldWind.RenderableLayer.
 	 * @param options {Object}
+	 * @param options.name {string} Name of the layer
 	 * @augments WorldWind.RenderableLayer
 	 * @constructor
 	 */
@@ -24,12 +25,18 @@ define(['../../../error/ArgumentError',
 
 	MyRenderableLayer.prototype = Object.create(RenderableLayer.prototype);
 
+	/**
+	 * Show renderables in layer
+	 */
 	MyRenderableLayer.prototype.enableRenderables = function(){
 		this.renderables.forEach(function(renderable){
 			renderable.enabled = true;
 		});
 	};
 
+	/**
+	 * Hide renderables from layers
+	 */
 	MyRenderableLayer.prototype.disableRenderables = function(){
 		this.renderables.forEach(function(renderable){
 			renderable.enabled = false;
