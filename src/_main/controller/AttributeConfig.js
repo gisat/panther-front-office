@@ -3,85 +3,84 @@ Ext.define('PumaMain.controller.AttributeConfig', {
     views: [],
     requires: ['PumaMain.view.ConfigForm'],
     init: function() {
-        this.control(
-                {
-                '#testConf': {
-                    click: this.onTestConf
-                },
-                
-                'attributegrid #add' : {
-                    click: this.onAddAttribute
-                },
-                'attributegrid #remove' : {
-                    click: this.onRemoveAttribute
-                },
-                'attributegrid #normalize' : {
-                    click: this.onNormalizeAttribute
-                },
-                'attributegrid #choroplethparams' : {
-                    click: this.onConfigureChoropleth
-                },
-                'addattributetree #add' : {
-                    click: this.onAttributeAdded
-                },
-                'addattributetree #back' : {
-                    click: this.backToInitial
-                },
+		this.control(
+			{
+				'attributegrid #add': {
+					click: this.onAddAttribute
+				},
+				'attributegrid #remove': {
+					click: this.onRemoveAttribute
+				},
+				'attributegrid #normalize': {
+					click: this.onNormalizeAttribute
+				},
+				'attributegrid #choroplethparams': {
+					click: this.onConfigureChoropleth
+				},
+				'addattributetree #add': {
+					click: this.onAttributeAdded
+				},
+				'addattributetree #back': {
+					click: this.backToInitial
+				},
 				'addattributetree': {
 					checkchange: this.onAddAttrCheck,
 					itemclick: this.onAddAttrItemClick
 				},
-				//'chartConfigurationWindow': {
-				//	close: this.onChartConfWindowClose
-				//},
-                'normalizeform #normalize' : {
-                    click: this.onAttributeNormalized
-                },
-                'normalizeform #dontnormalize' : {
-                    click: this.onAttributeNormalized
-                },
-                'normalizeform #back' : {
-                    click: this.backToInitial
-                },
-                'normalizeform #normAttributeSet': {
-                    change: this.onNormAttrSetChange
-                },
-                'normalizeform #normType': {
-                    change: this.onNormTypeChange
-                },
-            
-                'choroplethform #apply' : {
-                    click: this.onChoroplethParamsApplied
-                },
-                'choroplethform #classType' : {
-                    change: this.onClassTypeChanged
-                },
-                'choroplethform #back' : {
-                    click: this.backToInitial
-                },
-                
-                'configform #type': {
-                    change: this.onChartTypeChange
-                },
-                
-                'chartbar panel[cfgType=add]': {
-                    beforeexpand: this.onConfigureClick
-                },
-                
-                'chartpanel tool[type=gear]': {
-                    click: this.onConfigureClick
-                },
-                '#configurelayers' : {
-                    click: this.onConfigureClick
-                },
-                '#configurefilters': {
-                    click: this.onConfigureClick
-                },
-                'configform #configurefinish' : {
-                    click: this.onConfigureFinish
-                }
-            
-                })
+				'normalizeform #normalize': {
+					click: this.onAttributeSetting
+				},
+				'normalizeform #dontnormalize': {
+					click: this.onAttributeSetting
+				},
+				'normalizeform #back': {
+					click: this.backToInitial
+				},
+				'normalizeform #normAttributeSet': {
+					change: this.onNormAttrSetChange
+				},
+				'normalizeform #normType': {
+					change: this.onNormTypeChange
+				},
+				'#normalizationUnits': {
+					change: this.onSetUnitsChange
+				},
+				'#normAttribute': {
+					change: this.onNormAttrChange
+				},
+
+				'choroplethform #apply': {
+					click: this.onChoroplethParamsApplied
+				},
+				'choroplethform #classType': {
+					change: this.onClassTypeChanged
+				},
+				'choroplethform #back': {
+					click: this.backToInitial
+				},
+
+				'configform #type': {
+					change: this.onChartTypeChange
+				},
+
+				'chartbar panel[cfgType=add]': {
+					beforeexpand: this.onConfigureClick
+				},
+
+				'chartpanel tool[type=gear]': {
+					click: this.onConfigureClick
+				},
+				'#configurelayers': {
+					click: this.onConfigureClick
+				},
+				'#configurefilters': {
+					click: this.onConfigureClick
+				},
+				'configform #configurefinish': {
+					click: this.onConfigureFinish
+				}
+
+			});
     },
     
             
@@ -212,9 +211,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
             
         }
         var window = Ext.widget('window',{
-			//itemId: 'chartConfigurationWindow',
-			//id: 'chartConfigurationWindow',
-            layout: 'fit',
+			layout: 'fit',
             width: 710,
             height: 724,
             
@@ -231,7 +228,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 				// JJJ jak se to dela, aby se listenery prirazovaly v this.control?
 				close: this.onChartConfWindowClose
 			}
-        })
+        });
         window.show();
         window.down('configform').getForm().setValues(cfg);
         return false;
@@ -243,39 +240,55 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 		});
 	},
     
-    onChartBtnClick: function(parent) {
-    },
-        
-    onReconfigureClick: function(btn) {
-    },
-    
 	// triggered when AddAttributeTree opened
     onAddAttribute: function(btn) {
         this.setActiveCard(btn,1);
     },
+
     onNormalizeAttribute: function(btn) {
-        
-        var attrStore = btn.up('[itemId=attributecontainer]').down('attributegrid').store
-        var recs = this.getChecked(attrStore);
-        if (recs.length<1) {
-            return;
-        }
-        
-        this.setActiveCard(btn,2);
-        
-        var form = btn.up('[itemId=attributecontainer]').down('normalizeform')
-        if (recs.length==1) {
-            form.down('#normType').setValue(recs[0].get('normType'));
-            form.down('#normAttributeSet').setValue(recs[0].get('normAs'));
-            form.down('#normAttribute').setValue(recs[0].get('normAttr'));
-			form.down('#normalizationUnits').setValue(recs[0].get('normalizationUnits'));
-			form.down('#normalizationResultInPercentage').setValue(recs[0].get('normalizationResultInPercentage'));
-			form.down('#normYear').setValue(recs[0].get('normYear'));
-        }
-        else {
-            form.getForm().reset();
-        }
+        var attrStore = btn.up('[itemId=attributecontainer]').down('attributegrid').store;
+		var recs = this.getChecked(attrStore);
+		if (recs.length < 1) {
+			return;
+		}
+
+		this.setActiveCard(btn, 2);
+
+		var form = btn.up('[itemId=attributecontainer]').down('normalizeform');
+
+		var normType = recs[0].get('normType');
+		var normAs = recs[0].get('normAs');
+		var normAttr = recs[0].get('normAttr');
+		var normalizationUnits = recs[0].get('normalizationUnits');
+		var customFactor = recs[0].get('customFactor');
+		var units = recs[0].get('units');
+		var areEqual = true;
+
+		for (var attribute = 0; attribute < recs.length; attribute++) {
+			if (normType != recs[attribute].get('normType') || normAs != recs[attribute].get('normAs') ||
+				normAttr != recs[attribute].get('normAttr') || normalizationUnits != recs[attribute].get('normalizationUnits') ||
+				customFactor != recs[attribute].get('customFactor') || units != recs[attribute].get('units')) {
+				areEqual = false;
+			}
+		}
+
+		if (areEqual) {
+			form.getForm().applyToFields({disabled: false});
+
+			form.down('#normType').setValue(normType);
+			form.down('#normAttributeSet').setValue(normAs);
+			form.down('#normAttribute').setValue(normAttr);
+			form.down('#normalizationUnits').setValue(normalizationUnits);
+			form.down('#customFactor').setValue(customFactor);
+			form.down('#currentUnits').setValue(units);
+
+			this.units = units;
+		} else {
+			form.getForm().applyToFields({disabled: true});
+			form.getForm().reset();
+		}
     },
+
     onRemoveAttribute: function(btn) {
         var store = btn.up('grid').store;
         var recs = this.getChecked(store);
@@ -319,9 +332,8 @@ Ext.define('PumaMain.controller.AttributeConfig', {
             var newRec = Ext.create('Puma.model.MappedChartAttribute',{
                 as: rec.get('as'),
                 attr: rec.get('attr'),
-                normType: 'area',
                 checked: true
-            })
+            });
             newRecs.push(newRec)
         }
         var mainStore = btn.up('configform').down('attributegrid').store;
@@ -334,26 +346,27 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 
         this.setActiveCard(btn,0);
     },
-    onAttributeNormalized: function(btn) {
+
+	onAttributeSetting: function(btn) {
         var normalize = btn.itemId == 'normalize';
         var form = btn.up('panel');
         
-        var attrStore = form.up('[itemId=attributecontainer]').down('attributegrid').store
+        var attrStore = form.up('[itemId=attributecontainer]').down('attributegrid').store;
         var recs = this.getChecked(attrStore);
         var normType = normalize ? form.getComponent('normType').getValue() : null;
         var normAttr = normalize ? form.getComponent('normAttribute').getValue() : null;
         var normAs = normalize ? form.getComponent('normAttributeSet').getValue() : null;
-        var normalizationUnits = normalize ? form.getComponent('normalizationUnits').getValue(): null;
-        var normalizationResultInPercentage = normalize ? form.getComponent('normalizationResultInPercentage').getValue(): null;
-        var normYear = normalize ? form.getComponent('normYear').getValue() : null;
-        for (var i=0;i<recs.length;i++) {
+
+        var normalizationUnits = form.getComponent('normalizationUnits').getValue();
+		var customFactor = form.getComponent('normalizationUnits').getValue();
+
+		for (var i=0;i<recs.length;i++) {
             var rec = recs[i];
             rec.set('normType',normType);
             rec.set('normAttr',normAttr);
             rec.set('normAs',normAs);
             rec.set('normalizationUnits', normalizationUnits);
-            rec.set('normalizationResultInPercentage', normalizationResultInPercentage);
-            rec.set('normYear',normYear);
+            rec.set('customFactor', customFactor);
             rec.commit();
         }
         
@@ -373,30 +386,43 @@ Ext.define('PumaMain.controller.AttributeConfig', {
             return Ext.Array.contains(attributes,rec.get('_id')) && numeric
         }])
     },
-    onNormTypeChange: function(combo,val) {
-	    var attrUnits = combo.up('panel').down('#normalizationUnits');
-	    attrUnits.show();
-        var attrCombo = combo.up('panel').down('#normAttribute');
-        var attrSetCombo = combo.up('panel').down('#normAttributeSet');
-        var attrYears = combo.up('panel').down('#normYear');
-        if (val=='attributeset') {
-            attrSetCombo.show();
-			attrCombo.hide();
-        }
-        else if (val=='attribute') {
-            attrSetCombo.show();
-            attrCombo.show();
 
-            attrYears.hide();
-        }
-        else {
-            attrSetCombo.hide();
-            attrCombo.hide();
-            attrYears.hide();
-            attrUnits.show();
-        }
-    },
-    onChartTypeChange: function(combo,val) {
+	onNormAttrChange: function(combo, val) {
+		var normalizationAttribute = val ? Ext.StoreMgr.lookup('attribute').getById(val) : null;
+		var normUnits = normalizationAttribute && normalizationAttribute.data.units || '';
+		var normalizationUnit = normalizationAttribute && ' / ' + normalizationAttribute.data.units || '';
+		var unitsToShow = this.units + normalizationUnit;
+		var validUnits = ['m2', 'ha', 'km2'];
+
+		if(this.units == normUnits) {
+			unitsToShow = '%';
+			combo.up('panel').down('#normalizationUnits').setValue(unitsToShow);
+			combo.up('panel').down('#customFactor').setValue(100);
+		} else if(validUnits.indexOf(this.units) != -1 && validUnits.indexOf(normUnits) != -1) {
+			combo.up('panel').down('#normalizationUnits').setValue(normUnits);
+			combo.up('panel').down('#customFactor').setValue(this.getCustomFactor(this.units, normUnits));
+		}
+
+		combo.up('panel').down('#currentUnits').setValue(unitsToShow);
+	},
+
+	onNormTypeChange: function (combo, val) {
+		var attrCombo = combo.up('panel').down('#normAttribute');
+		var attrSetCombo = combo.up('panel').down('#normAttributeSet');
+
+		if (val == 'attributeset') {
+			attrSetCombo.show();
+			attrCombo.hide();
+		} else if (val == 'attribute') {
+			attrSetCombo.show();
+			attrCombo.show();
+		} else {
+			attrSetCombo.hide();
+			attrCombo.hide();
+		}
+	},
+
+	onChartTypeChange: function(combo,val) {
         var configForm = combo.up('configform');
         var advanced = Ext.ComponentQuery.query('#advancedfieldset',configForm)[0];
         var cardContainer = Ext.ComponentQuery.query('#attributecontainer',configForm)[0];
@@ -413,7 +439,30 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         else {
             advanced.hide();
         }
-    },    
+    },
+
+    onSetUnitsChange: function(combo, value) {
+		var customFactor = combo.up('configform').down('#customFactor');
+		var currentAttributeUnits = this.units;
+		var validUnits = ['m2', 'ha', 'km2'];
+
+		var normAttribute = combo.up('panel').down('#normAttribute').getValue();
+		if(value == '%') {
+			customFactor.setValue(100);
+		} else if(validUnits.indexOf(value) != -1) {
+			customFactor.setValue(this.getCustomFactor(currentAttributeUnits, value));
+		}
+	},
+
+	getCustomFactor: function(source, result) {
+		var factors = {
+			"m2": 1,
+			"ha": 10000,
+			"km2": 1000000
+		};
+
+		return factors[source] / factors[result]
+	},
     
     backToInitial: function(btn) {
         this.setActiveCard(btn,0);

@@ -23,13 +23,6 @@ Ext.define('PumaMain.view.AttributeGrid', {
             resizable: false,
             menuDisabled: true,
             text: 'Attribute'
-//            ,
-//            renderer: function(value,metadata,record) {
-//                if (record.get('normType')) {
-//                    value += ' (normalized)';
-//                }
-//                return value;
-//            }
         },{
             dataIndex: 'asName',
             flex: 3,
@@ -81,6 +74,13 @@ Ext.define('PumaMain.view.AttributeGrid', {
                 return rec ? rec.get('name') : '';
             }
         },{
+            dataIndex: 'units',
+            flex: 2,
+            resizable: false,
+            menuDisabled: true,
+            formType: this.formType,
+            text: 'Unit'
+        },{
             dataIndex: 'classType',
             flex: 2,
             hidden: this.formType!='layers',
@@ -127,7 +127,7 @@ Ext.define('PumaMain.view.AttributeGrid', {
             xtype: 'button',
             //disabled: this.formType=='filters',
             itemId: 'normalize',
-            text: 'Normalize'
+            text: 'Setting'
         },{
             xtype: 'button',
             hidden: this.formType!='layers',
