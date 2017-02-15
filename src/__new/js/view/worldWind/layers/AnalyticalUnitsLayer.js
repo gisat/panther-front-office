@@ -1,6 +1,8 @@
-define(['../../error/ArgumentError',
-	'../../error/NotFoundError',
-	'../../util/Logger',
+define(['../../../error/ArgumentError',
+	'../../../error/NotFoundError',
+	'../../../util/Logger',
+
+	'./MyRenderableLayer',
 
 	'jquery',
 	'worldwind'
@@ -8,21 +10,21 @@ define(['../../error/ArgumentError',
 			NotFoundError,
 			Logger,
 
+			MyRenderableLayer,
+
 			$
 ){
-	var RenderableLayer = WorldWind.RenderableLayer;
-
 	/**
-	 * Class representing layer with analytical units. It extends WorldWind.RenderableLayer.
+	 * Class representing layer with analytical units. It extends MyRenderableLayer.
 	 * @param options {Object}
-	 * @augments WorldWind.RenderableLayer
+	 * @augments MyRenderableLayer
 	 * @constructor
 	 */
 	var AnalyticalUnitsLayer = function(options){
-		RenderableLayer.call(this, options.name);
+		MyRenderableLayer.apply(this, arguments);
 	};
 
-	AnalyticalUnitsLayer.prototype = Object.create(RenderableLayer.prototype);
+	AnalyticalUnitsLayer.prototype = Object.create(MyRenderableLayer.prototype);
 
 	/**
 	 * Redraw layer with analytical units

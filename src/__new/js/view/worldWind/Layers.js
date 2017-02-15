@@ -2,7 +2,7 @@ define(['../../error/ArgumentError',
 	'../../error/NotFoundError',
 	'../../util/Logger',
 
-	'./AnalyticalUnitsLayer',
+	'./layers/AnalyticalUnitsLayer',
 
 	'jquery',
 	'worldwind'

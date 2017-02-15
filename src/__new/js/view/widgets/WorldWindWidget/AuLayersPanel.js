@@ -34,8 +34,6 @@ define(['../../../error/ArgumentError',
 	 */
 	AuLayersPanel.prototype.addContent = function(){
 		this.addLayer(this._id + "-outlines", "Analytical Units outlines", this._panelBodySelector, "analyticalUnits", true);
-
-		this.toggleLayers();
 		this.addEventsListeners();
 	};
 
@@ -102,18 +100,15 @@ define(['../../../error/ArgumentError',
 	 */
 	AuLayersPanel.prototype.toggleLayers = function(){
 		var self = this;
-		var checkboxes = this._panelBodySelector.find(".checkbox-row");
 		setTimeout(function(){
-			checkboxes.each(function(index, item){
-				var checkbox = $(item);
-				var dataId = checkbox.attr("data-id");
-				var layer = self._worldWind._layers.getLayerById(dataId);
-				if (checkbox.hasClass("checked")){
-					self._worldWind.showLayer(layer);
-				} else {
-					self._worldWind.hideLayer(layer);
-				}
-			});
+			var checkbox = self._panelBodySelector.find(".checkbox-row");
+			if (checkbox.hasClass("checked")){
+				self._auLayer.enableRenderables();
+				self._worldWind.showLayer(self._auLayer);
+			} else {
+				self._auLayer.disableRenderables();
+				self._worldWind.hideLayer(self._auLayer);
+			}
 		},50);
 	};
 
