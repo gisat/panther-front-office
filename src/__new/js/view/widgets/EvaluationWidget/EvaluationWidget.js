@@ -53,41 +53,10 @@ define([
     var EvaluationWidget = function(options) {
         Widget.apply(this, arguments);
 
-        if (!options.elementId){
-            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingElementId"));
-        }
-        if (!options.targetId){
-            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingTargetElementId"));
-        }
         if (!options.filter){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingFilter"));
         }
-
         this._filter = options.filter;
-        this._name = options.name || "";
-        this._widgetId = options.elementId;
-        this._target = $("#" + options.targetId);
-        if (this._target.length == 0){
-            throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingHTMLElement"));
-        }
-
-        Widget.prototype.build.call(this, {
-            widgetId: this._widgetId,
-            name: this._name,
-            target: this._target
-        });
-
-        this._widgetSelector = $("#floater-" + this._widgetId);
-        this._placeholderSelector = $("#placeholder-" + this._widgetId);
-        this._widgetBodySelector = this._widgetSelector.find(".floater-body");
-
-        if (Config.toggles.hasOwnProperty("isUrbis") && Config.toggles.isUrbis){
-            this._widgetSelector.addClass("open");
-            this._widgetSelector.css("display","block"); // redundant, but necessary for animation
-            this._placeholderSelector.removeClass("open");
-        }
-
-        ExchangeParams.options.openWidgets["floater-" + this._widgetId] = this._widgetSelector.hasClass("open");
         this._settings = null;
 
         this.build();
@@ -278,9 +247,6 @@ define([
                     var min = categories[key].attrData.values[0];
                     var max = categories[key].attrData.values[1];
                     var step = 0.0005;
-                    if (min <= -1000 || max >= 1000){
-                        step = 1
-                    }
                     var thresholds = [min, max];
                     var slider = self.buildSliderInput(id, name, units, thresholds, step, attrId, attrSetId);
                     slider.distribution = categories[key].attrData.distribution;
@@ -305,7 +271,14 @@ define([
                 }
             }
         }
-        this.amount();
+
+        // TODO remove and uncomment when backend is ready
+        if (this._inputs.checkboxes.length == 0 && this._inputs.sliders.length == 0 && this._inputs.selects.length == 0){
+            self.handleLoading("hide");
+        } else {
+            this.amount();
+        }
+        //this.amount();
         this.addSliderListener();
         this.addInputsListener();
     };
@@ -636,23 +609,6 @@ define([
      */
     EvaluationWidget.prototype.disableExports = function(){
         $("#export-shp, #export-csv, #export-xls, #export-json").attr("disabled",true);
-    };
-
-	/**
-     * Show/hide loading overlay
-     * @param state {string}
-     */
-    EvaluationWidget.prototype.handleLoading = function(state){
-        var display;
-        switch (state) {
-            case "show":
-                display = "block";
-                break;
-            case "hide":
-                display = "none";
-                break;
-        }
-        this._widgetSelector.find(".floater-overlay").css("display", display);
     };
 
 	/**

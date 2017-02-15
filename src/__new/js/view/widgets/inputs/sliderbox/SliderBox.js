@@ -136,6 +136,8 @@ define(['../../../../error/ArgumentError',
         selector.on('slidestop', function(e){
             if (isRange){
                 self._values = $(this).slider("values");
+                self.setInputMin($(this).siblings().find('.input-min'), self._values[0]);
+                self.setInputMax($(this).siblings().find('.input-max'), self._values[1]);
             }
             else {
                 var minVal = $(this).slider("option", "min");
@@ -150,8 +152,8 @@ define(['../../../../error/ArgumentError',
                 if (values[0] != values[1]){
                     self.histogram.selectBars(values);
                 }
-                $(this).siblings().find('.input-min').val(Math.round(values[0] * 100) / 100);
-                $(this).siblings().find('.input-max').val(Math.round(values[1] * 100) / 100);
+                self.setInputMin($(this).siblings().find('.input-min'), values[0]);
+                self.setInputMax($(this).siblings().find('.input-max'), values[1]);
             }
         })
     };
@@ -199,6 +201,24 @@ define(['../../../../error/ArgumentError',
      */
     SliderBox.prototype.getValues = function(){
         return this._values;
+    };
+
+	/**
+	 * Set value in min input field
+     * @param selector {JQuery} jquery selector
+     * @param value {number}
+     */
+    SliderBox.prototype.setInputMin = function(selector, value){
+        selector.val(Math.round(value * 100) / 100);
+    };
+
+    /**
+     * Set value in max input field
+     * @param selector {JQuery} jquery selector
+     * @param value {number}
+     */
+    SliderBox.prototype.setInputMax = function(selector, value){
+        selector.val(Math.round(value * 100) / 100);
     };
 
     return SliderBox;

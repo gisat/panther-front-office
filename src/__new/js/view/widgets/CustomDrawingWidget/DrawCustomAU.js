@@ -56,31 +56,6 @@ define([
 	DrawCustomAU.prototype = Object.create(CustomDrawingSection.prototype);
 
 	/**
-	 * Rebuild section with current map
-	 * @param map {Map}
-	 */
-	DrawCustomAU.prototype.rebuild = function(map){
-		if (!this._map){
-			this.prepareMap(map);
-			this.addEventListeners();
-		}
-		if (this._vectorLayer){
-			this._vectorLayer.destroyFeatures();
-		}
-		if (!this._layerCheckbox){
-			this._layerCheckbox = this.buildLayerCheckbox();
-			this.addLayerCheckboxListener();
-		}
-		if (this.checkConf()){
-			this.getSavedFeatures({
-				scope: ThemeYearConfParams.dataset,
-				place: ThemeYearConfParams.place
-			});
-		}
-		this.deactivateDrawing(this._buttonDraw);
-	};
-
-	/**
 	 * Build checkbox for showing/hidding of layer
 	 * @returns {Checkbox}
 	 */
@@ -105,9 +80,6 @@ define([
 			section.css("display", "none");
 			info.css("display","block");
 			info.find("p").html("Drawing of custom analytical units is disabled for All places option. To enable drawing, please select place (pilot).");
-			//if (!OneLevelAreas.hasOneLevel){
-			//	info.find("p").html("Drawing of custom analytical units is enabled for scopes (pilots) with one level of analytical units only!");
-			//}
 			return false;
 		} else {
 			section.css("display", "block");
@@ -137,7 +109,6 @@ define([
 		if (parameters.data.hasOwnProperty("olid")){
 			delete parameters.data.olid;
 		}
-		parameters.data.place = ThemeYearConfParams.place;
 
 		return $.post(Config.url + "customfeatures/savepolygon", parameters)
 	};
