@@ -417,6 +417,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         this.yearChanged = null;
 
         // new URBIS change
+        ThemeYearConfParams.action = cntId;
         this.newOnChange();
     },
 
