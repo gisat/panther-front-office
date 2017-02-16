@@ -385,7 +385,9 @@ Ext.define('PumaMain.controller.LocationTheme', {
             delete params['fids'];
         }
 
-		this.reloadWmsLayers();
+        if (!detailLevelChanged && !this.yearChanged) {
+            this.reloadWmsLayers();
+        }
 
 		var me = this;
         Ext.Ajax.request({
@@ -415,6 +417,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         this.yearChanged = null;
 
         // new URBIS change
+        ThemeYearConfParams.action = cntId;
         this.newOnChange();
     },
 
