@@ -45,6 +45,9 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 				'#normAttribute': {
 					change: this.onNormAttrChange
 				},
+				'#areaUnits': {
+					change: this.onAreaUnitsChange
+				},
 
 				'choroplethform #apply': {
 					click: this.onChoroplethParamsApplied
@@ -500,19 +503,29 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 		} else if (val == 'area') {
 			attrSetCombo.hide();
 			attrCombo.hide();
-			areaUnits.show();
-			if(!areaUnits.getValue()) {
-				areaUnits.setValue('m2');
+
+			var allowedUnits = ['m2','ha','km2'];
+			if(allowedUnits.indexOf(this.units) == -1) {
+				areaUnits.show();
+				if(!areaUnits.getValue()) {
+					areaUnits.setValue('m2');
+				}
 			}
 
-			this.updateCustomUnits(combo.up('panel'), areaUnits.getValue());
+			this.updateCustomUnits(combo.up('panel'), areaUnits.getValue() || 'm2');
 		} else {
 			attrCombo.reset();
 			attrSetCombo.reset();
 
 			attrSetCombo.hide();
 			attrCombo.hide();
+			areaUnits.hide();
 		}
+	},
+
+	onAreaUnitsChange: function(combo, val) {
+		var areaUnits = combo.up('panel').down('#areaUnits');
+		this.updateCustomUnits(combo.up('panel'), areaUnits.getValue());
 	},
 
 	onChartTypeChange: function(combo,val) {

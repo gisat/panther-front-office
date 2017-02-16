@@ -55,6 +55,7 @@ Ext.define('PumaMain.view.NormalizeForm', {
 			fieldLabel: 'Area units',
 			name: 'areaUnits',
 			hidden: true,
+			valueField: 'type',
 			itemId: 'areaUnits'
 		}, {
 			xtype: 'pumacombo',
