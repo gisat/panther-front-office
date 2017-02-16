@@ -51,6 +51,13 @@ Ext.define('PumaMain.view.NormalizeForm', {
 			itemId: 'normType'
 		}, {
 			xtype: 'pumacombo',
+			store: Ext.StoreMgr.lookup('area_units'),
+			fieldLabel: 'Area units',
+			name: 'areaUnits',
+			hidden: true,
+			itemId: 'areaUnits'
+		}, {
+			xtype: 'pumacombo',
 			store: Ext.StoreMgr.lookup('attributeset2choose'),
 			fieldLabel: 'Normalization Attr set',
 			name: 'normAttributeSet',

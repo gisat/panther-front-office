@@ -465,25 +465,12 @@ Ext.define('PumaMain.controller.Store', {
 			}, {
 				name: 'Pie',
 				type: 'piechart'
-			}
-//            ,
-//            {
-//                name: 'Feature count',
-//                type: 'featurecount'
-//            }
-				, {
+			}, {
 					name: 'Extent outline',
 					type: 'extentoutline'
 				}
-//            {
-//                name: 'Just map',
-//                type: 'justmap'
-//            },{
-//                name: 'Filter',
-//                type: 'filter'
-//            }
 			]
-		})
+		});
 
 		Ext.create('Ext.data.Store', {
 			storeId: 'stacking4chart',
@@ -519,12 +506,7 @@ Ext.define('PumaMain.controller.Store', {
 				{
 					name: 'Average',
 					type: 'avg'
-				},
-//            {
-//                name: 'Tree top',
-//                type: 'toptree'
-//            },
-				{
+				}, {
 					name: 'All',
 					type: 'topall'
 				}, {
@@ -593,15 +575,18 @@ Ext.define('PumaMain.controller.Store', {
 		});
 
 		Ext.create('Ext.data.Store', {
-			storeId: 'percentage',
+			storeId: 'area_units',
 			fields: ['name', 'type'],
 			data: [
 				{
-					name: 'yes',
-					type: true
+					name: 'm2',
+					type: 'm2'
 				}, {
-					name: 'no',
-					type: false
+					name: 'ha',
+					type: 'ha'
+				}, {
+					name: 'km2',
+					type: 'km2'
 				}
 			]
 		});
