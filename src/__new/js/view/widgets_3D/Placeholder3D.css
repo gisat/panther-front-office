@@ -21,6 +21,10 @@
 	background: rgba(201,45,66,1);
 	right: 0;
 }
+.placeholder3D.activated {
+	background: rgba(201,45,66,.5);
+	right: 0;
+}
 .placeholder3D-icon {
 	color: white;
 	font-size: 1rem;

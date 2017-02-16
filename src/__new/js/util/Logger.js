@@ -106,6 +106,7 @@ define(function () {
             missingNumClasses: "NumClasses is null or undefined!",
             missingParameter: "One of parameters is null or undefined!",
             missingPlace: "Place is null or undefined!",
+            missingPlaceholder: "Placeholder parameter is null or undefined!",
             missingSelections: "Data for selection boxes is missing",
             missingSliderRange: "Slider range is null, undefined or empty!",
             missingSliderType: "A type of slider is null or undefined!",

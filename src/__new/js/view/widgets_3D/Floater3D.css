@@ -2,13 +2,44 @@
 	background: rgba(245, 245 ,245 ,0.95);
 	border-radius: .2rem;
 	display: none;
-	height: calc(100% - 1rem);
-	margin: .5rem;
-	position: absolute;
-	top: 0;
-	width: calc(100% - 1rem);
 	z-index: 10000;
 }
 .floater3D.open {
 	display: block;
+}
+.floater3D.open.maximised {
+	height: calc(100% - .4rem);
+	margin: .2rem;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: calc(100% - .4rem);
+}
+.floater3D.open.floating {
+	height: 20rem;
+	position: absolute;
+	top: 5rem;
+	left: 5rem;
+	width: 30rem;
+	resize: both;
+	overflow: auto;
+}
+.floater3D.open.maximised .floater3D-maximise {
+	display: none;
+}
+.floater3D.open.floating .floater3D-make-floating {
+	display: none;
+}
+.floater3D-header {
+	border-bottom: 1px solid gray;
+	height: 3rem;
+	padding: .5rem;
+}
+.floater3D-title {
+	position: relative;
+	float: left;
+}
+.floater3D-tools {
+	position: relative;
+	float: right;
 }

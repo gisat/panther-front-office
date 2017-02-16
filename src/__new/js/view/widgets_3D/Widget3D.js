@@ -59,9 +59,8 @@ define(['../../error/ArgumentError',
 	 */
 	Widget3D.prototype.build = function(){
 		this._placeholder = this.buildPlaceholder();
-		this._floater = this.buildFloater();
-
 		this._placeholderSelector = this._placeholder.getPlaceholder();
+		this._floater = this.buildFloater();
 		this._floaterSelector = this._floater.getFloater();
 		this.addListeners();
 	};
@@ -86,25 +85,37 @@ define(['../../error/ArgumentError',
 		return new Floater3D({
 			id: this._id + "-floater",
 			name: this._name,
-			target: $("#main")
+			target: $("#main"),
+			placeholder: this._placeholderSelector
 		});
 	};
 
 	/**
-	 *
+	 * Add listeners
 	 */
 	Widget3D.prototype.addListeners = function(){
 		this.onPlaceholderClick();
 	};
 
 	/**
-	 * Show floater on placeholder click
+	 * Show/hide floater on placeholder click
 	 */
 	Widget3D.prototype.onPlaceholderClick = function(){
 		var self = this;
 		this._placeholderSelector.on("click", function(){
-			self._floaterSelector.addClass("open");
-		})
+			if (self._floaterSelector.hasClass("open")){
+				self._floaterSelector.removeClass("open").removeClass("maximised").removeClass("floating").css({
+					left: 0,
+					top: 0,
+					height: '',
+					width: ''
+				});
+				self._placeholderSelector.removeClass("activated");
+			} else {
+				self._floaterSelector.draggable("disable").addClass("open").addClass("maximised");
+				self._placeholderSelector.addClass("activated");
+			}
+		});
 	};
 
 	return Widget3D;
