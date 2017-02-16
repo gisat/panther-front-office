@@ -53,6 +53,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         window.location = '/';
     },
     onDatasetChange: function(cnt,val) {
+        ThemeYearConfParams.actions.push(cnt.itemId);
         // new URBIS change
         if (!$('body').hasClass("intro")){
             $("#loading-screen").css({
@@ -146,6 +147,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
     },
     
     onLocationChange: function(cnt,val) {
+        ThemeYearConfParams.actions.push(cnt.itemId);
         // URBIS change
         if ((!val) && !cnt.initial && this.locationInitialized) {
             this.forceInit = true;
@@ -251,6 +253,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
     },
     
     onThemeChange: function(cnt,val) {
+        ThemeYearConfParams.actions.push(cnt.itemId);
         if (cnt.eventsSuspended || cnt.initial || !val) {
             return;
         }
@@ -323,6 +326,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
     },
     
     onYearChange: function(cnt) {
+        ThemeYearConfParams.actions.push(cnt.itemId);
         var val = Ext.ComponentQuery.query('#selyear')[0].getValue();
         if (!val.length || cnt.eventsSuspended) {
             this.getController('DomManipulation').deactivateLoadingMask();
@@ -555,6 +559,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
     },
     onVisChange: function(cnt) {
+        ThemeYearConfParams.actions.push(cnt.itemId);
         if (cnt.eventsSuspended) {
             return;
         }

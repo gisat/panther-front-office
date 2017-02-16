@@ -67,10 +67,16 @@ define([
     /**
      * It rebuilds the widget for given attributes. First, it collects metadata about each attribute, then it rebuilds all components of the widget
      * @param attrForRequest {Array} List of attributes for current configuration
-     * @param map {Object}
+     * @param options {Object}
      */
-    EvaluationWidget.prototype.rebuild = function(attrForRequest, map, options){
+    EvaluationWidget.prototype.rebuild = function(attrForRequest, options){
         var self = this;
+        if (attrForRequest.length == 0){
+            self.toggleWarning("block", [1,2,3,4]);
+            self.handleLoading("hide");
+            return;
+        }
+
         if (!this._resizeListener){
             this._resizeListener = true;
             this.addOnResizeListener();
@@ -129,17 +135,18 @@ define([
                 });
             }
             if (self._attributes.length){
-                if (!options || options.rebuildFooter == true){
+                self.toggleWarning("none");
+                if (!options.hasOwnProperty("rebuildFooter") || options.rebuildFooter == true){
                     self.prepareFooter();
                 }
                 self.rebuildViewAndSettings();
             } else {
-                self.noDataEcho();
+                self.toggleWarning("block", [1,2]);
+                self.handleLoading("hide");
             }
         });
 
         this.rebuildMap();
-        ThemeYearConfParams.datasetChanged = false;
     };
 
 	/**
@@ -164,15 +171,6 @@ define([
      */
     EvaluationWidget.prototype.build = function(){
         this.buildSettings();
-    };
-
-	/**
-     * Notify the user, if no attribute sets are linked to analytical units
-     */
-    EvaluationWidget.prototype.noDataEcho = function(){
-        var info = '<p>There are no linked attribute sets to analytical units probably! Please, go to the BackOffice and link the data properly.</p>';
-        this._widgetBodySelector.html("").append(info);
-        this.handleLoading("hide");
     };
 
 	/**
@@ -226,7 +224,7 @@ define([
      * @param categories {Object} data about categories
      */
     EvaluationWidget.prototype.rebuildInputs = function(categories){
-        this._widgetBodySelector.html('');
+        this._widgetBodySelector.html("");
         this._inputs = {
             checkboxes: [],
             sliders: [],
@@ -255,7 +253,7 @@ define([
                 }
 
                 else if (input == "checkbox"){
-                    var checkbox = this.buildCheckboxInput(id, name);
+                    var checkbox = this.buildCheckboxInput(id, name, this._widgetBodySelector);
                     this._inputs.checkboxes.push(checkbox);
                 }
 
@@ -281,21 +279,6 @@ define([
         //this.amount();
         this.addSliderListener();
         this.addInputsListener();
-    };
-
-    /**
-     * It returns the checkbox
-     * @param id {string} ID of the data theme
-     * @param name {string} Name of the data theme
-     * @returns {Checkbox}
-     */
-    EvaluationWidget.prototype.buildCheckboxInput = function(id, name){
-        return new Checkbox({
-            id: id,
-            name: name,
-            target: this._widgetBodySelector,
-            containerId: "floater-" + this._widgetId
-        });
     };
 
     /**
@@ -552,7 +535,7 @@ define([
                         if (self._inputs){
                             self.rebuildPopups(self._inputs.sliders);
                         }
-                        self.rebuild(self._attrForRequest, {}, {
+                        self.rebuild(self._attrForRequest, {
                             rebuildFooter: false
                         });
                     }

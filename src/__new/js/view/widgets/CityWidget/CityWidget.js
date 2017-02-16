@@ -31,6 +31,11 @@ define([
 	 */
 	var CityWidget = function(options) {
 		Widget.apply(this, arguments);
+
+		if (!options.selections){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "CityWidget", "constructor", "missingSelections"));
+		}
+
 		this._selectBoxes = [];
 		this.build(options);
 	};

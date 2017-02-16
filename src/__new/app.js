@@ -9,7 +9,9 @@ requirejs.config({
         'resize': 'lib/detect-element-resize',
         'string': 'lib/string',
         'underscore': 'lib/underscore-min',
-        'text': 'lib/text'
+        'text': 'lib/text',
+        'wicket': 'lib/wicket',
+        'worldwind': 'lib/worldwind.min'
     },
 
     map: {
@@ -43,9 +45,12 @@ define(['js/util/metadata/Attributes',
 		'./FrontOffice',
         'js/util/Logger',
         'js/view/map/Map',
+        'js/view/widgets_3D/MapDiagramsWidget/MapDiagramsWidget',
         'js/util/Placeholder',
 		'js/util/Remote',
 		'js/stores/Stores',
+        'js/view/worldWind/WorldWindMap',
+        'js/view/widgets/WorldWindWidget/WorldWindWidget',
 
         'string',
         'jquery',
@@ -61,9 +66,12 @@ define(['js/util/metadata/Attributes',
 			 FrontOffice,
              Logger,
              Map,
+             MapDiagramsWidget,
              Placeholder,
 			 Remote,
 			 Stores,
+             WorldWindMap,
+             WorldWindWidget,
 
              S,
              $){
@@ -71,64 +79,45 @@ define(['js/util/metadata/Attributes',
     $(document).ready(function() {
         var tools = [];
         var widgets = [];
-        var attributesMetadata = new Attributes();
-        var filter = new Filter();
+        var widgets3D = [];
+
+        var attributes = buildAttributes();
+        var filter = buildFilter();
+        var olMap = buildOpenLayersMap();
         
         // create tools and widgets according to configuration
-		if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
-            widgets.push(new EvaluationWidget({
-                filter: filter,
-                elementId: 'evaluation-widget',
-                name: 'Evaluation Tool',
-                targetId: 'widget-container'
-            }));
+        if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
+            var webWorldWind = buildWorldWindMap();
+            widgets.push(buildWorldWindWidget(webWorldWind));
+            widgets3D.push(buildMapDiagramsWidget(webWorldWind));
         }
-
+        if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
+            widgets.push(buildEvaluationWidget(filter));
+        }
         if(Config.toggles.hasOwnProperty("hasNewCustomPolygonsTool") && Config.toggles.hasNewCustomPolygonsTool){
-            widgets.push(new CustomDrawingWidget({
-                elementId: 'custom-polygons-widget',
-                name: 'Custom Features',
-                targetId: 'widget-container'
-            }));
+            widgets.push(buildCustomDrawingWidget());
         }
-
+        if(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies){
+            widgets.push(buildCityWidget());
+        }
         if(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo){
-            tools.push(new FeatureInfoTool({
-                elementId: 'feature-info',
-                targetId: 'tools-container'
-            }));
+            tools.push(buildFeatureInfoTool());
         }
 
-        if (Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies){
-            widgets.push(new CityWidget({
-                elementId: 'city-selection',
-                name: 'UrbanDynamic Tool',
-                targetId: 'widget-container',
-                selections: [{
-                    id: 'melodies-city-selection',
-                    name: 'Select city',
-                    options: ['Brno', 'České Budějovice', 'Plzeň', 'Ostrava']
-                }, {
-                    id: 'melodies-start-selection',
-                    name: 'Select start',
-                    options: ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016']
-                }, {
-                    id: 'melodies-end-selection',
-                    name: 'Select end',
-                    options: ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016']
-                }]
-            }));
-        }
-
-        // build app
+        // build app, map is class for OpenLayers map
         new FrontOffice({
-            attributesMetadata: attributesMetadata,
+            attributesMetadata: attributes,
             tools: tools,
             widgets: widgets,
-            map: new Map()
+            widgetOptions: {
+                olMap: olMap
+            },
+            widgets3D: widgets3D
         });
 
         var widgetElement = $("#widget-container");
+        var floater = $(".floater");
+
         widgetElement.on("click", ".placeholder", function(e){
             if (!(e.which > 1 || e.shiftKey || e.altKey || e.metaKey || e.ctrlKey)) {
                 var placeholderSelector = "#" + $(this).attr("id");
@@ -149,7 +138,7 @@ define(['js/util/metadata/Attributes',
                 }
             }
         });
-        widgetElement.on("click", ".widget-minimise", function(e){
+        floater.on("click", ".widget-minimise", function(e){
             if (!(e.which > 1 || e.shiftKey || e.altKey || e.metaKey || e.ctrlKey)) {
                 var floater = $(this).parent().parent().parent();
                 var placeholderSelector = "#" + floater.attr("id").replace("floater", "placeholder");
@@ -159,7 +148,7 @@ define(['js/util/metadata/Attributes',
                 ExchangeParams.options.openWidgets[floater.attr("id")] = false;
             }
         });
-        $(".floater").draggable({
+        floater.draggable({
             containment: "body",
             handle: ".floater-header"
         }).on("click drag", function(){
@@ -167,4 +156,126 @@ define(['js/util/metadata/Attributes',
             $(this).addClass("active");
         });
     });
+
+	/**
+	 * Build Attributes instance
+     * @returns {Attributes}
+     */
+    function buildAttributes (){
+        return new Attributes();
+    }
+
+	/**
+	 * Build Filter instance
+     * @returns {Filter}
+     */
+    function buildFilter (){
+        return new Filter();
+    }
+
+	/**
+	 * Build Map instance
+     * @returns {Map}
+     */
+    function buildOpenLayersMap (){
+        return new Map();
+    }
+
+    /**
+     * Build World Wind Map instance
+     * @returns {WorldWindMap}
+     */
+    function buildWorldWindMap (){
+        return new WorldWindMap();
+    }
+
+
+    /**
+	 * Build Evaluation Widget instance
+     * @param filter {Filter}
+     * @returns {EvaluationWidget}
+     */
+    function buildEvaluationWidget (filter){
+        return new EvaluationWidget({
+            filter: filter,
+            elementId: 'evaluation-widget',
+            name: 'Evaluation Tool',
+            targetId: 'widget-container'
+        });
+    }
+
+	/**
+     * Build Custom Drawing Widget instance
+     * @returns {CustomDrawingWidget}
+     */
+    function buildCustomDrawingWidget (){
+        return new CustomDrawingWidget({
+            elementId: 'custom-polygons-widget',
+            name: 'Custom Features',
+            targetId: 'widget-container'
+        });
+    }
+
+	/**
+	 * Build City Widget instance
+     * @returns {CityWidget}
+     */
+    function buildCityWidget (){
+        return new CityWidget({
+            elementId: 'city-selection',
+            name: 'UrbanDynamic Tool',
+            targetId: 'widget-container',
+            selections: [{
+                id: 'melodies-city-selection',
+                name: 'Select city',
+                options: ['Brno', 'České Budějovice', 'Plzeň', 'Ostrava']
+            }, {
+                id: 'melodies-start-selection',
+                name: 'Select start',
+                options: ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016']
+            }, {
+                id: 'melodies-end-selection',
+                name: 'Select end',
+                options: ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016']
+            }]
+        })
+    }
+
+    /**
+     * Build MapDiagramsWidget instance
+     * @param webWorldWind {WorldWindMap}
+     * @returns {MapDiagramsWidget}
+     */
+    function buildMapDiagramsWidget (webWorldWind){
+        return new MapDiagramsWidget({
+            id: 'map-diagrams-widget',
+            name: 'Map Diagrams',
+            worldWind: webWorldWind
+        });
+    }
+
+    /**
+     * Build WorldWindWidget instance
+     * @param webWorldWind {WorldWindMap}
+     * @returns {WorldWindWidget}
+     */
+    function buildWorldWindWidget (webWorldWind){
+        return new WorldWindWidget({
+            elementId: 'world-wind-widget',
+            name: '3D Map',
+            targetId: 'widget-container',
+            worldWind: webWorldWind
+        });
+    }
+
+	/**
+	 * Build Feature Info Tool instance
+     * @returns {FeatureInfoTool}
+     */
+    function buildFeatureInfoTool(){
+        return new FeatureInfoTool({
+            elementId: 'feature-info',
+            targetId: 'tools-container'
+        });
+    }
 });

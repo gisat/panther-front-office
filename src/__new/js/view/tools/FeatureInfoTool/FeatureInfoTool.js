@@ -72,10 +72,11 @@ define(['../../../error/ArgumentError',
 	/**
 	 * Rebuild Feature info for specific attributes and map
 	 * @param attributes {Array}
-	 * @param map {Object}
+	 * @param options {Object}
+	 * @param options.olMap {Map}
 	 */
-	FeatureInfoTool.prototype.rebuild = function(attributes, map) {
-		this.addOnClickListener(attributes, map);
+	FeatureInfoTool.prototype.rebuild = function(attributes, options) {
+		this.addOnClickListener(attributes, options.olMap);
 	};
 
 	/**

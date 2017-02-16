@@ -57,15 +57,20 @@ define([
 	/**
 	 * Rebuild section with current settings
 	 * @param attributes {Array} List of attributes depends on current settings
-	 * @param map {OpenLayers.Map}
+	 * @param options {Object}
 	 */
-	CustomDrawingWidget.prototype.rebuild = function(attributes, map){
-		if (!this._map){
-			this._map = map;
-		}
+	CustomDrawingWidget.prototype.rebuild = function(attributes, options){
+		if (options.config.dataset.length > 0){
+			this.toggleWarning("none");
+			if (!this._map){
+				this._map = options.olMap;
+			}
+			this._auSection.rebuild(this._map);
+			this._lineSection.rebuild(this._map);
 
-		this._auSection.rebuild(this._map);
-		this._lineSection.rebuild(this._map);
+		} else {
+			this.toggleWarning("block", [5]);
+		}
 		this.handleLoading("hide");
 	};
 

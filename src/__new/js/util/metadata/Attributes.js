@@ -1,9 +1,17 @@
-define(['../../util/Remote',
+define(['../../error/ArgumentError',
+		'../../error/NotFoundError',
+		'../../util/Logger',
+		'../../util/Remote',
 		'../../stores/Stores',
-		'jquery'
-],function(Remote,
+		'jquery',
+		'underscore'
+],function(ArgumentError,
+		   NotFoundError,
+		   Logger,
+		   Remote,
 		   Stores,
-		   $){
+		   $,
+		   _){
 
 	/**
 	 * Class for gathering attributes metadata
@@ -20,7 +28,16 @@ define(['../../util/Remote',
 	 */
 	Attributes.prototype.getData = function(){
 		var self = this;
-		if (ThemeYearConfParams.datasetChanged || ThemeYearConfParams.themeChanged || ThemeYearConfParams.placeChanged){
+		var params = self.getThemeYearConfParams();
+
+		if (_.isEmpty(params)){
+			return new Promise(function(resolve, reject){
+				ThemeYearConfParams.datasetChanged = false;
+				resolve(params);
+			})
+		}
+		else if (ThemeYearConfParams.datasetChanged || ThemeYearConfParams.themeChanged || ThemeYearConfParams.placeChanged){
+			ThemeYearConfParams.datasetChanged = false;
 			return new Remote({
 				method: "POST",
 				url: window.Config.url + "api/theme/getThemeYearConf",
@@ -128,14 +145,22 @@ define(['../../util/Remote',
 	 * @returns {{theme: string, years: string, dataset: string, refreshLayers: string, refreshAreas: string}}
 	 */
 	Attributes.prototype.getThemeYearConfParams = function(){
-		//console.log(ThemeYearConfParams.dataset, ThemeYearConfParams.theme, ThemeYearConfParams.years);
-		return {
-			theme: ThemeYearConfParams.theme,
-			years: ThemeYearConfParams.years,
-			dataset: ThemeYearConfParams.dataset,
-			refreshLayers: 'true',
-			refreshAreas: 'true'
-		};
+		var theme = ThemeYearConfParams.theme;
+		var years = ThemeYearConfParams.years;
+		var dataset = ThemeYearConfParams.dataset;
+
+		if (theme.length == 0 || years.length == 0 || dataset.length == 0){
+			console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "Attributes", "getThemeYearConfParams", "missingParameter"));
+			return {};
+		} else {
+			return {
+				theme: theme,
+				years: years,
+				dataset: dataset,
+				refreshLayers: 'true',
+				refreshAreas: 'true'
+			};
+		}
 	};
 
 	return Attributes;

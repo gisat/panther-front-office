@@ -14,6 +14,8 @@
 	top: 8rem;
 	left: calc(50% - 17.5rem);
 	z-index: 99999;
+	resize: both;
+	overflow: auto;
 }
 .tool-window.open {
 	display: block;
