@@ -9,7 +9,7 @@ Ext.define('PumaMain.view.ConfigForm', {
 		this.attrStore = Ext.create('Ext.data.Store', {
 			data: [],
 			model: 'Puma.model.MappedChartAttribute'
-		})
+		});
 		this.items = [{
 			xtype: 'textfield',
 			name: 'title',
@@ -115,9 +115,9 @@ Ext.define('PumaMain.view.ConfigForm', {
 		this.buttons = [{
 			text: 'Configure',
 			itemId: 'configurefinish'
-		}]
+		}];
 		this.callParent();
 
 	}
-})
+});
 

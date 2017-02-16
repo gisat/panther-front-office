@@ -547,7 +547,7 @@ Ext.define('PumaMain.controller.Store', {
 				type: 'treelowest'
 			}
 			]
-		})
+		});
 
 		Ext.create('Ext.data.Store', {
 			storeId: 'normalization4chart',
@@ -574,11 +574,13 @@ Ext.define('PumaMain.controller.Store', {
 		});
 
 		Ext.create('Ext.data.Store', {
-			storeId: 'normalization_units',
+			storeId: 'change_units',
 			fields: ['name', 'type'],
 			data: [
-
 				{
+					name: 'None',
+					type: ''
+				}, {
 					name: 'm2',
 					type: 'm2'
 				}, {
