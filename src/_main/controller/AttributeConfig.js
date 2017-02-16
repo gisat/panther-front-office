@@ -320,6 +320,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 		var customFactor = recs[0].get('customFactor');
 		var units = recs[0].get('units');
 		var displayUnits = recs[0].get('displayUnits') || units; // Before there is anything set for the attribute the units are default.
+		var areaUnits = recs[0].get('areaUnits');
 
 		if (this.isValidToChangeSettings(recs)) {
 			form.getForm().applyToFields({disabled: false});
@@ -331,6 +332,8 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 			form.down('#customFactor').setValue(customFactor);
 			form.down('#displayUnits').setValue(displayUnits);
 			form.down('#units').setValue(units);
+			form.down('#areaUnits').setValue(areaUnits);
+
 			// Set current units to the relevant ones.
 
 			this.units = units;
@@ -368,6 +371,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 		var normalizationUnits = form.getComponent('normalizationUnits').getValue();
 		var customFactor = form.getComponent('customFactor').getValue();
 		var displayUnits = form.getComponent('displayUnits').getValue();
+		var areaUnits = form.getComponent('areaUnits').getValue();
 
 		for (var i = 0; i < recs.length; i++) {
 			var rec = recs[i];
@@ -377,6 +381,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 			rec.set('normalizationUnits', normalizationUnits);
 			rec.set('customFactor', customFactor);
 			rec.set('displayUnits', displayUnits);
+			rec.set('areaUnits', areaUnits);
 			rec.commit();
 		}
 
@@ -397,11 +402,13 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 		var normalizationUnits = recs[0].get('normalizationUnits');
 		var customFactor = recs[0].get('customFactor');
 		var units = recs[0].get('units');
+		var areaUnits = recs[0].get('areaUnits');
 
 		for (var attribute = 0; attribute < recs.length; attribute++) {
 			if (normType != recs[attribute].get('normType') || normAs != recs[attribute].get('normAs') ||
 				normAttr != recs[attribute].get('normAttr') || normalizationUnits != recs[attribute].get('normalizationUnits') ||
-				customFactor != recs[attribute].get('customFactor') || units != recs[attribute].get('units')) {
+				customFactor != recs[attribute].get('customFactor') || units != recs[attribute].get('units') ||
+				areaUnits != recs[attribute].get('areaUnits')) {
 				areEqual = false;
 			}
 		}
@@ -477,20 +484,28 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 	 * @param val
 	 */
 	onNormTypeChange: function (combo, val) {
-		var attrCombo = combo.up('panel').down('#normAttribute');
-		var attrSetCombo = combo.up('panel').down('#normAttributeSet');
+		var panel = combo.up('panel');
+		var attrCombo = panel.down('#normAttribute');
+		var attrSetCombo = panel.down('#normAttributeSet');
+		var areaUnits = panel.down('#areaUnits');
 
 		if (val == 'attributeset') {
 			attrSetCombo.show();
 			attrCombo.hide();
+			areaUnits.hide();
 		} else if (val == 'attribute') {
 			attrSetCombo.show();
 			attrCombo.show();
+			areaUnits.hide();
 		} else if (val == 'area') {
 			attrSetCombo.hide();
 			attrCombo.hide();
+			areaUnits.show();
+			if(!areaUnits.getValue()) {
+				areaUnits.setValue('m2');
+			}
 
-			this.updateCustomUnits(combo.up('panel'), 'm2'); // Area is always normalized upon m2.
+			this.updateCustomUnits(combo.up('panel'), areaUnits.getValue());
 		} else {
 			attrCombo.reset();
 			attrSetCombo.reset();
