@@ -30,11 +30,7 @@ var Config = {
 		isUrbis: false,
 		isEea: false,
 		isMelodies: false,
-		isUrbanTep: false,
-		/**
-		 * It distinguishes whether under the Custom WMS layer group the GUF will be displayed.
-		 */
-		hasGuf: true
+		isUrbanTep: false
 	},
 
 	basicTexts: {

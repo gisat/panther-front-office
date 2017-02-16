@@ -3,8 +3,8 @@ Ext.define('Puma.model.MappedChartAttribute', {
     fields: [
 		
 		// ostatni/puvodni
-		'as','attr','normType','normAs','normAttr','normYear','normalizationUnits','normalizationResultInPercentage','attrName',
-		'attrNameNormalized','asName','checked','numCategories','classType',
+		'as','attr','normType','normAs','normAttr','normYear','normalizationUnits','customFactor','attrName',
+		'attrNameNormalized','asName','checked','numCategories','classType', 'units', 'displayUnits',
 		'zeroesAsNull','name',
 		{
 			name: 'attrName',
@@ -20,6 +20,14 @@ Ext.define('Puma.model.MappedChartAttribute', {
 				var attrSetStore = Ext.StoreMgr.lookup('attributeset');
 				var attrSet = attrSetStore.getById(record.get('as'));
 				return attrSet ? attrSet.get('name') : "";
+			}
+		},
+		{
+			name: 'units',
+			convert: function(value, record) {
+				var attrStore = Ext.StoreMgr.lookup('attribute');
+				var attr = attrStore.getById(record.get('attr'));
+				return attr ? attr.get('units') : "";
 			}
 		},
 
