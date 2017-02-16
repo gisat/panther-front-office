@@ -385,7 +385,9 @@ Ext.define('PumaMain.controller.LocationTheme', {
             delete params['fids'];
         }
 
-		this.reloadWmsLayers();
+        if (!detailLevelChanged && !this.yearChanged) {
+            this.reloadWmsLayers();
+        }
 
 		var me = this;
         Ext.Ajax.request({
@@ -415,6 +417,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         this.yearChanged = null;
 
         // new URBIS change
+        ThemeYearConfParams.action = cntId;
         this.newOnChange();
     },
 
@@ -450,20 +453,22 @@ Ext.define('PumaMain.controller.LocationTheme', {
 						{
 							layers: layer.layer,
 							transparent: true,
-                            srs: new OpenLayers.Projection("EPSG:3857")
+                            srs: "EPSG:3857"
 						}, {
 							visibility: false,
-							isBaseLayer: false
+							isBaseLayer: false,
+                            projection: new OpenLayers.Projection("EPSG:3857")
 						});
 				    var layer2 = new OpenLayers.Layer.WMS(layer.name,
 						layer.url,
 						{
 							layers: layer.layer,
 							transparent: true,
-							srs: new OpenLayers.Projection("EPSG:3857")
+							srs: "EPSG:3857"
 						}, {
 							visibility: false,
-							isBaseLayer: false
+							isBaseLayer: false,
+							projection: new OpenLayers.Projection("EPSG:3857")
 						});
 				    var node = Ext.create('Puma.model.MapLayer', {
 						name: layer.name,

@@ -3,90 +3,86 @@ Ext.define('PumaMain.controller.AttributeConfig', {
     views: [],
     requires: ['PumaMain.view.ConfigForm'],
     init: function() {
-        this.control(
-                {
-                '#testConf': {
-                    click: this.onTestConf
-                },
-                
-                'attributegrid #add' : {
-                    click: this.onAddAttribute
-                },
-                'attributegrid #remove' : {
-                    click: this.onRemoveAttribute
-                },
-                'attributegrid #normalize' : {
-                    click: this.onNormalizeAttribute
-                },
-                'attributegrid #choroplethparams' : {
-                    click: this.onConfigureChoropleth
-                },
-                'addattributetree #add' : {
-                    click: this.onAttributeAdded
-                },
-                'addattributetree #back' : {
-                    click: this.backToInitial
-                },
+		this.control(
+			{
+				'attributegrid #add': {
+					click: this.onAddAttribute
+				},
+				'attributegrid #remove': {
+					click: this.onRemoveAttribute
+				},
+				'attributegrid #normalize': {
+					click: this.onOpenAttributeSetting
+				},
+				'attributegrid #choroplethparams': {
+					click: this.onConfigureChoropleth
+				},
+				'addattributetree #add': {
+					click: this.onAttributeAdded
+				},
+				'addattributetree #back': {
+					click: this.backToInitial
+				},
 				'addattributetree': {
 					checkchange: this.onAddAttrCheck,
 					itemclick: this.onAddAttrItemClick
 				},
-				//'chartConfigurationWindow': {
-				//	close: this.onChartConfWindowClose
-				//},
-                'normalizeform #normalize' : {
-                    click: this.onAttributeNormalized
-                },
-                'normalizeform #dontnormalize' : {
-                    click: this.onAttributeNormalized
-                },
-                'normalizeform #back' : {
-                    click: this.backToInitial
-                },
-                'normalizeform #normAttributeSet': {
-                    change: this.onNormAttrSetChange
-                },
-                'normalizeform #normType': {
-                    change: this.onNormTypeChange
-                },
-            
-                'choroplethform #apply' : {
-                    click: this.onChoroplethParamsApplied
-                },
-                'choroplethform #classType' : {
-                    change: this.onClassTypeChanged
-                },
-                'choroplethform #back' : {
-                    click: this.backToInitial
-                },
-                
-                'configform #type': {
-                    change: this.onChartTypeChange
-                },
-                
-                'chartbar panel[cfgType=add]': {
-                    beforeexpand: this.onConfigureClick
-                },
-                
-                'chartpanel tool[type=gear]': {
-                    click: this.onConfigureClick
-                },
-                '#configurelayers' : {
-                    click: this.onConfigureClick
-                },
-                '#configurefilters': {
-                    click: this.onConfigureClick
-                },
-                'configform #configurefinish' : {
-                    click: this.onConfigureFinish
-                }
-            
-                })
+				'normalizeform #normalize': {
+					click: this.onCloseAttributeSetting
+				},
+				'normalizeform #back': {
+					click: this.backToInitial
+				},
+				'normalizeform #normAttributeSet': {
+					change: this.onNormAttrSetChange
+				},
+				'normalizeform #normType': {
+					change: this.onNormTypeChange
+				},
+				'#normalizationUnits': {
+					change: this.onChangeUnitsChange
+				},
+				'#normAttribute': {
+					change: this.onNormAttrChange
+				},
+
+				'choroplethform #apply': {
+					click: this.onChoroplethParamsApplied
+				},
+				'choroplethform #classType': {
+					change: this.onClassTypeChanged
+				},
+				'choroplethform #back': {
+					click: this.backToInitial
+				},
+
+				'configform #type': {
+					change: this.onChartTypeChange
+				},
+
+				'chartbar panel[cfgType=add]': {
+					beforeexpand: this.onConfigureClick
+				},
+
+				'chartpanel tool[type=gear]': {
+					click: this.onConfigureClick
+				},
+				'#configurelayers': {
+					click: this.onConfigureClick
+				},
+				'#configurefilters': {
+					click: this.onConfigureClick
+				},
+				'configform #configurefinish': {
+					click: this.onConfigureFinish
+				}
+
+			});
     },
     
             
     onConfigureChoropleth: function(btn) {
-        var attrStore = btn.up('[itemId=attributecontainer]').down('attributegrid').store
+        var attrStore = btn.up('[itemId=attributecontainer]').down('attributegrid').store;
         var recs = this.getChecked(attrStore);
         if (recs.length<1) {
             return;
@@ -94,7 +90,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         
         this.setActiveCard(btn,4);
         
-        var form = btn.up('[itemId=attributecontainer]').down('choroplethform')
+        var form = btn.up('[itemId=attributecontainer]').down('choroplethform');
         if (recs.length==1) {
             form.down('#classType').setValue(recs[0].get('classType'));
             form.down('#numCategories').setValue(recs[0].get('numCategories'));
@@ -114,7 +110,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
     onChoroplethParamsApplied: function(btn) {
         
         var form = btn.up('panel');
-        var attrStore = form.up('[itemId=attributecontainer]').down('attributegrid').store
+        var attrStore = form.up('[itemId=attributecontainer]').down('attributegrid').store;
         var recs = this.getChecked(attrStore);
         for (var i=0;i<recs.length;i++) {
             var rec = recs[i];
@@ -127,14 +123,12 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         this.setActiveCard(btn,0);
     },
     
-    
-    
     onConfigureFinish: function(cmp) {
         var form = cmp.up('configform');
         var values = form.getForm().getValues();
         var attrs = values.attrs;
         var attrMap = {};
-        var isSelect = null
+        var isSelect = null;
         for (var i=0;i<attrs.length;i++) {
             var attr = attrs[i];
             var attrName = 'as_'+attr.as+'_attr_'+attr.attr;
@@ -184,7 +178,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         var cfg = {attrs:[]};
         var chart = null;
         if (cmp.itemId == 'configurelayers') {
-            formType = 'layers'
+            formType = 'layers';
             cfg = {attrs:this.layerConfig || []} ;
         }
         else if (cmp.itemId == 'configurefilters') {
@@ -192,7 +186,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
             cfg = {attrs:this.filterConfig || []} ;
         }
         else if (cmp.xtype == 'tool') {
-            chart = cmp.up('chartpanel').chart
+            chart = cmp.up('chartpanel').chart;
             cfg = chart.cfg;
         }
         var datasetId = Ext.ComponentQuery.query('#seldataset')[0].getValue();
@@ -212,9 +206,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
             
         }
         var window = Ext.widget('window',{
-			//itemId: 'chartConfigurationWindow',
-			//id: 'chartConfigurationWindow',
-            layout: 'fit',
+			layout: 'fit',
             width: 710,
             height: 724,
             
@@ -231,7 +223,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 				// JJJ jak se to dela, aby se listenery prirazovaly v this.control?
 				close: this.onChartConfWindowClose
 			}
-        })
+        });
         window.show();
         window.down('configform').getForm().setValues(cfg);
         return false;
@@ -243,40 +235,12 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 		});
 	},
     
-    onChartBtnClick: function(parent) {
-    },
-        
-    onReconfigureClick: function(btn) {
-    },
-    
 	// triggered when AddAttributeTree opened
     onAddAttribute: function(btn) {
         this.setActiveCard(btn,1);
     },
-    onNormalizeAttribute: function(btn) {
-        
-        var attrStore = btn.up('[itemId=attributecontainer]').down('attributegrid').store
-        var recs = this.getChecked(attrStore);
-        if (recs.length<1) {
-            return;
-        }
-        
-        this.setActiveCard(btn,2);
-        
-        var form = btn.up('[itemId=attributecontainer]').down('normalizeform')
-        if (recs.length==1) {
-            form.down('#normType').setValue(recs[0].get('normType'));
-            form.down('#normAttributeSet').setValue(recs[0].get('normAs'));
-            form.down('#normAttribute').setValue(recs[0].get('normAttr'));
-			form.down('#normalizationUnits').setValue(recs[0].get('normalizationUnits'));
-			form.down('#normalizationResultInPercentage').setValue(recs[0].get('normalizationResultInPercentage'));
-			form.down('#normYear').setValue(recs[0].get('normYear'));
-        }
-        else {
-            form.getForm().reset();
-        }
-    },
-    onRemoveAttribute: function(btn) {
+
+	onRemoveAttribute: function(btn) {
         var store = btn.up('grid').store;
         var recs = this.getChecked(store);
         store.remove(recs);
@@ -319,9 +283,8 @@ Ext.define('PumaMain.controller.AttributeConfig', {
             var newRec = Ext.create('Puma.model.MappedChartAttribute',{
                 as: rec.get('as'),
                 attr: rec.get('attr'),
-                normType: 'area',
                 checked: true
-            })
+            });
             newRecs.push(newRec)
         }
         var mainStore = btn.up('configform').down('attributegrid').store;
@@ -334,31 +297,117 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 
         this.setActiveCard(btn,0);
     },
-    onAttributeNormalized: function(btn) {
-        var normalize = btn.itemId == 'normalize';
-        var form = btn.up('panel');
-        
-        var attrStore = form.up('[itemId=attributecontainer]').down('attributegrid').store
-        var recs = this.getChecked(attrStore);
-        var normType = normalize ? form.getComponent('normType').getValue() : null;
-        var normAttr = normalize ? form.getComponent('normAttribute').getValue() : null;
-        var normAs = normalize ? form.getComponent('normAttributeSet').getValue() : null;
-        var normalizationUnits = normalize ? form.getComponent('normalizationUnits').getValue(): null;
-        var normalizationResultInPercentage = normalize ? form.getComponent('normalizationResultInPercentage').getValue(): null;
-        var normYear = normalize ? form.getComponent('normYear').getValue() : null;
-        for (var i=0;i<recs.length;i++) {
-            var rec = recs[i];
-            rec.set('normType',normType);
-            rec.set('normAttr',normAttr);
-            rec.set('normAs',normAs);
-            rec.set('normalizationUnits', normalizationUnits);
-            rec.set('normalizationResultInPercentage', normalizationResultInPercentage);
-            rec.set('normYear',normYear);
-            rec.commit();
-        }
-        
-        this.setActiveCard(btn,0);
-    },
+
+	/**
+	 * Event handler which runs when user opens settings page for given attribute. It gets all checked attributes and based
+	 * on them either disable the form or set the current status. Form is disabled when any of the information in the form
+	 * differs for any two of the attributes in the form.
+	 * @param btn
+	 */
+	onOpenAttributeSetting: function(btn) {
+		var attrStore = btn.up('[itemId=attributecontainer]').down('attributegrid').store;
+		var recs = this.getChecked(attrStore);
+		if (recs.length < 1) {
+			return;
+		}
+
+		var form = btn.up('[itemId=attributecontainer]').down('normalizeform');
+
+		var normType = recs[0].get('normType');
+		var normAs = recs[0].get('normAs');
+		var normAttr = recs[0].get('normAttr');
+		var normalizationUnits = recs[0].get('normalizationUnits');
+		var customFactor = recs[0].get('customFactor');
+		var units = recs[0].get('units');
+		var displayUnits = recs[0].get('displayUnits') || units; // Before there is anything set for the attribute the units are default.
+
+		if (this.isValidToChangeSettings(recs)) {
+			form.getForm().applyToFields({disabled: false});
+
+			form.down('#normType').setValue(normType);
+			form.down('#normAttributeSet').setValue(normAs);
+			form.down('#normAttribute').setValue(normAttr);
+			form.down('#normalizationUnits').setValue(normalizationUnits);
+			form.down('#customFactor').setValue(customFactor);
+			form.down('#displayUnits').setValue(displayUnits);
+			form.down('#units').setValue(units);
+			// Set current units to the relevant ones.
+
+			this.units = units;
+
+			this.setActiveCard(btn, 2);
+		} else {
+			form.getForm().applyToFields({disabled: true});
+			form.getForm().reset();
+
+			alert('You can bulk edit configuration only for attributes with the same source units, same normalization type, change units, custom factor and for attribute and attribute set normalization also the same attribute and/or attribute set.');
+		}
+	},
+
+	/**
+	 * Event handler happening when User clicks on Setting in the open normalization panel. It simply gathers values in
+	 * the form and sets them.
+	 * It simply changes the view, when the values are invalid to be set.
+	 * @param btn
+	 */
+	onCloseAttributeSetting: function (btn) {
+		var normalize = btn.itemId == 'normalize';
+		var form = btn.up('panel');
+
+		var attrStore = form.up('[itemId=attributecontainer]').down('attributegrid').store;
+		var recs = this.getChecked(attrStore);
+		if(!this.isValidToChangeSettings(recs)) {
+			this.setActiveCard(btn, 0);
+			return;
+		}
+
+		var normType = normalize ? form.getComponent('normType').getValue() : null;
+		var normAttr = normalize ? form.getComponent('normAttribute').getValue() : null;
+		var normAs = normalize ? form.getComponent('normAttributeSet').getValue() : null;
+
+		var normalizationUnits = form.getComponent('normalizationUnits').getValue();
+		var customFactor = form.getComponent('customFactor').getValue();
+		var displayUnits = form.getComponent('displayUnits').getValue();
+
+		for (var i = 0; i < recs.length; i++) {
+			var rec = recs[i];
+			rec.set('normType', normType);
+			rec.set('normAttr', normAttr);
+			rec.set('normAs', normAs);
+			rec.set('normalizationUnits', normalizationUnits);
+			rec.set('customFactor', customFactor);
+			rec.set('displayUnits', displayUnits);
+			rec.commit();
+		}
+
+		this.setActiveCard(btn, 0);
+	},
+
+	/**
+	 * It verifies whether all checked attributes share the same settings. If they do, it is possible to update them in
+	 * the bulk. When they don't it isn't possible.
+	 * @param recs
+	 * @returns {boolean}
+	 */
+	isValidToChangeSettings: function(recs) {
+		var areEqual = true;
+		var normType = recs[0].get('normType');
+		var normAs = recs[0].get('normAs');
+		var normAttr = recs[0].get('normAttr');
+		var normalizationUnits = recs[0].get('normalizationUnits');
+		var customFactor = recs[0].get('customFactor');
+		var units = recs[0].get('units');
+
+		for (var attribute = 0; attribute < recs.length; attribute++) {
+			if (normType != recs[attribute].get('normType') || normAs != recs[attribute].get('normAs') ||
+				normAttr != recs[attribute].get('normAttr') || normalizationUnits != recs[attribute].get('normalizationUnits') ||
+				customFactor != recs[attribute].get('customFactor') || units != recs[attribute].get('units')) {
+				areEqual = false;
+			}
+		}
+
+		return areEqual;
+	},
         
     onNormAttrSetChange: function(combo,val) {
         var attrSet = val ? Ext.StoreMgr.lookup('attributeset').getById(val) : null;
@@ -373,30 +422,79 @@ Ext.define('PumaMain.controller.AttributeConfig', {
             return Ext.Array.contains(attributes,rec.get('_id')) && numeric
         }])
     },
-    onNormTypeChange: function(combo,val) {
-	    var attrUnits = combo.up('panel').down('#normalizationUnits');
-	    attrUnits.show();
-        var attrCombo = combo.up('panel').down('#normAttribute');
-        var attrSetCombo = combo.up('panel').down('#normAttributeSet');
-        var attrYears = combo.up('panel').down('#normYear');
-        if (val=='attributeset') {
-            attrSetCombo.show();
-			attrCombo.hide();
-        }
-        else if (val=='attribute') {
-            attrSetCombo.show();
-            attrCombo.show();
 
-            attrYears.hide();
-        }
-        else {
-            attrSetCombo.hide();
-            attrCombo.hide();
-            attrYears.hide();
-            attrUnits.show();
-        }
-    },
-    onChartTypeChange: function(combo,val) {
+	/**
+	 * It updates the normalization attribute and based on the information it contains it also updates normalization
+	 * units and display units.
+	 * @param combo
+	 * @param val
+	 */
+	onNormAttrChange: function(combo, val) {
+		if(!val) {
+			return;
+		}
+		var normalizationAttribute = val ? Ext.StoreMgr.lookup('attribute').getById(val) : null;
+		this.updateCustomUnits(combo.up('panel'), normalizationAttribute && normalizationAttribute.get('units'));
+	},
+
+	/**
+	 * It gets current units and normalization units and updates values in the Normalization Units, Custom Factor and
+	 * current units.
+	 * If the normalization units and source units are the same it sets % as the valid unit.
+	 * If they differ but both of them are are area units then % is also set as the valid unit.
+	 * If at least one isn't area unit, then the unit / normalization unit is displayed.
+	 * @param panel
+	 * @param normalizationUnits {String} Units to be used for normalization.
+	 */
+	updateCustomUnits(panel, normalizationUnits) {
+		normalizationUnits = normalizationUnits || '';
+
+		var validUnits = ['m2', 'ha', 'km2'];
+		var unitsToShow = this.units;
+		if(normalizationUnits) {
+			unitsToShow += '/' + normalizationUnits;
+		}
+
+		if(this.units == normalizationUnits || validUnits.indexOf(this.units) != -1 && validUnits.indexOf(normalizationUnits) != -1) {
+			unitsToShow = '%';
+			panel.down('#normalizationUnits').setValue(unitsToShow);
+			panel.down('#customFactor').setValue(100);
+		}
+
+		panel.down('#displayUnits').setValue(unitsToShow);
+	},
+
+	/**
+	 * This is event handler which happens when type of the normalization changes. If the normalization changes to area
+	 * or to none the custom units are cleansed
+	 * @param combo
+	 * @param val
+	 */
+	onNormTypeChange: function (combo, val) {
+		var attrCombo = combo.up('panel').down('#normAttribute');
+		var attrSetCombo = combo.up('panel').down('#normAttributeSet');
+
+		if (val == 'attributeset') {
+			attrSetCombo.show();
+			attrCombo.hide();
+		} else if (val == 'attribute') {
+			attrSetCombo.show();
+			attrCombo.show();
+		} else if (val == 'area') {
+			attrSetCombo.hide();
+			attrCombo.hide();
+
+			this.updateCustomUnits(combo.up('panel'), 'm2'); // Area is always normalized upon m2.
+		} else {
+			attrCombo.reset();
+			attrSetCombo.reset();
+
+			attrSetCombo.hide();
+			attrCombo.hide();
+		}
+	},
+
+	onChartTypeChange: function(combo,val) {
         var configForm = combo.up('configform');
         var advanced = Ext.ComponentQuery.query('#advancedfieldset',configForm)[0];
         var cardContainer = Ext.ComponentQuery.query('#attributecontainer',configForm)[0];
@@ -413,7 +511,38 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         else {
             advanced.hide();
         }
-    },    
+    },
+
+	/**
+	 * Event handler which happens when Change units change. In this case the display units are updated to current change
+	 * units and the custom factor is updated based on all the available information.
+	 * @param combo
+	 * @param value
+	 */
+    onChangeUnitsChange: function(combo, value) {
+		var customFactor = combo.up('configform').down('#customFactor');
+		var currentAttributeUnits = this.units;
+		var validUnits = ['m2', 'ha', 'km2'];
+
+		if(value == '%') {
+			customFactor.setValue(100);
+		} else if(validUnits.indexOf(value) != -1) {
+			customFactor.setValue(this.getCustomFactor(currentAttributeUnits, value));
+		}
+
+		var normAttribute = combo.up('panel').down('#normalizationUnits').getValue();
+		combo.up('panel').down('#displayUnits').setValue(normAttribute);
+	},
+
+	getCustomFactor: function(source, result) {
+		var factors = {
+			"m2": 1,
+			"ha": 10000,
+			"km2": 1000000
+		};
+
+		return factors[source] / factors[result]
+	},
     
     backToInitial: function(btn) {
         this.setActiveCard(btn,0);

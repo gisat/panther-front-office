@@ -40,6 +40,8 @@ define([
 	var CustomDrawingWidget = function(options) {
 		Widget.apply(this, arguments);
 		this.build();
+
+		ExchangeParams.options.displayCustomLayers = {};
 	};
 
 	CustomDrawingWidget.prototype = Object.create(Widget.prototype);
