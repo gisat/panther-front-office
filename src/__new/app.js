@@ -49,7 +49,7 @@ define(['js/util/metadata/Attributes',
         'js/util/Placeholder',
 		'js/util/Remote',
 		'js/stores/Stores',
-        'js/view/worldWind/worldWindMap',
+        'js/view/worldWind/WorldWindMap',
         'js/view/widgets/WorldWindWidget/WorldWindWidget',
 
         'string',
