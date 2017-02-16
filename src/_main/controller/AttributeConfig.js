@@ -12,7 +12,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 					click: this.onRemoveAttribute
 				},
 				'attributegrid #normalize': {
-					click: this.onNormalizeAttribute
+					click: this.onOpenAttributeSetting
 				},
 				'attributegrid #choroplethparams': {
 					click: this.onConfigureChoropleth
@@ -28,7 +28,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 					itemclick: this.onAddAttrItemClick
 				},
 				'normalizeform #normalize': {
-					click: this.onAttributeSetting
+					click: this.onCloseAttributeSetting
 				},
 				'normalizeform #back': {
 					click: this.backToInitial
@@ -40,7 +40,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 					change: this.onNormTypeChange
 				},
 				'#normalizationUnits': {
-					change: this.onSetUnitsChange
+					change: this.onChangeUnitsChange
 				},
 				'#normAttribute': {
 					change: this.onNormAttrChange
@@ -240,53 +240,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         this.setActiveCard(btn,1);
     },
 
-	/**
-	 * Event handler which runs when user opens settings page for given attribute. It gets all checked attributes and based
-	 * on them either disable the form or set the current status. Form is disabled when any of the information in the form
-	 * differs for any two of the attributes in the form.
-	 * @param btn
-	 */
-    onNormalizeAttribute: function(btn) {
-        var attrStore = btn.up('[itemId=attributecontainer]').down('attributegrid').store;
-		var recs = this.getChecked(attrStore);
-		if (recs.length < 1) {
-			return;
-		}
-
-		var form = btn.up('[itemId=attributecontainer]').down('normalizeform');
-
-		var normType = recs[0].get('normType');
-		var normAs = recs[0].get('normAs');
-		var normAttr = recs[0].get('normAttr');
-		var normalizationUnits = recs[0].get('normalizationUnits');
-		var customFactor = recs[0].get('customFactor');
-		var units = recs[0].get('units');
-		var displayUnits = recs[0].get('displayUnits');
-
-		if (this.isValidToChangeNormalization(recs)) {
-			form.getForm().applyToFields({disabled: false});
-
-			form.down('#normType').setValue(normType);
-			form.down('#normAttributeSet').setValue(normAs);
-			form.down('#normAttribute').setValue(normAttr);
-			form.down('#normalizationUnits').setValue(normalizationUnits);
-			form.down('#customFactor').setValue(customFactor);
-			form.down('#displayUnits').setValue(displayUnits);
-			form.down('#units').setValue(units);
-			// Set current units to the relevant ones.
-
-			this.units = units;
-
-			this.setActiveCard(btn, 2);
-		} else {
-			form.getForm().applyToFields({disabled: true});
-			form.getForm().reset();
-
-			alert('You can bulk edit configuration only for attributes with the same source units, same normalization type, change units, custom factor and for attribute and attribute set normalization also the same attribute and/or attribute set.');
-		}
-    },
-
-    onRemoveAttribute: function(btn) {
+	onRemoveAttribute: function(btn) {
         var store = btn.up('grid').store;
         var recs = this.getChecked(store);
         store.remove(recs);
@@ -345,18 +299,64 @@ Ext.define('PumaMain.controller.AttributeConfig', {
     },
 
 	/**
+	 * Event handler which runs when user opens settings page for given attribute. It gets all checked attributes and based
+	 * on them either disable the form or set the current status. Form is disabled when any of the information in the form
+	 * differs for any two of the attributes in the form.
+	 * @param btn
+	 */
+	onOpenAttributeSetting: function(btn) {
+		var attrStore = btn.up('[itemId=attributecontainer]').down('attributegrid').store;
+		var recs = this.getChecked(attrStore);
+		if (recs.length < 1) {
+			return;
+		}
+
+		var form = btn.up('[itemId=attributecontainer]').down('normalizeform');
+
+		var normType = recs[0].get('normType');
+		var normAs = recs[0].get('normAs');
+		var normAttr = recs[0].get('normAttr');
+		var normalizationUnits = recs[0].get('normalizationUnits');
+		var customFactor = recs[0].get('customFactor');
+		var units = recs[0].get('units');
+		var displayUnits = recs[0].get('displayUnits') || units; // Before there is anything set for the attribute the units are default.
+
+		if (this.isValidToChangeSettings(recs)) {
+			form.getForm().applyToFields({disabled: false});
+
+			form.down('#normType').setValue(normType);
+			form.down('#normAttributeSet').setValue(normAs);
+			form.down('#normAttribute').setValue(normAttr);
+			form.down('#normalizationUnits').setValue(normalizationUnits);
+			form.down('#customFactor').setValue(customFactor);
+			form.down('#displayUnits').setValue(displayUnits);
+			form.down('#units').setValue(units);
+			// Set current units to the relevant ones.
+
+			this.units = units;
+
+			this.setActiveCard(btn, 2);
+		} else {
+			form.getForm().applyToFields({disabled: true});
+			form.getForm().reset();
+
+			alert('You can bulk edit configuration only for attributes with the same source units, same normalization type, change units, custom factor and for attribute and attribute set normalization also the same attribute and/or attribute set.');
+		}
+	},
+
+	/**
 	 * Event handler happening when User clicks on Setting in the open normalization panel. It simply gathers values in
 	 * the form and sets them.
 	 * It simply changes the view, when the values are invalid to be set.
 	 * @param btn
 	 */
-	onAttributeSetting: function (btn) {
+	onCloseAttributeSetting: function (btn) {
 		var normalize = btn.itemId == 'normalize';
 		var form = btn.up('panel');
 
 		var attrStore = form.up('[itemId=attributecontainer]').down('attributegrid').store;
 		var recs = this.getChecked(attrStore);
-		if(!this.isValidToChangeNormalization(recs)) {
+		if(!this.isValidToChangeSettings(recs)) {
 			this.setActiveCard(btn, 0);
 			return;
 		}
@@ -367,7 +367,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 
 		var normalizationUnits = form.getComponent('normalizationUnits').getValue();
 		var customFactor = form.getComponent('customFactor').getValue();
-		var currentUnits = form.getComponent('currentUnits').getValue();
+		var displayUnits = form.getComponent('displayUnits').getValue();
 
 		for (var i = 0; i < recs.length; i++) {
 			var rec = recs[i];
@@ -376,7 +376,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 			rec.set('normAs', normAs);
 			rec.set('normalizationUnits', normalizationUnits);
 			rec.set('customFactor', customFactor);
-			rec.set('customUnits', customUnits);
+			rec.set('displayUnits', displayUnits);
 			rec.commit();
 		}
 
@@ -389,7 +389,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 	 * @param recs
 	 * @returns {boolean}
 	 */
-	isValidToChangeNormalization: function(recs) {
+	isValidToChangeSettings: function(recs) {
 		var areEqual = true;
 		var normType = recs[0].get('normType');
 		var normAs = recs[0].get('normAs');
@@ -424,32 +424,27 @@ Ext.define('PumaMain.controller.AttributeConfig', {
     },
 
 	/**
-	 * It calculates what the current units should look like.
-	 * @param customUnits If the user selected Change units, this will be populated.
-	 * @param normalizationAttributeUnits
+	 * It updates the normalization attribute and based on the information it contains it also updates normalization
+	 * units and display units.
+	 * @param combo
+	 * @param val
 	 */
-	getCurrentUnits: function(customUnits, normalizationAttributeUnits) {
-		if(customUnits) {
-			return customUnits;
-		}
-
-		if(normalizationAttributeUnits) {
-			return this.units += " / " + normalizationAttributeUnits;
-		}
-
-		return this.units;
-	},
-
 	onNormAttrChange: function(combo, val) {
+		if(!val) {
+			return;
+		}
 		var normalizationAttribute = val ? Ext.StoreMgr.lookup('attribute').getById(val) : null;
-		this.updateCustomUnits(combo.up('panel'), normalizationAttribute && normalizationAttribute.data.units);
+		this.updateCustomUnits(combo.up('panel'), normalizationAttribute && normalizationAttribute.get('units'));
 	},
 
 	/**
 	 * It gets current units and normalization units and updates values in the Normalization Units, Custom Factor and
 	 * current units.
+	 * If the normalization units and source units are the same it sets % as the valid unit.
+	 * If they differ but both of them are are area units then % is also set as the valid unit.
+	 * If at least one isn't area unit, then the unit / normalization unit is displayed.
 	 * @param panel
-	 * @param normalizationUnits
+	 * @param normalizationUnits {String} Units to be used for normalization.
 	 */
 	updateCustomUnits(panel, normalizationUnits) {
 		normalizationUnits = normalizationUnits || '';
@@ -460,16 +455,13 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 			unitsToShow += '/' + normalizationUnits;
 		}
 
-		if(this.units == normalizationUnits) {
+		if(this.units == normalizationUnits || validUnits.indexOf(this.units) != -1 && validUnits.indexOf(normalizationUnits) != -1) {
 			unitsToShow = '%';
 			panel.down('#normalizationUnits').setValue(unitsToShow);
 			panel.down('#customFactor').setValue(100);
-		} else if(validUnits.indexOf(this.units) != -1 && validUnits.indexOf(normalizationUnits) != -1) {
-			panel.down('#normalizationUnits').setValue(normalizationUnits);
-			panel.down('#customFactor').setValue(this.getCustomFactor(this.units, normalizationUnits));
 		}
 
-		panel.down('#currentUnits').setValue(unitsToShow);
+		panel.down('#displayUnits').setValue(unitsToShow);
 	},
 
 	/**
@@ -521,17 +513,25 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         }
     },
 
-    onSetUnitsChange: function(combo, value) {
+	/**
+	 * Event handler which happens when Change units change. In this case the display units are updated to current change
+	 * units and the custom factor is updated based on all the available information.
+	 * @param combo
+	 * @param value
+	 */
+    onChangeUnitsChange: function(combo, value) {
 		var customFactor = combo.up('configform').down('#customFactor');
 		var currentAttributeUnits = this.units;
 		var validUnits = ['m2', 'ha', 'km2'];
 
-		var normAttribute = combo.up('panel').down('#normAttribute').getValue();
 		if(value == '%') {
 			customFactor.setValue(100);
 		} else if(validUnits.indexOf(value) != -1) {
 			customFactor.setValue(this.getCustomFactor(currentAttributeUnits, value));
 		}
+
+		var normAttribute = combo.up('panel').down('#normalizationUnits').getValue();
+		combo.up('panel').down('#displayUnits').setValue(normAttribute);
 	},
 
 	getCustomFactor: function(source, result) {

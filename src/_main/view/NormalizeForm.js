@@ -17,14 +17,14 @@ Ext.define('PumaMain.view.NormalizeForm', {
 
 		this.items = [{
 			xtype: 'textfield',
-			fieldLabel: 'Units displayed to the User: ',
+			fieldLabel: 'Units displayed to the User',
 			name: 'displayUnits',
 			valueField: 'type',
 			itemId: 'displayUnits',
 			disabled: true
 		}, {
 			xtype: 'textfield',
-			fieldLabel: 'Units of the source attribute: ',
+			fieldLabel: 'Units of the source attribute',
 			name: 'units',
 			valueField: 'type',
 			itemId: 'units',
@@ -32,13 +32,13 @@ Ext.define('PumaMain.view.NormalizeForm', {
 		}, {
 			xtype: 'pumacombo',
 			store: Ext.StoreMgr.lookup('change_units'),
-			fieldLabel: 'Change Units: ',
+			fieldLabel: 'Change Units',
 			name: 'normalizationUnits',
 			valueField: 'type',
 			itemId: 'normalizationUnits'
 		}, {
 			xtype: 'textfield', // TODO: Validate that it is Number.
-			fieldLabel: 'Custom factor: ',
+			fieldLabel: 'Custom factor',
 			name: 'customFactor',
 			valueField: 'type',
 			itemId: 'customFactor'

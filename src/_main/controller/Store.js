@@ -565,10 +565,6 @@ Ext.define('PumaMain.controller.Store', {
 				}, {
 					name: 'Attribute set',
 					type: 'attributeset'
-				},
-				{
-					name: 'First selected',
-					type: 'select'
 				}
 			]
 		});
