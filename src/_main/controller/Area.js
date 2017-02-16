@@ -123,6 +123,7 @@ Ext.define('PumaMain.controller.Area', {
 	},
 	
 	onShowMoreDetailed: function() {
+		ThemeYearConfParams.actions.push("detaillevel");
 		var toExpand = {};
 		var needQuery = false;
 		var needChange = false;
@@ -183,7 +184,7 @@ Ext.define('PumaMain.controller.Area', {
    
 		
 	onShowLessDetailed: function() {
-		var self = this;
+		ThemeYearConfParams.actions.push("detaillevel");
 		var nodesToCollapse = [];
 		var tree = Ext.ComponentQuery.query('#areatree')[0];
 		tree.suspendEvents();

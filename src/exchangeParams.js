@@ -21,7 +21,7 @@ var ThemeYearConfParams = {
 	placeChanged: '',
 	auCurrentAt: '',
 	layerRefMap: '',
-	action: ''
+	actions: []
 };
 
 /**
