@@ -1,7 +1,10 @@
 define(['../../error/ArgumentError',
         '../../error/NotFoundError',
         '../../util/Logger',
+
+        './inputs/checkbox/Checkbox',
         '../View',
+        './WidgetWarning',
 
         'string',
         'jquery',
@@ -12,7 +15,10 @@ define(['../../error/ArgumentError',
 ], function (ArgumentError,
              NotFoundError,
              Logger,
+
+             Checkbox,
              View,
+             WidgetWarning,
 
              S,
              $,
@@ -52,6 +58,8 @@ define(['../../error/ArgumentError',
         this._widgetSelector = $("#floater-" + this._widgetId);
         this._placeholderSelector = $("#placeholder-" + this._widgetId);
         this._widgetBodySelector = this._widgetSelector.find(".floater-body");
+        this._warningSelector = this._widgetSelector.find(".floater-warning");
+        this._widgetWarning = new WidgetWarning();
 
         if (Config.toggles.hasOwnProperty("isUrbis") && Config.toggles.isUrbis){
             this._widgetSelector.addClass("open");
@@ -139,10 +147,82 @@ define(['../../error/ArgumentError',
     };
 
 	/**
+	 * Dock floater to the position in target
+     * @param floater {JQuery} floater selector
+     * @param target {JQuery} target container selector
+     */
+    Widget.prototype.dockFloater = function(floater, target){
+        floater.appendTo(target)
+            .addClass("docked")
+            .css({
+                left: 0,
+                top: 0,
+                height: '',
+                width: ''
+            })
+            .draggable("disable");
+    };
+
+    /**
+     * Undock floater to the position in target
+     * @param floater {JQuery} floater selector
+     * @param target {JQuery} target container selector
+     */
+    Widget.prototype.undockFloater = function(floater, target){
+        floater.appendTo(target)
+            .removeClass("docked")
+            .css({
+                left: 100,
+                top: 100
+            })
+            .draggable("enable");
+    };
+
+	/**
      * Delete floater footer
      */
     Widget.prototype.deleteFooter = function(floater){
         floater.find(".floater-footer").remove();
+    };
+
+    /**
+     * It returns the checkbox
+     * @param id {string} ID of the data theme
+     * @param name {string} Name of the data theme
+     * @returns {Checkbox}
+     */
+    Widget.prototype.buildCheckboxInput = function(id, name, target){
+        return new Checkbox({
+            id: id,
+            name: name,
+            target: target,
+            containerId: "floater-" + this._widgetId
+        });
+    };
+
+	/**
+     * Create tool in header
+     * @param name {string}
+     */
+    Widget.prototype.buildToolIconInHeader = function(name){
+        var id = name.toLowerCase();
+        this._widgetSelector.find(".floater-tools-container")
+            .append('<div id="' + this._widgetId + '-' + id + '" title="'+ name +'" class="floater-tool widget-'+ id +'">' +
+                '<img alt="' + name + '" src="__new/img/'+ id +'.png"/>' +
+                '</div>');
+    };
+
+	/**
+	 * It shows in a widget body info about problems connected with this widget
+     * @param action {string} CSS display value
+     * @param warnings {Array} list of warnings codes
+     */
+    Widget.prototype.toggleWarning = function(action, warnings){
+        this._warningSelector.css("display", action);
+        if (warnings){
+            var message = this._widgetWarning.generate(warnings);
+            this._warningSelector.html(message);
+        }
     };
 
     return Widget;

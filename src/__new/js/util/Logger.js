@@ -87,30 +87,41 @@ define(function () {
         },
 
         messageTable: {
+            emptyResult: "Result is empty!",
+            missingAreaTemplate: "Area Template parameter is null or undefined!",
             missingBoxId: "Box ID of an element is null or undefined!",
             missingBoxName: "Box name is null or undefined!",
             missingData: "Data are null, undefined or empty!",
+            missingDataset: "Dataset parameter is null or undefined!",
+            missingEndpointUrl: "Endpoint url is null or undefined!",
             missingElementId: "Required ID of an element is null or undefined!",
             missingFilter: "Instance of Filter is missing!",
             missingHistogramMinimum: "Minimum is null or undefined!",
             missingHistogramMaximum: "Maximum is null or undefined!",
             missingHTMLElement: "Required HTML element wasn't found!",
+            missingId: "Id is null or undefined!",
             missingInputs: "Inputs parameter is null or undefined!",
+            missingName: "Name property is missing, null or undefined!",
 			missingMap: "Map property is missing, null or undefined!",
             missingNumClasses: "NumClasses is null or undefined!",
+            missingParameter: "One of parameters is null or undefined!",
+            missingPlace: "Place is null or undefined!",
+            missingPlaceholder: "Placeholder parameter is null or undefined!",
             missingSelections: "Data for selection boxes is missing",
             missingSliderRange: "Slider range is null, undefined or empty!",
             missingSliderType: "A type of slider is null or undefined!",
             missingSliderValues: "Slider default values parameter is null, undefined or empty!",
             missingTargetElementId: "Required target element ID is null or undefined!",
             missingTarget: "Target is null or undefined!",
+            missingTheme: "Theme is null or undefined!",
             missingWidgetId: "Widget Id is null or undefined!",
             missingWidgetName: "Widget Name is null or undefined!",
+            missingWorldWind: "World Wind parameter is missing!",
             notNaturalNumber: "Parameter is not a natural number!"
         }
     };
 
-    var loggingLevel = 1; // log severe messages by default
+    var loggingLevel = 4; // log severe messages by default
 
     return Logger;
 });

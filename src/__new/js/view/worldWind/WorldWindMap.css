@@ -1,0 +1,30 @@
+body.intro #world-wind-container {
+	display: none;
+}
+body.application #world-wind-container {
+	display: none;
+
+	background: black url("../../../img/night-sky.jpg") top left no-repeat;
+	background-size: cover;
+	position: absolute;
+	top: 135px;
+	height: calc(100% - 135px);
+	width: 100%;
+	z-index: 5555;
+}
+#world-wind-map {
+	position: relative;
+	float: right;
+	width: 100%;
+	height: 100%;
+}
+#world-wind-map.docked {
+	position: relative;
+	float: right;
+	width: calc(100% - 22rem);
+	height: 100%;
+}
+#world-wind-canvas {
+	width: 100%;
+	height: 100%;
+}
