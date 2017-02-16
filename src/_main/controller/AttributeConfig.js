@@ -420,7 +420,13 @@ Ext.define('PumaMain.controller.AttributeConfig', {
                 numeric = false;
             }
             return Ext.Array.contains(attributes,rec.get('_id')) && numeric
-        }])
+        }]);
+
+        var panel = combo.up('panel');
+        var unitsToShow = '%';
+		panel.down('#normalizationUnits').setValue(unitsToShow);
+		panel.down('#customFactor').setValue(100);
+		panel.down('#displayUnits').setValue(unitsToShow);
     },
 
 	/**
