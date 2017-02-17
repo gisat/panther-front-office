@@ -591,23 +591,6 @@ Ext.define('PumaMain.controller.Store', {
 			]
 		});
 
-		Ext.create('Ext.data.Store', {
-			storeId: 'normalization4chartlimited',
-			fields: ['name', 'type'],
-			data: [
-
-				{
-					name: 'Area',
-					type: 'area'
-				}, {
-					name: 'Attribute',
-					type: 'attribute'
-				}, {
-					name: 'Attribute set',
-					type: 'attributeset'
-				}]
-		})
-
 		// JJJ Neni to zbytecne?
 		Ext.create('Ext.data.Store', {
 			storeId: 'mappedattribute4chart',
