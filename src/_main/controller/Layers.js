@@ -768,7 +768,7 @@ Ext.define('PumaMain.controller.Layers', {
 			var props = '';
 			var filtersNull = [];
 			var filtersNotNull = [];
-			if (normalization && normalization != 'none' && normalization != 'year') {
+			if (normalization && normalization != 'none' && normalization != 'year' && !attrs[0].areaUnits) { // normalization != area only in case of stuff.
 				var normAttr = normalization == 'area' ? 'area' : '';
 				normAttr = normalization == 'attributeset' ? ('as_' + normAttrSet + '_attr_#attrid#') : normAttr;
 				normAttr = normalization == 'attribute' ? ('as_' + normAttrSet + '_attr_' + normAttribute) : normAttr;
