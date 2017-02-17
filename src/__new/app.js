@@ -89,7 +89,7 @@ define(['js/util/metadata/Attributes',
         if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
             var webWorldWind = buildWorldWindMap();
             widgets.push(buildWorldWindWidget(webWorldWind));
-            widgets3D.push(buildMapDiagramsWidget(webWorldWind));
+            widgets3D.push(buildMapDiagramsWidget(webWorldWind, filter));
         }
         if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
             widgets.push(buildEvaluationWidget(filter));
@@ -244,12 +244,14 @@ define(['js/util/metadata/Attributes',
     /**
      * Build MapDiagramsWidget instance
      * @param webWorldWind {WorldWindMap}
+     * @param filter {Filter}
      * @returns {MapDiagramsWidget}
      */
-    function buildMapDiagramsWidget (webWorldWind){
+    function buildMapDiagramsWidget (webWorldWind, filter){
         return new MapDiagramsWidget({
             id: 'map-diagrams-widget',
             name: 'Map Diagrams',
+            filter: filter,
             worldWind: webWorldWind
         });
     }

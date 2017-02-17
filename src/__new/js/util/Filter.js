@@ -41,6 +41,13 @@ define(['./Remote',
 	 * @returns {*|Promise}
 	 */
 	Filter.prototype.statistics = function(attributes, dist){
+		if (!dist){
+			dist = {
+				type: 'normal',
+				classes: 10
+			};
+		}
+
 		var params = this.prepareParams();
 		return $.get( Config.url + "rest/filter/attribute/statistics", {
 				areaTemplate: params.areaTemplate,

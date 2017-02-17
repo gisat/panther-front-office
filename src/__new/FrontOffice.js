@@ -107,7 +107,7 @@ define([
 			widget.rebuild(attributes, self._options);
 		});
 		this._widgets3D.forEach(function(widget){
-			widget.rebuild();
+			widget.rebuild(attributes, self._options);
 		});
 	};
 
@@ -130,7 +130,7 @@ define([
 	 * @returns {*|Promise}
 	 */
 	FrontOffice.prototype.getAttributesMetadata = function(){
-		return this._attributesMetadata.getData().then(function(result){
+		return this._attributesMetadata.getData(this._options).then(function(result){
 			var attributes = [];
 			if (result.length > 0){
 				result.forEach(function(attributeSet){
