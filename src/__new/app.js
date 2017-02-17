@@ -36,6 +36,7 @@ requirejs.config({
 });
 
 define(['js/util/metadata/Attributes',
+        'js/util/metadata/AnalyticalUnits',
         'js/view/widgets/CityWidget/CityWidget',
         'js/view/widgets/CustomDrawingWidget/CustomDrawingWidget',
         'js/view/widgets/EvaluationWidget/EvaluationWidget',
@@ -57,6 +58,7 @@ define(['js/util/metadata/Attributes',
         'jquery-ui',
         'underscore'
 ], function (Attributes,
+             AnalyticalUnits,
              CityWidget,
              CustomDrawingWidget,
              EvaluationWidget,
@@ -82,6 +84,8 @@ define(['js/util/metadata/Attributes',
         var widgets3D = [];
 
         var attributes = buildAttributes();
+        var analyticalUnits = buildAnalyticalUnits();
+
         var filter = buildFilter();
         var olMap = buildOpenLayersMap();
         
@@ -107,6 +111,7 @@ define(['js/util/metadata/Attributes',
         // build app, map is class for OpenLayers map
         new FrontOffice({
             attributesMetadata: attributes,
+            analyticalUnits: analyticalUnits,
             tools: tools,
             widgets: widgets,
             widgetOptions: {
@@ -158,11 +163,19 @@ define(['js/util/metadata/Attributes',
     });
 
 	/**
-	 * Build Attributes instance
+     * Build Attributes instance
      * @returns {Attributes}
      */
     function buildAttributes (){
         return new Attributes();
+    }
+
+    /**
+     * Build AnalyticalUnits instance
+     * @returns {AnalyticalUnits}
+     */
+    function buildAnalyticalUnits (){
+        return new AnalyticalUnits();
     }
 
 	/**

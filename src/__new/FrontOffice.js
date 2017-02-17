@@ -28,6 +28,8 @@ define([
 	var FrontOffice = function(options) {
 		this.loadData();
 		this._attributesMetadata = options.attributesMetadata;
+		this._analyticalUnits = options.analyticalUnits;
+
 		this._options = options.widgetOptions;
 		this._tools = options.tools;
 		this._widgets = options.widgets;
@@ -97,9 +99,15 @@ define([
 	/**
 	 * Rebuild all components with given list of attributes
 	 * @param attributes {Array}
+	 * @param analyticalUnits {Array}
 	 */
-	FrontOffice.prototype.rebuildComponents = function(attributes){
+	FrontOffice.prototype.rebuildComponents = function(attributes, analyticalUnits){
 		var self = this;
+		var data = {
+			attributes: attributes,
+			analyticalUnits: analyticalUnits
+		};
+
 		this._tools.forEach(function(tool){
 			tool.rebuild(attributes, self._options);
 		});
