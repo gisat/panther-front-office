@@ -734,6 +734,7 @@ Ext.define('PumaMain.controller.Layers', {
 			var normAttrSet = attrs[0].normAs || params['normalizationAttributeSet'];
 			var normAttribute = attrs[0].normAttr || params['normalizationAttribute'];
 			var normalizationUnits = attrs[0].normalizationUnits;
+			var customFactor = attrs[0].customFactor;
 
 			var factor = 1;
 			var attrUnits = Ext.StoreMgr.lookup('attribute').getById(attrs[0].attr).get('units');
@@ -742,27 +743,27 @@ Ext.define('PumaMain.controller.Layers', {
 				normAttrUnits = Ext.StoreMgr.lookup('attribute').getById(normAttribute).get('units');
 			}
 
-			var percentage = attrs[0].normalizationResultInPercentage;
-			if(typeof percentage === 'undefined') {
-				percentage = true;
-			}
-			// When no normalization applies don't modify the data.
-			if(!normalization) {
-				percentage = false;
+			var units = new Units();
+			customFactor = customFactor || 1;
+			if (normalization=='area') {
+				normAttrUnits = attrs[0].areaUnits || 'm2';
+				// Special case when we need to transform the results from custom/m2 to custom/km2 or custom/ha
+				// TODO: Clean this part. Current state is hell.
+				if(units.allowedUnits.indexOf(attrUnits) == -1) {
+					customFactor *= units.translate(normAttrUnits,'m2',false);
+				}
 			}
 
-
-			if (normalization == 'area') {
-				attrUnits = normalizationUnits || 'm2';
-				normAttrUnits = null;
-			}
+			// Specific use case is when I normalize over attribute. In this case, it is necessary to first handle the
+			// Basic factor handling and then use normalizationUnits to get final.
+			// TODO: Make sure that the units are correctly counted.
 
 			if(normalization) {
-				var units = new Units();
-				factor = units.translate(attrUnits, normAttrUnits, percentage);
+				factor = units.translate(attrUnits, normAttrUnits, false);
 			} else {
-				factor = percentage ? 100: 1;
+				factor = 1;
 			}
+			factor = factor * customFactor;
 
 			var props = '';
 			var filtersNull = [];
@@ -1314,26 +1315,15 @@ Units.prototype.translate = function(unitFrom, unitTo, percentage) {
 	percentage = percentage ? 100: 1;
 
 	if(!unitFrom && !unitTo) {
-		console.error('Units#translate Incorrect units from and to.');
 		return percentage;
 	}
 
 	if(!unitTo || this.allowedUnits.indexOf(unitTo) == -1) {
-		if(this.allowedUnits.indexOf(unitFrom) != -1) {
-			// Correct units give correct factor.
-			return this.units[unitFrom] * percentage;
-		} else {
-			return percentage;
-		}
+		return percentage;
 	}
 
 	if(!unitFrom || this.allowedUnits.indexOf(unitFrom) == -1) {
-		if(this.allowedUnits.indexOf(unitTo) != -1) {
-			// Correct units give correct factor.
-			return 1 / (this.units[unitTo] * percentage);
-		} else {
-			return 1 / percentage;
-		}
+		return 1 / percentage;
 	}
 
 	return (this.units[unitFrom] / this.units[unitTo]) * percentage;
