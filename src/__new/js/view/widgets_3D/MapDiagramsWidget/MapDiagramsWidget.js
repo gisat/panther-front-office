@@ -33,6 +33,7 @@ define(['../../../error/ArgumentError',
 		}
 		this._filter = options.filter;
 		this._diagramsLayer = this._worldWind.getLayerById("mapDiagrams");
+		this._worldWind.addLayer(this._diagramsLayer);
 	};
 
 	MapDiagramsWidget.prototype = Object.create(Widget3D.prototype);
@@ -59,6 +60,9 @@ define(['../../../error/ArgumentError',
 				self._diagramsLayer.redraw(result[0], units);
 			}
 		});
+
+		self._worldWind.redraw();
+		console.log(self._worldWind);
 	};
 
 	/**
