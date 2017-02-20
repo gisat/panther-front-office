@@ -2,6 +2,7 @@ define([
 	'js/error/ArgumentError',
 	'js/error/NotFoundError',
 	'js/util/Logger',
+	'js/util/Promise',
 
 	'js/stores/Stores',
 	'js/stores/gisat/Attributes',
@@ -13,6 +14,7 @@ define([
 ], function(ArgumentError,
 			NotFoundError,
 			Logger,
+			Promise,
 
 			Stores,
 			Attributes,
@@ -54,50 +56,46 @@ define([
 		};
 		this.checkConfiguration();
 
-		var self = this;
+		var anaylticalUnits = this.getAnalyticalUnits();
 		var visualization = Number(ThemeYearConfParams.visualization);
+
+		var self = this;
 		if (visualization > 0){
 			Stores.retrieve("visualization").byId(visualization).then(function(response){
 				var attributes = response[0].attributes;
 				var options = response[0].options;
-				self.toggleSidebars(options);
 
 				if (attributes){
 					self.getAttributesMetadata().then(function(results){
 						var updatedAttributes = self.getAttributesWithUpdatedState(results, attributes);
-						self.rebuildComponents(updatedAttributes);
+						Promise.all([updatedAttributes, anaylticalUnits]).then(function(result){
+							self.rebuildComponents(result[0],result[1])
+						});
 					});
 				}
 				else {
-					self.getAttributesMetadata().then(self.rebuildComponents.bind(self));
+					var attributesData = self.getAttributesMetadata();
+					Promise.all([attributesData, anaylticalUnits]).then(function(result){
+						self.rebuildComponents(result[0],result[1])
+					});
 				}
 
-				if (options && !self._options.changes.period  && !self._options.changes.level){
-					if (options.hasOwnProperty("openWidgets")){
-						self.checkWidgetsState(options.openWidgets);
-					}
-					if (options.hasOwnProperty("displayCustomLayers")){
-						var layers = options.displayCustomLayers;
-						for (var key in options.displayCustomLayers){
-							var checkbox = $("#" + key);
-							if (layers[key]){
-								checkbox.addClass("checked");
-							} else {
-								checkbox.removeClass("checked");
-							}
-						}
-					}
-				}
+				self.toggleSidebars(options);
+				self.toggleWidgets(options);
+				self.toggleCustomLayers(options);
 			});
 		}
 
 		else {
-			this.getAttributesMetadata().then(self.rebuildComponents.bind(self));
+			var attributesData = this.getAttributesMetadata();
+			Promise.all([attributesData, anaylticalUnits]).then(function(result){
+				self.rebuildComponents(result[0],result[1])
+			});
 		}
 	};
 
 	/**
-	 * Rebuild all components with given list of attributes
+	 * Rebuild all components with given list of attributes, analytical units
 	 * @param attributes {Array}
 	 * @param analyticalUnits {Array}
 	 */
@@ -107,7 +105,6 @@ define([
 			attributes: attributes,
 			analyticalUnits: analyticalUnits
 		};
-
 		this._tools.forEach(function(tool){
 			tool.rebuild(attributes, self._options);
 		});
@@ -115,22 +112,16 @@ define([
 			widget.rebuild(attributes, self._options);
 		});
 		this._widgets3D.forEach(function(widget){
-			widget.rebuild(attributes, self._options);
+			widget.rebuild(data, self._options);
 		});
 	};
 
 	/**
-	 * Check if state of widgets match the configuration
-	 * @param floaters {Object}
+	 * Get analytical units for curent configuration
+	 * @returns {Promise}
 	 */
-	FrontOffice.prototype.checkWidgetsState = function(floaters){
-		this._widgets.forEach(function(widget){
-			for (var key in floaters){
-				if (key == "floater-" + widget._widgetId){
-					widget.setState(key, floaters[key]);
-				}
-			}
-		});
+	FrontOffice.prototype.getAnalyticalUnits = function(){
+		return this._analyticalUnits.getUnits(this._options.config);
 	};
 
 	/**
@@ -194,6 +185,47 @@ define([
 			if (sidebars.hasOwnProperty('sidebar-reports') && !sidebars['sidebar-reports']){
 				$('#sidebar-reports').addClass("hidden");
 				Observer.notify("resizeMap");
+			}
+		}
+	};
+
+	/**
+	 * Show/hide widgets according to visualization
+	 * @param options {Object}
+	 */
+	FrontOffice.prototype.toggleWidgets = function(options){
+		var self = this;
+		if (options && !this._options.changes.period  && !this._options.changes.level){
+			if (options.hasOwnProperty("openWidgets")){
+				var floaters = options.openWidgets;
+				this._widgets.forEach(function(widget){
+					for (var key in floaters){
+						if (key == "floater-" + widget._widgetId){
+							widget.setState(key, floaters[key]);
+						}
+					}
+				})
+			}
+		}
+	};
+
+	/**
+	 * Show/hide layers according to visualization
+	 * @param options {Object}
+	 */
+	FrontOffice.prototype.toggleCustomLayers = function(options){
+		var self = this;
+		if (options && !self._options.changes.period  && !self._options.changes.level){
+			if (options.hasOwnProperty("displayCustomLayers")){
+				var layers = options.displayCustomLayers;
+				for (var key in options.displayCustomLayers){
+					var checkbox = $("#" + key);
+					if (layers[key]){
+						checkbox.addClass("checked");
+					} else {
+						checkbox.removeClass("checked");
+					}
+				}
 			}
 		}
 	};

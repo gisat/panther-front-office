@@ -34,12 +34,14 @@ define(['../../../error/ArgumentError',
 
 	/**
 	 * Rebuild widget with current configuration
-	 * @param attributes {Array} List of attributes for current configuration
+	 * @param data {Object}
+	 * @param data.attributes {Array} List of attributes for current configuration
+	 * @param data.analyticalUnits {Array} List of analytical units for current configuration
 	 * @param options {Object}
 	 * @param options.config {Object} current ThemeYearConf global object configuration
 	 */
-	MapDiagramsWidget.prototype.rebuild = function(attributes, options){
-		console.log(options);
+	MapDiagramsWidget.prototype.rebuild = function(data, options){
+		debugger;
 		// filter numeric attributes
 		// select attributes to show
 		// get statistics about this attributes
