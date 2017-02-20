@@ -263,6 +263,10 @@
 }
 
 /* help buttons */
+.newDesign .fields-holder .field > .widget .x-btn {
+    vertical-align: middle;
+}
+
 .newDesign #toolbar .fields .group.group-visualization .help-label {
     width: 62px;
     text-align: right;
@@ -272,7 +276,6 @@
     width: 50px;
     height: 30px;
     line-height: 30px;
-    padding-top: 2px;
 }
 .newDesign #app-toolbar-contexthelp, .newDesign #app-toolbar-webhelp {
     display: inline-block;
