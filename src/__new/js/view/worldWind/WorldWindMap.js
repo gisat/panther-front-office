@@ -79,6 +79,15 @@ define(['../../error/ArgumentError',
 	};
 
 	/**
+	 * Get layer by ID
+	 * @param id {string}
+	 * @returns {WorldWind.Layer}
+	 */
+	WorldWindMap.prototype.getLayerById = function(id){
+		return this._layers.getLayerById(id);
+	};
+
+	/**
 	 * Show layer on the top of the globe
 	 * @param layer {WorldWind.Layer}
 	 */

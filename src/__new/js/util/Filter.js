@@ -1,8 +1,10 @@
 define(['./Remote',
-		'jquery'
+		'jquery',
+		'underscore'
 ],function(Remote,
 
-		   $){
+		   $,
+		   _){
 
 	/**
 	 * Class for data filtering
@@ -68,21 +70,23 @@ define(['./Remote',
 	/**
 	 * Filter for featur info functionality
 	 * @param attributes {Array} list of attributes for filtering
-	 * @param gid {String} Id of analytical unit
+	 * @param gids {Array} List of units' gids
 	 * @returns {*|Promise}
 	 */
-	Filter.prototype.featureInfo = function(attributes, gid){
+	Filter.prototype.featureInfo = function(attributes, gids){
 		var params = this.prepareParams();
 
 		return $.get( Config.url + "rest/info/attribute", {
 				areaTemplate: params.areaTemplate,
 				periods: params.periods,
 				places: params.locations,
-				gid: [gid],
+				gid: gids,
 				attributes: attributes
 			})
 			.then(function(response) {
 				return response;
+			}).catch(function(err){
+				throw new Error(err);
 			});
 	};
 
@@ -166,6 +170,17 @@ define(['./Remote',
 		}
 
 		return attributes;
+	};
+
+	/**
+	 * Return only numeric attributes from a list
+	 * @param attributes {Array} list of all atributes
+	 * @returns {Array} numeric attributes
+	 */
+	Filter.prototype.getOnlyNumericAttributes = function(attributes){
+		return _.filter(attributes, function(attribute){
+			return attribute.attributeType == "numeric";
+		});
 	};
 
 	return Filter;

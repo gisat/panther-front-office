@@ -54,7 +54,7 @@ define(['../../../error/ArgumentError',
 		this._attributes = attributes;
 
 		this.handleLoading("show");
-		new Filter().featureInfo(attributes, gid).then(function(info){
+		new Filter().featureInfo(attributes,[gid]).then(function(info){
 			var content = "";
 			var attributes = info[0].attributes;
 			attributes.forEach(function(item){

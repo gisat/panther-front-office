@@ -3,6 +3,7 @@ define(['../../error/ArgumentError',
 	'../../util/Logger',
 
 	'./layers/AnalyticalUnitsLayer',
+	'./layers/MapDiagramsLayer',
 
 	'jquery',
 	'worldwind'
@@ -11,6 +12,7 @@ define(['../../error/ArgumentError',
 			Logger,
 
 			AnalyticalUnitsLayer,
+			MapDiagramsLayer,
 
 			$
 ){
@@ -24,7 +26,8 @@ define(['../../error/ArgumentError',
 			bingRoads: new WorldWind.BingRoadsLayer(),
 			bingAerial: new WorldWind.BingAerialLayer(),
 			landsat: new WorldWind.BMNGLandsatLayer(),
-			analyticalUnits: new AnalyticalUnitsLayer({name: "Analytical units"})
+			analyticalUnits: new AnalyticalUnitsLayer({name: "Analytical units"}),
+			mapDiagrams: new MapDiagramsLayer({name: "Map Diagrams"})
 		};
 	};
 
