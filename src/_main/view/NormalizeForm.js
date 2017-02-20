@@ -44,7 +44,7 @@ Ext.define('PumaMain.view.NormalizeForm', {
 			itemId: 'customFactor'
 		}, {
 			xtype: 'pumacombo',
-			store: Ext.StoreMgr.lookup(this.formType == 'chart' ? 'normalization4chart' : 'normalization4chartlimited'),
+			store: Ext.StoreMgr.lookup('normalization4chart'),
 			fieldLabel: 'Norm type',
 			name: 'normType',
 			valueField: 'type',
