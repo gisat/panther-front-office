@@ -1,5 +1,5 @@
 #feature-info-window {
-	background: rgba(255,255,255,.9);
+	background: rgba(255,255,255,.95);
 	border: 1px solid #ccc;
 	border-radius: .1rem;
 	box-shadow: 0 0 1px rgba(136,136,136,.5);
@@ -56,6 +56,9 @@
 #feature-info-window .feature-info-window-body table tr td {
 	font-size: .7rem;
 	padding: .15rem .2rem;
+}
+#feature-info-window .feature-info-window-body table tr:hover td {
+	background: rgba(230,230,230,.8);
 }
 #feature-info-window .feature-info-window-body table tr td:first-child {
 	font-weight: 600;
