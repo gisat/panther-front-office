@@ -768,7 +768,7 @@ Ext.define('PumaMain.controller.Layers', {
 			var props = '';
 			var filtersNull = [];
 			var filtersNotNull = [];
-			if (normalization && normalization != 'none' && normalization != 'year' && !attrs[0].areaUnits) { // normalization != area only in case of stuff.
+			if (normalization && normalization != 'none' && normalization != 'year') { // normalization != area only in case of stuff.
 				var normAttr = normalization == 'area' ? 'area' : '';
 				normAttr = normalization == 'attributeset' ? ('as_' + normAttrSet + '_attr_#attrid#') : normAttr;
 				normAttr = normalization == 'attribute' ? ('as_' + normAttrSet + '_attr_' + normAttribute) : normAttr;
@@ -780,13 +780,12 @@ Ext.define('PumaMain.controller.Layers', {
 					normAttr = '${' + normAttr + '}';
 				}
 
+				if(attrs[0].areaUnits) {
+					factor = 1 / factor;
+				}
 				props = new OpenLayers.Filter.Function({name: 'Mul', params: [new OpenLayers.Filter.Function({name: 'Div', params: ['${#attr#}', normAttr]}), factor]});
 			} else {
-				if(attrs[0].areaUnits) {
-					props = new OpenLayers.Filter.Function({name: 'Mul', params: ['${#attr#}', 1 / factor]});
-				} else {
-					props = new OpenLayers.Filter.Function({name: 'Mul', params: ['${#attr#}', factor]});
-				}
+				props = new OpenLayers.Filter.Function({name: 'Mul', params: ['${#attr#}', factor]});
 			}
 			if (params['zeroesAsNull']) {
 				filtersNull.push(new OpenLayers.Filter.Comparison({type: '==', property: '#attr#', value: 0}));
