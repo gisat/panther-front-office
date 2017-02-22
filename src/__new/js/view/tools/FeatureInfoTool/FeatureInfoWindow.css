@@ -54,8 +54,13 @@
 	border-bottom: 1px solid #ddd;
 }
 #feature-info-window .feature-info-window-body table tr td {
-	font-size: .7rem;
+	font-size: .75rem;
 	padding: .15rem .2rem;
+}
+#feature-info-window .feature-info-window-body table tr td i {
+	color: #888;
+	font-style: normal;
+	font-weight: 500;
 }
 #feature-info-window .feature-info-window-body table tr:hover td {
 	background: rgba(230,230,230,.8);

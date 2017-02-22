@@ -68,7 +68,7 @@ define(['../../../error/ArgumentError',
 					units = " (" + item.units + ")";
 				}
 
-				content += '<tr><td>' + item.name + units + '</td><td>' + value + '</td></tr>';
+				content += '<tr><td><i>' + item.asName + '</i>: ' + item.name + units + '</td><td>' + value + '</td></tr>';
 			});
 			self._infoWindow.find(".feature-info-title").html(info[0].name + " (" + info[0].gid + ")");
 			self._infoWindow.find(".feature-info-window-body table").html(content);
