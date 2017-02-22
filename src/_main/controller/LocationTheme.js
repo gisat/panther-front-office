@@ -709,7 +709,9 @@ Ext.define('PumaMain.controller.LocationTheme', {
             if (foundNode) {
                 changed = true;
                 area.id = area.at+'_'+area.gid;
+                //foundNode.suspendEvents();
                 foundNode.appendChild(area);
+                //foundNode.resumeEvents();
             }
             
         }

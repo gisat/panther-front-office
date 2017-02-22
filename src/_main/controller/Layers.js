@@ -5,8 +5,8 @@ Ext.define('PumaMain.controller.Layers', {
 	init: function() {
 		this.control({
 			'#layerpanel': {
-				itemclick: this.onLayerClick,
-				checkchange: this.onCheckChange
+				checkchange: this.onCheckChange,
+				itemclick: this.onLayerClick
 			},
 			'#layerpanel tool[type=gear]': {
 				click: this.onConfigure
@@ -949,7 +949,8 @@ Ext.define('PumaMain.controller.Layers', {
 		return namedLayers;
 	},
 
-	onLayerClick: function(panel,rec) {},
+	onLayerClick: function(panel,rec) {
+	},
 
 	/**
 	 * It adds choropleth as layer for potentially both maps.
@@ -1192,6 +1193,23 @@ Ext.define('PumaMain.controller.Layers', {
 
 		this.resetIndexes();
 		this.onLayerDrop();
+
+		if (checked){
+			if (layer1.initialized) {
+				this.showLayerOnTop(layer1);
+			}
+			if (layer2.initialized) {
+				this.showLayerOnTop(layer2);
+			}
+		}
+	},
+
+	/**
+	 * Move the layer on the top of the map
+	 * @param layer {OpenLayers.Layer}
+	 */
+	showLayerOnTop: function(layer){
+		$(layer.div).css("z-index", 1000);
 	},
 
 	/**
