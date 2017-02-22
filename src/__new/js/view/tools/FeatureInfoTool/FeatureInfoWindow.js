@@ -88,6 +88,14 @@ define(['../../../error/ArgumentError',
 		this._infoWindow = $("#" + this._id);
 
 		this.addCloseListener();
+		this.makeDraggable();
+	};
+
+	FeatureInfoWindow.prototype.makeDraggable = function(){
+		this._infoWindow.draggable({
+			containment: "body",
+			handle: ".feature-info-window-header"
+		});
 	};
 
 	/**

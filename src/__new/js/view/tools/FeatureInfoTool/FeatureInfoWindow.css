@@ -24,6 +24,7 @@
 	padding: 0 0 .2rem .1rem;
 	margin-right: .2rem;
 	height: 1.5rem;
+	cursor: move;
 }
 #feature-info-window .feature-info-title {
 	float: left;
