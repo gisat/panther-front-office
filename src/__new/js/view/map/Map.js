@@ -184,7 +184,8 @@ define([
 			this._newInfoControl = new OpenLayers.Control.WMSGetFeatureInfo({
 				url: Config.url+'api/proxy/wms',
 				vendorParams: {
-					propertyName: 'gid'
+					propertyName: 'gid',
+					expectJson: true
 				},
 				layers: [this._map.selectInMapLayer]
 			});

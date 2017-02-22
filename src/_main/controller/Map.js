@@ -660,7 +660,7 @@ Ext.define('PumaMain.controller.Map', {
 				url: Config.url+'api/proxy/wms',
 				vendorParams: {
 					propertyName: 'gid',
-					gfi: true
+					expectJson: true
 
 				},
 				layers: [map.selectInMapLayer]
