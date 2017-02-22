@@ -659,7 +659,9 @@ Ext.define('PumaMain.controller.Map', {
 			click: new OpenLayers.Control.WMSGetFeatureInfo({
 				url: Config.url+'api/proxy/wms',
 				vendorParams: {
-					propertyName: 'gid'
+					propertyName: 'gid',
+					expectJson: true
+
 				},
 				layers: [map.selectInMapLayer]
 			}), 
