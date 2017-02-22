@@ -461,6 +461,7 @@
 }
 .newDesign #app-tools-actions span {
     color: #555;
+    top: 5px;
 }
 .newDesign .btn-map-tool span.x-btn-inner {
     color: #555;
