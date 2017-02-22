@@ -780,9 +780,6 @@ Ext.define('PumaMain.controller.Layers', {
 					normAttr = '${' + normAttr + '}';
 				}
 
-				if(attrs[0].areaUnits) {
-					factor = 1 / factor;
-				}
 				props = new OpenLayers.Filter.Function({name: 'Mul', params: [new OpenLayers.Filter.Function({name: 'Div', params: ['${#attr#}', normAttr]}), factor]});
 			} else {
 				props = new OpenLayers.Filter.Function({name: 'Mul', params: ['${#attr#}', factor]});
