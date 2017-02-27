@@ -1,16 +1,16 @@
 Ext.define('PumaMain.view.MapTools', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.maptools',
-    columns: 2,
+    columns: 4,
     helpId: 'Maptools',
     initComponent: function() { 
         this.defaults = {
-            height: 90,
-            width: 120
+            height: 75,
+            width: 60
         }
         this.layout = {
             type: 'table',
-            columns: 2
+            columns: 4
         }
         this.items = [{
             xtype: 'button',
@@ -20,7 +20,8 @@ Ext.define('PumaMain.view.MapTools', {
             text: 'Hover',
             iconAlign: 'top',
             icon: 'images/icons/tools-hover.png',
-            cls: 'custom-button btn-map-tool btn-tool-hover'
+            cls: 'custom-button btn-map-tool btn-tool-hover',
+            scale: 'large'
         },{
             xtype: 'button',
             itemId: 'zoomselectedbtn',
@@ -28,7 +29,8 @@ Ext.define('PumaMain.view.MapTools', {
             text: 'Zoom selected',
             iconAlign: 'top',
             icon: 'images/icons/tools-zoom.png',
-            cls: 'custom-button btn-map-tool btn-tool-zoom-selected'
+            cls: 'custom-button btn-map-tool btn-tool-zoom-selected',
+            scale: 'large'
         },{
             xtype: 'button',
             enableToggle: true,
@@ -38,7 +40,8 @@ Ext.define('PumaMain.view.MapTools', {
             text: 'Measure line',
             iconAlign: 'top',
             icon: 'images/icons/tools-measure-line.png',
-            cls: 'custom-button btn-map-tool btn-tool-measure-line'
+            cls: 'custom-button btn-map-tool btn-tool-measure-line',
+            scale: 'large'
         },{
             xtype: 'button',
             enableToggle: true,
@@ -48,7 +51,8 @@ Ext.define('PumaMain.view.MapTools', {
             text: 'Measure polygon',
             iconAlign: 'top',
             icon: 'images/icons/tools-measure-polygon.png',
-            cls: 'custom-button btn-map-tool btn-tool-measure-polygon'
+            cls: 'custom-button btn-map-tool btn-tool-measure-polygon',
+            scale: 'large'
         },{
             xtype: 'button',
             itemId: 'multiplemapsbtn',
@@ -58,7 +62,8 @@ Ext.define('PumaMain.view.MapTools', {
             text: 'Multiple maps',
             iconAlign: 'top',
             icon: 'images/icons/tools-maps-multiple.png',
-            cls: 'custom-button btn-map-tool btn-tool-multiple-maps'
+            cls: 'custom-button btn-map-tool btn-tool-multiple-maps',
+            scale: 'large'
         },{
             xtype: 'button',
             text: 'Save as image',
@@ -66,7 +71,8 @@ Ext.define('PumaMain.view.MapTools', {
             helpId: 'Savingmapasimage',
             icon: 'images/icons/tools-save.png',
             iconAlign: 'top',
-            cls: 'custom-button btn-map-tool btn-tool-save-image'
+            cls: 'custom-button btn-map-tool btn-tool-save-image',
+            scale: 'large'
         }]
         
         this.callParent();
