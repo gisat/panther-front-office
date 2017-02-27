@@ -33,7 +33,7 @@ define([
 	 */
 	MapExport.prototype.export = function(type){
 		var url = window.Config.url + "export/" + type;
-		var form = "<form id='download-form' action='" + url + "' method='get'>" +
+		var form = "<form id='download-form' action='" + url + "' method='post'>" +
 			"<input name='attributes' value='" + this._attributes + "'>" +
 			"<input name='places' value='" + this._places + "'>" +
 			"<input name='areaTemplate' value='" + this._areaTemplate + "'>" +
