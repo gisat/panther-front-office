@@ -82,7 +82,7 @@ Ext.define('PumaMain.view.MapTools', {
                 helpId: 'FeatureInfo',
                 text: 'Feature info',
                 iconAlign: 'top',
-                icon: 'images/icons/tools-hover.png',
+                icon: 'images/new/tool-feature-info.png',
                 cls: 'custom-button btn-map-tool btn-tool-feature-info',
                 scale: 'large'
             })
