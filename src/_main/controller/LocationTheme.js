@@ -685,7 +685,9 @@ Ext.define('PumaMain.controller.LocationTheme', {
         }
         var datasetId = Ext.ComponentQuery.query('#seldataset')[0].getValue();
         var featureLayers = Ext.StoreMgr.lookup('dataset').getById(datasetId).get('featureLayers');
-        
+
+        var currentId = null;
+        var areasToAppend = [];
         for (var i = 0;i<add.length;i++) {
             var area = add[i];
             var loc = area.loc;
@@ -705,15 +707,21 @@ Ext.define('PumaMain.controller.LocationTheme', {
                     foundNode = node;
                     return false;
                 }
-            })
+            });
             if (foundNode) {
                 changed = true;
                 area.id = area.at+'_'+area.gid;
                 //foundNode.suspendEvents();
-                foundNode.appendChild(area);
-                //foundNode.resumeEvents();
+                //foundNode.appendChild(area);
+                 //foundNode.resumeEvents();
+
+                areasToAppend.push(area);
+                if (foundNode.internalId != currentId || i ==  (add.length-1)){
+                    foundNode.appendChild(areasToAppend);
+                    areasToAppend = [];
+                    currentId = foundNode.internalId;
+                }
             }
-            
         }
         tree.resumeEvents();
         tree.view.dontRefreshSize = false;
@@ -1024,7 +1032,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
             this.getController('Select').selectInternal(conf.areas, false, false, 1);
             return;
         }
-
         var years = Ext.ComponentQuery.query('#selyear')[0].getValue();
         var multiMapBtn = Ext.ComponentQuery.query('maptools #multiplemapsbtn')[0];
         multiMapBtn.leftYearsUnchanged = true;
@@ -1055,7 +1062,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
             OneLevelAreas.data = conf.areas;
             OneLevelAreas.map = this.getController('Map').getOlMap();
         }
-
         if (conf.add || conf.remove) {
             
             var changed = this.refreshAreas(conf.add,conf.remove);
@@ -1095,7 +1101,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
             this.getController('Layers').refreshOutlines();
             this.getController('Filter').reconfigureFiltersCall();
         }
-    
         if (conf.attrSets) {
             this.checkFeatureLayers();
 			var themeId = Ext.ComponentQuery.query('#seltheme')[0].getValue();
@@ -1114,7 +1119,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
             this.getController('Area').zoomToLocation();
         }
         this.getController('Map').updateGetFeatureControl();
-        
         this.getController('DomManipulation').deactivateLoadingMask();
         
         if (!this.placeInitialChange) {

@@ -131,7 +131,6 @@ Ext.define('PumaMain.controller.Area', {
 		var tree = Ext.ComponentQuery.query('#areatree')[0];
 		tree.suspendEvents();
 		var areaRoot = Ext.StoreMgr.lookup('area').getRootNode();
-		
 		var lastAt = null;
 		for (var loc in this.lowestMap) {
 			for (var at in this.lowestMap[loc]) {
@@ -144,7 +143,6 @@ Ext.define('PumaMain.controller.Area', {
 			this.getController('DomManipulation').deactivateLoadingMask();
 			return;
 		}
-
 
 		var layerRef = "";
 		areaRoot.cascadeBy(function(node) {
@@ -164,8 +162,6 @@ Ext.define('PumaMain.controller.Area', {
 			node.expand();
 			node.suppress = false;
 		});
-
-
 		tree.resumeEvents();
 
 		if (needQuery) {
