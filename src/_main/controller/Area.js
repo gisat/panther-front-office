@@ -675,7 +675,12 @@ Ext.define('PumaMain.controller.Area', {
 		this.getController('Filter').reconfigureFiltersCall();
 		
 		//this.getController('Layers').checkVisibilityAndStyles(true,false);
-		
+
+		// disable + button in Analysis level for PUMA National scope, All places, second level
+		// TODO solve this issue differently
+		if (ThemeYearConfParams.dataset == "20" && !atLeastOneLoc && lastAreaTemplate == 15){
+			showMore.setDisabled(true);
+		}
 	},
 	
 	
