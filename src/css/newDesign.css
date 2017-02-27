@@ -735,6 +735,11 @@
 .newDesign .x-btn.btn-map-tool button .x-btn-icon {
     top: 13px;
 }
+.newDesign .x-btn.btn-tool-feature-info button .x-btn-icon {
+    background-size: 15px;
+    width: 15px;
+    margin-left: -7px;
+}
 .newDesign .x-btn.btn-tool-hover button .x-btn-icon {
     background-size: 15px;
 }
@@ -755,6 +760,9 @@
 .newDesign .x-btn.btn-tool-save-image button .x-btn-icon {
     margin-left: -20px;
     background-size: 30px;
+}
+.newDesign .x-btn-pressed.btn-tool-feature-info button .x-btn-icon {
+    background-image: url(../images/icons/tools-hover-pressed.png) !important;
 }
 .newDesign .x-btn-pressed.btn-tool-measure-line button .x-btn-icon {
     background-image: url('../images/new/tools-measure-line-pressed.png') !important;

@@ -7,11 +7,11 @@ Ext.define('PumaMain.view.MapTools', {
         this.defaults = {
             height: 75,
             width: 60
-        }
+        };
         this.layout = {
             type: 'table',
             columns: 4
-        }
+        };
         this.items = [{
             xtype: 'button',
             enableToggle: true,
@@ -73,7 +73,20 @@ Ext.define('PumaMain.view.MapTools', {
             iconAlign: 'top',
             cls: 'custom-button btn-map-tool btn-tool-save-image',
             scale: 'large'
-        }]
+        }];
+        if(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo){
+            this.items.unshift({
+                xtype: 'button',
+                enableToggle: true,
+                itemId: 'featureInfoBtn',
+                helpId: 'FeatureInfo',
+                text: 'Feature info',
+                iconAlign: 'top',
+                icon: 'images/icons/tools-hover.png',
+                cls: 'custom-button btn-map-tool btn-tool-feature-info',
+                scale: 'large'
+            })
+        }
         
         this.callParent();
         
