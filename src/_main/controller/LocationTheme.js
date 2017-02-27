@@ -664,7 +664,9 @@ Ext.define('PumaMain.controller.LocationTheme', {
         var nodesToDestroy = [];        
         
         var tree = Ext.ComponentQuery.query('#areatree')[0];
+
         tree.suspendEvents();
+
         tree.view.dontRefreshSize = true;
         for (var loc in remove) {
             var locRoot = root.findChild('loc',loc);
@@ -678,16 +680,20 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 });
             }
         }
+        console.log("1");
         for (var i=0;i<nodesToDestroy.length;i++) {
             var node = nodesToDestroy[i]
             node.set('id',node.get('at')+'_'+node.get('gid'));
+            Ext.suspendLayouts();
             node.parentNode.removeChild(node,false);
+            Ext.resumeLayouts(true);
         }
         var datasetId = Ext.ComponentQuery.query('#seldataset')[0].getValue();
         var featureLayers = Ext.StoreMgr.lookup('dataset').getById(datasetId).get('featureLayers');
 
         var currentId = null;
         var areasToAppend = [];
+        console.log("2");
         for (var i = 0;i<add.length;i++) {
             var area = add[i];
             var loc = area.loc;
@@ -697,6 +703,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
             var prevAt = featureLayers[prevAtIndex];
             var parentgid = area.parentgid;
             var foundNode = null;
+            console.log("2a");
             root.cascadeBy(function(node) {
                 if (!parentgid && node==root) {
                     foundNode = node;
@@ -708,6 +715,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
                     return false;
                 }
             });
+            console.log("2b");
             if (foundNode) {
                 changed = true;
                 area.id = area.at+'_'+area.gid;
@@ -717,13 +725,21 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
                 areasToAppend.push(area);
                 if (foundNode.internalId != currentId || i ==  (add.length-1)){
+                    Ext.suspendLayouts();
+                    //foundNode.suspendEvents();
                     foundNode.appendChild(areasToAppend);
+                    //foundNode.resumeEvents();
+                    Ext.resumeLayouts(true);
                     areasToAppend = [];
                     currentId = foundNode.internalId;
                 }
             }
+            console.log("2c");
         }
+        console.log("3");
+
         tree.resumeEvents();
+
         tree.view.dontRefreshSize = false;
         if (changed) {
             //Ext.StoreMgr.lookup('area').sort();

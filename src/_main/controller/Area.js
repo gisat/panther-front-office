@@ -129,7 +129,9 @@ Ext.define('PumaMain.controller.Area', {
 		var needChange = false;
 		this.getController('DomManipulation').activateLoadingMask();
 		var tree = Ext.ComponentQuery.query('#areatree')[0];
+
 		tree.suspendEvents();
+
 		var areaRoot = Ext.StoreMgr.lookup('area').getRootNode();
 		var lastAt = null;
 		for (var loc in this.lowestMap) {
@@ -144,6 +146,7 @@ Ext.define('PumaMain.controller.Area', {
 			return;
 		}
 
+		console.log("0b");
 		var layerRef = "";
 		areaRoot.cascadeBy(function(node) {
 			var at = node.get('at');
@@ -158,12 +161,16 @@ Ext.define('PumaMain.controller.Area', {
 				toExpand[loc][at].push(gid);
 				needQuery = true;
 			}
+			Ext.suspendLayouts();
 			node.suppress = true;
 			node.expand();
 			node.suppress = false;
+			Ext.resumeLayouts(true);
 		});
+
 		tree.resumeEvents();
 
+		console.log("0c");
 		if (needQuery) {
 			this.detailLevelParents = toExpand;
 			this.getController('LocationTheme').onYearChange({itemId:'detaillevel'});
