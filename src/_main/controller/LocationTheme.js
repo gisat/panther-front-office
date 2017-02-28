@@ -680,7 +680,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 });
             }
         }
-        console.log("1");
         for (var i=0;i<nodesToDestroy.length;i++) {
             var node = nodesToDestroy[i]
             node.set('id',node.get('at')+'_'+node.get('gid'));
@@ -693,7 +692,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
         var currentId = null;
         var areasToAppend = [];
-        console.log("2");
         for (var i = 0;i<add.length;i++) {
             var area = add[i];
             var loc = area.loc;
@@ -703,7 +701,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
             var prevAt = featureLayers[prevAtIndex];
             var parentgid = area.parentgid;
             var foundNode = null;
-            console.log("2a");
             root.cascadeBy(function(node) {
                 if (!parentgid && node==root) {
                     foundNode = node;
@@ -715,7 +712,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
                     return false;
                 }
             });
-            console.log("2b");
             if (foundNode) {
                 changed = true;
                 area.id = area.at+'_'+area.gid;
@@ -734,9 +730,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
                     currentId = foundNode.internalId;
                 }
             }
-            console.log("2c");
         }
-        console.log("3");
 
         tree.resumeEvents();
 
