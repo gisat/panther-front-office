@@ -183,6 +183,11 @@ define([
             '<img alt="' + name + '" src="__new/img/'+ tool +'.png"/>' +
             '</div>');
         this.addSettingsListener();
+
+        this._settings = new Settings({
+            target: this._target,
+            widgetId: this._widgetId
+        });
     };
 
 	/**
@@ -203,11 +208,7 @@ define([
      * Rebuild settings with given attributes, get all categories (one category per attribute) and rebuild the inputs (one input per attribute - slider, checkbox or select menu).
      */
     EvaluationWidget.prototype.rebuildViewAndSettings = function(){
-        this._settings = new Settings({
-            attributes: this._attributes,
-            target: this._target,
-            widgetId: this._widgetId
-        });
+        this._settings.rebuild(this._attributes);
         this._categories = this._settings.getCategories();
         this.setAttributesState(this._categories);
         this.rebuildInputs(this._categories);

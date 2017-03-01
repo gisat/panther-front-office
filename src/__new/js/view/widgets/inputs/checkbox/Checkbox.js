@@ -25,6 +25,7 @@ define(['../../../../error/ArgumentError',
      * @param options.dataId {string}
      * @param options.id {string} ID of the checkbox
      * @param options.class {string} Class of the checkbox
+     * @param options.parentCheckbox {string} id of the parent checkbox
      * @param options.name {string} Checkbox label
      * @param options.target {Object} JQuery object representing the target element where should be the checkbox rendered
      * @constructor
@@ -53,6 +54,11 @@ define(['../../../../error/ArgumentError',
             this._class = options.class;
         }
 
+        this._parentCheckbox = "";
+        if (options.hasOwnProperty("parentCheckbox")){
+            this._parentCheckbox = options.parentCheckbox;
+        }
+
         this.build();
     };
 
@@ -75,6 +81,11 @@ define(['../../../../error/ArgumentError',
         if (this._checked){
             $("#" + this._id).addClass("checked");
         }
+
+        if (this._parentCheckbox){
+            $("#" + this._id).attr("data-parent-checkbox", this._parentCheckbox);
+        }
+
         this.addListeners(this._id);
     };
 

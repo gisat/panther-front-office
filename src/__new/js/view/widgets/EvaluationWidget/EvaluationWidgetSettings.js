@@ -30,10 +30,19 @@ define([
 
 	EvaluationWidgetSettings.prototype = Object.create(Settings.prototype);
 
-	EvaluationWidgetSettings.prototype.build = function(){
+	/**
+	 * Rebuild settings with current list of attributes
+	 * @param attributes {Array}
+	 */
+	EvaluationWidgetSettings.prototype.rebuild = function(attributes){
+		this._attributes = attributes;
 		this._categories = {};
+
 		this.addCategories();
+		this.addCheckboxChangeListener();
+		this.addMultiCheckListener();
 		this.addMultioptionsChangeListener();
+		this.reviewCheckboxesState();
 	};
 
 	/**
@@ -42,15 +51,17 @@ define([
 	EvaluationWidgetSettings.prototype.addCategories = function(){
 		this._settingsBody = $('#' + this._id + ' .tool-window-body');
 		this._settingsBody.html("");
-		this.addCheckbox("settings-all-attributes", "All attributes", "all-attributes-row", "", true);
+		this.addCheckbox(this._id + "-all-attributes", "All attributes", "all-attributes-row", "", true, "");
 		var asName = "";
+		var asId = "";
 		var asDataId = null;
 		var self = this;
 		this._attributes.forEach(function(attribute){
 			if (attribute.about.attributeSet != asDataId){
 				asName = attribute.about.attributeSetName;
 				asDataId = attribute.about.attributeSet;
-				self.addCheckbox("settings-as-" + asDataId, asName, "attribute-set-row", "as-" + asDataId, true);
+				asId = self._id + "-as-" + asDataId;
+				self.addCheckbox(asId, asName, "attribute-set-row", "as-" + asDataId, true, self._id + "-all-attributes");
 			}
 			var type = attribute.about.attributeType;
 			var name = attribute.about.attributeName;
@@ -80,7 +91,7 @@ define([
 			}
 
 			var asAttrDataID = "as-" + asDataId + "-attr-" + attrDataId;
-			self.addCheckbox('settings-' + asAttrDataID, name4Settings, "attribute-row", asAttrDataID, active);
+			self.addCheckbox(self._id + '-' + asAttrDataID, name4Settings, "attribute-row", asAttrDataID, active, asId);
 			self._categories[asAttrDataID] = {
 				attrData: attribute,
 				name: name,
@@ -113,7 +124,6 @@ define([
 	 */
 	EvaluationWidgetSettings.prototype.rebuildAttributesState = function(){
 		var self = this;
-		var allAttributesCheckbox = $('#settings-all-attributes');
 		var checkedAttributes = 0;
 		var allAttributes = 0;
 		setTimeout(function(){
@@ -141,23 +151,8 @@ define([
 
 				allAttributes++;
 			});
-
-			// review the state of all attributes checkbox and confirm button
-			var confirmButton = $('#' + self._id + ' .settings-confirm');
-			if (checkedAttributes > 0){
-				confirmButton.attr("disabled", false);
-				if (checkedAttributes == allAttributes){
-					if (!allAttributesCheckbox.hasClass("checked")){
-						allAttributesCheckbox.addClass("checked");
-					}
-				}
-			} else {
-				confirmButton.attr("disabled", true);
-				if (allAttributesCheckbox.hasClass("checked")){
-					allAttributesCheckbox.removeClass("checked");
-				}
-			}
-		},100);
+			self.reviewCheckboxesState();
+		},50);
 	};
 
 	return EvaluationWidgetSettings;
