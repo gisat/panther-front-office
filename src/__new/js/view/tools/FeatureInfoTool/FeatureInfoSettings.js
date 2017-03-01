@@ -42,6 +42,9 @@ define([
 		this.prepareSelectedAttributes();
 	};
 
+	/**
+	 * Rebuild body with a list of all attributes
+	 */
 	FeatureInfoSettings.prototype.rebuildBody = function(){
 		this._settingsBody = $('#' + this._id + ' .tool-window-body');
 		this._settingsBody.html("");
@@ -86,7 +89,7 @@ define([
 	};
 
 	/**
-	 * @returns {Array}
+	 * Prepare list of selected attributes
 	 */
 	FeatureInfoSettings.prototype.prepareSelectedAttributes = function(){
 		this._selectedAttributes = [];
@@ -104,6 +107,12 @@ define([
 				self._selectedAttributes.push(self._attributesForSettings[id].data);
 			}
 		});
+
+		// TODO sometimes, there is none active attribute, then add all available attributes
+		if (this._selectedAttributes.length == 0){
+			this._selectedAttributes = this._originalAttributes;
+			$('#' + this._id + '-all-attributes').trigger("click");
+		}
 		this.reviewCheckboxesState();
 	};
 
