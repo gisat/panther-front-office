@@ -6,6 +6,8 @@ define(['../../../error/ArgumentError',
 	'../../../util/MapExport',
 	'../../../util/viewUtils',
 
+	'./FeatureInfoSettings',
+
 	'jquery',
 	'string',
 	'text!./FeatureInfoWindow.html',
@@ -17,6 +19,8 @@ define(['../../../error/ArgumentError',
 			 Filter,
 			 MapExport,
 			 viewUtils,
+
+			 FeatureInfoSettings,
 
 			 $,
 			 S,
@@ -50,11 +54,17 @@ define(['../../../error/ArgumentError',
 	 * @param gid {string}
 	 */
 	FeatureInfoWindow.prototype.rebuild = function(attributes, gid){
-		var self = this;
-		this._attributes = attributes;
+		this._settings.rebuild(attributes);
+		this._selectedAttributes = this._settings.getSelectedAttributes();
 
+		this._gid = gid;
+		this.redraw(this._selectedAttributes);
+	};
+
+	FeatureInfoWindow.prototype.redraw = function(attributes){
+		var self = this;
 		this.handleLoading("show");
-		new Filter().featureInfo(attributes, gid).then(function(info){
+		new Filter().featureInfo(attributes, this._gid).then(function(info){
 			var content = "";
 			var attributes = info[0].attributes;
 			attributes.forEach(function(item){
@@ -72,7 +82,7 @@ define(['../../../error/ArgumentError',
 			});
 			self._infoWindow.find(".feature-info-title").html(info[0].name + " (" + info[0].gid + ")");
 			self._infoWindow.find(".feature-info-window-body table").html(content);
-			self.addExportListener(self._attributes, gid);
+			self.addExportListener(self._attributes, self._gid);
 			self.handleLoading("hide");
 		});
 	};
@@ -89,6 +99,23 @@ define(['../../../error/ArgumentError',
 
 		this.addCloseListener();
 		this.makeDraggable();
+
+		this._settings = this.buildSettings();
+		this._settingsConfirm = this._settings.getConfirmButton();
+
+		this.addSettingsOpenListener();
+		this.addSettingsChangeListener();
+	};
+
+	/**
+	 * Build settings window
+	 * @returns {FeatureInfoSettings}
+	 */
+	FeatureInfoWindow.prototype.buildSettings = function(){
+		return new FeatureInfoSettings({
+			target: this._target,
+			widgetId: this._id
+		});
 	};
 
 	/**
@@ -161,6 +188,28 @@ define(['../../../error/ArgumentError',
 			top: coordinates.y + mapOffsetTop + 5,
 			left: coordinates.x + 5
 		});
+	};
+
+	/**
+	 * It adds onclick listener to settings tool for opening of the settings dialog window
+	 */
+	FeatureInfoWindow.prototype.addSettingsOpenListener = function() {
+		var self = this;
+		$(".feature-info-settings").on("click", function(){
+			$('#' + self._id + '-settings').show("drop", {direction: "up"}, 200)
+				.addClass('open');
+		});
+	};
+
+	/**
+	 * It adds the onclick listener to the settings dialog window for rebuilding of the feature info view
+	 */
+	FeatureInfoWindow.prototype.addSettingsChangeListener = function(){
+		var self = this;
+		this._settingsConfirm.on("click",function(){
+			self._selectedAttributes = self._settings.getSelectedAttributes();
+			self.redraw(self._selectedAttributes);
+		})
 	};
 
 	/**

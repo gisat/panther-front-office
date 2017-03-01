@@ -120,12 +120,9 @@ define([
 
 	/**
 	 * Rebuild info about current state of attribute, if it's active or not.
-	 * Handle state of atribute sets checkboxes and All attributes checkbox.
 	 */
 	EvaluationWidgetSettings.prototype.rebuildAttributesState = function(){
 		var self = this;
-		var checkedAttributes = 0;
-		var allAttributes = 0;
 		setTimeout(function(){
 			var attributeRows = $('#' + self._id + ' .attribute-row');
 			attributeRows.each(function(){
@@ -133,11 +130,6 @@ define([
 				var id = $(this).attr('data-id');
 				var multiToggle = $(this).find(".multioptions .switch > input:checked");
 				var multioptions = false;
-
-				// if checked, increment counter
-				if (checked){
-					checkedAttributes++;
-				}
 
 				// multioptons active?
 				if (multiToggle.length){
@@ -148,8 +140,6 @@ define([
 				self._categories[id].active = checked;
 				self._categories[id].multioptions = multioptions;
 				self._categories[id].attrData.about.active = checked;
-
-				allAttributes++;
 			});
 			self.reviewCheckboxesState();
 		},50);
