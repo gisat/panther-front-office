@@ -9,7 +9,7 @@ define([
     '../inputs/multiselectbox/MultiSelectBox',
 	'../../../util/Remote',
     '../inputs/selectbox/SelectBox',
-    '../widgetTools/settings/Settings',
+    './EvaluationWidgetSettings',
     '../inputs/sliderbox/SliderBox',
 	'../../../stores/Stores',
     '../Widget',

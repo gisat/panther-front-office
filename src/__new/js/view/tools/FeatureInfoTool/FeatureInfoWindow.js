@@ -91,6 +91,9 @@ define(['../../../error/ArgumentError',
 		this.makeDraggable();
 	};
 
+	/**
+	 * Make window draggable
+	 */
 	FeatureInfoWindow.prototype.makeDraggable = function(){
 		this._infoWindow.draggable({
 			containment: "body",

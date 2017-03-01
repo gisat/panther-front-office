@@ -1,8 +1,8 @@
 define([
-    '../../../../error/ArgumentError',
-    '../../../../error/NotFoundError',
-    '../../inputs/checkbox/Checkbox',
-    '../../../../util/Logger',
+    '../../error/ArgumentError',
+    '../../error/NotFoundError',
+    '../widgets/inputs/checkbox/Checkbox',
+    '../../util/Logger',
 
     'jquery',
     'string',
@@ -36,23 +36,21 @@ define([
         this._target = options.target;
         this._id = options.widgetId + '-settings';
 
-        this._categories = {};
-        this.build();
+        this.buildContent();
     };
 
     /**
      * Build the settings window, fill it with data and add listeners
      */
-    Settings.prototype.build = function(){
+    Settings.prototype.buildContent = function(){
         var html = S(htmlContent).template({id: this._id}).toString();
         if (!$("#" + this._id).length){
             this._target.append(html);
         }
 
-        this.addCategories();
+        this.build();
         this.addCheckboxChangeListener();
         this.addMultiCheckListener();
-        this.addMultioptionsChangeListener();
         this.addCloseListener();
         this.addDragging();
     };
@@ -63,61 +61,6 @@ define([
      */
     Settings.prototype.getConfirmButton = function(){
         return $("#" + this._id + " .settings-confirm");
-    };
-
-    /**
-     * Add the categories for filtering
-     */
-    Settings.prototype.addCategories = function(){
-        this._settingsBody = $('#' + this._id + ' .tool-window-body');
-        this._settingsBody.html("");
-        this.addCheckbox("settings-all-attributes", "All attributes", "all-attributes-row", "", true);
-        var asName = "";
-        var asDataId = null;
-        var self = this;
-        this._attributes.forEach(function(attribute){
-            if (attribute.about.attributeSet != asDataId){
-                asName = attribute.about.attributeSetName;
-                asDataId = attribute.about.attributeSet;
-                self.addCheckbox("settings-as-" + asDataId, asName, "attribute-set-row", "as-" + asDataId, true);
-            }
-            var type = attribute.about.attributeType;
-            var name = attribute.about.attributeName;
-            var name4Settings = name;
-            var attrDataId = attribute.about.attribute;
-            var input = "";
-            var active = JSON.parse(attribute.about.active);
-
-            if (type == "boolean"){
-                input = "checkbox";
-                name4Settings = name4Settings + " <i>(Yes/No)</i>";
-            }
-            else if (type == "numeric") {
-                input = "slider";
-                name4Settings = name4Settings + " <i>(Range)</i> ";
-            }
-            else if (type == "text") {
-                input = "select";
-                name4Settings = name4Settings + " <i>(Category)</i>" +
-                    "<div class='multioptions'>" +
-                        "<span>Multioptions:</span>" +
-                        "<label class='switch'>" +
-                            "<input type='checkbox' class='multioptions-input'>" +
-                            "<div class='slider-toggle'></div>" +
-                        "</label>" +
-                    "</div>";
-            }
-
-            var asAttrDataID = "as-" + asDataId + "-attr-" + attrDataId;
-            self.addCheckbox('settings-' + asAttrDataID, name4Settings, "attribute-row", asAttrDataID, active);
-            self._categories[asAttrDataID] = {
-                attrData: attribute,
-                name: name,
-                input: input,
-                active: active,
-                multioptions: false
-            };
-        });
     };
 
     /**
@@ -139,14 +82,6 @@ define([
             name: name,
             target: this._settingsBody
         });
-    };
-
-    /**
-     * It returns selected categories (filters)
-     * @returns {Object}
-     */
-    Settings.prototype.getCategories = function(){
-        return this._categories;
     };
 
     /**
@@ -212,67 +147,6 @@ define([
     Settings.prototype.addCheckboxChangeListener = function(){
         $('#' + this._id).find(".checkbox-row").off("click.changeAttributeState")
             .on("click.changeAttributeState", this.rebuildAttributesState.bind(this));
-    };
-
-    /**
-     * Add listener on multioptions change
-     */
-    Settings.prototype.addMultioptionsChangeListener = function(){
-        $('#' + this._id).find(".multioptions-input").off("click.changeMultioptions")
-            .on("click.changeMultioptions", this.rebuildAttributesState.bind(this));
-    };
-
-	/**
-     * Rebuild info about current state of attribute, if it's active or not.
-     * Handle state of atribute sets checkboxes and All attributes checkbox.
-     */
-    Settings.prototype.rebuildAttributesState = function(){
-        var self = this;
-        var allAttributesCheckbox = $('#settings-all-attributes');
-        var checkedAttributes = 0;
-        var allAttributes = 0;
-        setTimeout(function(){
-            var attributeRows = $('#' + self._id + ' .attribute-row');
-            attributeRows.each(function(){
-                var checked = $(this).hasClass("checked");
-                var id = $(this).attr('data-id');
-                var multiToggle = $(this).find(".multioptions .switch > input:checked");
-                var multioptions = false;
-
-                // if checked, increment counter
-                if (checked){
-                    checkedAttributes++;
-                }
-
-                // multioptons active?
-                if (multiToggle.length){
-                    multioptions = true;
-                }
-
-                // set state of attribute
-                self._categories[id].active = checked;
-                self._categories[id].multioptions = multioptions;
-                self._categories[id].attrData.about.active = checked;
-
-                allAttributes++;
-            });
-
-            // review the state of all attributes checkbox and confirm button
-            var confirmButton = $('#' + self._id + ' .settings-confirm');
-            if (checkedAttributes > 0){
-                confirmButton.attr("disabled", false);
-                if (checkedAttributes == allAttributes){
-                    if (!allAttributesCheckbox.hasClass("checked")){
-                        allAttributesCheckbox.addClass("checked");
-                    }
-                }
-            } else {
-                confirmButton.attr("disabled", true);
-                if (allAttributesCheckbox.hasClass("checked")){
-                    allAttributesCheckbox.removeClass("checked");
-                }
-            }
-        },100);
     };
 
 	/**

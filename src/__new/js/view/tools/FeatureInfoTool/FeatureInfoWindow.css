@@ -29,9 +29,11 @@
 #feature-info-window .feature-info-title {
 	float: left;
 }
-#feature-info-window .feature-info-close {
+#feature-info-window .feature-info-close,
+#feature-info-window .feature-info-settings {
 	cursor: pointer;
 	float: right;
+	margin-left: .15rem;
 	width: 18px;
 }
 #feature-info-window .feature-info-window-body {
