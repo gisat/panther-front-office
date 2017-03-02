@@ -28,13 +28,20 @@
 }
 #feature-info-window .feature-info-title {
 	float: left;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: calc(100% - 45px);
 }
 #feature-info-window .feature-info-close,
 #feature-info-window .feature-info-settings {
 	cursor: pointer;
 	float: right;
-	margin-left: .15rem;
+	margin-left: .1rem;
 	width: 18px;
+}
+#feature-info-window .feature-info-settings img {
+	width: 14px;
 }
 #feature-info-window .feature-info-window-body {
 	margin: 0 .2rem .2rem 0;

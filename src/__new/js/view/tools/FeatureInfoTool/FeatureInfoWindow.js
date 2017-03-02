@@ -80,7 +80,9 @@ define(['../../../error/ArgumentError',
 
 				content += '<tr><td><i>' + item.asName + '</i>: ' + item.name + units + '</td><td>' + value + '</td></tr>';
 			});
-			self._infoWindow.find(".feature-info-title").html(info[0].name + " (" + info[0].gid + ")");
+			self._infoWindow.find(".feature-info-title")
+				.html(info[0].name + " (" + info[0].gid + ")")
+				.attr("title", info[0].name + " (" + info[0].gid + ")");
 			self._infoWindow.find(".feature-info-window-body table").html(content);
 			self.addExportListener(self._attributes, self._gid);
 			self.handleLoading("hide");
@@ -88,7 +90,7 @@ define(['../../../error/ArgumentError',
 	};
 
 	/**
-	 * Build basic structure of info window
+	 * Build basic structure of info window and attach listeners
 	 */
 	FeatureInfoWindow.prototype.build = function(){
 		var html = S(htmlContent).template({
