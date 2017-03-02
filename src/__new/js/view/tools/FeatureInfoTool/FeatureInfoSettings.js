@@ -38,7 +38,6 @@ define([
 		this.rebuildBody();
 		this.addCheckboxChangeListener();
 		this.addMultiCheckListener();
-
 		this.prepareSelectedAttributes();
 	};
 
@@ -54,6 +53,7 @@ define([
 		var asName = "";
 		var asId = "";
 		var asDataId = null;
+		var atLeastOneSelected = false;
 		var self = this;
 		this._originalAttributes.forEach(function(attribute){
 			if (attribute.attributeSet != asDataId){
@@ -67,7 +67,6 @@ define([
 			var name = attribute.attributeName;
 			var attrDataId = attribute.attribute;
 			var active = attribute.active;
-
 			var asAttrDataID = "as-" + asDataId + "-attr-" + attrDataId;
 
 			// add checkbox for attribute
@@ -77,7 +76,19 @@ define([
 				data: attribute,
 				active: active
 			};
+
+			if (active){
+				atLeastOneSelected = true;
+			}
 		});
+
+		// TODO when none of attributes is active (why?) select them all
+		if (!atLeastOneSelected){
+			var attributeRows = $('#' + this._id + ' .attribute-row');
+			attributeRows.each(function(){
+				$(this).addClass("checked");
+			});
+		}
 	};
 
 	/**
@@ -107,12 +118,6 @@ define([
 				self._selectedAttributes.push(self._attributesForSettings[id].data);
 			}
 		});
-
-		// TODO sometimes, there is none active attribute, then add all available attributes
-		if (this._selectedAttributes.length == 0){
-			this._selectedAttributes = this._originalAttributes;
-			$('#' + this._id + '-all-attributes').trigger("click");
-		}
 		this.reviewCheckboxesState();
 	};
 
