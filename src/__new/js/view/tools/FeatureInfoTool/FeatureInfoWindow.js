@@ -112,7 +112,7 @@ define(['../../../error/ArgumentError',
 			.html(data[0].name + " (" + data[0].gid + ")")
 			.attr("title", data[0].name + " (" + data[0].gid + ")");
 		this._infoWindow.find(".feature-info-window-body table").html(content);
-		this.addExportListener(this._attributes, this._gid);
+		this.addExportListener(this._selectedAttributes, this._gid);
 		this.handleLoading("hide");
 	};
 
@@ -139,6 +139,7 @@ define(['../../../error/ArgumentError',
 
 	/**
 	 * Add listener for downloading feature data
+	 * @param attributes {Array} List of attributes
 	 * @param gid {string} Id of area
 	 */
 	FeatureInfoWindow.prototype.addExportListener = function(attributes, gid){
