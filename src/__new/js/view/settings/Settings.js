@@ -59,6 +59,14 @@ define([
     };
 
     /**
+     * Close window
+     */
+    Settings.prototype.close = function(){
+        $('#' + this._id).hide("drop", {direction: "up"}, 200)
+            .removeClass("open");
+    };
+
+    /**
      * It returns the checkbox row
      * @param id {string} id of the checkbox row
      * @param name {string} label
@@ -99,10 +107,7 @@ define([
      */
     Settings.prototype.addCloseListener = function(){
         var self = this;
-        $('#' + this._id + ' .window-close, #' + this._id + ' .settings-confirm').off("click").on("click", function(){
-            $('#' + self._id).hide("drop", {direction: "up"}, 200)
-                .removeClass("open");
-        });
+        $('#' + this._id + ' .window-close, #' + this._id + ' .settings-confirm').off("click").on("click", self.close.bind(self));
     };
 
 	/**
