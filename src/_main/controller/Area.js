@@ -54,14 +54,22 @@ Ext.define('PumaMain.controller.Area', {
 		};
 	},
 
+	/**
+	 * Show/hide loading overlay
+	 * @param display {string} CSS display value
+	 */
+	showLoading: function(display){
+		$("#loading-screen").css({
+			display: display,
+			background: "radial-gradient(rgba(230, 230, 230, .85), rgba(180, 180, 180, .85))"
+		});
+	},
+
 	// New URBIS function for detecting areas change
 	newAreasChange: function(){
 		var self = this;
 		AreasExpanding = true;
-		$("#loading-screen").css({
-			display: "block",
-			background: "radial-gradient(rgba(230, 230, 230, .85), rgba(180, 180, 180, .85))"
-		});
+		this.showLoading("block");
 		setTimeout(function(){
 			// current areas
 			var level = ThemeYearConfParams.auCurrentAt;
@@ -117,9 +125,7 @@ Ext.define('PumaMain.controller.Area', {
 	// new URBIS function for change notifying
 	newNotifyChange: function(){
 		Observer.notify('rebuild');
-		$("#loading-screen").css({
-			display: "none"
-		});
+		this.showLoading("none");
 	},
 	
 	onShowMoreDetailed: function() {
@@ -127,7 +133,7 @@ Ext.define('PumaMain.controller.Area', {
 		var toExpand = {};
 		var needQuery = false;
 		var needChange = false;
-		this.getController('DomManipulation').activateLoadingMask();
+		this.showLoading("block");
 		var tree = Ext.ComponentQuery.query('#areatree')[0];
 
 		tree.suspendEvents();
@@ -142,7 +148,7 @@ Ext.define('PumaMain.controller.Area', {
 			break;
 		}
 		if (!lastAt) {
-			this.getController('DomManipulation').deactivateLoadingMask();
+			this.showLoading("none");
 			return;
 		}
 
@@ -175,16 +181,17 @@ Ext.define('PumaMain.controller.Area', {
 			this.detailLevelParents = null;
 		} else if (needChange) {
 			this.scanTree();
-			this.getController('DomManipulation').deactivateLoadingMask();
+			this.showLoading("none");
 			this.getController('Chart').reconfigureAll();
 			this.getController('Layers').reconfigureAll();
 		} else {
-			this.getController('DomManipulation').deactivateLoadingMask();
+			this.showLoading("none");
 		}
 	},
    
 		
 	onShowLessDetailed: function() {
+		this.showLoading("block");
 		ThemeYearConfParams.actions.push("detaillevel");
 		var nodesToCollapse = [];
 		var tree = Ext.ComponentQuery.query('#areatree')[0];
@@ -202,7 +209,7 @@ Ext.define('PumaMain.controller.Area', {
 			return;
 		}
 
-		this.getController('DomManipulation').activateLoadingMask();
+		this.getController('Area').showLoading("block");
 		areaRoot.cascadeBy(function(node) {
 			var at = node.get('at');
 			if (at!=lastAt || !node.parentNode.get('expanded') || !node.parentNode.get('gid')){
@@ -218,9 +225,9 @@ Ext.define('PumaMain.controller.Area', {
 		tree.resumeEvents();
 		if (nodesToCollapse.length) {
 			this.afterCollapse(tree);
-			this.getController('DomManipulation').deactivateLoadingMask();
+			this.showLoading("none");
 		} else {
-			this.getController('DomManipulation').activateLoadingMask();
+			this.showLoading("block");
 		}
 	},
 

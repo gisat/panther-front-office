@@ -260,7 +260,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         this.themeChanged = true;
         var themeCombo = null;
         if (cnt.switching) {
-            this.getController('DomManipulation').activateLoadingMask();
+            this.getController('Area').showLoading("block");
             this.getController('DomManipulation').renderApp();
             this.getController('Render').renderApp();
             themeCombo = Ext.ComponentQuery.query('#seltheme')[0];
@@ -329,7 +329,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         ThemeYearConfParams.actions.push(cnt.itemId);
         var val = Ext.ComponentQuery.query('#selyear')[0].getValue();
         if (!val.length || cnt.eventsSuspended) {
-            this.getController('DomManipulation').deactivateLoadingMask();
+            this.getController('Area').showLoading("none");
             return;
         }
         if (cnt.itemId=='selyear' ) {
@@ -406,7 +406,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
             yearChanged: this.yearChanged,
             success: this.onThemeLocationConfReceived,
             failure: function() {
-                me.getController('DomManipulation').deactivateLoadingMask();
+                me.getController('Area').showLoading("none");
             }
         });
         
@@ -1129,7 +1129,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
             this.getController('Area').zoomToLocation();
         }
         this.getController('Map').updateGetFeatureControl();
-        this.getController('DomManipulation').deactivateLoadingMask();
+        this.getController('Area').showLoading("none");
         
         if (!this.placeInitialChange) {
              var locStore = Ext.StoreMgr.lookup('location4init');
