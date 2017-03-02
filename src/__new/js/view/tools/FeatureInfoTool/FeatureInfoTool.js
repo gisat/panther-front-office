@@ -76,6 +76,7 @@ define(['../../../error/ArgumentError',
 	 */
 	FeatureInfoTool.prototype.rebuild = function(attributes, options) {
 		this.addOnClickListener(attributes, options.olMap);
+		this.deactivateComponents();
 	};
 
 	/**
@@ -96,9 +97,22 @@ define(['../../../error/ArgumentError',
 					self._map.onClickActivate();
 				} else {
 					self._map.onClickDeactivate(self._infoWindow);
+					self._infoWindow._settings.close();
 				}
 			}, 50);
 		});
+	};
+
+	/**
+	 * Deactivate feature info functionality
+	 */
+	FeatureInfoTool.prototype.deactivateComponents = function(){
+		var featureInfoButton = $('.' + this._class);
+		var activated = featureInfoButton.hasClass("x-btn-pressed");
+		if (activated){
+			featureInfoButton.trigger("click");
+			this._infoWindow._settings.close();
+		}
 	};
 
 	return FeatureInfoTool;

@@ -146,7 +146,6 @@ Ext.define('PumaMain.controller.Area', {
 			return;
 		}
 
-		console.log("0b");
 		var layerRef = "";
 		areaRoot.cascadeBy(function(node) {
 			var at = node.get('at');
@@ -170,7 +169,6 @@ Ext.define('PumaMain.controller.Area', {
 
 		tree.resumeEvents();
 
-		console.log("0c");
 		if (needQuery) {
 			this.detailLevelParents = toExpand;
 			this.getController('LocationTheme').onYearChange({itemId:'detaillevel'});
