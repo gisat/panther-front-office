@@ -546,7 +546,7 @@ Ext.define('PumaMain.controller.Area', {
 			if (!at || !loc || !node.isVisible() || node==root){
 				return;
 			}
-			
+
 			var depth = node.getDepth();
 			maxDepth = Math.max(depth,maxDepth);
 			if (node.parentNode==root) {
@@ -595,6 +595,7 @@ Ext.define('PumaMain.controller.Area', {
 				leafMap[loc][at] = false;
 			}
 		});
+
 		if (this.initialized && (changeLocToCustom || !atLeastOneLoc)) {
 			var locStore = Ext.StoreMgr.lookup('location4init');
 			var customRec = locStore.getById('custom');

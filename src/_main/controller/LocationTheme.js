@@ -691,7 +691,9 @@ Ext.define('PumaMain.controller.LocationTheme', {
         var featureLayers = Ext.StoreMgr.lookup('dataset').getById(datasetId).get('featureLayers');
 
         var currentId = null;
+        var previousNode = null;
         var areasToAppend = [];
+
         for (var i = 0;i<add.length;i++) {
             var area = add[i];
             var loc = area.loc;
@@ -716,19 +718,19 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 changed = true;
                 area.id = area.at+'_'+area.gid;
                 //foundNode.suspendEvents();
-                //foundNode.appendChild(area);
-                 //foundNode.resumeEvents();
+                // foundNode.appendChild(area);
+                //foundNode.resumeEvents();
 
                 areasToAppend.push(area);
-                if (foundNode.internalId != currentId || i ==  (add.length-1)){
-                    Ext.suspendLayouts();
-                    //foundNode.suspendEvents();
-                    foundNode.appendChild(areasToAppend);
-                    //foundNode.resumeEvents();
-                    Ext.resumeLayouts(true);
+                if (foundNode.internalId != currentId && i!=0){
+                    previousNode.appendChild(areasToAppend);
                     areasToAppend = [];
-                    currentId = foundNode.internalId;
+                } else if (i ==  (add.length-1)){
+                    foundNode.appendChild(areasToAppend);
+                    areasToAppend = [];
                 }
+                currentId = foundNode.internalId;
+                previousNode = foundNode;
             }
         }
 
