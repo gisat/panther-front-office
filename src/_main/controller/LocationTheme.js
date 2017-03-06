@@ -248,6 +248,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
             console.info("Access not allowed. You have to agree with Agreement.");
             return;
         }
+        this.getController('Area').showLoading("block");
         var val = Ext.ComponentQuery.query('#initialtheme')[0].getValue();
         this.onThemeChange({switching:true},val);
     },
@@ -329,7 +330,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         ThemeYearConfParams.actions.push(cnt.itemId);
         var val = Ext.ComponentQuery.query('#selyear')[0].getValue();
         if (!val.length || cnt.eventsSuspended) {
-            this.getController('Area').showLoading("none");
+            //this.getController('Area').showLoading("none");
             return;
         }
         if (cnt.itemId=='selyear' ) {

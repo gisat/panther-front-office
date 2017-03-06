@@ -280,7 +280,7 @@ Ext.define('PumaMain.controller.Area', {
 		var locObj = this.getLocationObj();
 		var loc = locObj.location;
 		if (locObj.bbox){
-			var bounds = new OpenLayers.Bounds(locObj.bbox.split(","))
+			var bounds = new OpenLayers.Bounds(locObj.bbox.split(","));
 			bounds = bounds.transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));
 			this.getController('Map').zoomToExtent(bounds);
 			return;
