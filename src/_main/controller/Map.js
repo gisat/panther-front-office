@@ -46,6 +46,7 @@ Ext.define('PumaMain.controller.Map', {
 	// URBIS change
 	newGetMap: function(){
 		OlMap.map = this.getOlMap();
+		OlMap.map2 = this.getOlMap2();
 	},
 
 	onExportMapUrl: function(btn) {
@@ -615,6 +616,9 @@ Ext.define('PumaMain.controller.Map', {
 	getOlMap: function(){
 		return this.olMap;
 	},
+	getOlMap2: function(){
+		return this.olMap2;
+	},
 
 	afterRender: function(cmp) {
 		var options = this.getOptions(cmp);
@@ -632,6 +636,7 @@ Ext.define('PumaMain.controller.Map', {
 			this.cursor1 = Ext.get('app-map').down('img')
 		} else {
 			this.map2 = map;
+			this.olMap2 = this.map2;
 			this.olMapMultipleSecond = this.map2;
 			this.cursor2 = Ext.get('app-map2').down('img')
 		}

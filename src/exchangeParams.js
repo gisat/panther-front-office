@@ -69,9 +69,10 @@ var OneLevelAreas = {
 
 /**
  * Object for Map functionality
- * @type {{active: boolean, data: {}, map: {}}}
+ * @type {{active: boolean, data: {}, map: {},  map2: {}}}
  */
 var OlMap = {
 	auRefMap: {},
-	map: {}
+	map: {},
+	map2: {}
 };

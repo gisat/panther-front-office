@@ -149,7 +149,6 @@ define(['../../../error/ArgumentError',
 		} else {
 			locations = ThemeYearConfParams.allPlaces;
 		}
-
 		this._mapExport = new MapExport({
 			attributes: JSON.stringify(attributes),
 			places: JSON.stringify(locations),
