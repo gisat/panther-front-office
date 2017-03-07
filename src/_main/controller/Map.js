@@ -431,7 +431,6 @@ Ext.define('PumaMain.controller.Map', {
 		}
 		var x = e.x - e.element.offsetParent.offsetLeft + offsetX;
 		var y = e.y - (e.screenY - e.offsetY);
-		console.log(e.screenY - e.offsetY);
 		cursor.setStyle({
 			top: y + 'px',
 			left: x + 'px'

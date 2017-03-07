@@ -211,15 +211,14 @@ define(['../../../error/ArgumentError',
 
 	/**
 	 * Set the position of info window on the screen
-	 * @param coordinates {Object}
-	 * @param coordinates.x {number}
-	 * @param coordinates.y {number}
+	 * @param x {number}
+	 * @param y {number}
 	 */
-	FeatureInfoWindow.prototype.setScreenPosition = function(coordinates){
+	FeatureInfoWindow.prototype.setScreenPosition = function(x,y){
 		var mapOffsetTop = $('#app-map').offset().top;
 		this._infoWindow.offset({
-			top: coordinates.y + mapOffsetTop + 5,
-			left: coordinates.x + 5
+			top: y + mapOffsetTop + 5,
+			left: x + 5
 		});
 	};
 
