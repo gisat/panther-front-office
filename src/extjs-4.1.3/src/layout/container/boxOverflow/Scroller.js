@@ -143,7 +143,7 @@ Ext.define('Ext.layout.container.boxOverflow.Scroller', {
         var layout = this.layout,
             names = layout.getNames();
 
-        ownerContext.innerCtScrollPos = layout.innerCt.dom['scroll' + names.leftCap];
+        //ownerContext.innerCtScrollPos = layout.innerCt.dom['scroll' + names.leftCap];
 
         this.callParent(arguments);
     },

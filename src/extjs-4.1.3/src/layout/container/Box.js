@@ -346,8 +346,9 @@ Ext.define('Ext.layout.container.Box', {
         }
 
         // Don't allow sizes burned on to the innerCt to influence measurements.
-        style.width = '';
-        style.height = '';
+        // todo solve this performance bottleneck
+        //style.width = '';
+        //style.height = '';
     },
 
     beginLayoutCycle: function (ownerContext, firstCycle) {

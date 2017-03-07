@@ -5,8 +5,8 @@ Ext.define('PumaMain.controller.Layers', {
 	init: function() {
 		this.control({
 			'#layerpanel': {
-				itemclick: this.onLayerClick,
-				checkchange: this.onCheckChange
+				checkchange: this.onCheckChange,
+				itemclick: this.onLayerClick
 			},
 			'#layerpanel tool[type=gear]': {
 				click: this.onConfigure
@@ -768,7 +768,7 @@ Ext.define('PumaMain.controller.Layers', {
 			var props = '';
 			var filtersNull = [];
 			var filtersNotNull = [];
-			if (normalization && normalization != 'none' && normalization != 'year' && !attrs[0].areaUnits) { // normalization != area only in case of stuff.
+			if (normalization && normalization != 'none' && normalization != 'year') { // normalization != area only in case of stuff.
 				var normAttr = normalization == 'area' ? 'area' : '';
 				normAttr = normalization == 'attributeset' ? ('as_' + normAttrSet + '_attr_#attrid#') : normAttr;
 				normAttr = normalization == 'attribute' ? ('as_' + normAttrSet + '_attr_' + normAttribute) : normAttr;
@@ -782,11 +782,7 @@ Ext.define('PumaMain.controller.Layers', {
 
 				props = new OpenLayers.Filter.Function({name: 'Mul', params: [new OpenLayers.Filter.Function({name: 'Div', params: ['${#attr#}', normAttr]}), factor]});
 			} else {
-				if(attrs[0].areaUnits) {
-					props = new OpenLayers.Filter.Function({name: 'Mul', params: ['${#attr#}', 1 / factor]});
-				} else {
-					props = new OpenLayers.Filter.Function({name: 'Mul', params: ['${#attr#}', factor]});
-				}
+				props = new OpenLayers.Filter.Function({name: 'Mul', params: ['${#attr#}', factor]});
 			}
 			if (params['zeroesAsNull']) {
 				filtersNull.push(new OpenLayers.Filter.Comparison({type: '==', property: '#attr#', value: 0}));
@@ -950,7 +946,8 @@ Ext.define('PumaMain.controller.Layers', {
 		return namedLayers;
 	},
 
-	onLayerClick: function(panel,rec) {},
+	onLayerClick: function(panel,rec) {
+	},
 
 	/**
 	 * It adds choropleth as layer for potentially both maps.
@@ -1193,6 +1190,23 @@ Ext.define('PumaMain.controller.Layers', {
 
 		this.resetIndexes();
 		this.onLayerDrop();
+
+		if (checked){
+			if (layer1.initialized) {
+				this.showLayerOnTop(layer1);
+			}
+			if (layer2.initialized) {
+				this.showLayerOnTop(layer2);
+			}
+		}
+	},
+
+	/**
+	 * Move the layer on the top of the map
+	 * @param layer {OpenLayers.Layer}
+	 */
+	showLayerOnTop: function(layer){
+		$(layer.div).css("z-index", 1000);
 	},
 
 	/**

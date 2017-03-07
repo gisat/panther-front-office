@@ -461,9 +461,7 @@
 }
 .newDesign #app-tools-actions span {
     color: #555;
-}
-.newDesign .btn-map-tool span.x-btn-inner {
-    color: #555;
+    top: 5px;
 }
 
 /* box toggles */
@@ -720,15 +718,51 @@
 /* map widgetTools buttons */
 .newDesign .x-btn.btn-map-tool {
     background: #fff !important;
+    margin-bottom: 5px;
 }
 .newDesign .x-btn.btn-map-tool:hover {
     background: #eee !important;
 }
+.newDesign .btn-map-tool span.x-btn-inner {
+    color: #555;
+    word-wrap: break-word;
+    white-space: normal;
+    padding-top: 43px;
+    font-weight: 500;
+    line-height: 1.3 !important;
+    font-size: 11px;
+}
+.newDesign .x-btn.btn-map-tool button .x-btn-icon {
+    top: 13px;
+}
+.newDesign .x-btn.btn-tool-feature-info button .x-btn-icon {
+    background-size: 20px;
+    width: 20px;
+    margin-left: -7px;
+}
+.newDesign .x-btn.btn-tool-hover button .x-btn-icon {
+    background-size: 15px;
+}
+.newDesign .x-btn.btn-tool-zoom-selected button .x-btn-icon {
+    background-size: 20px;
+}
 .newDesign .x-btn.btn-tool-measure-line button .x-btn-icon {
     background-image: url('../images/new/tools-measure-line.png') !important;
+    background-size: 25px;
 }
 .newDesign .x-btn.btn-tool-measure-polygon button .x-btn-icon {
     background-image: url('../images/new/tools-measure-polygon.png') !important;
+    background-size: 30px;
+}
+.newDesign .x-btn.btn-tool-multiple-maps button .x-btn-icon {
+    background-size: 40px;
+}
+.newDesign .x-btn.btn-tool-save-image button .x-btn-icon {
+    margin-left: -20px;
+    background-size: 30px;
+}
+.newDesign .x-btn-pressed.btn-tool-feature-info button .x-btn-icon {
+    background-image: url(../images/new/tool-feature-info-pressed.png) !important;
 }
 .newDesign .x-btn-pressed.btn-tool-measure-line button .x-btn-icon {
     background-image: url('../images/new/tools-measure-line-pressed.png') !important;

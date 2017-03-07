@@ -76,7 +76,7 @@ define(['./Remote',
 	Filter.prototype.featureInfo = function(attributes, gids){
 		var params = this.prepareParams();
 
-		return $.get( Config.url + "rest/info/attribute", {
+		return $.post( Config.url + "rest/info/attribute", {
 				areaTemplate: params.areaTemplate,
 				periods: params.periods,
 				places: params.locations,

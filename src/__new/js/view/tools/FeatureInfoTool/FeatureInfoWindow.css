@@ -1,5 +1,5 @@
 #feature-info-window {
-	background: rgba(255,255,255,.9);
+	background: rgba(255,255,255,.95);
 	border: 1px solid #ccc;
 	border-radius: .1rem;
 	box-shadow: 0 0 1px rgba(136,136,136,.5);
@@ -24,14 +24,24 @@
 	padding: 0 0 .2rem .1rem;
 	margin-right: .2rem;
 	height: 1.5rem;
+	cursor: move;
 }
 #feature-info-window .feature-info-title {
 	float: left;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: calc(100% - 45px);
 }
-#feature-info-window .feature-info-close {
+#feature-info-window .feature-info-close,
+#feature-info-window .feature-info-settings {
 	cursor: pointer;
 	float: right;
+	margin-left: .1rem;
 	width: 18px;
+}
+#feature-info-window .feature-info-settings img {
+	width: 14px;
 }
 #feature-info-window .feature-info-window-body {
 	margin: 0 .2rem .2rem 0;
@@ -53,8 +63,16 @@
 	border-bottom: 1px solid #ddd;
 }
 #feature-info-window .feature-info-window-body table tr td {
-	font-size: .7rem;
+	font-size: .75rem;
 	padding: .15rem .2rem;
+}
+#feature-info-window .feature-info-window-body table tr td i {
+	color: #888;
+	font-style: normal;
+	font-weight: 500;
+}
+#feature-info-window .feature-info-window-body table tr:hover td {
+	background: rgba(230,230,230,.8);
 }
 #feature-info-window .feature-info-window-body table tr td:first-child {
 	font-weight: 600;

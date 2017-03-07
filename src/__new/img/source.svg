@@ -60,9 +60,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="7.3444444"
-     inkscape:cx="69"
-     inkscape:cy="77"
+     inkscape:zoom="3.9462687"
+     inkscape:cx="155.5"
+     inkscape:cy="68.5"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -980,5 +980,30 @@
        inkscape:export-ydpi="90"
        rx="7"
        ry="7" />
+    <g
+       id="g4808-5"
+       transform="matrix(1.3093436,0,0,1.3093436,-310.2993,-23.418487)"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-close.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90">
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path4683-0-9-0-4-2-0"
+         d="m 317,806.1622 8,8"
+         style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:1.90935373;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+      <path
+         inkscape:export-ydpi="90"
+         inkscape:export-xdpi="90"
+         inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+         sodipodi:nodetypes="cc"
+         inkscape:connector-curvature="0"
+         id="path4683-0-9-0-4-2-3-32"
+         d="m 325,806.1622 -8,8"
+         style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:1.90935373;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    </g>
   </g>
 </svg>

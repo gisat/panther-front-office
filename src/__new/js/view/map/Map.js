@@ -26,6 +26,7 @@ define([
 		if (!this._map){
 			Observer.notify("getMap");
 			this._map = OlMap.map;
+			this._map2 = OlMap.map2;
 		}
 	};
 
@@ -180,20 +181,35 @@ define([
 		var layers = this.getBaseLayersIds();
 		this._attributes = attributes;
 		this._map.selectInMapLayer.params['LAYERS'] = layers.join(',');
+		this._map2.selectInMapLayer.params['LAYERS'] = layers.join(',');
 		if (!this._newInfoControl){
 			this._newInfoControl = new OpenLayers.Control.WMSGetFeatureInfo({
+				id: "feature_info_map1",
 				url: Config.url+'api/proxy/wms',
 				vendorParams: {
-					propertyName: 'gid'
+					propertyName: 'gid',
+					expectJson: true
 				},
 				layers: [this._map.selectInMapLayer]
 			});
+			this._newInfoControl2 = new OpenLayers.Control.WMSGetFeatureInfo({
+				id: "feature_info_map2",
+				url: Config.url+'api/proxy/wms',
+				vendorParams: {
+					propertyName: 'gid',
+					expectJson: true
+				},
+				layers: [this._map2.selectInMapLayer]
+			});
 			this._newInfoControl.events.register("getfeatureinfo", this, this.getInfoAboutArea.bind(this, infoWindow));
+			this._newInfoControl2.events.register("getfeatureinfo", this, this.getInfoAboutArea.bind(this, infoWindow));
 			this._map.addControl(this._newInfoControl);
+			this._map2.addControl(this._newInfoControl2);
 		}
 	};
 
 	Map.prototype.getInfoAboutArea = function(infoWindow, e){
+		//debugger;
 		var allFeatures = JSON.parse(e.text).features;
 		if (allFeatures.length > 0){
 			infoWindow.setVisibility("show");
@@ -209,10 +225,12 @@ define([
 
 	Map.prototype.onClickActivate = function(){
 		this._newInfoControl.activate();
+		this._newInfoControl2.activate();
 	};
 
 	Map.prototype.onClickDeactivate = function(infoWindow){
 		this._newInfoControl.deactivate();
+		this._newInfoControl2.deactivate();
 		infoWindow.setVisibility("hide");
 	};
 
