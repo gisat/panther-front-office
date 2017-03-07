@@ -429,8 +429,13 @@ Ext.define('PumaMain.controller.Map', {
 			cursor = this.cursor2;
 			offsetX = this.map2.div.offsetLeft;
 		}
+		var footerOffset = 0;
+		if ($("#footer").css("display") == "block"){
+			footerOffset = 13;
+		}
+
 		var x = e.x - e.element.offsetParent.offsetLeft + offsetX;
-		var y = e.y - (e.screenY - e.offsetY);
+		var y = e.y - (e.screenY - e.offsetY) + footerOffset;
 		cursor.setStyle({
 			top: y + 'px',
 			left: x + 'px'
