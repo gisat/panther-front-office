@@ -62,14 +62,18 @@ define(['./Remote',
 	 * Filter for featur info functionality
 	 * @param attributes {Array} list of attributes for filtering
 	 * @param gid {String} Id of analytical unit
+	 * @param years {Array} List of periods
 	 * @returns {*|Promise}
 	 */
-	Filter.prototype.featureInfo = function(attributes, gid){
+	Filter.prototype.featureInfo = function(attributes, gid, years){
 		var params = this.prepareParams();
-
+		var periods = params.periods;
+		if (years){
+			periods = years;
+		}
 		return $.post( Config.url + "rest/info/attribute", {
 				areaTemplate: params.areaTemplate,
-				periods: params.periods,
+				periods: periods,
 				places: params.locations,
 				gid: [gid],
 				attributes: attributes

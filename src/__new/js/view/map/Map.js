@@ -209,14 +209,20 @@ define([
 	};
 
 	Map.prototype.getInfoAboutArea = function(infoWindow, e){
-		//debugger;
 		var allFeatures = JSON.parse(e.text).features;
 		if (allFeatures.length > 0){
 			infoWindow.setVisibility("show");
 			infoWindow.setScreenPosition(e.xy);
 
 			var featureGid = allFeatures[allFeatures.length - 1].properties.gid;
-			infoWindow.rebuild(this._attributes, featureGid);
+			var years = JSON.parse(ThemeYearConfParams.years);
+			var periods = [];
+			if (e.object.hasOwnProperty("id") && e.object.id == "feature_info_map2"){
+				periods.push(years[years.length - 1]);
+			} else {
+				periods.push(years[0]);
+			}
+			infoWindow.rebuild(this._attributes, featureGid, periods);
 		}
 		else {
 			infoWindow.setVisibility("hide");
