@@ -1160,7 +1160,6 @@ Ext.define('PumaMain.controller.Layers', {
 		var nodeType = node.get('type');
 		var self = this;
 		if (Ext.Array.contains(['basegroup', 'choroplethgroup', 'thematicgroup', 'systemgroup'], parentType) && checked && !multi && nodeType != 'traffic') {
-
 			// switching off choropleths
 			if (nodeType == 'areaoutlines') {
 				parentNode = parentNode.parentNode.findChild('type', 'choroplethgroup');
@@ -1179,7 +1178,10 @@ Ext.define('PumaMain.controller.Layers', {
 				self.onCheckChange(anotherNode, false);
 			}
 
-			self.hideOtherLayersInTheSameLayerGroup(parentNode, node);
+			// do not switch off choropleths TODO rewrite this part
+			if (nodeType != 'areaoutlines'){
+				self.hideOtherLayersInTheSameLayerGroup(parentNode, node);
+			}
 		}
 		if (layer1.initialized) {
 			layer1.setVisibility(checked);
