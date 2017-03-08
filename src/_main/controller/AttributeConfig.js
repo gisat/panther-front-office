@@ -3,6 +3,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
     views: [],
     requires: ['PumaMain.view.ConfigForm'],
     init: function() {
+		this.addInfoOnClickListener(),
 		this.control(
 			{
 				'attributegrid #add': {
@@ -82,8 +83,23 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 
 			});
     },
-    
-            
+	addInfoOnClickListener: function(){
+		$("body").on("click", ".form-label-help", function(){
+			$(".form-label-help p").removeClass("open");
+			var info = $(this).find("p");
+			if (info.hasClass("open")){
+				info.removeClass("open");
+			} else {
+				info.addClass("open");
+			}
+		});
+		$("body").on("click", ".x-window", function(e){
+			var cls = e.target.className;
+			if (cls != "form-label-help" && cls != "form-label-help-button"){
+				$(".form-label-help p").removeClass("open");
+			}
+		});
+	},
     onConfigureChoropleth: function(btn) {
         var attrStore = btn.up('[itemId=attributecontainer]').down('attributegrid').store;
         var recs = this.getChecked(attrStore);
