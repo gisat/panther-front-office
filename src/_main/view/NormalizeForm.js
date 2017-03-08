@@ -32,7 +32,7 @@ Ext.define('PumaMain.view.NormalizeForm', {
 		}, {
 			xtype: 'pumacombo',
 			store: Ext.StoreMgr.lookup('change_units'),
-			fieldLabel: 'Change Units',
+			fieldLabel: 'Change Displayed Units',
 			name: 'normalizationUnits',
 			valueField: 'type',
 			itemId: 'normalizationUnits'

@@ -462,7 +462,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 	 * @param panel
 	 * @param normalizationUnits {String} Units to be used for normalization.
 	 */
-	updateCustomUnits(panel, normalizationUnits) {
+	updateCustomUnits: function(panel, normalizationUnits) {
 		normalizationUnits = normalizationUnits || '';
 
 		var validUnits = ['m2', 'ha', 'km2'];

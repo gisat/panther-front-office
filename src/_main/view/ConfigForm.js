@@ -114,7 +114,7 @@ Ext.define('PumaMain.view.ConfigForm', {
 				}]
 			}];
 		this.buttons = [{
-			text: 'Configure',
+			text: 'OK',
 			itemId: 'configurefinish'
 		}];
 		this.callParent();
