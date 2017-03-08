@@ -6,9 +6,10 @@ Ext.define('PumaMain.controller.DomManipulation', {
 		if (Config.exportPage) {
 			return;
 		}
+		Observer.addListener("resizeMap",this.resizeMap.bind(this));
 		$("#sidebar-reports-toggle").on("click", $.proxy(this._onReportsSidebarToggleClick, this));
 		$("#sidebar-tools-toggle").on("click", $.proxy(this._onToolsSidebarToggleClick, this));
-		$(window).on("resize", $.proxy(this._onWindowResize, this))
+		$(window).on("resize", $.proxy(this._onWindowResize, this));
 		this.control({
 			"toolspanel panel" : {
 				expand   : this.onToolPanelExpand,

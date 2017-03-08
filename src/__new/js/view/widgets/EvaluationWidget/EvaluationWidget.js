@@ -9,7 +9,7 @@ define([
     '../inputs/multiselectbox/MultiSelectBox',
 	'../../../util/Remote',
     '../inputs/selectbox/SelectBox',
-    '../widgetTools/settings/Settings',
+    './EvaluationWidgetSettings',
     '../inputs/sliderbox/SliderBox',
 	'../../../stores/Stores',
     '../Widget',
@@ -53,41 +53,10 @@ define([
     var EvaluationWidget = function(options) {
         Widget.apply(this, arguments);
 
-        if (!options.elementId){
-            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingElementId"));
-        }
-        if (!options.targetId){
-            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingTargetElementId"));
-        }
         if (!options.filter){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingFilter"));
         }
-
         this._filter = options.filter;
-        this._name = options.name || "";
-        this._widgetId = options.elementId;
-        this._target = $("#" + options.targetId);
-        if (this._target.length == 0){
-            throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingHTMLElement"));
-        }
-
-        Widget.prototype.build.call(this, {
-            widgetId: this._widgetId,
-            name: this._name,
-            target: this._target
-        });
-
-        this._widgetSelector = $("#floater-" + this._widgetId);
-        this._placeholderSelector = $("#placeholder-" + this._widgetId);
-        this._widgetBodySelector = this._widgetSelector.find(".floater-body");
-
-        if (Config.toggles.hasOwnProperty("isUrbis") && Config.toggles.isUrbis){
-            this._widgetSelector.addClass("open");
-            this._widgetSelector.css("display","block"); // redundant, but necessary for animation
-            this._placeholderSelector.removeClass("open");
-        }
-
-        ExchangeParams.options.openWidgets["floater-" + this._widgetId] = this._widgetSelector.hasClass("open");
         this._settings = null;
 
         this.build();
@@ -98,10 +67,16 @@ define([
     /**
      * It rebuilds the widget for given attributes. First, it collects metadata about each attribute, then it rebuilds all components of the widget
      * @param attrForRequest {Array} List of attributes for current configuration
-     * @param map {Object}
+     * @param options {Object}
      */
-    EvaluationWidget.prototype.rebuild = function(attrForRequest, map, options){
+    EvaluationWidget.prototype.rebuild = function(attrForRequest, options){
         var self = this;
+        if (attrForRequest.length == 0){
+            self.toggleWarning("block", [1,2,3,4]);
+            self.handleLoading("hide");
+            return;
+        }
+
         if (!this._resizeListener){
             this._resizeListener = true;
             this.addOnResizeListener();
@@ -160,17 +135,18 @@ define([
                 });
             }
             if (self._attributes.length){
-                if (!options || options.rebuildFooter == true){
+                self.toggleWarning("none");
+                if (!options.hasOwnProperty("rebuildFooter") || options.rebuildFooter == true){
                     self.prepareFooter();
                 }
                 self.rebuildViewAndSettings();
             } else {
-                self.noDataEcho();
+                self.toggleWarning("block", [1,2]);
+                self.handleLoading("hide");
             }
         });
 
         this.rebuildMap();
-        ThemeYearConfParams.datasetChanged = false;
     };
 
 	/**
@@ -198,15 +174,6 @@ define([
     };
 
 	/**
-     * Notify the user, if no attribute sets are linked to analytical units
-     */
-    EvaluationWidget.prototype.noDataEcho = function(){
-        var info = '<p>There are no linked attribute sets to analytical units probably! Please, go to the BackOffice and link the data properly.</p>';
-        this._widgetBodySelector.html("").append(info);
-        this.handleLoading("hide");
-    };
-
-	/**
      * Create settings icon and attach the listener for opening
      */
     EvaluationWidget.prototype.buildSettings = function(){
@@ -216,6 +183,11 @@ define([
             '<img alt="' + name + '" src="__new/img/'+ tool +'.png"/>' +
             '</div>');
         this.addSettingsListener();
+
+        this._settings = new Settings({
+            target: this._target,
+            widgetId: this._widgetId
+        });
     };
 
 	/**
@@ -236,11 +208,7 @@ define([
      * Rebuild settings with given attributes, get all categories (one category per attribute) and rebuild the inputs (one input per attribute - slider, checkbox or select menu).
      */
     EvaluationWidget.prototype.rebuildViewAndSettings = function(){
-        this._settings = new Settings({
-            attributes: this._attributes,
-            target: this._target,
-            widgetId: this._widgetId
-        });
+        this._settings.rebuild(this._attributes);
         this._categories = this._settings.getCategories();
         this.setAttributesState(this._categories);
         this.rebuildInputs(this._categories);
@@ -257,7 +225,7 @@ define([
      * @param categories {Object} data about categories
      */
     EvaluationWidget.prototype.rebuildInputs = function(categories){
-        this._widgetBodySelector.html('');
+        this._widgetBodySelector.html("");
         this._inputs = {
             checkboxes: [],
             sliders: [],
@@ -278,9 +246,6 @@ define([
                     var min = categories[key].attrData.values[0];
                     var max = categories[key].attrData.values[1];
                     var step = 0.0005;
-                    if (min <= -1000 || max >= 1000){
-                        step = 1
-                    }
                     var thresholds = [min, max];
                     var slider = self.buildSliderInput(id, name, units, thresholds, step, attrId, attrSetId);
                     slider.distribution = categories[key].attrData.distribution;
@@ -289,7 +254,7 @@ define([
                 }
 
                 else if (input == "checkbox"){
-                    var checkbox = this.buildCheckboxInput(id, name);
+                    var checkbox = this.buildCheckboxInput(id, name, this._widgetBodySelector);
                     this._inputs.checkboxes.push(checkbox);
                 }
 
@@ -305,24 +270,16 @@ define([
                 }
             }
         }
-        this.amount();
+
+        // TODO remove and uncomment when backend is ready
+        if (this._inputs.checkboxes.length == 0 && this._inputs.sliders.length == 0 && this._inputs.selects.length == 0){
+            self.handleLoading("hide");
+        } else {
+            this.amount();
+        }
+        //this.amount();
         this.addSliderListener();
         this.addInputsListener();
-    };
-
-    /**
-     * It returns the checkbox
-     * @param id {string} ID of the data theme
-     * @param name {string} Name of the data theme
-     * @returns {Checkbox}
-     */
-    EvaluationWidget.prototype.buildCheckboxInput = function(id, name){
-        return new Checkbox({
-            id: id,
-            name: name,
-            target: this._widgetBodySelector,
-            containerId: "floater-" + this._widgetId
-        });
     };
 
     /**
@@ -579,7 +536,7 @@ define([
                         if (self._inputs){
                             self.rebuildPopups(self._inputs.sliders);
                         }
-                        self.rebuild(self._attrForRequest, {}, {
+                        self.rebuild(self._attrForRequest, {
                             rebuildFooter: false
                         });
                     }
@@ -636,23 +593,6 @@ define([
      */
     EvaluationWidget.prototype.disableExports = function(){
         $("#export-shp, #export-csv, #export-xls, #export-json").attr("disabled",true);
-    };
-
-	/**
-     * Show/hide loading overlay
-     * @param state {string}
-     */
-    EvaluationWidget.prototype.handleLoading = function(state){
-        var display;
-        switch (state) {
-            case "show":
-                display = "block";
-                break;
-            case "hide":
-                display = "none";
-                break;
-        }
-        this._widgetSelector.find(".floater-overlay").css("display", display);
     };
 
 	/**

@@ -46,6 +46,7 @@ Ext.define('PumaMain.controller.Map', {
 	// URBIS change
 	newGetMap: function(){
 		OlMap.map = this.getOlMap();
+		OlMap.map2 = this.getOlMap2();
 	},
 
 	onExportMapUrl: function(btn) {
@@ -241,19 +242,104 @@ Ext.define('PumaMain.controller.Map', {
 		if (!sel.length) return;
 		var areaController = this.getController('Area');
 		var format = new OpenLayers.Format.WKT();
-		var overallExtent = null;
+
+		var overallExtent = {left: 180, right: -180, top: -90, bottom: 90};
+
+		var extent = null;
+		var finalExtent = null;
 		for (var i=0;i<sel.length;i++) {
 			var area = areas.length ? areas[i] : areaController.getArea(sel[i]);
-			var extent = format.read(area.get('extent')).geometry.getBounds();
-			extent = extent.transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));
-			if (!overallExtent) {
-				overallExtent = extent;
-			} else {
-				overallExtent.extend(extent)
+			extent = format.read(area.get('extent')).geometry.getBounds();
+			overallExtent = this.updateExtent(extent, overallExtent);
+			//debugger;
+			//var previousOverall = jQuery.extend(true, {}, overallExtent);
+		}
+		finalExtent = extent;
+		finalExtent.right = overallExtent.right;
+		finalExtent.left = overallExtent.left;
+		finalExtent.top = overallExtent.top;
+		finalExtent.bottom = overallExtent.bottom;
+		finalExtent = finalExtent.transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));
+		this.zoomToExtent(finalExtent);
+	},
+
+	/**
+	 * Update overall extent with extent of current area.
+	 * It is dealing with dateline issues currently. TODO deal with areas around poles
+	 * @param currentExtent {OpenLayers.Bounds}
+	 * @param overallExtent {Object}
+	 * @returns {Object} updated extent
+	 */
+	updateExtent: function(currentExtent, overallExtent){
+		currentExtent = this.checkIfAreaIsCrossingDateLine(currentExtent);
+		var currentLeft = currentExtent.left;
+		var currentRight = currentExtent.right;
+		var overallLeft = overallExtent.left;
+		var overallRight = overallExtent.right;
+
+		// first iteration
+		if (Math.abs(overallLeft - overallRight) == 360){
+			overallExtent.right = currentRight;
+			overallExtent.left = currentLeft;
+		}
+
+		// overal extent is not crossing dateline (except first iteration)
+		if (overallLeft < overallRight && Math.abs(overallLeft - overallRight) != 360){
+			// current extent is not crossing dateline
+			if (currentRight > currentLeft){
+				if (currentRight > overallRight){
+					overallExtent.right = currentRight;
+				}
+				if (currentLeft < overallLeft){
+					overallExtent.left = currentLeft;
+				}
+			}
+			// current extent is crossing dateline
+			else {
+				if (currentRight < overallRight && Math.abs(currentRight - overallRight) > 180){
+					overallExtent.right = currentRight;
+				}
+				if (currentLeft > overallLeft && Math.abs(currentLeft - overallLeft) > 180){
+					overallExtent.left = currentLeft;
+				}
 			}
 		}
-		
-		this.zoomToExtent(overallExtent);
+
+		// overal extent is crossing dateline
+		else {
+			if (currentLeft < overallLeft && currentLeft > overallRight && Math.abs(currentLeft - overallLeft) < 180){
+				overallExtent.left = currentLeft;
+			}
+			if (currentRight > overallRight && currentRight < overallLeft && Math.abs(currentRight - overallRight) < 180){
+				overallExtent.right = currentRight;
+			}
+		}
+
+
+		// TODO deal with areas around poles
+		if (currentExtent.bottom < overallExtent.bottom){
+			overallExtent.bottom = currentExtent.bottom;
+		}
+		if (currentExtent.top > overallExtent.top){
+			overallExtent.top = currentExtent.top;
+		}
+
+		return overallExtent;
+	},
+
+	/**
+	 * Check if area is crossing dateline. If so, switch left and right
+	 * @param extent {OpenLayers.Bounds}
+	 * @returns {OpenLayers.Bounds}
+	 */
+	checkIfAreaIsCrossingDateLine: function(extent){
+		var left = extent.left;
+		var right = extent.right;
+		if (Math.abs(left -right) > 180 && left < -90 && right > 90){
+			extent.left = right;
+			extent.right = left;
+		}
+		return extent;
 	},
 
 	zoomToExtent: function(extent){
@@ -343,8 +429,13 @@ Ext.define('PumaMain.controller.Map', {
 			cursor = this.cursor2;
 			offsetX = this.map2.div.offsetLeft;
 		}
+		var footerOffset = 0;
+		if ($("#footer").css("display") == "block"){
+			footerOffset = 13;
+		}
+
 		var x = e.x - e.element.offsetParent.offsetLeft + offsetX;
-		var y = e.y - e.element.offsetParent.offsetTop;
+		var y = e.y - (e.screenY - e.offsetY) + footerOffset;
 		cursor.setStyle({
 			top: y + 'px',
 			left: x + 'px'
@@ -427,32 +518,11 @@ Ext.define('PumaMain.controller.Map', {
 		var rule = new OpenLayers.Rule({
 			symbolizer: {
 				"Polygon": new OpenLayers.Symbolizer.Polygon({fillOpacity: 0, strokeOpacity: 1, strokeColor: '#'+cmp.color})
-				//,"Text":new OpenLayers.Symbolizer.Text({label:'${name}',fontFamily:'DejaVu Sans Condensed Bold',fontSize:14,fontWeight:'bold',labelAnchorPointX:0.5,labelAnchorPointY:0.5})
 			},
 			filter: filter
 		});
 		style.addRules([rule]);
-		// var rasterStyle = new OpenLayers.Style();
-		// var rasterRule = new OpenLayers.Rule({
-		// 	symbolizer: {
-		// 		"Raster": new OpenLayers.Symbolizer.Raster({colorMap:[{color:'#00ff00',quantity:-100},{color:'#0000ff',quantity:100}]})
-		// 	}
-		// });
-		// rasterStyle.addRules([rasterRule]);
-		// var rasternamedLayers = [{
-		// 		name: layerRefs.layerRef.layer,
-		// 		userStyles: [rasterStyle]
-		// }];
-		// var rastersldObject = {
-		// 	name: 'style',
-		// 	title: 'Style',
-		// 	namedLayers: rasternamedLayers
-		// }
-		// var rasterformat = new OpenLayers.Format.SLD.Geoserver23();
-		// var rastersldNode = rasterformat.write(rastersldObject);
-		// var rasterxmlFormat = new OpenLayers.Format.XML();
-		// var rastersldText = rasterxmlFormat.write(rastersldNode);
-		
+
 		var namedLayers = [{
 			name: layerName,
 			userStyles: [style]
@@ -491,9 +561,6 @@ Ext.define('PumaMain.controller.Map', {
 		}
 
 		map.layer1.mergeNewParams(layer1Conf);
-		// map.layer1.mergeNewParams({
-		// 	"SLD_BODY": rastersldText
-		// })
 		map.layer2.mergeNewParams({
 			"USE_SECOND": true,
 			"SLD_BODY": sldText
@@ -509,7 +576,6 @@ Ext.define('PumaMain.controller.Map', {
 		window.setTimeout(function() {
 			map.zoomToExtent(map.outlineExtent);
 		},1);
-		//map.zoomToExtent(map.outlineExtent);
 		if (cmp.ownerCt.items.getCount()==cmp.ownerCt.mapNum){
 			var minZoom = 10000;
 			cmp.ownerCt.items.each(function(mapCmp) {
@@ -518,20 +584,6 @@ Ext.define('PumaMain.controller.Map', {
 					minZoom = zoom;
 				}
 			});
-			//debugger;
-			// cmp.ownerCt.items.each(function(mapCmp) {
-			// 	var curMap = mapCmp.map;
-			// 	var mapToZoom = null;
-			// 	if (curMap==map) {
-			// 		mapToZoom = map;
-			// 		setTimeout(function() {
-			// 			mapToZoom.zoomTo(minZoom);
-			// 		},1000);
-			// 	} else {
-			// 		curMap.zoomTo(minZoom);
-			// 	}
-			//	
-			// });
 		}
 	},
 
@@ -549,7 +601,6 @@ Ext.define('PumaMain.controller.Map', {
 		});
 		if (loaded) {
 			setTimeout(function() {
-				
 				console.log('loadingdone');
 			},2000)
 		}
@@ -557,13 +608,11 @@ Ext.define('PumaMain.controller.Map', {
 
 	getOptions: function(cmp) {
 		var options = {
-			projection: new OpenLayers.Projection("EPSG:900913"),
+			projection: new OpenLayers.Projection("EPSG:4326"),
 			displayProjection: new OpenLayers.Projection("EPSG:4326"),
 			units: "m",
-			//numZoomLevels: 22,
 			maxExtent: new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34),
 			featureEvents: true,
-			//allOverlays: true,
 			div: cmp.id
 		};
 		return options;
@@ -571,6 +620,9 @@ Ext.define('PumaMain.controller.Map', {
 
 	getOlMap: function(){
 		return this.olMap;
+	},
+	getOlMap2: function(){
+		return this.olMap2;
 	},
 
 	afterRender: function(cmp) {
@@ -581,12 +633,6 @@ Ext.define('PumaMain.controller.Map', {
 		var el = Ext.get(cmp.id);
 		el.on('contextmenu',function(e) {
 			return;
-			// e.stopEvent();
-			// var layerMenu = Ext.widget('layermenu', {
-			// 	map: map
-			// });
-			//
-			// layerMenu.showAt(e.getXY());
 		});
 		if (cmp.itemId=='map') {
 			this.createBaseNodes();
@@ -595,6 +641,7 @@ Ext.define('PumaMain.controller.Map', {
 			this.cursor1 = Ext.get('app-map').down('img')
 		} else {
 			this.map2 = map;
+			this.olMap2 = this.map2;
 			this.olMapMultipleSecond = this.map2;
 			this.cursor2 = Ext.get('app-map2').down('img')
 		}
@@ -636,12 +683,6 @@ Ext.define('PumaMain.controller.Map', {
 			visibility: false
 		});
 		var trafficLayer = new google.maps.TrafficLayer();
-		var guf12mLayer = new OpenLayers.Layer.WMS( "GUF 12M",
-			"http://vmap0.tiles.osgeo.org/wms/vmap0",
-			{layers: 'basic'});
-		var guf84mLayer = new OpenLayers.Layer.WMS( "GUF 84M",
-			"https://utep.it4i.cz/geoserver/gwc/service/wms",
-			{layers: 'ESA_UTEP:GUF28'});
 
 		var baseNode = Ext.StoreMgr.lookup('layers').getRootNode().findChild('type','basegroup');
 		var trafficNode = Ext.StoreMgr.lookup('layers').getRootNode().findChild('type','livegroup');
@@ -658,8 +699,6 @@ Ext.define('PumaMain.controller.Map', {
 				case 'terrain': layer = terrainLayer; break;
 				case 'osm': layer = osmLayer; break;
 				case 'traffic': layer = trafficLayer; break;
-				case 'guf12m': layer = guf12mLayer; break;
-				case 'guf84m': layer = guf84mLayer; break;
 			}
 			var nodeProp = cmp.itemId=='map' ? 'layer1':'layer2';
 			node.set(nodeProp,layer);
@@ -674,11 +713,8 @@ Ext.define('PumaMain.controller.Map', {
 				pointRadius: 2
 			}
 		});
-		//bbox: 112.337169,-7.954641,112.977462,-7.029791
-		//debugger;
 		map.size = map.getCurrentSize();
 		map.addLayers([terrainLayer,streetLayer,hybridLayer,osmLayer]);
-		//trafficLayer.setMap(streetLayer.mapObject);
 		trafficLayer.oldMapObj = streetLayer.mapObject;
 		if (cmp.id=='map') {
 			Ext.StoreMgr.lookup('selectedlayers').loadData(nodes,true);
@@ -718,7 +754,9 @@ Ext.define('PumaMain.controller.Map', {
 			click: new OpenLayers.Control.WMSGetFeatureInfo({
 				url: Config.url+'api/proxy/wms',
 				vendorParams: {
-					propertyName: 'gid'
+					propertyName: 'gid',
+					expectJson: true
+
 				},
 				layers: [map.selectInMapLayer]
 			}), 
@@ -791,8 +829,8 @@ Ext.define('PumaMain.controller.Map', {
 		map.dragControl.onComplete = function(feature) {
 			me.getController('UserPolygon').onFeatureDragged(feature);
 		};
-		//this.drawPolygonControl.activate();
-		for (var i in infoControls) { 
+
+		for (var i in infoControls) {
 			infoControls[i].events.register("getfeatureinfo", this, this.onFeatureSelected);
 			map.addControl(infoControls[i]);
 		}
@@ -810,9 +848,6 @@ Ext.define('PumaMain.controller.Map', {
 			return this.onMeasurePartial(obj);
 		});
 		
-		
-		//infoControls.hover.activate();
-		//infoControls.click.activate();
 		map.infoControls = infoControls;
 		if (cmp.itemId == 'map') {
 			map.controls[0].deactivate();
@@ -893,30 +928,6 @@ Ext.define('PumaMain.controller.Map', {
 		var layerRefMap = this.getController('Area').areaTemplateMap;
 		var layers = [];
 		return;
-		// root.cascadeBy(function(node) {
-		// 	if (!node.get('checked')) return;
-		// 	var at = node.get('bindAt');
-		// 	var layerRef = layerRefMap[at];
-		// 	if (!layerRef || !layerRef.fidColumn) {
-		// 		at = node.get('at');
-		// 	}
-		// 	layerRef = layerRefMap[at];
-		// 	var layerName = node.get('layerName');
-		// 	if (!layerName || (!layerRef || !layerRef.fidColumn) && at!=-1) return;
-		// 	var layerName = (layerRef ? 'layer_'+layerRef._id : layerName);
-		// 	if (!layerName) return;
-		// 	layers.push(Config.geoserver2Workspace + ':' + layerName);
-		// });
-		// if (!layers.length) {
-		// 	return false;
-		// }
-		// // for (var loc in layerRefMap) {
-		// // 	for (var )
-		// // }
-		// // layers = layers.join(',');
-		// // tady na to pozor layer uy nevisi na controlleru
-		// this.map1.getFeatureInfoLayer.params['LAYERS'] = layers;
-		// this.map2.getFeatureInfoLayer.params['LAYERS'] = layers;
 	},
 
 	updateGetFeatureControl: function() {

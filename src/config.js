@@ -1,8 +1,8 @@
 var Config = {
 	//url: 'http://urbis.gisat.cz/backend/',
 	//signupAddress: 'http://urbis.gisat.cz/account/signup/',
-	url: 'http://localhost:4000/',
-	signupAddress: 'http://localhost:4000/account/signup/',
+	 url: 'http://localhost:4000/',
+	 signupAddress: 'http://localhost:4000/account/signup/',
 	geoserver2Workspace: "panther",
 	initialBaseMap: "terrain",
 	initialMapBounds: [
@@ -21,8 +21,9 @@ var Config = {
 		useWBFooter: false,
 		allowPumaHelp: false,
 		allowDownloadsLink: false,
-		usePumaLogo: false,
+		usePumaLogo: true,
 		advancedFiltersFirst: false,
+		hasNew3Dmap: true,
 		hasNewEvaluationTool: true,
 		hasNewCustomPolygonsTool: true,
 		hasNewFeatureInfo: true,
@@ -30,18 +31,14 @@ var Config = {
 		isUrbis: false,
 		isEea: false,
 		isMelodies: false,
-		isUrbanTep: false,
-		/**
-		 * It distinguishes whether under the Custom WMS layer group the GUF will be displayed.
-		 */
-		hasGuf: true
+		isUrbanTep: false
 	},
 
 	basicTexts: {
 		advancedFiltersName: "Evaluation Tool",
 		areasSectionName: "Selection level",
 		appTitle: "URBIS tool",
-		appName: "",
+		appName: "Data exploration",
 		scopeName: "Scale"
 	},
 	urbisTexts: {

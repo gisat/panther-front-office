@@ -28,6 +28,32 @@ define([
 	};
 
 	/**
+	 * Rebuild section with current map
+	 * @param map {Map}
+	 */
+	CustomDrawingSection.prototype.rebuild = function(map){
+		if (!this._map){
+			this.prepareMap(map);
+			this.addEventListeners();
+		}
+		if (this._vectorLayer){
+			this._vectorLayer.destroyFeatures();
+		}
+		if (!this._layerCheckbox){
+			this._layerCheckbox = this.buildLayerCheckbox();
+			this.addLayerCheckboxListener();
+		}
+		if (this.checkConf()){
+			this.getSavedFeatures({
+				scope: ThemeYearConfParams.dataset,
+				place: ThemeYearConfParams.place,
+				theme: ThemeYearConfParams.theme
+			});
+		}
+		this.deactivateDrawing(this._buttonDraw);
+	};
+
+	/**
 	 * Build basic structure of section
 	 * @param content {string} HTML code
 	 */
@@ -156,7 +182,9 @@ define([
 			uuid: uuid,
 			name: name,
 			geometry: geometry,
-			scope: ThemeYearConfParams.dataset
+			scope: ThemeYearConfParams.dataset,
+			place: ThemeYearConfParams.place,
+			theme: ThemeYearConfParams.theme
 		};
 
 		this._records.push(record);
@@ -235,10 +263,14 @@ define([
 	CustomDrawingSection.prototype.toggleLayer = function(){
 		var self = this;
 		setTimeout(function(){
-			if (self._layerCheckbox.getCheckbox().hasClass("checked")){
+			var checkbox = self._layerCheckbox.getCheckbox();
+			var id = checkbox.attr("id");
+			if (checkbox.hasClass("checked")){
+				ExchangeParams.options.displayCustomLayers[id] = true;
 				self._vectorLayer.display(true);
 				self._vectorLayer.setVisibility(true);
 			} else {
+				ExchangeParams.options.displayCustomLayers[id] = false;
 				self._vectorLayer.display(false);
 				self._vectorLayer.setVisibility(false);
 			}

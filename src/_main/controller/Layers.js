@@ -5,8 +5,8 @@ Ext.define('PumaMain.controller.Layers', {
 	init: function() {
 		this.control({
 			'#layerpanel': {
-				itemclick: this.onLayerClick,
-				checkchange: this.onCheckChange
+				checkchange: this.onCheckChange,
+				itemclick: this.onLayerClick
 			},
 			'#layerpanel tool[type=gear]': {
 				click: this.onConfigure
@@ -22,10 +22,6 @@ Ext.define('PumaMain.controller.Layers', {
 				layerlegend: this.onLayerLegend,
 				showmetadata: this.onShowMetadata
 			},
-
-			// 'layermenu #opacity': {
-			// 	click: this.openOpacityWindow
-			// },
 			'slider[itemId=opacity]': {
 				change: this.onOpacityChange
 			},
@@ -429,31 +425,6 @@ Ext.define('PumaMain.controller.Layers', {
 		window.show();
 	},
 
-	onLayerContextMenu: function(tree, rec, item, index, e) {
-		return;
-		// var bindChart = rec.get('bindChart');
-		// if (!bindChart || rec.get('type')!='chart') {
-		// 	return;
-		// }
-		// e.stopEvent();
-		// var layerMenu = Ext.widget('layermenu', {
-		// 	bindChart: bindChart
-		// });
-		// layerMenu.showAt(e.getXY());
-	},
-
-	onContextMenu: function(tree, rec, item, index, e) {
-		return;
-		// e.stopEvent();
-		//
-		// var layerMenu = Ext.widget('layermenu', {
-		// 	layer1: rec.get('layer1'),
-		// 	layer2: rec.get('layer2'),
-		// 	layerName: rec.get('name')
-		// });
-		// layerMenu.showAt(e.getXY());
-	},
-
 	colourMap: function(selectMap, map1NoChange, map2NoChange) {
 		var store = Ext.StoreMgr.lookup('layers');
 		var node = store.getRootNode().findChild('type', 'selectedareas', true);
@@ -650,7 +621,6 @@ Ext.define('PumaMain.controller.Layers', {
 				}
 				if (node.get('checked')) {
 					me.onCheckChange(node,true);
-					// Ext.ComponentQuery.query('#legendpanel')[0].refresh();
 				}
 
 			},
@@ -763,6 +733,8 @@ Ext.define('PumaMain.controller.Layers', {
 			normalization = attrs[0].normType || normalization;
 			var normAttrSet = attrs[0].normAs || params['normalizationAttributeSet'];
 			var normAttribute = attrs[0].normAttr || params['normalizationAttribute'];
+			var normalizationUnits = attrs[0].normalizationUnits;
+			var customFactor = attrs[0].customFactor;
 
 			var factor = 1;
 			var attrUnits = Ext.StoreMgr.lookup('attribute').getById(attrs[0].attr).get('units');
@@ -770,29 +742,33 @@ Ext.define('PumaMain.controller.Layers', {
 			if (normalization == 'attribute' || normalization == 'attributeset') {
 				normAttrUnits = Ext.StoreMgr.lookup('attribute').getById(normAttribute).get('units');
 			}
-			if (normalization == 'area') {
-				normAttrUnits = 'm2';
-			}
-			if (normalization == 'select' || normalization=='year') {
-				normAttrUnits = attrUnits;
+
+			var units = new Units();
+			customFactor = customFactor || 1;
+			if (normalization=='area') {
+				normAttrUnits = attrs[0].areaUnits || 'm2';
+				// Special case when we need to transform the results from custom/m2 to custom/km2 or custom/ha
+				// TODO: Clean this part. Current state is hell.
+				if(units.allowedUnits.indexOf(attrUnits) == -1) {
+					customFactor *= units.translate(normAttrUnits,'m2',false);
+				}
 			}
 
-			if (attrUnits && attrUnits == 'm2') {
-				factor /= 1000000;
+			// Specific use case is when I normalize over attribute. In this case, it is necessary to first handle the
+			// Basic factor handling and then use normalizationUnits to get final.
+			// TODO: Make sure that the units are correctly counted.
+
+			if(normalization) {
+				factor = units.translate(attrUnits, normAttrUnits, false);
+			} else {
+				factor = 1;
 			}
-			if (normAttrUnits && normAttrUnits == 'm2') {
-				factor *= 1000000;
-			}
-			if ((normAttrUnits == 'm2' || normAttrUnits == 'km2') && (attrUnits == 'm2' || attrUnits == 'km2')) {
-				factor *= 100;
-			} else if (attrUnits && attrUnits == normAttrUnits) {
-				factor *= 100;
-			}
+			factor = factor * customFactor;
 
 			var props = '';
 			var filtersNull = [];
 			var filtersNotNull = [];
-			if (normalization && normalization != 'none' && normalization != 'year') {
+			if (normalization && normalization != 'none' && normalization != 'year') { // normalization != area only in case of stuff.
 				var normAttr = normalization == 'area' ? 'area' : '';
 				normAttr = normalization == 'attributeset' ? ('as_' + normAttrSet + '_attr_#attrid#') : normAttr;
 				normAttr = normalization == 'attribute' ? ('as_' + normAttrSet + '_attr_' + normAttribute) : normAttr;
@@ -804,16 +780,15 @@ Ext.define('PumaMain.controller.Layers', {
 					normAttr = '${' + normAttr + '}';
 				}
 
-				props = new OpenLayers.Filter.Function({name: 'Mul', params: [new OpenLayers.Filter.Function({name: 'Div', params: ['${#attr#}', 1]}), 1]});
+				props = new OpenLayers.Filter.Function({name: 'Mul', params: [new OpenLayers.Filter.Function({name: 'Div', params: ['${#attr#}', normAttr]}), factor]});
 			} else {
-				props = new OpenLayers.Filter.Function({name: 'Mul', params: ['${#attr#}', 1]});
+				props = new OpenLayers.Filter.Function({name: 'Mul', params: ['${#attr#}', factor]});
 			}
 			if (params['zeroesAsNull']) {
 				filtersNull.push(new OpenLayers.Filter.Comparison({type: '==', property: '#attr#', value: 0}));
 				filtersNotNull.push(new OpenLayers.Filter.Comparison({type: '!=', property: '#attr#', value: 0}));
 			}
-			//var nullFilter = new OpenLayers.Filter.Function({name: 'isNull',params: ['${#attr#}']})
-			//filtersNull.push(new OpenLayers.Filter.Comparison({type: '==', property: nullFilter, value: 'true'}));
+
 			var nullFilter = new OpenLayers.Filter.Comparison({type:'NULL',property:'#attr#'});
 			filtersNotNull.push(new OpenLayers.Filter.Logical({type: '!', filters:[nullFilter]}));
 			filtersNull.push(nullFilter);
@@ -971,8 +946,15 @@ Ext.define('PumaMain.controller.Layers', {
 		return namedLayers;
 	},
 
-	onLayerClick: function(panel,rec) {},
+	onLayerClick: function(panel,rec) {
+	},
 
+	/**
+	 * It adds choropleth as layer for potentially both maps.
+	 * @param cfg
+	 * @param autoActivate
+	 * @param index
+	 */
 	addChoropleth: function(cfg,autoActivate,index) {
 		var layerStore = Ext.StoreMgr.lookup('layers');
 		var choroplethNode = layerStore.getRootNode().findChild('type','choroplethgroup');
@@ -1015,7 +997,7 @@ Ext.define('PumaMain.controller.Layers', {
 		} else {
 			choroplethNode.appendChild(node);
 		}
-		Ext.StoreMgr.lookup('selectedlayers').loadData([node],true);
+		Ext.StoreMgr.lookup('selectedlayers').loadData([node],true); // It actually adds layer among selectedLayers. By selected it means that it is visible in the left menu.
 		if (autoActivate) {
 			this.initChartLayer(node);
 		}
@@ -1107,9 +1089,9 @@ Ext.define('PumaMain.controller.Layers', {
 	},
 
 	initChartLayer: function(node) {
-		if (!node.get('checked')) {
-			return;
-		}
+		//if (!node.get('checked')) {
+		//	return;
+		//}
 		var years = Ext.ComponentQuery.query('#selyear')[0].getValue();
 		var params = node.get('params');
 		params['areas'] = JSON.stringify(this.getController('Area').lowestMap);
@@ -1138,43 +1120,20 @@ Ext.define('PumaMain.controller.Layers', {
 		}
 	},
 
-	onCheckChange: function(node, checked) {
-		if(!this.wmsLayers) {
-			this.wmsLayers = {};
-		}
-		if (node.get('type')=='traffic') {
-			var layer1 = node.get('layer1');
-			var layer2 = node.get('layer2');
-			if (layer1) {
-				layer1.setMap(checked ? layer1.oldMapObj : null);
-			}
-			if (layer2) {
-				layer2.setMap(checked ? layer2.oldMapObj : null);
-			}
+	/**
+	 * This method is called whenever user clicks on the checkbox in the left menu. It should either show the layer or
+	 * hide the layer. If there is another layer shown in the same layer group, it also hides the currently shown layer.
+	 * Each MapLayer is actually associated with two layers. Each of them is for different map.
+	 * @param node {} Node representing the layer user clicked on.
+	 * @param checked {Boolean} State of the checked node.
+	 */
+	onCheckChange: function (node, checked) {
+		if(node.get('type') == 'traffic') {
+			this.changeVisibilityOfTrafficLayer(node, checked);
 			return;
 		}
 
-		var mapController = this.getController('Map');
-		if(node.get('type') == 'wmsLayer') {
-			var layer = node.get('wmsLayer');
-			if(checked) {
-				this.wmsLayers[layer.id] = new OpenLayers.Layer.WMS(layer.name,
-					layer.url,
-					{
-						layers: layer.layer,
-						transparent: true
-					}, {
-						visibility: true,
-						isBaseLayer: false
-					});
-				mapController.olMap.addLayers([this.wmsLayers[layer.id]]);
-			} else {
-				if(this.wmsLayers[layer.id]) {
-					mapController.olMap.removeLayer(this.wmsLayers[layer.id]);
-				}
-			}
-		}
-
+		// Hide legend.
 		if (!checked && node.get('legend')) {
 			node.get('legend').destroy();
 		}
@@ -1189,10 +1148,9 @@ Ext.define('PumaMain.controller.Layers', {
 		var layer1 = node.get('layer1');
 		var layer2 = node.get('layer2');
 		if (checked) {
-			node.set('sortIndex',node.get('sortIndex')-0.1);
+			node.set('sortIndex', node.get('sortIndex') - 0.1);
 		}
 		node.commit();
-		var me = this;
 		if (node.get('type') == 'chartlayer' && node.get('checked') && !node.initialized) {
 			this.initChartLayer(node);
 			return;
@@ -1200,44 +1158,89 @@ Ext.define('PumaMain.controller.Layers', {
 		var parentNode = node.parentNode;
 		var parentType = parentNode.get('type');
 		var nodeType = node.get('type');
-		if (Ext.Array.contains(['basegroup','choroplethgroup','thematicgroup','systemgroup'],parentType) && checked && !multi && nodeType!='traffic') {
-
+		var self = this;
+		if (Ext.Array.contains(['basegroup', 'choroplethgroup', 'thematicgroup', 'systemgroup'], parentType) && checked && !multi && nodeType != 'traffic') {
 			// switching off choropleths
-			if (nodeType=='areaoutlines') {
-				parentNode = parentNode.parentNode.findChild('type','choroplethgroup');
+			if (nodeType == 'areaoutlines') {
+				parentNode = parentNode.parentNode.findChild('type', 'choroplethgroup');
 			}
 			// just one selected selected areas layer
-			if (nodeType=='selectedareas' || nodeType=='selectedareasfilled') {
-				var anotherNode = parentNode.findChild('type',nodeType=='selectedareas' ? 'selectedareasfilled' : 'selectedareas');
-				anotherNode.set('checked',false);
-				me.onCheckChange(anotherNode,false);
-				parentNode = {childNodes:[]};
-			}
-			if (parentType=='choroplethgroup') {
-				var anotherNode = parentNode.parentNode.findChild('type','systemgroup').findChild('type','areaoutlines');
-				anotherNode.set('checked',false);
-				me.onCheckChange(anotherNode,false);
+			if (nodeType == 'selectedareas' || nodeType == 'selectedareasfilled') {
+				var anotherNode = parentNode.findChild('type', nodeType == 'selectedareas' ? 'selectedareasfilled' : 'selectedareas');
+				anotherNode.set('checked', false);
+				self.onCheckChange(anotherNode, false);
+				parentNode = {childNodes: []};
 			}
 
+			if (parentType == 'choroplethgroup') {
+				var anotherNode = parentNode.parentNode.findChild('type', 'systemgroup').findChild('type', 'areaoutlines');
+				anotherNode.set('checked', false);
+				self.onCheckChange(anotherNode, false);
+			}
 
-			for (var i=0;i<parentNode.childNodes.length;i++) {
-				var childNode = parentNode.childNodes[i];
-				if (node!=childNode) {
-					childNode.set('checked',false);
-					me.onCheckChange(childNode,false);
-				}
+			// do not switch off choropleths TODO rewrite this part
+			if (nodeType != 'areaoutlines'){
+				self.hideOtherLayersInTheSameLayerGroup(parentNode, node);
 			}
 		}
-		if (layer1.initialized){
+		if (layer1.initialized) {
 			layer1.setVisibility(checked);
 		}
-		if (layer2.initialized){
+		if (layer2.initialized) {
 			layer2.setVisibility(checked);
 		}
 
-		me.resetIndexes();
-		me.onLayerDrop();
+		this.resetIndexes();
+		this.onLayerDrop();
 
+		if (checked){
+			if (layer1.initialized) {
+				this.showLayerOnTop(layer1);
+			}
+			if (layer2.initialized) {
+				this.showLayerOnTop(layer2);
+			}
+		}
+	},
+
+	/**
+	 * Move the layer on the top of the map
+	 * @param layer {OpenLayers.Layer}
+	 */
+	showLayerOnTop: function(layer){
+		$(layer.div).css("z-index", 1000);
+	},
+
+	/**
+	 * It shows or hides the traffic layer.
+	 * @param node
+	 * @param checked {Boolean} Whether the layer should be visible.
+	 * @private
+	 */
+	changeVisibilityOfTrafficLayer: function(node, checked) {
+		var layer1 = node.get('layer1');
+		var layer2 = node.get('layer2');
+		if (layer1) {
+			layer1.setMap(checked ? layer1.oldMapObj : null);
+		}
+		if (layer2) {
+			layer2.setMap(checked ? layer2.oldMapObj : null);
+		}
+	},
+
+	/**
+	 * It gets layer group node and hides all other layers in the same layer group.
+	 * @param layerGroupNode {} Node representing the layer group.
+	 * @param chosenNode {} Node representing the currently chosen group.
+	 */
+	hideOtherLayersInTheSameLayerGroup: function(layerGroupNode, chosenNode) {
+		for (var i = 0; i < layerGroupNode.childNodes.length; i++) {
+			var childNode = layerGroupNode.childNodes[i];
+			if (chosenNode != childNode) {
+				childNode.set('checked', false);
+				this.onCheckChange(childNode, false);
+			}
+		}
 	},
 
 	gatherVisibleLayers: function() {
@@ -1254,9 +1257,7 @@ Ext.define('PumaMain.controller.Layers', {
 			if (type=='chartlayer') {
 				conf.attr = rec.get('attribute');
 				conf.as = rec.get('attributeSet');
-				// conf.chartId = rec.get('bindChart').cfg.chartId;
 			}
-			// conf.opacity = rec.get('layer1').opacity || 1;
 			confs.push(conf)
 		});
 		return confs;
@@ -1321,4 +1322,29 @@ Ext.define('PumaMain.controller.Layers', {
 	}
 });
 
+function Units() {
+	this.units = {
+		m2: 1,
+		ha: 10000,
+		km2: 1000000
+	};
+	this.allowedUnits = ['m2', 'km2', 'ha'];
+}
 
+Units.prototype.translate = function(unitFrom, unitTo, percentage) {
+	percentage = percentage ? 100: 1;
+
+	if(!unitFrom && !unitTo) {
+		return percentage;
+	}
+
+	if(!unitTo || this.allowedUnits.indexOf(unitTo) == -1) {
+		return percentage;
+	}
+
+	if(!unitFrom || this.allowedUnits.indexOf(unitFrom) == -1) {
+		return 1 / percentage;
+	}
+
+	return (this.units[unitFrom] / this.units[unitTo]) * percentage;
+};
