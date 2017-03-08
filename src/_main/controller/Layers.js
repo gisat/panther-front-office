@@ -220,7 +220,7 @@ Ext.define('PumaMain.controller.Layers', {
 
 		// don't try to get layers for layers without layers. (for Raster Layers / Vector Layers with no linked Data Layers)
 		if (! layer1.params.hasOwnProperty("LAYERS")) {
-			Puma.util.Msg.msg("This layer has no data", '', '1');
+			Puma.util.Msg.msg("This layer has no linked data.", '', '1');
 			return;
 		}
 
