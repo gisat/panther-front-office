@@ -217,6 +217,13 @@ Ext.define('PumaMain.controller.Layers', {
 	onShowMetadata: function(panel, rec) {
 		var layer1 = rec.get('layer1');
 		var layer2 = rec.get('layer2');
+
+		// don't try to get layers for layers without layers. (for Raster Layers / Vector Layers with no linked Data Layers)
+		if (! layer1.params.hasOwnProperty("LAYERS")) {
+			Puma.util.Msg.msg("This layer has no data", '', '1');
+			return;
+		}
+
 		var layers = layer1.params.LAYERS.split(',');
 		if (layer2 && layer2.params.LAYERS) {
 			layers = Ext.Array.merge(layers, layer2.params.LAYERS.split(','))
