@@ -449,6 +449,54 @@
     border: 1px solid #aaa;
 }
 
+.newDesign .configform td {
+    width: 200px;
+}
+.newDesign .configform label {
+    float: left;
+}
+.newDesign .configform .form-label-help {
+    display: block;
+    float: right;
+    width: 20px;
+    margin-top: 5px;
+    margin-right: 5px;
+}
+.newDesign .configform .form-label-help i {
+    display: block;
+    text-align: center;
+    font-family: serif;
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 700;
+    color: white;
+    background: rgba(100,100,100,.8);
+    border-radius: 10px;
+    width: 15px;
+    height: 15px;
+    padding-top: 1px;
+    cursor: pointer;
+    transition: background .3s;
+}
+.newDesign .configform .form-label-help i:hover {
+    background: rgba(100,100,100,1);
+}
+.newDesign .configform .form-label-help p {
+    display: none;
+    position: absolute;
+    z-index: 100000;
+    width: 200px;
+    background: rgba(255,215,215,.9);
+    margin-top: 3px;
+    margin-left: 10px;
+    border: 1px dotted;
+    border-radius: 3px;
+    padding: 5px;
+}
+.newDesign .configform .form-label-help p.open {
+    display: block;
+}
+
 /* === Box === */
 .newDesign #app-reports-paging, #app-tools-actions, #maptools-1059 {
     border-bottom: 1px solid white;

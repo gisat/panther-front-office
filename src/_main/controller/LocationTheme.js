@@ -248,7 +248,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
             console.info("Access not allowed. You have to agree with Agreement.");
             return;
         }
-        this.getController('Area').showLoading("block");
         var val = Ext.ComponentQuery.query('#initialtheme')[0].getValue();
         this.onThemeChange({switching:true},val);
     },
