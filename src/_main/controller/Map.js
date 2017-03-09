@@ -46,6 +46,7 @@ Ext.define('PumaMain.controller.Map', {
 	// URBIS change
 	newGetMap: function(){
 		OlMap.map = this.getOlMap();
+		OlMap.map2 = this.getOlMap2();
 	},
 
 	onExportMapUrl: function(btn) {
@@ -241,19 +242,104 @@ Ext.define('PumaMain.controller.Map', {
 		if (!sel.length) return;
 		var areaController = this.getController('Area');
 		var format = new OpenLayers.Format.WKT();
-		var overallExtent = null;
+
+		var overallExtent = {left: 180, right: -180, top: -90, bottom: 90};
+
+		var extent = null;
+		var finalExtent = null;
 		for (var i=0;i<sel.length;i++) {
 			var area = areas.length ? areas[i] : areaController.getArea(sel[i]);
-			var extent = format.read(area.get('extent')).geometry.getBounds();
-			extent = extent.transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));
-			if (!overallExtent) {
-				overallExtent = extent;
-			} else {
-				overallExtent.extend(extent)
+			extent = format.read(area.get('extent')).geometry.getBounds();
+			overallExtent = this.updateExtent(extent, overallExtent);
+			//debugger;
+			//var previousOverall = jQuery.extend(true, {}, overallExtent);
+		}
+		finalExtent = extent;
+		finalExtent.right = overallExtent.right;
+		finalExtent.left = overallExtent.left;
+		finalExtent.top = overallExtent.top;
+		finalExtent.bottom = overallExtent.bottom;
+		finalExtent = finalExtent.transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));
+		this.zoomToExtent(finalExtent);
+	},
+
+	/**
+	 * Update overall extent with extent of current area.
+	 * It is dealing with dateline issues currently. TODO deal with areas around poles
+	 * @param currentExtent {OpenLayers.Bounds}
+	 * @param overallExtent {Object}
+	 * @returns {Object} updated extent
+	 */
+	updateExtent: function(currentExtent, overallExtent){
+		currentExtent = this.checkIfAreaIsCrossingDateLine(currentExtent);
+		var currentLeft = currentExtent.left;
+		var currentRight = currentExtent.right;
+		var overallLeft = overallExtent.left;
+		var overallRight = overallExtent.right;
+
+		// first iteration
+		if (Math.abs(overallLeft - overallRight) == 360){
+			overallExtent.right = currentRight;
+			overallExtent.left = currentLeft;
+		}
+
+		// overal extent is not crossing dateline (except first iteration)
+		if (overallLeft < overallRight && Math.abs(overallLeft - overallRight) != 360){
+			// current extent is not crossing dateline
+			if (currentRight > currentLeft){
+				if (currentRight > overallRight){
+					overallExtent.right = currentRight;
+				}
+				if (currentLeft < overallLeft){
+					overallExtent.left = currentLeft;
+				}
+			}
+			// current extent is crossing dateline
+			else {
+				if (currentRight < overallRight && Math.abs(currentRight - overallRight) > 180){
+					overallExtent.right = currentRight;
+				}
+				if (currentLeft > overallLeft && Math.abs(currentLeft - overallLeft) > 180){
+					overallExtent.left = currentLeft;
+				}
 			}
 		}
-		
-		this.zoomToExtent(overallExtent);
+
+		// overal extent is crossing dateline
+		else {
+			if (currentLeft < overallLeft && currentLeft > overallRight && Math.abs(currentLeft - overallLeft) < 180){
+				overallExtent.left = currentLeft;
+			}
+			if (currentRight > overallRight && currentRight < overallLeft && Math.abs(currentRight - overallRight) < 180){
+				overallExtent.right = currentRight;
+			}
+		}
+
+
+		// TODO deal with areas around poles
+		if (currentExtent.bottom < overallExtent.bottom){
+			overallExtent.bottom = currentExtent.bottom;
+		}
+		if (currentExtent.top > overallExtent.top){
+			overallExtent.top = currentExtent.top;
+		}
+
+		return overallExtent;
+	},
+
+	/**
+	 * Check if area is crossing dateline. If so, switch left and right
+	 * @param extent {OpenLayers.Bounds}
+	 * @returns {OpenLayers.Bounds}
+	 */
+	checkIfAreaIsCrossingDateLine: function(extent){
+		var left = extent.left;
+		var right = extent.right;
+		if (Math.abs(left -right) > 180 && left < -90 && right > 90){
+			extent.left = right;
+			extent.right = left;
+		}
+		return extent;
 	},
 
 	zoomToExtent: function(extent){
@@ -343,8 +429,13 @@ Ext.define('PumaMain.controller.Map', {
 			cursor = this.cursor2;
 			offsetX = this.map2.div.offsetLeft;
 		}
+		var footerOffset = 0;
+		if ($("#footer").css("display") == "block"){
+			footerOffset = 13;
+		}
+
 		var x = e.x - e.element.offsetParent.offsetLeft + offsetX;
-		var y = e.y - e.element.offsetParent.offsetTop;
+		var y = e.y - (e.screenY - e.offsetY) + footerOffset;
 		cursor.setStyle({
 			top: y + 'px',
 			left: x + 'px'
@@ -530,6 +621,9 @@ Ext.define('PumaMain.controller.Map', {
 	getOlMap: function(){
 		return this.olMap;
 	},
+	getOlMap2: function(){
+		return this.olMap2;
+	},
 
 	afterRender: function(cmp) {
 		var options = this.getOptions(cmp);
@@ -547,6 +641,7 @@ Ext.define('PumaMain.controller.Map', {
 			this.cursor1 = Ext.get('app-map').down('img')
 		} else {
 			this.map2 = map;
+			this.olMap2 = this.map2;
 			this.olMapMultipleSecond = this.map2;
 			this.cursor2 = Ext.get('app-map2').down('img')
 		}
