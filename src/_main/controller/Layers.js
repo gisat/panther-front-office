@@ -976,8 +976,8 @@ Ext.define('PumaMain.controller.Layers', {
 		var params = this.getController('Chart').getParams(cfg);
 
 
-		var layer1 = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', Ext.clone(layerDefaults.params), Ext.clone(layerDefaults.layerParams));
-		var layer2 = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', Ext.clone(layerDefaults.params), Ext.clone(layerDefaults.layerParams));
+		var layer1 = new OpenLayers.Layer.WMS('WMS', Config.geoserverUrl + 'gwc/service/wms', Ext.clone(layerDefaults.params), Ext.clone(layerDefaults.layerParams));
+		var layer2 = new OpenLayers.Layer.WMS('WMS', Config.geoserverUrl + 'gwc/service/wms', Ext.clone(layerDefaults.params), Ext.clone(layerDefaults.layerParams));
 		layer1.events.register('visibilitychanged',{layer:layer1,me:this},function(a,b,c) {
 			this.me.onLayerLegend(null,this.layer.nodeRec,this.layer.visibility);
 		});
