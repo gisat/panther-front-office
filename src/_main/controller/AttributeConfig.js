@@ -4,6 +4,8 @@ Ext.define('PumaMain.controller.AttributeConfig', {
     requires: ['PumaMain.view.ConfigForm'],
     init: function() {
 		this.addInfoOnClickListener(),
+    	this.standardUnits = ['m2', 'ha', 'km2'];
+
 		this.control(
 			{
 				'attributegrid #add': {
@@ -48,6 +50,9 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 				},
 				'#areaUnits': {
 					change: this.onAreaUnitsChange
+				},
+				'#normalizationAreaUnits': {
+					change: this.onNormalizationAreaUnitsChange
 				},
 
 				'choroplethform #apply': {
@@ -335,10 +340,10 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 		var normType = recs[0].get('normType');
 		var normAs = recs[0].get('normAs');
 		var normAttr = recs[0].get('normAttr');
-		var normalizationUnits = recs[0].get('normalizationUnits');
 		var customFactor = recs[0].get('customFactor');
 		var units = recs[0].get('units');
 		var displayUnits = recs[0].get('displayUnits') || units; // Before there is anything set for the attribute the units are default.
+		var overwriteUnits = recs[0].get('normalizationUnits');
 		var areaUnits = recs[0].get('areaUnits');
 
 		if (this.isValidToChangeSettings(recs)) {
@@ -347,22 +352,67 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 			form.down('#normType').setValue(normType);
 			form.down('#normAttributeSet').setValue(normAs);
 			form.down('#normAttribute').setValue(normAttr);
-			form.down('#normalizationUnits').setValue(normalizationUnits);
+			form.down('#normalizationUnits').setValue(overwriteUnits);
 			form.down('#customFactor').setValue(customFactor);
 			form.down('#displayUnits').setValue(displayUnits);
 			form.down('#units').setValue(units);
 			form.down('#areaUnits').setValue(areaUnits);
 
 			// Set current units to the relevant ones.
-
 			this.units = units;
 
+			var normalizationAreaUnits = null;
+			if(normAttr) {
+				var normAttributeVal = form.down('#normAttribute').getValue();
+				var normalizationAttribute = normAttributeVal ? Ext.StoreMgr.lookup('attribute').getById(normAttributeVal) : null;
+				normalizationAreaUnits = normalizationAttribute && normalizationAttribute.units;
+
+			}
+			this.toggleNormalizationAreaUnits(form.down('#normalizationAreaUnits'), units, normalizationAreaUnits);
+			this.disableCustomFactorIfOnlyStandard(form.down('#customFactor'), units, normalizationAreaUnits);
+
+			this.updateDisplayedUnits(form.down('#displayUnits'), units, normalizationAreaUnits, displayUnits);
 			this.setActiveCard(btn, 2);
 		} else {
 			form.getForm().applyToFields({disabled: true});
 			form.getForm().reset();
 
 			alert('You can bulk edit configuration only for attributes with the same source units, same normalization type, change units, custom factor and for attribute and attribute set normalization also the same attribute and/or attribute set.');
+		}
+	},
+
+	// TODO: Area units in custom factor.
+	// TODO: Change to attribute has incorrect information.
+
+	/**
+	 * It takes source units and normalization units and based on this information it either enables or disables the
+	 * custom factor field
+	 * @param customFactorField
+	 * @param sourceUnits
+	 * @param normalizationUnits
+	 */
+	disableCustomFactorIfOnlyStandard: function(customFactorField, sourceUnits, normalizationUnits) {
+		var validUnits = this.standardUnits;
+		if(validUnits.indexOf(sourceUnits) == -1 || (normalizationUnits && validUnits.indexOf(normalizationUnits) == -1)) {
+			customFactorField.enable();
+		} else {
+			customFactorField.disable();
+		}
+	},
+
+	/**
+	 * Show the possibility to update normalization area units in case normalization area is in standard units and the
+	 * units are custom.
+	 * @param normalizationAreaUnitsField
+	 * @param normalizationUnits
+	 */
+	toggleNormalizationAreaUnits: function(normalizationAreaUnitsField, sourceUnits, normalizationUnits) {
+		var validUnits = this.standardUnits;
+		if(normalizationUnits && validUnits.indexOf(normalizationUnits) != -1 && validUnits.indexOf(sourceUnits) == -1) {
+			normalizationAreaUnitsField.setValue(normalizationUnits);
+			normalizationAreaUnitsField.show();
+		} else {
+			normalizationAreaUnitsField.hide();
 		}
 	},
 
@@ -434,8 +484,14 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 
 		return areEqual;
 	},
-        
-    onNormAttrSetChange: function(combo,val) {
+
+	/**
+	 * It is triggered when normalization attribute set is changed. This means when it is reset or when normalization
+	 * type is attribute or attribute set.
+	 * @param combo
+	 * @param val
+	 */
+	onNormAttrSetChange: function(combo,val) {
         var attrSet = val ? Ext.StoreMgr.lookup('attributeset').getById(val) : null;
         var attributes = attrSet ? attrSet.get('attributes') : [];
         var store = combo.up('panel').down('#normAttribute').store;
@@ -448,16 +504,19 @@ Ext.define('PumaMain.controller.AttributeConfig', {
             return Ext.Array.contains(attributes,rec.get('_id')) && numeric
         }]);
 
-        var panel = combo.up('panel');
-        var unitsToShow = '%';
-		panel.down('#normalizationUnits').setValue(unitsToShow);
-		panel.down('#customFactor').setValue(100);
-		panel.down('#displayUnits').setValue(unitsToShow);
+		var panel = combo.up('panel');
+		if(panel.down('#normType').getValue() == 'attributeset') {
+			var unitsToShow = '%';
+			panel.down('#normalizationUnits').setValue(unitsToShow);
+			panel.down('#customFactor').setValue(100);
+			this.updateDisplayedUnits(panel.down('#displayUnits'), null, null, unitsToShow);
+		}
     },
 
 	/**
 	 * It updates the normalization attribute and based on the information it contains it also updates normalization
-	 * units and display units.
+	 * units and display units. It also then update the state of custom factor and either show or hide the possibility
+	 * to select the normalization area units.
 	 * @param combo
 	 * @param val
 	 */
@@ -466,7 +525,39 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 			return;
 		}
 		var normalizationAttribute = val ? Ext.StoreMgr.lookup('attribute').getById(val) : null;
-		this.updateCustomUnits(combo.up('panel'), normalizationAttribute && normalizationAttribute.get('units'));
+		var normalizationUnits = normalizationAttribute && normalizationAttribute.get('units');
+		var panel = combo.up('panel');
+		this.updateCustomUnits(panel, normalizationUnits);
+
+		var sourceUnits = panel.down('#units').getValue();
+		this.toggleNormalizationAreaUnits(
+			panel.down('#normalizationAreaUnits'),
+			sourceUnits,
+			normalizationUnits
+		);
+		this.disableCustomFactorIfOnlyStandard(
+			panel.down('#customFactor'),
+			sourceUnits,
+			normalizationUnits
+		);
+	},
+
+	/**
+	 * This happens when user updates the standard units to be shown to the user. It happens when source unit is non standard and
+	 * normalization unit is standard.
+	 * @param combo
+	 * @param val
+	 */
+	onNormalizationAreaUnitsChange: function(combo, val) {
+		var normAttributeVal = combo.up().down('#normAttribute').getValue();
+		var normalizationAttribute = normAttributeVal ? Ext.StoreMgr.lookup('attribute').getById(normAttributeVal) : null;
+		var sourceUnits = normalizationAttribute && normalizationAttribute.get('units');
+		var customFactor = this.getCustomFactor(val, sourceUnits);
+		combo.up().down('#customFactor').setValue(customFactor);
+		// Update display unit.
+		this.updateDisplayedUnits(combo.up().down('#displayUnits'), this.units, val, null);
+		combo.up().down('#normalizationUnits').setValue('');
+		this.updateCustomFactor(combo.up().down('#customFactor'), sourceUnits, val, null);
 	},
 
 	/**
@@ -493,7 +584,60 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 			panel.down('#customFactor').setValue(100);
 		}
 
-		panel.down('#displayUnits').setValue(unitsToShow);
+		this.updateDisplayedUnits(panel.down('#displayUnits'), this.units, normalizationUnits, null);
+	},
+
+	/**
+	 * Based on the rules it update displayed units.
+	 *   By default overwrite units, overwrite all other options
+	 *   If both source and normalization unit is standard the result is in percent
+	 *   If either source or normalization unit is nonstandard it is source / normalization
+	 * @param displayUnitsField
+	 * @param sourceUnit
+	 * @param normalizationUnit
+	 * @param overwriteUnit
+	 */
+	updateDisplayedUnits(displayUnitsField, sourceUnit, normalizationUnit, overwriteUnit) {
+		var displayUnit = '';
+		var standardUnits = this.standardUnits;
+
+		if(overwriteUnit) {
+			displayUnit = overwriteUnit;
+		} else if(standardUnits.indexOf(sourceUnit) != -1 && standardUnits.indexOf(normalizationUnit) != -1) {
+			displayUnit = '%';
+		} else if(sourceUnit == normalizationUnit) {
+			displayUnit = '%';
+		} else {
+			displayUnit = sourceUnit + '/' + normalizationUnit;
+		}
+
+		displayUnitsField.setValue(displayUnit);
+	},
+
+	/**
+	 * It updates custom factor based on similar rules to displayed units.
+	 *   If there are overwrite units then get custom factor based on the source units and overwrite units.
+	 *   If the source units and normalization units are both
+	 * @param customFactorField
+	 * @param sourceUnit
+	 * @param normalizationUnit
+	 * @param overwriteUnit
+	 */
+	updateCustomFactor(customFactorField, sourceUnit, normalizationUnit, overwriteUnit) {
+		var customFactor = 1;
+		var standardUnits = this.standardUnits;
+
+		if(overwriteUnit) {
+			customFactor = this.getCustomFactor(sourceUnit, overwriteUnit);
+		} else if(standardUnits.indexOf(sourceUnit) != -1 && standardUnits.indexOf(normalizationUnit) != -1) {
+			customFactor = this.getCustomFactor(sourceUnit, normalizationUnit);
+		} else if(sourceUnit == normalizationUnit) {
+			customFactor = 100;
+		} else {
+			customFactor = 1;
+		}
+
+		customFactorField.setValue(customFactor);
 	},
 
 	/**
@@ -507,11 +651,23 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 		var attrCombo = panel.down('#normAttribute');
 		var attrSetCombo = panel.down('#normAttributeSet');
 		var areaUnits = panel.down('#areaUnits');
+		var normalizationAreaUnits = panel.down('#normalizationAreaUnits');
+		var customFactor = panel.down('#customFactor');
+		var changeUnits = panel.down('#normalizationUnits');
+		var displayUnits = panel.down('#displayUnits');
+		customFactor.reset();
+		attrCombo.reset();
+		attrSetCombo.reset();
+		normalizationAreaUnits.reset();
+
+		changeUnits.setValue('');
+		displayUnits.setValue(this.units);
 
 		if (val == 'attributeset') {
 			attrSetCombo.show();
 			attrCombo.hide();
 			areaUnits.hide();
+			normalizationAreaUnits.hide();
 		} else if (val == 'attribute') {
 			attrSetCombo.show();
 			attrCombo.show();
@@ -519,6 +675,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 		} else if (val == 'area') {
 			attrSetCombo.hide();
 			attrCombo.hide();
+			normalizationAreaUnits.hide();
 
 			var allowedUnits = ['m2','ha','km2'];
 			if(allowedUnits.indexOf(this.units) == -1) {
@@ -530,18 +687,22 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 
 			this.updateCustomUnits(combo.up('panel'), areaUnits.getValue() || 'm2');
 		} else {
-			attrCombo.reset();
-			attrSetCombo.reset();
-
 			attrSetCombo.hide();
 			attrCombo.hide();
 			areaUnits.hide();
+			normalizationAreaUnits.hide();
 		}
 	},
 
+	/**
+	 * When normalization over area it is possible to update the units which will be then used. It must update the
+	 * dispayed units and custom factor
+	 * @param combo
+	 * @param val
+	 */
 	onAreaUnitsChange: function(combo, val) {
-		var areaUnits = combo.up('panel').down('#areaUnits');
-		this.updateCustomUnits(combo.up('panel'), areaUnits.getValue());
+		this.updateCustomUnits(combo.up('panel'), val);
+		this.updateCustomFactor(combo.up('panel').down('#customFactor'), val, 'm2', null);
 	},
 
 	onChartTypeChange: function(combo,val) {
@@ -572,7 +733,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
     onChangeUnitsChange: function(combo, value) {
 		var customFactor = combo.up('configform').down('#customFactor');
 		var currentAttributeUnits = this.units;
-		var validUnits = ['m2', 'ha', 'km2'];
+		var validUnits = this.standardUnits;
 
 		if(value == '%') {
 			customFactor.setValue(100);
@@ -581,7 +742,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 		}
 
 		var normAttribute = combo.up('panel').down('#normalizationUnits').getValue();
-		combo.up('panel').down('#displayUnits').setValue(normAttribute);
+		this.updateDisplayedUnits(combo.up('panel').down('#displayUnits'), this.units, null, normAttribute);
 	},
 
 	getCustomFactor: function(source, result) {

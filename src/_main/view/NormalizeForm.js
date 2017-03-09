@@ -91,6 +91,14 @@ Ext.define('PumaMain.view.NormalizeForm', {
 			name: 'normAttribute',
 			hidden: true,
 			itemId: 'normAttribute'
+		}, {
+			xtype: 'pumacombo',
+			store: Ext.StoreMgr.lookup('area_units'),
+			fieldLabel: 'Normalization attribute area units',
+			name: 'normalizationAreaUnits',
+			hidden: true,
+			valueField: 'type',
+			itemId: 'normalizationAreaUnits'
 		}];
 
 		this.buttons = [{
