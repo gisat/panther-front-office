@@ -600,6 +600,28 @@
     padding-right: 10px;
 }
 
+.newDesign .x-panel-default-framed {
+    padding-top: 10px;
+}
+.newDesign .x-panel-header.x-panel-header-default-framed {
+    background: white !important;
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+}
+.newDesign .x-panel-header-text-default-framed {
+    color: #555;
+    font-family: "Open Sans", sans-serif;
+    font-size: 12px;
+}
+
+.newDesign .form-section-title {
+    width: 100%;
+    padding: 20px 0 10px;
+    font-weight: 700;
+    color: #555;
+}
+
 /* Tabs ================= */
 .newDesign.x-border-box .x-tab-bar {
     background: white;
