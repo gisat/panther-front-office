@@ -71,21 +71,23 @@ define(['../../../error/ArgumentError',
 	 * Rebuild Feature Info Window and settings window according to current configuration
 	 * @param attributes {Array} List of all available attributes
 	 * @param gid {string}
+	 * @param periods {Array} List of periods
 	 */
-	FeatureInfoWindow.prototype.rebuild = function(attributes, gid){
+	FeatureInfoWindow.prototype.rebuild = function(attributes, gid, periods){
 		this._settings.rebuild(attributes);
 		this._selectedAttributes = this._settings.getSelectedAttributes();
 		this._gid = gid;
-		this.rebuildWindow(this._selectedAttributes);
+		this.rebuildWindow(this._selectedAttributes, periods);
 	};
 
 	/**
 	 * Rebuild the content of a window
 	 * @param attributes {Array} list of selected attributes
+	 * @param periods {Array} List of periods
 	 */
-	FeatureInfoWindow.prototype.rebuildWindow = function(attributes){
+	FeatureInfoWindow.prototype.rebuildWindow = function(attributes, periods){
 		this.handleLoading("show");
-		new Filter().featureInfo(attributes, this._gid).then(this.redraw.bind(this));
+		new Filter().featureInfo(attributes, this._gid, periods).then(this.redraw.bind(this));
 	};
 
 	/**
@@ -209,15 +211,14 @@ define(['../../../error/ArgumentError',
 
 	/**
 	 * Set the position of info window on the screen
-	 * @param coordinates {Object}
-	 * @param coordinates.x {number}
-	 * @param coordinates.y {number}
+	 * @param x {number}
+	 * @param y {number}
 	 */
-	FeatureInfoWindow.prototype.setScreenPosition = function(coordinates){
+	FeatureInfoWindow.prototype.setScreenPosition = function(x,y){
 		var mapOffsetTop = $('#app-map').offset().top;
 		this._infoWindow.offset({
-			top: coordinates.y + mapOffsetTop + 5,
-			left: coordinates.x + 5
+			top: y + mapOffsetTop + 5,
+			left: x + 5
 		});
 	};
 

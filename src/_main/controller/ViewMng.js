@@ -57,9 +57,23 @@ Ext.define('PumaMain.controller.ViewMng', {
         var themeId = Ext.ComponentQuery.query('#seltheme')[0].getValue();
         var theme = Ext.StoreMgr.lookup('theme').getById(themeId);
         theme.set('visOrder',ids);
-        theme.save();
+        this.saveRecordsOrder(themeId, ids);
+        //theme.save();
         store.sort();
         
+    },
+	/**
+     * Save the order of visualizations
+     * @param theme {string} id of the theme
+     * @param visualizations {Array} list of visaulizations
+     */
+    saveRecordsOrder: function(theme, visualizations){
+        $.post(Config.url + "rest/vis/saveorder", {
+            theme: theme,
+            visOrder: visualizations
+        }).done(function(data) {
+            console.log("Visualizations order saved!")
+        });
     },
     onDelete: function(grid,rec) {
         rec.destroy();
