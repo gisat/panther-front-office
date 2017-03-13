@@ -93,7 +93,7 @@ define(['js/util/metadata/Attributes',
         if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
             var webWorldWind = buildWorldWindMap();
             widgets.push(buildWorldWindWidget(webWorldWind));
-            widgets3D.push(buildMapDiagramsWidget(webWorldWind, filter));
+            //widgets3D.push(buildMapDiagramsWidget(webWorldWind, filter));
         }
         if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
             widgets.push(buildEvaluationWidget(filter));

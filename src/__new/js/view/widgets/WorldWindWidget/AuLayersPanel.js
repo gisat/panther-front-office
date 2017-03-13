@@ -38,7 +38,7 @@ define(['../../../error/ArgumentError',
 	};
 
 	/**
-	 * Add layers to the panel and map
+	 * Add layer to the panel and map
 	 * @param elementId {string} Id of the HTML element
 	 * @param name {string} Name of the layer
 	 * @param container {JQuery} JQuery selector of the target element
@@ -47,11 +47,8 @@ define(['../../../error/ArgumentError',
 	 */
 	AuLayersPanel.prototype.addLayer = function(elementId, name, container, layerId, visible){
 		this.addCheckbox(elementId, name, container, layerId, visible);
-		var layer = this._worldWind._layers.getLayerById(layerId);
-		if (layerId == "analyticalUnits"){
-			this._auLayer = layer;
-		}
-		this._worldWind.addLayer(layer);
+		this._auLayer = this._worldWind.buildAuLayer(layerId);
+		this._worldWind.addLayer(this._auLayer);
 	};
 
 	/**
@@ -96,7 +93,7 @@ define(['../../../error/ArgumentError',
 	};
 
 	/**
-	 * Hide all background layers and show only selected one
+	 * Hide/show layer
 	 */
 	AuLayersPanel.prototype.toggleLayers = function(){
 		var self = this;

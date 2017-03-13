@@ -4,6 +4,7 @@ define(['../../../error/ArgumentError',
 
 	'./AuLayersPanel',
 	'./BackgroundLayersPanel',
+	'./WmsLayersPanel',
 
 	'jquery',
 	'string',
@@ -15,6 +16,7 @@ define(['../../../error/ArgumentError',
 
 			AuLayersPanel,
 			BackgroundLayersPanel,
+			WmsLayersPanel,
 
 			$,
 			S,
@@ -53,6 +55,7 @@ define(['../../../error/ArgumentError',
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingParameter"));
 		}
 		this._auLayersPanel.rebuild(configuration);
+		this._wmsLayersPanel.rebuild(configuration);
 	};
 
 	/**
@@ -67,6 +70,7 @@ define(['../../../error/ArgumentError',
 
 		this._backgroundLayersPanel = this.buildBackgroundLayersPanel();
 		this._auLayersPanel = this.buildAuLayersPanel();
+		this._wmsLayersPanel = this.buildWmsLayersPanel();
 
 		this.addEventsListeners();
 	};
@@ -91,6 +95,19 @@ define(['../../../error/ArgumentError',
 		return new AuLayersPanel({
 			id: "au-layers",
 			name: "Analytical Units Layers",
+			target: this._panelsSelector,
+			isOpen: true,
+			worldWind: this._worldWind
+		});
+	};
+
+	/**
+	 * Build panel with wms layers
+	 */
+	WorldWindWidgetPanels.prototype.buildWmsLayersPanel = function(){
+		return new WmsLayersPanel({
+			id: "wms-layers",
+			name: "Custom WMS Layers",
 			target: this._panelsSelector,
 			isOpen: true,
 			worldWind: this._worldWind

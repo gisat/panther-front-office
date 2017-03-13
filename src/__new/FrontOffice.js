@@ -9,6 +9,7 @@ define([
 	'js/stores/gisat/AttributeSets',
 	'js/stores/gisat/Locations',
 	'js/stores/gisat/Visualizations',
+	'js/stores/gisat/WmsLayers',
 	'jquery',
 	'underscore'
 ], function(ArgumentError,
@@ -21,6 +22,7 @@ define([
 			AttributeSets,
 			Locations,
 			Visualizations,
+			WmsLayers,
 			$,
 			_){
 	/**
@@ -293,6 +295,7 @@ define([
 		Stores.retrieve('attributeSet').all();
 		Stores.retrieve('location').all();
 		Stores.retrieve('visualization').all();
+		Stores.retrieve('wmsLayer').all();
 	};
 
 	return FrontOffice;

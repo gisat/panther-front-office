@@ -21,6 +21,7 @@ define(['../../../error/ArgumentError',
 	 */
 	var MyRenderableLayer = function(options){
 		RenderableLayer.call(this, options.name);
+		this.metadata = options.metadata;
 	};
 
 	MyRenderableLayer.prototype = Object.create(RenderableLayer.prototype);
