@@ -754,11 +754,6 @@ Ext.define('PumaMain.controller.Layers', {
 			customFactor = customFactor || 1;
 			if (normalization=='area') {
 				normAttrUnits = attrs[0].areaUnits || 'm2';
-				// Special case when we need to transform the results from custom/m2 to custom/km2 or custom/ha
-				// TODO: Clean this part. Current state is hell.
-				if(units.allowedUnits.indexOf(attrUnits) == -1) {
-					customFactor *= units.translate(normAttrUnits,'m2',false);
-				}
 			}
 
 			// Specific use case is when I normalize over attribute. In this case, it is necessary to first handle the
