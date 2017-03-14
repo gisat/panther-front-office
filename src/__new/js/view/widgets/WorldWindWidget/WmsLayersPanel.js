@@ -43,7 +43,7 @@ define(['../../../error/ArgumentError',
 		if (!configuration){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WmsLayersPanel", "rebuild", "missingParameter"));
 		}
-		this.removeAllLayers();
+		this.clear();
 		var filter = {};
 		filter.scope = Number(configuration.dataset);
 		if (configuration.place.length > 0){
@@ -56,7 +56,6 @@ define(['../../../error/ArgumentError',
 					self.addLayer(layer);
 				});
 			}
-			self.toggleLayers();
 		}).catch(function(err){
 			throw new Error(err);
 		});
@@ -70,22 +69,17 @@ define(['../../../error/ArgumentError',
 		var id = "custom-wms-" + layer.id;
 		var name = layer.name;
 		var container = this._panelBodySelector;
+
 		this.addCheckbox(id, name, container, id, false);
-		this._worldWind.addWmsLayer(layer);
+		this._worldWind.addWmsLayer(layer, false);
 	};
 
 	/**
 	 * Remove all layers from this panel
 	 */
-	WmsLayersPanel.prototype.removeAllLayers = function(){
-		var self = this;
-		this._panelBodySelector.find(".checkbox-row").each(function(index, item){
-			var checkbox = $(item);
-			var id = checkbox.attr("data-id");
-			var layer = self._worldWind.getLayerById(id);
-			self._worldWind.removeLayer(layer);
-		});
+	WmsLayersPanel.prototype.clear = function(){
 		this._panelBodySelector.html('');
+		this._worldWind.removeAllLayersFromGroup('customWms');
 	};
 
 	/**
@@ -99,25 +93,22 @@ define(['../../../error/ArgumentError',
 	 * Add onclick listener to every checkbox
 	 */
 	WmsLayersPanel.prototype.addCheckboxOnClickListener = function(){
-		this._panelBodySelector.on("click", ".checkbox-row", this.toggleLayers.bind(this));
+		this._panelBodySelector.on("click", ".checkbox-row", this.toggleLayer.bind(this));
 	};
 
 	/**
 	 * Hide/show layers
 	 */
-	WmsLayersPanel.prototype.toggleLayers = function(event){
+	WmsLayersPanel.prototype.toggleLayer = function(event){
 		var self = this;
 		setTimeout(function(){
-			self._panelBodySelector.find(".checkbox-row").each(function(index, item){
-				var checkbox = $(item);
-				var id = checkbox.attr("data-id");
-				var layer = self._worldWind.getLayerById(id);
-				if (checkbox.hasClass("checked")){
-					self._worldWind.showLayer(layer);
-				} else {
-					self._worldWind.hideLayer(layer);
-				}
-			});
+			var checkbox = $(event.currentTarget);
+			var layerId = checkbox.attr("data-id");
+			if (checkbox.hasClass("checked")){
+				self._worldWind.showLayer(layerId);
+			} else {
+				self._worldWind.hideLayer(layerId);
+			}
 		},50);
 	};
 

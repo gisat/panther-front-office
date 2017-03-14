@@ -3,6 +3,7 @@ define(['../../error/ArgumentError',
 		'../../util/Logger',
 
 		'./layers/AnalyticalUnitsLayer',
+		'./layers/Layers',
 		'./layers/MapDiagramsLayer',
 		'./MyGoToAnimator',
 
@@ -14,6 +15,7 @@ define(['../../error/ArgumentError',
 			Logger,
 
 			AnalyticalUnitsLayer,
+			Layers,
 			MapDiagramsLayer,
 			MyGoToAnimator,
 
@@ -60,23 +62,77 @@ define(['../../error/ArgumentError',
 	WorldWindMap.prototype.setupWebWorldWind = function(){
 		this._wwd = this.buildWorldWindow();
 		this._goToAnimator = new MyGoToAnimator(this._wwd);
+		this.layers = new Layers();
+	};
+
+	/**
+	 * Add layer to the list of layers
+	 * @param layer {WorldWind.Layer}
+	 */
+	WorldWindMap.prototype.addLayer = function(layer){
+		this.layers.addLayer(layer);
+		if (layer.hasOwnProperty("metadata") && layer.metadata.active){
+			this.addLayerToMap(layer);
+		}
 	};
 
 	/**
 	 * Add layer to the map
 	 * @param layer {WorldWind.Layer}
 	 */
-	WorldWindMap.prototype.addLayer = function(layer){
+	WorldWindMap.prototype.addLayerToMap = function(layer){
 		this._wwd.addLayer(layer);
 		this.redraw();
+	};
+
+	/**
+	 * Show layer in map
+	 * @param id {string} Id of the layer
+	 */
+	WorldWindMap.prototype.showLayer = function(id){
+		this.layers.activateLayer(id);
+		var layer = this.layers.getLayerById(id);
+		this.addLayerToMap(layer);
+	};
+
+	/**
+	 * Hide the layer from map
+	 * @param id {string} Id of the layer
+	 */
+	WorldWindMap.prototype.hideLayer = function(id){
+		this.layers.deactivateLayer(id);
+		var layer = this.layers.getLayerById(id);
+		this.removeLayerFromMap(layer);
+	};
+
+	/**
+	 * Remove layer from the list of layers
+	 * @param layer {WorldWind.Layer}
+	 */
+	WorldWindMap.prototype.removeLayer = function(layer){
+		this.layers.removeLayer(layer.metadata.id);
+		this.removeLayerFromMap(layer);
 	};
 
 	/**
 	 * Remove layer from map
 	 * @param layer {WorldWind.Layer}
 	 */
-	WorldWindMap.prototype.removeLayer = function(layer){
+	WorldWindMap.prototype.removeLayerFromMap = function(layer){
 		this._wwd.removeLayer(layer);
+		this.redraw();
+	};
+
+	/**
+	 * Remove all layers from given group
+	 * @param group {string} name of the group
+	 */
+	WorldWindMap.prototype.removeAllLayersFromGroup = function(group){
+		var layers = this.layers.getLayersByGroup(group);
+		var self = this;
+		layers.forEach(function(layer){
+			self.removeLayer(layer);
+		});
 	};
 
 	/**
@@ -90,37 +146,37 @@ define(['../../error/ArgumentError',
 	};
 
 	/**
-	 * Show layer on the top of the globe
+	 * Show background layer
 	 * @param layer {WorldWind.Layer}
 	 */
-	WorldWindMap.prototype.showLayer = function(layer){
+	WorldWindMap.prototype.showBackgroundLayer = function(layer){
 		layer.enabled = true;
 		this.redraw();
 	};
 
 	/**
-	 * Show layer
+	 * Hide background layer
 	 * @param layer {WorldWind.Layer}
 	 */
-	WorldWindMap.prototype.hideLayer = function(layer){
+	WorldWindMap.prototype.hideBackgroundLayer = function(layer){
 		layer.enabled = false;
 		this.redraw();
 	};
 
 	/**
-	 * Build analztical units layer
+	 * Build analytical units layer
 	 * @param id {string}
 	 * @returns {AnalyticalUnitsLayer}
 	 */
 	WorldWindMap.prototype.buildAuLayer = function(id){
-		return new AnalyticalUnitsLayer({metadata: {id: id, group: "Analytical units"}});
+		return new AnalyticalUnitsLayer({metadata: {active: true, id: id, group: "Analytical units"}});
 	};
 
 	/**
-	 * Create base layer according to id and add it to the map
+	 * Create base layer according to id and add it to the map.
 	 * @param id {string}
 	 */
-	WorldWindMap.prototype.addBaseLayer = function(id){
+	WorldWindMap.prototype.addBackgroundLayer = function(id){
 		var layer;
 		switch (id){
 			case "bingRoads":
@@ -134,17 +190,19 @@ define(['../../error/ArgumentError',
 				break;
 		}
 		layer.metadata = {
+			active: true,
 			id: id,
 			group: "background"
 		};
-		this.addLayer(layer);
+		this.addLayerToMap(layer);
 	};
 
 	/**
-	 * Add WMS layer to the map
+	 * Add WMS layer to the list of layers
 	 * @param data {Object} wms metadata
+	 * @param state {boolean} true, if the layer should be displayed
 	 */
-	WorldWindMap.prototype.addWmsLayer = function(data){
+	WorldWindMap.prototype.addWmsLayer = function(data, state){
 		var layer = new WorldWind.WmsLayer({
 			service: data.url,
 			layerNames: data.layer,
@@ -155,6 +213,7 @@ define(['../../error/ArgumentError',
 			size: 512
 		}, null);
 		layer.metadata = {
+			active: state,
 			id: "custom-wms-" + data.id,
 			group: "customWms"
 		};

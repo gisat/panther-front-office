@@ -89,22 +89,22 @@ define(['../../../error/ArgumentError',
 	 * Add onclick listener to every radio
 	 */
 	AuLayersPanel.prototype.addCheckboxOnClickListener = function(){
-		this._panelBodySelector.find(".checkbox-row").on("click", this.toggleLayers.bind(this));
+		this._panelBodySelector.find(".checkbox-row").on("click", this.toggleLayer.bind(this));
 	};
 
 	/**
 	 * Hide/show layer
 	 */
-	AuLayersPanel.prototype.toggleLayers = function(){
+	AuLayersPanel.prototype.toggleLayer = function(){
 		var self = this;
 		setTimeout(function(){
 			var checkbox = self._panelBodySelector.find(".checkbox-row");
 			if (checkbox.hasClass("checked")){
 				self._auLayer.enableRenderables();
-				self._worldWind.showLayer(self._auLayer);
+				self._worldWind.showLayer(self._auLayer.metadata.id);
 			} else {
 				self._auLayer.disableRenderables();
-				self._worldWind.hideLayer(self._auLayer);
+				self._worldWind.hideLayer(self._auLayer.metadata.id);
 			}
 		},50);
 	};

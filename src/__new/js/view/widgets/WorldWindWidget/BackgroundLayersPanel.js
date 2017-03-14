@@ -48,10 +48,8 @@ define(['../../../error/ArgumentError',
 	 */
 	BackgroundLayersPanel.prototype.addLayer = function(elementId, name, container, layerId, visible){
 		this.addRadio(elementId, name, container, layerId, visible);
-		this._worldWind.addBaseLayer(layerId);
+		this._worldWind.addBackgroundLayer(layerId);
 	};
-
-
 
 	/**
 	 * Add listeners
@@ -79,9 +77,9 @@ define(['../../../error/ArgumentError',
 				var dataId = radio.attr("data-id");
 				var layer = self._worldWind.getLayerById(dataId);
 				if (radio.hasClass("checked")){
-					self._worldWind.showLayer(layer);
+					self._worldWind.showBackgroundLayer(layer);
 				} else {
-					self._worldWind.hideLayer(layer);
+					self._worldWind.hideBackgroundLayer(layer);
 				}
 			});
 		},50);
