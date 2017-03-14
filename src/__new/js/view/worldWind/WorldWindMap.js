@@ -94,7 +94,7 @@ define(['../../error/ArgumentError',
 	 * @param layer {WorldWind.Layer}
 	 */
 	WorldWindMap.prototype.showLayer = function(layer){
-		layer.opacity = 1;
+		layer.enabled = true;
 		this.redraw();
 	};
 
@@ -103,7 +103,7 @@ define(['../../error/ArgumentError',
 	 * @param layer {WorldWind.Layer}
 	 */
 	WorldWindMap.prototype.hideLayer = function(layer){
-		layer.opacity = 0;
+		layer.enabled = false;
 		this.redraw();
 	};
 
@@ -148,7 +148,7 @@ define(['../../error/ArgumentError',
 		var layer = new WorldWind.WmsLayer({
 			service: data.url,
 			layerNames: data.layer,
-			sector: new WorldWind.Sector(0,90,0,90),
+			sector: new WorldWind.Sector(40,60,10,20),
 			levelZeroDelta: new WorldWind.Location(5,5),
 			numLevels: 12,
 			format: "img/png",

@@ -43,7 +43,7 @@ define(['../../../error/ArgumentError',
 		if (!configuration){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WmsLayersPanel", "rebuild", "missingParameter"));
 		}
-		this._panelBodySelector.html('');
+		this.removeAllLayers();
 
 		var filter = {};
 		filter.scope = Number(configuration.dataset);
@@ -73,6 +73,19 @@ define(['../../../error/ArgumentError',
 		var container = this._panelBodySelector;
 		this.addCheckbox(id, name, container, id, false);
 		this._worldWind.addWmsLayer(layer);
+	};
+
+	/**
+	 * Remove all layers from this panel
+	 */
+	WmsLayersPanel.prototype.removeAllLayers = function(){
+		this._panelBodySelector.find(".checkbox-row").each(function(index, item){
+			var checkbox = $(item);
+			var id = checkbox.attr("data-id");
+			var layer = this._worldWind.getLayerById(id);
+			this._worldWind.removeLayer(layer);
+		});
+		this._panelBodySelector.html('');
 	};
 
 	/**
