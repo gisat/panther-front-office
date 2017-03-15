@@ -13,6 +13,11 @@ define(['../../../error/ArgumentError',
 			AnalyticalUnitsLayer,
 			$
 ){
+	/**
+	 * This class is intended for operations with layers
+	 * @param wwd {WorldWindow}
+	 * @constructor
+	 */
 	var Layers = function(wwd){
 		if (!wwd){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Layers", "constructor", "missingWorldWind"));
