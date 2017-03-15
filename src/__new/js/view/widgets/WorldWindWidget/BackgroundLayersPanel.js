@@ -48,7 +48,7 @@ define(['../../../error/ArgumentError',
 	 */
 	BackgroundLayersPanel.prototype.addLayer = function(elementId, name, container, layerId, visible){
 		this.addRadio(elementId, name, container, layerId, visible);
-		this._worldWind.addBackgroundLayer(layerId);
+		this._worldWind.layers.addBackgroundLayer(layerId);
 	};
 
 	/**
@@ -75,11 +75,10 @@ define(['../../../error/ArgumentError',
 			radios.each(function(index, item){
 				var radio = $(item);
 				var dataId = radio.attr("data-id");
-				var layer = self._worldWind.getLayerById(dataId);
 				if (radio.hasClass("checked")){
-					self._worldWind.showBackgroundLayer(layer);
+					self._worldWind.layers.showBackgroundLayer(dataId);
 				} else {
-					self._worldWind.hideBackgroundLayer(layer);
+					self._worldWind.layers.hideBackgroundLayer(dataId);
 				}
 			});
 		},50);

@@ -71,7 +71,7 @@ define(['../../../error/ArgumentError',
 		var container = this._panelBodySelector;
 
 		this.addCheckbox(id, name, container, id, false);
-		this._worldWind.addWmsLayer(layer, false);
+		this._worldWind.layers.addWmsLayer(layer, false);
 	};
 
 	/**
@@ -79,7 +79,7 @@ define(['../../../error/ArgumentError',
 	 */
 	WmsLayersPanel.prototype.clear = function(){
 		this._panelBodySelector.html('');
-		this._worldWind.removeAllLayersFromGroup('customWms');
+		this._worldWind.layers.removeAllLayersFromGroup('customWms');
 	};
 
 	/**
@@ -105,9 +105,9 @@ define(['../../../error/ArgumentError',
 			var checkbox = $(event.currentTarget);
 			var layerId = checkbox.attr("data-id");
 			if (checkbox.hasClass("checked")){
-				self._worldWind.showLayer(layerId);
+				self._worldWind.layers.showLayer(layerId);
 			} else {
-				self._worldWind.hideLayer(layerId);
+				self._worldWind.layers.hideLayer(layerId);
 			}
 		},50);
 	};

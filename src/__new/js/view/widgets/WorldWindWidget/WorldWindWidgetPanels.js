@@ -40,6 +40,7 @@ define(['../../../error/ArgumentError',
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingWorldWind"));
 		}
 		this._worldWind = options.worldWind;
+		this._worldWindLayers = this._worldWind.layers;
 
 		this._id = options.id;
 		this._target = options.target;
