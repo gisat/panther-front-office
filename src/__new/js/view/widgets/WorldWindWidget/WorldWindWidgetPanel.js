@@ -122,5 +122,19 @@ define(['../../../error/ArgumentError',
 		});
 	};
 
+	/**
+	 * Add onclick listener to every radio
+	 */
+	WorldWindWidgetPanel.prototype.addRadioOnClickListener = function(){
+		this._panelBodySelector.find(".radiobox-row").on("click", this.toggleLayers.bind(this));
+	};
+
+	/**
+	 * Add onclick listener to every checkbox
+	 */
+	WorldWindWidgetPanel.prototype.addCheckboxOnClickListener = function(){
+		this._panelBodySelector.on("click", ".checkbox-row", this.toggleLayer.bind(this));
+	};
+
 	return WorldWindWidgetPanel;
 });

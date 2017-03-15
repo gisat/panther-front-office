@@ -86,13 +86,6 @@ define(['../../../error/ArgumentError',
 	};
 
 	/**
-	 * Add onclick listener to every radio
-	 */
-	AuLayersPanel.prototype.addCheckboxOnClickListener = function(){
-		this._panelBodySelector.find(".checkbox-row").on("click", this.toggleLayer.bind(this));
-	};
-
-	/**
 	 * Hide/show layer
 	 */
 	AuLayersPanel.prototype.toggleLayer = function(){

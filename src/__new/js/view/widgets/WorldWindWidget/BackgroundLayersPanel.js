@@ -59,13 +59,6 @@ define(['../../../error/ArgumentError',
 	};
 
 	/**
-	 * Add onclick listener to every radio
-	 */
-	BackgroundLayersPanel.prototype.addRadioOnClickListener = function(){
-		this._panelBodySelector.find(".radiobox-row").on("click", this.toggleLayers.bind(this));
-	};
-
-	/**
 	 * Hide all background layers and show only selected one
 	 */
 	BackgroundLayersPanel.prototype.toggleLayers = function(){

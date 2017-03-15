@@ -90,13 +90,6 @@ define(['../../../error/ArgumentError',
 	};
 
 	/**
-	 * Add onclick listener to every checkbox
-	 */
-	WmsLayersPanel.prototype.addCheckboxOnClickListener = function(){
-		this._panelBodySelector.on("click", ".checkbox-row", this.toggleLayer.bind(this));
-	};
-
-	/**
 	 * Hide/show layers
 	 */
 	WmsLayersPanel.prototype.toggleLayer = function(event){
