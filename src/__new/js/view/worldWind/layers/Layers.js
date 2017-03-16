@@ -11,6 +11,7 @@ define(['../../../error/ArgumentError',
 			Logger,
 
 			AnalyticalUnitsLayer,
+
 			$
 ){
 	/**
@@ -188,10 +189,10 @@ define(['../../../error/ArgumentError',
 		var layer = new WorldWind.WmsLayer({
 			service: data.url,
 			layerNames: data.layer,
-			sector: new WorldWind.Sector(40,60,10,20),
+			sector: new WorldWind.Sector(-90,90,-180,180),
 			levelZeroDelta: new WorldWind.Location(5,5),
-			numLevels: 12,
-			format: "img/png",
+			numLevels: 14,
+			format: "image/png",
 			size: 512
 		}, null);
 		layer.metadata = {
