@@ -66,11 +66,20 @@ define(['../../../error/ArgumentError',
 		}).toString();
 		this._target.append(html);
 
+		this._panelSelector = $("#" + this._id + "-panel");
 		this._panelHeaderSelector = $("#" + this._id + "-panel-header");
 		this._panelBodySelector = $("#" + this._id + "-panel-body");
 		this.toggleState(this._isOpen);
 
 		this.addContent();
+	};
+
+	/**
+	 * Show/hide whole panel (header including)
+	 * @param action {string} CSS display value
+	 */
+	WorldWindWidgetPanel.prototype.displayPanel = function(action){
+		this._panelSelector.css("display", action);
 	};
 
 	/**

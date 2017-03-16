@@ -55,6 +55,9 @@ define(['../../../error/ArgumentError',
 				layers.forEach(function(layer){
 					self.addLayer(layer);
 				});
+				self.displayPanel("block");
+			} else {
+				self.displayPanel("none");
 			}
 		}).catch(function(err){
 			throw new Error(err);

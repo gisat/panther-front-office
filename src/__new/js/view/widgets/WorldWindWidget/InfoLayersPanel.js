@@ -43,6 +43,9 @@ define(['../../../error/ArgumentError',
 		if (!configuration){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "InfoLayersPanel", "constructor", "missingParameter"));
 		}
+
+		this.displayPanel("none");
+
 		//this.clear();
 		//var filter = {};
 		//filter.scope = Number(configuration.dataset);

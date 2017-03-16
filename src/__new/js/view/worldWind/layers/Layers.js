@@ -181,7 +181,6 @@ define(['../../../error/ArgumentError',
 
 	/**
 	 * Add WMS layer to the list of layers
-	 * TODO solve sector and location
 	 * @param data {Object} wms metadata
 	 * @param state {boolean} true, if the layer should be displayed
 	 */
