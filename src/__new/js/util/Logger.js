@@ -117,6 +117,7 @@ define(function () {
             missingWidgetId: "Widget Id is null or undefined!",
             missingWidgetName: "Widget Name is null or undefined!",
             missingWorldWind: "World Wind parameter is missing!",
+            missingXml: "XML parameter is is null or undefined!",
             notNaturalNumber: "Parameter is not a natural number!"
         }
     };

@@ -7,6 +7,7 @@ define([
 	'js/stores/Stores',
 	'js/stores/gisat/Attributes',
 	'js/stores/gisat/AttributeSets',
+	'js/stores/gisat/Layers',
 	'js/stores/gisat/Locations',
 	'js/stores/gisat/Visualizations',
 	'js/stores/gisat/WmsLayers',
@@ -20,6 +21,7 @@ define([
 			Stores,
 			Attributes,
 			AttributeSets,
+			Layers,
 			Locations,
 			Visualizations,
 			WmsLayers,
@@ -295,6 +297,7 @@ define([
 	FrontOffice.prototype.loadData = function(){
 		Stores.retrieve('attribute').all();
 		Stores.retrieve('attributeSet').all();
+		Stores.retrieve('layer').all();
 		Stores.retrieve('location').all();
 		Stores.retrieve('visualization').all();
 		Stores.retrieve('wmsLayer').all();

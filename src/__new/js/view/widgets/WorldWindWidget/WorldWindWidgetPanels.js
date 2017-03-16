@@ -4,6 +4,7 @@ define(['../../../error/ArgumentError',
 
 	'./AuLayersPanel',
 	'./BackgroundLayersPanel',
+	'./InfoLayersPanel',
 	'./WmsLayersPanel',
 
 	'jquery',
@@ -16,6 +17,7 @@ define(['../../../error/ArgumentError',
 
 			AuLayersPanel,
 			BackgroundLayersPanel,
+			InfoLayersPanel,
 			WmsLayersPanel,
 
 			$,
@@ -40,7 +42,6 @@ define(['../../../error/ArgumentError',
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingWorldWind"));
 		}
 		this._worldWind = options.worldWind;
-		this._worldWindLayers = this._worldWind.layers;
 
 		this._id = options.id;
 		this._target = options.target;
@@ -56,6 +57,7 @@ define(['../../../error/ArgumentError',
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingParameter"));
 		}
 		this._auLayersPanel.rebuild(configuration);
+		this._infoLayersPanel.rebuild(configuration);
 		this._wmsLayersPanel.rebuild(configuration);
 	};
 
@@ -69,8 +71,9 @@ define(['../../../error/ArgumentError',
 		this._target.append(html);
 		this._panelsSelector = $("#" + this._id);
 
-		this._backgroundLayersPanel = this.buildBackgroundLayersPanel();
 		this._auLayersPanel = this.buildAuLayersPanel();
+		this._infoLayersPanel = this.buildInfoLayersPanel();
+		this._backgroundLayersPanel = this.buildBackgroundLayersPanel();
 		this._wmsLayersPanel = this.buildWmsLayersPanel();
 
 		this.addEventsListeners();
@@ -96,6 +99,19 @@ define(['../../../error/ArgumentError',
 		return new AuLayersPanel({
 			id: "au-layers",
 			name: "Analytical Units Layers",
+			target: this._panelsSelector,
+			isOpen: true,
+			worldWind: this._worldWind
+		});
+	};
+
+	/**
+	 * Build panel with info layers
+	 */
+	WorldWindWidgetPanels.prototype.buildInfoLayersPanel = function(){
+		return new InfoLayersPanel({
+			id: "info-layers",
+			name: "Info Layers",
 			target: this._panelsSelector,
 			isOpen: true,
 			worldWind: this._worldWind
