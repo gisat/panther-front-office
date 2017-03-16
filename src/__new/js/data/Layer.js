@@ -12,8 +12,17 @@ define(['./Model'], function(Model){
 
 	Layer.prototype.data = function(){
 		return {
-			id: {
-				serverName: 'id'
+			name: {
+				serverName: 'name'
+			},
+			path: {
+				serverName: 'path'
+			},
+			referenced: {
+				serverName: 'referenced'
+			},
+			source: {
+				serverName: 'source'
 			}
 		};
 	};

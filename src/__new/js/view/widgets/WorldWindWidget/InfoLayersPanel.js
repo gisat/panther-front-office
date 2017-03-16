@@ -32,7 +32,7 @@ define(['../../../error/ArgumentError',
 	 * Add content to panel
 	 */
 	InfoLayersPanel.prototype.addContent = function(){
-		//this.addEventsListeners();
+		this.addEventsListeners();
 	};
 
 	/**
@@ -45,20 +45,56 @@ define(['../../../error/ArgumentError',
 		}
 		this.clear();
 
-		this.displayPanel("none");
-
-		//var self = this;
-		//Stores.retrieve('wmsLayer').filter(filter).then(function(layers){
-		//	if (layers.length > 0){
-		//		layers.forEach(function(layer){
-		//			self.addLayer(layer);
-		//		});
-		//	}
-		//}).catch(function(err){
-		//	throw new Error(err);
-		//});
+		var self = this;
+		Stores.retrieve('layer').all().then(function(layers){
+			if (layers.length > 0){
+				layers.forEach(function(layer){
+					self.addLayer(layer);
+				});
+				self.displayPanel("block");
+			} else {
+				self.displayPanel("none");
+			}
+		}).catch(function(err){
+			throw new Error(err);
+		});
 	};
 
+	/**
+	 * Add layer to the panel and map
+	 * @param layer {Object}
+	 */
+	InfoLayersPanel.prototype.addLayer = function(layer){
+		var name = layer.name.split(":")[1];
+		var id = this._id + "-" + name;
+		var container = this._panelBodySelector;
+		this.addCheckbox(id, name, container, id, false);
+
+		this._worldWind.layers.addInfoLayer(layer, name, this._id, false);
+	};
+
+	/**
+	 * Add listeners
+	 */
+	InfoLayersPanel.prototype.addEventsListeners = function(){
+		this.addCheckboxOnClickListener();
+	};
+
+	/**
+	 * Hide/show layers
+	 */
+	InfoLayersPanel.prototype.toggleLayer = function(event){
+		var self = this;
+		setTimeout(function(){
+			var checkbox = $(event.currentTarget);
+			var layerId = checkbox.attr("data-id");
+			if (checkbox.hasClass("checked")){
+				self._worldWind.layers.showLayer(layerId);
+			} else {
+				self._worldWind.layers.hideLayer(layerId);
+			}
+		},50);
+	};
 
 	return InfoLayersPanel;
 });

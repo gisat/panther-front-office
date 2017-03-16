@@ -68,7 +68,6 @@ define(['../../../../error/ArgumentError',
      * Build the checkbox row and add a listener to it
      */
     Checkbox.prototype.build = function (){
-
         var html = S(htmlContent).template({
             id: this._id,
             class: this._class,
@@ -117,7 +116,7 @@ define(['../../../../error/ArgumentError',
             if (!self.specialKeyPressed(e)){
                 $('#' + id).toggleClass('checked');
             }
-        })
+        });
     };
 
     return Checkbox;
