@@ -69,20 +69,12 @@ define(['../../../error/ArgumentError',
 	 * @param layer {Object}
 	 */
 	WmsLayersPanel.prototype.addLayer = function(layer){
-		var id = "custom-wms-" + layer.id;
+		var id = this._id + "-" + layer.id;
 		var name = layer.name;
 		var container = this._panelBodySelector;
 
 		this.addCheckbox(id, name, container, id, false);
-		this._worldWind.layers.addWmsLayer(layer, false);
-	};
-
-	/**
-	 * Remove all layers from this panel
-	 */
-	WmsLayersPanel.prototype.clear = function(){
-		this._panelBodySelector.html('');
-		this._worldWind.layers.removeAllLayersFromGroup('customWms');
+		this._worldWind.layers.addWmsLayer(layer, this._id, false);
 	};
 
 	/**

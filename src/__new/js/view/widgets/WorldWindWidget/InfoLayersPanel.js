@@ -43,15 +43,10 @@ define(['../../../error/ArgumentError',
 		if (!configuration){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "InfoLayersPanel", "constructor", "missingParameter"));
 		}
+		this.clear();
 
 		this.displayPanel("none");
 
-		//this.clear();
-		//var filter = {};
-		//filter.scope = Number(configuration.dataset);
-		//if (configuration.place.length > 0){
-		//	filter.locations = Number(configuration.place);
-		//}
 		//var self = this;
 		//Stores.retrieve('wmsLayer').filter(filter).then(function(layers){
 		//	if (layers.length > 0){

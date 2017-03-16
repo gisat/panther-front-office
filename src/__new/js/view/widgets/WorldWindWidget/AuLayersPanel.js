@@ -47,7 +47,7 @@ define(['../../../error/ArgumentError',
 	 */
 	AuLayersPanel.prototype.addLayer = function(elementId, name, container, layerId, visible){
 		this.addCheckbox(elementId, name, container, layerId, visible);
-		this._auLayer = this._worldWind.layers.buildAuLayer(layerId);
+		this._auLayer = this._worldWind.layers.buildAuLayer(layerId, this._id);
 		this._worldWind.layers.addLayer(this._auLayer);
 	};
 

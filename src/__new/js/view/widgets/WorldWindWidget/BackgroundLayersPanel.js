@@ -48,7 +48,7 @@ define(['../../../error/ArgumentError',
 	 */
 	BackgroundLayersPanel.prototype.addLayer = function(elementId, name, container, layerId, visible){
 		this.addRadio(elementId, name, container, layerId, visible);
-		this._worldWind.layers.addBackgroundLayer(layerId);
+		this._worldWind.layers.addBackgroundLayer(layerId, this._id);
 	};
 
 	/**

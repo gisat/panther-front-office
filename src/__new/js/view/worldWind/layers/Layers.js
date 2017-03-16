@@ -142,14 +142,15 @@ define(['../../../error/ArgumentError',
 	/**
 	 * Build analytical units layer
 	 * @param id {string}
+	 * @param group {string} name of the group
 	 * @returns {AnalyticalUnitsLayer}
 	 */
-	Layers.prototype.buildAuLayer = function(id){
+	Layers.prototype.buildAuLayer = function(id, group){
 		return new AnalyticalUnitsLayer({
 			metadata: {
 				active: true,
 				id: id,
-				group: "au"
+				group: group
 			}
 		});
 	};
@@ -157,8 +158,9 @@ define(['../../../error/ArgumentError',
 	/**
 	 * Create base layer according to id and add it to the map.
 	 * @param id {string}
+	 * @param group {string} name of the group
 	 */
-	Layers.prototype.addBackgroundLayer = function(id){
+	Layers.prototype.addBackgroundLayer = function(id, group){
 		var layer;
 		switch (id){
 			case "bingRoads":
@@ -174,7 +176,7 @@ define(['../../../error/ArgumentError',
 		layer.metadata = {
 			active: true,
 			id: id,
-			group: "background"
+			group: group
 		};
 		this.addLayer(layer);
 	};
@@ -182,9 +184,10 @@ define(['../../../error/ArgumentError',
 	/**
 	 * Add WMS layer to the list of layers
 	 * @param data {Object} wms metadata
+	 * @param group {string} name of the group
 	 * @param state {boolean} true, if the layer should be displayed
 	 */
-	Layers.prototype.addWmsLayer = function(data, state){
+	Layers.prototype.addWmsLayer = function(data, group, state){
 		var layer = new WorldWind.WmsLayer({
 			service: data.url,
 			layerNames: data.layer,
@@ -196,8 +199,8 @@ define(['../../../error/ArgumentError',
 		}, null);
 		layer.metadata = {
 			active: state,
-			id: "custom-wms-" + data.id,
-			group: "customWms"
+			id: group + "-" + data.id,
+			group: group
 		};
 		this.addLayer(layer);
 	};

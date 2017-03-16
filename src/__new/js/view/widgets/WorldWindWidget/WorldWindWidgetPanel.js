@@ -75,6 +75,14 @@ define(['../../../error/ArgumentError',
 	};
 
 	/**
+	 * Remove all layers from this panel
+	 */
+	WorldWindWidgetPanel.prototype.clear = function(){
+		this._panelBodySelector.html('');
+		this._worldWind.layers.removeAllLayersFromGroup(this._id);
+	};
+
+	/**
 	 * Show/hide whole panel (header including)
 	 * @param action {string} CSS display value
 	 */
