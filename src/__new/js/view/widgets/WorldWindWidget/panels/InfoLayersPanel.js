@@ -1,8 +1,8 @@
-define(['../../../error/ArgumentError',
-	'../../../error/NotFoundError',
-	'../../../util/Logger',
+define(['../../../../error/ArgumentError',
+	'../../../../error/NotFoundError',
+	'../../../../util/Logger',
 
-	'../../../stores/Stores',
+	'../../../../stores/Stores',
 	'./WorldWindWidgetPanel',
 
 	'jquery',
@@ -67,10 +67,18 @@ define(['../../../error/ArgumentError',
 	InfoLayersPanel.prototype.addLayer = function(layer){
 		var name = layer.name.split(":")[1];
 		var id = this._id + "-" + name;
-		var container = this._panelBodySelector;
-		this.addCheckbox(id, name, container, id, false);
 
+		this.addItemToPanel(id, name, layer);
 		this._worldWind.layers.addInfoLayer(layer, name, this._id, false);
+	};
+
+	/**
+	 * Add tools for the layer
+	 * @param tools {LayerTools}
+	 * @param layer {WorldWind.Layer}
+	 */
+	InfoLayersPanel.prototype.addTools = function(tools, layer){
+		tools.addLegend(layer);
 	};
 
 	/**

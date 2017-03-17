@@ -101,6 +101,7 @@ define(function () {
             missingHTMLElement: "Required HTML element wasn't found!",
             missingId: "Id is null or undefined!",
             missingInputs: "Inputs parameter is null or undefined!",
+            missingLayer: "Layer parameter is null or undefined!",
             missingName: "Name property is missing, null or undefined!",
 			missingMap: "Map property is missing, null or undefined!",
             missingNumClasses: "NumClasses is null or undefined!",

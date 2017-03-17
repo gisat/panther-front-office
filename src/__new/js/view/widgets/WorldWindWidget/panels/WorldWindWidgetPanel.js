@@ -1,9 +1,10 @@
-define(['../../../error/ArgumentError',
-	'../../../error/NotFoundError',
-	'../../../util/Logger',
+define(['../../../../error/ArgumentError',
+	'../../../../error/NotFoundError',
+	'../../../../util/Logger',
 
-	'../inputs/checkbox/Checkbox',
-	'../inputs/checkbox/Radiobox',
+	'../../inputs/checkbox/Checkbox',
+	'../../../worldWind/layers/layerTools/LayerTools',
+	'../../inputs/checkbox/Radiobox',
 
 	'jquery',
 	'string',
@@ -14,6 +15,7 @@ define(['../../../error/ArgumentError',
 			Logger,
 
 			Checkbox,
+			LayerTools,
 			Radiobox,
 
 			$,
@@ -100,6 +102,33 @@ define(['../../../error/ArgumentError',
 	};
 
 	/**
+	 * Add item to the panel
+	 * @param id {string}
+	 * @param name {string}
+	 * @param layer {OpenLayers.layer}
+	 */
+	WorldWindWidgetPanel.prototype.addItemToPanel = function(id, name, layer){
+		var checkbox = this.addCheckbox(id, name, this._panelBodySelector, id, false);
+		var checkboxContainer = checkbox.getCheckbox();
+
+		var tools = this.buildTools(id, checkboxContainer);
+		this.addTools(tools, layer);
+	};
+
+	/**
+	 * Build tools for layer
+	 * @param id {string}
+	 * @param container {JQuery} selector of target element
+	 * @returns {LayerTools}
+	 */
+	WorldWindWidgetPanel.prototype.buildTools = function(id, container){
+		return new LayerTools({
+			id: id,
+			target: container
+		});
+	};
+
+	/**
 	 * Add checkbox to panel
 	 * @param id {string} id of checkbox
 	 * @param name {string} label
@@ -115,7 +144,8 @@ define(['../../../error/ArgumentError',
 			target: target,
 			containerId: this._id + "-panel-body",
 			dataId: dataId,
-			checked: checked
+			checked: checked,
+			class: "layers-row"
 		});
 	};
 

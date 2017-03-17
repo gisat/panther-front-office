@@ -16,7 +16,7 @@
 	font-weight: 600;
 }
 .panel-header .panel-icon {
-	background: url(../../../../img/arrow-down-small.png) no-repeat center center;
+	background: url(../../../../../img/arrow-down-small.png) no-repeat center center;
 	width: 20px;
 	height: 100%;
 	position: absolute;
@@ -24,7 +24,7 @@
 	right: .3rem;
 }
 .panel-header.open .panel-icon {
-	background: url(../../../../img/arrow-up-small.png) no-repeat center center;
+	background: url(../../../../../img/arrow-up-small.png) no-repeat center center;
 }
 .panel-body {
 	display: none;
