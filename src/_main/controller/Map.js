@@ -472,27 +472,12 @@ Ext.define('PumaMain.controller.Map', {
 		layerDefaultsTiled.layerParams.tileSize = new OpenLayers.Size(256,256);
 		layerDefaultsTiled.layerParams.removeBackBufferDelay = 0;
 		layerDefaultsTiled.layerParams.transitionEffect = null;
-		map.layer1 = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', Ext.apply(layerDefaultsTiled.params), Ext.clone(layerDefaultsTiled.layerParams));
-		map.layer2 = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', Ext.clone(layerDefaults.params), Ext.clone(layerDefaults.layerParams));
-		map.layer1.opacity = cmp.opacity;
-		map.addLayers([hybridLayer, map.layer1, map.layer2]);
+		var layer1 = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', Ext.apply(layerDefaultsTiled.params), Ext.clone(layerDefaultsTiled.layerParams));
+		var layer2 = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', Ext.clone(layerDefaults.params), Ext.clone(layerDefaults.layerParams));
+
+		layer1.opacity = cmp.opacity;
 		var counterObj = {cnt:0, desired: 3};
 		var me = this;
-		google.maps.event.addListener(hybridLayer.mapObject, 'tilesloaded', function() {
-			counterObj.cnt++;
-			if (counterObj.cnt == counterObj.desired) {
-				me.onExtentOutlineComplete(cmp)
-			}
-		});
-		for (var i=0;i<2;i++) {
-			var layer = map['layer'+(i+1)];
-			layer.events.register('loadend', null, function(a, b) {
-				counterObj.cnt++;
-				if (counterObj.cnt == counterObj.desired) {
-					me.onExtentOutlineComplete(cmp)
-				}
-			});
-		}
 
 		var layerRefs = cmp.layerRefs;
 		var rows = cmp.rows;
@@ -560,19 +545,22 @@ Ext.define('PumaMain.controller.Map', {
 			}
 		}
 
-		map.layer1.mergeNewParams(layer1Conf);
-		map.layer2.mergeNewParams({
+		layer1.mergeNewParams(layer1Conf);
+		layer2.mergeNewParams({
 			"USE_SECOND": true,
 			"SLD_BODY": sldText
 		});
-		map.updateSize();
 
 		console.info("Map.afterExtentOutlineRender overallExtent: ", overallExtent);
 
+		layer1.setVisibility(true);
+		layer2.setVisibility(true);
+
+		map.addLayers([hybridLayer, map.layer1, map.layer2]);
 		map.outlineExtent = overallExtent;
-		map.layer1.setVisibility(true);
-		map.layer2.setVisibility(true);
+		map.updateSize();
 		map.zoomToExtent(map.outlineExtent);
+
 		window.setTimeout(function() {
 			map.zoomToExtent(map.outlineExtent);
 		},1);
@@ -584,25 +572,6 @@ Ext.define('PumaMain.controller.Map', {
 					minZoom = zoom;
 				}
 			});
-		}
-	},
-
-	onExtentOutlineComplete: function(cmp) {
-		cmp.mapLoaded = true;
-		var loaded = true;
-		if (!cmp.ownerCt) {
-			return;
-		}
-		cmp.ownerCt.items.each(function(mapCmp) {
-			if (!mapCmp.mapLoaded) {
-				loaded = false;
-				return false;
-			}
-		});
-		if (loaded) {
-			setTimeout(function() {
-				console.log('loadingdone');
-			},2000)
 		}
 	},
 
