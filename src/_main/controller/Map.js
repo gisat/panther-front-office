@@ -555,7 +555,8 @@ Ext.define('PumaMain.controller.Map', {
 		var layersToDisplay = this.getNamesOfLayersToDisplayForExtentOutline(layerRefs, areaTemplateWithSymbology);
 
 		var layerToDisplay = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', {
-			layers: layersToDisplay,
+			layers: layersToDisplay.layers,
+			styles: layersToDisplay.styles,
 			transparent: true
 		}, {
 			visibility: true,
@@ -563,8 +564,6 @@ Ext.define('PumaMain.controller.Map', {
 			opacity: cmp.opacity
 		});
 		var areaOutlinesToDisplay = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', {
-			layers: layersToDisplay.layers,
-			styles: layersToDisplay.styles,
 			transparent: true,
 			"USE_SECOND": true,
 			"SLD_BODY": this.generateSldForExtentOutlineAreaOutlines(filters, layerRefs, cmp.color)
