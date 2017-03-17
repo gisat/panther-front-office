@@ -556,7 +556,7 @@ Ext.define('PumaMain.controller.Map', {
 		layer1.setVisibility(true);
 		layer2.setVisibility(true);
 
-		map.addLayers([hybridLayer, map.layer1, map.layer2]);
+		map.addLayers([hybridLayer, layer1, layer2]);
 		map.outlineExtent = overallExtent;
 		map.updateSize();
 		map.zoomToExtent(map.outlineExtent);
