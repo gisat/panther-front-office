@@ -519,6 +519,7 @@ Ext.define('PumaMain.controller.Map', {
 				listOfLayersToDisplay.styles += symbologyId;
 			}
 		}
+		return listOfLayersToDisplay;
 	},
 
 	getDefaultMapForExtentOutline: function(id) {
