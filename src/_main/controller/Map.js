@@ -499,27 +499,26 @@ Ext.define('PumaMain.controller.Map', {
 	},
 
 	getNamesOfLayersToDisplayForExtentOutline: function(layerRefs, atWithSymbology) {
+		var layers = Ext.Array.map(layerRefs.layerRef ? [layerRefs.layerRef] : layerRefs.layerRefs,function(item) {
+			return item.layer;
+		});
+
+		var symbologyId, styles = [];
 		var splitted = atWithSymbology.split('_');
-		var symbologyId;
 		if (splitted.length>1) {
 			symbologyId = splitted.slice(1).join('_');
 			symbologyId = symbologyId == '#blank#' ? null : symbologyId
 		}
-		var layers = Ext.Array.map(layerRefs.layerRef ? [layerRefs.layerRef] : layerRefs.layerRefs,function(item) {
-			return item.layer;
-		});
-		var listOfLayersToDisplay = {
-			layers: layers.join(',')
-		};
-		var numLayers = layers.length;
 		if (symbologyId) {
-			listOfLayersToDisplay.styles = '';
-			for (var i=0;i<numLayers;i++) {
-				listOfLayersToDisplay.styles += listOfLayersToDisplay.styles ? ',' : '';
-				listOfLayersToDisplay.styles += symbologyId;
+			for (var i = 0; i < layers.length; i++) {
+				styles.push(symbologyId);
 			}
 		}
-		return listOfLayersToDisplay.layers;
+
+		return {
+			layers: layers.join(','),
+			styles: styles.join(',')
+		};
 	},
 
 	getDefaultMapForExtentOutline: function(id) {
@@ -564,7 +563,8 @@ Ext.define('PumaMain.controller.Map', {
 			opacity: cmp.opacity
 		});
 		var areaOutlinesToDisplay = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', {
-			layers: layersToDisplay,
+			layers: layersToDisplay.layers,
+			styles: layersToDisplay.styles,
 			transparent: true,
 			"USE_SECOND": true,
 			"SLD_BODY": this.generateSldForExtentOutlineAreaOutlines(filters, layerRefs, cmp.color)
