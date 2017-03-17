@@ -471,13 +471,13 @@ Ext.define('PumaMain.controller.Map', {
 		return overallExtent;
 	},
 
-	generateSldForExtentOutlineAreaOutlines: function(filters, layerRefs) {
+	generateSldForExtentOutlineAreaOutlines: function(filters, layerRefs, color) {
 		var filter = filters.length < 2 ? filters[0] : new OpenLayers.Filter.Logical({type: '||', filters: filters});
 		var style = new OpenLayers.Style();
 		var layerName = Config.geoserver2Workspace + ':layer_' + layerRefs.areaRef._id;
 		var rule = new OpenLayers.Rule({
 			symbolizer: {
-				"Polygon": new OpenLayers.Symbolizer.Polygon({fillOpacity: 0, strokeOpacity: 1, strokeColor: '#'+cmp.color})
+				"Polygon": new OpenLayers.Symbolizer.Polygon({fillOpacity: 0, strokeOpacity: 1, strokeColor: '#'+ color})
 			},
 			filter: filter
 		});
@@ -566,7 +566,7 @@ Ext.define('PumaMain.controller.Map', {
 			layers: layersToDisplay,
 			transparent: true,
 			"USE_SECOND": true,
-			"SLD_BODY": this.generateSldForExtentOutlineAreaOutlines(filters, layerRefs)
+			"SLD_BODY": this.generateSldForExtentOutlineAreaOutlines(filters, layerRefs, cmp.color)
 		}, {
 			visibility: true,
 			isBaseLayer: false
