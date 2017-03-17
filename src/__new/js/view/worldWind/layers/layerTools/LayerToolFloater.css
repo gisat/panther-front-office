@@ -1,0 +1,9 @@
+.layer-tool-floater {
+	background: white;
+	position: absolute;
+	height: 200px;
+	width: 200px;
+	left: 300px;
+	bottom: 200px;
+	z-index: 20000;
+}

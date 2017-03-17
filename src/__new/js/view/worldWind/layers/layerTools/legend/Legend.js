@@ -2,6 +2,8 @@ define(['../../../../../error/ArgumentError',
 	'../../../../../error/NotFoundError',
 	'../../../../../util/Logger',
 
+	'../LayerToolFloater',
+	'../LayerToolIcon',
 	'../../../../../util/stringUtils',
 
 	'jquery',
@@ -10,6 +12,8 @@ define(['../../../../../error/ArgumentError',
 			NotFoundError,
 			Logger,
 
+			LayerToolFloater,
+			LayerToolIcon,
 			stringUtils,
 
 			$
@@ -30,7 +34,7 @@ define(['../../../../../error/ArgumentError',
 		this._active = options.active || false;
 		this._layer = options.layer;
 		this._target = options.target;
-		this._id = this._target.attr("id");
+		this._id = this._target.attr("id") + "-legend";
 
 		this.build();
 	};
@@ -39,31 +43,51 @@ define(['../../../../../error/ArgumentError',
 	 * Build a legend
 	 */
 	Legend.prototype.build = function(){
-		this.buildIcon();
-		this.buildFloater();
+		this._icon = this.buildIcon();
+		this._floater = this.buildFloater();
+
+		this.addContent();
+
 		//this.addEventsListener();
 	};
 
-	Legend.prototype.buildIcon = function(){
-		var cls = "";
-		if (this._active){
-			cls = "open"
-		}
-		this._target.append('<div class="layer-legend-icon ' + cls + '" id="' + this._id + '">A</div>')
-	};
-
-	Legend.prototype.buildFloater = function(){
-		var cls = "";
-		if (this._active){
-			cls = "open"
-		}
+	/**
+	 * Add content to legend floater
+	 */
+	Legend.prototype.addContent = function(){
 		var imgSrc = Config.url + "api/proxy/wms?" + stringUtils.makeUriComponent({
 				'LAYER': this._layer.name,
 				'REQUEST': 'GetLegendGraphic',
 				'FORMAT': 'image/png',
 				'WIDTH': 50
 			});
-		this._target.append('<div class="layer-tools-floater layer-legend-floater ' + cls + '"><img src="' + imgSrc + '"></div>');
+		this._floater.addContent('<img src="' + imgSrc + '">');
+	};
+
+	/**
+	 * Add legend icon
+	 * @returns {LayerToolsIcon}
+	 */
+	Legend.prototype.buildIcon = function(){
+		return new LayerToolIcon({
+			active: this._active,
+			id: this._id + "-icon",
+			class: "legend-icon",
+			target: this._target
+		});
+	};
+
+	/**
+	 * Add legend floater
+	 * @returns {LayerToolsFloater}
+	 */
+	Legend.prototype.buildFloater = function(){
+		return new LayerToolFloater({
+			active: this._active,
+			id: this._id + "-floater",
+			class: "legend-floater",
+			target: $("#main")
+		});
 	};
 
 	return Legend;

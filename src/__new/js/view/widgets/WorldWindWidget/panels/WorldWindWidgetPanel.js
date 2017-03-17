@@ -107,7 +107,7 @@ define(['../../../../error/ArgumentError',
 	 * @param name {string}
 	 * @param layer {OpenLayers.layer}
 	 */
-	WorldWindWidgetPanel.prototype.addItemToPanel = function(id, name, layer){
+	WorldWindWidgetPanel.prototype.addRowToPanel = function(id, name, layer){
 		var checkbox = this.addCheckbox(id, name, this._panelBodySelector, id, false);
 		var checkboxContainer = checkbox.getCheckbox();
 
@@ -145,7 +145,7 @@ define(['../../../../error/ArgumentError',
 			containerId: this._id + "-panel-body",
 			dataId: dataId,
 			checked: checked,
-			class: "layers-row"
+			class: "layer-row"
 		});
 	};
 

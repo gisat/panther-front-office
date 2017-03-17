@@ -68,7 +68,7 @@ define(['../../../../error/ArgumentError',
 		var name = layer.name.split(":")[1];
 		var id = this._id + "-" + name;
 
-		this.addItemToPanel(id, name, layer);
+		this.addRowToPanel(id, name, layer);
 		this._worldWind.layers.addInfoLayer(layer, name, this._id, false);
 	};
 

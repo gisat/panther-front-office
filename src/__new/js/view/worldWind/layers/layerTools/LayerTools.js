@@ -4,7 +4,8 @@ define(['../../../../error/ArgumentError',
 
 	'./legend/Legend',
 
-	'jquery'
+	'jquery',
+	'css!./LayerTools'
 ], function(ArgumentError,
 			NotFoundError,
 			Logger,

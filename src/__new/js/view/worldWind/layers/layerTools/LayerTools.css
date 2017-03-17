@@ -1,0 +1,7 @@
+.layer-tools {
+	position: relative;
+	float: right;
+	height: 100%;
+	width: auto;
+	background: red;
+}
