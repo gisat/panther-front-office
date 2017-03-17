@@ -446,44 +446,16 @@ Ext.define('PumaMain.controller.Map', {
 		this.cursor1.hide();
 		this.cursor2.hide();
 	},
-	
-	afterExtentOutlineRender: function(cmp) {
-		var options = this.getOptions(cmp);
-		options.controls = [];
-		options.numZoomLevels = 22;
-		options.allOverlays = true;
-		//options.maxExtent=  new OpenLayers.Bounds(-2037508, -2037508, 2037508, 2037508.34)
-		var map = new OpenLayers.Map(options);
 
-		cmp.map = map;
-		var hybridLayer = new OpenLayers.Layer.Google(
-			'Google',
-			{
-				type: 'terrain',
-				initialized: true,
-				animationEnabled: true
-			}
-		);
-		var layerDefaults = this.getController('Layers').getWmsLayerDefaults();
-		var layerDefaultsTiled = this.getController('Layers').getWmsLayerDefaults();
-
-		layerDefaultsTiled.params.tiled = true;
-		delete layerDefaultsTiled.layerParams.singleTile;
-		layerDefaultsTiled.layerParams.tileSize = new OpenLayers.Size(256,256);
-		layerDefaultsTiled.layerParams.removeBackBufferDelay = 0;
-		layerDefaultsTiled.layerParams.transitionEffect = null;
-		var layer1 = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', Ext.apply(layerDefaultsTiled.params), Ext.clone(layerDefaultsTiled.layerParams));
-		var layer2 = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', Ext.clone(layerDefaults.params), Ext.clone(layerDefaults.layerParams));
-
-		layer1.opacity = cmp.opacity;
-		var counterObj = {cnt:0, desired: 3};
-		var me = this;
-
-		var layerRefs = cmp.layerRefs;
-		var rows = cmp.rows;
-		var format = new OpenLayers.Format.WKT();
-		var filters = [];
+	/**
+	 *
+	 * @param rows
+	 * @param filters OpenLayers.FIlter[] Array of areas that are used in the retrieval of the correct part of the map.
+	 * @returns {*}
+	 */
+	getExtentForExtentOutline: function(rows, filters) {
 		var overallExtent = null;
+		var format = new OpenLayers.Format.WKT();
 		for (var j = 0; j < rows.length; j++) {
 			var row = rows[j];
 			var filter = new OpenLayers.Filter.Comparison({type: '==', property: 'gid', value: row.gid});
@@ -496,7 +468,10 @@ Ext.define('PumaMain.controller.Map', {
 				overallExtent.extend(extent);
 			}
 		}
+		return overallExtent;
+	},
 
+	generateSldForExtentOutlineAreaOutlines: function(filters, layerRefs) {
 		var filter = filters.length < 2 ? filters[0] : new OpenLayers.Filter.Logical({type: '||', filters: filters});
 		var style = new OpenLayers.Style();
 		var layerName = Config.geoserver2Workspace + ':layer_' + layerRefs.areaRef._id;
@@ -520,12 +495,12 @@ Ext.define('PumaMain.controller.Map', {
 		var format = new OpenLayers.Format.SLD.Geoserver23();
 		var sldNode = format.write(sldObject);
 		var xmlFormat = new OpenLayers.Format.XML();
-		var sldText = xmlFormat.write(sldNode);
-		
-		var parent = cmp.up('chartcmp');
-		var symbologyId = null;
-		var atWithSymbology = parent.cfg.featureLayer || parent.cfg.outlineLayerTemplate;
+		return xmlFormat.write(sldNode);
+	},
+
+	getNamesOfLayersToDisplayForExtentOutline: function(layerRefs, atWithSymbology) {
 		var splitted = atWithSymbology.split('_');
+		var symbologyId;
 		if (splitted.length>1) {
 			symbologyId = splitted.slice(1).join('_');
 			symbologyId = symbologyId == '#blank#' ? null : symbologyId
@@ -533,37 +508,77 @@ Ext.define('PumaMain.controller.Map', {
 		var layers = Ext.Array.map(layerRefs.layerRef ? [layerRefs.layerRef] : layerRefs.layerRefs,function(item) {
 			return item.layer;
 		});
-		var layer1Conf = {
+		var listOfLayersToDisplay = {
 			layers: layers.join(',')
 		};
 		var numLayers = layers.length;
 		if (symbologyId) {
-			layer1Conf.styles = '';
+			listOfLayersToDisplay.styles = '';
 			for (var i=0;i<numLayers;i++) {
-				layer1Conf.styles += layer1Conf.styles ? ',' : '';
-				layer1Conf.styles += symbologyId;
+				listOfLayersToDisplay.styles += listOfLayersToDisplay.styles ? ',' : '';
+				listOfLayersToDisplay.styles += symbologyId;
 			}
 		}
+	},
 
-		layer1.mergeNewParams(layer1Conf);
-		layer2.mergeNewParams({
+	getDefaultMapForExtentOutline: function() {
+		var map = new OpenLayers.Map({
+			controls: [],
+			numZoomLevels: 22,
+			projection: new OpenLayers.Projection("EPSG:4326"),
+			displayProjection: new OpenLayers.Projection("EPSG:4326"),
+			units: "m",
+			maxExtent: new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34),
+			featureEvents: true,
+			div: cmp.id
+		});
+		map.addLayer(new OpenLayers.Layer.Google(
+			'Google',
+			{
+				type: 'terrain',
+				initialized: true,
+				animationEnabled: true
+			}
+		));
+		return map;
+	},
+	
+	afterExtentOutlineRender: function(cmp) {
+		var map = cmp.map = this.getDefaultMapForExtentOutline();
+		var layerRefs = cmp.layerRefs;
+
+		var filters = [];
+		var overallExtent = this.getExtentForExtentOutline(cmp.rows, filters);
+
+		var parent = cmp.up('chartcmp');
+		var areaTemplateWithSymbology = parent.cfg.featureLayer || parent.cfg.outlineLayerTemplate;
+		var layersToDisplay = this.getNamesOfLayersToDisplayForExtentOutline(layerRefs, areaTemplateWithSymbology);
+
+		var layerToDisplay = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', {
+			layers: layersToDisplay,
+			transparent: true
+		}, {
+			visibility: true,
+			isBaseLayer: false,
+			opacity: cmp.opacity
+		});
+		var areaOutlinesToDisplay = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', {
+			layers: layersToDisplay,
+			transparent: true,
 			"USE_SECOND": true,
-			"SLD_BODY": sldText
+			"SLD_BODY": this.generateSldForExtentOutlineAreaOutlines(filters, layerRefs)
+		}, {
+			visibility: true,
+			isBaseLayer: false
 		});
 
-		console.info("Map.afterExtentOutlineRender overallExtent: ", overallExtent);
-
-		layer1.setVisibility(true);
-		layer2.setVisibility(true);
-
-		map.addLayers([hybridLayer, layer1, layer2]);
-		map.outlineExtent = overallExtent;
+		map.addLayers([layerToDisplay, areaOutlinesToDisplay]);
 		map.updateSize();
-		map.zoomToExtent(map.outlineExtent);
 
 		window.setTimeout(function() {
-			map.zoomToExtent(map.outlineExtent);
+			map.zoomToExtent(overallExtent);
 		},1);
+
 		if (cmp.ownerCt.items.getCount()==cmp.ownerCt.mapNum){
 			var minZoom = 10000;
 			cmp.ownerCt.items.each(function(mapCmp) {
