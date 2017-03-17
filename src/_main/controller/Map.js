@@ -521,7 +521,7 @@ Ext.define('PumaMain.controller.Map', {
 		}
 	},
 
-	getDefaultMapForExtentOutline: function() {
+	getDefaultMapForExtentOutline: function(id) {
 		var map = new OpenLayers.Map({
 			controls: [],
 			numZoomLevels: 22,
@@ -530,7 +530,7 @@ Ext.define('PumaMain.controller.Map', {
 			units: "m",
 			maxExtent: new OpenLayers.Bounds(-20037508, -20037508, 20037508, 20037508.34),
 			featureEvents: true,
-			div: cmp.id
+			div: id
 		});
 		map.addLayer(new OpenLayers.Layer.Google(
 			'Google',
@@ -544,7 +544,7 @@ Ext.define('PumaMain.controller.Map', {
 	},
 	
 	afterExtentOutlineRender: function(cmp) {
-		var map = cmp.map = this.getDefaultMapForExtentOutline();
+		var map = cmp.map = this.getDefaultMapForExtentOutline(cmp.id);
 		var layerRefs = cmp.layerRefs;
 
 		var filters = [];
