@@ -108,10 +108,11 @@ define(['../../../../error/ArgumentError',
 	 * @param layer {OpenLayers.layer}
 	 */
 	WorldWindWidgetPanel.prototype.addRowToPanel = function(id, name, layer){
-		var checkbox = this.addCheckbox(id, name, this._panelBodySelector, id, false);
-		var checkboxContainer = checkbox.getCheckbox();
+		this._panelBodySelector.append('<div class="panel-row" id="' + id + '-panel-row"></div>');
+		var container = $('#' + id + '-panel-row');
 
-		var tools = this.buildTools(id, checkboxContainer);
+		var checkbox = this.addCheckbox(id, name, container, id, false);
+		var tools = this.buildTools(id, container);
 		this.addTools(tools, layer);
 	};
 

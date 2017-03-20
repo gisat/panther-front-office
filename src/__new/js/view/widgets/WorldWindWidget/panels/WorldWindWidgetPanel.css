@@ -34,12 +34,16 @@
 .panel-body.open {
 	display: block;
 }
+.panel-body .panel-row {
+	position: relative;
+}
 .panel-body .layer-row {
+	display: inline-block;
 	height: 1.8rem;
+	vertical-align: middle;
+	width: calc(100% - 4rem);
 }
 .panel-body .layer-row a {
-	position: relative;
-	float: left;
 	width: auto;
 }
 .panel-body .floater-row {

@@ -1,5 +1,5 @@
 .layer-tool-floater {
-	background: white;
+	background: rgba(255,255,255,.9);
 	position: absolute;
 	height: 200px;
 	width: 200px;

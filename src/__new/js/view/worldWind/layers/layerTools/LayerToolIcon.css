@@ -1,0 +1,19 @@
+.layer-tool-icon {
+	cursor: pointer;
+	display: inline-block;
+	position: relative;
+	float: right;
+	margin: 0 .2rem;
+	height: 100%;
+	line-height: 1.7rem;
+}
+.layer-tool-icon i {
+	color: rgba(104,103,116,.65);
+	display: inline-block;
+	font-size: 1.2rem;
+	transition: color .3s ease-out;
+	vertical-align: middle;
+}
+.layer-tool-icon:hover i {
+	color: rgba(104,103,116,1);
+}

@@ -2,7 +2,8 @@ define(['../../../../error/ArgumentError',
 	'../../../../error/NotFoundError',
 	'../../../../util/Logger',
 
-	'jquery'
+	'jquery',
+	'css!./LayerToolIcon'
 ], function(ArgumentError,
 			NotFoundError,
 			Logger,
@@ -29,7 +30,9 @@ define(['../../../../error/ArgumentError',
 		this._target = options.target;
 		this._id = options.id;
 		this._class = options.class || "";
+		this._faClass = options.faClass || "fa-bug";
 		this._active = options.active || false;
+		this._title = options.title || "";
 
 		this.build();
 	};
@@ -42,7 +45,9 @@ define(['../../../../error/ArgumentError',
 		if (this._active){
 			this._class += " open"
 		}
-		this._target.append('<div class="' + this._class + '" id="' + this._id + '">A</div>')
+		this._target.append('<div title="' + this._title + '" class="' + this._class + '" id="' + this._id + '">' +
+			'<i class="fa ' + this._faClass + '" aria-hidden="true"></i>' +
+			'</div>');
 	};
 
 	return LayerToolsIcon;

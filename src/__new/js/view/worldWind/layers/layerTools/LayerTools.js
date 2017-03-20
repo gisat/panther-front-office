@@ -39,7 +39,7 @@ define(['../../../../error/ArgumentError',
 	 * Build tools container
 	 */
 	LayerTools.prototype.build = function(){
-		this._target.append('<div id="' + this._id + '-layer-tools" class="layer-tools"></div>');
+		$(this._target).append('<div id="' + this._id + '-layer-tools" class="layer-tools"></div>');
 		this._toolsContainer = $('#' + this._id + '-layer-tools');
 	};
 

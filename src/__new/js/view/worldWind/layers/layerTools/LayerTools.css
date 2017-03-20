@@ -1,7 +1,8 @@
 .layer-tools {
-	position: relative;
-	float: right;
+	border-bottom: 1px solid #e7e7e7;
+	display: inline-block;
+	vertical-align: middle;
 	height: 100%;
-	width: auto;
-	background: red;
+	margin: 0 .2rem 0 0;
+	width: 3.8rem;
 }

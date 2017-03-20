@@ -112,8 +112,10 @@
 			// load project styles depending on the toggles
 			if((Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool) ||
 					(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo) ||
+					(Config.toggles.hasOwnProperty("hasNew3DMap") && Config.toggles.hasNew3DMap) ||
 					(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies))
 			{
+				createLink("__new/styles/font-awesome.min.css");
 				createLink("__new/styles/jquery-ui.css");
 				createLink("__new/styles/style.css");
 			}

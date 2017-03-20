@@ -40,7 +40,7 @@ define(['../../../../error/ArgumentError',
 	 * Build the icon
 	 */
 	LayerToolsFloater.prototype.build = function(){
-		this._class += " layer-tool-icon";
+		this._class += " layer-tool-floater";
 		if (this._active){
 			this._class += " open"
 		}

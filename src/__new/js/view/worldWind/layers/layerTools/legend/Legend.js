@@ -7,7 +7,8 @@ define(['../../../../../error/ArgumentError',
 	'../../../../../util/stringUtils',
 
 	'jquery',
-	'worldwind'
+	'worldwind',
+	'css!./Legend'
 ], function(ArgumentError,
 			NotFoundError,
 			Logger,
@@ -73,7 +74,9 @@ define(['../../../../../error/ArgumentError',
 			active: this._active,
 			id: this._id + "-icon",
 			class: "legend-icon",
-			target: this._target
+			faClass: "fa-list",
+			target: this._target,
+			title: "Legend"
 		});
 	};
 
