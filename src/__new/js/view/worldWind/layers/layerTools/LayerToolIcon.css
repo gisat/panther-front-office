@@ -10,10 +10,13 @@
 .layer-tool-icon i {
 	color: rgba(104,103,116,.65);
 	display: inline-block;
-	font-size: 1.2rem;
+	font-size: .9rem;
 	transition: color .3s ease-out;
 	vertical-align: middle;
 }
 .layer-tool-icon:hover i {
 	color: rgba(104,103,116,1);
+}
+.layer-tool-icon.open i {
+	color: #ad2738;
 }

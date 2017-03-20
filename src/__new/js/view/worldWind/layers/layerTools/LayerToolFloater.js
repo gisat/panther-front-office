@@ -3,18 +3,23 @@ define(['../../../../error/ArgumentError',
 	'../../../../util/Logger',
 
 	'jquery',
+	'string',
+	'text!./LayerToolFloater.html',
 	'css!./LayerToolFloater'
 ], function(ArgumentError,
 			NotFoundError,
 			Logger,
 
-			$
+			$,
+			S,
+			LayerToolFloater
 ){
 	/**
 	 * Class representing floater of a layer tool
 	 * @param options {Object}
 	 * @param options.id {string} id of the floater
 	 * @param options.class {string} optional class of the floater
+	 * @param options.name {string} name of the tool floater
 	 * @param options.target {JQuery} selector of a target element
 	 * @param options.layer {WorldWind.Layer}
 	 * @param options.active {boolean} true if the icon should be active
@@ -30,6 +35,7 @@ define(['../../../../error/ArgumentError',
 
 		this._target = options.target;
 		this._id = options.id;
+		this._name = options.name || "Tool window";
 		this._class = options.class || "";
 		this._active = options.active || false;
 
@@ -44,8 +50,27 @@ define(['../../../../error/ArgumentError',
 		if (this._active){
 			this._class += " open"
 		}
-		this._target.append('<div class="' + this._class + '" id="' + this._id + '"></div>');
+
+		var html = S(LayerToolFloater).template({
+			id: this._id,
+			cls: this._class,
+			name: this._name
+		}).toString();
+
+		this._target.append(html);
+
 		this._floaterSelector = $("#" + this._id);
+		this._floaterBodySelector = $("#" + this._id + " .layer-tool-floater-body");
+
+		this.addCloseListener();
+		this.addDragging();
+	};
+
+	/**
+	 * @returns {*|jQuery|HTMLElement}
+	 */
+	LayerToolsFloater.prototype.getElement = function(){
+		return this._floaterSelector;
 	};
 
 	/**
@@ -53,7 +78,38 @@ define(['../../../../error/ArgumentError',
 	 * @param content {string} HTML
 	 */
 	LayerToolsFloater.prototype.addContent = function(content){
-		this._floaterSelector.append(content);
+		this._floaterBodySelector.append(content);
+	};
+
+	/**
+	 * Close the window
+	 */
+	LayerToolsFloater.prototype.addCloseListener = function(){
+		var self = this;
+		$('#' + this._id + ' .window-close').off("click").on("click", self.close.bind(self));
+	};
+
+	/**
+	 * Enable dragging of settings window
+	 */
+	LayerToolsFloater.prototype.addDragging = function(){
+		$("#" + this._id).draggable({
+			containment: "body",
+			handle: ".layer-tool-floater-header",
+			drag: function (ev, ui) {
+				var element = $(this);
+				element.css({
+					bottom: "auto"
+				});
+			}
+		});
+	};
+
+	/**
+	 * Close window
+	 */
+	LayerToolsFloater.prototype.close = function(){
+		$('#' + this._id).removeClass("open");
 	};
 
 	return LayerToolsFloater;

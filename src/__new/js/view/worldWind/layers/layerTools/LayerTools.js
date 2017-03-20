@@ -59,6 +59,7 @@ define(['../../../../error/ArgumentError',
 	LayerTools.prototype.addLegend = function(layer){
 		return new Legend({
 			active: false,
+			name: "layer",
 			layer: layer,
 			target: this._toolsContainer
 		});

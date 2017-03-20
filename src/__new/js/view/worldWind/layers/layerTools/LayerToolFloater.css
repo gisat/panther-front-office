@@ -1,9 +1,21 @@
 .layer-tool-floater {
-	background: rgba(255,255,255,.9);
+	background: rgba(255,255,255,.95);
 	position: absolute;
-	height: 200px;
-	width: 200px;
-	left: 300px;
-	bottom: 200px;
+	min-height: 100px;
+	height: auto;
+	min-width: 300px;
+	width: auto;
+	left: 350px;
+	top: auto;
+	bottom: 50px;
 	z-index: 20000;
+}
+
+.layer-tool-floater.open {
+	display: block;
+}
+
+.layer-tool-floater-body {
+	padding: .3rem 0;
+	height: calc(100% - 2.5rem);
 }

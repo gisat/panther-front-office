@@ -48,6 +48,15 @@ define(['../../../../error/ArgumentError',
 		this._target.append('<div title="' + this._title + '" class="' + this._class + '" id="' + this._id + '">' +
 			'<i class="fa ' + this._faClass + '" aria-hidden="true"></i>' +
 			'</div>');
+
+		this._iconSelector = $("#" + this._id);
+	};
+
+	/**
+	 * @returns {*|jQuery|HTMLElement}
+	 */
+	LayerToolsIcon.prototype.getElement = function(){
+		return this._iconSelector;
 	};
 
 	return LayerToolsIcon;
