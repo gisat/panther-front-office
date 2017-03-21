@@ -79,6 +79,7 @@ define(['../../../../error/ArgumentError',
 	 */
 	InfoLayersPanel.prototype.addTools = function(tools, layer){
 		tools.addLegend(layer);
+		tools.addOpacity(layer);
 	};
 
 	/**

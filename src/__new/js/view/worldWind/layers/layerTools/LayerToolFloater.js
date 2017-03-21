@@ -101,6 +101,16 @@ define(['../../../../error/ArgumentError',
 				element.css({
 					bottom: "auto"
 				});
+			},
+			stop: function (ev, ui) {
+				var element = $(this);
+				var floaters = $(".layer-tool-floater");
+				floaters.css({
+					zIndex: "20000"
+				});
+				element.css({
+					zIndex: "20001"
+				});
 			}
 		});
 	};

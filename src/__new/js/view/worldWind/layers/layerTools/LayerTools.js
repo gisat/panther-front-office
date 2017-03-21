@@ -3,6 +3,7 @@ define(['../../../../error/ArgumentError',
 	'../../../../util/Logger',
 
 	'./legend/Legend',
+	'./opacity/Opacity',
 
 	'jquery',
 	'css!./LayerTools'
@@ -11,6 +12,7 @@ define(['../../../../error/ArgumentError',
 			Logger,
 
 			Legend,
+			Opacity,
 
 			$
 ){
@@ -58,6 +60,20 @@ define(['../../../../error/ArgumentError',
 	 */
 	LayerTools.prototype.addLegend = function(layer){
 		return new Legend({
+			active: false,
+			name: "layer",
+			layer: layer,
+			target: this._toolsContainer
+		});
+	};
+
+	/**
+	 * Build opacity tool for layer
+	 * @param layer {WorldWind.Layer}
+	 * @returns {Opacity}
+	 */
+	LayerTools.prototype.addOpacity = function(layer){
+		return new Opacity({
 			active: false,
 			name: "layer",
 			layer: layer,
