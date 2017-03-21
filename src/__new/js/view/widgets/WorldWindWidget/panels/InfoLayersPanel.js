@@ -68,8 +68,9 @@ define(['../../../../error/ArgumentError',
 		var name = layer.name.split(":")[1];
 		var id = this._id + "-" + name;
 
-		this.addRowToPanel(id, name, layer);
 		this._worldWind.layers.addInfoLayer(layer, name, this._id, false);
+		var wwLayer = this._worldWind.layers.getLayerById(id);
+		this.addRowToPanel(id, name, wwLayer, this._worldWind);
 	};
 
 	/**
@@ -77,9 +78,9 @@ define(['../../../../error/ArgumentError',
 	 * @param tools {LayerTools}
 	 * @param layer {WorldWind.Layer}
 	 */
-	InfoLayersPanel.prototype.addTools = function(tools, layer){
+	InfoLayersPanel.prototype.addTools = function(tools, layer, worldWind){
 		tools.addLegend(layer);
-		tools.addOpacity(layer);
+		tools.addOpacity(layer, worldWind);
 	};
 
 	/**

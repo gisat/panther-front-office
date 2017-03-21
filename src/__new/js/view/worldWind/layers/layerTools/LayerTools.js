@@ -72,11 +72,12 @@ define(['../../../../error/ArgumentError',
 	 * @param layer {WorldWind.Layer}
 	 * @returns {Opacity}
 	 */
-	LayerTools.prototype.addOpacity = function(layer){
+	LayerTools.prototype.addOpacity = function(layer, wwd){
 		return new Opacity({
 			active: false,
 			name: "layer",
 			layer: layer,
+			wwd: wwd,
 			target: this._toolsContainer
 		});
 	};

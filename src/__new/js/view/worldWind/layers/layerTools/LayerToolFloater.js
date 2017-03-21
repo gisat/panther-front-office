@@ -74,11 +74,18 @@ define(['../../../../error/ArgumentError',
 	};
 
 	/**
+	 * @returns {*|jQuery|HTMLElement}
+	 */
+	LayerToolsFloater.prototype.getBody = function(){
+		return this._floaterBodySelector;
+	};
+
+	/**
 	 * Add content to the floater body
 	 * @param content {string} HTML
 	 */
 	LayerToolsFloater.prototype.addContent = function(content){
-		this._floaterBodySelector.append(content);
+		this._floaterBodySelector.html('').append(content);
 	};
 
 	/**

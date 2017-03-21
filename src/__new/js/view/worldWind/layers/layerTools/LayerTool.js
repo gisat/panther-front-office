@@ -36,7 +36,8 @@ define(['../../../../error/ArgumentError',
 		this._name = options.name || "layer";
 		this._layer = options.layer;
 		this._target = options.target;
-		this._id = this._target.attr("id") + "-legend";
+		this._id = this._target.attr("id");
+		this._wwd = options.wwd;
 
 		this.build();
 	};

@@ -105,15 +105,15 @@ define(['../../../../error/ArgumentError',
 	 * Add item to the panel
 	 * @param id {string}
 	 * @param name {string}
-	 * @param layer {OpenLayers.layer}
+	 * @param layer {WorldWind.Layer}
 	 */
-	WorldWindWidgetPanel.prototype.addRowToPanel = function(id, name, layer){
+	WorldWindWidgetPanel.prototype.addRowToPanel = function(id, name, layer, wwd){
 		this._panelBodySelector.append('<div class="panel-row" id="' + id + '-panel-row"></div>');
 		var container = $('#' + id + '-panel-row');
 
 		var checkbox = this.addCheckbox(id, name, container, id, false);
 		var tools = this.buildTools(id, container);
-		this.addTools(tools, layer);
+		this.addTools(tools, layer, wwd);
 	};
 
 	/**

@@ -54,6 +54,9 @@
     width: 25%;
     margin: 0 -3px 0 0;
 }
+.floater-row.slider-labels > .slider-thresholds-single {
+    width: 50%;
+}
 .slider-thresholds {
     height: 1.2rem;
 }
@@ -67,7 +70,7 @@
     width: 95%;
 }
 
-.slider-thresholds > .input-max, .slider-labels-max {
+.slider-thresholds > .input-max, .slider-thresholds > .input-single, .slider-labels-max {
     text-align: right;
 }
 

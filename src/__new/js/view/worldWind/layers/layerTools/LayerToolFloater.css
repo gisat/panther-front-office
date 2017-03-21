@@ -16,6 +16,6 @@
 }
 
 .layer-tool-floater-body {
-	padding: .3rem 0;
+	padding: .3rem;
 	height: calc(100% - 2.5rem);
 }
