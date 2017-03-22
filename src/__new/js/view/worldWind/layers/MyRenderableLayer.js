@@ -44,5 +44,14 @@ define(['../../../error/ArgumentError',
 		});
 	};
 
+	/**
+	 * Change the opacity of the renderables
+	 * @param opacity {number} alpha channel from 0 to 1
+	 */
+	MyRenderableLayer.prototype.changeOpacity = function(opacity){
+		this._opacity = opacity;
+		this.redraw(this._data);
+	};
+
 	return MyRenderableLayer;
 });

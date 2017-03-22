@@ -48,7 +48,25 @@ define(['../../../../error/ArgumentError',
 	AuLayersPanel.prototype.addLayer = function(elementId, name, container, layerId, visible){
 		this.addCheckbox(elementId, name, container, layerId, visible);
 		this._auLayer = this._worldWind.layers.buildAuLayer(layerId, this._id);
+
 		this._worldWind.layers.addLayer(this._auLayer);
+
+		var layerData = {
+			id: "analyticalUnits"
+
+		};
+		var tools = this.buildToolBox(layerData.id, container);
+		this.addTools(tools, layerData, this._worldWind);
+	};
+
+	/**
+	 * Add tools for the layer
+	 * @param tools {LayerTools}
+	 * @param layerMetadata {Object}
+	 * @param worldWind {WorldWindMap}
+	 */
+	AuLayersPanel.prototype.addTools = function(tools, layerMetadata, worldWind){
+		tools.addOpacity(layerMetadata, worldWind);
 	};
 
 	/**

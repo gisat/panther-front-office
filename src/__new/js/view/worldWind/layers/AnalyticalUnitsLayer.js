@@ -22,6 +22,8 @@ define(['../../../error/ArgumentError',
 	 */
 	var AnalyticalUnitsLayer = function(options){
 		MyRenderableLayer.apply(this, arguments);
+
+		this._opacity = 0.8;
 	};
 
 	AnalyticalUnitsLayer.prototype = Object.create(MyRenderableLayer.prototype);
@@ -31,6 +33,8 @@ define(['../../../error/ArgumentError',
 	 * @param data {Array} list of units
 	 */
 	AnalyticalUnitsLayer.prototype.redraw = function(data){
+		this._data = data;
+
 		this.removeAllRenderables();
 		var features = this.prepareFeatures(data);
 		this.addRenderables(features);
@@ -46,8 +50,8 @@ define(['../../../error/ArgumentError',
 		var self = this;
 		data.forEach(function(record){
 			var attributes = new WorldWind.ShapeAttributes(null);
-			attributes.outlineColor = new WorldWind.Color(1, 0, 0, .8);
-			attributes.interiorColor = new WorldWind.Color(1, 1, 1, .5);
+			attributes.outlineColor = new WorldWind.Color(1, 0, 0, self._opacity);
+			attributes.interiorColor = new WorldWind.Color(1, 1, 1, self._opacity);
 			var boundaries = self.getBoundaries(record.geometry);
 			boundaries.forEach(function(polygonBoundary){
 				var feature = new WorldWind.SurfacePolygon(polygonBoundary, attributes);
