@@ -127,6 +127,7 @@ Ext.define('PumaMain.controller.DomManipulation', {
 	
 	_onReportsSidebarToggleClick: function() {
 		$("#sidebar-reports").toggleClass("hidden");
+		$("#world-wind-map").toggleClass("charts-hidden");
 		this.resizeMap();
 	},
 	

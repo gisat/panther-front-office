@@ -7,20 +7,27 @@ body.application #world-wind-container {
 	background: black url("../../../img/night-sky.jpg") top left no-repeat;
 	background-size: cover;
 	position: absolute;
-	top: 135px;
-	height: calc(100% - 135px);
+	top: 177px;
+	height: calc(100% - 290px);
 	width: 100%;
 	z-index: 5555;
 }
 #world-wind-map {
 	position: relative;
-	float: right;
-	width: 100%;
+	left: 0;
+	width: calc(100% - 550px);
 	height: 100%;
 }
 #world-wind-map.docked {
-	position: relative;
-	float: right;
+	left: 22rem;
+	width: calc(100% - 22rem  - 550px);
+}
+#world-wind-map.charts-hidden {
+	left: 0;
+	width: 100%;
+}
+#world-wind-map.docked.charts-hidden {
+	left: 22rem;
 	width: calc(100% - 22rem);
 	height: 100%;
 }

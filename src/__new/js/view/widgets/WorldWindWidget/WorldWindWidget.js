@@ -149,7 +149,7 @@ define(['../../../error/ArgumentError',
 	WorldWindWidget.prototype.toggleComponents = function(action){
 		var sidebarTools = $("#sidebar-tools");
 
-		$(".x-closable, #sidebar-reports, #tools-container, #widget-container .placeholder:not(#placeholder-" + this._widgetId + ")")
+		$(".x-closable, #tools-container, #widget-container .placeholder:not(#placeholder-" + this._widgetId + ")")
 			.css("display", action);
 		$(".x-css-shadow").css("display", "none");
 

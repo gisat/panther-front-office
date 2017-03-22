@@ -112,7 +112,7 @@
 
 /* Footer === */
 .newDesign #footer {
-    z-index: initial;
+    z-index: 9999;
 }
 .newDesign #footer-bar {
     border-top: 2px solid #d3d2d2;

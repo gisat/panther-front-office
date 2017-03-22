@@ -41,7 +41,7 @@ define(['../../error/ArgumentError',
 	 * It builds Web World Wind container
 	 */
 	WorldWindMap.prototype.buildContainer = function(){
-		$("#main").append('<div id="world-wind-container">' +
+		$("#content").append('<div id="world-wind-container">' +
 				'<div id="world-wind-map">' +
 					'<canvas id="world-wind-canvas">' +
 						'Your browser does not support HTML5 Canvas.' +
