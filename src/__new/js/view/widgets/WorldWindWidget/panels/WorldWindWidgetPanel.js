@@ -112,7 +112,7 @@ define(['../../../../error/ArgumentError',
 
 		// TODO add real name
 		var layerControlId = this._id + "-" + layerData.id;
-		var checkbox = this.addCheckbox(layerControlId, layerData.id, container, layerData.id, false);
+		var checkbox = this.addCheckbox(layerControlId, layerData.name, container, layerData.id, false);
 
 		var tools = this.buildToolBox(layerData.id, container);
 		this.addTools(tools, layerData, wwd);
