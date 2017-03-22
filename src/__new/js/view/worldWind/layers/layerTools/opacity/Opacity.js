@@ -46,6 +46,9 @@ define(['../../../../../error/ArgumentError',
 		this.onSlideListener();
 	};
 
+	/**
+	 * Add content to floater tool body
+	 */
 	Opacity.prototype.addContent = function(){
 		this._floaterBodySelector.html('');
 		this._slider = this.buildSlider();
@@ -57,7 +60,7 @@ define(['../../../../../error/ArgumentError',
 	 */
 	Opacity.prototype.buildSlider = function(){
 		return new SliderBox({
-			id: this._id + "-opacity",
+			id: this._id + "-slider",
 			name: "Opacity",
 			target: this._floaterBodySelector,
 			isRange: false,
@@ -66,13 +69,16 @@ define(['../../../../../error/ArgumentError',
 		});
 	};
 
+	/**
+	 * Change opacity of the layer on slide
+	 */
 	Opacity.prototype.onSlideListener = function(){
 		var sliderId = this._slider.getSliderId();
 		var self = this;
 
 		this._floaterBodySelector.on("slide", "#" + sliderId, function(e, ui){
 			self._layer.opacity = ui.value/100;
-			self._wwd.redraw();
+			self._worldWind.redraw();
 		});
 	};
 

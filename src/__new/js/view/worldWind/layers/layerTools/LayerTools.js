@@ -41,8 +41,8 @@ define(['../../../../error/ArgumentError',
 	 * Build tools container
 	 */
 	LayerTools.prototype.build = function(){
-		$(this._target).append('<div id="' + this._id + '-layer-tools" class="layer-tools"></div>');
-		this._toolsContainer = $('#' + this._id + '-layer-tools');
+		$(this._target).append('<div id="layer-tool-box-' + this._id +'" class="layer-tools"></div>');
+		this._toolsContainer = $('#layer-tool-box-' + this._id);
 	};
 
 	/**
@@ -55,29 +55,32 @@ define(['../../../../error/ArgumentError',
 
 	/**
 	 * Build legend for layer
-	 * @param layer {WorldWind.Layer}
+	 * @param worldWind {WorldWindMap}
+	 * @param layerMetadata {Object}
 	 * @returns {Legend}
 	 */
-	LayerTools.prototype.addLegend = function(layer){
+	LayerTools.prototype.addLegend = function(layerMetadata, worldWind){
 		return new Legend({
 			active: false,
 			name: "layer",
-			layer: layer,
-			target: this._toolsContainer
+			layerMetadata: layerMetadata,
+			target: this._toolsContainer,
+			worldWind: worldWind
 		});
 	};
 
 	/**
 	 * Build opacity tool for layer
-	 * @param layer {WorldWind.Layer}
+	 * @param worldWind {WorldWindMap}
+	 * @param layerMetadata {Object}
 	 * @returns {Opacity}
 	 */
-	LayerTools.prototype.addOpacity = function(layer, wwd){
+	LayerTools.prototype.addOpacity = function(layerMetadata, worldWind){
 		return new Opacity({
 			active: false,
 			name: "layer",
-			layer: layer,
-			wwd: wwd,
+			layerMetadata: layerMetadata,
+			worldWind: worldWind,
 			target: this._toolsContainer
 		});
 	};

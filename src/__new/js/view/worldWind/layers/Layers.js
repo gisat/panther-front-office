@@ -207,16 +207,15 @@ define(['../../../error/ArgumentError',
 
 	/**
 	 * Add info layer to the list of layers
-	 * @param data {Object} metadata
-	 * @param name {string} name of the layer
+	 * @param layerData {Object} info about layer retrieved from server
 	 * @param group {string} name of the group
 	 * @param state {boolean} true, if the layer should be displayed
 	 */
-	Layers.prototype.addInfoLayer = function(data, name, group, state){
+	Layers.prototype.addInfoLayer = function(layerData, group, state){
 		// todo replace name with id
 		var layer = new WorldWind.WmsLayer({
 			service: Config.url + "api/proxy/wms",
-			layerNames: data.name,
+			layerNames: layerData.name,
 			sector: new WorldWind.Sector(-90,90,-180,180),
 			levelZeroDelta: new WorldWind.Location(5.625,5.625),
 			numLevels: 22,
@@ -226,8 +225,10 @@ define(['../../../error/ArgumentError',
 		layer.urlBuilder.wmsVersion = "1.3.0";
 		layer.metadata = {
 			active: state,
-			id: group + "-" + name,
-			group: group
+			id: layerData.id,
+			longId: layerData.name,
+			group: group,
+			source: layerData.source
 		};
 		this.addLayer(layer);
 	};

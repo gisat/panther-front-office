@@ -103,26 +103,28 @@ define(['../../../../error/ArgumentError',
 
 	/**
 	 * Add item to the panel
-	 * @param id {string}
-	 * @param name {string}
-	 * @param layer {WorldWind.Layer}
+	 * @param layerData {Object}
+	 * @param wwd {WorldWindMap}
 	 */
-	WorldWindWidgetPanel.prototype.addRowToPanel = function(id, name, layer, wwd){
-		this._panelBodySelector.append('<div class="panel-row" id="' + id + '-panel-row"></div>');
-		var container = $('#' + id + '-panel-row');
+	WorldWindWidgetPanel.prototype.addRowToPanel = function(layerData, wwd){
+		this._panelBodySelector.append('<div class="panel-row" id="' + layerData.id + '-panel-row"></div>');
+		var container = $('#' + layerData.id + '-panel-row');
 
-		var checkbox = this.addCheckbox(id, name, container, id, false);
-		var tools = this.buildTools(id, container);
-		this.addTools(tools, layer, wwd);
+		// TODO add real name
+		var layerControlId = this._id + "-" + layerData.id;
+		var checkbox = this.addCheckbox(layerControlId, layerData.id, container, layerData.id, false);
+
+		var tools = this.buildToolBox(layerData.id, container);
+		this.addTools(tools, layerData, wwd);
 	};
 
 	/**
-	 * Build tools for layer
+	 * Build container for layer tools
 	 * @param id {string}
 	 * @param container {JQuery} selector of target element
 	 * @returns {LayerTools}
 	 */
-	WorldWindWidgetPanel.prototype.buildTools = function(id, container){
+	WorldWindWidgetPanel.prototype.buildToolBox = function(id, container){
 		return new LayerTools({
 			id: id,
 			target: container

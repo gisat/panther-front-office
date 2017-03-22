@@ -20,13 +20,14 @@ define(['../../../../error/ArgumentError',
 	 * @param options {Object}
 	 * @param options.active {boolean} true, if legend window is open
 	 * @param options.name {string} name of the window
-	 * @param options.layer {WorldWind.Layer}
+	 * @param options.layerMetadata {Object}
+	 * @param options.worldWind {WorldWindMap}
 	 * @param options.target {JQuery} selector of a target element
 	 * @constructor
 	 */
 	var LayerTool = function(options){
-		if (!options.layer){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "LayerTool", "constructor", "missingLayer"));
+		if (!options.worldWind){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "LayerTool", "constructor", "missingWorldWind"));
 		}
 		if (!options.target || options.target.length == 0){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "LayerTool", "constructor", "missingTarget"));
@@ -34,11 +35,13 @@ define(['../../../../error/ArgumentError',
 
 		this._active = options.active || false;
 		this._name = options.name || "layer";
-		this._layer = options.layer;
 		this._target = options.target;
-		this._id = this._target.attr("id");
-		this._wwd = options.wwd;
 
+		this._worldWind = options.worldWind;
+		this._layerMetadata = options.layerMetadata;
+		this._layer = this._worldWind.layers.getLayerById(this._layerMetadata.id);
+
+		this._id = "layer-tool-" + this._layerMetadata.id;
 		this.build();
 	};
 
@@ -57,7 +60,7 @@ define(['../../../../error/ArgumentError',
 	LayerTool.prototype.buildIcon = function(name, type, faType){
 		return new LayerToolIcon({
 			active: this._active,
-			id: this._id + "-" + type,
+			id: type + "-" + this._id,
 			class: type,
 			faClass: faType,
 			target: this._target,
@@ -74,7 +77,7 @@ define(['../../../../error/ArgumentError',
 	LayerTool.prototype.buildFloater = function(name, type){
 		return new LayerToolFloater({
 			active: this._active,
-			id: this._id + "-" + name,
+			id: type + "-" + this._id,
 			class: type,
 			name: name + " - " + this._name,
 			target: $("#main")

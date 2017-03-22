@@ -65,22 +65,22 @@ define(['../../../../error/ArgumentError',
 	 * @param layer {Object}
 	 */
 	InfoLayersPanel.prototype.addLayer = function(layer){
-		var name = layer.name.split(":")[1];
-		var id = this._id + "-" + name;
+		// TODO name + layer group
+		layer.id = layer.name.split(":")[1];
 
-		this._worldWind.layers.addInfoLayer(layer, name, this._id, false);
-		var wwLayer = this._worldWind.layers.getLayerById(id);
-		this.addRowToPanel(id, name, wwLayer, this._worldWind);
+		this._worldWind.layers.addInfoLayer(layer, this._id, false);
+		this.addRowToPanel(layer, this._worldWind);
 	};
 
 	/**
 	 * Add tools for the layer
 	 * @param tools {LayerTools}
-	 * @param layer {WorldWind.Layer}
+	 * @param layerMetadata {Object}
+	 * @param worldWind {WorldWindMap}
 	 */
-	InfoLayersPanel.prototype.addTools = function(tools, layer, worldWind){
-		tools.addLegend(layer);
-		tools.addOpacity(layer, worldWind);
+	InfoLayersPanel.prototype.addTools = function(tools, layerMetadata, worldWind){
+		tools.addLegend(layerMetadata, worldWind);
+		tools.addOpacity(layerMetadata, worldWind);
 	};
 
 	/**

@@ -44,11 +44,11 @@ define(['../../../../../error/ArgumentError',
 	};
 
 	/**
-	 * Add content to legend floater
+	 * Add content to a legend floater
 	 */
 	Legend.prototype.addContent = function(){
 		var imgSrc = Config.url + "api/proxy/wms?" + stringUtils.makeUriComponent({
-				'LAYER': this._layer.name,
+				'LAYER': this._layerMetadata.path,
 				'REQUEST': 'GetLegendGraphic',
 				'FORMAT': 'image/png',
 				'WIDTH': 50
