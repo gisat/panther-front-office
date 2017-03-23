@@ -15,12 +15,12 @@ body.application #world-wind-container {
 #world-wind-map {
 	position: relative;
 	left: 0;
-	width: calc(100% - 550px);
+	width: calc(100% - 570px);
 	height: 100%;
 }
 #world-wind-map.docked {
 	left: 22rem;
-	width: calc(100% - 22rem  - 550px);
+	width: calc(100% - 22rem  - 570px);
 }
 #world-wind-map.charts-hidden {
 	left: 0;

@@ -78,6 +78,7 @@ define(['../../../../../error/ArgumentError',
 
 		this._floaterBodySelector.on("slide", "#" + sliderId, function(e, ui){
 			self._layer.opacity = ui.value/100;
+			self._worldWind.redraw();
 		});
 
 		this._floaterBodySelector.on("slidestop", "#" + sliderId, function(e, ui){
