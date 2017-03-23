@@ -102,7 +102,9 @@ Ext.define('PumaMain.controller.Layers', {
 	},
 
 	reconfigureChoropleths: function(cfg) {
-		Stores.choropleths = [];
+		Stores.choropleths = cfg.attrs;
+		Stores.notify('choropleths');
+
 		this.getController('AttributeConfig').layerConfig = cfg.attrs;
 		var root = Ext.StoreMgr.lookup('layers').getRootNode();
 		var chartNodes = [];
@@ -165,10 +167,8 @@ Ext.define('PumaMain.controller.Layers', {
 			oneCfg.classType = attr.classType || 'quantiles';
 			oneCfg.zeroesAsNull = attr.zeroesAsNull || true;
 			oneCfg.useAttributeColors = true;
-			Stores.choropleths.push(oneCfg); // Here we are adding the configuration information for the choropleth.
 			this.addChoropleth(oneCfg,false,idx);
 		}
-		Stores.notify('choropleths');
 	},
 
 	onFillColors: function(btn) {
