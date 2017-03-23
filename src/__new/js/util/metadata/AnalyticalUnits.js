@@ -99,9 +99,12 @@ define(['../../error/ArgumentError',
 	 * @returns {boolean} True if locations was updated
 	 */
 	AnalyticalUnits.prototype.updateLocations = function(conf){
+		console.log(conf.place);
+		console.log(conf.allPlaces);
+
 		if (conf.hasOwnProperty("place") && conf.place.length != 0){
 			var location = Number(conf.place);
-			if (location != this._locations[0] || location.length == 1){
+			if (location != this._locations[0] || this._locations.length > 1){
 				this._locations = [location];
 				return true;
 			}
