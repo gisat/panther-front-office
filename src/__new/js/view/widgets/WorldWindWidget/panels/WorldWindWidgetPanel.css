@@ -30,6 +30,8 @@
 	display: none;
 	padding: 0.05rem 0 .5rem;
 	position: relative;
+	max-height: 12rem;
+	overflow: auto;
 }
 .panel-body.open {
 	display: block;
