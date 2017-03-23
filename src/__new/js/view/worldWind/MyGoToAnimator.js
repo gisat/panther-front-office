@@ -28,6 +28,7 @@ define(['../../error/ArgumentError',
 
 		GoToAnimator.call(this, wwd);
 		this.wwd = wwd;
+		this.travelTime = 0;
 		this._defaultLoc = [14,50];
 	};
 

@@ -203,28 +203,22 @@ define(['../../../../error/ArgumentError',
         var sliderMin = this._range[0] - 0.005;
         var sliderMax = this._range[1] + 0.005;
 
+        var self = this;
         minInput.off("focusout.inputMin").on("focusout.inputMin",function(){
-            var currentValue = slider.slider("values")[0];
-            var minValue = Number($(this).val());
-            var maxValue = Number(maxInput.val());
-            var diff = Math.abs(currentValue - minValue);
-
-            if (minValue < maxValue && minValue < sliderMax && minValue >= sliderMin && diff > 0.005){
-                slider.slider("values", 0, minValue);
-            } else {
-                $(this).val(Math.round(currentValue * 100) / 100)
+             self.onMinInputChange(this, slider, minInput, maxInput, sliderMin, sliderMax);
+        });
+        minInput.keypress(function(e){
+            if (e.which == 13){
+                self.onMinInputChange(this, slider, minInput, maxInput, sliderMin, sliderMax);
             }
         });
 
         maxInput.off("focusout.inputMax").on("focusout.inputMax",function(){
-            var currentValue = slider.slider("values")[1];
-            var minValue = Number(minInput.val());
-            var maxValue = Number($(this).val());
-            var diff = Math.abs(currentValue - maxValue);
-            if (minValue < maxValue && maxValue <= sliderMax && maxValue > sliderMin && diff > 0.005){
-                slider.slider("values", 1, maxValue);
-            } else {
-                $(this).val(Math.round(currentValue * 100) / 100)
+            self.onMaxInputChange(this, slider, minInput, maxInput, sliderMin, sliderMax);
+        });
+        maxInput.keypress(function(e){
+            if (e.which == 13){
+                self.onMaxInputChange(this, slider, minInput, maxInput, sliderMin, sliderMax);
             }
         });
     };
@@ -237,17 +231,52 @@ define(['../../../../error/ArgumentError',
         var slider = $("#" + id);
         var input = slider.siblings(".slider-labels").find(".input-single");
 
-        input.off("focusout.inputMSingle").on("focusout.inputSingle",function(){
-            var currentValue = slider.slider("value");
-            var value = Number(input.val());
-
-            // TODO not only for range from 0 to 100
-            if (value <= 100  && 0 <= value){
-                slider.slider("value", value);
-            } else {
-                $(this).val(Math.round(currentValue * 100) / 100)
+        var self = this;
+        input.off("focusout.inputSingle").on("focusout.inputSingle",function(){
+            self.onSingleInputChange(this, slider, input);
+        });
+        input.keypress(function(e){
+            if (e.which == 13){
+                self.onSingleInputChange(this, slider, input);
             }
         });
+    };
+
+    SliderBox.prototype.onMaxInputChange = function(target, slider, minInput, maxInput, sliderMin, sliderMax){
+        var currentValue = slider.slider("values")[1];
+        var minValue = Number(minInput.val());
+        var maxValue = Number($(target).val());
+        var diff = Math.abs(currentValue - maxValue);
+        if (minValue < maxValue && maxValue <= sliderMax && maxValue > sliderMin && diff > 0.005){
+            slider.slider("values", 1, maxValue);
+        } else {
+            $(target).val(Math.round(currentValue * 100) / 100)
+        }
+    };
+
+    SliderBox.prototype.onMinInputChange = function(target, slider, minInput, maxInput, sliderMin, sliderMax){
+        var currentValue = slider.slider("values")[0];
+        var minValue = Number($(target).val());
+        var maxValue = Number(maxInput.val());
+        var diff = Math.abs(currentValue - minValue);
+
+        if (minValue < maxValue && minValue < sliderMax && minValue >= sliderMin && diff > 0.005){
+            slider.slider("values", 0, minValue);
+        } else {
+            $(target).val(Math.round(currentValue * 100) / 100)
+        }
+    };
+
+    SliderBox.prototype.onSingleInputChange = function(target, slider, input){
+        var currentValue = slider.slider("value");
+        var value = Number(input.val());
+
+        // TODO not only for range from 0 to 100
+        if (value <= 100  && 0 <= value){
+            slider.slider("value", value);
+        } else {
+            $(target).val(Math.round(currentValue * 100) / 100)
+        }
     };
 
     /**
