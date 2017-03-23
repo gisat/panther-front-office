@@ -81,7 +81,7 @@ define(['../../../../../error/ArgumentError',
 			self._worldWind.redraw();
 		});
 
-		this._floaterBodySelector.on("slidestop", "#" + sliderId, function(e, ui){
+		this._floaterBodySelector.on("slidechange", "#" + sliderId, function(e, ui){
 			self._layer.opacity = ui.value/100;
 			if (self._layer.hasOwnProperty("renderables")){
 				self._layer.changeOpacity(ui.value/100);
