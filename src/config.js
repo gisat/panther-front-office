@@ -3,6 +3,8 @@ var Config = {
 	//signupAddress: 'http://urbis.gisat.cz/account/signup/',
 	 url: 'http://localhost:4000/',
 	 signupAddress: 'http://localhost:4000/account/signup/',
+	 //url: 'https://puma.worldbank.org/backend/',
+	 //signupAddress: 'https://puma.worldbank.org/account/signup/',
 	geoserver2Workspace: "panther",
 	initialBaseMap: "terrain",
 	initialMapBounds: [
@@ -16,16 +18,16 @@ var Config = {
 	toggles: {
 		noGeoserverLayerGroups: false,
 		useWBAgreement: false,
-		useWBHeader: false,
+		useWBHeader: true,
 		useHeader: true,
-		useWBFooter: false,
-		allowPumaHelp: false,
-		allowDownloadsLink: false,
+		useWBFooter: true,
+		allowPumaHelp: true,
+		allowDownloadsLink: true,
 		usePumaLogo: true,
 		advancedFiltersFirst: false,
 		hasNew3Dmap: true,
-		hasNewEvaluationTool: true,
-		hasNewCustomPolygonsTool: true,
+		hasNewEvaluationTool: false,
+		hasNewCustomPolygonsTool: false,
 		hasNewFeatureInfo: true,
 		isNewDesign: true,
 		isUrbis: false,
@@ -36,8 +38,8 @@ var Config = {
 
 	basicTexts: {
 		advancedFiltersName: "Evaluation Tool",
-		areasSectionName: "Selection level",
-		appTitle: "URBIS tool",
+		areasSectionName: "Areas",
+		appTitle: "PUMA",
 		appName: "Data exploration",
 		scopeName: "Scale"
 	},
