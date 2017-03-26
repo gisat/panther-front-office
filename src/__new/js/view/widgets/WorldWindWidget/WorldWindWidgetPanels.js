@@ -52,11 +52,11 @@ define(['../../../error/ArgumentError',
 	 * Rebuild panels with current configuration
 	 * @param configuration {Object} configuration from global object ThemeYearConfParams
 	 */
-	WorldWindWidgetPanels.prototype.rebuild = function(configuration){
+	WorldWindWidgetPanels.prototype.rebuild = function(configuration, data){
 		if (!configuration){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingParameter"));
 		}
-		this._auLayersPanel.rebuild(configuration);
+		this._auLayersPanel.rebuild(configuration, data);
 		this._infoLayersPanel.rebuild(configuration);
 		this._wmsLayersPanel.rebuild(configuration);
 	};

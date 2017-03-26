@@ -56,10 +56,10 @@ define([
 
 	/**
 	 * Rebuild section with current settings
-	 * @param attributes {Array} List of attributes depends on current settings
+	 * @param data {Object}
 	 * @param options {Object}
 	 */
-	CustomDrawingWidget.prototype.rebuild = function(attributes, options){
+	CustomDrawingWidget.prototype.rebuild = function(data, options){
 		if (options.config.dataset.length > 0){
 			this.toggleWarning("none");
 			if (!this._map){

@@ -73,27 +73,24 @@ define(['../../../../error/ArgumentError',
 	 * Rebuild panel with current configuration
 	 * @param configuration {Object} configuration from global object ThemeYearConfParams
 	 */
-	AuLayersPanel.prototype.rebuild = function(configuration){
+	AuLayersPanel.prototype.rebuild = function(configuration, data){
 		if (!configuration){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "AuLayersPanel", "rebuild", "missingParameter"));
 		}
-		this.rebuildUnits(configuration);
+		this.rebuildUnits(data.analyticalUnits);
 	};
 
 	/**
 	 * Get units from server and rebuild layer
-	 * @param configuration
+	 * @param units {Array}
 	 */
-	AuLayersPanel.prototype.rebuildUnits = function(configuration){
-		var self = this;
-		this._au.getUnits(configuration).then(function(result){
-			if (result.length > 0){
-				self._auLayer.redraw(result);
-				self._worldWind.redraw();
-			} else {
-				console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "AuLayersPanel", "constructor", "missingParameter"))
-			}
-		});
+	AuLayersPanel.prototype.rebuildUnits = function(units){
+		if (units.length > 0){
+			this._auLayer.redraw(units);
+			this._worldWind.redraw();
+		} else {
+			console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "AuLayersPanel", "constructor", "missingParameter"))
+		}
 	};
 
 	/**

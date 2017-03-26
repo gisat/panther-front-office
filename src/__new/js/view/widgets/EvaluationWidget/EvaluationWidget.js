@@ -66,10 +66,17 @@ define([
 
     /**
      * It rebuilds the widget for given attributes. First, it collects metadata about each attribute, then it rebuilds all components of the widget
-     * @param attrForRequest {Array} List of attributes for current configuration
+     * @param data {Object}
      * @param options {Object}
      */
-    EvaluationWidget.prototype.rebuild = function(attrForRequest, options){
+    EvaluationWidget.prototype.rebuild = function(data, options){
+        var attrForRequest;
+        if (Array.isArray(data)){
+            attrForRequest = data;
+        } else {
+            attrForRequest = data.attributes;
+        }
+
         var self = this;
         if (attrForRequest.length == 0){
             self.toggleWarning("block", [1,2,3,4]);

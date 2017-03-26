@@ -115,7 +115,7 @@ define([
 			tool.rebuild(attributes, self._options);
 		});
 		this._widgets.forEach(function(widget){
-			widget.rebuild(attributes, self._options);
+			widget.rebuild(data, self._options);
 		});
 		this._widgets3D.forEach(function(widget){
 			widget.rebuild(data, self._options);

@@ -75,14 +75,14 @@ define(['../../../error/ArgumentError',
 
 	/**
 	 * Rebuild with current configuration
-	 * @param attributes {Array}
+	 * @param data {Object}
 	 * @param options {Object}
 	 */
-	WorldWindWidget.prototype.rebuild = function(attributes, options){
-		if (attributes.length != 0){
+	WorldWindWidget.prototype.rebuild = function(data, options){
+		if (data.attributes.length != 0){
 			this.toggleWarning("none");
 			this._worldWind.rebuild(options.config, this._widgetSelector);
-			this._panels.rebuild(options.config);
+			this._panels.rebuild(options.config, data);
 			if (this._3DmapSwitcher.hasClass("checked")){
 				this.toggleComponents("none");
 			}
