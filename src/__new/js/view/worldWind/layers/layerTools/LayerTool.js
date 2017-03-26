@@ -96,7 +96,11 @@ define(['../../../../error/ArgumentError',
 				self._floaterSelector.removeClass("open");
 			} else {
 				icon.addClass("open");
+				$(".floater, .tool-window").removeClass("active");
 				self._floaterSelector.addClass("open");
+				setTimeout(function(){
+					self._floaterSelector.addClass("active");
+				}, 50);
 			}
 		});
 	};

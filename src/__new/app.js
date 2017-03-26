@@ -157,7 +157,7 @@ define(['js/util/metadata/Attributes',
             containment: "body",
             handle: ".floater-header"
         }).on("click drag", function(){
-            $(".floater").removeClass("active");
+            $(".floater, .tool-window").removeClass("active");
             $(this).addClass("active");
         });
     });

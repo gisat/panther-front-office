@@ -209,6 +209,9 @@ define([
                     height: ""
                 });
             }
+        }).on("click drag", function(){
+            $(".floater, .tool-window").removeClass("active");
+            $(this).addClass("active");
         });
     };
 
