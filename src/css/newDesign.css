@@ -806,6 +806,11 @@
 .newDesign .x-btn.btn-map-tool button .x-btn-icon {
     top: 13px;
 }
+.newDesign .x-btn.btn-tool-3D-map button .x-btn-icon {
+    background-size: 30px;
+    width: 40px;
+    margin-left: -20px;
+}
 .newDesign .x-btn.btn-tool-feature-info button .x-btn-icon {
     background-size: 20px;
     width: 20px;
@@ -831,6 +836,9 @@
 .newDesign .x-btn.btn-tool-save-image button .x-btn-icon {
     margin-left: -20px;
     background-size: 30px;
+}
+.newDesign .x-btn-pressed.btn-tool-3D-map button .x-btn-icon {
+    background-image: url(../images/new/tool-3D-map-pressed.png) !important;
 }
 .newDesign .x-btn-pressed.btn-tool-feature-info button .x-btn-icon {
     background-image: url(../images/new/tool-feature-info-pressed.png) !important;

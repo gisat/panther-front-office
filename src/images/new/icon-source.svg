@@ -3744,9 +3744,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.083045"
-     inkscape:cx="185.99977"
-     inkscape:cy="165.5"
+     inkscape:zoom="4.5031493"
+     inkscape:cx="1188.4978"
+     inkscape:cy="84.277824"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
@@ -6183,5 +6183,33 @@
          x="470.07382"
          y="1016.2033"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:15.02525043px;font-family:'Open Sans';-inkscape-font-specification:'Open Sans Bold';fill:#686774">?</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:41.16563416px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#686774;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="1164.672"
+       y="977.20294"
+       id="text5176"
+       sodipodi:linespacing="125%"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan5178"
+         x="1164.672"
+         y="977.20294"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:34.30469513px;font-family:'Open Sans';-inkscape-font-specification:'Open Sans Bold';letter-spacing:-2.05828166px;fill:#686774">3D</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:41.16563416px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ad2738;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+       x="1204.672"
+       y="977.20294"
+       id="text5176-2"
+       sodipodi:linespacing="125%"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan5178-1"
+         x="1204.672"
+         y="977.20294"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:34.30469513px;font-family:'Open Sans';-inkscape-font-specification:'Open Sans Bold';letter-spacing:-2.05828166px;fill:#ad2738;">3D</tspan></text>
   </g>
 </svg>
