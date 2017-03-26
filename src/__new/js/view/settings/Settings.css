@@ -13,7 +13,7 @@
 	position: absolute;
 	top: 8rem;
 	left: calc(50% - 17.5rem);
-	z-index: 10001;
+	z-index: 10000;
 	resize: both;
 	overflow: auto;
 }
@@ -21,7 +21,7 @@
 	display: block;
 }
 .tool-window.active {
-	z-index: 11000;
+	z-index: 10001;
 }
 
 /* header */

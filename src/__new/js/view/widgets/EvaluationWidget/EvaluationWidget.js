@@ -553,8 +553,10 @@ define([
         var tool = "settings";
         $('#floater-' + self._widgetId + ' .widget-' + tool).on("click", function(){
             $(".floater, .tool-window").removeClass("active");
-            $('#' + self._widgetId + '-' + tool).show("drop", {direction: "up"}, 200)
-                .addClass('open').addClass('active');
+            setTimeout(function(){
+                $('#' + self._widgetId + '-' + tool).show("drop", {direction: "up"}, 200)
+                    .addClass('open').addClass('active');
+            },50);
         });
     };
 
