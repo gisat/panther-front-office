@@ -79,6 +79,9 @@ define(['../../../error/ArgumentError',
 	 * @param options {Object}
 	 */
 	WorldWindWidget.prototype.rebuild = function(data, options){
+		this._data = data;
+		this._options = options;
+
 		if (data.attributes.length != 0){
 			this.toggleWarning("none");
 			this._worldWind.rebuild(options.config, this._widgetSelector);
@@ -131,6 +134,9 @@ define(['../../../error/ArgumentError',
 					self._worldWindContainer.css("display", "block");
 					self._widgetSelector.addClass("dockable");
 					self.toggleComponents("none");
+
+					// it fixes the bug with disappearing of globe
+					self.rebuild(self._data, self._options);
 				} else {
 					self._worldWindContainer.css("display", "none");
 					self._widgetSelector.removeClass("dockable");

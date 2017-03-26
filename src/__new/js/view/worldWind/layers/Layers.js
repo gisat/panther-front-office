@@ -151,7 +151,8 @@ define(['../../../error/ArgumentError',
 				active: true,
 				id: id,
 				group: group
-			}
+			},
+			wwd: this._wwd
 		});
 	};
 

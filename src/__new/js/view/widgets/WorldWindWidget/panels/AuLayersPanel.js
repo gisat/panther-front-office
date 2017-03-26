@@ -24,7 +24,6 @@ define(['../../../../error/ArgumentError',
 	 */
 	var AuLayersPanel = function(options){
 		WorldWindWidgetPanel.apply(this, arguments);
-		this._au = new AnalyticalUnits();
 	};
 
 	AuLayersPanel.prototype = Object.create(WorldWindWidgetPanel.prototype);
@@ -72,6 +71,7 @@ define(['../../../../error/ArgumentError',
 	/**
 	 * Rebuild panel with current configuration
 	 * @param configuration {Object} configuration from global object ThemeYearConfParams
+	 * @param data {Object}
 	 */
 	AuLayersPanel.prototype.rebuild = function(configuration, data){
 		if (!configuration){

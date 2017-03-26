@@ -23,6 +23,7 @@ define(['../../../error/ArgumentError',
 	var AnalyticalUnitsLayer = function(options){
 		MyRenderableLayer.apply(this, arguments);
 
+		this._wwd = options.wwd;
 		this._opacity = 0.8;
 	};
 
@@ -34,7 +35,6 @@ define(['../../../error/ArgumentError',
 	 */
 	AnalyticalUnitsLayer.prototype.redraw = function(data){
 		this._data = data;
-
 		this.removeAllRenderables();
 		var features = this.prepareFeatures(data);
 		this.addRenderables(features);
