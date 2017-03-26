@@ -133,7 +133,7 @@ body.application #main {
 
 /* Header */
 #header {
-	font-family: arial, verdana, sans-serif;
+	/* font-family: arial, verdana, sans-serif; */
 	text-transform: uppercase;
 	line-height: 30px;
 	background: #4d5146 url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAAeCAIAAABi9+OQAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAC1JREFUeNpiiIkPZWJgYGD6//8/mP73/x+YhuH///7jlIfJESP+7x+KuQABBgDF4B8flBhaWQAAAABJRU5ErkJggg==) repeat-x 0 0;
@@ -143,7 +143,6 @@ body.application #main {
 	top: 0; /* useWBHeader toggle default */
 	left: 0;
 	width: 100%;
-
 	display: none; /* useHeader toggle default */
 	height: 0; /* useWBHeader toggle default */
 }
@@ -178,7 +177,8 @@ body.application #main {
 
 #header .menu {
 	display: inline-block;
-	margin-left: 45px;
+	margin: 8px 0 0 10px;
+	vertical-align: top;
 }
 
 #header .menu li {
