@@ -212,6 +212,13 @@ body.intro #header h1 {
 	background-color: #bbb;
 }
 
+body.intro #header .menu li:first-child a {
+	padding-left: 0;
+}
+body.intro #header .menu li:first-child::before {
+	display: none;
+}
+
 #help-link {
 	display: none; /* usePumaHelp toggle default */
 }
