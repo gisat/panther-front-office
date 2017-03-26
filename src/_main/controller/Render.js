@@ -122,7 +122,7 @@ Ext.define('PumaMain.controller.Render', {
             listConfig: {
                 cls: 'custom-combo-list',
             },
-            renderTo: 'app-toolbar-scope'
+            renderTo: Config.toggles.useNewViewSelector ? 'app-view-selector-scope' : 'app-toolbar-scope'
         })
         Ext.widget('pumacombo',{
             store: 'location4init',
@@ -133,7 +133,7 @@ Ext.define('PumaMain.controller.Render', {
             listConfig: {
                 cls: 'custom-combo-list',
             },
-            renderTo: 'app-toolbar-teritory'
+            renderTo: Config.toggles.useNewViewSelector ? 'app-view-selector-place' : 'app-toolbar-teritory'
         })
         Ext.widget('pumacombo',{
             store: 'theme4sel',
@@ -148,7 +148,7 @@ Ext.define('PumaMain.controller.Render', {
             listConfig: {
                 cls: 'custom-combo-list',
             },
-            renderTo: 'app-toolbar-theme'
+            renderTo: Config.toggles.useNewViewSelector ? 'app-view-selector-theme' : 'app-toolbar-theme'
         });
 
         var timelineWidth = 150;
@@ -156,7 +156,7 @@ Ext.define('PumaMain.controller.Render', {
             timelineWidth = 270;
         }
         Ext.widget('discretetimeline',{
-            renderTo: 'app-toolbar-year',
+            renderTo: Config.toggles.useNewViewSelector ? 'app-view-selector-period' : 'app-toolbar-year',
             width: timelineWidth,
             store: Ext.StoreMgr.lookup('year4sel'),
             //forceSelection: true,
@@ -178,10 +178,10 @@ Ext.define('PumaMain.controller.Render', {
             listConfig: {
                 cls: 'custom-combo-list',
             },
-            renderTo: 'app-toolbar-visualization'
+            renderTo: Config.toggles.useNewViewSelector ? 'app-view-selector-visualization' : 'app-toolbar-visualization'
         })
         Ext.widget('button',{
-            renderTo: 'app-toolbar-visualization-save',
+            renderTo: Config.toggles.useNewViewSelector ? 'app-view-selector-visualization-save' : 'app-toolbar-visualization-save',
             text: 'Save as',
             itemId: 'savevisualization',
             width: '100%',
@@ -276,7 +276,7 @@ Ext.define('PumaMain.controller.Render', {
             cls: 'custom-button btn-manage'
         })
         Ext.widget('button',{
-            renderTo: 'app-toolbar-visualization-manage',
+            renderTo: Config.toggles.useNewViewSelector ? 'app-view-selector-visualization-manage' : 'app-toolbar-visualization-manage',
             itemId: 'managevisualization',
             //hidden: !Config.auth || !Config.auth.isAdmin,
             //icon: 'images/icons/settings.png',

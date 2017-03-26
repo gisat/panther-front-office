@@ -60,6 +60,17 @@
 	padding-bottom: 108px;
 }
 
+/* useNewViewSelector */
+#toolbar {
+	display: none;
+}
+.toggle-useLegacyViewSelector #toolbar {
+	display: block;
+}
+.toggle-useLegacyViewSelector #view-selector {
+	display: none;
+}
+
 /* usePumaLogo */
 .toggle-usePumaLogo .fields-holder > .label {
 	background: url(../images/puma-logo.png) no-repeat 0 8px;

@@ -88,6 +88,10 @@ Ext.application({
 			$("html").addClass("toggle-useWBFooter");
 		}
 
+		if(!Config.toggles.useNewViewSelector){
+			$("html").addClass("toggle-useLegacyViewSelector");
+		}
+
 		if(Config.toggles.allowPumaHelp){
 			$("html").addClass("toggle-allowPumaHelp");
 		}
