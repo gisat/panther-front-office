@@ -9,7 +9,7 @@
 /* useWBHeader */
 .toggle-useWBHeader #wb-header {
 	display: block;
-	height: 42px;
+	height: 40px;
 }
 .toggle-useWBHeader #main {
 	padding-top: 42px;
@@ -18,7 +18,7 @@
 	padding-top: 132px;
 }
 .toggle-useWBHeader #content-application {
-	top: 42px;
+	top: 40px;
 }
 
 /* useHeader */
@@ -38,16 +38,16 @@
 
 /* useHeader && useWBHeader */
 .toggle-useWBHeader #header {
-	top: 42px;
+	top: 40px;
 }
 .toggle-useWBHeader.toggle-useHeader #main {
-	padding-top: 72px;
+	padding-top: 70px;
 }
 .toggle-useWBHeader.toggle-useHeader body.application #main {
-	padding-top: 162px;
+	padding-top: 160px;
 }
 .toggle-useWBHeader.toggle-useHeader #content-application {
-	top: 72px;
+	top: 70px;
 }
 
 /* useWBFooter */
