@@ -76,3 +76,22 @@ var OlMap = {
 	map: {},
 	map2: {}
 };
+
+/**
+ * Stores for different types of data which needs to be handled.
+ * @type {{choropleths: Array, listeners: Function[]}}
+ */
+var Stores = {
+	choropleths: [],
+	listeners: []
+};
+
+/**
+ * Notification about changes in the stores.
+ * @param changed
+ */
+Stores.notify = function(changed) {
+	Stores.listeners.forEach(function(listener){
+		listener(changed);
+	})
+};
