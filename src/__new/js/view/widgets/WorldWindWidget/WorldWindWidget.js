@@ -166,6 +166,10 @@ define(['../../../error/ArgumentError',
 		} else {
 			sidebarTools.removeClass("hidden-complete");
 		}
+
+		$(".settings-window").css("display", "none");
+		$(".tool-window").removeClass("open");
+		$(".layer-tool-icon").removeClass("open");
 	};
 
 	return WorldWindWidget;
