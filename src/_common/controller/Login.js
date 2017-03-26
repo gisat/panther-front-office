@@ -104,9 +104,9 @@ Ext.define('Puma.controller.Login', {
             }
 
             if(loggedIn) {
-				$('.user .administration').show();
+				$('#bo-link').show();
             } else {
-				$('.user .administration').hide();
+				$('#bo-link').hide();
             }
 
             this.application.fireEvent('login', loggedIn);
@@ -120,9 +120,9 @@ Ext.define('Puma.controller.Login', {
 				window.close();
 			}
 
-			$('.user .administration').show();
+			$('#bo-link').show();
 		} else {
-            $('.user .administration').hide();
+            $('#bo-link').hide();
         }
 
         Ext.ComponentQuery.query('loginheader #logintext')[0].update(text);
