@@ -53,7 +53,8 @@
 /* useWBFooter */
 .toggle-useWBFooter #footer {
 	display: block;
-	height: auto;
+	height: 27px;
+	border-top-width: 1px;
 }
 .toggle-useWBFooter #main {
 	padding-bottom: 108px;
