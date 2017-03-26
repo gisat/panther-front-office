@@ -147,6 +147,17 @@ body.application #main {
 	height: 0; /* useWBHeader toggle default */
 }
 
+#header h1 {
+	display: inline-block;
+	margin: 0;
+	font-size: 21px;
+	line-height: 45px;
+	/* height: 45px; */
+}
+body.intro #header h1 {
+	display: none;
+}
+
 #header a {
 	padding: 0 10px;
 	display: inline-block;
@@ -187,7 +198,7 @@ body.application #main {
 }
 
 #header .menu li a {
-	padding: 0 20px;
+	padding: 0 15px;
 }
 
 #header .menu li:before {
