@@ -133,7 +133,7 @@ define(['../../../../error/ArgumentError',
 	ThematicLayersPanel.prototype.addLegend = function(layerMetadata, worldWind, target){
 		return new Legend({
 			active: false,
-			name: "layer",
+			name: layerMetadata.name + "ddd nerg ůnewnewrv nwev	wn wrnv",
 			layerMetadata: layerMetadata,
 			target: target,
 			worldWind: worldWind
@@ -150,7 +150,7 @@ define(['../../../../error/ArgumentError',
 	ThematicLayersPanel.prototype.addOpacity = function(layerMetadata, worldWind, target){
 		return new Opacity({
 			active: false,
-			name: "layer",
+			name: layerMetadata.name,
 			layerMetadata: layerMetadata,
 			worldWind: worldWind,
 			target: target

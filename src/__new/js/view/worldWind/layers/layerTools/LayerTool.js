@@ -79,7 +79,7 @@ define(['../../../../error/ArgumentError',
 			active: this._active,
 			id: type + "-" + this._id,
 			class: type,
-			name: name + " - " + this._name,
+			name: this._name,
 			target: $("#main")
 		});
 	};

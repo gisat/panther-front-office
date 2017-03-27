@@ -62,7 +62,7 @@ define(['../../../../error/ArgumentError',
 	LayerTools.prototype.addLegend = function(layerMetadata, worldWind){
 		return new Legend({
 			active: false,
-			name: "layer",
+			name: layerMetadata.name,
 			layerMetadata: layerMetadata,
 			target: this._toolsContainer,
 			worldWind: worldWind
@@ -78,7 +78,7 @@ define(['../../../../error/ArgumentError',
 	LayerTools.prototype.addOpacity = function(layerMetadata, worldWind){
 		return new Opacity({
 			active: false,
-			name: "layer",
+			name: layerMetadata.name,
 			layerMetadata: layerMetadata,
 			worldWind: worldWind,
 			target: this._toolsContainer

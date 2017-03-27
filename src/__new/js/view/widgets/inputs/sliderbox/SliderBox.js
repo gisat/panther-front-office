@@ -84,6 +84,7 @@ define(['../../../../error/ArgumentError',
         var self = this;
         var html = S(htmlContentSingle).template({
             id: this._id,
+            name: this._name,
             labelMin: viewUtils.numberFormat(this._range[0], true, 2),
             labelMax: viewUtils.numberFormat(this._range[1], true, 2),
             thresholdMax: Math.round(this._range[1] * 100) / 100
