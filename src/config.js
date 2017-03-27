@@ -22,6 +22,7 @@ var Config = {
 		useHeader: true,
 		useWBFooter: true,
 		useNewViewSelector: true,
+		useTopToolbar: true,
 		allowPumaHelp: true,
 		allowDownloadsLink: true,
 		usePumaLogo: true,
