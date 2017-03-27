@@ -57,7 +57,7 @@ strong {
 }
 
 body.application #main {
-	padding-top: 90px; /* useWBHeader, useHeader and useWBfooter toggle default */
+	padding-top: 25px; /* useWBHeader, useHeader and useWBfooter toggle default */
 }
 
 /* Maps */
@@ -102,12 +102,13 @@ body.application #main {
 	color: #fff;
 	width: 100%;
 	line-height: 25px;
-	background: #2b292a;
 	position: absolute;
 	top: 0;
 	left: 0;
 	padding: 0 10px;
+	background: #333;
 
+	border-bottom: 0 solid #222; /* useWBHeader toggle default */
 	display: none; /* useWBHeader toggle default */
 	height: 0; /* useWBHeader toggle default */
 }

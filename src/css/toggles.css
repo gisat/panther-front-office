@@ -10,12 +10,13 @@
 .toggle-useWBHeader #wb-header {
 	display: block;
 	height: 40px;
+	border-bottom-width: 1px;
 }
 .toggle-useWBHeader #main {
 	padding-top: 42px;
 }
 .toggle-useWBHeader body.application #main {
-	padding-top: 132px;
+	padding-top: 65px;
 }
 .toggle-useWBHeader #content-application {
 	top: 40px;
@@ -30,7 +31,7 @@
 	padding-top: 30px;
 }
 .toggle-useHeader body.application #main {
-	padding-top: 120px;
+	padding-top: 70px;
 }
 .toggle-useHeader #content-application {
 	top: 45px;
