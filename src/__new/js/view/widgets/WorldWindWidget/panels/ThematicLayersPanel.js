@@ -114,9 +114,6 @@ define(['../../../../error/ArgumentError',
 			var layerId = checkbox.attr("data-id");
 			if (checkbox.hasClass("checked")){
 				self._worldWind.layers.showLayer(layerId);
-				setTimeout(function(){
-					console.log(self._worldWind);
-				},300);
 			} else {
 				self._worldWind.layers.hideLayer(layerId);
 			}

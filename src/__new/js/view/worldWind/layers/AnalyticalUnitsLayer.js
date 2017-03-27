@@ -51,7 +51,7 @@ define(['../../../error/ArgumentError',
 		data.forEach(function(record){
 			var attributes = new WorldWind.ShapeAttributes(null);
 			attributes.outlineColor = new WorldWind.Color(1, 0, 0, self._opacity);
-			attributes.interiorColor = new WorldWind.Color(1, 1, 1, self._opacity);
+			attributes.interiorColor = new WorldWind.Color(1, 1, 1,.1);
 			var boundaries = self.getBoundaries(record.geometry);
 			boundaries.forEach(function(polygonBoundary){
 				var feature = new WorldWind.SurfacePolygon(polygonBoundary, attributes);
