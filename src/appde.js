@@ -92,6 +92,10 @@ Ext.application({
 			$("html").addClass("toggle-useLegacyViewSelector");
 		}
 
+		if(Config.toggles.useTopToolbar){
+			$("html").addClass("toggle-useTopToolbar");
+		}
+
 		if(Config.toggles.allowPumaHelp){
 			$("html").addClass("toggle-allowPumaHelp");
 		}

@@ -546,6 +546,18 @@ body.intro #content-intro-terms {
 	margin-top: 0;
 }
 
+#top-toolbar {
+	position: absolute;
+	left: 0;
+	width: 100%;
+	background: #f4f3ef;
+
+	top: 40px; /* useNewViewSelector toggle default */
+	border-bottom: 0 solid #ddd; /* useTopToolbar toggle default */
+	display: none; /* useTopToolbar toggle default */
+	height: 0; /* useTopToolbar toggle default */
+}
+
 /* Sidebar tools */
 #sidebar-tools {
 	position: absolute;
