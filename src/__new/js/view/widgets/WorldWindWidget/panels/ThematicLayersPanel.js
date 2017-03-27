@@ -3,6 +3,8 @@ define(['../../../../error/ArgumentError',
 	'../../../../util/Logger',
 
 	'./WorldWindWidgetPanel',
+	'../../../worldWind/layers/layerTools/legend/Legend',
+	'../../../worldWind/layers/layerTools/opacity/Opacity',
 
 	'jquery',
 	'string'
@@ -11,6 +13,8 @@ define(['../../../../error/ArgumentError',
 			Logger,
 
 			WorldWindWidgetPanel,
+			Legend,
+			Opacity,
 
 			$,
 			S
@@ -30,6 +34,11 @@ define(['../../../../error/ArgumentError',
 
 	ThematicLayersPanel.prototype = Object.create(WorldWindWidgetPanel.prototype);
 
+	/**
+	 * Add checkboxes for current configuration
+	 * @param action {string}
+	 * @param notification {string}
+	 */
 	ThematicLayersPanel.prototype.rebuild = function(action, notification){
 		if (action == notification){
 			this.clear();
@@ -51,6 +60,11 @@ define(['../../../../error/ArgumentError',
 		}
 	};
 
+	/**
+	 * Update data about choropleth layers
+	 * @param action
+	 * @param notification
+	 */
 	ThematicLayersPanel.prototype.updateChoropleths = function(action, notification){
 		var self = this;
 
@@ -61,22 +75,22 @@ define(['../../../../error/ArgumentError',
 					id: choropleth.layer.id,
 					name: choropleth.layer.name,
 					layer: choropleth.data.legendLayer,
-					sldId: choropleth.data.sldId
+					sldId: choropleth.data.sldId,
+					path: choropleth.data.legendLayer
 
 				};
 				self._worldWind.layers.addChoroplethLayer(layer, self._id, false);
+
+				var toolsContainer = $("#layer-tool-box-" + layer.id);
+				toolsContainer.html('');
+				self.addLegend(layer, self._worldWind, toolsContainer);
+				self.addOpacity(layer, self._worldWind, toolsContainer);
 			});
 		}
 	};
 
-	/**
-	 * Add tools for the layer
-	 * @param tools {LayerTools}
-	 * @param layerMetadata {Object}
-	 * @param worldWind {WorldWindMap}
-	 */
 	ThematicLayersPanel.prototype.addTools = function(tools, layerMetadata, worldWind){
-		tools.addOpacity(layerMetadata, worldWind);
+		// do nothing in this case
 	};
 
 	ThematicLayersPanel.prototype.addContent = function(){
@@ -107,6 +121,40 @@ define(['../../../../error/ArgumentError',
 				self._worldWind.layers.hideLayer(layerId);
 			}
 		},50);
+	};
+
+	/**
+	 * Build legend for layer
+	 * @param worldWind {WorldWindMap}
+	 * @param layerMetadata {Object}
+	 * @param target {JQuery}
+	 * @returns {Legend}
+	 */
+	ThematicLayersPanel.prototype.addLegend = function(layerMetadata, worldWind, target){
+		return new Legend({
+			active: false,
+			name: "layer",
+			layerMetadata: layerMetadata,
+			target: target,
+			worldWind: worldWind
+		});
+	};
+
+	/**
+	 * Build opacity tool for layer
+	 * @param worldWind {WorldWindMap}
+	 * @param layerMetadata {Object}
+	 * @param target {JQuery}
+	 * @returns {Opacity}
+	 */
+	ThematicLayersPanel.prototype.addOpacity = function(layerMetadata, worldWind, target){
+		return new Opacity({
+			active: false,
+			name: "layer",
+			layerMetadata: layerMetadata,
+			worldWind: worldWind,
+			target: target
+		});
 	};
 
 	return ThematicLayersPanel;

@@ -47,12 +47,17 @@ define(['../../../../../error/ArgumentError',
 	 * Add content to a legend floater
 	 */
 	Legend.prototype.addContent = function(){
-		var imgSrc = Config.url + "api/proxy/wms?" + stringUtils.makeUriComponent({
-				'LAYER': this._layerMetadata.path,
-				'REQUEST': 'GetLegendGraphic',
-				'FORMAT': 'image/png',
-				'WIDTH': 50
-			});
+		var params = {
+			'LAYER': this._layerMetadata.path,
+			'REQUEST': 'GetLegendGraphic',
+			'FORMAT': 'image/png',
+			'WIDTH': 50
+		};
+		if (this._layerMetadata.hasOwnProperty('sldId')){
+			params['SLD_ID'] = this._layerMetadata.sldId;
+		}
+
+		var imgSrc = Config.url + "api/proxy/wms?" + stringUtils.makeUriComponent(params);
 		this._floater.addContent('<img src="' + imgSrc + '">');
 	};
 
