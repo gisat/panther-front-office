@@ -112,7 +112,11 @@ Ext.define('PumaMain.controller.DomManipulation', {
 		//var h  = $(window).height();
 
 		if ($("body").hasClass("application")) {
-			h -= $("#toolbar").outerHeight(true);
+			if (Config.toggles.useNewViewSelector) {
+				h -= $("#view-selector").outerHeight(true);
+			} else {
+				h -= $("#toolbar").outerHeight(true);
+			}
 		}
 		return { width  : w, height : h };
 	},

@@ -429,13 +429,13 @@
 .newDesign #sidebar-reports {
 	background: rgb(245, 245, 245);
 	border-left: 1px solid white;
-	top: 105px;
+	/* top: 105px; */
 }
 
 .newDesign #sidebar-tools {
 	background: rgb(245, 245, 245);
 	border-right: 1px solid white;
-	top: 105px;
+	/* top: 105px; */
 }
 
 /* Form ================== */

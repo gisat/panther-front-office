@@ -548,7 +548,7 @@ body.intro #content-intro-terms {
 /* Sidebar tools */
 #sidebar-tools {
 	position: absolute;
-	top: 90px;
+	top: 40px;
 	left: 0;
 	width: 250px;
 }
@@ -565,7 +565,7 @@ body.intro #content-intro-terms {
 #sidebar-reports {
 	background: #e5e3df;
 	position: absolute;
-	top: 90px;
+	top: 40px;
 	width: 580px;
 }
 
