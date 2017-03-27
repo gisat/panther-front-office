@@ -120,6 +120,6 @@
 .toggle-allowPumaHelp #help-link {
 	display: inline;
 }
-.toggle-allowPumaHelp #legacy-view-selector .help-label, .toggle-allowPumaHelp #legacy-view-selector .app-toolbar-help {
+.toggle-allowPumaHelp #legacy-view-selector .help-label, .toggle-allowPumaHelp #legacy-view-selector .app-legacy-view-selector-help {
 	display: inline-block;
 }

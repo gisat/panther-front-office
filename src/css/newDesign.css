@@ -260,7 +260,7 @@
 	width: 80px;
 }
 
-.newDesign #app-toolbar-visualization-save, .newDesign #app-toolbar-visualization-manage {
+.newDesign #app-legacy-view-selector-visualization-save, .newDesign #app-legacy-view-selector-visualization-manage {
 	height: 23px;
 	margin-top: 3px;
 }
@@ -309,13 +309,13 @@
 	padding-right: 10px;
 }
 
-.newDesign #legacy-view-selector .fields .group.group-visualization .app-toolbar-help {
+.newDesign #legacy-view-selector .fields .group.group-visualization .app-legacy-view-selector-help {
 	width: 50px;
 	height: 30px;
 	line-height: 30px;
 }
 
-.newDesign #app-toolbar-contexthelp, .newDesign #app-toolbar-webhelp {
+.newDesign #app-legacy-view-selector-contexthelp, .newDesign #app-legacy-view-selector-webhelp {
 	display: inline-block;
 	margin-left: 0;
 	height: 23px;
@@ -323,9 +323,9 @@
 	padding: 0;
 }
 
-.newDesign #app-toolbar-contexthelp .x-btn, .newDesign #app-toolbar-webhelp .x-btn,
-.newDesign #app-toolbar-contexthelp .x-btn-center, .newDesign #app-toolbar-webhelp .x-btn-center,
-.newDesign #app-toolbar-contexthelp .x-btn-icon, .newDesign #app-toolbar-webhelp .x-btn-icon {
+.newDesign #app-legacy-view-selector-contexthelp .x-btn, .newDesign #app-legacy-view-selector-webhelp .x-btn,
+.newDesign #app-legacy-view-selector-contexthelp .x-btn-center, .newDesign #app-legacy-view-selector-webhelp .x-btn-center,
+.newDesign #app-legacy-view-selector-contexthelp .x-btn-icon, .newDesign #app-legacy-view-selector-webhelp .x-btn-icon {
 	width: 23px !important;
 	height: 23px !important;
 	top: 0;
@@ -333,7 +333,7 @@
 	padding: 0;
 }
 
-.newDesign .app-toolbar-help .help-btn .x-btn {
+.newDesign .app-legacy-view-selector-help .help-btn .x-btn {
 	background-color: rgba(255, 255, 255, .25);
 	border: 1px solid rgba(255, 255, 255, .3);
 	width: 23px;
@@ -341,15 +341,15 @@
 	transition: background-color .3s ease-out;
 }
 
-.newDesign .app-toolbar-help .help-btn .x-btn:hover {
+.newDesign .app-legacy-view-selector-help .help-btn .x-btn:hover {
 	background-color: rgba(255, 255, 255, .15);
 }
 
-.newDesign #app-toolbar-contexthelp span.x-btn-icon {
+.newDesign #app-legacy-view-selector-contexthelp span.x-btn-icon {
 	background: url('../images/new/help-context-white.png') no-repeat 50% 50% !important;
 }
 
-.newDesign #app-toolbar-webhelp span.x-btn-icon {
+.newDesign #app-legacy-view-selector-webhelp span.x-btn-icon {
 	background: url('../images/new/help-web-white.png') no-repeat 50% 50% !important;
 }
 
@@ -373,7 +373,7 @@
 	width: 120px;
 }
 
-.newDesign #app-toolbar-visualization-manage .x-btn-icon, .newDesign #app-toolbar-manage .x-btn-icon {
+.newDesign #app-legacy-view-selector-visualization-manage .x-btn-icon, .newDesign #app-legacy-view-selector-manage .x-btn-icon {
 	background: url(../images/new/settings.png) no-repeat 50% 50% !important;
 	width: 100%;
 	height: 100%;
@@ -381,42 +381,42 @@
 	top: 0;
 }
 
-.newDesign #app-toolbar-save .x-btn-icon, .newDesign #app-toolbar-share .x-btn-icon {
+.newDesign #app-legacy-view-selector-save .x-btn-icon, .newDesign #app-legacy-view-selector-share .x-btn-icon {
 	left: 3px;
 }
 
-.newDesign #app-toolbar-save,
-.newDesign #app-toolbar-manage,
-.newDesign #app-toolbar-share,
-.newDesign #app-toolbar-visualization-save,
-.newDesign #app-toolbar-visualization-manage {
+.newDesign #app-legacy-view-selector-save,
+.newDesign #app-legacy-view-selector-manage,
+.newDesign #app-legacy-view-selector-share,
+.newDesign #app-legacy-view-selector-visualization-save,
+.newDesign #app-legacy-view-selector-visualization-manage {
 	height: 23px;
 	line-height: 23px;
 	width: 22px;
 }
 
-.newDesign #app-toolbar-visualization-save {
+.newDesign #app-legacy-view-selector-visualization-save {
 	width: 50px;
 }
 
-.newDesign #app-toolbar-save {
+.newDesign #app-legacy-view-selector-save {
 	margin-top: 8px;
 	width: 90px;
 }
 
-.newDesign #app-toolbar-manage {
+.newDesign #app-legacy-view-selector-manage {
 	margin-top: 8px;
 }
 
-.newDesign #app-toolbar-share {
+.newDesign #app-legacy-view-selector-share {
 	width: 120px;
 }
 
-.newDesign #app-toolbar-save .x-btn,
-.newDesign #app-toolbar-manage .x-btn,
-.newDesign #app-toolbar-share .x-btn,
-.newDesign #app-toolbar-visualization-save .x-btn,
-.newDesign #app-toolbar-visualization-manage .x-btn {
+.newDesign #app-legacy-view-selector-save .x-btn,
+.newDesign #app-legacy-view-selector-manage .x-btn,
+.newDesign #app-legacy-view-selector-share .x-btn,
+.newDesign #app-legacy-view-selector-visualization-save .x-btn,
+.newDesign #app-legacy-view-selector-visualization-manage .x-btn {
 	background: rgba(255, 255, 255, .6);
 }
 
@@ -454,14 +454,14 @@
 	border-left: 0;
 }
 
-.newDesign.x-border-box #app-toolbar-theme .x-form-trigger,
-.newDesign.x-border-box #app-toolbar-visualization .x-form-trigger {
+.newDesign.x-border-box #app-legacy-view-selector-theme .x-form-trigger,
+.newDesign.x-border-box #app-legacy-view-selector-visualization .x-form-trigger {
 	border-radius: 0;
 	border-right-width: 0;
 }
 
-.newDesign.x-border-box #app-toolbar-theme .x-form-trigger.x-form-refresh-trigger,
-.newDesign.x-border-box #app-toolbar-visualization .x-form-trigger.x-form-refresh-trigger {
+.newDesign.x-border-box #app-legacy-view-selector-theme .x-form-trigger.x-form-refresh-trigger,
+.newDesign.x-border-box #app-legacy-view-selector-visualization .x-form-trigger.x-form-refresh-trigger {
 	border-radius: 0 1px 1px 0;
 	border-right-width: 1px;
 }
@@ -805,7 +805,7 @@
 	border: 1px solid #bbbbc0;
 }
 
-.newDesign #app-toolbar-visualization-save .x-btn-default-small .x-btn-inner, .newDesign #app-toolbar-visualization-manage .x-btn-default-small .x-btn-inner, .newDesign #app-toolbar-save .x-btn-default-small .x-btn-inner, .newDesign #app-toolbar-share .x-btn-default-small .x-btn-inner {
+.newDesign #app-legacy-view-selector-visualization-save .x-btn-default-small .x-btn-inner, .newDesign #app-legacy-view-selector-visualization-manage .x-btn-default-small .x-btn-inner, .newDesign #app-legacy-view-selector-save .x-btn-default-small .x-btn-inner, .newDesign #app-legacy-view-selector-share .x-btn-default-small .x-btn-inner {
 	color: #555;
 	font-size: 11px;
 }

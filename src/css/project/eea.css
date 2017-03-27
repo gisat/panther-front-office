@@ -24,10 +24,10 @@
 }
 
 /* Toolbar ==== */
-.eea #app-toolbar-scope {
+.eea #app-legacy-view-selector-scope {
 	padding-left: 13px;
 }
-.eea #app-toolbar-theme {
+.eea #app-legacy-view-selector-theme {
 	padding-left: 7px;
 }
 /* intro toolbar inputs */

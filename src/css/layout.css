@@ -366,7 +366,7 @@ body.intro #content-intro-terms {
 	line-height: 30px;
 }
 
-.fields-holder .field > #app-toolbar-visualization, .fields-holder .field > #app-toolbar-theme {
+.fields-holder .field > #app-legacy-view-selector-visualization, .fields-holder .field > #app-legacy-view-selector-theme {
 	width: 180px;
 }
 
@@ -375,7 +375,7 @@ body.intro #content-intro-terms {
 	vertical-align: top;
 }
 
-#legacy-view-selector .help-label, #legacy-view-selector .app-toolbar-help {
+#legacy-view-selector .help-label, #legacy-view-selector .app-legacy-view-selector-help {
 	display: none; /* usePumaHelp toggle default */
 }
 

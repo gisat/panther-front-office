@@ -7,7 +7,7 @@
 	width: 170px;
 }
 
-#content-application .field.teritory {
+#content-application .field.place {
 	margin-right: 35px;
 }
 
@@ -73,11 +73,11 @@
 	vertical-align: top;
 }
 
-#app-toolbar-contexthelp {
+#app-legacy-view-selector-contexthelp {
 	margin-left: 42px;
 }
 
-#app-toolbar-webhelp {
+#app-legacy-view-selector-webhelp {
 	margin-left: 2px;
 }
 
@@ -101,15 +101,15 @@
 	cursor: pointer;
 }
 
-#app-toolbar-visualization-save,
-#app-toolbar-visualization-manage {
+#app-legacy-view-selector-visualization-save,
+#app-legacy-view-selector-visualization-manage {
 	width: 70px;
 	margin-left: 5px;
 	float: left;
 	display: block;
 }
 
-#app-toolbar-visualization-manage {
+#app-legacy-view-selector-visualization-manage {
 	width: 30px;
 }
 
@@ -128,13 +128,13 @@
 	left: 10px;
 }
 
-#app-toolbar-save {
+#app-legacy-view-selector-save {
 	width: 110px;
 	float: left;
 	margin-top: 10px;
 }
 
-#app-toolbar-manage {
+#app-legacy-view-selector-manage {
 	width: 30px;
 	float: right;
 	margin-top: 10px;

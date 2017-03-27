@@ -131,8 +131,8 @@
 	border-left-width: 0;
 }
 
-.melodies.x-border-box #app-toolbar-theme .x-form-trigger.x-form-refresh-trigger,
-.melodies.x-border-box #app-toolbar-visualization .x-form-trigger.x-form-refresh-trigger {
+.melodies.x-border-box #app-legacy-view-selector-theme .x-form-trigger.x-form-refresh-trigger,
+.melodies.x-border-box #app-legacy-view-selector-visualization .x-form-trigger.x-form-refresh-trigger {
 	margin-left: -1px;
 	border-left: 0 !important;
 }
@@ -143,21 +143,21 @@
 }
 
 /* help */
-.newDesign .app-toolbar-help .help-btn .x-btn {
+.newDesign .app-legacy-view-selector-help .help-btn .x-btn {
 	border: 1px solid #aaa;
 }
-.melodies #app-toolbar-contexthelp span.x-btn-icon {
+.melodies #app-legacy-view-selector-contexthelp span.x-btn-icon {
 	background: url('../../images/melodies/help-context.png') no-repeat 50% 50% !important;
 }
-.melodies #app-toolbar-webhelp span.x-btn-icon {
+.melodies #app-legacy-view-selector-webhelp span.x-btn-icon {
 	background: url('../../images/melodies/help-web.png') no-repeat 50% 50% !important;
 }
 
-.melodies #app-toolbar-save .x-btn,
-.melodies #app-toolbar-manage .x-btn,
-.melodies #app-toolbar-share .x-btn,
-.melodies #app-toolbar-visualization-save .x-btn,
-.melodies #app-toolbar-visualization-manage .x-btn {
+.melodies #app-legacy-view-selector-save .x-btn,
+.melodies #app-legacy-view-selector-manage .x-btn,
+.melodies #app-legacy-view-selector-share .x-btn,
+.melodies #app-legacy-view-selector-visualization-save .x-btn,
+.melodies #app-legacy-view-selector-visualization-manage .x-btn {
 	background: rgba(100,100,100,.2);
 }
 
@@ -176,7 +176,7 @@
 }
 
 /* Buttons ================ */
-#app-toolbar-level > div {
+#app-legacy-view-selector-level > div {
 	border: 1px solid #aaa;
 }
 /*Basic buttons*/
