@@ -214,7 +214,6 @@ define(['../../../error/ArgumentError',
 	 * @param state {boolean} true, if the layer should be displayed
 	 */
 	Layers.prototype.addInfoLayer = function(layerData, group, state){
-		// todo replace name with id
 		var layer = new WorldWind.WmsLayer({
 			service: Config.url + "api/proxy/wms",
 			layerNames: layerData.name,
@@ -231,6 +230,34 @@ define(['../../../error/ArgumentError',
 			name: layerData.name,
 			group: group,
 			source: layerData.source
+		};
+		this.addLayer(layer);
+	};
+
+	/**
+	 * Add choropleth layer to the list of layers
+	 * @param layerData {Object} info about layer retrieved from server
+	 * @param group {string} name of the group
+	 * @param state {boolean} true, if the layer should be displayed
+	 */
+	Layers.prototype.addChoroplethLayer = function(layerData, group, state){
+		var layer = new WorldWind.WmsLayer({
+			service: Config.url + "api/proxy/wms",
+			sector: new WorldWind.Sector(-90,90,-180,180),
+			layerNames: layerData.layer,
+			levelZeroDelta: new WorldWind.Location(5.625,5.625),
+			numLevels: 22,
+			format: "image/png",
+			size: 256,
+			styleNames: layerData.sldId
+		}, null);
+		layer.urlBuilder.wmsVersion = "1.3.0";
+		layer.metadata = {
+			active: state,
+			id: layerData.id,
+			name: layerData.name,
+			group: group,
+			sldId: layerData.sldId
 		};
 		this.addLayer(layer);
 	};

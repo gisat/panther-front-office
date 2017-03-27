@@ -165,7 +165,7 @@
     margin-top       : 13px;
 }
 .newDesign #content-application{
-    z-index: 10005;
+    z-index: 10000;
 }
 
 /* intro toolbar inputs */

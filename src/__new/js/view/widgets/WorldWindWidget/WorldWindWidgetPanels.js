@@ -5,6 +5,7 @@ define(['../../../error/ArgumentError',
 	'./panels/AuLayersPanel',
 	'./panels/BackgroundLayersPanel',
 	'./panels/InfoLayersPanel',
+	'./panels/ThematicLayersPanel',
 	'./panels/WmsLayersPanel',
 
 	'jquery',
@@ -18,6 +19,7 @@ define(['../../../error/ArgumentError',
 			AuLayersPanel,
 			BackgroundLayersPanel,
 			InfoLayersPanel,
+			ThematicLayersPanel,
 			WmsLayersPanel,
 
 			$,
@@ -51,6 +53,7 @@ define(['../../../error/ArgumentError',
 	/**
 	 * Rebuild panels with current configuration
 	 * @param configuration {Object} configuration from global object ThemeYearConfParams
+	 * @param data {Object}
 	 */
 	WorldWindWidgetPanels.prototype.rebuild = function(configuration, data){
 		if (!configuration){
@@ -72,6 +75,7 @@ define(['../../../error/ArgumentError',
 		this._panelsSelector = $("#" + this._id);
 
 		this._auLayersPanel = this.buildAuLayersPanel();
+		this._thematicLayersPanel = this.buildThematicLayersPanel();
 		this._infoLayersPanel = this.buildInfoLayersPanel();
 		this._backgroundLayersPanel = this.buildBackgroundLayersPanel();
 		this._wmsLayersPanel = this.buildWmsLayersPanel();
@@ -86,6 +90,19 @@ define(['../../../error/ArgumentError',
 		return new BackgroundLayersPanel({
 			id: "background-layers",
 			name: "Background Layers",
+			target: this._panelsSelector,
+			isOpen: true,
+			worldWind: this._worldWind
+		});
+	};
+
+	/**
+	 * Build panel with thematic layers
+	 */
+	WorldWindWidgetPanels.prototype.buildThematicLayersPanel = function(){
+		return new ThematicLayersPanel({
+			id: "thematic-layers",
+			name: "Thematic Layers",
 			target: this._panelsSelector,
 			isOpen: true,
 			worldWind: this._worldWind

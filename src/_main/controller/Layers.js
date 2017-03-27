@@ -610,6 +610,17 @@ Ext.define('PumaMain.controller.Layers', {
 				var legendLayer = response.request.options.legendLayer;
 				response = JSON.parse(response.responseText);
 				var id = response.data;
+
+				var attribute = node.data.attribute;
+				var attributeSet = node.data.attributeSet;
+				if (node.data.type == "chartlayer" && attribute > 0 && attributeSet > 0){
+					var data = {
+						legendLayer: legendLayer,
+						sldId: id
+					};
+					Stores.updateChoropleths(attribute, attributeSet, data);
+				}
+
 				layer.mergeNewParams({
 					"SLD_ID": id
 				});

@@ -95,3 +95,18 @@ Stores.notify = function(changed) {
 		listener(changed);
 	})
 };
+
+/**
+ * Update choropleth
+ * @param attribute {number}
+ * @param attributeSet {number}
+ * @param data {Object}
+ */
+Stores.updateChoropleths = function(attribute, attributeSet, data){
+	Stores.choropleths.forEach(function(choropleth){
+		if (choropleth.as == attributeSet && choropleth.attr == attribute){
+			choropleth.data = data;
+			Stores.notify('updateChoropleths');
+		}
+	});
+};
