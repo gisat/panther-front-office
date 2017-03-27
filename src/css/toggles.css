@@ -90,10 +90,10 @@
 }
 
 /* useNewViewSelector */
-#toolbar {
+#legacy-view-selector {
 	display: none;
 }
-.toggle-useLegacyViewSelector #toolbar {
+.toggle-useLegacyViewSelector #legacy-view-selector {
 	display: block;
 }
 .toggle-useLegacyViewSelector #view-selector {
@@ -120,6 +120,6 @@
 .toggle-allowPumaHelp #help-link {
 	display: inline;
 }
-.toggle-allowPumaHelp #toolbar .help-label, .toggle-allowPumaHelp #toolbar .app-toolbar-help {
+.toggle-allowPumaHelp #legacy-view-selector .help-label, .toggle-allowPumaHelp #legacy-view-selector .app-toolbar-help {
 	display: inline-block;
 }

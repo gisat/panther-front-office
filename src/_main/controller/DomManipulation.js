@@ -115,7 +115,7 @@ Ext.define('PumaMain.controller.DomManipulation', {
 			if (Config.toggles.useNewViewSelector) {
 				h -= $("#view-selector").outerHeight(true);
 			} else {
-				h -= $("#toolbar").outerHeight(true);
+				h -= $("#legacy-view-selector").outerHeight(true);
 			}
 		}
 		return { width  : w, height : h };

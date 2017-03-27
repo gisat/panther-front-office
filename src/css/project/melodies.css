@@ -98,7 +98,7 @@
 }
 
 /* App Header === */
-.melodies #toolbar {
+.melodies #legacy-view-selector {
 	background: #fff;
 	border-bottom: 2px solid #ddd;
 }
@@ -333,7 +333,7 @@
 }
 
 @media screen and (max-width: 1240px){
-	.melodies #toolbar > .label {
+	.melodies #legacy-view-selector > .label {
 		background: url('../../images/melodies/melodies-logo.png') no-repeat center center;
 		background-size: 50px;
 		width: 60px;
@@ -342,7 +342,7 @@
 }
 
 @media screen and (max-width: 1040px){
-	.melodies #toolbar > .label {
+	.melodies #legacy-view-selector > .label {
 		display: none;
 	}
 }

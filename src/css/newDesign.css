@@ -170,17 +170,17 @@
 }
 
 /* into toolbar */
-.newDesign #toolbar {
+.newDesign #legacy-view-selector {
 	background: rgb(67, 66, 84);
 	border-bottom: 2px solid rgb(36, 36, 49);
 	/*z-index: 99999;*/
 }
 
-.newDesign #toolbar > .label {
+.newDesign #legacy-view-selector > .label {
 	margin-top: 7px;
 }
 
-.newDesign .application #toolbar > .label {
+.newDesign .application #legacy-view-selector > .label {
 	margin-top: 13px;
 }
 
@@ -223,7 +223,7 @@
 
 /* === Application === */
 /* App toolbar === */
-.newDesign #toolbar {
+.newDesign #legacy-view-selector {
 	height: 105px;
 }
 
@@ -238,25 +238,25 @@
 	font-weight: 700;
 }
 
-.newDesign #toolbar .fields {
+.newDesign #legacy-view-selector .fields {
 	float: left;
 	margin-left: 35px;
 	margin-top: 4px;
 }
 
-.newDesign #toolbar .fields .group {
+.newDesign #legacy-view-selector .fields .group {
 	width: 200px;
 	float: left;
 	margin-right: 60px;
 	min-height: 90px;
 }
 
-.newDesign #toolbar .fields .group.group-visualization {
+.newDesign #legacy-view-selector .fields .group.group-visualization {
 	width: 380px;
 	margin-right: 5px;
 }
 
-.newDesign #toolbar .fields .group.group-visualization .label {
+.newDesign #legacy-view-selector .fields .group.group-visualization .label {
 	width: 80px;
 }
 
@@ -265,22 +265,22 @@
 	margin-top: 3px;
 }
 
-.newDesign #toolbar .fields .group .field {
+.newDesign #legacy-view-selector .fields .group .field {
 	margin: 1px 1px 2px 1px;
 }
 
-.newDesign #toolbar .field.level > .label {
+.newDesign #legacy-view-selector .field.level > .label {
 	text-align: left;
 	padding-right: 1px;
 }
 
-.newDesign #toolbar .timeline-labels {
+.newDesign #legacy-view-selector .timeline-labels {
 	font-size: 10px;
 	padding-left: 2px;
 	margin-bottom: -5px;
 }
 
-.newDesign #toolbar .timeline-labels > span {
+.newDesign #legacy-view-selector .timeline-labels > span {
 	margin-bottom: -5px;
 }
 
@@ -303,13 +303,13 @@
 	vertical-align: middle;
 }
 
-.newDesign #toolbar .fields .group.group-visualization .help-label {
+.newDesign #legacy-view-selector .fields .group.group-visualization .help-label {
 	width: 62px;
 	text-align: right;
 	padding-right: 10px;
 }
 
-.newDesign #toolbar .fields .group.group-visualization .app-toolbar-help {
+.newDesign #legacy-view-selector .fields .group.group-visualization .app-toolbar-help {
 	width: 50px;
 	height: 30px;
 	line-height: 30px;
@@ -367,7 +367,7 @@
 }
 
 /* dataview field */
-.newDesign #toolbar .dataview {
+.newDesign #legacy-view-selector .dataview {
 	top: 8px;
 	right: 5px;
 	width: 120px;
@@ -1143,7 +1143,7 @@
 }
 
 @media screen and (max-width: 1260px) {
-	.newDesign #toolbar > .label {
+	.newDesign #legacy-view-selector > .label {
 		width: 60px;
 		padding-left: 65px;
 		overflow: hidden;
@@ -1151,7 +1151,7 @@
 }
 
 @media screen and (max-width: 1075px) {
-	.newDesign #toolbar > .label {
+	.newDesign #legacy-view-selector > .label {
 		display: none;
 	}
 }

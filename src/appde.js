@@ -30,7 +30,7 @@ Ext.application({
 		// set Home link in header // todo Move this somewhere else?
 		$("#home-link").attr("href", Config.projectHome);
 		$("title").html(Config.basicTexts.appTitle);
-		$("#toolbar > .label").html(Config.basicTexts.appName);
+		$("#legacy-view-selector > .label").html(Config.basicTexts.appName);
 		$("#content-intro > .label").html(Config.basicTexts.appName);
 
 		if(Config.toggles.hasNewEvaluationTool){

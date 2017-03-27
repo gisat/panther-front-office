@@ -228,7 +228,7 @@ body.intro #header .menu li:first-child::before {
 	display: none; /* useDownloadsLink toggle default */
 }
 
-#toolbar .user {
+#legacy-view-selector .user {
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -239,7 +239,7 @@ body.intro #header .menu li:first-child::before {
 	z-index: 1;
 }
 
-#toolbar .user .sep {
+#legacy-view-selector .user .sep {
 	display: inline-block;
 	height: 12px;
 	width: 1px;
@@ -248,7 +248,7 @@ body.intro #header .menu li:first-child::before {
 	top: 1px;
 }
 
-#toolbar .user .login {
+#legacy-view-selector .user .login {
 	display: inline-block;
 }
 
@@ -375,7 +375,7 @@ body.intro #content-intro-terms {
 	vertical-align: top;
 }
 
-#toolbar .help-label, #toolbar .app-toolbar-help {
+#legacy-view-selector .help-label, #legacy-view-selector .app-toolbar-help {
 	display: none; /* usePumaHelp toggle default */
 }
 
@@ -505,7 +505,7 @@ body.intro #content-intro-terms {
 	font-weight: 700;
 }
 
-#toolbar {
+#legacy-view-selector {
 	width: 100%;
 	height: 90px;
 	background-color: #434254;
@@ -515,7 +515,7 @@ body.intro #content-intro-terms {
 	padding-left: 15px;
 }
 
-#toolbar > .label {
+#legacy-view-selector > .label {
 	margin-top: 5px;
 	padding-top: 8px;
 	line-height: 30px;
@@ -523,22 +523,22 @@ body.intro #content-intro-terms {
 	width: 250px;
 }
 
-#toolbar .group {
+#legacy-view-selector .group {
 	float: none;
 	width: 850px;
 	margin: 0;
 }
 
-#toolbar .group .field {
+#legacy-view-selector .group .field {
 	vertical-align: middle;
 	margin-top: 10px;
 }
 
-#toolbar .group .field.with-sep {
+#legacy-view-selector .group .field.with-sep {
 	/*			background       : url("../images/toolbar-group-border.png") repeat-y 100% 0;*/
 }
 
-#toolbar .dataview {
+#legacy-view-selector .dataview {
 	position: absolute;
 	top: 10px;
 	right: 10px;
