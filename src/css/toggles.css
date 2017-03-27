@@ -51,6 +51,34 @@
 	top: 85px;
 }
 
+/* useLegacyViewSelector */
+.toggle-useLegacyViewSelector body.application #main {
+	padding-top: 90px;
+}
+.toggle-useLegacyViewSelector #sidebar-tools,
+.toggle-useLegacyViewSelector #sidebar-reports {
+	top: 105px;
+}
+
+/* useHeader && useLegacyViewSelector */
+.toggle-useLegacyViewSelector.toggle-useHeader body.application #main {
+	padding-top: 135px;
+}
+.toggle-useLegacyViewSelector.toggle-useHeader body.application #header h1 {
+	display: none;
+}
+.toggle-useLegacyViewSelector.toggle-useHeader body.application #header .menu li:first-child a {
+	padding-left: 0;
+}
+.toggle-useLegacyViewSelector.toggle-useHeader body.application #header .menu li:first-child::before {
+	display: none;
+}
+
+/* useHeader && useWBHeader && useLegacyViewSelector */
+.toggle-useLegacyViewSelector.toggle-useHeader.toggle-useWBHeader body.application #main {
+	padding-top: 175px;
+}
+
 /* useWBFooter */
 .toggle-useWBFooter #footer {
 	display: block;
