@@ -83,6 +83,13 @@ var OlMap = {
  */
 var Stores = {
 	choropleths: [],
+
+	// With respect to selection there are actually three information that we need to handle.
+	//   One is the available areas and their relationships
+	//   Two is the selected areas
+	//   Three is the currently visible areas.
+	selectedAreas: {}, // Tree of the areas that are currently selected?
+
 	listeners: []
 };
 
