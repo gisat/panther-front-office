@@ -58,6 +58,7 @@ define(['../../error/ArgumentError',
         this._widgetSelector = $("#floater-" + this._widgetId);
         this._placeholderSelector = $("#placeholder-" + this._widgetId);
         this._widgetBodySelector = this._widgetSelector.find(".floater-body");
+        this._widgetHeaderSelector = this._widgetSelector.find(".floater-header");
         this._warningSelector = this._widgetSelector.find(".floater-warning");
         this._widgetWarning = new WidgetWarning();
 
@@ -101,9 +102,15 @@ define(['../../error/ArgumentError',
             widgetId: options.widgetId
         }).toString();
 
+        var minimiseSrc = "__new/img/minimise-icon.png";
+        if (options.widgetId == "world-wind-widget"){
+            minimiseSrc = "__new/img/minimise-icon-dark.png";
+        }
+
         var floater = S(WidgetFloater).template({
             name: options.name,
-            widgetId: options.widgetId
+            widgetId: options.widgetId,
+            minimiseSrc: minimiseSrc
         }).toString();
 
         placeholdersContainer.append(placeholder);
@@ -208,7 +215,7 @@ define(['../../error/ArgumentError',
         var id = name.toLowerCase();
         this._widgetSelector.find(".floater-tools-container")
             .append('<div id="' + this._widgetId + '-' + id + '" title="'+ name +'" class="floater-tool widget-'+ id +'">' +
-                '<img alt="' + name + '" src="__new/img/'+ id +'.png"/>' +
+                '<img alt="' + name + '" src="__new/img/'+ id +'-dark.png"/>' +
                 '</div>');
     };
 

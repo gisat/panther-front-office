@@ -1,10 +1,7 @@
 .panel-header {
-	background: rgba(67, 66, 84,.15);
-	border-top: 1px solid rgba(67, 66, 84,.2);
 	color: #555;
 	cursor: pointer;
-	line-height: 1.9rem;
-	padding: 0 .5rem;
+	padding: 0 .2rem;
 	position: relative;
 	transition: background .3s ease-out;
 }
@@ -13,8 +10,8 @@
 }
 .panel-header h3 {
 	display: inline-block;
-	font-size: .85rem;
-	font-weight: 600;
+	font-size: .8rem;
+	font-weight: 400;
 	vertical-align: middle;
 
 }
@@ -40,28 +37,31 @@
 }
 
 .panel-body .floater-row {
-	padding-left: .5rem;
+	padding-left: 1rem;
 }
 .panel-layer-group-body .floater-row {
-	padding-left: 1rem;
+	padding-left: 2rem;
 }
 
 .panel-icon {
 	display: inline-block;
-	width: 1.5rem;
+	width: 1.2rem;
+	height: 1.5rem;
 	vertical-align: middle;
 
 }
 
-.panel-icon:before {
-	color: #777;
-	content: "\f196";
-	display: block;
-	font-family: "FontAwesome";
-	font-size: 1.05rem;
+.panel-icon.expand-icon {
+	background: url(../../../../../img/tree-node-expand.png) no-repeat center center;
 }
-.panel-header.open .panel-icon:before, .panel-layer-group-header.open .panel-icon:before {
-	content: "\f147";
+.panel-icon.folder-icon {
+	background: url(../../../../../img/tree-node-closed.png) no-repeat center center;
+}
+.panel-header.open .panel-icon.expand-icon, .panel-layer-group-header.open .panel-icon.expand-icon {
+	background: url(../../../../../img/tree-node-collapse.png) no-repeat center center;
+}
+.panel-header.open .panel-icon.folder-icon, .panel-layer-group-header.open .panel-icon.folder-icon {
+	background: url(../../../../../img/tree-node-opened.png) no-repeat center center;
 }
 .panel-body {
 	display: none;
@@ -84,12 +84,6 @@
 .panel-body .layer-row a {
 	width: auto;
 }
-.panel-body .floater-row {
-	border-bottom: 1px solid #e7e7e7;
-}
-.panel-body .floater-row:last-child {
-	border-bottom: 0;
-}
 .panel-body .floater-row a {
 	padding: 0 .3rem;
 	height: 1.7rem;
@@ -97,6 +91,6 @@
 }
 .panel-body .floater-row .radiobox-label,
 .panel-body .floater-row .checkbox-label {
-	font-weight: 500;
-	font-size: .85rem;
+	font-weight: 400;
+	font-size: .8rem;
 }

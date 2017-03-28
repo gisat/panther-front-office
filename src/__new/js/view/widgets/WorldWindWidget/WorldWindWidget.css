@@ -4,6 +4,18 @@
 	min-width: 22rem;
 	max-width: 40rem;
 	height: 10rem;
+	background: rgba(255,255,255,.9);
+}
+#floater-world-wind-widget .floater-header {
+	background: rgba(255,255,255,.9);
+	height: 4rem;
+}
+#floater-world-wind-widget .floater-header {
+	background: rgba(255,255,255,.9);
+	height: 4rem;
+}
+#floater-world-wind-widget .floater-body {
+	height: calc(100% - 4rem);
 }
 #floater-world-wind-widget.dockable {
 	height: 25rem;
@@ -28,7 +40,6 @@
 
 /* Floater body */
 #floater-world-wind-widget .floater-body {
-	 height: calc(100% - 2rem);
 	 padding: 0;
 }
 #floater-world-wind-widget .checkbox-row {

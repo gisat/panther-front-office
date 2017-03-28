@@ -53,6 +53,7 @@ define(['../../../error/ArgumentError',
 	 * Build the body of widget
 	 */
 	WorldWindWidget.prototype.buildBody = function(){
+		this.buildFakeHeader();
 		this.buildCheckboxInput(this._widgetId + "-3Dmap-switch", "Show 3D map", this._widgetBodySelector);
 
 		this._worldWindContainer = this._worldWind.getContainer();
@@ -60,6 +61,13 @@ define(['../../../error/ArgumentError',
 		this._3DmapSwitcher = $("#" + this._widgetId + "-3Dmap-switch");
 
 		this._panels = this.buildPanels();
+	};
+
+	WorldWindWidget.prototype.buildFakeHeader = function(){
+		this._widgetHeaderSelector.append('<div class="floater-fake-header">' +
+				'<span>Layers</span>' +
+				'<div class="floater-fake-header-tool"><img title="Configure thematic maps" src="../src/images/new/settings.png"/></div>' +
+			'</div>');
 	};
 
 	/**
