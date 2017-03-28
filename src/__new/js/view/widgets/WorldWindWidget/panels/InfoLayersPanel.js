@@ -2,6 +2,7 @@ define(['../../../../error/ArgumentError',
 	'../../../../error/NotFoundError',
 	'../../../../util/Logger',
 
+	'../../../../util/RemoteJQ',
 	'../../../../stores/Stores',
 	'./WorldWindWidgetPanel',
 
@@ -11,6 +12,7 @@ define(['../../../../error/ArgumentError',
 			NotFoundError,
 			Logger,
 
+			Remote,
 			Stores,
 			WorldWindWidgetPanel,
 
@@ -45,19 +47,23 @@ define(['../../../../error/ArgumentError',
 		}
 		this.clear();
 
-		var self = this;
-		Stores.retrieve('layer').all().then(function(layers){
-			if (layers.length > 0){
-				layers.forEach(function(layer){
-					self.addLayer(layer);
-				});
-				self.displayPanel("block");
-			} else {
-				self.displayPanel("none");
-			}
-		}).catch(function(err){
-			throw new Error(err);
+		this.getLayers(configuration).then(function(res){
+			debugger;
 		});
+
+		//var self = this;
+		//Stores.retrieve('layer').all().then(function(layers){
+		//	if (layers.length > 0){
+		//		layers.forEach(function(layer){
+		//			self.addLayer(layer);
+		//		});
+		//		self.displayPanel("block");
+		//	} else {
+		//		self.displayPanel("none");
+		//	}
+		//}).catch(function(err){
+		//	throw new Error(err);
+		//});
 	};
 
 	/**
@@ -70,6 +76,29 @@ define(['../../../../error/ArgumentError',
 
 		this._worldWind.layers.addInfoLayer(layer, this._id, false);
 		this.addRowToPanel(layer, this._worldWind);
+	};
+
+	/**
+	 * Get the layers list from server
+	 * @param configuration {Object} configuration from global object ThemeYearConfParams
+	 */
+	InfoLayersPanel.prototype.getLayers = function(configuration){
+		var scope = Number(configuration.dataset);
+		var theme = Number(configuration.theme);
+		var year = JSON.parse(configuration.years);
+		var place = "";
+		if (configuration.place.length > 0){
+			place = [Number(configuration.place)];
+		}
+
+		return new Remote({
+			url: "rest/filtered/layer",
+			params: {
+				scope: scope,
+				place: place,
+				year: year,
+				theme: theme
+			}}).get();
 	};
 
 	/**
