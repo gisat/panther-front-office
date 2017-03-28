@@ -165,6 +165,12 @@ define(['../../../error/ArgumentError',
 			$(this).next().slideToggle();
 			return false;
 		});
+
+		this._panelsSelector.on("click",".panel-layer-group-header", function(){
+			$(this).toggleClass('open');
+			$(this).next().slideToggle();
+			return false;
+		});
 	};
 
 	return WorldWindWidgetPanels;

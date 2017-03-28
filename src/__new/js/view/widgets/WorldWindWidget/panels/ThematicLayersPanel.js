@@ -51,7 +51,7 @@ define(['../../../../error/ArgumentError',
 						name: choropleth.attrName + " - " + choropleth.asName
 					};
 					choropleth.layer = layer;
-					self.addRowToPanel(layer, self._worldWind);
+					self.addRow(layer, self._panelBodySelector, self._worldWind);
 				});
 				this.displayPanel("block");
 			} else {
@@ -70,6 +70,9 @@ define(['../../../../error/ArgumentError',
 
 		if (action == notification){
 			this._worldWind.layers.removeAllLayersFromGroup(this._id);
+			// it removes all floaters connected with this panel
+			$("." + this._id + "-floater").remove();
+
 			this._choropleths.forEach(function(choropleth){
 				var layer = {
 					id: choropleth.layer.id,
@@ -130,7 +133,8 @@ define(['../../../../error/ArgumentError',
 	ThematicLayersPanel.prototype.addLegend = function(layerMetadata, worldWind, target){
 		return new Legend({
 			active: false,
-			name: layerMetadata.name + "ddd nerg ůnewnewrv nwev	wn wrnv",
+			class: this._id,
+			name: layerMetadata.name,
 			layerMetadata: layerMetadata,
 			target: target,
 			worldWind: worldWind
@@ -147,6 +151,7 @@ define(['../../../../error/ArgumentError',
 	ThematicLayersPanel.prototype.addOpacity = function(layerMetadata, worldWind, target){
 		return new Opacity({
 			active: false,
+			class: this._id,
 			name: layerMetadata.name,
 			layerMetadata: layerMetadata,
 			worldWind: worldWind,

@@ -216,7 +216,7 @@ define(['../../../error/ArgumentError',
 	Layers.prototype.addInfoLayer = function(layerData, group, state){
 		var layer = new WorldWind.WmsLayer({
 			service: Config.url + "api/proxy/wms",
-			layerNames: layerData.name,
+			layerNames: layerData.path,
 			sector: new WorldWind.Sector(-90,90,-180,180),
 			levelZeroDelta: new WorldWind.Location(5.625,5.625),
 			numLevels: 22,
@@ -228,6 +228,7 @@ define(['../../../error/ArgumentError',
 			active: state,
 			id: layerData.id,
 			name: layerData.name,
+			path: layerData.path,
 			group: group,
 			source: layerData.source
 		};

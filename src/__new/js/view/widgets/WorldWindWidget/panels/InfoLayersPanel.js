@@ -47,35 +47,45 @@ define(['../../../../error/ArgumentError',
 		}
 		this.clear();
 
-		this.getLayers(configuration).then(function(res){
-			debugger;
+		var self = this;
+		this.getLayers(configuration).then(function(result){
+			if (result.hasOwnProperty("data") && result.data.length > 0){
+				self.addGroups(result.data);
+				self.displayPanel("block");
+			} else {
+				self.displayPanel("none");
+			}
+		}).catch(function(err){
+			throw new Error(err);
 		});
-
-		//var self = this;
-		//Stores.retrieve('layer').all().then(function(layers){
-		//	if (layers.length > 0){
-		//		layers.forEach(function(layer){
-		//			self.addLayer(layer);
-		//		});
-		//		self.displayPanel("block");
-		//	} else {
-		//		self.displayPanel("none");
-		//	}
-		//}).catch(function(err){
-		//	throw new Error(err);
-		//});
 	};
 
 	/**
-	 * Add layer to the panel and map
-	 * @param layer {Object}
+	 * It adds groups and layers to panel
+	 * @param data {Array} list of layer groups
 	 */
-	InfoLayersPanel.prototype.addLayer = function(layer){
-		// TODO name + layer group
-		layer.id = layer.name.split(":")[1];
+	InfoLayersPanel.prototype.addGroups = function(data){
+		var self = this;
+		var target = null;
+		var other = null;
+		data.forEach(function(group){
+			target = self.addLayerGroup(group.name.replace(/ /g, '_'), group.name);
+			self.addLayersToGroup(target, group.layers);
+		});
+	};
 
-		this._worldWind.layers.addInfoLayer(layer, this._id, false);
-		this.addRowToPanel(layer, this._worldWind);
+	/**
+	 * Add layers to group
+	 * @param target {JQuery} selector of target element
+	 * @param layers {Array} list of layers
+	 */
+	InfoLayersPanel.prototype.addLayersToGroup = function(target, layers){
+		var self = this;
+		layers.forEach(function(layer){
+			layer.id = layer.path.split(":")[1];
+			self._worldWind.layers.addInfoLayer(layer, this._id, false);
+			self.addRow(layer, target, self._worldWind);
+		});
 	};
 
 	/**

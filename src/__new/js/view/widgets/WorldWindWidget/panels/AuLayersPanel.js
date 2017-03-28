@@ -54,7 +54,7 @@ define(['../../../../error/ArgumentError',
 			id: "analyticalUnits"
 
 		};
-		var tools = this.buildToolBox(layerData.id, container);
+		var tools = this.buildToolBox(layerData.id, this._id, container);
 		this.addTools(tools, layerData, this._worldWind);
 	};
 

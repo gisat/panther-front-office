@@ -19,6 +19,7 @@ define(['../../../../error/ArgumentError',
 	 * Basic class for layer tool
 	 * @param options {Object}
 	 * @param options.active {boolean} true, if legend window is open
+	 * @param options.class {string}
 	 * @param options.name {string} name of the window
 	 * @param options.layerMetadata {Object}
 	 * @param options.worldWind {WorldWindMap}
@@ -36,6 +37,7 @@ define(['../../../../error/ArgumentError',
 		this._active = options.active || false;
 		this._name = options.name || "layer";
 		this._target = options.target;
+		this._class = options.class || "";
 
 		this._worldWind = options.worldWind;
 		this._layerMetadata = options.layerMetadata;
@@ -78,7 +80,7 @@ define(['../../../../error/ArgumentError',
 		return new LayerToolFloater({
 			active: this._active,
 			id: type + "-" + this._id,
-			class: type,
+			class: this._class + "-floater " + type,
 			name: this._name,
 			target: $("#main")
 		});

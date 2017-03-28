@@ -12,26 +12,63 @@
 	background: rgba(67, 66, 84,.25);
 }
 .panel-header h3 {
+	display: inline-block;
 	font-size: .85rem;
 	font-weight: 600;
+	vertical-align: middle;
+
 }
-.panel-header .panel-icon {
-	background: url(../../../../../img/arrow-down-small.png) no-repeat center center;
-	width: 20px;
-	height: 100%;
-	position: absolute;
-	top: 0;
-	right: .3rem;
+
+.panel-layer-group-header {
+	border-bottom: 1px solid #e7e7e7;
+	color: #555;
+	cursor: pointer;
+	line-height: 1.9rem;
+	padding: 0 1rem;
+	position: relative;
+	transition: background .3s ease-out;
 }
-.panel-header.open .panel-icon {
-	background: url(../../../../../img/arrow-up-small.png) no-repeat center center;
+.panel-layer-group-header:hover {
+	background: rgb(235,235,235);
+}
+.panel-layer-group-header h3 {
+	display: inline-block;
+	font-size: .85rem;
+	font-weight: 600;
+	vertical-align: middle;
+
+}
+
+.panel-body .floater-row {
+	padding-left: .5rem;
+}
+.panel-layer-group-body .floater-row {
+	padding-left: 1rem;
+}
+
+.panel-icon {
+	display: inline-block;
+	width: 1.5rem;
+	vertical-align: middle;
+
+}
+
+.panel-icon:before {
+	color: #777;
+	content: "\f196";
+	display: block;
+	font-family: "FontAwesome";
+	font-size: 1.05rem;
+}
+.panel-header.open .panel-icon:before, .panel-layer-group-header.open .panel-icon:before {
+	content: "\f147";
 }
 .panel-body {
 	display: none;
 	padding: 0.05rem 0 .5rem;
 	position: relative;
-	max-height: 12rem;
-	overflow: auto;
+	/*max-height: 12rem;*/
+	/*overflow: auto;*/
 }
 .panel-body.open {
 	display: block;
@@ -41,7 +78,6 @@
 }
 .panel-body .layer-row {
 	display: inline-block;
-	height: 1.8rem;
 	vertical-align: middle;
 	width: calc(100% - 4rem);
 }

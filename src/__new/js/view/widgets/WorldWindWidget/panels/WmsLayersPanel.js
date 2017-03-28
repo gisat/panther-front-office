@@ -70,7 +70,7 @@ define(['../../../../error/ArgumentError',
 	 */
 	WmsLayersPanel.prototype.addLayer = function(layer){
 		this._worldWind.layers.addWmsLayer(layer, this._id, false);
-		this.addRowToPanel(layer, this._worldWind);
+		this.addRow(layer, this._panelBodySelector, this._worldWind);
 	};
 
 	/**

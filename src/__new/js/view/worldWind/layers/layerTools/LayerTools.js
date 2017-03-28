@@ -20,19 +20,24 @@ define(['../../../../error/ArgumentError',
 	 * Class representing layer tools
 	 * @param options {Object}
 	 * @param options.id {string} id of the element
+	 * @param options.class {string}
 	 * @param options.target {JQuery} selector of target element
 	 * @constructor
 	 */
 	var LayerTools = function(options){
 		if (!options.id){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Legend", "constructor", "missingId"));
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "LayerTools", "constructor", "missingId"));
+		}
+		if (!options.class){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "LayerTools", "constructor", "missingClass"));
 		}
 		if (!options.target || options.target.length == 0){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Legend", "constructor", "missingTarget"));
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "LayerTools", "constructor", "missingTarget"));
 		}
 
 		this._target = options.target;
 		this._id = options.id;
+		this._class = options.class;
 
 		this.build();
 	};
@@ -62,6 +67,7 @@ define(['../../../../error/ArgumentError',
 	LayerTools.prototype.addLegend = function(layerMetadata, worldWind){
 		return new Legend({
 			active: false,
+			class: this._class,
 			name: layerMetadata.name,
 			layerMetadata: layerMetadata,
 			target: this._toolsContainer,
@@ -78,6 +84,7 @@ define(['../../../../error/ArgumentError',
 	LayerTools.prototype.addOpacity = function(layerMetadata, worldWind){
 		return new Opacity({
 			active: false,
+			class: this._class,
 			name: layerMetadata.name,
 			layerMetadata: layerMetadata,
 			worldWind: worldWind,

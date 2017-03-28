@@ -81,6 +81,10 @@ define(['../../../../error/ArgumentError',
 	 */
 	WorldWindWidgetPanel.prototype.clear = function(){
 		this._panelBodySelector.html('');
+
+		// it removes all floaters connected with this panel
+		$("." + this._id + "-floater").remove();
+
 		this._worldWind.layers.removeAllLayersFromGroup(this._id);
 	};
 
@@ -102,31 +106,47 @@ define(['../../../../error/ArgumentError',
 	};
 
 	/**
+	 * Add layer group to panel
+	 * @param id {string}
+	 * @param name {string}
+	 * @returns {*|jQuery|HTMLElement} Selector of the group
+	 */
+	WorldWindWidgetPanel.prototype.addLayerGroup = function(id, name){
+		this._panelBodySelector.append('<div class="panel-layer-group" id="' + id + '-panel-layer-group">' +
+				'<div class="panel-layer-group-header open"><div class="panel-icon"></div><h3>' + name + '</h3></div>' +
+				'<div class="panel-layer-group-body open"></div>' +
+			'</div>');
+		return $("#" + id + "-panel-layer-group").find(".panel-layer-group-body");
+	};
+
+	/**
 	 * Add item to the panel
 	 * @param layerData {Object}
+	 * @param target {*|jQuery|HTMLElement} Selector of the group
 	 * @param wwd {WorldWindMap}
 	 */
-	WorldWindWidgetPanel.prototype.addRowToPanel = function(layerData, wwd){
-		this._panelBodySelector.append('<div class="panel-row" id="' + layerData.id + '-panel-row"></div>');
+	WorldWindWidgetPanel.prototype.addRow = function(layerData, target, wwd){
+		target.append('<div class="panel-row" id="' + layerData.id + '-panel-row"></div>');
 		var container = $('#' + layerData.id + '-panel-row');
 
-		// TODO add real name
 		var layerControlId = this._id + "-" + layerData.id;
 		var checkbox = this.addCheckbox(layerControlId, layerData.name, container, layerData.id, false);
 
-		var tools = this.buildToolBox(layerData.id, container);
+		var tools = this.buildToolBox(layerData.id, this._id, container);
 		this.addTools(tools, layerData, wwd);
 	};
 
 	/**
 	 * Build container for layer tools
 	 * @param id {string}
+	 * @param cls {string} panel id
 	 * @param container {JQuery} selector of target element
 	 * @returns {LayerTools}
 	 */
-	WorldWindWidgetPanel.prototype.buildToolBox = function(id, container){
+	WorldWindWidgetPanel.prototype.buildToolBox = function(id, cls, container){
 		return new LayerTools({
 			id: id,
+			class: cls,
 			target: container
 		});
 	};
