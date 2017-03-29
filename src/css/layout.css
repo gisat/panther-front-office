@@ -607,12 +607,53 @@ body.intro #content-intro-terms {
 	left: 0;
 	width: 100%;
 	background: #f4f3ef;
+	font-size: 0;
 
 	top: 40px; /* useNewViewSelector toggle default */
 	border-bottom: 0 solid #ddd; /* useTopToolbar toggle default */
 	display: none; /* useTopToolbar toggle default */
 	height: 0; /* useTopToolbar toggle default */
 }
+#top-toolbar > div {
+	height: 30px;
+	overflow: hidden;
+}
+#top-toolbar-features {
+	margin-right: 100px; /* space for #top-toolbar-tools */
+}
+#top-toolbar-tools {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 95px;
+}
+#top-toolbar-widgets {
+	display: inline-block;
+}
+
+#top-toolbar .item {
+	display: inline-block;
+	height: 100%;
+	padding: 0 15px;
+	line-height: 30px;
+	cursor: pointer;
+	font-size: 12px;
+	font-weight: 700;
+	color: #444;
+
+	transition:
+		background .3s ease-in-out;
+}
+#top-toolbar .item:hover {
+	background: rgba(125,125,125,.15);
+}
+#top-toolbar-features .item {
+	border-right: 1px solid #ddd;
+}
+#top-toolbar-tools .item {
+	border-left: 1px solid #ddd;
+}
+
 
 /* Sidebar tools */
 #sidebar-tools {
