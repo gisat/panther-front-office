@@ -597,7 +597,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 	 * @param normalizationUnit
 	 * @param overwriteUnit
 	 */
-	updateDisplayedUnits(displayUnitsField, sourceUnit, normalizationUnit, overwriteUnit) {
+	updateDisplayedUnits: function(displayUnitsField, sourceUnit, normalizationUnit, overwriteUnit) {
 		var displayUnit = '';
 		var standardUnits = this.standardUnits;
 
@@ -623,7 +623,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 	 * @param normalizationUnit
 	 * @param overwriteUnit
 	 */
-	updateCustomFactor(customFactorField, sourceUnit, normalizationUnit, overwriteUnit) {
+	updateCustomFactor: function(customFactorField, sourceUnit, normalizationUnit, overwriteUnit) {
 		var customFactor = 1;
 		var standardUnits = this.standardUnits;
 
