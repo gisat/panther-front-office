@@ -483,6 +483,8 @@ body.intro #content-intro-terms {
 
 #view-selector > .group {
 	display: inline-block;
+	vertical-align: top;
+	margin-top: 5px;
 }
 
 #view-selector .field {
@@ -504,6 +506,60 @@ body.intro #content-intro-terms {
 	font-size: 11px;
 	font-weight: 700;
 }
+
+
+#app-view-selector-visualization-save, #app-view-selector-visualization-manage {
+	height: 23px;
+	margin-top: 2px;
+}
+
+#app-view-selector-visualization-manage .x-btn-icon, #app-view-selector-manage .x-btn-icon {
+	background: url(../images/new/settings.png) no-repeat 50% 50% !important;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+}
+
+#app-view-selector-save,
+#app-view-selector-manage,
+#app-view-selector-share,
+#app-view-selector-visualization-save,
+#app-view-selector-visualization-manage {
+	height: 23px;
+	line-height: 23px;
+	width: 22px;
+	vertical-align: top;
+}
+
+#app-view-selector-save .x-btn,
+#app-view-selector-manage .x-btn,
+#app-view-selector-share .x-btn,
+#app-view-selector-visualization-save .x-btn,
+#app-view-selector-visualization-manage .x-btn {
+	background: rgba(255, 255, 255, .6);
+}
+
+#app-view-selector-visualization-save {
+	width: 50px;
+}
+
+#view-selector .timeline-labels {
+	font-size: 10px;
+	padding-left: 2px;
+	margin-bottom: -5px;
+}
+
+#view-selector .timeline-labels > span {
+	margin-bottom: -5px;
+}
+
+#view-selector .field.period .widget .x-field .x-form-item-body {
+	color: #eee;
+	font-weight: 600;
+}
+
+
 
 #legacy-view-selector {
 	width: 100%;
