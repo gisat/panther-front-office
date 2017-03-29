@@ -192,7 +192,7 @@ define([
         this.addSettingsListener();
 
         this._settings = new Settings({
-            target: this._target,
+            target: this._floaterTarget,
             widgetId: this._widgetId
         });
     };

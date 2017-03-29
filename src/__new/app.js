@@ -157,7 +157,7 @@ define(['js/util/metadata/Attributes',
             containment: "body",
             handle: ".floater-header"
         }).on("click drag", function(){
-            $(".floater, .tool-window").removeClass("active");
+            $(".floater, .tool-window, #feature-info-window").removeClass("active");
             $(this).addClass("active");
         });
     });
@@ -213,7 +213,7 @@ define(['js/util/metadata/Attributes',
             filter: filter,
             elementId: 'evaluation-widget',
             name: 'Evaluation Tool',
-            targetId: 'widget-container'
+            placeholderTargetId: 'widget-container'
         });
     }
 
@@ -225,7 +225,7 @@ define(['js/util/metadata/Attributes',
         return new CustomDrawingWidget({
             elementId: 'custom-polygons-widget',
             name: 'Custom Features',
-            targetId: 'widget-container'
+            placeholderTargetId: 'widget-container'
         });
     }
 
@@ -237,7 +237,7 @@ define(['js/util/metadata/Attributes',
         return new CityWidget({
             elementId: 'city-selection',
             name: 'UrbanDynamic Tool',
-            targetId: 'widget-container',
+            placeholderTargetId: 'widget-container',
             selections: [{
                 id: 'melodies-city-selection',
                 name: 'Select city',
@@ -278,7 +278,8 @@ define(['js/util/metadata/Attributes',
         return new WorldWindWidget({
             elementId: 'world-wind-widget',
             name: '3D Map',
-            targetId: 'widget-container',
+            placeholderTargetId: 'widget-container',
+            iconId: 'icon-3d-map',
             worldWind: webWorldWind
         });
     }

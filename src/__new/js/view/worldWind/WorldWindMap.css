@@ -2,10 +2,7 @@
 	display: none;
 	background: black url("../../../img/night-sky.jpg") top left no-repeat;
 	background-size: cover;
-	position: absolute;
-	top: 177px;
-	height: calc(100% - 290px);
-	width: 100%;
+	position: relative;
 	z-index: 5555;
 }
 body.mode-3d #world-wind-container {

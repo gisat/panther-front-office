@@ -136,6 +136,9 @@ define(['../../../error/ArgumentError',
 		this._infoWindow.draggable({
 			containment: "body",
 			handle: ".feature-info-window-header"
+		}).on("click drag", function(){
+			$(".floater, .tool-window").removeClass("active");
+			$(this).addClass("active");
 		});
 	};
 
@@ -182,7 +185,7 @@ define(['../../../error/ArgumentError',
 		var self = this;
 		$(".feature-info-settings").on("click", function(){
 			$('#' + self._id + '-settings').show("drop", {direction: "up"}, 200)
-				.addClass('open');
+				.addClass('open').addClass('active');
 		});
 	};
 

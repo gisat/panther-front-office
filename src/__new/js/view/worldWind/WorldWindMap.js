@@ -50,6 +50,8 @@ define(['../../error/ArgumentError',
 				'<div id="widgets3d-placeholders-container">' +
 				'</div>' +
 			'</div>');
+
+		this._mapContainer = $("#world-wind-container");
 	};
 
 	/**
@@ -74,7 +76,7 @@ define(['../../error/ArgumentError',
 	 * @returns {*}
 	 */
 	WorldWindMap.prototype.getContainer = function(){
-		return $("#world-wind-container");
+		return this._mapContainer;
 	};
 
 	/**

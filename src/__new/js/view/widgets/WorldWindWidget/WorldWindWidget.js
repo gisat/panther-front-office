@@ -46,7 +46,6 @@ define(['../../../error/ArgumentError',
 		//this.buildToolIconInHeader("Dock");
 		//this.buildToolIconInHeader("Undock");
 		this.buildBody();
-		this.addEventsListeners();
 	};
 
 	/**
@@ -54,11 +53,9 @@ define(['../../../error/ArgumentError',
 	 */
 	WorldWindWidget.prototype.buildBody = function(){
 		this.buildFakeHeader();
-		this.buildCheckboxInput(this._widgetId + "-3Dmap-switch", "Show 3D map", this._widgetBodySelector);
 
 		this._worldWindContainer = this._worldWind.getContainer();
 		this._worldWindMap = this._worldWindContainer.find("#world-wind-map");
-		this._3DmapSwitcher = $("#" + this._widgetId + "-3Dmap-switch");
 
 		this._panels = this.buildPanels();
 	};
@@ -94,47 +91,10 @@ define(['../../../error/ArgumentError',
 			this.toggleWarning("none");
 			this._worldWind.rebuild(options.config, this._widgetSelector);
 			this._panels.rebuild(options.config, data);
-			if (this._3DmapSwitcher.hasClass("checked")){
-				this.toggleComponents("none");
-			}
 		} else {
 			this.toggleWarning("block", [1,2,3,4]);
 		}
 		this.handleLoading("hide");
-	};
-
-	/**
-	 * Add listeners
-	 */
-	WorldWindWidget.prototype.addEventsListeners = function(){
-		this.addMapSwitchListener();
-		//this.addDockingListener();
-	};
-
-	/**
-	 * Add listener for docking
-	 */
-	WorldWindWidget.prototype.addDockingListener = function(){
-		var self = this;
-		this._widgetSelector.find(".widget-dock").on("click", function(){
-			self.dockFloater(self._widgetSelector, self._worldWindContainer);
-			self._worldWindMap.addClass("docked");
-		});
-		this._widgetSelector.find(".widget-undock, .widget-minimise").on("click", function(){
-			self.undockFloater(self._widgetSelector, self._target);
-			self._worldWindMap.removeClass("docked");
-		});
-		$("#placeholder-world-wind-widget").on("click", function(){
-			self.undockFloater(self._widgetSelector, self._target);
-			self._worldWindMap.removeClass("docked");
-		});
-	};
-
-	/**
-	 * Add listener to a "Show 3D map" checkbox
-	 */
-	WorldWindWidget.prototype.addMapSwitchListener = function(){
-		this._3DmapSwitcher.on("click", this.toggle3DMap.bind(this));
 	};
 
 	/**
@@ -143,6 +103,7 @@ define(['../../../error/ArgumentError',
 	WorldWindWidget.prototype.toggle3DMap = function(){
 		var self = this;
 		var body = $("body");
+
 		if (body.hasClass("mode-3d")){
 			body.removeClass("mode-3d");
 			self.toggleComponents("block");
