@@ -112,6 +112,7 @@ define(['../../../error/ArgumentError',
 
 		if (body.hasClass("mode-3d")){
 			body.removeClass("mode-3d");
+			self._widgetSelector.removeClass("open");
 			self.toggleComponents("block");
 		} else {
 			body.addClass("mode-3d");

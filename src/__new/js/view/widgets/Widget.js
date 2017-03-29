@@ -250,7 +250,6 @@ define(['../../error/ArgumentError',
     };
 
     Widget.prototype.toggleFloater = function(){
-        this._widgetSelector.toggleClass("open");
         if (this._widgetId == "world-wind-widget"){
             this.toggle3DMap();
         }
