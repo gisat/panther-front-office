@@ -113,7 +113,10 @@ define(['../../../../error/ArgumentError',
 	 */
 	WorldWindWidgetPanel.prototype.addLayerGroup = function(id, name){
 		this._panelBodySelector.append('<div class="panel-layer-group" id="' + id + '-panel-layer-group">' +
-				'<div class="panel-layer-group-header open"><div class="panel-icon"></div><h3>' + name + '</h3></div>' +
+				'<div class="panel-layer-group-header open">' +
+					'<div class="panel-icon expand-icon"></div>' +
+					'<div class="panel-icon folder-icon"></div>' +
+				'<h3>' + name + '</h3></div>' +
 				'<div class="panel-layer-group-body open"></div>' +
 			'</div>');
 		return $("#" + id + "-panel-layer-group").find(".panel-layer-group-body");

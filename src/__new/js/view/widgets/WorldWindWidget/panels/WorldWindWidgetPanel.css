@@ -6,22 +6,20 @@
 	transition: background .3s ease-out;
 }
 .panel-header:hover {
-	background: rgba(67, 66, 84,.25);
+	background: rgb(235,235,235);
 }
 .panel-header h3 {
 	display: inline-block;
-	font-size: .8rem;
+	font-size: .75rem;
 	font-weight: 400;
 	vertical-align: middle;
 
 }
 
 .panel-layer-group-header {
-	border-bottom: 1px solid #e7e7e7;
 	color: #555;
 	cursor: pointer;
-	line-height: 1.9rem;
-	padding: 0 1rem;
+	padding: 0 0 0 1.4rem;
 	position: relative;
 	transition: background .3s ease-out;
 }
@@ -30,14 +28,14 @@
 }
 .panel-layer-group-header h3 {
 	display: inline-block;
-	font-size: .85rem;
-	font-weight: 600;
+	font-size: .75rem;
+	font-weight: 400;
 	vertical-align: middle;
 
 }
 
 .panel-body .floater-row {
-	padding-left: 1rem;
+	padding-left: 2.25rem;
 }
 .panel-layer-group-body .floater-row {
 	padding-left: 2rem;
@@ -46,7 +44,7 @@
 .panel-icon {
 	display: inline-block;
 	width: 1.2rem;
-	height: 1.5rem;
+	height: 1.25rem;
 	vertical-align: middle;
 
 }
@@ -65,7 +63,7 @@
 }
 .panel-body {
 	display: none;
-	padding: 0.05rem 0 .5rem;
+	padding: 0.05rem 0 .2rem;
 	position: relative;
 	/*max-height: 12rem;*/
 	/*overflow: auto;*/
@@ -75,6 +73,7 @@
 }
 .panel-body .panel-row {
 	position: relative;
+	height: 1.3rem;
 }
 .panel-body .layer-row {
 	display: inline-block;
@@ -86,11 +85,11 @@
 }
 .panel-body .floater-row a {
 	padding: 0 .3rem;
-	height: 1.7rem;
-	line-height: 1.6rem;
+	height: 1.3rem;
+	line-height: 1.2rem;
 }
 .panel-body .floater-row .radiobox-label,
 .panel-body .floater-row .checkbox-label {
 	font-weight: 400;
-	font-size: .8rem;
+	font-size: .75rem;
 }
