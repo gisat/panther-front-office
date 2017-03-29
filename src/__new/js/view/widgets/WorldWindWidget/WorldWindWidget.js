@@ -135,8 +135,10 @@ define(['../../../error/ArgumentError',
 
 		if (action == "none"){
 			sidebarTools.addClass("hidden-complete");
+			sidebarTools.css("display", "none");
 		} else {
 			sidebarTools.removeClass("hidden-complete");
+			sidebarTools.css("display", "block");
 		}
 
 		$(".x-css-shadow").css("display", "none");
