@@ -50,6 +50,7 @@ define(['js/util/metadata/Attributes',
         'js/util/Placeholder',
 		'js/util/Remote',
 		'js/stores/Stores',
+        'js/view/TopToolBar',
         'js/view/worldWind/WorldWindMap',
         'js/view/widgets/WorldWindWidget/WorldWindWidget',
 
@@ -72,6 +73,7 @@ define(['js/util/metadata/Attributes',
              Placeholder,
 			 Remote,
 			 Stores,
+			 TopToolBar,
              WorldWindMap,
              WorldWindWidget,
 
@@ -106,6 +108,9 @@ define(['js/util/metadata/Attributes',
         }
         if(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo){
             tools.push(buildFeatureInfoTool());
+        }
+		if(Config.toggles.useTopToolbar){
+            var topToolBar = new TopToolBar();
         }
 
         // build app, map is class for OpenLayers map

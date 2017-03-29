@@ -483,6 +483,8 @@ body.intro #content-intro-terms {
 
 #view-selector > .group {
 	display: inline-block;
+	vertical-align: top;
+	margin-top: 5px;
 }
 
 #view-selector .field {
@@ -504,6 +506,60 @@ body.intro #content-intro-terms {
 	font-size: 11px;
 	font-weight: 700;
 }
+
+
+#app-view-selector-visualization-save, #app-view-selector-visualization-manage {
+	height: 23px;
+	margin-top: 2px;
+}
+
+#app-view-selector-visualization-manage .x-btn-icon, #app-view-selector-manage .x-btn-icon {
+	background: url(../images/new/settings.png) no-repeat 50% 50% !important;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+}
+
+#app-view-selector-save,
+#app-view-selector-manage,
+#app-view-selector-share,
+#app-view-selector-visualization-save,
+#app-view-selector-visualization-manage {
+	height: 23px;
+	line-height: 23px;
+	width: 22px;
+	vertical-align: top;
+}
+
+#app-view-selector-save .x-btn,
+#app-view-selector-manage .x-btn,
+#app-view-selector-share .x-btn,
+#app-view-selector-visualization-save .x-btn,
+#app-view-selector-visualization-manage .x-btn {
+	background: rgba(255, 255, 255, .6);
+}
+
+#app-view-selector-visualization-save {
+	width: 50px;
+}
+
+#view-selector .timeline-labels {
+	font-size: 10px;
+	padding-left: 2px;
+	margin-bottom: -5px;
+}
+
+#view-selector .timeline-labels > span {
+	margin-bottom: -5px;
+}
+
+#view-selector .field.period .widget .x-field .x-form-item-body {
+	color: #eee;
+	font-weight: 600;
+}
+
+
 
 #legacy-view-selector {
 	width: 100%;
@@ -551,12 +607,53 @@ body.intro #content-intro-terms {
 	left: 0;
 	width: 100%;
 	background: #f4f3ef;
+	font-size: 0;
 
 	top: 40px; /* useNewViewSelector toggle default */
 	border-bottom: 0 solid #ddd; /* useTopToolbar toggle default */
 	display: none; /* useTopToolbar toggle default */
 	height: 0; /* useTopToolbar toggle default */
 }
+#top-toolbar > div {
+	height: 30px;
+	overflow: hidden;
+}
+#top-toolbar-features {
+	margin-right: 100px; /* space for #top-toolbar-tools */
+}
+#top-toolbar-tools {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 95px;
+}
+#top-toolbar-widgets {
+	display: inline-block;
+}
+
+#top-toolbar .item {
+	display: inline-block;
+	height: 100%;
+	padding: 0 15px;
+	line-height: 30px;
+	cursor: pointer;
+	font-size: 12px;
+	font-weight: 700;
+	color: #444;
+
+	transition:
+		background .3s ease-in-out;
+}
+#top-toolbar .item:hover {
+	background: rgba(125,125,125,.15);
+}
+#top-toolbar-features .item {
+	border-right: 1px solid #ddd;
+}
+#top-toolbar-tools .item {
+	border-left: 1px solid #ddd;
+}
+
 
 /* Sidebar tools */
 #sidebar-tools {
