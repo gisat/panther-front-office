@@ -1,5 +1,6 @@
 .layer-tool-floater {
 	background: rgba(255,255,255,.95);
+	display: none;
 	position: absolute;
 	min-height: 100px;
 	height: auto;
@@ -9,7 +10,10 @@
 	bottom: 50px;
 }
 
-.layer-tool-floater.open {
+.tool-window.layer-tool-floater.open {
+	display: none;
+}
+body.mode-3d .tool-window.layer-tool-floater.open {
 	display: block;
 }
 

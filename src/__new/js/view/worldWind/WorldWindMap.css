@@ -1,9 +1,5 @@
-body.intro #world-wind-container {
+#world-wind-container {
 	display: none;
-}
-body.application #world-wind-container {
-	display: none;
-
 	background: black url("../../../img/night-sky.jpg") top left no-repeat;
 	background-size: cover;
 	position: absolute;
@@ -11,6 +7,9 @@ body.application #world-wind-container {
 	height: calc(100% - 290px);
 	width: 100%;
 	z-index: 5555;
+}
+body.mode-3d #world-wind-container {
+	display: block;
 }
 #world-wind-map {
 	position: relative;

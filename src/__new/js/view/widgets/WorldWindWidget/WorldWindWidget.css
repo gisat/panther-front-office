@@ -3,7 +3,8 @@
 	top: 10rem;
 	min-width: 22rem;
 	max-width: 40rem;
-	height: 10rem;
+	/*height: 10rem;*/
+	height: 25rem;
 	background: rgba(255,255,255,.9);
 }
 #floater-world-wind-widget .floater-header {
@@ -17,9 +18,9 @@
 #floater-world-wind-widget .floater-body {
 	height: calc(100% - 4rem);
 }
-#floater-world-wind-widget.dockable {
-	height: 25rem;
-}
+/*#floater-world-wind-widget.dockable {*/
+	/*height: 25rem;*/
+/*}*/
 #floater-world-wind-widget.docked {
 	position: absolute;
 	top: 0;
@@ -31,12 +32,12 @@
 	padding: 0;
 }
 
-#floater-world-wind-widget .widget-panels {
-	display: none;
-}
-#floater-world-wind-widget.dockable .widget-panels {
-	display: block;
-}
+/*#floater-world-wind-widget .widget-panels {*/
+	/*display: none;*/
+/*}*/
+/*#floater-world-wind-widget.dockable .widget-panels {*/
+	/*display: block;*/
+/*}*/
 
 /* Floater body */
 #floater-world-wind-widget .floater-body {
@@ -56,4 +57,15 @@
 #world-wind-widget-3Dmap-switch .checkbox-label {
 	font-weight: 600;
 	font-size: .85rem;
+}
+
+body.mode-3d .x-closable,
+body.mode-3d #tools-container,
+body.mode-3d #widget-container .placeholder:not(#placeholder-world-wind-widget),
+body.mode-3d #widget-container .placeholder.open:not(#placeholder-world-wind-widget),
+body.mode-3d .x-css-shadow,
+body.mode-3d .floater:not(#floater-world-wind-widget),
+body.mode-3d .floater.open:not(#floater-world-wind-widget),
+body.mode-3d .settings-window {
+	display: none;
 }

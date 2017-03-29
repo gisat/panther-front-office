@@ -43,8 +43,8 @@ define(['../../../error/ArgumentError',
 	 * Build basic view of the widget
 	 */
 	WorldWindWidget.prototype.build = function(){
-		this.buildToolIconInHeader("Dock");
-		this.buildToolIconInHeader("Undock");
+		//this.buildToolIconInHeader("Dock");
+		//this.buildToolIconInHeader("Undock");
 		this.buildBody();
 		this.addEventsListeners();
 	};
@@ -108,7 +108,7 @@ define(['../../../error/ArgumentError',
 	 */
 	WorldWindWidget.prototype.addEventsListeners = function(){
 		this.addMapSwitchListener();
-		this.addDockingListener();
+		//this.addDockingListener();
 	};
 
 	/**
@@ -134,26 +134,23 @@ define(['../../../error/ArgumentError',
 	 * Add listener to a "Show 3D map" checkbox
 	 */
 	WorldWindWidget.prototype.addMapSwitchListener = function(){
-		var self = this;
-		this._3DmapSwitcher.on("click", function(){
-			var checkbox = $(this);
-			setTimeout(function(){
-				if (checkbox.hasClass("checked")){
-					self._worldWindContainer.css("display", "block");
-					self._widgetSelector.addClass("dockable");
-					self.toggleComponents("none");
+		this._3DmapSwitcher.on("click", this.toggle3DMap.bind(this));
+	};
 
-					// it fixes the bug with disappearing of globe
-					self.rebuild(self._data, self._options);
-				} else {
-					self._worldWindContainer.css("display", "none");
-					self._widgetSelector.removeClass("dockable");
-					self.undockFloater(self._widgetSelector, self._target);
-					self._worldWindMap.removeClass("docked");
-					self.toggleComponents("block");
-				}
-			}, 50);
-		});
+	/**
+	 * Toggle map into 3D mode
+	 */
+	WorldWindWidget.prototype.toggle3DMap = function(){
+		var self = this;
+		var body = $("body");
+		if (body.hasClass("mode-3d")){
+			body.removeClass("mode-3d");
+			self.toggleComponents("block");
+		} else {
+			body.addClass("mode-3d");
+			self.toggleComponents("none");
+			self.rebuild(self._data, self._options);
+		}
 	};
 
 	/**
@@ -163,27 +160,18 @@ define(['../../../error/ArgumentError',
 	WorldWindWidget.prototype.toggleComponents = function(action){
 		var sidebarTools = $("#sidebar-tools");
 
-		$(".x-closable, #tools-container, #widget-container .placeholder:not(#placeholder-" + this._widgetId + ")")
-			.css("display", action);
-		$(".x-css-shadow").css("display", "none");
-
-		var self = this;
-		$(".floater").each(function(index, floaterr){
-			var floater = $(floaterr);
-			if (floater.hasClass("open") && floater.attr("id") != "floater-" + self._widgetId){
-				floater.css("display", action);
-			}
-		});
-
 		if (action == "none"){
 			sidebarTools.addClass("hidden-complete");
 		} else {
 			sidebarTools.removeClass("hidden-complete");
 		}
 
-		$(".settings-window").css("display", "none");
-		$(".tool-window").removeClass("open");
-		$(".layer-tool-icon").removeClass("open");
+		$(".x-css-shadow").css("display", "none");
+
+
+		$(".x-closable, #tools-container, #widget-container .placeholder:not(#placeholder-" + this._widgetId + ")")
+			.css("display", action);
+
 	};
 
 	return WorldWindWidget;
