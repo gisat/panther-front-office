@@ -36,11 +36,8 @@ define(['../../../error/ArgumentError',
 		if (!options.elementClass){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "FeatureInfoTool", "constructor", "missingElementClass"));
 		}
-		if (!options.targetId){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "FeatureInfoTool", "constructor", "missingTargetElementId"));
-		}
 
-		this._target = $("#" + options.targetId);
+		this._floaterTarget = $("#main");
 		this._class = options.elementClass;
 		this._id = options.id;
 
@@ -62,7 +59,7 @@ define(['../../../error/ArgumentError',
 	 */
 	FeatureInfoTool.prototype.buildInfoWindow = function(){
 		return new FeatureInfoWindow({
-			target: this._target,
+			target: this._floaterTarget,
 			id: this._id + "-window",
 			resizable: true
 		});

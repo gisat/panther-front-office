@@ -291,7 +291,6 @@ define(['js/util/metadata/Attributes',
         return new FeatureInfoTool({
             id: 'feature-info',
             elementClass: 'btn-tool-feature-info',
-            targetId: 'tools-container'
         });
     }
 });

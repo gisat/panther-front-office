@@ -15,7 +15,7 @@
 	min-width: 20rem;
 	width: 25rem;
 	max-width: 40rem;
-	z-index: 10002;
+	z-index: 10000;
 }
 #feature-info-window .feature-info-window-header {
 	border-bottom: 2px solid #ddd;
