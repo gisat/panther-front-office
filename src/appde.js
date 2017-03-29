@@ -30,7 +30,7 @@ Ext.application({
 		// set Home link in header // todo Move this somewhere else?
 		$("#home-link").attr("href", Config.projectHome);
 		$("title").html(Config.basicTexts.appTitle);
-		$("#toolbar > .label").html(Config.basicTexts.appName);
+		$("#legacy-view-selector > .label").html(Config.basicTexts.appName);
 		$("#content-intro > .label").html(Config.basicTexts.appName);
 
 		if(Config.toggles.hasNewEvaluationTool){
@@ -45,7 +45,7 @@ Ext.application({
 			$("html").addClass("urbis");
 
 			$(".field.scope .label").html(Config.urbisTexts.scopeName);
-			$(".field.teritory .label").html(Config.urbisTexts.placeName);
+			$(".field.place .label").html(Config.urbisTexts.placeName);
 			$(".field.theme .label").html(Config.urbisTexts.themeName);
 
 			$("#content-intro-guide").html("<h2>Selection guide</h2><h3>" + Config.urbisTexts.scopeName + "</h3><p>" +
@@ -59,7 +59,7 @@ Ext.application({
 
 		if(Config.toggles.isEea){
 			$("html").addClass("eea");
-			$(".field.teritory .label").html(Config.eeaTexts.placeName);
+			$(".field.place .label").html(Config.eeaTexts.placeName);
 			$("#content-intro-guide h3:nth-child(4)").html("");
 			$("#content-intro-guide p:nth-child(5)").html("");
 		}
@@ -86,6 +86,14 @@ Ext.application({
 
 		if(Config.toggles.useWBFooter){
 			$("html").addClass("toggle-useWBFooter");
+		}
+
+		if(!Config.toggles.useNewViewSelector){
+			$("html").addClass("toggle-useLegacyViewSelector");
+		}
+
+		if(Config.toggles.useTopToolbar){
+			$("html").addClass("toggle-useTopToolbar");
 		}
 
 		if(Config.toggles.allowPumaHelp){

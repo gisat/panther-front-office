@@ -122,7 +122,7 @@ Ext.define('PumaMain.controller.Render', {
             listConfig: {
                 cls: 'custom-combo-list',
             },
-            renderTo: 'app-toolbar-scope'
+            renderTo: Config.toggles.useNewViewSelector ? 'app-view-selector-scope' : 'app-legacy-view-selector-scope'
         })
         Ext.widget('pumacombo',{
             store: 'location4init',
@@ -133,7 +133,7 @@ Ext.define('PumaMain.controller.Render', {
             listConfig: {
                 cls: 'custom-combo-list',
             },
-            renderTo: 'app-toolbar-teritory'
+            renderTo: Config.toggles.useNewViewSelector ? 'app-view-selector-place' : 'app-legacy-view-selector-place'
         })
         Ext.widget('pumacombo',{
             store: 'theme4sel',
@@ -148,7 +148,7 @@ Ext.define('PumaMain.controller.Render', {
             listConfig: {
                 cls: 'custom-combo-list',
             },
-            renderTo: 'app-toolbar-theme'
+            renderTo: Config.toggles.useNewViewSelector ? 'app-view-selector-theme' : 'app-legacy-view-selector-theme'
         });
 
         var timelineWidth = 150;
@@ -156,7 +156,7 @@ Ext.define('PumaMain.controller.Render', {
             timelineWidth = 270;
         }
         Ext.widget('discretetimeline',{
-            renderTo: 'app-toolbar-year',
+            renderTo: Config.toggles.useNewViewSelector ? 'app-view-selector-period' : 'app-legacy-view-selector-year',
             width: timelineWidth,
             store: Ext.StoreMgr.lookup('year4sel'),
             //forceSelection: true,
@@ -178,32 +178,32 @@ Ext.define('PumaMain.controller.Render', {
             listConfig: {
                 cls: 'custom-combo-list',
             },
-            renderTo: 'app-toolbar-visualization'
+            renderTo: Config.toggles.useNewViewSelector ? 'app-view-selector-visualization' : 'app-legacy-view-selector-visualization'
         })
         Ext.widget('button',{
-            renderTo: 'app-toolbar-visualization-save',
+            renderTo: Config.toggles.useNewViewSelector ? 'app-view-selector-visualization-save' : 'app-legacy-view-selector-visualization-save',
             text: 'Save as',
             itemId: 'savevisualization',
             width: '100%',
             height: '100%',
-            hidden: !Config.auth || !Config.auth.isAdmin,
+            //hidden: !Config.auth || !Config.auth.isAdmin,
             cls: 'custom-button btn-visualization-save'
         })
         Ext.widget('button',{
-            renderTo: 'app-toolbar-share',
+            renderTo: 'app-legacy-view-selector-share',
             text: 'Share data view',
             itemId: 'sharedataview',
             helpId: 'Sharingdataviews',
             width: '100%',
             height: '100%',
-            hidden: !Config.auth,
+            //hidden: !Config.auth,
             icon: 'images/icons/share.png',
             cls: 'custom-button btn-share'
         })
 
 
 //        Ext.widget('slider',{
-//            renderTo: 'app-toolbar-level',
+//            renderTo: 'app-legacy-view-selector-level',
 //            itemId: 'areaslider',
 //            minValue: 0,
 //            value: 0,
@@ -213,7 +213,7 @@ Ext.define('PumaMain.controller.Render', {
 
         if(Config.toggles.allowPumaHelp !== false) {
             Ext.widget('button', {
-                renderTo: 'app-toolbar-contexthelp',
+                renderTo: 'app-legacy-view-selector-contexthelp',
                 itemId: 'contexthelp',
                 tooltip: 'Context help',
                 tooltipType: 'title',
@@ -235,7 +235,7 @@ Ext.define('PumaMain.controller.Render', {
                 }
             })
             Ext.widget('button', {
-                renderTo: 'app-toolbar-webhelp',
+                renderTo: 'app-legacy-view-selector-webhelp',
                 itemId: 'webhelp',
                 tooltip: 'PUMA WebTool help',
                 tooltipType: 'title',
@@ -247,7 +247,7 @@ Ext.define('PumaMain.controller.Render', {
         }
 
         Ext.widget('button',{
-            renderTo: 'app-toolbar-level-more',
+            renderTo: 'app-legacy-view-selector-level-more',
             itemId: 'areamoredetails',
             helpId: 'Settingthelevelofdetail',
             text: '+',
@@ -256,7 +256,7 @@ Ext.define('PumaMain.controller.Render', {
             cls: 'custom-button'
         })
         Ext.widget('button',{
-            renderTo: 'app-toolbar-level-less',
+            renderTo: 'app-legacy-view-selector-level-less',
             itemId: 'arealessdetails',
             helpId: 'Settingthelevelofdetail',
             text: '-',
@@ -266,29 +266,29 @@ Ext.define('PumaMain.controller.Render', {
         })
 
         Ext.widget('button',{
-            renderTo: 'app-toolbar-manage',
+            renderTo: 'app-legacy-view-selector-manage',
             itemId: 'managedataview',
             helpId: 'Managingdataviews',
-            hidden: !Config.auth,
+            //hidden: !Config.auth,
             //icon: 'images/icons/settings.png',
             width: '100%',
             height: '100%',
             cls: 'custom-button btn-manage'
         })
         Ext.widget('button',{
-            renderTo: 'app-toolbar-visualization-manage',
+            renderTo: Config.toggles.useNewViewSelector ? 'app-view-selector-visualization-manage' : 'app-legacy-view-selector-visualization-manage',
             itemId: 'managevisualization',
-            hidden: !Config.auth || !Config.auth.isAdmin,
+            //hidden: !Config.auth || !Config.auth.isAdmin,
             //icon: 'images/icons/settings.png',
             width: '100%',
             height: '100%',
             cls: 'custom-button btn-visualization-manage'
         })
         Ext.widget('button',{
-            renderTo: 'app-toolbar-save',
+            renderTo: 'app-legacy-view-selector-save',
             itemId: 'savedataview',
             helpId: 'Savingdataviews',
-            hidden: !Config.auth,
+            //hidden: !Config.auth,
             text: 'Save view',
             icon: 'images/icons/save.png',
             width: '100%',
@@ -421,7 +421,7 @@ Ext.define('PumaMain.controller.Render', {
             itemId: 'initialdataset'
         })
         Ext.widget('pumacombo',{
-            renderTo: 'app-intro-teritory',
+            renderTo: 'app-intro-place',
             initial: true,
             //hidden: true,
             valueField: 'id',

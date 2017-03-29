@@ -113,7 +113,14 @@ Ext.define('PumaMain.controller.DomManipulation', {
 		//var h  = $(window).height();
 
 		if ($("body").hasClass("application")) {
-			h -= $("#toolbar").outerHeight(true);
+			if (Config.toggles.useNewViewSelector) {
+				h -= $("#view-selector").outerHeight(true);
+			} else {
+				h -= $("#legacy-view-selector").outerHeight(true);
+			}
+			if (Config.toggles.useTopToolbar) {
+				h -= $("#top-toolbar").outerHeight(true);
+			}
 		}
 		return { width  : w, height : h };
 	},

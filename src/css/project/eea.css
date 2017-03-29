@@ -24,10 +24,10 @@
 }
 
 /* Toolbar ==== */
-.eea #app-toolbar-scope {
+.eea #app-legacy-view-selector-scope {
 	padding-left: 13px;
 }
-.eea #app-toolbar-theme {
+.eea #app-legacy-view-selector-theme {
 	padding-left: 7px;
 }
 /* intro toolbar inputs */
@@ -58,7 +58,7 @@
 }
 
 /* Header === */
-.eea #toolbar {
+.eea #legacy-view-selector {
 	background-color: rgb(0, 63, 95);
 	border-bottom: 2px solid #006699;
 }
@@ -215,7 +215,7 @@
 /* ================================ */
 
 @media screen and (max-width: 1270px){
-	.eea #toolbar > .label {
+	.eea #legacy-view-selector > .label {
 		width: 85px;
 	}
 }
