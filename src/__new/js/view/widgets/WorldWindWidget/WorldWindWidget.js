@@ -33,6 +33,10 @@ define(['../../../error/ArgumentError',
 		}
 		this._worldWind = options.worldWind;
 
+		if (options.topToolBar){
+			this._topToolBar = options.topToolBar;
+		}
+
 		this.build();
 		this.deleteFooter(this._widgetSelector);
 	};
@@ -114,6 +118,10 @@ define(['../../../error/ArgumentError',
 			self._widgetSelector.addClass("open");
 			self.toggleComponents("none");
 			self.rebuild(self._data, self._options);
+		}
+
+		if (this._topToolBar){
+			this._topToolBar.build();
 		}
 	};
 

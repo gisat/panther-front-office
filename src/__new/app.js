@@ -90,11 +90,14 @@ define(['js/util/metadata/Attributes',
 
         var filter = buildFilter();
         var olMap = buildOpenLayersMap();
-        
+
+        if(Config.toggles.useTopToolbar){
+            var topToolBar = new TopToolBar();
+        }
         // create tools and widgets according to configuration
         if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
             var webWorldWind = buildWorldWindMap();
-            widgets.push(buildWorldWindWidget(webWorldWind));
+            widgets.push(buildWorldWindWidget(webWorldWind, topToolBar));
             //widgets3D.push(buildMapDiagramsWidget(webWorldWind, filter));
         }
         if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
@@ -108,9 +111,6 @@ define(['js/util/metadata/Attributes',
         }
         if(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo){
             tools.push(buildFeatureInfoTool());
-        }
-		if(Config.toggles.useTopToolbar){
-            var topToolBar = new TopToolBar();
         }
 
         // build app, map is class for OpenLayers map
@@ -280,13 +280,14 @@ define(['js/util/metadata/Attributes',
      * @param webWorldWind {WorldWindMap}
      * @returns {WorldWindWidget}
      */
-    function buildWorldWindWidget (webWorldWind){
+    function buildWorldWindWidget (webWorldWind, topToolBar){
         return new WorldWindWidget({
             elementId: 'world-wind-widget',
             name: '3D Map',
             placeholderTargetId: 'widget-container',
-            iconId: 'icon-3d-map',
-            worldWind: webWorldWind
+            iconId: 'top-toolbar-3dmap',
+            worldWind: webWorldWind,
+            topToolBar: topToolBar
         });
     }
 
