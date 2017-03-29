@@ -37,7 +37,7 @@ define(['../../../error/ArgumentError',
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "FeatureInfoTool", "constructor", "missingElementClass"));
 		}
 
-		this._floaterTarget = $("#main");
+		this._floaterTarget = $("body");
 		this._class = options.elementClass;
 		this._id = options.id;
 
