@@ -3,6 +3,7 @@ Ext.define('PumaMain.controller.Layers', {
 	views: [],
 	requires: ['PumaMain.view.LayerMenu', 'Puma.util.Color'],
 	init: function() {
+		Observer.addListener("thematicMapsSetting",this.onConfigure.bind(this));
 		this.control({
 			'#layerpanel': {
 				checkchange: this.onCheckChange,

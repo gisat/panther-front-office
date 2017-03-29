@@ -131,26 +131,6 @@
 .floater.dockable.docked .floater-header  .widget-undock {
     display: block;
 }
-.floater-fake-header {
-    background: #ddd;
-    height: 31px;
-    line-height: 31px;
-    padding: 0 .5rem 0 1rem;
-}
-.floater-fake-header span {
-    color: #333;
-    font-size: 12px;
-    font-weight: 700;
-}
-.floater-fake-header-tool {
-    position: relative;
-    float: right;
-}
-.floater-fake-header-tool img {
-    position: absolute;
-    right: 0;
-    top: 7px;
-}
 .floater-body {
     padding: .5rem;
     height: calc(100% - 5rem);

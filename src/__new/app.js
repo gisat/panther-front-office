@@ -144,7 +144,8 @@ define(['js/util/metadata/Attributes',
             }
         });
         floater.on("click", ".widget-minimise", function(e){
-            if (!(e.which > 1 || e.shiftKey || e.altKey || e.metaKey || e.ctrlKey)) {
+            var mode3d = $("body").hasClass("mode-3d");
+            if (!(e.which > 1 || e.shiftKey || e.altKey || e.metaKey || e.ctrlKey) && !mode3d) {
                 var floater = $(this).parent().parent().parent();
                 var placeholderSelector = "#" + floater.attr("id").replace("floater", "placeholder");
                 var placeholder = $(placeholderSelector);

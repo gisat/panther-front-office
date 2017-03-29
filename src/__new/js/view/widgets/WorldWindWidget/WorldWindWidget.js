@@ -63,8 +63,10 @@ define(['../../../error/ArgumentError',
 	WorldWindWidget.prototype.buildFakeHeader = function(){
 		this._widgetHeaderSelector.append('<div class="floater-fake-header">' +
 				'<span>Layers</span>' +
-				'<div class="floater-fake-header-tool"><img title="Configure thematic maps" src="../src/images/new/settings.png"/></div>' +
+				'<div class="floater-fake-header-tool" id="thematic-layers-configuration"><img title="Configure thematic maps" src="../src/images/new/settings.png"/></div>' +
 			'</div>');
+
+		this.addSettingsOnClickListener();
 	};
 
 	/**
@@ -109,6 +111,7 @@ define(['../../../error/ArgumentError',
 			self.toggleComponents("block");
 		} else {
 			body.addClass("mode-3d");
+			self._widgetSelector.addClass("open");
 			self.toggleComponents("none");
 			self.rebuild(self._data, self._options);
 		}
@@ -133,6 +136,12 @@ define(['../../../error/ArgumentError',
 		$(".x-closable, #tools-container, #widget-container .placeholder:not(#placeholder-" + this._widgetId + ")")
 			.css("display", action);
 
+	};
+
+	WorldWindWidget.prototype.addSettingsOnClickListener = function(){
+		$("#thematic-layers-configuration").on("click", function(){
+			Observer.notify("thematicMapsSetting");
+		});
 	};
 
 	return WorldWindWidget;
