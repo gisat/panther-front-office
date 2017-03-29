@@ -39,7 +39,8 @@ define([], function () {
 	};
 
 	TopToolBar.prototype.handleClick = function(e){
-		console.log("@@@@" , e.target.getAttribute('data-for'));
+		var targetId = e.target.getAttribute('data-for');
+		$('#' + targetId).toggleClass('open');
 	};
 
 
