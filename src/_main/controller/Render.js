@@ -45,12 +45,22 @@ Ext.define('PumaMain.controller.Render', {
             }
         }
 
+        if(Config.toggles.useTopToolbar) {
+			// var widgetsToolbar = Ext.ComponentQuery.query('#top-toolbar-widgets-container')[0];
+			// var widgetButton = {
+			//     xtype: 'component',
+             //    html: panel.title,
+             //    cls: 'open'
+			// };
+			// widgetsToolbar.insert(idx, widgetButton);
 
-        var container = Ext.ComponentQuery.query('toolspanel')[0];
+        } else {
+			var container = Ext.ComponentQuery.query('toolspanel')[0];
 
-        panel.collapse();
-        panel.header.items.getByKey('undock').show();
-        container.insert(idx,panel);
+			panel.collapse();
+			panel.header.items.getByKey('undock').show();
+			container.insert(idx,panel);
+        }
 
     },
 
@@ -308,9 +318,28 @@ Ext.define('PumaMain.controller.Render', {
         Ext.widget('toptoolspanel',{
             renderTo: 'app-tools-actions'
         })
-        Ext.widget('toolspanel',{
-            renderTo: 'app-tools-accordeon'
-        })
+
+		if (Config.toggles.useTopToolbar){
+
+            // Show widgets windows
+            // TODO - do we need to show them?
+			var widgetIDs = ['layerpanel', 'areatree', 'colourSelection', 'maptools'];
+            if (!Config.toggles.hasNewEvaluationTool){
+				widgetIDs.push('legacyAdvancedFilters');
+			}
+			for (var i in widgetIDs){
+                if(!widgetIDs.hasOwnProperty(i)) continue;
+				var queryResults = Ext.ComponentQuery.query('#window-' + widgetIDs[i]);
+				queryResults[0].show();
+			}
+
+		} else {
+		    // Use old left Tools Panel
+			Ext.widget('toolspanel', {
+				renderTo: 'app-tools-accordeon'
+			});
+		}
+
         Ext.widget('chartbar',{
             renderTo: 'app-reports-accordeon',
             cls: 'problematichelp',

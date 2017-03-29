@@ -80,14 +80,16 @@ Ext.define('PumaMain.controller.DomManipulation', {
 	},
 	
 	resizeTools: function() {
-		var availableSize = this.getContentAvailableSize();
-		var accordeonMaxH = availableSize.height - $("#app-tools-actions").outerHeight(true) - $("#sidebar-tools-colors").outerHeight(true);
-		var accordeon = Ext.ComponentQuery.query('toolspanel')[0];
-		if (accordeon) {
-			accordeon.maxHeight = accordeonMaxH;
-			accordeon.updateLayout();
+		if (!Config.toggles.useTopToolbar) { // TODO do we need to do something else?
+			var availableSize = this.getContentAvailableSize();
+			var accordeonMaxH = availableSize.height - $("#app-tools-actions").outerHeight(true) - $("#sidebar-tools-colors").outerHeight(true);
+			var accordeon = Ext.ComponentQuery.query('toolspanel')[0];
+			if (accordeon) {
+				accordeon.maxHeight = accordeonMaxH;
+				accordeon.updateLayout();
+			}
+			$("#sidebar-tools").css("max-height", availableSize.height);
 		}
-		$("#sidebar-tools").css("max-height", availableSize.height);
 	},
 	
 	resizeReports: function() {

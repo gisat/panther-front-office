@@ -81,7 +81,9 @@ Ext.define('PumaMain.controller.Layers', {
 				i.el.on('load',function(a, dom) {
 					this.show();
 					this.setSize(dom.clientWidth+32,dom.clientHeight+52);
-					var leftPanel = Ext.ComponentQuery.query('toolspanel')[0];
+
+					var leftPanel = Ext.ComponentQuery.query('toolspanel')[0]; // TODO - what if no ToolsPanel?
+
 					var heightDiff = Ext.get('app-map').getBox().bottom - Ext.get('sidebar-tools').getBox().bottom;
 
 					this.showBy(leftPanel,'bl-br',[50*this.factor+21,-50*this.factor+heightDiff]);
