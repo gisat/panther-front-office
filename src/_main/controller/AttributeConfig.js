@@ -231,6 +231,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         }
         var window = Ext.widget('window',{
 			layout: 'fit',
+			cls: 'thematic-maps-settings',
             width: 710,
             height: 724,
             

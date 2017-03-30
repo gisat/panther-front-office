@@ -25,9 +25,10 @@ define(['../../../error/ArgumentError',
 	var MyWmsLayer = function(options){
 		WmsLayer.call(this, options);
 
+		this.sldId = options.sldId;
 		this.urlBuilder = new MyUrlBuilder(
 				options.service, options.layerNames, options.styleNames, options.version,
-			options.timeString);
+			options.timeString, this.sldId);
 	};
 
 	MyWmsLayer.prototype = Object.create(WmsLayer.prototype);

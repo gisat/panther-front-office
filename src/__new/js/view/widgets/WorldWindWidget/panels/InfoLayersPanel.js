@@ -67,7 +67,6 @@ define(['../../../../error/ArgumentError',
 	InfoLayersPanel.prototype.addGroups = function(data){
 		var self = this;
 		var target = null;
-		var other = null;
 		data.forEach(function(group){
 			target = self.addLayerGroup(group.name.replace(/ /g, '_'), group.name);
 			self.addLayersToGroup(target, group.layers);
@@ -82,10 +81,22 @@ define(['../../../../error/ArgumentError',
 	InfoLayersPanel.prototype.addLayersToGroup = function(target, layers){
 		var self = this;
 		layers.forEach(function(layer){
-			layer.id = layer.path.split(":")[1];
-			self._worldWind.layers.addInfoLayer(layer, this._id, false);
-			self.addRow(layer, target, self._worldWind);
+			if (layer.styles.length > 0){
+				layer.styles.forEach(function(style){
+					layer.name = layer.name + " - " + style.name;
+					layer.stylePath = style.path;
+					self.addLayer(layer,target);
+				});
+			} else {
+				self.addLayer(layer,target);
+			}
 		});
+	};
+
+	InfoLayersPanel.prototype.addLayer = function(layer, target){
+		layer.id = layer.path.split(":")[1] + "_" + layer.stylePath;
+		this._worldWind.layers.addInfoLayer(layer, this._id, false);
+		this.addRow(layer, target, this._worldWind);
 	};
 
 	/**

@@ -14,7 +14,6 @@
 		<link rel="stylesheet" type="text/css" href="extjs-4.1.3/resources/css/ext-all-gray.css">
 		<link rel="stylesheet" type="text/css" href="css/ux/colorpicker.css">
 		<link rel="stylesheet" type="text/css" href="extjs-4.1.3/examples/ux/css/CheckHeader.css">
-		<link rel="stylesheet" href="__new/styles/font-awesome.min.css">
 
 		<link rel="stylesheet" type="text/css" href="css/app.css">
 		<link rel="stylesheet" type="text/css" href="css/toggles.css">
@@ -115,7 +114,7 @@
 			// load project styles depending on the toggles
 			if((Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool) ||
 					(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo) ||
-					(Config.toggles.hasOwnProperty("hasNew3DMap") && Config.toggles.hasNew3DMap) ||
+					(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap) ||
 					(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies))
 			{
 				createLink("__new/styles/font-awesome.min.css");
@@ -447,7 +446,11 @@
 							<div class="item" id="top-toolbar-3dmap">3D Map</div>
 							<div id="top-toolbar-widgets"></div>
 						</div>
-						<div id="top-toolbar-tools"></div>
+						<div id="top-toolbar-tools">
+							<div class="item" id="top-toolbar-snapshot" title="Take map snapshot"></div>
+							<div class="item" id="top-toolbar-share-view" title="Share view"></div>
+							<div class="item" id="top-toolbar-context-help" title="Context help"></div>
+						</div>
 					</div>
 					<div id="sidebar-tools">
 						<span id="sidebar-tools-toggle" title="Tools"></span>

@@ -217,14 +217,15 @@ define(['../../../error/ArgumentError',
 	 * @param state {boolean} true, if the layer should be displayed
 	 */
 	Layers.prototype.addInfoLayer = function(layerData, group, state){
-		var layer = new WorldWind.WmsLayer({
+		var layer = new MyWmsLayer({
 			service: Config.url + "api/proxy/wms",
 			layerNames: layerData.path,
 			sector: new WorldWind.Sector(-90,90,-180,180),
 			levelZeroDelta: new WorldWind.Location(5.625,5.625),
 			numLevels: 22,
 			format: "image/png",
-			size: 256
+			size: 256,
+			styleNames: layerData.stylePath
 		}, null);
 		layer.urlBuilder.wmsVersion = "1.3.0";
 		layer.metadata = {
@@ -245,7 +246,7 @@ define(['../../../error/ArgumentError',
 	 * @param state {boolean} true, if the layer should be displayed
 	 */
 	Layers.prototype.addChoroplethLayer = function(layerData, group, state){
-		var layer = new WorldWind.WmsLayer({
+		var layer = new MyWmsLayer({
 			service: Config.url + "api/proxy/wms",
 			sector: new WorldWind.Sector(-90,90,-180,180),
 			layerNames: layerData.layer,
@@ -253,7 +254,7 @@ define(['../../../error/ArgumentError',
 			numLevels: 22,
 			format: "image/png",
 			size: 256,
-			styleNames: layerData.sldId
+			sldId: layerData.sldId
 		}, null);
 		layer.urlBuilder.wmsVersion = "1.3.0";
 		layer.metadata = {
