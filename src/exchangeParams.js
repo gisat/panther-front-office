@@ -94,6 +94,37 @@ var Stores = {
 };
 
 /**
+ * This global object useful for handling the selection from anywhere and handling what is actually selected.
+ * @type {{listeners: Array, select: Select.select, notify: Select.notify, selectedAreasMap: null}}
+ */
+var Select = {
+	/**
+	 * Array of listeners to be notified when the selection actually changes.
+	 */
+	listeners: [],
+
+	/**
+	 * It is replaced by select
+	 * @param areas
+	 * @param add
+	 * @param hover
+	 * @param delay
+	 */
+	select: function(areas, add, hover, delay){},
+
+	notify: function() {
+		this.listeners.forEach(function(listener){
+			listener(Select.selectedAreasMap);
+		});
+	},
+
+	/**
+	 * It will contain object which contains all areas selected for specific colours.
+	 */
+	selectedAreasMap: null
+};
+
+/**
  * Notification about changes in the stores.
  * @param changed
  */
