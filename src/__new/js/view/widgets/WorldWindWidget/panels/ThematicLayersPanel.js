@@ -67,27 +67,28 @@ define(['../../../../error/ArgumentError',
 	 */
 	ThematicLayersPanel.prototype.updateChoropleths = function(action, notification){
 		var self = this;
-
 		if (action == notification){
 			this._worldWind.layers.removeAllLayersFromGroup(this._id);
 			// it removes all floaters connected with this panel
 			$("." + this._id + "-floater").remove();
 
 			this._choropleths.forEach(function(choropleth){
-				var layer = {
-					id: choropleth.layer.id,
-					name: choropleth.layer.name,
-					layer: choropleth.data.legendLayer,
-					sldId: choropleth.data.sldId,
-					path: choropleth.data.legendLayer
+				if (choropleth.hasOwnProperty("data")){
+					var layer = {
+						id: choropleth.layer.id,
+						name: choropleth.layer.name,
+						layer: choropleth.data.legendLayer,
+						sldId: choropleth.data.sldId,
+						path: choropleth.data.legendLayer
 
-				};
-				self._worldWind.layers.addChoroplethLayer(layer, self._id, false);
+					};
+					self._worldWind.layers.addChoroplethLayer(layer, self._id, false);
 
-				var toolsContainer = $("#layer-tool-box-" + layer.id);
-				toolsContainer.html('');
-				self.addLegend(layer, self._worldWind, toolsContainer);
-				self.addOpacity(layer, self._worldWind, toolsContainer);
+					var toolsContainer = $("#layer-tool-box-" + layer.id);
+					toolsContainer.html('');
+					self.addLegend(layer, self._worldWind, toolsContainer);
+					self.addOpacity(layer, self._worldWind, toolsContainer);
+				}
 			});
 		}
 	};
