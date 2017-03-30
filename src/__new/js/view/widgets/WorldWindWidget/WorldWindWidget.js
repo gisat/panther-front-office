@@ -138,7 +138,7 @@ define(['../../../error/ArgumentError',
 			sidebarTools.css("display", "block");
 		}
 
-		$(".x-css-shadow").css("display", "none");
+		//$(".x-css-shadow").css("display", "none");
 
 		$(".x-window:not(.thematic-maps-settings, .x-window-ghost), #tools-container, #widget-container .placeholder:not(#placeholder-" + this._widgetId + ")")
 			.css("display", action);
