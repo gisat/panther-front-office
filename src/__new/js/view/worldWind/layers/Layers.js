@@ -3,6 +3,7 @@ define(['../../../error/ArgumentError',
 	'../../../util/Logger',
 
 	'../layers/AnalyticalUnitsLayer',
+	'../layers/MyWmsLayer',
 
 	'jquery',
 	'worldwind'
@@ -11,6 +12,7 @@ define(['../../../error/ArgumentError',
 			Logger,
 
 			AnalyticalUnitsLayer,
+			MyWmsLayer,
 
 			$
 ){
@@ -189,14 +191,15 @@ define(['../../../error/ArgumentError',
 	 * @param state {boolean} true, if the layer should be displayed
 	 */
 	Layers.prototype.addWmsLayer = function(layerData, group, state){
-		var layer = new WorldWind.WmsLayer({
-			service: layerData.url,
+		var url = layerData.url.replace("gwc/service/", "");
+		var layer = new MyWmsLayer({
+			service: url,
 			layerNames: layerData.layer,
 			sector: new WorldWind.Sector(-90,90,-180,180),
 			levelZeroDelta: new WorldWind.Location(5.625,5.625),
 			numLevels: 14,
 			format: "image/png",
-			size: 512
+			size: 256
 		}, null);
 		layer.metadata = {
 			active: state,
