@@ -93,13 +93,10 @@ define(['../../../error/ArgumentError',
 		this._data = data;
 		this._options = options;
 
-		if (data.attributes.length != 0){
-			this.toggleWarning("none");
-			this._worldWind.rebuild(options.config, this._widgetSelector);
-			this._panels.rebuild(options.config, data);
-		} else {
-			this.toggleWarning("block", [1,2,3,4]);
-		}
+		this.toggleWarning("none");
+		this._worldWind.rebuild(options.config, this._widgetSelector);
+		this._panels.rebuild(options.config, data);
+
 		this.handleLoading("hide");
 	};
 
@@ -143,8 +140,7 @@ define(['../../../error/ArgumentError',
 
 		$(".x-css-shadow").css("display", "none");
 
-
-		$(".x-window:not(.thematic-maps-settings), #tools-container, #widget-container .placeholder:not(#placeholder-" + this._widgetId + ")")
+		$(".x-window:not(.thematic-maps-settings, .x-window-ghost), #tools-container, #widget-container .placeholder:not(#placeholder-" + this._widgetId + ")")
 			.css("display", action);
 
 	};
