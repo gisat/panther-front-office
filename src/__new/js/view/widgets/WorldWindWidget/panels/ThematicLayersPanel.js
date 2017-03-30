@@ -46,9 +46,13 @@ define(['../../../../error/ArgumentError',
 			if (this._choropleths.length > 0){
 				var self = this;
 				this._choropleths.forEach(function(choropleth){
+					var name = choropleth.name;
+					if (name.length == 0){
+						name = choropleth.attrName + " - " + choropleth.asName;
+					}
 					var layer = {
 						id: "choropleth-" + choropleth.as + "-" + choropleth.attr,
-						name: choropleth.name
+						name: name
 					};
 					choropleth.layer = layer;
 					self.addRow(layer, self._panelBodySelector, self._worldWind);
