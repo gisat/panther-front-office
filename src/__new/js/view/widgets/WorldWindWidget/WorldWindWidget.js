@@ -58,6 +58,15 @@ define(['../../../error/ArgumentError',
 	WorldWindWidget.prototype.buildBody = function(){
 		this.buildFakeHeader();
 
+		if (!Config.toggles.useNewViewSelector){
+			this._widgetBodySelector.append('<div id="3d-switch">' +
+					'3D map' +
+				'</div>');
+
+			var self = this;
+			$("#3d-switch").on("click", self.toggle3DMap.bind(self));
+		}
+
 		this._worldWindContainer = this._worldWind.getContainer();
 		this._worldWindMap = this._worldWindContainer.find("#world-wind-map");
 

@@ -92,8 +92,21 @@ define(['../../../../error/ArgumentError',
 					toolsContainer.html('');
 					self.addLegend(layer, self._worldWind, toolsContainer);
 					self.addOpacity(layer, self._worldWind, toolsContainer);
+
+					self.checkIfChoroplethIsSwitchedOn(layer.id);
 				}
 			});
+		}
+	};
+
+	/**
+	 * If checbox for particular layer is checked, show the layer
+	 * @param layerId {string} id of the layer
+	 */
+	ThematicLayersPanel.prototype.checkIfChoroplethIsSwitchedOn = function(layerId){
+		var checkbox = $(".checkbox-row[data-id=" + layerId +"]");
+		if (checkbox.hasClass("checked")){
+			this._worldWind.layers.showLayer(layerId);
 		}
 	};
 
