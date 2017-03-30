@@ -3,6 +3,9 @@ Ext.define('PumaMain.controller.ViewMng', {
     views: [],
     requires: ['PumaMain.view.CommonMngGrid','PumaMain.view.CommonSaveForm'],
     init: function() {
+
+		Observer.addListener("PumaMain.controller.ViewMng.onShare",this.onShare.bind(this));
+
         this.control(
                 {
                     'commonmnggrid' : {

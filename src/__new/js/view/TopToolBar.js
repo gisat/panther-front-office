@@ -8,6 +8,7 @@ define([], function () {
 
 		$('#top-toolbar-context-help').on('click.topToolBar', this.handleContextHelpClick);
 		$('#top-toolbar-snapshot').on('click.topToolBar', this.handleSnapshotClick);
+		$('#top-toolbar-share-view').on('click.topToolBar', this.handleShareViewClick);
 	};
 
 
@@ -76,10 +77,11 @@ define([], function () {
 	};
 
 	TopToolBar.prototype.handleSnapshotClick = function(e){
-		if (PumaMain.controller.Map) {
-			//PumaMain.controller.Map.onExportMapUrl({itemId:'top-toolbar-snapshot'})
-			Observer.notify("PumaMain.controller.Map.onExportMapUrl");
-		}
+		Observer.notify("PumaMain.controller.Map.onExportMapUrl");
+	};
+
+	TopToolBar.prototype.handleShareViewClick = function(e){
+		Observer.notify("PumaMain.controller.ViewMng.onShare");
 	};
 
 
