@@ -7,6 +7,7 @@ define([], function () {
 		this.build();
 
 		$('#top-toolbar-context-help').on('click.topToolBar', this.handleContextHelpClick);
+		$('#top-toolbar-snapshot').on('click.topToolBar', this.handleSnapshotClick);
 	};
 
 
@@ -72,6 +73,13 @@ define([], function () {
 			Config.contextHelp = true;
 		}
 		target.toggleClass('active');
+	};
+
+	TopToolBar.prototype.handleSnapshotClick = function(e){
+		if (PumaMain.controller.Map) {
+			//PumaMain.controller.Map.onExportMapUrl({itemId:'top-toolbar-snapshot'})
+			Observer.notify("PumaMain.controller.Map.onExportMapUrl");
+		}
 	};
 
 
