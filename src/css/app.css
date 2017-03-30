@@ -255,6 +255,10 @@ tbody .x-grid-row.select_d97dff .x-grid-cell {
 	background-color: #F8E6FF ! important
 }
 
+.x-css-shadow {
+	display: none!important;
+}
+
 /*.detached-window .detach {
 	display: none;
 }*/
