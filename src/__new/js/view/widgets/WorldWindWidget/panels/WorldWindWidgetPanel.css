@@ -35,10 +35,10 @@
 }
 
 .panel-body .floater-row {
-	padding-left: 2.25rem;
+	padding-left: 1.25rem;
 }
 .panel-layer-group-body .floater-row {
-	padding-left: 2rem;
+	padding-left: 2.25rem;
 }
 
 .panel-icon {
@@ -93,4 +93,7 @@
 .panel-body .floater-row .checkbox-label {
 	font-weight: 400;
 	font-size: .75rem;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }

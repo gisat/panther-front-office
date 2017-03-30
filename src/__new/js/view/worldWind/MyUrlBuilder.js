@@ -8,8 +8,10 @@ define([
 	 * @augments WorldWind.WmsLayer
 	 * @constructor
 	 */
-	var MyUrlBuilder = function(serviceAddress, layerNames, styleNames, wmsVersion, timeString){
+	var MyUrlBuilder = function(serviceAddress, layerNames, styleNames, wmsVersion, timeString, sldId){
 		WmsUrlBuilder.call(this, serviceAddress, layerNames, styleNames, wmsVersion, timeString);
+
+		this.sldId = sldId;
 	};
 
 	MyUrlBuilder.prototype = Object.create(WmsUrlBuilder.prototype);
@@ -37,6 +39,11 @@ define([
 		sb = sb + "&format=" + imageFormat;
 		sb = sb + "&width=" + tile.tileWidth;
 		sb = sb + "&height=" + tile.tileHeight;
+
+		if (this.sldId){
+			sb = sb + "&sld_id=" + this.sldId;
+		}
+
 		if (this.timeString) {
 			sb = sb + "&time=" + this.timeString;
 		}

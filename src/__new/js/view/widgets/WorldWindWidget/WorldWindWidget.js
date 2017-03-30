@@ -144,14 +144,14 @@ define(['../../../error/ArgumentError',
 		$(".x-css-shadow").css("display", "none");
 
 
-		$(".x-closable, #tools-container, #widget-container .placeholder:not(#placeholder-" + this._widgetId + ")")
+		$(".x-window:not(.thematic-maps-settings), #tools-container, #widget-container .placeholder:not(#placeholder-" + this._widgetId + ")")
 			.css("display", action);
 
 	};
 
 	WorldWindWidget.prototype.addSettingsOnClickListener = function(){
 		$("#thematic-layers-configuration").on("click", function(){
-			Observer.notify("thematicMapsSetting");
+			Observer.notify("thematicMapsSettings");
 		});
 	};
 
