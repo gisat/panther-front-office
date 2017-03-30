@@ -18,6 +18,16 @@ define([], function () {
 
 			this._target.append('<div class="item" id="top-toolbar-layers" data-for="floater-world-wind-widget">Layers</div>');
 
+			this._target.append('<div class="item disabled" id="top-toolbar-areas">Areas</div>');
+
+			this._target.append('<div class="item disabled" id="top-toolbar-selections">Selections</div>');
+
+			this._target.append('<div class="item disabled" id="top-toolbar-selection-filter">Areas filter</div>');
+
+			this._target.append('<div class="item disabled" id="top-toolbar-map-tools">Map tools</div>');
+
+			this._target.append('<div class="item disabled" id="top-toolbar-saved-views">Custom views</div>');
+
 		} else {
 
 			this._target.append('<div class="item" id="top-toolbar-layers" data-for="window-layerpanel">Layers</div>');
@@ -27,12 +37,14 @@ define([], function () {
 			this._target.append('<div class="item" id="top-toolbar-selections" data-for="window-colourSelection">Selections</div>');
 
 			if(Config.toggles.hasNewEvaluationTool) {
-				this._target.append('<div class="item" id="top-toolbar-selection-filter" data-for="floater-evaluation-tool-widget">Advanced filters</div>');
+				this._target.append('<div class="item" id="top-toolbar-selection-filter" data-for="floater-evaluation-tool-widget">Areas filter</div>');
 			} else {
-				this._target.append('<div class="item" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters">Advanced filters</div>');
+				this._target.append('<div class="item" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters">Areas filter</div>');
 			}
 
 			this._target.append('<div class="item" id="top-toolbar-map-tools" data-for="window-maptools">Map tools</div>');
+
+			this._target.append('<div class="item" id="top-toolbar-saved-views" data-for="window-saved-views">Custom views</div>');
 
 		}
 
@@ -40,7 +52,9 @@ define([], function () {
 
 	TopToolBar.prototype.handleClick = function(e){
 		var targetId = e.target.getAttribute('data-for');
-		$('#' + targetId).toggleClass('open');
+		if (targetId) {
+			$('#' + targetId).toggleClass('open');
+		}
 	};
 
 
