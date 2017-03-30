@@ -625,7 +625,7 @@ body.intro #content-intro-terms {
 	position: absolute;
 	top: 0;
 	right: 0;
-	width: 95px;
+	width: 93px;
 }
 #top-toolbar-widgets {
 	display: inline-block;
@@ -633,10 +633,10 @@ body.intro #content-intro-terms {
 
 #top-toolbar .item {
 	display: inline-block;
+	position: relative;
 	height: 100%;
 	padding: 0 15px;
 	line-height: 30px;
-	cursor: pointer;
 	font-size: 12px;
 	font-weight: 700;
 	color: #444;
@@ -644,14 +644,75 @@ body.intro #content-intro-terms {
 	transition:
 		background .3s ease-in-out;
 }
-#top-toolbar .item:hover {
+#top-toolbar .item:not(.disabled) {
+	cursor: pointer;
+}
+#top-toolbar .item:not(.disabled):hover {
 	background: rgba(125,125,125,.15);
+}
+#top-toolbar .item.disabled {
+	color: #bbb;
 }
 #top-toolbar-features .item {
 	border-right: 1px solid #ddd;
+	padding-left: 40px;
 }
 #top-toolbar-tools .item {
 	border-left: 1px solid #ddd;
+}
+#top-toolbar .item::before {
+	content: '';
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 30px;
+	height: 30px;
+	font-family: 'FontAwesome';
+	text-align: center;
+	font-size: 18px;
+	font-weight: 100;
+	/* line-height: 29px; */
+	color: #666;
+}
+#top-toolbar-features .item::before {
+	left: 5px;
+}
+#top-toolbar .item.disabled::before {
+	opacity: .5;
+}
+
+#top-toolbar .item#top-toolbar-3dmap::before {
+	content: '\f0ac';
+}
+#top-toolbar .item#top-toolbar-layers::before {
+	background: url('../images/icons/layers.svg') center center no-repeat;
+}
+#top-toolbar .item#top-toolbar-areas::before {
+	content: '\f041';
+}
+#top-toolbar .item#top-toolbar-selections::before {
+	background: url('../images/icons/selections.svg') center center no-repeat;
+}
+#top-toolbar .item#top-toolbar-selection-filter::before {
+	content: '\f0b0';
+}
+#top-toolbar .item#top-toolbar-map-tools::before {
+	content: '\f245';
+	font-size: 16px;
+}
+#top-toolbar .item#top-toolbar-saved-views::before {
+	content: '\f06e';
+}
+
+#top-toolbar .item#top-toolbar-snapshot::before {
+	background: url('../images/icons/snapshot.png') center center no-repeat;
+}
+#top-toolbar .item#top-toolbar-share-view::before {
+	content: '\f1e0';
+}
+#top-toolbar .item#top-toolbar-context-help::before {
+	background: url('../images/icons/context-help.svg') center center no-repeat;
 }
 
 
