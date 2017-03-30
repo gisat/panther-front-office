@@ -47,12 +47,17 @@ define(['../../../../../error/ArgumentError',
 	 * Add content to a legend floater
 	 */
 	Legend.prototype.addContent = function(){
+		var style = "";
+		if (this._layerMetadata.stylePath){
+			style = this._layerMetadata.stylePath;
+		}
+
 		var params = {
 			'LAYER': this._layerMetadata.path,
 			'REQUEST': 'GetLegendGraphic',
 			'FORMAT': 'image/png',
 			'WIDTH': 50,
-			'STYLE': this._layerMetadata.stylePath
+			'STYLE': style
 		};
 		if (this._layerMetadata.hasOwnProperty('sldId')){
 			params['SLD_ID'] = this._layerMetadata.sldId;
