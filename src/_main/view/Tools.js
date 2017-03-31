@@ -171,7 +171,7 @@ if (Config.toggles.useTopToolbar) {
 			// define widgets
 			Object.keys(widgets).forEach(function(toolID){
 
-				var widgetWindow = Ext.widget('window',{
+				Ext.widget('window',{
 					itemId: "window-" + toolID,
 					id: "window-" + toolID,
 					layout: 'fit',
@@ -184,15 +184,9 @@ if (Config.toggles.useTopToolbar) {
 					tools: widgets[toolID].tools,
 					title: widgets[toolID].title,
 
-					items: widgets[toolID],
-
+					items: widgets[toolID]
 				});
 
-				// var toolId = widgetWindow.tools.close.el.id;
-				// Ext.tip.QuickTipManager.register({
-				// 	target: toolId,
-				// 	text: 'Attach back'
-				// });
 			});
 
 			this.callParent();
