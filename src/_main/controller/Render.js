@@ -45,22 +45,11 @@ Ext.define('PumaMain.controller.Render', {
             }
         }
 
-        if(Config.toggles.useTopToolbar) {
-			// var widgetsToolbar = Ext.ComponentQuery.query('#top-toolbar-widgets-container')[0];
-			// var widgetButton = {
-			//     xtype: 'component',
-             //    html: panel.title,
-             //    cls: 'open'
-			// };
-			// widgetsToolbar.insert(idx, widgetButton);
+        var container = Ext.ComponentQuery.query('toolspanel')[0];
 
-        } else {
-			var container = Ext.ComponentQuery.query('toolspanel')[0];
-
-			panel.collapse();
-			panel.header.items.getByKey('undock').show();
-			container.insert(idx,panel);
-        }
+        panel.collapse();
+        panel.header.items.getByKey('undock').show();
+        container.insert(idx,panel);
 
     },
 
