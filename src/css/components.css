@@ -644,3 +644,17 @@
 .slider-constraint-min {
 	padding-left: 3px;
 }
+
+#app-reports-paging {
+	padding-left: 280px;
+}
+#app-reports-paging > div.x-box-layout-ct {
+	overflow: visible;
+}
+#app-reports-paging > div > div.x-box-inner {
+	overflow: visible;
+}
+#app-reports-paging > div > div > div > .x-toolbar-text:last-child {
+	position: absolute;
+	left: -280px!important; /* because Ext magic */
+}

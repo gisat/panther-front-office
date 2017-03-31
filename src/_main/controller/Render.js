@@ -333,6 +333,8 @@ Ext.define('PumaMain.controller.Render', {
             renderTo: 'app-reports-paging',
             itemId: 'areapager',
             displayInfo: true,
+			displayMsg: 'Areas {0} - {1} of {2}',
+			emptyMsg: 'No areas',
             cls: 'paging-toolbar problematichelp',
             helpId: 'Paging',
             buttons: ['-',{
