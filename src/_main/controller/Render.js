@@ -332,6 +332,12 @@ Ext.define('PumaMain.controller.Render', {
             renderTo: 'app-tools-actions'
         })
 
+
+
+		Ext.widget('toolspanel', {
+			renderTo: 'app-tools-accordeon'
+		});
+
 		if (Config.toggles.useTopToolbar){
 
             // Show widgets windows
@@ -345,12 +351,6 @@ Ext.define('PumaMain.controller.Render', {
 				var queryResults = Ext.ComponentQuery.query('#window-' + widgetIDs[i]);
 				queryResults[0].show();
 			}
-
-		} else {
-		    // Use old left Tools Panel
-			Ext.widget('toolspanel', {
-				renderTo: 'app-tools-accordeon'
-			});
 		}
 
         Ext.widget('chartbar',{

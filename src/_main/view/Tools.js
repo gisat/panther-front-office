@@ -156,40 +156,39 @@ var widgets = {
 
 if (Config.toggles.useTopToolbar) {
 
-	// create buttons
-	var buttonOrder;
-	if (Config.toggles.hasNewEvaluationTool){
-		buttonOrder = ['layerpanel', 'areatree', 'colourSelection', 'advancedFilters', 'maptools'];
-	} else {
-		buttonOrder = ['layerpanel', 'areatree', 'colourSelection', 'legacyAdvancedFilters', 'maptools'];
-	}
-	// TODO create buttons
-
-
-	// define widgets
-	Object.keys(widgets).forEach(function(toolID){
-
-		var widgetWindow = Ext.widget('window',{
-			itemId: "window-" + toolID,
-			id: "window-" + toolID,
-			layout: 'fit',
-			width: 260,
-			maxHeight: 600,
-			resizable: true,
-			cls: 'detached-window',
-			isdetached: 1,
-			constrainHeader: true,
-			items: widgets[toolID]
-		});
-
-		// var toolId = widgetWindow.tools.close.el.id;
-		// Ext.tip.QuickTipManager.register({
-		// 	target: toolId,
-		// 	text: 'Attach back'
-		// });
-	});
 
 	Ext.define('PumaMain.view.Tools', {
+		extend: 'Ext.container.Container',
+		alias: 'widget.toolspanel',
+		initComponent: function () {
+
+			// define widgets
+			Object.keys(widgets).forEach(function(toolID){
+
+				var widgetWindow = Ext.widget('window',{
+					itemId: "window-" + toolID,
+					id: "window-" + toolID,
+					layout: 'fit',
+					width: 260,
+					maxHeight: 600,
+					resizable: true,
+					cls: 'detached-window',
+					isdetached: 1,
+					constrainHeader: true,
+					items: widgets[toolID]
+
+				});
+
+				// var toolId = widgetWindow.tools.close.el.id;
+				// Ext.tip.QuickTipManager.register({
+				// 	target: toolId,
+				// 	text: 'Attach back'
+				// });
+			});
+
+			this.callParent();
+
+		}
 	});
 
 } else {

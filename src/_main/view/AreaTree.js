@@ -6,15 +6,13 @@ Ext.define('PumaMain.view.AreaTree', {
 	// cls: 'areaTreeSelection',
 	// helpId: 'TreeofanalyticalunitsAREAS',
 
-	collapsed: true,
+	collapsed: !Config.toggles.useTopToolbar,
 	title: Config.basicTexts.areasSectionName,
 	selModel: {
 		mode: 'MULTI'
 	},
 	rootVisible: false,
 	displayField: 'name',
-	height: 340,
-	//,maxHeight: 500
 
 	requires: ['Ext.ux.CheckColumn', 'Ext.grid.plugin.CellEditing'],
 	initComponent: function () {
