@@ -7,7 +7,6 @@ Ext.define('PumaMain.view.AreaTree', {
 	// helpId: 'TreeofanalyticalunitsAREAS',
 
 	collapsed: !Config.toggles.useTopToolbar,
-	title: Config.basicTexts.areasSectionName,
 	selModel: {
 		mode: 'MULTI'
 	},

@@ -658,3 +658,10 @@
 	position: absolute;
 	left: -280px!important; /* because Ext magic */
 }
+
+.detached-window {
+	margin-top: 99999px;
+}
+.detached-window.open {
+	margin-top: 0;
+}

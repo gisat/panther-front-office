@@ -6,10 +6,10 @@ var widgets = {
 	colourSelection: {
 		xtype: 'panel',
 		title: 'Selections',
+		header: Config.toggles.useTopToolbar ? false : {height: 60},
 		// id: 'selcolor',
 		itemId: 'selcolor',
 		helpId: 'Multipleselectionshighlightedbyc',
-		header: {height: 60},
 		tools: [{
 			type: 'unselect',
 			cls: 'unselect',
@@ -88,6 +88,7 @@ var widgets = {
 		//                disabled: true,
 		//                itemId: 'filterselect'
 		//            }],
+		header: !Config.toggles.useTopToolbar,
 		title: Config.basicTexts.advancedFiltersName,
 		bodyCls: 'tools-filters-list'
 	},
@@ -107,6 +108,7 @@ var widgets = {
 			itemId: 'undock'
 		}],
 		height: 300,
+		header: !Config.toggles.useTopToolbar,
 		title: 'Layers'
 	},
 	areatree: {
@@ -135,6 +137,8 @@ var widgets = {
 			tooltip: 'Detach',
 			itemId: 'undock'
 		}],
+		title: Config.basicTexts.areasSectionName,
+		header: !Config.toggles.useTopToolbar,
 		height: 340
 		//,maxHeight: 500
 	},
@@ -147,8 +151,10 @@ var widgets = {
 			type: 'detach',
 			cls: 'detach',
 			tooltip: 'Detach',
-			itemId: 'undock'
+			itemId: 'undock',
+			hidden: Config.toggles.useTopToolbar
 		}],
+		header: !Config.toggles.useTopToolbar,
 		title: 'Map tools'
 	}
 };
@@ -175,7 +181,10 @@ if (Config.toggles.useTopToolbar) {
 					cls: 'detached-window',
 					isdetached: 1,
 					constrainHeader: true,
-					items: widgets[toolID]
+					tools: widgets[toolID].tools,
+					title: widgets[toolID].title,
+
+					items: widgets[toolID],
 
 				});
 
