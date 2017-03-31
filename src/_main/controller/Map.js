@@ -36,6 +36,9 @@ Ext.define('PumaMain.controller.Map', {
 			'#multiplemapsbtn': {
 				toggle: this.onMultipleYearsToggle
 			},
+			'#compareperiods': {
+				toggle: this.onMultipleYearsToggle
+			},
 			'#savemapbtn': {
 				click: this.onExportMapUrl
 			},

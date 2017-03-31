@@ -201,6 +201,19 @@ Ext.define('PumaMain.controller.Render', {
             cls: 'custom-button btn-share'
         })
 
+        if (Config.toggles.useNewViewSelector) {
+			Ext.widget('button',{
+				renderTo: 'app-view-selector-period-compare',
+				text: 'Compare',
+				itemId: 'compareperiods',
+				helpId: 'Multiplemaps',
+				enableToggle: true,
+				width: '100%',
+				height: '100%',
+				cls: 'custom-button btn-period-compare'
+			})
+		}
+
 
 //        Ext.widget('slider',{
 //            renderTo: 'app-legacy-view-selector-level',
