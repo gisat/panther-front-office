@@ -17,14 +17,14 @@ Ext.define('PumaMain.view.Tools', {
         }
         var colourSelection = {
             xtype: 'panel',
-            title: 'Selection color',
+            title: 'Selections',
             itemId: 'selcolor',
             helpId: 'Multipleselectionshighlightedbyc',
             header: {height: 60},
             tools: [{
                 type: 'unselect',
                 cls: 'unselect',
-                tooltip: 'Unselect last added',
+                tooltip: 'Unselect active selection',
                 itemId: 'unselect'
             },{
                 type: 'unselectall',
