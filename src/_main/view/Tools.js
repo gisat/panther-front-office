@@ -5,7 +5,7 @@
 var widgets = {
 	colourSelection: {
 		xtype: 'panel',
-		title: 'Selection color',
+		title: 'Selections',
 		// id: 'selcolor',
 		itemId: 'selcolor',
 		helpId: 'Multipleselectionshighlightedbyc',
@@ -13,7 +13,7 @@ var widgets = {
 		tools: [{
 			type: 'unselect',
 			cls: 'unselect',
-			tooltip: 'Unselect last added',
+			tooltip: 'Unselect active selection',
 			itemId: 'unselect'
 		},{
 			type: 'unselectall',
@@ -115,10 +115,20 @@ var widgets = {
 		cls: 'areaTreeSelection',
 		helpId: 'TreeofanalyticalunitsAREAS',
 		tools: [{
-			type: 'areacollapse',
-			cls: 'areacollapse',
+			type: 'areacollapseall',
+			cls: 'areacollapseall',
 			tooltip: 'Collapse all',
-			itemId: 'areacollapse'
+			itemId: 'areacollapseall'
+		},{
+			type: 'areacollapselevel',
+			cls: 'areacollapselevel',
+			tooltip: 'Collapse last level',
+			itemId: 'areacollapselevel'
+		},{
+			type: 'areaexpandlevel',
+			cls: 'areaexpandlevel',
+			tooltip: 'Expand last level',
+			itemId: 'areaexpandlevel'
 		},{
 			type: 'detach',
 			cls: 'detach',

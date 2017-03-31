@@ -11,7 +11,7 @@ Ext.define('PumaMain.controller.Area', {
 				itemexpand: this.onNodeExpanded,
 				itemcollapse: this.onNodeCollapsed
 			},
-			'#areatree #areacollapse': {
+			'#areatree #areacollapseall': {
 				click: this.onCollapseAll
 			},
 			"chartbar chartcmp": {
@@ -27,6 +27,12 @@ Ext.define('PumaMain.controller.Area', {
 				click: this.onShowMoreDetailed
 			},
 			'#arealessdetails':{
+				click: this.onShowLessDetailed
+			},
+			'#areaexpandlevel':{
+				click: this.onShowMoreDetailed
+			},
+			'#areacollapselevel':{
 				click: this.onShowLessDetailed
 			}
 		});

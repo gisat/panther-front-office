@@ -6,6 +6,8 @@ Ext.define('PumaMain.controller.Map', {
 		// URBIS change
 		Observer.addListener("getMap",this.newGetMap.bind(this));
 
+		Observer.addListener("PumaMain.controller.Map.onExportMapUrl",this.onExportMapUrl.bind(this, {itemId:'top-toolbar-snapshot'}));
+
 		this.control({
 			'#map': {
 				afterrender: this.afterRender,
@@ -32,6 +34,9 @@ Ext.define('PumaMain.controller.Map', {
 				toggle: this.onMeasureActivated
 			},
 			'#multiplemapsbtn': {
+				toggle: this.onMultipleYearsToggle
+			},
+			'#compareperiods': {
 				toggle: this.onMultipleYearsToggle
 			},
 			'#savemapbtn': {

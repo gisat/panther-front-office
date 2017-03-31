@@ -178,7 +178,11 @@
 
 .x-btn.btn-map-tool button .x-btn-icon {
 	left: 50%;
-	top: 20px;
+	top: 13px;
+}
+.x-btn.btn-map-tool.btn-tool-select button .x-btn-icon {
+	left: 15%;
+	top: 16px;
 }
 
 .x-btn.btn-map-tool button .x-btn-inner {
@@ -353,8 +357,16 @@
 	background-image: url("../images/icons/paging-refresh.png") !important;
 }
 
-.x-panel-header .x-tool-areacollapse {
-	background-image: url("../images/icons/collapse.gif") !important;
+.x-panel-header .x-tool-areacollapseall {
+	background-image: url("../images/new/areacollapseall.png") !important;
+}
+
+.x-panel-header .x-tool-areacollapselevel {
+	background-image: url("../images/new/areacollapse.png") !important;
+}
+
+.x-panel-header .x-tool-areaexpandlevel {
+	background-image: url("../images/new/areaexpand.png") !important;
 }
 
 .x-panel-header .x-tool-gear {
@@ -631,4 +643,18 @@
 
 .slider-constraint-min {
 	padding-left: 3px;
+}
+
+#app-reports-paging {
+	padding-left: 280px;
+}
+#app-reports-paging > div.x-box-layout-ct {
+	overflow: visible;
+}
+#app-reports-paging > div > div.x-box-inner {
+	overflow: visible;
+}
+#app-reports-paging > div > div > div > .x-toolbar-text:last-child {
+	position: absolute;
+	left: -280px!important; /* because Ext magic */
 }

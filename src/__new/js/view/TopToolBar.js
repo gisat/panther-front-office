@@ -5,6 +5,10 @@ define([], function () {
 		this._target = $('#top-toolbar-widgets');
 		this._target.on('click.topToolBar', '.item', this.handleClick);
 		this.build();
+
+		$('#top-toolbar-context-help').on('click.topToolBar', this.handleContextHelpClick);
+		$('#top-toolbar-snapshot').on('click.topToolBar', this.handleSnapshotClick);
+		$('#top-toolbar-share-view').on('click.topToolBar', this.handleShareViewClick);
 	};
 
 
@@ -55,6 +59,29 @@ define([], function () {
 		if (targetId) {
 			$('#' + targetId).toggleClass('open');
 		}
+	};
+
+	TopToolBar.prototype.handleContextHelpClick = function(e){
+		var target = $(e.target);
+		var active = target.hasClass('active');
+		if (active) {
+			Config.contextHelp = false;
+			if (PumaMain.controller.Help.overEl) {
+				PumaMain.controller.Help.overEl.removeCls('help-over');
+				PumaMain.controller.Help.overEl.un('mouseout', PumaMain.controller.Help.overEl.fc);
+			}
+		} else {
+			Config.contextHelp = true;
+		}
+		target.toggleClass('active');
+	};
+
+	TopToolBar.prototype.handleSnapshotClick = function(e){
+		Observer.notify("PumaMain.controller.Map.onExportMapUrl");
+	};
+
+	TopToolBar.prototype.handleShareViewClick = function(e){
+		Observer.notify("PumaMain.controller.ViewMng.onShare");
 	};
 
 

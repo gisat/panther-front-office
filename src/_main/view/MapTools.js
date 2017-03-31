@@ -12,17 +12,31 @@ Ext.define('PumaMain.view.MapTools', {
             type: 'table',
             columns: 4
         };
-        this.items = [{
-            xtype: 'button',
-            enableToggle: true,
-            itemId: 'hoverbtn',
-            helpId: 'Selectiononhover',
-            text: 'Hover',
-            iconAlign: 'top',
-            icon: 'images/icons/tools-hover.png',
-            cls: 'custom-button btn-map-tool btn-tool-hover',
-            scale: 'large'
-        },{
+        var selectionButton = {
+			xtype: 'button',
+			enableToggle: true,
+			itemId: 'hoverbtn',
+			helpId: 'Selectiononhover',
+			text: 'Hover',
+			iconAlign: 'top',
+			icon: 'images/icons/tools-hover.png',
+			cls: 'custom-button btn-map-tool btn-tool-hover',
+			scale: 'large'
+		};
+		if (Config.toggles.useTopToolbar) {
+			selectionButton = {
+				xtype: 'button',
+				enableToggle: true,
+				itemId: 'selectinmapbtn',
+				helpId: 'Selectingunitsinmap',
+				text: 'Select in map',
+				iconAlign: 'top',
+				icon: 'images/new/map-select.png',
+				cls: 'custom-button btn-map-tool btn-tool-select',
+				scale: 'large'
+			};
+		}
+        this.items = [selectionButton,{
             xtype: 'button',
             itemId: 'zoomselectedbtn',
             helpId: 'Zoomingtoselectedunits',
@@ -58,7 +72,7 @@ Ext.define('PumaMain.view.MapTools', {
             itemId: 'multiplemapsbtn',
             helpId: 'Multiplemaps',
             enableToggle: true,
-            //hidden: true,
+            hidden: Config.toggles.useNewViewSelector,
             text: 'Multiple maps',
             iconAlign: 'top',
             icon: 'images/icons/tools-maps-multiple.png',

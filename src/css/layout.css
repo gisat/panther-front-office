@@ -508,7 +508,9 @@ body.intro #content-intro-terms {
 }
 
 
-#app-view-selector-visualization-save, #app-view-selector-visualization-manage {
+#app-view-selector-visualization-save, 
+#app-view-selector-visualization-manage, 
+#app-view-selector-period-compare {
 	height: 23px;
 	margin-top: 2px;
 }
@@ -525,7 +527,8 @@ body.intro #content-intro-terms {
 #app-view-selector-manage,
 #app-view-selector-share,
 #app-view-selector-visualization-save,
-#app-view-selector-visualization-manage {
+#app-view-selector-visualization-manage,
+#app-view-selector-period-compare {
 	height: 23px;
 	line-height: 23px;
 	width: 22px;
@@ -542,6 +545,16 @@ body.intro #content-intro-terms {
 
 #app-view-selector-visualization-save {
 	width: 50px;
+}
+#app-view-selector-period-compare {
+	width: 62px;
+	vertical-align: top;
+	margin-left: 4px;
+}
+#app-view-selector-period-compare button,
+#app-view-selector-period-compare button span {
+	height: 21px!important; /* because Ext magic */
+	line-height: 21px!important;
 }
 
 #view-selector .timeline-labels {
