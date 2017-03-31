@@ -56,19 +56,23 @@ define(['../../error/ArgumentError',
 			if (place && place != 0){
 				values.id = place;
 			}
+
 			Stores.retrieve("location").filter(values).then(function(response){
 				if (response.length > 0){
 					var bboxes = [];
 					response.forEach(function(location){
-						var bbox = location.bbox.split(",");
-						bboxes.push({
-							minLon: Number(bbox[0]),
-							maxLon: Number(bbox[2]),
-							minLat: Number(bbox[3]),
-							maxLat: Number(bbox[1])
-						});
+						if (location.bbox){
+							var bbox = location.bbox.split(",");
+							bboxes.push({
+								minLon: Number(bbox[0]),
+								maxLon: Number(bbox[2]),
+								minLat: Number(bbox[3]),
+								maxLat: Number(bbox[1])
+							});
+						}
 					});
 					var boundingBox = self.getBoundingBox(bboxes);
+					debugger;
 					var position = self.getCentroidCoordinates(boundingBox);
 					self.goTo(new WorldWind.Position(position.lat,position.lon,position.alt));
 				} else {
@@ -94,9 +98,25 @@ define(['../../error/ArgumentError',
 		if (!bbox){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MyGoToAnimator", "getCentroidCoordinates", "missingParameter"));
 		}
+
+		var lat = (bbox.maxLat + bbox.minLat)/2;
+		var lon = (bbox.maxLon + bbox.minLon)/2;
+
+		// it solves areas crossing date line
+		if (Math.abs(bbox.maxLon - bbox.minLon) > 270  && bbox.maxLon < bbox.minLon){
+			var x = 360 + bbox.minLon + bbox.maxLon;
+			if (x <= 360 ){
+				lon = x/2;
+			} else {
+				lon = x/2 - 360;
+			}
+		}
+
+		// TODO solve areas around poles
+
 		return {
-			lat: (bbox.maxLat + bbox.minLat)/2,
-			lon: (bbox.maxLon + bbox.minLon)/2,
+			lat: lat,
+			lon: lon,
 			alt: this.getAltitude(bbox.maxLat, bbox.minLat, bbox.maxLon, bbox.minLon)
 		}
 	};
@@ -132,6 +152,12 @@ define(['../../error/ArgumentError',
 	MyGoToAnimator.prototype.getAltitude = function(maxLat, minLat, maxLon, minLon){
 		var differenceLat = Math.abs(maxLat - minLat);
 		var differenceLon = Math.abs(maxLon - minLon);
+
+		// for areas crossing date line
+		if (Math.abs(maxLon - minLon) > 270  && maxLon < minLon){
+			differenceLon = Math.abs(Math.abs(maxLon) - Math.abs(minLon));
+		}
+
 		var coef = 350000;
 		if ((Math.abs(minLat) > 70 && Math.abs(maxLat) > 85) || differenceLat > 50 || differenceLon > 50){
 			return 10000000
