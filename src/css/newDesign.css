@@ -888,9 +888,9 @@
 	margin-top: -1px;
 }
 
-.newDesign .x-panel-header .x-tool-areacollapse {
-	background-image: url("../images/new/areacollapse.png") !important;
-}
+/*.newDesign .x-panel-header .x-tool-areacollapse {*/
+	/*background-image: url("../images/new/areacollapse.png") !important;*/
+/*}*/
 
 .newDesign .x-tool-collapse-top, .newDesign .x-tool-collapse-right, .newDesign .x-tool-collapse-bottom, .newDesign .x-tool-collapse-left,
 .newDesign .x-tool-over .x-tool-collapse-top, .newDesign .x-tool-over .x-tool-collapse-right, .newDesign .x-tool-over .x-tool-collapse-bottom, .newDesign .x-tool-over .x-tool-collapse-left {

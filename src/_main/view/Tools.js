@@ -131,10 +131,20 @@ Ext.define('PumaMain.view.Tools', {
                 mode: 'MULTI'
             },
             tools: [{
-                type: 'areacollapse',
-                cls: 'areacollapse',
+                type: 'areacollapseall',
+                cls: 'areacollapseall',
                 tooltip: 'Collapse all',
-                itemId: 'areacollapse'
+                itemId: 'areacollapseall'
+            },{
+                type: 'areacollapselevel',
+                cls: 'areacollapselevel',
+                tooltip: 'Collapse last level',
+                itemId: 'areacollapselevel'
+            },{
+                type: 'areaexpandlevel',
+                cls: 'areaexpandlevel',
+                tooltip: 'Expand last level',
+                itemId: 'areaexpandlevel'
             },{
                 type: 'detach',
                 cls: 'detach',
