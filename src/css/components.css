@@ -178,7 +178,11 @@
 
 .x-btn.btn-map-tool button .x-btn-icon {
 	left: 50%;
-	top: 20px;
+	top: 13px;
+}
+.x-btn.btn-map-tool.btn-tool-select button .x-btn-icon {
+	left: 15%;
+	top: 16px;
 }
 
 .x-btn.btn-map-tool button .x-btn-inner {
