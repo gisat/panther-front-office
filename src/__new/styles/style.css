@@ -149,3 +149,15 @@
     bottom: -15px;
     background-position: -82px -226px;
 }
+
+body.mode-3d .x-window:not(.thematic-maps-settings),
+body.mode-3d .x-window:not(.x-window-ghost),
+body.mode-3d #tools-container,
+body.mode-3d #widget-container .placeholder:not(#placeholder-world-wind-widget),
+body.mode-3d #widget-container .placeholder.open:not(#placeholder-world-wind-widget),
+body.mode-3d .x-css-shadow,
+body.mode-3d .floater:not(#floater-world-wind-widget),
+body.mode-3d .floater.open:not(#floater-world-wind-widget),
+body.mode-3d .settings-window {
+    display: none;
+}
