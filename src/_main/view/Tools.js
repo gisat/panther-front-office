@@ -24,7 +24,14 @@ var widgets = {
 			type: 'detach',
 			cls: 'detach',
 			tooltip: 'Detach',
-			itemId: 'undock'
+			itemId: 'undock',
+			hidden: Config.toggles.useTopToolbar
+		},{
+			type: 'hide',
+			cls: 'hide',
+			tooltip: 'Hide',
+			itemId: 'hide',
+			hidden: !Config.toggles.useTopToolbar
 		}],
 		layout: {
 			type: 'hbox',
@@ -64,7 +71,14 @@ var widgets = {
 			type: 'detach',
 			tooltip: 'Detach',
 			cls: 'detach',
-			itemId: 'undock'
+			itemId: 'undock',
+			hidden: Config.toggles.useTopToolbar
+		},{
+			type: 'hide',
+			cls: 'hide',
+			tooltip: 'Hide',
+			itemId: 'hide',
+			hidden: !Config.toggles.useTopToolbar
 		}],
 		layout: {
 			type: 'vbox',
@@ -105,7 +119,14 @@ var widgets = {
 			type: 'detach',
 			cls: 'detach',
 			tooltip: 'Detach',
-			itemId: 'undock'
+			itemId: 'undock',
+			hidden: Config.toggles.useTopToolbar
+		},{
+			type: 'hide',
+			cls: 'hide',
+			tooltip: 'Hide',
+			itemId: 'hide',
+			hidden: !Config.toggles.useTopToolbar
 		}],
 		height: 300,
 		header: !Config.toggles.useTopToolbar,
@@ -135,7 +156,14 @@ var widgets = {
 			type: 'detach',
 			cls: 'detach',
 			tooltip: 'Detach',
-			itemId: 'undock'
+			itemId: 'undock',
+			hidden: Config.toggles.useTopToolbar
+		},{
+			type: 'hide',
+			cls: 'hide',
+			tooltip: 'Hide',
+			itemId: 'hide',
+			hidden: !Config.toggles.useTopToolbar
 		}],
 		title: Config.basicTexts.areasSectionName,
 		header: !Config.toggles.useTopToolbar,
@@ -153,6 +181,12 @@ var widgets = {
 			tooltip: 'Detach',
 			itemId: 'undock',
 			hidden: Config.toggles.useTopToolbar
+		},{
+			type: 'hide',
+			cls: 'hide',
+			tooltip: 'Hide',
+			itemId: 'hide',
+			hidden: !Config.toggles.useTopToolbar
 		}],
 		header: !Config.toggles.useTopToolbar,
 		title: 'Map tools'
@@ -178,6 +212,7 @@ if (Config.toggles.useTopToolbar) {
 					width: 260,
 					maxHeight: 600,
 					resizable: true,
+					closable: !Config.toggles.useTopToolbar,
 					cls: 'detached-window',
 					isdetached: 1,
 					constrainHeader: true,
