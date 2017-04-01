@@ -3,6 +3,70 @@
  */
 
 var widgets = {
+	layerpanel: {
+		xtype: 'layerpanel',
+		//maxHeight: 500,
+		itemId: 'layerpanel',
+		helpId: 'Layers',
+		tools: [{
+			type: 'gear',
+			tooltip: 'Configure thematic maps',
+			itemId: 'gear'
+		},{
+			type: 'detach',
+			cls: 'detach',
+			tooltip: 'Detach',
+			itemId: 'undock',
+			hidden: Config.toggles.useTopToolbar
+		},{
+			type: 'hide',
+			cls: 'hide',
+			tooltip: 'Hide',
+			itemId: 'hide',
+			hidden: !Config.toggles.useTopToolbar
+		}],
+		height: 340,
+		header: !Config.toggles.useTopToolbar,
+		title: 'Layers'
+	},
+	areatree: {
+		xtype: 'areatree',
+		itemId: 'areatree',
+		cls: 'areaTreeSelection',
+		helpId: 'TreeofanalyticalunitsAREAS',
+		tools: [{
+			type: 'areacollapseall',
+			cls: 'areacollapseall',
+			tooltip: 'Collapse all',
+			itemId: 'areacollapseall'
+		},{
+			type: 'areacollapselevel',
+			cls: 'areacollapselevel',
+			tooltip: 'Collapse last level',
+			itemId: 'areacollapselevel'
+		},{
+			type: 'areaexpandlevel',
+			cls: 'areaexpandlevel',
+			tooltip: 'Expand last level',
+			itemId: 'areaexpandlevel'
+		},{
+			type: 'detach',
+			cls: 'detach',
+			tooltip: 'Detach',
+			itemId: 'undock',
+			hidden: Config.toggles.useTopToolbar
+		},{
+			type: 'hide',
+			cls: 'hide',
+			tooltip: 'Hide',
+			itemId: 'hide',
+			hidden: !Config.toggles.useTopToolbar
+		}],
+		title: Config.basicTexts.areasSectionName,
+		header: !Config.toggles.useTopToolbar,
+		height: 340
+		//,maxHeight: 500
+	},
 	colourSelection: {
 		xtype: 'panel',
 		title: 'Selections',
@@ -106,70 +170,6 @@ var widgets = {
 		title: Config.basicTexts.advancedFiltersName,
 		bodyCls: 'tools-filters-list'
 	},
-	layerpanel: {
-		xtype: 'layerpanel',
-		//maxHeight: 500,
-		itemId: 'layerpanel',
-		helpId: 'Layers',
-		tools: [{
-			type: 'gear',
-			tooltip: 'Configure thematic maps',
-			itemId: 'gear'
-		},{
-			type: 'detach',
-			cls: 'detach',
-			tooltip: 'Detach',
-			itemId: 'undock',
-			hidden: Config.toggles.useTopToolbar
-		},{
-			type: 'hide',
-			cls: 'hide',
-			tooltip: 'Hide',
-			itemId: 'hide',
-			hidden: !Config.toggles.useTopToolbar
-		}],
-		height: 300,
-		header: !Config.toggles.useTopToolbar,
-		title: 'Layers'
-	},
-	areatree: {
-		xtype: 'areatree',
-		itemId: 'areatree',
-		cls: 'areaTreeSelection',
-		helpId: 'TreeofanalyticalunitsAREAS',
-		tools: [{
-			type: 'areacollapseall',
-			cls: 'areacollapseall',
-			tooltip: 'Collapse all',
-			itemId: 'areacollapseall'
-		},{
-			type: 'areacollapselevel',
-			cls: 'areacollapselevel',
-			tooltip: 'Collapse last level',
-			itemId: 'areacollapselevel'
-		},{
-			type: 'areaexpandlevel',
-			cls: 'areaexpandlevel',
-			tooltip: 'Expand last level',
-			itemId: 'areaexpandlevel'
-		},{
-			type: 'detach',
-			cls: 'detach',
-			tooltip: 'Detach',
-			itemId: 'undock',
-			hidden: Config.toggles.useTopToolbar
-		},{
-			type: 'hide',
-			cls: 'hide',
-			tooltip: 'Hide',
-			itemId: 'hide',
-			hidden: !Config.toggles.useTopToolbar
-		}],
-		title: Config.basicTexts.areasSectionName,
-		header: !Config.toggles.useTopToolbar,
-		height: 340
-		//,maxHeight: 500
-	},
 	maptools: {
 		xtype: 'maptools',
 		collapsed: false,
@@ -196,6 +196,50 @@ var widgets = {
 
 if (Config.toggles.useTopToolbar) {
 
+	var windowHeight = $(window).height();
+	var windowWidth = $(window).width();
+	var offsetTop = 0;
+	var offsetBottom = 0;
+	if (Config.toggles.useWBHeader) offsetTop += 40;
+	if (Config.toggles.useHeader) offsetTop += 45;
+	if (Config.toggles.useNewViewSelector) {
+		if (windowWidth > 1400) {
+			offsetTop += 40;
+		} else {
+			offsetTop += 70;
+		}
+	} else {
+		offsetTop += 105;
+	}
+	if (Config.toggles.useTopToolbar) offsetTop += 30;
+	if (Config.toggles.useWBFooter) offsetBottom += 27;
+	var viewportHeight = windowHeight - offsetTop - offsetBottom;
+	var floaterAddedHeight = 40;
+	var floaterWidth = 260;
+
+	widgets.layerpanel.height = (viewportHeight - 9)/2 - floaterAddedHeight;
+	widgets.layerpanel.ptrWindow = {
+		x: 3,
+		y: offsetTop + 3
+	};
+	widgets.areatree.height = widgets.layerpanel.height - 20; // todo fix areatree styling & remove 20
+	widgets.areatree.ptrWindow = {
+		x: 3,
+		y: offsetTop + 3 + widgets.layerpanel.height + floaterAddedHeight + 3
+	};
+	widgets.colourSelection.ptrWindow = {
+		x: 3 + floaterWidth + 3,
+		y: offsetTop + 3
+	}
+	widgets.maptools.ptrWindow = {
+		x: 3 + floaterWidth + 3,
+		y: offsetTop + 3 + widgets.colourSelection.height + floaterAddedHeight + 3
+	}
+	widgets.legacyAdvancedFilters.ptrWindow = {
+		x: 3 + floaterWidth + 3,
+		y: offsetTop + 3 + widgets.colourSelection.height + floaterAddedHeight + 3 + 202 + 3 //202 - complete maptools
+	}
+
 
 	Ext.define('PumaMain.view.Tools', {
 		extend: 'Ext.container.Container',
@@ -205,7 +249,7 @@ if (Config.toggles.useTopToolbar) {
 			// define widgets
 			Object.keys(widgets).forEach(function(toolID){
 
-				Ext.widget('window',{
+				var window = Ext.widget('window',{
 					itemId: "window-" + toolID,
 					id: "window-" + toolID,
 					layout: 'fit',
@@ -218,7 +262,8 @@ if (Config.toggles.useTopToolbar) {
 					constrainHeader: true,
 					tools: widgets[toolID].tools,
 					title: widgets[toolID].title,
-
+					x: widgets[toolID].ptrWindow ? widgets[toolID].ptrWindow.x : undefined,
+					y: widgets[toolID].ptrWindow ? widgets[toolID].ptrWindow.y : undefined,
 					items: widgets[toolID]
 				});
 
