@@ -137,14 +137,16 @@ define(['../../../error/ArgumentError',
 	 * @param action {string} css display value
 	 */
 	WorldWindWidget.prototype.toggleComponents = function(action){
-		var sidebarTools = $("#sidebar-tools");
 
-		if (action == "none"){
-			sidebarTools.addClass("hidden-complete");
-			sidebarTools.css("display", "none");
-		} else {
-			sidebarTools.removeClass("hidden-complete");
-			sidebarTools.css("display", "block");
+		if (!Config.toggles.useTopToolbar) {
+			var sidebarTools = $("#sidebar-tools");
+			if (action == "none") {
+				sidebarTools.addClass("hidden-complete");
+				sidebarTools.css("display", "none");
+			} else {
+				sidebarTools.removeClass("hidden-complete");
+				sidebarTools.css("display", "block");
+			}
 		}
 
 		//$(".x-css-shadow").css("display", "none");
