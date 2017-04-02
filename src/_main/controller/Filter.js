@@ -36,6 +36,15 @@ Ext.define('PumaMain.controller.Filter', {
                     '#advancedfilters tool[type=gear]': {
                         click: this.onConfigure
                     },
+					'#window-legacyAdvancedFilters tool[type=poweron]': {
+						click: this.changeActiveState
+					},
+					'#window-legacyAdvancedFilters tool[type=refresh]': {
+						click: this.onResetFilters
+					},
+					'#window-legacyAdvancedFilters tool[type=gear]': {
+						click: this.onConfigure
+					},
                     'toolspanel': {
                         afterlayout: this.afterAccordionLayout
                     }
