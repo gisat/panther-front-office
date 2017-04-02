@@ -9,6 +9,12 @@ define([], function () {
 		$('#top-toolbar-context-help').on('click.topToolBar', this.handleContextHelpClick);
 		$('#top-toolbar-snapshot').on('click.topToolBar', this.handleSnapshotClick);
 		$('#top-toolbar-share-view').on('click.topToolBar', this.handleShareViewClick);
+
+		Observer.addListener("Tools.hideClick.layerpanel",this.handleHideClick.bind(this, 'window-layerpanel'));
+		Observer.addListener("Tools.hideClick.areatree",this.handleHideClick.bind(this, 'window-areatree'));
+		Observer.addListener("Tools.hideClick.selections",this.handleHideClick.bind(this, 'window-colourSelection'));
+		Observer.addListener("Tools.hideClick.maptools",this.handleHideClick.bind(this, 'window-maptools'));
+		Observer.addListener("Tools.hideClick.legacyAdvancedFilters",this.handleHideClick.bind(this, 'window-legacyAdvancedFilters'));
 	};
 
 
@@ -58,6 +64,14 @@ define([], function () {
 		var targetId = e.target.getAttribute('data-for');
 		if (targetId) {
 			$('#' + targetId).toggleClass('open');
+			$(e.target).toggleClass('open');
+		}
+	};
+
+	TopToolBar.prototype.handleHideClick = function(targetId){
+		if (targetId) {
+			$('#' + targetId).removeClass('open');
+			this._target.find('div[data-for="' + targetId + '"]').removeClass('open');
 		}
 	};
 

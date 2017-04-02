@@ -23,7 +23,14 @@ var widgets = {
 			cls: 'hide',
 			tooltip: 'Hide',
 			itemId: 'hide',
-			hidden: !Config.toggles.useTopToolbar
+			hidden: !Config.toggles.useTopToolbar,
+			listeners: {
+				click: {
+					fn: function() {
+						Observer.notify("Tools.hideClick.layerpanel");
+					}
+				}
+			}
 		}],
 		height: 340,
 		header: !Config.toggles.useTopToolbar,
@@ -60,7 +67,14 @@ var widgets = {
 			cls: 'hide',
 			tooltip: 'Hide',
 			itemId: 'hide',
-			hidden: !Config.toggles.useTopToolbar
+			hidden: !Config.toggles.useTopToolbar,
+			listeners: {
+				click: {
+					fn: function() {
+						Observer.notify("Tools.hideClick.areatree");
+					}
+				}
+			}
 		}],
 		title: Config.basicTexts.areasSectionName,
 		header: !Config.toggles.useTopToolbar,
@@ -95,7 +109,14 @@ var widgets = {
 			cls: 'hide',
 			tooltip: 'Hide',
 			itemId: 'hide',
-			hidden: !Config.toggles.useTopToolbar
+			hidden: !Config.toggles.useTopToolbar,
+			listeners: {
+				click: {
+					fn: function() {
+						Observer.notify("Tools.hideClick.selections");
+					}
+				}
+			}
 		}],
 		layout: {
 			type: 'hbox',
@@ -142,7 +163,14 @@ var widgets = {
 			cls: 'hide',
 			tooltip: 'Hide',
 			itemId: 'hide',
-			hidden: !Config.toggles.useTopToolbar
+			hidden: !Config.toggles.useTopToolbar,
+			listeners: {
+				click: {
+					fn: function() {
+						Observer.notify("Tools.hideClick.legacyAdvancedFilters");
+					}
+				}
+			}
 		}],
 		layout: {
 			type: 'vbox',
@@ -186,7 +214,14 @@ var widgets = {
 			cls: 'hide',
 			tooltip: 'Hide',
 			itemId: 'hide',
-			hidden: !Config.toggles.useTopToolbar
+			hidden: !Config.toggles.useTopToolbar,
+			listeners: {
+				click: {
+					fn: function() {
+						Observer.notify("Tools.hideClick.maptools");
+					}
+				}
+			}
 		}],
 		header: !Config.toggles.useTopToolbar,
 		title: 'Map tools'
