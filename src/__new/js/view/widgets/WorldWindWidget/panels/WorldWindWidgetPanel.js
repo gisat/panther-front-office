@@ -4,6 +4,7 @@ define(['../../../../error/ArgumentError',
 
 	'../../inputs/checkbox/Checkbox',
 	'../../../worldWind/layers/layerTools/LayerTools',
+	'./panelRow/PanelRow',
 	'../../inputs/checkbox/Radiobox',
 
 	'jquery',
@@ -16,6 +17,7 @@ define(['../../../../error/ArgumentError',
 
 			Checkbox,
 			LayerTools,
+			PanelRow,
 			Radiobox,
 
 			$,
@@ -137,6 +139,22 @@ define(['../../../../error/ArgumentError',
 
 		var tools = this.buildToolBox(layerData.id, this._id, container);
 		this.addTools(tools, layerData, wwd);
+	};
+
+	/**
+	 * Add item to the panel
+	 * @param id {string} id of the layer
+	 * @param name {string} name of the layer
+	 * @param target {*|jQuery|HTMLElement} Selector of the group
+	 */
+	WorldWindWidgetPanel.prototype.addLayerControl = function(id, name, target){
+		return new PanelRow({
+			active: false,
+			id: id,
+			groupId: this._id,
+			name: name,
+			target: target
+		});
 	};
 
 	/**
