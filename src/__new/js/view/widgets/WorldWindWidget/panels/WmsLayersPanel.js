@@ -70,17 +70,9 @@ define(['../../../../error/ArgumentError',
 	 */
 	WmsLayersPanel.prototype.addLayer = function(layer){
 		this._worldWind.layers.addWmsLayer(layer, this._id, false);
-		this.addRow(layer, this._panelBodySelector, this._worldWind);
-	};
-
-	/**
-	 * Add tools for the layer
-	 * @param tools {LayerTools}
-	 * @param layerMetadata {Object}
-	 * @param worldWind {WorldWindMap}
-	 */
-	WmsLayersPanel.prototype.addTools = function(tools, layerMetadata, worldWind){
-		tools.addOpacity(layerMetadata, worldWind);
+		var control = this.addLayerControl(layer.id, layer.name, this._panelBodySelector);
+		var tools = control.getToolBox();
+		tools.addOpacity(layer, this._worldWind);
 	};
 
 	/**

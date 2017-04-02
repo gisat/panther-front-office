@@ -126,23 +126,6 @@ define(['../../../../error/ArgumentError',
 
 	/**
 	 * Add item to the panel
-	 * @param layerData {Object}
-	 * @param target {*|jQuery|HTMLElement} Selector of the group
-	 * @param wwd {WorldWindMap}
-	 */
-	WorldWindWidgetPanel.prototype.addRow = function(layerData, target, wwd){
-		target.append('<div class="panel-row" id="' + layerData.id + '-panel-row"></div>');
-		var container = $('#' + layerData.id + '-panel-row');
-
-		var layerControlId = this._id + "-" + layerData.id;
-		var checkbox = this.addCheckbox(layerControlId, layerData.name, container, layerData.id, false);
-
-		var tools = this.buildToolBox(layerData.id, this._id, container);
-		this.addTools(tools, layerData, wwd);
-	};
-
-	/**
-	 * Add item to the panel
 	 * @param id {string} id of the layer
 	 * @param name {string} name of the layer
 	 * @param target {*|jQuery|HTMLElement} Selector of the group
