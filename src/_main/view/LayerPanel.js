@@ -24,7 +24,7 @@ Ext.define('PumaMain.view.LayerPanel', {
                 store: Ext.StoreMgr.lookup('layers'),
                 displayField: 'name',
                 rootVisible: false,
-                title: 'Layers available',
+                title: 'Available layers',
                 border: true,
                 viewConfig: {
                     autoScroll: false,
@@ -62,7 +62,7 @@ Ext.define('PumaMain.view.LayerPanel', {
                     plugins: {ptype: 'gridviewdragdrop'}
                 },
                 displayField: 'name',
-                title: 'Layers selected',
+                title: 'Selected layers',
                 bodyCls: 'layers-selected',
                 border: true,
                 columns: [
