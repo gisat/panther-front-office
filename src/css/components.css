@@ -342,34 +342,41 @@
 	background: linear-gradient(center top, #ccc, #ddd);
 }
 
-.x-panel-header .x-tool img {
+.x-panel-header .x-tool img,
+.x-window-header .x-tool img {
 	width: 20px;
 	height: 20px;
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 }
 
-.x-panel-header .x-tool-poweron {
+.x-tool-hide {
+	background-image: url("../__new/img/minimise-icon-dark.png") !important;
+}
+
+.x-tool-poweron {
 	background-image: url("../images/icons/power2.png") !important;
 }
 
-.x-panel-header .x-tool-refresh {
+.x-panel-header .x-tool-refresh,
+.x-window-header .x-tool-refresh {
 	background-image: url("../images/icons/paging-refresh.png") !important;
 }
 
-.x-panel-header .x-tool-areacollapseall {
+.x-tool-areacollapseall {
 	background-image: url("../images/new/areacollapseall.png") !important;
 }
 
-.x-panel-header .x-tool-areacollapselevel {
+.x-tool-areacollapselevel {
 	background-image: url("../images/new/areacollapse.png") !important;
 }
 
-.x-panel-header .x-tool-areaexpandlevel {
+.x-tool-areaexpandlevel {
 	background-image: url("../images/new/areaexpand.png") !important;
 }
 
-.x-panel-header .x-tool-gear {
+.x-panel-header .x-tool-gear,
+.x-window-header .x-tool-gear {
 	background-image: url("../images/icons/settings.png") !important;
 }
 
@@ -377,11 +384,11 @@
 	background-image: url("../images/icons/detach.gif") !important;
 }
 
-.x-panel-header .x-tool-unselect {
+.x-tool-unselect {
 	background-image: url("../images/icons/unselect.gif") !important;
 }
 
-.x-panel-header .x-tool-unselectall {
+.x-tool-unselectall {
 	background-image: url("../images/icons/unselect_all.gif") !important;
 }
 
@@ -389,23 +396,28 @@
 	background-image: url("../images/icons/close.png") !important;
 }
 
-.x-panel-header .x-tool-help {
+.x-panel-header .x-tool-help,
+.x-window-header .x-tool-help {
 	background-image: url("../images/icons/legend.png") !important;
 }
 
-.x-panel-header .x-tool-save {
+.x-panel-header .x-tool-save,
+.x-window-header .x-tool-save {
 	background-image: url("../images/icons/snapshot.png") !important;
 }
 
-.x-panel-header .x-tool-print {
+.x-panel-header .x-tool-print,
+.x-window-header .x-tool-print {
 	background-image: url("../images/icons/save.png") !important;
 }
 
-.x-panel-header .x-tool-search {
+.x-panel-header .x-tool-search,
+.x-window-header .x-tool-search {
 	background-image: url("../images/icons/search.png") !important;
 }
 
-.x-panel-header .x-tool-collapse {
+.x-panel-header .x-tool-collapse,
+.x-window-header .x-tool-collapse {
 	background-image: url("../images/icons/save-csv.png") !important;
 }
 
