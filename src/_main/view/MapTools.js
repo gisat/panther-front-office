@@ -86,7 +86,8 @@ Ext.define('PumaMain.view.MapTools', {
             icon: 'images/icons/tools-save.png',
             iconAlign: 'top',
             cls: 'custom-button btn-map-tool btn-tool-save-image',
-            scale: 'large'
+            scale: 'large',
+			hidden: true //to be removed, duplicates functionality of snapshots
         }];
         if(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo){
             this.items.unshift({
