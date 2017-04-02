@@ -101,7 +101,7 @@ var widgets = {
 			type: 'hbox',
 			align: 'middle'
 		},
-		height: 72,
+		height: 30,
 		items: [{
 			xtype: 'colorpicker',
 			fieldLabel: 'CP',

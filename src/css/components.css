@@ -421,6 +421,10 @@
 	background-image: url("../images/icons/save-csv.png") !important;
 }
 
+.x-window .x-panel-body-default {
+	border-color: transparent;
+}
+
 .cmptype-grid,
 .cmptype-piechart,
 .cmptype-scatterchart,
