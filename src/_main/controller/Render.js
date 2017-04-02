@@ -185,7 +185,7 @@ Ext.define('PumaMain.controller.Render', {
             itemId: 'savevisualization',
             width: '100%',
             height: '100%',
-            //hidden: !Config.auth || !Config.auth.isAdmin,
+            hidden: !Config.auth || !Config.auth.isAdmin,
             cls: 'custom-button btn-visualization-save'
         })
         Ext.widget('button',{
@@ -195,7 +195,7 @@ Ext.define('PumaMain.controller.Render', {
             helpId: 'Sharingdataviews',
             width: '100%',
             height: '100%',
-            //hidden: !Config.auth,
+            hidden: !Config.auth,
             icon: 'images/icons/share.png',
             cls: 'custom-button btn-share'
         })
@@ -281,7 +281,7 @@ Ext.define('PumaMain.controller.Render', {
             renderTo: 'app-legacy-view-selector-manage',
             itemId: 'managedataview',
             helpId: 'Managingdataviews',
-            //hidden: !Config.auth,
+            hidden: !Config.auth,
             //icon: 'images/icons/settings.png',
             width: '100%',
             height: '100%',
@@ -290,7 +290,7 @@ Ext.define('PumaMain.controller.Render', {
         Ext.widget('button',{
             renderTo: Config.toggles.useNewViewSelector ? 'app-view-selector-visualization-manage' : 'app-legacy-view-selector-visualization-manage',
             itemId: 'managevisualization',
-            //hidden: !Config.auth || !Config.auth.isAdmin,
+            hidden: !Config.auth || !Config.auth.isAdmin,
             //icon: 'images/icons/settings.png',
             width: '100%',
             height: '100%',
@@ -300,7 +300,7 @@ Ext.define('PumaMain.controller.Render', {
             renderTo: 'app-legacy-view-selector-save',
             itemId: 'savedataview',
             helpId: 'Savingdataviews',
-            //hidden: !Config.auth,
+            hidden: !Config.auth,
             text: 'Save view',
             icon: 'images/icons/save.png',
             width: '100%',
