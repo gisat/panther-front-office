@@ -74,63 +74,101 @@ define(['../../../../error/ArgumentError',
 	};
 
 	/**
+	 * Group layers by temlate id
+	 * @param layers {Array} list of layers
+	 * @returns {Object} layers grouped by id
+	 */
+	InfoLayersPanel.prototype.groupLayersByTemplate = function(layers){
+		var groupedLayers = {};
+		layers.forEach(function(layer){
+			var template = layer.layerTemplateId;
+			if (!groupedLayers.hasOwnProperty(template)){
+				groupedLayers[template] = {};
+				groupedLayers[template]["id"] = template;
+				groupedLayers[template]["name"] = layer.name;
+				groupedLayers[template]["styles"] = layer.styles;
+				groupedLayers[template]["layers"] = [];
+			}
+			groupedLayers[template]["layers"].push(layer);
+		});
+
+		return groupedLayers;
+	};
+
+	/**
 	 * Add layers to group
 	 * @param target {JQuery} selector of target element
 	 * @param layers {Array} list of layers
 	 */
 	InfoLayersPanel.prototype.addLayersToGroup = function(target, layers){
 		var self = this;
-		layers.forEach(function(layer){
-			if (layer.styles.length > 0){
-				layer.styles.forEach(function(style){
-					layer.name = layer.name + " - " + style.name;
-					layer.stylePath = style.path;
-					self.addLayer(layer,target);
+		var groupedLayers = this.groupLayersByTemplate(layers);
+
+		for (var template in groupedLayers){
+			var id = groupedLayers[template].id;
+			var name = groupedLayers[template].name;
+			var layerList = groupedLayers[template].layers;
+			var styles = groupedLayers[template].styles;
+			if (styles && styles.length > 0){
+				styles.forEach(function(style){
+					self.addLayer(id, name, layerList, target, style);
 				});
 			} else {
-				self.addLayer(layer,target);
+				self.addLayer(id, name, layerList, target);
 			}
-		});
-	};
-
-	InfoLayersPanel.prototype.addLayer = function(layer, target){
-		layer.id = layer.path.split(":")[1] + "_" + layer.stylePath;
-		this._worldWind.layers.addInfoLayer(layer, this._id, false);
-		this.addRow(layer, target, this._worldWind);
+		}
 	};
 
 	/**
-	 * Get the layers list from server
-	 * @param configuration {Object} configuration from global object ThemeYearConfParams
+	 * Add representation of a layer to the panel and layer to the map
+	 * @param id {string} Id of the layer
+	 * @param name {string} Name of the layer, which is displayed in the panel
+	 * @param layers {Array} list of data layers. From them are paths of layer acquired.
+	 * @param target {JQuery} selector of target element, where will be a layer's control rendered (in a form of checkbox)
+	 * @param style {Object} data about style of the layer
 	 */
-	InfoLayersPanel.prototype.getLayers = function(configuration){
-		var scope = Number(configuration.dataset);
-		var theme = Number(configuration.theme);
-		var year = JSON.parse(configuration.years);
-		var place = "";
-		if (configuration.place.length > 0){
-			place = [Number(configuration.place)];
+	InfoLayersPanel.prototype.addLayer = function(id, name, layers, target, style){
+		var layerId = "info-layer-" + id;
+		var layerPaths = this.getLayerNames(layers);
+		var stylePaths = "";
+		var layerName = name;
+		if (style){
+			stylePaths = style.path;
+			layerName = layerName + " - " + style.name;
+			layerId = layerId + "-" + stylePaths;
 		}
 
-		return new Remote({
-			url: "rest/filtered/layer",
-			params: {
-				scope: scope,
-				place: place,
-				year: year,
-				theme: theme
-			}}).get();
+		// add layer to the map
+		this._worldWind.layers.addInfoLayer(layerPaths, stylePaths, layerId, layerName, this._id, false);
+
+		// add layer's control to the panel
+		var control = this.addLayerControl(layerId, layerName, target);
+		var tools = control.getToolBox();
+
+		var layerMetadata = {
+			id: layerId,
+			name: layerName,
+			stylePath: stylePaths,
+			path: layerPaths.split(",")[0]
+		};
+		tools.addLegend(layerMetadata, this._worldWind);
+		tools.addOpacity(layerMetadata, this._worldWind);
 	};
 
 	/**
-	 * Add tools for the layer
-	 * @param tools {LayerTools}
-	 * @param layerMetadata {Object}
-	 * @param worldWind {WorldWindMap}
+	 * @param layers {Array} list of layers data
+	 * @returns {string} list of layers' paths separated by comma
 	 */
-	InfoLayersPanel.prototype.addTools = function(tools, layerMetadata, worldWind){
-		tools.addLegend(layerMetadata, worldWind);
-		tools.addOpacity(layerMetadata, worldWind);
+	InfoLayersPanel.prototype.getLayerNames = function(layers){
+		if (layers.length > 0){
+			var names = [];
+			layers.forEach(function(layer){
+				names.push(layer.path);
+			});
+			return names.join(",");
+		} else {
+			return layers[0].path;
+		}
 	};
 
 	/**
@@ -154,6 +192,29 @@ define(['../../../../error/ArgumentError',
 				self._worldWind.layers.hideLayer(layerId);
 			}
 		},50);
+	};
+
+	/**
+	 * Get the layers list from server
+	 * @param configuration {Object} configuration from global object ThemeYearConfParams
+	 */
+	InfoLayersPanel.prototype.getLayers = function(configuration){
+		var scope = Number(configuration.dataset);
+		var theme = Number(configuration.theme);
+		var year = JSON.parse(configuration.years);
+		var place = "";
+		if (configuration.place.length > 0){
+			place = [Number(configuration.place)];
+		}
+
+		return new Remote({
+			url: "rest/filtered/layer",
+			params: {
+				scope: scope,
+				place: place,
+				year: year,
+				theme: theme
+			}}).get();
 	};
 
 	return InfoLayersPanel;
