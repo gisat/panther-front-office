@@ -14,6 +14,9 @@ Ext.define('PumaMain.controller.Area', {
 			'#areatree #areacollapseall': {
 				click: this.onCollapseAll
 			},
+			'#window-areatree #areacollapseall': {
+				click: this.onCollapseAll
+			},
 			"chartbar chartcmp": {
 				beforeselect: this.onBeforeSelect,
 				itemclick: this.onItemClick,
