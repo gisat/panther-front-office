@@ -37,7 +37,9 @@ define([], function () {
 
 			this._target.append('<div class="item disabled" id="top-toolbar-map-tools">Map tools</div>');
 
-			this._target.append('<div class="item disabled" id="top-toolbar-saved-views">Custom views</div>');
+			if (Config.auth) {
+				this._target.append('<div class="item disabled" id="top-toolbar-saved-views">Custom views</div>');
+			}
 
 		} else {
 
@@ -55,7 +57,9 @@ define([], function () {
 
 			this._target.append('<div class="item" id="top-toolbar-map-tools" data-for="window-maptools">Map tools</div>');
 
-			this._target.append('<div class="item" id="top-toolbar-saved-views" data-for="window-customviews">Custom views</div>');
+			if (Config.auth) {
+				this._target.append('<div class="item" id="top-toolbar-saved-views" data-for="window-customviews">Custom views</div>');
+			}
 
 		}
 
