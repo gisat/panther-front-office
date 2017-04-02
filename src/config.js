@@ -18,8 +18,8 @@ var Config = {
 	toggles: {
 		noGeoserverLayerGroups: false,
 		useWBAgreement: false,
-		useWBHeader: true,
-		useHeader: false,
+		useWBHeader: false,
+		useHeader: true,
 		useWBFooter: false,
 		useNewViewSelector: true,
 		useTopToolbar: true,
@@ -28,8 +28,8 @@ var Config = {
 		usePumaLogo: true,
 		advancedFiltersFirst: false,
 		hasNew3Dmap: true,
-		hasNewEvaluationTool: true,
-		hasNewCustomPolygonsTool: true,
+		hasNewEvaluationTool: false,
+		hasNewCustomPolygonsTool: false,
 		hasNewFeatureInfo: true,
 		isNewDesign: true,
 		isUrbis: false,
@@ -39,9 +39,9 @@ var Config = {
 	},
 
 	basicTexts: {
-		advancedFiltersName: "Evaluation Tool",
+		advancedFiltersName: "Areas filter",
 		areasSectionName: "Areas",
-		appTitle: "PUMA",
+		appTitle: "Data exploration",
 		appName: "Data exploration",
 		scopeName: "Scale"
 	},

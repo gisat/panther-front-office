@@ -41,9 +41,9 @@ define([], function () {
 			this._target.append('<div class="item" id="top-toolbar-selections" data-for="window-colourSelection">Selections</div>');
 
 			if(Config.toggles.hasNewEvaluationTool) {
-				this._target.append('<div class="item" id="top-toolbar-selection-filter" data-for="floater-evaluation-tool-widget">Areas filter</div>');
+				this._target.append('<div class="item" id="top-toolbar-selection-filter" data-for="floater-evaluation-tool-widget">' + Config.basicTexts.advancedFiltersName + '</div>');
 			} else {
-				this._target.append('<div class="item" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters">Areas filter</div>');
+				this._target.append('<div class="item" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters">' + Config.basicTexts.advancedFiltersName + '</div>');
 			}
 
 			this._target.append('<div class="item" id="top-toolbar-map-tools" data-for="window-maptools">Map tools</div>');
