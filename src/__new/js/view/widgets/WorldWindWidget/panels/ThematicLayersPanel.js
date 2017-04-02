@@ -55,7 +55,7 @@ define(['../../../../error/ArgumentError',
 						name: name
 					};
 					choropleth.layer = layer;
-					self.addRow(layer, self._panelBodySelector, self._worldWind);
+					self.addLayerControl(layer.id, layer.name, self._panelBodySelector);
 				});
 				this.displayPanel("block");
 			} else {
@@ -108,10 +108,6 @@ define(['../../../../error/ArgumentError',
 		if (checkbox.hasClass("checked")){
 			this._worldWind.layers.showLayer(layerId);
 		}
-	};
-
-	ThematicLayersPanel.prototype.addTools = function(tools, layerMetadata, worldWind){
-		// do nothing in this case
 	};
 
 	ThematicLayersPanel.prototype.addContent = function(){
