@@ -128,11 +128,13 @@ Ext.define('PumaMain.controller.DomManipulation', {
 	},
 	
 	activateLoadingMask: function() {
-		$("#loading-mask-shim, #loading-mask").show();
+		//$("#loading-mask-shim, #loading-mask").show();
+		$('#loading-screen').css('display', 'block');
 	},
 	
 	deactivateLoadingMask: function() {
-		$("#loading-mask-shim, #loading-mask").hide();
+		//$("#loading-mask-shim, #loading-mask").hide();
+		$('#loading-screen').css('display', 'none');
 	},
 	
 	_onReportsSidebarToggleClick: function() {
