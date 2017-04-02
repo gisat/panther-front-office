@@ -15,6 +15,7 @@ define([], function () {
 		Observer.addListener("Tools.hideClick.selections",this.handleHideClick.bind(this, 'window-colourSelection'));
 		Observer.addListener("Tools.hideClick.maptools",this.handleHideClick.bind(this, 'window-maptools'));
 		Observer.addListener("Tools.hideClick.legacyAdvancedFilters",this.handleHideClick.bind(this, 'window-legacyAdvancedFilters'));
+		Observer.addListener("Tools.hideClick.customviews",this.handleHideClick.bind(this, 'window-customviews'));
 	};
 
 
@@ -54,7 +55,7 @@ define([], function () {
 
 			this._target.append('<div class="item" id="top-toolbar-map-tools" data-for="window-maptools">Map tools</div>');
 
-			this._target.append('<div class="item" id="top-toolbar-saved-views" data-for="window-saved-views">Custom views</div>');
+			this._target.append('<div class="item" id="top-toolbar-saved-views" data-for="window-customviews">Custom views</div>');
 
 		}
 

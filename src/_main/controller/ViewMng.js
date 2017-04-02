@@ -6,6 +6,10 @@ Ext.define('PumaMain.controller.ViewMng', {
 
 		Observer.addListener("PumaMain.controller.ViewMng.onShare",this.onShare.bind(this));
 
+		if (Config.toggles.useTopToolbar) {
+			this.onVisOrViewManage({itemId: 'customviews'});
+		}
+
         this.control(
                 {
                     'commonmnggrid' : {
@@ -120,7 +124,10 @@ Ext.define('PumaMain.controller.ViewMng', {
         var window = Ext.widget('window',{
             layout: 'fit',
             width: 300,
-            title: btn.itemId == 'managevisualization' ? 'Manage visualizations' : 'Manage data views',
+            title: btn.itemId == 'managevisualization' ? 'Manage visualizations' : 'Custom views',
+			id: 'window-' + btn.itemId,
+			cls: Config.toggles.useTopToolbar ? 'detached-window' : undefined,
+			closable: !Config.toggles.useTopToolbar,
             height: 400,
             y: 200,
             bodyCls: 'manageDwWindow',
@@ -128,7 +135,21 @@ Ext.define('PumaMain.controller.ViewMng', {
                 xtype: 'commonmnggrid',
                 allowReorder: btn.itemId == 'managevisualization',
                 store: Ext.StoreMgr.lookup(btn.itemId == 'managevisualization' ? 'visualization4sel':'dataview')
-            }]
+            }],
+			tools: [{
+				type: 'hide',
+				cls: 'hide',
+				tooltip: 'Hide',
+				itemId: 'hide',
+				hidden: !Config.toggles.useTopToolbar,
+				listeners: {
+					click: {
+						fn: function() {
+							Observer.notify("Tools.hideClick.customviews");
+						}
+					}
+				}
+			}]
         })
         window.show();
     },
