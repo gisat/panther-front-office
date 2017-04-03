@@ -128,7 +128,7 @@ define(['../../../../error/ArgumentError',
 	 * @param style {Object} data about style of the layer
 	 */
 	InfoLayersPanel.prototype.addLayer = function(id, name, layers, target, style){
-		var layerId = "info-layer-" + id;
+		var layerId = "wms-layer-" + id;
 		var layerPaths = this.getLayerNames(layers);
 		var stylePaths = "";
 		var layerName = name;

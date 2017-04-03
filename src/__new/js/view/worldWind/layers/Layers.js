@@ -2,7 +2,6 @@ define(['../../../error/ArgumentError',
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 
-	'../layers/AnalyticalUnitsLayer',
 	'../layers/MyWmsLayer',
 
 	'jquery',
@@ -11,7 +10,6 @@ define(['../../../error/ArgumentError',
 			NotFoundError,
 			Logger,
 
-			AnalyticalUnitsLayer,
 			MyWmsLayer,
 
 			$
@@ -139,23 +137,6 @@ define(['../../../error/ArgumentError',
 		var layer = this.getLayerById(id);
 		layer.enabled = false;
 		this._wwd.redraw();
-	};
-
-	/**
-	 * Build analytical units layer
-	 * @param id {string}
-	 * @param group {string} name of the group
-	 * @returns {AnalyticalUnitsLayer}
-	 */
-	Layers.prototype.buildAuLayer = function(id, group){
-		return new AnalyticalUnitsLayer({
-			metadata: {
-				active: true,
-				id: id,
-				group: group
-			},
-			wwd: this._wwd
-		});
 	};
 
 	/**

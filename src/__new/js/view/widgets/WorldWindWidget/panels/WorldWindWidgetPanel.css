@@ -1,7 +1,7 @@
 .panel-header {
 	color: #555;
 	cursor: pointer;
-	padding: 0 .2rem;
+	padding: 0;
 	position: relative;
 	transition: background .3s ease-out;
 }
@@ -19,7 +19,7 @@
 .panel-layer-group-header {
 	color: #555;
 	cursor: pointer;
-	padding: 0 0 0 1.4rem;
+	padding: 0 0 0 1.3rem;
 	position: relative;
 	transition: background .3s ease-out;
 }
@@ -35,10 +35,10 @@
 }
 
 .panel-body .floater-row {
-	padding-left: 1.25rem;
+	padding-left: 1.05rem;
 }
 .panel-layer-group-body .floater-row {
-	padding-left: 2.25rem;
+	padding-left: 2.15rem;
 }
 
 .panel-icon {

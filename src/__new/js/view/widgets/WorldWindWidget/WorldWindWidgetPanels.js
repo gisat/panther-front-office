@@ -59,7 +59,7 @@ define(['../../../error/ArgumentError',
 		if (!configuration){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingParameter"));
 		}
-		this._auLayersPanel.rebuild(configuration, data);
+		this._auLayersPanel.rebuild(configuration);
 		this._infoLayersPanel.rebuild(configuration);
 		this._wmsLayersPanel.rebuild(configuration);
 	};

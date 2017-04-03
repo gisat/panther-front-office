@@ -284,7 +284,7 @@ define(['js/util/metadata/Attributes',
     function buildWorldWindWidget (webWorldWind, topToolBar){
         return new WorldWindWidget({
             elementId: 'world-wind-widget',
-            name: '3D Map',
+            name: 'Layers',
             placeholderTargetId: 'widget-container',
             iconId: 'top-toolbar-3dmap',
             worldWind: webWorldWind,

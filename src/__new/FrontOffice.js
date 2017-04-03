@@ -60,7 +60,6 @@ define([
 		};
 		this.checkConfiguration();
 
-		var anaylticalUnits = this.getAnalyticalUnits();
 		var visualization = Number(ThemeYearConfParams.visualization);
 
 		var self = this;
@@ -72,15 +71,15 @@ define([
 				if (attributes){
 					self.getAttributesMetadata().then(function(results){
 						var updatedAttributes = self.getAttributesWithUpdatedState(results, attributes);
-						Promise.all([updatedAttributes, anaylticalUnits]).then(function(result){
-							self.rebuildComponents(result[0],result[1])
+						Promise.all([updatedAttributes]).then(function(result){
+							self.rebuildComponents(result[0])
 						});
 					});
 				}
 				else {
 					var attributesData = self.getAttributesMetadata();
-					Promise.all([attributesData, anaylticalUnits]).then(function(result){
-						self.rebuildComponents(result[0],result[1])
+					Promise.all([attributesData]).then(function(result){
+						self.rebuildComponents(result[0])
 					});
 				}
 
@@ -92,8 +91,8 @@ define([
 
 		else {
 			var attributesData = this.getAttributesMetadata();
-			Promise.all([attributesData, anaylticalUnits]).then(function(result){
-				self.rebuildComponents(result[0],result[1])
+			Promise.all([attributesData]).then(function(result){
+				self.rebuildComponents(result[0])
 			});
 		}
 
@@ -103,13 +102,11 @@ define([
 	/**
 	 * Rebuild all components with given list of attributes, analytical units
 	 * @param attributes {Array}
-	 * @param analyticalUnits {Array}
 	 */
-	FrontOffice.prototype.rebuildComponents = function(attributes, analyticalUnits){
+	FrontOffice.prototype.rebuildComponents = function(attributes){
 		var self = this;
 		var data = {
-			attributes: attributes,
-			analyticalUnits: analyticalUnits
+			attributes: attributes
 		};
 		this._tools.forEach(function(tool){
 			tool.rebuild(attributes, self._options);
@@ -120,14 +117,6 @@ define([
 		this._widgets3D.forEach(function(widget){
 			widget.rebuild(data, self._options);
 		});
-	};
-
-	/**
-	 * Get analytical units for curent configuration
-	 * @returns {Promise}
-	 */
-	FrontOffice.prototype.getAnalyticalUnits = function(){
-		return this._analyticalUnits.getUnits(this._options.config);
 	};
 
 	/**

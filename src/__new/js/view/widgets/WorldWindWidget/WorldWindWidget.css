@@ -1,4 +1,5 @@
 #floater-world-wind-widget {
+	display: none;
 	left: 10rem;
 	top: 10rem;
 	min-width: 22rem;
@@ -7,16 +8,20 @@
 	height: 25rem;
 	background: rgba(255,255,255,.9);
 }
-#floater-world-wind-widget .floater-header {
-	background: rgba(255,255,255,.9);
-	height: 4rem;
+#floater-world-wind-widget.open {
+	display: block;
 }
 #floater-world-wind-widget .floater-header {
 	background: rgba(255,255,255,.9);
-	height: 4rem;
+	color: #444;
+	height: 2rem;
+}
+#floater-world-wind-widget .floater-header > span {
+	color: #444;
 }
 #floater-world-wind-widget .floater-body {
-	height: calc(100% - 4rem);
+	height: calc(100% - 2rem);
+	border: 1px solid #ddd;
 }
 /*#floater-world-wind-widget.dockable {*/
 	/*height: 25rem;*/

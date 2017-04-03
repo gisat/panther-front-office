@@ -56,7 +56,7 @@ define(['../../../error/ArgumentError',
 	 * Build the body of widget
 	 */
 	WorldWindWidget.prototype.buildBody = function(){
-		this.buildFakeHeader();
+		this.addSettingsIcon();
 
 		if (!Config.toggles.useNewViewSelector){
 			this._widgetBodySelector.append('<div id="3d-switch">' +
@@ -65,21 +65,23 @@ define(['../../../error/ArgumentError',
 
 			var self = this;
 			$("#3d-switch").on("click", self.toggle3DMap.bind(self));
+		} else {
+			this.addMinimiseButtonListener();
 		}
 
 		this._worldWindContainer = this._worldWind.getContainer();
 		this._worldWindMap = this._worldWindContainer.find("#world-wind-map");
 
 		this._panels = this.buildPanels();
-	};
-
-	WorldWindWidget.prototype.buildFakeHeader = function(){
-		this._widgetHeaderSelector.append('<div class="floater-fake-header">' +
-				'<span>Layers</span>' +
-				'<div class="floater-fake-header-tool" id="thematic-layers-configuration"><img title="Configure thematic maps" src="../src/images/new/settings.png"/></div>' +
-			'</div>');
 
 		this.addSettingsOnClickListener();
+	};
+
+	WorldWindWidget.prototype.addSettingsIcon = function(){
+		this._widgetSelector.find(".floater-tools-container")
+			.append('<div id="thematic-layers-configuration" title="Configure thematic maps" class="floater-tool">' +
+				'<img title="Configure thematic maps" src="../src/images/new/settings.png"/>' +
+				'</div>');
 	};
 
 	/**
@@ -159,6 +161,13 @@ define(['../../../error/ArgumentError',
 	WorldWindWidget.prototype.addSettingsOnClickListener = function(){
 		$("#thematic-layers-configuration").on("click", function(){
 			Observer.notify("thematicMapsSettings");
+		});
+	};
+
+	WorldWindWidget.prototype.addMinimiseButtonListener = function(){
+		var self = this;
+		$(this._widgetSelector).find(".widget-minimise").on("click", function(){
+			self._widgetSelector.removeClass("open");
 		});
 	};
 
