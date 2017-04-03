@@ -30,7 +30,8 @@ define([], function () {
 			var classesLayers3d = $('#floater-world-wind-widget').hasClass('open') ? "item open" : "item";
 			this._target.append('<div class="' + classesLayers3d + '" id="top-toolbar-layers" data-for="floater-world-wind-widget">Layers</div>');
 
-			this._target.append('<div class="item disabled" id="top-toolbar-areas">Areas</div>');
+			var classesAreas3d = $('#window-areatree').hasClass('open') ? "item open" : "item";
+			this._target.append('<div class="' + classesAreas3d + '" id="top-toolbar-areas" data-for="window-areatree">Areas</div>');
 
 			this._target.append('<div class="item disabled" id="top-toolbar-selections">Selections</div>');
 
