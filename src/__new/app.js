@@ -3,6 +3,7 @@ requirejs.config({
 
     paths: {
         'css': 'lib/css.min',
+        'd3': 'lib/d3.min',
         'jquery': 'lib/jquery-3.0.0',
         'jquery-private': 'js/jquery-private',
         'jquery-ui': 'lib/jquery-ui.min',
