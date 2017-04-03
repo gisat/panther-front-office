@@ -649,13 +649,16 @@ body.intro #content-intro-terms {
 	position: relative;
 	height: 100%;
 	padding: 0 15px;
-	line-height: 30px;
+	line-height: 29px;
 	font-size: 12px;
 	font-weight: 700;
 	color: #444;
-
 	transition:
 		background .3s ease-in-out;
+}
+#top-toolbar .item.open {
+    /* background: #ffe6e9; */
+    color: #c92d42;
 }
 #top-toolbar .item:not(.disabled) {
 	cursor: pointer;
