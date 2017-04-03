@@ -27,7 +27,8 @@ define([], function () {
 
 		if (is3d) {
 
-			this._target.append('<div class="item" id="top-toolbar-layers" data-for="floater-world-wind-widget">Layers</div>');
+			var classesLayers3d = $('#floater-world-wind-widget').hasClass('open') ? "item open" : "item";
+			this._target.append('<div class="' + classesLayers3d + '" id="top-toolbar-layers" data-for="floater-world-wind-widget">Layers</div>');
 
 			this._target.append('<div class="item disabled" id="top-toolbar-areas">Areas</div>');
 
@@ -43,22 +44,29 @@ define([], function () {
 
 		} else {
 
-			this._target.append('<div class="item" id="top-toolbar-layers" data-for="window-layerpanel">Layers</div>');
+			var classesLayers = $('#window-layerpanel').hasClass('open') ? "item open" : "item";
+			this._target.append('<div class="' + classesLayers + '" id="top-toolbar-layers" data-for="window-layerpanel">Layers</div>');
 
-			this._target.append('<div class="item" id="top-toolbar-areas" data-for="window-areatree">Areas</div>');
+			var classesAreas = $('#window-areatree').hasClass('open') ? "item open" : "item";
+			this._target.append('<div class="' + classesAreas + '" id="top-toolbar-areas" data-for="window-areatree">Areas</div>');
 
-			this._target.append('<div class="item" id="top-toolbar-selections" data-for="window-colourSelection">Selections</div>');
+			var classesSelections = $('#window-colourSelection').hasClass('open') ? "item open" : "item";
+			this._target.append('<div class="' + classesSelections + '" id="top-toolbar-selections" data-for="window-colourSelection">Selections</div>');
 
 			if(Config.toggles.hasNewEvaluationTool) {
-				this._target.append('<div class="item" id="top-toolbar-selection-filter" data-for="floater-evaluation-tool-widget">' + Config.basicTexts.advancedFiltersName + '</div>');
+				var classesAreasFilter = $('#floater-evaluation-tool-widget').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesAreasFilter + '" id="top-toolbar-selection-filter" data-for="floater-evaluation-tool-widget">' + Config.basicTexts.advancedFiltersName + '</div>');
 			} else {
-				this._target.append('<div class="item" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters">' + Config.basicTexts.advancedFiltersName + '</div>');
+				var classesLegacyAreasFilter = $('#window-legacyAdvancedFilters').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesLegacyAreasFilter + '" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters">' + Config.basicTexts.advancedFiltersName + '</div>');
 			}
 
-			this._target.append('<div class="item" id="top-toolbar-map-tools" data-for="window-maptools">Map tools</div>');
+			var classesMapTools = $('#window-maptools').hasClass('open') ? "item open" : "item";
+			this._target.append('<div class="' + classesMapTools + '" id="top-toolbar-map-tools" data-for="window-maptools">Map tools</div>');
 
 			if (Config.auth) {
-				this._target.append('<div class="item" id="top-toolbar-saved-views" data-for="window-customviews">Custom views</div>');
+				var classesCustomViews = $('#window-customviews').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesCustomViews + '" id="top-toolbar-saved-views" data-for="window-customviews">Custom views</div>');
 			}
 
 		}
