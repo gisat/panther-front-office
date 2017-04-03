@@ -80,7 +80,7 @@ define(['../../../error/ArgumentError',
 	WorldWindWidget.prototype.addSettingsIcon = function(){
 		this._widgetSelector.find(".floater-tools-container")
 			.append('<div id="thematic-layers-configuration" title="Configure thematic maps" class="floater-tool">' +
-				'<img title="Configure thematic maps" src="../src/images/icons/settings.png"/>' +
+				'<img title="Configure thematic maps" src="images/icons/settings.png"/>' +
 				'</div>');
 	};
 

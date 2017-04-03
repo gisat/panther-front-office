@@ -655,12 +655,18 @@ Ext.define('PumaMain.controller.Area', {
 		var selPlace = selPlaceObj ? selPlaceObj.get('id') : null;
 		var showMore = Ext.ComponentQuery.query('#areamoredetails')[0];
 		var showLess = Ext.ComponentQuery.query('#arealessdetails')[0];
+		var arrowMore = Ext.ComponentQuery.query('#areaexpandlevel')[0];
+		var arrowLess = Ext.ComponentQuery.query('#areacollapselevel')[0];
 		//debugger;
 		// TODO remove lowestCount dependency
-		showMore.setDisabled(lowestCount>5000 || (lowestNoLeafs && areaTemplates.length>1) || !Object.keys(leafMap).length);
+		var disabledMore = lowestCount>5000 || (lowestNoLeafs && areaTemplates.length>1) || !Object.keys(leafMap).length
+		showMore.setDisabled(disabledMore);
+		arrowMore.setDisabled(disabledMore);
 		// TODO remove dependency on maxDepth
-		showLess.setDisabled(!containsLower || (selPlace && maxDepth<2));
-  
+		var disabledLess = !containsLower || (selPlace && maxDepth<2);
+		showLess.setDisabled(disabledLess);
+		arrowLess.setDisabled(disabledLess);
+
 		var selMap = this.getController('Select').selMap;
 		var outerCount = 0;
 		var overallCount = 0;
@@ -698,6 +704,7 @@ Ext.define('PumaMain.controller.Area', {
 		// TODO solve this issue differently
 		if (ThemeYearConfParams.dataset == "20" && !atLeastOneLoc && lastAreaTemplate == 15){
 			showMore.setDisabled(true);
+			arrowMore.setDisabled(true);
 		}
 	},
 	
