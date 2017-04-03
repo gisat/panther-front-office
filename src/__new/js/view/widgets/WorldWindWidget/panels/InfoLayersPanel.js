@@ -135,7 +135,9 @@ define(['../../../../error/ArgumentError',
 		var layerName = name;
 		if (style){
 			stylePaths = style.path;
-			layerName = layerName + " - " + style.name;
+			if (style.name != null){
+				layerName = layerName + " - " + style.name;
+			}
 			layerId = layerId + "-" + stylePaths;
 		}
 
