@@ -111,10 +111,10 @@ define(['../../../../error/ArgumentError',
 			var styles = groupedLayers[template].styles;
 			if (styles && styles.length > 0){
 				styles.forEach(function(style){
-					self.addLayer(id, name, layerList, target, style);
+					self.addLayer(id, name, layerList, target, style, false);
 				});
 			} else {
-				self.addLayer(id, name, layerList, target);
+				self.addLayer(id, name, layerList, target, "", false);
 			}
 		}
 	};
@@ -126,8 +126,9 @@ define(['../../../../error/ArgumentError',
 	 * @param layers {Array} list of data layers. From them are paths of layer acquired.
 	 * @param target {JQuery} selector of target element, where will be a layer's control rendered (in a form of checkbox)
 	 * @param style {Object} data about style of the layer
+	 * @param visible {boolean} true, if layer should be visible
 	 */
-	InfoLayersPanel.prototype.addLayer = function(id, name, layers, target, style){
+	InfoLayersPanel.prototype.addLayer = function(id, name, layers, target, style, visible){
 		var layerId = "wms-layer-" + id;
 		var layerPaths = this.getLayerNames(layers);
 		var stylePaths = "";
@@ -139,10 +140,10 @@ define(['../../../../error/ArgumentError',
 		}
 
 		// add layer to the map
-		this._worldWind.layers.addInfoLayer(layerPaths, stylePaths, layerId, layerName, this._id, false);
+		this._worldWind.layers.addInfoLayer(layerPaths, stylePaths, layerId, layerName, this._id, visible);
 
 		// add layer's control to the panel
-		var control = this.addLayerControl(layerId, layerName, target);
+		var control = this.addLayerControl(layerId, layerName, target, visible);
 		var tools = control.getToolBox();
 
 		var layerMetadata = {
