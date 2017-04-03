@@ -104,11 +104,14 @@ define(['../../../error/ArgumentError',
 		this._data = data;
 		this._options = options;
 
-		this.toggleWarning("none");
-		this._worldWind.rebuild(options.config, this._widgetSelector);
-		this._panels.rebuild(options.config, data);
+		var isIn3dMode = $("body").hasClass("mode-3d");
+		if (isIn3dMode){
+			this.toggleWarning("none");
+			this._worldWind.rebuild(this._options.config, this._widgetSelector);
+			this._panels.rebuild(this._options.config, this._data );
 
-		this.handleLoading("hide");
+			this.handleLoading("hide");
+		}
 	};
 
 	/**
