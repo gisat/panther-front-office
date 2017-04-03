@@ -3,6 +3,7 @@ define(['../../error/ArgumentError',
 	'../../util/Logger',
 	'js/stores/Stores',
 
+	'd3',
 	'jquery',
 	'underscore',
 	'worldwind'
@@ -11,6 +12,7 @@ define(['../../error/ArgumentError',
 			Logger,
 			Stores,
 
+			d3,
 			$,
 			_
 ){
@@ -59,22 +61,24 @@ define(['../../error/ArgumentError',
 
 			Stores.retrieve("location").filter(values).then(function(response){
 				if (response.length > 0){
-					var bboxes = [];
+					var points = [];
 					response.forEach(function(location){
 						if (location.bbox){
 							var bbox = location.bbox.split(",");
-							bboxes.push({
-								minLon: Number(bbox[0]),
-								maxLon: Number(bbox[2]),
-								minLat: Number(bbox[3]),
-								maxLat: Number(bbox[1])
-							});
+							var minLon = Number(bbox[0]);
+							var minLat = Number(bbox[1]);
+							var maxLon = Number(bbox[2]);
+							var maxLat = Number(bbox[3]);
+							points.push([minLon,minLat]);
+							points.push([maxLon,maxLat]);
+							points.push(self.getCentroid([[minLon,minLat],[maxLon,maxLat]]));
 						}
 					});
-					var boundingBox = self.getBoundingBox(bboxes);
-					debugger;
-					var position = self.getCentroidCoordinates(boundingBox);
-					self.goTo(new WorldWind.Position(position.lat,position.lon,position.alt));
+					var json = self.getGeoJsonFromPoints(points);
+					var bounds = d3.geoBounds(json);
+					var centroid = self.getCentroid(bounds);
+					var position = self.getPosition(centroid, bounds);
+					self.goTo(new WorldWind.Position(position.lat, position.lon, position.alt));
 				} else {
 					console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "MyGoToAnimator", "setLocation", "emptyResult"));
 					self.goTo(new WorldWind.Location(self._defaultLoc[0],self._defaultLoc[1]));
@@ -86,55 +90,48 @@ define(['../../error/ArgumentError',
 	};
 
 	/**
-	 * Get center of area from bounding box
-	 * @param bbox {Object}
-	 * @param bbox.minLat {number}
-	 * @param bbox.maxLat {number}
-	 * @param bbox.minLon {number}
-	 * @param bbox.maxLon {number}
-	 * @returns {{lat, lon, alt}}
+	 * It converts list of points [lon,lat] to GeoJSON structure
+	 * @param points {Array} list of points
+	 * @returns {Object} GeoJSON
 	 */
-	MyGoToAnimator.prototype.getCentroidCoordinates = function(bbox){
-		if (!bbox){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MyGoToAnimator", "getCentroidCoordinates", "missingParameter"));
-		}
-
-		var lat = (bbox.maxLat + bbox.minLat)/2;
-		var lon = (bbox.maxLon + bbox.minLon)/2;
-
-		// it solves areas crossing date line
-		if (Math.abs(bbox.maxLon - bbox.minLon) > 270  && bbox.maxLon < bbox.minLon){
-			var x = 360 + bbox.minLon + bbox.maxLon;
-			if (x <= 360 ){
-				lon = x/2;
-			} else {
-				lon = x/2 - 360;
-			}
-		}
-
-		// TODO solve areas around poles
-
-		return {
-			lat: lat,
-			lon: lon,
-			alt: this.getAltitude(bbox.maxLat, bbox.minLat, bbox.maxLon, bbox.minLon)
-		}
+	MyGoToAnimator.prototype.getGeoJsonFromPoints = function(points){
+		var json = {
+			"type": "FeatureCollection",
+			"features": []
+		};
+		points.forEach(function(point){
+			json["features"].push({
+				"type": "Feature",
+				"geometry": {
+					"type": "Point",
+					"coordinates": point
+				}
+			})
+		});
+		return json;
 	};
 
 	/**
-	 * Get overall bounding box from smaller bounding boxes
-	 * @param boxes {Array}
-	 * @returns {{minLat, maxLat, minLon, maxLon}}
+	 * Calculate centroid from bounding box
+	 * @param bbox {[[{Number}, {Number}],[{Number}, {Number}]]} bottom left and top right corner of the bounding box
+	 * @returns {[lon,lat]} coordinates of centroid
 	 */
-	MyGoToAnimator.prototype.getBoundingBox = function(boxes){
-		if (!boxes){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MyGoToAnimator", "getBoundingBox", "missingParameter"));
-		}
+	MyGoToAnimator.prototype.getCentroid = function(bbox){
+		var json = this.getGeoJsonFromPoints(bbox);
+		return d3.geoCentroid(json);
+	};
+
+	/**
+	 * Get position for camera from centroid and bbox
+	 * @param centroid {[lon,lat]} coordinates of centroid
+	 * @param bbox {[[{Number}, {Number}],[{Number}, {Number}]]} bottom left and top right corner of the bounding box
+	 * @returns {{lat: number, lon: number, alt: number}}
+	 */
+	MyGoToAnimator.prototype.getPosition = function(centroid, bbox){
 		return {
-			minLat: Math.min.apply(0, boxes.map(function(box) { return box.minLat; })),
-			maxLat: Math.max.apply(0, boxes.map(function(box) { return box.maxLat; })),
-			minLon: Math.min.apply(0, boxes.map(function(box) { return box.minLon; })),
-			maxLon: Math.max.apply(0, boxes.map(function(box) { return box.maxLon; }))
+			lat: centroid[1],
+			lon: centroid[0],
+			alt: this.getAltitude(bbox)
 		}
 	};
 
@@ -143,18 +140,21 @@ define(['../../error/ArgumentError',
 	 * The coefficient is optimized for 16:9 landscape viewports.
 	 * The method is NOT optimised for areas around poles and big areas. In those cases, it returns default value
 	 *
-	 * @param maxLat {number} maximum latitude of bounding box
-	 * @param minLat {number} minimum latitude of bounding box
-	 * @param maxLon {number} maximum longitude of bounding box
-	 * @param minLon {number} maximum latitude of bounding box
+	 * @param bbox {Array}
 	 * @returns {number} altitude in meters
 	 */
-	MyGoToAnimator.prototype.getAltitude = function(maxLat, minLat, maxLon, minLon){
+	MyGoToAnimator.prototype.getAltitude = function(bbox){
+		var box = _.flatten(bbox);
+		var minLon = box[0];
+		var minLat = box[1];
+		var maxLon = box[2];
+		var maxLat = box[3];
+
 		var differenceLat = Math.abs(maxLat - minLat);
 		var differenceLon = Math.abs(maxLon - minLon);
 
 		// for areas crossing date line
-		if (Math.abs(maxLon - minLon) > 270  && maxLon < minLon){
+		if (Math.abs(maxLon - minLon) > 180  && maxLon < minLon){
 			differenceLon = Math.abs(Math.abs(maxLon) - Math.abs(minLon));
 		}
 
