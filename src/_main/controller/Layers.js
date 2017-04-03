@@ -85,11 +85,15 @@ Ext.define('PumaMain.controller.Layers', {
 					this.show();
 					this.setSize(dom.clientWidth+32,dom.clientHeight+52);
 
-					var leftPanel = Ext.ComponentQuery.query('toolspanel')[0]; // TODO - what if no ToolsPanel?
+					if (Config.toggles.useTopToolbar) {
+						this.showBy('app-map','br-br',[-3,-3]);
+					} else {
+						var leftPanel = Ext.ComponentQuery.query('toolspanel')[0]; // TODO - what if no ToolsPanel?
 
-					var heightDiff = Ext.get('app-map').getBox().bottom - Ext.get('sidebar-tools').getBox().bottom;
+						var heightDiff = Ext.get('app-map').getBox().bottom - Ext.get('sidebar-tools').getBox().bottom;
 
-					this.showBy(leftPanel,'bl-br',[50*this.factor+21,-50*this.factor+heightDiff]);
+						this.showBy(leftPanel,'bl-br',[50*this.factor+21,-50*this.factor+heightDiff]);
+					}
 					this.el.setOpacity(0.85)
 				},this);
 			},window,{single:true});
