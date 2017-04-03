@@ -129,10 +129,11 @@ define(['../../../../error/ArgumentError',
 	 * @param id {string} id of the layer
 	 * @param name {string} name of the layer
 	 * @param target {*|jQuery|HTMLElement} Selector of the group
+	 * @param visible {boolean} true, if layer should be visible
 	 */
-	WorldWindWidgetPanel.prototype.addLayerControl = function(id, name, target){
+	WorldWindWidgetPanel.prototype.addLayerControl = function(id, name, target, visible){
 		return new PanelRow({
-			active: false,
+			active: visible,
 			id: id,
 			groupId: this._id,
 			name: name,
