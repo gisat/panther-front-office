@@ -369,6 +369,9 @@ Ext.define('PumaMain.controller.Layers', {
 		this.onLayerDrop();
 	},
 
+	/**
+	 * refactor indexes of selected layers in the store to consecutive integers, maintain order
+	 */
 	resetIndexes: function() {
 		var store = Ext.StoreMgr.lookup('selectedlayers');
 		store.suspendEvents();
@@ -1166,20 +1169,38 @@ Ext.define('PumaMain.controller.Layers', {
 		if (!checked && node.get('legend')) {
 			node.get('legend').destroy();
 		}
+
+		// get view object of layer panel
 		var view = Ext.ComponentQuery.query('#layerpanel')[0].view;
+
+		// get store object
+		var store = Ext.StoreMgr.lookup('selectedlayers');
+
+		// multiple layers from one group, if CTRL key used
 		var multi = false;
 		if (view.lastE && view.lastE.ctrlKey) {
 			multi = true;
 		}
 
+		// reset last event object
 		view.lastE = null;
-		Ext.StoreMgr.lookup('selectedlayers').filter();
+
+		// ? update store content?
+		store.filter();
+
+		// layers in map windows objects
 		var layer1 = node.get('layer1');
 		var layer2 = node.get('layer2');
+
+		// new sortIndex
 		if (checked) {
-			node.set('sortIndex', node.get('sortIndex') - 0.1);
+			var lastIndex = node.get('sortIndex');
+			var newIndex = lastIndex - 0.1;
+			node.set('sortIndex', newIndex);
 		}
 		node.commit();
+
+		// initialize charts if the layer should have any
 		if (node.get('type') == 'chartlayer' && node.get('checked') && !node.initialized) {
 			this.initChartLayer(node);
 			return;
@@ -1188,6 +1209,7 @@ Ext.define('PumaMain.controller.Layers', {
 		var parentType = parentNode.get('type');
 		var nodeType = node.get('type');
 		var self = this;
+
 		if (Ext.Array.contains(['basegroup', 'choroplethgroup', 'thematicgroup', 'systemgroup'], parentType) && checked && !multi && nodeType != 'traffic') {
 			// switching off choropleths
 			if (nodeType == 'areaoutlines') {
@@ -1201,6 +1223,7 @@ Ext.define('PumaMain.controller.Layers', {
 				parentNode = {childNodes: []};
 			}
 
+			// switch off area outlines when choropleth is swithing on
 			if (parentType == 'choroplethgroup') {
 				var anotherNode = parentNode.parentNode.findChild('type', 'systemgroup').findChild('type', 'areaoutlines');
 				anotherNode.set('checked', false);
@@ -1212,6 +1235,8 @@ Ext.define('PumaMain.controller.Layers', {
 				self.hideOtherLayersInTheSameLayerGroup(parentNode, node);
 			}
 		}
+
+		// actual map layer visibility
 		if (layer1.initialized) {
 			layer1.setVisibility(checked);
 		}
@@ -1219,9 +1244,13 @@ Ext.define('PumaMain.controller.Layers', {
 			layer2.setVisibility(checked);
 		}
 
+		// refactor indexes of selected layers in the store to consecutive integers, maintain order
 		this.resetIndexes();
+
+		// perform order changes
 		this.onLayerDrop();
 
+		// Pavels quick solution to bring newly checked layer to front
 		if (checked){
 			if (layer1.initialized) {
 				this.showLayerOnTop(layer1);
