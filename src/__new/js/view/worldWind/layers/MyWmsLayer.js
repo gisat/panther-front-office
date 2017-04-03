@@ -26,6 +26,11 @@ define(['../../../error/ArgumentError',
 		WmsLayer.call(this, options);
 
 		this.sldId = options.sldId;
+
+		if (this.sldId){
+			this.cachePath = options.service + "/" + options.layerNames + "/" + this.sldId;
+		}
+
 		this.urlBuilder = new MyUrlBuilder(
 				options.service, options.layerNames, options.styleNames, options.version,
 			options.timeString, this.sldId);
