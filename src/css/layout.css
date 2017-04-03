@@ -660,6 +660,9 @@ body.intro #content-intro-terms {
     /* background: #ffe6e9; */
     color: #c92d42;
 }
+body.mode-3d #top-toolbar-3dmap {
+    color: #c92d42;
+}
 #top-toolbar .item:not(.disabled) {
 	cursor: pointer;
 }
