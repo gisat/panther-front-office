@@ -242,7 +242,8 @@ Ext.define('PumaMain.controller.AttributeConfig', {
                 padding: 5,
                 cls: 'configform',
                 chart: chart,
-                formType: formType
+                formType: formType,
+				resizable: false
             }],
 			listeners: {
 				// JJJ jak se to dela, aby se listenery prirazovaly v this.control?
