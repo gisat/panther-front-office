@@ -43,7 +43,13 @@ define(['../../../error/ArgumentError',
 	 * @param layer {WorldWind.Layer}
 	 */
 	Layers.prototype.addLayerToMap = function(layer){
-		this._wwd.addLayer(layer);
+		var group = layer.metadata.group;
+		if (group == "au-layers" || group == "background-layers"){
+			this._wwd.addLayer(layer);
+		} else {
+			var position = this._wwd.layers.length - 1;
+			this._wwd.insertLayer(position, layer);
+		}
 		this._wwd.redraw();
 	};
 
