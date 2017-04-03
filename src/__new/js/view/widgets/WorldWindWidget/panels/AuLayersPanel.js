@@ -62,7 +62,11 @@ define(['../../../../error/ArgumentError',
 		var id = "analytical-units";
 		var name = "Area outlines";
 		var layerList = data.layers;
-		this.addLayer(id, name, layerList, this._panelBodySelector, "", true);
+		var style = {
+			path: "au_world_wind",
+			name: null
+		};
+		this.addLayer(id, name, layerList, this._panelBodySelector, style, true);
 	};
 
 	/**
