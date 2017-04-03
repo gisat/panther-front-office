@@ -12,6 +12,9 @@ Ext.define('PumaMain.controller.Layers', {
 			'#layerpanel tool[type=gear]': {
 				click: this.onConfigure
 			},
+			'#window-layerpanel tool[type=gear]': {
+				click: this.onConfigure
+			},
 			'layerpanel' : {
 				choroplethreconfigure: this.onChoroplethReconfigureBtnClick,
 				choroplethremove: this.onChoroplethRemove,
