@@ -31,6 +31,9 @@ define(['../../../error/ArgumentError',
 			this.cachePath = options.service + "/" + options.layerNames + "/" + this.sldId;
 		}
 
+		if (options.opacity){
+			this.opacity = options.opacity;
+		}
 		this.urlBuilder = new MyUrlBuilder(
 				options.service, options.layerNames, options.styleNames, options.version,
 			options.timeString, this.sldId);

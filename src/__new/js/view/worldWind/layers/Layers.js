@@ -241,6 +241,7 @@ define(['../../../error/ArgumentError',
 			layerNames: layerData.layer,
 			levelZeroDelta: new WorldWind.Location(45,45),
 			numLevels: 22,
+			opacity: layerData.opacity/100,
 			format: "image/png",
 			size: 256,
 			sldId: layerData.sldId

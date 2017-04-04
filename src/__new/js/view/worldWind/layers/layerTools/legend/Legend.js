@@ -25,6 +25,7 @@ define(['../../../../../error/ArgumentError',
 	 */
 	var Legend = function(options){
 		LayerTool.apply(this, arguments);
+		this.build();
 	};
 
 	Legend.prototype = Object.create(LayerTool.prototype);
