@@ -26,13 +26,17 @@ define(['../../../../error/ArgumentError',
 	 */
 	var ThematicLayersPanel = function(options){
 		WorldWindWidgetPanel.apply(this, arguments);
-		Stores.listeners.push(this.rebuild.bind(this, "choropleths"));
-		Stores.listeners.push(this.updateChoropleths.bind(this, "updateChoropleths"));
+		this.addListeners();
 
 		this._choropleths = [];
 	};
 
 	ThematicLayersPanel.prototype = Object.create(WorldWindWidgetPanel.prototype);
+
+	ThematicLayersPanel.prototype.addListeners = function(){
+		Stores.listeners.push(this.rebuild.bind(this, "choropleths"));
+		Stores.listeners.push(this.updateChoropleths.bind(this, "updateChoropleths"));
+	};
 
 	/**
 	 * Add checkboxes for current configuration
@@ -40,7 +44,7 @@ define(['../../../../error/ArgumentError',
 	 * @param notification {string}
 	 */
 	ThematicLayersPanel.prototype.rebuild = function(action, notification){
-		if (action == notification){
+		if (action == notification && notification == "choropleths"){
 			this.clear();
 			this._choropleths = Stores.choropleths;
 			if (this._choropleths.length > 0){
@@ -71,7 +75,7 @@ define(['../../../../error/ArgumentError',
 	 */
 	ThematicLayersPanel.prototype.updateChoropleths = function(action, notification){
 		var self = this;
-		if (action == notification){
+		if (action == notification && notification == "updateChoropleths"){
 			this._worldWind.layers.removeAllLayersFromGroup(this._id);
 			// it removes all floaters connected with this panel
 			$("." + this._id + "-floater").remove();

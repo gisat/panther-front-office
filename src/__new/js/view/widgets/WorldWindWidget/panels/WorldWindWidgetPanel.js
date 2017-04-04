@@ -86,7 +86,6 @@ define(['../../../../error/ArgumentError',
 
 		// it removes all floaters connected with this panel
 		$("." + this._id + "-floater").remove();
-
 		this._worldWind.layers.removeAllLayersFromGroup(this._id);
 	};
 
@@ -138,21 +137,6 @@ define(['../../../../error/ArgumentError',
 			groupId: this._id,
 			name: name,
 			target: target
-		});
-	};
-
-	/**
-	 * Build container for layer tools
-	 * @param id {string}
-	 * @param cls {string} panel id
-	 * @param container {JQuery} selector of target element
-	 * @returns {LayerTools}
-	 */
-	WorldWindWidgetPanel.prototype.buildToolBox = function(id, cls, container){
-		return new LayerTools({
-			id: id,
-			class: cls,
-			target: container
 		});
 	};
 
