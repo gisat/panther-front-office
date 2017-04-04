@@ -121,37 +121,56 @@ Ext.define('PumaMain.controller.ViewMng', {
     },
         
     onVisOrViewManage: function(btn) {
-        var window = Ext.widget('window',{
-            layout: 'fit',
-            width: 300,
-            title: btn.itemId == 'managevisualization' ? 'Manage visualizations' : 'Custom views',
-			id: 'window-' + btn.itemId,
-			cls: Config.toggles.useTopToolbar ? 'detached-window' : undefined,
-			closable: !Config.toggles.useTopToolbar,
-            height: 400,
-            y: 200,
-            bodyCls: 'manageDwWindow',
-            items: [{
-                xtype: 'commonmnggrid',
-                allowReorder: btn.itemId == 'managevisualization',
-                store: Ext.StoreMgr.lookup(btn.itemId == 'managevisualization' ? 'visualization4sel':'dataview')
-            }],
-			tools: [{
-				type: 'hide',
-				cls: 'hide',
-				tooltip: 'Hide',
-				itemId: 'hide',
-				hidden: !Config.toggles.useTopToolbar,
-				listeners: {
-					click: {
-						fn: function() {
-							Observer.notify("Tools.hideClick.customviews");
+		if (btn.itemId == 'managevisualization') {
+			var window = Ext.widget('window',{
+				layout: 'fit',
+				width: 300,
+				title: 'Manage visualizations',
+				id: 'window-' + btn.itemId,
+				height: 400,
+				y: 200,
+				bodyCls: 'manageDwWindow',
+				items: [{
+					xtype: 'commonmnggrid',
+					allowReorder: true,
+					store: Ext.StoreMgr.lookup('visualization4sel')
+				}]
+			});
+			window.show();
+		} else {
+			var window2 = Ext.widget('window',{
+				layout: 'fit',
+				width: 300,
+				title: 'Custom views',
+				id: 'window-' + btn.itemId,
+				cls: Config.toggles.useTopToolbar ? 'detached-window' : undefined,
+				closable: !Config.toggles.useTopToolbar,
+				height: 400,
+				y: 200,
+				bodyCls: 'manageDwWindow',
+				items: [{
+					xtype: 'commonmnggrid',
+					allowReorder:false,
+					store: Ext.StoreMgr.lookup('dataview')
+				}],
+				tools: [{
+					type: 'hide',
+					cls: 'hide',
+					tooltip: 'Hide',
+					itemId: 'hide',
+					hidden: !Config.toggles.useTopToolbar,
+					listeners: {
+						click: {
+							fn: function() {
+								Observer.notify("Tools.hideClick.customviews");
+							}
 						}
 					}
-				}
-			}]
-        })
-        window.show();
+				}]
+			});
+			window2.show();
+		}
+
     },
         
     onDataviewLoad: function() {

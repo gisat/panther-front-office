@@ -369,6 +369,9 @@ Ext.define('PumaMain.controller.Layers', {
 		this.onLayerDrop();
 	},
 
+	/**
+	 * refactor indexes of selected layers in the store to consecutive integers, maintain order
+	 */
 	resetIndexes: function() {
 		var store = Ext.StoreMgr.lookup('selectedlayers');
 		store.suspendEvents();
@@ -1163,6 +1166,11 @@ Ext.define('PumaMain.controller.Layers', {
 	 * @param checked {Boolean} State of the checked node.
 	 */
 	onCheckChange: function (node, checked) {
+		var parentNode = node.parentNode;
+		var parentType = parentNode.get('type');
+		var nodeType = node.get('type');
+		var self = this;
+
 		if(node.get('type') == 'traffic') {
 			this.changeVisibilityOfTrafficLayer(node, checked);
 			return;
@@ -1172,28 +1180,59 @@ Ext.define('PumaMain.controller.Layers', {
 		if (!checked && node.get('legend')) {
 			node.get('legend').destroy();
 		}
+
+		// get view object of layer panel
 		var view = Ext.ComponentQuery.query('#layerpanel')[0].view;
+
+		// get store object
+		var store = Ext.StoreMgr.lookup('selectedlayers');
+
+		// multiple layers from one group, if CTRL key used
 		var multi = false;
 		if (view.lastE && view.lastE.ctrlKey) {
 			multi = true;
 		}
 
+		// reset last event object
 		view.lastE = null;
-		Ext.StoreMgr.lookup('selectedlayers').filter();
+
+		// ? update store content?
+		store.filter();
+
+		// layers in map windows objects
 		var layer1 = node.get('layer1');
 		var layer2 = node.get('layer2');
+
+		// new sortIndex
 		if (checked) {
-			node.set('sortIndex', node.get('sortIndex') - 0.1);
+			var firstInCategoryIndex = 8000;
+			var selectedLayers = store.getRange();
+
+			// get the lowest used sortIndex in the same or lower (higher number) category
+			for(var i in selectedLayers){
+				if(!selectedLayers.hasOwnProperty(i)) continue;
+				if(node.id == selectedLayers[i].id) continue; // skip the layer itself
+
+				if(this.getLayerGroupCategory(selectedLayers[i].parentNode.get('type')) >= this.getLayerGroupCategory(parentType)) {
+					// console.debug(selectedLayers[i].get('name') + " (sortIndex: " + selectedLayers[i].get('sortIndex') + ") has the same or lower category");
+					firstInCategoryIndex = Math.min(firstInCategoryIndex, selectedLayers[i].get('sortIndex'));
+				}
+
+			}
+
+			// make new index just a bit lower then the lowest one
+			var newIndex = firstInCategoryIndex - 0.1;
+			// console.debug("# new sortIndex: " + newIndex);
+			node.set('sortIndex', newIndex);
+			node.commit();
 		}
-		node.commit();
+
+		// initialize charts if the layer should have any
 		if (node.get('type') == 'chartlayer' && node.get('checked') && !node.initialized) {
 			this.initChartLayer(node);
 			return;
 		}
-		var parentNode = node.parentNode;
-		var parentType = parentNode.get('type');
-		var nodeType = node.get('type');
-		var self = this;
+
 		if (Ext.Array.contains(['basegroup', 'choroplethgroup', 'thematicgroup', 'systemgroup'], parentType) && checked && !multi && nodeType != 'traffic') {
 			// switching off choropleths
 			if (nodeType == 'areaoutlines') {
@@ -1207,6 +1246,7 @@ Ext.define('PumaMain.controller.Layers', {
 				parentNode = {childNodes: []};
 			}
 
+			// switch off area outlines when choropleth is swithing on
 			if (parentType == 'choroplethgroup') {
 				var anotherNode = parentNode.parentNode.findChild('type', 'systemgroup').findChild('type', 'areaoutlines');
 				anotherNode.set('checked', false);
@@ -1218,6 +1258,8 @@ Ext.define('PumaMain.controller.Layers', {
 				self.hideOtherLayersInTheSameLayerGroup(parentNode, node);
 			}
 		}
+
+		// actual map layer visibility
 		if (layer1.initialized) {
 			layer1.setVisibility(checked);
 		}
@@ -1225,25 +1267,36 @@ Ext.define('PumaMain.controller.Layers', {
 			layer2.setVisibility(checked);
 		}
 
+		// refactor indexes of selected layers in the store to consecutive integers, maintain order
+		store.sort();
 		this.resetIndexes();
+
+		// perform order changes
 		this.onLayerDrop();
 
-		if (checked){
-			if (layer1.initialized) {
-				this.showLayerOnTop(layer1);
-			}
-			if (layer2.initialized) {
-				this.showLayerOnTop(layer2);
-			}
-		}
 	},
 
 	/**
-	 * Move the layer on the top of the map
-	 * @param layer {OpenLayers.Layer}
+	 * Get category of the layergroup
+	 * @param layerGroup {String}
+	 * @returns {*}
 	 */
-	showLayerOnTop: function(layer){
-		$(layer.div).css("z-index", 1000);
+	getLayerGroupCategory: function(layerGroup) {
+		var categories = {
+			0: ['systemgroup'],
+			1: ['choroplethgroup'],
+			// 2: default
+			3: ['basegroup']
+		};
+		var defaultCategory = 2;
+
+		for(var categoryNumber in Object.keys(categories)) {
+			if(!categories.hasOwnProperty(categoryNumber)) continue;
+			if(categories[categoryNumber].indexOf(layerGroup) >= 0) {
+				return categoryNumber;
+			}
+		}
+		return defaultCategory;
 	},
 
 	/**
