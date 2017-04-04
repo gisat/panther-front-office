@@ -20,11 +20,18 @@ define(['../../../../../error/ArgumentError',
 	/**
 	 * Class representing layer opacity control
 	 * @param options {Object}
+	 * @param options.opacityValue {number} value from 0 to 100
 	 * @augments LayerTool
 	 * @constructor
 	 */
 	var Opacity = function(options){
 		LayerTool.apply(this, arguments);
+
+		this._opacityValue = 100;
+		if (this._layerMetadata.opacity){
+			this._opacityValue = this._layerMetadata.opacity;
+		}
+		this.build();
 	};
 
 	Opacity.prototype = Object.create(LayerTool.prototype);
@@ -65,7 +72,7 @@ define(['../../../../../error/ArgumentError',
 			target: this._floaterBodySelector,
 			isRange: false,
 			range: [0,100],
-			values: [100]
+			values: [this._opacityValue]
 		});
 	};
 

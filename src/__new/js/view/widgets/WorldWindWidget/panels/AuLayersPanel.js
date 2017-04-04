@@ -39,19 +39,28 @@ define(['../../../../error/ArgumentError',
 		this.addEventsListeners();
 	};
 
+	/**
+	 * Rebuild AU layers panel.
+	 * @param action
+	 * @param notification
+	 */
 	AuLayersPanel.prototype.rebuild = function(action, notification){
 		if (action == notification && notification == "updateOutlines"){
 			this.clear();
 			var data = Stores.outlines;
+
 			var layer = {
 				id: "analytical-units",
 				name: "Area outlines",
 				layer: data.layerNames,
+				opacity: 70,
 				sldId: data.sldId
 			};
 
 			this._worldWind.layers.addChoroplethLayer(layer, this._id, true);
-			this.addLayerControl(layer.id, layer.name, this._panelBodySelector, true);
+			var panelRow = this.addLayerControl(layer.id, layer.name, this._panelBodySelector, true);
+			var toolBox = panelRow.getToolBox();
+			toolBox.addOpacity(layer, this._worldWind);
 		}
 	};
 

@@ -200,29 +200,27 @@ define(['../../../error/ArgumentError',
 
 	/**
 	 * Add info layer to the list of layers
-	 * @param layerNames {string} list of layers' paths separated by comma
-	 * @param styleNames {string} style path
-	 * @param id {string} id of the layer
-	 * @param name {string} name of layer
+	 * @param layerData {Object}
 	 * @param group {string} name of the group
-	 * @param active {boolean} true, if the layer should be displayed
+	 * @param state {boolean} true, if the layer should be displayed
 	 */
-	Layers.prototype.addInfoLayer = function(layerNames, styleNames, id, name, group, active){
+	Layers.prototype.addInfoLayer = function(layerData, group, state){
 		var layer = new MyWmsLayer({
 			service: Config.url + "api/proxy/wms",
-			layerNames: layerNames,
+			layerNames: layerData.layerPaths,
 			sector: new WorldWind.Sector(-90,90,-180,180),
 			levelZeroDelta: new WorldWind.Location(45,45),
+			opacity: layerData.opacity/100,
 			numLevels: 22,
 			format: "image/png",
 			size: 256,
-			styleNames: styleNames
+			styleNames: layerData.stylePaths
 		}, null);
 		layer.urlBuilder.wmsVersion = "1.3.0";
 		layer.metadata = {
-			active: active,
-			id: id,
-			name: name,
+			active: state,
+			id: layerData.id,
+			name: layerData.name,
 			group: group
 		};
 		this.addLayer(layer);
@@ -241,6 +239,7 @@ define(['../../../error/ArgumentError',
 			layerNames: layerData.layer,
 			levelZeroDelta: new WorldWind.Location(45,45),
 			numLevels: 22,
+			opacity: layerData.opacity/100,
 			format: "image/png",
 			size: 256,
 			sldId: layerData.sldId

@@ -3,8 +3,6 @@ define(['../../../../error/ArgumentError',
 	'../../../../util/Logger',
 
 	'./WorldWindWidgetPanel',
-	'../../../worldWind/layers/layerTools/legend/Legend',
-	'../../../worldWind/layers/layerTools/opacity/Opacity',
 
 	'jquery',
 	'string'
@@ -13,8 +11,6 @@ define(['../../../../error/ArgumentError',
 			Logger,
 
 			WorldWindWidgetPanel,
-			Legend,
-			Opacity,
 
 			$,
 			S
@@ -59,7 +55,7 @@ define(['../../../../error/ArgumentError',
 						name: name
 					};
 					choropleth.layer = layer;
-					self.addLayerControl(layer.id, layer.name, self._panelBodySelector);
+					choropleth.control = self.addLayerControl(layer.id, layer.name, self._panelBodySelector);
 				});
 				this.displayPanel("block");
 			} else {
@@ -87,16 +83,16 @@ define(['../../../../error/ArgumentError',
 						name: choropleth.layer.name,
 						layer: choropleth.data.legendLayer,
 						sldId: choropleth.data.sldId,
-						path: choropleth.data.legendLayer
-
+						path: choropleth.data.legendLayer,
+						opacity: 70
 					};
 					self._worldWind.layers.addChoroplethLayer(layer, self._id, false);
 
 					var toolsContainer = $("#layer-tool-box-" + layer.id);
 					toolsContainer.html('');
-					self.addLegend(layer, self._worldWind, toolsContainer);
-					self.addOpacity(layer, self._worldWind, toolsContainer);
-
+					var toolBox = choropleth.control.getToolBox();
+					toolBox.addLegend(layer, self._worldWind);
+					toolBox.addOpacity(layer, self._worldWind);
 					self.checkIfChoroplethIsSwitchedOn(layer.id);
 				}
 			});
@@ -139,42 +135,6 @@ define(['../../../../error/ArgumentError',
 				self._worldWind.layers.hideLayer(layerId);
 			}
 		},50);
-	};
-
-	/**
-	 * Build legend for layer
-	 * @param worldWind {WorldWindMap}
-	 * @param layerMetadata {Object}
-	 * @param target {JQuery}
-	 * @returns {Legend}
-	 */
-	ThematicLayersPanel.prototype.addLegend = function(layerMetadata, worldWind, target){
-		return new Legend({
-			active: false,
-			class: this._id,
-			name: layerMetadata.name,
-			layerMetadata: layerMetadata,
-			target: target,
-			worldWind: worldWind
-		});
-	};
-
-	/**
-	 * Build opacity tool for layer
-	 * @param worldWind {WorldWindMap}
-	 * @param layerMetadata {Object}
-	 * @param target {JQuery}
-	 * @returns {Opacity}
-	 */
-	ThematicLayersPanel.prototype.addOpacity = function(layerMetadata, worldWind, target){
-		return new Opacity({
-			active: false,
-			class: this._id,
-			name: layerMetadata.name,
-			layerMetadata: layerMetadata,
-			worldWind: worldWind,
-			target: target
-		});
 	};
 
 	return ThematicLayersPanel;

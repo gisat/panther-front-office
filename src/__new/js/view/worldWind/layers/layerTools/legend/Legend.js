@@ -25,6 +25,7 @@ define(['../../../../../error/ArgumentError',
 	 */
 	var Legend = function(options){
 		LayerTool.apply(this, arguments);
+		this.build();
 	};
 
 	Legend.prototype = Object.create(LayerTool.prototype);
@@ -48,8 +49,8 @@ define(['../../../../../error/ArgumentError',
 	 */
 	Legend.prototype.addContent = function(){
 		var style = "";
-		if (this._layerMetadata.stylePath){
-			style = this._layerMetadata.stylePath;
+		if (this._layerMetadata.stylePaths){
+			style = this._layerMetadata.stylePaths;
 		}
 
 		var params = {

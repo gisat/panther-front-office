@@ -44,7 +44,6 @@ define(['../../../../error/ArgumentError',
 		this._layer = this._worldWind.layers.getLayerById(this._layerMetadata.id);
 
 		this._id = "layer-tool-" + this._layerMetadata.id;
-		this.build();
 	};
 
 	LayerTool.prototype.addEventsListener = function(){
