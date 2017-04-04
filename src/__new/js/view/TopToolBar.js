@@ -39,9 +39,9 @@ define([], function () {
 
 			this._target.append('<div class="item disabled" id="top-toolbar-map-tools">Map tools</div>');
 
-			if (Config.auth) {
-				this._target.append('<div class="item disabled" id="top-toolbar-saved-views">Custom views</div>');
-			}
+			var classesCustomViews3d = Config.auth ? "item disabled" : "item disabled hidden";
+			this._target.append('<div class="' + classesCustomViews3d + '" id="top-toolbar-saved-views">Custom views</div>');
+
 
 		} else {
 
@@ -65,10 +65,9 @@ define([], function () {
 			var classesMapTools = $('#window-maptools').hasClass('open') ? "item open" : "item";
 			this._target.append('<div class="' + classesMapTools + '" id="top-toolbar-map-tools" data-for="window-maptools">Map tools</div>');
 
-			if (Config.auth) {
-				var classesCustomViews = $('#window-customviews').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesCustomViews + '" id="top-toolbar-saved-views" data-for="window-customviews">Custom views</div>');
-			}
+			var classesCustomViews = Config.auth ? "item" : "item hidden";
+			classesCustomViews += $('#window-customviews').hasClass('open') ? " open" : "";
+			this._target.append('<div class="' + classesCustomViews + '" id="top-toolbar-saved-views" data-for="window-customviews">Custom views</div>');
 
 		}
 
@@ -77,6 +76,7 @@ define([], function () {
 	TopToolBar.prototype.handleClick = function(e){
 		var targetId = e.target.getAttribute('data-for');
 		if (targetId) {
+			Ext.ComponentQuery.query('#' + targetId)[0].show();
 			$('#' + targetId).toggleClass('open');
 			$(e.target).toggleClass('open');
 		}

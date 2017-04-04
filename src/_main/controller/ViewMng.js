@@ -143,6 +143,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 				width: 300,
 				title: 'Custom views',
 				id: 'window-' + btn.itemId,
+				itemId: 'window-customviews',
 				cls: Config.toggles.useTopToolbar ? 'detached-window' : undefined,
 				closable: !Config.toggles.useTopToolbar,
 				height: 400,
@@ -168,7 +169,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 					}
 				}]
 			});
-			window2.show();
+			//window2.show();
 		}
 
     },

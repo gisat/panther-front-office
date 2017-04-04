@@ -105,8 +105,10 @@ Ext.define('Puma.controller.Login', {
 
             if(loggedIn) {
 				$('#bo-link').show();
+				$('#top-toolbar-saved-views').removeClass('hidden');
             } else {
 				$('#bo-link').hide();
+				$('#top-toolbar-saved-views').addClass('hidden');
             }
 
             this.application.fireEvent('login', loggedIn);

@@ -327,20 +327,20 @@ Ext.define('PumaMain.controller.Render', {
 			renderTo: 'app-tools-accordeon'
 		});
 
-		if (Config.toggles.useTopToolbar){
-
-            // Show widgets windows
-            // TODO - do we need to show them?
-			var widgetIDs = ['layerpanel', 'areatree', 'colourSelection', 'maptools'];
-            if (!Config.toggles.hasNewEvaluationTool){
-				widgetIDs.push('legacyAdvancedFilters');
-			}
-			for (var i in widgetIDs){
-                if(!widgetIDs.hasOwnProperty(i)) continue;
-				var queryResults = Ext.ComponentQuery.query('#window-' + widgetIDs[i]);
-				queryResults[0].show();
-			}
-		}
+		//if (Config.toggles.useTopToolbar){
+		//
+         //   // Show widgets windows
+         //   // TODO - do we need to show them?
+		//	var widgetIDs = ['layerpanel', 'areatree', 'colourSelection', 'maptools'];
+         //   if (!Config.toggles.hasNewEvaluationTool){
+		//		widgetIDs.push('legacyAdvancedFilters');
+		//	}
+		//	for (var i in widgetIDs){
+         //       if(!widgetIDs.hasOwnProperty(i)) continue;
+		//		var queryResults = Ext.ComponentQuery.query('#window-' + widgetIDs[i]);
+		//		queryResults[0].show();
+		//	}
+		//}
 
         Ext.widget('chartbar',{
             renderTo: 'app-reports-accordeon',
