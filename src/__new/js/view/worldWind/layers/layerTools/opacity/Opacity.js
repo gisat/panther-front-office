@@ -28,8 +28,8 @@ define(['../../../../../error/ArgumentError',
 		LayerTool.apply(this, arguments);
 
 		this._opacityValue = 100;
-		if (options.opacityValue){
-			this._opacityValue = options.opacityValue;
+		if (this._layerMetadata.opacity){
+			this._opacityValue = this._layerMetadata.opacity;
 		}
 		this.build();
 	};

@@ -83,8 +83,8 @@ define(['../../../../error/ArgumentError',
 						name: choropleth.layer.name,
 						layer: choropleth.data.legendLayer,
 						sldId: choropleth.data.sldId,
-						path: choropleth.data.legendLayer
-
+						path: choropleth.data.legendLayer,
+						opacity: 70
 					};
 					self._worldWind.layers.addChoroplethLayer(layer, self._id, false);
 

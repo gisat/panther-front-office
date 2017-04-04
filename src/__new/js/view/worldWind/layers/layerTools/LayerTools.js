@@ -79,15 +79,13 @@ define(['../../../../error/ArgumentError',
 	 * Build opacity tool for layer
 	 * @param worldWind {WorldWindMap}
 	 * @param layerMetadata {Object}
-	 * @param value {number} Opacity value (from 0 to 100)
 	 * @returns {Opacity}
 	 */
-	LayerTools.prototype.addOpacity = function(layerMetadata, worldWind, value){
+	LayerTools.prototype.addOpacity = function(layerMetadata, worldWind){
 		return new Opacity({
 			active: false,
 			class: this._class,
 			name: layerMetadata.name,
-			opacityValue: value,
 			layerMetadata: layerMetadata,
 			worldWind: worldWind,
 			target: this._toolsContainer

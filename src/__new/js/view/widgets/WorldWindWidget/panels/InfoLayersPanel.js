@@ -141,19 +141,21 @@ define(['../../../../error/ArgumentError',
 			layerId = layerId + "-" + stylePaths;
 		}
 
+		var layerMetadata = {
+			id: layerId,
+			layerPaths: layerPaths,
+			opacity: 70,
+			stylePaths: stylePaths,
+			name: layerName,
+			path: layerPaths.split(",")[0]
+		};
+
 		// add layer to the map
-		this._worldWind.layers.addInfoLayer(layerPaths, stylePaths, layerId, layerName, this._id, visible);
+		this._worldWind.layers.addInfoLayer(layerMetadata, this._id, visible);
 
 		// add layer's control to the panel
 		var control = this.addLayerControl(layerId, layerName, target, visible);
 		var tools = control.getToolBox();
-
-		var layerMetadata = {
-			id: layerId,
-			name: layerName,
-			stylePath: stylePaths,
-			path: layerPaths.split(",")[0]
-		};
 		tools.addLegend(layerMetadata, this._worldWind);
 		tools.addOpacity(layerMetadata, this._worldWind);
 	};

@@ -60,7 +60,7 @@ define(['../../../../error/ArgumentError',
 			this._worldWind.layers.addChoroplethLayer(layer, this._id, true);
 			var panelRow = this.addLayerControl(layer.id, layer.name, this._panelBodySelector, true);
 			var toolBox = panelRow.getToolBox();
-			toolBox.addOpacity(layer, this._worldWind, 70);
+			toolBox.addOpacity(layer, this._worldWind);
 		}
 	};
 

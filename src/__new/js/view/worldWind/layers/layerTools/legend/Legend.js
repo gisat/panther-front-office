@@ -49,8 +49,8 @@ define(['../../../../../error/ArgumentError',
 	 */
 	Legend.prototype.addContent = function(){
 		var style = "";
-		if (this._layerMetadata.stylePath){
-			style = this._layerMetadata.stylePath;
+		if (this._layerMetadata.stylePaths){
+			style = this._layerMetadata.stylePaths;
 		}
 
 		var params = {
