@@ -420,6 +420,16 @@ Ext.define('PumaMain.controller.Layers', {
 				map2.setLayerIndex(layers2[i],i);
 			}
 		}
+
+		// write sortIndexes of selected layers to the Store
+		layers.reverse();
+		for (var i = 0; i < layers.length; i++) {
+			if (layers[i].parentNode.get('type') != 'basegroup') {
+				layers[i].set('sortIndex', i);
+				layers[i].commit();
+			}
+		}
+		this.resetIndexes();
 	},
 
 	onOpacityChange: function(slider, value) {
