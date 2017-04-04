@@ -83,7 +83,8 @@ var OlMap = {
  */
 var Stores = {
 	choropleths: [],
-	listeners: []
+	listeners: [],
+	outlines: null
 };
 
 /**
@@ -109,4 +110,9 @@ Stores.updateChoropleths = function(attribute, attributeSet, data){
 			Stores.notify('updateChoropleths');
 		}
 	});
+};
+
+Stores.updateOutlines = function(data){
+	Stores.outlines = data;
+	Stores.notify('updateOutlines');
 };

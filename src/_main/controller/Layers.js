@@ -626,12 +626,18 @@ Ext.define('PumaMain.controller.Layers', {
 
 				var attribute = node.data.attribute;
 				var attributeSet = node.data.attributeSet;
+
 				if (node.data.type == "chartlayer" && attribute > 0 && attributeSet > 0){
 					var data = {
 						legendLayer: legendLayer,
 						sldId: id
 					};
 					Stores.updateChoropleths(attribute, attributeSet, data);
+				} else if (node.data.type == "areaoutlines"){
+					Stores.updateOutlines({
+						sldId: id,
+						layerNames: "outlines"
+					});
 				}
 
 				layer.mergeNewParams({

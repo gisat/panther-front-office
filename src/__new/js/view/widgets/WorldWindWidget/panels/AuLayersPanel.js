@@ -3,7 +3,7 @@ define(['../../../../error/ArgumentError',
 	'../../../../util/Logger',
 
 	'../../../../util/RemoteJQ',
-	'./InfoLayersPanel',
+	'./ThematicLayersPanel',
 
 	'jquery',
 	'string'
@@ -12,7 +12,7 @@ define(['../../../../error/ArgumentError',
 			Logger,
 
 			Remote,
-			InfoLayersPanel,
+			ThematicLayersPanel,
 
 			$,
 			S
@@ -23,10 +23,14 @@ define(['../../../../error/ArgumentError',
 	 * @constructor
 	 */
 	var AuLayersPanel = function(options){
-		InfoLayersPanel.apply(this, arguments);
+		ThematicLayersPanel.apply(this, arguments);
 	};
 
-	AuLayersPanel.prototype = Object.create(InfoLayersPanel.prototype);
+	AuLayersPanel.prototype = Object.create(ThematicLayersPanel.prototype);
+
+	AuLayersPanel.prototype.addListeners = function(){
+		Stores.listeners.push(this.rebuild.bind(this, "updateOutlines"));
+	};
 
 	/**
 	 * Add content to panel
@@ -35,63 +39,21 @@ define(['../../../../error/ArgumentError',
 		this.addEventsListeners();
 	};
 
-	/**
-	 * Rebuild panel with current configuration
-	 * @param configuration {Object} configuration from global object ThemeYearConfParams
-	 */
-	AuLayersPanel.prototype.rebuild = function(configuration){
-		if (!configuration){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "AuLayersPanel", "rebuild", "missingParameter"));
+	AuLayersPanel.prototype.rebuild = function(action, notification){
+		if (action == notification && notification == "updateOutlines"){
+			this.clear();
+			var data = Stores.outlines;
+			var layer = {
+				id: "analytical-units",
+				name: "Area outlines",
+				layer: data.layerNames,
+				sldId: data.sldId
+			};
+
+			this._worldWind.layers.addChoroplethLayer(layer, this._id, true);
+			this.addLayerControl(layer.id, layer.name, this._panelBodySelector, true);
 		}
-		this.clear();
-
-		var self = this;
-		this.getLayers(configuration).then(function(result){
-			if (result.hasOwnProperty("data") && result.data.length > 0){
-				self.addLayers(result.data[0]);
-				self.displayPanel("block");
-			} else {
-				self.displayPanel("none");
-			}
-		}).catch(function(err){
-			throw new Error(err);
-		});
 	};
-
-	AuLayersPanel.prototype.addLayers = function(data){
-		var id = "analytical-units";
-		var name = "Area outlines";
-		var layerList = data.layers;
-		var style = {
-			path: "au_world_wind",
-			name: null
-		};
-		this.addLayer(id, name, layerList, this._panelBodySelector, style, true);
-	};
-
-	/**
-	 * Get the layers list from server
-	 * @param configuration {Object} configuration from global object ThemeYearConfParams
-	 */
-	AuLayersPanel.prototype.getLayers = function(configuration){
-		var scope = Number(configuration.dataset);
-		var layerTemplate = Number(configuration.auCurrentAt);
-		var year = JSON.parse(configuration.years);
-		var place = "";
-		if (configuration.place.length > 0){
-			place = [Number(configuration.place)];
-		}
-
-		return new Remote({
-			url: "rest/filtered/au",
-			params: {
-				layerTemplate: layerTemplate,
-				scope: scope,
-				place: place,
-				year: year
-			}}).get();
-	};
-
 
 	return AuLayersPanel;
 });
