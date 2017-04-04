@@ -70,7 +70,7 @@ Ext.define('PumaMain.controller.Area', {
 	showLoading: function(display){
 		$("#loading-screen").css({
 			display: display,
-			background: "radial-gradient(rgba(230, 230, 230, .85), rgba(180, 180, 180, .85))"
+			background: "radial-gradient(rgba(255, 255, 255, .75), rgba(230, 230, 230, .75))"
 		});
 	},
 
