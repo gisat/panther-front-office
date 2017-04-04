@@ -76,7 +76,7 @@ define([], function () {
 	TopToolBar.prototype.handleClick = function(e){
 		var targetId = e.target.getAttribute('data-for');
 		if (targetId) {
-			Ext.ComponentQuery.query('#' + targetId)[0].show();
+			if (targetId == 'window-customviews') Ext.ComponentQuery.query('#window-customviews')[0].show();
 			$('#' + targetId).toggleClass('open');
 			$(e.target).toggleClass('open');
 		}
