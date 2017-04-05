@@ -69,6 +69,10 @@ define([], function () {
 			classesCustomViews += $('#window-customviews').hasClass('open') ? " open" : "";
 			this._target.append('<div class="' + classesCustomViews + '" id="top-toolbar-saved-views" data-for="window-customviews">Custom views</div>');
 
+			var classesCustomLayers = Config.auth ? "item" : "item hidden";
+			classesCustomLayers += $('#floater-customlayers').hasClass('open') ? " open" : "";
+			this._target.append('<div class="' + classesCustomLayers + '" id="top-toolbar-custom-layers" data-for="floater-customlayers">Custom layers</div>');
+
 		}
 
 	};
