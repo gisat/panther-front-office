@@ -47,21 +47,49 @@ define(['../../../../error/ArgumentError',
 	AuLayersPanel.prototype.rebuild = function(action, notification){
 		if (action == notification && notification == "updateOutlines"){
 			this.clear();
-			var data = Stores.outlines;
+			if(Stores.outlines){
+				this.addAreaOutlines(Stores.outlines);
+			}
 
-			var layer = {
-				id: "analytical-units",
-				name: "Area outlines",
-				layer: data.layerNames,
-				opacity: 70,
-				sldId: data.sldId
-			};
+			if(Stores.selectedOutlines) {
+				this.addSelectedAreas(Stores.selectedOutlines);
+			}
 
-			this._worldWind.layers.addChoroplethLayer(layer, this._id, true);
-			var panelRow = this.addLayerControl(layer.id, layer.name, this._panelBodySelector, true);
-			var toolBox = panelRow.getToolBox();
-			toolBox.addOpacity(layer, this._worldWind);
+			// If selected outlines aren't created use just outlines.
+			if(Stores.outlines && !Stores.selectedOutlines) {
+				this.addSelectedAreas(Stores.outlines);
+			}
 		}
+	};
+
+	AuLayersPanel.prototype.addAreaOutlines = function(data) {
+		var layer = {
+			id: "analytical-units",
+			name: "Area outlines",
+			layer: data.layerNames,
+			opacity: 70,
+			sldId: data.sldId
+		};
+
+		this._worldWind.layers.addChoroplethLayer(layer, this._id, true);
+		var panelRow = this.addLayerControl(layer.id, layer.name, this._panelBodySelector, true);
+		var toolBox = panelRow.getToolBox();
+		toolBox.addOpacity(layer, this._worldWind);
+	};
+
+	AuLayersPanel.prototype.addSelectedAreas = function(data) {
+		var layer = {
+			id: "selected-areas-filled",
+			name: "Selected areas filled",
+			layer: data.layerNames,
+			opacity: 70,
+			sldId: data.sldId
+		};
+
+		this._worldWind.layers.addChoroplethLayer(layer, this._id, true);
+		var panelRow = this.addLayerControl(layer.id, layer.name, this._panelBodySelector, true);
+		var toolBox = panelRow.getToolBox();
+		toolBox.addOpacity(layer, this._worldWind);
 	};
 
 	return AuLayersPanel;

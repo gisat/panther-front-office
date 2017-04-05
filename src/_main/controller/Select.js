@@ -28,8 +28,12 @@ Ext.define('PumaMain.controller.Select', {
         this.selMap = {'ff4c39':[]};
         this.colorMap = {};
         this.hoverMap = [];
-        this.actualColor = 'ff4c39';
+        Select.actualColor = this.actualColor = 'ff4c39';
         this.defaultColor = 'ff4c39';
+
+        Select.select = this.selectInternal.bind(this);
+        Select.selectedAreasMap = {};
+        Select.selectedAreasMap[this.actualColor] = [];
     },
     onAfterUnselectRender: function() {
         //Ext.get('app-tools-colors-unselect').on('click',this.clearSelections,this);
@@ -91,7 +95,7 @@ Ext.define('PumaMain.controller.Select', {
         this.selectDelayed(null,null,null,true);
     },
     onChangeColor: function(picker,value) {
-        this.actualColor = value;
+        Select.actualColor = this.actualColor = value;
         this.selMap[value] = this.selMap[value] || [];
         if (this.hoverMap.length) {
             this.hoverMap = [];
@@ -137,7 +141,7 @@ Ext.define('PumaMain.controller.Select', {
                 if (col==this.actualColor) continue;
                 var diff = this.arrDifference(this.selMap[col],newSel);
                 this.selMap[col] = diff;
-            }
+			}
         }
         else {
             this.hoverMap = newSel;
@@ -154,6 +158,8 @@ Ext.define('PumaMain.controller.Select', {
         this.getController('Chart').reconfigure('immediate'); 
         
         this.updateCounts();
+
+		Select.selectedAreasMap = this.selMap;
         
         if (this.selectTask) {
             this.selectTask.cancel();

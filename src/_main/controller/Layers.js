@@ -56,6 +56,7 @@ Ext.define('PumaMain.controller.Layers', {
 		});
 		this.scaleBorderCnst = 10000000;
 		this.scaleBorder = 10000000;
+		Select.colourMap = this.colourMap.bind(this);
 	},
 
 	onConfigure: function() {
@@ -648,7 +649,13 @@ Ext.define('PumaMain.controller.Layers', {
 						sldId: id,
 						layerNames: "outlines"
 					});
+				} else if(node.data.type == "selectedareasfilled") {
+					Stores.updateSelectedOutlines({
+						sldId: id,
+						layerNames: "selectedAreasFilled"
+					})
 				}
+				// TODO: Add information about the selected layers sldId to show the information. .
 
 				layer.mergeNewParams({
 					"SLD_ID": id
