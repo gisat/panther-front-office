@@ -44,11 +44,10 @@ define([
 		var url = Config.url + 'rest/area?latitude='+latitude+'&longitude='+longitude+'&' + layers.join('');
 
 		$.get(url, function(data){
-			// On click switch among selected
 			// Handle showing the layer with selected areas
 
 			if(this.ctrl) {
-				this.selectAreas(data.areas); // ids and locations.
+				this.selectAreas(data.areas);
 			} else {
 				this.switchSelected(data.areas);
 			}
