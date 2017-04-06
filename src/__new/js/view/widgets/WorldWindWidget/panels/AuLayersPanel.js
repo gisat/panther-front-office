@@ -25,7 +25,10 @@ define(['../../../../error/ArgumentError',
 	var AuLayersPanel = function(options){
 		ThematicLayersPanel.apply(this, arguments);
 
-		this._outlines = {};
+		this._layers = {
+			outlines: {},
+			selected: {}
+		};
 	};
 
 	AuLayersPanel.prototype = Object.create(ThematicLayersPanel.prototype);
@@ -46,44 +49,90 @@ define(['../../../../error/ArgumentError',
 	AuLayersPanel.prototype.rebuildContent = function(action, notification){
 		if (action == notification && notification == "updateOutlines"){
 			if (!this._changes || this._changes.scope || this._changes.theme || this._changes.visualization){
-				this.rebuildLayerControl();
-				this.redrawLayer();
+				if(Stores.outlines){
+					this.rebuildOutlinesControl();
+					this.redrawOutlines();
+				}
+
+				if(Stores.selectedOutlines) {
+					this.rebuildSelectedControl();
+					this.redrawSelected();
+				}
+
+				// If selected outlines aren't created use just outlines.
+				if(Stores.outlines && !Stores.selectedOutlines) {
+					this.rebuildOutlinesControl();
+					this.redrawOutlines();
+				}
 			} else {
-				this.redrawLayer();
+				this.redrawOutlines();
+				this.redrawSelected();
 			}
 		}
 	};
 
 	/**
-	 * Rebuild layer control
+	 * Rebuild outlines control
 	 */
-	AuLayersPanel.prototype.rebuildLayerControl = function(){
+	AuLayersPanel.prototype.rebuildOutlinesControl = function(){
 		this.clear();
 
-		var layer = {
+		var outlines = {
 			id: "analytical-units",
 			name: "Area outlines",
 			opacity: 70
 		};
 
-		this._outlines.layerData = layer;
-		this._outlines.control = this.addLayerControl(layer.id, layer.name, this._panelBodySelector, true);
+		this._layers.outlines.layerData = outlines;
+		this._layers.outlines.control = this.addLayerControl(outlines.id, outlines.name, this._panelBodySelector, true);
+	};
+
+	/**
+	 * Rebuild selected control
+	 */
+	AuLayersPanel.prototype.rebuildSelectedControl = function(){
+		this.clear();
+
+		var selected = {
+			id: "selected-areas-filled",
+			name: "Selected areas filled",
+			opacity: 70
+		};
+
+		this._layers.selected.layerData = selected;
+		this._layers.selected.control = this.addLayerControl(selected.id, selected.name, this._panelBodySelector, true);
 	};
 
 	/**
 	 * Redraw layer
 	 */
-	AuLayersPanel.prototype.redrawLayer = function(){
+	AuLayersPanel.prototype.redrawOutlines = function(){
 		this.clearLayers();
-		this._outlines.layerData.layer = Stores.outlines.layerNames;
-		this._outlines.layerData.sldId = Stores.outlines.sldId;
+		this._layers.outlines.layerData.layer = Stores.outlines.layerNames;
+		this._layers.outlines.layerData.sldId = Stores.outlines.sldId;
 
-		this._worldWind.layers.addChoroplethLayer(this._outlines.layerData, this._id, false);
+		this._worldWind.layers.addChoroplethLayer(this._layers.outlines.layerData, this._id, false);
 
-		var toolBox = this._outlines.control.getToolBox();
+		var toolBox = this._layers.outlines.control.getToolBox();
 		toolBox.clear();
-		toolBox.addOpacity(this._outlines.layerData, this._worldWind);
-		this.checkIfLayerIsSwitchedOn(this._outlines.layerData.id);
+		toolBox.addOpacity(this._layers.outlines.layerData, this._worldWind);
+		this.checkIfLayerIsSwitchedOn(this._layers.outlines.layerData.id);
+	};
+
+	/**
+	 * Redraw selected
+	 */
+	AuLayersPanel.prototype.redrawSelected = function(){
+		this.clearLayers();
+		this._layers.selected.layerData.layer = Stores.selectedOutlines.layerNames;
+		this._layers.selected.layerData.sldId = Stores.selectedOutlines.sldId;
+
+		this._worldWind.layers.addChoroplethLayer(this._layers.selected.layerData, this._id, false);
+
+		var toolBox = this._layers.selected.control.getToolBox();
+		toolBox.clear();
+		toolBox.addOpacity(this._layers.selected.layerData, this._worldWind);
+		this.checkIfLayerIsSwitchedOn(this._layers.selected.layerData.id);
 	};
 
 	/**
