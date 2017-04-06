@@ -45,7 +45,9 @@ Ext.define('PumaMain.controller.Map', {
 			'#mapsnapshotbtn': {
 				click: this.onExportMapUrl
 			}
-		})
+		});
+
+		Select.areaStore = Ext.StoreMgr.lookup('area');
 	},
 
 	// URBIS change
