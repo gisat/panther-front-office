@@ -41,10 +41,9 @@ define([
 		var layers = this.getBaseLayerIds().map(layer => {
 			return 'layers[]='+layer+'&';
 		});
-		var url = Config.url + 'rest/area?latitude='+latitude+'&longitude='+longitude+'&' + layers;
+		var url = Config.url + 'rest/area?latitude='+latitude+'&longitude='+longitude+'&' + layers.join('');
 
 		$.get(url, function(data){
-			// On click switch among selected
 			// Handle showing the layer with selected areas
 
 			if(this.ctrl) {
@@ -55,50 +54,45 @@ define([
 		}.bind(this));
 	};
 
-	SelectionController.prototype.switchSelected = function(gids) {
-		var areas = gids.map(function(gid){
+	SelectionController.prototype.switchSelected = function(areas) {
+		Select.select(areas.map(function(area){
 			return {
 				at: ThemeYearConfParams.auCurrentAt,
-				gid: gid,
-				loc: Number(ThemeYearConfParams.place)
+				gid: area.gid,
+				loc: area.location
 			};
-		});
-		Select.select(areas, false, false, 100);
+		}), false, false, 100);
 		Select.colourMap(Select.selectedAreasMap);
 	};
 
 	/**
 	 * It adds all given gids among selected areas.
-	 * @param gids
+	 * @param areas
 	 */
-	SelectionController.prototype.selectAreas = function(gids) {
-		var areas = [];
+	SelectionController.prototype.selectAreas = function(areas) {
+		var areasToSelect = [];
 		var currentlySelected = Select.selectedAreasMap[Select.actualColor];
 
-		gids.forEach(function (gid) {
-			if (ThemeYearConfParams.place) {
-				var unit = {
-					at: ThemeYearConfParams.auCurrentAt,
-					gid: gid,
-					loc: Number(ThemeYearConfParams.place)
-				};
+		areas.forEach(function (area) {
+			var unit = {
+				at: ThemeYearConfParams.auCurrentAt,
+				gid: area.gid,
+				loc: area.location
+			};
 
-				var contained = false;
-				areas = currentlySelected.filter(function (selected) {
-					if (selected.at === unit.at && selected.gid === unit.gid && selected.loc === unit.loc) {
-						contained = true;
-						return false;
-					}
-				});
-				if (!contained) {
-					areas.push(unit);
+			var contained = false;
+			areasToSelect = currentlySelected.filter(function (selected) {
+				if (selected.at === unit.at && selected.gid === unit.gid && selected.loc === unit.loc) {
+					contained = true;
+					return false;
 				}
-			} else {
-				// Handle situation where all places are selected.
+			});
+			if (!contained) {
+				areasToSelect.push(unit);
 			}
 		});
 
-		Select.select(areas, true, false, 100);
+		Select.select(areasToSelect, true, false, 100);
 		Select.colourMap(Select.selectedAreasMap);
 	};
 
