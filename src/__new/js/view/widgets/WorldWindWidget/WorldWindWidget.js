@@ -47,15 +47,26 @@ define(['../../../error/ArgumentError',
 	 * Rebuild with current configuration
 	 * @param data {Object}
 	 * @param options {Object}
-	 * @param options.config {Object} current
+	 * @param options.config {Object} current configuration
+	 * @param options.changes {Object} changes in configuration
 	 */
 	WorldWindWidget.prototype.rebuild = function(data, options){
-		this._options = options;
-
+		this._options = jQuery.extend(true, {}, options);
 		var isIn3dMode = $("body").hasClass("mode-3d");
+
 		if (isIn3dMode){
-			this.rebuildWorldWindWindow();
+			if (this._options.changes.location){
+				this.rebuildWorldWindWindow();
+			}
 			this.rebuildWidgetBody();
+			this._options.changes = {
+				scope: false,
+				location: false,
+				theme: false,
+				period: false,
+				level: false,
+				visualization: false
+			};
 		}
 	};
 
