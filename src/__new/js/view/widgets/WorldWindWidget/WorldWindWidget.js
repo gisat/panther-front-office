@@ -82,7 +82,7 @@ define(['../../../error/ArgumentError',
 	 */
 	WorldWindWidget.prototype.rebuildWidgetBody = function(){
 		this.toggleWarning("none", null);
-		this._panels.rebuild(this._options.config);
+		this._panels.rebuild(this._options);
 		this.handleLoading("hide");
 	};
 
