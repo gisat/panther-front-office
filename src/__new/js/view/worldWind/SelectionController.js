@@ -3,7 +3,6 @@ define([
 	'worldwind'
 ], function ($) {
 	var ClickRecognizer = WorldWind.ClickRecognizer;
-	var Vec2 = WorldWind.Vec2;
 
 	/**
 	 *
@@ -16,7 +15,7 @@ define([
 		// Set it up so that when enabled it handles clicks alongside the LookAtNavigator.
 		new ClickRecognizer(wwd, function (recognizer) {
 			this.retrieveInfoForPoint(recognizer);
-		}.bind(this))
+		}.bind(this));
 
 		this.ctrl = false;
 		$(document).keydown(function(event){
@@ -61,7 +60,7 @@ define([
 				gid: area.gid,
 				loc: area.location
 			};
-		}), false, false, 100);
+		}), false, false);
 		Select.colourMap(Select.selectedAreasMap);
 	};
 
@@ -92,7 +91,7 @@ define([
 			}
 		});
 
-		Select.select(areasToSelect, true, false, 100);
+		Select.select(areasToSelect, true, false);
 		Select.colourMap(Select.selectedAreasMap);
 	};
 
