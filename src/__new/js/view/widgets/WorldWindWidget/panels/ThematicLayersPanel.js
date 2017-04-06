@@ -99,16 +99,5 @@ define(['../../../../error/ArgumentError',
 		}
 	};
 
-	/**
-	 * If checbox for particular layer is checked, show the layer
-	 * @param layerId {string} id of the layer
-	 */
-	ThematicLayersPanel.prototype.checkIfLayerIsSwitchedOn = function(layerId){
-		var checkbox = $(".checkbox-row[data-id=" + layerId +"]");
-		if (checkbox.hasClass("checked")){
-			this._worldWind.layers.showLayer(layerId);
-		}
-	};
-
 	return ThematicLayersPanel;
 });

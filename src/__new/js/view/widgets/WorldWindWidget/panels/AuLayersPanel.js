@@ -62,8 +62,12 @@ define(['../../../../error/ArgumentError',
 				}
 			} else {
 				this.clearLayers();
-				this.redrawOutlines();
-				this.redrawSelected();
+				if(Stores.outlines){
+					this.redrawOutlines();
+				}
+				if(Stores.selectedOutlines) {
+					this.redrawSelected();
+				}
 			}
 		}
 	};

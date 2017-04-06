@@ -62,8 +62,9 @@ define(['../../../error/ArgumentError',
 		}
 
 		this._auLayersPanel.rebuild(options.changes);
+		this._infoLayersPanel.rebuild(options);
+
 		this._wmsLayersPanel.rebuild(options.config);
-		this._infoLayersPanel.rebuild(options.config);
 	};
 
 	/**
