@@ -138,9 +138,8 @@ var Select = {
 	 * @param areas {Area[]} Array of areas to either add to selected or remove from selected.
 	 * @param add {Boolean} True means that the areas with relevant gid will be added among selected
 	 * @param hover {Boolean} Usually will be ignored. Has some implication, which I am not yet sure of.
-	 * @param delay {Number} Amount of milliseconds delaying the requests to the server.
 	 */
-	select: function(areas, add, hover, delay){},
+	select: function(areas, add, hover){},
 
 	/**
 	 * It is replaced by Layers.colourMap
@@ -167,5 +166,10 @@ var Select = {
 	/**
 	 * It represents actual color of selection. It is possible to select the units in multiple colors.
 	 */
-	actualColor: null
+	actualColor: null,
+
+	/**
+	 * Controller for handling Select.
+	 */
+	controller: null
 };
