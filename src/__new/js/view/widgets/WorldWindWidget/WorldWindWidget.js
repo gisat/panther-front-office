@@ -195,7 +195,9 @@ define(['../../../error/ArgumentError',
 	WorldWindWidget.prototype.addMinimiseButtonListener = function(){
 		var self = this;
 		$(this._widgetSelector).find(".widget-minimise").on("click", function(){
+			var id = self._widgetSelector.attr("id");
 			self._widgetSelector.removeClass("open");
+			$(".item[data-for=" + id + "]").removeClass("open");
 		});
 	};
 
