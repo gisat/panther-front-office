@@ -44,23 +44,58 @@ define(['../../../error/ArgumentError',
 	WorldWindWidget.prototype = Object.create(Widget.prototype);
 
 	/**
-	 * Build basic view of the widget
+	 * Rebuild with current configuration
+	 * @param data {Object}
+	 * @param options {Object}
+	 * @param options.config {Object} current configuration
+	 * @param options.changes {Object} changes in configuration
 	 */
-	WorldWindWidget.prototype.build = function(){
-		//this.buildToolIconInHeader("Dock");
-		//this.buildToolIconInHeader("Undock");
-		this.buildBody();
+	WorldWindWidget.prototype.rebuild = function(data, options){
+		this._options = jQuery.extend(true, {}, options);
+		var isIn3dMode = $("body").hasClass("mode-3d");
+
+		if (isIn3dMode){
+			if (this._options.changes.location){
+				this.rebuildWorldWindWindow();
+			}
+			this.rebuildWidgetBody();
+			this._options.changes = {
+				scope: false,
+				location: false,
+				theme: false,
+				period: false,
+				level: false,
+				visualization: false
+			};
+		}
 	};
 
 	/**
-	 * Build the body of widget
+	 * Rebuild map
 	 */
-	WorldWindWidget.prototype.buildBody = function(){
+	WorldWindWidget.prototype.rebuildWorldWindWindow = function(){
+		this._worldWind.rebuild(this._options.config, this._widgetSelector);
+	};
+
+	/**
+	 * Rebuild content of the widget
+	 */
+	WorldWindWidget.prototype.rebuildWidgetBody = function(){
+		this.toggleWarning("none", null);
+		this._panels.rebuild(this._options.config);
+		this.handleLoading("hide");
+	};
+
+	/**
+	 * Build basic view of the widget
+	 */
+	WorldWindWidget.prototype.build = function(){
 		this.addSettingsIcon();
+		this.addSettingsOnClickListener();
 
 		if (!Config.toggles.useNewViewSelector){
 			this._widgetBodySelector.append('<div id="3d-switch">' +
-					'3D map' +
+				'3D map' +
 				'</div>');
 
 			var self = this;
@@ -69,14 +104,12 @@ define(['../../../error/ArgumentError',
 			this.addMinimiseButtonListener();
 		}
 
-		this._worldWindContainer = this._worldWind.getContainer();
-		this._worldWindMap = this._worldWindContainer.find("#world-wind-map");
-
 		this._panels = this.buildPanels();
-
-		this.addSettingsOnClickListener();
 	};
 
+	/**
+	 * Add thematic maps configuration icon the header
+	 */
 	WorldWindWidget.prototype.addSettingsIcon = function(){
 		this._widgetSelector.find(".floater-tools-container")
 			.append('<div id="thematic-layers-configuration" title="Configure thematic maps" class="floater-tool">' +
@@ -85,7 +118,7 @@ define(['../../../error/ArgumentError',
 	};
 
 	/**
-	 * Build particular panels
+	 * Build panels
 	 */
 	WorldWindWidget.prototype.buildPanels = function(){
 		return new WorldWindWidgetPanels({
@@ -93,25 +126,6 @@ define(['../../../error/ArgumentError',
 			target: this._widgetBodySelector,
 			worldWind: this._worldWind
 		})
-	};
-
-	/**
-	 * Rebuild with current configuration
-	 * @param data {Object}
-	 * @param options {Object}
-	 */
-	WorldWindWidget.prototype.rebuild = function(data, options){
-		this._data = data;
-		this._options = options;
-
-		var isIn3dMode = $("body").hasClass("mode-3d");
-		if (isIn3dMode){
-			this.toggleWarning("none");
-			this._worldWind.rebuild(this._options.config, this._widgetSelector);
-			this._panels.rebuild(this._options.config, this._data );
-
-			this.handleLoading("hide");
-		}
 	};
 
 	/**
@@ -129,7 +143,7 @@ define(['../../../error/ArgumentError',
 			body.addClass("mode-3d");
 			self._widgetSelector.addClass("open");
 			self.toggleComponents("none");
-			self.rebuild(self._data, self._options);
+			self.rebuild(null, self._options);
 		}
 
 		if (this._topToolBar){
@@ -161,12 +175,18 @@ define(['../../../error/ArgumentError',
 
 	};
 
+	/**
+	 * Add onclick listener to the settings icon
+	 */
 	WorldWindWidget.prototype.addSettingsOnClickListener = function(){
 		$("#thematic-layers-configuration").on("click", function(){
 			Observer.notify("thematicMapsSettings");
 		});
 	};
 
+	/**
+	 * Add listener to the minimise button
+	 */
 	WorldWindWidget.prototype.addMinimiseButtonListener = function(){
 		var self = this;
 		$(this._widgetSelector).find(".widget-minimise").on("click", function(){

@@ -34,12 +34,10 @@ define([
 	var FrontOffice = function(options) {
 		this.loadData();
 		this._attributesMetadata = options.attributesMetadata;
-		this._analyticalUnits = options.analyticalUnits;
 
 		this._options = options.widgetOptions;
 		this._tools = options.tools;
 		this._widgets = options.widgets;
-		this._widgets3D = options.widgets3D;
 
 		this._dataset = null;
 		Observer.addListener("rebuild", this.rebuild.bind(this));
@@ -114,9 +112,9 @@ define([
 		this._widgets.forEach(function(widget){
 			widget.rebuild(data, self._options);
 		});
-		this._widgets3D.forEach(function(widget){
-			widget.rebuild(data, self._options);
-		});
+		//this._widgets3D.forEach(function(widget){
+		//	widget.rebuild(data, self._options);
+		//});
 	};
 
 	/**
