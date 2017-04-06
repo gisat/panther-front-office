@@ -51,14 +51,14 @@ define(['../../../../error/ArgumentError',
 			if (!this._changes || this._changes.scope || this._changes.theme || this._changes.visualization){
 				this.clear();
 
-				if(Stores.outlines){
-					this.rebuildOutlinesControl();
-					this.redrawOutlines();
-				}
-
 				if(Stores.selectedOutlines) {
 					this.rebuildSelectedControl();
 					this.redrawSelected();
+				}
+
+				if(Stores.outlines){
+					this.rebuildOutlinesControl();
+					this.redrawOutlines();
 				}
 			} else {
 				this.clearLayers();
