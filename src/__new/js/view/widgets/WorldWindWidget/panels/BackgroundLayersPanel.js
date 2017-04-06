@@ -22,6 +22,7 @@ define(['../../../../error/ArgumentError',
 	 */
 	var BackgroundLayersPanel = function(options){
 		WorldWindWidgetPanel.apply(this, arguments);
+		this.addContent();
 	};
 
 	BackgroundLayersPanel.prototype = Object.create(WorldWindWidgetPanel.prototype);

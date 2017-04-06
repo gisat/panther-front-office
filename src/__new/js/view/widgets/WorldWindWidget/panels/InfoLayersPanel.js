@@ -31,13 +31,6 @@ define(['../../../../error/ArgumentError',
 	InfoLayersPanel.prototype = Object.create(WorldWindWidgetPanel.prototype);
 
 	/**
-	 * Add content to panel
-	 */
-	InfoLayersPanel.prototype.addContent = function(){
-		this.addEventsListeners();
-	};
-
-	/**
 	 * Rebuild panel with current configuration
 	 * @param configuration {Object} configuration from global object ThemeYearConfParams
 	 */
@@ -174,29 +167,6 @@ define(['../../../../error/ArgumentError',
 		} else {
 			return layers[0].path;
 		}
-	};
-
-	/**
-	 * Add listeners
-	 */
-	InfoLayersPanel.prototype.addEventsListeners = function(){
-		this.addCheckboxOnClickListener();
-	};
-
-	/**
-	 * Hide/show layers
-	 */
-	InfoLayersPanel.prototype.toggleLayer = function(event){
-		var self = this;
-		setTimeout(function(){
-			var checkbox = $(event.currentTarget);
-			var layerId = checkbox.attr("data-id");
-			if (checkbox.hasClass("checked")){
-				self._worldWind.layers.showLayer(layerId);
-			} else {
-				self._worldWind.layers.hideLayer(layerId);
-			}
-		},50);
 	};
 
 	/**

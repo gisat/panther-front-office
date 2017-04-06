@@ -126,12 +126,5 @@ define(['../../../../error/ArgumentError',
 		this.checkIfLayerIsSwitchedOn(this._layers.selected.layerData.id);
 	};
 
-	/**
-	 * Add content to panel
-	 */
-	AuLayersPanel.prototype.addContent = function(){
-		this.addEventsListeners();
-	};
-
 	return AuLayersPanel;
 });

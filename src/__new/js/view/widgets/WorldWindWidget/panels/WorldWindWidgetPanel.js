@@ -75,7 +75,14 @@ define(['../../../../error/ArgumentError',
 		this._panelBodySelector = $("#" + this._id + "-panel-body");
 		this.toggleState(this._isOpen);
 
-		this.addContent();
+		this.addEventsListeners();
+	};
+
+	/**
+	 * Add listeners
+	 */
+	WorldWindWidgetPanel.prototype.addEventsListeners = function(){
+		this.addCheckboxOnClickListener();
 	};
 
 	/**
@@ -199,6 +206,22 @@ define(['../../../../error/ArgumentError',
 	 */
 	WorldWindWidgetPanel.prototype.addCheckboxOnClickListener = function(){
 		this._panelBodySelector.on("click", ".checkbox-row", this.toggleLayer.bind(this));
+	};
+
+	/**
+	 * Hide/show layers
+	 */
+	WorldWindWidgetPanel.prototype.toggleLayer = function(event){
+		var self = this;
+		setTimeout(function(){
+			var checkbox = $(event.currentTarget);
+			var layerId = checkbox.attr("data-id");
+			if (checkbox.hasClass("checked")){
+				self._worldWind.layers.showLayer(layerId);
+			} else {
+				self._worldWind.layers.hideLayer(layerId);
+			}
+		},50);
 	};
 
 	return WorldWindWidgetPanel;

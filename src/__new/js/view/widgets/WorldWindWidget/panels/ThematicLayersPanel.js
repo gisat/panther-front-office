@@ -110,32 +110,5 @@ define(['../../../../error/ArgumentError',
 		}
 	};
 
-	ThematicLayersPanel.prototype.addContent = function(){
-		this.addEventsListeners();
-	};
-
-	/**
-	 * Add listeners
-	 */
-	ThematicLayersPanel.prototype.addEventsListeners = function(){
-		this.addCheckboxOnClickListener();
-	};
-
-	/**
-	 * Hide/show layers
-	 */
-	ThematicLayersPanel.prototype.toggleLayer = function(event){
-		var self = this;
-		setTimeout(function(){
-			var checkbox = $(event.currentTarget);
-			var layerId = checkbox.attr("data-id");
-			if (checkbox.hasClass("checked")){
-				self._worldWind.layers.showLayer(layerId);
-			} else {
-				self._worldWind.layers.hideLayer(layerId);
-			}
-		},50);
-	};
-
 	return ThematicLayersPanel;
 });
