@@ -84,10 +84,8 @@ define(['js/util/metadata/Attributes',
     $(document).ready(function() {
         var tools = [];
         var widgets = [];
-        var widgets3D = [];
 
         var attributes = buildAttributes();
-        var analyticalUnits = buildAnalyticalUnits();
 
         var filter = buildFilter();
         var olMap = buildOpenLayersMap();
@@ -99,7 +97,6 @@ define(['js/util/metadata/Attributes',
         if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
             var webWorldWind = buildWorldWindMap();
             widgets.push(buildWorldWindWidget(webWorldWind, topToolBar));
-            //widgets3D.push(buildMapDiagramsWidget(webWorldWind, filter));
         }
         if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
             widgets.push(buildEvaluationWidget(filter));
@@ -117,13 +114,11 @@ define(['js/util/metadata/Attributes',
         // build app, map is class for OpenLayers map
         new FrontOffice({
             attributesMetadata: attributes,
-            analyticalUnits: analyticalUnits,
             tools: tools,
             widgets: widgets,
             widgetOptions: {
                 olMap: olMap
-            },
-            widgets3D: widgets3D
+            }
         });
 
         var widgetElement = $("#widget-container");
@@ -175,14 +170,6 @@ define(['js/util/metadata/Attributes',
      */
     function buildAttributes (){
         return new Attributes();
-    }
-
-    /**
-     * Build AnalyticalUnits instance
-     * @returns {AnalyticalUnits}
-     */
-    function buildAnalyticalUnits (){
-        return new AnalyticalUnits();
     }
 
 	/**
@@ -259,21 +246,6 @@ define(['js/util/metadata/Attributes',
                 options: ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016']
             }]
         })
-    }
-
-    /**
-     * Build MapDiagramsWidget instance
-     * @param webWorldWind {WorldWindMap}
-     * @param filter {Filter}
-     * @returns {MapDiagramsWidget}
-     */
-    function buildMapDiagramsWidget (webWorldWind, filter){
-        return new MapDiagramsWidget({
-            id: 'map-diagrams-widget',
-            name: 'Map Diagrams',
-            filter: filter,
-            worldWind: webWorldWind
-        });
     }
 
     /**
