@@ -93,7 +93,7 @@ define(['../../../../error/ArgumentError',
 					var toolBox = choropleth.control.getToolBox();
 					toolBox.addLegend(layer, self._worldWind);
 					toolBox.addOpacity(layer, self._worldWind);
-					self.checkIfChoroplethIsSwitchedOn(layer.id);
+					self.checkIfLayerIsSwitchedOn(layer.id);
 				}
 			});
 		}
@@ -103,7 +103,7 @@ define(['../../../../error/ArgumentError',
 	 * If checbox for particular layer is checked, show the layer
 	 * @param layerId {string} id of the layer
 	 */
-	ThematicLayersPanel.prototype.checkIfChoroplethIsSwitchedOn = function(layerId){
+	ThematicLayersPanel.prototype.checkIfLayerIsSwitchedOn = function(layerId){
 		var checkbox = $(".checkbox-row[data-id=" + layerId +"]");
 		if (checkbox.hasClass("checked")){
 			this._worldWind.layers.showLayer(layerId);

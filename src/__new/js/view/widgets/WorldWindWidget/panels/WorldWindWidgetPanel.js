@@ -83,7 +83,13 @@ define(['../../../../error/ArgumentError',
 	 */
 	WorldWindWidgetPanel.prototype.clear = function(){
 		this._panelBodySelector.html('');
+		this.clearLayers();
+	};
 
+	/**
+	 * Remove all layers from specific group from map
+	 */
+	WorldWindWidgetPanel.prototype.clearLayers = function(){
 		// it removes all floaters connected with this panel
 		$("." + this._id + "-floater").remove();
 		this._worldWind.layers.removeAllLayersFromGroup(this._id);

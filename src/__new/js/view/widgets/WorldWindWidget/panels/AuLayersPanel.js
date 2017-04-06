@@ -24,19 +24,18 @@ define(['../../../../error/ArgumentError',
 	 */
 	var AuLayersPanel = function(options){
 		ThematicLayersPanel.apply(this, arguments);
+
+		this._outlines = {};
 	};
 
 	AuLayersPanel.prototype = Object.create(ThematicLayersPanel.prototype);
 
 	AuLayersPanel.prototype.addListeners = function(){
-		Stores.listeners.push(this.rebuild.bind(this, "updateOutlines"));
+		Stores.listeners.push(this.rebuildContent.bind(this, "updateOutlines"));
 	};
 
-	/**
-	 * Add content to panel
-	 */
-	AuLayersPanel.prototype.addContent = function(){
-		this.addEventsListeners();
+	AuLayersPanel.prototype.rebuild = function(changes){
+		this._changes = changes;
 	};
 
 	/**
@@ -44,24 +43,54 @@ define(['../../../../error/ArgumentError',
 	 * @param action
 	 * @param notification
 	 */
-	AuLayersPanel.prototype.rebuild = function(action, notification){
+	AuLayersPanel.prototype.rebuildContent = function(action, notification){
 		if (action == notification && notification == "updateOutlines"){
-			this.clear();
-			var data = Stores.outlines;
-
-			var layer = {
-				id: "analytical-units",
-				name: "Area outlines",
-				layer: data.layerNames,
-				opacity: 70,
-				sldId: data.sldId
-			};
-
-			this._worldWind.layers.addChoroplethLayer(layer, this._id, true);
-			var panelRow = this.addLayerControl(layer.id, layer.name, this._panelBodySelector, true);
-			var toolBox = panelRow.getToolBox();
-			toolBox.addOpacity(layer, this._worldWind);
+			if (!this._changes || this._changes.scope || this._changes.theme || this._changes.visualization){
+				this.rebuildLayerControl();
+				this.redrawLayer();
+			} else {
+				this.redrawLayer();
+			}
 		}
+	};
+
+	/**
+	 * Rebuild layer control
+	 */
+	AuLayersPanel.prototype.rebuildLayerControl = function(){
+		this.clear();
+
+		var layer = {
+			id: "analytical-units",
+			name: "Area outlines",
+			opacity: 70
+		};
+
+		this._outlines.layerData = layer;
+		this._outlines.control = this.addLayerControl(layer.id, layer.name, this._panelBodySelector, true);
+	};
+
+	/**
+	 * Redraw layer
+	 */
+	AuLayersPanel.prototype.redrawLayer = function(){
+		this.clearLayers();
+		this._outlines.layerData.layer = Stores.outlines.layerNames;
+		this._outlines.layerData.sldId = Stores.outlines.sldId;
+
+		this._worldWind.layers.addChoroplethLayer(this._outlines.layerData, this._id, false);
+
+		var toolBox = this._outlines.control.getToolBox();
+		toolBox.clear();
+		toolBox.addOpacity(this._outlines.layerData, this._worldWind);
+		this.checkIfLayerIsSwitchedOn(this._outlines.layerData.id);
+	};
+
+	/**
+	 * Add content to panel
+	 */
+	AuLayersPanel.prototype.addContent = function(){
+		this.addEventsListeners();
 	};
 
 	return AuLayersPanel;
