@@ -49,6 +49,8 @@ define(['../../../../error/ArgumentError',
 	AuLayersPanel.prototype.rebuildContent = function(action, notification){
 		if (action == notification && notification == "updateOutlines"){
 			if (!this._changes || this._changes.scope || this._changes.theme || this._changes.visualization){
+				this.clear();
+
 				if(Stores.outlines){
 					this.rebuildOutlinesControl();
 					this.redrawOutlines();
@@ -58,13 +60,8 @@ define(['../../../../error/ArgumentError',
 					this.rebuildSelectedControl();
 					this.redrawSelected();
 				}
-
-				// If selected outlines aren't created use just outlines.
-				if(Stores.outlines && !Stores.selectedOutlines) {
-					this.rebuildOutlinesControl();
-					this.redrawOutlines();
-				}
 			} else {
+				this.clearLayers();
 				this.redrawOutlines();
 				this.redrawSelected();
 			}
@@ -75,8 +72,6 @@ define(['../../../../error/ArgumentError',
 	 * Rebuild outlines control
 	 */
 	AuLayersPanel.prototype.rebuildOutlinesControl = function(){
-		this.clear();
-
 		var outlines = {
 			id: "analytical-units",
 			name: "Area outlines",
@@ -91,8 +86,6 @@ define(['../../../../error/ArgumentError',
 	 * Rebuild selected control
 	 */
 	AuLayersPanel.prototype.rebuildSelectedControl = function(){
-		this.clear();
-
 		var selected = {
 			id: "selected-areas-filled",
 			name: "Selected areas filled",
@@ -107,7 +100,6 @@ define(['../../../../error/ArgumentError',
 	 * Redraw layer
 	 */
 	AuLayersPanel.prototype.redrawOutlines = function(){
-		this.clearLayers();
 		this._layers.outlines.layerData.layer = Stores.outlines.layerNames;
 		this._layers.outlines.layerData.sldId = Stores.outlines.sldId;
 
@@ -123,7 +115,6 @@ define(['../../../../error/ArgumentError',
 	 * Redraw selected
 	 */
 	AuLayersPanel.prototype.redrawSelected = function(){
-		this.clearLayers();
 		this._layers.selected.layerData.layer = Stores.selectedOutlines.layerNames;
 		this._layers.selected.layerData.sldId = Stores.selectedOutlines.sldId;
 
