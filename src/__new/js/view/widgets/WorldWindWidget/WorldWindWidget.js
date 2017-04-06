@@ -104,6 +104,11 @@ define(['../../../error/ArgumentError',
 			this.addMinimiseButtonListener();
 		}
 
+		this._widgetSelector.css({
+			height: widgets.layerpanel.height,
+			top: widgets.layerpanel.ptrWindow.y,
+			left: widgets.layerpanel.ptrWindow.x
+		});
 		this._panels = this.buildPanels();
 	};
 
