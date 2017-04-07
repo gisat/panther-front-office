@@ -95,7 +95,11 @@ Ext.define('PumaMain.controller.DomManipulation', {
 	resizeReports: function() {
 		var availableSize = this.getContentAvailableSize();
 		$("#sidebar-reports").height(availableSize.height);
-		$("#app-reports-accordeon").height(availableSize.height - $("#app-reports-paging").outerHeight(true));
+		if(Config.toggles.isSnow) {
+			$("#app-extra-content").height(availableSize.height);
+		} else {
+			$("#app-reports-accordeon").height(availableSize.height - $("#app-reports-paging").outerHeight(true));
+		}
 	},
 	
 	activateMapSplit: function() {

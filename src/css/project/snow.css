@@ -1,0 +1,15 @@
+.snow #sidebar-reports-add {
+	display: none;
+}
+
+.snow #app-reports-paging {
+	display: none;
+}
+
+.snow #app-reports-accordeon {
+	display: none;
+}
+
+.snow #app-extra-content {
+	display: block;
+}

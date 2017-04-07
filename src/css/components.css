@@ -261,6 +261,10 @@
 	overflow: auto;
 }
 
+#app-extra-content {
+	display: none;
+}
+
 #app-reports-paging .x-btn,
 #app-reports-paging .x-field {
 	height: auto;
