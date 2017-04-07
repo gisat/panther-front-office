@@ -41,22 +41,15 @@ define(['../../../../error/ArgumentError',
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "InfoLayersPanel", "constructor", "missingParameter"));
 		}
 
-		this._changes = options.changes;
+
 		this._groupId = "topiclayer";
 
-		//if (!this._changes || this._changes.scope || this._changes.theme || this._changes.visualization){
-			this.clear(this._id);
-			this._buildGroups = true;
-		//}
-		//else {
-		//	this.clearLayers();
-		//	this._buildGroups = false;
-		//}
+		this.clear(this._id);
 
 		var self = this;
 		this.getLayersFromAPI(options.config).then(function(result){
 			if (result.hasOwnProperty("data") && result.data.length > 0){
-				self.addGroups(result.data, self._buildGroups);
+				self.addGroups(result.data);
 				self.switchOnActiveLayers(self._groupId);
 				self.displayPanel("block");
 			} else {
@@ -70,15 +63,12 @@ define(['../../../../error/ArgumentError',
 	/**
 	 * It adds groups and layers to panel
 	 * @param data {Array} list of layer groups
-	 * @param buildGroups {boolean} true if info layers groups should be rendered
 	 */
-	InfoLayersPanel.prototype.addGroups = function(data, buildGroups){
+	InfoLayersPanel.prototype.addGroups = function(data){
 		var self = this;
 		var target = null;
 		data.forEach(function(group){
-			if (buildGroups){
-				target = self.addLayerGroup(group.name.replace(/ /g, '_'), group.name);
-			}
+			target = self.addLayerGroup(group.name.replace(/ /g, '_'), group.name);
 			self.addLayersToGroup(target, group.layers);
 		});
 	};
@@ -151,7 +141,8 @@ define(['../../../../error/ArgumentError',
 			layerId = layerId + "-" + stylePaths;
 		}
 
-		var layerData = {
+		var layer = {};
+		layer.data = {
 			id: layerId,
 			layerPaths: layerPaths,
 			opacity: 70,
@@ -159,18 +150,10 @@ define(['../../../../error/ArgumentError',
 			name: layerName,
 			path: layerPaths.split(",")[0]
 		};
+		layer.control = this.addLayerControl(layerId, layerName, target, visible);
 
-		//var layer = this.getLayerIfExists(layerId);
-
-		//if (layer){
-		//	layer.data = layerData;
-		//	this.rebuildLayer(layer);
-		//} else {
-			var layer = {data: layerData};
-			layer.control = this.addLayerControl(layerId, layerName, target, visible);
-			this.rebuildLayer(layer);
-			this._infoLayers.push(layer);
-		//}
+		this.rebuildLayer(layer);
+		this._infoLayers.push(layer);
 	};
 
 	/**
@@ -178,26 +161,11 @@ define(['../../../../error/ArgumentError',
 	 * @param layer {Object}
 	 */
 	InfoLayersPanel.prototype.rebuildLayer = function(layer){
-		var toolBox = layer.control.getToolBox();
-		toolBox.clear();
-
 		this._worldWind.layers.addInfoLayer(layer.data, this._id, false);
 		var tools = layer.control.getToolBox();
+		tools.clear();
 		tools.addLegend(layer.data, this._worldWind);
 		tools.addOpacity(layer.data, this._worldWind);
-
-		//this.checkIfLayerIsSwitchedOn(layer.data.id);
-	};
-
-	/**
-	 * It returns data about layer if it is in the list already
-	 * @param id {string} id of the layer
-	 * @returns {Object} data about layer
-	 */
-	InfoLayersPanel.prototype.getLayerIfExists = function(id){
-		return _.find(this._infoLayers, function(layer){
-			return  layer.data.id == id;
-		});
 	};
 
 	/**

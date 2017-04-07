@@ -49,16 +49,36 @@ define(['../../../error/ArgumentError',
 	/**
 	 * Add layer to the map
 	 * @param layer {WorldWind.Layer}
+	 * @param order {number} order of the layer among other layers
 	 */
-	Layers.prototype.addLayerToMap = function(layer){
+	Layers.prototype.addLayerToMap = function(layer, order){
 		var group = layer.metadata.group;
-		if (group == "areaoutlines" || group == "selectedareasfilled" || group == "background-layers"){
-			this._wwd.addLayer(layer);
-		} else {
-			var position = this._wwd.layers.length - 1;
+		if (order >= 0){
+			var position = this.findLayerZposition(order);
 			this._wwd.insertLayer(position, layer);
+		} else {
+			this._wwd.addLayer(layer);
 		}
 		this._wwd.redraw();
+	};
+
+	/**
+	 * @param order {number} order in 2D
+	 * @returns {number} position in world wind layers
+	 */
+	Layers.prototype.findLayerZposition = function(order){
+		var layers = this._wwd.layers;
+		var position = null;
+		layers.forEach(function (layer, index) {
+			if ((layer.metadata.order >= 0) && (order > layer.metadata.order) && !position){
+				position = index;
+			}
+		});
+		if (position){
+			return position;
+		} else {
+			return layers.length;
+		}
 	};
 
 	/**
@@ -116,11 +136,13 @@ define(['../../../error/ArgumentError',
 	/**
 	 * Show the layer in map
 	 * @param id {string} Id of the layer
+	 * @param order {number} order of the layer among other layers
 	 */
-	Layers.prototype.showLayer = function(id){
+	Layers.prototype.showLayer = function(id, order){
 		var layer = this.getLayerById(id);
 		layer.metadata.active = true;
-		this.addLayerToMap(layer);
+		layer.metadata.order = order;
+		this.addLayerToMap(layer, order);
 	};
 
 	/**

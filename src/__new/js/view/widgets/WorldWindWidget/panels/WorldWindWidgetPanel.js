@@ -94,10 +94,9 @@ define(['../../../../error/ArgumentError',
 	};
 
 	/**
-	 * Remove all layers from specific group from map
+	 * Remove all layers from specific group from map and all floaters connected with this group
 	 */
 	WorldWindWidgetPanel.prototype.clearLayers = function(group){
-		// it removes all floaters connected with this panel
 		$("." + group + "-floater").remove();
 		this._worldWind.layers.removeAllLayersFromGroup(group);
 	};
@@ -209,7 +208,8 @@ define(['../../../../error/ArgumentError',
 	};
 
 	/**
-	 * Hide/show layers
+	 * Hide/show layer
+	 * @param event {Object}
 	 */
 	WorldWindWidgetPanel.prototype.toggleLayer = function(event){
 		var self = this;
@@ -217,7 +217,7 @@ define(['../../../../error/ArgumentError',
 			var checkbox = $(event.currentTarget);
 			var layerId = checkbox.attr("data-id");
 			if (checkbox.hasClass("checked")){
-				self._worldWind.layers.showLayer(layerId);
+				this._worldWind.layers.showLayer(layerId);
 			} else {
 				self._worldWind.layers.hideLayer(layerId);
 			}
@@ -225,16 +225,9 @@ define(['../../../../error/ArgumentError',
 	};
 
 	/**
-	 * If checbox for particular layer is checked, show the layer
-	 * @param layerId {string} id of the layer
+	 * Go through the list of active layers and turn on all active layers from a group
+	 * @param groupId {string} id of the group
 	 */
-	WorldWindWidgetPanel.prototype.checkIfLayerIsSwitchedOn = function(layerId){
-		var checkbox = $(".checkbox-row[data-id=" + layerId +"]");
-		if (checkbox.hasClass("checked")){
-			this._worldWind.layers.showLayer(layerId);
-		}
-	};
-
 	WorldWindWidgetPanel.prototype.switchOnActiveLayers = function(groupId){
 		var activeLayers = Stores.activeLayers;
 		var self = this;
@@ -242,7 +235,7 @@ define(['../../../../error/ArgumentError',
 			if (layer.group == groupId){
 				var checkbox = $(".checkbox-row[data-id=" + layer.id +"]");
 				checkbox.addClass("checked");
-				self.toggleLayer({currentTarget: checkbox});
+				self._worldWind.layers.showLayer(layer.id, layer.order);
 			}
 		});
 	};
