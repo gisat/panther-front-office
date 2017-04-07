@@ -105,7 +105,7 @@ define(['../../../error/ArgumentError',
 		}
 
 		this._widgetSelector.css({
-			height: widgets.layerpanel.height,
+			height: widgets.layerpanel.height + 40,
 			top: widgets.layerpanel.ptrWindow.y,
 			left: widgets.layerpanel.ptrWindow.x
 		});
