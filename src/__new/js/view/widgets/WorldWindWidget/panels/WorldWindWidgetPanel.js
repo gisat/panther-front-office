@@ -88,18 +88,18 @@ define(['../../../../error/ArgumentError',
 	/**
 	 * Remove all layers from this panel
 	 */
-	WorldWindWidgetPanel.prototype.clear = function(){
+	WorldWindWidgetPanel.prototype.clear = function(group){
 		this._panelBodySelector.html('');
-		this.clearLayers();
+		this.clearLayers(group);
 	};
 
 	/**
 	 * Remove all layers from specific group from map
 	 */
-	WorldWindWidgetPanel.prototype.clearLayers = function(){
+	WorldWindWidgetPanel.prototype.clearLayers = function(group){
 		// it removes all floaters connected with this panel
-		$("." + this._id + "-floater").remove();
-		this._worldWind.layers.removeAllLayersFromGroup(this._id);
+		$("." + group + "-floater").remove();
+		this._worldWind.layers.removeAllLayersFromGroup(group);
 	};
 
 	/**
@@ -233,6 +233,18 @@ define(['../../../../error/ArgumentError',
 		if (checkbox.hasClass("checked")){
 			this._worldWind.layers.showLayer(layerId);
 		}
+	};
+
+	WorldWindWidgetPanel.prototype.switchOnActiveLayers = function(groupId){
+		var activeLayers = Stores.activeLayers;
+		var self = this;
+		activeLayers.forEach(function(layer){
+			if (layer.group == groupId){
+				var checkbox = $(".checkbox-row[data-id=" + layer.id +"]");
+				checkbox.addClass("checked");
+				self.toggleLayer({currentTarget: checkbox});
+			}
+		});
 	};
 
 	return WorldWindWidgetPanel;

@@ -6,7 +6,8 @@ define(['../../../../error/ArgumentError',
 	'./ThematicLayersPanel',
 
 	'jquery',
-	'string'
+	'string',
+	'underscore'
 ], function(ArgumentError,
 			NotFoundError,
 			Logger,
@@ -15,7 +16,8 @@ define(['../../../../error/ArgumentError',
 			ThematicLayersPanel,
 
 			$,
-			S
+			S,
+			_
 ){
 	/**
 	 * Class representing AU Layers Panel of WorldWindWidget
@@ -37,8 +39,17 @@ define(['../../../../error/ArgumentError',
 		Stores.listeners.push(this.rebuildContent.bind(this, "updateOutlines"));
 	};
 
-	AuLayersPanel.prototype.rebuild = function(changes){
-		this._changes = changes;
+	/**
+	 * Check the list of active layers and switch them on
+	 */
+	AuLayersPanel.prototype.switchOnLayersFrom2D = function(){
+		this.redrawLayer(this._layers.outlines, "areaoutlines", Stores.outlines);
+		this.switchOnActiveLayers("areaoutlines");
+
+		if(Stores.selectedOutlines){
+			this.redrawLayer(this._layers.selected, "selectedareasfilled", Stores.selectedOutlines);
+			this.switchOnActiveLayers("selectedareasfilled");
+		}
 	};
 
 	/**
@@ -48,86 +59,55 @@ define(['../../../../error/ArgumentError',
 	 */
 	AuLayersPanel.prototype.rebuildContent = function(action, notification){
 		if (action == notification && notification == "updateOutlines"){
-			if (!this._changes || this._changes.scope || this._changes.theme || this._changes.visualization){
-				this.clear();
+			this.clear(this._id);
 
-				if(Stores.selectedOutlines) {
-					this.rebuildSelectedControl();
-					this.redrawSelected();
-				}
+			if(Stores.selectedOutlines) {
+				this.rebuildControl("Selected areas filled", this._layers.selected, "selectedareasfilled");
+				this.redrawLayer(this._layers.selected, "selectedareasfilled", Stores.selectedOutlines);
+			}
 
-				if(Stores.outlines){
-					this.rebuildOutlinesControl();
-					this.redrawOutlines();
-				}
-			} else {
-				this.clearLayers();
-				if(Stores.outlines){
-					this.redrawOutlines();
-				}
-				if(Stores.selectedOutlines) {
-					this.redrawSelected();
-				}
+			if(Stores.outlines){
+				this.rebuildControl("Area outlines", this._layers.outlines, "areaoutlines");
+				this.redrawLayer(this._layers.outlines, "areaoutlines", Stores.outlines);
 			}
 		}
 	};
 
 	/**
-	 * Rebuild outlines control
+	 * Rebuild layer control
+	 * @param name {string} name of the layer
+	 * @param layer {Object} layer data
+	 * @param id {string} id of the group
 	 */
-	AuLayersPanel.prototype.rebuildOutlinesControl = function(){
-		var outlines = {
-			id: "analytical-units",
-			name: "Area outlines",
-			opacity: 70
-		};
-
-		this._layers.outlines.layerData = outlines;
-		this._layers.outlines.control = this.addLayerControl(outlines.id, outlines.name, this._panelBodySelector, true);
-	};
-
-	/**
-	 * Rebuild selected control
-	 */
-	AuLayersPanel.prototype.rebuildSelectedControl = function(){
+	AuLayersPanel.prototype.rebuildControl = function(name, layer, id){
 		var selected = {
-			id: "selected-areas-filled",
-			name: "Selected areas filled",
+			id: id,
+			name: name,
 			opacity: 70
 		};
 
-		this._layers.selected.layerData = selected;
-		this._layers.selected.control = this.addLayerControl(selected.id, selected.name, this._panelBodySelector, true);
+		layer.layerData = selected;
+		layer.control = this.addLayerControl(selected.id, selected.name, this._panelBodySelector, false);
 	};
 
 	/**
 	 * Redraw layer
+	 * @param layer {Object} layer data
+	 * @param id {string} id of the group
+	 * @param store {Object} store with data from 2D
 	 */
-	AuLayersPanel.prototype.redrawOutlines = function(){
-		this._layers.outlines.layerData.layer = Stores.outlines.layerNames;
-		this._layers.outlines.layerData.sldId = Stores.outlines.sldId;
+	AuLayersPanel.prototype.redrawLayer = function(layer, id, store){
+		this.clearLayers(id);
+		if (!_.isEmpty(layer)){
+			layer.layerData.layer = store.layerNames;
+			layer.layerData.sldId = store.sldId;
 
-		this._worldWind.layers.addChoroplethLayer(this._layers.outlines.layerData, this._id, false);
+			this._worldWind.layers.addChoroplethLayer(layer.layerData, id, false);
 
-		var toolBox = this._layers.outlines.control.getToolBox();
-		toolBox.clear();
-		toolBox.addOpacity(this._layers.outlines.layerData, this._worldWind);
-		this.checkIfLayerIsSwitchedOn(this._layers.outlines.layerData.id);
-	};
-
-	/**
-	 * Redraw selected
-	 */
-	AuLayersPanel.prototype.redrawSelected = function(){
-		this._layers.selected.layerData.layer = Stores.selectedOutlines.layerNames;
-		this._layers.selected.layerData.sldId = Stores.selectedOutlines.sldId;
-
-		this._worldWind.layers.addChoroplethLayer(this._layers.selected.layerData, this._id, false);
-
-		var toolBox = this._layers.selected.control.getToolBox();
-		toolBox.clear();
-		toolBox.addOpacity(this._layers.selected.layerData, this._worldWind);
-		this.checkIfLayerIsSwitchedOn(this._layers.selected.layerData.id);
+			var toolBox = layer.control.getToolBox();
+			toolBox.clear();
+			toolBox.addOpacity(layer.layerData, this._worldWind);
+		}
 	};
 
 	return AuLayersPanel;

@@ -476,6 +476,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 						});
 				    var node = Ext.create('Puma.model.MapLayer', {
 						name: layer.name,
+                        id: layer.id,
 						initialized: true,
 						allowDrag: true,
 						checked: false,

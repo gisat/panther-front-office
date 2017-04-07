@@ -431,6 +431,39 @@ Ext.define('PumaMain.controller.Layers', {
 			}
 		}
 		this.resetIndexes();
+		this.prepareActiveLayers(layers);
+	},
+
+	/**
+	 * It prepares info about active layers for exchange between Ext and Require
+	 * @param layers {Array}
+	 */
+	prepareActiveLayers: function(layers){
+		var activeLayers = [];
+		layers.forEach(function(layer){
+			var data = layer.data;
+			var activeLayer = {};
+			var id = data.type;
+
+			if (data.type == "chartlayer"){
+				id += "-" + data.attributeSet + "-" + data.attribute;
+			} else if (data.type == "topiclayer"){
+				if (data.symbologyId == "#blank#"){
+					id += "-" + data.at;
+				} else {
+					id += "-" + data.at + "-" + data.symbologyId;
+				}
+			} else if (data.type == "wmsLayer"){
+				id += "-" + data.id;
+			}
+
+			activeLayer.id = id;
+			activeLayer.group = data.type;
+			activeLayer.order = data.sortIndex;
+			activeLayer.active = data.checked;
+			activeLayers.push(activeLayer);
+		});
+		Stores.activeLayers = activeLayers;
 	},
 
 	onOpacityChange: function(slider, value) {

@@ -52,7 +52,7 @@ define(['../../../error/ArgumentError',
 	 */
 	Layers.prototype.addLayerToMap = function(layer){
 		var group = layer.metadata.group;
-		if (group == "au-layers" || group == "background-layers"){
+		if (group == "areaoutlines" || group == "selectedareasfilled" || group == "background-layers"){
 			this._wwd.addLayer(layer);
 		} else {
 			var position = this._wwd.layers.length - 1;

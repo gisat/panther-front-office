@@ -82,6 +82,7 @@ var OlMap = {
  * @type {{choropleths: Array, listeners: Function[], outlines: Object, selectedOutlines: Object}}
  */
 var Stores = {
+	activeLayers: [],
 	choropleths: [],
 	listeners: [],
 	outlines: null,

@@ -25,6 +25,7 @@ define(['../../../../error/ArgumentError',
 		this.addListeners();
 
 		this._choropleths = [];
+		this._groupId = "chartlayer";
 	};
 
 	ThematicLayersPanel.prototype = Object.create(WorldWindWidgetPanel.prototype);
@@ -34,6 +35,11 @@ define(['../../../../error/ArgumentError',
 		Stores.listeners.push(this.updateChoropleths.bind(this, "updateChoropleths"));
 	};
 
+	ThematicLayersPanel.prototype.switchOnLayersFrom2D = function(){
+		this.updateChoropleths("updateChoropleths", "updateChoropleths");
+		this.switchOnActiveLayers(this._groupId);
+	};
+
 	/**
 	 * Add checkboxes for current configuration
 	 * @param action {string}
@@ -41,7 +47,7 @@ define(['../../../../error/ArgumentError',
 	 */
 	ThematicLayersPanel.prototype.rebuild = function(action, notification){
 		if (action == notification && notification == "choropleths"){
-			this.clear();
+			this.clear(this._id);
 			this._choropleths = Stores.choropleths;
 			if (this._choropleths.length > 0){
 				var self = this;
@@ -51,7 +57,7 @@ define(['../../../../error/ArgumentError',
 						name = choropleth.attrName + " - " + choropleth.asName;
 					}
 					var layer = {
-						id: "choropleth-" + choropleth.as + "-" + choropleth.attr,
+						id: "chartlayer-" + choropleth.as + "-" + choropleth.attr,
 						name: name
 					};
 					choropleth.layer = layer;
@@ -93,7 +99,7 @@ define(['../../../../error/ArgumentError',
 					var toolBox = choropleth.control.getToolBox();
 					toolBox.addLegend(layer, self._worldWind);
 					toolBox.addOpacity(layer, self._worldWind);
-					self.checkIfLayerIsSwitchedOn(layer.id);
+					//self.checkIfLayerIsSwitchedOn(layer.id);
 				}
 			});
 		}

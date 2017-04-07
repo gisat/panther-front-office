@@ -42,20 +42,22 @@ define(['../../../../error/ArgumentError',
 		}
 
 		this._changes = options.changes;
+		this._groupId = "topiclayer";
 
-		if (!this._changes || this._changes.scope || this._changes.theme || this._changes.visualization){
-			this.clear();
-			this._infoLayers = [];
+		//if (!this._changes || this._changes.scope || this._changes.theme || this._changes.visualization){
+			this.clear(this._id);
 			this._buildGroups = true;
-		} else {
-			this.clearLayers();
-			this._buildGroups = false;
-		}
+		//}
+		//else {
+		//	this.clearLayers();
+		//	this._buildGroups = false;
+		//}
 
 		var self = this;
 		this.getLayersFromAPI(options.config).then(function(result){
 			if (result.hasOwnProperty("data") && result.data.length > 0){
 				self.addGroups(result.data, self._buildGroups);
+				self.switchOnActiveLayers(self._groupId);
 				self.displayPanel("block");
 			} else {
 				self.displayPanel("none");
@@ -137,7 +139,7 @@ define(['../../../../error/ArgumentError',
 	 * @param visible {boolean} true, if layer should be visible
 	 */
 	InfoLayersPanel.prototype.addLayer = function(id, name, layers, target, style, visible){
-		var layerId = "wms-layer-" + id;
+		var layerId = this._groupId + "-" + id;
 		var layerPaths = this.getLayerNames(layers);
 		var stylePaths = "";
 		var layerName = name;
@@ -158,17 +160,17 @@ define(['../../../../error/ArgumentError',
 			path: layerPaths.split(",")[0]
 		};
 
-		var layer = this.getLayerIfExists(layerId);
+		//var layer = this.getLayerIfExists(layerId);
 
-		if (layer){
-			layer.data = layerData;
-			this.rebuildLayer(layer);
-		} else {
-			layer = {data: layerData};
+		//if (layer){
+		//	layer.data = layerData;
+		//	this.rebuildLayer(layer);
+		//} else {
+			var layer = {data: layerData};
 			layer.control = this.addLayerControl(layerId, layerName, target, visible);
 			this.rebuildLayer(layer);
 			this._infoLayers.push(layer);
-		}
+		//}
 	};
 
 	/**
@@ -183,7 +185,8 @@ define(['../../../../error/ArgumentError',
 		var tools = layer.control.getToolBox();
 		tools.addLegend(layer.data, this._worldWind);
 		tools.addOpacity(layer.data, this._worldWind);
-		this.checkIfLayerIsSwitchedOn(layer.data.id);
+
+		//this.checkIfLayerIsSwitchedOn(layer.data.id);
 	};
 
 	/**
