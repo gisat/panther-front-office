@@ -90,9 +90,9 @@ define([], function () {
 			$.get(Config.url + 'rest/composites/metadata', function(data){
 				var rows = '';
 				data.metadata.forEach(function(row){
-					rows+= '<tr><td>'+row.key+'</td><td>'+row.sensors.join(',')+'</td><td>'+row.date_start+'</td><td>'+row.date_end+'</td><td>'+row.period+'</td><td>'+row.area+'</td><td>'+row.used_scenes+'</td></tr>';
+					rows+= '<tr><td>'+row.key+'</td><td>'+row.sensors.join(',')+'</td><td>'+row.date_start+'</td><td>'+row.date_end+'</td><td>'+row.period+'</td><td>'+row.area+'</td></tr>';
 				});
-				var table = "<table><thead><th><td>Key</td><td>Sensors</td><td>Date start</td><td>Date End</td><td>Period</td><td>Area</td><td>Scenes</td></th></thead><tbody>"+rows+"</tbody></table>";
+				var table = "<table><thead><th><td>Key</td><td>Sensors</td><td>Date start</td><td>Date End</td><td>Period</td><td>Area</td></th></thead><tbody>"+rows+"</tbody></table>";
 
 				$('body').append('<div style="position: absolute; top: 100px; bottom: 100px; left: 100px; right: 100px; z-index: 1000000; background: white;">'+table+'</div>');
 			});
