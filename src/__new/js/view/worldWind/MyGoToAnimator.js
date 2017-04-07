@@ -46,7 +46,6 @@ define(['../../error/ArgumentError',
 		var warningContainer = widget.find(".floater-body .warning");
 		var place = Number(config.place);
 		var dataset = Number(config.dataset);
-
 		if (!dataset){
 			console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "MyGoToAnimator", "setLocation", "missingDataset"));
 			warningContainer.css("display", "block").html("").append('<p>No dataset detected! Possible reasons: <br> Broken links in visualizations (e.g. non-existing attributes or attribute sets). Try to create visualizations again. <br> Choropleths includes non-existing attributes or attribute sets.</p>');

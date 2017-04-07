@@ -421,6 +421,7 @@ Ext.define('PumaMain.controller.Area', {
 	},
 
 	onNodeExpanded: function(node) {
+		ThemeYearConfParams.actions.push("detaillevel");
 		if (!node.isLoaded() || !node.childNodes.length || node.suppress) {
 			return;
 		}
@@ -439,6 +440,7 @@ Ext.define('PumaMain.controller.Area', {
 
 	},
 	onNodeCollapsed: function(node) {
+		ThemeYearConfParams.actions.push("detaillevel");
 		if (!node.isLoaded() || !node.get('at') || node.suppress) {
 			return;
 		}

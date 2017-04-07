@@ -2,10 +2,9 @@
 	display: none;
 	left: 10rem;
 	top: 10rem;
-	min-width: 22rem;
 	max-width: 40rem;
-	/*height: 10rem;*/
-	height: 25rem;
+	min-height: 4rem;
+	width: 260px;
 	background: rgba(255,255,255,.9);
 }
 #floater-world-wind-widget.open {

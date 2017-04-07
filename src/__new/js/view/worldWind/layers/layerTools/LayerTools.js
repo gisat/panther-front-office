@@ -50,6 +50,10 @@ define(['../../../../error/ArgumentError',
 		this._toolsContainer = $('#layer-tool-box-' + this._id);
 	};
 
+	LayerTools.prototype.clear = function(){
+		this._toolsContainer.html('');
+	};
+
 	/**
 	 * Return tools container
 	 * @returns {*|jQuery|HTMLElement}

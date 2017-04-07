@@ -33,7 +33,8 @@ define([], function () {
 			var classesAreas3d = $('#window-areatree').hasClass('open') ? "item open" : "item";
 			this._target.append('<div class="' + classesAreas3d + '" id="top-toolbar-areas" data-for="window-areatree">Areas</div>');
 
-			this._target.append('<div class="item disabled" id="top-toolbar-selections">Selections</div>');
+			var classesSelections3d = $('#window-colourSelection').hasClass('open') ? "item open" : "item";
+			this._target.append('<div class="' + classesSelections3d + '" id="top-toolbar-selections" data-for="window-colourSelection">Selections</div>');
 
 			this._target.append('<div class="item disabled" id="top-toolbar-selection-filter">Areas filter</div>');
 

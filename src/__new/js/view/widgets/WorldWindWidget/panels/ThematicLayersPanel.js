@@ -93,48 +93,10 @@ define(['../../../../error/ArgumentError',
 					var toolBox = choropleth.control.getToolBox();
 					toolBox.addLegend(layer, self._worldWind);
 					toolBox.addOpacity(layer, self._worldWind);
-					self.checkIfChoroplethIsSwitchedOn(layer.id);
+					self.checkIfLayerIsSwitchedOn(layer.id);
 				}
 			});
 		}
-	};
-
-	/**
-	 * If checbox for particular layer is checked, show the layer
-	 * @param layerId {string} id of the layer
-	 */
-	ThematicLayersPanel.prototype.checkIfChoroplethIsSwitchedOn = function(layerId){
-		var checkbox = $(".checkbox-row[data-id=" + layerId +"]");
-		if (checkbox.hasClass("checked")){
-			this._worldWind.layers.showLayer(layerId);
-		}
-	};
-
-	ThematicLayersPanel.prototype.addContent = function(){
-		this.addEventsListeners();
-	};
-
-	/**
-	 * Add listeners
-	 */
-	ThematicLayersPanel.prototype.addEventsListeners = function(){
-		this.addCheckboxOnClickListener();
-	};
-
-	/**
-	 * Hide/show layers
-	 */
-	ThematicLayersPanel.prototype.toggleLayer = function(event){
-		var self = this;
-		setTimeout(function(){
-			var checkbox = $(event.currentTarget);
-			var layerId = checkbox.attr("data-id");
-			if (checkbox.hasClass("checked")){
-				self._worldWind.layers.showLayer(layerId);
-			} else {
-				self._worldWind.layers.hideLayer(layerId);
-			}
-		},50);
 	};
 
 	return ThematicLayersPanel;

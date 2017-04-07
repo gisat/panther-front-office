@@ -3,6 +3,7 @@ define(['../../../error/ArgumentError',
 	'../../../util/Logger',
 
 	'../layers/MyWmsLayer',
+	'../SelectionController',
 
 	'jquery',
 	'worldwind'
@@ -11,6 +12,7 @@ define(['../../../error/ArgumentError',
 			Logger,
 
 			MyWmsLayer,
+			SelectionController,
 
 			$
 ){
@@ -25,6 +27,12 @@ define(['../../../error/ArgumentError',
 		}
 		this._wwd = wwd;
 		this._layers = [];
+
+		/**
+		 * It handles selection in the map based on the user interactions.
+		 * @type {SelectionController}
+		 */
+		this.controller = new SelectionController(wwd);
 	};
 
 	/**

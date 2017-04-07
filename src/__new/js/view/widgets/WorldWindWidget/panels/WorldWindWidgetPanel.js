@@ -75,7 +75,14 @@ define(['../../../../error/ArgumentError',
 		this._panelBodySelector = $("#" + this._id + "-panel-body");
 		this.toggleState(this._isOpen);
 
-		this.addContent();
+		this.addEventsListeners();
+	};
+
+	/**
+	 * Add listeners
+	 */
+	WorldWindWidgetPanel.prototype.addEventsListeners = function(){
+		this.addCheckboxOnClickListener();
 	};
 
 	/**
@@ -83,7 +90,13 @@ define(['../../../../error/ArgumentError',
 	 */
 	WorldWindWidgetPanel.prototype.clear = function(){
 		this._panelBodySelector.html('');
+		this.clearLayers();
+	};
 
+	/**
+	 * Remove all layers from specific group from map
+	 */
+	WorldWindWidgetPanel.prototype.clearLayers = function(){
 		// it removes all floaters connected with this panel
 		$("." + this._id + "-floater").remove();
 		this._worldWind.layers.removeAllLayersFromGroup(this._id);
@@ -193,6 +206,33 @@ define(['../../../../error/ArgumentError',
 	 */
 	WorldWindWidgetPanel.prototype.addCheckboxOnClickListener = function(){
 		this._panelBodySelector.on("click", ".checkbox-row", this.toggleLayer.bind(this));
+	};
+
+	/**
+	 * Hide/show layers
+	 */
+	WorldWindWidgetPanel.prototype.toggleLayer = function(event){
+		var self = this;
+		setTimeout(function(){
+			var checkbox = $(event.currentTarget);
+			var layerId = checkbox.attr("data-id");
+			if (checkbox.hasClass("checked")){
+				self._worldWind.layers.showLayer(layerId);
+			} else {
+				self._worldWind.layers.hideLayer(layerId);
+			}
+		},50);
+	};
+
+	/**
+	 * If checbox for particular layer is checked, show the layer
+	 * @param layerId {string} id of the layer
+	 */
+	WorldWindWidgetPanel.prototype.checkIfLayerIsSwitchedOn = function(layerId){
+		var checkbox = $(".checkbox-row[data-id=" + layerId +"]");
+		if (checkbox.hasClass("checked")){
+			this._worldWind.layers.showLayer(layerId);
+		}
 	};
 
 	return WorldWindWidgetPanel;

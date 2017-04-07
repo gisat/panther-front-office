@@ -79,12 +79,13 @@ var OlMap = {
 
 /**
  * Stores for different types of data which needs to be handled.
- * @type {{choropleths: Array, listeners: Function[]}}
+ * @type {{choropleths: Array, listeners: Function[], outlines: Object, selectedOutlines: Object}}
  */
 var Stores = {
 	choropleths: [],
 	listeners: [],
-	outlines: null
+	outlines: null,
+	selectedOutlines: null
 };
 
 /**
@@ -115,4 +116,60 @@ Stores.updateChoropleths = function(attribute, attributeSet, data){
 Stores.updateOutlines = function(data){
 	Stores.outlines = data;
 	Stores.notify('updateOutlines');
+};
+
+Stores.updateSelectedOutlines = function(data) {
+	Stores.selectedOutlines = data;
+	Stores.notify('updateOutlines');
+};
+
+/**
+ * This global object useful for handling the selection from anywhere and handling what is actually selected.
+ * @type {{listeners: Array, select: Select.select, notify: Select.notify, selectedAreasMap: null}}
+ */
+var Select = {
+	/**
+	 * Array of listeners to be notified when the selection actually changes.
+	 */
+	listeners: [],
+
+	/**
+	 * It is replaced by select
+	 * @param areas {Area[]} Array of areas to either add to selected or remove from selected.
+	 * @param add {Boolean} True means that the areas with relevant gid will be added among selected
+	 * @param hover {Boolean} Usually will be ignored. Has some implication, which I am not yet sure of.
+	 */
+	select: function(areas, add, hover){},
+
+	/**
+	 * It is replaced by Layers.colourMap
+	 * @param selectedAreasMap
+	 */
+	colourMap: function(selectedAreasMap){},
+
+	notify: function() {
+		this.listeners.forEach(function(listener){
+			listener(Select.selectedAreasMap);
+		});
+	},
+
+	/**
+	 * It will contain object which contains all areas selected for specific colours.
+	 */
+	selectedAreasMap: null,
+
+	/**
+	 * It contains the store with all the areas, so that it is possible to correctly select area based on the gid.
+	 */
+	areaStore: null,
+
+	/**
+	 * It represents actual color of selection. It is possible to select the units in multiple colors.
+	 */
+	actualColor: null,
+
+	/**
+	 * Controller for handling Select.
+	 */
+	controller: null
 };

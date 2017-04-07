@@ -26,31 +26,36 @@ define(['../../../../error/ArgumentError',
 	 */
 	var InfoLayersPanel = function(options){
 		WorldWindWidgetPanel.apply(this, arguments);
+		this._infoLayers = [];
 	};
 
 	InfoLayersPanel.prototype = Object.create(WorldWindWidgetPanel.prototype);
 
 	/**
-	 * Add content to panel
-	 */
-	InfoLayersPanel.prototype.addContent = function(){
-		this.addEventsListeners();
-	};
-
-	/**
 	 * Rebuild panel with current configuration
-	 * @param configuration {Object} configuration from global object ThemeYearConfParams
+	 * @param options.config {Object} configuration from global object ThemeYearConfParams
+	 * @param options.changes {Object} changes of configuration
 	 */
-	InfoLayersPanel.prototype.rebuild = function(configuration){
-		if (!configuration){
+	InfoLayersPanel.prototype.rebuild = function(options){
+		if (!options.config){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "InfoLayersPanel", "constructor", "missingParameter"));
 		}
-		this.clear();
+
+		this._changes = options.changes;
+
+		if (!this._changes || this._changes.scope || this._changes.theme || this._changes.visualization){
+			this.clear();
+			this._infoLayers = [];
+			this._buildGroups = true;
+		} else {
+			this.clearLayers();
+			this._buildGroups = false;
+		}
 
 		var self = this;
-		this.getLayers(configuration).then(function(result){
+		this.getLayersFromAPI(options.config).then(function(result){
 			if (result.hasOwnProperty("data") && result.data.length > 0){
-				self.addGroups(result.data);
+				self.addGroups(result.data, self._buildGroups);
 				self.displayPanel("block");
 			} else {
 				self.displayPanel("none");
@@ -63,12 +68,15 @@ define(['../../../../error/ArgumentError',
 	/**
 	 * It adds groups and layers to panel
 	 * @param data {Array} list of layer groups
+	 * @param buildGroups {boolean} true if info layers groups should be rendered
 	 */
-	InfoLayersPanel.prototype.addGroups = function(data){
+	InfoLayersPanel.prototype.addGroups = function(data, buildGroups){
 		var self = this;
 		var target = null;
 		data.forEach(function(group){
-			target = self.addLayerGroup(group.name.replace(/ /g, '_'), group.name);
+			if (buildGroups){
+				target = self.addLayerGroup(group.name.replace(/ /g, '_'), group.name);
+			}
 			self.addLayersToGroup(target, group.layers);
 		});
 	};
@@ -141,7 +149,7 @@ define(['../../../../error/ArgumentError',
 			layerId = layerId + "-" + stylePaths;
 		}
 
-		var layerMetadata = {
+		var layerData = {
 			id: layerId,
 			layerPaths: layerPaths,
 			opacity: 70,
@@ -150,14 +158,43 @@ define(['../../../../error/ArgumentError',
 			path: layerPaths.split(",")[0]
 		};
 
-		// add layer to the map
-		this._worldWind.layers.addInfoLayer(layerMetadata, this._id, visible);
+		var layer = this.getLayerIfExists(layerId);
 
-		// add layer's control to the panel
-		var control = this.addLayerControl(layerId, layerName, target, visible);
-		var tools = control.getToolBox();
-		tools.addLegend(layerMetadata, this._worldWind);
-		tools.addOpacity(layerMetadata, this._worldWind);
+		if (layer){
+			layer.data = layerData;
+			this.rebuildLayer(layer);
+		} else {
+			layer = {data: layerData};
+			layer.control = this.addLayerControl(layerId, layerName, target, visible);
+			this.rebuildLayer(layer);
+			this._infoLayers.push(layer);
+		}
+	};
+
+	/**
+	 * Rebuild data with current data
+	 * @param layer {Object}
+	 */
+	InfoLayersPanel.prototype.rebuildLayer = function(layer){
+		var toolBox = layer.control.getToolBox();
+		toolBox.clear();
+
+		this._worldWind.layers.addInfoLayer(layer.data, this._id, false);
+		var tools = layer.control.getToolBox();
+		tools.addLegend(layer.data, this._worldWind);
+		tools.addOpacity(layer.data, this._worldWind);
+		this.checkIfLayerIsSwitchedOn(layer.data.id);
+	};
+
+	/**
+	 * It returns data about layer if it is in the list already
+	 * @param id {string} id of the layer
+	 * @returns {Object} data about layer
+	 */
+	InfoLayersPanel.prototype.getLayerIfExists = function(id){
+		return _.find(this._infoLayers, function(layer){
+			return  layer.data.id == id;
+		});
 	};
 
 	/**
@@ -177,33 +214,10 @@ define(['../../../../error/ArgumentError',
 	};
 
 	/**
-	 * Add listeners
-	 */
-	InfoLayersPanel.prototype.addEventsListeners = function(){
-		this.addCheckboxOnClickListener();
-	};
-
-	/**
-	 * Hide/show layers
-	 */
-	InfoLayersPanel.prototype.toggleLayer = function(event){
-		var self = this;
-		setTimeout(function(){
-			var checkbox = $(event.currentTarget);
-			var layerId = checkbox.attr("data-id");
-			if (checkbox.hasClass("checked")){
-				self._worldWind.layers.showLayer(layerId);
-			} else {
-				self._worldWind.layers.hideLayer(layerId);
-			}
-		},50);
-	};
-
-	/**
 	 * Get the layers list from server
 	 * @param configuration {Object} configuration from global object ThemeYearConfParams
 	 */
-	InfoLayersPanel.prototype.getLayers = function(configuration){
+	InfoLayersPanel.prototype.getLayersFromAPI = function(configuration){
 		var scope = Number(configuration.dataset);
 		var theme = Number(configuration.theme);
 		var year = JSON.parse(configuration.years);
