@@ -3,7 +3,7 @@ define([], function () {
 
 	var TopToolBar = function() {
 		this._target = $('#top-toolbar-widgets');
-		this._target.on('click.topToolBar', '.item', this.handleClick);
+		this._target.on('click.topToolBar', '.item', this.handleClick.bind(this));
 		this.build();
 
 		$('#top-toolbar-context-help').on('click.topToolBar', this.handleContextHelpClick);
@@ -16,6 +16,7 @@ define([], function () {
 		Observer.addListener("Tools.hideClick.maptools",this.handleHideClick.bind(this, 'window-maptools'));
 		Observer.addListener("Tools.hideClick.legacyAdvancedFilters",this.handleHideClick.bind(this, 'window-legacyAdvancedFilters'));
 		Observer.addListener("Tools.hideClick.customviews",this.handleHideClick.bind(this, 'window-customviews'));
+		Observer.addListener("Tools.hideClick.customLayers",this.handleHideClick.bind(this, 'window-customLayers'));
 	};
 
 
@@ -70,9 +71,10 @@ define([], function () {
 			classesCustomViews += $('#window-customviews').hasClass('open') ? " open" : "";
 			this._target.append('<div class="' + classesCustomViews + '" id="top-toolbar-saved-views" data-for="window-customviews">Custom views</div>');
 
-			var classesCustomLayers = Config.auth ? "item" : "item hidden";
-			classesCustomLayers += $('#floater-customlayers').hasClass('open') ? " open" : "";
-			this._target.append('<div class="' + classesCustomLayers + '" id="top-toolbar-custom-layers" data-for="floater-customlayers">Custom layers</div>');
+			//var classesCustomLayers = Config.auth ? "item" : "item hidden";
+			var classesCustomLayers = "item";
+			classesCustomLayers += $('#window-customLayers').hasClass('open') ? " open" : "";
+			this._target.append('<div class="' + classesCustomLayers + '" id="top-toolbar-custom-layers" data-for="window-customLayers">Add layer</div>');
 
 		}
 
@@ -82,6 +84,7 @@ define([], function () {
 		var targetId = e.target.getAttribute('data-for');
 		if (targetId) {
 			if (targetId == 'window-customviews') Ext.ComponentQuery.query('#window-customviews')[0].show();
+			if (targetId == 'window-customLayers') this.initCustomLayersWindow();
 			$('#' + targetId).toggleClass('open');
 			$(e.target).toggleClass('open');
 		}
@@ -92,6 +95,13 @@ define([], function () {
 			$('#' + targetId).removeClass('open');
 			this._target.find('div[data-for="' + targetId + '"]').removeClass('open');
 		}
+	};
+
+	TopToolBar.prototype.initCustomLayersWindow = function() {
+		//var extComponent = Ext.ComponentQuery.query('#window-customLayers')[0];
+		//if (!extComponent) {
+		//
+		//}
 	};
 
 	TopToolBar.prototype.handleContextHelpClick = function(e){
