@@ -43,7 +43,12 @@ define([], function () {
 			var classesCustomViews3d = Config.auth ? "item disabled" : "item disabled hidden";
 			this._target.append('<div class="' + classesCustomViews3d + '" id="top-toolbar-saved-views">Custom views</div>');
 
-
+			if(Config.toggles.isSnow) {
+				this._target.append('<div class="item" id="snow">Snow</div>');
+				$('#snow').click(function(){
+					$('body').append('<div style="position: absolute; top: 100px; bottom: 100px; left: 100px; right: 100px; z-index: 1000000; background: white;"><iframe width="100%" height="100%" src="http://35.165.51.145/snow"></iframe></div>');
+				})
+			}
 		} else {
 
 			var classesLayers = $('#window-layerpanel').hasClass('open') ? "item open" : "item";
@@ -70,6 +75,12 @@ define([], function () {
 			classesCustomViews += $('#window-customviews').hasClass('open') ? " open" : "";
 			this._target.append('<div class="' + classesCustomViews + '" id="top-toolbar-saved-views" data-for="window-customviews">Custom views</div>');
 
+			if(Config.toggles.isSnow) {
+				this._target.append('<div class="item" id="snow">Snow</div>');
+				$('#snow').click(function(){
+					$('body').append('<div style="position: absolute; top: 100px; bottom: 100px; left: 100px; right: 100px; z-index: 1000000; background: white;"><iframe width="100%" height="100%" src="http://35.165.51.145/snow"></iframe></div>');
+				})
+			}
 		}
 
 	};
