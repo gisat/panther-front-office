@@ -85,7 +85,7 @@ define([], function () {
 			$('body').append('<div style="position: absolute; top: 100px; bottom: 100px; left: 100px; right: 100px; z-index: 1000000; background: white;"><iframe width="100%" height="100%" src="http://35.165.51.145/snow"></iframe></div>');
 		});
 
-		this._target.append('<div class="item" id="metadata-composites"></div>');
+		this._target.append('<div class="item" id="metadata-composites">Composites</div>');
 		$('#metadata-composites').click(function(){
 			$.get(Config.url + 'rest/composites/metadata', function(data){
 				var rows = '';
