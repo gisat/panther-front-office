@@ -1,10 +1,12 @@
 var Config = {
-	//url: 'http://urbis.gisat.cz/backend/',
-	//signupAddress: 'http://urbis.gisat.cz/account/signup/',
-	 url: 'http://localhost:4000/',
-	 signupAddress: 'http://localhost:4000/account/signup/',
-	 //url: 'https://puma.worldbank.org/backend/',
-	 //signupAddress: 'https://puma.worldbank.org/account/signup/',
+	url: 'http://localhost:4000/',
+	signupAddress: 'http://localhost:4000/account/signup/',
+	// url: 'https://puma.worldbank.org/backend/',                // PUMA
+	// signupAddress: 'https://puma.worldbank.org/account/signup/',
+	// url: 'http://urbis.gisat.cz/backend/',                     // URBIS
+	// signupAddress: 'http://urbis.gisat.cz/account/signup/',
+	// url: 'http://35.165.51.145/backend/',                      // Snow Portal
+	// signupAddress: 'http://35.165.51.145/account/signup/',
 	geoserver2Workspace: "panther",
 	initialBaseMap: "terrain",
 	initialMapBounds: [
@@ -35,7 +37,8 @@ var Config = {
 		isUrbis: false,
 		isEea: false,
 		isMelodies: false,
-		isUrbanTep: false
+		isUrbanTep: false,
+		isSnow: false
 	},
 
 	basicTexts: {

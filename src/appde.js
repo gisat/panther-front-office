@@ -66,6 +66,10 @@ Ext.application({
 			$("#content-intro-guide p:nth-child(5)").html("");
 		}
 
+		if(Config.toggles.isSnow) {
+			$("html").addClass("snow");
+		}
+
 		if(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies){
 			$("html").addClass("melodies");
 			$("#footer-bar").html("").append("<img alt='eu-logo' src='images/melodies/eu-logo.png'>")
