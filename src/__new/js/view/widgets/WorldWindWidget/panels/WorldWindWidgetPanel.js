@@ -220,7 +220,10 @@ define(['../../../../error/ArgumentError',
 
 			// check/uncheck layer in 2D
 			var checkbox2d = $("td[data-for=" + layerId + "]").find("input");
-			checkbox2d.trigger("click");
+			Stores.notify("checklayer", checkbox2d);
+
+			checkbox2d.trigger("click", ["ctrl"]);
+
 
 			if (checkbox.hasClass("checked")){
 				self._worldWind.layers.showLayer(layerId);

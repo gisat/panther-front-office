@@ -4,6 +4,8 @@ Ext.define('PumaMain.controller.Layers', {
 	requires: ['PumaMain.view.LayerMenu', 'Puma.util.Color'],
 	init: function() {
 		Observer.addListener("thematicMapsSettings",this.onConfigure.bind(this));
+		Stores.listeners.push(this.checkLayerIn2d.bind(this, "checklayer"));
+
 		this.control({
 			'#layerpanel': {
 				checkchange: this.onCheckChange,
@@ -1208,6 +1210,13 @@ Ext.define('PumaMain.controller.Layers', {
 		}
 	},
 
+	checkLayerIn2d: function(action, notification, target){
+		if (action == notification && notification == "checklayer"){
+			this._multiCheck = true;
+			target.trigger("click");
+		}
+	},
+
 	/**
 	 * This method is called whenever user clicks on the checkbox in the left menu. It should either show the layer or
 	 * hide the layer. If there is another layer shown in the same layer group, it also hides the currently shown layer.
@@ -1239,8 +1248,9 @@ Ext.define('PumaMain.controller.Layers', {
 
 		// multiple layers from one group, if CTRL key used
 		var multi = false;
-		if (view.lastE && view.lastE.ctrlKey) {
+		if (view.lastE && view.lastE.ctrlKey || this._multiCheck) {
 			multi = true;
+			this._multiCheck = false;
 		}
 
 		// reset last event object
