@@ -88,6 +88,18 @@ define([], function () {
 		var file = fileInput.files[0];
 		var name = this._container.find('#custom-layers-file-name')[0].value;
 		console.log('loadFile', file.name, name);
+		var url = Config.url + '/rest/layerImporter/import';
+		var payload = {
+			file: file,
+			scope: ThemeYearConfParams.dataset,
+			theme: ThemeYearConfParams.theme,
+			name: name
+		};
+		$.post(url, payload)
+			.done(function(data) {
+				console.log(data);
+			});
+
 	};
 
 
