@@ -99,6 +99,7 @@ define(['../../../../error/ArgumentError',
 	WorldWindWidgetPanel.prototype.clearLayers = function(group){
 		$("." + group + "-floater").remove();
 		this._worldWind.layers.removeAllLayersFromGroup(group);
+		this._panelBodySelector.find(".layer-row").removeClass("checked");
 	};
 
 	/**
