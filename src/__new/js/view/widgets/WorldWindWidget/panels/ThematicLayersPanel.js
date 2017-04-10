@@ -35,7 +35,6 @@ define(['../../../../error/ArgumentError',
 
 	ThematicLayersPanel.prototype.switchOnLayersFrom2D = function(){
 		this.updateChoropleths("updateChoropleths", "updateChoropleths");
-		this.switchOnActiveLayers(this._groupId);
 	};
 
 	/**
@@ -97,6 +96,8 @@ define(['../../../../error/ArgumentError',
 					toolBox.addOpacity(layer, self._worldWind);
 				}
 			});
+
+			this.switchOnActiveLayers(this._groupId);
 		}
 	};
 

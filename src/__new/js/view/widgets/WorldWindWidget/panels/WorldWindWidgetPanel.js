@@ -235,9 +235,9 @@ define(['../../../../error/ArgumentError',
 	 * @param groupId {string} id of the group
 	 */
 	WorldWindWidgetPanel.prototype.switchOnActiveLayers = function(groupId){
-		var activeLayers = Stores.activeLayers;
+		this._activeLayers = Stores.activeLayers;
 		var self = this;
-		activeLayers.forEach(function(layer){
+		this._activeLayers.forEach(function(layer){
 			if (layer.group == groupId){
 				var checkbox = $(".checkbox-row[data-id=" + layer.id +"]");
 				checkbox.addClass("checked");
