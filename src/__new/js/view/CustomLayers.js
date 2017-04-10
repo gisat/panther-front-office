@@ -16,8 +16,8 @@ define([], function () {
 			'<div id="custom-layers-container">' +
 				'<div class="custom-layers-content" id="custom-layers-start">' +
 					'<div>' +
-						'<div class="ptr-btn" id="custom-layers-file-btn">Load from file…</div>' +
-						'<div class="ptr-btn" id="custom-layers-wms-btn">Connect to WMS…</div>' +
+						'<div class="ptr-btn primary" id="custom-layers-file-btn">Load from file…</div>' +
+						'<div class="ptr-btn disabled" id="custom-layers-wms-btn">Connect to WMS…</div>' +
 					'</div>' +
 				'</div>' +
 				'<div class="custom-layers-content" id="custom-layers-action">' +
@@ -57,16 +57,18 @@ define([], function () {
 			this._action = 'file';
 			var target = this._target.find('#custom-layers-action');
 			target.append(
-				'<label>' +
+				'<label class="container">' +
 					'File' +
 					'<input type="file" id="custom-layers-file-file" />' +
 				'</label>' +
-				'<label>' +
-					'Name' +
+				'<label class="container">' +
+					'Layer name' +
 					'<input type="text" id="custom-layers-file-name" />' +
 				'</label>' +
-				'<div class="ptr-btn" id="custom-layers-file-load-btn">Load</div>' +
-				'<div class="ptr-btn" id="custom-layers-file-cancel-btn">Cancel</div>'
+				'<div class="ptr-btn-group">' +
+					'<div class="ptr-btn primary" id="custom-layers-file-load-btn">Load</div>' +
+					'<div class="ptr-btn" id="custom-layers-file-cancel-btn">Cancel</div>' +
+				'</div>'
 			);
 		}
 	};

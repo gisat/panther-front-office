@@ -169,7 +169,7 @@ body.mode-3d .settings-window {
 	padding: 0 10px;
 	text-align: center;
 
-	background: rgba(201, 45, 66, .85);
+	background: #aaa;
 	color: #fff;
     border: 0;
     border-radius: 1px;
@@ -178,7 +178,31 @@ body.mode-3d .settings-window {
     	background .3s ease-out;
 }
 .ptr-btn:hover {
+	background: #999;
+}
+.ptr-btn.primary {
+	background: rgba(201, 45, 66, .85);
+}
+.ptr-btn.primary:hover {
 	background: #ad2738;
+}
+.ptr-btn.disabled {
+	background: #ddd;
+	cursor: default;
+}
+.ptr-btn.disabled:hover {
+	background: #ddd;
+}
+.ptr-btn-group .ptr-btn:not(:first-child) {
+	margin-left: 5px;
+}
+
+label.container {
+	display: block;
+	margin-bottom: 10px;
+}
+label.container > input {
+	display: block;
 }
 
 
@@ -204,6 +228,8 @@ body.mode-3d .settings-window {
 	height: 100%;
 	float: left;
 	position: relative;
+
+	padding: 10px;
 }
 #custom-layers-container.view-action {
 	left: -100%;
