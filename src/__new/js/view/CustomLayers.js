@@ -91,19 +91,41 @@ define([
 		var fileInput = this._container.find('#custom-layers-file-file')[0];
 		var file = fileInput.files[0];
 		var name = this._container.find('#custom-layers-file-name')[0].value;
-		console.log('loadFile', file.name, name);
-		var url = Config.url + '/rest/layerImporter/import';
-		var payload = {
-			file: file,
-			scope: ThemeYearConfParams.dataset,
-			theme: ThemeYearConfParams.theme,
-			name: name
-		};
-		$.post(url, payload)
-			.done(function(data) {
+		//var url = Config.url + 'rest/layerImporter/import';
+		var url = 'http://192.168.2.112/backend/' + 'rest/layerImporter/import';
+		var payload = new FormData();
+		payload.append('file', file);
+		payload.append('scope', ThemeYearConfParams.dataset);
+		payload.append('theme', ThemeYearConfParams.theme);
+		payload.append('name', name);
+		var self = this;
+		$.post({
+			url: url,
+			data: payload,
+			processData: false,
+			contentType: false
+		})
+			.done(function(data){
 				console.log(data);
+				self.checkStatus(data.id);
 			});
 
+	};
+
+	CustomLayers.prototype.checkStatus = function(operationId) {
+		//var url = Config.url + 'rest/layerImporter/status/' + operationId;
+		var url = 'http://192.168.2.112/backend/' + 'rest/layerImporter/status/' + operationId;
+		var self = this;
+		$.get(url).done(function(data) {
+			console.log('SATATUS', data);
+			if (data.status == 'done') {
+				console.log('WHEEEEEEEEE');
+			} else if (data.status == 'error') {
+				console.log('BUUUUUUUU');
+			} else {
+				setTimeout(self.checkStatus(operationId), 4000);
+			}
+		});
 	};
 
 
