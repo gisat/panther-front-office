@@ -41,6 +41,9 @@ define([], function () {
 				this.clearAction();
 				this.view();
 				break;
+			case 'custom-layers-file-load-btn':
+				this.loadFile();
+				break;
 			default:
 				console.log('CustomLayers#handleClick' + targetId);
 		}
@@ -76,6 +79,15 @@ define([], function () {
 	CustomLayers.prototype.view = function(view) {
 		this._container.removeClass('view-action');
 		if (view) this._container.addClass('view-' + view);
+	};
+
+
+
+	CustomLayers.prototype.loadFile = function() {
+		var fileInput = this._container.find('#custom-layers-file-file')[0];
+		var file = fileInput.files[0];
+		var name = this._container.find('#custom-layers-file-name')[0].value;
+		console.log('loadFile', file.name, name);
 	};
 
 
