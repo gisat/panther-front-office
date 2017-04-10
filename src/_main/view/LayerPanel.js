@@ -39,8 +39,24 @@ Ext.define('PumaMain.view.LayerPanel', {
                         sortable: false,
                         menuDisabled: true,
                         flex: 1,
-                        renderer : function(value, metadata) {
-                            metadata.tdAttr = 'data-qtip="' + value + '"';
+                        renderer : function(value, metadata, store) {
+                            var data = store.data;
+
+                            // prepare a unique id
+                            var id = data.type;
+                            if (data.type == "chartlayer"){
+                                id += "-" + data.attributeSet + "-" + data.attribute;
+                            } else if (data.type == "topiclayer"){
+                                if (data.symbologyId == "#blank#"){
+                                    id += "-" + data.at;
+                                } else {
+                                    id += "-" + data.at + "-" + data.symbologyId;
+                                }
+                            } else if (data.type == "wmsLayer"){
+                                id += "-" + data.id;
+                            }
+
+                            metadata.tdAttr = 'data-qtip="' + value + '" data-for="' + id + '"';
                             return value;
                         },
                         header: 'Name'

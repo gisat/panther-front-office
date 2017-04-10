@@ -216,8 +216,13 @@ define(['../../../../error/ArgumentError',
 		setTimeout(function(){
 			var checkbox = $(event.currentTarget);
 			var layerId = checkbox.attr("data-id");
+
+			// check/uncheck layer in 2D
+			var checkbox2d = $("td[data-for=" + layerId + "]").find("input");
+			checkbox2d.trigger("click");
+
 			if (checkbox.hasClass("checked")){
-				this._worldWind.layers.showLayer(layerId);
+				self._worldWind.layers.showLayer(layerId);
 			} else {
 				self._worldWind.layers.hideLayer(layerId);
 			}
