@@ -48,6 +48,7 @@ define(['js/util/metadata/Attributes',
         'js/util/Logger',
         'js/view/map/Map',
         'js/view/widgets_3D/MapDiagramsWidget/MapDiagramsWidget',
+        'js/view/PanelIFrame/PanelIFrame',
         'js/util/Placeholder',
 		'js/util/Remote',
 		'js/stores/Stores',
@@ -71,6 +72,7 @@ define(['js/util/metadata/Attributes',
              Logger,
              Map,
              MapDiagramsWidget,
+			 PanelIFrame,
              Placeholder,
 			 Remote,
 			 Stores,
@@ -93,6 +95,11 @@ define(['js/util/metadata/Attributes',
         if(Config.toggles.useTopToolbar){
             var topToolBar = new TopToolBar();
         }
+
+        if(Config.toggles.isSnow){
+            var panelIFrame = new PanelIFrame('http://35.165.51.145/snow/');
+        }
+
         // create tools and widgets according to configuration
         if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
             var webWorldWind = buildWorldWindMap();
