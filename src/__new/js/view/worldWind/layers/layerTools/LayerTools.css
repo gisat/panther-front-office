@@ -3,5 +3,8 @@
 	vertical-align: middle;
 	height: 100%;
 	margin: 0 .25rem 0 0;
-	width: 3.7rem;
+	width: 3rem;
+}
+.panel-layer-group-body .layer-tools {
+	width: 4.5rem;
 }

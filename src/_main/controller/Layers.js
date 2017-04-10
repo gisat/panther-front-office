@@ -319,6 +319,7 @@ Ext.define('PumaMain.controller.Layers', {
 				}
 				Ext.widget('window',{
 					height: 600,
+					cls: 'metadata-window',
 					title: name,
 					width: 500,
 					autoScroll: true,

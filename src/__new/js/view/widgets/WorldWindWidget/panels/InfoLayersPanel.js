@@ -165,6 +165,7 @@ define(['../../../../error/ArgumentError',
 		var tools = layer.control.getToolBox();
 		tools.clear();
 		tools.addLegend(layer.data, this._worldWind);
+		tools.addMetadataIcon(layer.data);
 		tools.addOpacity(layer.data, this._worldWind);
 	};
 
