@@ -1,4 +1,8 @@
-define([], function () {
+define([
+	'./CustomLayers',
+], function (
+	CustomLayers
+) {
 	"use strict";
 
 	var TopToolBar = function() {
@@ -98,10 +102,10 @@ define([], function () {
 	};
 
 	TopToolBar.prototype.initCustomLayersWindow = function() {
-		//var extComponent = Ext.ComponentQuery.query('#window-customLayers')[0];
-		//if (!extComponent) {
-		//
-		//}
+		var component = $('#custom-layers-container');
+		if (!component.length) {
+			new CustomLayers;
+		}
 	};
 
 	TopToolBar.prototype.handleContextHelpClick = function(e){
