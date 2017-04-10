@@ -210,7 +210,7 @@ define(['../../../error/ArgumentError',
 	Layers.prototype.addWmsLayer = function(layerData, group, state){
 		var layer = new MyWmsLayer({
 			service: layerData.url,
-			layerNames: layerData.layer,
+			layerNames: layerData.layerPaths,
 			sector: new WorldWind.Sector(-90,90,-180,180),
 			levelZeroDelta: new WorldWind.Location(45,45),
 			numLevels: 14,

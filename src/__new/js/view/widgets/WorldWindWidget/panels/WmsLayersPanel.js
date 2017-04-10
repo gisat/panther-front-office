@@ -64,10 +64,17 @@ define(['../../../../error/ArgumentError',
 	 * @param layer {Object}
 	 */
 	WmsLayersPanel.prototype.addLayer = function(layer){
-		this._worldWind.layers.addWmsLayer(layer, this._id, false);
-		var control = this.addLayerControl("wmsLayer-" + layer.id, layer.name, this._panelBodySelector, false);
+		var layerData = {
+			id: "wmsLayer" + layer.id,
+			name: layer.name,
+			layerPaths: layer.layer,
+			opacity: 70,
+			url: layer.url
+		};
+		this._worldWind.layers.addWmsLayer(layerData, this._id, false);
+		var control = this.addLayerControl(layerData.id, layerData.name, this._panelBodySelector, false);
 		var tools = control.getToolBox();
-		tools.addOpacity(layer, this._worldWind);
+		tools.addOpacity(layerData, this._worldWind);
 	};
 
 	return WmsLayersPanel;
