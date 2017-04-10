@@ -1,5 +1,5 @@
 define([
-	'css!./Table'
+	'css!./PanelIFrame'
 ], function (
 
 ) {
