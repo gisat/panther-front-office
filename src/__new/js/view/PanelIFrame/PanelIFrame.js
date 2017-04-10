@@ -1,4 +1,8 @@
-define([], function () {
+define([
+	'css!./Table'
+], function (
+
+) {
 	"use strict";
 
 	var PanelIFrame = function(url) {
