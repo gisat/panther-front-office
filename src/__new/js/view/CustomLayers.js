@@ -100,6 +100,7 @@ define([
 		payload.append('theme', ThemeYearConfParams.theme);
 		payload.append('name', name);
 		var self = this;
+		this.buildFileImport();
 		$.post({
 			url: url,
 			data: payload,
@@ -108,8 +109,22 @@ define([
 		})
 			.done(function(data){
 				self.checkStatus(data.id);
+			})
+			.fail(function(data){
+
 			});
 
+	};
+
+	CustomLayers.prototype.buildFileImport = function() {
+		this._actionContainer.empty();
+		this._actionContainer.append(
+			'<div class="custom-layers-status"></div>' +
+			'<div class="custom-layers-status-message"></div>' +
+			'<div class="custom-layers-progress"><div></div></div>' +
+			'<div class="custom-layers-file-post-import"></div>' +
+			'<div class="ptr-btn-group"></div>'
+		);
 	};
 
 	CustomLayers.prototype.checkStatus = function(operationId) {
@@ -118,11 +133,11 @@ define([
 		var self = this;
 		$.get(url).done(function(data) {
 			if (data.status == 'done') {
-				self.buildFileResult(data);
+				self.updateFileStatus(data);
 			} else if (data.status == 'error') {
-				self.buildFileResult(data);
+				self.updateFileStatus(data);
 			} else {
-				self.buildFileStatus(data);
+				self.updateFileStatus(data);
 				setTimeout(self.checkStatus.bind(self, operationId), 4000);
 			}
 		});
@@ -137,25 +152,34 @@ define([
 		);
 	};
 
-	CustomLayers.prototype.buildFileResult = function(result) {
-		this._actionContainer.empty();
+	CustomLayers.prototype.updateFileStatus = function(result) {
+		var statusEl = this._actionContainer.find('.custom-layers-status')[0];
+		var statusMessageEl = this._actionContainer.find('.custom-layers-status-message')[0];
+		var progressEl = this._actionContainer.find('.custom-layers-progress')[0].find('div')[0];
+		var btnGroupEl = this._actionContainer.find('.ptr-btn-group')[0];
 		if (result.status == 'done') {
-			this._actionContainer.append(
-				'<div class="custom-layers-status success">Layer imported succesfully.</div>' +
-				'<div class="custom-layers-progress"><div style="width:100%"></div></div>' +
-				'<div class="custom-layers-file-post-import"></div> ' +
-				'<div class="ptr-btn-group">' +
-					'<div class="ptr-btn" id="custom-layers-action-back-btn">Back</div>' +
-				'</div>'
+			var postInfoEl = this._actionContainer.find('.custom-layers-file-post-import')[0];
+			statusEl.html('Layer imported succesfully.');
+			statusMessageEl.html('');
+			progressEl.css('width:100%;');
+			//btnGroupEl.empty();
+			btnGroupEl.append(
+				'<div class="ptr-btn" id="custom-layers-action-back-btn">Back</div>'
+			);
+		} else if (result.status == 'error') {
+			statusEl.html('Import failed');
+			statusMessageEl.html('Error: ' + result.message);
+			progressEl.css('background-color:#f00;');
+			//btnGroupEl.empty();
+			btnGroupEl.append(
+				'<div class="ptr-btn" id="custom-layers-action-back-btn">Back</div>'
 			);
 		} else {
-			this._actionContainer.append(
-				'<div class="custom-layers-status error">Import failed</div>' +
-				'<div class="custom-layers-error-message">Error: ' + result.message + '</div>' +
-				'<div class="ptr-btn-group">' +
-					'<div class="ptr-btn" id="custom-layers-action-back-btn">Back</div>' +
-				'</div>'
-			);
+			var progress = Number(result.progress) || 0;
+			statusEl.html('Importing…');
+			statusMessageEl.html(result.message);
+			progressEl.css('width:' + progress + '%;');
+
 		}
 	};
 
