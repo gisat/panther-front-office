@@ -91,8 +91,8 @@ define([
 		var fileInput = this._container.find('#custom-layers-file-file')[0];
 		var file = fileInput.files[0];
 		var name = this._container.find('#custom-layers-file-name')[0].value;
-		//var url = Config.url + 'rest/layerImporter/import';
-		var url = 'http://192.168.2.112/backend/' + 'rest/layerImporter/import';
+		var url = Config.url + 'rest/layerImporter/import';
+		//var url = 'http://192.168.2.112/backend/' + 'rest/layerImporter/import';
 		var payload = new FormData();
 		payload.append('file', file);
 		payload.append('scope', ThemeYearConfParams.dataset);
@@ -113,8 +113,8 @@ define([
 	};
 
 	CustomLayers.prototype.checkStatus = function(operationId) {
-		//var url = Config.url + 'rest/layerImporter/status/' + operationId;
-		var url = 'http://192.168.2.112/backend/' + 'rest/layerImporter/status/' + operationId;
+		var url = Config.url + 'rest/layerImporter/status/' + operationId;
+		//var url = 'http://192.168.2.112/backend/' + 'rest/layerImporter/status/' + operationId;
 		var self = this;
 		$.get(url).done(function(data) {
 			console.log('SATATUS', data);
