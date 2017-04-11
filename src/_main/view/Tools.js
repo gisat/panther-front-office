@@ -225,6 +225,32 @@ var widgets = {
 		}],
 		header: !Config.toggles.useTopToolbar,
 		title: 'Map tools'
+	},
+	customLayers: {
+		xtype: 'panel',
+		//collapsed: false,
+		itemId: 'customLayers',
+		//helpId: 'customLayers',
+		hidden: !Config.toggles.useTopToolbar,
+		tools: [{
+			type: 'hide',
+			cls: 'hide',
+			tooltip: 'Hide',
+			itemId: 'hide',
+			hidden: !Config.toggles.useTopToolbar,
+			listeners: {
+				click: {
+					fn: function() {
+						Observer.notify("Tools.hideClick.customLayers");
+					}
+				}
+			}
+		}],
+		width: 400,
+		height: 400,
+		header: !Config.toggles.useTopToolbar,
+		title: 'Add layer',
+		html: "<div id='custom-layers'></div>"
 	}
 };
 
@@ -288,7 +314,7 @@ if (Config.toggles.useTopToolbar) {
 					itemId: "window-" + toolID,
 					id: "window-" + toolID,
 					layout: 'fit',
-					width: 260,
+					width: widgets[toolID].width || 260,
 					maxHeight: 600,
 					resizable: true,
 					closable: !Config.toggles.useTopToolbar,

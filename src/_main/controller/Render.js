@@ -331,7 +331,7 @@ Ext.define('PumaMain.controller.Render', {
 
             // Show widgets windows
             // TODO - do we need to show them?
-			var widgetIDs = ['layerpanel', 'areatree', 'colourSelection', 'maptools'];
+			var widgetIDs = ['layerpanel', 'areatree', 'colourSelection', 'maptools', 'customLayers'];
             if (!Config.toggles.hasNewEvaluationTool){
 				widgetIDs.push('legacyAdvancedFilters');
 			}

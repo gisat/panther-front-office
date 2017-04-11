@@ -1,9 +1,13 @@
-define([], function () {
+define([
+	'./CustomLayers',
+], function (
+	CustomLayers
+) {
 	"use strict";
 
 	var TopToolBar = function() {
 		this._target = $('#top-toolbar-widgets');
-		this._target.on('click.topToolBar', '.item', this.handleClick);
+		this._target.on('click.topToolBar', '.item', this.handleClick.bind(this));
 		this.build();
 
 		$('#top-toolbar-context-help').on('click.topToolBar', this.handleContextHelpClick);
@@ -16,6 +20,7 @@ define([], function () {
 		Observer.addListener("Tools.hideClick.maptools",this.handleHideClick.bind(this, 'window-maptools'));
 		Observer.addListener("Tools.hideClick.legacyAdvancedFilters",this.handleHideClick.bind(this, 'window-legacyAdvancedFilters'));
 		Observer.addListener("Tools.hideClick.customviews",this.handleHideClick.bind(this, 'window-customviews'));
+		Observer.addListener("Tools.hideClick.customLayers",this.handleHideClick.bind(this, 'window-customLayers'));
 	};
 
 
@@ -43,9 +48,7 @@ define([], function () {
 			var classesCustomViews3d = Config.auth ? "item disabled" : "item disabled hidden";
 			this._target.append('<div class="' + classesCustomViews3d + '" id="top-toolbar-saved-views">Custom views</div>');
 
-			if(Config.toggles.isSnow) {
-				this.handleSnow()
-			}
+
 		} else {
 
 			var classesLayers = $('#window-layerpanel').hasClass('open') ? "item open" : "item";
@@ -72,37 +75,20 @@ define([], function () {
 			classesCustomViews += $('#window-customviews').hasClass('open') ? " open" : "";
 			this._target.append('<div class="' + classesCustomViews + '" id="top-toolbar-saved-views" data-for="window-customviews">Custom views</div>');
 
-			if(Config.toggles.isSnow) {
-				this.handleSnow();
-			}
+			//var classesCustomLayers = Config.auth ? "item" : "item hidden";
+			var classesCustomLayers = "item";
+			classesCustomLayers += $('#window-customLayers').hasClass('open') ? " open" : "";
+			this._target.append('<div class="' + classesCustomLayers + '" id="top-toolbar-custom-layers" data-for="window-customLayers">Add layer</div>');
+
 		}
 
-	};
-
-	TopToolBar.prototype.handleSnow = function() {
-		this._target.append('<div class="item" id="snow">Snow</div>');
-		$('#snow').click(function(){
-			$('body').append('<div style="position: absolute; top: 100px; bottom: 100px; left: 100px; right: 100px; z-index: 1000000; background: white;"><iframe width="100%" height="100%" src="http://35.165.51.145/snow"></iframe></div>');
-		});
-
-		this._target.append('<div class="item" id="metadata-composites">Composites</div>');
-		$('#metadata-composites').click(function(){
-			$.get(Config.url + 'rest/composites/metadata', function(data){
-				var rows = '';
-				data.metadata.forEach(function(row){
-					rows+= '<tr><td>'+row.key+'</td><td>'+row.sensors.join(',')+'</td><td>'+row.date_start+'</td><td>'+row.date_end+'</td><td>'+row.period+'</td><td>'+row.area+'</td></tr>';
-				});
-				var table = "<table style='width: 100%; height: 100%; overflow: auto;'><thead><tr><th>Key</th><th>Sensors</th><th>Date start</th><th>Date End</th><th>Period</th><th>Area</th></tr></thead><tbody>"+rows+"</tbody></table>";
-
-				$('body').append('<div style="position: absolute; top: 100px; bottom: 100px; left: 100px; right: 100px; z-index: 1000000; background: white; overflow: auto;">'+table+'</div>');
-			});
-		});
 	};
 
 	TopToolBar.prototype.handleClick = function(e){
 		var targetId = e.target.getAttribute('data-for');
 		if (targetId) {
 			if (targetId == 'window-customviews') Ext.ComponentQuery.query('#window-customviews')[0].show();
+			if (targetId == 'window-customLayers') this.initCustomLayersWindow();
 			$('#' + targetId).toggleClass('open');
 			$(e.target).toggleClass('open');
 		}
@@ -112,6 +98,13 @@ define([], function () {
 		if (targetId) {
 			$('#' + targetId).removeClass('open');
 			this._target.find('div[data-for="' + targetId + '"]').removeClass('open');
+		}
+	};
+
+	TopToolBar.prototype.initCustomLayersWindow = function() {
+		var component = $('#custom-layers-container');
+		if (!component.length) {
+			new CustomLayers;
 		}
 	};
 
