@@ -99,7 +99,12 @@ define(['../../../../error/ArgumentError',
 	WorldWindWidgetPanel.prototype.clearLayers = function(group){
 		$("." + group + "-floater").remove();
 		this._worldWind.layers.removeAllLayersFromGroup(group);
-		this._panelBodySelector.find(".layer-row").removeClass("checked");
+
+		if (group == "selectedareasfilled" || group == "areaoutlines"){
+			this._panelBodySelector.find(".layer-row[data-id=" + group + "]").removeClass("checked");
+		} else {
+			this._panelBodySelector.find(".layer-row").removeClass("checked");
+		}
 	};
 
 	/**
