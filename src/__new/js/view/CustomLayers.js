@@ -42,6 +42,7 @@ define([
 				this.buildFileForm();
 				this.view('action');
 				break;
+			case 'custom-layers-action-back-btn':
 			case 'custom-layers-file-cancel-btn':
 				this.clearAction();
 				this.view();
@@ -117,15 +118,34 @@ define([
 		//var url = 'http://192.168.2.112/backend/' + 'rest/layerImporter/status/' + operationId;
 		var self = this;
 		$.get(url).done(function(data) {
-			console.log('SATATUS', data);
 			if (data.status == 'done') {
-				console.log('WHEEEEEEEEE');
+				self.buildFileResult(data);
 			} else if (data.status == 'error') {
-				console.log('BUUUUUUUU');
+				self.buildFileResult(data);
 			} else {
+				self.buildFileStatus(data);
 				setTimeout(self.checkStatus.bind(self, operationId), 4000);
 			}
 		});
+	};
+
+	CustomLayers.prototype.buildFileStatus = function(result) {
+		this._actionContainer.empty();
+		this._actionContainer.append(
+			'<div class="custom-layers-status">Importing…</div>' +
+			'<div class="custom-layers-progress"><div style="width:' + result.progress || 0 + '%"></div></div> '
+		);
+	};
+
+	CustomLayers.prototype.buildFileResult = function(result) {
+		this._actionContainer.empty();
+		if (result.status == 'done') {
+			this._actionContainer.append(
+				'<div class="custom-layers-status">Layer imported succesfully.</div>' +
+				'<div class="custom-layers-file-post-import"></div> ' +
+				'<div class="ptr-btn" id="custom-layers-action-back-btn">Back</div>'
+			);
+		}
 	};
 
 
