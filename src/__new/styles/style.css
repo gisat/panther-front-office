@@ -250,14 +250,15 @@ label.container > input {
 	margin-top: 20px;
 }
 
-.custom-layers-status {
+.custom-layers-status,
+.custom-layers-status-message {
 	padding: 5px 0;
 }
 .custom-layers-status.success {
-	color: #106615;
+	color: #14801a;
 }
 .custom-layers-status.error {
-	color: #661f10;
+	color: #8c2a16;
 }
 .custom-layers-progress {
 	height: 10px;

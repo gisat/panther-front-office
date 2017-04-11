@@ -120,8 +120,8 @@ define([
 		this._actionContainer.empty();
 		this._actionContainer.append(
 			'<div class="custom-layers-status"></div>' +
-			'<div class="custom-layers-status-message"></div>' +
 			'<div class="custom-layers-progress"><div></div></div>' +
+			'<div class="custom-layers-status-message"></div>' +
 			'<div class="custom-layers-file-post-import"></div>' +
 			'<div class="ptr-btn-group"></div>'
 		);
