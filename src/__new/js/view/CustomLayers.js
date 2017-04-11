@@ -42,13 +42,21 @@ define([
 				this.buildFileForm();
 				this.view('action');
 				break;
+			case 'custom-layers-wms-btn':
+				this.buildWmsForm();
+				this.view('action');
+				break;
 			case 'custom-layers-action-back-btn':
 			case 'custom-layers-file-cancel-btn':
+			case 'custom-layers-wms-cancel-btn':
 				this.clearAction();
 				this.view();
 				break;
 			case 'custom-layers-file-load-btn':
 				this.loadFile();
+				break;
+			case 'custom-layers-wms-connect-btn':
+				this.connectWms();
 				break;
 			default:
 				console.log('CustomLayers#handleClick' + targetId);
@@ -76,6 +84,23 @@ define([
 				'<div class="ptr-btn-group">' +
 					'<div class="ptr-btn primary" id="custom-layers-file-load-btn">Load</div>' +
 					'<div class="ptr-btn" id="custom-layers-file-cancel-btn">Cancel</div>' +
+				'</div>'
+			);
+		}
+	};
+
+	CustomLayers.prototype.buildWmsForm = function() {
+		if (this._action != 'wms') {
+			this.clearAction();
+			this._action = 'wms';
+			this._actionContainer.append(
+				'<label class="container">' +
+					'WMS url' +
+					'<input type="text" id="custom-layers-wms-url" />' +
+				'</label>' +
+				'<div class="ptr-btn-group">' +
+					'<div class="ptr-btn primary" id="custom-layers-wms-connect-btn">Connect</div>' +
+					'<div class="ptr-btn" id="custom-layers-wms-cancel-btn">Cancel</div>' +
 				'</div>'
 			);
 		}
@@ -172,6 +197,11 @@ define([
 			progressEl.css('width', progress);
 
 		}
+	};
+
+
+	CustomLayers.prototype.connectWms = function() {
+
 	};
 
 
