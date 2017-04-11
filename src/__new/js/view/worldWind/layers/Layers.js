@@ -2,6 +2,7 @@ define(['../../../error/ArgumentError',
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 
+	'../layers/MyOsmLayer',
 	'../layers/MyWmsLayer',
 	'../SelectionController',
 
@@ -11,6 +12,7 @@ define(['../../../error/ArgumentError',
 			NotFoundError,
 			Logger,
 
+			MyOsmLayer,
 			MyWmsLayer,
 			SelectionController,
 
@@ -188,6 +190,9 @@ define(['../../../error/ArgumentError',
 				break;
 			case "bingAerial":
 				layer = new WorldWind.BingAerialLayer();
+				break;
+			case "osm":
+				layer = new MyOsmLayer();
 				break;
 			case "landsat":
 				layer = new WorldWind.BMNGLandsatLayer();
