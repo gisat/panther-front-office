@@ -99,13 +99,14 @@ define(['../../../../error/ArgumentError',
 				icon.addClass("open");
 				$(".floater, .tool-window").removeClass("active");
 				self._floaterSelector.addClass("open");
+				if ($("#sidebar-reports").hasClass("hidden")){
+					self._floaterSelector.css({
+						right: "10px"
+					})
+				}
+				self.addContent();
 				setTimeout(function(){
 					self._floaterSelector.addClass("active");
-					if ($("#sidebar-reports").hasClass("hidden")){
-						self._floaterSelector.css({
-							right: "10px"
-						})
-					}
 				}, 50);
 			}
 		});
