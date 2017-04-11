@@ -143,15 +143,6 @@ define([
 		});
 	};
 
-	CustomLayers.prototype.buildFileStatus = function(result) {
-		this._actionContainer.empty();
-		var progress = Number(result.progress) || 0;
-		this._actionContainer.append(
-			'<div class="custom-layers-status">Importing…</div>' +
-			'<div class="custom-layers-progress"><div style="width:' + progress + '%"></div></div>'
-		);
-	};
-
 	CustomLayers.prototype.updateFileStatus = function(result) {
 		var statusEl = this._actionContainer.find('.custom-layers-status').first();
 		var statusMessageEl = this._actionContainer.find('.custom-layers-status-message').first();
@@ -160,7 +151,7 @@ define([
 		if (result.status == 'done') {
 			var postInfoEl = this._actionContainer.find('.custom-layers-file-post-import').first();
 			statusEl.html('Layer imported succesfully.');
-			statusMessageEl.html('');
+			statusEl.addClass('success');
 			progressEl.css('width','100%');
 			//btnGroupEl.empty();
 			btnGroupEl.append(
@@ -168,6 +159,7 @@ define([
 			);
 		} else if (result.status == 'error') {
 			statusEl.html('Import failed');
+			statusEl.addClass('error');
 			statusMessageEl.html('Error: ' + result.message);
 			progressEl.css('background-color', '#f00');
 			//btnGroupEl.empty();
@@ -177,7 +169,6 @@ define([
 		} else {
 			var progress = (result.progress || 0) + "%";
 			statusEl.html('Importing…');
-			statusMessageEl.html(result.message);
 			progressEl.css('width', progress);
 
 		}

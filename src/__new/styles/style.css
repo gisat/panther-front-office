@@ -246,6 +246,10 @@ label.container > input {
 	margin: 20px 0;
 }
 
+#custom-layers-action .ptr-btn-group {
+	margin-top: 20px;
+}
+
 .custom-layers-status {
 	padding: 5px 0;
 }
