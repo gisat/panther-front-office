@@ -44,6 +44,7 @@ define(['../../../../error/ArgumentError',
 		if (action == notification && notification == "clearAllSelections"){
 			$("#selectedareasfilled-panel-row").remove();
 			this.clearLayers("selectedareasfilled");
+			Stores.selectedOutlines = null;
 		}
 	};
 
