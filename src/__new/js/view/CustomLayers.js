@@ -58,7 +58,11 @@ define([
 	CustomLayers.prototype.clearAction = function(timeout) {
 		timeout = timeout || 0;
 		this._action = null;
-		this._actionContainer.delay(timeout).empty();
+		var self = this;
+		setTimeout(function(){
+			self._actionContainer.empty();
+		}, timeout);
+
 	};
 
 	CustomLayers.prototype.buildFileForm = function() {
@@ -150,7 +154,7 @@ define([
 		var progressEl = this._actionContainer.find('.custom-layers-progress').first().find('div').first();
 		var btnGroupEl = this._actionContainer.find('.ptr-btn-group').first();
 		if (result.status == 'done') {
-			var postInfoEl = this._actionContainer.find('.custom-layers-file-post-import').first();
+			//var postInfoEl = this._actionContainer.find('.custom-layers-file-post-import').first();
 			statusEl.html('Layer imported succesfully.');
 			statusEl.addClass('success');
 			progressEl.css('width','100%');
