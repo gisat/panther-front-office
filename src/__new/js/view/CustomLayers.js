@@ -161,7 +161,7 @@ define([
 			var postInfoEl = this._actionContainer.find('.custom-layers-file-post-import').first();
 			statusEl.html('Layer imported succesfully.');
 			statusMessageEl.html('');
-			progressEl.css('width:100%;');
+			progressEl.css('width','100%');
 			//btnGroupEl.empty();
 			btnGroupEl.append(
 				'<div class="ptr-btn" id="custom-layers-action-back-btn">Back</div>'
@@ -169,16 +169,16 @@ define([
 		} else if (result.status == 'error') {
 			statusEl.html('Import failed');
 			statusMessageEl.html('Error: ' + result.message);
-			progressEl.css('background-color:#f00;');
+			progressEl.css('background-color', '#f00');
 			//btnGroupEl.empty();
 			btnGroupEl.append(
 				'<div class="ptr-btn" id="custom-layers-action-back-btn">Back</div>'
 			);
 		} else {
-			var progress = Number(result.progress) || 0;
+			var progress = (result.progress || 0) + "%";
 			statusEl.html('Importing…');
 			statusMessageEl.html(result.message);
-			progressEl.css('width:' + progress + '%;');
+			progressEl.css('width', progress);
 
 		}
 	};
