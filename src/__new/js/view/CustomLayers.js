@@ -44,7 +44,7 @@ define([
 				break;
 			case 'custom-layers-action-back-btn':
 			case 'custom-layers-file-cancel-btn':
-				this.clearAction();
+				this.clearAction(500);
 				this.view();
 				break;
 			case 'custom-layers-file-load-btn':
