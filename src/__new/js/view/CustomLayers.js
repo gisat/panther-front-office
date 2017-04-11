@@ -130,9 +130,10 @@ define([
 
 	CustomLayers.prototype.buildFileStatus = function(result) {
 		this._actionContainer.empty();
+		var progress = Number(result.progress) || 0;
 		this._actionContainer.append(
 			'<div class="custom-layers-status">Importing…</div>' +
-			'<div class="custom-layers-progress"><div style="width:' + '20' + '%"></div></div>'
+			'<div class="custom-layers-progress"><div style="width:' + progress + '%"></div></div>'
 		);
 	};
 
