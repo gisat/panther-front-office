@@ -107,7 +107,6 @@ define([
 			contentType: false
 		})
 			.done(function(data){
-				console.log(data);
 				self.checkStatus(data.id);
 			});
 
@@ -133,7 +132,7 @@ define([
 		this._actionContainer.empty();
 		this._actionContainer.append(
 			'<div class="custom-layers-status">Importing…</div>' +
-			'<div class="custom-layers-progress"><div style="width:' + result.progress || 0 + '%"></div></div> '
+			'<div class="custom-layers-progress"><div style="width:20%"></div></div>'
 		);
 	};
 
