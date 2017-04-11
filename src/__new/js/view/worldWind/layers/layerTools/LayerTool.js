@@ -101,6 +101,11 @@ define(['../../../../error/ArgumentError',
 				self._floaterSelector.addClass("open");
 				setTimeout(function(){
 					self._floaterSelector.addClass("active");
+					if ($("#sidebar-reports").hasClass("hidden")){
+						self._floaterSelector.css({
+							right: "10px"
+						})
+					}
 				}, 50);
 			}
 		});
