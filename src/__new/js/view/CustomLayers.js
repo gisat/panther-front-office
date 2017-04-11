@@ -145,6 +145,12 @@ define([
 				'<div class="custom-layers-file-post-import"></div> ' +
 				'<div class="ptr-btn" id="custom-layers-action-back-btn">Back</div>'
 			);
+		} else {
+			this._actionContainer.append(
+				'<div class="custom-layers-status">Error</div>' +
+				'<div class="custom-layers-error-message">' + result.message + '</div> ' +
+				'<div class="ptr-btn" id="custom-layers-action-back-btn">Back</div>'
+			);
 		}
 	};
 
