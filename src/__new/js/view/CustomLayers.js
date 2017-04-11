@@ -21,7 +21,7 @@ define([
 				'<div class="custom-layers-content" id="custom-layers-start">' +
 					'<div>' +
 						'<div class="ptr-btn primary" id="custom-layers-file-btn">Load from file…</div>' +
-						'<div class="ptr-btn disabled" id="custom-layers-wms-btn">Connect to WMS…</div>' +
+						'<div class="ptr-btn primary" id="custom-layers-wms-btn">Connect to WMS…</div>' +
 					'</div>' +
 				'</div>' +
 				'<div class="custom-layers-content" id="custom-layers-action">' +
@@ -47,6 +47,17 @@ define([
 				break;
 			case 'custom-layers-file-load-btn':
 				this.loadFile();
+				break;
+			case 'custom-layers-wms-btn':
+				this.buildWMSForm();
+				this.view('action');
+				break;
+			case 'custom-layers-wms-cancel-btn':
+				this.clearAction();
+				this.view();
+				break;
+			case 'custom-layers-wms-add-btn':
+				this.addWMS();
 				break;
 			default:
 				console.log('CustomLayers#handleClick' + targetId);
@@ -75,6 +86,32 @@ define([
 				'<div class="ptr-btn-group">' +
 					'<div class="ptr-btn primary" id="custom-layers-file-load-btn">Load</div>' +
 					'<div class="ptr-btn" id="custom-layers-file-cancel-btn">Cancel</div>' +
+				'</div>'
+			);
+		}
+	};
+
+	CustomLayers.prototype.buildWMSForm = function() {
+		if (this._action != 'wms') {
+			this.clearAction();
+			this._action = 'wms';
+			var target = this._target.find('#custom-layers-action');
+			target.append(
+				'<label class="container">' +
+					'WMS address' +
+					'<input type="text" id="custom-layers-wms-address" value="http://services.sentinel-hub.com/v1/wms/56748ba2-4a88-4854-beea-86f9afc63e35" />' + // TODO remove value
+				'</label>' +
+				'<label class="container">' +
+					'WMS layer' +
+					'<input type="text" id="custom-layers-wms-layer" value="TRUE_COLOR_ENHANCED" />' + // TODO remove value
+				'</label>' +
+				'<label class="container">' +
+					'Layer name' +
+					'<input type="text" id="custom-layers-wms-name" value="Sentinel" />' + // TODO remove value
+				'</label>' +
+				'<div class="ptr-btn-group">' +
+					'<div class="ptr-btn primary" id="custom-layers-wms-add-btn">Add</div>' +
+					'<div class="ptr-btn" id="custom-layers-wms-cancel-btn">Cancel</div>' +
 				'</div>'
 			);
 		}
@@ -112,6 +149,36 @@ define([
 
 	};
 
+
+	CustomLayers.prototype.addWMS = function() {
+		var wmsAddress = this._container.find('#custom-layers-wms-address')[0].value;
+		var wmsLayer = this._container.find('#custom-layers-wms-layer')[0].value;
+		var name = this._container.find('#custom-layers-wms-name')[0].value;
+		var url = Config.url + 'rest/wms/layer';
+
+		var payload = {
+			'url': wmsAddress,
+			'layer': wmsLayer,
+			'scope': ThemeYearConfParams.dataset,
+			'periods': null, // TODO where to get all Periods?
+			'places': ThemeYearConfParams.allPlaces,
+			'name': name
+		};
+
+		var self = this;
+		$.post({
+			url: url,
+			data: JSON.stringify(payload),
+			processData: false,
+			contentType: "application/json"
+		})
+			.done(function(data){
+				console.log(data);
+				self.addWMSToLayers(data.id);
+			});
+	};
+
+
 	CustomLayers.prototype.checkStatus = function(operationId) {
 		var url = Config.url + 'rest/layerImporter/status/' + operationId;
 		//var url = 'http://192.168.2.112/backend/' + 'rest/layerImporter/status/' + operationId;
@@ -126,6 +193,14 @@ define([
 				setTimeout(self.checkStatus.bind(self, operationId), 4000);
 			}
 		});
+	};
+
+
+
+	CustomLayers.prototype.addWMSToLayers = function(operationId) {
+		console.log("******");
+
+		// TODO add to layer tree
 	};
 
 
