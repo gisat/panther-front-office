@@ -139,7 +139,7 @@ var widgets = {
 	legacyAdvancedFilters: {
 		xtype: 'panel',
 		// id: 'legacyAdvancedFilters0',
-		collapsed: true,
+		collapsed: !Config.toggles.useTopToolbar,
 		tools: [{
 			type: 'poweron',
 			tooltip: 'Activate/deactivate',
