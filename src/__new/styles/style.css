@@ -246,10 +246,19 @@ label.container > input {
 	margin: 20px 0;
 }
 
+.custom-layers-status {
+	padding: 5px 0;
+}
+.custom-layers-status.success {
+	color: #106615;
+}
+.custom-layers-status.error {
+	color: #661f10;
+}
 .custom-layers-progress {
 	height: 10px;
 	width: 100%;
-	background: #ddd;
+	background: #eee;
 	position: relative;
 }
 .custom-layers-progress > div {
@@ -258,5 +267,8 @@ label.container > input {
 	left: 0;
 	width: 0;
 	height: 100%;
-	background: #0a56c8;
+	background: #2999c8;
+
+	transition:
+		width .3s ease-in-out;
 }

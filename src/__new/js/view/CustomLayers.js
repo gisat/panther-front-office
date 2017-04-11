@@ -141,15 +141,20 @@ define([
 		this._actionContainer.empty();
 		if (result.status == 'done') {
 			this._actionContainer.append(
-				'<div class="custom-layers-status">Layer imported succesfully.</div>' +
+				'<div class="custom-layers-status success">Layer imported succesfully.</div>' +
+				'<div class="custom-layers-progress"><div style="width:100%"></div></div>' +
 				'<div class="custom-layers-file-post-import"></div> ' +
-				'<div class="ptr-btn" id="custom-layers-action-back-btn">Back</div>'
+				'<div class="ptr-btn-group">' +
+					'<div class="ptr-btn" id="custom-layers-action-back-btn">Back</div>' +
+				'</div>'
 			);
 		} else {
 			this._actionContainer.append(
-				'<div class="custom-layers-status">Error</div>' +
-				'<div class="custom-layers-error-message">' + result.message + '</div> ' +
-				'<div class="ptr-btn" id="custom-layers-action-back-btn">Back</div>'
+				'<div class="custom-layers-status error">Import failed</div>' +
+				'<div class="custom-layers-error-message">Error: ' + result.message + '</div>' +
+				'<div class="ptr-btn-group">' +
+					'<div class="ptr-btn" id="custom-layers-action-back-btn">Back</div>' +
+				'</div>'
 			);
 		}
 	};
