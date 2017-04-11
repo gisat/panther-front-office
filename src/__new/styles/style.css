@@ -246,13 +246,13 @@ label.container > input {
 	margin: 20px 0;
 }
 
-#custom-layers-progress {
+.custom-layers-progress {
 	height: 10px;
 	width: 100%;
 	background: #ddd;
 	position: relative;
 }
-#custom-layers-progress > div {
+.custom-layers-progress > div {
 	position: absolute;
 	top: 0;
 	left: 0;
