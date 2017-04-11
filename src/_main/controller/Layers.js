@@ -1249,7 +1249,7 @@ Ext.define('PumaMain.controller.Layers', {
 
 		// multiple layers from one group, if CTRL key used
 		var multi = false;
-		if (view.lastE && view.lastE.ctrlKey || this._multiCheck) {
+		if (parentType != 'basegroup' && (view.lastE && view.lastE.ctrlKey || this._multiCheck)) {
 			multi = true;
 			this._multiCheck = false;
 		}
@@ -1269,14 +1269,19 @@ Ext.define('PumaMain.controller.Layers', {
 			var firstInCategoryIndex = 8000;
 			var selectedLayers = store.getRange();
 
+			// console.debug("\n\n#### " + node.get('name'));
+
 			// get the lowest used sortIndex in the same or lower (higher number) category
 			for(var i in selectedLayers){
 				if(!selectedLayers.hasOwnProperty(i)) continue;
-				if(node.id == selectedLayers[i].id) continue; // skip the layer itself
+				var selectedLayer = selectedLayers[i];
+				var selectedLayerParent = selectedLayer.parentNode;
 
-				if(this.getLayerGroupCategory(selectedLayers[i].parentNode.get('type')) >= this.getLayerGroupCategory(parentType)) {
-					// console.debug(selectedLayers[i].get('name') + " (sortIndex: " + selectedLayers[i].get('sortIndex') + ") has the same or lower category");
-					firstInCategoryIndex = Math.min(firstInCategoryIndex, selectedLayers[i].get('sortIndex'));
+				if(node.id == selectedLayer.id) continue; // skip the layer itself
+
+				if(this.getLayerGroupCategory(selectedLayerParent.get('type')) >= this.getLayerGroupCategory(parentType)) {
+					// console.debug(selectedLayer.get('name') + " (sortIndex: " + selectedLayer.get('sortIndex') + ") has the same or lower category");
+					firstInCategoryIndex = Math.min(firstInCategoryIndex, selectedLayer.get('sortIndex'));
 				}
 
 			}
@@ -1343,17 +1348,17 @@ Ext.define('PumaMain.controller.Layers', {
 	 * @returns {*}
 	 */
 	getLayerGroupCategory: function(layerGroup) {
-		var categories = {
-			0: ['systemgroup'],
-			1: ['choroplethgroup'],
-			// 2: default
-			3: ['basegroup']
-		};
+		var categories = [
+			['systemgroup'], // 0
+			['choroplethgroup'], // 1
+			null, // 2 - dafault
+			['basegroup'] // 3
+		];
 		var defaultCategory = 2;
 
-		for(var categoryNumber in Object.keys(categories)) {
+		for(var categoryNumber in categories) {
 			if(!categories.hasOwnProperty(categoryNumber)) continue;
-			if(categories[categoryNumber].indexOf(layerGroup) >= 0) {
+			if(categories[categoryNumber] && categories[categoryNumber].indexOf(layerGroup) >= 0) {
 				return categoryNumber;
 			}
 		}
