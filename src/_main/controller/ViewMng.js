@@ -418,6 +418,7 @@ Ext.define('PumaMain.controller.ViewMng', {
         var window = Ext.widget('window',{
             layout: 'fit',
             width: 300,
+            cls: 'window-savevisualization',
             title: 'Save visualization',
             y: 200,
             bodyCls: 'saveaswindow',
@@ -435,6 +436,7 @@ Ext.define('PumaMain.controller.ViewMng', {
             width: 300,
             title: 'Save data view',
             y: 200,
+            cls: 'window-savedataview',
             bodyCls: 'saveaswindow',
             items: [{
                 xtype: 'commonsaveform',

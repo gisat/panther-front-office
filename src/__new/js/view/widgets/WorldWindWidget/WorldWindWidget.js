@@ -175,7 +175,7 @@ define(['../../../error/ArgumentError',
 
 		//$(".x-css-shadow").css("display", "none");
 
-		$(".x-window:not(.thematic-maps-settings, .x-window-ghost, .metadata-window,#window-areatree, #window-colourSelection), #tools-container, #widget-container .placeholder:not(#placeholder-" + this._widgetId + ")")
+		$(".x-window:not(.thematic-maps-settings, .x-window-ghost, .metadata-window, .window-savevisualization, .window-savedataview, #loginwindow, #window-managevisualization, #window-areatree, #window-colourSelection), #tools-container, #widget-container .placeholder:not(#placeholder-" + this._widgetId + ")")
 			.css("display", action);
 
 	};
