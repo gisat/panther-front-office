@@ -41,7 +41,8 @@ define([
 			var classesSelections3d = $('#window-colourSelection').hasClass('open') ? "item open" : "item";
 			this._target.append('<div class="' + classesSelections3d + '" id="top-toolbar-selections" data-for="window-colourSelection">Selections</div>');
 
-			this._target.append('<div class="item disabled" id="top-toolbar-selection-filter">Areas filter</div>');
+			var classesAreasFilter = $('#window-legacyAdvancedFilters').hasClass('open') ? "item open" : "item";
+			this._target.append('<div class="' + classesAreasFilter + '" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters">Areas filter</div>');
 
 			this._target.append('<div class="item disabled" id="top-toolbar-map-tools">Map tools</div>');
 
