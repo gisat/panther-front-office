@@ -58,8 +58,7 @@ define([
 	CustomLayers.prototype.clearAction = function(timeout) {
 		timeout = timeout || 0;
 		this._action = null;
-		var self = this;
-		setTimeout(self._actionContainer.empty, timeout);
+		this._actionContainer.delay(timeout).empty();
 	};
 
 	CustomLayers.prototype.buildFileForm = function() {
