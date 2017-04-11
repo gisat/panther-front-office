@@ -153,12 +153,12 @@ define([
 	};
 
 	CustomLayers.prototype.updateFileStatus = function(result) {
-		var statusEl = this._actionContainer.find('.custom-layers-status')[0];
-		var statusMessageEl = this._actionContainer.find('.custom-layers-status-message')[0];
-		var progressEl = this._actionContainer.find('.custom-layers-progress')[0].find('div')[0];
-		var btnGroupEl = this._actionContainer.find('.ptr-btn-group')[0];
+		var statusEl = this._actionContainer.find('.custom-layers-status').first();
+		var statusMessageEl = this._actionContainer.find('.custom-layers-status-message').first();
+		var progressEl = this._actionContainer.find('.custom-layers-progress').first().find('div').first();
+		var btnGroupEl = this._actionContainer.find('.ptr-btn-group').first();
 		if (result.status == 'done') {
-			var postInfoEl = this._actionContainer.find('.custom-layers-file-post-import')[0];
+			var postInfoEl = this._actionContainer.find('.custom-layers-file-post-import').first();
 			statusEl.html('Layer imported succesfully.');
 			statusMessageEl.html('');
 			progressEl.css('width:100%;');
