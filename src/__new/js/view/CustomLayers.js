@@ -30,6 +30,7 @@ define([
 		);
 
 		this._container = this._target.find('#custom-layers-container');
+		this._actionContainer = this._container.find('#custom-layers-action');
 
 	};
 
@@ -54,7 +55,7 @@ define([
 	};
 
 	CustomLayers.prototype.clearAction = function() {
-		this._target.find('#custom-layers-action').empty();
+		this._actionContainer.empty();
 		this._action = null;
 	};
 
@@ -62,8 +63,7 @@ define([
 		if (this._action != 'file') {
 			this.clearAction();
 			this._action = 'file';
-			var target = this._target.find('#custom-layers-action');
-			target.append(
+			this._actionContainer.append(
 				'<label class="container">' +
 					'File' +
 					'<input type="file" id="custom-layers-file-file" />' +
