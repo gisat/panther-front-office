@@ -107,6 +107,9 @@ define(['../../../../error/ArgumentError',
 			'</div>');
 	};
 
+	/**
+	 * Show window with metadata info on Metadata icon click
+	 */
 	LayerTools.prototype.addMetadataIconOnClickListener = function(){
 		this._toolsContainer.on("click", ".metadata-icon", function(){
 			var dataId = $(this).attr("data-for");

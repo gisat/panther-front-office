@@ -34,7 +34,7 @@ define(['../../../../../error/ArgumentError',
 	 * Build a legend
 	 */
 	Legend.prototype.build = function(){
-		this._icon = this.buildIcon("Legend", "legend-icon", "fa-list");
+		this._icon = this.buildIcon("Legend", "legend-icon", "legend");
 		this._floater = this.buildFloater("Legend", "legend-floater");
 
 		this._iconSelector = this._icon.getElement();

@@ -75,11 +75,11 @@
 .panel-body .layer-row {
 	display: inline-block;
 	vertical-align: middle;
-	width: calc(100% - 3.3rem);
+	width: calc(100% - 3rem);
 }
 .panel-body .panel-layer-group-body .layer-row {
 	padding-left: 2.15rem;
-	width: calc(100% - 4.8rem);
+	width: calc(100% - 4.3rem);
 }
 .panel-body .layer-row a {
 	width: auto;
