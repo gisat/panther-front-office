@@ -123,7 +123,7 @@ define([
 			} else if (data.status == 'error') {
 				console.log('BUUUUUUUU');
 			} else {
-				setTimeout(self.checkStatus(operationId), 4000);
+				setTimeout(self.checkStatus.bind(self, operationId), 4000);
 			}
 		});
 	};
