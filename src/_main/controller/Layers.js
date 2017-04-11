@@ -1231,8 +1231,17 @@ Ext.define('PumaMain.controller.Layers', {
 		var nodeType = node.get('type');
 		var self = this;
 
+		// get view object of layer panel
+		var view = Ext.ComponentQuery.query('#layerpanel')[0].view;
+
 		if(node.get('type') == 'traffic') {
 			this.changeVisibilityOfTrafficLayer(node, checked);
+			return;
+		}
+
+		// don't uncheck basemap layer
+		if(!checked && parentType == 'basegroup' && view.lastE) {
+			node.set('checked', true); // recheck
 			return;
 		}
 
@@ -1240,9 +1249,6 @@ Ext.define('PumaMain.controller.Layers', {
 		if (!checked && node.get('legend')) {
 			node.get('legend').destroy();
 		}
-
-		// get view object of layer panel
-		var view = Ext.ComponentQuery.query('#layerpanel')[0].view;
 
 		// get store object
 		var store = Ext.StoreMgr.lookup('selectedlayers');
