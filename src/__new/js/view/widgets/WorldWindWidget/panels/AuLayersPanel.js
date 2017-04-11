@@ -37,6 +37,15 @@ define(['../../../../error/ArgumentError',
 
 	AuLayersPanel.prototype.addListeners = function(){
 		Stores.listeners.push(this.rebuild.bind(this, "updateOutlines"));
+		Stores.listeners.push(this.clearAllSelections.bind(this, "clearAllSelections"));
+	};
+
+	AuLayersPanel.prototype.clearAllSelections = function(action, notification){
+		if (action == notification && notification == "clearAllSelections"){
+			$("#selectedareasfilled-panel-row").remove();
+			this.clearLayers("selectedareasfilled");
+			Stores.selectedOutlines = null;
+		}
 	};
 
 	/**

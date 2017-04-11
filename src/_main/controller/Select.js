@@ -253,6 +253,7 @@ Ext.define('PumaMain.controller.Select', {
     },
         
     clearSelectionsAll: function() {
+        Stores.notify("clearAllSelections");
         this.selMap = {'ff4c39':[]};
         this.hoverMap = [];
         this.colorMap = {};
