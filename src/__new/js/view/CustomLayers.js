@@ -44,7 +44,7 @@ define([
 				break;
 			case 'custom-layers-action-back-btn':
 			case 'custom-layers-file-cancel-btn':
-				this.clearAction(500);
+				this.clearAction();
 				this.view();
 				break;
 			case 'custom-layers-file-load-btn':
@@ -55,14 +55,9 @@ define([
 		}
 	};
 
-	CustomLayers.prototype.clearAction = function(timeout) {
-		timeout = timeout || 0;
+	CustomLayers.prototype.clearAction = function() {
 		this._action = null;
-		var self = this;
-		setTimeout(function(){
-			self._actionContainer.empty();
-		}, timeout);
-
+		this._actionContainer.empty();
 	};
 
 	CustomLayers.prototype.buildFileForm = function() {
