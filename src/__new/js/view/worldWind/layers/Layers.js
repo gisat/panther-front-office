@@ -192,7 +192,10 @@ define(['../../../error/ArgumentError',
 				layer = new WorldWind.BingAerialLayer();
 				break;
 			case "osm":
-				layer = new MyOsmLayer();
+				layer = new MyOsmLayer({source: "http://a.tile.openstreetmap.org/"});
+				break;
+			case "cartoDb":
+				layer = new MyOsmLayer({source: "http://a.basemaps.cartocdn.com/light_all/"});
 				break;
 			case "landsat":
 				layer = new WorldWind.BMNGLandsatLayer();
