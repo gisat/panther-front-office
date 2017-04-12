@@ -1255,7 +1255,11 @@ Ext.define('PumaMain.controller.Layers', {
 
 		// multiple layers from one group, if CTRL key used
 		var multi = false;
-		if (parentType != 'basegroup' && (view.lastE && view.lastE.ctrlKey || this._multiCheck)) {
+		//if (parentType != 'basegroup' && (view.lastE && view.lastE.ctrlKey || this._multiCheck)) {
+		//	multi = true;
+		//	this._multiCheck = false;
+		//}
+		if (parentType != 'basegroup') {
 			multi = true;
 			this._multiCheck = false;
 		}
