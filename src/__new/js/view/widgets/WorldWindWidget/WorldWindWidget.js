@@ -53,7 +53,6 @@ define(['../../../error/ArgumentError',
 	WorldWindWidget.prototype.rebuild = function(data, options){
 		this._options = jQuery.extend(true, {}, options);
 		var isIn3dMode = $("body").hasClass("mode-3d");
-
 		if (isIn3dMode){
 			if (this._options.changes.location){
 				this.rebuildWorldWindWindow();
