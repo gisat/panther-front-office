@@ -127,12 +127,27 @@ Ext.define('PumaMain.controller.ViewMng', {
 			}];
 			if(Config.toggles.isUrbanTep){
 				items.push({
+					name: 'urbanTepName',
+					itemId: 'urbanTepName',
+					xtype: 'textfield',
+					fieldLabel: 'Name: '
+				});
+				items.push({
+					name: 'urbanTepDescription',
+					itemId: 'urbanTepDescription',
+					xtype: 'textfield',
+					fieldLabel: 'Description: '
+				});
+				items.push({
 					xtype: 'button',
 					text: 'Share on portal',
-					handler: function() {
+					handler: function(item) {
+						var name = item.up().down('#urbanTepName').getValue();
+						var description = item.up().down('#urbanTepDescription').getValue();
+
 						// TODO: Insert logic for integration into the portal.
 					}
-				})
+				});
 			}
 
             var win = Ext.widget('window',{

@@ -117,6 +117,7 @@ define(['js/util/metadata/Attributes',
 
 		if (Config.toggles.isUrbanTep) {
 			$('body').addClass("urban-tep");
+			$('#header .menu').hide();
 		}
 
 		// build app, map is class for OpenLayers map
