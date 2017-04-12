@@ -149,3 +149,99 @@
     bottom: -15px;
     background-position: -82px -226px;
 }
+
+body.mode-3d .x-window:not(.thematic-maps-settings):not(.metadata-window):not(.window-savevisualization):not(.window-savedataview):not(#loginwindow):not(#window-managevisualization):not(.x-window-ghost):not(#window-areatree):not(#window-colourSelection):not(#window-legacyAdvancedFilters),
+body.mode-3d #tools-container,
+body.mode-3d #widget-container .placeholder:not(#placeholder-world-wind-widget),
+body.mode-3d #widget-container .placeholder.open:not(#placeholder-world-wind-widget),
+body.mode-3d .x-css-shadow,
+body.mode-3d .floater:not(#floater-world-wind-widget),
+body.mode-3d .floater.open:not(#floater-world-wind-widget),
+body.mode-3d .settings-window {
+    display: none;
+}
+
+
+.ptr-btn {
+	display: inline-block;
+	height: 30px;
+	line-height: 30px;
+	padding: 0 10px;
+	text-align: center;
+
+	background: #aaa;
+	color: #fff;
+    border: 0;
+    border-radius: 1px;
+    cursor: pointer;
+    transition: 
+    	background .3s ease-out;
+}
+.ptr-btn:hover {
+	background: #999;
+}
+.ptr-btn.primary {
+	background: rgba(201, 45, 66, .85);
+}
+.ptr-btn.primary:hover {
+	background: #ad2738;
+}
+.ptr-btn.disabled {
+	background: #ddd;
+	cursor: default;
+}
+.ptr-btn.disabled:hover {
+	background: #ddd;
+}
+.ptr-btn-group .ptr-btn:not(:first-child) {
+	margin-left: 5px;
+}
+
+label.container {
+	display: block;
+	margin-bottom: 10px;
+}
+label.container > input {
+	display: block;
+}
+
+
+#custom-layers {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	position: relative;
+}
+#custom-layers-container {
+	width: 200%;
+	height: 100%;
+
+	position: absolute;
+	top: 0;
+	left: 0;
+
+	transition:
+		left .3s ease-in-out;
+}
+.custom-layers-content {
+	width: 50%;
+	height: 100%;
+	float: left;
+	position: relative;
+
+	padding: 10px;
+}
+#custom-layers-container.view-action {
+	left: -100%;
+}
+
+#custom-layers-start > div {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+}
+#custom-layers-start .ptr-btn {
+	display: block;
+	margin: 20px 0;
+}

@@ -33,6 +33,10 @@ define(['../../../error/ArgumentError',
 		}
 		this._worldWind = options.worldWind;
 
+		if (options.topToolBar){
+			this._topToolBar = options.topToolBar;
+		}
+
 		this.build();
 		this.deleteFooter(this._widgetSelector);
 	};
@@ -40,30 +44,86 @@ define(['../../../error/ArgumentError',
 	WorldWindWidget.prototype = Object.create(Widget.prototype);
 
 	/**
-	 * Build basic view of the widget
+	 * Rebuild with current configuration
+	 * @param data {Object}
+	 * @param options {Object}
+	 * @param options.config {Object} current configuration
+	 * @param options.changes {Object} changes in configuration
 	 */
-	WorldWindWidget.prototype.build = function(){
-		this.buildToolIconInHeader("Dock");
-		this.buildToolIconInHeader("Undock");
-		this.buildBody();
-		this.addEventsListeners();
+	WorldWindWidget.prototype.rebuild = function(data, options){
+		this._options = jQuery.extend(true, {}, options);
+		var isIn3dMode = $("body").hasClass("mode-3d");
+
+		if (isIn3dMode){
+			if (this._options.changes.location){
+				this.rebuildWorldWindWindow();
+			}
+			this.rebuildWidgetBody();
+			this._options.changes = {
+				scope: false,
+				location: false,
+				theme: false,
+				period: false,
+				level: false,
+				visualization: false
+			};
+		}
 	};
 
 	/**
-	 * Build the body of widget
+	 * Rebuild map
 	 */
-	WorldWindWidget.prototype.buildBody = function(){
-		this.buildCheckboxInput(this._widgetId + "-3Dmap-switch", "Show 3D map", this._widgetBodySelector);
+	WorldWindWidget.prototype.rebuildWorldWindWindow = function(){
+		this._worldWind.rebuild(this._options.config, this._widgetSelector);
+	};
 
-		this._worldWindContainer = this._worldWind.getContainer();
-		this._worldWindMap = this._worldWindContainer.find("#world-wind-map");
-		this._3DmapSwitcher = $("#" + this._widgetId + "-3Dmap-switch");
+	/**
+	 * Rebuild content of the widget
+	 */
+	WorldWindWidget.prototype.rebuildWidgetBody = function(){
+		this.toggleWarning("none", null);
+		this._panels.rebuild(this._options);
+		this.handleLoading("hide");
+	};
 
+	/**
+	 * Build basic view of the widget
+	 */
+	WorldWindWidget.prototype.build = function(){
+		this.addSettingsIcon();
+		this.addSettingsOnClickListener();
+
+		if (!Config.toggles.useNewViewSelector){
+			this._widgetBodySelector.append('<div id="3d-switch">' +
+				'3D map' +
+				'</div>');
+
+			var self = this;
+			$("#3d-switch").on("click", self.toggle3DMap.bind(self));
+		} else {
+			this.addMinimiseButtonListener();
+		}
+
+		this._widgetSelector.css({
+			height: widgets.layerpanel.height + 40,
+			top: widgets.layerpanel.ptrWindow.y,
+			left: widgets.layerpanel.ptrWindow.x
+		});
 		this._panels = this.buildPanels();
 	};
 
 	/**
-	 * Build particular panels
+	 * Add thematic maps configuration icon the header
+	 */
+	WorldWindWidget.prototype.addSettingsIcon = function(){
+		this._widgetSelector.find(".floater-tools-container")
+			.append('<div id="thematic-layers-configuration" title="Configure thematic maps" class="floater-tool">' +
+				'<img title="Configure thematic maps" src="images/icons/settings.png"/>' +
+				'</div>');
+	};
+
+	/**
+	 * Build panels
 	 */
 	WorldWindWidget.prototype.buildPanels = function(){
 		return new WorldWindWidgetPanels({
@@ -74,72 +134,26 @@ define(['../../../error/ArgumentError',
 	};
 
 	/**
-	 * Rebuild with current configuration
-	 * @param attributes {Array}
-	 * @param options {Object}
+	 * Toggle map into 3D mode
 	 */
-	WorldWindWidget.prototype.rebuild = function(attributes, options){
-		if (attributes.length != 0){
-			this.toggleWarning("none");
-			this._worldWind.rebuild(options.config, this._widgetSelector);
-			this._panels.rebuild(options.config);
-			if (this._3DmapSwitcher.hasClass("checked")){
-				this.toggleComponents("none");
-			}
+	WorldWindWidget.prototype.toggle3DMap = function(){
+		var self = this;
+		var body = $("body");
+
+		if (body.hasClass("mode-3d")){
+			body.removeClass("mode-3d");
+			self._widgetSelector.removeClass("open");
+			self.toggleComponents("block");
 		} else {
-			this.toggleWarning("block", [1,2,3,4]);
+			body.addClass("mode-3d");
+			self._widgetSelector.addClass("open");
+			self.toggleComponents("none");
+			self.rebuild(null, self._options);
 		}
-		this.handleLoading("hide");
-	};
 
-	/**
-	 * Add listeners
-	 */
-	WorldWindWidget.prototype.addEventsListeners = function(){
-		this.addMapSwitchListener();
-		this.addDockingListener();
-	};
-
-	/**
-	 * Add listener for docking
-	 */
-	WorldWindWidget.prototype.addDockingListener = function(){
-		var self = this;
-		this._widgetSelector.find(".widget-dock").on("click", function(){
-			self.dockFloater(self._widgetSelector, self._worldWindContainer);
-			self._worldWindMap.addClass("docked");
-		});
-		this._widgetSelector.find(".widget-undock, .widget-minimise").on("click", function(){
-			self.undockFloater(self._widgetSelector, self._target);
-			self._worldWindMap.removeClass("docked");
-		});
-		$("#placeholder-world-wind-widget").on("click", function(){
-			self.undockFloater(self._widgetSelector, self._target);
-			self._worldWindMap.removeClass("docked");
-		});
-	};
-
-	/**
-	 * Add listener to a "Show 3D map" checkbox
-	 */
-	WorldWindWidget.prototype.addMapSwitchListener = function(){
-		var self = this;
-		this._3DmapSwitcher.on("click", function(){
-			var checkbox = $(this);
-			setTimeout(function(){
-				if (checkbox.hasClass("checked")){
-					self._worldWindContainer.css("display", "block");
-					self._widgetSelector.addClass("dockable");
-					self.toggleComponents("none");
-				} else {
-					self._worldWindContainer.css("display", "none");
-					self._widgetSelector.removeClass("dockable");
-					self.undockFloater(self._widgetSelector, self._target);
-					self._worldWindMap.removeClass("docked");
-					self.toggleComponents("block");
-				}
-			}, 50);
-		});
+		if (this._topToolBar){
+			this._topToolBar.build();
+		}
 	};
 
 	/**
@@ -147,25 +161,44 @@ define(['../../../error/ArgumentError',
 	 * @param action {string} css display value
 	 */
 	WorldWindWidget.prototype.toggleComponents = function(action){
-		var sidebarTools = $("#sidebar-tools");
 
-		$(".x-closable, #sidebar-reports, #tools-container, #widget-container .placeholder:not(#placeholder-" + this._widgetId + ")")
-			.css("display", action);
-		$(".x-css-shadow").css("display", "none");
-
-		var self = this;
-		$(".floater").each(function(index, floaterr){
-			var floater = $(floaterr);
-			if (floater.hasClass("open") && floater.attr("id") != "floater-" + self._widgetId){
-				floater.css("display", action);
+		if (!Config.toggles.useTopToolbar) {
+			var sidebarTools = $("#sidebar-tools");
+			if (action == "none") {
+				sidebarTools.addClass("hidden-complete");
+				sidebarTools.css("display", "none");
+			} else {
+				sidebarTools.removeClass("hidden-complete");
+				sidebarTools.css("display", "block");
 			}
-		});
-
-		if (action == "none"){
-			sidebarTools.addClass("hidden-complete");
-		} else {
-			sidebarTools.removeClass("hidden-complete");
 		}
+
+		//$(".x-css-shadow").css("display", "none");
+
+		$(".x-window:not(.thematic-maps-settings, .x-window-ghost, .metadata-window, .window-savevisualization, .window-savedataview, #loginwindow, #window-managevisualization, #window-areatree, #window-colourSelection, #window-legacyAdvancedFilters), #tools-container, #widget-container .placeholder:not(#placeholder-" + this._widgetId + ")")
+			.css("display", action);
+
+	};
+
+	/**
+	 * Add onclick listener to the settings icon
+	 */
+	WorldWindWidget.prototype.addSettingsOnClickListener = function(){
+		$("#thematic-layers-configuration").on("click", function(){
+			Observer.notify("thematicMapsSettings");
+		});
+	};
+
+	/**
+	 * Add listener to the minimise button
+	 */
+	WorldWindWidget.prototype.addMinimiseButtonListener = function(){
+		var self = this;
+		$(this._widgetSelector).find(".widget-minimise").on("click", function(){
+			var id = self._widgetSelector.attr("id");
+			self._widgetSelector.removeClass("open");
+			$(".item[data-for=" + id + "]").removeClass("open");
+		});
 	};
 
 	return WorldWindWidget;

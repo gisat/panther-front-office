@@ -1,13 +1,30 @@
 #floater-world-wind-widget {
+	display: none;
 	left: 10rem;
 	top: 10rem;
-	min-width: 22rem;
 	max-width: 40rem;
-	height: 10rem;
+	min-height: 4rem;
+	width: 260px;
+	background: rgba(255,255,255,.9);
 }
-#floater-world-wind-widget.dockable {
-	height: 25rem;
+#floater-world-wind-widget.open {
+	display: block;
 }
+#floater-world-wind-widget .floater-header {
+	background: rgba(255,255,255,.9);
+	color: #444;
+	height: 2rem;
+}
+#floater-world-wind-widget .floater-header > span {
+	color: #444;
+}
+#floater-world-wind-widget .floater-body {
+	height: calc(100% - 2rem);
+	border: 1px solid #ddd;
+}
+/*#floater-world-wind-widget.dockable {*/
+	/*height: 25rem;*/
+/*}*/
 #floater-world-wind-widget.docked {
 	position: absolute;
 	top: 0;
@@ -19,17 +36,16 @@
 	padding: 0;
 }
 
-#floater-world-wind-widget .widget-panels {
-	display: none;
-}
-#floater-world-wind-widget.dockable .widget-panels {
-	display: block;
-}
+/*#floater-world-wind-widget .widget-panels {*/
+	/*display: none;*/
+/*}*/
+/*#floater-world-wind-widget.dockable .widget-panels {*/
+	/*display: block;*/
+/*}*/
 
 /* Floater body */
 #floater-world-wind-widget .floater-body {
-	 height: calc(100% - 2rem);
-	 padding: 0;
+	padding: .2rem 0 0 0;
 }
 #floater-world-wind-widget .checkbox-row {
 	transition: background .3s ease-out;
@@ -39,10 +55,33 @@
 	cursor: pointer;
 }
 
-#world-wind-widget-3Dmap-switch {
-	padding: .5rem .3rem;
+/*#world-wind-widget-3Dmap-switch {*/
+	/*padding: .5rem .3rem;*/
+/*}*/
+/*#world-wind-widget-3Dmap-switch .checkbox-label {*/
+	/*font-weight: 600;*/
+	/*font-size: .85rem;*/
+/*}*/
+
+
+.floater-fake-header {
+	background: #ddd;
+	height: 31px;
+	line-height: 31px;
+	padding: 0 .5rem 0 1rem;
 }
-#world-wind-widget-3Dmap-switch .checkbox-label {
-	font-weight: 600;
-	font-size: .85rem;
+.floater-fake-header span {
+	color: #333;
+	font-size: 12px;
+	font-weight: 700;
+}
+.floater-fake-header-tool {
+	cursor: pointer;
+	position: relative;
+	float: right;
+}
+.floater-fake-header-tool img {
+	position: absolute;
+	right: 0;
+	top: 7px;
 }

@@ -24,24 +24,26 @@ define(['../../error/ArgumentError',
 
 	/**
 	 * It returns information about all attributes grouped by attribute sets
+	 * @param options {Object}
+	 * @param options.config {Object} current ThemeYearConf global object configuration
+	 * @param options.changes {Object} object detecting the changes in configuration
 	 * @returns {Promise}
 	 */
-	Attributes.prototype.getData = function(){
+	Attributes.prototype.getData = function(options){
 		var self = this;
-		var params = self.getThemeYearConfParams();
-
+		var params = self.getThemeYearConfParams(options.config);
 		if (_.isEmpty(params)){
 			return new Promise(function(resolve, reject){
-				ThemeYearConfParams.datasetChanged = false;
+				//ThemeYearConfParams.datasetChanged = false;
 				resolve(params);
 			})
 		}
-		else if (ThemeYearConfParams.datasetChanged || ThemeYearConfParams.themeChanged || ThemeYearConfParams.placeChanged){
-			ThemeYearConfParams.datasetChanged = false;
+		else if (options.changes.scope || options.changes.theme || options.changes.place){
+			//ThemeYearConfParams.datasetChanged = false;
 			return new Remote({
 				method: "POST",
 				url: window.Config.url + "api/theme/getThemeYearConf",
-				params: self.getThemeYearConfParams()
+				params: self.getThemeYearConfParams(options.config)
 			}).then(function(response){
 				var output = JSON.parse(response);
 				if (output.data.hasOwnProperty("attrSets")){
@@ -134,6 +136,7 @@ define(['../../error/ArgumentError',
 				attributeSetName: attributeSet.name,
 				standardUnits: attr.standardUnits,
 				units: attr.units,
+				color: attr.color,
 				active: true
 			}
 		}
@@ -142,12 +145,13 @@ define(['../../error/ArgumentError',
 
 	/**
 	 * It prepares the parameters for getThemeYearConf request
+	 * @param options.config {Object} current ThemeYearConf global object configuration
 	 * @returns {{theme: string, years: string, dataset: string, refreshLayers: string, refreshAreas: string}}
 	 */
-	Attributes.prototype.getThemeYearConfParams = function(){
-		var theme = ThemeYearConfParams.theme;
-		var years = ThemeYearConfParams.years;
-		var dataset = ThemeYearConfParams.dataset;
+	Attributes.prototype.getThemeYearConfParams = function(options){
+		var theme = options.theme;
+		var years = options.years;
+		var dataset = options.dataset;
 
 		if (theme.length == 0 || years.length == 0 || dataset.length == 0){
 			console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "Attributes", "getThemeYearConfParams", "missingParameter"));

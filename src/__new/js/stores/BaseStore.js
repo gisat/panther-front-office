@@ -145,11 +145,15 @@ define([
 					// If it doesn't satisfy all the conditions. Array means that the attribute under the key must be
 					// contained in the value to succeed.
 					_.each(options, function (value, key) {
-						if(_.isArray(value)) {
+						if(_.isArray(value) && !_.isArray(model[key])) {
 							if(_.isEmpty(value)) {
 								return;
 							}
 							if(!_.contains(value, model[key])) {
+								shouldRemain = false;
+							}
+						} else if (!_.isArray(value) && _.isArray(model[key])){
+							if(!_.contains(model[key], value)) {
 								shouldRemain = false;
 							}
 						} else {

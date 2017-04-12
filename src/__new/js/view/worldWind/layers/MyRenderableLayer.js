@@ -21,6 +21,7 @@ define(['../../../error/ArgumentError',
 	 */
 	var MyRenderableLayer = function(options){
 		RenderableLayer.call(this, options.name);
+		this.metadata = options.metadata;
 	};
 
 	MyRenderableLayer.prototype = Object.create(RenderableLayer.prototype);
@@ -41,6 +42,15 @@ define(['../../../error/ArgumentError',
 		this.renderables.forEach(function(renderable){
 			renderable.enabled = false;
 		});
+	};
+
+	/**
+	 * Change the opacity of the renderables
+	 * @param opacity {number} alpha channel from 0 to 1
+	 */
+	MyRenderableLayer.prototype.changeOpacity = function(opacity){
+		this._opacity = opacity;
+		this.redraw(this._data);
 	};
 
 	return MyRenderableLayer;

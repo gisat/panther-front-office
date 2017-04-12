@@ -13,12 +13,15 @@
 	position: absolute;
 	top: 8rem;
 	left: calc(50% - 17.5rem);
-	z-index: 99999;
+	z-index: 10000;
 	resize: both;
 	overflow: auto;
 }
 .tool-window.open {
 	display: block;
+}
+.tool-window.active {
+	z-index: 10001;
 }
 
 /* header */
@@ -29,9 +32,14 @@
 }
 .tool-window-header span {
 	color: #666;
+	display: inline-block;
 	font-size: .9rem;
 	font-weight: bold;
-	padding: .2rem;
+	padding: 0 .2rem .2rem;
+	white-space: nowrap;
+	width: 90%;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 .tool-window-header .window-close {
 	float: right;

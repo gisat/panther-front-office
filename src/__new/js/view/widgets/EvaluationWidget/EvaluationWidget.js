@@ -66,10 +66,17 @@ define([
 
     /**
      * It rebuilds the widget for given attributes. First, it collects metadata about each attribute, then it rebuilds all components of the widget
-     * @param attrForRequest {Array} List of attributes for current configuration
+     * @param data {Object}
      * @param options {Object}
      */
-    EvaluationWidget.prototype.rebuild = function(attrForRequest, options){
+    EvaluationWidget.prototype.rebuild = function(data, options){
+        var attrForRequest;
+        if (Array.isArray(data)){
+            attrForRequest = data;
+        } else {
+            attrForRequest = data.attributes;
+        }
+
         var self = this;
         if (attrForRequest.length == 0){
             self.toggleWarning("block", [1,2,3,4]);
@@ -185,7 +192,7 @@ define([
         this.addSettingsListener();
 
         this._settings = new Settings({
-            target: this._target,
+            target: this._floaterTarget,
             widgetId: this._widgetId
         });
     };
@@ -552,8 +559,11 @@ define([
         var self = this;
         var tool = "settings";
         $('#floater-' + self._widgetId + ' .widget-' + tool).on("click", function(){
-            $('#' + self._widgetId + '-' + tool).show("drop", {direction: "up"}, 200)
-                .addClass('open');
+            $(".floater, .tool-window").removeClass("active");
+            setTimeout(function(){
+                $('#' + self._widgetId + '-' + tool).show("drop", {direction: "up"}, 200)
+                    .addClass('open').addClass('active');
+            },50);
         });
     };
 

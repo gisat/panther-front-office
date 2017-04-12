@@ -11,7 +11,10 @@ Ext.define('PumaMain.controller.Area', {
 				itemexpand: this.onNodeExpanded,
 				itemcollapse: this.onNodeCollapsed
 			},
-			'#areatree #areacollapse': {
+			'#areatree #areacollapseall': {
+				click: this.onCollapseAll
+			},
+			'#window-areatree #areacollapseall': {
 				click: this.onCollapseAll
 			},
 			"chartbar chartcmp": {
@@ -27,6 +30,12 @@ Ext.define('PumaMain.controller.Area', {
 				click: this.onShowMoreDetailed
 			},
 			'#arealessdetails':{
+				click: this.onShowLessDetailed
+			},
+			'#areaexpandlevel':{
+				click: this.onShowMoreDetailed
+			},
+			'#areacollapselevel':{
 				click: this.onShowLessDetailed
 			}
 		});
@@ -61,7 +70,7 @@ Ext.define('PumaMain.controller.Area', {
 	showLoading: function(display){
 		$("#loading-screen").css({
 			display: display,
-			background: "radial-gradient(rgba(230, 230, 230, .85), rgba(180, 180, 180, .85))"
+			background: "radial-gradient(rgba(255, 255, 255, .75), rgba(230, 230, 230, .75))"
 		});
 	},
 
@@ -412,6 +421,7 @@ Ext.define('PumaMain.controller.Area', {
 	},
 
 	onNodeExpanded: function(node) {
+		ThemeYearConfParams.actions.push("detaillevel");
 		if (!node.isLoaded() || !node.childNodes.length || node.suppress) {
 			return;
 		}
@@ -430,6 +440,7 @@ Ext.define('PumaMain.controller.Area', {
 
 	},
 	onNodeCollapsed: function(node) {
+		ThemeYearConfParams.actions.push("detaillevel");
 		if (!node.isLoaded() || !node.get('at') || node.suppress) {
 			return;
 		}
@@ -646,12 +657,18 @@ Ext.define('PumaMain.controller.Area', {
 		var selPlace = selPlaceObj ? selPlaceObj.get('id') : null;
 		var showMore = Ext.ComponentQuery.query('#areamoredetails')[0];
 		var showLess = Ext.ComponentQuery.query('#arealessdetails')[0];
+		var arrowMore = Ext.ComponentQuery.query('#areaexpandlevel')[0];
+		var arrowLess = Ext.ComponentQuery.query('#areacollapselevel')[0];
 		//debugger;
 		// TODO remove lowestCount dependency
-		showMore.setDisabled(lowestCount>5000 || (lowestNoLeafs && areaTemplates.length>1) || !Object.keys(leafMap).length);
+		var disabledMore = lowestCount>5000 || (lowestNoLeafs && areaTemplates.length>1) || !Object.keys(leafMap).length
+		showMore.setDisabled(disabledMore);
+		arrowMore.setDisabled(disabledMore);
 		// TODO remove dependency on maxDepth
-		showLess.setDisabled(!containsLower || (selPlace && maxDepth<2));
-  
+		var disabledLess = !containsLower || (selPlace && maxDepth<2);
+		showLess.setDisabled(disabledLess);
+		arrowLess.setDisabled(disabledLess);
+
 		var selMap = this.getController('Select').selMap;
 		var outerCount = 0;
 		var overallCount = 0;
@@ -689,6 +706,7 @@ Ext.define('PumaMain.controller.Area', {
 		// TODO solve this issue differently
 		if (ThemeYearConfParams.dataset == "20" && !atLeastOneLoc && lastAreaTemplate == 15){
 			showMore.setDisabled(true);
+			arrowMore.setDisabled(true);
 		}
 	},
 	

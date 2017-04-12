@@ -1,8 +1,12 @@
 var Config = {
-	//url: 'http://urbis.gisat.cz/backend/',
-	//signupAddress: 'http://urbis.gisat.cz/account/signup/',
-	 url: 'http://localhost:4000/',
-	 signupAddress: 'http://localhost:4000/account/signup/',
+	url: 'http://localhost:4000/',
+	signupAddress: 'http://localhost:4000/account/signup/',
+	// url: 'https://puma.worldbank.org/backend/',                // PUMA
+	// signupAddress: 'https://puma.worldbank.org/account/signup/',
+	// url: 'http://urbis.gisat.cz/backend/',                     // URBIS
+	// signupAddress: 'http://urbis.gisat.cz/account/signup/',
+	// url: 'http://35.165.51.145/backend/',                      // Snow Portal
+	// signupAddress: 'http://35.165.51.145/account/signup/',
 	geoserver2Workspace: "panther",
 	initialBaseMap: "terrain",
 	initialMapBounds: [
@@ -19,25 +23,28 @@ var Config = {
 		useWBHeader: false,
 		useHeader: true,
 		useWBFooter: false,
-		allowPumaHelp: false,
-		allowDownloadsLink: false,
+		useNewViewSelector: true,
+		useTopToolbar: true,
+		allowPumaHelp: true,
+		allowDownloadsLink: true,
 		usePumaLogo: true,
 		advancedFiltersFirst: false,
 		hasNew3Dmap: true,
-		hasNewEvaluationTool: true,
-		hasNewCustomPolygonsTool: true,
+		hasNewEvaluationTool: false,
+		hasNewCustomPolygonsTool: false,
 		hasNewFeatureInfo: true,
 		isNewDesign: true,
 		isUrbis: false,
 		isEea: false,
 		isMelodies: false,
-		isUrbanTep: false
+		isUrbanTep: false,
+		isSnow: false
 	},
 
 	basicTexts: {
-		advancedFiltersName: "Evaluation Tool",
-		areasSectionName: "Selection level",
-		appTitle: "URBIS tool",
+		advancedFiltersName: "Areas filter",
+		areasSectionName: "Areas",
+		appTitle: "Data exploration",
 		appName: "Data exploration",
 		scopeName: "Scale"
 	},

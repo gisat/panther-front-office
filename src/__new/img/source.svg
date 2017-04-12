@@ -61,7 +61,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="3.9462687"
-     inkscape:cx="155.5"
+     inkscape:cx="99.751135"
      inkscape:cy="68.5"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -1005,5 +1005,26 @@
          d="m 325,806.1622 -8,8"
          style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:1.90935373;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
     </g>
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#686774;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4595-4-0-0-8-0-7"
+       width="14"
+       height="13.999978"
+       x="-59"
+       y="-977.36218"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\__new\img\minimise-icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       ry="0"
+       transform="scale(-1,-1)" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 48.000005,973.36221 8,0"
+       id="path4683-5-1-9-6-2-3-2"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\__new\img\minimise-icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
   </g>
 </svg>

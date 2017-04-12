@@ -16,7 +16,9 @@ Ext.application({
 	enableQuickTips: true,
 	requires: [
 		'Puma.patch.Main', // JJJ zakomentovat při buildu, odkomentovat při sencha create jsb a pak ho z .jsb3 vymazat
-		'Ext.data.reader.Json','Ext.util.Point','Ext.Layer','Ext.window.Window','Ext.data.ArrayStore','Ext.data.proxy.Memory','Ext.data.reader.Array','Ext.util.Grouper','Ext.PluginManager','Ext.ComponentLoader','Ext.layout.Context','Ext.resizer.Resizer','Ext.panel.Tool','Ext.util.CSS','Ext.layout.component.Body','Ext.Img','Ext.menu.Menu','Ext.data.Batch','Ext.selection.RowModel','Ext.selection.CellModel','Ext.selection.CheckboxModel','Ext.grid.PagingScroller','Ext.grid.header.Container','Ext.grid.column.Column','Ext.grid.Lockable','Ext.view.TableLayout','Ext.view.TableChunker','Ext.data.Request','Ext.grid.column.Number','Ext.layout.container.Accordion','Ext.picker.Color','Ext.tree.Panel','Ext.grid.column.Action','Ext.grid.plugin.DragDrop','Ext.layout.container.Table','Ext.form.field.Checkbox','Ext.ux.grid.FiltersFeature','PumaMain.view.Chart','PumaMain.view.VisualizationForm','Puma.view.CommonForm','Puma.view.CommonGrid','Gisatlib.form.HiddenStoreField','Ext.form.field.Hidden','PumaMain.view.ChartPanel','Ext.ux.grid.menu.ListMenu','Ext.ux.grid.menu.RangeMenu','Ext.ux.grid.filter.BooleanFilter','Ext.picker.Date','Ext.ux.grid.filter.DateTimeFilter','Ext.picker.Month','Ext.ux.grid.filter.ListFilter'],
+		'Ext.data.reader.Json','Ext.util.Point','Ext.Layer','Ext.window.Window','Ext.data.ArrayStore','Ext.data.proxy.Memory','Ext.data.reader.Array','Ext.util.Grouper','Ext.PluginManager','Ext.ComponentLoader','Ext.layout.Context','Ext.resizer.Resizer','Ext.panel.Tool','Ext.util.CSS','Ext.layout.component.Body','Ext.Img','Ext.menu.Menu','Ext.data.Batch','Ext.selection.RowModel','Ext.selection.CellModel','Ext.selection.CheckboxModel','Ext.grid.PagingScroller','Ext.grid.header.Container','Ext.grid.column.Column','Ext.grid.Lockable','Ext.view.TableLayout','Ext.view.TableChunker','Ext.data.Request','Ext.grid.column.Number','Ext.layout.container.Accordion','Ext.picker.Color','Ext.tree.Panel','Ext.grid.column.Action','Ext.grid.plugin.DragDrop','Ext.layout.container.Table','Ext.form.field.Checkbox','Ext.ux.grid.FiltersFeature','PumaMain.view.Chart','PumaMain.view.VisualizationForm','Puma.view.CommonForm','Puma.view.CommonGrid','Gisatlib.form.HiddenStoreField','Ext.form.field.Hidden','PumaMain.view.ChartPanel','Ext.ux.grid.menu.ListMenu','Ext.ux.grid.menu.RangeMenu','Ext.ux.grid.filter.BooleanFilter','Ext.picker.Date','Ext.ux.grid.filter.DateTimeFilter','Ext.picker.Month','Ext.ux.grid.filter.ListFilter',
+		'PumaMain.view.LayerPanel', 'PumaMain.view.MapTools', 'Gisatlib.slider.DiscreteTimeline', 'PumaMain.view.AreaTree'
+	],
 	launch: function() {
 		// replace protocol with no-ssl http when loading chart or map in Phantomjs
 		if(location.protocol=="http:"){
@@ -30,7 +32,7 @@ Ext.application({
 		// set Home link in header // todo Move this somewhere else?
 		$("#home-link").attr("href", Config.projectHome);
 		$("title").html(Config.basicTexts.appTitle);
-		$("#toolbar > .label").html(Config.basicTexts.appName);
+		$("#legacy-view-selector > .label").html(Config.basicTexts.appName);
 		$("#content-intro > .label").html(Config.basicTexts.appName);
 
 		if(Config.toggles.hasNewEvaluationTool){
@@ -45,7 +47,7 @@ Ext.application({
 			$("html").addClass("urbis");
 
 			$(".field.scope .label").html(Config.urbisTexts.scopeName);
-			$(".field.teritory .label").html(Config.urbisTexts.placeName);
+			$(".field.place .label").html(Config.urbisTexts.placeName);
 			$(".field.theme .label").html(Config.urbisTexts.themeName);
 
 			$("#content-intro-guide").html("<h2>Selection guide</h2><h3>" + Config.urbisTexts.scopeName + "</h3><p>" +
@@ -59,9 +61,13 @@ Ext.application({
 
 		if(Config.toggles.isEea){
 			$("html").addClass("eea");
-			$(".field.teritory .label").html(Config.eeaTexts.placeName);
+			$(".field.place .label").html(Config.eeaTexts.placeName);
 			$("#content-intro-guide h3:nth-child(4)").html("");
 			$("#content-intro-guide p:nth-child(5)").html("");
+		}
+
+		if(Config.toggles.isSnow) {
+			$("html").addClass("snow");
 		}
 
 		if(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies){
@@ -86,6 +92,14 @@ Ext.application({
 
 		if(Config.toggles.useWBFooter){
 			$("html").addClass("toggle-useWBFooter");
+		}
+
+		if(!Config.toggles.useNewViewSelector){
+			$("html").addClass("toggle-useLegacyViewSelector");
+		}
+
+		if(Config.toggles.useTopToolbar){
+			$("html").addClass("toggle-useTopToolbar");
 		}
 
 		if(Config.toggles.allowPumaHelp){

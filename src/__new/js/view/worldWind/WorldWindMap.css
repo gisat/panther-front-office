@@ -1,26 +1,27 @@
-body.intro #world-wind-container {
+#world-wind-container {
 	display: none;
-}
-body.application #world-wind-container {
-	display: none;
-
 	background: black url("../../../img/night-sky.jpg") top left no-repeat;
 	background-size: cover;
-	position: absolute;
-	top: 135px;
-	height: calc(100% - 135px);
-	width: 100%;
+	position: relative;
 	z-index: 5555;
+}
+body.mode-3d #world-wind-container {
+	display: block;
 }
 #world-wind-map {
 	position: relative;
-	float: right;
-	width: 100%;
+	left: 0;
 	height: 100%;
 }
 #world-wind-map.docked {
-	position: relative;
-	float: right;
+	left: 22rem;
+}
+#world-wind-map.charts-hidden {
+	left: 0;
+	width: 100%;
+}
+#world-wind-map.docked.charts-hidden {
+	left: 22rem;
 	width: calc(100% - 22rem);
 	height: 100%;
 }

@@ -62,6 +62,7 @@ Ext.define('PumaMain.controller.DomManipulation', {
 		}
 		
 		$("#map-holder").css({width : w, height : h});
+		$("#world-wind-container").css({width : w, height : h, top: -h});
 		
 		var map = Ext.ComponentQuery.query('#map')[0];
 		var map2 = Ext.ComponentQuery.query('#map2')[0];
@@ -79,14 +80,16 @@ Ext.define('PumaMain.controller.DomManipulation', {
 	},
 	
 	resizeTools: function() {
-		var availableSize = this.getContentAvailableSize();
-		var accordeonMaxH = availableSize.height - $("#app-tools-actions").outerHeight(true) - $("#sidebar-tools-colors").outerHeight(true);
-		var accordeon = Ext.ComponentQuery.query('toolspanel')[0];
-		if (accordeon) {
-			accordeon.maxHeight = accordeonMaxH;
-			accordeon.updateLayout();
+		if (!Config.toggles.useTopToolbar) { // TODO do we need to do something else?
+			var availableSize = this.getContentAvailableSize();
+			var accordeonMaxH = availableSize.height - $("#app-tools-actions").outerHeight(true) - $("#sidebar-tools-colors").outerHeight(true);
+			var accordeon = Ext.ComponentQuery.query('toolspanel')[0];
+			if (accordeon) {
+				accordeon.maxHeight = accordeonMaxH;
+				accordeon.updateLayout();
+			}
+			$("#sidebar-tools").css("max-height", availableSize.height);
 		}
-		$("#sidebar-tools").css("max-height", availableSize.height);
 	},
 	
 	resizeReports: function() {
@@ -112,21 +115,31 @@ Ext.define('PumaMain.controller.DomManipulation', {
 		//var h  = $(window).height();
 
 		if ($("body").hasClass("application")) {
-			h -= $("#toolbar").outerHeight(true);
+			if (Config.toggles.useNewViewSelector) {
+				h -= $("#view-selector").outerHeight(true);
+			} else {
+				h -= $("#legacy-view-selector").outerHeight(true);
+			}
+			if (Config.toggles.useTopToolbar) {
+				h -= $("#top-toolbar").outerHeight(true);
+			}
 		}
 		return { width  : w, height : h };
 	},
 	
 	activateLoadingMask: function() {
-		$("#loading-mask-shim, #loading-mask").show();
+		//$("#loading-mask-shim, #loading-mask").show();
+		$('#loading-screen').css('display', 'block');
 	},
 	
 	deactivateLoadingMask: function() {
-		$("#loading-mask-shim, #loading-mask").hide();
+		//$("#loading-mask-shim, #loading-mask").hide();
+		$('#loading-screen').css('display', 'none');
 	},
 	
 	_onReportsSidebarToggleClick: function() {
 		$("#sidebar-reports").toggleClass("hidden");
+		$("#world-wind-map").toggleClass("charts-hidden");
 		this.resizeMap();
 	},
 	

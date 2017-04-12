@@ -392,13 +392,14 @@ div .x-tool-over .x-tool-collapse-left {
 }
 
 .layerpanel .x-tree-icon-leaf {
-	background-image: url("../images/icons/info.png");
-	background-repeat: no-repeat;
-	visibility: hidden
+	/*background-image: url("../images/icons/info.png");*/
+	/* visibility: hidden; */
+	background: transparent;
 }
 
 .layerpanel .has-metadata .x-tree-icon-leaf {
-	visibility: visible;
+	/* visibility: visible; */
+	background-image: url(../images/icons/info.png);
 }
 
 .x-tree-lines .x-tree-elbow-plus,

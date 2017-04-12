@@ -101,6 +101,7 @@ define(function () {
             missingHTMLElement: "Required HTML element wasn't found!",
             missingId: "Id is null or undefined!",
             missingInputs: "Inputs parameter is null or undefined!",
+            missingLayer: "Layer parameter is null or undefined!",
             missingName: "Name property is missing, null or undefined!",
 			missingMap: "Map property is missing, null or undefined!",
             missingNumClasses: "NumClasses is null or undefined!",
@@ -117,6 +118,7 @@ define(function () {
             missingWidgetId: "Widget Id is null or undefined!",
             missingWidgetName: "Widget Name is null or undefined!",
             missingWorldWind: "World Wind parameter is missing!",
+            missingXml: "XML parameter is is null or undefined!",
             notNaturalNumber: "Parameter is not a natural number!"
         }
     };

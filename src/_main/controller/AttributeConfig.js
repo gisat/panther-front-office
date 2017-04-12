@@ -231,6 +231,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         }
         var window = Ext.widget('window',{
 			layout: 'fit',
+			cls: 'thematic-maps-settings',
             width: 710,
             height: 724,
             
@@ -241,7 +242,8 @@ Ext.define('PumaMain.controller.AttributeConfig', {
                 padding: 5,
                 cls: 'configform',
                 chart: chart,
-                formType: formType
+                formType: formType,
+				resizable: false
             }],
 			listeners: {
 				// JJJ jak se to dela, aby se listenery prirazovaly v this.control?
@@ -597,7 +599,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 	 * @param normalizationUnit
 	 * @param overwriteUnit
 	 */
-	updateDisplayedUnits(displayUnitsField, sourceUnit, normalizationUnit, overwriteUnit) {
+	updateDisplayedUnits: function(displayUnitsField, sourceUnit, normalizationUnit, overwriteUnit) {
 		var displayUnit = '';
 		var standardUnits = this.standardUnits;
 
@@ -623,7 +625,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 	 * @param normalizationUnit
 	 * @param overwriteUnit
 	 */
-	updateCustomFactor(customFactorField, sourceUnit, normalizationUnit, overwriteUnit) {
+	updateCustomFactor: function(customFactorField, sourceUnit, normalizationUnit, overwriteUnit) {
 		var customFactor = 1;
 		var standardUnits = this.standardUnits;
 

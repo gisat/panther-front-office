@@ -8,7 +8,8 @@ define(['../../../../error/ArgumentError',
         'jquery',
         'string',
 
-        'text!./SliderBox.html',
+        'text!./SliderBoxSingle.html',
+        'text!./SliderBoxRange.html',
         'css!./SliderBox'
 ], function (ArgumentError,
              Histogram,
@@ -20,7 +21,8 @@ define(['../../../../error/ArgumentError',
              $,
              S,
 
-             htmlContent) {
+             htmlContentSingle,
+             htmlContentRange) {
     "use strict";
 
     /**
@@ -71,8 +73,33 @@ define(['../../../../error/ArgumentError',
      * Build the SelectBox and add a listener to it
      */
     SliderBox.prototype.build = function (){
+        if (this._isRange){
+            this.buildRange();
+        } else {
+            this.buildSingle();
+        }
+    };
+
+    SliderBox.prototype.buildSingle = function(){
         var self = this;
-        var html = S(htmlContent).template({
+        var html = S(htmlContentSingle).template({
+            id: this._id,
+            name: this._name,
+            labelMin: viewUtils.numberFormat(this._range[0], true, 2),
+            labelMax: viewUtils.numberFormat(this._range[1], true, 2),
+            thresholdMax: Math.round(this._values[0] * 100) / 100
+        }).toString();
+
+        this._target.append(html).ready(function(){
+            self._slider = self.buildSlider();
+            self.addSlideListeners(self._id, self._isRange);
+            self.addSingleInputListener(self._id);
+        });
+    };
+
+    SliderBox.prototype.buildRange = function(){
+        var self = this;
+        var html = S(htmlContentRange).template({
             id: this._id,
             name: this._name,
             labelMin: viewUtils.numberFormat(this._range[0], true, 2),
@@ -82,11 +109,18 @@ define(['../../../../error/ArgumentError',
         }).toString();
 
         this._target.append(html).ready(function(){
-            self.buildSlider();
+            self._slider = self.buildSlider();
             self.histogram = self.buildHistogram();
             self.addSlideListeners(self._id, self._isRange);
             self.addInputListener(self._id);
         });
+    };
+
+	/**
+     * @returns {string} id
+     */
+    SliderBox.prototype.getSliderId = function(){
+        return this._id;
     };
 
     /**
@@ -132,30 +166,31 @@ define(['../../../../error/ArgumentError',
     SliderBox.prototype.addSlideListeners = function(id, isRange){
         var self = this;
         var selector = $("#" + id);
+
         selector.off('slidestop');
         selector.on('slidestop', function(e){
             if (isRange){
                 self._values = $(this).slider("values");
-                self.setInputMin($(this).siblings().find('.input-min'), self._values[0]);
-                self.setInputMax($(this).siblings().find('.input-max'), self._values[1]);
+                self.setInputValue($(this).siblings().find('.input-min'), self._values[0]);
+                self.setInputValue($(this).siblings().find('.input-max'), self._values[1]);
             }
             else {
-                var minVal = $(this).slider("option", "min");
-                var currentVal = $(this).slider("value");
-                self._values = [minVal, currentVal];
+                self._value = $(this).slider("value");
             }
         });
 
-        selector.off('slide').on('slide', function(e){
+        selector.off('slide').on('slide', function(e, ui){
             if (isRange){
                 var values = $(this).slider("values");
                 if (values[0] != values[1]){
                     self.histogram.selectBars(values);
                 }
-                self.setInputMin($(this).siblings().find('.input-min'), values[0]);
-                self.setInputMax($(this).siblings().find('.input-max'), values[1]);
+                self.setInputValue($(this).siblings().find('.input-min'), values[0]);
+                self.setInputValue($(this).siblings().find('.input-max'), values[1]);
+            } else {
+                self.setInputValue($(this).siblings().find('.input-single'), ui.value);
             }
-        })
+        });
     };
 
 	/**
@@ -169,30 +204,80 @@ define(['../../../../error/ArgumentError',
         var sliderMin = this._range[0] - 0.005;
         var sliderMax = this._range[1] + 0.005;
 
+        var self = this;
         minInput.off("focusout.inputMin").on("focusout.inputMin",function(){
-            var currentValue = slider.slider("values")[0];
-            var minValue = Number($(this).val());
-            var maxValue = Number(maxInput.val());
-            var diff = Math.abs(currentValue - minValue);
-
-            if (minValue < maxValue && minValue < sliderMax && minValue >= sliderMin && diff > 0.005){
-                slider.slider("values", 0, minValue);
-            } else {
-                $(this).val(Math.round(currentValue * 100) / 100)
+             self.onMinInputChange(this, slider, minInput, maxInput, sliderMin, sliderMax);
+        });
+        minInput.keypress(function(e){
+            if (e.which == 13){
+                self.onMinInputChange(this, slider, minInput, maxInput, sliderMin, sliderMax);
             }
         });
 
         maxInput.off("focusout.inputMax").on("focusout.inputMax",function(){
-            var currentValue = slider.slider("values")[1];
-            var minValue = Number(minInput.val());
-            var maxValue = Number($(this).val());
-            var diff = Math.abs(currentValue - maxValue);
-            if (minValue < maxValue && maxValue <= sliderMax && maxValue > sliderMin && diff > 0.005){
-                slider.slider("values", 1, maxValue);
-            } else {
-                $(this).val(Math.round(currentValue * 100) / 100)
+            self.onMaxInputChange(this, slider, minInput, maxInput, sliderMin, sliderMax);
+        });
+        maxInput.keypress(function(e){
+            if (e.which == 13){
+                self.onMaxInputChange(this, slider, minInput, maxInput, sliderMin, sliderMax);
             }
         });
+    };
+
+    /**
+     * If an input has been changed, move slider handle
+     * @param id {string} slider id
+     */
+    SliderBox.prototype.addSingleInputListener = function(id){
+        var slider = $("#" + id);
+        var input = slider.siblings(".slider-labels").find(".input-single");
+
+        var self = this;
+        input.off("focusout.inputSingle").on("focusout.inputSingle",function(){
+            self.onSingleInputChange(this, slider, input);
+        });
+        input.keypress(function(e){
+            if (e.which == 13){
+                self.onSingleInputChange(this, slider, input);
+            }
+        });
+    };
+
+    SliderBox.prototype.onMaxInputChange = function(target, slider, minInput, maxInput, sliderMin, sliderMax){
+        var currentValue = slider.slider("values")[1];
+        var minValue = Number(minInput.val());
+        var maxValue = Number($(target).val());
+        var diff = Math.abs(currentValue - maxValue);
+        if (minValue < maxValue && maxValue <= sliderMax && maxValue > sliderMin && diff > 0.005){
+            slider.slider("values", 1, maxValue);
+        } else {
+            $(target).val(Math.round(currentValue * 100) / 100)
+        }
+    };
+
+    SliderBox.prototype.onMinInputChange = function(target, slider, minInput, maxInput, sliderMin, sliderMax){
+        var currentValue = slider.slider("values")[0];
+        var minValue = Number($(target).val());
+        var maxValue = Number(maxInput.val());
+        var diff = Math.abs(currentValue - minValue);
+
+        if (minValue < maxValue && minValue < sliderMax && minValue >= sliderMin && diff > 0.005){
+            slider.slider("values", 0, minValue);
+        } else {
+            $(target).val(Math.round(currentValue * 100) / 100)
+        }
+    };
+
+    SliderBox.prototype.onSingleInputChange = function(target, slider, input){
+        var currentValue = slider.slider("value");
+        var value = Number(input.val());
+
+        // TODO not only for range from 0 to 100
+        if (value <= 100  && 0 <= value){
+            slider.slider("value", value);
+        } else {
+            $(target).val(Math.round(currentValue * 100) / 100)
+        }
     };
 
     /**
@@ -203,21 +288,20 @@ define(['../../../../error/ArgumentError',
         return this._values;
     };
 
-	/**
-	 * Set value in min input field
-     * @param selector {JQuery} jquery selector
-     * @param value {number}
+    /**
+     * It returns the current value of slider handle
+     * @returns {number} current value of the handle
      */
-    SliderBox.prototype.setInputMin = function(selector, value){
-        selector.val(Math.round(value * 100) / 100);
+    SliderBox.prototype.getValue = function(){
+        return this._value;
     };
 
-    /**
-     * Set value in max input field
+	/**
+	 * Set value in input field
      * @param selector {JQuery} jquery selector
      * @param value {number}
      */
-    SliderBox.prototype.setInputMax = function(selector, value){
+    SliderBox.prototype.setInputValue = function(selector, value){
         selector.val(Math.round(value * 100) / 100);
     };
 

@@ -7,7 +7,7 @@
 	width: 170px;
 }
 
-#content-application .field.teritory {
+#content-application .field.place {
 	margin-right: 35px;
 }
 
@@ -73,11 +73,11 @@
 	vertical-align: top;
 }
 
-#app-toolbar-contexthelp {
+#app-legacy-view-selector-contexthelp {
 	margin-left: 42px;
 }
 
-#app-toolbar-webhelp {
+#app-legacy-view-selector-webhelp {
 	margin-left: 2px;
 }
 
@@ -101,15 +101,15 @@
 	cursor: pointer;
 }
 
-#app-toolbar-visualization-save,
-#app-toolbar-visualization-manage {
+#app-legacy-view-selector-visualization-save,
+#app-legacy-view-selector-visualization-manage {
 	width: 70px;
 	margin-left: 5px;
 	float: left;
 	display: block;
 }
 
-#app-toolbar-visualization-manage {
+#app-legacy-view-selector-visualization-manage {
 	width: 30px;
 }
 
@@ -128,13 +128,13 @@
 	left: 10px;
 }
 
-#app-toolbar-save {
+#app-legacy-view-selector-save {
 	width: 110px;
 	float: left;
 	margin-top: 10px;
 }
 
-#app-toolbar-manage {
+#app-legacy-view-selector-manage {
 	width: 30px;
 	float: right;
 	margin-top: 10px;
@@ -178,7 +178,11 @@
 
 .x-btn.btn-map-tool button .x-btn-icon {
 	left: 50%;
-	top: 20px;
+	top: 13px;
+}
+.x-btn.btn-map-tool.btn-tool-select button .x-btn-icon {
+	left: 15%;
+	top: 16px;
 }
 
 .x-btn.btn-map-tool button .x-btn-inner {
@@ -338,26 +342,41 @@
 	background: linear-gradient(center top, #ccc, #ddd);
 }
 
-.x-panel-header .x-tool img {
+.x-panel-header .x-tool img,
+.x-window-header .x-tool img {
 	width: 20px;
 	height: 20px;
 	background-repeat: no-repeat;
 	background-position: 50% 50%;
 }
 
-.x-panel-header .x-tool-poweron {
+.x-tool-hide {
+	background-image: url("../__new/img/minimise-icon-dark.png") !important;
+}
+
+.x-tool-poweron {
 	background-image: url("../images/icons/power2.png") !important;
 }
 
-.x-panel-header .x-tool-refresh {
+.x-panel-header .x-tool-refresh,
+.x-window-header .x-tool-refresh {
 	background-image: url("../images/icons/paging-refresh.png") !important;
 }
 
-.x-panel-header .x-tool-areacollapse {
-	background-image: url("../images/icons/collapse.gif") !important;
+.x-tool-areacollapseall {
+	background-image: url("../images/new/areacollapseall.png") !important;
 }
 
-.x-panel-header .x-tool-gear {
+.x-tool-areacollapselevel {
+	background-image: url("../images/new/areacollapse.png") !important;
+}
+
+.x-tool-areaexpandlevel {
+	background-image: url("../images/new/areaexpand.png") !important;
+}
+
+.x-panel-header .x-tool-gear,
+.x-window-header .x-tool-gear {
 	background-image: url("../images/icons/settings.png") !important;
 }
 
@@ -365,11 +384,11 @@
 	background-image: url("../images/icons/detach.gif") !important;
 }
 
-.x-panel-header .x-tool-unselect {
+.x-tool-unselect {
 	background-image: url("../images/icons/unselect.gif") !important;
 }
 
-.x-panel-header .x-tool-unselectall {
+.x-tool-unselectall {
 	background-image: url("../images/icons/unselect_all.gif") !important;
 }
 
@@ -377,24 +396,33 @@
 	background-image: url("../images/icons/close.png") !important;
 }
 
-.x-panel-header .x-tool-help {
+.x-panel-header .x-tool-help,
+.x-window-header .x-tool-help {
 	background-image: url("../images/icons/legend.png") !important;
 }
 
-.x-panel-header .x-tool-save {
+.x-panel-header .x-tool-save,
+.x-window-header .x-tool-save {
 	background-image: url("../images/icons/snapshot.png") !important;
 }
 
-.x-panel-header .x-tool-print {
+.x-panel-header .x-tool-print,
+.x-window-header .x-tool-print {
 	background-image: url("../images/icons/save.png") !important;
 }
 
-.x-panel-header .x-tool-search {
+.x-panel-header .x-tool-search,
+.x-window-header .x-tool-search {
 	background-image: url("../images/icons/search.png") !important;
 }
 
-.x-panel-header .x-tool-collapse {
+.x-panel-header .x-tool-collapse,
+.x-window-header .x-tool-collapse {
 	background-image: url("../images/icons/save-csv.png") !important;
+}
+
+.x-window .x-panel-body-default {
+	border-color: transparent;
 }
 
 .cmptype-grid,
@@ -631,4 +659,29 @@
 
 .slider-constraint-min {
 	padding-left: 3px;
+}
+
+#app-reports-paging {
+	padding-left: 280px;
+}
+#app-reports-paging > div.x-box-layout-ct {
+	overflow: visible;
+}
+#app-reports-paging > div > div.x-box-inner {
+	overflow: visible;
+}
+#app-reports-paging > div > div > div > .x-toolbar-text:last-child {
+	position: absolute;
+	left: -280px!important; /* because Ext magic */
+}
+
+.detached-window {
+	/*margin-top: 99999px;*/
+	visibility: hidden;
+	/* pointer-events: none; */
+}
+.detached-window.open {
+	/*margin-top: 0;*/
+	visibility: visible;
+	pointer-events: auto;
 }

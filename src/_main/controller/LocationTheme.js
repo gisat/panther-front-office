@@ -58,7 +58,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         if (!$('body').hasClass("intro")){
             $("#loading-screen").css({
                 display: "block",
-                background: "radial-gradient(rgba(230, 230, 230, .85), rgba(180, 180, 180, .85))"
+                background: "radial-gradient(rgba(255, 255, 255, .75), rgba(230, 230, 230, .75))"
             })
         }
         ThemeYearConfParams.datasetChanged = true;
@@ -476,6 +476,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 						});
 				    var node = Ext.create('Puma.model.MapLayer', {
 						name: layer.name,
+                        id: layer.id,
 						initialized: true,
 						allowDrag: true,
 						checked: false,
