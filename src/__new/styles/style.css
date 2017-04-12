@@ -161,6 +161,10 @@ body.mode-3d .settings-window {
     display: none;
 }
 
+#window-legacyAdvancedFilters .x-box-inner {
+	overflow-y: auto;
+}
+
 
 .ptr-btn {
 	display: inline-block;
