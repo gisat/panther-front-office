@@ -1,0 +1,29 @@
+.urban-tep #header, .urban-tep #view-selector, .urban-tep #content-intro, .urban-tep #content-intro-guide {
+	background-color: #ab575c;
+}
+
+.urban-tep .fields-holder > .label {
+	background: url(../img/logo_tep_urban.png) no-repeat 0 8px;
+	padding-left: 160px;
+}
+
+.urban-tep #header h1 {
+	background: url(../img/logo_tep_urban.png) no-repeat 7px 4px;
+	background-size: 40%;
+	padding-left: 104px;
+}
+
+.urban-tep .fields-holder > .label {
+	width: 390px;
+}
+
+.urban-tep #content-intro {
+	padding: 19px;
+	border-left: 0;
+	width: 950px;
+}
+
+.urban-tep .x-border-box .custom-combo .x-form-text {
+	background: rgba(255, 255, 255,0);
+	border: 1px solid rgba(255, 255, 255, .7);
+}

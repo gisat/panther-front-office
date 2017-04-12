@@ -40,14 +40,26 @@ Ext.define('PumaMain.controller.ViewMng', {
     
     onUrlOpen: function(grid,rec) {
         var url = window.location.origin+window.location.pathname+'?id='+rec.get('_id');
+
+        var items = [{
+			xtype: 'displayfield',
+			value: url
+		}];
+        if(Config.toggles.isUrbanTep){
+            items.push({
+                xtype: 'button',
+                text: 'Share on portal',
+                handler: function() {
+                    alert('clicked');
+                }
+            })
+        }
+
         var win = Ext.widget('window',{
                 bodyCls: 'urlwindow',
                 title: 'Data view URL',
-                items: [{
-                        xtype: 'displayfield',
-                        value: url
-                }]
-            })
+                items: items
+            });
             win.show();
     },
     
@@ -107,15 +119,27 @@ Ext.define('PumaMain.controller.ViewMng', {
         var store = Ext.StoreMgr.lookup(isView ? 'dataview' : 'visualization');
         store.addWithSlaves(rec);
         if (isView) {
-            var url = window.location.origin+window.location.pathname+'?id='+rec.get('_id')
+            var url = window.location.origin+window.location.pathname+'?id='+rec.get('_id');
+
+			var items = [{
+				xtype: 'displayfield',
+				value: url
+			}];
+			if(Config.toggles.isUrbanTep){
+				items.push({
+					xtype: 'button',
+					text: 'Share on portal',
+					handler: function() {
+						// TODO: Insert logic for integration into the portal.
+					}
+				})
+			}
+
             var win = Ext.widget('window',{
                 bodyCls: 'urlwindow',
                 title: 'Data view URL',
-                items: [{
-                        xtype: 'displayfield',
-                        value: url
-                }]
-            })
+                items: items
+            });
             win.show();
         }
     },
