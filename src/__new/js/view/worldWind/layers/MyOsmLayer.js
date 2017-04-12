@@ -15,11 +15,14 @@ define(['../../../error/ArgumentError',
 			$
 ){
 	var OsmLayer = WorldWind.OpenStreetMapImageLayer;
+	var MercatorLayer = WorldWind.MercatorTiledImageLayer;
+	var Color = WorldWind.Color;
 
 	/**
 	 * Class extending WorldWind.WmsLayer.
 	 * @param options {Object}
 	 * @param options.source {string} source URL
+	 * @param options.attribution {string}
 	 * @augments WorldWind.OpenStreetMapImageLayer
 	 * @constructor
 	 */
@@ -31,6 +34,7 @@ define(['../../../error/ArgumentError',
 		}
 
 		this._source = options.source;
+		this._attribution = options.attribution;
 
 		this.cachePath = options.source;
 		this.detailControl = 0.8;
@@ -45,6 +49,13 @@ define(['../../../error/ArgumentError',
 	};
 
 	MyOsmLayer.prototype = Object.create(OsmLayer.prototype);
+
+	MyOsmLayer.prototype.doRender = function (dc) {
+		MercatorLayer.prototype.doRender.call(this, dc);
+		if (this.inCurrentFrame) {
+			dc.screenCreditController.addStringCredit(this._attribution, Color.MEDIUM_GRAY);
+		}
+	};
 
 	return MyOsmLayer;
 });
