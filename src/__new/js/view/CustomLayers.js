@@ -219,7 +219,7 @@ define([
 			'url': wmsAddress,
 			'layer': wmsLayer,
 			'scope': ThemeYearConfParams.dataset,
-			'periods': null, // TODO where to get all Periods?
+			'periods': ThemeYearConfParams.allYears,
 			'places': ThemeYearConfParams.allPlaces,
 			'name': name
 		};
@@ -233,16 +233,23 @@ define([
 			})
 			.done(function(data){
 				console.log(data);
-				self.addWMSToLayers(data.id);
 			});
+
+		// TODO add WMS to layers tree only after successful request?
+		self.addWMSToLayers();
 	};
 
 
 
-	CustomLayers.prototype.addWMSToLayers = function(operationId) {
-		console.log("******");
+	CustomLayers.prototype.addWMSToLayers = function() {
 
 		// TODO add to layer tree
+
+		// find new WMSLayers store
+
+
+		// TODO add to selected layers?
+		var selectedLayersStore = Ext.StoreMgr.lookup('selectedlayers');
 	};
 
 

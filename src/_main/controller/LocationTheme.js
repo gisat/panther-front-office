@@ -303,6 +303,9 @@ Ext.define('PumaMain.controller.LocationTheme', {
             return rec.get('theme')==val
         }]);
 
+        // add all years to ThemeYearConfParams // FIXME - in allYears, we want only array of IDs, not complete node
+        ThemeYearConfParams.allYears = yearStore.getRange();
+
         var vis = visCnt.getValue();
         var first = visStore.getAt(0);
         if (first && first.get('_id')!=vis) {
