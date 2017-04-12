@@ -651,7 +651,6 @@ Ext.define('PumaMain.controller.Filter', {
                     },
                     {
                         xtype: 'multislider',
-                        
                         attrname: attrCfg.attrName,
                         useTips: false,
                         margin: '0 35 0 17',
