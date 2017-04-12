@@ -245,3 +245,35 @@ label.container > input {
 	display: block;
 	margin: 20px 0;
 }
+
+#custom-layers-action .ptr-btn-group {
+	margin-top: 20px;
+}
+
+.custom-layers-status,
+.custom-layers-status-message {
+	padding: 5px 0;
+}
+.custom-layers-status.success {
+	color: #14801a;
+}
+.custom-layers-status.error {
+	color: #8c2a16;
+}
+.custom-layers-progress {
+	height: 10px;
+	width: 100%;
+	background: #eee;
+	position: relative;
+}
+.custom-layers-progress > div {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 0;
+	height: 100%;
+	background: #2999c8;
+
+	transition:
+		width .3s ease-in-out;
+}
