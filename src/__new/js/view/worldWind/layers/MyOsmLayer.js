@@ -19,15 +19,26 @@ define(['../../../error/ArgumentError',
 	/**
 	 * Class extending WorldWind.WmsLayer.
 	 * @param options {Object}
-	 * @augments WorldWind.WmsLayer
+	 * @param options.source {string} source URL
+	 * @augments WorldWind.OpenStreetMapImageLayer
 	 * @constructor
 	 */
 	var MyOsmLayer = function(options){
 		OsmLayer.call(this, options);
 
+		if (!options.source){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MyOsmLayer", "constructor", "missingSource"));
+		}
+
+		this._source = options.source;
+
+		this.cachePath = options.source;
+		this.detailControl = 0.8;
+
+		var self = this;
 		this.urlBuilder = {
 			urlForTile: function (tile, imageFormat) {
-				return "http://a.tile.openstreetmap.org/" +
+				return self._source +
 					(tile.level.levelNumber + 1) + "/" + tile.column + "/" + tile.row + ".png";
 			}
 		};
