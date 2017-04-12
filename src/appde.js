@@ -20,15 +20,6 @@ Ext.application({
 		'PumaMain.view.LayerPanel', 'PumaMain.view.MapTools', 'Gisatlib.slider.DiscreteTimeline', 'PumaMain.view.AreaTree'
 	],
 	launch: function() {
-		// replace protocol with no-ssl http when loading chart or map in Phantomjs
-		if(location.protocol=="http:"){
-			var originalUrl = Config.url;
-			Config.url = Config.url.replace("https://", "http://");
-			if(originalUrl != Config.url){
-				console.log("Config.url replaced:", originalUrl, " -> ", Config.url);
-			}
-		}
-
 		// set Home link in header // todo Move this somewhere else?
 		$("#home-link").attr("href", Config.projectHome);
 		$("title").html(Config.basicTexts.appTitle);
