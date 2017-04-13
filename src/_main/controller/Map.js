@@ -357,7 +357,7 @@ Ext.define('PumaMain.controller.Map', {
 	createBaseNodes: function() {
 		var baseNode = Ext.StoreMgr.lookup('layers').getRootNode().findChild('type','basegroup');
 		var liveNode = Ext.StoreMgr.lookup('layers').getRootNode().findChild('type','livegroup');
-		var baseMap = Config.initialBaseMap || "terrain";
+		var baseMap = Config.initialBaseMap || "osm";
 		var hybridNode = Ext.create('Puma.model.MapLayer',{
 			name: 'Google hybrid',
 			checked: (baseMap == "hybrid"),

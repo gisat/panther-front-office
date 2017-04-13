@@ -3745,7 +3745,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="4.5031493"
-     inkscape:cx="1160.6862"
+     inkscape:cx="743.09512"
      inkscape:cy="84.277824"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -6211,5 +6211,19 @@
          x="1204.672"
          y="977.20294"
          style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:34.30469513px;font-family:'Open Sans';-inkscape-font-specification:'Open Sans Bold';letter-spacing:-2.05828166px;fill:#c92d42;">3D</tspan></text>
+    <path
+       inkscape:connector-curvature="0"
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#ad2738;stroke-width:2.5;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker-end:"
+       d="m 741.5183,950.15719 a 6.2511263,6.2031317 0 0 1 1.85599,6.87347 6.2511263,6.2031317 0 0 1 -5.87414,4.08155 6.2511263,6.2031317 0 0 1 -5.87414,-4.08155 6.2511263,6.2031317 0 0 1 1.856,-6.87347"
+       id="path5517-9"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#ad2738;stroke-width:2.5;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;marker-end:"
+       d="m 737.50003,946.36221 0,8"
+       id="path5521-1"
+       inkscape:connector-curvature="0"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
   </g>
 </svg>

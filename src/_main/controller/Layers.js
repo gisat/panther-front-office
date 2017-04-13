@@ -89,7 +89,7 @@ Ext.define('PumaMain.controller.Layers', {
 					this.setSize(dom.clientWidth+32,dom.clientHeight+52);
 
 					if (Config.toggles.useTopToolbar) {
-						this.showBy('app-map','br-br',[-3,-3]);
+						this.showBy('app-map','br-br',[-43,-18]);
 					} else {
 						var leftPanel = Ext.ComponentQuery.query('toolspanel')[0]; // TODO - what if no ToolsPanel?
 
@@ -1255,7 +1255,11 @@ Ext.define('PumaMain.controller.Layers', {
 
 		// multiple layers from one group, if CTRL key used
 		var multi = false;
-		if (parentType != 'basegroup' && (view.lastE && view.lastE.ctrlKey || this._multiCheck)) {
+		//if (parentType != 'basegroup' && (view.lastE && view.lastE.ctrlKey || this._multiCheck)) {
+		//	multi = true;
+		//	this._multiCheck = false;
+		//}
+		if (parentType != 'basegroup') {
 			multi = true;
 			this._multiCheck = false;
 		}

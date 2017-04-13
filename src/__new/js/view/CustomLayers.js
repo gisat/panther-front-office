@@ -30,6 +30,7 @@ define([
 		);
 
 		this._container = this._target.find('#custom-layers-container');
+		this._actionContainer = this._container.find('#custom-layers-action');
 
 	};
 
@@ -41,20 +42,18 @@ define([
 				this.buildFileForm();
 				this.view('action');
 				break;
+			case 'custom-layers-wms-btn':
+				this.buildWMSForm();
+				this.view('action');
+				break;
+			case 'custom-layers-action-back-btn':
 			case 'custom-layers-file-cancel-btn':
+			case 'custom-layers-wms-cancel-btn':
 				this.clearAction();
 				this.view();
 				break;
 			case 'custom-layers-file-load-btn':
 				this.loadFile();
-				break;
-			case 'custom-layers-wms-btn':
-				this.buildWMSForm();
-				this.view('action');
-				break;
-			case 'custom-layers-wms-cancel-btn':
-				this.clearAction();
-				this.view();
 				break;
 			case 'custom-layers-wms-add-btn':
 				this.addWMS();
@@ -65,16 +64,15 @@ define([
 	};
 
 	CustomLayers.prototype.clearAction = function() {
-		this._target.find('#custom-layers-action').empty();
 		this._action = null;
+		this._actionContainer.empty();
 	};
 
 	CustomLayers.prototype.buildFileForm = function() {
 		if (this._action != 'file') {
 			this.clearAction();
 			this._action = 'file';
-			var target = this._target.find('#custom-layers-action');
-			target.append(
+			this._actionContainer.append(
 				'<label class="container">' +
 					'File' +
 					'<input type="file" id="custom-layers-file-file" />' +
@@ -95,8 +93,7 @@ define([
 		if (this._action != 'wms') {
 			this.clearAction();
 			this._action = 'wms';
-			var target = this._target.find('#custom-layers-action');
-			target.append(
+			this._actionContainer.append(
 				'<label class="container">' +
 					'WMS address' +
 					'<input type="text" id="custom-layers-wms-address" value="http://services.sentinel-hub.com/v1/wms/56748ba2-4a88-4854-beea-86f9afc63e35" />' + // TODO remove value
@@ -136,6 +133,7 @@ define([
 		payload.append('theme', ThemeYearConfParams.theme);
 		payload.append('name', name);
 		var self = this;
+		this.buildFileImport();
 		$.post({
 			url: url,
 			data: payload,
@@ -143,10 +141,71 @@ define([
 			contentType: false
 		})
 			.done(function(data){
-				console.log(data);
 				self.checkStatus(data.id);
+			})
+			.fail(function(data){
+
 			});
 
+	};
+
+	CustomLayers.prototype.buildFileImport = function() {
+		this._actionContainer.empty();
+		this._actionContainer.append(
+			'<div class="custom-layers-status"></div>' +
+			'<div class="custom-layers-progress"><div></div></div>' +
+			'<div class="custom-layers-status-message"></div>' +
+			'<div class="custom-layers-file-post-import"></div>' +
+			'<div class="ptr-btn-group"></div>'
+		);
+	};
+
+
+	CustomLayers.prototype.checkStatus = function(operationId) {
+		var url = Config.url + 'rest/layerImporter/status/' + operationId;
+		//var url = 'http://192.168.2.112/backend/' + 'rest/layerImporter/status/' + operationId;
+		var self = this;
+		$.get(url).done(function(data) {
+			if (data.status == 'done') {
+				self.updateFileStatus(data);
+			} else if (data.status == 'error') {
+				self.updateFileStatus(data);
+			} else {
+				self.updateFileStatus(data);
+				setTimeout(self.checkStatus.bind(self, operationId), 4000);
+			}
+		});
+	};
+
+	CustomLayers.prototype.updateFileStatus = function(result) {
+		var statusEl = this._actionContainer.find('.custom-layers-status').first();
+		var statusMessageEl = this._actionContainer.find('.custom-layers-status-message').first();
+		var progressEl = this._actionContainer.find('.custom-layers-progress').first().find('div').first();
+		var btnGroupEl = this._actionContainer.find('.ptr-btn-group').first();
+		if (result.status == 'done') {
+			//var postInfoEl = this._actionContainer.find('.custom-layers-file-post-import').first();
+			statusEl.html('Layer imported succesfully.');
+			statusEl.addClass('success');
+			progressEl.css('width','100%');
+			//btnGroupEl.empty();
+			btnGroupEl.append(
+				'<div class="ptr-btn" id="custom-layers-action-back-btn">Back</div>'
+			);
+		} else if (result.status == 'error') {
+			statusEl.html('Import failed');
+			statusEl.addClass('error');
+			statusMessageEl.html('Error: ' + result.message);
+			progressEl.css('background-color', '#f00');
+			//btnGroupEl.empty();
+			btnGroupEl.append(
+				'<div class="ptr-btn" id="custom-layers-action-back-btn">Back</div>'
+			);
+		} else {
+			var progress = (result.progress || 0) + "%";
+			statusEl.html('Importing…');
+			progressEl.css('width', progress);
+
+		}
 	};
 
 
@@ -160,47 +219,37 @@ define([
 			'url': wmsAddress,
 			'layer': wmsLayer,
 			'scope': ThemeYearConfParams.dataset,
-			'periods': null, // TODO where to get all Periods?
+			'periods': ThemeYearConfParams.allYears,
 			'places': ThemeYearConfParams.allPlaces,
 			'name': name
 		};
 
 		var self = this;
 		$.post({
-			url: url,
-			data: JSON.stringify(payload),
-			processData: false,
-			contentType: "application/json"
-		})
+				url: url,
+				data: JSON.stringify(payload),
+				processData: false,
+				contentType: "application/json"
+			})
 			.done(function(data){
 				console.log(data);
-				self.addWMSToLayers(data.id);
 			});
-	};
 
-
-	CustomLayers.prototype.checkStatus = function(operationId) {
-		var url = Config.url + 'rest/layerImporter/status/' + operationId;
-		//var url = 'http://192.168.2.112/backend/' + 'rest/layerImporter/status/' + operationId;
-		var self = this;
-		$.get(url).done(function(data) {
-			console.log('SATATUS', data);
-			if (data.status == 'done') {
-				console.log('WHEEEEEEEEE');
-			} else if (data.status == 'error') {
-				console.log('BUUUUUUUU');
-			} else {
-				setTimeout(self.checkStatus.bind(self, operationId), 4000);
-			}
-		});
+		// TODO add WMS to layers tree only after successful request?
+		self.addWMSToLayers();
 	};
 
 
 
-	CustomLayers.prototype.addWMSToLayers = function(operationId) {
-		console.log("******");
+	CustomLayers.prototype.addWMSToLayers = function() {
 
 		// TODO add to layer tree
+
+		// find new WMSLayers store
+
+
+		// TODO add to selected layers?
+		var selectedLayersStore = Ext.StoreMgr.lookup('selectedlayers');
 	};
 
 

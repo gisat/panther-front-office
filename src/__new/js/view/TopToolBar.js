@@ -1,5 +1,5 @@
 define([
-	'./CustomLayers',
+	'./CustomLayers'
 ], function (
 	CustomLayers
 ) {
@@ -41,8 +41,14 @@ define([
 			var classesSelections3d = $('#window-colourSelection').hasClass('open') ? "item open" : "item";
 			this._target.append('<div class="' + classesSelections3d + '" id="top-toolbar-selections" data-for="window-colourSelection">Selections</div>');
 
-			var classesAreasFilter = $('#window-legacyAdvancedFilters').hasClass('open') ? "item open" : "item";
-			this._target.append('<div class="' + classesAreasFilter + '" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters">Areas filter</div>');
+			if(Config.toggles.hasNewEvaluationTool) {
+				var classesAreasFilter3d = $('#floater-evaluation-widget').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesAreasFilter3d + '" id="top-toolbar-selection-filter" data-for="floater-evaluation-widget">' + Config.basicTexts.advancedFiltersName + '</div>');
+			} else {
+				var classesLegacyAreasFilter3d = $('#window-legacyAdvancedFilters').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesLegacyAreasFilter3d + '" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters">' + Config.basicTexts.advancedFiltersName + '</div>');
+			}
+
 
 			this._target.append('<div class="item disabled" id="top-toolbar-map-tools">Map tools</div>');
 
@@ -62,8 +68,8 @@ define([
 			this._target.append('<div class="' + classesSelections + '" id="top-toolbar-selections" data-for="window-colourSelection">Selections</div>');
 
 			if(Config.toggles.hasNewEvaluationTool) {
-				var classesAreasFilter = $('#floater-evaluation-tool-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesAreasFilter + '" id="top-toolbar-selection-filter" data-for="floater-evaluation-tool-widget">' + Config.basicTexts.advancedFiltersName + '</div>');
+				var classesAreasFilter = $('#floater-evaluation-widget').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesAreasFilter + '" id="top-toolbar-selection-filter" data-for="floater-evaluation-widget">' + Config.basicTexts.advancedFiltersName + '</div>');
 			} else {
 				var classesLegacyAreasFilter = $('#window-legacyAdvancedFilters').hasClass('open') ? "item open" : "item";
 				this._target.append('<div class="' + classesLegacyAreasFilter + '" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters">' + Config.basicTexts.advancedFiltersName + '</div>');

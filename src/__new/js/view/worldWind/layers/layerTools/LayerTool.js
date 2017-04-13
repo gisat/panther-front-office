@@ -101,7 +101,7 @@ define(['../../../../error/ArgumentError',
 				self._floaterSelector.addClass("open");
 				if ($("#sidebar-reports").hasClass("hidden")){
 					self._floaterSelector.css({
-						right: "10px"
+						right: "48px"
 					})
 				}
 				self.addContent();

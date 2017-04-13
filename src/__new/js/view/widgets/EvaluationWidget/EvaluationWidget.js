@@ -11,7 +11,6 @@ define([
     '../inputs/selectbox/SelectBox',
     './EvaluationWidgetSettings',
     '../inputs/sliderbox/SliderBox',
-	'../../../stores/Stores',
     '../Widget',
 
     'resize',
@@ -33,7 +32,6 @@ define([
             SelectBox,
             Settings,
             SliderBox,
-			Stores,
             Widget,
 
             resize,
@@ -461,6 +459,9 @@ define([
                     Observer.notify('selectInternal');
                 } else {
                     Observer.notify("selectAreas");
+                    if (Config.toggles.hasNew3Dmap){
+                        Stores.notify("clearAllSelections");
+                    }
                 }
                 self.disableExports();
                 $('#evaluation-confirm').attr("disabled",false);
@@ -561,8 +562,7 @@ define([
         $('#floater-' + self._widgetId + ' .widget-' + tool).on("click", function(){
             $(".floater, .tool-window").removeClass("active");
             setTimeout(function(){
-                $('#' + self._widgetId + '-' + tool).show("drop", {direction: "up"}, 200)
-                    .addClass('open').addClass('active');
+                $('#' + self._widgetId + '-' + tool).addClass('open').addClass('active');
             },50);
         });
     };
