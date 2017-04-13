@@ -146,15 +146,24 @@ define(['js/util/metadata/Attributes',
         });
         floater.on("click", ".widget-minimise", function(e){
             var mode3d = $("body").hasClass("mode-3d");
-            if (!(e.which > 1 || e.shiftKey || e.altKey || e.metaKey || e.ctrlKey) && !mode3d) {
+            if (!(e.which > 1 || e.shiftKey || e.altKey || e.metaKey || e.ctrlKey)) {
                 var floater = $(this).parent().parent().parent();
-                var placeholderSelector = "#" + floater.attr("id").replace("floater", "placeholder");
-                var placeholder = $(placeholderSelector);
-                Floater.minimise(floater);
-                Placeholder.floaterClosed(placeholder);
-                ExchangeParams.options.openWidgets[floater.attr("id")] = false;
+                if (Config.toggles.useNewViewSelector && Config.toggles.useTopToolbar){
+                    var id = floater.attr('id');
+                    floater.removeClass('open');
+                    $('.item[data-for=' + id + ']').removeClass('open');
+                } else {
+                    if (!mode3d){
+                        var placeholderSelector = "#" + floater.attr("id").replace("floater", "placeholder");
+                        var placeholder = $(placeholderSelector);
+                        Floater.minimise(floater);
+                        Placeholder.floaterClosed(placeholder);
+                        ExchangeParams.options.openWidgets[floater.attr("id")] = false;
+                    }
+                }
             }
         });
+
         floater.draggable({
             containment: "body",
             handle: ".floater-header"
