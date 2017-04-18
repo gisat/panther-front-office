@@ -726,6 +726,9 @@ body.mode-3d #top-toolbar-3dmap {
 #top-toolbar .item#top-toolbar-saved-views::before {
 	content: '\f06e';
 }
+#top-toolbar .item#top-toolbar-custom-layers::before {
+	background: url('../images/icons/layers-add.svg') center center no-repeat;
+}
 
 #top-toolbar .item#top-toolbar-snapshot::before {
 	background: url('../images/icons/snapshot.png') center center no-repeat;
