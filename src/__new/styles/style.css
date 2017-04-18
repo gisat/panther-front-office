@@ -193,6 +193,7 @@ body.mode-3d .settings-window:not(#evaluation-widget-settings) {
 .ptr-btn.disabled {
 	background: #ddd;
 	cursor: default;
+	pointer-events: none;
 }
 .ptr-btn.disabled:hover {
 	background: #ddd;
