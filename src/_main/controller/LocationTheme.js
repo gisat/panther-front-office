@@ -3,6 +3,9 @@ Ext.define('PumaMain.controller.LocationTheme', {
     views: [],
     requires: [],
     init: function() {
+
+		Observer.addListener("PumaMain.controller.LocationTheme.reloadWmsLayers",this.reloadWmsLayers.bind(this));
+
         this.control({
             '#initialdataset':{
                 change: this.onDatasetChange

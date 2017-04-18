@@ -243,7 +243,7 @@ define([
 	CustomLayers.prototype.addWMSToLayers = function() {
 
 		// reload WMS layers from
-		this.getController('LocationTheme').reloadWmsLayers();
+		Observer.notify('PumaMain.controller.LocationTheme.reloadWmsLayers');
 
 
 		// TODO add to selected layers?
