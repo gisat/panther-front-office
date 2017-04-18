@@ -233,19 +233,17 @@ define([
 			})
 			.done(function(data){
 				console.log(data);
+				self.addWMSToLayers();
 			});
 
-		// TODO add WMS to layers tree only after successful request?
-		self.addWMSToLayers();
 	};
 
 
 
 	CustomLayers.prototype.addWMSToLayers = function() {
 
-		// TODO add to layer tree
-
-		// find new WMSLayers store
+		// reload WMS layers from
+		this.getController('LocationTheme').reloadWmsLayers();
 
 
 		// TODO add to selected layers?
