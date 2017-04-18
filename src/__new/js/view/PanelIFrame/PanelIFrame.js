@@ -1,7 +1,8 @@
 define([
+	'jquery',
 	'css!./PanelIFrame'
 ], function (
-
+$
 ) {
 	"use strict";
 
@@ -19,7 +20,7 @@ define([
 		this._target.empty();
 
 		this._target.append('<iframe src="' + this._url + '"></iframe>');
-
+		$("#sidebar-reports").addClass("snow-mode");
 	};
 
 	return PanelIFrame;
