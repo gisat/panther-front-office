@@ -248,8 +248,8 @@ define([
 			})
 			.done(function(){
 				self.addWMSToLayers();
-				this.clearAction();
-				this.view();
+				self.clearAction();
+				self.view();
 			});
 
 	};
