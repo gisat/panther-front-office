@@ -109,7 +109,8 @@ define([
 				'<div class="ptr-btn-group">' +
 					'<div class="ptr-btn primary" id="custom-layers-wms-add-btn">Add</div>' +
 					'<div class="ptr-btn" id="custom-layers-wms-cancel-btn">Cancel</div>' +
-				'</div>'
+				'</div>' +
+				'<div class="custom-layers-status"></div>'
 			);
 		}
 	};
@@ -231,6 +232,10 @@ define([
 		var cancelButton = this._container.find('#custom-layers-wms-cancel-btn')[0];
 		cancelButton.classList.add('disabled');
 
+		var statusEl = this._container.find('.custom-layers-status')[0];
+		statusEl.classList.remove('error');
+		statusEl.innerHTML = '';
+
 
 		var self = this;
 		$.post({
@@ -241,15 +246,18 @@ define([
 			})
 			.fail(function(xhr, message){
 				console.error("Add WMS failed: ", message);
-				addButton.innerHTML = "Add";
-				addButton.classList.remove('disabled');
-				cancelButton.classList.remove('disabled');
-				alert("Adding WMS layer failed.\n" + message);
+				statusEl.classList.add('error');
+				statusEl.innerHTML = "Adding WMS layer failed.\n<br>" + message;
 			})
 			.done(function(){
 				self.addWMSToLayers();
-				self.clearAction();
-				self.view();
+				statusEl.classList.remove('error');
+				statusEl.innerHTML = 'Layer successfully added to Custom WMS section.';
+			})
+			.always(function(){
+				addButton.innerHTML = "Add";
+				addButton.classList.remove('disabled');
+				cancelButton.classList.remove('disabled');
 			});
 
 	};
