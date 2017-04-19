@@ -96,15 +96,15 @@ define([
 			this._actionContainer.append(
 				'<label class="container">' +
 					'WMS address' +
-					'<input type="text" id="custom-layers-wms-address" value="http://services.sentinel-hub.com/v1/wms/56748ba2-4a88-4854-beea-86f9afc63e35" />' + // TODO remove value
+					'<input type="text" id="custom-layers-wms-address" />' +
 				'</label>' +
 				'<label class="container">' +
 					'WMS layer' +
-					'<input type="text" id="custom-layers-wms-layer" value="TRUE_COLOR_ENHANCED" />' + // TODO remove value
+					'<input type="text" id="custom-layers-wms-layer" />' +
 				'</label>' +
 				'<label class="container">' +
 					'Layer name' +
-					'<input type="text" id="custom-layers-wms-name" value="Sentinel" />' + // TODO remove value
+					'<input type="text" id="custom-layers-wms-name" />' +
 				'</label>' +
 				'<div class="ptr-btn-group">' +
 					'<div class="ptr-btn primary" id="custom-layers-wms-add-btn">Add</div>' +
@@ -214,16 +214,6 @@ define([
 		var wmsAddress = this._container.find('#custom-layers-wms-address')[0].value;
 		var wmsLayer = this._container.find('#custom-layers-wms-layer')[0].value;
 		var name = this._container.find('#custom-layers-wms-name')[0].value;
-		var url = Config.url + 'rest/wms/layer';
-
-		var payload = {
-			'url': wmsAddress,
-			'layer': wmsLayer,
-			'scope': ThemeYearConfParams.dataset,
-			'periods': ThemeYearConfParams.allYears,
-			'places': ThemeYearConfParams.allPlaces,
-			'name': name
-		};
 
 		var addButton = this._container.find('#custom-layers-wms-add-btn')[0];
 		addButton.classList.add('disabled');
@@ -236,7 +226,39 @@ define([
 		statusEl.classList.remove('error');
 		statusEl.innerHTML = '';
 
+		// form validation
+		var errors = [];
+		const urlRegex = /^((https?:)(\/\/\/?)([\w]*(?::[\w]*)?@)?([\d\w\.-]+)(?::(\d+))?)([\/\\\w\.()-]*)?(?:([?][^#]*)?(#.*)?)*/gmi;
+		var matches = urlRegex.exec(wmsAddress);
+		if(matches === null){
+			errors.push("WMS address is missing or incorrect");
+		}
+		if(!wmsLayer){
+			errors.push('WMS layer is missing');
+		}
+		if(!name){
+			errors.push('Layer name is missing')
+		}
 
+		if(errors.length){
+			statusEl.classList.add('error');
+			statusEl.innerHTML = errors.join('<br>');
+			addButton.innerHTML = "Add";
+			addButton.classList.remove('disabled');
+			cancelButton.classList.remove('disabled');
+			return;
+		}
+
+		// make request
+		var url = Config.url + 'rest/wms/layer';
+		var payload = {
+			'url': wmsAddress,
+			'layer': wmsLayer,
+			'scope': ThemeYearConfParams.dataset,
+			'periods': ThemeYearConfParams.allYears,
+			'places': ThemeYearConfParams.allPlaces,
+			'name': name
+		};
 		var self = this;
 		$.post({
 				url: url,
@@ -269,9 +291,7 @@ define([
 		// reload WMS layers from
 		Observer.notify('PumaMain.controller.LocationTheme.reloadWmsLayers');
 
-
-		// TODO add to selected layers?
-		var selectedLayersStore = Ext.StoreMgr.lookup('selectedlayers');
+		// TODO how to select layer after it is added
 	};
 
 
