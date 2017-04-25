@@ -130,7 +130,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 					xtype: 'button',
 					text: 'Share on portal',
 					handler: function(item) {
-						$.post('https://urban-tep.eo.esa.int/apps/puma', {
+						$.post('https://urban-tep.eo.esa.int/t2api/apps/puma', {
 							url: url
 						}, function(){
 							alert('Application was published on the portal.');
