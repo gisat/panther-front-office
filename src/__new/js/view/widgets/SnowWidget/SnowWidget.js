@@ -5,9 +5,9 @@ define(['../../../error/ArgumentError',
 	'../Widget',
 
 	'jquery',
-	'string'
+	'string',
 	//'text!./WorldWindWidget.html',
-	//'css!./WorldWindWidget'
+	'css!./SnowWidget'
 ], function(ArgumentError,
 			NotFoundError,
 			Logger,
