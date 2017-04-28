@@ -357,7 +357,7 @@ Ext.define('PumaMain.controller.Map', {
 	createBaseNodes: function() {
 		var baseNode = Ext.StoreMgr.lookup('layers').getRootNode().findChild('type','basegroup');
 		var liveNode = Ext.StoreMgr.lookup('layers').getRootNode().findChild('type','livegroup');
-		var baseMap = Config.initialBaseMap || "terrain";
+		var baseMap = Config.initialBaseMap || "osm";
 		var hybridNode = Ext.create('Puma.model.MapLayer',{
 			name: 'Google hybrid',
 			checked: (baseMap == "hybrid"),
@@ -740,7 +740,9 @@ Ext.define('PumaMain.controller.Map', {
 			visibility: true
 		});
 		map.getFeatureInfoLayer.projection = map.projection;
-		
+
+		// WMS Get Feature Info, together with the layers used currently to support visible gids. It is simple Jquery
+		//   request to the server with data fed to the WmsCapabilities
 		var infoControls = {
 			click: new OpenLayers.Control.WMSGetFeatureInfo({
 				url: Config.url+'api/proxy/wms',

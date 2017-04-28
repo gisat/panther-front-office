@@ -53,7 +53,6 @@ define(['../../../error/ArgumentError',
 	WorldWindWidget.prototype.rebuild = function(data, options){
 		this._options = jQuery.extend(true, {}, options);
 		var isIn3dMode = $("body").hasClass("mode-3d");
-
 		if (isIn3dMode){
 			if (this._options.changes.location){
 				this.rebuildWorldWindWindow();
@@ -105,7 +104,7 @@ define(['../../../error/ArgumentError',
 		}
 
 		this._widgetSelector.css({
-			height: widgets.layerpanel.height,
+			height: widgets.layerpanel.height + 40,
 			top: widgets.layerpanel.ptrWindow.y,
 			left: widgets.layerpanel.ptrWindow.x
 		});
@@ -175,7 +174,7 @@ define(['../../../error/ArgumentError',
 
 		//$(".x-css-shadow").css("display", "none");
 
-		$(".x-window:not(.thematic-maps-settings, .x-window-ghost, #window-areatree, #window-colourSelection), #tools-container, #widget-container .placeholder:not(#placeholder-" + this._widgetId + ")")
+		$(".x-window:not(.thematic-maps-settings, .x-window-ghost, .metadata-window, .window-savevisualization, .window-savedataview, #loginwindow, #window-managevisualization, #window-areatree, #window-colourSelection, #window-legacyAdvancedFilters), #tools-container, #widget-container .placeholder:not(#placeholder-" + this._widgetId + ")")
 			.css("display", action);
 
 	};

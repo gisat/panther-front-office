@@ -94,12 +94,17 @@ define(['../../../../error/ArgumentError',
 	};
 
 	/**
-	 * Remove all layers from specific group from map
+	 * Remove all layers from specific group from map and all floaters connected with this group
 	 */
 	WorldWindWidgetPanel.prototype.clearLayers = function(group){
-		// it removes all floaters connected with this panel
 		$("." + group + "-floater").remove();
 		this._worldWind.layers.removeAllLayersFromGroup(group);
+
+		if (group == "selectedareasfilled" || group == "areaoutlines"){
+			this._panelBodySelector.find(".layer-row[data-id=" + group + "]").removeClass("checked");
+		} else {
+			this._panelBodySelector.find(".layer-row").removeClass("checked");
+		}
 	};
 
 	/**
@@ -209,13 +214,22 @@ define(['../../../../error/ArgumentError',
 	};
 
 	/**
-	 * Hide/show layers
+	 * Hide/show layer
+	 * @param event {Object}
 	 */
 	WorldWindWidgetPanel.prototype.toggleLayer = function(event){
 		var self = this;
 		setTimeout(function(){
 			var checkbox = $(event.currentTarget);
 			var layerId = checkbox.attr("data-id");
+
+			// check/uncheck layer in 2D
+			var checkbox2d = $("td[data-for=" + layerId + "]").find("input");
+			Stores.notify("checklayer", checkbox2d);
+
+			checkbox2d.trigger("click", ["ctrl"]);
+
+
 			if (checkbox.hasClass("checked")){
 				self._worldWind.layers.showLayer(layerId);
 			} else {
@@ -225,24 +239,17 @@ define(['../../../../error/ArgumentError',
 	};
 
 	/**
-	 * If checbox for particular layer is checked, show the layer
-	 * @param layerId {string} id of the layer
+	 * Go through the list of active layers and turn on all active layers from a group
+	 * @param groupId {string} id of the group
 	 */
-	WorldWindWidgetPanel.prototype.checkIfLayerIsSwitchedOn = function(layerId){
-		var checkbox = $(".checkbox-row[data-id=" + layerId +"]");
-		if (checkbox.hasClass("checked")){
-			this._worldWind.layers.showLayer(layerId);
-		}
-	};
-
 	WorldWindWidgetPanel.prototype.switchOnActiveLayers = function(groupId){
-		var activeLayers = Stores.activeLayers;
+		this._activeLayers = Stores.activeLayers;
 		var self = this;
-		activeLayers.forEach(function(layer){
+		this._activeLayers.forEach(function(layer){
 			if (layer.group == groupId){
 				var checkbox = $(".checkbox-row[data-id=" + layer.id +"]");
 				checkbox.addClass("checked");
-				self.toggleLayer({currentTarget: checkbox});
+				self._worldWind.layers.showLayer(layer.id, layer.order);
 			}
 		});
 	};

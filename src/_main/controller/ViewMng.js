@@ -40,14 +40,26 @@ Ext.define('PumaMain.controller.ViewMng', {
     
     onUrlOpen: function(grid,rec) {
         var url = window.location.origin+window.location.pathname+'?id='+rec.get('_id');
+
+        var items = [{
+			xtype: 'displayfield',
+			value: url
+		}];
+        if(Config.toggles.isUrbanTep){
+            items.push({
+                xtype: 'button',
+                text: 'Share on portal',
+                handler: function() {
+                    alert('clicked');
+                }
+            })
+        }
+
         var win = Ext.widget('window',{
                 bodyCls: 'urlwindow',
                 title: 'Data view URL',
-                items: [{
-                        xtype: 'displayfield',
-                        value: url
-                }]
-            })
+                items: items
+            });
             win.show();
     },
     
@@ -107,15 +119,31 @@ Ext.define('PumaMain.controller.ViewMng', {
         var store = Ext.StoreMgr.lookup(isView ? 'dataview' : 'visualization');
         store.addWithSlaves(rec);
         if (isView) {
-            var url = window.location.origin+window.location.pathname+'?id='+rec.get('_id')
+            var url = window.location.origin+window.location.pathname+'?id='+rec.get('_id');
+
+			var items = [{
+				xtype: 'displayfield',
+				value: url
+			}];
+			if(Config.toggles.isUrbanTep){
+				items.push({
+					xtype: 'button',
+					text: 'Share on portal',
+					handler: function(item) {
+						$.post('https://urban-tep.eo.esa.int/t2api/apps/puma', {
+							url: url
+						}, function(){
+							alert('Application was published on the portal.');
+						})
+					}
+				});
+			}
+
             var win = Ext.widget('window',{
                 bodyCls: 'urlwindow',
                 title: 'Data view URL',
-                items: [{
-                        xtype: 'displayfield',
-                        value: url
-                }]
-            })
+                items: items
+            });
             win.show();
         }
     },
@@ -418,6 +446,7 @@ Ext.define('PumaMain.controller.ViewMng', {
         var window = Ext.widget('window',{
             layout: 'fit',
             width: 300,
+            cls: 'window-savevisualization',
             title: 'Save visualization',
             y: 200,
             bodyCls: 'saveaswindow',
@@ -435,6 +464,7 @@ Ext.define('PumaMain.controller.ViewMng', {
             width: 300,
             title: 'Save data view',
             y: 200,
+            cls: 'window-savedataview',
             bodyCls: 'saveaswindow',
             items: [{
                 xtype: 'commonsaveform',

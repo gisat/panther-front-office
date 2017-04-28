@@ -31,9 +31,10 @@ define(['../../../../error/ArgumentError',
 	 * Add content to panel
 	 */
 	BackgroundLayersPanel.prototype.addContent = function(){
-		this.addLayer(this._id + "-bing-roads", "Bing roads", this._panelBodySelector, "bingRoads", true);
+		this.addLayer(this._id + "-osm", "OpenStreetMap", this._panelBodySelector, "osm", true);
+		this.addLayer(this._id + "-carto-db", "Carto DB basemap", this._panelBodySelector, "cartoDb", false);
+		//this.addLayer(this._id + "-bing-roads", "Bing roads", this._panelBodySelector, "bingRoads", false);
 		this.addLayer(this._id + "-bing-aerial", "Bing Aerial", this._panelBodySelector, "bingAerial", false);
-		this.addLayer(this._id + "-landsat", "Landsat", this._panelBodySelector, "landsat", false);
 
 		this.toggleLayers();
 		this.addEventsListeners();

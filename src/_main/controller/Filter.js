@@ -629,7 +629,7 @@ Ext.define('PumaMain.controller.Filter', {
                 items: [{
                         xtype: 'displayfield',
                         itemId: 'attrName',
-                        margin: '0 17',
+                        margin: '0 35 0 17',
                         value: attrCfg.attrObj.attrName + ' ('+attrCfg.units+')'
                     }, {
                         xtype: 'container',
@@ -651,10 +651,9 @@ Ext.define('PumaMain.controller.Filter', {
                     },
                     {
                         xtype: 'multislider',
-                        
                         attrname: attrCfg.attrName,
                         useTips: false,
-                        margin: '0 17',
+                        margin: '0 35 0 17',
                         clickToChange: false,
                         values: [min,max],
                         attrObj: attrCfg.attrObj,
@@ -670,7 +669,7 @@ Ext.define('PumaMain.controller.Filter', {
                         constrainThumbs: true
                     },{
                         xtype: 'container',
-                        margin: '0 17',
+                        margin: '0 35 0 17',
                         layout: {
                             type: 'hbox'
                         },

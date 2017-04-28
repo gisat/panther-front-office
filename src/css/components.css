@@ -359,7 +359,10 @@
 }
 
 .x-tool-poweron {
-	background-image: url("../images/icons/power2.png") !important;
+	background-image: url("../images/new/power.png") !important;
+}
+.tool-active .x-tool-poweron {
+	background-image: url("../images/new/power-active.png") !important;
 }
 
 .x-panel-header .x-tool-refresh,

@@ -1,9 +1,13 @@
-define([], function () {
+define([
+	'./CustomLayers'
+], function (
+	CustomLayers
+) {
 	"use strict";
 
 	var TopToolBar = function() {
 		this._target = $('#top-toolbar-widgets');
-		this._target.on('click.topToolBar', '.item', this.handleClick);
+		this._target.on('click.topToolBar', '.item', this.handleClick.bind(this));
 		this.build();
 
 		$('#top-toolbar-context-help').on('click.topToolBar', this.handleContextHelpClick);
@@ -16,6 +20,7 @@ define([], function () {
 		Observer.addListener("Tools.hideClick.maptools",this.handleHideClick.bind(this, 'window-maptools'));
 		Observer.addListener("Tools.hideClick.legacyAdvancedFilters",this.handleHideClick.bind(this, 'window-legacyAdvancedFilters'));
 		Observer.addListener("Tools.hideClick.customviews",this.handleHideClick.bind(this, 'window-customviews'));
+		Observer.addListener("Tools.hideClick.customLayers",this.handleHideClick.bind(this, 'window-customLayers'));
 	};
 
 
@@ -36,7 +41,14 @@ define([], function () {
 			var classesSelections3d = $('#window-colourSelection').hasClass('open') ? "item open" : "item";
 			this._target.append('<div class="' + classesSelections3d + '" id="top-toolbar-selections" data-for="window-colourSelection">Selections</div>');
 
-			this._target.append('<div class="item disabled" id="top-toolbar-selection-filter">Areas filter</div>');
+			if(Config.toggles.hasNewEvaluationTool) {
+				var classesAreasFilter3d = $('#floater-evaluation-widget').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesAreasFilter3d + '" id="top-toolbar-selection-filter" data-for="floater-evaluation-widget">' + Config.basicTexts.advancedFiltersName + '</div>');
+			} else {
+				var classesLegacyAreasFilter3d = $('#window-legacyAdvancedFilters').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesLegacyAreasFilter3d + '" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters">' + Config.basicTexts.advancedFiltersName + '</div>');
+			}
+
 
 			this._target.append('<div class="item disabled" id="top-toolbar-map-tools">Map tools</div>');
 
@@ -58,8 +70,8 @@ define([], function () {
 			this._target.append('<div class="' + classesSelections + '" id="top-toolbar-selections" data-for="window-colourSelection">Selections</div>');
 
 			if(Config.toggles.hasNewEvaluationTool) {
-				var classesAreasFilter = $('#floater-evaluation-tool-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesAreasFilter + '" id="top-toolbar-selection-filter" data-for="floater-evaluation-tool-widget">' + Config.basicTexts.advancedFiltersName + '</div>');
+				var classesAreasFilter = $('#floater-evaluation-widget').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesAreasFilter + '" id="top-toolbar-selection-filter" data-for="floater-evaluation-widget">' + Config.basicTexts.advancedFiltersName + '</div>');
 			} else {
 				var classesLegacyAreasFilter = $('#window-legacyAdvancedFilters').hasClass('open') ? "item open" : "item";
 				this._target.append('<div class="' + classesLegacyAreasFilter + '" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters">' + Config.basicTexts.advancedFiltersName + '</div>');
@@ -72,9 +84,11 @@ define([], function () {
 			classesCustomViews += $('#window-customviews').hasClass('open') ? " open" : "";
 			this._target.append('<div class="' + classesCustomViews + '" id="top-toolbar-saved-views" data-for="window-customviews">Custom views</div>');
 
-			if(Config.toggles.isSnow) {
-				this.handleSnow();
-			}
+			//var classesCustomLayers = Config.auth ? "item" : "item hidden";
+			var classesCustomLayers = "item";
+			classesCustomLayers += $('#window-customLayers').hasClass('open') ? " open" : "";
+			this._target.append('<div class="' + classesCustomLayers + '" id="top-toolbar-custom-layers" data-for="window-customLayers">Add layer</div>');
+
 		}
 
 	};
@@ -107,6 +121,7 @@ define([], function () {
 		var targetId = e.target.getAttribute('data-for');
 		if (targetId) {
 			if (targetId == 'window-customviews') Ext.ComponentQuery.query('#window-customviews')[0].show();
+			if (targetId == 'window-customLayers') this.initCustomLayersWindow();
 			$('#' + targetId).toggleClass('open');
 			$(e.target).toggleClass('open');
 		}
@@ -116,6 +131,13 @@ define([], function () {
 		if (targetId) {
 			$('#' + targetId).removeClass('open');
 			this._target.find('div[data-for="' + targetId + '"]').removeClass('open');
+		}
+	};
+
+	TopToolBar.prototype.initCustomLayersWindow = function() {
+		var component = $('#custom-layers-container');
+		if (!component.length) {
+			new CustomLayers;
 		}
 	};
 

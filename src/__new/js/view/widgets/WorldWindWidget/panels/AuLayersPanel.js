@@ -36,20 +36,55 @@ define(['../../../../error/ArgumentError',
 	AuLayersPanel.prototype = Object.create(ThematicLayersPanel.prototype);
 
 	AuLayersPanel.prototype.addListeners = function(){
-		Stores.listeners.push(this.rebuildContent.bind(this, "updateOutlines"));
+		Stores.listeners.push(this.rebuild.bind(this, "updateOutlines"));
+		Stores.listeners.push(this.clearAllSelections.bind(this, "clearAllSelections"));
+		Stores.listeners.push(this.clearActiveSelection.bind(this, "clearActiveSelection"));
+	};
+
+	/**
+	 * Clear whole selection
+	 * @param action
+	 * @param notification
+	 */
+	AuLayersPanel.prototype.clearAllSelections = function(action, notification){
+		if (action == notification && notification == "clearAllSelections"){
+			$("#selectedareasfilled-panel-row").remove();
+			this.clearLayers("selectedareasfilled");
+			Stores.selectedOutlines = null;
+		}
+	};
+
+	/**
+	 * Clear active selection
+	 * @param action
+	 * @param notification
+	 */
+	AuLayersPanel.prototype.clearActiveSelection = function(action, notification){
+		if (action == notification && notification == "clearActiveSelection") {
+			this.redrawLayer(this._layers.selected, "selectedareasfilled", Stores.selectedOutlines);
+		}
 	};
 
 	/**
 	 * Check the list of active layers and switch them on
 	 */
 	AuLayersPanel.prototype.switchOnLayersFrom2D = function(){
+		if(Stores.outlines){
+			this.switchOnOutlines();
+		}
+		if(Stores.selectedOutlines){
+			this.switchOnSelected();
+		}
+	};
+
+	AuLayersPanel.prototype.switchOnOutlines = function(){
 		this.redrawLayer(this._layers.outlines, "areaoutlines", Stores.outlines);
 		this.switchOnActiveLayers("areaoutlines");
+	};
 
-		if(Stores.selectedOutlines){
-			this.redrawLayer(this._layers.selected, "selectedareasfilled", Stores.selectedOutlines);
-			this.switchOnActiveLayers("selectedareasfilled");
-		}
+	AuLayersPanel.prototype.switchOnSelected = function(){
+		this.redrawLayer(this._layers.selected, "selectedareasfilled", Stores.selectedOutlines);
+		this.switchOnActiveLayers("selectedareasfilled");
 	};
 
 	/**
@@ -57,18 +92,18 @@ define(['../../../../error/ArgumentError',
 	 * @param action
 	 * @param notification
 	 */
-	AuLayersPanel.prototype.rebuildContent = function(action, notification){
+	AuLayersPanel.prototype.rebuild = function(action, notification){
 		if (action == notification && notification == "updateOutlines"){
 			this.clear(this._id);
 
 			if(Stores.selectedOutlines) {
 				this.rebuildControl("Selected areas filled", this._layers.selected, "selectedareasfilled");
-				this.redrawLayer(this._layers.selected, "selectedareasfilled", Stores.selectedOutlines);
+				this.switchOnSelected();
 			}
 
 			if(Stores.outlines){
 				this.rebuildControl("Area outlines", this._layers.outlines, "areaoutlines");
-				this.redrawLayer(this._layers.outlines, "areaoutlines", Stores.outlines);
+				this.switchOnOutlines();
 			}
 		}
 	};

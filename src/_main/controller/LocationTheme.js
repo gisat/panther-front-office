@@ -3,6 +3,9 @@ Ext.define('PumaMain.controller.LocationTheme', {
     views: [],
     requires: [],
     init: function() {
+
+		Observer.addListener("PumaMain.controller.LocationTheme.reloadWmsLayers",this.reloadWmsLayers.bind(this));
+
         this.control({
             '#initialdataset':{
                 change: this.onDatasetChange
@@ -302,6 +305,14 @@ Ext.define('PumaMain.controller.LocationTheme', {
         visStore.filter([function(rec) {
             return rec.get('theme')==val
         }]);
+
+        // add all years to ThemeYearConfParams
+		ThemeYearConfParams.allYears = [];
+		var yearStoreContent = yearStore.getRange();
+        for(var yearIndex in yearStoreContent){
+            if(!yearStoreContent.hasOwnProperty(yearIndex)) continue;
+			ThemeYearConfParams.allYears.push(yearStoreContent[yearIndex].get('_id'));
+        }
 
         var vis = visCnt.getValue();
         var first = visStore.getAt(0);

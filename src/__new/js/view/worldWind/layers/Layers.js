@@ -2,6 +2,7 @@ define(['../../../error/ArgumentError',
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 
+	'../layers/MyOsmLayer',
 	'../layers/MyWmsLayer',
 	'../SelectionController',
 
@@ -11,6 +12,7 @@ define(['../../../error/ArgumentError',
 			NotFoundError,
 			Logger,
 
+			MyOsmLayer,
 			MyWmsLayer,
 			SelectionController,
 
@@ -49,16 +51,36 @@ define(['../../../error/ArgumentError',
 	/**
 	 * Add layer to the map
 	 * @param layer {WorldWind.Layer}
+	 * @param order {number} order of the layer among other layers
 	 */
-	Layers.prototype.addLayerToMap = function(layer){
+	Layers.prototype.addLayerToMap = function(layer, order){
 		var group = layer.metadata.group;
-		if (group == "areaoutlines" || group == "selectedareasfilled" || group == "background-layers"){
-			this._wwd.addLayer(layer);
-		} else {
-			var position = this._wwd.layers.length - 1;
+		if (order >= 0){
+			var position = this.findLayerZposition(order);
 			this._wwd.insertLayer(position, layer);
+		} else {
+			this._wwd.addLayer(layer);
 		}
 		this._wwd.redraw();
+	};
+
+	/**
+	 * @param order {number} order in 2D
+	 * @returns {number} position in world wind layers
+	 */
+	Layers.prototype.findLayerZposition = function(order){
+		var layers = this._wwd.layers;
+		var position = null;
+		layers.forEach(function (layer, index) {
+			if ((layer.metadata.order >= 0) && (order > layer.metadata.order) && !position){
+				position = index;
+			}
+		});
+		if (position){
+			return position;
+		} else {
+			return layers.length;
+		}
 	};
 
 	/**
@@ -116,11 +138,13 @@ define(['../../../error/ArgumentError',
 	/**
 	 * Show the layer in map
 	 * @param id {string} Id of the layer
+	 * @param order {number} order of the layer among other layers
 	 */
-	Layers.prototype.showLayer = function(id){
+	Layers.prototype.showLayer = function(id, order){
 		var layer = this.getLayerById(id);
 		layer.metadata.active = true;
-		this.addLayerToMap(layer);
+		layer.metadata.order = order;
+		this.addLayerToMap(layer, order);
 	};
 
 	/**
@@ -167,6 +191,17 @@ define(['../../../error/ArgumentError',
 			case "bingAerial":
 				layer = new WorldWind.BingAerialLayer();
 				break;
+			case "osm":
+				layer = new MyOsmLayer({
+					attribution: "\u00A9 OpenStreetMap contributors",
+					source: "http://a.tile.openstreetmap.org/"
+				});
+				break;
+			case "cartoDb":
+				layer = new MyOsmLayer({
+					attribution: "\u00A9 Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL",
+					source: "http://a.basemaps.cartocdn.com/light_all/"});
+				break;
 			case "landsat":
 				layer = new WorldWind.BMNGLandsatLayer();
 				break;
@@ -188,7 +223,7 @@ define(['../../../error/ArgumentError',
 	Layers.prototype.addWmsLayer = function(layerData, group, state){
 		var layer = new MyWmsLayer({
 			service: layerData.url,
-			layerNames: layerData.layer,
+			layerNames: layerData.layerPaths,
 			sector: new WorldWind.Sector(-90,90,-180,180),
 			levelZeroDelta: new WorldWind.Location(45,45),
 			numLevels: 14,

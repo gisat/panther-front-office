@@ -4,6 +4,8 @@ Ext.define('PumaMain.controller.Layers', {
 	requires: ['PumaMain.view.LayerMenu', 'Puma.util.Color'],
 	init: function() {
 		Observer.addListener("thematicMapsSettings",this.onConfigure.bind(this));
+		Stores.listeners.push(this.checkLayerIn2d.bind(this, "checklayer"));
+
 		this.control({
 			'#layerpanel': {
 				checkchange: this.onCheckChange,
@@ -87,7 +89,7 @@ Ext.define('PumaMain.controller.Layers', {
 					this.setSize(dom.clientWidth+32,dom.clientHeight+52);
 
 					if (Config.toggles.useTopToolbar) {
-						this.showBy('app-map','br-br',[-3,-3]);
+						this.showBy('app-map','br-br',[-43,-18]);
 					} else {
 						var leftPanel = Ext.ComponentQuery.query('toolspanel')[0]; // TODO - what if no ToolsPanel?
 
@@ -317,6 +319,7 @@ Ext.define('PumaMain.controller.Layers', {
 				}
 				Ext.widget('window',{
 					height: 600,
+					cls: 'metadata-window',
 					title: name,
 					width: 500,
 					autoScroll: true,
@@ -1208,6 +1211,13 @@ Ext.define('PumaMain.controller.Layers', {
 		}
 	},
 
+	checkLayerIn2d: function(action, notification, target){
+		if (action == notification && notification == "checklayer"){
+			this._multiCheck = true;
+			target.trigger("click");
+		}
+	},
+
 	/**
 	 * This method is called whenever user clicks on the checkbox in the left menu. It should either show the layer or
 	 * hide the layer. If there is another layer shown in the same layer group, it also hides the currently shown layer.
@@ -1221,8 +1231,17 @@ Ext.define('PumaMain.controller.Layers', {
 		var nodeType = node.get('type');
 		var self = this;
 
+		// get view object of layer panel
+		var view = Ext.ComponentQuery.query('#layerpanel')[0].view;
+
 		if(node.get('type') == 'traffic') {
 			this.changeVisibilityOfTrafficLayer(node, checked);
+			return;
+		}
+
+		// don't uncheck basemap layer
+		if(!checked && parentType == 'basegroup' && view.lastE) {
+			node.set('checked', true); // recheck
 			return;
 		}
 
@@ -1231,16 +1250,18 @@ Ext.define('PumaMain.controller.Layers', {
 			node.get('legend').destroy();
 		}
 
-		// get view object of layer panel
-		var view = Ext.ComponentQuery.query('#layerpanel')[0].view;
-
 		// get store object
 		var store = Ext.StoreMgr.lookup('selectedlayers');
 
 		// multiple layers from one group, if CTRL key used
 		var multi = false;
-		if (view.lastE && view.lastE.ctrlKey) {
+		//if (parentType != 'basegroup' && (view.lastE && view.lastE.ctrlKey || this._multiCheck)) {
+		//	multi = true;
+		//	this._multiCheck = false;
+		//}
+		if (parentType != 'basegroup') {
 			multi = true;
+			this._multiCheck = false;
 		}
 
 		// reset last event object
@@ -1258,14 +1279,19 @@ Ext.define('PumaMain.controller.Layers', {
 			var firstInCategoryIndex = 8000;
 			var selectedLayers = store.getRange();
 
+			// console.debug("\n\n#### " + node.get('name'));
+
 			// get the lowest used sortIndex in the same or lower (higher number) category
 			for(var i in selectedLayers){
 				if(!selectedLayers.hasOwnProperty(i)) continue;
-				if(node.id == selectedLayers[i].id) continue; // skip the layer itself
+				var selectedLayer = selectedLayers[i];
+				var selectedLayerParent = selectedLayer.parentNode;
 
-				if(this.getLayerGroupCategory(selectedLayers[i].parentNode.get('type')) >= this.getLayerGroupCategory(parentType)) {
-					// console.debug(selectedLayers[i].get('name') + " (sortIndex: " + selectedLayers[i].get('sortIndex') + ") has the same or lower category");
-					firstInCategoryIndex = Math.min(firstInCategoryIndex, selectedLayers[i].get('sortIndex'));
+				if(node.id == selectedLayer.id) continue; // skip the layer itself
+
+				if(this.getLayerGroupCategory(selectedLayerParent.get('type')) >= this.getLayerGroupCategory(parentType)) {
+					// console.debug(selectedLayer.get('name') + " (sortIndex: " + selectedLayer.get('sortIndex') + ") has the same or lower category");
+					firstInCategoryIndex = Math.min(firstInCategoryIndex, selectedLayer.get('sortIndex'));
 				}
 
 			}
@@ -1332,17 +1358,17 @@ Ext.define('PumaMain.controller.Layers', {
 	 * @returns {*}
 	 */
 	getLayerGroupCategory: function(layerGroup) {
-		var categories = {
-			0: ['systemgroup'],
-			1: ['choroplethgroup'],
-			// 2: default
-			3: ['basegroup']
-		};
+		var categories = [
+			['systemgroup'], // 0
+			['choroplethgroup'], // 1
+			null, // 2 - dafault
+			['basegroup'] // 3
+		];
 		var defaultCategory = 2;
 
-		for(var categoryNumber in Object.keys(categories)) {
+		for(var categoryNumber in categories) {
 			if(!categories.hasOwnProperty(categoryNumber)) continue;
-			if(categories[categoryNumber].indexOf(layerGroup) >= 0) {
+			if(categories[categoryNumber] && categories[categoryNumber].indexOf(layerGroup) >= 0) {
 				return categoryNumber;
 			}
 		}

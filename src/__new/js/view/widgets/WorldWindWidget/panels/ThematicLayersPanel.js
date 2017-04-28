@@ -4,16 +4,14 @@ define(['../../../../error/ArgumentError',
 
 	'./WorldWindWidgetPanel',
 
-	'jquery',
-	'string'
+	'jquery'
 ], function(ArgumentError,
 			NotFoundError,
 			Logger,
 
 			WorldWindWidgetPanel,
 
-			$,
-			S
+			$
 ){
 	/**
 	 * Class representing Thematic Layers Panel of WorldWindWidget
@@ -37,7 +35,6 @@ define(['../../../../error/ArgumentError',
 
 	ThematicLayersPanel.prototype.switchOnLayersFrom2D = function(){
 		this.updateChoropleths("updateChoropleths", "updateChoropleths");
-		this.switchOnActiveLayers(this._groupId);
 	};
 
 	/**
@@ -61,7 +58,7 @@ define(['../../../../error/ArgumentError',
 						name: name
 					};
 					choropleth.layer = layer;
-					choropleth.control = self.addLayerControl(layer.id, layer.name, self._panelBodySelector);
+					choropleth.control = self.addLayerControl(layer.id, layer.name, self._panelBodySelector, false);
 				});
 				this.displayPanel("block");
 			} else {
@@ -78,9 +75,7 @@ define(['../../../../error/ArgumentError',
 	ThematicLayersPanel.prototype.updateChoropleths = function(action, notification){
 		var self = this;
 		if (action == notification && notification == "updateChoropleths"){
-			this._worldWind.layers.removeAllLayersFromGroup(this._id);
-			// it removes all floaters connected with this panel
-			$("." + this._id + "-floater").remove();
+			this.clearLayers(this._id);
 
 			this._choropleths.forEach(function(choropleth){
 				if (choropleth.hasOwnProperty("data")){
@@ -99,9 +94,10 @@ define(['../../../../error/ArgumentError',
 					var toolBox = choropleth.control.getToolBox();
 					toolBox.addLegend(layer, self._worldWind);
 					toolBox.addOpacity(layer, self._worldWind);
-					//self.checkIfLayerIsSwitchedOn(layer.id);
 				}
 			});
+
+			this.switchOnActiveLayers(this._groupId);
 		}
 	};
 

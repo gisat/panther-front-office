@@ -93,9 +93,9 @@ var Stores = {
  * Notification about changes in the stores.
  * @param changed
  */
-Stores.notify = function(changed) {
+Stores.notify = function(changed, options) {
 	Stores.listeners.forEach(function(listener){
-		listener(changed);
+		listener(changed, options);
 	})
 };
 

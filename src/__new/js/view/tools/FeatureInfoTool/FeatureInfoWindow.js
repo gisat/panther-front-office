@@ -184,8 +184,10 @@ define(['../../../error/ArgumentError',
 	FeatureInfoWindow.prototype.addSettingsOpenListener = function() {
 		var self = this;
 		$(".feature-info-settings").on("click", function(){
-			$('#' + self._id + '-settings').show("drop", {direction: "up"}, 200)
-				.addClass('open').addClass('active');
+			setTimeout(function(){
+				$(".floater, .tool-window, #feature-info-window").removeClass("active");
+				$('#' + self._id + '-settings').addClass('open').addClass('active');
+			}, 50);
 		});
 	};
 

@@ -253,6 +253,7 @@ Ext.define('PumaMain.controller.Select', {
     },
         
     clearSelectionsAll: function() {
+        Stores.notify("clearAllSelections");
         this.selMap = {'ff4c39':[]};
         this.hoverMap = [];
         this.colorMap = {};
@@ -267,6 +268,17 @@ Ext.define('PumaMain.controller.Select', {
         this.getController('Chart').reconfigure('immediate'); 
         this.updateCounts();
         this.selectDelayed();
+
+        Stores.notify("clearActiveSelection");
+        var clearAll = true;
+        for (var key in this.selMap){
+            if (this.selMap[key].length > 0){
+                clearAll = false;
+            }
+        }
+        if (clearAll){
+            Stores.notify("clearAllSelections");
+        }
     },    
     
     prepareColorMap: function() {

@@ -48,6 +48,8 @@ define(['../../../../error/ArgumentError',
 	LayerTools.prototype.build = function(){
 		$(this._target).append('<div id="layer-tool-box-' + this._id +'" class="layer-tools"></div>');
 		this._toolsContainer = $('#layer-tool-box-' + this._id);
+
+		this.addMetadataIconOnClickListener();
 	};
 
 	LayerTools.prototype.clear = function(){
@@ -93,6 +95,25 @@ define(['../../../../error/ArgumentError',
 			layerMetadata: layerMetadata,
 			worldWind: worldWind,
 			target: this._toolsContainer
+		});
+	};
+
+	/**
+	 * Add metadata icon to tool box
+	 */
+	LayerTools.prototype.addMetadataIcon = function(data){
+		this._toolsContainer.append('<div title="Metadata" class="layer-tool-icon metadata-icon" data-for="' + data.id + '">' +
+				'<img src="__new/img/info.png"/>' +
+			'</div>');
+	};
+
+	/**
+	 * Show window with metadata info on Metadata icon click
+	 */
+	LayerTools.prototype.addMetadataIconOnClickListener = function(){
+		this._toolsContainer.on("click", ".metadata-icon", function(){
+			var dataId = $(this).attr("data-for");
+			$("#window-layerpanel").find("td[data-for=" + dataId + "] .x-tree-icon-leaf").trigger("click");
 		});
 	};
 

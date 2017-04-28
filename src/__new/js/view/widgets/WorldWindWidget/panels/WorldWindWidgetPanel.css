@@ -37,9 +37,6 @@
 .panel-body .floater-row {
 	padding-left: 1.05rem;
 }
-.panel-layer-group-body .floater-row {
-	padding-left: 2.15rem;
-}
 
 .panel-icon {
 	display: inline-block;
@@ -78,7 +75,11 @@
 .panel-body .layer-row {
 	display: inline-block;
 	vertical-align: middle;
-	width: calc(100% - 4rem);
+	width: calc(100% - 3rem);
+}
+.panel-body .panel-layer-group-body .layer-row {
+	padding-left: 2.15rem;
+	width: calc(100% - 4.3rem);
 }
 .panel-body .layer-row a {
 	width: auto;

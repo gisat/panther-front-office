@@ -40,7 +40,7 @@ define(['../../../../../error/ArgumentError',
 	 * Build an opactiy control
 	 */
 	Opacity.prototype.build = function(){
-		this._icon = this.buildIcon("Opacity", "opacity-icon", "fa-clone");
+		this._icon = this.buildIcon("Opacity", "opacity-icon", "opacity");
 		this._floater = this.buildFloater("Opacity", "opacity-floater");
 
 		this._iconSelector = this._icon.getElement();

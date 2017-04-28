@@ -5,9 +5,10 @@
 	min-height: 100px;
 	height: auto;
 	width: 300px;
-	left: 350px;
+	left: auto;
+	bottom: 55px;
 	top: auto;
-	bottom: 50px;
+	right: 627px;
 }
 
 .tool-window.layer-tool-floater.open {

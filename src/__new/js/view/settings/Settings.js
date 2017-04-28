@@ -62,8 +62,7 @@ define([
      * Close window
      */
     Settings.prototype.close = function(){
-        $('#' + this._id).hide("drop", {direction: "up"}, 200)
-            .removeClass("open");
+        $('#' + this._id).removeClass("open").removeClass("active");
     };
 
     /**
@@ -210,7 +209,7 @@ define([
                 });
             }
         }).on("click drag", function(){
-            $(".floater, .tool-window").removeClass("active");
+            $(".floater, .tool-window, #feature-info-window").removeClass("active");
             $(this).addClass("active");
         });
     };

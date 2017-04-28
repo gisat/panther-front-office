@@ -55,15 +55,15 @@ define(['../../../../error/ArgumentError',
 	 * Add tool icon
 	 * @params name {string} name of the icon
 	 * @params type {string} html class for icon
-	 * @params faType {string} html class for Font Awesome icon
+	 * @params fileName {string} name of the icon file
 	 * @returns {LayerToolsIcon}
 	 */
-	LayerTool.prototype.buildIcon = function(name, type, faType){
+	LayerTool.prototype.buildIcon = function(name, type, fileName){
 		return new LayerToolIcon({
 			active: this._active,
 			id: type + "-" + this._id,
 			class: type,
-			faClass: faType,
+			fileName: fileName,
 			target: this._target,
 			title: name
 		});
@@ -99,6 +99,12 @@ define(['../../../../error/ArgumentError',
 				icon.addClass("open");
 				$(".floater, .tool-window").removeClass("active");
 				self._floaterSelector.addClass("open");
+				if ($("#sidebar-reports").hasClass("hidden")){
+					self._floaterSelector.css({
+						right: "48px"
+					})
+				}
+				self.addContent();
 				setTimeout(function(){
 					self._floaterSelector.addClass("active");
 				}, 50);
