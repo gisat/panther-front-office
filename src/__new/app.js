@@ -51,6 +51,7 @@ define(['js/util/metadata/Attributes',
         'js/view/PanelIFrame/PanelIFrame',
         'js/util/Placeholder',
 		'js/util/Remote',
+        'js/view/widgets/SnowWidget/SnowWidget',
 		'js/stores/Stores',
         'js/view/TopToolBar',
         'js/view/worldWind/WorldWindMap',
@@ -75,6 +76,7 @@ define(['js/util/metadata/Attributes',
 			 PanelIFrame,
              Placeholder,
 			 Remote,
+             SnowWidget,
 			 Stores,
 			 TopToolBar,
              WorldWindMap,
@@ -98,6 +100,7 @@ define(['js/util/metadata/Attributes',
 
         if(Config.toggles.isSnow){
             var panelIFrame = new PanelIFrame('http://35.165.51.145/snow/');
+            widgets.push(buildSnowWidget(panelIFrame));
         }
 
         // create tools and widgets according to configuration
@@ -253,6 +256,20 @@ define(['js/util/metadata/Attributes',
                 options: ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016']
             }]
         })
+    }
+
+    /**
+     * Build SnowWidget instance
+     * @param iFrame {PanelIFrame}
+     * @returns {SnowWidget}
+     */
+    function buildSnowWidget (iFrame){
+        return new SnowWidget({
+            elementId: 'snow-widget',
+            name: 'Saved configurations',
+            placeholderTargetId: 'widget-container',
+            iFrame: iFrame
+        });
     }
 
     /**

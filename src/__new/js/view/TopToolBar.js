@@ -80,23 +80,27 @@ define([], function () {
 	};
 
 	TopToolBar.prototype.handleSnow = function() {
-		this._target.append('<div class="item" id="snow">Snow</div>');
-		$('#snow').click(function(){
-			$('body').append('<div style="position: absolute; top: 100px; bottom: 100px; left: 100px; right: 100px; z-index: 1000000; background: white;"><iframe width="100%" height="100%" src="http://35.165.51.145/snow"></iframe></div>');
-		});
+		//this._target.append('<div class="item" id="snow">Snow</div>');
+		//$('#snow').click(function(){
+		//	$('body').append('<div style="position: absolute; top: 100px; bottom: 100px; left: 100px; right: 100px; z-index: 1000000; background: white;"><iframe width="100%" height="100%" src="http://35.165.51.145/snow"></iframe></div>');
+		//});
 
-		this._target.append('<div class="item" id="metadata-composites">Composites</div>');
-		$('#metadata-composites').click(function(){
-			$.get(Config.url + 'rest/composites/metadata', function(data){
-				var rows = '';
-				data.metadata.forEach(function(row){
-					rows+= '<tr><td>'+row.key+'</td><td>'+row.sensors.join(',')+'</td><td>'+row.date_start+'</td><td>'+row.date_end+'</td><td>'+row.period+'</td><td>'+row.area+'</td></tr>';
-				});
-				var table = "<table style='width: 100%; height: 100%; overflow: auto;'><thead><tr><th>Key</th><th>Sensors</th><th>Date start</th><th>Date End</th><th>Period</th><th>Area</th></tr></thead><tbody>"+rows+"</tbody></table>";
+		//this._target.append('<div class="item" id="metadata-composites">Composites</div>');
+		//$('#metadata-composites').click(function(){
+		//	$.get(Config.url + 'rest/composites/metadata', function(data){
+		//		var rows = '';
+		//		data.metadata.forEach(function(row){
+		//			rows+= '<tr><td>'+row.key+'</td><td>'+row.sensors.join(',')+'</td><td>'+row.date_start+'</td><td>'+row.date_end+'</td><td>'+row.period+'</td><td>'+row.area+'</td></tr>';
+		//		});
+		//		var table = "<table style='width: 100%; height: 100%; overflow: auto;'><thead><tr><th>Key</th><th>Sensors</th><th>Date start</th><th>Date End</th><th>Period</th><th>Area</th></tr></thead><tbody>"+rows+"</tbody></table>";
+		//
+		//		$('body').append('<div style="position: absolute; top: 100px; bottom: 100px; left: 100px; right: 100px; z-index: 1000000; background: white; overflow: auto;">'+table+'</div>');
+		//	});
+		//});
 
-				$('body').append('<div style="position: absolute; top: 100px; bottom: 100px; left: 100px; right: 100px; z-index: 1000000; background: white; overflow: auto;">'+table+'</div>');
-			});
-		});
+		var classesSnowWidget = $('#floater-snow-widget').hasClass('open') ? "item open" : "item";
+		this._target.append('<div class="' + classesSnowWidget + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget">Saved configurations</div>');
+
 	};
 
 	TopToolBar.prototype.handleClick = function(e){

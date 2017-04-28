@@ -34,7 +34,6 @@ define(['../../error/ArgumentError',
 
     var Widget = function (options) {
         View.apply(this, arguments);
-
         if (!options.elementId){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Widget", "constructor", "missingElementId"));
         }

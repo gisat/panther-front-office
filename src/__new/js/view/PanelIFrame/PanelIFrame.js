@@ -16,10 +16,9 @@ $
 
 
 	PanelIFrame.prototype.build = function(){
-
 		this._target.empty();
 
-		this._target.append('<iframe src="' + this._url + '"></iframe>');
+		this._target.append('<iframe id="snow-iframe" src="' + this._url + '"></iframe>');
 		$("#sidebar-reports").addClass("snow-mode");
 	};
 

@@ -38,7 +38,7 @@ var Config = {
 		isEea: false,
 		isMelodies: false,
 		isUrbanTep: false,
-		isSnow: false
+		isSnow: true
 	},
 
 	basicTexts: {

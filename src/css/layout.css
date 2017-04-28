@@ -737,6 +737,10 @@ body.mode-3d #top-toolbar-3dmap {
 	background: url('../images/icons/context-help.svg') center center no-repeat;
 }
 
+#top-toolbar .item#top-toolbar-snow-configuration::before {
+	content: '\f085';
+}
+
 
 /* Sidebar tools */
 #sidebar-tools {
