@@ -1,0 +1,33 @@
+.snow-cfg-table {
+	margin: .5rem 0 2rem;
+	width: 100%;
+}
+
+.snow-cfg-table tr td {
+	border-bottom: 1px solid #eee;
+	color: #666;
+	line-height: 1.3rem;
+	padding: .5rem 0;
+	font-size: .85rem;
+}
+.snow-cfg-table tr:first-child td {
+	border-top: 1px solid #eee;
+}
+
+.snow-cfg-table tr td i {
+	font-style: normal;
+	font-weight: 600;
+	text-transform: uppercase;
+}
+
+.snow-cfg-table tr td:last-child {
+	text-align: right;
+}
+
+.widget-button.show-composites,
+.widget-button.save-composites {
+	width: 5rem;
+	font-size: .7rem;
+	margin-right: .5rem;
+	padding: .2rem;
+}

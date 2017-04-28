@@ -2,6 +2,7 @@ define(['../../../error/ArgumentError',
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 
+	'../../table/TableSnowConfigurations',
 	'../Widget',
 
 	'jquery',
@@ -12,6 +13,7 @@ define(['../../../error/ArgumentError',
 			NotFoundError,
 			Logger,
 
+			TableSnowConfigurations,
 			Widget,
 
 			$,
@@ -32,6 +34,20 @@ define(['../../../error/ArgumentError',
 
 		this.build();
 		this.deleteFooter(this._widgetSelector);
+
+		var record = {
+			area: "Czech Republic",
+			dateFrom: "20/12/2016",
+			dateTo: "24/12/2016",
+			sensors: {
+				modis: ["Terra", "Aqua"],
+				slstr: ["Sentinel 3"]
+			},
+			composites: [4,16],
+			url: "http://35.165.51.145/snow/czech-republic/20170103-20170111/modis-terra-aqua_slstr-sentinel3/4-16"
+		};
+		this._currentMock = [record];
+		this._savedMock = [record, record, record, record, record, record];
 	};
 
 	SnowWidget.prototype = Object.create(Widget.prototype);
@@ -41,10 +57,55 @@ define(['../../../error/ArgumentError',
 	 */
 	SnowWidget.prototype.build = function(){
 		this.addMinimiseButtonListener();
+
+		this._widgetBodySelector.append('<div id="snow-widget-container"></div>');
+		this._container = $('#snow-widget-container');
+
+		this._container.append('<h3 class="snow-table-caption">Current configuration</h3>');
+		this._currentConfigurationTable = this.buildTable('snow-current-cfg-table');
+
+		this._container.append('<h3 class="snow-table-caption">Saved configurations</h3>');
+		this._savedConfigurationTable = this.buildTable('snow-saved-cfg-table');
 	};
 
 	SnowWidget.prototype.rebuild = function(){
+		// todo get current snow configuration, then:
+		this.rebuildCurrentCfgTable(this._currentMock);
+
+		// todo get saved configurations, then:
+		this.rebuildSavedCfgTable(this._savedMock);
+
 		this.handleLoading("hide");
+	};
+
+	/**
+	 * @param data {Array}
+	 */
+	SnowWidget.prototype.rebuildCurrentCfgTable = function(data){
+		this._currentConfigurationTable.clear();
+		var self = this;
+		data.forEach(function(record){
+			self._currentConfigurationTable.addRecord(record, false);
+		})
+	};
+
+	/**
+	 * @param data {Array}
+	 */
+	SnowWidget.prototype.rebuildSavedCfgTable = function(data){
+		this._savedConfigurationTable.clear();
+		var self = this;
+		data.forEach(function(record){
+			self._savedConfigurationTable.addRecord(record, true);
+		})
+	};
+
+	SnowWidget.prototype.buildTable = function(id){
+		return new TableSnowConfigurations({
+			elementId: id,
+			class: "snow-cfg-table",
+			targetId: this._container.attr("id")
+		});
 	};
 
 	/**

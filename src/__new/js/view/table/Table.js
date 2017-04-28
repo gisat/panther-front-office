@@ -17,6 +17,7 @@ define([
 	 * @param options {Object}
 	 * @param options.elementId {Object}
 	 * @param options.targetId {Object}
+	 * @param options.class {string} optional table class
 	 * @constructor
 	 */
 	var Table = function(options) {
@@ -32,6 +33,12 @@ define([
 		if (this._target.length == 0){
 			throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "Table", "constructor", "missingHTMLElement"));
 		}
+
+		this._class = 'new-table';
+		if(options.class){
+			this._class += ' ' + options.class;
+		}
+
 		this.build();
 	};
 
@@ -39,7 +46,7 @@ define([
 	 * Build table
 	 */
 	Table.prototype.build = function(){
-		this._target.append("<table class='new-table' id='" + this._tableId + "'></table>");
+		this._target.append("<table class='"+ this._class +"' id='" + this._tableId + "'></table>");
 		this._table = $("#" + this._tableId);
 	};
 

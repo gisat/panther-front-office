@@ -1,11 +1,19 @@
 #floater-snow-widget {
 	display: none;
-	left: 10rem;
-	top: 10rem;
-	max-width: 40rem;
-	min-height: 4rem;
-	width: 260px;
+	left: 50%;
+	top: 50%;
+	width: 800px;
+	height: 500px;
+	margin: -250px 0 0 -400px;
 }
 #floater-snow-widget.open {
 	display: block;
+}
+#floater-snow-widget .floater-body {
+	padding-top: 1rem;
+	height: calc(100% - 2.5rem);
+}
+.snow-table-caption {
+	color: #555;
+	font-size: .9rem;
 }
