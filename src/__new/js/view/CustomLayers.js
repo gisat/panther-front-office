@@ -53,7 +53,10 @@ define([
 				this.view();
 				break;
 			case 'custom-layers-file-load-btn':
-				this.loadFile();
+				this.loadFile('rest/layerImporter/import');
+				break;
+			case 'custom-layers-file-load-without-statistics-btn':
+				this.loadFile('rest/layerImporter/importNoStatistics');
 				break;
 			case 'custom-layers-wms-add-btn':
 				this.addWMS();
@@ -83,6 +86,7 @@ define([
 				'</label>' +
 				'<div class="ptr-btn-group">' +
 					'<div class="ptr-btn primary" id="custom-layers-file-load-btn">Load</div>' +
+					'<div class="ptr-btn primary" id="custom-layers-file-load-without-statistics-btn">Load Without Statistics</div>' +
 					'<div class="ptr-btn" id="custom-layers-file-cancel-btn">Cancel</div>' +
 				'</div>'
 			);
@@ -122,11 +126,11 @@ define([
 
 
 
-	CustomLayers.prototype.loadFile = function() {
+	CustomLayers.prototype.loadFile = function(relativeUrl) {
 		var fileInput = this._container.find('#custom-layers-file-file')[0];
 		var file = fileInput.files[0];
 		var name = this._container.find('#custom-layers-file-name')[0].value;
-		var url = Config.url + 'rest/layerImporter/import';
+		var url = Config.url + relativeUrl;
 		//var url = 'http://192.168.2.112/backend/' + 'rest/layerImporter/import';
 		var payload = new FormData();
 		payload.append('file', file);
