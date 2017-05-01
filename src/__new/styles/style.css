@@ -282,3 +282,7 @@ label.container > input {
 	transition:
 		width .3s ease-in-out;
 }
+
+#top-toolbar .item#top-toolbar-functional-urban-area::before {
+	content: '\f0b0';
+}
