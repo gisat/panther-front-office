@@ -150,6 +150,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
     },
     
     onLocationChange: function(cnt,val) {
+        console.log("Data: ", cnt, " Val: ", val);
+
         ThemeYearConfParams.actions.push(cnt.itemId);
         // URBIS change
         if ((!val) && !cnt.initial && this.locationInitialized) {
