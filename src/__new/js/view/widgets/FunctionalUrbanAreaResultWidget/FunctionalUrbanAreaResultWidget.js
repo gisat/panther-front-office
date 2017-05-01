@@ -50,10 +50,6 @@ define([
 		console.log('FunctionalUrbanAreaResultWidget');
 
 		this._settings = null;
-
-		$(function () {
-			this.build();
-		}.bind(this));
 	};
 
 	FunctionalUrbanAreaResultWidget.prototype = Object.create(Widget.prototype);
