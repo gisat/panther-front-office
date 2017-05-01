@@ -153,7 +153,7 @@ define([
 				.attr("fill", "#000")
 				.attr("font-weight", "bold")
 				.attr("text-anchor", "start")
-				.text("Percentage");
+				.text("Amount");
 
 			var legend = g.append("g")
 				.attr("font-family", "sans-serif")
