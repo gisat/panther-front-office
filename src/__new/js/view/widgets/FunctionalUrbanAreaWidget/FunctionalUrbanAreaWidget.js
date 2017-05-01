@@ -102,6 +102,7 @@ define([
 		this._sets = [];
 		this.build();
 		$('#floater-functional-urban-area').removeClass('open');
+		$('#top-toolbar-functional-urban-area').removeClass('open');
 	};
 
     FunctionalUrbanAreaWidget.prototype.add = function() {
