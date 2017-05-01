@@ -60,9 +60,7 @@ define(['js/util/metadata/Attributes',
         'string',
         'jquery',
         'jquery-ui',
-        'underscore',
-
-		'css!./styles/urban-tep'
+        'underscore'
 ], function (Attributes,
              AnalyticalUnits,
              CityWidget,
@@ -121,11 +119,6 @@ define(['js/util/metadata/Attributes',
             var results = buildFunctionalUrbanAreaResultWidget()
 			tools.push(buildFunctionalUrbanAreaWidget(results));
 			tools.push(results);
-		}
-
-		if (Config.toggles.isUrbanTep) {
-			$('body').addClass("urban-tep");
-			$('#header .menu').hide();
 		}
 
 		// build app, map is class for OpenLayers map
