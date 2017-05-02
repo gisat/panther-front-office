@@ -178,6 +178,8 @@ define([
 		});
 	};
 
+	FunctionalUrbanAreaResultWidget.prototype.rebuild = function() {};
+
 	FunctionalUrbanAreaResultWidget.prototype.setsToString = function(sets) {
 		var resultText = "";
 		sets.forEach((set, index) => {

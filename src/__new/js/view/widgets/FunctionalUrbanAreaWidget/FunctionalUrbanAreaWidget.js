@@ -95,7 +95,9 @@ define([
 		// Allow for adding multiple sets.
     };
 
-    FunctionalUrbanAreaWidget.prototype.show = function() {
+	FunctionalUrbanAreaWidget.prototype.rebuild = function() {};
+
+	FunctionalUrbanAreaWidget.prototype.show = function() {
 		$('#floater-functional-urban-area-result').addClass('open');
 		this._results.build(this._sets);
 
