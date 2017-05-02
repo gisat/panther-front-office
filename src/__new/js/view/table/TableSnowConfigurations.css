@@ -9,9 +9,14 @@
 	line-height: 1.3rem;
 	padding: .5rem 0;
 	font-size: .85rem;
+	transition: background .3s ease-out;
 }
 .snow-cfg-table tr:first-child td {
 	border-top: 1px solid #eee;
+}
+
+.snow-cfg-table tr td:first-child {
+	padding-left: 0;
 }
 
 .snow-cfg-table tr td i {
@@ -22,6 +27,26 @@
 
 .snow-cfg-table tr td:last-child {
 	text-align: right;
+}
+
+.snow-cfg-table tr:hover td {
+	background: rgba(240,240,240,.7);
+}
+
+.snow-cfg-table tr td div {
+	display: inline-block;
+	vertical-align: middle;
+}
+.snow-cfg-table tr td div.snow-icon-container {
+	margin: 0 .5rem
+}
+.snow-icon-container svg {
+	width: 1.2rem;
+	height: 1.2rem;
+}
+.snow-icon-container:not(.icon-composites) svg path {
+	 fill: #666;
+	 stroke: #666;
 }
 
 .widget-button.show-composites,

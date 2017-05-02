@@ -1,11 +1,21 @@
 define([
 	'./Table',
 	'jquery',
+	'string',
+	'text!../widgets/SnowWidget/icons/composites.svg',
+	'text!../widgets/SnowWidget/icons/satellite.svg',
+	'text!../widgets/SnowWidget/icons/calendar.isvg',
+	'text!../widgets/SnowWidget/icons/placemark.isvg',
 
 	'css!./TableSnowConfigurations'
 ], function(
 	Table,
-	$
+	$,
+	S,
+	compositesIcon,
+	satelliteIcon,
+	calendarIcon,
+	placemarkIcon
 ){
 
 	/**
@@ -23,9 +33,14 @@ define([
 	 * @param saved {boolean} true for saved records, false for current configuration record
 	 */
 	TableSnowConfigurations.prototype.addRecord = function(data, saved){
+		var compIcon = S(compositesIcon).template().toString();
+		var satIcon = S(satelliteIcon).template().toString();
+		var calIcon = S(calendarIcon).template().toString();
+		var areaIcon = S(placemarkIcon).template().toString();
+
 		var content = '<tr data-url="' + data.url + '">';
-		content += '<td>' + data.area + '</td>';
-		content += '<td>' + data.dateFrom + ' -<br/>' + data.dateTo + '</td>';
+		content += '<td class="snow-icon snow-area"><div class="snow-icon-container">' + areaIcon +  '</div><div>' + data.area + '</div></td>';
+		content += '<td class="snow-icon snow-date"><div class="snow-icon-container">' + calIcon +  '</div><div>' + data.dateFrom + ' -<br/>' + data.dateTo + '</div></td>';
 
 		// add sensors cell
 		var sensors = '';
@@ -34,14 +49,14 @@ define([
 			sensors += data.sensors[satellite].join(', ');
 			sensors += ')<br/>';
 		}
-		content += '<td>' + sensors + '</td>';
+		content += '<td class="snow-icon snow-sensors"><div class="snow-icon-container">' + satIcon +  '</div><div>' + sensors + '</div></td>';
 
 		// add composites cell
-		content += '<td> Daily composites </br>';
+		content += '<td class="snow-icon snow-composites"><div class="snow-icon-container icon-composites">' + compIcon +  '</div><div><i>Daily</i> composites </br>';
 		if (data.composites.length){
-			content += data.composites.join(",") + '-day composites';
+			content += '<i>' + data.composites.join(",") + '-day</i> composites';
 		}
-		content += '</td>';
+		content += '</div></td>';
 
 
 		//add action button
