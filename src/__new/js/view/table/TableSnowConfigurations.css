@@ -22,6 +22,8 @@
 .snow-cfg-table tr td i {
 	font-style: normal;
 	font-weight: 600;
+}
+.snow-cfg-table tr td i.satellite-name {
 	text-transform: uppercase;
 }
 

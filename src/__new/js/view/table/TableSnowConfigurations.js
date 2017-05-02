@@ -45,7 +45,7 @@ define([
 		// add sensors cell
 		var sensors = '';
 		for (var satellite in data.sensors){
-			sensors += '<i>' + satellite + '</i> (';
+			sensors += '<i class="satellite-name">' + satellite + '</i> (';
 			sensors += data.sensors[satellite].join(', ');
 			sensors += ')<br/>';
 		}
