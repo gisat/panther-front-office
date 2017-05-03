@@ -69,9 +69,12 @@ define([
      */
     EvaluationWidget.prototype.rebuild = function(data, options){
         // If scope World and All Places and UrbanTep
-        /*if(Config.toggles.isUrbanTep && ThemeYearConfParams.dataset == 314 && ThemeYearConfParams.place == '') {
+        if(Config.toggles.isUrbanTep && ThemeYearConfParams.dataset == 314 && ThemeYearConfParams.place == '') {
+            $('#top-toolbar-selection-filter').hide();
             return;
-        }*/
+        } else {
+			$('#top-toolbar-selection-filter').show();
+        }
 
         var attrForRequest;
         if (Array.isArray(data)){
