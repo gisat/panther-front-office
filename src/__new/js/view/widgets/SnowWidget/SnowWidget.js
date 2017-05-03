@@ -1,7 +1,9 @@
 define(['../../../error/ArgumentError',
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
+	'../../../util/RemoteJQ',
 
+	'./SnowUrlParser',
 	'../../table/TableSnowConfigurations',
 	'../Widget',
 
@@ -12,7 +14,9 @@ define(['../../../error/ArgumentError',
 ], function(ArgumentError,
 			NotFoundError,
 			Logger,
+			RemoteJQ,
 
+			SnowUrlParser,
 			TableSnowConfigurations,
 			Widget,
 
@@ -31,23 +35,10 @@ define(['../../../error/ArgumentError',
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "SnowWidget", "constructor", "missingIFrame"));
 		}
 		this._iFrame = options.iFrame;
+		this._urlParser = new SnowUrlParser();
 
 		this.build();
 		this.deleteFooter(this._widgetSelector);
-
-		var record = {
-			area: "Czech Republic",
-			dateFrom: "20/12/2016",
-			dateTo: "24/12/2016",
-			sensors: {
-				modis: ["Terra", "Aqua"],
-				slstr: ["Sentinel 3"]
-			},
-			composites: [4,16],
-			url: "http://35.165.51.145/snow/czech-republic/20170103-20170111/modis-terra-aqua_slstr-sentinel3/4-16"
-		};
-		this._currentMock = [record];
-		this._savedMock = [record, record, record, record, record, record];
 	};
 
 	SnowWidget.prototype = Object.create(Widget.prototype);
@@ -56,8 +47,6 @@ define(['../../../error/ArgumentError',
 	 * Build basic view of the widget
 	 */
 	SnowWidget.prototype.build = function(){
-		this.addMinimiseButtonListener();
-
 		this._widgetBodySelector.append('<div id="snow-widget-container"></div>');
 		this._container = $('#snow-widget-container');
 
@@ -66,22 +55,43 @@ define(['../../../error/ArgumentError',
 
 		this._container.append('<h3 class="snow-table-caption">Saved configurations</h3>');
 		this._savedConfigurationTable = this.buildTable('snow-saved-cfg-table');
+
+		this.addEventListeners();
 	};
 
+	/**
+	 * Rebuild widget
+	 */
 	SnowWidget.prototype.rebuild = function(){
 		// todo get current snow configuration, then:
-		this.rebuildCurrentCfgTable(this._currentMock);
+		var currentConfiguration = [{
+				url: "http://35.165.51.145/snow/germany/20170103-20170111/slstr-sentinel3",
+				user: 1
+			}];
+		var currentData = this.parseDataForTable(currentConfiguration);
+		this.redrawCurrentCfgTable(currentData);
 
-		// todo get saved configurations, then:
-		this.rebuildSavedCfgTable(this._savedMock);
+		this.rebuildSavedConfigurations();
 
 		this.handleLoading("hide");
 	};
 
 	/**
+	 * Rebuild table with saved configurations
+	 */
+	SnowWidget.prototype.rebuildSavedConfigurations = function(){
+		var self = this;
+		this.getConfigurations().then(function(data){
+			var records = self.parseDataForTable(data.data);
+			self.redrawSavedCfgTable(records);
+		});
+	};
+
+	/**
+	 * Redraw table with current configurations
 	 * @param data {Array}
 	 */
-	SnowWidget.prototype.rebuildCurrentCfgTable = function(data){
+	SnowWidget.prototype.redrawCurrentCfgTable = function(data){
 		this._currentConfigurationTable.clear();
 		var self = this;
 		data.forEach(function(record){
@@ -90,9 +100,10 @@ define(['../../../error/ArgumentError',
 	};
 
 	/**
+	 * Redraw table with saved configurations
 	 * @param data {Array}
 	 */
-	SnowWidget.prototype.rebuildSavedCfgTable = function(data){
+	SnowWidget.prototype.redrawSavedCfgTable = function(data){
 		this._savedConfigurationTable.clear();
 		var self = this;
 		data.forEach(function(record){
@@ -100,11 +111,51 @@ define(['../../../error/ArgumentError',
 		})
 	};
 
+	/**
+	 * Prepare data for tables
+	 * @param cfg {Array} list with objects, where url property represents saved configuration
+	 * @returns {Array}
+	 */
+	SnowWidget.prototype.parseDataForTable = function(cfg){
+		var configurations = [];
+		var self = this;
+		cfg.forEach(function(record){
+			configurations.push(self._urlParser.parse(record.url));
+		});
+		return configurations;
+	};
+
+	/**
+	 * Build table with configurations
+	 * @param id {string} id of the table
+	 * @returns {TableSnowConfigurations}
+	 */
 	SnowWidget.prototype.buildTable = function(id){
 		return new TableSnowConfigurations({
 			elementId: id,
 			class: "snow-cfg-table",
 			targetId: this._container.attr("id")
+		});
+	};
+
+	/**
+	 * Add event listeners
+	 */
+	SnowWidget.prototype.addEventListeners = function(){
+		this.addMinimiseButtonListener();
+		this.addIFrameChangeListener();
+		this.addSaveButtonListener();
+	};
+
+
+	SnowWidget.prototype.addIFrameChangeListener = function(){
+		var self = this;
+		var snow = $("#snow-iframe");
+		snow.on("hashchange", function(){
+			debugger;
+		});
+		snow.on("load", function(){
+			self.rebuild();
 		});
 	};
 
@@ -118,6 +169,45 @@ define(['../../../error/ArgumentError',
 			self._widgetSelector.removeClass("open");
 			$(".item[data-for=" + id + "]").removeClass("open");
 		});
+	};
+
+	/**
+	 * Add listener to save button
+	 */
+	SnowWidget.prototype.addSaveButtonListener = function(){
+		var self = this;
+		this._currentConfigurationTable.getTable().on("click", ".save-composites", function(){
+			var button = $(this);
+			var url = button.parents("tr").attr("data-url");
+			self.saveConfigurations(url).then(function(){
+				button.attr("disabled", true);
+				self.rebuildSavedConfigurations();
+			});
+		});
+	};
+
+	/**
+	 * Get configurations from server
+	 * @returns {Promise}
+	 */
+	SnowWidget.prototype.getConfigurations = function(){
+		return new RemoteJQ({
+			url: "rest/snow/getconfigurations"
+		}).get();
+	};
+
+	/**
+	 * Save configurations
+	 * @options {string} current iframe url
+	 * @returns {Promise}
+	 */
+	SnowWidget.prototype.saveConfigurations = function(location){
+		return new RemoteJQ({
+			url: "rest/snow/saveconfigurations",
+			params: {
+				url: location
+			}
+		}).post();
 	};
 
 	return SnowWidget;
