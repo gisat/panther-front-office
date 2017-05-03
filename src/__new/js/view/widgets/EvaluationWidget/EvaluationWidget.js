@@ -183,15 +183,7 @@ define([
      * Build the widget basic view of the widget
      */
     EvaluationWidget.prototype.build = function(){
-		// If scope World and All Places and UrbanTep. IT doesnt work well on the whole world scope.
-		if(Config.toggles.isUrbanTep && ThemeYearConfParams.dataset == 314 && ThemeYearConfParams.place == '') {
-			$('#top-toolbar-selection-filter').hide();
-			return;
-		} else {
-			$('#top-toolbar-selection-filter').show();
-		}
-
-		this.buildSettings();
+        this.buildSettings();
     };
 
 	/**
