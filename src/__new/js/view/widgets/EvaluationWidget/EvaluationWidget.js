@@ -69,9 +69,9 @@ define([
      */
     EvaluationWidget.prototype.rebuild = function(data, options){
         // If scope World and All Places and UrbanTep
-        if(Config.toggles.isUrbanTep && ThemeYearConfParams.dataset == 314 && ThemeYearConfParams.place == '') {
+        /*if(Config.toggles.isUrbanTep && ThemeYearConfParams.dataset == 314 && ThemeYearConfParams.place == '') {
             return;
-        }
+        }*/
 
         var attrForRequest;
         if (Array.isArray(data)){
