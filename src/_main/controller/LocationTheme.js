@@ -150,12 +150,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
     },
     
     onLocationChange: function(cnt,val) {
-        if(val == 1752) {
-            $('#top-toolbar-functional-urban-area').show();
-        } else {
-			$('#top-toolbar-functional-urban-area').hide();
-        }
-
         ThemeYearConfParams.actions.push(cnt.itemId);
         // URBIS change
         if ((!val) && !cnt.initial && this.locationInitialized) {
