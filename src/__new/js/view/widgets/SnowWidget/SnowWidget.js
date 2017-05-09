@@ -173,7 +173,7 @@ define(['../../../error/ArgumentError',
 			// check every 3 seconds if url has changed
 			setInterval(function(){
 				self.checkUrl();
-			},3000);
+			},1000);
 		});
 	};
 
