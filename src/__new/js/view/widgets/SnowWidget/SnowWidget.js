@@ -64,7 +64,8 @@ define(['../../../error/ArgumentError',
 	 */
 	SnowWidget.prototype.rebuild = function(){
 		//var currentIFrameUrl = "http://35.165.51.145/snow/germany/20170103-20170111/slstr-sentinel3/?s=scope";
-		var currentIFrameUrl = "http://35.165.51.145/snow/";
+		//var currentIFrameUrl = "http://35.165.51.145/snow/";
+		var currentIFrameUrl = document.getElementById("snow-iframe").contentWindow.location.href;
 
 		this.rebuildCurrentConfiguration(currentIFrameUrl);
 		this.rebuildSavedConfigurations();
