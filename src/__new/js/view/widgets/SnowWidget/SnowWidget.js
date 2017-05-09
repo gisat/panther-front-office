@@ -63,17 +63,27 @@ define(['../../../error/ArgumentError',
 	 * Rebuild widget
 	 */
 	SnowWidget.prototype.rebuild = function(){
-		// todo get current snow configuration, then:
-		var currentConfiguration = [{
-				url: "http://35.165.51.145/snow/germany/20170103-20170111/slstr-sentinel3",
-				user: 1
-			}];
-		var currentData = this.parseDataForTable(currentConfiguration);
-		this.redrawCurrentCfgTable(currentData);
+		//var currentIFrameUrl = "http://35.165.51.145/snow/germany/20170103-20170111/slstr-sentinel3/?s=scope";
+		var currentIFrameUrl = "http://35.165.51.145/snow/";
 
+		this.rebuildCurrentConfiguration(currentIFrameUrl);
 		this.rebuildSavedConfigurations();
 
 		this.handleLoading("hide");
+	};
+
+	/**
+	 * @param currentIFrameUrl {string}
+	 */
+	SnowWidget.prototype.rebuildCurrentConfiguration = function(currentIFrameUrl){
+		var currentConfiguration = [{
+			url: currentIFrameUrl,
+			user: 1
+		}];
+		var currentData = this.parseDataForTable(currentConfiguration);
+		if (currentData.length > 0){
+			this.redrawCurrentCfgTable(currentData);
+		}
 	};
 
 	/**
@@ -120,7 +130,10 @@ define(['../../../error/ArgumentError',
 		var configurations = [];
 		var self = this;
 		cfg.forEach(function(record){
-			configurations.push(self._urlParser.parse(record.url));
+			var cfgPart = self._urlParser.parse(record.url);
+			if (cfgPart){
+				configurations.push(cfgPart);
+			}
 		});
 		return configurations;
 	};
@@ -145,6 +158,7 @@ define(['../../../error/ArgumentError',
 		this.addMinimiseButtonListener();
 		this.addIFrameChangeListener();
 		this.addSaveButtonListener();
+		this.addShowButtonListener();
 	};
 
 
@@ -183,6 +197,19 @@ define(['../../../error/ArgumentError',
 				button.attr("disabled", true);
 				self.rebuildSavedConfigurations();
 			});
+		});
+	};
+
+	/**
+	 * Add listener to show button
+	 */
+	SnowWidget.prototype.addShowButtonListener = function(){
+		var self = this;
+		this._savedConfigurationTable.getTable().on("click", ".show-composites", function(){
+			var button = $(this);
+			var url = button.parents("tr").attr("data-url");
+			self._iFrame.rebuild(url);
+			self.rebuildCurrentConfiguration(url);
 		});
 	};
 
