@@ -65,8 +65,8 @@ define(['../../../error/ArgumentError',
 	 */
 	SnowWidget.prototype.rebuild = function(){
 		//this._iFrameUrl = "http://35.165.51.145/snow/germany/20170103-20170104/slstr-sentinel3/5-11";
-		this._iFrameUrl = "http://35.165.51.145/snow/";
-		//this._iFrameUrl = document.getElementById(this._iFrameId).contentWindow.location.href;
+		//this._iFrameUrl = "http://35.165.51.145/snow/";
+		this._iFrameUrl = document.getElementById(this._iFrameId).contentWindow.location.href;
 
 		this.rebuildCurrentConfiguration(this._iFrameUrl);
 		this.rebuildSavedConfigurations();
@@ -171,9 +171,9 @@ define(['../../../error/ArgumentError',
 			self.rebuild();
 
 			// check every 3 seconds if url has changed
-			//setInterval(function(){
-			//	self.checkUrl();
-			//},1000);
+			setInterval(function(){
+				self.checkUrl();
+			},1000);
 		});
 	};
 
