@@ -170,7 +170,9 @@ define(['../../../error/ArgumentError',
 		snow.on("load", function(){
 			self.rebuild();
 		});
-		document.getElementById(this._iFrameId).addEventListener("hashchange", self.rebuild.bind(self));
+
+		var iframeWindow = document.getElementById(this._iFrameId).contentWindow;
+		iframeWindow.addEventListener("hashchange", self.rebuild.bind(self));
 	};
 
 	/**
