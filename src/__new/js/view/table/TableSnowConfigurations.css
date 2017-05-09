@@ -1,18 +1,18 @@
 .snow-cfg-table {
-	margin: .5rem 0 2rem;
+	margin: .5rem 0 1.3rem;
 	width: 100%;
 }
 
 .snow-cfg-table tr td {
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid #e7e7e7;
 	color: #666;
 	line-height: 1.3rem;
-	padding: .5rem 0;
-	font-size: .85rem;
+	padding: .3rem 0;
+	font-size: .75rem;
 	transition: background .3s ease-out;
 }
 .snow-cfg-table tr:first-child td {
-	border-top: 1px solid #eee;
+	border-top: 1px solid #e7e7e7;
 }
 
 .snow-cfg-table tr td:first-child {
@@ -45,16 +45,38 @@
 .snow-icon-container svg {
 	width: 1.2rem;
 	height: 1.2rem;
+	display: inline-block;
+	vertical-align: middle;
 }
 .snow-icon-container:not(.icon-composites) svg path {
 	 fill: #666;
 	 stroke: #666;
 }
-
-.widget-button.show-composites,
-.widget-button.save-composites {
-	width: 5rem;
+.snow-cfg-table .button-cell {
+	padding: 0 .2rem;
+	width: 6rem;
+}
+.snow-cfg-table .button-cell-delete {
+	width: 2rem;
+}
+.snow-cfg-table .widget-button {
+	width: 100%;
 	font-size: .7rem;
-	margin-right: .5rem;
 	padding: .2rem;
+	text-transform: none;
+}
+.snow-cfg-table .widget-button i {
+	font-size: .85rem;
+	font-weight: 400;
+}
+.snow-cfg-table .delete-composites i {
+	font-size: .85rem;
+}
+.snow-cfg-table .show-composites i {
+	font-size: .75rem;
+	padding-left: .5rem;
+}
+.snow-cfg-table .save-composites i {
+	font-size: .8rem;
+	padding-right: .5rem;
 }

@@ -38,7 +38,7 @@ define([
 		var calIcon = S(calendarIcon).template().toString();
 		var areaIcon = S(placemarkIcon).template().toString();
 
-		var content = '<tr data-url="' + data.url + '">';
+		var content = '<tr data-url="' + data.url + '" data-id="' + data.uuid + '">';
 		content += '<td class="snow-icon snow-area"><div class="snow-icon-container">' + areaIcon +  '</div><div>' + data.area + '</div></td>';
 		content += '<td class="snow-icon snow-date"><div class="snow-icon-container">' + calIcon +  '</div><div>' + data.dateFrom + ' -<br/>' + data.dateTo + '</div></td>';
 
@@ -61,9 +61,10 @@ define([
 
 		//add action button
 		if (saved){
-			content += '<td><div class="widget-button show-composites">Show</div></td>';
+			content += '<td class="button-cell button-cell-delete"><div title="Delete" class="widget-button delete-composites"><i class="fa fa-trash-o" aria-hidden="true"></i></div></td>';
+			content += '<td class="button-cell"><div class="widget-button show-composites">Show<i class="fa fa-arrow-right" aria-hidden="true"></i></div></td>';
 		} else {
-			content += '<td><div class="widget-button save-composites">Save</div></td>';
+			content += '<td class="button-cell"><div class="widget-button save-composites"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</div></td>';
 		}
 
 		content += '</tr>';
