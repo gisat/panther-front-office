@@ -170,7 +170,11 @@ define(['../../../error/ArgumentError',
 			debugger;
 		});
 		snow.on("load", function(){
+			debugger;
 			self.rebuild();
+		});
+		snow.on("pageshow", function(){
+			debugger;
 		});
 	};
 
