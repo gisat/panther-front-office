@@ -66,9 +66,9 @@ define(['../../../error/ArgumentError',
 	SnowWidget.prototype.rebuild = function(){
 		//var currentIFrameUrl = "http://35.165.51.145/snow/germany/20170103-20170111/slstr-sentinel3/?s=scope";
 		//var currentIFrameUrl = "http://35.165.51.145/snow/";
-		var currentIFrameUrl = document.getElementById(this._iFrameId).contentWindow.location.href;
+		this._iFrameUrl = document.getElementById(this._iFrameId).contentWindow.location.href;
 
-		this.rebuildCurrentConfiguration(currentIFrameUrl);
+		this.rebuildCurrentConfiguration(this._iFrameUrl);
 		this.rebuildSavedConfigurations();
 
 		this.handleLoading("hide");
@@ -169,10 +169,19 @@ define(['../../../error/ArgumentError',
 		var snow = $("#" + this._iFrameId);
 		snow.on("load", function(){
 			self.rebuild();
-		});
 
-		var iframeWindow = document.getElementById(this._iFrameId).contentWindow;
-		iframeWindow.addEventListener("hashchange", self.rebuild.bind(self));
+			// check every 3 seconds if url has changed
+			setInterval(function(){
+				self.checkUrl();
+			},3000);
+		});
+	};
+
+	SnowWidget.prototype.checkUrl = function(){
+		var currentUrl = document.getElementById(this._iFrameId).contentWindow.location.href;
+		if (currentUrl != this._iFrameUrl){
+			this.rebuild();
+		}
 	};
 
 	/**
