@@ -32,5 +32,12 @@ $
 		this._iframeSelector.attr("src", url);
 	};
 
+	/**
+	 * @returns {string} id of the iframe element
+	 */
+	PanelIFrame.prototype.getElementId = function(){
+		return this._iframeSelector.attr("id");
+	};
+
 	return PanelIFrame;
 });

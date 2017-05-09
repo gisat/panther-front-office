@@ -35,6 +35,7 @@ define(['../../../error/ArgumentError',
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "SnowWidget", "constructor", "missingIFrame"));
 		}
 		this._iFrame = options.iFrame;
+		this._iFrameId = this._iFrame.getElementId();
 		this._urlParser = new SnowUrlParser();
 
 		this.build();
@@ -65,7 +66,7 @@ define(['../../../error/ArgumentError',
 	SnowWidget.prototype.rebuild = function(){
 		//var currentIFrameUrl = "http://35.165.51.145/snow/germany/20170103-20170111/slstr-sentinel3/?s=scope";
 		//var currentIFrameUrl = "http://35.165.51.145/snow/";
-		var currentIFrameUrl = document.getElementById("snow-iframe").contentWindow.location.href;
+		var currentIFrameUrl = document.getElementById(this._iFrameId).contentWindow.location.href;
 
 		this.rebuildCurrentConfiguration(currentIFrameUrl);
 		this.rebuildSavedConfigurations();
@@ -165,17 +166,11 @@ define(['../../../error/ArgumentError',
 
 	SnowWidget.prototype.addIFrameChangeListener = function(){
 		var self = this;
-		var snow = $("#snow-iframe");
-		snow.on("hashchange", function(){
-			debugger;
-		});
+		var snow = $("#" + this._iFrameId);
 		snow.on("load", function(){
-			debugger;
 			self.rebuild();
 		});
-		snow.on("pageshow", function(){
-			debugger;
-		});
+		document.getElementById(this._iFrameId).addEventListener("hashchange", self.rebuild.bind(self));
 	};
 
 	/**
