@@ -134,6 +134,9 @@ define(['../../../error/ArgumentError',
 		cfg.forEach(function(record){
 			var cfgPart = self._urlParser.parse(record.url);
 			if (cfgPart){
+				if (record.uuid){
+					cfgPart.uuid = record.uuid;
+				}
 				configurations.push(cfgPart);
 			}
 		});
@@ -161,6 +164,7 @@ define(['../../../error/ArgumentError',
 		this.addIFrameChangeListener();
 		this.addSaveButtonListener();
 		this.addShowButtonListener();
+		this.addDeleteButtonListener();
 	};
 
 
@@ -170,7 +174,7 @@ define(['../../../error/ArgumentError',
 		snow.on("load", function(){
 			self.rebuild();
 
-			// check every 3 seconds if url has changed
+			 //check every 3 seconds if url has changed
 			setInterval(function(){
 				self.checkUrl();
 			},1000);
@@ -225,6 +229,24 @@ define(['../../../error/ArgumentError',
 	};
 
 	/**
+	 * Add listener to delete button
+	 */
+	SnowWidget.prototype.addDeleteButtonListener = function(){
+		var self = this;
+		this._savedConfigurationTable.getTable().on("click", ".delete-composites", function(){
+			var button = $(this);
+			var id = button.parents("tr").attr("data-id");
+			self.deleteConfiguration(id).then(function(result){
+				if (result.status == "OK"){
+					self.rebuildSavedConfigurations();
+				} else {
+					console.warn("The record was not deleted!")
+				}
+			});
+		});
+	};
+
+	/**
 	 * Get configurations from server
 	 * @returns {Promise}
 	 */
@@ -244,6 +266,20 @@ define(['../../../error/ArgumentError',
 			url: "rest/snow/saveconfigurations",
 			params: {
 				url: location
+			}
+		}).post();
+	};
+
+	/**
+	 * Delete configuration
+	 * @options {string} id of configuration
+	 * @returns {Promise}
+	 */
+	SnowWidget.prototype.deleteConfiguration = function(id){
+		return new RemoteJQ({
+			url: "rest/snow/deleteconfiguration",
+			params: {
+				uuid: id
 			}
 		}).post();
 	};

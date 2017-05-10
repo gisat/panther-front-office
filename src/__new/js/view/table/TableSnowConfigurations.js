@@ -37,7 +37,6 @@ define([
 		var satIcon = S(satelliteIcon).template().toString();
 		var calIcon = S(calendarIcon).template().toString();
 		var areaIcon = S(placemarkIcon).template().toString();
-
 		var content = '<tr data-url="' + data.url + '" data-id="' + data.uuid + '">';
 		content += '<td class="snow-icon snow-area"><div class="snow-icon-container">' + areaIcon +  '</div><div>' + data.area + '</div></td>';
 		content += '<td class="snow-icon snow-date"><div class="snow-icon-container">' + calIcon +  '</div><div>' + data.dateFrom + ' -<br/>' + data.dateTo + '</div></td>';
