@@ -269,6 +269,7 @@ define([
 				ExchangeParams.options.displayCustomLayers[id] = true;
 				self._vectorLayer.display(true);
 				self._vectorLayer.setVisibility(true);
+				self._map.setLayerZIndex(self._vectorLayer, 99999);
 			} else {
 				ExchangeParams.options.displayCustomLayers[id] = false;
 				self._vectorLayer.display(false);
