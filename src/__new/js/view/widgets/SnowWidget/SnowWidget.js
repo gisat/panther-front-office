@@ -64,7 +64,7 @@ define(['../../../error/ArgumentError',
 	 * Rebuild widget
 	 */
 	SnowWidget.prototype.rebuild = function(){
-		//this._iFrameUrl = "http://35.165.51.145/snow/germany/20170103-20170104/slstr-sentinel3/5-11";
+		//this._iFrameUrl = "http://35.165.51.145/snow/germany/20170102-20170104/slstr-sentinel3/5-11";
 		//this._iFrameUrl = "http://35.165.51.145/snow/";
 		this._iFrameUrl = document.getElementById(this._iFrameId).contentWindow.location.href;
 
@@ -136,6 +136,9 @@ define(['../../../error/ArgumentError',
 			if (cfgPart){
 				if (record.uuid){
 					cfgPart.uuid = record.uuid;
+				}
+				if (record.ts){
+					cfgPart.timeStamp = record.ts;
 				}
 				configurations.push(cfgPart);
 			}

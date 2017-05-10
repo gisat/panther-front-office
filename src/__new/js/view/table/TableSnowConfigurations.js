@@ -38,6 +38,13 @@ define([
 		var calIcon = S(calendarIcon).template().toString();
 		var areaIcon = S(placemarkIcon).template().toString();
 		var content = '<tr data-url="' + data.url + '" data-id="' + data.uuid + '">';
+
+		// add date of saving
+		//if (data.timeStamp){
+		//	content += '<td class="snow-icon"><div>' + data.timeStamp + '</div></td>';
+		//}
+
+		// add location and period cell
 		content += '<td class="snow-icon snow-area"><div class="snow-icon-container">' + areaIcon +  '</div><div>' + data.area + '</div></td>';
 		content += '<td class="snow-icon snow-date"><div class="snow-icon-container">' + calIcon +  '</div><div>' + data.dateFrom + ' -<br/>' + data.dateTo + '</div></td>';
 
