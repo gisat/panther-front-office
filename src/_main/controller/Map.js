@@ -733,7 +733,9 @@ Ext.define('PumaMain.controller.Map', {
 			visibility: true
 		});
 		map.getFeatureInfoLayer.projection = map.projection;
-		
+
+		// WMS Get Feature Info, together with the layers used currently to support visible gids. It is simple Jquery
+		//   request to the server with data fed to the WmsCapabilities
 		var infoControls = {
 			click: new OpenLayers.Control.WMSGetFeatureInfo({
 				url: Config.url+'api/proxy/wms',

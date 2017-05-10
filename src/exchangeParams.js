@@ -83,7 +83,45 @@ var OlMap = {
  */
 var Stores = {
 	choropleths: [],
+
+	// With respect to selection there are actually three information that we need to handle.
+	//   One is the available areas and their relationships
+	//   Two is the selected areas
+	//   Three is the currently visible areas.
+	selectedAreas: {}, // Tree of the areas that are currently selected?
+
 	listeners: []
+};
+
+/**
+ * This global object useful for handling the selection from anywhere and handling what is actually selected.
+ * @type {{listeners: Array, select: Select.select, notify: Select.notify, selectedAreasMap: null}}
+ */
+var Select = {
+	/**
+	 * Array of listeners to be notified when the selection actually changes.
+	 */
+	listeners: [],
+
+	/**
+	 * It is replaced by select
+	 * @param areas
+	 * @param add
+	 * @param hover
+	 * @param delay
+	 */
+	select: function(areas, add, hover, delay){},
+
+	notify: function() {
+		this.listeners.forEach(function(listener){
+			listener(Select.selectedAreasMap);
+		});
+	},
+
+	/**
+	 * It will contain object which contains all areas selected for specific colours.
+	 */
+	selectedAreasMap: null
 };
 
 /**

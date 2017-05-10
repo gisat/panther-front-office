@@ -23,20 +23,25 @@ Ext.define('PumaMain.controller.Select', {
             'tool[type=unselectall]': {
                 click: this.clearSelectionsAll
             }
-            
-        })
+        });
+
         this.selMap = {'ff4c39':[]};
         this.colorMap = {};
         this.hoverMap = [];
         this.actualColor = 'ff4c39';
         this.defaultColor = 'ff4c39';
-    },
-    onAfterUnselectRender: function() {
-        //Ext.get('app-tools-colors-unselect').on('click',this.clearSelections,this);
-    },
 
-        
-    select: function(areas,add,hover) {
+		Select.select = this.selectInternal.bind(this);
+	},
+
+	/**
+     * This is probably called when a user actually selects something. There must be color selected in order for this
+     * to proceed.
+ 	 * @param areas
+	 * @param add
+	 * @param hover
+	 */
+	select: function(areas,add,hover) {
         
         if (!this.actualColor) return;
         if (hover) {
@@ -48,8 +53,13 @@ Ext.define('PumaMain.controller.Select', {
         this.task = new Ext.util.DelayedTask();
         this.task.delay(hover ? 100 : 1,this.selectInternal,this,arguments);
     },
-        
-    onToggleHover: function(btn,value) {
+
+	/**
+     * Make sure that hovering actually shows the selected areas. It probably also disables hovering.
+	 * @param btn
+	 * @param value
+	 */
+	onToggleHover: function(btn,value) {
         var infoControls1 = this.getController('Map').map1.infoControls;
         var infoControls2 = this.getController('Map').map2.infoControls;
         this.getController('Area').hovering = value;
@@ -68,8 +78,13 @@ Ext.define('PumaMain.controller.Select', {
         }
         
     },
-        
-    onToggleSelectInMap: function(btn,value) {
+
+	/**
+     * This is called when user toggles selection in the map. It activates the controls which returns what is shown.
+	 * @param btn
+	 * @param value
+	 */
+	onToggleSelectInMap: function(btn,value) {
         var hoverBtn = Ext.ComponentQuery.query('#hoverbtn')[0];
         var infoControls1 = this.getController('Map').map1.infoControls;
         var infoControls2 = this.getController('Map').map2.infoControls;
@@ -77,14 +92,6 @@ Ext.define('PumaMain.controller.Select', {
         fn1.call(infoControls1.click);
         var fn2 = value ? infoControls2.click.activate : infoControls2.click.deactivate;
         fn2.call(infoControls2.click);
-//        if (hoverBtn.pressed && value) {
-//            infoControls1.hover.activate();
-//            infoControls2.hover.activate();
-//        }
-//        else {
-//            infoControls1.hover.deactivate();
-//            infoControls2.hover.deactivate();
-//        }
     },
     onChangeChartColor: function(picker, value) {
         this.updateCounts();
@@ -98,9 +105,17 @@ Ext.define('PumaMain.controller.Select', {
             this.selectInternal([],true,false);
         }
     },
-    
-    selectInternal: function(areas,add,hover,delay) {
-        if (OneLevelAreas.hasOneLevel && !Config.toggles.isUrbis){
+
+	/**
+     * This is the method which handles the actual selection. Basically it either adds the selection of areas or it
+     * removes selected areas.
+	 * @param areas {Array} Array of the areas to either add aong the selected or to retrieve from selected. {gid: Number, at: Number, }
+	 * @param add {Boolean} If true, the areas will be added among already selected, otherwise they will be removed, if they were selected.
+	 * @param hover {Boolean} On top of probable other functionality
+	 * @param delay {Number} It is possible to postpone the function by certain amount of time.
+	 */
+	selectInternal: function(areas,add,hover,delay) {
+	    if (OneLevelAreas.hasOneLevel && !Config.toggles.isUrbis){
             areas = SelectedAreasExchange.data.data;
         }
         if (!hover) {
@@ -130,7 +145,7 @@ Ext.define('PumaMain.controller.Select', {
             var add = this.arrDifference(areas,sel);
             newSel = Ext.Array.merge(diff,add);
         }
-        
+
         if (!hover) {
             this.selMap[this.actualColor] = newSel;
             for (var col in this.selMap) {
@@ -142,8 +157,9 @@ Ext.define('PumaMain.controller.Select', {
         else {
             this.hoverMap = newSel;
         }
-        
-        this.colorMap = this.prepareColorMap();
+		Select.selectedAreasMap = this.selMap;
+
+		this.colorMap = this.prepareColorMap();
 
         if (OneLevelAreas.hasOneLevel && !Config.toggles.isUrbis){
             this.getController('Chart').reconfigure('immediate');
@@ -252,6 +268,7 @@ Ext.define('PumaMain.controller.Select', {
         this.getController('Area').colourTree(this.colorMap); 
         this.updateCounts();
         this.selectDelayed();
+        Select.selectedAreasMap = this.selMap;
     },
     clearSelections: function() {
         this.selMap[this.actualColor] = [];
@@ -260,6 +277,7 @@ Ext.define('PumaMain.controller.Select', {
         this.getController('Chart').reconfigure('immediate'); 
         this.updateCounts();
         this.selectDelayed();
+		Select.selectedAreasMap = this.selMap;
     },    
     
     prepareColorMap: function() {
