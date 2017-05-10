@@ -138,7 +138,10 @@ define(['../../../error/ArgumentError',
 					cfgPart.uuid = record.uuid;
 				}
 				if (record.ts){
-					cfgPart.timeStamp = record.ts;
+					cfgPart.timeStamp = record.converted_date;
+				}
+				if (record.name){
+					cfgPart.name = record.name;
 				}
 				configurations.push(cfgPart);
 			}
@@ -211,7 +214,13 @@ define(['../../../error/ArgumentError',
 		this._currentConfigurationTable.getTable().on("click", ".save-composites", function(){
 			var button = $(this);
 			var url = button.parents("tr").attr("data-url");
-			self.saveConfigurations(url).then(function(){
+			var name = button.parents("tr").find(".snow-cfg-name").val();
+			if (name.length < 1){
+				alert("Fill in the name!");
+				return;
+			}
+
+			self.saveConfigurations(name, url).then(function(){
 				button.attr("disabled", true);
 				self.rebuildSavedConfigurations();
 			});
@@ -264,11 +273,12 @@ define(['../../../error/ArgumentError',
 	 * @options {string} current iframe url
 	 * @returns {Promise}
 	 */
-	SnowWidget.prototype.saveConfigurations = function(location){
+	SnowWidget.prototype.saveConfigurations = function(name, location){
 		return new RemoteJQ({
 			url: "rest/snow/saveconfigurations",
 			params: {
-				url: location
+				url: location,
+				name: name
 			}
 		}).post();
 	};

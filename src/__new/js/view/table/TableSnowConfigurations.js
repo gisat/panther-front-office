@@ -39,10 +39,11 @@ define([
 		var areaIcon = S(placemarkIcon).template().toString();
 		var content = '<tr data-url="' + data.url + '" data-id="' + data.uuid + '">';
 
-		// add date of saving
-		//if (data.timeStamp){
-		//	content += '<td class="snow-icon"><div>' + data.timeStamp + '</div></td>';
-		//}
+		if (!saved){
+			content += '<td><input class="snow-input snow-cfg-name" type="text" placeholder="Type name..."/></td>';
+		} else {
+			content += '<td class="snow-cfg-name-date"><div class="snow-name">' + data.name + '</div><div class="snow-timestamp">' + data.timeStamp + '</div></td>';
+		}
 
 		// add location and period cell
 		content += '<td class="snow-icon snow-area"><div class="snow-icon-container">' + areaIcon +  '</div><div>' + data.area + '</div></td>';
@@ -51,16 +52,16 @@ define([
 		// add sensors cell
 		var sensors = '';
 		for (var satellite in data.sensors){
-			sensors += '<i class="satellite-name">' + satellite + '</i> (';
+			sensors += satellite + ' (';
 			sensors += data.sensors[satellite].join(', ');
 			sensors += ')<br/>';
 		}
 		content += '<td class="snow-icon snow-sensors"><div class="snow-icon-container">' + satIcon +  '</div><div>' + sensors + '</div></td>';
 
 		// add composites cell
-		content += '<td class="snow-icon snow-composites"><div class="snow-icon-container icon-composites">' + compIcon +  '</div><div><i>Daily</i> composites </br>';
+		content += '<td class="snow-icon snow-composites"><div class="snow-icon-container icon-composites">' + compIcon +  '</div><div>Daily composites </br>';
 		if (data.composites.length){
-			content += '<i>' + data.composites.join(",") + '-day</i> composites';
+			content += '' + data.composites.join(",") + '-day composites';
 		}
 		content += '</div></td>';
 

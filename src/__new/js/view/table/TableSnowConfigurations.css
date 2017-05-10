@@ -1,24 +1,23 @@
 .snow-cfg-table {
-	margin: .5rem 0 1.3rem;
+	margin: .5rem 0 1.8rem;
 	width: 100%;
 }
 
 .snow-cfg-table tr td {
-	border-bottom: 1px solid #e7e7e7;
+	border-bottom: 1px dashed #ccc;
 	color: #666;
 	line-height: 1.3rem;
-	padding: .3rem 0;
+	padding: .4rem 0;
 	font-size: .75rem;
 	transition: background .3s ease-out;
 }
 .snow-cfg-table tr:first-child td {
-	border-top: 1px solid #e7e7e7;
+	border-top: 1px dashed #ccc;
 }
 
 .snow-cfg-table tr td:first-child {
 	padding-left: 0;
 }
-
 .snow-cfg-table tr td i {
 	font-style: normal;
 	font-weight: 600;
@@ -38,6 +37,30 @@
 .snow-cfg-table tr td div {
 	display: inline-block;
 	vertical-align: middle;
+}
+.snow-cfg-table tr td.snow-icon {
+	padding-right: .5rem;
+}
+.snow-cfg-table tr td.snow-composites {
+	padding-right: 1.5rem;
+}
+.snow-cfg-table tr td.snow-cfg-name-date {
+	max-width: 14rem;
+	padding-right: 1.5rem;
+}
+.snow-cfg-table tr td.snow-cfg-name-date div {
+	display: block;
+	float: left;
+}
+.snow-cfg-table tr td.snow-cfg-name-date div.snow-name {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 100%;
+	font-weight: 600;
+}
+.snow-cfg-table tr td.snow-cfg-name-date div.snow-timestamp {
+	color: #aaa;
 }
 .snow-cfg-table tr td div.snow-icon-container {
 	margin: 0 .5rem
@@ -79,4 +102,32 @@
 .snow-cfg-table .save-composites i {
 	font-size: .8rem;
 	padding-right: .5rem;
+}
+
+.snow-cfg-table .snow-input {
+	padding: .1rem .3rem;
+	height: 1.6rem;
+	border-radius: .15rem;
+	border: 1px solid #bbb;
+	margin: 0 .2rem;
+	color: #666;
+	font-weight: 600;
+	max-width: 8rem;
+}
+
+.snow-cfg-table .snow-input::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+	font-weight: 400;
+	color: #aaa;
+}
+.snow-cfg-table .snow-input::-moz-placeholder { /* Firefox 19+ */
+	font-weight: 400;
+	color: #aaa;
+}
+.snow-cfg-table .snow-input:-ms-input-placeholder { /* IE 10+ */
+	font-weight: 400;
+	color: #aaa;
+}
+.snow-cfg-table .snow-input:-moz-placeholder { /* Firefox 18- */
+	font-weight: 400;
+	color: #aaa;
 }

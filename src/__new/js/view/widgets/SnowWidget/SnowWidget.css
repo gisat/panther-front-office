@@ -1,8 +1,8 @@
 #floater-snow-widget {
 	display: none;
-	left: calc(50% - 400px);
+	left: calc(50% - 500px);
 	top: calc(50% - 250px);
-	width: 800px;
+	width: 1000px;
 	height: 500px;
 	margin: 0;
 }
@@ -14,6 +14,7 @@
 	height: calc(100% - 2.5rem);
 }
 .snow-table-caption {
-	color: #555;
-	font-size: .9rem;
+	color: #c92d42;
+	font-size: 1.1rem;
+	font-weight: 400;
 }
