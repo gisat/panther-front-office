@@ -51,6 +51,7 @@ define(['js/util/metadata/Attributes',
         'js/view/PanelIFrame/PanelIFrame',
         'js/util/Placeholder',
 		'js/util/Remote',
+        'js/view/SnowMapController',
         'js/view/widgets/SnowWidget/SnowWidget',
 		'js/stores/Stores',
         'js/view/TopToolBar',
@@ -78,6 +79,7 @@ define(['js/util/metadata/Attributes',
 			 PanelIFrame,
              Placeholder,
 			 Remote,
+             SnowMapController,
              SnowWidget,
 			 Stores,
 			 TopToolBar,
@@ -102,7 +104,13 @@ define(['js/util/metadata/Attributes',
 
         if(Config.toggles.isSnow){
             var panelIFrame = new PanelIFrame('http://35.165.51.145/snow/');
-            widgets.push(buildSnowWidget(panelIFrame));
+            //var panelIFrame = new PanelIFrame('http://localhost:63326/panther-front-office/src/iframe-test.html');
+
+            var snowMapController = new SnowMapController({
+                iFrame: panelIFrame
+            });
+
+            widgets.push(buildSnowWidget(snowMapController, panelIFrame));
         }
 
         // create tools and widgets according to configuration
@@ -279,12 +287,13 @@ define(['js/util/metadata/Attributes',
      * @param iFrame {PanelIFrame}
      * @returns {SnowWidget}
      */
-    function buildSnowWidget (iFrame){
+    function buildSnowWidget (mapController, iFrame){
         return new SnowWidget({
             elementId: 'snow-widget',
             name: 'Saved configurations',
             placeholderTargetId: 'widget-container',
-            iFrame: iFrame
+            iFrame: iFrame,
+            mapController: mapController
         });
     }
 

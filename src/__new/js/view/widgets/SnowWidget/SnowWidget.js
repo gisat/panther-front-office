@@ -35,6 +35,8 @@ define(['../../../error/ArgumentError',
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "SnowWidget", "constructor", "missingIFrame"));
 		}
 		this._iFrame = options.iFrame;
+		this._mapController = options.mapController;
+
 		this._iFrameId = this._iFrame.getElementId();
 		this._urlParser = new SnowUrlParser();
 
@@ -70,6 +72,7 @@ define(['../../../error/ArgumentError',
 
 		this.rebuildCurrentConfiguration(this._iFrameUrl);
 		this.rebuildSavedConfigurations();
+		this._mapController.rebuild();
 
 		this.handleLoading("hide");
 	};
