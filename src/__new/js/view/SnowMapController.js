@@ -14,11 +14,16 @@ define([
 	};
 
 	SnowMapController.prototype.addSceneShowOnClickListener = function(){
+		var self = this;
 		this._iFrameBodySelector = $("#" + this._iFrame.getElementId()).contents().find("body");
-		this._iFrameBodySelector.off("click.scenes").on("click.scenes", ".ptr-scenes-scene", function(){
+		this._iFrameBodySelector.off("click.composites").on("click.composites", ".ptr-composites-composite", function(){
 			var id = $(this).attr("data-id");
-			debugger;
+			self.addCompositeToMap(id);
 		});
+	};
+
+	SnowMapController.prototype.addCompositeToMap = function(compositeId){
+		this._map = OlMap.map;
 	};
 
 	return SnowMapController;
