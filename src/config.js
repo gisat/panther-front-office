@@ -16,6 +16,7 @@ var Config = {
 		-6.9809544265
 	],
 	melodiesRemoteUrl: "",
+	snowUrl: "http://35.165.51.145/",
 
 	toggles: {
 		noGeoserverLayerGroups: false,

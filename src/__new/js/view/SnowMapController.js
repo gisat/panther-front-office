@@ -33,6 +33,13 @@ define([
 	SnowMapController.prototype.showCompositeInMap = function(compositeId){
 		Observer.notify("getMap");
 		this._map = OlMap.map;
+		var self = this;
+
+		if (!this._zoomListener){
+			this._zoomListener = this._map.events.register("zoomend", this._map, function() {
+				self._previousLayer.redraw();
+			});
+		}
 
 		if (this._previousLayer){
 			this._map.removeLayer(this._previousLayer);
