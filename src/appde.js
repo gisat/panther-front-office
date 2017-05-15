@@ -29,6 +29,8 @@ Ext.application({
 		if (Config.toggles.isUrbanTep) {
 			$('body').addClass("urban-tep");
 			$('#header .menu').hide();
+			$('.user .sep').hide();
+			$('.user .signup').hide();
 		}
 
 		if(Config.toggles.hasNewEvaluationTool){
