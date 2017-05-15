@@ -23,7 +23,7 @@ define(['./Remote',
 	Filter.prototype.filter = function(categories, type) {
 		var params = this.prepareParams();
 		var attributes = this.getAttributesFromCategories(categories);
-		return $.get( Config.url + "rest/filter/attribute/" + type, {
+		return $.post( Config.url + "rest/filter/attribute/" + type, {
 				areaTemplate: params.areaTemplate,
 				periods: params.periods,
 				places: params.locations,
@@ -51,7 +51,7 @@ define(['./Remote',
 		}
 
 		var params = this.prepareParams();
-		return $.get( Config.url + "rest/filter/attribute/statistics", {
+		return $.post( Config.url + "rest/filter/attribute/statistics", {
 				areaTemplate: params.areaTemplate,
 				periods: params.periods,
 				places: params.locations,
