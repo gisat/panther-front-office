@@ -53,8 +53,8 @@ define(['../../../error/ArgumentError',
 	WorldWindWidget.prototype.rebuild = function(data, options){
 		this._options = jQuery.extend(true, {}, options);
 		var isIn3dMode = $("body").hasClass("mode-3d");
-		if (isIn3dMode){
-			if (this._options.changes.location){
+		if (isIn3dMode && Object.keys(this._options).length){
+			if (this._options.changes && this._options.changes.location){
 				this.rebuildWorldWindWindow();
 			}
 			this.rebuildWidgetBody();
@@ -66,6 +66,9 @@ define(['../../../error/ArgumentError',
 				level: false,
 				visualization: false
 			};
+		} else {
+			console.warn("No data detected!");
+			this.handleLoading("hide");
 		}
 	};
 

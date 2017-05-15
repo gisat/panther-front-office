@@ -60,12 +60,10 @@ define(['../../../error/ArgumentError',
 		if (!options){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingParameter"));
 		}
-
-		if (!options.changes.scope){
+		if (options.changes && !options.changes.scope){
 			this._auLayersPanel.switchOnLayersFrom2D();
 			this._thematicLayersPanel.switchOnLayersFrom2D();
 		}
-
 		this._infoLayersPanel.rebuild(options);
 		this._wmsLayersPanel.rebuild(options.config);
 	};

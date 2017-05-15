@@ -35,6 +35,13 @@ Ext.application({
 		$("#legacy-view-selector > .label").html(Config.basicTexts.appName);
 		$("#content-intro > .label").html(Config.basicTexts.appName);
 
+		if (Config.toggles.isUrbanTep) {
+			$('body').addClass("urban-tep");
+			$('#header .menu').hide();
+			$('.user .sep').hide();
+			$('.user .signup').hide();
+		}
+
 		if(Config.toggles.hasNewEvaluationTool){
 			$("#placeholder-evaluation-widget").css("display","block");
 		}

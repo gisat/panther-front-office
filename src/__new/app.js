@@ -42,6 +42,8 @@ define(['js/util/metadata/Attributes',
         'js/view/widgets/CustomDrawingWidget/CustomDrawingWidget',
         'js/view/widgets/EvaluationWidget/EvaluationWidget',
         'js/view/tools/FeatureInfoTool/FeatureInfoTool',
+        'js/view/widgets/FunctionalUrbanAreaWidget/FunctionalUrbanAreaWidget',
+        'js/view/widgets/FunctionalUrbanAreaResultWidget/FunctionalUrbanAreaResultWidget',
         'js/util/Filter',
         'js/util/Floater',
 		'./FrontOffice',
@@ -61,16 +63,16 @@ define(['js/util/metadata/Attributes',
         'string',
         'jquery',
         'jquery-ui',
-        'underscore',
-
-		'css!./styles/urban-tep'
+        'underscore'
 ], function (Attributes,
              AnalyticalUnits,
              CityWidget,
              CustomDrawingWidget,
              EvaluationWidget,
              FeatureInfoTool,
-             Filter,
+             FunctionalUrbanAreaWidget,
+			 FunctionalUrbanAreaResultWidget,
+			 Filter,
              Floater,
 			 FrontOffice,
              Logger,
@@ -131,9 +133,10 @@ define(['js/util/metadata/Attributes',
             tools.push(buildFeatureInfoTool());
         }
 
-		if (Config.toggles.isUrbanTep) {
-			$('body').addClass("urban-tep");
-			$('#header .menu').hide();
+		if(Config.toggles.hasFunctionalUrbanArea){
+            var results = buildFunctionalUrbanAreaResultWidget()
+			tools.push(buildFunctionalUrbanAreaWidget(results));
+			tools.push(results);
 		}
 
 		// build app, map is class for OpenLayers map
@@ -243,6 +246,23 @@ define(['js/util/metadata/Attributes',
             name: 'Evaluation Tool',
             placeholderTargetId: 'widget-container'
         });
+    }
+
+    function buildFunctionalUrbanAreaWidget(results) {
+        return new FunctionalUrbanAreaWidget({
+            elementId: 'functional-urban-area',
+            name: "Functional Urban Area",
+            placeholderTargetId: 'widget-container',
+            results: results
+        });
+    }
+
+    function buildFunctionalUrbanAreaResultWidget() {
+		return new FunctionalUrbanAreaResultWidget({
+			elementId: 'functional-urban-area-result',
+			name: "Functional Urban Area Results",
+			placeholderTargetId: 'widget-container'
+		});
     }
 
 	/**

@@ -89,6 +89,8 @@ define([
 			classesCustomLayers += $('#window-customLayers').hasClass('open') ? " open" : "";
 			this._target.append('<div class="' + classesCustomLayers + '" id="top-toolbar-custom-layers" data-for="window-customLayers">Add layer</div>');
 
+			var classesFunctionalFilter = $('#floater-functional-urban-area').hasClass('open') ? "item open" : "item";
+			this._target.append('<div class="' + classesFunctionalFilter + '" id="top-toolbar-functional-urban-area" data-for="floater-functional-urban-area">Functional Urban Area</div>');
 			if(Config.toggles.isSnow) {
 				this.handleSnow()
 			}

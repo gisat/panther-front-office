@@ -68,6 +68,14 @@ define([
      * @param options {Object}
      */
     EvaluationWidget.prototype.rebuild = function(data, options){
+        // If scope World and All Places and UrbanTep. IT doesnt work well on the whole world scope.
+        if(Config.toggles.isUrbanTep && ThemeYearConfParams.dataset == 314 && ThemeYearConfParams.place == '') {
+            $('#top-toolbar-selection-filter').hide();
+            return;
+        } else {
+			$('#top-toolbar-selection-filter').show();
+        }
+
         var attrForRequest;
         if (Array.isArray(data)){
             attrForRequest = data;
