@@ -99,9 +99,16 @@ define(['js/util/metadata/Attributes',
 
         var filter = buildFilter();
         var olMap = buildOpenLayersMap();
+        var webWorldWind = null;
 
         if(Config.toggles.useTopToolbar){
             var topToolBar = new TopToolBar();
+        }
+
+        // create tools and widgets according to configuration
+        if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
+            webWorldWind = buildWorldWindMap();
+            widgets.push(buildWorldWindWidget(webWorldWind, topToolBar));
         }
 
         if(Config.toggles.isSnow){
@@ -109,16 +116,11 @@ define(['js/util/metadata/Attributes',
             var panelIFrame = new PanelIFrame('http://localhost:63326/panther-front-office/src/iframe-test.html');
 
             var snowMapController = new SnowMapController({
-                iFrame: panelIFrame
+                iFrame: panelIFrame,
+                worldWind: webWorldWind
             });
 
             widgets.push(buildSnowWidget(snowMapController, panelIFrame));
-        }
-
-        // create tools and widgets according to configuration
-        if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
-            var webWorldWind = buildWorldWindMap();
-            widgets.push(buildWorldWindWidget(webWorldWind, topToolBar));
         }
         if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
             widgets.push(buildEvaluationWidget(filter));
@@ -134,7 +136,7 @@ define(['js/util/metadata/Attributes',
         }
 
 		if(Config.toggles.hasFunctionalUrbanArea){
-            var results = buildFunctionalUrbanAreaResultWidget()
+            var results = buildFunctionalUrbanAreaResultWidget();
 			tools.push(buildFunctionalUrbanAreaWidget(results));
 			tools.push(results);
 		}

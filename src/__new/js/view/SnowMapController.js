@@ -7,7 +7,12 @@ define([
 
 	var SnowMapController = function(options) {
 		this._iFrame = options.iFrame;
+
+		if (options.worldWind){
+			this._worldWind = options.worldWind;
+		}
 		this._previousLayer = null;
+		this._previousLayerId = null;
 	};
 
 	SnowMapController.prototype.rebuild = function(){
@@ -23,6 +28,9 @@ define([
 		this._iFrameBodySelector.off("click.composites").on("click.composites", ".ptr-composites-composite", function(){
 			var compositeId = $(this).attr("data-id");
 			self.showCompositeInMap(compositeId);
+			if (self._worldWind){
+				self.showCompositeIn3DMap(compositeId);
+			}
 		});
 	};
 
@@ -68,6 +76,23 @@ define([
 		return new OpenLayers.Layer.WMS(layerId,
 			Config.snowUrl + "geoserver/geonode/wms",
 			{layers: "geonode:" + layerId});
+	};
+
+	/**
+	 * Remove layer from 3D map and show the new one
+	 * @param compositeId
+	 */
+	SnowMapController.prototype.showCompositeIn3DMap = function(compositeId){
+		if (this._previousLayerId){
+			var layer = this._worldWind.layers.getLayerById(compositeId);
+			this._worldWind.layers.removeLayer(layer);
+		}
+
+		this._worldWind.layers.addWmsLayer({
+			id: compositeId,
+			url: Config.snowUrl + "geoserver/geonode/wms",
+			layerPaths: "geonode:" + compositeId
+		}, null, true);
 	};
 
 	return SnowMapController;
