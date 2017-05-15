@@ -7,35 +7,59 @@ define([
 
 	var SnowMapController = function(options) {
 		this._iFrame = options.iFrame;
+		this._previousLayer = null;
 	};
 
 	SnowMapController.prototype.rebuild = function(){
-		this.addSceneShowOnClickListener();
+		this.addCompositeShowOnClickListener();
 	};
 
-	SnowMapController.prototype.addSceneShowOnClickListener = function(){
+	/**
+	 * Add listener to iframe inner element
+	 */
+	SnowMapController.prototype.addCompositeShowOnClickListener = function(){
 		var self = this;
 		this._iFrameBodySelector = $("#" + this._iFrame.getElementId()).contents().find("body");
 		this._iFrameBodySelector.off("click.composites").on("click.composites", ".ptr-composites-composite", function(){
-			var id = $(this).attr("data-id");
-			self.addCompositeToMap(id);
+			var compositeId = $(this).attr("data-id");
+			self.showCompositeInMap(compositeId);
 		});
 	};
 
-	SnowMapController.prototype.addCompositeToMap = function(compositeId){
+	/**
+	 * Remove previously added composite layer and show the new one
+	 * @param compositeId {string} ID of the layer
+	 */
+	SnowMapController.prototype.showCompositeInMap = function(compositeId){
+		Observer.notify("getMap");
 		this._map = OlMap.map;
-		// remove old wms
-		// add new one
-		var layer = this.createWmsLayer(compositeId);
-		this._map.addLayer(layer);
-		var layerr = this._map.getLayersByName(compositeId)[0];
-		layerr.visibility = true;
-		layer.redraw();
+
+		if (this._previousLayer){
+			this._map.removeLayer(this._previousLayer);
+		}
+		this.addCompositeToMap(compositeId, 0.7);
 	};
 
+	/**
+	 * @param compositeId {string} ID of the layer
+	 * @param opacity {number} layer opacity
+	 */
+	SnowMapController.prototype.addCompositeToMap = function(compositeId, opacity){
+		var layer = this.createWmsLayer(compositeId);
+		this._map.addLayer(layer);
+		layer.visibility = true;
+		layer.opacity = opacity;
+		layer.redraw();
+		this._previousLayer = layer;
+	};
+
+	/**
+	 * @param layerId {string} ID of the layer
+	 * @returns {OpenLayers.Layer.WMS}
+	 */
 	SnowMapController.prototype.createWmsLayer = function(layerId){
 		return new OpenLayers.Layer.WMS(layerId,
-			"http://35.165.51.145/geoserver/geonode/wms",
+			Config.snowUrl + "geoserver/geonode/wms",
 			{layers: "geonode:" + layerId});
 	};
 
