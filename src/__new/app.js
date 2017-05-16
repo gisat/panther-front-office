@@ -112,8 +112,8 @@ define(['js/util/metadata/Attributes',
         }
 
         if(Config.toggles.isSnow){
-            //var panelIFrame = new PanelIFrame(Config.snowUrl + 'snow/');
-            var panelIFrame = new PanelIFrame('http://localhost:63326/panther-front-office/src/iframe-test.html');
+            var panelIFrame = new PanelIFrame(Config.snowUrl + 'snow/');
+            //var panelIFrame = new PanelIFrame('http://localhost:63326/panther-front-office/src/iframe-test.html');
 
             var snowMapController = new SnowMapController({
                 iFrame: panelIFrame,

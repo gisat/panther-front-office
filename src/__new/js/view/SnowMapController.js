@@ -43,7 +43,7 @@ define([
 			}
 
 			var compositeId = $(this).parents(".ptr-composites-composite").attr("data-id");
-			var locationKey = self._iFrameBodySelector.attr("data-location");
+			var locationKey = self._iFrameBodySelector.find("#composites").attr("data-country");
 
 			self.highlightCountry(locationKey);
 			self.showCompositeInMap(compositeId);
