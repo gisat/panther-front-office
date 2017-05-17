@@ -121,30 +121,10 @@ Ext.define('PumaMain.controller.ViewMng', {
         if (isView) {
             var url = window.location.origin+window.location.pathname+'?id='+rec.get('_id');
 
-			var items = [{
-				xtype: 'displayfield',
-				value: url
-			}];
-			if(Config.toggles.isUrbanTep){
-				items.push({
-					xtype: 'button',
-					text: 'Share on portal',
-					handler: function(item) {
-						$.post('https://urban-tep.eo.esa.int/t2api/apps/puma', {
-							url: url
-						}, function(){
-							alert('Application was published on the portal.');
-						})
-					}
-				});
-			}
-
-            var win = Ext.widget('window',{
-                bodyCls: 'urlwindow',
-                title: 'Data view URL',
-                items: items
-            });
-            win.show();
+            // TODO: Clean
+            Widgets.sharing.url = url;
+            Widgets.sharing.rebuild();
+            $('#floater-sharing').show();
         }
     },
         

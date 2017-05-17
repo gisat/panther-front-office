@@ -52,6 +52,7 @@ define(['js/util/metadata/Attributes',
         'js/view/widgets_3D/MapDiagramsWidget/MapDiagramsWidget',
         'js/util/Placeholder',
 		'js/util/Remote',
+		'js/view/widgets/SharingWidget/SharingWidget',
 		'js/stores/Stores',
         'js/view/TopToolBar',
         'js/view/worldWind/WorldWindMap',
@@ -77,6 +78,7 @@ define(['js/util/metadata/Attributes',
              MapDiagramsWidget,
              Placeholder,
 			 Remote,
+			 SharingWidget,
 			 Stores,
 			 TopToolBar,
              WorldWindMap,
@@ -116,10 +118,12 @@ define(['js/util/metadata/Attributes',
         }
 
 		if(Config.toggles.hasFunctionalUrbanArea){
-            var results = buildFunctionalUrbanAreaResultWidget()
+            var results = buildFunctionalUrbanAreaResultWidget();
 			tools.push(buildFunctionalUrbanAreaWidget(results));
 			tools.push(results);
 		}
+
+		widgets.push(buildSharingWidget());
 
 		// build app, map is class for OpenLayers map
 		new FrontOffice({
@@ -310,4 +314,18 @@ define(['js/util/metadata/Attributes',
             elementClass: 'btn-tool-feature-info',
         });
     }
+
+	/**
+	 * It builds widget for sharing.
+	 * @returns {*}
+	 */
+	function buildSharingWidget() {
+		Widgets.sharing = new SharingWidget({
+			elementId: 'sharing',
+			name: 'Share',
+			placeholderTargetId: 'widget-container'
+		});
+
+		return Widgets.sharing;
+	}
 });

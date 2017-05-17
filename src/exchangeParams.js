@@ -174,3 +174,11 @@ var Select = {
 	 */
 	controller: null
 };
+
+/**
+ * This global objects contain widgets to be used in other parts of the application.
+ * @type {{}}
+ */
+var Widgets = {
+	sharing: null
+};
