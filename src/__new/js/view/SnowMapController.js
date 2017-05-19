@@ -112,7 +112,7 @@ define([
 		return new OpenLayers.Layer.WMS(layerId,
 			Config.snowUrl + "geoserver/geonode/wms", {
 				layers: "geonode:" + layerId,
-				style: "composite"
+				styles: "composite"
 			},{
 				opacity: opacity
 			});
