@@ -13,7 +13,7 @@ define([
 	SnowUrlParser.prototype.parse = function(url){
 		//"http://35.165.51.145/snow/great-britain/20170103-20170111/modis-terra-aqua_slstr-sentinel3/4-16"
 		// todo replace mock with more sophisticated solution
-		var path = url.replace("http://35.165.51.145/snow/","");
+		var path = url.replace(Config.snowUrl + "snow/","");
 		if (path.length < 1){
 			return null;
 		}
