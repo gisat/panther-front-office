@@ -24,7 +24,7 @@ Ext.define('PumaMain.view.LayerPanel', {
                 store: Ext.StoreMgr.lookup('layers'),
                 displayField: 'name',
                 rootVisible: false,
-                title: 'Layers available',
+                title: 'Available layers',
                 border: true,
                 viewConfig: {
                     autoScroll: false,
@@ -39,8 +39,24 @@ Ext.define('PumaMain.view.LayerPanel', {
                         sortable: false,
                         menuDisabled: true,
                         flex: 1,
-                        renderer : function(value, metadata) {
-                            metadata.tdAttr = 'data-qtip="' + value + '"';
+                        renderer : function(value, metadata, store) {
+                            var data = store.data;
+
+                            // prepare a unique id
+                            var id = data.type;
+                            if (data.type == "chartlayer"){
+                                id += "-" + data.attributeSet + "-" + data.attribute;
+                            } else if (data.type == "topiclayer"){
+                                if (data.symbologyId == "#blank#"){
+                                    id += "-" + data.at;
+                                } else {
+                                    id += "-" + data.at + "-" + data.symbologyId;
+                                }
+                            } else if (data.type == "wmsLayer"){
+                                id += "-" + data.id;
+                            }
+
+                            metadata.tdAttr = 'data-qtip="' + value + '" data-for="' + id + '"';
                             return value;
                         },
                         header: 'Name'
@@ -62,7 +78,7 @@ Ext.define('PumaMain.view.LayerPanel', {
                     plugins: {ptype: 'gridviewdragdrop'}
                 },
                 displayField: 'name',
-                title: 'Layers selected',
+                title: 'Selected layers',
                 bodyCls: 'layers-selected',
                 border: true,
                 columns: [

@@ -101,7 +101,7 @@ define(['../../error/ArgumentError',
 	AnalyticalUnits.prototype.updateLocations = function(conf){
 		if (conf.hasOwnProperty("place") && conf.place.length != 0){
 			var location = Number(conf.place);
-			if (location != this._locations[0] || location.length == 1){
+			if (location != this._locations[0] || this._locations.length > 1){
 				this._locations = [location];
 				return true;
 			}
@@ -126,12 +126,21 @@ define(['../../error/ArgumentError',
 		var convertedUnits = [];
 		var self = this;
 		units.forEach(function(unit){
-			var converted = self._wkt.read(unit.st_astext);
+			var reader4Geom = jQuery.extend(true, {}, self._wkt);
+			var reader4Centroid = jQuery.extend(true, {}, self._wkt);
+			var convertedCentroid = reader4Centroid.read(unit.centroid);
+			var convertedGeometry = reader4Geom.read(unit.geom);
+
 			unit.geometry = {
-				coordinates: converted.components,
-				type: converted.type
+				coordinates: convertedGeometry.components,
+				type: convertedGeometry.type
 			};
-			delete unit.st_astext;
+			unit.center = {
+				coordinates: convertedCentroid.components,
+				type: convertedCentroid.type
+			};
+			delete unit.geom;
+			delete unit.centroid;
 			convertedUnits.push(unit);
 		});
 		return convertedUnits;

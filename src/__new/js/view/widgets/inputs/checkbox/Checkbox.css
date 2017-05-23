@@ -1,22 +1,26 @@
 /* === Checkboxes === */
 .checkbox-row.checked .checkbox-icon {
-    background: url('../../../../../img/checkbox-checked.png') no-repeat center center;
+    background: url('../../../../../img/checkbox-checked.png') no-repeat center 45%;
+}
+
+.checkbox-row a {
+    text-decoration: none;
 }
 
 .checkbox-icon {
-    background: url('./checkbox-unchecked.png') no-repeat center center;
-    display: inline-block;
+    background: url('./checkbox-unchecked.png') no-repeat center 45%;
+    display: block;
+    float: left;
     margin-right: .5rem;
     width: 1.2rem;
-    height: 1.2rem;
-    line-height: 1.2rem;
+    height: 100%;
     transition: background .3s;
 }
 
 .checkbox-label {
-    display: inline-block;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-weight: bold;
-    height: 1.2rem;
-    line-height: 1.2rem;
+    height: 100%;
     font-size: .8rem;
 }

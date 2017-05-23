@@ -79,18 +79,49 @@ var OlMap = {
 
 /**
  * Stores for different types of data which needs to be handled.
- * @type {{choropleths: Array, listeners: Function[]}}
+ * @type {{choropleths: Array, listeners: Function[], outlines: Object, selectedOutlines: Object}}
  */
 var Stores = {
+	activeLayers: [],
 	choropleths: [],
+	listeners: [],
+	outlines: null,
+	selectedOutlines: null
+};
 
-	// With respect to selection there are actually three information that we need to handle.
-	//   One is the available areas and their relationships
-	//   Two is the selected areas
-	//   Three is the currently visible areas.
-	selectedAreas: {}, // Tree of the areas that are currently selected?
+/**
+ * Notification about changes in the stores.
+ * @param changed
+ */
+Stores.notify = function(changed, options) {
+	Stores.listeners.forEach(function(listener){
+		listener(changed, options);
+	})
+};
 
-	listeners: []
+/**
+ * Update choropleth
+ * @param attribute {number}
+ * @param attributeSet {number}
+ * @param data {Object}
+ */
+Stores.updateChoropleths = function(attribute, attributeSet, data){
+	Stores.choropleths.forEach(function(choropleth){
+		if (choropleth.as == attributeSet && choropleth.attr == attribute){
+			choropleth.data = data;
+			Stores.notify('updateChoropleths');
+		}
+	});
+};
+
+Stores.updateOutlines = function(data){
+	Stores.outlines = data;
+	Stores.notify('updateOutlines');
+};
+
+Stores.updateSelectedOutlines = function(data) {
+	Stores.selectedOutlines = data;
+	Stores.notify('updateOutlines');
 };
 
 /**
@@ -105,12 +136,17 @@ var Select = {
 
 	/**
 	 * It is replaced by select
-	 * @param areas
-	 * @param add
-	 * @param hover
-	 * @param delay
+	 * @param areas {Area[]} Array of areas to either add to selected or remove from selected.
+	 * @param add {Boolean} True means that the areas with relevant gid will be added among selected
+	 * @param hover {Boolean} Usually will be ignored. Has some implication, which I am not yet sure of.
 	 */
-	select: function(areas, add, hover, delay){},
+	select: function(areas, add, hover){},
+
+	/**
+	 * It is replaced by Layers.colourMap
+	 * @param selectedAreasMap
+	 */
+	colourMap: function(selectedAreasMap){},
 
 	notify: function() {
 		this.listeners.forEach(function(listener){
@@ -121,15 +157,28 @@ var Select = {
 	/**
 	 * It will contain object which contains all areas selected for specific colours.
 	 */
-	selectedAreasMap: null
+	selectedAreasMap: null,
+
+	/**
+	 * It contains the store with all the areas, so that it is possible to correctly select area based on the gid.
+	 */
+	areaStore: null,
+
+	/**
+	 * It represents actual color of selection. It is possible to select the units in multiple colors.
+	 */
+	actualColor: null,
+
+	/**
+	 * Controller for handling Select.
+	 */
+	controller: null
 };
 
 /**
- * Notification about changes in the stores.
- * @param changed
+ * This global objects contain widgets to be used in other parts of the application.
+ * @type {{}}
  */
-Stores.notify = function(changed) {
-	Stores.listeners.forEach(function(listener){
-		listener(changed);
-	})
+var Widgets = {
+	sharing: null
 };

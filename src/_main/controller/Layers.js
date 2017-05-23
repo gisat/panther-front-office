@@ -3,12 +3,18 @@ Ext.define('PumaMain.controller.Layers', {
 	views: [],
 	requires: ['PumaMain.view.LayerMenu', 'Puma.util.Color'],
 	init: function() {
+		Observer.addListener("thematicMapsSettings",this.onConfigure.bind(this));
+		Stores.listeners.push(this.checkLayerIn2d.bind(this, "checklayer"));
+
 		this.control({
 			'#layerpanel': {
 				checkchange: this.onCheckChange,
 				itemclick: this.onLayerClick
 			},
 			'#layerpanel tool[type=gear]': {
+				click: this.onConfigure
+			},
+			'#window-layerpanel tool[type=gear]': {
 				click: this.onConfigure
 			},
 			'layerpanel' : {
@@ -52,6 +58,7 @@ Ext.define('PumaMain.controller.Layers', {
 		});
 		this.scaleBorderCnst = 10000000;
 		this.scaleBorder = 10000000;
+		Select.colourMap = this.colourMap.bind(this);
 	},
 
 	onConfigure: function() {
@@ -80,10 +87,16 @@ Ext.define('PumaMain.controller.Layers', {
 				i.el.on('load',function(a, dom) {
 					this.show();
 					this.setSize(dom.clientWidth+32,dom.clientHeight+52);
-					var leftPanel = Ext.ComponentQuery.query('toolspanel')[0];
-					var heightDiff = Ext.get('app-map').getBox().bottom - Ext.get('sidebar-tools').getBox().bottom;
 
-					this.showBy(leftPanel,'bl-br',[50*this.factor+21,-50*this.factor+heightDiff]);
+					if (Config.toggles.useTopToolbar) {
+						this.showBy('app-map','br-br',[-43,-18]);
+					} else {
+						var leftPanel = Ext.ComponentQuery.query('toolspanel')[0]; // TODO - what if no ToolsPanel?
+
+						var heightDiff = Ext.get('app-map').getBox().bottom - Ext.get('sidebar-tools').getBox().bottom;
+
+						this.showBy(leftPanel,'bl-br',[50*this.factor+21,-50*this.factor+heightDiff]);
+					}
 					this.el.setOpacity(0.85)
 				},this);
 			},window,{single:true});
@@ -167,7 +180,7 @@ Ext.define('PumaMain.controller.Layers', {
 			oneCfg.classType = attr.classType || 'quantiles';
 			oneCfg.zeroesAsNull = attr.zeroesAsNull || true;
 			oneCfg.useAttributeColors = true;
-			this.addChoropleth(oneCfg,false,idx);
+			this.addChoropleth(oneCfg,true,idx);
 		}
 	},
 
@@ -306,6 +319,7 @@ Ext.define('PumaMain.controller.Layers', {
 				}
 				Ext.widget('window',{
 					height: 600,
+					cls: 'metadata-window',
 					title: name,
 					width: 500,
 					autoScroll: true,
@@ -359,6 +373,9 @@ Ext.define('PumaMain.controller.Layers', {
 		this.onLayerDrop();
 	},
 
+	/**
+	 * refactor indexes of selected layers in the store to consecutive integers, maintain order
+	 */
 	resetIndexes: function() {
 		var store = Ext.StoreMgr.lookup('selectedlayers');
 		store.suspendEvents();
@@ -407,6 +424,49 @@ Ext.define('PumaMain.controller.Layers', {
 				map2.setLayerIndex(layers2[i],i);
 			}
 		}
+
+		// write sortIndexes of selected layers to the Store
+		layers.reverse();
+		for (var i = 0; i < layers.length; i++) {
+			if (layers[i].parentNode.get('type') != 'basegroup') {
+				layers[i].set('sortIndex', i);
+				layers[i].commit();
+			}
+		}
+		this.resetIndexes();
+		this.prepareActiveLayers(layers);
+	},
+
+	/**
+	 * It prepares info about active layers for exchange between Ext and Require
+	 * @param layers {Array}
+	 */
+	prepareActiveLayers: function(layers){
+		var activeLayers = [];
+		layers.forEach(function(layer){
+			var data = layer.data;
+			var activeLayer = {};
+			var id = data.type;
+
+			if (data.type == "chartlayer"){
+				id += "-" + data.attributeSet + "-" + data.attribute;
+			} else if (data.type == "topiclayer"){
+				if (data.symbologyId == "#blank#"){
+					id += "-" + data.at;
+				} else {
+					id += "-" + data.at + "-" + data.symbologyId;
+				}
+			} else if (data.type == "wmsLayer"){
+				id += "-" + data.id;
+			}
+
+			activeLayer.id = id;
+			activeLayer.group = data.type;
+			activeLayer.order = data.sortIndex;
+			activeLayer.active = data.checked;
+			activeLayers.push(activeLayer);
+		});
+		Stores.activeLayers = activeLayers;
 	},
 
 	onOpacityChange: function(slider, value) {
@@ -610,6 +670,29 @@ Ext.define('PumaMain.controller.Layers', {
 				var legendLayer = response.request.options.legendLayer;
 				response = JSON.parse(response.responseText);
 				var id = response.data;
+
+				var attribute = node.data.attribute;
+				var attributeSet = node.data.attributeSet;
+
+				if (node.data.type == "chartlayer" && attribute > 0 && attributeSet > 0){
+					var data = {
+						legendLayer: legendLayer,
+						sldId: id
+					};
+					Stores.updateChoropleths(attribute, attributeSet, data);
+				} else if (node.data.type == "areaoutlines"){
+					Stores.updateOutlines({
+						sldId: id,
+						layerNames: "outlines"
+					});
+				} else if(node.data.type == "selectedareasfilled") {
+					Stores.updateSelectedOutlines({
+						sldId: id,
+						layerNames: "selectedAreasFilled"
+					})
+				}
+				// TODO: Add information about the selected layers sldId to show the information. .
+
 				layer.mergeNewParams({
 					"SLD_ID": id
 				});
@@ -1128,6 +1211,13 @@ Ext.define('PumaMain.controller.Layers', {
 		}
 	},
 
+	checkLayerIn2d: function(action, notification, target){
+		if (action == notification && notification == "checklayer"){
+			this._multiCheck = true;
+			target.trigger("click");
+		}
+	},
+
 	/**
 	 * This method is called whenever user clicks on the checkbox in the left menu. It should either show the layer or
 	 * hide the layer. If there is another layer shown in the same layer group, it also hides the currently shown layer.
@@ -1136,8 +1226,22 @@ Ext.define('PumaMain.controller.Layers', {
 	 * @param checked {Boolean} State of the checked node.
 	 */
 	onCheckChange: function (node, checked) {
+		var parentNode = node.parentNode;
+		var parentType = parentNode.get('type');
+		var nodeType = node.get('type');
+		var self = this;
+
+		// get view object of layer panel
+		var view = Ext.ComponentQuery.query('#layerpanel')[0].view;
+
 		if(node.get('type') == 'traffic') {
 			this.changeVisibilityOfTrafficLayer(node, checked);
+			return;
+		}
+
+		// don't uncheck basemap layer
+		if(!checked && parentType == 'basegroup' && view.lastE) {
+			node.set('checked', true); // recheck
 			return;
 		}
 
@@ -1145,28 +1249,66 @@ Ext.define('PumaMain.controller.Layers', {
 		if (!checked && node.get('legend')) {
 			node.get('legend').destroy();
 		}
-		var view = Ext.ComponentQuery.query('#layerpanel')[0].view;
+
+		// get store object
+		var store = Ext.StoreMgr.lookup('selectedlayers');
+
+		// multiple layers from one group, if CTRL key used
 		var multi = false;
-		if (view.lastE && view.lastE.ctrlKey) {
+		//if (parentType != 'basegroup' && (view.lastE && view.lastE.ctrlKey || this._multiCheck)) {
+		//	multi = true;
+		//	this._multiCheck = false;
+		//}
+		if (parentType != 'basegroup') {
 			multi = true;
+			this._multiCheck = false;
 		}
 
+		// reset last event object
 		view.lastE = null;
-		Ext.StoreMgr.lookup('selectedlayers').filter();
+
+		// ? update store content?
+		store.filter();
+
+		// layers in map windows objects
 		var layer1 = node.get('layer1');
 		var layer2 = node.get('layer2');
+
+		// new sortIndex
 		if (checked) {
-			node.set('sortIndex', node.get('sortIndex') - 0.1);
+			var firstInCategoryIndex = 8000;
+			var selectedLayers = store.getRange();
+
+			// console.debug("\n\n#### " + node.get('name'));
+
+			// get the lowest used sortIndex in the same or lower (higher number) category
+			for(var i in selectedLayers){
+				if(!selectedLayers.hasOwnProperty(i)) continue;
+				var selectedLayer = selectedLayers[i];
+				var selectedLayerParent = selectedLayer.parentNode;
+
+				if(node.id == selectedLayer.id) continue; // skip the layer itself
+
+				if(this.getLayerGroupCategory(selectedLayerParent.get('type')) >= this.getLayerGroupCategory(parentType)) {
+					// console.debug(selectedLayer.get('name') + " (sortIndex: " + selectedLayer.get('sortIndex') + ") has the same or lower category");
+					firstInCategoryIndex = Math.min(firstInCategoryIndex, selectedLayer.get('sortIndex'));
+				}
+
+			}
+
+			// make new index just a bit lower then the lowest one
+			var newIndex = firstInCategoryIndex - 0.1;
+			// console.debug("# new sortIndex: " + newIndex);
+			node.set('sortIndex', newIndex);
+			node.commit();
 		}
-		node.commit();
+
+		// initialize charts if the layer should have any
 		if (node.get('type') == 'chartlayer' && node.get('checked') && !node.initialized) {
 			this.initChartLayer(node);
 			return;
 		}
-		var parentNode = node.parentNode;
-		var parentType = parentNode.get('type');
-		var nodeType = node.get('type');
-		var self = this;
+
 		if (Ext.Array.contains(['basegroup', 'choroplethgroup', 'thematicgroup', 'systemgroup'], parentType) && checked && !multi && nodeType != 'traffic') {
 			// switching off choropleths
 			if (nodeType == 'areaoutlines') {
@@ -1180,6 +1322,7 @@ Ext.define('PumaMain.controller.Layers', {
 				parentNode = {childNodes: []};
 			}
 
+			// switch off area outlines when choropleth is swithing on
 			if (parentType == 'choroplethgroup') {
 				var anotherNode = parentNode.parentNode.findChild('type', 'systemgroup').findChild('type', 'areaoutlines');
 				anotherNode.set('checked', false);
@@ -1191,6 +1334,8 @@ Ext.define('PumaMain.controller.Layers', {
 				self.hideOtherLayersInTheSameLayerGroup(parentNode, node);
 			}
 		}
+
+		// actual map layer visibility
 		if (layer1.initialized) {
 			layer1.setVisibility(checked);
 		}
@@ -1198,25 +1343,36 @@ Ext.define('PumaMain.controller.Layers', {
 			layer2.setVisibility(checked);
 		}
 
+		// refactor indexes of selected layers in the store to consecutive integers, maintain order
+		store.sort();
 		this.resetIndexes();
+
+		// perform order changes
 		this.onLayerDrop();
 
-		if (checked){
-			if (layer1.initialized) {
-				this.showLayerOnTop(layer1);
-			}
-			if (layer2.initialized) {
-				this.showLayerOnTop(layer2);
-			}
-		}
 	},
 
 	/**
-	 * Move the layer on the top of the map
-	 * @param layer {OpenLayers.Layer}
+	 * Get category of the layergroup
+	 * @param layerGroup {String}
+	 * @returns {*}
 	 */
-	showLayerOnTop: function(layer){
-		$(layer.div).css("z-index", 1000);
+	getLayerGroupCategory: function(layerGroup) {
+		var categories = [
+			['systemgroup'], // 0
+			['choroplethgroup'], // 1
+			null, // 2 - dafault
+			['basegroup'] // 3
+		];
+		var defaultCategory = 2;
+
+		for(var categoryNumber in categories) {
+			if(!categories.hasOwnProperty(categoryNumber)) continue;
+			if(categories[categoryNumber] && categories[categoryNumber].indexOf(layerGroup) >= 0) {
+				return categoryNumber;
+			}
+		}
+		return defaultCategory;
 	},
 
 	/**

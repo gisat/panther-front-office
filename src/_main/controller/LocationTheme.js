@@ -3,6 +3,9 @@ Ext.define('PumaMain.controller.LocationTheme', {
     views: [],
     requires: [],
     init: function() {
+
+		Observer.addListener("PumaMain.controller.LocationTheme.reloadWmsLayers",this.reloadWmsLayers.bind(this));
+
         this.control({
             '#initialdataset':{
                 change: this.onDatasetChange
@@ -58,7 +61,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         if (!$('body').hasClass("intro")){
             $("#loading-screen").css({
                 display: "block",
-                background: "radial-gradient(rgba(230, 230, 230, .85), rgba(180, 180, 180, .85))"
+                background: "radial-gradient(rgba(255, 255, 255, .75), rgba(230, 230, 230, .75))"
             })
         }
         ThemeYearConfParams.datasetChanged = true;
@@ -147,6 +150,12 @@ Ext.define('PumaMain.controller.LocationTheme', {
     },
     
     onLocationChange: function(cnt,val) {
+        if(val == 1752) {
+            $('#top-toolbar-functional-urban-area').show();
+        } else {
+			$('#top-toolbar-functional-urban-area').hide();
+        }
+
         ThemeYearConfParams.actions.push(cnt.itemId);
         // URBIS change
         if ((!val) && !cnt.initial && this.locationInitialized) {
@@ -302,6 +311,14 @@ Ext.define('PumaMain.controller.LocationTheme', {
         visStore.filter([function(rec) {
             return rec.get('theme')==val
         }]);
+
+        // add all years to ThemeYearConfParams
+		ThemeYearConfParams.allYears = [];
+		var yearStoreContent = yearStore.getRange();
+        for(var yearIndex in yearStoreContent){
+            if(!yearStoreContent.hasOwnProperty(yearIndex)) continue;
+			ThemeYearConfParams.allYears.push(yearStoreContent[yearIndex].get('_id'));
+        }
 
         var vis = visCnt.getValue();
         var first = visStore.getAt(0);
@@ -476,6 +493,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 						});
 				    var node = Ext.create('Puma.model.MapLayer', {
 						name: layer.name,
+                        id: layer.id,
 						initialized: true,
 						allowDrag: true,
 						checked: false,

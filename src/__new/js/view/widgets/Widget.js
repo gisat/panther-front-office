@@ -38,26 +38,32 @@ define(['../../error/ArgumentError',
         if (!options.elementId){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Widget", "constructor", "missingElementId"));
         }
-        if (!options.targetId){
+        if (!options.placeholderTargetId){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Widget", "constructor", "missingTargetElementId"));
         }
 
         this._name = options.name || "";
         this._widgetId = options.elementId;
-        this._target = $("#" + options.targetId);
-        if (this._target.length == 0){
+        this._floaterTarget = $("body");
+        this._placeholderTarget = $("#" + options.placeholderTargetId);
+
+        if (this._placeholderTarget.length == 0){
             throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "Widget", "constructor", "missingHTMLElement"));
+        }
+        if (options.hasOwnProperty('iconId')){
+            this._icon = $('#' + options.iconId);
         }
 
         this.buildWidget({
             widgetId: this._widgetId,
             name: this._name,
-            target: this._target
+            placeholderTarget: this._placeholderTarget
         });
 
         this._widgetSelector = $("#floater-" + this._widgetId);
         this._placeholderSelector = $("#placeholder-" + this._widgetId);
         this._widgetBodySelector = this._widgetSelector.find(".floater-body");
+        this._widgetHeaderSelector = this._widgetSelector.find(".floater-header");
         this._warningSelector = this._widgetSelector.find(".floater-warning");
         this._widgetWarning = new WidgetWarning();
 
@@ -77,37 +83,45 @@ define(['../../error/ArgumentError',
      * Create the base structure of widget - placeholder and floater
      * @param options {Object}
      * @param options.widgetId {Object} JQuery object - widget Id
-     * @param options.target {Object} JQuery object - target
+     * @param options.placeholderTarget {Object} JQuery object - target
      * @param options.name {Object} JQuery object - name of the widget
      */
     Widget.prototype.buildWidget = function(options){
         if (!options.widgetId){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Widget", "build", "missingWidgetId"));
         }
-        if (!options.target){
+        if (!options.placeholderTarget){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Widget", "build", "missingTarget"));
         }
-        if (options.target.length == 0){
+        if (options.placeholderTarget.length == 0){
             throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "Widget", "build", "missingHTMLElement"));
         }
         if (!options.name){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Widget", "build", "missingWidgetName"));
         }
 
-        var placeholdersContainer = options.target.find('.placeholders-container');
+        var placeholdersContainer = this._placeholderTarget.find('.placeholders-container');
 
         var placeholder = S(WidgetPlaceholder).template({
             name: options.name,
             widgetId: options.widgetId
         }).toString();
 
+        var minimiseSrc = "__new/img/minimise-icon.png";
+        if (options.widgetId == "world-wind-widget"){
+            minimiseSrc = "__new/img/minimise-icon-dark.png";
+        }
+
         var floater = S(WidgetFloater).template({
             name: options.name,
-            widgetId: options.widgetId
+            widgetId: options.widgetId,
+            minimiseSrc: minimiseSrc
         }).toString();
 
         placeholdersContainer.append(placeholder);
-        options.target.append(floater);
+        this._floaterTarget.append(floater);
+
+        this.addWidgetEventsListeners();
     };
 
     /**
@@ -208,7 +222,7 @@ define(['../../error/ArgumentError',
         var id = name.toLowerCase();
         this._widgetSelector.find(".floater-tools-container")
             .append('<div id="' + this._widgetId + '-' + id + '" title="'+ name +'" class="floater-tool widget-'+ id +'">' +
-                '<img alt="' + name + '" src="__new/img/'+ id +'.png"/>' +
+                '<img alt="' + name + '" src="__new/img/'+ id +'-dark.png"/>' +
                 '</div>');
     };
 
@@ -222,6 +236,22 @@ define(['../../error/ArgumentError',
         if (warnings){
             var message = this._widgetWarning.generate(warnings);
             this._warningSelector.html(message);
+        }
+    };
+
+    Widget.prototype.addWidgetEventsListeners = function(){
+        if (this._icon){
+            this.addIconOnClickListener();
+        }
+    };
+
+    Widget.prototype.addIconOnClickListener = function(){
+        this._icon.on("click", this.toggleFloater.bind(this));
+    };
+
+    Widget.prototype.toggleFloater = function(){
+        if (this._widgetId == "world-wind-widget"){
+            this.toggle3DMap();
         }
     };
 

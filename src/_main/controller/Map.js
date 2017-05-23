@@ -6,6 +6,8 @@ Ext.define('PumaMain.controller.Map', {
 		// URBIS change
 		Observer.addListener("getMap",this.newGetMap.bind(this));
 
+		Observer.addListener("PumaMain.controller.Map.onExportMapUrl",this.onExportMapUrl.bind(this, {itemId:'top-toolbar-snapshot'}));
+
 		this.control({
 			'#map': {
 				afterrender: this.afterRender,
@@ -34,13 +36,18 @@ Ext.define('PumaMain.controller.Map', {
 			'#multiplemapsbtn': {
 				toggle: this.onMultipleYearsToggle
 			},
+			'#compareperiods': {
+				toggle: this.onMultipleYearsToggle
+			},
 			'#savemapbtn': {
 				click: this.onExportMapUrl
 			},
 			'#mapsnapshotbtn': {
 				click: this.onExportMapUrl
 			}
-		})
+		});
+
+		Select.areaStore = Ext.StoreMgr.lookup('area');
 	},
 
 	// URBIS change
@@ -350,7 +357,7 @@ Ext.define('PumaMain.controller.Map', {
 	createBaseNodes: function() {
 		var baseNode = Ext.StoreMgr.lookup('layers').getRootNode().findChild('type','basegroup');
 		var liveNode = Ext.StoreMgr.lookup('layers').getRootNode().findChild('type','livegroup');
-		var baseMap = Config.initialBaseMap || "terrain";
+		var baseMap = Config.initialBaseMap || "osm";
 		var hybridNode = Ext.create('Puma.model.MapLayer',{
 			name: 'Google hybrid',
 			checked: (baseMap == "hybrid"),

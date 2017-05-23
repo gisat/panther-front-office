@@ -15,8 +15,12 @@ Ext.define('PumaMain.controller.Login',{
         var isUser = false;
         if (Config.auth) {
             isUser = true;
+        } else {
+            if(Config.toggles.onlyLoggedIn) {
+                window.location = Config.notAuthenticatedUrl
+            }
         }
-        if (Config.auth && Ext.Array.contains(Config.auth.groups, 'admingroup')) {
+        if (Config.auth && Config.auth.groups && Ext.Array.contains(Config.auth.groups, 'admingroup')) {
             Config.auth.isAdmin = true;
             isAdmin = true;
         }

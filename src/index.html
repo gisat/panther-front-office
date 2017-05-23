@@ -63,6 +63,7 @@
 					return createScript('appde.js');
 				}).then(function(){
 					if ((Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool) ||
+							(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap) ||
 							(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo) ||
 							(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies)){
 						return createScript('__new/lib/require.js', '__new/app.js');
@@ -89,6 +90,7 @@
 					return createScript('appde.all.js');
 				}).then(function(){
 					if ((Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool) ||
+							(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap) ||
 							(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo) ||
 							(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies)){
 						return createScript('__new/lib/require.js', '__new/app.js');
@@ -112,8 +114,10 @@
 			// load project styles depending on the toggles
 			if((Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool) ||
 					(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo) ||
+					(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap) ||
 					(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies))
 			{
+				createLink("__new/styles/font-awesome.min.css");
 				createLink("__new/styles/jquery-ui.css");
 				createLink("__new/styles/style.css");
 			}
@@ -125,6 +129,9 @@
 			}
 			if(Config.toggles.isEea){
 				createLink("css/project/eea.css");
+			}
+			if(Config.toggles.isUrbanTep){
+				createLink("__new/styles/urban-tep.css");
 			}
 			if(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies){
 				createLink("css/project/melodies.css");
@@ -171,17 +178,17 @@
 				<a href="http://www.worldbank.org/"><span>The World Bank</span></a>
 			</div>
 			<div id="header">
-				<a href="/" class="home" id="home-link"><span>Home</span></a>
+				<h1>Data exploration</h1>
 				<ul class="menu">
-					<li id="data-exploration-link"><a href="/tool" class="active">Data exploration</a></li>
+					<li id="intro-link"><a href="/">Introduction</a></li>
 					<li id="downloads-link"><a href="/intro/index.php/downloads">Downloads</a></li>
 					<li id="help-link"><a href="/help-frontoffice/" target="_blank">Help</a></li>
+					<li id="bo-link" style="display:none;"><a href="/backoffice/" target="_blank">Administration</a></li>
 				</ul>
 				<div class="user">
 					<a href="#" class="login">LOG IN</a>
 					<span class="sep"></span>
 					<a href="#" class="signup">SIGN UP</a>
-					<a href="#" target="_blank" style="display:none;" class="administration">Administration</a>
 				</div>
 			</div>
 			<div id="content">
@@ -197,9 +204,9 @@
 								<div class="label">Scope</div>
 								<div id="app-intro-scope" class="widget"></div>
 							</div>
-							<div class="field teritory">
+							<div class="field place">
 								<div class="label">Place</div>
-								<div id="app-intro-teritory" class="widget"></div>
+								<div id="app-intro-place" class="widget"></div>
 							</div>
 						</div>
 						<div class="group">
@@ -357,119 +364,142 @@
 					</div>
 				</div>
 				<div id="content-application">
-					<div id="toolbar" class="fields-holder">
-						<div class="label">Data Exploration</div>
-						<div class="fields">
-							<div class="group group-scope">
-								<div class="field scope">
-									<div class="label">Scope</div>
-									<div id="app-toolbar-scope" class="widget"></div>
-								</div>
-								<div class="field teritory">
-									<div class="label">Place</div>
-									<div id="app-toolbar-teritory" class="widget"></div>
-								</div>
-								<div class="field theme">
-									<div class="label">Theme</div>
-								<div id="app-toolbar-theme" class="widget"></div>
+					<div id="view-selector">
+						<div class="group group-scope">
+							<div class="field scope">
+								<div class="label">Scope</div>
+								<div id="app-view-selector-scope" class="widget"></div>
+							</div>
+							<div class="field place">
+								<div class="label">Place</div>
+								<div id="app-view-selector-place" class="widget"></div>
+							</div>
+							<div class="field theme">
+								<div class="label">Theme</div>
+								<div id="app-view-selector-theme" class="widget"></div>
 							</div>
 						</div>
 						<div class="group group-visualization">
 							<div class="field visualization">
 								<div class="label">Visualization</div>
-								<div id="app-toolbar-visualization" class="widget"></div>
-								<div id="app-toolbar-visualization-save" class="widget"></div>
-								<div id="app-toolbar-visualization-manage" class="widget"></div>
+								<div id="app-view-selector-visualization" class="widget"></div>
+								<div id="app-view-selector-visualization-save" class="widget"></div>
+								<div id="app-view-selector-visualization-manage" class="widget"></div>
 							</div>
-							<div class="field with-sep level">
-								<div class="label">Analysis level</div>
-								<div id="app-toolbar-level" class="widget">
-									<div id="app-toolbar-level-less" class="button"></div>
-									<div id="app-toolbar-level-more" class="button"></div>
-								</div>
-								<div class="label help-label">Help</div>
-								<div class="widget app-toolbar-help">
-									<div id="app-toolbar-contexthelp" class="help-btn"></div>
-									<div id="app-toolbar-webhelp" class="help-btn"></div>
-								</div>
-							</div>
-							<div class="field with-sep year">
+							<div class="field with-sep period">
 								<div class="label">Year (+/-)</div>
-								<div id="app-toolbar-year" class="widget"></div>
+								<div id="app-view-selector-period" class="widget"></div>
+								<div id="app-view-selector-period-compare" class="widget"></div>
 							</div>
 						</div>
 					</div>
-					<div id="widget-container" class="widgets">
-						<div class="placeholders-container">
+					<div id="legacy-view-selector" class="fields-holder">
+						<div class="label">Data Exploration</div>
+						<div class="fields">
+							<div class="group group-scope">
+								<div class="field scope">
+									<div class="label">Scope</div>
+									<div id="app-legacy-view-selector-scope" class="widget"></div>
+								</div>
+								<div class="field place">
+									<div class="label">Place</div>
+									<div id="app-legacy-view-selector-place" class="widget"></div>
+								</div>
+								<div class="field theme">
+									<div class="label">Theme</div>
+									<div id="app-legacy-view-selector-theme" class="widget"></div>
+								</div>
+							</div>
+							<div class="group group-visualization">
+								<div class="field visualization">
+									<div class="label">Visualization</div>
+									<div id="app-legacy-view-selector-visualization" class="widget"></div>
+									<div id="app-legacy-view-selector-visualization-save" class="widget"></div>
+									<div id="app-legacy-view-selector-visualization-manage" class="widget"></div>
+								</div>
+								<div class="field with-sep level">
+									<div class="label">Analysis level</div>
+									<div id="app-legacy-view-selector-level" class="widget">
+										<div id="app-legacy-view-selector-level-less" class="button"></div>
+										<div id="app-legacy-view-selector-level-more" class="button"></div>
+									</div>
+									<div class="label help-label">Help</div>
+									<div class="widget app-legacy-view-selector-help">
+										<div id="app-legacy-view-selector-contexthelp" class="help-btn"></div>
+										<div id="app-legacy-view-selector-webhelp" class="help-btn"></div>
+									</div>
+								</div>
+								<div class="field with-sep year">
+									<div class="label">Year (+/-)</div>
+									<div id="app-legacy-view-selector-year" class="widget"></div>
+								</div>
+							</div>
+						</div>
+						<div id="widget-container" class="widgets">
+							<div class="placeholders-container">
+							</div>
+						</div>
+						<div class="dataview field">
+							<div id="app-legacy-view-selector-share" class="widget"></div>
+							<div id="app-legacy-view-selector-save" class="widget"></div>
+							<div id="app-legacy-view-selector-manage" class="widget"></div>
 						</div>
 					</div>
-					<div id="tools-container">
+					<div id="top-toolbar">
+						<div id="top-toolbar-features">
+							<div class="item" id="top-toolbar-3dmap">3D Map</div>
+							<div id="top-toolbar-widgets"></div>
+						</div>
+						<div id="top-toolbar-tools">
+							<div class="item" id="top-toolbar-snapshot" title="Take map snapshot"></div>
+							<div class="item" id="top-toolbar-share-view" title="Share view"></div>
+							<div class="item" id="top-toolbar-context-help" title="Context help"></div>
+						</div>
 					</div>
-					<div class="dataview field">
-						<div id="app-toolbar-share" class="widget"></div>
-						<div id="app-toolbar-save" class="widget"></div>
-						<div id="app-toolbar-manage" class="widget"></div>
-					</div>
-				</div>
-				<div id="sidebar-tools">
-					<span id="sidebar-tools-toggle" title="Tools"></span>
-					<div id="app-tools-actions"></div>
+					<div id="sidebar-tools">
+						<span id="sidebar-tools-toggle" title="Tools"></span>
+						<div id="app-tools-actions"></div>
 
-					<div id="app-tools-accordeon"></div>
-				</div>
-				<div id="sidebar-reports">
-					<span id="sidebar-reports-toggle" title="Reports"></span>
-		  <span id="sidebar-reports-add"></span>
-					<div id="app-reports-paging"></div>
-					<div id="app-reports-accordeon"></div>
+						<div id="app-tools-accordeon"></div>
+					</div>
+					<div id="sidebar-reports">
+						<span id="sidebar-reports-toggle" title="Reports"></span>
+						<span id="sidebar-reports-add"></span>
+						<div id="app-reports-paging"></div>
+						<div id="app-reports-accordeon"></div>
+					</div>
 				</div>
 			</div>
-		</div>
-		<div id="footer">
-			<div id="footer-bar">
-				<a href="http://www.worldbank.org/" class="wb"><span>The World Bank Group</span></a>
-				<ul>
-					<li><a href="http://www.worldbank.org/ibrd">IBRD</a></li>
-					<li><a href="http://www.worldbank.org/ida">IDA</a></li>
-					<li><a href="http://www.ifc.org/">IFC</a></li>
-					<li><a href="http://www.miga.org/">MIGA</a></li>
-					<li><a href="http://icsid.worldbank.org/">ICSID</a></li>
-				</ul>
-			</div>
-			<div id="footer-legal">
-				<div class="contact">
-					<p><strong>Fraud &amp; Corruption Hotline</strong></p>
-					<p>1-202-458-7677</p>
-				</div>
-				<ul>
-					<li><a href="/help-frontoffice/TermsAndConditions.html">Terms and Conditions</a></li>
-					<li><a href="http://go.worldbank.org/NLCQMY3UZ0">Jobs</a></li>
-					<li><a href="http://www.worldbank.org/sitemap">Site Map</a></li>
-					<li><a href="http://www.worldbank.org/contacts">Contact</a></li>
-				</ul>
-				<p>&copy; 2014 The World Bank Group, All Rights Reserved</p>
-			</div>
-		</div>
-	</div>
-	<div id="loading-mask-shim"></div>
-	<div id="loading-mask"></div>
-	<div id="loading-screen">
-		<div id="loading-screen-content-wrap">
-			<div id="loading-screen-content">
-				<div class="sk-cube-grid">
-					<div class="sk-cube sk-cube1"></div>
-					<div class="sk-cube sk-cube2"></div>
-					<div class="sk-cube sk-cube3"></div>
-					<div class="sk-cube sk-cube4"></div>
-					<div class="sk-cube sk-cube5"></div>
-					<div class="sk-cube sk-cube6"></div>
-					<div class="sk-cube sk-cube7"></div>
-					<div class="sk-cube sk-cube8"></div>
-					<div class="sk-cube sk-cube9"></div>
+			<div id="footer">
+				<div id="footer-legal">
+					<div class="contact">
+						<p><strong>Fraud &amp; Corruption Hotline</strong></p>
+						<p>1-202-458-7677</p>
+					</div>
+					<p>&copy; 2017 The World Bank Group, All Rights Reserved</p>
+					<ul>
+						<li><a href="/help-frontoffice/TermsAndConditions.html">Terms and Conditions</a></li>
+						<li><a href="http://go.worldbank.org/NLCQMY3UZ0">Jobs</a></li>
+						<li><a href="http://www.worldbank.org/sitemap">Site Map</a></li>
+						<li><a href="http://www.worldbank.org/contacts">Contact</a></li>
+					</ul>
 				</div>
 			</div>
 		</div>
-	</div>
-</body>
+		<div id="loading-mask-shim"></div>
+		<div id="loading-mask"></div>
+		<div id="loading-screen">
+			<div id="loading-screen-content-wrap">
+				<div id="loading-screen-content">
+					<div class="a-loader-container">
+						<i class="i1"></i>
+						<i class="i2"></i>
+						<i class="i3"></i>
+						<i class="i4"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
 
 </html>

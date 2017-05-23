@@ -1,0 +1,10 @@
+.layer-tools {
+	display: inline-block;
+	vertical-align: middle;
+	height: 100%;
+	margin: 0 .25rem 0 0;
+	width: 2.7rem;
+}
+.panel-layer-group-body .layer-tools {
+	width: 4rem;
+}

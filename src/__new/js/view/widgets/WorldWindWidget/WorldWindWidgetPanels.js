@@ -2,8 +2,11 @@ define(['../../../error/ArgumentError',
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 
-	'./AuLayersPanel',
-	'./BackgroundLayersPanel',
+	'./panels/AuLayersPanel',
+	'./panels/BackgroundLayersPanel',
+	'./panels/InfoLayersPanel',
+	'./panels/ThematicLayersPanel',
+	'./panels/WmsLayersPanel',
 
 	'jquery',
 	'string',
@@ -15,6 +18,9 @@ define(['../../../error/ArgumentError',
 
 			AuLayersPanel,
 			BackgroundLayersPanel,
+			InfoLayersPanel,
+			ThematicLayersPanel,
+			WmsLayersPanel,
 
 			$,
 			S,
@@ -46,13 +52,20 @@ define(['../../../error/ArgumentError',
 
 	/**
 	 * Rebuild panels with current configuration
-	 * @param configuration {Object} configuration from global object ThemeYearConfParams
+	 * @param options {Object}
+	 * @param options.config {Object} configuration from global object ThemeYearConfParams
+	 * @param options.changes {Object} changes in configuration
 	 */
-	WorldWindWidgetPanels.prototype.rebuild = function(configuration){
-		if (!configuration){
+	WorldWindWidgetPanels.prototype.rebuild = function(options){
+		if (!options){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingParameter"));
 		}
-		this._auLayersPanel.rebuild(configuration);
+		if (options.changes && !options.changes.scope){
+			this._auLayersPanel.switchOnLayersFrom2D();
+			this._thematicLayersPanel.switchOnLayersFrom2D();
+		}
+		this._infoLayersPanel.rebuild(options);
+		this._wmsLayersPanel.rebuild(options.config);
 	};
 
 	/**
@@ -65,8 +78,11 @@ define(['../../../error/ArgumentError',
 		this._target.append(html);
 		this._panelsSelector = $("#" + this._id);
 
-		this._backgroundLayersPanel = this.buildBackgroundLayersPanel();
 		this._auLayersPanel = this.buildAuLayersPanel();
+		this._thematicLayersPanel = this.buildThematicLayersPanel();
+		this._infoLayersPanel = this.buildInfoLayersPanel();
+		this._backgroundLayersPanel = this.buildBackgroundLayersPanel();
+		this._wmsLayersPanel = this.buildWmsLayersPanel();
 
 		this.addEventsListeners();
 	};
@@ -78,6 +94,19 @@ define(['../../../error/ArgumentError',
 		return new BackgroundLayersPanel({
 			id: "background-layers",
 			name: "Background Layers",
+			target: this._panelsSelector,
+			isOpen: true,
+			worldWind: this._worldWind
+		});
+	};
+
+	/**
+	 * Build panel with thematic layers
+	 */
+	WorldWindWidgetPanels.prototype.buildThematicLayersPanel = function(){
+		return new ThematicLayersPanel({
+			id: "thematic-layers",
+			name: "Thematic Layers",
 			target: this._panelsSelector,
 			isOpen: true,
 			worldWind: this._worldWind
@@ -98,6 +127,32 @@ define(['../../../error/ArgumentError',
 	};
 
 	/**
+	 * Build panel with info layers
+	 */
+	WorldWindWidgetPanels.prototype.buildInfoLayersPanel = function(){
+		return new InfoLayersPanel({
+			id: "info-layers",
+			name: "Info Layers",
+			target: this._panelsSelector,
+			isOpen: true,
+			worldWind: this._worldWind
+		});
+	};
+
+	/**
+	 * Build panel with wms layers
+	 */
+	WorldWindWidgetPanels.prototype.buildWmsLayersPanel = function(){
+		return new WmsLayersPanel({
+			id: "wms-layers",
+			name: "Custom WMS Layers",
+			target: this._panelsSelector,
+			isOpen: true,
+			worldWind: this._worldWind
+		});
+	};
+
+	/**
 	 * Add listeners
 	 */
 	WorldWindWidgetPanels.prototype.addEventsListeners = function(){
@@ -110,6 +165,12 @@ define(['../../../error/ArgumentError',
 	 */
 	WorldWindWidgetPanels.prototype.onPanelHeaderClick = function(){
 		this._panelsSelector.find(".panel-header").click(function(){
+			$(this).toggleClass('open');
+			$(this).next().slideToggle();
+			return false;
+		});
+
+		this._panelsSelector.on("click",".panel-layer-group-header", function(){
 			$(this).toggleClass('open');
 			$(this).next().slideToggle();
 			return false;

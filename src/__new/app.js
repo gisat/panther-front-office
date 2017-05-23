@@ -3,6 +3,7 @@ requirejs.config({
 
     paths: {
         'css': 'lib/css.min',
+        'd3': 'lib/d3.min',
         'jquery': 'lib/jquery-3.0.0',
         'jquery-private': 'js/jquery-private',
         'jquery-ui': 'lib/jquery-ui.min',
@@ -36,10 +37,13 @@ requirejs.config({
 });
 
 define(['js/util/metadata/Attributes',
+        'js/util/metadata/AnalyticalUnits',
         'js/view/widgets/CityWidget/CityWidget',
         'js/view/widgets/CustomDrawingWidget/CustomDrawingWidget',
         'js/view/widgets/EvaluationWidget/EvaluationWidget',
         'js/view/tools/FeatureInfoTool/FeatureInfoTool',
+        'js/view/widgets/FunctionalUrbanAreaWidget/FunctionalUrbanAreaWidget',
+        'js/view/widgets/FunctionalUrbanAreaResultWidget/FunctionalUrbanAreaResultWidget',
         'js/util/Filter',
         'js/util/Floater',
 		'./FrontOffice',
@@ -48,7 +52,9 @@ define(['js/util/metadata/Attributes',
         'js/view/widgets_3D/MapDiagramsWidget/MapDiagramsWidget',
         'js/util/Placeholder',
 		'js/util/Remote',
+		'js/view/widgets/SharingWidget/SharingWidget',
 		'js/stores/Stores',
+        'js/view/TopToolBar',
         'js/view/worldWind/WorldWindMap',
         'js/view/widgets/WorldWindWidget/WorldWindWidget',
 
@@ -57,11 +63,14 @@ define(['js/util/metadata/Attributes',
         'jquery-ui',
         'underscore'
 ], function (Attributes,
+             AnalyticalUnits,
              CityWidget,
              CustomDrawingWidget,
              EvaluationWidget,
              FeatureInfoTool,
-             Filter,
+             FunctionalUrbanAreaWidget,
+			 FunctionalUrbanAreaResultWidget,
+			 Filter,
              Floater,
 			 FrontOffice,
              Logger,
@@ -69,7 +78,9 @@ define(['js/util/metadata/Attributes',
              MapDiagramsWidget,
              Placeholder,
 			 Remote,
+			 SharingWidget,
 			 Stores,
+			 TopToolBar,
              WorldWindMap,
              WorldWindWidget,
 
@@ -79,17 +90,19 @@ define(['js/util/metadata/Attributes',
     $(document).ready(function() {
         var tools = [];
         var widgets = [];
-        var widgets3D = [];
 
         var attributes = buildAttributes();
+
         var filter = buildFilter();
         var olMap = buildOpenLayersMap();
-        
+
+        if(Config.toggles.useTopToolbar){
+            var topToolBar = new TopToolBar();
+        }
         // create tools and widgets according to configuration
         if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
             var webWorldWind = buildWorldWindMap();
-            widgets.push(buildWorldWindWidget(webWorldWind));
-            widgets3D.push(buildMapDiagramsWidget(webWorldWind));
+            widgets.push(buildWorldWindWidget(webWorldWind, topToolBar));
         }
         if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
             widgets.push(buildEvaluationWidget(filter));
@@ -104,16 +117,23 @@ define(['js/util/metadata/Attributes',
             tools.push(buildFeatureInfoTool());
         }
 
-        // build app, map is class for OpenLayers map
-        new FrontOffice({
-            attributesMetadata: attributes,
-            tools: tools,
-            widgets: widgets,
-            widgetOptions: {
-                olMap: olMap
-            },
-            widgets3D: widgets3D
-        });
+		if(Config.toggles.hasFunctionalUrbanArea){
+            var results = buildFunctionalUrbanAreaResultWidget();
+			tools.push(buildFunctionalUrbanAreaWidget(results));
+			tools.push(results);
+		}
+
+		widgets.push(buildSharingWidget());
+
+		// build app, map is class for OpenLayers map
+		new FrontOffice({
+			attributesMetadata: attributes,
+			tools: tools,
+			widgets: widgets,
+			widgetOptions: {
+				olMap: olMap
+			}
+		});
 
         var widgetElement = $("#widget-container");
         var floater = $(".floater");
@@ -139,26 +159,36 @@ define(['js/util/metadata/Attributes',
             }
         });
         floater.on("click", ".widget-minimise", function(e){
+            var mode3d = $("body").hasClass("mode-3d");
             if (!(e.which > 1 || e.shiftKey || e.altKey || e.metaKey || e.ctrlKey)) {
                 var floater = $(this).parent().parent().parent();
-                var placeholderSelector = "#" + floater.attr("id").replace("floater", "placeholder");
-                var placeholder = $(placeholderSelector);
-                Floater.minimise(floater);
-                Placeholder.floaterClosed(placeholder);
-                ExchangeParams.options.openWidgets[floater.attr("id")] = false;
+                if (Config.toggles.useNewViewSelector && Config.toggles.useTopToolbar){
+                    var id = floater.attr('id');
+                    floater.removeClass('open');
+                    $('.item[data-for=' + id + ']').removeClass('open');
+                } else {
+                    if (!mode3d){
+                        var placeholderSelector = "#" + floater.attr("id").replace("floater", "placeholder");
+                        var placeholder = $(placeholderSelector);
+                        Floater.minimise(floater);
+                        Placeholder.floaterClosed(placeholder);
+                        ExchangeParams.options.openWidgets[floater.attr("id")] = false;
+                    }
+                }
             }
         });
+
         floater.draggable({
             containment: "body",
             handle: ".floater-header"
         }).on("click drag", function(){
-            $(".floater").removeClass("active");
+            $(".floater, .tool-window, #feature-info-window").removeClass("active");
             $(this).addClass("active");
         });
     });
 
 	/**
-	 * Build Attributes instance
+     * Build Attributes instance
      * @returns {Attributes}
      */
     function buildAttributes (){
@@ -200,8 +230,25 @@ define(['js/util/metadata/Attributes',
             filter: filter,
             elementId: 'evaluation-widget',
             name: 'Evaluation Tool',
-            targetId: 'widget-container'
+            placeholderTargetId: 'widget-container'
         });
+    }
+
+    function buildFunctionalUrbanAreaWidget(results) {
+        return new FunctionalUrbanAreaWidget({
+            elementId: 'functional-urban-area',
+            name: "Functional Urban Area",
+            placeholderTargetId: 'widget-container',
+            results: results
+        });
+    }
+
+    function buildFunctionalUrbanAreaResultWidget() {
+		return new FunctionalUrbanAreaResultWidget({
+			elementId: 'functional-urban-area-result',
+			name: "Functional Urban Area Results",
+			placeholderTargetId: 'widget-container'
+		});
     }
 
 	/**
@@ -212,7 +259,7 @@ define(['js/util/metadata/Attributes',
         return new CustomDrawingWidget({
             elementId: 'custom-polygons-widget',
             name: 'Custom Features',
-            targetId: 'widget-container'
+            placeholderTargetId: 'widget-container'
         });
     }
 
@@ -224,7 +271,7 @@ define(['js/util/metadata/Attributes',
         return new CityWidget({
             elementId: 'city-selection',
             name: 'UrbanDynamic Tool',
-            targetId: 'widget-container',
+            placeholderTargetId: 'widget-container',
             selections: [{
                 id: 'melodies-city-selection',
                 name: 'Select city',
@@ -242,29 +289,18 @@ define(['js/util/metadata/Attributes',
     }
 
     /**
-     * Build MapDiagramsWidget instance
-     * @param webWorldWind {WorldWindMap}
-     * @returns {MapDiagramsWidget}
-     */
-    function buildMapDiagramsWidget (webWorldWind){
-        return new MapDiagramsWidget({
-            id: 'map-diagrams-widget',
-            name: 'Map Diagrams',
-            worldWind: webWorldWind
-        });
-    }
-
-    /**
      * Build WorldWindWidget instance
      * @param webWorldWind {WorldWindMap}
      * @returns {WorldWindWidget}
      */
-    function buildWorldWindWidget (webWorldWind){
+    function buildWorldWindWidget (webWorldWind, topToolBar){
         return new WorldWindWidget({
             elementId: 'world-wind-widget',
-            name: '3D Map',
-            targetId: 'widget-container',
-            worldWind: webWorldWind
+            name: 'Layers',
+            placeholderTargetId: 'widget-container',
+            iconId: 'top-toolbar-3dmap',
+            worldWind: webWorldWind,
+            topToolBar: topToolBar
         });
     }
 
@@ -276,7 +312,20 @@ define(['js/util/metadata/Attributes',
         return new FeatureInfoTool({
             id: 'feature-info',
             elementClass: 'btn-tool-feature-info',
-            targetId: 'tools-container'
         });
     }
+
+	/**
+	 * It builds widget for sharing.
+	 * @returns {*}
+	 */
+	function buildSharingWidget() {
+		Widgets.sharing = new SharingWidget({
+			elementId: 'sharing',
+			name: 'Share',
+			placeholderTargetId: 'widget-container'
+		});
+
+		return Widgets.sharing;
+	}
 });
