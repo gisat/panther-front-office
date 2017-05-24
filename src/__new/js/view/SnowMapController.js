@@ -44,9 +44,10 @@ define([
 
 			var compositeId = $(this).parents(".ptr-composites-composite").attr("data-id");
 			var locationKey = self._iFrameBodySelector.find("#composites").attr("data-country");
+			var styleId = self._iFrameBodySelector.find("#composites").attr("data-style");
 
 			self.highlightCountry(locationKey);
-			self.showCompositeInMap(compositeId);
+			self.showCompositeInMap(compositeId, styleId);
 
 			//if (self._worldWind){
 			//	self.showCompositeIn3DMap(compositeId);
@@ -57,8 +58,9 @@ define([
 	/**
 	 * Remove previously added composite layer and show the new one
 	 * @param compositeId {string} ID of the layer
+	 * @param styleId {string} ID of the style
 	 */
-	SnowMapController.prototype.showCompositeInMap = function(compositeId){
+	SnowMapController.prototype.showCompositeInMap = function(compositeId, styleId){
 		var self = this;
 		if (!this._zoomListener){
 			this._zoomListener = this._map.events.register("zoomend", this._map, function() {
@@ -69,15 +71,16 @@ define([
 		if (this._previousLayer){
 			this._map.removeLayer(this._previousLayer);
 		}
-		this.addCompositeToMap(compositeId, 0.7);
+		this.addCompositeToMap(compositeId, styleId, 0.7);
 	};
 
 	/**
 	 * @param compositeId {string} ID of the layer
+	 * @param styleId {string} ID of the style
 	 * @param opacity {number} layer opacity
 	 */
-	SnowMapController.prototype.addCompositeToMap = function(compositeId, opacity){
-		var layer = this.createWmsLayer(compositeId, opacity);
+	SnowMapController.prototype.addCompositeToMap = function(compositeId, styleId, opacity){
+		var layer = this.createWmsLayer(compositeId, styleId, opacity);
 		this._map.addLayer(layer);
 		layer.visibility = true;
 		layer.opacity = opacity;
@@ -105,14 +108,15 @@ define([
 
 	/**
 	 * @param layerId {string} ID of the layer
+	 * @param styleId {string} ID of the style
 	 * @param opacity {number} layer opacity
 	 * @returns {OpenLayers.Layer.WMS}
 	 */
-	SnowMapController.prototype.createWmsLayer = function(layerId, opacity){
+	SnowMapController.prototype.createWmsLayer = function(layerId, styleId, opacity){
 		return new OpenLayers.Layer.WMS(layerId,
 			Config.snowUrl + "geoserver/geonode/wms", {
 				layers: "geonode:" + layerId,
-				styles: "composite"
+				styles: styleId
 			},{
 				opacity: opacity
 			});
