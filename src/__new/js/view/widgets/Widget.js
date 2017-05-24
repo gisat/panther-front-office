@@ -151,11 +151,9 @@ define(['../../error/ArgumentError',
         var placeholder = $("#" + id.replace("floater", "placeholder"));
         if (state){
             floater.addClass("open");
-            floater.css("display","block"); // redundant, but necessary for animation
             placeholder.removeClass("open");
         } else {
             floater.removeClass("open");
-            floater.css("display","none"); // redundant, but necessary for animation
             placeholder.addClass("open");
         }
     };
