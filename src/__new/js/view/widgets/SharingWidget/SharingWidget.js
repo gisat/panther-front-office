@@ -42,19 +42,27 @@ define([
 
 
 		if(Config.toggles.isUrbanTep) {
-			// Also share name and community.
-			var self = this;
-			$('#floater-sharing .floater-body').append(
-				'<div>' +
-				'	<div><label>Name: <input id="sharing-name" type="text" value="'+name+'"/></label></div>' +
-				'	<div><label>Community: <select id="sharing-community"></select></label></div>' +
-				'</div>'
-			);
-			$('#floater-sharing .floater-footer').append('<div class="widget-button" id="sharing-portal">Share on the portal.</div>');
+			UrbanTepPortalStore.communities().then(function(communities){
+				var self = this;
 
-			$('#sharing-portal').off();
-			$('#sharing-portal').on('click', function(){
-				UrbanTepPortalStore.share(self.url, $('#floater-sharing .floater-body #sharing-name').val(), '');
+				var optionsHtml = communities.map(function(community){
+					return '<option value="'+community.identifier+'">'+community.title+'</option>';
+				}).join(' ');
+				$('#floater-sharing .floater-body').append(
+					'<div>' +
+					'	<div><label>Name: <input id="sharing-name" type="text" value="'+name+'"/></label></div>' +
+					'	<div><label>Community: ' +
+					'		<select id="sharing-community">' + optionsHtml +
+					'		</select>' +
+					'	</label></div>' +
+					'</div>'
+				);
+				$('#floater-sharing .floater-footer').append('<div class="widget-button" id="sharing-portal">Share on the portal.</div>');
+
+				$('#sharing-portal').off();
+				$('#sharing-portal').on('click', function(){
+					UrbanTepPortalStore.share(self.url, $('#floater-sharing .floater-body #sharing-name').val(), '');
+				});
 			});
 		}
 	};

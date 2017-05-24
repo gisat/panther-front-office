@@ -6,7 +6,14 @@ define(['./Stores'], function(Stores){
 	};
 
 	UrbanTepPortalStore.prototype.communities = function() {
-		return $.get('https://urban-tep.eo.esa.int/t2api/apps/puma'); // TODO: Update once there is version ready
+		return $.get('https://urban-tep.eo.esa.int/t2api/community/search?status=joined&format=json').then(function(result){
+			return result.features.map(function(feature){
+				return {
+					title: feature.title,
+					identifier: feature.identifier
+				}
+			})
+		});
 	};
 
 	UrbanTepPortalStore.prototype.share = function(url, name, community) {
