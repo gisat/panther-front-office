@@ -227,7 +227,7 @@ Ext.define('PumaMain.controller.ViewMng', {
             return rec.get('theme')==Config.cfg.theme
         }]);
 
-        yearCombo.setValue(Config.cfg.years)
+        yearCombo.setValue(Config.cfg.years);
         visualizationCombo.setValue(Config.cfg.visualization);
         themeCombo.setValue(Config.cfg.theme);
 
@@ -239,18 +239,7 @@ Ext.define('PumaMain.controller.ViewMng', {
         themeCombo.resumeEvents();
         visualizationCombo.resumeEvents();
         locationCombo.resumeEvents();
-        
-//        var filters = Config.cfg.filters || [];
-//        var items = this.getController('Filter').getFilterItems(filters);
-//        if (items.length) {
-//            var filterPanel =  Ext.ComponentQuery.query('#advancedfilters')[0];
-//            filterPanel.add(items);
-//            var filterController = this.getController('Filter');
-//            filterController.minFl = Config.cfg.minFilterFl;
-//            filterController.maxFl = Config.cfg.maxFilterFl;
-//            filterController.applyFilters(true);
-//        }
-        
+
         var onlySel = Ext.ComponentQuery.query('#areapager #onlySelected')[0];
         onlySel.suspendEvents();
         onlySel.toggle(Config.cfg.pagingUseSelected);
@@ -264,16 +253,8 @@ Ext.define('PumaMain.controller.ViewMng', {
         }
         selColors.resumeEvents();
         
-//        if (Config.cfg.filterUseSelected) {
-//            var instantFilter = Ext.ComponentQuery.query('#instantfilter')[0];
-//            var selectFilter = Ext.ComponentQuery.query('#filterselect')[0];
-//            instantFilter.suspendEvents();
-//            instantFilter.toggle(false);
-//            instantFilter.resumeEvents();
-//            selectFilter.enable();
-//        }
         onlySel.suspendEvents();
-        onlySel.toggle(Config.cfg.pagingUseSelected)
+        onlySel.toggle(Config.cfg.pagingUseSelected);
         onlySel.resumeEvents();
         
         this.getController('AttributeConfig').filterConfig = Config.cfg.filterAttrs;
@@ -287,7 +268,8 @@ Ext.define('PumaMain.controller.ViewMng', {
         locationTheme.yearChanged = true;
         locationTheme.locationChanged = true;
         this.getController('Map').map1.controls[0].activate();
-        locationTheme.onYearChange({itemId:'dataview'});
+        locationTheme.onDatasetChange();
+		locationTheme.onYearChange({itemId:'dataview'});
         this.getController('LocationTheme').reloadWmsLayers();
     },
 
