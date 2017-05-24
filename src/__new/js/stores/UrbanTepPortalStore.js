@@ -9,8 +9,8 @@ define(['./Stores'], function(Stores){
 		return $.get('https://urban-tep.eo.esa.int/t2api/community/search?status=joined&format=json').then(function(result){
 			return result.features.map(function(feature){
 				return {
-					title: feature.title,
-					identifier: feature.identifier
+					title: feature.properties.title,
+					identifier: feature.properties.identifier
 				}
 			})
 		});
