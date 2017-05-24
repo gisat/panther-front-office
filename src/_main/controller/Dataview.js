@@ -58,7 +58,6 @@ Ext.define('PumaMain.controller.Dataview', {
                     }
                     Config.cfg = cfg[0].conf;
                     me.getController('ViewMng').onDataviewLoad();
-					$("#loading-screen").css("display", "none");
 				},
                 failure: function(response) {
 					$("#loading-screen").css("display", "none");

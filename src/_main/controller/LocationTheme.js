@@ -1181,6 +1181,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 this.placeInitialChange = true;
         }
 
+		$("#loading-screen").css("display", "none");
         delete Config.cfg;
     },
     checkFeatureLayers: function() {
