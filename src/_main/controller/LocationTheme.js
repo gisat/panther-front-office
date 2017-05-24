@@ -454,7 +454,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 		selectedLayers = selectedLayers
             .filter(function(layer){return layer.type == "wmsLayer"})
             .map(function(layer){
-		        return layer.sortIndex;
+		        return layer.sortIndex - 1;
         });
 		var selectedNodes = [];
 
@@ -531,6 +531,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 				customWms.appendChild(nodes);
 
 				selectedNodes.forEach(function(node){
+					node.set('checked', true);
 					layersController.onCheckChange(node, true);
                 });
 			}
