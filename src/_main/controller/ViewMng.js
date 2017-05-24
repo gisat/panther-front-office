@@ -290,85 +290,79 @@ Ext.define('PumaMain.controller.ViewMng', {
         locationTheme.onYearChange({itemId:'dataview'});
         
     },
-     
-    gatherViewConfig: function() {
-        var cfg = {};
-        cfg.multipleMaps = Ext.ComponentQuery.query('maptools #multiplemapsbtn')[0].pressed===true;
-        cfg.years = Ext.ComponentQuery.query('#selyear')[0].getValue();
-        cfg.dataset = Ext.ComponentQuery.query('#seldataset')[0].getValue();
-        cfg.theme = Ext.ComponentQuery.query('#seltheme')[0].getValue();
-        cfg.visualization = Ext.ComponentQuery.query('#selvisualization')[0].getValue();
-        cfg.location = Ext.ComponentQuery.query('#sellocation')[0].getValue();
-        cfg.expanded = this.getController('Area').getExpandedAndFids().expanded;
-        cfg.selMap = this.getController('Select').selMap;
-        cfg.choroplethCfg = this.getController('AttributeConfig').layerConfig
-        
-        cfg.pagingUseSelected = Ext.ComponentQuery.query('#areapager #onlySelected')[0].pressed;
-        var pagingPicker = Ext.ComponentQuery.query('#useselectedcolorpicker')[0]
-        cfg.pagingSelectedColors = pagingPicker.xValue || pagingPicker.value;
-        
-        //cfg.filterUseSelected = !Ext.ComponentQuery.query('#instantfilter')[0].pressed
-        
-        var sliders = Ext.ComponentQuery.query('#advancedfilters multislider');
-        var filterMap = {};
-        for (var i=0;i<sliders.length;i++) {
-            var slider = sliders[i];
-            var val = slider.getValue();
-            var attrName = slider.attrname;
-            filterMap[attrName] = val;
-            
-        }
-        
-        cfg.filterMap = filterMap;
-        cfg.filterData = this.getController('Filter').filterData;
-        cfg.filterAttrs = this.getController('Filter').attrs;
-        //cfg.filterActive = $(Ext.ComponentQuery.query('#advancedfilters tool[type=poweron]')[0].el.dom).hasClass('tool-active');
-        cfg.filterActive = false;
-        //cfg.minFilterFl = this.getController('Filter').minFl
-        //cfg.maxFilterFl = this.getController('Filter').maxFl
-        
-        var layers = Ext.StoreMgr.lookup('selectedlayers').getRange();
-        this.getController('Layers').resetIndexes();
-        var layerCfg = [];
-        for (var i=0;i<layers.length;i++) {
-            var layer = layers[i];
-            layerCfg.push({
-                opacity: layer.get('layer1').opacity || 1,
-                sortIndex: layer.get('sortIndex'),
-                type: layer.get('type'),
-                attributeSet: layer.get('attributeSet'),
-                attribute: layer.get('attribute'),
-                at: layer.get('at'),
-                symbologyId: layer.get('symbologyId')
-            })
-        }
-        cfg.layers = layerCfg;
-        cfg.trafficLayer = Ext.StoreMgr.lookup('layers').getRootNode().findChild('type','livegroup').childNodes[0].get('checked');
-        var store =  Ext.StoreMgr.lookup('paging');
-        cfg.page = store.currentPage;
-        
-        var map = Ext.ComponentQuery.query('#map')[0].map;
-        cfg.mapCfg = {
-            center: map.center,
-            zoom: map.zoom
-        }
-        
-        var cfgs = this.getController('Chart').gatherCfg();
-        var queryCfgs = this.getController('Chart').gatherCfg(true);
-        var viewCfgs = [];
-        for (var i=0;i<cfgs.length;i++) {
-            viewCfgs.push({
-                cfg: cfgs[i],
-                queryCfg: queryCfgs[i]
-            })
-        }
-        cfg.cfgs = viewCfgs;
-        
-        return {
-            conf: cfg
-        }
-        
-    },
+
+	gatherViewConfig: function () {
+		var cfg = {};
+		cfg.multipleMaps = Ext.ComponentQuery.query('maptools #multiplemapsbtn')[0].pressed === true;
+		cfg.years = Ext.ComponentQuery.query('#selyear')[0].getValue();
+		cfg.dataset = Ext.ComponentQuery.query('#seldataset')[0].getValue();
+		cfg.theme = Ext.ComponentQuery.query('#seltheme')[0].getValue();
+		cfg.visualization = Ext.ComponentQuery.query('#selvisualization')[0].getValue();
+		cfg.location = Ext.ComponentQuery.query('#sellocation')[0].getValue();
+		cfg.expanded = this.getController('Area').getExpandedAndFids().expanded;
+		cfg.selMap = this.getController('Select').selMap;
+		cfg.choroplethCfg = this.getController('AttributeConfig').layerConfig;
+
+		cfg.pagingUseSelected = Ext.ComponentQuery.query('#areapager #onlySelected')[0].pressed;
+		var pagingPicker = Ext.ComponentQuery.query('#useselectedcolorpicker')[0];
+		cfg.pagingSelectedColors = pagingPicker.xValue || pagingPicker.value;
+
+		var sliders = Ext.ComponentQuery.query('#advancedfilters multislider');
+		var filterMap = {};
+		for (var i = 0; i < sliders.length; i++) {
+			var slider = sliders[i];
+			var val = slider.getValue();
+			var attrName = slider.attrname;
+			filterMap[attrName] = val;
+
+		}
+
+		cfg.filterMap = filterMap;
+		cfg.filterData = this.getController('Filter').filterData;
+		cfg.filterAttrs = this.getController('Filter').attrs;
+		cfg.filterActive = false;
+
+		var layers = Ext.StoreMgr.lookup('selectedlayers').getRange();
+		this.getController('Layers').resetIndexes();
+		var layerCfg = [];
+		for (var i = 0; i < layers.length; i++) {
+			var layer = layers[i];
+			layerCfg.push({
+				opacity: layer.get('layer1').opacity || 1,
+				sortIndex: layer.get('sortIndex'),
+				type: layer.get('type'),
+				attributeSet: layer.get('attributeSet'),
+				attribute: layer.get('attribute'),
+				at: layer.get('at'),
+				symbologyId: layer.get('symbologyId')
+			})
+		}
+		cfg.layers = layerCfg;
+		cfg.trafficLayer = Ext.StoreMgr.lookup('layers').getRootNode().findChild('type', 'livegroup').childNodes[0].get('checked');
+		var store = Ext.StoreMgr.lookup('paging');
+		cfg.page = store.currentPage;
+
+		var map = Ext.ComponentQuery.query('#map')[0].map;
+		cfg.mapCfg = {
+			center: map.center,
+			zoom: map.zoom
+		};
+
+		var cfgs = this.getController('Chart').gatherCfg();
+		var queryCfgs = this.getController('Chart').gatherCfg(true);
+		var viewCfgs = [];
+		for (var i = 0; i < cfgs.length; i++) {
+			viewCfgs.push({
+				cfg: cfgs[i],
+				queryCfg: queryCfgs[i]
+			})
+		}
+		cfg.cfgs = viewCfgs;
+
+		return {
+			conf: cfg
+		}
+	},
     
     
     onVisSave: function() {
