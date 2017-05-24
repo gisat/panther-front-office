@@ -1,9 +1,11 @@
 define([
+	'../../../stores/UrbanTepPortalStore',
 	'../Widget',
 
 	'text!./SharingWidget.html',
 	'css!./SharingWidget'
-], function (Widget,
+], function (UrbanTepPortalStore,
+			 Widget,
 
 			 htmlBody) {
 	var SharingWidget = function (options) {
@@ -12,6 +14,7 @@ define([
 		this.build();
 
 		this._url = '';
+		this._name = '';
 	};
 
 	SharingWidget.prototype = Object.create(Widget.prototype);
@@ -39,16 +42,19 @@ define([
 
 
 		if(Config.toggles.isUrbanTep) {
+			// Also share name and community.
+			var self = this;
+			$('#floater-sharing .floater-body').append(
+				'<div>' +
+				'	<label>Name: <input id="sharing-name" type="text" value="'+self.name+'"/></label>' +
+				'	<label>Community: <select id="sharing-community"></select></label>' +
+				'</div>'
+			);
 			$('#floater-sharing .floater-footer').append('<div class="widget-button" id="sharing-portal">Share on the portal.</div>');
 
-			var self = this;
 			$('#sharing-portal').off();
 			$('#sharing-portal').on('click', function(){
-				$.post('https://urban-tep.eo.esa.int/t2api/apps/puma', {
-					url: self.url
-				}, function(){
-					alert('Application was published on the portal.');
-				})
+				UrbanTepPortalStore.share(self.url, $('#floater-sharing .floater-body #sharing-name').val(), '');
 			});
 		}
 	};
