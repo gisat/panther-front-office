@@ -14,7 +14,6 @@ define([
 		this.build();
 
 		this._url = '';
-		this._name = '';
 	};
 
 	SharingWidget.prototype = Object.create(Widget.prototype);
@@ -31,6 +30,7 @@ define([
 	});
 
 	SharingWidget.prototype.rebuild = function(){
+		var name = $('#floater-sharing .floater-body #sharing-name').val() || '';
 		$('#floater-sharing .floater-body').empty();
 		$('#floater-sharing .floater-body').append(
 			'<div>' +
@@ -46,8 +46,8 @@ define([
 			var self = this;
 			$('#floater-sharing .floater-body').append(
 				'<div>' +
-				'	<label>Name: <input id="sharing-name" type="text" value="'+self.name+'"/></label>' +
-				'	<label>Community: <select id="sharing-community"></select></label>' +
+				'	<div><label>Name: <input id="sharing-name" type="text" value="'+name+'"/></label></div>' +
+				'	<div><label>Community: <select id="sharing-community"></select></label></div>' +
 				'</div>'
 			);
 			$('#floater-sharing .floater-footer').append('<div class="widget-button" id="sharing-portal">Share on the portal.</div>');
