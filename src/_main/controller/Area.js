@@ -134,6 +134,7 @@ Ext.define('PumaMain.controller.Area', {
 	// new URBIS function for change notifying
 	newNotifyChange: function(){
 		Observer.notify('rebuild');
+		console.log('Area#newNotifyCahnge hide');
 		this.showLoading("none");
 	},
 	
@@ -157,6 +158,7 @@ Ext.define('PumaMain.controller.Area', {
 			break;
 		}
 		if (!lastAt) {
+			console.log('Area#onShowMoreDetailed hide');
 			this.showLoading("none");
 			return;
 		}
@@ -190,10 +192,12 @@ Ext.define('PumaMain.controller.Area', {
 			this.detailLevelParents = null;
 		} else if (needChange) {
 			this.scanTree();
+			console.log('Area#onShowMoreDetailedEnd hide');
 			this.showLoading("none");
 			this.getController('Chart').reconfigureAll();
 			this.getController('Layers').reconfigureAll();
 		} else {
+			console.log('Area#newNotifyCahnge Without Change hide');
 			this.showLoading("none");
 		}
 	},
@@ -234,6 +238,7 @@ Ext.define('PumaMain.controller.Area', {
 		tree.resumeEvents();
 		if (nodesToCollapse.length) {
 			this.afterCollapse(tree);
+			console.log('Area#onSHowLessDetailed hide');
 			this.showLoading("none");
 		} else {
 			this.showLoading("block");

@@ -1167,7 +1167,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
             this.getController('Area').zoomToLocation();
         }
         this.getController('Map').updateGetFeatureControl();
-        this.getController('Area').showLoading("none");
+		console.log('LocationTheme hide');
+		this.getController('Area').showLoading("none");
 
         if (!this.placeInitialChange) {
              var locStore = Ext.StoreMgr.lookup('location4init');
