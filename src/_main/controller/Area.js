@@ -135,7 +135,9 @@ Ext.define('PumaMain.controller.Area', {
 	newNotifyChange: function(){
 		Observer.notify('rebuild');
 		console.log('Area#newNotifyCahnge hide');
-		this.showLoading("none");
+		if(!Config.dataviewId) {
+			this.showLoading("none");
+		}
 	},
 	
 	onShowMoreDetailed: function() {
