@@ -288,7 +288,7 @@ Ext.define('PumaMain.controller.ViewMng', {
         locationTheme.locationChanged = true;
         this.getController('Map').map1.controls[0].activate();
         locationTheme.onYearChange({itemId:'dataview'});
-        
+        this.getController('LocationTheme').reloadWmsLayers();
     },
 
 	gatherViewConfig: function () {
@@ -368,12 +368,12 @@ Ext.define('PumaMain.controller.ViewMng', {
     onVisSave: function() {
         var theme = Ext.ComponentQuery.query('#seltheme')[0].getValue();
         var cfgs = this.getController('Chart').gatherCfg();
-        var layerCfgs = this.getController('AttributeConfig').layerConfig
+        var layerCfgs = this.getController('AttributeConfig').layerConfig;
         var layers = Ext.StoreMgr.lookup('selectedlayers').getRange();
         var visibleLayers = [];
         for (var i=0;i<layers.length;i++) {
             var layer = layers[i];
-            var type = layer.get('type')
+            var type = layer.get('type');
             
             if (type=='topiclayer') {
                 visibleLayers.push({
@@ -428,7 +428,7 @@ Ext.define('PumaMain.controller.ViewMng', {
                 xtype: 'commonsaveform',
                 rec: vis
             }]
-        })
+        });
         window.show();
     },
     onViewSave: function() {
@@ -444,8 +444,8 @@ Ext.define('PumaMain.controller.ViewMng', {
                 xtype: 'commonsaveform',
                 rec: view
             }]
-        })
+        });
         window.show();
     }
     
-})
+});
