@@ -150,6 +150,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
     },
 
     onLocationChange: function(cnt,val) {
+        // TODO: Remove magical constant, when done seriously.
         if(val == 1752) {
             $('#top-toolbar-functional-urban-area').show();
         } else {
