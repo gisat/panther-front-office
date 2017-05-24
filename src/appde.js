@@ -143,5 +143,7 @@ Ext.application({
 });
 
 Ext.onReady(function(){
-	$("#loading-screen").css("display", "none");
+	if(!Config.dataviewId) {
+		$("#loading-screen").css("display", "none");
+	}
 });
