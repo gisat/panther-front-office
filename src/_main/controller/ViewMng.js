@@ -188,13 +188,7 @@ Ext.define('PumaMain.controller.ViewMng', {
         var themeCombo = Ext.ComponentQuery.query('#seltheme')[0];
         var visualizationCombo = Ext.ComponentQuery.query('#selvisualization')[0];
         var locationCombo = Ext.ComponentQuery.query('#sellocation')[0];
-        
-        yearCombo.suspendEvents();
-        datasetCombo.suspendEvents();
-        themeCombo.suspendEvents();
-        visualizationCombo.suspendEvents();
-        locationCombo.suspendEvents();
-        
+
         datasetCombo.setValue(Config.cfg.dataset);
         
         var locStore = Ext.StoreMgr.lookup('location4init');
@@ -233,13 +227,6 @@ Ext.define('PumaMain.controller.ViewMng', {
 
         locationCombo.setValue(Config.cfg.location);
 
-
-        yearCombo.resumeEvents();
-        datasetCombo.resumeEvents();
-        themeCombo.resumeEvents();
-        visualizationCombo.resumeEvents();
-        locationCombo.resumeEvents();
-
         var onlySel = Ext.ComponentQuery.query('#areapager #onlySelected')[0];
         onlySel.suspendEvents();
         onlySel.toggle(Config.cfg.pagingUseSelected);
@@ -261,15 +248,8 @@ Ext.define('PumaMain.controller.ViewMng', {
         this.getController('Filter').attrs = Config.cfg.filterAttrs;
         this.getController('Filter').initialValues = Config.cfg.filterMap;
         this.getController('Filter').changeActiveState(Config.cfg.filterActive);
-        var locationTheme = this.getController('LocationTheme');
-        locationTheme.datasetChanged = true;
-        locationTheme.visChanged = true;
-        locationTheme.themeChanged = true;
-        locationTheme.yearChanged = true;
-        locationTheme.locationChanged = true;
+
         this.getController('Map').map1.controls[0].activate();
-        locationTheme.onDatasetChange();
-		locationTheme.onYearChange({itemId:'dataview'});
         this.getController('LocationTheme').reloadWmsLayers();
     },
 
