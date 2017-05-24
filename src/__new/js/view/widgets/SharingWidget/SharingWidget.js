@@ -61,7 +61,7 @@ define([
 
 				$('#sharing-portal').off();
 				$('#sharing-portal').on('click', function(){
-					UrbanTepPortalStore.share(self.url, $('#floater-sharing .floater-body #sharing-name').val(), '');
+					UrbanTepPortalStore.share(self.url, $('#floater-sharing .floater-body #sharing-name').val(), $( "#floater-sharing .floater-body #sharing-community option:checked" ).val());
 				});
 			});
 		}
