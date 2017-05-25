@@ -455,7 +455,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 		selectedLayers = selectedLayers
             .filter(function(layer){return layer.type == "wmsLayer"})
             .map(function(layer){
-		        return layer.sortIndex - 1;
+		        return layer.name;
         });
 		var selectedNodes = [];
 
@@ -522,7 +522,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 					mapController.map1.addLayers([layer1]);
 					mapController.map2.addLayers([layer2]);
 
-					if(selectedLayers.indexOf(index) != -1) {
+					if(selectedLayers.indexOf(layer.name) != -1) {
 						selectedNodes.push(node);
 					}
 

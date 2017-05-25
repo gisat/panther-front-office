@@ -322,6 +322,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 				attributeSet: layer.get('attributeSet'),
 				attribute: layer.get('attribute'),
 				at: layer.get('at'),
+				name: layer.get('name'),
 				symbologyId: layer.get('symbologyId')
 			})
 		}
