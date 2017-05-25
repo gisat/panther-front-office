@@ -1451,7 +1451,7 @@ Ext.define('PumaMain.controller.Layers', {
 				} else if (type=='chartlayer' && selLayer.attributeSet == node.get('attributeSet') && selLayer.attribute==node.get('attribute')) {
 					foundLayer = selLayer;
 					break;
-				} else if (type!='chartlayer' && type!='topiclayer' && type != 'wmslayer' && type == selLayer.type) {
+				} else if (type!='chartlayer' && type!='topiclayer' && type != 'wmsLayer' && type == selLayer.type) {
 					foundLayer = selLayer;
 					break;
 				}
