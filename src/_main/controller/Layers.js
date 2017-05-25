@@ -1448,12 +1448,10 @@ Ext.define('PumaMain.controller.Layers', {
 				if (type=='topiclayer' && selLayer.at == node.get('at') && selLayer.symbologyId==node.get('symbologyId')) {
 					foundLayer = selLayer;
 					break;
-				}
-				if (type=='chartlayer' && selLayer.attributeSet == node.get('attributeSet') && selLayer.attribute==node.get('attribute')) {
+				} else if (type=='chartlayer' && selLayer.attributeSet == node.get('attributeSet') && selLayer.attribute==node.get('attribute')) {
 					foundLayer = selLayer;
 					break;
-				}
-				if (type!='chartlayer' && type!='topiclayer' && type == selLayer.type) {
+				} else if (type!='chartlayer' && type!='topiclayer' && type != 'wmslayer' && type == selLayer.type) {
 					foundLayer = selLayer;
 					break;
 				}
