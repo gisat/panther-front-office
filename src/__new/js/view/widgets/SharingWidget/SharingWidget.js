@@ -42,9 +42,9 @@ define([
 
 
 		if(Config.toggles.isUrbanTep) {
-			UrbanTepPortalStore.communities().then(function(communities){
-				var self = this;
+			var self = this;
 
+			UrbanTepPortalStore.communities().then(function(communities){
 				var optionsHtml = communities.map(function(community){
 					return '<option value="'+community.identifier+'">'+community.title+'</option>';
 				}).join(' ');
