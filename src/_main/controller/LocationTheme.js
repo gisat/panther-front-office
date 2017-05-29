@@ -1069,7 +1069,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 }
             }
 
-            OneLevelAreas.hasOneLevel = counter == 1;
+            OneLevelAreas.hasOneLevel = (counter == 1 && Config.toggles.allowOneLevelAreas);
 
             if (OneLevelAreas.hasOneLevel && !Config.toggles.isUrbis){
                 $('.areaTreeSelection').hide();
