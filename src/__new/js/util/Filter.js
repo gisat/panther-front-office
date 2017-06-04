@@ -1,17 +1,24 @@
-define(['./Remote',
+define(['../actions/Actions',
+		'./Color',
+		'./Remote',
 		'jquery',
 		'underscore'
-],function(Remote,
+],function(Actions,
+		   Color,
+		   Remote,
 
 		   $,
 		   _){
 
 	/**
 	 * Class for data filtering
+	 * @param options {Object}
+	 * @param options.dispatcher (Object) Object for dispatching actions.
 	 * @constructor
 	 */
 
 	var Filter = function(options){
+		this._dispatcher = options.dispatcher;
 	};
 
 	/**
@@ -23,6 +30,8 @@ define(['./Remote',
 	Filter.prototype.filter = function(categories, type) {
 		var params = this.prepareParams();
 		var attributes = this.getAttributesFromCategories(categories);
+
+		var self = this;
 		return $.post( Config.url + "rest/filter/attribute/" + type, {
 				areaTemplate: params.areaTemplate,
 				periods: params.periods,
@@ -30,6 +39,18 @@ define(['./Remote',
 				attributes: attributes
 			})
 			.then(function(response) {
+				// Generate event to be caught of by the maps to add this as a layer. Add it under one of the nodes.
+				if(OneLevelAreas.hasOneLevel && type == 'filter') {
+					var rgbColor = $('.x-color-picker .x-color-picker-selected span').css('background-color');
+					var color = new Color(rgbColor).hex();
+
+					self._dispatcher.notify(Actions.filterAdd, {
+						color: color,
+						attributes: attributes
+					});
+				}
+				// Get access to both maps in the application.
+				// TODO: Add relevant base layer names to the result from the server. Other than that it is going to be very simple.
 				return response
 			});
 	};
@@ -161,6 +182,8 @@ define(['./Remote',
 
 					var attr = {
 						attribute: attribute.about.attribute,
+						attributeType: attribute.about.attributeType,
+						name: key,
 						attributeSet: attribute.about.attributeSet,
 						value: values
 					};

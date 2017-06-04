@@ -4,7 +4,9 @@ define(['../../error/ArgumentError',
 
 		'./controls/Controls',
 		'./layers/Layers',
-		'./MyGoToAnimator',
+		'../../worldwind/MyGoToAnimator',
+		'../../stores/internal/VisibleLayersStore',
+		'../../util/Uuid',
 
 		'jquery',
 		'worldwind',
@@ -16,18 +18,80 @@ define(['../../error/ArgumentError',
 			Controls,
 			Layers,
 			MyGoToAnimator,
+			VisibleLayersStore,
+			Uuid,
 
 			$
 ){
 	/**
 	 * Class World Wind Map
 	 * @param options {Object}
+	 * @param options.id {Number|null} Id distinguishing the map from the other ones.
+	 * @param options.period {Number|null} Period associated with this map.
+	 * @param options.dispatcher {Object} Object for handling events in the application.
 	 * @constructor
 	 */
 	var WorldWindMap = function(options){
 		this.buildContainer();
 		this.setupWebWorldWind();
+
+		this._id = options.id || new Uuid().generate();
+
+		/**
+		 * Every map is associated with the period. If no period is specified, then it is supplied latest when the first
+		 * state change containing period happens.
+		 * @type {Number|null}
+		 * @private
+		 */
+		this._period = options.period || null; // Accept all state changes unless the period is specified.
+
+		/**
+		 * Store containing selected layers. It is responsible for adding newly selected layers and removing the
+		 * unselected ones.
+		 * It isn't actually used here. It is only created, but as the map can be destroyed, the store must be also
+		 * destroyed.
+		 * @type {SelectedLayersStore}
+		 * @private
+		 */
+		this._selectedLayers = new VisibleLayersStore({
+			dispatcher: options.dispatcher,
+			id: this._id,
+			map: this
+		});
 	};
+
+	Object.defineProperties(WorldWindMap.prototype, {
+		/**
+		 * Unique identifier of the map.
+		 * @memberOf WorldWindMap.prototype
+		 * @type {String}
+		 */
+		id: {
+			get: function() {
+				return this._id;
+			}
+		},
+
+		/**
+		 * Period associated with given map.
+		 * @memberOf WorldWindMap.prototype
+		 * @type {Number}
+		 */
+		period: {
+			get: function() {
+				return this._period;
+			},
+			set: function(period) {
+				this._period = period;
+			}
+		},
+
+		selectedLayers: {
+			get: function() {
+				return this._selectedLayers;
+			}
+		}
+	});
 
 
 	/**
@@ -99,6 +163,10 @@ define(['../../error/ArgumentError',
 	 */
 	WorldWindMap.prototype.redraw = function(){
 		this._wwd.redraw();
+	};
+
+	WorldWindMap.prototype.addLayer = function(layer) {
+		this._wwd.addLayer(layer);
 	};
 
 	return WorldWindMap;

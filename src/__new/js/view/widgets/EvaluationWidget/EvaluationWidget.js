@@ -3,6 +3,7 @@ define([
     '../../../error/NotFoundError',
     '../../../util/Color',
     '../inputs/checkbox/Checkbox',
+    '../../../util/FilteredSld',
     '../../../util/Logger',
     '../../map/Map',
     '../../../util/MapExport',
@@ -24,6 +25,7 @@ define([
             NotFoundError,
             Color,
             Checkbox,
+            FilteredSld,
             Logger,
             Map,
             MapExport,
@@ -362,8 +364,8 @@ define([
         var self = this;
 
         setTimeout(function(){
-            self._filter.filter(self._categories, "filter").then(function(areas){
-                var count = 0;
+			self._filter.filter(self._categories, "filter").then(function(areas){
+				var count = 0;
                 if (areas.length > 0){
                     count = areas.length;
                 }
@@ -371,13 +373,7 @@ define([
                     SelectedAreasExchange.data.data = areas;
                     self.addDownloadListener(areas);
 
-                    if (OneLevelAreas.hasOneLevel && !Config.toggles.isUrbis) {
-                        var rgbColor = $('.x-color-picker .x-color-picker-selected span').css('background-color');
-                        var color = new Color(rgbColor).hex();
-                        self._map.removeLayers(color); // Remove layers with the same color.
-                        self._map.addLayer(areas, color, "selectedLayer"); // $(.x-color-picker-selected) // $()
-                        Observer.notify('selectInternal');
-                    } else {
+                    if (!OneLevelAreas.hasOneLevel) {
                         Observer.notify("selectAreas");
                     }
                     $('#evaluation-unselect').attr("disabled", false);
@@ -436,7 +432,7 @@ define([
                 .on("click.confirm", function(){
                     self.handleLoading("show");
                     self.filter();
-                    if (!OneLevelAreas.hasOneLevel || Config.toggles.isUrbis){
+                    if (!OneLevelAreas.hasOneLevel){
                         $(this).attr("disabled",true);
                     }
                 });
@@ -456,7 +452,7 @@ define([
         var self = this;
         $('#evaluation-unselect').off("click.unselect").on("click.unselect", function(){
                 SelectedAreasExchange.data.data = [];
-                if (OneLevelAreas.hasOneLevel && !Config.toggles.isUrbis){
+                if (OneLevelAreas.hasOneLevel){
                     self._map.removeLayers();
                     Observer.notify('selectInternal');
                 } else {

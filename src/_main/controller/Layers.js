@@ -763,7 +763,7 @@ Ext.define('PumaMain.controller.Layers', {
 				continue;
 			}
 			var layer = i == 0 ? layer1 : layer2;
-			if(!OneLevelAreas.hasOneLevel || Config.toggles.isUrbis) {
+			if(!OneLevelAreas.hasOneLevel) {
 				this.saveSld(node, namedLayers, layer);
 			}
 		}

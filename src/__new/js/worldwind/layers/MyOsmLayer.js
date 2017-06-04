@@ -1,8 +1,8 @@
-define(['../../../error/ArgumentError',
-	'../../../error/NotFoundError',
-	'../../../util/Logger',
+define(['../../error/ArgumentError',
+	'../../error/NotFoundError',
+	'../../util/Logger',
 
-	'../MyUrlBuilder',
+	'./MyUrlBuilder',
 
 	'jquery',
 	'worldwind'

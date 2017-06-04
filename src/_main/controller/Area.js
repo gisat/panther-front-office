@@ -86,7 +86,7 @@ Ext.define('PumaMain.controller.Area', {
 
 			var areasOutput = {};
 
-			if (OneLevelAreas.hasOneLevel && !Config.toggles.isUrbis){
+			if (OneLevelAreas.hasOneLevel){
 				if (place){
 					areasOutput[place] = {};
 					areasOutput[place][level] = [];
@@ -164,6 +164,8 @@ Ext.define('PumaMain.controller.Area', {
 			this.showLoading("none");
 			return;
 		}
+
+		// TODO: FInd out about the areaTemplate and working with them.
 
 		var layerRef = "";
 		areaRoot.cascadeBy(function(node) {
@@ -468,7 +470,7 @@ Ext.define('PumaMain.controller.Area', {
 		return locations;
 	},
 	scanTree: function() {
-		if (OneLevelAreas.hasOneLevel && !Config.toggles.isUrbis){
+		if (OneLevelAreas.hasOneLevel){
 			var areas = OneLevelAreas.data;
 			var level = areas[0].at;
 			var place = ThemeYearConfParams.place;

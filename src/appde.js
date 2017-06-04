@@ -146,4 +146,6 @@ Ext.onReady(function(){
 	if(!Config.dataviewId) {
 		$("#loading-screen").css("display", "none");
 	}
+
+	Stores.notify('extLoaded');
 });

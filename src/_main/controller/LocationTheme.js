@@ -344,13 +344,13 @@ Ext.define('PumaMain.controller.LocationTheme', {
     },
 
     onYearChange: function(cnt) {
-        ThemeYearConfParams.actions.push(cnt.itemId);
+		ThemeYearConfParams.actions.push(cnt.itemId);
         var val = Ext.ComponentQuery.query('#selyear')[0].getValue();
         if (!val.length || cnt.eventsSuspended) {
             //this.getController('Area').showLoading("none");
             return;
         }
-        if (cnt.itemId=='selyear' ) {
+		if (cnt.itemId=='selyear' ) {
             this.yearChanged = true;
         }
         var isFilter = cnt.itemId == 'filter' || cnt.itemId == 'selectfilter';
@@ -689,7 +689,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         areaRoot.removeAll();
         //areaRoot.appendChild(data);
         areaRoot.suspendEvents();
-        if (!OneLevelAreas.hasOneLevel || Config.toggles.isUrbis){
+        if (!OneLevelAreas.hasOneLevel){
             areaRoot.appendChild(data);
         }
         areaRoot.resumeEvents();
@@ -1055,6 +1055,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
     },
     onThemeLocationConfReceived: function(response) {
         var conf = JSON.parse(response.responseText).data;
+        var scope = Ext.StoreMgr.lookup('dataset').getById(Number(response.request.options.params.dataset));
 
         if (conf.hasOwnProperty("auRefMap")){
             OlMap.auRefMap = conf.auRefMap;
@@ -1069,13 +1070,30 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 }
             }
 
-            OneLevelAreas.hasOneLevel = (counter == 1 && Config.toggles.allowOneLevelAreas);
+            OneLevelAreas.hasOneLevel = (counter == 1 && scope.get('oneLevelOnly'));
 
-            if (OneLevelAreas.hasOneLevel && !Config.toggles.isUrbis){
-                $('.areaTreeSelection').hide();
+            if (OneLevelAreas.hasOneLevel){
+				// Hide areas fully
+				$('.areaTreeSelection').hide();
+				$('#top-toolbar-areas').hide();
+
+				// Also hide chart related stuff
+				$('#window-areatree').hide();
+                this.getController('DomManipulation')._onReportsSidebarToggleClick();
+                $('#sidebar-reports').hide();
+
+                // Also switch map to 3D mode
+
+                // Remove the possibility to switch back
             } else {
                 $('.areaTreeSelection').show();
-            }
+				$('#top-toolbar-areas').show();
+				$('#window-areatree').show();
+				this.getController('DomManipulation')._onReportsSidebarToggleClick();
+				$('#sidebar-reports').show();
+
+				// Add the possibility to switch back.
+			}
         }
         if (response.request.options.originatingCnt.itemId == 'selectfilter') {
             this.getController('Select').selectInternal(conf.areas, false, false, 1);
@@ -1186,6 +1204,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
         }
 
         delete Config.cfg;
+
+		Stores.notify('extRestructured');
     },
     checkFeatureLayers: function() {
         var themeId = Ext.ComponentQuery.query('#seltheme')[0].getValue();

@@ -1,6 +1,6 @@
-define(['../../error/ArgumentError',
-	'../../error/NotFoundError',
-	'../../util/Logger',
+define(['../error/ArgumentError',
+	'../error/NotFoundError',
+	'../util/Logger',
 	'js/stores/Stores',
 
 	'd3',

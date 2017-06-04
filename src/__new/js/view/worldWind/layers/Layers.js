@@ -2,9 +2,9 @@ define(['../../../error/ArgumentError',
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 
-	'../layers/MyOsmLayer',
-	'../layers/MyWmsLayer',
-	'../SelectionController',
+	'../../../worldwind/layers/MyOsmLayer',
+	'../../../worldwind/layers/MyWmsLayer',
+	'../../../worldwind/SelectionController',
 
 	'jquery',
 	'worldwind'

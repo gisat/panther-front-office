@@ -50,9 +50,12 @@ define(['js/util/metadata/Attributes',
         'js/util/Logger',
         'js/view/map/Map',
         'js/view/widgets_3D/MapDiagramsWidget/MapDiagramsWidget',
-        'js/util/Placeholder',
+		'js/stores/internal/MapStore',
+		'js/util/Placeholder',
 		'js/util/Remote',
 		'js/view/widgets/SharingWidget/SharingWidget',
+		'js/stores/internal/SelectionStore',
+		'js/stores/internal/StateStore',
 		'js/stores/Stores',
         'js/view/TopToolBar',
         'js/view/worldWind/WorldWindMap',
@@ -76,9 +79,12 @@ define(['js/util/metadata/Attributes',
              Logger,
              Map,
              MapDiagramsWidget,
-             Placeholder,
+			 MapStore,
+			 Placeholder,
 			 Remote,
 			 SharingWidget,
+			 SelectionStore,
+			 StateStore,
 			 Stores,
 			 TopToolBar,
              WorldWindMap,
@@ -91,6 +97,15 @@ define(['js/util/metadata/Attributes',
         var tools = [];
         var widgets = [];
 
+        var stateStore = new StateStore({
+			dispatcher: window.Stores
+		});
+        Stores.register('state', stateStore);
+        Stores.register('selection', new SelectionStore({
+			dispatcher: window.Stores,
+			stateStore: stateStore
+		}));
+
         var attributes = buildAttributes();
 
         var filter = buildFilter();
@@ -102,6 +117,10 @@ define(['js/util/metadata/Attributes',
         // create tools and widgets according to configuration
         if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
             var webWorldWind = buildWorldWindMap();
+            Stores.register('map', new MapStore({
+				dispatcher: window.Stores,
+				maps: [webWorldWind]
+			}));
             widgets.push(buildWorldWindWidget(webWorldWind, topToolBar));
         }
         if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
@@ -200,7 +219,9 @@ define(['js/util/metadata/Attributes',
      * @returns {Filter}
      */
     function buildFilter (){
-        return new Filter();
+        return new Filter({
+			dispatcher: window.Stores
+		});
     }
 
 	/**
@@ -216,7 +237,9 @@ define(['js/util/metadata/Attributes',
      * @returns {WorldWindMap}
      */
     function buildWorldWindMap (){
-        return new WorldWindMap();
+        return new WorldWindMap({
+			dispatcher: window.Stores
+		});
     }
 
 
