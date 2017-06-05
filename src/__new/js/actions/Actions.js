@@ -18,6 +18,8 @@ define([], function(){
 		layerSelect: 'layer#select',
 
 		extLoaded: 'extLoaded',
-		extThemeYearLoaded: 'extRestructured'
+		extThemeYearLoaded: 'extRestructured',
+
+		mapShow3D: 'map#show3D'
 	};
 });

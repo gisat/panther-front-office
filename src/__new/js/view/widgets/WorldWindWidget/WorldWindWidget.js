@@ -1,15 +1,18 @@
-define(['../../../error/ArgumentError',
-		'../../../error/NotFoundError',
-		'../../../util/Logger',
+define([
+	'../../../actions/Actions',
+	'../../../error/ArgumentError',
+	'../../../error/NotFoundError',
+	'../../../util/Logger',
 
-		'../Widget',
-		'./WorldWindWidgetPanels',
+	'../Widget',
+	'./WorldWindWidgetPanels',
 
-		'jquery',
-		'string',
-		'text!./WorldWindWidget.html',
-		'css!./WorldWindWidget'
-], function(ArgumentError,
+	'jquery',
+	'string',
+	'text!./WorldWindWidget.html',
+	'css!./WorldWindWidget'
+], function(Actions,
+			ArgumentError,
 			NotFoundError,
 			Logger,
 
@@ -39,6 +42,8 @@ define(['../../../error/ArgumentError',
 
 		this.build();
 		this.deleteFooter(this._widgetSelector);
+
+		options.dispatcher.addListener(this.onEvent.bind(this));
 	};
 
 	WorldWindWidget.prototype = Object.create(Widget.prototype);
@@ -159,6 +164,23 @@ define(['../../../error/ArgumentError',
 	};
 
 	/**
+	 * It shows the 3D Map.
+	 */
+	WorldWindWidget.prototype.show3DMap = function() {
+		var self = this;
+		var body = $("body");
+
+		body.addClass("mode-3d");
+		self._widgetSelector.addClass("open");
+		self.toggleComponents("none");
+		self.rebuild(null, self._options);
+
+		if (this._topToolBar){
+			this._topToolBar.build();
+		}
+	};
+
+	/**
 	 * Show/hide components
 	 * @param action {string} css display value
 	 */
@@ -201,6 +223,12 @@ define(['../../../error/ArgumentError',
 			self._widgetSelector.removeClass("open");
 			$(".item[data-for=" + id + "]").removeClass("open");
 		});
+	};
+
+	WorldWindWidget.prototype.onEvent = function(type, options) {
+		if(type === Actions.mapShow3D) {
+			this.show3DMap();
+		}
 	};
 
 	return WorldWindWidget;

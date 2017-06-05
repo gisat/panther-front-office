@@ -1083,14 +1083,16 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 $('#sidebar-reports').hide();
 
                 // Also switch map to 3D mode
-
+                Stores.notify('map#show3D');
                 // Remove the possibility to switch back
+                $('#top-toolbar-3dmap').hide();
             } else {
                 $('.areaTreeSelection').show();
 				$('#top-toolbar-areas').show();
 				$('#window-areatree').show();
 				this.getController('DomManipulation')._onReportsSidebarToggleClick();
 				$('#sidebar-reports').show();
+				$('#top-toolbar-3dmap').show()
 
 				// Add the possibility to switch back.
 			}

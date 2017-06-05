@@ -42,8 +42,6 @@ define(['js/util/metadata/Attributes',
         'js/view/widgets/CustomDrawingWidget/CustomDrawingWidget',
         'js/view/widgets/EvaluationWidget/EvaluationWidget',
         'js/view/tools/FeatureInfoTool/FeatureInfoTool',
-        'js/view/widgets/FunctionalUrbanAreaWidget/FunctionalUrbanAreaWidget',
-        'js/view/widgets/FunctionalUrbanAreaResultWidget/FunctionalUrbanAreaResultWidget',
         'js/util/Filter',
         'js/util/Floater',
 		'./FrontOffice',
@@ -71,9 +69,7 @@ define(['js/util/metadata/Attributes',
              CustomDrawingWidget,
              EvaluationWidget,
              FeatureInfoTool,
-             FunctionalUrbanAreaWidget,
-			 FunctionalUrbanAreaResultWidget,
-			 Filter,
+             Filter,
              Floater,
 			 FrontOffice,
              Logger,
@@ -135,12 +131,6 @@ define(['js/util/metadata/Attributes',
         if(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo){
             tools.push(buildFeatureInfoTool());
         }
-
-		if(Config.toggles.hasFunctionalUrbanArea){
-            var results = buildFunctionalUrbanAreaResultWidget();
-			tools.push(buildFunctionalUrbanAreaWidget(results));
-			tools.push(results);
-		}
 
 		widgets.push(buildSharingWidget());
 
@@ -257,23 +247,6 @@ define(['js/util/metadata/Attributes',
         });
     }
 
-    function buildFunctionalUrbanAreaWidget(results) {
-        return new FunctionalUrbanAreaWidget({
-            elementId: 'functional-urban-area',
-            name: "Functional Urban Area",
-            placeholderTargetId: 'widget-container',
-            results: results
-        });
-    }
-
-    function buildFunctionalUrbanAreaResultWidget() {
-		return new FunctionalUrbanAreaResultWidget({
-			elementId: 'functional-urban-area-result',
-			name: "Functional Urban Area Results",
-			placeholderTargetId: 'widget-container'
-		});
-    }
-
 	/**
      * Build Custom Drawing Widget instance
      * @returns {CustomDrawingWidget}
@@ -323,7 +296,8 @@ define(['js/util/metadata/Attributes',
             placeholderTargetId: 'widget-container',
             iconId: 'top-toolbar-3dmap',
             worldWind: webWorldWind,
-            topToolBar: topToolBar
+            topToolBar: topToolBar,
+			dispatcher: window.Stores
         });
     }
 
