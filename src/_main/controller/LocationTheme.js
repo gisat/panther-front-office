@@ -1074,7 +1074,9 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
             if (OneLevelAreas.hasOneLevel){
 				// Hide areas fully
-				$('.areaTreeSelection').hide();
+				Stores.notify('map#show3D');
+
+                $('.areaTreeSelection').hide();
 				$('#top-toolbar-areas').hide();
 
 				// Also hide chart related stuff
@@ -1083,7 +1085,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 $('#sidebar-reports').hide();
 
                 // Also switch map to 3D mode
-                Stores.notify('map#show3D');
                 // Remove the possibility to switch back
                 $('#top-toolbar-3dmap').hide();
             } else {
