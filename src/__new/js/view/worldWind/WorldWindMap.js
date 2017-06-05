@@ -169,5 +169,9 @@ define(['../../error/ArgumentError',
 		this._wwd.addLayer(layer);
 	};
 
+	WorldWindMap.prototype.removeLayer = function(layer) {
+		this._wwd.removeLayer(layer);
+	};
+
 	return WorldWindMap;
 });
