@@ -472,7 +472,8 @@ Ext.define('PumaMain.controller.Area', {
 	scanTree: function() {
 		if (OneLevelAreas.hasOneLevel){
 			var areas = OneLevelAreas.data;
-			var level = areas[0].at;
+			var dataSet = Ext.ComponentQuery.query('#seldataset')[0].getValue() || Ext.ComponentQuery.query('#initialdataset')[0].getValue();
+			var level = Ext.StoreMgr.lookup('dataset').getById(dataSet).get('featureLayers')[0];
 			var place = ThemeYearConfParams.place;
 			var self = this;
 
