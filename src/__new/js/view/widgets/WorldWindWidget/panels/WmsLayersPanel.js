@@ -48,8 +48,8 @@ define(['../../../../error/ArgumentError',
 			if (layers.length > 0){
 				layers.forEach(function(layer){
 					self.addLayer(layer);
-					self.switchOnActiveLayers(self._groupId);
 				});
+				self.switchOnActiveLayers(self._groupId);
 				self.displayPanel("block");
 			} else {
 				self.displayPanel("none");
@@ -65,7 +65,7 @@ define(['../../../../error/ArgumentError',
 	 */
 	WmsLayersPanel.prototype.addLayer = function(layer){
 		var layerData = {
-			id: "wmsLayer" + layer.id,
+			id: "wmsLayer-" + layer.id,
 			name: layer.name,
 			layerPaths: layer.layer,
 			opacity: 70,
