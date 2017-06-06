@@ -35,6 +35,7 @@ define(['../../../../error/ArgumentError',
 		this.addLayer(this._id + "-carto-db", "Carto DB basemap", this._panelBodySelector, "cartoDb", false);
 		//this.addLayer(this._id + "-bing-roads", "Bing roads", this._panelBodySelector, "bingRoads", false);
 		this.addLayer(this._id + "-bing-aerial", "Bing Aerial", this._panelBodySelector, "bingAerial", false);
+		this.addLayer(this._id + "-landsat", "Blue Marble", this._panelBodySelector, "landsat", false);
 
 		this.toggleLayers();
 		this.addEventsListeners();
