@@ -152,6 +152,7 @@ define([
                 self.handleLoading("hide");
             }
             // When Evaluation Tool is loaded, everything is loaded for sure.
+            console.log('EvaluationWidget#Loading finished');
 			$("#loading-screen").css("display", "none");
 		});
 
