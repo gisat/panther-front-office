@@ -100,6 +100,8 @@ define([
 			layerId: self._selected[options.color].layer.id
 		});
 		delete self._selected[options.color];
+
+		return Promise.resolve(null);
 	};
 
 	SelectionStore.prototype.onEvent = function(type, options) {
