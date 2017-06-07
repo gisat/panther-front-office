@@ -30,7 +30,7 @@ var Config = {
 		usePumaLogo: true,
 		advancedFiltersFirst: false,
 		hasNew3Dmap: true,
-		hasNewEvaluationTool: false,
+		hasNewEvaluationTool: true,
 		hasNewCustomPolygonsTool: false,
 		hasNewFeatureInfo: true,
 		isNewDesign: true,

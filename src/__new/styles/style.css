@@ -32,6 +32,12 @@
     background: #ad2738;
     cursor: pointer;
 }
+.widget-button.secondary {
+	background: rgba(67,66,84,.85);
+}
+.widget-button.secondary:hover, .widget-button.secondary.active {
+	background: rgb(67,66,84);
+}
 
 .widget-button[disabled=disabled] {
     pointer-events: none;

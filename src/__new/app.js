@@ -120,7 +120,7 @@ define(['js/util/metadata/Attributes',
             widgets.push(buildWorldWindWidget(webWorldWind, topToolBar));
         }
         if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
-            widgets.push(buildEvaluationWidget(filter));
+            widgets.push(buildEvaluationWidget(filter, stateStore));
         }
         if(Config.toggles.hasOwnProperty("hasNewCustomPolygonsTool") && Config.toggles.hasNewCustomPolygonsTool){
             widgets.push(buildCustomDrawingWidget());
@@ -236,11 +236,13 @@ define(['js/util/metadata/Attributes',
     /**
 	 * Build Evaluation Widget instance
      * @param filter {Filter}
+	 * @param stateStore {StateStore}
      * @returns {EvaluationWidget}
      */
-    function buildEvaluationWidget (filter){
+    function buildEvaluationWidget (filter, stateStore){
         return new EvaluationWidget({
             filter: filter,
+			stateStore: stateStore,
             elementId: 'evaluation-widget',
             name: 'Evaluation Tool',
             placeholderTargetId: 'widget-container'

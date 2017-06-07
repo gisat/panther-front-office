@@ -1,6 +1,7 @@
 define([
     '../../../error/ArgumentError',
     '../../../error/NotFoundError',
+    './CategorizeSettings',
     '../../../util/Color',
     '../inputs/checkbox/Checkbox',
     '../../../util/FilteredSld',
@@ -23,6 +24,7 @@ define([
     'css!./EvaluationWidget'
 ], function(ArgumentError,
             NotFoundError,
+			CategorizeSettings,
             Color,
             Checkbox,
             FilteredSld,
@@ -46,6 +48,7 @@ define([
      * @param options {Object}
      * @param options.elementId {String} ID of widget
      * @param options.filter {Object} instance of class for data filtering
+     * @param options.stateStore {StateStore}
      * @param options.targetId {String} ID of an element in which should be the widget rendered
      * @param options.name {String} Name of the widget
      * @constructor
@@ -56,8 +59,17 @@ define([
         if (!options.filter){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingFilter"));
         }
+		if (!options.stateStore){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingStateStore"));
+		}
         this._filter = options.filter;
+		this._stateStore = options.stateStore;
         this._settings = null;
+
+        this._categorize = new CategorizeSettings({
+			widgetId: "categorize",
+            target: this._floaterTarget
+		});
 
         this.build();
     };
@@ -153,6 +165,9 @@ define([
             }
             // When Evaluation Tool is loaded, everything is loaded for sure.
 			$("#loading-screen").css("display", "none");
+
+            // clear categories and sets
+			self._categorize.clearAll();
 		});
 
         this.rebuildMap();
@@ -353,7 +368,16 @@ define([
      * It builds the footer button
      */
     EvaluationWidget.prototype.prepareFooter = function (){
-        var html = S(htmlFooterContent).template().toString();
+		var currentState = this._stateStore.current();
+
+		var addCategoryClass = "hidden";
+		if (currentState.scopeFull.aggregated === true){
+		    addCategoryClass = "";
+        }
+
+        var html = S(htmlFooterContent).template({
+            hidden: addCategoryClass
+        }).toString();
         this._widgetSelector.find(".floater-footer").html("").append(html);
     };
 
@@ -392,6 +416,7 @@ define([
         setTimeout(function(){
             self._filter.filter(self._categories, "amount").then(function(result){
                 self.addSelectionConfirmListener(result);
+				self.addCategoryListener();
                 self.rebuildPopups(self._inputs.sliders);
                 self.handleLoading("hide");
             });
@@ -428,6 +453,7 @@ define([
                 areasName = "area";
             }
             $('#evaluation-confirm').html("Select " + count + " " + areasName)
+                .removeClass("hidden")
                 .off("click.confirm")
                 .on("click.confirm", function(){
                     self.handleLoading("show");
@@ -443,6 +469,21 @@ define([
         }
 
         self.addUnselectListener();
+    };
+
+    EvaluationWidget.prototype.addCategoryListener = function(){
+        var self = this;
+
+		$('#evaluation-add-category')
+			.attr("disabled", false)
+			.off("click.addcategory")
+			.on("click.addcategory", function(){
+				$(".floater, .tool-window").removeClass("active");
+				setTimeout(function(){
+					$('#categorize-settings').addClass('open').addClass('active');
+					self._categorize.addCategory(self._categories);
+				},50);
+			});
     };
 
 	/**

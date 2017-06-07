@@ -11,7 +11,7 @@
 }
 
 #floater-evaluation-widget .floater-body {
-    height: calc(100% - 8.5rem);
+    height: calc(100% - 9.5rem);
     padding: 0 0 .5rem;
 }
 
@@ -40,12 +40,20 @@
 }
 
 /* Footer */
-
-#evaluation-confirm, #evaluation-unselect {
-    font-size: .7rem;
-    margin: 0 .1rem;
-    width: 47%;
+#floater-evaluation-widget .footer-buttons {
+    justify-content: center;
+    display: flex;
 }
+#floater-evaluation-widget .footer-buttons .widget-button {
+    width: 33%;
+    margin: 0 .2rem;
+    padding: .5rem;
+    flex: 0 1 100%;
+}
+#floater-evaluation-widget .footer-buttons .widget-button.hidden {
+    display: none;
+}
+
 /*#evaluation-confirm[disabled=disabled], #evaluation-unselect[disabled=disabled] {*/
     /*pointer-events: none;*/
     /*color: #bbb;*/

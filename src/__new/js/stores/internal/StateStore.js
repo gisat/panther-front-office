@@ -13,6 +13,7 @@ define([], function () {
 	StateStore.prototype.current = function () {
 		return {
 			scope: this.scope(),
+			scopeFull: this.scopeFull(),
 			theme: null,
 			places: this.places(),
 
@@ -20,6 +21,10 @@ define([], function () {
 
 			periods: this._periods
 		}
+	};
+
+	StateStore.prototype.scopeFull = function() {
+		return Ext.StoreMgr.lookup('dataset').getById(this.scope()).data;
 	};
 
 	StateStore.prototype.scope = function() {
