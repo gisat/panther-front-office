@@ -151,13 +151,13 @@ define([
                 self.toggleWarning("block", [1,2]);
                 self.handleLoading("hide");
             }
+
+            // When Evaluation Tool is loaded, everything is loaded for sure.
+            console.log('EvaluationWidget#Loading finished');
+			$("#loading-screen").css("display", "none");
 		});
 
         this.rebuildMap();
-
-		// When Evaluation Tool is loaded, everything is loaded for sure.
-		console.log('EvaluationWidget#Loading finished');
-		$("#loading-screen").css("display", "none");
     };
 
 	/**
