@@ -54,10 +54,16 @@ define([
 		this._categorizeBodySelector = this._settingsBodySelector.find('.categorize-body');
 
 		this.addCategorySetListener();
+
 		this.deleteCategorySetListener();
-		this.deleteCategoryListener();
 		this.saveCategorySetListener();
+		this.changeCategorySetNameListener();
+
+
+		this.deleteCategoryListener();
 		this.saveCategoryListener();
+		this.changeCategoryListener();
+
 		this.showChartListener();
 	};
 
@@ -249,6 +255,13 @@ define([
 			var setId = $(this).parents(".category-set-box").attr("data-id");
 			var setName = $(this).parents(".category-set-box").find(".category-set-name input").val();
 			self.saveCategorySet(setId, setName);
+			$(this).attr("disabled",true);
+		});
+	};
+
+	CategorizeSettings.prototype.changeCategorySetNameListener = function(){
+		this._categorizeBodySelector.off("input.setname").on("input.setname", ".category-set-name input", function(){
+			$(this).parents(".category-set-box").find(".save-category-set").attr("disabled",false);
 		});
 	};
 
@@ -275,6 +288,17 @@ define([
 			var categoryName = $(this).parents(".category-box").find(".category-name input").val();
 			var categoryColor = $(this).parents(".category-box").find(".category-color input").val();
 			self.saveCategory(setId, categoryId, categoryName, categoryColor);
+			$(this).attr("disabled",true);
+		});
+	};
+
+	CategorizeSettings.prototype.changeCategoryListener = function(){
+		this._categorizeBodySelector.off("input.categoryname").on("input.categoryname", ".category-name input", function(){
+			$(this).parents(".category-box").find(".save-category").attr("disabled",false);
+		});
+
+		this._categorizeBodySelector.off("input.categorycolor").on("input.categorycolor", ".category-color input", function(){
+			$(this).parents(".category-box").find(".save-category").attr("disabled",false);
 		});
 	};
 
@@ -286,6 +310,14 @@ define([
 		this._confirmButtonSelector.off("click.confirm").on("click.confirm", function(){
 			console.log(self._categoriesSets);
 		});
+	};
+
+	/**
+	 * Close the settings window
+	 */
+	CategorizeSettings.prototype.addCloseListener = function(){
+		var self = this;
+		$('#' + this._id + ' .window-close').off("click").on("click", self.close.bind(self));
 	};
 
 	return CategorizeSettings;

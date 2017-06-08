@@ -81,3 +81,12 @@
 .category-box .save-category:hover .fa {
 	color: #555;
 }
+
+.category-box .save-category[disabled=disabled] {
+	pointer-events: none;
+	background: transparent;
+}
+.category-box .save-category[disabled=disabled] .fa {
+	color: #ccc;
+}
+
