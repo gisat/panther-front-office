@@ -481,7 +481,8 @@ define([
 				$(".floater, .tool-window").removeClass("active");
 				setTimeout(function(){
 					$('#categorize-settings').addClass('open').addClass('active');
-					self._categorize.addCategory(self._categories);
+					var attributes = self._filter.getAttributesFromCategories(self._categories);
+					self._categorize.addCategory(attributes);
 				},50);
 			});
     };
