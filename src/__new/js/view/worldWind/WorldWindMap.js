@@ -173,5 +173,9 @@ define(['../../error/ArgumentError',
 		this._wwd.removeLayer(layer);
 	};
 
+	WorldWindMap.prototype.goTo = function(position) {
+		this._wwd.goTo(position);
+	};
+
 	return WorldWindMap;
 });
