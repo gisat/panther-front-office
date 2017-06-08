@@ -5,6 +5,7 @@ define([
 
 	'../../settings/Settings',
 
+	'underscore',
 	'jquery',
 	'string',
 	'css!./CategorizeSettings'
@@ -15,6 +16,7 @@ define([
 
 			 Settings,
 
+			 _,
 			 $,
 			 S) {
 
@@ -139,6 +141,10 @@ define([
 	 * @param currentETstate {Object} current state of Evaluation Tool
 	 */
 	CategorizeSettings.prototype.addCategory = function(currentETstate){
+		if (_.isEmpty(this._categoriesSets)){
+			this.addCategorySet();
+		}
+
 		this._currentETstate = currentETstate;
 
 		var categoryRecord = this.createCategoryRecord();
