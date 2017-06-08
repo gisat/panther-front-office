@@ -294,7 +294,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 				// Also switch map to 3D mode
 				// Remove the possibility to switch back
 				$('#top-toolbar-3dmap').hide();
-			}, 2000);
+			}.bind(this), 2000);
 		}
     },
 
