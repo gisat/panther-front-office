@@ -280,6 +280,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 
         // Figure out how does this actually work.
         var scope = Ext.StoreMgr.lookup('dataset').getById(Config.cfg.dataset);
+        var selection = Config.cfg.selection;
         if(scope.get('oneLevelOnly')){
         	setTimeout(function(){
 				Stores.notify('map#show3D');
@@ -296,8 +297,8 @@ Ext.define('PumaMain.controller.ViewMng', {
 				// Remove the possibility to switch back
 				$('#top-toolbar-3dmap').hide();
 
-				if(Config.cfg.selection) {
-					window.selectionStore.deserialize(Config.cfg.selection);
+				if(selection) {
+					window.selectionStore.deserialize(selection);
 				}
 			}.bind(this), 2000);
 		}
