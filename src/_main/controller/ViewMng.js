@@ -277,6 +277,31 @@ Ext.define('PumaMain.controller.ViewMng', {
 			ThemeYearConfParams.allPlaces.push(item.raw.id);
 		});
         this.getController('LocationTheme').reloadWmsLayers();
+
+        // Figure out how does this actually work.
+        var scope = Ext.StoreMgr.lookup('dataset').getById(Config.cfg.dataset);
+        var selection = Config.cfg.selection;
+        if(scope.get('oneLevelOnly')){
+        	setTimeout(function(){
+				Stores.notify('map#show3D');
+
+				$('.areaTreeSelection').hide();
+				$('#top-toolbar-areas').hide();
+
+				// Also hide chart related stuff
+				$('#window-areatree').hide();
+				this.getController('DomManipulation')._onReportsSidebarToggleClick();
+				$('#sidebar-reports').hide();
+
+				// Also switch map to 3D mode
+				// Remove the possibility to switch back
+				$('#top-toolbar-3dmap').hide();
+
+				if(selection) {
+					window.selectionStore.deserialize(selection);
+				}
+			}.bind(this), 2000);
+		}
     },
 
 	gatherViewConfig: function () {
@@ -336,6 +361,8 @@ Ext.define('PumaMain.controller.ViewMng', {
 			center: map.center,
 			zoom: map.zoom
 		};
+		// SelectionStore
+		cfg.selection = window.selectionStore.serialize();
 
 		var cfgs = this.getController('Chart').gatherCfg();
 		var queryCfgs = this.getController('Chart').gatherCfg(true);

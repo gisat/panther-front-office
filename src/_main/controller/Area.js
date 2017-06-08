@@ -137,6 +137,11 @@ Ext.define('PumaMain.controller.Area', {
 		console.log('Area#newNotifyCahnge hide');
 		if(!Config.dataviewId) {
 			this.showLoading("none");
+		} else {
+			var self = this;
+			window.setTimeout(function(){
+				self.showLoading("none");
+			}, 5000);
 		}
 	},
 	

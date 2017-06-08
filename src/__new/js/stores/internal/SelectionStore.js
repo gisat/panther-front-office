@@ -100,6 +100,8 @@ define([
 			layerId: self._selected[options.color].layer.id
 		});
 		delete self._selected[options.color];
+
+		return Promise.resolve(null);
 	};
 
 	SelectionStore.prototype.onEvent = function(type, options) {
@@ -108,6 +110,31 @@ define([
 		} else if(type === Actions.filterRemove) {
 			this.removeFilter(options);
 		}
+	};
+
+	SelectionStore.prototype.serialize = function() {
+		var keys = Object.keys(this._selected);
+		var self = this;
+		return keys.map(function(key){
+			return {
+				color: key,
+				layer: self._selected[key].layer.serialize()
+			}
+		});
+	};
+
+	SelectionStore.prototype.deserialize = function(selected) {
+		var self = this;
+		selected.forEach(function(selected){
+			var layer = FilterLayer.deserialize(selected.layer, self._stateStore);
+			self._selected[selected.color] = {
+				layer: layer
+			};
+
+			self._dispatcher.notify(Actions.mapAddVisibleLayer, {
+				layer: layer.wms(layer._wmsLayer, layer._styleId)
+			});
+		});
 	};
 
 	return SelectionStore;

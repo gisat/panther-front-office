@@ -35,6 +35,7 @@ define([
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidget", "constructor", "missingWorldWind"));
 		}
 		this._worldWind = options.worldWind;
+		this._stateStore = options.stateStore;
 
 		if (options.topToolBar){
 			this._topToolBar = options.topToolBar;
@@ -177,6 +178,12 @@ define([
 
 		if (this._topToolBar){
 			this._topToolBar.build();
+		}
+
+		let places = this._stateStore.current().objects.places;
+		if(places.length == 1 ){
+			let locations = places[0].get('bbox').split(',');
+			this._worldWind.goTo(new WorldWind.Position((Number(locations[1]) + Number(locations[3])) / 2, (Number(locations[0]) + Number(locations[2])) / 2, 1000000));
 		}
 	};
 

@@ -30,6 +30,7 @@ define([
 		this._style = options.style;
 
 		this._wmsUrl = options.wmsUrl;
+		this._baseServerUrl = options.serverUrl;
 		this._serverUrl = options.serverUrl + 'rest/geoserver/layer';
 
 		this._stateStore = options.stateStore;
@@ -83,6 +84,9 @@ define([
 	 * @private
 	 */
 	FilterLayer.prototype.wms = function (layer, styleId) {
+		this._wmsLayer = layer;
+		this._styleId = styleId;
+
 		return new WmsLayer({
 			service: this._wmsUrl,
 			// This is what is missing
@@ -96,6 +100,31 @@ define([
 			styleNames: styleId,
 			opacity: 0.7
 		});
+	};
+
+	FilterLayer.prototype.serialize = function() {
+		return {
+			wmsLayer: this._wmsLayer,
+			styleId: this._styleId,
+
+			style: this._style,
+			wmsUrl: this._wmsUrl,
+			serverUrl: this._baseServerUrl,
+		}
+	};
+
+	FilterLayer.deserialize = function(serialized, stateStore) {
+		var layer = new FilterLayer({
+			style: serialized.style,
+			serverUrl: serialized.serverUrl,
+			stateStore: stateStore,
+			wmsUrl: serialized.wmsUrl
+		});
+
+		layer._wmsLayer = serialized.wmsLayer;
+		layer._styleId = serialized.styleId;
+
+		return layer;
 	};
 
 	return FilterLayer;
