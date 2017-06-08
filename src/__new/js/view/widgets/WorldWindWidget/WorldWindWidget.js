@@ -185,7 +185,9 @@ define([
 		console.log(places);
 		if(places.length == 1 ){
 			let locations = places[0].get('bbox').split(',');
-			this._worldWind.goTo(new WorldWind.Position((locations[0] + locations[2]) / 2, (locations[1] + locations[3]) / 2, 10000));
+			console.log((locations[0] + locations[2]) / 2);
+			console.log((locations[1] + locations[3]) / 2);
+			this._worldWind.goTo(new WorldWind.Position((locations[0] + locations[2]) / 2, (locations[1] + locations[3]) / 2, 1000000));
 		}
 	};
 
