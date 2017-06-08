@@ -277,6 +277,23 @@ Ext.define('PumaMain.controller.ViewMng', {
 			ThemeYearConfParams.allPlaces.push(item.raw.id);
 		});
         this.getController('LocationTheme').reloadWmsLayers();
+
+        var scope = Ext.StoreMgr.lookup('dataset').getById(Config.cfg.dataset);
+        if(scope.get('oneLevelOnly')){
+			Stores.notify('map#show3D');
+
+			$('.areaTreeSelection').hide();
+			$('#top-toolbar-areas').hide();
+
+			// Also hide chart related stuff
+			$('#window-areatree').hide();
+			this.getController('DomManipulation')._onReportsSidebarToggleClick();
+			$('#sidebar-reports').hide();
+
+			// Also switch map to 3D mode
+			// Remove the possibility to switch back
+			$('#top-toolbar-3dmap').hide();
+		}
     },
 
 	gatherViewConfig: function () {
