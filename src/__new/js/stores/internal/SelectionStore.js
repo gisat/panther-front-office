@@ -131,7 +131,7 @@ define([
 				layer: layer
 			};
 
-			this._dispatcher.notify(Actions.mapAddVisibleLayer, {
+			self._dispatcher.notify(Actions.mapAddVisibleLayer, {
 				layer: layer.wms(layer._wmsLayer, layer._styleId)
 			});
 		});
