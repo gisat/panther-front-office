@@ -94,6 +94,12 @@ define([
 	CategorizeSettings.prototype.deleteCategorySet = function(id){
 		$("#" + id).remove();
 		delete this._categoriesSets[id];
+
+		if (this._currentCategorySetId === id){
+			var keys = Object.keys(this._categoriesSets);
+			this._currentCategorySetId = keys[keys.length-1];
+		}
+
 	};
 
 	/**
