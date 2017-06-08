@@ -12,7 +12,10 @@
 	color: #555;
 	background: rgba(255,255,255,.9);
 	line-height: 1.8;
-	padding-left: .2rem;
+	padding: 0 .2rem;
+}
+.categorize-body input[type=text] {
+	width: 100%;
 }
 .categorize-footer {
 	padding: 0 .5rem;
@@ -54,10 +57,10 @@
 	margin: 0 .2rem;
 }
 .category-box .category-name {
- 	flex: 1 0 30%;
+ 	flex: 1 0 35%;
 }
 .category-box .category-color {
-	flex-basis: 30%;
+	flex-basis: 55%;
 }
 
 .category-box .save-category,

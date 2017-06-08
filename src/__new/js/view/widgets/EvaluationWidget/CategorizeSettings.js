@@ -120,9 +120,11 @@ define([
 	 * @param setId {string} Id of the category set
 	 * @param categoryId {string} Id of the category
 	 * @param categoryName {string}
+	 * @param categoryColor {string} HEX code
 	 */
-	CategorizeSettings.prototype.saveCategory = function(setId, categoryId, categoryName){
+	CategorizeSettings.prototype.saveCategory = function(setId, categoryId, categoryName, categoryColor){
 		this._categoriesSets[setId].categories[categoryId].name = categoryName;
+		this._categoriesSets[setId].categories[categoryId].color = categoryColor;
 	};
 
 
@@ -181,7 +183,7 @@ define([
 		return (
 			'<div class="category-box" id="' + category.id + '" data-id="' + category.id + '">' +
 				'<div class="category-name"><input type="text" value="' + category.name + '"></div>' +
-				'<div class="category-color"></div>' +
+				'<div class="category-color"><input type="color" value="#000000"></div>' +
 				'<div class="save-category"><i class="fa fa-floppy-o" aria-hidden="true"></i></div>' +
 				'<div class="delete-category"><i class="fa fa-trash-o" aria-hidden="true"></i></div>' +
 			'</div>'
@@ -259,7 +261,8 @@ define([
 			var setId = $(this).parents(".category-set-box").attr("data-id");
 			var categoryId = $(this).parents(".category-box").attr("data-id");
 			var categoryName = $(this).parents(".category-box").find(".category-name input").val();
-			self.saveCategory(setId, categoryId, categoryName);
+			var categoryColor = $(this).parents(".category-box").find(".category-color input").val();
+			self.saveCategory(setId, categoryId, categoryName, categoryColor);
 		});
 	};
 
