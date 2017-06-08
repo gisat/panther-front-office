@@ -168,7 +168,6 @@ define([
 	 * It shows the 3D Map.
 	 */
 	WorldWindWidget.prototype.show3DMap = function() {
-		console.log("Show3dMap");
 		var self = this;
 		var body = $("body");
 
@@ -182,7 +181,6 @@ define([
 		}
 
 		let places = this._stateStore.current().objects.places;
-		console.log(places);
 		if(places.length == 1 ){
 			let locations = places[0].get('bbox').split(',');
 			this._worldWind.goTo(new WorldWind.Position((Number(locations[1]) + Number(locations[3])) / 2, (Number(locations[0]) + Number(locations[2])) / 2, 1000000));

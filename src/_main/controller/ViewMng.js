@@ -297,6 +297,10 @@ Ext.define('PumaMain.controller.ViewMng', {
 				$('#top-toolbar-3dmap').hide();
 			}.bind(this), 2000);
 		}
+
+		if(Config.cfg.selection) {
+        	window.selectionStore.deserialize(Config.cfg.selection);
+		}
     },
 
 	gatherViewConfig: function () {
@@ -356,6 +360,8 @@ Ext.define('PumaMain.controller.ViewMng', {
 			center: map.center,
 			zoom: map.zoom
 		};
+		// SelectionStore
+		cfg.selection = window.selectionStore.serialize();
 
 		var cfgs = this.getController('Chart').gatherCfg();
 		var queryCfgs = this.getController('Chart').gatherCfg(true);

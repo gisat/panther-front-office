@@ -99,10 +99,12 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			dispatcher: window.Stores
 		});
         Stores.register('state', stateStore);
-        Stores.register('selection', new SelectionStore({
+        var selectionStore = new SelectionStore({
 			dispatcher: window.Stores,
 			stateStore: stateStore
-		}));
+		});
+        window.selectionStore = selectionStore;
+        Stores.register('selection', selectionStore);
 
         var attributes = buildAttributes();
 
