@@ -41,7 +41,6 @@ define([
 	 * @param options {Object}
 	 * @param options.elementId {String} ID of widget
 	 * @param options.filter {Filter} instance of class for data filtering
-	 * @param options.evaluationWidget {EvaluationWidget} Widget used for data filtering
 	 * @param options.targetId {String} ID of an element in which should be the widget rendered
 	 * @param options.name {String} Name of the widget
 	 * @constructor
@@ -53,8 +52,6 @@ define([
 		this._settings = null;
 
 		this._filter = options.filter;
-		// Evaluation Widget
-		this._evaluationWidget = options.evaluationWidget;
 	};
 
 	AggregatedChartWidget.prototype = Object.create(Widget.prototype);
@@ -78,6 +75,7 @@ define([
 			'</div>'
 		);
 
+		/*
 		var svg = d3.select("svg#stacked"),
 			margin = {top: 20, right: 20, bottom: 30, left: 40},
 			width = +svg.attr("width") - margin.left - margin.right,
@@ -181,6 +179,7 @@ define([
 					return d;
 				});
 		});
+		*/
 	};
 
 	AggregatedChartWidget.prototype.rebuild = function() {};

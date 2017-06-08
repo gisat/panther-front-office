@@ -68,7 +68,8 @@ define([
 
         this._categorize = new CategorizeSettings({
 			widgetId: "categorize",
-            target: this._floaterTarget
+            target: this._floaterTarget,
+			aggregatedChart: options.aggregatedChart
 		});
 
         this.build();

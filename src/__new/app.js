@@ -124,9 +124,10 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
             widgets.push(buildWorldWindWidget(webWorldWind, topToolBar, stateStore));
         }
         if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
-        	var evaluationTool = buildEvaluationWidget(filter, stateStore);
+        	var aggregatedWidget = buildAggregatedChartWidget(filter);
+        	var evaluationTool = buildEvaluationWidget(filter, stateStore, aggregatedWidget);
             widgets.push(evaluationTool);
-            widgets.push(buildAggregatedChartWidget(filter, evaluationTool));
+            widgets.push(aggregatedWidget);
         }
         if(Config.toggles.hasOwnProperty("hasNewCustomPolygonsTool") && Config.toggles.hasNewCustomPolygonsTool){
             widgets.push(buildCustomDrawingWidget());
@@ -245,20 +246,20 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 	 * @param stateStore {StateStore}
      * @returns {EvaluationWidget}
      */
-    function buildEvaluationWidget (filter, stateStore){
+    function buildEvaluationWidget (filter, stateStore, aggregatedWidget){
         return new EvaluationWidget({
             filter: filter,
 			stateStore: stateStore,
             elementId: 'evaluation-widget',
             name: 'Evaluation Tool',
-            placeholderTargetId: 'widget-container'
+            placeholderTargetId: 'widget-container',
+			aggregatedWidget: aggregatedWidget
         });
     }
 
-    function buildAggregatedChartWidget(filter, evaluationTool) {
+    function buildAggregatedChartWidget(filter) {
 		return new AggregatedChartWidget({
 			filter: filter,
-			evaluationTool: evaluationTool,
 			elementId: 'functional-urban-area-result',
 			name: "Aggregated Chart",
 			placeholderTargetId: 'widget-container'

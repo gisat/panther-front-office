@@ -32,6 +32,8 @@ define([
 		this._headerSelector = this._settingsSelector.find(".tool-window-header");
 		this._confirmButtonSelector = this._settingsSelector.find(".settings-confirm");
 
+		this._aggregatedChart = options.aggregatedChart;
+
 		this.renameLabels();
 		this.buildBody();
 
@@ -308,7 +310,7 @@ define([
 	CategorizeSettings.prototype.showChartListener = function(){
 		var self = this;
 		this._confirmButtonSelector.off("click.confirm").on("click.confirm", function(){
-			console.log(self._categoriesSets);
+			self._aggregatedChart.build(self._categoriesSets);
 		});
 	};
 
