@@ -36,7 +36,8 @@ requirejs.config({
     }
 });
 
-define(['js/util/metadata/Attributes',
+define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
+		'js/util/metadata/Attributes',
         'js/util/metadata/AnalyticalUnits',
         'js/view/widgets/CityWidget/CityWidget',
         'js/view/widgets/CustomDrawingWidget/CustomDrawingWidget',
@@ -63,7 +64,8 @@ define(['js/util/metadata/Attributes',
         'jquery',
         'jquery-ui',
         'underscore'
-], function (Attributes,
+], function (AggregatedChartWidget,
+			 Attributes,
              AnalyticalUnits,
              CityWidget,
              CustomDrawingWidget,
@@ -117,10 +119,12 @@ define(['js/util/metadata/Attributes',
 				dispatcher: window.Stores,
 				maps: [webWorldWind]
 			}));
-            widgets.push(buildWorldWindWidget(webWorldWind, topToolBar));
+            widgets.push(buildWorldWindWidget(webWorldWind, topToolBar, stateStore));
         }
         if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
-            widgets.push(buildEvaluationWidget(filter));
+        	var evaluationTool = buildEvaluationWidget(filter);
+            widgets.push(evaluationTool);
+            widgets.push(buildAggregatedChartWidget(filter, evaluationTool));
         }
         if(Config.toggles.hasOwnProperty("hasNewCustomPolygonsTool") && Config.toggles.hasNewCustomPolygonsTool){
             widgets.push(buildCustomDrawingWidget());
@@ -247,6 +251,16 @@ define(['js/util/metadata/Attributes',
         });
     }
 
+    function buildAggregatedChartWidget(filter, evaluationTool) {
+		return new AggregatedChartWidget({
+			filter: filter,
+			evaluationTool: evaluationTool,
+			elementId: 'functional-urban-area-result',
+			name: "Aggregated Chart",
+			placeholderTargetId: 'widget-container'
+		})
+	}
+
 	/**
      * Build Custom Drawing Widget instance
      * @returns {CustomDrawingWidget}
@@ -289,7 +303,7 @@ define(['js/util/metadata/Attributes',
      * @param webWorldWind {WorldWindMap}
      * @returns {WorldWindWidget}
      */
-    function buildWorldWindWidget (webWorldWind, topToolBar){
+    function buildWorldWindWidget (webWorldWind, topToolBar, stateStore){
         return new WorldWindWidget({
             elementId: 'world-wind-widget',
             name: 'Layers',
@@ -297,7 +311,8 @@ define(['js/util/metadata/Attributes',
             iconId: 'top-toolbar-3dmap',
             worldWind: webWorldWind,
             topToolBar: topToolBar,
-			dispatcher: window.Stores
+			dispatcher: window.Stores,
+			stateStore: stateStore
         });
     }
 

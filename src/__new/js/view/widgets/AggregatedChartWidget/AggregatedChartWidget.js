@@ -18,7 +18,7 @@ define([
 	'string',
 	'underscore',
 
-	'css!./FunctionalUrbanAreaResultWidget'
+	'css!./AggregatedChartWidget'
 ], function (ArgumentError,
 			 NotFoundError,
 			 Color,
@@ -40,25 +40,30 @@ define([
 	/**
 	 * @param options {Object}
 	 * @param options.elementId {String} ID of widget
-	 * @param options.filter {Object} instance of class for data filtering
+	 * @param options.filter {Filter} instance of class for data filtering
+	 * @param options.evaluationWidget {EvaluationWidget} Widget used for data filtering
 	 * @param options.targetId {String} ID of an element in which should be the widget rendered
 	 * @param options.name {String} Name of the widget
 	 * @constructor
 	 */
-	var FunctionalUrbanAreaResultWidget = function (options) {
+	var AggregatedChartWidget = function (options) {
 		Widget.apply(this, arguments);
-		console.log('FunctionalUrbanAreaResultWidget');
+		console.log('AggregatedChartWidget');
 
 		this._settings = null;
+
+		this._filter = options.filter;
+		// Evaluation Widget
+		this._evaluationWidget = options.evaluationWidget;
 	};
 
-	FunctionalUrbanAreaResultWidget.prototype = Object.create(Widget.prototype);
+	AggregatedChartWidget.prototype = Object.create(Widget.prototype);
 
 	/**
 	 * It rebuilds the widget.
 	 */
-	FunctionalUrbanAreaResultWidget.prototype.build = function (sets) {
-		console.log('FunctionalUrbanAreaResultWidget build: ', sets);
+	AggregatedChartWidget.prototype.build = function (sets) {
+		console.log('AggregatedChartWidget build: ', sets);
 		if (!this._resizeListener) {
 			this._resizeListener = true;
 			this.addOnResizeListener();
@@ -88,10 +93,10 @@ define([
 			.rangeRound([height, 0]);
 
 		var z = d3.scaleOrdinal()
-			.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+			.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]); // The colors needs to be retrieved as part.
 
-		var setsString = this.setsToString(sets);
-		d3.csv(Config.url + "/rest/functional-area/data?sets=" + setsString, function (d, i, columns) {
+		var setsString = this.setsToString(sets);  // Handle the transfer of the data to the endpoint.
+		d3.csv('', function (d, i, columns) {
 			for (i = 1, t = 0; i < columns.length; ++i) t += d[columns[i]] = +d[columns[i]];
 			d.total = t;
 			return d;
@@ -178,9 +183,9 @@ define([
 		});
 	};
 
-	FunctionalUrbanAreaResultWidget.prototype.rebuild = function() {};
+	AggregatedChartWidget.prototype.rebuild = function() {};
 
-	FunctionalUrbanAreaResultWidget.prototype.setsToString = function(sets) {
+	AggregatedChartWidget.prototype.setsToString = function(sets) {
 		var resultText = "";
 		sets.forEach((set, index) => {
 			var text = set['hdc'].size+','+set['hdc'].density+';'+set['uc'].size+','+set['uc'].density;
@@ -196,7 +201,7 @@ define([
 	/**
 	 * Rebuild widget on resize
 	 */
-	FunctionalUrbanAreaResultWidget.prototype.addOnResizeListener = function () {
+	AggregatedChartWidget.prototype.addOnResizeListener = function () {
 		var self = this;
 		var id = this._widgetSelector.attr("id");
 		var resizeElement = document.getElementById(id);
@@ -213,5 +218,5 @@ define([
 		});
 	};
 
-	return FunctionalUrbanAreaResultWidget;
+	return AggregatedChartWidget;
 });
