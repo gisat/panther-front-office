@@ -278,6 +278,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 		});
         this.getController('LocationTheme').reloadWmsLayers();
 
+        // Figure out how does this actually work.
         var scope = Ext.StoreMgr.lookup('dataset').getById(Config.cfg.dataset);
         if(scope.get('oneLevelOnly')){
         	setTimeout(function(){

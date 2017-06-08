@@ -18,12 +18,26 @@ define([], function () {
 
 			analyticalUnitLevel: this.analyticalUnitLevel(),
 
-			periods: this._periods
+			periods: this._periods,
+
+			objects: {
+				places: this.placesObjects()
+			}
 		}
 	};
 
 	StateStore.prototype.scope = function() {
 		return Ext.ComponentQuery.query('#seldataset')[0].getValue() || Ext.ComponentQuery.query('#initialdataset')[0].getValue();
+	};
+
+	StateStore.prototype.placesObjects = function() {
+		var defaultPlaces = Ext.ComponentQuery.query('#sellocation')[0].getValue() || Ext.ComponentQuery.query('#initiallocation')[0].getValue();
+		if(defaultPlaces != 'custom') {
+			return [Ext.StoreMgr.lookup('location').getById(defaultPlaces)];
+		} else {
+			// Load all places for the scope.
+			return Ext.StoreMgr.lookup('location').filter('dataset', this.scope());
+		}
 	};
 
 	StateStore.prototype.places = function() {
