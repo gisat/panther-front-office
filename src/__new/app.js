@@ -124,7 +124,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
             widgets.push(buildWorldWindWidget(webWorldWind, topToolBar, stateStore));
         }
         if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
-        	var aggregatedWidget = buildAggregatedChartWidget(filter);
+        	var aggregatedWidget = buildAggregatedChartWidget(filter, stateStore);
         	var evaluationTool = buildEvaluationWidget(filter, stateStore, aggregatedWidget);
             widgets.push(evaluationTool);
             widgets.push(aggregatedWidget);
@@ -257,12 +257,13 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         });
     }
 
-    function buildAggregatedChartWidget(filter) {
+    function buildAggregatedChartWidget(filter, stateStore) {
 		return new AggregatedChartWidget({
 			filter: filter,
 			elementId: 'functional-urban-area-result',
 			name: "Aggregated Chart",
-			placeholderTargetId: 'widget-container'
+			placeholderTargetId: 'widget-container',
+			stateStore: stateStore
 		})
 	}
 

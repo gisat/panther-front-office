@@ -43,6 +43,7 @@ define([
 	 * @param options.filter {Filter} instance of class for data filtering
 	 * @param options.targetId {String} ID of an element in which should be the widget rendered
 	 * @param options.name {String} Name of the widget
+	 * @param options.stateStore {StateStore}
 	 * @constructor
 	 */
 	var AggregatedChartWidget = function (options) {
@@ -52,6 +53,7 @@ define([
 		this._settings = null;
 
 		this._filter = options.filter;
+		this._stateStore = options.stateStore;
 	};
 
 	AggregatedChartWidget.prototype = Object.create(Widget.prototype);
@@ -87,10 +89,12 @@ define([
 			setsToSend.push(set);
 		});
 
-		console.log(setsToSend);
-
+		var current = this._stateStore.current();
 		$.post(Config.url + 'rest/data/aggregated', {
-			sets: setsToSend
+			sets: setsToSend,
+			areaTemplate: current.analyticalUnitLevel,
+			periods: current.periods,
+			places: current.places
 		}, result => {
 			console.log(result);
 		});
