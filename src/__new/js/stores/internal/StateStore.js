@@ -19,7 +19,7 @@ define([], function () {
 
 			analyticalUnitLevel: this.analyticalUnitLevel(),
 
-			periods: this._periods,
+			periods: this.periods(),
 
 			objects: {
 				places: this.placesObjects()
@@ -55,6 +55,10 @@ define([], function () {
 				return location._id;
 			});
 		}
+	};
+
+	StateStore.prototype.periods = function() {
+		return Ext.ComponentQuery.query('#selyear')[0].getValue();
 	};
 
 	StateStore.prototype.analyticalUnitLevel = function() {
