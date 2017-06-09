@@ -178,7 +178,7 @@ body.mode-3d .settings-window:not(#evaluation-widget-settings):not(#categorize-s
 }
 
 body.mode-3d .floater.open#floater-functional-urban-area-result {
-	display: block
+	display: block !important;
 }
 
 #window-legacyAdvancedFilters .tools-filters-list > .x-box-inner {
