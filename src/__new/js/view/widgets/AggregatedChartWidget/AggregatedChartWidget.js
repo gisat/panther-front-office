@@ -68,6 +68,7 @@ define([
 		this._initializeResize = false;
 		this.handleLoading("hide");
 
+		$('#floater-functional-urban-area-result').addClass('open');
 		$('#floater-functional-urban-area-result .floater-body').empty();
 		$('#floater-functional-urban-area-result .floater-body').append(
 			'<div id="chart">' +
