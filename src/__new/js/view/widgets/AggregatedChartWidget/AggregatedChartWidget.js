@@ -91,7 +91,7 @@ define([
 		$.ajax({
 			url: Config.url + 'rest/data/aggregated',
 			method: 'POST',
-			data: setsToSend,
+			data: JSON.stringify(setsToSend),
 			dataType: 'json',
 			contentType: 'application/json'
 		}).then(result => {
