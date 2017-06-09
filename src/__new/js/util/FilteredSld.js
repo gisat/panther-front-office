@@ -35,7 +35,7 @@ define([
 			'							<CssParameter name="fill">'+this._color+'</CssParameter>' +
 			'						</Fill>' +
 			'						<Stroke>' +
-			'							<CssParameter name="stroke">#000000</CssParameter>' +
+			'							<CssParameter name="stroke">'+this._color+'</CssParameter>' +
 			'							<CssParameter name="stroke-width">0.1</CssParameter>' +
 			'						</Stroke>' +
 			'					</PolygonSymbolizer>' +
