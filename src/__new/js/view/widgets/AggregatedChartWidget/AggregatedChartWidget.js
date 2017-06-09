@@ -92,6 +92,7 @@ define([
 			url: Config.url + 'rest/data/aggregated',
 			method: 'POST',
 			data: setsToSend,
+			dataType: 'json',
 			contentType: 'application/json'
 		}).then(result => {
 			console.log(result);
