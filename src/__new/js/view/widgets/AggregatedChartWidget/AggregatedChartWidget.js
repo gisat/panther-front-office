@@ -89,7 +89,9 @@ define([
 
 		console.log(setsToSend);
 
-		$.post(Config.url + 'rest/data/aggregated', setsToSend, result => {
+		$.post(Config.url + 'rest/data/aggregated', {
+			sets: setsToSend
+		}, result => {
 			console.log(result);
 		});
 
