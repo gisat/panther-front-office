@@ -171,9 +171,8 @@ body.mode-3d #tools-container,
 body.mode-3d #widget-container .placeholder:not(#placeholder-world-wind-widget),
 body.mode-3d #widget-container .placeholder.open:not(#placeholder-world-wind-widget),
 body.mode-3d .x-css-shadow,
-body.mode-3d .floater:not(#floater-world-wind-widget):not(#floater-evaluation-widget),
-body.mode-3d .floater.open:not(#floater-world-wind-widget):not(#floater-evaluation-widget),
-body.mode-3d .floater:not(#floater-functional-urban-area-result),
+body.mode-3d .floater:not(#floater-world-wind-widget):not(#floater-evaluation-widget):not(#floater-functional-urban-area-result),
+body.mode-3d .floater.open:not(#floater-world-wind-widget):not(#floater-evaluation-widget):not(#floater-functional-urban-area-result),
 body.mode-3d .settings-window:not(#evaluation-widget-settings):not(#categorize-settings) {
     display: none;
 }
