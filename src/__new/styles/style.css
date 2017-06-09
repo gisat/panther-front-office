@@ -173,7 +173,7 @@ body.mode-3d #widget-container .placeholder.open:not(#placeholder-world-wind-wid
 body.mode-3d .x-css-shadow,
 body.mode-3d .floater:not(#floater-world-wind-widget):not(#floater-evaluation-widget),
 body.mode-3d .floater.open:not(#floater-world-wind-widget):not(#floater-evaluation-widget),
-body.mode-3d .settings-window:not(#evaluation-widget-settings):not(#categorize-settings):not(#functional-urban-area-result) {
+body.mode-3d .settings-window:not(#evaluation-widget-settings):not(#categorize-settings):not(#floater-functional-urban-area-result) {
     display: none;
 }
 
