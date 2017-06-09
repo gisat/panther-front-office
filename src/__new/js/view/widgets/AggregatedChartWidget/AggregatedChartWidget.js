@@ -87,14 +87,9 @@ define([
 			setsToSend.push(set);
 		});
 
-		// Post as json.
-		$.ajax({
-			url: Config.url + 'rest/data/aggregated',
-			method: 'POST',
-			data: JSON.stringify(setsToSend),
-			dataType: 'json',
-			contentType: 'application/json'
-		}).then(result => {
+		console.log(setsToSend);
+
+		$.post(Config.url + 'rest/data/aggregated', setsToSend, result => {
 			console.log(result);
 		});
 
