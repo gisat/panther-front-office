@@ -76,6 +76,20 @@ define([
 			'</div>'
 		);
 
+		var setsToSend = [];
+		Object.keys(sets).forEach(function(set){
+			set.categories = Object.keys(set.categories).map(function(category){
+				set.categories[category].attributes = set.categories[category].data;
+				return set.categories[category];
+			});
+
+			setsToSend.push(set);
+		});
+
+		$.post(Config.url + '/rest/data/aggregated', setsToSend).then(result => {
+			console.log(result);
+		});
+
 		/*
 		var svg = d3.select("svg#stacked"),
 			margin = {top: 20, right: 20, bottom: 30, left: 40},
