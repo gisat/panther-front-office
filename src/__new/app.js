@@ -246,14 +246,14 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 	 * @param stateStore {StateStore}
      * @returns {EvaluationWidget}
      */
-    function buildEvaluationWidget (filter, stateStore, aggregatedWidget){
+    function buildEvaluationWidget (filter, stateStore, aggregatedChart){
         return new EvaluationWidget({
             filter: filter,
 			stateStore: stateStore,
             elementId: 'evaluation-widget',
             name: 'Evaluation Tool',
             placeholderTargetId: 'widget-container',
-			aggregatedWidget: aggregatedWidget
+			aggregatedChart: aggregatedChart
         });
     }
 
