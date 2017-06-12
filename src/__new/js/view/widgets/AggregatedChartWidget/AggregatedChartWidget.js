@@ -100,7 +100,7 @@ define([
 			places: current.places
 		}, result => {
 			result.sets.forEach(function(set){
-				self.generateChart(set.csv, 'svg#stacked-' + set.id);
+				self.generateChart(set.csv, 'svg#stacked-' + set.set.id);
 			})
 		});
 	};
