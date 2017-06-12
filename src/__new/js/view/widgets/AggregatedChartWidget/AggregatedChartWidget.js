@@ -74,7 +74,7 @@ define([
 		$('#floater-functional-urban-area-result .floater-body').empty();
 		// Append chart for each Set.
 		var charts = Object.keys(sets).map(function(set){
-			return '<svg id="stacked-'+set+'" width="500" height="500"></svg>';
+			return '<h3>'+sets[set].name+'</h3><svg id="stacked-'+set+'" width="500" height="500"></svg>';
 		}).join(' ');
 		$('#floater-functional-urban-area-result .floater-body').append(
 			'<div id="chart">' + charts + '</div>'
