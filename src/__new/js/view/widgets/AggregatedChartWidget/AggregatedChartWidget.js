@@ -100,12 +100,15 @@ define([
 			places: current.places
 		}, result => {
 			result.sets.forEach(function(set){
-				self.generateChart(set.csv, 'svg#stacked-' + set.set.id);
+				var colors = set.categories.map(function(category){
+					return category.color;
+				});
+				self.generateChart(set.csv, 'svg#stacked-' + set.set.id, colors);
 			})
 		});
 	};
 
-	AggregatedChartWidget.prototype.generateChart = function(csv, chartId) {
+	AggregatedChartWidget.prototype.generateChart = function(csv, chartId, colors) {
 		var svg = d3.select(chartId),
 			margin = {top: 20, right: 20, bottom: 30, left: 40},
 			width = +svg.attr("width") - margin.left - margin.right,
@@ -121,7 +124,7 @@ define([
 			.rangeRound([height, 0]);
 
 		var z = d3.scaleOrdinal()
-			.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]); // The colors needs to be retrieved as part.
+			.range(colors); // The colors needs to be retrieved as part.
 
 		var data = d3.csvParse(csv, function (d, i, columns) {
 			for (i = 1, t = 0; i < columns.length; ++i) t += d[columns[i]] = +d[columns[i]];
