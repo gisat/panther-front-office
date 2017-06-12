@@ -123,7 +123,7 @@ define([
 		var z = d3.scaleOrdinal()
 			.range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]); // The colors needs to be retrieved as part.
 
-		var data = d3.csv.parse(csv, function (d, i, columns) {
+		var data = d3.csvParse(csv, function (d, i, columns) {
 			for (i = 1, t = 0; i < columns.length; ++i) t += d[columns[i]] = +d[columns[i]];
 			d.total = t;
 			return d;
