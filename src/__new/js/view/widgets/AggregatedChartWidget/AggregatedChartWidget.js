@@ -82,7 +82,11 @@ define([
 
 		var setsToSend = [];
 		Object.keys(sets).forEach(function(setName){
-			var set = sets[setName];
+			var set = {
+				id: sets[setName].id,
+				name: sets[setName].name,
+				categories: sets[setName].categories
+			};
 			set.categories = Object.keys(set.categories).map(function(category){
 				set.categories[category].attributes = set.categories[category].data;
 				return set.categories[category];
