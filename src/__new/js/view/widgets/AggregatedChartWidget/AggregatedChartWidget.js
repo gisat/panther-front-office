@@ -100,7 +100,7 @@ define([
 			places: current.places
 		}, result => {
 			result.sets.forEach(function(set){
-				var colors = set.categories.map(function(category){
+				var colors = set.set.categories.map(function(category){
 					return category.color;
 				});
 				self.generateChart(set.csv, 'svg#stacked-' + set.set.id, colors);
