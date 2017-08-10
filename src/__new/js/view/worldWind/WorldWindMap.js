@@ -8,9 +8,11 @@ define(['../../error/ArgumentError',
 		'../../stores/internal/VisibleLayersStore',
 		'../../util/Uuid',
 
+		'string',
 		'jquery',
-		'worldwind',
-		'css!./WorldWindMap'
+		'text!./WorldWindMap.html',
+		'css!./WorldWindMap',
+		'worldwind'
 ], function(ArgumentError,
 			NotFoundError,
 			Logger,
@@ -21,19 +23,26 @@ define(['../../error/ArgumentError',
 			VisibleLayersStore,
 			Uuid,
 
-			$
+			S,
+			$,
+			worldWindMap
 ){
 	/**
 	 * Class World Wind Map
 	 * @param options {Object}
-	 * @param options.id {Number|null} Id distinguishing the map from the other ones.
+	 * @param options.id {String|null} Id distinguishing the map from the other ones.
+	 * @param options.mapsContainer {MapsContainer} Container where the map will be rendered
 	 * @param options.period {Number|null} Period associated with this map.
 	 * @param options.dispatcher {Object} Object for handling events in the application.
 	 * @constructor
 	 */
 	var WorldWindMap = function(options){
-		this.buildContainer();
-		this.setupWebWorldWind();
+		if (!options.mapsContainer){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindMap", "constructor", "missingMapsContainer"));
+		}
+
+		this._mapsContainer = options.mapsContainer;
+		this._mapsContainerSelector = this._mapsContainer.getContainerSelector();
 
 		this._id = options.id || new Uuid().generate();
 
@@ -58,6 +67,8 @@ define(['../../error/ArgumentError',
 			id: this._id,
 			map: this
 		});
+
+		this.build();
 	};
 
 	Object.defineProperties(WorldWindMap.prototype, {
@@ -104,20 +115,16 @@ define(['../../error/ArgumentError',
 	};
 
 	/**
-	 * It builds Web World Wind container
+	 * It builds Web World Wind
 	 */
-	WorldWindMap.prototype.buildContainer = function(){
-		$("#content").append('<div id="world-wind-container">' +
-				'<div id="world-wind-map">' +
-					'<canvas id="world-wind-canvas">' +
-						'Your browser does not support HTML5 Canvas.' +
-					'</canvas>' +
-				'</div>' +
-				'<div id="widgets3d-placeholders-container">' +
-				'</div>' +
-			'</div>');
+	WorldWindMap.prototype.build = function(){
+		var html = S(worldWindMap).template({
+			id: this._id
+		}).toString();
+		this._mapsContainerSelector.append(html);
+		this._mapBoxSelector = this._mapsContainerSelector.find(".world-wind-map-box");
 
-		this._mapContainer = $("#world-wind-container");
+		this.setupWebWorldWind();
 	};
 
 	/**
@@ -128,7 +135,6 @@ define(['../../error/ArgumentError',
 		this._goToAnimator = new MyGoToAnimator(this._wwd);
 
 		this.buildControls();
-
 		this.layers = new Layers(this._wwd);
 	};
 
@@ -137,7 +143,7 @@ define(['../../error/ArgumentError',
 	 * @returns {WorldWind.WorldWindow}
 	 */
 	WorldWindMap.prototype.buildWorldWindow = function(){
-		return new WorldWind.WorldWindow("world-wind-canvas");
+		return new WorldWind.WorldWindow(this._id + "-canvas");
 	};
 
 	/**
@@ -145,17 +151,17 @@ define(['../../error/ArgumentError',
 	 */
 	WorldWindMap.prototype.buildControls = function(){
 		new Controls({
-			mapContainer: this._mapContainer,
+			mapContainer: this._mapBoxSelector,
 			worldWindow: this._wwd
 		});
 	};
 
 	/**
 	 * It returns container for rendering of Web World Wind
-	 * @returns {*}
+	 * @returns {Object} JQuery selector
 	 */
 	WorldWindMap.prototype.getContainer = function(){
-		return this._mapContainer;
+		return this._mapBoxSelector;
 	};
 
 	/**

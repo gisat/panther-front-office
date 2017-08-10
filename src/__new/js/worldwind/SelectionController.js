@@ -37,7 +37,7 @@ define([
 		var longitude = pointObjects.objects[0].position.longitude;
 
 		// Selection layers.
-		var layers = this.getBaseLayerIds().map(layer => {
+		var layers = this.getBaseLayerIds().forEach(function(layer){
 			return 'layers[]='+layer+'&';
 		});
 		var url = Config.url + 'rest/area?latitude='+latitude+'&longitude='+longitude+'&' + layers.join('');

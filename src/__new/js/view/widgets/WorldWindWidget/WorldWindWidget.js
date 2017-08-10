@@ -4,7 +4,10 @@ define([
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 
+	'../../../stores/internal/MapStore',
+	'../../../stores/Stores',
 	'../Widget',
+	'../../worldWind/WorldWindMap',
 	'./WorldWindWidgetPanels',
 
 	'jquery',
@@ -16,7 +19,10 @@ define([
 			NotFoundError,
 			Logger,
 
+			MapStore,
+			Stores,
 			Widget,
+			WorldWindMap,
 			WorldWindWidgetPanels,
 
 			$,
@@ -31,15 +37,22 @@ define([
 	var WorldWindWidget = function(options){
 		Widget.apply(this, arguments);
 
-		if (!options.worldWind){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidget", "constructor", "missingWorldWind"));
+		if (!options.mapsContainer){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidget", "constructor", "missingMapsContainer"));
 		}
-		this._worldWind = options.worldWind;
+		this._mapsContainer = options.mapsContainer;
+
 		this._stateStore = options.stateStore;
 
 		if (options.topToolBar){
 			this._topToolBar = options.topToolBar;
 		}
+
+		this._worldWind = this.buildWorldWindMap('default-map', this._mapsContainer);
+		Stores.register('map', new MapStore({
+			dispatcher: window.Stores,
+			maps: [this._worldWind]
+		}));
 
 		this.build();
 		this.deleteFooter(this._widgetSelector);
@@ -180,9 +193,9 @@ define([
 			this._topToolBar.build();
 		}
 
-		let places = this._stateStore.current().objects.places;
-		if(places.length == 1 ){
-			let locations = places[0].get('bbox').split(',');
+		var places = this._stateStore.current().objects.places;
+		if(places.length === 1 ){
+			var locations = places[0].get('bbox').split(',');
 			this._worldWind.goTo(new WorldWind.Position((Number(locations[1]) + Number(locations[3])) / 2, (Number(locations[0]) + Number(locations[2])) / 2, 1000000));
 		}
 	};
@@ -195,7 +208,7 @@ define([
 
 		if (!Config.toggles.useTopToolbar) {
 			var sidebarTools = $("#sidebar-tools");
-			if (action == "none") {
+			if (action === "none") {
 				sidebarTools.addClass("hidden-complete");
 				sidebarTools.css("display", "none");
 			} else {
@@ -203,8 +216,6 @@ define([
 				sidebarTools.css("display", "block");
 			}
 		}
-
-		//$(".x-css-shadow").css("display", "none");
 
 		$(".x-window:not(.thematic-maps-settings, .x-window-ghost, .metadata-window, .window-savevisualization, .window-savedataview, #loginwindow, #window-managevisualization, #window-areatree, #window-colourSelection, #window-legacyAdvancedFilters), #tools-container, #widget-container .placeholder:not(#placeholder-" + this._widgetId + ")")
 			.css("display", action);
@@ -236,6 +247,20 @@ define([
 		if(type === Actions.mapShow3D) {
 			this.show3DMap();
 		}
+	};
+
+	/**
+	 * Build a World Wind Map
+	 * @param id {string} Id of the map which should distinguish one map from another
+	 * @param mapsContainer {MapsContainer} Container where the map will be rendered
+	 * @returns {WorldWindMap}
+	 */
+	WorldWindWidget.prototype.buildWorldWindMap = function(id, mapsContainer){
+		return new WorldWindMap({
+			dispatcher: window.Stores,
+			id: id,
+			mapsContainer: mapsContainer
+		});
 	};
 
 	return WorldWindWidget;

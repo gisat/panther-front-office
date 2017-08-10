@@ -48,6 +48,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 		'./FrontOffice',
         'js/util/Logger',
         'js/view/map/Map',
+		'js/view/mapsContainer/MapsContainer',
         'js/view/widgets_3D/MapDiagramsWidget/MapDiagramsWidget',
 		'js/stores/internal/MapStore',
 		'js/util/Placeholder',
@@ -57,7 +58,6 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 		'js/stores/internal/StateStore',
 		'js/stores/Stores',
         'js/view/TopToolBar',
-        'js/view/worldWind/WorldWindMap',
         'js/view/widgets/WorldWindWidget/WorldWindWidget',
 
         'string',
@@ -76,6 +76,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			 FrontOffice,
              Logger,
              Map,
+             MapsContainer,
              MapDiagramsWidget,
 			 MapStore,
 			 Placeholder,
@@ -85,7 +86,6 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			 StateStore,
 			 Stores,
 			 TopToolBar,
-             WorldWindMap,
              WorldWindWidget,
 
              S,
@@ -116,12 +116,8 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         }
         // create tools and widgets according to configuration
         if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
-            var webWorldWind = buildWorldWindMap();
-            Stores.register('map', new MapStore({
-				dispatcher: window.Stores,
-				maps: [webWorldWind]
-			}));
-            widgets.push(buildWorldWindWidget(webWorldWind, topToolBar, stateStore));
+        	var mapsContainer = buildMapsContainer();
+            widgets.push(buildWorldWindWidget(mapsContainer, topToolBar, stateStore));
         }
         if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
         	var aggregatedWidget = buildAggregatedChartWidget(filter, stateStore);
@@ -230,17 +226,6 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
     }
 
     /**
-     * Build World Wind Map instance
-     * @returns {WorldWindMap}
-     */
-    function buildWorldWindMap (){
-        return new WorldWindMap({
-			dispatcher: window.Stores
-		});
-    }
-
-
-    /**
 	 * Build Evaluation Widget instance
      * @param filter {Filter}
 	 * @param stateStore {StateStore}
@@ -306,16 +291,16 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 
     /**
      * Build WorldWindWidget instance
-     * @param webWorldWind {WorldWindMap}
+	 * @param mapsContainer {MapsContainer}
      * @returns {WorldWindWidget}
      */
-    function buildWorldWindWidget (webWorldWind, topToolBar, stateStore){
+    function buildWorldWindWidget (mapsContainer, topToolBar, stateStore){
         return new WorldWindWidget({
             elementId: 'world-wind-widget',
             name: 'Layers',
+			mapsContainer: mapsContainer,
             placeholderTargetId: 'widget-container',
             iconId: 'top-toolbar-3dmap',
-            worldWind: webWorldWind,
             topToolBar: topToolBar,
 			dispatcher: window.Stores,
 			stateStore: stateStore
@@ -345,5 +330,16 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 		});
 
 		return Widgets.sharing;
+	}
+
+	/**
+	 * Build container for world wind maps within content element
+	 * @returns {MapsContainer}
+	 */
+	function buildMapsContainer(){
+		return new MapsContainer({
+			id: "maps-container",
+			target: $("#content")
+		})
 	}
 });
