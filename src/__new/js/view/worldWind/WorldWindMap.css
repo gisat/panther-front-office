@@ -1,9 +1,3 @@
-.world-wind-map-box {
-	background: black url("../../../img/night-sky.jpg") top left no-repeat;
-	background-size: cover;
-	width: 100%;
-	height: 100%;
-}
 .world-wind-map {
 	position: relative;
 	left: 0;
