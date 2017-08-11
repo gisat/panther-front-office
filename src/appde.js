@@ -28,8 +28,10 @@ Ext.application({
 
 		if (Config.toggles.isUrbanTep) {
 			$('body').addClass("urban-tep");
-			$('#header .menu').hide();
-			$('.user .sep').hide();
+			$('#header .menu #intro-link').hide();
+            $('#header .menu #downloads-link').hide();
+            $('#header .menu #help-link').hide();
+            $('.user .sep').hide();
 			$('.user .signup').hide();
 		}
 
