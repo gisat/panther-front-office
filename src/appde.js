@@ -35,6 +35,11 @@ Ext.application({
 			$('.user .signup').hide();
 		}
 
+		if(Config.toggles.hideWorldBank) {
+            $('#header .menu #intro-link').hide();
+            $('#header .menu #downloads-link').hide();
+        }
+
 		if(Config.toggles.hasNewEvaluationTool){
 			$("#placeholder-evaluation-widget").css("display","block");
 		}
