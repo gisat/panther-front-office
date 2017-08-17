@@ -185,7 +185,7 @@ Ext.define('PumaMain.controller.Render', {
             itemId: 'savevisualization',
             width: '100%',
             height: '100%',
-            hidden: !Config.auth || !Config.auth.isAdmin,
+            hidden: !Config.auth,
             cls: 'custom-button btn-visualization-save'
         })
         Ext.widget('button',{
