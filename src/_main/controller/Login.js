@@ -32,8 +32,8 @@ Ext.define('PumaMain.controller.Login',{
         var saveView = Ext.ComponentQuery.query('#savedataview')[0];
         var manageView = Ext.ComponentQuery.query('#managedataview')[0];
         var shareView = Ext.ComponentQuery.query('#sharedataview')[0];
-        saveVis.setVisible(isAdmin);
-        manageVis.setVisible(isAdmin);
+        saveVis.setVisible(isUser);
+        manageVis.setVisible(isUser);
         saveView.setVisible(isUser);
         manageView.setVisible(isUser);
         shareView.setVisible(isUser);
