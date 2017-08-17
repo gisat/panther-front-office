@@ -290,7 +290,7 @@ Ext.define('PumaMain.controller.Render', {
         Ext.widget('button',{
             renderTo: Config.toggles.useNewViewSelector ? 'app-view-selector-visualization-manage' : 'app-legacy-view-selector-visualization-manage',
             itemId: 'managevisualization',
-            hidden: !Config.auth || !Config.auth.isAdmin,
+            hidden: !Config.auth,
             //icon: 'images/icons/settings.png',
             width: '100%',
             height: '100%',
