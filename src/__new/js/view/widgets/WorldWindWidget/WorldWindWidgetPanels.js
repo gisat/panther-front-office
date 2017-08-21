@@ -30,7 +30,7 @@ define(['../../../error/ArgumentError',
 	 * @param options {Object}
 	 * @param options.id {string} id of element
 	 * @param options.target {JQuery} JQuery selector of target element
-	 * @param options.worldWind {WorldWind.WorldWindow}
+	 * @param options.currentMap
 	 * @constructor
 	 */
 	var WorldWindWidgetPanels = function(options){
@@ -40,13 +40,14 @@ define(['../../../error/ArgumentError',
 		if (!options.target || options.target.length == 0){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingTarget"));
 		}
-		if (!options.worldWind){
+		if (!options.currentMap){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingWorldWind"));
 		}
-		this._worldWind = options.worldWind;
+		this._currentMap = options.currentMap;
 
 		this._id = options.id;
 		this._target = options.target;
+		this._maps = options.maps;
 		this.build();
 	};
 
@@ -60,12 +61,12 @@ define(['../../../error/ArgumentError',
 		if (!options){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingParameter"));
 		}
-		if (options.changes && !options.changes.scope){
-			this._auLayersPanel.switchOnLayersFrom2D();
-			this._thematicLayersPanel.switchOnLayersFrom2D();
-		}
-		this._infoLayersPanel.rebuild(options);
-		this._wmsLayersPanel.rebuild(options.config);
+		// if (options.changes && !options.changes.scope){
+		// 	this._auLayersPanel.switchOnLayersFrom2D();
+		// 	this._thematicLayersPanel.switchOnLayersFrom2D();
+		// }
+		// this._infoLayersPanel.rebuild(options);
+		// this._wmsLayersPanel.rebuild(options.config);
 	};
 
 	/**
@@ -78,13 +79,17 @@ define(['../../../error/ArgumentError',
 		this._target.append(html);
 		this._panelsSelector = $("#" + this._id);
 
-		this._auLayersPanel = this.buildAuLayersPanel();
-		this._thematicLayersPanel = this.buildThematicLayersPanel();
-		this._infoLayersPanel = this.buildInfoLayersPanel();
+		// this._auLayersPanel = this.buildAuLayersPanel();
+		// this._thematicLayersPanel = this.buildThematicLayersPanel();
+		// this._infoLayersPanel = this.buildInfoLayersPanel();
 		this._backgroundLayersPanel = this.buildBackgroundLayersPanel();
-		this._wmsLayersPanel = this.buildWmsLayersPanel();
+		// this._wmsLayersPanel = this.buildWmsLayersPanel();
 
 		this.addEventsListeners();
+	};
+
+	WorldWindWidgetPanels.prototype.addLayersToMap = function(map){
+		this._backgroundLayersPanel.addLayersToMap(map);
 	};
 
 	/**
@@ -96,7 +101,8 @@ define(['../../../error/ArgumentError',
 			name: "Background Layers",
 			target: this._panelsSelector,
 			isOpen: true,
-			worldWind: this._worldWind
+			currentMap: this._currentMap,
+			maps: this._maps
 		});
 	};
 

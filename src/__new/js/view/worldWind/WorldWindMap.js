@@ -122,7 +122,7 @@ define(['../../error/ArgumentError',
 			id: this._id
 		}).toString();
 		this._mapsContainerSelector.append(html);
-		this._mapBoxSelector = this._mapsContainerSelector.find(".world-wind-map-box");
+		this._mapBoxSelector = this._mapsContainerSelector.find("#" + this._id + "-box");
 
 		this.setupWebWorldWind();
 	};

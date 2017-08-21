@@ -41,17 +41,28 @@ define([
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidget", "constructor", "missingMapsContainer"));
 		}
 		this._mapsContainer = options.mapsContainer;
-
 		this._stateStore = options.stateStore;
-
 		if (options.topToolBar){
 			this._topToolBar = options.topToolBar;
 		}
 
-		this._worldWind = this.buildWorldWindMap('default-map', this._mapsContainer);
+		this._currentMap = this.buildWorldWindMap('default-map', this._mapsContainer);
+		this._maps = [this._currentMap];
+
+		var self = this;
+		$("#add-map").on("click", function(){
+			var id = Math.floor(Math.random()*100);
+			self._currentMap = self.buildWorldWindMap("map-" + id, self._mapsContainer);
+			self._maps.push(self._currentMap);
+			self._panels.addLayersToMap(self._currentMap);
+			self._options.changes.location = true;
+			self.rebuild(self._data, self._options);
+		});
+
+
 		Stores.register('map', new MapStore({
 			dispatcher: window.Stores,
-			maps: [this._worldWind]
+			maps: this._maps
 		}));
 
 		this.build();
@@ -71,6 +82,10 @@ define([
 	 */
 	WorldWindWidget.prototype.rebuild = function(data, options){
 		this._options = jQuery.extend(true, {}, options);
+
+		// todo only for testing
+		this._data = data;
+
 		var isIn3dMode = $("body").hasClass("mode-3d");
 		if (isIn3dMode && Object.keys(this._options).length){
 			if (this._options.changes && this._options.changes.location){
@@ -92,10 +107,13 @@ define([
 	};
 
 	/**
-	 * Rebuild map
+	 * Rebuild maps
 	 */
 	WorldWindWidget.prototype.rebuildWorldWindWindow = function(){
-		this._worldWind.rebuild(this._options.config, this._widgetSelector);
+		var self = this;
+		this._maps.forEach(function(map){
+			map.rebuild(self._options.config, self._widgetSelector);
+		});
 	};
 
 	/**
@@ -150,7 +168,8 @@ define([
 		return new WorldWindWidgetPanels({
 			id: this._widgetId + "-panels",
 			target: this._widgetBodySelector,
-			worldWind: this._worldWind
+			currentMap: this._currentMap,
+			maps: this._maps
 		})
 	};
 
@@ -196,7 +215,9 @@ define([
 		var places = this._stateStore.current().objects.places;
 		if(places.length === 1 ){
 			var locations = places[0].get('bbox').split(',');
-			this._worldWind.goTo(new WorldWind.Position((Number(locations[1]) + Number(locations[3])) / 2, (Number(locations[0]) + Number(locations[2])) / 2, 1000000));
+			self._maps.forEach(function(map){
+				map.goTo(new WorldWind.Position((Number(locations[1]) + Number(locations[3])) / 2, (Number(locations[0]) + Number(locations[2])) / 2, 1000000));
+			});
 		}
 	};
 

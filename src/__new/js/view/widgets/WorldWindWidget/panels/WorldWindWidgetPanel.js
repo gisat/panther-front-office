@@ -30,27 +30,28 @@ define(['../../../../error/ArgumentError',
 	 * @param options.id {string} id of element
 	 * @param options.name {string} name of panel
 	 * @param options.target {JQuery} JQuery selector of target element
-	 * @param options.worldWind {WorldWind.WorldWindow}
+	 * @param options.currentMap
 	 * @constructor
 	 */
 	var WorldWindWidgetPanel = function(options){
 		if (!options.id){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetSection", "constructor", "missingId"));
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanel", "constructor", "missingId"));
 		}
 		if (!options.name){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetSection", "constructor", "missingName"));
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanel", "constructor", "missingName"));
 		}
-		if (!options.target || options.target.length == 0){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetSection", "constructor", "missingTarget"));
+		if (!options.target || options.target.length === 0){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanel", "constructor", "missingTarget"));
 		}
-		if (!options.worldWind){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidget", "constructor", "missingWorldWind"));
+		if (!options.currentMap){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanel", "constructor", "missingWorldWind"));
 		}
 
-		this._worldWind = options.worldWind;
+		this._currentMap = options.currentMap;
 		this._id = options.id;
 		this._name = options.name;
 		this._target = options.target;
+		this._maps = options.maps;
 
 		this._isOpen = true;
 		if (options.hasOwnProperty("isOpen")){
