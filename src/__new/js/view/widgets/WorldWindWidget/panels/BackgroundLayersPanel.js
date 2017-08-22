@@ -2,6 +2,7 @@ define(['../../../../error/ArgumentError',
 	'../../../../error/NotFoundError',
 	'../../../../util/Logger',
 
+	'../../../../stores/Stores',
 	'./WorldWindWidgetPanel',
 
 	'jquery',
@@ -10,6 +11,7 @@ define(['../../../../error/ArgumentError',
 			NotFoundError,
 			Logger,
 
+			Stores,
 			WorldWindWidgetPanel,
 
 			$,
@@ -26,7 +28,6 @@ define(['../../../../error/ArgumentError',
 		this.layerControls = [];
 
 		this.addLayerControls();
-		this.addLayersToMap(this._currentMap);
 		this.addEventsListeners();
 	};
 
@@ -76,19 +77,20 @@ define(['../../../../error/ArgumentError',
 	 * Hide all background layers and show only the selected one
 	 */
 	BackgroundLayersPanel.prototype.toggleLayers = function(){
+		var maps = Stores.retrieve('map').getAll();
 		var self = this;
 		setTimeout(function(){
 			self.layerControls.forEach(function(item, index){
 				var radio = item.control.getRadiobox();
 				var dataId = radio.attr("data-id");
 				if (radio.hasClass("checked")){
-					self._maps.forEach(function(map){
-						map.layers.showBackgroundLayer(dataId);
-					});
+					for(var key in maps){
+						maps[key].layers.showBackgroundLayer(dataId);
+					}
 				} else {
-					self._maps.forEach(function(map){
-						map.layers.hideBackgroundLayer(dataId);
-					});
+					for(var key in maps){
+						maps[key].layers.hideBackgroundLayer(dataId);
+					}
 				}
 			});
 		},50);

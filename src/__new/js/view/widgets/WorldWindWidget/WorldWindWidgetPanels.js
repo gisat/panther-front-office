@@ -40,14 +40,9 @@ define(['../../../error/ArgumentError',
 		if (!options.target || options.target.length == 0){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingTarget"));
 		}
-		if (!options.currentMap){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingWorldWind"));
-		}
-		this._currentMap = options.currentMap;
 
 		this._id = options.id;
 		this._target = options.target;
-		this._maps = options.maps;
 		this.build();
 	};
 
@@ -101,8 +96,7 @@ define(['../../../error/ArgumentError',
 			name: "Background Layers",
 			target: this._panelsSelector,
 			isOpen: true,
-			currentMap: this._currentMap,
-			maps: this._maps
+			mapStore: this._mapStore
 		});
 	};
 

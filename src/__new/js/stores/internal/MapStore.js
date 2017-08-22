@@ -12,9 +12,12 @@ define([
 		options.dispatcher.addListener(this.onEvent.bind(this));
 
 		this._maps = {};
-		options.maps.forEach(function(map){
-			this._maps[map.id] = map;
-		}.bind(this));
+
+		if (options.maps){
+			options.maps.forEach(function(map){
+				this._maps[map._id] = map;
+			}.bind(this));
+		}
 	};
 
 	/**
@@ -23,7 +26,7 @@ define([
 	 * @param options.map {WorldWindMap} Visible map.
 	 */
 	MapStore.prototype.add = function(options) {
-		this._maps[options.map.id] = options.map;
+		this._maps[options.map._id] = options.map;
 	};
 
 	/**
@@ -32,7 +35,15 @@ define([
 	 * @param options.map {WorldWindMap} Map which should be removed from DOM.
 	 */
 	MapStore.prototype.remove = function(options) {
-		delete this._maps[options.map.id];
+		delete this._maps[options.map._id];
+	};
+
+	/**
+	 * Get all maps from this store
+	 * @returns {{}|*}
+	 */
+	MapStore.prototype.getAll = function(){
+		return this._maps;
 	};
 
 	/**

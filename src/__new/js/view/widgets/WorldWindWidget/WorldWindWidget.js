@@ -32,6 +32,11 @@ define([
 	/**
 	 * Class representing widget for 3D map
 	 * @param options {Object}
+	 * @param options.mapsContainer {MapsContainer} Container where should be all maps rendered
+	 * @param options.dispatcher {Object}
+	 * @param options.mapStore {MapStore}
+	 * @param options.stateStore {StateStore}
+	 * @param options.topToolBar {TopToolBar}
 	 * @constructor
 	 */
 	var WorldWindWidget = function(options){
@@ -40,38 +45,75 @@ define([
 		if (!options.mapsContainer){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidget", "constructor", "missingMapsContainer"));
 		}
+		if (!options.mapStore){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidget", "constructor", "missingMapStore"));
+		}
+		if (!options.stateStore){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidget", "constructor", "missingStateStore"));
+		}
+
+		this._dispatcher = options.dispatcher;
 		this._mapsContainer = options.mapsContainer;
+		this._mapStore = options.mapStore;
 		this._stateStore = options.stateStore;
+
 		if (options.topToolBar){
 			this._topToolBar = options.topToolBar;
 		}
 
-		this._currentMap = this.buildWorldWindMap('default-map', this._mapsContainer);
-		this._maps = [this._currentMap];
-
-		var self = this;
-		$("#add-map").on("click", function(){
-			var id = Math.floor(Math.random()*100);
-			self._currentMap = self.buildWorldWindMap("map-" + id, self._mapsContainer);
-			self._maps.push(self._currentMap);
-			self._panels.addLayersToMap(self._currentMap);
-			self._options.changes.location = true;
-			self.rebuild(self._data, self._options);
-		});
-
-
-		Stores.register('map', new MapStore({
-			dispatcher: window.Stores,
-			maps: this._maps
-		}));
+		this._dispatcher.addListener(this.onEvent.bind(this));
 
 		this.build();
 		this.deleteFooter(this._widgetSelector);
 
-		options.dispatcher.addListener(this.onEvent.bind(this));
+		// todo temporary for testing
+		$("#add-map").on("click", this.addMap.bind(this, Math.floor(Math.random()*100), true));
 	};
 
 	WorldWindWidget.prototype = Object.create(Widget.prototype);
+
+	/**
+	 * Build basic view of the widget and setup default map
+	 */
+	WorldWindWidget.prototype.build = function(){
+		this.addSettingsIcon();
+		this.addSettingsOnClickListener();
+		this._panels = this.buildPanels();
+
+		// config for new/old view
+		if (!Config.toggles.useNewViewSelector){
+			this._widgetBodySelector.append('<div id="3d-switch">3D map</div>');
+			$("#3d-switch").on("click", this.toggle3DMap.bind(this));
+		} else {
+			this.addMinimiseButtonListener();
+		}
+
+		// set position in context of other widgets
+		this._widgetSelector.css({
+			height: widgets.layerpanel.height + 40,
+			top: widgets.layerpanel.ptrWindow.y,
+			left: widgets.layerpanel.ptrWindow.x
+		});
+
+		this.addMap('default-map',false);
+	};
+
+	/**
+	 * Render map to container
+	 * @param id {string} ID of the map
+	 * @param locationChanged
+	 */
+	WorldWindWidget.prototype.addMap = function(id, locationChanged) {
+		var worldWindMap = this.buildWorldWindMap(id, this._mapsContainer);
+		this._dispatcher.notify('map#add', {map: worldWindMap});
+		this._panels.addLayersToMap(worldWindMap);
+
+		// todo for adding of more maps
+		if (locationChanged){
+			this._options.changes.location = true;
+			this.rebuild(this._data, this._options);
+		}
+	};
 
 	/**
 	 * Rebuild with current configuration
@@ -111,9 +153,11 @@ define([
 	 */
 	WorldWindWidget.prototype.rebuildWorldWindWindow = function(){
 		var self = this;
-		this._maps.forEach(function(map){
-			map.rebuild(self._options.config, self._widgetSelector);
-		});
+		var maps = this._mapStore.getAll();
+
+		for(var key in maps){
+			maps[key].rebuild(self._options.config, self._widgetSelector);
+		}
 	};
 
 	/**
@@ -123,32 +167,6 @@ define([
 		this.toggleWarning("none", null);
 		this._panels.rebuild(this._options);
 		this.handleLoading("hide");
-	};
-
-	/**
-	 * Build basic view of the widget
-	 */
-	WorldWindWidget.prototype.build = function(){
-		this.addSettingsIcon();
-		this.addSettingsOnClickListener();
-
-		if (!Config.toggles.useNewViewSelector){
-			this._widgetBodySelector.append('<div id="3d-switch">' +
-				'3D map' +
-				'</div>');
-
-			var self = this;
-			$("#3d-switch").on("click", self.toggle3DMap.bind(self));
-		} else {
-			this.addMinimiseButtonListener();
-		}
-
-		this._widgetSelector.css({
-			height: widgets.layerpanel.height + 40,
-			top: widgets.layerpanel.ptrWindow.y,
-			left: widgets.layerpanel.ptrWindow.x
-		});
-		this._panels = this.buildPanels();
 	};
 
 	/**
@@ -167,9 +185,7 @@ define([
 	WorldWindWidget.prototype.buildPanels = function(){
 		return new WorldWindWidgetPanels({
 			id: this._widgetId + "-panels",
-			target: this._widgetBodySelector,
-			currentMap: this._currentMap,
-			maps: this._maps
+			target: this._widgetBodySelector
 		})
 	};
 
@@ -215,9 +231,11 @@ define([
 		var places = this._stateStore.current().objects.places;
 		if(places.length === 1 ){
 			var locations = places[0].get('bbox').split(',');
-			self._maps.forEach(function(map){
-				map.goTo(new WorldWind.Position((Number(locations[1]) + Number(locations[3])) / 2, (Number(locations[0]) + Number(locations[2])) / 2, 1000000));
-			});
+			var maps = this._mapStore.getAll();
+
+			for(var key in maps){
+				maps[key].goTo(new WorldWind.Position((Number(locations[1]) + Number(locations[3])) / 2, (Number(locations[0]) + Number(locations[2])) / 2, 1000000));
+			}
 		}
 	};
 

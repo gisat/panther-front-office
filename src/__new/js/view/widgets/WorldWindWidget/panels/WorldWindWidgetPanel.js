@@ -43,15 +43,10 @@ define(['../../../../error/ArgumentError',
 		if (!options.target || options.target.length === 0){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanel", "constructor", "missingTarget"));
 		}
-		if (!options.currentMap){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanel", "constructor", "missingWorldWind"));
-		}
 
-		this._currentMap = options.currentMap;
 		this._id = options.id;
 		this._name = options.name;
 		this._target = options.target;
-		this._maps = options.maps;
 
 		this._isOpen = true;
 		if (options.hasOwnProperty("isOpen")){
@@ -101,7 +96,7 @@ define(['../../../../error/ArgumentError',
 		$("." + group + "-floater").remove();
 		this._worldWind.layers.removeAllLayersFromGroup(group);
 
-		if (group === "selectedareasfilled" || group === "areaoutlines"){
+		if (group == "selectedareasfilled" || group == "areaoutlines"){
 			this._panelBodySelector.find(".layer-row[data-id=" + group + "]").removeClass("checked");
 		} else {
 			this._panelBodySelector.find(".layer-row").removeClass("checked");
@@ -247,7 +242,7 @@ define(['../../../../error/ArgumentError',
 		this._activeLayers = Stores.activeLayers;
 		var self = this;
 		this._activeLayers.forEach(function(layer){
-			if (layer.group === groupId){
+			if (layer.group == groupId){
 				var checkbox = $(".checkbox-row[data-id=" + layer.id +"]");
 				checkbox.addClass("checked");
 				self._worldWind.layers.showLayer(layer.id, layer.order);

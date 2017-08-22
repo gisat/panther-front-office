@@ -99,6 +99,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			dispatcher: window.Stores
 		});
         Stores.register('state', stateStore);
+
         var selectionStore = new SelectionStore({
 			dispatcher: window.Stores,
 			stateStore: stateStore
@@ -106,8 +107,12 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         window.selectionStore = selectionStore;
         Stores.register('selection', selectionStore);
 
-        var attributes = buildAttributes();
+        var mapStore = new MapStore({
+			dispatcher: window.Stores
+		});
+        Stores.register('map', mapStore);
 
+        var attributes = buildAttributes();
         var filter = buildFilter();
         var olMap = buildOpenLayersMap();
 
@@ -117,7 +122,8 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         // create tools and widgets according to configuration
         if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
         	var mapsContainer = buildMapsContainer();
-            widgets.push(buildWorldWindWidget(mapsContainer, topToolBar, stateStore));
+			var worldWindWidget = buildWorldWindWidget(mapsContainer, topToolBar, stateStore, mapStore);
+            widgets.push(worldWindWidget);
         }
         if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
         	var aggregatedWidget = buildAggregatedChartWidget(filter, stateStore);
@@ -292,9 +298,11 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
     /**
      * Build WorldWindWidget instance
 	 * @param mapsContainer {MapsContainer}
+	 * @param mapStore {MapStore}
+	 * @param stateStore {StateStore}
      * @returns {WorldWindWidget}
      */
-    function buildWorldWindWidget (mapsContainer, topToolBar, stateStore){
+    function buildWorldWindWidget (mapsContainer, topToolBar, stateStore, mapStore){
         return new WorldWindWidget({
             elementId: 'world-wind-widget',
             name: 'Layers',
@@ -303,7 +311,8 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
             iconId: 'top-toolbar-3dmap',
             topToolBar: topToolBar,
 			dispatcher: window.Stores,
-			stateStore: stateStore
+			stateStore: stateStore,
+			mapStore: mapStore
         });
     }
 
