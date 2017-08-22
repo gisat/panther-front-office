@@ -6,6 +6,7 @@ define(['../../../../error/ArgumentError',
 	'../../../worldWind/layers/layerTools/LayerTools',
 	'./panelRow/PanelRow',
 	'../../inputs/checkbox/Radiobox',
+	'../../../../stores/Stores',
 
 	'jquery',
 	'string',
@@ -19,6 +20,7 @@ define(['../../../../error/ArgumentError',
 			LayerTools,
 			PanelRow,
 			Radiobox,
+			StoresInternal,
 
 			$,
 			S,
@@ -53,6 +55,7 @@ define(['../../../../error/ArgumentError',
 			this._isOpen = options.isOpen;
 		}
 
+		this._maps = StoresInternal.retrieve('map').getAll();
 		this.build();
 	};
 
@@ -94,7 +97,9 @@ define(['../../../../error/ArgumentError',
 	 */
 	WorldWindWidgetPanel.prototype.clearLayers = function(group){
 		$("." + group + "-floater").remove();
-		this._worldWind.layers.removeAllLayersFromGroup(group);
+		for (var key in this._maps){
+			this._maps[key].layers.removeAllLayersFromGroup(group);
+		}
 
 		if (group == "selectedareasfilled" || group == "areaoutlines"){
 			this._panelBodySelector.find(".layer-row[data-id=" + group + "]").removeClass("checked");
@@ -227,9 +232,13 @@ define(['../../../../error/ArgumentError',
 
 
 			if (checkbox.hasClass("checked")){
-				self._worldWind.layers.showLayer(layerId);
+				for(var key in self._maps){
+					self._maps[key].layers.showLayer(layerId);
+				}
 			} else {
-				self._worldWind.layers.hideLayer(layerId);
+				for(var key in self._maps){
+					self._maps[key].layers.hideLayer(layerId);
+				}
 			}
 		},50);
 	};
@@ -245,7 +254,9 @@ define(['../../../../error/ArgumentError',
 			if (layer.group == groupId){
 				var checkbox = $(".checkbox-row[data-id=" + layer.id +"]");
 				checkbox.addClass("checked");
-				self._worldWind.layers.showLayer(layer.id, layer.order);
+				for (var key in self._maps){
+					self._maps[key].layers.showLayer(layer.id, layer.order);
+				}
 			}
 		});
 	};

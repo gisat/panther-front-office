@@ -67,7 +67,7 @@ define([
 		this.deleteFooter(this._widgetSelector);
 
 		// todo temporary for testing
-		$("#add-map").on("click", this.addMap.bind(this, Math.floor(Math.random()*100), true));
+		$("#add-map").on("click", this.addMap.bind(this, null));
 	};
 
 	WorldWindWidget.prototype = Object.create(Widget.prototype);
@@ -104,6 +104,10 @@ define([
 	 * @param locationChanged
 	 */
 	WorldWindWidget.prototype.addMap = function(id, locationChanged) {
+		if (!id){
+			id = 'map-' + Math.floor(Math.random()*100);
+		}
+
 		var worldWindMap = this.buildWorldWindMap(id, this._mapsContainer);
 		this._dispatcher.notify('map#add', {map: worldWindMap});
 		this._panels.addLayersToMap(worldWindMap);

@@ -41,9 +41,7 @@ define(['../../../../error/ArgumentError',
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "InfoLayersPanel", "constructor", "missingParameter"));
 		}
 
-
 		this._groupId = "topiclayer";
-
 		this.clear(this._id);
 
 		var self = this;
@@ -157,16 +155,18 @@ define(['../../../../error/ArgumentError',
 	};
 
 	/**
-	 * Rebuild data with current data
+	 * Rebuild layer with current data
 	 * @param layer {Object}
 	 */
 	InfoLayersPanel.prototype.rebuildLayer = function(layer){
-		this._worldWind.layers.addInfoLayer(layer.data, this._id, false);
+		for (var key in this._maps){
+			this._maps[key].layers.addInfoLayer(layer.data, this._id, false);
+		}
 		var tools = layer.control.getToolBox();
 		tools.clear();
-		tools.addLegend(layer.data, this._worldWind);
+		tools.addLegend(layer.data, this._maps);
 		tools.addMetadataIcon(layer.data);
-		tools.addOpacity(layer.data, this._worldWind);
+		tools.addOpacity(layer.data, this._maps);
 	};
 
 	/**
