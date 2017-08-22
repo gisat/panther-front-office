@@ -59,7 +59,6 @@ define(['../../../../error/ArgumentError',
 	 * @param map {WorldWindMap}
 	 */
 	BackgroundLayersPanel.prototype.addLayersToMap = function(map){
-		var self = this;
 		this.layerControls.forEach(function(control){
 			map.layers.addBackgroundLayer(control.id, this._id);
 		});

@@ -30,7 +30,7 @@ define(['../../../../error/ArgumentError',
 	 * @param options.id {string} id of element
 	 * @param options.name {string} name of panel
 	 * @param options.target {JQuery} JQuery selector of target element
-	 * @param options.currentMap
+	 * @param options.currentMap {WorldWindMap}
 	 * @constructor
 	 */
 	var WorldWindWidgetPanel = function(options){
@@ -101,7 +101,7 @@ define(['../../../../error/ArgumentError',
 		$("." + group + "-floater").remove();
 		this._worldWind.layers.removeAllLayersFromGroup(group);
 
-		if (group == "selectedareasfilled" || group == "areaoutlines"){
+		if (group === "selectedareasfilled" || group === "areaoutlines"){
 			this._panelBodySelector.find(".layer-row[data-id=" + group + "]").removeClass("checked");
 		} else {
 			this._panelBodySelector.find(".layer-row").removeClass("checked");
@@ -247,7 +247,7 @@ define(['../../../../error/ArgumentError',
 		this._activeLayers = Stores.activeLayers;
 		var self = this;
 		this._activeLayers.forEach(function(layer){
-			if (layer.group == groupId){
+			if (layer.group === groupId){
 				var checkbox = $(".checkbox-row[data-id=" + layer.id +"]");
 				checkbox.addClass("checked");
 				self._worldWind.layers.showLayer(layer.id, layer.order);
