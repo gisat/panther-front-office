@@ -4,6 +4,7 @@ define([
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 
+	'../../worldWind/controls/Controls',
 	'../../../stores/internal/MapStore',
 	'../../../stores/Stores',
 	'../Widget',
@@ -19,6 +20,7 @@ define([
 			NotFoundError,
 			Logger,
 
+			Controls,
 			MapStore,
 			Stores,
 			Widget,
@@ -104,6 +106,7 @@ define([
 	 * @param locationChanged
 	 */
 	WorldWindWidget.prototype.addMap = function(id, locationChanged) {
+		// todo better id generator
 		if (!id){
 			id = 'map-' + Math.floor(Math.random()*100);
 		}
@@ -112,11 +115,29 @@ define([
 		this._dispatcher.notify('map#add', {map: worldWindMap});
 		this._panels.addLayersToMap(worldWindMap);
 
-		// todo for adding of more maps
+		if (this._mapControls){
+			this._mapControls.addWorldWindow(worldWindMap._wwd);
+		}
+		if (id === 'default-map'){
+			this._mapControls = this.buildMapControls(worldWindMap._wwd);
+		}
+
+		// todo only for adding of more maps
 		if (locationChanged){
 			this._options.changes.location = true;
 			this.rebuild(this._data, this._options);
 		}
+	};
+
+	/**
+	 * Build controls and setup interaction
+	 * @param wwd {WorldWindow}
+	 */
+	WorldWindWidget.prototype.buildMapControls = function(wwd){
+		return new Controls({
+			mapContainer: this._mapsContainer.getContainerSelector(),
+			worldWindow: wwd
+		});
 	};
 
 	/**

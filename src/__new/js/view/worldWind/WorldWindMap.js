@@ -2,7 +2,6 @@ define(['../../error/ArgumentError',
 		'../../error/NotFoundError',
 		'../../util/Logger',
 
-		'./controls/Controls',
 		'./layers/Layers',
 		'../../worldwind/MyGoToAnimator',
 		'../../stores/internal/VisibleLayersStore',
@@ -17,7 +16,6 @@ define(['../../error/ArgumentError',
 			NotFoundError,
 			Logger,
 
-			Controls,
 			Layers,
 			MyGoToAnimator,
 			VisibleLayersStore,
@@ -133,8 +131,6 @@ define(['../../error/ArgumentError',
 	WorldWindMap.prototype.setupWebWorldWind = function(){
 		this._wwd = this.buildWorldWindow();
 		this._goToAnimator = new MyGoToAnimator(this._wwd);
-
-		this.buildControls();
 		this.layers = new Layers(this._wwd);
 	};
 
@@ -144,16 +140,6 @@ define(['../../error/ArgumentError',
 	 */
 	WorldWindMap.prototype.buildWorldWindow = function(){
 		return new WorldWind.WorldWindow(this._id + "-canvas");
-	};
-
-	/**
-	 * Build controls and setup interaction
-	 */
-	WorldWindMap.prototype.buildControls = function(){
-		new Controls({
-			mapContainer: this._mapBoxSelector,
-			worldWindow: this._wwd
-		});
 	};
 
 	/**
