@@ -38,7 +38,12 @@ var Config = {
 		isEea: false,
 		isMelodies: false,
 		isUrbanTep: false,
-		isSnow: false
+		isSnow: false,
+
+        /**
+		 * It hides the  World Bank related links.
+         */
+		hideWorldBank: true
 	},
 
 	basicTexts: {
