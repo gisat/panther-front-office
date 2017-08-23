@@ -1,9 +1,11 @@
-define(['../../error/ArgumentError',
+define(['../../actions/Actions',
+		'../../error/ArgumentError',
 		'../../error/NotFoundError',
 		'../../util/Logger',
 
 		'./layers/Layers',
 		'../../worldwind/MyGoToAnimator',
+		'../../stores/Stores',
 		'../../stores/internal/VisibleLayersStore',
 		'../../util/Uuid',
 
@@ -12,12 +14,14 @@ define(['../../error/ArgumentError',
 		'text!./WorldWindMap.html',
 		'css!./WorldWindMap',
 		'worldwind'
-], function(ArgumentError,
+], function(Actions,
+			ArgumentError,
 			NotFoundError,
 			Logger,
 
 			Layers,
 			MyGoToAnimator,
+			Stores,
 			VisibleLayersStore,
 			Uuid,
 
@@ -41,6 +45,7 @@ define(['../../error/ArgumentError',
 
 		this._mapsContainer = options.mapsContainer;
 		this._mapsContainerSelector = this._mapsContainer.getContainerSelector();
+		this._dispatcher = options.dispatcher;
 
 		this._id = options.id || new Uuid().generate();
 
@@ -67,6 +72,7 @@ define(['../../error/ArgumentError',
 		});
 
 		this.build();
+		this._dispatcher.addListener(this.onEvent.bind(this));
 	};
 
 	Object.defineProperties(WorldWindMap.prototype, {
@@ -126,10 +132,41 @@ define(['../../error/ArgumentError',
 	};
 
 	/**
+	 * @param type {string} type of event
+	 * @param options {Object}
+	 */
+	WorldWindMap.prototype.onEvent = function(type, options){
+		if (type === Actions.mapControl) {
+			this.setNavigator(options);
+		}
+	};
+
+	WorldWindMap.prototype.handleManualRedraw = function(e){
+		var navigatorSettings = this._wwd.navigator;
+		this._dispatcher.notify(Actions.mapControl, navigatorSettings);
+	};
+
+	/**
+	 * Set navigator state
+	 */
+	WorldWindMap.prototype.setNavigator = function(){
+		var navigatorState = Stores.retrieve('map').getNavigatorState();
+
+		this._wwd.navigator.heading = navigatorState.heading;
+		this._wwd.navigator.lookAtLocation = navigatorState.lookAtLocation;
+		this._wwd.navigator.range = navigatorState.range;
+		this._wwd.navigator.roll = navigatorState.roll;
+		this._wwd.navigator.tilt = navigatorState.tilt;
+		this._wwd.redraw();
+	};
+
+	/**
 	 * Set up Web World Wind
 	 */
 	WorldWindMap.prototype.setupWebWorldWind = function(){
 		this._wwd = this.buildWorldWindow();
+		this._wwd.addEventListener("mousemove", this.handleManualRedraw.bind(this));
+
 		this._goToAnimator = new MyGoToAnimator(this._wwd);
 		this.layers = new Layers(this._wwd);
 	};

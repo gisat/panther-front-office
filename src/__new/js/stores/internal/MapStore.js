@@ -12,6 +12,7 @@ define([
 		options.dispatcher.addListener(this.onEvent.bind(this));
 
 		this._maps = {};
+		this._navigatorState = {};
 
 		if (options.maps){
 			options.maps.forEach(function(map){
@@ -47,6 +48,22 @@ define([
 	};
 
 	/**
+	 * It updates the settings of World wind navigator
+	 * @param options {Object}
+	 */
+	MapStore.prototype.updateNavigator = function(options){
+		this._navigatorState = options;
+	};
+
+	/**
+	 * Return the current settings of World wind navigator
+	 * @returns {Object}
+	 */
+	MapStore.prototype.getNavigatorState = function(){
+		return this._navigatorState;
+	};
+
+	/**
 	 * It accepts events in the application and handles these that are relevant.
 	 * @param type {String} Event type to distinguish whether this store cares.
 	 * @param options {Object} additional options, may be specific per action.
@@ -56,6 +73,8 @@ define([
 			this.add(options);
 		} else if (type === Actions.mapRemove) {
 			this.remove(options);
+		} else if (type === Actions.mapControl) {
+			this.updateNavigator(options);
 		}
 	};
 
