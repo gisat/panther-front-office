@@ -166,6 +166,7 @@ define(['../../actions/Actions',
 	WorldWindMap.prototype.setupWebWorldWind = function(){
 		this._wwd = this.buildWorldWindow();
 		this._wwd.addEventListener("mousemove", this.handleManualRedraw.bind(this));
+		this._wwd.addEventListener("wheel", this.handleManualRedraw.bind(this));
 
 		this._goToAnimator = new MyGoToAnimator(this._wwd);
 		this.layers = new Layers(this._wwd);
