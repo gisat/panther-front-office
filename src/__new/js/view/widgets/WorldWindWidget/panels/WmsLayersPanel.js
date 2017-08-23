@@ -71,10 +71,12 @@ define(['../../../../error/ArgumentError',
 			opacity: 70,
 			url: layer.url
 		};
-		this._worldWind.layers.addWmsLayer(layerData, this._id, false);
+		for (var key in this._maps){
+			this._maps[key].layers.addWmsLayer(layerData, this._id, false);
+		}
 		var control = this.addLayerControl(layerData.id, layerData.name, this._panelBodySelector, false);
 		var tools = control.getToolBox();
-		tools.addOpacity(layerData, this._worldWind);
+		tools.addOpacity(layerData, this._maps);
 	};
 
 	return WmsLayersPanel;

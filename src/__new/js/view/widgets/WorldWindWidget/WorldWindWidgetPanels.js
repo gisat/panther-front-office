@@ -56,12 +56,12 @@ define(['../../../error/ArgumentError',
 		if (!options){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingParameter"));
 		}
-		// if (options.changes && !options.changes.scope){
-		// 	this._auLayersPanel.switchOnLayersFrom2D();
-		// 	this._thematicLayersPanel.switchOnLayersFrom2D();
-		// }
+		if (options.changes && !options.changes.scope){
+			this._auLayersPanel.switchOnLayersFrom2D();
+			this._thematicLayersPanel.switchOnLayersFrom2D();
+		}
 		this._infoLayersPanel.rebuild(options);
-		// this._wmsLayersPanel.rebuild(options.config);
+		this._wmsLayersPanel.rebuild(options.config);
 	};
 
 	/**
@@ -74,11 +74,11 @@ define(['../../../error/ArgumentError',
 		this._target.append(html);
 		this._panelsSelector = $("#" + this._id);
 
-		// this._auLayersPanel = this.buildAuLayersPanel();
-		// this._thematicLayersPanel = this.buildThematicLayersPanel();
+		this._auLayersPanel = this.buildAuLayersPanel();
+		this._thematicLayersPanel = this.buildThematicLayersPanel();
 		this._infoLayersPanel = this.buildInfoLayersPanel();
 		this._backgroundLayersPanel = this.buildBackgroundLayersPanel();
-		// this._wmsLayersPanel = this.buildWmsLayersPanel();
+		this._wmsLayersPanel = this.buildWmsLayersPanel();
 
 		this.addEventsListeners();
 	};
@@ -95,8 +95,7 @@ define(['../../../error/ArgumentError',
 			id: "background-layers",
 			name: "Background Layers",
 			target: this._panelsSelector,
-			isOpen: true,
-			mapStore: this._mapStore
+			isOpen: true
 		});
 	};
 
@@ -108,8 +107,7 @@ define(['../../../error/ArgumentError',
 			id: "thematic-layers",
 			name: "Thematic Layers",
 			target: this._panelsSelector,
-			isOpen: true,
-			worldWind: this._worldWind
+			isOpen: true
 		});
 	};
 
@@ -121,8 +119,7 @@ define(['../../../error/ArgumentError',
 			id: "au-layers",
 			name: "Analytical Units Layers",
 			target: this._panelsSelector,
-			isOpen: true,
-			worldWind: this._worldWind
+			isOpen: true
 		});
 	};
 
@@ -146,8 +143,7 @@ define(['../../../error/ArgumentError',
 			id: "wms-layers",
 			name: "Custom WMS Layers",
 			target: this._panelsSelector,
-			isOpen: true,
-			worldWind: this._worldWind
+			isOpen: true
 		});
 	};
 

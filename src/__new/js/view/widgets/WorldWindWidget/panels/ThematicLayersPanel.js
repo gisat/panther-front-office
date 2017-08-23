@@ -43,14 +43,14 @@ define(['../../../../error/ArgumentError',
 	 * @param notification {string}
 	 */
 	ThematicLayersPanel.prototype.rebuild = function(action, notification){
-		if (action == notification && notification == "choropleths"){
+		if (action === notification && notification === "choropleths"){
 			this.clear(this._id);
 			this._choropleths = Stores.choropleths;
 			if (this._choropleths.length > 0){
 				var self = this;
 				this._choropleths.forEach(function(choropleth){
 					var name = choropleth.name;
-					if (name.length == 0){
+					if (name.length === 0){
 						name = choropleth.attrName + " - " + choropleth.asName;
 					}
 					var layer = {
@@ -74,7 +74,7 @@ define(['../../../../error/ArgumentError',
 	 */
 	ThematicLayersPanel.prototype.updateChoropleths = function(action, notification){
 		var self = this;
-		if (action == notification && notification == "updateChoropleths"){
+		if (action === notification && notification === "updateChoropleths"){
 			this.clearLayers(this._id);
 
 			this._choropleths.forEach(function(choropleth){
@@ -87,13 +87,15 @@ define(['../../../../error/ArgumentError',
 						path: choropleth.data.legendLayer,
 						opacity: 70
 					};
-					self._worldWind.layers.addChoroplethLayer(layer, self._id, false);
+					for (var key in self._maps){
+						self._maps[key].layers.addChoroplethLayer(layer, self._id, false);
+					}
 
 					var toolsContainer = $("#layer-tool-box-" + layer.id);
 					toolsContainer.html('');
 					var toolBox = choropleth.control.getToolBox();
-					toolBox.addLegend(layer, self._worldWind);
-					toolBox.addOpacity(layer, self._worldWind);
+					toolBox.addLegend(layer, self._maps);
+					toolBox.addOpacity(layer, self._maps);
 				}
 			});
 
