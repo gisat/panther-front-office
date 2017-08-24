@@ -37,24 +37,38 @@ define([], function () {
 
 	StateStore.prototype.placesObjects = function() {
 		var defaultPlaces = Ext.ComponentQuery.query('#sellocation')[0].getValue() || Ext.ComponentQuery.query('#initiallocation')[0].getValue();
-		if(defaultPlaces != 'custom') {
-			return [Ext.StoreMgr.lookup('location').getById(defaultPlaces)];
+
+		if (defaultPlaces === 'custom'){
+			return ["All places"];
 		} else {
-			// Load all places for the scope.
-			return Ext.StoreMgr.lookup('location').filter('dataset', this.scope());
+			return [defaultPlaces];
 		}
+
+		// if(defaultPlaces != 'custom') {
+		// 	return [Ext.StoreMgr.lookup('location').getById(defaultPlaces)];
+		// } else {
+		// 	// Load all places for the scope.
+		// 	return Ext.StoreMgr.lookup('location').filter('dataset', this.scope());
+		// }
 	};
 
 	StateStore.prototype.places = function() {
 		var defaultPlaces = Ext.ComponentQuery.query('#sellocation')[0].getValue() || Ext.ComponentQuery.query('#initiallocation')[0].getValue();
-		if(defaultPlaces != 'custom') {
-			return [defaultPlaces];
+
+		if (defaultPlaces === 'custom'){
+			return ["All places"];
 		} else {
-			// Load all places for the scope.
-			return Ext.StoreMgr.lookup('location').filter('dataset', this.scope()).map(function (location) {
-				return location._id;
-			});
+			return [defaultPlaces];
 		}
+
+		// if(defaultPlaces != 'custom') {
+		// 	return [defaultPlaces];
+		// } else {
+		// 	// Load all places for the scope.
+		// 	return Ext.StoreMgr.lookup('location').filter('dataset', this.scope()).map(function (location) {
+		// 		return location._id;
+		// 	});
+		// }
 	};
 
 	StateStore.prototype.periods = function() {
