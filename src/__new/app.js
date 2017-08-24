@@ -121,9 +121,12 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         }
         // create tools and widgets according to configuration
         if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
-        	var mapsContainer = buildMapsContainer();
+        	var mapsContainer = buildMapsContainer(mapStore);
 			var worldWindWidget = buildWorldWindWidget(mapsContainer, topToolBar, stateStore, mapStore);
             widgets.push(worldWindWidget);
+
+			// todo temporary for testing
+			$("#add-map").on("click", mapsContainer.addMap.bind(mapsContainer, null));
         }
         if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
         	var aggregatedWidget = buildAggregatedChartWidget(filter, stateStore);
@@ -343,11 +346,14 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 
 	/**
 	 * Build container for world wind maps within content element
+	 * @param mapStore {MapStore}
 	 * @returns {MapsContainer}
 	 */
-	function buildMapsContainer(){
+	function buildMapsContainer(mapStore){
 		return new MapsContainer({
 			id: "maps-container",
+			dispatcher: window.Stores,
+			mapStore: mapStore,
 			target: $("#content")
 		})
 	}

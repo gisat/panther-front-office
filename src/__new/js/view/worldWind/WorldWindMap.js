@@ -33,7 +33,7 @@ define(['../../actions/Actions',
 	 * Class World Wind Map
 	 * @param options {Object}
 	 * @param options.id {String|null} Id distinguishing the map from the other ones.
-	 * @param options.mapsContainer {MapsContainer} Container where the map will be rendered
+	 * @param options.mapsContainer {Object} JQuery selector of target element
 	 * @param options.period {Number|null} Period associated with this map.
 	 * @param options.dispatcher {Object} Object for handling events in the application.
 	 * @constructor
@@ -42,9 +42,8 @@ define(['../../actions/Actions',
 		if (!options.mapsContainer){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindMap", "constructor", "missingMapsContainer"));
 		}
+		this._mapsContainerSelector = options.mapsContainer;
 
-		this._mapsContainer = options.mapsContainer;
-		this._mapsContainerSelector = this._mapsContainer.getContainerSelector();
 		this._dispatcher = options.dispatcher;
 
 		this._id = options.id || new Uuid().generate();
@@ -108,16 +107,6 @@ define(['../../actions/Actions',
 		}
 	});
 
-
-	/**
-	 * Rebuild world wind map
-	 * @param config {Object} ThemeYearsConfParams global object
-	 * @param widget {JQuery} JQuery widget selector
-	 */
-	WorldWindMap.prototype.rebuild = function(config, widget){
-		this._goToAnimator.setLocation(config, widget)
-	};
-
 	/**
 	 * It builds Web World Wind
 	 */
@@ -132,41 +121,12 @@ define(['../../actions/Actions',
 	};
 
 	/**
-	 * @param type {string} type of event
-	 * @param options {Object}
-	 */
-	WorldWindMap.prototype.onEvent = function(type, options){
-		if (type === Actions.mapControl) {
-			this.setNavigator(options);
-		}
-	};
-
-	WorldWindMap.prototype.handleManualRedraw = function(e){
-		var navigatorSettings = this._wwd.navigator;
-		this._dispatcher.notify(Actions.mapControl, navigatorSettings);
-	};
-
-	/**
-	 * Set navigator state
-	 */
-	WorldWindMap.prototype.setNavigator = function(){
-		var navigatorState = Stores.retrieve('map').getNavigatorState();
-
-		this._wwd.navigator.heading = navigatorState.heading;
-		this._wwd.navigator.lookAtLocation = navigatorState.lookAtLocation;
-		this._wwd.navigator.range = navigatorState.range;
-		this._wwd.navigator.roll = navigatorState.roll;
-		this._wwd.navigator.tilt = navigatorState.tilt;
-		this._wwd.redraw();
-	};
-
-	/**
 	 * Set up Web World Wind
 	 */
 	WorldWindMap.prototype.setupWebWorldWind = function(){
 		this._wwd = this.buildWorldWindow();
-		this._wwd.addEventListener("mousemove", this.handleManualRedraw.bind(this));
-		this._wwd.addEventListener("wheel", this.handleManualRedraw.bind(this));
+		this._wwd.addEventListener("mousemove", this.updateNavigatorState.bind(this));
+		this._wwd.addEventListener("wheel", this.updateNavigatorState.bind(this));
 
 		this._goToAnimator = new MyGoToAnimator(this._wwd);
 		this.layers = new Layers(this._wwd);
@@ -178,6 +138,44 @@ define(['../../actions/Actions',
 	 */
 	WorldWindMap.prototype.buildWorldWindow = function(){
 		return new WorldWind.WorldWindow(this._id + "-canvas");
+	};
+
+	/**
+	 * Rebuild map with current settings
+	 */
+	WorldWindMap.prototype.rebuild = function(appState){
+		this._goToAnimator.setLocation(appState);
+
+		if (this._id !== "default-map"){
+			var self = this;
+			setTimeout(function(){
+				self.setNavigator();
+			},500);
+		} else {
+			this.updateNavigatorState();
+		}
+	};
+
+	/**
+	 * Update state of the navigator in MapStore. It is used for contolling of multiple maps at the same time.
+	 */
+	WorldWindMap.prototype.updateNavigatorState = function(){
+		this._dispatcher.notify(Actions.mapControl, this._wwd.navigator);
+	};
+
+	/**
+	 * Get navigator state from store and set this map navigator's parameters.
+	 */
+	WorldWindMap.prototype.setNavigator = function(){
+		var navigatorState = Stores.retrieve('map').getNavigatorState();
+
+		this._wwd.navigator.heading = navigatorState.heading;
+		this._wwd.navigator.lookAtLocation = navigatorState.lookAtLocation;
+		this._wwd.navigator.range = navigatorState.range;
+		this._wwd.navigator.roll = navigatorState.roll;
+		this._wwd.navigator.tilt = navigatorState.tilt;
+
+		this.redraw();
 	};
 
 	/**
@@ -195,16 +193,38 @@ define(['../../actions/Actions',
 		this._wwd.redraw();
 	};
 
+	/**
+	 * Add layer to map
+	 * @param layer {Layer}
+	 */
 	WorldWindMap.prototype.addLayer = function(layer) {
 		this._wwd.addLayer(layer);
 	};
 
+	/**
+	 * Remove layer from map
+	 * @param layer {Layer}
+	 */
 	WorldWindMap.prototype.removeLayer = function(layer) {
 		this._wwd.removeLayer(layer);
 	};
 
+	/**
+	 * Go to specific position in map
+	 * @param position {Position}
+	 */
 	WorldWindMap.prototype.goTo = function(position) {
 		this._wwd.goTo(position);
+	};
+
+	/**
+	 * @param type {string} type of event
+	 * @param options {Object}
+	 */
+	WorldWindMap.prototype.onEvent = function(type, options){
+		if (type === Actions.mapControl) {
+			this.setNavigator(options);
+		}
 	};
 
 	return WorldWindMap;
