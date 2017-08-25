@@ -4,8 +4,6 @@ define([
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 
-	'../../../stores/internal/MapStore',
-	'../../../stores/Stores',
 	'../Widget',
 	'./WorldWindWidgetPanels',
 
@@ -18,8 +16,6 @@ define([
 			NotFoundError,
 			Logger,
 
-			MapStore,
-			Stores,
 			Widget,
 			WorldWindWidgetPanels,
 
@@ -32,7 +28,6 @@ define([
 	 * @param options {Object}
 	 * @param options.mapsContainer {MapsContainer} Container where should be all maps rendered
 	 * @param options.dispatcher {Object}
-	 * @param options.mapStore {MapStore}
 	 * @param options.stateStore {StateStore}
 	 * @param options.topToolBar {TopToolBar}
 	 * @constructor
@@ -43,16 +38,12 @@ define([
 		if (!options.mapsContainer){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidget", "constructor", "missingMapsContainer"));
 		}
-		if (!options.mapStore){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidget", "constructor", "missingMapStore"));
-		}
 		if (!options.stateStore){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidget", "constructor", "missingStateStore"));
 		}
 
 		this._dispatcher = options.dispatcher;
 		this._mapsContainer = options.mapsContainer;
-		this._mapStore = options.mapStore;
 		this._stateStore = options.stateStore;
 
 		if (options.topToolBar){
@@ -100,7 +91,7 @@ define([
 	WorldWindWidget.prototype.addDataToMap = function(map){
 		this._panels.addLayersToMap(map);
 		if (map._id !== 'default-map'){
-			map.rebuild(Stores.retrieve('state').current());
+			map.rebuild(this._stateStore.current());
 			this._panels.rebuild(this._options);
 		}
 	};

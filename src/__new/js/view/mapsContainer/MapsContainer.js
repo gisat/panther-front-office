@@ -54,6 +54,8 @@ define([
 
 		this._mapControls = null;
 
+		this._mapsCount = 0;
+
 		this.build();
 		this._dispatcher.addListener(this.onEvent.bind(this));
 	};
@@ -85,6 +87,8 @@ define([
 		} else {
 			this._mapControls = this.buildMapControls(worldWindMap._wwd);
 		}
+		this._mapsCount++;
+		this.rebuildContainer();
 	};
 
 	/**
@@ -93,6 +97,8 @@ define([
 	 */
 	MapsContainer.prototype.removeMap = function(id){
 		$("#" + id + "-box").remove();
+		this._mapsCount--;
+		this.rebuildContainer();
 	};
 
 	/**
@@ -164,6 +170,28 @@ define([
 		if (type === Actions.mapRemove){
 			this.removeMap(options.id);
 		}
+	};
+
+	/**
+	 * Rebuild grid according to a number of active maps
+	 */
+	MapsContainer.prototype.rebuildContainer = function(){
+		this._containerSelector.attr('class', 'maps-container');
+		var cls = '';
+		if (this._mapsCount === 2){
+			cls += 'w2';
+		} else if (this._mapsCount > 2 && this._mapsCount <= 4){
+			cls += 'w2 h2';
+		} else if (this._mapsCount > 4 && this._mapsCount <= 6){
+			cls += 'w3 h2';
+		} else if (this._mapsCount > 6 && this._mapsCount <= 9){
+			cls += 'w3 h3';
+		} else if (this._mapsCount > 9 && this._mapsCount <= 12){
+			cls += 'w4 h3';
+		} else if (this._mapsCount > 12 && this._mapsCount <= 16){
+			cls += 'w4 h4';
+		}
+		this._containerSelector.addClass(cls)
 	};
 
 	return MapsContainer;

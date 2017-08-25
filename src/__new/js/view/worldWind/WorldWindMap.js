@@ -161,7 +161,7 @@ define(['../../actions/Actions',
 			var self = this;
 			setTimeout(function(){
 				self.setNavigator();
-			},500);
+			},1000);
 		} else {
 			this.updateNavigatorState();
 		}

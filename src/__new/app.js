@@ -122,7 +122,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         // create tools and widgets according to configuration
         if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
         	var mapsContainer = buildMapsContainer(mapStore);
-			var worldWindWidget = buildWorldWindWidget(mapsContainer, topToolBar, stateStore, mapStore);
+			var worldWindWidget = buildWorldWindWidget(mapsContainer, topToolBar, stateStore);
             widgets.push(worldWindWidget);
 
 			// todo temporary for testing
@@ -301,11 +301,10 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
     /**
      * Build WorldWindWidget instance
 	 * @param mapsContainer {MapsContainer}
-	 * @param mapStore {MapStore}
 	 * @param stateStore {StateStore}
      * @returns {WorldWindWidget}
      */
-    function buildWorldWindWidget (mapsContainer, topToolBar, stateStore, mapStore){
+    function buildWorldWindWidget (mapsContainer, topToolBar, stateStore){
         return new WorldWindWidget({
             elementId: 'world-wind-widget',
             name: 'Layers',
@@ -314,8 +313,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
             iconId: 'top-toolbar-3dmap',
             topToolBar: topToolBar,
 			dispatcher: window.Stores,
-			stateStore: stateStore,
-			mapStore: mapStore
+			stateStore: stateStore
         });
     }
 
