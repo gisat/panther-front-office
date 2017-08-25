@@ -118,6 +118,17 @@ define(['../../actions/Actions',
 		this._mapBoxSelector = this._mapsContainerSelector.find("#" + this._id + "-box");
 
 		this.setupWebWorldWind();
+		if (this._id !== 'default-map'){
+			this.addCloseButton();
+		}
+	};
+
+	/**
+	 * Add close button to this map
+	 */
+	WorldWindMap.prototype.addCloseButton = function(){
+		var html = '<div title="Remove map" class="close-map-button" data-id="' + this._id + '"><i class="fa fa-times close-map-icon" aria-hidden="true"></i></div>';
+		this._mapBoxSelector.append(html);
 	};
 
 	/**

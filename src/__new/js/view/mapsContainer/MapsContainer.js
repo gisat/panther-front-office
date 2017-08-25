@@ -1,4 +1,5 @@
 define([
+	'../../actions/Actions',
 	'../../error/ArgumentError',
 	'../../error/NotFoundError',
 	'../../util/Logger',
@@ -11,7 +12,8 @@ define([
 	'jquery',
 	'text!./MapsContainer.html',
 	'css!./MapsContainer'
-], function(ArgumentError,
+], function(Actions,
+			ArgumentError,
 			NotFoundError,
 			Logger,
 
@@ -53,6 +55,7 @@ define([
 		this._mapControls = null;
 
 		this.build();
+		this._dispatcher.addListener(this.onEvent.bind(this));
 	};
 
 	/**
@@ -64,6 +67,8 @@ define([
 		}).toString();
 		this._target.append(html);
 		this._containerSelector = $("#" + this._id);
+
+		this.addCloseButtonOnClickListener();
 	};
 
 	/**
@@ -80,6 +85,14 @@ define([
 		} else {
 			this._mapControls = this.buildMapControls(worldWindMap._wwd);
 		}
+	};
+
+	/**
+	 * Remove map from DOM
+	 * @param id {string} ID of the map
+	 */
+	MapsContainer.prototype.removeMap = function(id){
+		$("#" + id + "-box").remove();
 	};
 
 	/**
@@ -134,6 +147,23 @@ define([
 	 */
 	MapsContainer.prototype.getContainerSelector = function(){
 		return this._containerSelector;
+	};
+
+	/**
+	 * Add listener to close button of each map except the default one
+	 */
+	MapsContainer.prototype.addCloseButtonOnClickListener = function(){
+		var self = this;
+		this._containerSelector.on("click", ".close-map-button", function(){
+			var mapId = $(this).attr("data-id");
+			self._dispatcher.notify(Actions.mapRemove, {id: mapId});
+		});
+	};
+
+	MapsContainer.prototype.onEvent = function(type, options){
+		if (type === Actions.mapRemove){
+			this.removeMap(options.id);
+		}
 	};
 
 	return MapsContainer;

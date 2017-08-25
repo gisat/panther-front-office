@@ -33,10 +33,10 @@ define([
 	/**
 	 * It removes old map from the store.
 	 * @param options {Object}
-	 * @param options.map {WorldWindMap} Map which should be removed from DOM.
+	 * @param options.id {String} Map which should be removed from DOM.
 	 */
 	MapStore.prototype.remove = function(options) {
-		delete this._maps[options.map._id];
+		delete this._maps[options.id];
 	};
 
 	/**
