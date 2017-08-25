@@ -110,6 +110,7 @@ define([
 		for(var key in maps){
 			maps[key].rebuild(appState);
 		}
+		this.rebuildContainer();
 	};
 
 	/**
@@ -176,20 +177,30 @@ define([
 	 * Rebuild grid according to a number of active maps
 	 */
 	MapsContainer.prototype.rebuildContainer = function(){
+		var width = this._containerSelector.width();
+		var height = this._containerSelector.height();
+
+		var a = 'w';
+		var b = 'h';
+		if (height > width){
+			a = 'h';
+			b = 'w';
+		}
+
 		this._containerSelector.attr('class', 'maps-container');
 		var cls = '';
 		if (this._mapsCount === 2){
-			cls += 'w2';
+			cls += a + '2';
 		} else if (this._mapsCount > 2 && this._mapsCount <= 4){
-			cls += 'w2 h2';
+			cls += a + '2 ' + b + '2';
 		} else if (this._mapsCount > 4 && this._mapsCount <= 6){
-			cls += 'w3 h2';
+			cls += a + '3 ' + b + '2';
 		} else if (this._mapsCount > 6 && this._mapsCount <= 9){
-			cls += 'w3 h3';
+			cls += a + '3 ' + b + '3';
 		} else if (this._mapsCount > 9 && this._mapsCount <= 12){
-			cls += 'w4 h3';
+			cls += a + '4 ' + b + '3';
 		} else if (this._mapsCount > 12 && this._mapsCount <= 16){
-			cls += 'w4 h4';
+			cls += a + '4 ' + b + '4';
 		}
 		this._containerSelector.addClass(cls)
 	};
