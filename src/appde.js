@@ -120,7 +120,7 @@ Ext.application({
 		}
 
 		if(Config.toggles[window.location.origin]) {
-			Config.toggles.classes.forEach(function(className){
+			Config.toggles[window.location.origin].classes.forEach(function(className){
                 $("html").addClass(className);
 			});
 		}
