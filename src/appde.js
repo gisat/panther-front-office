@@ -119,6 +119,12 @@ Ext.application({
 			$("html").addClass("toggle-usePumaLogo");
 		}
 
+		if(Config.toggles[window.location.origin]) {
+			Config.toggles[window.location.origin].classes.forEach(function(className){
+                $("html").addClass(className);
+			});
+		}
+
 		window.location.origin = window.location.origin || (window.location.protocol+'//'+window.location.hostname+ (window.location.port ? (':'+window.location.port) : ''));
 		Ext.Ajax.method = 'POST';
 		if (Config.exportPage) {
