@@ -71,6 +71,7 @@ define([
 		this._containerSelector = $("#" + this._id);
 
 		this.addCloseButtonOnClickListener();
+		this.addSidebarReportsStateListener();
 	};
 
 	/**
@@ -165,6 +166,13 @@ define([
 			var mapId = $(this).attr("data-id");
 			self._dispatcher.notify(Actions.mapRemove, {id: mapId});
 		});
+	};
+
+	/**
+	 * Rebuild the container when sidebar-reports panel changes it's state
+	 */
+	MapsContainer.prototype.addSidebarReportsStateListener = function(){
+		$("#sidebar-reports").on("click", this.rebuildContainer.bind(this));
 	};
 
 	MapsContainer.prototype.onEvent = function(type, options){
