@@ -125,6 +125,13 @@ Ext.application({
 			});
 		}
 
+		// dromas view
+		var isDromas = $('html').hasClass("dromas");
+		if (isDromas){
+			$('#content-intro > .label').html("");
+			$('#header').prepend('<div class="project-logo"></div>');
+		}
+
 		window.location.origin = window.location.origin || (window.location.protocol+'//'+window.location.hostname+ (window.location.port ? (':'+window.location.port) : ''));
 		Ext.Ajax.method = 'POST';
 		if (Config.exportPage) {

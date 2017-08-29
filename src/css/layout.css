@@ -303,6 +303,21 @@ body.intro #content-intro-terms {
 	z-index: 1000000;
 }
 
+/* dromas */
+html.dromas #content-intro-guide, html.dromas #header h1 {
+	display: none;
+}
+html.dromas #content-intro > .label {
+	background: url('../images/dromas/dromas-logo-white.png') no-repeat .5rem 1.2rem;
+}
+html.dromas body.application .project-logo {
+	height: 100%;
+	width: 13rem;
+	background: url(../images/dromas/dromas-logo-white.png) no-repeat;
+	background-size: contain;
+	margin: .7rem;
+}
+
 /* Fields */
 .fields-holder {
 	background-color: #434254;
