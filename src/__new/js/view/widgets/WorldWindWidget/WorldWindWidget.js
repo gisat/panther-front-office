@@ -180,9 +180,9 @@ define([
 			this._topToolBar.build();
 		}
 
-		let places = this._stateStore.current().objects.places;
+		var places = this._stateStore.current().objects.places;
 		if(places.length == 1 ){
-			let locations = places[0].get('bbox').split(',');
+			var locations = places[0].get('bbox').split(',');
 			this._worldWind.goTo(new WorldWind.Position((Number(locations[1]) + Number(locations[3])) / 2, (Number(locations[0]) + Number(locations[2])) / 2, 1000000));
 		}
 	};

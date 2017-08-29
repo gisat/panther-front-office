@@ -1074,7 +1074,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
 				// Also hide chart related stuff
 				$('#window-areatree').hide();
-                this.getController('DomManipulation')._onReportsSidebarToggleClick();
                 $('#sidebar-reports').hide();
 
                 // Also switch map to 3D mode
@@ -1084,7 +1083,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 $('.areaTreeSelection').show();
 				$('#top-toolbar-areas').show();
 				$('#window-areatree').show();
-				this.getController('DomManipulation')._onReportsSidebarToggleClick();
 				$('#sidebar-reports').show();
 				$('#top-toolbar-3dmap').show()
 
