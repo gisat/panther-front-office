@@ -318,6 +318,24 @@ html.dromas body.application .project-logo {
 	margin: .7rem;
 }
 
+html.dromas body.intro #map-holder {
+	background: url(../images/dromas/dromas-background-3.jpg) no-repeat;
+	background-size: cover;
+}
+html.dromas body.intro #app-map {
+	display: none;
+}
+html.dromas body.application #intro-overlay {
+	display: none;
+}
+html.dromas body.intro #intro-overlay {
+	display: block;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	background: rgba(150,150,150,.3);
+}
+
 /* Fields */
 .fields-holder {
 	background-color: #434254;
