@@ -77,9 +77,10 @@ define([
 	/**
 	 * Add map to container
 	 * @param id {string} Id of the map
+	 * @param periodId {number} Id of the period connected with map
 	 */
-	MapsContainer.prototype.addMap = function (id) {
-		var worldWindMap = this.buildWorldWindMap(id);
+	MapsContainer.prototype.addMap = function (id, periodId) {
+		var worldWindMap = this.buildWorldWindMap(id, periodId);
 		this._dispatcher.notify('map#add', {map: worldWindMap});
 
 		// if there are controls for default map already, attach world window of this map to them
@@ -128,12 +129,14 @@ define([
 	/**
 	 * Build a World Wind Map
 	 * @param id {string} Id of the map which should distinguish one map from another
+	 * @param periodId {number} Id of the period
 	 * @returns {WorldWindMap}
 	 */
-	MapsContainer.prototype.buildWorldWindMap = function(id){
+	MapsContainer.prototype.buildWorldWindMap = function(id, periodId){
 		return new WorldWindMap({
 			dispatcher: window.Stores,
 			id: id,
+			period: periodId,
 			mapsContainer: this._containerSelector
 		});
 	};

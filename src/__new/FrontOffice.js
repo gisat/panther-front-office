@@ -9,6 +9,8 @@ define([
 	'js/stores/gisat/AttributeSets',
 	'js/stores/gisat/Layers',
 	'js/stores/gisat/Locations',
+	'js/stores/gisat/Periods',
+	'js/stores/gisat/Scopes',
 	'js/stores/gisat/Visualizations',
 	'js/stores/gisat/WmsLayers',
 	'jquery',
@@ -23,6 +25,8 @@ define([
 			AttributeSets,
 			Layers,
 			Locations,
+			Periods,
+			Scopes,
 			Visualizations,
 			WmsLayers,
 			$,
@@ -287,6 +291,8 @@ define([
 		Stores.retrieve('attributeSet').all();
 		Stores.retrieve('layer').all();
 		Stores.retrieve('location').all();
+		Stores.retrieve('period').all();
+		Stores.retrieve('scope').all();
 		Stores.retrieve('visualization').all();
 		Stores.retrieve('wmsLayer').all();
 	};

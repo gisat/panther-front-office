@@ -126,7 +126,10 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
             widgets.push(worldWindWidget);
 
 			// todo temporary for testing
-			$("#add-map").on("click", mapsContainer.addMap.bind(mapsContainer, null));
+			$("#add-map-buttons").on("click", ".add-map", function(){
+				var yearId = Number($(this).attr("data-id"));
+				mapsContainer.addMap(null, yearId);
+			});
         }
         if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
         	var aggregatedWidget = buildAggregatedChartWidget(filter, stateStore);

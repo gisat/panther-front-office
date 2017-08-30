@@ -48,6 +48,7 @@ define(['../../actions/Actions',
 
 		this._id = options.id || new Uuid().generate();
 
+
 		/**
 		 * Every map is associated with the period. If no period is specified, then it is supplied latest when the first
 		 * state change containing period happens.
