@@ -57,6 +57,7 @@ define([
 			visualization: false
 		};
 		this.checkConfiguration();
+		Stores.retrieve("state").setChanges(this._options.changes);
 
 		var visualization = Number(ThemeYearConfParams.visualization);
 

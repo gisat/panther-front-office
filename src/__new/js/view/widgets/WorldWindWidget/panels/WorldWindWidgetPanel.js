@@ -101,7 +101,7 @@ define(['../../../../error/ArgumentError',
 			this._maps[key].layers.removeAllLayersFromGroup(group);
 		}
 
-		if (group == "selectedareasfilled" || group == "areaoutlines"){
+		if (group === "selectedareasfilled" || group === "areaoutlines"){
 			this._panelBodySelector.find(".layer-row[data-id=" + group + "]").removeClass("checked");
 		} else {
 			this._panelBodySelector.find(".layer-row").removeClass("checked");

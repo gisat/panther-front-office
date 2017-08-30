@@ -32,20 +32,14 @@ define(['../../../../error/ArgumentError',
 	InfoLayersPanel.prototype = Object.create(WorldWindWidgetPanel.prototype);
 
 	/**
-	 * Rebuild panel with current configuration
-	 * @param options.config {Object} configuration from global object ThemeYearConfParams
-	 * @param options.changes {Object} changes of configuration
+	 * Rebuild panel
 	 */
-	InfoLayersPanel.prototype.rebuild = function(options){
-		if (!options.config){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "InfoLayersPanel", "constructor", "missingParameter"));
-		}
-
+	InfoLayersPanel.prototype.rebuild = function(){
 		this._groupId = "topiclayer";
 		this.clear(this._id);
 
 		var self = this;
-		this.getLayersFromAPI(options.config).then(function(result){
+		this.getLayersFromAPI().then(function(result){
 			if (result.hasOwnProperty("data") && result.data.length > 0){
 				self.addGroups(result.data);
 				self.switchOnActiveLayers(self._groupId);
@@ -187,12 +181,13 @@ define(['../../../../error/ArgumentError',
 
 	/**
 	 * Get the layers list from server
-	 * @param configuration {Object} configuration from global object ThemeYearConfParams
 	 */
-	InfoLayersPanel.prototype.getLayersFromAPI = function(configuration){
-		var scope = Number(configuration.dataset);
+	InfoLayersPanel.prototype.getLayersFromAPI = function(){
+		var configuration = Stores.retrieve("state").current();
+
+		var scope = Number(configuration.scope);
 		var theme = Number(configuration.theme);
-		var year = JSON.parse(configuration.years);
+		var year = Number(configuration.periods[0]);
 		var place = "";
 		if (configuration.place.length > 0){
 			place = [Number(configuration.place)];

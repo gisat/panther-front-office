@@ -37,7 +37,7 @@ define(['../../../error/ArgumentError',
 		if (!options.id){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingId"));
 		}
-		if (!options.target || options.target.length == 0){
+		if (!options.target || options.target.length === 0){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingTarget"));
 		}
 
@@ -48,20 +48,18 @@ define(['../../../error/ArgumentError',
 
 	/**
 	 * Rebuild panels with current configuration
-	 * @param options {Object}
-	 * @param options.config {Object} configuration from global object ThemeYearConfParams
-	 * @param options.changes {Object} changes in configuration
+	 * @param stateChanges {Object} changes in configuration
 	 */
-	WorldWindWidgetPanels.prototype.rebuild = function(options){
-		if (!options){
+	WorldWindWidgetPanels.prototype.rebuild = function(stateChanges){
+		if (!stateChanges){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingParameter"));
 		}
-		if (options.changes && !options.changes.scope){
+		if (stateChanges && !stateChanges.scope){
 			this._auLayersPanel.switchOnLayersFrom2D();
 			this._thematicLayersPanel.switchOnLayersFrom2D();
 		}
-		this._infoLayersPanel.rebuild(options);
-		this._wmsLayersPanel.rebuild(options.config);
+		this._infoLayersPanel.rebuild();
+		this._wmsLayersPanel.rebuild();
 	};
 
 	/**
@@ -83,6 +81,10 @@ define(['../../../error/ArgumentError',
 		this.addEventsListeners();
 	};
 
+	/**
+	 * Add background layers to map
+	 * @param map {WorldWindMap}
+	 */
 	WorldWindWidgetPanels.prototype.addLayersToMap = function(map){
 		this._backgroundLayersPanel.addLayersToMap(map);
 	};

@@ -56,6 +56,7 @@ define([
 		this.deleteFooter(this._widgetSelector);
 
 		this._mapsContainer.addMap('default-map');
+		this._stateChanges = {};
 	};
 
 	WorldWindWidget.prototype = Object.create(Widget.prototype);
@@ -92,24 +93,21 @@ define([
 		this._panels.addLayersToMap(map);
 		if (map._id !== 'default-map'){
 			map.rebuild(this._stateStore.current());
-			this._panels.rebuild(this._options);
+			this._panels.rebuild(this._stateChanges);
 		}
 	};
 
 	/**
-	 * Rebuild with current configuration
-	 * @param data {Object}
-	 * @param options {Object}
-	 * @param options.changes {Object} changes in configuration
+	 * Rebuild widget
 	 */
-	WorldWindWidget.prototype.rebuild = function(data, options){
-		this._options = jQuery.extend(true, {}, options);
-
+	WorldWindWidget.prototype.rebuild = function(){
 		var isIn3dMode = $("body").hasClass("mode-3d");
-		if (isIn3dMode && Object.keys(this._options).length){
+		this._stateChanges = this._stateStore.current().changes;
+
+		if (isIn3dMode){
 			this._mapsContainer.rebuildMaps();
-			this._panels.rebuild(this._options);
-			this._options.changes = {
+			this._panels.rebuild(this._stateChanges);
+			this._stateChanges = {
 				scope: false,
 				location: false,
 				theme: false,
@@ -117,8 +115,6 @@ define([
 				level: false,
 				visualization: false
 			};
-		} else {
-			console.warn("No data detected!");
 		}
 		this.handleLoading("hide");
 	};
@@ -158,7 +154,7 @@ define([
 			body.addClass("mode-3d");
 			self._widgetSelector.addClass("open");
 			self.toggleComponents("none");
-			self.rebuild(null, self._options);
+			self.rebuild();
 		}
 
 		if (this._topToolBar){
@@ -176,7 +172,7 @@ define([
 		body.addClass("mode-3d");
 		self._widgetSelector.addClass("open");
 		self.toggleComponents("none");
-		self.rebuild(null, self._options);
+		self.rebuild();
 
 		if (this._topToolBar){
 			this._topToolBar.build();
