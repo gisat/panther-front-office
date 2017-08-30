@@ -749,7 +749,6 @@ Ext.define('PumaMain.controller.Map', {
 				vendorParams: {
 					propertyName: 'gid',
 					expectJson: true
-
 				},
 				layers: [map.selectInMapLayer]
 			}), 
@@ -970,7 +969,12 @@ Ext.define('PumaMain.controller.Map', {
 	},
 		
 	onFeatureSelected: function(evt) {
-		var allFeatures = JSON.parse(evt.text).features;
+		try {
+            var allFeatures = JSON.parse(evt.text).features;
+        } catch(e) {
+			return; // At least don't break the UI.
+		}
+
 		console.log("AllFEATURES ",allFeatures);
 		if (allFeatures && allFeatures.length) {
 			var controller = this.getController('Area');
