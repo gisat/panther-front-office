@@ -126,19 +126,21 @@ define([
                     self._attrForRequest.push(about);
 
                     if (about.attributeType == "numeric"){
-                        // TODO: Fix ugly hack for showing Kathmandu.
-                        if(Config.toggles.isUrbanTep) {
-                            self._attributes.push({
-                                values: [Number(attribute.min), Number(attribute.max) + 1000],
-                                distribution: attribute.distribution,
-                                about: about
-                            });
-                        } else {
-                            self._attributes.push({
-                                values: [Number(attribute.min), Number(attribute.max)],
-                                distribution: attribute.distribution,
-                                about: about
-                            });
+                        if (self.attributeHasData(attribute)){
+							// TODO: Fix ugly hack for showing Kathmandu.
+							if(Config.toggles.isUrbanTep) {
+								self._attributes.push({
+									values: [Number(attribute.min), Number(attribute.max) + 1000],
+									distribution: attribute.distribution,
+									about: about
+								});
+							} else {
+								self._attributes.push({
+									values: [Number(attribute.min), Number(attribute.max)],
+									distribution: attribute.distribution,
+									about: about
+								});
+							}
                         }
                     }
                     else if (about.attributeType == "boolean") {
@@ -174,6 +176,21 @@ define([
 		});
 
         this.rebuildMap();
+    };
+
+	/**
+     * Check, if there are any data for this attribute
+	 * @param attribute {Object}
+	 * @returns {boolean} false, if there are no data for this attribute
+	 */
+	EvaluationWidget.prototype.attributeHasData = function(attribute){
+	    var hasData = false;
+        attribute.distribution.forEach(function(cls){
+           if (cls !== 0){
+			   hasData = true;
+           }
+        });
+        return hasData;
     };
 
 	/**
