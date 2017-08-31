@@ -374,6 +374,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 			})
 		}
 		cfg.cfgs = viewCfgs;
+		cfg.is3D = $('body').hasClass('mode-3d');
 
 		return {
 			conf: cfg
