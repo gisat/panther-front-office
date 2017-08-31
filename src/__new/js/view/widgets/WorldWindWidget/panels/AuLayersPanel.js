@@ -137,11 +137,13 @@ define(['../../../../error/ArgumentError',
 			layer.layerData.layer = store.layerNames;
 			layer.layerData.sldId = store.sldId;
 
-			this._worldWind.layers.addChoroplethLayer(layer.layerData, id, false);
+			for (var key in this._maps){
+				this._maps[key].layers.addChoroplethLayer(layer.layerData, id, false);
+			}
 
 			var toolBox = layer.control.getToolBox();
 			toolBox.clear();
-			toolBox.addOpacity(layer.layerData, this._worldWind);
+			toolBox.addOpacity(layer.layerData, this._maps);
 		}
 	};
 

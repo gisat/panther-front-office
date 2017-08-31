@@ -30,7 +30,7 @@ define(['../../../../error/ArgumentError',
 	Radiobox.prototype = Object.create(Checkbox.prototype);
 
 	/**
-	 * Build the checkbox row and add a listener to it
+	 * Build the radio row and add a listener to it
 	 */
 	Radiobox.prototype.build = function (){
 

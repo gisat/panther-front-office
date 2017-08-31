@@ -6,6 +6,7 @@ define(['../../../../error/ArgumentError',
 	'../../../worldWind/layers/layerTools/LayerTools',
 	'./panelRow/PanelRow',
 	'../../inputs/checkbox/Radiobox',
+	'../../../../stores/Stores',
 
 	'jquery',
 	'string',
@@ -19,6 +20,7 @@ define(['../../../../error/ArgumentError',
 			LayerTools,
 			PanelRow,
 			Radiobox,
+			StoresInternal,
 
 			$,
 			S,
@@ -30,24 +32,20 @@ define(['../../../../error/ArgumentError',
 	 * @param options.id {string} id of element
 	 * @param options.name {string} name of panel
 	 * @param options.target {JQuery} JQuery selector of target element
-	 * @param options.worldWind {WorldWind.WorldWindow}
+	 * @param options.currentMap {WorldWindMap}
 	 * @constructor
 	 */
 	var WorldWindWidgetPanel = function(options){
 		if (!options.id){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetSection", "constructor", "missingId"));
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanel", "constructor", "missingId"));
 		}
 		if (!options.name){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetSection", "constructor", "missingName"));
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanel", "constructor", "missingName"));
 		}
-		if (!options.target || options.target.length == 0){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetSection", "constructor", "missingTarget"));
-		}
-		if (!options.worldWind){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidget", "constructor", "missingWorldWind"));
+		if (!options.target || options.target.length === 0){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanel", "constructor", "missingTarget"));
 		}
 
-		this._worldWind = options.worldWind;
 		this._id = options.id;
 		this._name = options.name;
 		this._target = options.target;
@@ -57,6 +55,7 @@ define(['../../../../error/ArgumentError',
 			this._isOpen = options.isOpen;
 		}
 
+		this._maps = StoresInternal.retrieve('map').getAll();
 		this.build();
 	};
 
@@ -98,9 +97,11 @@ define(['../../../../error/ArgumentError',
 	 */
 	WorldWindWidgetPanel.prototype.clearLayers = function(group){
 		$("." + group + "-floater").remove();
-		this._worldWind.layers.removeAllLayersFromGroup(group);
+		for (var key in this._maps){
+			this._maps[key].layers.removeAllLayersFromGroup(group);
+		}
 
-		if (group == "selectedareasfilled" || group == "areaoutlines"){
+		if (group === "selectedareasfilled" || group === "areaoutlines"){
 			this._panelBodySelector.find(".layer-row[data-id=" + group + "]").removeClass("checked");
 		} else {
 			this._panelBodySelector.find(".layer-row").removeClass("checked");
@@ -231,9 +232,13 @@ define(['../../../../error/ArgumentError',
 
 
 			if (checkbox.hasClass("checked")){
-				self._worldWind.layers.showLayer(layerId);
+				for(var key in self._maps){
+					self._maps[key].layers.showLayer(layerId);
+				}
 			} else {
-				self._worldWind.layers.hideLayer(layerId);
+				for(var key in self._maps){
+					self._maps[key].layers.hideLayer(layerId);
+				}
 			}
 		},50);
 	};
@@ -249,7 +254,9 @@ define(['../../../../error/ArgumentError',
 			if (layer.group == groupId){
 				var checkbox = $(".checkbox-row[data-id=" + layer.id +"]");
 				checkbox.addClass("checked");
-				self._worldWind.layers.showLayer(layer.id, layer.order);
+				for (var key in self._maps){
+					self._maps[key].layers.showLayer(layer.id, layer.order);
+				}
 			}
 		});
 	};

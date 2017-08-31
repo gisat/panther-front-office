@@ -3,6 +3,8 @@ define([], function(){
 		mapAdd: 'map#add',
 		mapRemove: 'map#remove',
 
+		mapControl: 'map#control',
+
 		mapAddVisibleLayer: 'map#addVisibleLayer',
 		mapRemoveVisibleLayer: 'map#removeVisibleLayer',
 

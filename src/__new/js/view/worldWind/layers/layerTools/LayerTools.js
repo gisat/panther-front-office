@@ -66,35 +66,34 @@ define(['../../../../error/ArgumentError',
 
 	/**
 	 * Build legend for layer
-	 * @param worldWind {WorldWindMap}
 	 * @param layerMetadata {Object}
 	 * @returns {Legend}
 	 */
-	LayerTools.prototype.addLegend = function(layerMetadata, worldWind){
+	LayerTools.prototype.addLegend = function(layerMetadata, maps){
 		return new Legend({
 			active: false,
 			class: this._class,
 			name: layerMetadata.name,
 			layerMetadata: layerMetadata,
 			target: this._toolsContainer,
-			worldWind: worldWind
+			maps: maps
 		});
 	};
 
 	/**
 	 * Build opacity tool for layer
-	 * @param worldWind {WorldWindMap}
+	 * @param maps {Array} List of WorldWindMaps
 	 * @param layerMetadata {Object}
 	 * @returns {Opacity}
 	 */
-	LayerTools.prototype.addOpacity = function(layerMetadata, worldWind){
+	LayerTools.prototype.addOpacity = function(layerMetadata, maps){
 		return new Opacity({
 			active: false,
 			class: this._class,
 			name: layerMetadata.name,
 			layerMetadata: layerMetadata,
-			worldWind: worldWind,
-			target: this._toolsContainer
+			target: this._toolsContainer,
+			maps: maps
 		});
 	};
 

@@ -39,23 +39,18 @@ define(['../error/ArgumentError',
 	/**
 	 * Set the location according to current configuration
 	 * @param config {Object} ThemeYearConfParams (configuration from global variable)
-	 * @param widget {JQuery} JQuery widget selector
 	 */
-	MyGoToAnimator.prototype.setLocation = function(config, widget){
+	MyGoToAnimator.prototype.setLocation = function(appState){
 		var self = this;
-		var warningContainer = widget.find(".floater-body .warning");
-		var place = Number(config.place);
-		var dataset = Number(config.dataset);
+		var places = appState.places;
+		var dataset = appState.scope;
 		if (!dataset){
 			console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "MyGoToAnimator", "setLocation", "missingDataset"));
-			warningContainer.css("display", "block").html("").append('<p>No dataset detected! Possible reasons: <br> Broken links in visualizations (e.g. non-existing attributes or attribute sets). Try to create visualizations again. <br> Choropleths includes non-existing attributes or attribute sets.</p>');
 		}
 		else {
-			warningContainer.css("display", "none");
-
 			var values = {dataset: dataset};
-			if (place && place != 0){
-				values.id = place;
+			if (places[0] !== 'All places'){
+				values.id = places[0];
 			}
 
 			Stores.retrieve("location").filter(values).then(function(response){

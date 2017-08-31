@@ -4,18 +4,24 @@ define([], function () {
 	 * and everything that needs something from it, is notified.
 	 * @constructor
 	 */
-	var StateStore = function (options) {};
+	var StateStore = function (options) {
+		this._changes = {}
+	};
 
 	/**
 	 * It returns complete information about the current state. At some point in time, it will be simply stored probably
 	 * in URL and therefore will be accessible to outside.
+	 * todo remove dependency on ThemeYearConfParams global object
 	 */
 	StateStore.prototype.current = function () {
 		return {
 			scope: this.scope(),
 			scopeFull: this.scopeFull(),
-			theme: null,
+			theme: ThemeYearConfParams.theme,
 			places: this.places(),
+			place: ThemeYearConfParams.place,
+			allPlaces: ThemeYearConfParams.allPlaces,
+			allPeriods: ThemeYearConfParams.allYears,
 
 			analyticalUnitLevel: this.analyticalUnitLevel(),
 
@@ -23,8 +29,17 @@ define([], function () {
 
 			objects: {
 				places: this.placesObjects()
-			}
+			},
+			changes: this._changes
 		}
+	};
+
+	/**
+	 * Set what changed after last action in Ext UI
+	 * @param changes {Object}
+	 */
+	StateStore.prototype.setChanges = function(changes){
+		this._changes = changes;
 	};
 
 	StateStore.prototype.scopeFull = function() {
@@ -43,6 +58,13 @@ define([], function () {
 			// Load all places for the scope.
             return this.placesForScope();
 		}
+
+		// if(defaultPlaces != 'custom') {
+		// 	return [Ext.StoreMgr.lookup('location').getById(defaultPlaces)];
+		// } else {
+		// 	// Load all places for the scope.
+		// 	return Ext.StoreMgr.lookup('location').filter('dataset', this.scope());
+		// }
 	};
 
 	StateStore.prototype.places = function() {
@@ -53,6 +75,15 @@ define([], function () {
 			// Load all places for the scope.
 			return this.placesForScope();
 		}
+
+		// if(defaultPlaces != 'custom') {
+		// 	return [defaultPlaces];
+		// } else {
+		// 	// Load all places for the scope.
+		// 	return Ext.StoreMgr.lookup('location').filter('dataset', this.scope()).map(function (location) {
+		// 		return location._id;
+		// 	});
+		// }
 	};
 
 	StateStore.prototype.placesForScope = function() {

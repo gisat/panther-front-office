@@ -1,31 +1,30 @@
-#world-wind-container {
-	display: none;
-	background: black url("../../../img/night-sky.jpg") top left no-repeat;
-	background-size: cover;
-	position: relative;
-	z-index: 5555;
-}
-body.mode-3d #world-wind-container {
-	display: block;
-}
-#world-wind-map {
+.world-wind-map {
 	position: relative;
 	left: 0;
 	height: 100%;
+	width: 100%;
 }
-#world-wind-map.docked {
-	left: 22rem;
+.world-wind-canvas {
+	width: 100%;
+	height: 100%;
 }
-#world-wind-map.charts-hidden {
+.close-map-button {
+	cursor: pointer;
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	left: 0;
-	width: 100%;
+	top: 0;
+	width: 1.3rem;
+	height: 1.3rem;
+	z-index: 1;
 }
-#world-wind-map.docked.charts-hidden {
-	left: 22rem;
-	width: calc(100% - 22rem);
-	height: 100%;
+.close-map-icon {
+	color: rgba(80,87,94,.7);
+	font-size: 1rem;
+	transition: color .3s ease-in-out;
 }
-#world-wind-canvas {
-	width: 100%;
-	height: 100%;
+.close-map-icon:hover {
+	color: rgba(80,87,94,1);
 }

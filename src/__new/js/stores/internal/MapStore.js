@@ -12,9 +12,13 @@ define([
 		options.dispatcher.addListener(this.onEvent.bind(this));
 
 		this._maps = {};
-		options.maps.forEach(function(map){
-			this._maps[map.id] = map;
-		}.bind(this));
+		this._navigatorState = {};
+
+		if (options.maps){
+			options.maps.forEach(function(map){
+				this._maps[map._id] = map;
+			}.bind(this));
+		}
 	};
 
 	/**
@@ -23,16 +27,40 @@ define([
 	 * @param options.map {WorldWindMap} Visible map.
 	 */
 	MapStore.prototype.add = function(options) {
-		this._maps[options.map.id] = options.map;
+		this._maps[options.map._id] = options.map;
 	};
 
 	/**
 	 * It removes old map from the store.
 	 * @param options {Object}
-	 * @param options.map {WorldWindMap} Map which should be removed from DOM.
+	 * @param options.id {String} Map which should be removed from DOM.
 	 */
 	MapStore.prototype.remove = function(options) {
-		delete this._maps[options.map.id];
+		delete this._maps[options.id];
+	};
+
+	/**
+	 * Get all maps from this store
+	 * @returns {{}|*}
+	 */
+	MapStore.prototype.getAll = function(){
+		return this._maps;
+	};
+
+	/**
+	 * It updates the settings of World wind navigator
+	 * @param options {Object}
+	 */
+	MapStore.prototype.updateNavigator = function(options){
+		this._navigatorState = options;
+	};
+
+	/**
+	 * Return the current settings of World wind navigator
+	 * @returns {Object}
+	 */
+	MapStore.prototype.getNavigatorState = function(){
+		return this._navigatorState;
 	};
 
 	/**
@@ -45,6 +73,8 @@ define([
 			this.add(options);
 		} else if (type === Actions.mapRemove) {
 			this.remove(options);
+		} else if (type === Actions.mapControl) {
+			this.updateNavigator(options);
 		}
 	};
 

@@ -302,6 +302,9 @@ Ext.define('PumaMain.controller.ViewMng', {
 				}
 			}.bind(this), 2000);
 		}
+		if (Config.cfg.is3D){
+			Stores.notify('map#show3D');
+		}
     },
 
 	gatherViewConfig: function () {
