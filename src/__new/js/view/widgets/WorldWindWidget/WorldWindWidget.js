@@ -103,7 +103,7 @@ define([
 	 * Rebuild widget
 	 */
 	WorldWindWidget.prototype.rebuild = function(){
-		this.rebuildAddMapIcons();
+		// this.rebuildAddMapIcons();
 		var isIn3dMode = $("body").hasClass("mode-3d");
 		this._stateChanges = this._stateStore.current().changes;
 
