@@ -28,10 +28,17 @@ Ext.application({
 
 		if (Config.toggles.isUrbanTep) {
 			$('body').addClass("urban-tep");
-			$('#header .menu').hide();
-			$('.user .sep').hide();
+			$('#header .menu #intro-link').hide();
+            $('#header .menu #downloads-link').hide();
+            $('#header .menu #help-link').hide();
+            $('.user .sep').hide();
 			$('.user .signup').hide();
 		}
+
+		if(Config.toggles.hideWorldBank) {
+            $('#header .menu #intro-link').hide();
+            $('#header .menu #downloads-link').hide();
+        }
 
 		if(Config.toggles.hasNewEvaluationTool){
 			$("#placeholder-evaluation-widget").css("display","block");
@@ -110,6 +117,20 @@ Ext.application({
 
 		if(Config.toggles.usePumaLogo){
 			$("html").addClass("toggle-usePumaLogo");
+		}
+
+		if(Config.toggles[window.location.origin]) {
+			Config.toggles[window.location.origin].classes.forEach(function(className){
+                $("html").addClass(className);
+			});
+		}
+
+		// dromas view
+		var isDromas = $('html').hasClass("dromas");
+		if (isDromas){
+			$('#content-intro > .label').html("");
+			$('#header').prepend('<div class="project-logo"></div>');
+			$('#map-holder').prepend('<div id="intro-overlay"></div>')
 		}
 
 		window.location.origin = window.location.origin || (window.location.protocol+'//'+window.location.hostname+ (window.location.port ? (':'+window.location.port) : ''));

@@ -1,6 +1,6 @@
 var Config = {
-	url: 'http://localhost:4000/',
-	signupAddress: 'http://localhost:4000/account/signup/',
+	url: 'http://panther.gisat.cz/backend/',
+	signupAddress: 'http://panther.gisat.cz/account/signup/',
 	// url: 'https://puma.worldbank.org/backend/',                // PUMA
 	// signupAddress: 'https://puma.worldbank.org/account/signup/',
 	// url: 'http://urbis.gisat.cz/backend/',                     // URBIS
@@ -25,12 +25,12 @@ var Config = {
 		useWBFooter: false,
 		useNewViewSelector: true,
 		useTopToolbar: true,
-		allowPumaHelp: true,
+		allowPumaHelp: false,
 		allowDownloadsLink: true,
-		usePumaLogo: true,
+		usePumaLogo: false,
 		advancedFiltersFirst: false,
 		hasNew3Dmap: true,
-		hasNewEvaluationTool: true,
+		hasNewEvaluationTool: false,
 		hasNewCustomPolygonsTool: false,
 		hasNewFeatureInfo: true,
 		isNewDesign: true,
@@ -38,7 +38,8 @@ var Config = {
 		isEea: false,
 		isMelodies: false,
 		isUrbanTep: false,
-		isSnow: false
+		isSnow: false,
+		hideWorldBank: true
 	},
 
 	basicTexts: {

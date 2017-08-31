@@ -303,6 +303,39 @@ body.intro #content-intro-terms {
 	z-index: 1000000;
 }
 
+/* dromas */
+html.dromas #content-intro-guide, html.dromas #header h1 {
+	display: none;
+}
+html.dromas #content-intro > .label {
+	background: url('../images/dromas/dromas-logo-white.png') no-repeat .5rem 1.2rem;
+}
+html.dromas body.application .project-logo {
+	height: 100%;
+	width: 13rem;
+	background: url(../images/dromas/dromas-logo-white.png) no-repeat;
+	background-size: contain;
+	margin: .7rem;
+}
+
+html.dromas body.intro #map-holder {
+	background: url(../images/dromas/dromas-background-3.jpg) no-repeat;
+	background-size: cover;
+}
+html.dromas body.intro #app-map {
+	display: none;
+}
+html.dromas body.application #intro-overlay {
+	display: none;
+}
+html.dromas body.intro #intro-overlay {
+	display: block;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	background: rgba(150,150,150,.3);
+}
+
 /* Fields */
 .fields-holder {
 	background-color: #434254;

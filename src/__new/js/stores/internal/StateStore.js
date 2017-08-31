@@ -52,11 +52,11 @@ define([], function () {
 
 	StateStore.prototype.placesObjects = function() {
 		var defaultPlaces = Ext.ComponentQuery.query('#sellocation')[0].getValue() || Ext.ComponentQuery.query('#initiallocation')[0].getValue();
-
-		if (defaultPlaces === 'custom'){
-			return ["All places"];
+		if(defaultPlaces != 'custom') {
+			return [Ext.StoreMgr.lookup('location').getById(defaultPlaces)];
 		} else {
-			return [defaultPlaces];
+			// Load all places for the scope.
+            return this.placesForScope();
 		}
 
 		// if(defaultPlaces != 'custom') {
@@ -69,11 +69,11 @@ define([], function () {
 
 	StateStore.prototype.places = function() {
 		var defaultPlaces = Ext.ComponentQuery.query('#sellocation')[0].getValue() || Ext.ComponentQuery.query('#initiallocation')[0].getValue();
-
-		if (defaultPlaces === 'custom'){
-			return ["All places"];
-		} else {
+		if(defaultPlaces != 'custom') {
 			return [defaultPlaces];
+		} else {
+			// Load all places for the scope.
+			return this.placesForScope();
 		}
 
 		// if(defaultPlaces != 'custom') {
@@ -84,6 +84,17 @@ define([], function () {
 		// 		return location._id;
 		// 	});
 		// }
+	};
+
+	StateStore.prototype.placesForScope = function() {
+        var scope = this.scope(),
+            results = [];
+        Ext.StoreMgr.lookup('location').each(function(record){
+            if(record.get('dataset') == scope) {
+                results.push(record.get('_id'));
+            }
+        });
+        return results;
 	};
 
 	StateStore.prototype.periods = function() {
