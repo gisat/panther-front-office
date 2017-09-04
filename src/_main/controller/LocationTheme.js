@@ -5,6 +5,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
     init: function() {
 
 		Observer.addListener("PumaMain.controller.LocationTheme.reloadWmsLayers",this.reloadWmsLayers.bind(this));
+		Stores.addListener(this.areaTemplateChange.bind(this));
 
         this.control({
             '#initialdataset':{
@@ -337,7 +338,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
             themeChanged: true
         });
 
-		this.checkAttrSets(this.attributeSets, this.theme);
+		this.checkAttrSets(this.attributeSets, Ext.StoreMgr.lookup('theme').getById(val));
     },
 
     onYearChange: function(cnt) {
@@ -1217,7 +1218,19 @@ Ext.define('PumaMain.controller.LocationTheme', {
         }]);
     },
 
-    checkAttrSets: function(attrSets, theme) {
+    areaTemplateChange: function(notification){
+        if (notification === "areas#areaTemplateChange"){
+            this.checkAttrSets(this.attributeSets, this.theme);
+        }
+    },
+
+	/**
+     * Check, if attribute sets has been changed. It also check, if all attributes in menu contain relevant data and omit those,
+     * which doesn'n.
+	 * @param attrSets {Array} list of attribute sets for current configuration
+	 * @param theme {number} id of theme
+	 */
+	checkAttrSets: function(attrSets, theme) {
         this.attributeSets = attrSets;
         this.theme = theme;
 
@@ -1225,21 +1238,43 @@ Ext.define('PumaMain.controller.LocationTheme', {
             return;
         }
 
-		// JJJ TODO ...........
-		// prejmenovat na neco smysluplneho
-        var self = this;
 		var topics = theme.get('topics'); // get all topics (id's) of current theme
-		var prefTopics = theme.get('prefTopics'); // get pref. topics of current theme
-        var a2chStore = Ext.StoreMgr.lookup('attributes2choose');
         var attrSetStore = Ext.StoreMgr.lookup('attributeset');
 		var attrStore = Ext.StoreMgr.lookup('attribute');
 
+		this.getAttributesWithData(topics, attrSetStore, attrStore)
+            .then(this.rebuildAttributesTree.bind(this, topics, this.theme, attrSetStore, attrStore, this.attributeSets));
+    },
+
+	/**
+     * Rebuild attribute tree with relevant attributes for current configuration. Do not show attributes without data.
+	 * @param topics {Array}
+     * @param theme
+	 * @param attrSetStore
+	 * @param attrStore
+	 * @param allAttributes {Array} list of relevant attributes
+     * @param attrSets
+	 */
+	rebuildAttributesTree: function(topics, theme, attrSetStore, attrStore, attrSets, allAttributes){
+	    var attributesWithData = null;
+	    if (allAttributes){
+			attributesWithData = Ext.Array.filter(allAttributes.attributes, function(rec){
+				return rec.distribution[0] > 0;
+			});
+        } else {
+	        console.log("LocationTheme#rebuildAttributesTree: No attributes!");
+	        return;
+        }
+
+		var prefTopics = theme.get('prefTopics'); // get pref. topics of current theme
+		var a2chStore = Ext.StoreMgr.lookup('attributes2choose');
 		var rootNode = a2chStore.getRootNode();
 
 		// clear the store
 		while(rootNode.firstChild){
 			rootNode.removeChild(rootNode.firstChild);
 		}
+
 
 		// populate the store
 		for(var isPref = 1; isPref >= 0; isPref--){ // iterate two bools: is preferential and isn't
@@ -1267,67 +1302,88 @@ Ext.define('PumaMain.controller.LocationTheme', {
 						var attrSetNode = topicNode.lastChild;
 
 						attrStore.data.each(function(attribute){ // iterate attributes (objects)
-							if( Ext.Array.contains(attrSetAttributes, attribute.get('_id')) && attribute.data.type == "numeric"){
-								self.checkAttributeContainsData(attrSet.internalId, attribute.data).then(function(response){
-								    if (response){
-										attrSetNode.appendChild(Ext.create('Puma.model.MappedChartAttribute',{
-											attr: attribute.get('_id'),
-											as: attrSet.get('_id'),
-											topic: topics[topic],
-											leaf: true,
-											checked: false
-										}));
-                                    }
+							if( Ext.Array.contains(attrSetAttributes, attribute.get('_id')) && attribute.data.type === "numeric"){
+							    var attrs = Ext.Array.filter(attributesWithData, function(rec){
+                                    return (rec.attribute === attribute.get('_id') && rec.attributeSet === attrSet.get('_id'));
                                 });
+                                if (attrs.length > 0){
+									attrSetNode.appendChild(Ext.create('Puma.model.MappedChartAttribute',{
+										attr: attribute.get('_id'),
+										as: attrSet.get('_id'),
+										topic: topics[topic],
+										leaf: true,
+										checked: false
+									}));
+                                }
 							}
 						});
-
-						// if(!attrSetNode.childNodes.length) attrSetNode.remove();
+						if(!attrSetNode.childNodes.length) attrSetNode.remove();
 					}
 				});
-
-				// if(!topicNode.childNodes.length) topicNode.remove();
+				if(!topicNode.childNodes.length) topicNode.remove();
 			}
 		}
 
 		// filter store attributeset2choose
 		// povoli ty, jejichz id je v poli attrSets
-        var asStoreToFilter = Ext.StoreMgr.lookup('attributeset2choose');
-        asStoreToFilter.clearFilter(true);
-        asStoreToFilter.filter([function(rec){
-            return Ext.Array.contains(attrSets,rec.get('_id'));
-        }]);
+		var asStoreToFilter = Ext.StoreMgr.lookup('attributeset2choose');
+		asStoreToFilter.clearFilter(true);
+		asStoreToFilter.filter([function(rec){
+			return Ext.Array.contains(attrSets,rec.get('_id'));
+		}]);
     },
 
-	checkAttributeContainsData: function(attributeSetId, attribute){
+	/**
+     * Go through all attributes for current configuration. Then make statistics request.
+	 * @param topics {Object}
+	 * @param attrSetStore {Object}
+	 * @param attrStore {Object}
+     * @returns {Promise}
+	 */
+	getAttributesWithData: function(topics, attrSetStore, attrStore){
+		var attributes = [];
+		for(var topic in topics){ // iterate topics (id's) of actual theme
+			attrSetStore.data.each(function(attrSet){ // iterate attrSets (objects)
+				if(attrSet.get('topic') === topics[topic]){
+					var attrSetAttributes = attrSet.get('attributes');
+					attrStore.data.each(function(attribute){ // iterate attributes (objects)
+						if( Ext.Array.contains(attrSetAttributes, attribute.get('_id')) && attribute.data.type === "numeric"){
+							var attr = attribute.data;
+							attr.attributeSet = attrSet.internalId;
+							attr.attribute = attribute.data._id;
+						    attributes.push(attr);
+						}
+					});
+				}
+			});
+		}
+
+		return this.getAttributesStatistics(attributes);
+    },
+
+	/**
+     * Get statistics about attributes
+	 * @param attributes {Array} list of all attributes
+	 * @returns {Promise}
+	 */
+	getAttributesStatistics: function(attributes){
         var dist = {
             type: 'normal',
             classes: 1
         };
-        var attr = attribute;
-        attr.attribute = attribute._id;
-        attr.attributeSet = attributeSetId;
 
 		var params = this.prepareParams();
 		return $.post(Config.url + "rest/filter/attribute/statistics", {
 			areaTemplate: params.areaTemplate,
 			periods: params.periods,
 			places: params.locations,
-			attributes: [attr],
+			attributes: attributes,
 			distribution: dist
-		})
-			.then(function (response) {
-				if (response.hasOwnProperty("attributes")) {
-				    var attribute = response.attributes[0];
-				    return (attribute && attribute.distribution[0] > 0);
-				} else {
-					return false;
-				}
-			});
+		});
     },
 
 	/**
-	 * It prepares basics parameters for request
+	 * It prepares basics parameters for request according to current configuration.
 	 * @returns {{areaTemplate: string, locations: [], periods: []}}
 	 */
 	prepareParams: function () {

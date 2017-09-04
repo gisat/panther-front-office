@@ -657,6 +657,7 @@ Ext.define('PumaMain.controller.Area', {
 		// new URBIS change
 		if (this.areaTemplates[this.areaTemplates.length-1]){
 			ThemeYearConfParams.auCurrentAt = this.areaTemplates[this.areaTemplates.length-1];
+			Stores.notify("areas#areaTemplateChange")
 		}
 		if (!AreasExpanding){
 			this.newAreasChange();
