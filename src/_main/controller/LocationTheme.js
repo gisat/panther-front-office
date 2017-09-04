@@ -244,6 +244,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
         this.newOnChange({
             placeChanged: true
         });
+
+        this.checkAttrSets(this.attributeSets, this.theme);
     },
 
     onConfirm: function() {
@@ -334,6 +336,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
         this.newOnChange({
             themeChanged: true
         });
+
+		this.checkAttrSets(this.attributeSets, this.theme);
     },
 
     onYearChange: function(cnt) {
@@ -1166,8 +1170,9 @@ Ext.define('PumaMain.controller.LocationTheme', {
             this.checkFeatureLayers();
 			var themeId = Ext.ComponentQuery.query('#seltheme')[0].getValue();
 			var theme = Ext.StoreMgr.lookup('theme').getById(themeId);
-            this.checkAttrSets(conf.attrSets, theme);
+			this.checkAttrSets(conf.attrSets, theme);
         }
+
         this.getController('Chart').reconfigureAll();
         this.getController('Layers').reconfigureAll();
         if (response.request.options.visChanged) {
@@ -1213,8 +1218,16 @@ Ext.define('PumaMain.controller.LocationTheme', {
     },
 
     checkAttrSets: function(attrSets, theme) {
+        this.attributeSets = attrSets;
+        this.theme = theme;
+
+        if (!this.attributeSets || !this.theme){
+            return;
+        }
+
 		// JJJ TODO ...........
 		// prejmenovat na neco smysluplneho
+        var self = this;
 		var topics = theme.get('topics'); // get all topics (id's) of current theme
 		var prefTopics = theme.get('prefTopics'); // get pref. topics of current theme
         var a2chStore = Ext.StoreMgr.lookup('attributes2choose');
@@ -1255,21 +1268,25 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
 						attrStore.data.each(function(attribute){ // iterate attributes (objects)
 							if( Ext.Array.contains(attrSetAttributes, attribute.get('_id')) && attribute.data.type == "numeric"){
-								attrSetNode.appendChild(Ext.create('Puma.model.MappedChartAttribute',{
-									attr: attribute.get('_id'),
-									as: attrSet.get('_id'),
-									topic: topics[topic],
-									leaf: true,
-									checked: false
-								}));
+								self.checkAttributeContainsData(attrSet.internalId, attribute.data).then(function(response){
+								    if (response){
+										attrSetNode.appendChild(Ext.create('Puma.model.MappedChartAttribute',{
+											attr: attribute.get('_id'),
+											as: attrSet.get('_id'),
+											topic: topics[topic],
+											leaf: true,
+											checked: false
+										}));
+                                    }
+                                });
 							}
 						});
 
-						if(!attrSetNode.childNodes.length) attrSetNode.remove();
+						// if(!attrSetNode.childNodes.length) attrSetNode.remove();
 					}
 				});
 
-				if(!topicNode.childNodes.length) topicNode.remove();
+				// if(!topicNode.childNodes.length) topicNode.remove();
 			}
 		}
 
@@ -1279,8 +1296,52 @@ Ext.define('PumaMain.controller.LocationTheme', {
         asStoreToFilter.clearFilter(true);
         asStoreToFilter.filter([function(rec){
             return Ext.Array.contains(attrSets,rec.get('_id'));
-        }])
+        }]);
+    },
 
+	checkAttributeContainsData: function(attributeSetId, attribute){
+        var dist = {
+            type: 'normal',
+            classes: 1
+        };
+        var attr = attribute;
+        attr.attribute = attribute._id;
+        attr.attributeSet = attributeSetId;
+
+		var params = this.prepareParams();
+		return $.post(Config.url + "rest/filter/attribute/statistics", {
+			areaTemplate: params.areaTemplate,
+			periods: params.periods,
+			places: params.locations,
+			attributes: [attr],
+			distribution: dist
+		})
+			.then(function (response) {
+				if (response.hasOwnProperty("attributes")) {
+				    var attribute = response.attributes[0];
+				    return (attribute && attribute.distribution[0] > 0);
+				} else {
+					return false;
+				}
+			});
+    },
+
+	/**
+	 * It prepares basics parameters for request
+	 * @returns {{areaTemplate: string, locations: [], periods: []}}
+	 */
+	prepareParams: function () {
+        var locations;
+        if (ThemeYearConfParams.place.length > 0) {
+            locations = [Number(ThemeYearConfParams.place)];
+        } else {
+            locations = ThemeYearConfParams.allPlaces;
+        }
+        return {
+            areaTemplate: ThemeYearConfParams.auCurrentAt,
+            locations: locations,
+            periods: JSON.parse(ThemeYearConfParams.years)
+        }
     },
 
     checkUserPolygons: function(years,analysis,callback) {

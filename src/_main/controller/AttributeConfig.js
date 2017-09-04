@@ -761,7 +761,9 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         this.setActiveCard(btn,0);
     },
     setActiveCard: function(cmp,idx) {
-        cmp.up('[itemId=attributecontainer]').getLayout().setActiveItem(idx);
+    	var component = cmp.up('[itemId=attributecontainer]');
+    	var layout = component.getLayout();
+        layout.setActiveItem(idx);
     },
     
     getChecked: function(store) {
