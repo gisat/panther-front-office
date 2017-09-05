@@ -49,7 +49,6 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         'js/util/Logger',
         'js/view/map/Map',
 		'js/view/mapsContainer/MapsContainer',
-        'js/view/widgets_3D/MapDiagramsWidget/MapDiagramsWidget',
 		'js/stores/internal/MapStore',
 		'js/view/widgets/PeriodsWidget/PeriodsWidget',
 		'js/util/Placeholder',
@@ -78,7 +77,6 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
              Logger,
              Map,
              MapsContainer,
-             MapDiagramsWidget,
 			 MapStore,
 			 PeriodsWidget,
 			 Placeholder,
@@ -124,15 +122,9 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
         	var mapsContainer = buildMapsContainer(mapStore);
 			var worldWindWidget = buildWorldWindWidget(mapsContainer, topToolBar, stateStore);
-			var periodsWidget = buildPeriodsWidget();
+			var periodsWidget = buildPeriodsWidget(mapsContainer);
             widgets.push(worldWindWidget);
 			widgets.push(periodsWidget);
-
-			// todo temporary for testing
-			$("#add-map-buttons").on("click", ".add-map", function(){
-				var yearId = Number($(this).attr("data-id"));
-				mapsContainer.addMap(null, yearId);
-			});
         }
         if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
         	var aggregatedWidget = buildAggregatedChartWidget(filter, stateStore);
@@ -311,10 +303,11 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         })
     }
 
-    function buildPeriodsWidget (){
+    function buildPeriodsWidget (mapsContainer){
     	return new PeriodsWidget({
 			elementId: 'periods-widget',
 			name: 'Periods',
+			mapsContainer: mapsContainer,
 			dispatcher: window.Stores,
 			isWithoutFooter: true
 		});

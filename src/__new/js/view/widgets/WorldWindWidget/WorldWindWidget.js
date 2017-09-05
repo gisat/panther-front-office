@@ -103,7 +103,6 @@ define([
 	 * Rebuild widget
 	 */
 	WorldWindWidget.prototype.rebuild = function(){
-		this.rebuildAddMapIcons();
 		var isIn3dMode = $("body").hasClass("mode-3d");
 		this._stateChanges = this._stateStore.current().changes;
 
@@ -120,26 +119,6 @@ define([
 			};
 		}
 		this.handleLoading("hide");
-	};
-
-	/**
-	 * Rebuild container with buttons for adding a map with specific year
-	 */
-	WorldWindWidget.prototype.rebuildAddMapIcons = function(){
-		var self = this;
-		var container = $("#add-map-buttons");
-		container.html("");
-
-		Stores.retrieve("scope").filter({id: this._stateStore.current().scope})
-			.then(function(datasets){
-				return datasets[0].periods;
-			}).then(function(periods){
-				periods.forEach(function (period) {
-					Stores.retrieve("period").byId(period).then(function(periodData){
-						container.append('<button class="add-map" data-id="'+ periodData[0].id +'">Add ' + periodData[0].name + '</button>')
-					});
-				});
-			});
 	};
 
 	/**

@@ -117,9 +117,6 @@ define([
 		this._widgets.forEach(function(widget){
 			widget.rebuild(data, self._options);
 		});
-		//this._widgets3D.forEach(function(widget){
-		//	widget.rebuild(data, self._options);
-		//});
 	};
 
 	/**
@@ -157,7 +154,7 @@ define([
 		allAttributes.forEach(function(attribute){
 			var isInVisualization = false;
 			visAttributes.forEach(function(visAttr){
-				if (attribute.attribute == visAttr.attribute && attribute.attributeSet == visAttr.attributeSet){
+				if (attribute.attribute === visAttr.attribute && attribute.attributeSet === visAttr.attributeSet){
 					attribute.active = visAttr.active;
 					isInVisualization = true;
 				}
