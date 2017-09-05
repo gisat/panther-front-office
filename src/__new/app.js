@@ -51,6 +51,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 		'js/view/mapsContainer/MapsContainer',
         'js/view/widgets_3D/MapDiagramsWidget/MapDiagramsWidget',
 		'js/stores/internal/MapStore',
+		'js/view/widgets/PeriodsWidget/PeriodsWidget',
 		'js/util/Placeholder',
 		'js/util/Remote',
 		'js/view/widgets/SharingWidget/SharingWidget',
@@ -79,6 +80,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
              MapsContainer,
              MapDiagramsWidget,
 			 MapStore,
+			 PeriodsWidget,
 			 Placeholder,
 			 Remote,
 			 SharingWidget,
@@ -98,18 +100,17 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         var stateStore = new StateStore({
 			dispatcher: window.Stores
 		});
-        Stores.register('state', stateStore);
-
+		var mapStore = new MapStore({
+			dispatcher: window.Stores
+		});
         var selectionStore = new SelectionStore({
 			dispatcher: window.Stores,
 			stateStore: stateStore
 		});
         window.selectionStore = selectionStore;
-        Stores.register('selection', selectionStore);
 
-        var mapStore = new MapStore({
-			dispatcher: window.Stores
-		});
+		Stores.register('state', stateStore);
+        Stores.register('selection', selectionStore);
         Stores.register('map', mapStore);
 
         var attributes = buildAttributes();
@@ -123,7 +124,9 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
         	var mapsContainer = buildMapsContainer(mapStore);
 			var worldWindWidget = buildWorldWindWidget(mapsContainer, topToolBar, stateStore);
+			var periodsWidget = buildPeriodsWidget();
             widgets.push(worldWindWidget);
+			widgets.push(periodsWidget);
 
 			// todo temporary for testing
 			$("#add-map-buttons").on("click", ".add-map", function(){
@@ -241,16 +244,23 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 	 * Build Evaluation Widget instance
      * @param filter {Filter}
 	 * @param stateStore {StateStore}
+	 * @param aggregatedChart {StateStore}
      * @returns {EvaluationWidget}
      */
     function buildEvaluationWidget (filter, stateStore, aggregatedChart){
+		var isOpen = false;
+		if (Config.toggles.hasOwnProperty("isUrbis") && Config.toggles.isUrbis){
+			isOpen = true;
+		}
+
         return new EvaluationWidget({
             filter: filter,
 			stateStore: stateStore,
             elementId: 'evaluation-widget',
             name: 'Evaluation Tool',
             placeholderTargetId: 'widget-container',
-			aggregatedChart: aggregatedChart
+			aggregatedChart: aggregatedChart,
+			isOpen: isOpen
         });
     }
 
@@ -301,6 +311,15 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         })
     }
 
+    function buildPeriodsWidget (){
+    	return new PeriodsWidget({
+			elementId: 'periods-widget',
+			name: 'Periods',
+			dispatcher: window.Stores,
+			isWithoutFooter: true
+		});
+	}
+
     /**
      * Build WorldWindWidget instance
 	 * @param mapsContainer {MapsContainer}
@@ -313,10 +332,11 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
             name: 'Layers',
 			mapsContainer: mapsContainer,
             placeholderTargetId: 'widget-container',
-            iconId: 'top-toolbar-3dmap',
             topToolBar: topToolBar,
 			dispatcher: window.Stores,
-			stateStore: stateStore
+			stateStore: stateStore,
+			isWithoutFooter: true,
+			isFloaterExtAlike: true
         });
     }
 

@@ -29,99 +29,101 @@ define(['../../error/ArgumentError',
 
     /**
      * Base class for creating floating widgets.
+     * @param {Object} options
+     * @param {string} options.elementId - Id of the widget
+     * @param {Object} [options.dispatcher] - Optional parameter.
+     * @param {string} [options.placeholderTargetId] - Optional parameter for old view. Id of the target, where should be placeholders rendered.
+     * @param {string} [options.name] - Optional parameter. Name of the widget
+     * @param {boolean} [options.isFloaterExtAlike] - Optional parameter. If true, floater will look like Ext window
+     * @param {boolean} [options.isOpen] - Optional parameter. If true, floater is open by default
+     * @param {boolean} [options.isWithoutFooter] - Optional parameter. If true, floater is rendered without footer
      * @constructor
      */
-
     var Widget = function (options) {
         View.apply(this, arguments);
-
         if (!options.elementId){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Widget", "constructor", "missingElementId"));
         }
-        if (!options.placeholderTargetId){
-            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Widget", "constructor", "missingTargetElementId"));
-        }
 
+		this._floaterTarget = $("body");
         this._name = options.name || "";
-        this._widgetId = options.elementId;
-        this._floaterTarget = $("body");
-        this._placeholderTarget = $("#" + options.placeholderTargetId);
+		this._widgetId = options.elementId;
+        this._isFloaterExtAlike = options.isFloaterExtAlike;
+        this._isOpen = options.isOpen;
+		this._isWithoutFooter = options.isWithoutFooter;
 
-        if (this._placeholderTarget.length == 0){
-            throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "Widget", "constructor", "missingHTMLElement"));
+        if (options.dispatcher){
+			this._dispatcher = options.dispatcher;
         }
-        if (options.hasOwnProperty('iconId')){
-            this._icon = $('#' + options.iconId);
-        }
-
-        this.buildWidget({
-            widgetId: this._widgetId,
-            name: this._name,
-            placeholderTarget: this._placeholderTarget
-        });
-
-        this._widgetSelector = $("#floater-" + this._widgetId);
-        this._placeholderSelector = $("#placeholder-" + this._widgetId);
-        this._widgetBodySelector = this._widgetSelector.find(".floater-body");
-        this._widgetHeaderSelector = this._widgetSelector.find(".floater-header");
-        this._warningSelector = this._widgetSelector.find(".floater-warning");
-        this._widgetWarning = new WidgetWarning();
-
-        if (Config.toggles.hasOwnProperty("isUrbis") && Config.toggles.isUrbis){
-            this._widgetSelector.addClass("open");
-            this._widgetSelector.css("display","block"); // redundant, but necessary for animation
-            this._placeholderSelector.removeClass("open");
+        if (options.placeholderTargetId){
+			this._placeholderTarget = $("#" + options.placeholderTargetId);
         }
 
-        ExchangeParams.options.openWidgets["floater-" + this._widgetId] = this._widgetSelector.hasClass("open");
-        this.handleLoading("show");
+        this.buildWidget();
     };
 
     Widget.prototype = Object.create(View.prototype);
 
-    /**
-     * Create the base structure of widget - placeholder and floater
-     * @param options {Object}
-     * @param options.widgetId {Object} JQuery object - widget Id
-     * @param options.placeholderTarget {Object} JQuery object - target
-     * @param options.name {Object} JQuery object - name of the widget
-     */
-    Widget.prototype.buildWidget = function(options){
-        if (!options.widgetId){
-            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Widget", "build", "missingWidgetId"));
-        }
-        if (!options.placeholderTarget){
-            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Widget", "build", "missingTarget"));
-        }
-        if (options.placeholderTarget.length == 0){
-            throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "Widget", "build", "missingHTMLElement"));
-        }
-        if (!options.name){
-            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Widget", "build", "missingWidgetName"));
-        }
+	/**
+     * Build widget - render floater (and placeholder for old view)
+	 */
+	Widget.prototype.buildWidget = function(){
+        this.renderFloater();
 
-        var placeholdersContainer = this._placeholderTarget.find('.placeholders-container');
+        if (this._placeholderTarget){
+            this.renderPlaceholderForOldToolbar();
+        }
+		if (this._isOpen){
+            this.setState("floater-" + this._widgetId, true);
+		}
 
-        var placeholder = S(WidgetPlaceholder).template({
-            name: options.name,
-            widgetId: options.widgetId
-        }).toString();
+		ExchangeParams.options.openWidgets["floater-" + this._widgetId] = this._widgetSelector.hasClass("open");
+		this.handleLoading("show");
+    };
 
-        var minimiseSrc = "__new/img/minimise-icon.png";
-        if (options.widgetId == "world-wind-widget"){
-            minimiseSrc = "__new/img/minimise-icon-dark.png";
+	/**
+     * Render floater for this widget
+	 */
+	Widget.prototype.renderFloater = function(){
+		var floaterClass = "";
+	    var minimiseIconSrc = "__new/img/minimise-icon.png";
+
+	    if (this._isFloaterExtAlike){
+	        floaterClass = "inverse";
+			minimiseIconSrc = "__new/img/minimise-icon-dark.png";
         }
 
-        var floater = S(WidgetFloater).template({
-            name: options.name,
-            widgetId: options.widgetId,
-            minimiseSrc: minimiseSrc
-        }).toString();
+		var floater = S(WidgetFloater).template({
+			name: this._name,
+			widgetId: this._widgetId,
+			minimiseSrc: minimiseIconSrc,
+            floaterClass: floaterClass
+		}).toString();
 
-        placeholdersContainer.append(placeholder);
-        this._floaterTarget.append(floater);
+		this._floaterTarget.append(floater);
+		this._widgetSelector = $("#floater-" + this._widgetId);
+		this._widgetBodySelector = this._widgetSelector.find(".floater-body");
+		this._widgetHeaderSelector = this._widgetSelector.find(".floater-header");
+		this._warningSelector = this._widgetSelector.find(".floater-warning");
+		this._widgetWarning = new WidgetWarning();
 
-        this.addWidgetEventsListeners();
+		if (this._isWithoutFooter){
+			this.deleteFooter(this._widgetSelector);
+		}
+    };
+
+	/**
+     * Render placeholder for old view of top toolbar
+	 */
+	Widget.prototype.renderPlaceholderForOldToolbar = function(){
+		var placeholdersContainer = this._placeholderTarget.find('.placeholders-container');
+		var placeholder = S(WidgetPlaceholder).template({
+			name: this._name,
+			widgetId: this._widgetId
+		}).toString();
+		placeholdersContainer.append(placeholder);
+
+		this._placeholderSelector = $("#placeholder-" + this._widgetId);
     };
 
     /**
@@ -144,7 +146,7 @@ define(['../../error/ArgumentError',
 	/**
      * Open/close floater
      * @param id {string} widget id
-     * @param state {string} show/hide
+     * @param state {boolean} true to show floater
      */
     Widget.prototype.setState = function(id, state){
         var floater = $("#" + id);
@@ -156,38 +158,6 @@ define(['../../error/ArgumentError',
             floater.removeClass("open");
             placeholder.addClass("open");
         }
-    };
-
-	/**
-	 * Dock floater to the position in target
-     * @param floater {JQuery} floater selector
-     * @param target {JQuery} target container selector
-     */
-    Widget.prototype.dockFloater = function(floater, target){
-        floater.appendTo(target)
-            .addClass("docked")
-            .css({
-                left: 0,
-                top: 0,
-                height: '',
-                width: ''
-            })
-            .draggable("disable");
-    };
-
-    /**
-     * Undock floater to the position in target
-     * @param floater {JQuery} floater selector
-     * @param target {JQuery} target container selector
-     */
-    Widget.prototype.undockFloater = function(floater, target){
-        floater.appendTo(target)
-            .removeClass("docked")
-            .css({
-                left: 100,
-                top: 100
-            })
-            .draggable("enable");
     };
 
 	/**
@@ -234,22 +204,6 @@ define(['../../error/ArgumentError',
         if (warnings){
             var message = this._widgetWarning.generate(warnings);
             this._warningSelector.html(message);
-        }
-    };
-
-    Widget.prototype.addWidgetEventsListeners = function(){
-        if (this._icon){
-            this.addIconOnClickListener();
-        }
-    };
-
-    Widget.prototype.addIconOnClickListener = function(){
-        this._icon.on("click", this.toggleFloater.bind(this));
-    };
-
-    Widget.prototype.toggleFloater = function(){
-        if (this._widgetId == "world-wind-widget"){
-            this.toggle3DMap();
         }
     };
 

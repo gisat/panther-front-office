@@ -44,7 +44,6 @@ define([
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidget", "constructor", "missingStateStore"));
 		}
 
-		this._dispatcher = options.dispatcher;
 		this._mapsContainer = options.mapsContainer;
 		this._stateStore = options.stateStore;
 
@@ -55,7 +54,6 @@ define([
 		this._dispatcher.addListener(this.onEvent.bind(this));
 
 		this.build();
-		this.deleteFooter(this._widgetSelector);
 
 		this._mapsContainer.addMap('default-map');
 		this._stateChanges = {};
@@ -69,6 +67,8 @@ define([
 	WorldWindWidget.prototype.build = function(){
 		this.addSettingsIcon();
 		this.addSettingsOnClickListener();
+		this.add3dMapOnClickListener();
+
 		this._panels = this.buildPanels();
 
 		// config for new/old view
@@ -103,7 +103,7 @@ define([
 	 * Rebuild widget
 	 */
 	WorldWindWidget.prototype.rebuild = function(){
-		// this.rebuildAddMapIcons();
+		this.rebuildAddMapIcons();
 		var isIn3dMode = $("body").hasClass("mode-3d");
 		this._stateChanges = this._stateStore.current().changes;
 
@@ -179,7 +179,6 @@ define([
 			self.toggleComponents("none");
 			self.rebuild();
 		}
-
 		if (this._topToolBar){
 			this._topToolBar.build();
 		}
@@ -250,6 +249,11 @@ define([
 			$(".item[data-for=" + id + "]").removeClass("open");
 		});
 	};
+
+	WorldWindWidget.prototype.add3dMapOnClickListener = function(){
+		$('#top-toolbar-3dmap').on("click", this.toggle3DMap.bind(this));
+	};
+
 
 	WorldWindWidget.prototype.onEvent = function(type, options) {
 		if(type === Actions.mapShow3D) {
