@@ -78,6 +78,7 @@ define([
 	 * Add map to container
 	 * @param id {string} Id of the map
 	 * @param periodId {number} Id of the period connected with map
+	 * TODO allow max 16 maps (due to WebGL restrictions)
 	 */
 	MapsContainer.prototype.addMap = function (id, periodId) {
 		var worldWindMap = this.buildWorldWindMap(id, periodId);
@@ -137,7 +138,7 @@ define([
 			dispatcher: window.Stores,
 			id: id,
 			period: periodId,
-			mapsContainer: this._containerSelector
+			mapsContainer: this._containerSelector.find(".map-fields")
 		});
 	};
 
@@ -200,8 +201,10 @@ define([
 
 		this._containerSelector.attr('class', 'maps-container');
 		var cls = '';
-		if (this._mapsCount === 2){
-			cls += a + '2';
+		if (this._mapsCount === 1){
+			cls += a + '1 ' + b + '1';
+		} else if (this._mapsCount === 2){
+			cls += a + '2 ' + b + '1';
 		} else if (this._mapsCount > 2 && this._mapsCount <= 4){
 			cls += a + '2 ' + b + '2';
 		} else if (this._mapsCount > 4 && this._mapsCount <= 6){
