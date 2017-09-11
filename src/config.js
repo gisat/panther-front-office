@@ -33,6 +33,7 @@ var Config = {
 		hasNewEvaluationTool: false,
 		hasNewCustomPolygonsTool: false,
 		hasNewFeatureInfo: true,
+		hasOsmWidget: true,
 		isNewDesign: true,
 		isUrbis: false,
 		isEea: false,

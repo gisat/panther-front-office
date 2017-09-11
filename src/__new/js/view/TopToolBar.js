@@ -42,8 +42,12 @@ define([
 			if (Config.toggles.hasPeriodsWidget){
 				var classesPeriods3d = $('#floater-periods-widget').hasClass('open') ? "item open" : "item";
 				this._target.append('<div class="' + classesPeriods3d + '" id="top-toolbar-periods" data-for="floater-periods-widget">Periods</div>');
-
 			}
+
+            if (Config.toggles.hasOsmWidget){
+                var classesOsm3d = $('#floater-osm-widget').hasClass('open') ? "item open" : "item";
+                this._target.append('<div class="' + classesOsm3d + '" id="top-toolbar-osm" data-for="floater-osm-widget">OSM</div>');
+            }
 
 			var classesSelections3d = $('#window-colourSelection').hasClass('open') ? "item open" : "item";
 			this._target.append('<div class="' + classesSelections3d + '" id="top-toolbar-selections" data-for="window-colourSelection">Selections</div>');

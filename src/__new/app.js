@@ -52,6 +52,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         'js/view/map/Map',
 		'js/view/mapsContainer/MapsContainer',
 		'js/stores/internal/MapStore',
+		'js/view/widgets/OSMWidget/OSMWidget',
 		'js/view/widgets/PeriodsWidget/PeriodsWidget',
 		'js/util/Placeholder',
 		'js/util/Remote',
@@ -80,6 +81,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
              Map,
              MapsContainer,
 			 MapStore,
+			 OSMWidget,
 			 PeriodsWidget,
 			 Placeholder,
 			 Remote,
@@ -144,6 +146,9 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         }
         if(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo){
             tools.push(buildFeatureInfoTool());
+        }
+        if(Config.toggles.hasOsmWidget) {
+            tools.push(buildOsmWidget(mapsContainer));
         }
 
 		widgets.push(buildSharingWidget());
@@ -376,4 +381,20 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			target: $("#content")
 		})
 	}
+
+    /**
+     * Build widget for the Open Street Map vector information.
+     * @param mapsContainer
+     * @returns {OSMWidget}
+     */
+	function buildOsmWidget(mapsContainer) {
+        return new OSMWidget({
+            elementId: 'osm-widget',
+            name: 'Open Street Maps',
+            mapsContainer: mapsContainer,
+            dispatcher: window.Stores,
+            isWithoutFooter: true,
+            is3dOnly: true
+        });
+    }
 });
