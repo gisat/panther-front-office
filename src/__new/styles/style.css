@@ -168,12 +168,7 @@
 
 body.mode-3d .x-window:not(.thematic-maps-settings):not(.metadata-window):not(.window-savevisualization):not(.window-savedataview):not(#loginwindow):not(#window-managevisualization):not(.x-window-ghost):not(#window-areatree):not(#window-colourSelection):not(#window-legacyAdvancedFilters),
 body.mode-3d #tools-container,
-body.mode-3d #widget-container .placeholder:not(#placeholder-world-wind-widget),
-body.mode-3d #widget-container .placeholder.open:not(#placeholder-world-wind-widget),
-body.mode-3d .x-css-shadow,
-body.mode-3d .floater:not(#floater-world-wind-widget):not(#floater-evaluation-widget):not(#floater-evaluation-widget),
-body.mode-3d .floater.open:not(#floater-world-wind-widget):not(#floater-evaluation-widget):not(#floater-evaluation-widget),
-body.mode-3d .settings-window:not(#evaluation-widget-settings):not(#categorize-settings) {
+body.mode-3d .x-css-shadow {
     display: none;
 }
 

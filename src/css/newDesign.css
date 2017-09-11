@@ -427,7 +427,7 @@
 
 .newDesign #sidebar-reports {
 	background: rgb(245, 245, 245);
-	border-left: 1px solid white;
+	border-left: 1px solid #ddd;
 	/* top: 105px; */
 }
 
@@ -567,7 +567,7 @@
 
 /* === Box === */
 .newDesign #app-reports-paging, #app-tools-actions, #maptools-1059 {
-	border-bottom: 1px solid white;
+	border-bottom: 1px solid #ddd;
 }
 
 .newDesign #app-reports-paging .paging-toolbar {
@@ -581,11 +581,6 @@
 .newDesign #app-tools-actions span {
 	color: #555;
 	top: 5px;
-}
-
-/* box toggles */
-.newDesign #sidebar-reports-toggle, .newDesign #sidebar-reports-add {
-	left: -22px;
 }
 
 .newDesign #sidebar-tools-toggle {
@@ -748,39 +743,36 @@
 
 /* Buttons ================= */
 /* Sidebars buttons */
-.newDesign #sidebar-tools-toggle, .newDesign #sidebar-reports-toggle {
-	background: #ddd url('../images/new/sidebar-toggle.png');
-	border: 1px solid white;
-	border-top: 0;
-}
-
-.newDesign #sidebar-reports-add {
-	background: #ddd url('../images/new/add.png') no-repeat center center;
-	border-left: 1px solid white;
-	border-bottom: 1px solid white;
-	height: 31px;
-}
-
-.newDesign #sidebar-tools-toggle:hover, .newDesign #sidebar-reports-toggle:hover, .newDesign #sidebar-reports-add:hover {
-	background-color: #d3d3d3;
-}
-
-.newDesign #sidebar-tools-toggle {
-	background-position: -23px -3px;
-	border-left: 0;
-}
-
 .newDesign #sidebar-reports-toggle {
-	background-position: -1px -3px;
+	background: #f4f3ef url(../images/new/sidebar-toggle.png);
+	background-position: 3px -3px;
+	border: 1px solid #ddd;
+	border-top: 0;
 	border-right: 0;
+	left: -27px;
+	width: 26px;
+	transition: background-color .3s ease-in-out;
 }
-
+.newDesign #sidebar-reports-add {
+	background: #f4f3ef url('../images/new/add.png') no-repeat center center;
+	background-position-x: 7px;
+	border-left: 1px solid #ddd;
+	border-bottom: 1px solid #ddd;
+	height: 31px;
+	left: -27px;
+	width: 26px;
+	transition: background-color .3s ease-in-out;
+}
 .newDesign #sidebar-reports.hidden #sidebar-reports-toggle {
-	background-position: -23px -3px;
+	background-position: -17px -3px;
+	width: 31px;
+	left: -32px;
 }
-
-.newDesign #sidebar-tools.hidden #sidebar-tools-toggle {
-	background-position: -1px -3px;
+.newDesign #sidebar-reports.hidden #sidebar-reports-add {
+	left: -32px;
+}
+.newDesign #sidebar-tools-toggle:hover, .newDesign #sidebar-reports-toggle:hover, .newDesign #sidebar-reports-add:hover {
+	background-color: #e4e3df;
 }
 
 /*Basic buttons*/
