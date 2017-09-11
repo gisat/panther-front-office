@@ -9,6 +9,7 @@
 	height: 100%;
 }
 .close-map-button {
+	border-bottom-right-radius: .1rem;
 	cursor: pointer;
 	position: absolute;
 	display: flex;
@@ -19,12 +20,16 @@
 	width: 1.3rem;
 	height: 1.3rem;
 	z-index: 1;
+	transition: background .3s ease-in-out;
 }
 .close-map-icon {
-	color: rgba(80,87,94,.7);
-	font-size: 1rem;
+	color: rgba(80,87,94,.8);
+	font-size: .9rem;
 	transition: color .3s ease-in-out;
 }
-.close-map-icon:hover {
+.close-map-button:hover {
+	background: rgba(244,243,239,.7);
+}
+.close-map-button:hover .close-map-icon {
 	color: rgba(80,87,94,1);
 }

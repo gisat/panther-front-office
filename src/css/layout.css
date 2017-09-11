@@ -746,6 +746,9 @@ body.mode-3d #top-toolbar-3dmap {
 #top-toolbar .item#top-toolbar-areas::before {
 	content: '\f041';
 }
+#top-toolbar .item#top-toolbar-periods::before {
+	content: '\f073';
+}
 #top-toolbar .item#top-toolbar-selections::before {
 	background: url('../images/icons/selections.svg') center center no-repeat;
 }

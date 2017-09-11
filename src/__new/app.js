@@ -49,8 +49,8 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         'js/util/Logger',
         'js/view/map/Map',
 		'js/view/mapsContainer/MapsContainer',
-        'js/view/widgets_3D/MapDiagramsWidget/MapDiagramsWidget',
 		'js/stores/internal/MapStore',
+		'js/view/widgets/PeriodsWidget/PeriodsWidget',
 		'js/util/Placeholder',
 		'js/util/Remote',
 		'js/view/widgets/SharingWidget/SharingWidget',
@@ -77,8 +77,8 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
              Logger,
              Map,
              MapsContainer,
-             MapDiagramsWidget,
 			 MapStore,
+			 PeriodsWidget,
 			 Placeholder,
 			 Remote,
 			 SharingWidget,
@@ -98,18 +98,17 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         var stateStore = new StateStore({
 			dispatcher: window.Stores
 		});
-        Stores.register('state', stateStore);
-
+		var mapStore = new MapStore({
+			dispatcher: window.Stores
+		});
         var selectionStore = new SelectionStore({
 			dispatcher: window.Stores,
 			stateStore: stateStore
 		});
         window.selectionStore = selectionStore;
-        Stores.register('selection', selectionStore);
 
-        var mapStore = new MapStore({
-			dispatcher: window.Stores
-		});
+		Stores.register('state', stateStore);
+        Stores.register('selection', selectionStore);
         Stores.register('map', mapStore);
 
         var attributes = buildAttributes();
@@ -124,13 +123,11 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         	var mapsContainer = buildMapsContainer(mapStore);
 			var worldWindWidget = buildWorldWindWidget(mapsContainer, topToolBar, stateStore);
             widgets.push(worldWindWidget);
-
-			// todo temporary for testing
-			$("#add-map-buttons").on("click", ".add-map", function(){
-				var yearId = Number($(this).attr("data-id"));
-				mapsContainer.addMap(null, yearId);
-			});
         }
+        if (Config.toggles.hasPeriodsWidget){
+			var periodsWidget = buildPeriodsWidget(mapsContainer);
+			widgets.push(periodsWidget);
+		}
         if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
         	var aggregatedWidget = buildAggregatedChartWidget(filter, stateStore);
         	var evaluationTool = buildEvaluationWidget(filter, stateStore, aggregatedWidget);
@@ -241,16 +238,23 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 	 * Build Evaluation Widget instance
      * @param filter {Filter}
 	 * @param stateStore {StateStore}
+	 * @param aggregatedChart {StateStore}
      * @returns {EvaluationWidget}
      */
     function buildEvaluationWidget (filter, stateStore, aggregatedChart){
+		var isOpen = false;
+		if (Config.toggles.hasOwnProperty("isUrbis") && Config.toggles.isUrbis){
+			isOpen = true;
+		}
+
         return new EvaluationWidget({
             filter: filter,
 			stateStore: stateStore,
             elementId: 'evaluation-widget',
             name: 'Evaluation Tool',
             placeholderTargetId: 'widget-container',
-			aggregatedChart: aggregatedChart
+			aggregatedChart: aggregatedChart,
+			isOpen: isOpen
         });
     }
 
@@ -301,6 +305,17 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         })
     }
 
+    function buildPeriodsWidget (mapsContainer){
+    	return new PeriodsWidget({
+			elementId: 'periods-widget',
+			name: 'Periods',
+			mapsContainer: mapsContainer,
+			dispatcher: window.Stores,
+			isWithoutFooter: true,
+			is3dOnly: true
+		});
+	}
+
     /**
      * Build WorldWindWidget instance
 	 * @param mapsContainer {MapsContainer}
@@ -313,10 +328,11 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
             name: 'Layers',
 			mapsContainer: mapsContainer,
             placeholderTargetId: 'widget-container',
-            iconId: 'top-toolbar-3dmap',
             topToolBar: topToolBar,
 			dispatcher: window.Stores,
-			stateStore: stateStore
+			stateStore: stateStore,
+			isWithoutFooter: true,
+			isFloaterExtAlike: true
         });
     }
 

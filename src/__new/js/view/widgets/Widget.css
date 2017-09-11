@@ -88,10 +88,22 @@
     z-index: 10000;
 }
 
-.floater.open {
+/* floater modes*/
+body.application .floater.open {
     display: block;
     height: 28rem;
 }
+body.mode-3d .floater.only-2d.open {
+    display: none;
+}
+body.application .floater.only-3d.open {
+    display: none;
+}
+body.mode-3d .floater.only-3d.open {
+    display: block;
+}
+
+
 .floater.active {
     z-index: 10001;
 }
@@ -112,24 +124,12 @@
     position: relative;
     cursor: move;
 }
-.floater-header .widget-undock, .floater-header .widget-dock {
-    display: none;
+.floater.inverse .floater-header {
+    background: rgba(255,255,255,.9);
+    color: #444;
 }
-.floater.dockable.docked {
-    position: relative;
-    float: left;
-}
-.floater.dockable.docked .floater-header  {
-    cursor: default;
-}
-.floater.dockable .floater-header .widget-dock {
-    display: block;
-}
-.floater.dockable.docked .floater-header .widget-dock {
-    display: none;
-}
-.floater.dockable.docked .floater-header  .widget-undock {
-    display: block;
+.floater.inverse .floater-header > span {
+    color: #444;
 }
 .floater-body {
     padding: .5rem;
