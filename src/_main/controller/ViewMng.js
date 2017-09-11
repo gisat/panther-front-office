@@ -389,6 +389,9 @@ Ext.define('PumaMain.controller.ViewMng', {
         var theme = Ext.ComponentQuery.query('#seltheme')[0].getValue();
         var cfgs = this.getController('Chart').gatherCfg();
         var layerCfgs = this.getController('AttributeConfig').layerConfig;
+        layerCfgs.forEach(function(layer){
+        	delete layer.control;
+		});
         var layers = Ext.StoreMgr.lookup('selectedlayers').getRange();
         var visibleLayers = [];
         for (var i=0;i<layers.length;i++) {

@@ -29,7 +29,6 @@ define([
 	 * Class representing widget for 3D map
 	 * @param options {Object}
 	 * @param options.mapsContainer {MapsContainer} Container where should be all maps rendered
-	 * @param options.dispatcher {Object}
 	 * @param options.stateStore {StateStore}
 	 * @param options.topToolBar {TopToolBar}
 	 * @constructor
