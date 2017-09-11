@@ -1259,13 +1259,12 @@ Ext.define('PumaMain.controller.LocationTheme', {
 	    var attributesWithData = null;
 	    if (allAttributes){
 			attributesWithData = Ext.Array.filter(allAttributes.attributes, function(rec){
-				return rec.distribution[0] > 0;
+				return rec.distribution[0] > 0 || (rec.min === rec.max);
 			});
         } else {
 	        console.log("LocationTheme#rebuildAttributesTree: No attributes!");
 	        return;
         }
-
 		var prefTopics = theme.get('prefTopics'); // get pref. topics of current theme
 		var a2chStore = Ext.StoreMgr.lookup('attributes2choose');
 		var rootNode = a2chStore.getRootNode();
