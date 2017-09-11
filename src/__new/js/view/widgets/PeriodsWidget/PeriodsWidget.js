@@ -42,7 +42,11 @@ define([
 	PeriodsWidget.prototype = Object.create(Widget.prototype);
 
 	/**
-	 * Rebuild widget. If period has been changed, redraw widget.
+	 * Rebuild widget. If period or scope has been changed, redraw widget. The change of scope basicaly means the change 
+	 * in a Scope select in a top bar (or an initial selection of scope). It is the same for the selection of period or any
+	 * other change visualization/theme/place/level
+	 * 
+	 * For info about detection of changes see: FrontOffice.js#rebuild
 	 */
 	PeriodsWidget.prototype.rebuild = function(){
 		var stateChanges = this._stateStore.current().changes;

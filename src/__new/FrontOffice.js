@@ -226,7 +226,7 @@ define([
 	};
 
 	/**
-	 * Basic check, if configuration is set up properly
+	 * Basic check, if configuration is set up properly. It also detects a type of change in configuration
 	 */
 	FrontOffice.prototype.checkConfiguration = function(){
 		var self = this;
