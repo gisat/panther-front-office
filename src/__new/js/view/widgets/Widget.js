@@ -39,6 +39,8 @@ define(['../../error/ArgumentError',
      * @param {boolean} [options.isFloaterExtAlike] - Optional parameter. If true, floater will look like Ext window
      * @param {boolean} [options.isOpen] - Optional parameter. If true, floater is open by default
      * @param {boolean} [options.isWithoutFooter] - Optional parameter. If true, floater is rendered without footer
+	 * @param {boolean} [options.is3dOnly] - Optional parameter. If true, floater will be visible in 3D mode only
+	 * @param {boolean} [options.is2dOnly] - Optional parameter. If true, floater will be visible in 2D mode only
      * @constructor
      */
     var Widget = function (options) {
@@ -53,6 +55,8 @@ define(['../../error/ArgumentError',
         this._isFloaterExtAlike = options.isFloaterExtAlike;
         this._isOpen = options.isOpen;
 		this._isWithoutFooter = options.isWithoutFooter;
+		this._is2dOnly = options.is2dOnly;
+		this._is3dOnly = options.is3dOnly;
 
         if (options.dispatcher){
 			this._dispatcher = options.dispatcher;
@@ -94,6 +98,14 @@ define(['../../error/ArgumentError',
 	        floaterClass = "inverse";
 			minimiseIconSrc = "__new/img/minimise-icon-dark.png";
         }
+
+        if (this._is2dOnly){
+	    	floaterClass += " only-2d";
+		}
+
+		if (this._is3dOnly){
+			floaterClass += " only-3d";
+		}
 
 		var floater = S(WidgetFloater).template({
 			name: this._name,

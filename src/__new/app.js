@@ -122,10 +122,12 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
         	var mapsContainer = buildMapsContainer(mapStore);
 			var worldWindWidget = buildWorldWindWidget(mapsContainer, topToolBar, stateStore);
-			var periodsWidget = buildPeriodsWidget(mapsContainer);
             widgets.push(worldWindWidget);
-			widgets.push(periodsWidget);
         }
+        if (Config.toggles.hasPeriodsWidget){
+			var periodsWidget = buildPeriodsWidget(mapsContainer);
+			widgets.push(periodsWidget);
+		}
         if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
         	var aggregatedWidget = buildAggregatedChartWidget(filter, stateStore);
         	var evaluationTool = buildEvaluationWidget(filter, stateStore, aggregatedWidget);
@@ -309,7 +311,8 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			name: 'Periods',
 			mapsContainer: mapsContainer,
 			dispatcher: window.Stores,
-			isWithoutFooter: true
+			isWithoutFooter: true,
+			is3dOnly: true
 		});
 	}
 
