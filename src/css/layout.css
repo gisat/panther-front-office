@@ -577,7 +577,7 @@ html.dromas body.intro #intro-overlay {
 }
 
 #app-view-selector-visualization-save {
-	width: 50px;
+	width: auto;
 }
 #app-view-selector-period-compare {
 	width: 62px;

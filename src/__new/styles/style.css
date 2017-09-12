@@ -301,3 +301,8 @@ label.container > input {
 #top-toolbar .item#top-toolbar-functional-urban-area::before {
 	content: '\f0b0';
 }
+
+/* === 3D mode changes === */
+body.application.mode-3d #view-selector .period {
+	display: none;
+}

@@ -11,6 +11,8 @@ define([], function(){
 		filterAdd: 'filter#add',
 		filterRemove: 'filter#remove',
 
+		periodsUpdate: 'periods#update',
+
 		stateUpdatePlace: 'state#updatePlace',
 		stateUpdatePeriod: 'state#updatePeriod',
 		stateUpdateAnalyticalUnitLevel: 'state#updatAnalyticalUnitLevel',

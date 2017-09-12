@@ -50,6 +50,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         'js/view/map/Map',
 		'js/view/mapsContainer/MapsContainer',
 		'js/stores/internal/MapStore',
+		'js/view/PeriodsSelector/PeriodsSelector',
 		'js/view/widgets/PeriodsWidget/PeriodsWidget',
 		'js/util/Placeholder',
 		'js/util/Remote',
@@ -78,6 +79,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
              Map,
              MapsContainer,
 			 MapStore,
+			 PeriodsSelector,
 			 PeriodsWidget,
 			 Placeholder,
 			 Remote,
@@ -115,6 +117,10 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         var filter = buildFilter();
         var olMap = buildOpenLayersMap();
 
+        if (Config.toggles.hasPeriodsSelector){
+        	new PeriodsSelector({});
+		}
+
         if(Config.toggles.useTopToolbar){
             var topToolBar = new TopToolBar();
         }
@@ -124,7 +130,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			var worldWindWidget = buildWorldWindWidget(mapsContainer, topToolBar, stateStore);
             widgets.push(worldWindWidget);
         }
-        if (Config.toggles.hasPeriodsWidget){
+        if(Config.toggles.hasPeriodsWidget){
 			var periodsWidget = buildPeriodsWidget(mapsContainer);
 			widgets.push(periodsWidget);
 		}
