@@ -22077,10 +22077,13 @@ define('js/worldwind/MyGoToAnimator',['../error/ArgumentError',
 					var bounds = d3.geoBounds(json);
 					var centroid = self.getCentroid(bounds);
 					var position = self.getPosition(centroid, bounds);
-					self.goTo(new WorldWind.Position(position.lat, position.lon, position.alt));
+                    self.wwd.navigator.lookAtLocation.latitude = position.lat;
+                    self.wwd.navigator.lookAtLocation.longitude = position.lon;
+                    self.wwd.navigator.range = position.alt;
 				} else {
 					console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "MyGoToAnimator", "setLocation", "emptyResult"));
-					self.goTo(new WorldWind.Location(self._defaultLoc[0],self._defaultLoc[1]));
+					self.wwd.navigator.lookAtLocation.latitude = self._defaultLoc[0];
+                    self.wwd.navigator.lookAtLocation.longitude = self._defaultLoc[1];
 				}
 			}).catch(function(err){
 				throw new Error(Logger.log(Logger.LEVEL_SEVERE, err));
