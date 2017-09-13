@@ -258,7 +258,7 @@ define(['osmtogeojson',
             // console.log(data);
 
             return $.ajax({
-                url: 'http://overpass-api.de/api/interpreter',
+                url: 'https://overpass-api.de/api/interpreter',
                 data: data,
                 type: 'POST',
                 success: function(dataOverpass) {
