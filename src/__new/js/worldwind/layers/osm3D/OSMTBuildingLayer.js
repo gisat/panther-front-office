@@ -169,10 +169,14 @@ define(['./OSMBuildingLayer',
                                                     }
 
                                                     var cached = this._cache.entryForKey(key);
-                                                    cached.parser.addRenderablesForFeature(cached.renderableLayer, feature);
-                                                    this._cache.entries[key].size += this.roughSizeOfObject(feature);
-                                                    this._cache.usedCapacity += this.roughSizeOfObject(feature);
-                                                    this._cache.freeCapacity -= this.roughSizeOfObject(feature);
+                                                    try {
+                                                        cached.parser.addRenderablesForFeature(cached.renderableLayer, feature);
+                                                        this._cache.entries[key].size += this.roughSizeOfObject(feature);
+                                                        this._cache.usedCapacity += this.roughSizeOfObject(feature);
+                                                        this._cache.freeCapacity -= this.roughSizeOfObject(feature);
+                                                    } catch(e) {
+                                                        console.log(e);
+                                                    }
 
                                                     break polygonsLoop;
                                                 }

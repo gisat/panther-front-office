@@ -144,24 +144,6 @@ define(['../../actions/Actions',
 
 		this._goToAnimator = new MyGoToAnimator(this._wwd);
 		this.layers = new Layers(this._wwd);
-
-        // Add an example of 3D buildings. Create an widget.
-        window.addBuilding = function() {
-            var source = {type: "boundingBox", coordinates: [14.425523004793812,50.076146937697274,14.427213262313812,50.07731690354944]};
-            var configuration = {
-                interiorColor: new WorldWind.Color(1.0, 0.1, 0.1, 1.0),
-                applyLighting: true,
-                extrude: true,
-                altitude: {type: "osm"},
-                altitudeMode: WorldWind.RELATIVE_TO_GROUND,
-                heatmap: {enabled: true, thresholds: [0, 10, 30, 50, 900]}
-            };
-
-            var buildings = new OSMTBuildingLayer(configuration, source);
-            buildings.add(this._wwd);
-            buildings.boundingBox = source.coordinates;
-            buildings.zoom();
-		}.bind(this);
 	};
 
 	/**

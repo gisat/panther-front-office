@@ -127,6 +127,10 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         	var mapsContainer = buildMapsContainer(mapStore);
 			var worldWindWidget = buildWorldWindWidget(mapsContainer, topToolBar, stateStore);
             widgets.push(worldWindWidget);
+
+            if(Config.toggles.hasOsmWidget) {
+                widgets.push(buildOsmWidget(mapsContainer, mapStore));
+            }
         }
         if (Config.toggles.hasPeriodsWidget){
 			var periodsWidget = buildPeriodsWidget(mapsContainer);
@@ -144,11 +148,9 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         if(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies){
             widgets.push(buildCityWidget());
         }
+
         if(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo){
             tools.push(buildFeatureInfoTool());
-        }
-        if(Config.toggles.hasOsmWidget) {
-            tools.push(buildOsmWidget(mapsContainer));
         }
 
 		widgets.push(buildSharingWidget());
@@ -387,11 +389,12 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
      * @param mapsContainer
      * @returns {OSMWidget}
      */
-	function buildOsmWidget(mapsContainer) {
+	function buildOsmWidget(mapsContainer, mapStore) {
         return new OSMWidget({
             elementId: 'osm-widget',
             name: 'Open Street Maps',
             mapsContainer: mapsContainer,
+            mapStore: mapStore,
             dispatcher: window.Stores,
             isWithoutFooter: true,
             is3dOnly: true
