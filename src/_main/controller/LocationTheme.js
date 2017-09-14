@@ -477,28 +477,30 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
 			if(data.data && data.data.length) {
 				var nodes = data.data.map(function(layer, index) {
+				    var layerAddOptions = {};
+				    try{
+				        layerAddOptions = JSON.parse(layer.custom);
+                    } catch(e) {
+				        console.error("LocationTheme#reloadWmsLayer Incorrect custom ", layer.custom);
+                    }
+				    var layerAddOptions = layer.custom || {};
+				    layerAddOptions.visibility = false;
+				    layerAddOptions.isBaseLayer = false;
+				    layerAddOptions.projection = new OpenLayers.Projection("EPSG:3857");
 				    var layer1 = new OpenLayers.Layer.WMS(layer.name,
 						layer.url,
 						{
 							layers: layer.layer,
 							transparent: true,
                             srs: "EPSG:3857"
-						}, {
-							visibility: false,
-							isBaseLayer: false,
-                            projection: new OpenLayers.Projection("EPSG:3857")
-						});
+						}, layerAddOptions);
 				    var layer2 = new OpenLayers.Layer.WMS(layer.name,
 						layer.url,
 						{
 							layers: layer.layer,
 							transparent: true,
 							srs: "EPSG:3857"
-						}, {
-							visibility: false,
-							isBaseLayer: false,
-							projection: new OpenLayers.Projection("EPSG:3857")
-						});
+						}, layerAddOptions);
 				    var node = Ext.create('Puma.model.MapLayer', {
 						name: layer.name,
                         id: layer.id,
