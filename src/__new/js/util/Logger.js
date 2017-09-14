@@ -106,6 +106,7 @@ define(function () {
 			missingMap: "Map property is missing, null or undefined!",
 			missingMapsContainer: "Maps container is missing, null or undefined!",
             missingNumClasses: "NumClasses is null or undefined!",
+            missingOptions: "Options parameter is null or undefined",
             missingParameter: "One of parameters is null or undefined!",
             missingPlace: "Place is null or undefined!",
             missingPlaceholder: "Placeholder parameter is null or undefined!",

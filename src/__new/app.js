@@ -8,6 +8,7 @@ requirejs.config({
         'jquery-private': 'js/jquery-private',
         'jquery-ui': 'lib/jquery-ui.min',
         'resize': 'lib/detect-element-resize',
+		'select2': 'lib/select2.full.min',
         'string': 'lib/string',
         'underscore': 'lib/underscore-min',
         'text': 'lib/text',
@@ -50,7 +51,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         'js/view/map/Map',
 		'js/view/mapsContainer/MapsContainer',
 		'js/stores/internal/MapStore',
-		'js/view/PeriodsSelector/PeriodsSelector',
+		'js/view/selectors/PeriodsSelector/PeriodsSelector',
 		'js/view/widgets/PeriodsWidget/PeriodsWidget',
 		'js/util/Placeholder',
 		'js/util/Remote',
@@ -118,7 +119,9 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         var olMap = buildOpenLayersMap();
 
         if (Config.toggles.hasPeriodsSelector){
-        	new PeriodsSelector({});
+        	new PeriodsSelector({
+				containerSelector: $("#content-application .group-visualization")
+			});
 		}
 
         if(Config.toggles.useTopToolbar){
