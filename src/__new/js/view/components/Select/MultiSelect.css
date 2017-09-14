@@ -1,0 +1,32 @@
+.select-multi-container {
+	min-width: 5rem;
+}
+.select-multi-container.onlyArrow {
+	min-width: 2rem;
+	min-height: 28px;
+	max-height: 28px;
+	max-width: 2rem;
+}
+.select-multi-container.onlyArrow ul.select2-selection__rendered {
+	display: none;
+}
+.select-multi-container.onlyArrow:before {
+	content: "\f0d7";
+	color: #888;
+	font-family: FontAwesome;
+	font-size: .85rem;
+	height: 26px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.select-multi-dropdown {
+	min-width: 5rem;
+}
+.select-multi-dropdown ul li[aria-selected=true]:before,
+.select-multi-dropdown ul li[aria-disabled=true]:before {
+	content: "\f00c";
+	font-family: FontAwesome;
+	font-size: .7rem;
+	margin-right: .25rem;
+}

@@ -4,6 +4,7 @@ define([
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 
+	'../../components/Select/MultiSelect',
 	'../../components/Select/Select',
 	'../../../stores/Stores',
 
@@ -16,6 +17,7 @@ define([
 			NotFoundError,
 			Logger,
 
+			MultiSelect,
 			Select,
 			Stores,
 
@@ -65,7 +67,7 @@ define([
 	 */
 	PeriodsSelector.prototype.render = function(periods){
 		if (this._periodsContainerSelector){
-			this._periodsContainerSelector.html("");
+			this._periodsContainerSelector.remove();
 		}
 
 		var html = S(PeriodsSelectorHtml).template({
@@ -76,6 +78,10 @@ define([
 		this._periodsContainerSelector = $("#" + this._id);
 
 		this._basicSelect = this.renderBasicPeriodSelection(periods);
+		if (periods.length > 1){
+			// todo compare button
+			this._multiSelect = this.renderMultiplePeriodSelection(periods);
+		}
 	};
 
 	/**
@@ -90,7 +96,25 @@ define([
 			sorting: {
 				type: 'string'
 			},
-			selectedOption: this._stateStore.current().periods[0],
+			selectedOptions: this._stateStore.current().periods,
+			containerSelector: this._periodsContainerSelector
+		});
+	};
+
+	/**
+	 * Render the selector for multiple period selection
+	 * @param periods {Array} list of periods with metadata
+	 */
+	PeriodsSelector.prototype.renderMultiplePeriodSelection = function (periods) {
+		return new MultiSelect({
+			id: this._id + "-multiselect",
+			title: "Select periods to compare",
+			options: periods,
+			sorting: {
+				type: 'string'
+			},
+			hidePillbox: true,
+			disabledOptions: this._stateStore.current().periods,
 			containerSelector: this._periodsContainerSelector
 		});
 	};
