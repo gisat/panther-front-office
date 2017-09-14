@@ -483,7 +483,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
                     } catch(e) {
 				        console.error("LocationTheme#reloadWmsLayer Incorrect custom ", layer.custom);
                     }
-				    var layerAddOptions = layer.custom || {};
 				    layerAddOptions.visibility = false;
 				    layerAddOptions.isBaseLayer = false;
 				    layerAddOptions.projection = new OpenLayers.Projection("EPSG:3857");
