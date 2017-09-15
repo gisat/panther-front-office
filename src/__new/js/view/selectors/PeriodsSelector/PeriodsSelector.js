@@ -31,6 +31,7 @@ define([
 	 * Periods selector component
 	 * @params options {Object}
 	 * @params options.containerSelector {Object} JQuery selector of parent element, where will be rendered the PeriodsSelector
+	 * @params options.dispatcher {Object} Dispatcher, which is used to distribute actions across the application.
 	 * @constructor
 	 */
 	var PeriodsSelector = function(options){
@@ -38,6 +39,7 @@ define([
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "PeriodsSelector", "constructor", "missingTarget"));
 		}
 		this._containerSelector = options.containerSelector;
+		this._dispatcher = options.dispatcher;
 
 		this._id = "selector-periods";
 
@@ -105,7 +107,7 @@ define([
 			},
 			selectedOptions: this._stateStore.current().periods,
 			containerSelector: this._periodsContainerSelector,
-			onChange: this.updateMultiselectWithPeriod.bind(this)
+			onChange: this.updatePeriod.bind(this)
 		});
 	};
 
@@ -155,13 +157,18 @@ define([
 	/**
 	 * If there has been a change in basic selector of period, update multiselect (if exists)
 	 */
-	PeriodsSelector.prototype.updateMultiselectWithPeriod = function(){
+	PeriodsSelector.prototype.updatePeriod = function(){
 		var selected = this._basicSelect.getSelected()[0];
+		var period = Number(selected.id);
+		this._dispatcher.notify("period#change", period);
 		if (this._multiSelect){
-			this._multiSelect.updateWithCurrentlySelected(selected);
+			this._multiSelect.updateWithCurrentlySelected(period);
 		}
 	};
 
+	/**
+	 * Select all periods available in multiselect
+	 */
 	PeriodsSelector.prototype.selectAllPeriods = function(){
 		if (this._multiSelect){
 			this._multiSelect.selectAll();

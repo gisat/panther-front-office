@@ -62,10 +62,10 @@ define([
 
 	/**
 	 * It basically destroys the multiple select and creates a new one
-	 * @param period {Object} currently selected period
+	 * @param periodId {number} currently selected period id
 	 */
-	MultiSelect.prototype.updateWithCurrentlySelected = function(period){
-		this._disabledOptions = [Number(period.id)];
+	MultiSelect.prototype.updateWithCurrentlySelected = function(periodId){
+		this._disabledOptions = [periodId];
 		this._selectSelector.select2("destroy");
 		this.render();
 	};

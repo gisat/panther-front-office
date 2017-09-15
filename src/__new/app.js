@@ -120,7 +120,8 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 
         if (Config.toggles.hasPeriodsSelector){
         	new PeriodsSelector({
-				containerSelector: $("#content-application .group-visualization")
+				containerSelector: $("#content-application .group-visualization"),
+				dispatcher: window.Stores
 			});
 		}
 
