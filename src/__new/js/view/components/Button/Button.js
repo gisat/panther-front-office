@@ -27,6 +27,8 @@ define([
 	 * @param options.onClick {function}
 	 * @param [options.classes] {string} Optional parameter. Additional classes.
 	 * @param [options.title] {string} Optional parameter.
+	 * @param [options.textCentered] {string} Optional parameter.
+	 * @param [options.textSmall] {string} Optional parameter.
 	 */
 	var Button = function(options){
 		if (!options.id){
@@ -46,6 +48,8 @@ define([
 		this.onClick = options.onClick;
 
 		this._title = options.title || "Select";
+		this._textCentered = options.textCentered;
+		this._textSmall = options.textSmall;
 
 		this.render();
 		this.addOnClickListener();
@@ -78,6 +82,12 @@ define([
 		var classes = "";
 		if (this._classes){
 			classes += " " + this._classes;
+		}
+		if (this._textCentered){
+			classes += " text-centered"
+		}
+		if (this._textSmall){
+			classes += " text-small"
 		}
 		return classes;
 	};

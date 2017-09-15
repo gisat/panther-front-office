@@ -126,7 +126,8 @@ define([
 			},
 			hidePillbox: true,
 			disabledOptions: this._stateStore.current().periods,
-			containerSelector: this._periodsContainerSelector
+			containerSelector: this._periodsContainerSelector,
+			classes: "top-bar-multiselect"
 		});
 	};
 
@@ -140,7 +141,9 @@ define([
 			text: "Compare",
 			title: "Compare periods",
 			containerSelector: this._periodsContainerSelector,
-			classes: "compare-button",
+			classes: "compare-button w6",
+			textCentered: true,
+			textSmall: true,
 			onClick: this.selectAllPeriods.bind(this)
 		});
 	};

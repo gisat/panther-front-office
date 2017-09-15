@@ -27,6 +27,7 @@ define([
 	 * @param [options.selectedOptions] {Array} ids of an options selected by default
 	 * @param [options.disabledOptions] {Array} ids of an options selected by default
 	 * @param [options.sorting] {Object} Optional parameter.
+	 * @param [options.classes] {string} Optional parameter.
 	 */
 	var BaseSelect = function(options){
 		if (!options.id){
@@ -46,6 +47,7 @@ define([
 		this._selectedOptions = options.selectedOptions;
 		this._title = options.title || "Select";
 		this._sorting = options.sorting;
+		this._classes = options.classes;
 	};
 
 	/**
@@ -56,10 +58,15 @@ define([
 		if (this._selectSelector){
 			this._selectSelector.remove();
 		}
+		var classes = "";
+		if (this._classes){
+			classes = " " + this._classes;
+		}
 
 		var html = S(content).template({
 			id: this._id,
-			title: this._title
+			title: this._title,
+			classes: classes
 		}).toString();
 		this._containerSelector.append(html);
 		this._selectSelector = $("#" + this._id);

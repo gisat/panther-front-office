@@ -1,15 +1,51 @@
 .component-button {
-	width: 6rem;
-	background: white;
-	border: 1px solid gray;
+	border: 2px solid #434254;
 	border-radius: .15rem;
-	color: black;
+	color: #434254;
 	cursor: pointer;
-	font-size: 1rem;
+	font-size: .85rem;
+	font-weight: 700;
 	line-height: 1.8rem;
+	transition: background .3s ease-in-out;
+	width: 8rem;
+}
+.component-button:hover {
+	background: rgba(67,66,84,.15);
+}
+
+/* text */
+.component-button.text-centered {
+	text-align: center;
+}
+.component-button.text-small {
+	font-size: .75rem;
+	line-height: 1.6rem;
+}
+
+/* widths */
+.component-button.w6 {
+	width: 6rem;
+}
+.component-button.w8 {
+	width: 8rem;
+}
+.component-button.w10 {
+	width: 10rem;
+}
+.component-button.w12 {
+	width: 12rem;
+}
+.component-button.w14 {
+	width: 14rem;
 }
 .compare-button {
 	display: inline-block;
 	vertical-align: middle;
-	line-height: 26px;
+	background: rgba(255, 255, 255, .25);
+	border: 1px solid rgba(255, 255, 255, .3);
+	border-radius: .05rem;
+	color: #ddd;
+}
+.compare-button:hover {
+	background: rgba(255, 255, 255, .15);
 }
