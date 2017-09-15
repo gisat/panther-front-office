@@ -55,6 +55,10 @@ define([
 	 * @param content {string} html template
 	 */
 	BaseSelect.prototype.renderElement = function(content){
+		if (this._selectSelector){
+			this._selectSelector.remove();
+		}
+
 		var html = S(content).template({
 			id: this._id,
 			title: this._title
@@ -133,6 +137,14 @@ define([
 	BaseSelect.prototype.sortOptions = function(options){
 		// todo sort by type, sorting order
 		return _.sortBy(options, function(o) { return o["text"]; })
+	};
+
+	/**
+	 * Get selected items
+	 * @returns {Array} List of selected objects
+	 */
+	BaseSelect.prototype.getSelected = function(){
+		return this._selectSelector.select2('data');
 	};
 
 	return BaseSelect;

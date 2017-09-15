@@ -97,8 +97,19 @@ define([
 				type: 'string'
 			},
 			selectedOptions: this._stateStore.current().periods,
-			containerSelector: this._periodsContainerSelector
+			containerSelector: this._periodsContainerSelector,
+			onChange: this.onBasicSelectChange.bind(this)
 		});
+	};
+
+	/**
+	 * If there has been a change in basic selector of period, update multiselect (if exists)
+	 */
+	PeriodsSelector.prototype.onBasicSelectChange = function(){
+		var selected = this._basicSelect.getSelected()[0];
+		if (this._multiSelect){
+			this._multiSelect.updateWithCurrentlySelected(selected);
+		}
 	};
 
 	/**
@@ -124,6 +135,8 @@ define([
 	 */
 	PeriodsSelector.prototype.onEvent = function(type){
 		if (type === Actions.periodsUpdate){
+			this.rebuild();
+		} else if (type === Actions.periodChangeCurrent){
 			this.rebuild();
 		}
 	};

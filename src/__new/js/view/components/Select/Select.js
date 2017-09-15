@@ -30,7 +30,10 @@ define([
 	 */
 	var Select = function(options){
 		BaseSelect.apply(this, arguments);
+		this.onChange = options.onChange;
+
 		this.render();
+		this.addListeners();
 	};
 
 	Select.prototype = Object.create(BaseSelect.prototype);
@@ -48,6 +51,13 @@ define([
 				containerCssClass: "select-basic-container"
 			});
 		});
+	};
+
+	/**
+	 * Add listeners to events
+	 */
+	Select.prototype.addListeners = function(){
+		this._selectSelector.on("change", this.onChange.bind(this));
 	};
 
 	return Select;

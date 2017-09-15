@@ -60,5 +60,15 @@ define([
 		});
 	};
 
+	/**
+	 * It basically destroys the multiple select and creates a new one
+	 * @param period {Object} currently selected period
+	 */
+	MultiSelect.prototype.updateWithCurrentlySelected = function(period){
+		this._disabledOptions = [Number(period.id)];
+		this._selectSelector.select2("destroy");
+		this.render();
+	};
+
 	return MultiSelect;
 });
