@@ -4,6 +4,7 @@ define([
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 
+	'../../components/Button/Button',
 	'../../components/Select/MultiSelect',
 	'../../components/Select/Select',
 	'../../../stores/Stores',
@@ -17,6 +18,7 @@ define([
 			NotFoundError,
 			Logger,
 
+			Button,
 			MultiSelect,
 			Select,
 			Stores,
@@ -78,8 +80,12 @@ define([
 		this._periodsContainerSelector = $("#" + this._id);
 
 		this._basicSelect = this.renderBasicPeriodSelection(periods);
+
 		if (periods.length > 1){
-			// todo compare button
+			this._compareButton = this.renderCompareButton();
+		}
+
+		if (periods.length > 2){
 			this._multiSelect = this.renderMultiplePeriodSelection(periods);
 		}
 	};
@@ -87,6 +93,7 @@ define([
 	/**
 	 * Render the selector for basic period selection
 	 * @param periods {Array} list of periods with metadata
+	 * @returns {Select}
 	 */
 	PeriodsSelector.prototype.renderBasicPeriodSelection = function (periods) {
 		return new Select({
@@ -98,23 +105,14 @@ define([
 			},
 			selectedOptions: this._stateStore.current().periods,
 			containerSelector: this._periodsContainerSelector,
-			onChange: this.onBasicSelectChange.bind(this)
+			onChange: this.updateMultiselectWithPeriod.bind(this)
 		});
-	};
-
-	/**
-	 * If there has been a change in basic selector of period, update multiselect (if exists)
-	 */
-	PeriodsSelector.prototype.onBasicSelectChange = function(){
-		var selected = this._basicSelect.getSelected()[0];
-		if (this._multiSelect){
-			this._multiSelect.updateWithCurrentlySelected(selected);
-		}
 	};
 
 	/**
 	 * Render the selector for multiple period selection
 	 * @param periods {Array} list of periods with metadata
+	 * @returns {MultiSelect}
 	 */
 	PeriodsSelector.prototype.renderMultiplePeriodSelection = function (periods) {
 		return new MultiSelect({
@@ -131,13 +129,42 @@ define([
 	};
 
 	/**
+	 * Render button for periods comparison
+	 * @returns {Button}
+	 */
+	PeriodsSelector.prototype.renderCompareButton = function(){
+		return new Button({
+			id: this._id + "-compare-button",
+			text: "Compare",
+			title: "Compare periods",
+			containerSelector: this._periodsContainerSelector,
+			classes: "compare-button",
+			onClick: this.selectAllPeriods.bind(this)
+		});
+	};
+
+	/**
 	 * @param type {string} type of event
 	 */
 	PeriodsSelector.prototype.onEvent = function(type){
 		if (type === Actions.periodsUpdate){
 			this.rebuild();
-		} else if (type === Actions.periodChangeCurrent){
-			this.rebuild();
+		}
+	};
+
+	/**
+	 * If there has been a change in basic selector of period, update multiselect (if exists)
+	 */
+	PeriodsSelector.prototype.updateMultiselectWithPeriod = function(){
+		var selected = this._basicSelect.getSelected()[0];
+		if (this._multiSelect){
+			this._multiSelect.updateWithCurrentlySelected(selected);
+		}
+	};
+
+	PeriodsSelector.prototype.selectAllPeriods = function(){
+		if (this._multiSelect){
+			this._multiSelect.selectAll();
 		}
 	};
 

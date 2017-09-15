@@ -70,5 +70,13 @@ define([
 		this.render();
 	};
 
+	/**
+	 * Select all options
+	 */
+	MultiSelect.prototype.selectAll = function(){
+		var selectedItems = this._selectSelector.find("option").map(function() { return this.value });
+		this._selectSelector.val(selectedItems).trigger("change");
+	};
+
 	return MultiSelect;
 });

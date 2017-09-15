@@ -1,5 +1,4 @@
 define([
-	'../../../actions/Actions',
 	'../../../error/ArgumentError',
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
@@ -9,8 +8,7 @@ define([
 	'underscore',
 	'select2',
 	'css!./BaseSelect'
-], function(Actions,
-			ArgumentError,
+], function(ArgumentError,
 			NotFoundError,
 			Logger,
 
@@ -32,13 +30,13 @@ define([
 	 */
 	var BaseSelect = function(options){
 		if (!options.id){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Select", "constructor", "missingId"));
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "BaseSelect", "constructor", "missingId"));
 		}
 		if (!options.containerSelector){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Select", "constructor", "missingTarget"));
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "BaseSelect", "constructor", "missingTarget"));
 		}
 		if (!options.options){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Select", "constructor", "missingOptions"));
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "BaseSelect", "constructor", "missingOptions"));
 		}
 
 		this._id = options.id;
