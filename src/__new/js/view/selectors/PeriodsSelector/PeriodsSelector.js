@@ -49,12 +49,12 @@ define([
 	};
 
 	/**
-	 * Rebuild periods selector if scope has been changed. It should redraw the periods selector with all periods
+	 * Rebuild periods selector if scope or period has been changed. It should redraw the periods selector with all periods
 	 * asociated with current scope.
 	 */
 	PeriodsSelector.prototype.rebuild = function(){
 		var currentState = this._stateStore.current();
-		if (currentState.changes.scope){
+		if (currentState.changes.scope || currentState.changes.period){
 			var self = this;
 			this._scopeStore.byId(currentState.scope).then(function(datasets){
 				var periods = datasets[0].periods;
