@@ -13,3 +13,17 @@
 .snow #app-extra-content {
 	display: block;
 }
+
+#snow-iframe {
+	border: 0;
+}
+
+.snow #sidebar-reports {
+	right: auto;
+	left: 0;
+}
+
+.snow #map-holder {
+	position: absolute;
+	right: 0;
+}

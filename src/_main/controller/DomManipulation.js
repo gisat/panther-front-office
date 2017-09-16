@@ -55,10 +55,10 @@ Ext.define('PumaMain.controller.DomManipulation', {
 		
 		var w  = availableSize.width;
 		var h  = availableSize.height;
-		var sl = $("#sidebar-reports").position().left;
+		var sw = $("#sidebar-reports").width();
 
-		if ($("body").hasClass("application") && sl > 0) {
-			w = sl;
+		if ($("body").hasClass("application") && sw > 0) {
+			w = w - sw;
 		}
 		
 		$("#map-holder").css({width : w, height : h});
