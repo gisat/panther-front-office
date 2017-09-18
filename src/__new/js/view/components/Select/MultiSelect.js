@@ -49,6 +49,9 @@ define([
 		if (this._hidePillbox){
 			containerClass += " onlyArrow";
 		}
+		if (this._classes){
+			containerClass += " " + this._classes;
+		}
 
 		$(document).ready(function() {
 			self._selectSelector.select2({

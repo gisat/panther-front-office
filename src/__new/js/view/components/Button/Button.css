@@ -23,6 +23,9 @@
 }
 
 /* widths */
+.component-button.w5 {
+	width: 5rem;
+}
 .component-button.w6 {
 	width: 6rem;
 }
@@ -38,14 +41,16 @@
 .component-button.w14 {
 	width: 14rem;
 }
-.compare-button {
+.component-button.compare-button {
 	display: inline-block;
 	vertical-align: middle;
 	background: rgba(255, 255, 255, .25);
 	border: 1px solid rgba(255, 255, 255, .3);
 	border-radius: .05rem;
 	color: #ddd;
+	height: 23px;
+	line-height: 21px;
 }
-.compare-button:hover {
+.component-button.compare-button:hover {
 	background: rgba(255, 255, 255, .15);
 }

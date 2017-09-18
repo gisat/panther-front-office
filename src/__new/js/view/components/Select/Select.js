@@ -46,10 +46,15 @@ define([
 		var self = this;
 		this.renderElement(SelectHtml);
 
+		var containerClass = "select-basic-container";
+		if (this._classes){
+			containerClass += " " + this._classes;
+		}
+
 		$(document).ready(function() {
 			self._selectSelector.select2({
 				data: self.prepareData(),
-				containerCssClass: "select-basic-container"
+				containerCssClass: containerClass
 			});
 		});
 	};

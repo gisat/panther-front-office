@@ -37,5 +37,26 @@
 	margin-right: .25rem;
 }
 
-.top-bar-multiselect {
+/* topbar multiselect with arrow*/
+.select-multi-container.top-bar-multiselect {
+	border-radius: 0.05rem;
+	background: rgba(255, 255, 255, .25);
+	border: 1px solid rgba(255, 255, 255, .3);
+	border-left: 0;
+	color: #ddd;
+}
+.select-multi-container.top-bar-multiselect.onlyArrow {
+	min-height: initial;
+	height: 23px;
+	min-width: initial;
+	width: 26px;
+}
+.select-multi-container.top-bar-multiselect.onlyArrow:before {
+	color: #ddd;
+	height: 100%;
+}
+.select2-container--default.select2-container--focus .select-multi-container.top-bar-multiselect.select2-selection--multiple {
+	border: 1px solid rgba(255, 255, 255, .5);
+	border-left: 0;
+	outline: 0;
 }

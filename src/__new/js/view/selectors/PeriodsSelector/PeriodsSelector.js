@@ -107,6 +107,7 @@ define([
 			},
 			selectedOptions: this._stateStore.current().periods,
 			containerSelector: this._periodsContainerSelector,
+			classes: "top-bar-select",
 			onChange: this.updatePeriod.bind(this)
 		});
 	};
@@ -141,7 +142,7 @@ define([
 			text: "Compare",
 			title: "Compare periods",
 			containerSelector: this._periodsContainerSelector,
-			classes: "compare-button w6",
+			classes: "compare-button w5",
 			textCentered: true,
 			textSmall: true,
 			onClick: this.selectAllPeriods.bind(this)
