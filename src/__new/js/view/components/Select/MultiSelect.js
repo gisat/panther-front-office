@@ -27,13 +27,17 @@ define([
 	/**
 	 * Class for creating of multi options html select element using Select2 library
 	 * @constructor
+	 * @param options.onChange {function}
 	 * @param [options.hidePillbox] {boolean} Optional parameter. If true, show only an arrow.
 	 */
 	var MultiSelect = function(options){
 		BaseSelect.apply(this, arguments);
 
+		this.onChange = options.onChange;
 		this._hidePillbox = options.hidePillbox;
+
 		this.render();
+		this.addListeners();
 	};
 
 	MultiSelect.prototype = Object.create(BaseSelect.prototype);
@@ -64,21 +68,32 @@ define([
 	};
 
 	/**
-	 * It basically destroys the multiple select and creates a new one
-	 * @param periodId {number} currently selected period id
+	 * Get all options
+	 * @returns {Array} List of all items
 	 */
-	MultiSelect.prototype.updateWithCurrentlySelected = function(periodId){
-		this._disabledOptions = [periodId];
-		this._selectSelector.select2("destroy");
-		this.render();
+	MultiSelect.prototype.getAllOptions = function(){
+		var selectedItems = [];
+		this._selectSelector.find("option").each(function(item) {
+			if (this.value){
+				selectedItems.push(this.value);
+			}
+		});
+		return selectedItems;
 	};
 
 	/**
-	 * Select all options
+	 * Get all selected options' values
+	 * @returns {Array}
 	 */
-	MultiSelect.prototype.selectAll = function(){
-		var selectedItems = this._selectSelector.find("option").map(function() { return this.value });
-		this._selectSelector.val(selectedItems).trigger("change");
+	MultiSelect.prototype.getSelectedOptions = function(){
+		return this._selectSelector.select2("val");
+	};
+
+	/**
+	 * Add listeners to events
+	 */
+	MultiSelect.prototype.addListeners = function(){
+		this._selectSelector.on("change", this.onChange.bind(this));
 	};
 
 	return MultiSelect;

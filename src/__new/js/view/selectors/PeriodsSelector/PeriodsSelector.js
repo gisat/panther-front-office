@@ -48,6 +48,9 @@ define([
 		this._stateStore = Stores.retrieve("state");
 
 		this._periodStore.addListener(this.onEvent.bind(this));
+
+		this._selectedPeriods = [];
+		this._disabledPeriods = [];
 	};
 
 	/**
@@ -57,6 +60,9 @@ define([
 	PeriodsSelector.prototype.rebuild = function(){
 		var currentState = this._stateStore.current();
 		if (currentState.changes.scope || currentState.changes.period){
+			this.updateSelectedPeriods();
+			this.updateDisabledPeriods();
+
 			var self = this;
 			this._scopeStore.byId(currentState.scope).then(function(datasets){
 				var periods = datasets[0].periods;
@@ -93,6 +99,20 @@ define([
 	};
 
 	/**
+	 * Update a list of selected periods
+	 */
+	PeriodsSelector.prototype.updateSelectedPeriods = function(){
+		this._selectedPeriods = this._stateStore.current().periods;
+	};
+
+	PeriodsSelector.prototype.updateDisabledPeriods = function(){
+		var periods = this._stateStore.current().periods;
+		if (periods.length < 2){
+			this._disabledPeriods = periods;
+		}
+	};
+
+	/**
 	 * Render the selector for basic period selection
 	 * @param periods {Array} list of periods with metadata
 	 * @returns {Select}
@@ -105,7 +125,7 @@ define([
 			sorting: {
 				type: 'string'
 			},
-			selectedOptions: this._stateStore.current().periods,
+			selectedOptions: this._disabledPeriods,
 			containerSelector: this._periodsContainerSelector,
 			classes: "top-bar-select",
 			onChange: this.updatePeriod.bind(this)
@@ -126,9 +146,11 @@ define([
 				type: 'string'
 			},
 			hidePillbox: true,
-			disabledOptions: this._stateStore.current().periods,
+			selectedOptions: this._selectedPeriods,
+			disabledOptions: this._disabledPeriods,
 			containerSelector: this._periodsContainerSelector,
-			classes: "top-bar-multiselect"
+			classes: "top-bar-multiselect",
+			onChange: this.selectPeriods.bind(this)
 		});
 	};
 
@@ -159,23 +181,49 @@ define([
 	};
 
 	/**
-	 * If there has been a change in basic selector of period, update multiselect (if exists)
+	 * If a change in basic selector of period occured, get selected period and notify Ext DiscreteTimeline.js
 	 */
 	PeriodsSelector.prototype.updatePeriod = function(){
 		var selected = this._basicSelect.getSelected()[0];
 		var period = Number(selected.id);
 		this._dispatcher.notify("period#change", period);
-		if (this._multiSelect){
-			this._multiSelect.updateWithCurrentlySelected(period);
-		}
 	};
 
 	/**
-	 * Select all periods available in multiselect
+	 * If a change in multiselect occured, get selected periods and notify Ext DiscreteTimeline.js
+	 */
+	PeriodsSelector.prototype.selectPeriods = function(){
+		var self = this;
+		setTimeout(function(){
+			var selected = self._multiSelect.getSelectedOptions();
+			var periods = selected.map(function(item){
+				if (typeof item === "string"){
+					return Number(item);
+				} else if (typeof item === "number"){
+					return item;
+				}
+			});
+			if (self._disabledPeriods){
+				periods = periods.concat(self._disabledPeriods);
+			}
+			self._dispatcher.notify("period#change", periods);
+		}, 50);
+	};
+
+	/**
+	 * Select all periods available in multiselect and notify Ext DiscreteTimeline.js
 	 */
 	PeriodsSelector.prototype.selectAllPeriods = function(){
 		if (this._multiSelect){
-			this._multiSelect.selectAll();
+			var selected = this._multiSelect.getAllOptions();
+			var periods = selected.map(function(item){
+				if (typeof item === "string"){
+					return Number(item);
+				} else if (typeof item === "number"){
+					return item;
+				}
+			});
+			this._dispatcher.notify("period#change", periods);
 		}
 	};
 

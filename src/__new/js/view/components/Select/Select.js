@@ -27,7 +27,7 @@ define([
 	/**
 	 * Class for creating of basic html select element using Select2 library
 	 * @constructor
-	 * @params onChange {function}
+	 * @params options.onChange {function}
 	 */
 	var Select = function(options){
 		BaseSelect.apply(this, arguments);
