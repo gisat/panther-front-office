@@ -31,7 +31,7 @@ define(['../../../../error/ArgumentError',
 		if (!options.class){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "LayerTools", "constructor", "missingClass"));
 		}
-		if (!options.target || options.target.length == 0){
+		if (!options.target || options.target.length === 0){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "LayerTools", "constructor", "missingTarget"));
 		}
 

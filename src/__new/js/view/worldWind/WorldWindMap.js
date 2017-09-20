@@ -121,6 +121,7 @@ define(['../../actions/Actions',
 		this.setupWebWorldWind();
 		if (this._id !== 'default-map'){
 			this.addCloseButton();
+			this.renderYearLabel();
 		}
 	};
 
@@ -129,7 +130,24 @@ define(['../../actions/Actions',
 	 */
 	WorldWindMap.prototype.addCloseButton = function(){
 		var html = '<div title="Remove map" class="close-map-button" data-id="' + this._id + '"><i class="fa fa-times close-map-icon" aria-hidden="true"></i></div>';
-		this._mapBoxSelector.append(html);
+		this._mapBoxSelector.find(".map-window-tools").append(html);
+	};
+
+	/**
+	 * Add label with info about period to the map
+	 */
+	WorldWindMap.prototype.renderYearLabel = function(){
+		if (this._periodLabelSelector){
+			this._periodLabelSelector.remove();
+		}
+		var self = this;
+		Stores.retrieve("period").byId(this._period).then(function(periods){
+			if (periods.length === 1){
+				var html = '<div class="map-period-label">' + periods[0].name + '</div>';
+				self._mapBoxSelector.find(".map-window-tools").append(html);
+				self._periodLabelSelector = self._mapBoxSelector.find(".map-period-label")
+			}
+		});
 	};
 
 	/**
@@ -158,13 +176,18 @@ define(['../../actions/Actions',
 	WorldWindMap.prototype.rebuild = function(appState){
 		this._goToAnimator.setLocation(appState);
 
-		if (this._id !== "default-map"){
+		if (this._id === "default-map"){
+			this.updateNavigatorState();
+			var periods = Stores.retrieve("state").current().periods;
+			if (periods.length === 1){
+				this._period = periods[0];
+			}
+			this.renderYearLabel();
+		} else {
 			var self = this;
 			setTimeout(function(){
 				self.setNavigator();
 			},1000);
-		} else {
-			this.updateNavigatorState();
 		}
 	};
 

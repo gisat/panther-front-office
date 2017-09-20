@@ -97,11 +97,12 @@ define([
 
 	/**
 	 * Notifies all listeners.
-	 * @param event {Object} Object representing information about event.
+	 * @param event {Object|string} Object representing information about event. Type of event, if string.
+	 * @param options {Object}
 	 */
-	BaseStore.prototype.notify = function(event) {
+	BaseStore.prototype.notify = function(event, options) {
 		this._listeners.forEach(function(listener){
-			listener(event);
+			listener(event, options);
 		});
 	};
 

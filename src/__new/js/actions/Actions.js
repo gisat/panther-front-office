@@ -11,8 +11,8 @@ define([], function(){
 		filterAdd: 'filter#add',
 		filterRemove: 'filter#remove',
 
-		periodChangeCurrent: 'periods#changeCurrent',
-		periodsUpdate: 'periods#update',
+		periodsRebuild: 'periods#rebuild',
+		periodsChange: 'periods#change',
 
 		stateUpdatePlace: 'state#updatePlace',
 		stateUpdatePeriod: 'state#updatePeriod',

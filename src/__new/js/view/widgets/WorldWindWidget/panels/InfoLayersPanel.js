@@ -153,14 +153,14 @@ define(['../../../../error/ArgumentError',
 	 * @param layer {Object}
 	 */
 	InfoLayersPanel.prototype.rebuildLayer = function(layer){
-		for (var key in this._maps){
-			this._maps[key].layers.addInfoLayer(layer.data, this._id, false);
-		}
+		self._mapStore.getAll().forEach(function(map){
+			map.layers.layers.addInfoLayer(layer.data, this._id, false);
+		});
 		var tools = layer.control.getToolBox();
 		tools.clear();
-		tools.addLegend(layer.data, this._maps);
+		tools.addLegend(layer.data, this._mapStore.getAll());
 		tools.addMetadataIcon(layer.data);
-		tools.addOpacity(layer.data, this._maps);
+		tools.addOpacity(layer.data, this._mapStore.getAll());
 	};
 
 	/**

@@ -54,8 +54,7 @@ define(['../../../../error/ArgumentError',
 		if (options.hasOwnProperty("isOpen")){
 			this._isOpen = options.isOpen;
 		}
-
-		this._maps = StoresInternal.retrieve('map').getAll();
+		this._mapStore = StoresInternal.retrieve('map');
 		this.build();
 	};
 
@@ -97,9 +96,10 @@ define(['../../../../error/ArgumentError',
 	 */
 	WorldWindWidgetPanel.prototype.clearLayers = function(group){
 		$("." + group + "-floater").remove();
-		for (var key in this._maps){
-			this._maps[key].layers.removeAllLayersFromGroup(group);
-		}
+
+		this._mapStore.getAll().forEach(function(map){
+			map.layers.removeAllLayersFromGroup(group);
+		});
 
 		if (group === "selectedareasfilled" || group === "areaoutlines"){
 			this._panelBodySelector.find(".layer-row[data-id=" + group + "]").removeClass("checked");
@@ -232,13 +232,13 @@ define(['../../../../error/ArgumentError',
 
 
 			if (checkbox.hasClass("checked")){
-				for(var key in self._maps){
-					self._maps[key].layers.showLayer(layerId);
-				}
+				self._mapStore.getAll().forEach(function(map){
+					map.layers.showLayer(layerId);
+				});
 			} else {
-				for(var key in self._maps){
-					self._maps[key].layers.hideLayer(layerId);
-				}
+				self._mapStore.getAll().forEach(function(map){
+					map.layers.hideLayer(layerId);
+				});
 			}
 		},50);
 	};
@@ -254,9 +254,9 @@ define(['../../../../error/ArgumentError',
 			if (layer.group == groupId){
 				var checkbox = $(".checkbox-row[data-id=" + layer.id +"]");
 				checkbox.addClass("checked");
-				for (var key in self._maps){
-					self._maps[key].layers.showLayer(layer.id, layer.order);
-				}
+				self._mapStore.getAll().forEach(function(map){
+					map.layers.showLayer(layer.id, layer.order);
+				});
 			}
 		});
 	};

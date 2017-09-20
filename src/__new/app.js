@@ -130,7 +130,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         }
         // create tools and widgets according to configuration
         if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
-        	var mapsContainer = buildMapsContainer(mapStore);
+        	var mapsContainer = buildMapsContainer(mapStore, stateStore);
 			var worldWindWidget = buildWorldWindWidget(mapsContainer, topToolBar, stateStore);
             widgets.push(worldWindWidget);
         }
@@ -374,13 +374,15 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 	/**
 	 * Build container for world wind maps within content element
 	 * @param mapStore {MapStore}
+	 * @param stateStore {StateStore}
 	 * @returns {MapsContainer}
 	 */
-	function buildMapsContainer(mapStore){
+	function buildMapsContainer(mapStore, stateStore){
 		return new MapsContainer({
 			id: "maps-container",
 			dispatcher: window.Stores,
 			mapStore: mapStore,
+			stateStore: stateStore,
 			target: $("#content")
 		})
 	}

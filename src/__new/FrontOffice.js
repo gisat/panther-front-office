@@ -105,7 +105,7 @@ define([
 
 		ThemeYearConfParams.datasetChanged = false;
 
-		Stores.retrieve("period").notify(Actions.periodsUpdate);
+		Stores.retrieve("period").notify(Actions.periodsRebuild);
 	};
 
 	/**

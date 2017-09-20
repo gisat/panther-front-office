@@ -175,7 +175,7 @@ define([
 	 * @param type {string} type of event
 	 */
 	PeriodsSelector.prototype.onEvent = function(type){
-		if (type === Actions.periodsUpdate){
+		if (type === Actions.periodsRebuild){
 			this.rebuild();
 		}
 	};
@@ -185,8 +185,8 @@ define([
 	 */
 	PeriodsSelector.prototype.updatePeriod = function(){
 		var selected = this._basicSelect.getSelected()[0];
-		var period = Number(selected.id);
-		this._dispatcher.notify("period#change", period);
+		var periods = [Number(selected.id)];
+		this._dispatcher.notify(Actions.periodsChange, periods);
 	};
 
 	/**
@@ -206,7 +206,7 @@ define([
 			if (self._disabledPeriods){
 				periods = periods.concat(self._disabledPeriods);
 			}
-			self._dispatcher.notify("period#change", periods);
+			self._dispatcher.notify(Actions.periodsChange, periods);
 		}, 50);
 	};
 
@@ -223,7 +223,7 @@ define([
 					return item;
 				}
 			});
-			this._dispatcher.notify("period#change", periods);
+			this._dispatcher.notify(Actions.periodsChange, periods);
 		}
 	};
 

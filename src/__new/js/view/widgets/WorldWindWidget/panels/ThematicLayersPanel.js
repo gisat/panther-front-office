@@ -87,15 +87,15 @@ define(['../../../../error/ArgumentError',
 						path: choropleth.data.legendLayer,
 						opacity: 70
 					};
-					for (var key in self._maps){
-						self._maps[key].layers.addChoroplethLayer(layer, self._id, false);
-					}
+					self._mapStore.getAll().forEach(function(map){
+						map.layers.addChoroplethLayer(layer, self._id, false);
+					});
 
 					var toolsContainer = $("#layer-tool-box-" + layer.id);
 					toolsContainer.html('');
 					var toolBox = choropleth.control.getToolBox();
-					toolBox.addLegend(layer, self._maps);
-					toolBox.addOpacity(layer, self._maps);
+					toolBox.addLegend(layer, self._mapStore.getAll());
+					toolBox.addOpacity(layer, self._mapStore.getAll());
 				}
 			});
 

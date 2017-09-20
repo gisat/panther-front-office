@@ -21,11 +21,11 @@ Ext.define('Gisatlib.slider.DiscreteTimeline', {
 	/**
      * Change period
 	 * @param event {string} type of event
-	 * @param period {number} id of the period
+	 * @param periods {Array} List of periods
 	 */
-	changePeriod: function(event, period){
-        if (event === "period#change"){
-            this.setValue(period);
+	changePeriod: function(event, periods){
+        if (event === "periods#change"){
+            this.setValue(periods);
         }
     },
     
