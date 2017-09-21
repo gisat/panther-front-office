@@ -268,14 +268,13 @@ define([
 		}
 		this._containerSelector.addClass(cls);
 
-		this.sortMapsByPeriod(true);
+		this.sortMapsByPeriod();
 	};
 
 	/**
 	 * Sort maps in container by associated period
-	 * @param ascending {boolean} true for ascending order
 	 */
-	MapsContainer.prototype.sortMapsByPeriod = function(ascending){
+	MapsContainer.prototype.sortMapsByPeriod = function(){
 		var containerCls = this._containerSelector.find(".map-fields").attr('class');
 		var container = document.getElementsByClassName(containerCls)[0];
 		var maps = container.childNodes;
