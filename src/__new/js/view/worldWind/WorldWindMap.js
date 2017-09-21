@@ -177,7 +177,6 @@ define(['../../actions/Actions',
 	 */
 	WorldWindMap.prototype.rebuild = function(appState){
 		this._goToAnimator.setLocation(appState);
-
 		if (this._id === "default-map"){
 			this.updateNavigatorState();
 			var periods = Stores.retrieve("state").current().periods;

@@ -102,21 +102,18 @@ define([
 	 * Rebuild widget
 	 */
 	WorldWindWidget.prototype.rebuild = function(){
-		var isIn3dMode = $("body").hasClass("mode-3d");
 		this._stateChanges = this._stateStore.current().changes;
+		this._mapsContainer.rebuildMaps();
+		this._panels.rebuild(this._stateChanges);
+		this._stateChanges = {
+			scope: false,
+			location: false,
+			theme: false,
+			period: false,
+			level: false,
+			visualization: false
+		};
 
-		if (isIn3dMode){
-			this._mapsContainer.rebuildMaps();
-			this._panels.rebuild(this._stateChanges);
-			this._stateChanges = {
-				scope: false,
-				location: false,
-				theme: false,
-				period: false,
-				level: false,
-				visualization: false
-			};
-		}
 		this.handleLoading("hide");
 	};
 
