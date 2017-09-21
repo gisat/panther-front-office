@@ -105,6 +105,9 @@ define([
 		this._selectedPeriods = this._stateStore.current().periods;
 	};
 
+	/**
+	 * Update a list for diasabled periods for multiselect. Currently only period selected by default should be disabled in MultiSelect.
+	 */
 	PeriodsSelector.prototype.updateDisabledPeriods = function(){
 		var periods = this._stateStore.current().periods;
 		if (periods.length < 2){

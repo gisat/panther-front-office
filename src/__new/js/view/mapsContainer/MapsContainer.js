@@ -11,6 +11,7 @@ define([
 	'string',
 	'jquery',
 	'text!./MapsContainer.html',
+	'tinysort',
 	'css!./MapsContainer'
 ], function(Actions,
 			ArgumentError,
@@ -23,7 +24,8 @@ define([
 
 			S,
 			$,
-			mapsContainer
+			mapsContainer,
+			tinysort
 ){
 	/**
 	 * Class representing container containing maps
@@ -100,15 +102,23 @@ define([
 				}
 			});
 		} else if (mapsCount > periodsCount) {
-			// go trough maps, check if period exists for map, if not, remove map
-			allMaps.forEach(function(map){
-				var period =_.filter(periods, function(per){
-					return per === map.period;
+			if (periodsCount === 1){
+				allMaps.forEach(function(map){
+					if (map.id !== "default-map"){
+						self._dispatcher.notify("map#remove",{id: map.id});
+					}
 				});
-				if (period.length === 0){
-					self._dispatcher.notify("map#remove",{id: map.id});
-				}
-			});
+			} else {
+				// go trough maps, check if period exists for map, if not, remove map
+				allMaps.forEach(function(map){
+					var period =_.filter(periods, function(per){
+						return per === map.period;
+					});
+					if (period.length === 0){
+						self._dispatcher.notify("map#remove",{id: map.id});
+					}
+				});
+			}
 		}
 	};
 
@@ -256,7 +266,20 @@ define([
 		} else if (this._mapsInContainerCount > 12 && this._mapsInContainerCount <= 16){
 			cls += a + '4 ' + b + '4';
 		}
-		this._containerSelector.addClass(cls)
+		this._containerSelector.addClass(cls);
+
+		this.sortMapsByPeriod(true);
+	};
+
+	/**
+	 * Sort maps in container by associated period
+	 * @param ascending {boolean} true for ascending order
+	 */
+	MapsContainer.prototype.sortMapsByPeriod = function(ascending){
+		var containerCls = this._containerSelector.find(".map-fields").attr('class');
+		var container = document.getElementsByClassName(containerCls)[0];
+		var maps = container.childNodes;
+		tinysort(maps, {attr: 'data-period'});
 	};
 
 	return MapsContainer;

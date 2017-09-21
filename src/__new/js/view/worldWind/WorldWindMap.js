@@ -121,7 +121,7 @@ define(['../../actions/Actions',
 		this.setupWebWorldWind();
 		if (this._id !== 'default-map'){
 			this.addCloseButton();
-			this.renderYearLabel();
+			this.addPeriod();
 		}
 	};
 
@@ -134,16 +134,18 @@ define(['../../actions/Actions',
 	};
 
 	/**
-	 * Add label with info about period to the map
+	 * Add label with info about period to the map and add dataPeriod attribute of the map container (it is used for sorting)
 	 */
-	WorldWindMap.prototype.renderYearLabel = function(){
+	WorldWindMap.prototype.addPeriod = function(){
 		if (this._periodLabelSelector){
 			this._periodLabelSelector.remove();
 		}
 		var self = this;
 		Stores.retrieve("period").byId(this._period).then(function(periods){
 			if (periods.length === 1){
-				var html = '<div class="map-period-label">' + periods[0].name + '</div>';
+				var periodName = periods[0].name;
+				var html = '<div class="map-period-label">' + periodName + '</div>';
+				self._mapBoxSelector.attr("data-period", periodName);
 				self._mapBoxSelector.find(".map-window-tools").append(html);
 				self._periodLabelSelector = self._mapBoxSelector.find(".map-period-label")
 			}
@@ -182,7 +184,7 @@ define(['../../actions/Actions',
 			if (periods.length === 1){
 				this._period = periods[0];
 			}
-			this.renderYearLabel();
+			this.addPeriod();
 		} else {
 			var self = this;
 			setTimeout(function(){
