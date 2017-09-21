@@ -153,8 +153,8 @@ define(['../../../../error/ArgumentError',
 	 * @param layer {Object}
 	 */
 	InfoLayersPanel.prototype.rebuildLayer = function(layer){
-		self._mapStore.getAll().forEach(function(map){
-			map.layers.layers.addInfoLayer(layer.data, this._id, false);
+		this._mapStore.getAll().forEach(function(map){
+			map.layers.addInfoLayer(layer.data, this._id, false);
 		});
 		var tools = layer.control.getToolBox();
 		tools.clear();
