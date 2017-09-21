@@ -91,9 +91,6 @@ define([
 
 		if (periods.length > 1){
 			this._compareButton = this.renderCompareButton();
-		}
-
-		if (periods.length > 2){
 			this._multiSelect = this.renderMultiplePeriodSelection(periods);
 		}
 	};
