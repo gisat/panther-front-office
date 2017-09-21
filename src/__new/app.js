@@ -4,9 +4,11 @@ requirejs.config({
     paths: {
         'css': 'lib/css.min',
         'd3': 'lib/d3.min',
+        'earcut': 'lib/earcut-2.1.1.min',
         'jquery': 'lib/jquery-3.0.0',
         'jquery-private': 'js/jquery-private',
         'jquery-ui': 'lib/jquery-ui.min',
+        'osmtogeojson': 'lib/osmtogeojson-3.0.0',
         'resize': 'lib/detect-element-resize',
 		'select2': 'lib/select2.full.min',
         'string': 'lib/string',
@@ -52,6 +54,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         'js/view/map/Map',
 		'js/view/mapsContainer/MapsContainer',
 		'js/stores/internal/MapStore',
+		'js/view/widgets/OSMWidget/OSMWidget',
 		'js/view/selectors/PeriodsSelector/PeriodsSelector',
 		'js/view/widgets/PeriodsWidget/PeriodsWidget',
 		'js/util/Placeholder',
@@ -81,6 +84,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
              Map,
              MapsContainer,
 			 MapStore,
+			 OSMWidget,
 			 PeriodsSelector,
 			 PeriodsWidget,
 			 Placeholder,
@@ -134,6 +138,10 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         	var mapsContainer = buildMapsContainer(mapStore, stateStore);
 			var worldWindWidget = buildWorldWindWidget(mapsContainer, topToolBar, stateStore);
             widgets.push(worldWindWidget);
+
+            if(Config.toggles.hasOsmWidget) {
+                widgets.push(buildOsmWidget(mapsContainer, mapStore));
+            }
         }
         if(Config.toggles.hasPeriodsWidget){
 			var periodsWidget = buildPeriodsWidget(mapsContainer);
@@ -151,6 +159,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         if(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies){
             widgets.push(buildCityWidget());
         }
+
         if(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo){
             tools.push(buildFeatureInfoTool());
         }
@@ -387,4 +396,21 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			target: $("#content")
 		})
 	}
+
+    /**
+     * Build widget for the Open Street Map vector information.
+     * @param mapsContainer
+     * @returns {OSMWidget}
+     */
+	function buildOsmWidget(mapsContainer, mapStore) {
+        return new OSMWidget({
+            elementId: 'osm-widget',
+            name: 'Open Street Maps',
+            mapsContainer: mapsContainer,
+            mapStore: mapStore,
+            dispatcher: window.Stores,
+            isWithoutFooter: true,
+            is3dOnly: true
+        });
+    }
 });

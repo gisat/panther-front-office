@@ -477,28 +477,29 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
 			if(data.data && data.data.length) {
 				var nodes = data.data.map(function(layer, index) {
+				    var layerAddOptions = {};
+				    var coreOptions = {};
+				    try{
+				        layerAddOptions = JSON.parse(layer.custom);
+				        coreOptions = JSON.parse(layer.custom);
+                    } catch(e) {
+				        console.error("LocationTheme#reloadWmsLayer Incorrect custom ", layer.custom);
+                    }
+				    layerAddOptions.visibility = false;
+				    layerAddOptions.isBaseLayer = false;
+				    layerAddOptions.projection = new OpenLayers.Projection("EPSG:3857");
+
+				    coreOptions.layers = layer.layer;
+				    coreOptions.transparent = true;
+				    coreOptions.srs = "EPSG:3857";
 				    var layer1 = new OpenLayers.Layer.WMS(layer.name,
 						layer.url,
-						{
-							layers: layer.layer,
-							transparent: true,
-                            srs: "EPSG:3857"
-						}, {
-							visibility: false,
-							isBaseLayer: false,
-                            projection: new OpenLayers.Projection("EPSG:3857")
-						});
+						coreOptions,
+                        layerAddOptions);
 				    var layer2 = new OpenLayers.Layer.WMS(layer.name,
 						layer.url,
-						{
-							layers: layer.layer,
-							transparent: true,
-							srs: "EPSG:3857"
-						}, {
-							visibility: false,
-							isBaseLayer: false,
-							projection: new OpenLayers.Projection("EPSG:3857")
-						});
+						coreOptions,
+                        layerAddOptions);
 				    var node = Ext.create('Puma.model.MapLayer', {
 						name: layer.name,
                         id: layer.id,
@@ -1079,6 +1080,9 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
 				// Also hide chart related stuff
 				$('#window-areatree').hide();
+				if(scope.get("aggregated")) {
+                    this.getController('DomManipulation')._onReportsSidebarToggleClick();
+                }
                 $('#sidebar-reports').hide();
 
                 // Also switch map to 3D mode
@@ -1088,6 +1092,9 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 $('.areaTreeSelection').show();
 				$('#top-toolbar-areas').show();
 				$('#window-areatree').show();
+                if(scope.get("aggregated")) {
+                    this.getController('DomManipulation')._onReportsSidebarToggleClick();
+                }
 				$('#sidebar-reports').show();
 				$('#top-toolbar-3dmap').show()
 

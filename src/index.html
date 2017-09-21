@@ -92,7 +92,7 @@
 							(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap) ||
 							(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo) ||
 							(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies)){
-						return createScript('__new/lib/require.js', '__new/app.js');
+						return createScript('__new/app-built.js');
 					}
 				}).then(function(){
 					// If printing hide wrong parts.

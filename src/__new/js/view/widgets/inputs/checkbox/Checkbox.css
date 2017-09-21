@@ -8,7 +8,7 @@
 }
 
 .checkbox-icon {
-    background: url('./checkbox-unchecked.png') no-repeat center 45%;
+    background: url('../../../../../img/checkbox-unchecked.png') no-repeat center 45%;
     display: block;
     float: left;
     margin-right: .5rem;

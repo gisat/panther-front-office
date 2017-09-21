@@ -740,6 +740,9 @@ body.mode-3d #top-toolbar-3dmap {
 #top-toolbar .item#top-toolbar-3dmap::before {
 	content: '\f0ac';
 }
+#top-toolbar .item#top-toolbar-osm::before {
+	content: '\f1ad';
+}
 #top-toolbar .item#top-toolbar-layers::before {
 	background: url('../images/icons/layers.svg') center center no-repeat;
 }
