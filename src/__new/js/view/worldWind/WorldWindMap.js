@@ -175,10 +175,10 @@ define(['../../actions/Actions',
 	};
 
 	/**
-	 * Rebuild map with current settings
+	 * Rebuild map
 	 */
-	WorldWindMap.prototype.rebuild = function(appState){
-		this._goToAnimator.setLocation(appState);
+	WorldWindMap.prototype.rebuild = function(){
+		this._goToAnimator.setLocation();
 		if (this._id === "default-map"){
 			this.updateNavigatorState();
 			var periods = Stores.retrieve("state").current().periods;

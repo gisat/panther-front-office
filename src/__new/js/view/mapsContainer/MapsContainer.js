@@ -157,10 +157,9 @@ define([
 	 * TODO rebuild each map with relevant data
 	 */
 	MapsContainer.prototype.rebuildMaps = function(){
-		var appState = Stores.retrieve('state').current();
 		var maps = this._mapStore.getAll();
 		maps.forEach(function(map){
-			map.rebuild(appState);
+			map.rebuild();
 		});
 		this.rebuildContainerLayout();
 	};

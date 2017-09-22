@@ -243,7 +243,7 @@ define([
 
 
 		if (this._options.changes.scope){
-			if (this._dataset == ThemeYearConfParams.dataset){
+			if (this._dataset === ThemeYearConfParams.dataset){
 				console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "FrontOffice", "checkConfiguration", "missingDataset"));
 			}
 		}

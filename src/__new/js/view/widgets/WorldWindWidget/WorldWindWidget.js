@@ -93,7 +93,7 @@ define([
 	WorldWindWidget.prototype.addDataToMap = function(map){
 		this._panels.addLayersToMap(map);
 		if (map._id !== 'default-map'){
-			map.rebuild(this._stateStore.current());
+			map.rebuild();
 			this._panels.rebuild(this._stateChanges);
 		}
 	};
