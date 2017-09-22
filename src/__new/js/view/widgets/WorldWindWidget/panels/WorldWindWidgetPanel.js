@@ -132,13 +132,16 @@ define(['../../../../error/ArgumentError',
 	 * @returns {*|jQuery|HTMLElement} Selector of the group
 	 */
 	WorldWindWidgetPanel.prototype.addLayerGroup = function(id, name){
-		this._panelBodySelector.append('<div class="panel-layer-group" id="' + id + '-panel-layer-group">' +
+		var group = this._panelBodySelector.find("#" + id + "-panel-layer-group");
+		if (group.length === 0){
+			this._panelBodySelector.append('<div class="panel-layer-group" id="' + id + '-panel-layer-group">' +
 				'<div class="panel-layer-group-header open">' +
-					'<div class="panel-icon expand-icon"></div>' +
-					'<div class="panel-icon folder-icon"></div>' +
+				'<div class="panel-icon expand-icon"></div>' +
+				'<div class="panel-icon folder-icon"></div>' +
 				'<h3>' + name + '</h3></div>' +
 				'<div class="panel-layer-group-body open"></div>' +
-			'</div>');
+				'</div>');
+		}
 		return $("#" + id + "-panel-layer-group").find(".panel-layer-group-body");
 	};
 

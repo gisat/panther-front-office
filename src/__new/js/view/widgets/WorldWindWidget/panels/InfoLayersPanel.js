@@ -35,6 +35,7 @@ define(['../../../../error/ArgumentError',
 	 * Rebuild panel
 	 */
 	InfoLayersPanel.prototype.rebuild = function(){
+		this._infoLayers = [];
 		this._groupId = "topiclayer";
 		this.clear(this._id);
 
@@ -142,7 +143,13 @@ define(['../../../../error/ArgumentError',
 			name: layerName,
 			path: layerPaths.split(",")[0]
 		};
-		layer.control = this.addLayerControl(layerId, layerName, target, visible);
+
+		var layerControl = _.filter(this._infoLayers, function(layer){return layer.control._id === layerId});
+		if (layerControl.length === 1){
+			layer.control = layerControl
+		} else {
+			layer.control = this.addLayerControl(layerId, layerName, target, visible);
+		}
 
 		this.rebuildLayer(layer);
 		this._infoLayers.push(layer);
@@ -185,7 +192,6 @@ define(['../../../../error/ArgumentError',
 	 */
 	InfoLayersPanel.prototype.getLayersFromAPI = function(){
 		var configuration = Stores.retrieve("state").current();
-
 		var scope = Number(configuration.scope);
 		var theme = Number(configuration.theme);
 		var year = Number(configuration.periods[0]);
