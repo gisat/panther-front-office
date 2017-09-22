@@ -94,26 +94,16 @@ define([
 		this._panels.addLayersToMap(map);
 		if (map._id !== 'default-map'){
 			map.rebuild();
-			this._panels.rebuild(this._stateChanges);
+			this._panels.rebuild();
 		}
 	};
 
 	/**
-	 * Rebuild widget
+	 * Rebuild widget. Rebuild all maps in container and panels.
 	 */
 	WorldWindWidget.prototype.rebuild = function(){
-		this._stateChanges = this._stateStore.current().changes;
 		this._mapsContainer.rebuildMaps();
-		this._panels.rebuild(this._stateChanges);
-		this._stateChanges = {
-			scope: false,
-			location: false,
-			theme: false,
-			period: false,
-			level: false,
-			visualization: false
-		};
-
+		this._panels.rebuild();
 		this.handleLoading("hide");
 	};
 
