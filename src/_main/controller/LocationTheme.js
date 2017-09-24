@@ -480,8 +480,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
 				    var layerAddOptions = {};
 				    var coreOptions = {};
 				    try{
-				        layerAddOptions = JSON.parse(layer.custom);
-				        coreOptions = JSON.parse(layer.custom);
+				        layerAddOptions = JSON.parse(layer.custom) || {};
+				        coreOptions = JSON.parse(layer.custom) || {};
                     } catch(e) {
 				        console.error("LocationTheme#reloadWmsLayer Incorrect custom ", layer.custom);
                     }
