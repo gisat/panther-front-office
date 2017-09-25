@@ -487,11 +487,19 @@ Ext.define('PumaMain.controller.LocationTheme', {
                     }
 				    layerAddOptions.visibility = false;
 				    layerAddOptions.isBaseLayer = false;
-				    layerAddOptions.projection = new OpenLayers.Projection("EPSG:3857");
+				    if(layerAddOptions.srs) {
+                        layerAddOptions.projection = new OpenLayers.Projection(layerAddOptions.srs);
+                        coreOptions.srs = layerAddOptions.srs;
+                    } else if(layerAddOptions.crs) {
+                        layerAddOptions.projection = new OpenLayers.Projection(layerAddOptions.crs);
+                        coreOptions.srs = layerAddOptions.crs;
+                    }else {
+                        layerAddOptions.projection = new OpenLayers.Projection("EPSG:3857");
+                        coreOptions.srs = "EPSG:3857";
+                    }
 
 				    coreOptions.layers = layer.layer;
 				    coreOptions.transparent = true;
-				    coreOptions.srs = "EPSG:3857";
 				    var layer1 = new OpenLayers.Layer.WMS(layer.name,
 						layer.url,
 						coreOptions,
