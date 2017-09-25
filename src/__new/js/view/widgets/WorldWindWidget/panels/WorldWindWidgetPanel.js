@@ -153,6 +153,10 @@ define(['../../../../error/ArgumentError',
 	 * @param visible {boolean} true, if layer should be visible
 	 */
 	WorldWindWidgetPanel.prototype.addLayerControl = function(id, name, target, visible){
+		return this.addPanelRow(id, name, target, visible);
+	};
+
+	WorldWindWidgetPanel.prototype.addPanelRow = function(id, name, target, visible){
 		return new PanelRow({
 			active: visible,
 			id: id,
