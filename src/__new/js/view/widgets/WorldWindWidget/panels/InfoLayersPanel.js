@@ -106,7 +106,7 @@ define(['../../../../error/ArgumentError',
 	/**
 	 * Group layers by layer template id
 	 * @param layerGroups {Array}
-	 * @returns {Array}
+	 * @returns {Array} Layer groups
 	 */
 	InfoLayersPanel.prototype.groupLayersByLayerTemplate = function(layerGroups){
 		var preparedLayerGroups = [];
@@ -136,7 +136,7 @@ define(['../../../../error/ArgumentError',
 	/**
 	 * Group data by layer group.
 	 * @param dataForPeriods {Array} List of data for each period
-	 * @returns {Array} Grouped data
+	 * @returns {Array} Layer groups
 	 */
 	InfoLayersPanel.prototype.groupDataByLayerGroup = function(dataForPeriods){
 		var groupedData = [];

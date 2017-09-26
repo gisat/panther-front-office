@@ -178,10 +178,13 @@ define(['../../actions/Actions',
 	 * Rebuild map
 	 */
 	WorldWindMap.prototype.rebuild = function(){
-		this._goToAnimator.setLocation();
+		var state = Stores.retrieve("state").current();
+		if (state.changes.scope || state.changes.location){
+			this._goToAnimator.setLocation();
+		}
 		if (this._id === "default-map"){
 			this.updateNavigatorState();
-			var periods = Stores.retrieve("state").current().periods;
+			var periods = state.periods;
 			if (periods.length === 1){
 				this._period = periods[0];
 			}
