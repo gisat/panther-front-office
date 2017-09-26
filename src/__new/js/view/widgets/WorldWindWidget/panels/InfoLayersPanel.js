@@ -76,6 +76,9 @@ define(['../../../../error/ArgumentError',
 					control = self.addLayerControl(layerGroupBodySelector, layerTemplate.layerTemplateId, layerTemplate.name, layerTemplate.layers, null, true);
 				}
 				self._infoLayersControls.push(control);
+				// todo addMetadataInfo
+				control.layerTools.buildLegend();
+				control.layerTools.buildOpacity();
 				self.showLayers(control);
 			});
 		});
@@ -97,6 +100,7 @@ define(['../../../../error/ArgumentError',
 			name: name,
 			target: target,
 			layers: layers,
+			maps: this._allMaps,
 			style: style,
 			checked: checked,
 			groupId: "info-layers"
@@ -119,6 +123,7 @@ define(['../../../../error/ArgumentError',
 					groupedLayers.push({
 						layerTemplateId: layerTemplateId,
 						layers: [layer],
+						opacity: 70,
 						name: layer.name,
 						styles: layer.styles
 					});
@@ -243,12 +248,11 @@ define(['../../../../error/ArgumentError',
 						}
 						layerId = layerId + "-" + stylePaths;
 					}
-
 					var layer = {};
 					layer.data = {
 						id: layerId,
 						layerPaths: layerPaths,
-						opacity: 70,
+						opacity: control.opacity,
 						stylePaths: stylePaths,
 						name: layerName,
 						path: layerPaths.split(",")[0]

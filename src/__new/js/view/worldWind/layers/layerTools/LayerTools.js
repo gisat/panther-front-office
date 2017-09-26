@@ -2,6 +2,8 @@ define(['../../../../error/ArgumentError',
 	'../../../../error/NotFoundError',
 	'../../../../util/Logger',
 
+	'./legend/LayerLegend',
+	'./opacity/LayerOpacity',
 	'./legend/Legend',
 	'./opacity/Opacity',
 
@@ -11,6 +13,8 @@ define(['../../../../error/ArgumentError',
 			NotFoundError,
 			Logger,
 
+			LayerLegend,
+			LayerOpacity,
 			Legend,
 			Opacity,
 
@@ -22,6 +26,8 @@ define(['../../../../error/ArgumentError',
 	 * @param options.id {string} id of the element
 	 * @param options.class {string}
 	 * @param options.target {JQuery} selector of target element
+	 * @param options.maps {Array} list of current maps
+	 * @param options.layers {Array} associated layers
 	 * @constructor
 	 */
 	var LayerTools = function(options){
@@ -38,6 +44,8 @@ define(['../../../../error/ArgumentError',
 		this._target = options.target;
 		this._id = options.id;
 		this._class = options.class;
+		this._layers = options.layers || null;
+		this._maps = options.maps || null;
 
 		this.build();
 	};
@@ -66,6 +74,7 @@ define(['../../../../error/ArgumentError',
 
 	/**
 	 * Build legend for layer
+	 * @param maps {Array} List of WorldWindMaps
 	 * @param layerMetadata {Object}
 	 * @returns {Legend}
 	 */
@@ -94,6 +103,31 @@ define(['../../../../error/ArgumentError',
 			layerMetadata: layerMetadata,
 			target: this._toolsContainer,
 			maps: maps
+		});
+	};
+
+	/**
+	 * NEW! Build legend for layers
+	 * @returns {LayerLegend}
+	 */
+	LayerTools.prototype.buildLegend = function(){
+		return new LayerLegend({
+			class: this._class,
+			target: this._toolsContainer,
+			layers: this._layers
+		});
+	};
+
+	/**
+	 * NEW! Build opacity control for layers
+	 * @returns {LayerOpacity}
+	 */
+	LayerTools.prototype.buildOpacity = function(){
+		return new LayerOpacity({
+			class: this._class,
+			target: this._toolsContainer,
+			layers: this._layers,
+			maps: this._maps
 		});
 	};
 

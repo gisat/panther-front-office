@@ -3,6 +3,7 @@ define(['../../../../../error/ArgumentError',
 	'../../../../../util/Logger',
 
 	'../../../inputs/checkbox/Checkbox',
+	'../../../../worldWind/layers/layerTools/LayerTools',
 
 	'jquery',
 	'string',
@@ -12,6 +13,7 @@ define(['../../../../../error/ArgumentError',
 			Logger,
 
 			Checkbox,
+			LayerTools,
 
 			$,
 			S,
@@ -24,6 +26,7 @@ define(['../../../../../error/ArgumentError',
 	 * @param options.target {Object} Jquery selector of targete element
 	 * @param options.id {number} id of layer template
 	 * @param options.name {string} name of layer
+	 * @param options.maps {Array} list of current maps
 	 * @param options.groupId {string} id of the group
 	 * @param options.layers {Array} list of layers attached to this control
 	 * @param [options.style] {Object} Optional parameter. Id of the style
@@ -43,6 +46,7 @@ define(['../../../../../error/ArgumentError',
 
 		this._id = options.id;
 		this._name = options.name;
+		this._maps = options.maps;
 		this._target = options.target;
 		this._layers = options.layers;
 		this._groupId = options.groupId;
@@ -61,9 +65,10 @@ define(['../../../../../error/ArgumentError',
 			dataId: this._id
 		}).toString();
 		this._target.append(html);
-		this._rowSelector = $('#control-' + this._id);
+		this._controlSelector = $('#control-' + this._id);
 
-		this.addCheckbox('checkbox-' + this._id, this._name, this._rowSelector, this._id, this._active);
+		this.addCheckbox('checkbox-' + this._id, this._name, this._controlSelector, this._id, this._active);
+		this.layerTools = this.addLayerTools(this._id, this._controlSelector, this._groupId, this._layers, this._maps);
 	};
 
 	/**
@@ -84,6 +89,25 @@ define(['../../../../../error/ArgumentError',
 			dataId: dataId,
 			checked: checked,
 			class: "layer-row"
+		});
+	};
+
+	/**
+	 * Add box for tools to this control
+	 * @param id {string} id of the box
+	 * @param target {Object} JQuery selector of target element
+	 * @param cls {string}
+	 * @param layers {Array} Layers associated with the control
+	 * @param maps {Array} list of current maps
+	 * @returns {LayerTools}
+	 */
+	LayerControl.prototype.addLayerTools = function(id, target, cls, layers, maps){
+		return new LayerTools({
+			id: id,
+			class: cls,
+			target: target,
+			layers: layers,
+			maps: maps
 		});
 	};
 
