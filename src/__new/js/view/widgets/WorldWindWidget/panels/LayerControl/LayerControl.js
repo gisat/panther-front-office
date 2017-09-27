@@ -51,16 +51,8 @@ define(['../../../../../error/ArgumentError',
 		this.layers = options.layers;
 		this._groupId = options.groupId;
 		this.style = options.style || null;
-		this._active = options.checked;
+		this.active = options.checked;
 
-		if (this.style){
-			if (this.style.name){
-				this._name = this._name + " - " + this.style.name;
-			}
-			if (this.style.path){
-				this._id = this._id + "-" + this.style.path;
-			}
-		}
 		this.build();
 	};
 
@@ -75,7 +67,7 @@ define(['../../../../../error/ArgumentError',
 		this._target.append(html);
 		this._controlSelector = $('#control-' + this._id);
 
-		this.addCheckbox('checkbox-' + this._id, this._name, this._controlSelector, this._id, this._active);
+		this.addCheckbox('checkbox-' + this._id, this._name, this._controlSelector, this._id, this.active);
 		this.layerTools = this.addLayerTools(this._id, this._name, this._controlSelector, this._groupId, this.layers, this._maps, this.style);
 	};
 

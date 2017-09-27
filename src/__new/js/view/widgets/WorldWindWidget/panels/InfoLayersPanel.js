@@ -44,6 +44,7 @@ define(['../../../../error/ArgumentError',
 		this._allMaps = Stores.retrieve("map").getAll();
 		this.getLayersForCurrentConfiguration().then(function(result){
 			self.clear(self._id);
+			self._previousInfoLayersControls = jQuery.extend(true, {}, self._infoLayersControls);
 			self._infoLayersControls = [];
 			if (result && result.length > 0){
 				var layerGroups = self.groupDataByLayerGroup(result);
@@ -70,10 +71,12 @@ define(['../../../../error/ArgumentError',
 			group.layers.forEach(function(layerTemplate){
 				if (layerTemplate.styles.length > 0){
 					layerTemplate.styles.forEach(function(style){
-						self.buildLayerControlRow(layerGroupBodySelector, layerTemplate.layerTemplateId, layerTemplate.name, layerTemplate.layers, style, true);
+						var id = layerTemplate.layerTemplateId + "-" + style.path;
+						var name = layerTemplate.name + " - " + style.name
+						self.buildLayerControlRow(layerGroupBodySelector, id, name, layerTemplate.layers, style);
 					});
 				} else {
-					self.buildLayerControlRow(layerGroupBodySelector, layerTemplate.layerTemplateId, layerTemplate.name, layerTemplate.layers, null, true);
+					self.buildLayerControlRow(layerGroupBodySelector, layerTemplate.layerTemplateId, layerTemplate.name, layerTemplate.layers, null);
 				}
 			});
 		});
@@ -86,9 +89,9 @@ define(['../../../../error/ArgumentError',
 	 * @param name {string} label
 	 * @param layers {Array} list of associated layers
 	 * @param style {Object|null} associated style, if exist
-	 * @param checked {boolean} true, if associated layers should be visible by default
 	 */
-	InfoLayersPanel.prototype.buildLayerControlRow = function(target, id, name, layers, style, checked){
+	InfoLayersPanel.prototype.buildLayerControlRow = function(target, id, name, layers, style){
+		var checked = this.isControlActive(id);
 		var control = this.addLayerControl(target, id, name, layers, style, checked);
 		this._infoLayersControls.push(control);
 		control.layerTools.buildLegend(style);
@@ -96,6 +99,16 @@ define(['../../../../error/ArgumentError',
 		if (checked){
 			this.showLayers(control);
 		}
+	};
+
+	/**
+	 * Check if control was checked before rebuild. If existed and was not checked, do not check it again.
+	 * @param controlId {string|number} id of the control
+	 * @returns {boolean} true, if the control should be selected
+	 */
+	InfoLayersPanel.prototype.isControlActive = function(controlId){
+		var existingControl = _.find(this._previousInfoLayersControls, function(control){return control._id == controlId});
+		return !!((existingControl && existingControl.active) || !existingControl);
 	};
 
 	/**
@@ -235,8 +248,10 @@ define(['../../../../error/ArgumentError',
 			var layerId = checkbox.attr("data-id");
 			var control = _.find(self._infoLayersControls, function(control){return control._id == layerId});
 			if (checkbox.hasClass("checked")){
+				control.active = true;
 				self.showLayers(control);
 			} else {
+				control.active = false;
 				self.hideLayers(control);
 			}
 		},50);
@@ -248,34 +263,36 @@ define(['../../../../error/ArgumentError',
 	 */
 	InfoLayersPanel.prototype.showLayers = function(control){
 		var self = this;
-		control.layers.forEach(function(layerData){
-			self._allMaps.forEach(function(map){
-				if (layerData.period === map.period){
-					var layerId = layerData.id;
-					var layerPaths = layerData.path;
-					var stylePaths = "";
-					var layerName = layerData.name;
-					if (control.style){
-						stylePaths = control.style.path;
-						if (control.style.name){
-							layerName = layerName + " - " + control.style.name;
+		if (control.active){
+			control.layers.forEach(function(layerData){
+				self._allMaps.forEach(function(map){
+					if (layerData.period === map.period){
+						var layerId = layerData.id;
+						var layerPaths = layerData.path;
+						var stylePaths = "";
+						var layerName = layerData.name;
+						if (control.style){
+							stylePaths = control.style.path;
+							if (control.style.name){
+								layerName = layerName + " - " + control.style.name;
+							}
+							layerId = layerId + "-" + stylePaths;
 						}
-						layerId = layerId + "-" + stylePaths;
-					}
-					var layer = {};
-					layer.data = {
-						id: layerId,
-						layerPaths: layerPaths,
-						opacity: control.opacity,
-						stylePaths: stylePaths,
-						name: layerName,
-						path: layerPaths.split(",")[0]
-					};
+						var layer = {};
+						layer.data = {
+							id: layerId,
+							layerPaths: layerPaths,
+							opacity: control.opacity,
+							stylePaths: stylePaths,
+							name: layerName,
+							path: layerPaths.split(",")[0]
+						};
 
-					map.layers.addInfoLayer(layer.data, self._id, true);
-				}
+						map.layers.addInfoLayer(layer.data, self._id, true);
+					}
+				});
 			});
-		});
+		}
 	};
 
 	/**

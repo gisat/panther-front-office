@@ -52,11 +52,10 @@ define(['../../../error/ArgumentError',
 
 	/**
 	 * Rebuild panels with current configuration
-	 * @param stateChanges {Object} changes in configuration
 	 */
-	WorldWindWidgetPanels.prototype.rebuild = function(stateChanges){
-		var scopeChange = Stores.retrieve('state').current().changes.scope;
-		if (!scopeChange){
+	WorldWindWidgetPanels.prototype.rebuild = function(){
+		var configChanges = Stores.retrieve('state').current().changes;
+		if (!configChanges.scope){
 			this._auLayersPanel.switchOnLayersFrom2D();
 			this._thematicLayersPanel.switchOnLayersFrom2D();
 		}
