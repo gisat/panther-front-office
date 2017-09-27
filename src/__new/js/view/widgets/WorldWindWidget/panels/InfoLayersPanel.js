@@ -25,6 +25,7 @@ define(['../../../../error/ArgumentError',
 ){
 	/**
 	 * Class representing Info Layers Panel of WorldWindWidget
+	 * TODO move general methods to WorldWindWidgetPanel class
 	 * @params options {Object}
 	 * @constructor
 	 */
@@ -67,21 +68,34 @@ define(['../../../../error/ArgumentError',
 		layerGroups.forEach(function(group){
 			var layerGroupBodySelector = self.addLayerGroup(group.name.replace(/ /g, '_'), group.name);
 			group.layers.forEach(function(layerTemplate){
-				var control = null;
 				if (layerTemplate.styles.length > 0){
 					layerTemplate.styles.forEach(function(style){
-						control = self.addLayerControl(layerGroupBodySelector, layerTemplate.layerTemplateId, layerTemplate.name, layerTemplate.layers, style, true);
+						self.buildLayerControlRow(layerGroupBodySelector, layerTemplate.layerTemplateId, layerTemplate.name, layerTemplate.layers, style, true);
 					});
 				} else {
-					control = self.addLayerControl(layerGroupBodySelector, layerTemplate.layerTemplateId, layerTemplate.name, layerTemplate.layers, null, true);
+					self.buildLayerControlRow(layerGroupBodySelector, layerTemplate.layerTemplateId, layerTemplate.name, layerTemplate.layers, null, true);
 				}
-				self._infoLayersControls.push(control);
-				// todo addMetadataInfo
-				control.layerTools.buildLegend();
-				control.layerTools.buildOpacity();
-				self.showLayers(control);
 			});
 		});
+	};
+
+	/**
+	 * Build layer control and add tools
+	 * @param target {Object} JQuery selector of target element
+	 * @param id {string} id of contol row
+	 * @param name {string} label
+	 * @param layers {Array} list of associated layers
+	 * @param style {Object|null} associated style, if exist
+	 * @param checked {boolean} true, if associated layers should be visible by default
+	 */
+	InfoLayersPanel.prototype.buildLayerControlRow = function(target, id, name, layers, style, checked){
+		var control = this.addLayerControl(target, id, name, layers, style, checked);
+		this._infoLayersControls.push(control);
+		control.layerTools.buildLegend(style);
+		control.layerTools.buildOpacity(style);
+		if (checked){
+			this.showLayers(control);
+		}
 	};
 
 	/**
@@ -218,8 +232,8 @@ define(['../../../../error/ArgumentError',
 		var self = this;
 		setTimeout(function(){
 			var checkbox = $(event.currentTarget);
-			var layerId = Number(checkbox.attr("data-id"));
-			var control = _.find(self._infoLayersControls, function(control){return control._id === layerId});
+			var layerId = checkbox.attr("data-id");
+			var control = _.find(self._infoLayersControls, function(control){return control._id == layerId});
 			if (checkbox.hasClass("checked")){
 				self.showLayers(control);
 			} else {
@@ -234,17 +248,17 @@ define(['../../../../error/ArgumentError',
 	 */
 	InfoLayersPanel.prototype.showLayers = function(control){
 		var self = this;
-		control._layers.forEach(function(layerData){
+		control.layers.forEach(function(layerData){
 			self._allMaps.forEach(function(map){
 				if (layerData.period === map.period){
 					var layerId = layerData.id;
 					var layerPaths = layerData.path;
 					var stylePaths = "";
 					var layerName = layerData.name;
-					if (layerData.style){
-						stylePaths = layerData.style.path;
-						if (layerData.style.name !== null){
-							layerName = layerName + " - " + layerData.style.name;
+					if (control.style){
+						stylePaths = control.style.path;
+						if (control.style.name){
+							layerName = layerName + " - " + control.style.name;
 						}
 						layerId = layerId + "-" + stylePaths;
 					}
@@ -270,10 +284,14 @@ define(['../../../../error/ArgumentError',
 	 */
 	InfoLayersPanel.prototype.hideLayers = function(control){
 		var self = this;
-		control._layers.forEach(function(layerData){
+		control.layers.forEach(function(layerData){
 			self._allMaps.forEach(function(map){
 				if (layerData.period === map.period){
-					var layer = map.layers.getLayerById(layerData.id);
+					var id = layerData.id;
+					if (control.style){
+						id = id + "-" + control.style.path;
+					}
+					var layer = map.layers.getLayerById(id);
 					map.layers.removeLayer(layer);
 				}
 			});

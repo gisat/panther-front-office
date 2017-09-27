@@ -21,10 +21,13 @@ define(['../../../../../error/ArgumentError',
 	 * Class representing layer opacity control
 	 * TODO join this class with Opacity.js
 	 * @param options {Object}
+	 * @param options.id {string} Id of the tool
+	 * @param options.name {string} Name of the tool
 	 * @param options.class {string}
 	 * @param options.target {Object} JQuery selector of target element
 	 * @param options.layers {Array} List of layers associated with this legend
 	 * @param options.maps {Array} List of all active maps
+	 * @param options.style {Object} Associated style
 	 * @augments LayerTool
 	 * @constructor
 	 */
@@ -35,11 +38,13 @@ define(['../../../../../error/ArgumentError',
 		this._target = options.target;
 		this._layers = options.layers;
 		this._maps = options.maps;
+		this._name = options.name;
+		this._id = options.id;
+		this._style = options.style;
 
 		// TODO will there be the same legend for each period?
 		this._defaultLayer = this._layers[0];
-		this._name = this._defaultLayer.name;
-		this._id = this._defaultLayer.id;
+
 		this._opacityValue = 70;
 		this.build();
 	};
@@ -93,32 +98,33 @@ define(['../../../../../error/ArgumentError',
 		var self = this;
 
 		this._floaterBodySelector.on("slide", "#" + sliderId, function(e, ui){
-			self._maps.forEach(function(map){
-				self._layers.forEach(function(layer){
-					var worldWindLayer = map.layers.getLayerById(layer.id);
-					if (worldWindLayer){
-						worldWindLayer.opacity = ui.value/100;
-					}
-				});
-				map.redraw();
-			});
+			self.setOpacity(ui.value/100);
 		});
 
 		this._floaterBodySelector.on("slidechange", "#" + sliderId, function(e, ui){
-			self._maps.forEach(function(map){
-				self._layers.forEach(function(layer){
-					var worldWindLayer = map.layers.getLayerById(layer.id);
-					if (worldWindLayer){
-						worldWindLayer.opacity = ui.value/100;
-					}
-				});
-				map.redraw();
-			});
+			self.setOpacity(ui.value/100);
 		});
 	};
 
-	LayerOpacity.prototype.redrawLayers = function(layers){
-
+	/**
+	 * Redraw layers with opacity value
+	 * @param opacity {number} Between 0 a 1
+	 */
+	LayerOpacity.prototype.setOpacity = function(opacity){
+		var self = this;
+		this._maps.forEach(function(map){
+			self._layers.forEach(function(layer){
+				var id = layer.id;
+				if (self._style){
+					id = id + "-" + self._style.path;
+				}
+				var worldWindLayer = map.layers.getLayerById(id);
+				if (worldWindLayer){
+					worldWindLayer.opacity = opacity;
+				}
+			});
+			map.redraw();
+		});
 	};
 
 	return LayerOpacity;

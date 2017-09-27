@@ -48,11 +48,19 @@ define(['../../../../../error/ArgumentError',
 		this._name = options.name;
 		this._maps = options.maps;
 		this._target = options.target;
-		this._layers = options.layers;
+		this.layers = options.layers;
 		this._groupId = options.groupId;
-		this._style = options.style || null;
+		this.style = options.style || null;
 		this._active = options.checked;
 
+		if (this.style){
+			if (this.style.name){
+				this._name = this._name + " - " + this.style.name;
+			}
+			if (this.style.path){
+				this._id = this._id + "-" + this.style.path;
+			}
+		}
 		this.build();
 	};
 
@@ -68,7 +76,7 @@ define(['../../../../../error/ArgumentError',
 		this._controlSelector = $('#control-' + this._id);
 
 		this.addCheckbox('checkbox-' + this._id, this._name, this._controlSelector, this._id, this._active);
-		this.layerTools = this.addLayerTools(this._id, this._controlSelector, this._groupId, this._layers, this._maps);
+		this.layerTools = this.addLayerTools(this._id, this._name, this._controlSelector, this._groupId, this.layers, this._maps, this.style);
 	};
 
 	/**
@@ -76,7 +84,7 @@ define(['../../../../../error/ArgumentError',
 	 * @param id {string} id of checkbox
 	 * @param name {string} label
 	 * @param target {Object} JQuery selector of target element
-	 * @param dataId {string} id of data connected with thischeckbox
+	 * @param dataId {string} id of data connected with this checkbox
 	 * @param checked {boolean} true if checkbox should be checked
 	 * @returns {Checkbox}
 	 */
@@ -95,19 +103,23 @@ define(['../../../../../error/ArgumentError',
 	/**
 	 * Add box for tools to this control
 	 * @param id {string} id of the box
+	 * @param name {string} name of the box
 	 * @param target {Object} JQuery selector of target element
 	 * @param cls {string}
 	 * @param layers {Array} Layers associated with the control
 	 * @param maps {Array} list of current maps
+	 * @param style {Object|null}
 	 * @returns {LayerTools}
 	 */
-	LayerControl.prototype.addLayerTools = function(id, target, cls, layers, maps){
+	LayerControl.prototype.addLayerTools = function(id, name, target, cls, layers, maps, style){
 		return new LayerTools({
 			id: id,
+			name: name,
 			class: cls,
 			target: target,
 			layers: layers,
-			maps: maps
+			maps: maps,
+			style: style
 		});
 	};
 

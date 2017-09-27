@@ -20,9 +20,12 @@ define(['../../../../../error/ArgumentError',
 	 * Class representing layer legend
 	 * TODO join this class with Legend.js
 	 * @param options {Object}
+	 * @param options.id {string} Id of the tool
+	 * @param options.name {string} Name of the tool
 	 * @param options.class {string}
 	 * @param options.target {Object} JQuery selector of target element
 	 * @param options.layers {Array} List of layers associated with this legend
+	 * @param options.style {Object} Associated style
 	 * @augments LayerTool
 	 * @constructor
 	 */
@@ -32,11 +35,13 @@ define(['../../../../../error/ArgumentError',
 		this._class = options.class;
 		this._target = options.target;
 		this._layers = options.layers;
+		this._style = options.style;
+		this._name = options.name;
+		this._id = options.id;
 
 		// TODO will there be the same legend for each period?
 		this._defaultLayer = this._layers[0];
-		this._name = this._defaultLayer.name;
-		this._id = this._defaultLayer.id;
+
 		this.build();
 	};
 
@@ -61,8 +66,8 @@ define(['../../../../../error/ArgumentError',
 	 */
 	LayerLegend.prototype.addContent = function(){
 		var style = "";
-		if (this._defaultLayer.styles.length > 0){
-			style = this._defaultLayer.styles[0].path;
+		if (this._style){
+			style = this._style.path;
 		}
 
 		var params = {
