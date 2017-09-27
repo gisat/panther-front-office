@@ -17,7 +17,7 @@ define(['../../../../error/ArgumentError',
 			LayerControl,
 
 			Remote,
-			Stores,
+			StoresInternal,
 			WorldWindWidgetPanel,
 
 			$,
@@ -41,7 +41,7 @@ define(['../../../../error/ArgumentError',
 	 */
 	InfoLayersPanel.prototype.rebuild = function(){
 		var self = this;
-		this._allMaps = Stores.retrieve("map").getAll();
+		this._allMaps = StoresInternal.retrieve("map").getAll();
 		this.getLayersForCurrentConfiguration().then(function(result){
 			self.clear(self._id);
 			self._previousInfoLayersControls = jQuery.extend(true, {}, self._infoLayersControls);
@@ -102,13 +102,21 @@ define(['../../../../error/ArgumentError',
 	};
 
 	/**
-	 * Check if control was checked before rebuild. If existed and was not checked, do not check it again.
+	 * Check the state of the control
 	 * @param controlId {string|number} id of the control
 	 * @returns {boolean} true, if the control should be selected
 	 */
 	InfoLayersPanel.prototype.isControlActive = function(controlId){
-		var existingControl = _.find(this._previousInfoLayersControls, function(control){return control._id == controlId});
-		return !!((existingControl && existingControl.active) || !existingControl);
+		var control2d = $('#window-layerpanel').find('td[data-for=topiclayer-' + controlId + '] input');
+		// if there exists the control for the same layer in 2D, use its state
+		if (control2d){
+			return control2d.attr('aria-checked') === "true";
+		}
+		// Otherwise check if control was checked before rebuild. If existed and was not checked, do not check it again.
+		else {
+			var existingControl = _.find(this._previousInfoLayersControls, function(control){return control._id == controlId});
+			return !!((existingControl && existingControl.active) || !existingControl);
+		}
 	};
 
 	/**
@@ -200,7 +208,7 @@ define(['../../../../error/ArgumentError',
 	 * Get layers for each period separately.
 	 */
 	InfoLayersPanel.prototype.getLayersForCurrentConfiguration = function(){
-		var configuration = Stores.retrieve("state").current();
+		var configuration = StoresInternal.retrieve("state").current();
 		var scope = configuration.scope;
 		var theme = configuration.theme;
 		var periods = configuration.periods;
@@ -246,6 +254,12 @@ define(['../../../../error/ArgumentError',
 		setTimeout(function(){
 			var checkbox = $(event.currentTarget);
 			var layerId = checkbox.attr("data-id");
+
+			// check/uncheck layer in 2D
+			var checkbox2d = $("td[data-for=topiclayer-" + layerId + "]").find("input");
+			Stores.notify("checklayer", checkbox2d);
+			checkbox2d.trigger("click", ["ctrl"]);
+
 			var control = _.find(self._infoLayersControls, function(control){return control._id == layerId});
 			if (checkbox.hasClass("checked")){
 				control.active = true;
