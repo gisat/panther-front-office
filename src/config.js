@@ -78,7 +78,7 @@ if(Config.toggles[window.location.origin] && Config.toggles[window.location.orig
 // Go through all the site specific toggles and rewrite the default ones.
 if(Config.toggles[window.location.origin]) {
 	var properties = Object.keys(Config.toggles[window.location.origin]);
-	for(var property in properties) {
-		Config.toggles[property] = Config.toggles[window.location.origin][property];
-	}
+	properties.forEach(function(property) {
+        Config.toggles[property] = Config.toggles[window.location.origin][property];
+	});
 }
