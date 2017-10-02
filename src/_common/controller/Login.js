@@ -53,6 +53,9 @@ Ext.define('Puma.controller.Login', {
             },
             success: function(response) {
                 me.checkLogin(true)
+            },
+            failure: function(error) {
+                alert("Incorrect username or password. Please try again.");
             }
         })
     },
