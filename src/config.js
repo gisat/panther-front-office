@@ -66,3 +66,19 @@ var Config = {
 	googleAnalyticsCookieDomain: 'auto',
 	environment: 'development'
 };
+
+// Allow custom configuration per URL.
+if(Config.toggles[window.location.origin] && Config.toggles[window.location.origin].url) {
+    Config.url = Config.toggles[window.location.origin].url;
+}
+if(Config.toggles[window.location.origin] && Config.toggles[window.location.origin].publicUrl) {
+    Config.publicUrl = Config.toggles[window.location.origin].publicUrl;
+}
+
+// Go through all the site specific toggles and rewrite the default ones.
+if(Config.toggles[window.location.origin]) {
+	var properties = Object.keys(Config.toggles[window.location.origin]);
+	for(var property in properties) {
+		Config.toggles[property] = Config.toggles[window.location.origin][property];
+	}
+}
