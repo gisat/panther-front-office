@@ -68,22 +68,22 @@ Ext.define('PumaMain.controller.Store', {
 	initStores: function () {
 		Ext.create('Ext.data.Store', {
 			storeId: 'location',
-			autoLoad: true,
+			autoLoad: false,
 			model: 'Puma.model.Location'
 		});
 		Ext.create('Ext.data.Store', {
 			storeId: 'theme',
-			autoLoad: true,
+			autoLoad: false,
 			model: 'Puma.model.Theme'
 		});
         Ext.create('Ext.data.Store', {
             storeId: 'topic',
-            autoLoad: true,
+            autoLoad: false,
             model: 'Puma.model.Topic'
         });
         Ext.create('Ext.data.Store', {
             storeId: 'dataset',
-            autoLoad: true,
+            autoLoad: false,
             model: 'Puma.model.Dataset'
         });
 
