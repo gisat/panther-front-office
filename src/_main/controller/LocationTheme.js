@@ -99,6 +99,13 @@ Ext.define('PumaMain.controller.LocationTheme', {
             ThemeYearConfParams.allPlaces.push(item.raw.id);
         });
 
+        var stores = ['layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataview'];
+        stores.forEach(function(store){
+            var extStore = Ext.StoreMgr.lookup(store);
+            extStore.proxy.extraParams = { scope: val };
+            extStore.load();
+        });
+
         locStore.filter([
             function(rec) {
                 if (locCount == 1){

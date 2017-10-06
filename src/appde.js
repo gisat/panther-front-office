@@ -152,6 +152,12 @@ Ext.application({
 		var id = afterId ? afterId.split('&')[0] : null;
 		Config.dataviewId = id;
 		if (id) {
+			// Load stores when only for print.
+            var stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'scope', 'areatemplate', 'symbology', 'dataset', 'topic', 'dataview'];
+            stores.forEach(function(store){
+                Ext.StoreMgr.lookup(store).load();
+            });
+
 			this.getController('DomManipulation').renderApp();
 			this.getController('Render').renderApp();
 			
