@@ -36,7 +36,7 @@ define([
 	 * @constructor
 	 */
 	var FrontOffice = function(options) {
-		this.loadData();
+		window.loadDataFrontOfficeNew = this.loadData.bind(this);
 		this._attributesMetadata = options.attributesMetadata;
 
 		this._options = options.widgetOptions;

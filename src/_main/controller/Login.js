@@ -45,6 +45,7 @@ Ext.define('PumaMain.controller.Login',{
         stores.forEach(function(store){
 			Ext.StoreMgr.lookup(store).load();
         });
+        window.loadDataFrontOfficeNew();
     }
 })
 
