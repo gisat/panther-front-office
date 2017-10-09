@@ -1,12 +1,12 @@
 var Config = {
-	//url: 'http://localhost:4000/',
-	//signupAddress: 'http://localhost:4000/account/signup/',
+	// url: 'http://10.0.75.2/backend/',
+	// signupAddress: 'http://panther.gisat.cz/account/signup/',
 	// url: 'https://puma.worldbank.org/backend/',                // PUMA
 	// signupAddress: 'https://puma.worldbank.org/account/signup/',
 	// url: 'http://urbis.gisat.cz/backend/',                     // URBIS
 	// signupAddress: 'http://urbis.gisat.cz/account/signup/',
-	 url: 'http://35.165.51.145/backend/',                      // Snow Portal
-	 signupAddress: 'http://35.165.51.145/account/signup/',
+	 url: 'http://snow.gisat.cz/backend/',                      // Snow Portal
+	 // signupAddress: 'http://35.165.51.145/account/signup/',
 	geoserver2Workspace: "panther",
 	initialBaseMap: "terrain",
 	initialMapBounds: [
@@ -16,7 +16,7 @@ var Config = {
 		-6.9809544265
 	],
 	melodiesRemoteUrl: "",
-	snowUrl: "http://35.165.51.145/",
+	snowUrl: "http://snow.gisat.cz/",
 
 	toggles: {
 		noGeoserverLayerGroups: false,
@@ -26,20 +26,24 @@ var Config = {
 		useWBFooter: false,
 		useNewViewSelector: true,
 		useTopToolbar: true,
-		allowPumaHelp: true,
-		allowDownloadsLink: true,
-		usePumaLogo: true,
+		allowPumaHelp: false,
+		allowDownloadsLink: false,
+		usePumaLogo: false,
 		advancedFiltersFirst: false,
-		hasNew3Dmap: true,
-		hasNewEvaluationTool: true,
+		hasNew3Dmap: false,
+		hasNewEvaluationTool: false,
 		hasNewCustomPolygonsTool: false,
 		hasNewFeatureInfo: true,
+		hasPeriodsSelector: false,
+		hasPeriodsWidget: false,
+		hasOsmWidget: false,
 		isNewDesign: true,
 		isUrbis: false,
 		isEea: false,
 		isMelodies: false,
 		isUrbanTep: false,
-		isSnow: true
+		isSnow: true,
+		hideWorldBank: true
 	},
 
 	basicTexts: {
