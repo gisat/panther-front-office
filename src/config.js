@@ -35,7 +35,7 @@ var Config = {
 		hasNewEvaluationTool: false,
 		hasNewCustomPolygonsTool: false,
 		hasNewFeatureInfo: true,
-		hasPeriodsSelector: false,
+		hasPeriodsSelector: true,
 		hasPeriodsWidget: false,
 		hasOsmWidget: false,
 		isNewDesign: true,
