@@ -13,7 +13,9 @@ define([
 	'js/stores/gisat/Scopes',
 	'js/stores/gisat/Visualizations',
 	'js/stores/gisat/WmsLayers',
-	'jquery',
+    'js/stores/UrbanTepPortalStore',
+    'js/stores/UrbanTepCommunitiesStore',
+    'jquery',
 	'underscore'
 ], function(ArgumentError,
 			NotFoundError,
@@ -29,6 +31,8 @@ define([
 			Scopes,
 			Visualizations,
 			WmsLayers,
+			UrbanTepPortalStore,
+			UrbanTepCommunitiesStore,
 			$,
 			_){
 	/**
@@ -292,6 +296,12 @@ define([
 		Stores.retrieve('scope').all();
 		Stores.retrieve('visualization').all();
 		Stores.retrieve('wmsLayer').all();
+
+        if(Config.toggles.isUrbanTep) {
+            UrbanTepPortalStore.communities().then(function(communities){
+            	UrbanTepCommunitiesStore.update(communities);
+            });
+        }
 	};
 
 	return FrontOffice;
