@@ -6,6 +6,7 @@ define(['./Stores'], function(Stores){
     };
 
     UrbanTepCommunitiesStore.prototype.update = function(communities) {
+        console.log(Config.url + '/rest/communities');
         return $.post(Config.url + '/rest/communities', {
             communities: communities
         });

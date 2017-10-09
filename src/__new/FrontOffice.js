@@ -299,6 +299,7 @@ define([
 
         if(Config.toggles.isUrbanTep) {
             UrbanTepPortalStore.communities().then(function(communities){
+            	console.log(communities);
             	UrbanTepCommunitiesStore.update(communities);
             });
         }
