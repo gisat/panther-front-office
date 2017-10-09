@@ -11,7 +11,7 @@ define(['../../../../error/ArgumentError',
 			NotFoundError,
 			Logger,
 
-			Stores,
+			StoresInternal,
 			WorldWindWidgetPanel,
 
 			$,
@@ -35,14 +35,16 @@ define(['../../../../error/ArgumentError',
 	WmsLayersPanel.prototype.rebuild = function(){
 		this.clear(this._id);
 		var filter = {};
-		var configuration = Stores.retrieve("state").current();
+		var configuration = StoresInternal.retrieve("state").current();
 
 		filter.scope = Number(configuration.scope);
 		if (configuration.place.length > 0){
 			filter.locations = Number(configuration.place);
 		}
 		var self = this;
-		Stores.retrieve('wmsLayer').filter(filter).then(function(layers){
+		var store = StoresInternal.retrieve('wmsLayer');
+		debugger;
+		store.filter(filter).then(function(layers){
 			if (layers.length > 0){
 				layers.forEach(function(layer){
 					self.addLayer(layer);
