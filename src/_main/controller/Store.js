@@ -68,62 +68,69 @@ Ext.define('PumaMain.controller.Store', {
 	initStores: function () {
 		Ext.create('Ext.data.Store', {
 			storeId: 'location',
-			autoLoad: true,
+			autoLoad: false,
 			model: 'Puma.model.Location'
-		})
+		});
 		Ext.create('Ext.data.Store', {
 			storeId: 'theme',
-			autoLoad: true,
+			autoLoad: false,
 			model: 'Puma.model.Theme'
-		})
+		});
+        Ext.create('Ext.data.Store', {
+            storeId: 'topic',
+            autoLoad: false,
+            model: 'Puma.model.Topic'
+        });
+        Ext.create('Ext.data.Store', {
+            storeId: 'dataset',
+            autoLoad: false,
+            model: 'Puma.model.Dataset'
+        });
+
 		Ext.create('Ext.data.Store', {
 			storeId: 'layergroup',
-			autoLoad: true,
+			autoLoad: false,
 			model: 'Puma.model.LayerGroup'
 		})
 
 		Ext.create('Ext.data.Store', {
 			storeId: 'attributeset',
-			autoLoad: true,
+			autoLoad: false,
 			model: 'Puma.model.AttributeSet'
 		})
 
 		Ext.create('Ext.data.Store', {
 			storeId: 'attribute',
-			autoLoad: true,
+			autoLoad: false,
 			model: 'Puma.model.Attribute'
 		})
 
 		Ext.create('Ext.data.Store', {
 			storeId: 'visualization',
-			autoLoad: true,
+			autoLoad: false,
 			model: 'Puma.model.Visualization'
 		})
 
 
 		Ext.create('Ext.data.Store', {
 			storeId: 'year',
-			autoLoad: true,
+			autoLoad: false,
 			sorters: [{property: 'name', direction: 'ASC'}],
 			model: 'Puma.model.Year'
 		})
 
 
-		Ext.create('Ext.data.Store', {
-			storeId: 'scope',
-			autoLoad: true,
-			model: 'Puma.model.Scope'
-		})
+
 
 		Ext.create('Ext.data.Store', {
 			storeId: 'areatemplate',
-			autoLoad: true,
+			autoLoad: false,
 			model: 'Puma.model.AreaTemplate'
 		})
 
 		Ext.create('Ext.data.Store', {
 			storeId: 'symbology',
-			autoLoad: true,
+			autoLoad: false,
 			model: 'Puma.model.Symbology'
 		})
 		Ext.create('Ext.data.TreeStore', {
@@ -138,20 +145,10 @@ Ext.define('PumaMain.controller.Store', {
 			}],
 			storeId: 'area'
 		})
-		Ext.create('Ext.data.Store', {
-			storeId: 'dataset',
-			autoLoad: true,
-			model: 'Puma.model.Dataset'
-		})
-		Ext.create('Ext.data.Store', {
-			storeId: 'topic',
-			autoLoad: true,
-			model: 'Puma.model.Topic'
-		})
 
 		Ext.create('Ext.data.Store', {
 			storeId: 'dataview',
-			autoLoad: true,
+			autoLoad: false,
 			filters: [function (rec) {
 				return rec.get('name');
 			}],

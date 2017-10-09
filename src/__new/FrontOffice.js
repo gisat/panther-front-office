@@ -9,6 +9,8 @@ define([
 	'js/stores/gisat/AttributeSets',
 	'js/stores/gisat/Layers',
 	'js/stores/gisat/Locations',
+	'js/stores/gisat/Periods',
+	'js/stores/gisat/Scopes',
 	'js/stores/gisat/Visualizations',
 	'js/stores/gisat/WmsLayers',
 	'jquery',
@@ -23,6 +25,8 @@ define([
 			AttributeSets,
 			Layers,
 			Locations,
+			Periods,
+			Scopes,
 			Visualizations,
 			WmsLayers,
 			$,
@@ -57,6 +61,7 @@ define([
 			visualization: false
 		};
 		this.checkConfiguration();
+		Stores.retrieve("state").setChanges(this._options.changes);
 
 		var visualization = Number(ThemeYearConfParams.visualization);
 
@@ -112,9 +117,6 @@ define([
 		this._widgets.forEach(function(widget){
 			widget.rebuild(data, self._options);
 		});
-		//this._widgets3D.forEach(function(widget){
-		//	widget.rebuild(data, self._options);
-		//});
 	};
 
 	/**
@@ -152,7 +154,7 @@ define([
 		allAttributes.forEach(function(attribute){
 			var isInVisualization = false;
 			visAttributes.forEach(function(visAttr){
-				if (attribute.attribute == visAttr.attribute && attribute.attributeSet == visAttr.attributeSet){
+				if (attribute.attribute === visAttr.attribute && attribute.attributeSet === visAttr.attributeSet){
 					attribute.active = visAttr.active;
 					isInVisualization = true;
 				}
@@ -224,7 +226,7 @@ define([
 	};
 
 	/**
-	 * Basic check, if configuration is set up properly
+	 * Basic check, if configuration is set up properly. It also detects a type of change in configuration
 	 */
 	FrontOffice.prototype.checkConfiguration = function(){
 		var self = this;
@@ -286,6 +288,8 @@ define([
 		Stores.retrieve('attributeSet').all();
 		Stores.retrieve('layer').all();
 		Stores.retrieve('location').all();
+		Stores.retrieve('period').all();
+		Stores.retrieve('scope').all();
 		Stores.retrieve('visualization').all();
 		Stores.retrieve('wmsLayer').all();
 	};

@@ -89,11 +89,21 @@ define([
 			 */
 			this.panIncrement = 0.001;
 
+			this.wwds = [this.wwd];
+
 			// Render icons
 			this.buildIcons();
 
 			// Establish event handlers.
 			this.setupInteraction();
+		};
+
+		/**
+		 * Add another World window which will be controlled by this control
+		 * @param wwd {WorldWindow}
+		 */
+		Controls.prototype.addWorldWindow = function(wwd){
+			this.wwds.push(wwd);
 		};
 
 		/**
@@ -169,82 +179,108 @@ define([
 		};
 
 		Controls.prototype.handleZoomIn = function() {
-			this.wwd.navigator.range *= (1 - this.zoomIncrement);
-			this.wwd.redraw();
+			var self = this;
+			this.wwds.forEach(function(wwd){
+				wwd.navigator.range *= (1 - self.zoomIncrement);
+				wwd.redraw();
+			});
 		};
 
 		Controls.prototype.handleZoomOut = function() {
-			this.wwd.navigator.range *= (1 + this.zoomIncrement);
-			this.wwd.redraw();
+			var self = this;
+			this.wwds.forEach(function(wwd){
+				wwd.navigator.range *= (1 + self.zoomIncrement);
+				wwd.redraw();
+			});
 		};
 
 		Controls.prototype.handleHeadingRight = function() {
-			this.wwd.navigator.heading -= this.headingIncrement;
-			this.wwd.redraw();
+			var self = this;
+			this.wwds.forEach(function(wwd){
+				wwd.navigator.heading -= self.headingIncrement;
+				wwd.redraw();
+			});
 			this.redrawHeadingIndicator();
 		};
 
 		Controls.prototype.handleHeadingLeft = function() {
-			this.wwd.navigator.heading += this.headingIncrement;
-			this.wwd.redraw();
+			var self = this;
+			this.wwds.forEach(function(wwd){
+				wwd.navigator.heading += self.headingIncrement;
+				wwd.redraw();
+			});
 			this.redrawHeadingIndicator();
 		};
 
 		Controls.prototype.handleHeadingReset = function() {
-			var headingIncrement = 1.0;
-			if (Math.abs(this.wwd.navigator.heading) > 60) {
-				headingIncrement = 2.0;
-			} else if (Math.abs(this.wwd.navigator.heading) > 120) {
-				headingIncrement = 3.0;
-			}
-			if (this.wwd.navigator.heading > 0) {
-				headingIncrement = -headingIncrement;
-			}
 			var self = this;
-			var runOperation = function () {
-				if (Math.abs(self.wwd.navigator.heading) > Math.abs(headingIncrement)) {
-					self.wwd.navigator.heading += headingIncrement;
-					self.wwd.redraw();
-					self.redrawHeadingIndicator();
-					setTimeout(runOperation, 10);
-				} else {
-					self.wwd.navigator.heading = 0;
-					self.wwd.redraw();
-					self.redrawHeadingIndicator();
+			this.wwds.forEach(function(wwd){
+				var headingIncrement = 1.0;
+				if (Math.abs(wwd.navigator.heading) > 60) {
+					headingIncrement = 2.0;
+				} else if (Math.abs(navigator.heading) > 120) {
+					headingIncrement = 3.0;
 				}
-			};
-			setTimeout(runOperation, 10);
+				if (wwd.navigator.heading > 0) {
+					headingIncrement = -headingIncrement;
+				}
+
+				var runOperation = function () {
+					if (Math.abs(wwd.navigator.heading) > Math.abs(headingIncrement)) {
+						wwd.navigator.heading += headingIncrement;
+						wwd.redraw();
+						self.redrawHeadingIndicator();
+						setTimeout(runOperation, 10);
+					} else {
+						wwd.navigator.heading = 0;
+						wwd.redraw();
+						self.redrawHeadingIndicator();
+					}
+				};
+				setTimeout(runOperation, 10);
+			});
 		};
 
 		Controls.prototype.redrawHeadingIndicator = function () {
-			var initialAngle = 45;
-			var currentHeading = this.wwd.navigator.heading;
-			var rotateAngle = 0 - currentHeading - initialAngle;
-			$("#rotate-needle-control").find('i').css('transform', 'rotate(' + rotateAngle + 'deg)');
+			this.wwds.forEach(function(wwd){
+				var initialAngle = 45;
+				var currentHeading = wwd.navigator.heading;
+				var rotateAngle = 0 - currentHeading - initialAngle;
+				$("#rotate-needle-control").find('i').css('transform', 'rotate(' + rotateAngle + 'deg)');
+			});
 		};
 
 		Controls.prototype.handleTiltUp = function() {
-			this.wwd.navigator.tilt =
-				Math.max(0, this.wwd.navigator.tilt - this.tiltIncrement);
-			this.wwd.redraw();
+			var self = this;
+			this.wwds.forEach(function(wwd){
+				wwd.navigator.tilt =
+					Math.max(0, wwd.navigator.tilt - self.tiltIncrement);
+				wwd.redraw();
+			});
 		};
 
 		Controls.prototype.handleTiltDown = function() {
-			this.wwd.navigator.tilt =
-				Math.min(90, this.wwd.navigator.tilt + this.tiltIncrement);
-			this.wwd.redraw();
+			var self = this;
+			this.wwds.forEach(function(wwd){
+				wwd.navigator.tilt =
+					Math.min(90, wwd.navigator.tilt + self.tiltIncrement);
+				wwd.redraw();
+			});
 		};
 
 		Controls.prototype.handleManualRedraw = function(e) {
-			if (e.which) { //we only care if mouse button is down todo will this work for touch?
+			var self = this;
+			this.wwds.forEach(function(wwd){
+				if (e.which) { //we only care if mouse button is down todo will this work for touch?
 
-				// redraw heading indicator
-				this._lastHeading = this._lastHeading || 0;
-				if (this.wwd.navigator.heading != this._lastHeading) {
-					this.redrawHeadingIndicator();
+					// redraw heading indicator
+					self._lastHeading = self._lastHeading || 0;
+					if (wwd.navigator.heading !== self._lastHeading) {
+						self.redrawHeadingIndicator();
+					}
+					self._lastHeading = wwd.navigator.heading;
 				}
-				this._lastHeading = this.wwd.navigator.heading;
-			}
+			});
 		};
 
 		return Controls;

@@ -22,15 +22,11 @@ define(['../../../../error/ArgumentError',
 	 * @param options.class {string}
 	 * @param options.name {string} name of the window
 	 * @param options.layerMetadata {Object}
-	 * @param options.worldWind {WorldWindMap}
 	 * @param options.target {JQuery} selector of a target element
 	 * @constructor
 	 */
 	var LayerTool = function(options){
-		if (!options.worldWind){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "LayerTool", "constructor", "missingWorldWind"));
-		}
-		if (!options.target || options.target.length == 0){
+		if (!options.target || options.target.length === 0){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "LayerTool", "constructor", "missingTarget"));
 		}
 
@@ -38,10 +34,12 @@ define(['../../../../error/ArgumentError',
 		this._name = options.name || "layer";
 		this._target = options.target;
 		this._class = options.class || "";
+		this._maps = options.maps;
 
-		this._worldWind = options.worldWind;
 		this._layerMetadata = options.layerMetadata;
-		this._layer = this._worldWind.layers.getLayerById(this._layerMetadata.id);
+
+		// todo do it better
+		this._layer = this._maps['default-map'].layers.getLayerById(this._layerMetadata.id);
 
 		this._id = "layer-tool-" + this._layerMetadata.id;
 	};

@@ -7,7 +7,6 @@
 		<script type="text/javascript" src="config.js"></script>
 		<script type="text/javascript" src="observer.js"></script>
 		<script type="text/javascript" src="exchangeParams.js"></script>
-		<script type="text/javascript" src="lib/es6-promise.js"></script>
 
 		<link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800">
 		<link rel="stylesheet" type="text/css" href="css/ux/ItemSelector.css">
@@ -93,7 +92,7 @@
 							(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap) ||
 							(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo) ||
 							(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies)){
-						return createScript('__new/lib/require.js', '__new/app.js');
+						return createScript('__new/app-built.js');
 					}
 				}).then(function(){
 					// If printing hide wrong parts.
@@ -195,6 +194,7 @@
 				</div>
 			</div>
 			<div id="content">
+				<div id="add-map-buttons" style="position: absolute;top: 50px;right: 50px;z-index: 99999;"></div>
 				<div id="map-holder">
 					<div class="map" id="app-map"><div id="app-map-map-label" class="map-label">1</div><img src="images/cursor_all.png" class="cursor" style="visibility:hidden"></div>
 					<div class="map" id="app-map2"><div id="app-map-map2-label" class="map-label">2</div><img src="images/cursor_all.png" class="cursor" style="visibility:hidden"></div>

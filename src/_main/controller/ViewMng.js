@@ -121,30 +121,10 @@ Ext.define('PumaMain.controller.ViewMng', {
         if (isView) {
             var url = window.location.origin+window.location.pathname+'?id='+rec.get('_id');
 
-			var items = [{
-				xtype: 'displayfield',
-				value: url
-			}];
-			if(Config.toggles.isUrbanTep){
-				items.push({
-					xtype: 'button',
-					text: 'Share on portal',
-					handler: function(item) {
-						$.post('https://urban-tep.eo.esa.int/t2api/apps/puma', {
-							url: url
-						}, function(){
-							alert('Application was published on the portal.');
-						})
-					}
-				});
-			}
-
-            var win = Ext.widget('window',{
-                bodyCls: 'urlwindow',
-                title: 'Data view URL',
-                items: items
-            });
-            win.show();
+            // TODO: Clean
+            Widgets.sharing.url = url;
+            Widgets.sharing.rebuild();
+            $('#floater-sharing').show();
         }
     },
         
@@ -208,13 +188,13 @@ Ext.define('PumaMain.controller.ViewMng', {
         var themeCombo = Ext.ComponentQuery.query('#seltheme')[0];
         var visualizationCombo = Ext.ComponentQuery.query('#selvisualization')[0];
         var locationCombo = Ext.ComponentQuery.query('#sellocation')[0];
-        
+
         yearCombo.suspendEvents();
         datasetCombo.suspendEvents();
         themeCombo.suspendEvents();
         visualizationCombo.suspendEvents();
         locationCombo.suspendEvents();
-        
+
         datasetCombo.setValue(Config.cfg.dataset);
         
         var locStore = Ext.StoreMgr.lookup('location4init');
@@ -247,7 +227,7 @@ Ext.define('PumaMain.controller.ViewMng', {
             return rec.get('theme')==Config.cfg.theme
         }]);
 
-        yearCombo.setValue(Config.cfg.years)
+        yearCombo.setValue(Config.cfg.years);
         visualizationCombo.setValue(Config.cfg.visualization);
         themeCombo.setValue(Config.cfg.theme);
 
@@ -259,18 +239,7 @@ Ext.define('PumaMain.controller.ViewMng', {
         themeCombo.resumeEvents();
         visualizationCombo.resumeEvents();
         locationCombo.resumeEvents();
-        
-//        var filters = Config.cfg.filters || [];
-//        var items = this.getController('Filter').getFilterItems(filters);
-//        if (items.length) {
-//            var filterPanel =  Ext.ComponentQuery.query('#advancedfilters')[0];
-//            filterPanel.add(items);
-//            var filterController = this.getController('Filter');
-//            filterController.minFl = Config.cfg.minFilterFl;
-//            filterController.maxFl = Config.cfg.maxFilterFl;
-//            filterController.applyFilters(true);
-//        }
-        
+
         var onlySel = Ext.ComponentQuery.query('#areapager #onlySelected')[0];
         onlySel.suspendEvents();
         onlySel.toggle(Config.cfg.pagingUseSelected);
@@ -284,16 +253,8 @@ Ext.define('PumaMain.controller.ViewMng', {
         }
         selColors.resumeEvents();
         
-//        if (Config.cfg.filterUseSelected) {
-//            var instantFilter = Ext.ComponentQuery.query('#instantfilter')[0];
-//            var selectFilter = Ext.ComponentQuery.query('#filterselect')[0];
-//            instantFilter.suspendEvents();
-//            instantFilter.toggle(false);
-//            instantFilter.resumeEvents();
-//            selectFilter.enable();
-//        }
         onlySel.suspendEvents();
-        onlySel.toggle(Config.cfg.pagingUseSelected)
+        onlySel.toggle(Config.cfg.pagingUseSelected);
         onlySel.resumeEvents();
         
         this.getController('AttributeConfig').filterConfig = Config.cfg.filterAttrs;
@@ -307,99 +268,132 @@ Ext.define('PumaMain.controller.ViewMng', {
         locationTheme.yearChanged = true;
         locationTheme.locationChanged = true;
         this.getController('Map').map1.controls[0].activate();
-        locationTheme.onYearChange({itemId:'dataview'});
-        
+		locationTheme.onYearChange({itemId:'dataview'});
+
+		var locStore = Ext.StoreMgr.lookup('location4init');
+		var locationsData = locStore.query('dataset',Config.cfg.dataset);
+		ThemeYearConfParams.allPlaces = [];
+		locationsData.items.forEach(function(item){
+			ThemeYearConfParams.allPlaces.push(item.raw.id);
+		});
+        this.getController('LocationTheme').reloadWmsLayers();
+
+        // Figure out how does this actually work.
+        var scope = Ext.StoreMgr.lookup('dataset').getById(Config.cfg.dataset);
+        var selection = Config.cfg.selection;
+        if(scope.get('oneLevelOnly')){
+        	setTimeout(function(){
+				Stores.notify('map#show3D');
+
+				$('.areaTreeSelection').hide();
+				$('#top-toolbar-areas').hide();
+
+				// Also hide chart related stuff
+				$('#window-areatree').hide();
+				this.getController('DomManipulation')._onReportsSidebarToggleClick();
+				$('#sidebar-reports').hide();
+
+				// Also switch map to 3D mode
+				// Remove the possibility to switch back
+				$('#top-toolbar-3dmap').hide();
+
+				if(selection) {
+					window.selectionStore.deserialize(selection);
+				}
+			}.bind(this), 2000);
+		}
+		if (Config.cfg.is3D){
+			Stores.notify('map#show3D');
+		}
     },
-     
-    gatherViewConfig: function() {
-        var cfg = {};
-        cfg.multipleMaps = Ext.ComponentQuery.query('maptools #multiplemapsbtn')[0].pressed===true;
-        cfg.years = Ext.ComponentQuery.query('#selyear')[0].getValue();
-        cfg.dataset = Ext.ComponentQuery.query('#seldataset')[0].getValue();
-        cfg.theme = Ext.ComponentQuery.query('#seltheme')[0].getValue();
-        cfg.visualization = Ext.ComponentQuery.query('#selvisualization')[0].getValue();
-        cfg.location = Ext.ComponentQuery.query('#sellocation')[0].getValue();
-        cfg.expanded = this.getController('Area').getExpandedAndFids().expanded;
-        cfg.selMap = this.getController('Select').selMap;
-        cfg.choroplethCfg = this.getController('AttributeConfig').layerConfig
-        
-        cfg.pagingUseSelected = Ext.ComponentQuery.query('#areapager #onlySelected')[0].pressed;
-        var pagingPicker = Ext.ComponentQuery.query('#useselectedcolorpicker')[0]
-        cfg.pagingSelectedColors = pagingPicker.xValue || pagingPicker.value;
-        
-        //cfg.filterUseSelected = !Ext.ComponentQuery.query('#instantfilter')[0].pressed
-        
-        var sliders = Ext.ComponentQuery.query('#advancedfilters multislider');
-        var filterMap = {};
-        for (var i=0;i<sliders.length;i++) {
-            var slider = sliders[i];
-            var val = slider.getValue();
-            var attrName = slider.attrname;
-            filterMap[attrName] = val;
-            
-        }
-        
-        cfg.filterMap = filterMap;
-        cfg.filterData = this.getController('Filter').filterData;
-        cfg.filterAttrs = this.getController('Filter').attrs;
-        //cfg.filterActive = $(Ext.ComponentQuery.query('#advancedfilters tool[type=poweron]')[0].el.dom).hasClass('tool-active');
-        cfg.filterActive = false;
-        //cfg.minFilterFl = this.getController('Filter').minFl
-        //cfg.maxFilterFl = this.getController('Filter').maxFl
-        
-        var layers = Ext.StoreMgr.lookup('selectedlayers').getRange();
-        this.getController('Layers').resetIndexes();
-        var layerCfg = [];
-        for (var i=0;i<layers.length;i++) {
-            var layer = layers[i];
-            layerCfg.push({
-                opacity: layer.get('layer1').opacity || 1,
-                sortIndex: layer.get('sortIndex'),
-                type: layer.get('type'),
-                attributeSet: layer.get('attributeSet'),
-                attribute: layer.get('attribute'),
-                at: layer.get('at'),
-                symbologyId: layer.get('symbologyId')
-            })
-        }
-        cfg.layers = layerCfg;
-        cfg.trafficLayer = Ext.StoreMgr.lookup('layers').getRootNode().findChild('type','livegroup').childNodes[0].get('checked');
-        var store =  Ext.StoreMgr.lookup('paging');
-        cfg.page = store.currentPage;
-        
-        var map = Ext.ComponentQuery.query('#map')[0].map;
-        cfg.mapCfg = {
-            center: map.center,
-            zoom: map.zoom
-        }
-        
-        var cfgs = this.getController('Chart').gatherCfg();
-        var queryCfgs = this.getController('Chart').gatherCfg(true);
-        var viewCfgs = [];
-        for (var i=0;i<cfgs.length;i++) {
-            viewCfgs.push({
-                cfg: cfgs[i],
-                queryCfg: queryCfgs[i]
-            })
-        }
-        cfg.cfgs = viewCfgs;
-        
-        return {
-            conf: cfg
-        }
-        
-    },
+
+	gatherViewConfig: function () {
+		var cfg = {};
+		cfg.multipleMaps = Ext.ComponentQuery.query('maptools #multiplemapsbtn')[0].pressed === true;
+		cfg.years = Ext.ComponentQuery.query('#selyear')[0].getValue();
+		cfg.dataset = Ext.ComponentQuery.query('#seldataset')[0].getValue();
+		cfg.theme = Ext.ComponentQuery.query('#seltheme')[0].getValue();
+		cfg.visualization = Ext.ComponentQuery.query('#selvisualization')[0].getValue();
+		cfg.location = Ext.ComponentQuery.query('#sellocation')[0].getValue();
+		cfg.expanded = this.getController('Area').getExpandedAndFids().expanded;
+		cfg.selMap = this.getController('Select').selMap;
+		cfg.choroplethCfg = this.getController('AttributeConfig').layerConfig;
+
+		cfg.pagingUseSelected = Ext.ComponentQuery.query('#areapager #onlySelected')[0].pressed;
+		var pagingPicker = Ext.ComponentQuery.query('#useselectedcolorpicker')[0];
+		cfg.pagingSelectedColors = pagingPicker.xValue || pagingPicker.value;
+
+		var sliders = Ext.ComponentQuery.query('#advancedfilters multislider');
+		var filterMap = {};
+		for (var i = 0; i < sliders.length; i++) {
+			var slider = sliders[i];
+			var val = slider.getValue();
+			var attrName = slider.attrname;
+			filterMap[attrName] = val;
+
+		}
+
+		cfg.filterMap = filterMap;
+		cfg.filterData = this.getController('Filter').filterData;
+		cfg.filterAttrs = this.getController('Filter').attrs;
+		cfg.filterActive = false;
+
+		var layers = Ext.StoreMgr.lookup('selectedlayers').getRange();
+		this.getController('Layers').resetIndexes();
+		var layerCfg = [];
+		for (var i = 0; i < layers.length; i++) {
+			var layer = layers[i];
+			layerCfg.push({
+				opacity: layer.get('layer1').opacity || 1,
+				sortIndex: layer.get('sortIndex'),
+				type: layer.get('type'),
+				attributeSet: layer.get('attributeSet'),
+				attribute: layer.get('attribute'),
+				at: layer.get('at'),
+				name: layer.get('name'),
+				symbologyId: layer.get('symbologyId')
+			})
+		}
+		cfg.layers = layerCfg;
+		cfg.trafficLayer = Ext.StoreMgr.lookup('layers').getRootNode().findChild('type', 'livegroup').childNodes[0].get('checked');
+		var store = Ext.StoreMgr.lookup('paging');
+		cfg.page = store.currentPage;
+
+		var map = Ext.ComponentQuery.query('#map')[0].map;
+		cfg.mapCfg = {
+			center: map.center,
+			zoom: map.zoom
+		};
+		// SelectionStore
+		cfg.selection = window.selectionStore.serialize();
+
+		var cfgs = this.getController('Chart').gatherCfg();
+		var queryCfgs = this.getController('Chart').gatherCfg(true);
+		var viewCfgs = [];
+		for (var i = 0; i < cfgs.length; i++) {
+			viewCfgs.push({
+				cfg: cfgs[i],
+				queryCfg: queryCfgs[i]
+			})
+		}
+		cfg.cfgs = viewCfgs;
+		cfg.is3D = $('body').hasClass('mode-3d');
+
+		return {
+			conf: cfg
+		}
+	},
     
     
     onVisSave: function() {
         var theme = Ext.ComponentQuery.query('#seltheme')[0].getValue();
         var cfgs = this.getController('Chart').gatherCfg();
-        var layerCfgs = this.getController('AttributeConfig').layerConfig
+        var layerCfgs = this.getController('AttributeConfig').layerConfig;
         var layers = Ext.StoreMgr.lookup('selectedlayers').getRange();
         var visibleLayers = [];
         for (var i=0;i<layers.length;i++) {
             var layer = layers[i];
-            var type = layer.get('type')
+            var type = layer.get('type');
             
             if (type=='topiclayer') {
                 visibleLayers.push({
@@ -454,7 +448,7 @@ Ext.define('PumaMain.controller.ViewMng', {
                 xtype: 'commonsaveform',
                 rec: vis
             }]
-        })
+        });
         window.show();
     },
     onViewSave: function() {
@@ -470,8 +464,8 @@ Ext.define('PumaMain.controller.ViewMng', {
                 xtype: 'commonsaveform',
                 rec: view
             }]
-        })
+        });
         window.show();
     }
     
-})
+});

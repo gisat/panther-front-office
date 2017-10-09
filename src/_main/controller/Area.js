@@ -86,7 +86,7 @@ Ext.define('PumaMain.controller.Area', {
 
 			var areasOutput = {};
 
-			if (OneLevelAreas.hasOneLevel && !Config.toggles.isUrbis){
+			if (OneLevelAreas.hasOneLevel){
 				if (place){
 					areasOutput[place] = {};
 					areasOutput[place][level] = [];
@@ -134,7 +134,15 @@ Ext.define('PumaMain.controller.Area', {
 	// new URBIS function for change notifying
 	newNotifyChange: function(){
 		Observer.notify('rebuild');
-		this.showLoading("none");
+		console.log('Area#newNotifyCahnge hide');
+		if(!Config.dataviewId) {
+			this.showLoading("none");
+		} else {
+			var self = this;
+			window.setTimeout(function(){
+				self.showLoading("none");
+			}, 5000);
+		}
 	},
 	
 	onShowMoreDetailed: function() {
@@ -157,9 +165,12 @@ Ext.define('PumaMain.controller.Area', {
 			break;
 		}
 		if (!lastAt) {
+			console.log('Area#onShowMoreDetailed hide');
 			this.showLoading("none");
 			return;
 		}
+
+		// TODO: FInd out about the areaTemplate and working with them.
 
 		var layerRef = "";
 		areaRoot.cascadeBy(function(node) {
@@ -190,10 +201,12 @@ Ext.define('PumaMain.controller.Area', {
 			this.detailLevelParents = null;
 		} else if (needChange) {
 			this.scanTree();
+			console.log('Area#onShowMoreDetailedEnd hide');
 			this.showLoading("none");
 			this.getController('Chart').reconfigureAll();
 			this.getController('Layers').reconfigureAll();
 		} else {
+			console.log('Area#newNotifyCahnge Without Change hide');
 			this.showLoading("none");
 		}
 	},
@@ -234,6 +247,7 @@ Ext.define('PumaMain.controller.Area', {
 		tree.resumeEvents();
 		if (nodesToCollapse.length) {
 			this.afterCollapse(tree);
+			console.log('Area#onSHowLessDetailed hide');
 			this.showLoading("none");
 		} else {
 			this.showLoading("block");
@@ -461,9 +475,10 @@ Ext.define('PumaMain.controller.Area', {
 		return locations;
 	},
 	scanTree: function() {
-		if (OneLevelAreas.hasOneLevel && !Config.toggles.isUrbis){
+		if (OneLevelAreas.hasOneLevel){
 			var areas = OneLevelAreas.data;
-			var level = areas[0].at;
+			var dataSet = Ext.ComponentQuery.query('#seldataset')[0].getValue() || Ext.ComponentQuery.query('#initialdataset')[0].getValue();
+			var level = Ext.StoreMgr.lookup('dataset').getById(dataSet).get('featureLayers')[0];
 			var place = ThemeYearConfParams.place;
 			var self = this;
 
@@ -642,6 +657,7 @@ Ext.define('PumaMain.controller.Area', {
 		// new URBIS change
 		if (this.areaTemplates[this.areaTemplates.length-1]){
 			ThemeYearConfParams.auCurrentAt = this.areaTemplates[this.areaTemplates.length-1];
+			Stores.notify("areas#areaTemplateChange")
 		}
 		if (!AreasExpanding){
 			this.newAreasChange();

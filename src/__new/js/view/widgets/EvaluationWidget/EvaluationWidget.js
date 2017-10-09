@@ -1,8 +1,10 @@
 define([
     '../../../error/ArgumentError',
     '../../../error/NotFoundError',
+    './CategorizeSettings',
     '../../../util/Color',
     '../inputs/checkbox/Checkbox',
+    '../../../util/FilteredSld',
     '../../../util/Logger',
     '../../map/Map',
     '../../../util/MapExport',
@@ -22,8 +24,10 @@ define([
     'css!./EvaluationWidget'
 ], function(ArgumentError,
             NotFoundError,
+			CategorizeSettings,
             Color,
             Checkbox,
+            FilteredSld,
             Logger,
             Map,
             MapExport,
@@ -44,6 +48,7 @@ define([
      * @param options {Object}
      * @param options.elementId {String} ID of widget
      * @param options.filter {Object} instance of class for data filtering
+     * @param options.stateStore {StateStore}
      * @param options.targetId {String} ID of an element in which should be the widget rendered
      * @param options.name {String} Name of the widget
      * @constructor
@@ -54,8 +59,18 @@ define([
         if (!options.filter){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingFilter"));
         }
+		if (!options.stateStore){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingStateStore"));
+		}
         this._filter = options.filter;
+		this._stateStore = options.stateStore;
         this._settings = null;
+
+        this._categorize = new CategorizeSettings({
+			widgetId: "categorize",
+            target: this._floaterTarget,
+			aggregatedChart: options.aggregatedChart
+		});
 
         this.build();
     };
@@ -68,14 +83,6 @@ define([
      * @param options {Object}
      */
     EvaluationWidget.prototype.rebuild = function(data, options){
-        // If scope World and All Places and UrbanTep. IT doesnt work well on the whole world scope.
-        if(Config.toggles.isUrbanTep && ThemeYearConfParams.dataset == 314 && ThemeYearConfParams.place == '') {
-            $('#top-toolbar-selection-filter').hide();
-            return;
-        } else {
-			$('#top-toolbar-selection-filter').show();
-        }
-
         var attrForRequest;
         if (Array.isArray(data)){
             attrForRequest = data;
@@ -119,19 +126,21 @@ define([
                     self._attrForRequest.push(about);
 
                     if (about.attributeType == "numeric"){
-                        // TODO: Fix ugly hack for showing Kathmandu.
-                        if(Config.toggles.isUrbanTep) {
-                            self._attributes.push({
-                                values: [Number(attribute.min), Number(attribute.max) + 1000],
-                                distribution: attribute.distribution,
-                                about: about
-                            });
-                        } else {
-                            self._attributes.push({
-                                values: [Number(attribute.min), Number(attribute.max)],
-                                distribution: attribute.distribution,
-                                about: about
-                            });
+                        if (self.attributeHasData(attribute)){
+							// TODO: Fix ugly hack for showing Kathmandu.
+							if(Config.toggles.isUrbanTep) {
+								self._attributes.push({
+									values: [Number(attribute.min), Number(attribute.max) + 1000],
+									distribution: attribute.distribution,
+									about: about
+								});
+							} else {
+								self._attributes.push({
+									values: [Number(attribute.min), Number(attribute.max)],
+									distribution: attribute.distribution,
+									about: about
+								});
+							}
                         }
                     }
                     else if (about.attributeType == "boolean") {
@@ -157,9 +166,31 @@ define([
                 self.toggleWarning("block", [1,2]);
                 self.handleLoading("hide");
             }
-        });
+
+            // When Evaluation Tool is loaded, everything is loaded for sure.
+            console.log('EvaluationWidget#Loading finished');
+			$("#loading-screen").css("display", "none");
+
+            // clear categories and sets
+			self._categorize.clearAll();
+		});
 
         this.rebuildMap();
+    };
+
+	/**
+     * Check, if there are any data for this attribute
+	 * @param attribute {Object}
+	 * @returns {boolean} false, if there are no data for this attribute
+	 */
+	EvaluationWidget.prototype.attributeHasData = function(attribute){
+	    var hasData = false;
+        attribute.distribution.forEach(function(cls){
+           if (cls !== 0){
+			   hasData = true;
+           }
+        });
+        return hasData;
     };
 
 	/**
@@ -357,7 +388,16 @@ define([
      * It builds the footer button
      */
     EvaluationWidget.prototype.prepareFooter = function (){
-        var html = S(htmlFooterContent).template().toString();
+		var currentState = this._stateStore.current();
+
+		var addCategoryClass = "hidden";
+		if (currentState.scopeFull.aggregated === true){
+		    addCategoryClass = "";
+        }
+
+        var html = S(htmlFooterContent).template({
+            hidden: addCategoryClass
+        }).toString();
         this._widgetSelector.find(".floater-footer").html("").append(html);
     };
 
@@ -368,8 +408,8 @@ define([
         var self = this;
 
         setTimeout(function(){
-            self._filter.filter(self._categories, "filter").then(function(areas){
-                var count = 0;
+			self._filter.filter(self._categories, "filter").then(function(areas){
+				var count = 0;
                 if (areas.length > 0){
                     count = areas.length;
                 }
@@ -377,13 +417,7 @@ define([
                     SelectedAreasExchange.data.data = areas;
                     self.addDownloadListener(areas);
 
-                    if (OneLevelAreas.hasOneLevel && !Config.toggles.isUrbis) {
-                        var rgbColor = $('.x-color-picker .x-color-picker-selected span').css('background-color');
-                        var color = new Color(rgbColor).hex();
-                        self._map.removeLayers(color); // Remove layers with the same color.
-                        self._map.addLayer(areas, color, "selectedLayer"); // $(.x-color-picker-selected) // $()
-                        Observer.notify('selectInternal');
-                    } else {
+                    if (!OneLevelAreas.hasOneLevel) {
                         Observer.notify("selectAreas");
                     }
                     $('#evaluation-unselect').attr("disabled", false);
@@ -402,6 +436,7 @@ define([
         setTimeout(function(){
             self._filter.filter(self._categories, "amount").then(function(result){
                 self.addSelectionConfirmListener(result);
+				self.addCategoryListener();
                 self.rebuildPopups(self._inputs.sliders);
                 self.handleLoading("hide");
             });
@@ -438,11 +473,12 @@ define([
                 areasName = "area";
             }
             $('#evaluation-confirm').html("Select " + count + " " + areasName)
+                .removeClass("hidden")
                 .off("click.confirm")
                 .on("click.confirm", function(){
                     self.handleLoading("show");
                     self.filter();
-                    if (!OneLevelAreas.hasOneLevel || Config.toggles.isUrbis){
+                    if (!OneLevelAreas.hasOneLevel){
                         $(this).attr("disabled",true);
                     }
                 });
@@ -455,6 +491,22 @@ define([
         self.addUnselectListener();
     };
 
+    EvaluationWidget.prototype.addCategoryListener = function(){
+        var self = this;
+
+		$('#evaluation-add-category')
+			.attr("disabled", false)
+			.off("click.addcategory")
+			.on("click.addcategory", function(){
+				$(".floater, .tool-window").removeClass("active");
+				setTimeout(function(){
+					$('#categorize-settings').addClass('open').addClass('active');
+					var attributes = self._filter.getAttributesFromCategories(self._categories);
+					self._categorize.addCategory(attributes);
+				},50);
+			});
+    };
+
 	/**
 	 * Add listener to unselect button
      */
@@ -462,7 +514,7 @@ define([
         var self = this;
         $('#evaluation-unselect').off("click.unselect").on("click.unselect", function(){
                 SelectedAreasExchange.data.data = [];
-                if (OneLevelAreas.hasOneLevel && !Config.toggles.isUrbis){
+                if (OneLevelAreas.hasOneLevel){
                     self._map.removeLayers();
                     Observer.notify('selectInternal');
                 } else {

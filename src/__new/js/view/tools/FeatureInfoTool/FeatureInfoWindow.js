@@ -87,7 +87,9 @@ define(['../../../error/ArgumentError',
 	 */
 	FeatureInfoWindow.prototype.rebuildWindow = function(attributes, periods){
 		this.handleLoading("show");
-		new Filter().featureInfo(attributes, this._gid, periods).then(this.redraw.bind(this));
+		new Filter({
+			dispatcher: function(){}
+		}).featureInfo(attributes, this._gid, periods).then(this.redraw.bind(this));
 	};
 
 	/**

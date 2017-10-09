@@ -28,9 +28,25 @@
     text-transform: uppercase;
     transition: background .3s ease-out;
 }
+.widget-button.w8 {
+	width: 10rem;
+}
+.widget-button.w10 {
+	width: 10rem;
+}
+.widget-button.small {
+	text-transform: none;
+}
+
 .widget-button:hover, .widget-button.active {
     background: #ad2738;
     cursor: pointer;
+}
+.widget-button.secondary {
+	background: rgba(67,66,84,.85);
+}
+.widget-button.secondary:hover, .widget-button.secondary.active {
+	background: rgb(67,66,84);
 }
 
 .widget-button[disabled=disabled] {
@@ -152,13 +168,12 @@
 
 body.mode-3d .x-window:not(.thematic-maps-settings):not(.metadata-window):not(.window-savevisualization):not(.window-savedataview):not(#loginwindow):not(#window-managevisualization):not(.x-window-ghost):not(#window-areatree):not(#window-colourSelection):not(#window-legacyAdvancedFilters),
 body.mode-3d #tools-container,
-body.mode-3d #widget-container .placeholder:not(#placeholder-world-wind-widget),
-body.mode-3d #widget-container .placeholder.open:not(#placeholder-world-wind-widget),
-body.mode-3d .x-css-shadow,
-body.mode-3d .floater:not(#floater-world-wind-widget):not(#floater-evaluation-widget):not(#floater-snow-widget),
-body.mode-3d .floater.open:not(#floater-world-wind-widget):not(#floater-evaluation-widget):not(#floater-snow-widget),
-body.mode-3d .settings-window:not(#evaluation-widget-settings) {
+body.mode-3d .x-css-shadow {
     display: none;
+}
+
+body.mode-3d .floater.open#floater-functional-urban-area-result {
+	display: block !important;
 }
 
 #window-legacyAdvancedFilters .tools-filters-list > .x-box-inner {

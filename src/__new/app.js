@@ -4,9 +4,11 @@ requirejs.config({
     paths: {
         'css': 'lib/css.min',
         'd3': 'lib/d3.min',
+        'earcut': 'lib/earcut-2.1.1.min',
         'jquery': 'lib/jquery-3.0.0',
         'jquery-private': 'js/jquery-private',
         'jquery-ui': 'lib/jquery-ui.min',
+        'osmtogeojson': 'lib/osmtogeojson-3.0.0',
         'resize': 'lib/detect-element-resize',
         'string': 'lib/string',
         'underscore': 'lib/underscore-min',
@@ -36,56 +38,58 @@ requirejs.config({
     }
 });
 
-define(['js/util/metadata/Attributes',
+define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
+		'js/util/metadata/Attributes',
         'js/util/metadata/AnalyticalUnits',
         'js/view/widgets/CityWidget/CityWidget',
         'js/view/widgets/CustomDrawingWidget/CustomDrawingWidget',
         'js/view/widgets/EvaluationWidget/EvaluationWidget',
         'js/view/tools/FeatureInfoTool/FeatureInfoTool',
-        'js/view/widgets/FunctionalUrbanAreaWidget/FunctionalUrbanAreaWidget',
-        'js/view/widgets/FunctionalUrbanAreaResultWidget/FunctionalUrbanAreaResultWidget',
         'js/util/Filter',
         'js/util/Floater',
 		'./FrontOffice',
         'js/util/Logger',
         'js/view/map/Map',
-        'js/view/widgets_3D/MapDiagramsWidget/MapDiagramsWidget',
-        'js/view/PanelIFrame/PanelIFrame',
-        'js/util/Placeholder',
+		'js/view/mapsContainer/MapsContainer',
+		'js/stores/internal/MapStore',
+		'js/view/widgets/OSMWidget/OSMWidget',
+		'js/view/widgets/PeriodsWidget/PeriodsWidget',
+		'js/util/Placeholder',
 		'js/util/Remote',
-        'js/view/SnowMapController',
-        'js/view/widgets/SnowWidget/SnowWidget',
+		'js/view/widgets/SharingWidget/SharingWidget',
+		'js/stores/internal/SelectionStore',
+		'js/stores/internal/StateStore',
 		'js/stores/Stores',
         'js/view/TopToolBar',
-        'js/view/worldWind/WorldWindMap',
         'js/view/widgets/WorldWindWidget/WorldWindWidget',
 
         'string',
         'jquery',
         'jquery-ui',
         'underscore'
-], function (Attributes,
+], function (AggregatedChartWidget,
+			 Attributes,
              AnalyticalUnits,
              CityWidget,
              CustomDrawingWidget,
              EvaluationWidget,
              FeatureInfoTool,
-             FunctionalUrbanAreaWidget,
-			 FunctionalUrbanAreaResultWidget,
-			 Filter,
+             Filter,
              Floater,
 			 FrontOffice,
              Logger,
              Map,
-             MapDiagramsWidget,
-			 PanelIFrame,
-             Placeholder,
+             MapsContainer,
+			 MapStore,
+			 OSMWidget,
+			 PeriodsWidget,
+			 Placeholder,
 			 Remote,
-             SnowMapController,
-             SnowWidget,
+			 SharingWidget,
+			 SelectionStore,
+			 StateStore,
 			 Stores,
 			 TopToolBar,
-             WorldWindMap,
              WorldWindWidget,
 
              S,
@@ -95,35 +99,48 @@ define(['js/util/metadata/Attributes',
         var tools = [];
         var widgets = [];
 
-        var attributes = buildAttributes();
+        var stateStore = new StateStore({
+			dispatcher: window.Stores
+		});
+		var mapStore = new MapStore({
+			dispatcher: window.Stores
+		});
+        var selectionStore = new SelectionStore({
+			dispatcher: window.Stores,
+			stateStore: stateStore
+		});
+        window.selectionStore = selectionStore;
 
+		Stores.register('state', stateStore);
+        Stores.register('selection', selectionStore);
+        Stores.register('map', mapStore);
+
+        var attributes = buildAttributes();
         var filter = buildFilter();
         var olMap = buildOpenLayersMap();
-        var webWorldWind = null;
 
         if(Config.toggles.useTopToolbar){
             var topToolBar = new TopToolBar();
         }
-
         // create tools and widgets according to configuration
         if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
-            webWorldWind = buildWorldWindMap();
-            widgets.push(buildWorldWindWidget(webWorldWind, topToolBar));
+        	var mapsContainer = buildMapsContainer(mapStore);
+			var worldWindWidget = buildWorldWindWidget(mapsContainer, topToolBar, stateStore);
+            widgets.push(worldWindWidget);
+
+            if(Config.toggles.hasOsmWidget) {
+                widgets.push(buildOsmWidget(mapsContainer, mapStore));
+            }
         }
-
-        if(Config.toggles.isSnow){
-            var panelIFrame = new PanelIFrame(Config.snowUrl + 'snow/');
-            //var panelIFrame = new PanelIFrame('http://localhost:63326/panther-front-office/src/iframe-test.html');
-
-            var snowMapController = new SnowMapController({
-                iFrame: panelIFrame,
-                worldWind: webWorldWind
-            });
-
-            widgets.push(buildSnowWidget(snowMapController, panelIFrame));
-        }
+        if (Config.toggles.hasPeriodsWidget){
+			var periodsWidget = buildPeriodsWidget(mapsContainer);
+			widgets.push(periodsWidget);
+		}
         if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
-            widgets.push(buildEvaluationWidget(filter));
+        	var aggregatedWidget = buildAggregatedChartWidget(filter, stateStore);
+        	var evaluationTool = buildEvaluationWidget(filter, stateStore, aggregatedWidget);
+            widgets.push(evaluationTool);
+            widgets.push(aggregatedWidget);
         }
         if(Config.toggles.hasOwnProperty("hasNewCustomPolygonsTool") && Config.toggles.hasNewCustomPolygonsTool){
             widgets.push(buildCustomDrawingWidget());
@@ -131,15 +148,12 @@ define(['js/util/metadata/Attributes',
         if(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies){
             widgets.push(buildCityWidget());
         }
+
         if(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo){
             tools.push(buildFeatureInfoTool());
         }
 
-		if(Config.toggles.hasFunctionalUrbanArea){
-            var results = buildFunctionalUrbanAreaResultWidget();
-			tools.push(buildFunctionalUrbanAreaWidget(results));
-			tools.push(results);
-		}
+		widgets.push(buildSharingWidget());
 
 		// build app, map is class for OpenLayers map
 		new FrontOffice({
@@ -216,7 +230,9 @@ define(['js/util/metadata/Attributes',
      * @returns {Filter}
      */
     function buildFilter (){
-        return new Filter();
+        return new Filter({
+			dispatcher: window.Stores
+		});
     }
 
 	/**
@@ -228,44 +244,38 @@ define(['js/util/metadata/Attributes',
     }
 
     /**
-     * Build World Wind Map instance
-     * @returns {WorldWindMap}
-     */
-    function buildWorldWindMap (){
-        return new WorldWindMap();
-    }
-
-
-    /**
 	 * Build Evaluation Widget instance
      * @param filter {Filter}
+	 * @param stateStore {StateStore}
+	 * @param aggregatedChart {StateStore}
      * @returns {EvaluationWidget}
      */
-    function buildEvaluationWidget (filter){
+    function buildEvaluationWidget (filter, stateStore, aggregatedChart){
+		var isOpen = false;
+		if (Config.toggles.hasOwnProperty("isUrbis") && Config.toggles.isUrbis){
+			isOpen = true;
+		}
+
         return new EvaluationWidget({
             filter: filter,
+			stateStore: stateStore,
             elementId: 'evaluation-widget',
             name: 'Evaluation Tool',
-            placeholderTargetId: 'widget-container'
-        });
-    }
-
-    function buildFunctionalUrbanAreaWidget(results) {
-        return new FunctionalUrbanAreaWidget({
-            elementId: 'functional-urban-area',
-            name: "Functional Urban Area",
             placeholderTargetId: 'widget-container',
-            results: results
+			aggregatedChart: aggregatedChart,
+			isOpen: isOpen
         });
     }
 
-    function buildFunctionalUrbanAreaResultWidget() {
-		return new FunctionalUrbanAreaResultWidget({
+    function buildAggregatedChartWidget(filter, stateStore) {
+		return new AggregatedChartWidget({
+			filter: filter,
 			elementId: 'functional-urban-area-result',
-			name: "Functional Urban Area Results",
-			placeholderTargetId: 'widget-container'
-		});
-    }
+			name: "Aggregated Chart",
+			placeholderTargetId: 'widget-container',
+			stateStore: stateStore
+		})
+	}
 
 	/**
      * Build Custom Drawing Widget instance
@@ -304,34 +314,34 @@ define(['js/util/metadata/Attributes',
         })
     }
 
-    /**
-     * Build SnowWidget instance
-     * @param iFrame {PanelIFrame}
-     * @returns {SnowWidget}
-     */
-    function buildSnowWidget (mapController, iFrame){
-        return new SnowWidget({
-            elementId: 'snow-widget',
-            name: 'Saved configurations',
-            placeholderTargetId: 'widget-container',
-            iFrame: iFrame,
-            mapController: mapController
-        });
-    }
+    function buildPeriodsWidget (mapsContainer){
+    	return new PeriodsWidget({
+			elementId: 'periods-widget',
+			name: 'Periods',
+			mapsContainer: mapsContainer,
+			dispatcher: window.Stores,
+			isWithoutFooter: true,
+			is3dOnly: true
+		});
+	}
 
     /**
      * Build WorldWindWidget instance
-     * @param webWorldWind {WorldWindMap}
+	 * @param mapsContainer {MapsContainer}
+	 * @param stateStore {StateStore}
      * @returns {WorldWindWidget}
      */
-    function buildWorldWindWidget (webWorldWind, topToolBar){
+    function buildWorldWindWidget (mapsContainer, topToolBar, stateStore){
         return new WorldWindWidget({
             elementId: 'world-wind-widget',
             name: 'Layers',
+			mapsContainer: mapsContainer,
             placeholderTargetId: 'widget-container',
-            iconId: 'top-toolbar-3dmap',
-            worldWind: webWorldWind,
-            topToolBar: topToolBar
+            topToolBar: topToolBar,
+			dispatcher: window.Stores,
+			stateStore: stateStore,
+			isWithoutFooter: true,
+			isFloaterExtAlike: true
         });
     }
 
@@ -342,7 +352,52 @@ define(['js/util/metadata/Attributes',
     function buildFeatureInfoTool(){
         return new FeatureInfoTool({
             id: 'feature-info',
-            elementClass: 'btn-tool-feature-info',
+            elementClass: 'btn-tool-feature-info'
+        });
+    }
+
+	/**
+	 * It builds widget for sharing.
+	 * @returns {*}
+	 */
+	function buildSharingWidget() {
+		Widgets.sharing = new SharingWidget({
+			elementId: 'sharing',
+			name: 'Share',
+			placeholderTargetId: 'widget-container'
+		});
+
+		return Widgets.sharing;
+	}
+
+	/**
+	 * Build container for world wind maps within content element
+	 * @param mapStore {MapStore}
+	 * @returns {MapsContainer}
+	 */
+	function buildMapsContainer(mapStore){
+		return new MapsContainer({
+			id: "maps-container",
+			dispatcher: window.Stores,
+			mapStore: mapStore,
+			target: $("#content")
+		})
+	}
+
+    /**
+     * Build widget for the Open Street Map vector information.
+     * @param mapsContainer
+     * @returns {OSMWidget}
+     */
+	function buildOsmWidget(mapsContainer, mapStore) {
+        return new OSMWidget({
+            elementId: 'osm-widget',
+            name: 'Open Street Maps',
+            mapsContainer: mapsContainer,
+            mapStore: mapStore,
+            dispatcher: window.Stores,
+            isWithoutFooter: true,
+            is3dOnly: true
         });
     }
 });

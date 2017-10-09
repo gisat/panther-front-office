@@ -21,6 +21,7 @@ define([
 		Observer.addListener("Tools.hideClick.legacyAdvancedFilters",this.handleHideClick.bind(this, 'window-legacyAdvancedFilters'));
 		Observer.addListener("Tools.hideClick.customviews",this.handleHideClick.bind(this, 'window-customviews'));
 		Observer.addListener("Tools.hideClick.customLayers",this.handleHideClick.bind(this, 'window-customLayers'));
+		Observer.addListener("Tools.hideClick.periods",this.handleHideClick.bind(this, 'floater-periods'));
 	};
 
 
@@ -37,6 +38,16 @@ define([
 
 			var classesAreas3d = $('#window-areatree').hasClass('open') ? "item open" : "item";
 			this._target.append('<div class="' + classesAreas3d + '" id="top-toolbar-areas" data-for="window-areatree">Areas</div>');
+
+			if (Config.toggles.hasPeriodsWidget){
+				var classesPeriods3d = $('#floater-periods-widget').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesPeriods3d + '" id="top-toolbar-periods" data-for="floater-periods-widget">Periods</div>');
+			}
+
+            if (Config.toggles.hasOsmWidget){
+                var classesOsm3d = $('#floater-osm-widget').hasClass('open') ? "item open" : "item";
+                this._target.append('<div class="' + classesOsm3d + '" id="top-toolbar-osm" data-for="floater-osm-widget">OSM</div>');
+            }
 
 			var classesSelections3d = $('#window-colourSelection').hasClass('open') ? "item open" : "item";
 			this._target.append('<div class="' + classesSelections3d + '" id="top-toolbar-selections" data-for="window-colourSelection">Selections</div>');

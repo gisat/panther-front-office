@@ -763,7 +763,7 @@ Ext.define('PumaMain.controller.Layers', {
 				continue;
 			}
 			var layer = i == 0 ? layer1 : layer2;
-			if(!OneLevelAreas.hasOneLevel || Config.toggles.isUrbis) {
+			if(!OneLevelAreas.hasOneLevel) {
 				this.saveSld(node, namedLayers, layer);
 			}
 		}
@@ -1427,6 +1427,7 @@ Ext.define('PumaMain.controller.Layers', {
 		return confs;
 	},
 
+	// TODO: Figure out exactly what this thing does.
 	checkVisibilityAndStyles: function() {
 		var visId = Ext.ComponentQuery.query('#selvisualization')[0].getValue();
 		var vis = Ext.StoreMgr.lookup('visualization').getById(visId);
@@ -1448,12 +1449,10 @@ Ext.define('PumaMain.controller.Layers', {
 				if (type=='topiclayer' && selLayer.at == node.get('at') && selLayer.symbologyId==node.get('symbologyId')) {
 					foundLayer = selLayer;
 					break;
-				}
-				if (type=='chartlayer' && selLayer.attributeSet == node.get('attributeSet') && selLayer.attribute==node.get('attribute')) {
+				} else if (type=='chartlayer' && selLayer.attributeSet == node.get('attributeSet') && selLayer.attribute==node.get('attribute')) {
 					foundLayer = selLayer;
 					break;
-				}
-				if (type!='chartlayer' && type!='topiclayer' && type == selLayer.type) {
+				} else if (type!='chartlayer' && type!='topiclayer' && type != 'wmsLayer' && type == selLayer.type) {
 					foundLayer = selLayer;
 					break;
 				}
@@ -1469,8 +1468,10 @@ Ext.define('PumaMain.controller.Layers', {
 				me.onCheckChange(node,true,null,true);
 
 			} else {
-				node.set('checked',false);
-				me.onCheckChange(node,false,null,true);
+				if(type != 'wmsLayer') {
+					node.set('checked', false);
+					me.onCheckChange(node, false, null, true);
+				}
 			}
 		});
 		if (Config.cfg && Config.cfg.trafficLayer) {

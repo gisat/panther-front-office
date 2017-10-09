@@ -39,6 +39,7 @@ define([
 		var layer = this.createVectorLayer(color, name);
 		this._map.addControl(new OpenLayers.Control.MousePosition());
 		this._map.addLayer(layer);
+		this._map.setLayerZIndex(layer, 99999);
 		return layer;
 	};
 
@@ -123,6 +124,15 @@ define([
 		return new OpenLayers.Feature.Vector(
 			new OpenLayers.Geometry.fromWKT(geom), attributes, style
 		);
+	};
+
+	/**
+	 * Set z index of given layer
+	 * @param layer {OpenLayers.Layer}
+	 * @param zIndex {number}
+	 */
+	Map.prototype.setLayerZIndex = function(layer, zIndex){
+		this._map.setLayerZIndex(layer, zIndex);
 	};
 
 	/**

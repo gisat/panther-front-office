@@ -30,20 +30,16 @@ define(['../../../error/ArgumentError',
 	 * @param options {Object}
 	 * @param options.id {string} id of element
 	 * @param options.target {JQuery} JQuery selector of target element
-	 * @param options.worldWind {WorldWind.WorldWindow}
+	 * @param options.currentMap
 	 * @constructor
 	 */
 	var WorldWindWidgetPanels = function(options){
 		if (!options.id){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingId"));
 		}
-		if (!options.target || options.target.length == 0){
+		if (!options.target || options.target.length === 0){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingTarget"));
 		}
-		if (!options.worldWind){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingWorldWind"));
-		}
-		this._worldWind = options.worldWind;
 
 		this._id = options.id;
 		this._target = options.target;
@@ -52,20 +48,18 @@ define(['../../../error/ArgumentError',
 
 	/**
 	 * Rebuild panels with current configuration
-	 * @param options {Object}
-	 * @param options.config {Object} configuration from global object ThemeYearConfParams
-	 * @param options.changes {Object} changes in configuration
+	 * @param stateChanges {Object} changes in configuration
 	 */
-	WorldWindWidgetPanels.prototype.rebuild = function(options){
-		if (!options){
+	WorldWindWidgetPanels.prototype.rebuild = function(stateChanges){
+		if (!stateChanges){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingParameter"));
 		}
-		if (options.changes && !options.changes.scope){
+		if (stateChanges && !stateChanges.scope){
 			this._auLayersPanel.switchOnLayersFrom2D();
 			this._thematicLayersPanel.switchOnLayersFrom2D();
 		}
-		this._infoLayersPanel.rebuild(options);
-		this._wmsLayersPanel.rebuild(options.config);
+		this._infoLayersPanel.rebuild();
+		this._wmsLayersPanel.rebuild();
 	};
 
 	/**
@@ -88,6 +82,14 @@ define(['../../../error/ArgumentError',
 	};
 
 	/**
+	 * Add background layers to map
+	 * @param map {WorldWindMap}
+	 */
+	WorldWindWidgetPanels.prototype.addLayersToMap = function(map){
+		this._backgroundLayersPanel.addLayersToMap(map);
+	};
+
+	/**
 	 * Build panel with background layers
 	 */
 	WorldWindWidgetPanels.prototype.buildBackgroundLayersPanel = function(){
@@ -95,8 +97,7 @@ define(['../../../error/ArgumentError',
 			id: "background-layers",
 			name: "Background Layers",
 			target: this._panelsSelector,
-			isOpen: true,
-			worldWind: this._worldWind
+			isOpen: true
 		});
 	};
 
@@ -108,8 +109,7 @@ define(['../../../error/ArgumentError',
 			id: "thematic-layers",
 			name: "Thematic Layers",
 			target: this._panelsSelector,
-			isOpen: true,
-			worldWind: this._worldWind
+			isOpen: true
 		});
 	};
 
@@ -121,8 +121,7 @@ define(['../../../error/ArgumentError',
 			id: "au-layers",
 			name: "Analytical Units Layers",
 			target: this._panelsSelector,
-			isOpen: true,
-			worldWind: this._worldWind
+			isOpen: true
 		});
 	};
 
@@ -134,8 +133,7 @@ define(['../../../error/ArgumentError',
 			id: "info-layers",
 			name: "Info Layers",
 			target: this._panelsSelector,
-			isOpen: true,
-			worldWind: this._worldWind
+			isOpen: true
 		});
 	};
 
@@ -147,8 +145,7 @@ define(['../../../error/ArgumentError',
 			id: "wms-layers",
 			name: "Custom WMS Layers",
 			target: this._panelsSelector,
-			isOpen: true,
-			worldWind: this._worldWind
+			isOpen: true
 		});
 	};
 

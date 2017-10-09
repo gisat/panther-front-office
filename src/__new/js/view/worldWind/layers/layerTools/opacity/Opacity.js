@@ -85,7 +85,9 @@ define(['../../../../../error/ArgumentError',
 
 		this._floaterBodySelector.on("slide", "#" + sliderId, function(e, ui){
 			self._layer.opacity = ui.value/100;
-			self._worldWind.redraw();
+			for (var key in self._maps){
+				self._maps[key].redraw();
+			}
 		});
 
 		this._floaterBodySelector.on("slidechange", "#" + sliderId, function(e, ui){
@@ -93,7 +95,9 @@ define(['../../../../../error/ArgumentError',
 			if (self._layer.hasOwnProperty("renderables")){
 				self._layer.changeOpacity(ui.value/100);
 			}
-			self._worldWind.redraw();
+			for (var key in self._maps){
+				self._maps[key].redraw();
+			}
 		});
 	};
 

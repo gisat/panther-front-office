@@ -1,17 +1,23 @@
-define(['./Remote',
-		'jquery',
-		'underscore'
-],function(Remote,
-
-		   $,
-		   _){
+define(['../actions/Actions',
+	'./Color',
+	'./Remote',
+	'jquery',
+	'underscore'
+], function (Actions,
+			 Color,
+			 Remote,
+			 $,
+			 _) {
 
 	/**
 	 * Class for data filtering
+	 * @param options {Object}
+	 * @param options.dispatcher (Object) Object for dispatching actions.
 	 * @constructor
 	 */
 
-	var Filter = function(options){
+	var Filter = function (options) {
+		this._dispatcher = options.dispatcher;
 	};
 
 	/**
@@ -20,18 +26,28 @@ define(['./Remote',
 	 * @param type {("amount"|"filter")} type of filter to use
 	 * @returns {*|Promise}
 	 */
-	Filter.prototype.filter = function(categories, type) {
+	Filter.prototype.filter = function (categories, type) {
 		var params = this.prepareParams();
 		var attributes = this.getAttributesFromCategories(categories);
-		return $.get( Config.url + "rest/filter/attribute/" + type, {
+
+		if (OneLevelAreas.hasOneLevel && type == 'filter') {
+			var rgbColor = $('.x-color-picker .x-color-picker-selected span').css('background-color');
+			var color = new Color(rgbColor).hex();
+
+			this._dispatcher.notify(Actions.filterAdd, {
+				color: color,
+				attributes: attributes
+			});
+
+			return Promise.resolve([]);
+		} else {
+			return $.post(Config.url + "rest/filter/attribute/" + type, {
 				areaTemplate: params.areaTemplate,
 				periods: params.periods,
 				places: params.locations,
 				attributes: attributes
-			})
-			.then(function(response) {
-				return response
 			});
+		}
 	};
 
 	/**
@@ -42,8 +58,8 @@ define(['./Remote',
 	 * @param dist.classes {number} number of classes
 	 * @returns {*|Promise}
 	 */
-	Filter.prototype.statistics = function(attributes, dist){
-		if (!dist){
+	Filter.prototype.statistics = function (attributes, dist) {
+		if (!dist) {
 			dist = {
 				type: 'normal',
 				classes: 10
@@ -51,15 +67,15 @@ define(['./Remote',
 		}
 
 		var params = this.prepareParams();
-		return $.get( Config.url + "rest/filter/attribute/statistics", {
-				areaTemplate: params.areaTemplate,
-				periods: params.periods,
-				places: params.locations,
-				attributes: attributes,
-				distribution: dist
-			})
-			.then(function(response) {
-				if (response.hasOwnProperty("attributes")){
+		return $.post(Config.url + "rest/filter/attribute/statistics", {
+			areaTemplate: params.areaTemplate,
+			periods: params.periods,
+			places: params.locations,
+			attributes: attributes,
+			distribution: dist
+		})
+			.then(function (response) {
+				if (response.hasOwnProperty("attributes")) {
 					return response.attributes;
 				} else {
 					return [];
@@ -73,19 +89,19 @@ define(['./Remote',
 	 * @param gids {Array} List of units' gids
 	 * @returns {*|Promise}
 	 */
-	Filter.prototype.featureInfo = function(attributes, gids){
+	Filter.prototype.featureInfo = function (attributes, gids) {
 		var params = this.prepareParams();
 
-		return $.post( Config.url + "rest/info/attribute", {
-				areaTemplate: params.areaTemplate,
-				periods: params.periods,
-				places: params.locations,
-				gid: gids,
-				attributes: attributes
-			})
-			.then(function(response) {
+		return $.post(Config.url + "rest/info/attribute", {
+			areaTemplate: params.areaTemplate,
+			periods: params.periods,
+			places: params.locations,
+			gid: gids,
+			attributes: attributes
+		})
+			.then(function (response) {
 				return response;
-			}).catch(function(err){
+			}).catch(function (err) {
 				throw new Error(err);
 			});
 	};
@@ -94,9 +110,9 @@ define(['./Remote',
 	 * It prepares basics parameters for request
 	 * @returns {{areaTemplate: string, locations: [], periods: []}}
 	 */
-	Filter.prototype.prepareParams = function (){
+	Filter.prototype.prepareParams = function () {
 		var locations;
-		if (ThemeYearConfParams.place.length > 0){
+		if (ThemeYearConfParams.place.length > 0) {
 			locations = [Number(ThemeYearConfParams.place)];
 		} else {
 			locations = ThemeYearConfParams.allPlaces;
@@ -113,7 +129,7 @@ define(['./Remote',
 	 * @param categories {Array} List of filtering parameters (inputs)
 	 * @returns {Array} List of attributes
 	 */
-	Filter.prototype.getAttributesFromCategories = function(categories){
+	Filter.prototype.getAttributesFromCategories = function (categories) {
 		var attributes = [];
 
 		for (var key in categories) {
@@ -128,15 +144,15 @@ define(['./Remote',
 					}
 					else if (attribute.about.attributeType == "text") {
 						var selectEl = $(selector);
-						if (categories[key].multioptions){
+						if (categories[key].multioptions) {
 							values = [];
-							$(selector + " > label").each(function(){
+							$(selector + " > label").each(function () {
 								var label = $(this);
-								if (label.hasClass("ui-state-active") && label.hasClass("label-multiselect-option")){
+								if (label.hasClass("ui-state-active") && label.hasClass("label-multiselect-option")) {
 									values.push($(this).text());
 								}
 							});
-							if (values.length == 0){
+							if (values.length == 0) {
 								values.push("");
 							}
 						}
@@ -144,11 +160,11 @@ define(['./Remote',
 							values = [selectEl.val()];
 						}
 					}
-					else if (attribute.about.attributeType == "numeric"){
+					else if (attribute.about.attributeType == "numeric") {
 						var sliderEl = $(selector);
 						var min, max;
 
-						if (sliderEl.hasClass("ui-slider")){
+						if (sliderEl.hasClass("ui-slider")) {
 							var val = sliderEl.slider("values");
 							min = val[0] - 0.005;
 							max = val[1] + 0.005;
@@ -161,6 +177,8 @@ define(['./Remote',
 
 					var attr = {
 						attribute: attribute.about.attribute,
+						attributeType: attribute.about.attributeType,
+						name: key,
 						attributeSet: attribute.about.attributeSet,
 						value: values
 					};
@@ -177,8 +195,8 @@ define(['./Remote',
 	 * @param attributes {Array} list of all atributes
 	 * @returns {Array} numeric attributes
 	 */
-	Filter.prototype.getOnlyNumericAttributes = function(attributes){
-		return _.filter(attributes, function(attribute){
+	Filter.prototype.getOnlyNumericAttributes = function (attributes) {
+		return _.filter(attributes, function (attribute) {
 			return attribute.attributeType == "numeric";
 		});
 	};

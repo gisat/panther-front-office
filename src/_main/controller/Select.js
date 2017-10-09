@@ -105,7 +105,7 @@ Ext.define('PumaMain.controller.Select', {
     },
     
     selectInternal: function(areas,add,hover,delay) {
-        if (OneLevelAreas.hasOneLevel && !Config.toggles.isUrbis){
+        if (OneLevelAreas.hasOneLevel){
             areas = SelectedAreasExchange.data.data;
         }
         if (!hover) {
@@ -150,7 +150,7 @@ Ext.define('PumaMain.controller.Select', {
         
         this.colorMap = this.prepareColorMap();
 
-        if (OneLevelAreas.hasOneLevel && !Config.toggles.isUrbis){
+        if (OneLevelAreas.hasOneLevel){
             this.getController('Chart').reconfigure('immediate');
             return;
         }

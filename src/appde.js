@@ -37,10 +37,17 @@ Ext.application({
 
 		if (Config.toggles.isUrbanTep) {
 			$('body').addClass("urban-tep");
-			$('#header .menu').hide();
-			$('.user .sep').hide();
+			$('#header .menu #intro-link').hide();
+            $('#header .menu #downloads-link').hide();
+            $('#header .menu #help-link').hide();
+            $('.user .sep').hide();
 			$('.user .signup').hide();
 		}
+
+		if(Config.toggles.hideWorldBank) {
+            $('#header .menu #intro-link').hide();
+            $('#header .menu #downloads-link').hide();
+        }
 
 		if(Config.toggles.hasNewEvaluationTool){
 			$("#placeholder-evaluation-widget").css("display","block");
@@ -121,6 +128,20 @@ Ext.application({
 			$("html").addClass("toggle-usePumaLogo");
 		}
 
+		if(Config.toggles[window.location.origin]) {
+			Config.toggles[window.location.origin].classes.forEach(function(className){
+                $("html").addClass(className);
+			});
+		}
+
+		// dromas view
+		var isDromas = $('html').hasClass("dromas");
+		if (isDromas){
+			$('#content-intro > .label').html("");
+			$('#header').prepend('<div class="project-logo"></div>');
+			$('#map-holder').prepend('<div id="intro-overlay"></div>')
+		}
+
 		window.location.origin = window.location.origin || (window.location.protocol+'//'+window.location.hostname+ (window.location.port ? (':'+window.location.port) : ''));
 		Ext.Ajax.method = 'POST';
 		if (Config.exportPage) {
@@ -140,6 +161,12 @@ Ext.application({
 		var id = afterId ? afterId.split('&')[0] : null;
 		Config.dataviewId = id;
 		if (id) {
+			// Load stores when only for print.
+            var stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'scope', 'areatemplate', 'symbology', 'dataset', 'topic', 'dataview'];
+            stores.forEach(function(store){
+                Ext.StoreMgr.lookup(store).load();
+            });
+
 			this.getController('DomManipulation').renderApp();
 			this.getController('Render').renderApp();
 			
@@ -152,5 +179,9 @@ Ext.application({
 });
 
 Ext.onReady(function(){
-	$("#loading-screen").css("display", "none");
+	if(!Config.dataviewId) {
+		$("#loading-screen").css("display", "none");
+	}
+
+	Stores.notify('extLoaded');
 });

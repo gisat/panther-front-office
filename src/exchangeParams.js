@@ -91,12 +91,20 @@ var Stores = {
 
 /**
  * Notification about changes in the stores.
- * @param changed
+ * @param changed {String} key used to distinguish the actions.
  */
 Stores.notify = function(changed, options) {
 	Stores.listeners.forEach(function(listener){
 		listener(changed, options);
 	})
+};
+
+/**
+ * Simply adds listener.
+ * @param listener {Function} Function which will be called when any event occurs.
+ */
+Stores.addListener = function(listener) {
+	Stores.listeners.push(listener);
 };
 
 /**
@@ -173,4 +181,12 @@ var Select = {
 	 * Controller for handling Select.
 	 */
 	controller: null
+};
+
+/**
+ * This global objects contain widgets to be used in other parts of the application.
+ * @type {{}}
+ */
+var Widgets = {
+	sharing: null
 };

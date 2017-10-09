@@ -39,13 +39,13 @@ Ext.define('PumaMain.controller.Dataview', {
     onLoadingFinished: function() {
         var me = this;
         if (Config.dataviewId) {
-            
+			$("#loading-screen").css("display", "block");
             Ext.Ajax.request({
                 url: Config.url + 'rest/dataview/'+Config.dataviewId,
                 scope: this,
                 method: 'GET',
                 success: function(response) {
-                    var respText = response.responseText
+					var respText = response.responseText
                     for (var oldColor in this.colorBackComp) {
                         respText = respText.replace(oldColor,this.colorBackComp[oldColor]);
                     }
@@ -58,7 +58,10 @@ Ext.define('PumaMain.controller.Dataview', {
                     }
                     Config.cfg = cfg[0].conf;
                     me.getController('ViewMng').onDataviewLoad();
-                }
+				},
+                failure: function(response) {
+					$("#loading-screen").css("display", "none");
+				}
             })
         }
     },
