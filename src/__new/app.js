@@ -177,7 +177,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			});
 
 			widgets.push(buildSnowWidget(snowMapController, panelIFrame));
-			snowViewChanges(worldWindWidget);
+			snowViewChanges();
 		}
 
         if(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo){
@@ -453,11 +453,11 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 	/**
 	 * Modifications of FO view for SNOW PORTAL
 	 */
-	function snowViewChanges(worldWindWidget){
+	function snowViewChanges(){
 		// set correct link to intro page
 		var introLink = $("#intro-link");
 		if (introLink.length){
-			introLink.find("a").attr("href", "/intro");
+			introLink.remove();
 		}
 
 		// skip initialscope, place, theme selection
@@ -465,5 +465,10 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			dispatcher: window.Stores,
 			only3D: Config.toggles.useWorldWindOnly
 		});
+
+		// use snow portal logo
+		var headerSelector = $("#header");
+		headerSelector.find("h1").remove();
+		headerSelector.prepend("<a href='" + Config.snowUrl + "intro' id='project-logo'></a>");
 	}
 });

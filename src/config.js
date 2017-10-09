@@ -52,8 +52,8 @@ var Config = {
 	basicTexts: {
 		advancedFiltersName: "Areas filter",
 		areasSectionName: "Areas",
-		appTitle: "Data exploration",
-		appName: "Data exploration",
+		appTitle: "SnowPortal",
+		appName: "",
 		scopeName: "Scale"
 	},
 	urbisTexts: {

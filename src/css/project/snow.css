@@ -27,3 +27,51 @@
 	position: absolute;
 	right: 0;
 }
+
+/* Selectors toolbar */
+.snow #header {
+	background: rgba(45,53,60,1);
+	z-index: 90000;
+}
+.snow #project-logo {
+	background: url('../../images/snow/logo_snow.png');
+	background-repeat: no-repeat;
+	background-position: 15px;
+	display: inline-block;
+	width: 150px;
+	height: 70px;
+	padding: 15px;
+	transition: background .3s ease-in-out;
+}
+.snow #project-logo:hover {
+	background: url('../../images/snow/logo_snow_hover.png');
+	background-repeat: no-repeat;
+	background-position: 15px;
+}
+.snow #top-toolbar {
+	background: rgba(45,53,60,1);
+	border-bottom: 1px solid rgba(140,145,150,0.3);
+}
+.snow #top-toolbar-features {
+	background: rgba(45,53,60,1);
+	border-bottom: 1px solid rgba(140,145,150,0.3);
+	text-align: right;
+}
+.snow #top-toolbar-features .item {
+	color: #ddd;
+	border-color: #888;
+}
+.snow #top-toolbar-features .item:before {
+	color: #ddd;
+}
+.snow #top-toolbar-tools .item {
+	border: 0;
+}
+.snow #top-toolbar-tools .item:hover {
+	background: rgba(125,125,125,.15)
+}
+
+body.mode-3d #top-toolbar-3dmap:not(.world-wind-2d),
+.snow #top-toolbar-features .item.open {
+	color: rgba(26,128,182,1);
+}

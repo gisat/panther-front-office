@@ -188,7 +188,9 @@ define(['../../actions/Actions',
 			if (periods.length === 1){
 				this._period = periods[0];
 			}
-			this.addPeriod();
+			if (!Config.toggles.hideSelectorToolbar){
+				this.addPeriod();
+			}
 		} else {
 			var self = this;
 			setTimeout(function(){
