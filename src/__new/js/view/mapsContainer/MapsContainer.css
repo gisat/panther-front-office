@@ -8,6 +8,7 @@
 }
 body.mode-3d .maps-container {
 	display: block;
+	position: absolute;
 }
 .maps-container .map-fields {
 	width: 100%;

@@ -433,7 +433,10 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         });
     }
 
-    function snowViewChanges(){
+	/**
+	 * Modifications of FO view for SNOW PORTAL
+	 */
+	function snowViewChanges(){
 		var introLink = $("#intro-link");
 		if (introLink.length){
 			introLink.find("a").attr("href", "/intro");

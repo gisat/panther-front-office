@@ -62,7 +62,7 @@ Ext.define('PumaMain.controller.DomManipulation', {
 		}
 		
 		$("#map-holder").css({width : w, height : h});
-		$("#maps-container").css({width : w, height : h, top: -h});
+		$("#maps-container").css({width : w, height : h, right: 0});
 		
 		var map = Ext.ComponentQuery.query('#map')[0];
 		var map2 = Ext.ComponentQuery.query('#map2')[0];
