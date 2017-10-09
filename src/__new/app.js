@@ -128,7 +128,9 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         var olMap = buildOpenLayersMap();
 
         if(Config.toggles.useTopToolbar){
-            var topToolBar = new TopToolBar();
+            var topToolBar = new TopToolBar({
+				dispatcher: window.Stores
+			});
         }
         // create tools and widgets according to configuration
         if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
@@ -164,7 +166,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			});
 
 			widgets.push(buildSnowWidget(snowMapController, panelIFrame));
-			snowViewChanges();
+			snowViewChanges(worldWindWidget);
 		}
 
         if(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo){
@@ -438,14 +440,17 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 	/**
 	 * Modifications of FO view for SNOW PORTAL
 	 */
-	function snowViewChanges(){
+	function snowViewChanges(worldWindWidget){
 		// set correct link to intro page
 		var introLink = $("#intro-link");
 		if (introLink.length){
 			introLink.find("a").attr("href", "/intro");
 		}
+
+		// skip initialscope, place, theme selection
 		new IntroSelection({
-			dispatcher: window.Stores
+			dispatcher: window.Stores,
+			only3D: Config.toggles.useWorldWindOnly
 		});
 	}
 });

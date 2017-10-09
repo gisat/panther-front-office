@@ -8,14 +8,16 @@ define([
 
 	var IntroSelection = function(options) {
 		this._dispatcher = options.dispatcher;
-		this._dispatcher.addListener(this.skip.bind(this))
+		this._only3D = options.only3D;
+
+		this._dispatcher.addListener(this.skipSelection.bind(this));
 	};
 
 	/**
 	 * Skip initaial scope, location, theme selection
 	 * @param action {string} type of event
 	 */
-	IntroSelection.prototype.skip = function(action){
+	IntroSelection.prototype.skipSelection = function(action){
 		if (action === Actions.extLoaded){
 			var self = this;
 			this.getFirstScopeLocationTheme().then(function(configuration){
@@ -25,8 +27,11 @@ define([
 					Ext.ComponentQuery.query('#initiallocation')[0].setValue(configuration.location.id);
 					setTimeout(function(){
 						self._dispatcher.notify("confirmInitialSelection");
-					},10);
-				},10);
+						if (self._only3D){
+							self._dispatcher.notify("map#switchFramework");
+						}
+					},500);
+				},100);
 			});
 		}
 	};

@@ -232,6 +232,22 @@ define(['../../actions/Actions',
 	};
 
 	/**
+	 * Switch projection from 3D to 2D and vice versa
+	 */
+	WorldWindMap.prototype.switchProjection = function(){
+		var globe = null;
+		var is2D = this._wwd.globe.is2D();
+		if (is2D){
+			globe = new WorldWind.Globe(new WorldWind.EarthElevationModel());
+		} else {
+			globe = new WorldWind.Globe2D();
+			globe.projection = new WorldWind.ProjectionMercator();
+		}
+		this._wwd.globe = globe;
+		this.redraw();
+	};
+
+	/**
 	 * @param type {string} type of event
 	 * @param options {Object}
 	 */

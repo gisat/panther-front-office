@@ -693,7 +693,7 @@ html.dromas body.intro #intro-overlay {
     /* background: #ffe6e9; */
     color: #c92d42;
 }
-body.mode-3d #top-toolbar-3dmap {
+body.mode-3d #top-toolbar-3dmap:not(.world-wind-2d) {
     color: #c92d42;
 }
 #top-toolbar .item:not(.disabled) {

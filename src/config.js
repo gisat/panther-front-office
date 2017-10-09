@@ -26,6 +26,7 @@ var Config = {
 		useWBFooter: false,
 		useNewViewSelector: true,
 		useTopToolbar: true,
+		useWorldWindOnly: true,
 		allowPumaHelp: false,
 		allowDownloadsLink: false,
 		usePumaLogo: false,

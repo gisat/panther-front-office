@@ -7,6 +7,8 @@ define([], function(){
 
 		mapAddVisibleLayer: 'map#addVisibleLayer',
 		mapRemoveVisibleLayer: 'map#removeVisibleLayer',
+		mapSwitchFramework: 'map#switchFramework',
+		mapSwitchProjection: 'map#switchProjection',
 
 		filterAdd: 'filter#add',
 		filterRemove: 'filter#remove',
