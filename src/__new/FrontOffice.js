@@ -11,6 +11,7 @@ define([
 	'js/stores/gisat/Locations',
 	'js/stores/gisat/Periods',
 	'js/stores/gisat/Scopes',
+	'js/stores/gisat/Themes',
 	'js/stores/gisat/Visualizations',
 	'js/stores/gisat/WmsLayers',
 	'jquery',
@@ -27,6 +28,7 @@ define([
 			Locations,
 			Periods,
 			Scopes,
+			Themes,
 			Visualizations,
 			WmsLayers,
 			$,
@@ -290,6 +292,7 @@ define([
 		Stores.retrieve('location').all();
 		Stores.retrieve('period').all();
 		Stores.retrieve('scope').all();
+		Stores.retrieve('theme').all();
 		Stores.retrieve('visualization').all();
 		Stores.retrieve('wmsLayer').all();
 	};

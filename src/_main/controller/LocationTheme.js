@@ -6,6 +6,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
 		Observer.addListener("PumaMain.controller.LocationTheme.reloadWmsLayers",this.reloadWmsLayers.bind(this));
 		Stores.addListener(this.areaTemplateChange.bind(this));
+		Stores.addListener(this.triggerConfirm.bind(this));
 
         this.control({
             '#initialdataset':{
@@ -42,6 +43,11 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 click: this.onCancelAgreement
             }
         })
+    },
+    triggerConfirm: function(action){
+        if (action === "confirmInitialSelection"){
+            this.onConfirm();
+        }
     },
     onAcceptAgreement: function() {
         var checked = Ext.ComponentQuery.query('#agreementCheck')[0].getValue();

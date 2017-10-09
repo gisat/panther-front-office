@@ -179,9 +179,8 @@ Ext.application({
 });
 
 Ext.onReady(function(){
-	if(!Config.dataviewId) {
+	if(!Config.dataviewId && !Config.toggles.skipInitialSelection) {
 		$("#loading-screen").css("display", "none");
 	}
-
 	Stores.notify('extLoaded');
 });

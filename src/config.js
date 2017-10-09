@@ -43,6 +43,7 @@ var Config = {
 		isMelodies: false,
 		isUrbanTep: false,
 		isSnow: true,
+		skipInitialSelection: true,
 		hideWorldBank: false
 	},
 

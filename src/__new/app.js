@@ -48,6 +48,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         'js/util/Filter',
         'js/util/Floater',
 		'./FrontOffice',
+		'js/util/IntroSelection',
         'js/util/Logger',
         'js/view/map/Map',
 		'js/view/mapsContainer/MapsContainer',
@@ -80,6 +81,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
              Filter,
              Floater,
 			 FrontOffice,
+             IntroSelection,
              Logger,
              Map,
              MapsContainer,
@@ -437,9 +439,13 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 	 * Modifications of FO view for SNOW PORTAL
 	 */
 	function snowViewChanges(){
+		// set correct link to intro page
 		var introLink = $("#intro-link");
 		if (introLink.length){
 			introLink.find("a").attr("href", "/intro");
 		}
+		new IntroSelection({
+			dispatcher: window.Stores
+		});
 	}
 });
