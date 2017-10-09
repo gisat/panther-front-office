@@ -10,9 +10,11 @@ requirejs.config({
         'jquery-ui': 'lib/jquery-ui.min',
         'osmtogeojson': 'lib/osmtogeojson-3.0.0',
         'resize': 'lib/detect-element-resize',
+		'select2': 'lib/select2.full.min',
         'string': 'lib/string',
         'underscore': 'lib/underscore-min',
         'text': 'lib/text',
+		'tinysort': 'lib/tinysort.min',
         'wicket': 'lib/wicket',
         'worldwind': 'lib/worldwind.min'
     },
@@ -54,7 +56,8 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 		'js/view/mapsContainer/MapsContainer',
 		'js/stores/internal/MapStore',
 		'js/view/widgets/OSMWidget/OSMWidget',
-		'js/view/PanelIFrame/PanelIFrame',
+	'js/view/PanelIFrame/PanelIFrame',
+		'js/view/selectors/PeriodsSelector/PeriodsSelector',
 		'js/view/widgets/PeriodsWidget/PeriodsWidget',
 		'js/util/Placeholder',
 		'js/util/Remote',
@@ -88,6 +91,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			 MapStore,
 			 OSMWidget,
 			 PanelIFrame,
+			 PeriodsSelector,
 			 PeriodsWidget,
 			 Placeholder,
 			 Remote,
@@ -127,6 +131,13 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         var filter = buildFilter();
         var olMap = buildOpenLayersMap();
 
+        if (Config.toggles.hasPeriodsSelector){
+        	new PeriodsSelector({
+				containerSelector: $("#content-application .group-visualization"),
+				dispatcher: window.Stores
+			});
+		}
+
         if(Config.toggles.useTopToolbar){
             var topToolBar = new TopToolBar({
 				dispatcher: window.Stores
@@ -134,7 +145,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         }
         // create tools and widgets according to configuration
         if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
-        	var mapsContainer = buildMapsContainer(mapStore);
+        	var mapsContainer = buildMapsContainer(mapStore, stateStore);
 			var worldWindWidget = buildWorldWindWidget(mapsContainer, topToolBar, stateStore);
             widgets.push(worldWindWidget);
 
@@ -142,7 +153,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
                 widgets.push(buildOsmWidget(mapsContainer, mapStore));
             }
         }
-        if (Config.toggles.hasPeriodsWidget){
+        if(Config.toggles.hasPeriodsWidget){
 			var periodsWidget = buildPeriodsWidget(mapsContainer);
 			widgets.push(periodsWidget);
 		}
@@ -409,13 +420,15 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 	/**
 	 * Build container for world wind maps within content element
 	 * @param mapStore {MapStore}
+	 * @param stateStore {StateStore}
 	 * @returns {MapsContainer}
 	 */
-	function buildMapsContainer(mapStore){
+	function buildMapsContainer(mapStore, stateStore){
 		return new MapsContainer({
 			id: "maps-container",
 			dispatcher: window.Stores,
 			mapStore: mapStore,
+			stateStore: stateStore,
 			target: $("#content")
 		})
 	}

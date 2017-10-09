@@ -1,6 +1,9 @@
 define([
-	'../../actions/Actions'
-], function(Actions){
+	'../../actions/Actions',
+	'underscore'
+], function(Actions,
+			_
+){
 	/**
 	 * It creates MapStore and contains maps themselves
 	 * @constructor
@@ -11,12 +14,12 @@ define([
 	var MapStore = function(options) {
 		options.dispatcher.addListener(this.onEvent.bind(this));
 
-		this._maps = {};
+		this._maps = [];
 		this._navigatorState = {};
 
 		if (options.maps){
 			options.maps.forEach(function(map){
-				this._maps[map._id] = map;
+				this._maps.push(map);
 			}.bind(this));
 		}
 	};
@@ -27,7 +30,7 @@ define([
 	 * @param options.map {WorldWindMap} Visible map.
 	 */
 	MapStore.prototype.add = function(options) {
-		this._maps[options.map._id] = options.map;
+		this._maps.push(options.map);
 	};
 
 	/**
@@ -36,7 +39,7 @@ define([
 	 * @param options.id {String} Map which should be removed from DOM.
 	 */
 	MapStore.prototype.remove = function(options) {
-		delete this._maps[options.id];
+		this._maps = _.reject(this._maps, function(map) { return map.id === options.id; });
 	};
 
 	/**
@@ -45,6 +48,27 @@ define([
 	 */
 	MapStore.prototype.getAll = function(){
 		return this._maps;
+	};
+
+	/**
+	 * Get map according to given period
+	 * @param id {number} id of the period
+	 */
+	MapStore.prototype.getMapByPeriod = function(id) {
+		return _.filter(this._maps, function (map) {
+			return map.period === id;
+		})[0];
+	};
+
+	/**
+	 * Get map by id
+	 * @param id {string} id of the map
+	 * @returns {Object}
+	 */
+	MapStore.prototype.getMapById = function(id){
+		return _.filter(this._maps, function (map) {
+			return map.id === id;
+		})[0];
 	};
 
 	/**

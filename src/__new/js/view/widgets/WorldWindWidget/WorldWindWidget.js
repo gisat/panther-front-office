@@ -29,7 +29,6 @@ define([
 	 * Class representing widget for 3D map
 	 * @param options {Object}
 	 * @param options.mapsContainer {MapsContainer} Container where should be all maps rendered
-	 * @param options.dispatcher {Object}
 	 * @param options.stateStore {StateStore}
 	 * @param options.topToolBar {TopToolBar}
 	 * @constructor
@@ -93,30 +92,17 @@ define([
 	WorldWindWidget.prototype.addDataToMap = function(map){
 		this._panels.addLayersToMap(map);
 		if (map._id !== 'default-map'){
-			map.rebuild(this._stateStore.current());
-			this._panels.rebuild(this._stateChanges);
+			map.rebuild();
+			this._panels.rebuild();
 		}
 	};
 
 	/**
-	 * Rebuild widget
+	 * Rebuild widget. Rebuild all maps in container and panels.
 	 */
 	WorldWindWidget.prototype.rebuild = function(){
-		var isIn3dMode = $("body").hasClass("mode-3d");
-		this._stateChanges = this._stateStore.current().changes;
-
-		if (isIn3dMode){
-			this._mapsContainer.rebuildMaps();
-			this._panels.rebuild(this._stateChanges);
-			this._stateChanges = {
-				scope: false,
-				location: false,
-				theme: false,
-				period: false,
-				level: false,
-				visualization: false
-			};
-		}
+		this._mapsContainer.rebuildMaps();
+		this._panels.rebuild();
 		this.handleLoading("hide");
 	};
 

@@ -54,8 +54,7 @@ define(['../../../../error/ArgumentError',
 		if (options.hasOwnProperty("isOpen")){
 			this._isOpen = options.isOpen;
 		}
-
-		this._maps = StoresInternal.retrieve('map').getAll();
+		this._mapStore = StoresInternal.retrieve('map');
 		this.build();
 	};
 
@@ -97,9 +96,10 @@ define(['../../../../error/ArgumentError',
 	 */
 	WorldWindWidgetPanel.prototype.clearLayers = function(group){
 		$("." + group + "-floater").remove();
-		for (var key in this._maps){
-			this._maps[key].layers.removeAllLayersFromGroup(group);
-		}
+
+		this._mapStore.getAll().forEach(function(map){
+			map.layers.removeAllLayersFromGroup(group);
+		});
 
 		if (group === "selectedareasfilled" || group === "areaoutlines"){
 			this._panelBodySelector.find(".layer-row[data-id=" + group + "]").removeClass("checked");
@@ -132,13 +132,16 @@ define(['../../../../error/ArgumentError',
 	 * @returns {*|jQuery|HTMLElement} Selector of the group
 	 */
 	WorldWindWidgetPanel.prototype.addLayerGroup = function(id, name){
-		this._panelBodySelector.append('<div class="panel-layer-group" id="' + id + '-panel-layer-group">' +
+		var group = this._panelBodySelector.find("#" + id + "-panel-layer-group");
+		if (group.length === 0){
+			this._panelBodySelector.append('<div class="panel-layer-group" id="' + id + '-panel-layer-group">' +
 				'<div class="panel-layer-group-header open">' +
-					'<div class="panel-icon expand-icon"></div>' +
-					'<div class="panel-icon folder-icon"></div>' +
+				'<div class="panel-icon expand-icon"></div>' +
+				'<div class="panel-icon folder-icon"></div>' +
 				'<h3>' + name + '</h3></div>' +
 				'<div class="panel-layer-group-body open"></div>' +
-			'</div>');
+				'</div>');
+		}
 		return $("#" + id + "-panel-layer-group").find(".panel-layer-group-body");
 	};
 
@@ -150,6 +153,10 @@ define(['../../../../error/ArgumentError',
 	 * @param visible {boolean} true, if layer should be visible
 	 */
 	WorldWindWidgetPanel.prototype.addLayerControl = function(id, name, target, visible){
+		return this.addPanelRow(id, name, target, visible);
+	};
+
+	WorldWindWidgetPanel.prototype.addPanelRow = function(id, name, target, visible){
 		return new PanelRow({
 			active: visible,
 			id: id,
@@ -232,13 +239,13 @@ define(['../../../../error/ArgumentError',
 
 
 			if (checkbox.hasClass("checked")){
-				for(var key in self._maps){
-					self._maps[key].layers.showLayer(layerId);
-				}
+				self._mapStore.getAll().forEach(function(map){
+					map.layers.showLayer(layerId);
+				});
 			} else {
-				for(var key in self._maps){
-					self._maps[key].layers.hideLayer(layerId);
-				}
+				self._mapStore.getAll().forEach(function(map){
+					map.layers.hideLayer(layerId);
+				});
 			}
 		},50);
 	};
@@ -254,9 +261,9 @@ define(['../../../../error/ArgumentError',
 			if (layer.group == groupId){
 				var checkbox = $(".checkbox-row[data-id=" + layer.id +"]");
 				checkbox.addClass("checked");
-				for (var key in self._maps){
-					self._maps[key].layers.showLayer(layer.id, layer.order);
-				}
+				self._mapStore.getAll().forEach(function(map){
+					map.layers.showLayer(layer.id, layer.order);
+				});
 			}
 		});
 	};

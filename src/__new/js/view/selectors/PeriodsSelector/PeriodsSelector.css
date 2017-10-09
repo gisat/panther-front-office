@@ -1,0 +1,19 @@
+/* General selector declarations todo move them to the general class */
+.select2-container {
+	z-index: 99999;
+}
+.selector {
+	display: none;
+	height: 1.9rem;
+}
+.selector-label {
+	line-height: 1.9rem;
+	margin-right: .7rem;
+	color: white;
+	font-weight: 700;
+	font-size: 11px;
+}
+body.mode-3d .selector {
+	display: inline-block;
+	vertical-align: top;
+}

@@ -47,7 +47,7 @@ define(['../../../../error/ArgumentError',
 	 * @param notification
 	 */
 	AuLayersPanel.prototype.clearAllSelections = function(action, notification){
-		if (action == notification && notification == "clearAllSelections"){
+		if (action === notification && notification === "clearAllSelections"){
 			$("#selectedareasfilled-panel-row").remove();
 			this.clearLayers("selectedareasfilled");
 			Stores.selectedOutlines = null;
@@ -60,7 +60,7 @@ define(['../../../../error/ArgumentError',
 	 * @param notification
 	 */
 	AuLayersPanel.prototype.clearActiveSelection = function(action, notification){
-		if (action == notification && notification == "clearActiveSelection") {
+		if (action === notification && notification === "clearActiveSelection") {
 			this.redrawLayer(this._layers.selected, "selectedareasfilled", Stores.selectedOutlines);
 		}
 	};
@@ -93,7 +93,7 @@ define(['../../../../error/ArgumentError',
 	 * @param notification
 	 */
 	AuLayersPanel.prototype.rebuild = function(action, notification){
-		if (action == notification && notification == "updateOutlines"){
+		if (action === notification && notification === "updateOutlines"){
 			this.clear(this._id);
 
 			if(Stores.selectedOutlines) {
@@ -137,13 +137,13 @@ define(['../../../../error/ArgumentError',
 			layer.layerData.layer = store.layerNames;
 			layer.layerData.sldId = store.sldId;
 
-			for (var key in this._maps){
-				this._maps[key].layers.addChoroplethLayer(layer.layerData, id, false);
-			}
+			this._mapStore.getAll().forEach(function(map){
+				map.layers.addChoroplethLayer(layer.layerData, id, false);
+			});
 
 			var toolBox = layer.control.getToolBox();
 			toolBox.clear();
-			toolBox.addOpacity(layer.layerData, this._maps);
+			toolBox.addOpacity(layer.layerData, this._mapStore.getAll());
 		}
 	};
 

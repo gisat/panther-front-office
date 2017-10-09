@@ -81,13 +81,13 @@ define(['../../../../error/ArgumentError',
 				var radio = item.control.getRadiobox();
 				var dataId = radio.attr("data-id");
 				if (radio.hasClass("checked")){
-					for(var key in self._maps){
-						self._maps[key].layers.showBackgroundLayer(dataId);
-					}
+					self._mapStore.getAll().forEach(function(map){
+						map.layers.showBackgroundLayer(dataId);
+					});
 				} else {
-					for(var key in self._maps){
-						self._maps[key].layers.hideBackgroundLayer(dataId);
-					}
+					self._mapStore.getAll().forEach(function(map){
+						map.layers.hideBackgroundLayer(dataId);
+					});
 				}
 			});
 		},50);

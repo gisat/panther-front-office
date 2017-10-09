@@ -1,4 +1,6 @@
 define([
+	'js/actions/Actions',
+
 	'js/error/ArgumentError',
 	'js/error/NotFoundError',
 	'js/util/Logger',
@@ -16,7 +18,9 @@ define([
 	'js/stores/gisat/WmsLayers',
 	'jquery',
 	'underscore'
-], function(ArgumentError,
+], function(Actions,
+
+			ArgumentError,
 			NotFoundError,
 			Logger,
 			Promise,
@@ -102,6 +106,8 @@ define([
 		}
 
 		ThemeYearConfParams.datasetChanged = false;
+
+		Stores.retrieve("period").notify(Actions.periodsRebuild);
 	};
 
 	/**
@@ -239,7 +245,7 @@ define([
 
 
 		if (this._options.changes.scope){
-			if (this._dataset == ThemeYearConfParams.dataset){
+			if (this._dataset === ThemeYearConfParams.dataset){
 				console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "FrontOffice", "checkConfiguration", "missingDataset"));
 			}
 		}
