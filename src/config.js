@@ -45,7 +45,8 @@ var Config = {
 		isUrbanTep: false,
 		isSnow: true,
 		skipInitialSelection: true,
-		hideWorldBank: false
+		hideWorldBank: false,
+		hideSelectorToolbar: true
 	},
 
 	basicTexts: {

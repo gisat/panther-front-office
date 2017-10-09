@@ -111,10 +111,17 @@ define([
 
 	};
 
+	/**
+	 * SNOW: add configuration wiget and hide useless widgets
+	 */
 	TopToolBar.prototype.handleSnow = function() {
 		var classesSnowWidget = $('#floater-snow-widget').hasClass('open') ? "item open" : "item";
 		this._target.append('<div class="' + classesSnowWidget + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget">Saved configurations</div>');
 
+		// hide useless widgets
+		$("#top-toolbar-features .item:not(#top-toolbar-3dmap):not(#top-toolbar-snow-configuration)")
+			.css("display", "none");
+		$("#floater-world-wind-widget").css("display", "none");
 	};
 
 	TopToolBar.prototype.handleClick = function(e){

@@ -1111,7 +1111,9 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 $('#top-toolbar-3dmap').hide();
             } else {
                 $('.areaTreeSelection').show();
-				$('#top-toolbar-areas').show();
+                if(!Config.toggles.isSnow){
+					$('#top-toolbar-areas').show();
+                }
 				$('#window-areatree').show();
                 if(scope.get("aggregated")) {
                     this.getController('DomManipulation')._onReportsSidebarToggleClick();

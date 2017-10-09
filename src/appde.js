@@ -128,6 +128,10 @@ Ext.application({
 			$("html").addClass("toggle-usePumaLogo");
 		}
 
+		if(Config.toggles.hideSelectorToolbar){
+			$("html").addClass("toggle-hideSelectorToolbar");
+		}
+
 		if(Config.toggles[window.location.origin]) {
 			Config.toggles[window.location.origin].classes.forEach(function(className){
                 $("html").addClass(className);

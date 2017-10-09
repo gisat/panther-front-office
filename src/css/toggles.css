@@ -93,6 +93,17 @@
 	top: 70px;
 }
 
+/* useTopToolbar && hideSelectorToolbar*/
+.toggle-useTopToolbar.toggle-hideSelectorToolbar #top-toolbar {
+	top: 0;
+}
+.toggle-useTopToolbar.toggle-hideSelectorToolbar #sidebar-reports {
+	top: 30px;
+}
+.toggle-useTopToolbar.toggle-hideSelectorToolbar #maps-container {
+	top: 75px;
+}
+
 /* useTopToolbar && useHeader */
 .toggle-useTopToolbar.toggle-useHeader body.application #main {
 	padding-top: 100px;

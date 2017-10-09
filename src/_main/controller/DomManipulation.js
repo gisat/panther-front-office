@@ -127,6 +127,9 @@ Ext.define('PumaMain.controller.DomManipulation', {
 			if (Config.toggles.useTopToolbar) {
 				h -= $("#top-toolbar").outerHeight(true);
 			}
+			if (Config.toggles.hideSelectorToolbar){
+				h += $("#view-selector").outerHeight(true);
+			}
 		}
 		return { width  : w, height : h };
 	},
