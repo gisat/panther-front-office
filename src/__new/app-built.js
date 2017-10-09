@@ -20703,7 +20703,7 @@ define('js/stores/UrbanTepCommunitiesStore',['./Stores'], function(Stores){
         var url = new URL(url);
         return $.post(Config.url + '/rest/share/communities', {
             dataViewId: url.searchParams.get('id'),
-            group: community.identifier
+            group: community
         });
     };
 
