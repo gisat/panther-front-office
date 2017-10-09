@@ -157,12 +157,12 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 		if(Config.toggles.isSnow){
 			var panelIFrame = new PanelIFrame(Config.snowUrl + 'snow/');
 			//var panelIFrame = new PanelIFrame('http://localhost:63326/panther-front-office/src/iframe-test.html');
-
 			var snowMapController = new SnowMapController({
 				iFrame: panelIFrame
 			});
 
 			widgets.push(buildSnowWidget(snowMapController, panelIFrame));
+			snowViewChanges();
 		}
 
         if(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo){
@@ -432,4 +432,11 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
             is3dOnly: true
         });
     }
+
+    function snowViewChanges(){
+		var introLink = $("#intro-link");
+		if (introLink.length){
+			introLink.find("a").attr("href", "/intro");
+		}
+	}
 });

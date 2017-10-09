@@ -43,7 +43,7 @@ var Config = {
 		isMelodies: false,
 		isUrbanTep: false,
 		isSnow: true,
-		hideWorldBank: true
+		hideWorldBank: false
 	},
 
 	basicTexts: {
