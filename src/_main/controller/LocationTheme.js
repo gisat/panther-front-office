@@ -337,7 +337,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 this.visChanged = true;
         }
         var years = yearCnt.getValue();
-        if (!years.length) {
+        if (!years.length && !Config.toggles.hideSelectorToolbar) {
             this.yearChanged = true;
             var yearCount = yearStore.getCount();
             yearCnt.setValue([yearStore.getAt(yearCount-1).get('_id')])
