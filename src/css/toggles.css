@@ -21,6 +21,9 @@
 .toggle-useWBHeader #content-application {
 	top: 40px;
 }
+.toggle-useWBHeader #maps-container {
+	top: 40px;
+}
 
 /* useHeader */
 .toggle-useHeader #header {
@@ -36,6 +39,9 @@
 .toggle-useHeader #content-application {
 	top: 45px;
 }
+.toggle-useHeader #maps-container {
+	top: 45px;
+}
 
 /* useHeader && useWBHeader */
 .toggle-useWBHeader #header {
@@ -48,6 +54,9 @@
 	padding-top: 110px;
 }
 .toggle-useWBHeader.toggle-useHeader #content-application {
+	top: 85px;
+}
+.toggle-useWBHeader.toggle-useHeader #maps-container {
 	top: 85px;
 }
 
@@ -92,36 +101,54 @@
 .toggle-useTopToolbar #sidebar-reports {
 	top: 70px;
 }
+.toggle-useTopToolbar #maps-container {
+	top: 70px;
+}
 
 /* useTopToolbar && hideSelectorToolbar*/
-.toggle-useTopToolbar.toggle-hideSelectorToolbar #top-toolbar {
+.toggle-useTopToolbar.toggle-useHeader.toggle-hideSelectorToolbar #top-toolbar {
 	top: 0;
 }
-.toggle-useTopToolbar.toggle-hideSelectorToolbar #sidebar-reports {
+.toggle-useTopToolbar.toggle-useHeader.toggle-hideSelectorToolbar #sidebar-reports {
 	top: 30px;
 }
-.toggle-useTopToolbar.toggle-hideSelectorToolbar #maps-container {
+.toggle-useTopToolbar.toggle-useHeader.toggle-hideSelectorToolbar #maps-container {
 	top: 75px;
+}
+.toggle-useTopToolbar.toggle-useHeader.toggle-hideSelectorToolbar body.application #main {
+	padding-top: 60px;
 }
 
 /* useTopToolbar && useHeader */
 .toggle-useTopToolbar.toggle-useHeader body.application #main {
 	padding-top: 100px;
 }
+.toggle-useTopToolbar.toggle-useHeader #maps-container {
+	top: 115px;
+}
 
 /* useTopToolbar && useWBHeader */
 .toggle-useTopToolbar.toggle-useWBHeader body.application #main {
 	padding-top: 95px;
+}
+.toggle-useTopToolbar.toggle-useWBHeader #maps-container {
+	top: 110px;
 }
 
 /* useTopToolbar && useHeader && useWBHeader */
 .toggle-useTopToolbar.toggle-useHeader.toggle-useWBHeader body.application #main {
 	padding-top: 140px;
 }
+.toggle-useTopToolbar.toggle-useHeader.toggle-useWBHeader #maps-container {
+	top: 155px;
+}
 
 /* useTopToolbar && useNewViewSelector */
 .toggle-useTopToolbar.toggle-useLegacyViewSelector body.application #main {
 	padding-top: 120px;
+}
+.toggle-useTopToolbar.toggle-useLegacyViewSelector #maps-container {
+	top: 135px;
 }
 .toggle-useTopToolbar.toggle-useLegacyViewSelector #top-toolbar {
 	top: 105px;
@@ -135,15 +162,24 @@
 .toggle-useTopToolbar.toggle-useLegacyViewSelector.toggle-useHeader body.application #main {
 	padding-top: 165px;
 }
+.toggle-useTopToolbar.toggle-useLegacyViewSelector.toggle-useHeader #maps-container {
+	top: 180px;
+}
 
 /* useTopToolbar && useNewViewSelector && useWBHeader */
 .toggle-useTopToolbar.toggle-useLegacyViewSelector.toggle-useWBHeader body.application #main {
 	padding-top: 160px;
 }
+.toggle-useTopToolbar.toggle-useLegacyViewSelector.toggle-useWBHeader #maps-container {
+	top: 175px;
+}
 
 /* useTopToolbar && useNewViewSelector && useHeader && useWBHeader */
 .toggle-useTopToolbar.toggle-useLegacyViewSelector.toggle-useHeader.toggle-useWBHeader body.application #main {
 	padding-top: 205px;
+}
+.toggle-useTopToolbar.toggle-useLegacyViewSelector.toggle-useHeader.toggle-useWBHeader #maps-container {
+	top: 220px;
 }
 
 .toggle-useTopToolbar #sidebar-tools {

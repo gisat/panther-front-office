@@ -9,6 +9,7 @@ define([], function(){
 		mapRemoveVisibleLayer: 'map#removeVisibleLayer',
 		mapSwitchFramework: 'map#switchFramework',
 		mapSwitchProjection: 'map#switchProjection',
+		mapUseWorldWindOnly: 'map#useWorldWindOnly',
 
 		filterAdd: 'filter#add',
 		filterRemove: 'filter#remove',

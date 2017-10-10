@@ -22,6 +22,10 @@
 	right: auto;
 	left: 0;
 }
+.snow #maps-container {
+	right: 0;
+	left: auto;
+}
 
 .snow #map-holder {
 	position: absolute;

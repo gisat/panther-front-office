@@ -5,6 +5,7 @@
 	position: relative;
 	z-index: 5555;
 	width: 100%;
+	top: 0;
 }
 body.mode-3d .maps-container {
 	display: block;

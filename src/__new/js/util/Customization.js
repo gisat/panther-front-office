@@ -6,18 +6,23 @@ define([
 			Promise,
 			Stores){
 
-	var IntroSelection = function(options) {
+	var Customization = function(options) {
 		this._dispatcher = options.dispatcher;
-		this._only3D = options.only3D;
+		this._useWorldWindOnly = options.useWorldWindOnly;
+		this._skipSelection = options.skipSelection;
 
-		this._dispatcher.addListener(this.skipSelection.bind(this));
+		if (this._skipSelection){
+			this._dispatcher.addListener(this.skipSelection.bind(this));
+		} else if (this._useWorldWindOnly){
+			this._dispatcher.addListener(this.useWorldWind.bind(this));
+		}
 	};
 
 	/**
 	 * Skip initaial scope, location, theme selection
 	 * @param action {string} type of event
 	 */
-	IntroSelection.prototype.skipSelection = function(action){
+	Customization.prototype.skipSelection = function(action){
 		if (action === Actions.extLoaded){
 			var self = this;
 			this.getFirstScopeLocationTheme().then(function(configuration){
@@ -27,7 +32,7 @@ define([
 					Ext.ComponentQuery.query('#initiallocation')[0].setValue(configuration.location.id);
 					setTimeout(function(){
 						self._dispatcher.notify("confirmInitialSelection");
-						if (self._only3D){
+						if (self._useWorldWindOnly){
 							self._dispatcher.notify("map#switchFramework");
 						}
 					},500);
@@ -37,9 +42,18 @@ define([
 	};
 
 	/**
+	 * Switch map to WorldWind
+	 */
+	Customization.prototype.useWorldWind = function(action){
+		if (action === Actions.extThemeYearLoaded && !this._skipSelection){
+			this._dispatcher.notify("map#switchFramework");
+		}
+	};
+
+	/**
 	 * Get default scope, location and theme
 	 */
-	IntroSelection.prototype.getFirstScopeLocationTheme = function(){
+	Customization.prototype.getFirstScopeLocationTheme = function(){
 		var self = this;
 		return this.getFirstScope().then(function(scope){
 			var configuration = {
@@ -61,7 +75,7 @@ define([
 	 * Get first location for given scope
 	 * @param scopeId {number}
 	 */
-	IntroSelection.prototype.getFirstLocation = function(scopeId){
+	Customization.prototype.getFirstLocation = function(scopeId){
 		return Stores.retrieve('location').filter({dataset: scopeId}).then(function(locations){
 			return locations[0];
 		});
@@ -71,7 +85,7 @@ define([
 	 * Get first theme for given scope
 	 * @param scopeId {number}
 	 */
-	IntroSelection.prototype.getFirstTheme = function(scopeId){
+	Customization.prototype.getFirstTheme = function(scopeId){
 		return Stores.retrieve('theme').filter({dataset: scopeId}).then(function(themes){
 			return themes[0];
 		});
@@ -81,11 +95,11 @@ define([
 	 * Get first scope from store
 	 *
 	 */
-	IntroSelection.prototype.getFirstScope = function(){
+	Customization.prototype.getFirstScope = function(){
 		return Stores.retrieve('scope').all().then(function(scopes){
 			return scopes[0];
 		});
 	};
 
-	return IntroSelection;
+	return Customization;
 });

@@ -45,12 +45,12 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         'js/util/metadata/AnalyticalUnits',
         'js/view/widgets/CityWidget/CityWidget',
         'js/view/widgets/CustomDrawingWidget/CustomDrawingWidget',
+		'js/util/Customization',
         'js/view/widgets/EvaluationWidget/EvaluationWidget',
         'js/view/tools/FeatureInfoTool/FeatureInfoTool',
         'js/util/Filter',
         'js/util/Floater',
 		'./FrontOffice',
-		'js/util/IntroSelection',
         'js/util/Logger',
         'js/view/map/Map',
 		'js/view/mapsContainer/MapsContainer',
@@ -79,12 +79,12 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
              AnalyticalUnits,
              CityWidget,
              CustomDrawingWidget,
+			 Customization,
              EvaluationWidget,
              FeatureInfoTool,
              Filter,
              Floater,
 			 FrontOffice,
-             IntroSelection,
              Logger,
              Map,
              MapsContainer,
@@ -130,6 +130,13 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         var attributes = buildAttributes();
         var filter = buildFilter();
         var olMap = buildOpenLayersMap();
+
+		// customization
+		new Customization({
+			dispatcher: window.Stores,
+			useWorldWindOnly: Config.toggles.useWorldWindOnly,
+			skipSelection: Config.toggles.skipInitialSelection
+		});
 
         if (Config.toggles.hasPeriodsSelector){
         	new PeriodsSelector({
@@ -459,13 +466,6 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 		if (introLink.length){
 			introLink.remove();
 		}
-
-		// skip initialscope, place, theme selection
-		new IntroSelection({
-			dispatcher: window.Stores,
-			only3D: Config.toggles.useWorldWindOnly
-		});
-
 		// use snow portal logo
 		var headerSelector = $("#header");
 		headerSelector.find("h1").remove();
