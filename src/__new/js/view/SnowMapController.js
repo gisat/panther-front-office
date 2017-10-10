@@ -1,11 +1,13 @@
 define([
 	'../util/metadata/Attributes',
 	'../util/RemoteJQ',
+	'../stores/Stores',
 
 	'jquery'
 ], function (
 	Attributes,
 	RemoteJQ,
+	Stores,
 
 	$
 ) {
@@ -186,12 +188,13 @@ define([
 	 * @param countryKey {string}
 	 */
 	SnowMapController.prototype.getCountry = function(countryKey, attribute){
+		var state = Stores.retrieve('state').current();
 		return new RemoteJQ({
 			url: "rest/filter/attribute/filter",
 			params: {
-				areaTemplate: ThemeYearConfParams.auCurrentAt,
-				periods: JSON.parse(ThemeYearConfParams.years),
-				places: ThemeYearConfParams.allPlaces,
+				areaTemplate: state.analyticalUnitLevel,
+				periods: state.periods,
+				places: state.places,
 				attributes: [{
 					attribute: attribute.attribute,
 					attributeSet: attribute.attributeSet,
