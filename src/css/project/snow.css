@@ -79,3 +79,11 @@ body.mode-3d #top-toolbar-3dmap:not(.world-wind-2d),
 .snow #top-toolbar-features .item.open {
 	color: rgba(26,128,182,1);
 }
+
+/* TODO temporary changes */
+.snow #top-toolbar-features {
+	margin-right: 0;
+}
+.snow #top-toolbar-3dmap {
+	display: none !important;
+}

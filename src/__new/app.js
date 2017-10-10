@@ -470,5 +470,9 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 		var headerSelector = $("#header");
 		headerSelector.find("h1").remove();
 		headerSelector.prepend("<a href='" + Config.snowUrl + "intro' id='project-logo'></a>");
+
+		// hide top toolbar tools
+		var topToolbarTools = $("#top-toolbar-tools");
+		topToolbarTools.remove();
 	}
 });
