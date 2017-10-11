@@ -36,7 +36,7 @@ define([
 							self._dispatcher.notify("map#switchFramework");
 						}
 					},500);
-				},100);
+				},500);
 			});
 		}
 	};

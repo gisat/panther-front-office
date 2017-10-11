@@ -310,7 +310,9 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
         var visStore = Ext.StoreMgr.lookup('visualization4sel');
         var yearStore = Ext.StoreMgr.lookup('year4sel');
-        var themeYears = Ext.StoreMgr.lookup('theme').getById(val).get('years');
+
+        var themeStore = Ext.StoreMgr.lookup('theme');
+        var themeYears = themeStore.getById(val).get('years');
 
         yearStore.clearFilter(true);
         yearStore.filter([function(rec) {

@@ -31,7 +31,7 @@ var Config = {
 		allowDownloadsLink: false,
 		usePumaLogo: false,
 		advancedFiltersFirst: false,
-		hasNew3Dmap: false,
+		hasNew3Dmap: true,
 		hasNewEvaluationTool: false,
 		hasNewCustomPolygonsTool: false,
 		hasNewFeatureInfo: false,
