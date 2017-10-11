@@ -1,4 +1,5 @@
-define(['../../../error/ArgumentError',
+define(['../../../actions/Actions',
+	'../../../error/ArgumentError',
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 	'../../../util/RemoteJQ',
@@ -8,10 +9,9 @@ define(['../../../error/ArgumentError',
 	'../Widget',
 
 	'jquery',
-	'string',
-	//'text!./WorldWindWidget.html',
 	'css!./SnowWidget'
-], function(ArgumentError,
+], function(Actions,
+			ArgumentError,
 			NotFoundError,
 			Logger,
 			RemoteJQ,
@@ -20,13 +20,13 @@ define(['../../../error/ArgumentError',
 			TableSnowConfigurations,
 			Widget,
 
-			$,
-			S
-			//htmlBody
-){
+			$){
 	/**
 	 * Class representing widget for handling with saved configurations of snow portal
 	 * @param options {Object}
+	 * @param options.iFrame {PanelIFrame}
+	 * @param options.mapController {SnowMapController}
+	 * @param options.dispatcher {Object}
 	 * @constructor
 	 */
 	var SnowWidget = function(options){
@@ -36,6 +36,7 @@ define(['../../../error/ArgumentError',
 		}
 		this._iFrame = options.iFrame;
 		this._mapController = options.mapController;
+		this._dispatcher = options.dispatcher;
 
 		this._iFrameId = this._iFrame.getElementId();
 		this._urlParser = new SnowUrlParser();
@@ -174,6 +175,7 @@ define(['../../../error/ArgumentError',
 		this.addSaveButtonListener();
 		this.addShowButtonListener();
 		this.addDeleteButtonListener();
+		this.addLoggingListener();
 	};
 
 
@@ -192,7 +194,7 @@ define(['../../../error/ArgumentError',
 
 	SnowWidget.prototype.checkUrl = function(){
 		var currentUrl = document.getElementById(this._iFrameId).contentWindow.location.href;
-		if (currentUrl != this._iFrameUrl){
+		if (currentUrl !== this._iFrameUrl){
 			this.rebuild();
 		}
 	};
@@ -259,6 +261,23 @@ define(['../../../error/ArgumentError',
 				}
 			});
 		});
+	};
+
+	/**
+	 * Add listener for logging actions
+	 */
+	SnowWidget.prototype.addLoggingListener = function(){
+		this._dispatcher.addListener(this.rebuildAfterLogging.bind(this));
+	};
+
+	/**
+	 * Rebuild widget if user has been changed
+	 * @param type {string} type of event
+	 */
+	SnowWidget.prototype.rebuildAfterLogging = function(type){
+		if (type === Actions.userChanged){
+			this.rebuild();
+		}
 	};
 
 	/**

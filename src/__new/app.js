@@ -375,7 +375,8 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			name: 'Saved configurations',
 			placeholderTargetId: 'widget-container',
 			iFrame: iFrame,
-			mapController: mapController
+			mapController: mapController,
+			dispatcher: window.Stores
 		});
 	}
 

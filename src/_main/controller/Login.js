@@ -38,6 +38,7 @@ Ext.define('PumaMain.controller.Login',{
         manageView.setVisible(isUser);
         shareView.setVisible(isUser);
         Ext.StoreMgr.lookup('dataview').load();
+        Stores.notify('user#changed');
     },
 
     reloadStores: function() {
