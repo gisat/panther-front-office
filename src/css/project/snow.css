@@ -37,6 +37,16 @@
 	background: rgba(45,53,60,1);
 	z-index: 90000;
 }
+.snow #header .menu {
+	position: absolute;
+	right: 180px;
+}
+.snow #header .menu li:before {
+	position: absolute;
+	left: auto;
+	right: 0;
+	width: 2px;
+}
 .snow #project-logo {
 	background: url('../../images/snow/logo_snow.png');
 	background-repeat: no-repeat;
