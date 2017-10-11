@@ -53,7 +53,7 @@
 				});
 			}
 			var configuration = Config.environment;
-			if (configuration == 'development') {
+			if (configuration === 'development') {
 				createScript('lib/OpenLayers.min.js').then(function(){
 					return createScript('gisatlib/OpenLayers/Geoserver23.js');
 				}).then(function(){
@@ -61,12 +61,7 @@
 				}).then(function(){
 					return createScript('appde.js');
 				}).then(function(){
-					if ((Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool) ||
-							(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap) ||
-							(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo) ||
-							(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies)){
-						return createScript('__new/lib/require.js', '__new/app.js');
-					}
+					return createScript('__new/lib/require.js', '__new/app.js');
 				}).then(function(){
 					// If printing hide wrong parts.
 					if(window.location.toString().indexOf("print") != -1) {
@@ -88,12 +83,7 @@
 				}).then(function(){
 					return createScript('appde.all.js');
 				}).then(function(){
-					if ((Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool) ||
-							(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap) ||
-							(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo) ||
-							(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies)){
-						return createScript('__new/app-built.js');
-					}
+					return createScript('__new/app-built.js');
 				}).then(function(){
 					// If printing hide wrong parts.
 					if(window.location.toString().indexOf("print") != -1) {
@@ -111,17 +101,11 @@
 				});
 			}
 			// load project styles depending on the toggles
-			if(Config.toggles.hasNewEvaluationTool ||
-					Config.toggles.hasNewFeatureInfo ||
-					Config.toggles.hasNew3Dmap ||
-					Config.toggles.isMelodies
-			)
-			{
-				createLink("__new/styles/font-awesome.min.css");
-				createLink("__new/styles/jquery-ui.css");
-				createLink("__new/styles/style.css");
-				createLink("__new/styles/select2.min.css");
-			}
+			createLink("__new/styles/font-awesome.min.css");
+			createLink("__new/styles/jquery-ui.css");
+			createLink("__new/styles/style.css");
+			createLink("__new/styles/select2.min.css");
+
 			if(Config.toggles.isNewDesign){
 				createLink("css/newDesign.css");
 			}
