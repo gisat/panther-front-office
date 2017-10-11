@@ -30,14 +30,26 @@ define([
 				setTimeout(function(){
 					Ext.ComponentQuery.query('#initialtheme')[0].setValue(configuration.theme.id);
 					Ext.ComponentQuery.query('#initiallocation')[0].setValue(configuration.location.id);
-					setTimeout(function(){
-						self._dispatcher.notify("confirmInitialSelection");
-						if (self._useWorldWindOnly){
-							self._dispatcher.notify("map#switchFramework");
-						}
-					},500);
+					self.confirmInitialSelection();
 				},500);
 			});
+		}
+	};
+
+	/**
+	 * Check if stores are loaded, then confirm selection
+	 */
+	Customization.prototype.confirmInitialSelection = function(){
+		var visStore = Ext.StoreMgr.lookup('visualization4sel');
+		var yearStore = Ext.StoreMgr.lookup('year4sel');
+		var themeStore = Ext.StoreMgr.lookup('theme');
+		if (!visStore.loading && !yearStore.loading && !themeStore.loading){
+			this._dispatcher.notify("confirmInitialSelection");
+			if (this._useWorldWindOnly){
+				this._dispatcher.notify("map#switchFramework");
+			}
+		} else {
+			setTimeout(this.confirmInitialSelection.bind(this), 1000);
 		}
 	};
 
