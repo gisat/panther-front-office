@@ -153,7 +153,7 @@ Ext.application({
 		Config.dataviewId = id;
 		if (id) {
 			// Load stores when only for print.
-            var stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'scope', 'areatemplate', 'symbology', 'dataset', 'topic', 'dataview'];
+            var stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic', 'dataview'];
             stores.forEach(function(store){
                 Ext.StoreMgr.lookup(store).load();
             });
