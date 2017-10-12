@@ -26,15 +26,34 @@ define([
 	};
 
 	SnowMapController.prototype.rebuild = function(){
+		this._iFrameSelector = $("#" + this._iFrame.getElementId());
+		this._iFrameBodySelector = this._iFrameSelector.contents().find("body");
 		this.addCompositeShowOnClickListener();
+		this.addShowListListener();
+		this.addHideListListener();
 	};
+
+	SnowMapController.prototype.addShowListListener = function(){
+		this._iFrameBodySelector.off("click.compositesList").on("click.compositesList", ".ptr-button.show-list", function(){
+			$("#sidebar-reports").addClass("show-map");
+			setTimeout(function(){
+				Observer.notify("resizeMap");
+			},1000);
+		});
+	};
+
+	SnowMapController.prototype.addHideListListener = function(){
+		this._iFrameBodySelector.off("click.compositesOverview").on("click.compositesOverview", ".ptr-button.show-overview", function(){
+			$("#sidebar-reports").removeClass("show-map");
+		});
+	};
+
 
 	/**
 	 * Add listener to iframe inner element
 	 */
 	SnowMapController.prototype.addCompositeShowOnClickListener = function(){
 		var self = this;
-		this._iFrameBodySelector = $("#" + this._iFrame.getElementId()).contents().find("body");
 		this._iFrameBodySelector.off("click.composites").on("click.composites", ".ptr-composites-composite .ptr-button", function(){
 			Observer.notify("getMap");
 			self._map = OlMap.map;

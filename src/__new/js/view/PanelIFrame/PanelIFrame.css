@@ -1,8 +1,9 @@
 body.application #sidebar-reports.snow-mode {
-	width: 900px;
+	width: 100%;
+	transition: width .5s ease-in-out;
 }
-body.application #sidebar-reports.snow-mode.hidden {
-	right: -900px;
+body.application #sidebar-reports.snow-mode.show-map {
+	width: 800px;
 }
 #app-extra-content > iframe {
 	width: 100%;
