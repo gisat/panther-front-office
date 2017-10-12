@@ -18379,6 +18379,7 @@ define('js/view/widgets/EvaluationWidget/EvaluationWidget',[
     '../inputs/selectbox/SelectBox',
     './EvaluationWidgetSettings',
     '../inputs/sliderbox/SliderBox',
+    '../../../stores/Stores',
     '../Widget',
 
     'resize',
@@ -18402,6 +18403,7 @@ define('js/view/widgets/EvaluationWidget/EvaluationWidget',[
             SelectBox,
             Settings,
             SliderBox,
+            Stores,
             Widget,
 
             resize,
@@ -18494,7 +18496,7 @@ define('js/view/widgets/EvaluationWidget/EvaluationWidget',[
                     if (about.attributeType == "numeric"){
                         if (self.attributeHasData(attribute)){
 							// TODO: Fix ugly hack for showing Kathmandu.
-							if(Config.toggles.isUrbanTep) {
+							if(Stores.retrieve('state').current().scope == 38433) {
 								self._attributes.push({
 									values: [Number(attribute.min), Number(attribute.max) + 1000],
 									distribution: attribute.distribution,
@@ -20686,6 +20688,75 @@ define('js/stores/gisat/WmsLayers',[
 	return layers;
 });
 
+define('js/stores/UrbanTepCommunitiesStore',['./Stores'], function(Stores){
+    var urbanTepCommunities;
+
+    var UrbanTepCommunitiesStore = function() {
+
+    };
+
+    UrbanTepCommunitiesStore.prototype.update = function(communities) {
+        return $.post(Config.url + '/rest/communities', {
+            communities: communities
+        });
+    };
+
+    UrbanTepCommunitiesStore.prototype.share = function(url, community) {
+        var url = new URL(url);
+        return $.post(Config.url + '/rest/share/communities', {
+            dataViewId: url.searchParams.get('id'),
+            group: community
+        });
+    };
+
+    if(!urbanTepCommunities) {
+        urbanTepCommunities = new UrbanTepCommunitiesStore();
+        Stores.register('urbanTepCommunities', urbanTepCommunities);
+    }
+    return urbanTepCommunities;
+});
+define('js/stores/UrbanTepPortalStore',[
+    './Stores',
+    './UrbanTepCommunitiesStore'
+], function (Stores,
+             UrbanTepCommunitiesStore) {
+    var urbanTepPortal;
+
+    var UrbanTepPortalStore = function () {
+
+    };
+
+    UrbanTepPortalStore.prototype.communities = function () {
+        return $.get('https://urban-tep.eo.esa.int/t2api/community/search?status=joined&format=json').then(function (result) {
+            return result.features.map(function (feature) {
+                return {
+                    title: feature.properties.title,
+                    identifier: feature.properties.identifier
+                }
+            })
+        });
+    };
+
+    UrbanTepPortalStore.prototype.share = function (url, name, community) {
+        UrbanTepCommunitiesStore.share(url, community);
+
+        /*
+        $.post('https://urban-tep.eo.esa.int/t2api/apps/puma', {
+            url: url,
+            name: name,
+            community: community
+        }, function () {
+            UrbanTepCommunitiesStore.share(url, community);
+            alert('Application was published on the portal.');
+        })*/
+    };
+
+    if (!urbanTepPortal) {
+        urbanTepPortal = new UrbanTepPortalStore();
+        Stores.register('urbanTepPortal', urbanTepPortal);
+    }
+    return urbanTepPortal;
+});
 define('FrontOffice',[
 	'js/error/ArgumentError',
 	'js/error/NotFoundError',
@@ -20701,7 +20772,9 @@ define('FrontOffice',[
 	'js/stores/gisat/Scopes',
 	'js/stores/gisat/Visualizations',
 	'js/stores/gisat/WmsLayers',
-	'jquery',
+    'js/stores/UrbanTepPortalStore',
+    'js/stores/UrbanTepCommunitiesStore',
+    'jquery',
 	'underscore'
 ], function(ArgumentError,
 			NotFoundError,
@@ -20717,6 +20790,8 @@ define('FrontOffice',[
 			Scopes,
 			Visualizations,
 			WmsLayers,
+			UrbanTepPortalStore,
+			UrbanTepCommunitiesStore,
 			$,
 			_){
 	/**
@@ -20980,6 +21055,12 @@ define('FrontOffice',[
 		Stores.retrieve('scope').all();
 		Stores.retrieve('visualization').all();
 		Stores.retrieve('wmsLayer').all();
+
+        if(Config.toggles.isUrbanTep) {
+            UrbanTepPortalStore.communities().then(function(communities){
+            	UrbanTepCommunitiesStore.update(communities);
+            });
+        }
 	};
 
 	return FrontOffice;
@@ -24181,40 +24262,6 @@ define('js/util/Placeholder',['jquery'], function ($) {
         floaterOpened: floaterOpened,
         floaterClosed: floaterClosed
     };
-});
-define('js/stores/UrbanTepPortalStore',['./Stores'], function(Stores){
-	var urbanTepPortal;
-
-	var UrbanTepPortalStore = function() {
-
-	};
-
-	UrbanTepPortalStore.prototype.communities = function() {
-		return $.get('https://urban-tep.eo.esa.int/t2api/community/search?status=joined&format=json').then(function(result){
-			return result.features.map(function(feature){
-				return {
-					title: feature.properties.title,
-					identifier: feature.properties.identifier
-				}
-			})
-		});
-	};
-
-	UrbanTepPortalStore.prototype.share = function(url, name, community) {
-		$.post('https://urban-tep.eo.esa.int/t2api/apps/puma', {
-			url: url,
-			name: name,
-			community: community
-		}, function(){
-			alert('Application was published on the portal.');
-		})
-	};
-
-	if(!urbanTepPortal) {
-		urbanTepPortal = new UrbanTepPortalStore();
-		Stores.register('urbanTepPortal', urbanTepPortal);
-	}
-	return urbanTepPortal;
 });
 
 define('text!js/view/widgets/SharingWidget/SharingWidget.html',[],function () { return '';});

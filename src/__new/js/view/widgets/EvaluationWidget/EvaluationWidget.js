@@ -13,6 +13,7 @@ define([
     '../inputs/selectbox/SelectBox',
     './EvaluationWidgetSettings',
     '../inputs/sliderbox/SliderBox',
+    '../../../stores/Stores',
     '../Widget',
 
     'resize',
@@ -36,6 +37,7 @@ define([
             SelectBox,
             Settings,
             SliderBox,
+            Stores,
             Widget,
 
             resize,
@@ -128,7 +130,7 @@ define([
                     if (about.attributeType == "numeric"){
                         if (self.attributeHasData(attribute)){
 							// TODO: Fix ugly hack for showing Kathmandu.
-							if(Config.toggles.isUrbanTep) {
+							if(Stores.retrieve('state').current().scope == 38433) {
 								self._attributes.push({
 									values: [Number(attribute.min), Number(attribute.max) + 1000],
 									distribution: attribute.distribution,

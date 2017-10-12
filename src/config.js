@@ -1,5 +1,5 @@
 var Config = {
-	url: 'http://10.0.75.2/backend/',
+	url: 'https://puma.worldbank.org/backend/',
 	signupAddress: 'http://panther.gisat.cz/account/signup/',
 	// url: 'https://puma.worldbank.org/backend/',                // PUMA
 	// signupAddress: 'https://puma.worldbank.org/account/signup/',
@@ -66,3 +66,19 @@ var Config = {
 	googleAnalyticsCookieDomain: 'auto',
 	environment: 'development'
 };
+
+// Allow custom configuration per URL.
+if(Config.toggles[window.location.origin] && Config.toggles[window.location.origin].url) {
+    Config.url = Config.toggles[window.location.origin].url;
+}
+if(Config.toggles[window.location.origin] && Config.toggles[window.location.origin].publicUrl) {
+    Config.publicUrl = Config.toggles[window.location.origin].publicUrl;
+}
+
+// Go through all the site specific toggles and rewrite the default ones.
+if(Config.toggles[window.location.origin]) {
+	var properties = Object.keys(Config.toggles[window.location.origin]);
+	properties.forEach(function(property) {
+        Config.toggles[property] = Config.toggles[window.location.origin][property];
+	});
+}
