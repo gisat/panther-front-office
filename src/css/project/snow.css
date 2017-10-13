@@ -84,25 +84,59 @@
 .snow #top-toolbar-tools .item:hover {
 	background: rgba(125,125,125,.15)
 }
-
+.snow #top-toolbar-features {
+	margin-right: 0;
+}
 body.mode-3d #top-toolbar-3dmap:not(.world-wind-2d),
-.snow #top-toolbar-features .item.open,
-.snow .snow-table-caption {
+.snow #top-toolbar-features .item.open {
 	color: rgba(26,128,182,1);
 }
 
-.snow .floater-header,
+/* snow widget */
+.snow .floater {
+	background: none;
+	border: 0;
+	border-radius: .1rem;
+	padding: 0;
+}
+.snow .floater.active {
+	z-index: 90001;
+}
+.snow .floater-body {
+	background: rgba(255,255,255,.9);
+	padding-top: 1rem;
+}
+.snow .floater-header {
+	background: rgba(39,97,142,.9);
+	height: 2.5rem;
+	line-height: 2.5rem;
+}
+.snow .floater-header > span {
+	font-size: 1rem;
+	font-weight: 400;
+	padding: 0 .7rem;
+}
+.snow .floater-tool {
+	margin: .3rem .5rem .3rem 0;
+}
+
 .snow .widget-button {
-	background: #27618e;
+	background: none;
+	border: 1px solid rgba(39,97,142,1);
+	color: rgba(39,97,142,1);
 }
 .snow .widget-button:hover {
-	background: rgba(26,128,182,1);
+	background: rgba(39,97,142,.15);
+}
+.snow .snow-cfg-table .widget-button {
+	font-size: .8rem;
+	font-weight: 600;
+}
+.snow .snow-table-caption {
+	color: rgba(39,97,142,1);
 }
 .snow .new-table {
 	width: 100%;
-}
-.snow #top-toolbar-features {
-	margin-right: 0;
 }
 
 /* TODO temporary changes */

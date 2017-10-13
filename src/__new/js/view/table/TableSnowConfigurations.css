@@ -8,7 +8,7 @@
 	color: #666;
 	line-height: 1.3rem;
 	padding: .4rem 0;
-	font-size: .75rem;
+	font-size: .85rem;
 	transition: background .3s ease-out;
 }
 .snow-cfg-table tr:first-child td {
@@ -93,14 +93,14 @@
 	font-weight: 400;
 }
 .snow-cfg-table .delete-composites i {
-	font-size: .85rem;
+	font-size: .9rem;
 }
 .snow-cfg-table .show-composites i {
 	font-size: .75rem;
 	padding-left: .5rem;
 }
 .snow-cfg-table .save-composites i {
-	font-size: .8rem;
+	font-size: .85rem;
 	padding-right: .5rem;
 }
 
