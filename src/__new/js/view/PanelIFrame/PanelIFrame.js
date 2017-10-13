@@ -11,7 +11,7 @@ $
 		this._url = url;
 
 		this.build();
-
+		this.addToggleListener();
 	};
 
 
@@ -37,6 +37,14 @@ $
 	 */
 	PanelIFrame.prototype.getElementId = function(){
 		return this._iframeSelector.attr("id");
+	};
+
+	PanelIFrame.prototype.addToggleListener = function(){
+		$("#sidebar-reports-toggle").on("click", function(){
+			setTimeout(function(){
+				Observer.notify("resizeMap");
+			},500);
+		});
 	};
 
 	return PanelIFrame;

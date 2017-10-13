@@ -22,6 +22,34 @@
 	right: auto;
 	left: 0;
 }
+.snow #sidebar-reports.hidden {
+	right: auto;
+	left: -800px;
+}
+.snow #sidebar-reports.show-map #sidebar-reports-toggle {
+	left: 800px;
+	background: white;
+	border: 1px solid #27618e;
+	border-top-width: 0;
+	border-left-width: 0;
+}
+.snow #sidebar-reports.show-map.hidden #sidebar-reports-toggle {
+	width: 26px;
+}
+.snow #sidebar-reports.show-map #sidebar-reports-toggle:hover {
+	background: rgb(215,235,255);
+}
+.snow #sidebar-reports.show-map #sidebar-reports-toggle:before {
+	content: "\f104";
+	font-family: "FontAwesome";
+	font-size: 1.65rem;
+	color: #27618e;
+	position: absolute;
+	left: .4rem;
+}
+.snow #sidebar-reports.show-map.hidden #sidebar-reports-toggle:before {
+	content: "\f105";
+}
 .snow #maps-container {
 	right: 0;
 	left: auto;
