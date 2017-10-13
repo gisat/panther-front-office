@@ -151,6 +151,10 @@ define([
 				this._target.append('<div class="' + classesSnowWidget + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget">Saved configurations</div>');
 			}
 		}
+
+		if (tools.tour){
+			this._target.append('<div class="item" id="top-toolbar-tour" data-for="app-tour">Tour</div>');
+		}
 	};
 
 	/**
@@ -161,7 +165,8 @@ define([
 		$("#floater-world-wind-widget").css("display", "none");
 
 		return {
-			snow: true
+			snow: true,
+			tour: true
 		};
 	};
 

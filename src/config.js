@@ -17,6 +17,7 @@ var Config = {
 	],
 	melodiesRemoteUrl: "",
 	snowUrl: "http://snow.gisat.cz/",
+	snowLocalhost: "http://localhost:3000/",
 
 	toggles: {
 		noGeoserverLayerGroups: false,
@@ -31,7 +32,7 @@ var Config = {
 		allowDownloadsLink: false,
 		usePumaLogo: false,
 		advancedFiltersFirst: false,
-		hasNew3Dmap: false,
+		hasNew3Dmap: true,
 		hasNewEvaluationTool: false,
 		hasNewCustomPolygonsTool: false,
 		hasNewFeatureInfo: false,

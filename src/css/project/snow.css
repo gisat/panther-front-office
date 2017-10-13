@@ -67,6 +67,7 @@
 	z-index: 90000;
 }
 .snow #header .menu {
+	display: none;
 	position: absolute;
 	right: 180px;
 }
@@ -118,7 +119,10 @@
 	background: rgba(125,125,125,.15)
 }
 .snow #top-toolbar-features {
-	margin-right: 0;
+	margin-right: .5rem;
+}
+.snow #top-toolbar-widgets .item:last-child {
+	border-right: 0;
 }
 body.mode-3d #top-toolbar-3dmap:not(.world-wind-2d),
 .snow #top-toolbar-features .item.open {

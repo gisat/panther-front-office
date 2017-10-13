@@ -7,6 +7,7 @@ requirejs.config({
         'earcut': 'lib/earcut-2.1.1.min',
         'jquery': 'lib/jquery-3.0.0',
         'jquery-private': 'js/jquery-private',
+		'jquery-tourbus': 'lib/jquery-tourbus',
         'jquery-ui': 'lib/jquery-ui.min',
         'osmtogeojson': 'lib/osmtogeojson-3.0.0',
         'resize': 'lib/detect-element-resize',
@@ -34,6 +35,10 @@ requirejs.config({
 
     shim: {
         'jquery-ui': ['jquery'],
+		'jquery-tourbus': ['jquery'],
+		'jquery': {
+			exports: '$'
+		},
         'underscore': {
             exports: '_'
         }
@@ -68,11 +73,13 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 		'js/stores/internal/StateStore',
 		'js/stores/Stores',
         'js/view/TopToolBar',
+		'js/view/Tour/Tour',
         'js/view/widgets/WorldWindWidget/WorldWindWidget',
 
         'string',
         'jquery',
         'jquery-ui',
+        'jquery-tourbus',
         'underscore'
 ], function (AggregatedChartWidget,
 			 Attributes,
@@ -102,6 +109,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			 StateStore,
 			 Stores,
 			 TopToolBar,
+             Tour,
              WorldWindWidget,
 
              S,
@@ -177,9 +185,14 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
             widgets.push(buildCityWidget());
         }
 		if(Config.toggles.isSnow){
-			var panelIFrame = new PanelIFrame(Config.snowUrl + 'snow/');
-			//var panelIFrame = new PanelIFrame('http://localhost:63326/panther-front-office/src/iframe-test.html');
+			// var panelIFrame = new PanelIFrame(Config.snowUrl + 'snow/');
+			var panelIFrame = new PanelIFrame(Config.snowLocalhost);
 			var snowMapController = new SnowMapController({
+				iFrame: panelIFrame
+			});
+			// add tour
+			new Tour({
+				id: 'snow-tour',
 				iFrame: panelIFrame
 			});
 
@@ -475,5 +488,6 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 		// hide top toolbar tools
 		var topToolbarTools = $("#top-toolbar-tools");
 		topToolbarTools.remove();
+
 	}
 });
