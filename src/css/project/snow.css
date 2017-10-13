@@ -66,6 +66,10 @@
 	background: rgba(45,53,60,1);
 	border-bottom: 1px solid rgba(140,145,150,0.3);
 }
+.snow #top-toolbar .item {
+	font-size: 14px;
+	font-weight: 600;
+}
 .snow #top-toolbar-features {
 	background: rgba(45,53,60,1);
 	border-bottom: 1px solid rgba(140,145,150,0.3);
