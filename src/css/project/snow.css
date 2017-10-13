@@ -32,6 +32,7 @@
 	border: 1px solid #27618e;
 	border-top-width: 0;
 	border-left-width: 0;
+	border-bottom-right-radius: .15rem;
 }
 .snow #sidebar-reports.show-map.hidden #sidebar-reports-toggle {
 	width: 26px;
