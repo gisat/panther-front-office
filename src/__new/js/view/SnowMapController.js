@@ -135,7 +135,7 @@ define([
 	 */
 	SnowMapController.prototype.createWmsLayer = function(layerId, styleId, opacity){
 		return new OpenLayers.Layer.WMS(layerId,
-			Config.snowUrl + "geoserver/geonode/wms", {
+			Config.snowGeoserverUrl, {
 				layers: "geonode:" + layerId,
 				styles: styleId
 			},{
@@ -155,7 +155,7 @@ define([
 
 		this._worldWind.layers.addWmsLayer({
 			id: compositeId,
-			url: Config.snowUrl + "geoserver/geonode/wms",
+			url: Config.snowGeoserverUrl,
 			layerPaths: "geonode:" + compositeId
 		}, null, true);
 	};

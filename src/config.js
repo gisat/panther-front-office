@@ -16,8 +16,11 @@ var Config = {
 		-6.9809544265
 	],
 	melodiesRemoteUrl: "",
-	snowUrl: "http://snow.gisat.cz/",
-	snowLocalhost: "http://localhost:3000/",
+
+	snowAppUrl: "http://localhost:3000/",
+	snowAppExampleUrl: "http://localhost:3000/albania/20170401-20170404/slstr-sentinel3/",
+	snowGeoserverUrl: "http://snow.gisat.cz/geoserver/geonode/wms",
+	snowIntroUrl: "http://snow.gisat.cz/intro",
 
 	toggles: {
 		noGeoserverLayerGroups: false,

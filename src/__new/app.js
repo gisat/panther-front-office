@@ -185,8 +185,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
             widgets.push(buildCityWidget());
         }
 		if(Config.toggles.isSnow){
-			// var panelIFrame = new PanelIFrame(Config.snowUrl + 'snow/');
-			var panelIFrame = new PanelIFrame(Config.snowLocalhost);
+			var panelIFrame = new PanelIFrame(Config.snowAppUrl);
 			var snowMapController = new SnowMapController({
 				iFrame: panelIFrame
 			});
@@ -483,7 +482,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 		// use snow portal logo
 		var headerSelector = $("#header");
 		headerSelector.find("h1").remove();
-		headerSelector.prepend("<a href='" + Config.snowUrl + "intro' id='project-logo'></a>");
+		headerSelector.prepend("<a href='" + Config.snowIntroUrl + "' id='project-logo'></a>");
 
 		// hide top toolbar tools
 		var topToolbarTools = $("#top-toolbar-tools");

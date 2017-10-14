@@ -67,8 +67,6 @@ define(['../../../actions/Actions',
 	 * Rebuild widget
 	 */
 	SnowWidget.prototype.rebuild = function(){
-		// this._iFrameUrl = "http://35.165.51.145/snow/albania/20170401-20170404/slstr-sentinel3";
-		//this._iFrameUrl = "http://snow.gisat.cz/snow/";
 		this._iFrameUrl = document.getElementById(this._iFrameId).contentWindow.location.href;
 
 		this.rebuildCurrentConfiguration(this._iFrameUrl);

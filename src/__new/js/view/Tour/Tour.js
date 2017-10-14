@@ -12,6 +12,7 @@ define([
 	 * Class for creating a tour through the app
 	 * @param options {Object}
 	 * @param options.id {string} id of the tour list
+	 * @param options.iFrame {Object}
 	 * @constructor
 	 */
 	var Tour = function(options) {
@@ -60,11 +61,12 @@ define([
 	Tour.prototype.onStop = function(){
 		this._tourOverlay.removeClass("open");
 		this._tourTrigger.removeClass("open");
+		this._iFrame.rebuild(Config.snowAppUrl);
 	};
 
 	Tour.prototype.onLegChange = function(leg){
 		if (leg.index === 2){
-			this._iFrame.rebuild("http://localhost:3000/albania/20170401-20170404/slstr-sentinel3/");
+			this._iFrame.rebuild(Config.snowAppExampleUrl);
 		}
 	};
 
