@@ -242,6 +242,11 @@ define(['../../../actions/Actions',
 			var url = button.parents("tr").attr("data-url");
 			self._iFrame.rebuild(url);
 			self.rebuildCurrentConfiguration(url);
+
+			// minimise widget
+			var id = self._widgetSelector.attr("id");
+			self._widgetSelector.removeClass("open");
+			$(".item[data-for=" + id + "]").removeClass("open");
 		});
 	};
 
