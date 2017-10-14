@@ -83,6 +83,7 @@
 	width: 2rem;
 }
 .snow-cfg-table .widget-button {
+	min-width: 1.7rem;
 	width: 100%;
 	font-size: .7rem;
 	padding: .2rem;

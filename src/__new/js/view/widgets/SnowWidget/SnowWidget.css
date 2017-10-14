@@ -1,9 +1,10 @@
 #floater-snow-widget {
 	display: none;
-	left: calc(50% - 500px);
+	left: calc(5%);
 	top: calc(50% - 250px);
-	width: 1000px;
-	height: 500px;
+	width: 90%;
+	height: 90%;
+	max-height: 500px;
 	margin: 0;
 }
 #floater-snow-widget.open {
