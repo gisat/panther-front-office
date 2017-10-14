@@ -65,7 +65,7 @@ define([
 	};
 
 	Tour.prototype.onLegChange = function(leg){
-		if (leg.index === 2){
+		if (leg.index === 5){
 			this._iFrame.rebuild(Config.snowAppExampleUrl);
 		}
 	};

@@ -18,3 +18,61 @@
 .tour-overlay.open{
 	display: block;
 }
+
+/* legs */
+.tourbus-leg {
+	background: none;
+	border: 0;
+	box-shadow: none;
+}
+.tourbus-leg-inner {
+	color: white;
+	font-family: "Neucha", cursive;
+}
+.tourbus-leg-inner h5 {
+	font-size: 2rem;
+	text-align: center;
+}
+.tourbus-leg-inner p {
+	font-size: 1.3rem;
+	text-align: center;
+}
+.tourbus-buttons {
+	text-align: center;
+}
+.button-ui-tourbus {
+	color: white;
+	border: 2px solid white;
+	display: inline-block;
+	font-size: 1.2rem;
+	margin: 1rem .3rem;
+	min-width: 6rem;
+	padding: .3rem 1rem;
+	text-align: center;
+	text-decoration: none;
+	transition: background .3s ease-in-out;
+}
+.button-ui-tourbus:hover {
+	background: rgba(255,255,255,.2);
+}
+.tourbus-arrow:before, .tourbus-arrow:after {
+	border: 0;
+	color: white;
+	font-family: "FontAwesome";
+	font-size: 1.7rem;
+}
+.tourbus-arrow-bottom:before {
+	content: "\f062";
+	margin-bottom: 1rem;
+}
+.tourbus-arrow-top:after {
+	content: "\f063"
+}
+.tourbus-arrow-left:after {
+	content: "\f061";
+	margin-left: .5rem;
+}
+.tourbus-arrow-right:after {
+	content: "\f060";
+	margin-right: .5rem;
+}
