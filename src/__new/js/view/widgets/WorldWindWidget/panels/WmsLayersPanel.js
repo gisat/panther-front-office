@@ -50,12 +50,11 @@ define(['../../../../error/ArgumentError',
 	WmsLayersPanel.prototype.rebuild = function(){
 		var self = this;
 		this._allMaps = StoresInternal.retrieve("map").getAll();
-		this.getLayersForCurrentConfiguration().then(function(result){
+		this.getLayersForCurrentConfiguration().then(function(layers){
 			self.clear(self._id);
 			self._previousWmsLayersControls = jQuery.extend(true, {}, self._layersControls);
 			self._layersControls = [];
-			if (result && result.length > 0){
-				var layers = _.flatten(result);
+			if (layers && layers.length > 0){
 				layers.forEach(function(layer){
 					self.buildLayerControlRow(self._panelBodySelector, layer.id, layer.name, [layer], null);
 				});
@@ -73,7 +72,6 @@ define(['../../../../error/ArgumentError',
 	WmsLayersPanel.prototype.getLayersForCurrentConfiguration = function(){
 		var wmsStore = StoresInternal.retrieve('wmsLayer');
 		var configuration = StoresInternal.retrieve("state").current();
-		var scope = configuration.scope;
 		var periods = configuration.periods;
 		var locations = configuration.allPlaces;
 		if (configuration.place.length > 0){
@@ -83,7 +81,19 @@ define(['../../../../error/ArgumentError',
 		locations.forEach(function(location){
 			promises.push(wmsStore.filter({locations: location}));
 		});
-		return Promise.all(promises);
+		return Promise.all(promises).then(function(results){
+			if (results.length > 0){
+				var relevantLayers = [];
+				var layers = _.flatten(results);
+				var periods = configuration.periods;
+				layers.forEach(function(layer){
+					if(_.intersection(layer.periods, periods).length > 0){
+						relevantLayers.push(layer);
+					}
+				});
+				return relevantLayers;
+			}
+		});
 	};
 
 	return WmsLayersPanel;
