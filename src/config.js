@@ -1,6 +1,6 @@
 var Config = {
-	url: 'https://puma.worldbank.org/backend/',
-	signupAddress: 'http://panther.gisat.cz/account/signup/',
+	url: 'http://localhost:4000/',
+	// signupAddress: 'http://panther.gisat.cz/account/signup/',
 	// url: 'https://puma.worldbank.org/backend/',                // PUMA
 	// signupAddress: 'https://puma.worldbank.org/account/signup/',
 	// url: 'http://urbis.gisat.cz/backend/',                     // URBIS
@@ -34,7 +34,7 @@ var Config = {
 		hasNewEvaluationTool: false,
 		hasNewCustomPolygonsTool: false,
 		hasNewFeatureInfo: false,
-		hasPeriodsSelector: false,
+		hasPeriodsSelector: true,
 		hasPeriodsWidget: false,
 		hasOsmWidget: false,
 		isNewDesign: true,
@@ -42,10 +42,10 @@ var Config = {
 		isEea: false,
 		isMelodies: false,
 		isUrbanTep: false,
-		isSnow: true,
-		skipInitialSelection: true,
+		isSnow: false,
+		skipInitialSelection: false,
 		hideWorldBank: false,
-		hideSelectorToolbar: true
+		hideSelectorToolbar: false
 	},
 
 	basicTexts: {

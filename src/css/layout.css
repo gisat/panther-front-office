@@ -696,6 +696,7 @@ html.dromas body.intro #intro-overlay {
 }
 body.mode-3d #top-toolbar-3dmap {
 	background-color: #FCFCFA;
+}
 body.mode-3d #top-toolbar-3dmap:not(.world-wind-2d) {
     color: #c92d42;
 }

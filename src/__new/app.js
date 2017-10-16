@@ -143,6 +143,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 				containerSelector: $("#content-application .group-visualization"),
 				dispatcher: window.Stores
 			});
+        	$("#view-selector .period").addClass("hidden");
 		}
 
         if(Config.toggles.useTopToolbar){
