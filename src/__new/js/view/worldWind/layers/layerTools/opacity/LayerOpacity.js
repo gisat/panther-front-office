@@ -118,6 +118,9 @@ define(['../../../../../error/ArgumentError',
 				if (self._style){
 					id = id + "-" + self._style.path;
 				}
+				if (self._class === "wms-layers"){
+					id = "wmsLayer-" + id;
+				}
 				var worldWindLayer = map.layers.getLayerById(id);
 				if (worldWindLayer){
 					worldWindLayer.opacity = opacity;

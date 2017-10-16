@@ -3,6 +3,7 @@ define(['../../../../error/ArgumentError',
 	'../../../../util/Logger',
 
 	'../../inputs/checkbox/Checkbox',
+	'./LayerControl/LayerControl',
 	'../../../worldWind/layers/layerTools/LayerTools',
 	'./panelRow/PanelRow',
 	'../../inputs/checkbox/Radiobox',
@@ -17,6 +18,7 @@ define(['../../../../error/ArgumentError',
 			Logger,
 
 			Checkbox,
+			LayerControl,
 			LayerTools,
 			PanelRow,
 			Radiobox,
@@ -266,6 +268,186 @@ define(['../../../../error/ArgumentError',
 				});
 			}
 		});
+	};
+
+	// --- Common methods after multiple maps functionality added --- //
+	// All methods below are reviewed and used
+	// TODO review obsolete methods above this line after Thematic layers for multiple maps will be implemented
+
+	/**
+	 * Build layer control and add tools
+	 * @param target {Object} JQuery selector of target element
+	 * @param id {string} id of contol row
+	 * @param name {string} label
+	 * @param layers {Array} list of associated layers
+	 * @param style {Object|null} associated style, if exist
+	 */
+	WorldWindWidgetPanel.prototype.buildLayerControlRow = function(target, id, name, layers, style){
+		// var checked = this.isControlActive(id);
+		var checked = null;
+		var control = this.buildLayerControl(target, id, name, layers, style, checked, this._groupId);
+		this._layersControls.push(control);
+		control.layerTools.buildOpacity();
+		if (this._groupId === "info-layers"){
+			control.layerTools.buildLegend();
+		}
+		if (checked){
+			this.addLayers(control);
+		}
+	};
+
+	/**
+	 * Build checkbox controlling layer in all available maps
+	 *
+	 * @param target {Object} Jquery selector of targete element
+	 * @param id {number} id of layer template
+	 * @param name {string} name of layer
+	 * @param layers {Array} list of layers attached to this control
+	 * @param [style] {Object} Optional parameter. Id of the style
+	 * @param [checked] {boolean} Optional parameter. True, if the layer should be visible by default.
+	 * @param groupId {string} id of the group of layers ("wms-layers", "info-layers")
+	 * @returns {LayerControl}
+	 */
+	WorldWindWidgetPanel.prototype.buildLayerControl = function(target, id, name, layers, style, checked, groupId){
+		return new LayerControl({
+			id: id,
+			name: name,
+			target: target,
+			layers: layers,
+			maps: this._allMaps,
+			style: style,
+			checked: checked,
+			groupId: groupId
+		});
+	};
+
+	/**
+	 * Switch on/off layer in all available maps
+	 * @param event {Object}
+	 */
+	WorldWindWidgetPanel.prototype.switchLayer = function(event){
+		var self = this;
+		setTimeout(function(){
+			var checkbox = $(event.currentTarget);
+			var layerId = checkbox.attr("data-id");
+
+			// check/uncheck layer in 2D
+			var checkbox2d = $("td[data-for=" + this._group2dId + "-" + layerId + "]").find("input");
+			Stores.notify("checklayer", checkbox2d);
+			checkbox2d.trigger("click", ["ctrl"]);
+
+			var control = _.find(self._layersControls, function(control){return control._id == layerId});
+			if (checkbox.hasClass("checked")){
+				control.active = true;
+				self.addLayer(control);
+			} else {
+				control.active = false;
+				self.removeLayer(control);
+			}
+		},50);
+	};
+
+	/**
+	 * Remove layer from all available maps
+	 * @param control {Object}
+	 */
+	WorldWindWidgetPanel.prototype.removeLayer = function(control){
+		var self = this;
+		control.layers.forEach(function(layerData){
+			self._allMaps.forEach(function(map){
+				var layerPeriods = layerData.periods;
+				if (layerData.period){
+					layerPeriods = layerData.period
+				}
+				if (self.samePeriod(layerPeriods, map._period)){
+					var prefix = "";
+					if (self._idPrefix){
+						prefix = self._idPrefix + "-";
+					}
+					var id = prefix + layerData.id;
+					if (control.style){
+						id = id + "-" + control.style.path;
+					}
+					var layer = map.layers.getLayerById(id);
+					map.layers.removeLayer(layer);
+				}
+			});
+		});
+	};
+
+	/**
+	 * Add layer to all available maps
+	 * @param control {Object}
+	 */
+	WorldWindWidgetPanel.prototype.addLayer = function(control){
+		var self = this;
+		if (control.active){
+			control.layers.forEach(function(layerData){
+				self._allMaps.forEach(function(map){
+					var layerPeriods = layerData.periods;
+					if (layerData.period){
+						layerPeriods = layerData.period
+					}
+					if (self.samePeriod(layerPeriods, map._period)){
+						var layer = {};
+						var prefix = "";
+						var stylePaths = "";
+						var customParams = null;
+						var url = null;
+						var layerName = layerData.name;
+
+						if (self._idPrefix){
+							prefix = self._idPrefix + "-";
+						}
+						var layerId = prefix + layerData.id;
+						if (control.style){
+							stylePaths = control.style.path;
+							if (control.style.name){
+								layerName = layerName + " - " + control.style.name;
+							}
+							layerId = layerId + "-" + stylePaths;
+						}
+						if (layerData.custom && layerData.custom !== "undefined"){
+							customParams = JSON.parse(layerData.custom);
+						}
+						if (layerData.url){
+							url = layerData.url;
+						}
+						layer.data = {
+							id: layerId,
+							url: url,
+							opacity: control.opacity,
+							customParams: customParams,
+							stylePaths: stylePaths,
+							name: layerName
+							// path: layerPaths.split(",")[0]
+						};
+						if (self._groupId === "wms-layers"){
+							layer.data.layerPaths = layerData.layer;
+							map.layers.addWmsLayer(layer.data, self._id, true);
+						} else if (self._groupId === "info-layers") {
+							layer.data.layerPaths = layerData.path;
+							map.layers.addInfoLayer(layer.data, self._id, true);
+						}
+					}
+				});
+			});
+		}
+	};
+
+	/**
+	 * Check if layerPeriod is the same as mapPeriod or if layerPeriods includes mapPeriod
+	 * @param layerPeriods {Array|number} periods connected with layer
+	 * @param mapPeriod {number} id of period connected with map
+	 * @returns {boolean}
+	 */
+	WorldWindWidgetPanel.prototype.samePeriod = function(layerPeriods, mapPeriod){
+		if (_.isArray(layerPeriods)){
+			return _.indexOf(layerPeriods, mapPeriod) !== -1;
+		} else {
+			return layerPeriods === mapPeriod;
+		}
+
 	};
 
 	return WorldWindWidgetPanel;

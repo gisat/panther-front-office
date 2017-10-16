@@ -2,19 +2,23 @@ define(['../../../../error/ArgumentError',
 	'../../../../error/NotFoundError',
 	'../../../../util/Logger',
 
+	'./LayerControl/LayerControl',
 	'../../../../stores/Stores',
 	'./WorldWindWidgetPanel',
 
 	'jquery',
+	'underscore',
 	'string'
 ], function(ArgumentError,
 			NotFoundError,
 			Logger,
 
+			LayerControl,
 			StoresInternal,
 			WorldWindWidgetPanel,
 
 			$,
+			_,
 			S
 ){
 	/**
@@ -24,60 +28,62 @@ define(['../../../../error/ArgumentError',
 	 */
 	var WmsLayersPanel = function(options){
 		WorldWindWidgetPanel.apply(this, arguments);
-		this._groupId = "wmsLayer";
+		this._groupId = "wms-layers";
+		this._group2dId = "wmsLayer";
+		this._idPrefix = "wmsLayer";
+		this._layersControls = [];
 	};
 
 	WmsLayersPanel.prototype = Object.create(WorldWindWidgetPanel.prototype);
 
 	/**
+	 * Add onclick listener to every checkbox
+	 * Temporarily in this class TODO move method to parent
+	 */
+	WmsLayersPanel.prototype.addCheckboxOnClickListener = function(){
+		this._panelBodySelector.on("click", ".checkbox-row", this.switchLayer.bind(this));
+	};
+
+	/**
 	 * Rebuild panel
 	 */
 	WmsLayersPanel.prototype.rebuild = function(){
-		this.clear(this._id);
-		var filter = {};
-		var configuration = StoresInternal.retrieve("state").current();
-
-		filter.scope = Number(configuration.scope);
-		if (configuration.place.length > 0){
-			filter.locations = Number(configuration.place);
-		}
 		var self = this;
-		var store = StoresInternal.retrieve('wmsLayer');
-		debugger;
-		store.filter(filter).then(function(layers){
-			if (layers.length > 0){
+		this._allMaps = StoresInternal.retrieve("map").getAll();
+		this.getLayersForCurrentConfiguration().then(function(result){
+			self.clear(self._id);
+			self._previousWmsLayersControls = jQuery.extend(true, {}, self._layersControls);
+			self._layersControls = [];
+			if (result && result.length > 0){
+				var layers = _.flatten(result);
 				layers.forEach(function(layer){
-					self.addLayer(layer);
+					self.buildLayerControlRow(self._panelBodySelector, layer.id, layer.name, [layer], null);
 				});
-				self.switchOnActiveLayers(self._groupId);
 				self.displayPanel("block");
 			} else {
+				console.warn("WmsLayersPanel#rebuild: No WMS layers for current configuration.");
 				self.displayPanel("none");
 			}
-		}).catch(function(err){
-			throw new Error(err);
 		});
 	};
 
 	/**
-	 * Add layer to the panel and map
-	 * @param layer {Object}
+	 * Get WMS layers for each place.
 	 */
-	WmsLayersPanel.prototype.addLayer = function(layer){
-		var layerData = {
-			id: "wmsLayer-" + layer.id,
-			name: layer.name,
-			layerPaths: layer.layer,
-			opacity: 70,
-			url: layer.url
-		};
-		var self = this;
-		this._mapStore.getAll().forEach(function(map){
-			map.layers.addWmsLayer(layerData, self._id, false);
+	WmsLayersPanel.prototype.getLayersForCurrentConfiguration = function(){
+		var wmsStore = StoresInternal.retrieve('wmsLayer');
+		var configuration = StoresInternal.retrieve("state").current();
+		var scope = configuration.scope;
+		var periods = configuration.periods;
+		var locations = configuration.allPlaces;
+		if (configuration.place.length > 0){
+			locations = [Number(configuration.place)];
+		}
+		var promises = [];
+		locations.forEach(function(location){
+			promises.push(wmsStore.filter({locations: location}));
 		});
-		var control = this.addLayerControl(layerData.id, layerData.name, this._panelBodySelector, false);
-		var tools = control.getToolBox();
-		tools.addOpacity(layerData, self._mapStore.getAll());
+		return Promise.all(promises);
 	};
 
 	return WmsLayersPanel;

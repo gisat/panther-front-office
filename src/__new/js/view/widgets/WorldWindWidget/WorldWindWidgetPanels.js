@@ -60,7 +60,7 @@ define(['../../../error/ArgumentError',
 			this._thematicLayersPanel.switchOnLayersFrom2D();
 		}
 		this._infoLayersPanel.rebuild();
-		// this._wmsLayersPanel.rebuild();
+		this._wmsLayersPanel.rebuild();
 	};
 
 	/**
@@ -77,7 +77,7 @@ define(['../../../error/ArgumentError',
 		this._thematicLayersPanel = this.buildThematicLayersPanel();
 		this._infoLayersPanel = this.buildInfoLayersPanel();
 		this._backgroundLayersPanel = this.buildBackgroundLayersPanel();
-		// this._wmsLayersPanel = this.buildWmsLayersPanel();
+		this._wmsLayersPanel = this.buildWmsLayersPanel();
 
 		this.addEventsListeners();
 	};
