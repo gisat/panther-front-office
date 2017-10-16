@@ -59,6 +59,11 @@ Ext.define('PumaMain.controller.DomManipulation', {
 
 		if ($("body").hasClass("application") && sw > 0) {
 			w = w - sw;
+			var reportsRight = $("#sidebar-reports").css("right");
+			if (reportsRight){
+				w = w - Number(reportsRight.slice(0,-2));
+			}
+
 		}
 		
 		$("#map-holder").css({width : w, height : h});
