@@ -176,6 +176,16 @@ define([
 	};
 
 	/**
+	 * Switch projection of all maps from 2D to 3D and vice versa
+	 */
+	MapsContainer.prototype.switchProjection = function () {
+		var maps = this._mapStore.getAll();
+		for(var key in maps){
+			maps[key].switchProjection();
+		}
+	};
+
+	/**
 	 * Build a World Wind Map
 	 * @param id {string} Id of the map which should distinguish one map from another
 	 * @param periodId {number} Id of the period

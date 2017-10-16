@@ -1,0 +1,14 @@
+body.application #sidebar-reports.snow-mode {
+	width: 100%;
+	transition: width .5s ease-in-out;
+}
+body.application #sidebar-reports.snow-mode.show-map {
+	width: 800px;
+}
+body.application #sidebar-reports.snow-mode.show-map.hidden {
+	width: 0;
+}
+#app-extra-content > iframe {
+	width: 100%;
+	height: 100%;
+}

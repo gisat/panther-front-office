@@ -188,7 +188,9 @@ define(['../../actions/Actions',
 			if (periods.length === 1){
 				this._period = periods[0];
 			}
-			this.addPeriod();
+			if (!Config.toggles.hideSelectorToolbar){
+				this.addPeriod();
+			}
 		} else {
 			var self = this;
 			setTimeout(function(){
@@ -256,6 +258,22 @@ define(['../../actions/Actions',
 	 */
 	WorldWindMap.prototype.goTo = function(position) {
 		this._wwd.goTo(position);
+	};
+
+	/**
+	 * Switch projection from 3D to 2D and vice versa
+	 */
+	WorldWindMap.prototype.switchProjection = function(){
+		var globe = null;
+		var is2D = this._wwd.globe.is2D();
+		if (is2D){
+			globe = new WorldWind.Globe(new WorldWind.EarthElevationModel());
+		} else {
+			globe = new WorldWind.Globe2D();
+			globe.projection = new WorldWind.ProjectionMercator();
+		}
+		this._wwd.globe = globe;
+		this.redraw();
 	};
 
 	/**

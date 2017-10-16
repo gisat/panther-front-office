@@ -42,5 +42,24 @@ define(['../error/ArgumentError',
 		});
 	};
 
+	/**
+	 * Post request
+	 * @returns {Promise}
+	 */
+	RemoteJQ.prototype.post = function(){
+		var self = this;
+		return new Promise(function(resolve, reject){
+			$.ajax({
+				type: "POST",
+				url: self._url,
+				data: self._params
+			}).done(function(data) {
+				resolve(data);
+			}).catch(function(err){
+				throw new Error(err);
+			});
+		});
+	};
+
 	return RemoteJQ;
 });

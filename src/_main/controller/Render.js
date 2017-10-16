@@ -98,6 +98,9 @@ Ext.define('PumaMain.controller.Render', {
                 this.renderAggreement();
             }
         }
+        if (Config.toggles.hideSelectorToolbar){
+            $("#view-selector").css("display","none");
+        }
 //		Ext.widget('button',{ // JJJ HACK čára do konzole
 //			renderTo: 'footer-legal',
 //			itemId: 'consolebreak',
