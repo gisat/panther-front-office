@@ -99,6 +99,13 @@ Ext.define('PumaMain.controller.LocationTheme', {
             ThemeYearConfParams.allPlaces.push(item.raw.id);
         });
 
+        var stores = ['layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataview'];
+        stores.forEach(function(store){
+            var extStore = Ext.StoreMgr.lookup(store);
+            extStore.proxy.extraParams = { scope: val };
+            extStore.load();
+        });
+
         locStore.filter([
             function(rec) {
                 if (locCount == 1){
@@ -480,18 +487,26 @@ Ext.define('PumaMain.controller.LocationTheme', {
 				    var layerAddOptions = {};
 				    var coreOptions = {};
 				    try{
-				        layerAddOptions = JSON.parse(layer.custom);
-				        coreOptions = JSON.parse(layer.custom);
+				        layerAddOptions = JSON.parse(layer.custom) || {};
+				        coreOptions = JSON.parse(layer.custom) || {};
                     } catch(e) {
 				        console.error("LocationTheme#reloadWmsLayer Incorrect custom ", layer.custom);
                     }
 				    layerAddOptions.visibility = false;
 				    layerAddOptions.isBaseLayer = false;
-				    layerAddOptions.projection = new OpenLayers.Projection("EPSG:3857");
+				    if(layerAddOptions.srs) {
+                        layerAddOptions.projection = new OpenLayers.Projection(layerAddOptions.srs);
+                        coreOptions.srs = layerAddOptions.srs;
+                    } else if(layerAddOptions.crs) {
+                        layerAddOptions.projection = new OpenLayers.Projection(layerAddOptions.crs);
+                        coreOptions.srs = layerAddOptions.crs;
+                    }else {
+                        layerAddOptions.projection = new OpenLayers.Projection("EPSG:3857");
+                        coreOptions.srs = "EPSG:3857";
+                    }
 
 				    coreOptions.layers = layer.layer;
 				    coreOptions.transparent = true;
-				    coreOptions.srs = "EPSG:3857";
 				    var layer1 = new OpenLayers.Layer.WMS(layer.name,
 						layer.url,
 						coreOptions,
