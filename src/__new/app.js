@@ -141,7 +141,8 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         if (Config.toggles.hasPeriodsSelector){
         	new PeriodsSelector({
 				containerSelector: $("#content-application .group-visualization"),
-				dispatcher: window.Stores
+				dispatcher: window.Stores,
+				maxSelected: 12
 			});
         	$("#view-selector .period").addClass("hidden");
 		}
