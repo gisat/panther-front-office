@@ -94,24 +94,6 @@ define(['../../../../error/ArgumentError',
 	};
 
 	/**
-	 * Check the state of the control
-	 * @param controlId {string|number} id of the control
-	 * @returns {boolean} true, if the control should be selected
-	 */
-	InfoLayersPanel.prototype.isControlActive = function(controlId){
-		var control2d = $('#window-layerpanel').find('td[data-for=topiclayer-' + controlId + '] input');
-		// if there exists the control for the same layer in 2D, use its state
-		if (control2d){
-			return control2d.attr('aria-checked') === "true";
-		}
-		// Otherwise check if control was checked before rebuild. If existed and was not checked, do not check it again.
-		else {
-			var existingControl = _.find(this._previousInfoLayersControls, function(control){return control._id == controlId});
-			return !!((existingControl && existingControl.active) || !existingControl);
-		}
-	};
-
-	/**
 	 * Group layers by layer template id
 	 * @param layerGroups {Array}
 	 * @returns {Array} Layer groups

@@ -283,8 +283,7 @@ define(['../../../../error/ArgumentError',
 	 * @param style {Object|null} associated style, if exist
 	 */
 	WorldWindWidgetPanel.prototype.buildLayerControlRow = function(target, id, name, layers, style){
-		// var checked = this.isControlActive(id);
-		var checked = null;
+		var checked = this.isControlActive(id);
 		var control = this.buildLayerControl(target, id, name, layers, style, checked, this._groupId);
 		this._layersControls.push(control);
 		control.layerTools.buildOpacity();
@@ -292,7 +291,25 @@ define(['../../../../error/ArgumentError',
 			control.layerTools.buildLegend();
 		}
 		if (checked){
-			this.addLayers(control);
+			this.addLayer(control);
+		}
+	};
+
+	/**
+	 * Check the state of the control
+	 * @param controlId {string|number} id of the control
+	 * @returns {boolean} true, if the control should be selected
+	 */
+	WorldWindWidgetPanel.prototype.isControlActive = function(controlId){
+		var control2d = $('#window-layerpanel').find('td[data-for=' + this._group2dId + '-' + controlId + '] input');
+		// if there exists the control for the same layer in 2D, use its state
+		if (control2d){
+			return control2d.attr('aria-checked') === "true";
+		}
+		// Otherwise check if control was checked before rebuild. If existed and was not checked, do not check it again.
+		else {
+			var existingControl = _.find(this._previousInfoLayersControls, function(control){return control._id == controlId});
+			return !!((existingControl && existingControl.active) || !existingControl);
 		}
 	};
 
@@ -332,7 +349,7 @@ define(['../../../../error/ArgumentError',
 			var layerId = checkbox.attr("data-id");
 
 			// check/uncheck layer in 2D
-			var checkbox2d = $("td[data-for=" + this._group2dId + "-" + layerId + "]").find("input");
+			var checkbox2d = $("td[data-for=" + self._group2dId + "-" + layerId + "]").find("input");
 			Stores.notify("checklayer", checkbox2d);
 			checkbox2d.trigger("click", ["ctrl"]);
 
