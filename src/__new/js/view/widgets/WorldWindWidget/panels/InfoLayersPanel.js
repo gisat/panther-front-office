@@ -62,6 +62,9 @@ define(['../../../../error/ArgumentError',
 				var preparedLayerGroups = self.groupLayersByLayerTemplate(layerGroups);
 				self.addPanelContent(preparedLayerGroups);
 				self.displayPanel("block");
+				if (preparedLayerGroups.length < 1){
+					self.displayPanel("none");
+				}
 			} else {
 				console.warn("InfoLayersPanel#rebuild: No info layers for current configuration.");
 				self.displayPanel("none");
