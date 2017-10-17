@@ -59,6 +59,7 @@ define(['../../../../error/ArgumentError',
 	WmsLayersPanel.prototype.addPanelContent = function(layers){
 		var self = this;
 		this.clear(this._id);
+		this._previousLayersControls = jQuery.extend(true, [], this._layersControls);
 		this._layersControls = [];
 		if (layers && layers.length > 0){
 			layers.forEach(function(layer){
@@ -117,8 +118,10 @@ define(['../../../../error/ArgumentError',
 	 * @returns {Array} list of grouped layers
 	 */
 	WmsLayersPanel.prototype.groupLayersByName = function(layers){
+		var self = this;
 		var groupedLayers = [];
 		layers.forEach(function(layer){
+			layer.idFor2d = self._group2dId + "-" + layer.id;
 			var existingLayer = _.find(groupedLayers, function(l){return l.name === layer.name});
 			if (existingLayer){
 				existingLayer.periods = existingLayer.periods.concat(layer.periods);

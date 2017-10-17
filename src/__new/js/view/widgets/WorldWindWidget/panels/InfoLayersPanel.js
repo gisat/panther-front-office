@@ -55,7 +55,7 @@ define(['../../../../error/ArgumentError',
 		this._allMaps = StoresInternal.retrieve("map").getAll();
 		this.getLayersForCurrentConfiguration().then(function(result){
 			self.clear(self._id);
-			self._previousInfoLayersControls = jQuery.extend(true, {}, self._layersControls);
+			self._previousLayersControls = jQuery.extend(true, [], self._layersControls);
 			self._layersControls = [];
 			if (result && result.length > 0){
 				var layerGroups = self.groupDataByLayerGroup(result);

@@ -301,16 +301,16 @@ define(['../../../../error/ArgumentError',
 	 * @returns {boolean} true, if the control should be selected
 	 */
 	WorldWindWidgetPanel.prototype.isControlActive = function(controlId){
-		var control2d = $('#window-layerpanel').find('td[data-for=' + this._group2dId + '-' + controlId + '] input');
+		var control2d = this.getExtLayerControl(controlId);
 		// if there exists the control for the same layer in 2D, use its state
-		if (control2d){
+		if (control2d && control2d.length){
 			return control2d.attr('aria-checked') === "true";
 		}
-		// Otherwise check if control was checked before rebuild. If existed and was not checked, do not check it again.
-		else {
-			var existingControl = _.find(this._previousInfoLayersControls, function(control){return control._id == controlId});
-			return !!((existingControl && existingControl.active) || !existingControl);
-		}
+		// // Otherwise check if control was checked before rebuild. If existed and was not checked, do not check it again.
+		// else {
+		// 	var existingControl = _.find(this._previousInfoLayersControls, function(control){return control._id == controlId});
+		// 	return !!((existingControl && existingControl.active) || !existingControl);
+		// }
 	};
 
 	/**
@@ -347,11 +347,11 @@ define(['../../../../error/ArgumentError',
 		setTimeout(function(){
 			var checkbox = $(event.currentTarget);
 			var layerId = checkbox.attr("data-id");
-
-			// check/uncheck layer in 2D
-			var checkbox2d = $("td[data-for=" + self._group2dId + "-" + layerId + "]").find("input");
-			Stores.notify("checklayer", checkbox2d);
-			checkbox2d.trigger("click", ["ctrl"]);
+			var control2d = self.getExtLayerControl(layerId);
+			if (control2d && control2d.length){
+				Stores.notify("checklayer", control2d);
+				control2d.trigger("click", ["ctrl"]);
+			}
 
 			var control = _.find(self._layersControls, function(control){return control._id == layerId});
 			if (checkbox.hasClass("checked")){
@@ -465,6 +465,31 @@ define(['../../../../error/ArgumentError',
 			return layerPeriods === mapPeriod;
 		}
 
+	};
+
+	/**
+	 * Get the associated layer control in ext
+	 * @param layerId {string} id of the layer in 3D
+	 * @returns {Object} Jquery selector of Ext control
+	 */
+	WorldWindWidgetPanel.prototype.getExtLayerControl = function (layerId) {
+		var checkbox2d = $('#window-layerpanel').find("td[data-for=" + this._group2dId + "-" + layerId + "]").find("input");
+		if (!checkbox2d.length){
+			this._previousLayersControls.forEach(function(control){
+				if (control._id === layerId){
+					control.layers.forEach(function(layer){
+						if (layer.idFor2d){
+							var checkbox = $("td[data-for=" + layer.idFor2d + "]").find("input");
+							if (checkbox.length){
+								checkbox2d = checkbox;
+							}
+						}
+					});
+				}
+			});
+		}
+
+		return checkbox2d;
 	};
 
 	return WorldWindWidgetPanel;
