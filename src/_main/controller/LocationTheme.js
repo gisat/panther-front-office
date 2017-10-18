@@ -1119,9 +1119,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
                         $('#top-toolbar-areas').show();
                     }
 
-                    this.getController('DomManipulation')._onReportsSidebarToggleClick();
                     $('#top-toolbar-3dmap').hide();
-                    $('#sidebar-reports-toggle').hide();
                     $('#top-toolbar-selection-filter').hide();
                     $('#top-toolbar-selections').hide();
                     $('#top-toolbar-map-tools').hide();
