@@ -1129,6 +1129,9 @@ Ext.define('PumaMain.controller.LocationTheme', {
                     $('.field.scope').hide();
                     $('.field.theme').hide();
                     $('.field.visualization').hide();
+
+                    $('#top-toolbar-snapshot').hide();
+                    $('#top-toolbar-context-help').hide();
                 } else {
                     $('.areaTreeSelection').show();
                     if (!Config.toggles.isSnow) {
