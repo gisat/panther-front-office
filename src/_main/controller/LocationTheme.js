@@ -1104,16 +1104,22 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 // Remove the possibility to switch back
                 $('#top-toolbar-3dmap').hide();
             } else {
-                $('.areaTreeSelection').show();
-				$('#top-toolbar-areas').show();
-				$('#window-areatree').show();
-                if(scope.get("aggregated")) {
-                    this.getController('DomManipulation')._onReportsSidebarToggleClick();
-                }
-				$('#sidebar-reports').show();
-				$('#top-toolbar-3dmap').show()
+                // TODO: Move elsewhere. Currently it simplifies the UI to remove most of the irrelevant functionalities for simple viewers. It also starts with 3D Map instead of 2D.
+                if(scope.get('simplifiedMap') || scope.get('_id') == 465) {
+                    Stores.notify('map#show3D');
 
-				// Add the possibility to switch back.
+                    this.getController('DomManipulation')._onReportsSidebarToggleClick();
+                    $('#top-toolbar-3dmap').hide();
+                } else {
+                    $('.areaTreeSelection').show();
+                    $('#top-toolbar-areas').show();
+                    $('#window-areatree').show();
+                    if (scope.get("aggregated")) {
+                        this.getController('DomManipulation')._onReportsSidebarToggleClick();
+                    }
+                    $('#sidebar-reports').show();
+                    $('#top-toolbar-3dmap').show()
+                }
 			}
         }
         if (response.request.options.originatingCnt.itemId == 'selectfilter') {
