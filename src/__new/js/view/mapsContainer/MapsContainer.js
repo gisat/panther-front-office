@@ -171,7 +171,8 @@ define([
 	MapsContainer.prototype.setAllMapsPosition = function(position){
 		var maps = this._mapStore.getAll();
 		maps.forEach(function(map){
-			map.goTo(position);
+			map.navigator.lookAtLocation = position;
+			map.redraw();
 		});
 	};
 
