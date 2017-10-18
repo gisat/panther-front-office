@@ -195,6 +195,7 @@ define('js/util/Logger',[],function () {
 			missingMap: "Map property is missing, null or undefined!",
 			missingMapsContainer: "Maps container is missing, null or undefined!",
             missingNumClasses: "NumClasses is null or undefined!",
+            missingOptions: "Options parameter is null or undefined",
             missingParameter: "One of parameters is null or undefined!",
             missingPlace: "Place is null or undefined!",
             missingPlaceholder: "Placeholder parameter is null or undefined!",
@@ -205,6 +206,7 @@ define('js/util/Logger',[],function () {
             missingTargetElementId: "Required target element ID is null or undefined!",
             missingTarget: "Target is null or undefined!",
             missingTheme: "Theme is null or undefined!",
+			missingText: "Text is null or undefined!",
             missingWidgetId: "Widget Id is null or undefined!",
             missingWidgetName: "Widget Name is null or undefined!",
             missingWorldWind: "World Wind parameter is missing!",
@@ -15389,6 +15391,25 @@ define('js/util/RemoteJQ',['../error/ArgumentError',
 		});
 	};
 
+	/**
+	 * Post request
+	 * @returns {Promise}
+	 */
+	RemoteJQ.prototype.post = function(){
+		var self = this;
+		return new Promise(function(resolve, reject){
+			$.ajax({
+				type: "POST",
+				url: self._url,
+				data: self._params
+			}).done(function(data) {
+				resolve(data);
+			}).catch(function(err){
+				throw new Error(err);
+			});
+		});
+	};
+
 	return RemoteJQ;
 });
 /** @license
@@ -16673,6 +16694,7 @@ define('js/view/table/Table',[
 	 * @param options {Object}
 	 * @param options.elementId {Object}
 	 * @param options.targetId {Object}
+	 * @param options.class {string} optional table class
 	 * @constructor
 	 */
 	var Table = function(options) {
@@ -16688,6 +16710,12 @@ define('js/view/table/Table',[
 		if (this._target.length == 0){
 			throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "Table", "constructor", "missingHTMLElement"));
 		}
+
+		this._class = 'new-table';
+		if(options.class){
+			this._class += ' ' + options.class;
+		}
+
 		this.build();
 	};
 
@@ -16695,7 +16723,7 @@ define('js/view/table/Table',[
 	 * Build table
 	 */
 	Table.prototype.build = function(){
-		this._target.append("<table class='new-table' id='" + this._tableId + "'></table>");
+		this._target.append("<table class='"+ this._class +"' id='" + this._tableId + "'></table>");
 		this._table = $("#" + this._tableId);
 	};
 
@@ -17561,6 +17589,158 @@ define('js/view/widgets/CustomDrawingWidget/CustomDrawingWidget',[
 	};
 
 	return CustomDrawingWidget;
+});
+define('js/actions/Actions',[], function(){
+	return {
+		mapAdd: 'map#add',
+		mapRemove: 'map#remove',
+
+		mapControl: 'map#control',
+
+		mapAddVisibleLayer: 'map#addVisibleLayer',
+		mapRemoveVisibleLayer: 'map#removeVisibleLayer',
+		mapSwitchFramework: 'map#switchFramework',
+		mapSwitchProjection: 'map#switchProjection',
+		mapUseWorldWindOnly: 'map#useWorldWindOnly',
+
+		filterAdd: 'filter#add',
+		filterRemove: 'filter#remove',
+
+		periodsRebuild: 'periods#rebuild',
+		periodsChange: 'periods#change',
+
+		stateUpdatePlace: 'state#updatePlace',
+		stateUpdatePeriod: 'state#updatePeriod',
+		stateUpdateAnalyticalUnitLevel: 'state#updatAnalyticalUnitLevel',
+		stateUpdateTheme: 'state#updateTheme',
+		stateUpdateScope: 'state#updateScope',
+
+		layerSelect: 'layer#select',
+
+		extLoaded: 'extLoaded',
+		extThemeYearLoaded: 'extRestructured',
+
+		userChanged: 'user#changed',
+
+		mapShow3D: 'map#show3D'
+	};
+});
+define('js/util/Customization',[
+	'../actions/Actions',
+	'./Promise',
+	'../stores/Stores'
+], function(Actions,
+			Promise,
+			Stores){
+
+	var Customization = function(options) {
+		this._dispatcher = options.dispatcher;
+		this._useWorldWindOnly = options.useWorldWindOnly;
+		this._skipSelection = options.skipSelection;
+
+		if (this._skipSelection){
+			this._dispatcher.addListener(this.skipSelection.bind(this));
+		} else if (this._useWorldWindOnly){
+			this._dispatcher.addListener(this.useWorldWind.bind(this));
+		}
+	};
+
+	/**
+	 * Skip initaial scope, location, theme selection
+	 * @param action {string} type of event
+	 */
+	Customization.prototype.skipSelection = function(action){
+		if (action === Actions.extLoaded){
+			var self = this;
+			this.getFirstScopeLocationTheme().then(function(configuration){
+				Ext.ComponentQuery.query('#initialdataset')[0].setValue(configuration.scope.id);
+				setTimeout(function(){
+					Ext.ComponentQuery.query('#initialtheme')[0].setValue(configuration.theme.id);
+					Ext.ComponentQuery.query('#initiallocation')[0].setValue(configuration.location.id);
+					self.confirmInitialSelection();
+				},500);
+			});
+		}
+	};
+
+	/**
+	 * Check if stores are loaded, then confirm selection
+	 */
+	Customization.prototype.confirmInitialSelection = function(){
+		var visStore = Ext.StoreMgr.lookup('visualization4sel');
+		var yearStore = Ext.StoreMgr.lookup('year4sel');
+		var themeStore = Ext.StoreMgr.lookup('theme');
+		if (!visStore.loading && !yearStore.loading && !themeStore.loading){
+			this._dispatcher.notify("confirmInitialSelection");
+			if (this._useWorldWindOnly){
+				this._dispatcher.notify("map#switchFramework");
+			}
+		} else {
+			setTimeout(this.confirmInitialSelection.bind(this), 1000);
+		}
+	};
+
+	/**
+	 * Switch map to WorldWind
+	 */
+	Customization.prototype.useWorldWind = function(action){
+		if (action === Actions.extThemeYearLoaded && !this._skipSelection){
+			this._dispatcher.notify("map#switchFramework");
+		}
+	};
+
+	/**
+	 * Get default scope, location and theme
+	 */
+	Customization.prototype.getFirstScopeLocationTheme = function(){
+		var self = this;
+		return this.getFirstScope().then(function(scope){
+			var configuration = {
+				scope: scope
+			};
+			return self.getFirstLocation(scope.id).then(function(location){
+				configuration["location"] = location;
+				return configuration;
+			}).then(function(configuration){
+				return self.getFirstTheme(configuration.scope.id).then(function(theme){
+					configuration["theme"] = theme;
+					return configuration;
+				});
+			});
+		});
+	};
+
+	/**
+	 * Get first location for given scope
+	 * @param scopeId {number}
+	 */
+	Customization.prototype.getFirstLocation = function(scopeId){
+		return Stores.retrieve('location').filter({dataset: scopeId}).then(function(locations){
+			return locations[0];
+		});
+	};
+
+	/**
+	 * Get first theme for given scope
+	 * @param scopeId {number}
+	 */
+	Customization.prototype.getFirstTheme = function(scopeId){
+		return Stores.retrieve('theme').filter({dataset: scopeId}).then(function(themes){
+			return themes[0];
+		});
+	};
+
+	/**
+	 * Get first scope from store
+	 *
+	 */
+	Customization.prototype.getFirstScope = function(){
+		return Stores.retrieve('scope').all().then(function(scopes){
+			return scopes[0];
+		});
+	};
+
+	return Customization;
 });
 
 define('text!js/view/settings/Settings.html',[],function () { return '<div class="tool-window settings-window" id="{{id}}">\r\n    <div class="tool-window-header">\r\n        <span>Settings</span>\r\n        <div class="tool-window-tools-container">\r\n            <div class="window-close">\r\n                <img alt="Close" src="__new/img/close.png"/>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    <div class="tool-window-body">\r\n    </div>\r\n    <div class="tool-window-footer">\r\n        <div class="widget-button tool-window-button settings-confirm">Confirm</div>\r\n    </div>\r\n</div>';});
@@ -18558,6 +18738,9 @@ define('js/view/widgets/EvaluationWidget/EvaluationWidget',[
 			   hasData = true;
            }
         });
+        if (attribute.min === attribute.max){
+			hasData = true;
+        }
         return hasData;
     };
 
@@ -19048,33 +19231,6 @@ define('js/view/widgets/EvaluationWidget/EvaluationWidget',[
     };
 
     return EvaluationWidget;
-});
-define('js/actions/Actions',[], function(){
-	return {
-		mapAdd: 'map#add',
-		mapRemove: 'map#remove',
-
-		mapControl: 'map#control',
-
-		mapAddVisibleLayer: 'map#addVisibleLayer',
-		mapRemoveVisibleLayer: 'map#removeVisibleLayer',
-
-		filterAdd: 'filter#add',
-		filterRemove: 'filter#remove',
-
-		stateUpdatePlace: 'state#updatePlace',
-		stateUpdatePeriod: 'state#updatePeriod',
-		stateUpdateAnalyticalUnitLevel: 'state#updatAnalyticalUnitLevel',
-		stateUpdateTheme: 'state#updateTheme',
-		stateUpdateScope: 'state#updateScope',
-
-		layerSelect: 'layer#select',
-
-		extLoaded: 'extLoaded',
-		extThemeYearLoaded: 'extRestructured',
-
-		mapShow3D: 'map#show3D'
-	};
 });
 define('js/util/Filter',['../actions/Actions',
 	'./Color',
@@ -19923,11 +20079,12 @@ define('js/stores/BaseStore',[
 
 	/**
 	 * Notifies all listeners.
-	 * @param event {Object} Object representing information about event.
+	 * @param event {Object|string} Object representing information about event. Type of event, if string.
+	 * @param options {Object}
 	 */
-	BaseStore.prototype.notify = function(event) {
+	BaseStore.prototype.notify = function(event, options) {
 		this._listeners.forEach(function(listener){
-			listener(event);
+			listener(event, options);
 		});
 	};
 
@@ -20525,6 +20682,78 @@ define('js/stores/gisat/Scopes',[
 	return scopes;
 });
 
+define('js/data/Theme',['./Model'], function(Model){
+	/**
+	 * @augments Model
+	 * @param options
+	 * @constructor
+	 */
+	var Theme = function(options) {
+		Model.apply(this, arguments);
+	};
+
+	Theme.prototype = Object.create(Model.prototype);
+
+	Theme.prototype.data = function(){
+		return {
+			id: {
+				serverName: '_id'
+			},
+			name: {
+				serverName: 'name'
+			},
+			dataset: {
+				serverName: 'dataset'
+			}
+		};
+	};
+
+	return Theme;
+});
+
+define('js/stores/gisat/Themes',[
+	'../BaseStore',
+	'../Stores',
+	'../../data/Theme'
+], function(BaseStore,
+			Stores,
+			Theme){
+	"use strict";
+	var themes;
+
+	/**
+	 * Store for retrieval of Themes from the API.
+	 * @augments BaseStore
+	 * @constructor
+	 * @alias Themes
+	 */
+	var Themes = function() {
+		BaseStore.apply(this, arguments);
+	};
+
+	Themes.prototype = Object.create(BaseStore.prototype);
+
+	/**
+	 * @inheritDoc
+	 */
+	Themes.prototype.getInstance = function(data) {
+		return new Theme({data: data});
+	};
+
+	/**
+	 * @inheritDoc
+	 */
+	Themes.prototype.getPath = function() {
+		return "rest/theme";
+	};
+
+	if(!themes) {
+		themes = new Themes();
+		Stores.register('theme', themes);
+	}
+	return themes;
+});
+
 define('js/data/Visualization',['./Model'], function(Model){
 	/**
 	 * @augments Model
@@ -20639,6 +20868,9 @@ define('js/data/WmsLayer',['./Model'], function(Model){
 			},
 			permissions: {
 				serverName: 'permissions'
+			},
+			custom: {
+				serverName: 'custom'
 			}
 		};
 	};
@@ -20758,6 +20990,8 @@ define('js/stores/UrbanTepPortalStore',[
     return urbanTepPortal;
 });
 define('FrontOffice',[
+	'js/actions/Actions',
+
 	'js/error/ArgumentError',
 	'js/error/NotFoundError',
 	'js/util/Logger',
@@ -20770,13 +21004,16 @@ define('FrontOffice',[
 	'js/stores/gisat/Locations',
 	'js/stores/gisat/Periods',
 	'js/stores/gisat/Scopes',
+	'js/stores/gisat/Themes',
 	'js/stores/gisat/Visualizations',
 	'js/stores/gisat/WmsLayers',
     'js/stores/UrbanTepPortalStore',
     'js/stores/UrbanTepCommunitiesStore',
     'jquery',
 	'underscore'
-], function(ArgumentError,
+], function(Actions,
+
+			ArgumentError,
 			NotFoundError,
 			Logger,
 			Promise,
@@ -20788,6 +21025,7 @@ define('FrontOffice',[
 			Locations,
 			Periods,
 			Scopes,
+			Themes,
 			Visualizations,
 			WmsLayers,
 			UrbanTepPortalStore,
@@ -20863,6 +21101,8 @@ define('FrontOffice',[
 		}
 
 		ThemeYearConfParams.datasetChanged = false;
+
+		Stores.retrieve("period").notify(Actions.periodsRebuild);
 	};
 
 	/**
@@ -21000,7 +21240,7 @@ define('FrontOffice',[
 
 
 		if (this._options.changes.scope){
-			if (this._dataset == ThemeYearConfParams.dataset){
+			if (this._dataset === ThemeYearConfParams.dataset){
 				console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "FrontOffice", "checkConfiguration", "missingDataset"));
 			}
 		}
@@ -21053,6 +21293,7 @@ define('FrontOffice',[
 		Stores.retrieve('location').all();
 		Stores.retrieve('period').all();
 		Stores.retrieve('scope').all();
+		Stores.retrieve('theme').all();
 		Stores.retrieve('visualization').all();
 		Stores.retrieve('wmsLayer').all();
 
@@ -21480,10 +21721,11 @@ define('js/worldwind/layers/MyUrlBuilder',[
 	 * @augments WorldWind.WmsLayer
 	 * @constructor
 	 */
-	var MyUrlBuilder = function(serviceAddress, layerNames, styleNames, wmsVersion, timeString, sldId){
+	var MyUrlBuilder = function(serviceAddress, layerNames, styleNames, wmsVersion, timeString, sldId, customParams){
 		WmsUrlBuilder.call(this, serviceAddress, layerNames, styleNames, wmsVersion, timeString);
 
 		this.sldId = sldId;
+		this.customParams = customParams;
 	};
 
 	MyUrlBuilder.prototype = Object.create(WmsUrlBuilder.prototype);
@@ -21519,6 +21761,13 @@ define('js/worldwind/layers/MyUrlBuilder',[
 		if (this.timeString) {
 			sb = sb + "&time=" + this.timeString;
 		}
+
+		if (this.customParams){
+			for (var key in this.customParams){
+				sb = sb + "&" + key + "=" + this.customParams[key];
+			}
+		}
+
 		if (this.isWms130OrGreater) {
 			sb = sb + "&crs=" + this.crs;
 			sb = sb + "&bbox=";
@@ -21642,7 +21891,7 @@ define('js/worldwind/layers/MyWmsLayer',['../../error/ArgumentError',
 		}
 		this.urlBuilder = new MyUrlBuilder(
 				options.service, options.layerNames, options.styleNames, options.version,
-			options.timeString, this.sldId);
+			options.timeString, this.sldId, options.customParams);
 	};
 
 	MyWmsLayer.prototype = Object.create(WmsLayer.prototype);
@@ -22012,8 +22261,10 @@ define('js/view/worldWind/layers/Layers',['../../../error/ArgumentError',
 			levelZeroDelta: new WorldWind.Location(45,45),
 			numLevels: 14,
 			format: "image/png",
+			opacity: .7,
 			size: 256,
-			version: "1.1.1"
+			version: "1.1.1",
+			customParams: layerData.customParams
 		}, null);
 		layer.urlBuilder.version = "1.1.1";
 		layer.metadata = {
@@ -22037,7 +22288,7 @@ define('js/view/worldWind/layers/Layers',['../../../error/ArgumentError',
 			layerNames: layerData.layerPaths,
 			sector: new WorldWind.Sector(-90,90,-180,180),
 			levelZeroDelta: new WorldWind.Location(45,45),
-			opacity: layerData.opacity/100,
+			opacity: .7,
 			numLevels: 22,
 			format: "image/png",
 			size: 256,
@@ -22124,12 +22375,12 @@ define('js/worldwind/MyGoToAnimator',['../error/ArgumentError',
 
 	/**
 	 * Set the location according to current configuration
-	 * @param config {Object} ThemeYearConfParams (configuration from global variable)
 	 */
-	MyGoToAnimator.prototype.setLocation = function(appState){
+	MyGoToAnimator.prototype.setLocation = function(){
 		var self = this;
-		var places = appState.places;
-		var dataset = appState.scope;
+		var currentState = Stores.retrieve('state').current();
+		var places = currentState.places;
+		var dataset = currentState.scope;
 		if (!dataset){
 			console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "MyGoToAnimator", "setLocation", "missingDataset"));
 		}
@@ -23433,7 +23684,7 @@ define('js/stores/internal/VisibleLayersStore',[
 	return VisibleLayersStore;
 });
 
-define('text!js/view/worldWind/WorldWindMap.html',[],function () { return '<div class="world-wind-map-box" id="{{id}}-box" >\r\n\t<div id="{{id}}" class="world-wind-map">\r\n\t\t<canvas id="{{id}}-canvas" class="world-wind-canvas">\r\n\t\t\tYour browser does not support HTML5 Canvas.\r\n\t\t</canvas>\r\n\t</div>\r\n</div>';});
+define('text!js/view/worldWind/WorldWindMap.html',[],function () { return '<div class="world-wind-map-box" id="{{id}}-box" >\r\n\t<div id="{{id}}" class="world-wind-map">\r\n\t\t<canvas id="{{id}}-canvas" class="world-wind-canvas">\r\n\t\t\tYour browser does not support HTML5 Canvas.\r\n\t\t</canvas>\r\n\t</div>\r\n\t<div class="map-window-tools">\r\n\r\n\t</div>\r\n</div>';});
 
 
 define('css!js/view/worldWind/WorldWindMap',[],function(){});
@@ -23562,6 +23813,7 @@ define('js/view/worldWind/WorldWindMap',['../../actions/Actions',
 		this.setupWebWorldWind();
 		if (this._id !== 'default-map'){
 			this.addCloseButton();
+			this.addPeriod();
 		}
 	};
 
@@ -23570,7 +23822,26 @@ define('js/view/worldWind/WorldWindMap',['../../actions/Actions',
 	 */
 	WorldWindMap.prototype.addCloseButton = function(){
 		var html = '<div title="Remove map" class="close-map-button" data-id="' + this._id + '"><i class="fa fa-times close-map-icon" aria-hidden="true"></i></div>';
-		this._mapBoxSelector.append(html);
+		this._mapBoxSelector.find(".map-window-tools").append(html);
+	};
+
+	/**
+	 * Add label with info about period to the map and add dataPeriod attribute of the map container (it is used for sorting)
+	 */
+	WorldWindMap.prototype.addPeriod = function(){
+		if (this._periodLabelSelector){
+			this._periodLabelSelector.remove();
+		}
+		var self = this;
+		Stores.retrieve("period").byId(this._period).then(function(periods){
+			if (periods.length === 1){
+				var periodName = periods[0].name;
+				var html = '<div class="map-period-label">' + periodName + '</div>';
+				self._mapBoxSelector.attr("data-period", periodName);
+				self._mapBoxSelector.find(".map-window-tools").append(html);
+				self._periodLabelSelector = self._mapBoxSelector.find(".map-period-label")
+			}
+		});
 	};
 
 	/**
@@ -23594,18 +23865,27 @@ define('js/view/worldWind/WorldWindMap',['../../actions/Actions',
 	};
 
 	/**
-	 * Rebuild map with current settings
+	 * Rebuild map
 	 */
-	WorldWindMap.prototype.rebuild = function(appState){
-		this._goToAnimator.setLocation(appState);
-
-		if (this._id !== "default-map"){
+	WorldWindMap.prototype.rebuild = function(){
+		var state = Stores.retrieve("state").current();
+		if (state.changes.scope || state.changes.location){
+			this._goToAnimator.setLocation();
+		}
+		if (this._id === "default-map"){
+			this.updateNavigatorState();
+			var periods = state.periods;
+			if (periods.length === 1){
+				this._period = periods[0];
+			}
+			if (!Config.toggles.hideSelectorToolbar){
+				this.addPeriod();
+			}
+		} else {
 			var self = this;
 			setTimeout(function(){
 				self.setNavigator();
 			},1000);
-		} else {
-			this.updateNavigatorState();
 		}
 	};
 
@@ -23671,6 +23951,22 @@ define('js/view/worldWind/WorldWindMap',['../../actions/Actions',
 	};
 
 	/**
+	 * Switch projection from 3D to 2D and vice versa
+	 */
+	WorldWindMap.prototype.switchProjection = function(){
+		var globe = null;
+		var is2D = this._wwd.globe.is2D();
+		if (is2D){
+			globe = new WorldWind.Globe(new WorldWind.EarthElevationModel());
+		} else {
+			globe = new WorldWind.Globe2D();
+			globe.projection = new WorldWind.ProjectionMercator();
+		}
+		this._wwd.globe = globe;
+		this.redraw();
+	};
+
+	/**
 	 * @param type {string} type of event
 	 * @param options {Object}
 	 */
@@ -23685,6 +23981,16 @@ define('js/view/worldWind/WorldWindMap',['../../actions/Actions',
 
 define('text!js/view/mapsContainer/MapsContainer.html',[],function () { return '<div class="maps-container" id="{{id}}">\r\n\t<div class="map-fields"></div>\r\n</div>';});
 
+/**
+ * TinySort is a small script that sorts HTML elements. It sorts by text- or attribute value, or by that of one of it's children.
+ * @summary A nodeElement sorting script.
+ * @version 2.3.6
+ * @license MIT
+ * @author Ron Valstar <ron@ronvalstar.nl>
+ * @copyright Ron Valstar <ron@ronvalstar.nl>
+ * @namespace tinysort
+ */
+!function(e,t){"use strict";function r(){return t}"function"==typeof define&&define.amd?define("tinysort",r):e.tinysort=t}(this,function(){"use strict";function e(e,n){function s(){0===arguments.length?v({}):t(arguments,function(e){v(x(e)?{selector:e}:e)}),d=$.length}function v(e){var t=!!e.selector,n=t&&":"===e.selector[0],o=r(e||{},m);$.push(r({hasSelector:t,hasAttr:!(o.attr===l||""===o.attr),hasData:o.data!==l,hasFilter:n,sortReturnNumber:"asc"===o.order?1:-1},o))}function S(){t(e,function(e,t){M?M!==e.parentNode&&(k=!1):M=e.parentNode;var r=$[0],n=r.hasFilter,o=r.selector,a=!o||n&&e.matchesSelector(o)||o&&e.querySelector(o),l=a?R:V,s={elm:e,pos:t,posn:l.length};B.push(s),l.push(s)}),D=R.slice(0)}function y(e,t,r){for(var n=r(e.toString()),o=r(t.toString()),a=0;n[a]&&o[a];a++)if(n[a]!==o[a]){var l=Number(n[a]),s=Number(o[a]);return l==n[a]&&s==o[a]?l-s:n[a]>o[a]?1:-1}return n.length-o.length}function N(e){for(var t,r,n=[],o=0,a=-1,l=0;t=(r=e.charAt(o++)).charCodeAt(0);){var s=46==t||t>=48&&57>=t;s!==l&&(n[++a]="",l=s),n[a]+=r}return n}function C(e,r){var n=0;for(0!==p&&(p=0);0===n&&d>p;){var l=$[p],s=l.ignoreDashes?f:u;if(t(h,function(e){var t=e.prepare;t&&t(l)}),l.sortFunction)n=l.sortFunction(e,r);else if("rand"==l.order)n=Math.random()<.5?1:-1;else{var c=a,g=w(e,l),m=w(r,l),v=""===g||g===o,S=""===m||m===o;if(g===m)n=0;else if(l.emptyEnd&&(v||S))n=v&&S?0:v?1:-1;else{if(!l.forceStrings){var C=x(g)?g&&g.match(s):a,b=x(m)?m&&m.match(s):a;if(C&&b){var A=g.substr(0,g.length-C[0].length),F=m.substr(0,m.length-b[0].length);A==F&&(c=!a,g=i(C[0]),m=i(b[0]))}}n=g===o||m===o?0:l.natural&&(isNaN(g)||isNaN(m))?y(g,m,N):m>g?-1:g>m?1:0}}t(h,function(e){var t=e.sort;t&&(n=t(l,c,g,m,n))}),n*=l.sortReturnNumber,0===n&&p++}return 0===n&&(n=e.pos>r.pos?1:-1),n}function b(){var e=R.length===B.length;if(k&&e)O?R.forEach(function(e,t){e.elm.style.order=t}):M?M.appendChild(A()):console.warn("parentNode has been removed");else{var t=$[0],r=t.place,n="org"===r,o="start"===r,a="end"===r,l="first"===r,s="last"===r;if(n)R.forEach(F),R.forEach(function(e,t){E(D[t],e.elm)});else if(o||a){var c=D[o?0:D.length-1],i=c&&c.elm.parentNode,u=i&&(o&&i.firstChild||i.lastChild);u&&(u!==c.elm&&(c={elm:u}),F(c),a&&i.appendChild(c.ghost),E(c,A()))}else if(l||s){var f=D[l?0:D.length-1];E(F(f),A())}}}function A(){return R.forEach(function(e){q.appendChild(e.elm)}),q}function F(e){var t=e.elm,r=c.createElement("div");return e.ghost=r,t.parentNode.insertBefore(r,t),e}function E(e,t){var r=e.ghost,n=r.parentNode;n.insertBefore(t,r),n.removeChild(r),delete e.ghost}function w(e,t){var r,n=e.elm;return t.selector&&(t.hasFilter?n.matchesSelector(t.selector)||(n=l):n=n.querySelector(t.selector)),t.hasAttr?r=n.getAttribute(t.attr):t.useVal?r=n.value||n.getAttribute("value"):t.hasData?r=n.getAttribute("data-"+t.data):n&&(r=n.textContent),x(r)&&(t.cases||(r=r.toLowerCase()),r=r.replace(/\s+/g," ")),null===r&&(r=g),r}function x(e){return"string"==typeof e}x(e)&&(e=c.querySelectorAll(e)),0===e.length&&console.warn("No elements to sort");var D,M,q=c.createDocumentFragment(),B=[],R=[],V=[],$=[],k=!0,z=e.length&&e[0].parentNode,L=z.rootNode!==document,O=e.length&&(n===o||n.useFlex!==!1)&&!L&&-1!==getComputedStyle(z,null).display.indexOf("flex");return s.apply(l,Array.prototype.slice.call(arguments,1)),S(),R.sort(C),b(),R.map(function(e){return e.elm})}function t(e,t){for(var r,n=e.length,o=n;o--;)r=n-o-1,t(e[r],r)}function r(e,t,r){for(var n in t)(r||e[n]===o)&&(e[n]=t[n]);return e}function n(e,t,r){h.push({prepare:e,sort:t,sortBy:r})}var o,a=!1,l=null,s=window,c=s.document,i=parseFloat,u=/(-?\d+\.?\d*)\s*$/g,f=/(\d+\.?\d*)\s*$/g,h=[],d=0,p=0,g=String.fromCharCode(4095),m={selector:l,order:"asc",attr:l,data:l,useVal:a,place:"org",returns:a,cases:a,natural:a,forceStrings:a,ignoreDashes:a,sortFunction:l,useFlex:a,emptyEnd:a};return s.Element&&function(e){e.matchesSelector=e.matchesSelector||e.mozMatchesSelector||e.msMatchesSelector||e.oMatchesSelector||e.webkitMatchesSelector||function(e){for(var t=this,r=(t.parentNode||t.document).querySelectorAll(e),n=-1;r[++n]&&r[n]!=t;);return!!r[n]}}(Element.prototype),r(n,{loop:t}),r(e,{plugin:n,defaults:m})}());
 
 define('css!js/view/mapsContainer/MapsContainer',[],function(){});
 define('js/view/mapsContainer/MapsContainer',[
@@ -23700,6 +24006,7 @@ define('js/view/mapsContainer/MapsContainer',[
 	'string',
 	'jquery',
 	'text!./MapsContainer.html',
+	'tinysort',
 	'css!./MapsContainer'
 ], function(Actions,
 			ArgumentError,
@@ -23712,7 +24019,8 @@ define('js/view/mapsContainer/MapsContainer',[
 
 			S,
 			$,
-			mapsContainer
+			mapsContainer,
+			tinysort
 ){
 	/**
 	 * Class representing container containing maps
@@ -23721,6 +24029,7 @@ define('js/view/mapsContainer/MapsContainer',[
 	 * @param options.dispatcher {Object} Object for handling events in the application.
 	 * @param options.target {Object} JQuery selector of target element
 	 * @param options.mapStore {MapStore}
+	 * @param options.stateStore {StateStore}
 	 * @constructor
 	 */
 	var MapsContainer = function(options){
@@ -23736,17 +24045,22 @@ define('js/view/mapsContainer/MapsContainer',[
 		if (!options.mapStore){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MapsContainer", "constructor", "missingMapStore"));
 		}
+		if (!options.stateStore){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MapsContainer", "constructor", "missingStateStore"));
+		}
 		this._target = options.target;
 		this._id = options.id;
 		this._dispatcher = options.dispatcher;
 		this._mapStore = options.mapStore;
+		this._stateStore = options.stateStore;
 
 		this._mapControls = null;
-
-		this._mapsCount = 0;
+		this._mapsInContainerCount = 0;
 
 		this.build();
+
 		this._dispatcher.addListener(this.onEvent.bind(this));
+		Stores.retrieve("period").addListener(this.onEvent.bind(this));
 	};
 
 	/**
@@ -23764,8 +24078,48 @@ define('js/view/mapsContainer/MapsContainer',[
 	};
 
 	/**
+	 * Rebuild maps container with list of periods. For new periods, add maps. On the other hand, remove maps which
+	 * are not connected with any of periods in the list
+	 * @param periods {Array} selected periods.
+	 */
+	MapsContainer.prototype.rebuildContainerWithPeriods = function(periods){
+		var allMaps = this._mapStore.getAll();
+		var mapsCount = Object.keys(allMaps).length;
+		var periodsCount = periods.length;
+
+		var self = this;
+		if (mapsCount < periodsCount){
+			// go trough periods, check if map exists for period, if not, add map
+			periods.forEach(function(period){
+				var map = self._mapStore.getMapByPeriod(period);
+				if (!map){
+					self.addMap(null, period);
+				}
+			});
+		} else if (mapsCount > periodsCount) {
+			if (periodsCount === 1){
+				allMaps.forEach(function(map){
+					if (map.id !== "default-map"){
+						self._dispatcher.notify("map#remove",{id: map.id});
+					}
+				});
+			} else {
+				// go trough maps, check if period exists for map, if not, remove map
+				allMaps.forEach(function(map){
+					var period =_.filter(periods, function(per){
+						return per === map.period;
+					});
+					if (period.length === 0){
+						self._dispatcher.notify("map#remove",{id: map.id});
+					}
+				});
+			}
+		}
+	};
+
+	/**
 	 * Add map to container
-	 * @param id {string} Id of the map
+	 * @param id {string|null} Id of the map
 	 * @param periodId {number} Id of the period connected with map
 	 * TODO allow max 16 maps (due to WebGL restrictions)
 	 */
@@ -23779,30 +24133,30 @@ define('js/view/mapsContainer/MapsContainer',[
 		} else {
 			this._mapControls = this.buildMapControls(worldWindMap._wwd);
 		}
-		this._mapsCount++;
-		this.rebuildContainer();
+		this._mapsInContainerCount++;
+		this.rebuildContainerLayout();
 	};
 
 	/**
-	 * Remove map from DOM
+	 * Remove map from container
 	 * @param id {string} ID of the map
 	 */
 	MapsContainer.prototype.removeMap = function(id){
 		$("#" + id + "-box").remove();
-		this._mapsCount--;
-		this.rebuildContainer();
+		this._mapsInContainerCount--;
+		this.rebuildContainerLayout();
 	};
 
 	/**
 	 * Rebuild all maps in container
+	 * TODO rebuild each map with relevant data
 	 */
 	MapsContainer.prototype.rebuildMaps = function(){
-		var appState = Stores.retrieve('state').current();
 		var maps = this._mapStore.getAll();
-		for(var key in maps){
-			maps[key].rebuild(appState);
-		}
-		this.rebuildContainer();
+		maps.forEach(function(map){
+			map.rebuild();
+		});
+		this.rebuildContainerLayout();
 	};
 
 	/**
@@ -23811,8 +24165,18 @@ define('js/view/mapsContainer/MapsContainer',[
 	 */
 	MapsContainer.prototype.setAllMapsPosition = function(position){
 		var maps = this._mapStore.getAll();
+		maps.forEach(function(map){
+			map.goTo(position);
+		});
+	};
+
+	/**
+	 * Switch projection of all maps from 2D to 3D and vice versa
+	 */
+	MapsContainer.prototype.switchProjection = function () {
+		var maps = this._mapStore.getAll();
 		for(var key in maps){
-			maps[key].goTo(position);
+			maps[key].switchProjection();
 		}
 	};
 
@@ -23843,21 +24207,15 @@ define('js/view/mapsContainer/MapsContainer',[
 	};
 
 	/**
-	 * Retrun Jquery selector of maps container
-	 * @returns {*|jQuery|HTMLElement}
-	 */
-	MapsContainer.prototype.getContainerSelector = function(){
-		return this._containerSelector;
-	};
-
-	/**
 	 * Add listener to close button of each map except the default one
 	 */
 	MapsContainer.prototype.addCloseButtonOnClickListener = function(){
 		var self = this;
 		this._containerSelector.on("click", ".close-map-button", function(){
 			var mapId = $(this).attr("data-id");
-			self._dispatcher.notify(Actions.mapRemove, {id: mapId});
+			var mapPeriod = self._mapStore.getMapById(mapId).period;
+			var periods = _.reject(self._stateStore.current().periods, function(period) { return period === mapPeriod; });
+			self._dispatcher.notify("periods#change", periods);
 		});
 	};
 
@@ -23865,19 +24223,26 @@ define('js/view/mapsContainer/MapsContainer',[
 	 * Rebuild the container when sidebar-reports panel changes it's state
 	 */
 	MapsContainer.prototype.addSidebarReportsStateListener = function(){
-		$("#sidebar-reports").on("click", this.rebuildContainer.bind(this));
+		$("#sidebar-reports").on("click", this.rebuildContainerLayout.bind(this));
 	};
 
+	/**
+	 * @param type {string} type of event
+	 * @param options {Object}
+	 */
 	MapsContainer.prototype.onEvent = function(type, options){
 		if (type === Actions.mapRemove){
 			this.removeMap(options.id);
+		} else if (type === Actions.periodsRebuild){
+			var periods = this._stateStore.current().periods;
+			this.rebuildContainerWithPeriods(periods);
 		}
 	};
 
 	/**
 	 * Rebuild grid according to a number of active maps
 	 */
-	MapsContainer.prototype.rebuildContainer = function(){
+	MapsContainer.prototype.rebuildContainerLayout = function(){
 		var width = this._containerSelector.width();
 		var height = this._containerSelector.height();
 
@@ -23890,29 +24255,44 @@ define('js/view/mapsContainer/MapsContainer',[
 
 		this._containerSelector.attr('class', 'maps-container');
 		var cls = '';
-		if (this._mapsCount === 1){
+		if (this._mapsInContainerCount === 1){
 			cls += a + '1 ' + b + '1';
-		} else if (this._mapsCount === 2){
+		} else if (this._mapsInContainerCount === 2){
 			cls += a + '2 ' + b + '1';
-		} else if (this._mapsCount > 2 && this._mapsCount <= 4){
+		} else if (this._mapsInContainerCount > 2 && this._mapsInContainerCount <= 4){
 			cls += a + '2 ' + b + '2';
-		} else if (this._mapsCount > 4 && this._mapsCount <= 6){
+		} else if (this._mapsInContainerCount > 4 && this._mapsInContainerCount <= 6){
 			cls += a + '3 ' + b + '2';
-		} else if (this._mapsCount > 6 && this._mapsCount <= 9){
+		} else if (this._mapsInContainerCount > 6 && this._mapsInContainerCount <= 9){
 			cls += a + '3 ' + b + '3';
-		} else if (this._mapsCount > 9 && this._mapsCount <= 12){
+		} else if (this._mapsInContainerCount > 9 && this._mapsInContainerCount <= 12){
 			cls += a + '4 ' + b + '3';
-		} else if (this._mapsCount > 12 && this._mapsCount <= 16){
+		} else if (this._mapsInContainerCount > 12 && this._mapsInContainerCount <= 16){
 			cls += a + '4 ' + b + '4';
 		}
-		this._containerSelector.addClass(cls)
+		this._containerSelector.addClass(cls);
+
+		this.sortMapsByPeriod();
+	};
+
+	/**
+	 * Sort maps in container by associated period
+	 */
+	MapsContainer.prototype.sortMapsByPeriod = function(){
+		var containerCls = this._containerSelector.find(".map-fields").attr('class');
+		var container = document.getElementsByClassName(containerCls)[0];
+		var maps = container.childNodes;
+		tinysort(maps, {attr: 'data-period'});
 	};
 
 	return MapsContainer;
 });
 define('js/stores/internal/MapStore',[
-	'../../actions/Actions'
-], function(Actions){
+	'../../actions/Actions',
+	'underscore'
+], function(Actions,
+			_
+){
 	/**
 	 * It creates MapStore and contains maps themselves
 	 * @constructor
@@ -23923,12 +24303,12 @@ define('js/stores/internal/MapStore',[
 	var MapStore = function(options) {
 		options.dispatcher.addListener(this.onEvent.bind(this));
 
-		this._maps = {};
+		this._maps = [];
 		this._navigatorState = {};
 
 		if (options.maps){
 			options.maps.forEach(function(map){
-				this._maps[map._id] = map;
+				this._maps.push(map);
 			}.bind(this));
 		}
 	};
@@ -23939,7 +24319,7 @@ define('js/stores/internal/MapStore',[
 	 * @param options.map {WorldWindMap} Visible map.
 	 */
 	MapStore.prototype.add = function(options) {
-		this._maps[options.map._id] = options.map;
+		this._maps.push(options.map);
 	};
 
 	/**
@@ -23948,7 +24328,7 @@ define('js/stores/internal/MapStore',[
 	 * @param options.id {String} Map which should be removed from DOM.
 	 */
 	MapStore.prototype.remove = function(options) {
-		delete this._maps[options.id];
+		this._maps = _.reject(this._maps, function(map) { return map.id === options.id; });
 	};
 
 	/**
@@ -23957,6 +24337,27 @@ define('js/stores/internal/MapStore',[
 	 */
 	MapStore.prototype.getAll = function(){
 		return this._maps;
+	};
+
+	/**
+	 * Get map according to given period
+	 * @param id {number} id of the period
+	 */
+	MapStore.prototype.getMapByPeriod = function(id) {
+		return _.filter(this._maps, function (map) {
+			return map.period === id;
+		})[0];
+	};
+
+	/**
+	 * Get map by id
+	 * @param id {string} id of the map
+	 * @returns {Object}
+	 */
+	MapStore.prototype.getMapById = function(id){
+		return _.filter(this._maps, function (map) {
+			return map.id === id;
+		})[0];
 	};
 
 	/**
@@ -24145,6 +24546,792 @@ define('js/view/widgets/OSMWidget/OSMWidget',[
     };
 
     return OSMWidget;
+});
+
+define('css!js/view/PanelIFrame/PanelIFrame',[],function(){});
+define('js/view/PanelIFrame/PanelIFrame',[
+	'jquery',
+	'css!./PanelIFrame'
+], function (
+$
+) {
+	"use strict";
+
+	var PanelIFrame = function(url) {
+		this._target = $('#app-extra-content');
+		this._url = url;
+
+		this.build();
+		this.addToggleListener();
+	};
+
+
+	PanelIFrame.prototype.build = function(){
+		this._target.empty();
+
+		this._target.append('<iframe id="snow-iframe" src="' + this._url + '"></iframe>');
+
+		this._iframeSelector = $("#snow-iframe");
+		$("#sidebar-reports").addClass("snow-mode");
+	};
+
+	/**
+	 * Rebuild iframe with given url
+	 * @param url {string}
+	 */
+	PanelIFrame.prototype.rebuild = function(url){
+		this._iframeSelector.attr("src", url);
+	};
+
+	/**
+	 * @returns {string} id of the iframe element
+	 */
+	PanelIFrame.prototype.getElementId = function(){
+		return this._iframeSelector.attr("id");
+	};
+
+	PanelIFrame.prototype.addToggleListener = function(){
+		$("#sidebar-reports-toggle").on("click", function(){
+			setTimeout(function(){
+				Observer.notify("resizeMap");
+			},500);
+		});
+	};
+
+	return PanelIFrame;
+});
+
+
+define('text!js/view/components/Button/Button.html',[],function () { return '<div id="{{id}}" class="component-button {{classes}}" title="{{title}}">{{text}}</div>';});
+
+
+define('css!js/view/components/Button/Button',[],function(){});
+define('js/view/components/Button/Button',[
+	'../../../error/ArgumentError',
+	'../../../error/NotFoundError',
+	'../../../util/Logger',
+
+	'jquery',
+	'string',
+	'underscore',
+	'text!./Button.html',
+	'css!./Button'
+], function(ArgumentError,
+			NotFoundError,
+			Logger,
+
+			$,
+			S,
+			_,
+			ButtonHtml
+){
+	/**
+	 * Base class for button creating
+	 * @constructor
+	 * @param options {Object}
+	 * @param options.id {string} id of the button
+	 * @param options.containerSelector {Object} JQuery selector of container, where will be the select rendered
+	 * @param options.text {string} Text for button
+	 * @param options.onClick {function}
+	 * @param [options.classes] {string} Optional parameter. Additional classes.
+	 * @param [options.title] {string} Optional parameter.
+	 * @param [options.textCentered] {string} Optional parameter.
+	 * @param [options.textSmall] {string} Optional parameter.
+	 */
+	var Button = function(options){
+		if (!options.id){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Button", "constructor", "missingId"));
+		}
+		if (!options.text){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Button", "constructor", "missingText"));
+		}
+		if (!options.containerSelector){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Button", "constructor", "missingTarget"));
+		}
+
+		this._id = options.id;
+		this._text = options.text;
+		this._containerSelector = options.containerSelector;
+		this._classes = options.classes;
+		this.onClick = options.onClick;
+
+		this._title = options.title || "Select";
+		this._textCentered = options.textCentered;
+		this._textSmall = options.textSmall;
+
+		this.render();
+		this.addOnClickListener();
+	};
+
+	/**
+	 * Render button
+	 */
+	Button.prototype.render = function(){
+		if (this._buttonSelector){
+			this._buttonSelector.remove();
+		}
+
+		var classes = this.getClasses();
+		var html = S(ButtonHtml).template({
+			id: this._id,
+			title: this._title,
+			text: this._text,
+			classes: classes
+		}).toString();
+		this._containerSelector.append(html);
+		this._buttonSelector = $("#" + this._id);
+	};
+
+	/**
+	 * Get classes based on button's configuration
+	 * @returns {string} html classes
+	 */
+	Button.prototype.getClasses = function(){
+		var classes = "";
+		if (this._classes){
+			classes += " " + this._classes;
+		}
+		if (this._textCentered){
+			classes += " text-centered"
+		}
+		if (this._textSmall){
+			classes += " text-small"
+		}
+		return classes;
+	};
+
+	Button.prototype.addOnClickListener = function(){
+		this._buttonSelector.on("click", this.onClick.bind(this));
+	};
+
+	return Button;
+});
+/*! Select2 4.0.3 | https://github.com/select2/select2/blob/master/LICENSE.md */!function(a){"function"==typeof define&&define.amd?define('select2',["jquery"],a):a("object"==typeof exports?require("jquery"):jQuery)}(function(a){var b=function(){if(a&&a.fn&&a.fn.select2&&a.fn.select2.amd)var b=a.fn.select2.amd;var b;return function(){if(!b||!b.requirejs){b?c=b:b={};var a,c,d;!function(b){function e(a,b){return u.call(a,b)}function f(a,b){var c,d,e,f,g,h,i,j,k,l,m,n=b&&b.split("/"),o=s.map,p=o&&o["*"]||{};if(a&&"."===a.charAt(0))if(b){for(a=a.split("/"),g=a.length-1,s.nodeIdCompat&&w.test(a[g])&&(a[g]=a[g].replace(w,"")),a=n.slice(0,n.length-1).concat(a),k=0;k<a.length;k+=1)if(m=a[k],"."===m)a.splice(k,1),k-=1;else if(".."===m){if(1===k&&(".."===a[2]||".."===a[0]))break;k>0&&(a.splice(k-1,2),k-=2)}a=a.join("/")}else 0===a.indexOf("./")&&(a=a.substring(2));if((n||p)&&o){for(c=a.split("/"),k=c.length;k>0;k-=1){if(d=c.slice(0,k).join("/"),n)for(l=n.length;l>0;l-=1)if(e=o[n.slice(0,l).join("/")],e&&(e=e[d])){f=e,h=k;break}if(f)break;!i&&p&&p[d]&&(i=p[d],j=k)}!f&&i&&(f=i,h=j),f&&(c.splice(0,h,f),a=c.join("/"))}return a}function g(a,c){return function(){var d=v.call(arguments,0);return"string"!=typeof d[0]&&1===d.length&&d.push(null),n.apply(b,d.concat([a,c]))}}function h(a){return function(b){return f(b,a)}}function i(a){return function(b){q[a]=b}}function j(a){if(e(r,a)){var c=r[a];delete r[a],t[a]=!0,m.apply(b,c)}if(!e(q,a)&&!e(t,a))throw new Error("No "+a);return q[a]}function k(a){var b,c=a?a.indexOf("!"):-1;return c>-1&&(b=a.substring(0,c),a=a.substring(c+1,a.length)),[b,a]}function l(a){return function(){return s&&s.config&&s.config[a]||{}}}var m,n,o,p,q={},r={},s={},t={},u=Object.prototype.hasOwnProperty,v=[].slice,w=/\.js$/;o=function(a,b){var c,d=k(a),e=d[0];return a=d[1],e&&(e=f(e,b),c=j(e)),e?a=c&&c.normalize?c.normalize(a,h(b)):f(a,b):(a=f(a,b),d=k(a),e=d[0],a=d[1],e&&(c=j(e))),{f:e?e+"!"+a:a,n:a,pr:e,p:c}},p={require:function(a){return g(a)},exports:function(a){var b=q[a];return"undefined"!=typeof b?b:q[a]={}},module:function(a){return{id:a,uri:"",exports:q[a],config:l(a)}}},m=function(a,c,d,f){var h,k,l,m,n,s,u=[],v=typeof d;if(f=f||a,"undefined"===v||"function"===v){for(c=!c.length&&d.length?["require","exports","module"]:c,n=0;n<c.length;n+=1)if(m=o(c[n],f),k=m.f,"require"===k)u[n]=p.require(a);else if("exports"===k)u[n]=p.exports(a),s=!0;else if("module"===k)h=u[n]=p.module(a);else if(e(q,k)||e(r,k)||e(t,k))u[n]=j(k);else{if(!m.p)throw new Error(a+" missing "+k);m.p.load(m.n,g(f,!0),i(k),{}),u[n]=q[k]}l=d?d.apply(q[a],u):void 0,a&&(h&&h.exports!==b&&h.exports!==q[a]?q[a]=h.exports:l===b&&s||(q[a]=l))}else a&&(q[a]=d)},a=c=n=function(a,c,d,e,f){if("string"==typeof a)return p[a]?p[a](c):j(o(a,c).f);if(!a.splice){if(s=a,s.deps&&n(s.deps,s.callback),!c)return;c.splice?(a=c,c=d,d=null):a=b}return c=c||function(){},"function"==typeof d&&(d=e,e=f),e?m(b,a,c,d):setTimeout(function(){m(b,a,c,d)},4),n},n.config=function(a){return n(a)},a._defined=q,d=function(a,b,c){if("string"!=typeof a)throw new Error("See almond README: incorrect module build, no module name");b.splice||(c=b,b=[]),e(q,a)||e(r,a)||(r[a]=[a,b,c])},d.amd={jQuery:!0}}(),b.requirejs=a,b.require=c,b.define=d}}(),b.define("almond",function(){}),b.define("jquery",[],function(){var b=a||$;return null==b&&console&&console.error&&console.error("Select2: An instance of jQuery or a jQuery-compatible library was not found. Make sure that you are including jQuery before Select2 on your web page."),b}),b.define("select2/utils",["jquery"],function(a){function b(a){var b=a.prototype,c=[];for(var d in b){var e=b[d];"function"==typeof e&&"constructor"!==d&&c.push(d)}return c}var c={};c.Extend=function(a,b){function c(){this.constructor=a}var d={}.hasOwnProperty;for(var e in b)d.call(b,e)&&(a[e]=b[e]);return c.prototype=b.prototype,a.prototype=new c,a.__super__=b.prototype,a},c.Decorate=function(a,c){function d(){var b=Array.prototype.unshift,d=c.prototype.constructor.length,e=a.prototype.constructor;d>0&&(b.call(arguments,a.prototype.constructor),e=c.prototype.constructor),e.apply(this,arguments)}function e(){this.constructor=d}var f=b(c),g=b(a);c.displayName=a.displayName,d.prototype=new e;for(var h=0;h<g.length;h++){var i=g[h];d.prototype[i]=a.prototype[i]}for(var j=(function(a){var b=function(){};a in d.prototype&&(b=d.prototype[a]);var e=c.prototype[a];return function(){var a=Array.prototype.unshift;return a.call(arguments,b),e.apply(this,arguments)}}),k=0;k<f.length;k++){var l=f[k];d.prototype[l]=j(l)}return d};var d=function(){this.listeners={}};return d.prototype.on=function(a,b){this.listeners=this.listeners||{},a in this.listeners?this.listeners[a].push(b):this.listeners[a]=[b]},d.prototype.trigger=function(a){var b=Array.prototype.slice,c=b.call(arguments,1);this.listeners=this.listeners||{},null==c&&(c=[]),0===c.length&&c.push({}),c[0]._type=a,a in this.listeners&&this.invoke(this.listeners[a],b.call(arguments,1)),"*"in this.listeners&&this.invoke(this.listeners["*"],arguments)},d.prototype.invoke=function(a,b){for(var c=0,d=a.length;d>c;c++)a[c].apply(this,b)},c.Observable=d,c.generateChars=function(a){for(var b="",c=0;a>c;c++){var d=Math.floor(36*Math.random());b+=d.toString(36)}return b},c.bind=function(a,b){return function(){a.apply(b,arguments)}},c._convertData=function(a){for(var b in a){var c=b.split("-"),d=a;if(1!==c.length){for(var e=0;e<c.length;e++){var f=c[e];f=f.substring(0,1).toLowerCase()+f.substring(1),f in d||(d[f]={}),e==c.length-1&&(d[f]=a[b]),d=d[f]}delete a[b]}}return a},c.hasScroll=function(b,c){var d=a(c),e=c.style.overflowX,f=c.style.overflowY;return e!==f||"hidden"!==f&&"visible"!==f?"scroll"===e||"scroll"===f?!0:d.innerHeight()<c.scrollHeight||d.innerWidth()<c.scrollWidth:!1},c.escapeMarkup=function(a){var b={"\\":"&#92;","&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;","/":"&#47;"};return"string"!=typeof a?a:String(a).replace(/[&<>"'\/\\]/g,function(a){return b[a]})},c.appendMany=function(b,c){if("1.7"===a.fn.jquery.substr(0,3)){var d=a();a.map(c,function(a){d=d.add(a)}),c=d}b.append(c)},c}),b.define("select2/results",["jquery","./utils"],function(a,b){function c(a,b,d){this.$element=a,this.data=d,this.options=b,c.__super__.constructor.call(this)}return b.Extend(c,b.Observable),c.prototype.render=function(){var b=a('<ul class="select2-results__options" role="tree"></ul>');return this.options.get("multiple")&&b.attr("aria-multiselectable","true"),this.$results=b,b},c.prototype.clear=function(){this.$results.empty()},c.prototype.displayMessage=function(b){var c=this.options.get("escapeMarkup");this.clear(),this.hideLoading();var d=a('<li role="treeitem" aria-live="assertive" class="select2-results__option"></li>'),e=this.options.get("translations").get(b.message);d.append(c(e(b.args))),d[0].className+=" select2-results__message",this.$results.append(d)},c.prototype.hideMessages=function(){this.$results.find(".select2-results__message").remove()},c.prototype.append=function(a){this.hideLoading();var b=[];if(null==a.results||0===a.results.length)return void(0===this.$results.children().length&&this.trigger("results:message",{message:"noResults"}));a.results=this.sort(a.results);for(var c=0;c<a.results.length;c++){var d=a.results[c],e=this.option(d);b.push(e)}this.$results.append(b)},c.prototype.position=function(a,b){var c=b.find(".select2-results");c.append(a)},c.prototype.sort=function(a){var b=this.options.get("sorter");return b(a)},c.prototype.highlightFirstItem=function(){var a=this.$results.find(".select2-results__option[aria-selected]"),b=a.filter("[aria-selected=true]");b.length>0?b.first().trigger("mouseenter"):a.first().trigger("mouseenter"),this.ensureHighlightVisible()},c.prototype.setClasses=function(){var b=this;this.data.current(function(c){var d=a.map(c,function(a){return a.id.toString()}),e=b.$results.find(".select2-results__option[aria-selected]");e.each(function(){var b=a(this),c=a.data(this,"data"),e=""+c.id;null!=c.element&&c.element.selected||null==c.element&&a.inArray(e,d)>-1?b.attr("aria-selected","true"):b.attr("aria-selected","false")})})},c.prototype.showLoading=function(a){this.hideLoading();var b=this.options.get("translations").get("searching"),c={disabled:!0,loading:!0,text:b(a)},d=this.option(c);d.className+=" loading-results",this.$results.prepend(d)},c.prototype.hideLoading=function(){this.$results.find(".loading-results").remove()},c.prototype.option=function(b){var c=document.createElement("li");c.className="select2-results__option";var d={role:"treeitem","aria-selected":"false"};b.disabled&&(delete d["aria-selected"],d["aria-disabled"]="true"),null==b.id&&delete d["aria-selected"],null!=b._resultId&&(c.id=b._resultId),b.title&&(c.title=b.title),b.children&&(d.role="group",d["aria-label"]=b.text,delete d["aria-selected"]);for(var e in d){var f=d[e];c.setAttribute(e,f)}if(b.children){var g=a(c),h=document.createElement("strong");h.className="select2-results__group";a(h);this.template(b,h);for(var i=[],j=0;j<b.children.length;j++){var k=b.children[j],l=this.option(k);i.push(l)}var m=a("<ul></ul>",{"class":"select2-results__options select2-results__options--nested"});m.append(i),g.append(h),g.append(m)}else this.template(b,c);return a.data(c,"data",b),c},c.prototype.bind=function(b,c){var d=this,e=b.id+"-results";this.$results.attr("id",e),b.on("results:all",function(a){d.clear(),d.append(a.data),b.isOpen()&&(d.setClasses(),d.highlightFirstItem())}),b.on("results:append",function(a){d.append(a.data),b.isOpen()&&d.setClasses()}),b.on("query",function(a){d.hideMessages(),d.showLoading(a)}),b.on("select",function(){b.isOpen()&&(d.setClasses(),d.highlightFirstItem())}),b.on("unselect",function(){b.isOpen()&&(d.setClasses(),d.highlightFirstItem())}),b.on("open",function(){d.$results.attr("aria-expanded","true"),d.$results.attr("aria-hidden","false"),d.setClasses(),d.ensureHighlightVisible()}),b.on("close",function(){d.$results.attr("aria-expanded","false"),d.$results.attr("aria-hidden","true"),d.$results.removeAttr("aria-activedescendant")}),b.on("results:toggle",function(){var a=d.getHighlightedResults();0!==a.length&&a.trigger("mouseup")}),b.on("results:select",function(){var a=d.getHighlightedResults();if(0!==a.length){var b=a.data("data");"true"==a.attr("aria-selected")?d.trigger("close",{}):d.trigger("select",{data:b})}}),b.on("results:previous",function(){var a=d.getHighlightedResults(),b=d.$results.find("[aria-selected]"),c=b.index(a);if(0!==c){var e=c-1;0===a.length&&(e=0);var f=b.eq(e);f.trigger("mouseenter");var g=d.$results.offset().top,h=f.offset().top,i=d.$results.scrollTop()+(h-g);0===e?d.$results.scrollTop(0):0>h-g&&d.$results.scrollTop(i)}}),b.on("results:next",function(){var a=d.getHighlightedResults(),b=d.$results.find("[aria-selected]"),c=b.index(a),e=c+1;if(!(e>=b.length)){var f=b.eq(e);f.trigger("mouseenter");var g=d.$results.offset().top+d.$results.outerHeight(!1),h=f.offset().top+f.outerHeight(!1),i=d.$results.scrollTop()+h-g;0===e?d.$results.scrollTop(0):h>g&&d.$results.scrollTop(i)}}),b.on("results:focus",function(a){a.element.addClass("select2-results__option--highlighted")}),b.on("results:message",function(a){d.displayMessage(a)}),a.fn.mousewheel&&this.$results.on("mousewheel",function(a){var b=d.$results.scrollTop(),c=d.$results.get(0).scrollHeight-b+a.deltaY,e=a.deltaY>0&&b-a.deltaY<=0,f=a.deltaY<0&&c<=d.$results.height();e?(d.$results.scrollTop(0),a.preventDefault(),a.stopPropagation()):f&&(d.$results.scrollTop(d.$results.get(0).scrollHeight-d.$results.height()),a.preventDefault(),a.stopPropagation())}),this.$results.on("mouseup",".select2-results__option[aria-selected]",function(b){var c=a(this),e=c.data("data");return"true"===c.attr("aria-selected")?void(d.options.get("multiple")?d.trigger("unselect",{originalEvent:b,data:e}):d.trigger("close",{})):void d.trigger("select",{originalEvent:b,data:e})}),this.$results.on("mouseenter",".select2-results__option[aria-selected]",function(b){var c=a(this).data("data");d.getHighlightedResults().removeClass("select2-results__option--highlighted"),d.trigger("results:focus",{data:c,element:a(this)})})},c.prototype.getHighlightedResults=function(){var a=this.$results.find(".select2-results__option--highlighted");return a},c.prototype.destroy=function(){this.$results.remove()},c.prototype.ensureHighlightVisible=function(){var a=this.getHighlightedResults();if(0!==a.length){var b=this.$results.find("[aria-selected]"),c=b.index(a),d=this.$results.offset().top,e=a.offset().top,f=this.$results.scrollTop()+(e-d),g=e-d;f-=2*a.outerHeight(!1),2>=c?this.$results.scrollTop(0):(g>this.$results.outerHeight()||0>g)&&this.$results.scrollTop(f)}},c.prototype.template=function(b,c){var d=this.options.get("templateResult"),e=this.options.get("escapeMarkup"),f=d(b,c);null==f?c.style.display="none":"string"==typeof f?c.innerHTML=e(f):a(c).append(f)},c}),b.define("select2/keys",[],function(){var a={BACKSPACE:8,TAB:9,ENTER:13,SHIFT:16,CTRL:17,ALT:18,ESC:27,SPACE:32,PAGE_UP:33,PAGE_DOWN:34,END:35,HOME:36,LEFT:37,UP:38,RIGHT:39,DOWN:40,DELETE:46};return a}),b.define("select2/selection/base",["jquery","../utils","../keys"],function(a,b,c){function d(a,b){this.$element=a,this.options=b,d.__super__.constructor.call(this)}return b.Extend(d,b.Observable),d.prototype.render=function(){var b=a('<span class="select2-selection" role="combobox"  aria-haspopup="true" aria-expanded="false"></span>');return this._tabindex=0,null!=this.$element.data("old-tabindex")?this._tabindex=this.$element.data("old-tabindex"):null!=this.$element.attr("tabindex")&&(this._tabindex=this.$element.attr("tabindex")),b.attr("title",this.$element.attr("title")),b.attr("tabindex",this._tabindex),this.$selection=b,b},d.prototype.bind=function(a,b){var d=this,e=(a.id+"-container",a.id+"-results");this.container=a,this.$selection.on("focus",function(a){d.trigger("focus",a)}),this.$selection.on("blur",function(a){d._handleBlur(a)}),this.$selection.on("keydown",function(a){d.trigger("keypress",a),a.which===c.SPACE&&a.preventDefault()}),a.on("results:focus",function(a){d.$selection.attr("aria-activedescendant",a.data._resultId)}),a.on("selection:update",function(a){d.update(a.data)}),a.on("open",function(){d.$selection.attr("aria-expanded","true"),d.$selection.attr("aria-owns",e),d._attachCloseHandler(a)}),a.on("close",function(){d.$selection.attr("aria-expanded","false"),d.$selection.removeAttr("aria-activedescendant"),d.$selection.removeAttr("aria-owns"),d.$selection.focus(),d._detachCloseHandler(a)}),a.on("enable",function(){d.$selection.attr("tabindex",d._tabindex)}),a.on("disable",function(){d.$selection.attr("tabindex","-1")})},d.prototype._handleBlur=function(b){var c=this;window.setTimeout(function(){document.activeElement==c.$selection[0]||a.contains(c.$selection[0],document.activeElement)||c.trigger("blur",b)},1)},d.prototype._attachCloseHandler=function(b){a(document.body).on("mousedown.select2."+b.id,function(b){var c=a(b.target),d=c.closest(".select2"),e=a(".select2.select2-container--open");e.each(function(){var b=a(this);if(this!=d[0]){var c=b.data("element");c.select2("close")}})})},d.prototype._detachCloseHandler=function(b){a(document.body).off("mousedown.select2."+b.id)},d.prototype.position=function(a,b){var c=b.find(".selection");c.append(a)},d.prototype.destroy=function(){this._detachCloseHandler(this.container)},d.prototype.update=function(a){throw new Error("The `update` method must be defined in child classes.")},d}),b.define("select2/selection/single",["jquery","./base","../utils","../keys"],function(a,b,c,d){function e(){e.__super__.constructor.apply(this,arguments)}return c.Extend(e,b),e.prototype.render=function(){var a=e.__super__.render.call(this);return a.addClass("select2-selection--single"),a.html('<span class="select2-selection__rendered"></span><span class="select2-selection__arrow" role="presentation"><b role="presentation"></b></span>'),a},e.prototype.bind=function(a,b){var c=this;e.__super__.bind.apply(this,arguments);var d=a.id+"-container";this.$selection.find(".select2-selection__rendered").attr("id",d),this.$selection.attr("aria-labelledby",d),this.$selection.on("mousedown",function(a){1===a.which&&c.trigger("toggle",{originalEvent:a})}),this.$selection.on("focus",function(a){}),this.$selection.on("blur",function(a){}),a.on("focus",function(b){a.isOpen()||c.$selection.focus()}),a.on("selection:update",function(a){c.update(a.data)})},e.prototype.clear=function(){this.$selection.find(".select2-selection__rendered").empty()},e.prototype.display=function(a,b){var c=this.options.get("templateSelection"),d=this.options.get("escapeMarkup");return d(c(a,b))},e.prototype.selectionContainer=function(){return a("<span></span>")},e.prototype.update=function(a){if(0===a.length)return void this.clear();var b=a[0],c=this.$selection.find(".select2-selection__rendered"),d=this.display(b,c);c.empty().append(d),c.prop("title",b.title||b.text)},e}),b.define("select2/selection/multiple",["jquery","./base","../utils"],function(a,b,c){function d(a,b){d.__super__.constructor.apply(this,arguments)}return c.Extend(d,b),d.prototype.render=function(){var a=d.__super__.render.call(this);return a.addClass("select2-selection--multiple"),a.html('<ul class="select2-selection__rendered"></ul>'),a},d.prototype.bind=function(b,c){var e=this;d.__super__.bind.apply(this,arguments),this.$selection.on("click",function(a){e.trigger("toggle",{originalEvent:a})}),this.$selection.on("click",".select2-selection__choice__remove",function(b){if(!e.options.get("disabled")){var c=a(this),d=c.parent(),f=d.data("data");e.trigger("unselect",{originalEvent:b,data:f})}})},d.prototype.clear=function(){this.$selection.find(".select2-selection__rendered").empty()},d.prototype.display=function(a,b){var c=this.options.get("templateSelection"),d=this.options.get("escapeMarkup");return d(c(a,b))},d.prototype.selectionContainer=function(){var b=a('<li class="select2-selection__choice"><span class="select2-selection__choice__remove" role="presentation">&times;</span></li>');return b},d.prototype.update=function(a){if(this.clear(),0!==a.length){for(var b=[],d=0;d<a.length;d++){var e=a[d],f=this.selectionContainer(),g=this.display(e,f);f.append(g),f.prop("title",e.title||e.text),f.data("data",e),b.push(f)}var h=this.$selection.find(".select2-selection__rendered");c.appendMany(h,b)}},d}),b.define("select2/selection/placeholder",["../utils"],function(a){function b(a,b,c){this.placeholder=this.normalizePlaceholder(c.get("placeholder")),a.call(this,b,c)}return b.prototype.normalizePlaceholder=function(a,b){return"string"==typeof b&&(b={id:"",text:b}),b},b.prototype.createPlaceholder=function(a,b){var c=this.selectionContainer();return c.html(this.display(b)),c.addClass("select2-selection__placeholder").removeClass("select2-selection__choice"),c},b.prototype.update=function(a,b){var c=1==b.length&&b[0].id!=this.placeholder.id,d=b.length>1;if(d||c)return a.call(this,b);this.clear();var e=this.createPlaceholder(this.placeholder);this.$selection.find(".select2-selection__rendered").append(e)},b}),b.define("select2/selection/allowClear",["jquery","../keys"],function(a,b){function c(){}return c.prototype.bind=function(a,b,c){var d=this;a.call(this,b,c),null==this.placeholder&&this.options.get("debug")&&window.console&&console.error&&console.error("Select2: The `allowClear` option should be used in combination with the `placeholder` option."),this.$selection.on("mousedown",".select2-selection__clear",function(a){d._handleClear(a)}),b.on("keypress",function(a){d._handleKeyboardClear(a,b)})},c.prototype._handleClear=function(a,b){if(!this.options.get("disabled")){var c=this.$selection.find(".select2-selection__clear");if(0!==c.length){b.stopPropagation();for(var d=c.data("data"),e=0;e<d.length;e++){var f={data:d[e]};if(this.trigger("unselect",f),f.prevented)return}this.$element.val(this.placeholder.id).trigger("change"),this.trigger("toggle",{})}}},c.prototype._handleKeyboardClear=function(a,c,d){d.isOpen()||(c.which==b.DELETE||c.which==b.BACKSPACE)&&this._handleClear(c)},c.prototype.update=function(b,c){if(b.call(this,c),!(this.$selection.find(".select2-selection__placeholder").length>0||0===c.length)){var d=a('<span class="select2-selection__clear">&times;</span>');d.data("data",c),this.$selection.find(".select2-selection__rendered").prepend(d)}},c}),b.define("select2/selection/search",["jquery","../utils","../keys"],function(a,b,c){function d(a,b,c){a.call(this,b,c)}return d.prototype.render=function(b){var c=a('<li class="select2-search select2-search--inline"><input class="select2-search__field" type="search" tabindex="-1" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="textbox" aria-autocomplete="list" /></li>');this.$searchContainer=c,this.$search=c.find("input");var d=b.call(this);return this._transferTabIndex(),d},d.prototype.bind=function(a,b,d){var e=this;a.call(this,b,d),b.on("open",function(){e.$search.trigger("focus")}),b.on("close",function(){e.$search.val(""),e.$search.removeAttr("aria-activedescendant"),e.$search.trigger("focus")}),b.on("enable",function(){e.$search.prop("disabled",!1),e._transferTabIndex()}),b.on("disable",function(){e.$search.prop("disabled",!0)}),b.on("focus",function(a){e.$search.trigger("focus")}),b.on("results:focus",function(a){e.$search.attr("aria-activedescendant",a.id)}),this.$selection.on("focusin",".select2-search--inline",function(a){e.trigger("focus",a)}),this.$selection.on("focusout",".select2-search--inline",function(a){e._handleBlur(a)}),this.$selection.on("keydown",".select2-search--inline",function(a){a.stopPropagation(),e.trigger("keypress",a),e._keyUpPrevented=a.isDefaultPrevented();var b=a.which;if(b===c.BACKSPACE&&""===e.$search.val()){var d=e.$searchContainer.prev(".select2-selection__choice");if(d.length>0){var f=d.data("data");e.searchRemoveChoice(f),a.preventDefault()}}});var f=document.documentMode,g=f&&11>=f;this.$selection.on("input.searchcheck",".select2-search--inline",function(a){return g?void e.$selection.off("input.search input.searchcheck"):void e.$selection.off("keyup.search")}),this.$selection.on("keyup.search input.search",".select2-search--inline",function(a){if(g&&"input"===a.type)return void e.$selection.off("input.search input.searchcheck");var b=a.which;b!=c.SHIFT&&b!=c.CTRL&&b!=c.ALT&&b!=c.TAB&&e.handleSearch(a)})},d.prototype._transferTabIndex=function(a){this.$search.attr("tabindex",this.$selection.attr("tabindex")),this.$selection.attr("tabindex","-1")},d.prototype.createPlaceholder=function(a,b){this.$search.attr("placeholder",b.text)},d.prototype.update=function(a,b){var c=this.$search[0]==document.activeElement;this.$search.attr("placeholder",""),a.call(this,b),this.$selection.find(".select2-selection__rendered").append(this.$searchContainer),this.resizeSearch(),c&&this.$search.focus()},d.prototype.handleSearch=function(){if(this.resizeSearch(),!this._keyUpPrevented){var a=this.$search.val();this.trigger("query",{term:a})}this._keyUpPrevented=!1},d.prototype.searchRemoveChoice=function(a,b){this.trigger("unselect",{data:b}),this.$search.val(b.text),this.handleSearch()},d.prototype.resizeSearch=function(){this.$search.css("width","25px");var a="";if(""!==this.$search.attr("placeholder"))a=this.$selection.find(".select2-selection__rendered").innerWidth();else{var b=this.$search.val().length+1;a=.75*b+"em"}this.$search.css("width",a)},d}),b.define("select2/selection/eventRelay",["jquery"],function(a){function b(){}return b.prototype.bind=function(b,c,d){var e=this,f=["open","opening","close","closing","select","selecting","unselect","unselecting"],g=["opening","closing","selecting","unselecting"];b.call(this,c,d),c.on("*",function(b,c){if(-1!==a.inArray(b,f)){c=c||{};var d=a.Event("select2:"+b,{params:c});e.$element.trigger(d),-1!==a.inArray(b,g)&&(c.prevented=d.isDefaultPrevented())}})},b}),b.define("select2/translation",["jquery","require"],function(a,b){function c(a){this.dict=a||{}}return c.prototype.all=function(){return this.dict},c.prototype.get=function(a){return this.dict[a]},c.prototype.extend=function(b){this.dict=a.extend({},b.all(),this.dict)},c._cache={},c.loadPath=function(a){if(!(a in c._cache)){var d=b(a);c._cache[a]=d}return new c(c._cache[a])},c}),b.define("select2/diacritics",[],function(){var a={"Ⓐ":"A","Ａ":"A","À":"A","Á":"A","Â":"A","Ầ":"A","Ấ":"A","Ẫ":"A","Ẩ":"A","Ã":"A","Ā":"A","Ă":"A","Ằ":"A","Ắ":"A","Ẵ":"A","Ẳ":"A","Ȧ":"A","Ǡ":"A","Ä":"A","Ǟ":"A","Ả":"A","Å":"A","Ǻ":"A","Ǎ":"A","Ȁ":"A","Ȃ":"A","Ạ":"A","Ậ":"A","Ặ":"A","Ḁ":"A","Ą":"A","Ⱥ":"A","Ɐ":"A","Ꜳ":"AA","Æ":"AE","Ǽ":"AE","Ǣ":"AE","Ꜵ":"AO","Ꜷ":"AU","Ꜹ":"AV","Ꜻ":"AV","Ꜽ":"AY","Ⓑ":"B","Ｂ":"B","Ḃ":"B","Ḅ":"B","Ḇ":"B","Ƀ":"B","Ƃ":"B","Ɓ":"B","Ⓒ":"C","Ｃ":"C","Ć":"C","Ĉ":"C","Ċ":"C","Č":"C","Ç":"C","Ḉ":"C","Ƈ":"C","Ȼ":"C","Ꜿ":"C","Ⓓ":"D","Ｄ":"D","Ḋ":"D","Ď":"D","Ḍ":"D","Ḑ":"D","Ḓ":"D","Ḏ":"D","Đ":"D","Ƌ":"D","Ɗ":"D","Ɖ":"D","Ꝺ":"D","Ǳ":"DZ","Ǆ":"DZ","ǲ":"Dz","ǅ":"Dz","Ⓔ":"E","Ｅ":"E","È":"E","É":"E","Ê":"E","Ề":"E","Ế":"E","Ễ":"E","Ể":"E","Ẽ":"E","Ē":"E","Ḕ":"E","Ḗ":"E","Ĕ":"E","Ė":"E","Ë":"E","Ẻ":"E","Ě":"E","Ȅ":"E","Ȇ":"E","Ẹ":"E","Ệ":"E","Ȩ":"E","Ḝ":"E","Ę":"E","Ḙ":"E","Ḛ":"E","Ɛ":"E","Ǝ":"E","Ⓕ":"F","Ｆ":"F","Ḟ":"F","Ƒ":"F","Ꝼ":"F","Ⓖ":"G","Ｇ":"G","Ǵ":"G","Ĝ":"G","Ḡ":"G","Ğ":"G","Ġ":"G","Ǧ":"G","Ģ":"G","Ǥ":"G","Ɠ":"G","Ꞡ":"G","Ᵹ":"G","Ꝿ":"G","Ⓗ":"H","Ｈ":"H","Ĥ":"H","Ḣ":"H","Ḧ":"H","Ȟ":"H","Ḥ":"H","Ḩ":"H","Ḫ":"H","Ħ":"H","Ⱨ":"H","Ⱶ":"H","Ɥ":"H","Ⓘ":"I","Ｉ":"I","Ì":"I","Í":"I","Î":"I","Ĩ":"I","Ī":"I","Ĭ":"I","İ":"I","Ï":"I","Ḯ":"I","Ỉ":"I","Ǐ":"I","Ȉ":"I","Ȋ":"I","Ị":"I","Į":"I","Ḭ":"I","Ɨ":"I","Ⓙ":"J","Ｊ":"J","Ĵ":"J","Ɉ":"J","Ⓚ":"K","Ｋ":"K","Ḱ":"K","Ǩ":"K","Ḳ":"K","Ķ":"K","Ḵ":"K","Ƙ":"K","Ⱪ":"K","Ꝁ":"K","Ꝃ":"K","Ꝅ":"K","Ꞣ":"K","Ⓛ":"L","Ｌ":"L","Ŀ":"L","Ĺ":"L","Ľ":"L","Ḷ":"L","Ḹ":"L","Ļ":"L","Ḽ":"L","Ḻ":"L","Ł":"L","Ƚ":"L","Ɫ":"L","Ⱡ":"L","Ꝉ":"L","Ꝇ":"L","Ꞁ":"L","Ǉ":"LJ","ǈ":"Lj","Ⓜ":"M","Ｍ":"M","Ḿ":"M","Ṁ":"M","Ṃ":"M","Ɱ":"M","Ɯ":"M","Ⓝ":"N","Ｎ":"N","Ǹ":"N","Ń":"N","Ñ":"N","Ṅ":"N","Ň":"N","Ṇ":"N","Ņ":"N","Ṋ":"N","Ṉ":"N","Ƞ":"N","Ɲ":"N","Ꞑ":"N","Ꞥ":"N","Ǌ":"NJ","ǋ":"Nj","Ⓞ":"O","Ｏ":"O","Ò":"O","Ó":"O","Ô":"O","Ồ":"O","Ố":"O","Ỗ":"O","Ổ":"O","Õ":"O","Ṍ":"O","Ȭ":"O","Ṏ":"O","Ō":"O","Ṑ":"O","Ṓ":"O","Ŏ":"O","Ȯ":"O","Ȱ":"O","Ö":"O","Ȫ":"O","Ỏ":"O","Ő":"O","Ǒ":"O","Ȍ":"O","Ȏ":"O","Ơ":"O","Ờ":"O","Ớ":"O","Ỡ":"O","Ở":"O","Ợ":"O","Ọ":"O","Ộ":"O","Ǫ":"O","Ǭ":"O","Ø":"O","Ǿ":"O","Ɔ":"O","Ɵ":"O","Ꝋ":"O","Ꝍ":"O","Ƣ":"OI","Ꝏ":"OO","Ȣ":"OU","Ⓟ":"P","Ｐ":"P","Ṕ":"P","Ṗ":"P","Ƥ":"P","Ᵽ":"P","Ꝑ":"P","Ꝓ":"P","Ꝕ":"P","Ⓠ":"Q","Ｑ":"Q","Ꝗ":"Q","Ꝙ":"Q","Ɋ":"Q","Ⓡ":"R","Ｒ":"R","Ŕ":"R","Ṙ":"R","Ř":"R","Ȑ":"R","Ȓ":"R","Ṛ":"R","Ṝ":"R","Ŗ":"R","Ṟ":"R","Ɍ":"R","Ɽ":"R","Ꝛ":"R","Ꞧ":"R","Ꞃ":"R","Ⓢ":"S","Ｓ":"S","ẞ":"S","Ś":"S","Ṥ":"S","Ŝ":"S","Ṡ":"S","Š":"S","Ṧ":"S","Ṣ":"S","Ṩ":"S","Ș":"S","Ş":"S","Ȿ":"S","Ꞩ":"S","Ꞅ":"S","Ⓣ":"T","Ｔ":"T","Ṫ":"T","Ť":"T","Ṭ":"T","Ț":"T","Ţ":"T","Ṱ":"T","Ṯ":"T","Ŧ":"T","Ƭ":"T","Ʈ":"T","Ⱦ":"T","Ꞇ":"T","Ꜩ":"TZ","Ⓤ":"U","Ｕ":"U","Ù":"U","Ú":"U","Û":"U","Ũ":"U","Ṹ":"U","Ū":"U","Ṻ":"U","Ŭ":"U","Ü":"U","Ǜ":"U","Ǘ":"U","Ǖ":"U","Ǚ":"U","Ủ":"U","Ů":"U","Ű":"U","Ǔ":"U","Ȕ":"U","Ȗ":"U","Ư":"U","Ừ":"U","Ứ":"U","Ữ":"U","Ử":"U","Ự":"U","Ụ":"U","Ṳ":"U","Ų":"U","Ṷ":"U","Ṵ":"U","Ʉ":"U","Ⓥ":"V","Ｖ":"V","Ṽ":"V","Ṿ":"V","Ʋ":"V","Ꝟ":"V","Ʌ":"V","Ꝡ":"VY","Ⓦ":"W","Ｗ":"W","Ẁ":"W","Ẃ":"W","Ŵ":"W","Ẇ":"W","Ẅ":"W","Ẉ":"W","Ⱳ":"W","Ⓧ":"X","Ｘ":"X","Ẋ":"X","Ẍ":"X","Ⓨ":"Y","Ｙ":"Y","Ỳ":"Y","Ý":"Y","Ŷ":"Y","Ỹ":"Y","Ȳ":"Y","Ẏ":"Y","Ÿ":"Y","Ỷ":"Y","Ỵ":"Y","Ƴ":"Y","Ɏ":"Y","Ỿ":"Y","Ⓩ":"Z","Ｚ":"Z","Ź":"Z","Ẑ":"Z","Ż":"Z","Ž":"Z","Ẓ":"Z","Ẕ":"Z","Ƶ":"Z","Ȥ":"Z","Ɀ":"Z","Ⱬ":"Z","Ꝣ":"Z","ⓐ":"a","ａ":"a","ẚ":"a","à":"a","á":"a","â":"a","ầ":"a","ấ":"a","ẫ":"a","ẩ":"a","ã":"a","ā":"a","ă":"a","ằ":"a","ắ":"a","ẵ":"a","ẳ":"a","ȧ":"a","ǡ":"a","ä":"a","ǟ":"a","ả":"a","å":"a","ǻ":"a","ǎ":"a","ȁ":"a","ȃ":"a","ạ":"a","ậ":"a","ặ":"a","ḁ":"a","ą":"a","ⱥ":"a","ɐ":"a","ꜳ":"aa","æ":"ae","ǽ":"ae","ǣ":"ae","ꜵ":"ao","ꜷ":"au","ꜹ":"av","ꜻ":"av","ꜽ":"ay","ⓑ":"b","ｂ":"b","ḃ":"b","ḅ":"b","ḇ":"b","ƀ":"b","ƃ":"b","ɓ":"b","ⓒ":"c","ｃ":"c","ć":"c","ĉ":"c","ċ":"c","č":"c","ç":"c","ḉ":"c","ƈ":"c","ȼ":"c","ꜿ":"c","ↄ":"c","ⓓ":"d","ｄ":"d","ḋ":"d","ď":"d","ḍ":"d","ḑ":"d","ḓ":"d","ḏ":"d","đ":"d","ƌ":"d","ɖ":"d","ɗ":"d","ꝺ":"d","ǳ":"dz","ǆ":"dz","ⓔ":"e","ｅ":"e","è":"e","é":"e","ê":"e","ề":"e","ế":"e","ễ":"e","ể":"e","ẽ":"e","ē":"e","ḕ":"e","ḗ":"e","ĕ":"e","ė":"e","ë":"e","ẻ":"e","ě":"e","ȅ":"e","ȇ":"e","ẹ":"e","ệ":"e","ȩ":"e","ḝ":"e","ę":"e","ḙ":"e","ḛ":"e","ɇ":"e","ɛ":"e","ǝ":"e","ⓕ":"f","ｆ":"f","ḟ":"f","ƒ":"f","ꝼ":"f","ⓖ":"g","ｇ":"g","ǵ":"g","ĝ":"g","ḡ":"g","ğ":"g","ġ":"g","ǧ":"g","ģ":"g","ǥ":"g","ɠ":"g","ꞡ":"g","ᵹ":"g","ꝿ":"g","ⓗ":"h","ｈ":"h","ĥ":"h","ḣ":"h","ḧ":"h","ȟ":"h","ḥ":"h","ḩ":"h","ḫ":"h","ẖ":"h","ħ":"h","ⱨ":"h","ⱶ":"h","ɥ":"h","ƕ":"hv","ⓘ":"i","ｉ":"i","ì":"i","í":"i","î":"i","ĩ":"i","ī":"i","ĭ":"i","ï":"i","ḯ":"i","ỉ":"i","ǐ":"i","ȉ":"i","ȋ":"i","ị":"i","į":"i","ḭ":"i","ɨ":"i","ı":"i","ⓙ":"j","ｊ":"j","ĵ":"j","ǰ":"j","ɉ":"j","ⓚ":"k","ｋ":"k","ḱ":"k","ǩ":"k","ḳ":"k","ķ":"k","ḵ":"k","ƙ":"k","ⱪ":"k","ꝁ":"k","ꝃ":"k","ꝅ":"k","ꞣ":"k","ⓛ":"l","ｌ":"l","ŀ":"l","ĺ":"l","ľ":"l","ḷ":"l","ḹ":"l","ļ":"l","ḽ":"l","ḻ":"l","ſ":"l","ł":"l","ƚ":"l","ɫ":"l","ⱡ":"l","ꝉ":"l","ꞁ":"l","ꝇ":"l","ǉ":"lj","ⓜ":"m","ｍ":"m","ḿ":"m","ṁ":"m","ṃ":"m","ɱ":"m","ɯ":"m","ⓝ":"n","ｎ":"n","ǹ":"n","ń":"n","ñ":"n","ṅ":"n","ň":"n","ṇ":"n","ņ":"n","ṋ":"n","ṉ":"n","ƞ":"n","ɲ":"n","ŉ":"n","ꞑ":"n","ꞥ":"n","ǌ":"nj","ⓞ":"o","ｏ":"o","ò":"o","ó":"o","ô":"o","ồ":"o","ố":"o","ỗ":"o","ổ":"o","õ":"o","ṍ":"o","ȭ":"o","ṏ":"o","ō":"o","ṑ":"o","ṓ":"o","ŏ":"o","ȯ":"o","ȱ":"o","ö":"o","ȫ":"o","ỏ":"o","ő":"o","ǒ":"o","ȍ":"o","ȏ":"o","ơ":"o","ờ":"o","ớ":"o","ỡ":"o","ở":"o","ợ":"o","ọ":"o","ộ":"o","ǫ":"o","ǭ":"o","ø":"o","ǿ":"o","ɔ":"o","ꝋ":"o","ꝍ":"o","ɵ":"o","ƣ":"oi","ȣ":"ou","ꝏ":"oo","ⓟ":"p","ｐ":"p","ṕ":"p","ṗ":"p","ƥ":"p","ᵽ":"p","ꝑ":"p","ꝓ":"p","ꝕ":"p","ⓠ":"q","ｑ":"q","ɋ":"q","ꝗ":"q","ꝙ":"q","ⓡ":"r","ｒ":"r","ŕ":"r","ṙ":"r","ř":"r","ȑ":"r","ȓ":"r","ṛ":"r","ṝ":"r","ŗ":"r","ṟ":"r","ɍ":"r","ɽ":"r","ꝛ":"r","ꞧ":"r","ꞃ":"r","ⓢ":"s","ｓ":"s","ß":"s","ś":"s","ṥ":"s","ŝ":"s","ṡ":"s","š":"s","ṧ":"s","ṣ":"s","ṩ":"s","ș":"s","ş":"s","ȿ":"s","ꞩ":"s","ꞅ":"s","ẛ":"s","ⓣ":"t","ｔ":"t","ṫ":"t","ẗ":"t","ť":"t","ṭ":"t","ț":"t","ţ":"t","ṱ":"t","ṯ":"t","ŧ":"t","ƭ":"t","ʈ":"t","ⱦ":"t","ꞇ":"t","ꜩ":"tz","ⓤ":"u","ｕ":"u","ù":"u","ú":"u","û":"u","ũ":"u","ṹ":"u","ū":"u","ṻ":"u","ŭ":"u","ü":"u","ǜ":"u","ǘ":"u","ǖ":"u","ǚ":"u","ủ":"u","ů":"u","ű":"u","ǔ":"u","ȕ":"u","ȗ":"u","ư":"u","ừ":"u","ứ":"u","ữ":"u","ử":"u","ự":"u","ụ":"u","ṳ":"u","ų":"u","ṷ":"u","ṵ":"u","ʉ":"u","ⓥ":"v","ｖ":"v","ṽ":"v","ṿ":"v","ʋ":"v","ꝟ":"v","ʌ":"v","ꝡ":"vy","ⓦ":"w","ｗ":"w","ẁ":"w","ẃ":"w","ŵ":"w","ẇ":"w","ẅ":"w","ẘ":"w","ẉ":"w","ⱳ":"w","ⓧ":"x","ｘ":"x","ẋ":"x","ẍ":"x","ⓨ":"y","ｙ":"y","ỳ":"y","ý":"y","ŷ":"y","ỹ":"y","ȳ":"y","ẏ":"y","ÿ":"y","ỷ":"y","ẙ":"y","ỵ":"y","ƴ":"y","ɏ":"y","ỿ":"y","ⓩ":"z","ｚ":"z","ź":"z","ẑ":"z","ż":"z","ž":"z","ẓ":"z","ẕ":"z","ƶ":"z","ȥ":"z","ɀ":"z","ⱬ":"z","ꝣ":"z","Ά":"Α","Έ":"Ε","Ή":"Η","Ί":"Ι","Ϊ":"Ι","Ό":"Ο","Ύ":"Υ","Ϋ":"Υ","Ώ":"Ω","ά":"α","έ":"ε","ή":"η","ί":"ι","ϊ":"ι","ΐ":"ι","ό":"ο","ύ":"υ","ϋ":"υ","ΰ":"υ","ω":"ω","ς":"σ"};return a}),b.define("select2/data/base",["../utils"],function(a){function b(a,c){b.__super__.constructor.call(this)}return a.Extend(b,a.Observable),b.prototype.current=function(a){throw new Error("The `current` method must be defined in child classes.")},b.prototype.query=function(a,b){throw new Error("The `query` method must be defined in child classes.")},b.prototype.bind=function(a,b){},b.prototype.destroy=function(){},b.prototype.generateResultId=function(b,c){var d=b.id+"-result-";return d+=a.generateChars(4),d+=null!=c.id?"-"+c.id.toString():"-"+a.generateChars(4)},b}),b.define("select2/data/select",["./base","../utils","jquery"],function(a,b,c){function d(a,b){this.$element=a,this.options=b,d.__super__.constructor.call(this)}return b.Extend(d,a),d.prototype.current=function(a){var b=[],d=this;this.$element.find(":selected").each(function(){var a=c(this),e=d.item(a);b.push(e)}),a(b)},d.prototype.select=function(a){var b=this;if(a.selected=!0,c(a.element).is("option"))return a.element.selected=!0,void this.$element.trigger("change");
+if(this.$element.prop("multiple"))this.current(function(d){var e=[];a=[a],a.push.apply(a,d);for(var f=0;f<a.length;f++){var g=a[f].id;-1===c.inArray(g,e)&&e.push(g)}b.$element.val(e),b.$element.trigger("change")});else{var d=a.id;this.$element.val(d),this.$element.trigger("change")}},d.prototype.unselect=function(a){var b=this;if(this.$element.prop("multiple"))return a.selected=!1,c(a.element).is("option")?(a.element.selected=!1,void this.$element.trigger("change")):void this.current(function(d){for(var e=[],f=0;f<d.length;f++){var g=d[f].id;g!==a.id&&-1===c.inArray(g,e)&&e.push(g)}b.$element.val(e),b.$element.trigger("change")})},d.prototype.bind=function(a,b){var c=this;this.container=a,a.on("select",function(a){c.select(a.data)}),a.on("unselect",function(a){c.unselect(a.data)})},d.prototype.destroy=function(){this.$element.find("*").each(function(){c.removeData(this,"data")})},d.prototype.query=function(a,b){var d=[],e=this,f=this.$element.children();f.each(function(){var b=c(this);if(b.is("option")||b.is("optgroup")){var f=e.item(b),g=e.matches(a,f);null!==g&&d.push(g)}}),b({results:d})},d.prototype.addOptions=function(a){b.appendMany(this.$element,a)},d.prototype.option=function(a){var b;a.children?(b=document.createElement("optgroup"),b.label=a.text):(b=document.createElement("option"),void 0!==b.textContent?b.textContent=a.text:b.innerText=a.text),a.id&&(b.value=a.id),a.disabled&&(b.disabled=!0),a.selected&&(b.selected=!0),a.title&&(b.title=a.title);var d=c(b),e=this._normalizeItem(a);return e.element=b,c.data(b,"data",e),d},d.prototype.item=function(a){var b={};if(b=c.data(a[0],"data"),null!=b)return b;if(a.is("option"))b={id:a.val(),text:a.text(),disabled:a.prop("disabled"),selected:a.prop("selected"),title:a.prop("title")};else if(a.is("optgroup")){b={text:a.prop("label"),children:[],title:a.prop("title")};for(var d=a.children("option"),e=[],f=0;f<d.length;f++){var g=c(d[f]),h=this.item(g);e.push(h)}b.children=e}return b=this._normalizeItem(b),b.element=a[0],c.data(a[0],"data",b),b},d.prototype._normalizeItem=function(a){c.isPlainObject(a)||(a={id:a,text:a}),a=c.extend({},{text:""},a);var b={selected:!1,disabled:!1};return null!=a.id&&(a.id=a.id.toString()),null!=a.text&&(a.text=a.text.toString()),null==a._resultId&&a.id&&null!=this.container&&(a._resultId=this.generateResultId(this.container,a)),c.extend({},b,a)},d.prototype.matches=function(a,b){var c=this.options.get("matcher");return c(a,b)},d}),b.define("select2/data/array",["./select","../utils","jquery"],function(a,b,c){function d(a,b){var c=b.get("data")||[];d.__super__.constructor.call(this,a,b),this.addOptions(this.convertToOptions(c))}return b.Extend(d,a),d.prototype.select=function(a){var b=this.$element.find("option").filter(function(b,c){return c.value==a.id.toString()});0===b.length&&(b=this.option(a),this.addOptions(b)),d.__super__.select.call(this,a)},d.prototype.convertToOptions=function(a){function d(a){return function(){return c(this).val()==a.id}}for(var e=this,f=this.$element.find("option"),g=f.map(function(){return e.item(c(this)).id}).get(),h=[],i=0;i<a.length;i++){var j=this._normalizeItem(a[i]);if(c.inArray(j.id,g)>=0){var k=f.filter(d(j)),l=this.item(k),m=c.extend(!0,{},j,l),n=this.option(m);k.replaceWith(n)}else{var o=this.option(j);if(j.children){var p=this.convertToOptions(j.children);b.appendMany(o,p)}h.push(o)}}return h},d}),b.define("select2/data/ajax",["./array","../utils","jquery"],function(a,b,c){function d(a,b){this.ajaxOptions=this._applyDefaults(b.get("ajax")),null!=this.ajaxOptions.processResults&&(this.processResults=this.ajaxOptions.processResults),d.__super__.constructor.call(this,a,b)}return b.Extend(d,a),d.prototype._applyDefaults=function(a){var b={data:function(a){return c.extend({},a,{q:a.term})},transport:function(a,b,d){var e=c.ajax(a);return e.then(b),e.fail(d),e}};return c.extend({},b,a,!0)},d.prototype.processResults=function(a){return a},d.prototype.query=function(a,b){function d(){var d=f.transport(f,function(d){var f=e.processResults(d,a);e.options.get("debug")&&window.console&&console.error&&(f&&f.results&&c.isArray(f.results)||console.error("Select2: The AJAX results did not return an array in the `results` key of the response.")),b(f)},function(){d.status&&"0"===d.status||e.trigger("results:message",{message:"errorLoading"})});e._request=d}var e=this;null!=this._request&&(c.isFunction(this._request.abort)&&this._request.abort(),this._request=null);var f=c.extend({type:"GET"},this.ajaxOptions);"function"==typeof f.url&&(f.url=f.url.call(this.$element,a)),"function"==typeof f.data&&(f.data=f.data.call(this.$element,a)),this.ajaxOptions.delay&&null!=a.term?(this._queryTimeout&&window.clearTimeout(this._queryTimeout),this._queryTimeout=window.setTimeout(d,this.ajaxOptions.delay)):d()},d}),b.define("select2/data/tags",["jquery"],function(a){function b(b,c,d){var e=d.get("tags"),f=d.get("createTag");void 0!==f&&(this.createTag=f);var g=d.get("insertTag");if(void 0!==g&&(this.insertTag=g),b.call(this,c,d),a.isArray(e))for(var h=0;h<e.length;h++){var i=e[h],j=this._normalizeItem(i),k=this.option(j);this.$element.append(k)}}return b.prototype.query=function(a,b,c){function d(a,f){for(var g=a.results,h=0;h<g.length;h++){var i=g[h],j=null!=i.children&&!d({results:i.children},!0),k=i.text===b.term;if(k||j)return f?!1:(a.data=g,void c(a))}if(f)return!0;var l=e.createTag(b);if(null!=l){var m=e.option(l);m.attr("data-select2-tag",!0),e.addOptions([m]),e.insertTag(g,l)}a.results=g,c(a)}var e=this;return this._removeOldTags(),null==b.term||null!=b.page?void a.call(this,b,c):void a.call(this,b,d)},b.prototype.createTag=function(b,c){var d=a.trim(c.term);return""===d?null:{id:d,text:d}},b.prototype.insertTag=function(a,b,c){b.unshift(c)},b.prototype._removeOldTags=function(b){var c=(this._lastTag,this.$element.find("option[data-select2-tag]"));c.each(function(){this.selected||a(this).remove()})},b}),b.define("select2/data/tokenizer",["jquery"],function(a){function b(a,b,c){var d=c.get("tokenizer");void 0!==d&&(this.tokenizer=d),a.call(this,b,c)}return b.prototype.bind=function(a,b,c){a.call(this,b,c),this.$search=b.dropdown.$search||b.selection.$search||c.find(".select2-search__field")},b.prototype.query=function(b,c,d){function e(b){var c=g._normalizeItem(b),d=g.$element.find("option").filter(function(){return a(this).val()===c.id});if(!d.length){var e=g.option(c);e.attr("data-select2-tag",!0),g._removeOldTags(),g.addOptions([e])}f(c)}function f(a){g.trigger("select",{data:a})}var g=this;c.term=c.term||"";var h=this.tokenizer(c,this.options,e);h.term!==c.term&&(this.$search.length&&(this.$search.val(h.term),this.$search.focus()),c.term=h.term),b.call(this,c,d)},b.prototype.tokenizer=function(b,c,d,e){for(var f=d.get("tokenSeparators")||[],g=c.term,h=0,i=this.createTag||function(a){return{id:a.term,text:a.term}};h<g.length;){var j=g[h];if(-1!==a.inArray(j,f)){var k=g.substr(0,h),l=a.extend({},c,{term:k}),m=i(l);null!=m?(e(m),g=g.substr(h+1)||"",h=0):h++}else h++}return{term:g}},b}),b.define("select2/data/minimumInputLength",[],function(){function a(a,b,c){this.minimumInputLength=c.get("minimumInputLength"),a.call(this,b,c)}return a.prototype.query=function(a,b,c){return b.term=b.term||"",b.term.length<this.minimumInputLength?void this.trigger("results:message",{message:"inputTooShort",args:{minimum:this.minimumInputLength,input:b.term,params:b}}):void a.call(this,b,c)},a}),b.define("select2/data/maximumInputLength",[],function(){function a(a,b,c){this.maximumInputLength=c.get("maximumInputLength"),a.call(this,b,c)}return a.prototype.query=function(a,b,c){return b.term=b.term||"",this.maximumInputLength>0&&b.term.length>this.maximumInputLength?void this.trigger("results:message",{message:"inputTooLong",args:{maximum:this.maximumInputLength,input:b.term,params:b}}):void a.call(this,b,c)},a}),b.define("select2/data/maximumSelectionLength",[],function(){function a(a,b,c){this.maximumSelectionLength=c.get("maximumSelectionLength"),a.call(this,b,c)}return a.prototype.query=function(a,b,c){var d=this;this.current(function(e){var f=null!=e?e.length:0;return d.maximumSelectionLength>0&&f>=d.maximumSelectionLength?void d.trigger("results:message",{message:"maximumSelected",args:{maximum:d.maximumSelectionLength}}):void a.call(d,b,c)})},a}),b.define("select2/dropdown",["jquery","./utils"],function(a,b){function c(a,b){this.$element=a,this.options=b,c.__super__.constructor.call(this)}return b.Extend(c,b.Observable),c.prototype.render=function(){var b=a('<span class="select2-dropdown"><span class="select2-results"></span></span>');return b.attr("dir",this.options.get("dir")),this.$dropdown=b,b},c.prototype.bind=function(){},c.prototype.position=function(a,b){},c.prototype.destroy=function(){this.$dropdown.remove()},c}),b.define("select2/dropdown/search",["jquery","../utils"],function(a,b){function c(){}return c.prototype.render=function(b){var c=b.call(this),d=a('<span class="select2-search select2-search--dropdown"><input class="select2-search__field" type="search" tabindex="-1" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" role="textbox" /></span>');return this.$searchContainer=d,this.$search=d.find("input"),c.prepend(d),c},c.prototype.bind=function(b,c,d){var e=this;b.call(this,c,d),this.$search.on("keydown",function(a){e.trigger("keypress",a),e._keyUpPrevented=a.isDefaultPrevented()}),this.$search.on("input",function(b){a(this).off("keyup")}),this.$search.on("keyup input",function(a){e.handleSearch(a)}),c.on("open",function(){e.$search.attr("tabindex",0),e.$search.focus(),window.setTimeout(function(){e.$search.focus()},0)}),c.on("close",function(){e.$search.attr("tabindex",-1),e.$search.val("")}),c.on("focus",function(){c.isOpen()&&e.$search.focus()}),c.on("results:all",function(a){if(null==a.query.term||""===a.query.term){var b=e.showSearch(a);b?e.$searchContainer.removeClass("select2-search--hide"):e.$searchContainer.addClass("select2-search--hide")}})},c.prototype.handleSearch=function(a){if(!this._keyUpPrevented){var b=this.$search.val();this.trigger("query",{term:b})}this._keyUpPrevented=!1},c.prototype.showSearch=function(a,b){return!0},c}),b.define("select2/dropdown/hidePlaceholder",[],function(){function a(a,b,c,d){this.placeholder=this.normalizePlaceholder(c.get("placeholder")),a.call(this,b,c,d)}return a.prototype.append=function(a,b){b.results=this.removePlaceholder(b.results),a.call(this,b)},a.prototype.normalizePlaceholder=function(a,b){return"string"==typeof b&&(b={id:"",text:b}),b},a.prototype.removePlaceholder=function(a,b){for(var c=b.slice(0),d=b.length-1;d>=0;d--){var e=b[d];this.placeholder.id===e.id&&c.splice(d,1)}return c},a}),b.define("select2/dropdown/infiniteScroll",["jquery"],function(a){function b(a,b,c,d){this.lastParams={},a.call(this,b,c,d),this.$loadingMore=this.createLoadingMore(),this.loading=!1}return b.prototype.append=function(a,b){this.$loadingMore.remove(),this.loading=!1,a.call(this,b),this.showLoadingMore(b)&&this.$results.append(this.$loadingMore)},b.prototype.bind=function(b,c,d){var e=this;b.call(this,c,d),c.on("query",function(a){e.lastParams=a,e.loading=!0}),c.on("query:append",function(a){e.lastParams=a,e.loading=!0}),this.$results.on("scroll",function(){var b=a.contains(document.documentElement,e.$loadingMore[0]);if(!e.loading&&b){var c=e.$results.offset().top+e.$results.outerHeight(!1),d=e.$loadingMore.offset().top+e.$loadingMore.outerHeight(!1);c+50>=d&&e.loadMore()}})},b.prototype.loadMore=function(){this.loading=!0;var b=a.extend({},{page:1},this.lastParams);b.page++,this.trigger("query:append",b)},b.prototype.showLoadingMore=function(a,b){return b.pagination&&b.pagination.more},b.prototype.createLoadingMore=function(){var b=a('<li class="select2-results__option select2-results__option--load-more"role="treeitem" aria-disabled="true"></li>'),c=this.options.get("translations").get("loadingMore");return b.html(c(this.lastParams)),b},b}),b.define("select2/dropdown/attachBody",["jquery","../utils"],function(a,b){function c(b,c,d){this.$dropdownParent=d.get("dropdownParent")||a(document.body),b.call(this,c,d)}return c.prototype.bind=function(a,b,c){var d=this,e=!1;a.call(this,b,c),b.on("open",function(){d._showDropdown(),d._attachPositioningHandler(b),e||(e=!0,b.on("results:all",function(){d._positionDropdown(),d._resizeDropdown()}),b.on("results:append",function(){d._positionDropdown(),d._resizeDropdown()}))}),b.on("close",function(){d._hideDropdown(),d._detachPositioningHandler(b)}),this.$dropdownContainer.on("mousedown",function(a){a.stopPropagation()})},c.prototype.destroy=function(a){a.call(this),this.$dropdownContainer.remove()},c.prototype.position=function(a,b,c){b.attr("class",c.attr("class")),b.removeClass("select2"),b.addClass("select2-container--open"),b.css({position:"absolute",top:-999999}),this.$container=c},c.prototype.render=function(b){var c=a("<span></span>"),d=b.call(this);return c.append(d),this.$dropdownContainer=c,c},c.prototype._hideDropdown=function(a){this.$dropdownContainer.detach()},c.prototype._attachPositioningHandler=function(c,d){var e=this,f="scroll.select2."+d.id,g="resize.select2."+d.id,h="orientationchange.select2."+d.id,i=this.$container.parents().filter(b.hasScroll);i.each(function(){a(this).data("select2-scroll-position",{x:a(this).scrollLeft(),y:a(this).scrollTop()})}),i.on(f,function(b){var c=a(this).data("select2-scroll-position");a(this).scrollTop(c.y)}),a(window).on(f+" "+g+" "+h,function(a){e._positionDropdown(),e._resizeDropdown()})},c.prototype._detachPositioningHandler=function(c,d){var e="scroll.select2."+d.id,f="resize.select2."+d.id,g="orientationchange.select2."+d.id,h=this.$container.parents().filter(b.hasScroll);h.off(e),a(window).off(e+" "+f+" "+g)},c.prototype._positionDropdown=function(){var b=a(window),c=this.$dropdown.hasClass("select2-dropdown--above"),d=this.$dropdown.hasClass("select2-dropdown--below"),e=null,f=this.$container.offset();f.bottom=f.top+this.$container.outerHeight(!1);var g={height:this.$container.outerHeight(!1)};g.top=f.top,g.bottom=f.top+g.height;var h={height:this.$dropdown.outerHeight(!1)},i={top:b.scrollTop(),bottom:b.scrollTop()+b.height()},j=i.top<f.top-h.height,k=i.bottom>f.bottom+h.height,l={left:f.left,top:g.bottom},m=this.$dropdownParent;"static"===m.css("position")&&(m=m.offsetParent());var n=m.offset();l.top-=n.top,l.left-=n.left,c||d||(e="below"),k||!j||c?!j&&k&&c&&(e="below"):e="above",("above"==e||c&&"below"!==e)&&(l.top=g.top-n.top-h.height),null!=e&&(this.$dropdown.removeClass("select2-dropdown--below select2-dropdown--above").addClass("select2-dropdown--"+e),this.$container.removeClass("select2-container--below select2-container--above").addClass("select2-container--"+e)),this.$dropdownContainer.css(l)},c.prototype._resizeDropdown=function(){var a={width:this.$container.outerWidth(!1)+"px"};this.options.get("dropdownAutoWidth")&&(a.minWidth=a.width,a.position="relative",a.width="auto"),this.$dropdown.css(a)},c.prototype._showDropdown=function(a){this.$dropdownContainer.appendTo(this.$dropdownParent),this._positionDropdown(),this._resizeDropdown()},c}),b.define("select2/dropdown/minimumResultsForSearch",[],function(){function a(b){for(var c=0,d=0;d<b.length;d++){var e=b[d];e.children?c+=a(e.children):c++}return c}function b(a,b,c,d){this.minimumResultsForSearch=c.get("minimumResultsForSearch"),this.minimumResultsForSearch<0&&(this.minimumResultsForSearch=1/0),a.call(this,b,c,d)}return b.prototype.showSearch=function(b,c){return a(c.data.results)<this.minimumResultsForSearch?!1:b.call(this,c)},b}),b.define("select2/dropdown/selectOnClose",[],function(){function a(){}return a.prototype.bind=function(a,b,c){var d=this;a.call(this,b,c),b.on("close",function(a){d._handleSelectOnClose(a)})},a.prototype._handleSelectOnClose=function(a,b){if(b&&null!=b.originalSelect2Event){var c=b.originalSelect2Event;if("select"===c._type||"unselect"===c._type)return}var d=this.getHighlightedResults();if(!(d.length<1)){var e=d.data("data");null!=e.element&&e.element.selected||null==e.element&&e.selected||this.trigger("select",{data:e})}},a}),b.define("select2/dropdown/closeOnSelect",[],function(){function a(){}return a.prototype.bind=function(a,b,c){var d=this;a.call(this,b,c),b.on("select",function(a){d._selectTriggered(a)}),b.on("unselect",function(a){d._selectTriggered(a)})},a.prototype._selectTriggered=function(a,b){var c=b.originalEvent;c&&c.ctrlKey||this.trigger("close",{originalEvent:c,originalSelect2Event:b})},a}),b.define("select2/i18n/en",[],function(){return{errorLoading:function(){return"The results could not be loaded."},inputTooLong:function(a){var b=a.input.length-a.maximum,c="Please delete "+b+" character";return 1!=b&&(c+="s"),c},inputTooShort:function(a){var b=a.minimum-a.input.length,c="Please enter "+b+" or more characters";return c},loadingMore:function(){return"Loading more results…"},maximumSelected:function(a){var b="You can only select "+a.maximum+" item";return 1!=a.maximum&&(b+="s"),b},noResults:function(){return"No results found"},searching:function(){return"Searching…"}}}),b.define("select2/defaults",["jquery","require","./results","./selection/single","./selection/multiple","./selection/placeholder","./selection/allowClear","./selection/search","./selection/eventRelay","./utils","./translation","./diacritics","./data/select","./data/array","./data/ajax","./data/tags","./data/tokenizer","./data/minimumInputLength","./data/maximumInputLength","./data/maximumSelectionLength","./dropdown","./dropdown/search","./dropdown/hidePlaceholder","./dropdown/infiniteScroll","./dropdown/attachBody","./dropdown/minimumResultsForSearch","./dropdown/selectOnClose","./dropdown/closeOnSelect","./i18n/en"],function(a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z,A,B,C){function D(){this.reset()}D.prototype.apply=function(l){if(l=a.extend(!0,{},this.defaults,l),null==l.dataAdapter){if(null!=l.ajax?l.dataAdapter=o:null!=l.data?l.dataAdapter=n:l.dataAdapter=m,l.minimumInputLength>0&&(l.dataAdapter=j.Decorate(l.dataAdapter,r)),l.maximumInputLength>0&&(l.dataAdapter=j.Decorate(l.dataAdapter,s)),l.maximumSelectionLength>0&&(l.dataAdapter=j.Decorate(l.dataAdapter,t)),l.tags&&(l.dataAdapter=j.Decorate(l.dataAdapter,p)),(null!=l.tokenSeparators||null!=l.tokenizer)&&(l.dataAdapter=j.Decorate(l.dataAdapter,q)),null!=l.query){var C=b(l.amdBase+"compat/query");l.dataAdapter=j.Decorate(l.dataAdapter,C)}if(null!=l.initSelection){var D=b(l.amdBase+"compat/initSelection");l.dataAdapter=j.Decorate(l.dataAdapter,D)}}if(null==l.resultsAdapter&&(l.resultsAdapter=c,null!=l.ajax&&(l.resultsAdapter=j.Decorate(l.resultsAdapter,x)),null!=l.placeholder&&(l.resultsAdapter=j.Decorate(l.resultsAdapter,w)),l.selectOnClose&&(l.resultsAdapter=j.Decorate(l.resultsAdapter,A))),null==l.dropdownAdapter){if(l.multiple)l.dropdownAdapter=u;else{var E=j.Decorate(u,v);l.dropdownAdapter=E}if(0!==l.minimumResultsForSearch&&(l.dropdownAdapter=j.Decorate(l.dropdownAdapter,z)),l.closeOnSelect&&(l.dropdownAdapter=j.Decorate(l.dropdownAdapter,B)),null!=l.dropdownCssClass||null!=l.dropdownCss||null!=l.adaptDropdownCssClass){var F=b(l.amdBase+"compat/dropdownCss");l.dropdownAdapter=j.Decorate(l.dropdownAdapter,F)}l.dropdownAdapter=j.Decorate(l.dropdownAdapter,y)}if(null==l.selectionAdapter){if(l.multiple?l.selectionAdapter=e:l.selectionAdapter=d,null!=l.placeholder&&(l.selectionAdapter=j.Decorate(l.selectionAdapter,f)),l.allowClear&&(l.selectionAdapter=j.Decorate(l.selectionAdapter,g)),l.multiple&&(l.selectionAdapter=j.Decorate(l.selectionAdapter,h)),null!=l.containerCssClass||null!=l.containerCss||null!=l.adaptContainerCssClass){var G=b(l.amdBase+"compat/containerCss");l.selectionAdapter=j.Decorate(l.selectionAdapter,G)}l.selectionAdapter=j.Decorate(l.selectionAdapter,i)}if("string"==typeof l.language)if(l.language.indexOf("-")>0){var H=l.language.split("-"),I=H[0];l.language=[l.language,I]}else l.language=[l.language];if(a.isArray(l.language)){var J=new k;l.language.push("en");for(var K=l.language,L=0;L<K.length;L++){var M=K[L],N={};try{N=k.loadPath(M)}catch(O){try{M=this.defaults.amdLanguageBase+M,N=k.loadPath(M)}catch(P){l.debug&&window.console&&console.warn&&console.warn('Select2: The language file for "'+M+'" could not be automatically loaded. A fallback will be used instead.');continue}}J.extend(N)}l.translations=J}else{var Q=k.loadPath(this.defaults.amdLanguageBase+"en"),R=new k(l.language);R.extend(Q),l.translations=R}return l},D.prototype.reset=function(){function b(a){function b(a){return l[a]||a}return a.replace(/[^\u0000-\u007E]/g,b)}function c(d,e){if(""===a.trim(d.term))return e;if(e.children&&e.children.length>0){for(var f=a.extend(!0,{},e),g=e.children.length-1;g>=0;g--){var h=e.children[g],i=c(d,h);null==i&&f.children.splice(g,1)}return f.children.length>0?f:c(d,f)}var j=b(e.text).toUpperCase(),k=b(d.term).toUpperCase();return j.indexOf(k)>-1?e:null}this.defaults={amdBase:"./",amdLanguageBase:"./i18n/",closeOnSelect:!0,debug:!1,dropdownAutoWidth:!1,escapeMarkup:j.escapeMarkup,language:C,matcher:c,minimumInputLength:0,maximumInputLength:0,maximumSelectionLength:0,minimumResultsForSearch:0,selectOnClose:!1,sorter:function(a){return a},templateResult:function(a){return a.text},templateSelection:function(a){return a.text},theme:"default",width:"resolve"}},D.prototype.set=function(b,c){var d=a.camelCase(b),e={};e[d]=c;var f=j._convertData(e);a.extend(this.defaults,f)};var E=new D;return E}),b.define("select2/options",["require","jquery","./defaults","./utils"],function(a,b,c,d){function e(b,e){if(this.options=b,null!=e&&this.fromElement(e),this.options=c.apply(this.options),e&&e.is("input")){var f=a(this.get("amdBase")+"compat/inputData");this.options.dataAdapter=d.Decorate(this.options.dataAdapter,f)}}return e.prototype.fromElement=function(a){var c=["select2"];null==this.options.multiple&&(this.options.multiple=a.prop("multiple")),null==this.options.disabled&&(this.options.disabled=a.prop("disabled")),null==this.options.language&&(a.prop("lang")?this.options.language=a.prop("lang").toLowerCase():a.closest("[lang]").prop("lang")&&(this.options.language=a.closest("[lang]").prop("lang"))),null==this.options.dir&&(a.prop("dir")?this.options.dir=a.prop("dir"):a.closest("[dir]").prop("dir")?this.options.dir=a.closest("[dir]").prop("dir"):this.options.dir="ltr"),a.prop("disabled",this.options.disabled),a.prop("multiple",this.options.multiple),a.data("select2Tags")&&(this.options.debug&&window.console&&console.warn&&console.warn('Select2: The `data-select2-tags` attribute has been changed to use the `data-data` and `data-tags="true"` attributes and will be removed in future versions of Select2.'),a.data("data",a.data("select2Tags")),a.data("tags",!0)),a.data("ajaxUrl")&&(this.options.debug&&window.console&&console.warn&&console.warn("Select2: The `data-ajax-url` attribute has been changed to `data-ajax--url` and support for the old attribute will be removed in future versions of Select2."),a.attr("ajax--url",a.data("ajaxUrl")),a.data("ajax--url",a.data("ajaxUrl")));var e={};e=b.fn.jquery&&"1."==b.fn.jquery.substr(0,2)&&a[0].dataset?b.extend(!0,{},a[0].dataset,a.data()):a.data();var f=b.extend(!0,{},e);f=d._convertData(f);for(var g in f)b.inArray(g,c)>-1||(b.isPlainObject(this.options[g])?b.extend(this.options[g],f[g]):this.options[g]=f[g]);return this},e.prototype.get=function(a){return this.options[a]},e.prototype.set=function(a,b){this.options[a]=b},e}),b.define("select2/core",["jquery","./options","./utils","./keys"],function(a,b,c,d){var e=function(a,c){null!=a.data("select2")&&a.data("select2").destroy(),this.$element=a,this.id=this._generateId(a),c=c||{},this.options=new b(c,a),e.__super__.constructor.call(this);var d=a.attr("tabindex")||0;a.data("old-tabindex",d),a.attr("tabindex","-1");var f=this.options.get("dataAdapter");this.dataAdapter=new f(a,this.options);var g=this.render();this._placeContainer(g);var h=this.options.get("selectionAdapter");this.selection=new h(a,this.options),this.$selection=this.selection.render(),this.selection.position(this.$selection,g);var i=this.options.get("dropdownAdapter");this.dropdown=new i(a,this.options),this.$dropdown=this.dropdown.render(),this.dropdown.position(this.$dropdown,g);var j=this.options.get("resultsAdapter");this.results=new j(a,this.options,this.dataAdapter),this.$results=this.results.render(),this.results.position(this.$results,this.$dropdown);var k=this;this._bindAdapters(),this._registerDomEvents(),this._registerDataEvents(),this._registerSelectionEvents(),this._registerDropdownEvents(),this._registerResultsEvents(),this._registerEvents(),this.dataAdapter.current(function(a){k.trigger("selection:update",{data:a})}),a.addClass("select2-hidden-accessible"),a.attr("aria-hidden","true"),this._syncAttributes(),a.data("select2",this)};return c.Extend(e,c.Observable),e.prototype._generateId=function(a){var b="";return b=null!=a.attr("id")?a.attr("id"):null!=a.attr("name")?a.attr("name")+"-"+c.generateChars(2):c.generateChars(4),b=b.replace(/(:|\.|\[|\]|,)/g,""),b="select2-"+b},e.prototype._placeContainer=function(a){a.insertAfter(this.$element);var b=this._resolveWidth(this.$element,this.options.get("width"));null!=b&&a.css("width",b)},e.prototype._resolveWidth=function(a,b){var c=/^width:(([-+]?([0-9]*\.)?[0-9]+)(px|em|ex|%|in|cm|mm|pt|pc))/i;if("resolve"==b){var d=this._resolveWidth(a,"style");return null!=d?d:this._resolveWidth(a,"element")}if("element"==b){var e=a.outerWidth(!1);return 0>=e?"auto":e+"px"}if("style"==b){var f=a.attr("style");if("string"!=typeof f)return null;for(var g=f.split(";"),h=0,i=g.length;i>h;h+=1){var j=g[h].replace(/\s/g,""),k=j.match(c);if(null!==k&&k.length>=1)return k[1]}return null}return b},e.prototype._bindAdapters=function(){this.dataAdapter.bind(this,this.$container),this.selection.bind(this,this.$container),this.dropdown.bind(this,this.$container),this.results.bind(this,this.$container)},e.prototype._registerDomEvents=function(){var b=this;this.$element.on("change.select2",function(){b.dataAdapter.current(function(a){b.trigger("selection:update",{data:a})})}),this.$element.on("focus.select2",function(a){b.trigger("focus",a)}),this._syncA=c.bind(this._syncAttributes,this),this._syncS=c.bind(this._syncSubtree,this),this.$element[0].attachEvent&&this.$element[0].attachEvent("onpropertychange",this._syncA);var d=window.MutationObserver||window.WebKitMutationObserver||window.MozMutationObserver;null!=d?(this._observer=new d(function(c){a.each(c,b._syncA),a.each(c,b._syncS)}),this._observer.observe(this.$element[0],{attributes:!0,childList:!0,subtree:!1})):this.$element[0].addEventListener&&(this.$element[0].addEventListener("DOMAttrModified",b._syncA,!1),this.$element[0].addEventListener("DOMNodeInserted",b._syncS,!1),this.$element[0].addEventListener("DOMNodeRemoved",b._syncS,!1))},e.prototype._registerDataEvents=function(){var a=this;this.dataAdapter.on("*",function(b,c){a.trigger(b,c)})},e.prototype._registerSelectionEvents=function(){var b=this,c=["toggle","focus"];this.selection.on("toggle",function(){b.toggleDropdown()}),this.selection.on("focus",function(a){b.focus(a)}),this.selection.on("*",function(d,e){-1===a.inArray(d,c)&&b.trigger(d,e)})},e.prototype._registerDropdownEvents=function(){var a=this;this.dropdown.on("*",function(b,c){a.trigger(b,c)})},e.prototype._registerResultsEvents=function(){var a=this;this.results.on("*",function(b,c){a.trigger(b,c)})},e.prototype._registerEvents=function(){var a=this;this.on("open",function(){a.$container.addClass("select2-container--open")}),this.on("close",function(){a.$container.removeClass("select2-container--open")}),this.on("enable",function(){a.$container.removeClass("select2-container--disabled")}),this.on("disable",function(){a.$container.addClass("select2-container--disabled")}),this.on("blur",function(){a.$container.removeClass("select2-container--focus")}),this.on("query",function(b){a.isOpen()||a.trigger("open",{}),this.dataAdapter.query(b,function(c){a.trigger("results:all",{data:c,query:b})})}),this.on("query:append",function(b){this.dataAdapter.query(b,function(c){a.trigger("results:append",{data:c,query:b})})}),this.on("keypress",function(b){var c=b.which;a.isOpen()?c===d.ESC||c===d.TAB||c===d.UP&&b.altKey?(a.close(),b.preventDefault()):c===d.ENTER?(a.trigger("results:select",{}),b.preventDefault()):c===d.SPACE&&b.ctrlKey?(a.trigger("results:toggle",{}),b.preventDefault()):c===d.UP?(a.trigger("results:previous",{}),b.preventDefault()):c===d.DOWN&&(a.trigger("results:next",{}),b.preventDefault()):(c===d.ENTER||c===d.SPACE||c===d.DOWN&&b.altKey)&&(a.open(),b.preventDefault())})},e.prototype._syncAttributes=function(){this.options.set("disabled",this.$element.prop("disabled")),this.options.get("disabled")?(this.isOpen()&&this.close(),this.trigger("disable",{})):this.trigger("enable",{})},e.prototype._syncSubtree=function(a,b){var c=!1,d=this;if(!a||!a.target||"OPTION"===a.target.nodeName||"OPTGROUP"===a.target.nodeName){if(b)if(b.addedNodes&&b.addedNodes.length>0)for(var e=0;e<b.addedNodes.length;e++){var f=b.addedNodes[e];f.selected&&(c=!0)}else b.removedNodes&&b.removedNodes.length>0&&(c=!0);else c=!0;c&&this.dataAdapter.current(function(a){d.trigger("selection:update",{data:a})})}},e.prototype.trigger=function(a,b){var c=e.__super__.trigger,d={open:"opening",close:"closing",select:"selecting",unselect:"unselecting"};if(void 0===b&&(b={}),a in d){var f=d[a],g={prevented:!1,name:a,args:b};if(c.call(this,f,g),g.prevented)return void(b.prevented=!0)}c.call(this,a,b)},e.prototype.toggleDropdown=function(){this.options.get("disabled")||(this.isOpen()?this.close():this.open())},e.prototype.open=function(){this.isOpen()||this.trigger("query",{})},e.prototype.close=function(){this.isOpen()&&this.trigger("close",{})},e.prototype.isOpen=function(){return this.$container.hasClass("select2-container--open")},e.prototype.hasFocus=function(){return this.$container.hasClass("select2-container--focus")},e.prototype.focus=function(a){this.hasFocus()||(this.$container.addClass("select2-container--focus"),this.trigger("focus",{}))},e.prototype.enable=function(a){this.options.get("debug")&&window.console&&console.warn&&console.warn('Select2: The `select2("enable")` method has been deprecated and will be removed in later Select2 versions. Use $element.prop("disabled") instead.'),(null==a||0===a.length)&&(a=[!0]);var b=!a[0];this.$element.prop("disabled",b)},e.prototype.data=function(){this.options.get("debug")&&arguments.length>0&&window.console&&console.warn&&console.warn('Select2: Data can no longer be set using `select2("data")`. You should consider setting the value instead using `$element.val()`.');var a=[];return this.dataAdapter.current(function(b){a=b}),a},e.prototype.val=function(b){if(this.options.get("debug")&&window.console&&console.warn&&console.warn('Select2: The `select2("val")` method has been deprecated and will be removed in later Select2 versions. Use $element.val() instead.'),null==b||0===b.length)return this.$element.val();var c=b[0];a.isArray(c)&&(c=a.map(c,function(a){return a.toString()})),this.$element.val(c).trigger("change")},e.prototype.destroy=function(){this.$container.remove(),this.$element[0].detachEvent&&this.$element[0].detachEvent("onpropertychange",this._syncA),null!=this._observer?(this._observer.disconnect(),this._observer=null):this.$element[0].removeEventListener&&(this.$element[0].removeEventListener("DOMAttrModified",this._syncA,!1),this.$element[0].removeEventListener("DOMNodeInserted",this._syncS,!1),this.$element[0].removeEventListener("DOMNodeRemoved",this._syncS,!1)),this._syncA=null,this._syncS=null,this.$element.off(".select2"),this.$element.attr("tabindex",this.$element.data("old-tabindex")),this.$element.removeClass("select2-hidden-accessible"),this.$element.attr("aria-hidden","false"),this.$element.removeData("select2"),this.dataAdapter.destroy(),this.selection.destroy(),this.dropdown.destroy(),this.results.destroy(),this.dataAdapter=null,this.selection=null,this.dropdown=null,this.results=null;
+},e.prototype.render=function(){var b=a('<span class="select2 select2-container"><span class="selection"></span><span class="dropdown-wrapper" aria-hidden="true"></span></span>');return b.attr("dir",this.options.get("dir")),this.$container=b,this.$container.addClass("select2-container--"+this.options.get("theme")),b.data("element",this.$element),b},e}),b.define("select2/compat/utils",["jquery"],function(a){function b(b,c,d){var e,f,g=[];e=a.trim(b.attr("class")),e&&(e=""+e,a(e.split(/\s+/)).each(function(){0===this.indexOf("select2-")&&g.push(this)})),e=a.trim(c.attr("class")),e&&(e=""+e,a(e.split(/\s+/)).each(function(){0!==this.indexOf("select2-")&&(f=d(this),null!=f&&g.push(f))})),b.attr("class",g.join(" "))}return{syncCssClasses:b}}),b.define("select2/compat/containerCss",["jquery","./utils"],function(a,b){function c(a){return null}function d(){}return d.prototype.render=function(d){var e=d.call(this),f=this.options.get("containerCssClass")||"";a.isFunction(f)&&(f=f(this.$element));var g=this.options.get("adaptContainerCssClass");if(g=g||c,-1!==f.indexOf(":all:")){f=f.replace(":all:","");var h=g;g=function(a){var b=h(a);return null!=b?b+" "+a:a}}var i=this.options.get("containerCss")||{};return a.isFunction(i)&&(i=i(this.$element)),b.syncCssClasses(e,this.$element,g),e.css(i),e.addClass(f),e},d}),b.define("select2/compat/dropdownCss",["jquery","./utils"],function(a,b){function c(a){return null}function d(){}return d.prototype.render=function(d){var e=d.call(this),f=this.options.get("dropdownCssClass")||"";a.isFunction(f)&&(f=f(this.$element));var g=this.options.get("adaptDropdownCssClass");if(g=g||c,-1!==f.indexOf(":all:")){f=f.replace(":all:","");var h=g;g=function(a){var b=h(a);return null!=b?b+" "+a:a}}var i=this.options.get("dropdownCss")||{};return a.isFunction(i)&&(i=i(this.$element)),b.syncCssClasses(e,this.$element,g),e.css(i),e.addClass(f),e},d}),b.define("select2/compat/initSelection",["jquery"],function(a){function b(a,b,c){c.get("debug")&&window.console&&console.warn&&console.warn("Select2: The `initSelection` option has been deprecated in favor of a custom data adapter that overrides the `current` method. This method is now called multiple times instead of a single time when the instance is initialized. Support will be removed for the `initSelection` option in future versions of Select2"),this.initSelection=c.get("initSelection"),this._isInitialized=!1,a.call(this,b,c)}return b.prototype.current=function(b,c){var d=this;return this._isInitialized?void b.call(this,c):void this.initSelection.call(null,this.$element,function(b){d._isInitialized=!0,a.isArray(b)||(b=[b]),c(b)})},b}),b.define("select2/compat/inputData",["jquery"],function(a){function b(a,b,c){this._currentData=[],this._valueSeparator=c.get("valueSeparator")||",","hidden"===b.prop("type")&&c.get("debug")&&console&&console.warn&&console.warn("Select2: Using a hidden input with Select2 is no longer supported and may stop working in the future. It is recommended to use a `<select>` element instead."),a.call(this,b,c)}return b.prototype.current=function(b,c){function d(b,c){var e=[];return b.selected||-1!==a.inArray(b.id,c)?(b.selected=!0,e.push(b)):b.selected=!1,b.children&&e.push.apply(e,d(b.children,c)),e}for(var e=[],f=0;f<this._currentData.length;f++){var g=this._currentData[f];e.push.apply(e,d(g,this.$element.val().split(this._valueSeparator)))}c(e)},b.prototype.select=function(b,c){if(this.options.get("multiple")){var d=this.$element.val();d+=this._valueSeparator+c.id,this.$element.val(d),this.$element.trigger("change")}else this.current(function(b){a.map(b,function(a){a.selected=!1})}),this.$element.val(c.id),this.$element.trigger("change")},b.prototype.unselect=function(a,b){var c=this;b.selected=!1,this.current(function(a){for(var d=[],e=0;e<a.length;e++){var f=a[e];b.id!=f.id&&d.push(f.id)}c.$element.val(d.join(c._valueSeparator)),c.$element.trigger("change")})},b.prototype.query=function(a,b,c){for(var d=[],e=0;e<this._currentData.length;e++){var f=this._currentData[e],g=this.matches(b,f);null!==g&&d.push(g)}c({results:d})},b.prototype.addOptions=function(b,c){var d=a.map(c,function(b){return a.data(b[0],"data")});this._currentData.push.apply(this._currentData,d)},b}),b.define("select2/compat/matcher",["jquery"],function(a){function b(b){function c(c,d){var e=a.extend(!0,{},d);if(null==c.term||""===a.trim(c.term))return e;if(d.children){for(var f=d.children.length-1;f>=0;f--){var g=d.children[f],h=b(c.term,g.text,g);h||e.children.splice(f,1)}if(e.children.length>0)return e}return b(c.term,d.text,d)?e:null}return c}return b}),b.define("select2/compat/query",[],function(){function a(a,b,c){c.get("debug")&&window.console&&console.warn&&console.warn("Select2: The `query` option has been deprecated in favor of a custom data adapter that overrides the `query` method. Support will be removed for the `query` option in future versions of Select2."),a.call(this,b,c)}return a.prototype.query=function(a,b,c){b.callback=c;var d=this.options.get("query");d.call(null,b)},a}),b.define("select2/dropdown/attachContainer",[],function(){function a(a,b,c){a.call(this,b,c)}return a.prototype.position=function(a,b,c){var d=c.find(".dropdown-wrapper");d.append(b),b.addClass("select2-dropdown--below"),c.addClass("select2-container--below")},a}),b.define("select2/dropdown/stopPropagation",[],function(){function a(){}return a.prototype.bind=function(a,b,c){a.call(this,b,c);var d=["blur","change","click","dblclick","focus","focusin","focusout","input","keydown","keyup","keypress","mousedown","mouseenter","mouseleave","mousemove","mouseover","mouseup","search","touchend","touchstart"];this.$dropdown.on(d.join(" "),function(a){a.stopPropagation()})},a}),b.define("select2/selection/stopPropagation",[],function(){function a(){}return a.prototype.bind=function(a,b,c){a.call(this,b,c);var d=["blur","change","click","dblclick","focus","focusin","focusout","input","keydown","keyup","keypress","mousedown","mouseenter","mouseleave","mousemove","mouseover","mouseup","search","touchend","touchstart"];this.$selection.on(d.join(" "),function(a){a.stopPropagation()})},a}),function(c){"function"==typeof b.define&&b.define.amd?b.define("jquery-mousewheel",["jquery"],c):"object"==typeof exports?module.exports=c:c(a)}(function(a){function b(b){var g=b||window.event,h=i.call(arguments,1),j=0,l=0,m=0,n=0,o=0,p=0;if(b=a.event.fix(g),b.type="mousewheel","detail"in g&&(m=-1*g.detail),"wheelDelta"in g&&(m=g.wheelDelta),"wheelDeltaY"in g&&(m=g.wheelDeltaY),"wheelDeltaX"in g&&(l=-1*g.wheelDeltaX),"axis"in g&&g.axis===g.HORIZONTAL_AXIS&&(l=-1*m,m=0),j=0===m?l:m,"deltaY"in g&&(m=-1*g.deltaY,j=m),"deltaX"in g&&(l=g.deltaX,0===m&&(j=-1*l)),0!==m||0!==l){if(1===g.deltaMode){var q=a.data(this,"mousewheel-line-height");j*=q,m*=q,l*=q}else if(2===g.deltaMode){var r=a.data(this,"mousewheel-page-height");j*=r,m*=r,l*=r}if(n=Math.max(Math.abs(m),Math.abs(l)),(!f||f>n)&&(f=n,d(g,n)&&(f/=40)),d(g,n)&&(j/=40,l/=40,m/=40),j=Math[j>=1?"floor":"ceil"](j/f),l=Math[l>=1?"floor":"ceil"](l/f),m=Math[m>=1?"floor":"ceil"](m/f),k.settings.normalizeOffset&&this.getBoundingClientRect){var s=this.getBoundingClientRect();o=b.clientX-s.left,p=b.clientY-s.top}return b.deltaX=l,b.deltaY=m,b.deltaFactor=f,b.offsetX=o,b.offsetY=p,b.deltaMode=0,h.unshift(b,j,l,m),e&&clearTimeout(e),e=setTimeout(c,200),(a.event.dispatch||a.event.handle).apply(this,h)}}function c(){f=null}function d(a,b){return k.settings.adjustOldDeltas&&"mousewheel"===a.type&&b%120===0}var e,f,g=["wheel","mousewheel","DOMMouseScroll","MozMousePixelScroll"],h="onwheel"in document||document.documentMode>=9?["wheel"]:["mousewheel","DomMouseScroll","MozMousePixelScroll"],i=Array.prototype.slice;if(a.event.fixHooks)for(var j=g.length;j;)a.event.fixHooks[g[--j]]=a.event.mouseHooks;var k=a.event.special.mousewheel={version:"3.1.12",setup:function(){if(this.addEventListener)for(var c=h.length;c;)this.addEventListener(h[--c],b,!1);else this.onmousewheel=b;a.data(this,"mousewheel-line-height",k.getLineHeight(this)),a.data(this,"mousewheel-page-height",k.getPageHeight(this))},teardown:function(){if(this.removeEventListener)for(var c=h.length;c;)this.removeEventListener(h[--c],b,!1);else this.onmousewheel=null;a.removeData(this,"mousewheel-line-height"),a.removeData(this,"mousewheel-page-height")},getLineHeight:function(b){var c=a(b),d=c["offsetParent"in a.fn?"offsetParent":"parent"]();return d.length||(d=a("body")),parseInt(d.css("fontSize"),10)||parseInt(c.css("fontSize"),10)||16},getPageHeight:function(b){return a(b).height()},settings:{adjustOldDeltas:!0,normalizeOffset:!0}};a.fn.extend({mousewheel:function(a){return a?this.bind("mousewheel",a):this.trigger("mousewheel")},unmousewheel:function(a){return this.unbind("mousewheel",a)}})}),b.define("jquery.select2",["jquery","jquery-mousewheel","./select2/core","./select2/defaults"],function(a,b,c,d){if(null==a.fn.select2){var e=["open","close","destroy"];a.fn.select2=function(b){if(b=b||{},"object"==typeof b)return this.each(function(){var d=a.extend(!0,{},b);new c(a(this),d)}),this;if("string"==typeof b){var d,f=Array.prototype.slice.call(arguments,1);return this.each(function(){var c=a(this).data("select2");null==c&&window.console&&console.error&&console.error("The select2('"+b+"') method was called on an element that is not using Select2."),d=c[b].apply(c,f)}),a.inArray(b,e)>-1?this:d}throw new Error("Invalid arguments for Select2: "+b)}}return null==a.fn.select2.defaults&&(a.fn.select2.defaults=d),c}),{define:b.define,require:b.require}}(),c=b.require("jquery.select2");return a.fn.select2.amd=b,c});
+
+define('css!js/view/components/Select/BaseSelect',[],function(){});
+define('js/view/components/Select/BaseSelect',[
+	'../../../error/ArgumentError',
+	'../../../error/NotFoundError',
+	'../../../util/Logger',
+
+	'jquery',
+	'string',
+	'underscore',
+	'select2',
+	'css!./BaseSelect'
+], function(ArgumentError,
+			NotFoundError,
+			Logger,
+
+			$,
+			S,
+			_
+){
+	/**
+	 * Base class for Select2 selects, which contains common methods
+	 * @constructor
+	 * @param options {Object}
+	 * @param options.id {string} id of the select
+	 * @param options.containerSelector {Object} JQuery selector of container, where will be the select rendered
+	 * @param options.options {Array} list of options
+	 * @param [options.title] {string} Optional parameter.
+	 * @param [options.selectedOptions] {Array} ids of an options selected by default
+	 * @param [options.disabledOptions] {Array} ids of an options selected by default
+	 * @param [options.sorting] {Object} Optional parameter.
+	 * @param [options.classes] {string} Optional parameter.
+	 */
+	var BaseSelect = function(options){
+		if (!options.id){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "BaseSelect", "constructor", "missingId"));
+		}
+		if (!options.containerSelector){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "BaseSelect", "constructor", "missingTarget"));
+		}
+		if (!options.options){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "BaseSelect", "constructor", "missingOptions"));
+		}
+
+		this._id = options.id;
+		this._containerSelector = options.containerSelector;
+		this._options = options.options;
+		this._disabledOptions = options.disabledOptions;
+		this._selectedOptions = options.selectedOptions;
+		this._title = options.title || "Select";
+		this._sorting = options.sorting;
+		this._classes = options.classes;
+	};
+
+	/**
+	 * Render the select element
+	 * @param content {string} html template
+	 */
+	BaseSelect.prototype.renderElement = function(content){
+		if (this._selectSelector){
+			this._selectSelector.remove();
+		}
+		var classes = "";
+		if (this._classes){
+			classes = " " + this._classes;
+		}
+
+		var html = S(content).template({
+			id: this._id,
+			title: this._title,
+			classes: classes
+		}).toString();
+		this._containerSelector.append(html);
+		this._selectSelector = $("#" + this._id);
+	};
+
+	/**
+	 * It prepares data for select2 usage
+	 * @returns {Object}
+	 */
+	BaseSelect.prototype.prepareData = function(){
+		var preparedOptions = this.prepareOptions(this._options);
+		return this.sortOptions(preparedOptions);
+	};
+
+	/**
+	 * Prepare options for select2 usage
+	 * @param options {Array} List of options
+	 * @returns {Array} Customiyed options
+	 */
+	BaseSelect.prototype.prepareOptions = function(options){
+		var self = this;
+		var preparedOptions = [];
+		options.forEach(function(option){
+			var optionAsObject = self.makeObjectFromOption(option);
+
+			var selected = _.find(self._selectedOptions, function(option){ return option === optionAsObject["id"]; });
+			if (selected > 0){
+				optionAsObject["selected"] = true;
+			}
+
+			var disabled = _.find(self._disabledOptions, function(option){ return option === optionAsObject["id"]; });
+			if (disabled > 0){
+				optionAsObject["disabled"] = true;
+			}
+
+			preparedOptions.push(optionAsObject);
+		});
+		return preparedOptions;
+	};
+
+	/**
+	 * Make an object from option
+	 * @param option {Object|string|number}
+	 * @returns {Object} customized option
+	 */
+	BaseSelect.prototype.makeObjectFromOption = function(option){
+		var id = "";
+		var text = "";
+
+		if (typeof option === "number" || typeof option === "string"){
+			id = option; //todo formalize
+			text = option;
+		} else {
+			id = option.id;
+			text = option.id;
+			if (option.name){
+				text = option.name;
+			}
+		}
+
+		return{
+			"id": id,
+			"text": text
+		};
+
+	};
+
+	/**
+	 * Return options sorted by text in ascending order
+	 * @param options {Array}
+	 * @returns {Array} sorted options
+	 */
+	BaseSelect.prototype.sortOptions = function(options){
+		// todo sort by type, sorting order
+		return _.sortBy(options, function(o) { return o["text"]; })
+	};
+
+	/**
+	 * Get selected items
+	 * @returns {Array} List of selected objects
+	 */
+	BaseSelect.prototype.getSelected = function(){
+		return this._selectSelector.select2('data');
+	};
+
+	return BaseSelect;
+});
+
+define('text!js/view/components/Select/MultiSelect.html',[],function () { return '<select title="{{title}}" id="{{id}}" class="select-multiple {{classes}}"></select>';});
+
+
+define('css!js/view/components/Select/MultiSelect',[],function(){});
+define('js/view/components/Select/MultiSelect',[
+	'../../../actions/Actions',
+	'../../../error/ArgumentError',
+	'../../../error/NotFoundError',
+	'../../../util/Logger',
+
+	'./BaseSelect',
+
+	'jquery',
+	'string',
+	'underscore',
+	'text!./MultiSelect.html',
+	'select2',
+	'css!./MultiSelect'
+], function(Actions,
+			ArgumentError,
+			NotFoundError,
+			Logger,
+
+			BaseSelect,
+
+			$,
+			S,
+			_,
+			MultiSelectHtml
+){
+	/**
+	 * Class for creating of multi options html select element using Select2 library
+	 * @constructor
+	 * @param options.onChange {function}
+	 * @param [options.hidePillbox] {boolean} Optional parameter. If true, show only an arrow.
+	 */
+	var MultiSelect = function(options){
+		BaseSelect.apply(this, arguments);
+
+		this.onChange = options.onChange;
+		this._hidePillbox = options.hidePillbox;
+
+		this.render();
+		this.addListeners();
+	};
+
+	MultiSelect.prototype = Object.create(BaseSelect.prototype);
+
+	/**
+	 * Render select
+	 */
+	MultiSelect.prototype.render = function(){
+		var self = this;
+		this.renderElement(MultiSelectHtml);
+
+		var containerClass = "select-multi-container";
+		if (this._hidePillbox){
+			containerClass += " onlyArrow";
+		}
+		if (this._classes){
+			containerClass += " " + this._classes;
+		}
+
+		$(document).ready(function() {
+			self._selectSelector.select2({
+				data: self.prepareData(),
+				containerCssClass: containerClass,
+				dropdownCssClass: "select-multi-dropdown",
+				multiple: "multiple"
+			});
+		});
+	};
+
+	/**
+	 * Get all options
+	 * @returns {Array} List of all items
+	 */
+	MultiSelect.prototype.getAllOptions = function(){
+		var selectedItems = [];
+		this._selectSelector.find("option").each(function(item) {
+			if (this.value){
+				selectedItems.push(this.value);
+			}
+		});
+		return selectedItems;
+	};
+
+	/**
+	 * Get all selected options' values
+	 * @returns {Array}
+	 */
+	MultiSelect.prototype.getSelectedOptions = function(){
+		return this._selectSelector.select2("val");
+	};
+
+	/**
+	 * Add listeners to events
+	 */
+	MultiSelect.prototype.addListeners = function(){
+		this._selectSelector.on("change", this.onChange.bind(this));
+	};
+
+	return MultiSelect;
+});
+
+define('text!js/view/components/Select/Select.html',[],function () { return '<select title="{{title}}" id="{{id}}" class="select-simple {{classes}}"></select>';});
+
+
+define('css!js/view/components/Select/Select',[],function(){});
+define('js/view/components/Select/Select',[
+	'../../../actions/Actions',
+	'../../../error/ArgumentError',
+	'../../../error/NotFoundError',
+	'../../../util/Logger',
+
+	'./BaseSelect',
+
+	'jquery',
+	'string',
+	'underscore',
+	'text!./Select.html',
+	'select2',
+	'css!./Select'
+], function(Actions,
+			ArgumentError,
+			NotFoundError,
+			Logger,
+
+			BaseSelect,
+
+			$,
+			S,
+			_,
+			SelectHtml
+){
+	/**
+	 * Class for creating of basic html select element using Select2 library
+	 * @constructor
+	 * @params options.onChange {function}
+	 */
+	var Select = function(options){
+		BaseSelect.apply(this, arguments);
+		this.onChange = options.onChange;
+
+		this.render();
+		this.addListeners();
+	};
+
+	Select.prototype = Object.create(BaseSelect.prototype);
+
+	/**
+	 * Render select
+	 */
+	Select.prototype.render = function(){
+		var self = this;
+		this.renderElement(SelectHtml);
+
+		var containerClass = "select-basic-container";
+		if (this._classes){
+			containerClass += " " + this._classes;
+		}
+
+		$(document).ready(function() {
+			self._selectSelector.select2({
+				data: self.prepareData(),
+				containerCssClass: containerClass
+			});
+		});
+	};
+
+	/**
+	 * Add listeners to events
+	 */
+	Select.prototype.addListeners = function(){
+		this._selectSelector.on("change", this.onChange.bind(this));
+	};
+
+	return Select;
+});
+
+define('text!js/view/selectors/PeriodsSelector/PeriodsSelector.html',[],function () { return '<div class="selector" id="{{id}}">\r\n\t<span class="selector-label">Period</span>\r\n</div>';});
+
+
+define('css!js/view/selectors/PeriodsSelector/PeriodsSelector',[],function(){});
+define('js/view/selectors/PeriodsSelector/PeriodsSelector',[
+	'../../../actions/Actions',
+	'../../../error/ArgumentError',
+	'../../../error/NotFoundError',
+	'../../../util/Logger',
+
+	'../../components/Button/Button',
+	'../../components/Select/MultiSelect',
+	'../../components/Select/Select',
+	'../../../stores/Stores',
+
+	'jquery',
+	'string',
+	'underscore',
+	'text!./PeriodsSelector.html',
+	'css!./PeriodsSelector'
+], function(Actions,
+			ArgumentError,
+			NotFoundError,
+			Logger,
+
+			Button,
+			MultiSelect,
+			Select,
+			Stores,
+
+			$,
+			S,
+			_,
+			PeriodsSelectorHtml
+){
+	/**
+	 * Periods selector component
+	 * @params options {Object}
+	 * @params options.containerSelector {Object} JQuery selector of parent element, where will be rendered the PeriodsSelector
+	 * @params options.dispatcher {Object} Dispatcher, which is used to distribute actions across the application.
+	 * @params [options.maxSelected] {number} maximal number of selected periods
+	 * @constructor
+	 */
+	var PeriodsSelector = function(options){
+		if (!options.containerSelector){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "PeriodsSelector", "constructor", "missingTarget"));
+		}
+		this._containerSelector = options.containerSelector;
+		this._dispatcher = options.dispatcher;
+		this._maxSelected = options.maxSelected || 16;
+		this._defaultPeriod = null;
+
+		this._id = "selector-periods";
+
+		this._periodStore = Stores.retrieve("period");
+		this._scopeStore = Stores.retrieve("scope");
+		this._stateStore = Stores.retrieve("state");
+
+		this._periodStore.addListener(this.onEvent.bind(this));
+
+		this._selectedPeriods = [];
+		this._disabledPeriods = [];
+	};
+
+	/**
+	 * Rebuild periods selector if scope or period has been changed. It should redraw the periods selector with all periods
+	 * asociated with current scope.
+	 */
+	PeriodsSelector.prototype.rebuild = function(){
+		var currentState = this._stateStore.current();
+		if (currentState.changes.scope || currentState.changes.period){
+			this.updateSelectedPeriods();
+			this.updateDisabledPeriods();
+
+			var self = this;
+			this._scopeStore.byId(currentState.scope).then(function(datasets){
+				var periods = datasets[0].periods;
+				return self._periodStore.filter({id: periods});
+			}).then(self.render.bind(self));
+		}
+	};
+
+	/**
+	 * Render the selector
+	 * @param periods {Array} list of periods with metadata
+	 */
+	PeriodsSelector.prototype.render = function(periods){
+		if (this._periodsContainerSelector){
+			this._periodsContainerSelector.remove();
+		}
+
+		var html = S(PeriodsSelectorHtml).template({
+			id: this._id
+		}).toString();
+
+		this._containerSelector.append(html);
+		this._periodsContainerSelector = $("#" + this._id);
+
+		this._basicSelect = this.renderBasicPeriodSelection(periods);
+
+		if (periods.length > 1){
+			this._compareButton = this.renderCompareButton();
+			this._multiSelect = this.renderMultiplePeriodSelection(periods);
+		}
+	};
+
+	/**
+	 * Update a list of selected periods
+	 */
+	PeriodsSelector.prototype.updateSelectedPeriods = function(){
+		this._selectedPeriods = this._stateStore.current().periods;
+		if (this._selectedPeriods.length === 1){
+			this._defaultPeriod = this._selectedPeriods[0];
+		}
+	};
+
+	/**
+	 * Update a list for diasabled periods for multiselect. Currently only period selected by default should be disabled in MultiSelect or if the number of slected maps equals mx allowed number, all other options are disabled
+	 */
+	PeriodsSelector.prototype.updateDisabledPeriods = function(){
+		this._disabledPeriods = [];
+		var periods = this._stateStore.current().periods;
+		if (periods.length < 2){
+			this._disabledPeriods = periods;
+		}
+		else if (periods.length === this._maxSelected && this._multiSelect){
+			var adjustedPeriods = this._multiSelect.getAllOptions().map(function(item){
+				if (typeof item === "string"){
+					return Number(item);
+				} else if (typeof item === "number"){
+					return item;
+				}
+			});
+			this._disabledPeriods = _.union([this._defaultPeriod], _.difference(adjustedPeriods, periods));
+		} else {
+			this._disabledPeriods.push(this._defaultPeriod);
+		}
+	};
+
+	/**
+	 * Render the selector for basic period selection
+	 * @param periods {Array} list of periods with metadata
+	 * @returns {Select}
+	 */
+	PeriodsSelector.prototype.renderBasicPeriodSelection = function (periods) {
+		return new Select({
+			id: this._id + "-select",
+			title: "Select period",
+			options: periods,
+			sorting: {
+				type: 'string'
+			},
+			selectedOptions: this._disabledPeriods,
+			containerSelector: this._periodsContainerSelector,
+			classes: "top-bar-select",
+			onChange: this.updatePeriod.bind(this)
+		});
+	};
+
+	/**
+	 * Render the selector for multiple period selection
+	 * @param periods {Array} list of periods with metadata
+	 * @returns {MultiSelect}
+	 */
+	PeriodsSelector.prototype.renderMultiplePeriodSelection = function (periods) {
+		return new MultiSelect({
+			id: this._id + "-multiselect",
+			title: "Select periods to compare",
+			options: periods,
+			sorting: {
+				type: 'string'
+			},
+			hidePillbox: true,
+			selectedOptions: this._selectedPeriods,
+			disabledOptions: this._disabledPeriods,
+			containerSelector: this._periodsContainerSelector,
+			classes: "top-bar-multiselect",
+			onChange: this.selectPeriods.bind(this)
+		});
+	};
+
+	/**
+	 * Render button for periods comparison
+	 * @returns {Button}
+	 */
+	PeriodsSelector.prototype.renderCompareButton = function(){
+		return new Button({
+			id: this._id + "-compare-button",
+			text: "Compare",
+			title: "Compare periods",
+			containerSelector: this._periodsContainerSelector,
+			classes: "compare-button w5",
+			textCentered: true,
+			textSmall: true,
+			onClick: this.selectAllPeriods.bind(this)
+		});
+	};
+
+	/**
+	 * @param type {string} type of event
+	 */
+	PeriodsSelector.prototype.onEvent = function(type){
+		if (type === Actions.periodsRebuild){
+			this.rebuild();
+		}
+	};
+
+	/**
+	 * If a change in basic selector of period occured, get selected period and notify Ext DiscreteTimeline.js
+	 */
+	PeriodsSelector.prototype.updatePeriod = function(){
+		var selected = this._basicSelect.getSelected()[0];
+		var periods = [Number(selected.id)];
+		this._dispatcher.notify(Actions.periodsChange, periods);
+	};
+
+	/**
+	 * If a change in multiselect occured, get selected periods and notify Ext DiscreteTimeline.js
+	 */
+	PeriodsSelector.prototype.selectPeriods = function(){
+		var self = this;
+		setTimeout(function(){
+			var selected = self._multiSelect.getSelectedOptions();
+			var periods = selected.map(function(item){
+				if (typeof item === "string"){
+					return Number(item);
+				} else if (typeof item === "number"){
+					return item;
+				}
+			});
+			periods.push(self._defaultPeriod);
+			self._dispatcher.notify(Actions.periodsChange, periods);
+		}, 50);
+	};
+
+	/**
+	 * Select all periods available in multiselect and notify Ext DiscreteTimeline.js
+	 */
+	PeriodsSelector.prototype.selectAllPeriods = function(){
+		if (this._multiSelect){
+			var periods = this.checkMaxNumberOfSelectedPeriods(this._multiSelect.getAllOptions());
+			this._dispatcher.notify(Actions.periodsChange, periods);
+		}
+	};
+
+	/**
+	 * Check if number of selected periods is equal or less than the max allowed number.
+	 * @param periods {Array}
+	 * @returns {Array}
+	 */
+	PeriodsSelector.prototype.checkMaxNumberOfSelectedPeriods = function(periods){
+		var selectedPeriods = [];
+		var adjustedPeriods = periods.map(function(item){
+			if (typeof item === "string"){
+				return Number(item);
+			} else if (typeof item === "number"){
+				return item;
+			}
+		});
+
+		// go through list of previously selected periods. For each period, check if period is up to be selected again
+		this._selectedPeriods.forEach(function(selectedPeriod){
+			var wasSelected = _.indexOf(adjustedPeriods, selectedPeriod);
+			if (wasSelected > -1){
+				selectedPeriods.push(selectedPeriod);
+			}
+		});
+
+		var periodsLeftToLimit = this._maxSelected - selectedPeriods.length;
+
+		adjustedPeriods.forEach(function(period){
+			if (periodsLeftToLimit > 0){
+				var isSelected = _.indexOf(selectedPeriods, period);
+				if (isSelected === -1){
+					selectedPeriods.push(period);
+					periodsLeftToLimit--;
+				}
+			}
+		});
+
+		return selectedPeriods;
+	};
+
+	return PeriodsSelector;
 });
 
 define('css!js/view/widgets/PeriodsWidget/PeriodsWidget',[],function(){});
@@ -24628,6 +25815,782 @@ define('js/stores/internal/SelectionStore',[
 
 	return SelectionStore;
 });
+define('js/view/SnowMapController',[
+	'../util/metadata/Attributes',
+	'../util/RemoteJQ',
+	'../stores/Stores',
+
+	'jquery'
+], function (
+	Attributes,
+	RemoteJQ,
+	Stores,
+
+	$
+) {
+	"use strict";
+
+	var SnowMapController = function(options) {
+		this._iFrame = options.iFrame;
+
+		if (options.worldWind){
+			this._worldWind = options.worldWind;
+		}
+
+		this._countryLayer = null;
+		this._previousLayer = null;
+		this._previousLayerId = null;
+	};
+
+	SnowMapController.prototype.rebuild = function(){
+		this._iFrameSelector = $("#" + this._iFrame.getElementId());
+		this._iFrameBodySelector = this._iFrameSelector.contents().find("body");
+		this.addCompositeShowOnClickListener();
+		this.addShowListListener();
+		this.addHideListListener();
+	};
+
+	SnowMapController.prototype.addShowListListener = function(){
+		this._iFrameBodySelector.off("click.compositesList").on("click.compositesList", ".ptr-button.show-list", function(){
+			$("#sidebar-reports").addClass("show-map");
+			setTimeout(function(){
+				Observer.notify("resizeMap");
+			},1000);
+		});
+	};
+
+	SnowMapController.prototype.addHideListListener = function(){
+		this._iFrameBodySelector.off("click.compositesOverview").on("click.compositesOverview", ".ptr-button.show-overview", function(){
+			$("#sidebar-reports").removeClass("show-map");
+		});
+	};
+
+
+	/**
+	 * Add listener to iframe inner element
+	 */
+	SnowMapController.prototype.addCompositeShowOnClickListener = function(){
+		var self = this;
+		this._iFrameBodySelector.off("click.composites").on("click.composites", ".ptr-composites-composite .ptr-button", function(){
+			Observer.notify("getMap");
+			self._map = OlMap.map;
+
+			if (!self._countryLayer){
+				self._countryLayer = self.addLayerForCountry();
+				self._map.addLayer(self._countryLayer);
+			}
+
+			var compositeId = $(this).parents(".ptr-composites-composite").attr("data-id");
+			var locationKey = self._iFrameBodySelector.find("#composites").attr("data-country");
+			var styleId = self._iFrameBodySelector.find("#composites").attr("data-style");
+
+			self.highlightCountry(locationKey);
+			self.showCompositeInMap(compositeId, styleId);
+
+			//if (self._worldWind){
+			//	self.showCompositeIn3DMap(compositeId);
+			//}
+		});
+	};
+
+	/**
+	 * Remove previously added composite layer and show the new one
+	 * @param compositeId {string} ID of the layer
+	 * @param styleId {string} ID of the style
+	 */
+	SnowMapController.prototype.showCompositeInMap = function(compositeId, styleId){
+		var self = this;
+		if (!this._zoomListener){
+			this._zoomListener = this._map.events.register("zoomend", this._map, function() {
+				self._previousLayer.redraw();
+			});
+		}
+
+		if (this._previousLayer){
+			this._map.removeLayer(this._previousLayer);
+		}
+		this.addCompositeToMap(compositeId, styleId, 0.7);
+	};
+
+	/**
+	 * @param compositeId {string} ID of the layer
+	 * @param styleId {string} ID of the style
+	 * @param opacity {number} layer opacity
+	 */
+	SnowMapController.prototype.addCompositeToMap = function(compositeId, styleId, opacity){
+		var layer = this.createWmsLayer(compositeId, styleId, opacity);
+		this._map.addLayer(layer);
+		layer.visibility = true;
+		layer.opacity = opacity;
+		layer.redraw();
+		this._previousLayer = layer;
+	};
+
+	/**
+	 * @param key {string} key of country
+	 */
+	SnowMapController.prototype.highlightCountry = function(key){
+		var self = this;
+		this.getCountryData(key).then(function(data){
+			var features = [];
+			data.forEach(function(country){
+				features.push(self.createFeatureFromWkt(country.geom));
+			});
+			self._countryLayer.destroyFeatures();
+			self._countryLayer.addFeatures(features);
+			self._countryLayer.redraw();
+			var extent = self._countryLayer.getDataExtent();
+			self._map.zoomToExtent([extent.left,extent.bottom,extent.right,extent.top]);
+		});
+	};
+
+	/**
+	 * @param layerId {string} ID of the layer
+	 * @param styleId {string} ID of the style
+	 * @param opacity {number} layer opacity
+	 * @returns {OpenLayers.Layer.WMS}
+	 */
+	SnowMapController.prototype.createWmsLayer = function(layerId, styleId, opacity){
+		return new OpenLayers.Layer.WMS(layerId,
+			Config.snowUrl + "geoserver/geonode/wms", {
+				layers: "geonode:" + layerId,
+				styles: styleId
+			},{
+				opacity: opacity
+			});
+	};
+
+	/**
+	 * Remove layer from 3D map and show the new one
+	 * @param compositeId
+	 */
+	SnowMapController.prototype.showCompositeIn3DMap = function(compositeId){
+		if (this._previousLayerId){
+			var layer = this._worldWind.layers.getLayerById(compositeId);
+			this._worldWind.layers.removeLayer(layer);
+		}
+
+		this._worldWind.layers.addWmsLayer({
+			id: compositeId,
+			url: Config.snowUrl + "geoserver/geonode/wms",
+			layerPaths: "geonode:" + compositeId
+		}, null, true);
+	};
+
+	/**
+	 * @returns {OpenLayers.Layer.Vector}
+	 */
+	SnowMapController.prototype.addLayerForCountry = function(){
+		return new OpenLayers.Layer.Vector({
+			name: "Selected country"
+		});
+	};
+
+	/**
+	 * @param wkt {string}
+	 * @returns {OpenLayers.Feature.Vector}
+	 */
+	SnowMapController.prototype.createFeatureFromWkt = function(wkt){
+		return new OpenLayers.Feature.Vector(new OpenLayers.Geometry.fromWKT(wkt), {}, {
+			strokeWidth: 4,
+			strokeColor: "#ff0000",
+			fillOpacity: 0
+		});
+	};
+
+	/**
+	 * @param countryKey {string}
+	 * @returns {*|Promise}
+	 */
+	SnowMapController.prototype.getCountryData = function(countryKey){
+		var self = this;
+		return new Attributes().getData({
+			changes: {
+				scope: true
+			},
+			config: ThemeYearConfParams
+		}).then(function(result){
+			var attr = result[0][0];
+			if (!attr){
+				console.error("There is no attribute for current configuration! Go to backoffice and map attribute to counry key.");
+			} else {
+				return attr;
+			}
+		}).then(self.getCountry.bind(self, countryKey));
+	};
+
+	/**
+	 * @param attribute {Object}
+	 * @param countryKey {string}
+	 */
+	SnowMapController.prototype.getCountry = function(countryKey, attribute){
+		var state = Stores.retrieve('state').current();
+		return new RemoteJQ({
+			url: "rest/filter/attribute/filter",
+			params: {
+				areaTemplate: state.analyticalUnitLevel,
+				periods: state.periods,
+				places: state.places,
+				attributes: [{
+					attribute: attribute.attribute,
+					attributeSet: attribute.attributeSet,
+					value: [countryKey]
+				}]
+			}
+		}).post();
+	};
+
+	return SnowMapController;
+});
+
+
+define('js/view/widgets/SnowWidget/SnowUrlParser',[
+	'jquery'
+], function(
+			$
+){
+	var SnowUrlParser = function(){
+	};
+
+	/**
+	 * Parse url
+	 * @param url {string} URL of snow portal configuration
+	 */
+	SnowUrlParser.prototype.parse = function(url){
+		//"http://35.165.51.145/snow/great-britain/20170103-20170111/modis-terra-aqua_slstr-sentinel3/4-16"
+		// todo replace mock with more sophisticated solution
+		var path = url.replace(Config.snowUrl + "snow/","");
+		if (path.length < 1){
+			return null;
+		}
+
+		var components = path.split("/");
+		var dates = this.parseDate(components[1]);
+		var composites = [];
+		var customComposites = components[3];
+		if (customComposites && customComposites.charAt(0) != "?"){
+			composites = this.parseComposites(components[3]);
+		}
+		return {
+			url: url,
+			area: this.parseLocation(components[0]),
+			dateFrom: dates[0],
+			dateTo: dates[1],
+			sensors: this.parseSensors(components[2]),
+			composites: composites
+		};
+	};
+
+	/**
+	 * @param locationString {string}
+	 * @returns {string}
+	 */
+	SnowUrlParser.prototype.parseLocation = function(locationString){
+		var location = locationString.split("-");
+		var locParts = [];
+		var self = this;
+		location.forEach(function(name){
+			name = self.firstLetterToUppercase(name);
+			locParts.push(name);
+		});
+		return locParts.join(" ");
+	};
+
+	/**
+
+	 * @param dateString {string}
+	 * @returns {[dateFrom, dateTo]}
+	 */
+	SnowUrlParser.prototype.parseDate = function(dateString){
+		var dates = dateString.split("-");
+		var dateParts = [];
+		var self = this;
+		dates.forEach(function(date){
+			date = self.getFormattedDate(date);
+			dateParts.push(date);
+		});
+		return dateParts;
+	};
+
+	/**
+	 * @param sensorsString
+	 * @returns {Object} satellites
+	 */
+	SnowUrlParser.prototype.parseSensors = function(sensorsString){
+		var satellites = sensorsString.split("_");
+		var sats = {};
+		var self = this;
+		satellites.forEach(function(str){
+			var parts = str.split("-");
+			var satellite = parts[0];
+			sats[satellite] = [];
+			parts.forEach(function(sensor, index){
+				if (index > 0){
+					var sensorName = self.firstLetterToUppercase(sensor);
+					sats[satellite].push(sensorName);
+				}
+			});
+		});
+		return sats;
+	};
+
+	/**
+	 * @param compositesString {string}
+	 * @returns {Array}
+	 */
+	SnowUrlParser.prototype.parseComposites = function(compositesString){
+		var composites = compositesString.split("-");
+		var compositesParts = [];
+		composites.forEach(function(composite){
+			compositesParts.push(Number(composite));
+		});
+		return compositesParts;
+	};
+
+	/**
+	 * Get date in MM/DD/YYYY format
+	 * @param dateString {string}
+	 * @returns {string}
+	 */
+	SnowUrlParser.prototype.getFormattedDate = function(dateString){
+		var year = dateString.substring(0,4);
+		var month = dateString.substring(4,6);
+		var day = dateString.substring(6,8);
+		return month + "/" + day + "/" + year;
+	};
+
+	/**
+	 * Convert first letter of string to uppercase
+	 */
+	SnowUrlParser.prototype.firstLetterToUppercase = function(word){
+		return word.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();})
+	};
+
+	return SnowUrlParser;
+});
+
+define('text!js/view/widgets/SnowWidget/icons/composites.svg',[],function () { return '<?xml version="1.0" encoding="UTF-8" standalone="no"?>\r\n<svg id="svg2" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns="http://www.w3.org/2000/svg" height="36px" width="36px" version="1.1" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" viewBox="0 0 36 36">\r\n <g id="layer1">\r\n  <g id="g4210" transform="translate(-20 1.1416e-7)" stroke="#666" stroke-linecap="round">\r\n   <path id="rect4138" d="m23.98-16.535h15.86v15.86h-15.86z" transform="matrix(.89171 .45260 -.89171 .45260 0 0)" stroke-width="2.2261" fill="#666"/>\r\n   <path id="rect4138-3" d="m29.503-11.011h15.86v15.86h-15.86z" transform="matrix(.89171 .45260 -.89171 .45260 0 0)" stroke-width="2.2261" fill="none"/>\r\n   <path id="rect4138-3-5" d="m27.135 18.484-4.9258 2.5 14.143 7.1797 14.143-7.1797-4.9258-2.5-9.2168 4.6797-9.2168-4.6797z" stroke-width="2" fill="none"/>\r\n  </g>\r\n </g>\r\n</svg>\r\n';});
+
+
+define('text!js/view/widgets/SnowWidget/icons/satellite.svg',[],function () { return '<?xml version="1.0" encoding="utf-8"?>\r\n<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">\r\n<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\r\n\t width="36px" height="36px" viewBox="0 0 36 36" enable-background="new 0 0 36 36" xml:space="preserve">\r\n<g>\r\n\t<path class="base" d="M22.877,22.878c-0.124,0.124-0.296,0.155-0.385,0.066l-9.438-9.438c-0.088-0.088-0.059-0.262,0.066-0.386l0,0\r\n\t\tc0.125-0.125,0.299-0.155,0.387-0.066l9.438,9.438C23.034,22.58,23.003,22.752,22.877,22.878L22.877,22.878z"/>\r\n\t<path class="base" d="M15.288,27.649c0.301-1.854-0.258-3.822-1.686-5.251c-1.432-1.431-3.398-1.988-5.252-1.688L15.288,27.649z"/>\r\n\t<path class="base" d="M16.461,10.351L8.015,1.905C7.906,1.796,7.675,1.851,7.5,2.026L2.026,7.5C1.851,7.676,1.797,7.906,1.905,8.014l8.446,8.447\r\n\t\tc0.108,0.108,0.338,0.055,0.515-0.121l5.473-5.474C16.515,10.69,16.569,10.459,16.461,10.351z M10.94,5.957l1.567,1.567\r\n\t\tc0.176,0.176,0.176,0.462,0.001,0.637L10.94,9.729c-0.176,0.176-0.461,0.175-0.637-0.001L8.735,8.161\r\n\t\tC8.56,7.985,8.56,7.701,8.736,7.524l1.568-1.568C10.479,5.781,10.765,5.781,10.94,5.957z M5.95,4.738L7.519,3.17\r\n\t\tc0.174-0.175,0.459-0.175,0.635,0l1.568,1.567C9.897,4.914,9.897,5.2,9.723,5.375L8.155,6.942c-0.177,0.176-0.462,0.176-0.639,0\r\n\t\tL5.95,5.375C5.774,5.199,5.774,4.914,5.95,4.738z M4.738,9.721L3.171,8.153c-0.176-0.176-0.176-0.46,0-0.636l1.568-1.568\r\n\t\tc0.175-0.175,0.46-0.176,0.636,0l1.567,1.568c0.176,0.176,0.176,0.462,0.001,0.637L5.375,9.722\r\n\t\tC5.199,9.898,4.915,9.896,4.738,9.721z M7.524,12.507l-1.567-1.567c-0.175-0.176-0.177-0.459,0-0.636l1.567-1.568\r\n\t\tc0.176-0.175,0.461-0.176,0.637,0l1.568,1.567c0.176,0.176,0.176,0.462,0,0.637l-1.568,1.568C7.985,12.685,7.7,12.683,7.524,12.507\r\n\t\tz M12.516,13.726l-1.568,1.569c-0.176,0.176-0.46,0.174-0.637-0.002l-1.567-1.568c-0.176-0.175-0.177-0.459,0-0.636l1.567-1.568\r\n\t\tc0.176-0.175,0.461-0.176,0.637,0l1.567,1.568C12.69,13.265,12.69,13.551,12.516,13.726z M15.295,10.947l-1.568,1.568\r\n\t\tc-0.176,0.176-0.461,0.176-0.638,0l-1.567-1.568c-0.175-0.175-0.176-0.46,0.001-0.636l1.568-1.568c0.174-0.175,0.459-0.175,0.635,0\r\n\t\tl1.568,1.568C15.47,10.486,15.47,10.772,15.295,10.947z"/>\r\n\t<path class="base" d="M34.095,27.985l-8.448-8.448c-0.108-0.108-0.34-0.054-0.515,0.121l-5.474,5.474c-0.176,0.176-0.229,0.406-0.121,0.515\r\n\t\tl8.448,8.448c0.107,0.107,0.338,0.055,0.514-0.122l5.474-5.474C34.148,28.324,34.202,28.093,34.095,27.985z M28.473,23.489\r\n\t\tl1.568,1.568c0.176,0.176,0.176,0.462,0.001,0.637l-1.567,1.568c-0.177,0.176-0.462,0.175-0.638-0.001l-1.568-1.568\r\n\t\tc-0.175-0.175-0.175-0.459,0.001-0.636l1.568-1.567C28.013,23.315,28.298,23.314,28.473,23.489z M23.483,22.271l1.568-1.568\r\n\t\tc0.175-0.174,0.46-0.175,0.635,0l1.568,1.568c0.176,0.176,0.176,0.462,0.001,0.637l-1.568,1.567c-0.176,0.177-0.461,0.176-0.637,0\r\n\t\tl-1.568-1.568C23.308,22.732,23.308,22.448,23.483,22.271z M22.271,27.254l-1.567-1.568c-0.175-0.175-0.176-0.458,0-0.635\r\n\t\tl1.568-1.567c0.176-0.176,0.461-0.177,0.636-0.002l1.567,1.568c0.177,0.176,0.177,0.462,0.001,0.638l-1.568,1.567\r\n\t\tC22.732,27.432,22.448,27.43,22.271,27.254z M25.059,30.04l-1.568-1.568c-0.175-0.175-0.176-0.458,0-0.634l1.568-1.568\r\n\t\tc0.176-0.176,0.461-0.177,0.636-0.002l1.568,1.568c0.176,0.176,0.176,0.462,0,0.638l-1.568,1.568\r\n\t\tC25.519,30.218,25.234,30.217,25.059,30.04z M30.049,31.26l-1.567,1.568c-0.177,0.176-0.461,0.175-0.637-0.002l-1.568-1.567\r\n\t\tc-0.176-0.177-0.176-0.46,0-0.636l1.568-1.568c0.175-0.175,0.46-0.177,0.636-0.001l1.568,1.568\r\n\t\tC30.225,30.799,30.225,31.084,30.049,31.26z M32.829,28.48l-1.568,1.568c-0.177,0.176-0.462,0.175-0.638-0.001l-1.568-1.568\r\n\t\tc-0.176-0.176-0.175-0.46,0.001-0.636l1.568-1.568c0.175-0.175,0.459-0.176,0.635,0l1.568,1.568\r\n\t\tC33.003,28.02,33.003,28.306,32.829,28.48z"/>\r\n\t<path class="base" d="M16.903,23.96c-0.176,0.176-0.461,0.175-0.635,0l-4.229-4.229c-0.176-0.175-0.177-0.459-0.001-0.635l7.058-7.058\r\n\t\tc0.176-0.175,0.46-0.175,0.636,0l4.229,4.229c0.175,0.175,0.176,0.46,0,0.636L16.903,23.96z"/>\r\n</g>\r\n</svg>\r\n';});
+
+
+define('text!js/view/widgets/SnowWidget/icons/calendar.isvg',[],function () { return '<?xml version="1.0" encoding="utf-8"?>\r\n<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">\r\n<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\r\n\t width="36px" height="36px" viewBox="0 0 36 36" enable-background="new 0 0 36 36" xml:space="preserve">\r\n<path class="base" d="M7.44,29.52h4.32v-4.32H7.44V29.52z M12.72,29.52h4.801v-4.32H12.72V29.52z M7.44,24.24h4.32v-4.801H7.44V24.24z\r\n\t M12.72,24.24h4.801v-4.801H12.72V24.24z M7.44,18.48h4.32v-4.32H7.44V18.48z M18.48,29.52h4.801v-4.32H18.48V29.52z M12.72,18.48\r\n\th4.801v-4.32H12.72V18.48z M24.24,29.52h4.32v-4.32h-4.32V29.52z M18.48,24.24h4.801v-4.801H18.48V24.24z M13.2,11.279V6.96\r\n\tc0-0.13-0.047-0.242-0.142-0.337s-0.207-0.143-0.338-0.143h-0.96c-0.13,0-0.242,0.048-0.337,0.143\r\n\tc-0.095,0.095-0.143,0.208-0.143,0.337v4.319c0,0.13,0.047,0.243,0.143,0.338c0.095,0.095,0.207,0.142,0.337,0.142h0.96\r\n\tc0.131,0,0.243-0.047,0.338-0.142S13.2,11.41,13.2,11.279z M24.24,24.24h4.32v-4.801h-4.32V24.24z M18.48,18.48h4.801v-4.32H18.48\r\n\tV18.48z M24.24,18.48h4.32v-4.32h-4.32V18.48z M24.721,11.279V6.96c0-0.13-0.048-0.242-0.143-0.337\r\n\tc-0.096-0.095-0.207-0.143-0.338-0.143h-0.959c-0.131,0-0.243,0.048-0.338,0.143c-0.096,0.095-0.143,0.208-0.143,0.337v4.319\r\n\tc0,0.13,0.047,0.243,0.143,0.338c0.095,0.095,0.207,0.142,0.338,0.142h0.959c0.131,0,0.242-0.047,0.338-0.142\r\n\tC24.673,11.522,24.721,11.41,24.721,11.279z M30.48,10.32v19.2c0,0.52-0.189,0.97-0.57,1.351c-0.38,0.38-0.83,0.569-1.35,0.569H7.44\r\n\tc-0.52,0-0.97-0.189-1.35-0.569c-0.38-0.381-0.569-0.831-0.569-1.351v-19.2c0-0.52,0.189-0.97,0.569-1.35\r\n\tC6.471,8.59,6.92,8.4,7.44,8.4h1.92V6.96c0-0.66,0.234-1.225,0.705-1.695c0.47-0.47,1.035-0.705,1.695-0.705h0.96\r\n\tc0.66,0,1.226,0.235,1.695,0.705c0.47,0.47,0.705,1.036,0.705,1.695V8.4h5.76V6.96c0-0.66,0.234-1.225,0.705-1.695\r\n\tc0.469-0.47,1.035-0.705,1.695-0.705h0.959c0.66,0,1.225,0.235,1.695,0.705c0.471,0.47,0.705,1.036,0.705,1.695V8.4h1.92\r\n\tc0.52,0,0.97,0.189,1.35,0.569C30.291,9.35,30.48,9.8,30.48,10.32z"/>\r\n</svg>\r\n';});
+
+
+define('text!js/view/widgets/SnowWidget/icons/placemark.isvg',[],function () { return '<?xml version="1.0" encoding="utf-8"?>\r\n<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">\r\n<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"\r\n\t width="36px" height="36px" viewBox="0 0 36 36" enable-background="new 0 0 36 36" xml:space="preserve">\r\n<path class="base" d="M22.607,13.392c0-1.272-0.449-2.358-1.35-3.258S19.272,8.784,18,8.784s-2.357,0.45-3.258,1.35s-1.35,1.986-1.35,3.258\r\n\tc0,1.271,0.449,2.358,1.35,3.257C15.643,17.55,16.728,18,18,18s2.357-0.45,3.258-1.351C22.158,15.75,22.607,14.664,22.607,13.392z\r\n\t M27.216,13.392c0,1.308-0.198,2.382-0.593,3.222L20.07,30.546c-0.193,0.397-0.478,0.708-0.856,0.937\r\n\tc-0.377,0.229-0.781,0.341-1.214,0.341s-0.837-0.112-1.214-0.341c-0.379-0.229-0.659-0.539-0.837-0.937L9.377,16.614\r\n\tc-0.395-0.84-0.594-1.914-0.594-3.222c0-2.543,0.901-4.716,2.701-6.516s3.973-2.7,6.516-2.7s4.716,0.9,6.516,2.7\r\n\tS27.216,10.849,27.216,13.392z"/>\r\n</svg>\r\n';});
+
+
+define('css!js/view/table/TableSnowConfigurations',[],function(){});
+define('js/view/table/TableSnowConfigurations',[
+	'./Table',
+	'jquery',
+	'string',
+	'text!../widgets/SnowWidget/icons/composites.svg',
+	'text!../widgets/SnowWidget/icons/satellite.svg',
+	'text!../widgets/SnowWidget/icons/calendar.isvg',
+	'text!../widgets/SnowWidget/icons/placemark.isvg',
+
+	'css!./TableSnowConfigurations'
+], function(
+	Table,
+	$,
+	S,
+	compositesIcon,
+	satelliteIcon,
+	calendarIcon,
+	placemarkIcon
+){
+
+	/**
+	 * @constructor
+	 */
+	var TableSnowConfigurations = function() {
+		Table.apply(this, arguments);
+	};
+
+	TableSnowConfigurations.prototype = Object.create(Table.prototype);
+
+	/**
+	 * Add record to the table
+	 * @param data {Object}
+	 * @param saved {boolean} true for saved records, false for current configuration record
+	 */
+	TableSnowConfigurations.prototype.addRecord = function(data, saved){
+		var compIcon = S(compositesIcon).template().toString();
+		var satIcon = S(satelliteIcon).template().toString();
+		var calIcon = S(calendarIcon).template().toString();
+		var areaIcon = S(placemarkIcon).template().toString();
+		var content = '<tr data-url="' + data.url + '" data-id="' + data.uuid + '">';
+
+		if (!saved){
+			content += '<td><input class="snow-input snow-cfg-name" type="text" placeholder="Type name..."/></td>';
+		} else {
+			content += '<td class="snow-cfg-name-date"><div class="snow-name">' + data.name + '</div><div class="snow-timestamp">' + data.timeStamp + '</div></td>';
+		}
+
+		// add location and period cell
+		content += '<td class="snow-icon snow-area"><div class="snow-icon-container">' + areaIcon +  '</div><div>' + data.area + '</div></td>';
+		content += '<td class="snow-icon snow-date"><div class="snow-icon-container">' + calIcon +  '</div><div>' + data.dateFrom + ' -<br/>' + data.dateTo + '</div></td>';
+
+		// add sensors cell
+		var sensors = '';
+		for (var satellite in data.sensors){
+			sensors += satellite + ' (';
+			sensors += data.sensors[satellite].join(', ');
+			sensors += ')<br/>';
+		}
+		content += '<td class="snow-icon snow-sensors"><div class="snow-icon-container">' + satIcon +  '</div><div>' + sensors + '</div></td>';
+
+		// add composites cell
+		content += '<td class="snow-icon snow-composites"><div class="snow-icon-container icon-composites">' + compIcon +  '</div><div>Daily composites </br>';
+		if (data.composites.length){
+			content += '' + data.composites.join(",") + '-day composites';
+		}
+		content += '</div></td>';
+
+
+		//add action button
+		if (saved){
+			content += '<td class="button-cell button-cell-delete"><div title="Delete" class="widget-button delete-composites"><i class="fa fa-trash-o" aria-hidden="true"></i></div></td>';
+			content += '<td class="button-cell"><div class="widget-button show-composites">Show<i class="fa fa-arrow-right" aria-hidden="true"></i></div></td>';
+		} else {
+			content += '<td class="button-cell"><div class="widget-button save-composites"><i class="fa fa-floppy-o" aria-hidden="true"></i>Save</div></td>';
+		}
+
+		content += '</tr>';
+
+		this._table.append(content);
+	};
+
+	return TableSnowConfigurations;
+});
+
+
+define('css!js/view/widgets/SnowWidget/SnowWidget',[],function(){});
+define('js/view/widgets/SnowWidget/SnowWidget',['../../../actions/Actions',
+	'../../../error/ArgumentError',
+	'../../../error/NotFoundError',
+	'../../../util/Logger',
+	'../../../util/RemoteJQ',
+
+	'./SnowUrlParser',
+	'../../table/TableSnowConfigurations',
+	'../Widget',
+
+	'jquery',
+	'css!./SnowWidget'
+], function(Actions,
+			ArgumentError,
+			NotFoundError,
+			Logger,
+			RemoteJQ,
+
+			SnowUrlParser,
+			TableSnowConfigurations,
+			Widget,
+
+			$){
+	/**
+	 * Class representing widget for handling with saved configurations of snow portal
+	 * @param options {Object}
+	 * @param options.iFrame {PanelIFrame}
+	 * @param options.mapController {SnowMapController}
+	 * @param options.dispatcher {Object}
+	 * @constructor
+	 */
+	var SnowWidget = function(options){
+		Widget.apply(this, arguments);
+		if (!options.iFrame){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "SnowWidget", "constructor", "missingIFrame"));
+		}
+		this._iFrame = options.iFrame;
+		this._mapController = options.mapController;
+		this._dispatcher = options.dispatcher;
+
+		this._iFrameId = this._iFrame.getElementId();
+		this._urlParser = new SnowUrlParser();
+
+		this.build();
+		this.deleteFooter(this._widgetSelector);
+	};
+
+	SnowWidget.prototype = Object.create(Widget.prototype);
+
+	/**
+	 * Build basic view of the widget
+	 */
+	SnowWidget.prototype.build = function(){
+		this._widgetBodySelector.append('<div id="snow-widget-container"></div>');
+		this._container = $('#snow-widget-container');
+
+		this._container.append('<h3 class="snow-table-caption">Current configuration</h3>');
+		this._currentConfigurationTable = this.buildTable('snow-current-cfg-table');
+
+		this._container.append('<h3 class="snow-table-caption">Saved configurations</h3>');
+		this._savedConfigurationTable = this.buildTable('snow-saved-cfg-table');
+
+		this.addEventListeners();
+	};
+
+	/**
+	 * Rebuild widget
+	 */
+	SnowWidget.prototype.rebuild = function(){
+		// this._iFrameUrl = "http://35.165.51.145/snow/albania/20170401-20170404/slstr-sentinel3";
+		//this._iFrameUrl = "http://snow.gisat.cz/snow/";
+		this._iFrameUrl = document.getElementById(this._iFrameId).contentWindow.location.href;
+
+		this.rebuildCurrentConfiguration(this._iFrameUrl);
+		this.rebuildSavedConfigurations();
+		this._mapController.rebuild();
+
+		this.handleLoading("hide");
+	};
+
+	/**
+	 * @param currentIFrameUrl {string}
+	 */
+	SnowWidget.prototype.rebuildCurrentConfiguration = function(currentIFrameUrl){
+		var currentConfiguration = [{
+			url: currentIFrameUrl,
+			user: 1
+		}];
+		var currentData = this.parseDataForTable(currentConfiguration);
+		if (currentData.length > 0){
+			this.redrawCurrentCfgTable(currentData);
+		}
+	};
+
+	/**
+	 * Rebuild table with saved configurations
+	 */
+	SnowWidget.prototype.rebuildSavedConfigurations = function(){
+		var self = this;
+		this.getConfigurations().then(function(data){
+			var records = self.parseDataForTable(data.data);
+			self.redrawSavedCfgTable(records);
+		});
+	};
+
+	/**
+	 * Redraw table with current configurations
+	 * @param data {Array}
+	 */
+	SnowWidget.prototype.redrawCurrentCfgTable = function(data){
+		this._currentConfigurationTable.clear();
+		var self = this;
+		data.forEach(function(record){
+			self._currentConfigurationTable.addRecord(record, false);
+		})
+	};
+
+	/**
+	 * Redraw table with saved configurations
+	 * @param data {Array}
+	 */
+	SnowWidget.prototype.redrawSavedCfgTable = function(data){
+		this._savedConfigurationTable.clear();
+		var self = this;
+		data.forEach(function(record){
+			self._savedConfigurationTable.addRecord(record, true);
+		})
+	};
+
+	/**
+	 * Prepare data for tables
+	 * @param cfg {Array} list with objects, where url property represents saved configuration
+	 * @returns {Array}
+	 */
+	SnowWidget.prototype.parseDataForTable = function(cfg){
+		var configurations = [];
+		var self = this;
+		cfg.forEach(function(record){
+			var cfgPart = self._urlParser.parse(record.url);
+			if (cfgPart){
+				if (record.uuid){
+					cfgPart.uuid = record.uuid;
+				}
+				if (record.ts){
+					cfgPart.timeStamp = record.converted_date;
+				}
+				if (record.name){
+					cfgPart.name = record.name;
+				}
+				configurations.push(cfgPart);
+			}
+		});
+		return configurations;
+	};
+
+	/**
+	 * Build table with configurations
+	 * @param id {string} id of the table
+	 * @returns {TableSnowConfigurations}
+	 */
+	SnowWidget.prototype.buildTable = function(id){
+		return new TableSnowConfigurations({
+			elementId: id,
+			class: "snow-cfg-table",
+			targetId: this._container.attr("id")
+		});
+	};
+
+	/**
+	 * Add event listeners
+	 */
+	SnowWidget.prototype.addEventListeners = function(){
+		this.addMinimiseButtonListener();
+		this.addIFrameChangeListener();
+		this.addSaveButtonListener();
+		this.addShowButtonListener();
+		this.addDeleteButtonListener();
+		this.addLoggingListener();
+	};
+
+
+	SnowWidget.prototype.addIFrameChangeListener = function(){
+		var self = this;
+		var snow = $("#" + this._iFrameId);
+		snow.on("load", function(){
+			self.rebuild();
+
+			 //check every 3 seconds if url has changed
+			setInterval(function(){
+				self.checkUrl();
+			},1000);
+		});
+	};
+
+	SnowWidget.prototype.checkUrl = function(){
+		var currentUrl = document.getElementById(this._iFrameId).contentWindow.location.href;
+		if (currentUrl !== this._iFrameUrl){
+			this.rebuild();
+		}
+	};
+
+	/**
+	 * Add listener to the minimise button
+	 */
+	SnowWidget.prototype.addMinimiseButtonListener = function(){
+		var self = this;
+		this._widgetSelector.find(".widget-minimise").on("click", function(){
+			var id = self._widgetSelector.attr("id");
+			self._widgetSelector.removeClass("open");
+			$(".item[data-for=" + id + "]").removeClass("open");
+		});
+	};
+
+	/**
+	 * Add listener to save button
+	 */
+	SnowWidget.prototype.addSaveButtonListener = function(){
+		var self = this;
+		this._currentConfigurationTable.getTable().on("click", ".save-composites", function(){
+			var button = $(this);
+			var url = button.parents("tr").attr("data-url");
+			var name = button.parents("tr").find(".snow-cfg-name").val();
+			if (name.length < 1){
+				alert("Fill in the name!");
+				return;
+			}
+
+			self.saveConfigurations(name, url).then(function(){
+				button.attr("disabled", true);
+				self.rebuildSavedConfigurations();
+			});
+		});
+	};
+
+	/**
+	 * Add listener to show button
+	 */
+	SnowWidget.prototype.addShowButtonListener = function(){
+		var self = this;
+		this._savedConfigurationTable.getTable().on("click", ".show-composites", function(){
+			var button = $(this);
+			var url = button.parents("tr").attr("data-url");
+			self._iFrame.rebuild(url);
+			self.rebuildCurrentConfiguration(url);
+		});
+	};
+
+	/**
+	 * Add listener to delete button
+	 */
+	SnowWidget.prototype.addDeleteButtonListener = function(){
+		var self = this;
+		this._savedConfigurationTable.getTable().on("click", ".delete-composites", function(){
+			var button = $(this);
+			var id = button.parents("tr").attr("data-id");
+			self.deleteConfiguration(id).then(function(result){
+				if (result.status == "OK"){
+					self.rebuildSavedConfigurations();
+				} else {
+					console.warn("The record was not deleted!")
+				}
+			});
+		});
+	};
+
+	/**
+	 * Add listener for logging actions
+	 */
+	SnowWidget.prototype.addLoggingListener = function(){
+		this._dispatcher.addListener(this.rebuildAfterLogging.bind(this));
+	};
+
+	/**
+	 * Rebuild widget if user has been changed
+	 * @param type {string} type of event
+	 */
+	SnowWidget.prototype.rebuildAfterLogging = function(type){
+		if (type === Actions.userChanged){
+			this.rebuild();
+		}
+	};
+
+	/**
+	 * Get configurations from server
+	 * @returns {Promise}
+	 */
+	SnowWidget.prototype.getConfigurations = function(){
+		return new RemoteJQ({
+			url: "rest/snow/getconfigurations"
+		}).get();
+	};
+
+	/**
+	 * Save configurations
+	 * @options {string} current iframe url
+	 * @returns {Promise}
+	 */
+	SnowWidget.prototype.saveConfigurations = function(name, location){
+		return new RemoteJQ({
+			url: "rest/snow/saveconfigurations",
+			params: {
+				url: location,
+				name: name
+			}
+		}).post();
+	};
+
+	/**
+	 * Delete configuration
+	 * @options {string} id of configuration
+	 * @returns {Promise}
+	 */
+	SnowWidget.prototype.deleteConfiguration = function(id){
+		return new RemoteJQ({
+			url: "rest/snow/deleteconfiguration",
+			params: {
+				uuid: id
+			}
+		}).post();
+	};
+
+	return SnowWidget;
+});
 define('js/stores/internal/StateStore',[], function () {
 	/**
 	 * This store is the ultimate source of truth about current state of the application. Everything else updates it
@@ -25049,7 +27012,8 @@ define('js/view/TopToolBar',[
 ) {
 	"use strict";
 
-	var TopToolBar = function() {
+	var TopToolBar = function(options) {
+		this._dispatcher = options.dispatcher;
 		this._target = $('#top-toolbar-widgets');
 		this._target.on('click.topToolBar', '.item', this.handleClick.bind(this));
 		this.build();
@@ -25057,6 +27021,7 @@ define('js/view/TopToolBar',[
 		$('#top-toolbar-context-help').on('click.topToolBar', this.handleContextHelpClick);
 		$('#top-toolbar-snapshot').on('click.topToolBar', this.handleSnapshotClick);
 		$('#top-toolbar-share-view').on('click.topToolBar', this.handleShareViewClick);
+		$('#top-toolbar-3dmap').on("click.topToolBar", this.handle3dMapClick.bind(this));
 
 		Observer.addListener("Tools.hideClick.layerpanel",this.handleHideClick.bind(this, 'window-layerpanel'));
 		Observer.addListener("Tools.hideClick.areatree",this.handleHideClick.bind(this, 'window-areatree'));
@@ -25070,79 +27035,141 @@ define('js/view/TopToolBar',[
 
 
 	TopToolBar.prototype.build = function(){
+		var tools = {
+			layers: true,
+			areas: true,
+			selections: true,
+			mapTools: true,
+			addLayer: true,
+			customViews: true,
+			customLayers: true,
+			functionalFilrer: true
+		};
 
+
+		if (Config.toggles.hasPeriodsWidget){
+			tools.periods = true;
+		}
+		if (Config.toggles.hasOsmWidget){
+			tools.osm = true;
+		}
+		if (Config.toggles.hasNewEvaluationTool) {
+			tools.areasFilterNew = true;
+		} else {
+			tools.areasFilterOld = true;
+		}
+		if (Config.toggles.isSnow) {
+			tools = this.handleSnow();
+		}
+
+		this.render(tools);
+
+	};
+
+	TopToolBar.prototype.render = function(tools){
 		this._target.empty();
+		var isWorldWind = $('body').hasClass('mode-3d');
 
-		var is3d = $('body').hasClass('mode-3d');
-
-		if (is3d) {
-
-			var classesLayers3d = $('#floater-world-wind-widget').hasClass('open') ? "item open" : "item";
-			this._target.append('<div class="' + classesLayers3d + '" id="top-toolbar-layers" data-for="floater-world-wind-widget">Layers</div>');
-
-			var classesAreas3d = $('#window-areatree').hasClass('open') ? "item open" : "item";
-			this._target.append('<div class="' + classesAreas3d + '" id="top-toolbar-areas" data-for="window-areatree">Areas</div>');
-
-			if (Config.toggles.hasPeriodsWidget){
+		// tools for WorldWind mode
+		if (isWorldWind){
+			if (tools.layers){
+				var classesLayers3d = $('#floater-world-wind-widget').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesLayers3d + '" id="top-toolbar-layers" data-for="floater-world-wind-widget">Layers</div>');
+			}
+			if (tools.areas){
+				var classesAreas3d = $('#window-areatree').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesAreas3d + '" id="top-toolbar-areas" data-for="window-areatree">Areas</div>');
+			}
+			if (tools.periods){
 				var classesPeriods3d = $('#floater-periods-widget').hasClass('open') ? "item open" : "item";
 				this._target.append('<div class="' + classesPeriods3d + '" id="top-toolbar-periods" data-for="floater-periods-widget">Periods</div>');
 			}
-
-            if (Config.toggles.hasOsmWidget){
-                var classesOsm3d = $('#floater-osm-widget').hasClass('open') ? "item open" : "item";
-                this._target.append('<div class="' + classesOsm3d + '" id="top-toolbar-osm" data-for="floater-osm-widget">OSM</div>');
-            }
-
-			var classesSelections3d = $('#window-colourSelection').hasClass('open') ? "item open" : "item";
-			this._target.append('<div class="' + classesSelections3d + '" id="top-toolbar-selections" data-for="window-colourSelection">Selections</div>');
-
-			if(Config.toggles.hasNewEvaluationTool) {
+			if (tools.osm){
+				var classesOsm3d = $('#floater-osm-widget').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesOsm3d + '" id="top-toolbar-osm" data-for="floater-osm-widget">OSM</div>');
+			}
+			if (tools.selections){
+				var classesSelections3d = $('#window-colourSelection').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesSelections3d + '" id="top-toolbar-selections" data-for="window-colourSelection">Selections</div>');
+			}
+			if (tools.areasFilterNew){
 				var classesAreasFilter3d = $('#floater-evaluation-widget').hasClass('open') ? "item open" : "item";
 				this._target.append('<div class="' + classesAreasFilter3d + '" id="top-toolbar-selection-filter" data-for="floater-evaluation-widget">' + Config.basicTexts.advancedFiltersName + '</div>');
-			} else {
+			}
+			if (tools.areasFilterOld){
 				var classesLegacyAreasFilter3d = $('#window-legacyAdvancedFilters').hasClass('open') ? "item open" : "item";
 				this._target.append('<div class="' + classesLegacyAreasFilter3d + '" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters">' + Config.basicTexts.advancedFiltersName + '</div>');
 			}
+			if (tools.mapTools){
+				this._target.append('<div class="item disabled" id="top-toolbar-map-tools">Map tools</div>');
+			}
+			if (tools.customViews){
+				var classesCustomViews3d = Config.auth ? "item disabled" : "item disabled hidden";
+				this._target.append('<div class="' + classesCustomViews3d + '" id="top-toolbar-saved-views">Custom views</div>');
+			}
+			if (tools.snow){
+				var classesSnowWidget3d = $('#floater-snow-widget').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesSnowWidget3d + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget">Saved configurations</div>');
+			}
+		}
 
-
-			this._target.append('<div class="item disabled" id="top-toolbar-map-tools">Map tools</div>');
-
-			var classesCustomViews3d = Config.auth ? "item disabled" : "item disabled hidden";
-			this._target.append('<div class="' + classesCustomViews3d + '" id="top-toolbar-saved-views">Custom views</div>');
-
-
-		} else {
-
-			var classesLayers = $('#window-layerpanel').hasClass('open') ? "item open" : "item";
-			this._target.append('<div class="' + classesLayers + '" id="top-toolbar-layers" data-for="window-layerpanel">Layers</div>');
-
-			var classesAreas = $('#window-areatree').hasClass('open') ? "item open" : "item";
-			this._target.append('<div class="' + classesAreas + '" id="top-toolbar-areas" data-for="window-areatree">Areas</div>');
-
-			var classesSelections = $('#window-colourSelection').hasClass('open') ? "item open" : "item";
-			this._target.append('<div class="' + classesSelections + '" id="top-toolbar-selections" data-for="window-colourSelection">Selections</div>');
-
-			if(Config.toggles.hasNewEvaluationTool) {
+		// tools for OpenLayers mode
+		else {
+			if (tools.layers){
+				var classesLayers = $('#window-layerpanel').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesLayers + '" id="top-toolbar-layers" data-for="window-layerpanel">Layers</div>');
+			}
+			if (tools.areas){
+				var classesAreas = $('#window-areatree').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesAreas + '" id="top-toolbar-areas" data-for="window-areatree">Areas</div>');
+			}
+			if (tools.selections){
+				var classesSelections = $('#window-colourSelection').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesSelections + '" id="top-toolbar-selections" data-for="window-colourSelection">Selections</div>');
+			}
+			if (tools.areasFilterNew){
 				var classesAreasFilter = $('#floater-evaluation-widget').hasClass('open') ? "item open" : "item";
 				this._target.append('<div class="' + classesAreasFilter + '" id="top-toolbar-selection-filter" data-for="floater-evaluation-widget">' + Config.basicTexts.advancedFiltersName + '</div>');
-			} else {
+			}
+			if (tools.areasFilterOld){
 				var classesLegacyAreasFilter = $('#window-legacyAdvancedFilters').hasClass('open') ? "item open" : "item";
 				this._target.append('<div class="' + classesLegacyAreasFilter + '" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters">' + Config.basicTexts.advancedFiltersName + '</div>');
 			}
-
-			var classesMapTools = $('#window-maptools').hasClass('open') ? "item open" : "item";
-			this._target.append('<div class="' + classesMapTools + '" id="top-toolbar-map-tools" data-for="window-maptools">Map tools</div>');
-
-			var classesCustomViews = Config.auth ? "item" : "item hidden";
-			classesCustomViews += $('#window-customviews').hasClass('open') ? " open" : "";
-			this._target.append('<div class="' + classesCustomViews + '" id="top-toolbar-saved-views" data-for="window-customviews">Custom views</div>');
-
-			//var classesCustomLayers = Config.auth ? "item" : "item hidden";
-			var classesCustomLayers = "item";
-			classesCustomLayers += $('#window-customLayers').hasClass('open') ? " open" : "";
-			this._target.append('<div class="' + classesCustomLayers + '" id="top-toolbar-custom-layers" data-for="window-customLayers">Add layer</div>');
+			if (tools.mapTools){
+				var classesMapTools = $('#window-maptools').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesMapTools + '" id="top-toolbar-map-tools" data-for="window-maptools">Map tools</div>');
+			}
+			if (tools.customViews){
+				var classesCustomViews = Config.auth ? "item" : "item hidden";
+				classesCustomViews += $('#window-customviews').hasClass('open') ? " open" : "";
+				this._target.append('<div class="' + classesCustomViews + '" id="top-toolbar-saved-views" data-for="window-customviews">Custom views</div>');
+			}
+			if (tools.customLayers){
+				var classesCustomLayers = "item";
+				classesCustomLayers += $('#window-customLayers').hasClass('open') ? " open" : "";
+				this._target.append('<div class="' + classesCustomLayers + '" id="top-toolbar-custom-layers" data-for="window-customLayers">Add layer</div>');
+			}
+			if (tools.functionalFilrer){
+				var classesFunctionalFilter = $('#floater-functional-urban-area').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesFunctionalFilter + '" id="top-toolbar-functional-urban-area" data-for="floater-functional-urban-area">Functional Urban Area</div>');
+			}
+			if (tools.snow){
+				var classesSnowWidget = $('#floater-snow-widget').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesSnowWidget + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget">Saved configurations</div>');
+			}
 		}
+	};
 
+	/**
+	 * SNOW: add configuration widget only
+	 */
+	TopToolBar.prototype.handleSnow = function() {
+		// hide layers floater
+		$("#floater-world-wind-widget").css("display", "none");
+
+		return {
+			snow: true
+		};
 	};
 
 	TopToolBar.prototype.handleClick = function(e){
@@ -25190,6 +27217,16 @@ define('js/view/TopToolBar',[
 
 	TopToolBar.prototype.handleShareViewClick = function(e){
 		Observer.notify("PumaMain.controller.ViewMng.onShare");
+	};
+
+	TopToolBar.prototype.handle3dMapClick = function(e){
+		var isIn3DMode = $('body').hasClass("mode-3d");
+		if (Config.toggles.useWorldWindOnly && isIn3DMode){
+			this._dispatcher.notify("map#switchProjection");
+			$(e.target).toggleClass('world-wind-2d');
+		} else {
+			this._dispatcher.notify("map#switchFramework");
+		}
 	};
 
 
@@ -25434,14 +27471,17 @@ define('js/view/worldWind/layers/layerTools/LayerTool',['../../../../error/Argum
 		this._name = options.name || "layer";
 		this._target = options.target;
 		this._class = options.class || "";
-		this._maps = options.maps;
+		this._maps = options.maps || null;
 
 		this._layerMetadata = options.layerMetadata;
 
-		// todo do it better
-		this._layer = this._maps['default-map'].layers.getLayerById(this._layerMetadata.id);
+		// todo do it better, now it is just for default map
+		var map = _.filter(this._maps, function(map){ return map.id === 'default-map'; })[0];
 
-		this._id = "layer-tool-" + this._layerMetadata.id;
+		if (this._layerMetadata){
+			this._layer = map.layers.getLayerById(this._layerMetadata.id);
+			this._id = "layer-tool-" + this._layerMetadata.id;
+		}
 	};
 
 	LayerTool.prototype.addEventsListener = function(){
@@ -25549,6 +27589,232 @@ define('js/util/stringUtils',[], function () {
 	};
 });
 
+define('js/view/worldWind/layers/layerTools/legend/LayerLegend',['../../../../../error/ArgumentError',
+	'../../../../../error/NotFoundError',
+	'../../../../../util/Logger',
+
+	'../LayerTool',
+	'../../../../../util/stringUtils',
+
+	'jquery',
+	'worldwind'
+], function(ArgumentError,
+			NotFoundError,
+			Logger,
+
+			LayerTool,
+			stringUtils,
+
+			$
+){
+	/**
+	 * Class representing layer legend
+	 * TODO join this class with Legend.js
+	 * @param options {Object}
+	 * @param options.id {string} Id of the tool
+	 * @param options.name {string} Name of the tool
+	 * @param options.class {string}
+	 * @param options.target {Object} JQuery selector of target element
+	 * @param options.layers {Array} List of layers associated with this legend
+	 * @param options.style {Object} Associated style
+	 * @augments LayerTool
+	 * @constructor
+	 */
+	var LayerLegend = function(options){
+		LayerTool.apply(this, arguments);
+
+		this._class = options.class;
+		this._target = options.target;
+		this._layers = options.layers;
+		this._style = options.style;
+		this._name = options.name;
+		this._id = options.id;
+
+		// TODO will there be the same legend for each period?
+		this._defaultLayer = this._layers[0];
+
+		this.build();
+	};
+
+	LayerLegend.prototype = Object.create(LayerTool.prototype);
+
+	/**
+	 * Build a legend
+	 */
+	LayerLegend.prototype.build = function(){
+		this._icon = this.buildIcon("Legend", "legend-icon", "legend");
+		this._floater = this.buildFloater("Legend", "legend-floater");
+
+		this._iconSelector = this._icon.getElement();
+		this._floaterSelector = this._floater.getElement();
+
+		this.addContent();
+		this.addEventsListener();
+	};
+
+	/**
+	 * Add content to a legend floater
+	 */
+	LayerLegend.prototype.addContent = function(){
+		var style = "";
+		if (this._style){
+			style = this._style.path;
+		}
+
+		var params = {
+			'LAYER': this._defaultLayer.path,
+			'REQUEST': 'GetLegendGraphic',
+			'FORMAT': 'image/png',
+			'WIDTH': 50,
+			'STYLE': style
+		};
+		if (this._defaultLayer.hasOwnProperty('sldId')){
+			params['SLD_ID'] = this._defaultLayer.sldId;
+		}
+
+		var imgSrc = Config.url + "api/proxy/wms?" + stringUtils.makeUriComponent(params);
+		this._floater.addContent('<img src="' + imgSrc + '">');
+	};
+
+
+	return LayerLegend;
+});
+
+define('css!js/view/worldWind/layers/layerTools/opacity/Opacity',[],function(){});
+define('js/view/worldWind/layers/layerTools/opacity/LayerOpacity',['../../../../../error/ArgumentError',
+	'../../../../../error/NotFoundError',
+	'../../../../../util/Logger',
+
+	'../LayerTool',
+	'../../../../widgets/inputs/sliderbox/SliderBox',
+
+	'jquery',
+	'worldwind',
+	'css!./Opacity'
+], function(ArgumentError,
+			NotFoundError,
+			Logger,
+
+			LayerTool,
+			SliderBox,
+
+			$
+){
+	/**
+	 * Class representing layer opacity control
+	 * TODO join this class with Opacity.js
+	 * @param options {Object}
+	 * @param options.id {string} Id of the tool
+	 * @param options.name {string} Name of the tool
+	 * @param options.class {string}
+	 * @param options.target {Object} JQuery selector of target element
+	 * @param options.layers {Array} List of layers associated with this legend
+	 * @param options.maps {Array} List of all active maps
+	 * @param options.style {Object} Associated style
+	 * @augments LayerTool
+	 * @constructor
+	 */
+	var LayerOpacity = function(options){
+		LayerTool.apply(this, arguments);
+
+		this._class = options.class;
+		this._target = options.target;
+		this._layers = options.layers;
+		this._maps = options.maps;
+		this._name = options.name;
+		this._id = options.id;
+		this._style = options.style;
+
+		// TODO will there be the same legend for each period?
+		this._defaultLayer = this._layers[0];
+
+		this._opacityValue = 70;
+		this.build();
+	};
+
+	LayerOpacity.prototype = Object.create(LayerTool.prototype);
+
+	/**
+	 * Build an opacity control - icon and floater. Attach listeners.
+	 */
+	LayerOpacity.prototype.build = function(){
+		this._icon = this.buildIcon("Opacity", "opacity-icon", "opacity");
+		this._floater = this.buildFloater("Opacity", "opacity-floater");
+
+		this._iconSelector = this._icon.getElement();
+		this._floaterSelector = this._floater.getElement();
+		this._floaterBodySelector = this._floater.getBody();
+
+		this.addContent();
+		this.addEventsListener();
+		this.onSlideListener();
+	};
+
+	/**
+	 * Add content to floater tool body
+	 */
+	LayerOpacity.prototype.addContent = function(){
+		this._floaterBodySelector.html('');
+		this._slider = this.buildSlider();
+	};
+
+	/**
+	 * Build slider
+	 * @returns {SliderBox}
+	 */
+	LayerOpacity.prototype.buildSlider = function(){
+		return new SliderBox({
+			id: this._id + "-slider",
+			name: "Opacity",
+			target: this._floaterBodySelector,
+			isRange: false,
+			range: [0,100],
+			values: [this._opacityValue]
+		});
+	};
+
+	/**
+	 * Change opacity of all associated layers on slide
+	 */
+	LayerOpacity.prototype.onSlideListener = function(){
+		var sliderId = this._slider.getSliderId();
+		var self = this;
+
+		this._floaterBodySelector.on("slide", "#" + sliderId, function(e, ui){
+			self.setOpacity(ui.value/100);
+		});
+
+		this._floaterBodySelector.on("slidechange", "#" + sliderId, function(e, ui){
+			self.setOpacity(ui.value/100);
+		});
+	};
+
+	/**
+	 * Redraw layers with opacity value
+	 * @param opacity {number} Between 0 a 1
+	 */
+	LayerOpacity.prototype.setOpacity = function(opacity){
+		var self = this;
+		this._maps.forEach(function(map){
+			self._layers.forEach(function(layer){
+				var id = layer.id;
+				if (self._style){
+					id = id + "-" + self._style.path;
+				}
+				if (self._class === "wms-layers"){
+					id = "wmsLayer-" + id;
+				}
+				var worldWindLayer = map.layers.getLayerById(id);
+				if (worldWindLayer){
+					worldWindLayer.opacity = opacity;
+				}
+			});
+			map.redraw();
+		});
+	};
+
+	return LayerOpacity;
+});
 
 define('css!js/view/worldWind/layers/layerTools/legend/Legend',[],function(){});
 define('js/view/worldWind/layers/layerTools/legend/Legend',['../../../../../error/ArgumentError',
@@ -25623,8 +27889,6 @@ define('js/view/worldWind/layers/layerTools/legend/Legend',['../../../../../erro
 
 	return Legend;
 });
-
-define('css!js/view/worldWind/layers/layerTools/opacity/Opacity',[],function(){});
 define('js/view/worldWind/layers/layerTools/opacity/Opacity',['../../../../../error/ArgumentError',
 	'../../../../../error/NotFoundError',
 	'../../../../../util/Logger',
@@ -25736,6 +28000,8 @@ define('js/view/worldWind/layers/layerTools/LayerTools',['../../../../error/Argu
 	'../../../../error/NotFoundError',
 	'../../../../util/Logger',
 
+	'./legend/LayerLegend',
+	'./opacity/LayerOpacity',
 	'./legend/Legend',
 	'./opacity/Opacity',
 
@@ -25745,6 +28011,8 @@ define('js/view/worldWind/layers/layerTools/LayerTools',['../../../../error/Argu
 			NotFoundError,
 			Logger,
 
+			LayerLegend,
+			LayerOpacity,
 			Legend,
 			Opacity,
 
@@ -25754,8 +28022,12 @@ define('js/view/worldWind/layers/layerTools/LayerTools',['../../../../error/Argu
 	 * Class representing layer tools
 	 * @param options {Object}
 	 * @param options.id {string} id of the element
+	 * @param options.name {name} name of the element
 	 * @param options.class {string}
-	 * @param options.target {JQuery} selector of target element
+	 * @param options.target {Object} JQuery selector of target element
+	 * @param options.maps {Array} list of current maps
+	 * @param options.layers {Array} associated layers
+	 * @param options.style {Object} associated style
 	 * @constructor
 	 */
 	var LayerTools = function(options){
@@ -25765,13 +28037,17 @@ define('js/view/worldWind/layers/layerTools/LayerTools',['../../../../error/Argu
 		if (!options.class){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "LayerTools", "constructor", "missingClass"));
 		}
-		if (!options.target || options.target.length == 0){
+		if (!options.target || options.target.length === 0){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "LayerTools", "constructor", "missingTarget"));
 		}
 
 		this._target = options.target;
 		this._id = options.id;
+		this._name = options.name;
 		this._class = options.class;
+		this._layers = options.layers || null;
+		this._maps = options.maps || null;
+		this._style = options.style || null;
 
 		this.build();
 	};
@@ -25800,6 +28076,7 @@ define('js/view/worldWind/layers/layerTools/LayerTools',['../../../../error/Argu
 
 	/**
 	 * Build legend for layer
+	 * @param maps {Array} List of WorldWindMaps
 	 * @param layerMetadata {Object}
 	 * @returns {Legend}
 	 */
@@ -25832,7 +28109,39 @@ define('js/view/worldWind/layers/layerTools/LayerTools',['../../../../error/Argu
 	};
 
 	/**
+	 * NEW! Build legend for layers
+	 * @returns {LayerLegend}
+	 */
+	LayerTools.prototype.buildLegend = function(){
+		return new LayerLegend({
+			id: this._id,
+			name: this._name,
+			class: this._class,
+			target: this._toolsContainer,
+			layers: this._layers,
+			style: this._style
+		});
+	};
+
+	/**
+	 * NEW! Build opacity control for layers
+	 * @returns {LayerOpacity}
+	 */
+	LayerTools.prototype.buildOpacity = function(){
+		return new LayerOpacity({
+			id: this._id,
+			name: this._name,
+			class: this._class,
+			target: this._toolsContainer,
+			layers: this._layers,
+			maps: this._maps,
+			style: this._style
+		});
+	};
+
+	/**
 	 * Add metadata icon to tool box
+	 * @param data {Object}
 	 */
 	LayerTools.prototype.addMetadataIcon = function(data){
 		this._toolsContainer.append('<div title="Metadata" class="layer-tool-icon metadata-icon" data-for="' + data.id + '">' +
@@ -25851,6 +28160,128 @@ define('js/view/worldWind/layers/layerTools/LayerTools',['../../../../error/Argu
 	};
 
 	return LayerTools;
+});
+
+define('text!js/view/widgets/WorldWindWidget/panels/LayerControl/LayerControl.html',[],function () { return '<div class="panel-row" id="{{id}}" data-id="{{dataId}}"></div>';});
+
+define('js/view/widgets/WorldWindWidget/panels/LayerControl/LayerControl',['../../../../../error/ArgumentError',
+	'../../../../../error/NotFoundError',
+	'../../../../../util/Logger',
+
+	'../../../inputs/checkbox/Checkbox',
+	'../../../../worldWind/layers/layerTools/LayerTools',
+
+	'jquery',
+	'string',
+	'text!./LayerControl.html'
+], function(ArgumentError,
+			NotFoundError,
+			Logger,
+
+			Checkbox,
+			LayerTools,
+
+			$,
+			S,
+			LayerControlHtml
+){
+
+	/**
+	 * Class for layer control i layers panel
+	 * @param options {Object}
+	 * @param options.target {Object} Jquery selector of targete element
+	 * @param options.id {number} id of layer template
+	 * @param options.name {string} name of layer
+	 * @param options.maps {Array} list of current maps
+	 * @param options.groupId {string} id of the group
+	 * @param options.layers {Array} list of layers attached to this control
+	 * @param [options.style] {Object} Optional parameter. Id of the style
+	 * @param [options.checked] {boolean} Optional parameter. True, if the layer should be visible by default.
+	 * @constructor
+	 */
+	var LayerControl = function(options){
+		if (!options.id){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "LayerControl", "constructor", "missingId"));
+		}
+		if (!options.name){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "LayerControl", "constructor", "missingName"));
+		}
+		if (!options.target || options.target.length === 0){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "LayerControl", "constructor", "missingTarget"));
+		}
+
+		this._id = options.id;
+		this._name = options.name;
+		this._maps = options.maps;
+		this._target = options.target;
+		this.layers = options.layers;
+		this._groupId = options.groupId;
+		this.style = options.style || null;
+		this.active = options.checked;
+
+		this.build();
+	};
+
+	/**
+	 * Build control
+	 */
+	LayerControl.prototype.build = function(){
+		var html = S(LayerControlHtml).template({
+			id: "control-" + this._id,
+			dataId: this._id
+		}).toString();
+		this._target.append(html);
+		this._controlSelector = $('#control-' + this._id);
+
+		this.addCheckbox('checkbox-' + this._id, this._name, this._controlSelector, this._id, this.active);
+		this.layerTools = this.addLayerTools(this._id, this._name, this._controlSelector, this._groupId, this.layers, this._maps, this.style);
+	};
+
+	/**
+	 * Add checkbox to panel row
+	 * @param id {string} id of checkbox
+	 * @param name {string} label
+	 * @param target {Object} JQuery selector of target element
+	 * @param dataId {string} id of data connected with this checkbox
+	 * @param checked {boolean} true if checkbox should be checked
+	 * @returns {Checkbox}
+	 */
+	LayerControl.prototype.addCheckbox = function(id, name, target, dataId, checked){
+		return new Checkbox({
+			id: id,
+			name: name,
+			target: target,
+			containerId: this._groupId + "-panel-body",
+			dataId: dataId,
+			checked: checked,
+			class: "layer-row"
+		});
+	};
+
+	/**
+	 * Add box for tools to this control
+	 * @param id {string} id of the box
+	 * @param name {string} name of the box
+	 * @param target {Object} JQuery selector of target element
+	 * @param cls {string}
+	 * @param layers {Array} Layers associated with the control
+	 * @param maps {Array} list of current maps
+	 * @param style {Object|null}
+	 * @returns {LayerTools}
+	 */
+	LayerControl.prototype.addLayerTools = function(id, name, target, cls, layers, maps, style){
+		return new LayerTools({
+			id: id,
+			name: name,
+			class: cls,
+			target: target,
+			layers: layers,
+			maps: maps,
+			style: style
+		});
+	};
+
+	return LayerControl;
 });
 
 define('text!js/view/widgets/WorldWindWidget/panels/panelRow/PanelRow.html',[],function () { return '<div class="panel-row" id="{{id}}"></div>';});
@@ -26049,6 +28480,7 @@ define('js/view/widgets/WorldWindWidget/panels/WorldWindWidgetPanel',['../../../
 	'../../../../util/Logger',
 
 	'../../inputs/checkbox/Checkbox',
+	'./LayerControl/LayerControl',
 	'../../../worldWind/layers/layerTools/LayerTools',
 	'./panelRow/PanelRow',
 	'../../inputs/checkbox/Radiobox',
@@ -26063,6 +28495,7 @@ define('js/view/widgets/WorldWindWidget/panels/WorldWindWidgetPanel',['../../../
 			Logger,
 
 			Checkbox,
+			LayerControl,
 			LayerTools,
 			PanelRow,
 			Radiobox,
@@ -26100,8 +28533,7 @@ define('js/view/widgets/WorldWindWidget/panels/WorldWindWidgetPanel',['../../../
 		if (options.hasOwnProperty("isOpen")){
 			this._isOpen = options.isOpen;
 		}
-
-		this._maps = StoresInternal.retrieve('map').getAll();
+		this._mapStore = StoresInternal.retrieve('map');
 		this.build();
 	};
 
@@ -26143,9 +28575,10 @@ define('js/view/widgets/WorldWindWidget/panels/WorldWindWidgetPanel',['../../../
 	 */
 	WorldWindWidgetPanel.prototype.clearLayers = function(group){
 		$("." + group + "-floater").remove();
-		for (var key in this._maps){
-			this._maps[key].layers.removeAllLayersFromGroup(group);
-		}
+
+		this._mapStore.getAll().forEach(function(map){
+			map.layers.removeAllLayersFromGroup(group);
+		});
 
 		if (group === "selectedareasfilled" || group === "areaoutlines"){
 			this._panelBodySelector.find(".layer-row[data-id=" + group + "]").removeClass("checked");
@@ -26178,13 +28611,16 @@ define('js/view/widgets/WorldWindWidget/panels/WorldWindWidgetPanel',['../../../
 	 * @returns {*|jQuery|HTMLElement} Selector of the group
 	 */
 	WorldWindWidgetPanel.prototype.addLayerGroup = function(id, name){
-		this._panelBodySelector.append('<div class="panel-layer-group" id="' + id + '-panel-layer-group">' +
+		var group = this._panelBodySelector.find("#" + id + "-panel-layer-group");
+		if (group.length === 0){
+			this._panelBodySelector.append('<div class="panel-layer-group" id="' + id + '-panel-layer-group">' +
 				'<div class="panel-layer-group-header open">' +
-					'<div class="panel-icon expand-icon"></div>' +
-					'<div class="panel-icon folder-icon"></div>' +
+				'<div class="panel-icon expand-icon"></div>' +
+				'<div class="panel-icon folder-icon"></div>' +
 				'<h3>' + name + '</h3></div>' +
 				'<div class="panel-layer-group-body open"></div>' +
-			'</div>');
+				'</div>');
+		}
 		return $("#" + id + "-panel-layer-group").find(".panel-layer-group-body");
 	};
 
@@ -26196,6 +28632,10 @@ define('js/view/widgets/WorldWindWidget/panels/WorldWindWidgetPanel',['../../../
 	 * @param visible {boolean} true, if layer should be visible
 	 */
 	WorldWindWidgetPanel.prototype.addLayerControl = function(id, name, target, visible){
+		return this.addPanelRow(id, name, target, visible);
+	};
+
+	WorldWindWidgetPanel.prototype.addPanelRow = function(id, name, target, visible){
 		return new PanelRow({
 			active: visible,
 			id: id,
@@ -26278,13 +28718,13 @@ define('js/view/widgets/WorldWindWidget/panels/WorldWindWidgetPanel',['../../../
 
 
 			if (checkbox.hasClass("checked")){
-				for(var key in self._maps){
-					self._maps[key].layers.showLayer(layerId);
-				}
+				self._mapStore.getAll().forEach(function(map){
+					map.layers.showLayer(layerId);
+				});
 			} else {
-				for(var key in self._maps){
-					self._maps[key].layers.hideLayer(layerId);
-				}
+				self._mapStore.getAll().forEach(function(map){
+					map.layers.hideLayer(layerId);
+				});
 			}
 		},50);
 	};
@@ -26300,11 +28740,233 @@ define('js/view/widgets/WorldWindWidget/panels/WorldWindWidgetPanel',['../../../
 			if (layer.group == groupId){
 				var checkbox = $(".checkbox-row[data-id=" + layer.id +"]");
 				checkbox.addClass("checked");
-				for (var key in self._maps){
-					self._maps[key].layers.showLayer(layer.id, layer.order);
-				}
+				self._mapStore.getAll().forEach(function(map){
+					map.layers.showLayer(layer.id, layer.order);
+				});
 			}
 		});
+	};
+
+	// --- Common methods after multiple maps functionality added --- //
+	// All methods below are reviewed and used
+	// TODO review obsolete methods above this line after Thematic layers for multiple maps will be implemented
+
+	/**
+	 * Build layer control and add tools
+	 * @param target {Object} JQuery selector of target element
+	 * @param id {string} id of contol row
+	 * @param name {string} label
+	 * @param layers {Array} list of associated layers
+	 * @param style {Object|null} associated style, if exist
+	 */
+	WorldWindWidgetPanel.prototype.buildLayerControlRow = function(target, id, name, layers, style){
+		var checked = this.isControlActive(id);
+		var control = this.buildLayerControl(target, id, name, layers, style, checked, this._groupId);
+		this._layersControls.push(control);
+		control.layerTools.buildOpacity();
+		if (this._groupId === "info-layers"){
+			control.layerTools.buildLegend();
+		}
+		if (checked){
+			this.addLayer(control);
+		}
+	};
+
+	/**
+	 * Check the state of the control
+	 * @param controlId {string|number} id of the control
+	 * @returns {boolean} true, if the control should be selected
+	 */
+	WorldWindWidgetPanel.prototype.isControlActive = function(controlId){
+		var control2d = this.getExtLayerControl(controlId);
+		// if there exists the control for the same layer in 2D, use its state
+		if (control2d && control2d.length){
+			return control2d.attr('aria-checked') === "true";
+		}
+		// // Otherwise check if control was checked before rebuild. If existed and was not checked, do not check it again.
+		// else {
+		// 	var existingControl = _.find(this._previousInfoLayersControls, function(control){return control._id == controlId});
+		// 	return !!((existingControl && existingControl.active) || !existingControl);
+		// }
+	};
+
+	/**
+	 * Build checkbox controlling layer in all available maps
+	 *
+	 * @param target {Object} Jquery selector of targete element
+	 * @param id {number} id of layer template
+	 * @param name {string} name of layer
+	 * @param layers {Array} list of layers attached to this control
+	 * @param [style] {Object} Optional parameter. Id of the style
+	 * @param [checked] {boolean} Optional parameter. True, if the layer should be visible by default.
+	 * @param groupId {string} id of the group of layers ("wms-layers", "info-layers")
+	 * @returns {LayerControl}
+	 */
+	WorldWindWidgetPanel.prototype.buildLayerControl = function(target, id, name, layers, style, checked, groupId){
+		return new LayerControl({
+			id: id,
+			name: name,
+			target: target,
+			layers: layers,
+			maps: this._allMaps,
+			style: style,
+			checked: checked,
+			groupId: groupId
+		});
+	};
+
+	/**
+	 * Switch on/off layer in all available maps
+	 * @param event {Object}
+	 */
+	WorldWindWidgetPanel.prototype.switchLayer = function(event){
+		var self = this;
+		setTimeout(function(){
+			var checkbox = $(event.currentTarget);
+			var layerId = checkbox.attr("data-id");
+			var control2d = self.getExtLayerControl(layerId);
+			if (control2d && control2d.length){
+				Stores.notify("checklayer", control2d);
+				control2d.trigger("click", ["ctrl"]);
+			}
+
+			var control = _.find(self._layersControls, function(control){return control._id == layerId});
+			if (checkbox.hasClass("checked")){
+				control.active = true;
+				self.addLayer(control);
+			} else {
+				control.active = false;
+				self.removeLayer(control);
+			}
+		},50);
+	};
+
+	/**
+	 * Remove layer from all available maps
+	 * @param control {Object}
+	 */
+	WorldWindWidgetPanel.prototype.removeLayer = function(control){
+		var self = this;
+		control.layers.forEach(function(layerData){
+			self._allMaps.forEach(function(map){
+				var layerPeriods = layerData.periods;
+				if (layerData.period){
+					layerPeriods = layerData.period
+				}
+				if (self.samePeriod(layerPeriods, map._period)){
+					var prefix = "";
+					if (self._idPrefix){
+						prefix = self._idPrefix + "-";
+					}
+					var id = prefix + layerData.id;
+					if (control.style){
+						id = id + "-" + control.style.path;
+					}
+					var layer = map.layers.getLayerById(id);
+					map.layers.removeLayer(layer);
+				}
+			});
+		});
+	};
+
+	/**
+	 * Add layer to all available maps
+	 * @param control {Object}
+	 */
+	WorldWindWidgetPanel.prototype.addLayer = function(control){
+		var self = this;
+		if (control.active){
+			control.layers.forEach(function(layerData){
+				self._allMaps.forEach(function(map){
+					var layerPeriods = layerData.periods;
+					if (layerData.period){
+						layerPeriods = layerData.period
+					}
+					if (self.samePeriod(layerPeriods, map._period)){
+						var layer = {};
+						var prefix = "";
+						var stylePaths = "";
+						var customParams = null;
+						var url = null;
+						var layerName = layerData.name;
+
+						if (self._idPrefix){
+							prefix = self._idPrefix + "-";
+						}
+						var layerId = prefix + layerData.id;
+						if (control.style){
+							stylePaths = control.style.path;
+							if (control.style.name){
+								layerName = layerName + " - " + control.style.name;
+							}
+							layerId = layerId + "-" + stylePaths;
+						}
+						if (layerData.custom && layerData.custom !== "undefined"){
+							customParams = JSON.parse(layerData.custom);
+						}
+						if (layerData.url){
+							url = layerData.url;
+						}
+						layer.data = {
+							id: layerId,
+							url: url,
+							opacity: control.opacity,
+							customParams: customParams,
+							stylePaths: stylePaths,
+							name: layerName
+							// path: layerPaths.split(",")[0]
+						};
+						if (self._groupId === "wms-layers"){
+							layer.data.layerPaths = layerData.layer;
+							map.layers.addWmsLayer(layer.data, self._id, true);
+						} else if (self._groupId === "info-layers") {
+							layer.data.layerPaths = layerData.path;
+							map.layers.addInfoLayer(layer.data, self._id, true);
+						}
+					}
+				});
+			});
+		}
+	};
+
+	/**
+	 * Check if layerPeriod is the same as mapPeriod or if layerPeriods includes mapPeriod
+	 * @param layerPeriods {Array|number} periods connected with layer
+	 * @param mapPeriod {number} id of period connected with map
+	 * @returns {boolean}
+	 */
+	WorldWindWidgetPanel.prototype.samePeriod = function(layerPeriods, mapPeriod){
+		if (_.isArray(layerPeriods)){
+			return _.indexOf(layerPeriods, mapPeriod) !== -1;
+		} else {
+			return layerPeriods === mapPeriod;
+		}
+
+	};
+
+	/**
+	 * Get the associated layer control in ext
+	 * @param layerId {string} id of the layer in 3D
+	 * @returns {Object} Jquery selector of Ext control
+	 */
+	WorldWindWidgetPanel.prototype.getExtLayerControl = function (layerId) {
+		var checkbox2d = $('#window-layerpanel').find("td[data-for=" + this._group2dId + "-" + layerId + "]").find("input");
+		if (!checkbox2d.length){
+			this._previousLayersControls.forEach(function(control){
+				if (control._id === layerId){
+					control.layers.forEach(function(layer){
+						if (layer.idFor2d){
+							var checkbox = $("td[data-for=" + layer.idFor2d + "]").find("input");
+							if (checkbox.length){
+								checkbox2d = checkbox;
+							}
+						}
+					});
+				}
+			});
+		}
+
+		return checkbox2d;
 	};
 
 	return WorldWindWidgetPanel;
@@ -26398,15 +29060,15 @@ define('js/view/widgets/WorldWindWidget/panels/ThematicLayersPanel',['../../../.
 						path: choropleth.data.legendLayer,
 						opacity: 70
 					};
-					for (var key in self._maps){
-						self._maps[key].layers.addChoroplethLayer(layer, self._id, false);
-					}
+					self._mapStore.getAll().forEach(function(map){
+						map.layers.addChoroplethLayer(layer, self._id, false);
+					});
 
 					var toolsContainer = $("#layer-tool-box-" + layer.id);
 					toolsContainer.html('');
 					var toolBox = choropleth.control.getToolBox();
-					toolBox.addLegend(layer, self._maps);
-					toolBox.addOpacity(layer, self._maps);
+					toolBox.addLegend(layer, self._mapStore.getAll());
+					toolBox.addOpacity(layer, self._mapStore.getAll());
 				}
 			});
 
@@ -26465,7 +29127,7 @@ define('js/view/widgets/WorldWindWidget/panels/AuLayersPanel',['../../../../erro
 	 * @param notification
 	 */
 	AuLayersPanel.prototype.clearAllSelections = function(action, notification){
-		if (action == notification && notification == "clearAllSelections"){
+		if (action === notification && notification === "clearAllSelections"){
 			$("#selectedareasfilled-panel-row").remove();
 			this.clearLayers("selectedareasfilled");
 			Stores.selectedOutlines = null;
@@ -26478,7 +29140,7 @@ define('js/view/widgets/WorldWindWidget/panels/AuLayersPanel',['../../../../erro
 	 * @param notification
 	 */
 	AuLayersPanel.prototype.clearActiveSelection = function(action, notification){
-		if (action == notification && notification == "clearActiveSelection") {
+		if (action === notification && notification === "clearActiveSelection") {
 			this.redrawLayer(this._layers.selected, "selectedareasfilled", Stores.selectedOutlines);
 		}
 	};
@@ -26511,7 +29173,7 @@ define('js/view/widgets/WorldWindWidget/panels/AuLayersPanel',['../../../../erro
 	 * @param notification
 	 */
 	AuLayersPanel.prototype.rebuild = function(action, notification){
-		if (action == notification && notification == "updateOutlines"){
+		if (action === notification && notification === "updateOutlines"){
 			this.clear(this._id);
 
 			if(Stores.selectedOutlines) {
@@ -26555,13 +29217,13 @@ define('js/view/widgets/WorldWindWidget/panels/AuLayersPanel',['../../../../erro
 			layer.layerData.layer = store.layerNames;
 			layer.layerData.sldId = store.sldId;
 
-			for (var key in this._maps){
-				this._maps[key].layers.addChoroplethLayer(layer.layerData, id, false);
-			}
+			this._mapStore.getAll().forEach(function(map){
+				map.layers.addChoroplethLayer(layer.layerData, id, false);
+			});
 
 			var toolBox = layer.control.getToolBox();
 			toolBox.clear();
-			toolBox.addOpacity(layer.layerData, this._maps);
+			toolBox.addOpacity(layer.layerData, this._mapStore.getAll());
 		}
 	};
 
@@ -26650,13 +29312,13 @@ define('js/view/widgets/WorldWindWidget/panels/BackgroundLayersPanel',['../../..
 				var radio = item.control.getRadiobox();
 				var dataId = radio.attr("data-id");
 				if (radio.hasClass("checked")){
-					for(var key in self._maps){
-						self._maps[key].layers.showBackgroundLayer(dataId);
-					}
+					self._mapStore.getAll().forEach(function(map){
+						map.layers.showBackgroundLayer(dataId);
+					});
 				} else {
-					for(var key in self._maps){
-						self._maps[key].layers.hideBackgroundLayer(dataId);
-					}
+					self._mapStore.getAll().forEach(function(map){
+						map.layers.hideBackgroundLayer(dataId);
+					});
 				}
 			});
 		},50);
@@ -26668,6 +29330,8 @@ define('js/view/widgets/WorldWindWidget/panels/InfoLayersPanel',['../../../../er
 	'../../../../error/NotFoundError',
 	'../../../../util/Logger',
 
+	'./LayerControl/LayerControl',
+
 	'../../../../util/RemoteJQ',
 	'../../../../stores/Stores',
 	'./WorldWindWidgetPanel',
@@ -26678,8 +29342,10 @@ define('js/view/widgets/WorldWindWidget/panels/InfoLayersPanel',['../../../../er
 			NotFoundError,
 			Logger,
 
+			LayerControl,
+
 			Remote,
-			Stores,
+			StoresInternal,
 			WorldWindWidgetPanel,
 
 			$,
@@ -26687,30 +29353,48 @@ define('js/view/widgets/WorldWindWidget/panels/InfoLayersPanel',['../../../../er
 ){
 	/**
 	 * Class representing Info Layers Panel of WorldWindWidget
-	 * @param options {Object}
+	 * TODO move general methods to WorldWindWidgetPanel class
+	 * @params options {Object}
 	 * @constructor
 	 */
 	var InfoLayersPanel = function(options){
 		WorldWindWidgetPanel.apply(this, arguments);
-		this._infoLayers = [];
+		this._groupId = "info-layers";
+		this._group2dId = "topiclayer";
+
+		this._layersControls = [];
 	};
 
 	InfoLayersPanel.prototype = Object.create(WorldWindWidgetPanel.prototype);
 
 	/**
-	 * Rebuild panel
+	 * Add onclick listener to every checkbox
+	 * Temporarily in this class TODO move method to parent
+	 */
+	InfoLayersPanel.prototype.addCheckboxOnClickListener = function(){
+		this._panelBodySelector.on("click", ".checkbox-row", this.switchLayer.bind(this));
+	};
+
+	/**
+	 * Get all info layers for current configuration from backend. Then rebuild panel in World Wind Widget, remove all old info layers from World Wind and add new ones to each map according to associated period.
 	 */
 	InfoLayersPanel.prototype.rebuild = function(){
-		this._groupId = "topiclayer";
-		this.clear(this._id);
-
 		var self = this;
-		this.getLayersFromAPI().then(function(result){
-			if (result.hasOwnProperty("data") && result.data.length > 0){
-				self.addGroups(result.data);
-				self.switchOnActiveLayers(self._groupId);
+		this._allMaps = StoresInternal.retrieve("map").getAll();
+		this.getLayersForCurrentConfiguration().then(function(result){
+			self.clear(self._id);
+			self._previousLayersControls = jQuery.extend(true, [], self._layersControls);
+			self._layersControls = [];
+			if (result && result.length > 0){
+				var layerGroups = self.groupDataByLayerGroup(result);
+				var preparedLayerGroups = self.groupLayersByLayerTemplate(layerGroups);
+				self.addPanelContent(preparedLayerGroups);
 				self.displayPanel("block");
+				if (preparedLayerGroups.length < 1){
+					self.displayPanel("none");
+				}
 			} else {
+				console.warn("InfoLayersPanel#rebuild: No info layers for current configuration.");
 				self.displayPanel("none");
 			}
 		}).catch(function(err){
@@ -26719,152 +29403,126 @@ define('js/view/widgets/WorldWindWidget/panels/InfoLayersPanel',['../../../../er
 	};
 
 	/**
-	 * It adds groups and layers to panel
-	 * @param data {Array} list of layer groups
+	 * Add groups and controls
+	 * @param layerGroups {Array}
 	 */
-	InfoLayersPanel.prototype.addGroups = function(data){
+	InfoLayersPanel.prototype.addPanelContent = function(layerGroups){
 		var self = this;
-		var target = null;
-		data.forEach(function(group){
-			target = self.addLayerGroup(group.name.replace(/ /g, '_'), group.name);
-			self.addLayersToGroup(target, group.layers);
-		});
-	};
-
-	/**
-	 * Group layers by temlate id
-	 * @param layers {Array} list of layers
-	 * @returns {Object} layers grouped by id
-	 */
-	InfoLayersPanel.prototype.groupLayersByTemplate = function(layers){
-		var groupedLayers = {};
-		layers.forEach(function(layer){
-			var template = layer.layerTemplateId;
-			if (!groupedLayers.hasOwnProperty(template)){
-				groupedLayers[template] = {};
-				groupedLayers[template]["id"] = template;
-				groupedLayers[template]["name"] = layer.name;
-				groupedLayers[template]["styles"] = layer.styles;
-				groupedLayers[template]["layers"] = [];
-			}
-			groupedLayers[template]["layers"].push(layer);
-		});
-
-		return groupedLayers;
-	};
-
-	/**
-	 * Add layers to group
-	 * @param target {JQuery} selector of target element
-	 * @param layers {Array} list of layers
-	 */
-	InfoLayersPanel.prototype.addLayersToGroup = function(target, layers){
-		var self = this;
-		var groupedLayers = this.groupLayersByTemplate(layers);
-
-		for (var template in groupedLayers){
-			var id = groupedLayers[template].id;
-			var name = groupedLayers[template].name;
-			var layerList = groupedLayers[template].layers;
-			var styles = groupedLayers[template].styles;
-			if (styles && styles.length > 0){
-				styles.forEach(function(style){
-					self.addLayer(id, name, layerList, target, style, false);
-				});
-			} else {
-				self.addLayer(id, name, layerList, target, "", false);
-			}
-		}
-	};
-
-	/**
-	 * Add representation of a layer to the panel and layer to the map
-	 * @param id {string} Id of the layer
-	 * @param name {string} Name of the layer, which is displayed in the panel
-	 * @param layers {Array} list of data layers. From them are paths of layer acquired.
-	 * @param target {JQuery} selector of target element, where will be a layer's control rendered (in a form of checkbox)
-	 * @param style {Object} data about style of the layer
-	 * @param visible {boolean} true, if layer should be visible
-	 */
-	InfoLayersPanel.prototype.addLayer = function(id, name, layers, target, style, visible){
-		var layerId = this._groupId + "-" + id;
-		var layerPaths = this.getLayerNames(layers);
-		var stylePaths = "";
-		var layerName = name;
-		if (style){
-			stylePaths = style.path;
-			if (style.name != null){
-				layerName = layerName + " - " + style.name;
-			}
-			layerId = layerId + "-" + stylePaths;
-		}
-
-		var layer = {};
-		layer.data = {
-			id: layerId,
-			layerPaths: layerPaths,
-			opacity: 70,
-			stylePaths: stylePaths,
-			name: layerName,
-			path: layerPaths.split(",")[0]
-		};
-		layer.control = this.addLayerControl(layerId, layerName, target, visible);
-
-		this.rebuildLayer(layer);
-		this._infoLayers.push(layer);
-	};
-
-	/**
-	 * Rebuild layer with current data
-	 * @param layer {Object}
-	 */
-	InfoLayersPanel.prototype.rebuildLayer = function(layer){
-		for (var key in this._maps){
-			this._maps[key].layers.addInfoLayer(layer.data, this._id, false);
-		}
-		var tools = layer.control.getToolBox();
-		tools.clear();
-		tools.addLegend(layer.data, this._maps);
-		tools.addMetadataIcon(layer.data);
-		tools.addOpacity(layer.data, this._maps);
-	};
-
-	/**
-	 * @param layers {Array} list of layers data
-	 * @returns {string} list of layers' paths separated by comma
-	 */
-	InfoLayersPanel.prototype.getLayerNames = function(layers){
-		if (layers.length > 0){
-			var names = [];
-			layers.forEach(function(layer){
-				names.push(layer.path);
+		layerGroups.forEach(function(group){
+			var layerGroupBodySelector = self.addLayerGroup(group.name.replace(/ /g, '_'), group.name);
+			group.layers.forEach(function(layerTemplate){
+				if (layerTemplate.styles.length > 0){
+					layerTemplate.styles.forEach(function(style){
+						var id = layerTemplate.layerTemplateId + "-" + style.path;
+						var name = layerTemplate.name + " - " + style.name;
+						self.buildLayerControlRow(layerGroupBodySelector, id, name, layerTemplate.layers, style);
+					});
+				} else {
+					self.buildLayerControlRow(layerGroupBodySelector, layerTemplate.layerTemplateId, layerTemplate.name, layerTemplate.layers, null);
+				}
 			});
-			return names.join(",");
-		} else {
-			return layers[0].path;
+		});
+	};
+
+	/**
+	 * Group layers by layer template id
+	 * @param layerGroups {Array}
+	 * @returns {Array} Layer groups
+	 */
+	InfoLayersPanel.prototype.groupLayersByLayerTemplate = function(layerGroups){
+		var preparedLayerGroups = [];
+		layerGroups.forEach(function(layerGroup){
+			var groupedLayers = [];
+			layerGroup.layers.forEach(function(layer){
+				var layerTemplateId = layer.layerTemplateId;
+				var existingLayer = _.find(groupedLayers, function(lay){return lay.layerTemplateId === layerTemplateId});
+				if (!existingLayer){
+					groupedLayers.push({
+						layerTemplateId: layerTemplateId,
+						layers: [layer],
+						opacity: 70,
+						name: layer.name,
+						styles: layer.styles
+					});
+				} else {
+					existingLayer.layers.push(layer);
+				}
+			});
+			layerGroup.layers = groupedLayers;
+			preparedLayerGroups.push(layerGroup);
+		});
+
+		return preparedLayerGroups;
+	};
+
+	/**
+	 * Group data by layer group.
+	 * @param dataForPeriods {Array} List of data for each period
+	 * @returns {Array} Layer groups
+	 */
+	InfoLayersPanel.prototype.groupDataByLayerGroup = function(dataForPeriods){
+		var groupedData = [];
+		dataForPeriods.forEach(function(dataForPeriod){
+			dataForPeriod.data.forEach(function(layerGroup){
+				var groupId = layerGroup.id;
+				var existingGroup = _.find(groupedData, function(group){return group.id === groupId});
+				// add group if doesn't exist
+				if (!existingGroup){
+					groupedData.push(layerGroup);
+				}
+				// go through all layers of a group
+				else {
+					layerGroup.layers.forEach(function(layer){
+						var layerId = layer.id;
+						var existingLayer = _.find(existingGroup.layers, function(lay){return lay.id === layerId});
+						// add layer to the group if doesn't exist
+						if (!existingLayer){
+							existingGroup.layers.push(layer);
+						}
+					});
+				}
+			});
+		});
+		return groupedData;
+	};
+
+	/**
+	 * Get layers for each period separately.
+	 */
+	InfoLayersPanel.prototype.getLayersForCurrentConfiguration = function(){
+		var configuration = StoresInternal.retrieve("state").current();
+		var scope = configuration.scope;
+		var theme = configuration.theme;
+		var periods = configuration.periods;
+		var place = "";
+		if (configuration.place.length > 0){
+			place = [configuration.place];
 		}
+
+		var self = this;
+		var promises = [];
+		periods.forEach(function(period){
+			promises.push(self.getLayersFromAPI(scope, place, period, theme));
+		});
+
+		return Promise.all(promises);
 	};
 
 	/**
 	 * Get the layers list from server
+	 * @param scope {string|number} Scope id
+	 * @param place {string|array} Place id. Empty strin means all places.
+	 * @param period {string|number} Period id.
+	 * @param theme {string|number} Theme id.
+	 * @returns {Promise}
 	 */
-	InfoLayersPanel.prototype.getLayersFromAPI = function(){
-		var configuration = Stores.retrieve("state").current();
-
-		var scope = Number(configuration.scope);
-		var theme = Number(configuration.theme);
-		var year = Number(configuration.periods[0]);
-		var place = "";
-		if (configuration.place.length > 0){
-			place = [Number(configuration.place)];
-		}
-
+	InfoLayersPanel.prototype.getLayersFromAPI = function(scope, place, period, theme){
 		return new Remote({
 			url: "rest/filtered/layer",
 			params: {
 				scope: scope,
 				place: place,
-				year: year,
+				year: period,
 				theme: theme
 			}}).get();
 	};
@@ -26874,21 +29532,25 @@ define('js/view/widgets/WorldWindWidget/panels/InfoLayersPanel',['../../../../er
 define('js/view/widgets/WorldWindWidget/panels/WmsLayersPanel',['../../../../error/ArgumentError',
 	'../../../../error/NotFoundError',
 	'../../../../util/Logger',
+	'../../../../util/Promise',
 
+	'./LayerControl/LayerControl',
 	'../../../../stores/Stores',
 	'./WorldWindWidgetPanel',
 
 	'jquery',
-	'string'
+	'underscore'
 ], function(ArgumentError,
 			NotFoundError,
 			Logger,
+			Promise,
 
-			Stores,
+			LayerControl,
+			StoresInternal,
 			WorldWindWidgetPanel,
 
 			$,
-			S
+			_
 ){
 	/**
 	 * Class representing Wms Layers Panel of WorldWindWidget
@@ -26897,57 +29559,114 @@ define('js/view/widgets/WorldWindWidget/panels/WmsLayersPanel',['../../../../err
 	 */
 	var WmsLayersPanel = function(options){
 		WorldWindWidgetPanel.apply(this, arguments);
-		this._groupId = "wmsLayer";
+		this._groupId = "wms-layers";
+		this._group2dId = "wmsLayer";
+		this._idPrefix = "wmsLayer";
+		this._layersControls = [];
 	};
 
 	WmsLayersPanel.prototype = Object.create(WorldWindWidgetPanel.prototype);
 
 	/**
+	 * Add onclick listener to every checkbox
+	 * Temporarily in this class TODO move method to parent
+	 */
+	WmsLayersPanel.prototype.addCheckboxOnClickListener = function(){
+		this._panelBodySelector.on("click", ".checkbox-row", this.switchLayer.bind(this));
+	};
+
+	/**
 	 * Rebuild panel
 	 */
 	WmsLayersPanel.prototype.rebuild = function(){
-		this.clear(this._id);
-		var filter = {};
-		var configuration = Stores.retrieve("state").current();
+		this._allMaps = StoresInternal.retrieve("map").getAll();
+		this.getLayersForCurrentConfiguration().then(this.addPanelContent.bind(this));
+	};
 
-		filter.scope = Number(configuration.scope);
-		if (configuration.place.length > 0){
-			filter.locations = Number(configuration.place);
-		}
+	/**
+	 * Add content to panel
+	 * @param layers {Array} collection of layers grouped by name
+	 */
+	WmsLayersPanel.prototype.addPanelContent = function(layers){
 		var self = this;
-		Stores.retrieve('wmsLayer').filter(filter).then(function(layers){
-			if (layers.length > 0){
-				layers.forEach(function(layer){
-					self.addLayer(layer);
-				});
-				self.switchOnActiveLayers(self._groupId);
-				self.displayPanel("block");
-			} else {
-				self.displayPanel("none");
+		this.clear(this._id);
+		this._previousLayersControls = jQuery.extend(true, [], this._layersControls);
+		this._layersControls = [];
+		if (layers && layers.length > 0){
+			layers.forEach(function(layer){
+				self.buildLayerControlRow(self._panelBodySelector, layer.id, layer.name, layer.layers, null);
+			});
+			this.displayPanel("block");
+		} else {
+			console.warn("WmsLayersPanel#rebuild: No WMS layers for current configuration.");
+			this.displayPanel("none");
+		}
+	};
+
+	/**
+	 * Get WMS layers for each place.
+	 */
+	WmsLayersPanel.prototype.getLayersForCurrentConfiguration = function(){
+		var wmsStore = StoresInternal.retrieve('wmsLayer');
+		var configuration = StoresInternal.retrieve("state").current();
+		var locations = configuration.allPlaces;
+		if (configuration.place.length > 0){
+			locations = [Number(configuration.place)];
+		}
+		var promises = [];
+		locations.forEach(function(location){
+			promises.push(wmsStore.filter({locations: location}));
+		});
+		var self = this;
+		return Promise.all(promises).then(function(results){
+			if (results.length > 0){
+				var layers = _.flatten(results);
+				var groupedLayers = self.groupLayersByName(layers);
+				return self.getLayersRelevantForPeriods(groupedLayers, configuration.periods);
 			}
-		}).catch(function(err){
-			throw new Error(err);
 		});
 	};
 
 	/**
-	 * Add layer to the panel and map
-	 * @param layer {Object}
+	 * Check, if periods associated with a layer (grouped) meets at least one period from currently selected periods
+	 * @param groupedLayers {Array} Collection of grouped layers
+	 * @param currentPeriods {Array} List of currently selected periods
+	 * @returns {Array} List of all relevant grouped layers for currenly selected periods
 	 */
-	WmsLayersPanel.prototype.addLayer = function(layer){
-		var layerData = {
-			id: "wmsLayer-" + layer.id,
-			name: layer.name,
-			layerPaths: layer.layer,
-			opacity: 70,
-			url: layer.url
-		};
-		for (var key in this._maps){
-			this._maps[key].layers.addWmsLayer(layerData, this._id, false);
-		}
-		var control = this.addLayerControl(layerData.id, layerData.name, this._panelBodySelector, false);
-		var tools = control.getToolBox();
-		tools.addOpacity(layerData, this._maps);
+	WmsLayersPanel.prototype.getLayersRelevantForPeriods = function(groupedLayers, currentPeriods){
+		var relevantLayers = [];
+		groupedLayers.forEach(function(layer){
+			if(_.intersection(layer.periods, currentPeriods).length > 0){
+				relevantLayers.push(layer);
+			}
+		});
+		return relevantLayers;
+	};
+
+	/**
+	 * Group layers by their names
+	 * @param layers {Array} list of all layers for current configuration
+	 * @returns {Array} list of grouped layers
+	 */
+	WmsLayersPanel.prototype.groupLayersByName = function(layers){
+		var self = this;
+		var groupedLayers = [];
+		layers.forEach(function(layer){
+			layer.idFor2d = self._group2dId + "-" + layer.id;
+			var existingLayer = _.find(groupedLayers, function(l){return l.name === layer.name});
+			if (existingLayer){
+				existingLayer.periods = existingLayer.periods.concat(layer.periods);
+				existingLayer.layers.push(layer);
+			} else {
+				groupedLayers.push({
+					id: "wms-template-" + layer.id,
+					name: layer.name,
+					periods: layer.periods,
+					layers: [layer]
+				});
+			}
+		});
+		return groupedLayers;
 	};
 
 	return WmsLayersPanel;
@@ -26967,6 +29686,8 @@ define('js/view/widgets/WorldWindWidget/WorldWindWidgetPanels',['../../../error/
 	'./panels/ThematicLayersPanel',
 	'./panels/WmsLayersPanel',
 
+	'../../../stores/Stores',
+
 	'jquery',
 	'string',
 	'text!./WorldWindWidgetPanels.html',
@@ -26981,6 +29702,8 @@ define('js/view/widgets/WorldWindWidget/WorldWindWidgetPanels',['../../../error/
 			ThematicLayersPanel,
 			WmsLayersPanel,
 
+			Stores,
+
 			$,
 			S,
 			htmlBody
@@ -26988,7 +29711,7 @@ define('js/view/widgets/WorldWindWidget/WorldWindWidgetPanels',['../../../error/
 	/**
 	 * @param options {Object}
 	 * @param options.id {string} id of element
-	 * @param options.target {JQuery} JQuery selector of target element
+	 * @param options.target {Object} JQuery selector of target element
 	 * @param options.currentMap
 	 * @constructor
 	 */
@@ -27007,13 +29730,10 @@ define('js/view/widgets/WorldWindWidget/WorldWindWidgetPanels',['../../../error/
 
 	/**
 	 * Rebuild panels with current configuration
-	 * @param stateChanges {Object} changes in configuration
 	 */
-	WorldWindWidgetPanels.prototype.rebuild = function(stateChanges){
-		if (!stateChanges){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingParameter"));
-		}
-		if (stateChanges && !stateChanges.scope){
+	WorldWindWidgetPanels.prototype.rebuild = function(){
+		var configChanges = Stores.retrieve('state').current().changes;
+		if (!configChanges.scope){
 			this._auLayersPanel.switchOnLayersFrom2D();
 			this._thematicLayersPanel.switchOnLayersFrom2D();
 		}
@@ -27171,7 +29891,6 @@ define('js/view/widgets/WorldWindWidget/WorldWindWidget',[
 	 * Class representing widget for 3D map
 	 * @param options {Object}
 	 * @param options.mapsContainer {MapsContainer} Container where should be all maps rendered
-	 * @param options.dispatcher {Object}
 	 * @param options.stateStore {StateStore}
 	 * @param options.topToolBar {TopToolBar}
 	 * @constructor
@@ -27209,14 +29928,13 @@ define('js/view/widgets/WorldWindWidget/WorldWindWidget',[
 	WorldWindWidget.prototype.build = function(){
 		this.addSettingsIcon();
 		this.addSettingsOnClickListener();
-		this.add3dMapOnClickListener();
 
 		this._panels = this.buildPanels();
 
 		// config for new/old view
 		if (!Config.toggles.useNewViewSelector){
 			this._widgetBodySelector.append('<div id="3d-switch">3D map</div>');
-			$("#3d-switch").on("click", this.toggle3DMap.bind(this));
+			$("#3d-switch").on("click", this.switchMapFramework.bind(this));
 		} else {
 			this.addMinimiseButtonListener();
 		}
@@ -27236,30 +29954,17 @@ define('js/view/widgets/WorldWindWidget/WorldWindWidget',[
 	WorldWindWidget.prototype.addDataToMap = function(map){
 		this._panels.addLayersToMap(map);
 		if (map._id !== 'default-map'){
-			map.rebuild(this._stateStore.current());
-			this._panels.rebuild(this._stateChanges);
+			map.rebuild();
+			this._panels.rebuild();
 		}
 	};
 
 	/**
-	 * Rebuild widget
+	 * Rebuild widget. Rebuild all maps in container and panels.
 	 */
 	WorldWindWidget.prototype.rebuild = function(){
-		var isIn3dMode = $("body").hasClass("mode-3d");
-		this._stateChanges = this._stateStore.current().changes;
-
-		if (isIn3dMode){
-			this._mapsContainer.rebuildMaps();
-			this._panels.rebuild(this._stateChanges);
-			this._stateChanges = {
-				scope: false,
-				location: false,
-				theme: false,
-				period: false,
-				level: false,
-				visualization: false
-			};
-		}
+		this._mapsContainer.rebuildMaps();
+		this._panels.rebuild();
 		this.handleLoading("hide");
 	};
 
@@ -27284,9 +29989,16 @@ define('js/view/widgets/WorldWindWidget/WorldWindWidget',[
 	};
 
 	/**
+	 * Switch projection from 3D to 2D and vice versa
+	 */
+	WorldWindWidget.prototype.switchProjection = function(){
+		this._mapsContainer.switchProjection();
+	};
+
+	/**
 	 * Toggle map into 3D mode
 	 */
-	WorldWindWidget.prototype.toggle3DMap = function(){
+	WorldWindWidget.prototype.switchMapFramework = function(){
 		var self = this;
 		var body = $("body");
 
@@ -27371,16 +30083,16 @@ define('js/view/widgets/WorldWindWidget/WorldWindWidget',[
 		});
 	};
 
-	WorldWindWidget.prototype.add3dMapOnClickListener = function(){
-		$('#top-toolbar-3dmap').on("click", this.toggle3DMap.bind(this));
-	};
-
 
 	WorldWindWidget.prototype.onEvent = function(type, options) {
 		if(type === Actions.mapShow3D) {
 			this.show3DMap();
 		} else if(type === Actions.mapAdd){
 			this.addDataToMap(options.map);
+		} else if(type === Actions.mapSwitchFramework){
+			this.switchMapFramework();
+		} else if(type === Actions.mapSwitchProjection){
+			this.switchProjection();
 		}
 	};
 
@@ -27411,9 +30123,11 @@ requirejs.config({
         'jquery-ui': 'lib/jquery-ui.min',
         'osmtogeojson': 'lib/osmtogeojson-3.0.0',
         'resize': 'lib/detect-element-resize',
+		'select2': 'lib/select2.full.min',
         'string': 'lib/string',
         'underscore': 'lib/underscore-min',
         'text': 'lib/text',
+		'tinysort': 'lib/tinysort.min',
         'wicket': 'lib/wicket',
         'worldwind': 'lib/worldwind.min'
     },
@@ -27444,6 +30158,7 @@ define('app',['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         'js/util/metadata/AnalyticalUnits',
         'js/view/widgets/CityWidget/CityWidget',
         'js/view/widgets/CustomDrawingWidget/CustomDrawingWidget',
+		'js/util/Customization',
         'js/view/widgets/EvaluationWidget/EvaluationWidget',
         'js/view/tools/FeatureInfoTool/FeatureInfoTool',
         'js/util/Filter',
@@ -27454,11 +30169,15 @@ define('app',['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 		'js/view/mapsContainer/MapsContainer',
 		'js/stores/internal/MapStore',
 		'js/view/widgets/OSMWidget/OSMWidget',
+	'js/view/PanelIFrame/PanelIFrame',
+		'js/view/selectors/PeriodsSelector/PeriodsSelector',
 		'js/view/widgets/PeriodsWidget/PeriodsWidget',
 		'js/util/Placeholder',
 		'js/util/Remote',
 		'js/view/widgets/SharingWidget/SharingWidget',
 		'js/stores/internal/SelectionStore',
+		'js/view/SnowMapController',
+		'js/view/widgets/SnowWidget/SnowWidget',
 		'js/stores/internal/StateStore',
 		'js/stores/Stores',
         'js/view/TopToolBar',
@@ -27473,6 +30192,7 @@ define('app',['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
              AnalyticalUnits,
              CityWidget,
              CustomDrawingWidget,
+			 Customization,
              EvaluationWidget,
              FeatureInfoTool,
              Filter,
@@ -27483,11 +30203,15 @@ define('app',['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
              MapsContainer,
 			 MapStore,
 			 OSMWidget,
+			 PanelIFrame,
+			 PeriodsSelector,
 			 PeriodsWidget,
 			 Placeholder,
 			 Remote,
 			 SharingWidget,
 			 SelectionStore,
+			 SnowMapController,
+			 SnowWidget,
 			 StateStore,
 			 Stores,
 			 TopToolBar,
@@ -27520,12 +30244,30 @@ define('app',['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         var filter = buildFilter();
         var olMap = buildOpenLayersMap();
 
+		// customization
+		new Customization({
+			dispatcher: window.Stores,
+			useWorldWindOnly: Config.toggles.useWorldWindOnly,
+			skipSelection: Config.toggles.skipInitialSelection
+		});
+
+        if (Config.toggles.hasPeriodsSelector){
+        	new PeriodsSelector({
+				containerSelector: $("#content-application .group-visualization"),
+				dispatcher: window.Stores,
+				maxSelected: 12
+			});
+        	$("#view-selector .period").addClass("hidden");
+		}
+
         if(Config.toggles.useTopToolbar){
-            var topToolBar = new TopToolBar();
+            var topToolBar = new TopToolBar({
+				dispatcher: window.Stores
+			});
         }
         // create tools and widgets according to configuration
         if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
-        	var mapsContainer = buildMapsContainer(mapStore);
+        	var mapsContainer = buildMapsContainer(mapStore, stateStore);
 			var worldWindWidget = buildWorldWindWidget(mapsContainer, topToolBar, stateStore);
             widgets.push(worldWindWidget);
 
@@ -27533,7 +30275,7 @@ define('app',['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
                 widgets.push(buildOsmWidget(mapsContainer, mapStore));
             }
         }
-        if (Config.toggles.hasPeriodsWidget){
+        if(Config.toggles.hasPeriodsWidget){
 			var periodsWidget = buildPeriodsWidget(mapsContainer);
 			widgets.push(periodsWidget);
 		}
@@ -27549,6 +30291,16 @@ define('app',['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         if(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies){
             widgets.push(buildCityWidget());
         }
+		if(Config.toggles.isSnow){
+			var panelIFrame = new PanelIFrame(Config.snowUrl + 'snow/');
+			//var panelIFrame = new PanelIFrame('http://localhost:63326/panther-front-office/src/iframe-test.html');
+			var snowMapController = new SnowMapController({
+				iFrame: panelIFrame
+			});
+
+			widgets.push(buildSnowWidget(snowMapController, panelIFrame));
+			snowViewChanges();
+		}
 
         if(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo){
             tools.push(buildFeatureInfoTool());
@@ -27726,6 +30478,23 @@ define('app',['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 		});
 	}
 
+	/**
+	 * Build SnowWidget instance
+	 * @param mapController {SnowMapController}
+	 * @param iFrame {PanelIFrame}
+	 * @returns {SnowWidget}
+	 */
+	function buildSnowWidget (mapController, iFrame){
+		return new SnowWidget({
+			elementId: 'snow-widget',
+			name: 'Saved configurations',
+			placeholderTargetId: 'widget-container',
+			iFrame: iFrame,
+			mapController: mapController,
+			dispatcher: window.Stores
+		});
+	}
+
     /**
      * Build WorldWindWidget instance
 	 * @param mapsContainer {MapsContainer}
@@ -27774,13 +30543,15 @@ define('app',['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 	/**
 	 * Build container for world wind maps within content element
 	 * @param mapStore {MapStore}
+	 * @param stateStore {StateStore}
 	 * @returns {MapsContainer}
 	 */
-	function buildMapsContainer(mapStore){
+	function buildMapsContainer(mapStore, stateStore){
 		return new MapsContainer({
 			id: "maps-container",
 			dispatcher: window.Stores,
 			mapStore: mapStore,
+			stateStore: stateStore,
 			target: $("#content")
 		})
 	}
@@ -27801,9 +30572,28 @@ define('app',['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
             is3dOnly: true
         });
     }
+
+	/**
+	 * Modifications of FO view for SNOW PORTAL
+	 */
+	function snowViewChanges(){
+		// set correct link to intro page
+		var introLink = $("#intro-link");
+		if (introLink.length){
+			introLink.remove();
+		}
+		// use snow portal logo
+		var headerSelector = $("#header");
+		headerSelector.find("h1").remove();
+		headerSelector.prepend("<a href='" + Config.snowUrl + "intro' id='project-logo'></a>");
+
+		// hide top toolbar tools
+		var topToolbarTools = $("#top-toolbar-tools");
+		topToolbarTools.remove();
+	}
 });
 
 (function(c){var d=document,a='appendChild',i='styleSheet',s=d.createElement('style');s.type='text/css';d.getElementsByTagName('head')[0][a](s);s[i]?s[i].cssText=c:s[a](d.createTextNode(c));})
-('/* === Checkboxes === */\r\n.checkbox-row.checked .checkbox-icon {\r\n    background: url(\'img/checkbox-checked.png\') no-repeat center 45%;\r\n}\r\n\r\n.checkbox-row a {\r\n    text-decoration: none;\r\n}\r\n\r\n.checkbox-icon {\r\n    background: url(\'img/checkbox-unchecked.png\') no-repeat center 45%;\r\n    display: block;\r\n    float: left;\r\n    margin-right: .5rem;\r\n    width: 1.2rem;\r\n    height: 100%;\r\n    transition: background .3s;\r\n}\r\n\r\n.checkbox-label {\r\n    overflow: hidden;\r\n    text-overflow: ellipsis;\r\n    font-weight: bold;\r\n    height: 100%;\r\n    font-size: .8rem;\r\n}.ui-checkboxradio-label {\r\n\tmargin: .1rem;\r\n\ttransition: background .3s;\r\n}\r\n.ui-checkboxradio-label.ui-state-active.ui-checkboxradio-checked, .ui-button:active {\r\n\tbackground: #ccc;\r\n\tborder: 1px solid #aaa;\r\n\tcolor: #555;\r\n}\r\n.ui-checkboxradio-label.ui-state-active:hover {\r\n\tbackground: #ccc;\r\n\tborder: 1px solid #aaa;\r\n\tcolor: #555;\r\n}\r\n.ui-visual-focus, .ui-state-focus {\r\n\tbox-shadow: none;\r\n}\r\n\r\n.label-multiselect-option {\r\n\tpadding: .3rem 1rem;\r\n}\r\n.label-multiselect-option.ui-state-active {\r\n\tpadding: .3rem .7rem .25rem 1.3rem;\r\n}\r\n.label-multiselect-option.ui-state-active:before {\r\n\tcontent: url(\"img/check.png\");\r\n\tposition: absolute;\r\n\tleft: .5rem;\r\n}\r\n.label-multiselect-select-all,\r\n.label-multiselect-clear-all,\r\n.label-multiselect-select-all:hover,\r\n.label-multiselect-clear-all:hover,\r\n.label-multiselect-select-all.ui-state-active.ui-checkboxradio-checked,\r\n.label-multiselect-clear-all.ui-state-active.ui-checkboxradio-checked {\r\n\tbackground: none;\r\n\tborder: 0;\r\n\tfont-family: \"Open sans\", sans-serif;\r\n\tfont-weight: bold;\r\n\tfont-size: .7rem;\r\n\tpadding: .2rem .4rem .1rem 1.1rem;\r\n}\r\n.widgets label.label-multiselect-select-all,\r\n.widgets label.label-multiselect-select-all.ui-state-active.ui-checkboxradio-checked {\r\n\tfont-size: .7rem;\r\n\tcolor: rgba(201, 45, 66, .7);\r\n\ttransition: color .3s;\r\n}\r\n.widgets label.label-multiselect-clear-all,\r\n.widgets label.label-multiselect-clear-all.ui-state-active.ui-checkboxradio-checked {\r\n\tfont-size: .7rem;\r\n\tcolor: rgba(96, 96, 96, .7);\r\n\ttransition: color .3s;\r\n}\r\n.widgets label.label-multiselect-select-all:hover {\r\n\tcolor: rgba(201, 45, 66, 1);\r\n}\r\n.widgets label.label-multiselect-clear-all:hover {\r\n\tcolor: rgba(96, 96, 96, 1);\r\n}\r\n\r\n.label-multiselect-select-all:before, .label-multiselect-clear-all:before {\r\n\tposition: absolute;\r\n\tleft: .2rem;\r\n}\r\n.label-multiselect-select-all:before {\r\n\tcontent: url(\"img/check-colored.png\");\r\n\topacity: .7;\r\n\ttransition: opacity .3s;\r\n}\r\n.label-multiselect-clear-all:before {\r\n\tcontent: url(\"img/uncheck.png\");\r\n\topacity: .7;\r\n\ttransition: opacity .3s;\r\n}\r\n.label-multiselect-select-all:hover:before {\r\n\topacity: 1;\r\n}\r\n.label-multiselect-clear-all:hover:before {\r\n\topacity: 1;\r\n}/* === Selections === */\r\n.select-menu-box {\r\n    margin: .5rem 0;\r\n}\r\n\r\n.widgets label.select-menu-caption {\r\n    display: block;\r\n    font-weight: bold;\r\n    height: 1.2rem;\r\n    line-height: 1.2rem;\r\n    font-size: .8rem;\r\n}\r\n\r\n.option-count {\r\n    color: #aaa;\r\n    font-style: normal;\r\n    position: absolute;\r\n    right: .7rem;\r\n}\r\n\r\n.select-menu-box .ui-selectmenu-button {\r\n    background: #eee;\r\n    min-width: 15rem;\r\n    width: 90%;\r\n    margin: .1rem 0;\r\n    padding: .4rem .5rem;\r\n    border: 1px solid #bbb;\r\n    line-height: 1rem;\r\n}\r\n\r\n.select-menu-box .ui-selectmenu-icon, .select-menu-box .ui-selectmenu-button-open .ui-selectmenu-icon,\r\n.select-menu-box .ui-selectmenu-button-closed .ui-selectmenu-icon {\r\n    background: url(\'img/arrow-down.png\');\r\n}\r\n\r\n.select-menu-box .ui-corner-all {\r\n    border-radius: .1rem;\r\n}.histogram {\r\n    bottom: 0;\r\n    height: 50px;\r\n    padding-left: 1px;\r\n    position: absolute;\r\n    min-width: 14.5rem;\r\n    width: 100%;\r\n}\r\n\r\n.histogram-bar {\r\n    background: rgb(220,220,220);\r\n    border-right: 1px solid white;\r\n    bottom: 0;\r\n    float: left;\r\n    position: relative;\r\n}\r\n\r\n.histogram-bar.selected {\r\n    background: #c85765;\r\n}/* === Sliders === */\r\n.slider-box {\r\n    padding-bottom: .7rem;\r\n}\r\n\r\n.slider-caption span {\r\n    font-weight: bold;\r\n    height: 1.2rem;\r\n    line-height: 1.2rem;\r\n    font-size: .8rem;\r\n}\r\n\r\n.slider-row {\r\n    min-width: 14.5rem;\r\n    width: 90%;\r\n    margin: .5rem .4rem .35rem .4rem;\r\n}\r\n\r\n.slider-row.ui-slider-horizontal {\r\n    background: #ccc;\r\n    border: 0;\r\n    height: 4px;\r\n    min-width: 14.5rem;\r\n    width: 95%;\r\n}\r\n\r\n.slider-row.ui-slider-horizontal .ui-slider-handle {\r\n    background: #c92d42;\r\n    border: 0;\r\n    border-radius: .5rem;\r\n    top: -.45em;\r\n    transition: background .3s ease-out;\r\n}\r\n\r\n.slider-row.ui-slider-horizontal .ui-slider-handle:hover, .slider-row.ui-slider-horizontal .ui-slider-handle.ui-state-focus {\r\n    background: #ad2738;\r\n}\r\n\r\n.slider-row .ui-widget-header {\r\n    border: 0;\r\n    background: #c92d42;\r\n}\r\n\r\n.floater-row.slider-labels {\r\n    font-size: .75rem;\r\n    color: #666;\r\n    padding: .2rem 0;\r\n    min-width: 15.2rem;\r\n    width: calc(95% + .7rem);\r\n}\r\n.floater-row.slider-labels > div {\r\n    display: inline-block;\r\n    position: relative;\r\n    width: 25%;\r\n    margin: 0 -3px 0 0;\r\n}\r\n.floater-row.slider-labels > .slider-thresholds-single {\r\n    width: 50%;\r\n}\r\n.slider-thresholds {\r\n    height: 1.2rem;\r\n}\r\n.slider-thresholds > input {\r\n    background: rgba(255,255,255,.7);\r\n    border: 1px solid #bbb;\r\n    border-radius: 1px;\r\n    padding: 0 .2rem;\r\n    position: relative;\r\n    margin: 0 2.5%;\r\n    width: 95%;\r\n}\r\n\r\n.slider-thresholds > .input-max, .slider-thresholds > .input-single, .slider-labels-max {\r\n    text-align: right;\r\n}\r\n\r\n.slider-popup {\r\n    display: none;\r\n    position: absolute;\r\n    margin: -6rem .4rem 0 .4rem;\r\n    min-width: 14.5rem;\r\n    height: 3.5rem;\r\n    background: white;\r\n    -webkit-box-shadow: 0 0 4px rgb(136, 136, 136);\r\n    -moz-box-shadow: 0 0 4px rgb(136, 136, 136);\r\n    box-shadow: 0 0 4px rgb(136, 136, 136);\r\n    z-index: 8888;\r\n}\r\n\r\n.slider-popup.open {\r\n    display: block;\r\n}/* === Placeholders === */\r\n.placeholders-container {\r\n    height: 6.5rem;\r\n    position: absolute;\r\n    right: 12rem;\r\n    top: 0;\r\n    width: 10.5rem;\r\n    z-index: 10000;\r\n}\r\n\r\n.placeholder {\r\n    background: rgb(140,140,140);\r\n    border: 1px solid rgba(255,255,255,.3);\r\n    border-radius: .1rem;\r\n    height: 1.5rem;\r\n    position: relative;\r\n    margin: .5rem .3rem;\r\n    transition: background .3s ease-in-out;\r\n    width: 10rem;\r\n}\r\n\r\n.placeholder.open {\r\n    background: rgba(201,45,66,.7);\r\n    border: 1px solid rgba(255,255,255,.3);\r\n    transition: background .3s ease-out;\r\n}\r\n\r\n.placeholder:hover {\r\n    background: rgb(120,120,120);\r\n    cursor: pointer;\r\n}\r\n\r\n.placeholder.open:hover {\r\n    background: #ad2738;\r\n}\r\n\r\n.placeholder > span, .floater-header > span {\r\n    color: white;\r\n    font-size: .7rem;\r\n    font-weight: bold;\r\n    line-height: 1.4rem;\r\n    padding: 0 .5rem;\r\n}\r\n.floater-header > span {\r\n    font-size: .8rem;\r\n    line-height: 1.6rem;\r\n}\r\n\r\n.placeholder-tools-container, .floater-tools-container, .tool-window-tools-container {\r\n    position: absolute;\r\n    right: 0;\r\n    top: 0;\r\n    height: 1.5rem;\r\n}\r\n.floater-tools-container, .tool-window-tools-container {\r\n    height: 2rem;\r\n}\r\n\r\n.placeholder-tool, .floater-tool {\r\n    float: right;\r\n    height: 1.3rem;\r\n    margin: .15rem .15rem .15rem 0;\r\n    position: relative;\r\n    width: 1.3rem;\r\n}\r\n.floater-tool {\r\n    margin: .3rem .3rem .3rem 0;\r\n}\r\n\r\n.placeholder-tool > img, .floater-tool > img {\r\n    margin: .1rem;\r\n}\r\n\r\n/* === Floaters === */\r\n.floater {\r\n    background: rgba(255,255,255,.95);\r\n    border: 1px solid #ccc;\r\n    border-radius: .1rem;\r\n    -webkit-box-shadow: 0 0 4px rgb(136, 136, 136);\r\n    -moz-box-shadow: 0 0 4px rgb(136, 136, 136);\r\n    box-shadow: 0 0 4px rgb(136, 136, 136);\r\n    display: none;\r\n    padding: .2rem;\r\n    position: absolute;\r\n    resize: both;\r\n    overflow: auto;\r\n    width: 18rem;\r\n    z-index: 10000;\r\n}\r\n\r\n/* floater modes*/\r\nbody.application .floater.open {\r\n    display: block;\r\n    height: 28rem;\r\n}\r\nbody.mode-3d .floater.only-2d.open {\r\n    display: none;\r\n}\r\nbody.application .floater.only-3d.open {\r\n    display: none;\r\n}\r\nbody.mode-3d .floater.only-3d.open {\r\n    display: block;\r\n}\r\n\r\n\r\n.floater.active {\r\n    z-index: 10001;\r\n}\r\n.floater-overlay {\r\n    display: none;\r\n    height: 100%;\r\n    width: 100%;\r\n    background: rgba(255,255,255,.9) url(img/loading.gif) no-repeat 50% 50%;\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    z-index: 9999;\r\n}\r\n.floater-header {\r\n    background: #c92d42;\r\n    height: 2rem;\r\n    line-height: 2rem;\r\n    position: relative;\r\n    cursor: move;\r\n}\r\n.floater.inverse .floater-header {\r\n    background: rgba(255,255,255,.9);\r\n    color: #444;\r\n}\r\n.floater.inverse .floater-header > span {\r\n    color: #444;\r\n}\r\n.floater-body {\r\n    padding: .5rem;\r\n    height: calc(100% - 5rem);\r\n    overflow: auto;\r\n}\r\n.floater-warning {\r\n    display: none;\r\n    position: absolute;\r\n    height: calc(100% - 2.7rem);\r\n    background: white;\r\n    z-index: 10;\r\n    padding: .5rem;\r\n}\r\n\r\n.floater-footer {\r\n    border-top: 2px solid #ccc;\r\n    padding: .5rem;\r\n    height: 3rem;\r\n}\r\n\r\n.floater-row {\r\n    width: 100%;\r\n}\r\n\r\n.floater-row > .floater-row-caption {\r\n    font-size: .8rem;\r\n    font-weight: 700;\r\n    color: #666;\r\n    margin-bottom: .3rem;\r\n}\r\n\r\n.floater-footer > .floater-row {\r\n    margin-bottom: .5rem;\r\n    text-align: center;\r\n}\r\n\r\n.floater-row a {\r\n    display: block;\r\n    height: 1.5rem;\r\n    line-height: 1.4rem;\r\n    transition: background .3s ease-out;\r\n    width: 100%;\r\n}\r\n.floater-row a:hover {\r\n    background: rgb(235,235,235);\r\n}\r\n.floater-row a > * {\r\n    vertical-align: middle;\r\n}\r\n\r\n.floater-tool:hover {\r\n    cursor: pointer;\r\n}\r\n\r\n/* tabs */\r\n/* ===== Tabs ===== */\r\n.widget-tabs-menu {\r\n    height: 2rem;\r\n    float: left;\r\n    clear: both;\r\n}\r\n\r\n.widget-tabs-menu.vertical {\r\n    height: 100%;\r\n    width: 2.3rem;\r\n    border-right: 0;\r\n}\r\n\r\n.widget-tabs-menu li {\r\n    height: 2.1rem;\r\n    line-height: 2.1rem;\r\n    float: left;\r\n    margin-right: .5rem;\r\n}\r\n.widget-tabs-menu.horizontal li {\r\n    border-radius: .2rem .2rem 0 0;\r\n}\r\n\r\n.widget-tabs-menu.vertical li {\r\n    border-top: 1px solid transparent;\r\n    border-bottom: 1px solid transparent;\r\n    border-left: 4px solid transparent;\r\n    margin-bottom: .3rem;\r\n    width: 2.35rem;\r\n    height: 2.5rem;\r\n    text-align: center;\r\n}\r\n\r\n.widget-tabs-menu li.active {\r\n    border-top: 1px solid #ddd;\r\n    border-bottom: 1px solid #ddd;\r\n    border-left: 4px solid #c92d42;\r\n    border-radius: .1rem;\r\n    background: rgba(245,245,245,1);\r\n    position: relative;\r\n    z-index: 5;\r\n}\r\n.widget-tabs-menu.horizontal li.active {\r\n    border-bottom: 1px solid #fff;\r\n}\r\n.widget-tabs-menu.vertical li.active {\r\n}\r\n\r\n.widget-tabs-menu li a {\r\n    padding: .4rem 1rem;\r\n    text-transform: uppercase;\r\n    font-size: .9rem;\r\n    font-family: Corbel Bold, Open Sans, sans-serif;\r\n    color: #888;\r\n    text-decoration: none;\r\n    transition: background .3s ease-out;\r\n}\r\n.widget-tabs-menu li a:hover {\r\n    background: rgba(240,240,240,.7);\r\n}\r\n\r\n.widget-tabs-menu.vertical li a {\r\n     padding: 0.5rem;\r\n     line-height: 1.6rem;\r\n     display: block;\r\n     height: 100%;\r\n     cursor: pointer;\r\n}\r\n\r\n.widget-tabs-menu li.active a {\r\n    color: #888;\r\n}\r\n\r\n.widget-tabs-menu li.active a:focus, .tabs-menu li.active a:active{\r\n    background-color: transparent;\r\n}\r\n\r\n.widget-tabs-menu .disabled a {\r\n    color: #ccc;\r\n    pointer-events: none;\r\n    cursor: default;\r\n}\r\n\r\n.widget-tabs-menu .disabled a:hover {\r\n    color: inherit;\r\n}\r\n\r\n.widget-tabs-menu .fa:before, .tabs-menu .fa:after {\r\n    font-size: 1rem;\r\n}\r\n\r\n.widget-tab {\r\n    background: rgba(220,220,220,.3);\r\n    border: 1px solid #ddd;\r\n    border-radius: .1rem;\r\n    display: none;\r\n    float: left;\r\n    padding: .5rem;\r\n    width: 100%;\r\n    min-height: 100%;\r\n}\r\n\r\n.widget-tab.vertical {\r\n    width: calc(100% - 2.3rem);\r\n}\r\n\r\n.widget-tab.active {\r\n    display: block;\r\n}\r\n\r\n.widget-tab p {\r\n    margin: .2rem 0;\r\n    font-size: .9rem;\r\n}\r\n\r\n.widget-tab span {\r\n    margin: .2rem 0;\r\n    font-size: .9rem;\r\n}#placeholder-functional-urban-area-result {\r\n    display: block;\r\n}\r\n\r\n/* = Evaluation floater = */\r\n#floater-functional-urban-area-result {\r\n    right: 0rem;\r\n    top: 7.2rem;\r\n    min-width: 42rem;\r\n    max-width: 60rem;\r\n    bottom: 0;\r\n    height: 100%;\r\n}\r\n\r\n#floater-functional-urban-area-result .floater-body {\r\n    height: calc(100% - 8.5rem);\r\n    padding: 0 0 .5rem;\r\n}\r\n\r\n#floater-functional-urban-area-result .floater-footer {\r\n    height: 6.5rem;\r\n    border: 0px;\r\n}\r\n\r\n/* floater body */\r\n#floater-functional-urban-area-result .floater-body > div:nth-child(odd) {\r\n    padding: .5rem;\r\n}\r\n\r\n#floater-functional-urban-area-result .floater-body > div:nth-child(even){\r\n    padding: .5rem;\r\n    background: rgba(200,200,200,.1);\r\n    border-bottom: 1px solid #e5e5e5;\r\n    border-top: 1px solid #e5e5e5;\r\n}\r\n\r\n#floater-functional-urban-area-result .floater-row.slider-box,\r\n#floater-functional-urban-area-result .floater-row.checkbox-row,\r\n#floater-functional-urban-area-result .floater-row.select-menu-box,\r\n#floater-functional-urban-area-result .floater-row.row-export\r\n{\r\n    margin: 0;\r\n}\r\n\r\n/* Footer */\r\n\r\n#evaluation-confirm, #evaluation-unselect {\r\n    font-size: .7rem;\r\n    margin: 0 .1rem;\r\n    width: 47%;\r\n}\r\n/*#evaluation-confirm[disabled=disabled], #evaluation-unselect[disabled=disabled] {*/\r\n    /*pointer-events: none;*/\r\n    /*color: #bbb;*/\r\n    /*background: #e5e5e5;*/\r\n/*}*/\r\n\r\n.widget-button-export:before {\r\n    height: 100%;\r\n    width: 100%;\r\n    margin-right: 5px;\r\n    position: relative;\r\n    top: 3px;\r\n}\r\n\r\n#export-shp:before, #export-json:before {\r\n    content: url(\'img/map.png\');\r\n}\r\n#export-shp[disabled=disabled]:before, #export-json[disabled=disabled]:before {\r\n    content: url(\'img/map-disabled.png\');\r\n}\r\n#export-csv:before, #export-xls:before {\r\n    content: url(\'img/table.png\');\r\n}\r\n#export-csv[disabled=disabled]:before, #export-xls[disabled=disabled]:before {\r\n    content: url(\'img/table-disabled.png\');\r\n}/* = City floater = */\r\n#floater-city-selection {\r\n\theight: 21.5rem;\r\n\tleft: 15rem;\r\n\ttop: 9rem;\r\n\twidth: 20rem;\r\n}\r\n#floater-city-selection .floater-body {\r\n\theight: calc(100% - 11rem);\r\n\tpadding-bottom: .2rem;\r\n}\r\n#floater-city-selection .select-menu-box .ui-selectmenu-button {\r\n\twidth: 18rem;\r\n}\r\n#floater-city-selection .select-menu-box:nth-child(2),\r\n#floater-city-selection .select-menu-box:nth-child(3) {\r\n\tdisplay: inline-block;\r\n\twidth: 50%;\r\n}\r\n#floater-city-selection .select-menu-box:nth-child(2) .ui-selectmenu-button,\r\n#floater-city-selection .select-menu-box:nth-child(3) .ui-selectmenu-button {\r\n\twidth: 95%;\r\n}\r\n/* foooter */\r\n#floater-city-selection .floater-footer {\r\n\tborder: 0;\r\n\theight: 8rem;\r\n\tpadding-top: 0;\r\n}\r\n\r\n#melodies-selection-confirm {\r\n\tmargin-bottom: .2rem;\r\n\twidth: 60%;\r\n}\r\n#melodies-selection-confirm[disabled=disabled] {\r\n\tcolor: #ccc;\r\n\tbackground: #eee;\r\n\tfont-style: italic;\r\n\tpointer-events: none;\r\n\ttext-transform: none;\r\n}\r\n#melodies-selection-confirm[disabled=disabled]:hover {\r\n\tcursor: none;\r\n}\r\n\r\n#melodies-selection-confirm.failed {\r\n\tcolor: red;\r\n\ttext-transform: none;\r\n}\r\n\r\n#floater-city-selection .table-row {\r\n\tborder-bottom: 2px solid #ddd;\r\n\tborder-top: 2px solid #ddd;\r\n\theight: 6rem;\r\n\toverflow: auto;\r\n\tbackground: #f5f5f5;\r\n}\r\n#floater-city-selection .table-row > table {\r\n\twidth: 100%;\r\n}\r\n#floater-city-selection .table-row > table tr {\r\n\tborder-bottom: 1px solid #ddd;\r\n}\r\n#floater-city-selection .table-row > table tr:last-child {\r\n\tborder-bottom: 0;\r\n}\r\n#floater-city-selection .table-row > table tr td {\r\n\tcolor: #888;\r\n\tfont-size: .7rem;\r\n\tline-height: 1.5rem;\r\n\tpadding: 0 .2rem;\r\n\ttext-align: left;\r\n}\r\n#floater-city-selection .table-row > table tr td.column-status {\r\n\tmin-width: 4rem;\r\n\tpadding-right: .3rem;\r\n\ttext-align: right;\r\n}\r\n#floater-city-selection .table-row > table tr td.column-status:after {\r\n\tdisplay: inline-block;\r\n\tpadding-left: .5rem;\r\n\tvertical-align: middle;\r\n}\r\n#floater-city-selection .table-row > table tr td.column-status.running:after {\r\n\tcontent: url(\"../images/melodies/run.png\");\r\n}\r\n#floater-city-selection .table-row > table tr td.column-status.failed:after {\r\n\tcontent: url(\"../images/melodies/fail.png\");\r\n}\r\n#floater-city-selection .table-row > table tr td.column-status.success:after {\r\n\tcontent: url(\"../images/melodies/success.png\");\r\n}\r\n#floater-city-selection .table-row > table tr td.column-id {\r\n\ttext-align: right;\r\n}.new-table {\r\n\tpadding: 0 .2rem;\r\n\twidth: 95%;\r\n}\r\n.new-table tr th, .new-table tr td {\r\n\tcolor: #888;\r\n\tpadding: 0 .2rem;\r\n\tmin-width: 2rem;\r\n\tline-height: 2rem;\r\n\tborder-bottom: 1px solid #ccc;\r\n}\r\n.new-table tr th {\r\n\tcolor: #666;\r\n\tfont-weight: 600;\r\n\tline-height: 1.3rem;\r\n}\r\n.new-table tr th:first-child {\r\n\tpadding-left: .5rem;\r\n}\r\n.new-table tr td:first-child {\r\n\tpadding-left: .5rem;\r\n}\r\n.new-table input[disabled=\"disabled\"] {\r\n\tborder: 0;\r\n\tbackground: transparent;\r\n}\r\n\r\n.new-table td.record-name {\r\n\tmin-width: 10rem;\r\n}\r\n\r\n.new-table td.record-name > input {\r\n\twidth: 100%;\r\n}#custom-au-info {\r\n\tdisplay: none;\r\n}#custom-lines-info {\r\n\tdisplay: none;\r\n}/* = Evaluation floater = */\r\n#floater-custom-polygons-widget {\r\n\tleft: 15rem;\r\n\ttop: 9rem;\r\n\tmin-width: 17rem;\r\n\twidth: 25rem;\r\n\tmax-width: 30rem;\r\n\theight: 22rem;\r\n}\r\n\r\n#floater-custom-polygons-widget .floater-body {\r\n\theight: calc(100% - 2rem);\r\n\tpadding: .5rem .4rem .5rem .2rem;\r\n}\r\n\r\n#floater-custom-polygons-widget .floater-body .floater-row {\r\n\tmargin: 0 0 .5rem 0;\r\n}\r\n#floater-custom-polygons-widget .floater-body .floater-row.layer-check {\r\n\tpadding: 0 0 0 .2rem;\r\n}\r\n#floater-custom-polygons-widget .floater-body .floater-row.export-row {\r\n\tborder-bottom: 3px solid #e9e9e9;\r\n\tmargin-bottom: 1rem;\r\n\tpadding-bottom: .8rem;\r\n}\r\n\r\n#floater-custom-polygons-widget .floater-body > div {\r\n\tpadding: .5rem;\r\n}\r\n\r\n#floater-custom-polygons-widget .map-button {\r\n\tmin-width: 4rem;\r\n\tpadding: .4rem .7rem .3rem;\r\n\tmargin: .2rem .2rem .2rem 0;\r\n\ttext-transform: none;\r\n\ttext-align: center;\r\n}\r\n\r\n#lines-export-shp:before, #polygons-export-shp:before, #lines-export-json:before, #polygons-export-json:before {\r\n\tcontent: url(\'img/map.png\');\r\n}\r\n#lines-export-shp[disabled=disabled]:before, #polygons-export-shp[disabled=disabled]:before,\r\n#lines-export-json[disabled=disabled]:before, #polygons-export-json[disabled=disabled]:before {\r\n\tcontent: url(\'img/map-disabled.png\');\r\n}\r\n/* == tool window == */\r\n.tool-window {\r\n\tbackground: rgba(255,255,255,.95);\r\n\tborder-radius: .1rem;\r\n\t-webkit-box-shadow: 0 0 4px rgb(136, 136, 136);\r\n\t-moz-box-shadow: 0 0 4px rgb(136, 136, 136);\r\n\tbox-shadow: 0 0 4px rgb(136, 136, 136);\r\n\r\n\tdisplay: none;\r\n\theight: 25rem;\r\n\twidth: 35rem;\r\n\tpadding: .5rem;\r\n\tposition: absolute;\r\n\ttop: 8rem;\r\n\tleft: calc(50% - 17.5rem);\r\n\tz-index: 10000;\r\n\tresize: both;\r\n\toverflow: auto;\r\n}\r\n.tool-window.open {\r\n\tdisplay: block;\r\n}\r\n.tool-window.active {\r\n\tz-index: 10001;\r\n}\r\n\r\n/* header */\r\n.tool-window-header {\r\n\tcursor: move;\r\n\theight: 2rem;\r\n\tposition: relative;\r\n}\r\n.tool-window-header span {\r\n\tcolor: #666;\r\n\tdisplay: inline-block;\r\n\tfont-size: .9rem;\r\n\tfont-weight: bold;\r\n\tpadding: 0 .2rem .2rem;\r\n\twhite-space: nowrap;\r\n\twidth: 90%;\r\n\toverflow: hidden;\r\n\ttext-overflow: ellipsis;\r\n}\r\n.tool-window-header .window-close {\r\n\tfloat: right;\r\n}\r\n.tool-window-header .window-close:hover {\r\n\tcursor: pointer;\r\n}\r\n\r\n/* body */\r\n.tool-window-body {\r\n\tbackground: rgb(250,250,250);\r\n\tborder: 1px solid rgb(230,230,230);\r\n\theight: calc(100% - 5rem);\r\n\tpadding: .2rem .3rem;\r\n\toverflow: auto;\r\n}\r\n.tool-window-body .section-header:first-child {\r\n\tmargin-top: .2rem;\r\n}\r\n.tool-window-body .checkbox-row a {\r\n\tborder-bottom: 1px solid rgb(235,235,235);\r\n\tpadding-left: 2rem;\r\n}\r\n.tool-window-body .checkbox-row.attribute-set-row a {\r\n\tpadding-left: 1rem;\r\n}\r\n.tool-window-body .checkbox-row.all-attributes-row a {\r\n\tpadding-left: 0;\r\n}\r\n.tool-window-body .checkbox-row div {\r\n\tfont-weight: normal;\r\n}\r\n.tool-window-body .checkbox-row div i {\r\n\tfont-style: normal;\r\n\tfont-size: .7rem;\r\n\tcolor: #bbb;\r\n\tpadding-left: .3rem;\r\n}\r\n.tool-window-body .checkbox-row.attribute-set-row div,\r\n.tool-window-body .checkbox-row.all-attributes-row div {\r\n\tfont-weight: bold;\r\n\tfont-size: .8rem;\r\n}\r\n\r\n.tool-window-body .checkbox-row .checkbox-label {\r\n\tposition: relative;\r\n\twidth: 90%;\r\n}\r\n\r\n/* toggle switch */\r\n.tool-window-body .checkbox-row .checkbox-label .multioptions {\r\n\tposition: absolute;\r\n\tdisplay: inline-block;\r\n\tright: 0;\r\n}\r\n\r\n.tool-window-body .checkbox-row .checkbox-label .multioptions > span {\r\n\tfont-size: .7rem;\r\n}\r\n\r\n.tool-window-body .checkbox-row .switch {\r\n\tposition: relative;\r\n\tdisplay: inline-block;\r\n\tmargin-left: .3rem;\r\n\twidth: 25px;\r\n\theight: 14px;\r\n\ttop: .15rem;\r\n}\r\n\r\n.tool-window-body .checkbox-row .switch input {display:none;}\r\n\r\n.tool-window-body .checkbox-row .slider-toggle {\r\n\tposition: absolute;\r\n\tcursor: pointer;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tright: 0;\r\n\tbottom: 0;\r\n\tbackground-color: #ccc;\r\n\t-webkit-transition: .4s;\r\n\ttransition: .4s;\r\n}\r\n\r\n.tool-window-body .checkbox-row .slider-toggle:before {\r\n\tposition: absolute;\r\n\tcontent: \"\";\r\n\theight: 10px;\r\n\twidth: 26px;\r\n\tleft: 2px;\r\n\tbottom: 2px;\r\n\tbackground-color: white;\r\n\t-webkit-transition: .4s;\r\n\ttransition: .4s;\r\n}\r\n\r\n.tool-window-body .checkbox-row input:checked + .slider-toggle {\r\n\tbackground-color: #c92d42;\r\n}\r\n\r\n.tool-window-body .checkbox-row input:checked + .slider-toggle:before {\r\n\t-webkit-transform: translateX(9px);\r\n\t-ms-transform: translateX(9px);\r\n\ttransform: translateX(9px);\r\n}\r\n\r\n.tool-window-body .checkbox-row .slider-toggle {\r\n\tborder-radius: 10px;\r\n}\r\n\r\n.tool-window-body .checkbox-row .slider-toggle:before {\r\n\twidth: 12px;\r\n\tborder-radius: 10px\r\n}\r\n\r\n\r\n/* Footer */\r\n.tool-window-footer {\r\n\theight: 2.5rem;\r\n\tpadding: .5rem 0;\r\n\tposition: relative;\r\n}\r\n.tool-window-button {\r\n\tposition: absolute;\r\n\tright: 0;\r\n\twidth: 10rem;\r\n}\r\n.tool-window-button[disabled=disabled] {\r\n\tpointer-events: none;\r\n\tcolor: #bbb;\r\n\tbackground: #e5e5e5;\r\n}#categorize-settings {\r\n\twidth: 40rem;\r\n\theight: 35rem;\r\n}\r\n\r\n.categorize-body {\r\n\tpadding: 0 .5rem;\r\n}\r\n.categorize-body input {\r\n\tborder: 1px solid #bbb;\r\n\tborder-radius: .15rem;\r\n\tcolor: #555;\r\n\tbackground: rgba(255,255,255,.9);\r\n\tline-height: 1.8;\r\n\tpadding: 0 .2rem;\r\n}\r\n.categorize-body input[type=text] {\r\n\twidth: 100%;\r\n}\r\n.categorize-footer {\r\n\tpadding: .5rem;\r\n}\r\n.category-set-box {\r\n\tborder: 1px dashed #ccc;\r\n\tbackground: rgba(255,245,246,1);\r\n\tmargin: 1rem 0;\r\n}\r\n.category-set-box-header {\r\n\tdisplay: flex;\r\n\tpadding: .7rem .5rem;\r\n\tbackground: rgba(255,190,190,1);\r\n}\r\n.category-set-box-header > div {\r\n\tmargin: 0 .2rem;\r\n}\r\n.category-set-box-header .category-set-name {\r\n\tflex: 1 0 50%;\r\n}\r\n.category-set-box-header .category-set-name input {\r\n\twidth: 15rem;\r\n\tfont-size: 1rem;\r\n}\r\n.category-set-box-header .save-category-set,\r\n.category-set-box-header .delete-category-set {\r\n\tcursor: pointer;\r\n\tmax-width: 8rem;\r\n\tflex-basis: 25%;\r\n\tline-height: 2.5;\r\n\r\n}\r\n.category-box {\r\n\t border-top: 1px solid #e7e7e7;\r\n\t display: flex;\r\n\t padding: .5rem;\r\n}\r\n.category-box > div {\r\n\tmargin: 0 .2rem;\r\n}\r\n.category-box .category-name {\r\n \tflex: 1 0 35%;\r\n}\r\n.category-box .category-color {\r\n\tflex-basis: 55%;\r\n}\r\n\r\n.category-box .save-category,\r\n.category-box .delete-category {\r\n\tcursor: pointer;\r\n\tflex-basis: 4%;\r\n\tmax-width: 8rem;\r\n\tdisplay: flex;\r\n\tjustify-content: center;\r\n\talign-items: center;\r\n}\r\n.category-box .fa {\r\n\tcolor: #777;\r\n\tfont-size: 1.15rem;\r\n\ttransition: color .3s ease-in-out;\r\n}\r\n.category-box .delete-category:hover .fa,\r\n.category-box .save-category:hover .fa {\r\n\tcolor: #555;\r\n}\r\n\r\n.category-box .save-category[disabled=disabled] {\r\n\tpointer-events: none;\r\n\tbackground: transparent;\r\n}\r\n.category-box .save-category[disabled=disabled] .fa {\r\n\tcolor: #ccc;\r\n}\r\n\r\n#placeholder-evaluation-widget {\r\n    display: block;\r\n}\r\n\r\n/* = Evaluation floater = */\r\n#floater-evaluation-widget {\r\n    left: 16rem;\r\n    top: 10rem;\r\n    min-width: 22rem;\r\n    max-width: 40rem;\r\n}\r\n\r\n#floater-evaluation-widget .floater-body {\r\n    height: calc(100% - 9.5rem);\r\n    padding: 0 0 .5rem;\r\n}\r\n\r\n#floater-evaluation-widget .floater-footer {\r\n    height: 6.5rem;\r\n}\r\n\r\n/* floater body */\r\n#floater-evaluation-widget .floater-body > div:nth-child(odd) {\r\n    padding: .5rem;\r\n}\r\n\r\n#floater-evaluation-widget .floater-body > div:nth-child(even){\r\n    padding: .5rem;\r\n    background: rgba(200,200,200,.1);\r\n    border-bottom: 1px solid #e5e5e5;\r\n    border-top: 1px solid #e5e5e5;\r\n}\r\n\r\n#floater-evaluation-widget .floater-row.slider-box,\r\n#floater-evaluation-widget .floater-row.checkbox-row,\r\n#floater-evaluation-widget .floater-row.select-menu-box,\r\n#floater-evaluation-widget .floater-row.row-export\r\n{\r\n    margin: 0;\r\n}\r\n\r\n/* Footer */\r\n#floater-evaluation-widget .footer-buttons {\r\n    justify-content: center;\r\n    display: flex;\r\n}\r\n#floater-evaluation-widget .footer-buttons .widget-button {\r\n    width: 33%;\r\n    margin: 0 .2rem;\r\n    padding: .5rem;\r\n    flex: 0 1 100%;\r\n}\r\n#floater-evaluation-widget .footer-buttons .widget-button.hidden {\r\n    display: none;\r\n}\r\n\r\n/*#evaluation-confirm[disabled=disabled], #evaluation-unselect[disabled=disabled] {*/\r\n    /*pointer-events: none;*/\r\n    /*color: #bbb;*/\r\n    /*background: #e5e5e5;*/\r\n/*}*/\r\n\r\n.widget-button-export:before {\r\n    height: 100%;\r\n    width: 100%;\r\n    margin-right: 5px;\r\n    position: relative;\r\n    top: 3px;\r\n}\r\n\r\n#export-shp:before, #export-json:before {\r\n    content: url(\'img/map.png\');\r\n}\r\n#export-shp[disabled=disabled]:before, #export-json[disabled=disabled]:before {\r\n    content: url(\'img/map-disabled.png\');\r\n}\r\n#export-csv:before, #export-xls:before {\r\n    content: url(\'img/table.png\');\r\n}\r\n#export-csv[disabled=disabled]:before, #export-xls[disabled=disabled]:before {\r\n    content: url(\'img/table-disabled.png\');\r\n}#feature-info-window {\r\n\tbackground: rgba(255,255,255,.95);\r\n\tborder: 1px solid #ccc;\r\n\tborder-radius: .1rem;\r\n\tbox-shadow: 0 0 1px rgba(136,136,136,.5);\r\n\tcolor: #555;\r\n\tdisplay: none;\r\n\theight: 13rem;\r\n\tleft: 100px;\r\n\tpadding: .3rem 0 .3rem .5rem;\r\n\tposition: absolute;\r\n\tright: 100px;\r\n\tresize: both;\r\n\toverflow: auto;\r\n\tmin-width: 20rem;\r\n\twidth: 25rem;\r\n\tmax-width: 40rem;\r\n\tz-index: 10000;\r\n}\r\n#feature-info-window.active {\r\n\tz-index: 10001;\r\n}\r\n#feature-info-window .feature-info-window-header {\r\n\tborder-bottom: 2px solid #ddd;\r\n\tfont-size: .85rem;\r\n\tfont-weight: 700;\r\n\tpadding: 0 0 .2rem .1rem;\r\n\tmargin-right: .2rem;\r\n\theight: 1.5rem;\r\n\tcursor: move;\r\n}\r\n#feature-info-window .feature-info-title {\r\n\tfloat: left;\r\n\twhite-space: nowrap;\r\n\toverflow: hidden;\r\n\ttext-overflow: ellipsis;\r\n\twidth: calc(100% - 45px);\r\n}\r\n#feature-info-window .feature-info-close,\r\n#feature-info-window .feature-info-settings {\r\n\tcursor: pointer;\r\n\tfloat: right;\r\n\tmargin-left: .1rem;\r\n\twidth: 18px;\r\n}\r\n#feature-info-window .feature-info-settings img {\r\n\twidth: 14px;\r\n}\r\n#feature-info-window .feature-info-window-body {\r\n\tmargin: 0 .2rem .2rem 0;\r\n\toverflow-x: hidden;\r\n\toverflow-y: auto;\r\n\theight: calc(100% - 3.7rem);\r\n}\r\n#feature-info-window .feature-info-window-footer {\r\n\tborder-top: 2px solid #ddd;\r\n\theight: 2rem;\r\n\tmargin-right: .2rem;\r\n\tpadding-top: .1rem;\r\n\ttext-align: center;\r\n}\r\n#feature-info-window .feature-info-window-body table {\r\n\twidth: 100%;\r\n}\r\n#feature-info-window .feature-info-window-body table tr {\r\n\tborder-bottom: 1px solid #ddd;\r\n}\r\n#feature-info-window .feature-info-window-body table tr td {\r\n\tfont-size: .75rem;\r\n\tpadding: .15rem .2rem;\r\n}\r\n#feature-info-window .feature-info-window-body table tr td i {\r\n\tcolor: #888;\r\n\tfont-style: normal;\r\n\tfont-weight: 500;\r\n}\r\n#feature-info-window .feature-info-window-body table tr:hover td {\r\n\tbackground: rgba(230,230,230,.8);\r\n}\r\n#feature-info-window .feature-info-window-body table tr td:first-child {\r\n\tfont-weight: 600;\r\n}\r\n#feature-info-window .feature-info-window-body table tr td:last-child {\r\n\ttext-align: right;\r\n}\r\n\r\n/* export */\r\n#export-feature-info-csv {\r\n\tbackground: none;\r\n}\r\n#export-feature-info-csv:hover {\r\n\tbackground: rgba(173,39,56,.2);\r\n}\r\n#export-feature-info-csv:before {\r\n\tcontent: url(\'img/table.png\');\r\n}\r\n\r\n\r\n/* overlay*/\r\n\r\n#feature-info-window .overlay {\r\n\tdisplay: none;\r\n\theight: 100%;\r\n\twidth: 100%;\r\n\tbackground: rgba(255,255,255,.9) url(img/loading.gif) no-repeat 50% 50%;\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tz-index: 10;\r\n}#feature-info {\r\n\tline-height: 1.45rem;\r\n\tpadding: 0 .5rem;\r\n\ttext-align: left;\r\n}\r\n\r\n#feature-info:after {\r\n\tcontent: url(img/feature-info-icon.png);\r\n\tdisplay: inline-block;\r\n\tpadding-top: .1rem;\r\n\tposition: absolute;\r\n\tright: .7rem;\r\n}\r\n#feature-info.active:after {\r\n\tcontent: url(img/feature-info-icon-active.png);\r\n}.control {\r\n\tbackground: rgba(255, 255, 255, 0.85);\r\n\tborder-radius: .3rem;\r\n\tz-index: 15;\r\n\tbox-shadow: 0 0 0.3rem 0 rgba(0, 0, 0, 0.3);\r\n\tmargin-bottom: 7px;\r\n}\r\n\r\n#map-controls {\r\n\tposition: absolute;\r\n\tbottom: 20px;\r\n\tright: 7px;\r\n\tz-index: 1;\r\n}\r\n\r\n#map-controls .control > a,\r\n.menu-control > a {\r\n\tdisplay: block;\r\n\twidth: 2rem;\r\n\theight: 2rem;\r\n\ttext-align: center;\r\n\tfont-size: 1.125rem;\r\n\tpadding-top: .19rem;\r\n\tcolor: #666;\r\n\r\n\ttransition:\r\n\t\t\tcolor .2s ease-in-out,\r\n\t\t\tbackground .2s ease-in-out;\r\n}\r\n\r\n.menu-control > a {\r\n\tborder-radius: .3rem;\r\n}\r\n\r\n#map-controls .control > a:not(:first-child) {\r\n\tborder-top: 1px solid rgba(0, 0, 0, .1);\r\n}\r\n\r\n#map-controls .control > a:hover,\r\n.menu-control > a:hover {\r\n\tbackground-color: rgba(255, 255, 255, .5);\r\n\tcolor: #c92d42;\r\n}\r\n\r\n#rotate-needle-control i {\r\n\t/*transition: all .2s ease-in-out;*/\r\n\t-webkit-transform: rotate(-45deg);\r\n\ttransform: rotate(-45deg);\r\n}\r\n\r\n/*#rotate-needle-control:hover i {*/\r\n/*transform: rotate(-45deg);*/\r\n/*}*/\r\n\r\n.tilt-control a {\r\n\t/*\toverflow: hidden;*/\r\n\tbackground-position: center center;\r\n\tbackground-size: 1.2rem;\r\n\tbackground-repeat: no-repeat;\r\n}\r\n\r\n#tilt-more-control svg,\r\n#tilt-less-control svg {\r\n\tmargin-top: .21rem;\r\n\twidth: 1.125rem;\r\n\theight: 1.125rem;\r\n}\r\n\r\n#tilt-more-control svg path,\r\n#tilt-less-control svg path {\r\n\tfill: #666;\r\n\r\n\ttransition:\r\n\t\t\tfill .2s ease-in-out;\r\n}\r\n\r\n#tilt-more-control:hover svg path,\r\n#tilt-less-control:hover svg path {\r\n\tfill: #c92d42;\r\n}.world-wind-map {\r\n\tposition: relative;\r\n\tleft: 0;\r\n\theight: 100%;\r\n\twidth: 100%;\r\n}\r\n.world-wind-canvas {\r\n\twidth: 100%;\r\n\theight: 100%;\r\n}\r\n.close-map-button {\r\n\tborder-bottom-right-radius: .1rem;\r\n\tcursor: pointer;\r\n\tposition: absolute;\r\n\tdisplay: flex;\r\n\tjustify-content: center;\r\n\talign-items: center;\r\n\tleft: 0;\r\n\ttop: 0;\r\n\twidth: 1.3rem;\r\n\theight: 1.3rem;\r\n\tz-index: 1;\r\n\ttransition: background .3s ease-in-out;\r\n}\r\n.close-map-icon {\r\n\tcolor: rgba(80,87,94,.8);\r\n\tfont-size: .9rem;\r\n\ttransition: color .3s ease-in-out;\r\n}\r\n.close-map-button:hover {\r\n\tbackground: rgba(244,243,239,.7);\r\n}\r\n.close-map-button:hover .close-map-icon {\r\n\tcolor: rgba(80,87,94,1);\r\n}.maps-container {\r\n\tbackground: #ccc;\r\n\tdisplay: none;\r\n\tflex-wrap: wrap;\r\n\tposition: relative;\r\n\tz-index: 5555;\r\n\twidth: 100%;\r\n}\r\nbody.mode-3d .maps-container {\r\n\tdisplay: block;\r\n}\r\n.maps-container .map-fields {\r\n\twidth: 100%;\r\n\theight: 100%;\r\n}\r\n.world-wind-map-box {\r\n\tbackground: black url(\"img/night-sky.jpg\") top left no-repeat;\r\n\tborder-bottom: 1px solid #888;\r\n\tborder-right: 1px solid #888;\r\n\tdisplay: inline-block;\r\n\tposition: relative;\r\n\twidth: 100%;\r\n\theight: 100%;\r\n\tmargin: 0;\r\n\tvertical-align: top;\r\n}\r\n\r\n/* maps container grid */\r\n.maps-container.h2 .world-wind-map-box {\r\n\theight: 50%;\r\n}\r\n.maps-container.h3 .world-wind-map-box {\r\n\theight: 33.33%;\r\n}\r\n.maps-container.h4 .world-wind-map-box {\r\n\theight: 25%;\r\n}\r\n.maps-container.w2 .world-wind-map-box {\r\n\twidth: 50%;\r\n}\r\n.maps-container.w3 .world-wind-map-box {\r\n\twidth: 33.33%;\r\n}\r\n.maps-container.w4 .world-wind-map-box {\r\n\twidth: 25%;\r\n}\r\n/* delete right border for all maps on the right */\r\n.maps-container.h1.w1 .map-fields .world-wind-map-box {\r\n\tborder-bottom: 0;\r\n\tborder-right: 0;\r\n}\r\n.maps-container.w1.h2 .map-fields .world-wind-map-box,\r\n.maps-container.w2.h1 .map-fields .world-wind-map-box:nth-child(2n),\r\n.maps-container.w2.h2 .map-fields .world-wind-map-box:nth-child(2n),\r\n.maps-container.w2.h3 .map-fields .world-wind-map-box:nth-child(2n),\r\n.maps-container.w3.h2 .map-fields .world-wind-map-box:nth-child(3n),\r\n.maps-container.w3.h3 .map-fields .world-wind-map-box:nth-child(3n),\r\n.maps-container.w3.h4 .map-fields .world-wind-map-box:nth-child(3n),\r\n.maps-container.w4.h3 .map-fields .world-wind-map-box:nth-child(4n),\r\n.maps-container.w4.h4 .map-fields .world-wind-map-box:nth-child(4n){\r\n\tborder-right: 0;\r\n}#floater-osm-widget {\r\n    top: 150px;\r\n    left: 270px;\r\n    height: 300px;\r\n}#floater-periods-widget {\r\n\ttop: 150px;\r\n\tleft: 270px;\r\n}#floater-sharing {\r\n\tleft: 16rem;\r\n\ttop: 10rem;\r\n\tmin-width: 22rem;\r\n\tmax-width: 40rem;\r\n}\r\n.layer-tool-floater {\r\n\tbackground: rgba(255,255,255,.95);\r\n\tdisplay: none;\r\n\tposition: absolute;\r\n\tmin-height: 100px;\r\n\theight: auto;\r\n\twidth: 300px;\r\n\tleft: auto;\r\n\tbottom: 55px;\r\n\ttop: auto;\r\n\tright: 627px;\r\n}\r\n\r\n.tool-window.layer-tool-floater.open {\r\n\tdisplay: none;\r\n}\r\nbody.mode-3d .tool-window.layer-tool-floater.open {\r\n\tdisplay: block;\r\n}\r\n\r\n.layer-tool-floater-body {\r\n\tpadding: .3rem;\r\n\theight: calc(100% - 2.5rem);\r\n}.layer-tool-icon {\r\n\tcursor: pointer;\r\n\tdisplay: inline-block;\r\n\tposition: relative;\r\n\tfloat: right;\r\n\tmargin: 0 .15rem;\r\n\theight: 100%;\r\n\twidth: 1rem;\r\n}\r\n.layer-tool-icon.legend-icon img.active {\r\n\tdisplay: none;\r\n}\r\n.layer-tool-icon.legend-icon.open img {\r\n\tdisplay: none;\r\n}\r\n.layer-tool-icon.legend-icon.open img.active {\r\n\tdisplay: block;\r\n}\r\n\r\n/*.layer-tool-icon i {*/\r\n\t/*color: rgba(104,103,116,.65);*/\r\n\t/*display: inline-block;*/\r\n\t/*font-size: .9rem;*/\r\n\t/*font-family: \"FontAwesome\";*/\r\n\t/*transition: color .3s ease-out;*/\r\n\t/*vertical-align: middle;*/\r\n/*}*/\r\n/*.layer-tool-icon:hover i {*/\r\n\t/*color: rgba(104,103,116,1);*/\r\n/*}*/\r\n/*.layer-tool-icon.open i {*/\r\n\t/*color: #ad2738;*/\r\n/*}*/.layer-tools {\r\n\tdisplay: inline-block;\r\n\tvertical-align: middle;\r\n\theight: 100%;\r\n\tmargin: 0 .25rem 0 0;\r\n\twidth: 2.7rem;\r\n}\r\n.panel-layer-group-body .layer-tools {\r\n\twidth: 4rem;\r\n}/* === Radiobox === */\r\n.radiobox-row.checked .radiobox-icon {\r\n\tbackground: url(\'img/radio-checked.png\') no-repeat center center;\r\n}\r\n\r\n.radiobox-icon {\r\n\tbackground: url(\'img/radio-unchecked.png\') no-repeat center center;\r\n\tdisplay: inline-block;\r\n\tmargin-right: .5rem;\r\n\twidth: 1.2rem;\r\n\theight: 1.2rem;\r\n\tline-height: 1.2rem;\r\n\ttransition: background .3s;\r\n}\r\n\r\n.radiobox-label {\r\n\tdisplay: inline-block;\r\n\tfont-weight: bold;\r\n\theight: 1.2rem;\r\n\tline-height: 1.2rem;\r\n\tfont-size: .8rem;\r\n}.panel-header {\r\n\tcolor: #555;\r\n\tcursor: pointer;\r\n\tpadding: 0;\r\n\tposition: relative;\r\n\ttransition: background .3s ease-out;\r\n}\r\n.panel-header:hover {\r\n\tbackground: rgb(235,235,235);\r\n}\r\n.panel-header h3 {\r\n\tdisplay: inline-block;\r\n\tfont-size: .75rem;\r\n\tfont-weight: 400;\r\n\tvertical-align: middle;\r\n\r\n}\r\n\r\n.panel-layer-group-header {\r\n\tcolor: #555;\r\n\tcursor: pointer;\r\n\tpadding: 0 0 0 1.3rem;\r\n\tposition: relative;\r\n\ttransition: background .3s ease-out;\r\n}\r\n.panel-layer-group-header:hover {\r\n\tbackground: rgb(235,235,235);\r\n}\r\n.panel-layer-group-header h3 {\r\n\tdisplay: inline-block;\r\n\tfont-size: .75rem;\r\n\tfont-weight: 400;\r\n\tvertical-align: middle;\r\n\r\n}\r\n\r\n.panel-body .floater-row {\r\n\tpadding-left: 1.05rem;\r\n}\r\n\r\n.panel-icon {\r\n\tdisplay: inline-block;\r\n\twidth: 1.2rem;\r\n\theight: 1.25rem;\r\n\tvertical-align: middle;\r\n\r\n}\r\n\r\n.panel-icon.expand-icon {\r\n\tbackground: url(img/tree-node-expand.png) no-repeat center center;\r\n}\r\n.panel-icon.folder-icon {\r\n\tbackground: url(img/tree-node-closed.png) no-repeat center center;\r\n}\r\n.panel-header.open .panel-icon.expand-icon, .panel-layer-group-header.open .panel-icon.expand-icon {\r\n\tbackground: url(img/tree-node-collapse.png) no-repeat center center;\r\n}\r\n.panel-header.open .panel-icon.folder-icon, .panel-layer-group-header.open .panel-icon.folder-icon {\r\n\tbackground: url(img/tree-node-opened.png) no-repeat center center;\r\n}\r\n.panel-body {\r\n\tdisplay: none;\r\n\tpadding: 0.05rem 0 .2rem;\r\n\tposition: relative;\r\n\t/*max-height: 12rem;*/\r\n\t/*overflow: auto;*/\r\n}\r\n.panel-body.open {\r\n\tdisplay: block;\r\n}\r\n.panel-body .panel-row {\r\n\tposition: relative;\r\n\theight: 1.3rem;\r\n}\r\n.panel-body .layer-row {\r\n\tdisplay: inline-block;\r\n\tvertical-align: middle;\r\n\twidth: calc(100% - 3rem);\r\n}\r\n.panel-body .panel-layer-group-body .layer-row {\r\n\tpadding-left: 2.15rem;\r\n\twidth: calc(100% - 4.3rem);\r\n}\r\n.panel-body .layer-row a {\r\n\twidth: auto;\r\n}\r\n.panel-body .floater-row a {\r\n\tpadding: 0 .3rem;\r\n\theight: 1.3rem;\r\n\tline-height: 1.2rem;\r\n\tcolor: #555;\r\n}\r\n.panel-body .floater-row .radiobox-label,\r\n.panel-body .floater-row .checkbox-label {\r\n\tfont-weight: 400;\r\n\tfont-size: .75rem;\r\n\twhite-space: nowrap;\r\n\toverflow: hidden;\r\n\ttext-overflow: ellipsis;\r\n}/* Panels */\r\n#floater-world-wind-widget-panels {\r\n}#floater-world-wind-widget {\r\n\tdisplay: none;\r\n\tleft: 10rem;\r\n\ttop: 10rem;\r\n\tmax-width: 40rem;\r\n\tmin-height: 4rem;\r\n\twidth: 260px;\r\n\tbackground: rgba(255,255,255,.9);\r\n}\r\n#floater-world-wind-widget.open {\r\n\tdisplay: block;\r\n}\r\n#floater-world-wind-widget .floater-header {\r\n\theight: 2rem;\r\n}\r\n#floater-world-wind-widget .floater-body {\r\n\theight: calc(100% - 2rem);\r\n\tborder: 1px solid #ddd;\r\n}\r\n\r\n/* Floater body */\r\n#floater-world-wind-widget .floater-body {\r\n\tpadding: .2rem 0 0 0;\r\n}\r\n#floater-world-wind-widget .checkbox-row {\r\n\ttransition: background .3s ease-out;\r\n}\r\n#floater-world-wind-widget .checkbox-row:hover {\r\n\tbackground: rgb(235,235,235);\r\n\tcursor: pointer;\r\n}\r\n\r\n\r\n.floater-fake-header {\r\n\tbackground: #ddd;\r\n\theight: 31px;\r\n\tline-height: 31px;\r\n\tpadding: 0 .5rem 0 1rem;\r\n}\r\n.floater-fake-header span {\r\n\tcolor: #333;\r\n\tfont-size: 12px;\r\n\tfont-weight: 700;\r\n}\r\n.floater-fake-header-tool {\r\n\tcursor: pointer;\r\n\tposition: relative;\r\n\tfloat: right;\r\n}\r\n.floater-fake-header-tool img {\r\n\tposition: absolute;\r\n\tright: 0;\r\n\ttop: 7px;\r\n}');
+('/* === Checkboxes === */\r\n.checkbox-row.checked .checkbox-icon {\r\n    background: url(\'img/checkbox-checked.png\') no-repeat center 45%;\r\n}\r\n\r\n.checkbox-row a {\r\n    text-decoration: none;\r\n}\r\n\r\n.checkbox-icon {\r\n    background: url(\'img/checkbox-unchecked.png\') no-repeat center 45%;\r\n    display: block;\r\n    float: left;\r\n    margin-right: .5rem;\r\n    width: 1.2rem;\r\n    height: 100%;\r\n    transition: background .3s;\r\n}\r\n\r\n.checkbox-label {\r\n    overflow: hidden;\r\n    text-overflow: ellipsis;\r\n    font-weight: bold;\r\n    height: 100%;\r\n    font-size: .8rem;\r\n}.ui-checkboxradio-label {\r\n\tmargin: .1rem;\r\n\ttransition: background .3s;\r\n}\r\n.ui-checkboxradio-label.ui-state-active.ui-checkboxradio-checked, .ui-button:active {\r\n\tbackground: #ccc;\r\n\tborder: 1px solid #aaa;\r\n\tcolor: #555;\r\n}\r\n.ui-checkboxradio-label.ui-state-active:hover {\r\n\tbackground: #ccc;\r\n\tborder: 1px solid #aaa;\r\n\tcolor: #555;\r\n}\r\n.ui-visual-focus, .ui-state-focus {\r\n\tbox-shadow: none;\r\n}\r\n\r\n.label-multiselect-option {\r\n\tpadding: .3rem 1rem;\r\n}\r\n.label-multiselect-option.ui-state-active {\r\n\tpadding: .3rem .7rem .25rem 1.3rem;\r\n}\r\n.label-multiselect-option.ui-state-active:before {\r\n\tcontent: url(\"img/check.png\");\r\n\tposition: absolute;\r\n\tleft: .5rem;\r\n}\r\n.label-multiselect-select-all,\r\n.label-multiselect-clear-all,\r\n.label-multiselect-select-all:hover,\r\n.label-multiselect-clear-all:hover,\r\n.label-multiselect-select-all.ui-state-active.ui-checkboxradio-checked,\r\n.label-multiselect-clear-all.ui-state-active.ui-checkboxradio-checked {\r\n\tbackground: none;\r\n\tborder: 0;\r\n\tfont-family: \"Open sans\", sans-serif;\r\n\tfont-weight: bold;\r\n\tfont-size: .7rem;\r\n\tpadding: .2rem .4rem .1rem 1.1rem;\r\n}\r\n.widgets label.label-multiselect-select-all,\r\n.widgets label.label-multiselect-select-all.ui-state-active.ui-checkboxradio-checked {\r\n\tfont-size: .7rem;\r\n\tcolor: rgba(201, 45, 66, .7);\r\n\ttransition: color .3s;\r\n}\r\n.widgets label.label-multiselect-clear-all,\r\n.widgets label.label-multiselect-clear-all.ui-state-active.ui-checkboxradio-checked {\r\n\tfont-size: .7rem;\r\n\tcolor: rgba(96, 96, 96, .7);\r\n\ttransition: color .3s;\r\n}\r\n.widgets label.label-multiselect-select-all:hover {\r\n\tcolor: rgba(201, 45, 66, 1);\r\n}\r\n.widgets label.label-multiselect-clear-all:hover {\r\n\tcolor: rgba(96, 96, 96, 1);\r\n}\r\n\r\n.label-multiselect-select-all:before, .label-multiselect-clear-all:before {\r\n\tposition: absolute;\r\n\tleft: .2rem;\r\n}\r\n.label-multiselect-select-all:before {\r\n\tcontent: url(\"img/check-colored.png\");\r\n\topacity: .7;\r\n\ttransition: opacity .3s;\r\n}\r\n.label-multiselect-clear-all:before {\r\n\tcontent: url(\"img/uncheck.png\");\r\n\topacity: .7;\r\n\ttransition: opacity .3s;\r\n}\r\n.label-multiselect-select-all:hover:before {\r\n\topacity: 1;\r\n}\r\n.label-multiselect-clear-all:hover:before {\r\n\topacity: 1;\r\n}/* === Selections === */\r\n.select-menu-box {\r\n    margin: .5rem 0;\r\n}\r\n\r\n.widgets label.select-menu-caption {\r\n    display: block;\r\n    font-weight: bold;\r\n    height: 1.2rem;\r\n    line-height: 1.2rem;\r\n    font-size: .8rem;\r\n}\r\n\r\n.option-count {\r\n    color: #aaa;\r\n    font-style: normal;\r\n    position: absolute;\r\n    right: .7rem;\r\n}\r\n\r\n.select-menu-box .ui-selectmenu-button {\r\n    background: #eee;\r\n    min-width: 15rem;\r\n    width: 90%;\r\n    margin: .1rem 0;\r\n    padding: .4rem .5rem;\r\n    border: 1px solid #bbb;\r\n    line-height: 1rem;\r\n}\r\n\r\n.select-menu-box .ui-selectmenu-icon, .select-menu-box .ui-selectmenu-button-open .ui-selectmenu-icon,\r\n.select-menu-box .ui-selectmenu-button-closed .ui-selectmenu-icon {\r\n    background: url(\'img/arrow-down.png\');\r\n}\r\n\r\n.select-menu-box .ui-corner-all {\r\n    border-radius: .1rem;\r\n}.histogram {\r\n    bottom: 0;\r\n    height: 50px;\r\n    padding-left: 1px;\r\n    position: absolute;\r\n    min-width: 14.5rem;\r\n    width: 100%;\r\n}\r\n\r\n.histogram-bar {\r\n    background: rgb(220,220,220);\r\n    border-right: 1px solid white;\r\n    bottom: 0;\r\n    float: left;\r\n    position: relative;\r\n}\r\n\r\n.histogram-bar.selected {\r\n    background: #c85765;\r\n}/* === Sliders === */\r\n.slider-box {\r\n    padding-bottom: .7rem;\r\n}\r\n\r\n.slider-caption span {\r\n    font-weight: bold;\r\n    height: 1.2rem;\r\n    line-height: 1.2rem;\r\n    font-size: .8rem;\r\n}\r\n\r\n.slider-row {\r\n    min-width: 14.5rem;\r\n    width: 90%;\r\n    margin: .5rem .4rem .35rem .4rem;\r\n}\r\n\r\n.slider-row.ui-slider-horizontal {\r\n    background: #ccc;\r\n    border: 0;\r\n    height: 4px;\r\n    min-width: 14.5rem;\r\n    width: 95%;\r\n}\r\n\r\n.slider-row.ui-slider-horizontal .ui-slider-handle {\r\n    background: #c92d42;\r\n    border: 0;\r\n    border-radius: .5rem;\r\n    top: -.45em;\r\n    transition: background .3s ease-out;\r\n}\r\n\r\n.slider-row.ui-slider-horizontal .ui-slider-handle:hover, .slider-row.ui-slider-horizontal .ui-slider-handle.ui-state-focus {\r\n    background: #ad2738;\r\n}\r\n\r\n.slider-row .ui-widget-header {\r\n    border: 0;\r\n    background: #c92d42;\r\n}\r\n\r\n.floater-row.slider-labels {\r\n    font-size: .75rem;\r\n    color: #666;\r\n    padding: .2rem 0;\r\n    min-width: 15.2rem;\r\n    width: calc(95% + .7rem);\r\n}\r\n.floater-row.slider-labels > div {\r\n    display: inline-block;\r\n    position: relative;\r\n    width: 25%;\r\n    margin: 0 -3px 0 0;\r\n}\r\n.floater-row.slider-labels > .slider-thresholds-single {\r\n    width: 50%;\r\n}\r\n.slider-thresholds {\r\n    height: 1.2rem;\r\n}\r\n.slider-thresholds > input {\r\n    background: rgba(255,255,255,.7);\r\n    border: 1px solid #bbb;\r\n    border-radius: 1px;\r\n    padding: 0 .2rem;\r\n    position: relative;\r\n    margin: 0 2.5%;\r\n    width: 95%;\r\n}\r\n\r\n.slider-thresholds > .input-max, .slider-thresholds > .input-single, .slider-labels-max {\r\n    text-align: right;\r\n}\r\n\r\n.slider-popup {\r\n    display: none;\r\n    position: absolute;\r\n    margin: -6rem .4rem 0 .4rem;\r\n    min-width: 14.5rem;\r\n    height: 3.5rem;\r\n    background: white;\r\n    -webkit-box-shadow: 0 0 4px rgb(136, 136, 136);\r\n    -moz-box-shadow: 0 0 4px rgb(136, 136, 136);\r\n    box-shadow: 0 0 4px rgb(136, 136, 136);\r\n    z-index: 8888;\r\n}\r\n\r\n.slider-popup.open {\r\n    display: block;\r\n}/* === Placeholders === */\r\n.placeholders-container {\r\n    height: 6.5rem;\r\n    position: absolute;\r\n    right: 12rem;\r\n    top: 0;\r\n    width: 10.5rem;\r\n    z-index: 10000;\r\n}\r\n\r\n.placeholder {\r\n    background: rgb(140,140,140);\r\n    border: 1px solid rgba(255,255,255,.3);\r\n    border-radius: .1rem;\r\n    height: 1.5rem;\r\n    position: relative;\r\n    margin: .5rem .3rem;\r\n    transition: background .3s ease-in-out;\r\n    width: 10rem;\r\n}\r\n\r\n.placeholder.open {\r\n    background: rgba(201,45,66,.7);\r\n    border: 1px solid rgba(255,255,255,.3);\r\n    transition: background .3s ease-out;\r\n}\r\n\r\n.placeholder:hover {\r\n    background: rgb(120,120,120);\r\n    cursor: pointer;\r\n}\r\n\r\n.placeholder.open:hover {\r\n    background: #ad2738;\r\n}\r\n\r\n.placeholder > span, .floater-header > span {\r\n    color: white;\r\n    font-size: .7rem;\r\n    font-weight: bold;\r\n    line-height: 1.4rem;\r\n    padding: 0 .5rem;\r\n}\r\n.floater-header > span {\r\n    font-size: .8rem;\r\n    line-height: 1.6rem;\r\n}\r\n\r\n.placeholder-tools-container, .floater-tools-container, .tool-window-tools-container {\r\n    position: absolute;\r\n    right: 0;\r\n    top: 0;\r\n    height: 1.5rem;\r\n}\r\n.floater-tools-container, .tool-window-tools-container {\r\n    height: 2rem;\r\n}\r\n\r\n.placeholder-tool, .floater-tool {\r\n    float: right;\r\n    height: 1.3rem;\r\n    margin: .15rem .15rem .15rem 0;\r\n    position: relative;\r\n    width: 1.3rem;\r\n}\r\n.floater-tool {\r\n    margin: .3rem .3rem .3rem 0;\r\n}\r\n\r\n.placeholder-tool > img, .floater-tool > img {\r\n    margin: .1rem;\r\n}\r\n\r\n/* === Floaters === */\r\n.floater {\r\n    background: rgba(255,255,255,.95);\r\n    border: 1px solid #ccc;\r\n    border-radius: .1rem;\r\n    -webkit-box-shadow: 0 0 4px rgb(136, 136, 136);\r\n    -moz-box-shadow: 0 0 4px rgb(136, 136, 136);\r\n    box-shadow: 0 0 4px rgb(136, 136, 136);\r\n    display: none;\r\n    padding: .2rem;\r\n    position: absolute;\r\n    resize: both;\r\n    overflow: auto;\r\n    width: 18rem;\r\n    z-index: 10000;\r\n}\r\n\r\n/* floater modes*/\r\nbody.application .floater.open {\r\n    display: block;\r\n    height: 28rem;\r\n}\r\nbody.mode-3d .floater.only-2d.open {\r\n    display: none;\r\n}\r\nbody.application .floater.only-3d.open {\r\n    display: none;\r\n}\r\nbody.mode-3d .floater.only-3d.open {\r\n    display: block;\r\n}\r\n\r\n\r\n.floater.active {\r\n    z-index: 10001;\r\n}\r\n.floater-overlay {\r\n    display: none;\r\n    height: 100%;\r\n    width: 100%;\r\n    background: rgba(255,255,255,.9) url(img/loading.gif) no-repeat 50% 50%;\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    z-index: 9999;\r\n}\r\n.floater-header {\r\n    background: #c92d42;\r\n    height: 2rem;\r\n    line-height: 2rem;\r\n    position: relative;\r\n    cursor: move;\r\n}\r\n.floater.inverse .floater-header {\r\n    background: rgba(255,255,255,.9);\r\n    color: #444;\r\n}\r\n.floater.inverse .floater-header > span {\r\n    color: #444;\r\n}\r\n.floater-body {\r\n    padding: .5rem;\r\n    height: calc(100% - 5rem);\r\n    overflow: auto;\r\n}\r\n.floater-warning {\r\n    display: none;\r\n    position: absolute;\r\n    height: calc(100% - 2.7rem);\r\n    background: white;\r\n    z-index: 10;\r\n    padding: .5rem;\r\n}\r\n\r\n.floater-footer {\r\n    border-top: 2px solid #ccc;\r\n    padding: .5rem;\r\n    height: 3rem;\r\n}\r\n\r\n.floater-row {\r\n    width: 100%;\r\n}\r\n\r\n.floater-row > .floater-row-caption {\r\n    font-size: .8rem;\r\n    font-weight: 700;\r\n    color: #666;\r\n    margin-bottom: .3rem;\r\n}\r\n\r\n.floater-footer > .floater-row {\r\n    margin-bottom: .5rem;\r\n    text-align: center;\r\n}\r\n\r\n.floater-row a {\r\n    display: block;\r\n    height: 1.5rem;\r\n    line-height: 1.4rem;\r\n    transition: background .3s ease-out;\r\n    width: 100%;\r\n}\r\n.floater-row a:hover {\r\n    background: rgb(235,235,235);\r\n}\r\n.floater-row a > * {\r\n    vertical-align: middle;\r\n}\r\n\r\n.floater-tool:hover {\r\n    cursor: pointer;\r\n}\r\n\r\n/* tabs */\r\n/* ===== Tabs ===== */\r\n.widget-tabs-menu {\r\n    height: 2rem;\r\n    float: left;\r\n    clear: both;\r\n}\r\n\r\n.widget-tabs-menu.vertical {\r\n    height: 100%;\r\n    width: 2.3rem;\r\n    border-right: 0;\r\n}\r\n\r\n.widget-tabs-menu li {\r\n    height: 2.1rem;\r\n    line-height: 2.1rem;\r\n    float: left;\r\n    margin-right: .5rem;\r\n}\r\n.widget-tabs-menu.horizontal li {\r\n    border-radius: .2rem .2rem 0 0;\r\n}\r\n\r\n.widget-tabs-menu.vertical li {\r\n    border-top: 1px solid transparent;\r\n    border-bottom: 1px solid transparent;\r\n    border-left: 4px solid transparent;\r\n    margin-bottom: .3rem;\r\n    width: 2.35rem;\r\n    height: 2.5rem;\r\n    text-align: center;\r\n}\r\n\r\n.widget-tabs-menu li.active {\r\n    border-top: 1px solid #ddd;\r\n    border-bottom: 1px solid #ddd;\r\n    border-left: 4px solid #c92d42;\r\n    border-radius: .1rem;\r\n    background: rgba(245,245,245,1);\r\n    position: relative;\r\n    z-index: 5;\r\n}\r\n.widget-tabs-menu.horizontal li.active {\r\n    border-bottom: 1px solid #fff;\r\n}\r\n.widget-tabs-menu.vertical li.active {\r\n}\r\n\r\n.widget-tabs-menu li a {\r\n    padding: .4rem 1rem;\r\n    text-transform: uppercase;\r\n    font-size: .9rem;\r\n    font-family: Corbel Bold, Open Sans, sans-serif;\r\n    color: #888;\r\n    text-decoration: none;\r\n    transition: background .3s ease-out;\r\n}\r\n.widget-tabs-menu li a:hover {\r\n    background: rgba(240,240,240,.7);\r\n}\r\n\r\n.widget-tabs-menu.vertical li a {\r\n     padding: 0.5rem;\r\n     line-height: 1.6rem;\r\n     display: block;\r\n     height: 100%;\r\n     cursor: pointer;\r\n}\r\n\r\n.widget-tabs-menu li.active a {\r\n    color: #888;\r\n}\r\n\r\n.widget-tabs-menu li.active a:focus, .tabs-menu li.active a:active{\r\n    background-color: transparent;\r\n}\r\n\r\n.widget-tabs-menu .disabled a {\r\n    color: #ccc;\r\n    pointer-events: none;\r\n    cursor: default;\r\n}\r\n\r\n.widget-tabs-menu .disabled a:hover {\r\n    color: inherit;\r\n}\r\n\r\n.widget-tabs-menu .fa:before, .tabs-menu .fa:after {\r\n    font-size: 1rem;\r\n}\r\n\r\n.widget-tab {\r\n    background: rgba(220,220,220,.3);\r\n    border: 1px solid #ddd;\r\n    border-radius: .1rem;\r\n    display: none;\r\n    float: left;\r\n    padding: .5rem;\r\n    width: 100%;\r\n    min-height: 100%;\r\n}\r\n\r\n.widget-tab.vertical {\r\n    width: calc(100% - 2.3rem);\r\n}\r\n\r\n.widget-tab.active {\r\n    display: block;\r\n}\r\n\r\n.widget-tab p {\r\n    margin: .2rem 0;\r\n    font-size: .9rem;\r\n}\r\n\r\n.widget-tab span {\r\n    margin: .2rem 0;\r\n    font-size: .9rem;\r\n}#placeholder-functional-urban-area-result {\r\n    display: block;\r\n}\r\n\r\n/* = Evaluation floater = */\r\n#floater-functional-urban-area-result {\r\n    right: 0rem;\r\n    top: 7.2rem;\r\n    min-width: 42rem;\r\n    max-width: 60rem;\r\n    bottom: 0;\r\n    height: 100%;\r\n}\r\n\r\n#floater-functional-urban-area-result .floater-body {\r\n    height: calc(100% - 8.5rem);\r\n    padding: 0 0 .5rem;\r\n}\r\n\r\n#floater-functional-urban-area-result .floater-footer {\r\n    height: 6.5rem;\r\n    border: 0px;\r\n}\r\n\r\n/* floater body */\r\n#floater-functional-urban-area-result .floater-body > div:nth-child(odd) {\r\n    padding: .5rem;\r\n}\r\n\r\n#floater-functional-urban-area-result .floater-body > div:nth-child(even){\r\n    padding: .5rem;\r\n    background: rgba(200,200,200,.1);\r\n    border-bottom: 1px solid #e5e5e5;\r\n    border-top: 1px solid #e5e5e5;\r\n}\r\n\r\n#floater-functional-urban-area-result .floater-row.slider-box,\r\n#floater-functional-urban-area-result .floater-row.checkbox-row,\r\n#floater-functional-urban-area-result .floater-row.select-menu-box,\r\n#floater-functional-urban-area-result .floater-row.row-export\r\n{\r\n    margin: 0;\r\n}\r\n\r\n/* Footer */\r\n\r\n#evaluation-confirm, #evaluation-unselect {\r\n    font-size: .7rem;\r\n    margin: 0 .1rem;\r\n    width: 47%;\r\n}\r\n/*#evaluation-confirm[disabled=disabled], #evaluation-unselect[disabled=disabled] {*/\r\n    /*pointer-events: none;*/\r\n    /*color: #bbb;*/\r\n    /*background: #e5e5e5;*/\r\n/*}*/\r\n\r\n.widget-button-export:before {\r\n    height: 100%;\r\n    width: 100%;\r\n    margin-right: 5px;\r\n    position: relative;\r\n    top: 3px;\r\n}\r\n\r\n#export-shp:before, #export-json:before {\r\n    content: url(\'img/map.png\');\r\n}\r\n#export-shp[disabled=disabled]:before, #export-json[disabled=disabled]:before {\r\n    content: url(\'img/map-disabled.png\');\r\n}\r\n#export-csv:before, #export-xls:before {\r\n    content: url(\'img/table.png\');\r\n}\r\n#export-csv[disabled=disabled]:before, #export-xls[disabled=disabled]:before {\r\n    content: url(\'img/table-disabled.png\');\r\n}/* = City floater = */\r\n#floater-city-selection {\r\n\theight: 21.5rem;\r\n\tleft: 15rem;\r\n\ttop: 9rem;\r\n\twidth: 20rem;\r\n}\r\n#floater-city-selection .floater-body {\r\n\theight: calc(100% - 11rem);\r\n\tpadding-bottom: .2rem;\r\n}\r\n#floater-city-selection .select-menu-box .ui-selectmenu-button {\r\n\twidth: 18rem;\r\n}\r\n#floater-city-selection .select-menu-box:nth-child(2),\r\n#floater-city-selection .select-menu-box:nth-child(3) {\r\n\tdisplay: inline-block;\r\n\twidth: 50%;\r\n}\r\n#floater-city-selection .select-menu-box:nth-child(2) .ui-selectmenu-button,\r\n#floater-city-selection .select-menu-box:nth-child(3) .ui-selectmenu-button {\r\n\twidth: 95%;\r\n}\r\n/* foooter */\r\n#floater-city-selection .floater-footer {\r\n\tborder: 0;\r\n\theight: 8rem;\r\n\tpadding-top: 0;\r\n}\r\n\r\n#melodies-selection-confirm {\r\n\tmargin-bottom: .2rem;\r\n\twidth: 60%;\r\n}\r\n#melodies-selection-confirm[disabled=disabled] {\r\n\tcolor: #ccc;\r\n\tbackground: #eee;\r\n\tfont-style: italic;\r\n\tpointer-events: none;\r\n\ttext-transform: none;\r\n}\r\n#melodies-selection-confirm[disabled=disabled]:hover {\r\n\tcursor: none;\r\n}\r\n\r\n#melodies-selection-confirm.failed {\r\n\tcolor: red;\r\n\ttext-transform: none;\r\n}\r\n\r\n#floater-city-selection .table-row {\r\n\tborder-bottom: 2px solid #ddd;\r\n\tborder-top: 2px solid #ddd;\r\n\theight: 6rem;\r\n\toverflow: auto;\r\n\tbackground: #f5f5f5;\r\n}\r\n#floater-city-selection .table-row > table {\r\n\twidth: 100%;\r\n}\r\n#floater-city-selection .table-row > table tr {\r\n\tborder-bottom: 1px solid #ddd;\r\n}\r\n#floater-city-selection .table-row > table tr:last-child {\r\n\tborder-bottom: 0;\r\n}\r\n#floater-city-selection .table-row > table tr td {\r\n\tcolor: #888;\r\n\tfont-size: .7rem;\r\n\tline-height: 1.5rem;\r\n\tpadding: 0 .2rem;\r\n\ttext-align: left;\r\n}\r\n#floater-city-selection .table-row > table tr td.column-status {\r\n\tmin-width: 4rem;\r\n\tpadding-right: .3rem;\r\n\ttext-align: right;\r\n}\r\n#floater-city-selection .table-row > table tr td.column-status:after {\r\n\tdisplay: inline-block;\r\n\tpadding-left: .5rem;\r\n\tvertical-align: middle;\r\n}\r\n#floater-city-selection .table-row > table tr td.column-status.running:after {\r\n\tcontent: url(\"../images/melodies/run.png\");\r\n}\r\n#floater-city-selection .table-row > table tr td.column-status.failed:after {\r\n\tcontent: url(\"../images/melodies/fail.png\");\r\n}\r\n#floater-city-selection .table-row > table tr td.column-status.success:after {\r\n\tcontent: url(\"../images/melodies/success.png\");\r\n}\r\n#floater-city-selection .table-row > table tr td.column-id {\r\n\ttext-align: right;\r\n}.new-table {\r\n\tpadding: 0 .2rem;\r\n\twidth: 95%;\r\n}\r\n.new-table tr th, .new-table tr td {\r\n\tcolor: #888;\r\n\tpadding: 0 .2rem;\r\n\tmin-width: 2rem;\r\n\tline-height: 2rem;\r\n\tborder-bottom: 1px solid #ccc;\r\n}\r\n.new-table tr th {\r\n\tcolor: #666;\r\n\tfont-weight: 600;\r\n\tline-height: 1.3rem;\r\n}\r\n.new-table tr th:first-child {\r\n\tpadding-left: .5rem;\r\n}\r\n.new-table tr td:first-child {\r\n\tpadding-left: .5rem;\r\n}\r\n.new-table input[disabled=\"disabled\"] {\r\n\tborder: 0;\r\n\tbackground: transparent;\r\n}\r\n\r\n.new-table td.record-name {\r\n\tmin-width: 10rem;\r\n}\r\n\r\n.new-table td.record-name > input {\r\n\twidth: 100%;\r\n}#custom-au-info {\r\n\tdisplay: none;\r\n}#custom-lines-info {\r\n\tdisplay: none;\r\n}/* = Evaluation floater = */\r\n#floater-custom-polygons-widget {\r\n\tleft: 15rem;\r\n\ttop: 9rem;\r\n\tmin-width: 17rem;\r\n\twidth: 25rem;\r\n\tmax-width: 30rem;\r\n\theight: 22rem;\r\n}\r\n\r\n#floater-custom-polygons-widget .floater-body {\r\n\theight: calc(100% - 2rem);\r\n\tpadding: .5rem .4rem .5rem .2rem;\r\n}\r\n\r\n#floater-custom-polygons-widget .floater-body .floater-row {\r\n\tmargin: 0 0 .5rem 0;\r\n}\r\n#floater-custom-polygons-widget .floater-body .floater-row.layer-check {\r\n\tpadding: 0 0 0 .2rem;\r\n}\r\n#floater-custom-polygons-widget .floater-body .floater-row.export-row {\r\n\tborder-bottom: 3px solid #e9e9e9;\r\n\tmargin-bottom: 1rem;\r\n\tpadding-bottom: .8rem;\r\n}\r\n\r\n#floater-custom-polygons-widget .floater-body > div {\r\n\tpadding: .5rem;\r\n}\r\n\r\n#floater-custom-polygons-widget .map-button {\r\n\tmin-width: 4rem;\r\n\tpadding: .4rem .7rem .3rem;\r\n\tmargin: .2rem .2rem .2rem 0;\r\n\ttext-transform: none;\r\n\ttext-align: center;\r\n}\r\n\r\n#lines-export-shp:before, #polygons-export-shp:before, #lines-export-json:before, #polygons-export-json:before {\r\n\tcontent: url(\'img/map.png\');\r\n}\r\n#lines-export-shp[disabled=disabled]:before, #polygons-export-shp[disabled=disabled]:before,\r\n#lines-export-json[disabled=disabled]:before, #polygons-export-json[disabled=disabled]:before {\r\n\tcontent: url(\'img/map-disabled.png\');\r\n}\r\n/* == tool window == */\r\n.tool-window {\r\n\tbackground: rgba(255,255,255,.95);\r\n\tborder-radius: .1rem;\r\n\t-webkit-box-shadow: 0 0 4px rgb(136, 136, 136);\r\n\t-moz-box-shadow: 0 0 4px rgb(136, 136, 136);\r\n\tbox-shadow: 0 0 4px rgb(136, 136, 136);\r\n\r\n\tdisplay: none;\r\n\theight: 25rem;\r\n\twidth: 35rem;\r\n\tpadding: .5rem;\r\n\tposition: absolute;\r\n\ttop: 8rem;\r\n\tleft: calc(50% - 17.5rem);\r\n\tz-index: 10000;\r\n\tresize: both;\r\n\toverflow: auto;\r\n}\r\n.tool-window.open {\r\n\tdisplay: block;\r\n}\r\n.tool-window.active {\r\n\tz-index: 10001;\r\n}\r\n\r\n/* header */\r\n.tool-window-header {\r\n\tcursor: move;\r\n\theight: 2rem;\r\n\tposition: relative;\r\n}\r\n.tool-window-header span {\r\n\tcolor: #666;\r\n\tdisplay: inline-block;\r\n\tfont-size: .9rem;\r\n\tfont-weight: bold;\r\n\tpadding: 0 .2rem .2rem;\r\n\twhite-space: nowrap;\r\n\twidth: 90%;\r\n\toverflow: hidden;\r\n\ttext-overflow: ellipsis;\r\n}\r\n.tool-window-header .window-close {\r\n\tfloat: right;\r\n}\r\n.tool-window-header .window-close:hover {\r\n\tcursor: pointer;\r\n}\r\n\r\n/* body */\r\n.tool-window-body {\r\n\tbackground: rgb(250,250,250);\r\n\tborder: 1px solid rgb(230,230,230);\r\n\theight: calc(100% - 5rem);\r\n\tpadding: .2rem .3rem;\r\n\toverflow: auto;\r\n}\r\n.tool-window-body .section-header:first-child {\r\n\tmargin-top: .2rem;\r\n}\r\n.tool-window-body .checkbox-row a {\r\n\tborder-bottom: 1px solid rgb(235,235,235);\r\n\tpadding-left: 2rem;\r\n}\r\n.tool-window-body .checkbox-row.attribute-set-row a {\r\n\tpadding-left: 1rem;\r\n}\r\n.tool-window-body .checkbox-row.all-attributes-row a {\r\n\tpadding-left: 0;\r\n}\r\n.tool-window-body .checkbox-row div {\r\n\tfont-weight: normal;\r\n}\r\n.tool-window-body .checkbox-row div i {\r\n\tfont-style: normal;\r\n\tfont-size: .7rem;\r\n\tcolor: #bbb;\r\n\tpadding-left: .3rem;\r\n}\r\n.tool-window-body .checkbox-row.attribute-set-row div,\r\n.tool-window-body .checkbox-row.all-attributes-row div {\r\n\tfont-weight: bold;\r\n\tfont-size: .8rem;\r\n}\r\n\r\n.tool-window-body .checkbox-row .checkbox-label {\r\n\tposition: relative;\r\n\twidth: 90%;\r\n}\r\n\r\n/* toggle switch */\r\n.tool-window-body .checkbox-row .checkbox-label .multioptions {\r\n\tposition: absolute;\r\n\tdisplay: inline-block;\r\n\tright: 0;\r\n}\r\n\r\n.tool-window-body .checkbox-row .checkbox-label .multioptions > span {\r\n\tfont-size: .7rem;\r\n}\r\n\r\n.tool-window-body .checkbox-row .switch {\r\n\tposition: relative;\r\n\tdisplay: inline-block;\r\n\tmargin-left: .3rem;\r\n\twidth: 25px;\r\n\theight: 14px;\r\n\ttop: .15rem;\r\n}\r\n\r\n.tool-window-body .checkbox-row .switch input {display:none;}\r\n\r\n.tool-window-body .checkbox-row .slider-toggle {\r\n\tposition: absolute;\r\n\tcursor: pointer;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tright: 0;\r\n\tbottom: 0;\r\n\tbackground-color: #ccc;\r\n\t-webkit-transition: .4s;\r\n\ttransition: .4s;\r\n}\r\n\r\n.tool-window-body .checkbox-row .slider-toggle:before {\r\n\tposition: absolute;\r\n\tcontent: \"\";\r\n\theight: 10px;\r\n\twidth: 26px;\r\n\tleft: 2px;\r\n\tbottom: 2px;\r\n\tbackground-color: white;\r\n\t-webkit-transition: .4s;\r\n\ttransition: .4s;\r\n}\r\n\r\n.tool-window-body .checkbox-row input:checked + .slider-toggle {\r\n\tbackground-color: #c92d42;\r\n}\r\n\r\n.tool-window-body .checkbox-row input:checked + .slider-toggle:before {\r\n\t-webkit-transform: translateX(9px);\r\n\t-ms-transform: translateX(9px);\r\n\ttransform: translateX(9px);\r\n}\r\n\r\n.tool-window-body .checkbox-row .slider-toggle {\r\n\tborder-radius: 10px;\r\n}\r\n\r\n.tool-window-body .checkbox-row .slider-toggle:before {\r\n\twidth: 12px;\r\n\tborder-radius: 10px\r\n}\r\n\r\n\r\n/* Footer */\r\n.tool-window-footer {\r\n\theight: 2.5rem;\r\n\tpadding: .5rem 0;\r\n\tposition: relative;\r\n}\r\n.tool-window-button {\r\n\tposition: absolute;\r\n\tright: 0;\r\n\twidth: 10rem;\r\n}\r\n.tool-window-button[disabled=disabled] {\r\n\tpointer-events: none;\r\n\tcolor: #bbb;\r\n\tbackground: #e5e5e5;\r\n}#categorize-settings {\r\n\twidth: 40rem;\r\n\theight: 35rem;\r\n}\r\n\r\n.categorize-body {\r\n\tpadding: 0 .5rem;\r\n}\r\n.categorize-body input {\r\n\tborder: 1px solid #bbb;\r\n\tborder-radius: .15rem;\r\n\tcolor: #555;\r\n\tbackground: rgba(255,255,255,.9);\r\n\tline-height: 1.8;\r\n\tpadding: 0 .2rem;\r\n}\r\n.categorize-body input[type=text] {\r\n\twidth: 100%;\r\n}\r\n.categorize-footer {\r\n\tpadding: .5rem;\r\n}\r\n.category-set-box {\r\n\tborder: 1px dashed #ccc;\r\n\tbackground: rgba(255,245,246,1);\r\n\tmargin: 1rem 0;\r\n}\r\n.category-set-box-header {\r\n\tdisplay: flex;\r\n\tpadding: .7rem .5rem;\r\n\tbackground: rgba(255,190,190,1);\r\n}\r\n.category-set-box-header > div {\r\n\tmargin: 0 .2rem;\r\n}\r\n.category-set-box-header .category-set-name {\r\n\tflex: 1 0 50%;\r\n}\r\n.category-set-box-header .category-set-name input {\r\n\twidth: 15rem;\r\n\tfont-size: 1rem;\r\n}\r\n.category-set-box-header .save-category-set,\r\n.category-set-box-header .delete-category-set {\r\n\tcursor: pointer;\r\n\tmax-width: 8rem;\r\n\tflex-basis: 25%;\r\n\tline-height: 2.5;\r\n\r\n}\r\n.category-box {\r\n\t border-top: 1px solid #e7e7e7;\r\n\t display: flex;\r\n\t padding: .5rem;\r\n}\r\n.category-box > div {\r\n\tmargin: 0 .2rem;\r\n}\r\n.category-box .category-name {\r\n \tflex: 1 0 35%;\r\n}\r\n.category-box .category-color {\r\n\tflex-basis: 55%;\r\n}\r\n\r\n.category-box .save-category,\r\n.category-box .delete-category {\r\n\tcursor: pointer;\r\n\tflex-basis: 4%;\r\n\tmax-width: 8rem;\r\n\tdisplay: flex;\r\n\tjustify-content: center;\r\n\talign-items: center;\r\n}\r\n.category-box .fa {\r\n\tcolor: #777;\r\n\tfont-size: 1.15rem;\r\n\ttransition: color .3s ease-in-out;\r\n}\r\n.category-box .delete-category:hover .fa,\r\n.category-box .save-category:hover .fa {\r\n\tcolor: #555;\r\n}\r\n\r\n.category-box .save-category[disabled=disabled] {\r\n\tpointer-events: none;\r\n\tbackground: transparent;\r\n}\r\n.category-box .save-category[disabled=disabled] .fa {\r\n\tcolor: #ccc;\r\n}\r\n\r\n#placeholder-evaluation-widget {\r\n    display: block;\r\n}\r\n\r\n/* = Evaluation floater = */\r\n#floater-evaluation-widget {\r\n    left: 16rem;\r\n    top: 10rem;\r\n    min-width: 22rem;\r\n    max-width: 40rem;\r\n}\r\n\r\n#floater-evaluation-widget .floater-body {\r\n    height: calc(100% - 9.5rem);\r\n    padding: 0 0 .5rem;\r\n}\r\n\r\n#floater-evaluation-widget .floater-footer {\r\n    height: 6.5rem;\r\n}\r\n\r\n/* floater body */\r\n#floater-evaluation-widget .floater-body > div:nth-child(odd) {\r\n    padding: .5rem;\r\n}\r\n\r\n#floater-evaluation-widget .floater-body > div:nth-child(even){\r\n    padding: .5rem;\r\n    background: rgba(200,200,200,.1);\r\n    border-bottom: 1px solid #e5e5e5;\r\n    border-top: 1px solid #e5e5e5;\r\n}\r\n\r\n#floater-evaluation-widget .floater-row.slider-box,\r\n#floater-evaluation-widget .floater-row.checkbox-row,\r\n#floater-evaluation-widget .floater-row.select-menu-box,\r\n#floater-evaluation-widget .floater-row.row-export\r\n{\r\n    margin: 0;\r\n}\r\n\r\n/* Footer */\r\n#floater-evaluation-widget .footer-buttons {\r\n    justify-content: center;\r\n    display: flex;\r\n}\r\n#floater-evaluation-widget .footer-buttons .widget-button {\r\n    width: 33%;\r\n    margin: 0 .2rem;\r\n    padding: .5rem;\r\n    flex: 0 1 100%;\r\n}\r\n#floater-evaluation-widget .footer-buttons .widget-button.hidden {\r\n    display: none;\r\n}\r\n\r\n/*#evaluation-confirm[disabled=disabled], #evaluation-unselect[disabled=disabled] {*/\r\n    /*pointer-events: none;*/\r\n    /*color: #bbb;*/\r\n    /*background: #e5e5e5;*/\r\n/*}*/\r\n\r\n.widget-button-export:before {\r\n    height: 100%;\r\n    width: 100%;\r\n    margin-right: 5px;\r\n    position: relative;\r\n    top: 3px;\r\n}\r\n\r\n#export-shp:before, #export-json:before {\r\n    content: url(\'img/map.png\');\r\n}\r\n#export-shp[disabled=disabled]:before, #export-json[disabled=disabled]:before {\r\n    content: url(\'img/map-disabled.png\');\r\n}\r\n#export-csv:before, #export-xls:before {\r\n    content: url(\'img/table.png\');\r\n}\r\n#export-csv[disabled=disabled]:before, #export-xls[disabled=disabled]:before {\r\n    content: url(\'img/table-disabled.png\');\r\n}#feature-info-window {\r\n\tbackground: rgba(255,255,255,.95);\r\n\tborder: 1px solid #ccc;\r\n\tborder-radius: .1rem;\r\n\tbox-shadow: 0 0 1px rgba(136,136,136,.5);\r\n\tcolor: #555;\r\n\tdisplay: none;\r\n\theight: 13rem;\r\n\tleft: 100px;\r\n\tpadding: .3rem 0 .3rem .5rem;\r\n\tposition: absolute;\r\n\tright: 100px;\r\n\tresize: both;\r\n\toverflow: auto;\r\n\tmin-width: 20rem;\r\n\twidth: 25rem;\r\n\tmax-width: 40rem;\r\n\tz-index: 10000;\r\n}\r\n#feature-info-window.active {\r\n\tz-index: 10001;\r\n}\r\n#feature-info-window .feature-info-window-header {\r\n\tborder-bottom: 2px solid #ddd;\r\n\tfont-size: .85rem;\r\n\tfont-weight: 700;\r\n\tpadding: 0 0 .2rem .1rem;\r\n\tmargin-right: .2rem;\r\n\theight: 1.5rem;\r\n\tcursor: move;\r\n}\r\n#feature-info-window .feature-info-title {\r\n\tfloat: left;\r\n\twhite-space: nowrap;\r\n\toverflow: hidden;\r\n\ttext-overflow: ellipsis;\r\n\twidth: calc(100% - 45px);\r\n}\r\n#feature-info-window .feature-info-close,\r\n#feature-info-window .feature-info-settings {\r\n\tcursor: pointer;\r\n\tfloat: right;\r\n\tmargin-left: .1rem;\r\n\twidth: 18px;\r\n}\r\n#feature-info-window .feature-info-settings img {\r\n\twidth: 14px;\r\n}\r\n#feature-info-window .feature-info-window-body {\r\n\tmargin: 0 .2rem .2rem 0;\r\n\toverflow-x: hidden;\r\n\toverflow-y: auto;\r\n\theight: calc(100% - 3.7rem);\r\n}\r\n#feature-info-window .feature-info-window-footer {\r\n\tborder-top: 2px solid #ddd;\r\n\theight: 2rem;\r\n\tmargin-right: .2rem;\r\n\tpadding-top: .1rem;\r\n\ttext-align: center;\r\n}\r\n#feature-info-window .feature-info-window-body table {\r\n\twidth: 100%;\r\n}\r\n#feature-info-window .feature-info-window-body table tr {\r\n\tborder-bottom: 1px solid #ddd;\r\n}\r\n#feature-info-window .feature-info-window-body table tr td {\r\n\tfont-size: .75rem;\r\n\tpadding: .15rem .2rem;\r\n}\r\n#feature-info-window .feature-info-window-body table tr td i {\r\n\tcolor: #888;\r\n\tfont-style: normal;\r\n\tfont-weight: 500;\r\n}\r\n#feature-info-window .feature-info-window-body table tr:hover td {\r\n\tbackground: rgba(230,230,230,.8);\r\n}\r\n#feature-info-window .feature-info-window-body table tr td:first-child {\r\n\tfont-weight: 600;\r\n}\r\n#feature-info-window .feature-info-window-body table tr td:last-child {\r\n\ttext-align: right;\r\n}\r\n\r\n/* export */\r\n#export-feature-info-csv {\r\n\tbackground: none;\r\n}\r\n#export-feature-info-csv:hover {\r\n\tbackground: rgba(173,39,56,.2);\r\n}\r\n#export-feature-info-csv:before {\r\n\tcontent: url(\'img/table.png\');\r\n}\r\n\r\n\r\n/* overlay*/\r\n\r\n#feature-info-window .overlay {\r\n\tdisplay: none;\r\n\theight: 100%;\r\n\twidth: 100%;\r\n\tbackground: rgba(255,255,255,.9) url(img/loading.gif) no-repeat 50% 50%;\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tz-index: 10;\r\n}#feature-info {\r\n\tline-height: 1.45rem;\r\n\tpadding: 0 .5rem;\r\n\ttext-align: left;\r\n}\r\n\r\n#feature-info:after {\r\n\tcontent: url(img/feature-info-icon.png);\r\n\tdisplay: inline-block;\r\n\tpadding-top: .1rem;\r\n\tposition: absolute;\r\n\tright: .7rem;\r\n}\r\n#feature-info.active:after {\r\n\tcontent: url(img/feature-info-icon-active.png);\r\n}.control {\r\n\tbackground: rgba(255, 255, 255, 0.85);\r\n\tborder-radius: .3rem;\r\n\tz-index: 15;\r\n\tbox-shadow: 0 0 0.3rem 0 rgba(0, 0, 0, 0.3);\r\n\tmargin-bottom: 7px;\r\n}\r\n\r\n#map-controls {\r\n\tposition: absolute;\r\n\tbottom: 20px;\r\n\tright: 7px;\r\n\tz-index: 1;\r\n}\r\n\r\n#map-controls .control > a,\r\n.menu-control > a {\r\n\tdisplay: block;\r\n\twidth: 2rem;\r\n\theight: 2rem;\r\n\ttext-align: center;\r\n\tfont-size: 1.125rem;\r\n\tpadding-top: .19rem;\r\n\tcolor: #666;\r\n\r\n\ttransition:\r\n\t\t\tcolor .2s ease-in-out,\r\n\t\t\tbackground .2s ease-in-out;\r\n}\r\n\r\n.menu-control > a {\r\n\tborder-radius: .3rem;\r\n}\r\n\r\n#map-controls .control > a:not(:first-child) {\r\n\tborder-top: 1px solid rgba(0, 0, 0, .1);\r\n}\r\n\r\n#map-controls .control > a:hover,\r\n.menu-control > a:hover {\r\n\tbackground-color: rgba(255, 255, 255, .5);\r\n\tcolor: #c92d42;\r\n}\r\n\r\n#rotate-needle-control i {\r\n\t/*transition: all .2s ease-in-out;*/\r\n\t-webkit-transform: rotate(-45deg);\r\n\ttransform: rotate(-45deg);\r\n}\r\n\r\n/*#rotate-needle-control:hover i {*/\r\n/*transform: rotate(-45deg);*/\r\n/*}*/\r\n\r\n.tilt-control a {\r\n\t/*\toverflow: hidden;*/\r\n\tbackground-position: center center;\r\n\tbackground-size: 1.2rem;\r\n\tbackground-repeat: no-repeat;\r\n}\r\n\r\n#tilt-more-control svg,\r\n#tilt-less-control svg {\r\n\tmargin-top: .21rem;\r\n\twidth: 1.125rem;\r\n\theight: 1.125rem;\r\n}\r\n\r\n#tilt-more-control svg path,\r\n#tilt-less-control svg path {\r\n\tfill: #666;\r\n\r\n\ttransition:\r\n\t\t\tfill .2s ease-in-out;\r\n}\r\n\r\n#tilt-more-control:hover svg path,\r\n#tilt-less-control:hover svg path {\r\n\tfill: #c92d42;\r\n}.world-wind-map {\r\n\tposition: relative;\r\n\tleft: 0;\r\n\theight: 100%;\r\n\twidth: 100%;\r\n}\r\n.world-wind-canvas {\r\n\twidth: 100%;\r\n\theight: 100%;\r\n}\r\n.map-window-tools {\r\n\tposition: absolute;\r\n\tdisplay: flex;\r\n\ttop: 0;\r\n\tleft: 0;\r\n}\r\n\r\n/* close button */\r\n.close-map-button {\r\n\tbackground: rgba(244,243,239,.9);\r\n\tborder-right: 1px solid rgba(80,87,94,.3);\r\n\tcursor: pointer;\r\n\tdisplay: flex;\r\n\tjustify-content: center;\r\n\talign-items: center;\r\n\twidth: 1.5rem;\r\n\theight: 1.5rem;\r\n\tz-index: 1;\r\n\ttransition: background .3s ease-in-out;\r\n}\r\n.close-map-icon {\r\n\tcolor: rgba(80,87,94,.9);\r\n\tfont-size: .9rem;\r\n\ttransition: color .3s ease-in-out;\r\n}\r\n.close-map-button:hover {\r\n\tbackground: rgba(214,213,219,.9);\r\n}\r\n.close-map-button:hover .close-map-icon {\r\n\tcolor: rgba(80,87,94,1);\r\n}\r\n\r\n/* period label */\r\n.map-period-label {\r\n\tbackground: rgba(244,243,239,.9);\r\n\tcolor: rgba(80,87,94,.9);\r\n\tfont-weight: 600;\r\n\tfont-size: .9rem;\r\n\theight: 1.5rem;\r\n\tline-height: 1.4rem;\r\n\tpadding: 0 .5rem;\r\n}.maps-container {\r\n\tbackground: #ccc;\r\n\tdisplay: none;\r\n\tflex-wrap: wrap;\r\n\tposition: relative;\r\n\tz-index: 5555;\r\n\twidth: 100%;\r\n\ttop: 0;\r\n}\r\nbody.mode-3d .maps-container {\r\n\tdisplay: block;\r\n\tposition: absolute;\r\n}\r\n.maps-container .map-fields {\r\n\twidth: 100%;\r\n\theight: 100%;\r\n}\r\n.world-wind-map-box {\r\n\tbackground: black url(\"img/night-sky.jpg\") top left no-repeat;\r\n\tborder-bottom: 1px solid #888;\r\n\tborder-right: 1px solid #888;\r\n\tdisplay: inline-block;\r\n\tposition: relative;\r\n\twidth: 100%;\r\n\theight: 100%;\r\n\tmargin: 0;\r\n\tvertical-align: top;\r\n}\r\n\r\n/* maps container grid */\r\n.maps-container.h2 .world-wind-map-box {\r\n\theight: 50%;\r\n}\r\n.maps-container.h3 .world-wind-map-box {\r\n\theight: 33.33%;\r\n}\r\n.maps-container.h4 .world-wind-map-box {\r\n\theight: 25%;\r\n}\r\n.maps-container.w2 .world-wind-map-box {\r\n\twidth: 50%;\r\n}\r\n.maps-container.w3 .world-wind-map-box {\r\n\twidth: 33.33%;\r\n}\r\n.maps-container.w4 .world-wind-map-box {\r\n\twidth: 25%;\r\n}\r\n/* delete right border for all maps on the right */\r\n.maps-container.h1.w1 .map-fields .world-wind-map-box {\r\n\tborder-bottom: 0;\r\n\tborder-right: 0;\r\n}\r\n.maps-container.w1.h2 .map-fields .world-wind-map-box,\r\n.maps-container.w2.h1 .map-fields .world-wind-map-box:nth-child(2n),\r\n.maps-container.w2.h2 .map-fields .world-wind-map-box:nth-child(2n),\r\n.maps-container.w2.h3 .map-fields .world-wind-map-box:nth-child(2n),\r\n.maps-container.w3.h2 .map-fields .world-wind-map-box:nth-child(3n),\r\n.maps-container.w3.h3 .map-fields .world-wind-map-box:nth-child(3n),\r\n.maps-container.w3.h4 .map-fields .world-wind-map-box:nth-child(3n),\r\n.maps-container.w4.h3 .map-fields .world-wind-map-box:nth-child(4n),\r\n.maps-container.w4.h4 .map-fields .world-wind-map-box:nth-child(4n){\r\n\tborder-right: 0;\r\n}#floater-osm-widget {\r\n    top: 150px;\r\n    left: 270px;\r\n    height: 300px;\r\n}body.application #sidebar-reports.snow-mode {\r\n\twidth: 100%;\r\n\ttransition: width .5s ease-in-out;\r\n}\r\nbody.application #sidebar-reports.snow-mode.show-map {\r\n\twidth: 800px;\r\n}\r\nbody.application #sidebar-reports.snow-mode.show-map.hidden {\r\n\twidth: 0;\r\n}\r\n#app-extra-content > iframe {\r\n\twidth: 100%;\r\n\theight: 100%;\r\n}.component-button {\r\n\tborder: 2px solid #434254;\r\n\tborder-radius: .15rem;\r\n\tcolor: #434254;\r\n\tcursor: pointer;\r\n\tfont-size: .85rem;\r\n\tfont-weight: 700;\r\n\tline-height: 1.8rem;\r\n\ttransition: background .3s ease-in-out;\r\n\twidth: 8rem;\r\n}\r\n.component-button:hover {\r\n\tbackground: rgba(67,66,84,.15);\r\n}\r\n\r\n/* text */\r\n.component-button.text-centered {\r\n\ttext-align: center;\r\n}\r\n.component-button.text-small {\r\n\tfont-size: .75rem;\r\n\tline-height: 1.6rem;\r\n}\r\n\r\n/* widths */\r\n.component-button.w5 {\r\n\twidth: 5rem;\r\n}\r\n.component-button.w6 {\r\n\twidth: 6rem;\r\n}\r\n.component-button.w8 {\r\n\twidth: 8rem;\r\n}\r\n.component-button.w10 {\r\n\twidth: 10rem;\r\n}\r\n.component-button.w12 {\r\n\twidth: 12rem;\r\n}\r\n.component-button.w14 {\r\n\twidth: 14rem;\r\n}\r\n.component-button.compare-button {\r\n\tdisplay: inline-block;\r\n\tvertical-align: middle;\r\n\tbackground: rgba(255, 255, 255, .25);\r\n\tborder: 1px solid rgba(255, 255, 255, .3);\r\n\tborder-radius: .05rem;\r\n\tcolor: #ddd;\r\n\theight: 23px;\r\n\tline-height: 21px;\r\n}\r\n.component-button.compare-button:hover {\r\n\tbackground: rgba(255, 255, 255, .15);\r\n}.select2-container {\r\n\tmin-width: 5rem;\r\n\tmargin-right: .5rem;\r\n}.select-multi-container {\r\n\tmin-width: 5rem;\r\n}\r\n.select-multi-container.onlyArrow {\r\n\tcursor: pointer;\r\n\tmin-width: 2rem;\r\n\tmin-height: 28px;\r\n\tmax-height: 28px;\r\n\tmax-width: 2rem;\r\n}\r\n.select-multi-container.onlyArrow ul.select2-selection__rendered {\r\n\tdisplay: none;\r\n}\r\n.select-multi-container.onlyArrow:before {\r\n\tcolor: #888;\r\n\tfont-family: FontAwesome;\r\n\tfont-size: .85rem;\r\n\theight: 26px;\r\n\tdisplay: flex;\r\n\tjustify-content: center;\r\n\talign-items: center;\r\n}\r\n.select-multi-container.onlyArrow[aria-expanded=false]:before{\r\n\tcontent: \"\\f0d7\";\r\n}\r\n.select-multi-container.onlyArrow[aria-expanded=true]:before{\r\n\tcontent: \"\\f0d8\";\r\n}\r\n.select-multi-dropdown {\r\n\tmin-width: 5rem;\r\n}\r\n.select-multi-dropdown ul li[aria-selected=true]:before {\r\n\tcontent: \"\\f00c\";\r\n\tfont-family: FontAwesome;\r\n\tfont-size: .7rem;\r\n\tmargin-right: .25rem;\r\n}\r\n\r\n/* topbar multiselect with arrow*/\r\n.select-multi-container.top-bar-multiselect {\r\n\tborder-radius: 0.05rem;\r\n\tbackground: rgba(255, 255, 255, .25);\r\n\tborder: 1px solid rgba(255, 255, 255, .3);\r\n\tborder-left: 0;\r\n\tcolor: #ddd;\r\n}\r\n.select-multi-container.top-bar-multiselect.onlyArrow {\r\n\tmin-height: initial;\r\n\theight: 23px;\r\n\tmin-width: initial;\r\n\twidth: 26px;\r\n}\r\n.select-multi-container.top-bar-multiselect.onlyArrow:before {\r\n\tcolor: #ddd;\r\n\theight: 100%;\r\n}\r\n.select2-container--default.select2-container--focus .select-multi-container.top-bar-multiselect.select2-selection--multiple {\r\n\tborder: 1px solid rgba(255, 255, 255, .5);\r\n\tborder-left: 0;\r\n\toutline: 0;\r\n}.select-basic-container {\r\n\tmin-width: 5rem;\r\n}\r\n\r\n/* topbar select*/\r\n.select-basic-container.top-bar-select {\r\n\t border-radius: 0.05rem;\r\n\t background: rgba(255, 255, 255, .25);\r\n\t border: 1px solid rgba(255, 255, 255, .3);\r\n\t height: 23px;\r\n}\r\n.select-basic-container.top-bar-select .select2-selection__rendered {\r\n\tline-height: 21px;\r\n\tcolor: #ddd;\r\n\tfont-weight: 700;\r\n}\r\n.select-basic-container.top-bar-select .select2-selection__arrow {\r\n\theight: 23px;\r\n}\r\n.select-basic-container.top-bar-select .select2-selection__arrow > b {\r\n\tborder-color: #ddd transparent transparent transparent;\r\n}/* General selector declarations todo move them to the general class */\r\n.select2-container {\r\n\tz-index: 99999;\r\n}\r\n.selector {\r\n\tdisplay: none;\r\n\theight: 1.9rem;\r\n}\r\n.selector-label {\r\n\tline-height: 1.9rem;\r\n\tmargin-right: .7rem;\r\n\tcolor: white;\r\n\tfont-weight: 700;\r\n\tfont-size: 11px;\r\n}\r\nbody.mode-3d .selector {\r\n\tdisplay: inline-block;\r\n\tvertical-align: top;\r\n}#floater-periods-widget {\r\n\ttop: 150px;\r\n\tleft: 270px;\r\n}#floater-sharing {\r\n\tleft: 16rem;\r\n\ttop: 10rem;\r\n\tmin-width: 22rem;\r\n\tmax-width: 40rem;\r\n}\r\n.snow-cfg-table {\r\n\tmargin: .5rem 0 1.8rem;\r\n\twidth: 100%;\r\n}\r\n\r\n.snow-cfg-table tr td {\r\n\tborder-bottom: 1px dashed #ccc;\r\n\tcolor: #666;\r\n\tline-height: 1.3rem;\r\n\tpadding: .4rem 0;\r\n\tfont-size: .85rem;\r\n\ttransition: background .3s ease-out;\r\n}\r\n.snow-cfg-table tr:first-child td {\r\n\tborder-top: 1px dashed #ccc;\r\n}\r\n\r\n.snow-cfg-table tr td:first-child {\r\n\tpadding-left: 0;\r\n}\r\n.snow-cfg-table tr td i {\r\n\tfont-style: normal;\r\n\tfont-weight: 600;\r\n}\r\n.snow-cfg-table tr td i.satellite-name {\r\n\ttext-transform: uppercase;\r\n}\r\n\r\n.snow-cfg-table tr td:last-child {\r\n\ttext-align: right;\r\n}\r\n\r\n.snow-cfg-table tr:hover td {\r\n\tbackground: rgba(240,240,240,.7);\r\n}\r\n\r\n.snow-cfg-table tr td div {\r\n\tdisplay: inline-block;\r\n\tvertical-align: middle;\r\n}\r\n.snow-cfg-table tr td.snow-icon {\r\n\tpadding-right: .5rem;\r\n}\r\n.snow-cfg-table tr td.snow-composites {\r\n\tpadding-right: 1.5rem;\r\n}\r\n.snow-cfg-table tr td.snow-cfg-name-date {\r\n\tmax-width: 14rem;\r\n\tpadding-right: 1.5rem;\r\n}\r\n.snow-cfg-table tr td.snow-cfg-name-date div {\r\n\tdisplay: block;\r\n\tfloat: left;\r\n}\r\n.snow-cfg-table tr td.snow-cfg-name-date div.snow-name {\r\n\twhite-space: nowrap;\r\n\toverflow: hidden;\r\n\ttext-overflow: ellipsis;\r\n\twidth: 100%;\r\n\tfont-weight: 600;\r\n}\r\n.snow-cfg-table tr td.snow-cfg-name-date div.snow-timestamp {\r\n\tcolor: #aaa;\r\n}\r\n.snow-cfg-table tr td div.snow-icon-container {\r\n\tmargin: 0 .5rem\r\n}\r\n.snow-icon-container svg {\r\n\twidth: 1.2rem;\r\n\theight: 1.2rem;\r\n\tdisplay: inline-block;\r\n\tvertical-align: middle;\r\n}\r\n.snow-icon-container:not(.icon-composites) svg path {\r\n\t fill: #666;\r\n\t stroke: #666;\r\n}\r\n.snow-cfg-table .button-cell {\r\n\tpadding: 0 .2rem;\r\n\twidth: 6rem;\r\n}\r\n.snow-cfg-table .button-cell-delete {\r\n\twidth: 2rem;\r\n}\r\n.snow-cfg-table .widget-button {\r\n\twidth: 100%;\r\n\tfont-size: .7rem;\r\n\tpadding: .2rem;\r\n\ttext-transform: none;\r\n}\r\n.snow-cfg-table .widget-button i {\r\n\tfont-size: .85rem;\r\n\tfont-weight: 400;\r\n}\r\n.snow-cfg-table .delete-composites i {\r\n\tfont-size: .9rem;\r\n}\r\n.snow-cfg-table .show-composites i {\r\n\tfont-size: .75rem;\r\n\tpadding-left: .5rem;\r\n}\r\n.snow-cfg-table .save-composites i {\r\n\tfont-size: .85rem;\r\n\tpadding-right: .5rem;\r\n}\r\n\r\n.snow-cfg-table .snow-input {\r\n\tpadding: .1rem .3rem;\r\n\theight: 1.6rem;\r\n\tborder-radius: .15rem;\r\n\tborder: 1px solid #bbb;\r\n\tmargin: 0 .2rem;\r\n\tcolor: #666;\r\n\tfont-weight: 600;\r\n\tmax-width: 8rem;\r\n}\r\n\r\n.snow-cfg-table .snow-input::-webkit-input-placeholder { /* Chrome/Opera/Safari */\r\n\tfont-weight: 400;\r\n\tcolor: #aaa;\r\n}\r\n.snow-cfg-table .snow-input::-moz-placeholder { /* Firefox 19+ */\r\n\tfont-weight: 400;\r\n\tcolor: #aaa;\r\n}\r\n.snow-cfg-table .snow-input:-ms-input-placeholder { /* IE 10+ */\r\n\tfont-weight: 400;\r\n\tcolor: #aaa;\r\n}\r\n.snow-cfg-table .snow-input:-moz-placeholder { /* Firefox 18- */\r\n\tfont-weight: 400;\r\n\tcolor: #aaa;\r\n}#floater-snow-widget {\r\n\tdisplay: none;\r\n\tleft: calc(50% - 500px);\r\n\ttop: calc(50% - 250px);\r\n\twidth: 1000px;\r\n\theight: 500px;\r\n\tmargin: 0;\r\n}\r\n#floater-snow-widget.open {\r\n\tdisplay: block;\r\n}\r\n#floater-snow-widget .floater-body {\r\n\theight: calc(100% - 2.5rem);\r\n}\r\n.snow-table-caption {\r\n\tcolor: #c92d42;\r\n\tfont-size: 1.1rem;\r\n\tfont-weight: 400;\r\n}.layer-tool-floater {\r\n\tbackground: rgba(255,255,255,.95);\r\n\tdisplay: none;\r\n\tposition: absolute;\r\n\tmin-height: 100px;\r\n\theight: auto;\r\n\twidth: 300px;\r\n\tleft: auto;\r\n\tbottom: 55px;\r\n\ttop: auto;\r\n\tright: 627px;\r\n}\r\n\r\n.tool-window.layer-tool-floater.open {\r\n\tdisplay: none;\r\n}\r\nbody.mode-3d .tool-window.layer-tool-floater.open {\r\n\tdisplay: block;\r\n}\r\n\r\n.layer-tool-floater-body {\r\n\tpadding: .3rem;\r\n\theight: calc(100% - 2.5rem);\r\n}.layer-tool-icon {\r\n\tcursor: pointer;\r\n\tdisplay: inline-block;\r\n\tposition: relative;\r\n\tfloat: right;\r\n\tmargin: 0 .15rem;\r\n\theight: 100%;\r\n\twidth: 1rem;\r\n}\r\n.layer-tool-icon.legend-icon img.active {\r\n\tdisplay: none;\r\n}\r\n.layer-tool-icon.legend-icon.open img {\r\n\tdisplay: none;\r\n}\r\n.layer-tool-icon.legend-icon.open img.active {\r\n\tdisplay: block;\r\n}\r\n\r\n/*.layer-tool-icon i {*/\r\n\t/*color: rgba(104,103,116,.65);*/\r\n\t/*display: inline-block;*/\r\n\t/*font-size: .9rem;*/\r\n\t/*font-family: \"FontAwesome\";*/\r\n\t/*transition: color .3s ease-out;*/\r\n\t/*vertical-align: middle;*/\r\n/*}*/\r\n/*.layer-tool-icon:hover i {*/\r\n\t/*color: rgba(104,103,116,1);*/\r\n/*}*/\r\n/*.layer-tool-icon.open i {*/\r\n\t/*color: #ad2738;*/\r\n/*}*/.layer-tools {\r\n\tdisplay: inline-block;\r\n\tvertical-align: middle;\r\n\theight: 100%;\r\n\tmargin: 0 .25rem 0 0;\r\n\twidth: 2.7rem;\r\n}\r\n.panel-layer-group-body .layer-tools {\r\n\twidth: 4rem;\r\n}/* === Radiobox === */\r\n.radiobox-row.checked .radiobox-icon {\r\n\tbackground: url(\'img/radio-checked.png\') no-repeat center center;\r\n}\r\n\r\n.radiobox-icon {\r\n\tbackground: url(\'img/radio-unchecked.png\') no-repeat center center;\r\n\tdisplay: inline-block;\r\n\tmargin-right: .5rem;\r\n\twidth: 1.2rem;\r\n\theight: 1.2rem;\r\n\tline-height: 1.2rem;\r\n\ttransition: background .3s;\r\n}\r\n\r\n.radiobox-label {\r\n\tdisplay: inline-block;\r\n\tfont-weight: bold;\r\n\theight: 1.2rem;\r\n\tline-height: 1.2rem;\r\n\tfont-size: .8rem;\r\n}.panel-header {\r\n\tcolor: #555;\r\n\tcursor: pointer;\r\n\tpadding: 0;\r\n\tposition: relative;\r\n\ttransition: background .3s ease-out;\r\n}\r\n.panel-header:hover {\r\n\tbackground: rgb(235,235,235);\r\n}\r\n.panel-header h3 {\r\n\tdisplay: inline-block;\r\n\tfont-size: .75rem;\r\n\tfont-weight: 400;\r\n\tvertical-align: middle;\r\n\r\n}\r\n\r\n.panel-layer-group-header {\r\n\tcolor: #555;\r\n\tcursor: pointer;\r\n\tpadding: 0 0 0 1.3rem;\r\n\tposition: relative;\r\n\ttransition: background .3s ease-out;\r\n}\r\n.panel-layer-group-header:hover {\r\n\tbackground: rgb(235,235,235);\r\n}\r\n.panel-layer-group-header h3 {\r\n\tdisplay: inline-block;\r\n\tfont-size: .75rem;\r\n\tfont-weight: 400;\r\n\tvertical-align: middle;\r\n\r\n}\r\n\r\n.panel-body .floater-row {\r\n\tpadding-left: 1.05rem;\r\n}\r\n\r\n.panel-icon {\r\n\tdisplay: inline-block;\r\n\twidth: 1.2rem;\r\n\theight: 1.25rem;\r\n\tvertical-align: middle;\r\n\r\n}\r\n\r\n.panel-icon.expand-icon {\r\n\tbackground: url(img/tree-node-expand.png) no-repeat center center;\r\n}\r\n.panel-icon.folder-icon {\r\n\tbackground: url(img/tree-node-closed.png) no-repeat center center;\r\n}\r\n.panel-header.open .panel-icon.expand-icon, .panel-layer-group-header.open .panel-icon.expand-icon {\r\n\tbackground: url(img/tree-node-collapse.png) no-repeat center center;\r\n}\r\n.panel-header.open .panel-icon.folder-icon, .panel-layer-group-header.open .panel-icon.folder-icon {\r\n\tbackground: url(img/tree-node-opened.png) no-repeat center center;\r\n}\r\n.panel-body {\r\n\tdisplay: none;\r\n\tpadding: 0.05rem 0 .2rem;\r\n\tposition: relative;\r\n\t/*max-height: 12rem;*/\r\n\t/*overflow: auto;*/\r\n}\r\n.panel-body.open {\r\n\tdisplay: block;\r\n}\r\n.panel-body .panel-row {\r\n\tposition: relative;\r\n\theight: 1.3rem;\r\n}\r\n.panel-body .layer-row {\r\n\tdisplay: inline-block;\r\n\tvertical-align: middle;\r\n\twidth: calc(100% - 3rem);\r\n}\r\n.panel-body .panel-layer-group-body .layer-row {\r\n\tpadding-left: 2.15rem;\r\n\twidth: calc(100% - 4.3rem);\r\n}\r\n.panel-body .layer-row a {\r\n\twidth: auto;\r\n}\r\n.panel-body .floater-row a {\r\n\tpadding: 0 .3rem;\r\n\theight: 1.3rem;\r\n\tline-height: 1.2rem;\r\n\tcolor: #555;\r\n}\r\n.panel-body .floater-row .radiobox-label,\r\n.panel-body .floater-row .checkbox-label {\r\n\tfont-weight: 400;\r\n\tfont-size: .75rem;\r\n\twhite-space: nowrap;\r\n\toverflow: hidden;\r\n\ttext-overflow: ellipsis;\r\n}/* Panels */\r\n#floater-world-wind-widget-panels {\r\n}#floater-world-wind-widget {\r\n\tdisplay: none;\r\n\tleft: 10rem;\r\n\ttop: 10rem;\r\n\tmax-width: 40rem;\r\n\tmin-height: 4rem;\r\n\twidth: 260px;\r\n\tbackground: rgba(255,255,255,.9);\r\n}\r\n#floater-world-wind-widget.open {\r\n\tdisplay: block;\r\n}\r\n#floater-world-wind-widget .floater-header {\r\n\theight: 2rem;\r\n}\r\n#floater-world-wind-widget .floater-body {\r\n\theight: calc(100% - 2rem);\r\n\tborder: 1px solid #ddd;\r\n}\r\n\r\n/* Floater body */\r\n#floater-world-wind-widget .floater-body {\r\n\tpadding: .2rem 0 0 0;\r\n}\r\n#floater-world-wind-widget .checkbox-row {\r\n\ttransition: background .3s ease-out;\r\n}\r\n#floater-world-wind-widget .checkbox-row:hover {\r\n\tbackground: rgb(235,235,235);\r\n\tcursor: pointer;\r\n}\r\n\r\n\r\n.floater-fake-header {\r\n\tbackground: #ddd;\r\n\theight: 31px;\r\n\tline-height: 31px;\r\n\tpadding: 0 .5rem 0 1rem;\r\n}\r\n.floater-fake-header span {\r\n\tcolor: #333;\r\n\tfont-size: 12px;\r\n\tfont-weight: 700;\r\n}\r\n.floater-fake-header-tool {\r\n\tcursor: pointer;\r\n\tposition: relative;\r\n\tfloat: right;\r\n}\r\n.floater-fake-header-tool img {\r\n\tposition: absolute;\r\n\tright: 0;\r\n\ttop: 7px;\r\n}');
 
 require(["app"]);
