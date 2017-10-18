@@ -13,6 +13,7 @@ define([
 	'js/stores/gisat/Locations',
 	'js/stores/gisat/Periods',
 	'js/stores/gisat/Scopes',
+	'js/stores/gisat/Themes',
 	'js/stores/gisat/Visualizations',
 	'js/stores/gisat/WmsLayers',
     'js/stores/UrbanTepPortalStore',
@@ -33,6 +34,7 @@ define([
 			Locations,
 			Periods,
 			Scopes,
+			Themes,
 			Visualizations,
 			WmsLayers,
 			UrbanTepPortalStore,
@@ -300,6 +302,7 @@ define([
 		Stores.retrieve('location').all();
 		Stores.retrieve('period').all();
 		Stores.retrieve('scope').all();
+		Stores.retrieve('theme').all();
 		Stores.retrieve('visualization').all();
 		Stores.retrieve('wmsLayer').all();
 

@@ -5,7 +5,8 @@ define([
 ) {
 	"use strict";
 
-	var TopToolBar = function() {
+	var TopToolBar = function(options) {
+		this._dispatcher = options.dispatcher;
 		this._target = $('#top-toolbar-widgets');
 		this._target.on('click.topToolBar', '.item', this.handleClick.bind(this));
 		this.build();
@@ -13,6 +14,7 @@ define([
 		$('#top-toolbar-context-help').on('click.topToolBar', this.handleContextHelpClick);
 		$('#top-toolbar-snapshot').on('click.topToolBar', this.handleSnapshotClick);
 		$('#top-toolbar-share-view').on('click.topToolBar', this.handleShareViewClick);
+		$('#top-toolbar-3dmap').on("click.topToolBar", this.handle3dMapClick.bind(this));
 
 		Observer.addListener("Tools.hideClick.layerpanel",this.handleHideClick.bind(this, 'window-layerpanel'));
 		Observer.addListener("Tools.hideClick.areatree",this.handleHideClick.bind(this, 'window-areatree'));
@@ -26,79 +28,141 @@ define([
 
 
 	TopToolBar.prototype.build = function(){
+		var tools = {
+			layers: true,
+			areas: true,
+			selections: true,
+			mapTools: true,
+			addLayer: true,
+			customViews: true,
+			customLayers: true,
+			functionalFilrer: true
+		};
 
+
+		if (Config.toggles.hasPeriodsWidget){
+			tools.periods = true;
+		}
+		if (Config.toggles.hasOsmWidget){
+			tools.osm = true;
+		}
+		if (Config.toggles.hasNewEvaluationTool) {
+			tools.areasFilterNew = true;
+		} else {
+			tools.areasFilterOld = true;
+		}
+		if (Config.toggles.isSnow) {
+			tools = this.handleSnow();
+		}
+
+		this.render(tools);
+
+	};
+
+	TopToolBar.prototype.render = function(tools){
 		this._target.empty();
+		var isWorldWind = $('body').hasClass('mode-3d');
 
-		var is3d = $('body').hasClass('mode-3d');
-
-		if (is3d) {
-
-			var classesLayers3d = $('#floater-world-wind-widget').hasClass('open') ? "item open" : "item";
-			this._target.append('<div class="' + classesLayers3d + '" id="top-toolbar-layers" data-for="floater-world-wind-widget">Layers</div>');
-
-			var classesAreas3d = $('#window-areatree').hasClass('open') ? "item open" : "item";
-			this._target.append('<div class="' + classesAreas3d + '" id="top-toolbar-areas" data-for="window-areatree">Areas</div>');
-
-			if (Config.toggles.hasPeriodsWidget){
+		// tools for WorldWind mode
+		if (isWorldWind){
+			if (tools.layers){
+				var classesLayers3d = $('#floater-world-wind-widget').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesLayers3d + '" id="top-toolbar-layers" data-for="floater-world-wind-widget">Layers</div>');
+			}
+			if (tools.areas){
+				var classesAreas3d = $('#window-areatree').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesAreas3d + '" id="top-toolbar-areas" data-for="window-areatree">Areas</div>');
+			}
+			if (tools.periods){
 				var classesPeriods3d = $('#floater-periods-widget').hasClass('open') ? "item open" : "item";
 				this._target.append('<div class="' + classesPeriods3d + '" id="top-toolbar-periods" data-for="floater-periods-widget">Periods</div>');
 			}
-
-            if (Config.toggles.hasOsmWidget){
-                var classesOsm3d = $('#floater-osm-widget').hasClass('open') ? "item open" : "item";
-                this._target.append('<div class="' + classesOsm3d + '" id="top-toolbar-osm" data-for="floater-osm-widget">OSM</div>');
-            }
-
-			var classesSelections3d = $('#window-colourSelection').hasClass('open') ? "item open" : "item";
-			this._target.append('<div class="' + classesSelections3d + '" id="top-toolbar-selections" data-for="window-colourSelection">Selections</div>');
-
-			if(Config.toggles.hasNewEvaluationTool) {
+			if (tools.osm){
+				var classesOsm3d = $('#floater-osm-widget').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesOsm3d + '" id="top-toolbar-osm" data-for="floater-osm-widget">OSM</div>');
+			}
+			if (tools.selections){
+				var classesSelections3d = $('#window-colourSelection').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesSelections3d + '" id="top-toolbar-selections" data-for="window-colourSelection">Selections</div>');
+			}
+			if (tools.areasFilterNew){
 				var classesAreasFilter3d = $('#floater-evaluation-widget').hasClass('open') ? "item open" : "item";
 				this._target.append('<div class="' + classesAreasFilter3d + '" id="top-toolbar-selection-filter" data-for="floater-evaluation-widget">' + Config.basicTexts.advancedFiltersName + '</div>');
-			} else {
+			}
+			if (tools.areasFilterOld){
 				var classesLegacyAreasFilter3d = $('#window-legacyAdvancedFilters').hasClass('open') ? "item open" : "item";
 				this._target.append('<div class="' + classesLegacyAreasFilter3d + '" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters">' + Config.basicTexts.advancedFiltersName + '</div>');
 			}
+			if (tools.mapTools){
+				this._target.append('<div class="item disabled" id="top-toolbar-map-tools">Map tools</div>');
+			}
+			if (tools.customViews){
+				var classesCustomViews3d = Config.auth ? "item disabled" : "item disabled hidden";
+				this._target.append('<div class="' + classesCustomViews3d + '" id="top-toolbar-saved-views">Custom views</div>');
+			}
+			if (tools.snow){
+				var classesSnowWidget3d = $('#floater-snow-widget').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesSnowWidget3d + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget">Saved configurations</div>');
+			}
+		}
 
-
-			this._target.append('<div class="item disabled" id="top-toolbar-map-tools">Map tools</div>');
-
-			var classesCustomViews3d = Config.auth ? "item disabled" : "item disabled hidden";
-			this._target.append('<div class="' + classesCustomViews3d + '" id="top-toolbar-saved-views">Custom views</div>');
-
-
-		} else {
-
-			var classesLayers = $('#window-layerpanel').hasClass('open') ? "item open" : "item";
-			this._target.append('<div class="' + classesLayers + '" id="top-toolbar-layers" data-for="window-layerpanel">Layers</div>');
-
-			var classesAreas = $('#window-areatree').hasClass('open') ? "item open" : "item";
-			this._target.append('<div class="' + classesAreas + '" id="top-toolbar-areas" data-for="window-areatree">Areas</div>');
-
-			var classesSelections = $('#window-colourSelection').hasClass('open') ? "item open" : "item";
-			this._target.append('<div class="' + classesSelections + '" id="top-toolbar-selections" data-for="window-colourSelection">Selections</div>');
-
-			if(Config.toggles.hasNewEvaluationTool) {
+		// tools for OpenLayers mode
+		else {
+			if (tools.layers){
+				var classesLayers = $('#window-layerpanel').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesLayers + '" id="top-toolbar-layers" data-for="window-layerpanel">Layers</div>');
+			}
+			if (tools.areas){
+				var classesAreas = $('#window-areatree').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesAreas + '" id="top-toolbar-areas" data-for="window-areatree">Areas</div>');
+			}
+			if (tools.selections){
+				var classesSelections = $('#window-colourSelection').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesSelections + '" id="top-toolbar-selections" data-for="window-colourSelection">Selections</div>');
+			}
+			if (tools.areasFilterNew){
 				var classesAreasFilter = $('#floater-evaluation-widget').hasClass('open') ? "item open" : "item";
 				this._target.append('<div class="' + classesAreasFilter + '" id="top-toolbar-selection-filter" data-for="floater-evaluation-widget">' + Config.basicTexts.advancedFiltersName + '</div>');
-			} else {
+			}
+			if (tools.areasFilterOld){
 				var classesLegacyAreasFilter = $('#window-legacyAdvancedFilters').hasClass('open') ? "item open" : "item";
 				this._target.append('<div class="' + classesLegacyAreasFilter + '" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters">' + Config.basicTexts.advancedFiltersName + '</div>');
 			}
-
-			var classesMapTools = $('#window-maptools').hasClass('open') ? "item open" : "item";
-			this._target.append('<div class="' + classesMapTools + '" id="top-toolbar-map-tools" data-for="window-maptools">Map tools</div>');
-
-			var classesCustomViews = Config.auth ? "item" : "item hidden";
-			classesCustomViews += $('#window-customviews').hasClass('open') ? " open" : "";
-			this._target.append('<div class="' + classesCustomViews + '" id="top-toolbar-saved-views" data-for="window-customviews">Custom views</div>');
-
-			//var classesCustomLayers = Config.auth ? "item" : "item hidden";
-			var classesCustomLayers = "item";
-			classesCustomLayers += $('#window-customLayers').hasClass('open') ? " open" : "";
-			this._target.append('<div class="' + classesCustomLayers + '" id="top-toolbar-custom-layers" data-for="window-customLayers">Add layer</div>');
+			if (tools.mapTools){
+				var classesMapTools = $('#window-maptools').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesMapTools + '" id="top-toolbar-map-tools" data-for="window-maptools">Map tools</div>');
+			}
+			if (tools.customViews){
+				var classesCustomViews = Config.auth ? "item" : "item hidden";
+				classesCustomViews += $('#window-customviews').hasClass('open') ? " open" : "";
+				this._target.append('<div class="' + classesCustomViews + '" id="top-toolbar-saved-views" data-for="window-customviews">Custom views</div>');
+			}
+			if (tools.customLayers){
+				var classesCustomLayers = "item";
+				classesCustomLayers += $('#window-customLayers').hasClass('open') ? " open" : "";
+				this._target.append('<div class="' + classesCustomLayers + '" id="top-toolbar-custom-layers" data-for="window-customLayers">Add layer</div>');
+			}
+			if (tools.functionalFilrer){
+				var classesFunctionalFilter = $('#floater-functional-urban-area').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesFunctionalFilter + '" id="top-toolbar-functional-urban-area" data-for="floater-functional-urban-area">Functional Urban Area</div>');
+			}
+			if (tools.snow){
+				var classesSnowWidget = $('#floater-snow-widget').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesSnowWidget + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget">Saved configurations</div>');
+			}
 		}
+	};
 
+	/**
+	 * SNOW: add configuration widget only
+	 */
+	TopToolBar.prototype.handleSnow = function() {
+		// hide layers floater
+		$("#floater-world-wind-widget").css("display", "none");
+
+		return {
+			snow: true
+		};
 	};
 
 	TopToolBar.prototype.handleClick = function(e){
@@ -146,6 +210,16 @@ define([
 
 	TopToolBar.prototype.handleShareViewClick = function(e){
 		Observer.notify("PumaMain.controller.ViewMng.onShare");
+	};
+
+	TopToolBar.prototype.handle3dMapClick = function(e){
+		var isIn3DMode = $('body').hasClass("mode-3d");
+		if (Config.toggles.useWorldWindOnly && isIn3DMode){
+			this._dispatcher.notify("map#switchProjection");
+			$(e.target).toggleClass('world-wind-2d');
+		} else {
+			this._dispatcher.notify("map#switchFramework");
+		}
 	};
 
 

@@ -303,6 +303,6 @@ label.container > input {
 }
 
 /* === 3D mode changes === */
-body.application.mode-3d #view-selector .period {
+body.application.mode-3d #view-selector .period.hidden {
 	display: none;
 }

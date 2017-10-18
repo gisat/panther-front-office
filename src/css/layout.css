@@ -691,9 +691,13 @@ html.dromas body.intro #intro-overlay {
 }
 #top-toolbar .item.open {
     /* background: #ffe6e9; */
+    background-color: #FCFCFA;
     color: #c92d42;
 }
 body.mode-3d #top-toolbar-3dmap {
+	background-color: #FCFCFA;
+}
+body.mode-3d #top-toolbar-3dmap:not(.world-wind-2d) {
     color: #c92d42;
 }
 #top-toolbar .item:not(.disabled) {
@@ -701,6 +705,9 @@ body.mode-3d #top-toolbar-3dmap {
 }
 #top-toolbar .item:not(.disabled):hover {
 	background: rgba(125,125,125,.15);
+}
+#top-toolbar .item.open:not(.disabled):hover {
+	background: rgba(245,245,245,.75);
 }
 #top-toolbar .item.disabled {
 	color: #bbb;
@@ -777,6 +784,10 @@ body.mode-3d #top-toolbar-3dmap {
 }
 #top-toolbar .item#top-toolbar-context-help::before {
 	background: url('../images/icons/context-help.svg') center center no-repeat;
+}
+
+#top-toolbar .item#top-toolbar-snow-configuration::before {
+	content: '\f085';
 }
 
 

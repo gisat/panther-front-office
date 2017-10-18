@@ -6,6 +6,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
 		Observer.addListener("PumaMain.controller.LocationTheme.reloadWmsLayers",this.reloadWmsLayers.bind(this));
 		Stores.addListener(this.areaTemplateChange.bind(this));
+		Stores.addListener(this.triggerConfirm.bind(this));
 
         this.control({
             '#initialdataset':{
@@ -42,6 +43,11 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 click: this.onCancelAgreement
             }
         })
+    },
+    triggerConfirm: function(action){
+        if (action === "confirmInitialSelection"){
+            this.onConfirm();
+        }
     },
     onAcceptAgreement: function() {
         var checked = Ext.ComponentQuery.query('#agreementCheck')[0].getValue();
@@ -304,7 +310,9 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
         var visStore = Ext.StoreMgr.lookup('visualization4sel');
         var yearStore = Ext.StoreMgr.lookup('year4sel');
-        var themeYears = Ext.StoreMgr.lookup('theme').getById(val).get('years');
+
+        var themeStore = Ext.StoreMgr.lookup('theme');
+        var themeYears = themeStore.getById(val).get('years');
 
         yearStore.clearFilter(true);
         yearStore.filter([function(rec) {
@@ -331,7 +339,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 this.visChanged = true;
         }
         var years = yearCnt.getValue();
-        if (!years.length) {
+        if (!years.length && !Config.toggles.hideSelectorToolbar) {
             this.yearChanged = true;
             var yearCount = yearStore.getCount();
             yearCnt.setValue([yearStore.getAt(yearCount-1).get('_id')])
@@ -1104,15 +1112,20 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 // Remove the possibility to switch back
                 $('#top-toolbar-3dmap').hide();
             } else {
-                // TODO: Move elsewhere. Currently it simplifies the UI to remove most of the irrelevant functionalities for simple viewers. It also starts with 3D Map instead of 2D.
                 if(scope.get('simplifiedMap') || scope.get('_id') == 465) {
                     Stores.notify('map#show3D');
+
+                    if (!Config.toggles.isSnow) {
+                        $('#top-toolbar-areas').show();
+                    }
 
                     this.getController('DomManipulation')._onReportsSidebarToggleClick();
                     $('#top-toolbar-3dmap').hide();
                 } else {
                     $('.areaTreeSelection').show();
-                    $('#top-toolbar-areas').show();
+                    if (!Config.toggles.isSnow) {
+                        $('#top-toolbar-areas').show();
+                    }
                     $('#window-areatree').show();
                     if (scope.get("aggregated")) {
                         this.getController('DomManipulation')._onReportsSidebarToggleClick();
@@ -1120,6 +1133,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
                     $('#sidebar-reports').show();
                     $('#top-toolbar-3dmap').show()
                 }
+				// Add the possibility to switch back.
 			}
         }
         if (response.request.options.originatingCnt.itemId == 'selectfilter') {

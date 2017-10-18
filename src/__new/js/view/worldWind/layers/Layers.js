@@ -228,8 +228,10 @@ define(['../../../error/ArgumentError',
 			levelZeroDelta: new WorldWind.Location(45,45),
 			numLevels: 14,
 			format: "image/png",
+			opacity: .7,
 			size: 256,
-			version: "1.1.1"
+			version: "1.1.1",
+			customParams: layerData.customParams
 		}, null);
 		layer.urlBuilder.version = "1.1.1";
 		layer.metadata = {
@@ -253,7 +255,7 @@ define(['../../../error/ArgumentError',
 			layerNames: layerData.layerPaths,
 			sector: new WorldWind.Sector(-90,90,-180,180),
 			levelZeroDelta: new WorldWind.Location(45,45),
-			opacity: layerData.opacity/100,
+			opacity: .7,
 			numLevels: 22,
 			format: "image/png",
 			size: 256,

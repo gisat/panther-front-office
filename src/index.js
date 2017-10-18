@@ -95,7 +95,7 @@ if((Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasN
     createLink("__new/styles/font-awesome.min.css");
     createLink("__new/styles/jquery-ui.css");
     createLink("__new/styles/style.css");
-    createLink("__new/styles/select2.min.css");
+	createLink("__new/styles/select2.min.css");
 }
 if(Config.toggles.isNewDesign){
     createLink("css/newDesign.css");

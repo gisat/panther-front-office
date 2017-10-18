@@ -35,6 +35,9 @@ define(['./Model'], function(Model){
 			},
 			permissions: {
 				serverName: 'permissions'
+			},
+			custom: {
+				serverName: 'custom'
 			}
 		};
 	};

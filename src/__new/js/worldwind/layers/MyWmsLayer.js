@@ -36,7 +36,7 @@ define(['../../error/ArgumentError',
 		}
 		this.urlBuilder = new MyUrlBuilder(
 				options.service, options.layerNames, options.styleNames, options.version,
-			options.timeString, this.sldId);
+			options.timeString, this.sldId, options.customParams);
 	};
 
 	MyWmsLayer.prototype = Object.create(WmsLayer.prototype);
