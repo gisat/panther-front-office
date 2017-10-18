@@ -23947,7 +23947,8 @@ define('js/view/worldWind/WorldWindMap',['../../actions/Actions',
 	 * @param position {Position}
 	 */
 	WorldWindMap.prototype.goTo = function(position) {
-		this._wwd.goTo(position);
+        this._wwd.navigator.lookAtLocation = position;
+        this._wwd.redraw();
 	};
 
 	/**
@@ -24166,8 +24167,7 @@ define('js/view/mapsContainer/MapsContainer',[
 	MapsContainer.prototype.setAllMapsPosition = function(position){
 		var maps = this._mapStore.getAll();
 		maps.forEach(function(map){
-			map.navigator.lookAtLocation = position;
-			map.redraw();
+			map.goTo(position);
 		});
 	};
 
