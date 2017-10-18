@@ -1121,7 +1121,15 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
                     this.getController('DomManipulation')._onReportsSidebarToggleClick();
                     $('#top-toolbar-3dmap').hide();
-                } else {
+                    $('#sidebar-reports-toggle').hide();
+                    $('#top-toolbar-selection-filter').hide();
+                    $('#top-toolbar-selections').hide();
+                    $('#top-toolbar-map-tools').hide();
+                    $('#top-toolbar-saved-views').hide();
+                    $('.field.scope').hide();
+                    $('.field.theme').hide();
+                    $('.field.visualization').hide();
+                 else {
                     $('.areaTreeSelection').show();
                     if (!Config.toggles.isSnow) {
                         $('#top-toolbar-areas').show();
