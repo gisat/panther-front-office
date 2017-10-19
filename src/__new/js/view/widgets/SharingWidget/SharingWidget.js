@@ -66,7 +66,19 @@ define([
 
 				$('#sharing-portal').off();
 				$('#sharing-portal').on('click', function(){
-					UrbanTepPortalStore.share(self.url, $('#floater-sharing .floater-body #sharing-name').val(), $( "#floater-sharing .floater-body #sharing-community option:checked" ).val());
+                    var state = Stores.retrieve("state").current();
+                    var selectedGroup = $( "#floater-sharing .floater-body #sharing-group option:checked" ).val(); // Find from groups by name.
+
+					Groups.all().then(function(groups){
+						var groupId = groups.filter(function(group){
+							return group.name == selectedGroup;
+						})[0].id;
+                        return Groups.share(groupId, state.scope, state.places)
+					}).then(function(){
+                        alert('The state was correctly shared. The user has access to current state via URL: ' + self.url);
+                    }).catch(function(error){
+                        alert('There was an issue with storing current state of the application. Error: ' + error);
+                    });
 				});
 			});
 		} else if(self.url) {

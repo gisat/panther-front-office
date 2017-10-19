@@ -1,8 +1,6 @@
 define([
-    './Stores',
-    './UrbanTepCommunitiesStore'
-], function (Stores,
-             UrbanTepCommunitiesStore) {
+    './Stores'
+], function (Stores) {
     var urbanTepPortal;
 
     var UrbanTepPortalStore = function () {
@@ -18,20 +16,6 @@ define([
                 }
             })
         });
-    };
-
-    UrbanTepPortalStore.prototype.share = function (url, name, community) {
-        UrbanTepCommunitiesStore.share(url, community);
-
-        /*
-        $.post('https://urban-tep.eo.esa.int/t2api/apps/puma', {
-            url: url,
-            name: name,
-            community: community
-        }, function () {
-            UrbanTepCommunitiesStore.share(url, community);
-            alert('Application was published on the portal.');
-        })*/
     };
 
     if (!urbanTepPortal) {
