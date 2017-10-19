@@ -25506,6 +25506,10 @@ define('js/stores/gisat/Groups',[
      * @param places {Number[]} Array of ids of places to share with the user.
      */
     Groups.prototype.share = function(group, scope, places) {
+        if(!group) {
+            return Promise.resolve(null);
+        }
+
         return $.post(Config.url + 'rest/share/group', {
             group: group,
             scope: scope,
@@ -25591,6 +25595,10 @@ define('js/stores/gisat/Users',[
      * @param places {Number[]} Array of ids of places to share with the user.
      */
     Users.prototype.share = function(user, scope, places) {
+        if(!user) {
+            return Promise.resolve(null);
+        }
+
         return $.post(Config.url + 'rest/share/user', {
             user: user,
             scope: scope,
@@ -25641,7 +25649,7 @@ define('js/view/widgets/SharingWidget/SharingWidget',[
 				return this._url;
 			},
 			set: function(url) {
-				this._url = url;
+				this._url = url + '&needLogin=true';
 			}
 		}
 	});
@@ -25709,9 +25717,11 @@ define('js/view/widgets/SharingWidget/SharingWidget',[
 				var groupOptions = groups.map(function(group){
 					return '<option value="'+group.id+'">' + group.name + '</option>';
 				});
+				groupOptions.unshift('<option value=""></option>');
 				var userOptions = users.map(function(user){
                     return '<option value="'+user.id+'">' + user.name + '</option>';
                 });
+                userOptions.unshift('<option value=""></option>');
                 $('#floater-sharing .floater-body').append(
                     '<div>' +
                     '	<div><label>User: ' +
