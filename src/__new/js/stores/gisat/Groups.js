@@ -44,6 +44,10 @@ define([
      * @param places {Number[]} Array of ids of places to share with the user.
      */
     Groups.prototype.share = function(group, scope, places) {
+        if(!group) {
+            return Promise.resolve(null);
+        }
+
         return $.post(Config.url + 'rest/share/group', {
             group: group,
             scope: scope,

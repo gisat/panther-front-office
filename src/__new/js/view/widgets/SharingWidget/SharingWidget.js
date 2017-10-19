@@ -30,7 +30,7 @@ define([
 				return this._url;
 			},
 			set: function(url) {
-				this._url = url;
+				this._url = url + '&needLogin=true';
 			}
 		}
 	});
@@ -98,9 +98,11 @@ define([
 				var groupOptions = groups.map(function(group){
 					return '<option value="'+group.id+'">' + group.name + '</option>';
 				});
+				groupOptions.unshift('<option value=""></option>');
 				var userOptions = users.map(function(user){
                     return '<option value="'+user.id+'">' + user.name + '</option>';
                 });
+                userOptions.unshift('<option value=""></option>');
                 $('#floater-sharing .floater-body').append(
                     '<div>' +
                     '	<div><label>User: ' +

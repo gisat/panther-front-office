@@ -42,6 +42,10 @@ define([
      * @param places {Number[]} Array of ids of places to share with the user.
      */
     Users.prototype.share = function(user, scope, places) {
+        if(!user) {
+            return Promise.resolve(null);
+        }
+
         return $.post(Config.url + 'rest/share/user', {
             user: user,
             scope: scope,
