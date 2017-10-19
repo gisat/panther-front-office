@@ -1,10 +1,16 @@
 define([
+	'../../../stores/gisat/Groups',
+	'../../../stores/Stores',
 	'../../../stores/UrbanTepPortalStore',
-	'../Widget',
+    '../../../stores/gisat/Users',
+    '../Widget',
 
 	'text!./SharingWidget.html',
 	'css!./SharingWidget'
-], function (UrbanTepPortalStore,
+], function (Groups,
+			 Stores,
+			 UrbanTepPortalStore,
+			 Users,
 			 Widget,
 
 			 htmlBody) {
@@ -32,19 +38,18 @@ define([
 	SharingWidget.prototype.rebuild = function(){
 		var name = $('#floater-sharing .floater-body #sharing-name').val() || '';
 		$('#floater-sharing .floater-body').empty();
-		$('#floater-sharing .floater-body').append(
-			'<div>' +
-			'	<span>'+this.url+'</span>' +
-			'</div>'
-		);
-
 		$('#floater-sharing .floater-footer').empty();
 
 
-		if(Config.toggles.isUrbanTep) {
-			var self = this;
+        var self = this;
+        if(Config.toggles.isUrbanTep) {
+            $('#floater-sharing .floater-body').append(
+                '<div>' +
+                '	<span>'+this.url+'</span>' +
+                '</div>'
+            );
 
-			UrbanTepPortalStore.communities().then(function(communities){
+            UrbanTepPortalStore.communities().then(function(communities){
 				var optionsHtml = communities.map(function(community){
 					return '<option value="'+community.identifier+'">'+community.title+'</option>';
 				}).join(' ');
@@ -64,6 +69,58 @@ define([
 					UrbanTepPortalStore.share(self.url, $('#floater-sharing .floater-body #sharing-name').val(), $( "#floater-sharing .floater-body #sharing-community option:checked" ).val());
 				});
 			});
+		} else if(self.url) {
+			Promise.all([
+				Groups.all(),
+				Users.all()
+			]).then(function(results){
+                $('#floater-sharing .floater-body').append(
+                    '<div>' +
+                    '	<span>'+self.url+'</span>' +
+                    '</div>'
+                );
+
+                var groups = results[0];
+				var users = results[1];
+
+				var groupOptions = groups.map(function(group){
+					return '<option value="'+group.id+'">' + group.name + '</option>';
+				});
+				var userOptions = users.map(function(user){
+                    return '<option value="'+user.id+'">' + user.name + '</option>';
+                });
+                $('#floater-sharing .floater-body').append(
+                    '<div>' +
+                    '	<div><label>User: ' +
+                    '		<select id="sharing-user">' + userOptions +
+                    '		</select>' +
+                    '	</label></div>' +
+                    '	<div><label>Group: ' +
+                    '		<select id="sharing-group">' + groupOptions +
+                    '		</select>' +
+                    '	</label></div>' +
+                    '</div>'
+                );
+                $('#floater-sharing .floater-footer').append('<div class="widget-button" id="sharing">Share</div>');
+                $('#sharing').off();
+                $('#sharing').on('click', function(){
+                    var selectedGroup = $( "#floater-sharing .floater-body #sharing-group option:checked" ).val();
+                    var selectedUser = $( "#floater-sharing .floater-body #sharing-user option:checked" ).val();
+                    var state = Stores.retrieve("state").current();
+                    Promise.all([
+                    	Groups.share(selectedGroup, state.scope, state.places),
+						Users.share(selectedUser, state.scope, state.places)
+					]).then(function(){
+						alert('The state was correctly shared. The user has access to current state via URL: ' + self.url);
+					}).catch(function(error){
+						alert('There was an issue with storing current state of the application. Error: ' + error);
+					});
+                });
+			}).catch(function(error){
+				console.error(error);
+				alert('It wasnt possible to load available users and groups. Please try later. Error: ' + error);
+			});
+
 		}
 	};
 

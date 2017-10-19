@@ -37,6 +37,12 @@ define([
 				params: options.params || {}
 			}).then(function (dataFromApi) {
 				dataFromApi = JSON.parse(dataFromApi);
+				// User and Group endpoint return twice wrapped information.
+				try{
+					if(!dataFromApi.data) {
+						dataFromApi = JSON.parse(dataFromApi);
+					}
+				} catch(e) {}
 				var models = [];
 				if(_.isArray(dataFromApi.data)) {
 					dataFromApi.data.forEach(function (model) {
@@ -49,7 +55,9 @@ define([
 				}
 				self.loaded(models);
 				resolve(models);
-			}, reject);
+			}, reject).catch(function(error){
+				reject(error);
+			});
 		});
 	};
 
