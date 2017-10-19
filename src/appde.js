@@ -177,6 +177,8 @@ Ext.application({
                         Ext.StoreMgr.lookup(store).load();
                     });
 
+                    this.getController('Dataview').onLoadingFinished();
+
                     this.getController('DomManipulation').renderApp();
                     this.getController('Render').renderApp();
 
