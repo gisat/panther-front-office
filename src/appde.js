@@ -163,12 +163,13 @@ Ext.application({
 		var search = window.location.search.split('?')[1];
 		var afterId = search ? search.split('id=')[1] : null;
 		var id = afterId ? afterId.split('&')[0] : null;
-		Config.dataviewId = id;
 		if(new URL(window.location).searchParams.get('needLogin')) {
 			$('#hideAllExceptLogin').show();
 
 			this.on('login', function(loggedIn) {
 				if(loggedIn) {
+                    Config.dataviewId = id;
+
                     $('#hideAllExceptLogin').hide();
 
                     var stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic', 'dataview'];
@@ -185,7 +186,8 @@ Ext.application({
                 }
 			});
 		} else if (id) {
-			// Load stores when only for print or loading the whole application.
+            Config.dataviewId = id;
+            // Load stores when only for print or loading the whole application.
             var stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic', 'dataview'];
             stores.forEach(function(store){
                 Ext.StoreMgr.lookup(store).load();
@@ -196,7 +198,8 @@ Ext.application({
 			
 			this.getController('Render').renderMap();
 		} else {
-			this.getController('Render').renderIntro();
+            Config.dataviewId = id;
+            this.getController('Render').renderIntro();
 		}
 	}
 });
