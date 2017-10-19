@@ -1,5 +1,5 @@
 var Config = {
-	url: 'http://localhost:4000/',
+	url: 'http://10.0.75.2/backend/',
 	// signupAddress: 'http://panther.gisat.cz/account/signup/',
 	// url: 'https://puma.worldbank.org/backend/',                // PUMA
 	// signupAddress: 'https://puma.worldbank.org/account/signup/',

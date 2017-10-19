@@ -159,13 +159,33 @@ Ext.application({
 		});
 		Ext.window.Window.prototype.resizable = false;
 		
-		this.getController('Puma.controller.Login');
+		var loginController = this.getController('Puma.controller.Login');
 		var search = window.location.search.split('?')[1];
 		var afterId = search ? search.split('id=')[1] : null;
 		var id = afterId ? afterId.split('&')[0] : null;
 		Config.dataviewId = id;
-		if (id) {
-			// Load stores when only for print.
+		if(new URL(window.location).searchParams.get('needLogin')) {
+			$('#hideAllExceptLogin').show();
+
+			this.on('login', function(loggedIn) {
+				if(loggedIn) {
+                    $('#hideAllExceptLogin').hide();
+
+                    var stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic', 'dataview'];
+                    stores.forEach(function (store) {
+                        Ext.StoreMgr.lookup(store).load();
+                    });
+
+                    this.getController('DomManipulation').renderApp();
+                    this.getController('Render').renderApp();
+
+                    this.getController('Render').renderMap();
+                } else {
+                    loginController.onLoginClicked();
+                }
+			});
+		} else if (id) {
+			// Load stores when only for print or loading the whole application.
             var stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic', 'dataview'];
             stores.forEach(function(store){
                 Ext.StoreMgr.lookup(store).load();
@@ -175,8 +195,7 @@ Ext.application({
 			this.getController('Render').renderApp();
 			
 			this.getController('Render').renderMap();
-		}
-		else {
+		} else {
 			this.getController('Render').renderIntro();
 		}
 	}
