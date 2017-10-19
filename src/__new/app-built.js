@@ -20019,6 +20019,12 @@ define('js/stores/BaseStore',[
 				params: options.params || {}
 			}).then(function (dataFromApi) {
 				dataFromApi = JSON.parse(dataFromApi);
+				// User and Group endpoint return twice wrapped information.
+				try{
+					if(!dataFromApi.data) {
+						dataFromApi = JSON.parse(dataFromApi);
+					}
+				} catch(e) {}
 				var models = [];
 				if(_.isArray(dataFromApi.data)) {
 					dataFromApi.data.forEach(function (model) {
@@ -20031,7 +20037,9 @@ define('js/stores/BaseStore',[
 				}
 				self.loaded(models);
 				resolve(models);
-			}, reject);
+			}, reject).catch(function(error){
+				reject(error);
+			});
 		});
 	};
 
@@ -20920,38 +20928,9 @@ define('js/stores/gisat/WmsLayers',[
 	return layers;
 });
 
-define('js/stores/UrbanTepCommunitiesStore',['./Stores'], function(Stores){
-    var urbanTepCommunities;
-
-    var UrbanTepCommunitiesStore = function() {
-
-    };
-
-    UrbanTepCommunitiesStore.prototype.update = function(communities) {
-        return $.post(Config.url + '/rest/communities', {
-            communities: communities
-        });
-    };
-
-    UrbanTepCommunitiesStore.prototype.share = function(url, community) {
-        var url = new URL(url);
-        return $.post(Config.url + '/rest/share/communities', {
-            dataViewId: url.searchParams.get('id'),
-            group: community
-        });
-    };
-
-    if(!urbanTepCommunities) {
-        urbanTepCommunities = new UrbanTepCommunitiesStore();
-        Stores.register('urbanTepCommunities', urbanTepCommunities);
-    }
-    return urbanTepCommunities;
-});
 define('js/stores/UrbanTepPortalStore',[
-    './Stores',
-    './UrbanTepCommunitiesStore'
-], function (Stores,
-             UrbanTepCommunitiesStore) {
+    './Stores'
+], function (Stores) {
     var urbanTepPortal;
 
     var UrbanTepPortalStore = function () {
@@ -20969,25 +20948,30 @@ define('js/stores/UrbanTepPortalStore',[
         });
     };
 
-    UrbanTepPortalStore.prototype.share = function (url, name, community) {
-        UrbanTepCommunitiesStore.share(url, community);
-
-        /*
-        $.post('https://urban-tep.eo.esa.int/t2api/apps/puma', {
-            url: url,
-            name: name,
-            community: community
-        }, function () {
-            UrbanTepCommunitiesStore.share(url, community);
-            alert('Application was published on the portal.');
-        })*/
-    };
-
     if (!urbanTepPortal) {
         urbanTepPortal = new UrbanTepPortalStore();
         Stores.register('urbanTepPortal', urbanTepPortal);
     }
     return urbanTepPortal;
+});
+define('js/stores/UrbanTepCommunitiesStore',['./Stores'], function(Stores){
+    var urbanTepCommunities;
+
+    var UrbanTepCommunitiesStore = function() {
+
+    };
+
+    UrbanTepCommunitiesStore.prototype.update = function(communities) {
+        return $.post(Config.url + '/rest/communities', {
+            communities: communities
+        });
+    };
+
+    if(!urbanTepCommunities) {
+        urbanTepCommunities = new UrbanTepCommunitiesStore();
+        Stores.register('urbanTepCommunities', urbanTepCommunities);
+    }
+    return urbanTepCommunities;
 });
 define('FrontOffice',[
 	'js/actions/Actions',
@@ -25451,18 +25435,193 @@ define('js/util/Placeholder',['jquery'], function ($) {
         floaterClosed: floaterClosed
     };
 });
+define('js/data/Group',['./Model'], function(Model){
+    /**
+     * @augments Model
+     * @param options
+     * @constructor
+     */
+    var Group = function(options) {
+        Model.apply(this, arguments);
+    };
+
+    Group.prototype = Object.create(Model.prototype);
+
+    Group.prototype.data = function(){
+        return {
+            id: {
+                serverName: '_id'
+            },
+            name: {
+                serverName: 'name'
+            }
+        };
+    };
+
+    return Group;
+});
+define('js/stores/gisat/Groups',[
+    '../BaseStore',
+    '../Stores',
+    '../../data/Group',
+
+    'jquery'
+], function(BaseStore,
+            Stores,
+            Group){
+    "use strict";
+    var groups;
+
+    /**
+     * Store for retrieval of groups from the API.
+     * @augments BaseStore
+     * @constructor
+     * @alias Groups
+     */
+    var Groups = function() {
+        BaseStore.apply(this, arguments);
+    };
+
+    Groups.prototype = Object.create(BaseStore.prototype);
+
+    /**
+     * @inheritDoc
+     */
+    Groups.prototype.getInstance = function(layerData) {
+        return new Group({data: layerData});
+    };
+
+    /**
+     * @inheritDoc
+     */
+    Groups.prototype.getPath = function() {
+        return "rest/group";
+    };
+
+    /**
+     * It shares current state of the application with a group. This means that the group will have access to all
+     * permission protected parts of the application.
+     * @param group {Number} Id of the group to share the data with
+     * @param scope {Number} Id of the scope to share with the group
+     * @param places {Number[]} Array of ids of places to share with the user.
+     */
+    Groups.prototype.share = function(group, scope, places) {
+        return $.post(Config.url + 'rest/share/group', {
+            group: group,
+            scope: scope,
+            places: places
+        });
+    };
+
+    if(!groups) {
+        groups = new Groups();
+        Stores.register('group', groups);
+    }
+    return groups;
+});
+define('js/data/User',['./Model'], function(Model){
+    /**
+     * @augments Model
+     * @param options
+     * @constructor
+     */
+    var User = function(options) {
+        Model.apply(this, arguments);
+    };
+
+    User.prototype = Object.create(Model.prototype);
+
+    User.prototype.data = function(){
+        return {
+            id: {
+                serverName: '_id'
+            },
+            name: {
+                serverName: 'username'
+            },
+            email: {
+                serverName: 'email'
+            }
+        };
+    };
+
+    return User;
+});
+define('js/stores/gisat/Users',[
+    '../BaseStore',
+    '../Stores',
+    '../../data/User'
+], function(BaseStore,
+            Stores,
+            User){
+    "use strict";
+    var users;
+
+    /**
+     * Store for retrieval of users from the API.
+     * @augments BaseStore
+     * @constructor
+     * @alias Users
+     */
+    var Users = function() {
+        BaseStore.apply(this, arguments);
+    };
+
+    Users.prototype = Object.create(BaseStore.prototype);
+
+    /**
+     * @inheritDoc
+     */
+    Users.prototype.getInstance = function(layerData) {
+        return new User({data: layerData});
+    };
+
+    /**
+     * @inheritDoc
+     */
+    Users.prototype.getPath = function() {
+        return "rest/user";
+    };
+
+    /**
+     * It shares current state of the application with a user. This means that the user will have access to all
+     * permission protected parts of the application.
+     * @param user {Number} Id of the user to share the data with
+     * @param scope {Number} Id of the scope to share with the group
+     * @param places {Number[]} Array of ids of places to share with the user.
+     */
+    Users.prototype.share = function(user, scope, places) {
+        return $.post(Config.url + 'rest/share/user', {
+            user: user,
+            scope: scope,
+            places: places
+        });
+    };
+
+    if(!users) {
+        users = new Users();
+        Stores.register('user', users);
+    }
+    return users;
+});
 
 define('text!js/view/widgets/SharingWidget/SharingWidget.html',[],function () { return '';});
 
 
 define('css!js/view/widgets/SharingWidget/SharingWidget',[],function(){});
 define('js/view/widgets/SharingWidget/SharingWidget',[
+	'../../../stores/gisat/Groups',
+	'../../../stores/Stores',
 	'../../../stores/UrbanTepPortalStore',
-	'../Widget',
+    '../../../stores/gisat/Users',
+    '../Widget',
 
 	'text!./SharingWidget.html',
 	'css!./SharingWidget'
-], function (UrbanTepPortalStore,
+], function (Groups,
+			 Stores,
+			 UrbanTepPortalStore,
+			 Users,
 			 Widget,
 
 			 htmlBody) {
@@ -25490,19 +25649,18 @@ define('js/view/widgets/SharingWidget/SharingWidget',[
 	SharingWidget.prototype.rebuild = function(){
 		var name = $('#floater-sharing .floater-body #sharing-name').val() || '';
 		$('#floater-sharing .floater-body').empty();
-		$('#floater-sharing .floater-body').append(
-			'<div>' +
-			'	<span>'+this.url+'</span>' +
-			'</div>'
-		);
-
 		$('#floater-sharing .floater-footer').empty();
 
 
-		if(Config.toggles.isUrbanTep) {
-			var self = this;
+        var self = this;
+        if(Config.toggles.isUrbanTep) {
+            $('#floater-sharing .floater-body').append(
+                '<div>' +
+                '	<span>'+this.url+'</span>' +
+                '</div>'
+            );
 
-			UrbanTepPortalStore.communities().then(function(communities){
+            UrbanTepPortalStore.communities().then(function(communities){
 				var optionsHtml = communities.map(function(community){
 					return '<option value="'+community.identifier+'">'+community.title+'</option>';
 				}).join(' ');
@@ -25519,9 +25677,73 @@ define('js/view/widgets/SharingWidget/SharingWidget',[
 
 				$('#sharing-portal').off();
 				$('#sharing-portal').on('click', function(){
-					UrbanTepPortalStore.share(self.url, $('#floater-sharing .floater-body #sharing-name').val(), $( "#floater-sharing .floater-body #sharing-community option:checked" ).val());
+                    var state = Stores.retrieve("state").current();
+                    var selectedGroup = $( "#floater-sharing .floater-body #sharing-group option:checked" ).val(); // Find from groups by name.
+
+					Groups.all().then(function(groups){
+						var groupId = groups.filter(function(group){
+							return group.name == selectedGroup;
+						})[0].id;
+                        return Groups.share(groupId, state.scope, state.places)
+					}).then(function(){
+                        alert('The state was correctly shared. The user has access to current state via URL: ' + self.url);
+                    }).catch(function(error){
+                        alert('There was an issue with storing current state of the application. Error: ' + error);
+                    });
 				});
 			});
+		} else if(self.url) {
+			Promise.all([
+				Groups.all(),
+				Users.all()
+			]).then(function(results){
+                $('#floater-sharing .floater-body').append(
+                    '<div>' +
+                    '	<span>'+self.url+'</span>' +
+                    '</div>'
+                );
+
+                var groups = results[0];
+				var users = results[1];
+
+				var groupOptions = groups.map(function(group){
+					return '<option value="'+group.id+'">' + group.name + '</option>';
+				});
+				var userOptions = users.map(function(user){
+                    return '<option value="'+user.id+'">' + user.name + '</option>';
+                });
+                $('#floater-sharing .floater-body').append(
+                    '<div>' +
+                    '	<div><label>User: ' +
+                    '		<select id="sharing-user">' + userOptions +
+                    '		</select>' +
+                    '	</label></div>' +
+                    '	<div><label>Group: ' +
+                    '		<select id="sharing-group">' + groupOptions +
+                    '		</select>' +
+                    '	</label></div>' +
+                    '</div>'
+                );
+                $('#floater-sharing .floater-footer').append('<div class="widget-button" id="sharing">Share</div>');
+                $('#sharing').off();
+                $('#sharing').on('click', function(){
+                    var selectedGroup = $( "#floater-sharing .floater-body #sharing-group option:checked" ).val();
+                    var selectedUser = $( "#floater-sharing .floater-body #sharing-user option:checked" ).val();
+                    var state = Stores.retrieve("state").current();
+                    Promise.all([
+                    	Groups.share(selectedGroup, state.scope, state.places),
+						Users.share(selectedUser, state.scope, state.places)
+					]).then(function(){
+						alert('The state was correctly shared. The user has access to current state via URL: ' + self.url);
+					}).catch(function(error){
+						alert('There was an issue with storing current state of the application. Error: ' + error);
+					});
+                });
+			}).catch(function(error){
+				console.error(error);
+				alert('It wasnt possible to load available users and groups. Please try later. Error: ' + error);
+			});
+
 		}
 	};
 
