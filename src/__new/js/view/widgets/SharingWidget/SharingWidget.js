@@ -43,13 +43,7 @@ define([
 
         var self = this;
         if(Config.toggles.isUrbanTep) {
-            $('#floater-sharing .floater-body').append(
-                '<div>' +
-                '	<span>'+this.url+'</span>' +
-                '</div>'
-            );
-
-            UrbanTepPortalStore.communities().then(function(communities){
+        	UrbanTepPortalStore.communities().then(function(communities){
 				var optionsHtml = communities.map(function(community){
 					return '<option value="'+community.identifier+'">'+community.title+'</option>';
 				}).join(' ');
@@ -86,12 +80,6 @@ define([
 				Groups.all(),
 				Users.all()
 			]).then(function(results){
-                $('#floater-sharing .floater-body').append(
-                    '<div>' +
-                    '	<span>'+self.url+'</span>' +
-                    '</div>'
-                );
-
                 var groups = results[0];
 				var users = results[1];
 
