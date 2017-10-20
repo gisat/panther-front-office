@@ -17,6 +17,7 @@ var Config = {
 	],
 	melodiesRemoteUrl: "",
 
+	// cfg for snow portal
 	snowAppUrl: "http://localhost:3000/",
 	snowAppExampleUrl: "http://localhost:3000/albania/20170401-20170404/slstr-sentinel3/",
 	snowGeoserverUrl: "http://snow.gisat.cz/geoserver/geonode/wms",

@@ -16,19 +16,15 @@ define([
 	var SnowMapController = function(options) {
 		this._iFrame = options.iFrame;
 
-		if (options.worldWind){
-			this._worldWind = options.worldWind;
-		}
-
 		this._countryLayer = null;
 		this._previousLayer = null;
-		this._previousLayerId = null;
 	};
 
 	SnowMapController.prototype.rebuild = function(){
 		this._iFrameSelector = $("#" + this._iFrame.getElementId());
 		this._iFrameBodySelector = this._iFrameSelector.contents().find("body");
 		this.addCompositeShowOnClickListener();
+		this.addSceneShowOnClickListener();
 		this.addShowListListener();
 		this.addHideListListener();
 	};
@@ -68,11 +64,26 @@ define([
 			var styleId = self._iFrameBodySelector.find("#composites").attr("data-style");
 
 			self.highlightCountry(locationKey);
-			self.showCompositeInMap(compositeId, styleId);
+			self.showLayerInMap(compositeId, styleId);
+		});
+	};
 
-			//if (self._worldWind){
-			//	self.showCompositeIn3DMap(compositeId);
-			//}
+	/**
+	 * Add listener to iframe inner element
+	 */
+	SnowMapController.prototype.addSceneShowOnClickListener = function(){
+		var self = this;
+		this._iFrameBodySelector.off("click.scenes").on("click.scene", ".ptr-scenes-scene .ptr-button", function(){
+			Observer.notify("getMap");
+			self._map = OlMap.map;
+
+			if (!self._countryLayer){
+				self._countryLayer = self.addLayerForCountry();
+				self._map.addLayer(self._countryLayer);
+			}
+
+			var sceneId = $(this).parents(".ptr-scenes-scene").attr("data-id");
+			self.showLayerInMap(sceneId);
 		});
 	};
 
@@ -81,7 +92,7 @@ define([
 	 * @param compositeId {string} ID of the layer
 	 * @param styleId {string} ID of the style
 	 */
-	SnowMapController.prototype.showCompositeInMap = function(compositeId, styleId){
+	SnowMapController.prototype.showLayerInMap = function(layerId, styleId){
 		var self = this;
 		if (!this._zoomListener){
 			this._zoomListener = this._map.events.register("zoomend", this._map, function() {
@@ -92,16 +103,16 @@ define([
 		if (this._previousLayer){
 			this._map.removeLayer(this._previousLayer);
 		}
-		this.addCompositeToMap(compositeId, styleId, 0.7);
+		this.addLayerToMap(layerId, styleId, 0.7);
 	};
 
 	/**
-	 * @param compositeId {string} ID of the layer
+	 * @param layerId {string} ID of the layer
 	 * @param styleId {string} ID of the style
 	 * @param opacity {number} layer opacity
 	 */
-	SnowMapController.prototype.addCompositeToMap = function(compositeId, styleId, opacity){
-		var layer = this.createWmsLayer(compositeId, styleId, opacity);
+	SnowMapController.prototype.addLayerToMap = function(layerId, styleId, opacity){
+		var layer = this.createWmsLayer(layerId, styleId, opacity);
 		this._map.addLayer(layer);
 		layer.visibility = true;
 		layer.opacity = opacity;
@@ -141,23 +152,6 @@ define([
 			},{
 				opacity: opacity
 			});
-	};
-
-	/**
-	 * Remove layer from 3D map and show the new one
-	 * @param compositeId
-	 */
-	SnowMapController.prototype.showCompositeIn3DMap = function(compositeId){
-		if (this._previousLayerId){
-			var layer = this._worldWind.layers.getLayerById(compositeId);
-			this._worldWind.layers.removeLayer(layer);
-		}
-
-		this._worldWind.layers.addWmsLayer({
-			id: compositeId,
-			url: Config.snowGeoserverUrl,
-			layerPaths: "geonode:" + compositeId
-		}, null, true);
 	};
 
 	/**
