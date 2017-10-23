@@ -9,7 +9,8 @@ Ext.define('Puma.model.DataView', {
         type: 'rest',
         url : Config.url+'rest/dataview',
         extraParams: {
-            justMine: true
+            justMine: true,
+            'Content-Type' : 'application/json;charset=utf-8'
         },
         reader: {
             type: 'json',
