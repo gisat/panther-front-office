@@ -530,7 +530,7 @@ Ext.define('Ext.data.Connection', {
         // check for xml or json data, and make sure json data is encoded
         data = options.rawData || options.xmlData || jsonData || null;
         if (jsonData && !Ext.isPrimitive(jsonData)) {
-            data = Ext.encode(data);
+            data = JSON.stringify(data);
         }
 
         // make sure params are a url encoded string and include any extraParams if specified
