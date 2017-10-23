@@ -1,9 +1,44 @@
 body.application #sidebar-reports.snow-mode {
 	width: 100%;
-	transition: width .5s ease-in-out;
 }
 body.application #sidebar-reports.snow-mode.show-map {
 	width: 800px;
+}
+body.application #sidebar-reports.snow-mode.show-map.w20 {
+	width: 340px;
+}
+body.application #sidebar-reports.snow-mode.show-map.w20.hidden {
+	left: -340px;
+}
+body.application #sidebar-reports.show-map.w20 #sidebar-reports-toggle {
+	left: 340px;
+}
+body.application #sidebar-reports.snow-mode.show-map.w30 {
+	width: 485px;
+}
+body.application #sidebar-reports.snow-mode.show-map.w30.hidden {
+	left: -485px;
+}
+body.application #sidebar-reports.show-map.w30 #sidebar-reports-toggle {
+	left: 485px;
+}
+body.application #sidebar-reports.snow-mode.show-map.w40 {
+	width: 625px;
+}
+body.application #sidebar-reports.snow-mode.show-map.w40.hidden {
+	left: -625px;
+}
+body.application #sidebar-reports.show-map.w40 #sidebar-reports-toggle {
+	left: 625px;
+}
+body.application #sidebar-reports.snow-mode.show-map.w50 {
+	width: 800px;
+}
+body.application #sidebar-reports.snow-mode.show-map.w50.hidden {
+	left: -800px;
+}
+body.application #sidebar-reports.show-map.w50 #sidebar-reports-toggle {
+	left: 800px;
 }
 body.application #sidebar-reports.snow-mode.show-map.hidden {
 	width: 0;

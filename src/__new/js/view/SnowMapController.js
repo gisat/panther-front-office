@@ -30,18 +30,35 @@ define([
 	};
 
 	SnowMapController.prototype.addShowListListener = function(){
-		this._iFrameBodySelector.off("click.compositesList").on("click.compositesList", ".ptr-button.show-list", function(){
-			$("#sidebar-reports").addClass("show-map");
-			setTimeout(function(){
-				Observer.notify("resizeMap");
-			},1000);
-		});
+		this._iFrameBodySelector.off("click.compositesList").on("click.compositesList", ".ptr-button.show-list", this.showMap.bind(this));
 	};
 
 	SnowMapController.prototype.addHideListListener = function(){
-		this._iFrameBodySelector.off("click.compositesOverview").on("click.compositesOverview", ".ptr-button.show-overview", function(){
-			$("#sidebar-reports").removeClass("show-map");
-		});
+		this._iFrameBodySelector.off("click.compositesOverview").on("click.compositesOverview", ".ptr-button.show-overview", this.hideMap.bind(this));
+	};
+
+	SnowMapController.prototype.showMap = function(e){
+		this.setPanelSize();
+		setTimeout(function(){
+			Observer.notify("resizeMap");
+		},1000);
+	};
+
+	SnowMapController.prototype.hideMap = function(){
+		$("#sidebar-reports").removeClass("show-map");
+	};
+
+	SnowMapController.prototype.setPanelSize = function(){
+		var self = this;
+		setTimeout(function(){
+			var sidebar = $("#sidebar-reports");
+			sidebar.attr("class", "snow-mode");
+			var panelClasses = self._iFrameBodySelector.find("#content").attr("class");
+			if (panelClasses){
+				sidebar.addClass(panelClasses);
+			}
+			sidebar.addClass("show-map");
+		},100);
 	};
 
 
