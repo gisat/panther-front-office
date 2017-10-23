@@ -26,6 +26,7 @@ define([
 		this.addCompositeShowOnClickListener();
 		this.addSceneShowOnClickListener();
 		this.addShowListListener();
+		this.addTimelineOnClickListener();
 		this.addHideListListener();
 	};
 
@@ -59,6 +60,27 @@ define([
 			}
 			sidebar.addClass("show-map");
 		},100);
+	};
+
+
+	SnowMapController.prototype.addTimelineOnClickListener = function(){
+		var self = this;
+		this._iFrameBodySelector.off("click.timeline").on("click.timeline", "#timelines", function(){
+			Observer.notify("getMap");
+			self._map = OlMap.map;
+
+			if (!self._countryLayer){
+				self._countryLayer = self.addLayerForCountry();
+				self._map.addLayer(self._countryLayer);
+			}
+
+			var compositeId = $(this).attr("data-id");
+			var locationKey = self._iFrameBodySelector.find("#composites").attr("data-country");
+			var styleId = self._iFrameBodySelector.find("#composites").attr("data-style");
+
+			self.highlightCountry(locationKey);
+			self.showLayerInMap(compositeId, styleId);
+		});
 	};
 
 
