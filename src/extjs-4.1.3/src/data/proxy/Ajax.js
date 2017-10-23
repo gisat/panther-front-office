@@ -240,7 +240,8 @@ Ext.define('Ext.data.proxy.Ajax', {
         if (operation.allowWrite()) {
             request = writer.write(request);
         }
-        
+
+        this.headers['Content-Type'] = 'application/json;charset=utf-8';
         Ext.apply(request, {
             binary        : this.binary,
             headers       : this.headers,
