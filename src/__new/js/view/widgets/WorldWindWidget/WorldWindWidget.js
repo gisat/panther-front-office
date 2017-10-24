@@ -172,11 +172,58 @@ define([
 		}
 
 		var places = this._stateStore.current().objects.places;
-		if(places.length === 1 ){
-			var locations = places[0].get('bbox').split(',');
-			var position = new WorldWind.Position((Number(locations[1]) + Number(locations[3])) / 2, (Number(locations[0]) + Number(locations[2])) / 2, 1000000);
-			this._mapsContainer.setAllMapsPosition(position);
+        var locations;
+		if(places.length === 1 && places[0]){
+			locations = places[0].get('bbox').split(',');
+		} else {
+            places = this._stateStore.current().allPlaces;
+            locations = this.getBboxForMultiplePlaces(places);
+        }
+
+        if(locations.length != 4) {
+			console.warn('WorldWindWidget#show3DMap Incorrect locations: ', locations);
+			return;
 		}
+        var position = new WorldWind.Position((Number(locations[1]) + Number(locations[3])) / 2, (Number(locations[0]) + Number(locations[2])) / 2, 1000000);
+        this._mapsContainer.setAllMapsPosition(position);
+	};
+
+    /**
+	 * It combines bboxes of all places to get an extent, which will show all of them.
+     * @param places
+     * @returns {*}
+     */
+	WorldWindWidget.prototype.getBboxForMultiplePlaces = function(places) {
+		if(places.length == 0) {
+			return [];
+		}
+
+		var minLongitude = 180;
+		var maxLongitude = -180;
+		var minLatitude = 90;
+		var maxLatitude = -90;
+
+		var locations;
+		places.forEach(function(place){
+			locations = place.get('bbox').split(',');
+			if(locations[0] < minLongitude) {
+				minLongitude = locations[0];
+			}
+
+			if(locations[1] > maxLatitude) {
+				maxLatitude = locations[1];
+			}
+
+			if(locations[2] > maxLongitude) {
+				maxLongitude = locations[2];
+			}
+
+			if(locations[3] < minLatitude) {
+				minLatitude = locations[3];
+			}
+		});
+
+		return [minLongitude, maxLatitude, maxLongitude, minLatitude];
 	};
 
 	/**
