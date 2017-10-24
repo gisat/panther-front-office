@@ -175,8 +175,6 @@ define([
         var locations;
 		if(places.length === 1 && places[0]){
 			locations = places[0].get('bbox').split(',');
-		} else if(places.length > 1) {
-            locations = this.getBboxForMultiplePlaces(places);
 		} else {
 			places = this._stateStore.current().allPlaces.map(function(place) {
                 return Ext.StoreMgr.lookup('location').getById(place);
