@@ -122,6 +122,8 @@ define([
 			}
 
 			var sceneId = $(this).parents(".ptr-scenes-scene").attr("data-id");
+			var locationKey = self._iFrameBodySelector.find("#composites").attr("data-country");
+			self.highlightCountry(locationKey);
 			self.showLayerInMap(sceneId);
 		});
 	};
