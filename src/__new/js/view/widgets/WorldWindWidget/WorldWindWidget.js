@@ -212,16 +212,16 @@ define([
 				minLongitude = locations[0];
 			}
 
-			if(locations[1] > maxLatitude) {
-				maxLatitude = locations[1];
+			if(locations[1] < minLatitude) {
+                minLatitude = locations[1];
 			}
 
 			if(locations[2] > maxLongitude) {
 				maxLongitude = locations[2];
 			}
 
-			if(locations[3] < minLatitude) {
-				minLatitude = locations[3];
+			if(locations[3] > maxLatitude) {
+				maxLatitude = locations[3];
 			}
 		});
 
