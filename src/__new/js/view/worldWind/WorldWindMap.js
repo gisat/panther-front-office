@@ -258,6 +258,9 @@ define(['../../actions/Actions',
 	 */
 	WorldWindMap.prototype.goTo = function(position) {
         this._wwd.navigator.lookAtLocation = position;
+        if(position.altitude) {
+            this._wwd.navigator.range = position.altitude;
+        }
         this._wwd.redraw();
 	};
 
