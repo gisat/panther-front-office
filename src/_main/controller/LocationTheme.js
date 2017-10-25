@@ -1112,38 +1112,69 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 // Remove the possibility to switch back
                 $('#top-toolbar-3dmap').hide();
             } else {
-                if(scope.get('simplifiedMap') || scope.get('_id') == 465) {
+                var tools = scope.get('removedTools');
+                if(tools['2dmap']) {
                     Stores.notify('map#show3D');
-
-                    if (!Config.toggles.isSnow) {
-                        $('#top-toolbar-areas').show();
-                    }
-
-                    this.getController('DomManipulation')._onReportsSidebarToggleClick();
                     $('#top-toolbar-3dmap').hide();
+                } else {
+                    $('#top-toolbar-3dmap').show();
+                }
+
+                if(tools['evaluationTool']) {
                     $('#top-toolbar-selection-filter').hide();
                     $('#top-toolbar-selections').hide();
-                    $('#top-toolbar-map-tools').hide();
-                    $('#top-toolbar-saved-views').hide();
-                    $('.field.scope').hide();
-                    $('.field.theme').hide();
-                    $('.field.visualization').hide();
+                }
 
+                if(tools['mapTools']) {
+                    $('#top-toolbar-map-tools').hide();
+                }
+
+                if(tools['savedViews']) {
+                    $('#top-toolbar-saved-views').hide();
+                }
+
+                if(tools['visualisation']) {
+                    $('.field.visualization').hide();
+                }
+
+                if(tools['charts']) {
+                    this.getController('DomManipulation')._onReportsSidebarToggleClick();
+                } else {
+                    $('#sidebar-reports').show();
+                }
+
+                if(tools['snapshots']) {
                     $('#top-toolbar-snapshot').hide();
+                }
+
+                if(tools['context-help']) {
                     $('#top-toolbar-context-help').hide();
+                }
+
+                if(tools['scope']) {
+                    $('.field.scope').hide();
+                }
+
+                if(tools['theme']) {
+                    $('.field.theme').hide();
+                }
+
+                if(tools['areas']) {
+                    $('.areaTreeSelection').hide();
+                    $('#window-areatree').hide();
                 } else {
                     $('.areaTreeSelection').show();
-                    if (!Config.toggles.isSnow) {
-                        $('#top-toolbar-areas').show();
-                    }
                     $('#window-areatree').show();
-                    if (scope.get("aggregated")) {
-                        this.getController('DomManipulation')._onReportsSidebarToggleClick();
-                    }
-                    $('#sidebar-reports').show();
-                    $('#top-toolbar-3dmap').show()
                 }
-				// Add the possibility to switch back.
+
+                if (!Config.toggles.isSnow) {
+                    $('#top-toolbar-areas').show();
+                }
+
+                // TODO: To be removed and replaced with toggles.
+                if (scope.get("aggregated")) {
+                    this.getController('DomManipulation')._onReportsSidebarToggleClick();
+                }
 			}
         }
         if (response.request.options.originatingCnt.itemId == 'selectfilter') {

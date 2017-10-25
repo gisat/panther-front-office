@@ -2,6 +2,7 @@ define(['../../../../error/ArgumentError',
 	'../../../../error/NotFoundError',
 	'../../../../util/Logger',
 
+	'../../../../stores/Stores',
 	'./WorldWindWidgetPanel',
 
 	'jquery',
@@ -10,6 +11,7 @@ define(['../../../../error/ArgumentError',
 			NotFoundError,
 			Logger,
 
+			Stores,
 			WorldWindWidgetPanel,
 
 			$,
@@ -23,6 +25,8 @@ define(['../../../../error/ArgumentError',
 	var BackgroundLayersPanel = function(options){
 		WorldWindWidgetPanel.apply(this, arguments);
 
+        this._stateStore = Stores.retrieve("state");
+
 		this.layerControls = [];
 
 		this.addLayerControls();
@@ -35,22 +39,36 @@ define(['../../../../error/ArgumentError',
 	 * Add control for background layers
 	 */
 	BackgroundLayersPanel.prototype.addLayerControls = function(){
-		this.layerControls.push({
-			id: "osm",
-			control: this.addRadio(this._id + "-osm", "OpenStreetMap", this._panelBodySelector, "osm", true)
-		});
-		this.layerControls.push({
-			id: "cartoDb",
-			control: this.addRadio(this._id + "-carto-db", "Carto DB basemap", this._panelBodySelector, "cartoDb", false)
-		});
-		this.layerControls.push({
-			id: "bingAerial",
-			control: this.addRadio(this._id + "-bing-aerial", "Bing Aerial", this._panelBodySelector, "bingAerial", false)
-		});
-		this.layerControls.push({
-			id: "landsat",
-			control: this.addRadio(this._id + "-landsat", "Blue Marble", this._panelBodySelector, "landsat", false)
-		})
+		var scope = this._stateStore.current().scope;
+		var disabledLayers = scope.get('disabledLayers') || {};
+		var activeBackgroundMap = scope.get('activeBackgroundMap') || 'osm';
+		if(!disabledLayers['osm']) {
+            this.layerControls.push({
+                id: "osm",
+                control: this.addRadio(this._id + "-osm", "OpenStreetMap", this._panelBodySelector, "osm", activeBackgroundMap === 'osm')
+            });
+        }
+
+        if(!disabledLayers['cartoDb']) {
+            this.layerControls.push({
+                id: "cartoDb",
+                control: this.addRadio(this._id + "-carto-db", "Carto DB basemap", this._panelBodySelector, "cartoDb", activeBackgroundMap === 'cartoDb')
+            });
+        }
+
+        if(!disabledLayers['bingAerial']) {
+            this.layerControls.push({
+                id: "bingAerial",
+                control: this.addRadio(this._id + "-bing-aerial", "Bing Aerial", this._panelBodySelector, "bingAerial", activeBackgroundMap === 'bingAerial')
+            });
+        }
+
+        if(!disabledLayers['landsat']) {
+            this.layerControls.push({
+                id: "landsat",
+                control: this.addRadio(this._id + "-landsat", "Blue Marble", this._panelBodySelector, "landsat", activeBackgroundMap === 'landsat')
+            })
+        }
 	};
 
 	/**
