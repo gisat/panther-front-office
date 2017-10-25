@@ -1112,54 +1112,54 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 // Remove the possibility to switch back
                 $('#top-toolbar-3dmap').hide();
             } else {
-                var tools = scope.get('removedTools');
-                if(tools['2dmap']) {
+                var tools = scope.get('removedTools') || [];
+                if(tools.indexOf('2dmap') !== -1) {
                     Stores.notify('map#show3D');
                     $('#top-toolbar-3dmap').hide();
                 } else {
                     $('#top-toolbar-3dmap').show();
                 }
 
-                if(tools['evaluationTool']) {
+                if(tools.indexOf('evaluationTool') !== -1) {
                     $('#top-toolbar-selection-filter').hide();
                     $('#top-toolbar-selections').hide();
                 }
 
-                if(tools['mapTools']) {
+                if(tools.indexOf('mapTools') !== -1) {
                     $('#top-toolbar-map-tools').hide();
                 }
 
-                if(tools['savedViews']) {
+                if(tools.indexOf('savedViews') !== -1) {
                     $('#top-toolbar-saved-views').hide();
                 }
 
-                if(tools['visualisation']) {
+                if(tools.indexOf('visualisation') !== -1) {
                     $('.field.visualization').hide();
                 }
 
-                if(tools['charts']) {
+                if(tools.indexOf('charts') !== -1) {
                     this.getController('DomManipulation')._onReportsSidebarToggleClick();
                 } else {
                     $('#sidebar-reports').show();
                 }
 
-                if(tools['snapshots']) {
+                if(tools.indexOf('snapshots') !== -1) {
                     $('#top-toolbar-snapshot').hide();
                 }
 
-                if(tools['context-help']) {
+                if(tools.indexOf('context-help') !== -1) {
                     $('#top-toolbar-context-help').hide();
                 }
 
-                if(tools['scope']) {
+                if(tools.indexOf('scope') !== -1) {
                     $('.field.scope').hide();
                 }
 
-                if(tools['theme']) {
+                if(tools.indexOf('theme') !== -1) {
                     $('.field.theme').hide();
                 }
 
-                if(tools['areas']) {
+                if(tools.indexOf('areas') !== -1) {
                     $('.areaTreeSelection').hide();
                     $('#window-areatree').hide();
                 } else {
