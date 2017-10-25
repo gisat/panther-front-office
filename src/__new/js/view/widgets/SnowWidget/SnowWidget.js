@@ -241,6 +241,9 @@ define(['../../../actions/Actions',
 			self._iFrame.rebuild(url);
 			self.rebuildCurrentConfiguration(url);
 
+			// resize panel to full width
+			$("#snow-iframe").contents().find(".ptr-button.show-overview").trigger("click");
+
 			// minimise widget
 			var id = self._widgetSelector.attr("id");
 			self._widgetSelector.removeClass("open");
