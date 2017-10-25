@@ -67,6 +67,8 @@ define([
 		this._tourOverlay.removeClass("open");
 		this._tourTrigger.removeClass("open");
 		this._iFrame.rebuild(Config.snowAppUrl);
+		var button = $("#snow-iframe").contents().find(".ptr-button.show-overview");
+		button.trigger("click");
 	};
 
 	/**
