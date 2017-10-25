@@ -47,5 +47,15 @@ $
 		});
 	};
 
+	/**
+	 * Scroll iframe by y coordinate
+	 * @param y {number}
+	 */
+	PanelIFrame.prototype.scrollY = function(y){
+		var container = $("#snow-iframe").contents().find("#overview-container");
+		container.scrollTop(y);
+
+	};
+
 	return PanelIFrame;
 });

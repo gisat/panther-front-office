@@ -240,9 +240,16 @@
 
     Bus.prototype.repositionLegs = function() {
       return $.each(this.legs, function() {
-        return this.reposition();
+        if (this.index){
+			return this.reposition();
+        }
       });
     };
+
+    Bus.prototype.goTo = function (legIndex) {
+		this.hideLeg();
+		this.showLeg(legIndex);
+	};
 
     Bus.prototype.next = function() {
       this.hideLeg();
@@ -266,7 +273,7 @@
 
     Bus.prototype.destroy = function() {
       $.each(this.legs, function() {
-        return this.destroy();
+          return this.destroy();
       });
       this.legs = [];
       delete this.constructor._busses[this.id];
@@ -462,6 +469,10 @@
     };
 
     Leg.prototype._configureTarget = function() {
+      if (this.rawData.iframe){
+          var iframeSel = $(this.rawData.iframe);
+          this.$target = iframeSel.contents().find(this.rawData.el);
+      }
       this.targetOffset = this.$target.offset();
       if (utils.dataProp(this.options.top, false)) {
         this.targetOffset.top = this.options.top;
