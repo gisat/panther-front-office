@@ -40,8 +40,11 @@ define([
 
 	SnowMapController.prototype.showMap = function(e){
 		this.setPanelSize();
+		var self = this;
 		setTimeout(function(){
 			Observer.notify("resizeMap");
+			var locationKey = self._iFrameBodySelector.find("#overview").attr("data-country");
+			self.highlightCountry(locationKey);
 		},1000);
 	};
 
@@ -66,14 +69,6 @@ define([
 	SnowMapController.prototype.addTimelineOnClickListener = function(){
 		var self = this;
 		this._iFrameBodySelector.off("click.timeline").on("click.timeline", "#timelines", function(){
-			Observer.notify("getMap");
-			self._map = OlMap.map;
-
-			if (!self._countryLayer){
-				self._countryLayer = self.addLayerForCountry();
-				self._map.addLayer(self._countryLayer);
-			}
-
 			var compositeId = $(this).attr("data-id");
 			var locationKey = self._iFrameBodySelector.find("#composites").attr("data-country");
 			var styleId = self._iFrameBodySelector.find("#composites").attr("data-style");
@@ -90,14 +85,6 @@ define([
 	SnowMapController.prototype.addCompositeShowOnClickListener = function(){
 		var self = this;
 		this._iFrameBodySelector.off("click.composites").on("click.composites", ".ptr-composites-composite .ptr-button", function(){
-			Observer.notify("getMap");
-			self._map = OlMap.map;
-
-			if (!self._countryLayer){
-				self._countryLayer = self.addLayerForCountry();
-				self._map.addLayer(self._countryLayer);
-			}
-
 			var compositeId = $(this).parents(".ptr-composites-composite").attr("data-id");
 			var locationKey = self._iFrameBodySelector.find("#composites").attr("data-country");
 			var styleId = self._iFrameBodySelector.find("#composites").attr("data-style");
@@ -113,14 +100,6 @@ define([
 	SnowMapController.prototype.addSceneShowOnClickListener = function(){
 		var self = this;
 		this._iFrameBodySelector.off("click.scenes").on("click.scene", ".ptr-scenes-scene .ptr-button", function(){
-			Observer.notify("getMap");
-			self._map = OlMap.map;
-
-			if (!self._countryLayer){
-				self._countryLayer = self.addLayerForCountry();
-				self._map.addLayer(self._countryLayer);
-			}
-
 			var sceneId = $(this).parents(".ptr-scenes-scene").attr("data-id");
 			var locationKey = self._iFrameBodySelector.find("#composites").attr("data-country");
 			self.highlightCountry(locationKey);
@@ -166,6 +145,15 @@ define([
 	 */
 	SnowMapController.prototype.highlightCountry = function(key){
 		var self = this;
+
+		Observer.notify("getMap");
+		this._map = OlMap.map;
+
+		if (!this._countryLayer){
+			this._countryLayer = this.addLayerForCountry();
+			this._map.addLayer(this._countryLayer);
+		}
+
 		this.getCountryData(key).then(function(data){
 			var features = [];
 			data.forEach(function(country){
