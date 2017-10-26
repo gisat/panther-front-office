@@ -132,6 +132,8 @@ define([
 		this._tourTrigger.on("click", function () {
 			self._tour.depart();
 			self._tourOverlay.addClass('open');
+			var button = $("#snow-iframe").contents().find(".ptr-button.show-overview");
+			button.trigger("click");
 			self._iFrame.rebuild(Config.snowAppUrl);
 			self._appOffset = $("#header").height() + $("#top-toolbar").height();
 		})
