@@ -310,13 +310,40 @@ if (Config.toggles.useTopToolbar) {
 			// define widgets
 			Object.keys(widgets).forEach(function(toolID){
 
+				// resizable widgets have to use temporary map overlay to prevent accidental dropping when dragging edge too fast (which is almost always)
+				var resizable = {
+					dynamic: false,
+					listeners: {
+						beforeresize: {
+							fn: function () {
+								$("#map-holder").append('<div id="draggingOverMapProtectionOverlay"></div>');
+							}
+						},
+						afterresize: {
+							fn: function () {
+								$("#draggingOverMapProtectionOverlay").remove();
+							}
+						}
+					}
+				};
+
+				// don't allow changing width of Advanced Filters / Evaluation Tool
+				if(toolID === 'legacyAdvancedFilters') {
+					resizable.handles = 'n s';
+				}
+
+				// don't allow to resize Map Tools or Selections widgets
+				if(toolID === 'maptools' || toolID === 'colourSelection') {
+					resizable = false;
+				}
+
 				var window = Ext.widget('window',{
 					itemId: "window-" + toolID,
 					id: "window-" + toolID,
 					layout: 'fit',
 					width: widgets[toolID].width || 260,
 					maxHeight: 600,
-					resizable: true,
+					resizable: resizable,
 					closable: !Config.toggles.useTopToolbar,
 					cls: 'detached-window',
 					isdetached: 1,
