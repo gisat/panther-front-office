@@ -78,11 +78,13 @@ define([
 		}
 
 		// set position in context of other widgets
-		this._widgetSelector.css({
-			height: widgets.layerpanel.height + 40,
-			top: widgets.layerpanel.ptrWindow.y,
-			left: widgets.layerpanel.ptrWindow.x
-		});
+		if (widgets){
+			this._widgetSelector.css({
+				height: widgets.layerpanel.height + 40,
+				top: widgets.layerpanel.ptrWindow.y,
+				left: widgets.layerpanel.ptrWindow.x
+			});
+		}
 	};
 
 	/**
