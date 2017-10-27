@@ -158,32 +158,8 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 				dispatcher: window.Stores
 			});
         }
-        // create tools and widgets according to configuration
-        if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
-        	var mapsContainer = buildMapsContainer(mapStore, stateStore);
-			var worldWindWidget = buildWorldWindWidget(mapsContainer, topToolBar, stateStore);
-            widgets.push(worldWindWidget);
 
-            if(Config.toggles.hasOsmWidget) {
-                widgets.push(buildOsmWidget(mapsContainer, mapStore));
-            }
-        }
-        if(Config.toggles.hasPeriodsWidget){
-			var periodsWidget = buildPeriodsWidget(mapsContainer);
-			widgets.push(periodsWidget);
-		}
-        if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
-        	var aggregatedWidget = buildAggregatedChartWidget(filter, stateStore);
-        	var evaluationTool = buildEvaluationWidget(filter, stateStore, aggregatedWidget);
-            widgets.push(evaluationTool);
-            widgets.push(aggregatedWidget);
-        }
-        if(Config.toggles.hasOwnProperty("hasNewCustomPolygonsTool") && Config.toggles.hasNewCustomPolygonsTool){
-            widgets.push(buildCustomDrawingWidget());
-        }
-        if(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies){
-            widgets.push(buildCityWidget());
-        }
+
 		if(Config.toggles.isSnow){
 			var panelIFrame = new PanelIFrame(Config.snowAppUrl);
 			var snowMapController = new SnowMapController({
@@ -197,13 +173,38 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 
 			widgets.push(buildSnowWidget(snowMapController, panelIFrame));
 			snowViewChanges();
+		} else {
+			// create tools and widgets according to configuration
+			if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
+				var mapsContainer = buildMapsContainer(mapStore, stateStore);
+				var worldWindWidget = buildWorldWindWidget(mapsContainer, topToolBar, stateStore);
+				widgets.push(worldWindWidget);
+
+				if(Config.toggles.hasOsmWidget) {
+					widgets.push(buildOsmWidget(mapsContainer, mapStore));
+				}
+			}
+			if(Config.toggles.hasPeriodsWidget){
+				var periodsWidget = buildPeriodsWidget(mapsContainer);
+				widgets.push(periodsWidget);
+			}
+			if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
+				var aggregatedWidget = buildAggregatedChartWidget(filter, stateStore);
+				var evaluationTool = buildEvaluationWidget(filter, stateStore, aggregatedWidget);
+				widgets.push(evaluationTool);
+				widgets.push(aggregatedWidget);
+			}
+			if(Config.toggles.hasOwnProperty("hasNewCustomPolygonsTool") && Config.toggles.hasNewCustomPolygonsTool){
+				widgets.push(buildCustomDrawingWidget());
+			}
+			if(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies){
+				widgets.push(buildCityWidget());
+			}
+			if(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo){
+				tools.push(buildFeatureInfoTool());
+			}
+			widgets.push(buildSharingWidget());
 		}
-
-        if(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo){
-            tools.push(buildFeatureInfoTool());
-        }
-
-		widgets.push(buildSharingWidget());
 
 		// build app, map is class for OpenLayers map
 		new FrontOffice({
