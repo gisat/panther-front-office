@@ -8,7 +8,7 @@ var Config = {
 	 url: 'http://snow.gisat.cz/backend/',                      // Snow Portal
 	 // signupAddress: 'http://35.165.51.145/account/signup/',
 	geoserver2Workspace: "panther",
-	initialBaseMap: "terrain",
+	initialBaseMap: "osm",
 	initialMapBounds: [
 		112.4251556396,
 		-7.7001045314,

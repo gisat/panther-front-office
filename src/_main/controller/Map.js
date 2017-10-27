@@ -635,44 +635,53 @@ Ext.define('PumaMain.controller.Map', {
 			this.olMapMultipleSecond = this.map2;
 			this.cursor2 = Ext.get('app-map2').down('img')
 		}
-		var hybridLayer = new OpenLayers.Layer.Google(
-			'Google',
-			{
-				type: 'hybrid',
-				initialized: true,
-				animationEnabled: true,
-				visibility: false,
-				numZoomLevels: 19,
-				MAX_ZOOM_LEVEL: 18
-			}
-		);
-		map.defaultLayer = layer;
-		var streetLayer = new OpenLayers.Layer.Google(
-			'Google',
-			{
-				type: 'roadmap',
-				animationEnabled: true,
-				initialized: true,
-				visibility: false,
-				numZoomLevels: 19,
-				MAX_ZOOM_LEVEL: 18
-			}
-		);
-		var terrainLayer = new OpenLayers.Layer.Google(
-			'Google',
-			{
-				type: 'terrain',
-				animationEnabled: true,
-				initialized: true,
-				visibility: true
-			}
-		);
+		var hybridLayer = null;
+		var streetLayer = null;
+		var terrainLayer = null;
+		if (!Config.toggles.isSnow){
+			hybridLayer = new OpenLayers.Layer.Google(
+				'Google',
+				{
+					type: 'hybrid',
+					initialized: true,
+					animationEnabled: true,
+					visibility: false,
+					numZoomLevels: 19,
+					MAX_ZOOM_LEVEL: 18
+				}
+			);
+			map.defaultLayer = layer;
+			streetLayer = new OpenLayers.Layer.Google(
+				'Google',
+				{
+					type: 'roadmap',
+					animationEnabled: true,
+					initialized: true,
+					visibility: false,
+					numZoomLevels: 19,
+					MAX_ZOOM_LEVEL: 18
+				}
+			);
+			terrainLayer = new OpenLayers.Layer.Google(
+				'Google',
+				{
+					type: 'terrain',
+					animationEnabled: true,
+					initialized: true,
+					visibility: true
+				}
+			);
+		}
 
 		var osmLayer = new OpenLayers.Layer.OSM('OSM',null,{
 			initialized: true,
 			visibility: false
 		});
-		var trafficLayer = new google.maps.TrafficLayer();
+
+		var trafficLayer = null;
+		if (!Config.toggles.isSnow){
+			trafficLayer = new google.maps.TrafficLayer();
+		}
 
 		var baseNode = Ext.StoreMgr.lookup('layers').getRootNode().findChild('type','basegroup');
 		var trafficNode = Ext.StoreMgr.lookup('layers').getRootNode().findChild('type','livegroup');
@@ -704,8 +713,14 @@ Ext.define('PumaMain.controller.Map', {
 			}
 		});
 		map.size = map.getCurrentSize();
-		map.addLayers([terrainLayer,streetLayer,hybridLayer,osmLayer]);
-		trafficLayer.oldMapObj = streetLayer.mapObject;
+		if (Config.toggles.isSnow){
+			map.addLayers([osmLayer]);
+		} else {
+			map.addLayers([terrainLayer,streetLayer,hybridLayer,osmLayer]);
+		}
+		if (trafficLayer){
+			trafficLayer.oldMapObj = streetLayer.mapObject;
+		}
 		if (cmp.id=='map') {
 			Ext.StoreMgr.lookup('selectedlayers').loadData(nodes,true);
 		}
