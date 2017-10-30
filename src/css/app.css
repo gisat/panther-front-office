@@ -259,6 +259,17 @@ tbody .x-grid-row.select_d97dff .x-grid-cell {
 	display: none!important;
 }
 
+/* Header === */
+.useEo4sdLogo .fields-holder > .label {
+	background: url("../images/eo4sd/eo4sd-logo.png") no-repeat 0 -2px;
+	background-size: 135px;
+	height: 79px;
+	font-size: 22px;
+	padding-left: 161px;
+	/*width: 250px;*/
+}
+
+
 /*.detached-window .detach {
 	display: none;
 }*/
