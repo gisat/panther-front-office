@@ -120,9 +120,15 @@ Ext.application({
 		}
 
 		if(Config.toggles[window.location.origin]) {
-			Config.toggles[window.location.origin].classes.forEach(function(className){
+			var urlToggles = Config.toggles[window.location.origin];
+			urlToggles.classes.forEach(function(className){
                 $("html").addClass(className);
 			});
+
+			// Use content/introGuideAppend text
+			if(urlToggles.hasOwnProperty("content") && urlToggles.content.hasOwnProperty("introGuideAppend")) {
+				$("#content-intro-guide").append(urlToggles.content.introGuideAppend);
+			}
 		}
 
 		// dromas view

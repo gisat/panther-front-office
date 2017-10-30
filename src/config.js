@@ -40,7 +40,13 @@ var Config = {
 		isMelodies: false,
 		isUrbanTep: false,
 		isSnow: false,
-		hideWorldBank: true
+		hideWorldBank: true,
+		"http://localhost:63342": {
+			classes: ["useEo4sdLogo"],
+			content: {
+				introGuideAppend: "<div><h1>About EO4SD</h1><p>EO4SD is an ESA project... <a href='http://eo4sd.esa.int/' target='_blank'>eo4sd.esa.int</a>.</p></div>"
+			}
+		}
 	},
 
 	basicTexts: {
