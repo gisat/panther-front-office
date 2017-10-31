@@ -43,6 +43,10 @@ define([], function () {
 	};
 
 	StateStore.prototype.scopeFull = function() {
+		var scope = this.scope();
+		if(!scope) {
+			return null;
+		}
 		return Ext.StoreMgr.lookup('dataset').getById(this.scope()).data;
 	};
 
