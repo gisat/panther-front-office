@@ -19909,7 +19909,8 @@ define('js/view/tools/FeatureInfoTool/FeatureInfoTool',['../../../error/Argument
 	};
 
 	/**
-	 * Add on click listener to the feature button
+	 * Add on click listener to the feature button. How do I figure out into which part of the map I clicked? Part of the
+	 * question is what to do in the case of multiple maps.
 	 * @param attributes
 	 * @param map
 	 */
@@ -23932,6 +23933,9 @@ define('js/view/worldWind/WorldWindMap',['../../actions/Actions',
 	 */
 	WorldWindMap.prototype.goTo = function(position) {
         this._wwd.navigator.lookAtLocation = position;
+        if(position.altitude) {
+            this._wwd.navigator.range = position.altitude;
+        }
         this._wwd.redraw();
 	};
 
@@ -26861,7 +26865,9 @@ define('js/stores/internal/StateStore',[], function () {
 	};
 
 	StateStore.prototype.scope = function() {
-		return Ext.ComponentQuery.query('#seldataset')[0].getValue() || Ext.ComponentQuery.query('#initialdataset')[0].getValue();
+		var selectedDataset = Ext.ComponentQuery.query('#seldataset') && Ext.ComponentQuery.query('#seldataset')[0] && Ext.ComponentQuery.query('#seldataset')[0].getValue() || null;
+		var initialDataset = Ext.ComponentQuery.query('#initialdataset') && Ext.ComponentQuery.query('#initialdataset')[0] && Ext.ComponentQuery.query('#initialdataset')[0].getValue() || null;
+		return selectedDataset || initialDataset;
 	};
 
 	StateStore.prototype.placesObjects = function() {
@@ -29454,6 +29460,7 @@ define('js/view/widgets/WorldWindWidget/panels/BackgroundLayersPanel',['../../..
 	'../../../../error/NotFoundError',
 	'../../../../util/Logger',
 
+	'../../../../stores/Stores',
 	'./WorldWindWidgetPanel',
 
 	'jquery',
@@ -29462,6 +29469,7 @@ define('js/view/widgets/WorldWindWidget/panels/BackgroundLayersPanel',['../../..
 			NotFoundError,
 			Logger,
 
+			Stores,
 			WorldWindWidgetPanel,
 
 			$,
@@ -29475,7 +29483,7 @@ define('js/view/widgets/WorldWindWidget/panels/BackgroundLayersPanel',['../../..
 	var BackgroundLayersPanel = function(options){
 		WorldWindWidgetPanel.apply(this, arguments);
 
-		this.layerControls = [];
+        this.layerControls = [];
 
 		this.addLayerControls();
 		this.addEventsListeners();
@@ -29487,22 +29495,36 @@ define('js/view/widgets/WorldWindWidget/panels/BackgroundLayersPanel',['../../..
 	 * Add control for background layers
 	 */
 	BackgroundLayersPanel.prototype.addLayerControls = function(){
-		this.layerControls.push({
-			id: "osm",
-			control: this.addRadio(this._id + "-osm", "OpenStreetMap", this._panelBodySelector, "osm", true)
-		});
-		this.layerControls.push({
-			id: "cartoDb",
-			control: this.addRadio(this._id + "-carto-db", "Carto DB basemap", this._panelBodySelector, "cartoDb", false)
-		});
-		this.layerControls.push({
-			id: "bingAerial",
-			control: this.addRadio(this._id + "-bing-aerial", "Bing Aerial", this._panelBodySelector, "bingAerial", false)
-		});
-		this.layerControls.push({
-			id: "landsat",
-			control: this.addRadio(this._id + "-landsat", "Blue Marble", this._panelBodySelector, "landsat", false)
-		})
+		var scope = Stores.retrieve("state").current().scope;
+		var disabledLayers = (scope && scope.get('disabledLayers')) || {};
+		var activeBackgroundMap = (scope && scope.get('activeBackgroundMap')) || 'osm';
+		if(!disabledLayers['osm']) {
+            this.layerControls.push({
+                id: "osm",
+                control: this.addRadio(this._id + "-osm", "OpenStreetMap", this._panelBodySelector, "osm", activeBackgroundMap === 'osm')
+            });
+        }
+
+        if(!disabledLayers['cartoDb']) {
+            this.layerControls.push({
+                id: "cartoDb",
+                control: this.addRadio(this._id + "-carto-db", "Carto DB basemap", this._panelBodySelector, "cartoDb", activeBackgroundMap === 'cartoDb')
+            });
+        }
+
+        if(!disabledLayers['bingAerial']) {
+            this.layerControls.push({
+                id: "bingAerial",
+                control: this.addRadio(this._id + "-bing-aerial", "Bing Aerial", this._panelBodySelector, "bingAerial", activeBackgroundMap === 'bingAerial')
+            });
+        }
+
+        if(!disabledLayers['landsat']) {
+            this.layerControls.push({
+                id: "landsat",
+                control: this.addRadio(this._id + "-landsat", "Blue Marble", this._panelBodySelector, "landsat", activeBackgroundMap === 'landsat')
+            })
+        }
 	};
 
 	/**
@@ -30255,11 +30277,60 @@ define('js/view/widgets/WorldWindWidget/WorldWindWidget',[
 		}
 
 		var places = this._stateStore.current().objects.places;
-		if(places.length === 1 ){
-			var locations = places[0].get('bbox').split(',');
-			var position = new WorldWind.Position((Number(locations[1]) + Number(locations[3])) / 2, (Number(locations[0]) + Number(locations[2])) / 2, 1000000);
-			this._mapsContainer.setAllMapsPosition(position);
+        var locations;
+		if(places.length === 1 && places[0]){
+			locations = places[0].get('bbox').split(',');
+		} else {
+			places = this._stateStore.current().allPlaces.map(function(place) {
+                return Ext.StoreMgr.lookup('location').getById(place);
+			});
+            locations = this.getBboxForMultiplePlaces(places);
+        }
+
+        if(locations.length != 4) {
+			console.warn('WorldWindWidget#show3DMap Incorrect locations: ', locations);
+			return;
 		}
+        var position = new WorldWind.Position((Number(locations[1]) + Number(locations[3])) / 2, (Number(locations[0]) + Number(locations[2])) / 2, 1000000);
+        this._mapsContainer.setAllMapsPosition(position);
+	};
+
+    /**
+	 * It combines bboxes of all places to get an extent, which will show all of them.
+     * @param places
+     * @returns {*}
+     */
+	WorldWindWidget.prototype.getBboxForMultiplePlaces = function(places) {
+		if(places.length == 0) {
+			return [];
+		}
+
+		var minLongitude = 180;
+		var maxLongitude = -180;
+		var minLatitude = 90;
+		var maxLatitude = -90;
+
+		var locations;
+		places.forEach(function(place){
+			locations = place.get('bbox').split(',');
+			if(locations[0] < minLongitude) {
+				minLongitude = locations[0];
+			}
+
+			if(locations[1] < minLatitude) {
+                minLatitude = locations[1];
+			}
+
+			if(locations[2] > maxLongitude) {
+				maxLongitude = locations[2];
+			}
+
+			if(locations[3] > maxLatitude) {
+				maxLatitude = locations[3];
+			}
+		});
+
+		return [minLongitude, maxLatitude, maxLongitude, minLatitude];
 	};
 
 	/**
