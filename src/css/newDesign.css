@@ -160,6 +160,10 @@
 	bottom: 150px;
 }
 
+.newDesign #content-intro-guide a {
+	color: #c92d42;
+}
+
 .newDesign #about-urbis h2 {
 	margin-top: 15px;
 }

@@ -44,7 +44,7 @@ var Config = {
 		"http://localhost:63342": {
 			classes: ["useEo4sdLogo"],
 			content: {
-				introGuideAppend: "<div><h1>About EO4SD</h1><p>EO4SD is an ESA project... <a href='http://eo4sd.esa.int/' target='_blank'>eo4sd.esa.int</a>.</p></div>"
+				introGuideAppend: "<div><h2>About EO4SD</h2><p><a href='http://eo4sd.esa.int/' target='_blank' title='eo4sd.esa.int'>EO4SD – Earth Observation for Sustainable Development</a> is a&nbsp;new ESA initiative which aims to&nbsp;achieve a&nbsp;step increase in&nbsp;the&nbsp;uptake of&nbsp;satellite-based environmental information in&nbsp;the&nbsp;IFIs regional and global programs. It&nbsp;will follow a&nbsp;systematic, userdriven approach in&nbsp;order to meet longer-term, strategic geospatial information needs in&nbsp;the&nbsp;individual developing countries, as well as&nbsp;international and&nbsp;regional development organizations.</p></div>"
 			}
 		}
 	},
