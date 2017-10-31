@@ -1,10 +1,16 @@
 define([
+	'./snowTour/snowLegs',
+
 	'string',
 	'text!./Tour.html',
+	'text!./snowTour/snowLegs.html',
 	'css!./Tour'
 ], function (
+	snowLegs,
+
 	S,
-	TourHtml
+	TourHtml,
+	SnowLegsHtml
 ) {
 	"use strict";
 
@@ -38,7 +44,10 @@ define([
 	 * Build tour steps
 	 */
 	Tour.prototype.buildTour = function(){
+		var content = this.buildContent();
+
 		var html = S(TourHtml).template({
+			content: content,
 			id: this._id
 		}).toString();
 		$('body').append(html);
@@ -61,14 +70,23 @@ define([
 	};
 
 	/**
+	 * Build content of tour for current project
+	 */
+	Tour.prototype.buildContent = function(){
+		if (Config.toggles.isSnow){
+			return S(SnowLegsHtml).template().toString();
+		}
+	};
+
+	/**
 	 * Do on tour stop
 	 */
 	Tour.prototype.onStop = function(){
 		this._tourOverlay.removeClass("open");
 		this._tourTrigger.removeClass("open");
-		this._iFrame.rebuild(Config.snowAppUrl);
-		var button = $("#snow-iframe").contents().find(".ptr-button.show-overview");
-		button.trigger("click");
+		if (Config.toggles.isSnow){
+			snowLegs.onTourStop(this._iFrame);
+		}
 	};
 
 	/**
@@ -76,54 +94,8 @@ define([
 	 * @param leg {Object}
 	 */
 	Tour.prototype.onLegChange = function(leg){
-		leg.$el.css({
-			marginTop: this._appOffset + "px"
-		});
-		if (leg.index > 5){
-			leg.reposition();
-		}
-		if (!leg.rawData.el || leg.rawData.el === "#top-toolbar-snow-configuration" || leg.rawData.el === ".ptr-overview-collection .ptr-button"){
-			leg.$el.css({
-				marginTop: "0px"
-			});
-		}
-		if (leg.rawData.el === "#overview-header-scenes"){
-			this._iFrame.rebuild(Config.snowAppExampleUrl);
-			leg.$el.css({
-				left: "500px"
-			});
-		}
-		if (leg.rawData.el === "#overview-collections"){
-			leg.$el.css({
-				top: "400px",
-				left: "500px",
-				marginTop: "0px"
-			});
-		}
-		if (leg.rawData.el === "#compare-composites-button"){
-			var self = this;
-			setTimeout(function(){
-				self._iFrame.scrollY(300);
-				leg.$el.css({
-					bottom: "50px",
-					top: "auto"
-				});
-			}, 100);
-		}
-		if (leg.rawData.el === "#composites .empty"){
-			this._iFrame.rebuild(Config.snowAppExampleUrl + "/?s=composites");
-			var button = $("#snow-iframe").contents().find("#overview-collections .ptr-button");
-			button.trigger("click");
-			leg.$el.css({
-				left: "100px"
-			});
-		}
-		if (leg.rawData.el === "#map-holder"){
-			var showInMapButton = $("#snow-iframe").contents().find("#composites-list .ptr-button:first-child");
-			showInMapButton.trigger("click");
-			leg.$el.css({
-				top: "300px"
-			});
+		if (Config.toggles.isSnow){
+			snowLegs.onLegChange(leg, this._iFrame, this._appOffset);
 		}
 	};
 
@@ -132,10 +104,10 @@ define([
 		this._tourTrigger.on("click", function () {
 			self._tour.depart();
 			self._tourOverlay.addClass('open');
-			var button = $("#snow-iframe").contents().find(".ptr-button.show-overview");
-			button.trigger("click");
-			self._iFrame.rebuild(Config.snowAppUrl);
 			self._appOffset = $("#header").height() + $("#top-toolbar").height();
+			if (Config.toggles.isSnow){
+				snowLegs.onTourStart(self._iFrame);
+			}
 		})
 	};
 
