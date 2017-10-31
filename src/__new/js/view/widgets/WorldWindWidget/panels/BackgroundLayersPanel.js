@@ -25,9 +25,7 @@ define(['../../../../error/ArgumentError',
 	var BackgroundLayersPanel = function(options){
 		WorldWindWidgetPanel.apply(this, arguments);
 
-        this._stateStore = Stores.retrieve("state");
-
-		this.layerControls = [];
+        this.layerControls = [];
 
 		this.addLayerControls();
 		this.addEventsListeners();
@@ -39,9 +37,9 @@ define(['../../../../error/ArgumentError',
 	 * Add control for background layers
 	 */
 	BackgroundLayersPanel.prototype.addLayerControls = function(){
-		var scope = this._stateStore.current().scope;
-		var disabledLayers = scope.get('disabledLayers') || {};
-		var activeBackgroundMap = scope.get('activeBackgroundMap') || 'osm';
+		var scope = Stores.retrieve("state").current().scope;
+		var disabledLayers = (scope && scope.get('disabledLayers')) || {};
+		var activeBackgroundMap = (scope && scope.get('activeBackgroundMap')) || 'osm';
 		if(!disabledLayers['osm']) {
             this.layerControls.push({
                 id: "osm",
