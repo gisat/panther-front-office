@@ -1162,6 +1162,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 if(tools.indexOf('areas') !== -1) {
                     $('.areaTreeSelection').hide();
                     $('#window-areatree').hide();
+                    $('#top-toolbar-areas').hide();
                 } else {
                     $('.areaTreeSelection').show();
                     $('#window-areatree').show();
