@@ -56,6 +56,61 @@
 	}
 }
 
+
+/* EO4SD */
+@media screen and (max-width: 1510px) {
+	.useEo4sdLogo #view-selector {
+		height: 70px;
+	}
+	.useEo4sdLogo #view-selector > .group {
+		display: block;
+	}
+	.useEo4sdLogo #view-selector > .group:not(:first-child) {
+		margin-top: 0;
+	}
+
+	.useEo4sdLogo #top-toolbar {
+		top: 70px;
+	}
+
+
+	.useEo4sdLogo #sidebar-tools,
+	.useEo4sdLogo #sidebar-reports {
+		top: 70px;
+	}
+	.useEo4sdLogo body.application #main {
+		padding-top: 55px;
+	}
+
+	.useEo4sdLogo .toggle-useWBHeader body.application #main {
+		padding-top: 95px;
+	}
+	.useEo4sdLogo .toggle-useHeader body.application #main {
+		padding-top: 100px;
+	}
+	.useEo4sdLogo .toggle-useWBHeader.toggle-useHeader body.application #main {
+		padding-top: 140px;
+	}
+
+	.useEo4sdLogo .toggle-useTopToolbar body.application #main {
+		padding-top: 85px;
+	}
+	.useEo4sdLogo .toggle-useTopToolbar #sidebar-tools,
+	.useEo4sdLogo .toggle-useTopToolbar #sidebar-reports {
+		top: 100px;
+	}
+	.useEo4sdLogo .toggle-useTopToolbar.toggle-useHeader body.application #main {
+		padding-top: 130px;
+	}
+	.useEo4sdLogo .toggle-useTopToolbar.toggle-useWBHeader body.application #main {
+		padding-top: 125px;
+	}
+	.useEo4sdLogo .toggle-useTopToolbar.toggle-useHeader.toggle-useWBHeader body.application #main {
+		padding-top: 170px;
+	}
+}
+
+
 @media screen and (max-width: 1140px) {
 	#legacy-view-selector > .label {
 		width: 70px;
