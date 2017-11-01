@@ -161,8 +161,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
         locationCombo.resumeEvents();
         locationComboAlt.resumeEvents();
         themeComboAlt.resumeEvents();
-
-        Observer.notify("scopeChange");
     },
 
     onLocationChange: function(cnt,val) {

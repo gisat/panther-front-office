@@ -27,26 +27,19 @@ define(['../../../../error/ArgumentError',
 
         this.layerControls = [];
 
-        Observer.addListener('scopeChange', this.rebuild.bind(this));
-		this.rebuild();
+		this.addLayerControls();
+		this.addEventsListeners();
 	};
 
 	BackgroundLayersPanel.prototype = Object.create(WorldWindWidgetPanel.prototype);
-
-	BackgroundLayersPanel.prototype.rebuild = function() {
-		this.clear();
-
-        this.addLayerControls();
-        this.addEventsListeners();
-	};
 
 	/**
 	 * Add control for background layers
 	 */
 	BackgroundLayersPanel.prototype.addLayerControls = function(){
 		var scope = Stores.retrieve("state").current().scope;
-		var disabledLayers = (scope && scope.get && scope.get('disabledLayers')) || {};
-		var activeBackgroundMap = (scope && scope.get && scope.get('activeBackgroundMap')) || 'osm';
+		var disabledLayers = (scope && scope.get('disabledLayers')) || {};
+		var activeBackgroundMap = (scope && scope.get('activeBackgroundMap')) || 'osm';
 		if(!disabledLayers['osm']) {
             this.layerControls.push({
                 id: "osm",
