@@ -48,7 +48,7 @@
 	background: #434254;
 	/* border-bottom: 2px solid rgb(36, 36, 49); */
 	padding-left: 5px;
-	z-index: 10000;
+	z-index: 100000; /* Jonas: changed from 10 000 to 100 000 because of EO4SD logo which overflows over content-application > view-selector */
 }
 
 .newDesign #header .menu li:before {
