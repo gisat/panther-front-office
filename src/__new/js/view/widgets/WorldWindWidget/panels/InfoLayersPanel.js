@@ -53,13 +53,15 @@ define(['../../../../error/ArgumentError',
 	InfoLayersPanel.prototype.rebuild = function(){
 		var self = this;
 		this._allMaps = StoresInternal.retrieve("map").getAll();
-		this.getLayersForCurrentConfiguration().then(function(result){
+        var scope = Stores.retrieve("state").current().scope;
+        var opacity = scope && scope.get('defaultOpacity') || 70;
+        this.getLayersForCurrentConfiguration().then(function(result){
 			self.clear(self._id);
 			self._previousLayersControls = jQuery.extend(true, [], self._layersControls);
 			self._layersControls = [];
 			if (result && result.length > 0){
 				var layerGroups = self.groupDataByLayerGroup(result);
-				var preparedLayerGroups = self.groupLayersByLayerTemplate(layerGroups);
+				var preparedLayerGroups = self.groupLayersByLayerTemplate(layerGroups, opacity);
 				self.addPanelContent(preparedLayerGroups);
 				self.displayPanel("block");
 				if (preparedLayerGroups.length < 1){
@@ -99,9 +101,10 @@ define(['../../../../error/ArgumentError',
 	/**
 	 * Group layers by layer template id
 	 * @param layerGroups {Array}
+	 * @param opacity {Number} Number betwen 0 and 100 showing default opacity of he layer.
 	 * @returns {Array} Layer groups
 	 */
-	InfoLayersPanel.prototype.groupLayersByLayerTemplate = function(layerGroups){
+	InfoLayersPanel.prototype.groupLayersByLayerTemplate = function(layerGroups, opacity){
 		var preparedLayerGroups = [];
 		layerGroups.forEach(function(layerGroup){
 			var groupedLayers = [];
@@ -112,7 +115,7 @@ define(['../../../../error/ArgumentError',
 					groupedLayers.push({
 						layerTemplateId: layerTemplateId,
 						layers: [layer],
-						opacity: 70,
+						opacity: opacity,
 						name: layer.name,
 						styles: layer.styles
 					});
