@@ -125,9 +125,19 @@ Ext.application({
                 $("html").addClass(className);
 			});
 
-			// Use content/introGuideAppend text
+			// Use content/introGuideAppend html
 			if(urlToggles.hasOwnProperty("content") && urlToggles.content.hasOwnProperty("introGuideAppend")) {
 				$("#content-intro-guide").append(urlToggles.content.introGuideAppend);
+			}
+
+			// Use content/userPrepend html
+			if(urlToggles.hasOwnProperty("content") && urlToggles.content.hasOwnProperty("userPrepend")) {
+				$("#header .user").prepend(urlToggles.content.userPrepend);
+			}
+
+			// Use content/headerH1Html html
+			if(urlToggles.hasOwnProperty("content") && urlToggles.content.hasOwnProperty("headerH1Html")) {
+				$("#header h1").html(urlToggles.content.headerH1Html);
 			}
 		}
 
