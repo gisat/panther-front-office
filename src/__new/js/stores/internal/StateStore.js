@@ -66,7 +66,7 @@ define([], function () {
 			return [Ext.StoreMgr.lookup('location').getById(defaultPlaces)];
 		} else {
 			// Load all places for the scope.
-            return this.placesForScope();
+            return this.placesForScopeObjects();
 		}
 	};
 
@@ -94,6 +94,17 @@ define([], function () {
         });
         return results;
 	};
+
+    StateStore.prototype.placesForScopeObjects = function() {
+        var scope = this.scope(),
+            results = [];
+        Ext.StoreMgr.lookup('location').each(function(record){
+            if(record.get('dataset') == scope) {
+                results.push(record);
+            }
+        });
+        return results;
+    };
 
 	StateStore.prototype.periods = function() {
 		return Ext.ComponentQuery.query('#selyear') && Ext.ComponentQuery.query('#selyear')[0] && Ext.ComponentQuery.query('#selyear')[0].getValue();
