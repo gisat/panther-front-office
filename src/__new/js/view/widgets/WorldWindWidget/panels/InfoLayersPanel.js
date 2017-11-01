@@ -53,7 +53,7 @@ define(['../../../../error/ArgumentError',
 	InfoLayersPanel.prototype.rebuild = function(){
 		var self = this;
 		this._allMaps = StoresInternal.retrieve("map").getAll();
-        var scope = Stores.retrieve("state").current().scope;
+        var scope = StoresInternal.retrieve("state").current().scope;
         var opacity = scope && scope.get('defaultOpacity') || 70;
         this.getLayersForCurrentConfiguration().then(function(result){
 			self.clear(self._id);
