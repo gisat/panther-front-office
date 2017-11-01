@@ -29485,11 +29485,18 @@ define('js/view/widgets/WorldWindWidget/panels/BackgroundLayersPanel',['../../..
 
         this.layerControls = [];
 
-		this.addLayerControls();
-		this.addEventsListeners();
+        Observer.addListener('scopeChange', this.rebuild.bind(this));
+		this.rebuild();
 	};
 
 	BackgroundLayersPanel.prototype = Object.create(WorldWindWidgetPanel.prototype);
+
+	BackgroundLayersPanel.prototype.rebuild = function() {
+		this.clear();
+
+        this.addLayerControls();
+        this.addEventsListeners();
+	};
 
 	/**
 	 * Add control for background layers
