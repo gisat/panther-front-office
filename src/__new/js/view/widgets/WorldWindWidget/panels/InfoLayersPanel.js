@@ -54,7 +54,7 @@ define(['../../../../error/ArgumentError',
 		var self = this;
 		this._allMaps = StoresInternal.retrieve("map").getAll();
         var scope = StoresInternal.retrieve("state").current().scope;
-        var opacity = scope && scope.get('defaultOpacity') || 70;
+        var opacity = scope && scope.get && scope.get('defaultOpacity') || 70;
         this.getLayersForCurrentConfiguration().then(function(result){
 			self.clear(self._id);
 			self._previousLayersControls = jQuery.extend(true, [], self._layersControls);
