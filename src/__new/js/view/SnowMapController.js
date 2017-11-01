@@ -74,7 +74,7 @@ define([
 			var styleId = self._iFrameBodySelector.find("#composites").attr("data-style");
 
 			self.highlightCountry(locationKey);
-			self.showLayerInMap(compositeId);
+			self.showLayerInMap(compositeId, styleId);
 		});
 	};
 
@@ -90,7 +90,7 @@ define([
 			var styleId = self._iFrameBodySelector.find("#composites").attr("data-style");
 
 			self.highlightCountry(locationKey);
-			self.showLayerInMap(compositeId);
+			self.showLayerInMap(compositeId, styleId);
 		});
 	};
 
