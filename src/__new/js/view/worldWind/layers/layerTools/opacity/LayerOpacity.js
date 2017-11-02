@@ -45,7 +45,7 @@ define(['../../../../../error/ArgumentError',
 		// TODO will there be the same legend for each period?
 		this._defaultLayer = this._layers[0];
 
-		this._opacityValue = 70;
+		this._opacityValue = 90;
 		this.build();
 	};
 
