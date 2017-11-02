@@ -186,7 +186,7 @@ define([
 			console.warn('WorldWindWidget#show3DMap Incorrect locations: ', locations);
 			return;
 		}
-        var position = new WorldWind.Position((Number(locations[1]) + Number(locations[3])) / 2, (Number(locations[0]) + Number(locations[2])) / 2, 1000000);
+        var position = new WorldWind.Position((Number(locations[1]) + Number(locations[3])) / 2, (Number(locations[0]) + Number(locations[2])) / 2);
         this._mapsContainer.setAllMapsPosition(position);
 	};
 
