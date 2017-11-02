@@ -42,10 +42,10 @@ var Config = {
 		isSnow: false,
 		hideWorldBank: true,
 		"http://localhost:63342": {
-			classes: ["useEo4sdLogo"],
+			classes: ["useEo4sdUrbanLogo"],
 			content: {
-				headerH1Html: "<a href='http://eo4sd.esa.int/' target='_blank'>EO4SD</a> DATA EXPLORATION",
-				userPrepend: "<a href='http://eo4sd.esa.int/' target='_blank'>eo4sd.esa.int</a><span class='sep'></span>"
+				headerH1Html: "<a href='http://www.eo4sd-urban.info/' target='_blank'>EO4SD-Urban</a> DATA EXPLORATION",
+				userPrepend: "<a href='http://www.eo4sd-urban.info/' target='_blank'>www.eo4sd-urban.info</a><span class='sep'></span>"
 			}
 		}
 	},
