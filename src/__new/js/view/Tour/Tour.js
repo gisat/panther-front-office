@@ -87,7 +87,6 @@ define([
 	Tour.prototype.onStop = function(){
 		this._tourOverlay.removeClass("open");
 		this._tourTrigger.removeClass("open");
-		this._tour.stop();
 		if (Config.toggles.isSnow){
 			snowLegs.onTourStop(this._iFrame);
 		}
@@ -117,7 +116,10 @@ define([
 
 	Tour.prototype.addTourStopListener = function(){
 		var self = this;
-		this._tourExitSelector.on("click", self.onStop.bind(self));
+		this._tourExitSelector.on("click", function(){
+			self._tour.stop();
+			self.onStop();
+		});
 	};
 
 	return Tour;
