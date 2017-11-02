@@ -23933,9 +23933,6 @@ define('js/view/worldWind/WorldWindMap',['../../actions/Actions',
 	 */
 	WorldWindMap.prototype.goTo = function(position) {
         this._wwd.navigator.lookAtLocation = position;
-        if(position.altitude) {
-            this._wwd.navigator.range = position.altitude;
-        }
         this._wwd.redraw();
 	};
 
@@ -30317,7 +30314,7 @@ define('js/view/widgets/WorldWindWidget/WorldWindWidget',[
 			console.warn('WorldWindWidget#show3DMap Incorrect locations: ', locations);
 			return;
 		}
-        var position = new WorldWind.Position((Number(locations[1]) + Number(locations[3])) / 2, (Number(locations[0]) + Number(locations[2])) / 2);
+        var position = new WorldWind.Position((Number(locations[1]) + Number(locations[3])) / 2, (Number(locations[0]) + Number(locations[2])) / 2, 1000000);
         this._mapsContainer.setAllMapsPosition(position);
 	};
 
