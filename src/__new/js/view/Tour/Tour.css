@@ -18,6 +18,11 @@
 .tour-overlay.open{
 	display: block;
 }
+.tourbus-stop-common{
+	position: absolute;
+	bottom: 0;
+	right: 1rem;
+}
 
 /* legs */
 .tourbus-leg {
@@ -47,6 +52,7 @@
 	color: white;
 	border: 2px solid white;
 	display: inline-block;
+	font-family: "Neucha", cursive;
 	font-size: 1.2rem;
 	margin: 1rem .3rem;
 	min-width: 6rem;

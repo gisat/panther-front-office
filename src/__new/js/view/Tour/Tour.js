@@ -52,7 +52,10 @@ define([
 		}).toString();
 		$('body').append(html);
 		this._tourOverlay = $('.tour-overlay');
+		this._tourExitSelector = $('.tourbus-stop-common');
+
 		this.buildTourbus();
+		this.addTourStopListener();
 	};
 
 	/**
@@ -84,6 +87,7 @@ define([
 	Tour.prototype.onStop = function(){
 		this._tourOverlay.removeClass("open");
 		this._tourTrigger.removeClass("open");
+		this._tour.stop();
 		if (Config.toggles.isSnow){
 			snowLegs.onTourStop(this._iFrame);
 		}
@@ -109,6 +113,11 @@ define([
 				snowLegs.onTourStart(self._iFrame);
 			}
 		})
+	};
+
+	Tour.prototype.addTourStopListener = function(){
+		var self = this;
+		this._tourExitSelector.on("click", self.onStop.bind(self));
 	};
 
 	return Tour;
