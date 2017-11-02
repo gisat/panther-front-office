@@ -26884,7 +26884,7 @@ define('js/stores/internal/StateStore',[], function () {
 			return [Ext.StoreMgr.lookup('location').getById(defaultPlaces)];
 		} else {
 			// Load all places for the scope.
-            return this.placesForScope();
+            return this.placesForScopeObjects();
 		}
 	};
 
@@ -26912,6 +26912,17 @@ define('js/stores/internal/StateStore',[], function () {
         });
         return results;
 	};
+
+    StateStore.prototype.placesForScopeObjects = function() {
+        var scope = this.scope(),
+            results = [];
+        Ext.StoreMgr.lookup('location').each(function(record){
+            if(record.get('dataset') == scope) {
+                results.push(record);
+            }
+        });
+        return results;
+    };
 
 	StateStore.prototype.periods = function() {
 		return Ext.ComponentQuery.query('#selyear') && Ext.ComponentQuery.query('#selyear')[0] && Ext.ComponentQuery.query('#selyear')[0].getValue();
@@ -29483,21 +29494,33 @@ define('js/view/widgets/WorldWindWidget/panels/BackgroundLayersPanel',['../../..
 	var BackgroundLayersPanel = function(options){
 		WorldWindWidgetPanel.apply(this, arguments);
 
-        this.layerControls = [];
+        this.rebuild();
 
-		this.addLayerControls();
-		this.addEventsListeners();
+        var self = this;
+        Observer.addListener('scopeChange', function(){
+        	self.rebuild();
+		});
 	};
 
 	BackgroundLayersPanel.prototype = Object.create(WorldWindWidgetPanel.prototype);
 
+    BackgroundLayersPanel.prototype.rebuild = function() {
+        this.clear(this._id);
+
+        this.layerControls = [];
+
+        var scope = Stores.retrieve("state").current().scopeFull;
+        this.addLayerControls(scope);
+        this.addEventsListeners();
+		this.toggleLayers();
+    };
+
 	/**
 	 * Add control for background layers
 	 */
-	BackgroundLayersPanel.prototype.addLayerControls = function(){
-		var scope = Stores.retrieve("state").current().scope;
-		var disabledLayers = (scope && scope.get('disabledLayers')) || {};
-		var activeBackgroundMap = (scope && scope.get('activeBackgroundMap')) || 'osm';
+	BackgroundLayersPanel.prototype.addLayerControls = function(scope){
+		var disabledLayers = (scope && scope['disabledLayers']) || {};
+		var activeBackgroundMap = (scope && scope['activeBackgroundMap']) || 'osm';
 		if(!disabledLayers['osm']) {
             this.layerControls.push({
                 id: "osm",
@@ -29624,13 +29647,15 @@ define('js/view/widgets/WorldWindWidget/panels/InfoLayersPanel',['../../../../er
 	InfoLayersPanel.prototype.rebuild = function(){
 		var self = this;
 		this._allMaps = StoresInternal.retrieve("map").getAll();
-		this.getLayersForCurrentConfiguration().then(function(result){
+        var scope = StoresInternal.retrieve("state").current().scope;
+        var opacity = scope && scope.get && scope.get('defaultOpacity') || 70;
+        this.getLayersForCurrentConfiguration().then(function(result){
 			self.clear(self._id);
 			self._previousLayersControls = jQuery.extend(true, [], self._layersControls);
 			self._layersControls = [];
 			if (result && result.length > 0){
 				var layerGroups = self.groupDataByLayerGroup(result);
-				var preparedLayerGroups = self.groupLayersByLayerTemplate(layerGroups);
+				var preparedLayerGroups = self.groupLayersByLayerTemplate(layerGroups, opacity);
 				self.addPanelContent(preparedLayerGroups);
 				self.displayPanel("block");
 				if (preparedLayerGroups.length < 1){
@@ -29670,9 +29695,10 @@ define('js/view/widgets/WorldWindWidget/panels/InfoLayersPanel',['../../../../er
 	/**
 	 * Group layers by layer template id
 	 * @param layerGroups {Array}
+	 * @param opacity {Number} Number betwen 0 and 100 showing default opacity of he layer.
 	 * @returns {Array} Layer groups
 	 */
-	InfoLayersPanel.prototype.groupLayersByLayerTemplate = function(layerGroups){
+	InfoLayersPanel.prototype.groupLayersByLayerTemplate = function(layerGroups, opacity){
 		var preparedLayerGroups = [];
 		layerGroups.forEach(function(layerGroup){
 			var groupedLayers = [];
@@ -29683,7 +29709,7 @@ define('js/view/widgets/WorldWindWidget/panels/InfoLayersPanel',['../../../../er
 					groupedLayers.push({
 						layerTemplateId: layerTemplateId,
 						layers: [layer],
-						opacity: 70,
+						opacity: opacity,
 						name: layer.name,
 						styles: layer.styles
 					});
