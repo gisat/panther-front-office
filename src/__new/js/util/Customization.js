@@ -12,7 +12,11 @@ define([
 		this._skipSelection = options.skipSelection;
 
 		if (this._skipSelection){
-			this._dispatcher.addListener(this.skipSelection.bind(this));
+			if (Ext.isReady){
+				this.skipSelection(Actions.extLoaded);
+			} else {
+				this._dispatcher.addListener(this.skipSelection.bind(this));
+			}
 		} else if (this._useWorldWindOnly){
 			this._dispatcher.addListener(this.useWorldWind.bind(this));
 		}
