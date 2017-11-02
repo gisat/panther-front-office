@@ -25,9 +25,7 @@ Ext.define('PumaMain.controller.Login',{
             isAdmin = true;
         }
 
-        if(Config.toggles.isUrbanTep) {
-            this.reloadStores();
-        }
+        this.reloadStores();
         var saveVis = Ext.ComponentQuery.query('#savevisualization')[0];
         if (!saveVis) return;
         var manageVis = Ext.ComponentQuery.query('#managevisualization')[0];
@@ -44,7 +42,10 @@ Ext.define('PumaMain.controller.Login',{
     },
 
     reloadStores: function() {
-        var stores = ['location', 'theme', 'dataset', 'topic'];
+        var stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic', 'dataview'];
+        if(Config.toggles.isUrbanTep) {
+            stores = ['location', 'theme', 'dataset', 'topic'];
+        }
         stores.forEach(function(store){
 			Ext.StoreMgr.lookup(store).load();
         });
