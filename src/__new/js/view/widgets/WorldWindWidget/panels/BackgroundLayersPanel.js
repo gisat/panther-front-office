@@ -25,21 +25,38 @@ define(['../../../../error/ArgumentError',
 	var BackgroundLayersPanel = function(options){
 		WorldWindWidgetPanel.apply(this, arguments);
 
-        this.layerControls = [];
+        this.rebuild();
 
-		this.addLayerControls();
-		this.addEventsListeners();
+        var self = this;
+        Observer.addListener('scopeChange', function(){
+        	self.rebuild();
+		});
 	};
 
 	BackgroundLayersPanel.prototype = Object.create(WorldWindWidgetPanel.prototype);
+
+    BackgroundLayersPanel.prototype.rebuild = function() {
+        this.clear(this._id);
+
+        this.layerControls = [];
+
+        this.addLayerControls();
+        this.addEventsListeners();
+
+        var self = this;
+        this.layerControls.forEach(function(layerControl){
+        	self.addLayer(layerControl);
+        	self.toggleLayers();
+		});
+    };
 
 	/**
 	 * Add control for background layers
 	 */
 	BackgroundLayersPanel.prototype.addLayerControls = function(){
-		var scope = Stores.retrieve("state").current().scope;
-		var disabledLayers = (scope && scope.get('disabledLayers')) || {};
-		var activeBackgroundMap = (scope && scope.get('activeBackgroundMap')) || 'osm';
+		var scope = Stores.retrieve("state").current().scopeFull;
+		var disabledLayers = (scope && scope['disabledLayers']) || {};
+		var activeBackgroundMap = (scope && scope['activeBackgroundMap']) || 'osm';
 		if(!disabledLayers['osm']) {
             this.layerControls.push({
                 id: "osm",

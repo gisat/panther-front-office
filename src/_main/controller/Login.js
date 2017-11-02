@@ -25,7 +25,9 @@ Ext.define('PumaMain.controller.Login',{
             isAdmin = true;
         }
 
-        this.reloadStores();
+        if(Config.toggles.isUrbanTep) {
+            this.reloadStores();
+        }
         var saveVis = Ext.ComponentQuery.query('#savevisualization')[0];
         if (!saveVis) return;
         var manageVis = Ext.ComponentQuery.query('#managevisualization')[0];
