@@ -15,7 +15,13 @@ Ext.define('PumaMain.controller.Login',{
         var isUser = false;
         if (Config.auth) {
             isUser = true;
+            if (Config.toggles.isSnow){
+                Stores.notify("user#loggedIn");
+            }
         } else {
+			if (Config.toggles.isSnow){
+				Stores.notify("user#loggedOut");
+			}
             if(Config.toggles.onlyLoggedIn) {
                 window.location = Config.notAuthenticatedUrl
             }

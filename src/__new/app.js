@@ -488,6 +488,5 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 		// hide top toolbar tools
 		var topToolbarTools = $("#top-toolbar-tools");
 		topToolbarTools.remove();
-
 	}
 });

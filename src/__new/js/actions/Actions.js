@@ -29,6 +29,8 @@ define([], function(){
 		extThemeYearLoaded: 'extRestructured',
 
 		userChanged: 'user#changed',
+		userLoggedIn: 'user#loggedIn',
+		userLoggedOut: 'user#loggedOut',
 
 		mapShow3D: 'map#show3D'
 	};

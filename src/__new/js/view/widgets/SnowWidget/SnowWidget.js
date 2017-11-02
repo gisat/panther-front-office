@@ -281,8 +281,18 @@ define(['../../../actions/Actions',
 	 * @param type {string} type of event
 	 */
 	SnowWidget.prototype.rebuildAfterLogging = function(type){
+		var toolbarItem = $("#top-toolbar-snow-configuration");
+
 		if (type === Actions.userChanged){
 			this.rebuild();
+		}
+		if (type === Actions.userLoggedOut){
+			toolbarItem.css("display", "none");
+			toolbarItem.removeClass("open");
+			this._widgetSelector.removeClass("open");
+		}
+		if (type === Actions.userLoggedIn){
+			toolbarItem.css("display", "inline-block");
 		}
 	};
 
