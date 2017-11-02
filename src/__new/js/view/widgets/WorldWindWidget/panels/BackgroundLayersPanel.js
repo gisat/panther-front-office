@@ -40,21 +40,16 @@ define(['../../../../error/ArgumentError',
 
         this.layerControls = [];
 
-        this.addLayerControls();
+        var scope = Stores.retrieve("state").current().scopeFull;
+        this.addLayerControls(scope);
         this.addEventsListeners();
-
-        var self = this;
-        this.layerControls.forEach(function(layerControl){
-        	self.addLayer(layerControl);
-        	self.toggleLayers();
-		});
+		this.toggleLayers();
     };
 
 	/**
 	 * Add control for background layers
 	 */
-	BackgroundLayersPanel.prototype.addLayerControls = function(){
-		var scope = Stores.retrieve("state").current().scopeFull;
+	BackgroundLayersPanel.prototype.addLayerControls = function(scope){
 		var disabledLayers = (scope && scope['disabledLayers']) || {};
 		var activeBackgroundMap = (scope && scope['activeBackgroundMap']) || 'osm';
 		if(!disabledLayers['osm']) {
