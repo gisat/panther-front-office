@@ -54,7 +54,7 @@ define([], function () {
 			});
 		}
 		if (leg.rawData.el === "#map-holder"){
-			var showInMapButton = $("#snow-iframe").contents().find("#composites-list .ptr-button:first-child");
+			var showInMapButton = $("#snow-iframe").contents().find("#composites-list .ptr-composites-composite:not(.empty) .ptr-button:first-child");
 			showInMapButton.trigger("click");
 			leg.$el.css({
 				top: "300px"
