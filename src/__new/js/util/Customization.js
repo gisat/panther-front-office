@@ -47,7 +47,8 @@ define([
 		var visStore = Ext.StoreMgr.lookup('visualization4sel');
 		var yearStore = Ext.StoreMgr.lookup('year4sel');
 		var themeStore = Ext.StoreMgr.lookup('theme');
-		if (!visStore.loading && !yearStore.loading && !themeStore.loading){
+		var themeData = themeStore.data.items;
+		if (!visStore.loading && !yearStore.loading && !themeStore.loading  && themeData.length > 0){
 			this._dispatcher.notify("confirmInitialSelection");
 			if (this._useWorldWindOnly){
 				this._dispatcher.notify("map#switchFramework");
