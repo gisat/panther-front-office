@@ -11,6 +11,7 @@ define([
 	 * @param url {string} URL of snow portal configuration
 	 */
 	SnowUrlParser.prototype.parse = function(url){
+		var baseUrl = url.split("?")[0];
 		var snowUrl = url.replace("http://","");
 		var path = snowUrl.substring(snowUrl.indexOf("/") + 1);
 		path = path.replace("snow/","");
@@ -26,7 +27,7 @@ define([
 			composites = this.parseComposites(components[3]);
 		}
 		return {
-			url: url,
+			url: baseUrl,
 			area: this.parseLocation(components[0]),
 			dateFrom: dates[0],
 			dateTo: dates[1],
