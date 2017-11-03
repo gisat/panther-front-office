@@ -17,7 +17,7 @@ define([
 		this._iFrame = options.iFrame;
 
 		this._countryLayer = null;
-		this._previousLayer = null;
+		this._customLayer = null;
 	};
 
 	SnowMapController.prototype.rebuild = function(){
@@ -36,6 +36,7 @@ define([
 
 	SnowMapController.prototype.addHideListListener = function(){
 		this._iFrameBodySelector.off("click.compositesOverview").on("click.compositesOverview", ".ptr-button.show-overview", this.hideMap.bind(this));
+		this.removeLastLayer();
 	};
 
 	SnowMapController.prototype.showMap = function(e){
@@ -108,20 +109,17 @@ define([
 	};
 
 	/**
-	 * Remove previously added composite layer and show the new one
-	 * @param compositeId {string} ID of the layer
+	 * Show composite/scene in the map
+	 * @param layerId {string} ID of the layer
 	 * @param styleId {string} ID of the style
 	 */
 	SnowMapController.prototype.showLayerInMap = function(layerId, styleId){
 		var self = this;
+		this.removeLastLayer();
 		if (!this._zoomListener){
 			this._zoomListener = this._map.events.register("zoomend", this._map, function() {
-				self._previousLayer.redraw();
+				self._customLayer.redraw();
 			});
-		}
-
-		if (this._previousLayer){
-			this._map.removeLayer(this._previousLayer);
 		}
 		this.addLayerToMap(layerId, styleId, 0.7);
 	};
@@ -137,7 +135,7 @@ define([
 		layer.visibility = true;
 		layer.opacity = opacity;
 		layer.redraw();
-		this._previousLayer = layer;
+		this._customLayer = layer;
 	};
 
 	/**
@@ -181,6 +179,16 @@ define([
 			},{
 				opacity: opacity
 			});
+	};
+
+	/**
+	 * Remove layer from the map
+	 */
+	SnowMapController.prototype.removeLastLayer = function(){
+		if (this._customLayer){
+			this._map.removeLayer(this._customLayer);
+			this._customLayer = null;
+		}
 	};
 
 	/**
