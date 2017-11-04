@@ -305,6 +305,8 @@ Ext.define('PumaMain.controller.ViewMng', {
 		if (Config.cfg.is3D){
 			Stores.notify('map#show3D');
 		}
+
+        Observer.notify('scopeChange');
     },
 
 	gatherViewConfig: function () {
