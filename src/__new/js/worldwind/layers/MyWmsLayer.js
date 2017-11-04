@@ -26,9 +26,15 @@ define(['../../error/ArgumentError',
 		WmsLayer.call(this, options);
 
 		this.sldId = options.sldId;
+		this.customParams = options.customParams;
 
 		if (this.sldId){
 			this.cachePath = options.service + "/" + options.layerNames + "/" + this.sldId;
+		}
+		if (this.customParams){
+			if (this.customParams.time){
+				this.cachePath = options.service + "/" + options.layerNames + "/" + this.customParams.time;
+			}
 		}
 
 		if (options.opacity){
