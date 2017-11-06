@@ -27,32 +27,62 @@
 	body.application #main {
 		padding-top: 55px;
 	}
+	body.application #maps-container {
+		top: 60px;
+	}
 
 	.toggle-useWBHeader body.application #main {
 		padding-top: 95px;
 	}
+	.toggle-useWBHeader body.application #maps-container {
+		top: 110px;
+	}
+
 	.toggle-useHeader body.application #main {
 		padding-top: 100px;
 	}
+	.toggle-useHeader body.application #maps-container {
+		top: 115px;
+	}
+
 	.toggle-useWBHeader.toggle-useHeader body.application #main {
 		padding-top: 140px;
+	}
+	.toggle-useWBHeader.toggle-useHeader body.application #maps-container {
+		top: 155px;
 	}
 
 	.toggle-useTopToolbar body.application #main {
 		padding-top: 85px;
 	}
+	.toggle-useTopToolbar body.application #maps-container {
+		top: 100px;
+	}
+
 	.toggle-useTopToolbar #sidebar-tools,
 	.toggle-useTopToolbar #sidebar-reports {
 		top: 100px;
 	}
+
 	.toggle-useTopToolbar.toggle-useHeader body.application #main {
 		padding-top: 130px;
 	}
+	.toggle-useTopToolbar.toggle-useHeader body.application #maps-container {
+		top: 145px;
+	}
+
 	.toggle-useTopToolbar.toggle-useWBHeader body.application #main {
 		padding-top: 125px;
 	}
+	.toggle-useTopToolbar.toggle-useWBHeader body.application #maps-container {
+		top: 140px;
+	}
+
 	.toggle-useTopToolbar.toggle-useHeader.toggle-useWBHeader body.application #main {
 		padding-top: 170px;
+	}
+	.toggle-useTopToolbar.toggle-useHeader.toggle-useWBHeader body.application #maps-container {
+		top: 185px;
 	}
 }
 
