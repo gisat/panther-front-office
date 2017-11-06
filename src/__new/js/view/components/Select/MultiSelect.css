@@ -52,10 +52,10 @@
 }
 .select-multi-container.top-bar-multiselect.onlyArrow:before {
 	color: #ddd;
-	height: 100%;
+	height: 20px;;
 }
 .select2-container--default.select2-container--focus .select-multi-container.top-bar-multiselect.select2-selection--multiple {
-	border: 1px solid rgba(255, 255, 255, .5);
+	border: 1px solid rgba(255, 255, 255, .3);
 	border-left: 0;
 	outline: 0;
 }
