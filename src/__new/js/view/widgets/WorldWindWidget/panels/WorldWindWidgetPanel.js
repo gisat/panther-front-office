@@ -64,6 +64,8 @@ define(['../../../../error/ArgumentError',
 	 * Build panel
 	 */
 	WorldWindWidgetPanel.prototype.build = function(){
+		console.log('WorldWindWidgetPanel#build Name: ', this._name, ' Id: ', this._id);
+
 		var html = S(htmlBody).template({
 			panelId: this._id,
 			name: this._name
