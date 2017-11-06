@@ -37,6 +37,8 @@ define([
 		this._periodStore = Stores.retrieve("period");
 
 		this.addEventListeners();
+
+		console.log('PeriodsWidget#constructor');
 	};
 
 	PeriodsWidget.prototype = Object.create(Widget.prototype);
@@ -50,7 +52,9 @@ define([
 	 */
 	PeriodsWidget.prototype.rebuild = function(){
 		var stateChanges = this._stateStore.current().changes;
-		if (stateChanges.period || stateChanges.scope){
+        console.log('PeriodsWidget#rebuild State changes: ', stateChanges);
+        if (stateChanges.period || stateChanges.scope){
+            console.log('PeriodsWidget#rebuild redraw');
 			this.redraw();
 		}
 		this.handleLoading("hide");

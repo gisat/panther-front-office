@@ -44,6 +44,8 @@ define(['../error/ArgumentError',
 		var currentState = Stores.retrieve('state').current();
 		var places = currentState.places;
 		var dataset = currentState.scope;
+
+		console.log('MyGoToAnimator#setLocation CurrentState: ', currentState);
 		if (!dataset){
 			console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "MyGoToAnimator", "setLocation", "missingDataset"));
 		}
@@ -54,6 +56,7 @@ define(['../error/ArgumentError',
 			}
 
 			Stores.retrieve("location").filter(values).then(function(response){
+				console.log('MyGoToAnimator#setLocation Location: ', response);
 				if (response.length > 0){
 					var points = [];
 					response.forEach(function(location){

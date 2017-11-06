@@ -55,6 +55,7 @@ define([
 
 		this._dataset = null;
 		Observer.addListener("rebuild", this.rebuild.bind(this));
+        Observer.addListener('user#onLogin', this.loadData.bind(this));
 	};
 
 	/**
@@ -296,15 +297,15 @@ define([
 	 * Load metadata from server
 	 */
 	FrontOffice.prototype.loadData = function(){
-		Stores.retrieve('attribute').all();
-		Stores.retrieve('attributeSet').all();
-		Stores.retrieve('layer').all();
-		Stores.retrieve('location').all();
-		Stores.retrieve('period').all();
-		Stores.retrieve('scope').all();
-		Stores.retrieve('theme').all();
-		Stores.retrieve('visualization').all();
-		Stores.retrieve('wmsLayer').all();
+		Stores.retrieve('attribute').load();
+		Stores.retrieve('attributeSet').load();
+		Stores.retrieve('layer').load();
+		Stores.retrieve('location').load();
+		Stores.retrieve('period').load();
+		Stores.retrieve('scope').load();
+		Stores.retrieve('theme').load();
+		Stores.retrieve('visualization').load();
+		Stores.retrieve('wmsLayer').load();
 
         if(Config.toggles.isUrbanTep) {
             UrbanTepPortalStore.communities().then(function(communities){

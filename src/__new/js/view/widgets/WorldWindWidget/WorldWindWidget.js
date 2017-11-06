@@ -181,6 +181,7 @@ define([
                 return Ext.StoreMgr.lookup('location').getById(place);
 			});
             locations = this.getBboxForMultiplePlaces(places);
+            console.log('WorldWindWidget#show3DMap Locations: ', locations);
         }
 
         if(locations.length != 4) {
