@@ -59,6 +59,8 @@ Ext.define('PumaMain.controller.Layers', {
 		this.scaleBorderCnst = 10000000;
 		this.scaleBorder = 10000000;
 		Select.colourMap = this.colourMap.bind(this);
+
+        Observer.notify('Layers#init');
 	},
 
 	onConfigure: function() {

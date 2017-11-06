@@ -11,6 +11,8 @@ Ext.define('PumaMain.controller.Dataview', {
             '00ffff':'5c6d7e',
             'ff00ff':'d97dff'
         }
+
+        Observer.notify('Dataview#init');
     },
         
         
@@ -30,6 +32,7 @@ Ext.define('PumaMain.controller.Dataview', {
                 if (!loading) {
                     me.onLoadingFinished();
                     runner.destroy();
+                    Observer.notify('Dataview#checkLoading Loading finished');
                 }
             },
             interval: 1000

@@ -10,7 +10,7 @@ Ext.define('PumaMain.controller.Help', {
                     }
                 })
 
-
+        Observer.notify('Help#init');
     },
     statics: {
         onHelpOver: function(e) {

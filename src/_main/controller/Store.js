@@ -41,6 +41,8 @@ Ext.define('PumaMain.controller.Store', {
 		this.initEvents();
 		this.initLocations();
 		this.getController('Dataview').checkLoading();
+
+        Observer.notify('Store#init');
 	},
 
 	initLocations: function () {
@@ -54,6 +56,8 @@ Ext.define('PumaMain.controller.Store', {
 				var data = JSON.parse(response.responseText).data;
 				store.loadData(data);
 				store.loading = false;
+
+                Observer.notify('Area#initLocations Success');
 			},
 			failure: function (response, opts) {
 				console.log('Store.initLocations AJAX request failed. Status: ' + response.status, "Response:", response);

@@ -47,6 +47,8 @@ Ext.define('PumaMain.controller.Area', {
 		this.highestAreas = {};
 		this.oldSliderVal = 0;
 		//this.filterActive = true;
+
+		Observer.notify('Area#init');
 	},
    
 		

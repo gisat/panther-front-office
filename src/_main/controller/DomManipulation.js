@@ -22,6 +22,8 @@ Ext.define('PumaMain.controller.DomManipulation', {
 		});
 		this.resizeMap();
 		this.resizeSidebars();
+
+        Observer.notify('DomManipulation#init');
 	},
 	
 	onToolsResize: function(toolPanel) {

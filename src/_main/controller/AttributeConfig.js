@@ -87,6 +87,8 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 				}
 
 			});
+
+        Observer.notify('AttributeConfig#init');
     },
 	addInfoOnClickListener: function(){
 		$("body").on("click", ".form-label-help", function(){

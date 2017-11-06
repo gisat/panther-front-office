@@ -49,6 +49,7 @@ Ext.define('PumaMain.controller.Filter', {
                         afterlayout: this.afterAccordionLayout
                     }
                 })
+        Observer.notify('Filter#init');
     },
         
     onAfterValueRender: function(obj) {

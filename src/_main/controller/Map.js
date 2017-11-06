@@ -47,6 +47,8 @@ Ext.define('PumaMain.controller.Map', {
 		});
 
 		Select.areaStore = Ext.StoreMgr.lookup('area');
+
+        Observer.notify('Map#init');
 	},
 
 	// URBIS change

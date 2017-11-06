@@ -17,6 +17,8 @@ Ext.define('PumaMain.controller.Screenshot', {
         $(document).on('load','.screenshotimg', function() {
             debugger;
         })
+
+        Observer.notify('Screenshot#init');
     },
     onPanelReady: function(panel) {
         //panel.expand();

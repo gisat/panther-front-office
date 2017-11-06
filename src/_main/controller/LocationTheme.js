@@ -43,6 +43,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 click: this.onCancelAgreement
             }
         })
+
+        Observer.notify('LocationTheme#init');
     },
     triggerConfirm: function(action){
         if (action === "confirmInitialSelection"){

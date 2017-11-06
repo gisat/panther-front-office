@@ -4,6 +4,7 @@ Ext.define('PumaMain.controller.Export', {
     requires: ['Ext.Ajax'],
     init: function() {
         //this.initConf();
+        Observer.notify('Export#init');
     },
 
     initConf: function() {

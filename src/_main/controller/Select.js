@@ -35,6 +35,8 @@ Ext.define('PumaMain.controller.Select', {
         Select.selectedAreasMap = {};
         Select.selectedAreasMap[this.actualColor] = [];
         Select.controller = this;
+
+        Observer.notify('Select#init');
     },
     onAfterUnselectRender: function() {
         //Ext.get('app-tools-colors-unselect').on('click',this.clearSelections,this);
