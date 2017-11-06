@@ -308,11 +308,11 @@ define(['../../../../error/ArgumentError',
 		if (control2d && control2d.length){
 			return control2d.attr('aria-checked') === "true";
 		}
-		// // Otherwise check if control was checked before rebuild. If existed and was not checked, do not check it again.
-		// else {
-		// 	var existingControl = _.find(this._previousInfoLayersControls, function(control){return control._id == controlId});
-		// 	return !!((existingControl && existingControl.active) || !existingControl);
-		// }
+		// Otherwise check if control was checked before rebuild. If existed and was not checked, do not check it again.
+		else {
+			var existingControl = _.find(this._previousLayersControls, function(control){return control._id == controlId});
+			return !!((existingControl && existingControl.active) || !existingControl);
+		}
 	};
 
 	/**
