@@ -178,6 +178,46 @@ body.mode-3d #top-toolbar-3dmap:not(.world-wind-2d),
 	border-spacing: 2px 0;
 }
 
+
+/** login window **/
+.snow #loginwindow {
+	box-shadow: 0 0 4px rgb(136, 136, 136);
+}
+.snow .x-form-item-label {
+	color: #555;
+	font-size: .9rem;
+	font-weight: 500;
+	padding-top: 6px;
+}
+
+.snow.x-border-box .x-form-text {
+	border-radius: .15rem;
+	font-size: .8rem;
+}
+
+.snow #loginwindow .x-btn-default-small,
+.snow #loginwindow .x-btn-default-small:last-child {
+	background: none;
+	border: 1px solid rgba(39,97,142,1);
+	border-radius: .15rem;
+	color: rgba(39,97,142,1);
+	margin-left: 5px !important;
+	padding-left: 0;
+	width: 70px !important;
+}
+.snow #loginwindow .x-btn-default-small-over,
+.snow #loginwindow .x-btn-default-small-over:last-child,
+.snow #loginwindow .x-btn-default-small:last-child:hover {
+	background: rgba(39,97,142,.15);
+}
+.snow #loginwindow .x-btn-default-small span.x-btn-inner {
+	color: rgba(39,97,142,1);
+	font-size: .8rem;
+	font-weight: 600;
+	padding: 0;
+	width: 69px !important;
+}
+
 /* TODO temporary changes */
 .snow #top-toolbar-3dmap {
 	display: none !important;
