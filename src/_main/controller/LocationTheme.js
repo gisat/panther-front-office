@@ -1141,8 +1141,11 @@ Ext.define('PumaMain.controller.LocationTheme', {
                     $('.field.visualization').hide();
                 }
 
-                if(tools.indexOf('charts') !== -1) {
-                    this.getController('DomManipulation')._onReportsSidebarToggleClick();
+
+				var dataset = Ext.ComponentQuery.query('#seldataset')[0].getValue();
+                if(dataset !== this._datasetId) {
+                    this.getController('DomManipulation')._onReportsSidebarHide();
+                    this._datasetId = dataset;
                 } else {
                     $('#sidebar-reports').show();
                 }
