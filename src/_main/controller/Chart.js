@@ -679,8 +679,8 @@ Ext.define('PumaMain.controller.Chart', {
             
             try {
                 cmp.chart.destroy();
-            }
-            catch (e) {
+            } catch (e) {
+                console.warn('Chart#onChartReceived Not possible to destroy chart. Error: ', e);
             }
         }
         
@@ -694,7 +694,9 @@ Ext.define('PumaMain.controller.Chart', {
         
         console.log('Chart#onChartReceived Response', response, ' CMP: ', cmp);
         if (!data || data.noData) {
-            this.createNoDataChart(cmp);
+            if(cmp.chart.type == 'extentoutline') {
+                this.createNoDataChart(cmp);
+            }
             return;
         }
 
