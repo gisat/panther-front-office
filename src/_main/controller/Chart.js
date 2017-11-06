@@ -689,7 +689,7 @@ Ext.define('PumaMain.controller.Chart', {
                 style: {
                     left: '125px',
                     top: '180px',
-                    fontSize: 34,
+                    fontSize: 18,
                     fontFamily: '"Open Sans", sans-serif',
                     color: '#777777'
 
@@ -723,7 +723,7 @@ Ext.define('PumaMain.controller.Chart', {
         
         console.log('Chart#onChartReceived Response', response, ' CMP: ', cmp);
         if (!data || data.noData) {
-            if(cmp.chart.type == 'extentoutline') {
+            if(cmp.chart && cmp.chart.type == 'extentoutline') {
                 this.createNoDataChart(cmp);
             } else {
                 this.createNoDataChartDifferentLevel(cmp);
