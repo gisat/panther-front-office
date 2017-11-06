@@ -672,6 +672,35 @@ Ext.define('PumaMain.controller.Chart', {
         cmp.chart = chart;
         chart.cmp = cmp;
     },
+
+    createNoDataChartDifferentLevel: function(cmp) {
+        var cfg = {
+            chart: {
+                renderTo: cmp.el.dom
+            },
+            title: {
+                text: null
+            },
+            credits: {
+                enabled: false
+            },
+            labels: {items: [{
+                html: 'The chart is unavailable for this level. ',
+                style: {
+                    left: '125px',
+                    top: '180px',
+                    fontSize: 18,
+                    fontFamily: '"Open Sans", sans-serif',
+                    color: '#777777'
+
+                }
+            }]}};
+
+
+        var chart = new Highcharts.Chart(cfg);
+        cmp.chart = chart;
+        chart.cmp = cmp;
+    },
     
     onChartReceived: function(response) {
         var cmp = response.cmp || response.request.options.cmp;
@@ -679,8 +708,8 @@ Ext.define('PumaMain.controller.Chart', {
             
             try {
                 cmp.chart.destroy();
-            }
-            catch (e) {
+            } catch (e) {
+                console.warn('Chart#onChartReceived Not possible to destroy chart. Error: ', e);
             }
         }
         
@@ -694,7 +723,11 @@ Ext.define('PumaMain.controller.Chart', {
         
         console.log('Chart#onChartReceived Response', response, ' CMP: ', cmp);
         if (!data || data.noData) {
-            this.createNoDataChart(cmp);
+            if(cmp.chart && cmp.chart.type == 'extentoutline') {
+                this.createNoDataChart(cmp);
+            } else {
+                this.createNoDataChartDifferentLevel(cmp);
+            }
             return;
         }
 
