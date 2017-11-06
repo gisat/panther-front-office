@@ -692,7 +692,7 @@ Ext.define('PumaMain.controller.Chart', {
         }
        
         
-        
+        console.log('Chart#onChartReceived Response', response);
         if (!data || data.noData) {
             this.createNoDataChart(cmp);
             return;
