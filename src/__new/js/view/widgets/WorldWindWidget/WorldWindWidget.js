@@ -187,6 +187,7 @@ define([
 			return;
 		}
         var position = new WorldWind.Position((Number(locations[1]) + Number(locations[3])) / 2, (Number(locations[0]) + Number(locations[2])) / 2, 1000000);
+		console.log('WorldWindWidget#show3DMap Position: ', position);
         this._mapsContainer.setAllMapsPosition(position);
 	};
 
@@ -207,7 +208,8 @@ define([
 
 		var locations;
 		places.forEach(function(place){
-			locations = place.get('bbox').split(',');
+            console.log('WorldWindWidget#getBboxForMultiplePlaces Place: ', place);
+            locations = place.get('bbox').split(',');
 			if(locations[0] < minLongitude) {
 				minLongitude = locations[0];
 			}
