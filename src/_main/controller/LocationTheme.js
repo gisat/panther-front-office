@@ -1145,9 +1145,11 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
 				// do on dataset change
 				if(dataset !== this._datasetId) {
+					if (this._datasetId){
+						Stores.notify('map#show3D');
+					}
+					this._datasetId = dataset;
                     this.getController('DomManipulation')._onReportsSidebarHide();
-                    this._datasetId = dataset;
-					Stores.notify('map#show3D');
                 } else {
                     $('#sidebar-reports').show();
                 }
