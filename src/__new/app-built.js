@@ -21866,9 +21866,15 @@ define('js/worldwind/layers/MyWmsLayer',['../../error/ArgumentError',
 		WmsLayer.call(this, options);
 
 		this.sldId = options.sldId;
+		this.customParams = options.customParams;
 
 		if (this.sldId){
 			this.cachePath = options.service + "/" + options.layerNames + "/" + this.sldId;
+		}
+		if (this.customParams){
+			if (this.customParams.time){
+				this.cachePath = options.service + "/" + options.layerNames + "/" + this.customParams.time;
+			}
 		}
 
 		if (options.opacity){
@@ -23932,6 +23938,8 @@ define('js/view/worldWind/WorldWindMap',['../../actions/Actions',
 	 * @param position {Position}
 	 */
 	WorldWindMap.prototype.goTo = function(position) {
+		console.log('WorldWindMap#goTo Position: ', position);
+
         this._wwd.navigator.lookAtLocation = position;
         this._wwd.redraw();
 	};
@@ -28776,6 +28784,8 @@ define('js/view/widgets/WorldWindWidget/panels/WorldWindWidgetPanel',['../../../
 	 * Build panel
 	 */
 	WorldWindWidgetPanel.prototype.build = function(){
+		console.log('WorldWindWidgetPanel#build Name: ', this._name, ' Id: ', this._id);
+
 		var html = S(htmlBody).template({
 			panelId: this._id,
 			name: this._name

@@ -21,6 +21,8 @@ Ext.define('PumaMain.controller.Render', {
                 PumaMain.controller.Help.onHelpClick(e);
             }
         })
+
+        Observer.notify('Render#init');
     },
     onFloatingCollapse: function(panel) {
         window.setTimeout(function() {

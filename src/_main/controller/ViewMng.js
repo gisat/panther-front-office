@@ -36,6 +36,8 @@ Ext.define('PumaMain.controller.ViewMng', {
                         click: this.onShare
                     },
                 })
+
+        Observer.notify('ViewMng#init');
     },
     
     onUrlOpen: function(grid,rec) {

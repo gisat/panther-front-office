@@ -88,6 +88,8 @@ Ext.define('PumaMain.controller.Chart', {
                 }
             }
         })
+
+        Observer.notify('Chart#init');
     },
     
     onChartExpand: function(panel) {

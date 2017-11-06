@@ -8,6 +8,8 @@ Ext.define('PumaMain.controller.Login',{
         this.getApplication().on('login',function() {
             me.onLogin();
         })
+
+        Observer.notify('Login#init');
     },
         
     onLogin: function() {

@@ -257,6 +257,8 @@ define(['../../actions/Actions',
 	 * @param position {Position}
 	 */
 	WorldWindMap.prototype.goTo = function(position) {
+		console.log('WorldWindMap#goTo Position: ', position);
+
         this._wwd.navigator.lookAtLocation = position;
         this._wwd.redraw();
 	};
