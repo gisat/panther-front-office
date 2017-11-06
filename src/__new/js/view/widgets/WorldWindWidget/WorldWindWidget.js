@@ -175,7 +175,8 @@ define([
         var locations;
 		if(places.length === 1 && places[0]){
 			locations = places[0].get('bbox').split(',');
-		} else {
+            console.log('WorldWindWidget#show3DMap Place: ', places[0]);
+        } else {
 			places = this._stateStore.current().allPlaces.map(function(place) {
                 return Ext.StoreMgr.lookup('location').getById(place);
 			});
@@ -187,6 +188,7 @@ define([
 			return;
 		}
         var position = new WorldWind.Position((Number(locations[1]) + Number(locations[3])) / 2, (Number(locations[0]) + Number(locations[2])) / 2, 1000000);
+		console.log('WorldWindWidget#show3DMap Position: ', position);
         this._mapsContainer.setAllMapsPosition(position);
 	};
 
@@ -207,7 +209,8 @@ define([
 
 		var locations;
 		places.forEach(function(place){
-			locations = place.get('bbox').split(',');
+            console.log('WorldWindWidget#getBboxForMultiplePlaces Place: ', place);
+            locations = place.get('bbox').split(',');
 			if(locations[0] < minLongitude) {
 				minLongitude = locations[0];
 			}
