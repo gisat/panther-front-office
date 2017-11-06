@@ -21031,6 +21031,7 @@ define('FrontOffice',[
 
 		this._dataset = null;
 		Observer.addListener("rebuild", this.rebuild.bind(this));
+        Observer.addListener('user#onLogin', this.loadData.bind(this));
 	};
 
 	/**
