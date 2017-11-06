@@ -56,6 +56,7 @@ define(['../error/ArgumentError',
 			}
 
 			Stores.retrieve("location").filter(values).then(function(response){
+				console.log('MyGoToAnimator#setLocation Location: ', response);
 				if (response.length > 0){
 					var points = [];
 					response.forEach(function(location){

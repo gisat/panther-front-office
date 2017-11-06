@@ -22384,6 +22384,7 @@ define('js/worldwind/MyGoToAnimator',['../error/ArgumentError',
 			}
 
 			Stores.retrieve("location").filter(values).then(function(response){
+				console.log('MyGoToAnimator#setLocation Location: ', response);
 				if (response.length > 0){
 					var points = [];
 					response.forEach(function(location){
@@ -23940,7 +23941,7 @@ define('js/view/worldWind/WorldWindMap',['../../actions/Actions',
 	 * @param position {Position}
 	 */
 	WorldWindMap.prototype.goTo = function(position) {
-		console.log('WorldWindMap#goTo Position: ', position, '');
+		console.log('WorldWindMap#goTo Position: ', position);
 
         this._wwd.navigator.lookAtLocation = position;
         this._wwd.redraw();
@@ -25370,6 +25371,8 @@ define('js/view/widgets/PeriodsWidget/PeriodsWidget',[
 		this._periodStore = Stores.retrieve("period");
 
 		this.addEventListeners();
+
+		console.log('PeriodsWidget#constructor');
 	};
 
 	PeriodsWidget.prototype = Object.create(Widget.prototype);
@@ -25383,7 +25386,9 @@ define('js/view/widgets/PeriodsWidget/PeriodsWidget',[
 	 */
 	PeriodsWidget.prototype.rebuild = function(){
 		var stateChanges = this._stateStore.current().changes;
-		if (stateChanges.period || stateChanges.scope){
+        console.log('PeriodsWidget#rebuild State changes: ', stateChanges);
+        if (stateChanges.period || stateChanges.scope){
+            console.log('PeriodsWidget#rebuild redraw');
 			this.redraw();
 		}
 		this.handleLoading("hide");
