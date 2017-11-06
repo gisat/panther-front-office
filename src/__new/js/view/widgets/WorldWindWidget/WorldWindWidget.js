@@ -175,7 +175,8 @@ define([
         var locations;
 		if(places.length === 1 && places[0]){
 			locations = places[0].get('bbox').split(',');
-		} else {
+            console.log('WorldWindWidget#show3DMap Place: ', places[0]);
+        } else {
 			places = this._stateStore.current().allPlaces.map(function(place) {
                 return Ext.StoreMgr.lookup('location').getById(place);
 			});
