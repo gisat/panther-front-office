@@ -1116,9 +1116,21 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 // Remove the possibility to switch back
                 $('#top-toolbar-3dmap').hide();
             } else {
-                var tools = scope.get('removedTools') || [];
+				var tools = scope.get('removedTools') || [];
+				var dataset = Ext.ComponentQuery.query('#seldataset')[0].getValue();
+				var only3D = (tools.indexOf('2dmap') !== -1);
+
+				if(dataset !== this._datasetId) {
+					if (this._datasetId || only3D){
+						Stores.notify('map#show3D');
+					}
+					this._datasetId = dataset;
+					this.getController('DomManipulation')._onReportsSidebarHide();
+				} else {
+					$('#sidebar-reports').show();
+				}
+
                 if(tools.indexOf('2dmap') !== -1) {
-                    Stores.notify('map#show3D');
                     $('#top-toolbar-3dmap').hide();
                 } else {
                     $('#top-toolbar-3dmap').show();
@@ -1139,14 +1151,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
                 if(tools.indexOf('visualisation') !== -1) {
                     $('.field.visualization').hide();
-                }
-
-
-				var dataset = Ext.ComponentQuery.query('#seldataset')[0].getValue();
-                if(tools.indexOf('charts') !== -1) {
-                    this.getController('DomManipulation')._onReportsSidebarHide();
-                } else {
-                    $('#sidebar-reports').show();
                 }
 
                 if(tools.indexOf('snapshots') !== -1) {
