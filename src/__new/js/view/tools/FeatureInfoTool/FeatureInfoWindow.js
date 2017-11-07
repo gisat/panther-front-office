@@ -99,19 +99,26 @@ define(['../../../error/ArgumentError',
 	FeatureInfoWindow.prototype.redraw = function(data){
 		var content = "";
 		var attributes = data[0].attributes;
-		attributes.forEach(function(item){
-			var value = item.value;
-			var units = "";
+		if (attributes.length > 0){
+			attributes.forEach(function(item){
+				var value = item.value;
+				var units = "";
 
-			if (typeof value == "number"){
-				value = viewUtils.numberFormat(value, true, 2);
-			}
-			if (item.units){
-				units = " (" + item.units + ")";
-			}
+				if (typeof value == "number"){
+					value = viewUtils.numberFormat(value, true, 2);
+				}
+				if (item.units){
+					units = " (" + item.units + ")";
+				}
 
-			content += '<tr><td><i>' + item.asName + '</i>: ' + item.name + units + '</td><td>' + value + '</td></tr>';
-		});
+				content += '<tr><td><i>' + item.asName + '</i>: ' + item.name + units + '</td><td>' + value + '</td></tr>';
+			});
+			this._infoWindow.removeClass("no-data");
+		} else {
+			content += '<tr><td>No attributes</td><td></td></tr>';
+			this._infoWindow.addClass("no-data");
+		}
+
 		this._infoWindow.find(".feature-info-title")
 			.html(data[0].name + " (" + data[0].gid + ")")
 			.attr("title", data[0].name + " (" + data[0].gid + ")");
