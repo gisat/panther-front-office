@@ -67,7 +67,13 @@ Ext.define('Puma.controller.Login', {
             method: 'POST',
             success: function(response) {
                 Config.auth = null;
-                me.onChangeLoginState(false);
+
+                if(!new URL(window.location).searchParams.get('needLogin')) {
+                    me.onChangeLoginState(false);
+                } else {
+                    $('#hideAllExceptLogin').show();
+                    me.onLoginClicked();
+                }
             }
         })
     },

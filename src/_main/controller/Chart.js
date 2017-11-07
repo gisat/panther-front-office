@@ -704,13 +704,11 @@ Ext.define('PumaMain.controller.Chart', {
     },
 
     hideChart: function(cmp) {
-        cmp.cnt.el.hide();
-        cmp.container.hide();
+        cmp.up().hide();
     },
 
     showChart: function(cmp) {
-        cmp.cnt.el.show();
-        cmp.container.show();
+        cmp.up().show();
     },
     
     onChartReceived: function(response) {
@@ -737,10 +735,12 @@ Ext.define('PumaMain.controller.Chart', {
             if(cmp.chart && cmp.chart.type == 'extentoutline') {
                 this.createSelectAreaChart(cmp);
             } else {
-                this.createNoDataChart(cmp);
+                this.hideChart(cmp);
             }
             return;
         }
+
+        this.showChart(cmp);
 
         // Make sure that the results are Numbers.
         if(data.series) {
