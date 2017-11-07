@@ -673,6 +673,36 @@ Ext.define('PumaMain.controller.Chart', {
         chart.cmp = cmp;
     },
 
+    createNoDataChart: function(cmp) {
+
+        var cfg = {
+            chart: {
+                renderTo: cmp.el.dom
+            },
+            title: {
+                text: null
+            },
+            credits: {
+                enabled: false
+            },
+            labels: {items: [{
+                html: "The chart isn't available for current level.",
+                style: {
+                    left: '125px',
+                    top: '180px',
+                    fontSize: 18,
+                    fontFamily: '"Open Sans", sans-serif',
+                    color: '#777777'
+
+                }
+            }]}};
+
+
+        var chart = new Highcharts.Chart(cfg);
+        cmp.chart = chart;
+        chart.cmp = cmp;
+    },
+
     hideChart: function(cmp) {
         cmp.cnt.el.hide();
         cmp.container.hide();
@@ -707,12 +737,10 @@ Ext.define('PumaMain.controller.Chart', {
             if(cmp.chart && cmp.chart.type == 'extentoutline') {
                 this.createSelectAreaChart(cmp);
             } else {
-                this.hideChart(cmp);
+                this.createNoDataChart(cmp);
             }
             return;
         }
-
-        this.showChart(cmp);
 
         // Make sure that the results are Numbers.
         if(data.series) {
