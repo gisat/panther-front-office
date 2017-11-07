@@ -163,7 +163,6 @@ define([
 		var body = $("body");
 
 		body.addClass("mode-3d");
-		self._widgetSelector.addClass("open");
 		self.toggleComponents("none");
 		self.rebuild();
 

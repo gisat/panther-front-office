@@ -28,10 +28,13 @@ define([
 	 * Class for creating of basic html select element using Select2 library
 	 * @constructor
 	 * @params options.onChange {function}
+	 * @params options.placeholder {string}
 	 */
 	var Select = function(options){
 		BaseSelect.apply(this, arguments);
 		this.onChange = options.onChange;
+
+		this._placeholder = options.placeholder;
 
 		this.render();
 		this.addListeners();
@@ -46,17 +49,32 @@ define([
 		var self = this;
 		this.renderElement(SelectHtml);
 
+		$(document).ready(function() {
+			self._selectSelector.select2(self.prepareSelectSettings());
+		});
+	};
+
+	/**
+	 * Prepare settings for select
+	 * @returns {Object} select settings
+	 */
+	Select.prototype.prepareSelectSettings = function(){
 		var containerClass = "select-basic-container";
 		if (this._classes){
 			containerClass += " " + this._classes;
 		}
 
-		$(document).ready(function() {
-			self._selectSelector.select2({
-				data: self.prepareData(),
-				containerCssClass: containerClass
-			});
-		});
+		var settings = {
+			data: this.prepareData(),
+			containerCssClass: containerClass
+		};
+
+		if (this._placeholder){
+			$("#" + this._id).append('<option></option>');
+			settings.placeholder = this._placeholder;
+		}
+
+	 	return settings;
 	};
 
 	/**

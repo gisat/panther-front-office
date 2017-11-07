@@ -1118,7 +1118,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
             } else {
                 var tools = scope.get('removedTools') || [];
                 if(tools.indexOf('2dmap') !== -1) {
-                    Stores.notify('map#show3D');
                     $('#top-toolbar-3dmap').hide();
                 } else {
                     $('#top-toolbar-3dmap').show();
@@ -1143,9 +1142,14 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
 
 				var dataset = Ext.ComponentQuery.query('#seldataset')[0].getValue();
-                if(dataset !== this._datasetId) {
+
+				// do on dataset change
+				if(dataset !== this._datasetId) {
+					if (this._datasetId){
+						Stores.notify('map#show3D');
+					}
+					this._datasetId = dataset;
                     this.getController('DomManipulation')._onReportsSidebarHide();
-                    this._datasetId = dataset;
                 } else {
                     $('#sidebar-reports').show();
                 }

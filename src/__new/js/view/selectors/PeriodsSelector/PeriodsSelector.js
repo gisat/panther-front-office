@@ -139,14 +139,20 @@ define([
 	 * @returns {Select}
 	 */
 	PeriodsSelector.prototype.renderBasicPeriodSelection = function (periods) {
+		var selected = this._selectedPeriods;
+		if (this._selectedPeriods.length > 1){
+			selected = [];
+		}
+
 		return new Select({
 			id: this._id + "-select",
 			title: "Select period",
 			options: periods,
+			placeholder: "...",
 			sorting: {
 				type: 'string'
 			},
-			selectedOptions: this._disabledPeriods,
+			selectedOptions: selected,
 			containerSelector: this._periodsContainerSelector,
 			classes: "top-bar-select",
 			onChange: this.updatePeriod.bind(this)
