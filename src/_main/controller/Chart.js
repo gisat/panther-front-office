@@ -643,7 +643,7 @@ Ext.define('PumaMain.controller.Chart', {
 
     },
     
-    createNoDataChart: function(cmp) {
+    createSelectAreaChart: function(cmp) {
 
         var cfg = {
             chart: {
@@ -673,33 +673,14 @@ Ext.define('PumaMain.controller.Chart', {
         chart.cmp = cmp;
     },
 
-    createNoDataChartDifferentLevel: function(cmp) {
-        var cfg = {
-            chart: {
-                renderTo: cmp.el.dom
-            },
-            title: {
-                text: null
-            },
-            credits: {
-                enabled: false
-            },
-            labels: {items: [{
-                html: 'The chart is unavailable for this level. ',
-                style: {
-                    left: '125px',
-                    top: '180px',
-                    fontSize: 18,
-                    fontFamily: '"Open Sans", sans-serif',
-                    color: '#777777'
+    hideChart: function(cmp) {
+        cmp.cnt.el.hide();
+        cmp.container.hide();
+    },
 
-                }
-            }]}};
-
-
-        var chart = new Highcharts.Chart(cfg);
-        cmp.chart = chart;
-        chart.cmp = cmp;
+    showChart: function(cmp) {
+        cmp.cnt.el.show();
+        cmp.container.show();
     },
     
     onChartReceived: function(response) {
@@ -724,12 +705,14 @@ Ext.define('PumaMain.controller.Chart', {
         console.log('Chart#onChartReceived Response', response, ' CMP: ', cmp);
         if (!data || data.noData) {
             if(cmp.chart && cmp.chart.type == 'extentoutline') {
-                this.createNoDataChart(cmp);
+                this.createSelectAreaChart(cmp);
             } else {
-                this.createNoDataChartDifferentLevel(cmp);
+                this.hideChart(cmp);
             }
             return;
         }
+
+        this.showChart(cmp);
 
         // Make sure that the results are Numbers.
         if(data.series) {
