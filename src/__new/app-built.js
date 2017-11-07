@@ -22079,33 +22079,36 @@ define('js/view/worldWind/layers/Layers',['../../../error/ArgumentError',
 	 * @param order {number} order of the layer among other layers
 	 */
 	Layers.prototype.addLayerToMap = function(layer, order){
-		var group = layer.metadata.group;
-		if (order >= 0){
-			var position = this.findLayerZposition(order);
-			this._wwd.insertLayer(position, layer);
-		} else {
-			this._wwd.addLayer(layer);
-		}
+		var position = this.findLayerZposition(order, layer);
+		this._wwd.insertLayer(position, layer);
 		this._wwd.redraw();
 	};
 
 	/**
 	 * @param order {number} order in 2D
+	 * @param currentLayer {WorldWind.Layer} layer being inserted
 	 * @returns {number} position in world wind layers
 	 */
-	Layers.prototype.findLayerZposition = function(order){
+	Layers.prototype.findLayerZposition = function(order, currentLayer){
 		var layers = this._wwd.layers;
 		var position = null;
+
 		layers.forEach(function (layer, index) {
 			if ((layer.metadata.order >= 0) && (order > layer.metadata.order) && !position){
 				position = index;
 			}
 		});
-		if (position){
-			return position;
-		} else {
-			return layers.length;
+
+		if (!position){
+			position = layers.length;
 		}
+
+		// push layer just under AU layer
+		if (!currentLayer.metadata || !currentLayer.metadata.group || !(currentLayer.metadata.group === "areaoutlines")){
+			position--;
+		}
+
+		return position;
 	};
 
 	/**
@@ -29063,7 +29066,7 @@ define('js/view/widgets/WorldWindWidget/panels/WorldWindWidgetPanel',['../../../
 		// Otherwise check if control was checked before rebuild. If existed and was not checked, do not check it again.
 		else {
 			var existingControl = _.find(this._previousLayersControls, function(control){return control._id == controlId});
-			return !!((existingControl && existingControl.active) || !existingControl);
+			return !!((existingControl && existingControl.active));
 		}
 	};
 
