@@ -311,7 +311,7 @@ define(['../../../../error/ArgumentError',
 		// Otherwise check if control was checked before rebuild. If existed and was not checked, do not check it again.
 		else {
 			var existingControl = _.find(this._previousLayersControls, function(control){return control._id == controlId});
-			return !!((existingControl && existingControl.active) || !existingControl);
+			return !!((existingControl && existingControl.active));
 		}
 	};
 
