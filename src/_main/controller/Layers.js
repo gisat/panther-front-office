@@ -246,7 +246,7 @@ Ext.define('PumaMain.controller.Layers', {
 		if (layer2 && layer2.params.LAYERS) {
 			layers = Ext.Array.merge(layers, layer2.params.LAYERS.split(','))
 		}
-		Puma.util.Msg.msg('Search for metadata has started. Please wait.','','l');
+		Puma.util.Msg.msg(polyglot.t('Search for metadata has started. Please wait.'),'','l');
 		Ext.Ajax.request({
 			url: Config.url + 'api/layers/getMetadata',
 			rec: rec,
@@ -272,20 +272,20 @@ Ext.define('PumaMain.controller.Layers', {
 
 					var oneDiv= '<div class="metadata">';
 
-					oneDiv+= '<p class="title">Title</p>';
+					oneDiv+= '<p class="title">'+polyglot.t("title")+'</p>';
 					oneDiv+= '<p>' + r.title + '</p>';
 
 					if(!Config.toggles.isUrbis) {
-						oneDiv+= '<p class="title">Abstract</p>';
+						oneDiv+= '<p class="title">'+polyglot.t("abstract")+'</p>';
 						oneDiv+= '<p>' + r.abstract + '</p>';
 
-						oneDiv += '<p class="title">Temporal extent</p>';
+						oneDiv += '<p class="title">'+polyglot.t("temporalExtent")+'</p>';
 						oneDiv += '<p>' + r.temporal + '</p>';
 
-						oneDiv += '<p class="title">Keywords</p>';
+						oneDiv += '<p class="title">'+polyglot.t("keywords")+'</p>';
 						oneDiv += '<p>' + r.keywords + '</p>';
 
-						oneDiv += '<p class="title">Producer</p>';
+						oneDiv += '<p class="title">'+polyglot.t("producer")+'</p>';
 						oneDiv += '<p>';
 						if (r.organization != r.contact && r.organization != "") {
 							oneDiv += r.organization + '<br>';
@@ -302,9 +302,9 @@ Ext.define('PumaMain.controller.Layers', {
 							oneDiv += '<p>' + r.constraints_other + '</p>';
 						}
 
-						oneDiv += '<p>For more details see <a target="_blank" href="' + r.address + '">Complete Metadata</a></p>';
+						oneDiv += '<p>'+polyglot.t("forMoreDetailsSee")+'<a target="_blank" href="' + r.address + '">'+polyglot.t("completeMetadata")+'</a></p>';
 					} else {
-						oneDiv += '<p class="title">Contact</p>';
+						oneDiv += '<p class="title">'+polyglot.t("contact")+'</p>';
 						oneDiv+= '<p><a target="_top" href="mailto:katerina.jupova@gisat.cz">Kateřina Jupová</a></p>';
 
 						oneDiv+= '<p>' + r.abstract + '</p>';

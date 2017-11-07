@@ -347,7 +347,7 @@ Ext.define('PumaMain.controller.Chart', {
 
 
         var cnt = Ext.widget('chartpanel', {
-            title: cfg.title || ('Anonymous ' + cfg.type),
+            title: cfg.title || (polyglot.t('anonymous') + cfg.type),
             cfgType: cfg.type,
             iconCls: 'cmptype-'+cfg.type,
             layout: {
@@ -656,7 +656,7 @@ Ext.define('PumaMain.controller.Chart', {
                 enabled: false
             },
             labels: {items: [{
-                        html: 'Please select areas...',
+                        html: polyglot.t('pleaseSelectAreas'),
                         style: {
                             left: '125px',
                             top: '180px',
@@ -666,36 +666,6 @@ Ext.define('PumaMain.controller.Chart', {
 
                         }
                     }]}};
-
-
-        var chart = new Highcharts.Chart(cfg);
-        cmp.chart = chart;
-        chart.cmp = cmp;
-    },
-
-    createNoDataChart: function(cmp) {
-
-        var cfg = {
-            chart: {
-                renderTo: cmp.el.dom
-            },
-            title: {
-                text: null
-            },
-            credits: {
-                enabled: false
-            },
-            labels: {items: [{
-                html: "The chart isn't available for current level.",
-                style: {
-                    left: '125px',
-                    top: '180px',
-                    fontSize: 18,
-                    fontFamily: '"Open Sans", sans-serif',
-                    color: '#777777'
-
-                }
-            }]}};
 
 
         var chart = new Highcharts.Chart(cfg);
@@ -816,7 +786,7 @@ Ext.define('PumaMain.controller.Chart', {
                 areaName = obj.series.name;
                 yearName = obj.series.userOptions.yearName
                 attrConf.push({
-                    name: obj.point.swap ? 'Other' : obj.key,
+                    name: obj.point.swap ? polyglot.t('other') : obj.key,
                     val: obj.y,
                     units: obj.point.units
                 })
@@ -992,7 +962,7 @@ Ext.define('PumaMain.controller.Chart', {
         if (scrollLeft) {
             cfg.scrollLeft = scrollLeft;
         }
-        Puma.util.Msg.msg('Snapshot creation started','','r');
+        Puma.util.Msg.msg(polyglot.t('snapshotCreationStarted'),'','r');
         Ext.Ajax.request({
             url: Config.url + 'api/urlview/saveChart',
             params: {
@@ -1041,7 +1011,7 @@ Ext.define('PumaMain.controller.Chart', {
             $('img[src="'+url+'"]').css('background', 0);
             var img = Ext.DomQuery.select('img[src="'+url+'"]');
             Ext.get(img[0]).on('load',function() {
-                Puma.util.Msg.msg('Snapshot done','','r');
+                Puma.util.Msg.msg(polyglto.t('snapshotDone'),'','r');
                 $('img[src="'+url+'"]').css('background', 'rgb(240,240,240)');
                 var snapshotPanel = Ext.ComponentQuery.query('chartbar #screenshotpanel')[0];
                 snapshotPanel.expand();

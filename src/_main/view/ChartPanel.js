@@ -13,39 +13,39 @@ Ext.define('PumaMain.view.ChartPanel', {
             gear: {
                 type: 'gear',
                 helpId: 'Modifyingcharts',
-                tooltip: 'Settings'
+                tooltip: polyglot.t('settings')
             },
             close: {
                 type: 'close',
                 helpId: 'Removingcharts',
-                tooltip: 'Remove',
+                tooltip: polyglot.t('remove'),
                 cls: 'tool-chart-close'
             },
             help: {
                 type: 'help',
                 helpId: 'Displayingchartlegend',
-                tooltip: 'Legend'
+                tooltip: polyglot.t('legend')
             },
             collapse: {
                 type: 'collapse',
                 helpId: 'Exportingchartsastables',
-                tooltip: 'Export CSV'
+                tooltip: polyglot.t('exportCsv')
             },
             search: {
                 type: 'search',
-                tooltip: 'Switch zooming',
+                tooltip: polyglot.t('switchZooming'),
                 width: 22,
                 height: 22
             },
             print: {
                 type: 'print',
                 helpId: 'Exportingchartsasgraphics',
-                tooltip: 'Export PNG'
+                tooltip: polyglot.t('exportPng')
             },
             save: {
                 type: 'save',
                 helpId: 'Snapshots',
-                tooltip: 'Snapshot'
+                tooltip: polyglot.t('snapshot')
             }
         }
         this.tools = [];

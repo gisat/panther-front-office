@@ -595,7 +595,7 @@ Ext.define('PumaMain.controller.Filter', {
             }
             else if (val[0]<cfg.min || val[1]>cfg.max) {
                 newValue = [cfg.min,cfg.max];
-                Puma.util.Msg.msg('Filter '+slider.attrObj.attrName+' was reset','','l');
+                Puma.util.Msg.msg(polyglot.t('filter')+slider.attrObj.attrName+polyglot.t('wasReset'),'','l');
             }
         }
         

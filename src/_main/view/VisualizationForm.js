@@ -13,7 +13,7 @@ Ext.define('PumaMain.view.VisualizationForm', {
             itemId: 'visualizationgrid',
             margin: '0 10 0 0',
             disableFilter: true,
-            title: 'Visualizations',
+            title: polyglot.t('visualizations'),
             columns: [{
                     dataIndex: 'name',
                     flex: 1,
@@ -26,7 +26,7 @@ Ext.define('PumaMain.view.VisualizationForm', {
         })
 
         var form = Ext.widget('commonform', {
-            title: 'Visualization',
+            title: polyglot.t('visu'),
             model: 'Visualization',
             itemId: 'layerrefform',
             width: 300,
@@ -34,7 +34,7 @@ Ext.define('PumaMain.view.VisualizationForm', {
                     xtype: 'textfield',
                     name: 'name',
                     allowBlank: false,
-                    fieldLabel: 'Name'
+                    fieldLabel: polyglot.t('name')
                 },{
                     xtype: 'hiddenfield',
                     name: 'theme',
