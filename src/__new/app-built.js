@@ -25005,10 +25005,13 @@ define('js/view/components/Select/Select',[
 	 * Class for creating of basic html select element using Select2 library
 	 * @constructor
 	 * @params options.onChange {function}
+	 * @params options.placeholder {string}
 	 */
 	var Select = function(options){
 		BaseSelect.apply(this, arguments);
 		this.onChange = options.onChange;
+
+		this._placeholder = options.placeholder;
 
 		this.render();
 		this.addListeners();
@@ -25023,17 +25026,32 @@ define('js/view/components/Select/Select',[
 		var self = this;
 		this.renderElement(SelectHtml);
 
+		$(document).ready(function() {
+			self._selectSelector.select2(self.prepareSelectSettings());
+		});
+	};
+
+	/**
+	 * Prepare settings for select
+	 * @returns {Object} select settings
+	 */
+	Select.prototype.prepareSelectSettings = function(){
 		var containerClass = "select-basic-container";
 		if (this._classes){
 			containerClass += " " + this._classes;
 		}
 
-		$(document).ready(function() {
-			self._selectSelector.select2({
-				data: self.prepareData(),
-				containerCssClass: containerClass
-			});
-		});
+		var settings = {
+			data: this.prepareData(),
+			containerCssClass: containerClass
+		};
+
+		if (this._placeholder){
+			$("#" + this._id).append('<option></option>');
+			settings.placeholder = this._placeholder;
+		}
+
+	 	return settings;
 	};
 
 	/**
@@ -25191,14 +25209,20 @@ define('js/view/selectors/PeriodsSelector/PeriodsSelector',[
 	 * @returns {Select}
 	 */
 	PeriodsSelector.prototype.renderBasicPeriodSelection = function (periods) {
+		var selected = this._selectedPeriods;
+		if (this._selectedPeriods.length > 1){
+			selected = [];
+		}
+
 		return new Select({
 			id: this._id + "-select",
 			title: "Select period",
 			options: periods,
+			placeholder: "...",
 			sorting: {
 				type: 'string'
 			},
-			selectedOptions: this._disabledPeriods,
+			selectedOptions: selected,
 			containerSelector: this._periodsContainerSelector,
 			classes: "top-bar-select",
 			onChange: this.updatePeriod.bind(this)
@@ -29036,11 +29060,11 @@ define('js/view/widgets/WorldWindWidget/panels/WorldWindWidgetPanel',['../../../
 		if (control2d && control2d.length){
 			return control2d.attr('aria-checked') === "true";
 		}
-		// // Otherwise check if control was checked before rebuild. If existed and was not checked, do not check it again.
-		// else {
-		// 	var existingControl = _.find(this._previousInfoLayersControls, function(control){return control._id == controlId});
-		// 	return !!((existingControl && existingControl.active) || !existingControl);
-		// }
+		// Otherwise check if control was checked before rebuild. If existed and was not checked, do not check it again.
+		else {
+			var existingControl = _.find(this._previousLayersControls, function(control){return control._id == controlId});
+			return !!((existingControl && existingControl.active) || !existingControl);
+		}
 	};
 
 	/**
@@ -30309,7 +30333,6 @@ define('js/view/widgets/WorldWindWidget/WorldWindWidget',[
 		var body = $("body");
 
 		body.addClass("mode-3d");
-		self._widgetSelector.addClass("open");
 		self.toggleComponents("none");
 		self.rebuild();
 
