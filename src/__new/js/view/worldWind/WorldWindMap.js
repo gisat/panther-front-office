@@ -294,7 +294,9 @@ define(['../../actions/Actions',
 	 * Disable map on click recognizer
 	 */
 	WorldWindMap.prototype.disableClickRecognizer = function(){
-		this._clickRecognizer.enabled = false;
+		if (this._clickRecognizer){
+			this._clickRecognizer.enabled = false;
+		}
 	};
 
 	/**
