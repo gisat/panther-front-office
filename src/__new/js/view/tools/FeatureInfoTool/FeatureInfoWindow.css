@@ -17,6 +17,17 @@
 	max-width: 40rem;
 	z-index: 10000;
 }
+#feature-info-window.no-data {
+	height: 5rem;
+}
+#feature-info-window.no-data .feature-info-settings,
+#feature-info-window.no-data .feature-info-window-footer {
+	display: none;
+}
+#feature-info-window.no-data .feature-info-window-body {
+	height: calc(100% - 1.7rem);
+}
+
 #feature-info-window.active {
 	z-index: 10001;
 }
