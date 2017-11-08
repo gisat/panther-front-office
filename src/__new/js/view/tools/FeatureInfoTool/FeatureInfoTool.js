@@ -1,4 +1,5 @@
-define(['../../../error/ArgumentError',
+define(['../../../actions/Actions',
+	'../../../error/ArgumentError',
 	'./FeatureInfoWindow',
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
@@ -9,7 +10,8 @@ define(['../../../error/ArgumentError',
 	'string',
 	'text!./FeatureInfoTool.html',
 	'css!./FeatureInfoTool'
-], function (ArgumentError,
+], function (Actions,
+			 ArgumentError,
 			 FeatureInfoWindow,
 			 NotFoundError,
 			 Logger,
@@ -25,7 +27,8 @@ define(['../../../error/ArgumentError',
 	 * It creates Feature Info functionality
 	 * @param options {Object}
 	 * @param options.elementClass {string} class of the tool used in ExtJS to identify a tool
-	 * @param options.targetId {string} id of the target element
+	 * @param options.id {string} id of the element
+	 * @param options.dispatcher {Object}
 	 * @constructor
 	 */
 	var FeatureInfoTool = function (options) {
@@ -40,8 +43,10 @@ define(['../../../error/ArgumentError',
 		this._floaterTarget = $("body");
 		this._class = options.elementClass;
 		this._id = options.id;
+		this._dispatcher = options.dispatcher;
 
 		this.build();
+		this._dispatcher.addListener(this.onEvent.bind(this));
 	};
 
 	FeatureInfoTool.prototype = Object.create(View.prototype);
@@ -110,6 +115,15 @@ define(['../../../error/ArgumentError',
 		if (activated){
 			featureInfoButton.trigger("click");
 			this._infoWindow._settings.close();
+		}
+	};
+
+	/**
+	 * @param type {string}
+	 */
+	FeatureInfoTool.prototype.onEvent = function (type) {
+		if (type === Actions.mapSwitchFramework){
+			this.deactivateComponents();
 		}
 	};
 

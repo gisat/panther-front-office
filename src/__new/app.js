@@ -413,7 +413,8 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
     function buildFeatureInfoTool(){
         return new FeatureInfoTool({
             id: 'feature-info',
-            elementClass: 'btn-tool-feature-info'
+            elementClass: 'btn-tool-feature-info',
+			dispatcher: window.Stores
         });
     }
 
