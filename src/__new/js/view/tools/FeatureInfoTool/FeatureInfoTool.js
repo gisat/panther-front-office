@@ -4,18 +4,21 @@ define(['../../../actions/Actions',
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 	'../../../view/map/Map',
+	'../../../stores/Stores',
 	'../../View',
 
 	'jquery',
 	'string',
 	'text!./FeatureInfoTool.html',
-	'css!./FeatureInfoTool'
+	'css!./FeatureInfoTool',
+	'worldwind'
 ], function (Actions,
 			 ArgumentError,
 			 FeatureInfoWindow,
 			 NotFoundError,
 			 Logger,
 			 Map,
+			 InternalStores,
 			 View,
 
 			 $,
@@ -28,7 +31,7 @@ define(['../../../actions/Actions',
 	 * @param options {Object}
 	 * @param options.id {string} id of the element
 	 * @param options.control2dClass {string} class of the tool used in ExtJS to identify a tool
-	 * @param options.dispatcher {Object}
+	 * @param options.dispatcher {Object} Object for handling events in the application.
 	 * @constructor
 	 */
 	var FeatureInfoTool = function (options) {
@@ -71,7 +74,7 @@ define(['../../../actions/Actions',
 	};
 
 	/**
-	 * Rebuild Feature info for specific attributes and map
+	 * Rebuild Feature info for specific attributes and map. If the feautre info functionality is activated, deactivate it
 	 * @param attributes {Array}
 	 * @param options {Object}
 	 * @param options.olMap {Map}
@@ -107,13 +110,23 @@ define(['../../../actions/Actions',
 		});
 	};
 
+	/**
+	 * Activate feature info functionality for 2D map
+	 */
 	FeatureInfoTool.prototype.activateFor2D = function(){
 		this._map.addOnClickListener(this._attributes, this._infoWindow);
 		this._map.onClickActivate();
 	};
 
+	/**
+	 * Activate feature info functionality for World Wind
+	 */
 	FeatureInfoTool.prototype.activateFor3D = function(){
-		debugger;
+		var self = this;
+		var maps = InternalStores.retrieve('map').getAll();
+		maps.forEach(function(map){
+			map.addClickRecognizer(self.onWorldWindClick.bind(self, map._period));
+		});
 	};
 
 	/**
@@ -124,8 +137,16 @@ define(['../../../actions/Actions',
 		this._map.onClickDeactivate(this._infoWindow);
 	};
 
+	/**
+	 * Deactive feature info functionality for World wind map
+	 */
 	FeatureInfoTool.prototype.deactivateFor3D = function(){
-		// TODO add functionality
+		this.hideComponents();
+		var self = this;
+		var maps = InternalStores.retrieve('map').getAll();
+		maps.forEach(function(map){
+			map.disableClickRecognizer();
+		});
 	};
 
 	/**
@@ -134,6 +155,16 @@ define(['../../../actions/Actions',
 	FeatureInfoTool.prototype.hideComponents = function(){
 		this._infoWindow.setVisibility("hide");
 		this._infoWindow._settings.close();
+	};
+
+	/**
+	 * Proceed on World wind map click
+	 * @param param
+	 * @param param2
+	 */
+	FeatureInfoTool.prototype.onWorldWindClick = function(param, param2){
+		// todo add functionality
+		debugger;
 	};
 
 	/**
@@ -148,7 +179,7 @@ define(['../../../actions/Actions',
 	 */
 	FeatureInfoTool.prototype.onEvent = function (type) {
 		if (type === Actions.mapSwitchFramework){
-			if (this._control2dSelector.hasClass("x-btn-pressed")){
+			if (this._control2dSelector && this._control2dSelector.hasClass("x-btn-pressed")){
 				this.trigger2dControlClick();
 			}
 		}

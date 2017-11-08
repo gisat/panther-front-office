@@ -21,16 +21,19 @@ define(['../../../actions/Actions',
 	/**
 	 * Class representing a widget of map tools for World Wind
 	 * @param options {Object}
+	 * @param options.dispatcher {Object} Object for handling events in the application.
 	 * @param options.featureInfo {Object}
 	 * @constructor
 	 */
 	var MapToolsWidget = function(options){
 		Widget.apply(this, arguments);
 
+		this._dispatcher = options.dispatcher;
 		this._featureInfo = options.featureInfo;
 
 		this.build();
 		this.deleteFooter(this._widgetSelector);
+		this._dispatcher.addListener(this.onEvent.bind(this));
 	};
 
 	MapToolsWidget.prototype = Object.create(Widget.prototype);
@@ -42,8 +45,16 @@ define(['../../../actions/Actions',
 		if (this._featureInfo){
 			this.buildFeatureInfoTrigger();
 		}
-
 		this.handleLoading("hide");
+	};
+
+	/**
+	 * Rebuild widget
+	 */
+	MapToolsWidget.prototype.rebuild = function(){
+		if (this._featureInfo && this._featureInfoTrigger.hasClass("active")){
+			this._featureInfoTrigger.trigger("click")
+		}
 	};
 
 	/**
@@ -75,9 +86,14 @@ define(['../../../actions/Actions',
 	};
 
 	/**
-	 * Rebuild widget
+	 * @param type {string}
 	 */
-	MapToolsWidget.prototype.rebuild = function(){
+	MapToolsWidget.prototype.onEvent = function (type) {
+		if (type === Actions.mapSwitchFramework){
+			if (this._featureInfoTrigger.hasClass("active")){
+				this._featureInfoTrigger.trigger("click")
+			}
+		}
 	};
 
 	return MapToolsWidget;

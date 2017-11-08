@@ -118,6 +118,16 @@ define(['../../../error/ArgumentError',
 	};
 
 	/**
+	 * Get AU layer, if it is present on map
+	 * @returns {WorldWind.Layer}
+	 */
+	Layers.prototype.getAuLayer = function(){
+		return _.filter(this._layers, function(item){
+			return item.metadata.id === "areaoutlines";
+		});
+	};
+
+	/**
 	 * Remove layer from map
 	 * @param layer {WorldWind.Layer}
 	 */

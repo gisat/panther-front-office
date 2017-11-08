@@ -476,6 +476,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			name: 'Map Tools',
 			is3dOnly: true,
 			isWithoutFooter: true,
+			dispatcher: window.Stores,
 			featureInfo: featureInfo
 		})
 	}

@@ -280,6 +280,38 @@ define(['../../actions/Actions',
 	};
 
 	/**
+	 * Add on click recognizer
+	 * @param callback {function} on click callback
+	 */
+	WorldWindMap.prototype.addClickRecognizer = function(callback){
+		if (!this._clickRecognizer){
+			this._clickRecognizer = new WorldWind.ClickRecognizer(this._wwd, this.onMapClick.bind(this, callback));
+		}
+		this._clickRecognizer.enabled = true;
+	};
+
+	/**
+	 * Disable map on click recognizer
+	 */
+	WorldWindMap.prototype.disableClickRecognizer = function(){
+		this._clickRecognizer.enabled = false;
+	};
+
+	/**
+	 * Do on map click
+	 * @param callback {function}
+	 * @param event {Object}
+	 */
+	WorldWindMap.prototype.onMapClick = function(callback, event){
+		var x = event._clientX,
+			y = event._clientY;
+		var pickList = this._wwd.pick(this._wwd.canvasCoordinates(x, y));
+		var auLayer = this.layers.getAuLayer();
+		debugger;
+		callback(pickList);
+	};
+
+	/**
 	 * @param type {string} type of event
 	 * @param options {Object}
 	 */
