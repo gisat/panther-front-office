@@ -55,8 +55,9 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         'js/view/map/Map',
 		'js/view/mapsContainer/MapsContainer',
 		'js/stores/internal/MapStore',
+		'js/view/widgets/MapToolsWidget/MapToolsWidget',
 		'js/view/widgets/OSMWidget/OSMWidget',
-	'js/view/PanelIFrame/PanelIFrame',
+		'js/view/PanelIFrame/PanelIFrame',
 		'js/view/selectors/PeriodsSelector/PeriodsSelector',
 		'js/view/widgets/PeriodsWidget/PeriodsWidget',
 		'js/util/Placeholder',
@@ -89,6 +90,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
              Map,
              MapsContainer,
 			 MapStore,
+			 MapToolsWidget,
 			 OSMWidget,
 			 PanelIFrame,
 			 PeriodsSelector,
@@ -138,6 +140,10 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			skipSelection: Config.toggles.skipInitialSelection
 		});
 
+		// ALWAYS add new feature info
+		var featureInfoTool = buildFeatureInfoTool();
+		tools.push(featureInfoTool);
+
         if (Config.toggles.hasPeriodsSelector){
         	new PeriodsSelector({
 				containerSelector: $("#content-application .group-visualization"),
@@ -156,7 +162,9 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
         	var mapsContainer = buildMapsContainer(mapStore, stateStore);
 			var worldWindWidget = buildWorldWindWidget(mapsContainer, topToolBar, stateStore);
-            widgets.push(worldWindWidget);
+			widgets.push(worldWindWidget);
+			var mapToolsWidget = buildMapToolsWidget(featureInfoTool);
+			widgets.push(mapToolsWidget);
 
             if(Config.toggles.hasOsmWidget) {
                 widgets.push(buildOsmWidget(mapsContainer, mapStore));
@@ -188,10 +196,6 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			widgets.push(buildSnowWidget(snowMapController, panelIFrame));
 			snowViewChanges();
 		}
-
-        if(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo){
-            tools.push(buildFeatureInfoTool());
-        }
 
 		widgets.push(buildSharingWidget());
 
@@ -459,6 +463,15 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
             is3dOnly: true
         });
     }
+
+    function buildMapToolsWidget(){
+		return new MapToolsWidget({
+			elementId: 'map-tools-widget',
+			name: 'Map Tools',
+			is3dOnly: true,
+			isWithoutFooter: true
+		})
+	}
 
 	/**
 	 * Modifications of FO view for SNOW PORTAL
