@@ -159,12 +159,16 @@ define(['../../../actions/Actions',
 
 	/**
 	 * Proceed on World wind map click
-	 * @param param
-	 * @param param2
+	 * @param period {number} id of period connected with current map
+	 * @param gid {number} id of the gid
 	 */
-	FeatureInfoTool.prototype.onWorldWindClick = function(param, param2){
+	FeatureInfoTool.prototype.onWorldWindClick = function(period, gid){
 		// todo add functionality
-		debugger;
+		if (gid){
+			debugger;
+		} else {
+			// close windows
+		}
 	};
 
 	/**

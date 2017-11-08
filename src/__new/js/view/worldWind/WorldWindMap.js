@@ -303,12 +303,33 @@ define(['../../actions/Actions',
 	 * @param event {Object}
 	 */
 	WorldWindMap.prototype.onMapClick = function(callback, event){
+		var gid = null;
+		var coordinates = null;
+		var auLayer = this.layers.getAuLayer()[0];
+		var auLayerSource = "panther:layer_226"; // TODO find it out from OlMap
+		var property = "gid";
+
 		var x = event._clientX,
 			y = event._clientY;
 		var pickList = this._wwd.pick(this._wwd.canvasCoordinates(x, y));
-		var auLayer = this.layers.getAuLayer();
-		debugger;
-		callback(pickList);
+		if (pickList){
+			var position = pickList.objects[0].position;
+			coordinates = {
+				lat: position.latitude,
+				lon: position.longitude
+			};
+		}
+
+		if (auLayer.metadata.active && coordinates){
+			auLayer.getFeatureInfo(property, coordinates, auLayerSource).then(function(feature){
+				if (feature && feature.properties){
+					gid = feature.properties[property];
+				}
+				callback(gid);
+			});
+		} else {
+			callback(gid);
+		}
 	};
 
 	/**
