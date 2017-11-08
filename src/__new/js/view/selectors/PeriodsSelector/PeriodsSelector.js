@@ -189,7 +189,7 @@ define([
 	PeriodsSelector.prototype.renderCompareButton = function(){
 		return new Button({
 			id: this._id + "-compare-button",
-			text: "Compare",
+			text: polyglot.t("compare"),
 			title: polyglot.t("comparePeriods"),
 			containerSelector: this._periodsContainerSelector,
 			classes: "compare-button w5",
