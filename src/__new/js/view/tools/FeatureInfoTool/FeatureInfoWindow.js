@@ -216,9 +216,9 @@ define(['../../../error/ArgumentError',
 	 * @param option {string} show or hide
 	 */
 	FeatureInfoWindow.prototype.setVisibility = function(option){
-		if (option == "show"){
+		if (option === "show"){
 			this._infoWindow.show(200);
-		} else if (option == "hide"){
+		} else if (option === "hide"){
 			this._infoWindow.hide(200);
 		}
 	};

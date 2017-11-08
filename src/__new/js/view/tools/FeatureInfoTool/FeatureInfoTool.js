@@ -27,7 +27,7 @@ define(['../../../actions/Actions',
 	 * It creates Feature Info functionality
 	 * @param options {Object}
 	 * @param options.id {string} id of the element
-	 * @param options.trigger2dClass {string} class of the tool used in ExtJS to identify a tool
+	 * @param options.control2dClass {string} class of the tool used in ExtJS to identify a tool
 	 * @param options.dispatcher {Object}
 	 * @constructor
 	 */
@@ -36,12 +36,12 @@ define(['../../../actions/Actions',
 		if (!options.id){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "FeatureInfoTool", "constructor", "missingId"));
 		}
-		if (!options.trigger2dClass){
+		if (!options.control2dClass){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "FeatureInfoTool", "constructor", "missingElementClass"));
 		}
 
 		this._floaterTarget = $("body");
-		this._trigger2dClass = options.trigger2dClass;
+		this._control2dClass = options.control2dClass;
 		this._id = options.id;
 		this._dispatcher = options.dispatcher;
 
@@ -77,45 +77,70 @@ define(['../../../actions/Actions',
 	 * @param options.olMap {Map}
 	 */
 	FeatureInfoTool.prototype.rebuild = function(attributes, options) {
-		this.addOnClickListener(attributes, options.olMap);
-		this.deactivateComponents();
+		this._control2dSelector = $('.' + this._control2dClass);
+		if (this._control2dSelector.hasClass("x-btn-pressed")){
+			this.trigger2dControlClick()
+		}
+
+		this._attributes = attributes;
+		this.add2dControlListener(options.olMap);
 	};
 
 	/**
-	 * Add on click listener to the feature button. How do I figure out into which part of the map I clicked? Part of the
-	 * question is what to do in the case of multiple maps.
-	 * @param attributes
+	 * Add on click listener to the feature button in Ext.
 	 * @param map
 	 */
-	FeatureInfoTool.prototype.addOnClickListener = function(attributes, map){
+	FeatureInfoTool.prototype.add2dControlListener = function(map){
 		var self = this;
-		$('body').off("click.featureInfo").on("click.featureInfo", '.' + this._trigger2dClass, function () {
+		$('body').off("click.featureInfo").on("click.featureInfo", '.' + this._control2dClass, function () {
 			var button = $(this);
 			setTimeout(function(){
 				var active = button.hasClass("x-btn-pressed");
 				if (active){
 					map.rebuild();
 					self._map = map;
-					self._map.addOnClickListener(attributes, self._infoWindow);
-					self._map.onClickActivate();
+					self.activateFor2D();
 				} else {
-					self._map.onClickDeactivate(self._infoWindow);
-					self._infoWindow._settings.close();
+					self.deactivateFor2D();
 				}
 			}, 50);
 		});
 	};
 
+	FeatureInfoTool.prototype.activateFor2D = function(){
+		this._map.addOnClickListener(this._attributes, this._infoWindow);
+		this._map.onClickActivate();
+	};
+
+	FeatureInfoTool.prototype.activateFor3D = function(){
+		debugger;
+	};
+
 	/**
-	 * Deactivate feature info functionality
+	 * Deactivate feature info functionality for 2D map
 	 */
-	FeatureInfoTool.prototype.deactivateComponents = function(){
-		var featureInfoButton = $('.' + this._trigger2dClass);
-		var activated = featureInfoButton.hasClass("x-btn-pressed");
-		if (activated){
-			featureInfoButton.trigger("click");
-			this._infoWindow._settings.close();
-		}
+	FeatureInfoTool.prototype.deactivateFor2D = function(){
+		this.hideComponents();
+		this._map.onClickDeactivate(this._infoWindow);
+	};
+
+	FeatureInfoTool.prototype.deactivateFor3D = function(){
+		// TODO add functionality
+	};
+
+	/**
+	 * Hide feature info window and settings window
+	 */
+	FeatureInfoTool.prototype.hideComponents = function(){
+		this._infoWindow.setVisibility("hide");
+		this._infoWindow._settings.close();
+	};
+
+	/**
+	 * Trigger click on Ext Feature info control
+	 */
+	FeatureInfoTool.prototype.trigger2dControlClick = function(){
+		this._control2dSelector.trigger("click")
 	};
 
 	/**
@@ -123,7 +148,9 @@ define(['../../../actions/Actions',
 	 */
 	FeatureInfoTool.prototype.onEvent = function (type) {
 		if (type === Actions.mapSwitchFramework){
-			this.deactivateComponents();
+			if (this._control2dSelector.hasClass("x-btn-pressed")){
+				this.trigger2dControlClick();
+			}
 		}
 	};
 

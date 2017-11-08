@@ -65,8 +65,10 @@ define(['../../../actions/Actions',
 			var trigger = $(this);
 			var isActive = trigger.hasClass("active");
 			if (isActive){
+				self._featureInfo.deactivateFor3D();
 				trigger.removeClass("active");
 			} else {
+				self._featureInfo.activateFor3D();
 				trigger.addClass("active");
 			}
 		});

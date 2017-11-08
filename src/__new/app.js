@@ -413,7 +413,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
     function buildFeatureInfoTool(){
         return new FeatureInfoTool({
             id: 'feature-info',
-            trigger2dClass: 'btn-tool-feature-info',
+			control2dClass: 'btn-tool-feature-info',
 			dispatcher: window.Stores
         });
     }
