@@ -413,7 +413,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
     function buildFeatureInfoTool(){
         return new FeatureInfoTool({
             id: 'feature-info',
-            elementClass: 'btn-tool-feature-info',
+            trigger2dClass: 'btn-tool-feature-info',
 			dispatcher: window.Stores
         });
     }
@@ -465,12 +465,18 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         });
     }
 
-    function buildMapToolsWidget(){
+	/**
+	 * Build widget of map tools for world wind maps
+	 * @param featureInfo {FeatureInfoTool}
+	 * @returns {MapToolsWidget}
+	 */
+	function buildMapToolsWidget(featureInfo){
 		return new MapToolsWidget({
 			elementId: 'map-tools-widget',
 			name: 'Map Tools',
 			is3dOnly: true,
-			isWithoutFooter: true
+			isWithoutFooter: true,
+			featureInfo: featureInfo
 		})
 	}
 

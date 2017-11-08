@@ -1,4 +1,13 @@
 #floater-map-tools-widget {
-	left: 16rem;
+	left: 17rem;
 	top: 10rem;
+	height: 10rem;
+}
+
+/* triggers */
+.map-tools-trigger {
+
+}
+.map-tools-trigger.active {
+	background: red;
 }

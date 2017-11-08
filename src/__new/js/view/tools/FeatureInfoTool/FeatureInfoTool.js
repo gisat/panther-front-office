@@ -26,8 +26,8 @@ define(['../../../actions/Actions',
 	/**
 	 * It creates Feature Info functionality
 	 * @param options {Object}
-	 * @param options.elementClass {string} class of the tool used in ExtJS to identify a tool
 	 * @param options.id {string} id of the element
+	 * @param options.trigger2dClass {string} class of the tool used in ExtJS to identify a tool
 	 * @param options.dispatcher {Object}
 	 * @constructor
 	 */
@@ -36,12 +36,12 @@ define(['../../../actions/Actions',
 		if (!options.id){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "FeatureInfoTool", "constructor", "missingId"));
 		}
-		if (!options.elementClass){
+		if (!options.trigger2dClass){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "FeatureInfoTool", "constructor", "missingElementClass"));
 		}
 
 		this._floaterTarget = $("body");
-		this._class = options.elementClass;
+		this._trigger2dClass = options.trigger2dClass;
 		this._id = options.id;
 		this._dispatcher = options.dispatcher;
 
@@ -89,7 +89,7 @@ define(['../../../actions/Actions',
 	 */
 	FeatureInfoTool.prototype.addOnClickListener = function(attributes, map){
 		var self = this;
-		$('body').off("click.featureInfo").on("click.featureInfo", '.' + this._class, function () {
+		$('body').off("click.featureInfo").on("click.featureInfo", '.' + this._trigger2dClass, function () {
 			var button = $(this);
 			setTimeout(function(){
 				var active = button.hasClass("x-btn-pressed");
@@ -110,7 +110,7 @@ define(['../../../actions/Actions',
 	 * Deactivate feature info functionality
 	 */
 	FeatureInfoTool.prototype.deactivateComponents = function(){
-		var featureInfoButton = $('.' + this._class);
+		var featureInfoButton = $('.' + this._trigger2dClass);
 		var activated = featureInfoButton.hasClass("x-btn-pressed");
 		if (activated){
 			featureInfoButton.trigger("click");
