@@ -62,11 +62,7 @@ define([
 
         this._widgetBodySelector.append("" +
             "<p>" +
-            "   <h1>OSM Data information</h1>" +
-            "   <p>" +
-            "       Select the area for which you want to load the 3D buildings. Area is selected by double clicking on " +
-            "       the top left corner and bottom right corner." +
-            "   </p>" +
+            "   " + polyglot.t("osmDataInformation") +
             "   <input type='button' value='Select area of interest' id='osmAreaOfInterest'/>" +
             "</p>");
 

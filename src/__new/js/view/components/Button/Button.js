@@ -47,7 +47,7 @@ define([
 		this._classes = options.classes;
 		this.onClick = options.onClick;
 
-		this._title = options.title || "Select";
+		this._title = options.title || polyglot.t("select");
 		this._textCentered = options.textCentered;
 		this._textSmall = options.textSmall;
 

@@ -71,7 +71,7 @@ define([
 
 		// config for new/old view
 		if (!Config.toggles.useNewViewSelector){
-			this._widgetBodySelector.append('<div id="3d-switch">3D map</div>');
+			this._widgetBodySelector.append('<div id="3d-switch">'+polyglot.t('map3d')+'</div>');
 			$("#3d-switch").on("click", this.switchMapFramework.bind(this));
 		} else {
 			this.addMinimiseButtonListener();
@@ -111,8 +111,8 @@ define([
 	 */
 	WorldWindWidget.prototype.addSettingsIcon = function(){
 		this._widgetSelector.find(".floater-tools-container")
-			.append('<div id="thematic-layers-configuration" title="Configure thematic maps" class="floater-tool">' +
-				'<img title="Configure thematic maps" src="images/icons/settings.png"/>' +
+			.append('<div id="thematic-layers-configuration" title="'+polyglot.t("configureThematicMaps")+'" class="floater-tool">' +
+				'<img title="'+polyglot.t("configureThematicMaps")+'" src="images/icons/settings.png"/>' +
 				'</div>');
 	};
 

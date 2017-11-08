@@ -111,7 +111,8 @@ define(['../../error/ArgumentError',
 			name: this._name,
 			widgetId: this._widgetId,
 			minimiseSrc: minimiseIconSrc,
-            floaterClass: floaterClass
+            floaterClass: floaterClass,
+            minimise: polyglot.t("minimise")
 		}).toString();
 
 		this._floaterTarget.append(floater);
@@ -133,7 +134,8 @@ define(['../../error/ArgumentError',
 		var placeholdersContainer = this._placeholderTarget.find('.placeholders-container');
 		var placeholder = S(WidgetPlaceholder).template({
 			name: this._name,
-			widgetId: this._widgetId
+			widgetId: this._widgetId,
+            maximise: polyglot.t("maximise")
 		}).toString();
 		placeholdersContainer.append(placeholder);
 

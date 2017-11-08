@@ -86,7 +86,8 @@ define([
 		}
 
 		var html = S(PeriodsSelectorHtml).template({
-			id: this._id
+			id: this._id,
+			period: polyglot.t('period')
 		}).toString();
 
 		this._containerSelector.append(html);
@@ -146,7 +147,7 @@ define([
 
 		return new Select({
 			id: this._id + "-select",
-			title: "Select period",
+			title: polyglot.t("selectPeriod"),
 			options: periods,
 			placeholder: "...",
 			sorting: {
@@ -167,7 +168,7 @@ define([
 	PeriodsSelector.prototype.renderMultiplePeriodSelection = function (periods) {
 		return new MultiSelect({
 			id: this._id + "-multiselect",
-			title: "Select periods to compare",
+			title: polyglot.t("selectPeriodsToCompare"),
 			options: periods,
 			sorting: {
 				type: 'string'
@@ -189,7 +190,7 @@ define([
 		return new Button({
 			id: this._id + "-compare-button",
 			text: "Compare",
-			title: "Compare periods",
+			title: polyglot.t("comparePeriods"),
 			containerSelector: this._periodsContainerSelector,
 			classes: "compare-button w5",
 			textCentered: true,

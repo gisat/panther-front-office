@@ -20,8 +20,8 @@ define([
 			'<div id="custom-layers-container">' +
 				'<div class="custom-layers-content" id="custom-layers-start">' +
 					'<div>' +
-						'<div class="ptr-btn primary" id="custom-layers-file-btn">Load from file…</div>' +
-						'<div class="ptr-btn primary" id="custom-layers-wms-btn">Connect to WMS…</div>' +
+						'<div class="ptr-btn primary" id="custom-layers-file-btn">'+polyglot.t('loadFromFile')+'</div>' +
+						'<div class="ptr-btn primary" id="custom-layers-wms-btn">'+polyglot.t('connectToWms)+'</div>' +
 					'</div>' +
 				'</div>' +
 				'<div class="custom-layers-content" id="custom-layers-action">' +
@@ -77,17 +77,17 @@ define([
 			this._action = 'file';
 			this._actionContainer.append(
 				'<label class="container">' +
-					'File' +
+					polyglot.t('file') +
 					'<input type="file" id="custom-layers-file-file" />' +
 				'</label>' +
 				'<label class="container">' +
-					'Layer name' +
+					polyglot.t('layerName') +
 					'<input type="text" id="custom-layers-file-name" />' +
 				'</label>' +
 				'<div class="ptr-btn-group">' +
-					'<div class="ptr-btn primary" id="custom-layers-file-load-btn">Load</div>' +
-					'<div class="ptr-btn primary" id="custom-layers-file-load-without-statistics-btn">Load Without Statistics</div>' +
-					'<div class="ptr-btn" id="custom-layers-file-cancel-btn">Cancel</div>' +
+					'<div class="ptr-btn primary" id="custom-layers-file-load-btn">'+polyglot.t('load')+'</div>' +
+					'<div class="ptr-btn primary" id="custom-layers-file-load-without-statistics-btn">'+polyglot.t('loadWithoutStatistics')+'</div>' +
+					'<div class="ptr-btn" id="custom-layers-file-cancel-btn">'+polyglot.t('cancel')+'</div>' +
 				'</div>'
 			);
 		}
@@ -99,20 +99,20 @@ define([
 			this._action = 'wms';
 			this._actionContainer.append(
 				'<label class="container">' +
-					'WMS address' +
+					polyglot.t('wmsAddress') +
 					'<input type="text" id="custom-layers-wms-address" />' +
 				'</label>' +
 				'<label class="container">' +
-					'WMS layer' +
+					polyglot.t('wmsLayer') +
 					'<input type="text" id="custom-layers-wms-layer" />' +
 				'</label>' +
 				'<label class="container">' +
-					'Layer name' +
+					polyglot.t('layerName') +
 					'<input type="text" id="custom-layers-wms-name" />' +
 				'</label>' +
 				'<div class="ptr-btn-group">' +
-					'<div class="ptr-btn primary" id="custom-layers-wms-add-btn">Add</div>' +
-					'<div class="ptr-btn" id="custom-layers-wms-cancel-btn">Cancel</div>' +
+					'<div class="ptr-btn primary" id="custom-layers-wms-add-btn">'+polyglot.t('add')+'</div>' +
+					'<div class="ptr-btn" id="custom-layers-wms-cancel-btn">'+polyglot.t('cancel')+'</div>' +
 				'</div>' +
 				'<div class="custom-layers-status"></div>'
 			);
@@ -189,25 +189,25 @@ define([
 		var btnGroupEl = this._actionContainer.find('.ptr-btn-group').first();
 		if (result.status == 'done') {
 			//var postInfoEl = this._actionContainer.find('.custom-layers-file-post-import').first();
-			statusEl.html('Layer imported succesfully.');
+			statusEl.html(polyglot.t('layerImportedSuccessfully'));
 			statusEl.addClass('success');
 			progressEl.css('width','100%');
 			//btnGroupEl.empty();
 			btnGroupEl.append(
-				'<div class="ptr-btn" id="custom-layers-action-back-btn">Back</div>'
+				'<div class="ptr-btn" id="custom-layers-action-back-btn">'+polyglot.t('back')+'</div>'
 			);
 		} else if (result.status == 'error') {
-			statusEl.html('Import failed');
+			statusEl.html(polyglot.t('importFailed'));
 			statusEl.addClass('error');
-			statusMessageEl.html('Error: ' + result.message);
+			statusMessageEl.html(polyglot.t('Error') + ': ' + result.message);
 			progressEl.css('background-color', '#f00');
 			//btnGroupEl.empty();
 			btnGroupEl.append(
-				'<div class="ptr-btn" id="custom-layers-action-back-btn">Back</div>'
+				'<div class="ptr-btn" id="custom-layers-action-back-btn">'+polyglot.t('back')+'</div>'
 			);
 		} else {
 			var progress = (result.progress || 0) + "%";
-			statusEl.html('Importing…');
+			statusEl.html(polyglot.t('importing'));
 			progressEl.css('width', progress);
 
 		}
@@ -221,7 +221,7 @@ define([
 
 		var addButton = this._container.find('#custom-layers-wms-add-btn')[0];
 		addButton.classList.add('disabled');
-		addButton.innerHTML = 'Adding...';
+		addButton.innerHTML = polyglot.t('adding');
 
 		var cancelButton = this._container.find('#custom-layers-wms-cancel-btn')[0];
 		cancelButton.classList.add('disabled');
@@ -235,19 +235,19 @@ define([
 		const urlRegex = /^((https?:)(\/\/\/?)([\w]*(?::[\w]*)?@)?([\d\w\.-]+)(?::(\d+))?)([\/\\\w\.()-]*)?(?:([?][^#]*)?(#.*)?)*/gmi;
 		var matches = urlRegex.exec(wmsAddress);
 		if(matches === null){
-			errors.push("WMS address is missing or incorrect");
+			errors.push(polyglot.t("wmsAddressIsMissing"));
 		}
 		if(!wmsLayer){
-			errors.push('WMS layer is missing');
+			errors.push(polyglot.t('wmsLayerIsMissing'));
 		}
 		if(!name){
-			errors.push('Layer name is missing')
+			errors.push(polyglot.t('layerNameIsMissing'));
 		}
 
 		if(errors.length){
 			statusEl.classList.add('error');
 			statusEl.innerHTML = errors.join('<br>');
-			addButton.innerHTML = "Add";
+			addButton.innerHTML = polyglot.t("add");
 			addButton.classList.remove('disabled');
 			cancelButton.classList.remove('disabled');
 			return;
@@ -273,15 +273,15 @@ define([
 			.fail(function(xhr, message){
 				console.error("Add WMS failed: ", message);
 				statusEl.classList.add('error');
-				statusEl.innerHTML = "Adding WMS layer failed.\n<br>" + message;
+				statusEl.innerHTML = polyglot.t("addingWmsLayerFailed") + message;
 			})
 			.done(function(){
 				self.addWMSToLayers();
 				statusEl.classList.remove('error');
-				statusEl.innerHTML = 'Layer successfully added to Custom WMS section.';
+				statusEl.innerHTML = polyglot.t('layerSuccessfullyAdded');
 			})
 			.always(function(){
-				addButton.innerHTML = "Add";
+				addButton.innerHTML = polyglot.t("add");
 				addButton.classList.remove('disabled');
 				cancelButton.classList.remove('disabled');
 			});

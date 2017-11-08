@@ -97,12 +97,12 @@ define(['../../../../error/ArgumentError',
 			this.clear(this._id);
 
 			if(Stores.selectedOutlines) {
-				this.rebuildControl("Selected areas filled", this._layers.selected, "selectedareasfilled");
+				this.rebuildControl(polyglot.t("selectedAreasFilled"), this._layers.selected, "selectedareasfilled");
 				this.switchOnSelected();
 			}
 
 			if(Stores.outlines){
-				this.rebuildControl("Area outlines", this._layers.outlines, "areaoutlines");
+				this.rebuildControl(polyglot.t("areaOutlines"), this._layers.outlines, "areaoutlines");
 				this.switchOnOutlines();
 			}
 		}

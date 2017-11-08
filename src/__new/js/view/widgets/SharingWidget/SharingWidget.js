@@ -49,14 +49,14 @@ define([
 				}).join(' ');
 				$('#floater-sharing .floater-body').append(
 					'<div>' +
-					'	<div><label>Name: <input id="sharing-name" type="text" value="'+name+'"/></label></div>' +
-					'	<div><label>Community: ' +
+					'	<div><label>'+polyglot.t('name')+': <input id="sharing-name" type="text" value="'+name+'"/></label></div>' +
+					'	<div><label>'+polyglot.t('community')+': ' +
 					'		<select id="sharing-community">' + optionsHtml +
 					'		</select>' +
 					'	</label></div>' +
 					'</div>'
 				);
-				$('#floater-sharing .floater-footer').append('<div class="widget-button" id="sharing-portal">Share on the portal.</div>');
+				$('#floater-sharing .floater-footer').append('<div class="widget-button" id="sharing-portal">'+polyglot.t('shareOnPortal')+'</div>');
 
 				$('#sharing-portal').off();
 				$('#sharing-portal').on('click', function(){
@@ -69,9 +69,9 @@ define([
 						})[0].id;
                         return Groups.share(groupId, state.scope, state.places)
 					}).then(function(){
-                        alert('The state was correctly shared. The user has access to current state via URL: ' + self.url);
+                        alert(polyglot.t('theStateWasCorrectlyShared') + self.url);
                     }).catch(function(error){
-                        alert('There was an issue with storing current state of the application. Error: ' + error);
+                        alert(polyglot.t('thereWasAnIssueWithSharing') + error);
                     });
 				});
 			});
@@ -93,11 +93,11 @@ define([
                 userOptions.unshift('<option value=""></option>');
                 $('#floater-sharing .floater-body').append(
                     '<div>' +
-                    '	<div><label>User: ' +
+                    '	<div><label>'+polyglot.t('user')+': ' +
                     '		<select id="sharing-user">' + userOptions +
                     '		</select>' +
                     '	</label></div>' +
-                    '	<div><label>Group: ' +
+                    '	<div><label>'+polyglot.t('group')+': ' +
                     '		<select id="sharing-group">' + groupOptions +
                     '		</select>' +
                     '	</label></div>' +
@@ -113,14 +113,14 @@ define([
                     	Groups.share(selectedGroup, state.scope, state.places),
 						Users.share(selectedUser, state.scope, state.places)
 					]).then(function(){
-						alert('The state was correctly shared. The user has access to current state via URL: ' + self.url);
+						alert(polyglot.t('theStateWasCorrectlyShared') + self.url);
 					}).catch(function(error){
-						alert('There was an issue with storing current state of the application. Error: ' + error);
+						alert(polyglot.t('thereWasAnIssueWithSharing') + error);
 					});
                 });
 			}).catch(function(error){
 				console.error(error);
-				alert('It wasnt possible to load available users and groups. Please try later. Error: ' + error);
+				alert(polyglot.t('itWasntPossibleToLoadGroupsUsers') + error);
 			});
 
 		}
