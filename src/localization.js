@@ -10,6 +10,7 @@ var langEn = {
     adding: "Adding...",
     addingWmsLayerFailed: "Adding WMS layer failed.\n<br>",
     addLayer: "Add layer",
+    administration: "Administration",
     advanced: "Advanced",
     aggregate: "Aggregate",
     all: "All",
@@ -85,6 +86,7 @@ var langEn = {
     customWms: "Custom WMS",
     customWmsLayers: "Custom WMS Layers",
 
+    dataExploration: "Data exploration",
     dataset: "Dataset: ",
     datasetIsNotDefined: "Dataset is not defined!",
     dataViewUrl: "Data view URL",
@@ -95,6 +97,7 @@ var langEn = {
     displayedUnits: "Displayed units",
     double: "Double",
     down: "Down",
+    downloads: "Downloads",
     doYouReallyWantToDeleteLine: "Do you really want to delete line ",
     drawCustomAnalyticalUnits: "Draw custom Analytical units",
     drawCustomAnalyticalUnitsIsDisabled: "Drawing of custom analytical units is disabled for All places option. To enable drawing, please select place (pilot).",
@@ -140,6 +143,7 @@ var langEn = {
     info: "Info",
     infoLayers: "Info Layers",
     interpolate: "Interpolate",
+    introduction: "Introduction",
     itWasntPossibleToLoadGroupsUsers: "It wasnt possible to load available users and groups. Please try later. Error: ",
 
     justSelect: "Just Select",
@@ -211,6 +215,7 @@ var langEn = {
     period: "Period",
     periods: "Periods",
     pie: "Pie",
+    place: "Place",
     polygon: "polygon",
     pleaseSelectAreas: "Please select areas...",
     producer: "Producer",
@@ -223,6 +228,7 @@ var langEn = {
     remove: "Remove",
     reload: "Reload",
     requestHasBeenSent: "Request has been sent...",
+    reports: "Reports",
     reset: "Reset",
 
     save: "Save",
@@ -235,6 +241,7 @@ var langEn = {
     saveView: "Save view",
     saveVisualization: "Save visualization",
     scatter: "Scatter",
+    scope: "Scope",
     searchForMetadataStarted: "Search for metadata has started. Please wait.",
     select: "Select",
     selectAttributesToAdd: "Select attributes to add",
@@ -244,6 +251,7 @@ var langEn = {
     selectedLayers: "Selected layers",
     selectEnd: "Select end",
     selectInMap: "Select in map",
+    selectionGuide: "<h2>Selection guide</h2><h3>Scope</h3><p>Different data address different scope level of analysis. Please choose your scope of interest.</p><h3>Place</h3><p>Data for different analysis scopes can be available for different places. Please select place covered / prepared for exploration and analysis according to region, country or city of your interest.</p><h3>Theme</h3><p>Standard views on data are focused on different thematic information. Please select theme according your thematic interests.</p>",
     selections: "Selections",
     selectPeriod: "Select period",
     selectPeriodsToCompare: "Select periods to compare",
@@ -258,6 +266,7 @@ var langEn = {
     share: "Share",
     shareDataView: "Share data view",
     shareOnPortal: "Share on portal",
+    shareView: "Share view",
     showCustomAnalyticalUnitsLayer: "Show Custom Analytical units Layer",
     showInChart: "Show in chart",
     signUp: "Sign up",
@@ -272,6 +281,7 @@ var langEn = {
     switchZooming: "Switch zooming",
 
     table: "Table",
+    takeMapSnapshot: "Take map snapshot",
     temporalExtent: "Temporal extent",
     theme: "Theme: ",
     thematicLayers: "Thematic Layers",
@@ -281,6 +291,7 @@ var langEn = {
     thereWasAnIssueWithSharing: "There was an issue with storing current state of the application. Error: ",
     timedOut: "Timed out, process can still be running on server",
     title: "Title",
+    tools: "Tools",
     treeAll: "Tree all",
     treeLowestLevel: "Tree lowest level",
     type: "Type",
@@ -326,6 +337,7 @@ var langCz = {
     adding: "Nahrávám...",
     addingWmsLayerFailed: "Přidání WMS vrstvy neuspělo.\n<br>",
     addLayer: "Přidat vrstvu",
+    administration: "Administrace",
     advanced: "Pokročilé",
     aggregate: "Aggregovat",
     all: "Vše",
@@ -401,6 +413,7 @@ var langCz = {
     customWms: "Další WMS",
     customWmsLayers: "Další WMS Layers",
 
+    dataExploration: "Průzkum dat",
     dataset: "Datová sada: ",
     datasetIsNotDefined: "Datová sada není definovaná!",
     dataViewUrl: "URL pro náhled na data",
@@ -411,6 +424,7 @@ var langCz = {
     displayedUnits: "Zobrazené jednotky",
     double: "Dvojnásobek",
     down: "Dolu",
+    downloads: "Ke stažení",
     doYouReallyWantToDeleteLine: "Opravdu chcete smazat čáru ",
     drawCustomAnalyticalUnits: "Nakreslit novou analztickou jednotku",
     drawCustomAnalyticalUnitsIsDisabled: "Kreslení nové analytické jednotky je zakázané pro možnost všechna místa. Pro povolení prosím vyberte konkrétní místo (pilot).",
@@ -456,6 +470,7 @@ var langCz = {
     info: "Info",
     infoLayers: "Informační vrstvy",
     interpolate: "Interpolovat",
+    introduction: "Úvod",
     itWasntPossibleToLoadGroupsUsers: "Nebylo možné načíst dostupné uživatele a skupiny. Zkuste to prosím později. Chyba: ",
 
     justSelect: "Pouze vybrat",
@@ -527,6 +542,7 @@ var langCz = {
     period: "Časové období",
     periods: "Časová období",
     pie: "Koláčový graf",
+    place: "Místo",
     polygon: "polygon",
     pleaseSelectAreas: "Prosím vyberte území...",
     producer: "Tvůrce",
@@ -538,6 +554,7 @@ var langCz = {
     record: "Záznam ",
     remove: "Odstranit",
     reload: "Načíst",
+    reports: "Grafy",
     requestHasBeenSent: "Požadavek byl zaslán...",
     reset: "Reset",
 
@@ -551,6 +568,7 @@ var langCz = {
     saveView: "Uložit náhled",
     saveVisualization: "Uložit vizualizaci",
     scatter: "Scatter",
+    scope: "Kategorie",
     searchForMetadataStarted: "Prosím počkejte než se načtou metadata.",
     select: "Výběr",
     selectAttributesToAdd: "Vyberte atributy k přidání",
@@ -560,6 +578,7 @@ var langCz = {
     selectedLayers: "Vybrané vrstvy",
     selectEnd: "Výběr konce",
     selectInMap: "Výběr v mapě",
+    selectionGuide: "<h2>Přiručka pro výběr</h2><h3>Kategorie</h3><p>Různá data spadají pod různé kategorie.</p><h3>Místo</h3><p>Každá kategorie obsahuje svou vlastní sadu míst. Vyberte si to, které vás zajímá.</p><h3>Téma</h3><p>Data jsou dále tříděna do kategorií podle zájmových oblastí. Vyberte si tedy také zájmovou oblast.</p>",
     selections: "Výběry",
     selectPeriod: "Vyberte časové období",
     selectPeriodsToCompare: "Vyberte časová období pro porovnání",
@@ -573,6 +592,7 @@ var langCz = {
     settings: "Nastavení",
     share: "Sdílení",
     shareDataView: "Sdílet náhled",
+    shareView: "Sdílet",
     shareOnPortal: "Sdílet v portálu",
     showCustomAnalyticalUnitsLayer: "Zobrazit vrstvu dalších analytických jednotek",
     showInChart: "Zobrazit v grafu",
@@ -588,6 +608,7 @@ var langCz = {
     switchZooming: "Změnit zoom",
 
     table: "Tabulka",
+    takeMapSnapshot: "Vytvořit náhled na mapu",
     temporalExtent: "Časový rozsah",
     theme: "Téma: ",
     thematicLayers: "Kartogramy",
@@ -597,6 +618,7 @@ var langCz = {
     thereWasAnIssueWithSharing: "Aktuální stav aplikace se nepovedlo korektně uložit. Chyba: ",
     timedOut: "Chyba spojení, proces může stále běžet na serveru",
     title: "Titulek",
+    tools: "Nástroje",
     treeAll: "Strom vše",
     treeLowestLevel: "Strom nejdetailnější úroveň",
     type: "Tzp",
@@ -632,9 +654,10 @@ var langCz = {
 
 var polyglot = new Polyglot();
 
-if(!Config.language || Config.language == "en") {
+var urlLang = new URL(window.location).searchParams.get('lang');
+if ((!Config.language && !urlLang) || Config.language == "en" || urlLang == "en") {
     polyglot.extend(langEn);
-} else if(Config.language == "cz" || new URL(window.location).searchParams.get('lang') == 'cz') {
+} else if (Config.language == "cz" || urlLang == 'cz') {
     polyglot.extend(langCz);
 }
 

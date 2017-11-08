@@ -857,7 +857,7 @@ Ext.define('PumaMain.controller.Map', {
 	},
 
 	onMeasurePartial: function(evt) {
-		var html = (evt.order == 1 ? polyglot.t('length') : polyglot.t(aArea') )+': ';
+		var html = (evt.order == 1 ? polyglot.t('length') : polyglot.t('area') )+': ';
 		if (evt.measure == 0){
 			return;
 		}

@@ -21,7 +21,7 @@ define([
 				'<div class="custom-layers-content" id="custom-layers-start">' +
 					'<div>' +
 						'<div class="ptr-btn primary" id="custom-layers-file-btn">'+polyglot.t('loadFromFile')+'</div>' +
-						'<div class="ptr-btn primary" id="custom-layers-wms-btn">'+polyglot.t('connectToWms)+'</div>' +
+						'<div class="ptr-btn primary" id="custom-layers-wms-btn">'+polyglot.t('connectToWms')+'</div>' +
 					'</div>' +
 				'</div>' +
 				'<div class="custom-layers-content" id="custom-layers-action">' +

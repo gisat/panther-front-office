@@ -76,7 +76,7 @@ var widgets = {
 				}
 			}
 		}],
-		title: Config.basicTexts.areasSectionName,
+		title: polyglot.t('areas'),
 		header: !Config.toggles.useTopToolbar,
 		height: 340
 		//,maxHeight: 500

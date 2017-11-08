@@ -13809,7 +13809,7 @@ define('js/view/widgets/inputs/selectbox/SelectBox',['../../../../error/Argument
     SelectBox.prototype.getSelectOptions = function(){
         var content = "";
         if (this._data.length > 1){
-            content += '<option value="" class="selectbox-all-options">All options</option>';
+            content += '<option value="" class="selectbox-all-options">'+polyglot.t("allOptions")+'</option>';
         }
         this._data.forEach(function(item){
             if (item){
@@ -14520,19 +14520,19 @@ define('js/view/widgets/WidgetWarning',[], function () {
 		var message;
 		switch (code) {
 			case 1:
-				message = "Attributes are missing! Possible reason: There are no linked attribute sets to analytical units for this place.";
+				message = polyglot.t("attributesAreMissingNoLinked");
 				break;
 			case 2:
-				message = "Attributes are missing! Possible reason: Current user does not have appropriate permissions for current configuration.";
+				message = polyglot.t("attributesAreMissingPermissions");
 				break;
 			case 3:
-				message = "Attributes are missing! Possible reason: Broken links in visualizations (e.g. non-existing attributes or attribute sets). Try to create visualizations again.";
+				message = polyglot.t("attributesAreMissingBrokenLinks");
 				break;
 			case 4:
-				message = "Attributes are missing! Possible reason: Choropleths includes non-existing attributes or attribute sets. Try to create choropleths again.";
+				message = polyglot.t("attributesAreMissingChoropleths");
 				break;
 			case 5:
-				message = "Dataset is not defined!";
+				message = polyglot.t("datasetIsNotDefined");
 				break;
 		}
 
@@ -14542,10 +14542,10 @@ define('js/view/widgets/WidgetWarning',[], function () {
 	return WidgetWarning;
 });
 
-define('text!js/view/widgets/WidgetPlaceholder.html',[],function () { return '<div id="placeholder-{{widgetId}}" class="placeholder open">\r\n    <span>{{name}}</span>\r\n    <div class="placeholder-tools-container">\r\n        <div class="placeholder-tool widget-maximise">\r\n            <img alt="Maximise" src="__new/img/maximise-icon.png"/>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n';});
+define('text!js/view/widgets/WidgetPlaceholder.html',[],function () { return '<div id="placeholder-{{widgetId}}" class="placeholder open">\r\n    <span>{{name}}</span>\r\n    <div class="placeholder-tools-container">\r\n        <div class="placeholder-tool widget-maximise">\r\n            <img alt="{{maximise}}" src="__new/img/maximise-icon.png"/>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n';});
 
 
-define('text!js/view/widgets/WidgetFloater.html',[],function () { return '<div id="floater-{{widgetId}}" class="floater {{floaterClass}}">\r\n\t<div class="floater-header">\r\n\t\t<span>{{name}}</span>\r\n\t\t<div class="floater-tools-container">\r\n\t\t\t<div title="Minimise" class="floater-tool widget-minimise">\r\n\t\t\t\t<img alt="Minimise" src="{{minimiseSrc}}"/>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class="floater-warning">\r\n\t</div>\r\n\t<div class="floater-body">\r\n\t</div>\r\n\t<div class="floater-footer">\r\n\t</div>\r\n\t<div class="floater-overlay">\r\n\t</div>\r\n</div>';});
+define('text!js/view/widgets/WidgetFloater.html',[],function () { return '<div id="floater-{{widgetId}}" class="floater {{floaterClass}}">\r\n\t<div class="floater-header">\r\n\t\t<span>{{name}}</span>\r\n\t\t<div class="floater-tools-container">\r\n\t\t\t<div title="{{minimise}}" class="floater-tool widget-minimise">\r\n\t\t\t\t<img alt="{{minimise}}" src="{{minimiseSrc}}"/>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class="floater-warning">\r\n\t</div>\r\n\t<div class="floater-body">\r\n\t</div>\r\n\t<div class="floater-footer">\r\n\t</div>\r\n\t<div class="floater-overlay">\r\n\t</div>\r\n</div>';});
 
 
 define('css!js/view/widgets/Widget',[],function(){});
@@ -14662,7 +14662,8 @@ define('js/view/widgets/Widget',['../../error/ArgumentError',
 			name: this._name,
 			widgetId: this._widgetId,
 			minimiseSrc: minimiseIconSrc,
-            floaterClass: floaterClass
+            floaterClass: floaterClass,
+            minimise: polyglot.t("minimise")
 		}).toString();
 
 		this._floaterTarget.append(floater);
@@ -14684,7 +14685,8 @@ define('js/view/widgets/Widget',['../../error/ArgumentError',
 		var placeholdersContainer = this._placeholderTarget.find('.placeholders-container');
 		var placeholder = S(WidgetPlaceholder).template({
 			name: this._name,
-			widgetId: this._widgetId
+			widgetId: this._widgetId,
+            maximise: polyglot.t("maximise")
 		}).toString();
 		placeholdersContainer.append(placeholder);
 
@@ -16550,7 +16552,7 @@ define('js/view/widgets/CityWidget/CityWidget',[
 	 */
 	CityWidget.prototype.prepareFooter = function(){
 		this._widgetSelector.find(".floater-footer").append('<div class="floater-row">' +
-				'<div class="widget-button" id="melodies-selection-confirm">Send</div>' +
+				'<div class="widget-button" id="melodies-selection-confirm">'+polyglot.t("send")+'</div>' +
 			'</div>' +
 			'<div class="floater-row table-row" id="melodies-monitoring-table">' +
 				'<table>' +
@@ -16642,10 +16644,10 @@ define('js/view/widgets/CityWidget/CityWidget',[
 		}).then(function(response){
 			var data = JSON.parse(response);
 			if (data.status == "Ok"){
-				$('#melodies-selection-confirm').html("Request has been sent...").attr("disabled", true);
+				$('#melodies-selection-confirm').html(polyglot.t("requestHasBeenSent")).attr("disabled", true);
 			}
 			else {
-				$('#melodies-selection-confirm').html("Failed to send request!").attr("disabled", true).addClass("failed");
+				$('#melodies-selection-confirm').html(polyglot.t("failedToSendRequest")).attr("disabled", true).addClass("failed");
 			}
 		});
 	};
@@ -16827,8 +16829,8 @@ define('js/view/table/TableCustomDrawing',[
 		var html = '<tr class="record-row" data-olid="' + openLayersID + '" data-uuid="' + uniqueID + '">' +
 				'<td>' + this._recordCount  + '</td>' +
 				'<td class="record-name"><input type="text" value="' + featureName + '" ' + disabled + '></td>' +
-				'<td class="save-record"><div class="widget-button button-save-record" ' + disabled + '>Save</div></td>' +
-				'<td class="delete-record"><div class="widget-button button-delete-record">Delete</div></td>' +
+				'<td class="save-record"><div class="widget-button button-save-record" ' + disabled + '>'+polyglot.t("save")+'</div></td>' +
+				'<td class="delete-record"><div class="widget-button button-delete-record">'+polyglot.t('delete')+'</div></td>' +
 			'</tr>';
 		this._table.append(html);
 		this._recordCount++;
@@ -16841,7 +16843,7 @@ define('js/view/table/TableCustomDrawing',[
 	TableCustomDrawing.prototype.buildHeader = function(){
 		var html = '<tr class="header">' +
 			'<th>#</th>' +
-			'<th>Name</th>' +
+			'<th>'+polyglot.t("name")+'</th>' +
 			'<th></th>' +
 			'<th></th>' +
 			'</tr>';
@@ -16919,10 +16921,10 @@ define('js/view/widgets/CustomDrawingWidget/CustomDrawingSection',[
 	 * Build basic structure of section
 	 * @param content {string} HTML code
 	 */
-	CustomDrawingSection.prototype.build = function(content){
-		var html = S(content).template({
-			id: this._sectionId
-		}).toString();
+	CustomDrawingSection.prototype.build = function(content, params){
+		params = params || {};
+		params.id = this._sectionId;
+		var html = S(content).template(params).toString();
 		this._target.append(html);
 		this._table = new TableCustomDrawing({
 			targetId: this._sectionId + "-table-container",
@@ -17009,7 +17011,7 @@ define('js/view/widgets/CustomDrawingWidget/CustomDrawingSection',[
 			this.saveRequest(feature).done(function(result){
 				if (result.status == "OK"){
 					button.attr("disabled", "disabled")
-						.html("Saved!")
+						.html(polyglot.t("saved"))
 						.css("color", "#d35400")
 						.parents('tr').addClass("saved");
 				} else {
@@ -17033,7 +17035,7 @@ define('js/view/widgets/CustomDrawingWidget/CustomDrawingSection',[
 		var name = input.val();
 
 		if (name.length == 0){
-			window.alert("Fill the name!");
+			window.alert(polyglot.t("fillTheName"));
 			return;
 		} else {
 			input.attr("disabled", true);
@@ -17068,7 +17070,7 @@ define('js/view/widgets/CustomDrawingWidget/CustomDrawingSection',[
 		var uuid = button.parents('tr').attr("data-uuid");
 		var name = button.parents('tr').find(".record-name input").val();
 
-		var conf = confirm("Do you really want to delete line " + name + "?");
+		var conf = confirm(polyglot.t("doYouReallyWantToDeleteLine") + name + "?");
 		if (!conf){
 			return;
 		}
@@ -17184,7 +17186,7 @@ define('js/view/widgets/CustomDrawingWidget/CustomDrawingSection',[
 	return CustomDrawingSection;
 });
 
-define('text!js/view/widgets/CustomDrawingWidget/DrawCustomAU.html',[],function () { return '<div id="custom-au-container">\r\n\t<div class="floater-row layer-check">\r\n\t</div>\r\n\t<div class="floater-row export-row">\r\n\t\t<div class="widget-button widget-button-export" id="polygons-export-json" disabled="disabled">Export layer to GeoJSON</div>\r\n\t\t<div class="widget-button widget-button-export" id="polygons-export-shp" disabled="disabled">Export layer to SHP</div>\r\n\t</div>\r\n\t<div class="floater-row">\r\n\t\t<div class="floater-row-caption">Draw custom Analytical units</div>\r\n\t\t<div class="widget-button map-button button-drawing-activation" id="button-draw-polygons">Actviate drawing</div>\r\n\t</div>\r\n\t<div class="floater-row">\r\n\t\t<div id="{{id}}-table-container"></div>\r\n\t</div>\r\n</div>\r\n<div id="custom-au-info">\r\n\t<div class="floater-row">\r\n\t\t<div class="floater-row-caption">Draw custom Analytical units</div>\r\n\t\t<p></p>\r\n\t</div>\r\n</div>';});
+define('text!js/view/widgets/CustomDrawingWidget/DrawCustomAU.html',[],function () { return '<div id="custom-au-container">\r\n\t<div class="floater-row layer-check">\r\n\t</div>\r\n\t<div class="floater-row export-row">\r\n\t\t<div class="widget-button widget-button-export" id="polygons-export-json" disabled="disabled">{{exportLayerToGeoJson}}</div>\r\n\t\t<div class="widget-button widget-button-export" id="polygons-export-shp" disabled="disabled">{{exportLayerToShp}}</div>\r\n\t</div>\r\n\t<div class="floater-row">\r\n\t\t<div class="floater-row-caption">{{drawCustomAnalyticalUnits}}</div>\r\n\t\t<div class="widget-button map-button button-drawing-activation" id="button-draw-polygons">{{activateDrawing}}</div>\r\n\t</div>\r\n\t<div class="floater-row">\r\n\t\t<div id="{{id}}-table-container"></div>\r\n\t</div>\r\n</div>\r\n<div id="custom-au-info">\r\n\t<div class="floater-row">\r\n\t\t<div class="floater-row-caption">{{drawCustomAnalyticalUnits}}</div>\r\n\t\t<p></p>\r\n\t</div>\r\n</div>';});
 
 
 define('css!js/view/widgets/CustomDrawingWidget/DrawCustomAU',[],function(){});
@@ -17235,7 +17237,12 @@ define('js/view/widgets/CustomDrawingWidget/DrawCustomAU',[
 			throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "DrawCustomAU", "constructor", "missingHTMLElement"));
 		}
 
-		this.build(DrawCustomAUHtml);
+		this.build(DrawCustomAUHtml, {
+            drawCustomAnalyticalUnits: polyglot.t("drawCustomAnalyticalUnits"),
+            exportLayerToGeoJson: polyglot.t("exportLayerToGeoJson"),
+            exportLayerToShp: polyglot.t("exportLayerToShp"),
+            activateDrawing: polyglot.t("activateDrawing")
+		});
 
 		this._buttonDraw = $("#button-draw-polygons");
 		this._section = $("#custom-au-container");
@@ -17252,7 +17259,7 @@ define('js/view/widgets/CustomDrawingWidget/DrawCustomAU',[
 	DrawCustomAU.prototype.buildLayerCheckbox = function(){
 		return new Checkbox({
 			id: this._sectionId + "-layer-checkbox",
-			name: "Show Custom Analytical units Layer",
+			name: polyglot.t("showCustomAnalyticalUnitsLayer"),
 			checked: true,
 			target: this._section.find(".layer-check"),
 			containerId: this._sectionId
@@ -17269,7 +17276,7 @@ define('js/view/widgets/CustomDrawingWidget/DrawCustomAU',[
 		if (ThemeYearConfParams.place.length == 0){
 			section.css("display", "none");
 			info.css("display","block");
-			info.find("p").html("Drawing of custom analytical units is disabled for All places option. To enable drawing, please select place (pilot).");
+			info.find("p").html(polyglot.t("drawCustomAnalyticalUnitsIsDisabled"));
 			return false;
 		} else {
 			section.css("display", "block");
@@ -17324,7 +17331,7 @@ define('js/view/widgets/CustomDrawingWidget/DrawCustomAU',[
 	return DrawCustomAU;
 });
 
-define('text!js/view/widgets/CustomDrawingWidget/DrawCustomLines.html',[],function () { return '<div id="custom-lines-container">\r\n\t<div class="floater-row layer-check">\r\n\t</div>\r\n\t<div class="floater-row export-row">\r\n\t\t<div class="widget-button widget-button-export" id="lines-export-json" disabled="disabled">Export layer to GeoJSON</div>\r\n\t\t<div class="widget-button widget-button-export" id="lines-export-shp" disabled="disabled">Export layer to SHP</div>\r\n\t</div>\r\n\t<div class="floater-row">\r\n\t\t<div class="floater-row-caption">Draw Green Connectivity Line</div>\r\n\t\t<div class="widget-button map-button button-drawing-activation" id="button-draw-lines">Actviate drawing</div>\r\n\t</div>\r\n\t<div class="floater-row">\r\n\t\t<div id="{{id}}-table-container"></div>\r\n\t</div>\r\n</div>\r\n<div id="custom-lines-info">\r\n\t<p>Drawing of custom lines is disabled for All places option. To enable drawing, please select place(pilot).</p>\r\n</div>';});
+define('text!js/view/widgets/CustomDrawingWidget/DrawCustomLines.html',[],function () { return '<div id="custom-lines-container">\r\n\t<div class="floater-row layer-check">\r\n\t</div>\r\n\t<div class="floater-row export-row">\r\n\t\t<div class="widget-button widget-button-export" id="lines-export-json" disabled="disabled">{{exportLayerToGeoJson}}</div>\r\n\t\t<div class="widget-button widget-button-export" id="lines-export-shp" disabled="disabled">{{exportLayerToShp}}</div>\r\n\t</div>\r\n\t<div class="floater-row">\r\n\t\t<div class="floater-row-caption">{{drawGreenConnectivityLine}}</div>\r\n\t\t<div class="widget-button map-button button-drawing-activation" id="button-draw-lines">{{activateDrawing}}</div>\r\n\t</div>\r\n\t<div class="floater-row">\r\n\t\t<div id="{{id}}-table-container"></div>\r\n\t</div>\r\n</div>\r\n<div id="custom-lines-info">\r\n\t<p>{{drawingOfCustomLinesIsDisabled}}</p>\r\n</div>';});
 
 
 define('css!js/view/widgets/CustomDrawingWidget/DrawCustomLines',[],function(){});
@@ -17375,7 +17382,13 @@ define('js/view/widgets/CustomDrawingWidget/DrawCustomLines',[
 			throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "DrawCustomLines", "constructor", "missingHTMLElement"));
 		}
 
-		this.build(DrawCustomLinesHtml);
+		this.build(DrawCustomLinesHtml, {
+            drawingOfCustomLinesIsDisabled: polyglot.t("drawingOfCustomLinesIsDisabled"),
+            drawGreenConnectivityLine: polyglot.t("drawGreenConnectivityLine"),
+            activateDrawing: polyglot.t("activateDrawing"),
+            exportLayerToGeoJson: polyglot.t("exportLayerToGeoJson"),
+            exportLayerToShp: polyglot.t("exportLayerToShp")
+		});
 
 		this._buttonDraw = $("#button-draw-lines");
 		this._section = $("#custom-lines-container");
@@ -17743,7 +17756,7 @@ define('js/util/Customization',[
 	return Customization;
 });
 
-define('text!js/view/settings/Settings.html',[],function () { return '<div class="tool-window settings-window" id="{{id}}">\r\n    <div class="tool-window-header">\r\n        <span>Settings</span>\r\n        <div class="tool-window-tools-container">\r\n            <div class="window-close">\r\n                <img alt="Close" src="__new/img/close.png"/>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    <div class="tool-window-body">\r\n    </div>\r\n    <div class="tool-window-footer">\r\n        <div class="widget-button tool-window-button settings-confirm">Confirm</div>\r\n    </div>\r\n</div>';});
+define('text!js/view/settings/Settings.html',[],function () { return '<div class="tool-window settings-window" id="{{id}}">\r\n    <div class="tool-window-header">\r\n        <span>{{settings}}</span>\r\n        <div class="tool-window-tools-container">\r\n            <div class="window-close">\r\n                <img alt="Close" src="__new/img/close.png"/>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    <div class="tool-window-body">\r\n    </div>\r\n    <div class="tool-window-footer">\r\n        <div class="widget-button tool-window-button settings-confirm">{{confirm}}</div>\r\n    </div>\r\n</div>';});
 
 
 define('css!js/view/settings/Settings',[],function(){});
@@ -17790,7 +17803,11 @@ define('js/view/settings/Settings',[
      * Build the settings window, fill it with data and add listeners
      */
     Settings.prototype.buildContent = function(){
-        var html = S(htmlContent).template({id: this._id}).toString();
+        var html = S(htmlContent).template({
+            id: this._id,
+            settings: polyglot.t("settings"),
+            confirm: polyglot.t("confirm")
+        }).toString();
         if (!$("#" + this._id).length){
             this._target.append(html);
         }
@@ -18016,7 +18033,7 @@ define('js/view/widgets/EvaluationWidget/CategorizeSettings',[
 			'<div class="categorize-body">' +
 			'</div>' +
 			'<div class="categorize-footer">' +
-				'<div class="widget-button w10" id="add-category-set">Add category set' +
+				'<div class="widget-button w10" id="add-category-set">' + polyglot.t("addCategorySet") +
 				'</div>' +
 			'</div>'
 		);
@@ -18039,8 +18056,8 @@ define('js/view/widgets/EvaluationWidget/CategorizeSettings',[
 	};
 
 	CategorizeSettings.prototype.renameLabels = function(){
-		this._headerSelector.find("span").html("Categorize");
-		this._confirmButtonSelector.html("Show in chart")
+		this._headerSelector.find("span").html(polyglot.t("categorize"));
+		this._confirmButtonSelector.html(polyglot.t("showInChart"))
 	};
 
 	/**
@@ -18142,7 +18159,7 @@ define('js/view/widgets/EvaluationWidget/CategorizeSettings',[
 
 		return {
 			id: this._currentCategoryId,
-			name: "Category " + this._categoryCounter,
+			name: polyglot.t("category") + " " + this._categoryCounter,
 			data: this._currentETstate,
 			color: '#000000'
 		};
@@ -18158,7 +18175,7 @@ define('js/view/widgets/EvaluationWidget/CategorizeSettings',[
 
 		return {
 			id: this._currentCategorySetId,
-			name: "Set " + this._categorySetCounter,
+			name: polyglot.t("Set") + " " + this._categorySetCounter,
 			categories: {}
 		};
 	};
@@ -18189,8 +18206,8 @@ define('js/view/widgets/EvaluationWidget/CategorizeSettings',[
 			'<div class="category-set-box" id="' + categorySet.id + '" data-id="' + categorySet.id + '">' +
 				'<div class="category-set-box-header">' +
 					'<div class="category-set-name"><input type="text" value="' + categorySet.name + '"></div>' +
-					'<div class="save-category-set widget-button button-save-record">Save set name</div>' +
-					'<div class="delete-category-set widget-button button-delete-record"> Delete whole set </div>' +
+					'<div class="save-category-set widget-button button-save-record">'+polyglot.t("saveSetName")+'</div>' +
+					'<div class="delete-category-set widget-button button-delete-record">'+polyglot.t("deleteWholeSet")+'</div>' +
 				'</div>' +
 			'</div>'
 		);
@@ -18443,7 +18460,7 @@ define('js/view/widgets/EvaluationWidget/EvaluationWidgetSettings',[
 	EvaluationWidgetSettings.prototype.addCategories = function(){
 		this._settingsBody = $('#' + this._id + ' .tool-window-body');
 		this._settingsBody.html("");
-		this.addCheckbox(this._id + "-all-attributes", "All attributes", "all-attributes-row", "", true, "");
+		this.addCheckbox(this._id + "-all-attributes", polyglot.t("allAttributes"), "all-attributes-row", "", true, "");
 		var asName = "";
 		var asId = "";
 		var asDataId = null;
@@ -18464,17 +18481,17 @@ define('js/view/widgets/EvaluationWidget/EvaluationWidgetSettings',[
 
 			if (type == "boolean"){
 				input = "checkbox";
-				name4Settings = name4Settings + " <i>(Yes/No)</i>";
+				name4Settings = name4Settings + " <i>"+polyglot.t("yesNo")+"</i>";
 			}
 			else if (type == "numeric") {
 				input = "slider";
-				name4Settings = name4Settings + " <i>(Range)</i> ";
+				name4Settings = name4Settings + " <i>"+polyglot.t("range")+"</i> ";
 			}
 			else if (type == "text") {
 				input = "select";
-				name4Settings = name4Settings + " <i>(Category)</i>" +
+				name4Settings = name4Settings + " <i>"+polyglot.t("categoryBounded")+"</i>" +
 					"<div class='multioptions'>" +
-					"<span>Multioptions:</span>" +
+					"<span>"+polyglot.t("multiOptions")+"</span>" +
 					"<label class='switch'>" +
 					"<input type='checkbox' class='multioptions-input'>" +
 					"<div class='slider-toggle'></div>" +
@@ -18540,7 +18557,7 @@ define('js/view/widgets/EvaluationWidget/EvaluationWidgetSettings',[
 	return EvaluationWidgetSettings;
 });
 
-define('text!js/view/widgets/EvaluationWidget/EvaluationWidgetFooter.html',[],function () { return '<div class="floater-row footer-buttons">\r\n\t<div class="widget-button hidden" id="evaluation-confirm"></div>\r\n\t<div class="widget-button" id="evaluation-unselect" disabled="disabled">Clear selection</div>\r\n\t<div class="widget-button secondary {{hidden}}" id="evaluation-add-category" disabled="disabled">Add category</div>\r\n</div>\r\n<div class="floater-row row-export">\r\n\t<div class="widget-button widget-button-export" id="export-json" disabled="disabled">Export to GeoJSON</div>\r\n\t<div class="widget-button widget-button-export" id="export-xls" disabled="disabled">Export to XLS</div>\r\n</div>\r\n<div class="floater-row row-export">\r\n\t<div class="widget-button widget-button-export" id="export-shp" disabled="disabled">Export to SHP</div>\r\n\t<div class="widget-button widget-button-export" id="export-csv" disabled="disabled">Export to CSV</div>\r\n</div>';});
+define('text!js/view/widgets/EvaluationWidget/EvaluationWidgetFooter.html',[],function () { return '<div class="floater-row footer-buttons">\r\n\t<div class="widget-button hidden" id="evaluation-confirm"></div>\r\n\t<div class="widget-button" id="evaluation-unselect" disabled="disabled">{{clearSelection}}</div>\r\n\t<div class="widget-button secondary {{hidden}}" id="evaluation-add-category" disabled="disabled">{{addCategory}}</div>\r\n</div>\r\n<div class="floater-row row-export">\r\n\t<div class="widget-button widget-button-export" id="export-json" disabled="disabled">{{exportToGeoJson}}</div>\r\n\t<div class="widget-button widget-button-export" id="export-xls" disabled="disabled">{{exportToXls}}</div>\r\n</div>\r\n<div class="floater-row row-export">\r\n\t<div class="widget-button widget-button-export" id="export-shp" disabled="disabled">{{exportToShp}}</div>\r\n\t<div class="widget-button widget-button-export" id="export-csv" disabled="disabled">{{exportToCsv}}</div>\r\n</div>';});
 
 
 define('css!js/view/widgets/EvaluationWidget/EvaluationWidget',[],function(){});
@@ -18773,7 +18790,7 @@ define('js/view/widgets/EvaluationWidget/EvaluationWidget',[
      */
     EvaluationWidget.prototype.buildSettings = function(){
         var tool = "settings";
-        var name = "Settings";
+        var name = polyglot.t("settings");
         this._widgetSelector.find(".floater-tools-container").append('<div title="'+ name +'" class="floater-tool widget-'+ tool +'">' +
             '<img alt="' + name + '" src="__new/img/'+ tool +'.png"/>' +
             '</div>');
@@ -18947,7 +18964,13 @@ define('js/view/widgets/EvaluationWidget/EvaluationWidget',[
         }
 
         var html = S(htmlFooterContent).template({
-            hidden: addCategoryClass
+            hidden: addCategoryClass,
+            clearSelection: polyglot.t("clearSelection"),
+            addCategory: polyglot.t("addCategory"),
+            exportToGeoJson: polyglot.t("exportToGeoJson"),
+            exportToXls: polyglot.t("exportToXls"),
+            exportToShp: polyglot.t("exportToShp"),
+            exportToCsv: polyglot.t("exportToCsv")
         }).toString();
         this._widgetSelector.find(".floater-footer").html("").append(html);
     };
@@ -19023,7 +19046,7 @@ define('js/view/widgets/EvaluationWidget/EvaluationWidget',[
             if (count == 1){
                 areasName = "area";
             }
-            $('#evaluation-confirm').html("Select " + count + " " + areasName)
+            $('#evaluation-confirm').html(polyglot.t("select") + " " + count + " " + areasName)
                 .removeClass("hidden")
                 .off("click.confirm")
                 .on("click.confirm", function(){
@@ -19035,7 +19058,7 @@ define('js/view/widgets/EvaluationWidget/EvaluationWidget',[
                 });
         }
         else {
-            $('#evaluation-confirm').html("No area selected")
+            $('#evaluation-confirm').html(polyglot.t("noAreaSelected"))
                 .off("click.confirm");
         }
 
@@ -19571,7 +19594,7 @@ define('js/view/tools/FeatureInfoTool/FeatureInfoSettings',[
 	return FeatureInfoSettings;
 });
 
-define('text!js/view/tools/FeatureInfoTool/FeatureInfoWindow.html',[],function () { return '<div id="{{id}}">\r\n\t<div class="feature-info-window-header">\r\n\t\t<div class="feature-info-title">Feature name (GID)</div>\r\n\t\t<div class="feature-info-close">\r\n\t\t\t<img title="Close" src="__new/img/close.png">\r\n\t\t</div>\r\n\t\t<div class="feature-info-settings">\r\n\t\t\t<img title="Settings" src="__new/img/settings-gray.png">\r\n\t\t</div>\r\n\t</div>\r\n\t<div class="feature-info-window-body">\r\n\t\t<table>\r\n\t\t</table>\r\n\t</div>\r\n\t<div class="feature-info-window-footer">\r\n\t\t<div class="floater-row">\r\n\t\t\t<div class="widget-button widget-button-export" id="export-feature-info-csv">Export to XLS</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class="overlay"></div>\r\n</div>';});
+define('text!js/view/tools/FeatureInfoTool/FeatureInfoWindow.html',[],function () { return '<div id="{{id}}">\r\n\t<div class="feature-info-window-header">\r\n\t\t<div class="feature-info-title">{{featureName}}</div>\r\n\t\t<div class="feature-info-close">\r\n\t\t\t<img title="Close" src="__new/img/close.png">\r\n\t\t</div>\r\n\t\t<div class="feature-info-settings">\r\n\t\t\t<img title="Settings" src="__new/img/settings-gray.png">\r\n\t\t</div>\r\n\t</div>\r\n\t<div class="feature-info-window-body">\r\n\t\t<table>\r\n\t\t</table>\r\n\t</div>\r\n\t<div class="feature-info-window-footer">\r\n\t\t<div class="floater-row">\r\n\t\t\t<div class="widget-button widget-button-export" id="export-feature-info-csv">{{exportToXls}}</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class="overlay"></div>\r\n</div>';});
 
 
 define('css!js/view/tools/FeatureInfoTool/FeatureInfoWindow',[],function(){});
@@ -19630,7 +19653,9 @@ define('js/view/tools/FeatureInfoTool/FeatureInfoWindow',['../../../error/Argume
 	 */
 	FeatureInfoWindow.prototype.build = function(){
 		var html = S(htmlContent).template({
-			id: this._id
+			id: this._id,
+			featureName: polyglot.t("featureNameGid"),
+			exportToXls: polyglot.t("exportToXls")
 		}).toString();
 		this._target.append(html);
 		this._infoWindow = $("#" + this._id);
@@ -19826,7 +19851,7 @@ define('js/view/tools/FeatureInfoTool/FeatureInfoWindow',['../../../error/Argume
 	return FeatureInfoWindow;
 });
 
-define('text!js/view/tools/FeatureInfoTool/FeatureInfoTool.html',[],function () { return '<div class="tools-buttons-container">\r\n\t<div id="{{id}}" class="tool" title="1. Click to activate/deactivate feature info &#13;2. Click on feature in map to get info">Info</div>\r\n</div>';});
+define('text!js/view/tools/FeatureInfoTool/FeatureInfoTool.html',[],function () { return '<div class="tools-buttons-container">\r\n\t<div id="{{id}}" class="tool" title="{{title}}">{{info}}</div>\r\n</div>';});
 
 
 define('css!js/view/tools/FeatureInfoTool/FeatureInfoTool',[],function(){});
@@ -24460,11 +24485,7 @@ define('js/view/widgets/OSMWidget/OSMWidget',[
 
         this._widgetBodySelector.append("" +
             "<p>" +
-            "   <h1>OSM Data information</h1>" +
-            "   <p>" +
-            "       Select the area for which you want to load the 3D buildings. Area is selected by double clicking on " +
-            "       the top left corner and bottom right corner." +
-            "   </p>" +
+            "   " + polyglot.t("osmDataInformation") +
             "   <input type='button' value='Select area of interest' id='osmAreaOfInterest'/>" +
             "</p>");
 
@@ -24656,7 +24677,7 @@ define('js/view/components/Button/Button',[
 		this._classes = options.classes;
 		this.onClick = options.onClick;
 
-		this._title = options.title || "Select";
+		this._title = options.title || polyglot.t("select");
 		this._textCentered = options.textCentered;
 		this._textSmall = options.textSmall;
 
@@ -24759,7 +24780,7 @@ define('js/view/components/Select/BaseSelect',[
 		this._options = options.options;
 		this._disabledOptions = options.disabledOptions;
 		this._selectedOptions = options.selectedOptions;
-		this._title = options.title || "Select";
+		this._title = options.title || polyglot.t("select");
 		this._sorting = options.sorting;
 		this._classes = options.classes;
 	};
@@ -25067,7 +25088,7 @@ define('js/view/components/Select/Select',[
 	return Select;
 });
 
-define('text!js/view/selectors/PeriodsSelector/PeriodsSelector.html',[],function () { return '<div class="selector" id="{{id}}">\r\n\t<span class="selector-label">Period</span>\r\n</div>';});
+define('text!js/view/selectors/PeriodsSelector/PeriodsSelector.html',[],function () { return '<div class="selector" id="{{id}}">\r\n\t<span class="selector-label">{{period}}</span>\r\n</div>';});
 
 
 define('css!js/view/selectors/PeriodsSelector/PeriodsSelector',[],function(){});
@@ -25159,7 +25180,8 @@ define('js/view/selectors/PeriodsSelector/PeriodsSelector',[
 		}
 
 		var html = S(PeriodsSelectorHtml).template({
-			id: this._id
+			id: this._id,
+			period: polyglot.t('period')
 		}).toString();
 
 		this._containerSelector.append(html);
@@ -25219,7 +25241,7 @@ define('js/view/selectors/PeriodsSelector/PeriodsSelector',[
 
 		return new Select({
 			id: this._id + "-select",
-			title: "Select period",
+			title: polyglot.t("selectPeriod"),
 			options: periods,
 			placeholder: "...",
 			sorting: {
@@ -25240,7 +25262,7 @@ define('js/view/selectors/PeriodsSelector/PeriodsSelector',[
 	PeriodsSelector.prototype.renderMultiplePeriodSelection = function (periods) {
 		return new MultiSelect({
 			id: this._id + "-multiselect",
-			title: "Select periods to compare",
+			title: polyglot.t("selectPeriodsToCompare"),
 			options: periods,
 			sorting: {
 				type: 'string'
@@ -25262,7 +25284,7 @@ define('js/view/selectors/PeriodsSelector/PeriodsSelector',[
 		return new Button({
 			id: this._id + "-compare-button",
 			text: "Compare",
-			title: "Compare periods",
+			title: polyglot.t("comparePeriods"),
 			containerSelector: this._periodsContainerSelector,
 			classes: "compare-button w5",
 			textCentered: true,
@@ -25712,14 +25734,14 @@ define('js/view/widgets/SharingWidget/SharingWidget',[
 				}).join(' ');
 				$('#floater-sharing .floater-body').append(
 					'<div>' +
-					'	<div><label>Name: <input id="sharing-name" type="text" value="'+name+'"/></label></div>' +
-					'	<div><label>Community: ' +
+					'	<div><label>'+polyglot.t('name')+': <input id="sharing-name" type="text" value="'+name+'"/></label></div>' +
+					'	<div><label>'+polyglot.t('community')+': ' +
 					'		<select id="sharing-community">' + optionsHtml +
 					'		</select>' +
 					'	</label></div>' +
 					'</div>'
 				);
-				$('#floater-sharing .floater-footer').append('<div class="widget-button" id="sharing-portal">Share on the portal.</div>');
+				$('#floater-sharing .floater-footer').append('<div class="widget-button" id="sharing-portal">'+polyglot.t('shareOnPortal')+'</div>');
 
 				$('#sharing-portal').off();
 				$('#sharing-portal').on('click', function(){
@@ -25732,9 +25754,9 @@ define('js/view/widgets/SharingWidget/SharingWidget',[
 						})[0].id;
                         return Groups.share(groupId, state.scope, state.places)
 					}).then(function(){
-                        alert('The state was correctly shared. The user has access to current state via URL: ' + self.url);
+                        alert(polyglot.t('theStateWasCorrectlyShared') + self.url);
                     }).catch(function(error){
-                        alert('There was an issue with storing current state of the application. Error: ' + error);
+                        alert(polyglot.t('thereWasAnIssueWithSharing') + error);
                     });
 				});
 			});
@@ -25756,11 +25778,11 @@ define('js/view/widgets/SharingWidget/SharingWidget',[
                 userOptions.unshift('<option value=""></option>');
                 $('#floater-sharing .floater-body').append(
                     '<div>' +
-                    '	<div><label>User: ' +
+                    '	<div><label>'+polyglot.t('user')+': ' +
                     '		<select id="sharing-user">' + userOptions +
                     '		</select>' +
                     '	</label></div>' +
-                    '	<div><label>Group: ' +
+                    '	<div><label>'+polyglot.t('group')+': ' +
                     '		<select id="sharing-group">' + groupOptions +
                     '		</select>' +
                     '	</label></div>' +
@@ -25776,14 +25798,14 @@ define('js/view/widgets/SharingWidget/SharingWidget',[
                     	Groups.share(selectedGroup, state.scope, state.places),
 						Users.share(selectedUser, state.scope, state.places)
 					]).then(function(){
-						alert('The state was correctly shared. The user has access to current state via URL: ' + self.url);
+						alert(polyglot.t('theStateWasCorrectlyShared') + self.url);
 					}).catch(function(error){
-						alert('There was an issue with storing current state of the application. Error: ' + error);
+						alert(polyglot.t('thereWasAnIssueWithSharing') + error);
 					});
                 });
 			}).catch(function(error){
 				console.error(error);
-				alert('It wasnt possible to load available users and groups. Please try later. Error: ' + error);
+				alert(polyglot.t('itWasntPossibleToLoadGroupsUsers') + error);
 			});
 
 		}
@@ -27000,8 +27022,8 @@ define('js/view/CustomLayers',[
 			'<div id="custom-layers-container">' +
 				'<div class="custom-layers-content" id="custom-layers-start">' +
 					'<div>' +
-						'<div class="ptr-btn primary" id="custom-layers-file-btn">Load from file…</div>' +
-						'<div class="ptr-btn primary" id="custom-layers-wms-btn">Connect to WMS…</div>' +
+						'<div class="ptr-btn primary" id="custom-layers-file-btn">'+polyglot.t('loadFromFile')+'</div>' +
+						'<div class="ptr-btn primary" id="custom-layers-wms-btn">'+polyglot.t('connectToWms')+'</div>' +
 					'</div>' +
 				'</div>' +
 				'<div class="custom-layers-content" id="custom-layers-action">' +
@@ -27057,17 +27079,17 @@ define('js/view/CustomLayers',[
 			this._action = 'file';
 			this._actionContainer.append(
 				'<label class="container">' +
-					'File' +
+					polyglot.t('file') +
 					'<input type="file" id="custom-layers-file-file" />' +
 				'</label>' +
 				'<label class="container">' +
-					'Layer name' +
+					polyglot.t('layerName') +
 					'<input type="text" id="custom-layers-file-name" />' +
 				'</label>' +
 				'<div class="ptr-btn-group">' +
-					'<div class="ptr-btn primary" id="custom-layers-file-load-btn">Load</div>' +
-					'<div class="ptr-btn primary" id="custom-layers-file-load-without-statistics-btn">Load Without Statistics</div>' +
-					'<div class="ptr-btn" id="custom-layers-file-cancel-btn">Cancel</div>' +
+					'<div class="ptr-btn primary" id="custom-layers-file-load-btn">'+polyglot.t('load')+'</div>' +
+					'<div class="ptr-btn primary" id="custom-layers-file-load-without-statistics-btn">'+polyglot.t('loadWithoutStatistics')+'</div>' +
+					'<div class="ptr-btn" id="custom-layers-file-cancel-btn">'+polyglot.t('cancel')+'</div>' +
 				'</div>'
 			);
 		}
@@ -27079,20 +27101,20 @@ define('js/view/CustomLayers',[
 			this._action = 'wms';
 			this._actionContainer.append(
 				'<label class="container">' +
-					'WMS address' +
+					polyglot.t('wmsAddress') +
 					'<input type="text" id="custom-layers-wms-address" />' +
 				'</label>' +
 				'<label class="container">' +
-					'WMS layer' +
+					polyglot.t('wmsLayer') +
 					'<input type="text" id="custom-layers-wms-layer" />' +
 				'</label>' +
 				'<label class="container">' +
-					'Layer name' +
+					polyglot.t('layerName') +
 					'<input type="text" id="custom-layers-wms-name" />' +
 				'</label>' +
 				'<div class="ptr-btn-group">' +
-					'<div class="ptr-btn primary" id="custom-layers-wms-add-btn">Add</div>' +
-					'<div class="ptr-btn" id="custom-layers-wms-cancel-btn">Cancel</div>' +
+					'<div class="ptr-btn primary" id="custom-layers-wms-add-btn">'+polyglot.t('add')+'</div>' +
+					'<div class="ptr-btn" id="custom-layers-wms-cancel-btn">'+polyglot.t('cancel')+'</div>' +
 				'</div>' +
 				'<div class="custom-layers-status"></div>'
 			);
@@ -27169,25 +27191,25 @@ define('js/view/CustomLayers',[
 		var btnGroupEl = this._actionContainer.find('.ptr-btn-group').first();
 		if (result.status == 'done') {
 			//var postInfoEl = this._actionContainer.find('.custom-layers-file-post-import').first();
-			statusEl.html('Layer imported succesfully.');
+			statusEl.html(polyglot.t('layerImportedSuccessfully'));
 			statusEl.addClass('success');
 			progressEl.css('width','100%');
 			//btnGroupEl.empty();
 			btnGroupEl.append(
-				'<div class="ptr-btn" id="custom-layers-action-back-btn">Back</div>'
+				'<div class="ptr-btn" id="custom-layers-action-back-btn">'+polyglot.t('back')+'</div>'
 			);
 		} else if (result.status == 'error') {
-			statusEl.html('Import failed');
+			statusEl.html(polyglot.t('importFailed'));
 			statusEl.addClass('error');
-			statusMessageEl.html('Error: ' + result.message);
+			statusMessageEl.html(polyglot.t('Error') + ': ' + result.message);
 			progressEl.css('background-color', '#f00');
 			//btnGroupEl.empty();
 			btnGroupEl.append(
-				'<div class="ptr-btn" id="custom-layers-action-back-btn">Back</div>'
+				'<div class="ptr-btn" id="custom-layers-action-back-btn">'+polyglot.t('back')+'</div>'
 			);
 		} else {
 			var progress = (result.progress || 0) + "%";
-			statusEl.html('Importing…');
+			statusEl.html(polyglot.t('importing'));
 			progressEl.css('width', progress);
 
 		}
@@ -27201,7 +27223,7 @@ define('js/view/CustomLayers',[
 
 		var addButton = this._container.find('#custom-layers-wms-add-btn')[0];
 		addButton.classList.add('disabled');
-		addButton.innerHTML = 'Adding...';
+		addButton.innerHTML = polyglot.t('adding');
 
 		var cancelButton = this._container.find('#custom-layers-wms-cancel-btn')[0];
 		cancelButton.classList.add('disabled');
@@ -27215,19 +27237,19 @@ define('js/view/CustomLayers',[
 		const urlRegex = /^((https?:)(\/\/\/?)([\w]*(?::[\w]*)?@)?([\d\w\.-]+)(?::(\d+))?)([\/\\\w\.()-]*)?(?:([?][^#]*)?(#.*)?)*/gmi;
 		var matches = urlRegex.exec(wmsAddress);
 		if(matches === null){
-			errors.push("WMS address is missing or incorrect");
+			errors.push(polyglot.t("wmsAddressIsMissing"));
 		}
 		if(!wmsLayer){
-			errors.push('WMS layer is missing');
+			errors.push(polyglot.t('wmsLayerIsMissing'));
 		}
 		if(!name){
-			errors.push('Layer name is missing')
+			errors.push(polyglot.t('layerNameIsMissing'));
 		}
 
 		if(errors.length){
 			statusEl.classList.add('error');
 			statusEl.innerHTML = errors.join('<br>');
-			addButton.innerHTML = "Add";
+			addButton.innerHTML = polyglot.t("add");
 			addButton.classList.remove('disabled');
 			cancelButton.classList.remove('disabled');
 			return;
@@ -27253,15 +27275,15 @@ define('js/view/CustomLayers',[
 			.fail(function(xhr, message){
 				console.error("Add WMS failed: ", message);
 				statusEl.classList.add('error');
-				statusEl.innerHTML = "Adding WMS layer failed.\n<br>" + message;
+				statusEl.innerHTML = polyglot.t("addingWmsLayerFailed") + message;
 			})
 			.done(function(){
 				self.addWMSToLayers();
 				statusEl.classList.remove('error');
-				statusEl.innerHTML = 'Layer successfully added to Custom WMS section.';
+				statusEl.innerHTML = polyglot.t('layerSuccessfullyAdded');
 			})
 			.always(function(){
-				addButton.innerHTML = "Add";
+				addButton.innerHTML = polyglot.t("add");
 				addButton.classList.remove('disabled');
 				cancelButton.classList.remove('disabled');
 			});
@@ -27352,23 +27374,23 @@ define('js/view/TopToolBar',[
 		if (isWorldWind){
 			if (tools.layers){
 				var classesLayers3d = $('#floater-world-wind-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesLayers3d + '" id="top-toolbar-layers" data-for="floater-world-wind-widget">Layers</div>');
+				this._target.append('<div class="' + classesLayers3d + '" id="top-toolbar-layers" data-for="floater-world-wind-widget">'+polyglot.t('layers')+'</div>');
 			}
 			if (tools.areas){
 				var classesAreas3d = $('#window-areatree').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesAreas3d + '" id="top-toolbar-areas" data-for="window-areatree">Areas</div>');
+				this._target.append('<div class="' + classesAreas3d + '" id="top-toolbar-areas" data-for="window-areatree">'+polyglot.t('areas')+'</div>');
 			}
 			if (tools.periods){
 				var classesPeriods3d = $('#floater-periods-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesPeriods3d + '" id="top-toolbar-periods" data-for="floater-periods-widget">Periods</div>');
+				this._target.append('<div class="' + classesPeriods3d + '" id="top-toolbar-periods" data-for="floater-periods-widget">'+polyglot.t('periods')+'</div>');
 			}
 			if (tools.osm){
 				var classesOsm3d = $('#floater-osm-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesOsm3d + '" id="top-toolbar-osm" data-for="floater-osm-widget">OSM</div>');
+				this._target.append('<div class="' + classesOsm3d + '" id="top-toolbar-osm" data-for="floater-osm-widget">'+polyglot.t('osm')+'</div>');
 			}
 			if (tools.selections){
 				var classesSelections3d = $('#window-colourSelection').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesSelections3d + '" id="top-toolbar-selections" data-for="window-colourSelection">Selections</div>');
+				this._target.append('<div class="' + classesSelections3d + '" id="top-toolbar-selections" data-for="window-colourSelection">'+polyglot.t('selections')+'</div>');
 			}
 			if (tools.areasFilterNew){
 				var classesAreasFilter3d = $('#floater-evaluation-widget').hasClass('open') ? "item open" : "item";
@@ -27379,15 +27401,15 @@ define('js/view/TopToolBar',[
 				this._target.append('<div class="' + classesLegacyAreasFilter3d + '" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters">' + Config.basicTexts.advancedFiltersName + '</div>');
 			}
 			if (tools.mapTools){
-				this._target.append('<div class="item disabled" id="top-toolbar-map-tools">Map tools</div>');
+				this._target.append('<div class="item disabled" id="top-toolbar-map-tools">'+polyglot.t('mapTools')+'</div>');
 			}
 			if (tools.customViews){
 				var classesCustomViews3d = Config.auth ? "item disabled" : "item disabled hidden";
-				this._target.append('<div class="' + classesCustomViews3d + '" id="top-toolbar-saved-views">Custom views</div>');
+				this._target.append('<div class="' + classesCustomViews3d + '" id="top-toolbar-saved-views">'+polyglot.t('customViews')+'</div>');
 			}
 			if (tools.snow){
 				var classesSnowWidget3d = $('#floater-snow-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesSnowWidget3d + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget">Saved configurations</div>');
+				this._target.append('<div class="' + classesSnowWidget3d + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget">'+polyglot.t('savedConfigurations')+'</div>');
 			}
 		}
 
@@ -27395,15 +27417,15 @@ define('js/view/TopToolBar',[
 		else {
 			if (tools.layers){
 				var classesLayers = $('#window-layerpanel').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesLayers + '" id="top-toolbar-layers" data-for="window-layerpanel">Layers</div>');
+				this._target.append('<div class="' + classesLayers + '" id="top-toolbar-layers" data-for="window-layerpanel">'+polyglot.t('layers')+'</div>');
 			}
 			if (tools.areas){
 				var classesAreas = $('#window-areatree').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesAreas + '" id="top-toolbar-areas" data-for="window-areatree">Areas</div>');
+				this._target.append('<div class="' + classesAreas + '" id="top-toolbar-areas" data-for="window-areatree">'+polyglot.t('areas')+'</div>');
 			}
 			if (tools.selections){
 				var classesSelections = $('#window-colourSelection').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesSelections + '" id="top-toolbar-selections" data-for="window-colourSelection">Selections</div>');
+				this._target.append('<div class="' + classesSelections + '" id="top-toolbar-selections" data-for="window-colourSelection">'+polyglot.t('selections')+'</div>');
 			}
 			if (tools.areasFilterNew){
 				var classesAreasFilter = $('#floater-evaluation-widget').hasClass('open') ? "item open" : "item";
@@ -27415,25 +27437,25 @@ define('js/view/TopToolBar',[
 			}
 			if (tools.mapTools){
 				var classesMapTools = $('#window-maptools').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesMapTools + '" id="top-toolbar-map-tools" data-for="window-maptools">Map tools</div>');
+				this._target.append('<div class="' + classesMapTools + '" id="top-toolbar-map-tools" data-for="window-maptools">'+polyglot.t('mapTools')+'</div>');
 			}
 			if (tools.customViews){
 				var classesCustomViews = Config.auth ? "item" : "item hidden";
 				classesCustomViews += $('#window-customviews').hasClass('open') ? " open" : "";
-				this._target.append('<div class="' + classesCustomViews + '" id="top-toolbar-saved-views" data-for="window-customviews">Custom views</div>');
+				this._target.append('<div class="' + classesCustomViews + '" id="top-toolbar-saved-views" data-for="window-customviews">'+polyglot.t('customViews')+'</div>');
 			}
 			if (tools.customLayers){
 				var classesCustomLayers = "item";
 				classesCustomLayers += $('#window-customLayers').hasClass('open') ? " open" : "";
-				this._target.append('<div class="' + classesCustomLayers + '" id="top-toolbar-custom-layers" data-for="window-customLayers">Add layer</div>');
+				this._target.append('<div class="' + classesCustomLayers + '" id="top-toolbar-custom-layers" data-for="window-customLayers">'+polyglot.t('addLayer')+'</div>');
 			}
 			if (tools.functionalFilrer){
 				var classesFunctionalFilter = $('#floater-functional-urban-area').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesFunctionalFilter + '" id="top-toolbar-functional-urban-area" data-for="floater-functional-urban-area">Functional Urban Area</div>');
+				this._target.append('<div class="' + classesFunctionalFilter + '" id="top-toolbar-functional-urban-area" data-for="floater-functional-urban-area">'+polyglot.t('functionalUrbanArea')+'</div>');
 			}
 			if (tools.snow){
 				var classesSnowWidget = $('#floater-snow-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesSnowWidget + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget">Saved configurations</div>');
+				this._target.append('<div class="' + classesSnowWidget + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget">'+polyglot.t('savedConfigurations')+'</div>');
 			}
 		}
 	};
@@ -29457,12 +29479,12 @@ define('js/view/widgets/WorldWindWidget/panels/AuLayersPanel',['../../../../erro
 			this.clear(this._id);
 
 			if(Stores.selectedOutlines) {
-				this.rebuildControl("Selected areas filled", this._layers.selected, "selectedareasfilled");
+				this.rebuildControl(polyglot.t("selectedAreasFilled"), this._layers.selected, "selectedareasfilled");
 				this.switchOnSelected();
 			}
 
 			if(Stores.outlines){
-				this.rebuildControl("Area outlines", this._layers.outlines, "areaoutlines");
+				this.rebuildControl(polyglot.t("areaOutlines"), this._layers.outlines, "areaoutlines");
 				this.switchOnOutlines();
 			}
 		}
@@ -29566,28 +29588,28 @@ define('js/view/widgets/WorldWindWidget/panels/BackgroundLayersPanel',['../../..
 		if(!disabledLayers['osm']) {
             this.layerControls.push({
                 id: "osm",
-                control: this.addRadio(this._id + "-osm", "OpenStreetMap", this._panelBodySelector, "osm", activeBackgroundMap === 'osm')
+                control: this.addRadio(this._id + "-osm", polyglot.t("openStreetMap"), this._panelBodySelector, "osm", activeBackgroundMap === 'osm')
             });
         }
 
         if(!disabledLayers['cartoDb']) {
             this.layerControls.push({
                 id: "cartoDb",
-                control: this.addRadio(this._id + "-carto-db", "Carto DB basemap", this._panelBodySelector, "cartoDb", activeBackgroundMap === 'cartoDb')
+                control: this.addRadio(this._id + "-carto-db", polyglot.t("cartoDbBasemap"), this._panelBodySelector, "cartoDb", activeBackgroundMap === 'cartoDb')
             });
         }
 
         if(!disabledLayers['bingAerial']) {
             this.layerControls.push({
                 id: "bingAerial",
-                control: this.addRadio(this._id + "-bing-aerial", "Bing Aerial", this._panelBodySelector, "bingAerial", activeBackgroundMap === 'bingAerial')
+                control: this.addRadio(this._id + "-bing-aerial", polyglot.t("bingAerial"), this._panelBodySelector, "bingAerial", activeBackgroundMap === 'bingAerial')
             });
         }
 
         if(!disabledLayers['landsat']) {
             this.layerControls.push({
                 id: "landsat",
-                control: this.addRadio(this._id + "-landsat", "Blue Marble", this._panelBodySelector, "landsat", activeBackgroundMap === 'landsat')
+                control: this.addRadio(this._id + "-landsat", polyglot.t("blueMarble"), this._panelBodySelector, "landsat", activeBackgroundMap === 'landsat')
             })
         }
 	};
@@ -30085,7 +30107,7 @@ define('js/view/widgets/WorldWindWidget/WorldWindWidgetPanels',['../../../error/
 	WorldWindWidgetPanels.prototype.buildBackgroundLayersPanel = function(){
 		return new BackgroundLayersPanel({
 			id: "background-layers",
-			name: "Background Layers",
+			name: polyglot.t("backgroundLayers"),
 			target: this._panelsSelector,
 			isOpen: true
 		});
@@ -30097,7 +30119,7 @@ define('js/view/widgets/WorldWindWidget/WorldWindWidgetPanels',['../../../error/
 	WorldWindWidgetPanels.prototype.buildThematicLayersPanel = function(){
 		return new ThematicLayersPanel({
 			id: "thematic-layers",
-			name: "Thematic Layers",
+			name: polyglot.t("thematicLayers"),
 			target: this._panelsSelector,
 			isOpen: true
 		});
@@ -30109,7 +30131,7 @@ define('js/view/widgets/WorldWindWidget/WorldWindWidgetPanels',['../../../error/
 	WorldWindWidgetPanels.prototype.buildAuLayersPanel = function(){
 		return new AuLayersPanel({
 			id: "au-layers",
-			name: "Analytical Units Layers",
+			name: polyglot.t("analyticalUnitsLayers"),
 			target: this._panelsSelector,
 			isOpen: true
 		});
@@ -30121,7 +30143,7 @@ define('js/view/widgets/WorldWindWidget/WorldWindWidgetPanels',['../../../error/
 	WorldWindWidgetPanels.prototype.buildInfoLayersPanel = function(){
 		return new InfoLayersPanel({
 			id: "info-layers",
-			name: "Info Layers",
+			name: polyglot.t("infoLayers"),
 			target: this._panelsSelector,
 			isOpen: true
 		});
@@ -30133,7 +30155,7 @@ define('js/view/widgets/WorldWindWidget/WorldWindWidgetPanels',['../../../error/
 	WorldWindWidgetPanels.prototype.buildWmsLayersPanel = function(){
 		return new WmsLayersPanel({
 			id: "wms-layers",
-			name: "Custom WMS Layers",
+			name: polyglot.t("customWmsLayers"),
 			target: this._panelsSelector,
 			isOpen: true
 		});
@@ -30244,7 +30266,7 @@ define('js/view/widgets/WorldWindWidget/WorldWindWidget',[
 
 		// config for new/old view
 		if (!Config.toggles.useNewViewSelector){
-			this._widgetBodySelector.append('<div id="3d-switch">3D map</div>');
+			this._widgetBodySelector.append('<div id="3d-switch">'+polyglot.t('map3d')+'</div>');
 			$("#3d-switch").on("click", this.switchMapFramework.bind(this));
 		} else {
 			this.addMinimiseButtonListener();
@@ -30284,8 +30306,8 @@ define('js/view/widgets/WorldWindWidget/WorldWindWidget',[
 	 */
 	WorldWindWidget.prototype.addSettingsIcon = function(){
 		this._widgetSelector.find(".floater-tools-container")
-			.append('<div id="thematic-layers-configuration" title="Configure thematic maps" class="floater-tool">' +
-				'<img title="Configure thematic maps" src="images/icons/settings.png"/>' +
+			.append('<div id="thematic-layers-configuration" title="'+polyglot.t("configureThematicMaps")+'" class="floater-tool">' +
+				'<img title="'+polyglot.t("configureThematicMaps")+'" src="images/icons/settings.png"/>' +
 				'</div>');
 	};
 
@@ -30812,19 +30834,19 @@ define('app',['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
     function buildCityWidget (){
         return new CityWidget({
             elementId: 'city-selection',
-            name: 'UrbanDynamic Tool',
+            name: polyglot.t('urbanDynamicTool'),
             placeholderTargetId: 'widget-container',
             selections: [{
                 id: 'melodies-city-selection',
-                name: 'Select city',
+                name: polyglot.t('selectCity'),
                 options: ['Brno', 'České Budějovice', 'Plzeň', 'Ostrava']
             }, {
                 id: 'melodies-start-selection',
-                name: 'Select start',
+                name: polyglot.t('selectStart'),
                 options: ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016']
             }, {
                 id: 'melodies-end-selection',
-                name: 'Select end',
+                name: polyglot.t('selectEnd'),
                 options: ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016']
             }]
         })
@@ -30833,7 +30855,7 @@ define('app',['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
     function buildPeriodsWidget (mapsContainer){
     	return new PeriodsWidget({
 			elementId: 'periods-widget',
-			name: 'Periods',
+			name: polyglot.t('periods'),
 			mapsContainer: mapsContainer,
 			dispatcher: window.Stores,
 			isWithoutFooter: true,
@@ -30850,7 +30872,7 @@ define('app',['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 	function buildSnowWidget (mapController, iFrame){
 		return new SnowWidget({
 			elementId: 'snow-widget',
-			name: 'Saved configurations',
+			name: polyglot.t('savedConfigurations'),
 			placeholderTargetId: 'widget-container',
 			iFrame: iFrame,
 			mapController: mapController,
@@ -30867,7 +30889,7 @@ define('app',['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
     function buildWorldWindWidget (mapsContainer, topToolBar, stateStore){
         return new WorldWindWidget({
             elementId: 'world-wind-widget',
-            name: 'Layers',
+            name: polyglot.t('layers'),
 			mapsContainer: mapsContainer,
             placeholderTargetId: 'widget-container',
             topToolBar: topToolBar,
@@ -30896,7 +30918,7 @@ define('app',['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 	function buildSharingWidget() {
 		Widgets.sharing = new SharingWidget({
 			elementId: 'sharing',
-			name: 'Share',
+			name: polyglot.t('share'),
 			placeholderTargetId: 'widget-container'
 		});
 
@@ -30927,7 +30949,7 @@ define('app',['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 	function buildOsmWidget(mapsContainer, mapStore) {
         return new OSMWidget({
             elementId: 'osm-widget',
-            name: 'Open Street Maps',
+            name: polyglot.t('openStreetMaps'),
             mapsContainer: mapsContainer,
             mapStore: mapStore,
             dispatcher: window.Stores,
