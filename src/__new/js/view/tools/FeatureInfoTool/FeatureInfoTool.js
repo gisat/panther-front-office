@@ -125,7 +125,7 @@ define(['../../../actions/Actions',
 		var self = this;
 		var maps = InternalStores.retrieve('map').getAll();
 		maps.forEach(function(map){
-			map.addClickRecognizer(self.onWorldWindClick.bind(self, map._period), "gid");
+			map.addClickRecognizer(self.onWorldWindClick.bind(self), "gid");
 		});
 	};
 
@@ -162,7 +162,7 @@ define(['../../../actions/Actions',
 	 * @param gid {number} id of the gid
 	 * @param screenCoord {Object} x:{number},y:{number} screen coordinates of click event
 	 */
-	FeatureInfoTool.prototype.onWorldWindClick = function(period, gid, screenCoord){
+	FeatureInfoTool.prototype.onWorldWindClick = function(gid, period, screenCoord){
 		if (gid){
 			this._infoWindow.rebuild(this._attributes, gid, period);
 			this._infoWindow.setVisibility("show");

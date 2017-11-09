@@ -309,6 +309,7 @@ define(['../../actions/Actions',
 	 * @param event {Object}
 	 */
 	WorldWindMap.prototype.onMapClick = function(callback, property, event){
+		var self = this;
 		var gid = null;
 		var coordinates = null;
 		var auLayer = this.layers.getAuLayer()[0];
@@ -330,7 +331,7 @@ define(['../../actions/Actions',
 				if (feature && feature.properties){
 					gid = feature.properties[property];
 				}
-				callback(gid, {x:x,y:y});
+				callback(gid, self._period, {x:x,y:y});
 			});
 		} else {
 			callback(gid);
