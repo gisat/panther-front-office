@@ -330,7 +330,7 @@ define(['../../actions/Actions',
 				if (feature && feature.properties){
 					gid = feature.properties[property];
 				}
-				callback(gid);
+				callback(gid, {x:x,y:y});
 			});
 		} else {
 			callback(gid);

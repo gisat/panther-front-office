@@ -1,11 +1,13 @@
 define(['../actions/Actions',
 	'./Color',
 	'./Remote',
+	'../stores/Stores',
 	'jquery',
 	'underscore'
 ], function (Actions,
 			 Color,
 			 Remote,
+			 InternalStores,
 			 $,
 			 _) {
 
@@ -84,19 +86,24 @@ define(['../actions/Actions',
 	};
 
 	/**
-	 * Filter for featur info functionality
+	 * Filter for feature info functionality
 	 * @param attributes {Array} list of attributes for filtering
-	 * @param gids {Array} List of units' gids
+	 * @param gid {number|string} Unit gid
+	 * @param periods {Array} List of periods
 	 * @returns {*|Promise}
 	 */
-	Filter.prototype.featureInfo = function (attributes, gids) {
-		var params = this.prepareParams();
+	Filter.prototype.featureInfo = function (attributes, gid, periods) {
+		var state = InternalStores.retrieve('state').current();
+		var places = state.places;
+		if (!places){
+			places = state.allPlaces;
+		}
 
 		return $.post(Config.url + "rest/info/attribute", {
-			areaTemplate: params.areaTemplate,
-			periods: params.periods,
-			places: params.locations,
-			gid: gids,
+			areaTemplate: state.currentAuAreaTemplate,
+			periods: periods,
+			places: places,
+			gid: gid,
 			attributes: attributes
 		})
 			.then(function (response) {

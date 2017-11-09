@@ -142,7 +142,6 @@ define(['../../../actions/Actions',
 	 */
 	FeatureInfoTool.prototype.deactivateFor3D = function(){
 		this.hideComponents();
-		var self = this;
 		var maps = InternalStores.retrieve('map').getAll();
 		maps.forEach(function(map){
 			map.disableClickRecognizer();
@@ -161,13 +160,15 @@ define(['../../../actions/Actions',
 	 * Execute on World wind map click
 	 * @param period {number} id of period connected with current map
 	 * @param gid {number} id of the gid
+	 * @param screenCoord {Object} x:{number},y:{number} screen coordinates of click event
 	 */
-	FeatureInfoTool.prototype.onWorldWindClick = function(period, gid){
-		// todo add functionality
+	FeatureInfoTool.prototype.onWorldWindClick = function(period, gid, screenCoord){
 		if (gid){
-			debugger;
+			this._infoWindow.rebuild(this._attributes, gid, period);
+			this._infoWindow.setVisibility("show");
+			this._infoWindow.setScreenPosition(screenCoord .x, screenCoord.y, true);
 		} else {
-			// close windows
+			this.hideComponents();
 		}
 	};
 
@@ -179,7 +180,7 @@ define(['../../../actions/Actions',
 	};
 
 	/**
-	 * @param type {string}
+	 * @param type {string} type of event
 	 */
 	FeatureInfoTool.prototype.onEvent = function (type) {
 		if (type === Actions.mapSwitchFramework){
