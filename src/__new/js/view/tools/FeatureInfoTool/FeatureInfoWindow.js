@@ -166,7 +166,7 @@ define(['../../../error/ArgumentError',
 	 */
 	FeatureInfoWindow.prototype.addExportListener = function(){
 		var places = this._appState.places;
-		if (!places){
+		if (!places || places[0] === "All places"){
 			places = this._appState.allPlaces;
 		}
 

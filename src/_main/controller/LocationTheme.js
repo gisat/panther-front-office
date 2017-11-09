@@ -1085,6 +1085,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
         if (conf.hasOwnProperty("auRefMap")){
             OlMap.auRefMap = conf.auRefMap;
+			ThemeYearConfParams.auRefMap = conf.auRefMap;
             var counter = 1;
             for (var a in conf.auRefMap){
                 var auLevels = Object.keys(conf.auRefMap[a]).length;

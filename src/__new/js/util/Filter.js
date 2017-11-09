@@ -95,7 +95,7 @@ define(['../actions/Actions',
 	Filter.prototype.featureInfo = function (attributes, gid, periods) {
 		var state = InternalStores.retrieve('state').current();
 		var places = state.places;
-		if (!places){
+		if (!places || places[0] === "All places"){
 			places = state.allPlaces;
 		}
 

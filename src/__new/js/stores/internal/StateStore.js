@@ -23,6 +23,7 @@ define([], function () {
 			allPlaces: ThemeYearConfParams.allPlaces,
 			allPeriods: ThemeYearConfParams.allYears,
 			currentAuAreaTemplate: ThemeYearConfParams.auCurrentAt,
+			auRefMap: ThemeYearConfParams.auRefMap,
 
 			analyticalUnitLevel: this.analyticalUnitLevel(),
 
