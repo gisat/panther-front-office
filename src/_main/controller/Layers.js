@@ -684,6 +684,13 @@ Ext.define('PumaMain.controller.Layers', {
 					Stores.updateChoropleths(attribute, attributeSet, data);
 				} else if (node.data.type == "areaoutlines"){
 					Stores.updateOutlines({
+						data: {
+							namedLayers: namedLayers,
+							layer: layer,
+							legendLayer: legendNamedLayers && legendNamedLayers.length ? legendNamedLayers[0].name : null,
+							sldBody: sldText,
+							legendSld: legendSld
+						},
 						sldId: id,
 						layerNames: "outlines"
 					});

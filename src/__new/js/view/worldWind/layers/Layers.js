@@ -303,5 +303,37 @@ define(['../../../error/ArgumentError',
 		this.addLayer(layer);
 	};
 
+    /**
+	 * Add analytical units layer to the list of layers.
+     * @param layerData {Object} info about layer retrieved from server
+     * @param group {string} name of the group
+     * @param state {boolean} true, if the layer should be displayed
+     */
+    Layers.prototype.addAULayer = function(layerData, group, state){
+    	var layerNames = layerData.data.namedLayers.map(function(layer){
+    		return layer.name;
+		}).join(',');
+        var layer = new MyWmsLayer({
+            service: Config.url + "api/proxy/wms",
+            sector: new WorldWind.Sector(-90,90,-180,180),
+            layerNames: layerNames,
+            levelZeroDelta: new WorldWind.Location(45,45),
+            numLevels: 22,
+            opacity: layerData.opacity/100,
+            format: "image/png",
+            size: 256,
+			styleNames: 'outlines'
+        }, null);
+        layer.urlBuilder.wmsVersion = "1.3.0";
+        layer.metadata = {
+            active: state,
+            id: layerData.id,
+            name: layerData.name,
+            group: group,
+			style: 'outlines'
+        };
+        this.addLayer(layer);
+    };
+
 	return Layers;
 });

@@ -22360,6 +22360,38 @@ define('js/view/worldWind/layers/Layers',['../../../error/ArgumentError',
 		this.addLayer(layer);
 	};
 
+    /**
+	 * Add analytical units layer to the list of layers.
+     * @param layerData {Object} info about layer retrieved from server
+     * @param group {string} name of the group
+     * @param state {boolean} true, if the layer should be displayed
+     */
+    Layers.prototype.addAULayer = function(layerData, group, state){
+    	var layerNames = layerData.data.namedLayers.map(function(layer){
+    		return layer.name;
+		}).join(',');
+        var layer = new MyWmsLayer({
+            service: Config.url + "api/proxy/wms",
+            sector: new WorldWind.Sector(-90,90,-180,180),
+            layerNames: layerNames,
+            levelZeroDelta: new WorldWind.Location(45,45),
+            numLevels: 22,
+            opacity: layerData.opacity/100,
+            format: "image/png",
+            size: 256,
+			styleNames: 'outlines'
+        }, null);
+        layer.urlBuilder.wmsVersion = "1.3.0";
+        layer.metadata = {
+            active: state,
+            id: layerData.id,
+            name: layerData.name,
+            group: group,
+			style: 'outlines'
+        };
+        this.addLayer(layer);
+    };
+
 	return Layers;
 });
 define('js/worldwind/MyGoToAnimator',['../error/ArgumentError',
@@ -29491,7 +29523,9 @@ define('js/view/widgets/WorldWindWidget/panels/AuLayersPanel',['../../../../erro
 			}
 
 			if(Stores.outlines){
-				this.rebuildControl(polyglot.t("areaOutlines"), this._layers.outlines, "areaoutlines");
+                console.log('AuLayersPanel#rebuild ', this._layers.outlines);
+                this.rebuildControl(polyglot.t("areaOutlines"), this._layers.outlines, "areaoutlines");
+                this._layers.outlines.additionalData = Stores.outlines.data;
 				this.switchOnOutlines();
 			}
 		}
@@ -29521,13 +29555,15 @@ define('js/view/widgets/WorldWindWidget/panels/AuLayersPanel',['../../../../erro
 	 * @param store {Object} store with data from 2D
 	 */
 	AuLayersPanel.prototype.redrawLayer = function(layer, id, store){
+		console.log('AuLayersPanel ', layer);
 		this.clearLayers(id);
 		if (!_.isEmpty(layer)){
 			layer.layerData.layer = store.layerNames;
 			layer.layerData.sldId = store.sldId;
+			layer.layerData.data = store.data;
 
 			this._mapStore.getAll().forEach(function(map){
-				map.layers.addChoroplethLayer(layer.layerData, id, false);
+				map.layers.addAULayer(layer.layerData, id, false);
 			});
 
 			var toolBox = layer.control.getToolBox();
