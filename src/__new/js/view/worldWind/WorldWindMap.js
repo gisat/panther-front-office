@@ -288,7 +288,7 @@ define(['../../actions/Actions',
 	 */
 	WorldWindMap.prototype.addClickRecognizer = function(callback, property){
 		if (!this._clickRecognizer){
-			this._clickRecognizer = new WorldWind.ClickRecognizer(this._wwd, this.onMapClick.bind(this, callback, property));
+			this._clickRecognizer = new WorldWind.ClickRecognizer(this._wwd.canvas, this.onMapClick.bind(this, callback, property));
 		}
 		this._clickRecognizer.enabled = true;
 	};
