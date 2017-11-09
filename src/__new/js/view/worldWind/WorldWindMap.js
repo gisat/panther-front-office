@@ -3,6 +3,7 @@ define(['../../actions/Actions',
 		'../../error/NotFoundError',
 		'../../util/Logger',
 
+		'../../util/dataMining',
 		'./layers/Layers',
 		'../../worldwind/MyGoToAnimator',
 		'../../worldwind/layers/osm3D/OSMTBuildingLayer',
@@ -20,6 +21,7 @@ define(['../../actions/Actions',
 			NotFoundError,
 			Logger,
 
+			dataMininig,
 			Layers,
 			MyGoToAnimator,
 			OSMTBuildingLayer,
@@ -282,10 +284,11 @@ define(['../../actions/Actions',
 	/**
 	 * Add on click recognizer
 	 * @param callback {function} on click callback
+	 * @param property {string} property for to find via getFeatureInfo
 	 */
-	WorldWindMap.prototype.addClickRecognizer = function(callback){
+	WorldWindMap.prototype.addClickRecognizer = function(callback, property){
 		if (!this._clickRecognizer){
-			this._clickRecognizer = new WorldWind.ClickRecognizer(this._wwd, this.onMapClick.bind(this, callback));
+			this._clickRecognizer = new WorldWind.ClickRecognizer(this._wwd, this.onMapClick.bind(this, callback, property));
 		}
 		this._clickRecognizer.enabled = true;
 	};
@@ -300,16 +303,16 @@ define(['../../actions/Actions',
 	};
 
 	/**
-	 * Do on map click
-	 * @param callback {function}
+	 * Execute on map click. Find out a location of click target in lat, lon. And execute getFeatureInfo query for this location.
+	 * @param callback {function} on click callback
+	 * @param property {string} property for to find via getFeatureInfo
 	 * @param event {Object}
 	 */
-	WorldWindMap.prototype.onMapClick = function(callback, event){
+	WorldWindMap.prototype.onMapClick = function(callback, property, event){
 		var gid = null;
 		var coordinates = null;
 		var auLayer = this.layers.getAuLayer()[0];
-		var auLayerSource = "panther:layer_226"; // TODO find it out from OlMap
-		var property = "gid";
+		var auBaseLayers = dataMininig.getAuBaseLayers();
 
 		var x = event._clientX,
 			y = event._clientY;
@@ -323,7 +326,7 @@ define(['../../actions/Actions',
 		}
 
 		if (auLayer.metadata.active && coordinates){
-			auLayer.getFeatureInfo(property, coordinates, auLayerSource).then(function(feature){
+			auLayer.getFeatureInfo(property, coordinates, auBaseLayers.join(",")).then(function(feature){
 				if (feature && feature.properties){
 					gid = feature.properties[property];
 				}

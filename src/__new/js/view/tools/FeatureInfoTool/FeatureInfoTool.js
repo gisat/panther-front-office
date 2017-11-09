@@ -125,7 +125,7 @@ define(['../../../actions/Actions',
 		var self = this;
 		var maps = InternalStores.retrieve('map').getAll();
 		maps.forEach(function(map){
-			map.addClickRecognizer(self.onWorldWindClick.bind(self, map._period));
+			map.addClickRecognizer(self.onWorldWindClick.bind(self, map._period), "gid");
 		});
 	};
 
@@ -158,7 +158,7 @@ define(['../../../actions/Actions',
 	};
 
 	/**
-	 * Proceed on World wind map click
+	 * Execute on World wind map click
 	 * @param period {number} id of period connected with current map
 	 * @param gid {number} id of the gid
 	 */
