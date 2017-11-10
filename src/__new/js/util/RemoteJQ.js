@@ -56,6 +56,7 @@ define(['../error/ArgumentError',
 			}).done(function(data) {
 				resolve(data);
 			}).catch(function(err){
+				resolve(err.responseJSON);
 				throw new Error(err);
 			});
 		});

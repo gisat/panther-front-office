@@ -1,0 +1,52 @@
+#floater-snow-registration {
+	top: calc(50% - 11rem);
+	left: calc(50% - 10rem);
+	height: 22rem;
+	width: 20rem;
+	overflow: hidden;
+	resize: none;
+}
+#floater-snow-registration .floater-body {
+	height: calc(100% - 2.5rem);
+}
+#floater-snow-registration .floater-footer {
+	background: rgba(255,255,255,.9);
+	border-top: 0;
+}
+#floater-snow-registration form {
+	margin: .2rem 1rem .2rem .3rem;
+}
+#floater-snow-registration input {
+	width: 100%;
+	background: #eee;
+	border: 1px solid #999;
+	border-radius: .15rem;
+	font-size: .8rem;
+	line-height: 2.2;
+	padding: 0 .2rem;
+	margin: .2rem 0 .8rem;
+}
+#floater-snow-registration label {
+	color: #666;
+	font-size: .8rem;
+	font-weight: 600;
+}
+
+#floater-snow-registration .widget-button {
+	font-weight: 600;
+	font-size: .8rem;
+	text-transform: none;
+	width: 8rem;
+	margin-top: .5rem;
+}
+
+#snow-reg-info {
+	padding: .3rem;
+}
+#snow-reg-info span {
+	font-size: .9rem;
+	color: rgba(39,97,142,1);
+}
+#snow-reg-info.error span {
+	color: red;
+}

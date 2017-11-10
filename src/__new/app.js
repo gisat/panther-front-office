@@ -69,6 +69,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 		'js/view/widgets/SharingWidget/SharingWidget',
 		'js/stores/internal/SelectionStore',
 		'js/view/SnowMapController',
+		'js/view/widgets/SnowRegistration/SnowRegistration',
 		'js/view/widgets/SnowWidget/SnowWidget',
 		'js/stores/internal/StateStore',
 		'js/stores/Stores',
@@ -105,6 +106,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			 SharingWidget,
 			 SelectionStore,
 			 SnowMapController,
+			 SnowRegistration,
 			 SnowWidget,
 			 StateStore,
 			 Stores,
@@ -172,6 +174,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			});
 
 			widgets.push(buildSnowWidget(snowMapController, panelIFrame));
+			widgets.push(buildSnowRegistration());
 			snowViewChanges();
 		} else {
 			// create tools and widgets according to configuration
@@ -390,6 +393,19 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			iFrame: iFrame,
 			mapController: mapController,
 			dispatcher: window.Stores
+		});
+	}
+
+	/**
+	 * Build SnowRegistration instance
+	 * @returns {SnowRegistration}
+	 */
+	function buildSnowRegistration (){
+		return new SnowRegistration({
+			elementId: 'snow-registration',
+			name: 'Sign up',
+			dispatcher: window.Stores,
+			isWithoutFooter: true
 		});
 	}
 

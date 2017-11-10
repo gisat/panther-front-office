@@ -24,7 +24,11 @@ Ext.define('Puma.controller.Login', {
                 me.onLogoutClicked();
             }
             else {
-                window.open(Config.signupAddress, "_blank")
+                if (Config.toggles.isSnow){
+                    Stores.notify("user#snowShowReg");
+                } else {
+					window.open(Config.signupAddress, "_blank")
+                }
             }
         })
     },

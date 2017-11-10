@@ -144,7 +144,7 @@ body.mode-3d #top-toolbar-3dmap:not(.world-wind-2d),
 	padding-top: 1rem;
 }
 .snow .floater-header {
-	background: rgba(39,97,142,.9);
+	background: rgba(39,97,142,.95);
 	height: 2.5rem;
 	line-height: 2.5rem;
 }
@@ -162,8 +162,11 @@ body.mode-3d #top-toolbar-3dmap:not(.world-wind-2d),
 	border: 1px solid rgba(39,97,142,1);
 	color: rgba(39,97,142,1);
 }
-.snow .widget-button:hover {
+.snow .widget-button:hover, .snow .widget-button:focus {
 	background: rgba(39,97,142,.15);
+}
+.snow .widget-button:focus {
+	box-shadow: 0 0 0 1px #4d8aff;
 }
 .snow .snow-cfg-table .widget-button {
 	font-size: .8rem;
@@ -207,7 +210,8 @@ body.mode-3d #top-toolbar-3dmap:not(.world-wind-2d),
 }
 .snow #loginwindow .x-btn-default-small-over,
 .snow #loginwindow .x-btn-default-small-over:last-child,
-.snow #loginwindow .x-btn-default-small:last-child:hover {
+.snow #loginwindow .x-btn-default-small:last-child:hover,
+.snow #loginwindow .x-btn-default-small.x-btn-focus {
 	background: rgba(39,97,142,.15);
 }
 .snow #loginwindow .x-btn-default-small span.x-btn-inner {
@@ -216,6 +220,9 @@ body.mode-3d #top-toolbar-3dmap:not(.world-wind-2d),
 	font-weight: 600;
 	padding: 0;
 	width: 69px !important;
+}
+.snow #loginwindow .x-btn-default-small.x-btn-focus {
+	box-shadow: 0 0 0 1px #4d8aff;
 }
 
 /* TODO temporary changes */

@@ -31,6 +31,7 @@ define([], function(){
 		userChanged: 'user#changed',
 		userLoggedIn: 'user#loggedIn',
 		userLoggedOut: 'user#loggedOut',
+		showSnowRegistration: 'user#snowShowReg',
 
 		mapShow3D: 'map#show3D'
 	};
