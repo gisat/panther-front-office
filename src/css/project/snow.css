@@ -137,7 +137,7 @@ body.mode-3d #top-toolbar-3dmap:not(.world-wind-2d),
 	padding: 0;
 }
 .snow .floater.active {
-	z-index: 90001;
+	z-index: 19000;
 }
 .snow .floater-body {
 	background: rgba(255,255,255,.9);
