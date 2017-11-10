@@ -42,7 +42,7 @@ define([
 		if (!saved){
 			content += '<td><input class="snow-input snow-cfg-name" type="text" placeholder="Type name..."/></td>';
 		} else {
-			content += '<td class="snow-cfg-name-date"><div class="snow-name">' + data.name + '</div><div class="snow-timestamp">' + data.timeStamp + '</div></td>';
+			content += '<td class="snow-cfg-name-date"><div title="' + data.name + '" class="snow-name">' + data.name + '</div><div class="snow-timestamp">' + data.timeStamp + '</div></td>';
 		}
 
 		// add location and period cell
