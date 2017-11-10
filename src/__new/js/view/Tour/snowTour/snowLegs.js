@@ -4,7 +4,7 @@ define([], function () {
 		leg.$el.css({
 			marginTop: appOffset + "px"
 		});
-		if (leg.index > 5){
+		if (leg.index > 7){
 			leg.reposition();
 		}
 		if (!leg.rawData.el || leg.rawData.el === "#top-toolbar" || leg.rawData.el === ".ptr-overview-collection .ptr-button"){
@@ -18,8 +18,17 @@ define([], function () {
 				right: "0px"
 			});
 		}
-		if (leg.rawData.el === "#overview-header-scenes"){
+		if (leg.rawData.el === "#scope-config-controls .ptr-button"){
+
+		}
+
+		if (leg.rawData.el === "#overview-header-scope"){
 			iframe.rebuild(Config.snowAppExampleUrl);
+			leg.$el.css({
+				left: "200px"
+			});
+		}
+		if (leg.rawData.el === "#overview-header-scenes"){
 			leg.$el.css({
 				left: "500px"
 			});
@@ -35,14 +44,14 @@ define([], function () {
 			setTimeout(function(){
 				iframe.scrollY(300);
 				leg.$el.css({
-					bottom: "50px",
+					bottom: "150px",
 					top: "auto"
 				});
 			}, 100);
 		}
 		if (leg.rawData.el === "#compare-composites-button"){
 			leg.$el.css({
-				bottom: "50px",
+				bottom: "150px",
 				top: "auto"
 			});
 		}
@@ -54,7 +63,7 @@ define([], function () {
 				left: "200px"
 			});
 		}
-		if (leg.rawData.el === "#composites .ptr-composites-composite"){
+		if (leg.rawData.el === "#composites .ptr-composites-composite .ptr-button:first-child"){
 			leg.$el.css({
 				left: "100px"
 			});

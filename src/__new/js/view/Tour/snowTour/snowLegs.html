@@ -1,68 +1,92 @@
 <li data-orientation='centered' data-highlight="true">
-	<h5>Let's take a quick tour through SnowPortal</h5>
+	<h5>Let's take a tour through SnowPortal</h5>
+	<p>SnowPortal functions will be shortly introduced. Click on the ‘Next’ button to navigate through the Help and on the ‘Quit Tour’ button in the bottom right corner to close the Help.
+	</p>
 	<div class="tourbus-buttons">
 		<a href='#' class='button-ui button-ui-tourbus tourbus-next'>Next</a>
 	</div>
 </li>
 <li data-el='#top-toolbar' data-orientation='bottom' data-align='top'  data-highlight="true">
 	<h5>Login & Configurations</h5>
-	<p>Lorem ipsum lorem ipsum lorem ipsum</p>
+	<ul>
+		<li>Sign up: Unregistered users can sign up. </li>
+		<li>Log in/Log out: Registered users can log in/out. </li>
+		<li>Saved configurations: Logged-in users can see their saved searches. </li>
+		<li>Tour: Help </li>
+		<li>About: Additional information about the application</li>
+	</ul>
 	<div class="tourbus-buttons">
 		<a href='javascript:void(0);' class='button-ui button-ui-tourbus tourbus-next'>Next</a>
 	</div>
 </li>
 <li data-el='#scope-config-area' data-iframe='#snow-iframe' data-orientation='top' data-highlight="true">
 	<h5>Select Area</h5>
-	<p>Lorem ipsum lorem ipsum lorem ipsum</p>
+	<p>Select Area of Interest (AOI) from a list of European countries. </p>
 	<div class="tourbus-buttons">
 		<a href='javascript:void(0);' class='button-ui button-ui-tourbus tourbus-next'>Next</a>
 	</div>
 </li>
 <li data-el='#scope-config-sensors' data-iframe='#snow-iframe' data-orientation='top'  data-highlight="true">
 	<h5>Select Sensors</h5>
-	<p>Lorem ipsum lorem ipsum lorem ipsum</p>
+	<p>MODIS and Sentinel-3 data can be combined in order to perform Snow & Cloud analysis. Select Sentinel-2 to perform Cloud analysis. Sentinel-2 cannot be combined with the other satellites/ sensors.
+</p>
 	<div class="tourbus-buttons">
 		<a href='javascript:void(0);' class='button-ui button-ui-tourbus tourbus-next'>Next</a>
 	</div>
 </li>
 <li data-el='#scope-config-time-range' data-iframe='#snow-iframe' data-orientation='top'  data-highlight="true">
 	<h5>Select Time Range</h5>
-	<p>Lorem ipsum lorem ipsum lorem ipsum</p>
+	<p>Select Time range by setting a ‘Start’ and ‘End’ date. The longer the period will be, the longer you have to wait for the data to be prepared.
+	</p>
+	<div class="tourbus-buttons">
+		<a href='javascript:void(0);' class='button-ui button-ui-tourbus tourbus-next'>Next</a>
+	</div>
+</li>
+<li data-el='#scope-config-controls .ptr-button' data-iframe='#snow-iframe' data-orientation='top'  data-highlight="true">
+	<h5>Show data</h5>
+	<p>Display available scenes and 1-day composites for selected configuration.
+	</p>
+	<div class="tourbus-buttons">
+		<a href='javascript:void(0);' class='button-ui button-ui-tourbus tourbus-next'>Next</a>
+	</div>
+</li>
+<li data-el='#overview-header-scope' data-iframe='#snow-iframe' data-orientation='top'  data-highlight="true">
+	<h5>Selcted configuration</h5>
 	<div class="tourbus-buttons">
 		<a href='javascript:void(0);' class='button-ui button-ui-tourbus tourbus-next'>Next</a>
 	</div>
 </li>
 <li data-el='#overview-header-scenes' data-iframe='#snow-iframe' data-orientation='top'  data-highlight="true">
 	<h5>Scenes dashboard</h5>
-	<p>Lorem ipsum lorem ipsum lorem ipsum</p>
+	<p>Statistical overview of all scenes for given configuration.</p>
 	<div class="tourbus-buttons">
 		<a href='javascript:void(0);' class='button-ui button-ui-tourbus tourbus-next'>Next</a>
 	</div>
 </li>
 <li data-el='#overview-collections' data-iframe='#snow-iframe' data-orientation='top' data-highlight="true">
 	<h5>Composites dashboard</h5>
-	<p>Lorem ipsum lorem ipsum lorem ipsum</p>
+	<p>Statistical overview for each set of n-days composites.</p>
 	<div class="tourbus-buttons">
 		<a href='javascript:void(0);' class='button-ui button-ui-tourbus tourbus-next'>Next</a>
 	</div>
 </li>
-<li data-el='#add-composites-button' data-iframe='#snow-iframe' data-orientation='left'  data-highlight="true">
+<li data-el='#add-composites-button' data-iframe='#snow-iframe' data-orientation='top'  data-highlight="true">
 	<h5>Add custom composites</h5>
-	<p>Lorem ipsum lorem ipsum lorem ipsum</p>
+	<p>Generate more n-day composites for give configuration.</p>
 	<div class="tourbus-buttons">
 		<a href='javascript:void(0);' class='button-ui button-ui-tourbus tourbus-next'>Next</a>
 	</div>
 </li>
-<li data-el='#compare-composites-button' data-iframe='#snow-iframe' data-orientation='left'  data-highlight="true">
+<li data-el='#compare-composites-button' data-iframe='#snow-iframe' data-orientation='top'  data-highlight="true">
 	<h5>Compare composites</h5>
-	<p>Lorem ipsum lorem ipsum lorem ipsum</p>
+	<p>View a list of all generated n-day composites and display them in the map.</p>
 	<div class="tourbus-buttons">
 		<a href='javascript:void(0);' class='button-ui button-ui-tourbus tourbus-next'>Next</a>
 	</div>
 </li>
 <li data-el='.ptr-overview-collection .ptr-button' data-iframe='#snow-iframe' data-orientation='left'  data-highlight="true">
 	<h5>Show composites for collection</h5>
-	<p>Lorem ipsum lorem ipsum lorem ipsum</p>
+	<p>View a list of all generated composites for given period.</p>
 	<div class="tourbus-buttons">
 		<a href='javascript:void(0);' class='button-ui button-ui-tourbus tourbus-next'>Show composites</a>
 	</div>
@@ -70,24 +94,23 @@
 <li data-el='#composites-list-header' data-iframe='#snow-iframe' data-orientation='bottom'  data-highlight="true">
 	<h5>Composites list</h5>
 	<ul>
-		<li>AOI Coverage - ...</li>
-		<li>Cloud-free coverage - ...</li>
-		<li>Distribution of coverage - ...</li>
+		<li>AOI Coverage - % of selected AOI covered by valid data (i.e. Snow, NoSnow, Cloud pixels)</li>
+		<li>Cloud-free coverage - % of selected AOI covered by cloud-free data (i.e. classified as Snow & NoSnow pixels)</li>
+		<li>Distribution of coverage - Class distribution of Snow, NoSnow, Cloud classes in % within the area covered by valid data</li>
 	</ul>
+	<p>In the bottom you can export the statistics for all available composites in a form of an Excel file or export composites in GeoTIFF data format.</p>
 	<div class="tourbus-buttons">
 		<a href='javascript:void(0);' class='button-ui button-ui-tourbus tourbus-next'>Select composite</a>
 	</div>
 </li>
 <li data-el='#composites .ptr-composites-composite' data-iframe='#snow-iframe' data-orientation='bottom'  data-highlight="true">
 	<h5>Select composite and show it on the map</h5>
-	<p>Lorem ipsum lorem ipsum lorem ipsum</p>
 	<div class="tourbus-buttons">
 		<a href='javascript:void(0);' class='button-ui button-ui-tourbus tourbus-next'>Show on map</a>
 	</div>
 </li>
 <li data-el='#map-holder' data-orientation='left'  data-highlight="true">
 	<h5>Explore composite on the map</h5>
-	<p>Lorem ipsum lorem ipsum lorem ipsum</p>
 	<div class="tourbus-buttons">
 		<a href='javascript:void(0);' class='button-ui button-ui-tourbus tourbus-stop'>Start using SnowPortal</a>
 	</div>
