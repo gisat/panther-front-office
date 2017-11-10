@@ -7,9 +7,15 @@ define([], function () {
 		if (leg.index > 5){
 			leg.reposition();
 		}
-		if (!leg.rawData.el || leg.rawData.el === "#top-toolbar-snow-configuration" || leg.rawData.el === ".ptr-overview-collection .ptr-button"){
+		if (!leg.rawData.el || leg.rawData.el === "#top-toolbar" || leg.rawData.el === ".ptr-overview-collection .ptr-button"){
 			leg.$el.css({
 				marginTop: "0px"
+			});
+		}
+		if (leg.rawData.el === "#top-toolbar"){
+			leg.$el.css({
+				left: "auto",
+				right: "0px"
 			});
 		}
 		if (leg.rawData.el === "#overview-header-scenes"){
@@ -41,20 +47,20 @@ define([], function () {
 			});
 		}
 		if (leg.rawData.el === "#composites-list-header"){
-			iframe.rebuild(Config.snowAppExampleUrl + "/?s=composites");
+			// iframe.rebuild(Config.snowAppExampleUrl + "/?s=composites");
 			var button = $("#snow-iframe").contents().find("#overview-collections .ptr-button");
 			button.trigger("click");
 			leg.$el.css({
 				left: "200px"
 			});
 		}
-		if (leg.rawData.el === "#composites .empty"){
+		if (leg.rawData.el === "#composites .ptr-composites-composite"){
 			leg.$el.css({
 				left: "100px"
 			});
 		}
 		if (leg.rawData.el === "#map-holder"){
-			var showInMapButton = $("#snow-iframe").contents().find("#composites-list .ptr-composites-composite:not(.empty) .ptr-button:first-child");
+			var showInMapButton = $("#snow-iframe").contents().find("#composites-list .ptr-composites-composite .ptr-button:first-child");
 			showInMapButton.trigger("click");
 			leg.$el.css({
 				top: "300px"

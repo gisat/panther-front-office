@@ -118,7 +118,9 @@ define([
 		this.removeLastLayer();
 		if (!this._zoomListener){
 			this._zoomListener = this._map.events.register("zoomend", this._map, function() {
-				self._customLayer.redraw();
+				if (self._customLayer){
+					self._customLayer.redraw();
+				}
 			});
 		}
 		this.addLayerToMap(layerId, styleId, 0.7);
