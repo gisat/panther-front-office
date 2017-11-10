@@ -56,6 +56,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         'js/util/Filter',
         'js/util/Floater',
 		'./FrontOffice',
+		'js/view/widgets/InfoWidget/InfoWidget',
         'js/util/Logger',
         'js/view/map/Map',
 		'js/view/mapsContainer/MapsContainer',
@@ -93,6 +94,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
              Filter,
              Floater,
 			 FrontOffice,
+             InfoWidget,
              Logger,
              Map,
              MapsContainer,
@@ -175,6 +177,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 
 			widgets.push(buildSnowWidget(snowMapController, panelIFrame));
 			widgets.push(buildSnowRegistration());
+			widgets.push(buildInfoWidget());
 			snowViewChanges();
 		} else {
 			// create tools and widgets according to configuration
@@ -206,6 +209,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			if(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo){
 				tools.push(buildFeatureInfoTool());
 			}
+
 			widgets.push(buildSharingWidget());
 		}
 
@@ -405,6 +409,18 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			elementId: 'snow-registration',
 			name: 'Sign up',
 			dispatcher: window.Stores,
+			isWithoutFooter: true
+		});
+	}
+
+	/**
+	 * Build InfoWidget instance
+	 * @returns {InfoWidget}
+	 */
+	function buildInfoWidget (){
+		return new InfoWidget({
+			elementId: 'info-widget',
+			name: 'About application',
 			isWithoutFooter: true
 		});
 	}

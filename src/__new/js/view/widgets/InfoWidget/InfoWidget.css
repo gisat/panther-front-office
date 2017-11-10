@@ -1,0 +1,9 @@
+#floater-info-widget {
+	top: calc(50% - 10rem);
+	left: calc(50% - 15rem);
+	height: 20rem;
+	width: 30rem;
+}
+#floater-info-widget .floater-body {
+	height: calc(100% - 2.5rem);
+}

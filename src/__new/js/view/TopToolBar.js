@@ -104,6 +104,10 @@ define([
 				var classesSnowWidget3d = $('#floater-snow-widget').hasClass('open') ? "item open" : "item";
 				this._target.append('<div class="' + classesSnowWidget3d + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget">Saved configurations</div>');
 			}
+			if (tools.info){
+				var classesInfoWidget3d = $('#floater-info-widget').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesInfoWidget3d + '" id="top-toolbar-info" data-for="floater-info-widget">About</div>');
+			}
 		}
 
 		// tools for OpenLayers mode
@@ -150,6 +154,10 @@ define([
 				var classesSnowWidget = $('#floater-snow-widget').hasClass('open') ? "item open" : "item";
 				this._target.append('<div class="' + classesSnowWidget + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget">Saved configurations</div>');
 			}
+			if (tools.info){
+				var classesInfoWidget = $('#floater-info-widget').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesInfoWidget + '" id="top-toolbar-info" data-for="floater-info-widget">About</div>');
+			}
 		}
 
 		if (tools.tour){
@@ -166,7 +174,8 @@ define([
 
 		return {
 			snow: true,
-			tour: true
+			tour: true,
+			info: true
 		};
 	};
 

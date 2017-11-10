@@ -785,6 +785,9 @@ body.mode-3d #top-toolbar-3dmap:not(.world-wind-2d) {
 #top-toolbar .item#top-toolbar-tour::before {
 	content: '\f128';
 }
+#top-toolbar .item#top-toolbar-info::before {
+	content: '\f129';
+}
 
 
 /* Sidebar tools */
