@@ -13,7 +13,7 @@
 	background: rgba(255,255,255,.9);
 	border-top: 0;
 }
-#floater-snow-registration form {
+#floater-snow-registration .form {
 	margin: .2rem 1rem .2rem .3rem;
 }
 #floater-snow-registration input {
