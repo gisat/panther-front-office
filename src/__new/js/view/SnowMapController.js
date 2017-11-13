@@ -71,10 +71,6 @@ define([
 		var self = this;
 		this._iFrameBodySelector.off("click.timeline").on("click.timeline", "#timelines", function(){
 			var compositeId = $(this).attr("data-id");
-			var locationKey = self._iFrameBodySelector.find("#composites").attr("data-country");
-			var styleId = self._iFrameBodySelector.find("#composites").attr("data-style");
-
-			self.highlightCountry(locationKey);
 			self.showLayerInMap(compositeId);
 		});
 	};
@@ -87,10 +83,6 @@ define([
 		var self = this;
 		this._iFrameBodySelector.off("click.composites").on("click.composites", ".ptr-composites-composite .ptr-button", function(){
 			var compositeId = $(this).parents(".ptr-composites-composite").attr("data-id");
-			var locationKey = self._iFrameBodySelector.find("#composites").attr("data-country");
-			var styleId = self._iFrameBodySelector.find("#composites").attr("data-style");
-
-			self.highlightCountry(locationKey);
 			self.showLayerInMap(compositeId);
 		});
 	};
@@ -102,8 +94,6 @@ define([
 		var self = this;
 		this._iFrameBodySelector.off("click.scenes").on("click.scene", ".ptr-scenes-scene .ptr-button", function(){
 			var sceneId = $(this).parents(".ptr-scenes-scene").attr("data-id");
-			var locationKey = self._iFrameBodySelector.find("#composites").attr("data-country");
-			self.highlightCountry(locationKey);
 			self.showLayerInMap(sceneId);
 		});
 	};
@@ -117,11 +107,12 @@ define([
 		var self = this;
 		this.removeLastLayer();
 		if (!this._zoomListener){
-			this._zoomListener = this._map.events.register("zoomend", this._map, function() {
+			this._map.events.register("zoomend", this._map, function() {
 				if (self._customLayer){
 					self._customLayer.redraw();
 				}
 			});
+			this._zoomListener = true;
 		}
 		this.addLayerToMap(layerId, styleId, 0.7);
 	};
