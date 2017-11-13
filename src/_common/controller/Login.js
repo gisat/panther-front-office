@@ -11,7 +11,10 @@ Ext.define('Puma.controller.Login', {
             },
             'loginwindow #loginbtn': {
                 click: this.onLoginSubmit
-            }
+            },
+			'loginwindow': {
+				logininfoclick: this.onLoginInfoClick
+			}
         })
 		$('.user .administration').attr('href', Config.backOfficeUrl);
 		this.checkLogin();
@@ -31,6 +34,14 @@ Ext.define('Puma.controller.Login', {
                 }
             }
         })
+    },
+    onLoginInfoClick: function(){
+		var content = Ext.ComponentQuery.query('#logininfocontent')[0];
+		if (content.isHidden()){
+		    content.show();
+        } else {
+		    content.hide();
+        }
     },
     onLoginClicked: function(btn) {
         var window = Ext.WindowManager.get('loginwindow');

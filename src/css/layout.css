@@ -252,6 +252,19 @@ body.intro #header .menu li:first-child::before {
 	display: inline-block;
 }
 
+/* login window */
+#loginwindow-body .x-toolbar-footer {
+	padding-bottom: 0;
+}
+.logininfolink {
+	text-align: right;
+	padding: 0 15px;
+}
+.logininfocontent {
+	text-align: right;
+	padding: 2px 15px;
+}
+
 /* Content */
 .map {
 	width: 100%;

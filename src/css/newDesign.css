@@ -1083,6 +1083,7 @@
 
 .newDesign .x-window-body {
 	border: 0;
+	padding-bottom: 10px;
 }
 
 .newDesign .x-toolbar-footer {

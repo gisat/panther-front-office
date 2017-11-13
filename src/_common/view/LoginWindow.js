@@ -36,11 +36,36 @@ Ext.define('Puma.view.LoginWindow' ,{
                     handler: function() {
                         me.close();
                     }
-                }]
+                }],
+
+        };
+        this.info = {
+			xtype: 'component',
+			itemId: 'logininfolink',
+            cls: 'logininfolink',
+			html: '<a href="#">Forgotten password?</a>',
+		};
+        this.infoContent = {
+			xtype: 'component',
+			itemId: 'logininfocontent',
+			cls: 'logininfocontent',
+            hidden: true,
+			html: '<span>Contact us via email ' + Config.contactEmail + '</span>'
+		};
+        this.items = [this.form];
+
+        if (Config.toggles.isSnow){
+			this.items.push(this.info, this.infoContent);
+			this.addEvents({
+				logininfoclick: true
+			});
+			$('.logininfolink a').live('click',function() {
+				me.fireEvent('logininfoclick');
+				return false;
+			});
         }
-        this.items = [this.form]
         this.callParent();
     }
-})
+});
 
 
