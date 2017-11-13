@@ -23,6 +23,11 @@
 	bottom: 0;
 	right: 1rem;
 }
+.tourbus-stop-continue {
+	position: absolute;
+	bottom: 3.5rem;
+	right: 1rem;
+}
 
 /* legs */
 .tourbus-leg {

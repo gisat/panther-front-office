@@ -53,6 +53,7 @@ define([
 		$('body').append(html);
 		this._tourOverlay = $('.tour-overlay');
 		this._tourExitSelector = $('.tourbus-stop-common');
+		this._tourContinueSelector = $('.tourbus-stop-continue');
 
 		this.buildTourbus();
 		this.addTourStopListener();
@@ -65,7 +66,6 @@ define([
 		var self = this;
 		this._tour = $.tourbus('#' + this._id,{
 			onLegStart: self.onLegChange.bind(self),
-			onStop: self.onStop.bind(self),
 			leg: {
 				zindex: 99999
 			}
@@ -84,12 +84,19 @@ define([
 	/**
 	 * Do on tour stop
 	 */
-	Tour.prototype.onStop = function(){
+	Tour.prototype.onStopAndStart = function(){
+		this._tour.stop();
 		this._tourOverlay.removeClass("open");
 		this._tourTrigger.removeClass("open");
 		if (Config.toggles.isSnow){
 			snowLegs.onTourStop(this._iFrame);
 		}
+	};
+
+	Tour.prototype.onStopAndContinue = function(){
+		this._tour.stop();
+		this._tourOverlay.removeClass("open");
+		this._tourTrigger.removeClass("open");
 	};
 
 	/**
@@ -116,10 +123,8 @@ define([
 
 	Tour.prototype.addTourStopListener = function(){
 		var self = this;
-		this._tourExitSelector.on("click", function(){
-			self._tour.stop();
-			self.onStop();
-		});
+		this._tourExitSelector.on("click", self.onStopAndStart.bind(self));
+		this._tourContinueSelector.on("click", self.onStopAndContinue.bind(self));
 	};
 
 	return Tour;
