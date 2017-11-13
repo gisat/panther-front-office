@@ -35,7 +35,7 @@ define([], function () {
 		}
 		if (leg.rawData.el === "#overview-collections"){
 			leg.$el.css({
-				top: "400px",
+				top: "350px",
 				left: "500px",
 				marginTop: "0px"
 			});
@@ -65,7 +65,7 @@ define([], function () {
 		}
 		if (leg.rawData.el === "#composites .ptr-composites-composite .ptr-button:first-child"){
 			leg.$el.css({
-				left: "100px"
+				left: "500px"
 			});
 		}
 		if (leg.rawData.el === "#map-holder"){
