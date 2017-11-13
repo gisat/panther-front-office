@@ -1,6 +1,9 @@
 define([], function () {
+    var loadingInterval;
 
 	function onLegChange(leg, iframe, appOffset) {
+		var iframeSelector = $("#snow-iframe");
+
 		leg.$el.css({
 			marginTop: appOffset + "px"
 		});
@@ -27,6 +30,7 @@ define([], function () {
 			leg.$el.css({
 				left: "200px"
 			});
+			checkDataLoading();
 		}
 		if (leg.rawData.el === "#overview-header-scenes"){
 			leg.$el.css({
@@ -57,7 +61,7 @@ define([], function () {
 		}
 		if (leg.rawData.el === "#composites-list-header"){
 			// iframe.rebuild(Config.snowAppExampleUrl + "/?s=composites");
-			var button = $("#snow-iframe").contents().find("#overview-collections .ptr-button");
+			var button = iframeSelector.contents().find("#overview-collections .ptr-button");
 			button.trigger("click");
 			leg.$el.css({
 				left: "200px"
@@ -69,7 +73,7 @@ define([], function () {
 			});
 		}
 		if (leg.rawData.el === "#map-holder"){
-			var showInMapButton = $("#snow-iframe").contents().find("#composites-list .ptr-composites-composite .ptr-button:first-child");
+			var showInMapButton = iframeSelector.contents().find("#composites-list .ptr-composites-composite .ptr-button:first-child");
 			showInMapButton.trigger("click");
 			leg.$el.css({
 				top: "300px"
@@ -87,6 +91,26 @@ define([], function () {
 		iframe.rebuild(Config.snowAppUrl);
 		var button = $("#snow-iframe").contents().find(".ptr-button.show-overview");
 		button.trigger("click");
+	}
+
+	function checkDataLoading(){
+		var scenes = $("#snow-iframe").contents().find(".ptr-overview-scenes");
+		var scenesLoaded = scenes.hasClass("loaded");
+		var composites = $("#snow-iframe").contents().find(".ptr-overview-collection");
+		var compositesLoaded = composites.hasClass("loaded");
+
+		var info = $(".loading-info");
+		var nextButton = $(".hidden-while-loading");
+
+		if (scenesLoaded && compositesLoaded){
+			info.addClass("hidden");
+			nextButton.removeClass("hidden");
+			clearInterval(loadingInterval);
+		} else {
+			info.removeClass("hidden");
+			nextButton.addClass("hidden");
+			loadingInterval = window.setInterval(checkDataLoading, 1000);
+		}
 	}
 
 	return {

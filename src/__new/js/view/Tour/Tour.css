@@ -92,3 +92,9 @@
 	content: "\f060";
 	margin-right: .5rem;
 }
+
+/* loading */
+.hidden-while-loading.hidden,
+.loading-info.hidden {
+	display: none;
+}
