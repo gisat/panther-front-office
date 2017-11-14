@@ -515,7 +515,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 		// use snow portal logo
 		var headerSelector = $("#header");
 		headerSelector.find("h1").remove();
-		headerSelector.prepend("<a href='" + Config.snowIntroUrl + "' id='project-logo'></a>");
+		headerSelector.prepend("<a target='_blank' href='" + Config.snowIntroUrl + "' id='project-logo'></a>");
 
 		// hide top toolbar tools
 		var topToolbarTools = $("#top-toolbar-tools");
