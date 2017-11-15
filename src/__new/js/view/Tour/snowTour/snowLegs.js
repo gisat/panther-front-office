@@ -3,12 +3,14 @@ define([], function () {
 
 	function onLegChange(leg, iframe, appOffset) {
 		var iframeSelector = $("#snow-iframe");
+		var exploreUseCaseButton = $(".tourbus-stop-continue");
 
 		leg.$el.css({
 			marginTop: appOffset + "px"
 		});
 		if (leg.index > 7){
 			leg.reposition();
+			exploreUseCaseButton.removeClass("hidden-while-loading hidden")
 		}
 		if (!leg.rawData.el || leg.rawData.el === "#top-toolbar" || leg.rawData.el === ".ptr-overview-collection .ptr-button"){
 			leg.$el.css({
@@ -32,11 +34,13 @@ define([], function () {
 		}
 
 		if (leg.rawData.el === "#overview-header-scope"){
-			iframe.rebuild(Config.snowAppExampleUrl);
-			leg.$el.css({
-				left: "200px"
-			});
-			checkDataLoading();
+			if (leg.source && leg.source === "next"){
+				iframe.rebuild(Config.snowAppExampleUrl);
+				leg.$el.css({
+					left: "200px"
+				});
+				checkDataLoading();
+			}
 		}
 		if (leg.rawData.el === "#overview-header-scenes"){
 			leg.$el.css({

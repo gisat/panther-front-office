@@ -30,13 +30,13 @@
 }
 .tourbus-stop-common{
 	position: absolute;
-	bottom: 0;
+	bottom: 3.5rem;
 	right: 1rem;
 	width: 14rem;
 }
 .tourbus-stop-continue {
 	position: absolute;
-	bottom: 3.5rem;
+	bottom: 0;
 	right: 1rem;
 	width: 14rem;
 }
