@@ -38,7 +38,9 @@ define([
 
 	InfoWidget.prototype.build = function(){
 		var content = this.getContent();
-		var html = S(content).template().toString();
+		var html = S(content.html).template({
+			email: content.email
+		}).toString();
 		this._widgetBodySelector.append(html);
 		this.handleLoading("hide");
 	};
@@ -49,9 +51,12 @@ define([
 	 */
 	InfoWidget.prototype.getContent = function(){
 		if (Config.toggles.isSnow){
-			return snowContent;
+			return {
+				html: snowContent,
+				email: Config.contactEmail
+			};
 		} else {
-			return "";
+			return null;
 		}
 	};
 

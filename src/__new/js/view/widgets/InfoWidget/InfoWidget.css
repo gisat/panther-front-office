@@ -1,9 +1,59 @@
 #floater-info-widget {
-	top: calc(50% - 10rem);
-	left: calc(50% - 15rem);
-	height: 20rem;
-	width: 30rem;
+	top: calc(50% - 17.5rem);
+	left: calc(50% - 20rem);
+	height: 35rem;
+	width: 40rem;
 }
 #floater-info-widget .floater-body {
 	height: calc(100% - 2.5rem);
+	padding: 0 2rem 2rem 1rem;
+}
+#floater-info-widget .floater-body h3 {
+	font-size: 1.2rem;
+	font-weight: 600;
+	margin: 1.5rem 0 .3rem;
+	color: #555;
+}
+#floater-info-widget .floater-body h4 {
+	font-size: .85rem;
+	font-weight: 600;
+	margin: 1rem 0 .2rem;
+	color: #555;
+}
+#floater-info-widget .floater-body p {
+	font-size: .8rem;
+	margin: .3rem 0;
+	color: #555;
+	line-height: 1.5;
+}
+#floater-info-widget .floater-body a {
+	text-decoration: underline;
+}
+#floater-info-widget .floater-body ul {
+	margin: .3rem 1.5rem .5rem;
+}
+#floater-info-widget .floater-body ul li {
+	font-size: .8rem;
+	font-weight: 400;
+	list-style: disc;
+	color: #555;
+}
+#floater-info-widget .floater-body table {
+	margin: .7rem 0;
+	border: 1px solid #ddd;
+}
+#floater-info-widget .floater-body table tr {
+	border-bottom: 1px solid #ddd;
+}
+#floater-info-widget .floater-body table tr th {
+	background: #ddd;
+	padding: .4rem;
+	font-size: .8rem;
+	font-weight: 600;
+	color: #333;
+}
+#floater-info-widget .floater-body table tr td {
+	padding: .4rem;
+	font-size: .75rem;
+	color: #333;
 }

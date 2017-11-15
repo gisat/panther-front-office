@@ -1,0 +1,71 @@
+<h3>Registration</h3>
+<p>If you wish to save performed searches and configurations please register by clicking on the ‘Sign up’ button on the main page (top right corner). </p>
+
+<h4>Forgotten password</h4>
+<p>If you forget your password please send an email to the following address: <a href="mailto:{{email}}">{{email}}</a></p>
+
+<h4>Time duration of analysis</h4>
+<p>Depending on the selected parameters (AOI, time range, and number of sensors/ satellites) some analyses might take longer to be executed. If you are a registered user you will be notified once the analysis is accomplished. In the meantime you can close the browser without the analysis being interrupted. </p>
+
+<h3>Data</h3>
+<p>For the demonstration purposes of this project data is available for the following area of interest (AOI), sensors/ satellites, and time period: </p>
+<ul>
+	<li>Area of interest: Europe</li>
+	<li>Satellites (sensors): Sentinel-2 (MSI), Sentinel-3 (SLSTR), Aqua & Terra (MODIS)</li>
+	<li>Time period: November 2015 – April 2016, November 2016 – April 2017</li>
+</ul>
+
+<h3>Classification</h3>
+<p>For the purpose of this portal individual scenes has been obtained, processed and classified into several classes depending on the satellite/ sensor: </p>
+<table>
+	<tr>
+		<th>Aqua, Terra (MODIS)</th>
+		<th>Sentinel-3 (SLSTR)</th>
+		<th>Sentinel-2 (MSI)</th>
+	</tr>
+	<tr>
+		<td><b>Snow</b> (pixels above land covered by snow)</td>
+		<td><b>Snow</b> (pixels covered by snow)</td>
+		<td><b>NoCloud</b> (produced from the cloud mask, all pixels outside of the cloud mask, i.e. cloud-free pixels)</td>
+	</tr>
+	<tr>
+		<td><b>NoSnow</b> (pixels above land covered by neither Snow, nor Cloud)</td>
+		<td><b>NoSnow</b> (pixels covered by neither Snow, nor Cloud)</td>
+		<td><b>NoCloud</b> (produced from the cloud mask, all pixels outside of the cloud mask, i.e. cloud-free pixels)</td>
+	</tr>
+	<tr>
+		<td><b>Ocean</b> (all pixels above the ocean)</td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><b>Cloud</b> (pixels above land covered by cloud)</td>
+		<td><b>Cloud</b> (pixels covered by cloud)</td>
+		<td><b>Cloud</b> (= cloud mask)</td>
+	</tr>
+	<tr>
+		<td><b>Night</b> (pixels in areas covered by polar night/ night)</td>
+		<td><b>Night</b> (pixels in areas covered by polar night/ night)</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td><b>NoData</b> (none of the previous)</td>
+		<td><b>NoData</b> (none of the previous)</td>
+		<td></td>
+	</tr>
+</table>
+
+<h3>Analyses</h3>
+<p>There are two types of analysis that can be performed.</p>
+
+<h4>Snow & Cloud analysis</h4>
+<p>(using data from MODIS (Aqua, Terra) and SLSTR (Sentinel-3), and their combinations)</p>
+<p>1-day composites are created by merging information from all available single scenes and then cropping the data by using the European land mask. N-day scenes are created by merging the information from 1-day composites. </p>
+<p>A single value will be assigned to each pixel based on the information per given pixel collected from all available scenes. The priority of assigning a class value is as follows (left = highest priority, right = lowest priority): </p>
+<p>Snow > NoSnow > Ocean > Cloud > Night > NoData</p>
+<p>i.e.: If value ‘Snow’ was recorded at least once for a given pixel then value ‘Snow’ will be assigned to that pixel in the resulting composite. Value ‘Night’ can only be assigned to a pixel in a composite if none of the values on the left of ‘Night’ was recorded (i.e. Snow, NoSnow, Ocean, Cloud). </p>
+
+<h4>Cloud analysis</h4>
+<p>(using data from MSI (Sentinel-2))</p>
+<p>1-day composites are created by merging the data from all available single scenes. N-day composites are created by merging the information from all available 1-day composites. </p>
+<p>Each pixel is assigned a value based on the priority: NoCloud > Cloud. If for a given pixel value ‘NoCloud’ was recorded at least once then this pixel will be assigned value ‘NoCloud’ in the resulting composite. </p>
