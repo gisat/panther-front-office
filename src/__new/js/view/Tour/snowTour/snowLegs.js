@@ -34,7 +34,7 @@ define([], function () {
 		}
 
 		if (leg.rawData.el === "#overview-header-scope"){
-			if (leg.source && leg.source === "next"){
+			if (!leg.source || (leg.source && leg.source === "next")){
 				iframe.rebuild(Config.snowAppExampleUrl);
 				leg.$el.css({
 					left: "200px"
