@@ -204,13 +204,24 @@
       return leg;
     };
 
-    Bus.prototype.showLeg = function(index) {
+    Bus.prototype.showLeg = function(index, cb) {
       var leg, preventDefault;
       if (index == null) {
         index = this.currentLegIndex;
       }
       leg = this.legs[index] || this.buildLeg(index);
       this._log('showLeg:', leg);
+
+      if (cb){
+		  var source = $(cb.currentTarget);
+		  if (source.hasClass("tourbus-prev")){
+			  leg.source = "prev";
+		  } else if (source.hasClass("tourbus-next")){
+			  leg.source = "next";
+		  }
+      }
+
+
       preventDefault = this.options.onLegStart(leg, this);
       if (preventDefault !== false) {
         leg.show();
@@ -251,13 +262,13 @@
 		this.showLeg(legIndex);
 	};
 
-    Bus.prototype.next = function() {
+    Bus.prototype.next = function(cb) {
       this.hideLeg();
       this.currentLegIndex++;
       if (this.currentLegIndex > this.totalLegs - 1) {
         return this.$original.trigger('stop.tourbus');
       } else {
-        return this.showLeg();
+        return this.showLeg(null,cb);
       }
     };
 
@@ -267,7 +278,7 @@
       if (this.currentLegIndex < 0) {
         return this.$original.trigger('stop.tourbus');
       } else {
-        return this.showLeg();
+        return this.showLeg(null,cb);
       }
     };
 

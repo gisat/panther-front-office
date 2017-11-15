@@ -22,7 +22,10 @@ define([], function () {
 			});
 		}
 		if (leg.rawData.el === "#scope-config-controls .ptr-button"){
-
+			if(leg.source && leg.source === "prev"){
+				var buttonScope = iframeSelector.contents().find("#overview-header-scope .ptr-button");
+				buttonScope.trigger("click");
+			}
 		}
 
 		if (leg.rawData.el === "#overview-header-scope"){
@@ -43,6 +46,9 @@ define([], function () {
 				left: "500px",
 				marginTop: "0px"
 			});
+			if(leg.source && leg.source === "prev"){
+				iframe.scrollY(-300);
+			}
 		}
 		if (leg.rawData.el === "#add-composites-button"){
 			setTimeout(function(){
@@ -59,8 +65,16 @@ define([], function () {
 				top: "auto"
 			});
 		}
+		if (leg.rawData.el === ".ptr-overview-collection .ptr-button"){
+			if(leg.source && leg.source === "prev"){
+				var buttonBack = iframeSelector.contents().find("#composites-header .ptr-button");
+				buttonBack.trigger("click");
+				setTimeout(function(){
+					leg.reposition();
+				},1000);
+			}
+		}
 		if (leg.rawData.el === "#composites-list-header"){
-			// iframe.rebuild(Config.snowAppExampleUrl + "/?s=composites");
 			var button = iframeSelector.contents().find("#overview-collections .ptr-button");
 			button.trigger("click");
 			leg.$el.css({
