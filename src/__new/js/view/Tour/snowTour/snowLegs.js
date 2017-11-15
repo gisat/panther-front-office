@@ -26,6 +26,9 @@ define([], function () {
 				var buttonScope = iframeSelector.contents().find("#overview-header-scope .ptr-button");
 				buttonScope.trigger("click");
 			}
+			leg.$el.css({
+				marginTop: "0px"
+			});
 		}
 
 		if (leg.rawData.el === "#overview-header-scope"){
