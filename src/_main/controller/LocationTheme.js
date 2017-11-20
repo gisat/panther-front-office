@@ -1184,7 +1184,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
                 // TODO: To be removed and replaced with toggles.
                 if (scope.get("aggregated")) {
-                    this.getController('DomManipulation')._onReportsSidebarToggleClick();
+                    this.getController('DomManipulation')._onReportsSidebarHide();
                 }
 			}
         }
