@@ -10,11 +10,8 @@
 #floater-world-wind-widget.open {
 	display: block;
 }
-#floater-world-wind-widget .floater-header {
-	height: 2rem;
-}
 #floater-world-wind-widget .floater-body {
-	height: calc(100% - 2rem);
+	height: calc(100% - 2.3rem);
 	border: 1px solid #ddd;
 }
 
