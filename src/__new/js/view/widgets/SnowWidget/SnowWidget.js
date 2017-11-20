@@ -174,6 +174,7 @@ define(['../../../actions/Actions',
 		this.addShowButtonListener();
 		this.addDeleteButtonListener();
 		this.addLoggingListener();
+		this.addToolbarItemListener();
 	};
 
 
@@ -266,6 +267,18 @@ define(['../../../actions/Actions',
 					console.warn("The record was not deleted!")
 				}
 			});
+		});
+	};
+
+	SnowWidget.prototype.addToolbarItemListener = function(){
+		var toolbarItem = $("#top-toolbar-snow-configuration");
+		var self = this;
+		toolbarItem.off("click.toolbarItem").on("click.toolbarItem", function(){
+			setTimeout(function(){
+				if (toolbarItem.hasClass("open")){
+					self.rebuild();
+				}
+			}, 100);
 		});
 	};
 
