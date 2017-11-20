@@ -133,7 +133,7 @@ define(['../../actions/Actions',
 	 * Add close button to this map
 	 */
 	WorldWindMap.prototype.addCloseButton = function(){
-		var html = '<div title="Remove map" class="close-map-button" data-id="' + this._id + '"><i class="fa fa-times close-map-icon" aria-hidden="true"></i></div>';
+		var html = '<div title="Remove map" class="close-map-button" data-id="' + this._id + '"><i class="close-map-icon">&#x2715;</i></div>';
 		this._mapBoxSelector.find(".map-window-tools").append(html);
 	};
 
