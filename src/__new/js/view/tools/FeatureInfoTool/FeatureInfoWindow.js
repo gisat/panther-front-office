@@ -48,6 +48,8 @@ define(['../../../error/ArgumentError',
 
 		this._id = options.id;
 		this._target = options.target;
+		this._windowHeight = 0;
+		this._windowWidth = 0;
 
 		this.build();
 	};
@@ -236,15 +238,47 @@ define(['../../../error/ArgumentError',
 	 * @param y {number}
 	 * @param isWorldWind {boolean} true, if map is worldWind
 	 */
-	FeatureInfoWindow.prototype.setScreenPosition = function(x,y,isWorldWind){
+	FeatureInfoWindow.prototype.setScreenPosition = function(x, y, isWorldWind){
+		var self = this;
+
+		var infoWidth = Number(self._infoWindow.css("width").slice(0,-2));
+		var infoHeight = Number(self._infoWindow.css("height").slice(0,-2));
+		var screenWidth = $(window).width();
+		var screenHeight = $(window).height();
+
 		var mapOffsetTop = $('#app-map').offset().top;
-		if (isWorldWind){
-			mapOffsetTop = 0;
+		var offsetTop = 5;
+		var offsetLeft = 5;
+
+		if (!isWorldWind){
+			offsetTop += mapOffsetTop;
 		}
-		this._infoWindow.offset({
-			top: y + mapOffsetTop + 5,
-			left: x + 5
+		self._infoWindow.offset({
+			left: x + offsetLeft,
+			top: y + offsetTop
 		});
+
+		// x position
+		if (x + infoWidth + offsetLeft >= screenWidth){
+			self._infoWindow.offset({
+				left: x - offsetLeft - infoWidth
+			});
+		}
+		//y position
+		if (y + infoHeight + offsetTop >= screenHeight){
+			self._infoWindow.offset({
+				top: y + offsetTop - infoHeight
+			});
+			}
+
+
+		if (infoHeight !== this._windowHeight){
+			setTimeout(function(){
+				self._windowHeight = infoHeight;
+				self._windowWidth = infoWidth;
+				self.setScreenPosition(x,y,isWorldWind);
+			},500);
+		}
 	};
 
 	/**
