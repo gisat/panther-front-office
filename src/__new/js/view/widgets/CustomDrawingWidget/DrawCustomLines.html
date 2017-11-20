@@ -2,17 +2,17 @@
 	<div class="floater-row layer-check">
 	</div>
 	<div class="floater-row export-row">
-		<div class="widget-button widget-button-export" id="lines-export-json" disabled="disabled">Export layer to GeoJSON</div>
-		<div class="widget-button widget-button-export" id="lines-export-shp" disabled="disabled">Export layer to SHP</div>
+		<div class="widget-button widget-button-export" id="lines-export-json" disabled="disabled">{{exportLayerToGeoJson}}</div>
+		<div class="widget-button widget-button-export" id="lines-export-shp" disabled="disabled">{{exportLayerToShp}}</div>
 	</div>
 	<div class="floater-row">
-		<div class="floater-row-caption">Draw Green Connectivity Line</div>
-		<div class="widget-button map-button button-drawing-activation" id="button-draw-lines">Actviate drawing</div>
+		<div class="floater-row-caption">{{drawGreenConnectivityLine}}</div>
+		<div class="widget-button map-button button-drawing-activation" id="button-draw-lines">{{activateDrawing}}</div>
 	</div>
 	<div class="floater-row">
 		<div id="{{id}}-table-container"></div>
 	</div>
 </div>
 <div id="custom-lines-info">
-	<p>Drawing of custom lines is disabled for All places option. To enable drawing, please select place(pilot).</p>
+	<p>{{drawingOfCustomLinesIsDisabled}}</p>
 </div>

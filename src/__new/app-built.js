@@ -13809,7 +13809,7 @@ define('js/view/widgets/inputs/selectbox/SelectBox',['../../../../error/Argument
     SelectBox.prototype.getSelectOptions = function(){
         var content = "";
         if (this._data.length > 1){
-            content += '<option value="" class="selectbox-all-options">All options</option>';
+            content += '<option value="" class="selectbox-all-options">'+polyglot.t("allOptions")+'</option>';
         }
         this._data.forEach(function(item){
             if (item){
@@ -14520,19 +14520,19 @@ define('js/view/widgets/WidgetWarning',[], function () {
 		var message;
 		switch (code) {
 			case 1:
-				message = "Attributes are missing! Possible reason: There are no linked attribute sets to analytical units for this place.";
+				message = polyglot.t("attributesAreMissingNoLinked");
 				break;
 			case 2:
-				message = "Attributes are missing! Possible reason: Current user does not have appropriate permissions for current configuration.";
+				message = polyglot.t("attributesAreMissingPermissions");
 				break;
 			case 3:
-				message = "Attributes are missing! Possible reason: Broken links in visualizations (e.g. non-existing attributes or attribute sets). Try to create visualizations again.";
+				message = polyglot.t("attributesAreMissingBrokenLinks");
 				break;
 			case 4:
-				message = "Attributes are missing! Possible reason: Choropleths includes non-existing attributes or attribute sets. Try to create choropleths again.";
+				message = polyglot.t("attributesAreMissingChoropleths");
 				break;
 			case 5:
-				message = "Dataset is not defined!";
+				message = polyglot.t("datasetIsNotDefined");
 				break;
 		}
 
@@ -14542,10 +14542,10 @@ define('js/view/widgets/WidgetWarning',[], function () {
 	return WidgetWarning;
 });
 
-define('text!js/view/widgets/WidgetPlaceholder.html',[],function () { return '<div id="placeholder-{{widgetId}}" class="placeholder open">\r\n    <span>{{name}}</span>\r\n    <div class="placeholder-tools-container">\r\n        <div class="placeholder-tool widget-maximise">\r\n            <img alt="Maximise" src="__new/img/maximise-icon.png"/>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n';});
+define('text!js/view/widgets/WidgetPlaceholder.html',[],function () { return '<div id="placeholder-{{widgetId}}" class="placeholder open">\r\n    <span>{{name}}</span>\r\n    <div class="placeholder-tools-container">\r\n        <div class="placeholder-tool widget-maximise">\r\n            <img alt="{{maximise}}" src="__new/img/maximise-icon.png"/>\r\n        </div>\r\n    </div>\r\n</div>\r\n\r\n';});
 
 
-define('text!js/view/widgets/WidgetFloater.html',[],function () { return '<div id="floater-{{widgetId}}" class="floater {{floaterClass}}">\r\n\t<div class="floater-header">\r\n\t\t<span>{{name}}</span>\r\n\t\t<div class="floater-tools-container">\r\n\t\t\t<div title="Minimise" class="floater-tool widget-minimise">\r\n\t\t\t\t<img alt="Minimise" src="{{minimiseSrc}}"/>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class="floater-warning">\r\n\t</div>\r\n\t<div class="floater-body">\r\n\t</div>\r\n\t<div class="floater-footer">\r\n\t</div>\r\n\t<div class="floater-overlay">\r\n\t</div>\r\n</div>';});
+define('text!js/view/widgets/WidgetFloater.html',[],function () { return '<div id="floater-{{widgetId}}" class="floater {{floaterClass}}">\r\n\t<div class="floater-header">\r\n\t\t<span>{{name}}</span>\r\n\t\t<div class="floater-tools-container">\r\n\t\t\t<div title="{{minimise}}" class="floater-tool widget-minimise">\r\n\t\t\t\t<img alt="{{minimise}}" src="{{minimiseSrc}}"/>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class="floater-warning">\r\n\t</div>\r\n\t<div class="floater-body">\r\n\t</div>\r\n\t<div class="floater-footer">\r\n\t</div>\r\n\t<div class="floater-overlay">\r\n\t</div>\r\n</div>';});
 
 
 define('css!js/view/widgets/Widget',[],function(){});
@@ -14662,7 +14662,8 @@ define('js/view/widgets/Widget',['../../error/ArgumentError',
 			name: this._name,
 			widgetId: this._widgetId,
 			minimiseSrc: minimiseIconSrc,
-            floaterClass: floaterClass
+            floaterClass: floaterClass,
+            minimise: polyglot.t("minimise")
 		}).toString();
 
 		this._floaterTarget.append(floater);
@@ -14684,7 +14685,8 @@ define('js/view/widgets/Widget',['../../error/ArgumentError',
 		var placeholdersContainer = this._placeholderTarget.find('.placeholders-container');
 		var placeholder = S(WidgetPlaceholder).template({
 			name: this._name,
-			widgetId: this._widgetId
+			widgetId: this._widgetId,
+            maximise: polyglot.t("maximise")
 		}).toString();
 		placeholdersContainer.append(placeholder);
 
@@ -16550,7 +16552,7 @@ define('js/view/widgets/CityWidget/CityWidget',[
 	 */
 	CityWidget.prototype.prepareFooter = function(){
 		this._widgetSelector.find(".floater-footer").append('<div class="floater-row">' +
-				'<div class="widget-button" id="melodies-selection-confirm">Send</div>' +
+				'<div class="widget-button" id="melodies-selection-confirm">'+polyglot.t("send")+'</div>' +
 			'</div>' +
 			'<div class="floater-row table-row" id="melodies-monitoring-table">' +
 				'<table>' +
@@ -16642,10 +16644,10 @@ define('js/view/widgets/CityWidget/CityWidget',[
 		}).then(function(response){
 			var data = JSON.parse(response);
 			if (data.status == "Ok"){
-				$('#melodies-selection-confirm').html("Request has been sent...").attr("disabled", true);
+				$('#melodies-selection-confirm').html(polyglot.t("requestHasBeenSent")).attr("disabled", true);
 			}
 			else {
-				$('#melodies-selection-confirm').html("Failed to send request!").attr("disabled", true).addClass("failed");
+				$('#melodies-selection-confirm').html(polyglot.t("failedToSendRequest")).attr("disabled", true).addClass("failed");
 			}
 		});
 	};
@@ -16827,8 +16829,8 @@ define('js/view/table/TableCustomDrawing',[
 		var html = '<tr class="record-row" data-olid="' + openLayersID + '" data-uuid="' + uniqueID + '">' +
 				'<td>' + this._recordCount  + '</td>' +
 				'<td class="record-name"><input type="text" value="' + featureName + '" ' + disabled + '></td>' +
-				'<td class="save-record"><div class="widget-button button-save-record" ' + disabled + '>Save</div></td>' +
-				'<td class="delete-record"><div class="widget-button button-delete-record">Delete</div></td>' +
+				'<td class="save-record"><div class="widget-button button-save-record" ' + disabled + '>'+polyglot.t("save")+'</div></td>' +
+				'<td class="delete-record"><div class="widget-button button-delete-record">'+polyglot.t('delete')+'</div></td>' +
 			'</tr>';
 		this._table.append(html);
 		this._recordCount++;
@@ -16841,7 +16843,7 @@ define('js/view/table/TableCustomDrawing',[
 	TableCustomDrawing.prototype.buildHeader = function(){
 		var html = '<tr class="header">' +
 			'<th>#</th>' +
-			'<th>Name</th>' +
+			'<th>'+polyglot.t("name")+'</th>' +
 			'<th></th>' +
 			'<th></th>' +
 			'</tr>';
@@ -16919,10 +16921,10 @@ define('js/view/widgets/CustomDrawingWidget/CustomDrawingSection',[
 	 * Build basic structure of section
 	 * @param content {string} HTML code
 	 */
-	CustomDrawingSection.prototype.build = function(content){
-		var html = S(content).template({
-			id: this._sectionId
-		}).toString();
+	CustomDrawingSection.prototype.build = function(content, params){
+		params = params || {};
+		params.id = this._sectionId;
+		var html = S(content).template(params).toString();
 		this._target.append(html);
 		this._table = new TableCustomDrawing({
 			targetId: this._sectionId + "-table-container",
@@ -17009,7 +17011,7 @@ define('js/view/widgets/CustomDrawingWidget/CustomDrawingSection',[
 			this.saveRequest(feature).done(function(result){
 				if (result.status == "OK"){
 					button.attr("disabled", "disabled")
-						.html("Saved!")
+						.html(polyglot.t("saved"))
 						.css("color", "#d35400")
 						.parents('tr').addClass("saved");
 				} else {
@@ -17033,7 +17035,7 @@ define('js/view/widgets/CustomDrawingWidget/CustomDrawingSection',[
 		var name = input.val();
 
 		if (name.length == 0){
-			window.alert("Fill the name!");
+			window.alert(polyglot.t("fillTheName"));
 			return;
 		} else {
 			input.attr("disabled", true);
@@ -17068,7 +17070,7 @@ define('js/view/widgets/CustomDrawingWidget/CustomDrawingSection',[
 		var uuid = button.parents('tr').attr("data-uuid");
 		var name = button.parents('tr').find(".record-name input").val();
 
-		var conf = confirm("Do you really want to delete line " + name + "?");
+		var conf = confirm(polyglot.t("doYouReallyWantToDeleteLine") + name + "?");
 		if (!conf){
 			return;
 		}
@@ -17184,7 +17186,7 @@ define('js/view/widgets/CustomDrawingWidget/CustomDrawingSection',[
 	return CustomDrawingSection;
 });
 
-define('text!js/view/widgets/CustomDrawingWidget/DrawCustomAU.html',[],function () { return '<div id="custom-au-container">\r\n\t<div class="floater-row layer-check">\r\n\t</div>\r\n\t<div class="floater-row export-row">\r\n\t\t<div class="widget-button widget-button-export" id="polygons-export-json" disabled="disabled">Export layer to GeoJSON</div>\r\n\t\t<div class="widget-button widget-button-export" id="polygons-export-shp" disabled="disabled">Export layer to SHP</div>\r\n\t</div>\r\n\t<div class="floater-row">\r\n\t\t<div class="floater-row-caption">Draw custom Analytical units</div>\r\n\t\t<div class="widget-button map-button button-drawing-activation" id="button-draw-polygons">Actviate drawing</div>\r\n\t</div>\r\n\t<div class="floater-row">\r\n\t\t<div id="{{id}}-table-container"></div>\r\n\t</div>\r\n</div>\r\n<div id="custom-au-info">\r\n\t<div class="floater-row">\r\n\t\t<div class="floater-row-caption">Draw custom Analytical units</div>\r\n\t\t<p></p>\r\n\t</div>\r\n</div>';});
+define('text!js/view/widgets/CustomDrawingWidget/DrawCustomAU.html',[],function () { return '<div id="custom-au-container">\r\n\t<div class="floater-row layer-check">\r\n\t</div>\r\n\t<div class="floater-row export-row">\r\n\t\t<div class="widget-button widget-button-export" id="polygons-export-json" disabled="disabled">{{exportLayerToGeoJson}}</div>\r\n\t\t<div class="widget-button widget-button-export" id="polygons-export-shp" disabled="disabled">{{exportLayerToShp}}</div>\r\n\t</div>\r\n\t<div class="floater-row">\r\n\t\t<div class="floater-row-caption">{{drawCustomAnalyticalUnits}}</div>\r\n\t\t<div class="widget-button map-button button-drawing-activation" id="button-draw-polygons">{{activateDrawing}}</div>\r\n\t</div>\r\n\t<div class="floater-row">\r\n\t\t<div id="{{id}}-table-container"></div>\r\n\t</div>\r\n</div>\r\n<div id="custom-au-info">\r\n\t<div class="floater-row">\r\n\t\t<div class="floater-row-caption">{{drawCustomAnalyticalUnits}}</div>\r\n\t\t<p></p>\r\n\t</div>\r\n</div>';});
 
 
 define('css!js/view/widgets/CustomDrawingWidget/DrawCustomAU',[],function(){});
@@ -17235,7 +17237,12 @@ define('js/view/widgets/CustomDrawingWidget/DrawCustomAU',[
 			throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "DrawCustomAU", "constructor", "missingHTMLElement"));
 		}
 
-		this.build(DrawCustomAUHtml);
+		this.build(DrawCustomAUHtml, {
+            drawCustomAnalyticalUnits: polyglot.t("drawCustomAnalyticalUnits"),
+            exportLayerToGeoJson: polyglot.t("exportLayerToGeoJson"),
+            exportLayerToShp: polyglot.t("exportLayerToShp"),
+            activateDrawing: polyglot.t("activateDrawing")
+		});
 
 		this._buttonDraw = $("#button-draw-polygons");
 		this._section = $("#custom-au-container");
@@ -17252,7 +17259,7 @@ define('js/view/widgets/CustomDrawingWidget/DrawCustomAU',[
 	DrawCustomAU.prototype.buildLayerCheckbox = function(){
 		return new Checkbox({
 			id: this._sectionId + "-layer-checkbox",
-			name: "Show Custom Analytical units Layer",
+			name: polyglot.t("showCustomAnalyticalUnitsLayer"),
 			checked: true,
 			target: this._section.find(".layer-check"),
 			containerId: this._sectionId
@@ -17269,7 +17276,7 @@ define('js/view/widgets/CustomDrawingWidget/DrawCustomAU',[
 		if (ThemeYearConfParams.place.length == 0){
 			section.css("display", "none");
 			info.css("display","block");
-			info.find("p").html("Drawing of custom analytical units is disabled for All places option. To enable drawing, please select place (pilot).");
+			info.find("p").html(polyglot.t("drawCustomAnalyticalUnitsIsDisabled"));
 			return false;
 		} else {
 			section.css("display", "block");
@@ -17324,7 +17331,7 @@ define('js/view/widgets/CustomDrawingWidget/DrawCustomAU',[
 	return DrawCustomAU;
 });
 
-define('text!js/view/widgets/CustomDrawingWidget/DrawCustomLines.html',[],function () { return '<div id="custom-lines-container">\r\n\t<div class="floater-row layer-check">\r\n\t</div>\r\n\t<div class="floater-row export-row">\r\n\t\t<div class="widget-button widget-button-export" id="lines-export-json" disabled="disabled">Export layer to GeoJSON</div>\r\n\t\t<div class="widget-button widget-button-export" id="lines-export-shp" disabled="disabled">Export layer to SHP</div>\r\n\t</div>\r\n\t<div class="floater-row">\r\n\t\t<div class="floater-row-caption">Draw Green Connectivity Line</div>\r\n\t\t<div class="widget-button map-button button-drawing-activation" id="button-draw-lines">Actviate drawing</div>\r\n\t</div>\r\n\t<div class="floater-row">\r\n\t\t<div id="{{id}}-table-container"></div>\r\n\t</div>\r\n</div>\r\n<div id="custom-lines-info">\r\n\t<p>Drawing of custom lines is disabled for All places option. To enable drawing, please select place(pilot).</p>\r\n</div>';});
+define('text!js/view/widgets/CustomDrawingWidget/DrawCustomLines.html',[],function () { return '<div id="custom-lines-container">\r\n\t<div class="floater-row layer-check">\r\n\t</div>\r\n\t<div class="floater-row export-row">\r\n\t\t<div class="widget-button widget-button-export" id="lines-export-json" disabled="disabled">{{exportLayerToGeoJson}}</div>\r\n\t\t<div class="widget-button widget-button-export" id="lines-export-shp" disabled="disabled">{{exportLayerToShp}}</div>\r\n\t</div>\r\n\t<div class="floater-row">\r\n\t\t<div class="floater-row-caption">{{drawGreenConnectivityLine}}</div>\r\n\t\t<div class="widget-button map-button button-drawing-activation" id="button-draw-lines">{{activateDrawing}}</div>\r\n\t</div>\r\n\t<div class="floater-row">\r\n\t\t<div id="{{id}}-table-container"></div>\r\n\t</div>\r\n</div>\r\n<div id="custom-lines-info">\r\n\t<p>{{drawingOfCustomLinesIsDisabled}}</p>\r\n</div>';});
 
 
 define('css!js/view/widgets/CustomDrawingWidget/DrawCustomLines',[],function(){});
@@ -17375,7 +17382,13 @@ define('js/view/widgets/CustomDrawingWidget/DrawCustomLines',[
 			throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "DrawCustomLines", "constructor", "missingHTMLElement"));
 		}
 
-		this.build(DrawCustomLinesHtml);
+		this.build(DrawCustomLinesHtml, {
+            drawingOfCustomLinesIsDisabled: polyglot.t("drawingOfCustomLinesIsDisabled"),
+            drawGreenConnectivityLine: polyglot.t("drawGreenConnectivityLine"),
+            activateDrawing: polyglot.t("activateDrawing"),
+            exportLayerToGeoJson: polyglot.t("exportLayerToGeoJson"),
+            exportLayerToShp: polyglot.t("exportLayerToShp")
+		});
 
 		this._buttonDraw = $("#button-draw-lines");
 		this._section = $("#custom-lines-container");
@@ -17743,7 +17756,7 @@ define('js/util/Customization',[
 	return Customization;
 });
 
-define('text!js/view/settings/Settings.html',[],function () { return '<div class="tool-window settings-window" id="{{id}}">\r\n    <div class="tool-window-header">\r\n        <span>Settings</span>\r\n        <div class="tool-window-tools-container">\r\n            <div class="window-close">\r\n                <img alt="Close" src="__new/img/close.png"/>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    <div class="tool-window-body">\r\n    </div>\r\n    <div class="tool-window-footer">\r\n        <div class="widget-button tool-window-button settings-confirm">Confirm</div>\r\n    </div>\r\n</div>';});
+define('text!js/view/settings/Settings.html',[],function () { return '<div class="tool-window settings-window" id="{{id}}">\r\n    <div class="tool-window-header">\r\n        <span>{{settings}}</span>\r\n        <div class="tool-window-tools-container">\r\n            <div class="window-close">\r\n                <img alt="Close" src="__new/img/close.png"/>\r\n                </div>\r\n            </div>\r\n        </div>\r\n    <div class="tool-window-body">\r\n    </div>\r\n    <div class="tool-window-footer">\r\n        <div class="widget-button tool-window-button settings-confirm">{{confirm}}</div>\r\n    </div>\r\n</div>';});
 
 
 define('css!js/view/settings/Settings',[],function(){});
@@ -17790,7 +17803,11 @@ define('js/view/settings/Settings',[
      * Build the settings window, fill it with data and add listeners
      */
     Settings.prototype.buildContent = function(){
-        var html = S(htmlContent).template({id: this._id}).toString();
+        var html = S(htmlContent).template({
+            id: this._id,
+            settings: polyglot.t("settings"),
+            confirm: polyglot.t("confirm")
+        }).toString();
         if (!$("#" + this._id).length){
             this._target.append(html);
         }
@@ -18016,7 +18033,7 @@ define('js/view/widgets/EvaluationWidget/CategorizeSettings',[
 			'<div class="categorize-body">' +
 			'</div>' +
 			'<div class="categorize-footer">' +
-				'<div class="widget-button w10" id="add-category-set">Add category set' +
+				'<div class="widget-button w10" id="add-category-set">' + polyglot.t("addCategorySet") +
 				'</div>' +
 			'</div>'
 		);
@@ -18039,8 +18056,8 @@ define('js/view/widgets/EvaluationWidget/CategorizeSettings',[
 	};
 
 	CategorizeSettings.prototype.renameLabels = function(){
-		this._headerSelector.find("span").html("Categorize");
-		this._confirmButtonSelector.html("Show in chart")
+		this._headerSelector.find("span").html(polyglot.t("categorize"));
+		this._confirmButtonSelector.html(polyglot.t("showInChart"))
 	};
 
 	/**
@@ -18142,7 +18159,7 @@ define('js/view/widgets/EvaluationWidget/CategorizeSettings',[
 
 		return {
 			id: this._currentCategoryId,
-			name: "Category " + this._categoryCounter,
+			name: polyglot.t("category") + " " + this._categoryCounter,
 			data: this._currentETstate,
 			color: '#000000'
 		};
@@ -18158,7 +18175,7 @@ define('js/view/widgets/EvaluationWidget/CategorizeSettings',[
 
 		return {
 			id: this._currentCategorySetId,
-			name: "Set " + this._categorySetCounter,
+			name: polyglot.t("Set") + " " + this._categorySetCounter,
 			categories: {}
 		};
 	};
@@ -18189,8 +18206,8 @@ define('js/view/widgets/EvaluationWidget/CategorizeSettings',[
 			'<div class="category-set-box" id="' + categorySet.id + '" data-id="' + categorySet.id + '">' +
 				'<div class="category-set-box-header">' +
 					'<div class="category-set-name"><input type="text" value="' + categorySet.name + '"></div>' +
-					'<div class="save-category-set widget-button button-save-record">Save set name</div>' +
-					'<div class="delete-category-set widget-button button-delete-record"> Delete whole set </div>' +
+					'<div class="save-category-set widget-button button-save-record">'+polyglot.t("saveSetName")+'</div>' +
+					'<div class="delete-category-set widget-button button-delete-record">'+polyglot.t("deleteWholeSet")+'</div>' +
 				'</div>' +
 			'</div>'
 		);
@@ -18443,7 +18460,7 @@ define('js/view/widgets/EvaluationWidget/EvaluationWidgetSettings',[
 	EvaluationWidgetSettings.prototype.addCategories = function(){
 		this._settingsBody = $('#' + this._id + ' .tool-window-body');
 		this._settingsBody.html("");
-		this.addCheckbox(this._id + "-all-attributes", "All attributes", "all-attributes-row", "", true, "");
+		this.addCheckbox(this._id + "-all-attributes", polyglot.t("allAttributes"), "all-attributes-row", "", true, "");
 		var asName = "";
 		var asId = "";
 		var asDataId = null;
@@ -18464,17 +18481,17 @@ define('js/view/widgets/EvaluationWidget/EvaluationWidgetSettings',[
 
 			if (type == "boolean"){
 				input = "checkbox";
-				name4Settings = name4Settings + " <i>(Yes/No)</i>";
+				name4Settings = name4Settings + " <i>"+polyglot.t("yesNo")+"</i>";
 			}
 			else if (type == "numeric") {
 				input = "slider";
-				name4Settings = name4Settings + " <i>(Range)</i> ";
+				name4Settings = name4Settings + " <i>"+polyglot.t("range")+"</i> ";
 			}
 			else if (type == "text") {
 				input = "select";
-				name4Settings = name4Settings + " <i>(Category)</i>" +
+				name4Settings = name4Settings + " <i>"+polyglot.t("categoryBounded")+"</i>" +
 					"<div class='multioptions'>" +
-					"<span>Multioptions:</span>" +
+					"<span>"+polyglot.t("multiOptions")+"</span>" +
 					"<label class='switch'>" +
 					"<input type='checkbox' class='multioptions-input'>" +
 					"<div class='slider-toggle'></div>" +
@@ -18540,7 +18557,7 @@ define('js/view/widgets/EvaluationWidget/EvaluationWidgetSettings',[
 	return EvaluationWidgetSettings;
 });
 
-define('text!js/view/widgets/EvaluationWidget/EvaluationWidgetFooter.html',[],function () { return '<div class="floater-row footer-buttons">\r\n\t<div class="widget-button hidden" id="evaluation-confirm"></div>\r\n\t<div class="widget-button" id="evaluation-unselect" disabled="disabled">Clear selection</div>\r\n\t<div class="widget-button secondary {{hidden}}" id="evaluation-add-category" disabled="disabled">Add category</div>\r\n</div>\r\n<div class="floater-row row-export">\r\n\t<div class="widget-button widget-button-export" id="export-json" disabled="disabled">Export to GeoJSON</div>\r\n\t<div class="widget-button widget-button-export" id="export-xls" disabled="disabled">Export to XLS</div>\r\n</div>\r\n<div class="floater-row row-export">\r\n\t<div class="widget-button widget-button-export" id="export-shp" disabled="disabled">Export to SHP</div>\r\n\t<div class="widget-button widget-button-export" id="export-csv" disabled="disabled">Export to CSV</div>\r\n</div>';});
+define('text!js/view/widgets/EvaluationWidget/EvaluationWidgetFooter.html',[],function () { return '<div class="floater-row footer-buttons">\r\n\t<div class="widget-button hidden" id="evaluation-confirm"></div>\r\n\t<div class="widget-button" id="evaluation-unselect" disabled="disabled">{{clearSelection}}</div>\r\n\t<div class="widget-button secondary {{hidden}}" id="evaluation-add-category" disabled="disabled">{{addCategory}}</div>\r\n</div>\r\n<div class="floater-row row-export">\r\n\t<div class="widget-button widget-button-export" id="export-json" disabled="disabled">{{exportToGeoJson}}</div>\r\n\t<div class="widget-button widget-button-export" id="export-xls" disabled="disabled">{{exportToXls}}</div>\r\n</div>\r\n<div class="floater-row row-export">\r\n\t<div class="widget-button widget-button-export" id="export-shp" disabled="disabled">{{exportToShp}}</div>\r\n\t<div class="widget-button widget-button-export" id="export-csv" disabled="disabled">{{exportToCsv}}</div>\r\n</div>';});
 
 
 define('css!js/view/widgets/EvaluationWidget/EvaluationWidget',[],function(){});
@@ -18773,7 +18790,7 @@ define('js/view/widgets/EvaluationWidget/EvaluationWidget',[
      */
     EvaluationWidget.prototype.buildSettings = function(){
         var tool = "settings";
-        var name = "Settings";
+        var name = polyglot.t("settings");
         this._widgetSelector.find(".floater-tools-container").append('<div title="'+ name +'" class="floater-tool widget-'+ tool +'">' +
             '<img alt="' + name + '" src="__new/img/'+ tool +'.png"/>' +
             '</div>');
@@ -18947,7 +18964,13 @@ define('js/view/widgets/EvaluationWidget/EvaluationWidget',[
         }
 
         var html = S(htmlFooterContent).template({
-            hidden: addCategoryClass
+            hidden: addCategoryClass,
+            clearSelection: polyglot.t("clearSelection"),
+            addCategory: polyglot.t("addCategory"),
+            exportToGeoJson: polyglot.t("exportToGeoJson"),
+            exportToXls: polyglot.t("exportToXls"),
+            exportToShp: polyglot.t("exportToShp"),
+            exportToCsv: polyglot.t("exportToCsv")
         }).toString();
         this._widgetSelector.find(".floater-footer").html("").append(html);
     };
@@ -19023,7 +19046,7 @@ define('js/view/widgets/EvaluationWidget/EvaluationWidget',[
             if (count == 1){
                 areasName = "area";
             }
-            $('#evaluation-confirm').html("Select " + count + " " + areasName)
+            $('#evaluation-confirm').html(polyglot.t("select") + " " + count + " " + areasName)
                 .removeClass("hidden")
                 .off("click.confirm")
                 .on("click.confirm", function(){
@@ -19035,7 +19058,7 @@ define('js/view/widgets/EvaluationWidget/EvaluationWidget',[
                 });
         }
         else {
-            $('#evaluation-confirm').html("No area selected")
+            $('#evaluation-confirm').html(polyglot.t("noAreaSelected"))
                 .off("click.confirm");
         }
 
@@ -19571,7 +19594,7 @@ define('js/view/tools/FeatureInfoTool/FeatureInfoSettings',[
 	return FeatureInfoSettings;
 });
 
-define('text!js/view/tools/FeatureInfoTool/FeatureInfoWindow.html',[],function () { return '<div id="{{id}}">\r\n\t<div class="feature-info-window-header">\r\n\t\t<div class="feature-info-title">Feature name (GID)</div>\r\n\t\t<div class="feature-info-close">\r\n\t\t\t<img title="Close" src="__new/img/close.png">\r\n\t\t</div>\r\n\t\t<div class="feature-info-settings">\r\n\t\t\t<img title="Settings" src="__new/img/settings-gray.png">\r\n\t\t</div>\r\n\t</div>\r\n\t<div class="feature-info-window-body">\r\n\t\t<table>\r\n\t\t</table>\r\n\t</div>\r\n\t<div class="feature-info-window-footer">\r\n\t\t<div class="floater-row">\r\n\t\t\t<div class="widget-button widget-button-export" id="export-feature-info-csv">Export to XLS</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class="overlay"></div>\r\n</div>';});
+define('text!js/view/tools/FeatureInfoTool/FeatureInfoWindow.html',[],function () { return '<div id="{{id}}">\r\n\t<div class="feature-info-window-header">\r\n\t\t<div class="feature-info-title">{{featureName}}</div>\r\n\t\t<div class="feature-info-close">\r\n\t\t\t<img title="Close" src="__new/img/close.png">\r\n\t\t</div>\r\n\t\t<div class="feature-info-settings">\r\n\t\t\t<img title="Settings" src="__new/img/settings-gray.png">\r\n\t\t</div>\r\n\t</div>\r\n\t<div class="feature-info-window-body">\r\n\t\t<table>\r\n\t\t</table>\r\n\t</div>\r\n\t<div class="feature-info-window-footer">\r\n\t\t<div class="floater-row">\r\n\t\t\t<div class="widget-button widget-button-export" id="export-feature-info-csv">{{exportToXls}}</div>\r\n\t\t</div>\r\n\t</div>\r\n\t<div class="overlay"></div>\r\n</div>';});
 
 
 define('css!js/view/tools/FeatureInfoTool/FeatureInfoWindow',[],function(){});
@@ -19630,7 +19653,9 @@ define('js/view/tools/FeatureInfoTool/FeatureInfoWindow',['../../../error/Argume
 	 */
 	FeatureInfoWindow.prototype.build = function(){
 		var html = S(htmlContent).template({
-			id: this._id
+			id: this._id,
+			featureName: polyglot.t("featureNameGid"),
+			exportToXls: polyglot.t("exportToXls")
 		}).toString();
 		this._target.append(html);
 		this._infoWindow = $("#" + this._id);
@@ -19676,19 +19701,26 @@ define('js/view/tools/FeatureInfoTool/FeatureInfoWindow',['../../../error/Argume
 	FeatureInfoWindow.prototype.redraw = function(data){
 		var content = "";
 		var attributes = data[0].attributes;
-		attributes.forEach(function(item){
-			var value = item.value;
-			var units = "";
+		if (attributes.length > 0){
+			attributes.forEach(function(item){
+				var value = item.value;
+				var units = "";
 
-			if (typeof value == "number"){
-				value = viewUtils.numberFormat(value, true, 2);
-			}
-			if (item.units){
-				units = " (" + item.units + ")";
-			}
+				if (typeof value == "number"){
+					value = viewUtils.numberFormat(value, true, 2);
+				}
+				if (item.units){
+					units = " (" + item.units + ")";
+				}
 
-			content += '<tr><td><i>' + item.asName + '</i>: ' + item.name + units + '</td><td>' + value + '</td></tr>';
-		});
+				content += '<tr><td><i>' + item.asName + '</i>: ' + item.name + units + '</td><td>' + value + '</td></tr>';
+			});
+			this._infoWindow.removeClass("no-data");
+		} else {
+			content += '<tr><td>No attributes</td><td></td></tr>';
+			this._infoWindow.addClass("no-data");
+		}
+
 		this._infoWindow.find(".feature-info-title")
 			.html(data[0].name + " (" + data[0].gid + ")")
 			.attr("title", data[0].name + " (" + data[0].gid + ")");
@@ -19826,7 +19858,7 @@ define('js/view/tools/FeatureInfoTool/FeatureInfoWindow',['../../../error/Argume
 	return FeatureInfoWindow;
 });
 
-define('text!js/view/tools/FeatureInfoTool/FeatureInfoTool.html',[],function () { return '<div class="tools-buttons-container">\r\n\t<div id="{{id}}" class="tool" title="1. Click to activate/deactivate feature info &#13;2. Click on feature in map to get info">Info</div>\r\n</div>';});
+define('text!js/view/tools/FeatureInfoTool/FeatureInfoTool.html',[],function () { return '<div class="tools-buttons-container">\r\n\t<div id="{{id}}" class="tool" title="{{title}}">{{info}}</div>\r\n</div>';});
 
 
 define('css!js/view/tools/FeatureInfoTool/FeatureInfoTool',[],function(){});
@@ -22328,6 +22360,38 @@ define('js/view/worldWind/layers/Layers',['../../../error/ArgumentError',
 		this.addLayer(layer);
 	};
 
+    /**
+	 * Add analytical units layer to the list of layers.
+     * @param layerData {Object} info about layer retrieved from server
+     * @param group {string} name of the group
+     * @param state {boolean} true, if the layer should be displayed
+     */
+    Layers.prototype.addAULayer = function(layerData, group, state){
+    	var layerNames = layerData.data.namedLayers.map(function(layer){
+    		return layer.name;
+		}).join(',');
+        var layer = new MyWmsLayer({
+            service: Config.url + "api/proxy/wms",
+            sector: new WorldWind.Sector(-90,90,-180,180),
+            layerNames: layerNames,
+            levelZeroDelta: new WorldWind.Location(45,45),
+            numLevels: 22,
+            opacity: layerData.opacity/100,
+            format: "image/png",
+            size: 256,
+			styleNames: 'outlines'
+        }, null);
+        layer.urlBuilder.wmsVersion = "1.3.0";
+        layer.metadata = {
+            active: state,
+            id: layerData.id,
+            name: layerData.name,
+            group: group,
+			style: 'outlines'
+        };
+        this.addLayer(layer);
+    };
+
 	return Layers;
 });
 define('js/worldwind/MyGoToAnimator',['../error/ArgumentError',
@@ -24460,11 +24524,7 @@ define('js/view/widgets/OSMWidget/OSMWidget',[
 
         this._widgetBodySelector.append("" +
             "<p>" +
-            "   <h1>OSM Data information</h1>" +
-            "   <p>" +
-            "       Select the area for which you want to load the 3D buildings. Area is selected by double clicking on " +
-            "       the top left corner and bottom right corner." +
-            "   </p>" +
+            "   " + polyglot.t("osmDataInformation") +
             "   <input type='button' value='Select area of interest' id='osmAreaOfInterest'/>" +
             "</p>");
 
@@ -24656,7 +24716,7 @@ define('js/view/components/Button/Button',[
 		this._classes = options.classes;
 		this.onClick = options.onClick;
 
-		this._title = options.title || "Select";
+		this._title = options.title || polyglot.t("select");
 		this._textCentered = options.textCentered;
 		this._textSmall = options.textSmall;
 
@@ -24759,7 +24819,7 @@ define('js/view/components/Select/BaseSelect',[
 		this._options = options.options;
 		this._disabledOptions = options.disabledOptions;
 		this._selectedOptions = options.selectedOptions;
-		this._title = options.title || "Select";
+		this._title = options.title || polyglot.t("select");
 		this._sorting = options.sorting;
 		this._classes = options.classes;
 	};
@@ -25067,7 +25127,7 @@ define('js/view/components/Select/Select',[
 	return Select;
 });
 
-define('text!js/view/selectors/PeriodsSelector/PeriodsSelector.html',[],function () { return '<div class="selector" id="{{id}}">\r\n\t<span class="selector-label">Period</span>\r\n</div>';});
+define('text!js/view/selectors/PeriodsSelector/PeriodsSelector.html',[],function () { return '<div class="selector" id="{{id}}">\r\n\t<span class="selector-label">{{period}}</span>\r\n</div>';});
 
 
 define('css!js/view/selectors/PeriodsSelector/PeriodsSelector',[],function(){});
@@ -25159,7 +25219,8 @@ define('js/view/selectors/PeriodsSelector/PeriodsSelector',[
 		}
 
 		var html = S(PeriodsSelectorHtml).template({
-			id: this._id
+			id: this._id,
+			period: polyglot.t('period')
 		}).toString();
 
 		this._containerSelector.append(html);
@@ -25219,7 +25280,7 @@ define('js/view/selectors/PeriodsSelector/PeriodsSelector',[
 
 		return new Select({
 			id: this._id + "-select",
-			title: "Select period",
+			title: polyglot.t("selectPeriod"),
 			options: periods,
 			placeholder: "...",
 			sorting: {
@@ -25240,7 +25301,7 @@ define('js/view/selectors/PeriodsSelector/PeriodsSelector',[
 	PeriodsSelector.prototype.renderMultiplePeriodSelection = function (periods) {
 		return new MultiSelect({
 			id: this._id + "-multiselect",
-			title: "Select periods to compare",
+			title: polyglot.t("selectPeriodsToCompare"),
 			options: periods,
 			sorting: {
 				type: 'string'
@@ -25261,8 +25322,8 @@ define('js/view/selectors/PeriodsSelector/PeriodsSelector',[
 	PeriodsSelector.prototype.renderCompareButton = function(){
 		return new Button({
 			id: this._id + "-compare-button",
-			text: "Compare",
-			title: "Compare periods",
+			text: polyglot.t("compare"),
+			title: polyglot.t("comparePeriods"),
 			containerSelector: this._periodsContainerSelector,
 			classes: "compare-button w5",
 			textCentered: true,
@@ -25712,14 +25773,14 @@ define('js/view/widgets/SharingWidget/SharingWidget',[
 				}).join(' ');
 				$('#floater-sharing .floater-body').append(
 					'<div>' +
-					'	<div><label>Name: <input id="sharing-name" type="text" value="'+name+'"/></label></div>' +
-					'	<div><label>Community: ' +
+					'	<div><label>'+polyglot.t('name')+': <input id="sharing-name" type="text" value="'+name+'"/></label></div>' +
+					'	<div><label>'+polyglot.t('community')+': ' +
 					'		<select id="sharing-community">' + optionsHtml +
 					'		</select>' +
 					'	</label></div>' +
 					'</div>'
 				);
-				$('#floater-sharing .floater-footer').append('<div class="widget-button" id="sharing-portal">Share on the portal.</div>');
+				$('#floater-sharing .floater-footer').append('<div class="widget-button" id="sharing-portal">'+polyglot.t('shareOnPortal')+'</div>');
 
 				$('#sharing-portal').off();
 				$('#sharing-portal').on('click', function(){
@@ -25732,9 +25793,9 @@ define('js/view/widgets/SharingWidget/SharingWidget',[
 						})[0].id;
                         return Groups.share(groupId, state.scope, state.places)
 					}).then(function(){
-                        alert('The state was correctly shared. The user has access to current state via URL: ' + self.url);
+                        alert(polyglot.t('theStateWasCorrectlyShared') + self.url);
                     }).catch(function(error){
-                        alert('There was an issue with storing current state of the application. Error: ' + error);
+                        alert(polyglot.t('thereWasAnIssueWithSharing') + error);
                     });
 				});
 			});
@@ -25756,11 +25817,11 @@ define('js/view/widgets/SharingWidget/SharingWidget',[
                 userOptions.unshift('<option value=""></option>');
                 $('#floater-sharing .floater-body').append(
                     '<div>' +
-                    '	<div><label>User: ' +
+                    '	<div><label>'+polyglot.t('user')+': ' +
                     '		<select id="sharing-user">' + userOptions +
                     '		</select>' +
                     '	</label></div>' +
-                    '	<div><label>Group: ' +
+                    '	<div><label>'+polyglot.t('group')+': ' +
                     '		<select id="sharing-group">' + groupOptions +
                     '		</select>' +
                     '	</label></div>' +
@@ -25776,14 +25837,14 @@ define('js/view/widgets/SharingWidget/SharingWidget',[
                     	Groups.share(selectedGroup, state.scope, state.places),
 						Users.share(selectedUser, state.scope, state.places)
 					]).then(function(){
-						alert('The state was correctly shared. The user has access to current state via URL: ' + self.url);
+						alert(polyglot.t('theStateWasCorrectlyShared') + self.url);
 					}).catch(function(error){
-						alert('There was an issue with storing current state of the application. Error: ' + error);
+						alert(polyglot.t('thereWasAnIssueWithSharing') + error);
 					});
                 });
 			}).catch(function(error){
 				console.error(error);
-				alert('It wasnt possible to load available users and groups. Please try later. Error: ' + error);
+				alert(polyglot.t('itWasntPossibleToLoadGroupsUsers') + error);
 			});
 
 		}
@@ -27000,8 +27061,8 @@ define('js/view/CustomLayers',[
 			'<div id="custom-layers-container">' +
 				'<div class="custom-layers-content" id="custom-layers-start">' +
 					'<div>' +
-						'<div class="ptr-btn primary" id="custom-layers-file-btn">Load from file…</div>' +
-						'<div class="ptr-btn primary" id="custom-layers-wms-btn">Connect to WMS…</div>' +
+						'<div class="ptr-btn primary" id="custom-layers-file-btn">'+polyglot.t('loadFromFile')+'</div>' +
+						'<div class="ptr-btn primary" id="custom-layers-wms-btn">'+polyglot.t('connectToWms')+'</div>' +
 					'</div>' +
 				'</div>' +
 				'<div class="custom-layers-content" id="custom-layers-action">' +
@@ -27057,17 +27118,17 @@ define('js/view/CustomLayers',[
 			this._action = 'file';
 			this._actionContainer.append(
 				'<label class="container">' +
-					'File' +
+					polyglot.t('file') +
 					'<input type="file" id="custom-layers-file-file" />' +
 				'</label>' +
 				'<label class="container">' +
-					'Layer name' +
+					polyglot.t('layerName') +
 					'<input type="text" id="custom-layers-file-name" />' +
 				'</label>' +
 				'<div class="ptr-btn-group">' +
-					'<div class="ptr-btn primary" id="custom-layers-file-load-btn">Load</div>' +
-					'<div class="ptr-btn primary" id="custom-layers-file-load-without-statistics-btn">Load Without Statistics</div>' +
-					'<div class="ptr-btn" id="custom-layers-file-cancel-btn">Cancel</div>' +
+					'<div class="ptr-btn primary" id="custom-layers-file-load-btn">'+polyglot.t('load')+'</div>' +
+					'<div class="ptr-btn primary" id="custom-layers-file-load-without-statistics-btn">'+polyglot.t('loadWithoutStatistics')+'</div>' +
+					'<div class="ptr-btn" id="custom-layers-file-cancel-btn">'+polyglot.t('cancel')+'</div>' +
 				'</div>'
 			);
 		}
@@ -27079,20 +27140,20 @@ define('js/view/CustomLayers',[
 			this._action = 'wms';
 			this._actionContainer.append(
 				'<label class="container">' +
-					'WMS address' +
+					polyglot.t('wmsAddress') +
 					'<input type="text" id="custom-layers-wms-address" />' +
 				'</label>' +
 				'<label class="container">' +
-					'WMS layer' +
+					polyglot.t('wmsLayer') +
 					'<input type="text" id="custom-layers-wms-layer" />' +
 				'</label>' +
 				'<label class="container">' +
-					'Layer name' +
+					polyglot.t('layerName') +
 					'<input type="text" id="custom-layers-wms-name" />' +
 				'</label>' +
 				'<div class="ptr-btn-group">' +
-					'<div class="ptr-btn primary" id="custom-layers-wms-add-btn">Add</div>' +
-					'<div class="ptr-btn" id="custom-layers-wms-cancel-btn">Cancel</div>' +
+					'<div class="ptr-btn primary" id="custom-layers-wms-add-btn">'+polyglot.t('add')+'</div>' +
+					'<div class="ptr-btn" id="custom-layers-wms-cancel-btn">'+polyglot.t('cancel')+'</div>' +
 				'</div>' +
 				'<div class="custom-layers-status"></div>'
 			);
@@ -27169,25 +27230,25 @@ define('js/view/CustomLayers',[
 		var btnGroupEl = this._actionContainer.find('.ptr-btn-group').first();
 		if (result.status == 'done') {
 			//var postInfoEl = this._actionContainer.find('.custom-layers-file-post-import').first();
-			statusEl.html('Layer imported succesfully.');
+			statusEl.html(polyglot.t('layerImportedSuccessfully'));
 			statusEl.addClass('success');
 			progressEl.css('width','100%');
 			//btnGroupEl.empty();
 			btnGroupEl.append(
-				'<div class="ptr-btn" id="custom-layers-action-back-btn">Back</div>'
+				'<div class="ptr-btn" id="custom-layers-action-back-btn">'+polyglot.t('back')+'</div>'
 			);
 		} else if (result.status == 'error') {
-			statusEl.html('Import failed');
+			statusEl.html(polyglot.t('importFailed'));
 			statusEl.addClass('error');
-			statusMessageEl.html('Error: ' + result.message);
+			statusMessageEl.html(polyglot.t('Error') + ': ' + result.message);
 			progressEl.css('background-color', '#f00');
 			//btnGroupEl.empty();
 			btnGroupEl.append(
-				'<div class="ptr-btn" id="custom-layers-action-back-btn">Back</div>'
+				'<div class="ptr-btn" id="custom-layers-action-back-btn">'+polyglot.t('back')+'</div>'
 			);
 		} else {
 			var progress = (result.progress || 0) + "%";
-			statusEl.html('Importing…');
+			statusEl.html(polyglot.t('importing'));
 			progressEl.css('width', progress);
 
 		}
@@ -27201,7 +27262,7 @@ define('js/view/CustomLayers',[
 
 		var addButton = this._container.find('#custom-layers-wms-add-btn')[0];
 		addButton.classList.add('disabled');
-		addButton.innerHTML = 'Adding...';
+		addButton.innerHTML = polyglot.t('adding');
 
 		var cancelButton = this._container.find('#custom-layers-wms-cancel-btn')[0];
 		cancelButton.classList.add('disabled');
@@ -27215,19 +27276,19 @@ define('js/view/CustomLayers',[
 		const urlRegex = /^((https?:)(\/\/\/?)([\w]*(?::[\w]*)?@)?([\d\w\.-]+)(?::(\d+))?)([\/\\\w\.()-]*)?(?:([?][^#]*)?(#.*)?)*/gmi;
 		var matches = urlRegex.exec(wmsAddress);
 		if(matches === null){
-			errors.push("WMS address is missing or incorrect");
+			errors.push(polyglot.t("wmsAddressIsMissing"));
 		}
 		if(!wmsLayer){
-			errors.push('WMS layer is missing');
+			errors.push(polyglot.t('wmsLayerIsMissing'));
 		}
 		if(!name){
-			errors.push('Layer name is missing')
+			errors.push(polyglot.t('layerNameIsMissing'));
 		}
 
 		if(errors.length){
 			statusEl.classList.add('error');
 			statusEl.innerHTML = errors.join('<br>');
-			addButton.innerHTML = "Add";
+			addButton.innerHTML = polyglot.t("add");
 			addButton.classList.remove('disabled');
 			cancelButton.classList.remove('disabled');
 			return;
@@ -27253,15 +27314,15 @@ define('js/view/CustomLayers',[
 			.fail(function(xhr, message){
 				console.error("Add WMS failed: ", message);
 				statusEl.classList.add('error');
-				statusEl.innerHTML = "Adding WMS layer failed.\n<br>" + message;
+				statusEl.innerHTML = polyglot.t("addingWmsLayerFailed") + message;
 			})
 			.done(function(){
 				self.addWMSToLayers();
 				statusEl.classList.remove('error');
-				statusEl.innerHTML = 'Layer successfully added to Custom WMS section.';
+				statusEl.innerHTML = polyglot.t('layerSuccessfullyAdded');
 			})
 			.always(function(){
-				addButton.innerHTML = "Add";
+				addButton.innerHTML = polyglot.t("add");
 				addButton.classList.remove('disabled');
 				cancelButton.classList.remove('disabled');
 			});
@@ -27352,23 +27413,23 @@ define('js/view/TopToolBar',[
 		if (isWorldWind){
 			if (tools.layers){
 				var classesLayers3d = $('#floater-world-wind-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesLayers3d + '" id="top-toolbar-layers" data-for="floater-world-wind-widget">Layers</div>');
+				this._target.append('<div class="' + classesLayers3d + '" id="top-toolbar-layers" data-for="floater-world-wind-widget">'+polyglot.t('layers')+'</div>');
 			}
 			if (tools.areas){
 				var classesAreas3d = $('#window-areatree').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesAreas3d + '" id="top-toolbar-areas" data-for="window-areatree">Areas</div>');
+				this._target.append('<div class="' + classesAreas3d + '" id="top-toolbar-areas" data-for="window-areatree">'+polyglot.t('areas')+'</div>');
 			}
 			if (tools.periods){
 				var classesPeriods3d = $('#floater-periods-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesPeriods3d + '" id="top-toolbar-periods" data-for="floater-periods-widget">Periods</div>');
+				this._target.append('<div class="' + classesPeriods3d + '" id="top-toolbar-periods" data-for="floater-periods-widget">'+polyglot.t('periods')+'</div>');
 			}
 			if (tools.osm){
 				var classesOsm3d = $('#floater-osm-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesOsm3d + '" id="top-toolbar-osm" data-for="floater-osm-widget">OSM</div>');
+				this._target.append('<div class="' + classesOsm3d + '" id="top-toolbar-osm" data-for="floater-osm-widget">'+polyglot.t('osm')+'</div>');
 			}
 			if (tools.selections){
 				var classesSelections3d = $('#window-colourSelection').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesSelections3d + '" id="top-toolbar-selections" data-for="window-colourSelection">Selections</div>');
+				this._target.append('<div class="' + classesSelections3d + '" id="top-toolbar-selections" data-for="window-colourSelection">'+polyglot.t('selections')+'</div>');
 			}
 			if (tools.areasFilterNew){
 				var classesAreasFilter3d = $('#floater-evaluation-widget').hasClass('open') ? "item open" : "item";
@@ -27379,15 +27440,15 @@ define('js/view/TopToolBar',[
 				this._target.append('<div class="' + classesLegacyAreasFilter3d + '" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters">' + Config.basicTexts.advancedFiltersName + '</div>');
 			}
 			if (tools.mapTools){
-				this._target.append('<div class="item disabled" id="top-toolbar-map-tools">Map tools</div>');
+				this._target.append('<div class="item disabled" id="top-toolbar-map-tools">'+polyglot.t('mapTools')+'</div>');
 			}
 			if (tools.customViews){
 				var classesCustomViews3d = Config.auth ? "item disabled" : "item disabled hidden";
-				this._target.append('<div class="' + classesCustomViews3d + '" id="top-toolbar-saved-views">Custom views</div>');
+				this._target.append('<div class="' + classesCustomViews3d + '" id="top-toolbar-saved-views">'+polyglot.t('customViews')+'</div>');
 			}
 			if (tools.snow){
 				var classesSnowWidget3d = $('#floater-snow-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesSnowWidget3d + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget">Saved configurations</div>');
+				this._target.append('<div class="' + classesSnowWidget3d + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget">'+polyglot.t('savedConfigurations')+'</div>');
 			}
 		}
 
@@ -27395,15 +27456,15 @@ define('js/view/TopToolBar',[
 		else {
 			if (tools.layers){
 				var classesLayers = $('#window-layerpanel').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesLayers + '" id="top-toolbar-layers" data-for="window-layerpanel">Layers</div>');
+				this._target.append('<div class="' + classesLayers + '" id="top-toolbar-layers" data-for="window-layerpanel">'+polyglot.t('layers')+'</div>');
 			}
 			if (tools.areas){
 				var classesAreas = $('#window-areatree').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesAreas + '" id="top-toolbar-areas" data-for="window-areatree">Areas</div>');
+				this._target.append('<div class="' + classesAreas + '" id="top-toolbar-areas" data-for="window-areatree">'+polyglot.t('areas')+'</div>');
 			}
 			if (tools.selections){
 				var classesSelections = $('#window-colourSelection').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesSelections + '" id="top-toolbar-selections" data-for="window-colourSelection">Selections</div>');
+				this._target.append('<div class="' + classesSelections + '" id="top-toolbar-selections" data-for="window-colourSelection">'+polyglot.t('selections')+'</div>');
 			}
 			if (tools.areasFilterNew){
 				var classesAreasFilter = $('#floater-evaluation-widget').hasClass('open') ? "item open" : "item";
@@ -27415,25 +27476,25 @@ define('js/view/TopToolBar',[
 			}
 			if (tools.mapTools){
 				var classesMapTools = $('#window-maptools').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesMapTools + '" id="top-toolbar-map-tools" data-for="window-maptools">Map tools</div>');
+				this._target.append('<div class="' + classesMapTools + '" id="top-toolbar-map-tools" data-for="window-maptools">'+polyglot.t('mapTools')+'</div>');
 			}
 			if (tools.customViews){
 				var classesCustomViews = Config.auth ? "item" : "item hidden";
 				classesCustomViews += $('#window-customviews').hasClass('open') ? " open" : "";
-				this._target.append('<div class="' + classesCustomViews + '" id="top-toolbar-saved-views" data-for="window-customviews">Custom views</div>');
+				this._target.append('<div class="' + classesCustomViews + '" id="top-toolbar-saved-views" data-for="window-customviews">'+polyglot.t('customViews')+'</div>');
 			}
 			if (tools.customLayers){
 				var classesCustomLayers = "item";
 				classesCustomLayers += $('#window-customLayers').hasClass('open') ? " open" : "";
-				this._target.append('<div class="' + classesCustomLayers + '" id="top-toolbar-custom-layers" data-for="window-customLayers">Add layer</div>');
+				this._target.append('<div class="' + classesCustomLayers + '" id="top-toolbar-custom-layers" data-for="window-customLayers">'+polyglot.t('addLayer')+'</div>');
 			}
 			if (tools.functionalFilrer){
 				var classesFunctionalFilter = $('#floater-functional-urban-area').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesFunctionalFilter + '" id="top-toolbar-functional-urban-area" data-for="floater-functional-urban-area">Functional Urban Area</div>');
+				this._target.append('<div class="' + classesFunctionalFilter + '" id="top-toolbar-functional-urban-area" data-for="floater-functional-urban-area">'+polyglot.t('functionalUrbanArea')+'</div>');
 			}
 			if (tools.snow){
 				var classesSnowWidget = $('#floater-snow-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesSnowWidget + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget">Saved configurations</div>');
+				this._target.append('<div class="' + classesSnowWidget + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget">'+polyglot.t('savedConfigurations')+'</div>');
 			}
 		}
 	};
@@ -29457,12 +29518,14 @@ define('js/view/widgets/WorldWindWidget/panels/AuLayersPanel',['../../../../erro
 			this.clear(this._id);
 
 			if(Stores.selectedOutlines) {
-				this.rebuildControl("Selected areas filled", this._layers.selected, "selectedareasfilled");
+				this.rebuildControl(polyglot.t("selectedAreasFilled"), this._layers.selected, "selectedareasfilled");
 				this.switchOnSelected();
 			}
 
 			if(Stores.outlines){
-				this.rebuildControl("Area outlines", this._layers.outlines, "areaoutlines");
+                console.log('AuLayersPanel#rebuild ', this._layers.outlines);
+                this.rebuildControl(polyglot.t("areaOutlines"), this._layers.outlines, "areaoutlines");
+                this._layers.outlines.additionalData = Stores.outlines.data;
 				this.switchOnOutlines();
 			}
 		}
@@ -29492,13 +29555,15 @@ define('js/view/widgets/WorldWindWidget/panels/AuLayersPanel',['../../../../erro
 	 * @param store {Object} store with data from 2D
 	 */
 	AuLayersPanel.prototype.redrawLayer = function(layer, id, store){
+		console.log('AuLayersPanel ', layer);
 		this.clearLayers(id);
 		if (!_.isEmpty(layer)){
 			layer.layerData.layer = store.layerNames;
 			layer.layerData.sldId = store.sldId;
+			layer.layerData.data = store.data;
 
 			this._mapStore.getAll().forEach(function(map){
-				map.layers.addChoroplethLayer(layer.layerData, id, false);
+				map.layers.addAULayer(layer.layerData, id, false);
 			});
 
 			var toolBox = layer.control.getToolBox();
@@ -29566,28 +29631,28 @@ define('js/view/widgets/WorldWindWidget/panels/BackgroundLayersPanel',['../../..
 		if(!disabledLayers['osm']) {
             this.layerControls.push({
                 id: "osm",
-                control: this.addRadio(this._id + "-osm", "OpenStreetMap", this._panelBodySelector, "osm", activeBackgroundMap === 'osm')
+                control: this.addRadio(this._id + "-osm", polyglot.t("openStreetMap"), this._panelBodySelector, "osm", activeBackgroundMap === 'osm')
             });
         }
 
         if(!disabledLayers['cartoDb']) {
             this.layerControls.push({
                 id: "cartoDb",
-                control: this.addRadio(this._id + "-carto-db", "Carto DB basemap", this._panelBodySelector, "cartoDb", activeBackgroundMap === 'cartoDb')
+                control: this.addRadio(this._id + "-carto-db", polyglot.t("cartoDbBasemap"), this._panelBodySelector, "cartoDb", activeBackgroundMap === 'cartoDb')
             });
         }
 
         if(!disabledLayers['bingAerial']) {
             this.layerControls.push({
                 id: "bingAerial",
-                control: this.addRadio(this._id + "-bing-aerial", "Bing Aerial", this._panelBodySelector, "bingAerial", activeBackgroundMap === 'bingAerial')
+                control: this.addRadio(this._id + "-bing-aerial", polyglot.t("bingAerial"), this._panelBodySelector, "bingAerial", activeBackgroundMap === 'bingAerial')
             });
         }
 
         if(!disabledLayers['landsat']) {
             this.layerControls.push({
                 id: "landsat",
-                control: this.addRadio(this._id + "-landsat", "Blue Marble", this._panelBodySelector, "landsat", activeBackgroundMap === 'landsat')
+                control: this.addRadio(this._id + "-landsat", polyglot.t("blueMarble"), this._panelBodySelector, "landsat", activeBackgroundMap === 'landsat')
             })
         }
 	};
@@ -30085,7 +30150,7 @@ define('js/view/widgets/WorldWindWidget/WorldWindWidgetPanels',['../../../error/
 	WorldWindWidgetPanels.prototype.buildBackgroundLayersPanel = function(){
 		return new BackgroundLayersPanel({
 			id: "background-layers",
-			name: "Background Layers",
+			name: polyglot.t("backgroundLayers"),
 			target: this._panelsSelector,
 			isOpen: true
 		});
@@ -30097,7 +30162,7 @@ define('js/view/widgets/WorldWindWidget/WorldWindWidgetPanels',['../../../error/
 	WorldWindWidgetPanels.prototype.buildThematicLayersPanel = function(){
 		return new ThematicLayersPanel({
 			id: "thematic-layers",
-			name: "Thematic Layers",
+			name: polyglot.t("thematicLayers"),
 			target: this._panelsSelector,
 			isOpen: true
 		});
@@ -30109,7 +30174,7 @@ define('js/view/widgets/WorldWindWidget/WorldWindWidgetPanels',['../../../error/
 	WorldWindWidgetPanels.prototype.buildAuLayersPanel = function(){
 		return new AuLayersPanel({
 			id: "au-layers",
-			name: "Analytical Units Layers",
+			name: polyglot.t("analyticalUnitsLayers"),
 			target: this._panelsSelector,
 			isOpen: true
 		});
@@ -30121,7 +30186,7 @@ define('js/view/widgets/WorldWindWidget/WorldWindWidgetPanels',['../../../error/
 	WorldWindWidgetPanels.prototype.buildInfoLayersPanel = function(){
 		return new InfoLayersPanel({
 			id: "info-layers",
-			name: "Info Layers",
+			name: polyglot.t("infoLayers"),
 			target: this._panelsSelector,
 			isOpen: true
 		});
@@ -30133,7 +30198,7 @@ define('js/view/widgets/WorldWindWidget/WorldWindWidgetPanels',['../../../error/
 	WorldWindWidgetPanels.prototype.buildWmsLayersPanel = function(){
 		return new WmsLayersPanel({
 			id: "wms-layers",
-			name: "Custom WMS Layers",
+			name: polyglot.t("customWmsLayers"),
 			target: this._panelsSelector,
 			isOpen: true
 		});
@@ -30244,7 +30309,7 @@ define('js/view/widgets/WorldWindWidget/WorldWindWidget',[
 
 		// config for new/old view
 		if (!Config.toggles.useNewViewSelector){
-			this._widgetBodySelector.append('<div id="3d-switch">3D map</div>');
+			this._widgetBodySelector.append('<div id="3d-switch">'+polyglot.t('map3d')+'</div>');
 			$("#3d-switch").on("click", this.switchMapFramework.bind(this));
 		} else {
 			this.addMinimiseButtonListener();
@@ -30284,8 +30349,8 @@ define('js/view/widgets/WorldWindWidget/WorldWindWidget',[
 	 */
 	WorldWindWidget.prototype.addSettingsIcon = function(){
 		this._widgetSelector.find(".floater-tools-container")
-			.append('<div id="thematic-layers-configuration" title="Configure thematic maps" class="floater-tool">' +
-				'<img title="Configure thematic maps" src="images/icons/settings.png"/>' +
+			.append('<div id="thematic-layers-configuration" title="'+polyglot.t("configureThematicMaps")+'" class="floater-tool">' +
+				'<img title="'+polyglot.t("configureThematicMaps")+'" src="images/icons/settings.png"/>' +
 				'</div>');
 	};
 
@@ -30812,19 +30877,19 @@ define('app',['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
     function buildCityWidget (){
         return new CityWidget({
             elementId: 'city-selection',
-            name: 'UrbanDynamic Tool',
+            name: polyglot.t('urbanDynamicTool'),
             placeholderTargetId: 'widget-container',
             selections: [{
                 id: 'melodies-city-selection',
-                name: 'Select city',
+                name: polyglot.t('selectCity'),
                 options: ['Brno', 'České Budějovice', 'Plzeň', 'Ostrava']
             }, {
                 id: 'melodies-start-selection',
-                name: 'Select start',
+                name: polyglot.t('selectStart'),
                 options: ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016']
             }, {
                 id: 'melodies-end-selection',
-                name: 'Select end',
+                name: polyglot.t('selectEnd'),
                 options: ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016']
             }]
         })
@@ -30833,7 +30898,7 @@ define('app',['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
     function buildPeriodsWidget (mapsContainer){
     	return new PeriodsWidget({
 			elementId: 'periods-widget',
-			name: 'Periods',
+			name: polyglot.t('periods'),
 			mapsContainer: mapsContainer,
 			dispatcher: window.Stores,
 			isWithoutFooter: true,
@@ -30850,7 +30915,7 @@ define('app',['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 	function buildSnowWidget (mapController, iFrame){
 		return new SnowWidget({
 			elementId: 'snow-widget',
-			name: 'Saved configurations',
+			name: polyglot.t('savedConfigurations'),
 			placeholderTargetId: 'widget-container',
 			iFrame: iFrame,
 			mapController: mapController,
@@ -30867,7 +30932,7 @@ define('app',['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
     function buildWorldWindWidget (mapsContainer, topToolBar, stateStore){
         return new WorldWindWidget({
             elementId: 'world-wind-widget',
-            name: 'Layers',
+            name: polyglot.t('layers'),
 			mapsContainer: mapsContainer,
             placeholderTargetId: 'widget-container',
             topToolBar: topToolBar,
@@ -30896,7 +30961,7 @@ define('app',['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 	function buildSharingWidget() {
 		Widgets.sharing = new SharingWidget({
 			elementId: 'sharing',
-			name: 'Share',
+			name: polyglot.t('share'),
 			placeholderTargetId: 'widget-container'
 		});
 
@@ -30927,7 +30992,7 @@ define('app',['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 	function buildOsmWidget(mapsContainer, mapStore) {
         return new OSMWidget({
             elementId: 'osm-widget',
-            name: 'Open Street Maps',
+            name: polyglot.t('openStreetMaps'),
             mapsContainer: mapsContainer,
             mapStore: mapStore,
             dispatcher: window.Stores,
@@ -30957,6 +31022,6 @@ define('app',['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 });
 
 (function(c){var d=document,a='appendChild',i='styleSheet',s=d.createElement('style');s.type='text/css';d.getElementsByTagName('head')[0][a](s);s[i]?s[i].cssText=c:s[a](d.createTextNode(c));})
-('/* === Checkboxes === */\r\n.checkbox-row.checked .checkbox-icon {\r\n    background: url(\'img/checkbox-checked.png\') no-repeat center 45%;\r\n}\r\n\r\n.checkbox-row a {\r\n    text-decoration: none;\r\n}\r\n\r\n.checkbox-icon {\r\n    background: url(\'img/checkbox-unchecked.png\') no-repeat center 45%;\r\n    display: block;\r\n    float: left;\r\n    margin-right: .5rem;\r\n    width: 1.2rem;\r\n    height: 100%;\r\n    transition: background .3s;\r\n}\r\n\r\n.checkbox-label {\r\n    overflow: hidden;\r\n    text-overflow: ellipsis;\r\n    font-weight: bold;\r\n    height: 100%;\r\n    font-size: .8rem;\r\n}.ui-checkboxradio-label {\r\n\tmargin: .1rem;\r\n\ttransition: background .3s;\r\n}\r\n.ui-checkboxradio-label.ui-state-active.ui-checkboxradio-checked, .ui-button:active {\r\n\tbackground: #ccc;\r\n\tborder: 1px solid #aaa;\r\n\tcolor: #555;\r\n}\r\n.ui-checkboxradio-label.ui-state-active:hover {\r\n\tbackground: #ccc;\r\n\tborder: 1px solid #aaa;\r\n\tcolor: #555;\r\n}\r\n.ui-visual-focus, .ui-state-focus {\r\n\tbox-shadow: none;\r\n}\r\n\r\n.label-multiselect-option {\r\n\tpadding: .3rem 1rem;\r\n}\r\n.label-multiselect-option.ui-state-active {\r\n\tpadding: .3rem .7rem .25rem 1.3rem;\r\n}\r\n.label-multiselect-option.ui-state-active:before {\r\n\tcontent: url(\"img/check.png\");\r\n\tposition: absolute;\r\n\tleft: .5rem;\r\n}\r\n.label-multiselect-select-all,\r\n.label-multiselect-clear-all,\r\n.label-multiselect-select-all:hover,\r\n.label-multiselect-clear-all:hover,\r\n.label-multiselect-select-all.ui-state-active.ui-checkboxradio-checked,\r\n.label-multiselect-clear-all.ui-state-active.ui-checkboxradio-checked {\r\n\tbackground: none;\r\n\tborder: 0;\r\n\tfont-family: \"Open sans\", sans-serif;\r\n\tfont-weight: bold;\r\n\tfont-size: .7rem;\r\n\tpadding: .2rem .4rem .1rem 1.1rem;\r\n}\r\n.widgets label.label-multiselect-select-all,\r\n.widgets label.label-multiselect-select-all.ui-state-active.ui-checkboxradio-checked {\r\n\tfont-size: .7rem;\r\n\tcolor: rgba(201, 45, 66, .7);\r\n\ttransition: color .3s;\r\n}\r\n.widgets label.label-multiselect-clear-all,\r\n.widgets label.label-multiselect-clear-all.ui-state-active.ui-checkboxradio-checked {\r\n\tfont-size: .7rem;\r\n\tcolor: rgba(96, 96, 96, .7);\r\n\ttransition: color .3s;\r\n}\r\n.widgets label.label-multiselect-select-all:hover {\r\n\tcolor: rgba(201, 45, 66, 1);\r\n}\r\n.widgets label.label-multiselect-clear-all:hover {\r\n\tcolor: rgba(96, 96, 96, 1);\r\n}\r\n\r\n.label-multiselect-select-all:before, .label-multiselect-clear-all:before {\r\n\tposition: absolute;\r\n\tleft: .2rem;\r\n}\r\n.label-multiselect-select-all:before {\r\n\tcontent: url(\"img/check-colored.png\");\r\n\topacity: .7;\r\n\ttransition: opacity .3s;\r\n}\r\n.label-multiselect-clear-all:before {\r\n\tcontent: url(\"img/uncheck.png\");\r\n\topacity: .7;\r\n\ttransition: opacity .3s;\r\n}\r\n.label-multiselect-select-all:hover:before {\r\n\topacity: 1;\r\n}\r\n.label-multiselect-clear-all:hover:before {\r\n\topacity: 1;\r\n}/* === Selections === */\r\n.select-menu-box {\r\n    margin: .5rem 0;\r\n}\r\n\r\n.widgets label.select-menu-caption {\r\n    display: block;\r\n    font-weight: bold;\r\n    height: 1.2rem;\r\n    line-height: 1.2rem;\r\n    font-size: .8rem;\r\n}\r\n\r\n.option-count {\r\n    color: #aaa;\r\n    font-style: normal;\r\n    position: absolute;\r\n    right: .7rem;\r\n}\r\n\r\n.select-menu-box .ui-selectmenu-button {\r\n    background: #eee;\r\n    min-width: 15rem;\r\n    width: 90%;\r\n    margin: .1rem 0;\r\n    padding: .4rem .5rem;\r\n    border: 1px solid #bbb;\r\n    line-height: 1rem;\r\n}\r\n\r\n.select-menu-box .ui-selectmenu-icon, .select-menu-box .ui-selectmenu-button-open .ui-selectmenu-icon,\r\n.select-menu-box .ui-selectmenu-button-closed .ui-selectmenu-icon {\r\n    background: url(\'img/arrow-down.png\');\r\n}\r\n\r\n.select-menu-box .ui-corner-all {\r\n    border-radius: .1rem;\r\n}.histogram {\r\n    bottom: 0;\r\n    height: 50px;\r\n    padding-left: 1px;\r\n    position: absolute;\r\n    min-width: 14.5rem;\r\n    width: 100%;\r\n}\r\n\r\n.histogram-bar {\r\n    background: rgb(220,220,220);\r\n    border-right: 1px solid white;\r\n    bottom: 0;\r\n    float: left;\r\n    position: relative;\r\n}\r\n\r\n.histogram-bar.selected {\r\n    background: #c85765;\r\n}/* === Sliders === */\r\n.slider-box {\r\n    padding-bottom: .7rem;\r\n}\r\n\r\n.slider-caption span {\r\n    font-weight: bold;\r\n    height: 1.2rem;\r\n    line-height: 1.2rem;\r\n    font-size: .8rem;\r\n}\r\n\r\n.slider-row {\r\n    min-width: 14.5rem;\r\n    width: 90%;\r\n    margin: .5rem .4rem .35rem .4rem;\r\n}\r\n\r\n.slider-row.ui-slider-horizontal {\r\n    background: #ccc;\r\n    border: 0;\r\n    height: 4px;\r\n    min-width: 14.5rem;\r\n    width: 95%;\r\n}\r\n\r\n.slider-row.ui-slider-horizontal .ui-slider-handle {\r\n    background: #c92d42;\r\n    border: 0;\r\n    border-radius: .5rem;\r\n    top: -.45em;\r\n    transition: background .3s ease-out;\r\n}\r\n\r\n.slider-row.ui-slider-horizontal .ui-slider-handle:hover, .slider-row.ui-slider-horizontal .ui-slider-handle.ui-state-focus {\r\n    background: #ad2738;\r\n}\r\n\r\n.slider-row .ui-widget-header {\r\n    border: 0;\r\n    background: #c92d42;\r\n}\r\n\r\n.floater-row.slider-labels {\r\n    font-size: .75rem;\r\n    color: #666;\r\n    padding: .2rem 0;\r\n    min-width: 15.2rem;\r\n    width: calc(95% + .7rem);\r\n}\r\n.floater-row.slider-labels > div {\r\n    display: inline-block;\r\n    position: relative;\r\n    width: 25%;\r\n    margin: 0 -3px 0 0;\r\n}\r\n.floater-row.slider-labels > .slider-thresholds-single {\r\n    width: 50%;\r\n}\r\n.slider-thresholds {\r\n    height: 1.2rem;\r\n}\r\n.slider-thresholds > input {\r\n    background: rgba(255,255,255,.7);\r\n    border: 1px solid #bbb;\r\n    border-radius: 1px;\r\n    padding: 0 .2rem;\r\n    position: relative;\r\n    margin: 0 2.5%;\r\n    width: 95%;\r\n}\r\n\r\n.slider-thresholds > .input-max, .slider-thresholds > .input-single, .slider-labels-max {\r\n    text-align: right;\r\n}\r\n\r\n.slider-popup {\r\n    display: none;\r\n    position: absolute;\r\n    margin: -6rem .4rem 0 .4rem;\r\n    min-width: 14.5rem;\r\n    height: 3.5rem;\r\n    background: white;\r\n    -webkit-box-shadow: 0 0 4px rgb(136, 136, 136);\r\n    -moz-box-shadow: 0 0 4px rgb(136, 136, 136);\r\n    box-shadow: 0 0 4px rgb(136, 136, 136);\r\n    z-index: 8888;\r\n}\r\n\r\n.slider-popup.open {\r\n    display: block;\r\n}/* === Placeholders === */\r\n.placeholders-container {\r\n    height: 6.5rem;\r\n    position: absolute;\r\n    right: 12rem;\r\n    top: 0;\r\n    width: 10.5rem;\r\n    z-index: 10000;\r\n}\r\n\r\n.placeholder {\r\n    background: rgb(140,140,140);\r\n    border: 1px solid rgba(255,255,255,.3);\r\n    border-radius: .1rem;\r\n    height: 1.5rem;\r\n    position: relative;\r\n    margin: .5rem .3rem;\r\n    transition: background .3s ease-in-out;\r\n    width: 10rem;\r\n}\r\n\r\n.placeholder.open {\r\n    background: rgba(201,45,66,.7);\r\n    border: 1px solid rgba(255,255,255,.3);\r\n    transition: background .3s ease-out;\r\n}\r\n\r\n.placeholder:hover {\r\n    background: rgb(120,120,120);\r\n    cursor: pointer;\r\n}\r\n\r\n.placeholder.open:hover {\r\n    background: #ad2738;\r\n}\r\n\r\n.placeholder > span, .floater-header > span {\r\n    color: white;\r\n    font-size: .7rem;\r\n    font-weight: bold;\r\n    line-height: 1.4rem;\r\n    padding: 0 .5rem;\r\n}\r\n.floater-header > span {\r\n    font-size: .8rem;\r\n    line-height: 1.6rem;\r\n}\r\n\r\n.placeholder-tools-container, .floater-tools-container, .tool-window-tools-container {\r\n    position: absolute;\r\n    right: 0;\r\n    top: 0;\r\n    height: 1.5rem;\r\n}\r\n.floater-tools-container, .tool-window-tools-container {\r\n    height: 2rem;\r\n}\r\n\r\n.placeholder-tool, .floater-tool {\r\n    float: right;\r\n    height: 1.3rem;\r\n    margin: .15rem .15rem .15rem 0;\r\n    position: relative;\r\n    width: 1.3rem;\r\n}\r\n.floater-tool {\r\n    margin: .3rem .3rem .3rem 0;\r\n}\r\n\r\n.placeholder-tool > img, .floater-tool > img {\r\n    margin: .1rem;\r\n}\r\n\r\n/* === Floaters === */\r\n.floater {\r\n    background: rgba(255,255,255,.95);\r\n    border: 1px solid #ccc;\r\n    border-radius: .1rem;\r\n    -webkit-box-shadow: 0 0 4px rgb(136, 136, 136);\r\n    -moz-box-shadow: 0 0 4px rgb(136, 136, 136);\r\n    box-shadow: 0 0 4px rgb(136, 136, 136);\r\n    display: none;\r\n    padding: .2rem;\r\n    position: absolute;\r\n    resize: both;\r\n    overflow: auto;\r\n    width: 18rem;\r\n    z-index: 10000;\r\n}\r\n\r\n/* floater modes*/\r\nbody.application .floater.open {\r\n    display: block;\r\n    height: 28rem;\r\n}\r\nbody.mode-3d .floater.only-2d.open {\r\n    display: none;\r\n}\r\nbody.application .floater.only-3d.open {\r\n    display: none;\r\n}\r\nbody.mode-3d .floater.only-3d.open {\r\n    display: block;\r\n}\r\n\r\n\r\n.floater.active {\r\n    z-index: 10001;\r\n}\r\n.floater-overlay {\r\n    display: none;\r\n    height: 100%;\r\n    width: 100%;\r\n    background: rgba(255,255,255,.9) url(img/loading.gif) no-repeat 50% 50%;\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    z-index: 9999;\r\n}\r\n.floater-header {\r\n    background: #c92d42;\r\n    height: 2rem;\r\n    line-height: 2rem;\r\n    position: relative;\r\n    cursor: move;\r\n}\r\n.floater.inverse .floater-header {\r\n    background: rgba(255,255,255,.9);\r\n    color: #444;\r\n}\r\n.floater.inverse .floater-header > span {\r\n    color: #444;\r\n}\r\n.floater-body {\r\n    padding: .5rem;\r\n    height: calc(100% - 5rem);\r\n    overflow: auto;\r\n}\r\n.floater-warning {\r\n    display: none;\r\n    position: absolute;\r\n    height: calc(100% - 2.7rem);\r\n    background: white;\r\n    z-index: 10;\r\n    padding: .5rem;\r\n}\r\n\r\n.floater-footer {\r\n    border-top: 2px solid #ccc;\r\n    padding: .5rem;\r\n    height: 3rem;\r\n}\r\n\r\n.floater-row {\r\n    width: 100%;\r\n}\r\n\r\n.floater-row > .floater-row-caption {\r\n    font-size: .8rem;\r\n    font-weight: 700;\r\n    color: #666;\r\n    margin-bottom: .3rem;\r\n}\r\n\r\n.floater-footer > .floater-row {\r\n    margin-bottom: .5rem;\r\n    text-align: center;\r\n}\r\n\r\n.floater-row a {\r\n    display: block;\r\n    height: 1.5rem;\r\n    line-height: 1.4rem;\r\n    transition: background .3s ease-out;\r\n    width: 100%;\r\n}\r\n.floater-row a:hover {\r\n    background: rgb(235,235,235);\r\n}\r\n.floater-row a > * {\r\n    vertical-align: middle;\r\n}\r\n\r\n.floater-tool:hover {\r\n    cursor: pointer;\r\n}\r\n\r\n/* tabs */\r\n/* ===== Tabs ===== */\r\n.widget-tabs-menu {\r\n    height: 2rem;\r\n    float: left;\r\n    clear: both;\r\n}\r\n\r\n.widget-tabs-menu.vertical {\r\n    height: 100%;\r\n    width: 2.3rem;\r\n    border-right: 0;\r\n}\r\n\r\n.widget-tabs-menu li {\r\n    height: 2.1rem;\r\n    line-height: 2.1rem;\r\n    float: left;\r\n    margin-right: .5rem;\r\n}\r\n.widget-tabs-menu.horizontal li {\r\n    border-radius: .2rem .2rem 0 0;\r\n}\r\n\r\n.widget-tabs-menu.vertical li {\r\n    border-top: 1px solid transparent;\r\n    border-bottom: 1px solid transparent;\r\n    border-left: 4px solid transparent;\r\n    margin-bottom: .3rem;\r\n    width: 2.35rem;\r\n    height: 2.5rem;\r\n    text-align: center;\r\n}\r\n\r\n.widget-tabs-menu li.active {\r\n    border-top: 1px solid #ddd;\r\n    border-bottom: 1px solid #ddd;\r\n    border-left: 4px solid #c92d42;\r\n    border-radius: .1rem;\r\n    background: rgba(245,245,245,1);\r\n    position: relative;\r\n    z-index: 5;\r\n}\r\n.widget-tabs-menu.horizontal li.active {\r\n    border-bottom: 1px solid #fff;\r\n}\r\n.widget-tabs-menu.vertical li.active {\r\n}\r\n\r\n.widget-tabs-menu li a {\r\n    padding: .4rem 1rem;\r\n    text-transform: uppercase;\r\n    font-size: .9rem;\r\n    font-family: Corbel Bold, Open Sans, sans-serif;\r\n    color: #888;\r\n    text-decoration: none;\r\n    transition: background .3s ease-out;\r\n}\r\n.widget-tabs-menu li a:hover {\r\n    background: rgba(240,240,240,.7);\r\n}\r\n\r\n.widget-tabs-menu.vertical li a {\r\n     padding: 0.5rem;\r\n     line-height: 1.6rem;\r\n     display: block;\r\n     height: 100%;\r\n     cursor: pointer;\r\n}\r\n\r\n.widget-tabs-menu li.active a {\r\n    color: #888;\r\n}\r\n\r\n.widget-tabs-menu li.active a:focus, .tabs-menu li.active a:active{\r\n    background-color: transparent;\r\n}\r\n\r\n.widget-tabs-menu .disabled a {\r\n    color: #ccc;\r\n    pointer-events: none;\r\n    cursor: default;\r\n}\r\n\r\n.widget-tabs-menu .disabled a:hover {\r\n    color: inherit;\r\n}\r\n\r\n.widget-tabs-menu .fa:before, .tabs-menu .fa:after {\r\n    font-size: 1rem;\r\n}\r\n\r\n.widget-tab {\r\n    background: rgba(220,220,220,.3);\r\n    border: 1px solid #ddd;\r\n    border-radius: .1rem;\r\n    display: none;\r\n    float: left;\r\n    padding: .5rem;\r\n    width: 100%;\r\n    min-height: 100%;\r\n}\r\n\r\n.widget-tab.vertical {\r\n    width: calc(100% - 2.3rem);\r\n}\r\n\r\n.widget-tab.active {\r\n    display: block;\r\n}\r\n\r\n.widget-tab p {\r\n    margin: .2rem 0;\r\n    font-size: .9rem;\r\n}\r\n\r\n.widget-tab span {\r\n    margin: .2rem 0;\r\n    font-size: .9rem;\r\n}#placeholder-functional-urban-area-result {\r\n    display: block;\r\n}\r\n\r\n/* = Evaluation floater = */\r\n#floater-functional-urban-area-result {\r\n    right: 0rem;\r\n    top: 7.2rem;\r\n    min-width: 42rem;\r\n    max-width: 60rem;\r\n    bottom: 0;\r\n    height: 100%;\r\n}\r\n\r\n#floater-functional-urban-area-result .floater-body {\r\n    height: calc(100% - 8.5rem);\r\n    padding: 0 0 .5rem;\r\n}\r\n\r\n#floater-functional-urban-area-result .floater-footer {\r\n    height: 6.5rem;\r\n    border: 0px;\r\n}\r\n\r\n/* floater body */\r\n#floater-functional-urban-area-result .floater-body > div:nth-child(odd) {\r\n    padding: .5rem;\r\n}\r\n\r\n#floater-functional-urban-area-result .floater-body > div:nth-child(even){\r\n    padding: .5rem;\r\n    background: rgba(200,200,200,.1);\r\n    border-bottom: 1px solid #e5e5e5;\r\n    border-top: 1px solid #e5e5e5;\r\n}\r\n\r\n#floater-functional-urban-area-result .floater-row.slider-box,\r\n#floater-functional-urban-area-result .floater-row.checkbox-row,\r\n#floater-functional-urban-area-result .floater-row.select-menu-box,\r\n#floater-functional-urban-area-result .floater-row.row-export\r\n{\r\n    margin: 0;\r\n}\r\n\r\n/* Footer */\r\n\r\n#evaluation-confirm, #evaluation-unselect {\r\n    font-size: .7rem;\r\n    margin: 0 .1rem;\r\n    width: 47%;\r\n}\r\n/*#evaluation-confirm[disabled=disabled], #evaluation-unselect[disabled=disabled] {*/\r\n    /*pointer-events: none;*/\r\n    /*color: #bbb;*/\r\n    /*background: #e5e5e5;*/\r\n/*}*/\r\n\r\n.widget-button-export:before {\r\n    height: 100%;\r\n    width: 100%;\r\n    margin-right: 5px;\r\n    position: relative;\r\n    top: 3px;\r\n}\r\n\r\n#export-shp:before, #export-json:before {\r\n    content: url(\'img/map.png\');\r\n}\r\n#export-shp[disabled=disabled]:before, #export-json[disabled=disabled]:before {\r\n    content: url(\'img/map-disabled.png\');\r\n}\r\n#export-csv:before, #export-xls:before {\r\n    content: url(\'img/table.png\');\r\n}\r\n#export-csv[disabled=disabled]:before, #export-xls[disabled=disabled]:before {\r\n    content: url(\'img/table-disabled.png\');\r\n}/* = City floater = */\r\n#floater-city-selection {\r\n\theight: 21.5rem;\r\n\tleft: 15rem;\r\n\ttop: 9rem;\r\n\twidth: 20rem;\r\n}\r\n#floater-city-selection .floater-body {\r\n\theight: calc(100% - 11rem);\r\n\tpadding-bottom: .2rem;\r\n}\r\n#floater-city-selection .select-menu-box .ui-selectmenu-button {\r\n\twidth: 18rem;\r\n}\r\n#floater-city-selection .select-menu-box:nth-child(2),\r\n#floater-city-selection .select-menu-box:nth-child(3) {\r\n\tdisplay: inline-block;\r\n\twidth: 50%;\r\n}\r\n#floater-city-selection .select-menu-box:nth-child(2) .ui-selectmenu-button,\r\n#floater-city-selection .select-menu-box:nth-child(3) .ui-selectmenu-button {\r\n\twidth: 95%;\r\n}\r\n/* foooter */\r\n#floater-city-selection .floater-footer {\r\n\tborder: 0;\r\n\theight: 8rem;\r\n\tpadding-top: 0;\r\n}\r\n\r\n#melodies-selection-confirm {\r\n\tmargin-bottom: .2rem;\r\n\twidth: 60%;\r\n}\r\n#melodies-selection-confirm[disabled=disabled] {\r\n\tcolor: #ccc;\r\n\tbackground: #eee;\r\n\tfont-style: italic;\r\n\tpointer-events: none;\r\n\ttext-transform: none;\r\n}\r\n#melodies-selection-confirm[disabled=disabled]:hover {\r\n\tcursor: none;\r\n}\r\n\r\n#melodies-selection-confirm.failed {\r\n\tcolor: red;\r\n\ttext-transform: none;\r\n}\r\n\r\n#floater-city-selection .table-row {\r\n\tborder-bottom: 2px solid #ddd;\r\n\tborder-top: 2px solid #ddd;\r\n\theight: 6rem;\r\n\toverflow: auto;\r\n\tbackground: #f5f5f5;\r\n}\r\n#floater-city-selection .table-row > table {\r\n\twidth: 100%;\r\n}\r\n#floater-city-selection .table-row > table tr {\r\n\tborder-bottom: 1px solid #ddd;\r\n}\r\n#floater-city-selection .table-row > table tr:last-child {\r\n\tborder-bottom: 0;\r\n}\r\n#floater-city-selection .table-row > table tr td {\r\n\tcolor: #888;\r\n\tfont-size: .7rem;\r\n\tline-height: 1.5rem;\r\n\tpadding: 0 .2rem;\r\n\ttext-align: left;\r\n}\r\n#floater-city-selection .table-row > table tr td.column-status {\r\n\tmin-width: 4rem;\r\n\tpadding-right: .3rem;\r\n\ttext-align: right;\r\n}\r\n#floater-city-selection .table-row > table tr td.column-status:after {\r\n\tdisplay: inline-block;\r\n\tpadding-left: .5rem;\r\n\tvertical-align: middle;\r\n}\r\n#floater-city-selection .table-row > table tr td.column-status.running:after {\r\n\tcontent: url(\"../images/melodies/run.png\");\r\n}\r\n#floater-city-selection .table-row > table tr td.column-status.failed:after {\r\n\tcontent: url(\"../images/melodies/fail.png\");\r\n}\r\n#floater-city-selection .table-row > table tr td.column-status.success:after {\r\n\tcontent: url(\"../images/melodies/success.png\");\r\n}\r\n#floater-city-selection .table-row > table tr td.column-id {\r\n\ttext-align: right;\r\n}.new-table {\r\n\tpadding: 0 .2rem;\r\n\twidth: 95%;\r\n}\r\n.new-table tr th, .new-table tr td {\r\n\tcolor: #888;\r\n\tpadding: 0 .2rem;\r\n\tmin-width: 2rem;\r\n\tline-height: 2rem;\r\n\tborder-bottom: 1px solid #ccc;\r\n}\r\n.new-table tr th {\r\n\tcolor: #666;\r\n\tfont-weight: 600;\r\n\tline-height: 1.3rem;\r\n}\r\n.new-table tr th:first-child {\r\n\tpadding-left: .5rem;\r\n}\r\n.new-table tr td:first-child {\r\n\tpadding-left: .5rem;\r\n}\r\n.new-table input[disabled=\"disabled\"] {\r\n\tborder: 0;\r\n\tbackground: transparent;\r\n}\r\n\r\n.new-table td.record-name {\r\n\tmin-width: 10rem;\r\n}\r\n\r\n.new-table td.record-name > input {\r\n\twidth: 100%;\r\n}#custom-au-info {\r\n\tdisplay: none;\r\n}#custom-lines-info {\r\n\tdisplay: none;\r\n}/* = Evaluation floater = */\r\n#floater-custom-polygons-widget {\r\n\tleft: 15rem;\r\n\ttop: 9rem;\r\n\tmin-width: 17rem;\r\n\twidth: 25rem;\r\n\tmax-width: 30rem;\r\n\theight: 22rem;\r\n}\r\n\r\n#floater-custom-polygons-widget .floater-body {\r\n\theight: calc(100% - 2rem);\r\n\tpadding: .5rem .4rem .5rem .2rem;\r\n}\r\n\r\n#floater-custom-polygons-widget .floater-body .floater-row {\r\n\tmargin: 0 0 .5rem 0;\r\n}\r\n#floater-custom-polygons-widget .floater-body .floater-row.layer-check {\r\n\tpadding: 0 0 0 .2rem;\r\n}\r\n#floater-custom-polygons-widget .floater-body .floater-row.export-row {\r\n\tborder-bottom: 3px solid #e9e9e9;\r\n\tmargin-bottom: 1rem;\r\n\tpadding-bottom: .8rem;\r\n}\r\n\r\n#floater-custom-polygons-widget .floater-body > div {\r\n\tpadding: .5rem;\r\n}\r\n\r\n#floater-custom-polygons-widget .map-button {\r\n\tmin-width: 4rem;\r\n\tpadding: .4rem .7rem .3rem;\r\n\tmargin: .2rem .2rem .2rem 0;\r\n\ttext-transform: none;\r\n\ttext-align: center;\r\n}\r\n\r\n#lines-export-shp:before, #polygons-export-shp:before, #lines-export-json:before, #polygons-export-json:before {\r\n\tcontent: url(\'img/map.png\');\r\n}\r\n#lines-export-shp[disabled=disabled]:before, #polygons-export-shp[disabled=disabled]:before,\r\n#lines-export-json[disabled=disabled]:before, #polygons-export-json[disabled=disabled]:before {\r\n\tcontent: url(\'img/map-disabled.png\');\r\n}\r\n/* == tool window == */\r\n.tool-window {\r\n\tbackground: rgba(255,255,255,.95);\r\n\tborder-radius: .1rem;\r\n\t-webkit-box-shadow: 0 0 4px rgb(136, 136, 136);\r\n\t-moz-box-shadow: 0 0 4px rgb(136, 136, 136);\r\n\tbox-shadow: 0 0 4px rgb(136, 136, 136);\r\n\r\n\tdisplay: none;\r\n\theight: 25rem;\r\n\twidth: 35rem;\r\n\tpadding: .5rem;\r\n\tposition: absolute;\r\n\ttop: 8rem;\r\n\tleft: calc(50% - 17.5rem);\r\n\tz-index: 10000;\r\n\tresize: both;\r\n\toverflow: auto;\r\n}\r\n.tool-window.open {\r\n\tdisplay: block;\r\n}\r\n.tool-window.active {\r\n\tz-index: 10001;\r\n}\r\n\r\n/* header */\r\n.tool-window-header {\r\n\tcursor: move;\r\n\theight: 2rem;\r\n\tposition: relative;\r\n}\r\n.tool-window-header span {\r\n\tcolor: #666;\r\n\tdisplay: inline-block;\r\n\tfont-size: .9rem;\r\n\tfont-weight: bold;\r\n\tpadding: 0 .2rem .2rem;\r\n\twhite-space: nowrap;\r\n\twidth: 90%;\r\n\toverflow: hidden;\r\n\ttext-overflow: ellipsis;\r\n}\r\n.tool-window-header .window-close {\r\n\tfloat: right;\r\n}\r\n.tool-window-header .window-close:hover {\r\n\tcursor: pointer;\r\n}\r\n\r\n/* body */\r\n.tool-window-body {\r\n\tbackground: rgb(250,250,250);\r\n\tborder: 1px solid rgb(230,230,230);\r\n\theight: calc(100% - 5rem);\r\n\tpadding: .2rem .3rem;\r\n\toverflow: auto;\r\n}\r\n.tool-window-body .section-header:first-child {\r\n\tmargin-top: .2rem;\r\n}\r\n.tool-window-body .checkbox-row a {\r\n\tborder-bottom: 1px solid rgb(235,235,235);\r\n\tpadding-left: 2rem;\r\n}\r\n.tool-window-body .checkbox-row.attribute-set-row a {\r\n\tpadding-left: 1rem;\r\n}\r\n.tool-window-body .checkbox-row.all-attributes-row a {\r\n\tpadding-left: 0;\r\n}\r\n.tool-window-body .checkbox-row div {\r\n\tfont-weight: normal;\r\n}\r\n.tool-window-body .checkbox-row div i {\r\n\tfont-style: normal;\r\n\tfont-size: .7rem;\r\n\tcolor: #bbb;\r\n\tpadding-left: .3rem;\r\n}\r\n.tool-window-body .checkbox-row.attribute-set-row div,\r\n.tool-window-body .checkbox-row.all-attributes-row div {\r\n\tfont-weight: bold;\r\n\tfont-size: .8rem;\r\n}\r\n\r\n.tool-window-body .checkbox-row .checkbox-label {\r\n\tposition: relative;\r\n\twidth: 90%;\r\n}\r\n\r\n/* toggle switch */\r\n.tool-window-body .checkbox-row .checkbox-label .multioptions {\r\n\tposition: absolute;\r\n\tdisplay: inline-block;\r\n\tright: 0;\r\n}\r\n\r\n.tool-window-body .checkbox-row .checkbox-label .multioptions > span {\r\n\tfont-size: .7rem;\r\n}\r\n\r\n.tool-window-body .checkbox-row .switch {\r\n\tposition: relative;\r\n\tdisplay: inline-block;\r\n\tmargin-left: .3rem;\r\n\twidth: 25px;\r\n\theight: 14px;\r\n\ttop: .15rem;\r\n}\r\n\r\n.tool-window-body .checkbox-row .switch input {display:none;}\r\n\r\n.tool-window-body .checkbox-row .slider-toggle {\r\n\tposition: absolute;\r\n\tcursor: pointer;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tright: 0;\r\n\tbottom: 0;\r\n\tbackground-color: #ccc;\r\n\t-webkit-transition: .4s;\r\n\ttransition: .4s;\r\n}\r\n\r\n.tool-window-body .checkbox-row .slider-toggle:before {\r\n\tposition: absolute;\r\n\tcontent: \"\";\r\n\theight: 10px;\r\n\twidth: 26px;\r\n\tleft: 2px;\r\n\tbottom: 2px;\r\n\tbackground-color: white;\r\n\t-webkit-transition: .4s;\r\n\ttransition: .4s;\r\n}\r\n\r\n.tool-window-body .checkbox-row input:checked + .slider-toggle {\r\n\tbackground-color: #c92d42;\r\n}\r\n\r\n.tool-window-body .checkbox-row input:checked + .slider-toggle:before {\r\n\t-webkit-transform: translateX(9px);\r\n\t-ms-transform: translateX(9px);\r\n\ttransform: translateX(9px);\r\n}\r\n\r\n.tool-window-body .checkbox-row .slider-toggle {\r\n\tborder-radius: 10px;\r\n}\r\n\r\n.tool-window-body .checkbox-row .slider-toggle:before {\r\n\twidth: 12px;\r\n\tborder-radius: 10px\r\n}\r\n\r\n\r\n/* Footer */\r\n.tool-window-footer {\r\n\theight: 2.5rem;\r\n\tpadding: .5rem 0;\r\n\tposition: relative;\r\n}\r\n.tool-window-button {\r\n\tposition: absolute;\r\n\tright: 0;\r\n\twidth: 10rem;\r\n}\r\n.tool-window-button[disabled=disabled] {\r\n\tpointer-events: none;\r\n\tcolor: #bbb;\r\n\tbackground: #e5e5e5;\r\n}#categorize-settings {\r\n\twidth: 40rem;\r\n\theight: 35rem;\r\n}\r\n\r\n.categorize-body {\r\n\tpadding: 0 .5rem;\r\n}\r\n.categorize-body input {\r\n\tborder: 1px solid #bbb;\r\n\tborder-radius: .15rem;\r\n\tcolor: #555;\r\n\tbackground: rgba(255,255,255,.9);\r\n\tline-height: 1.8;\r\n\tpadding: 0 .2rem;\r\n}\r\n.categorize-body input[type=text] {\r\n\twidth: 100%;\r\n}\r\n.categorize-footer {\r\n\tpadding: .5rem;\r\n}\r\n.category-set-box {\r\n\tborder: 1px dashed #ccc;\r\n\tbackground: rgba(255,245,246,1);\r\n\tmargin: 1rem 0;\r\n}\r\n.category-set-box-header {\r\n\tdisplay: flex;\r\n\tpadding: .7rem .5rem;\r\n\tbackground: rgba(255,190,190,1);\r\n}\r\n.category-set-box-header > div {\r\n\tmargin: 0 .2rem;\r\n}\r\n.category-set-box-header .category-set-name {\r\n\tflex: 1 0 50%;\r\n}\r\n.category-set-box-header .category-set-name input {\r\n\twidth: 15rem;\r\n\tfont-size: 1rem;\r\n}\r\n.category-set-box-header .save-category-set,\r\n.category-set-box-header .delete-category-set {\r\n\tcursor: pointer;\r\n\tmax-width: 8rem;\r\n\tflex-basis: 25%;\r\n\tline-height: 2.5;\r\n\r\n}\r\n.category-box {\r\n\t border-top: 1px solid #e7e7e7;\r\n\t display: flex;\r\n\t padding: .5rem;\r\n}\r\n.category-box > div {\r\n\tmargin: 0 .2rem;\r\n}\r\n.category-box .category-name {\r\n \tflex: 1 0 35%;\r\n}\r\n.category-box .category-color {\r\n\tflex-basis: 55%;\r\n}\r\n\r\n.category-box .save-category,\r\n.category-box .delete-category {\r\n\tcursor: pointer;\r\n\tflex-basis: 4%;\r\n\tmax-width: 8rem;\r\n\tdisplay: flex;\r\n\tjustify-content: center;\r\n\talign-items: center;\r\n}\r\n.category-box .fa {\r\n\tcolor: #777;\r\n\tfont-size: 1.15rem;\r\n\ttransition: color .3s ease-in-out;\r\n}\r\n.category-box .delete-category:hover .fa,\r\n.category-box .save-category:hover .fa {\r\n\tcolor: #555;\r\n}\r\n\r\n.category-box .save-category[disabled=disabled] {\r\n\tpointer-events: none;\r\n\tbackground: transparent;\r\n}\r\n.category-box .save-category[disabled=disabled] .fa {\r\n\tcolor: #ccc;\r\n}\r\n\r\n#placeholder-evaluation-widget {\r\n    display: block;\r\n}\r\n\r\n/* = Evaluation floater = */\r\n#floater-evaluation-widget {\r\n    left: 16rem;\r\n    top: 10rem;\r\n    min-width: 22rem;\r\n    max-width: 40rem;\r\n}\r\n\r\n#floater-evaluation-widget .floater-body {\r\n    height: calc(100% - 9.5rem);\r\n    padding: 0 0 .5rem;\r\n}\r\n\r\n#floater-evaluation-widget .floater-footer {\r\n    height: 6.5rem;\r\n}\r\n\r\n/* floater body */\r\n#floater-evaluation-widget .floater-body > div:nth-child(odd) {\r\n    padding: .5rem;\r\n}\r\n\r\n#floater-evaluation-widget .floater-body > div:nth-child(even){\r\n    padding: .5rem;\r\n    background: rgba(200,200,200,.1);\r\n    border-bottom: 1px solid #e5e5e5;\r\n    border-top: 1px solid #e5e5e5;\r\n}\r\n\r\n#floater-evaluation-widget .floater-row.slider-box,\r\n#floater-evaluation-widget .floater-row.checkbox-row,\r\n#floater-evaluation-widget .floater-row.select-menu-box,\r\n#floater-evaluation-widget .floater-row.row-export\r\n{\r\n    margin: 0;\r\n}\r\n\r\n/* Footer */\r\n#floater-evaluation-widget .footer-buttons {\r\n    justify-content: center;\r\n    display: flex;\r\n}\r\n#floater-evaluation-widget .footer-buttons .widget-button {\r\n    width: 33%;\r\n    margin: 0 .2rem;\r\n    padding: .5rem;\r\n    flex: 0 1 100%;\r\n}\r\n#floater-evaluation-widget .footer-buttons .widget-button.hidden {\r\n    display: none;\r\n}\r\n\r\n/*#evaluation-confirm[disabled=disabled], #evaluation-unselect[disabled=disabled] {*/\r\n    /*pointer-events: none;*/\r\n    /*color: #bbb;*/\r\n    /*background: #e5e5e5;*/\r\n/*}*/\r\n\r\n.widget-button-export:before {\r\n    height: 100%;\r\n    width: 100%;\r\n    margin-right: 5px;\r\n    position: relative;\r\n    top: 3px;\r\n}\r\n\r\n#export-shp:before, #export-json:before {\r\n    content: url(\'img/map.png\');\r\n}\r\n#export-shp[disabled=disabled]:before, #export-json[disabled=disabled]:before {\r\n    content: url(\'img/map-disabled.png\');\r\n}\r\n#export-csv:before, #export-xls:before {\r\n    content: url(\'img/table.png\');\r\n}\r\n#export-csv[disabled=disabled]:before, #export-xls[disabled=disabled]:before {\r\n    content: url(\'img/table-disabled.png\');\r\n}#feature-info-window {\r\n\tbackground: rgba(255,255,255,.95);\r\n\tborder: 1px solid #ccc;\r\n\tborder-radius: .1rem;\r\n\tbox-shadow: 0 0 1px rgba(136,136,136,.5);\r\n\tcolor: #555;\r\n\tdisplay: none;\r\n\theight: 13rem;\r\n\tleft: 100px;\r\n\tpadding: .3rem 0 .3rem .5rem;\r\n\tposition: absolute;\r\n\tright: 100px;\r\n\tresize: both;\r\n\toverflow: auto;\r\n\tmin-width: 20rem;\r\n\twidth: 25rem;\r\n\tmax-width: 40rem;\r\n\tz-index: 10000;\r\n}\r\n#feature-info-window.active {\r\n\tz-index: 10001;\r\n}\r\n#feature-info-window .feature-info-window-header {\r\n\tborder-bottom: 2px solid #ddd;\r\n\tfont-size: .85rem;\r\n\tfont-weight: 700;\r\n\tpadding: 0 0 .2rem .1rem;\r\n\tmargin-right: .2rem;\r\n\theight: 1.5rem;\r\n\tcursor: move;\r\n}\r\n#feature-info-window .feature-info-title {\r\n\tfloat: left;\r\n\twhite-space: nowrap;\r\n\toverflow: hidden;\r\n\ttext-overflow: ellipsis;\r\n\twidth: calc(100% - 45px);\r\n}\r\n#feature-info-window .feature-info-close,\r\n#feature-info-window .feature-info-settings {\r\n\tcursor: pointer;\r\n\tfloat: right;\r\n\tmargin-left: .1rem;\r\n\twidth: 18px;\r\n}\r\n#feature-info-window .feature-info-settings img {\r\n\twidth: 14px;\r\n}\r\n#feature-info-window .feature-info-window-body {\r\n\tmargin: 0 .2rem .2rem 0;\r\n\toverflow-x: hidden;\r\n\toverflow-y: auto;\r\n\theight: calc(100% - 3.7rem);\r\n}\r\n#feature-info-window .feature-info-window-footer {\r\n\tborder-top: 2px solid #ddd;\r\n\theight: 2rem;\r\n\tmargin-right: .2rem;\r\n\tpadding-top: .1rem;\r\n\ttext-align: center;\r\n}\r\n#feature-info-window .feature-info-window-body table {\r\n\twidth: 100%;\r\n}\r\n#feature-info-window .feature-info-window-body table tr {\r\n\tborder-bottom: 1px solid #ddd;\r\n}\r\n#feature-info-window .feature-info-window-body table tr td {\r\n\tfont-size: .75rem;\r\n\tpadding: .15rem .2rem;\r\n}\r\n#feature-info-window .feature-info-window-body table tr td i {\r\n\tcolor: #888;\r\n\tfont-style: normal;\r\n\tfont-weight: 500;\r\n}\r\n#feature-info-window .feature-info-window-body table tr:hover td {\r\n\tbackground: rgba(230,230,230,.8);\r\n}\r\n#feature-info-window .feature-info-window-body table tr td:first-child {\r\n\tfont-weight: 600;\r\n}\r\n#feature-info-window .feature-info-window-body table tr td:last-child {\r\n\ttext-align: right;\r\n}\r\n\r\n/* export */\r\n#export-feature-info-csv {\r\n\tbackground: none;\r\n}\r\n#export-feature-info-csv:hover {\r\n\tbackground: rgba(173,39,56,.2);\r\n}\r\n#export-feature-info-csv:before {\r\n\tcontent: url(\'img/table.png\');\r\n}\r\n\r\n\r\n/* overlay*/\r\n\r\n#feature-info-window .overlay {\r\n\tdisplay: none;\r\n\theight: 100%;\r\n\twidth: 100%;\r\n\tbackground: rgba(255,255,255,.9) url(img/loading.gif) no-repeat 50% 50%;\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tz-index: 10;\r\n}#feature-info {\r\n\tline-height: 1.45rem;\r\n\tpadding: 0 .5rem;\r\n\ttext-align: left;\r\n}\r\n\r\n#feature-info:after {\r\n\tcontent: url(img/feature-info-icon.png);\r\n\tdisplay: inline-block;\r\n\tpadding-top: .1rem;\r\n\tposition: absolute;\r\n\tright: .7rem;\r\n}\r\n#feature-info.active:after {\r\n\tcontent: url(img/feature-info-icon-active.png);\r\n}.control {\r\n\tbackground: rgba(255, 255, 255, 0.85);\r\n\tborder-radius: .3rem;\r\n\tz-index: 15;\r\n\tbox-shadow: 0 0 0.3rem 0 rgba(0, 0, 0, 0.3);\r\n\tmargin-bottom: 7px;\r\n}\r\n\r\n#map-controls {\r\n\tposition: absolute;\r\n\tbottom: 20px;\r\n\tright: 7px;\r\n\tz-index: 1;\r\n}\r\n\r\n#map-controls .control > a,\r\n.menu-control > a {\r\n\tdisplay: block;\r\n\twidth: 2rem;\r\n\theight: 2rem;\r\n\ttext-align: center;\r\n\tfont-size: 1.125rem;\r\n\tpadding-top: .19rem;\r\n\tcolor: #666;\r\n\r\n\ttransition:\r\n\t\t\tcolor .2s ease-in-out,\r\n\t\t\tbackground .2s ease-in-out;\r\n}\r\n\r\n.menu-control > a {\r\n\tborder-radius: .3rem;\r\n}\r\n\r\n#map-controls .control > a:not(:first-child) {\r\n\tborder-top: 1px solid rgba(0, 0, 0, .1);\r\n}\r\n\r\n#map-controls .control > a:hover,\r\n.menu-control > a:hover {\r\n\tbackground-color: rgba(255, 255, 255, .5);\r\n\tcolor: #c92d42;\r\n}\r\n\r\n#rotate-needle-control i {\r\n\t/*transition: all .2s ease-in-out;*/\r\n\t-webkit-transform: rotate(-45deg);\r\n\ttransform: rotate(-45deg);\r\n}\r\n\r\n/*#rotate-needle-control:hover i {*/\r\n/*transform: rotate(-45deg);*/\r\n/*}*/\r\n\r\n.tilt-control a {\r\n\t/*\toverflow: hidden;*/\r\n\tbackground-position: center center;\r\n\tbackground-size: 1.2rem;\r\n\tbackground-repeat: no-repeat;\r\n}\r\n\r\n#tilt-more-control svg,\r\n#tilt-less-control svg {\r\n\tmargin-top: .21rem;\r\n\twidth: 1.125rem;\r\n\theight: 1.125rem;\r\n}\r\n\r\n#tilt-more-control svg path,\r\n#tilt-less-control svg path {\r\n\tfill: #666;\r\n\r\n\ttransition:\r\n\t\t\tfill .2s ease-in-out;\r\n}\r\n\r\n#tilt-more-control:hover svg path,\r\n#tilt-less-control:hover svg path {\r\n\tfill: #c92d42;\r\n}.world-wind-map {\r\n\tposition: relative;\r\n\tleft: 0;\r\n\theight: 100%;\r\n\twidth: 100%;\r\n}\r\n.world-wind-canvas {\r\n\twidth: 100%;\r\n\theight: 100%;\r\n}\r\n.map-window-tools {\r\n\tposition: absolute;\r\n\tdisplay: flex;\r\n\ttop: 0;\r\n\tleft: 0;\r\n}\r\n\r\n/* close button */\r\n.close-map-button {\r\n\tbackground: rgba(244,243,239,.9);\r\n\tborder-right: 1px solid rgba(80,87,94,.3);\r\n\tcursor: pointer;\r\n\tdisplay: flex;\r\n\tjustify-content: center;\r\n\talign-items: center;\r\n\twidth: 1.5rem;\r\n\theight: 1.5rem;\r\n\tz-index: 1;\r\n\ttransition: background .3s ease-in-out;\r\n}\r\n.close-map-icon {\r\n\tcolor: rgba(80,87,94,.9);\r\n\tfont-size: .9rem;\r\n\ttransition: color .3s ease-in-out;\r\n}\r\n.close-map-button:hover {\r\n\tbackground: rgba(214,213,219,.9);\r\n}\r\n.close-map-button:hover .close-map-icon {\r\n\tcolor: rgba(80,87,94,1);\r\n}\r\n\r\n/* period label */\r\n.map-period-label {\r\n\tbackground: rgba(244,243,239,.9);\r\n\tcolor: rgba(80,87,94,.9);\r\n\tfont-weight: 600;\r\n\tfont-size: .9rem;\r\n\theight: 1.5rem;\r\n\tline-height: 1.4rem;\r\n\tpadding: 0 .5rem;\r\n}.maps-container {\r\n\tbackground: #ccc;\r\n\tdisplay: none;\r\n\tflex-wrap: wrap;\r\n\tposition: relative;\r\n\tz-index: 5555;\r\n\twidth: 100%;\r\n\ttop: 0;\r\n}\r\nbody.mode-3d .maps-container {\r\n\tdisplay: block;\r\n\tposition: absolute;\r\n}\r\n.maps-container .map-fields {\r\n\twidth: 100%;\r\n\theight: 100%;\r\n}\r\n.world-wind-map-box {\r\n\tbackground: black url(\"img/night-sky.jpg\") top left no-repeat;\r\n\tborder-bottom: 1px solid #888;\r\n\tborder-right: 1px solid #888;\r\n\tdisplay: inline-block;\r\n\tposition: relative;\r\n\twidth: 100%;\r\n\theight: 100%;\r\n\tmargin: 0;\r\n\tvertical-align: top;\r\n}\r\n\r\n/* maps container grid */\r\n.maps-container.h2 .world-wind-map-box {\r\n\theight: 50%;\r\n}\r\n.maps-container.h3 .world-wind-map-box {\r\n\theight: 33.33%;\r\n}\r\n.maps-container.h4 .world-wind-map-box {\r\n\theight: 25%;\r\n}\r\n.maps-container.w2 .world-wind-map-box {\r\n\twidth: 50%;\r\n}\r\n.maps-container.w3 .world-wind-map-box {\r\n\twidth: 33.33%;\r\n}\r\n.maps-container.w4 .world-wind-map-box {\r\n\twidth: 25%;\r\n}\r\n/* delete right border for all maps on the right */\r\n.maps-container.h1.w1 .map-fields .world-wind-map-box {\r\n\tborder-bottom: 0;\r\n\tborder-right: 0;\r\n}\r\n.maps-container.w1.h2 .map-fields .world-wind-map-box,\r\n.maps-container.w2.h1 .map-fields .world-wind-map-box:nth-child(2n),\r\n.maps-container.w2.h2 .map-fields .world-wind-map-box:nth-child(2n),\r\n.maps-container.w2.h3 .map-fields .world-wind-map-box:nth-child(2n),\r\n.maps-container.w3.h2 .map-fields .world-wind-map-box:nth-child(3n),\r\n.maps-container.w3.h3 .map-fields .world-wind-map-box:nth-child(3n),\r\n.maps-container.w3.h4 .map-fields .world-wind-map-box:nth-child(3n),\r\n.maps-container.w4.h3 .map-fields .world-wind-map-box:nth-child(4n),\r\n.maps-container.w4.h4 .map-fields .world-wind-map-box:nth-child(4n){\r\n\tborder-right: 0;\r\n}#floater-osm-widget {\r\n    top: 150px;\r\n    left: 270px;\r\n    height: 300px;\r\n}body.application #sidebar-reports.snow-mode {\r\n\twidth: 100%;\r\n\ttransition: width .5s ease-in-out;\r\n}\r\nbody.application #sidebar-reports.snow-mode.show-map {\r\n\twidth: 800px;\r\n}\r\nbody.application #sidebar-reports.snow-mode.show-map.hidden {\r\n\twidth: 0;\r\n}\r\n#app-extra-content > iframe {\r\n\twidth: 100%;\r\n\theight: 100%;\r\n}.component-button {\r\n\tborder: 2px solid #434254;\r\n\tborder-radius: .15rem;\r\n\tcolor: #434254;\r\n\tcursor: pointer;\r\n\tfont-size: .85rem;\r\n\tfont-weight: 700;\r\n\tline-height: 1.8rem;\r\n\ttransition: background .3s ease-in-out;\r\n\twidth: 8rem;\r\n}\r\n.component-button:hover {\r\n\tbackground: rgba(67,66,84,.15);\r\n}\r\n\r\n/* text */\r\n.component-button.text-centered {\r\n\ttext-align: center;\r\n}\r\n.component-button.text-small {\r\n\tfont-size: .75rem;\r\n\tline-height: 1.6rem;\r\n}\r\n\r\n/* widths */\r\n.component-button.w5 {\r\n\twidth: 5rem;\r\n}\r\n.component-button.w6 {\r\n\twidth: 6rem;\r\n}\r\n.component-button.w8 {\r\n\twidth: 8rem;\r\n}\r\n.component-button.w10 {\r\n\twidth: 10rem;\r\n}\r\n.component-button.w12 {\r\n\twidth: 12rem;\r\n}\r\n.component-button.w14 {\r\n\twidth: 14rem;\r\n}\r\n.component-button.compare-button {\r\n\tdisplay: inline-block;\r\n\tvertical-align: middle;\r\n\tbackground: rgba(255, 255, 255, .25);\r\n\tborder: 1px solid rgba(255, 255, 255, .3);\r\n\tborder-radius: .05rem;\r\n\tcolor: #ddd;\r\n\theight: 23px;\r\n\tline-height: 21px;\r\n}\r\n.component-button.compare-button:hover {\r\n\tbackground: rgba(255, 255, 255, .15);\r\n}.select2-container {\r\n\tmin-width: 5rem;\r\n\tmargin-right: .5rem;\r\n}.select-multi-container {\r\n\tmin-width: 5rem;\r\n}\r\n.select-multi-container.onlyArrow {\r\n\tcursor: pointer;\r\n\tmin-width: 2rem;\r\n\tmin-height: 28px;\r\n\tmax-height: 28px;\r\n\tmax-width: 2rem;\r\n}\r\n.select-multi-container.onlyArrow ul.select2-selection__rendered {\r\n\tdisplay: none;\r\n}\r\n.select-multi-container.onlyArrow:before {\r\n\tcolor: #888;\r\n\tfont-family: FontAwesome;\r\n\tfont-size: .85rem;\r\n\theight: 26px;\r\n\tdisplay: flex;\r\n\tjustify-content: center;\r\n\talign-items: center;\r\n}\r\n.select-multi-container.onlyArrow[aria-expanded=false]:before{\r\n\tcontent: \"\\f0d7\";\r\n}\r\n.select-multi-container.onlyArrow[aria-expanded=true]:before{\r\n\tcontent: \"\\f0d8\";\r\n}\r\n.select-multi-dropdown {\r\n\tmin-width: 5rem;\r\n}\r\n.select-multi-dropdown ul li[aria-selected=true]:before {\r\n\tcontent: \"\\f00c\";\r\n\tfont-family: FontAwesome;\r\n\tfont-size: .7rem;\r\n\tmargin-right: .25rem;\r\n}\r\n\r\n/* topbar multiselect with arrow*/\r\n.select-multi-container.top-bar-multiselect {\r\n\tborder-radius: 0.05rem;\r\n\tbackground: rgba(255, 255, 255, .25);\r\n\tborder: 1px solid rgba(255, 255, 255, .3);\r\n\tborder-left: 0;\r\n\tcolor: #ddd;\r\n}\r\n.select-multi-container.top-bar-multiselect.onlyArrow {\r\n\tmin-height: initial;\r\n\theight: 23px;\r\n\tmin-width: initial;\r\n\twidth: 26px;\r\n}\r\n.select-multi-container.top-bar-multiselect.onlyArrow:before {\r\n\tcolor: #ddd;\r\n\theight: 20px;;\r\n}\r\n.select2-container--default.select2-container--focus .select-multi-container.top-bar-multiselect.select2-selection--multiple {\r\n\tborder: 1px solid rgba(255, 255, 255, .3);\r\n\tborder-left: 0;\r\n\toutline: 0;\r\n}.select-basic-container {\r\n\tmin-width: 5rem;\r\n}\r\n\r\n/* topbar select*/\r\n.select-basic-container.top-bar-select {\r\n\t border-radius: 0.05rem;\r\n\t background: rgba(255, 255, 255, .25);\r\n\t border: 1px solid rgba(255, 255, 255, .3);\r\n\t height: 23px;\r\n}\r\n.select-basic-container.top-bar-select .select2-selection__rendered {\r\n\tline-height: 21px;\r\n\tcolor: #ddd;\r\n\tfont-weight: 700;\r\n}\r\n.select-basic-container.top-bar-select .select2-selection__arrow {\r\n\theight: 23px;\r\n}\r\n.select-basic-container.top-bar-select .select2-selection__arrow > b {\r\n\tborder-color: #ddd transparent transparent transparent;\r\n}/* General selector declarations todo move them to the general class */\r\n.select2-container {\r\n\tz-index: 99999;\r\n}\r\n.selector {\r\n\tdisplay: none;\r\n\theight: 1.9rem;\r\n}\r\n.selector-label {\r\n\tline-height: 1.9rem;\r\n\tmargin-right: .7rem;\r\n\tcolor: white;\r\n\tfont-weight: 700;\r\n\tfont-size: 11px;\r\n}\r\nbody.mode-3d .selector {\r\n\tdisplay: inline-block;\r\n\tvertical-align: top;\r\n}#floater-periods-widget {\r\n\ttop: 150px;\r\n\tleft: 270px;\r\n}#floater-sharing {\r\n\tleft: 16rem;\r\n\ttop: 10rem;\r\n\tmin-width: 22rem;\r\n\tmax-width: 40rem;\r\n}\r\n.snow-cfg-table {\r\n\tmargin: .5rem 0 1.8rem;\r\n\twidth: 100%;\r\n}\r\n\r\n.snow-cfg-table tr td {\r\n\tborder-bottom: 1px dashed #ccc;\r\n\tcolor: #666;\r\n\tline-height: 1.3rem;\r\n\tpadding: .4rem 0;\r\n\tfont-size: .85rem;\r\n\ttransition: background .3s ease-out;\r\n}\r\n.snow-cfg-table tr:first-child td {\r\n\tborder-top: 1px dashed #ccc;\r\n}\r\n\r\n.snow-cfg-table tr td:first-child {\r\n\tpadding-left: 0;\r\n}\r\n.snow-cfg-table tr td i {\r\n\tfont-style: normal;\r\n\tfont-weight: 600;\r\n}\r\n.snow-cfg-table tr td i.satellite-name {\r\n\ttext-transform: uppercase;\r\n}\r\n\r\n.snow-cfg-table tr td:last-child {\r\n\ttext-align: right;\r\n}\r\n\r\n.snow-cfg-table tr:hover td {\r\n\tbackground: rgba(240,240,240,.7);\r\n}\r\n\r\n.snow-cfg-table tr td div {\r\n\tdisplay: inline-block;\r\n\tvertical-align: middle;\r\n}\r\n.snow-cfg-table tr td.snow-icon {\r\n\tpadding-right: .5rem;\r\n}\r\n.snow-cfg-table tr td.snow-composites {\r\n\tpadding-right: 1.5rem;\r\n}\r\n.snow-cfg-table tr td.snow-cfg-name-date {\r\n\tmax-width: 14rem;\r\n\tpadding-right: 1.5rem;\r\n}\r\n.snow-cfg-table tr td.snow-cfg-name-date div {\r\n\tdisplay: block;\r\n\tfloat: left;\r\n}\r\n.snow-cfg-table tr td.snow-cfg-name-date div.snow-name {\r\n\twhite-space: nowrap;\r\n\toverflow: hidden;\r\n\ttext-overflow: ellipsis;\r\n\twidth: 100%;\r\n\tfont-weight: 600;\r\n}\r\n.snow-cfg-table tr td.snow-cfg-name-date div.snow-timestamp {\r\n\tcolor: #aaa;\r\n}\r\n.snow-cfg-table tr td div.snow-icon-container {\r\n\tmargin: 0 .5rem\r\n}\r\n.snow-icon-container svg {\r\n\twidth: 1.2rem;\r\n\theight: 1.2rem;\r\n\tdisplay: inline-block;\r\n\tvertical-align: middle;\r\n}\r\n.snow-icon-container:not(.icon-composites) svg path {\r\n\t fill: #666;\r\n\t stroke: #666;\r\n}\r\n.snow-cfg-table .button-cell {\r\n\tpadding: 0 .2rem;\r\n\twidth: 6rem;\r\n}\r\n.snow-cfg-table .button-cell-delete {\r\n\twidth: 2rem;\r\n}\r\n.snow-cfg-table .widget-button {\r\n\twidth: 100%;\r\n\tfont-size: .7rem;\r\n\tpadding: .2rem;\r\n\ttext-transform: none;\r\n}\r\n.snow-cfg-table .widget-button i {\r\n\tfont-size: .85rem;\r\n\tfont-weight: 400;\r\n}\r\n.snow-cfg-table .delete-composites i {\r\n\tfont-size: .9rem;\r\n}\r\n.snow-cfg-table .show-composites i {\r\n\tfont-size: .75rem;\r\n\tpadding-left: .5rem;\r\n}\r\n.snow-cfg-table .save-composites i {\r\n\tfont-size: .85rem;\r\n\tpadding-right: .5rem;\r\n}\r\n\r\n.snow-cfg-table .snow-input {\r\n\tpadding: .1rem .3rem;\r\n\theight: 1.6rem;\r\n\tborder-radius: .15rem;\r\n\tborder: 1px solid #bbb;\r\n\tmargin: 0 .2rem;\r\n\tcolor: #666;\r\n\tfont-weight: 600;\r\n\tmax-width: 8rem;\r\n}\r\n\r\n.snow-cfg-table .snow-input::-webkit-input-placeholder { /* Chrome/Opera/Safari */\r\n\tfont-weight: 400;\r\n\tcolor: #aaa;\r\n}\r\n.snow-cfg-table .snow-input::-moz-placeholder { /* Firefox 19+ */\r\n\tfont-weight: 400;\r\n\tcolor: #aaa;\r\n}\r\n.snow-cfg-table .snow-input:-ms-input-placeholder { /* IE 10+ */\r\n\tfont-weight: 400;\r\n\tcolor: #aaa;\r\n}\r\n.snow-cfg-table .snow-input:-moz-placeholder { /* Firefox 18- */\r\n\tfont-weight: 400;\r\n\tcolor: #aaa;\r\n}#floater-snow-widget {\r\n\tdisplay: none;\r\n\tleft: calc(50% - 500px);\r\n\ttop: calc(50% - 250px);\r\n\twidth: 1000px;\r\n\theight: 500px;\r\n\tmargin: 0;\r\n}\r\n#floater-snow-widget.open {\r\n\tdisplay: block;\r\n}\r\n#floater-snow-widget .floater-body {\r\n\theight: calc(100% - 2.5rem);\r\n}\r\n.snow-table-caption {\r\n\tcolor: #c92d42;\r\n\tfont-size: 1.1rem;\r\n\tfont-weight: 400;\r\n}.layer-tool-floater {\r\n\tbackground: rgba(255,255,255,.95);\r\n\tdisplay: none;\r\n\tposition: absolute;\r\n\tmin-height: 100px;\r\n\theight: auto;\r\n\twidth: 300px;\r\n\tleft: auto;\r\n\tbottom: 55px;\r\n\ttop: auto;\r\n\tright: 627px;\r\n}\r\n\r\n.tool-window.layer-tool-floater.open {\r\n\tdisplay: none;\r\n}\r\nbody.mode-3d .tool-window.layer-tool-floater.open {\r\n\tdisplay: block;\r\n}\r\n\r\n.layer-tool-floater-body {\r\n\tpadding: .3rem;\r\n\theight: calc(100% - 2.5rem);\r\n}.layer-tool-icon {\r\n\tcursor: pointer;\r\n\tdisplay: inline-block;\r\n\tposition: relative;\r\n\tfloat: right;\r\n\tmargin: 0 .15rem;\r\n\theight: 100%;\r\n\twidth: 1rem;\r\n}\r\n.layer-tool-icon.legend-icon img.active {\r\n\tdisplay: none;\r\n}\r\n.layer-tool-icon.legend-icon.open img {\r\n\tdisplay: none;\r\n}\r\n.layer-tool-icon.legend-icon.open img.active {\r\n\tdisplay: block;\r\n}\r\n\r\n/*.layer-tool-icon i {*/\r\n\t/*color: rgba(104,103,116,.65);*/\r\n\t/*display: inline-block;*/\r\n\t/*font-size: .9rem;*/\r\n\t/*font-family: \"FontAwesome\";*/\r\n\t/*transition: color .3s ease-out;*/\r\n\t/*vertical-align: middle;*/\r\n/*}*/\r\n/*.layer-tool-icon:hover i {*/\r\n\t/*color: rgba(104,103,116,1);*/\r\n/*}*/\r\n/*.layer-tool-icon.open i {*/\r\n\t/*color: #ad2738;*/\r\n/*}*/.layer-tools {\r\n\tdisplay: inline-block;\r\n\tvertical-align: middle;\r\n\theight: 100%;\r\n\tmargin: 0 .25rem 0 0;\r\n\twidth: 2.7rem;\r\n}\r\n.panel-layer-group-body .layer-tools {\r\n\twidth: 4rem;\r\n}/* === Radiobox === */\r\n.radiobox-row.checked .radiobox-icon {\r\n\tbackground: url(\'img/radio-checked.png\') no-repeat center center;\r\n}\r\n\r\n.radiobox-icon {\r\n\tbackground: url(\'img/radio-unchecked.png\') no-repeat center center;\r\n\tdisplay: inline-block;\r\n\tmargin-right: .5rem;\r\n\twidth: 1.2rem;\r\n\theight: 1.2rem;\r\n\tline-height: 1.2rem;\r\n\ttransition: background .3s;\r\n}\r\n\r\n.radiobox-label {\r\n\tdisplay: inline-block;\r\n\tfont-weight: bold;\r\n\theight: 1.2rem;\r\n\tline-height: 1.2rem;\r\n\tfont-size: .8rem;\r\n}.panel-header {\r\n\tcolor: #555;\r\n\tcursor: pointer;\r\n\tpadding: 0;\r\n\tposition: relative;\r\n\ttransition: background .3s ease-out;\r\n}\r\n.panel-header:hover {\r\n\tbackground: rgb(235,235,235);\r\n}\r\n.panel-header h3 {\r\n\tdisplay: inline-block;\r\n\tfont-size: .75rem;\r\n\tfont-weight: 400;\r\n\tvertical-align: middle;\r\n\r\n}\r\n\r\n.panel-layer-group-header {\r\n\tcolor: #555;\r\n\tcursor: pointer;\r\n\tpadding: 0 0 0 1.3rem;\r\n\tposition: relative;\r\n\ttransition: background .3s ease-out;\r\n}\r\n.panel-layer-group-header:hover {\r\n\tbackground: rgb(235,235,235);\r\n}\r\n.panel-layer-group-header h3 {\r\n\tdisplay: inline-block;\r\n\tfont-size: .75rem;\r\n\tfont-weight: 400;\r\n\tvertical-align: middle;\r\n\r\n}\r\n\r\n.panel-body .floater-row {\r\n\tpadding-left: 1.05rem;\r\n}\r\n\r\n.panel-icon {\r\n\tdisplay: inline-block;\r\n\twidth: 1.2rem;\r\n\theight: 1.25rem;\r\n\tvertical-align: middle;\r\n\r\n}\r\n\r\n.panel-icon.expand-icon {\r\n\tbackground: url(img/tree-node-expand.png) no-repeat center center;\r\n}\r\n.panel-icon.folder-icon {\r\n\tbackground: url(img/tree-node-closed.png) no-repeat center center;\r\n}\r\n.panel-header.open .panel-icon.expand-icon, .panel-layer-group-header.open .panel-icon.expand-icon {\r\n\tbackground: url(img/tree-node-collapse.png) no-repeat center center;\r\n}\r\n.panel-header.open .panel-icon.folder-icon, .panel-layer-group-header.open .panel-icon.folder-icon {\r\n\tbackground: url(img/tree-node-opened.png) no-repeat center center;\r\n}\r\n.panel-body {\r\n\tdisplay: none;\r\n\tpadding: 0.05rem 0 .2rem;\r\n\tposition: relative;\r\n\t/*max-height: 12rem;*/\r\n\t/*overflow: auto;*/\r\n}\r\n.panel-body.open {\r\n\tdisplay: block;\r\n}\r\n.panel-body .panel-row {\r\n\tposition: relative;\r\n\theight: 1.3rem;\r\n}\r\n.panel-body .layer-row {\r\n\tdisplay: inline-block;\r\n\tvertical-align: middle;\r\n\twidth: calc(100% - 3rem);\r\n}\r\n.panel-body .panel-layer-group-body .layer-row {\r\n\tpadding-left: 2.15rem;\r\n\twidth: calc(100% - 4.3rem);\r\n}\r\n.panel-body .layer-row a {\r\n\twidth: auto;\r\n}\r\n.panel-body .floater-row a {\r\n\tpadding: 0 .3rem;\r\n\theight: 1.3rem;\r\n\tline-height: 1.2rem;\r\n\tcolor: #555;\r\n}\r\n.panel-body .floater-row .radiobox-label,\r\n.panel-body .floater-row .checkbox-label {\r\n\tfont-weight: 400;\r\n\tfont-size: .75rem;\r\n\twhite-space: nowrap;\r\n\toverflow: hidden;\r\n\ttext-overflow: ellipsis;\r\n}/* Panels */\r\n#floater-world-wind-widget-panels {\r\n}#floater-world-wind-widget {\r\n\tdisplay: none;\r\n\tleft: 10rem;\r\n\ttop: 10rem;\r\n\tmax-width: 40rem;\r\n\tmin-height: 4rem;\r\n\twidth: 260px;\r\n\tbackground: rgba(255,255,255,.9);\r\n}\r\n#floater-world-wind-widget.open {\r\n\tdisplay: block;\r\n}\r\n#floater-world-wind-widget .floater-header {\r\n\theight: 2rem;\r\n}\r\n#floater-world-wind-widget .floater-body {\r\n\theight: calc(100% - 2rem);\r\n\tborder: 1px solid #ddd;\r\n}\r\n\r\n/* Floater body */\r\n#floater-world-wind-widget .floater-body {\r\n\tpadding: .2rem 0 0 0;\r\n}\r\n#floater-world-wind-widget .checkbox-row {\r\n\ttransition: background .3s ease-out;\r\n}\r\n#floater-world-wind-widget .checkbox-row:hover {\r\n\tbackground: rgb(235,235,235);\r\n\tcursor: pointer;\r\n}\r\n\r\n\r\n.floater-fake-header {\r\n\tbackground: #ddd;\r\n\theight: 31px;\r\n\tline-height: 31px;\r\n\tpadding: 0 .5rem 0 1rem;\r\n}\r\n.floater-fake-header span {\r\n\tcolor: #333;\r\n\tfont-size: 12px;\r\n\tfont-weight: 700;\r\n}\r\n.floater-fake-header-tool {\r\n\tcursor: pointer;\r\n\tposition: relative;\r\n\tfloat: right;\r\n}\r\n.floater-fake-header-tool img {\r\n\tposition: absolute;\r\n\tright: 0;\r\n\ttop: 7px;\r\n}');
+('/* === Checkboxes === */\r\n.checkbox-row.checked .checkbox-icon {\r\n    background: url(\'img/checkbox-checked.png\') no-repeat center 45%;\r\n}\r\n\r\n.checkbox-row a {\r\n    text-decoration: none;\r\n}\r\n\r\n.checkbox-icon {\r\n    background: url(\'img/checkbox-unchecked.png\') no-repeat center 45%;\r\n    display: block;\r\n    float: left;\r\n    margin-right: .5rem;\r\n    width: 1.2rem;\r\n    height: 100%;\r\n    transition: background .3s;\r\n}\r\n\r\n.checkbox-label {\r\n    overflow: hidden;\r\n    text-overflow: ellipsis;\r\n    font-weight: bold;\r\n    height: 100%;\r\n    font-size: .8rem;\r\n}.ui-checkboxradio-label {\r\n\tmargin: .1rem;\r\n\ttransition: background .3s;\r\n}\r\n.ui-checkboxradio-label.ui-state-active.ui-checkboxradio-checked, .ui-button:active {\r\n\tbackground: #ccc;\r\n\tborder: 1px solid #aaa;\r\n\tcolor: #555;\r\n}\r\n.ui-checkboxradio-label.ui-state-active:hover {\r\n\tbackground: #ccc;\r\n\tborder: 1px solid #aaa;\r\n\tcolor: #555;\r\n}\r\n.ui-visual-focus, .ui-state-focus {\r\n\tbox-shadow: none;\r\n}\r\n\r\n.label-multiselect-option {\r\n\tpadding: .3rem 1rem;\r\n}\r\n.label-multiselect-option.ui-state-active {\r\n\tpadding: .3rem .7rem .25rem 1.3rem;\r\n}\r\n.label-multiselect-option.ui-state-active:before {\r\n\tcontent: url(\"img/check.png\");\r\n\tposition: absolute;\r\n\tleft: .5rem;\r\n}\r\n.label-multiselect-select-all,\r\n.label-multiselect-clear-all,\r\n.label-multiselect-select-all:hover,\r\n.label-multiselect-clear-all:hover,\r\n.label-multiselect-select-all.ui-state-active.ui-checkboxradio-checked,\r\n.label-multiselect-clear-all.ui-state-active.ui-checkboxradio-checked {\r\n\tbackground: none;\r\n\tborder: 0;\r\n\tfont-family: \"Open sans\", sans-serif;\r\n\tfont-weight: bold;\r\n\tfont-size: .7rem;\r\n\tpadding: .2rem .4rem .1rem 1.1rem;\r\n}\r\n.widgets label.label-multiselect-select-all,\r\n.widgets label.label-multiselect-select-all.ui-state-active.ui-checkboxradio-checked {\r\n\tfont-size: .7rem;\r\n\tcolor: rgba(201, 45, 66, .7);\r\n\ttransition: color .3s;\r\n}\r\n.widgets label.label-multiselect-clear-all,\r\n.widgets label.label-multiselect-clear-all.ui-state-active.ui-checkboxradio-checked {\r\n\tfont-size: .7rem;\r\n\tcolor: rgba(96, 96, 96, .7);\r\n\ttransition: color .3s;\r\n}\r\n.widgets label.label-multiselect-select-all:hover {\r\n\tcolor: rgba(201, 45, 66, 1);\r\n}\r\n.widgets label.label-multiselect-clear-all:hover {\r\n\tcolor: rgba(96, 96, 96, 1);\r\n}\r\n\r\n.label-multiselect-select-all:before, .label-multiselect-clear-all:before {\r\n\tposition: absolute;\r\n\tleft: .2rem;\r\n}\r\n.label-multiselect-select-all:before {\r\n\tcontent: url(\"img/check-colored.png\");\r\n\topacity: .7;\r\n\ttransition: opacity .3s;\r\n}\r\n.label-multiselect-clear-all:before {\r\n\tcontent: url(\"img/uncheck.png\");\r\n\topacity: .7;\r\n\ttransition: opacity .3s;\r\n}\r\n.label-multiselect-select-all:hover:before {\r\n\topacity: 1;\r\n}\r\n.label-multiselect-clear-all:hover:before {\r\n\topacity: 1;\r\n}/* === Selections === */\r\n.select-menu-box {\r\n    margin: .5rem 0;\r\n}\r\n\r\n.widgets label.select-menu-caption {\r\n    display: block;\r\n    font-weight: bold;\r\n    height: 1.2rem;\r\n    line-height: 1.2rem;\r\n    font-size: .8rem;\r\n}\r\n\r\n.option-count {\r\n    color: #aaa;\r\n    font-style: normal;\r\n    position: absolute;\r\n    right: .7rem;\r\n}\r\n\r\n.select-menu-box .ui-selectmenu-button {\r\n    background: #eee;\r\n    min-width: 15rem;\r\n    width: 90%;\r\n    margin: .1rem 0;\r\n    padding: .4rem .5rem;\r\n    border: 1px solid #bbb;\r\n    line-height: 1rem;\r\n}\r\n\r\n.select-menu-box .ui-selectmenu-icon, .select-menu-box .ui-selectmenu-button-open .ui-selectmenu-icon,\r\n.select-menu-box .ui-selectmenu-button-closed .ui-selectmenu-icon {\r\n    background: url(\'img/arrow-down.png\');\r\n}\r\n\r\n.select-menu-box .ui-corner-all {\r\n    border-radius: .1rem;\r\n}.histogram {\r\n    bottom: 0;\r\n    height: 50px;\r\n    padding-left: 1px;\r\n    position: absolute;\r\n    min-width: 14.5rem;\r\n    width: 100%;\r\n}\r\n\r\n.histogram-bar {\r\n    background: rgb(220,220,220);\r\n    border-right: 1px solid white;\r\n    bottom: 0;\r\n    float: left;\r\n    position: relative;\r\n}\r\n\r\n.histogram-bar.selected {\r\n    background: #c85765;\r\n}/* === Sliders === */\r\n.slider-box {\r\n    padding-bottom: .7rem;\r\n}\r\n\r\n.slider-caption span {\r\n    font-weight: bold;\r\n    height: 1.2rem;\r\n    line-height: 1.2rem;\r\n    font-size: .8rem;\r\n}\r\n\r\n.slider-row {\r\n    min-width: 14.5rem;\r\n    width: 90%;\r\n    margin: .5rem .4rem .35rem .4rem;\r\n}\r\n\r\n.slider-row.ui-slider-horizontal {\r\n    background: #ccc;\r\n    border: 0;\r\n    height: 4px;\r\n    min-width: 14.5rem;\r\n    width: 95%;\r\n}\r\n\r\n.slider-row.ui-slider-horizontal .ui-slider-handle {\r\n    background: #c92d42;\r\n    border: 0;\r\n    border-radius: .5rem;\r\n    top: -.45em;\r\n    transition: background .3s ease-out;\r\n}\r\n\r\n.slider-row.ui-slider-horizontal .ui-slider-handle:hover, .slider-row.ui-slider-horizontal .ui-slider-handle.ui-state-focus {\r\n    background: #ad2738;\r\n}\r\n\r\n.slider-row .ui-widget-header {\r\n    border: 0;\r\n    background: #c92d42;\r\n}\r\n\r\n.floater-row.slider-labels {\r\n    font-size: .75rem;\r\n    color: #666;\r\n    padding: .2rem 0;\r\n    min-width: 15.2rem;\r\n    width: calc(95% + .7rem);\r\n}\r\n.floater-row.slider-labels > div {\r\n    display: inline-block;\r\n    position: relative;\r\n    width: 25%;\r\n    margin: 0 -3px 0 0;\r\n}\r\n.floater-row.slider-labels > .slider-thresholds-single {\r\n    width: 50%;\r\n}\r\n.slider-thresholds {\r\n    height: 1.2rem;\r\n}\r\n.slider-thresholds > input {\r\n    background: rgba(255,255,255,.7);\r\n    border: 1px solid #bbb;\r\n    border-radius: 1px;\r\n    padding: 0 .2rem;\r\n    position: relative;\r\n    margin: 0 2.5%;\r\n    width: 95%;\r\n}\r\n\r\n.slider-thresholds > .input-max, .slider-thresholds > .input-single, .slider-labels-max {\r\n    text-align: right;\r\n}\r\n\r\n.slider-popup {\r\n    display: none;\r\n    position: absolute;\r\n    margin: -6rem .4rem 0 .4rem;\r\n    min-width: 14.5rem;\r\n    height: 3.5rem;\r\n    background: white;\r\n    -webkit-box-shadow: 0 0 4px rgb(136, 136, 136);\r\n    -moz-box-shadow: 0 0 4px rgb(136, 136, 136);\r\n    box-shadow: 0 0 4px rgb(136, 136, 136);\r\n    z-index: 8888;\r\n}\r\n\r\n.slider-popup.open {\r\n    display: block;\r\n}/* === Placeholders === */\r\n.placeholders-container {\r\n    height: 6.5rem;\r\n    position: absolute;\r\n    right: 12rem;\r\n    top: 0;\r\n    width: 10.5rem;\r\n    z-index: 10000;\r\n}\r\n\r\n.placeholder {\r\n    background: rgb(140,140,140);\r\n    border: 1px solid rgba(255,255,255,.3);\r\n    border-radius: .1rem;\r\n    height: 1.5rem;\r\n    position: relative;\r\n    margin: .5rem .3rem;\r\n    transition: background .3s ease-in-out;\r\n    width: 10rem;\r\n}\r\n\r\n.placeholder.open {\r\n    background: rgba(201,45,66,.7);\r\n    border: 1px solid rgba(255,255,255,.3);\r\n    transition: background .3s ease-out;\r\n}\r\n\r\n.placeholder:hover {\r\n    background: rgb(120,120,120);\r\n    cursor: pointer;\r\n}\r\n\r\n.placeholder.open:hover {\r\n    background: #ad2738;\r\n}\r\n\r\n.placeholder > span, .floater-header > span {\r\n    color: white;\r\n    font-size: .7rem;\r\n    font-weight: bold;\r\n    line-height: 1.4rem;\r\n    padding: 0 .5rem;\r\n}\r\n.floater-header > span {\r\n    font-size: .8rem;\r\n    line-height: 1.6rem;\r\n}\r\n\r\n.placeholder-tools-container, .floater-tools-container, .tool-window-tools-container {\r\n    position: absolute;\r\n    right: 0;\r\n    top: 0;\r\n    height: 1.5rem;\r\n}\r\n.floater-tools-container, .tool-window-tools-container {\r\n    height: 2rem;\r\n}\r\n\r\n.placeholder-tool, .floater-tool {\r\n    float: right;\r\n    height: 1.3rem;\r\n    margin: .15rem .15rem .15rem 0;\r\n    position: relative;\r\n    width: 1.3rem;\r\n}\r\n.floater-tool {\r\n    margin: .3rem .3rem .3rem 0;\r\n}\r\n\r\n.placeholder-tool > img, .floater-tool > img {\r\n    margin: .1rem;\r\n}\r\n\r\n/* === Floaters === */\r\n.floater {\r\n    background: rgba(255,255,255,.95);\r\n    border: 1px solid #ccc;\r\n    border-radius: .1rem;\r\n    -webkit-box-shadow: 0 0 4px rgb(136, 136, 136);\r\n    -moz-box-shadow: 0 0 4px rgb(136, 136, 136);\r\n    box-shadow: 0 0 4px rgb(136, 136, 136);\r\n    display: none;\r\n    padding: .2rem;\r\n    position: absolute;\r\n    resize: both;\r\n    overflow: auto;\r\n    width: 18rem;\r\n    z-index: 10000;\r\n}\r\n\r\n/* floater modes*/\r\nbody.application .floater.open {\r\n    display: block;\r\n    height: 28rem;\r\n}\r\nbody.mode-3d .floater.only-2d.open {\r\n    display: none;\r\n}\r\nbody.application .floater.only-3d.open {\r\n    display: none;\r\n}\r\nbody.mode-3d .floater.only-3d.open {\r\n    display: block;\r\n}\r\n\r\n\r\n.floater.active {\r\n    z-index: 10001;\r\n}\r\n.floater-overlay {\r\n    display: none;\r\n    height: 100%;\r\n    width: 100%;\r\n    background: rgba(255,255,255,.9) url(img/loading.gif) no-repeat 50% 50%;\r\n    position: absolute;\r\n    top: 0;\r\n    left: 0;\r\n    z-index: 9999;\r\n}\r\n.floater-header {\r\n    background: #c92d42;\r\n    height: 2rem;\r\n    line-height: 2rem;\r\n    position: relative;\r\n    cursor: move;\r\n}\r\n.floater.inverse .floater-header {\r\n    background: rgba(255,255,255,.9);\r\n    color: #444;\r\n}\r\n.floater.inverse .floater-header > span {\r\n    color: #444;\r\n}\r\n.floater-body {\r\n    padding: .5rem;\r\n    height: calc(100% - 5rem);\r\n    overflow: auto;\r\n}\r\n.floater-warning {\r\n    display: none;\r\n    position: absolute;\r\n    height: calc(100% - 2.7rem);\r\n    background: white;\r\n    z-index: 10;\r\n    padding: .5rem;\r\n}\r\n\r\n.floater-footer {\r\n    border-top: 2px solid #ccc;\r\n    padding: .5rem;\r\n    height: 3rem;\r\n}\r\n\r\n.floater-row {\r\n    width: 100%;\r\n}\r\n\r\n.floater-row > .floater-row-caption {\r\n    font-size: .8rem;\r\n    font-weight: 700;\r\n    color: #666;\r\n    margin-bottom: .3rem;\r\n}\r\n\r\n.floater-footer > .floater-row {\r\n    margin-bottom: .5rem;\r\n    text-align: center;\r\n}\r\n\r\n.floater-row a {\r\n    display: block;\r\n    height: 1.5rem;\r\n    line-height: 1.4rem;\r\n    transition: background .3s ease-out;\r\n    width: 100%;\r\n}\r\n.floater-row a:hover {\r\n    background: rgb(235,235,235);\r\n}\r\n.floater-row a > * {\r\n    vertical-align: middle;\r\n}\r\n\r\n.floater-tool:hover {\r\n    cursor: pointer;\r\n}\r\n\r\n/* tabs */\r\n/* ===== Tabs ===== */\r\n.widget-tabs-menu {\r\n    height: 2rem;\r\n    float: left;\r\n    clear: both;\r\n}\r\n\r\n.widget-tabs-menu.vertical {\r\n    height: 100%;\r\n    width: 2.3rem;\r\n    border-right: 0;\r\n}\r\n\r\n.widget-tabs-menu li {\r\n    height: 2.1rem;\r\n    line-height: 2.1rem;\r\n    float: left;\r\n    margin-right: .5rem;\r\n}\r\n.widget-tabs-menu.horizontal li {\r\n    border-radius: .2rem .2rem 0 0;\r\n}\r\n\r\n.widget-tabs-menu.vertical li {\r\n    border-top: 1px solid transparent;\r\n    border-bottom: 1px solid transparent;\r\n    border-left: 4px solid transparent;\r\n    margin-bottom: .3rem;\r\n    width: 2.35rem;\r\n    height: 2.5rem;\r\n    text-align: center;\r\n}\r\n\r\n.widget-tabs-menu li.active {\r\n    border-top: 1px solid #ddd;\r\n    border-bottom: 1px solid #ddd;\r\n    border-left: 4px solid #c92d42;\r\n    border-radius: .1rem;\r\n    background: rgba(245,245,245,1);\r\n    position: relative;\r\n    z-index: 5;\r\n}\r\n.widget-tabs-menu.horizontal li.active {\r\n    border-bottom: 1px solid #fff;\r\n}\r\n.widget-tabs-menu.vertical li.active {\r\n}\r\n\r\n.widget-tabs-menu li a {\r\n    padding: .4rem 1rem;\r\n    text-transform: uppercase;\r\n    font-size: .9rem;\r\n    font-family: Corbel Bold, Open Sans, sans-serif;\r\n    color: #888;\r\n    text-decoration: none;\r\n    transition: background .3s ease-out;\r\n}\r\n.widget-tabs-menu li a:hover {\r\n    background: rgba(240,240,240,.7);\r\n}\r\n\r\n.widget-tabs-menu.vertical li a {\r\n     padding: 0.5rem;\r\n     line-height: 1.6rem;\r\n     display: block;\r\n     height: 100%;\r\n     cursor: pointer;\r\n}\r\n\r\n.widget-tabs-menu li.active a {\r\n    color: #888;\r\n}\r\n\r\n.widget-tabs-menu li.active a:focus, .tabs-menu li.active a:active{\r\n    background-color: transparent;\r\n}\r\n\r\n.widget-tabs-menu .disabled a {\r\n    color: #ccc;\r\n    pointer-events: none;\r\n    cursor: default;\r\n}\r\n\r\n.widget-tabs-menu .disabled a:hover {\r\n    color: inherit;\r\n}\r\n\r\n.widget-tabs-menu .fa:before, .tabs-menu .fa:after {\r\n    font-size: 1rem;\r\n}\r\n\r\n.widget-tab {\r\n    background: rgba(220,220,220,.3);\r\n    border: 1px solid #ddd;\r\n    border-radius: .1rem;\r\n    display: none;\r\n    float: left;\r\n    padding: .5rem;\r\n    width: 100%;\r\n    min-height: 100%;\r\n}\r\n\r\n.widget-tab.vertical {\r\n    width: calc(100% - 2.3rem);\r\n}\r\n\r\n.widget-tab.active {\r\n    display: block;\r\n}\r\n\r\n.widget-tab p {\r\n    margin: .2rem 0;\r\n    font-size: .9rem;\r\n}\r\n\r\n.widget-tab span {\r\n    margin: .2rem 0;\r\n    font-size: .9rem;\r\n}#placeholder-functional-urban-area-result {\r\n    display: block;\r\n}\r\n\r\n/* = Evaluation floater = */\r\n#floater-functional-urban-area-result {\r\n    right: 0rem;\r\n    top: 7.2rem;\r\n    min-width: 42rem;\r\n    max-width: 60rem;\r\n    bottom: 0;\r\n    height: 100%;\r\n}\r\n\r\n#floater-functional-urban-area-result .floater-body {\r\n    height: calc(100% - 8.5rem);\r\n    padding: 0 0 .5rem;\r\n}\r\n\r\n#floater-functional-urban-area-result .floater-footer {\r\n    height: 6.5rem;\r\n    border: 0px;\r\n}\r\n\r\n/* floater body */\r\n#floater-functional-urban-area-result .floater-body > div:nth-child(odd) {\r\n    padding: .5rem;\r\n}\r\n\r\n#floater-functional-urban-area-result .floater-body > div:nth-child(even){\r\n    padding: .5rem;\r\n    background: rgba(200,200,200,.1);\r\n    border-bottom: 1px solid #e5e5e5;\r\n    border-top: 1px solid #e5e5e5;\r\n}\r\n\r\n#floater-functional-urban-area-result .floater-row.slider-box,\r\n#floater-functional-urban-area-result .floater-row.checkbox-row,\r\n#floater-functional-urban-area-result .floater-row.select-menu-box,\r\n#floater-functional-urban-area-result .floater-row.row-export\r\n{\r\n    margin: 0;\r\n}\r\n\r\n/* Footer */\r\n\r\n#evaluation-confirm, #evaluation-unselect {\r\n    font-size: .7rem;\r\n    margin: 0 .1rem;\r\n    width: 47%;\r\n}\r\n/*#evaluation-confirm[disabled=disabled], #evaluation-unselect[disabled=disabled] {*/\r\n    /*pointer-events: none;*/\r\n    /*color: #bbb;*/\r\n    /*background: #e5e5e5;*/\r\n/*}*/\r\n\r\n.widget-button-export:before {\r\n    height: 100%;\r\n    width: 100%;\r\n    margin-right: 5px;\r\n    position: relative;\r\n    top: 3px;\r\n}\r\n\r\n#export-shp:before, #export-json:before {\r\n    content: url(\'img/map.png\');\r\n}\r\n#export-shp[disabled=disabled]:before, #export-json[disabled=disabled]:before {\r\n    content: url(\'img/map-disabled.png\');\r\n}\r\n#export-csv:before, #export-xls:before {\r\n    content: url(\'img/table.png\');\r\n}\r\n#export-csv[disabled=disabled]:before, #export-xls[disabled=disabled]:before {\r\n    content: url(\'img/table-disabled.png\');\r\n}/* = City floater = */\r\n#floater-city-selection {\r\n\theight: 21.5rem;\r\n\tleft: 15rem;\r\n\ttop: 9rem;\r\n\twidth: 20rem;\r\n}\r\n#floater-city-selection .floater-body {\r\n\theight: calc(100% - 11rem);\r\n\tpadding-bottom: .2rem;\r\n}\r\n#floater-city-selection .select-menu-box .ui-selectmenu-button {\r\n\twidth: 18rem;\r\n}\r\n#floater-city-selection .select-menu-box:nth-child(2),\r\n#floater-city-selection .select-menu-box:nth-child(3) {\r\n\tdisplay: inline-block;\r\n\twidth: 50%;\r\n}\r\n#floater-city-selection .select-menu-box:nth-child(2) .ui-selectmenu-button,\r\n#floater-city-selection .select-menu-box:nth-child(3) .ui-selectmenu-button {\r\n\twidth: 95%;\r\n}\r\n/* foooter */\r\n#floater-city-selection .floater-footer {\r\n\tborder: 0;\r\n\theight: 8rem;\r\n\tpadding-top: 0;\r\n}\r\n\r\n#melodies-selection-confirm {\r\n\tmargin-bottom: .2rem;\r\n\twidth: 60%;\r\n}\r\n#melodies-selection-confirm[disabled=disabled] {\r\n\tcolor: #ccc;\r\n\tbackground: #eee;\r\n\tfont-style: italic;\r\n\tpointer-events: none;\r\n\ttext-transform: none;\r\n}\r\n#melodies-selection-confirm[disabled=disabled]:hover {\r\n\tcursor: none;\r\n}\r\n\r\n#melodies-selection-confirm.failed {\r\n\tcolor: red;\r\n\ttext-transform: none;\r\n}\r\n\r\n#floater-city-selection .table-row {\r\n\tborder-bottom: 2px solid #ddd;\r\n\tborder-top: 2px solid #ddd;\r\n\theight: 6rem;\r\n\toverflow: auto;\r\n\tbackground: #f5f5f5;\r\n}\r\n#floater-city-selection .table-row > table {\r\n\twidth: 100%;\r\n}\r\n#floater-city-selection .table-row > table tr {\r\n\tborder-bottom: 1px solid #ddd;\r\n}\r\n#floater-city-selection .table-row > table tr:last-child {\r\n\tborder-bottom: 0;\r\n}\r\n#floater-city-selection .table-row > table tr td {\r\n\tcolor: #888;\r\n\tfont-size: .7rem;\r\n\tline-height: 1.5rem;\r\n\tpadding: 0 .2rem;\r\n\ttext-align: left;\r\n}\r\n#floater-city-selection .table-row > table tr td.column-status {\r\n\tmin-width: 4rem;\r\n\tpadding-right: .3rem;\r\n\ttext-align: right;\r\n}\r\n#floater-city-selection .table-row > table tr td.column-status:after {\r\n\tdisplay: inline-block;\r\n\tpadding-left: .5rem;\r\n\tvertical-align: middle;\r\n}\r\n#floater-city-selection .table-row > table tr td.column-status.running:after {\r\n\tcontent: url(\"../images/melodies/run.png\");\r\n}\r\n#floater-city-selection .table-row > table tr td.column-status.failed:after {\r\n\tcontent: url(\"../images/melodies/fail.png\");\r\n}\r\n#floater-city-selection .table-row > table tr td.column-status.success:after {\r\n\tcontent: url(\"../images/melodies/success.png\");\r\n}\r\n#floater-city-selection .table-row > table tr td.column-id {\r\n\ttext-align: right;\r\n}.new-table {\r\n\tpadding: 0 .2rem;\r\n\twidth: 95%;\r\n}\r\n.new-table tr th, .new-table tr td {\r\n\tcolor: #888;\r\n\tpadding: 0 .2rem;\r\n\tmin-width: 2rem;\r\n\tline-height: 2rem;\r\n\tborder-bottom: 1px solid #ccc;\r\n}\r\n.new-table tr th {\r\n\tcolor: #666;\r\n\tfont-weight: 600;\r\n\tline-height: 1.3rem;\r\n}\r\n.new-table tr th:first-child {\r\n\tpadding-left: .5rem;\r\n}\r\n.new-table tr td:first-child {\r\n\tpadding-left: .5rem;\r\n}\r\n.new-table input[disabled=\"disabled\"] {\r\n\tborder: 0;\r\n\tbackground: transparent;\r\n}\r\n\r\n.new-table td.record-name {\r\n\tmin-width: 10rem;\r\n}\r\n\r\n.new-table td.record-name > input {\r\n\twidth: 100%;\r\n}#custom-au-info {\r\n\tdisplay: none;\r\n}#custom-lines-info {\r\n\tdisplay: none;\r\n}/* = Evaluation floater = */\r\n#floater-custom-polygons-widget {\r\n\tleft: 15rem;\r\n\ttop: 9rem;\r\n\tmin-width: 17rem;\r\n\twidth: 25rem;\r\n\tmax-width: 30rem;\r\n\theight: 22rem;\r\n}\r\n\r\n#floater-custom-polygons-widget .floater-body {\r\n\theight: calc(100% - 2rem);\r\n\tpadding: .5rem .4rem .5rem .2rem;\r\n}\r\n\r\n#floater-custom-polygons-widget .floater-body .floater-row {\r\n\tmargin: 0 0 .5rem 0;\r\n}\r\n#floater-custom-polygons-widget .floater-body .floater-row.layer-check {\r\n\tpadding: 0 0 0 .2rem;\r\n}\r\n#floater-custom-polygons-widget .floater-body .floater-row.export-row {\r\n\tborder-bottom: 3px solid #e9e9e9;\r\n\tmargin-bottom: 1rem;\r\n\tpadding-bottom: .8rem;\r\n}\r\n\r\n#floater-custom-polygons-widget .floater-body > div {\r\n\tpadding: .5rem;\r\n}\r\n\r\n#floater-custom-polygons-widget .map-button {\r\n\tmin-width: 4rem;\r\n\tpadding: .4rem .7rem .3rem;\r\n\tmargin: .2rem .2rem .2rem 0;\r\n\ttext-transform: none;\r\n\ttext-align: center;\r\n}\r\n\r\n#lines-export-shp:before, #polygons-export-shp:before, #lines-export-json:before, #polygons-export-json:before {\r\n\tcontent: url(\'img/map.png\');\r\n}\r\n#lines-export-shp[disabled=disabled]:before, #polygons-export-shp[disabled=disabled]:before,\r\n#lines-export-json[disabled=disabled]:before, #polygons-export-json[disabled=disabled]:before {\r\n\tcontent: url(\'img/map-disabled.png\');\r\n}\r\n/* == tool window == */\r\n.tool-window {\r\n\tbackground: rgba(255,255,255,.95);\r\n\tborder-radius: .1rem;\r\n\t-webkit-box-shadow: 0 0 4px rgb(136, 136, 136);\r\n\t-moz-box-shadow: 0 0 4px rgb(136, 136, 136);\r\n\tbox-shadow: 0 0 4px rgb(136, 136, 136);\r\n\r\n\tdisplay: none;\r\n\theight: 25rem;\r\n\twidth: 35rem;\r\n\tpadding: .5rem;\r\n\tposition: absolute;\r\n\ttop: 8rem;\r\n\tleft: calc(50% - 17.5rem);\r\n\tz-index: 10000;\r\n\tresize: both;\r\n\toverflow: auto;\r\n}\r\n.tool-window.open {\r\n\tdisplay: block;\r\n}\r\n.tool-window.active {\r\n\tz-index: 10001;\r\n}\r\n\r\n/* header */\r\n.tool-window-header {\r\n\tcursor: move;\r\n\theight: 2rem;\r\n\tposition: relative;\r\n}\r\n.tool-window-header span {\r\n\tcolor: #666;\r\n\tdisplay: inline-block;\r\n\tfont-size: .9rem;\r\n\tfont-weight: bold;\r\n\tpadding: 0 .2rem .2rem;\r\n\twhite-space: nowrap;\r\n\twidth: 90%;\r\n\toverflow: hidden;\r\n\ttext-overflow: ellipsis;\r\n}\r\n.tool-window-header .window-close {\r\n\tfloat: right;\r\n}\r\n.tool-window-header .window-close:hover {\r\n\tcursor: pointer;\r\n}\r\n\r\n/* body */\r\n.tool-window-body {\r\n\tbackground: rgb(250,250,250);\r\n\tborder: 1px solid rgb(230,230,230);\r\n\theight: calc(100% - 5rem);\r\n\tpadding: .2rem .3rem;\r\n\toverflow: auto;\r\n}\r\n.tool-window-body .section-header:first-child {\r\n\tmargin-top: .2rem;\r\n}\r\n.tool-window-body .checkbox-row a {\r\n\tborder-bottom: 1px solid rgb(235,235,235);\r\n\tpadding-left: 2rem;\r\n}\r\n.tool-window-body .checkbox-row.attribute-set-row a {\r\n\tpadding-left: 1rem;\r\n}\r\n.tool-window-body .checkbox-row.all-attributes-row a {\r\n\tpadding-left: 0;\r\n}\r\n.tool-window-body .checkbox-row div {\r\n\tfont-weight: normal;\r\n}\r\n.tool-window-body .checkbox-row div i {\r\n\tfont-style: normal;\r\n\tfont-size: .7rem;\r\n\tcolor: #bbb;\r\n\tpadding-left: .3rem;\r\n}\r\n.tool-window-body .checkbox-row.attribute-set-row div,\r\n.tool-window-body .checkbox-row.all-attributes-row div {\r\n\tfont-weight: bold;\r\n\tfont-size: .8rem;\r\n}\r\n\r\n.tool-window-body .checkbox-row .checkbox-label {\r\n\tposition: relative;\r\n\twidth: 90%;\r\n}\r\n\r\n/* toggle switch */\r\n.tool-window-body .checkbox-row .checkbox-label .multioptions {\r\n\tposition: absolute;\r\n\tdisplay: inline-block;\r\n\tright: 0;\r\n}\r\n\r\n.tool-window-body .checkbox-row .checkbox-label .multioptions > span {\r\n\tfont-size: .7rem;\r\n}\r\n\r\n.tool-window-body .checkbox-row .switch {\r\n\tposition: relative;\r\n\tdisplay: inline-block;\r\n\tmargin-left: .3rem;\r\n\twidth: 25px;\r\n\theight: 14px;\r\n\ttop: .15rem;\r\n}\r\n\r\n.tool-window-body .checkbox-row .switch input {display:none;}\r\n\r\n.tool-window-body .checkbox-row .slider-toggle {\r\n\tposition: absolute;\r\n\tcursor: pointer;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tright: 0;\r\n\tbottom: 0;\r\n\tbackground-color: #ccc;\r\n\t-webkit-transition: .4s;\r\n\ttransition: .4s;\r\n}\r\n\r\n.tool-window-body .checkbox-row .slider-toggle:before {\r\n\tposition: absolute;\r\n\tcontent: \"\";\r\n\theight: 10px;\r\n\twidth: 26px;\r\n\tleft: 2px;\r\n\tbottom: 2px;\r\n\tbackground-color: white;\r\n\t-webkit-transition: .4s;\r\n\ttransition: .4s;\r\n}\r\n\r\n.tool-window-body .checkbox-row input:checked + .slider-toggle {\r\n\tbackground-color: #c92d42;\r\n}\r\n\r\n.tool-window-body .checkbox-row input:checked + .slider-toggle:before {\r\n\t-webkit-transform: translateX(9px);\r\n\t-ms-transform: translateX(9px);\r\n\ttransform: translateX(9px);\r\n}\r\n\r\n.tool-window-body .checkbox-row .slider-toggle {\r\n\tborder-radius: 10px;\r\n}\r\n\r\n.tool-window-body .checkbox-row .slider-toggle:before {\r\n\twidth: 12px;\r\n\tborder-radius: 10px\r\n}\r\n\r\n\r\n/* Footer */\r\n.tool-window-footer {\r\n\theight: 2.5rem;\r\n\tpadding: .5rem 0;\r\n\tposition: relative;\r\n}\r\n.tool-window-button {\r\n\tposition: absolute;\r\n\tright: 0;\r\n\twidth: 10rem;\r\n}\r\n.tool-window-button[disabled=disabled] {\r\n\tpointer-events: none;\r\n\tcolor: #bbb;\r\n\tbackground: #e5e5e5;\r\n}#categorize-settings {\r\n\twidth: 40rem;\r\n\theight: 35rem;\r\n}\r\n\r\n.categorize-body {\r\n\tpadding: 0 .5rem;\r\n}\r\n.categorize-body input {\r\n\tborder: 1px solid #bbb;\r\n\tborder-radius: .15rem;\r\n\tcolor: #555;\r\n\tbackground: rgba(255,255,255,.9);\r\n\tline-height: 1.8;\r\n\tpadding: 0 .2rem;\r\n}\r\n.categorize-body input[type=text] {\r\n\twidth: 100%;\r\n}\r\n.categorize-footer {\r\n\tpadding: .5rem;\r\n}\r\n.category-set-box {\r\n\tborder: 1px dashed #ccc;\r\n\tbackground: rgba(255,245,246,1);\r\n\tmargin: 1rem 0;\r\n}\r\n.category-set-box-header {\r\n\tdisplay: flex;\r\n\tpadding: .7rem .5rem;\r\n\tbackground: rgba(255,190,190,1);\r\n}\r\n.category-set-box-header > div {\r\n\tmargin: 0 .2rem;\r\n}\r\n.category-set-box-header .category-set-name {\r\n\tflex: 1 0 50%;\r\n}\r\n.category-set-box-header .category-set-name input {\r\n\twidth: 15rem;\r\n\tfont-size: 1rem;\r\n}\r\n.category-set-box-header .save-category-set,\r\n.category-set-box-header .delete-category-set {\r\n\tcursor: pointer;\r\n\tmax-width: 8rem;\r\n\tflex-basis: 25%;\r\n\tline-height: 2.5;\r\n\r\n}\r\n.category-box {\r\n\t border-top: 1px solid #e7e7e7;\r\n\t display: flex;\r\n\t padding: .5rem;\r\n}\r\n.category-box > div {\r\n\tmargin: 0 .2rem;\r\n}\r\n.category-box .category-name {\r\n \tflex: 1 0 35%;\r\n}\r\n.category-box .category-color {\r\n\tflex-basis: 55%;\r\n}\r\n\r\n.category-box .save-category,\r\n.category-box .delete-category {\r\n\tcursor: pointer;\r\n\tflex-basis: 4%;\r\n\tmax-width: 8rem;\r\n\tdisplay: flex;\r\n\tjustify-content: center;\r\n\talign-items: center;\r\n}\r\n.category-box .fa {\r\n\tcolor: #777;\r\n\tfont-size: 1.15rem;\r\n\ttransition: color .3s ease-in-out;\r\n}\r\n.category-box .delete-category:hover .fa,\r\n.category-box .save-category:hover .fa {\r\n\tcolor: #555;\r\n}\r\n\r\n.category-box .save-category[disabled=disabled] {\r\n\tpointer-events: none;\r\n\tbackground: transparent;\r\n}\r\n.category-box .save-category[disabled=disabled] .fa {\r\n\tcolor: #ccc;\r\n}\r\n\r\n#placeholder-evaluation-widget {\r\n    display: block;\r\n}\r\n\r\n/* = Evaluation floater = */\r\n#floater-evaluation-widget {\r\n    left: 16rem;\r\n    top: 10rem;\r\n    min-width: 22rem;\r\n    max-width: 40rem;\r\n}\r\n\r\n#floater-evaluation-widget .floater-body {\r\n    height: calc(100% - 9.5rem);\r\n    padding: 0 0 .5rem;\r\n}\r\n\r\n#floater-evaluation-widget .floater-footer {\r\n    height: 6.5rem;\r\n}\r\n\r\n/* floater body */\r\n#floater-evaluation-widget .floater-body > div:nth-child(odd) {\r\n    padding: .5rem;\r\n}\r\n\r\n#floater-evaluation-widget .floater-body > div:nth-child(even){\r\n    padding: .5rem;\r\n    background: rgba(200,200,200,.1);\r\n    border-bottom: 1px solid #e5e5e5;\r\n    border-top: 1px solid #e5e5e5;\r\n}\r\n\r\n#floater-evaluation-widget .floater-row.slider-box,\r\n#floater-evaluation-widget .floater-row.checkbox-row,\r\n#floater-evaluation-widget .floater-row.select-menu-box,\r\n#floater-evaluation-widget .floater-row.row-export\r\n{\r\n    margin: 0;\r\n}\r\n\r\n/* Footer */\r\n#floater-evaluation-widget .footer-buttons {\r\n    justify-content: center;\r\n    display: flex;\r\n}\r\n#floater-evaluation-widget .footer-buttons .widget-button {\r\n    width: 33%;\r\n    margin: 0 .2rem;\r\n    padding: .5rem;\r\n    flex: 0 1 100%;\r\n}\r\n#floater-evaluation-widget .footer-buttons .widget-button.hidden {\r\n    display: none;\r\n}\r\n\r\n/*#evaluation-confirm[disabled=disabled], #evaluation-unselect[disabled=disabled] {*/\r\n    /*pointer-events: none;*/\r\n    /*color: #bbb;*/\r\n    /*background: #e5e5e5;*/\r\n/*}*/\r\n\r\n.widget-button-export:before {\r\n    height: 100%;\r\n    width: 100%;\r\n    margin-right: 5px;\r\n    position: relative;\r\n    top: 3px;\r\n}\r\n\r\n#export-shp:before, #export-json:before {\r\n    content: url(\'img/map.png\');\r\n}\r\n#export-shp[disabled=disabled]:before, #export-json[disabled=disabled]:before {\r\n    content: url(\'img/map-disabled.png\');\r\n}\r\n#export-csv:before, #export-xls:before {\r\n    content: url(\'img/table.png\');\r\n}\r\n#export-csv[disabled=disabled]:before, #export-xls[disabled=disabled]:before {\r\n    content: url(\'img/table-disabled.png\');\r\n}#feature-info-window {\r\n\tbackground: rgba(255,255,255,.95);\r\n\tborder: 1px solid #ccc;\r\n\tborder-radius: .1rem;\r\n\tbox-shadow: 0 0 1px rgba(136,136,136,.5);\r\n\tcolor: #555;\r\n\tdisplay: none;\r\n\theight: 13rem;\r\n\tleft: 100px;\r\n\tpadding: .3rem 0 .3rem .5rem;\r\n\tposition: absolute;\r\n\tright: 100px;\r\n\tresize: both;\r\n\toverflow: auto;\r\n\tmin-width: 20rem;\r\n\twidth: 25rem;\r\n\tmax-width: 40rem;\r\n\tz-index: 10000;\r\n}\r\n#feature-info-window.no-data {\r\n\theight: 5rem;\r\n}\r\n#feature-info-window.no-data .feature-info-settings,\r\n#feature-info-window.no-data .feature-info-window-footer {\r\n\tdisplay: none;\r\n}\r\n#feature-info-window.no-data .feature-info-window-body {\r\n\theight: calc(100% - 1.7rem);\r\n}\r\n\r\n#feature-info-window.active {\r\n\tz-index: 10001;\r\n}\r\n#feature-info-window .feature-info-window-header {\r\n\tborder-bottom: 2px solid #ddd;\r\n\tfont-size: .85rem;\r\n\tfont-weight: 700;\r\n\tpadding: 0 0 .2rem .1rem;\r\n\tmargin-right: .2rem;\r\n\theight: 1.5rem;\r\n\tcursor: move;\r\n}\r\n#feature-info-window .feature-info-title {\r\n\tfloat: left;\r\n\twhite-space: nowrap;\r\n\toverflow: hidden;\r\n\ttext-overflow: ellipsis;\r\n\twidth: calc(100% - 45px);\r\n}\r\n#feature-info-window .feature-info-close,\r\n#feature-info-window .feature-info-settings {\r\n\tcursor: pointer;\r\n\tfloat: right;\r\n\tmargin-left: .1rem;\r\n\twidth: 18px;\r\n}\r\n#feature-info-window .feature-info-settings img {\r\n\twidth: 14px;\r\n}\r\n#feature-info-window .feature-info-window-body {\r\n\tmargin: 0 .2rem .2rem 0;\r\n\toverflow-x: hidden;\r\n\toverflow-y: auto;\r\n\theight: calc(100% - 3.7rem);\r\n}\r\n#feature-info-window .feature-info-window-footer {\r\n\tborder-top: 2px solid #ddd;\r\n\theight: 2rem;\r\n\tmargin-right: .2rem;\r\n\tpadding-top: .1rem;\r\n\ttext-align: center;\r\n}\r\n#feature-info-window .feature-info-window-body table {\r\n\twidth: 100%;\r\n}\r\n#feature-info-window .feature-info-window-body table tr {\r\n\tborder-bottom: 1px solid #ddd;\r\n}\r\n#feature-info-window .feature-info-window-body table tr td {\r\n\tfont-size: .75rem;\r\n\tpadding: .15rem .2rem;\r\n}\r\n#feature-info-window .feature-info-window-body table tr td i {\r\n\tcolor: #888;\r\n\tfont-style: normal;\r\n\tfont-weight: 500;\r\n}\r\n#feature-info-window .feature-info-window-body table tr:hover td {\r\n\tbackground: rgba(230,230,230,.8);\r\n}\r\n#feature-info-window .feature-info-window-body table tr td:first-child {\r\n\tfont-weight: 600;\r\n}\r\n#feature-info-window .feature-info-window-body table tr td:last-child {\r\n\ttext-align: right;\r\n}\r\n\r\n/* export */\r\n#export-feature-info-csv {\r\n\tbackground: none;\r\n}\r\n#export-feature-info-csv:hover {\r\n\tbackground: rgba(173,39,56,.2);\r\n}\r\n#export-feature-info-csv:before {\r\n\tcontent: url(\'img/table.png\');\r\n}\r\n\r\n\r\n/* overlay*/\r\n\r\n#feature-info-window .overlay {\r\n\tdisplay: none;\r\n\theight: 100%;\r\n\twidth: 100%;\r\n\tbackground: rgba(255,255,255,.9) url(img/loading.gif) no-repeat 50% 50%;\r\n\tposition: absolute;\r\n\ttop: 0;\r\n\tleft: 0;\r\n\tz-index: 10;\r\n}#feature-info {\r\n\tline-height: 1.45rem;\r\n\tpadding: 0 .5rem;\r\n\ttext-align: left;\r\n}\r\n\r\n#feature-info:after {\r\n\tcontent: url(img/feature-info-icon.png);\r\n\tdisplay: inline-block;\r\n\tpadding-top: .1rem;\r\n\tposition: absolute;\r\n\tright: .7rem;\r\n}\r\n#feature-info.active:after {\r\n\tcontent: url(img/feature-info-icon-active.png);\r\n}.control {\r\n\tbackground: rgba(255, 255, 255, 0.85);\r\n\tborder-radius: .3rem;\r\n\tz-index: 15;\r\n\tbox-shadow: 0 0 0.3rem 0 rgba(0, 0, 0, 0.3);\r\n\tmargin-bottom: 7px;\r\n}\r\n\r\n#map-controls {\r\n\tposition: absolute;\r\n\tbottom: 20px;\r\n\tright: 7px;\r\n\tz-index: 1;\r\n}\r\n\r\n#map-controls .control > a,\r\n.menu-control > a {\r\n\tdisplay: block;\r\n\twidth: 2rem;\r\n\theight: 2rem;\r\n\ttext-align: center;\r\n\tfont-size: 1.125rem;\r\n\tpadding-top: .19rem;\r\n\tcolor: #666;\r\n\r\n\ttransition:\r\n\t\t\tcolor .2s ease-in-out,\r\n\t\t\tbackground .2s ease-in-out;\r\n}\r\n\r\n.menu-control > a {\r\n\tborder-radius: .3rem;\r\n}\r\n\r\n#map-controls .control > a:not(:first-child) {\r\n\tborder-top: 1px solid rgba(0, 0, 0, .1);\r\n}\r\n\r\n#map-controls .control > a:hover,\r\n.menu-control > a:hover {\r\n\tbackground-color: rgba(255, 255, 255, .5);\r\n\tcolor: #c92d42;\r\n}\r\n\r\n#rotate-needle-control i {\r\n\t/*transition: all .2s ease-in-out;*/\r\n\t-webkit-transform: rotate(-45deg);\r\n\ttransform: rotate(-45deg);\r\n}\r\n\r\n/*#rotate-needle-control:hover i {*/\r\n/*transform: rotate(-45deg);*/\r\n/*}*/\r\n\r\n.tilt-control a {\r\n\t/*\toverflow: hidden;*/\r\n\tbackground-position: center center;\r\n\tbackground-size: 1.2rem;\r\n\tbackground-repeat: no-repeat;\r\n}\r\n\r\n#tilt-more-control svg,\r\n#tilt-less-control svg {\r\n\tmargin-top: .21rem;\r\n\twidth: 1.125rem;\r\n\theight: 1.125rem;\r\n}\r\n\r\n#tilt-more-control svg path,\r\n#tilt-less-control svg path {\r\n\tfill: #666;\r\n\r\n\ttransition:\r\n\t\t\tfill .2s ease-in-out;\r\n}\r\n\r\n#tilt-more-control:hover svg path,\r\n#tilt-less-control:hover svg path {\r\n\tfill: #c92d42;\r\n}.world-wind-map {\r\n\tposition: relative;\r\n\tleft: 0;\r\n\theight: 100%;\r\n\twidth: 100%;\r\n}\r\n.world-wind-canvas {\r\n\twidth: 100%;\r\n\theight: 100%;\r\n}\r\n.map-window-tools {\r\n\tposition: absolute;\r\n\tdisplay: flex;\r\n\ttop: 0;\r\n\tleft: 0;\r\n}\r\n\r\n/* close button */\r\n.close-map-button {\r\n\tbackground: rgba(244,243,239,.9);\r\n\tborder-right: 1px solid rgba(80,87,94,.3);\r\n\tcursor: pointer;\r\n\tdisplay: flex;\r\n\tjustify-content: center;\r\n\talign-items: center;\r\n\twidth: 1.5rem;\r\n\theight: 1.5rem;\r\n\tz-index: 1;\r\n\ttransition: background .3s ease-in-out;\r\n}\r\n.close-map-icon {\r\n\tcolor: rgba(80,87,94,.9);\r\n\tfont-size: .9rem;\r\n\ttransition: color .3s ease-in-out;\r\n}\r\n.close-map-button:hover {\r\n\tbackground: rgba(214,213,219,.9);\r\n}\r\n.close-map-button:hover .close-map-icon {\r\n\tcolor: rgba(80,87,94,1);\r\n}\r\n\r\n/* period label */\r\n.map-period-label {\r\n\tbackground: rgba(244,243,239,.9);\r\n\tcolor: rgba(80,87,94,.9);\r\n\tfont-weight: 600;\r\n\tfont-size: .9rem;\r\n\theight: 1.5rem;\r\n\tline-height: 1.4rem;\r\n\tpadding: 0 .5rem;\r\n}.maps-container {\r\n\tbackground: #ccc;\r\n\tdisplay: none;\r\n\tflex-wrap: wrap;\r\n\tposition: relative;\r\n\tz-index: 5555;\r\n\twidth: 100%;\r\n\ttop: 0;\r\n}\r\nbody.mode-3d .maps-container {\r\n\tdisplay: block;\r\n\tposition: absolute;\r\n}\r\n.maps-container .map-fields {\r\n\twidth: 100%;\r\n\theight: 100%;\r\n}\r\n.world-wind-map-box {\r\n\tbackground: black url(\"img/night-sky.jpg\") top left no-repeat;\r\n\tborder-bottom: 1px solid #888;\r\n\tborder-right: 1px solid #888;\r\n\tdisplay: inline-block;\r\n\tposition: relative;\r\n\twidth: 100%;\r\n\theight: 100%;\r\n\tmargin: 0;\r\n\tvertical-align: top;\r\n}\r\n\r\n/* maps container grid */\r\n.maps-container.h2 .world-wind-map-box {\r\n\theight: 50%;\r\n}\r\n.maps-container.h3 .world-wind-map-box {\r\n\theight: 33.33%;\r\n}\r\n.maps-container.h4 .world-wind-map-box {\r\n\theight: 25%;\r\n}\r\n.maps-container.w2 .world-wind-map-box {\r\n\twidth: 50%;\r\n}\r\n.maps-container.w3 .world-wind-map-box {\r\n\twidth: 33.33%;\r\n}\r\n.maps-container.w4 .world-wind-map-box {\r\n\twidth: 25%;\r\n}\r\n/* delete right border for all maps on the right */\r\n.maps-container.h1.w1 .map-fields .world-wind-map-box {\r\n\tborder-bottom: 0;\r\n\tborder-right: 0;\r\n}\r\n.maps-container.w1.h2 .map-fields .world-wind-map-box,\r\n.maps-container.w2.h1 .map-fields .world-wind-map-box:nth-child(2n),\r\n.maps-container.w2.h2 .map-fields .world-wind-map-box:nth-child(2n),\r\n.maps-container.w2.h3 .map-fields .world-wind-map-box:nth-child(2n),\r\n.maps-container.w3.h2 .map-fields .world-wind-map-box:nth-child(3n),\r\n.maps-container.w3.h3 .map-fields .world-wind-map-box:nth-child(3n),\r\n.maps-container.w3.h4 .map-fields .world-wind-map-box:nth-child(3n),\r\n.maps-container.w4.h3 .map-fields .world-wind-map-box:nth-child(4n),\r\n.maps-container.w4.h4 .map-fields .world-wind-map-box:nth-child(4n){\r\n\tborder-right: 0;\r\n}#floater-osm-widget {\r\n    top: 150px;\r\n    left: 270px;\r\n    height: 300px;\r\n}body.application #sidebar-reports.snow-mode {\r\n\twidth: 100%;\r\n\ttransition: width .5s ease-in-out;\r\n}\r\nbody.application #sidebar-reports.snow-mode.show-map {\r\n\twidth: 800px;\r\n}\r\nbody.application #sidebar-reports.snow-mode.show-map.hidden {\r\n\twidth: 0;\r\n}\r\n#app-extra-content > iframe {\r\n\twidth: 100%;\r\n\theight: 100%;\r\n}.component-button {\r\n\tborder: 2px solid #434254;\r\n\tborder-radius: .15rem;\r\n\tcolor: #434254;\r\n\tcursor: pointer;\r\n\tfont-size: .85rem;\r\n\tfont-weight: 700;\r\n\tline-height: 1.8rem;\r\n\ttransition: background .3s ease-in-out;\r\n\twidth: 8rem;\r\n}\r\n.component-button:hover {\r\n\tbackground: rgba(67,66,84,.15);\r\n}\r\n\r\n/* text */\r\n.component-button.text-centered {\r\n\ttext-align: center;\r\n}\r\n.component-button.text-small {\r\n\tfont-size: .75rem;\r\n\tline-height: 1.6rem;\r\n}\r\n\r\n/* widths */\r\n.component-button.w5 {\r\n\twidth: 5rem;\r\n}\r\n.component-button.w6 {\r\n\twidth: 6rem;\r\n}\r\n.component-button.w8 {\r\n\twidth: 8rem;\r\n}\r\n.component-button.w10 {\r\n\twidth: 10rem;\r\n}\r\n.component-button.w12 {\r\n\twidth: 12rem;\r\n}\r\n.component-button.w14 {\r\n\twidth: 14rem;\r\n}\r\n.component-button.compare-button {\r\n\tdisplay: inline-block;\r\n\tvertical-align: middle;\r\n\tbackground: rgba(255, 255, 255, .25);\r\n\tborder: 1px solid rgba(255, 255, 255, .3);\r\n\tborder-radius: .05rem;\r\n\tcolor: #ddd;\r\n\theight: 23px;\r\n\tline-height: 21px;\r\n}\r\n.component-button.compare-button:hover {\r\n\tbackground: rgba(255, 255, 255, .15);\r\n}.select2-container {\r\n\tmin-width: 5rem;\r\n\tmargin-right: .5rem;\r\n}.select-multi-container {\r\n\tmin-width: 5rem;\r\n}\r\n.select-multi-container.onlyArrow {\r\n\tcursor: pointer;\r\n\tmin-width: 2rem;\r\n\tmin-height: 28px;\r\n\tmax-height: 28px;\r\n\tmax-width: 2rem;\r\n}\r\n.select-multi-container.onlyArrow ul.select2-selection__rendered {\r\n\tdisplay: none;\r\n}\r\n.select-multi-container.onlyArrow:before {\r\n\tcolor: #888;\r\n\tfont-family: FontAwesome;\r\n\tfont-size: .85rem;\r\n\theight: 26px;\r\n\tdisplay: flex;\r\n\tjustify-content: center;\r\n\talign-items: center;\r\n}\r\n.select-multi-container.onlyArrow[aria-expanded=false]:before{\r\n\tcontent: \"\\f0d7\";\r\n}\r\n.select-multi-container.onlyArrow[aria-expanded=true]:before{\r\n\tcontent: \"\\f0d8\";\r\n}\r\n.select-multi-dropdown {\r\n\tmin-width: 5rem;\r\n}\r\n.select-multi-dropdown ul li[aria-selected=true]:before {\r\n\tcontent: \"\\f00c\";\r\n\tfont-family: FontAwesome;\r\n\tfont-size: .7rem;\r\n\tmargin-right: .25rem;\r\n}\r\n\r\n/* topbar multiselect with arrow*/\r\n.select-multi-container.top-bar-multiselect {\r\n\tborder-radius: 0.05rem;\r\n\tbackground: rgba(255, 255, 255, .25);\r\n\tborder: 1px solid rgba(255, 255, 255, .3);\r\n\tborder-left: 0;\r\n\tcolor: #ddd;\r\n}\r\n.select-multi-container.top-bar-multiselect.onlyArrow {\r\n\tmin-height: initial;\r\n\theight: 23px;\r\n\tmin-width: initial;\r\n\twidth: 26px;\r\n}\r\n.select-multi-container.top-bar-multiselect.onlyArrow:before {\r\n\tcolor: #ddd;\r\n\theight: 20px;;\r\n}\r\n.select2-container--default.select2-container--focus .select-multi-container.top-bar-multiselect.select2-selection--multiple {\r\n\tborder: 1px solid rgba(255, 255, 255, .3);\r\n\tborder-left: 0;\r\n\toutline: 0;\r\n}.select-basic-container {\r\n\tmin-width: 5rem;\r\n}\r\n\r\n/* topbar select*/\r\n.select-basic-container.top-bar-select {\r\n\t border-radius: 0.05rem;\r\n\t background: rgba(255, 255, 255, .25);\r\n\t border: 1px solid rgba(255, 255, 255, .3);\r\n\t height: 23px;\r\n}\r\n.select-basic-container.top-bar-select .select2-selection__rendered {\r\n\tline-height: 21px;\r\n\tcolor: #ddd;\r\n\tfont-weight: 700;\r\n}\r\n.select-basic-container.top-bar-select .select2-selection__arrow {\r\n\theight: 23px;\r\n}\r\n.select-basic-container.top-bar-select .select2-selection__arrow > b {\r\n\tborder-color: #ddd transparent transparent transparent;\r\n}/* General selector declarations todo move them to the general class */\r\n.select2-container {\r\n\tz-index: 99999;\r\n}\r\n.selector {\r\n\tdisplay: none;\r\n\theight: 1.9rem;\r\n}\r\n.selector-label {\r\n\tline-height: 1.9rem;\r\n\tmargin-right: .7rem;\r\n\tcolor: white;\r\n\tfont-weight: 700;\r\n\tfont-size: 11px;\r\n}\r\nbody.mode-3d .selector {\r\n\tdisplay: inline-block;\r\n\tvertical-align: top;\r\n}#floater-periods-widget {\r\n\ttop: 150px;\r\n\tleft: 270px;\r\n}#floater-sharing {\r\n\tleft: 16rem;\r\n\ttop: 10rem;\r\n\tmin-width: 22rem;\r\n\tmax-width: 40rem;\r\n}\r\n.snow-cfg-table {\r\n\tmargin: .5rem 0 1.8rem;\r\n\twidth: 100%;\r\n}\r\n\r\n.snow-cfg-table tr td {\r\n\tborder-bottom: 1px dashed #ccc;\r\n\tcolor: #666;\r\n\tline-height: 1.3rem;\r\n\tpadding: .4rem 0;\r\n\tfont-size: .85rem;\r\n\ttransition: background .3s ease-out;\r\n}\r\n.snow-cfg-table tr:first-child td {\r\n\tborder-top: 1px dashed #ccc;\r\n}\r\n\r\n.snow-cfg-table tr td:first-child {\r\n\tpadding-left: 0;\r\n}\r\n.snow-cfg-table tr td i {\r\n\tfont-style: normal;\r\n\tfont-weight: 600;\r\n}\r\n.snow-cfg-table tr td i.satellite-name {\r\n\ttext-transform: uppercase;\r\n}\r\n\r\n.snow-cfg-table tr td:last-child {\r\n\ttext-align: right;\r\n}\r\n\r\n.snow-cfg-table tr:hover td {\r\n\tbackground: rgba(240,240,240,.7);\r\n}\r\n\r\n.snow-cfg-table tr td div {\r\n\tdisplay: inline-block;\r\n\tvertical-align: middle;\r\n}\r\n.snow-cfg-table tr td.snow-icon {\r\n\tpadding-right: .5rem;\r\n}\r\n.snow-cfg-table tr td.snow-composites {\r\n\tpadding-right: 1.5rem;\r\n}\r\n.snow-cfg-table tr td.snow-cfg-name-date {\r\n\tmax-width: 14rem;\r\n\tpadding-right: 1.5rem;\r\n}\r\n.snow-cfg-table tr td.snow-cfg-name-date div {\r\n\tdisplay: block;\r\n\tfloat: left;\r\n}\r\n.snow-cfg-table tr td.snow-cfg-name-date div.snow-name {\r\n\twhite-space: nowrap;\r\n\toverflow: hidden;\r\n\ttext-overflow: ellipsis;\r\n\twidth: 100%;\r\n\tfont-weight: 600;\r\n}\r\n.snow-cfg-table tr td.snow-cfg-name-date div.snow-timestamp {\r\n\tcolor: #aaa;\r\n}\r\n.snow-cfg-table tr td div.snow-icon-container {\r\n\tmargin: 0 .5rem\r\n}\r\n.snow-icon-container svg {\r\n\twidth: 1.2rem;\r\n\theight: 1.2rem;\r\n\tdisplay: inline-block;\r\n\tvertical-align: middle;\r\n}\r\n.snow-icon-container:not(.icon-composites) svg path {\r\n\t fill: #666;\r\n\t stroke: #666;\r\n}\r\n.snow-cfg-table .button-cell {\r\n\tpadding: 0 .2rem;\r\n\twidth: 6rem;\r\n}\r\n.snow-cfg-table .button-cell-delete {\r\n\twidth: 2rem;\r\n}\r\n.snow-cfg-table .widget-button {\r\n\twidth: 100%;\r\n\tfont-size: .7rem;\r\n\tpadding: .2rem;\r\n\ttext-transform: none;\r\n}\r\n.snow-cfg-table .widget-button i {\r\n\tfont-size: .85rem;\r\n\tfont-weight: 400;\r\n}\r\n.snow-cfg-table .delete-composites i {\r\n\tfont-size: .9rem;\r\n}\r\n.snow-cfg-table .show-composites i {\r\n\tfont-size: .75rem;\r\n\tpadding-left: .5rem;\r\n}\r\n.snow-cfg-table .save-composites i {\r\n\tfont-size: .85rem;\r\n\tpadding-right: .5rem;\r\n}\r\n\r\n.snow-cfg-table .snow-input {\r\n\tpadding: .1rem .3rem;\r\n\theight: 1.6rem;\r\n\tborder-radius: .15rem;\r\n\tborder: 1px solid #bbb;\r\n\tmargin: 0 .2rem;\r\n\tcolor: #666;\r\n\tfont-weight: 600;\r\n\tmax-width: 8rem;\r\n}\r\n\r\n.snow-cfg-table .snow-input::-webkit-input-placeholder { /* Chrome/Opera/Safari */\r\n\tfont-weight: 400;\r\n\tcolor: #aaa;\r\n}\r\n.snow-cfg-table .snow-input::-moz-placeholder { /* Firefox 19+ */\r\n\tfont-weight: 400;\r\n\tcolor: #aaa;\r\n}\r\n.snow-cfg-table .snow-input:-ms-input-placeholder { /* IE 10+ */\r\n\tfont-weight: 400;\r\n\tcolor: #aaa;\r\n}\r\n.snow-cfg-table .snow-input:-moz-placeholder { /* Firefox 18- */\r\n\tfont-weight: 400;\r\n\tcolor: #aaa;\r\n}#floater-snow-widget {\r\n\tdisplay: none;\r\n\tleft: calc(50% - 500px);\r\n\ttop: calc(50% - 250px);\r\n\twidth: 1000px;\r\n\theight: 500px;\r\n\tmargin: 0;\r\n}\r\n#floater-snow-widget.open {\r\n\tdisplay: block;\r\n}\r\n#floater-snow-widget .floater-body {\r\n\theight: calc(100% - 2.5rem);\r\n}\r\n.snow-table-caption {\r\n\tcolor: #c92d42;\r\n\tfont-size: 1.1rem;\r\n\tfont-weight: 400;\r\n}.layer-tool-floater {\r\n\tbackground: rgba(255,255,255,.95);\r\n\tdisplay: none;\r\n\tposition: absolute;\r\n\tmin-height: 100px;\r\n\theight: auto;\r\n\twidth: 300px;\r\n\tleft: auto;\r\n\tbottom: 55px;\r\n\ttop: auto;\r\n\tright: 627px;\r\n}\r\n\r\n.tool-window.layer-tool-floater.open {\r\n\tdisplay: none;\r\n}\r\nbody.mode-3d .tool-window.layer-tool-floater.open {\r\n\tdisplay: block;\r\n}\r\n\r\n.layer-tool-floater-body {\r\n\tpadding: .3rem;\r\n\theight: calc(100% - 2.5rem);\r\n}.layer-tool-icon {\r\n\tcursor: pointer;\r\n\tdisplay: inline-block;\r\n\tposition: relative;\r\n\tfloat: right;\r\n\tmargin: 0 .15rem;\r\n\theight: 100%;\r\n\twidth: 1rem;\r\n}\r\n.layer-tool-icon.legend-icon img.active {\r\n\tdisplay: none;\r\n}\r\n.layer-tool-icon.legend-icon.open img {\r\n\tdisplay: none;\r\n}\r\n.layer-tool-icon.legend-icon.open img.active {\r\n\tdisplay: block;\r\n}\r\n\r\n/*.layer-tool-icon i {*/\r\n\t/*color: rgba(104,103,116,.65);*/\r\n\t/*display: inline-block;*/\r\n\t/*font-size: .9rem;*/\r\n\t/*font-family: \"FontAwesome\";*/\r\n\t/*transition: color .3s ease-out;*/\r\n\t/*vertical-align: middle;*/\r\n/*}*/\r\n/*.layer-tool-icon:hover i {*/\r\n\t/*color: rgba(104,103,116,1);*/\r\n/*}*/\r\n/*.layer-tool-icon.open i {*/\r\n\t/*color: #ad2738;*/\r\n/*}*/.layer-tools {\r\n\tdisplay: inline-block;\r\n\tvertical-align: middle;\r\n\theight: 100%;\r\n\tmargin: 0 .25rem 0 0;\r\n\twidth: 2.7rem;\r\n}\r\n.panel-layer-group-body .layer-tools {\r\n\twidth: 4rem;\r\n}/* === Radiobox === */\r\n.radiobox-row.checked .radiobox-icon {\r\n\tbackground: url(\'img/radio-checked.png\') no-repeat center center;\r\n}\r\n\r\n.radiobox-icon {\r\n\tbackground: url(\'img/radio-unchecked.png\') no-repeat center center;\r\n\tdisplay: inline-block;\r\n\tmargin-right: .5rem;\r\n\twidth: 1.2rem;\r\n\theight: 1.2rem;\r\n\tline-height: 1.2rem;\r\n\ttransition: background .3s;\r\n}\r\n\r\n.radiobox-label {\r\n\tdisplay: inline-block;\r\n\tfont-weight: bold;\r\n\theight: 1.2rem;\r\n\tline-height: 1.2rem;\r\n\tfont-size: .8rem;\r\n}.panel-header {\r\n\tcolor: #555;\r\n\tcursor: pointer;\r\n\tpadding: 0;\r\n\tposition: relative;\r\n\ttransition: background .3s ease-out;\r\n}\r\n.panel-header:hover {\r\n\tbackground: rgb(235,235,235);\r\n}\r\n.panel-header h3 {\r\n\tdisplay: inline-block;\r\n\tfont-size: .75rem;\r\n\tfont-weight: 400;\r\n\tvertical-align: middle;\r\n\r\n}\r\n\r\n.panel-layer-group-header {\r\n\tcolor: #555;\r\n\tcursor: pointer;\r\n\tpadding: 0 0 0 1.3rem;\r\n\tposition: relative;\r\n\ttransition: background .3s ease-out;\r\n}\r\n.panel-layer-group-header:hover {\r\n\tbackground: rgb(235,235,235);\r\n}\r\n.panel-layer-group-header h3 {\r\n\tdisplay: inline-block;\r\n\tfont-size: .75rem;\r\n\tfont-weight: 400;\r\n\tvertical-align: middle;\r\n\r\n}\r\n\r\n.panel-body .floater-row {\r\n\tpadding-left: 1.05rem;\r\n}\r\n\r\n.panel-icon {\r\n\tdisplay: inline-block;\r\n\twidth: 1.2rem;\r\n\theight: 1.25rem;\r\n\tvertical-align: middle;\r\n\r\n}\r\n\r\n.panel-icon.expand-icon {\r\n\tbackground: url(img/tree-node-expand.png) no-repeat center center;\r\n}\r\n.panel-icon.folder-icon {\r\n\tbackground: url(img/tree-node-closed.png) no-repeat center center;\r\n}\r\n.panel-header.open .panel-icon.expand-icon, .panel-layer-group-header.open .panel-icon.expand-icon {\r\n\tbackground: url(img/tree-node-collapse.png) no-repeat center center;\r\n}\r\n.panel-header.open .panel-icon.folder-icon, .panel-layer-group-header.open .panel-icon.folder-icon {\r\n\tbackground: url(img/tree-node-opened.png) no-repeat center center;\r\n}\r\n.panel-body {\r\n\tdisplay: none;\r\n\tpadding: 0.05rem 0 .2rem;\r\n\tposition: relative;\r\n\t/*max-height: 12rem;*/\r\n\t/*overflow: auto;*/\r\n}\r\n.panel-body.open {\r\n\tdisplay: block;\r\n}\r\n.panel-body .panel-row {\r\n\tposition: relative;\r\n\theight: 1.3rem;\r\n}\r\n.panel-body .layer-row {\r\n\tdisplay: inline-block;\r\n\tvertical-align: middle;\r\n\twidth: calc(100% - 3rem);\r\n}\r\n.panel-body .panel-layer-group-body .layer-row {\r\n\tpadding-left: 2.15rem;\r\n\twidth: calc(100% - 4.3rem);\r\n}\r\n.panel-body .layer-row a {\r\n\twidth: auto;\r\n}\r\n.panel-body .floater-row a {\r\n\tpadding: 0 .3rem;\r\n\theight: 1.3rem;\r\n\tline-height: 1.2rem;\r\n\tcolor: #555;\r\n}\r\n.panel-body .floater-row .radiobox-label,\r\n.panel-body .floater-row .checkbox-label {\r\n\tfont-weight: 400;\r\n\tfont-size: .75rem;\r\n\twhite-space: nowrap;\r\n\toverflow: hidden;\r\n\ttext-overflow: ellipsis;\r\n}/* Panels */\r\n#floater-world-wind-widget-panels {\r\n}#floater-world-wind-widget {\r\n\tdisplay: none;\r\n\tleft: 10rem;\r\n\ttop: 10rem;\r\n\tmax-width: 40rem;\r\n\tmin-height: 4rem;\r\n\twidth: 260px;\r\n\tbackground: rgba(255,255,255,.9);\r\n}\r\n#floater-world-wind-widget.open {\r\n\tdisplay: block;\r\n}\r\n#floater-world-wind-widget .floater-header {\r\n\theight: 2rem;\r\n}\r\n#floater-world-wind-widget .floater-body {\r\n\theight: calc(100% - 2rem);\r\n\tborder: 1px solid #ddd;\r\n}\r\n\r\n/* Floater body */\r\n#floater-world-wind-widget .floater-body {\r\n\tpadding: .2rem 0 0 0;\r\n}\r\n#floater-world-wind-widget .checkbox-row {\r\n\ttransition: background .3s ease-out;\r\n}\r\n#floater-world-wind-widget .checkbox-row:hover {\r\n\tbackground: rgb(235,235,235);\r\n\tcursor: pointer;\r\n}\r\n\r\n\r\n.floater-fake-header {\r\n\tbackground: #ddd;\r\n\theight: 31px;\r\n\tline-height: 31px;\r\n\tpadding: 0 .5rem 0 1rem;\r\n}\r\n.floater-fake-header span {\r\n\tcolor: #333;\r\n\tfont-size: 12px;\r\n\tfont-weight: 700;\r\n}\r\n.floater-fake-header-tool {\r\n\tcursor: pointer;\r\n\tposition: relative;\r\n\tfloat: right;\r\n}\r\n.floater-fake-header-tool img {\r\n\tposition: absolute;\r\n\tright: 0;\r\n\ttop: 7px;\r\n}');
 
 require(["app"]);

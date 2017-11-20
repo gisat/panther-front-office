@@ -59,7 +59,9 @@ define(['../../../error/ArgumentError',
 	 */
 	FeatureInfoWindow.prototype.build = function(){
 		var html = S(htmlContent).template({
-			id: this._id
+			id: this._id,
+			featureName: polyglot.t("featureNameGid"),
+			exportToXls: polyglot.t("exportToXls")
 		}).toString();
 		this._target.append(html);
 		this._infoWindow = $("#" + this._id);

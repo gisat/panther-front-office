@@ -47,7 +47,7 @@ define([
 			'<div class="categorize-body">' +
 			'</div>' +
 			'<div class="categorize-footer">' +
-				'<div class="widget-button w10" id="add-category-set">Add category set' +
+				'<div class="widget-button w10" id="add-category-set">' + polyglot.t("addCategorySet") +
 				'</div>' +
 			'</div>'
 		);
@@ -70,8 +70,8 @@ define([
 	};
 
 	CategorizeSettings.prototype.renameLabels = function(){
-		this._headerSelector.find("span").html("Categorize");
-		this._confirmButtonSelector.html("Show in chart")
+		this._headerSelector.find("span").html(polyglot.t("categorize"));
+		this._confirmButtonSelector.html(polyglot.t("showInChart"))
 	};
 
 	/**
@@ -173,7 +173,7 @@ define([
 
 		return {
 			id: this._currentCategoryId,
-			name: "Category " + this._categoryCounter,
+			name: polyglot.t("category") + " " + this._categoryCounter,
 			data: this._currentETstate,
 			color: '#000000'
 		};
@@ -189,7 +189,7 @@ define([
 
 		return {
 			id: this._currentCategorySetId,
-			name: "Set " + this._categorySetCounter,
+			name: polyglot.t("Set") + " " + this._categorySetCounter,
 			categories: {}
 		};
 	};
@@ -220,8 +220,8 @@ define([
 			'<div class="category-set-box" id="' + categorySet.id + '" data-id="' + categorySet.id + '">' +
 				'<div class="category-set-box-header">' +
 					'<div class="category-set-name"><input type="text" value="' + categorySet.name + '"></div>' +
-					'<div class="save-category-set widget-button button-save-record">Save set name</div>' +
-					'<div class="delete-category-set widget-button button-delete-record"> Delete whole set </div>' +
+					'<div class="save-category-set widget-button button-save-record">'+polyglot.t("saveSetName")+'</div>' +
+					'<div class="delete-category-set widget-button button-delete-record">'+polyglot.t("deleteWholeSet")+'</div>' +
 				'</div>' +
 			'</div>'
 		);

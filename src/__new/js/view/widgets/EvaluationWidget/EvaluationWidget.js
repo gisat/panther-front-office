@@ -227,7 +227,7 @@ define([
      */
     EvaluationWidget.prototype.buildSettings = function(){
         var tool = "settings";
-        var name = "Settings";
+        var name = polyglot.t("settings");
         this._widgetSelector.find(".floater-tools-container").append('<div title="'+ name +'" class="floater-tool widget-'+ tool +'">' +
             '<img alt="' + name + '" src="__new/img/'+ tool +'.png"/>' +
             '</div>');
@@ -401,7 +401,13 @@ define([
         }
 
         var html = S(htmlFooterContent).template({
-            hidden: addCategoryClass
+            hidden: addCategoryClass,
+            clearSelection: polyglot.t("clearSelection"),
+            addCategory: polyglot.t("addCategory"),
+            exportToGeoJson: polyglot.t("exportToGeoJson"),
+            exportToXls: polyglot.t("exportToXls"),
+            exportToShp: polyglot.t("exportToShp"),
+            exportToCsv: polyglot.t("exportToCsv")
         }).toString();
         this._widgetSelector.find(".floater-footer").html("").append(html);
     };
@@ -477,7 +483,7 @@ define([
             if (count == 1){
                 areasName = "area";
             }
-            $('#evaluation-confirm').html("Select " + count + " " + areasName)
+            $('#evaluation-confirm').html(polyglot.t("select") + " " + count + " " + areasName)
                 .removeClass("hidden")
                 .off("click.confirm")
                 .on("click.confirm", function(){
@@ -489,7 +495,7 @@ define([
                 });
         }
         else {
-            $('#evaluation-confirm').html("No area selected")
+            $('#evaluation-confirm').html(polyglot.t("noAreaSelected"))
                 .off("click.confirm");
         }
 

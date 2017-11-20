@@ -24,7 +24,7 @@ Ext.define('PumaMain.view.LayerPanel', {
                 store: Ext.StoreMgr.lookup('layers'),
                 displayField: 'name',
                 rootVisible: false,
-                title: 'Available layers',
+                title: polyglot.t('availableLayers'),
                 border: true,
                 viewConfig: {
                     autoScroll: false,
@@ -59,7 +59,7 @@ Ext.define('PumaMain.view.LayerPanel', {
                             metadata.tdAttr = 'data-qtip="' + value + '" data-for="' + id + '"';
                             return value;
                         },
-                        header: 'Name'
+                        header: polyglot.t('name')
                     }
                 ],
                 style: {
@@ -78,7 +78,7 @@ Ext.define('PumaMain.view.LayerPanel', {
                     plugins: {ptype: 'gridviewdragdrop'}
                 },
                 displayField: 'name',
-                title: 'Selected layers',
+                title: polyglot.t('selectedLayers'),
                 bodyCls: 'layers-selected',
                 border: true,
                 columns: [
@@ -91,7 +91,7 @@ Ext.define('PumaMain.view.LayerPanel', {
                             metadata.tdAttr = 'data-qtip="' + value + '"';
                             return value;
                         },
-                        header: 'Name'
+                        header: polyglot.t('name')
                     }
                     , {
                         xtype: 'actioncolumn',
@@ -101,7 +101,7 @@ Ext.define('PumaMain.view.LayerPanel', {
                         items: [
                             {
                                 icon: 'images/icons/opacity.png', // Use a URL in the icon config
-                                tooltip: 'Opacity',
+                                tooltip: polyglot.t('opacity'),
                                 helpId: 'Settinglayersopacity',
                                 width: 16,
                                 height: 16,
@@ -110,7 +110,7 @@ Ext.define('PumaMain.view.LayerPanel', {
                                 }
                             },{
                                 icon: 'images/icons/info.png', // Use a URL in the icon config
-                                tooltip: 'Metadata', 
+                                tooltip: polyglot.t('metadata'),
                                 width: 16,
                                 height: 16,
                                 getClass: function(v,metadata,rec) {
@@ -125,7 +125,7 @@ Ext.define('PumaMain.view.LayerPanel', {
                             }
                             ,{
                                 icon: 'images/icons/legend.png', // Use a URL in the icon config
-                                tooltip: 'Open Legend', 
+                                tooltip: polyglot.t('openLegend'),
                                 width: 16,
                                 height: 16,
                                 getClass: function(v,metadata,rec) {
@@ -144,7 +144,7 @@ Ext.define('PumaMain.view.LayerPanel', {
                             
                             ,{
                                 icon: 'images/icons/legend-active.png', // Use a URL in the icon config
-                                tooltip: 'Close legend', 
+                                tooltip: polyglot.t('closeLegend'),
                                 width: 16,
                                 height: 16,
                                 getClass: function(v,metadata,rec) {

@@ -97,12 +97,14 @@ define(['../../../../error/ArgumentError',
 			this.clear(this._id);
 
 			if(Stores.selectedOutlines) {
-				this.rebuildControl("Selected areas filled", this._layers.selected, "selectedareasfilled");
+				this.rebuildControl(polyglot.t("selectedAreasFilled"), this._layers.selected, "selectedareasfilled");
 				this.switchOnSelected();
 			}
 
 			if(Stores.outlines){
-				this.rebuildControl("Area outlines", this._layers.outlines, "areaoutlines");
+                console.log('AuLayersPanel#rebuild ', this._layers.outlines);
+                this.rebuildControl(polyglot.t("areaOutlines"), this._layers.outlines, "areaoutlines");
+                this._layers.outlines.additionalData = Stores.outlines.data;
 				this.switchOnOutlines();
 			}
 		}
@@ -132,13 +134,15 @@ define(['../../../../error/ArgumentError',
 	 * @param store {Object} store with data from 2D
 	 */
 	AuLayersPanel.prototype.redrawLayer = function(layer, id, store){
+		console.log('AuLayersPanel ', layer);
 		this.clearLayers(id);
 		if (!_.isEmpty(layer)){
 			layer.layerData.layer = store.layerNames;
 			layer.layerData.sldId = store.sldId;
+			layer.layerData.data = store.data;
 
 			this._mapStore.getAll().forEach(function(map){
-				map.layers.addChoroplethLayer(layer.layerData, id, false);
+				map.layers.addAULayer(layer.layerData, id, false);
 			});
 
 			var toolBox = layer.control.getToolBox();

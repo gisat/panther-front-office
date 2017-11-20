@@ -33,7 +33,7 @@ Ext.define('PumaMain.view.Main', {
                 },
                 items: [{
                         xtype: 'treepanel',
-                        title: 'Areas',
+                        title: polyglot.t('areas'),
                         itemId: 'areatree',
                         store: Ext.StoreMgr.lookup('area'),
                         //frame: true,
@@ -53,7 +53,7 @@ Ext.define('PumaMain.view.Main', {
                     }, {
                         xtype: 'tabpanel',
                         flex: 1,
-                        title: 'Layers',
+                        title: polyglot.t('layers'),
                         items: [
                             {
                                 xtype: 'treepanel',
@@ -63,7 +63,7 @@ Ext.define('PumaMain.view.Main', {
 //                                },
                                 store: Ext.StoreMgr.lookup('layers'),
                                 //frame: true,
-                                title: 'Layers available',
+                                title: polyglot.t('layersAvailable'),
                                 displayField: 'name',
                                 rootVisible: false,
                                 border: true,
@@ -79,7 +79,7 @@ Ext.define('PumaMain.view.Main', {
                                 viewConfig: {
                                     plugins: {ptype: 'gridviewdragdrop'}
                                 },
-                                title: 'Layers selected',
+                                title: polyglot.t('layersSelected'),
                                 displayField: 'name',
                                 border: true,
                                 columns: [{
@@ -95,7 +95,7 @@ Ext.define('PumaMain.view.Main', {
                             }, {
                                 xtype: 'dataview',
                                 itemId: 'legendpanel',
-                                title: 'Legend',
+                                title: polyglot.t('legend'),
                                 autoScroll: true,
                                 itemSelector: 'div.legenditem',
                                 tpl:  ['<tpl for=".">','<tpl if="src">','<div class="legenditem">','<img src="{src}">','</div>','</tpl>','</tpl>'],

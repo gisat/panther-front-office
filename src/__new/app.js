@@ -340,19 +340,19 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
     function buildCityWidget (){
         return new CityWidget({
             elementId: 'city-selection',
-            name: 'UrbanDynamic Tool',
+            name: polyglot.t('urbanDynamicTool'),
             placeholderTargetId: 'widget-container',
             selections: [{
                 id: 'melodies-city-selection',
-                name: 'Select city',
+                name: polyglot.t('selectCity'),
                 options: ['Brno', 'České Budějovice', 'Plzeň', 'Ostrava']
             }, {
                 id: 'melodies-start-selection',
-                name: 'Select start',
+                name: polyglot.t('selectStart'),
                 options: ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016']
             }, {
                 id: 'melodies-end-selection',
-                name: 'Select end',
+                name: polyglot.t('selectEnd'),
                 options: ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016']
             }]
         })
@@ -361,7 +361,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
     function buildPeriodsWidget (mapsContainer){
     	return new PeriodsWidget({
 			elementId: 'periods-widget',
-			name: 'Periods',
+			name: polyglot.t('periods'),
 			mapsContainer: mapsContainer,
 			dispatcher: window.Stores,
 			isWithoutFooter: true,
@@ -378,7 +378,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 	function buildSnowWidget (mapController, iFrame){
 		return new SnowWidget({
 			elementId: 'snow-widget',
-			name: 'Saved configurations',
+			name: polyglot.t('savedConfigurations'),
 			placeholderTargetId: 'widget-container',
 			iFrame: iFrame,
 			mapController: mapController,
@@ -395,7 +395,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
     function buildWorldWindWidget (mapsContainer, topToolBar, stateStore){
         return new WorldWindWidget({
             elementId: 'world-wind-widget',
-            name: 'Layers',
+            name: polyglot.t('layers'),
 			mapsContainer: mapsContainer,
             placeholderTargetId: 'widget-container',
             topToolBar: topToolBar,
@@ -425,7 +425,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 	function buildSharingWidget() {
 		Widgets.sharing = new SharingWidget({
 			elementId: 'sharing',
-			name: 'Share',
+			name: polyglot.t('share'),
 			placeholderTargetId: 'widget-container'
 		});
 
@@ -456,7 +456,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 	function buildOsmWidget(mapsContainer, mapStore) {
         return new OSMWidget({
             elementId: 'osm-widget',
-            name: 'Open Street Maps',
+            name: polyglot.t('openStreetMaps'),
             mapsContainer: mapsContainer,
             mapStore: mapStore,
             dispatcher: window.Stores,

@@ -45,7 +45,13 @@ define([
 			throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "DrawCustomLines", "constructor", "missingHTMLElement"));
 		}
 
-		this.build(DrawCustomLinesHtml);
+		this.build(DrawCustomLinesHtml, {
+            drawingOfCustomLinesIsDisabled: polyglot.t("drawingOfCustomLinesIsDisabled"),
+            drawGreenConnectivityLine: polyglot.t("drawGreenConnectivityLine"),
+            activateDrawing: polyglot.t("activateDrawing"),
+            exportLayerToGeoJson: polyglot.t("exportLayerToGeoJson"),
+            exportLayerToShp: polyglot.t("exportLayerToShp")
+		});
 
 		this._buttonDraw = $("#button-draw-lines");
 		this._section = $("#custom-lines-container");

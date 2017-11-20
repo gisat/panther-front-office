@@ -45,7 +45,7 @@ define([
 		this._options = options.options;
 		this._disabledOptions = options.disabledOptions;
 		this._selectedOptions = options.selectedOptions;
-		this._title = options.title || "Select";
+		this._title = options.title || polyglot.t("select");
 		this._sorting = options.sorting;
 		this._classes = options.classes;
 	};

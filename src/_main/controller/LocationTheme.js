@@ -148,10 +148,10 @@ Ext.define('PumaMain.controller.LocationTheme', {
             themeCombo.setValue(first)
         }
         if (cnt.initial) {
-            locationCombo.emptyText = 'Select place...';
+            locationCombo.emptyText = polyglot.t('selectPlace');
             locationCombo.setValue(null);
             if (themeCombo && themeCombo.isVisible()) {
-                themeCombo.emptyText = 'Select theme...';
+                themeCombo.emptyText = polyglot.t('selectTheme');
                 themeCombo.setValue(null);
             }
         }
@@ -993,14 +993,14 @@ Ext.define('PumaMain.controller.LocationTheme', {
         if (!systemNode.childNodes.length) {
             selectedLayerNode = {
                 type: 'selectedareas',
-                name: 'Selected areas',
+                name: polyglot.t('selectedAreas'),
                 sortIndex: 0,
                 checked: false,
                 leaf: true
             };
             selectedLayerFilledNode = {
                 type: 'selectedareasfilled',
-                name: 'Selected areas filled',
+                name: polyglot.t('selectedAreasFilled'),
                 sortIndex: 0,
                 checked: true,
                 leaf: true
@@ -1008,7 +1008,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
             areaLayerNode = {
                 type: 'areaoutlines',
                 sortIndex: 1,
-                name: 'Area outlines',
+                name: polyglot.t('areaOutlines'),
                 checked: true,
                 leaf: true
             };

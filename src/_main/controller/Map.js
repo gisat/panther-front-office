@@ -194,9 +194,9 @@ Ext.define('PumaMain.controller.Map', {
 		
 		var window = Ext.WindowManager.get('measureWindow');
 		if (val) {
-			var title = 'Measure '+(btn.itemId == 'measurelinebtn' ? 'line' : 'polygon');
-			var helpText = btn.itemId == 'measurelinebtn' ? 'Click to define line shape, double-click to complete.' : 'Click to define polygon shape, double-click to complete.';
-			var initialText = (btn.itemId == 'measurelinebtn' ? 'Length' : 'Area') + ":";
+			var title = 'Measure '+(btn.itemId == 'measurelinebtn' ? polyglot.t('line') : polyglot.t('polygon'));
+			var helpText = btn.itemId == 'measurelinebtn' ? polyglot.t('clickToDefineLine') : polyglot.t('clickToDefinePolygon');
+			var initialText = (btn.itemId == 'measurelinebtn' ? polyglot.t('length') : polyglot.t('area')) + ":";
 			if (!window) {
 				
 				window = Ext.widget('window',{
@@ -857,7 +857,7 @@ Ext.define('PumaMain.controller.Map', {
 	},
 
 	onMeasurePartial: function(evt) {
-		var html = (evt.order == 1 ? 'Length' : 'Area' )+': ';
+		var html = (evt.order == 1 ? polyglot.t('length') : polyglot.t('area') )+': ';
 		if (evt.measure == 0){
 			return;
 		}
@@ -897,11 +897,11 @@ Ext.define('PumaMain.controller.Map', {
 							}
 							return val;
 						},
-						header: 'Name'
+						header: polyglot.t('name')
 					},{
 						dataIndex: 'value',
 						flex: 1,
-						header: 'Value'
+						header: polyglot.t('value')
 					}],
 					store: Ext.create('Ext.data.TreeStore',{
 						fields: ['name','value','attrSet']

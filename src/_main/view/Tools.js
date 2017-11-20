@@ -10,18 +10,18 @@ var widgets = {
 		helpId: 'Layers',
 		tools: [{
 			type: 'gear',
-			tooltip: 'Configure thematic maps',
+			tooltip: polyglot.t('configureThematicMaps'),
 			itemId: 'gear'
 		},{
 			type: 'detach',
 			cls: 'detach',
-			tooltip: 'Detach',
+			tooltip: polyglot.t('detach'),
 			itemId: 'undock',
 			hidden: Config.toggles.useTopToolbar
 		},{
 			type: 'hide',
 			cls: 'hide',
-			tooltip: 'Hide',
+			tooltip: polyglot.t('hide'),
 			itemId: 'hide',
 			hidden: !Config.toggles.useTopToolbar,
 			listeners: {
@@ -34,7 +34,7 @@ var widgets = {
 		}],
 		height: 340,
 		header: !Config.toggles.useTopToolbar,
-		title: 'Layers'
+		title: polyglot.t('layers')
 	},
 	areatree: {
 		xtype: 'areatree',
@@ -44,28 +44,28 @@ var widgets = {
 		tools: [{
 			type: 'areacollapseall',
 			cls: 'areacollapseall',
-			tooltip: 'Collapse all',
+			tooltip: polyglot.t('collapseAll'),
 			itemId: 'areacollapseall'
 		},{
 			type: 'areacollapselevel',
 			cls: 'areacollapselevel',
-			tooltip: 'Collapse last level',
+			tooltip: polyglot.t('collapseLastLevel'),
 			itemId: 'areacollapselevel'
 		},{
 			type: 'areaexpandlevel',
 			cls: 'areaexpandlevel',
-			tooltip: 'Expand last level',
+			tooltip: polyglot.t('expandLastLevel'),
 			itemId: 'areaexpandlevel'
 		},{
 			type: 'detach',
 			cls: 'detach',
-			tooltip: 'Detach',
+			tooltip: polyglot.t('detach'),
 			itemId: 'undock',
 			hidden: Config.toggles.useTopToolbar
 		},{
 			type: 'hide',
 			cls: 'hide',
-			tooltip: 'Hide',
+			tooltip: polyglot.t('hide'),
 			itemId: 'hide',
 			hidden: !Config.toggles.useTopToolbar,
 			listeners: {
@@ -76,14 +76,14 @@ var widgets = {
 				}
 			}
 		}],
-		title: Config.basicTexts.areasSectionName,
+		title: polyglot.t('areas'),
 		header: !Config.toggles.useTopToolbar,
 		height: 340
 		//,maxHeight: 500
 	},
 	colourSelection: {
 		xtype: 'panel',
-		title: 'Selections',
+		title: polyglot.t('selections'),
 		header: Config.toggles.useTopToolbar ? false : {height: 60},
 		// id: 'selcolor',
 		itemId: 'selcolor',
@@ -91,23 +91,23 @@ var widgets = {
 		tools: [{
 			type: 'unselect',
 			cls: 'unselect',
-			tooltip: 'Unselect active selection',
+			tooltip: polyglot.t('unselectActiveSelection'),
 			itemId: 'unselect'
 		},{
 			type: 'unselectall',
 			cls: 'unselectall',
-			tooltip: 'Unselect all',
+			tooltip: polyglot.t('unselectAll'),
 			itemId: 'unselectall'
 		},{
 			type: 'detach',
 			cls: 'detach',
-			tooltip: 'Detach',
+			tooltip: polyglot.t('detach'),
 			itemId: 'undock',
 			hidden: Config.toggles.useTopToolbar
 		},{
 			type: 'hide',
 			cls: 'hide',
-			tooltip: 'Hide',
+			tooltip: polyglot.t('hide'),
 			itemId: 'hide',
 			hidden: !Config.toggles.useTopToolbar,
 			listeners: {
@@ -142,26 +142,26 @@ var widgets = {
 		collapsed: !Config.toggles.useTopToolbar,
 		tools: [{
 			type: 'poweron',
-			tooltip: 'Activate/deactivate',
+			tooltip: polyglot.t('activateDeactivate'),
 			itemId: 'poweron'
 		},{
 			type: 'refresh',
-			tooltip: 'Reset',
+			tooltip: polyglot.t('reset'),
 			itemId: 'refresh'
 		},{
 			type: 'gear',
-			tooltip: 'Configure filters',
+			tooltip: polyglot.t('Configure filters'),
 			itemId: 'gear'
 		},{
 			type: 'detach',
-			tooltip: 'Detach',
+			tooltip: polyglot.t('detach'),
 			cls: 'detach',
 			itemId: 'undock',
 			hidden: Config.toggles.useTopToolbar
 		},{
 			type: 'hide',
 			cls: 'hide',
-			tooltip: 'Hide',
+			tooltip: polyglot.t('hide'),
 			itemId: 'hide',
 			hidden: !Config.toggles.useTopToolbar,
 			listeners: {
@@ -206,13 +206,13 @@ var widgets = {
 		tools: [{
 			type: 'detach',
 			cls: 'detach',
-			tooltip: 'Detach',
+			tooltip: polyglot.t('detach'),
 			itemId: 'undock',
 			hidden: Config.toggles.useTopToolbar
 		},{
 			type: 'hide',
 			cls: 'hide',
-			tooltip: 'Hide',
+			tooltip: polyglot.t('hide'),
 			itemId: 'hide',
 			hidden: !Config.toggles.useTopToolbar,
 			listeners: {
@@ -235,7 +235,7 @@ var widgets = {
 		tools: [{
 			type: 'hide',
 			cls: 'hide',
-			tooltip: 'Hide',
+			tooltip: polyglot.t('hide'),
 			itemId: 'hide',
 			hidden: !Config.toggles.useTopToolbar,
 			listeners: {
@@ -249,7 +249,7 @@ var widgets = {
 		width: 400,
 		height: 400,
 		header: !Config.toggles.useTopToolbar,
-		title: 'Add layer',
+		title: polyglot.t('addLayer'),
 		html: "<div id='custom-layers'></div>"
 	}
 };

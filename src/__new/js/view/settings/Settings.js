@@ -41,7 +41,11 @@ define([
      * Build the settings window, fill it with data and add listeners
      */
     Settings.prototype.buildContent = function(){
-        var html = S(htmlContent).template({id: this._id}).toString();
+        var html = S(htmlContent).template({
+            id: this._id,
+            settings: polyglot.t("settings"),
+            confirm: polyglot.t("confirm")
+        }).toString();
         if (!$("#" + this._id).length){
             this._target.append(html);
         }

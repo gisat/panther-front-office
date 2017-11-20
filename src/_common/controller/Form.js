@@ -65,7 +65,7 @@ Ext.define('Puma.controller.Form',{
         }
         if (ret) {  
             if (formCmp.showPrecreateMsg) {
-                Puma.util.Msg.msg('Record '+rec.get('name')+' '+(creating?'start creating':'start updating'),'');
+                Puma.util.Msg.msg('Record '+rec.get('name')+' '+(creating?polyglot.t('startCreating'):polyglot.t('startUpdating')),'');
             }
             rec.save({
                 callback: function(record,op) {
@@ -74,26 +74,26 @@ Ext.define('Puma.controller.Form',{
                             rec.destroy();
                         }
                         if (op.error.response.timedout) {
-                            Ext.Msg.alert('Warning','Timed out, process can still be running on server');
+                            Ext.Msg.alert(polyglot.t('warning'),polyglot.t('timedOut'));
                             return;
                         }
                         if (!op.error.response.responseText) {
-                            Ext.Msg.alert('Error','Undefined error');
+                            Ext.Msg.alert(polyglot.t('error'),polyglot.t('undefinedError'));
                             return;
                         }
                         var message = JSON.parse(op.error.response.responseText).message
                         message = message.replace(new RegExp('\n','g'),'<br/>');
-                        Ext.Msg.alert('Error',message);
+                        Ext.Msg.alert(polyglot.t('error'),message);
                         return;
                     }
                     
                     formCmp.fireEvent('aftersave',formCmp,record,op);
                     if (rec.modelName == 'Puma.model.PerformedAnalysis') {
                         var analysis = Ext.StoreMgr.lookup('analysis').getById(rec.get('analysis'));
-                        Puma.util.Msg.msg('Analysis '+analysis.get('name')+' started','');
+                        Puma.util.Msg.msg(polyglot.t('analysis')+analysis.get('name')+' ' + polyglot.t('started'),'');
                     }
                     else {
-                        Puma.util.Msg.msg('Record '+rec.get('name')+' '+(creating?'created':'updated'),'');
+                        Puma.util.Msg.msg(polyglot.t('record')+rec.get('name')+' '+(creating?polyglot.t('created'):polyglot.t('updated')),'');
                     }
                     
                     
@@ -127,20 +127,20 @@ Ext.define('Puma.controller.Form',{
                 callback: function(record,op) {
                     if (!op.success) {
                         if (!op.error.response.responseText) {
-                            Ext.Msg.alert('Error','Undefined');
+                            Ext.Msg.alert(polyglot.t('error'),polyglot.t('undefined'));
                             return;
                         }
                         var message = JSON.parse(op.error.response.responseText).message
                         message = message.replace(new RegExp('\n','g'),'<br/>');
-                        Ext.Msg.alert('Error',message);
+                        Ext.Msg.alert(polyglot.t('error'),message);
                     }
                     else {
                         if (record.modelName == 'Puma.model.PerformedAnalysis') {
                             var analysis = Ext.StoreMgr.lookup('analysis').getById(record.get('analysis'));
-                            Puma.util.Msg.msg('Analysis '+analysis.get('name')+' deleted','');
+                            Puma.util.Msg.msg(polyglot.t('analysis')+analysis.get('name')+polyglot.t('deleted'),'');
                         }
                         else {
-                            Puma.util.Msg.msg('Record '+record.get('name')+' deleted','');
+                            Puma.util.Msg.msg(polyglot.t('record')+record.get('name')+polyglot.t('deleted'),'');
                             
                         }
                     }

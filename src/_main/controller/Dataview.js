@@ -56,7 +56,7 @@ Ext.define('PumaMain.controller.Dataview', {
                     
                     var cfg = JSON.parse(respText).data;
                     if (!cfg.length) {
-                        alert('No such dataview');
+                        alert(polyglot.t('noSuchDataview'));
                         return;
                     }
                     Config.cfg = cfg[0].conf;
