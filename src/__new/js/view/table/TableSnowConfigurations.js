@@ -1,5 +1,6 @@
 define([
 	'./Table',
+	'../../util/stringUtils',
 	'jquery',
 	'string',
 	'text!../widgets/SnowWidget/icons/composites.svg',
@@ -10,6 +11,7 @@ define([
 	'css!./TableSnowConfigurations'
 ], function(
 	Table,
+	stringUtils,
 	$,
 	S,
 	compositesIcon,
@@ -46,7 +48,7 @@ define([
 		}
 
 		// add location and period cell
-		content += '<td class="snow-icon snow-area"><div class="snow-icon-container">' + areaIcon +  '</div><div>' + data.area + '</div></td>';
+		content += '<td class="snow-icon snow-area"><div class="snow-icon-container">' + areaIcon +  '</div><div>' + stringUtils.titleCase(data.area) + '</div></td>';
 		content += '<td class="snow-icon snow-date"><div class="snow-icon-container">' + calIcon +  '</div><div>' + data.dateFrom + ' -<br/>' + data.dateTo + '</div></td>';
 
 		// add sensors cell
