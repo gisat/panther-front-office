@@ -150,7 +150,7 @@ var widgets = {
 			itemId: 'refresh'
 		},{
 			type: 'gear',
-			tooltip: polyglot.t('Configure filters'),
+			tooltip: polyglot.t('configureFilters'),
 			itemId: 'gear'
 		},{
 			type: 'detach',

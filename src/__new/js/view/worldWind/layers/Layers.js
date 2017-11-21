@@ -60,22 +60,26 @@ define(['../../../error/ArgumentError',
 	};
 
 	/**
-	 * @param order {number} order in 2D
+	 * TODO: Figure how do you handle the layers from other areas and panels. At the moment, the ordered layers will be on the bottom.
+	 * @param order {Number} order in 2D
 	 * @param currentLayer {WorldWind.Layer} layer being inserted
-	 * @returns {number} position in world wind layers
+	 * @returns {Number} position in world wind layers
 	 */
 	Layers.prototype.findLayerZposition = function(order, currentLayer){
 		var layers = this._wwd.layers;
 		var position = null;
 
-		layers.forEach(function (layer, index) {
-			if ((layer.metadata.order >= 0) && (order > layer.metadata.order) && !position){
+		layers.forEach(function(layer, index){
+			if(!layer.metadata.group) {
 				position = index;
 			}
 		});
-
-		if (!position){
-			position = layers.length;
+		// Find the first which has metadata.group
+		// If there is no specific place to put the layer add it as last.
+		if (currentLayer.metadata.order !== null && currentLayer.metadata.order < layers.length){
+			position = position += currentLayer.metadata.order;
+		} else {
+            position = layers.length;
 		}
 
 		// push layer just under AU layer
@@ -241,7 +245,8 @@ define(['../../../error/ArgumentError',
 			active: state,
 			name: layerData.name,
 			id: layerData.id,
-			group: group
+			group: group,
+			order: layerData.order
 		};
 		this.addLayer(layer);
 	};
@@ -322,9 +327,10 @@ define(['../../../error/ArgumentError',
             opacity: layerData.opacity/100,
             format: "image/png",
             size: 256,
-			styleNames: 'outlines'
+			styleNames: 'outlines',
+			version: "1.1.0"
         }, null);
-        layer.urlBuilder.wmsVersion = "1.3.0";
+        layer.urlBuilder.wmsVersion = "1.1.0";
         layer.metadata = {
             active: state,
             id: layerData.id,

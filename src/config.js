@@ -1,5 +1,6 @@
 var Config = {
 	url: 'http://10.0.75.2/backend/',
+	geoServerUrl: 'http://10.0.75.2/geoserver/gwc/service/wms',
 	// signupAddress: 'http://panther.gisat.cz/account/signup/',
 	// url: 'https://puma.worldbank.org/backend/',                // PUMA
 	// signupAddress: 'https://puma.worldbank.org/account/signup/',
