@@ -95,7 +95,7 @@ define([
 			}
 			if (tools.mapTools){
 				var classesMapTools3d = $('#floater-map-tools-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesMapTools3d + '" id="top-toolbar-map-tools" data-for="floater-map-tools-widget">Map tools</div>');
+				this._target.append('<div class="' + classesMapTools3d + '" id="top-toolbar-map-tools" data-for="floater-map-tools-widget">'+polyglot.t('mapTools')+'</div>');
 			}
 			if (tools.customViews){
 				var classesCustomViews3d = Config.auth ? "item disabled" : "item disabled hidden";
