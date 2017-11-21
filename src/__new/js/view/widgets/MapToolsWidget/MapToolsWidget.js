@@ -4,6 +4,7 @@ define(['../../../actions/Actions',
 	'../../../util/Logger',
 	'../../../util/RemoteJQ',
 
+	'./MapToolTrigger',
 	'../Widget',
 
 	'jquery',
@@ -14,6 +15,7 @@ define(['../../../actions/Actions',
 			Logger,
 			RemoteJQ,
 
+			MapToolTrigger,
 			Widget,
 
 			$){
@@ -22,7 +24,7 @@ define(['../../../actions/Actions',
 	 * Class representing a widget of map tools for World Wind
 	 * @param options {Object}
 	 * @param options.dispatcher {Object} Object for handling events in the application.
-	 * @param options.featureInfo {Object}
+	 * @param options.featureInfo {FeatureInfoTool}
 	 * @constructor
 	 */
 	var MapToolsWidget = function(options){
@@ -30,10 +32,10 @@ define(['../../../actions/Actions',
 
 		this._dispatcher = options.dispatcher;
 		this._featureInfo = options.featureInfo;
+		this._tools = [];
 
 		this.build();
 		this.deleteFooter(this._widgetSelector);
-		this._dispatcher.addListener(this.onEvent.bind(this));
 	};
 
 	MapToolsWidget.prototype = Object.create(Widget.prototype);
@@ -42,58 +44,39 @@ define(['../../../actions/Actions',
 	 * Build basic view of the widget
 	 */
 	MapToolsWidget.prototype.build = function(){
+		this._widgetBodySelector.append('<div class="map-tools-triggers-container"></div>');
+		this._triggersContainerSelector = this._widgetBodySelector.find(".map-tools-triggers-container");
+
 		if (this._featureInfo){
-			this.buildFeatureInfoTrigger();
+			this._tools.push(this.buildFeatureInfoTrigger());
 		}
 		this.handleLoading("hide");
 	};
 
 	/**
-	 * Rebuild widget
+	 * Rebuild all tools in widget
 	 */
 	MapToolsWidget.prototype.rebuild = function(){
-		if (this._featureInfo && this._featureInfoTrigger.hasClass("active")){
-			this._featureInfoTrigger.trigger("click")
-		}
-	};
-
-	/**
-	 * Build trigger for Feature info functionality
-	 */
-	MapToolsWidget.prototype.buildFeatureInfoTrigger = function(){
-		var content = '<button class="map-tools-trigger" id="feature-info-trigger">Feature Info</button>';
-		this._widgetBodySelector.append(content);
-		this._featureInfoTrigger = $("#feature-info-trigger");
-		this.addFeatureInfoTriggerListener();
-	};
-
-	/**
-	 * Add on click listener to Feature info trigger
-	 */
-	MapToolsWidget.prototype.addFeatureInfoTriggerListener = function(){
-		var self = this;
-		this._featureInfoTrigger.on("click", function(){
-			var trigger = $(this);
-			var isActive = trigger.hasClass("active");
-			if (isActive){
-				self._featureInfo.deactivateFor3D();
-				trigger.removeClass("active");
-			} else {
-				self._featureInfo.activateFor3D();
-				trigger.addClass("active");
-			}
+		this._tools.forEach(function(tool){
+			tool.rebuild();
 		});
 	};
 
 	/**
-	 * @param type {string}
+	 * Build map tool trigger
+	 * @returns {MapToolTrigger}
 	 */
-	MapToolsWidget.prototype.onEvent = function (type) {
-		if (type === Actions.mapSwitchFramework){
-			if (this._featureInfoTrigger.hasClass("active")){
-				this._featureInfoTrigger.trigger("click")
-			}
-		}
+	MapToolsWidget.prototype.buildFeatureInfoTrigger = function(){
+		return new MapToolTrigger({
+			id: 'feature-info-trigger',
+			label: polyglot.t("featureInfo"),
+			hasSvgIcon: true,
+			iconPath: '../src/__new/icons/feature-info.svg',
+			dispatcher: this._dispatcher,
+			target: this._triggersContainerSelector,
+			onDeactivate: this._featureInfo.deactivateFor3D.bind(this._featureInfo),
+			onActivate: this._featureInfo.activateFor3D.bind(this._featureInfo)
+		});
 	};
 
 	return MapToolsWidget;

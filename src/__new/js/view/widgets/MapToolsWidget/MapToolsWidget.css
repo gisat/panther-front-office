@@ -4,10 +4,11 @@
 	height: 10rem;
 }
 
-/* triggers */
-.map-tools-trigger {
-
+#floater-map-tools-widget .floater-body {
+	height: calc(100% - 2.3rem);
 }
-.map-tools-trigger.active {
-	background: red;
+
+.map-tools-triggers-container {
+	display: flex;
+	flex-direction: column;
 }

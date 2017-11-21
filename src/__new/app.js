@@ -473,7 +473,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 	function buildMapToolsWidget(featureInfo){
 		return new MapToolsWidget({
 			elementId: 'map-tools-widget',
-			name: 'Map Tools',
+			name: polyglot.t("mapTools"),
 			is3dOnly: true,
 			isWithoutFooter: true,
 			dispatcher: window.Stores,
