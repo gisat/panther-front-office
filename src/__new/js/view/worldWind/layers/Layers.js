@@ -324,7 +324,7 @@ define(['../../../error/ArgumentError',
     		return layer.name;
 		}).join(',');
         var layer = new MyWmsLayer({
-            service: Config.geoserverUrl,
+            service: Config.geoServerUrl,
             sector: new WorldWind.Sector(-90,90,-180,180),
             layerNames: layerNames,
             levelZeroDelta: new WorldWind.Location(45,45),
