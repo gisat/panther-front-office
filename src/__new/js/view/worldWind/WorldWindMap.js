@@ -3,6 +3,7 @@ define(['../../actions/Actions',
 		'../../error/NotFoundError',
 		'../../util/Logger',
 
+		'../../util/dataMining',
 		'./layers/Layers',
 		'../../worldwind/MyGoToAnimator',
 		'../../worldwind/layers/osm3D/OSMTBuildingLayer',
@@ -20,6 +21,7 @@ define(['../../actions/Actions',
 			NotFoundError,
 			Logger,
 
+			dataMininig,
 			Layers,
 			MyGoToAnimator,
 			OSMTBuildingLayer,
@@ -131,7 +133,7 @@ define(['../../actions/Actions',
 	 * Add close button to this map
 	 */
 	WorldWindMap.prototype.addCloseButton = function(){
-		var html = '<div title="Remove map" class="close-map-button" data-id="' + this._id + '"><i class="fa fa-times close-map-icon" aria-hidden="true"></i></div>';
+		var html = '<div title="Remove map" class="close-map-button" data-id="' + this._id + '"><i class="close-map-icon">&#x2715;</i></div>';
 		this._mapBoxSelector.find(".map-window-tools").append(html);
 	};
 
@@ -277,6 +279,63 @@ define(['../../actions/Actions',
 		}
 		this._wwd.globe = globe;
 		this.redraw();
+	};
+
+	/**
+	 * Add on click recognizer
+	 * @param callback {function} on click callback
+	 * @param property {string} property for to find via getFeatureInfo
+	 */
+	WorldWindMap.prototype.addClickRecognizer = function(callback, property){
+		if (!this._clickRecognizer){
+			this._clickRecognizer = new WorldWind.ClickRecognizer(this._wwd.canvas, this.onMapClick.bind(this, callback, property));
+		}
+		this._clickRecognizer.enabled = true;
+	};
+
+	/**
+	 * Disable map on click recognizer
+	 */
+	WorldWindMap.prototype.disableClickRecognizer = function(){
+		if (this._clickRecognizer){
+			this._clickRecognizer.enabled = false;
+		}
+	};
+
+	/**
+	 * Execute on map click. Find out a location of click target in lat, lon. And execute getFeatureInfo query for this location.
+	 * @param callback {function} on click callback
+	 * @param property {string} property for to find via getFeatureInfo
+	 * @param event {Object}
+	 */
+	WorldWindMap.prototype.onMapClick = function(callback, property, event){
+		var self = this;
+		var gid = null;
+		var coordinates = null;
+		var auLayer = this.layers.getAuLayer()[0];
+		var auBaseLayers = dataMininig.getAuBaseLayers(this._period);
+
+		var x = event._clientX,
+			y = event._clientY;
+		var pickList = this._wwd.pick(this._wwd.canvasCoordinates(x, y));
+		if (pickList){
+			var position = pickList.objects[0].position;
+			coordinates = {
+				lat: position.latitude,
+				lon: position.longitude
+			};
+		}
+
+		if (auLayer.metadata.active && coordinates){
+			auLayer.getFeatureInfo(property, coordinates, auBaseLayers.join(",")).then(function(feature){
+				if (feature && feature.properties){
+					gid = feature.properties[property];
+				}
+				callback(gid, self._period, {x:x,y:y});
+			});
+		} else {
+			callback(gid);
+		}
 	};
 
 	/**

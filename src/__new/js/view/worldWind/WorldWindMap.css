@@ -17,8 +17,8 @@
 
 /* close button */
 .close-map-button {
-	background: rgba(244,243,239,.9);
-	border-right: 1px solid rgba(80,87,94,.3);
+	background: rgba(80,87,94,.9);
+	border-right: 1px solid rgba(214,213,219,.3);
 	cursor: pointer;
 	display: flex;
 	justify-content: center;
@@ -29,22 +29,23 @@
 	transition: background .3s ease-in-out;
 }
 .close-map-icon {
-	color: rgba(80,87,94,.9);
+	color: rgba(244,243,239,.9);
 	font-size: .9rem;
+	font-style: normal;
 	transition: color .3s ease-in-out;
 }
 .close-map-button:hover {
-	background: rgba(214,213,219,.9);
+	background: rgba(80,87,94,1);
 }
 .close-map-button:hover .close-map-icon {
-	color: rgba(80,87,94,1);
+	color: rgba(244,243,239,1);
 }
 
 /* period label */
 .map-period-label {
-	background: rgba(244,243,239,.9);
-	color: rgba(80,87,94,.9);
-	font-weight: 600;
+	color: rgba(244,243,239,.9);
+	background: rgba(80,87,94,.9);
+	font-weight: 500;
 	font-size: .9rem;
 	height: 1.5rem;
 	line-height: 1.4rem;

@@ -94,7 +94,8 @@ define([
 				this._target.append('<div class="' + classesLegacyAreasFilter3d + '" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters">' + Config.basicTexts.advancedFiltersName + '</div>');
 			}
 			if (tools.mapTools){
-				this._target.append('<div class="item disabled" id="top-toolbar-map-tools">'+polyglot.t('mapTools')+'</div>');
+				var classesMapTools3d = $('#floater-map-tools-widget').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesMapTools3d + '" id="top-toolbar-map-tools" data-for="floater-map-tools-widget">'+polyglot.t('mapTools')+'</div>');
 			}
 			if (tools.customViews){
 				var classesCustomViews3d = Config.auth ? "item disabled" : "item disabled hidden";
