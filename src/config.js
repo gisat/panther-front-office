@@ -1,16 +1,15 @@
 var Config = {
-	url: 'http://localhost:4000/',
+	url: 'http://10.0.75.2/backend/',
+	geoServerUrl: 'http://10.0.75.2/geoserver/gwc/service/wms',
 	// signupAddress: 'http://panther.gisat.cz/account/signup/',
 	// url: 'https://puma.worldbank.org/backend/',                // PUMA
 	// signupAddress: 'https://puma.worldbank.org/account/signup/',
 	// url: 'http://urbis.gisat.cz/backend/',                     // URBIS
 	// signupAddress: 'http://urbis.gisat.cz/account/signup/',
-	//  url: 'http://snow.gisat.cz/backend/',                      // Snow Portal
-	 // signupAddress: 'http://35.165.51.145/account/signup/',
+	// url: 'http://35.165.51.145/backend/',                      // Snow Portal
+	// signupAddress: 'http://35.165.51.145/account/signup/',
 	geoserver2Workspace: "panther",
-	geoserverUrl: "http://10.0.75.2/geoserver/panther/wms",
-
-	initialBaseMap: "osm",
+	initialBaseMap: "terrain",
 	initialMapBounds: [
 		112.4251556396,
 		-7.7001045314,
@@ -33,7 +32,7 @@ var Config = {
 		usePumaLogo: false,
 		advancedFiltersFirst: false,
 		hasNew3Dmap: true,
-		hasNewEvaluationTool: true,
+		hasNewEvaluationTool: false,
 		hasNewCustomPolygonsTool: false,
 		hasNewFeatureInfo: true,
 		hasPeriodsSelector: true,

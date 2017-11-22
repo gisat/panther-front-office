@@ -189,7 +189,7 @@ define([
 
 		return {
 			id: this._currentCategorySetId,
-			name: polyglot.t("Set") + " " + this._categorySetCounter,
+			name: polyglot.t("set") + " " + this._categorySetCounter,
 			categories: {}
 		};
 	};

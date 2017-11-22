@@ -438,7 +438,8 @@ define(['../../../../error/ArgumentError',
 							opacity: control.opacity,
 							customParams: customParams,
 							stylePaths: stylePaths,
-							name: layerName
+							name: layerName,
+							order: layerData.order
 							// path: layerPaths.split(",")[0]
 						};
 						if (self._groupId === "wms-layers"){
