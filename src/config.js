@@ -1,15 +1,15 @@
 var Config = {
-	url: 'http://10.0.75.2/backend/',
-	geoServerUrl: 'http://10.0.75.2/geoserver/gwc/service/wms',
+	url: 'http://localhost:4000/',
 	// signupAddress: 'http://panther.gisat.cz/account/signup/',
 	// url: 'https://puma.worldbank.org/backend/',                // PUMA
 	// signupAddress: 'https://puma.worldbank.org/account/signup/',
 	// url: 'http://urbis.gisat.cz/backend/',                     // URBIS
 	// signupAddress: 'http://urbis.gisat.cz/account/signup/',
-	// url: 'http://35.165.51.145/backend/',                      // Snow Portal
+	//  url: 'http://snow.gisat.cz/backend/',                      // Snow Portal
 	// signupAddress: 'http://35.165.51.145/account/signup/',
 	geoserver2Workspace: "panther",
-	initialBaseMap: "terrain",
+	geoServerUrl: "http://admin:geoserver@10.0.75.2:80/geoserver/panther/wms",
+	initialBaseMap: "osm",
 	initialMapBounds: [
 		112.4251556396,
 		-7.7001045314,
@@ -32,7 +32,7 @@ var Config = {
 		usePumaLogo: false,
 		advancedFiltersFirst: false,
 		hasNew3Dmap: true,
-		hasNewEvaluationTool: false,
+		hasNewEvaluationTool: true,
 		hasNewCustomPolygonsTool: false,
 		hasNewFeatureInfo: true,
 		hasPeriodsSelector: true,
@@ -75,16 +75,16 @@ var Config = {
 
 // Allow custom configuration per URL.
 if(Config.toggles[window.location.origin] && Config.toggles[window.location.origin].url) {
-    Config.url = Config.toggles[window.location.origin].url;
+	Config.url = Config.toggles[window.location.origin].url;
 }
 if(Config.toggles[window.location.origin] && Config.toggles[window.location.origin].publicUrl) {
-    Config.publicUrl = Config.toggles[window.location.origin].publicUrl;
+	Config.publicUrl = Config.toggles[window.location.origin].publicUrl;
 }
 
 // Go through all the site specific toggles and rewrite the default ones.
 if(Config.toggles[window.location.origin]) {
 	var properties = Object.keys(Config.toggles[window.location.origin]);
 	properties.forEach(function(property) {
-        Config.toggles[property] = Config.toggles[window.location.origin][property];
+		Config.toggles[property] = Config.toggles[window.location.origin][property];
 	});
 }

@@ -76,7 +76,7 @@ define(['../../../error/ArgumentError',
 		});
 		// Find the first which has metadata.group
 		// If there is no specific place to put the layer add it as last.
-		if (currentLayer.metadata.order !== null && currentLayer.metadata.order < layers.length){
+		if (currentLayer.metadata.order !== null && currentLayer.metadata.order < layers.length && !(currentLayer.metadata.group === "areaoutlines")){
 			position = position += currentLayer.metadata.order;
 		} else {
             position = layers.length;
@@ -84,7 +84,9 @@ define(['../../../error/ArgumentError',
 
 		// push layer just under AU layer
 		if (!currentLayer.metadata || !currentLayer.metadata.group || !(currentLayer.metadata.group === "areaoutlines")){
-			position--;
+			if (position > 0){
+				position--;
+			}
 		}
 
 		return position;
