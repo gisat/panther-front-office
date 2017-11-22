@@ -76,7 +76,7 @@
 	content: "";
 	height: 14px;
 	width: 14px;
-	left: 2px;
+	left: 3px;
 	bottom: 2px;
 	background-color: white;
 	-webkit-transition: .4s;
@@ -92,9 +92,9 @@ input:focus + .toggle-switch-slider {
 }
 
 input:checked + .toggle-switch-slider:before {
-	-webkit-transform: translateX(11px);
-	-ms-transform: translateX(11px);
-	transform: translateX(11px);
+	-webkit-transform: translateX(10px);
+	-ms-transform: translateX(10px);
+	transform: translateX(10px);
 }
 
 /* Rounded sliders */
