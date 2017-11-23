@@ -18,7 +18,8 @@
 .fi-window.no-data {
 	height: 5rem;
 }
-.fi-window.no-data .feature-info-window-body {
+.fi-window.no-data .feature-info-window-body,
+.fi-window.has-footer.no-data .feature-info-window-body {
 	height: calc(100% - 2.1rem);
 }
 
