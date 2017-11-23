@@ -74,7 +74,7 @@
 
 /* === Floaters === */
 .floater {
-    background-image: linear-gradient(to bottom, transparent 0rem, transparent 2.3rem, rgba(255,255,255,.85) 2.3rem, rgba(255,255,255,.85) 100%);
+    background-image: linear-gradient(to bottom, transparent 0rem, transparent 2.3rem, rgba(255,255,255,.95) 2.3rem, rgba(255,255,255,.95) 100%);
     background-position: 0px 0px;
     background-repeat:   no-repeat;
     border-radius: .1rem;
