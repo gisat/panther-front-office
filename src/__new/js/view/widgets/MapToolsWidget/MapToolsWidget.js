@@ -4,6 +4,7 @@ define(['../../../actions/Actions',
 	'../../../util/Logger',
 	'../../../util/RemoteJQ',
 
+	'../../tools/FeatureInfoTool/LayerInfoTool',
 	'./MapToolTrigger',
 	'../Widget',
 
@@ -15,6 +16,7 @@ define(['../../../actions/Actions',
 			Logger,
 			RemoteJQ,
 
+			LayerInfoTool,
 			MapToolTrigger,
 			Widget,
 
@@ -50,6 +52,10 @@ define(['../../../actions/Actions',
 		if (this._featureInfo){
 			this._tools.push(this.buildFeatureInfoTrigger());
 		}
+
+		this._layerInfo = this.buildLayerInfo();
+		this._tools.push(this.buildLayerInfoTrigger());
+
 		this.handleLoading("hide");
 	};
 
@@ -63,7 +69,18 @@ define(['../../../actions/Actions',
 	};
 
 	/**
-	 * Build map tool trigger
+	 * Build tool for info about layers
+	 * @returns {LayerInfoTool}
+	 */
+	MapToolsWidget.prototype.buildLayerInfo = function(){
+		return new LayerInfoTool({
+			id: 'layer-info',
+			dispatcher: this._dispatcher
+		})
+	};
+
+	/**
+	 * Build feature info tool trigger
 	 * @returns {MapToolTrigger}
 	 */
 	MapToolsWidget.prototype.buildFeatureInfoTrigger = function(){
@@ -76,6 +93,21 @@ define(['../../../actions/Actions',
 			target: this._triggersContainerSelector,
 			onDeactivate: this._featureInfo.deactivateFor3D.bind(this._featureInfo),
 			onActivate: this._featureInfo.activateFor3D.bind(this._featureInfo)
+		});
+	};
+
+	/**
+	 * Build layer info tool trigger
+	 * @returns {MapToolTrigger}
+	 */
+	MapToolsWidget.prototype.buildLayerInfoTrigger = function(){
+		return new MapToolTrigger({
+			id: 'layer-info-trigger',
+			label: polyglot.t("layerInfo"),
+			dispatcher: this._dispatcher,
+			target: this._triggersContainerSelector,
+			onDeactivate: this._layerInfo.deactivate.bind(this._layerInfo),
+			onActivate: this._layerInfo.activate.bind(this._layerInfo)
 		});
 	};
 

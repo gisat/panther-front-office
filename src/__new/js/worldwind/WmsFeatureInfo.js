@@ -14,23 +14,24 @@ define([
      * @param options.layers {String} List of layers deliminated by , to request info about the location.
      * @param options.customParameters {Object} Optional Object containing custom parameters to be appended to the URL.
      * @param options.srs {String} Optional Coordinate system reference.
+     * @param options.screenCoordiantes {Object} Coordinates of click event
      */
     var WmsFeatureInfo = function(options) {
         this.options = options;
-
         this.urlBuilder = new WmsFeatureInfoUrlBuilder(options);
     };
 
     /**
-     * Return just the retrieved table from the HTML based on the Result of the Information.
-     * @returns {*}
+     * Return result of get feature info request with request options
+     * @returns {Object}
      */
-    WmsFeatureInfo.prototype.html = function() {
+    WmsFeatureInfo.prototype.get = function() {
+        var self = this;
         return $.get(this.urlBuilder.url()).then(function(result){
-            var el = document.createElement('div');
-            el.innerHTML = result;
-
-            return $(el).html();
+            return {
+                featureInfo: result,
+                options: self.options
+            };
         });
     };
 

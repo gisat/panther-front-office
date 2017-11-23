@@ -39,9 +39,6 @@ define(['../../../actions/Actions',
 		if (!options.id){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "FeatureInfoTool", "constructor", "missingId"));
 		}
-		if (!options.control2dClass){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "FeatureInfoTool", "constructor", "missingElementClass"));
-		}
 
 		this._floaterTarget = $("body");
 		this._control2dClass = options.control2dClass;
@@ -58,18 +55,23 @@ define(['../../../actions/Actions',
 	 * Build Feature info basic content
 	 */
 	FeatureInfoTool.prototype.build = function() {
-		this._infoWindow = this.buildInfoWindow();
+		this._infoWindow = this.buildInfoWindow(true, true, true);
 	};
 
 	/**
 	 * Build new window for displaying information about feature
-	 * @returns {Object}
+	 * @param resizable {boolean}
+	 * @param hasSettings {boolean}
+	 * @param hasExport {boolean}
+	 * @returns {FeatureInfoWindow}
 	 */
-	FeatureInfoTool.prototype.buildInfoWindow = function(){
+	FeatureInfoTool.prototype.buildInfoWindow = function(resizable, hasSettings, hasExport){
 		return new FeatureInfoWindow({
 			target: this._floaterTarget,
 			id: this._id + "-window",
-			resizable: true
+			resizable: resizable,
+			hasSettings: hasSettings,
+			hasExport: hasExport
 		});
 	};
 
@@ -82,7 +84,7 @@ define(['../../../actions/Actions',
 	FeatureInfoTool.prototype.rebuild = function(attributes, options) {
 		this._control2dSelector = $('.' + this._control2dClass);
 		if (this._control2dSelector.hasClass("x-btn-pressed")){
-			this.trigger2dControlClick()
+			this.trigger2dControlClick();
 		}
 
 		this._attributes = attributes;
@@ -153,7 +155,9 @@ define(['../../../actions/Actions',
 	 */
 	FeatureInfoTool.prototype.hideComponents = function(){
 		this._infoWindow.setVisibility("hide");
-		this._infoWindow._settings.close();
+		if (this._infoWindow._settings){
+			this._infoWindow._settings.close();
+		}
 	};
 
 	/**

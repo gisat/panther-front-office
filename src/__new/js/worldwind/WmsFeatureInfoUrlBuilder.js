@@ -26,7 +26,7 @@ define(['../error/ArgumentError'], function (ArgumentError) {
         this.serviceAddress = options.serviceAddress;
         this.layers = options.layers;
         this.position = options.position;
-        this.infoFormat = options.infoFormat || "text/html";
+        this.infoFormat = options.infoFormat || "application/json";
         this.customParameters = options.customParameters || {};
         this.srs = options.srs || options.crs || "EPSG:4326";
         this.version = options.version || '1.1.1';

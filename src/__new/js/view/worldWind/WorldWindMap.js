@@ -10,6 +10,7 @@ define(['../../actions/Actions',
 		'../../stores/Stores',
 		'../../stores/internal/VisibleLayersStore',
 		'../../util/Uuid',
+		'../../worldwind/WmsFeatureInfo',
 
 		'string',
 		'jquery',
@@ -28,6 +29,7 @@ define(['../../actions/Actions',
 			Stores,
 			VisibleLayersStore,
 			Uuid,
+			WmsFeatureInfo,
 
 			S,
 			$,
@@ -315,11 +317,10 @@ define(['../../actions/Actions',
 		var auLayer = this.layers.getAuLayer()[0];
 		var auBaseLayers = dataMininig.getAuBaseLayers(this._period);
 
-		var x = event._clientX,
-			y = event._clientY;
-		var pickList = this._wwd.pick(this._wwd.canvasCoordinates(x, y));
-		if (pickList){
-			var position = pickList.objects[0].position;
+		var x = event._clientX;
+		var y = event._clientY;
+		var position = this.getPositionFromCanvasCoordinates(x,y);
+		if (position) {
 			coordinates = {
 				lat: position.latitude,
 				lon: position.longitude
@@ -336,6 +337,52 @@ define(['../../actions/Actions',
 		} else {
 			callback(gid);
 		}
+	};
+
+	WorldWindMap.prototype.getLayersInfo = function(callback, event) {
+		var x = event.x,
+			y = event.y;
+		var position = this.getPositionFromCanvasCoordinates(x,y);
+
+		var tablePromises = event.worldWindow.layers.map(function(layer){
+			console.log('WorldWindMap#showFeatureInfo Layer: ', layer);
+			if(!layer || !layer.metadata || !layer.metadata.group || layer.metadata.group === 'areaoutlines') {
+				return;
+			}
+			var serviceAddress = layer.urlBuilder.serviceAddress;
+			var layerNames = layer.urlBuilder.layerNames;
+			var crs = layer.urlBuilder.crs;
+
+			return new WmsFeatureInfo({
+				serviceAddress: serviceAddress,
+				layers: layerNames,
+				position: position,
+				src: crs,
+				screenCoordinates: {x: x, y: y}
+			}).get();
+		}).filter(function(state){
+			return state;
+		});
+
+		return Promise.all(tablePromises).then(function(result){
+			callback(result)
+		});
+	};
+
+	/**
+	 * Get geographic position from canvas coordinates
+	 * @param x {number}
+	 * @param y {number}
+	 * @returns {WorldWind.Position}
+	 */
+	WorldWindMap.prototype.getPositionFromCanvasCoordinates = function(x, y){
+		var currentPoint = this._wwd.pickTerrain(this._wwd.canvasCoordinates(x, y));
+		if(!currentPoint.objects.length) {
+			// TODO: Build better error mechanism.
+			alert('Please click on the area containing the globe.');
+			return;
+		}
+		return currentPoint.objects[0].position;
 	};
 
 	/**

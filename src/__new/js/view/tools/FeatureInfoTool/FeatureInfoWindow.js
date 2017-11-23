@@ -36,6 +36,10 @@ define(['../../../error/ArgumentError',
 	 * @param options {Object}
 	 * @param options.id {string} id of the element
 	 * @param options.target {Object} JQuery object
+	 * @param [options.resizable] {boolean} optional
+	 * @param [options.hasSettings] {boolean} optional
+	 * @param [options.hasExport] {boolean} optional
+	 * @param [options.title] {string} optional
 	 * @constructor
 	 */
 	var FeatureInfoWindow = function (options) {
@@ -48,6 +52,12 @@ define(['../../../error/ArgumentError',
 
 		this._id = options.id;
 		this._target = options.target;
+
+		this._resizable = options.resizable;
+		this._hasSettings = options.hasSettings;
+		this._hasExport = options.hasExport;
+		this._title = options.title;
+
 		this._windowHeight = 0;
 		this._windowWidth = 0;
 
@@ -58,19 +68,36 @@ define(['../../../error/ArgumentError',
 	 * Build basic structure of info window and attach listeners
 	 */
 	FeatureInfoWindow.prototype.build = function(){
+		var classes = "fi-window";
+		var title = polyglot.t("featureNameGid");
+
+		if (this._hasSettings){
+			classes += " has-settings"
+		}
+		if (this._hasExport){
+			classes += " has-export"
+		}
+		if (this._title){
+			title = this._title;
+		}
+
 		var html = S(htmlContent).template({
 			id: this._id,
-			featureName: polyglot.t("featureNameGid"),
+			classes: classes,
+			featureName: title,
 			exportToXls: polyglot.t("exportToXls")
 		}).toString();
 		this._target.append(html);
 		this._infoWindow = $("#" + this._id);
+		this._infoWindowBodySelector = this._infoWindow.find(".feature-info-window-body")
 
-		this._settings = this.buildSettings();
-		this._settingsConfirm = this._settings.getConfirmButton();
+		if (this._hasSettings){
+			this._settings = this.buildSettings();
+			this._settingsConfirm = this._settings.getConfirmButton();
+			this.addSettingsOpenListener();
+			this.addSettingsChangeListener();
+		}
 
-		this.addSettingsOpenListener();
-		this.addSettingsChangeListener();
 		this.addCloseListener();
 		this.makeDraggable();
 	};
@@ -136,7 +163,7 @@ define(['../../../error/ArgumentError',
 		this._infoWindow.find(".feature-info-title")
 			.html(data[0].name + " (" + data[0].gid + ")")
 			.attr("title", data[0].name + " (" + data[0].gid + ")");
-		this._infoWindow.find(".feature-info-window-body table").html(content);
+		this._infoWindowBodySelector.html('<table>' + content + '</table>');
 		this.addExportListener();
 		this.handleLoading("hide");
 	};
@@ -160,7 +187,7 @@ define(['../../../error/ArgumentError',
 			containment: "body",
 			handle: ".feature-info-window-header"
 		}).on("click drag", function(){
-			$(".floater, .tool-window").removeClass("active");
+			$(".floating-window").removeClass("active");
 			$(this).addClass("active");
 		});
 	};
@@ -205,7 +232,7 @@ define(['../../../error/ArgumentError',
 		var self = this;
 		$(".feature-info-settings").on("click", function(){
 			setTimeout(function(){
-				$(".floater, .tool-window, #feature-info-window").removeClass("active");
+				$(".floating-window").removeClass("active");
 				$('#' + self._id + '-settings').addClass('open').addClass('active');
 			}, 50);
 		});

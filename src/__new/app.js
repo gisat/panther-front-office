@@ -226,7 +226,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
                 else {
                     Floater.maximise(floater);
                     Placeholder.floaterOpened(placeholder);
-                    $(".floater").removeClass("active");
+                    $(".floating-window").removeClass("active");
                     floater.addClass("active");
                     ExchangeParams.options.openWidgets[floaterSelector.slice(1)] = true;
                 }
@@ -256,7 +256,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
             containment: "body",
             handle: ".floater-header"
         }).on("click drag", function(){
-            $(".floater, .tool-window, #feature-info-window").removeClass("active");
+            $(".floating-window").removeClass("active");
             $(this).addClass("active");
         });
     });

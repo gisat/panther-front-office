@@ -213,7 +213,7 @@ define([
                 });
             }
         }).on("click drag", function(){
-            $(".floater, .tool-window, #feature-info-window").removeClass("active");
+            $(".floating-window").removeClass("active");
             $(this).addClass("active");
         });
     };

@@ -98,7 +98,7 @@ define(['../../../../error/ArgumentError',
 				self._floaterSelector.removeClass("open");
 			} else {
 				icon.addClass("open");
-				$(".floater, .tool-window").removeClass("active");
+				$(".floating-window").removeClass("active");
 				self._floaterSelector.addClass("open");
 				if ($("#sidebar-reports").hasClass("hidden")){
 					self._floaterSelector.css({

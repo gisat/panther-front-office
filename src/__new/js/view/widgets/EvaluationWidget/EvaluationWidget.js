@@ -509,7 +509,7 @@ define([
 			.attr("disabled", false)
 			.off("click.addcategory")
 			.on("click.addcategory", function(){
-				$(".floater, .tool-window").removeClass("active");
+				$(".floating-window").removeClass("active");
 				setTimeout(function(){
 					$('#categorize-settings').addClass('open').addClass('active');
 					var attributes = self._filter.getAttributesFromCategories(self._categories);
@@ -631,7 +631,7 @@ define([
         var self = this;
         var tool = "settings";
         $('#floater-' + self._widgetId + ' .widget-' + tool).on("click", function(){
-            $(".floater, .tool-window").removeClass("active");
+            $(".floating-window").removeClass("active");
             setTimeout(function(){
                 $('#' + self._widgetId + '-' + tool).addClass('open').addClass('active');
             },50);

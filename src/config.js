@@ -8,7 +8,12 @@ var Config = {
 	//  url: 'http://snow.gisat.cz/backend/',                      // Snow Portal
 	// signupAddress: 'http://35.165.51.145/account/signup/',
 	geoserver2Workspace: "panther",
+
+	/**
+	 * URL needed for correct WMS request on Analytical units layer
+	 */
 	geoServerUrl: "http://admin:geoserver@10.0.75.2:80/geoserver/panther/wms",
+
 	initialBaseMap: "osm",
 	initialMapBounds: [
 		112.4251556396,

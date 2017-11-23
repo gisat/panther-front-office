@@ -52,7 +52,9 @@ define(['../../../actions/Actions',
 	 */
 	MapToolTrigger.prototype.build = function(){
 		if (this._hasSvgIcon){
-			this.buildWithSvgIcon();
+			this.buildTrigger('svg');
+		} else {
+			this.buildTrigger();
 		}
 	};
 
@@ -63,13 +65,14 @@ define(['../../../actions/Actions',
 		if (this._mapToolTrigger && this._mapToolTrigger.hasClass("active")){
 			this._mapToolTrigger.trigger("click")
 		}
+		// TODO hide if scope doesn't allow this functionality
 	};
 
 	/**
 	 * Build trigger with SVG icon
 	 * TODO move toggle switch to separate class
 	 */
-	MapToolTrigger.prototype.buildWithSvgIcon = function(){
+	MapToolTrigger.prototype.buildTrigger = function(iconType){
 		var content = S(MapToolTriggerContent).template({
 			id: this._id,
 			label: this._label
@@ -77,8 +80,11 @@ define(['../../../actions/Actions',
 		this._target.append(content);
 		this._mapToolTrigger = $("#" + this._id);
 		this._mapToolTriggerToggle = this._mapToolTrigger.find(".toggle-switch");
+
 		var icon = this._mapToolTrigger.find(".map-tool-icon");
-		icon.load(this._iconPath);
+		if (iconType === 'svg'){
+			icon.load(this._iconPath);
+		}
 
 		this.addTriggerListener();
 	};
