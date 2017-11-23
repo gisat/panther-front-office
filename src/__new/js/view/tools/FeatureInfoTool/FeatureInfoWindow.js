@@ -38,7 +38,7 @@ define(['../../../error/ArgumentError',
 	 * @param options.target {Object} JQuery object
 	 * @param [options.resizable] {boolean} optional
 	 * @param [options.hasSettings] {boolean} optional
-	 * @param [options.hasExport] {boolean} optional
+	 * @param [options.hasFooter] {boolean} optional
 	 * @param [options.title] {string} optional
 	 * @constructor
 	 */
@@ -55,7 +55,7 @@ define(['../../../error/ArgumentError',
 
 		this._resizable = options.resizable;
 		this._hasSettings = options.hasSettings;
-		this._hasExport = options.hasExport;
+		this._hasFooter = options.hasFooter;
 		this._title = options.title;
 
 		this._windowHeight = 0;
@@ -74,8 +74,8 @@ define(['../../../error/ArgumentError',
 		if (this._hasSettings){
 			classes += " has-settings"
 		}
-		if (this._hasExport){
-			classes += " has-export"
+		if (this._hasFooter){
+			classes += " has-footer"
 		}
 		if (this._title){
 			title = this._title;

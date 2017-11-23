@@ -352,13 +352,18 @@ define(['../../actions/Actions',
 			var serviceAddress = layer.urlBuilder.serviceAddress;
 			var layerNames = layer.urlBuilder.layerNames;
 			var crs = layer.urlBuilder.crs;
+			var name = layerNames;
+			if (layer.metadata && layer.metadata.name){
+				name = layer.metadata.name;
+			}
 
 			return new WmsFeatureInfo({
 				serviceAddress: serviceAddress,
 				layers: layerNames,
 				position: position,
 				src: crs,
-				screenCoordinates: {x: x, y: y}
+				screenCoordinates: {x: x, y: y},
+				name: name
 			}).get();
 		}).filter(function(state){
 			return state;

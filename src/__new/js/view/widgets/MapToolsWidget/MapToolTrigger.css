@@ -1,9 +1,9 @@
 /* triggers */
 .map-tool-trigger {
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid #e5e5e5;
 	cursor: pointer;
 	display: flex;
-	line-height: 2.5;
+	line-height: 2.2;
 	transition: background .3s ease-in-out;
 }
 .map-tool-trigger:hover {

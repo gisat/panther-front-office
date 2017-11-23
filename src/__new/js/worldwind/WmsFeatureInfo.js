@@ -14,7 +14,7 @@ define([
      * @param options.layers {String} List of layers deliminated by , to request info about the location.
      * @param options.customParameters {Object} Optional Object containing custom parameters to be appended to the URL.
      * @param options.srs {String} Optional Coordinate system reference.
-     * @param options.screenCoordiantes {Object} Coordinates of click event
+     * @param options.name {String} name of the layer from metadata
      */
     var WmsFeatureInfo = function(options) {
         this.options = options;

@@ -62,16 +62,16 @@ define(['../../../actions/Actions',
 	 * Build new window for displaying information about feature
 	 * @param resizable {boolean}
 	 * @param hasSettings {boolean}
-	 * @param hasExport {boolean}
+	 * @param hasFooter {boolean}
 	 * @returns {FeatureInfoWindow}
 	 */
-	FeatureInfoTool.prototype.buildInfoWindow = function(resizable, hasSettings, hasExport){
+	FeatureInfoTool.prototype.buildInfoWindow = function(resizable, hasSettings, hasFooter){
 		return new FeatureInfoWindow({
 			target: this._floaterTarget,
 			id: this._id + "-window",
 			resizable: resizable,
 			hasSettings: hasSettings,
-			hasExport: hasExport
+			hasFooter: hasFooter
 		});
 	};
 
