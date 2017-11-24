@@ -152,7 +152,7 @@ var langEn = {
 
     layer: "Layer",
     layerImportedSuccessfully: "Layer imported succesfully.",
-	layerInfo: "Layer info",
+	layerInfo: "Layers info",
     layerName: "Layer name",
     layerNameIsMissing: "Layer name is missing",
     layers: "Layers",
@@ -480,7 +480,7 @@ var langCz = {
 
     layer: "Vrstva",
     layerImportedSuccessfully: "Vrstva byla úspěšně naimportována",
-	layerInfo: "Informace o vrstvě",
+	layerInfo: "Informace o vrstvách",
     layerName: "Jméno vrstvy",
     layerNameIsMissing: "Jméno vrstvy chybí",
     layers: "Vrstvy",

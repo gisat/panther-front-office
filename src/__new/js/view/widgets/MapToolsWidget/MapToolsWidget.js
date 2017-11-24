@@ -104,6 +104,8 @@ define(['../../../actions/Actions',
 		return new MapToolTrigger({
 			id: 'layer-info-trigger',
 			label: polyglot.t("layerInfo"),
+			hasSvgIcon: true,
+			iconPath: '../src/__new/icons/layers-info.svg',
 			dispatcher: this._dispatcher,
 			target: this._triggersContainerSelector,
 			onDeactivate: this._layerInfo.deactivate.bind(this._layerInfo),
