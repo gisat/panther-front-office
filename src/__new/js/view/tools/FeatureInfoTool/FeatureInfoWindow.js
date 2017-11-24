@@ -156,7 +156,7 @@ define(['../../../error/ArgumentError',
 			});
 			this._infoWindow.removeClass("no-data");
 		} else {
-			content += '<tr><td>No attributes</td><td></td></tr>';
+			content += '<tr><td>' + polyglot.t("noAttributesInfo") + '</td><td></td></tr>';
 			this._infoWindow.addClass("no-data");
 		}
 
