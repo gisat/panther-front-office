@@ -24,7 +24,7 @@ define([
 	 * @param options.title {String} Title of the collapse
 	 * @param options.content {String} HTML content that could be collapsed
 	 * @param options.containerSelector {Object} JQuery selector of target element
-	 * @param [options.clases] {string} optional classes
+	 * @param [options.customClasses] {string} optional classes
 	 * @param [options.open] {boolean} false for collapsed content
 	 * @constructor
 	 */
@@ -46,7 +46,7 @@ define([
 		this._title = options.title;
 		this._content = options.content;
 		this._containerSelector = options.containerSelector;
-		this._classes = options.classes;
+		this._classes = options.customClasses;
 		this._open = options.open;
 
 		this.render();

@@ -6,6 +6,10 @@
 	cursor: pointer;
 	display: flex;
 	padding: .3rem;
+	transition: background .3s ease-in-out;
+}
+.component-collapse-header:hover {
+	background: #e8e8e8;
 }
 .component-collapse.open .component-collapse-header {
 	border-bottom: 0;

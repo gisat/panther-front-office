@@ -46,7 +46,12 @@ define(['../../../error/ArgumentError',
 		}
 	};
 
+	/**
+	 * Redraw content of info window
+	 * @param data {Array} list of layers
+	 */
 	LayerInfoWindow.prototype.redrawWindow = function(data){
+		this._infoWindowBodySelector.html("");
 		var self = this;
 		data.forEach(function(layer, index){
 			new Collapse({
@@ -58,7 +63,7 @@ define(['../../../error/ArgumentError',
 
 				containerSelector: self._infoWindowBodySelector,
 				open: false,
-				classes: 'layer-info-collapse'
+				customClasses: 'layer-info-collapse'
 			});
 		});
 	};
