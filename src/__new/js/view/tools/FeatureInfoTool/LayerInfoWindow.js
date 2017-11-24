@@ -4,6 +4,7 @@ define(['../../../error/ArgumentError',
 
 	'../../components/Collapse/Collapse',
 	'./FeatureInfoWindow',
+	'../../table/Table',
 
 	'jquery',
 	'underscore'
@@ -13,6 +14,7 @@ define(['../../../error/ArgumentError',
 
 			 Collapse,
 			 FeatureInfoWindow,
+			 Table,
 
 			 $,
 			 _) {
@@ -54,17 +56,19 @@ define(['../../../error/ArgumentError',
 		this._infoWindowBodySelector.html("");
 		var self = this;
 		data.forEach(function(layer, index){
-			new Collapse({
+			var id = "layer-info-collapse-" + index;
+			var collapse = new Collapse({
 				title: layer.name,
-				id: "layer-info-collapse-" + index,
-
-				// todo solve this
-				content: '<div>Lorem ipsum dolor sit amet consectetur adipiscing. Turpis egestas maecenas pharetra convallis. Vestibulum lorem sed risus ultricies tristique nulla. Semper risus in hendrerit gravida rutrum quisque non. Nulla facilisi nullam vehicula ipsum. Turpis nunc eget lorem dolor sed viverra ipsum. Phasellus vestibulum lorem sed risus ultricies tristique nulla. Sem integer vitae justo eget magna. Ac auctor augue mauris augue neque gravida in fermentum et. Tempor orci dapibus ultrices in iaculis nunc sed. Lorem mollis aliquam ut porttitor leo a.</div>',
-
+				id: id,
 				containerSelector: self._infoWindowBodySelector,
 				open: false,
 				customClasses: 'layer-info-collapse'
 			});
+
+			// add content to collapse body
+			var bodySelector = collapse.getBodySelector();
+			var table = self.renderTable(id, bodySelector.attr("id"));
+			// table.renderContentFromObjectData(layer);
 		});
 	};
 
@@ -87,11 +91,26 @@ define(['../../../error/ArgumentError',
 				var featureProperties = featureInfo.features[0].properties;
 				if (featureProperties){
 					layerData.featureProperties = featureProperties;
+					delete layerData.position;
+					delete layerData.screenCoordinates;
 					dataPerLayer.push(layerData);
 				}
 			}
 		});
 		return dataPerLayer;
+	};
+
+	/**
+	 * @param id {string} Id of the table
+	 * @param targetId {string} Id of the target
+	 * @returns {Table}
+	 */
+	LayerInfoWindow.prototype.renderTable = function(id, targetId){
+		return new Table({
+			elementId: id + "-table",
+			targetId: targetId,
+			class: 'basic-table'
+		});
 	};
 
 	return LayerInfoWindow;

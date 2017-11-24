@@ -22,7 +22,7 @@ define([
 	 * Colapsible panel with title and content
 	 * @param options {Object}
 	 * @param options.title {String} Title of the collapse
-	 * @param options.content {String} HTML content that could be collapsed
+	 * @param [options.content] {String} Optional. HTML content that could be collapsed
 	 * @param options.containerSelector {Object} JQuery selector of target element
 	 * @param [options.customClasses] {string} optional classes
 	 * @param [options.open] {boolean} false for collapsed content
@@ -34,9 +34,6 @@ define([
 		}
 		if (!options.title){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Collapse", "constructor", "missingName"));
-		}
-		if (!options.content){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Collapse", "constructor", "missingContent"));
 		}
 		if (!options.containerSelector){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Collapse", "constructor", "missingTarget"));
@@ -57,6 +54,7 @@ define([
 	 * Render collapse
 	 */
 	Collapse.prototype.render = function(){
+		var content = "";
 		var classes = "";
 		if (this._open){
 			classes += " open";
@@ -64,11 +62,14 @@ define([
 		if (this._classes){
 			classes += " " + this._classes;
 		}
+		if (this._content){
+			content = this._content;
+		}
 
 		var html = S(CollapseHtml).template({
 			id: this._id,
 			title: this._title,
-			content: this._content,
+			content: content,
 			classes: classes
 		}).toString();
 		this._containerSelector.append(html);
@@ -84,6 +85,9 @@ define([
 		}
 	};
 
+	/**
+	 * Add listener to collapse header
+	 */
 	Collapse.prototype.addHeaderOnClickListener = function(){
 		this._headerSelector.off("click.collapse").on("click.collapse", function(){
 			var collapse = $(this).parents(".component-collapse");
@@ -96,6 +100,14 @@ define([
 				body.slideDown(200);
 			}
 		});
+	};
+
+	/**
+	 * Retrun body JQuery selector
+	 * @returns {Object}
+	 */
+	Collapse.prototype.getBodySelector = function(){
+		return this._bodySelector;
 	};
 
 	return Collapse;
