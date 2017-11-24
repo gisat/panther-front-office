@@ -15,10 +15,6 @@
 	max-width: 40rem;
 	z-index: 10000;
 }
-#layer-info-window {
-	height: 18rem;
-	width: 30rem;
-}
 .fi-window.no-data {
 	height: 5rem;
 }
@@ -104,7 +100,7 @@
 	padding: .15rem .2rem;
 }
 .fi-window .feature-info-window-body table tr td i {
-	color: #888;
+	color: #666;
 	font-style: normal;
 	font-weight: 500;
 }

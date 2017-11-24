@@ -7,7 +7,8 @@ define(['../../../error/ArgumentError',
 	'../../table/Table',
 
 	'jquery',
-	'underscore'
+	'underscore',
+	'css!./LayerInfoWindow'
 ], function (ArgumentError,
 			 NotFoundError,
 			 Logger,
@@ -68,7 +69,7 @@ define(['../../../error/ArgumentError',
 			// add content to collapse body
 			var bodySelector = collapse.getBodySelector();
 			var table = self.renderTable(id, bodySelector.attr("id"));
-			// table.renderContentFromObjectData(layer);
+			table.appendContent(layer);
 		});
 	};
 
