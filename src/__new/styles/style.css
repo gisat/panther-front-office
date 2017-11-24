@@ -52,7 +52,7 @@
 .widget-button[disabled=disabled] {
     pointer-events: none;
     color: #bbb;
-    background-color: #e5e5e5;
+    background-color: #ddd;
 }
 
 .widget-button-export {

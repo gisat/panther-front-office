@@ -55,7 +55,11 @@ define(['../../../error/ArgumentError',
 	};
 
 	LayerInfoWindow.prototype.redrawWindow = function(data){
-		this._infoWindowBodySelector.html(data.length);
+		var content;
+		data.forEach(function(layer){
+			debugger;
+		});
+		this._infoWindowBodySelector.html(content);
 	};
 
 	/**

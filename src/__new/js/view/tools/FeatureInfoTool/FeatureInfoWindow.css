@@ -93,7 +93,7 @@
 	width: 100%;
 }
 .fi-window .feature-info-window-body table tr {
-	border-bottom: 1px solid #e5e5e5;
+	border-bottom: 1px solid #ddd;
 }
 .fi-window .feature-info-window-body table tr td {
 	font-size: .75rem;

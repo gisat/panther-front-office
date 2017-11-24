@@ -51,7 +51,7 @@
 /* body */
 .tool-window-body {
 	background: rgb(250,250,250);
-	border: 1px solid #e5e5e5;
+	border: 1px solid #ddd;
 	height: calc(100% - 5rem);
 	padding: .2rem .3rem;
 	overflow: auto;
@@ -60,7 +60,7 @@
 	margin-top: .2rem;
 }
 .tool-window-body .checkbox-row a {
-	border-bottom: 1px solid #e5e5e5;
+	border-bottom: 1px solid #ddd;
 	padding-left: 2rem;
 }
 .tool-window-body .checkbox-row.attribute-set-row a {
@@ -169,5 +169,5 @@
 .tool-window-button[disabled=disabled] {
 	pointer-events: none;
 	color: #bbb;
-	background: #e5e5e5;
+	background: #ddd;
 }
