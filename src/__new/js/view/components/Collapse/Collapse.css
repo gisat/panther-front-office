@@ -1,0 +1,34 @@
+.component-collapse {
+
+}
+.component-collapse-header {
+	border-bottom: 1px solid #ddd;
+	cursor: pointer;
+	display: flex;
+	padding: .3rem;
+}
+.component-collapse.open .component-collapse-header {
+	border-bottom: 0;
+}
+.component-collapse-title {
+	flex: 1;
+	font-size: .8rem;
+	font-weight: 600;
+}
+.component-collapse-arrow {
+	flex-basis: 1rem;
+}
+.component-collapse-arrow:before {
+	content: "\f107";
+	font-family: FontAwesome;
+	font-size: 1rem;
+}
+.component-collapse.open .component-collapse-arrow:before {
+	content: "\f106";
+}
+.component-collapse-body {
+	padding: 0 .3rem .5rem;
+}
+.component-collapse.open .component-collapse-body{
+	border-bottom: 1px solid #ddd;
+}

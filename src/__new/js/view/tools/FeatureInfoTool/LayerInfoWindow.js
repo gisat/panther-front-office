@@ -2,27 +2,19 @@ define(['../../../error/ArgumentError',
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 
+	'../../components/Collapse/Collapse',
 	'./FeatureInfoWindow',
-	'../../../util/Filter',
-	'../../../util/MapExport',
-	'../../../stores/Stores',
-	'../../../util/viewUtils',
 
 	'jquery',
-	'string',
 	'underscore'
 ], function (ArgumentError,
 			 NotFoundError,
 			 Logger,
 
+			 Collapse,
 			 FeatureInfoWindow,
-			 Filter,
-			 MapExport,
-			 InternalStores,
-			 viewUtils,
 
 			 $,
-			 S,
 			 _) {
 	"use strict";
 
@@ -55,11 +47,20 @@ define(['../../../error/ArgumentError',
 	};
 
 	LayerInfoWindow.prototype.redrawWindow = function(data){
-		var content;
-		data.forEach(function(layer){
-			debugger;
+		var self = this;
+		data.forEach(function(layer, index){
+			new Collapse({
+				title: layer.name,
+				id: "layer-info-collapse-" + index,
+
+				// todo solve this
+				content: '<div>Lorem ipsum dolor sit amet consectetur adipiscing. Turpis egestas maecenas pharetra convallis. Vestibulum lorem sed risus ultricies tristique nulla. Semper risus in hendrerit gravida rutrum quisque non. Nulla facilisi nullam vehicula ipsum. Turpis nunc eget lorem dolor sed viverra ipsum. Phasellus vestibulum lorem sed risus ultricies tristique nulla. Sem integer vitae justo eget magna. Ac auctor augue mauris augue neque gravida in fermentum et. Tempor orci dapibus ultrices in iaculis nunc sed. Lorem mollis aliquam ut porttitor leo a.</div>',
+
+				containerSelector: self._infoWindowBodySelector,
+				open: false,
+				classes: 'layer-info-collapse'
+			});
 		});
-		this._infoWindowBodySelector.html(content);
 	};
 
 	/**

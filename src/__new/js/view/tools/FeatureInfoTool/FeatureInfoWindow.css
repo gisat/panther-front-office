@@ -15,6 +15,10 @@
 	max-width: 40rem;
 	z-index: 10000;
 }
+#layer-info-window {
+	height: 18rem;
+	width: 30rem;
+}
 .fi-window.no-data {
 	height: 5rem;
 }
