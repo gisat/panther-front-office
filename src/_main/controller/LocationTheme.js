@@ -1143,7 +1143,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 }
 
                 if(tools.indexOf('mapTools') !== -1) {
-                    // $('#top-toolbar-map-tools').hide();
+                    $('#top-toolbar-map-tools').hide();
                 }
 
                 if(tools.indexOf('savedViews') !== -1) {
