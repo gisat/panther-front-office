@@ -188,7 +188,7 @@ var langEn = {
     name: "Name",
     noAreas: "No areas",
     noAreaSelected: "No area selected",
-    noAttributesInfo: "No attributes od no data for selected attributes.",
+    noAttributesInfo: "No attributes or no data for selected attributes.",
     none: "None",
     normal: "Normal",
     normalization: "Normalization",
