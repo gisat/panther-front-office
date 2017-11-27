@@ -112,7 +112,7 @@ body.mode-3d .floater.only-3d.open {
     display: none;
     height: 100%;
     width: 100%;
-    background: rgba(255,255,255,.9) url(../../../img/loading.gif) no-repeat 50% 50%;
+    background: rgba(255,255,255,.9);
     position: absolute;
     top: 0;
     left: 0;
