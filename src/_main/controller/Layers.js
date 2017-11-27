@@ -696,6 +696,13 @@ Ext.define('PumaMain.controller.Layers', {
 					});
 				} else if(node.data.type == "selectedareasfilled") {
 					Stores.updateSelectedOutlines({
+						data: {
+							namedLayers: namedLayers,
+							layer: layer,
+							legendLayer: legendNamedLayers && legendNamedLayers.length ? legendNamedLayers[0].name : null,
+							sldBody: sldText,
+							legendSld: legendSld
+						},
 						sldId: id,
 						layerNames: "selectedAreasFilled"
 					})

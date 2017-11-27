@@ -37,7 +37,7 @@ define([
             SelectBox,
             Settings,
             SliderBox,
-            Stores,
+            InternalStores,
             Widget,
 
             resize,
@@ -130,7 +130,7 @@ define([
                     if (about.attributeType == "numeric"){
                         if (self.attributeHasData(attribute)){
 							// TODO: Fix ugly hack for showing Kathmandu.
-							if(Stores.retrieve('state').current().scope == 38433) {
+							if(InternalStores.retrieve('state').current().scope == 38433) {
 								self._attributes.push({
 									values: [Number(attribute.min), Number(attribute.max) + 1000],
 									distribution: attribute.distribution,
