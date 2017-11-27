@@ -46,7 +46,23 @@ define([
 		return layers;
 	}
 
+	/**
+	 * @param data {string}
+	 * @returns {boolean} true, if data is in JSON format
+	 */
+	function isJson(data){
+		var ret = true;
+		try {
+			return JSON.parse(data);
+		}
+		catch(e) {
+			return false;
+		}
+		return ret;
+	}
+
 	return {
-		getAuBaseLayers: getAuBaseLayers
+		getAuBaseLayers: getAuBaseLayers,
+		isJson: isJson
 	};
 });
