@@ -132,6 +132,7 @@ var langEn = {
     functionalUrbanArea: "Functional Urban Areas",
 
     group: "Group",
+	groupSharing: "Share with group",
 
     help: "Help",
     hide: "Hide",
@@ -308,6 +309,7 @@ var langEn = {
     urbanDynamicTool: "UrbanDynamic tool",
     URL: "URL",
     user: "User",
+    userSharing: "Share with user",
 
     value: "Value",
     visu: "Visualization",
@@ -461,6 +463,7 @@ var langCz = {
     functionalUrbanArea: "Funkční městské oblasti",
 
     group: "Skupina",
+	groupSharing: "Sdílet se skupinou",
 
     help: "Help",
     hide: "Skrýt",
@@ -637,6 +640,7 @@ var langCz = {
     urbanDynamicTool: "UrbanDynamic nástroj",
     URL: "URL",
     user: "Uživatel",
+	userSharing: "Sdílet s uživatelem",
 
     value: "Hodnota",
     visu: "Vizualizace",
