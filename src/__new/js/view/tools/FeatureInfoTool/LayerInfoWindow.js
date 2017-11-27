@@ -90,6 +90,9 @@ define(['../../../error/ArgumentError',
 				var isJson = utils.isJson(featureInfo);
 				if (isJson){
 					featureInfo = JSON.parse(content.featureInfo);
+					layerData.queryable = true;
+				} else {
+					layerData.queryable = false;
 				}
 			}
 
@@ -99,9 +102,17 @@ define(['../../../error/ArgumentError',
 					layerData.featureProperties = featureProperties;
 					delete layerData.position;
 					delete layerData.screenCoordinates;
-					dataPerLayer.push(layerData);
+				}
+			} else {
+				delete layerData.position;
+				delete layerData.screenCoordinates;
+				if (layerData.queryable){
+					layerData.featureProperties = polyglot.t("layerFeatureMissed");
+				} else {
+					layerData.featureProperties = polyglot.t("notQueryableLayerInfo");
 				}
 			}
+			dataPerLayer.push(layerData);
 		});
 		return dataPerLayer;
 	};

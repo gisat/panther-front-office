@@ -152,6 +152,7 @@ var langEn = {
     keywords: "Keywords",
 
     layer: "Layer",
+    layerFeatureMissed: "You didn't hit any feature of the layer.",
     layerImportedSuccessfully: "Layer imported succesfully.",
 	layerInfo: "Layers info",
     layerName: "Layer name",
@@ -200,6 +201,7 @@ var langEn = {
     normalizationType: "Normalization type",
     noSuchDataview: "No such dataview",
     notLoggedIn: "Not logged in",
+	notQueryableLayerInfo: "Layer is not queryable.",
     numCategories: "Num categories",
 
     ok: "OK",
@@ -483,6 +485,7 @@ var langCz = {
     keywords: "Klíčová slova",
 
     layer: "Vrstva",
+	layerFeatureMissed: "Žádný prvek pro danou pozici.",
     layerImportedSuccessfully: "Vrstva byla úspěšně naimportována",
 	layerInfo: "Informace o vrstvách",
     layerName: "Jméno vrstvy",
@@ -531,6 +534,7 @@ var langCz = {
     normalizationType: "Typ normalizace",
     noSuchDataview: "Není žádný takový uložený náhled",
     notLoggedIn: "Nepřihlášen",
+	notQueryableLayerInfo: "Na prvky ve vrstvě se nelze dotazovat.",
     numCategories: "Počet kategorií",
 
     ok: "OK",
