@@ -83,6 +83,7 @@ define(['../error/ArgumentError',
 					self.wwd.navigator.lookAtLocation.latitude = self._defaultLoc[0];
                     self.wwd.navigator.lookAtLocation.longitude = self._defaultLoc[1];
 				}
+                self.wwd.redraw();
 			}).catch(function(err){
 				throw new Error(Logger.log(Logger.LEVEL_SEVERE, err));
 			});
