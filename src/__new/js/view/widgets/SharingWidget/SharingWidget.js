@@ -56,7 +56,7 @@ define([
 					'	</label></div>' +
 					'</div>'
 				);
-				$('#floater-sharing .floater-footer').append('<div class="widget-button" id="sharing-portal">'+polyglot.t('shareOnPortal')+'</div>');
+				$('#floater-sharing .floater-footer').append('<div class="widget-button w8" id="sharing-portal">'+polyglot.t('shareOnPortal')+'</div>');
 
 				$('#sharing-portal').off();
 				$('#sharing-portal').on('click', function(){
@@ -93,17 +93,17 @@ define([
                 userOptions.unshift('<option value=""></option>');
                 $('#floater-sharing .floater-body').append(
                     '<div>' +
-                    '	<div><label>'+polyglot.t('user')+': ' +
-                    '		<select id="sharing-user">' + userOptions +
+                    '	<div class="widget-form-row"><label><span>'+polyglot.t('userSharing')+': ' +
+                    '		</span><select id="sharing-user">' + userOptions +
                     '		</select>' +
                     '	</label></div>' +
-                    '	<div><label>'+polyglot.t('group')+': ' +
-                    '		<select id="sharing-group">' + groupOptions +
+                    '	<div class="widget-form-row"><label><span>'+polyglot.t('groupSharing')+': ' +
+                    '		</span><select id="sharing-group">' + groupOptions +
                     '		</select>' +
                     '	</label></div>' +
                     '</div>'
                 );
-                $('#floater-sharing .floater-footer').append('<div class="widget-button" id="sharing">Share</div>');
+                $('#floater-sharing .floater-footer').append('<div class="widget-button w8" id="sharing">Share</div>');
                 $('#sharing').off();
                 $('#sharing').on('click', function(){
                     var selectedGroup = $( "#floater-sharing .floater-body #sharing-group option:checked" ).val();
