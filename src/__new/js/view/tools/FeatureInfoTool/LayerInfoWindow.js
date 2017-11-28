@@ -2,6 +2,7 @@ define(['../../../error/ArgumentError',
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 
+	'../../../util/dataMining',
 	'../../components/Collapse/Collapse',
 	'./FeatureInfoWindow',
 	'../../table/Table',
@@ -13,6 +14,7 @@ define(['../../../error/ArgumentError',
 			 NotFoundError,
 			 Logger,
 
+			 utils,
 			 Collapse,
 			 FeatureInfoWindow,
 			 Table,
@@ -85,18 +87,32 @@ define(['../../../error/ArgumentError',
 			var featureInfo = content.featureInfo;
 
 			if (typeof featureInfo === 'string'){
-				featureInfo = JSON.parse(content.featureInfo);
+				var isJson = utils.isJson(featureInfo);
+				if (isJson){
+					featureInfo = JSON.parse(content.featureInfo);
+					layerData.queryable = true;
+				} else {
+					layerData.queryable = false;
+				}
 			}
 
-			if (featureInfo.features.length){
+			if (featureInfo.features && featureInfo.features.length){
 				var featureProperties = featureInfo.features[0].properties;
 				if (featureProperties){
 					layerData.featureProperties = featureProperties;
 					delete layerData.position;
 					delete layerData.screenCoordinates;
-					dataPerLayer.push(layerData);
+				}
+			} else {
+				delete layerData.position;
+				delete layerData.screenCoordinates;
+				if (layerData.queryable){
+					layerData.featureProperties = polyglot.t("layerFeatureMissed");
+				} else {
+					layerData.featureProperties = polyglot.t("notQueryableLayerInfo");
 				}
 			}
+			dataPerLayer.push(layerData);
 		});
 		return dataPerLayer;
 	};
