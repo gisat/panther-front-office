@@ -30,7 +30,9 @@ function createLink(href) {
 }
 var configuration = Config.environment;
 if (configuration == 'development') {
-    createScript('lib/OpenLayers.min.js').then(function(){
+    createScript('//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js').then(function(){
+        return createScript('lib/OpenLayers.min.js');
+    }).then(function(){
         return createScript('gisatlib/OpenLayers/Geoserver23.js');
     }).then(function(){
         return createScript('extjs-4.1.3/ext-debug.js');
@@ -60,7 +62,9 @@ if (configuration == 'development') {
     });
 } else {
     var version = '';
-    $.get(Config.url + 'rest/fo/version').then(function(result){
+    createScript('//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js').then(function() {
+        return jQuery.get(Config.url + 'rest/fo/version');
+    }).then(function(result){
         if(result.status === 'ok') {
             version = result.version;
         } else {
