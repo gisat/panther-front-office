@@ -678,7 +678,8 @@ Ext.define('PumaMain.controller.Chart', {
     },
 
     showChart: function(cmp) {
-        cmp.up().show();
+        // Show chart only when there is something to show therefore ignoring this piece in printing.
+        cmp.up() && cmp.up().show();
     },
     
     onChartReceived: function(response) {
