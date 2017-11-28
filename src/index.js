@@ -59,6 +59,12 @@ if (configuration == 'development') {
     }).then(function(){
         return createScript('gisatlib/OpenLayers/Geoserver23.js');
     }).then(function(){
+        return createScript('lib/Highcharts-3.0.0/js/highcharts.src.js');
+    }).then(function(){
+        return createScript('lib/Highcharts-3.0.0/js/highcharts-more.js');
+    }).then(function(){
+        return createScript('lib/Highcharts-3.0.0/js/modules/exporting.js');
+    }).then(function(){
         return createScript('extjs-4.1.3/ext-debug.js');
     }).then(function(){
         return createScript('appde.js');
@@ -120,6 +126,12 @@ if (configuration == 'development') {
         }
 
         return createScript('lib/OpenLayers.min.js');
+    }).then(function(){
+        return createScript('lib/Highcharts-3.0.0/js/highcharts.src.js');
+    }).then(function(){
+        return createScript('lib/Highcharts-3.0.0/js/highcharts-more.js');
+    }).then(function(){
+        return createScript('lib/Highcharts-3.0.0/js/modules/exporting.js');
     }).then(function(){
         return createScript('extjs-4.1.3/ext.js');
     }).then(function(){
