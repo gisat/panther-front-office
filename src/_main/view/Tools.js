@@ -257,8 +257,8 @@ var widgets = {
 
 if (Config.toggles.useTopToolbar) {
 
-	var windowHeight = $(window).height();
-	var windowWidth = $(window).width();
+	var windowHeight = jQuery(window).height();
+	var windowWidth = jQuery(window).width();
 	var offsetTop = 0;
 	var offsetBottom = 0;
 	if (Config.toggles.useWBHeader) offsetTop += 40;
