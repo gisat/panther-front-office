@@ -59,16 +59,25 @@ if (configuration == 'development') {
         }
     });
 } else {
-    createScript('lib/OpenLayers.min.js').then(function(){
+    var version = '';
+    $.get(Config.url + 'rest/fo/version').then(function(result){
+        if(result.status === 'ok') {
+            version = result.version;
+        } else {
+            alert('There was an issue with retrieving version of the application. It is possible that the cached version will be used.')
+        }
+
+        return createScript('lib/OpenLayers.min.js');
+    }).then(function(){
         return createScript('extjs-4.1.3/ext.js');
     }).then(function(){
-        return createScript('appde.all.js');
+        return createScript('appde.all.js?version=' + version);
     }).then(function(){
         if ((Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool) ||
             (Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap) ||
             (Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo) ||
             (Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies)){
-            return createScript('__new/app-built.js');
+            return createScript('__new/app-built.js?version=' + version);
         }
     }).then(function(){
         // If printing hide wrong parts.
