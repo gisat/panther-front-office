@@ -265,6 +265,7 @@ define(['../../actions/Actions',
 
         this._wwd.navigator.lookAtLocation = position;
         this._wwd.redraw();
+        this._wwd.redrawIfNeeded(); // TODO: Check with new releases. This isn't part of the public API and therefore might change.
 	};
 
 	/**

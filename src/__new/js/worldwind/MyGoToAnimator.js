@@ -84,6 +84,7 @@ define(['../error/ArgumentError',
                     self.wwd.navigator.lookAtLocation.longitude = self._defaultLoc[1];
 				}
                 self.wwd.redraw();
+				self.wwd.redrawIfNeeded(); // TODO: Check with new releases. This isn't part of the public API and therefore might change.
 			}).catch(function(err){
 				throw new Error(Logger.log(Logger.LEVEL_SEVERE, err));
 			});
