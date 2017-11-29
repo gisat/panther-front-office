@@ -354,11 +354,16 @@ define(['../../actions/Actions',
 			var layerNames = layer.urlBuilder.layerNames;
 			var crs = layer.urlBuilder.crs;
 			var name = layerNames;
+			var customParams = null;
 			if (layer.metadata && layer.metadata.name){
 				name = layer.metadata.name;
 			}
+			if (layer.urlBuilder.customParams){
+				customParams = layer.urlBuilder.customParams;
+			}
 
 			return new WmsFeatureInfo({
+				customParameters: customParams,
 				serviceAddress: serviceAddress,
 				layers: layerNames,
 				position: position,
