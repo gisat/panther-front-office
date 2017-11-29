@@ -149,6 +149,7 @@ define(['../../actions/Actions',
 		var self = this;
 		Stores.retrieve("period").byId(this._period).then(function(periods){
 			if (periods.length === 1){
+				self._mapBoxSelector.find(".map-period-label").remove();
 				var periodName = periods[0].name;
 				var html = '<div class="map-period-label">' + periodName + '</div>';
 				self._mapBoxSelector.attr("data-period", periodName);

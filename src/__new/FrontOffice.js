@@ -100,6 +100,8 @@ define([
 				self.toggleSidebars(options);
 				self.toggleWidgets(options);
 				self.toggleCustomLayers(options);
+			}).catch(function(err){
+				throw new Error(err);
 			});
 		}
 
@@ -289,6 +291,9 @@ define([
 				break;
 			case "detaillevel":
 				this._options.changes.level = true;
+				break;
+			case "dataview":
+				this._options.changes.scope = true;
 				break;
 		}
 	};
