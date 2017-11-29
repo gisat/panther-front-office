@@ -474,7 +474,14 @@ define([
     EvaluationWidget.prototype.addSelectionConfirmListener = function(amount){
         var self = this;
         var count = 0;
-        if (amount.hasOwnProperty("amount")){
+
+        if(Select.selectedAreasMap && Select.selectedAreasMap[Select.actualColor] && Select.selectedAreasMap[Select.actualColor].length > 0) {
+            count = Select.selectedAreasMap[Select.actualColor].length;
+            if(count > 0) {
+                $('#evaluation-confirm').attr("disabled", true);
+                $('#evaluation-unselect').attr("disabled", false);
+            }
+        } else if (amount.hasOwnProperty("amount")){
             count = amount.amount;
         }
 
