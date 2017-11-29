@@ -1,7 +1,9 @@
 define([
-	'./CustomLayers'
+	'./CustomLayers',
+	'../stores/Stores'
 ], function (
-	CustomLayers
+	CustomLayers,
+	Stores
 ) {
 	"use strict";
 
@@ -210,7 +212,8 @@ define([
 	};
 
 	TopToolBar.prototype.handleShareViewClick = function(e){
-		Observer.notify("PumaMain.controller.ViewMng.onShare");
+		var state = Stores.retrieve("state").current();
+		Observer.notify("PumaMain.controller.ViewMng.onShare", state);
 	};
 
 	TopToolBar.prototype.handle3dMapClick = function(e){

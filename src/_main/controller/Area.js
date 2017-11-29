@@ -135,7 +135,7 @@ Ext.define('PumaMain.controller.Area', {
 
 	// new URBIS function for change notifying
 	newNotifyChange: function(){
-		Observer.notify('rebuild');
+		Observer.notify('rebuild', 'resetDataview');
 		console.log('Area#newNotifyCahnge hide');
 		if(!Config.dataviewId) {
 			this.showLoading("none");

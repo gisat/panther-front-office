@@ -183,13 +183,13 @@ define(['../../actions/Actions',
 	 */
 	WorldWindMap.prototype.rebuild = function(){
 		var state = Stores.retrieve("state").current();
-		if (state.changes.scope || state.changes.location){
+		if ((state.changes.scope || state.changes.location) && !state.isDataview){
 			this._goToAnimator.setLocation();
 		}
 		if (this._id === "default-map"){
 			this.updateNavigatorState();
 			var periods = state.periods;
-			if (periods.length === 1){
+			if (periods.length === 1 || !this._period){
 				this._period = periods[0];
 			}
 			if (!Config.toggles.hideSelectorToolbar){

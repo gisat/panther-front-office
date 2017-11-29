@@ -38,7 +38,7 @@ define(['../../error/ArgumentError',
 				resolve(params);
 			})
 		}
-		else if (options.changes.scope || options.changes.theme || options.changes.place){
+		else if (options.changes.scope || options.changes.theme || options.changes.place || options.changes.location){
 			//ThemeYearConfParams.datasetChanged = false;
 			return new Remote({
 				method: "POST",

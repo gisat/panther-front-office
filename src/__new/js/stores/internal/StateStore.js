@@ -1,11 +1,12 @@
-define([], function () {
+define(['../Stores'], function (Stores) {
 	/**
 	 * This store is the ultimate source of truth about current state of the application. Everything else updates it
 	 * and everything that needs something from it, is notified.
 	 * @constructor
 	 */
 	var StateStore = function (options) {
-		this._changes = {}
+		this._changes = {};
+		this.isDataview = false;
 	};
 
 	/**
@@ -32,7 +33,9 @@ define([], function () {
 			objects: {
 				places: this.placesObjects()
 			},
-			changes: this._changes
+			changes: this._changes,
+			worldWindNavigator: Stores.retrieve("map").getNavigatorState(),
+			isDataview: this.isDataview
 		}
 	};
 
@@ -42,6 +45,27 @@ define([], function () {
 	 */
 	StateStore.prototype.setChanges = function(changes){
 		this._changes = changes;
+	};
+
+	/**
+	 * @param options {true} if current state is a dataview
+	 */
+	StateStore.prototype.setDataview = function(options){
+		this.isDataview = options;
+	};
+
+	/**
+	 * Reset changes to default
+	 */
+	StateStore.prototype.resetChanges = function(){
+		this._changes = {
+			scope: false,
+			location: false,
+			theme: false,
+			period: false,
+			level: false,
+			visualization: false
+		}
 	};
 
 	StateStore.prototype.scopeFull = function() {

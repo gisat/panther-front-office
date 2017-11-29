@@ -157,8 +157,9 @@ define([
 
 	/**
 	 * It shows the 3D Map.
+	 * @param [options] {Object} Optional. Settings from dataview
 	 */
-	WorldWindWidget.prototype.show3DMap = function() {
+	WorldWindWidget.prototype.show3DMap = function(options) {
 		var self = this;
 		var body = $("body");
 
@@ -170,26 +171,48 @@ define([
 			this._topToolBar.build();
 		}
 
-		var places = this._stateStore.current().objects.places;
-        var locations;
-		if(places.length === 1 && places[0]){
-			locations = places[0].get('bbox').split(',');
-            console.log('WorldWindWidget#show3DMap Place: ', places[0]);
-        } else {
-			places = this._stateStore.current().allPlaces.map(function(place) {
-                return Ext.StoreMgr.lookup('location').getById(place);
-			});
-            locations = this.getBboxForMultiplePlaces(places);
-            console.log('WorldWindWidget#show3DMap Locations: ', locations);
-        }
-
-        if(locations.length != 4) {
-			console.warn('WorldWindWidget#show3DMap Incorrect locations: ', locations);
-			return;
-		}
-        var position = new WorldWind.Position((Number(locations[1]) + Number(locations[3])) / 2, (Number(locations[0]) + Number(locations[2])) / 2, 1000000);
-		console.log('WorldWindWidget#show3DMap Position: ', position);
+		// set default position of the map
+		var position = this.getPosition(options);
         this._mapsContainer.setAllMapsPosition(position);
+
+        // is dataview?
+		if (options){
+			this._stateStore.setDataview(true);
+		}
+	};
+
+	/**
+	 * Get  default position in the map according to configuration
+	 * @param [options] {Object} Optional. Settings from dataview
+	 * @return position {WorldWind.Position}
+	 */
+	WorldWindWidget.prototype.getPosition = function(options){
+		if (options && options.worldWindState){
+			console.log('WorldWindWidget#getPosition Position from Dataview: ', options.worldWindState.location);
+			return options.worldWindState.location;
+		} else {
+			var places = this._stateStore.current().objects.places;
+			var locations;
+			if(places.length === 1 && places[0]){
+				locations = places[0].get('bbox').split(',');
+				console.log('WorldWindWidget#getPosition Place: ', places[0]);
+			} else {
+				places = this._stateStore.current().allPlaces.map(function(place) {
+					return Ext.StoreMgr.lookup('location').getById(place);
+				});
+				locations = this.getBboxForMultiplePlaces(places);
+				console.log('WorldWindWidget#getPosition Locations: ', locations);
+			}
+
+			if(locations.length != 4) {
+				console.warn('WorldWindWidget#getPosition Incorrect locations: ', locations);
+				return;
+			}
+			var position = new WorldWind.Position((Number(locations[1]) + Number(locations[3])) / 2, (Number(locations[0]) + Number(locations[2])) / 2, 1000000);
+
+			console.log('WorldWindWidget#getPosition Position: ', position);
+			return position;
+		}
 	};
 
     /**
@@ -283,6 +306,8 @@ define([
 			this.switchMapFramework();
 		} else if(type === Actions.mapSwitchProjection){
 			this.switchProjection();
+		} else if(type === Actions.mapShow3DFromDataview){
+			this.show3DMap(options);
 		}
 	};
 

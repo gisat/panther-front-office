@@ -274,7 +274,7 @@ define(['../../../../error/ArgumentError',
 
 	// --- Common methods after multiple maps functionality added --- //
 	// All methods below are reviewed and used
-	// TODO review obsolete methods above this line after Thematic layers for multiple maps will be implemented
+	// TODO review obsolete methods above this line after Thematic layers an AU layers for multiple maps will be implemented
 
 	/**
 	 * Build layer control and add tools

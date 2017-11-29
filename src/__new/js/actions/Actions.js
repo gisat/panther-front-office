@@ -30,6 +30,7 @@ define([], function(){
 
 		userChanged: 'user#changed',
 
-		mapShow3D: 'map#show3D'
+		mapShow3D: 'map#show3D',
+		mapShow3DFromDataview: 'map#show3DFromDataview'
 	};
 });
