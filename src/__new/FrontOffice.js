@@ -18,6 +18,8 @@ define([
 	'js/stores/gisat/WmsLayers',
     'js/stores/UrbanTepPortalStore',
     'js/stores/UrbanTepCommunitiesStore',
+    'js/view/widgets/EvaluationWidget/EvaluationWidget',
+
     'jquery',
 	'underscore'
 ], function(Actions,
@@ -39,6 +41,8 @@ define([
 			WmsLayers,
 			UrbanTepPortalStore,
 			UrbanTepCommunitiesStore,
+			EvaluationWidget,
+
 			$,
 			_){
 	/**
@@ -56,6 +60,7 @@ define([
 		this._dataset = null;
 		Observer.addListener("rebuild", this.rebuild.bind(this));
         Observer.addListener('user#onLogin', this.loadData.bind(this));
+        Observer.addListener('Select#onChangeColor', this.rebuildEvaluationWidget.bind(this));
 	};
 
 	/**
@@ -100,6 +105,8 @@ define([
 				self.toggleSidebars(options);
 				self.toggleWidgets(options);
 				self.toggleCustomLayers(options);
+			}).catch(function(err){
+				throw new Error(err);
 			});
 		}
 
@@ -133,6 +140,18 @@ define([
 		this._widgets.forEach(function(widget){
 			widget.rebuild(data, self._options);
 		});
+	};
+
+	FrontOffice.prototype.rebuildEvaluationWidget = function(){
+		var self = this;
+        var attributesData = this.getAttributesMetadata();
+        Promise.all([attributesData]).then(function(result){
+        	self._widgets.forEach(function(widget){
+        		if(widget instanceof EvaluationWidget) {
+        			widget.rebuild(result[0], self._options);
+				}
+			});
+        });
 	};
 
 	/**
@@ -292,6 +311,9 @@ define([
 				break;
 			case "detaillevel":
 				this._options.changes.level = true;
+				break;
+			case "dataview":
+				this._options.changes.scope = true;
 				break;
 		}
 	};

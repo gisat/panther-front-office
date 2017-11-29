@@ -20,7 +20,7 @@ Ext.define('Puma.controller.Login', {
             me.onLoginClicked();
         })
         $('.signup').click(function() {
-            if ($(this).html()=='Log out') {
+            if ($(this).html()==polyglot.t('logOut')) {
                 me.onLogoutClicked();
             }
             else {

@@ -1,9 +1,11 @@
 define([
 	'./CustomLayers',
-	'../stores/Stores'
+	'../stores/Stores',
+	'jquery'
 ], function (
 	CustomLayers,
-	Stores
+	Stores,
+	$
 ) {
 	"use strict";
 

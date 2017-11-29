@@ -149,6 +149,7 @@ define(['../../actions/Actions',
 		var self = this;
 		Stores.retrieve("period").byId(this._period).then(function(periods){
 			if (periods.length === 1){
+				self._mapBoxSelector.find(".map-period-label").remove();
 				var periodName = periods[0].name;
 				var html = '<div class="map-period-label">' + periodName + '</div>';
 				self._mapBoxSelector.attr("data-period", periodName);
@@ -265,6 +266,7 @@ define(['../../actions/Actions',
 
         this._wwd.navigator.lookAtLocation = position;
         this._wwd.redraw();
+        this._wwd.redrawIfNeeded(); // TODO: Check with new releases. This isn't part of the public API and therefore might change.
 	};
 
 	/**
@@ -353,11 +355,16 @@ define(['../../actions/Actions',
 			var layerNames = layer.urlBuilder.layerNames;
 			var crs = layer.urlBuilder.crs;
 			var name = layerNames;
+			var customParams = null;
 			if (layer.metadata && layer.metadata.name){
 				name = layer.metadata.name;
 			}
+			if (layer.urlBuilder.customParams){
+				customParams = layer.urlBuilder.customParams;
+			}
 
 			return new WmsFeatureInfo({
+				customParameters: customParams,
 				serviceAddress: serviceAddress,
 				layers: layerNames,
 				position: position,

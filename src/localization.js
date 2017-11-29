@@ -632,7 +632,7 @@ var langCz = {
     tools: "Nástroje",
     treeAll: "Strom vše",
     treeLowestLevel: "Strom nejdetailnější úroveň",
-    type: "Tzp",
+    type: "Typ",
 
     undefined: "Nedfinováno",
     undefinedError: "Nedefinovaná chyba",
