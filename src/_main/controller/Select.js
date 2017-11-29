@@ -99,6 +99,7 @@ Ext.define('PumaMain.controller.Select', {
     },
     onChangeColor: function(picker,value) {
         Select.actualColor = this.actualColor = value;
+        Observer.notify('Select#onChangeColor');
         this.selMap[value] = this.selMap[value] || [];
         if (this.hoverMap.length) {
             this.hoverMap = [];
