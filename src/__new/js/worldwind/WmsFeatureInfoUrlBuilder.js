@@ -37,8 +37,8 @@ define(['../error/ArgumentError'], function (ArgumentError) {
      * @return {String} Valid URL.
      */
     WmsFeatureInfoUrlBuilder.prototype.url = function () {
-        var bbox = this.position.latitude + ',' + this.position.longitude + ',' + (Number(this.position.latitude) + 0.000001) +
-            ',' + (Number(this.position.longitude) + 0.000001);
+        var bbox = this.position.longitude + ',' + this.position.latitude + ',' + (Number(this.position.longitude) + 0.000001) +
+            ',' + (Number(this.position.latitude) + 0.000001);
 
         var customParameters = '';
         Object.keys(this.customParameters).forEach(function(key){
