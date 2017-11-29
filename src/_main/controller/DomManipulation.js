@@ -67,14 +67,19 @@ Ext.define('PumaMain.controller.DomManipulation', {
 		
 		var w  = availableSize.width;
 		var h  = availableSize.height;
-		var sl = $("#sidebar-reports").position().left;
+		var sw = $("#sidebar-reports").width();
 
-		if ($("body").hasClass("application") && sl > 0) {
-			w = sl;
+		if ($("body").hasClass("application") && sw > 0) {
+			w = w - sw;
+			var reportsRight = $("#sidebar-reports").css("right");
+			if (reportsRight){
+				w = w - Number(reportsRight.slice(0,-2));
+			}
+
 		}
 		
 		$("#map-holder").css({width : w, height : h});
-		$("#maps-container").css({width : w, height : h, top: -h});
+		$("#maps-container").css({width : w, height : h});
 		
 		var map = Ext.ComponentQuery.query('#map')[0];
 		var map2 = Ext.ComponentQuery.query('#map2')[0];
@@ -107,7 +112,11 @@ Ext.define('PumaMain.controller.DomManipulation', {
 	resizeReports: function() {
 		var availableSize = this.getContentAvailableSize();
 		$("#sidebar-reports").height(availableSize.height);
-		$("#app-reports-accordeon").height(availableSize.height - $("#app-reports-paging").outerHeight(true));
+		if(Config.toggles.isSnow) {
+			$("#app-extra-content").height(availableSize.height);
+		} else {
+			$("#app-reports-accordeon").height(availableSize.height - $("#app-reports-paging").outerHeight(true));
+		}
 	},
 	
 	activateMapSplit: function() {
@@ -134,6 +143,9 @@ Ext.define('PumaMain.controller.DomManipulation', {
 			}
 			if (Config.toggles.useTopToolbar) {
 				h -= $("#top-toolbar").outerHeight(true);
+			}
+			if (Config.toggles.hideSelectorToolbar){
+				h += $("#view-selector").outerHeight(true);
 			}
 		}
 		return { width  : w, height : h };

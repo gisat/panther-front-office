@@ -1,4 +1,6 @@
 define([
+	'js/actions/Actions',
+
 	'js/error/ArgumentError',
 	'js/error/NotFoundError',
 	'js/util/Logger',
@@ -11,13 +13,16 @@ define([
 	'js/stores/gisat/Locations',
 	'js/stores/gisat/Periods',
 	'js/stores/gisat/Scopes',
+	'js/stores/gisat/Themes',
 	'js/stores/gisat/Visualizations',
 	'js/stores/gisat/WmsLayers',
     'js/stores/UrbanTepPortalStore',
     'js/stores/UrbanTepCommunitiesStore',
     'jquery',
 	'underscore'
-], function(ArgumentError,
+], function(Actions,
+
+			ArgumentError,
 			NotFoundError,
 			Logger,
 			Promise,
@@ -29,6 +34,7 @@ define([
 			Locations,
 			Periods,
 			Scopes,
+			Themes,
 			Visualizations,
 			WmsLayers,
 			UrbanTepPortalStore,
@@ -104,6 +110,8 @@ define([
 		}
 
 		ThemeYearConfParams.datasetChanged = false;
+
+		Stores.retrieve("period").notify(Actions.periodsRebuild);
 	};
 
 	/**
@@ -241,7 +249,7 @@ define([
 
 
 		if (this._options.changes.scope){
-			if (this._dataset == ThemeYearConfParams.dataset){
+			if (this._dataset === ThemeYearConfParams.dataset){
 				console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "FrontOffice", "checkConfiguration", "missingDataset"));
 			}
 		}
@@ -294,6 +302,7 @@ define([
 		Stores.retrieve('location').all();
 		Stores.retrieve('period').all();
 		Stores.retrieve('scope').all();
+		Stores.retrieve('theme').all();
 		Stores.retrieve('visualization').all();
 		Stores.retrieve('wmsLayer').all();
 

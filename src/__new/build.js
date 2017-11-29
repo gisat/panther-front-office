@@ -12,8 +12,10 @@
         'osmtogeojson': 'lib/osmtogeojson-3.0.0',
         'requireLib': 'lib/require',
         'resize': 'lib/detect-element-resize',
+        'select2': 'lib/select2.full.min',
         'string': 'lib/string',
         'underscore': 'lib/underscore-min',
+        'tinysort': 'lib/tinysort.min',
         'text': 'lib/text',
         'wicket': 'lib/wicket',
         'worldwind': 'lib/worldwind.min'

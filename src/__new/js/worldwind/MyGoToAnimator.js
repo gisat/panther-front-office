@@ -38,12 +38,12 @@ define(['../error/ArgumentError',
 
 	/**
 	 * Set the location according to current configuration
-	 * @param config {Object} ThemeYearConfParams (configuration from global variable)
 	 */
-	MyGoToAnimator.prototype.setLocation = function(appState){
+	MyGoToAnimator.prototype.setLocation = function(){
 		var self = this;
-		var places = appState.places;
-		var dataset = appState.scope;
+		var currentState = Stores.retrieve('state').current();
+		var places = currentState.places;
+		var dataset = currentState.scope;
 		if (!dataset){
 			console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "MyGoToAnimator", "setLocation", "missingDataset"));
 		}

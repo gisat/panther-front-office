@@ -1,0 +1,22 @@
+.select-basic-container {
+	min-width: 5rem;
+}
+
+/* topbar select*/
+.select-basic-container.top-bar-select {
+	 border-radius: 0.05rem;
+	 background: rgba(255, 255, 255, .25);
+	 border: 1px solid rgba(255, 255, 255, .3);
+	 height: 23px;
+}
+.select-basic-container.top-bar-select .select2-selection__rendered {
+	line-height: 21px;
+	color: #ddd;
+	font-weight: 700;
+}
+.select-basic-container.top-bar-select .select2-selection__arrow {
+	height: 23px;
+}
+.select-basic-container.top-bar-select .select2-selection__arrow > b {
+	border-color: #ddd transparent transparent transparent;
+}

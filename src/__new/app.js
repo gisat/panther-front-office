@@ -10,9 +10,11 @@ requirejs.config({
         'jquery-ui': 'lib/jquery-ui.min',
         'osmtogeojson': 'lib/osmtogeojson-3.0.0',
         'resize': 'lib/detect-element-resize',
+		'select2': 'lib/select2.full.min',
         'string': 'lib/string',
         'underscore': 'lib/underscore-min',
         'text': 'lib/text',
+		'tinysort': 'lib/tinysort.min',
         'wicket': 'lib/wicket',
         'worldwind': 'lib/worldwind.min'
     },
@@ -43,6 +45,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         'js/util/metadata/AnalyticalUnits',
         'js/view/widgets/CityWidget/CityWidget',
         'js/view/widgets/CustomDrawingWidget/CustomDrawingWidget',
+		'js/util/Customization',
         'js/view/widgets/EvaluationWidget/EvaluationWidget',
         'js/view/tools/FeatureInfoTool/FeatureInfoTool',
         'js/util/Filter',
@@ -53,11 +56,15 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 		'js/view/mapsContainer/MapsContainer',
 		'js/stores/internal/MapStore',
 		'js/view/widgets/OSMWidget/OSMWidget',
+	'js/view/PanelIFrame/PanelIFrame',
+		'js/view/selectors/PeriodsSelector/PeriodsSelector',
 		'js/view/widgets/PeriodsWidget/PeriodsWidget',
 		'js/util/Placeholder',
 		'js/util/Remote',
 		'js/view/widgets/SharingWidget/SharingWidget',
 		'js/stores/internal/SelectionStore',
+		'js/view/SnowMapController',
+		'js/view/widgets/SnowWidget/SnowWidget',
 		'js/stores/internal/StateStore',
 		'js/stores/Stores',
         'js/view/TopToolBar',
@@ -72,6 +79,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
              AnalyticalUnits,
              CityWidget,
              CustomDrawingWidget,
+			 Customization,
              EvaluationWidget,
              FeatureInfoTool,
              Filter,
@@ -82,11 +90,15 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
              MapsContainer,
 			 MapStore,
 			 OSMWidget,
+			 PanelIFrame,
+			 PeriodsSelector,
 			 PeriodsWidget,
 			 Placeholder,
 			 Remote,
 			 SharingWidget,
 			 SelectionStore,
+			 SnowMapController,
+			 SnowWidget,
 			 StateStore,
 			 Stores,
 			 TopToolBar,
@@ -119,12 +131,30 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         var filter = buildFilter();
         var olMap = buildOpenLayersMap();
 
+		// customization
+		new Customization({
+			dispatcher: window.Stores,
+			useWorldWindOnly: Config.toggles.useWorldWindOnly,
+			skipSelection: Config.toggles.skipInitialSelection
+		});
+
+        if (Config.toggles.hasPeriodsSelector){
+        	new PeriodsSelector({
+				containerSelector: $("#content-application .group-visualization"),
+				dispatcher: window.Stores,
+				maxSelected: 12
+			});
+        	$("#view-selector .period").addClass("hidden");
+		}
+
         if(Config.toggles.useTopToolbar){
-            var topToolBar = new TopToolBar();
+            var topToolBar = new TopToolBar({
+				dispatcher: window.Stores
+			});
         }
         // create tools and widgets according to configuration
         if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
-        	var mapsContainer = buildMapsContainer(mapStore);
+        	var mapsContainer = buildMapsContainer(mapStore, stateStore);
 			var worldWindWidget = buildWorldWindWidget(mapsContainer, topToolBar, stateStore);
             widgets.push(worldWindWidget);
 
@@ -132,7 +162,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
                 widgets.push(buildOsmWidget(mapsContainer, mapStore));
             }
         }
-        if (Config.toggles.hasPeriodsWidget){
+        if(Config.toggles.hasPeriodsWidget){
 			var periodsWidget = buildPeriodsWidget(mapsContainer);
 			widgets.push(periodsWidget);
 		}
@@ -148,6 +178,16 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         if(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies){
             widgets.push(buildCityWidget());
         }
+		if(Config.toggles.isSnow){
+			var panelIFrame = new PanelIFrame(Config.snowUrl + 'snow/');
+			//var panelIFrame = new PanelIFrame('http://localhost:63326/panther-front-office/src/iframe-test.html');
+			var snowMapController = new SnowMapController({
+				iFrame: panelIFrame
+			});
+
+			widgets.push(buildSnowWidget(snowMapController, panelIFrame));
+			snowViewChanges();
+		}
 
         if(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo){
             tools.push(buildFeatureInfoTool());
@@ -325,6 +365,23 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 		});
 	}
 
+	/**
+	 * Build SnowWidget instance
+	 * @param mapController {SnowMapController}
+	 * @param iFrame {PanelIFrame}
+	 * @returns {SnowWidget}
+	 */
+	function buildSnowWidget (mapController, iFrame){
+		return new SnowWidget({
+			elementId: 'snow-widget',
+			name: 'Saved configurations',
+			placeholderTargetId: 'widget-container',
+			iFrame: iFrame,
+			mapController: mapController,
+			dispatcher: window.Stores
+		});
+	}
+
     /**
      * Build WorldWindWidget instance
 	 * @param mapsContainer {MapsContainer}
@@ -373,13 +430,15 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 	/**
 	 * Build container for world wind maps within content element
 	 * @param mapStore {MapStore}
+	 * @param stateStore {StateStore}
 	 * @returns {MapsContainer}
 	 */
-	function buildMapsContainer(mapStore){
+	function buildMapsContainer(mapStore, stateStore){
 		return new MapsContainer({
 			id: "maps-container",
 			dispatcher: window.Stores,
 			mapStore: mapStore,
+			stateStore: stateStore,
 			target: $("#content")
 		})
 	}
@@ -400,4 +459,23 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
             is3dOnly: true
         });
     }
+
+	/**
+	 * Modifications of FO view for SNOW PORTAL
+	 */
+	function snowViewChanges(){
+		// set correct link to intro page
+		var introLink = $("#intro-link");
+		if (introLink.length){
+			introLink.remove();
+		}
+		// use snow portal logo
+		var headerSelector = $("#header");
+		headerSelector.find("h1").remove();
+		headerSelector.prepend("<a href='" + Config.snowUrl + "intro' id='project-logo'></a>");
+
+		// hide top toolbar tools
+		var topToolbarTools = $("#top-toolbar-tools");
+		topToolbarTools.remove();
+	}
 });

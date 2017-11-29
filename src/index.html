@@ -32,6 +32,18 @@
 		<script src="lib/Highcharts-3.0.0/js/modules/exporting.js"></script>
 	</head>
 	<body class="intro">
+		<!-- When login is required have this at your disposal -->
+		<div id="hideAllExceptLogin" style="
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background-color: black;
+			z-index: 19000;
+			display: none;
+		"></div>
+
 		<div id="rendering"></div>
 		<div id="legend"></div>
 
@@ -353,6 +365,7 @@
 						<span id="sidebar-reports-add"></span>
 						<div id="app-reports-paging"></div>
 						<div id="app-reports-accordeon"></div>
+						<div id="app-extra-content"></div>
 					</div>
 				</div>
 			</div>

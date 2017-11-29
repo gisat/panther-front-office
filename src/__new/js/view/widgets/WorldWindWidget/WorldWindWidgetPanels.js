@@ -8,6 +8,8 @@ define(['../../../error/ArgumentError',
 	'./panels/ThematicLayersPanel',
 	'./panels/WmsLayersPanel',
 
+	'../../../stores/Stores',
+
 	'jquery',
 	'string',
 	'text!./WorldWindWidgetPanels.html',
@@ -22,6 +24,8 @@ define(['../../../error/ArgumentError',
 			ThematicLayersPanel,
 			WmsLayersPanel,
 
+			Stores,
+
 			$,
 			S,
 			htmlBody
@@ -29,7 +33,7 @@ define(['../../../error/ArgumentError',
 	/**
 	 * @param options {Object}
 	 * @param options.id {string} id of element
-	 * @param options.target {JQuery} JQuery selector of target element
+	 * @param options.target {Object} JQuery selector of target element
 	 * @param options.currentMap
 	 * @constructor
 	 */
@@ -48,13 +52,10 @@ define(['../../../error/ArgumentError',
 
 	/**
 	 * Rebuild panels with current configuration
-	 * @param stateChanges {Object} changes in configuration
 	 */
-	WorldWindWidgetPanels.prototype.rebuild = function(stateChanges){
-		if (!stateChanges){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingParameter"));
-		}
-		if (stateChanges && !stateChanges.scope){
+	WorldWindWidgetPanels.prototype.rebuild = function(){
+		var configChanges = Stores.retrieve('state').current().changes;
+		if (!configChanges.scope){
 			this._auLayersPanel.switchOnLayersFrom2D();
 			this._thematicLayersPanel.switchOnLayersFrom2D();
 		}

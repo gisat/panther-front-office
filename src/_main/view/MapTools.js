@@ -5,7 +5,7 @@ Ext.define('PumaMain.view.MapTools', {
     helpId: 'Maptools',
     initComponent: function() { 
         this.defaults = {
-            height: 75,
+            height: 90,
             width: 60
         };
         this.layout = {

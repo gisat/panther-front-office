@@ -8,7 +8,7 @@
 }
 
 #content-application .field.place {
-	margin-right: 35px;
+	margin-right: 20px;
 }
 
 .field.year .widget .x-field .x-form-item-body {
@@ -259,6 +259,10 @@
 
 #app-reports-accordeon {
 	overflow: auto;
+}
+
+#app-extra-content {
+	display: none;
 }
 
 #app-reports-paging .x-btn,

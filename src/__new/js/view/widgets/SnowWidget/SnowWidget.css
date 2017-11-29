@@ -1,0 +1,19 @@
+#floater-snow-widget {
+	display: none;
+	left: calc(50% - 500px);
+	top: calc(50% - 250px);
+	width: 1000px;
+	height: 500px;
+	margin: 0;
+}
+#floater-snow-widget.open {
+	display: block;
+}
+#floater-snow-widget .floater-body {
+	height: calc(100% - 2.5rem);
+}
+.snow-table-caption {
+	color: #c92d42;
+	font-size: 1.1rem;
+	font-weight: 400;
+}

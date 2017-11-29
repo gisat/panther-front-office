@@ -123,6 +123,7 @@ define(['../../actions/Actions',
 		this.setupWebWorldWind();
 		if (this._id !== 'default-map'){
 			this.addCloseButton();
+			this.addPeriod();
 		}
 	};
 
@@ -131,7 +132,26 @@ define(['../../actions/Actions',
 	 */
 	WorldWindMap.prototype.addCloseButton = function(){
 		var html = '<div title="Remove map" class="close-map-button" data-id="' + this._id + '"><i class="fa fa-times close-map-icon" aria-hidden="true"></i></div>';
-		this._mapBoxSelector.append(html);
+		this._mapBoxSelector.find(".map-window-tools").append(html);
+	};
+
+	/**
+	 * Add label with info about period to the map and add dataPeriod attribute of the map container (it is used for sorting)
+	 */
+	WorldWindMap.prototype.addPeriod = function(){
+		if (this._periodLabelSelector){
+			this._periodLabelSelector.remove();
+		}
+		var self = this;
+		Stores.retrieve("period").byId(this._period).then(function(periods){
+			if (periods.length === 1){
+				var periodName = periods[0].name;
+				var html = '<div class="map-period-label">' + periodName + '</div>';
+				self._mapBoxSelector.attr("data-period", periodName);
+				self._mapBoxSelector.find(".map-window-tools").append(html);
+				self._periodLabelSelector = self._mapBoxSelector.find(".map-period-label")
+			}
+		});
 	};
 
 	/**
@@ -155,18 +175,27 @@ define(['../../actions/Actions',
 	};
 
 	/**
-	 * Rebuild map with current settings
+	 * Rebuild map
 	 */
-	WorldWindMap.prototype.rebuild = function(appState){
-		this._goToAnimator.setLocation(appState);
-
-		if (this._id !== "default-map"){
+	WorldWindMap.prototype.rebuild = function(){
+		var state = Stores.retrieve("state").current();
+		if (state.changes.scope || state.changes.location){
+			this._goToAnimator.setLocation();
+		}
+		if (this._id === "default-map"){
+			this.updateNavigatorState();
+			var periods = state.periods;
+			if (periods.length === 1){
+				this._period = periods[0];
+			}
+			if (!Config.toggles.hideSelectorToolbar){
+				this.addPeriod();
+			}
+		} else {
 			var self = this;
 			setTimeout(function(){
 				self.setNavigator();
 			},1000);
-		} else {
-			this.updateNavigatorState();
 		}
 	};
 
@@ -228,7 +257,24 @@ define(['../../actions/Actions',
 	 * @param position {Position}
 	 */
 	WorldWindMap.prototype.goTo = function(position) {
-		this._wwd.goTo(position);
+        this._wwd.navigator.lookAtLocation = position;
+        this._wwd.redraw();
+	};
+
+	/**
+	 * Switch projection from 3D to 2D and vice versa
+	 */
+	WorldWindMap.prototype.switchProjection = function(){
+		var globe = null;
+		var is2D = this._wwd.globe.is2D();
+		if (is2D){
+			globe = new WorldWind.Globe(new WorldWind.EarthElevationModel());
+		} else {
+			globe = new WorldWind.Globe2D();
+			globe.projection = new WorldWind.ProjectionMercator();
+		}
+		this._wwd.globe = globe;
+		this.redraw();
 	};
 
 	/**

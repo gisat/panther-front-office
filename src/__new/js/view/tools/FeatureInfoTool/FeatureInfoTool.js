@@ -77,7 +77,8 @@ define(['../../../error/ArgumentError',
 	};
 
 	/**
-	 * Add on click listener to the feature button
+	 * Add on click listener to the feature button. How do I figure out into which part of the map I clicked? Part of the
+	 * question is what to do in the case of multiple maps.
 	 * @param attributes
 	 * @param map
 	 */

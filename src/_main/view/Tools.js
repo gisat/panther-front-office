@@ -394,4 +394,3 @@ if (Config.toggles.useTopToolbar) {
 		}
 	})
 }
-

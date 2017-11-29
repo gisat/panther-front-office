@@ -29,7 +29,6 @@ define([
 	 * Class representing widget for 3D map
 	 * @param options {Object}
 	 * @param options.mapsContainer {MapsContainer} Container where should be all maps rendered
-	 * @param options.dispatcher {Object}
 	 * @param options.stateStore {StateStore}
 	 * @param options.topToolBar {TopToolBar}
 	 * @constructor
@@ -67,14 +66,13 @@ define([
 	WorldWindWidget.prototype.build = function(){
 		this.addSettingsIcon();
 		this.addSettingsOnClickListener();
-		this.add3dMapOnClickListener();
 
 		this._panels = this.buildPanels();
 
 		// config for new/old view
 		if (!Config.toggles.useNewViewSelector){
 			this._widgetBodySelector.append('<div id="3d-switch">3D map</div>');
-			$("#3d-switch").on("click", this.toggle3DMap.bind(this));
+			$("#3d-switch").on("click", this.switchMapFramework.bind(this));
 		} else {
 			this.addMinimiseButtonListener();
 		}
@@ -94,30 +92,17 @@ define([
 	WorldWindWidget.prototype.addDataToMap = function(map){
 		this._panels.addLayersToMap(map);
 		if (map._id !== 'default-map'){
-			map.rebuild(this._stateStore.current());
-			this._panels.rebuild(this._stateChanges);
+			map.rebuild();
+			this._panels.rebuild();
 		}
 	};
 
 	/**
-	 * Rebuild widget
+	 * Rebuild widget. Rebuild all maps in container and panels.
 	 */
 	WorldWindWidget.prototype.rebuild = function(){
-		var isIn3dMode = $("body").hasClass("mode-3d");
-		this._stateChanges = this._stateStore.current().changes;
-
-		if (isIn3dMode){
-			this._mapsContainer.rebuildMaps();
-			this._panels.rebuild(this._stateChanges);
-			this._stateChanges = {
-				scope: false,
-				location: false,
-				theme: false,
-				period: false,
-				level: false,
-				visualization: false
-			};
-		}
+		this._mapsContainer.rebuildMaps();
+		this._panels.rebuild();
 		this.handleLoading("hide");
 	};
 
@@ -142,9 +127,16 @@ define([
 	};
 
 	/**
+	 * Switch projection from 3D to 2D and vice versa
+	 */
+	WorldWindWidget.prototype.switchProjection = function(){
+		this._mapsContainer.switchProjection();
+	};
+
+	/**
 	 * Toggle map into 3D mode
 	 */
-	WorldWindWidget.prototype.toggle3DMap = function(){
+	WorldWindWidget.prototype.switchMapFramework = function(){
 		var self = this;
 		var body = $("body");
 
@@ -229,16 +221,16 @@ define([
 		});
 	};
 
-	WorldWindWidget.prototype.add3dMapOnClickListener = function(){
-		$('#top-toolbar-3dmap').on("click", this.toggle3DMap.bind(this));
-	};
-
 
 	WorldWindWidget.prototype.onEvent = function(type, options) {
 		if(type === Actions.mapShow3D) {
 			this.show3DMap();
 		} else if(type === Actions.mapAdd){
 			this.addDataToMap(options.map);
+		} else if(type === Actions.mapSwitchFramework){
+			this.switchMapFramework();
+		} else if(type === Actions.mapSwitchProjection){
+			this.switchProjection();
 		}
 	};
 

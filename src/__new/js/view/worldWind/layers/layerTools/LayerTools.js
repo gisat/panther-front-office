@@ -2,6 +2,8 @@ define(['../../../../error/ArgumentError',
 	'../../../../error/NotFoundError',
 	'../../../../util/Logger',
 
+	'./legend/LayerLegend',
+	'./opacity/LayerOpacity',
 	'./legend/Legend',
 	'./opacity/Opacity',
 
@@ -11,6 +13,8 @@ define(['../../../../error/ArgumentError',
 			NotFoundError,
 			Logger,
 
+			LayerLegend,
+			LayerOpacity,
 			Legend,
 			Opacity,
 
@@ -20,8 +24,12 @@ define(['../../../../error/ArgumentError',
 	 * Class representing layer tools
 	 * @param options {Object}
 	 * @param options.id {string} id of the element
+	 * @param options.name {name} name of the element
 	 * @param options.class {string}
-	 * @param options.target {JQuery} selector of target element
+	 * @param options.target {Object} JQuery selector of target element
+	 * @param options.maps {Array} list of current maps
+	 * @param options.layers {Array} associated layers
+	 * @param options.style {Object} associated style
 	 * @constructor
 	 */
 	var LayerTools = function(options){
@@ -31,13 +39,17 @@ define(['../../../../error/ArgumentError',
 		if (!options.class){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "LayerTools", "constructor", "missingClass"));
 		}
-		if (!options.target || options.target.length == 0){
+		if (!options.target || options.target.length === 0){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "LayerTools", "constructor", "missingTarget"));
 		}
 
 		this._target = options.target;
 		this._id = options.id;
+		this._name = options.name;
 		this._class = options.class;
+		this._layers = options.layers || null;
+		this._maps = options.maps || null;
+		this._style = options.style || null;
 
 		this.build();
 	};
@@ -66,6 +78,7 @@ define(['../../../../error/ArgumentError',
 
 	/**
 	 * Build legend for layer
+	 * @param maps {Array} List of WorldWindMaps
 	 * @param layerMetadata {Object}
 	 * @returns {Legend}
 	 */
@@ -98,7 +111,39 @@ define(['../../../../error/ArgumentError',
 	};
 
 	/**
+	 * NEW! Build legend for layers
+	 * @returns {LayerLegend}
+	 */
+	LayerTools.prototype.buildLegend = function(){
+		return new LayerLegend({
+			id: this._id,
+			name: this._name,
+			class: this._class,
+			target: this._toolsContainer,
+			layers: this._layers,
+			style: this._style
+		});
+	};
+
+	/**
+	 * NEW! Build opacity control for layers
+	 * @returns {LayerOpacity}
+	 */
+	LayerTools.prototype.buildOpacity = function(){
+		return new LayerOpacity({
+			id: this._id,
+			name: this._name,
+			class: this._class,
+			target: this._toolsContainer,
+			layers: this._layers,
+			maps: this._maps,
+			style: this._style
+		});
+	};
+
+	/**
 	 * Add metadata icon to tool box
+	 * @param data {Object}
 	 */
 	LayerTools.prototype.addMetadataIcon = function(data){
 		this._toolsContainer.append('<div title="Metadata" class="layer-tool-icon metadata-icon" data-for="' + data.id + '">' +

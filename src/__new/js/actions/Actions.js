@@ -7,9 +7,15 @@ define([], function(){
 
 		mapAddVisibleLayer: 'map#addVisibleLayer',
 		mapRemoveVisibleLayer: 'map#removeVisibleLayer',
+		mapSwitchFramework: 'map#switchFramework',
+		mapSwitchProjection: 'map#switchProjection',
+		mapUseWorldWindOnly: 'map#useWorldWindOnly',
 
 		filterAdd: 'filter#add',
 		filterRemove: 'filter#remove',
+
+		periodsRebuild: 'periods#rebuild',
+		periodsChange: 'periods#change',
 
 		stateUpdatePlace: 'state#updatePlace',
 		stateUpdatePeriod: 'state#updatePeriod',
@@ -21,6 +27,8 @@ define([], function(){
 
 		extLoaded: 'extLoaded',
 		extThemeYearLoaded: 'extRestructured',
+
+		userChanged: 'user#changed',
 
 		mapShow3D: 'map#show3D'
 	};

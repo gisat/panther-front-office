@@ -192,6 +192,9 @@ define([
 			   hasData = true;
            }
         });
+        if (attribute.min === attribute.max){
+			hasData = true;
+        }
         return hasData;
     };
 

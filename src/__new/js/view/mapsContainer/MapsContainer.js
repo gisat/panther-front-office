@@ -11,6 +11,7 @@ define([
 	'string',
 	'jquery',
 	'text!./MapsContainer.html',
+	'tinysort',
 	'css!./MapsContainer'
 ], function(Actions,
 			ArgumentError,
@@ -23,7 +24,8 @@ define([
 
 			S,
 			$,
-			mapsContainer
+			mapsContainer,
+			tinysort
 ){
 	/**
 	 * Class representing container containing maps
@@ -32,6 +34,7 @@ define([
 	 * @param options.dispatcher {Object} Object for handling events in the application.
 	 * @param options.target {Object} JQuery selector of target element
 	 * @param options.mapStore {MapStore}
+	 * @param options.stateStore {StateStore}
 	 * @constructor
 	 */
 	var MapsContainer = function(options){
@@ -47,17 +50,22 @@ define([
 		if (!options.mapStore){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MapsContainer", "constructor", "missingMapStore"));
 		}
+		if (!options.stateStore){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MapsContainer", "constructor", "missingStateStore"));
+		}
 		this._target = options.target;
 		this._id = options.id;
 		this._dispatcher = options.dispatcher;
 		this._mapStore = options.mapStore;
+		this._stateStore = options.stateStore;
 
 		this._mapControls = null;
-
-		this._mapsCount = 0;
+		this._mapsInContainerCount = 0;
 
 		this.build();
+
 		this._dispatcher.addListener(this.onEvent.bind(this));
+		Stores.retrieve("period").addListener(this.onEvent.bind(this));
 	};
 
 	/**
@@ -75,8 +83,48 @@ define([
 	};
 
 	/**
+	 * Rebuild maps container with list of periods. For new periods, add maps. On the other hand, remove maps which
+	 * are not connected with any of periods in the list
+	 * @param periods {Array} selected periods.
+	 */
+	MapsContainer.prototype.rebuildContainerWithPeriods = function(periods){
+		var allMaps = this._mapStore.getAll();
+		var mapsCount = Object.keys(allMaps).length;
+		var periodsCount = periods.length;
+
+		var self = this;
+		if (mapsCount < periodsCount){
+			// go trough periods, check if map exists for period, if not, add map
+			periods.forEach(function(period){
+				var map = self._mapStore.getMapByPeriod(period);
+				if (!map){
+					self.addMap(null, period);
+				}
+			});
+		} else if (mapsCount > periodsCount) {
+			if (periodsCount === 1){
+				allMaps.forEach(function(map){
+					if (map.id !== "default-map"){
+						self._dispatcher.notify("map#remove",{id: map.id});
+					}
+				});
+			} else {
+				// go trough maps, check if period exists for map, if not, remove map
+				allMaps.forEach(function(map){
+					var period =_.filter(periods, function(per){
+						return per === map.period;
+					});
+					if (period.length === 0){
+						self._dispatcher.notify("map#remove",{id: map.id});
+					}
+				});
+			}
+		}
+	};
+
+	/**
 	 * Add map to container
-	 * @param id {string} Id of the map
+	 * @param id {string|null} Id of the map
 	 * @param periodId {number} Id of the period connected with map
 	 * TODO allow max 16 maps (due to WebGL restrictions)
 	 */
@@ -90,30 +138,30 @@ define([
 		} else {
 			this._mapControls = this.buildMapControls(worldWindMap._wwd);
 		}
-		this._mapsCount++;
-		this.rebuildContainer();
+		this._mapsInContainerCount++;
+		this.rebuildContainerLayout();
 	};
 
 	/**
-	 * Remove map from DOM
+	 * Remove map from container
 	 * @param id {string} ID of the map
 	 */
 	MapsContainer.prototype.removeMap = function(id){
 		$("#" + id + "-box").remove();
-		this._mapsCount--;
-		this.rebuildContainer();
+		this._mapsInContainerCount--;
+		this.rebuildContainerLayout();
 	};
 
 	/**
 	 * Rebuild all maps in container
+	 * TODO rebuild each map with relevant data
 	 */
 	MapsContainer.prototype.rebuildMaps = function(){
-		var appState = Stores.retrieve('state').current();
 		var maps = this._mapStore.getAll();
-		for(var key in maps){
-			maps[key].rebuild(appState);
-		}
-		this.rebuildContainer();
+		maps.forEach(function(map){
+			map.rebuild();
+		});
+		this.rebuildContainerLayout();
 	};
 
 	/**
@@ -122,8 +170,18 @@ define([
 	 */
 	MapsContainer.prototype.setAllMapsPosition = function(position){
 		var maps = this._mapStore.getAll();
+		maps.forEach(function(map){
+			map.goTo(position);
+		});
+	};
+
+	/**
+	 * Switch projection of all maps from 2D to 3D and vice versa
+	 */
+	MapsContainer.prototype.switchProjection = function () {
+		var maps = this._mapStore.getAll();
 		for(var key in maps){
-			maps[key].goTo(position);
+			maps[key].switchProjection();
 		}
 	};
 
@@ -154,21 +212,15 @@ define([
 	};
 
 	/**
-	 * Retrun Jquery selector of maps container
-	 * @returns {*|jQuery|HTMLElement}
-	 */
-	MapsContainer.prototype.getContainerSelector = function(){
-		return this._containerSelector;
-	};
-
-	/**
 	 * Add listener to close button of each map except the default one
 	 */
 	MapsContainer.prototype.addCloseButtonOnClickListener = function(){
 		var self = this;
 		this._containerSelector.on("click", ".close-map-button", function(){
 			var mapId = $(this).attr("data-id");
-			self._dispatcher.notify(Actions.mapRemove, {id: mapId});
+			var mapPeriod = self._mapStore.getMapById(mapId).period;
+			var periods = _.reject(self._stateStore.current().periods, function(period) { return period === mapPeriod; });
+			self._dispatcher.notify("periods#change", periods);
 		});
 	};
 
@@ -176,19 +228,26 @@ define([
 	 * Rebuild the container when sidebar-reports panel changes it's state
 	 */
 	MapsContainer.prototype.addSidebarReportsStateListener = function(){
-		$("#sidebar-reports").on("click", this.rebuildContainer.bind(this));
+		$("#sidebar-reports").on("click", this.rebuildContainerLayout.bind(this));
 	};
 
+	/**
+	 * @param type {string} type of event
+	 * @param options {Object}
+	 */
 	MapsContainer.prototype.onEvent = function(type, options){
 		if (type === Actions.mapRemove){
 			this.removeMap(options.id);
+		} else if (type === Actions.periodsRebuild){
+			var periods = this._stateStore.current().periods;
+			this.rebuildContainerWithPeriods(periods);
 		}
 	};
 
 	/**
 	 * Rebuild grid according to a number of active maps
 	 */
-	MapsContainer.prototype.rebuildContainer = function(){
+	MapsContainer.prototype.rebuildContainerLayout = function(){
 		var width = this._containerSelector.width();
 		var height = this._containerSelector.height();
 
@@ -201,22 +260,34 @@ define([
 
 		this._containerSelector.attr('class', 'maps-container');
 		var cls = '';
-		if (this._mapsCount === 1){
+		if (this._mapsInContainerCount === 1){
 			cls += a + '1 ' + b + '1';
-		} else if (this._mapsCount === 2){
+		} else if (this._mapsInContainerCount === 2){
 			cls += a + '2 ' + b + '1';
-		} else if (this._mapsCount > 2 && this._mapsCount <= 4){
+		} else if (this._mapsInContainerCount > 2 && this._mapsInContainerCount <= 4){
 			cls += a + '2 ' + b + '2';
-		} else if (this._mapsCount > 4 && this._mapsCount <= 6){
+		} else if (this._mapsInContainerCount > 4 && this._mapsInContainerCount <= 6){
 			cls += a + '3 ' + b + '2';
-		} else if (this._mapsCount > 6 && this._mapsCount <= 9){
+		} else if (this._mapsInContainerCount > 6 && this._mapsInContainerCount <= 9){
 			cls += a + '3 ' + b + '3';
-		} else if (this._mapsCount > 9 && this._mapsCount <= 12){
+		} else if (this._mapsInContainerCount > 9 && this._mapsInContainerCount <= 12){
 			cls += a + '4 ' + b + '3';
-		} else if (this._mapsCount > 12 && this._mapsCount <= 16){
+		} else if (this._mapsInContainerCount > 12 && this._mapsInContainerCount <= 16){
 			cls += a + '4 ' + b + '4';
 		}
-		this._containerSelector.addClass(cls)
+		this._containerSelector.addClass(cls);
+
+		this.sortMapsByPeriod();
+	};
+
+	/**
+	 * Sort maps in container by associated period
+	 */
+	MapsContainer.prototype.sortMapsByPeriod = function(){
+		var containerCls = this._containerSelector.find(".map-fields").attr('class');
+		var container = document.getElementsByClassName(containerCls)[0];
+		var maps = container.childNodes;
+		tinysort(maps, {attr: 'data-period'});
 	};
 
 	return MapsContainer;
