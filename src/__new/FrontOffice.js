@@ -115,9 +115,6 @@ define([
 			var attributesData = this.getAttributesMetadata();
 			Promise.all([attributesData]).then(function(result){
 				self.rebuildComponents(result[0]);
-				if (options === "resetDataview"){
-					Stores.retrieve('state').setDataview(false);
-				}
 			});
 		}
 

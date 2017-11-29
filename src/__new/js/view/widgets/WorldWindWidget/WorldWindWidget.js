@@ -173,11 +173,21 @@ define([
 
 		// set default position of the map
 		var position = this.getPosition(options);
-        this._mapsContainer.setAllMapsPosition(position);
+		this._mapsContainer.setAllMapsPosition(position);
 
-        // is dataview?
+		// execute if there are settings from dataview
 		if (options){
-			this._stateStore.setDataview(true);
+			this.adjustAppConfiguration(options);
+		}
+	};
+
+	/**
+	 * Use dataview options and adjust configuration
+	 * @param options {Object}
+	 */
+	WorldWindWidget.prototype.adjustAppConfiguration = function(options){
+		if (options.worldWindState){
+			this._mapsContainer.setAllMapsRange(options.worldWindState.range);
 		}
 	};
 

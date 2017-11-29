@@ -176,6 +176,17 @@ define([
 	};
 
 	/**
+	 * Set range of all maps in this container
+	 * @param range {number}
+	 */
+	MapsContainer.prototype.setAllMapsRange = function(range){
+		var maps = this._mapStore.getAll();
+		maps.forEach(function(map){
+			map.setRange(range);
+		});
+	};
+
+	/**
 	 * Switch projection of all maps from 2D to 3D and vice versa
 	 */
 	MapsContainer.prototype.switchProjection = function () {

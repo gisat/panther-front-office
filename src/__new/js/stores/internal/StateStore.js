@@ -35,7 +35,6 @@ define(['../Stores'], function (Stores) {
 			},
 			changes: this._changes,
 			worldWindNavigator: Stores.retrieve("map").getNavigatorState(),
-			isDataview: this.isDataview
 		}
 	};
 
@@ -47,18 +46,13 @@ define(['../Stores'], function (Stores) {
 		this._changes = changes;
 	};
 
-	/**
-	 * @param options {true} if current state is a dataview
-	 */
-	StateStore.prototype.setDataview = function(options){
-		this.isDataview = options;
-	};
 
 	/**
 	 * Reset changes to default
 	 */
 	StateStore.prototype.resetChanges = function(){
 		this._changes = {
+			dataview: false,
 			scope: false,
 			location: false,
 			theme: false,

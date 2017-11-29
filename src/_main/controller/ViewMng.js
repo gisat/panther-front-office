@@ -308,7 +308,8 @@ Ext.define('PumaMain.controller.ViewMng', {
         	var options = {};
         	if (Config.cfg.worldWindState){
         		options.worldWindState = {
-        			location: Config.cfg.worldWindState.location
+        			location: Config.cfg.worldWindState.location,
+					range: Config.cfg.worldWindState.range
 				}
 			}
 			Stores.notify('map#show3DFromDataview', options);

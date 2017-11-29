@@ -184,7 +184,7 @@ define(['../../actions/Actions',
 	 */
 	WorldWindMap.prototype.rebuild = function(){
 		var state = Stores.retrieve("state").current();
-		if ((state.changes.scope || state.changes.location) && !state.isDataview){
+		if ((state.changes.scope || state.changes.location) && !state.changes.dataview){
 			this._goToAnimator.setLocation();
 		}
 		if (this._id === "default-map"){
@@ -223,6 +223,15 @@ define(['../../actions/Actions',
 		this._wwd.navigator.roll = navigatorState.roll;
 		this._wwd.navigator.tilt = navigatorState.tilt;
 
+		this.redraw();
+	};
+
+	/**
+	 * Set map range
+	 * @param range {number}
+	 */
+	WorldWindMap.prototype.setRange = function(range){
+		this._wwd.navigator.range = range;
 		this.redraw();
 	};
 
