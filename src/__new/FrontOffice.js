@@ -74,7 +74,8 @@ define([
 			theme: false,
 			period: false,
 			level: false,
-			visualization: false
+			visualization: false,
+			dataview: false
 		};
 		this.checkConfiguration();
 		Stores.retrieve("state").setChanges(this._options.changes);
@@ -314,6 +315,7 @@ define([
 				break;
 			case "dataview":
 				this._options.changes.scope = true;
+				this._options.changes.dataview = true;
 				break;
 		}
 	};
