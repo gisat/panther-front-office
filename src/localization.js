@@ -375,7 +375,7 @@ var langCz = {
     back: "Zpět",
     backgroundLayers: "Podkladové vrstvy",
     badCredentials: "Chybné přihlašovací údaje",
-    bingAerial: "Bing Aerial",
+    bingAerial: "Bing letecký pohled",
     blueMarble: "Blue Marble",
     bulkEditConfiguration: "Hromadně je možné upravovat konfiguraci pouze pro atributy se stejnými původními jednotkami, stejnou normalizací, stejným typem úpravy jednotek, stejným faktorem pro úpravu a v případě normalizace přes skupinu atributů také stejný atribut/ skupina atributů.",
 
