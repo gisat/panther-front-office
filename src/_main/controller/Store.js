@@ -463,10 +463,12 @@ Ext.define('PumaMain.controller.Store', {
 				name: 'Pie',
 				type: 'piechart'
 			}, {
-					name: 'Extent outline',
-					type: 'extentoutline'
-				}
-			]
+				name: 'Polar',
+				type: 'polarchart'
+			}, {
+				name: 'Extent outline',
+				type: 'extentoutline'
+			}]
 		});
 
 		Ext.create('Ext.data.Store', {
