@@ -306,6 +306,8 @@ Ext.define('PumaMain.controller.ViewMng', {
 		}
 		if (Config.cfg.is3D){
         	var options = {};
+
+        	// set location and range of all maps
         	if (Config.cfg.worldWindState){
         		options.worldWindState = {
         			location: Config.cfg.worldWindState.location,
@@ -313,6 +315,11 @@ Ext.define('PumaMain.controller.ViewMng', {
 				}
 			}
 			Stores.notify('map#show3DFromDataview', options);
+
+        	// show right panel
+        	if (Config.cfg.sidebarReportsOpen){
+				$('#sidebar-reports').show();
+			}
 		}
 		Observer.notify('scopeChange');
     },
@@ -390,10 +397,15 @@ Ext.define('PumaMain.controller.ViewMng', {
 		cfg.is3D = $('body').hasClass('mode-3d');
 
 		if (options){
+
+			// map settings
 			cfg.worldWindState = {
 				range: options.worldWindNavigator.range,
 				location: options.worldWindNavigator.lookAtLocation
-			}
+			};
+
+			// sidebar reports settings
+			cfg.sidebarReportsOpen = !$('#sidebar-reports').hasClass('hidden');
 		}
 
 		return {

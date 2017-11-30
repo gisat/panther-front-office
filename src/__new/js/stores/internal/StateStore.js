@@ -6,7 +6,6 @@ define(['../Stores'], function (Stores) {
 	 */
 	var StateStore = function (options) {
 		this._changes = {};
-		this.isDataview = false;
 	};
 
 	/**
@@ -34,7 +33,7 @@ define(['../Stores'], function (Stores) {
 				places: this.placesObjects()
 			},
 			changes: this._changes,
-			worldWindNavigator: Stores.retrieve("map").getNavigatorState(),
+			worldWindNavigator: Stores.retrieve("map").getNavigatorState()
 		}
 	};
 
