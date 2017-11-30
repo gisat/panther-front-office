@@ -1177,10 +1177,10 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 } else {
                     $('.areaTreeSelection').show();
                     $('#window-areatree').show();
-                }
 
-                if (!Config.toggles.isSnow) {
-                    $('#top-toolbar-areas').show();
+                    if (!Config.toggles.isSnow) {
+                        $('#top-toolbar-areas').show();
+                    }
                 }
 
                 // TODO: To be removed and replaced with toggles.
