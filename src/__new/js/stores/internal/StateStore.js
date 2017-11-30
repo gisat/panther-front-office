@@ -1,4 +1,11 @@
-define(['../Stores'], function (Stores) {
+define([
+	'../../util/Floater',
+	'../Stores',
+	'underscore'], function (
+		Floater,
+		Stores,
+		_
+) {
 	/**
 	 * This store is the ultimate source of truth about current state of the application. Everything else updates it
 	 * and everything that needs something from it, is notified.
@@ -32,9 +39,18 @@ define(['../Stores'], function (Stores) {
 			objects: {
 				places: this.placesObjects()
 			},
-			changes: this._changes,
-			worldWindNavigator: Stores.retrieve("map").getNavigatorState()
+			changes: this._changes
 		}
+	};
+
+	/**
+	 * Extended current state for sharing
+	 */
+	StateStore.prototype.currentExtended = function(){
+		return _.extend(this.current(), {
+			widgets: this.widgets(),
+			worldWindNavigator: Stores.retrieve("map").getNavigatorState()
+		});
 	};
 
 	/**
@@ -135,6 +151,43 @@ define(['../Stores'], function (Stores) {
 			return null;
 		}
 		return Ext.StoreMgr.lookup('dataset').getById(scope).get('featureLayers')[0];
+	};
+
+	/**
+	 * Get state of widgets
+	 * @returns {{open: Array, minimized: Array}}
+	 */
+	StateStore.prototype.widgets = function(){
+		var widgets = {
+			open: [],
+			minimized: [],
+			disabled: []
+		};
+		var topToolBarItems = $("#top-toolbar-widgets").find(".item");
+		topToolBarItems.each(function (index, i) {
+			var item = $(i);
+			if (item.length){
+				var widget = {
+					topToolbarItem: {
+						id: item.attr("id")
+					},
+					floater: {
+						id: item.attr("data-for")
+					}
+				};
+
+				if (item.hasClass("open")){
+					var floater = $("#" + item.attr("data-for"));
+					widget.floater.position = Floater.getPosition(floater);
+					widgets.open.push(widget);
+				} else if (item.hasClass("disabled")){
+					widgets.disabled.push(widget);
+				} else {
+					widgets.minimized.push(widget);
+				}
+			}
+		});
+		return widgets;
 	};
 
 	return StateStore;

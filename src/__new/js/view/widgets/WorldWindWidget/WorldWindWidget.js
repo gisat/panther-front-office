@@ -189,6 +189,9 @@ define([
 		if (options.worldWindState){
 			this._mapsContainer.setAllMapsRange(options.worldWindState.range);
 		}
+		if (options.widgets){
+			this._topToolBar.handleDataview(options.widgets);
+		}
 	};
 
 	/**
