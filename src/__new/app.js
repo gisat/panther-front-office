@@ -150,7 +150,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 				dispatcher: window.Stores,
 				maxSelected: 12
 			});
-            Observer.addListener('scopeChange', function(){
+            Observer.addListener('rebuild', function(){
                 periods.rebuild();
             });
         	$("#view-selector .period").addClass("hidden");
