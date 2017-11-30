@@ -1170,6 +1170,10 @@ Ext.define('PumaMain.controller.LocationTheme', {
                     $('.field.theme').hide();
                 }
 
+                if(tools.indexOf('place') !== -1) {
+                    $('.field.place').hide();
+                }
+
                 if(tools.indexOf('areas') !== -1) {
                     $('.areaTreeSelection').hide();
                     $('#window-areatree').hide();
