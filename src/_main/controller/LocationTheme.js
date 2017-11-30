@@ -43,6 +43,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 click: this.onCancelAgreement
             }
         })
+
+        Observer.notify('LocationTheme#init');
     },
     triggerConfirm: function(action){
         if (action === "confirmInitialSelection"){
@@ -146,10 +148,10 @@ Ext.define('PumaMain.controller.LocationTheme', {
             themeCombo.setValue(first)
         }
         if (cnt.initial) {
-            locationCombo.emptyText = 'Select place...';
+            locationCombo.emptyText = polyglot.t('selectPlace');
             locationCombo.setValue(null);
             if (themeCombo && themeCombo.isVisible()) {
-                themeCombo.emptyText = 'Select theme...';
+                themeCombo.emptyText = polyglot.t('selectTheme');
                 themeCombo.setValue(null);
             }
         }
@@ -161,6 +163,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
         locationCombo.resumeEvents();
         locationComboAlt.resumeEvents();
         themeComboAlt.resumeEvents();
+
+        Observer.notify('scopeChange');
     },
 
     onLocationChange: function(cnt,val) {
@@ -989,14 +993,14 @@ Ext.define('PumaMain.controller.LocationTheme', {
         if (!systemNode.childNodes.length) {
             selectedLayerNode = {
                 type: 'selectedareas',
-                name: 'Selected areas',
+                name: polyglot.t('selectedAreas'),
                 sortIndex: 0,
                 checked: false,
                 leaf: true
             };
             selectedLayerFilledNode = {
                 type: 'selectedareasfilled',
-                name: 'Selected areas filled',
+                name: polyglot.t('selectedAreasFilled'),
                 sortIndex: 0,
                 checked: true,
                 leaf: true
@@ -1004,7 +1008,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
             areaLayerNode = {
                 type: 'areaoutlines',
                 sortIndex: 1,
-                name: 'Area outlines',
+                name: polyglot.t('areaOutlines'),
                 checked: true,
                 leaf: true
             };
@@ -1081,6 +1085,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
         if (conf.hasOwnProperty("auRefMap")){
             OlMap.auRefMap = conf.auRefMap;
+			ThemeYearConfParams.auRefMap = conf.auRefMap;
             var counter = 1;
             for (var a in conf.auRefMap){
                 var auLevels = Object.keys(conf.auRefMap[a]).length;
@@ -1112,38 +1117,76 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 // Remove the possibility to switch back
                 $('#top-toolbar-3dmap').hide();
             } else {
-                if(scope.get('simplifiedMap') || scope.get('_id') == 465) {
-                    Stores.notify('map#show3D');
+				var tools = scope.get('removedTools') || [];
+				var dataset = Ext.ComponentQuery.query('#seldataset')[0].getValue();
+				var only3D = (tools.indexOf('2dmap') !== -1);
 
-                    if (!Config.toggles.isSnow) {
-                        $('#top-toolbar-areas').show();
-                    }
+				if(dataset !== this._datasetId) {
+					if (this._datasetId || only3D){
+						Stores.notify('map#show3D');
+					}
+					this._datasetId = dataset;
+					this.getController('DomManipulation')._onReportsSidebarHide();
+				} else {
+					$('#sidebar-reports').show();
+				}
 
-                    this.getController('DomManipulation')._onReportsSidebarToggleClick();
+                if(tools.indexOf('2dmap') !== -1) {
                     $('#top-toolbar-3dmap').hide();
+                } else {
+                    $('#top-toolbar-3dmap').show();
+                }
+
+                if(tools.indexOf('evaluationTool') !== -1) {
                     $('#top-toolbar-selection-filter').hide();
                     $('#top-toolbar-selections').hide();
-                    $('#top-toolbar-map-tools').hide();
-                    $('#top-toolbar-saved-views').hide();
-                    $('.field.scope').hide();
-                    $('.field.theme').hide();
-                    $('.field.visualization').hide();
+                }
 
+                if(tools.indexOf('mapTools') !== -1) {
+                    $('#top-toolbar-map-tools').hide();
+                }
+
+                if(tools.indexOf('savedViews') !== -1) {
+                    $('#top-toolbar-saved-views').hide();
+                }
+
+                if(tools.indexOf('visualisation') !== -1) {
+                    $('.field.visualization').hide();
+                }
+
+                if(tools.indexOf('snapshots') !== -1) {
                     $('#top-toolbar-snapshot').hide();
+                }
+
+                if(tools.indexOf('context-help') !== -1) {
                     $('#top-toolbar-context-help').hide();
+                }
+
+                if(tools.indexOf('scope') !== -1) {
+                    $('.field.scope').hide();
+                }
+
+                if(tools.indexOf('theme') !== -1) {
+                    $('.field.theme').hide();
+                }
+
+                if(tools.indexOf('areas') !== -1) {
+                    $('.areaTreeSelection').hide();
+                    $('#window-areatree').hide();
+                    $('#top-toolbar-areas').hide();
                 } else {
                     $('.areaTreeSelection').show();
-                    if (!Config.toggles.isSnow) {
-                        $('#top-toolbar-areas').show();
-                    }
                     $('#window-areatree').show();
-                    if (scope.get("aggregated")) {
-                        this.getController('DomManipulation')._onReportsSidebarToggleClick();
-                    }
-                    $('#sidebar-reports').show();
-                    $('#top-toolbar-3dmap').show()
                 }
-				// Add the possibility to switch back.
+
+                if (!Config.toggles.isSnow) {
+                    $('#top-toolbar-areas').show();
+                }
+
+                // TODO: To be removed and replaced with toggles.
+                if (scope.get("aggregated")) {
+                    this.getController('DomManipulation')._onReportsSidebarHide();
+                }
 			}
         }
         if (response.request.options.originatingCnt.itemId == 'selectfilter') {

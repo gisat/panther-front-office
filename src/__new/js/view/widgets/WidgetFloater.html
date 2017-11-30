@@ -1,9 +1,9 @@
-<div id="floater-{{widgetId}}" class="floater {{floaterClass}}">
+<div id="floater-{{widgetId}}" class="floater floating-window {{floaterClass}}">
 	<div class="floater-header">
 		<span>{{name}}</span>
 		<div class="floater-tools-container">
-			<div title="Minimise" class="floater-tool widget-minimise">
-				<img alt="Minimise" src="{{minimiseSrc}}"/>
+			<div title="{{minimise}}" class="floater-tool widget-minimise">
+				<img alt="{{minimise}}" src="{{minimiseSrc}}"/>
 			</div>
 		</div>
 	</div>
@@ -14,5 +14,15 @@
 	<div class="floater-footer">
 	</div>
 	<div class="floater-overlay">
+		<div id="loading-screen-content-wrap">
+			<div id="loading-screen-content">
+				<div class="a-loader-container small blackandwhite">
+					<i class="i1"></i>
+					<i class="i2"></i>
+					<i class="i3"></i>
+					<i class="i4"></i>
+				</div>
+			</div>
+		</div>
 	</div>
 </div>

@@ -3,12 +3,14 @@ define(['../../actions/Actions',
 		'../../error/NotFoundError',
 		'../../util/Logger',
 
+		'../../util/dataMining',
 		'./layers/Layers',
 		'../../worldwind/MyGoToAnimator',
 		'../../worldwind/layers/osm3D/OSMTBuildingLayer',
 		'../../stores/Stores',
 		'../../stores/internal/VisibleLayersStore',
 		'../../util/Uuid',
+		'../../worldwind/WmsFeatureInfo',
 
 		'string',
 		'jquery',
@@ -20,12 +22,14 @@ define(['../../actions/Actions',
 			NotFoundError,
 			Logger,
 
+			dataMininig,
 			Layers,
 			MyGoToAnimator,
 			OSMTBuildingLayer,
 			Stores,
 			VisibleLayersStore,
 			Uuid,
+			WmsFeatureInfo,
 
 			S,
 			$,
@@ -131,7 +135,7 @@ define(['../../actions/Actions',
 	 * Add close button to this map
 	 */
 	WorldWindMap.prototype.addCloseButton = function(){
-		var html = '<div title="Remove map" class="close-map-button" data-id="' + this._id + '"><i class="fa fa-times close-map-icon" aria-hidden="true"></i></div>';
+		var html = '<div title="Remove map" class="close-map-button" data-id="' + this._id + '"><i class="close-map-icon">&#x2715;</i></div>';
 		this._mapBoxSelector.find(".map-window-tools").append(html);
 	};
 
@@ -145,6 +149,7 @@ define(['../../actions/Actions',
 		var self = this;
 		Stores.retrieve("period").byId(this._period).then(function(periods){
 			if (periods.length === 1){
+				self._mapBoxSelector.find(".map-period-label").remove();
 				var periodName = periods[0].name;
 				var html = '<div class="map-period-label">' + periodName + '</div>';
 				self._mapBoxSelector.attr("data-period", periodName);
@@ -257,8 +262,11 @@ define(['../../actions/Actions',
 	 * @param position {Position}
 	 */
 	WorldWindMap.prototype.goTo = function(position) {
+		console.log('WorldWindMap#goTo Position: ', position);
+
         this._wwd.navigator.lookAtLocation = position;
         this._wwd.redraw();
+        this._wwd.redrawIfNeeded(); // TODO: Check with new releases. This isn't part of the public API and therefore might change.
 	};
 
 	/**
@@ -275,6 +283,118 @@ define(['../../actions/Actions',
 		}
 		this._wwd.globe = globe;
 		this.redraw();
+	};
+
+	/**
+	 * Add on click recognizer
+	 * @param callback {function} on click callback
+	 * @param property {string} property for to find via getFeatureInfo
+	 */
+	WorldWindMap.prototype.addClickRecognizer = function(callback, property){
+		if (!this._clickRecognizer){
+			this._clickRecognizer = new WorldWind.ClickRecognizer(this._wwd.canvas, this.onMapClick.bind(this, callback, property));
+		}
+		this._clickRecognizer.enabled = true;
+	};
+
+	/**
+	 * Disable map on click recognizer
+	 */
+	WorldWindMap.prototype.disableClickRecognizer = function(){
+		if (this._clickRecognizer){
+			this._clickRecognizer.enabled = false;
+		}
+	};
+
+	/**
+	 * Execute on map click. Find out a location of click target in lat, lon. And execute getFeatureInfo query for this location.
+	 * @param callback {function} on click callback
+	 * @param property {string} property for to find via getFeatureInfo
+	 * @param event {Object}
+	 */
+	WorldWindMap.prototype.onMapClick = function(callback, property, event){
+		var self = this;
+		var gid = null;
+		var coordinates = null;
+		var auLayer = this.layers.getAuLayer()[0];
+		var auBaseLayers = dataMininig.getAuBaseLayers(this._period);
+
+		var x = event._clientX;
+		var y = event._clientY;
+		var position = this.getPositionFromCanvasCoordinates(x,y);
+		if (position) {
+			coordinates = {
+				lat: position.latitude,
+				lon: position.longitude
+			};
+		}
+
+		if (auLayer.metadata.active && coordinates){
+			auLayer.getFeatureInfo(property, coordinates, auBaseLayers.join(",")).then(function(feature){
+				if (feature && feature.properties){
+					gid = feature.properties[property];
+				}
+				callback(gid, self._period, {x:x,y:y});
+			});
+		} else {
+			callback(gid);
+		}
+	};
+
+	WorldWindMap.prototype.getLayersInfo = function(callback, event) {
+		var x = event.x,
+			y = event.y;
+		var position = this.getPositionFromCanvasCoordinates(x,y);
+
+		var tablePromises = event.worldWindow.layers.map(function(layer){
+			console.log('WorldWindMap#showFeatureInfo Layer: ', layer);
+			if(!layer || !layer.metadata || !layer.metadata.group || layer.metadata.group === 'areaoutlines') {
+				return;
+			}
+			var serviceAddress = layer.urlBuilder.serviceAddress;
+			var layerNames = layer.urlBuilder.layerNames;
+			var crs = layer.urlBuilder.crs;
+			var name = layerNames;
+			var customParams = null;
+			if (layer.metadata && layer.metadata.name){
+				name = layer.metadata.name;
+			}
+			if (layer.urlBuilder.customParams){
+				customParams = layer.urlBuilder.customParams;
+			}
+
+			return new WmsFeatureInfo({
+				customParameters: customParams,
+				serviceAddress: serviceAddress,
+				layers: layerNames,
+				position: position,
+				src: crs,
+				screenCoordinates: {x: x, y: y},
+				name: name
+			}).get();
+		}).filter(function(state){
+			return state;
+		});
+
+		return Promise.all(tablePromises).then(function(result){
+			callback(result)
+		});
+	};
+
+	/**
+	 * Get geographic position from canvas coordinates
+	 * @param x {number}
+	 * @param y {number}
+	 * @returns {WorldWind.Position}
+	 */
+	WorldWindMap.prototype.getPositionFromCanvasCoordinates = function(x, y){
+		var currentPoint = this._wwd.pickTerrain(this._wwd.canvasCoordinates(x, y));
+		if(!currentPoint.objects.length) {
+			// TODO: Build better error mechanism.
+			alert('Please click on the area containing the globe.');
+			return;
+		}
+		return currentPoint.objects[0].position;
 	};
 
 	/**

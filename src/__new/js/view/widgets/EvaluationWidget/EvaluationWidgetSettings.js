@@ -51,7 +51,7 @@ define([
 	EvaluationWidgetSettings.prototype.addCategories = function(){
 		this._settingsBody = $('#' + this._id + ' .tool-window-body');
 		this._settingsBody.html("");
-		this.addCheckbox(this._id + "-all-attributes", "All attributes", "all-attributes-row", "", true, "");
+		this.addCheckbox(this._id + "-all-attributes", polyglot.t("allAttributes"), "all-attributes-row", "", true, "");
 		var asName = "";
 		var asId = "";
 		var asDataId = null;
@@ -72,17 +72,17 @@ define([
 
 			if (type == "boolean"){
 				input = "checkbox";
-				name4Settings = name4Settings + " <i>(Yes/No)</i>";
+				name4Settings = name4Settings + " <i>"+polyglot.t("yesNo")+"</i>";
 			}
 			else if (type == "numeric") {
 				input = "slider";
-				name4Settings = name4Settings + " <i>(Range)</i> ";
+				name4Settings = name4Settings + " <i>"+polyglot.t("range")+"</i> ";
 			}
 			else if (type == "text") {
 				input = "select";
-				name4Settings = name4Settings + " <i>(Category)</i>" +
+				name4Settings = name4Settings + " <i>"+polyglot.t("categoryBounded")+"</i>" +
 					"<div class='multioptions'>" +
-					"<span>Multioptions:</span>" +
+					"<span>"+polyglot.t("multiOptions")+"</span>" +
 					"<label class='switch'>" +
 					"<input type='checkbox' class='multioptions-input'>" +
 					"<div class='slider-toggle'></div>" +

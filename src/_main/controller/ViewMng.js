@@ -36,6 +36,8 @@ Ext.define('PumaMain.controller.ViewMng', {
                         click: this.onShare
                     },
                 })
+
+        Observer.notify('ViewMng#init');
     },
     
     onUrlOpen: function(grid,rec) {
@@ -48,7 +50,7 @@ Ext.define('PumaMain.controller.ViewMng', {
         if(Config.toggles.isUrbanTep){
             items.push({
                 xtype: 'button',
-                text: 'Share on portal',
+                text: polyglot.t('shareOnPortal'),
                 handler: function() {
                     alert('clicked');
                 }
@@ -57,7 +59,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 
         var win = Ext.widget('window',{
                 bodyCls: 'urlwindow',
-                title: 'Data view URL',
+                title: polyglot.t('dataViewUrl'),
                 items: items
             });
             win.show();
@@ -133,7 +135,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 			var window = Ext.widget('window',{
 				layout: 'fit',
 				width: 300,
-				title: 'Manage visualizations',
+				title: polyglot.t('manageVisualizations'),
 				id: 'window-' + btn.itemId,
 				height: 400,
 				y: 200,
@@ -149,7 +151,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 			var window2 = Ext.widget('window',{
 				layout: 'fit',
 				width: 300,
-				title: 'Custom views',
+				title: polyglot.t('customViews'),
 				id: 'window-' + btn.itemId,
 				itemId: 'window-customviews',
 				cls: Config.toggles.useTopToolbar ? 'detached-window' : undefined,
@@ -165,7 +167,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 				tools: [{
 					type: 'hide',
 					cls: 'hide',
-					tooltip: 'Hide',
+					tooltip: polyglot.t('hide'),
 					itemId: 'hide',
 					hidden: !Config.toggles.useTopToolbar,
 					listeners: {
@@ -305,6 +307,8 @@ Ext.define('PumaMain.controller.ViewMng', {
 		if (Config.cfg.is3D){
 			Stores.notify('map#show3D');
 		}
+
+        Observer.notify('scopeChange');
     },
 
 	gatherViewConfig: function () {
@@ -447,7 +451,7 @@ Ext.define('PumaMain.controller.ViewMng', {
             layout: 'fit',
             width: 300,
             cls: 'window-savevisualization',
-            title: 'Save visualization',
+            title: polyglot.t('saveVisualization'),
             y: 200,
             bodyCls: 'saveaswindow',
             items: [{
@@ -462,7 +466,7 @@ Ext.define('PumaMain.controller.ViewMng', {
         var window = Ext.widget('window',{
             layout: 'fit',
             width: 300,
-            title: 'Save data view',
+            title: polyglot.t('saveDataView'),
             y: 200,
             cls: 'window-savedataview',
             bodyCls: 'saveaswindow',

@@ -1,19 +1,24 @@
-define(['../../../error/ArgumentError',
+define(['../../../actions/Actions',
+	'../../../error/ArgumentError',
 	'./FeatureInfoWindow',
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 	'../../../view/map/Map',
+	'../../../stores/Stores',
 	'../../View',
 
 	'jquery',
 	'string',
 	'text!./FeatureInfoTool.html',
-	'css!./FeatureInfoTool'
-], function (ArgumentError,
+	'css!./FeatureInfoTool',
+	'worldwind'
+], function (Actions,
+			 ArgumentError,
 			 FeatureInfoWindow,
 			 NotFoundError,
 			 Logger,
 			 Map,
+			 InternalStores,
 			 View,
 
 			 $,
@@ -24,8 +29,9 @@ define(['../../../error/ArgumentError',
 	/**
 	 * It creates Feature Info functionality
 	 * @param options {Object}
-	 * @param options.elementClass {string} class of the tool used in ExtJS to identify a tool
-	 * @param options.targetId {string} id of the target element
+	 * @param options.id {string} id of the element
+	 * @param options.control2dClass {string} class of the tool used in ExtJS to identify a tool
+	 * @param options.dispatcher {Object} Object for handling events in the application.
 	 * @constructor
 	 */
 	var FeatureInfoTool = function (options) {
@@ -33,15 +39,14 @@ define(['../../../error/ArgumentError',
 		if (!options.id){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "FeatureInfoTool", "constructor", "missingId"));
 		}
-		if (!options.elementClass){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "FeatureInfoTool", "constructor", "missingElementClass"));
-		}
 
 		this._floaterTarget = $("body");
-		this._class = options.elementClass;
+		this._control2dClass = options.control2dClass;
 		this._id = options.id;
+		this._dispatcher = options.dispatcher;
 
 		this.build();
+		this._dispatcher.addListener(this.onEvent.bind(this));
 	};
 
 	FeatureInfoTool.prototype = Object.create(View.prototype);
@@ -50,66 +55,142 @@ define(['../../../error/ArgumentError',
 	 * Build Feature info basic content
 	 */
 	FeatureInfoTool.prototype.build = function() {
-		this._infoWindow = this.buildInfoWindow();
+		this._infoWindow = this.buildInfoWindow(true, true, true);
 	};
 
 	/**
 	 * Build new window for displaying information about feature
-	 * @returns {Object}
+	 * @param resizable {boolean}
+	 * @param hasSettings {boolean}
+	 * @param hasFooter {boolean}
+	 * @returns {FeatureInfoWindow}
 	 */
-	FeatureInfoTool.prototype.buildInfoWindow = function(){
+	FeatureInfoTool.prototype.buildInfoWindow = function(resizable, hasSettings, hasFooter){
 		return new FeatureInfoWindow({
 			target: this._floaterTarget,
 			id: this._id + "-window",
-			resizable: true
+			resizable: resizable,
+			hasSettings: hasSettings,
+			hasFooter: hasFooter
 		});
 	};
 
 	/**
-	 * Rebuild Feature info for specific attributes and map
+	 * Rebuild Feature info for specific attributes and map. If the feautre info functionality is activated, deactivate it
 	 * @param attributes {Array}
 	 * @param options {Object}
 	 * @param options.olMap {Map}
 	 */
 	FeatureInfoTool.prototype.rebuild = function(attributes, options) {
-		this.addOnClickListener(attributes, options.olMap);
-		this.deactivateComponents();
+		this._control2dSelector = $('.' + this._control2dClass);
+		if (this._control2dSelector.hasClass("x-btn-pressed")){
+			this.trigger2dControlClick();
+		}
+
+		this._attributes = attributes;
+		this.add2dControlListener(options.olMap);
 	};
 
 	/**
-	 * Add on click listener to the feature button. How do I figure out into which part of the map I clicked? Part of the
-	 * question is what to do in the case of multiple maps.
-	 * @param attributes
+	 * Add on click listener to the feature button in Ext.
 	 * @param map
 	 */
-	FeatureInfoTool.prototype.addOnClickListener = function(attributes, map){
+	FeatureInfoTool.prototype.add2dControlListener = function(map){
 		var self = this;
-		$('body').off("click.featureInfo").on("click.featureInfo", '.' + this._class, function () {
+		$('body').off("click.featureInfo").on("click.featureInfo", '.' + this._control2dClass, function () {
 			var button = $(this);
 			setTimeout(function(){
 				var active = button.hasClass("x-btn-pressed");
 				if (active){
 					map.rebuild();
 					self._map = map;
-					self._map.addOnClickListener(attributes, self._infoWindow);
-					self._map.onClickActivate();
+					self.activateFor2D();
 				} else {
-					self._map.onClickDeactivate(self._infoWindow);
-					self._infoWindow._settings.close();
+					self.deactivateFor2D();
 				}
 			}, 50);
 		});
 	};
 
 	/**
-	 * Deactivate feature info functionality
+	 * Activate feature info functionality for 2D map
 	 */
-	FeatureInfoTool.prototype.deactivateComponents = function(){
-		var featureInfoButton = $('.' + this._class);
-		var activated = featureInfoButton.hasClass("x-btn-pressed");
-		if (activated){
-			featureInfoButton.trigger("click");
+	FeatureInfoTool.prototype.activateFor2D = function(){
+		this._map.addOnClickListener(this._attributes, this._infoWindow);
+		this._map.onClickActivate();
+	};
+
+	/**
+	 * Activate feature info functionality for World Wind
+	 */
+	FeatureInfoTool.prototype.activateFor3D = function(){
+		var self = this;
+		var maps = InternalStores.retrieve('map').getAll();
+		maps.forEach(function(map){
+			map.addClickRecognizer(self.onWorldWindClick.bind(self), "gid");
+		});
+	};
+
+	/**
+	 * Deactivate feature info functionality for 2D map
+	 */
+	FeatureInfoTool.prototype.deactivateFor2D = function(){
+		this.hideComponents();
+		this._map.onClickDeactivate(this._infoWindow);
+	};
+
+	/**
+	 * Deactive feature info functionality for World wind map
+	 */
+	FeatureInfoTool.prototype.deactivateFor3D = function(){
+		this.hideComponents();
+		var maps = InternalStores.retrieve('map').getAll();
+		maps.forEach(function(map){
+			map.disableClickRecognizer();
+		});
+	};
+
+	/**
+	 * Hide feature info window and settings window
+	 */
+	FeatureInfoTool.prototype.hideComponents = function(){
+		this._infoWindow.setVisibility("hide");
+		if (this._infoWindow._settings){
 			this._infoWindow._settings.close();
+		}
+	};
+
+	/**
+	 * Execute on World wind map click
+	 * @param period {number} id of period connected with current map
+	 * @param gid {number} id of the gid
+	 * @param screenCoord {Object} x:{number},y:{number} screen coordinates of click event
+	 */
+	FeatureInfoTool.prototype.onWorldWindClick = function(gid, period, screenCoord){
+		if (gid){
+			this._infoWindow.rebuild(this._attributes, gid, period);
+			this._infoWindow.setVisibility("show");
+			this._infoWindow.setScreenPosition(screenCoord .x, screenCoord.y, true);
+		} else {
+			this.hideComponents();
+		}
+	};
+
+	/**
+	 * Trigger click on Ext Feature info control
+	 */
+	FeatureInfoTool.prototype.trigger2dControlClick = function(){
+		this._control2dSelector.trigger("click")
+	};
+
+	/**
+	 * @param type {string} type of event
+	 */
+	FeatureInfoTool.prototype.onEvent = function (type) {
+		if (type === Actions.mapSwitchFramework){
+			if (this._control2dSelector && this._control2dSelector.hasClass("x-btn-pressed")){
+				this.trigger2dControlClick();
+			}
 		}
 	};
 

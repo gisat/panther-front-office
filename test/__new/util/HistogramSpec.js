@@ -47,29 +47,6 @@ define([
             });
         });
 
-        describe('When original classes are given and the original bar has width 2px', function(){
-            var output = histogram.adjustNumberOfClasses(histogram._numOfClasses, 2);
-
-            it("Then the adjusted number of classes will be 4", function(){
-                expect(output).toBe(4);
-            });
-        });
-
-        describe('When original classes are given and number of classes for grouping is 4', function(){
-            var classes = $.extend(true, [], histogram._classes);
-            var output = histogram.groupClasses(4, classes);
-
-            it("Then there will be 4 new classes", function(){
-                expect(output.length).toBe(4);
-            });
-            it("Then the count of first class will be 18", function(){
-                expect(output[0].count).toBe(18);
-            });
-            it("Then maximal range of first class will be 35", function(){
-                expect(output[0].maximum).toBe(35);
-            });
-        });
-
         describe('When the classes are emptied', function(){
             var classes = $.extend(true, [], histogram._classes);
             var output = histogram.emptyClasses(classes);

@@ -7,7 +7,7 @@ Ext.define('PumaMain.view.AddAttributeTree', {
     border: false,
     autoScroll: true,
 	rootVisible: false,
-	title: 'Select attributes to add',
+	title: polyglot.t("selectAttributesToAdd"),
     requires: ['Ext.ux.CheckColumn','Ext.ux.grid.filter.StringFilter'],
     initComponent: function() {
 		this.hideHeaders = true;
@@ -22,10 +22,10 @@ Ext.define('PumaMain.view.AddAttributeTree', {
 
         this.buttons = [{
             itemId: 'add',
-            text: 'Add'
+            text: polyglot.t("add")
         },{
             itemId: 'back',
-            text: 'Back'
+            text: polyglot.t("back")
         }]
         this.callParent();
     }

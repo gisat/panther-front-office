@@ -8,6 +8,8 @@ Ext.define('PumaMain.controller.Login',{
         this.getApplication().on('login',function() {
             me.onLogin();
         })
+
+        Observer.notify('Login#init');
     },
         
     onLogin: function() {
@@ -39,10 +41,14 @@ Ext.define('PumaMain.controller.Login',{
         shareView.setVisible(isUser);
         Ext.StoreMgr.lookup('dataview').load();
         Stores.notify('user#changed');
+        Observer.notify('user#onLogin');
     },
 
     reloadStores: function() {
-        var stores = ['location', 'theme', 'dataset', 'topic'];
+        var stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic', 'dataview'];
+        if(Config.toggles.isUrbanTep) {
+            stores = ['location', 'theme', 'dataset', 'topic'];
+        }
         stores.forEach(function(store){
 			Ext.StoreMgr.lookup(store).load();
         });

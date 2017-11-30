@@ -4,10 +4,11 @@ Ext.define('PumaMain.controller.Export', {
     requires: ['Ext.Ajax'],
     init: function() {
         //this.initConf();
+        Observer.notify('Export#init');
     },
 
     initConf: function() {
-        console.log('Init')
+        console.log('Export#InitConf');
         var id = window.location.search.split('?')[1].split('&')[0].split('=')[1];
         this.forDownload = window.location.search.search('fordownload')>-1;
         Ext.Ajax.request({

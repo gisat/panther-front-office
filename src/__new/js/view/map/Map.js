@@ -2,9 +2,15 @@ define([
 	'../../error/ArgumentError',
 	'../../util/Logger',
 
+	'../../util/dataMining',
+	'../../stores/Stores',
+
 	'jquery'
 ], function (ArgumentError,
 			 Logger,
+
+			 dataMining,
+			 InternalStores,
 
 			 $) {
 	"use strict";
@@ -188,7 +194,7 @@ define([
 	};
 
 	Map.prototype.addOnClickListener = function(attributes, infoWindow){
-		var layers = this.getBaseLayersIds();
+		var layers = dataMining.getAuBaseLayers();
 		this._attributes = attributes;
 		this._map.selectInMapLayer.params['LAYERS'] = layers.join(',');
 		this._map2.selectInMapLayer.params['LAYERS'] = layers.join(',');
@@ -219,13 +225,14 @@ define([
 	};
 
 	Map.prototype.getInfoAboutArea = function(infoWindow, e){
+		var appState = InternalStores.retrieve('state').current();
 		var allFeatures = JSON.parse(e.text).features;
 		if (allFeatures.length > 0){
 			infoWindow.setVisibility("show");
 			infoWindow.setScreenPosition(e.object.handler.evt.clientX, e.xy.y);
 
 			var featureGid = allFeatures[allFeatures.length - 1].properties.gid;
-			var years = JSON.parse(ThemeYearConfParams.years);
+			var years = appState.periods;
 			var periods = [];
 			if (e.object.hasOwnProperty("id") && e.object.id == "feature_info_map2"){
 				periods.push(years[years.length - 1]);
@@ -248,39 +255,6 @@ define([
 		this._newInfoControl.deactivate();
 		this._newInfoControl2.deactivate();
 		infoWindow.setVisibility("hide");
-	};
-
-	Map.prototype.getBaseLayersIds = function(){
-		var auRefMap = OlMap.auRefMap;
-		var locations;
-		if (ThemeYearConfParams.place.length > 0){
-			locations = [Number(ThemeYearConfParams.place)];
-		} else {
-			locations = ThemeYearConfParams.allPlaces;
-		}
-		var year = JSON.parse(ThemeYearConfParams.years)[0];
-		var areaTemplate = ThemeYearConfParams.auCurrentAt;
-
-		var layers = [];
-		for (var place in auRefMap){
-			locations.forEach(function(location){
-				if (auRefMap.hasOwnProperty(place) && place == location){
-					for (var aTpl in auRefMap[place]){
-						if (auRefMap[place].hasOwnProperty(aTpl) && aTpl == areaTemplate){
-							for (var currentYear in auRefMap[place][aTpl]){
-								if (auRefMap[place][aTpl].hasOwnProperty(currentYear) && currentYear == year){
-									var unit = auRefMap[place][aTpl][currentYear];
-									if (unit.hasOwnProperty("_id")){
-										layers.push(Config.geoserver2Workspace + ':layer_'+unit._id);
-									}
-								}
-							}
-						}
-					}
-				}
-			});
-		}
-		return layers;
 	};
 
 	/**

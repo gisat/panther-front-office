@@ -4,3 +4,6 @@
 	min-width: 22rem;
 	max-width: 40rem;
 }
+#floater-sharing .floater-body {
+	padding: 1rem 1rem 1rem .5rem;
+}

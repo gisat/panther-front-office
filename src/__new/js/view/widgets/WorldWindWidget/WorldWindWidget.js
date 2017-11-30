@@ -71,7 +71,7 @@ define([
 
 		// config for new/old view
 		if (!Config.toggles.useNewViewSelector){
-			this._widgetBodySelector.append('<div id="3d-switch">3D map</div>');
+			this._widgetBodySelector.append('<div id="3d-switch">'+polyglot.t('map3d')+'</div>');
 			$("#3d-switch").on("click", this.switchMapFramework.bind(this));
 		} else {
 			this.addMinimiseButtonListener();
@@ -111,8 +111,8 @@ define([
 	 */
 	WorldWindWidget.prototype.addSettingsIcon = function(){
 		this._widgetSelector.find(".floater-tools-container")
-			.append('<div id="thematic-layers-configuration" title="Configure thematic maps" class="floater-tool">' +
-				'<img title="Configure thematic maps" src="images/icons/settings.png"/>' +
+			.append('<div id="thematic-layers-configuration" title="'+polyglot.t("configureThematicMaps")+'" class="floater-tool">' +
+				'<img title="'+polyglot.t("configureThematicMaps")+'" src="images/icons/settings.png"/>' +
 				'</div>');
 	};
 
@@ -163,7 +163,6 @@ define([
 		var body = $("body");
 
 		body.addClass("mode-3d");
-		self._widgetSelector.addClass("open");
 		self.toggleComponents("none");
 		self.rebuild();
 
@@ -172,11 +171,64 @@ define([
 		}
 
 		var places = this._stateStore.current().objects.places;
-		if(places.length === 1 ){
-			var locations = places[0].get('bbox').split(',');
-			var position = new WorldWind.Position((Number(locations[1]) + Number(locations[3])) / 2, (Number(locations[0]) + Number(locations[2])) / 2, 1000000);
-			this._mapsContainer.setAllMapsPosition(position);
+        var locations;
+		if(places.length === 1 && places[0]){
+			locations = places[0].get('bbox').split(',');
+            console.log('WorldWindWidget#show3DMap Place: ', places[0]);
+        } else {
+			places = this._stateStore.current().allPlaces.map(function(place) {
+                return Ext.StoreMgr.lookup('location').getById(place);
+			});
+            locations = this.getBboxForMultiplePlaces(places);
+            console.log('WorldWindWidget#show3DMap Locations: ', locations);
+        }
+
+        if(locations.length != 4) {
+			console.warn('WorldWindWidget#show3DMap Incorrect locations: ', locations);
+			return;
 		}
+        var position = new WorldWind.Position((Number(locations[1]) + Number(locations[3])) / 2, (Number(locations[0]) + Number(locations[2])) / 2, 1000000);
+		console.log('WorldWindWidget#show3DMap Position: ', position);
+        this._mapsContainer.setAllMapsPosition(position);
+	};
+
+    /**
+	 * It combines bboxes of all places to get an extent, which will show all of them.
+     * @param places
+     * @returns {*}
+     */
+	WorldWindWidget.prototype.getBboxForMultiplePlaces = function(places) {
+		if(places.length == 0) {
+			return [];
+		}
+
+		var minLongitude = 180;
+		var maxLongitude = -180;
+		var minLatitude = 90;
+		var maxLatitude = -90;
+
+		var locations;
+		places.forEach(function(place){
+            console.log('WorldWindWidget#getBboxForMultiplePlaces Place: ', place);
+            locations = place.get('bbox').split(',');
+			if(locations[0] < minLongitude) {
+				minLongitude = locations[0];
+			}
+
+			if(locations[1] < minLatitude) {
+                minLatitude = locations[1];
+			}
+
+			if(locations[2] > maxLongitude) {
+				maxLongitude = locations[2];
+			}
+
+			if(locations[3] > maxLatitude) {
+				maxLatitude = locations[3];
+			}
+		});
+
+		return [minLongitude, maxLatitude, maxLongitude, minLatitude];
 	};
 
 	/**

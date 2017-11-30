@@ -55,8 +55,9 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         'js/view/map/Map',
 		'js/view/mapsContainer/MapsContainer',
 		'js/stores/internal/MapStore',
+		'js/view/widgets/MapToolsWidget/MapToolsWidget',
 		'js/view/widgets/OSMWidget/OSMWidget',
-	'js/view/PanelIFrame/PanelIFrame',
+		'js/view/PanelIFrame/PanelIFrame',
 		'js/view/selectors/PeriodsSelector/PeriodsSelector',
 		'js/view/widgets/PeriodsWidget/PeriodsWidget',
 		'js/util/Placeholder',
@@ -89,6 +90,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
              Map,
              MapsContainer,
 			 MapStore,
+			 MapToolsWidget,
 			 OSMWidget,
 			 PanelIFrame,
 			 PeriodsSelector,
@@ -138,6 +140,10 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			skipSelection: Config.toggles.skipInitialSelection
 		});
 
+		// ALWAYS add new feature info
+		var featureInfoTool = buildFeatureInfoTool();
+		tools.push(featureInfoTool);
+
         if (Config.toggles.hasPeriodsSelector){
         	new PeriodsSelector({
 				containerSelector: $("#content-application .group-visualization"),
@@ -156,7 +162,9 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
         	var mapsContainer = buildMapsContainer(mapStore, stateStore);
 			var worldWindWidget = buildWorldWindWidget(mapsContainer, topToolBar, stateStore);
-            widgets.push(worldWindWidget);
+			widgets.push(worldWindWidget);
+			var mapToolsWidget = buildMapToolsWidget(featureInfoTool);
+			widgets.push(mapToolsWidget);
 
             if(Config.toggles.hasOsmWidget) {
                 widgets.push(buildOsmWidget(mapsContainer, mapStore));
@@ -189,10 +197,6 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			snowViewChanges();
 		}
 
-        if(Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo){
-            tools.push(buildFeatureInfoTool());
-        }
-
 		widgets.push(buildSharingWidget());
 
 		// build app, map is class for OpenLayers map
@@ -222,7 +226,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
                 else {
                     Floater.maximise(floater);
                     Placeholder.floaterOpened(placeholder);
-                    $(".floater").removeClass("active");
+                    $(".floating-window").removeClass("active");
                     floater.addClass("active");
                     ExchangeParams.options.openWidgets[floaterSelector.slice(1)] = true;
                 }
@@ -252,7 +256,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
             containment: "body",
             handle: ".floater-header"
         }).on("click drag", function(){
-            $(".floater, .tool-window, #feature-info-window").removeClass("active");
+            $(".floating-window").removeClass("active");
             $(this).addClass("active");
         });
     });
@@ -336,19 +340,19 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
     function buildCityWidget (){
         return new CityWidget({
             elementId: 'city-selection',
-            name: 'UrbanDynamic Tool',
+            name: polyglot.t('urbanDynamicTool'),
             placeholderTargetId: 'widget-container',
             selections: [{
                 id: 'melodies-city-selection',
-                name: 'Select city',
+                name: polyglot.t('selectCity'),
                 options: ['Brno', 'České Budějovice', 'Plzeň', 'Ostrava']
             }, {
                 id: 'melodies-start-selection',
-                name: 'Select start',
+                name: polyglot.t('selectStart'),
                 options: ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016']
             }, {
                 id: 'melodies-end-selection',
-                name: 'Select end',
+                name: polyglot.t('selectEnd'),
                 options: ['2000','2001','2002','2003','2004','2005','2006','2007','2008','2009','2010','2011','2012','2013','2014','2015','2016']
             }]
         })
@@ -357,7 +361,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
     function buildPeriodsWidget (mapsContainer){
     	return new PeriodsWidget({
 			elementId: 'periods-widget',
-			name: 'Periods',
+			name: polyglot.t('periods'),
 			mapsContainer: mapsContainer,
 			dispatcher: window.Stores,
 			isWithoutFooter: true,
@@ -374,7 +378,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 	function buildSnowWidget (mapController, iFrame){
 		return new SnowWidget({
 			elementId: 'snow-widget',
-			name: 'Saved configurations',
+			name: polyglot.t('savedConfigurations'),
 			placeholderTargetId: 'widget-container',
 			iFrame: iFrame,
 			mapController: mapController,
@@ -391,7 +395,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
     function buildWorldWindWidget (mapsContainer, topToolBar, stateStore){
         return new WorldWindWidget({
             elementId: 'world-wind-widget',
-            name: 'Layers',
+            name: polyglot.t('layers'),
 			mapsContainer: mapsContainer,
             placeholderTargetId: 'widget-container',
             topToolBar: topToolBar,
@@ -409,7 +413,8 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
     function buildFeatureInfoTool(){
         return new FeatureInfoTool({
             id: 'feature-info',
-            elementClass: 'btn-tool-feature-info'
+			control2dClass: 'btn-tool-feature-info',
+			dispatcher: window.Stores
         });
     }
 
@@ -420,7 +425,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 	function buildSharingWidget() {
 		Widgets.sharing = new SharingWidget({
 			elementId: 'sharing',
-			name: 'Share',
+			name: polyglot.t('share'),
 			placeholderTargetId: 'widget-container'
 		});
 
@@ -451,7 +456,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 	function buildOsmWidget(mapsContainer, mapStore) {
         return new OSMWidget({
             elementId: 'osm-widget',
-            name: 'Open Street Maps',
+            name: polyglot.t('openStreetMaps'),
             mapsContainer: mapsContainer,
             mapStore: mapStore,
             dispatcher: window.Stores,
@@ -459,6 +464,22 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
             is3dOnly: true
         });
     }
+
+	/**
+	 * Build widget of map tools for world wind maps
+	 * @param featureInfo {FeatureInfoTool}
+	 * @returns {MapToolsWidget}
+	 */
+	function buildMapToolsWidget(featureInfo){
+		return new MapToolsWidget({
+			elementId: 'map-tools-widget',
+			name: polyglot.t("mapTools"),
+			is3dOnly: true,
+			isWithoutFooter: true,
+			dispatcher: window.Stores,
+			featureInfo: featureInfo
+		})
+	}
 
 	/**
 	 * Modifications of FO view for SNOW PORTAL

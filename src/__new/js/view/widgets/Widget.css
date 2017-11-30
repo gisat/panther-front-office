@@ -42,7 +42,8 @@
     padding: 0 .5rem;
 }
 .floater-header > span {
-    font-size: .8rem;
+    font-size: .9rem;
+    font-weight: 600;
     line-height: 1.6rem;
 }
 
@@ -73,14 +74,14 @@
 
 /* === Floaters === */
 .floater {
-    background: rgba(255,255,255,.95);
-    border: 1px solid #ccc;
+    background-image: linear-gradient(to bottom, transparent 0rem, transparent 2.3rem, rgba(255,255,255,.95) 2.3rem, rgba(255,255,255,.95) 100%);
+    background-position: 0px 0px;
+    background-repeat:   no-repeat;
     border-radius: .1rem;
     -webkit-box-shadow: 0 0 4px rgb(136, 136, 136);
     -moz-box-shadow: 0 0 4px rgb(136, 136, 136);
     box-shadow: 0 0 4px rgb(136, 136, 136);
     display: none;
-    padding: .2rem;
     position: absolute;
     resize: both;
     overflow: auto;
@@ -111,16 +112,16 @@ body.mode-3d .floater.only-3d.open {
     display: none;
     height: 100%;
     width: 100%;
-    background: rgba(255,255,255,.9) url(../../../img/loading.gif) no-repeat 50% 50%;
+    background: rgba(255,255,255,.9);
     position: absolute;
     top: 0;
     left: 0;
     z-index: 9999;
 }
 .floater-header {
-    background: #c92d42;
-    height: 2rem;
-    line-height: 2rem;
+    background: rgba(201,45,66,.9);
+    height: 2.3rem;
+    line-height: 2.3rem;
     position: relative;
     cursor: move;
 }
@@ -140,7 +141,6 @@ body.mode-3d .floater.only-3d.open {
     display: none;
     position: absolute;
     height: calc(100% - 2.7rem);
-    background: white;
     z-index: 10;
     padding: .5rem;
 }
@@ -304,4 +304,22 @@ body.mode-3d .floater.only-3d.open {
 .widget-tab span {
     margin: .2rem 0;
     font-size: .9rem;
+}
+
+/* widget form */
+.widget-form-row {
+    line-height: 2rem;
+    margin-bottom: .5rem;
+}
+.widget-form-row label {
+    display: flex;
+    width: 100%;
+}
+.widget-form-row span {
+    flex: 1;
+    font-size: .85rem;
+}
+.widget-form-row select {
+    font-size: .85rem;
+    min-width: 10rem;
 }

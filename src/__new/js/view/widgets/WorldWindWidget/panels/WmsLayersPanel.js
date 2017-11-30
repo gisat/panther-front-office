@@ -49,7 +49,9 @@ define(['../../../../error/ArgumentError',
 	 */
 	WmsLayersPanel.prototype.rebuild = function(){
 		this._allMaps = StoresInternal.retrieve("map").getAll();
-		this.getLayersForCurrentConfiguration().then(this.addPanelContent.bind(this));
+		this.getLayersForCurrentConfiguration().then(this.addPanelContent.bind(this)).catch(function(error){
+			console.error('WmsLayerPanel#rebuild Error: ', error);
+		});
 	};
 
 	/**
@@ -62,7 +64,14 @@ define(['../../../../error/ArgumentError',
 		this._previousLayersControls = jQuery.extend(true, [], this._layersControls);
 		this._layersControls = [];
 		if (layers && layers.length > 0){
-			layers.forEach(function(layer){
+			var currentScope = StoresInternal.retrieve("state").current().scopeFull;
+			layers.forEach(function(layer, index){
+				if(currentScope && currentScope.layerOptions && currentScope.layerOptions.ordering == 'topBottomPanel') {
+                    // Add the index of the layer relevant to its position in the panel.
+                    layer.layers.forEach(function (layer) {
+                        layer.order = index;
+                    });
+                }
 				self.buildLayerControlRow(self._panelBodySelector, layer.id, layer.name, layer.layers, null);
 			});
 			this.displayPanel("block");

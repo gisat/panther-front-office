@@ -18,6 +18,8 @@ define([
 	'js/stores/gisat/WmsLayers',
     'js/stores/UrbanTepPortalStore',
     'js/stores/UrbanTepCommunitiesStore',
+    'js/view/widgets/EvaluationWidget/EvaluationWidget',
+
     'jquery',
 	'underscore'
 ], function(Actions,
@@ -39,6 +41,8 @@ define([
 			WmsLayers,
 			UrbanTepPortalStore,
 			UrbanTepCommunitiesStore,
+			EvaluationWidget,
+
 			$,
 			_){
 	/**
@@ -55,6 +59,8 @@ define([
 
 		this._dataset = null;
 		Observer.addListener("rebuild", this.rebuild.bind(this));
+        Observer.addListener('user#onLogin', this.loadData.bind(this));
+        Observer.addListener('Select#onChangeColor', this.rebuildEvaluationWidget.bind(this));
 	};
 
 	/**
@@ -68,7 +74,8 @@ define([
 			theme: false,
 			period: false,
 			level: false,
-			visualization: false
+			visualization: false,
+			dataview: false
 		};
 		this.checkConfiguration();
 		Stores.retrieve("state").setChanges(this._options.changes);
@@ -99,6 +106,8 @@ define([
 				self.toggleSidebars(options);
 				self.toggleWidgets(options);
 				self.toggleCustomLayers(options);
+			}).catch(function(err){
+				throw new Error(err);
 			});
 		}
 
@@ -129,6 +138,18 @@ define([
 		this._widgets.forEach(function(widget){
 			widget.rebuild(data, self._options);
 		});
+	};
+
+	FrontOffice.prototype.rebuildEvaluationWidget = function(){
+		var self = this;
+        var attributesData = this.getAttributesMetadata();
+        Promise.all([attributesData]).then(function(result){
+        	self._widgets.forEach(function(widget){
+        		if(widget instanceof EvaluationWidget) {
+        			widget.rebuild(result[0], self._options);
+				}
+			});
+        });
 	};
 
 	/**
@@ -289,6 +310,10 @@ define([
 			case "detaillevel":
 				this._options.changes.level = true;
 				break;
+			case "dataview":
+				this._options.changes.scope = true;
+				this._options.changes.dataview = true;
+				break;
 		}
 	};
 
@@ -296,15 +321,15 @@ define([
 	 * Load metadata from server
 	 */
 	FrontOffice.prototype.loadData = function(){
-		Stores.retrieve('attribute').all();
-		Stores.retrieve('attributeSet').all();
-		Stores.retrieve('layer').all();
-		Stores.retrieve('location').all();
-		Stores.retrieve('period').all();
-		Stores.retrieve('scope').all();
-		Stores.retrieve('theme').all();
-		Stores.retrieve('visualization').all();
-		Stores.retrieve('wmsLayer').all();
+		Stores.retrieve('attribute').load();
+		Stores.retrieve('attributeSet').load();
+		Stores.retrieve('layer').load();
+		Stores.retrieve('location').load();
+		Stores.retrieve('period').load();
+		Stores.retrieve('scope').load();
+		Stores.retrieve('theme').load();
+		Stores.retrieve('visualization').load();
+		Stores.retrieve('wmsLayer').load();
 
         if(Config.toggles.isUrbanTep) {
             UrbanTepPortalStore.communities().then(function(communities){

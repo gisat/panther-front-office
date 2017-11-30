@@ -56,8 +56,8 @@ define([
 		var html = '<tr class="record-row" data-olid="' + openLayersID + '" data-uuid="' + uniqueID + '">' +
 				'<td>' + this._recordCount  + '</td>' +
 				'<td class="record-name"><input type="text" value="' + featureName + '" ' + disabled + '></td>' +
-				'<td class="save-record"><div class="widget-button button-save-record" ' + disabled + '>Save</div></td>' +
-				'<td class="delete-record"><div class="widget-button button-delete-record">Delete</div></td>' +
+				'<td class="save-record"><div class="widget-button button-save-record" ' + disabled + '>'+polyglot.t("save")+'</div></td>' +
+				'<td class="delete-record"><div class="widget-button button-delete-record">'+polyglot.t('delete')+'</div></td>' +
 			'</tr>';
 		this._table.append(html);
 		this._recordCount++;
@@ -70,7 +70,7 @@ define([
 	TableCustomDrawing.prototype.buildHeader = function(){
 		var html = '<tr class="header">' +
 			'<th>#</th>' +
-			'<th>Name</th>' +
+			'<th>'+polyglot.t("name")+'</th>' +
 			'<th></th>' +
 			'<th></th>' +
 			'</tr>';

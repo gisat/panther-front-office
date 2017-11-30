@@ -18,7 +18,7 @@ define([
         });
 
         describe('When selectbox is built with given parameters', function(){
-            var output = $('#selectbox-test option:first-child').html();
+            var output = $('#selectbox-test option:nth-child(2)').html();
             it("Then the first option is Blue", function(){
                 expect(output).toBe("Blue");
             });

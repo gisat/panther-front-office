@@ -44,6 +44,8 @@ define(['../error/ArgumentError',
 		var currentState = Stores.retrieve('state').current();
 		var places = currentState.places;
 		var dataset = currentState.scope;
+
+		console.log('MyGoToAnimator#setLocation CurrentState: ', currentState);
 		if (!dataset){
 			console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "MyGoToAnimator", "setLocation", "missingDataset"));
 		}
@@ -54,6 +56,7 @@ define(['../error/ArgumentError',
 			}
 
 			Stores.retrieve("location").filter(values).then(function(response){
+				console.log('MyGoToAnimator#setLocation Location: ', response);
 				if (response.length > 0){
 					var points = [];
 					response.forEach(function(location){
@@ -80,6 +83,8 @@ define(['../error/ArgumentError',
 					self.wwd.navigator.lookAtLocation.latitude = self._defaultLoc[0];
                     self.wwd.navigator.lookAtLocation.longitude = self._defaultLoc[1];
 				}
+                self.wwd.redraw();
+				self.wwd.redrawIfNeeded(); // TODO: Check with new releases. This isn't part of the public API and therefore might change.
 			}).catch(function(err){
 				throw new Error(Logger.log(Logger.LEVEL_SEVERE, err));
 			});

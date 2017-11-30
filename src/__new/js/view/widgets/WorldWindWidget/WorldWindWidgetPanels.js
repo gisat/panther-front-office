@@ -96,7 +96,7 @@ define(['../../../error/ArgumentError',
 	WorldWindWidgetPanels.prototype.buildBackgroundLayersPanel = function(){
 		return new BackgroundLayersPanel({
 			id: "background-layers",
-			name: "Background Layers",
+			name: polyglot.t("backgroundLayers"),
 			target: this._panelsSelector,
 			isOpen: true
 		});
@@ -108,7 +108,7 @@ define(['../../../error/ArgumentError',
 	WorldWindWidgetPanels.prototype.buildThematicLayersPanel = function(){
 		return new ThematicLayersPanel({
 			id: "thematic-layers",
-			name: "Thematic Layers",
+			name: polyglot.t("thematicLayers"),
 			target: this._panelsSelector,
 			isOpen: true
 		});
@@ -120,7 +120,7 @@ define(['../../../error/ArgumentError',
 	WorldWindWidgetPanels.prototype.buildAuLayersPanel = function(){
 		return new AuLayersPanel({
 			id: "au-layers",
-			name: "Analytical Units Layers",
+			name: polyglot.t("analyticalUnitsLayers"),
 			target: this._panelsSelector,
 			isOpen: true
 		});
@@ -132,7 +132,7 @@ define(['../../../error/ArgumentError',
 	WorldWindWidgetPanels.prototype.buildInfoLayersPanel = function(){
 		return new InfoLayersPanel({
 			id: "info-layers",
-			name: "Info Layers",
+			name: polyglot.t("infoLayers"),
 			target: this._panelsSelector,
 			isOpen: true
 		});
@@ -144,7 +144,7 @@ define(['../../../error/ArgumentError',
 	WorldWindWidgetPanels.prototype.buildWmsLayersPanel = function(){
 		return new WmsLayersPanel({
 			id: "wms-layers",
-			name: "Custom WMS Layers",
+			name: polyglot.t("customWmsLayers"),
 			target: this._panelsSelector,
 			isOpen: true
 		});

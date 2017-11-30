@@ -16,13 +16,13 @@ Ext.define('PumaMain.view.ConfigForm', {
 			name: 'title',
 			marginLeft: 5,
 			hidden: this.formType != 'chart',
-			fieldLabel: 'Name'
+			fieldLabel: polyglot.t('name')
 		}, {
 			xtype: 'pumacombo',
 			marginLeft: 5,
 			hidden: this.formType != 'chart',
 			store: Ext.StoreMgr.lookup('charttype4chart'),
-			fieldLabel: 'Type',
+			fieldLabel: polyglot.t('type'),
 			valueField: 'type',
 			name: 'type',
 			itemId: 'type'
@@ -60,14 +60,14 @@ Ext.define('PumaMain.view.ConfigForm', {
 							xtype: 'pumacombo',
 							store: Ext.StoreMgr.lookup('layers4outline'),
 							valueField: 'atWithSymbology',
-							fieldLabel: 'Layer',
+							fieldLabel: polyglot.t('layer'),
 							name: 'featureLayer'
 						}, {
 							xtype: 'numberfield',
 							minValue: 0,
 							value: 70,
 							maxValue: 100,
-							fieldLabel: 'Opacity',
+							fieldLabel: polyglot.t('opacity'),
 							name: 'featureLayerOpacity'
 						}]
 
@@ -95,11 +95,11 @@ Ext.define('PumaMain.view.ConfigForm', {
 				collapsible: true,
 				collapsed: true,
 				hidden: true,
-				title: 'Advanced',
+				title: polyglot.t('advanced'),
 				items: [{
 					xtype: 'pumacombo',
 					store: Ext.StoreMgr.lookup('stacking4chart'),
-					fieldLabel: 'Stacking',
+					fieldLabel: polyglot.t('stacking'),
 					valueField: 'type',
 					value: 'none',
 					name: 'stacking',
@@ -107,14 +107,14 @@ Ext.define('PumaMain.view.ConfigForm', {
 				}, {
 					xtype: 'pumacombo',
 					store: Ext.StoreMgr.lookup('aggregate4chart'),
-					fieldLabel: 'Aggregate',
+					fieldLabel: polyglot.t('aggregate'),
 					valueField: 'type',
 					name: 'aggregate',
 					itemId: 'aggregate'
 				}]
 			}];
 		this.buttons = [{
-			text: 'OK',
+			text: polyglot.t('ok'),
 			itemId: 'configurefinish'
 		}];
 		this.callParent();

@@ -21,6 +21,8 @@ Ext.define('PumaMain.controller.Render', {
                 PumaMain.controller.Help.onHelpClick(e);
             }
         })
+
+        Observer.notify('Render#init');
     },
     onFloatingCollapse: function(panel) {
         window.setTimeout(function() {
@@ -184,7 +186,7 @@ Ext.define('PumaMain.controller.Render', {
         })
         Ext.widget('button',{
             renderTo: Config.toggles.useNewViewSelector ? 'app-view-selector-visualization-save' : 'app-legacy-view-selector-visualization-save',
-            text: 'Save as',
+            text: polyglot.t('saveAs'),
             itemId: 'savevisualization',
             width: '100%',
             height: '100%',
@@ -193,7 +195,7 @@ Ext.define('PumaMain.controller.Render', {
         })
         Ext.widget('button',{
             renderTo: 'app-legacy-view-selector-share',
-            text: 'Share data view',
+            text: polyglot.t('shareDataView'),
             itemId: 'sharedataview',
             helpId: 'Sharingdataviews',
             width: '100%',
@@ -206,7 +208,7 @@ Ext.define('PumaMain.controller.Render', {
         if (Config.toggles.useNewViewSelector) {
 			Ext.widget('button',{
 				renderTo: 'app-view-selector-period-compare',
-				text: 'Compare',
+				text: polyglot.t('compare'),
 				itemId: 'compareperiods',
 				helpId: 'Multiplemaps',
 				enableToggle: true,
@@ -230,7 +232,7 @@ Ext.define('PumaMain.controller.Render', {
             Ext.widget('button', {
                 renderTo: 'app-legacy-view-selector-contexthelp',
                 itemId: 'contexthelp',
-                tooltip: 'Context help',
+                tooltip: polyglot.t('Context help'),
                 tooltipType: 'title',
                 //icon: 'images/icons/help-context.png',
                 enableToggle: true,
@@ -252,7 +254,7 @@ Ext.define('PumaMain.controller.Render', {
             Ext.widget('button', {
                 renderTo: 'app-legacy-view-selector-webhelp',
                 itemId: 'webhelp',
-                tooltip: 'PUMA WebTool help',
+                tooltip: polyglot.t('pumaWebtoolHelp'),
                 tooltipType: 'title',
                 //icon: 'images/icons/help-web.png',
                 width: 25,
@@ -304,7 +306,7 @@ Ext.define('PumaMain.controller.Render', {
             itemId: 'savedataview',
             helpId: 'Savingdataviews',
             hidden: !Config.auth,
-            text: 'Save view',
+            text: polyglot.t('saveView'),
             icon: 'images/icons/save.png',
             width: '100%',
             height: '100%',
@@ -354,8 +356,8 @@ Ext.define('PumaMain.controller.Render', {
             renderTo: 'app-reports-paging',
             itemId: 'areapager',
             displayInfo: true,
-			displayMsg: 'Areas {0} - {1} of {2}',
-			emptyMsg: 'No areas',
+			displayMsg: polyglot.t('areasAmount'),
+			emptyMsg: polyglot.t('noAreas'),
             cls: 'paging-toolbar problematichelp',
             helpId: 'Paging',
             buttons: ['-',{
@@ -378,7 +380,7 @@ Ext.define('PumaMain.controller.Render', {
 
                 //text: 'Only selected',
                 enableToggle: true,
-                tooltip: 'Only selected',
+                tooltip: polyglot.t('onlySelected'),
                 icon: 'images/icons/switchsel.gif'
             }],
             store: Ext.StoreMgr.lookup('paging')
@@ -408,14 +410,14 @@ Ext.define('PumaMain.controller.Render', {
         Ext.widget('button',{
             renderTo: 'agreement-accept',
             itemId: 'acceptAgreement',
-            text: 'Continue',
+            text: polyglot.t('continue'),
             width: '100%',
             height: '100%'
         })
         Ext.widget('button',{
             renderTo: 'agreement-cancel',
             itemId: 'cancelAgreement',
-            text: 'Cancel',
+            text: polyglot.t('cancel'),
             width: '100%',
             height: '100%'
         })
@@ -447,7 +449,7 @@ Ext.define('PumaMain.controller.Render', {
         Ext.widget('pumacombo',{
             renderTo: 'app-intro-scope',
             initial: true,
-            emptyText: 'Select scope...',
+            emptyText: polyglot.t('selectScope'),
             allowBlank: false,
             store: Ext.StoreMgr.lookup('dataset'),
             cls: 'custom-combo',
@@ -482,7 +484,7 @@ Ext.define('PumaMain.controller.Render', {
         Ext.widget('button',{
             renderTo: 'app-intro-confirm',
             itemId: 'initialconfirm',
-            text: 'Explore',
+            text: polyglot.t('explore'),
             width: '100%',
             height: '100%',
             cls: 'custom-button btn-confirm'

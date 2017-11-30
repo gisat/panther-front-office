@@ -22,6 +22,8 @@ define([], function () {
 			place: ThemeYearConfParams.place,
 			allPlaces: ThemeYearConfParams.allPlaces,
 			allPeriods: ThemeYearConfParams.allYears,
+			currentAuAreaTemplate: ThemeYearConfParams.auCurrentAt,
+			auRefMap: ThemeYearConfParams.auRefMap,
 
 			analyticalUnitLevel: this.analyticalUnitLevel(),
 
@@ -43,47 +45,45 @@ define([], function () {
 	};
 
 	StateStore.prototype.scopeFull = function() {
+		var scope = this.scope();
+		if(!scope) {
+			return null;
+		}
 		return Ext.StoreMgr.lookup('dataset').getById(this.scope()).data;
 	};
 
 	StateStore.prototype.scope = function() {
-		return Ext.ComponentQuery.query('#seldataset')[0].getValue() || Ext.ComponentQuery.query('#initialdataset')[0].getValue();
+		var selectedDataset = Ext.ComponentQuery.query('#seldataset') && Ext.ComponentQuery.query('#seldataset')[0] && Ext.ComponentQuery.query('#seldataset')[0].getValue() || null;
+		var initialDataset = Ext.ComponentQuery.query('#initialdataset') && Ext.ComponentQuery.query('#initialdataset')[0] && Ext.ComponentQuery.query('#initialdataset')[0].getValue() || null;
+		return selectedDataset || initialDataset;
 	};
 
 	StateStore.prototype.placesObjects = function() {
-		var defaultPlaces = Ext.ComponentQuery.query('#sellocation')[0].getValue() || Ext.ComponentQuery.query('#initiallocation')[0].getValue();
-		if(defaultPlaces != 'custom') {
+		var selectedPlaces = Ext.ComponentQuery.query('#sellocation') && Ext.ComponentQuery.query('#sellocation')[0] && Ext.ComponentQuery.query('#sellocation')[0].getValue() || null;
+		var initialPlaces = Ext.ComponentQuery.query('#initiallocation') && Ext.ComponentQuery.query('#initiallocation')[0] && Ext.ComponentQuery.query('#initiallocation')[0].getValue() || null;
+		var defaultPlaces = selectedPlaces || initialPlaces;
+		if(!defaultPlaces) {
+			return null;
+		} else if(defaultPlaces != 'custom') {
 			return [Ext.StoreMgr.lookup('location').getById(defaultPlaces)];
 		} else {
 			// Load all places for the scope.
-            return this.placesForScope();
+            return this.placesForScopeObjects();
 		}
-
-		// if(defaultPlaces != 'custom') {
-		// 	return [Ext.StoreMgr.lookup('location').getById(defaultPlaces)];
-		// } else {
-		// 	// Load all places for the scope.
-		// 	return Ext.StoreMgr.lookup('location').filter('dataset', this.scope());
-		// }
 	};
 
 	StateStore.prototype.places = function() {
-		var defaultPlaces = Ext.ComponentQuery.query('#sellocation')[0].getValue() || Ext.ComponentQuery.query('#initiallocation')[0].getValue();
-		if(defaultPlaces != 'custom') {
+        var selectedPlaces = Ext.ComponentQuery.query('#sellocation') && Ext.ComponentQuery.query('#sellocation')[0] && Ext.ComponentQuery.query('#sellocation')[0].getValue() || null;
+        var initialPlaces = Ext.ComponentQuery.query('#initiallocation') && Ext.ComponentQuery.query('#initiallocation')[0] && Ext.ComponentQuery.query('#initiallocation')[0].getValue() || null;
+        var defaultPlaces = selectedPlaces || initialPlaces;
+        if(!defaultPlaces) {
+            return null;
+        } else if(defaultPlaces != 'custom') {
 			return [defaultPlaces];
 		} else {
 			// Load all places for the scope.
 			return this.placesForScope();
 		}
-
-		// if(defaultPlaces != 'custom') {
-		// 	return [defaultPlaces];
-		// } else {
-		// 	// Load all places for the scope.
-		// 	return Ext.StoreMgr.lookup('location').filter('dataset', this.scope()).map(function (location) {
-		// 		return location._id;
-		// 	});
-		// }
 	};
 
 	StateStore.prototype.placesForScope = function() {
@@ -97,12 +97,27 @@ define([], function () {
         return results;
 	};
 
+    StateStore.prototype.placesForScopeObjects = function() {
+        var scope = this.scope(),
+            results = [];
+        Ext.StoreMgr.lookup('location').each(function(record){
+            if(record.get('dataset') == scope) {
+                results.push(record);
+            }
+        });
+        return results;
+    };
+
 	StateStore.prototype.periods = function() {
-		return Ext.ComponentQuery.query('#selyear')[0].getValue();
+		return Ext.ComponentQuery.query('#selyear') && Ext.ComponentQuery.query('#selyear')[0] && Ext.ComponentQuery.query('#selyear')[0].getValue();
 	};
 
 	StateStore.prototype.analyticalUnitLevel = function() {
-		return Ext.StoreMgr.lookup('dataset').getById(this.scope()).get('featureLayers')[0];
+		var scope = this.scope();
+		if(!scope) {
+			return null;
+		}
+		return Ext.StoreMgr.lookup('dataset').getById(scope).get('featureLayers')[0];
 	};
 
 	return StateStore;

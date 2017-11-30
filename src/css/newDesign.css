@@ -1079,6 +1079,8 @@
 .newDesign .x-window-header-text-default {
 	padding-left: 5px;
 	color: #333;
+	font-size: .9rem;
+	font-weight: 600;
 }
 
 .newDesign .x-window-body {

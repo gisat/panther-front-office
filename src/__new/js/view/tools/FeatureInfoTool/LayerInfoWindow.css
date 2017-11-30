@@ -1,0 +1,16 @@
+#layer-info-window {
+	height: 20rem;
+	width: 30rem;
+}
+#layer-info-window .feature-info-window-body {
+	padding: .5rem
+}
+.layer-info-collapse  .component-collapse-body {
+	padding: 0;
+}
+.layer-info-collapse.component-collapse.open  .component-collapse-body {
+	border-bottom: 0;
+}
+.layer-info-collapse.open .component-collapse-header {
+	background: rgba(201,45,66,.3);
+}

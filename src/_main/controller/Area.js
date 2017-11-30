@@ -47,6 +47,8 @@ Ext.define('PumaMain.controller.Area', {
 		this.highestAreas = {};
 		this.oldSliderVal = 0;
 		//this.filterActive = true;
+
+		Observer.notify('Area#init');
 	},
    
 		
@@ -632,7 +634,7 @@ Ext.define('PumaMain.controller.Area', {
 			// Urbis change
 			var recCount = locStore.data.length;
 			if (!Config.toggles.isUrbis && recCount > 1){
-				Ext.ComponentQuery.query('#sellocation')[0].setValue('All places');
+				Ext.ComponentQuery.query('#sellocation')[0].setValue(polyglot.t('allPlaces'));
 				//Ext.ComponentQuery.query('#sellocation')[0].setValue('Custom');
 			}
 		}

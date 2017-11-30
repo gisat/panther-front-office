@@ -110,7 +110,7 @@ define(['../../../../error/ArgumentError',
 				});
 			}
 		}).on("click drag", function(){
-			$(".floater, .tool-window").removeClass("active");
+			$(".floating-window").removeClass("active");
 			$(this).addClass("active");
 		});
 	};

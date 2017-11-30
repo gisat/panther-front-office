@@ -37,7 +37,7 @@ define([
             SelectBox,
             Settings,
             SliderBox,
-            Stores,
+            InternalStores,
             Widget,
 
             resize,
@@ -130,7 +130,7 @@ define([
                     if (about.attributeType == "numeric"){
                         if (self.attributeHasData(attribute)){
 							// TODO: Fix ugly hack for showing Kathmandu.
-							if(Stores.retrieve('state').current().scope == 38433) {
+							if(InternalStores.retrieve('state').current().scope == 38433) {
 								self._attributes.push({
 									values: [Number(attribute.min), Number(attribute.max) + 1000],
 									distribution: attribute.distribution,
@@ -227,7 +227,7 @@ define([
      */
     EvaluationWidget.prototype.buildSettings = function(){
         var tool = "settings";
-        var name = "Settings";
+        var name = polyglot.t("settings");
         this._widgetSelector.find(".floater-tools-container").append('<div title="'+ name +'" class="floater-tool widget-'+ tool +'">' +
             '<img alt="' + name + '" src="__new/img/'+ tool +'.png"/>' +
             '</div>');
@@ -401,7 +401,13 @@ define([
         }
 
         var html = S(htmlFooterContent).template({
-            hidden: addCategoryClass
+            hidden: addCategoryClass,
+            clearSelection: polyglot.t("clearSelection"),
+            addCategory: polyglot.t("addCategory"),
+            exportToGeoJson: polyglot.t("exportToGeoJson"),
+            exportToXls: polyglot.t("exportToXls"),
+            exportToShp: polyglot.t("exportToShp"),
+            exportToCsv: polyglot.t("exportToCsv")
         }).toString();
         this._widgetSelector.find(".floater-footer").html("").append(html);
     };
@@ -468,7 +474,14 @@ define([
     EvaluationWidget.prototype.addSelectionConfirmListener = function(amount){
         var self = this;
         var count = 0;
-        if (amount.hasOwnProperty("amount")){
+
+        if(Select.selectedAreasMap && Select.selectedAreasMap[Select.actualColor] && Select.selectedAreasMap[Select.actualColor].length > 0) {
+            count = Select.selectedAreasMap[Select.actualColor].length;
+            if(count > 0) {
+                $('#evaluation-confirm').attr("disabled", true);
+                $('#evaluation-unselect').attr("disabled", false);
+            }
+        } else if (amount.hasOwnProperty("amount")){
             count = amount.amount;
         }
 
@@ -477,7 +490,7 @@ define([
             if (count == 1){
                 areasName = "area";
             }
-            $('#evaluation-confirm').html("Select " + count + " " + areasName)
+            $('#evaluation-confirm').html(polyglot.t("select") + " " + count + " " + areasName)
                 .removeClass("hidden")
                 .off("click.confirm")
                 .on("click.confirm", function(){
@@ -489,7 +502,7 @@ define([
                 });
         }
         else {
-            $('#evaluation-confirm').html("No area selected")
+            $('#evaluation-confirm').html(polyglot.t("noAreaSelected"))
                 .off("click.confirm");
         }
 
@@ -503,7 +516,7 @@ define([
 			.attr("disabled", false)
 			.off("click.addcategory")
 			.on("click.addcategory", function(){
-				$(".floater, .tool-window").removeClass("active");
+				$(".floating-window").removeClass("active");
 				setTimeout(function(){
 					$('#categorize-settings').addClass('open').addClass('active');
 					var attributes = self._filter.getAttributesFromCategories(self._categories);
@@ -625,7 +638,7 @@ define([
         var self = this;
         var tool = "settings";
         $('#floater-' + self._widgetId + ' .widget-' + tool).on("click", function(){
-            $(".floater, .tool-window").removeClass("active");
+            $(".floating-window").removeClass("active");
             setTimeout(function(){
                 $('#' + self._widgetId + '-' + tool).addClass('open').addClass('active');
             },50);

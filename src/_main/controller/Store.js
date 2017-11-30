@@ -41,6 +41,8 @@ Ext.define('PumaMain.controller.Store', {
 		this.initEvents();
 		this.initLocations();
 		this.getController('Dataview').checkLoading();
+
+        Observer.notify('Store#init');
 	},
 
 	initLocations: function () {
@@ -54,6 +56,8 @@ Ext.define('PumaMain.controller.Store', {
 				var data = JSON.parse(response.responseText).data;
 				store.loadData(data);
 				store.loading = false;
+
+                Observer.notify('Area#initLocations Success');
 			},
 			failure: function (response, opts) {
 				console.log('Store.initLocations AJAX request failed. Status: ' + response.status, "Response:", response);
@@ -66,55 +70,60 @@ Ext.define('PumaMain.controller.Store', {
 
 	},
 	initStores: function () {
+		var autoLoad = true;
+		if(Config.toggles.isUrbanTep) {
+			autoLoad = false;
+		}
+
 		Ext.create('Ext.data.Store', {
 			storeId: 'location',
-			autoLoad: false,
+			autoLoad: autoLoad,
 			model: 'Puma.model.Location'
 		});
 		Ext.create('Ext.data.Store', {
 			storeId: 'theme',
-			autoLoad: false,
+			autoLoad: autoLoad,
 			model: 'Puma.model.Theme'
 		});
         Ext.create('Ext.data.Store', {
             storeId: 'topic',
-            autoLoad: false,
+            autoLoad: autoLoad,
             model: 'Puma.model.Topic'
         });
         Ext.create('Ext.data.Store', {
             storeId: 'dataset',
-            autoLoad: false,
+            autoLoad: autoLoad,
             model: 'Puma.model.Dataset'
         });
 
 		Ext.create('Ext.data.Store', {
 			storeId: 'layergroup',
-			autoLoad: false,
+			autoLoad: autoLoad,
 			model: 'Puma.model.LayerGroup'
 		})
 
 		Ext.create('Ext.data.Store', {
 			storeId: 'attributeset',
-			autoLoad: false,
+			autoLoad: autoLoad,
 			model: 'Puma.model.AttributeSet'
 		})
 
 		Ext.create('Ext.data.Store', {
 			storeId: 'attribute',
-			autoLoad: false,
+			autoLoad: autoLoad,
 			model: 'Puma.model.Attribute'
 		})
 
 		Ext.create('Ext.data.Store', {
 			storeId: 'visualization',
-			autoLoad: false,
+			autoLoad: autoLoad,
 			model: 'Puma.model.Visualization'
 		})
 
 
 		Ext.create('Ext.data.Store', {
 			storeId: 'year',
-			autoLoad: false,
+			autoLoad: autoLoad,
 			sorters: [{property: 'name', direction: 'ASC'}],
 			model: 'Puma.model.Year'
 		})
@@ -124,13 +133,13 @@ Ext.define('PumaMain.controller.Store', {
 
 		Ext.create('Ext.data.Store', {
 			storeId: 'areatemplate',
-			autoLoad: false,
+			autoLoad: autoLoad,
 			model: 'Puma.model.AreaTemplate'
 		})
 
 		Ext.create('Ext.data.Store', {
 			storeId: 'symbology',
-			autoLoad: false,
+			autoLoad: autoLoad,
 			model: 'Puma.model.Symbology'
 		})
 		Ext.create('Ext.data.TreeStore', {
@@ -148,7 +157,7 @@ Ext.define('PumaMain.controller.Store', {
 
 		Ext.create('Ext.data.Store', {
 			storeId: 'dataview',
-			autoLoad: false,
+			autoLoad: autoLoad,
 			filters: [function (rec) {
 				return rec.get('name');
 			}],
@@ -383,28 +392,28 @@ Ext.define('PumaMain.controller.Store', {
 			root: {
 				expanded: true,
 				children: [{
-					name: 'Analytical units',
+					name: polyglot.t('analyticalUnits'),
 					type: 'systemgroup',
 					expanded: true,
 					checked: null
 				}, {
-					name: 'Thematic maps',
+					name: polyglot.t('thematicMaps'),
 					type: 'choroplethgroup',
 					expanded: true,
 					children: [],
 					checked: null
 				}, {
-					name: 'Background layers',
+					name: polyglot.t('backgroundLayers'),
 					type: 'basegroup',
 					expanded: true,
 					checked: null
 				}, {
-					name: 'Live data',
+					name: polyglot.t('liveData'),
 					type: 'livegroup',
 					expanded: true,
 					checked: null
 				}, {
-					name: 'Custom WMS',
+					name: polyglot.t('customWms'),
 					type: 'customwms',
 					expanded: true,
 					checked: null
@@ -436,13 +445,13 @@ Ext.define('PumaMain.controller.Store', {
 			fields: ['name', 'type'],
 			storeId: 'classificationtype',
 			data: [{
-				name: 'Continuous',
+				name: polyglot.t('continuous'),
 				type: 'continuous'
 			}, {
-				name: 'Equal',
+				name: polyglot.t('equal'),
 				type: 'equal'
 			}, {
-				name: 'Quantiles',
+				name: polyglot.t('quantiles'),
 				type: 'quantiles'
 			}]
 		})
@@ -451,19 +460,19 @@ Ext.define('PumaMain.controller.Store', {
 			storeId: 'charttype4chart',
 			fields: ['name', 'type'],
 			data: [{
-				name: 'Table',
+				name: polyglot.t('table'),
 				type: 'grid'
 			}, {
-				name: 'Column',
+				name: polyglot.t('column'),
 				type: 'columnchart'
 			}, {
-				name: 'Scatter',
+				name: polyglot.t('scatter'),
 				type: 'scatterchart'
 			}, {
-				name: 'Pie',
+				name: polyglot.t('pie'),
 				type: 'piechart'
 			}, {
-					name: 'Extent outline',
+					name: polyglot.t('extentOutline'),
 					type: 'extentoutline'
 				}
 			]
@@ -473,16 +482,16 @@ Ext.define('PumaMain.controller.Store', {
 			storeId: 'stacking4chart',
 			fields: ['name', 'type'],
 			data: [{
-				name: 'None',
+				name: polyglot.t('none'),
 				type: 'none'
 			}, {
-				name: 'Percent',
+				name: polyglot.t('percent'),
 				type: 'percent'
 			}, {
-				name: 'Normal',
+				name: polyglot.t('normal'),
 				type: 'normal'
 			}, {
-				name: 'Double',
+				name: polyglot.t('double'),
 				type: 'double'
 			}]
 		})
@@ -490,7 +499,7 @@ Ext.define('PumaMain.controller.Store', {
 			storeId: 'aggregate4chart',
 			fields: ['name', 'type'],
 			data: [{
-				name: 'None',
+				name: polyglot.t('none'),
 				type: 'none'
 			},
 //            {
@@ -501,13 +510,13 @@ Ext.define('PumaMain.controller.Store', {
 //                type: 'max'
 //            },
 				{
-					name: 'Average',
+					name: polyglot.t('average'),
 					type: 'avg'
 				}, {
-					name: 'All',
+					name: polyglot.t('all'),
 					type: 'topall'
 				}, {
-					name: 'Select',
+					name: polyglot.t('select'),
 					type: 'select'
 				}]
 		})
@@ -516,13 +525,13 @@ Ext.define('PumaMain.controller.Store', {
 			storeId: 'areas4chart',
 			fields: ['name', 'type'],
 			data: [{
-				name: 'Just Select',
+				name: polyglot.t('justSelect'),
 				type: 'select'
 			}, {
-				name: 'Tree all',
+				name: polyglot.t('treeAll'),
 				type: 'treeall'
 			}, {
-				name: 'Tree lowest level',
+				name: polyglot.t('treeLowestLevel'),
 				type: 'treelowest'
 			}
 			]
@@ -533,16 +542,16 @@ Ext.define('PumaMain.controller.Store', {
 			fields: ['name', 'type'],
 			data: [
 				{
-					name: 'None',
+					name: polyglot.t('none'),
 					type: ''
 				}, {
-					name: 'Area',
+					name: polyglot.t('area'),
 					type: 'area'
 				}, {
-					name: 'Attribute',
+					name: polyglot.t('attribute'),
 					type: 'attribute'
 				}, {
-					name: 'Attribute set',
+					name: polyglot.t('attributeSet'),
 					type: 'attributeset'
 				}
 			]
@@ -553,7 +562,7 @@ Ext.define('PumaMain.controller.Store', {
 			fields: ['name', 'type'],
 			data: [
 				{
-					name: 'None',
+					name: polyglot.t('none'),
 					type: ''
 				}, {
 					name: 'm2',

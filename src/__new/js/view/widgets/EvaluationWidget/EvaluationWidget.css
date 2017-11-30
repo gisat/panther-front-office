@@ -27,8 +27,8 @@
 #floater-evaluation-widget .floater-body > div:nth-child(even){
     padding: .5rem;
     background: rgba(200,200,200,.1);
-    border-bottom: 1px solid #e5e5e5;
-    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;
 }
 
 #floater-evaluation-widget .floater-row.slider-box,

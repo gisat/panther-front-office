@@ -26,6 +26,8 @@ Ext.define('PumaMain.controller.DomManipulation', {
 		});
 		this.resizeMap();
 		this.resizeSidebars();
+
+        Observer.notify('DomManipulation#init');
 	},
 
 	onWindowDragStart: function() {
@@ -164,6 +166,12 @@ Ext.define('PumaMain.controller.DomManipulation', {
 	_onReportsSidebarToggleClick: function() {
 		$("#sidebar-reports").toggleClass("hidden");
 		$("#world-wind-map").toggleClass("charts-hidden");
+		this.resizeMap();
+	},
+
+	_onReportsSidebarHide: function() {
+		$("#sidebar-reports").addClass("hidden");
+		$("#world-wind-map").addClass("charts-hidden");
 		this.resizeMap();
 	},
 	
