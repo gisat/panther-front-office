@@ -2,7 +2,8 @@ Ext.define('Puma.model.Dataset', {
     extend: 'Ext.data.Model',
     fields: [
         '_id', 'name', 'active', 'featureLayers', 'oneLevelOnly', 'aggregated', 'removedTools',
-        'disabledBackgroundMaps', 'activeBackgroundMap', 'disabledLayerCategories', 'layerOptions'
+        'disabledBackgroundMaps', 'activeBackgroundMap', 'disabledLayerCategories', 'layerOptions',
+        'disabledLayers'
     ],
     idProperty: '_id',
     proxy: {
