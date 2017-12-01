@@ -326,7 +326,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 				$('#sidebar-reports').show();
 			}
 		}
-		// Observer.notify('scopeChange');
+		Observer.notify('scopeChange');
     },
 
 	gatherViewConfig: function (options) {
