@@ -304,7 +304,7 @@ Ext.define('PumaMain.controller.Select', {
         this.colorMap = resultMap;
 
         // TODO if dromas.gisat.cz
-        if (area){
+        if (area && window.location.origin === 'http://dromas.gisat.cz'){
 			var gid = area.gid;
 			Stores.notify("map#selectFromAreas", gid);
         }
