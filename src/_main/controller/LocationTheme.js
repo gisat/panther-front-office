@@ -1122,11 +1122,13 @@ Ext.define('PumaMain.controller.LocationTheme', {
 				var only3D = (tools.indexOf('2dmap') !== -1);
 
 				if(dataset !== this._datasetId) {
-					if (this._datasetId || only3D){
+					if ((this._datasetId || only3D) && !Config.cfg){
 						Stores.notify('map#show3D');
 					}
 					this._datasetId = dataset;
-					this.getController('DomManipulation')._onReportsSidebarHide();
+					if ((Config.cfg && !Config.cfg.sidebarReportsOpen) || !Config.cfg){
+						this.getController('DomManipulation')._onReportsSidebarHide();
+                    }
 				} else {
 					$('#sidebar-reports').show();
 				}

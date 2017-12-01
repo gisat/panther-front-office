@@ -56,9 +56,11 @@ define(['../../../error/ArgumentError',
 	WorldWindWidgetPanels.prototype.rebuild = function(){
 		var configChanges = Stores.retrieve('state').current().changes;
 		if (!configChanges.scope){
-			this._auLayersPanel.switchOnLayersFrom2D();
 			this._thematicLayersPanel.switchOnLayersFrom2D();
+			// this._auLayersPanel.switchOnLayersFrom2D();
 		}
+
+		this._auLayersPanel.rebuild("updateOutlines","updateOutlines");
 		this._infoLayersPanel.rebuild();
 		this._wmsLayersPanel.rebuild();
 	};

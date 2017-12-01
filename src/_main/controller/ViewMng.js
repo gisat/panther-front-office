@@ -110,8 +110,8 @@ Ext.define('PumaMain.controller.ViewMng', {
         btn.up('window').close();
         
     },
-    onShare: function() {
-        var view = Ext.create('Puma.model.DataView',this.gatherViewConfig());
+    onShare: function(options) {
+        var view = Ext.create('Puma.model.DataView',this.gatherViewConfig(options));
         view.save({
             callback: this.onSaveFinish
         });  
@@ -305,13 +305,31 @@ Ext.define('PumaMain.controller.ViewMng', {
 			}.bind(this), 2000);
 		}
 		if (Config.cfg.is3D){
-			Stores.notify('map#show3D');
-		}
+        	var options = {};
 
-        Observer.notify('scopeChange');
+        	// set location and range of all maps
+        	if (Config.cfg.worldWindState){
+        		options.worldWindState = {
+        			location: Config.cfg.worldWindState.location,
+					range: Config.cfg.worldWindState.range
+				}
+			}
+
+			// set toptoolbar and widgets state
+			if (Config.cfg.widgets){
+				options.widgets = Config.cfg.widgets;
+			}
+			Stores.notify('map#show3DFromDataview', options);
+
+        	// show right panel
+        	if (Config.cfg.sidebarReportsOpen){
+				$('#sidebar-reports').show();
+			}
+		}
+		Observer.notify('scopeChange');
     },
 
-	gatherViewConfig: function () {
+	gatherViewConfig: function (options) {
 		var cfg = {};
 		cfg.multipleMaps = Ext.ComponentQuery.query('maptools #multiplemapsbtn')[0].pressed === true;
 		cfg.years = Ext.ComponentQuery.query('#selyear')[0].getValue();
@@ -382,6 +400,25 @@ Ext.define('PumaMain.controller.ViewMng', {
 		}
 		cfg.cfgs = viewCfgs;
 		cfg.is3D = $('body').hasClass('mode-3d');
+
+		if (options){
+
+			// map settings
+			if (options.worldWindNavigator){
+				cfg.worldWindState = {
+					range: options.worldWindNavigator.range,
+					location: options.worldWindNavigator.lookAtLocation
+				};
+			}
+
+			// widgets state
+			if (options.widgets){
+				cfg.widgets = options.widgets;
+			}
+
+			// sidebar reports settings
+			cfg.sidebarReportsOpen = !$('#sidebar-reports').hasClass('hidden');
+		}
 
 		return {
 			conf: cfg

@@ -5,6 +5,7 @@ define([
 	'../../util/Logger',
 
 	'../worldWind/controls/Controls',
+	'../../util/Filter',
 	'../../stores/Stores',
 	'../worldWind/WorldWindMap',
 
@@ -19,6 +20,7 @@ define([
 			Logger,
 
 			Controls,
+			Filter,
 			Stores,
 			WorldWindMap,
 
@@ -176,6 +178,17 @@ define([
 	};
 
 	/**
+	 * Set range of all maps in this container
+	 * @param range {number}
+	 */
+	MapsContainer.prototype.setAllMapsRange = function(range){
+		var maps = this._mapStore.getAll();
+		maps.forEach(function(map){
+			map.setRange(range);
+		});
+	};
+
+	/**
 	 * Switch projection of all maps from 2D to 3D and vice versa
 	 */
 	MapsContainer.prototype.switchProjection = function () {
@@ -241,7 +254,40 @@ define([
 		} else if (type === Actions.periodsRebuild){
 			var periods = this._stateStore.current().periods;
 			this.rebuildContainerWithPeriods(periods);
+		} else if (type === Actions.mapSelectFromAreas){
+			this.handleSelection(options);
 		}
+	};
+
+	/**
+	 * TODO temporary solution for zoom to selected from Areas widget
+	 * @param gid {string} gid of selected area
+	 */
+	MapsContainer.prototype.handleSelection = function(gid){
+		var self = this;
+		new Filter({
+			dispatcher: function(){}
+		}).featureInfo([], gid, this._stateStore.current().periods).then(function(result){
+			if (result && result.length){
+				var extent = result[0].wgsExtent;
+				var bbox = {
+					lonMin: extent[0],
+					latMin: extent[1],
+					lonMax: extent[2],
+					latMax: extent[3]
+				};
+				self.adaptAllMapsToSelection(bbox);
+			}
+		}).catch(function(err){
+			throw new Error(err);
+		});
+	};
+
+	MapsContainer.prototype.adaptAllMapsToSelection = function(bbox){
+		var maps = this._mapStore.getAll();
+		maps.forEach(function(map){
+			map.setPositionRangeFromBbox(bbox);
+		});
 	};
 
 	/**

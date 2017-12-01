@@ -302,6 +302,13 @@ Ext.define('PumaMain.controller.Select', {
             resultMap[area.loc][area.at][area.gid] = this.actualColor;
         }
         this.colorMap = resultMap;
+
+        // TODO if dromas.gisat.cz
+        if (area){
+			var gid = area.gid;
+			Stores.notify("map#selectFromAreas", gid);
+        }
+
         return resultMap;
     }
     

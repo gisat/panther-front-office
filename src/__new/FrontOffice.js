@@ -66,7 +66,7 @@ define([
 	/**
 	 * Rebuild all components 
 	 */
-	FrontOffice.prototype.rebuild = function(){
+	FrontOffice.prototype.rebuild = function(options){
 		this._options.config = ThemeYearConfParams;
 		this._options.changes = {
 			scope: false,
@@ -114,7 +114,7 @@ define([
 		else {
 			var attributesData = this.getAttributesMetadata();
 			Promise.all([attributesData]).then(function(result){
-				self.rebuildComponents(result[0])
+				self.rebuildComponents(result[0]);
 			});
 		}
 

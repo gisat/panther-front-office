@@ -184,13 +184,13 @@ define(['../../actions/Actions',
 	 */
 	WorldWindMap.prototype.rebuild = function(){
 		var state = Stores.retrieve("state").current();
-		if (state.changes.scope || state.changes.location){
+		if ((state.changes.scope || state.changes.location) && !state.changes.dataview){
 			this._goToAnimator.setLocation();
 		}
 		if (this._id === "default-map"){
 			this.updateNavigatorState();
 			var periods = state.periods;
-			if (periods.length === 1){
+			if (periods.length === 1 || !this._period){
 				this._period = periods[0];
 			}
 			if (!Config.toggles.hideSelectorToolbar){
@@ -223,6 +223,15 @@ define(['../../actions/Actions',
 		this._wwd.navigator.roll = navigatorState.roll;
 		this._wwd.navigator.tilt = navigatorState.tilt;
 
+		this.redraw();
+	};
+
+	/**
+	 * Set map range
+	 * @param range {number}
+	 */
+	WorldWindMap.prototype.setRange = function(range){
+		this._wwd.navigator.range = range;
 		this.redraw();
 	};
 
@@ -395,6 +404,22 @@ define(['../../actions/Actions',
 			return;
 		}
 		return currentPoint.objects[0].position;
+	};
+
+	/**
+	 * TODO temporary solution for zoom to selected from Areas widget
+	 * @param bbox {Object}
+	 */
+	WorldWindMap.prototype.setPositionRangeFromBbox = function(bbox){
+		var position = {
+			longitude: (bbox.lonMax + bbox.lonMin)/2,
+			latitude: (bbox.latMax + bbox.latMin)/2
+		};
+		this.goTo(position);
+		// var screenCoord = this._wwd.viewport;
+		// var locations = this._wwd.pick(1,1);
+		// var locations2 = this._wwd.pick({x:screenCoord.width, y: screenCoord.height});
+		// debugger;
 	};
 
 	/**

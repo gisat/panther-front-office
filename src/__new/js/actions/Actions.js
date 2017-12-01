@@ -10,6 +10,7 @@ define([], function(){
 		mapSwitchFramework: 'map#switchFramework',
 		mapSwitchProjection: 'map#switchProjection',
 		mapUseWorldWindOnly: 'map#useWorldWindOnly',
+		mapSelectFromAreas: 'map#selectFromAreas',
 
 		filterAdd: 'filter#add',
 		filterRemove: 'filter#remove',
@@ -30,6 +31,7 @@ define([], function(){
 
 		userChanged: 'user#changed',
 
-		mapShow3D: 'map#show3D'
+		mapShow3D: 'map#show3D',
+		mapShow3DFromDataview: 'map#show3DFromDataview'
 	};
 });

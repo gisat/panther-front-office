@@ -1,10 +1,12 @@
 define([
 	'./CustomLayers',
-
+	'../util/Floater',
+	'../stores/Stores',
 	'jquery'
 ], function (
 	CustomLayers,
-
+	Floater,
+	Stores,
 	$
 ) {
 	"use strict";
@@ -103,7 +105,7 @@ define([
 			}
 			if (tools.customViews){
 				var classesCustomViews3d = Config.auth ? "item disabled" : "item disabled hidden";
-				this._target.append('<div class="' + classesCustomViews3d + '" id="top-toolbar-saved-views">'+polyglot.t('customViews')+'</div>');
+				this._target.append('<div class="' + classesCustomViews3d + '" id="top-toolbar-saved-views" data-for="window-customviews">'+polyglot.t('customViews')+'</div>');
 			}
 			if (tools.snow){
 				var classesSnowWidget3d = $('#floater-snow-widget').hasClass('open') ? "item open" : "item";
@@ -214,7 +216,8 @@ define([
 	};
 
 	TopToolBar.prototype.handleShareViewClick = function(e){
-		Observer.notify("PumaMain.controller.ViewMng.onShare");
+		var state = Stores.retrieve("state").currentExtended();
+		Observer.notify("PumaMain.controller.ViewMng.onShare", state);
 	};
 
 	TopToolBar.prototype.handle3dMapClick = function(e){
@@ -225,6 +228,21 @@ define([
 		} else {
 			this._dispatcher.notify("map#switchFramework");
 		}
+	};
+
+	/**
+	 * Set top tool bar items state and wingets state according to dataview configuration
+	 * @param widgets {Object}
+	 */
+	TopToolBar.prototype.handleDataview = function(widgets){
+		var openWidgets = widgets.open;
+		openWidgets.forEach(function(widget){
+			var floater = $('#' + widget.floater.id);
+			var toolbarItem = $('#' + widget.topToolbarItem.id);
+			floater.addClass("open");
+			toolbarItem.addClass("open");
+			Floater.setPosition(floater, widget.floater.position);
+		});
 	};
 
 
