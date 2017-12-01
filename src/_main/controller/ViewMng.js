@@ -320,6 +320,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 				options.widgets = Config.cfg.widgets;
 			}
 			Stores.notify('map#show3DFromDataview', options);
+			$("#sidebar-reports").trigger('click').trigger('click');
 
         	// show right panel
         	if (Config.cfg.sidebarReportsOpen){
