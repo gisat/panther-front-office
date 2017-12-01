@@ -93,11 +93,11 @@ define([
 			}
 			if (tools.areasFilterNew){
 				var classesAreasFilter3d = $('#floater-evaluation-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesAreasFilter3d + '" id="top-toolbar-selection-filter" data-for="floater-evaluation-widget">' + Config.basicTexts.advancedFiltersName + '</div>');
+				this._target.append('<div class="' + classesAreasFilter3d + '" id="top-toolbar-selection-filter" data-for="floater-evaluation-widget">'+polyglot.t('areasFilter')+'</div>');
 			}
 			if (tools.areasFilterOld){
 				var classesLegacyAreasFilter3d = $('#window-legacyAdvancedFilters').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesLegacyAreasFilter3d + '" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters">' + Config.basicTexts.advancedFiltersName + '</div>');
+				this._target.append('<div class="' + classesLegacyAreasFilter3d + '" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters">'+polyglot.t('areasFilter')+'</div>');
 			}
 			if (tools.mapTools){
 				var classesMapTools3d = $('#floater-map-tools-widget').hasClass('open') ? "item open" : "item";
@@ -129,11 +129,11 @@ define([
 			}
 			if (tools.areasFilterNew){
 				var classesAreasFilter = $('#floater-evaluation-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesAreasFilter + '" id="top-toolbar-selection-filter" data-for="floater-evaluation-widget">' + Config.basicTexts.advancedFiltersName + '</div>');
+				this._target.append('<div class="' + classesAreasFilter + '" id="top-toolbar-selection-filter" data-for="floater-evaluation-widget">'+polyglot.t('areasFilter')+'</div>');
 			}
 			if (tools.areasFilterOld){
 				var classesLegacyAreasFilter = $('#window-legacyAdvancedFilters').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesLegacyAreasFilter + '" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters">' + Config.basicTexts.advancedFiltersName + '</div>');
+				this._target.append('<div class="' + classesLegacyAreasFilter + '" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters">'+polyglot.t('areasFilter')+'</div>');
 			}
 			if (tools.mapTools){
 				var classesMapTools = $('#window-maptools').hasClass('open') ? "item open" : "item";

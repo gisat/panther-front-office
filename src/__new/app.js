@@ -304,7 +304,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
             filter: filter,
 			stateStore: stateStore,
             elementId: 'evaluation-widget',
-            name: 'Evaluation Tool',
+            name: polyglot.t('areasFilter'),
             placeholderTargetId: 'widget-container',
 			aggregatedChart: aggregatedChart,
 			isOpen: isOpen
