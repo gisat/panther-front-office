@@ -407,6 +407,22 @@ define(['../../actions/Actions',
 	};
 
 	/**
+	 * TODO temporary solution for zoom to selected from Areas widget
+	 * @param bbox {Object}
+	 */
+	WorldWindMap.prototype.setPositionRangeFromBbox = function(bbox){
+		var position = {
+			longitude: (bbox.lonMax + bbox.lonMin)/2,
+			latitude: (bbox.latMax + bbox.latMin)/2
+		};
+		this.goTo(position);
+		// var screenCoord = this._wwd.viewport;
+		// var locations = this._wwd.pick(1,1);
+		// var locations2 = this._wwd.pick({x:screenCoord.width, y: screenCoord.height});
+		// debugger;
+	};
+
+	/**
 	 * @param type {string} type of event
 	 * @param options {Object}
 	 */

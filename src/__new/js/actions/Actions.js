@@ -10,6 +10,7 @@ define([], function(){
 		mapSwitchFramework: 'map#switchFramework',
 		mapSwitchProjection: 'map#switchProjection',
 		mapUseWorldWindOnly: 'map#useWorldWindOnly',
+		mapSelectFromAreas: 'map#selectFromAreas',
 
 		filterAdd: 'filter#add',
 		filterRemove: 'filter#remove',
