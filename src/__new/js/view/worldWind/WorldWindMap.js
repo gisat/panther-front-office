@@ -416,10 +416,11 @@ define(['../../actions/Actions',
 			latitude: (bbox.latMax + bbox.latMin)/2
 		};
 		this.goTo(position);
-		// var screenCoord = this._wwd.viewport;
-		// var locations = this._wwd.pick(1,1);
-		// var locations2 = this._wwd.pick({x:screenCoord.width, y: screenCoord.height});
-		// debugger;
+		this.setRange(5000);
+		// TODO solve range in this way
+		// this._wwd.deepPicking = true;
+		// var locations = this._wwd.pickTerrain({0:1, 1:1});
+		// var locations2 = this._wwd.pickTerrain({0:(this._wwd.viewport.width - 1), 1:(this._wwd.viewport.height-1)});
 	};
 
 	/**
