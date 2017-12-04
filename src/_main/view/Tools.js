@@ -42,6 +42,11 @@ var widgets = {
 		cls: 'areaTreeSelection',
 		helpId: 'TreeofanalyticalunitsAREAS',
 		tools: [{
+			type: 'unselectall',
+			cls: 'unselectall',
+			tooltip: polyglot.t('unselectAll'),
+			itemId: 'unselectall'
+		},{
 			type: 'areacollapseall',
 			cls: 'areacollapseall',
 			tooltip: polyglot.t('collapseAll'),
