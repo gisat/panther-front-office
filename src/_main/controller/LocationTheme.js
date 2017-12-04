@@ -1152,7 +1152,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
                     $('#top-toolbar-saved-views').hide();
                 }
 
-                if(tools.indexOf('visualisation') !== -1) {
+                if(tools.indexOf('visualization') !== -1 && Config.auth.userName !== "admin") {
                     $('.field.visualization').hide();
                 }
 
