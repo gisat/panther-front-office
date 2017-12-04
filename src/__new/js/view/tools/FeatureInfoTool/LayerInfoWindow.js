@@ -133,11 +133,11 @@ define(['../../../error/ArgumentError',
 	LayerInfoWindow.prototype.cleanProjectSpecificData = function (data) {
 		var layerInfo = {};
 		if (data.serviceAddress){
+			var properties = data.featureProperties;
 
 			// clean data from sentinel hub
 			var isFromSentinelHub = data.serviceAddress.includes("sentinel-hub");
 			if (isFromSentinelHub){
-				var properties = data.featureProperties;
 				if (properties){
 					layerInfo.featureProperties = {};
 					if (properties.id){
@@ -155,6 +155,14 @@ define(['../../../error/ArgumentError',
 					return layerInfo;
 				}
 			}
+
+			// clean data from eagri (LPIS)
+			var isFromEagri = data.serviceAddress.includes("eagri");
+			if (isFromEagri){
+					layerInfo.name = data.name;
+					return layerInfo;
+			}
+
 		}
 		return data;
 	};
