@@ -72,7 +72,7 @@ Ext.define('PumaMain.controller.Area', {
 	showLoading: function(display){
 		$("#loading-screen").css({
 			display: display,
-			background: "radial-gradient(rgba(255, 255, 255, .75), rgba(230, 230, 230, .75))"
+			background: "radial-gradient(rgba(255, 255, 255, .85), rgba(230, 230, 230, .85))"
 		});
 	},
 
@@ -137,10 +137,8 @@ Ext.define('PumaMain.controller.Area', {
 	newNotifyChange: function(){
 		Observer.notify('rebuild');
 		console.log('Area#newNotifyCahnge hide');
-		if(!Config.dataviewId) {
-			this.showLoading("none");
-		} else {
-			var self = this;
+		var self = this;
+		if (!$('body').hasClass("mode-3d")){
 			window.setTimeout(function(){
 				self.showLoading("none");
 			}, 5000);

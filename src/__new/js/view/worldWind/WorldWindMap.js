@@ -186,6 +186,9 @@ define(['../../actions/Actions',
 		var state = Stores.retrieve("state").current();
 		if ((state.changes.scope || state.changes.location) && !state.changes.dataview){
 			this._goToAnimator.setLocation();
+			setTimeout(function(){
+				$("#loading-screen").css("display", "none")
+			},1000);
 		}
 		if (this._id === "default-map"){
 			this.updateNavigatorState();
@@ -195,6 +198,11 @@ define(['../../actions/Actions',
 			}
 			if (!Config.toggles.hideSelectorToolbar){
 				this.addPeriod();
+			}
+			if (state.changes.dataview){
+				setTimeout(function(){
+					$("#loading-screen").css("display", "none")
+				},1000);
 			}
 		} else {
 			var self = this;

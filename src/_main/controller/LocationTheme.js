@@ -70,7 +70,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         if (!$('body').hasClass("intro")){
             $("#loading-screen").css({
                 display: "block",
-                background: "radial-gradient(rgba(255, 255, 255, .75), rgba(230, 230, 230, .75))"
+                background: "radial-gradient(rgba(255, 255, 255, .85), rgba(230, 230, 230, .85))"
             })
         }
         ThemeYearConfParams.datasetChanged = true;
@@ -1284,9 +1284,9 @@ Ext.define('PumaMain.controller.LocationTheme', {
         }
         this.getController('Map').updateGetFeatureControl();
 		console.log('LocationTheme hide');
-		if(!Config.dataviewId) {
-			this.getController('Area').showLoading("none");
-		}
+		// if(!Config.dataviewId) {
+		// 	this.getController('Area').showLoading("none");
+		// }
 
         if (!this.placeInitialChange) {
              var locStore = Ext.StoreMgr.lookup('location4init');
