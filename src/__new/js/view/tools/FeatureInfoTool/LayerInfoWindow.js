@@ -58,21 +58,28 @@ define(['../../../error/ArgumentError',
 	LayerInfoWindow.prototype.redrawWindow = function(data){
 		this._infoWindowBodySelector.html("");
 		var self = this;
+		var counter = 0;
 		data.forEach(function(layer, index){
-			var id = "layer-info-collapse-" + index;
-			var collapse = new Collapse({
-				title: layer.name,
-				id: id,
-				containerSelector: self._infoWindowBodySelector,
-				open: false,
-				customClasses: 'layer-info-collapse'
-			});
+			if (layer.layers !== "selectedAreasFilled"){
+				counter++;
+				var id = "layer-info-collapse-" + index;
+				var collapse = new Collapse({
+					title: layer.name,
+					id: id,
+					containerSelector: self._infoWindowBodySelector,
+					open: false,
+					customClasses: 'layer-info-collapse'
+				});
 
-			// add content to collapse body
-			var bodySelector = collapse.getBodySelector();
-			var table = self.renderTable(id, bodySelector.attr("id"));
-			table.appendContent(layer);
+				// add content to collapse body
+				var bodySelector = collapse.getBodySelector();
+				var table = self.renderTable(id, bodySelector.attr("id"));
+				table.appendContent(layer);
+			}
 		});
+		if (counter === 0){
+			this._infoWindowBodySelector.append('<p>' + polyglot.t("layerInfoDetails") + '</p>');
+		}
 	};
 
 	/**
