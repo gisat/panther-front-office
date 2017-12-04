@@ -74,7 +74,8 @@ define(['../../../error/ArgumentError',
 				// add content to collapse body
 				var bodySelector = collapse.getBodySelector();
 				var table = self.renderTable(id, bodySelector.attr("id"));
-				table.appendContent(layer);
+				var layerInfo = self.cleanProjectSpecificData(layer);
+				table.appendContent(layerInfo);
 			}
 		});
 		if (counter === 0){
@@ -122,6 +123,40 @@ define(['../../../error/ArgumentError',
 			dataPerLayer.push(layerData);
 		});
 		return dataPerLayer;
+	};
+
+	/**
+	 * Clean data for project specific layers
+	 * @param data {Object} info about layer
+	 * @returns {Object} original or cleaned info about layer
+	 */
+	LayerInfoWindow.prototype.cleanProjectSpecificData = function (data) {
+		var layerInfo = {};
+		if (data.serviceAddress){
+
+			// clean data from sentinel hub
+			var isFromSentinelHub = data.serviceAddress.includes("sentinel-hub");
+			if (isFromSentinelHub){
+				var properties = data.featureProperties;
+				if (properties){
+					layerInfo.featureProperties = {};
+					if (properties.id){
+						layerInfo.featureProperties.id = properties.id;
+					}
+					if (properties.date){
+						layerInfo.featureProperties.date = properties.date;
+					}
+					if (properties.time){
+						layerInfo.featureProperties.time = properties.time;
+					}
+					if (properties.cloudCoverPercentage || properties.cloudCoverPercentage === 0){
+						layerInfo.featureProperties.cloudCoverPercentage = properties.cloudCoverPercentage;
+					}
+					return layerInfo;
+				}
+			}
+		}
+		return data;
 	};
 
 	/**
