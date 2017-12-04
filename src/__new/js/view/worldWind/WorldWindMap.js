@@ -199,7 +199,7 @@ define(['../../actions/Actions',
 			if (!Config.toggles.hideSelectorToolbar){
 				this.addPeriod();
 			}
-			if (state.changes.dataview){
+			if (state.changes.dataview || state.changes.level){
 				setTimeout(function(){
 					$("#loading-screen").css("display", "none")
 				},1000);
