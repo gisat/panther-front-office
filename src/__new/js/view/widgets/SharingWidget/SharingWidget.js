@@ -36,6 +36,7 @@ define([
 	});
 
 	SharingWidget.prototype.rebuild = function(){
+		this.handleLoading("show");
 		var name = $('#floater-sharing .floater-body #sharing-name').val() || '';
 		$('#floater-sharing .floater-body').empty();
 		$('#floater-sharing .floater-footer').empty();
@@ -104,6 +105,8 @@ define([
                     '</div>'
                 );
                 $('#floater-sharing .floater-footer').append('<div class="widget-button w8" id="sharing">Share</div>');
+
+				self.handleLoading("hide");
                 $('#sharing').off();
                 $('#sharing').on('click', function(){
                     var selectedGroup = $( "#floater-sharing .floater-body #sharing-group option:checked" ).val();
@@ -121,6 +124,7 @@ define([
 			}).catch(function(error){
 				console.error(error);
 				alert(polyglot.t('itWasntPossibleToLoadGroupsUsers') + error);
+				self.handleLoading("hide");
 			});
 
 		}
