@@ -169,20 +169,22 @@ Ext.application({
 			this.on('login', function(loggedIn) {
 				if(loggedIn) {
                     Config.dataviewId = id;
-
                     $('#hideAllExceptLogin').hide();
 
-                    var stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic', 'dataview'];
-                    stores.forEach(function (store) {
-                        Ext.StoreMgr.lookup(store).load();
-                    });
+					var stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic', 'dataview'];
+					stores.forEach(function (store) {
+						Ext.StoreMgr.lookup(store).load();
+					});
 
-                    this.getController('Dataview').onLoadingFinished();
+					this.getController('Dataview').onLoadingFinished();
 
-                    this.getController('DomManipulation').renderApp();
-                    this.getController('Render').renderApp();
+					if (this._dataviewId !== id) {
+						this.getController('DomManipulation').renderApp();
+						this.getController('Render').renderApp();
+						this.getController('Render').renderMap();
+					}
 
-                    this.getController('Render').renderMap();
+					this._dataviewId = id;
                 } else {
                     loginController.onLoginClicked();
                 }
