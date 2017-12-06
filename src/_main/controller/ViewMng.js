@@ -325,9 +325,13 @@ Ext.define('PumaMain.controller.ViewMng', {
         	if (Config.cfg.sidebarReportsOpen){
 				$('#sidebar-reports').show();
 			}
+			Observer.notify("resizeMap");
+		} else {
+			var map = Ext.ComponentQuery.query('#map')[0].map;
+			if (Config.cfg) {
+				map.setCenter([Config.cfg.mapCfg.center.lon,Config.cfg.mapCfg.center.lat],Config.cfg.mapCfg.zoom);
+			}
 		}
-		// Observer.notify('scopeChange');
-		Observer.notify("resizeMap");
     },
 
 	gatherViewConfig: function (options) {

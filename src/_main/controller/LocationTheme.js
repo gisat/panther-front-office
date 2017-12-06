@@ -1279,7 +1279,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         if (Config.cfg && Config.cfg.multipleMaps) {
             multiMapBtn.toggle(true);
         }
-        if (response.request.options.locationChanged || response.request.options.datasetChanged) {
+        if ((response.request.options.locationChanged || response.request.options.datasetChanged) && (response.request.options.originatingCnt.itemId !== "dataview")) {
             this.getController('Area').zoomToLocation();
         }
         this.getController('Map').updateGetFeatureControl();
