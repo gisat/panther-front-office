@@ -248,7 +248,7 @@ define([
 
 	/**
 	 * @param type {string} type of event
-	 * @param options {Object}
+	 * @param options {Object|string}
 	 */
 	MapsContainer.prototype.onEvent = function(type, options){
 		if (type === Actions.mapRemove){
@@ -256,6 +256,7 @@ define([
 		} else if (type === Actions.periodsRebuild){
 			var periods = this._stateStore.current().periods;
 			this.rebuildContainerWithPeriods(periods);
+			this.checkMapsCloseButton();
 		} else if (type === Actions.mapSelectFromAreas){
 			this.handleSelection(options);
 		}
@@ -336,6 +337,21 @@ define([
 		var container = document.getElementsByClassName(containerCls)[0];
 		var maps = container.childNodes;
 		tinysort(maps, {attr: 'data-period'});
+	};
+
+	/**
+	 * Check close button for all maps. If there is only one map present, remove check button. Otherwise add close button to all maps.
+	 */
+	MapsContainer.prototype.checkMapsCloseButton = function(){
+		var maps = this._mapStore.getAll();
+
+		if (maps.length === 1){
+			maps[0].removeCloseButton();
+		} else {
+			maps.forEach(function(map){
+				map.addCloseButton();
+			});
+		}
 	};
 
 	return MapsContainer;

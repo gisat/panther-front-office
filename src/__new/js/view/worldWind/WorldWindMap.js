@@ -125,8 +125,8 @@ define(['../../actions/Actions',
 		this._mapBoxSelector = this._mapsContainerSelector.find("#" + this._id + "-box");
 
 		this.setupWebWorldWind();
+
 		if (this._id !== 'default-map'){
-			this.addCloseButton();
 			this.addPeriod();
 		}
 	};
@@ -135,8 +135,18 @@ define(['../../actions/Actions',
 	 * Add close button to this map
 	 */
 	WorldWindMap.prototype.addCloseButton = function(){
-		var html = '<div title="Remove map" class="close-map-button" data-id="' + this._id + '"><i class="close-map-icon">&#x2715;</i></div>';
-		this._mapBoxSelector.find(".map-window-tools").append(html);
+		var closeButton = this._mapBoxSelector.find(".close-map-button");
+		if (closeButton.length === 0){
+			var html = '<div title="Remove map" class="close-map-button" data-id="' + this._id + '"><i class="close-map-icon">&#x2715;</i></div>';
+			this._mapBoxSelector.find(".map-window-tools").append(html);
+		}
+	};
+
+	/**
+	 * Remove close button to this map
+	 */
+	WorldWindMap.prototype.removeCloseButton = function(){
+		this._mapBoxSelector.find(".close-map-button").remove();
 	};
 
 	/**
