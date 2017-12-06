@@ -114,7 +114,7 @@ Ext.define('Puma.controller.Login', {
             }
 
             if(loggedIn) {
-                if(Config.toggles.disableAdministration) {
+                if(!Config.toggles.disableAdministration) {
 					$('#bo-link').show();
 				}
 				$('#top-toolbar-saved-views').removeClass('hidden');
