@@ -108,11 +108,13 @@ define([
 		this._selectedPeriods = this._stateStore.current().periods;
 		if (this._selectedPeriods.length === 1){
 			this._defaultPeriod = this._selectedPeriods[0];
+		} else {
+			this._defaultPeriod = null;
 		}
 	};
 
 	/**
-	 * Update a list for diasabled periods for multiselect. Currently only period selected by default should be disabled in MultiSelect or if the number of slected maps equals mx allowed number, all other options are disabled
+	 * Update a list for diasabled periods for multiselect. Currently only period selected by default should be disabled in MultiSelect or if the number of selected maps equals max allowed number, all other options are disabled
 	 */
 	PeriodsSelector.prototype.updateDisabledPeriods = function(){
 		this._disabledPeriods = [];
@@ -129,8 +131,6 @@ define([
 				}
 			});
 			this._disabledPeriods = _.union([this._defaultPeriod], _.difference(adjustedPeriods, periods));
-		} else {
-			this._disabledPeriods.push(this._defaultPeriod);
 		}
 	};
 
@@ -231,7 +231,9 @@ define([
 					return item;
 				}
 			});
-			periods.push(self._defaultPeriod);
+			if (self._defaultPeriod){
+				periods.push(self._defaultPeriod);
+			}
 			self._dispatcher.notify(Actions.periodsChange, periods);
 		}, 50);
 	};
