@@ -184,6 +184,7 @@ define(['../../actions/Actions',
 	 */
 	WorldWindMap.prototype.rebuild = function(){
 		var state = Stores.retrieve("state").current();
+		var self = this;
 		if ((state.changes.scope || state.changes.location) && !state.changes.dataview){
 			this._goToAnimator.setLocation();
 			setTimeout(function(){
@@ -191,7 +192,7 @@ define(['../../actions/Actions',
 			},1000);
 		}
 		if (this._id === "default-map"){
-			this.updateNavigatorState();
+			self.updateNavigatorState();
 			var periods = state.periods;
 			if (periods.length === 1 || !this._period){
 				this._period = periods[0];
@@ -205,7 +206,6 @@ define(['../../actions/Actions',
 				},1000);
 			}
 		} else {
-			var self = this;
 			setTimeout(function(){
 				self.setNavigator();
 			},1000);

@@ -107,6 +107,7 @@ define([
 			if (periodsCount === 1){
 				allMaps.forEach(function(map){
 					if (map.id !== "default-map"){
+						map._wwd.drawContext.currentGlContext.getExtension('WEBGL_lose_context').loseContext();
 						self._dispatcher.notify("map#remove",{id: map.id});
 					}
 				});
@@ -117,6 +118,7 @@ define([
 						return per === map.period;
 					});
 					if (period.length === 0){
+						map._wwd.drawContext.currentGlContext.getExtension('WEBGL_lose_context').loseContext();
 						self._dispatcher.notify("map#remove",{id: map.id});
 					}
 				});
