@@ -69,6 +69,11 @@ if (configuration == 'development') {
     }).then(function(){
         return createScript('appde.js');
     }).then(function(){
+		var urlLang = new URL(window.location).searchParams.get('lang');
+        if(urlLang == "cz") {
+			return createScript('extjs-4.1.3/locale/ext-lang-cs.js');
+		}
+	}).then(function(){
         if ((Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool) ||
             (Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap) ||
             (Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo) ||
@@ -137,6 +142,11 @@ if (configuration == 'development') {
     }).then(function(){
         return createScript('appde.all.js?version=' + version);
     }).then(function(){
+		var urlLang = new URL(window.location).searchParams.get('lang');
+		if(urlLang == "cz") {
+			return createScript('extjs-4.1.3/locale/ext-lang-cs.js');
+		}
+	}).then(function(){
         if ((Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool) ||
             (Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap) ||
             (Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo) ||

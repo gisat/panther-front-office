@@ -120,11 +120,11 @@ define(['../../../error/ArgumentError',
 	 * Remove layer from the list of layers
 	 * @param layer {WorldWind.Layer}
 	 */
-	Layers.prototype.removeLayer = function(layer){
+	Layers.prototype.removeLayer = function(layer, redraw){
 		this._layers = _.filter(this._layers, function(item) {
 			return item.metadata.id !== layer.metadata.id;
 		});
-		this.removeLayerFromMap(layer);
+		this.removeLayerFromMap(layer, redraw);
 	};
 
 	/**
@@ -141,20 +141,22 @@ define(['../../../error/ArgumentError',
 	 * Remove layer from map
 	 * @param layer {WorldWind.Layer}
 	 */
-	Layers.prototype.removeLayerFromMap = function(layer){
+	Layers.prototype.removeLayerFromMap = function(layer, redraw){
 		this._wwd.removeLayer(layer);
-		this._wwd.redraw();
+		if(redraw !== false) {
+            this._wwd.redraw();
+        }
 	};
 
 	/**
 	 * Remove all layers from given group
 	 * @param group {string} name of the group
 	 */
-	Layers.prototype.removeAllLayersFromGroup = function(group){
+	Layers.prototype.removeAllLayersFromGroup = function(group, redraw){
 		var layers = this.getLayersByGroup(group);
 		var self = this;
 		layers.forEach(function(layer){
-			self.removeLayer(layer);
+			self.removeLayer(layer, redraw);
 		});
 	};
 
