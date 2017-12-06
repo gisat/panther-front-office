@@ -81,6 +81,23 @@ define(['../../../../error/ArgumentError',
         }
 	};
 
+    /**
+     * Remove all layers from specific group from map and all floaters connected with this group
+     */
+    BackgroundLayersPanel.prototype.clearLayers = function(group){
+        $("." + group + "-floater").remove();
+
+        this._mapStore.getAll().forEach(function(map){
+            map.layers.removeAllLayersFromGroup(group, false);
+        });
+
+        if (group === "selectedareasfilled" || group === "areaoutlines"){
+            this._panelBodySelector.find(".layer-row[data-id=" + group + "]").removeClass("checked");
+        } else {
+            this._panelBodySelector.find(".layer-row").removeClass("checked");
+        }
+    };
+
 	/**
 	 * Add background layers to a map
 	 * @param map {WorldWindMap}
