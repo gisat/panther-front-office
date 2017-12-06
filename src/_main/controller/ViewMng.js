@@ -325,6 +325,7 @@ Ext.define('PumaMain.controller.ViewMng', {
         	if (Config.cfg.sidebarReportsOpen){
 				$('#sidebar-reports').show();
 			}
+			Observer.notify('scopeChange');
 			Observer.notify("resizeMap");
 		} else {
 			var map = Ext.ComponentQuery.query('#map')[0].map;
