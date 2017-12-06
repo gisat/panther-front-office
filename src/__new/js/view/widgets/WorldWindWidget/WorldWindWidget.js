@@ -140,6 +140,13 @@ define([
 		var self = this;
 		var body = $("body");
 
+		var state = Stores.retrieve("state");
+		state.setChanges({
+			scope: true,
+			location: true,
+			dataview: false
+		});
+
 		if (body.hasClass("mode-3d")){
 			body.removeClass("mode-3d");
 			self._widgetSelector.removeClass("open");

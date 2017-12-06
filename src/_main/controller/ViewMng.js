@@ -304,21 +304,23 @@ Ext.define('PumaMain.controller.ViewMng', {
 				}
 			}.bind(this), 2000);
 		}
+
+
+		var options = {};
+		// set location and range of all maps
+		if (Config.cfg.worldWindState){
+			options.worldWindState = {
+				location: Config.cfg.worldWindState.location,
+				range: Config.cfg.worldWindState.range
+			}
+		}
+
+		// set toptoolbar and widgets state
+		if (Config.cfg.widgets){
+			options.widgets = Config.cfg.widgets;
+		}
+
 		if (Config.cfg.is3D){
-        	var options = {};
-
-        	// set location and range of all maps
-        	if (Config.cfg.worldWindState){
-        		options.worldWindState = {
-        			location: Config.cfg.worldWindState.location,
-					range: Config.cfg.worldWindState.range
-				}
-			}
-
-			// set toptoolbar and widgets state
-			if (Config.cfg.widgets){
-				options.widgets = Config.cfg.widgets;
-			}
 			Stores.notify('map#show3DFromDataview', options);
 
         	// show right panel
