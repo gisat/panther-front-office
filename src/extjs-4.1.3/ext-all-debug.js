@@ -91122,47 +91122,47 @@ Ext.define('Ext.toolbar.Paging', {
 
     
     
-    displayMsg : 'Displaying {0} - {1} of {2}',
+    displayMsg : polyglot.t('displaying'),
     
 
     
     
-    emptyMsg : 'No data to display',
+    emptyMsg : polyglot.t('noDataToDisplay'),
     
 
     
     
-    beforePageText : 'Page',
+    beforePageText : polyglot.t('page'),
     
 
     
     
-    afterPageText : 'of {0}',
+    afterPageText : polyglot.t('of'),
     
 
     
     
-    firstText : 'First Page',
+    firstText : polyglot.t('firstPage'),
     
 
     
     
-    prevText : 'Previous Page',
+    prevText : polyglot.t('previousPage'),
     
 
     
     
-    nextText : 'Next Page',
+    nextText : polyglot.t('nextPage'),
     
 
     
     
-    lastText : 'Last Page',
+    lastText : polyglot.t('lastPage'),
     
 
     
     
-    refreshText : 'Refresh',
+    refreshText : polyglot.t('refresh'),
     
 
     

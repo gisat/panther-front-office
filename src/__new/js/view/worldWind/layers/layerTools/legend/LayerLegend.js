@@ -51,8 +51,8 @@ define(['../../../../../error/ArgumentError',
 	 * Build a legend
 	 */
 	LayerLegend.prototype.build = function(){
-		this._icon = this.buildIcon("Legend", "legend-icon", "legend");
-		this._floater = this.buildFloater("Legend", "legend-floater");
+		this._icon = this.buildIcon(polyglot.t("legend"), "legend-icon", "legend");
+		this._floater = this.buildFloater(polyglot.t("legend"), "legend-floater");
 
 		this._iconSelector = this._icon.getElement();
 		this._floaterSelector = this._floater.getElement();
