@@ -198,6 +198,7 @@ define(['../../actions/Actions',
 		if ((state.changes.scope || state.changes.location) && !state.changes.dataview){
 			this._goToAnimator.setLocation();
 			setTimeout(function(){
+				console.log('WorldWindMap#rebuild Hide Loading');
 				$("#loading-screen").css("display", "none")
 			},1000);
 		}
@@ -212,6 +213,7 @@ define(['../../actions/Actions',
 			}
 			if (state.changes.dataview || state.changes.level){
 				setTimeout(function(){
+					console.log('WorldWindMap#rebuild Hide Loading');
 					$("#loading-screen").css("display", "none")
 				},1000);
 			}

@@ -70,6 +70,7 @@ Ext.define('PumaMain.controller.Area', {
 	 * @param display {string} CSS display value
 	 */
 	showLoading: function(display){
+		console.log('Area#showLoading Loading ', display);
 		$("#loading-screen").css({
 			display: display,
 			background: "radial-gradient(rgba(255, 255, 255, .85), rgba(230, 230, 230, .85))"

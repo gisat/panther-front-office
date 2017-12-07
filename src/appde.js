@@ -193,14 +193,29 @@ Ext.application({
             Config.dataviewId = id;
             // Load stores when only for print or loading the whole application.
             var stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic', 'dataview'];
-            stores.forEach(function(store){
-                Ext.StoreMgr.lookup(store).load();
+            var promises = [];
+            stores.forEach(function(storeName){
+            	promises.push(new Promise(function(resolve, reject){
+            		var store = Ext.StoreMgr.lookup(storeName);
+            		store.on('datachanged', function(data){
+            			console.log('Store Name: ' + storeName + ' DataChanged', arguments);
+            			resolve(data);
+					});
+					store.load();
+				}));
             });
+            var self = this;
+			Promise.all(promises).then(function(){
+				console.log('appde# Loading done.');
 
-			this.getController('DomManipulation').renderApp();
-			this.getController('Render').renderApp();
-			
-			this.getController('Render').renderMap();
+				self.getController('DomManipulation').renderApp();
+				self.getController('Render').renderApp();
+
+				self.getController('Render').renderMap();
+			}).catch(function(err){
+				console.log(err);
+				alert(polyglot.t("notPossibleToLoadData"));
+			});
 		} else {
             Config.dataviewId = id;
             this.getController('Render').renderIntro();
@@ -210,6 +225,7 @@ Ext.application({
 
 Ext.onReady(function(){
 	if(!Config.dataviewId && !Config.toggles.skipInitialSelection) {
+		console.log('appde.js# Hide Loading');
 		$("#loading-screen").css("display", "none");
 	}
 	Stores.notify('extLoaded');

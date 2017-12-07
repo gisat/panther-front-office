@@ -68,7 +68,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
         ThemeYearConfParams.actions.push(cnt.itemId);
         // new URBIS change
         if (!$('body').hasClass("intro")){
-            $("#loading-screen").css({
+			console.log('LocationTheme#onDatasetChange Show Loading');
+			$("#loading-screen").css({
                 display: "block",
                 background: "radial-gradient(rgba(255, 255, 255, .85), rgba(230, 230, 230, .85))"
             })
@@ -1300,6 +1301,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 this.placeInitialChange = true;
         }
 
+        console.log('LocationTheme#onThemeLocationConfReceived Delete Config');
         delete Config.cfg;
 
 		Stores.notify('extRestructured');
@@ -1540,7 +1542,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
             map.setCenter([Config.cfg.mapCfg.center.lon,Config.cfg.mapCfg.center.lat],Config.cfg.mapCfg.zoom);
 
         }
-        delete Config.cfg;
+		console.log('LocationTheme#onVisualizationChange Delete Config');
+		delete Config.cfg;
     }
 
 });
