@@ -143,11 +143,13 @@ Ext.define('PumaMain.controller.DomManipulation', {
 	
 	activateLoadingMask: function() {
 		//$("#loading-mask-shim, #loading-mask").show();
+		console.log('DomManipulation#activateLoadingMask Show Loading');
 		$('#loading-screen').css('display', 'block');
 	},
 	
 	deactivateLoadingMask: function() {
 		//$("#loading-mask-shim, #loading-mask").hide();
+		console.log('DomManipulation#activateLoadingMask Hide Loading');
 		$('#loading-screen').css('display', 'none');
 	},
 	
