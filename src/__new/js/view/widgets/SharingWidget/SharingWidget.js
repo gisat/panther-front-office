@@ -1,18 +1,26 @@
 define([
+	'../../../actions/Actions',
 	'../../../stores/gisat/Groups',
 	'../../../stores/Stores',
 	'../../../stores/UrbanTepPortalStore',
     '../../../stores/gisat/Users',
     '../Widget',
 
+	'../../../util/Promise',
+
+	'jquery',
 	'text!./SharingWidget.html',
 	'css!./SharingWidget'
-], function (Groups,
+], function (Actions,
+			 Groups,
 			 Stores,
 			 UrbanTepPortalStore,
 			 Users,
 			 Widget,
 
+			 Promise,
+
+			 $,
 			 htmlBody) {
 	var SharingWidget = function (options) {
 		Widget.call(this, options);
@@ -20,6 +28,8 @@ define([
 		this.build();
 
 		this._url = '';
+		this._dispatcher = options.dispatcher;
+		this._dispatcher.addListener(this.onEvent.bind(this));
 	};
 
 	SharingWidget.prototype = Object.create(Widget.prototype);
@@ -37,6 +47,7 @@ define([
 
 	SharingWidget.prototype.rebuild = function(){
 		this.handleLoading("show");
+
 		var name = $('#floater-sharing .floater-body #sharing-name').val() || '';
 		$('#floater-sharing .floater-body').empty();
 		$('#floater-sharing .floater-footer').empty();
@@ -76,7 +87,7 @@ define([
                     });
 				});
 			});
-		} else if(self.url) {
+		} else {
 			Promise.all([
 				Groups.all(),
 				Users.all()
@@ -107,20 +118,7 @@ define([
                 $('#floater-sharing .floater-footer').append('<div class="widget-button w8" id="sharing">Share</div>');
 
 				self.handleLoading("hide");
-                $('#sharing').off();
-                $('#sharing').on('click', function(){
-                    var selectedGroup = $( "#floater-sharing .floater-body #sharing-group option:checked" ).val();
-                    var selectedUser = $( "#floater-sharing .floater-body #sharing-user option:checked" ).val();
-                    var state = Stores.retrieve("state").current();
-                    Promise.all([
-                    	Groups.share(selectedGroup, state.scope, state.places),
-						Users.share(selectedUser, state.scope, state.places)
-					]).then(function(){
-						alert(polyglot.t('theStateWasCorrectlyShared') + self.url);
-					}).catch(function(error){
-						alert(polyglot.t('thereWasAnIssueWithSharing') + error);
-					});
-                });
+                self.addShareOnClickListener();
 			}).catch(function(error){
 				console.error(error);
 				alert(polyglot.t('itWasntPossibleToLoadGroupsUsers') + error);
@@ -130,15 +128,51 @@ define([
 		}
 	};
 
+	SharingWidget.prototype.addShareOnClickListener = function(){
+		$('#sharing').off().on('click', function(){
+			var selectedGroup = $( "#floater-sharing .floater-body #sharing-group option:checked" ).val();
+			var selectedUser = $( "#floater-sharing .floater-body #sharing-user option:checked" ).val();
+			var state = Stores.retrieve("state").currentExtended();
+			Promise.all([
+				Groups.share(selectedGroup, state.scope, state.places),
+				Users.share(selectedUser, state.scope, state.places)
+			]).then(function(){
+				Observer.notify("PumaMain.controller.ViewMng.onShare", state);
+			}).catch(function(error){
+				alert(polyglot.t('thereWasAnIssueWithSharing') + error);
+			});
+		});
+	};
+
+	SharingWidget.prototype.share = function(url){
+		alert(polyglot.t('theStateWasCorrectlyShared') + url);
+	};
+
 	SharingWidget.prototype.build = function() {
 		this.handleLoading("hide");
 
-		$(this._widgetSelector).find(".widget-minimise").off();
-		$(this._widgetSelector).find(".widget-minimise").on("click", function(){
-			$('#floater-sharing').hide();
+		var self = this;
+		this._widgetSelector.find(".widget-minimise").off().on("click", function(){
+			var item = $('#top-toolbar-share-view');
+			if (self._widgetSelector.hasClass("open")){
+				item.removeClass("open");
+				self._widgetSelector.removeClass("open");
+			} else {
+				item.addClass("open");
+				self._widgetSelector.addClass("open");
+			}
 		});
-
 		this.rebuild();
+	};
+
+	/**
+	 * @param type {string} type of event
+	 * @param options {Object|string}
+	 */
+	SharingWidget.prototype.onEvent = function(type, options){
+		if (type === Actions.sharingUrlReceived){
+			this.share(options);
+		}
 	};
 
 	return SharingWidget;

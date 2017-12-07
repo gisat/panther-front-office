@@ -216,8 +216,16 @@ define([
 	};
 
 	TopToolBar.prototype.handleShareViewClick = function(e){
-		var state = Stores.retrieve("state").currentExtended();
-		Observer.notify("PumaMain.controller.ViewMng.onShare", state);
+		var item = $(this);
+		var floater = $("#floater-sharing");
+
+		if (item.hasClass("open")){
+			item.removeClass("open");
+			floater.removeClass("open");
+		} else {
+			item.addClass("open");
+			floater.addClass("open");
+		}
 	};
 
 	TopToolBar.prototype.handle3dMapClick = function(e){

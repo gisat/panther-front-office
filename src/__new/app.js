@@ -426,7 +426,8 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 		Widgets.sharing = new SharingWidget({
 			elementId: 'sharing',
 			name: polyglot.t('share'),
-			placeholderTargetId: 'widget-container'
+			placeholderTargetId: 'widget-container',
+			dispatcher: window.Stores
 		});
 
 		return Widgets.sharing;

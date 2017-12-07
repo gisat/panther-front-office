@@ -122,11 +122,7 @@ Ext.define('PumaMain.controller.ViewMng', {
         store.addWithSlaves(rec);
         if (isView) {
             var url = window.location.origin+window.location.pathname+'?id='+rec.get('_id');
-
-            // TODO: Clean
-            Widgets.sharing.url = url;
-            Widgets.sharing.rebuild();
-            $('#floater-sharing').show();
+			Stores.notify('sharing#urlReceived', url);
         }
     },
         
