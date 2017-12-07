@@ -406,18 +406,20 @@ Ext.define('PumaMain.controller.ViewMng', {
 		cfg.is3D = $('body').hasClass('mode-3d');
 
 		if (options){
+			// dataview metadata
+			cfg.name = options.name;
+			cfg.description = options.description;
 
-			// map settings
-			if (options.worldWindNavigator){
+			// world wind map settings
+			if (options.state && options.state.worldWindNavigator){
 				cfg.worldWindState = {
-					range: options.worldWindNavigator.range,
-					location: options.worldWindNavigator.lookAtLocation
+					range: options.state.worldWindNavigator.range,
+					location: options.state.worldWindNavigator.lookAtLocation
 				};
 			}
-
 			// widgets state
-			if (options.widgets){
-				cfg.widgets = options.widgets;
+			if (options.state && options.state.widgets){
+				cfg.widgets = options.state.widgets;
 			}
 
 			// sidebar reports settings

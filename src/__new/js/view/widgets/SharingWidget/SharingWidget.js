@@ -9,6 +9,7 @@ define([
 	'../../../util/Promise',
 
 	'jquery',
+	'string',
 	'text!./SharingWidget.html',
 	'css!./SharingWidget'
 ], function (Actions,
@@ -21,7 +22,8 @@ define([
 			 Promise,
 
 			 $,
-			 htmlBody) {
+			 S,
+			 SharingWidgetHtml) {
 	var SharingWidget = function (options) {
 		Widget.call(this, options);
 
@@ -95,27 +97,7 @@ define([
                 var groups = results[0];
 				var users = results[1];
 
-				var groupOptions = groups.map(function(group){
-					return '<option value="'+group.id+'">' + group.name + '</option>';
-				});
-				groupOptions.unshift('<option value=""></option>');
-				var userOptions = users.map(function(user){
-                    return '<option value="'+user.id+'">' + user.name + '</option>';
-                });
-                userOptions.unshift('<option value=""></option>');
-                $('#floater-sharing .floater-body').append(
-                    '<div>' +
-                    '	<div class="widget-form-row"><label><span>'+polyglot.t('userSharing')+': ' +
-                    '		</span><select id="sharing-user">' + userOptions +
-                    '		</select>' +
-                    '	</label></div>' +
-                    '	<div class="widget-form-row"><label><span>'+polyglot.t('groupSharing')+': ' +
-                    '		</span><select id="sharing-group">' + groupOptions +
-                    '		</select>' +
-                    '	</label></div>' +
-                    '</div>'
-                );
-                $('#floater-sharing .floater-footer').append('<div class="widget-button w8" id="sharing">Share</div>');
+                self.addWidgetContent(groups, users);
 
 				self.handleLoading("hide");
                 self.addShareOnClickListener();
@@ -128,26 +110,76 @@ define([
 		}
 	};
 
+	/**
+	 * Add content to widget body and footer
+	 * @param groups
+	 * @param users
+	 */
+	SharingWidget.prototype.addWidgetContent = function(groups, users){
+		var groupOptions = groups.map(function(group){
+			return '<option value="'+group.id+'">' + group.name + '</option>';
+		});
+		groupOptions.unshift('<option value=""></option>');
+		var userOptions = users.map(function(user){
+			return '<option value="'+user.id+'">' + user.name + '</option>';
+		});
+		userOptions.unshift('<option value=""></option>');
+
+
+		var content = S(SharingWidgetHtml).template({
+			dataviewMetadataTitle: polyglot.t('sharingMetadataTitle'),
+			dataviewMetadataDescription: polyglot.t('sharingMetadataDescription'),
+			nameLabel: polyglot.t('sharingNameLabel'),
+			descriptionLabel: polyglot.t('sharingDescriptionLabel'),
+			permissionsTitle: polyglot.t('sharingPermissionsTitle'),
+			permissionsDescription: polyglot.t('sharingPermissionsDescription'),
+			userLabel: polyglot.t('sharingUserLabel'),
+			userOptions: userOptions,
+			groupLabel: polyglot.t('sharingGroupLabel'),
+			groupOptions: groupOptions
+		}).toString();
+
+		$('#floater-sharing .floater-body').append(content);
+		$('#floater-sharing .floater-footer').append('<div class="widget-button w8" id="sharing">Share</div>');
+	};
+
+	/**
+	 * Add on click listener to Share button. It collects information for sharing, adjust user/group permissions and generate share link.
+	 */
 	SharingWidget.prototype.addShareOnClickListener = function(){
 		$('#sharing').off().on('click', function(){
 			var selectedGroup = $( "#floater-sharing .floater-body #sharing-group option:checked" ).val();
 			var selectedUser = $( "#floater-sharing .floater-body #sharing-user option:checked" ).val();
+			var name = $( "#floater-sharing .floater-body #sharing-name" ).val();
+			var description = $( "#floater-sharing .floater-body #sharing-description" ).val();
 			var state = Stores.retrieve("state").currentExtended();
 			Promise.all([
 				Groups.share(selectedGroup, state.scope, state.places),
 				Users.share(selectedUser, state.scope, state.places)
 			]).then(function(){
-				Observer.notify("PumaMain.controller.ViewMng.onShare", state);
+				Observer.notify("PumaMain.controller.ViewMng.onShare", {
+					state: state,
+					name: name,
+					description: description
+				});
 			}).catch(function(error){
 				alert(polyglot.t('thereWasAnIssueWithSharing') + error);
 			});
 		});
 	};
 
-	SharingWidget.prototype.share = function(url){
-		alert(polyglot.t('theStateWasCorrectlyShared') + url);
+	/**
+	 * Show url on share click
+	 * @param url {string} link
+	 */
+	SharingWidget.prototype.showUrl = function(url){
+		this._url = url + '&needLogin=true';
+		alert(polyglot.t('theStateWasCorrectlyShared') + this._url);
 	};
 
+	/**
+	 * Add minimise on click listener
+	 */
 	SharingWidget.prototype.build = function() {
 		this.handleLoading("hide");
 
@@ -171,7 +203,7 @@ define([
 	 */
 	SharingWidget.prototype.onEvent = function(type, options){
 		if (type === Actions.sharingUrlReceived){
-			this.share(options);
+			this.showUrl(options);
 		}
 	};
 

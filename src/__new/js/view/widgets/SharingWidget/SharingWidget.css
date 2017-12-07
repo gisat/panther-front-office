@@ -1,8 +1,9 @@
 #floater-sharing {
 	left: 16rem;
 	top: 10rem;
-	min-width: 22rem;
+	min-width: 30rem;
 	max-width: 40rem;
+	height: 30rem;
 }
 #floater-sharing .floater-body {
 	padding: 1rem 1rem 1rem .5rem;

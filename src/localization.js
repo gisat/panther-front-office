@@ -135,7 +135,6 @@ var langEn = {
     functionalUrbanArea: "Functional Urban Areas",
 
     group: "Group",
-	groupSharing: "Share with group",
 
     help: "Help",
     hide: "Hide",
@@ -284,6 +283,14 @@ var langEn = {
     shareDataView: "Share data view",
     shareOnPortal: "Share on portal",
     shareView: "Share view",
+	sharingDescriptionLabel: "Description",
+	sharingGroupLabel: "Select group",
+	sharingMetadataDescription: "Enter dataview name and short description of the current state, which will be shared.",
+	sharingMetadataTitle: "Set dataview metadata",
+	sharingNameLabel: "Name",
+	sharingPermissionsDescription: "Lorem ipsum dolor sit amet, ut placerat mi porttitor, eget fusce ultrices sagittis nullam dui dictumst, proin faucibus dictum. Lobortis integer minima egestas vitae. ",
+	sharingPermissionsTitle: "Update permissions",
+	sharingUserLabel: "Select user",
     showCustomAnalyticalUnitsLayer: "Show Custom Analytical units Layer",
     showInChart: "Show in chart",
     signUp: "Sign up",
@@ -323,7 +330,6 @@ var langEn = {
     urbanDynamicTool: "UrbanDynamic tool",
     URL: "URL",
     user: "User",
-    userSharing: "Share with user",
 
     value: "Value",
     visu: "Visualization",
@@ -480,7 +486,6 @@ var langCz = {
     functionalUrbanArea: "Funkční městské oblasti",
 
     group: "Skupina",
-	groupSharing: "Sdílet se skupinou",
 
     help: "Help",
     hide: "Skrýt",
@@ -629,6 +634,14 @@ var langCz = {
     shareDataView: "Sdílet náhled",
     shareView: "Sdílet",
     shareOnPortal: "Sdílet v portálu",
+	sharingDescriptionLabel: "Stručný popis",
+	sharingGroupLabel: "Vyber skupinu",
+	sharingMetadataDescription: "Zadejte název a krátký popis aktuálního stavu, který budete sdílet.",
+	sharingMetadataTitle: "Nastavení metadat náhledu",
+	sharingNameLabel: "Název",
+	sharingPermissionsDescription: "Lorem ipsum dolor sit amet, ut placerat mi porttitor, eget fusce ultrices sagittis nullam dui dictumst, proin faucibus dictum. Lobortis integer minima egestas vitae, est varius risus ac, tincidunt nam mi dictum porta platea sollicitudin, eros in. ",
+	sharingPermissionsTitle: "Úprava přístupových práv",
+	sharingUserLabel: "Vyber uživatele",
     showCustomAnalyticalUnitsLayer: "Zobrazit vrstvu dalších analytických jednotek",
     showInChart: "Zobrazit v grafu",
     signUp: "Registrace",
@@ -668,7 +681,6 @@ var langCz = {
     urbanDynamicTool: "UrbanDynamic nástroj",
     URL: "URL",
     user: "Uživatel",
-	userSharing: "Sdílet s uživatelem",
 
     value: "Hodnota",
     visu: "Vizualizace",
