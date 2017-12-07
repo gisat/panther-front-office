@@ -218,6 +218,11 @@ define(['../../actions/Actions',
 					console.log('WorldWindMap#rebuild Hide Loading');
 					$("#loading-screen").css("display", "none")
 				},1000);
+			} else if(!changes.dataview && !changes.level && !changes.location && !changes.period && !changes.scope && !changes.theme && !changes.visualization) {
+				setTimeout(function(){
+					console.log('WorldWindMap#rebuild Hide Loading');
+					$("#loading-screen").css("display", "none")
+				},1000);
 			}
 		} else {
 			setTimeout(function(){
