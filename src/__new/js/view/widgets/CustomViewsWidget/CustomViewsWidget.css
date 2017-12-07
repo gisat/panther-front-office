@@ -1,0 +1,9 @@
+#floater-custom-views-widget {
+	right: 10rem;
+	top: 10rem;
+	height: 10rem;
+}
+
+#floater-custom-views-widget .floater-body {
+	height: calc(100% - 2.3rem);
+}

@@ -45,6 +45,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         'js/util/metadata/AnalyticalUnits',
         'js/view/widgets/CityWidget/CityWidget',
         'js/view/widgets/CustomDrawingWidget/CustomDrawingWidget',
+		'js/view/widgets/CustomViewsWidget/CustomViewsWidget',
 		'js/util/Customization',
         'js/view/widgets/EvaluationWidget/EvaluationWidget',
         'js/view/tools/FeatureInfoTool/FeatureInfoTool',
@@ -80,6 +81,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
              AnalyticalUnits,
              CityWidget,
              CustomDrawingWidget,
+			 CustomViewsWidget,
 			 Customization,
              EvaluationWidget,
              FeatureInfoTool,
@@ -197,6 +199,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			snowViewChanges();
 		}
 
+		widgets.push(buildCustomViewsWidget());
 		widgets.push(buildSharingWidget());
 
 		// build app, map is class for OpenLayers map
@@ -479,6 +482,19 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			isWithoutFooter: true,
 			dispatcher: window.Stores,
 			featureInfo: featureInfo
+		})
+	}
+
+	/**
+	 * Build widget for dealing with custom views
+	 * @returns {CustomViewsWidget}
+	 */
+	function buildCustomViewsWidget(){
+		return new CustomViewsWidget({
+			elementId: 'custom-views-widget',
+			name: polyglot.t("customViews"),
+			isWithoutFooter: true,
+			dispatcher: window.Stores
 		})
 	}
 
