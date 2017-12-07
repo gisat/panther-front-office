@@ -193,8 +193,8 @@ define(['../../actions/Actions',
 	 * Rebuild map
 	 */
 	WorldWindMap.prototype.rebuild = function(){
-		console.log('WorldWindMap#rebuild');
 		var state = Stores.retrieve("state").current();
+		console.log('WorldWindMap#rebuild State: ', state);
 		var self = this;
 		if ((state.changes.scope || state.changes.location) && !state.changes.dataview){
 			this._goToAnimator.setLocation();
