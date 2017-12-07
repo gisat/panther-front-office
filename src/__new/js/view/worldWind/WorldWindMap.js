@@ -194,9 +194,10 @@ define(['../../actions/Actions',
 	 */
 	WorldWindMap.prototype.rebuild = function(){
 		var state = Stores.retrieve("state").current();
-		console.log('WorldWindMap#rebuild State: ', state);
+		var changes = state.changes;
+		console.log('WorldWindMap#rebuild State: ', changes);
 		var self = this;
-		if ((state.changes.scope || state.changes.location) && !state.changes.dataview){
+		if ((changes.scope || changes.location) && !changes.dataview){
 			this._goToAnimator.setLocation();
 			setTimeout(function(){
 				console.log('WorldWindMap#rebuild Hide Loading');
@@ -212,7 +213,7 @@ define(['../../actions/Actions',
 			if (!Config.toggles.hideSelectorToolbar){
 				this.addPeriod();
 			}
-			if (state.changes.dataview || state.changes.level){
+			if (changes.dataview || changes.level){
 				setTimeout(function(){
 					console.log('WorldWindMap#rebuild Hide Loading');
 					$("#loading-screen").css("display", "none")
