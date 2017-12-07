@@ -857,7 +857,7 @@ Ext.define('PumaMain.controller.Chart', {
         data.exporting = {
             enabled: false
         }
-        data.chart.renderTo = cmp.el.dom;
+        data.chart.renderTo = cmp.el && cmp.el.dom;
         data.chart.events.load = function() {
             if (this.options.chart.isPieSingle) {
                 var chart = this;
