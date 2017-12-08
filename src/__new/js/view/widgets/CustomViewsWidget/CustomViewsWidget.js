@@ -54,7 +54,6 @@ define(['../../../actions/Actions',
 	 * @param data
 	 */
 	CustomViewsWidget.prototype.redraw = function(data){
-		debugger;
 		this.handleLoading("hide");
 	};
 

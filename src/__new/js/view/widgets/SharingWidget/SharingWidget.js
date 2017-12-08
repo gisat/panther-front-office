@@ -167,6 +167,7 @@ define([
 	SharingWidget.prototype.showUrl = function(options){
 		var selectedGroup = $( "#floater-sharing .floater-body #sharing-group option:checked" ).val();
 		var selectedUser = $( "#floater-sharing .floater-body #sharing-user option:checked" ).val();
+		var minimiseBtn = this._widgetSelector.find(".widget-minimise");
 		var state = Stores.retrieve("state").currentExtended();
 		var self = this;
 		Promise.all([
@@ -175,6 +176,8 @@ define([
 		]).then(function(){
 			self._url = options.url + '&needLogin=true';
 			alert(polyglot.t('theStateWasCorrectlyShared') + self._url);
+			minimiseBtn.trigger("click");
+			self.rebuild();
 		}).catch(function(error){
 			alert(polyglot.t('thereWasAnIssueWithSharing') + error);
 		});
