@@ -1077,10 +1077,10 @@
 }
 
 .newDesign .x-window-header-text-default {
-	padding-left: 5px;
+	line-height: 1.4;
 	color: #333;
-	font-size: .9rem;
-	font-weight: 600;
+	font-size: 1rem;
+	font-weight: 500;
 }
 
 .newDesign .x-window-body {

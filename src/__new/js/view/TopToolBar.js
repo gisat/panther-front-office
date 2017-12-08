@@ -178,7 +178,8 @@ define([
 		if (targetId) {
 			if (targetId == 'window-customviews') Ext.ComponentQuery.query('#window-customviews')[0].show();
 			if (targetId == 'window-customLayers') this.initCustomLayersWindow();
-			$('#' + targetId).toggleClass('open');
+			$('.floating-window').removeClass('active');
+			$('#' + targetId).toggleClass('open').toggleClass("active");
 			$(e.target).toggleClass('open');
 		}
 	};
@@ -225,7 +226,8 @@ define([
 			floater.removeClass("open");
 		} else {
 			item.addClass("open");
-			floater.addClass("open");
+			$('.floating-window').removeClass("active");
+			floater.addClass("open active");
 		}
 	};
 
