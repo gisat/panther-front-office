@@ -9,6 +9,7 @@ define([
 	'js/stores/Stores',
 	'js/stores/gisat/Attributes',
 	'js/stores/gisat/AttributeSets',
+	'js/stores/gisat/Dataviews',
 	'js/stores/gisat/Layers',
 	'js/stores/gisat/Locations',
 	'js/stores/gisat/Periods',
@@ -32,6 +33,7 @@ define([
 			Stores,
 			Attributes,
 			AttributeSets,
+			Dataviews,
 			Layers,
 			Locations,
 			Periods,
@@ -323,6 +325,7 @@ define([
 	FrontOffice.prototype.loadData = function(){
 		Stores.retrieve('attribute').load();
 		Stores.retrieve('attributeSet').load();
+		Stores.retrieve('dataview').load();
 		Stores.retrieve('layer').load();
 		Stores.retrieve('location').load();
 		Stores.retrieve('period').load();

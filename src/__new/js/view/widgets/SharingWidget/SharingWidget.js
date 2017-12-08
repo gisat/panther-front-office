@@ -148,33 +148,36 @@ define([
 	 */
 	SharingWidget.prototype.addShareOnClickListener = function(){
 		$('#sharing').off().on('click', function(){
-			var selectedGroup = $( "#floater-sharing .floater-body #sharing-group option:checked" ).val();
-			var selectedUser = $( "#floater-sharing .floater-body #sharing-user option:checked" ).val();
 			var name = $( "#floater-sharing .floater-body #sharing-name" ).val();
 			var description = $( "#floater-sharing .floater-body #sharing-description" ).val();
 			var state = Stores.retrieve("state").currentExtended();
-			Promise.all([
-				Groups.share(selectedGroup, state.scope, state.places),
-				Users.share(selectedUser, state.scope, state.places)
-			]).then(function(){
-				Observer.notify("PumaMain.controller.ViewMng.onShare", {
-					state: state,
-					name: name,
-					description: description
-				});
-			}).catch(function(error){
-				alert(polyglot.t('thereWasAnIssueWithSharing') + error);
+
+			Observer.notify("PumaMain.controller.ViewMng.onShare", {
+				state: state,
+				name: name,
+				description: description
 			});
 		});
 	};
 
 	/**
 	 * Show url on share click
-	 * @param url {string} link
+	 * @param options {Object}
 	 */
-	SharingWidget.prototype.showUrl = function(url){
-		this._url = url + '&needLogin=true';
-		alert(polyglot.t('theStateWasCorrectlyShared') + this._url);
+	SharingWidget.prototype.showUrl = function(options){
+		var selectedGroup = $( "#floater-sharing .floater-body #sharing-group option:checked" ).val();
+		var selectedUser = $( "#floater-sharing .floater-body #sharing-user option:checked" ).val();
+		var state = Stores.retrieve("state").currentExtended();
+		var self = this;
+		Promise.all([
+			Groups.share(selectedGroup, state.scope, state.places, options.dataviewId),
+			Users.share(selectedUser, state.scope, state.places, options.dataviewId)
+		]).then(function(){
+			self._url = options.url + '&needLogin=true';
+			alert(polyglot.t('theStateWasCorrectlyShared') + self._url);
+		}).catch(function(error){
+			alert(polyglot.t('thereWasAnIssueWithSharing') + error);
+		});
 	};
 
 	/**

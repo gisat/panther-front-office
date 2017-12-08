@@ -121,8 +121,12 @@ Ext.define('PumaMain.controller.ViewMng', {
         var store = Ext.StoreMgr.lookup(isView ? 'dataview' : 'visualization');
         store.addWithSlaves(rec);
         if (isView) {
-            var url = window.location.origin+window.location.pathname+'?id='+rec.get('_id');
-			Stores.notify('sharing#urlReceived', url);
+        	var id = rec.get('_id');
+            var url = window.location.origin+window.location.pathname+'?id='+id;
+			Stores.notify('sharing#urlReceived', {
+				dataviewId: Number(id),
+				url: url
+			});
         }
     },
         
