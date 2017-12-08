@@ -6,5 +6,12 @@
 }
 
 #floater-custom-views-widget .floater-body {
-	height: calc(100% - 2.3rem);
+	height: calc(100% - 2.8rem);
+	padding: .5rem;
+}
+
+#floater-custom-views-widget .custom-views-content {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
 }
