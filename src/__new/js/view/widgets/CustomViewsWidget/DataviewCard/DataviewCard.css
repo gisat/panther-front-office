@@ -1,7 +1,39 @@
 .dataview-card {
 	padding: .5rem;
-	border: 1px solid silver;
-	width: 30rem;
-	height: 5rem;
-	margin: .5rem;
+	display: flex;
+	background: white;
+	border-radius: .2rem;
+	border: 1px solid #ddd;
+	border-bottom: 2px solid #ddd;
+	border-top: 1px solid #e7e7e7;
+	min-width: 35rem;
+	margin: .3rem;
+	flex-basis: 32%;
+}
+.dataview-card-preview {
+	align-self: center;
+	flex-basis: 6rem;
+	height: 6rem;
+}
+.dataview-card-text {
+	flex: 1;
+	padding: 0 2rem 0 .8rem;
+	/*height: 6rem;*/
+	/*overflow: hidden;*/
+}
+.dataview-card-text > h3 {
+	font-size: 1.1rem;
+	color: rgb(80,85,90);
+	font-weight: 400;
+	margin-bottom: .2rem;
+}
+.dataview-card-text > p {
+	font-size: .85rem;
+	color: rgb(140,145,150);
+}
+.dataview-card-tools {
+	flex-basis: 6rem;
+	height: 6rem;
+	align-self: center;
+	background: oldlace;
 }

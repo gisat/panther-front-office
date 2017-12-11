@@ -42,6 +42,9 @@ define(['../../../../actions/Actions',
 			description: this._description
 		}).toString();
 		this._target.append(html);
+		this._cardSelector = $("#dataview-card-" + this._id);
+		this._cardPreviewSelector = this._cardSelector.find(".dataview-card-preview");
+		this._cardPreviewSelector.css("background", this._preview.color);
 	};
 
 	return DataviewCard;
