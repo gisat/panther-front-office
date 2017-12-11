@@ -200,6 +200,7 @@ define([
 				self._widgetSelector.addClass("open");
 			}
 		});
+
 		this.rebuild();
 	};
 
