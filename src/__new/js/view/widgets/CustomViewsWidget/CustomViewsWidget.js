@@ -73,6 +73,9 @@ define(['../../../actions/Actions',
 				target: self._widgetBodySelector.find(".custom-views-content")
 			});
 		});
+		if (data.length === 0){
+			this._widgetSelector.find(".widget-minimise").trigger("click");
+		}
 	};
 
 	/**
