@@ -311,14 +311,15 @@ body.mode-3d .floater.only-3d.open {
 .widget-section {
     margin-bottom: 2rem;
 }
-.widget-section h5 {
-    font-size: .9rem;
-    font-weight: 700;
-    color: #555;
+.widget-section h3 {
+    font-size: 1.1rem;
+    color: rgb(70,75,80);
+    font-weight: 600;
     margin-bottom: .2rem;
 }
 .widget-section p {
-    font-size: .8rem;
+    font-size: .85rem;
+    color: rgb(140,145,150);
     margin-bottom: .3rem;
 }
 
@@ -333,6 +334,7 @@ body.mode-3d .floater.only-3d.open {
     line-height: 1.7;
 }
 .widget-form-row span {
+    color: rgb(110,115,120);
     font-size: .8rem;
     font-weight: 600;
 }
@@ -340,9 +342,12 @@ body.mode-3d .floater.only-3d.open {
 .widget-form-row input,
 .widget-form-row textarea {
     font-size: .85rem;
-    line-height: 1.5rem;
+    line-height: 1.6rem;
     max-width: 90%;
-    border: 1px solid #bbb;
+    border: 2px solid rgb(210,212,214);
+    border-radius: .15rem;
+    padding-left: .1rem;
+    color: rgb(90,95,100);
 }
 .widget-form-row textarea {
     height: 3rem;
