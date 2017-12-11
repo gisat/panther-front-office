@@ -93,9 +93,11 @@ define(['../../../actions/Actions',
 	 * @return {Object} prepared data about dataview
 	 */
 	CustomViewsWidget.prototype.prepareDataForCard = function(d){
+		var language = d.data.language || "en";
+
 		var prepared = {
 			id: d.id,
-			url: window.location.origin + window.location.pathname + "?id=" + d.id + "&needLogin=true&lang=cz"
+			url: window.location.origin + window.location.pathname + "?id=" + d.id + "&needLogin=true&lang=" + language
 		};
 
 		if (d.data.name && d.data.name.length > 0){
