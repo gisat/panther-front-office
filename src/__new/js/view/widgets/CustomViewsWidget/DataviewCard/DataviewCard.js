@@ -24,7 +24,9 @@ define(['../../../../actions/Actions',
 	 * @param options.id {number} id of the dataview
 	 * @param options.name {string} name of dataview
 	 * @param options.description {string} desription of dataview
+	 * @param options.dispatcher {Object} Object for handling events in the application.
 	 * @param options.preview {Object} data for preview
+	 * @param options.url {string} dataview original URL
 	 * @constructor
 	 */
 	var DataviewCard = function(options){
@@ -35,7 +37,9 @@ define(['../../../../actions/Actions',
 		this._id = options.id;
 		this._name = options.name;
 		this._description = options.description;
+		this._dispatcher = options.dispatcher;
 		this._preview = options.preview;
+		this._url = options.url;
 
 		this.build();
 	};
@@ -63,7 +67,7 @@ define(['../../../../actions/Actions',
 		return new Button({
 			id: "dataview-card-" + this._id + "-button-show",
 			containerSelector: this._cardSelector.find(".dataview-card-buttons"),
-			text: "Show",
+			text: polyglot.t("show"),
 			onClick: this.onShowButtonClick.bind(this),
 			textCentered: true,
 			textSmall: true,
@@ -71,8 +75,14 @@ define(['../../../../actions/Actions',
 		});
 	};
 
-	DataviewCard.prototype.onShowButtonClick = function(){
-		alert("click")
+	/**
+	 * Show dataview on click
+	 */
+	DataviewCard.prototype.onShowButtonClick = function(options){
+		this._dispatcher.notify("dataview#show", options);
+
+		// TODO upgrade this provisional solution
+		window.location = this._url;
 	};
 
 	return DataviewCard;

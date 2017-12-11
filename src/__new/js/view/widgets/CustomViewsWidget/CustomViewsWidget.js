@@ -65,8 +65,10 @@ define(['../../../actions/Actions',
 			var data = self.prepareDataForCard(dataview);
 			new DataviewCard({
 				id: data.id,
+				url: data.url,
 				name: data.name,
 				description: data.description,
+				dispatcher: self._dispatcher,
 				preview: data.preview,
 				target: self._widgetBodySelector.find(".custom-views-content")
 			});
@@ -80,6 +82,8 @@ define(['../../../actions/Actions',
 		if (type === Actions.userChanged){
 			this.handleLoading("show");
 			Stores.retrieve('dataview').load().then(this.redraw.bind(this));
+		} else if (type === Actions.dataviewShow){
+			this._widgetSelector.find(".widget-minimise").trigger("click");
 		}
 	};
 
@@ -90,7 +94,8 @@ define(['../../../actions/Actions',
 	 */
 	CustomViewsWidget.prototype.prepareDataForCard = function(d){
 		var prepared = {
-			id: d.id
+			id: d.id,
+			url: window.location.origin + window.location.pathname + "?id=" + d.id + "&needLogin=true&lang=cz"
 		};
 
 		if (d.data.name && d.data.name.length > 0){

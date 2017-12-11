@@ -1,5 +1,7 @@
 define([], function(){
 	return {
+		dataviewShow: "dataview#show",
+
 		mapAdd: 'map#add',
 		mapRemove: 'map#remove',
 
