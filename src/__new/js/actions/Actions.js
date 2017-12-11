@@ -1,5 +1,7 @@
 define([], function(){
 	return {
+		dataviewShow: "dataview#show",
+
 		mapAdd: 'map#add',
 		mapRemove: 'map#remove',
 
@@ -32,6 +34,8 @@ define([], function(){
 		userChanged: 'user#changed',
 
 		mapShow3D: 'map#show3D',
-		mapShow3DFromDataview: 'map#show3DFromDataview'
+		mapShow3DFromDataview: 'map#show3DFromDataview',
+
+		sharingUrlReceived: 'sharing#urlReceived'
 	};
 });

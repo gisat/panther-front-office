@@ -107,8 +107,9 @@ define([
 				this._target.append('<div class="' + classesMapTools3d + '" id="top-toolbar-map-tools" data-for="floater-map-tools-widget">'+polyglot.t('mapTools')+'</div>');
 			}
 			if (tools.customViews){
-				var classesCustomViews3d = Config.auth ? "item disabled" : "item disabled hidden";
-				this._target.append('<div class="' + classesCustomViews3d + '" id="top-toolbar-saved-views" data-for="window-customviews">'+polyglot.t('customViews')+'</div>');
+				var classesCustomViews3d = Config.auth ? "item" : "item hidden";
+				classesCustomViews3d += $('#floater-custom-views-widget').hasClass('open') ? " open" : "";
+				this._target.append('<div class="' + classesCustomViews3d + '" id="top-toolbar-saved-views" data-for="floater-custom-views-widget">'+polyglot.t('customViews')+'</div>');
 			}
 			if (tools.snow){
 				var classesSnowWidget3d = $('#floater-snow-widget').hasClass('open') ? "item open" : "item";
@@ -144,8 +145,8 @@ define([
 			}
 			if (tools.customViews){
 				var classesCustomViews = Config.auth ? "item" : "item hidden";
-				classesCustomViews += $('#window-customviews').hasClass('open') ? " open" : "";
-				this._target.append('<div class="' + classesCustomViews + '" id="top-toolbar-saved-views" data-for="window-customviews">'+polyglot.t('customViews')+'</div>');
+				classesCustomViews += $('#floater-custom-views-widget').hasClass('open') ? " open" : "";
+				this._target.append('<div class="' + classesCustomViews + '" id="top-toolbar-saved-views" data-for="floater-custom-views-widget">'+polyglot.t('customViews')+'</div>');
 			}
 			if (tools.customLayers){
 				var classesCustomLayers = "item";
@@ -180,7 +181,8 @@ define([
 		if (targetId) {
 			if (targetId == 'window-customviews') Ext.ComponentQuery.query('#window-customviews')[0].show();
 			if (targetId == 'window-customLayers') this.initCustomLayersWindow();
-			$('#' + targetId).toggleClass('open');
+			$('.floating-window').removeClass('active');
+			$('#' + targetId).toggleClass('open').toggleClass("active");
 			$(e.target).toggleClass('open');
 		}
 	};
@@ -219,8 +221,17 @@ define([
 	};
 
 	TopToolBar.prototype.handleShareViewClick = function(e){
-		var state = Stores.retrieve("state").currentExtended();
-		Observer.notify("PumaMain.controller.ViewMng.onShare", state);
+		var item = $(this);
+		var floater = $("#floater-sharing");
+
+		if (item.hasClass("open")){
+			item.removeClass("open");
+			floater.removeClass("open");
+		} else {
+			item.addClass("open");
+			$('.floating-window').removeClass("active");
+			floater.addClass("open active");
+		}
 	};
 
 	TopToolBar.prototype.handle3dMapClick = function(e){

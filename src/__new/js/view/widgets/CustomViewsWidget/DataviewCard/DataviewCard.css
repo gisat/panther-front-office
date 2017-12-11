@@ -1,0 +1,70 @@
+.dataview-card {
+	padding: .5rem;
+	display: flex;
+	background: white;
+	border-radius: .2rem;
+	border: 1px solid #ddd;
+	border-bottom: 2px solid #ddd;
+	border-top: 1px solid #e7e7e7;
+	min-width: 35rem;
+	margin: .3rem;
+	flex-basis: 32%;
+}
+.dataview-card-preview {
+	align-self: center;
+	flex-basis: 6rem;
+	height: 6rem;
+}
+.dataview-card-text {
+	flex: 1;
+	padding: 0 2rem 0 .8rem;
+	height: 6rem;
+	overflow: hidden;
+}
+.dataview-card-text > h3 {
+	font-size: 1.1rem;
+	color: rgb(70,75,80);
+	font-weight: 600;
+	margin-bottom: .2rem;
+}
+.dataview-card-text > p {
+	font-size: .85rem;
+	color: rgb(140,145,150);
+}
+.dataview-card-tools {
+	flex-basis: 7rem;
+	height: 6rem;
+	align-self: center;
+	align-items: flex-end;
+	display: flex;
+	flex-direction: column;
+}
+.dataview-card-buttons {
+	text-align: right;
+	padding-top: .3rem;
+	flex: 1;
+}
+.dataview-card-icons {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	height: 1.2rem;
+}
+.dataview-card-icons .fa {
+	font-size: 1.15rem;
+	margin-left: .5rem;
+	color: rgb(90,95,100);
+	cursor: pointer;
+	transition: color .3s ease-in-out;
+}
+.dataview-card-icons .fa.fa-pencil-square-o {
+	padding-top: .1rem;
+	padding-left: .1rem;
+}
+.dataview-card-icons .fa:hover {
+	color: rgb(120,125,130);
+}
+.dataview-card-icons .fa.disabled {
+	color: rgb(200,205,210);
+	pointer-events: none;
+}

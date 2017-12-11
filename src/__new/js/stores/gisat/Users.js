@@ -40,14 +40,16 @@ define([
      * @param user {Number} Id of the user to share the data with
      * @param scope {Number} Id of the scope to share with the group
      * @param places {Number[]} Array of ids of places to share with the user.
+     * @param dataviewId {Number} Id of the dataview
      */
-    Users.prototype.share = function(user, scope, places) {
+    Users.prototype.share = function(user, scope, places, dataviewId) {
         if(!user) {
             return Promise.resolve(null);
         }
 
         return $.post(Config.url + 'rest/share/user', {
-            user: user,
+			dataView: dataviewId,
+			user: user,
             scope: scope,
             places: places
         });

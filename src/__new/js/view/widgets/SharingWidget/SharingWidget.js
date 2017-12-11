@@ -1,25 +1,37 @@
 define([
+	'../../../actions/Actions',
 	'../../../stores/gisat/Groups',
 	'../../../stores/Stores',
 	'../../../stores/UrbanTepPortalStore',
     '../../../stores/gisat/Users',
     '../Widget',
 
+	'../../../util/Promise',
+
+	'jquery',
+	'string',
 	'text!./SharingWidget.html',
 	'css!./SharingWidget'
-], function (Groups,
+], function (Actions,
+			 Groups,
 			 Stores,
 			 UrbanTepPortalStore,
 			 Users,
 			 Widget,
 
-			 htmlBody) {
+			 Promise,
+
+			 $,
+			 S,
+			 SharingWidgetHtml) {
 	var SharingWidget = function (options) {
 		Widget.call(this, options);
 
 		this.build();
 
 		this._url = '';
+		this._dispatcher = options.dispatcher;
+		this._dispatcher.addListener(this.onEvent.bind(this));
 	};
 
 	SharingWidget.prototype = Object.create(Widget.prototype);
@@ -37,6 +49,7 @@ define([
 
 	SharingWidget.prototype.rebuild = function(){
 		this.handleLoading("show");
+
 		var name = $('#floater-sharing .floater-body #sharing-name').val() || '';
 		$('#floater-sharing .floater-body').empty();
 		$('#floater-sharing .floater-footer').empty();
@@ -76,7 +89,7 @@ define([
                     });
 				});
 			});
-		} else if(self.url) {
+		} else {
 			Promise.all([
 				Groups.all(),
 				Users.all()
@@ -84,43 +97,10 @@ define([
                 var groups = results[0];
 				var users = results[1];
 
-				var groupOptions = groups.map(function(group){
-					return '<option value="'+group.id+'">' + group.name + '</option>';
-				});
-				groupOptions.unshift('<option value=""></option>');
-				var userOptions = users.map(function(user){
-                    return '<option value="'+user.id+'">' + user.name + '</option>';
-                });
-                userOptions.unshift('<option value=""></option>');
-                $('#floater-sharing .floater-body').append(
-                    '<div>' +
-                    '	<div class="widget-form-row"><label><span>'+polyglot.t('userSharing')+': ' +
-                    '		</span><select id="sharing-user">' + userOptions +
-                    '		</select>' +
-                    '	</label></div>' +
-                    '	<div class="widget-form-row"><label><span>'+polyglot.t('groupSharing')+': ' +
-                    '		</span><select id="sharing-group">' + groupOptions +
-                    '		</select>' +
-                    '	</label></div>' +
-                    '</div>'
-                );
-                $('#floater-sharing .floater-footer').append('<div class="widget-button w8" id="sharing">'+polyglot.t('share')+'</div>');
+                self.addWidgetContent(groups, users);
 
 				self.handleLoading("hide");
-                $('#sharing').off();
-                $('#sharing').on('click', function(){
-                    var selectedGroup = $( "#floater-sharing .floater-body #sharing-group option:checked" ).val();
-                    var selectedUser = $( "#floater-sharing .floater-body #sharing-user option:checked" ).val();
-                    var state = Stores.retrieve("state").current();
-                    Promise.all([
-                    	Groups.share(selectedGroup, state.scope, state.places),
-						Users.share(selectedUser, state.scope, state.places)
-					]).then(function(){
-						alert(polyglot.t('theStateWasCorrectlyShared') + self.url);
-					}).catch(function(error){
-						alert(polyglot.t('thereWasAnIssueWithSharing') + error);
-					});
-                });
+                self.addShareOnClickListener();
 			}).catch(function(error){
 				console.error(error);
 				alert(polyglot.t('itWasntPossibleToLoadGroupsUsers') + error);
@@ -130,15 +110,108 @@ define([
 		}
 	};
 
+	/**
+	 * Add content to widget body and footer
+	 * @param groups
+	 * @param users
+	 */
+	SharingWidget.prototype.addWidgetContent = function(groups, users){
+		var groupOptions = groups.map(function(group){
+			return '<option value="'+group.id+'">' + group.name + '</option>';
+		});
+		groupOptions.unshift('<option value=""></option>');
+		var userOptions = users.map(function(user){
+			return '<option value="'+user.id+'">' + user.name + '</option>';
+		});
+		userOptions.unshift('<option value=""></option>');
+
+
+		var content = S(SharingWidgetHtml).template({
+			dataviewMetadataTitle: polyglot.t('sharingMetadataTitle'),
+			dataviewMetadataDescription: polyglot.t('sharingMetadataDescription'),
+			nameLabel: polyglot.t('sharingNameLabel'),
+			descriptionLabel: polyglot.t('sharingDescriptionLabel'),
+			permissionsTitle: polyglot.t('sharingPermissionsTitle'),
+			permissionsDescription: polyglot.t('sharingPermissionsDescription'),
+			userLabel: polyglot.t('sharingUserLabel'),
+			userOptions: userOptions,
+			groupLabel: polyglot.t('sharingGroupLabel'),
+			groupOptions: groupOptions
+		}).toString();
+
+		$('#floater-sharing .floater-body').append(content);
+		$('#floater-sharing .floater-footer').append('<div class="widget-button w8" id="sharing">Share</div>');
+	};
+
+	/**
+	 * Add on click listener to Share button. It collects information for sharing, adjust user/group permissions and generate share link.
+	 */
+	SharingWidget.prototype.addShareOnClickListener = function(){
+		$('#sharing').off().on('click', function(){
+			var name = $( "#floater-sharing .floater-body #sharing-name" ).val();
+			var description = $( "#floater-sharing .floater-body #sharing-description" ).val();
+			var state = Stores.retrieve("state").currentExtended();
+
+			Observer.notify("PumaMain.controller.ViewMng.onShare", {
+				state: state,
+				name: name,
+				description: description
+			});
+		});
+	};
+
+	/**
+	 * Show url on share click
+	 * @param options {Object}
+	 */
+	SharingWidget.prototype.showUrl = function(options){
+		var selectedGroup = $( "#floater-sharing .floater-body #sharing-group option:checked" ).val();
+		var selectedUser = $( "#floater-sharing .floater-body #sharing-user option:checked" ).val();
+		var minimiseBtn = this._widgetSelector.find(".widget-minimise");
+		var state = Stores.retrieve("state").currentExtended();
+		var self = this;
+		Promise.all([
+			Groups.share(selectedGroup, state.scope, state.places, options.dataviewId),
+			Users.share(selectedUser, state.scope, state.places, options.dataviewId)
+		]).then(function(){
+			self._url = options.url + '&needLogin=true';
+			alert(polyglot.t('theStateWasCorrectlyShared') + self._url);
+			minimiseBtn.trigger("click");
+			self.rebuild();
+		}).catch(function(error){
+			alert(polyglot.t('thereWasAnIssueWithSharing') + error);
+		});
+	};
+
+	/**
+	 * Add minimise on click listener
+	 */
 	SharingWidget.prototype.build = function() {
 		this.handleLoading("hide");
 
-		$(this._widgetSelector).find(".widget-minimise").off();
-		$(this._widgetSelector).find(".widget-minimise").on("click", function(){
-			$('#floater-sharing').hide();
+		var self = this;
+		this._widgetSelector.find(".widget-minimise").off().on("click", function(){
+			var item = $('#top-toolbar-share-view');
+			if (self._widgetSelector.hasClass("open")){
+				item.removeClass("open");
+				self._widgetSelector.removeClass("open");
+			} else {
+				item.addClass("open");
+				self._widgetSelector.addClass("open");
+			}
 		});
 
 		this.rebuild();
+	};
+
+	/**
+	 * @param type {string} type of event
+	 * @param options {Object|string}
+	 */
+	SharingWidget.prototype.onEvent = function(type, options){
+		if (type === Actions.sharingUrlReceived){
+			this.showUrl(options);
+		}
 	};
 
 	return SharingWidget;

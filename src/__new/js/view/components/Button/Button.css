@@ -1,16 +1,16 @@
 .component-button {
-	border: 2px solid #434254;
+	border: 2px solid rgb(90,95,100);
 	border-radius: .15rem;
-	color: #434254;
+	color: rgb(70,75,80);
 	cursor: pointer;
-	font-size: .85rem;
-	font-weight: 700;
+	font-size: .9rem;
+	font-weight: 600;
 	line-height: 1.8rem;
 	transition: background .3s ease-in-out;
 	width: 8rem;
 }
 .component-button:hover {
-	background: rgba(67,66,84,.15);
+	background: rgba(90,95,100,.15);
 }
 
 /* text */
@@ -18,7 +18,7 @@
 	text-align: center;
 }
 .component-button.text-small {
-	font-size: .75rem;
+	font-size: .8rem;
 	line-height: 1.6rem;
 }
 
