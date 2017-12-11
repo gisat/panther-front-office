@@ -25,6 +25,7 @@ define(['../../../../error/ArgumentError',
 	var BackgroundLayersPanel = function(options){
 		WorldWindWidgetPanel.apply(this, arguments);
 
+		this.layerControls = [];
         this.rebuild();
 
         var self = this;
@@ -36,10 +37,6 @@ define(['../../../../error/ArgumentError',
 	BackgroundLayersPanel.prototype = Object.create(WorldWindWidgetPanel.prototype);
 
     BackgroundLayersPanel.prototype.rebuild = function() {
-        this.clear(this._id);
-
-        this.layerControls = [];
-
         var scope = Stores.retrieve("state").current().scopeFull;
         this.addLayerControls(scope);
         this.addEventsListeners();
@@ -51,34 +48,60 @@ define(['../../../../error/ArgumentError',
 	 */
 	BackgroundLayersPanel.prototype.addLayerControls = function(scope){
 		var disabledLayers = (scope && scope['disabledLayers']) || {};
-		var activeBackgroundMap = (scope && scope['activeBackgroundMap']) || 'osm';
-		if(!disabledLayers['osm']) {
-            this.layerControls.push({
-                id: "osm",
-                control: this.addRadio(this._id + "-osm", polyglot.t("openStreetMap"), this._panelBodySelector, "osm", activeBackgroundMap === 'osm')
-            });
-        }
+		var activeBackgroundMap = (scope && scope['activeBackgroundMap']) || this.getValidBackground(disabledLayers);
 
-        if(!disabledLayers['cartoDb']) {
-            this.layerControls.push({
-                id: "cartoDb",
-                control: this.addRadio(this._id + "-carto-db", polyglot.t("cartoDbBasemap"), this._panelBodySelector, "cartoDb", activeBackgroundMap === 'cartoDb')
-            });
-        }
+		this.toggleLayerWithControl('osm', 'openStreetMap', disabledLayers, activeBackgroundMap);
+		this.toggleLayerWithControl('cartoDb', 'cartoDbBasemap', disabledLayers, activeBackgroundMap);
+		this.toggleLayerWithControl('bingAerial', 'bingAerial', disabledLayers, activeBackgroundMap);
+		this.toggleLayerWithControl('landsat', 'blueMarble', disabledLayers, activeBackgroundMap);
+	};
 
-        if(!disabledLayers['bingAerial']) {
-            this.layerControls.push({
-                id: "bingAerial",
-                control: this.addRadio(this._id + "-bing-aerial", polyglot.t("bingAerial"), this._panelBodySelector, "bingAerial", activeBackgroundMap === 'bingAerial')
-            });
-        }
+	BackgroundLayersPanel.prototype.toggleLayerWithControl = function(id, name, disabledLayers, activeBackgroundMap) {
+		if(this.containsLayerWithId(this.layerControls, id)) {
+			// Decide whether to remove
+			if(disabledLayers[id]) {
+				this.removeLayerWithControl(this.layerControls, id);
+			}
+		} else {
+			// Decide whether to add
+			if(!disabledLayers[id]) {
+				this.layerControls.push({
+					id: id,
+					control: this.addRadio(this._id + "-" + id, polyglot.t(name), this._panelBodySelector, id, activeBackgroundMap === id)
+				});
+			}
+		}
+	};
 
-        if(!disabledLayers['landsat']) {
-            this.layerControls.push({
-                id: "landsat",
-                control: this.addRadio(this._id + "-landsat", polyglot.t("blueMarble"), this._panelBodySelector, "landsat", activeBackgroundMap === 'landsat')
-            })
-        }
+	BackgroundLayersPanel.prototype.removeLayerWithControl = function(layers, id) {
+		layers.forEach(function(layer, index){
+			if(layer.id === id) {
+				this._mapStore.getAll().forEach(function(map){
+					map.layers.removeLayer(map.layers.getLayerById(id), false);
+				});
+				// Remove the control for the layer.
+				$('#' +  layer.control._id).remove();
+				layers.splice(index, 1);
+			}
+		}.bind(this));
+	};
+
+	BackgroundLayersPanel.prototype.getValidBackground = function(disabledLayers) {
+		var activeBackgroundMapPriorities = ['osm', 'cartoDb', 'bingAerial', 'landsat'];
+		var result = null;
+
+		activeBackgroundMapPriorities.forEach(function(id){
+			if(!result && !disabledLayers[id]) {
+				result = id;
+			}
+		});
+		return result;
+	};
+
+	BackgroundLayersPanel.prototype.containsLayerWithId = function(layerControls, id) {
+		return layerControls.filter(function(control){
+			return control.id === id;
+		}).length > 0;
 	};
 
     /**
