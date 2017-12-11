@@ -27,8 +27,8 @@ define([
 	 * @param options.onClick {function}
 	 * @param [options.classes] {string} Optional parameter. Additional classes.
 	 * @param [options.title] {string} Optional parameter.
-	 * @param [options.textCentered] {string} Optional parameter.
-	 * @param [options.textSmall] {string} Optional parameter.
+	 * @param [options.textCentered] {boolean} Optional parameter.
+	 * @param [options.textSmall] {boolean} Optional parameter.
 	 */
 	var Button = function(options){
 		if (!options.id){

@@ -2,6 +2,8 @@ define(['../../../../actions/Actions',
 	'../../../../error/ArgumentError',
 	'../../../../util/Logger',
 
+	'../../../components/Button/Button',
+
 	'jquery',
 	'string',
 	'text!./DataviewCard.html',
@@ -9,6 +11,9 @@ define(['../../../../actions/Actions',
 ], function(Actions,
 			ArgumentError,
 			Logger,
+
+			Button,
+
 			$,
 			S,
 			DataviewCardHtml){
@@ -43,8 +48,31 @@ define(['../../../../actions/Actions',
 		}).toString();
 		this._target.append(html);
 		this._cardSelector = $("#dataview-card-" + this._id);
+
 		this._cardPreviewSelector = this._cardSelector.find(".dataview-card-preview");
 		this._cardPreviewSelector.css("background", this._preview.color);
+
+		this._cardShowButton = this.buildShowButton();
+	};
+
+	/**
+	 * Build button for show the dataview
+	 * @returns {Button}
+	 */
+	DataviewCard.prototype.buildShowButton = function(){
+		return new Button({
+			id: "dataview-card-" + this._id + "-button-show",
+			containerSelector: this._cardSelector.find(".dataview-card-buttons"),
+			text: "Show",
+			onClick: this.onShowButtonClick.bind(this),
+			textCentered: true,
+			textSmall: true,
+			classes: "w6"
+		});
+	};
+
+	DataviewCard.prototype.onShowButtonClick = function(){
+		alert("click")
 	};
 
 	return DataviewCard;
