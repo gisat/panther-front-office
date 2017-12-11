@@ -42,10 +42,13 @@ define([
 			addLayer: true,
 			customViews: true,
 			customLayers: true,
-			functionalFilrer: true
+			functionalFilrer: false
 		};
 
 
+		if (Config.toggles.hasFunctionalUrbanArea){
+			tools.functionalFilrer = true;
+		}
 		if (Config.toggles.hasPeriodsWidget){
 			tools.periods = true;
 		}
