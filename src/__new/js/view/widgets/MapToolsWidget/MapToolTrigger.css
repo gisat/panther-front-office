@@ -21,7 +21,7 @@
 	flex: 1;
 }
 .map-tool-trigger-label-title {
-	color: #555;
+	color: rgb(70,75,80);
 	font-size: .85rem;
 	padding: 0 .2rem;
 }
@@ -36,7 +36,7 @@
 	height: 1.1rem;
 }
 .map-tool-icon-svg path {
-	fill: #777;
+	fill: rgb(90,95,100);
 }
 
 /* tool toggle */
@@ -65,7 +65,7 @@
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background-color: #ccc;
+	background-color: rgb(180,185,190);
 	-webkit-transition: .4s;
 	transition: .4s;
 }
