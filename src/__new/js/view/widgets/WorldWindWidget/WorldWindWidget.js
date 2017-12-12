@@ -153,7 +153,7 @@ define([
 			self.toggleComponents("block");
 		} else {
 			body.addClass("mode-3d");
-			self._widgetSelector.addClass("open");
+			// self._widgetSelector.addClass("open");
 			self.toggleComponents("none");
 			self.rebuild();
 		}
