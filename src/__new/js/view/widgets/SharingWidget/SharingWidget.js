@@ -101,7 +101,6 @@ define([
 
                 self.addWidgetContent(groups, users);
 				self.handleLoading("hide");
-                self.addShareOnClickListener();
 			}).catch(function(error){
 				console.error(error);
 				alert(polyglot.t('itWasntPossibleToLoadGroupsUsers') + error);
@@ -141,7 +140,8 @@ define([
 			groupOptions: groupOptions
 		}).toString();
 
-		$('#floater-sharing .floater-body').append(content);
+		$('#floater-sharing .floater-body').html(content);
+		$('#floater-sharing .floater-footer').empty();
 		this.buildSaveButton();
 	};
 
