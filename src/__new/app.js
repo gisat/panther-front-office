@@ -1,6 +1,6 @@
 requirejs.config({
     baseUrl: './__new',
-	waitSeconds: 0,
+	waitSeconds: 200,
 
     paths: {
         'css': 'lib/css.min',
