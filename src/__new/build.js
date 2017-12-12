@@ -1,5 +1,6 @@
 ({
     baseUrl: ".",
+	waitSeconds: 0,
     paths: {
         'css': 'lib/css.min',
         'css-builder': 'lib/css-builder',
