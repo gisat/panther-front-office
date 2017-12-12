@@ -10,6 +10,7 @@ define(['../../../actions/Actions',
 	'../Widget',
 
 	'jquery',
+	'underscore',
 	'text!./CustomViewsWidget.html',
 	'css!./CustomViewsWidget'
 ], function(Actions,
@@ -24,6 +25,7 @@ define(['../../../actions/Actions',
 			Widget,
 
 			$,
+			_,
 			CustomViewsHtml){
 
 	/**
@@ -58,24 +60,28 @@ define(['../../../actions/Actions',
 	 * @param data {Array}
 	 */
 	CustomViewsWidget.prototype.redraw = function(data){
-		this.handleLoading("hide");
 		this._widgetBodySelector.html('<div class="custom-views-content"></div>');
-		var self = this;
-		data.forEach(function(dataview){
-			var data = self.prepareDataForCard(dataview);
-			new DataviewCard({
-				id: data.id,
-				url: data.url,
-				name: data.name,
-				description: data.description,
-				dispatcher: self._dispatcher,
-				preview: data.preview,
-				target: self._widgetBodySelector.find(".custom-views-content")
-			});
-		});
 		if (data.length === 0){
 			this._widgetSelector.find(".widget-minimise").trigger("click");
+		} else {
+			var sortedData = _.sortBy(data, function(d){
+				return - (new Date(d.date).getTime());
+			});
+			var self = this;
+			sortedData.forEach(function(dataview){
+				var data = self.prepareDataForCard(dataview);
+				new DataviewCard({
+					id: data.id,
+					url: data.url,
+					name: data.name,
+					description: data.description,
+					dispatcher: self._dispatcher,
+					preview: data.preview,
+					target: self._widgetBodySelector.find(".custom-views-content")
+				});
+			});
 		}
+		this.handleLoading("hide");
 	};
 
 	/**
