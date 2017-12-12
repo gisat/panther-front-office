@@ -139,8 +139,8 @@ define([
 			groupOptions: groupOptions
 		}).toString();
 
-		$('#floater-sharing .floater-body').append(content);
-		$('#floater-sharing .floater-footer').append('<div class="widget-button w8" id="sharing">Share</div>');
+		$('#floater-sharing .floater-body').html(content);
+		$('#floater-sharing .floater-footer').html('<div class="widget-button w8" id="sharing">Share</div>');
 	};
 
 	/**
