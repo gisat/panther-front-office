@@ -103,8 +103,9 @@ body.application .floater.only-3d.open {
 body.mode-3d .floater.only-3d.open {
     display: block;
 }
+.floater.expanded {
 
-
+}
 .floater.active {
     z-index: 10001;
 }
