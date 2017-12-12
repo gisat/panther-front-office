@@ -17,6 +17,9 @@ define(['./Model'], function(Model){
 			},
 			data: {
 				serverName: 'conf'
+			},
+			date: {
+				serverName: 'changed'
 			}
 		};
 	};

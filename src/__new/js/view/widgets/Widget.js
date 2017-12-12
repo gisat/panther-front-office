@@ -38,6 +38,7 @@ define(['../../error/ArgumentError',
      * @param {string} [options.name] - Optional parameter. Name of the widget
      * @param {boolean} [options.isFloaterExtAlike] - Optional parameter. If true, floater will look like Ext window
      * @param {boolean} [options.isOpen] - Optional parameter. If true, floater is open by default
+	 * @param {boolean} [options.isExpanded] - Optional parameter. If true, floater is expanded by default
      * @param {boolean} [options.isWithoutFooter] - Optional parameter. If true, floater is rendered without footer
 	 * @param {boolean} [options.is3dOnly] - Optional parameter. If true, floater will be visible in 3D mode only
 	 * @param {boolean} [options.is2dOnly] - Optional parameter. If true, floater will be visible in 2D mode only
@@ -54,6 +55,7 @@ define(['../../error/ArgumentError',
 		this._widgetId = options.elementId;
         this._isFloaterExtAlike = options.isFloaterExtAlike;
         this._isOpen = options.isOpen;
+		this._isExpanded = options.isExpanded;
 		this._isWithoutFooter = options.isWithoutFooter;
 		this._is2dOnly = options.is2dOnly;
 		this._is3dOnly = options.is3dOnly;
@@ -105,6 +107,10 @@ define(['../../error/ArgumentError',
 
 		if (this._is3dOnly){
 			floaterClass += " only-3d";
+		}
+
+		if (this._isExpanded){
+			floaterClass += " expanded";
 		}
 
 		var floater = S(WidgetFloater).template({

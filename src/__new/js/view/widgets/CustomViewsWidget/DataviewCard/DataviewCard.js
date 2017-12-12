@@ -57,6 +57,8 @@ define(['../../../../actions/Actions',
 		this._cardPreviewSelector.css("background", this._preview.color);
 
 		this._cardShowButton = this.buildShowButton();
+
+		this.addOnShowUrlClickListener();
 	};
 
 	/**
@@ -83,6 +85,14 @@ define(['../../../../actions/Actions',
 
 		// TODO upgrade this provisional solution
 		window.location = this._url;
+	};
+
+	DataviewCard.prototype.addOnShowUrlClickListener = function(){
+		var self = this;
+		this._cardSelector.find(".fa-link").off("click.customViewLink").on("click.customViewLink", function(){
+			// todo better popup window
+			window.alert(self._url);
+		});
 	};
 
 	return DataviewCard;

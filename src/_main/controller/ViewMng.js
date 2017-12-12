@@ -414,6 +414,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 			// dataview metadata
 			cfg.name = options.name;
 			cfg.description = options.description;
+			cfg.language = options.language || "en";
 
 			// world wind map settings
 			if (options.state && options.state.worldWindNavigator){
