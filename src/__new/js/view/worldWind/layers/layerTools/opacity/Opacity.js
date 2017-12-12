@@ -68,7 +68,7 @@ define(['../../../../../error/ArgumentError',
 	Opacity.prototype.buildSlider = function(){
 		return new SliderBox({
 			id: this._id + "-slider",
-			name: "Opacity",
+			name: polyglot.t("opacity"),
 			target: this._floaterBodySelector,
 			isRange: false,
 			range: [0,100],

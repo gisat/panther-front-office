@@ -55,8 +55,8 @@ define(['../../../../../error/ArgumentError',
 	 * Build an opacity control - icon and floater. Attach listeners.
 	 */
 	LayerOpacity.prototype.build = function(){
-		this._icon = this.buildIcon("Opacity", "opacity-icon", "opacity");
-		this._floater = this.buildFloater("Opacity", "opacity-floater");
+		this._icon = this.buildIcon(polyglot.t("opacity"), "opacity-icon", "opacity");
+		this._floater = this.buildFloater(polyglot.t("opacity"), "opacity-floater");
 
 		this._iconSelector = this._icon.getElement();
 		this._floaterSelector = this._floater.getElement();
@@ -82,7 +82,7 @@ define(['../../../../../error/ArgumentError',
 	LayerOpacity.prototype.buildSlider = function(){
 		return new SliderBox({
 			id: this._id + "-slider",
-			name: "Opacity",
+			name: polyglot.t("opacity"),
 			target: this._floaterBodySelector,
 			isRange: false,
 			range: [0,100],
