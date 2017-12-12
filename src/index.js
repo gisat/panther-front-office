@@ -47,7 +47,8 @@ if (configuration == 'development') {
             $('#content #content-application .scope .label').text(polyglot.t('scope'));
             $('#content #content-application .place .label').text(polyglot.t('place'));
             $('#content #content-application .theme .label').text(polyglot.t('theme'));
-            $('#content #content-application .visualization .label').text(polyglot.t('visualization'));
+			$('#content #content-application .period .label').text(polyglot.t('year'));
+			$('#content #content-application .visualization .label').text(polyglot.t('visualization'));
             $('#content #content-application #top-toolbar #top-toolbar-tools #top-toolbar-snapshot').attr('title', polyglot.t('takeMapSnapshot'));
             $('#content #content-application #top-toolbar #top-toolbar-tools #top-toolbar-share-view').attr('title', polyglot.t('shareView'));
             $('#content #content-application #top-toolbar #top-toolbar-tools #top-toolbar-context-help').attr('title', polyglot.t('contextHelp'));
@@ -114,6 +115,7 @@ if (configuration == 'development') {
             $('#content #content-application .scope .label').text(polyglot.t('scope'));
             $('#content #content-application .place .label').text(polyglot.t('place'));
             $('#content #content-application .theme .label').text(polyglot.t('theme'));
+			$('#content #content-application .period .label').text(polyglot.t('year'));
             $('#content #content-application .visualization .label').text(polyglot.t('visualization'));
             $('#content #content-application #top-toolbar #top-toolbar-tools #top-toolbar-snapshot').attr('title', polyglot.t('takeMapSnapshot'));
             $('#content #content-application #top-toolbar #top-toolbar-tools #top-toolbar-share-view').attr('title', polyglot.t('shareView'));
