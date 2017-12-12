@@ -108,6 +108,9 @@ define([
 			}
 			if (tools.customViews){
 				var classesCustomViews3d = Config.auth ? "item" : "item hidden";
+				if (!Config.auth){
+					$('#floater-custom-views-widget').removeClass('open')
+				}
 				classesCustomViews3d += $('#floater-custom-views-widget').hasClass('open') ? " open" : "";
 				this._target.append('<div class="' + classesCustomViews3d + '" id="top-toolbar-saved-views" data-for="floater-custom-views-widget">'+polyglot.t('customViews')+'</div>');
 			}
@@ -145,6 +148,9 @@ define([
 			}
 			if (tools.customViews){
 				var classesCustomViews = Config.auth ? "item" : "item hidden";
+				if (!Config.auth){
+					$('#floater-custom-views-widget').removeClass('open')
+				}
 				classesCustomViews += $('#floater-custom-views-widget').hasClass('open') ? " open" : "";
 				this._target.append('<div class="' + classesCustomViews + '" id="top-toolbar-saved-views" data-for="floater-custom-views-widget">'+polyglot.t('customViews')+'</div>');
 			}

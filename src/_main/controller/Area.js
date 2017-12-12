@@ -139,11 +139,9 @@ Ext.define('PumaMain.controller.Area', {
 		Observer.notify('rebuild');
 		console.log('Area#newNotifyCahnge hide');
 		var self = this;
-		if (!$('body').hasClass("mode-3d")){
-			window.setTimeout(function(){
-				self.showLoading("none");
-			}, 5000);
-		}
+		window.setTimeout(function(){
+			self.showLoading("none");
+		}, 5000);
 	},
 	
 	onShowMoreDetailed: function() {

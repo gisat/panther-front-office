@@ -7,5 +7,11 @@
 }
 #floater-sharing .floater-body {
 	padding: 1rem 1rem 1rem .5rem;
-	height: calc(100% - 5.5rem);
+	height: calc(100% - 5.3rem);
+}
+#floater-sharing .floater-footer {
+	border-top: 2px solid #ddd;
+	padding: .5rem;
+	height: 3rem;
+	background: rgba(233,235,237,1);
 }

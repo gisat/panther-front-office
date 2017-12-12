@@ -6,6 +6,7 @@ define([
     '../../../stores/gisat/Users',
     '../Widget',
 
+	'../../components/Button/Button',
 	'../../../util/Promise',
 
 	'jquery',
@@ -19,6 +20,7 @@ define([
 			 Users,
 			 Widget,
 
+			 Button,
 			 Promise,
 
 			 $,
@@ -98,7 +100,6 @@ define([
 				var users = results[1];
 
                 self.addWidgetContent(groups, users);
-
 				self.handleLoading("hide");
                 self.addShareOnClickListener();
 			}).catch(function(error){
@@ -131,6 +132,7 @@ define([
 			dataviewMetadataDescription: polyglot.t('sharingMetadataDescription'),
 			nameLabel: polyglot.t('sharingNameLabel'),
 			descriptionLabel: polyglot.t('sharingDescriptionLabel'),
+			langLabel: polyglot.t('sharingLangLabel'),
 			permissionsTitle: polyglot.t('sharingPermissionsTitle'),
 			permissionsDescription: polyglot.t('sharingPermissionsDescription'),
 			userLabel: polyglot.t('sharingUserLabel'),
@@ -139,24 +141,40 @@ define([
 			groupOptions: groupOptions
 		}).toString();
 
-		$('#floater-sharing .floater-body').html(content);
-		$('#floater-sharing .floater-footer').html('<div class="widget-button w8" id="sharing">Share</div>');
+		$('#floater-sharing .floater-body').append(content);
+		this.buildSaveButton();
 	};
 
 	/**
-	 * Add on click listener to Share button. It collects information for sharing, adjust user/group permissions and generate share link.
+	 * Build button for save the dataview
+	 * @returns {Button}
 	 */
-	SharingWidget.prototype.addShareOnClickListener = function(){
-		$('#sharing').off().on('click', function(){
-			var name = $( "#floater-sharing .floater-body #sharing-name" ).val();
-			var description = $( "#floater-sharing .floater-body #sharing-description" ).val();
-			var state = Stores.retrieve("state").currentExtended();
+	SharingWidget.prototype.buildSaveButton = function(){
+		return new Button({
+			id: "sharing",
+			containerSelector: this._widgetSelector.find(".floater-footer"),
+			text: polyglot.t("share"),
+			onClick: this.onShareClick.bind(this),
+			textCentered: true,
+			textSmall: true,
+			classes: "w6"
+		});
+	};
 
-			Observer.notify("PumaMain.controller.ViewMng.onShare", {
-				state: state,
-				name: name,
-				description: description
-			});
+	/**
+	 * Execute on share button click
+	 */
+	SharingWidget.prototype.onShareClick = function(){
+		var name = $( "#floater-sharing .floater-body #sharing-name" ).val();
+		var description = $( "#floater-sharing .floater-body #sharing-description" ).val();
+		var language = $( "#floater-sharing .floater-body #sharing-lang option:checked" ).val();
+		var state = Stores.retrieve("state").currentExtended();
+
+		Observer.notify("PumaMain.controller.ViewMng.onShare", {
+			state: state,
+			name: name,
+			language: language,
+			description: description
 		});
 	};
 
@@ -174,7 +192,7 @@ define([
 			Groups.share(selectedGroup, state.scope, state.places, options.dataviewId),
 			Users.share(selectedUser, state.scope, state.places, options.dataviewId)
 		]).then(function(){
-			self._url = options.url + '&needLogin=true';
+			self._url = options.url + '&needLogin=true&lang=' + $( "#floater-sharing .floater-body #sharing-lang option:checked" ).val();
 			alert(polyglot.t('theStateWasCorrectlyShared') + self._url);
 			minimiseBtn.trigger("click");
 			self.rebuild();
