@@ -482,9 +482,9 @@ define([
         }
 
         if (count > 0){
-            var areasName = "areas";
+            var areasName = polyglot.t("areas");
             if (count == 1){
-                areasName = "area";
+                areasName = polyglot.t("area");
             }
             $('#evaluation-confirm').html(polyglot.t("select") + " " + count + " " + areasName)
                 .removeClass("hidden")
