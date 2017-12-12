@@ -1,4 +1,4 @@
-/* === Placeholders === */
+/* === Placeholders === TODO obsolete?*/
 .placeholders-container {
     height: 6.5rem;
     position: absolute;
@@ -34,40 +34,27 @@
     background: #ad2738;
 }
 
-.placeholder > span, .floater-header > span {
+.placeholder > span {
     color: white;
     font-size: .7rem;
     font-weight: bold;
     line-height: 1.4rem;
     padding: 0 .5rem;
 }
-.floater-header > span {
-    font-size: 1rem;
-    font-weight: 500;
-    line-height: 1.6rem;
-}
-
-.placeholder-tools-container, .floater-tools-container, .tool-window-tools-container {
+.placeholder-tools-container {
     position: absolute;
     right: 0;
     top: 0;
     height: 1.5rem;
 }
-.floater-tools-container, .tool-window-tools-container {
-    height: 2rem;
-}
 
-.placeholder-tool, .floater-tool {
+.placeholder-tool {
     float: right;
     height: 1.3rem;
     margin: .15rem .15rem .15rem 0;
     position: relative;
     width: 1.3rem;
 }
-.floater-tool {
-    margin: .3rem .3rem .3rem 0;
-}
-
 .placeholder-tool > img, .floater-tool > img {
     margin: .1rem;
 }
@@ -109,66 +96,87 @@ body.mode-3d .floater.only-3d.open {
 .floater.active {
     z-index: 10001;
 }
-.floater-overlay {
-    display: none;
-    height: 100%;
-    width: 100%;
-    background: rgba(255,255,255,.9);
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 9999;
-}
+
+/* floater header */
 .floater-header {
     background: rgba(201,45,66,.9);
     height: 2.3rem;
     line-height: 2.4rem;
+    padding: 0 .5rem;
     position: relative;
     cursor: move;
+    display: flex;
 }
 .floater.inverse .floater-header {
     background: rgba(255,255,255,.9);
     color: #444;
 }
-.floater.inverse .floater-header > span {
+.floater.inverse .floater-header-title {
     color: #444;
 }
+.floater.inverse .floater-tool .fa {
+    color: #666;
+}
+
+.floater-header-title {
+    color: #eee;
+    flex: 1;
+    font-size: 1rem;
+    font-weight: 600;
+}
+.floater-tools-container {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+.floater-tool {
+    display: flex;
+    margin-left: .2rem;
+    cursor: pointer;
+}
+.floater-tool:hover {
+}
+.floater-tool .fa {
+    color: #eee;
+}
+.floater-tool > .fa {
+    font-size: 1.15rem;
+}
+.floater-tool .fa-stack {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.floater-tool .fa-stack .fa-stack-2x {
+    font-size: 1.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 3px;
+}
+.floater-tool .fa-stack .fa-stack-1x {
+    font-size: .45rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 2px;
+}
+
+/* floater body */
 .floater-body {
     padding: .5rem;
     height: calc(100% - 5rem);
     overflow: auto;
 }
-.floater-warning {
-    display: none;
-    background: white;
-    position: absolute;
-    height: calc(100% - 2.7rem);
-    z-index: 10;
-    padding: .5rem;
-}
-
-.floater-footer {
-    border-top: 2px solid #ccc;
-    padding: .5rem;
-    height: 3rem;
-}
-
 .floater-row {
     width: 100%;
 }
-
 .floater-row > .floater-row-caption {
     font-size: .8rem;
     font-weight: 700;
     color: #666;
     margin-bottom: .3rem;
 }
-
-.floater-footer > .floater-row {
-    margin-bottom: .5rem;
-    text-align: center;
-}
-
 .floater-row a {
     display: block;
     height: 1.5rem;
@@ -183,8 +191,35 @@ body.mode-3d .floater.only-3d.open {
     vertical-align: middle;
 }
 
-.floater-tool:hover {
-    cursor: pointer;
+/* floater footer */
+.floater-footer {
+    border-top: 2px solid #ccc;
+    padding: .5rem;
+    height: 3rem;
+}
+.floater-footer > .floater-row {
+    margin-bottom: .5rem;
+    text-align: center;
+}
+
+.floater-overlay {
+    display: none;
+    height: 100%;
+    width: 100%;
+    background: rgba(255,255,255,.9);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+
+.floater-warning {
+    display: none;
+    background: white;
+    position: absolute;
+    height: calc(100% - 2.7rem);
+    z-index: 10;
+    padding: .5rem;
 }
 
 /* tabs */

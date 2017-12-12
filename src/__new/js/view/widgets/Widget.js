@@ -38,6 +38,7 @@ define(['../../error/ArgumentError',
      * @param {string} [options.name] - Optional parameter. Name of the widget
      * @param {boolean} [options.isFloaterExtAlike] - Optional parameter. If true, floater will look like Ext window
      * @param {boolean} [options.isOpen] - Optional parameter. If true, floater is open by default
+	 * @param {boolean} [options.isExpandable] - Optional parameter. If true, floater could be expanded
 	 * @param {boolean} [options.isExpanded] - Optional parameter. If true, floater is expanded by default
      * @param {boolean} [options.isWithoutFooter] - Optional parameter. If true, floater is rendered without footer
 	 * @param {boolean} [options.is3dOnly] - Optional parameter. If true, floater will be visible in 3D mode only

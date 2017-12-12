@@ -496,6 +496,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 			name: polyglot.t("customViews"),
 			isWithoutFooter: true,
 			isExpanded: true,
+			isExpandable: true,
 			dispatcher: window.Stores
 		})
 	}

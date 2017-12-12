@@ -225,7 +225,7 @@ define([
         var tool = "settings";
         var name = polyglot.t("settings");
         this._widgetSelector.find(".floater-tools-container").append('<div title="'+ name +'" class="floater-tool widget-'+ tool +'">' +
-            '<img alt="' + name + '" src="__new/img/'+ tool +'.png"/>' +
+			'<i class="fa fa-cog"></i>' +
             '</div>');
         this.addSettingsListener();
 

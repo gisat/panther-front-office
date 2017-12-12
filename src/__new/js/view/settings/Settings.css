@@ -47,6 +47,12 @@
 .tool-window-header .window-close:hover {
 	cursor: pointer;
 }
+.tool-window-tools-container {
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 100%;
+}
 
 /* body */
 .tool-window-body {
