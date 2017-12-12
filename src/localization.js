@@ -373,7 +373,7 @@ var langCz = {
     allOptions: "Všechny možnosti",
     allPlaces: "Všechna místa",
     analysis: "Analýza",
-    analyticalUnits: "Analztické jednotky",
+    analyticalUnits: "Analytické jednotky",
     analyticalUnitsLayers: "Vrstvy analytických jednotek",
     anonymous: "Anonymní ",
     apply: "Použít",
