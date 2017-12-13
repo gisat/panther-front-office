@@ -76,27 +76,6 @@
     z-index: 10000;
 }
 
-/* floater modes*/
-body.application .floater.open {
-    display: block;
-    height: 28rem;
-}
-body.mode-3d .floater.only-2d.open {
-    display: none;
-}
-body.application .floater.only-3d.open {
-    display: none;
-}
-body.mode-3d .floater.only-3d.open {
-    display: block;
-}
-.floater.expanded {
-
-}
-.floater.active {
-    z-index: 10001;
-}
-
 /* floater header */
 .floater-header {
     background: rgba(201,45,66,.9);
@@ -107,17 +86,6 @@ body.mode-3d .floater.only-3d.open {
     cursor: move;
     display: flex;
 }
-.floater.inverse .floater-header {
-    background: rgba(255,255,255,.9);
-    color: #444;
-}
-.floater.inverse .floater-header-title {
-    color: #444;
-}
-.floater.inverse .floater-tool .fa {
-    color: #666;
-}
-
 .floater-header-title {
     color: #eee;
     flex: 1;
@@ -131,10 +99,15 @@ body.mode-3d .floater.only-3d.open {
 }
 .floater-tool {
     display: flex;
-    margin-left: .2rem;
+    justify-content: center;
+    align-items: center;
+    width: 1.7rem;
+    height: 100%;
     cursor: pointer;
+    transition: background .3s ease-in-out;
 }
 .floater-tool:hover {
+    background: rgba(255,255,255,.15);
 }
 .floater-tool .fa {
     color: #eee;
@@ -148,18 +121,30 @@ body.mode-3d .floater.only-3d.open {
     position: relative;
 }
 .floater-tool .fa-stack .fa-stack-2x {
-    font-size: 1.3rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    top: 3px;
 }
 .floater-tool .fa-stack .fa-stack-1x {
-    font-size: .45rem;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+.floater-tool.widget-minimise .fa-stack-2x {
+    top: 3px;
+    font-size: 1.3rem;
+}
+.floater-tool.widget-minimise .fa-stack-1x {
     top: 2px;
+    font-size: .45rem;
+}
+.floater-tool.widget-expand,
+.floater-tool.widget-compress {
+    display: none;
+}
+.floater-tool.widget-expand .fa,
+.floater-tool.widget-compress .fa {
+    font-size: 1.05rem;
 }
 
 /* floater body */
@@ -220,6 +205,49 @@ body.mode-3d .floater.only-3d.open {
     height: calc(100% - 2.7rem);
     z-index: 10;
     padding: .5rem;
+}
+
+/* floater modes*/
+body.application .floater.open {
+    display: block;
+    height: 28rem;
+}
+body.mode-3d .floater.only-2d.open {
+    display: none;
+}
+body.application .floater.only-3d.open {
+    display: none;
+}
+body.mode-3d .floater.only-3d.open {
+    display: block;
+}
+.floater.expandable .widget-expand {
+    display: flex;
+}
+.floater.expanded .widget-compress {
+    display: flex;
+}
+.floater.expandable.expanded .widget-expand {
+    display: none;
+}
+.floater.expanded .widget-minimise {
+    display: none;
+}
+.floater.active {
+    z-index: 10001;
+}
+.floater.inverse .floater-header {
+    background: rgba(255,255,255,.9);
+    color: #444;
+}
+.floater.inverse .floater-header-title {
+    color: #444;
+}
+.floater.inverse .floater-tool:hover {
+    background: rgba(65,65,65,.15);
+}
+.floater.inverse .floater-tool .fa {
+    color: #666;
 }
 
 /* tabs */

@@ -56,6 +56,7 @@ define(['../../error/ArgumentError',
 		this._widgetId = options.elementId;
         this._isFloaterExtAlike = options.isFloaterExtAlike;
         this._isOpen = options.isOpen;
+        this._isExpandable = options.isExpandable;
 		this._isExpanded = options.isExpanded;
 		this._isWithoutFooter = options.isWithoutFooter;
 		this._is2dOnly = options.is2dOnly;
@@ -95,11 +96,9 @@ define(['../../error/ArgumentError',
 	 */
 	Widget.prototype.renderFloater = function(){
 		var floaterClass = "";
-	    var minimiseIconSrc = "__new/img/minimise-icon.png";
 
 	    if (this._isFloaterExtAlike){
 	        floaterClass = "inverse";
-			minimiseIconSrc = "__new/img/minimise-icon-dark.png";
         }
 
         if (this._is2dOnly){
@@ -109,7 +108,9 @@ define(['../../error/ArgumentError',
 		if (this._is3dOnly){
 			floaterClass += " only-3d";
 		}
-
+		if (this._isExpandable){
+			floaterClass += " expandable";
+		}
 		if (this._isExpanded){
 			floaterClass += " expanded";
 		}
@@ -117,9 +118,10 @@ define(['../../error/ArgumentError',
 		var floater = S(WidgetFloater).template({
 			name: this._name,
 			widgetId: this._widgetId,
-			minimiseSrc: minimiseIconSrc,
             floaterClass: floaterClass,
-            minimise: polyglot.t("minimise")
+            minimise: polyglot.t("minimise"),
+			expand: polyglot.t("expand"),
+			compress: polyglot.t("compress")
 		}).toString();
 
 		this._floaterTarget.append(floater);
@@ -131,6 +133,10 @@ define(['../../error/ArgumentError',
 
 		if (this._isWithoutFooter){
 			this.deleteFooter(this._widgetSelector);
+		}
+
+		if (this._isExpandable){
+			this.addExpandListeners();
 		}
     };
 
@@ -207,6 +213,7 @@ define(['../../error/ArgumentError',
 
 	/**
      * Create tool in header
+	 * TODO obsolete?
      * @param name {string}
      */
     Widget.prototype.buildToolIconInHeader = function(name){
@@ -229,6 +236,19 @@ define(['../../error/ArgumentError',
             this._warningSelector.html(message);
         }
     };
+
+	/**
+	 * Add listeners to expand buttons
+	 */
+	Widget.prototype.addExpandListeners = function () {
+		var self = this;
+		this._widgetHeaderSelector.off("click.expand").on("click.expand", ".widget-expand", function(){
+			self._widgetSelector.addClass("expanded");
+		});
+		this._widgetHeaderSelector.off("click.compress").on("click.compress", ".widget-compress", function(){
+			self._widgetSelector.removeClass("expanded");
+		});
+	};
 
     return Widget;
 });

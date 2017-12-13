@@ -69,6 +69,7 @@ var langEn = {
     compare: "Compare",
     comparePeriods: "Compare periods",
     completeMetadata: "Complete Metadata",
+    compress: "Compress",
     connectToWms: "Connect to WMS…",
     config: "Config",
     configureFilters: "Configure filters",
@@ -109,6 +110,7 @@ var langEn = {
 
     error: "Error",
     equal: "Equal",
+    expand: "Expand",
     expandLastLevel: "Expand last level",
     explore: "Explore",
     exportCsv: "Export CSV",
@@ -423,6 +425,7 @@ var langCz = {
     compare: "Porovnat",
     comparePeriods: "Porovnat periody",
     completeMetadata: "Kompletní metadata",
+    compress: "Zmenšit",
     connectToWms: "Připojit WMS ...",
     config: "Konfigurace",
     configureFilters: "Nastavení filtrů",
@@ -463,6 +466,7 @@ var langCz = {
 
     error: "Chyba",
     equal: "Stejný",
+    expand: "Rozšířit",
     expandLastLevel: "Rozbalte poslední úroveň",
     explore: "Prozkoumat",
     exportCsv: "Export CSV",
