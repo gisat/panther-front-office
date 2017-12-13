@@ -1,4 +1,20 @@
-/* === Placeholders === TODO obsolete?*/
+/* Table of contents
+
+ PLACEHOLDERS...........probably obsolete declarations
+ FLOATERS...............floater and its common components
+ 	Header
+ 	Body
+ 	Footer
+ 	Overlays
+ 	Floaters modes......floater adjustments according to class
+ OTHERS.................other floater components used in widgets
+ 	Tabs
+ 	Section
+ 	Form
+
+*/
+
+/* === PLACEHOLDERS === TODO obsolete?*/
 .placeholders-container {
     height: 6.5rem;
     position: absolute;
@@ -59,7 +75,7 @@
     margin: .1rem;
 }
 
-/* === Floaters === */
+/* ============= FLOATERS ====================== */
 .floater {
     background-image: linear-gradient(to bottom, transparent 0rem, transparent 2.3rem, rgba(255,255,255,.95) 2.3rem, rgba(255,255,255,.95) 100%);
     background-position: 0px 0px;
@@ -107,7 +123,7 @@
     transition: background .3s ease-in-out;
 }
 .floater-tool:hover {
-    background: rgba(255,255,255,.15);
+    background: rgba(255,255,255,.2);
 }
 .floater-tool .fa {
     color: #eee;
@@ -187,6 +203,7 @@
     text-align: center;
 }
 
+/* overlays */
 .floater-overlay {
     display: none;
     height: 100%;
@@ -207,11 +224,15 @@
     padding: .5rem;
 }
 
-/* floater modes*/
+/* FLOATER MODES */
 body.application .floater.open {
     display: block;
-    height: 28rem;
 }
+body.application .floater.open:not(.expanded) {
+	height: 28rem;
+}
+
+/* 2d  - 3d */
 body.mode-3d .floater.only-2d.open {
     display: none;
 }
@@ -220,6 +241,25 @@ body.application .floater.only-3d.open {
 }
 body.mode-3d .floater.only-3d.open {
     display: block;
+}
+
+/* expandable */
+.floater.expanded {
+	left: 0;
+	top: 45px;
+	width: 100%;
+	height: calc(100% - 45px);
+	resize: none;
+    box-shadow: none;
+}
+.floater.expanded .floater-header {
+    background: rgb(67,66,84);
+    cursor: default;
+    padding: 0 1rem 0 .7rem;
+    border-top: 2px solid rgba(255,255,255,.1);
+}
+.floater.expanded .floater-header-title {
+    line-height: 2rem;
 }
 .floater.expandable .widget-expand {
     display: flex;
@@ -230,9 +270,8 @@ body.mode-3d .floater.only-3d.open {
 .floater.expandable.expanded .widget-expand {
     display: none;
 }
-.floater.expanded .widget-minimise {
-    display: none;
-}
+
+
 .floater.active {
     z-index: 10001;
 }
@@ -250,8 +289,8 @@ body.mode-3d .floater.only-3d.open {
     color: #666;
 }
 
+/* ========== OTHERS =============== */
 /* tabs */
-/* ===== Tabs ===== */
 .widget-tabs-menu {
     height: 2rem;
     float: left;

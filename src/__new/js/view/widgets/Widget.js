@@ -110,9 +110,9 @@ define(['../../error/ArgumentError',
 		}
 		if (this._isExpandable){
 			floaterClass += " expandable";
-		}
-		if (this._isExpanded){
-			floaterClass += " expanded";
+			if (this._isExpanded){
+				floaterClass += " expanded";
+			}
 		}
 
 		var floater = S(WidgetFloater).template({
@@ -137,6 +137,9 @@ define(['../../error/ArgumentError',
 
 		if (this._isExpandable){
 			this.addExpandListeners();
+			if (this._isExpanded){
+				this._widgetExpandSelector.trigger("click");
+			}
 		}
     };
 
@@ -212,19 +215,6 @@ define(['../../error/ArgumentError',
     };
 
 	/**
-     * Create tool in header
-	 * TODO obsolete?
-     * @param name {string}
-     */
-    Widget.prototype.buildToolIconInHeader = function(name){
-        var id = name.toLowerCase();
-        this._widgetSelector.find(".floater-tools-container")
-            .append('<div id="' + this._widgetId + '-' + id + '" title="'+ name +'" class="floater-tool widget-'+ id +'">' +
-                '<img alt="' + name + '" src="__new/img/'+ id +'-dark.png"/>' +
-                '</div>');
-    };
-
-	/**
 	 * It shows in a widget body info about problems connected with this widget
      * @param action {string} CSS display value
      * @param warnings {Array} list of warnings codes
@@ -242,11 +232,23 @@ define(['../../error/ArgumentError',
 	 */
 	Widget.prototype.addExpandListeners = function () {
 		var self = this;
-		this._widgetHeaderSelector.off("click.expand").on("click.expand", ".widget-expand", function(){
+		this._widgetExpandSelector = this._widgetHeaderSelector.find(".widget-expand");
+		this._widgetCompressSelector = this._widgetHeaderSelector.find(".widget-compress");
+		this._widgetExpandSelector.off("click.expand").on("click.expand", function(){
 			self._widgetSelector.addClass("expanded");
+			self._widgetSelector.css({
+				left: 0,
+				top: 45
+			});
+			setTimeout(function(){
+				self._widgetSelector.draggable("disable");
+			},500);
 		});
-		this._widgetHeaderSelector.off("click.compress").on("click.compress", ".widget-compress", function(){
+		this._widgetCompressSelector.off("click.compress").on("click.compress", function(){
 			self._widgetSelector.removeClass("expanded");
+			setTimeout(function(){
+				self._widgetSelector.draggable("enable");
+			},500);
 		});
 	};
 

@@ -1,4 +1,7 @@
 #floater-custom-views-widget {
+	background-image: linear-gradient(to bottom, transparent 0rem, transparent 2.3rem, rgba(233,235,237,.95) 2.3rem, rgba(233,235,237,.95) 100%);
+}
+#floater-custom-views-widget:not(.expanded) {
 	right: 15%;
 	top: 15%;
 	min-height: 30rem;
@@ -7,8 +10,6 @@
 	min-width: 40rem;
 	width: 70%;
 	max-width: 100%;
-
-	background-image: linear-gradient(to bottom, transparent 0rem, transparent 2.3rem, rgba(233,235,237,.95) 2.3rem, rgba(233,235,237,.95) 100%);
 }
 
 #floater-custom-views-widget .floater-body {

@@ -47,7 +47,7 @@
 .newDesign #header {
 	background: #434254;
 	/* border-bottom: 2px solid rgb(36, 36, 49); */
-	padding-left: 5px;
+	padding-left: 10px;
 	z-index: 10000;
 }
 
