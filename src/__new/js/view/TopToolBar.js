@@ -64,11 +64,10 @@ define([
 			tools = this.handleSnow();
 		}
 
-		this.render(tools);
-
+		this.renderFeatures(tools);
 	};
 
-	TopToolBar.prototype.render = function(tools){
+	TopToolBar.prototype.renderFeatures = function(tools){
 		this._target.empty();
 		var isWorldWind = $('body').hasClass('mode-3d');
 
