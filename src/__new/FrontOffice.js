@@ -85,7 +85,7 @@ define([
 		var visualization = Number(ThemeYearConfParams.visualization);
 
 		var self = this;
-		if (visualization > 0){
+		if (visualization > 0 && !this._options.changes.dataview){
 			Stores.retrieve("visualization").byId(visualization).then(function(response){
 				var attributes = response[0].attributes;
 				var options = response[0].options;
