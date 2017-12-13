@@ -39,7 +39,7 @@
 }
 .dataview-card-buttons {
 	text-align: right;
-	padding-top: .3rem;
+	padding: .3rem .2rem 0 0;
 	flex: 1;
 }
 .dataview-card-icons {
@@ -49,18 +49,23 @@
 	height: 1.2rem;
 }
 .dataview-card-icons .fa {
+	border-radius: .1rem;
+	width: 1.8rem;
+	height: 1.8rem;
 	font-size: 1.15rem;
-	margin-left: .5rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	color: rgb(90,95,100);
 	cursor: pointer;
-	transition: color .3s ease-in-out;
+	transition: background .3s ease-in-out;
 }
 .dataview-card-icons .fa.fa-pencil-square-o {
 	padding-top: .1rem;
 	padding-left: .1rem;
 }
 .dataview-card-icons .fa:hover {
-	color: rgb(120,125,130);
+	background: rgba(70,75,80,.15);
 }
 .dataview-card-icons .fa.disabled {
 	color: rgb(200,205,210);
