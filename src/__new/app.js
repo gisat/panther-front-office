@@ -253,6 +253,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
                         ExchangeParams.options.openWidgets[floater.attr("id")] = false;
                     }
                 }
+				window.Stores.notify("widget#changedState", {floater: floater});
             }
         });
 

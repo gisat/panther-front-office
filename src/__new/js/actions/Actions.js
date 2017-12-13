@@ -36,6 +36,8 @@ define([], function(){
 		mapShow3D: 'map#show3D',
 		mapShow3DFromDataview: 'map#show3DFromDataview',
 
-		sharingUrlReceived: 'sharing#urlReceived'
+		sharingUrlReceived: 'sharing#urlReceived',
+
+		widgetChangedState: 'widget#changedState'
 	};
 });

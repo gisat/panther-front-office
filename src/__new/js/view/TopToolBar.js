@@ -6,7 +6,7 @@ define([
 ], function (
 	CustomLayers,
 	Floater,
-	Stores,
+	InternalStores,
 	$
 ) {
 	"use strict";
@@ -187,8 +187,10 @@ define([
 			if (targetId == 'window-customviews') Ext.ComponentQuery.query('#window-customviews')[0].show();
 			if (targetId == 'window-customLayers') this.initCustomLayersWindow();
 			$('.floating-window').removeClass('active');
-			$('#' + targetId).toggleClass('open').toggleClass("active");
+			var floater = $('#' + targetId);
+			floater.toggleClass('open').toggleClass("active");
 			$(e.target).toggleClass('open');
+			Stores.notify("widget#changedState", {floater: floater});
 		}
 	};
 

@@ -37,7 +37,7 @@ define(['../../../actions/Actions',
 		this._tools = [];
 
 		this.build();
-		this.deleteFooter(this._widgetSelector);
+		this._dispatcher.addListener(this.onEvent.bind(this));
 	};
 
 	MapToolsWidget.prototype = Object.create(Widget.prototype);
@@ -111,6 +111,19 @@ define(['../../../actions/Actions',
 			onDeactivate: this._layerInfo.deactivate.bind(this._layerInfo),
 			onActivate: this._layerInfo.activate.bind(this._layerInfo)
 		});
+	};
+
+	/**
+	 * @param type {string} type of event
+	 * @param options {Object}
+	 */
+	MapToolsWidget.prototype.onEvent = function(type, options){
+		if (type === Actions.widgetChangedState && options.floater){
+			var id = options.floater.attr("id");
+			if (id === "floater-map-tools-widget"){
+				this.rebuild();
+			}
+		}
 	};
 
 	return MapToolsWidget;
