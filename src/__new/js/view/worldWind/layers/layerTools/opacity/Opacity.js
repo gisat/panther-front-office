@@ -88,6 +88,7 @@ define(['../../../../../error/ArgumentError',
 			for (var key in self._maps){
 				self._maps[key].redraw();
 			}
+			self._opacityValue = ui.value;
 		});
 
 		this._floaterBodySelector.on("slidechange", "#" + sliderId, function(e, ui){
@@ -98,6 +99,7 @@ define(['../../../../../error/ArgumentError',
 			for (var key in self._maps){
 				self._maps[key].redraw();
 			}
+			self._opacityValue = ui.value;
 		});
 	};
 

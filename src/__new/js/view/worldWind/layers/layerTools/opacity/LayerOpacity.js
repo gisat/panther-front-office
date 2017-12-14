@@ -112,6 +112,7 @@ define(['../../../../../error/ArgumentError',
 	 */
 	LayerOpacity.prototype.setOpacity = function(opacity){
 		var self = this;
+		this._opacityValue = opacity * 100;
 		this._maps.forEach(function(map){
 			self._layers.forEach(function(layer){
 				var id = layer.id;
