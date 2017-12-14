@@ -51,6 +51,7 @@ define(['../../../../error/ArgumentError',
 		this._maps = options.maps || null;
 		this._style = options.style || null;
 
+		this.tools = [];
 		this.build();
 	};
 
@@ -83,7 +84,7 @@ define(['../../../../error/ArgumentError',
 	 * @returns {Legend}
 	 */
 	LayerTools.prototype.addLegend = function(layerMetadata, maps){
-		return new Legend({
+		var legend = new Legend({
 			active: false,
 			class: this._class,
 			name: layerMetadata.name,
@@ -91,6 +92,8 @@ define(['../../../../error/ArgumentError',
 			target: this._toolsContainer,
 			maps: maps
 		});
+		this.tools.push(legend);
+		return legend;
 	};
 
 	/**
@@ -100,7 +103,7 @@ define(['../../../../error/ArgumentError',
 	 * @returns {Opacity}
 	 */
 	LayerTools.prototype.addOpacity = function(layerMetadata, maps){
-		return new Opacity({
+		var opacity = new Opacity({
 			active: false,
 			class: this._class,
 			name: layerMetadata.name,
@@ -108,6 +111,8 @@ define(['../../../../error/ArgumentError',
 			target: this._toolsContainer,
 			maps: maps
 		});
+		this.tools.push(opacity);
+		return opacity;
 	};
 
 	/**
@@ -115,7 +120,7 @@ define(['../../../../error/ArgumentError',
 	 * @returns {LayerLegend}
 	 */
 	LayerTools.prototype.buildLegend = function(){
-		return new LayerLegend({
+		var legend =  new LayerLegend({
 			id: this._id,
 			name: this._name,
 			class: this._class,
@@ -123,6 +128,8 @@ define(['../../../../error/ArgumentError',
 			layers: this._layers,
 			style: this._style
 		});
+		this.tools.push(legend);
+		return legend;
 	};
 
 	/**
@@ -130,7 +137,7 @@ define(['../../../../error/ArgumentError',
 	 * @returns {LayerOpacity}
 	 */
 	LayerTools.prototype.buildOpacity = function(){
-		return new LayerOpacity({
+		var opacity = new LayerOpacity({
 			id: this._id,
 			name: this._name,
 			class: this._class,
@@ -138,6 +145,17 @@ define(['../../../../error/ArgumentError',
 			layers: this._layers,
 			maps: this._maps,
 			style: this._style
+		});
+		this.tools.push(opacity);
+		return opacity;
+	};
+
+	/**
+	 * Hide all tool floaters
+	 */
+	LayerTools.prototype.hide = function(){
+		this.tools.forEach(function(tool){
+			tool.hide();
 		});
 	};
 

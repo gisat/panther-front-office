@@ -672,6 +672,7 @@ html.dromas body.intro #intro-overlay {
 	top: 0;
 	right: 0;
 	width: 93px;
+	text-align: right;
 }
 #top-toolbar-widgets {
 	display: inline-block;

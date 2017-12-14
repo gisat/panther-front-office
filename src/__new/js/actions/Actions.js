@@ -20,6 +20,11 @@ define([], function(){
 		periodsRebuild: 'periods#rebuild',
 		periodsChange: 'periods#change',
 
+		selectionSelected: 'selection#selected',
+		selectionClearAll: 'selection#clearAll',
+		selectionActiveCleared: 'selection#activeCleared',
+		selectionEverythingCleared: 'selection#everythingCleared',
+
 		stateUpdatePlace: 'state#updatePlace',
 		stateUpdatePeriod: 'state#updatePeriod',
 		stateUpdateAnalyticalUnitLevel: 'state#updatAnalyticalUnitLevel',
@@ -36,6 +41,8 @@ define([], function(){
 		mapShow3D: 'map#show3D',
 		mapShow3DFromDataview: 'map#show3DFromDataview',
 
-		sharingUrlReceived: 'sharing#urlReceived'
+		sharingUrlReceived: 'sharing#urlReceived',
+
+		widgetChangedState: 'widget#changedState'
 	};
 });

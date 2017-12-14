@@ -23,6 +23,7 @@ define(['../../../../error/ArgumentError',
 		this.addListeners();
 
 		this._choropleths = [];
+		this._layersControls = [];
 		this._groupId = "chartlayer";
 	};
 
@@ -46,6 +47,7 @@ define(['../../../../error/ArgumentError',
 		if (action === notification && notification === "choropleths"){
 			this.clear(this._id);
 			this._choropleths = Stores.choropleths;
+			this._layersControls = [];
 			if (this._choropleths.length > 0){
 				var self = this;
 				this._choropleths.forEach(function(choropleth){
@@ -59,6 +61,7 @@ define(['../../../../error/ArgumentError',
 					};
 					choropleth.layer = layer;
 					choropleth.control = self.addLayerControl(layer.id, layer.name, self._panelBodySelector, false);
+					self._layersControls.push(choropleth.control);
 				});
 				this.displayPanel("block");
 			} else {

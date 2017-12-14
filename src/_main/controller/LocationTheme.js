@@ -1149,13 +1149,22 @@ Ext.define('PumaMain.controller.LocationTheme', {
                     $('#top-toolbar-map-tools').hide();
                 }
 
-                if(tools.indexOf('savedViews') !== -1) {
-                    $('#top-toolbar-saved-views').hide();
-                }
+                // if(tools.indexOf('savedViews') !== -1) {
+                //     $('#top-toolbar-saved-views').hide();
+                // }
 
-                if(tools.indexOf('visualization') !== -1 && Config.auth.userName !== "admin") {
-                    $('.field.visualization').hide();
-                }
+				if(tools.indexOf('savedViews') !== -1 && Config.auth.userName !== "admin") {
+					$('#top-toolbar-saved-views').hide();
+				}
+
+				// if(tools.indexOf('visualization') !== -1) {
+				//     $('.field.visualization').hide();
+				// }
+
+				if(tools.indexOf('visualization') !== -1 && Config.auth.userName !== "admin") {
+					$('.field.visualization').hide();
+				}
+
 
                 if(tools.indexOf('snapshots') !== -1) {
                     $('#top-toolbar-snapshot').hide();
@@ -1165,7 +1174,11 @@ Ext.define('PumaMain.controller.LocationTheme', {
                     $('#top-toolbar-context-help').hide();
                 }
 
-                if(tools.indexOf('scope') !== -1) {
+				if(window.location.origin === "http://dromas.gisat.cz" && Config.auth.userName !== "admin") {
+					$('#top-toolbar-share-view').hide();
+				}
+
+				if(tools.indexOf('scope') !== -1) {
                     $('.field.scope').hide();
                 }
 

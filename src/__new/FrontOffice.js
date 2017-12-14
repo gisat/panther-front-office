@@ -85,7 +85,7 @@ define([
 		var visualization = Number(ThemeYearConfParams.visualization);
 
 		var self = this;
-		if (visualization > 0){
+		if (visualization > 0 && this._options.changes.visualization && !this._options.changes.dataview){
 			Stores.retrieve("visualization").byId(visualization).then(function(response){
 				var attributes = response[0].attributes;
 				var options = response[0].options;
@@ -271,12 +271,17 @@ define([
 		ThemeYearConfParams.actions = [];
 
 
-		if (this._options.changes.scope){
+		if (this._options.changes.scope && this._options.changes.dataview){
 			if (this._dataset === ThemeYearConfParams.dataset){
 				console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "FrontOffice", "checkConfiguration", "missingDataset"));
 			}
 		}
-		this._dataset = ThemeYearConfParams.dataset;
+
+		if (this._options.changes.dataview){
+			this._dataset = this._options.config.dataset;
+		} else {
+			this._dataset = ThemeYearConfParams.dataset;
+		}
 	};
 
 	/**

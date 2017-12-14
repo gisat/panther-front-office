@@ -242,6 +242,9 @@ define(['../../../../error/ArgumentError',
 			checkbox2d.trigger("click", ["ctrl"]);
 
 
+
+			var control = _.find(self._layersControls, function(control){return control._id == layerId});
+
 			if (checkbox.hasClass("checked")){
 				self._mapStore.getAll().forEach(function(map){
 					map.layers.showLayer(layerId);
@@ -250,6 +253,7 @@ define(['../../../../error/ArgumentError',
 				self._mapStore.getAll().forEach(function(map){
 					map.layers.hideLayer(layerId);
 				});
+				control._toolBox.hide();
 			}
 		},50);
 	};
@@ -361,6 +365,7 @@ define(['../../../../error/ArgumentError',
 				self.addLayer(control);
 			} else {
 				control.active = false;
+				control.layerTools.hide();
 				self.removeLayer(control);
 			}
 		},50);

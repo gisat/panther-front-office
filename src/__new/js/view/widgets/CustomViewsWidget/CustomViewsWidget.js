@@ -64,7 +64,12 @@ define(['../../../actions/Actions',
 		if (data.length === 0){
 			this._widgetSelector.find(".widget-minimise").trigger("click");
 		} else {
-			var sortedData = _.sortBy(data, function(d){
+			var scope = Stores.retrieve("state").current().scope;
+			// TODO move fiter to backend
+			var filteredData = _.filter(data, function(d){
+				return d.data.dataset === Number(scope);
+			});
+			var sortedData = _.sortBy(filteredData, function(d){
 				return - (new Date(d.date).getTime());
 			});
 			var self = this;

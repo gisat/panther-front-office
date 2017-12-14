@@ -253,6 +253,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
                         ExchangeParams.options.openWidgets[floater.attr("id")] = false;
                     }
                 }
+				window.Stores.notify("widget#changedState", {floater: floater});
             }
         });
 
@@ -311,7 +312,8 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
             name: polyglot.t('areasFilter'),
             placeholderTargetId: 'widget-container',
 			aggregatedChart: aggregatedChart,
-			isOpen: isOpen
+			isOpen: isOpen,
+			dispatcher: window.Stores
         });
     }
 
