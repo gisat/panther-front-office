@@ -87,6 +87,14 @@ define(['../../../../error/ArgumentError',
 	};
 
 	/**
+	 * Hide floater and switch icon
+	 */
+	LayerTool.prototype.hide = function(){
+		this._iconSelector.removeClass("open");
+		this._floaterSelector.removeClass("open");
+	};
+
+	/**
 	 * Show/hide legend on icon click
 	 */
 	LayerTool.prototype.addIconOnClickListener = function(){

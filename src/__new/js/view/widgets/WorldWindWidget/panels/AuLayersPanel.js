@@ -31,6 +31,7 @@ define(['../../../../error/ArgumentError',
 			outlines: {},
 			selected: {}
 		};
+		this._layersControls = [];
 	};
 
 	AuLayersPanel.prototype = Object.create(ThematicLayersPanel.prototype);
@@ -51,6 +52,8 @@ define(['../../../../error/ArgumentError',
 			$("#selectedareasfilled-panel-row").remove();
 			this.clearLayers("selectedareasfilled");
 			Stores.selectedOutlines = null;
+			var control = _.find(this._layersControls, function(control){return control._id == "selectedareasfilled"});
+			control._toolBox.hide();
 		}
 	};
 
@@ -95,6 +98,7 @@ define(['../../../../error/ArgumentError',
 	AuLayersPanel.prototype.rebuild = function(action, notification){
 		if (action === notification && notification === "updateOutlines"){
 			this.clear(this._id);
+			this._layersControls = [];
 
 			if(Stores.selectedOutlines) {
 				this.rebuildControl(polyglot.t("selectedAreasFilled"), this._layers.selected, "selectedareasfilled");
@@ -125,6 +129,7 @@ define(['../../../../error/ArgumentError',
 
 		layer.layerData = selected;
 		layer.control = this.addLayerControl(selected.id, selected.name, this._panelBodySelector, false);
+		this._layersControls.push(layer.control);
 	};
 
 	/**
