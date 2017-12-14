@@ -20,6 +20,11 @@ define([], function(){
 		periodsRebuild: 'periods#rebuild',
 		periodsChange: 'periods#change',
 
+		selectionSelected: 'selection#selected',
+		selectionClearAll: 'selection#clearAll',
+		selectionActiveCleared: 'selection#activeCleared',
+		selectionEverythingCleared: 'selection#everythingCleared',
+
 		stateUpdatePlace: 'state#updatePlace',
 		stateUpdatePeriod: 'state#updatePeriod',
 		stateUpdateAnalyticalUnitLevel: 'state#updatAnalyticalUnitLevel',

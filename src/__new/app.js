@@ -312,7 +312,8 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
             name: polyglot.t('areasFilter'),
             placeholderTargetId: 'widget-container',
 			aggregatedChart: aggregatedChart,
-			isOpen: isOpen
+			isOpen: isOpen,
+			dispatcher: window.Stores
         });
     }
 

@@ -1,4 +1,5 @@
 define([
+    '../../../actions/Actions',
     '../../../error/ArgumentError',
     '../../../error/NotFoundError',
     './CategorizeSettings',
@@ -23,7 +24,8 @@ define([
 
     'text!./EvaluationWidgetFooter.html',
     'css!./EvaluationWidget'
-], function(ArgumentError,
+], function(Actions,
+            ArgumentError,
             NotFoundError,
 			CategorizeSettings,
             Color,
@@ -216,6 +218,7 @@ define([
      */
     EvaluationWidget.prototype.build = function(){
         this.buildSettings();
+        this._dispatcher.addListener(this.onEvent.bind(this));
     };
 
 	/**
@@ -477,13 +480,13 @@ define([
                 $('#evaluation-confirm').attr("disabled", true);
                 $('#evaluation-unselect').attr("disabled", false);
             }
-        } else if (amount.hasOwnProperty("amount")){
+        } else if (amount && amount.hasOwnProperty("amount")){
             count = amount.amount;
         }
 
         if (count > 0){
             var areasName = polyglot.t("areas");
-            if (count == 1){
+            if (count === 1){
                 areasName = polyglot.t("area");
             }
             $('#evaluation-confirm').html(polyglot.t("select") + " " + count + " " + areasName)
@@ -532,10 +535,7 @@ define([
                     self._map.removeLayers();
                     Observer.notify('selectInternal');
                 } else {
-                    Observer.notify("selectAreas");
-                    if (Config.toggles.hasNew3Dmap){
-                        Stores.notify("clearAllSelections");
-                    }
+                    self._dispatcher.notify("selection#clearAll");
                 }
                 self.disableExports();
                 $('#evaluation-confirm').attr("disabled",false);
@@ -691,6 +691,17 @@ define([
             }
         }
         ExchangeParams.attributesState = attributes;
+    };
+
+	/**
+	 * @param type {string}
+	 */
+	EvaluationWidget.prototype.onEvent = function(type){
+        if (type === Actions.selectionSelected){
+            this.addSelectionConfirmListener();
+        } else if (type === Actions.selectionEverythingCleared || type === Actions.selectionActiveCleared){
+            this.amount();
+        }
     };
 
     return EvaluationWidget;

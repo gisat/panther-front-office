@@ -1,4 +1,6 @@
-define(['../../../../error/ArgumentError',
+define([
+	'../../../../actions/Actions',
+	'../../../../error/ArgumentError',
 	'../../../../error/NotFoundError',
 	'../../../../util/Logger',
 
@@ -8,7 +10,8 @@ define(['../../../../error/ArgumentError',
 	'jquery',
 	'string',
 	'underscore'
-], function(ArgumentError,
+], function(Actions,
+			ArgumentError,
 			NotFoundError,
 			Logger,
 
@@ -37,35 +40,26 @@ define(['../../../../error/ArgumentError',
 	AuLayersPanel.prototype = Object.create(ThematicLayersPanel.prototype);
 
 	AuLayersPanel.prototype.addListeners = function(){
-		Stores.listeners.push(this.rebuild.bind(this, "updateOutlines"));
-		Stores.listeners.push(this.clearAllSelections.bind(this, "clearAllSelections"));
-		Stores.listeners.push(this.clearActiveSelection.bind(this, "clearActiveSelection"));
+		Stores.addListener(this.onEvent.bind(this));
 	};
 
 	/**
 	 * Clear whole selection
-	 * @param action
-	 * @param notification
 	 */
 	AuLayersPanel.prototype.clearAllSelections = function(action, notification){
-		if (action === notification && notification === "clearAllSelections"){
-			$("#selectedareasfilled-panel-row").remove();
-			this.clearLayers("selectedareasfilled");
-			Stores.selectedOutlines = null;
-			var control = _.find(this._layersControls, function(control){return control._id == "selectedareasfilled"});
-			control._toolBox.hide();
-		}
+		$("#selectedareasfilled-panel-row").remove();
+		this.clearLayers("selectedareasfilled");
+		Stores.selectedOutlines = null;
+		var control = _.find(this._layersControls, function(control){return control._id == "selectedareasfilled"});
+		control._toolBox.hide();
 	};
 
 	/**
 	 * Clear active selection
-	 * @param action
-	 * @param notification
 	 */
-	AuLayersPanel.prototype.clearActiveSelection = function(action, notification){
-		if (action === notification && notification === "clearActiveSelection") {
-			this.redrawLayer(this._layers.selected, "selectedareasfilled", Stores.selectedOutlines);
-		}
+	AuLayersPanel.prototype.clearActiveSelection = function(){
+		this.redrawLayer(this._layers.selected, "selectedareasfilled", Stores.selectedOutlines);
+
 	};
 
 	/**
@@ -92,25 +86,21 @@ define(['../../../../error/ArgumentError',
 
 	/**
 	 * Rebuild AU layers panel.
-	 * @param action
-	 * @param notification
 	 */
-	AuLayersPanel.prototype.rebuild = function(action, notification){
-		if (action === notification && notification === "updateOutlines"){
-			this.clear(this._id);
-			this._layersControls = [];
+	AuLayersPanel.prototype.rebuild = function(){
+		this.clear(this._id);
+		this._layersControls = [];
 
-			if(Stores.selectedOutlines) {
-				this.rebuildControl(polyglot.t("selectedAreasFilled"), this._layers.selected, "selectedareasfilled");
-				this.switchOnSelected();
-			}
+		if(Stores.selectedOutlines) {
+			this.rebuildControl(polyglot.t("selectedAreasFilled"), this._layers.selected, "selectedareasfilled");
+			this.switchOnSelected();
+		}
 
-			if(Stores.outlines){
-                console.log('AuLayersPanel#rebuild ', this._layers.outlines);
-                this.rebuildControl(polyglot.t("areaOutlines"), this._layers.outlines, "areaoutlines");
-                this._layers.outlines.additionalData = Stores.outlines.data;
-				this.switchOnOutlines();
-			}
+		if(Stores.outlines){
+			console.log('AuLayersPanel#rebuild ', this._layers.outlines);
+			this.rebuildControl(polyglot.t("areaOutlines"), this._layers.outlines, "areaoutlines");
+			this._layers.outlines.additionalData = Stores.outlines.data;
+			this.switchOnOutlines();
 		}
 	};
 
@@ -175,6 +165,19 @@ define(['../../../../error/ArgumentError',
 			var toolBox = layer.control.getToolBox();
 			toolBox.clear();
 			toolBox.addOpacity(layer.layerData, this._mapStore.getAll());
+		}
+	};
+
+	/**
+	 * @param type {string}
+	 */
+	AuLayersPanel.prototype.onEvent = function(type){
+		if (type === "updateOutlines"){
+			this.rebuild();
+		} else if (type === Actions.selectionEverythingCleared){
+			this.clearAllSelections();
+		} else if (type === Actions.selectionActiveCleared){
+			this.clearActiveSelection()
 		}
 	};
 

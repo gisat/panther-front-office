@@ -4,6 +4,7 @@ Ext.define('PumaMain.controller.Select', {
     requires: [],
     init: function() {
         Observer.addListener("selectInternal",this.selectInternal.bind(this));
+        Stores.addListener(this._onEvent.bind(this));
         this.control({
             '#hoverbtn': {
                 toggle: this.onToggleHover
@@ -256,13 +257,15 @@ Ext.define('PumaMain.controller.Select', {
     },
         
     clearSelectionsAll: function() {
-        Stores.notify("clearAllSelections");
         this.selMap = {'ff4c39':[]};
         this.hoverMap = [];
         this.colorMap = {};
         this.getController('Area').colourTree(this.colorMap); 
         this.updateCounts();
         this.selectDelayed();
+
+        Select.selectedAreasMap = null;
+		Stores.notify("selection#everythingCleared");
     },
     clearSelections: function() {
         this.selMap[this.actualColor] = [];
@@ -272,7 +275,7 @@ Ext.define('PumaMain.controller.Select', {
         this.updateCounts();
         this.selectDelayed();
 
-        Stores.notify("clearActiveSelection");
+        Stores.notify("selection#activeCleared");
         var clearAll = true;
         for (var key in this.selMap){
             if (this.selMap[key].length > 0){
@@ -280,7 +283,7 @@ Ext.define('PumaMain.controller.Select', {
             }
         }
         if (clearAll){
-            Stores.notify("clearAllSelections");
+            Stores.notify("selection#everythingCleared");
         }
     },    
     
@@ -309,9 +312,18 @@ Ext.define('PumaMain.controller.Select', {
 			Stores.notify("map#selectFromAreas", gid);
         }
 
+        setTimeout(function(){
+			Stores.notify('selection#selected');
+        },1000);
+
         return resultMap;
+    },
+
+    _onEvent: function(type){
+        if (type === "selection#clearAll"){
+            this.clearSelectionsAll();
+        }
     }
-    
     
 });
 
