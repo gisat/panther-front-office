@@ -150,7 +150,7 @@ Ext.define('PumaMain.controller.Select', {
         else {
             this.hoverMap = newSel;
         }
-        
+
         this.colorMap = this.prepareColorMap();
 
         if (OneLevelAreas.hasOneLevel){
@@ -303,8 +303,8 @@ Ext.define('PumaMain.controller.Select', {
         }
         this.colorMap = resultMap;
 
-        // TODO if dromas.gisat.cz
-        if (area && window.location.origin === 'http://dromas.gisat.cz' && actual.length === 1){
+		if (area && window.location.origin === 'http://dromas.gisat.cz' && actual.length === 1 && area.index > 0){
+        // if (area && actual.length === 1 && area.index > 0){
 			var gid = area.gid;
 			Stores.notify("map#selectFromAreas", gid);
         }

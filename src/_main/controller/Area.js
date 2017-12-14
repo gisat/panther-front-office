@@ -360,7 +360,7 @@ Ext.define('PumaMain.controller.Area', {
 	},
 
 	onItemClick: function(tree,rec,item,index,evt) {
-		var selected = [{at:rec.get('at'),gid:rec.get('gid'),loc:rec.get('loc')}];
+		var selected = [{at:rec.get('at'),gid:rec.get('gid'),loc:rec.get('loc'),index:index}];
 		var add = evt.ctrlKey;
 		var hover = false;
 		if (tree.xtype=='gridview') {
