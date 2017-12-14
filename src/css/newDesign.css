@@ -1,3 +1,94 @@
+/* Table of contents
+
+	* EXT COMPONENTS.....................overriding default ext style
+		* Windows........................common for all Ext-based windows
+			* Window header..............header and it's components
+			* Login window...............login window
+*/
+
+/* =====================================================
+=== EXT COMPONENTS =====================================
+======================================================== */
+
+/* === Windows ========================================= */
+.newDesign .x-window {
+
+}
+.newDesign .x-window.x-window-default {
+	background: #fff;
+	border: 0;
+	box-shadow: 0 0 4px rgb(136, 136, 136);
+}
+
+/* window header */
+.newDesign .x-window-header {
+	border: 0;
+}
+
+/* login window */
+.newDesign #loginwindow {
+	z-index: 99998 !important;
+}
+.newDesign #loginwindow .x-toolbar-footer {
+	background: none;
+}
+
+/* TODO move button declarations to buttons  */
+.newDesign #loginwindow .x-btn {
+	background: none;
+	border-color: rgb(90,95,100);
+	border-style: solid;
+	border-width: 2px !important;
+	border-radius: .15rem;
+	transition: background .3s ease-in-out, border .3s ease-in-out;
+	width: 90px !important;
+}
+.newDesign #loginwindow .x-btn-over,
+.newDesign #loginwindow .x-btn-focus {
+	background: rgba(90,95,100,.15);
+}
+.newDesign #loginwindow .x-btn:first-child {
+	background: rgb(90,95,100);
+	left: auto !important;
+	right: 100px;
+}
+.newDesign #loginwindow .x-btn-over.x-btn:first-child,
+.newDesign #loginwindow .x-btn-focus.x-btn:first-child {
+	border-color: rgb(70,75,80);
+	background: rgb(70,75,80);
+}
+.newDesign #loginwindow .x-btn:last-child {
+
+}
+.newDesign #loginwindow .x-btn-inner {
+	color: #eee;
+	font-size: .8rem;
+	font-weight: 600;
+}
+.newDesign #loginwindow .x-btn:last-child .x-btn-inner {
+	color: rgb(70,75,80);
+}
+
+/* TODO move form declarations to forms*/
+.newDesign #loginwindow .x-form-field {
+	background: #f7f8f9;
+	font-size: .9rem;
+	line-height: 1.6rem;
+	border: 2px solid rgb(210,212,214);
+	border-radius: .15rem;
+	padding-left: .3rem;
+	width: 100%;
+}
+.newDesign #loginwindow .x-form-field.x.-form-text {
+	color: rgb(70,75,80) !important;
+}
+.newDesign #loginwindow .x-form-item-label {
+	font-size: .9rem;
+	color: rgb(70,75,80);
+}
+
+
+
 .newDesign body {
 	background: rgb(163, 205, 255);
 }
@@ -106,20 +197,6 @@
 	content: "";
 	margin: 0;
 	width: 0;
-}
-
-/* login */
-.newDesign #loginwindow .x-btn {
-	border-right: 1px solid white;
-}
-
-.newDesign #loginwindow .x-btn:last-child {
-	border-right: 1px solid white;
-	background: #aaa;
-}
-
-.newDesign #loginwindow .x-btn:last-child:hover {
-	background: #888;
 }
 
 /* Footer === */
@@ -853,11 +930,6 @@
 	background-image: url('../images/new/map-select-active.png') !important;
 }
 
-/* login buttons */
-.newDesign #loginwindow .x-btn-default-small {
-	margin-right: 5px;
-}
-
 /* panel header buttons */
 .newDesign .x-panel-header .x-tool-unselect {
 	background-image: url("../images/new/unselect.png") !important;
@@ -1067,11 +1139,6 @@
 }
 
 /* Windows ================= */
-.newDesign .x-window-default {
-	background: #fff;
-	border: 1px solid #ccc;
-}
-
 .newDesign .x-tool {
 	padding-bottom: 1px;
 }
