@@ -45,6 +45,10 @@ define(['../../../actions/Actions',
 	CustomViewsWidget.prototype = Object.create(Widget.prototype);
 
 	CustomViewsWidget.prototype.build = function(){
+		if (Config.toggles.showDataviewsOverlay){
+			this._widgetSelector.addClass("open expanded active");
+			this.rebuild();
+		}
 	};
 
 	/**
@@ -52,6 +56,11 @@ define(['../../../actions/Actions',
 	 */
 	CustomViewsWidget.prototype.rebuild = function(){
 		this.handleLoading("show");
+		var changed = Stores.retrieve("state").current().changes;
+		if (changed.dataview && Config.toggles.showDataviewsOverlay){
+			this._widgetSelector.removeClass("open expanded active");
+		}
+
 		Stores.retrieve('dataview').all().then(this.redraw.bind(this));
 	};
 
@@ -65,13 +74,18 @@ define(['../../../actions/Actions',
 			this._widgetSelector.find(".widget-minimise").trigger("click");
 		} else {
 			var scope = Stores.retrieve("state").current().scope;
-			// TODO move fiter to backend
-			var filteredData = _.filter(data, function(d){
-				return d.data.dataset === Number(scope);
-			});
+			var filteredData = data;
+			if (scope){
+				// TODO move fiter to backend
+				filteredData = _.filter(data, function(d){
+					return d.data.dataset === Number(scope);
+				});
+			}
+
 			var sortedData = _.sortBy(filteredData, function(d){
 				return - (new Date(d.date).getTime());
 			});
+
 			var self = this;
 			sortedData.forEach(function(dataview){
 				var data = self.prepareDataForCard(dataview);

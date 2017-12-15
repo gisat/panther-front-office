@@ -1,6 +1,9 @@
 #floater-custom-views-widget {
 	background-image: linear-gradient(to bottom, transparent 0rem, transparent 2.3rem, rgba(233,235,237,.95) 2.3rem, rgba(233,235,237,.95) 100%);
 }
+#floater-custom-views-widget.open {
+	display: block;
+}
 #floater-custom-views-widget:not(.expanded) {
 	right: 15%;
 	top: 15%;
@@ -12,14 +15,26 @@
 	max-width: 100%;
 }
 
+/* header */
+body.intro #floater-custom-views-widget .floater-header{
+	display: none;
+}
+
+/* body */
 #floater-custom-views-widget .floater-body {
 	height: calc(100% - 3rem);
 	padding: .5rem;
 	background: rgba(233,235,237,1);
+}
+body.intro #floater-custom-views-widget .floater-body{
+	height: 100%;
 }
 
 #floater-custom-views-widget .custom-views-content {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
+}
+body.intro #floater-custom-views-widget .custom-views-content {
+	justify-content: center;
 }
