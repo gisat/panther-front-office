@@ -686,6 +686,14 @@ define([
 
 
 	/**
+	 * Reset widget
+	 */
+	EvaluationWidget.prototype.resetWidget = function(){
+		this.rebuildInputs(this._categories);
+		this.resetButtons();
+	};
+
+	/**
      * Reset current selection
 	 */
 	EvaluationWidget.prototype.resetSelection = function(){
@@ -715,9 +723,11 @@ define([
 	EvaluationWidget.prototype.onEvent = function(type){
         if (type === Actions.selectionSelected){
             this.addSelectionConfirmListener();
-        } else if (type === Actions.selectionEverythingCleared || type === Actions.selectionActiveCleared){
-            this.resetSelection();
-        }
+        } else if (type === Actions.selectionEverythingCleared){
+            this.resetWidget();
+        } else if (type === Actions.selectionActiveCleared){
+			this.resetSelection();
+		}
     };
 
     return EvaluationWidget;
