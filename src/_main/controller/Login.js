@@ -29,6 +29,7 @@ Ext.define('PumaMain.controller.Login',{
 
         this.reloadStores();
         var saveVis = Ext.ComponentQuery.query('#savevisualization')[0];
+		Stores.notify('user#changed');
         if (!saveVis) return;
         var manageVis = Ext.ComponentQuery.query('#managevisualization')[0];
         var saveView = Ext.ComponentQuery.query('#savedataview')[0];
@@ -40,7 +41,6 @@ Ext.define('PumaMain.controller.Login',{
         manageView.setVisible(isUser);
         shareView.setVisible(isUser);
         Ext.StoreMgr.lookup('dataview').load();
-        Stores.notify('user#changed');
         Observer.notify('user#onLogin');
     },
 

@@ -47,6 +47,7 @@ define(['../../../actions/Actions',
 	CustomViewsWidget.prototype.build = function(){
 		if (Config.toggles.showDataviewsOverlay){
 			this._widgetSelector.addClass("open expanded active");
+
 			this.rebuild();
 		}
 	};
@@ -56,9 +57,14 @@ define(['../../../actions/Actions',
 	 */
 	CustomViewsWidget.prototype.rebuild = function(){
 		this.handleLoading("show");
+		var self = this;
 		var changed = Stores.retrieve("state").current().changes;
 		if (changed.dataview && Config.toggles.showDataviewsOverlay){
 			this._widgetSelector.removeClass("open expanded active");
+			$('#top-toolbar-saved-views').removeClass("open");
+			setTimeout(function(){
+				self._widgetSelector.draggable("enable");
+			},500);
 		}
 
 		Stores.retrieve('dataview').all().then(this.redraw.bind(this));
@@ -73,6 +79,9 @@ define(['../../../actions/Actions',
 		if (data.length === 0){
 			this._widgetSelector.find(".widget-minimise").trigger("click");
 		} else {
+			if ($('body').hasClass("intro")){
+				this._widgetSelector.addClass("open expanded active");
+			}
 			var scope = Stores.retrieve("state").current().scope;
 			var filteredData = data;
 			if (scope){
