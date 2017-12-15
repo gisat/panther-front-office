@@ -360,6 +360,11 @@ Ext.define('PumaMain.controller.Area', {
 	},
 
 	onItemClick: function(tree,rec,item,index,evt) {
+		var isParentOfAreaPanel = $(evt.currentTarget).parents("window-areatree");
+		if (!isParentOfAreaPanel.length && index === 0){
+			index++;
+		}
+
 		var selected = [{at:rec.get('at'),gid:rec.get('gid'),loc:rec.get('loc'),index:index}];
 		var add = evt.ctrlKey;
 		var hover = false;
