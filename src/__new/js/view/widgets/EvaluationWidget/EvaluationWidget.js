@@ -537,9 +537,7 @@ define([
                 } else {
                     self._dispatcher.notify("selection#clearAll");
                 }
-                self.disableExports();
-                $('#evaluation-confirm').attr("disabled",false);
-                $(this).attr("disabled",true);
+                self.resetButtons();
         });
     };
 
@@ -672,13 +670,6 @@ define([
         }
     };
 
-    /**
-     * Disable export buttons
-     */
-    EvaluationWidget.prototype.disableExports = function(){
-        $("#export-shp, #export-csv, #export-xls, #export-json").attr("disabled",true);
-    };
-
 	/**
      * Prepare attributes for export
      * @param categories {Object}
@@ -693,15 +684,50 @@ define([
         ExchangeParams.attributesState = attributes;
     };
 
+
+	/**
+	 * Reset widget
+	 */
+	EvaluationWidget.prototype.resetWidget = function(){
+		this.rebuildInputs(this._categories);
+		this.resetButtons();
+	};
+
+	/**
+     * Reset current selection
+	 */
+	EvaluationWidget.prototype.resetSelection = function(){
+		this.amount();
+		this.resetButtons();
+    };
+
+	/**
+     * Switch buttons in footer to the default state
+	 */
+	EvaluationWidget.prototype.resetButtons = function(){
+		this.disableExports();
+		$('#evaluation-confirm').attr("disabled",false);
+		$('#evaluation-unselect').attr("disabled",true);
+    };
+
+	/**
+	 * Disable export buttons
+	 */
+	EvaluationWidget.prototype.disableExports = function(){
+		$("#export-shp, #export-csv, #export-xls, #export-json").attr("disabled",true);
+	};
+
 	/**
 	 * @param type {string}
 	 */
 	EvaluationWidget.prototype.onEvent = function(type){
         if (type === Actions.selectionSelected){
             this.addSelectionConfirmListener();
-        } else if (type === Actions.selectionEverythingCleared || type === Actions.selectionActiveCleared){
-            this.amount();
-        }
+        } else if (type === Actions.selectionEverythingCleared){
+            this.resetWidget();
+        } else if (type === Actions.selectionActiveCleared){
+			this.resetSelection();
+		}
     };
 
     return EvaluationWidget;

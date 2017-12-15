@@ -1100,7 +1100,7 @@ Ext.define('PumaMain.controller.Chart', {
                 return;
             }
         }
-        var areas = [{at: at, gid: gid, loc: loc}]
+        var areas = [{at: at, gid: gid, loc: loc, index: 1}];
         var add = evt.originalEvent ? evt.originalEvent.ctrlKey : evt.ctrlKey;
         var fromChart = cmp.cfg.type=='grid' || cmp.cfg.type=='piechart' || cmp.cfg.type=='columnchart';
         //this.

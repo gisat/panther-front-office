@@ -105,10 +105,17 @@ define([
 			});
 		} else if (mapsCount > periodsCount) {
 			if (periodsCount === 1){
+				var counter = mapsCount;
 				allMaps.forEach(function(map){
 					if (map.id !== "default-map"){
-						map._wwd.drawContext.currentGlContext.getExtension('WEBGL_lose_context').loseContext();
-						self._dispatcher.notify("map#remove",{id: map.id});
+						counter--;
+						if (counter > 0){
+							map._wwd.drawContext.currentGlContext.getExtension('WEBGL_lose_context').loseContext();
+							self._dispatcher.notify("map#remove",{id: map.id});
+						} else {
+							map._id = "default-map";
+							map.rebuild();
+						}
 					}
 				});
 			} else {
