@@ -12,7 +12,7 @@
 }
 .dataview-card-preview {
 	align-self: center;
-	flex-basis: 6rem;
+	flex-basis: 8rem;
 	height: 6rem;
 }
 .dataview-card-text {
@@ -21,13 +21,13 @@
 }
 .dataview-card-text > h3 {
 	font-size: 1.1rem;
-	color: rgb(70,75,80);
+	color: rgb(65,69,81);
 	font-weight: 600;
 	margin-bottom: .2rem;
 }
 .dataview-card-text > p {
 	font-size: .85rem;
-	color: rgb(140,145,150);
+	color: rgb(106,110,120);
 }
 .dataview-card-tools {
 	flex-basis: 7rem;
@@ -52,11 +52,11 @@
 	border-radius: .1rem;
 	width: 1.8rem;
 	height: 1.8rem;
-	font-size: 1.15rem;
+	font-size: 1.05rem;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	color: rgb(90,95,100);
+	color: rgb(106,110,120);
 	cursor: pointer;
 	transition: background .3s ease-in-out;
 }
@@ -65,9 +65,9 @@
 	padding-left: .1rem;
 }
 .dataview-card-icons .fa:hover {
-	background: rgba(70,75,80,.15);
+	background: rgba(65,69,81,.15);
 }
 .dataview-card-icons .fa.disabled {
-	color: rgb(200,205,210);
+	color: rgb(189,192,197);
 	pointer-events: none;
 }

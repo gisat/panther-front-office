@@ -11,28 +11,38 @@ Ext.define('Puma.view.LoginWindow' ,{
         this.form = {
             xtype: 'form',
             frame: true,
-            padding: 10,
+            padding: 30,
             items: [{
                     xtype: 'textfield',
-                    fieldLabel: polyglot.t('user'),
-                    margin: '5 0',
-                    itemId: 'username'
+                    fieldLabel: " ",
+                    componentCls: "login-username",
+                    labelPad: 0,
+                    labelSeparator: "",
+                    labelAlign: "right",
+                    labelWidth: 30,
+                    itemId: 'username',
+                    emptyText: 'Username or email'
                 }, {
                     xtype: 'textfield',
-                    fieldLabel: polyglot.t('password'),
+                    fieldLabel: " ",
+                    componentCls: "login-password",
+                    labelPad: 0,
+                    labelSeparator: "",
+                    labelAlign: "right",
+                    labelWidth: 30,
                     inputType: 'password',
-                    margin: '5 0',
-                    itemId: 'password'
+                    itemId: 'password',
+				    emptyText: 'Password'
                 }],
                 buttons: [{
                     xtype: 'button',
                     text: polyglot.t('login'),
-                    margin: '5 0',
+                    margin: '5 5',
                     itemId: 'loginbtn'
                 }, {
                     xtype: 'button',
                     text: polyglot.t('cancel'),
-                    margin: '5 0',
+                    margin: '5 2',
                     handler: function() {
                         me.close();
                     }

@@ -36,27 +36,30 @@
 /* TODO move button declarations to buttons  */
 .newDesign #loginwindow .x-btn {
 	background: none;
-	border-color: rgb(90,95,100);
+	border-color: rgb(65,69,81);
 	border-style: solid;
-	border-width: 2px !important;
+	border-width: .1rem !important;
 	border-radius: .15rem;
 	transition: background .3s ease-in-out, border .3s ease-in-out;
 	width: 90px !important;
 }
 .newDesign #loginwindow .x-btn-over,
 .newDesign #loginwindow .x-btn-focus {
-	background: rgba(90,95,100,.15);
+	background: rgba(65,69,81,.15);
+}
+.newDesign #loginwindow .x-btn-focus {
+	box-shadow: 0 0 2px 1px rgba(55,125,166,1);
 }
 .newDesign #loginwindow .x-btn:first-child {
-	background: rgb(90,95,100);
-	left: auto !important;
+	background: rgb(65,69,81);
 	right: 100px;
 }
 .newDesign #loginwindow .x-btn-over.x-btn:first-child,
 .newDesign #loginwindow .x-btn-focus.x-btn:first-child {
-	border-color: rgb(70,75,80);
-	background: rgb(70,75,80);
+	border-color: rgb(33,38,53);
+	background: rgb(33,38,53);
 }
+
 .newDesign #loginwindow .x-btn:last-child {
 
 }
@@ -64,27 +67,49 @@
 	color: #eee;
 	font-size: .8rem;
 	font-weight: 600;
+	line-height: 1.2;
 }
 .newDesign #loginwindow .x-btn:last-child .x-btn-inner {
-	color: rgb(70,75,80);
+	color: rgb(33,38,53);
 }
 
 /* TODO move form declarations to forms*/
 .newDesign #loginwindow .x-form-field {
-	background: #f7f8f9;
+	background: rgba(224,227,231,1);
 	font-size: .9rem;
 	line-height: 1.6rem;
-	border: 2px solid rgb(210,212,214);
-	border-radius: .15rem;
+	border: .1rem solid rgba(224,227,231,1);
+	border-radius: 0 .15rem .15rem 0;
 	padding-left: .3rem;
 	width: 100%;
+	height: 2rem
 }
-.newDesign #loginwindow .x-form-field.x.-form-text {
-	color: rgb(70,75,80) !important;
+.newDesign #loginwindow input.x-form-field {
+	color: rgba(106,110,120,1);
 }
 .newDesign #loginwindow .x-form-item-label {
-	font-size: .9rem;
-	color: rgb(70,75,80);
+	color: transparent;
+	display: inline-block;
+	padding: 0;
+}
+.newDesign #loginwindow .x-form-item-label::after {
+	width: 30px;
+	height: 2rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(224,227,231,1);
+	border-radius: .15rem 0 0 .15rem;
+	font-family: "FontAwesome";
+	font-size: 1.15rem;
+	color: rgba(106,110,120,1);
+}
+
+.newDesign #loginwindow .login-username .x-form-item-label::after {
+	content: "\f007";
+}
+.newDesign #loginwindow .login-password .x-form-item-label::after {
+	content: "\f023";
 }
 
 
