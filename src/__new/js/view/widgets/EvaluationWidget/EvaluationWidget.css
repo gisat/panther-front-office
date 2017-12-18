@@ -11,12 +11,14 @@
 }
 
 #floater-evaluation-widget .floater-body {
-    height: calc(100% - 9.5rem);
+    height: calc(100% - 10.1rem);
     padding: 0 0 .5rem;
 }
 
 #floater-evaluation-widget .floater-footer {
-    height: 6.5rem;
+    height: 7.7rem;
+    border-top: 2px solid #ddd;
+    background: rgba(233,235,237,1);
 }
 
 /* floater body */
@@ -47,8 +49,8 @@
 #floater-evaluation-widget .footer-buttons .widget-button {
     width: 33%;
     margin: 0 .2rem;
-    padding: .5rem;
     flex: 0 1 100%;
+    font-size: .8rem;
 }
 #floater-evaluation-widget .footer-buttons .widget-button.hidden {
     display: none;

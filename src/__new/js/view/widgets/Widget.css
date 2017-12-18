@@ -94,7 +94,7 @@
 
 /* floater header */
 .floater-header {
-    background: rgba(201,45,66,.9);
+    background: rgba(153,54,75,.9);
     height: 2.3rem;
     line-height: 2.4rem;
     padding: 0 .5rem;
@@ -330,7 +330,7 @@ body.mode-3d .floater.only-3d.open {
 .widget-tabs-menu li.active {
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
-    border-left: 4px solid #c92d42;
+    border-left: 4px solid rgba(153,54,75,.9);
     border-radius: .1rem;
     background: rgba(245,245,245,1);
     position: relative;
@@ -420,13 +420,13 @@ body.mode-3d .floater.only-3d.open {
 }
 .widget-section h3 {
     font-size: 1.1rem;
-    color: rgb(70,75,80);
+    color: rgb(65,69,81);
     font-weight: 600;
     margin-bottom: .2rem;
 }
 .widget-section p {
     font-size: .85rem;
-    color: rgb(140,145,150);
+    color: rgb(106,110,120);
     margin-bottom: .3rem;
 }
 
@@ -441,24 +441,25 @@ body.mode-3d .floater.only-3d.open {
     line-height: 1.7;
 }
 .widget-form-row span {
-    color: rgb(110,115,120);
-    font-size: .8rem;
+    color: rgb(106,110,120);
+    font-size: .85rem;
     font-weight: 600;
 }
 .widget-form-row select,
 .widget-form-row input,
 .widget-form-row textarea {
     font-size: .85rem;
-    line-height: 1.6rem;
+    line-height: 1.8rem;
     max-width: 90%;
-    border: 2px solid rgb(210,212,214);
+    border: .1rem solid rgba(214,217,221,1);
     border-radius: .15rem;
-    padding-left: .1rem;
-    color: rgb(90,95,100);
+    padding-left: .15rem;
+    color: rgb(106,110,120);
+    background: rgba(234,236,238,1);
 }
 .widget-form-row textarea {
     height: 3rem;
 }
 .widget-form-row select {
-    height: 1.8rem;
+    height: 1.9rem;
 }

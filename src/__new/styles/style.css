@@ -12,21 +12,24 @@
 }
 .floater p, .floater a, .floater span, .floater label,
 .tool-window p, .tool-window a, .tool-window span, .tool-window label {
-    color: #666;
+    color: rgb(65,69,81);
     font-size: .75rem;
 }
 
 /* === Buttons === */
 .widget-button {
-    background: #c92d42;
-    border-radius: .15rem;
+	border: .1rem solid rgb(65,69,81);
+	border-radius: .15rem;
+	color: rgb(33,38,53);
+	cursor: pointer;
+	font-size: .8rem;
+	font-weight: 600;
+	transition: background .3s ease-in-out;
+	width: 8rem;
     display: inline-block;
-    color: white;
-    font-weight: 700;
-    padding: .4rem .2rem .35rem;
-    text-align: center;
-    text-transform: uppercase;
-    transition: background .3s ease-out;
+	padding: 0 .2rem;
+	line-height: 1.8rem;
+	text-align: center;
 }
 .widget-button.w8 {
 	width: 8rem;
@@ -39,7 +42,7 @@
 }
 
 .widget-button:hover, .widget-button.active {
-    background: #ad2738;
+	background: rgba(65,69,81,.15);
     cursor: pointer;
 }
 .widget-button.secondary {
@@ -52,7 +55,7 @@
 .widget-button[disabled=disabled] {
     pointer-events: none;
     color: #bbb;
-    background-color: #ddd;
+	border: .1rem solid #ccc;
 }
 
 .widget-button-export {
@@ -73,7 +76,8 @@
 .widget-button-export[disabled=disabled] {
     pointer-events: none;
     background: transparent;
-    color: #aaa;
+    color: #bbb;
+	border: 0;
 }
 .widget-button-export[disabled=disabled]:hover {
     pointer-events: none;
