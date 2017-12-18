@@ -492,6 +492,7 @@ Ext.define('PumaMain.controller.Render', {
         if(Config.toggles.useWBAgreement) {
 					this.renderAggreement();
 				}
+		window.Stores.notify("initialLoadingFinished");
 
     }
     })

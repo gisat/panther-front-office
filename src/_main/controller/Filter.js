@@ -232,8 +232,7 @@ Ext.define('PumaMain.controller.Filter', {
         
 
         if (this.filterActive) {
-            this.getController('Area').showLoading("block");
-            
+            // this.getController('Area').showLoading("block");
         }
 
     },
@@ -539,7 +538,7 @@ Ext.define('PumaMain.controller.Filter', {
         
         if (this.filterActive) {
 			console.log('Filter hide');
-			this.getController('Area').showLoading("none");
+			// this.getController('Area').showLoading("none");
             this.getController('Select').selectInternal(areas || []);
             
         }

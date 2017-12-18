@@ -193,18 +193,18 @@ define(['../../actions/Actions',
 	 * Rebuild map
 	 */
 	WorldWindMap.prototype.rebuild = function(){
-		var state = Stores.retrieve("state").current();
+		var stateStore = Stores.retrieve("state");
+		stateStore.removeLoadingOperation("initialLoading");
+		var state = stateStore.current();
 		var changes = state.changes;
 		console.log('WorldWindMap#rebuild State: ', changes);
 		var self = this;
 		if ((changes.scope || changes.location) && !changes.dataview){
+			stateStore.addLoadingOperation("ScopeLocationChanged");
 			this._goToAnimator.setLocation();
-			setTimeout(function(){
-				console.log('WorldWindMap#rebuild Hide Loading');
-				$("#loading-screen").css("display", "none")
-			},1000);
 		}
 		if (this._id === "default-map"){
+			stateStore.addLoadingOperation("DefaultMap");
 			self.updateNavigatorState();
 			var periods = state.periods;
 			if (periods.length === 1 || !this._period){
@@ -213,21 +213,9 @@ define(['../../actions/Actions',
 			if (!Config.toggles.hideSelectorToolbar){
 				this.addPeriod();
 			}
-			if (changes.dataview || changes.level){
-				setTimeout(function(){
-					console.log('WorldWindMap#rebuild Hide Loading');
-					$("#loading-screen").css("display", "none")
-				},1000);
-			} else if(!changes.dataview && !changes.level && !changes.location && !changes.period && !changes.scope && !changes.theme && !changes.visualization) {
-				setTimeout(function(){
-					console.log('WorldWindMap#rebuild Hide Loading');
-					$("#loading-screen").css("display", "none")
-				},1000);
-			}
 		} else {
-			setTimeout(function(){
-				self.setNavigator();
-			},1000);
+			stateStore.addLoadingOperation("AditionalMap");
+			stateStore.removeLoadingOperation("AditionalMap");
 		}
 	};
 
@@ -251,6 +239,8 @@ define(['../../actions/Actions',
 		this._wwd.navigator.tilt = navigatorState.tilt;
 
 		this.redraw();
+		var stateStore = Stores.retrieve("state");
+		stateStore.removeLoadingOperation("DefaultMap");
 	};
 
 	/**

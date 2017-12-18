@@ -1,9 +1,11 @@
 define([
 	'../../util/Floater',
 	'../Stores',
+	'../../util/Uuid',
 	'underscore'], function (
 		Floater,
 		Stores,
+		Uuid,
 		_
 ) {
 	/**
@@ -13,6 +15,9 @@ define([
 	 */
 	var StateStore = function (options) {
 		this._changes = {};
+		this._loadingOperations = [];
+
+		window.Stores.addListener(this.onEvent.bind(this));
 	};
 
 	/**
@@ -188,6 +193,54 @@ define([
 			}
 		});
 		return widgets;
+	};
+
+
+	/**
+	 * Add loading operation
+	 */
+	StateStore.prototype.addLoadingOperation = function(type){
+		this._loadingOperations.push({id: type});
+		console.log("StateStore#addLoadingOperation: Loading operation added!");
+		this.checkLoading(type);
+	};
+
+	/**
+	 * Remove loading operation
+	 */
+	StateStore.prototype.removeLoadingOperation = function (type) {
+		var self = this;
+		var obj = _.findWhere(self._loadingOperations, {id: type});
+		if (!_.isEmpty(obj)){
+			this._loadingOperations = _.without(this._loadingOperations, obj);
+			console.log("StateStore#removeLoadingOperation: Loading operation removed!");
+			this.checkLoading(type);
+		}
+	};
+
+	/**
+	 * Check operations. If no operation is present, wait 3 sec. and then hide loader. Otherwise show loader.
+	 */
+	StateStore.prototype.checkLoading = function(type){
+		clearTimeout(this._loading);
+		if (this._loadingOperations.length === 0){
+			// wait 3 sec and then hide loader
+			this._loading = setTimeout(function(){
+				console.log("StateStore#checkLoading: *** HIDE LOADER ***!" + type);
+				$("#loading-screen").css("display", "none");
+			},3000);
+		} else {
+			console.log("StateStore#checkLoading: *** SHOW LOADER ***!" + type);
+			$("#loading-screen").css("display", "block");
+		}
+	};
+
+	StateStore.prototype.onEvent = function(type){
+		if (type === "initialLoadingStarted"){
+			this.addLoadingOperation("initialLoading");
+		} else if (type === "initialLoadingFinished"){
+			this.removeLoadingOperation("initialLoading");
+		}
 	};
 
 	return StateStore;

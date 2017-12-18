@@ -168,6 +168,7 @@ Ext.application({
 
 			this.on('login', function(loggedIn) {
 				if(loggedIn) {
+					window.Stores.notify("initialLoadingStarted");
                     Config.dataviewId = id;
                     $('#hideAllExceptLogin').hide();
 
@@ -190,6 +191,7 @@ Ext.application({
                 }
 			});
 		} else if (id) {
+			window.Stores.notify("initialLoadingStarted");
             Config.dataviewId = id;
             // Load stores when only for print or loading the whole application.
             var stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic', 'dataview'];
@@ -217,6 +219,7 @@ Ext.application({
 				alert(polyglot.t("notPossibleToLoadData"));
 			});
 		} else {
+			window.Stores.notify("initialLoadingStarted");
             Config.dataviewId = id;
             this.getController('Render').renderIntro();
 		}
@@ -224,9 +227,5 @@ Ext.application({
 });
 
 Ext.onReady(function(){
-	if(!Config.dataviewId && !Config.toggles.skipInitialSelection) {
-		console.log('appde.js# Hide Loading');
-		$("#loading-screen").css("display", "none");
-	}
 	Stores.notify('extLoaded');
 });

@@ -41,13 +41,15 @@ define(['../error/ArgumentError',
 	 */
 	MyGoToAnimator.prototype.setLocation = function(){
 		var self = this;
-		var currentState = Stores.retrieve('state').current();
+		var stateStore = Stores.retrieve("state");
+		var currentState = stateStore.current();
 		var places = currentState.places;
 		var dataset = currentState.scope;
 
 		console.log('MyGoToAnimator#setLocation CurrentState: ', currentState);
 		if (!dataset){
 			console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "MyGoToAnimator", "setLocation", "missingDataset"));
+			stateStore.removeLoadingOperation("ScopeLocationChanged");
 		}
 		else {
 			var values = {dataset: dataset};
@@ -85,6 +87,7 @@ define(['../error/ArgumentError',
 				}
                 self.wwd.redraw();
 				self.wwd.redrawIfNeeded(); // TODO: Check with new releases. This isn't part of the public API and therefore might change.
+				stateStore.removeLoadingOperation("ScopeLocationChanged");
 			}).catch(function(err){
 				throw new Error(Logger.log(Logger.LEVEL_SEVERE, err));
 			});
