@@ -200,7 +200,7 @@ define([
 	 * Add loading operation
 	 */
 	StateStore.prototype.addLoadingOperation = function(type){
-		this._loadingOperations.push({id: type});
+		this._loadingOperations.push(type);
 		console.log("StateStore#addLoadingOperation: Loading operation added!");
 		this.checkLoading(type);
 	};
@@ -209,10 +209,9 @@ define([
 	 * Remove loading operation
 	 */
 	StateStore.prototype.removeLoadingOperation = function (type) {
-		var self = this;
-		var obj = _.findWhere(self._loadingOperations, {id: type});
-		if (!_.isEmpty(obj)){
-			this._loadingOperations = _.without(this._loadingOperations, obj);
+		var index = _.findIndex(this._loadingOperations, function(item){return item === type});
+		if (index !== -1){
+			this._loadingOperations.splice(index, 1);
 			console.log("StateStore#removeLoadingOperation: Loading operation removed!");
 			this.checkLoading(type);
 		}
@@ -240,6 +239,8 @@ define([
 			this.addLoadingOperation("initialLoading");
 		} else if (type === "initialLoadingFinished"){
 			this.removeLoadingOperation("initialLoading");
+		} else if (type === "appRenderingStarted"){
+			this.addLoadingOperation("appRendering");
 		}
 	};
 

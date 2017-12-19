@@ -44,6 +44,7 @@ Ext.define('PumaMain.controller.DomManipulation', {
 	
 	renderApp: function() {
 		$("body").removeClass("intro").addClass("application");
+		window.Stores.notify("appRenderingStarted");
 		this.resizeMap();
 		this.resizeSidebars();
 	},

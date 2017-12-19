@@ -198,14 +198,19 @@ define(['../../actions/Actions',
 		var state = stateStore.current();
 		var changes = state.changes;
 		console.log('WorldWindMap#rebuild State: ', changes);
-		var self = this;
+
+		if (changes.scope || changes.location){
+			stateStore.removeLoadingOperation("appRendering");
+		}
 		if ((changes.scope || changes.location) && !changes.dataview){
 			stateStore.addLoadingOperation("ScopeLocationChanged");
 			this._goToAnimator.setLocation();
 		}
+
+
 		if (this._id === "default-map"){
 			stateStore.addLoadingOperation("DefaultMap");
-			self.updateNavigatorState();
+			this.updateNavigatorState();
 			var periods = state.periods;
 			if (periods.length === 1 || !this._period){
 				this._period = periods[0];
