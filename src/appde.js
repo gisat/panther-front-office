@@ -20,6 +20,7 @@ Ext.application({
 		'PumaMain.view.LayerPanel', 'PumaMain.view.MapTools', 'Gisatlib.slider.DiscreteTimeline', 'PumaMain.view.AreaTree'
 	],
 	launch: function() {
+		window.Stores.notify("initialLoadingStarted");
 		// replace protocol with no-ssl http when loading chart or map in Phantomjs
 		//if(location.protocol=="http:"){
 		//	var originalUrl = Config.url;
@@ -168,7 +169,6 @@ Ext.application({
 
 			this.on('login', function(loggedIn) {
 				if(loggedIn) {
-					window.Stores.notify("initialLoadingStarted");
                     Config.dataviewId = id;
                     $('#hideAllExceptLogin').hide();
 
@@ -187,11 +187,11 @@ Ext.application({
 
 					this._dataviewId = id;
                 } else {
+					window.Stores.notify("initialLoadingFinished");
                     loginController.onLoginClicked();
                 }
 			});
 		} else if (id) {
-			window.Stores.notify("initialLoadingStarted");
             Config.dataviewId = id;
             // Load stores when only for print or loading the whole application.
             var stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic', 'dataview'];
@@ -219,7 +219,6 @@ Ext.application({
 				alert(polyglot.t("notPossibleToLoadData"));
 			});
 		} else {
-			window.Stores.notify("initialLoadingStarted");
             Config.dataviewId = id;
             this.getController('Render').renderIntro();
 		}
