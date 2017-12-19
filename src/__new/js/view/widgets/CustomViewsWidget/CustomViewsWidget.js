@@ -66,7 +66,7 @@ define(['../../../actions/Actions',
 			},500);
 		}
 
-		Stores.retrieve('dataview').all().then(this.redraw.bind(this));
+		Stores.retrieve('dataview').load().then(this.redraw.bind(this));
 	};
 
 	/**
