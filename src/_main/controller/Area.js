@@ -80,9 +80,9 @@ Ext.define('PumaMain.controller.Area', {
 	// New URBIS function for detecting areas change
 	newAreasChange: function(){
 		var self = this;
-		AreasExpanding = true;
 		// this.showLoading("block");
-		setTimeout(function(){
+		clearTimeout(this._areasChangeTimeout);
+		this._areasChangeTimeout = setTimeout(function(){
 			// current areas
 			var level = ThemeYearConfParams.auCurrentAt;
 			var place = ThemeYearConfParams.place;
@@ -130,13 +130,12 @@ Ext.define('PumaMain.controller.Area', {
 
 			ExpandedAreasExchange = areasOutput;
 			self.newNotifyChange();
-			AreasExpanding = false;
-		},1000);
+		},50);
 	},
 
 	// new URBIS function for change notifying
 	newNotifyChange: function(){
-		Observer.notify('rebuild');
+		Observer.notify("rebuild");
 		// console.log('Area#newNotifyCahnge hide');
 		// var self = this;
 		// window.setTimeout(function(){
@@ -486,9 +485,9 @@ Ext.define('PumaMain.controller.Area', {
 			var place = ThemeYearConfParams.place;
 			var self = this;
 
-			if (!AreasExpanding){
-				this.newAreasChange();
-			}
+
+			this.newAreasChange();
+
 			this.initialized = true;
 			this.areaTemplates = [level];
 			this.getController('Map').updateGetFeatureControl();
@@ -663,9 +662,8 @@ Ext.define('PumaMain.controller.Area', {
 			ThemeYearConfParams.auCurrentAt = this.areaTemplates[this.areaTemplates.length-1];
 			Stores.notify("areas#areaTemplateChange")
 		}
-		if (!AreasExpanding){
-			this.newAreasChange();
-		}
+
+		this.newAreasChange();
 
 		this.getController('Map').updateGetFeatureControl();
 		this.lowestCount = lowestCount;

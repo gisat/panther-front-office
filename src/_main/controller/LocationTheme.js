@@ -284,7 +284,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         this.themeChanged = true;
         var themeCombo = null;
         if (cnt.switching) {
-            // this.getController('Area').showLoading("block");
+            this.getController('Area').showLoading("block");
             this.getController('DomManipulation').renderApp();
             this.getController('Render').renderApp();
             themeCombo = Ext.ComponentQuery.query('#seltheme')[0];
@@ -1081,6 +1081,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
     },
     onThemeLocationConfReceived: function(response) {
+		ThemeYearConfParams.actions.push(response.request.options.originatingCnt.itemId);
+
         var conf = JSON.parse(response.responseText).data;
         var scope = Ext.StoreMgr.lookup('dataset').getById(Number(response.request.options.params.dataset));
 

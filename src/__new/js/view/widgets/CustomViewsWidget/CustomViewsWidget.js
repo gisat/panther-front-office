@@ -47,8 +47,7 @@ define(['../../../actions/Actions',
 	CustomViewsWidget.prototype.build = function(){
 		if (Config.toggles.showDataviewsOverlay){
 			this._widgetSelector.addClass("open expanded active");
-
-			this.rebuild();
+			// this.rebuild();
 		}
 	};
 
@@ -79,7 +78,7 @@ define(['../../../actions/Actions',
 		if (data.length === 0){
 			this._widgetSelector.find(".widget-minimise").trigger("click");
 		} else {
-			if ($('body').hasClass("intro")){
+			if ($('body').hasClass("intro") && Config.toggles.showDataviewsOverlay){
 				this._widgetSelector.addClass("open expanded active");
 			}
 			var scope = Stores.retrieve("state").current().scope;
