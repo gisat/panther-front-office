@@ -410,11 +410,14 @@ Ext.define('PumaMain.controller.ViewMng', {
 
 		cfg.cfgs = viewCfgs;
 
-		cfg.choroplethCfg.forEach(function(choropleth){
-			if (choropleth.control){
-				delete choropleth.control;
-			}
-		});
+		if (cfg.choroplethCfg){
+			cfg.choroplethCfg.forEach(function(choropleth){
+				if (choropleth.control){
+					delete choropleth.control;
+				}
+			});
+		}
+
 		cfg.is3D = $('body').hasClass('mode-3d');
 
 		if (options){
