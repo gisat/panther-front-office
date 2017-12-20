@@ -119,22 +119,28 @@ define([
 			//// Add the mouse listeners.
 			$("#zoom-plus-control").on({
 				"mousedown": this.handleMouseEvent.bind(this,this.handleZoomIn),
-				"mouseup": this.handleMouseEvent.bind(this,this.handleZoomIn)});
+				"mouseup": this.handleMouseEvent.bind(this,this.handleZoomIn),
+				"mouseleave": this.handleMouseEvent.bind(this,this.handleZoomIn)});
 			$("#zoom-minus-control").on({
 				"mousedown": this.handleMouseEvent.bind(this,this.handleZoomOut),
-				"mouseup": this.handleMouseEvent.bind(this,this.handleZoomOut)});
+				"mouseup": this.handleMouseEvent.bind(this,this.handleZoomOut),
+				"mouseleave": this.handleMouseEvent.bind(this,this.handleZoomOut)});
 			$("#tilt-less-control").on({
 				"mousedown": this.handleMouseEvent.bind(this,this.handleTiltUp),
-				"mouseup": this.handleMouseEvent.bind(this,this.handleTiltUp)});
+				"mouseup": this.handleMouseEvent.bind(this,this.handleTiltUp),
+				"mouseleave": this.handleMouseEvent.bind(this,this.handleTiltUp)});
 			$("#tilt-more-control").on({
 				"mousedown": this.handleMouseEvent.bind(this,this.handleTiltDown),
-				"mouseup": this.handleMouseEvent.bind(this,this.handleTiltDown)});
+				"mouseup": this.handleMouseEvent.bind(this,this.handleTiltDown),
+				"mouseleave": this.handleMouseEvent.bind(this,this.handleTiltDown)});
 			$("#rotate-right-control").on({
 				"mousedown": this.handleMouseEvent.bind(this,this.handleHeadingRight),
-				"mouseup": this.handleMouseEvent.bind(this,this.handleHeadingRight)});
+				"mouseup": this.handleMouseEvent.bind(this,this.handleHeadingRight),
+				"mouseleave": this.handleMouseEvent.bind(this,this.handleHeadingRight)});
 			$("#rotate-left-control").on({
 				"mousedown": this.handleMouseEvent.bind(this,this.handleHeadingLeft),
-				"mouseup": this.handleMouseEvent.bind(this,this.handleHeadingLeft)});
+				"mouseup": this.handleMouseEvent.bind(this,this.handleHeadingLeft),
+				"mouseleave": this.handleMouseEvent.bind(this,this.handleHeadingLeft)});
 			$("#rotate-needle-control").on({
 				"mouseup": this.handleHeadingReset.bind(this)});
 			this.wwd.addEventListener("mousemove", this.handleManualRedraw.bind(this));
@@ -145,6 +151,7 @@ define([
 				e.type &&
 				(
 					(e.type === "mouseup" && e.which === 1) ||
+					e.type === "mouseleave" ||
 					e.type === "touchend" ||
 					e.type === "touchcancel"
 				)
