@@ -84,23 +84,35 @@ define(['../../../../../error/ArgumentError',
 		var self = this;
 
 		this._floaterBodySelector.on("slide", "#" + sliderId, function(e, ui){
-			self._layer.opacity = ui.value/100;
-			for (var key in self._maps){
-				self._maps[key].redraw();
-			}
-			self._opacityValue = ui.value;
+			self.setOpacity(ui.value/100);
 		});
 
 		this._floaterBodySelector.on("slidechange", "#" + sliderId, function(e, ui){
-			self._layer.opacity = ui.value/100;
+			// todo find out in which case this is used
 			if (self._layer.hasOwnProperty("renderables")){
 				self._layer.changeOpacity(ui.value/100);
 			}
-			for (var key in self._maps){
-				self._maps[key].redraw();
-			}
-			self._opacityValue = ui.value;
+			self.setOpacity(ui.value/100);
 		});
+	};
+
+	/**
+	 * Set opacity for this layer in all maps
+	 * @param opacity
+	 */
+	Opacity.prototype.setOpacity = function(opacity){
+		this._opacityValue = opacity*100;
+
+		var self = this;
+		this._maps.forEach(function(map){
+			map.layers._layers.forEach(function(layer){
+				if (layer.metadata && layer.metadata.id === self._layerMetadata.id){
+					layer.opacity = opacity;
+				}
+			});
+			map.redraw();
+		});
+
 	};
 
 	return Opacity;
