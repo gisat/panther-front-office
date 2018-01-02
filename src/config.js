@@ -18,8 +18,8 @@ var Config = {
 	melodiesRemoteUrl: "",
 
 	// cfg for snow portal
-	snowAppUrl: "http://localhost:3000/",
-	snowAppExampleUrl: "http://localhost:3000/albania/20170401-20170404/slstr-sentinel3/",
+	snowAppUrl: "http://snow.gisat.cz/snow/",
+	snowAppExampleUrl: "http://snow.gisat.cz/snow/czech_republic/20170101-20170107/modis-aqua-terra_slstr-sentinel3/",
 	snowGeoserverUrl: "http://snow.gisat.cz/geoserver/geonode/wms",
 	snowIntroUrl: "http://snow.gisat.cz/intro",
 
