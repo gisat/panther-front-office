@@ -106,11 +106,7 @@ define([
 				this._target.append('<div class="' + classesMapTools3d + '" id="top-toolbar-map-tools" data-for="floater-map-tools-widget">'+polyglot.t('mapTools')+'</div>');
 			}
 			if (tools.customViews){
-				var classesCustomViews3d = Config.auth ? "item" : "item hidden";
-				if (!Config.auth){
-					$('#floater-custom-views-widget').removeClass('open')
-				}
-				classesCustomViews3d += $('#floater-custom-views-widget').hasClass('open') ? " open" : "";
+				var classesCustomViews3d = $('#floater-custom-views-widget').hasClass('open') ? "item open" : "item";
 				this._target.append('<div class="' + classesCustomViews3d + '" id="top-toolbar-saved-views" data-for="floater-custom-views-widget">'+polyglot.t('customViews')+'</div>');
 			}
 			if (tools.snow){
@@ -146,11 +142,7 @@ define([
 				this._target.append('<div class="' + classesMapTools + '" id="top-toolbar-map-tools" data-for="window-maptools">'+polyglot.t('mapTools')+'</div>');
 			}
 			if (tools.customViews){
-				var classesCustomViews = Config.auth ? "item" : "item hidden";
-				if (!Config.auth){
-					$('#floater-custom-views-widget').removeClass('open')
-				}
-				classesCustomViews += $('#floater-custom-views-widget').hasClass('open') ? " open" : "";
+				var classesCustomViews = $('#floater-custom-views-widget').hasClass('open') ? "item open" : "item";
 				this._target.append('<div class="' + classesCustomViews + '" id="top-toolbar-saved-views" data-for="floater-custom-views-widget">'+polyglot.t('customViews')+'</div>');
 			}
 			if (tools.customLayers){

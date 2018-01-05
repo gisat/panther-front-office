@@ -77,6 +77,7 @@ define(['../../../actions/Actions',
 		this._widgetBodySelector.html('<div class="custom-views-content"></div>');
 		if (data.length === 0){
 			this._widgetSelector.find(".widget-minimise").trigger("click");
+			$("#top-toolbar-saved-views").addClass("hidden");
 		} else {
 			if ($('body').hasClass("intro") && Config.toggles.showDataviewsOverlay){
 				this._widgetSelector.addClass("open expanded active");
@@ -93,6 +94,12 @@ define(['../../../actions/Actions',
 			var sortedData = _.sortBy(filteredData, function(d){
 				return - (new Date(d.date).getTime());
 			});
+
+			if (sortedData.length === 0){
+				$("#top-toolbar-saved-views").addClass("hidden");
+			} else {
+				$("#top-toolbar-saved-views").removeClass("hidden");
+			}
 
 			var self = this;
 			sortedData.forEach(function(dataview){
