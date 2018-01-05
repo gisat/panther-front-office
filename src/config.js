@@ -85,6 +85,12 @@ if(Config.toggles[window.location.origin] && Config.toggles[window.location.orig
 if(Config.toggles[window.location.origin] && Config.toggles[window.location.origin].publicUrl) {
 	Config.publicUrl = Config.toggles[window.location.origin].publicUrl;
 }
+if(Config.toggles[window.location.origin] && Config.toggles[window.location.origin].geoServerUrl) {
+	Config.geoServerUrl = Config.toggles[window.location.origin].geoServerUrl;
+}
+if(Config.toggles[window.location.origin] && Config.toggles[window.location.origin].initialBaseMap) {
+	Config.initialBaseMap = Config.toggles[window.location.origin].initialBaseMap;
+}
 
 // Go through all the site specific toggles and rewrite the default ones.
 if(Config.toggles[window.location.origin]) {

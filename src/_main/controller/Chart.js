@@ -1284,6 +1284,7 @@ Ext.define('PumaMain.controller.Chart', {
                 return me.formatVal(val);
             }
         }
+        data.columns[0].text = polyglot.t(data.columns[0].dataIndex);
         var grid = Ext.widget('grid', {
             renderTo: cmp.el,
             height: '100%',
