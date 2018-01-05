@@ -44,7 +44,7 @@ define([
 				return this._url;
 			},
 			set: function(url) {
-				this._url = url + '&needLogin=true';
+				this._url = url;
 			}
 		}
 	});
@@ -192,7 +192,11 @@ define([
 			Groups.share(selectedGroup, state.scope, state.places, options.dataviewId),
 			Users.share(selectedUser, state.scope, state.places, options.dataviewId)
 		]).then(function(){
-			self._url = options.url + '&needLogin=true&lang=' + $( "#floater-sharing .floater-body #sharing-lang option:checked" ).val();
+			var auth = "&needLogin=true";
+			if (Config.auth && selectedGroup === '2'){
+				auth = "";
+			}
+			self._url = options.url + auth +'&lang=' + $( "#floater-sharing .floater-body #sharing-lang option:checked" ).val();
 			alert(polyglot.t('theStateWasCorrectlyShared') + self._url);
 			minimiseBtn.trigger("click");
 			self.rebuild();
