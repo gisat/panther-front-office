@@ -131,9 +131,13 @@ define(['../../../actions/Actions',
 	CustomViewsWidget.prototype.prepareDataForCard = function(d){
 		var language = d.data.language || "en";
 
+		var auth = "";
+		if (Config.auth){
+			auth = "&needLogin=true";
+		}
 		var prepared = {
 			id: d.id,
-			url: window.location.origin + window.location.pathname + "?id=" + d.id + "&needLogin=true&lang=" + language
+			url: window.location.origin + window.location.pathname + "?id=" + d.id + auth + "&lang=" + language
 		};
 
 		if (d.data.name && d.data.name.length > 0){

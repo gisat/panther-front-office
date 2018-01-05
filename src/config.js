@@ -51,7 +51,8 @@ var Config = {
 		isSnow: false,
 		skipInitialSelection: false,
 		hideWorldBank: false,
-		hideSelectorToolbar: false
+		hideSelectorToolbar: false,
+		showDataviewsOverlay: true
 	},
 
 	basicTexts: {
