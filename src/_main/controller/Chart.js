@@ -672,6 +672,7 @@ Ext.define('PumaMain.controller.Chart', {
     },
     
     onChartReceived: function(response) {
+		console.info('Chart#onChartReceived response: ' + response);
         var cmp = response.cmp || response.request.options.cmp;
         if (cmp.chart) {
             try {
@@ -680,13 +681,11 @@ Ext.define('PumaMain.controller.Chart', {
             }
         }
 
-
         var data = response.responseText ? JSON.parse(response.responseText).data : null;
         if (cmp.queryCfg.type == 'filter') {
-            //this.onFilterReceived(data, cmp)
+            //this.onFilterReceived(data, cmp);
             return;
         }
-
 
         if (!data || data.noData) {
             this.createNoDataChart(cmp);
@@ -711,7 +710,7 @@ Ext.define('PumaMain.controller.Chart', {
 
         var singlePage = response.request.options.singlePage;
         //var legendBtn = singlePage ? Ext.widget('button') : Ext.ComponentQuery.query('#legendbtn', cmp.ownerCt)[0];
-        
+
         cmp.noData = false;
         if (Ext.Array.contains(['extentoutline'], cmp.cfg.type)) {
             if (singlePage) {
@@ -724,10 +723,10 @@ Ext.define('PumaMain.controller.Chart', {
             type: 'fit'
         };
         cmp.getLayout();
-        
-        // if (!Ext.Array.contains(['grid', 'featurecount'], cmp.cfg.type)) {
-        //     legendBtn.show();
-        // }
+
+        //if (!Ext.Array.contains(['grid', 'featurecount'], cmp.cfg.type)) {
+        //    legendBtn.show();
+        //}
         var isGrid = cmp.queryCfg.type == 'grid';
         if (isGrid) {
             this.onGridReceived(response);
@@ -739,7 +738,6 @@ Ext.define('PumaMain.controller.Chart', {
             me.onScatterSelected(evt);
         };
         data.chart.events.click = function(evt) {
-            
             if (Config.contextHelp) {
                 PumaMain.controller.Help.onHelpClick({
                     stopPropagation: function() {},
