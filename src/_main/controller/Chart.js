@@ -674,23 +674,20 @@ Ext.define('PumaMain.controller.Chart', {
     onChartReceived: function(response) {
         var cmp = response.cmp || response.request.options.cmp;
         if (cmp.chart) {
-            
             try {
                 cmp.chart.destroy();
-            }
-            catch (e) {
+            } catch (e) {
             }
         }
-        
-        
+
+
         var data = response.responseText ? JSON.parse(response.responseText).data : null;
         if (cmp.queryCfg.type == 'filter') {
             //this.onFilterReceived(data, cmp)
             return;
         }
-       
-        
-        
+
+
         if (!data || data.noData) {
             this.createNoDataChart(cmp);
             return;
@@ -711,26 +708,26 @@ Ext.define('PumaMain.controller.Chart', {
                }
             });
         }
-        
-        var singlePage = response.request.options.singlePage
+
+        var singlePage = response.request.options.singlePage;
         //var legendBtn = singlePage ? Ext.widget('button') : Ext.ComponentQuery.query('#legendbtn', cmp.ownerCt)[0];
         
         cmp.noData = false;
         if (Ext.Array.contains(['extentoutline'], cmp.cfg.type)) {
             if (singlePage) {
-                data.colorMap = JSON.parse(response.request.options.params.colorMap)
+                data.colorMap = JSON.parse(response.request.options.params.colorMap);
             }
             this.onOutlineReceived(data, cmp);
             return;
         }
         cmp.layout = {
             type: 'fit'
-        }
+        };
         cmp.getLayout();
         
-        if (!Ext.Array.contains(['grid', 'featurecount'], cmp.cfg.type)) {
-            //legendBtn.show();
-        }
+        // if (!Ext.Array.contains(['grid', 'featurecount'], cmp.cfg.type)) {
+        //     legendBtn.show();
+        // }
         var isGrid = cmp.queryCfg.type == 'grid';
         if (isGrid) {
             this.onGridReceived(response);
@@ -740,7 +737,7 @@ Ext.define('PumaMain.controller.Chart', {
         var me = this;
         data.chart.events.selection = function(evt) {
             me.onScatterSelected(evt);
-        }
+        };
         data.chart.events.click = function(evt) {
             
             if (Config.contextHelp) {
@@ -750,7 +747,7 @@ Ext.define('PumaMain.controller.Chart', {
                     currentTarget: cmp.el
                 });
             }
-        }
+        };
         data.tooltip.formatter = function() {
             var obj = this;
             var type = obj.series.type;
@@ -764,16 +761,16 @@ Ext.define('PumaMain.controller.Chart', {
                     name: obj.series.name,
                     val: obj.y,
                     units: obj.point.units
-                })
+                });
             }
             else if (type=='pie') {
                 areaName = obj.series.name;
-                yearName = obj.series.userOptions.yearName
+                yearName = obj.series.userOptions.yearName;
                 attrConf.push({
                     name: obj.point.swap ? 'Other' : obj.key,
                     val: obj.y,
                     units: obj.point.units
-                })
+                });
             }
             else {
                 areaName = obj.key;
@@ -782,23 +779,23 @@ Ext.define('PumaMain.controller.Chart', {
                     name: obj.point.yName,
                     val: obj.point.y,
                     units: obj.point.yUnits
-                })
+                });
                 attrConf.push ({
                     name: obj.point.xName,
                     val: obj.point.x,
                     units: obj.point.xUnits
-                })
+                });
                 if (obj.point.zName) {
                     attrConf.push({
                         name: obj.point.zName,
                         val: obj.point.z,
                         units: obj.point.zUnits
-                    })
+                    });
                 }
             }
-            return me.getTooltipHtml(areaName,yearName,attrConf)
-        }
-        data.plotOptions = data.plotOptions || {series: {events: {}}}
+            return me.getTooltipHtml(areaName,yearName,attrConf);
+        };
+        data.plotOptions = data.plotOptions || {series: {events: {}}};
 
         data.plotOptions.series.events.click = function(evt) {
             if (Config.contextHelp) {
@@ -809,17 +806,17 @@ Ext.define('PumaMain.controller.Chart', {
                 });
                 return;
             }
-            me.onPointClick(this.chart.cmp, evt, false)
-        }
+            me.onPointClick(this.chart.cmp, evt, false);
+        };
         if (cmp.cfg.type == 'piechart') {
             data.plotOptions.series.events.mouseOver = function(evt) {
-                me.onPointClick(this.chart.cmp, evt, true)
+                me.onPointClick(this.chart.cmp, evt, true);
             }
         }
         else if (cmp.cfg.type != 'featurecount') {
             data.plotOptions.series.point.events.mouseOver = function(evt) {
-                me.onPointClick(this.series.chart.cmp, evt, true)
-            }
+                me.onPointClick(this.series.chart.cmp, evt, true);
+            };
             if (cmp.cfg.type == 'scatterchart') {
                 data.plotOptions.series.point.events.mouseOut = function(evt) {
                     $('path[linecls=1]').hide();
@@ -833,13 +830,12 @@ Ext.define('PumaMain.controller.Chart', {
                 var isSingle = this.series.chart.options.chart.isPieSingle;
                 if (!isSingle) {
                     me.onLegendToggle(this);
-                    
                 }
             }
         }
         data.exporting = {
             enabled: false
-        }
+        };
         data.chart.renderTo = cmp.el.dom;
         data.chart.events.load = function() {
             if (this.options.chart.isPieSingle) {
@@ -849,18 +845,24 @@ Ext.define('PumaMain.controller.Chart', {
                     var serie = chart.series[i];
                     var left = chart.plotLeft + serie.center[0];
                     var top = chart.plotTop + serie.center[1]+serie.options.pieFontShift;
-                    var text = rend.text(serie.options.pieText, left,  top).attr({ 'style':'','text-anchor': 'middle','font-size':serie.options.pieFontSize,'fill':serie.options.pieFontColor}).add();
+                    var text = rend.text(serie.options.pieText, left, top)
+                                   .attr({
+                                       'style': '',
+                                       'text-anchor': 'middle',
+                                       'font-size': serie.options.pieFontSize,
+                                       'fill': serie.options.pieFontColor
+                                   })
+                                   .add();
                 }
-                                          
             }
             if (cmp.cfg.scrollLeft && singlePage) {
-                $('.x-container').scrollLeft(cmp.cfg.scrollLeft)
+                $('.x-container').scrollLeft(cmp.cfg.scrollLeft);
                 $('.x-container').css('overflow','hidden');
             }
             if (singlePage) {
-                console.log('loadingdone')
+                console.log('loadingdone');
             }
-        }
+        };
         if (singlePage) {
             for (var i = 0; i < data.series.length; i++) {
                 data.series[i].animation = false;
