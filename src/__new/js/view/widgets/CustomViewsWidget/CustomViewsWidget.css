@@ -28,6 +28,7 @@ body.intro #floater-custom-views-widget .floater-header{
 }
 body.intro #floater-custom-views-widget .floater-body{
 	height: 100%;
+	padding: 0;
 }
 
 #floater-custom-views-widget .custom-views-content {
@@ -36,5 +37,48 @@ body.intro #floater-custom-views-widget .floater-body{
 	flex-wrap: wrap;
 }
 body.intro #floater-custom-views-widget .custom-views-content {
-	justify-content: center;
+	flex-wrap: nowrap;
+	height: 100%;
+	position: relative;
+	overflow: hidden;
+}
+
+#floater-custom-views-widget .custom-views-categories {
+	display: flex;
+	flex-direction: column;
+	width: 30%;
+	min-width: 20rem;
+	max-width: 30rem;
+	padding: 1rem;
+	font-size: 1rem;
+}
+#floater-custom-views-widget .custom-views-dataviews {
+	display: block;
+	overflow: hidden;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	flex: 1;
+}
+#floater-custom-views-widget .custom-views-dataviews-container {
+	top: 0;
+	display: block;
+	height: 10000%;
+	position: absolute;
+	overflow: hidden;
+	transition: top .3s ease-in-out;
+}
+#floater-custom-views-widget .custom-views-dataviews4scope {
+	display: block;
+	height: 100%;
+	width: 100%;
+	max-height: 1%;
+	left: 0;
+	overflow: auto;
+}
+#floater-custom-views-widget .custom-views-dataviews4scope > div {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	overflow: hidden;
 }

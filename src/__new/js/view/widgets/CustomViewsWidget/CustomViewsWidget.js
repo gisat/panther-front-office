@@ -66,7 +66,9 @@ define(['../../../actions/Actions',
 			},500);
 		}
 
-		Stores.retrieve('dataview').load().then(this.redraw.bind(this));
+		Stores.retrieve('dataview').load()
+			.then(this.redraw.bind(this))
+			.catch(function(err){throw new Error(err);});
 	};
 
 	/**
@@ -75,47 +77,117 @@ define(['../../../actions/Actions',
 	 */
 	CustomViewsWidget.prototype.redraw = function(data){
 		this._widgetBodySelector.html('<div class="custom-views-content"></div>');
+		this._contentSelector = this._widgetBodySelector.find(".custom-views-content");
+
 		if (data.length === 0){
 			this._widgetSelector.find(".widget-minimise").trigger("click");
 			$("#top-toolbar-saved-views").addClass("hidden");
 		} else {
-			if ($('body').hasClass("intro") && Config.toggles.showDataviewsOverlay){
-				this._widgetSelector.addClass("open expanded active");
-			}
-			var scope = Stores.retrieve("state").current().scope;
-			var filteredData = data;
-			if (scope){
-				// TODO move fiter to backend
-				filteredData = _.filter(data, function(d){
-					return d.data.dataset === Number(scope);
-				});
-			}
+			var bodySelector = $('body');
+			var isIntro = bodySelector.hasClass('intro');
+			if (isIntro && Config.toggles.showDataviewsOverlay){
+				this.renderAsOverlay(data);
 
-			var sortedData = _.sortBy(filteredData, function(d){
-				return - (new Date(d.date).getTime());
-			});
-
-			if (sortedData.length === 0){
-				$("#top-toolbar-saved-views").addClass("hidden");
 			} else {
-				$("#top-toolbar-saved-views").removeClass("hidden");
+				var scope = Stores.retrieve("state").current().scope;
+				this.renderAsWidget(data, scope)
 			}
+		}
 
+		this.handleLoading("hide");
+	};
+
+	/**
+	 * Add content grouped to one category per scope
+	 * @param data {Array} data for dataviews card
+	 */
+	CustomViewsWidget.prototype.renderAsOverlay = function(data){
+		this._widgetSelector.addClass("open expanded active");
+
+		var groupedData = this.groupDataByScope(data);
+		var scopeNamesPromises = [];
+		for (var ds in groupedData){
+			scopeNamesPromises.push(Stores.retrieve('scope').byId(Number(ds)));
+		}
+
+		var self = this;
+		Promise.all(scopeNamesPromises).then(function(results){
+			var scopes = _.flatten(results);
+			self.renderAsOverlayContent(scopes, groupedData);
+		}).catch(function(err){
+			throw new Error(err);
+		});
+	};
+
+	/**
+	 * Render content of widget in overlay mode
+	 * @param scopes {Array} Collestion of scopes
+	 * @param data {Object} Data about dataviews grouped by scope
+	 */
+	CustomViewsWidget.prototype.renderAsOverlayContent = function(scopes, data){
+		this._contentSelector.html('<div class="custom-views-categories"></div>' +
+			'<div class="custom-views-dataviews">' +
+				'<div class="custom-views-dataviews-container"></div>' +
+			'</div>');
+		this._categoriesContainerSelector = this._contentSelector.find('.custom-views-categories');
+		this._dataviewsContainerSelector = this._contentSelector.find('.custom-views-dataviews-container');
+
+		for (var dataset in data){
+			var name = _.find(scopes, function(scope){
+				return Number(scope.id) === Number(dataset);
+			}).name;
+			this._categoriesContainerSelector.append('<div class="custom-views-category" data-for="custom-views-dataviews-' + dataset + '">' + name + '</div>');
+			this._dataviewsContainerSelector.append('<div class="custom-views-dataviews4scope" id="custom-views-dataviews-' + dataset + '">' +
+					'<div></div>' +
+				'</div>');
+
+			var dataviews4scope = $('#custom-views-dataviews-' + dataset + ' > div');
+			var sortedData = this.sortDataByTime(data[dataset]);
 			var self = this;
 			sortedData.forEach(function(dataview){
 				var data = self.prepareDataForCard(dataview);
-				new DataviewCard({
-					id: data.id,
-					url: data.url,
-					name: data.name,
-					description: data.description,
-					dispatcher: self._dispatcher,
-					preview: data.preview,
-					target: self._widgetBodySelector.find(".custom-views-content")
-				});
+				self.addDataviewCard(data, dataviews4scope);
 			});
 		}
-		this.handleLoading("hide");
+
+		this.addCategoryListener();
+	};
+
+	/**
+	 * Add content for selected scope
+	 * @param data {Array} data for dataviews card
+	 * @param scope {string|number} current scope
+	 */
+	CustomViewsWidget.prototype.renderAsWidget = function(data, scope){
+
+		//filter dataviews for this scope only
+		// TODO move fiter to backend
+		var filteredData = this.filterDataByScope(data, scope);
+		var sortedData = this.sortDataByTime(filteredData);
+
+		if (sortedData.length === 0){
+			$("#top-toolbar-saved-views").addClass("hidden");
+		} else {
+			$("#top-toolbar-saved-views").removeClass("hidden");
+		}
+
+		var self = this;
+		sortedData.forEach(function(dataview){
+			var data = self.prepareDataForCard(dataview);
+			self.addDataviewCard(data, self._contentSelector);
+		});
+	};
+
+	/**
+	 * Add on click listener to category menu item
+	 */
+	CustomViewsWidget.prototype.addCategoryListener = function(){
+		var self = this;
+		$(".custom-views-category").off("click.category").on("click.category", function(){
+			var category = $(this);
+			var index = $(".custom-views-category").index(category);
+			self._dataviewsContainerSelector.css("top", -(index*100) + "%");
+		});
 	};
 
 	/**
@@ -164,6 +236,58 @@ define(['../../../actions/Actions',
 		};
 
 		return prepared;
+	};
+
+	/**
+	 * Group data for dataviews by scope
+	 * @param data {Array}
+	 * @returns {Object} data grouped by scope
+	 */
+	CustomViewsWidget.prototype.groupDataByScope = function(data){
+		return _.groupBy(data, function(d){
+			return d.data.dataset;
+		});
+	};
+
+	/**
+	 * Filter data for dataviews cards by scope
+	 * @param data {Array}
+	 * @param scope {string|number} id of current scope
+	 * @returns {Array} filtered data
+	 */
+	CustomViewsWidget.prototype.filterDataByScope = function(data, scope){
+		return _.filter(data, function(d){
+			return d.data.dataset === Number(scope);
+		});
+	};
+
+	/**
+	 * Sort data for daataviews by time from the newest
+	 * @param data {Array}
+	 * @returns {Array} sorted data
+	 */
+	CustomViewsWidget.prototype.sortDataByTime = function(data){
+		return _.sortBy(data, function(d){
+			return - (new Date(d.date).getTime());
+		});
+	};
+
+	/**
+	 * Add dataview card to target
+	 * @param data {Object} data for card
+	 * @param target {Object} JQuery selector of parent element
+	 * @returns {DataviewCard}
+	 */
+	CustomViewsWidget.prototype.addDataviewCard = function(data, target){
+		return new DataviewCard({
+			id: data.id,
+			url: data.url,
+			name: data.name,
+			description: data.description,
+			dispatcher: this._dispatcher,
+			preview: data.preview,
+			target: target
+		});
 	};
 
 	return CustomViewsWidget;

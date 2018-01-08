@@ -4,6 +4,10 @@
 		* Windows........................common for all Ext-based windows
 			* Window header..............header and it's components
 			* Login window...............login window
+
+	* COMMON LAYOUT COMPONENTS
+		* Header.........................declarations of header toolbars
+
 */
 
 /* =====================================================
@@ -112,59 +116,28 @@
 	content: "\f023";
 }
 
-
+/* =====================================================
+=== COMMON LAYOUT COMPONENTS ===========================
+======================================================== */
 
 .newDesign body {
 	background: rgb(163, 205, 255);
-}
-
-/* Agreement === */
-.newDesign #content-intro-terms {
-	color: #555;
-}
-
-.newDesign #content-intro-terms #agreement-accept .x-btn {
-	background: #c92d42;
-	transition: background .3s ease-out;
-}
-
-.newDesign #content-intro-terms #agreement-accept .x-btn-over {
-	background: #ad2738;
-}
-
-.newDesign #content-intro-terms #agreement-cancel .x-btn {
-	background: #aaa;
-	transition: background .3s ease-out;
-}
-
-.newDesign #content-intro-terms #agreement-cancel .x-btn-over {
-	background: #888;
-}
-
-.newDesign #agreement-accept-chb input {
-	background-image: url('../images/new/unchecked.png');
-	height: 15px;
-	width: 15px;
-}
-
-.newDesign #agreement-accept-chb .x-form-cb-checked input {
-	background-image: url('../images/new/checked.png');
 }
 
 /* Header === */
 .newDesign #wb-header {
 
 }
-
 .newDesign #wb-header a {
 	background: url('../images/new/world-bank-logo.png') no-repeat 5px 5px;
 }
-
 .newDesign #header {
 	background: #434254;
-	/* border-bottom: 2px solid rgb(36, 36, 49); */
 	padding-left: 10px;
 	z-index: 10000;
+}
+.newDesign body.intro #header {
+	background: #212635;
 }
 
 .newDesign #header .menu li:before {
@@ -222,6 +195,39 @@
 	content: "";
 	margin: 0;
 	width: 0;
+}
+
+/* Agreement === */
+.newDesign #content-intro-terms {
+	color: #555;
+}
+
+.newDesign #content-intro-terms #agreement-accept .x-btn {
+	background: #c92d42;
+	transition: background .3s ease-out;
+}
+
+.newDesign #content-intro-terms #agreement-accept .x-btn-over {
+	background: #ad2738;
+}
+
+.newDesign #content-intro-terms #agreement-cancel .x-btn {
+	background: #aaa;
+	transition: background .3s ease-out;
+}
+
+.newDesign #content-intro-terms #agreement-cancel .x-btn-over {
+	background: #888;
+}
+
+.newDesign #agreement-accept-chb input {
+	background-image: url('../images/new/unchecked.png');
+	height: 15px;
+	width: 15px;
+}
+
+.newDesign #agreement-accept-chb .x-form-cb-checked input {
+	background-image: url('../images/new/checked.png');
 }
 
 /* Footer === */
