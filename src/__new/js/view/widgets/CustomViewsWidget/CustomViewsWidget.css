@@ -43,16 +43,40 @@ body.intro #floater-custom-views-widget .custom-views-content {
 	overflow: hidden;
 }
 
-#floater-custom-views-widget .custom-views-categories {
+/* === INTRO OVERLAY === */
+
+#floater-custom-views-widget.intro-overlay .floater-body {
+	background-image: linear-gradient(160deg, #212635 0%, #212635 50%, /*#332035*/#372939 100%);;
+}
+
+/* Categories */
+.custom-views-categories {
 	display: flex;
 	flex-direction: column;
 	width: 30%;
 	min-width: 20rem;
 	max-width: 30rem;
-	padding: 1rem;
+	padding: 7rem 0 1rem;
 	font-size: 1rem;
 }
-#floater-custom-views-widget .custom-views-dataviews {
+.custom-views-category {
+	padding-left: 2.5rem;
+	cursor: pointer;
+	font-size: 1.2rem;
+	font-weight: 300;
+	color: rgb(204,207,211);
+	line-height: 3.2rem;
+	transition: background-color .3s
+}
+.custom-views-category:hover {
+	background: rgba(153,54,75,.2);
+}
+.custom-views-category.active {
+	background: rgba(153,54,75,.4);
+}
+
+/* dataviews */
+.custom-views-dataviews {
 	display: block;
 	overflow: hidden;
 	top: 0;
@@ -60,25 +84,37 @@ body.intro #floater-custom-views-widget .custom-views-content {
 	bottom: 0;
 	flex: 1;
 }
-#floater-custom-views-widget .custom-views-dataviews-container {
+.custom-views-dataviews-container {
 	top: 0;
 	display: block;
-	height: 10000%;
-	position: absolute;
+	height: 100%;
+	position: relative;
 	overflow: hidden;
 	transition: top .3s ease-in-out;
 }
-#floater-custom-views-widget .custom-views-dataviews4scope {
+.custom-views-dataviews4scope {
 	display: block;
 	height: 100%;
 	width: 100%;
-	max-height: 1%;
 	left: 0;
-	overflow: auto;
+	padding: 5rem 7rem 7rem 0rem;
+	position: absolute;
+	opacity: .15;
+	z-index: 0;
+	transition: opacity .2s ease-in-out .2s, padding .4s ease-in-out;
 }
-#floater-custom-views-widget .custom-views-dataviews4scope > div {
+.custom-views-dataviews4scope.active {
+	z-index: 2;
+	opacity: 1;
+	padding: 3rem 5rem 5rem 1.5rem;
+	transition: opacity 0s ease-in-out .2s, padding .4s ease-in-out;
+}
+.custom-views-dataviews4scope-wrapper {
+	background: white;
+	height: 100%
+}
+.custom-views-dataviews4scope-content {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	overflow: hidden;
 }

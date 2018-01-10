@@ -20,9 +20,9 @@
 	padding: 0 2rem 0 .8rem;
 }
 .dataview-card-text > h3 {
-	font-size: 1.1rem;
+	font-size: 1.2rem;
 	color: rgb(65,69,81);
-	font-weight: 600;
+	font-weight: 500;
 	margin-bottom: .2rem;
 }
 .dataview-card-text > p {

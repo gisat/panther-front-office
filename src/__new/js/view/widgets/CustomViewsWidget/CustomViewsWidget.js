@@ -102,7 +102,7 @@ define(['../../../actions/Actions',
 	 * @param data {Array} data for dataviews card
 	 */
 	CustomViewsWidget.prototype.renderAsOverlay = function(data){
-		this._widgetSelector.addClass("open expanded active");
+		this._widgetSelector.addClass("open expanded active intro-overlay");
 
 		var groupedData = this.groupDataByScope(data);
 		var scopeNamesPromises = [];
@@ -136,12 +136,15 @@ define(['../../../actions/Actions',
 			var name = _.find(scopes, function(scope){
 				return Number(scope.id) === Number(dataset);
 			}).name;
+
 			this._categoriesContainerSelector.append('<div class="custom-views-category" data-for="custom-views-dataviews-' + dataset + '">' + name + '</div>');
 			this._dataviewsContainerSelector.append('<div class="custom-views-dataviews4scope" id="custom-views-dataviews-' + dataset + '">' +
-					'<div></div>' +
+					'<div class="custom-views-dataviews4scope-wrapper">' +
+						'<div class="custom-views-dataviews4scope-content"></div>' +
+					'</div>' +
 				'</div>');
 
-			var dataviews4scope = $('#custom-views-dataviews-' + dataset + ' > div');
+			var dataviews4scope = $('#custom-views-dataviews-' + dataset + ' .custom-views-dataviews4scope-content');
 			var sortedData = this.sortDataByTime(data[dataset]);
 			var self = this;
 			sortedData.forEach(function(dataview){
@@ -149,6 +152,9 @@ define(['../../../actions/Actions',
 				self.addDataviewCard(data, dataviews4scope);
 			});
 		}
+
+		$(".custom-views-category:first-child").addClass("active");
+		$(".custom-views-dataviews4scope:first-child").addClass("active");
 
 		this.addCategoryListener();
 	};
@@ -185,8 +191,15 @@ define(['../../../actions/Actions',
 		var self = this;
 		$(".custom-views-category").off("click.category").on("click.category", function(){
 			var category = $(this);
-			var index = $(".custom-views-category").index(category);
-			self._dataviewsContainerSelector.css("top", -(index*100) + "%");
+			var categories = $(".custom-views-category");
+			var contentWindows = $(".custom-views-dataviews4scope");
+			var contentWindowId = $(this).attr("data-for");
+			var contentWindow = $("#" + contentWindowId);
+
+			categories.removeClass("active");
+			category.addClass("active");
+			contentWindows.removeClass("active");
+			contentWindow.addClass("active");
 		});
 	};
 
