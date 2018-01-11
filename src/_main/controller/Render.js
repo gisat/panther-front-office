@@ -500,7 +500,6 @@ Ext.define('PumaMain.controller.Render', {
 		window.clearTimeout(this._intervalCheck);
         if (window.Stores.hasStateStore){
 			window.Stores.notify("initialLoadingFinished");
-			window.Stores.notify('user#changed');
         } else {
             var self = this;
             this._intervalCheck = window.setTimeout(function(){

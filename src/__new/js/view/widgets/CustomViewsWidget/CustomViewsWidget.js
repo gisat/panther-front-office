@@ -257,7 +257,7 @@ define(['../../../actions/Actions',
 	 * @param type {string} type of event
 	 */
 	CustomViewsWidget.prototype.onEvent = function(type){
-		if (type === Actions.userChanged){
+		if (type === Actions.userChanged || type === "initialLoadingFinished"){
 			this.handleLoading("show");
 			Stores.retrieve('dataview').load().then(this.redraw.bind(this));
 		} else if (type === Actions.dataviewShow){
