@@ -91,7 +91,7 @@ define(['../../../actions/Actions',
 			var bodySelector = $('body');
 			var isIntro = bodySelector.hasClass('intro');
 			if (isIntro && Config.toggles.showDataviewsOverlay){
-				this.renderAsOverlay(data,isAdmin);
+				this.renderAsOverlay(data, isAdmin);
 
 			} else {
 				var scope = Stores.retrieve("state").current().scope;
@@ -110,6 +110,8 @@ define(['../../../actions/Actions',
 	CustomViewsWidget.prototype.renderAsOverlay = function(data, isAdmin){
 		this._widgetSelector.addClass("open expanded active intro-overlay");
 		$('body').addClass("intro-overlay");
+
+		this.toggleOverlaySwitch(isAdmin);
 
 		var groupedData = this.groupDataByScope(data);
 		var scopeNamesPromises = [];
@@ -165,6 +167,45 @@ define(['../../../actions/Actions',
 		$(".custom-views-dataviews4scope:first-child").addClass("active");
 
 		this.addCategoryListener();
+	};
+
+	/**
+	 * Show/hide overlay switch
+	 * @param isAdmin {boolean} true, if logged user is admin
+	 */
+	CustomViewsWidget.prototype.toggleOverlaySwitch = function(isAdmin){
+		if (this._overlaySwitchSelector){
+			if (isAdmin){
+				this._overlaySwitchSelector.css("display", "inline-block");
+			} else {
+				this._overlaySwitchSelector.css("display", "none");
+			}
+		} else if (isAdmin) {
+			this.renderOverlaySwitch();
+		}
+	};
+
+	/**
+	 * Add switch to the header toolbar, which allows to admin switch off/on the overlay
+	 */
+	CustomViewsWidget.prototype.renderOverlaySwitch = function(){
+		$("#header .menu").append("<li id='overlay-switch'><a href='#'>" + polyglot.t("dataviewOverlaySwitchToOld") + "</a></li>");
+		this._overlaySwitchSelector = $("#overlay-switch");
+		var self = this;
+		this._overlaySwitchSelector.on("click",function(){
+			var switcherLink = $(this).find("a");
+			var bodySelector = $('body');
+			var overlayActive = self._widgetSelector.hasClass("open");
+			if (overlayActive){
+				self._widgetSelector.removeClass("open");
+				bodySelector.removeClass("intro-overlay");
+				switcherLink.text(polyglot.t("dataviewOverlaySwitchToNew"));
+			} else {
+				self._widgetSelector.addClass("open");
+				bodySelector.addClass("intro-overlay");
+				switcherLink.text(polyglot.t("dataviewOverlaySwitchToOld"));
+			}
+		});
 	};
 
 	/**

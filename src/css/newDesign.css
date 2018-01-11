@@ -189,12 +189,6 @@
 	content: url("../images/new/signup.png");
 }
 
-.newDesign #header .user .login.logged:before, .newDesign #header .user .signup.logged:before {
-	content: "";
-	margin: 0;
-	width: 0;
-}
-
 /* header for overlay */
 .newDesign body.intro-overlay #header {
 	background: #212635;
