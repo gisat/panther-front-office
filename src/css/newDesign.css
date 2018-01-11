@@ -33,6 +33,17 @@
 /* login window */
 .newDesign #loginwindow {
 	z-index: 99998 !important;
+	top: 0 !important;
+	left: 0 !important;
+	width: 100% !important;
+	height: 100% !important;
+	background: rgba(33,38,53,.9);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.newDesign #loginwindow .x-window.body {
+	border: 1px solid rgba(33,38,53,.5);
 }
 .newDesign #loginwindow .x-toolbar-footer {
 	background: none;
@@ -43,26 +54,30 @@
 	background: none;
 	border-color: rgb(65,69,81);
 	border-style: solid;
-	border-width: .1rem !important;
+	border-width: 1px !important;
 	border-radius: .15rem;
 	transition: background .3s ease-in-out, border .3s ease-in-out;
-	width: 90px !important;
+	width: 120px !important;
+}
+.newDesign #loginwindow .x-btn-default-small-noicon button {
+	line-height: 2rem;
 }
 .newDesign #loginwindow .x-btn-over,
 .newDesign #loginwindow .x-btn-focus {
-	background: rgba(65,69,81,.15);
+	background: rgba(65,69,81,.25);
 }
 .newDesign #loginwindow .x-btn-focus {
 	box-shadow: 0 0 2px 1px rgba(55,125,166,1);
 }
 .newDesign #loginwindow .x-btn:first-child {
-	background: rgb(65,69,81);
-	right: 100px;
+	border-color: rgb(33,38,53);
+	background: rgb(33,38,53);
+	right: 140px;
 }
 .newDesign #loginwindow .x-btn-over.x-btn:first-child,
 .newDesign #loginwindow .x-btn-focus.x-btn:first-child {
-	border-color: rgb(33,38,53);
-	background: rgb(33,38,53);
+	border-color: transparent;
+	background: rgba(33,38,53, .9);
 }
 
 .newDesign #loginwindow .x-btn:last-child {
@@ -70,8 +85,8 @@
 }
 .newDesign #loginwindow .x-btn-inner {
 	color: #eee;
-	font-size: .8rem;
-	font-weight: 600;
+	font-size: .95rem;
+	font-weight: 500;
 	line-height: 1.2;
 }
 .newDesign #loginwindow .x-btn:last-child .x-btn-inner {
@@ -81,13 +96,14 @@
 /* TODO move form declarations to forms*/
 .newDesign #loginwindow .x-form-field {
 	background: rgba(224,227,231,1);
-	font-size: .9rem;
-	line-height: 1.6rem;
+	font-size: 1.05rem;
+	font-weight: 300;
+	line-height: 2rem;
 	border: .1rem solid rgba(224,227,231,1);
 	border-radius: 0 .15rem .15rem 0;
 	padding-left: .3rem;
 	width: 100%;
-	height: 2rem
+	height: 2.5rem;
 }
 .newDesign #loginwindow input.x-form-field {
 	color: rgba(106,110,120,1);
@@ -98,8 +114,8 @@
 	padding: 0;
 }
 .newDesign #loginwindow .x-form-item-label::after {
-	width: 30px;
-	height: 2rem;
+	width: 40px;
+	height: 2.5rem;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -111,7 +127,8 @@
 }
 
 .newDesign #loginwindow .login-username .x-form-item-label::after {
-	content: "\f007";
+	content: "\f2c0";
+	font-size: 1.05rem;
 }
 .newDesign #loginwindow .login-password .x-form-item-label::after {
 	content: "\f023";

@@ -11,7 +11,7 @@ Ext.define('Puma.view.LoginWindow' ,{
         this.form = {
             xtype: 'form',
             frame: true,
-            padding: 30,
+            padding: 40,
             items: [{
                     xtype: 'textfield',
                     fieldLabel: " ",
@@ -20,6 +20,7 @@ Ext.define('Puma.view.LoginWindow' ,{
                     labelSeparator: "",
                     labelAlign: "right",
                     labelWidth: 30,
+                    width: 300,
                     itemId: 'username',
                     emptyText: 'Username or email'
                 }, {
@@ -30,6 +31,8 @@ Ext.define('Puma.view.LoginWindow' ,{
                     labelSeparator: "",
                     labelAlign: "right",
                     labelWidth: 30,
+				    width: 300,
+                    margin: "10 0",
                     inputType: 'password',
                     itemId: 'password',
 				    emptyText: 'Password'
@@ -38,11 +41,13 @@ Ext.define('Puma.view.LoginWindow' ,{
                     xtype: 'button',
                     text: polyglot.t('login'),
                     margin: '5 5',
+                    height: 36,
                     itemId: 'loginbtn'
                 }, {
                     xtype: 'button',
                     text: polyglot.t('cancel'),
                     margin: '5 2',
+					height: 36,
                     handler: function() {
                         me.close();
                     }
