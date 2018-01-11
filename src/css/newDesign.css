@@ -7,6 +7,7 @@
 
 	* COMMON LAYOUT COMPONENTS
 		* Header.........................declarations of header toolbars
+		* Header for overlay.............adjustment of header for intro overlay of dataviews
 
 */
 
@@ -136,9 +137,6 @@
 	padding-left: 10px;
 	z-index: 10000;
 }
-.newDesign body.intro #header {
-	background: #212635;
-}
 
 .newDesign #header .menu li:before {
 	background-color: #888;
@@ -195,6 +193,59 @@
 	content: "";
 	margin: 0;
 	width: 0;
+}
+
+/* header for overlay */
+.newDesign body.intro-overlay #header {
+	background: #212635;
+	display: flex;
+	padding: 0 1.5rem;
+}
+.newDesign body.intro-overlay #header .menu {
+	margin: 0;
+	flex: 1;
+	line-height: 55px;
+}
+.newDesign body.intro-overlay #header .menu li:before {
+	display: inline-block;
+	vertical-align: text-bottom;
+	position: relative;
+	top: auto;
+}
+.newDesign body.intro-overlay #header .user {
+	height: auto;
+	top: auto;
+	padding: 0;
+	position: relative;
+	line-height: 55px;
+}
+.newDesign body.intro-overlay #header a {
+	font-size: 13px;
+	font-weight: 400;
+	color: rgba(148,152,160,1);
+	text-transform: none;
+}
+.newDesign body.intro-overlay #header .user .login:before,
+.newDesign body.intro-overlay #header .user .signup:before {
+	font-family: "FontAwesome";
+	font-size: 1rem;
+	width: auto;
+	height: auto;
+	margin: 0;
+	margin-top: -2px;
+	padding: 0 7px 0 0;
+}
+.newDesign body.intro-overlay #header .user .login:before {
+	content: "\f090";
+}
+.newDesign body.intro-overlay #header .user .login.logged:before {
+	content: "\f2c0";
+}
+.newDesign body.intro-overlay #header .user .signup:before {
+	content: "\f234";
+}
+.newDesign body.intro-overlay #header .user .signup.logout:before {
+	content: "\f08b";
 }
 
 /* Agreement === */

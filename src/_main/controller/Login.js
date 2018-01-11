@@ -17,10 +17,14 @@ Ext.define('PumaMain.controller.Login',{
         var isUser = false;
         if (Config.auth) {
             isUser = true;
+            $("#header .login").addClass("logged");
+			$("#header .signup").addClass("logout");
         } else {
             if(Config.toggles.onlyLoggedIn) {
                 window.location = Config.notAuthenticatedUrl
             }
+			$("#header .login").removeClass("logged");
+			$("#header .signup").removeClass("logout");
         }
         if (Config.auth && Config.auth.groups && Ext.Array.contains(Config.auth.groups, 'admingroup')) {
             Config.auth.isAdmin = true;

@@ -103,6 +103,7 @@ define(['../../../actions/Actions',
 	 */
 	CustomViewsWidget.prototype.renderAsOverlay = function(data){
 		this._widgetSelector.addClass("open expanded active intro-overlay");
+		$('body').addClass("intro-overlay");
 
 		var groupedData = this.groupDataByScope(data);
 		var scopeNamesPromises = [];
@@ -245,7 +246,7 @@ define(['../../../actions/Actions',
 		}
 
 		prepared.preview = {
-			color: viewUtils.getPseudorandomColor()
+			background: 'linear-gradient(135deg, '+ viewUtils.getPseudorandomColor() +' 0%, ' + viewUtils.getPseudorandomColor() + ' 100%)'
 		};
 
 		return prepared;

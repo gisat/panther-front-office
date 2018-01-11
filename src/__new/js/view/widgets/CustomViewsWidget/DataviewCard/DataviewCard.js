@@ -54,7 +54,7 @@ define(['../../../../actions/Actions',
 		this._cardSelector = $("#dataview-card-" + this._id);
 
 		this._cardPreviewSelector = this._cardSelector.find(".dataview-card-preview");
-		this._cardPreviewSelector.css("background", this._preview.color);
+		this._cardPreviewSelector.css("background-image", this._preview.background);
 
 		this._cardShowButton = this.buildShowButton();
 
