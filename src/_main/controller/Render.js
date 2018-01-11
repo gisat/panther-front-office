@@ -488,13 +488,27 @@ Ext.define('PumaMain.controller.Render', {
             width: '100%',
             height: '100%',
             cls: 'custom-button btn-confirm'
-        })
+        });
         if(Config.toggles.useWBAgreement) {
 					this.renderAggreement();
 				}
-		window.Stores.notify("initialLoadingFinished");
 
+				this.loadingFinishedNotification();
+    },
+
+    loadingFinishedNotification: function(){
+		window.clearTimeout(this._intervalCheck);
+        if (window.Stores.hasStateStore){
+			window.Stores.notify("initialLoadingFinished");
+			window.Stores.notify('user#changed');
+        } else {
+            var self = this;
+            this._intervalCheck = window.setTimeout(function(){
+				self.loadingFinishedNotification();
+            },100);
+        }
     }
+
     })
 
 

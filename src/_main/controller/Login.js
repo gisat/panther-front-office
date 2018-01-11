@@ -33,7 +33,7 @@ Ext.define('PumaMain.controller.Login',{
 
         this.reloadStores();
         var saveVis = Ext.ComponentQuery.query('#savevisualization')[0];
-		Stores.notify('user#changed');
+		window.Stores.notify('user#changed');
         if (!saveVis) return;
         var manageVis = Ext.ComponentQuery.query('#managevisualization')[0];
         var saveView = Ext.ComponentQuery.query('#savedataview')[0];

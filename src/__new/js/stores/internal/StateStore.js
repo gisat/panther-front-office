@@ -17,7 +17,8 @@ define([
 		this._changes = {};
 		this._loadingOperations = [];
 
-		window.Stores.addListener(this.onEvent.bind(this));
+		window.Stores.addListener(this.onEvent.bind(this), "initialLoading");
+		window.Stores.hasStateStore = true;
 	};
 
 	/**

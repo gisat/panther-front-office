@@ -20,7 +20,6 @@ Ext.application({
 		'PumaMain.view.LayerPanel', 'PumaMain.view.MapTools', 'Gisatlib.slider.DiscreteTimeline', 'PumaMain.view.AreaTree'
 	],
 	launch: function() {
-		window.Stores.notify("initialLoadingStarted");
 		// replace protocol with no-ssl http when loading chart or map in Phantomjs
 		//if(location.protocol=="http:"){
 		//	var originalUrl = Config.url;
