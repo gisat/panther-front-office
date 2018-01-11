@@ -69,6 +69,9 @@ define(['../../../../actions/Actions',
 
 	DataviewCard.prototype.addOnCardClickListener = function(){
 		this._cardSelector.off("click.card").on("click.card", this.onShowButtonClick.bind(this));
+		this._cardToolsSelector.click(function(e) {
+			e.stopPropagation();
+		});
 	};
 
 	/**
