@@ -97,22 +97,23 @@ body.intro #floater-custom-views-widget .custom-views-content {
 	height: 100%;
 	width: 100%;
 	left: 0;
-	padding: 5rem 7rem 7rem 0rem;
+	padding: 5rem 7rem 7rem 2rem;
 	position: absolute;
 	opacity: .15;
 	z-index: 0;
 	/*transition: opacity .2s ease-in-out .2s, padding .4s ease-in-out;*/
-	transition: opacity .4s ease-in-out, padding .4s ease-in-out;
+	transition: opacity .3s ease-in-out, padding .3s ease-in-out;
 }
 .custom-views-dataviews4scope.active {
 	z-index: 2;
 	opacity: 1;
-	padding: 3rem 5rem 5rem 1.5rem;
+	padding: 3rem 9rem 5rem 0;
 	/*transition: opacity 0s ease-in-out .2s, padding .4s ease-in-out;*/
 }
 .custom-views-dataviews4scope-wrapper {
 	background: white;
-	height: 100%
+	height: 100%;
+	padding: 1rem;
 }
 .custom-views-dataviews4scope-content {
 	display: flex;

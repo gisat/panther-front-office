@@ -27,6 +27,7 @@ define(['../../../../actions/Actions',
 	 * @param options.dispatcher {Object} Object for handling events in the application.
 	 * @param options.preview {Object} data for preview
 	 * @param options.url {string} dataview original URL
+	 * @param options.hasTools {boolean} if true, tools will be displayed
 	 * @constructor
 	 */
 	var DataviewCard = function(options){
@@ -40,6 +41,7 @@ define(['../../../../actions/Actions',
 		this._dispatcher = options.dispatcher;
 		this._preview = options.preview;
 		this._url = options.url;
+		this._hasTools = options.hasTools;
 
 		this.build();
 	};
@@ -55,26 +57,18 @@ define(['../../../../actions/Actions',
 
 		this._cardPreviewSelector = this._cardSelector.find(".dataview-card-preview");
 		this._cardPreviewSelector.css("background-image", this._preview.background);
+		this._cardToolsSelector = this._cardSelector.find(".dataview-card-tools");
 
-		this._cardShowButton = this.buildShowButton();
+		if (!this._hasTools){
+			this._cardToolsSelector.css("display", "none");
+		}
 
+		this.addOnCardClickListener();
 		this.addOnShowUrlClickListener();
 	};
 
-	/**
-	 * Build button for show the dataview
-	 * @returns {Button}
-	 */
-	DataviewCard.prototype.buildShowButton = function(){
-		return new Button({
-			id: "dataview-card-" + this._id + "-button-show",
-			containerSelector: this._cardSelector.find(".dataview-card-buttons"),
-			text: polyglot.t("show"),
-			onClick: this.onShowButtonClick.bind(this),
-			textCentered: true,
-			textSmall: true,
-			classes: "w6"
-		});
+	DataviewCard.prototype.addOnCardClickListener = function(){
+		this._cardSelector.off("click.card").on("click.card", this.onShowButtonClick.bind(this));
 	};
 
 	/**

@@ -79,6 +79,11 @@ define(['../../../actions/Actions',
 		this._widgetBodySelector.html('<div class="custom-views-content"></div>');
 		this._contentSelector = this._widgetBodySelector.find(".custom-views-content");
 
+		var isAdmin = false;
+		if (Config.auth && Config.auth.userId === 1){
+			isAdmin = true;
+		}
+
 		if (data.length === 0){
 			this._widgetSelector.find(".widget-minimise").trigger("click");
 			$("#top-toolbar-saved-views").addClass("hidden");
@@ -86,11 +91,11 @@ define(['../../../actions/Actions',
 			var bodySelector = $('body');
 			var isIntro = bodySelector.hasClass('intro');
 			if (isIntro && Config.toggles.showDataviewsOverlay){
-				this.renderAsOverlay(data);
+				this.renderAsOverlay(data,isAdmin);
 
 			} else {
 				var scope = Stores.retrieve("state").current().scope;
-				this.renderAsWidget(data, scope)
+				this.renderAsWidget(data, scope, isAdmin)
 			}
 		}
 
@@ -100,8 +105,9 @@ define(['../../../actions/Actions',
 	/**
 	 * Add content grouped to one category per scope
 	 * @param data {Array} data for dataviews card
+	 * @param isAdmin {boolean} true, if logged user is admin
 	 */
-	CustomViewsWidget.prototype.renderAsOverlay = function(data){
+	CustomViewsWidget.prototype.renderAsOverlay = function(data, isAdmin){
 		this._widgetSelector.addClass("open expanded active intro-overlay");
 		$('body').addClass("intro-overlay");
 
@@ -114,7 +120,7 @@ define(['../../../actions/Actions',
 		var self = this;
 		Promise.all(scopeNamesPromises).then(function(results){
 			var scopes = _.flatten(results);
-			self.renderAsOverlayContent(scopes, groupedData);
+			self.renderAsOverlayContent(scopes, groupedData, isAdmin);
 		}).catch(function(err){
 			throw new Error(err);
 		});
@@ -124,8 +130,9 @@ define(['../../../actions/Actions',
 	 * Render content of widget in overlay mode
 	 * @param scopes {Array} Collestion of scopes
 	 * @param data {Object} Data about dataviews grouped by scope
+	 * @param isAdmin {boolean} true, if logged user is admin
 	 */
-	CustomViewsWidget.prototype.renderAsOverlayContent = function(scopes, data){
+	CustomViewsWidget.prototype.renderAsOverlayContent = function(scopes, data, isAdmin){
 		this._contentSelector.html('<div class="custom-views-categories"></div>' +
 			'<div class="custom-views-dataviews">' +
 				'<div class="custom-views-dataviews-container"></div>' +
@@ -150,7 +157,7 @@ define(['../../../actions/Actions',
 			var self = this;
 			sortedData.forEach(function(dataview){
 				var data = self.prepareDataForCard(dataview);
-				self.addDataviewCard(data, dataviews4scope);
+				self.addDataviewCard(data, dataviews4scope, isAdmin);
 			});
 		}
 
@@ -164,8 +171,9 @@ define(['../../../actions/Actions',
 	 * Add content for selected scope
 	 * @param data {Array} data for dataviews card
 	 * @param scope {string|number} current scope
+	 * @param isAdmin {boolean} true, if logged user is admin
 	 */
-	CustomViewsWidget.prototype.renderAsWidget = function(data, scope){
+	CustomViewsWidget.prototype.renderAsWidget = function(data, scope, isAdmin){
 
 		//filter dataviews for this scope only
 		// TODO move fiter to backend
@@ -181,7 +189,7 @@ define(['../../../actions/Actions',
 		var self = this;
 		sortedData.forEach(function(dataview){
 			var data = self.prepareDataForCard(dataview);
-			self.addDataviewCard(data, self._contentSelector);
+			self.addDataviewCard(data, self._contentSelector, isAdmin);
 		});
 	};
 
@@ -290,9 +298,10 @@ define(['../../../actions/Actions',
 	 * Add dataview card to target
 	 * @param data {Object} data for card
 	 * @param target {Object} JQuery selector of parent element
+	 * @param hasTools {boolean} if true, tools will be displayed
 	 * @returns {DataviewCard}
 	 */
-	CustomViewsWidget.prototype.addDataviewCard = function(data, target){
+	CustomViewsWidget.prototype.addDataviewCard = function(data, target, hasTools){
 		return new DataviewCard({
 			id: data.id,
 			url: data.url,
@@ -300,7 +309,8 @@ define(['../../../actions/Actions',
 			description: data.description,
 			dispatcher: this._dispatcher,
 			preview: data.preview,
-			target: target
+			target: target,
+			hasTools: hasTools
 		});
 	};
 
