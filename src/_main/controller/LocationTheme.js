@@ -1186,6 +1186,14 @@ Ext.define('PumaMain.controller.LocationTheme', {
                     $('.field.theme').hide();
                 }
 
+				if(tools.indexOf('add-layer') !== -1) {
+					$('#top-toolbar-custom-layers').hide();
+				}
+
+				if(tools.indexOf('3dMap') !== -1) {
+				    $('#top-toolbar-3dmap').hide();
+				}
+
                 if(tools.indexOf('areas') !== -1) {
                     $('.areaTreeSelection').hide();
                     $('#window-areatree').hide();
