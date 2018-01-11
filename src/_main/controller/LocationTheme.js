@@ -1186,6 +1186,10 @@ Ext.define('PumaMain.controller.LocationTheme', {
                     $('.field.theme').hide();
                 }
 
+				if(tools.indexOf('place') !== -1) {
+					$('.field.place').hide();
+				}
+
 				if(tools.indexOf('add-layer') !== -1) {
 					$('#top-toolbar-custom-layers').hide();
 				}
