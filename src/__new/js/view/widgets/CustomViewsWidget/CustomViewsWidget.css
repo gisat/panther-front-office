@@ -56,8 +56,26 @@ body.intro #floater-custom-views-widget .custom-views-content {
 	width: 30%;
 	min-width: 20rem;
 	max-width: 30rem;
-	padding: 7rem 0 1rem;
+	margin: 4.5rem 0 5.5rem 0;
+	padding-top: 5px;
 	font-size: 1rem;
+	overflow: auto;
+}
+/* width */
+.custom-views-categories::-webkit-scrollbar {
+	width: 12px;
+	margin-right: 5px;
+}
+/* Track */
+::-webkit-scrollbar-track {
+	background-color: #414551;
+	border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #6a6e78;
+	border-radius: 5px;
 }
 .custom-views-category {
 	padding-left: 2.5rem;
@@ -97,7 +115,7 @@ body.intro #floater-custom-views-widget .custom-views-content {
 	height: 100%;
 	width: 100%;
 	left: 0;
-	padding: 6rem 6rem 8rem 3rem;
+	padding: 6rem 3rem 7rem 3rem;
 	position: absolute;
 	opacity: 0;
 	z-index: 0;
@@ -106,7 +124,7 @@ body.intro #floater-custom-views-widget .custom-views-content {
 }
 .custom-views-window.second {
 	opacity: .15;
-	padding: 4.5rem 7.5rem 6.5rem 1.5rem;
+	padding: 4.5rem 4.5rem 5.5rem 1.5rem;
 }
 .custom-views-window.third {
 	opacity: .15;
@@ -114,7 +132,7 @@ body.intro #floater-custom-views-widget .custom-views-content {
 .custom-views-window.active {
 	z-index: 2;
 	opacity: 1;
-	padding: 3rem 9rem 5rem 0;
+	padding: 3rem 6rem 4rem 0;
 	/*transition: opacity 0s ease-in-out .2s, padding .4s ease-in-out;*/
 }
 .custom-views-window-wrapper {
