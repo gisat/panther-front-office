@@ -148,23 +148,29 @@ define(['../../../actions/Actions',
 			}).name;
 
 			this._categoriesContainerSelector.append('<div class="custom-views-category" data-for="custom-views-dataviews-' + dataset + '">' + name + '</div>');
-			this._dataviewsContainerSelector.append('<div class="custom-views-dataviews4scope" id="custom-views-dataviews-' + dataset + '">' +
-					'<div class="custom-views-dataviews4scope-wrapper">' +
-						'<div class="custom-views-dataviews4scope-content"></div>' +
+			this._dataviewsContainerSelector.append('<div class="custom-views-window" id="custom-views-dataviews-' + dataset + '">' +
+					'<div class="custom-views-window-wrapper">' +
+						'<div class="custom-views-window-content"></div>' +
 					'</div>' +
 				'</div>');
 
-			var dataviews4scope = $('#custom-views-dataviews-' + dataset + ' .custom-views-dataviews4scope-content');
+			var window = $('#custom-views-dataviews-' + dataset + ' .custom-views-window-content');
 			var sortedData = this.sortDataByTime(data[dataset]);
 			var self = this;
 			sortedData.forEach(function(dataview){
 				var data = self.prepareDataForCard(dataview);
-				self.addDataviewCard(data, dataviews4scope, isAdmin);
+				self.addDataviewCard(data, window, isAdmin);
 			});
 		}
 
 		$(".custom-views-category:first-child").addClass("active");
-		$(".custom-views-dataviews4scope:first-child").addClass("active");
+		this._activeWindow = $(".custom-views-window:first-child");
+		this._secondWindow = $(".custom-views-window:nth-child(2)");
+		this._thirdWindow = $(".custom-views-window:nth-child(3)");
+
+		this._activeWindow.addClass("active");
+		this._secondWindow.addClass("second");
+		this._thirdWindow.addClass("third");
 
 		this.addCategoryListener();
 	};
@@ -242,14 +248,29 @@ define(['../../../actions/Actions',
 		$(".custom-views-category").off("click.category").on("click.category", function(){
 			var category = $(this);
 			var categories = $(".custom-views-category");
-			var contentWindows = $(".custom-views-dataviews4scope");
-			var contentWindowId = $(this).attr("data-for");
-			var contentWindow = $("#" + contentWindowId);
+			var contentWindows = $(".custom-views-window");
+			var selectedId = $(this).attr("data-for");
+			var activeId = self._activeWindow.attr("id");
+			var secondId = self._secondWindow.attr("id");
+			var thirdId = self._thirdWindow.attr("id");
+			var index = contentWindows.index(this);
 
 			categories.removeClass("active");
 			category.addClass("active");
-			contentWindows.removeClass("active");
-			contentWindow.addClass("active");
+			contentWindows.removeClass("active").removeClass("second").removeClass("third");
+
+			if (selectedId === secondId){
+				self._activeWindow = $("#" + selectedId);
+				self._secondWindow = $("#" + activeId);
+			} else if (selectedId === thirdId || selectedId !== activeId){
+				self._activeWindow = $("#" + selectedId);
+				self._secondWindow = $("#" + activeId);
+				self._thirdWindow = $("#" + secondId);
+			}
+
+			self._activeWindow.addClass("active");
+			self._secondWindow.addClass("second");
+			self._thirdWindow.addClass("third");
 		});
 	};
 

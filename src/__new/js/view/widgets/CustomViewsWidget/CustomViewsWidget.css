@@ -92,30 +92,38 @@ body.intro #floater-custom-views-widget .custom-views-content {
 	overflow: hidden;
 	transition: top .3s ease-in-out;
 }
-.custom-views-dataviews4scope {
+.custom-views-window {
 	display: block;
 	height: 100%;
 	width: 100%;
 	left: 0;
-	padding: 5rem 7rem 7rem 2rem;
+	padding: 6rem 6rem 8rem 3rem;
 	position: absolute;
-	opacity: .15;
+	opacity: 0;
 	z-index: 0;
 	/*transition: opacity .2s ease-in-out .2s, padding .4s ease-in-out;*/
 	transition: opacity .3s ease-in-out, padding .3s ease-in-out;
 }
-.custom-views-dataviews4scope.active {
+.custom-views-window.second {
+	opacity: .15;
+	padding: 4.5rem 7.5rem 6.5rem 1.5rem;
+}
+.custom-views-window.third {
+	opacity: .15;
+}
+.custom-views-window.active {
 	z-index: 2;
 	opacity: 1;
 	padding: 3rem 9rem 5rem 0;
 	/*transition: opacity 0s ease-in-out .2s, padding .4s ease-in-out;*/
 }
-.custom-views-dataviews4scope-wrapper {
+.custom-views-window-wrapper {
 	background: white;
 	height: 100%;
 	padding: 1rem;
+	overflow-y: auto;
 }
-.custom-views-dataviews4scope-content {
+.custom-views-window-content {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
