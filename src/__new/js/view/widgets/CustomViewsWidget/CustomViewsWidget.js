@@ -45,8 +45,14 @@ define(['../../../actions/Actions',
 	CustomViewsWidget.prototype = Object.create(Widget.prototype);
 
 	CustomViewsWidget.prototype.build = function(){
+		var bodySelector = $('body');
+		var isIntro = bodySelector.hasClass('intro');
 		if (Config.toggles.showDataviewsOverlay){
 			this._widgetSelector.addClass("open expanded active");
+			if (isIntro){
+				this._widgetSelector.addClass("intro-overlay");
+				bodySelector.addClass("intro-overlay");
+			}
 			// this.rebuild();
 		}
 	};
@@ -58,6 +64,7 @@ define(['../../../actions/Actions',
 		this.handleLoading("show");
 		var self = this;
 		var changed = Stores.retrieve("state").current().changes;
+
 		if (changed.dataview && Config.toggles.showDataviewsOverlay){
 			this._widgetSelector.removeClass("open expanded active");
 			$('#top-toolbar-saved-views').removeClass("open");
@@ -76,6 +83,8 @@ define(['../../../actions/Actions',
 	 * @param data {Array}
 	 */
 	CustomViewsWidget.prototype.redraw = function(data){
+		var bodySelector = $('body');
+		var isIntro = bodySelector.hasClass('intro');
 		this._widgetBodySelector.html('<div class="custom-views-content"></div>');
 		this._contentSelector = this._widgetBodySelector.find(".custom-views-content");
 
@@ -88,18 +97,16 @@ define(['../../../actions/Actions',
 			this._widgetSelector.find(".widget-minimise").trigger("click");
 			$("#top-toolbar-saved-views").addClass("hidden");
 		} else {
-			var bodySelector = $('body');
-			var isIntro = bodySelector.hasClass('intro');
 			if (isIntro && Config.toggles.showDataviewsOverlay){
 				this.renderAsOverlay(data, isAdmin);
 
 			} else {
 				var scope = Stores.retrieve("state").current().scope;
-				this.renderAsWidget(data, scope, isAdmin)
+				this.renderAsWidget(data, scope, isAdmin);
+				this._widgetSelector.removeClass("intro-overlay");
+				bodySelector.removeClass("intro-overlay");
 			}
 		}
-
-		this.handleLoading("hide");
 	};
 
 	/**
@@ -108,8 +115,7 @@ define(['../../../actions/Actions',
 	 * @param isAdmin {boolean} true, if logged user is admin
 	 */
 	CustomViewsWidget.prototype.renderAsOverlay = function(data, isAdmin){
-		this._widgetSelector.addClass("open expanded active intro-overlay");
-		$('body').addClass("intro-overlay");
+		this._widgetSelector.addClass("open expanded active");
 
 		this.toggleOverlaySwitch(isAdmin);
 
@@ -123,6 +129,7 @@ define(['../../../actions/Actions',
 		Promise.all(scopeNamesPromises).then(function(results){
 			var scopes = _.flatten(results);
 			self.renderAsOverlayContent(scopes, groupedData, isAdmin);
+			self.handleLoading("hide");
 		}).catch(function(err){
 			throw new Error(err);
 		});
@@ -238,6 +245,7 @@ define(['../../../actions/Actions',
 			var data = self.prepareDataForCard(dataview);
 			self.addDataviewCard(data, self._contentSelector, isAdmin);
 		});
+		this.handleLoading("hide");
 	};
 
 	/**

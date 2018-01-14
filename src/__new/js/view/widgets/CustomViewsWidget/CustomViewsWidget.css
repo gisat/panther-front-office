@@ -45,7 +45,8 @@ body.intro #floater-custom-views-widget .custom-views-content {
 
 /* === INTRO OVERLAY === */
 
-#floater-custom-views-widget.intro-overlay .floater-body {
+#floater-custom-views-widget.intro-overlay .floater-body,
+#floater-custom-views-widget.intro-overlay .floater-overlay {
 	background-image: linear-gradient(160deg, #212635 0%, #212635 50%, /*#332035*/#372939 100%);
 }
 
