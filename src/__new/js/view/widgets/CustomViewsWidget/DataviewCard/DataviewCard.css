@@ -74,3 +74,36 @@
 	color: rgb(189,192,197);
 	pointer-events: none;
 }
+
+@media (max-width: 1200px) {
+	.dataview-card-text {
+		padding: .5rem;
+	}
+	.dataview-card-text > h3 {
+		font-size: 1rem;
+	}
+	.dataview-card-text > p {
+		font-size: .85rem;
+	}
+}
+@media (max-width: 1000px) {
+	.dataview-card {
+		margin: .3rem;
+		padding-bottom: .3rem;
+	}
+	.dataview-card-preview {
+		height: 4.5rem;
+	}
+	.dataview-card-text > h3 {
+		font-size: .95rem;
+	}
+	.dataview-card-text > p {
+		font-size: .75rem;
+		font-weight: 400;
+	}
+	.dataview-card-icons .fa {
+		width: 1.6rem;
+		height: 1.6rem;
+		font-size: .95rem;
+	}
+}
