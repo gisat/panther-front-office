@@ -610,9 +610,9 @@
 }
 
 .newDesign.x-border-box .x-form-trigger.x-form-refresh-trigger {
-	background: rgba(255, 255, 255, .25) url("../images/new/refresh-white.png") no-repeat 50% 50% !important;
-	border-left: 1px solid rgba(255, 255, 255, .3) !important;
 	transition: background .3s ease-out;
+	background: rgba(255, 255, 255, .15) url(../images/new/refresh-white.png) no-repeat 50% 50% !important;
+	border-left: 1px solid rgba(255, 255, 255, .1) !important;
 }
 
 .newDesign.x-border-box .x-form-trigger.x-form-spinner-up {
@@ -626,21 +626,21 @@
 .newDesign.x-border-box .custom-combo .x-form-text {
 	border-radius: 1px 0 0 1px;
 	color: #ddd;
-	background: rgba(255, 255, 255, .25);
-	border: 1px solid rgba(255, 255, 255, .3);
+	background: rgba(255, 255, 255, .15);
+	border: 0;
 	border-right: 0;
-	font-size: 11px;
-	font-weight: 700;
-	height: 23px;
+	font-size: 13px;
+	font-weight: 500;
+	height: 24px;
 	transition: background .3s ease-out;
 }
 
 .newDesign.x-border-box .custom-combo .x-form-trigger {
-	background: rgba(255, 255, 255, .25) url('../images/new/expand-white.png') no-repeat 50% 50%;;
-	border: 1px solid rgba(255, 255, 255, .3);
+	background: rgba(255, 255, 255, .15) url(../images/new/expand-white.png) no-repeat 50% 50%;
+	border: 0;
 	border-left: 0;
 	border-radius: 0 1px 1px 0;
-	height: 23px;
+	height: 24px;
 	transition: background .3s ease-out;
 }
 
@@ -675,8 +675,8 @@
 	text-align: center;
 	font-family: serif;
 	font-style: normal;
-	font-size: 12px;
-	font-weight: 700;
+	font-size: 13px;
+	font-weight: 600;
 	color: white;
 	background: rgba(100, 100, 100, .8);
 	border-radius: 10px;

@@ -8,10 +8,11 @@
 }
 .selector-label {
 	line-height: 1.9rem;
-	margin-right: .7rem;
+	margin-right: 3px;
 	color: white;
-	font-weight: 700;
-	font-size: 11px;
+	color: rgba(148,152,160,1);
+	font-size: 13px;
+	font-weight: 500;
 }
 body.mode-3d .selector {
 	display: inline-block;

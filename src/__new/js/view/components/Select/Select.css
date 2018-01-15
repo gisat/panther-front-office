@@ -5,17 +5,18 @@
 /* topbar select*/
 .select-basic-container.top-bar-select {
 	 border-radius: 0.05rem;
-	 background: rgba(255, 255, 255, .25);
-	 border: 1px solid rgba(255, 255, 255, .3);
-	 height: 23px;
+	 background: rgba(255, 255, 255, .15);
+	 border: 0;
+	 height: 24px;
 }
 .select-basic-container.top-bar-select .select2-selection__rendered {
-	line-height: 21px;
+	line-height: 24px;
 	color: #ddd;
-	font-weight: 700;
+	font-weight: 500;
+	font-size: 13px;
 }
 .select-basic-container.top-bar-select .select2-selection__arrow {
-	height: 23px;
+	height: 24px;
 }
 .select-basic-container.top-bar-select .select2-selection__arrow > b {
 	border-color: #ddd transparent transparent transparent;

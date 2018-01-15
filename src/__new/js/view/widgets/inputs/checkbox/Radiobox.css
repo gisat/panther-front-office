@@ -13,8 +13,8 @@
 	font-size: 1rem;
 }
 .radiobox-row.checked .radiobox-icon:before {
-	content: "\f05d";
-	color: rgb(153,54,75);
+	content: "\f058";
+	color: rgb(186,65,91);
 }
 
 .radiobox-label {

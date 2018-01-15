@@ -17,8 +17,8 @@
     font-size: 1rem;
 }
 .checkbox-row.checked .checkbox-icon:before {
-    content: "\f046";
-    color: rgb(153,54,75);
+    content: "\f14a";
+    color: rgb(186,65,91);
 }
 
 .checkbox-label {

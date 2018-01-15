@@ -314,7 +314,7 @@ var langEn = {
     table: "Table",
     takeMapSnapshot: "Take map snapshot",
     temporalExtent: "Temporal extent",
-    theme: "Theme: ",
+    theme: "Theme",
     thematicLayers: "Thematic Layers",
     thematicMaps: "Thematic maps",
     thematicMapsConfiguration: "Thematic maps configuration",
@@ -340,7 +340,7 @@ var langEn = {
 
     value: "Value",
     visu: "Visualization",
-    visualization: "Visualization: ",
+    visualization: "Visualization",
     visualizations: "Visualizations",
 
     warning: "Warning",
@@ -672,7 +672,7 @@ var langCz = {
     table: "Tabulka",
     takeMapSnapshot: "Vytvořit náhled na mapu",
     temporalExtent: "Časový rozsah",
-    theme: "Téma: ",
+    theme: "Téma ",
     thematicLayers: "Kartogramy",
     thematicMaps: "Kartogramy",
     thematicMapsConfiguration: "Nastavování kartogramů",
@@ -698,7 +698,7 @@ var langCz = {
 
     value: "Hodnota",
     visu: "Vizualizace",
-    visualization: "Vizualizace: ",
+    visualization: "Vizualizace ",
     visualizations: "Vizualizace",
 
     warning: "Varování",

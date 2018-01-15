@@ -153,6 +153,7 @@ body.application #main {
 	margin: 0;
 	font-size: 21px;
 	line-height: 50px;
+	font-weight: 600;
 	padding-right: 1rem;
 	color: rgb(224,227,231);
 	/* height: 45px; */
@@ -533,13 +534,13 @@ html.dromas body.intro #intro-overlay {
 }
 
 #view-selector .field .label {
-	padding-right: 10px;
+	padding-right: 3px;
 	vertical-align: top;
 	line-height: 30px;
-	color: white;
+	color: rgba(148,152,160,1);
 	font-family: "Open Sans", sans-serif;
-	font-size: 11px;
-	font-weight: 700;
+	font-size: 13px;
+	font-weight: 500;
 }
 
 
@@ -686,8 +687,8 @@ html.dromas body.intro #intro-overlay {
 	height: 100%;
 	padding: 0 15px;
 	line-height: 29px;
-	font-size: 12px;
-	font-weight: 700;
+	font-size: 13px;
+	font-weight: 600;
 	color: #444;
 	transition:
 		background .3s ease-in-out;
