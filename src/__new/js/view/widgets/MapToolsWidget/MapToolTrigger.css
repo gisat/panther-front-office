@@ -22,21 +22,22 @@
 }
 .map-tool-trigger-label-title {
 	color: rgb(65,69,81);
-	font-size: .85rem;
-	padding: 0 .2rem;
+	font-size: .95rem;
+	font-weight: 400;
+	padding: 0 .3rem;
 }
 /* tool icon */
 .map-tool-icon {
 	display: flex;
 	margin: 0 .3rem;
-	width: 1rem;
+	width: 1.1rem;
 }
 .map-tool-icon-svg {
 	flex: 1;
 	height: 1.1rem;
 }
 .map-tool-icon-svg path {
-	fill: rgb(65,69,81);
+	fill: rgb(106,110,120);
 }
 
 /* tool toggle */

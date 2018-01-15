@@ -34,7 +34,7 @@
 	margin-bottom: .2rem;
 }
 .dataview-card-text > p {
-	font-size: .9rem;
+	font-size: .95rem;
 	color: rgb(65,69,81);
 	font-weight: 300;
 }
@@ -71,7 +71,7 @@
 	background: rgba(65,69,81,.15);
 }
 .dataview-card-icons .fa.disabled {
-	color: rgb(189,192,197);
+	color: rgb(204,207,211);
 	pointer-events: none;
 }
 

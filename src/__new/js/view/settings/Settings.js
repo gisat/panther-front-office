@@ -110,7 +110,7 @@ define([
      */
     Settings.prototype.addCloseListener = function(){
         var self = this;
-        $('#' + this._id + ' .window-close, #' + this._id + ' .settings-confirm').off("click").on("click", self.close.bind(self));
+        $('#' + this._id + ' .settings-close, #' + this._id + ' .settings-confirm').off("click").on("click", self.close.bind(self));
     };
 
 	/**

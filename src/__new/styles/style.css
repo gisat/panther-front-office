@@ -18,17 +18,17 @@
 
 /* === Buttons === */
 .widget-button {
-	border: .1rem solid rgb(65,69,81);
+	border: 1px solid rgb(65,69,81);
 	border-radius: .15rem;
 	color: rgb(33,38,53);
 	cursor: pointer;
-	font-size: .8rem;
-	font-weight: 600;
+	font-size: .95rem;
+	font-weight: 500;
 	transition: background .3s ease-in-out;
 	width: 8rem;
-    display: inline-block;
+	display: inline-block;
 	padding: 0 .2rem;
-	line-height: 1.8rem;
+	line-height: 2rem;
 	text-align: center;
 }
 .widget-button.w8 {
@@ -54,20 +54,19 @@
 
 .widget-button[disabled=disabled] {
     pointer-events: none;
-    color: #bbb;
-	border: .1rem solid #ccc;
+	color: #bbb;
+	border: 1px solid rgb(204,207,211);
 }
 
 .widget-button-export {
-    background: none;
-    border: 0;
-    color: #c92d42;
-    font-size: 11px;
-    font-weight: 600;
-    padding: .2rem .15rem .3rem .15rem;
-    text-transform: none;
-    margin: 0;
-    min-width: 49%;
+	border: 0;
+	color: rgb(186,65,91);
+	font-size: 13px;
+	font-weight: 500;
+	padding: .2rem .15rem .3rem .15rem;
+	text-transform: none;
+	margin: 0;
+	min-width: 49%;
 }
 .widget-button-export:hover {
     background: rgba(173,39,56,.2);

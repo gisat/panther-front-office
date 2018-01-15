@@ -4,14 +4,14 @@
 	box-shadow: 0 0 4px rgb(136, 136, 136);
 	color: #555;
 	display: none;
-	height: 13rem;
+	height: 15rem;
 	left: 100px;
 	position: absolute;
 	right: 100px;
 	resize: both;
 	overflow: auto;
-	min-width: 20rem;
-	width: 25rem;
+	min-width: 25rem;
+	width: 30rem;
 	max-width: 40rem;
 	z-index: 10000;
 }
@@ -27,12 +27,13 @@
 	z-index: 10001;
 }
 .fi-window .feature-info-window-header {
-	background: #ddd;
-	font-size: .85rem;
+	background: rgb(224,227,231);
+	color: rgb(65,69,81);
+	font-size: .95rem;
 	font-weight: 600;
 	padding: 0 .3rem 0 .5rem;
-	height: 2rem;
-	line-height: 2rem;
+	height: 2.2rem;
+	line-height: 2.2rem;
 	cursor: move;
 	display: flex;
 }
@@ -47,14 +48,21 @@
 	display: flex;
 	flex-direction: row-reverse;
 }
+.fi-window .floater-tool {
+	transition: background .3s ease-in-out;
+}
+.fi-window .floater-tool:hover {
+	background: rgb(189,192,197);
+}
+.fi-window .floater-tool .fa {
+	color: rgb(65,69,81);
+}
 .fi-window .feature-info-close,
 .fi-window .feature-info-settings {
 	cursor: pointer;
-	margin-left: .1rem;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 1.1rem;
 	height: 100%;
 }
 
@@ -65,9 +73,8 @@
 .fi-window.has-settings .feature-info-settings {
 	display: flex;
 }
-.fi-window .feature-info-settings img {
-	width: 14px;
-}
+
+
 .fi-window .feature-info-window-body {
 	padding: .2rem .3rem;
 	overflow-x: hidden;
@@ -75,7 +82,7 @@
 	height: calc(100% - 2.2rem);
 }
 .fi-window.has-footer .feature-info-window-body {
-	height: calc(100% - 4.2rem);
+	height: calc(100% - 5.2rem);
 }
 .fi-window .feature-info-window-footer {
 	border-top: 2px solid #ddd;
@@ -94,19 +101,21 @@
 	width: 100%;
 }
 .fi-window .feature-info-window-body table tr {
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid rgb(204,207,211);
 }
 .fi-window .feature-info-window-body table tr td {
-	font-size: .75rem;
+	font-size: .85rem;
 	padding: .15rem .2rem;
+	font-weight: 300;
+	color: rgb(65,69,81);
 }
 .fi-window .feature-info-window-body table tr td i {
-	color: #666;
+	color: rgb(65,69,81);
 	font-style: normal;
-	font-weight: 500;
+	font-weight: 300;
 }
 .fi-window .feature-info-window-body table tr:hover td {
-	background: rgba(230,230,230,.8);
+	background: rgba(224,227,231,.8);
 }
 .fi-window .feature-info-window-body table tr td:first-child {
 	font-weight: 600;

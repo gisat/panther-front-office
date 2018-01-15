@@ -180,8 +180,8 @@
 }
 .floater-row a {
     display: block;
-    height: 1.5rem;
-    line-height: 1.4rem;
+    height: 1.7rem;
+    line-height: 1.7rem;
     transition: background .3s ease-out;
     width: 100%;
 }
@@ -419,20 +419,21 @@ body.mode-3d .floater.only-3d.open {
     margin-bottom: 2rem;
 }
 .widget-section h3 {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     color: rgb(65,69,81);
-    font-weight: 600;
+    font-weight: 400;
     margin-bottom: .2rem;
 }
 .widget-section p {
-    font-size: .85rem;
-    color: rgb(106,110,120);
+    font-size: .95rem;
+    color: rgb(65,69,81);
     margin-bottom: .3rem;
+    font-weight: 300;
 }
 
 /* widget form */
 .widget-form-row {
-    margin-bottom: .5rem;
+    margin: .8rem 0;
 }
 .widget-form-row label {
     display: flex;
@@ -442,24 +443,25 @@ body.mode-3d .floater.only-3d.open {
 }
 .widget-form-row span {
     color: rgb(106,110,120);
-    font-size: .85rem;
-    font-weight: 600;
+    font-size: .75rem;
+    font-weight: 400;
+    text-transform: uppercase;
 }
 .widget-form-row select,
 .widget-form-row input,
 .widget-form-row textarea {
-    font-size: .85rem;
-    line-height: 1.8rem;
+    font-size: .95rem;
+    line-height: 2rem;
     max-width: 90%;
-    border: .1rem solid rgba(214,217,221,1);
+    border: 1px solid rgba(204,207,211,1);
     border-radius: .15rem;
-    padding-left: .15rem;
-    color: rgb(106,110,120);
-    background: rgba(234,236,238,1);
+    padding-left: .3rem;
+    color: rgb(65,69,81);
+    background: rgba(233,235,237,1);
 }
 .widget-form-row textarea {
     height: 3rem;
 }
 .widget-form-row select {
-    height: 1.9rem;
+    height: 2rem;
 }

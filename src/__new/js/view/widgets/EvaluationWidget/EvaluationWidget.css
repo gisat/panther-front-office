@@ -8,29 +8,29 @@
     top: 10rem;
     min-width: 22rem;
     max-width: 40rem;
+    height: 32rem;
 }
 
 #floater-evaluation-widget .floater-body {
-    height: calc(100% - 10.1rem);
+    height: calc(100% - 11.5rem);
     padding: 0 0 .5rem;
 }
 
 #floater-evaluation-widget .floater-footer {
-    height: 7.7rem;
+    height: 9rem;
     border-top: 2px solid #ddd;
     background: rgba(233,235,237,1);
 }
 
 /* floater body */
 #floater-evaluation-widget .floater-body > div:nth-child(odd) {
-    padding: .5rem;
+    padding: .8rem .5rem;
 }
 
 #floater-evaluation-widget .floater-body > div:nth-child(even){
-    padding: .5rem;
-    background: rgba(200,200,200,.1);
-    border-bottom: 1px solid #ddd;
-    border-top: 1px solid #ddd;
+    padding: .8rem .5rem;
+    border-bottom: 1px solid rgb(189,192,197);
+    border-top: 1px solid rgb(189,192,197);
 }
 
 #floater-evaluation-widget .floater-row.slider-box,
@@ -50,7 +50,7 @@
     width: 33%;
     margin: 0 .2rem;
     flex: 0 1 100%;
-    font-size: .8rem;
+    font-size: .9rem;
 }
 #floater-evaluation-widget .footer-buttons .widget-button.hidden {
     display: none;
@@ -65,7 +65,7 @@
 .widget-button-export:before {
     height: 100%;
     width: 100%;
-    margin-right: 5px;
+    margin-right: 8px;
     position: relative;
     top: 3px;
 }

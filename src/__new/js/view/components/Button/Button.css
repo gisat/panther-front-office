@@ -1,11 +1,11 @@
 .component-button {
-	border: .1rem solid rgb(65,69,81);
+	border: 1px solid rgb(65,69,81);
 	border-radius: .15rem;
 	color: rgb(33,38,53);
 	cursor: pointer;
-	font-size: .9rem;
-	font-weight: 600;
-	line-height: 1.9rem;
+	font-size: .95rem;
+	font-weight: 500;
+	line-height: 2rem;
 	transition: background .3s ease-in-out;
 	width: 8rem;
 }

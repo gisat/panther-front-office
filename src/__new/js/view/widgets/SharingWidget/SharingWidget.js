@@ -156,8 +156,8 @@ define([
 			text: polyglot.t("share"),
 			onClick: this.onShareClick.bind(this),
 			textCentered: true,
-			textSmall: true,
-			classes: "w6"
+			textSmall: false,
+			classes: "w8"
 		});
 	};
 

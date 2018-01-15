@@ -9,7 +9,7 @@
 	display: none;
 	height: 25rem;
 	width: 35rem;
-	padding: .5rem;
+	padding: .2rem .5rem .5rem;
 	position: absolute;
 	top: 8rem;
 	left: calc(50% - 17.5rem);
@@ -29,23 +29,18 @@
 	cursor: move;
 	height: 2rem;
 	position: relative;
+	display: flex;
+	line-height: 2rem;
 }
-.tool-window-header span {
-	color: #666;
-	display: inline-block;
-	font-size: .9rem;
-	font-weight: bold;
+.tool-window-title {
+	color: rgb(65,69,81);
+	font-size: 1.1rem;
+	font-weight: 600;
 	padding: 0 .2rem .2rem;
 	white-space: nowrap;
 	width: 90%;
 	overflow: hidden;
 	text-overflow: ellipsis;
-}
-.tool-window-header .window-close {
-	float: right;
-}
-.tool-window-header .window-close:hover {
-	cursor: pointer;
 }
 .tool-window-tools-container {
 	position: absolute;
@@ -53,12 +48,20 @@
 	top: 0;
 	height: 100%;
 }
+.tool-window-header .settings-close {
+	font-size: .95rem;
+	color: rgb(65,69,81);
+}
+.tool-window-header .settings-close:hover {
+	cursor: pointer;
+	background: rgb(224,227,231);
+}
 
 /* body */
 .tool-window-body {
-	background: rgb(250,250,250);
-	border: 1px solid #ddd;
-	height: calc(100% - 5rem);
+	background: rgb(244,245,246);
+	border: 1px solid rgb(204,207,211);
+	height: calc(100% - 6rem);
 	padding: .2rem .3rem;
 	overflow: auto;
 }
@@ -66,7 +69,7 @@
 	margin-top: .2rem;
 }
 .tool-window-body .checkbox-row a {
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid rgb(204,207,211);
 	padding-left: 2rem;
 }
 .tool-window-body .checkbox-row.attribute-set-row a {
@@ -76,7 +79,8 @@
 	padding-left: 0;
 }
 .tool-window-body .checkbox-row div {
-	font-weight: normal;
+	font-weight: 400;
+	font-size: .85rem;
 }
 .tool-window-body .checkbox-row div i {
 	font-style: normal;
@@ -86,8 +90,8 @@
 }
 .tool-window-body .checkbox-row.attribute-set-row div,
 .tool-window-body .checkbox-row.all-attributes-row div {
-	font-weight: bold;
-	font-size: .8rem;
+	font-weight: 400;
+	font-size: .85rem;
 }
 
 .tool-window-body .checkbox-row .checkbox-label {
@@ -163,17 +167,16 @@
 
 /* Footer */
 .tool-window-footer {
-	height: 2.5rem;
-	padding: .5rem 0;
-	position: relative;
+	height: 4rem;
+	padding: 1rem 0;
+	display: flex;
+	justify-content: flex-end;
 }
 .tool-window-button {
-	position: absolute;
-	right: 0;
 	width: 10rem;
 }
 .tool-window-button[disabled=disabled] {
 	pointer-events: none;
 	color: #bbb;
-	background: #ddd;
+	border: 1px solid rgb(204,207,211);
 }

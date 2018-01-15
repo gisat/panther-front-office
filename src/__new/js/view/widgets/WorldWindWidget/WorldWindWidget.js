@@ -112,7 +112,7 @@ define([
 	WorldWindWidget.prototype.addSettingsIcon = function(){
 		this._widgetSelector.find(".floater-tools-container")
 			.append('<div id="thematic-layers-configuration" title="'+polyglot.t("configureThematicMaps")+'" class="floater-tool">' +
-				'<i class="fa fa-cog"></i>' +
+				'<i class="fa fa-sliders"></i>' +
 				'</div>');
 	};
 

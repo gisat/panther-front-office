@@ -27,7 +27,7 @@
 
 /* useHeader */
 .toggle-useHeader #header {
-	display: block;
+	display: flex;;
 	height: 45px;
 }
 .toggle-useHeader #main {

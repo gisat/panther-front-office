@@ -152,7 +152,9 @@ body.application #main {
 	display: inline-block;
 	margin: 0;
 	font-size: 21px;
-	line-height: 45px;
+	line-height: 50px;
+	padding-right: 1rem;
+	color: rgb(224,227,231);
 	/* height: 45px; */
 }
 body.intro #header h1 {
