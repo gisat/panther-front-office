@@ -77,9 +77,7 @@ define(['../../../../actions/Actions',
 	/**
 	 * Show dataview on click
 	 */
-	DataviewCard.prototype.onShowButtonClick = function(options){
-		this._dispatcher.notify("dataview#show", options);
-
+	DataviewCard.prototype.onShowButtonClick = function(){
 		// TODO upgrade this provisional solution
 		window.location = this._url;
 	};

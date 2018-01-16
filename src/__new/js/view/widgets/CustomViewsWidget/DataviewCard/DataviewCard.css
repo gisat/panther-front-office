@@ -15,7 +15,7 @@
 	transition: background .3s ease-in-out, box-shadow .3s ease-in-out;
 }
 .dataview-card:hover {
-	background: rgb(234,237,241);
+	background: rgb(235,237,239);
 	box-shadow: 0 0 5px 1px rgba(33,38,53,.15);
 }
 .dataview-card-preview {
@@ -34,9 +34,9 @@
 	margin-bottom: .2rem;
 }
 .dataview-card-text > p {
-	font-size: .95rem;
-	color: rgb(65,69,81);
-	font-weight: 300;
+	font-size: .9rem;
+	color: rgb(128,132,140);
+	font-weight: 400;
 }
 .dataview-card-tools {
 	display: flex;
@@ -80,7 +80,7 @@
 		padding: .5rem;
 	}
 	.dataview-card-text > h3 {
-		font-size: 1rem;
+		font-size: 1.05rem;
 	}
 	.dataview-card-text > p {
 		font-size: .85rem;
@@ -95,11 +95,8 @@
 		height: 4.5rem;
 	}
 	.dataview-card-text > h3 {
-		font-size: .95rem;
 	}
 	.dataview-card-text > p {
-		font-size: .75rem;
-		font-weight: 400;
 	}
 	.dataview-card-icons .fa {
 		width: 1.6rem;
