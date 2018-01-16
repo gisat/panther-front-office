@@ -1,6 +1,7 @@
 define(['../../../../actions/Actions',
 	'../../../../error/ArgumentError',
 	'../../../../util/Logger',
+	'../../../../util/RemoteJQ',
 
 	'../../../components/Button/Button',
 
@@ -11,6 +12,7 @@ define(['../../../../actions/Actions',
 ], function(Actions,
 			ArgumentError,
 			Logger,
+			Remote,
 
 			Button,
 
@@ -48,7 +50,7 @@ define(['../../../../actions/Actions',
 
 	DataviewCard.prototype.build = function(){
 		var html = S(DataviewCardHtml).template({
-			id: "dataview-card-" + this._id,
+			id: this._id,
 			name: this._name,
 			description: this._description
 		}).toString();
@@ -65,6 +67,14 @@ define(['../../../../actions/Actions',
 
 		this.addOnCardClickListener();
 		this.addOnShowUrlClickListener();
+		this.addDeleteOnClickListener();
+	};
+
+	/**
+	 * Remove Dataview Card from DOM
+	 */
+	DataviewCard.prototype.removeCard = function(){
+		this._cardSelector.remove();
 	};
 
 	DataviewCard.prototype.addOnCardClickListener = function(){
@@ -87,6 +97,30 @@ define(['../../../../actions/Actions',
 		this._cardSelector.find(".fa-link").off("click.customViewLink").on("click.customViewLink", function(){
 			// todo better popup window
 			window.alert(self._url);
+		});
+	};
+
+	/**
+	 * Delete dataview on delete icon click
+	 */
+	DataviewCard.prototype.addDeleteOnClickListener = function(){
+		var self = this;
+		this._cardSelector.find(".fa-trash-o").off("click.deleteDataview").on("click.deleteDataview", function(){
+			var id = $(this).parents(".dataview-card").attr("data-for");
+			if (window.confirm("Do you really want to delete this dataview?")) {
+				new Remote({
+					url: "rest/customview/delete",
+					params: {
+						id: Number(id)
+					}
+				}).get().then(function(result){
+					if (result.status === "Ok"){
+						self.removeCard();
+					}
+				}).catch(function(err){
+					console.error(err);
+				});
+			}
 		});
 	};
 
