@@ -998,9 +998,15 @@
 }
 
 .newDesign .x-btn.custom-button.x-btn-default-small {
-	background: rgba(255, 255, 255, .25);
-	border: 1px solid rgba(255, 255, 255, .3);
 	transition: background-color .3s ease-out;
+	display: inline-block;
+	vertical-align: middle;
+	background: rgba(255, 255, 255, .15);
+	border: 0;
+	border-radius: .05rem;
+	color: #ddd;
+	height: 26px;
+	line-height: 26px;
 }
 
 .newDesign .x-btn.custom-button.x-btn-default-small:hover {

@@ -596,14 +596,18 @@ html.dromas body.intro #intro-overlay {
 	width: auto;
 }
 #app-view-selector-period-compare {
-	width: 62px;
 	vertical-align: top;
 	margin-left: 4px;
+	width: 66px;
+
 }
 #app-view-selector-period-compare button,
 #app-view-selector-period-compare button span {
-	height: 21px!important; /* because Ext magic */
-	line-height: 21px!important;
+	height: 23px!important; /* because Ext magic */
+	line-height: 23px!important;
+	font-size: .85rem;
+	font-weight: 500;
+	color: rgb(204,207,211);
 }
 
 #view-selector .timeline-labels {

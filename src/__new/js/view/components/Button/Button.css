@@ -52,5 +52,5 @@
 	line-height: 26px;
 }
 .component-button.compare-button:hover {
-	background: rgba(255, 255, 255, .15);
+	background: rgba(255, 255, 255, .25);
 }
