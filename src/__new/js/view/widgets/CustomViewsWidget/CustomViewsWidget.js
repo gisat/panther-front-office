@@ -150,24 +150,27 @@ define(['../../../actions/Actions',
 		this._dataviewsContainerSelector = this._contentSelector.find('.custom-views-dataviews-container');
 
 		for (var dataset in data){
-			var name = _.find(scopes, function(scope){
+			var scope = _.find(scopes, function(scope){
 				return Number(scope.id) === Number(dataset);
-			}).name;
-
-			this._categoriesContainerSelector.append('<div class="custom-views-category" data-for="custom-views-dataviews-' + dataset + '">' + name + '</div>');
-			this._dataviewsContainerSelector.append('<div class="custom-views-window" id="custom-views-dataviews-' + dataset + '">' +
-					'<div class="custom-views-window-wrapper">' +
-						'<div class="custom-views-window-content"></div>' +
-					'</div>' +
-				'</div>');
-
-			var window = $('#custom-views-dataviews-' + dataset + ' .custom-views-window-content');
-			var sortedData = this.sortDataByTime(data[dataset]);
-			var self = this;
-			sortedData.forEach(function(dataview){
-				var data = self.prepareDataForCard(dataview);
-				self.addDataviewCard(data, window, isAdmin);
 			});
+
+			if (scope && scope.name){
+				var name = scope.name;
+				this._categoriesContainerSelector.append('<div class="custom-views-category" data-for="custom-views-dataviews-' + dataset + '">' + name + '</div>');
+				this._dataviewsContainerSelector.append('<div class="custom-views-window" id="custom-views-dataviews-' + dataset + '">' +
+					'<div class="custom-views-window-wrapper">' +
+					'<div class="custom-views-window-content"></div>' +
+					'</div>' +
+					'</div>');
+
+				var window = $('#custom-views-dataviews-' + dataset + ' .custom-views-window-content');
+				var sortedData = this.sortDataByTime(data[dataset]);
+				var self = this;
+				sortedData.forEach(function(dataview){
+					var data = self.prepareDataForCard(dataview);
+					self.addDataviewCard(data, window, isAdmin);
+				});
+			}
 		}
 
 		$(".custom-views-category:first-child").addClass("active");

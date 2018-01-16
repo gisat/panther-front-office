@@ -1,5 +1,6 @@
 var Config = {
-	url: 'http://localhost:4000/',
+	// url: 'http://localhost:4000/',
+	url: 'https://urban-tep.eo.esa.int/puma/backend/',
 	// signupAddress: 'http://panther.gisat.cz/account/signup/',
 	// url: 'https://puma.worldbank.org/backend/',                // PUMA
 	// signupAddress: 'https://puma.worldbank.org/account/signup/',
@@ -12,7 +13,8 @@ var Config = {
 	/**
 	 * URL needed for correct WMS request on Analytical units layer
 	 */
-	geoServerUrl: "http://admin:geoserver@10.0.75.2:80/geoserver/panther/wms",
+	// geoServerUrl: "http://admin:geoserver@10.0.75.2:80/geoserver/panther/wms",
+	geoServerUrl: 'https://urban-tep.eo.esa.int/puma/geoserver/',
 
 	initialBaseMap: "osm",
 	initialMapBounds: [

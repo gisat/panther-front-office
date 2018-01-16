@@ -50,6 +50,11 @@ body.intro #floater-custom-views-widget .custom-views-content {
 	background-image: linear-gradient(160deg, #212635 0%, #212635 50%, /*#332035*/#372939 100%);
 }
 
+/* switch */
+body.application #overlay-switch {
+	display: none;
+}
+
 /* Categories */
 .custom-views-categories {
 	display: flex;
