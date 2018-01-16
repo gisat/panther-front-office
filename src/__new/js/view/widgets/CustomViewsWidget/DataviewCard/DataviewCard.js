@@ -52,7 +52,9 @@ define(['../../../../actions/Actions',
 		var html = S(DataviewCardHtml).template({
 			id: this._id,
 			name: this._name,
-			description: this._description
+			description: this._description,
+			deleteTitle: polyglot.t("delete"),
+			urlTitle: polyglot.t("URL")
 		}).toString();
 		this._target.append(html);
 		this._cardSelector = $("#dataview-card-" + this._id);
@@ -107,7 +109,7 @@ define(['../../../../actions/Actions',
 		var self = this;
 		this._cardSelector.find(".fa-trash-o").off("click.deleteDataview").on("click.deleteDataview", function(){
 			var id = $(this).parents(".dataview-card").attr("data-for");
-			if (window.confirm("Do you really want to delete this dataview?")) {
+			if (window.confirm(polyglot.t("dataviewDeleteConfirmText"))) {
 				new Remote({
 					url: "rest/customview/delete",
 					params: {
