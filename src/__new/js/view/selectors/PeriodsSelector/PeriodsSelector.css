@@ -7,12 +7,14 @@
 	height: 1.9rem;
 }
 .selector-label {
-	line-height: 1.9rem;
+	line-height: 30px;
 	margin-right: 3px;
 	color: white;
-	color: rgba(148,152,160,1);
-	font-size: 13px;
+	color: rgba(168,172,180,1);
+	font-size: .85rem;
 	font-weight: 500;
+	display: inline-block;
+	vertical-align: middle;
 }
 body.mode-3d .selector {
 	display: inline-block;

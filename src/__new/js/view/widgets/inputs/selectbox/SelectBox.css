@@ -4,10 +4,12 @@
 }
 
 label.select-menu-caption {
-    font-weight: 500;
+    font-weight: 600;
     height: 1.3rem;
     line-height: 1.3rem;
-    font-size: .9rem;
+    font-size: .85rem;
+    width: 100%;
+    display: block;
 }
 
 .option-count {

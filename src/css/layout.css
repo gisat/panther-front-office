@@ -526,7 +526,7 @@ html.dromas body.intro #intro-overlay {
 #view-selector .field {
 	display: inline-block;
 	/* width: 210px; */
-	margin-right: 20px;
+	margin-right: 15px;
 }
 
 #view-selector .field > div {
@@ -537,9 +537,9 @@ html.dromas body.intro #intro-overlay {
 	padding-right: 3px;
 	vertical-align: top;
 	line-height: 30px;
-	color: rgba(148,152,160,1);
+	color: rgba(168,172,180,1);
 	font-family: "Open Sans", sans-serif;
-	font-size: 13px;
+	font-size: .85rem;
 	font-weight: 500;
 }
 
@@ -552,11 +552,20 @@ html.dromas body.intro #intro-overlay {
 }
 
 #app-view-selector-visualization-manage .x-btn-icon, #app-view-selector-manage .x-btn-icon {
-	background: url(../images/new/settings.png) no-repeat 50% 50% !important;
+	/*background: url(../images/new/settings.png) no-repeat 50% 50% !important;*/
 	width: 100%;
 	height: 100%;
 	left: 0;
 	top: 0;
+	display: flex;
+	justify-content: center;
+	line-height: 27px;
+}
+#app-view-selector-visualization-manage .x-btn-icon:before, #app-view-selector-manage .x-btn-icon:before {
+	content: "\f013";
+	font-family: "FontAwesome";
+	font-size: 1.15rem;
+	color: rgb(204,207,211);
 }
 
 #app-view-selector-save,
@@ -687,7 +696,7 @@ html.dromas body.intro #intro-overlay {
 	height: 100%;
 	padding: 0 15px;
 	line-height: 29px;
-	font-size: 13px;
+	font-size: .85rem;
 	font-weight: 600;
 	color: #444;
 	transition:

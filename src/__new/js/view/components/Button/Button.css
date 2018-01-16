@@ -18,7 +18,7 @@
 	text-align: center;
 }
 .component-button.text-small {
-	font-size: .8rem;
+	font-size: .85rem;
 	line-height: 1.7rem;
 }
 
@@ -48,8 +48,8 @@
 	border: 0;
 	border-radius: .05rem;
 	color: #ddd;
-	height: 24px;
-	line-height: 24px;
+	height: 26px;
+	line-height: 26px;
 }
 .component-button.compare-button:hover {
 	background: rgba(255, 255, 255, .15);

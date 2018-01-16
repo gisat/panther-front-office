@@ -50,7 +50,7 @@
     width: 33%;
     margin: 0 .2rem;
     flex: 0 1 100%;
-    font-size: .9rem;
+    font-size: .95rem;
 }
 #floater-evaluation-widget .footer-buttons .widget-button.hidden {
     display: none;

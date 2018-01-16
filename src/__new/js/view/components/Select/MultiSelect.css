@@ -14,17 +14,17 @@
 .select-multi-container.onlyArrow:before {
 	color: #888;
 	font-family: FontAwesome;
-	font-size: .85rem;
+	font-size: 1rem;
 	height: 26px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
 .select-multi-container.onlyArrow[aria-expanded=false]:before{
-	content: "\f0d7";
+	content: "\f107";
 }
 .select-multi-container.onlyArrow[aria-expanded=true]:before{
-	content: "\f0d8";
+	content: "\f106";
 }
 .select-multi-dropdown {
 	min-width: 5rem;
@@ -41,22 +41,23 @@
 	border-radius: 0.05rem;
 	background: rgba(255, 255, 255, .15);
 	border: 0;
-	border-left: 1px solid rgba(255, 255, 255, .1);
-	color: #ddd;
+	border-left: 1px solid rgba(255, 255, 255, .25);
+	color: rgb(204,207,211);
 }
 .select-multi-container.top-bar-multiselect.onlyArrow {
 	min-height: initial;
-	height: 24px;
+	height: 26px;
 	min-width: initial;
 	width: 26px;
+	display: flex;
+	justify-content: center;
 }
 .select-multi-container.top-bar-multiselect.onlyArrow:before {
-	color: #ddd;
-	height: 24px;
+	color: rgb(204,207,211);
+	height: 26px;
 }
 .select2-container--default.select2-container--focus .select-multi-container.top-bar-multiselect.select2-selection--multiple {
-	border: 1px solid rgba(255, 255, 255, .3);
 	border: 0;
-	border-left: 1px solid rgba(255, 255, 255, .1);
+	border: 1px solid rgba(255, 255, 255, .3);
 	outline: 0;
 }
