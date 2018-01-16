@@ -351,8 +351,8 @@ html.dromas body.intro #intro-overlay {
 	padding-left: 81px;
 	/* background       : url("../images/project-logo.png") no-repeat 0 8px; /* usePumaLogo toggle default */
 	line-height: 38px;
-	font-size: 30px;
-	font-weight: 800;
+	font-size: 1.9rem;
+	font-weight: 700;
 	float: left;
 	text-transform: uppercase;
 }
@@ -419,7 +419,7 @@ html.dromas body.intro #intro-overlay {
 #content-intro {
 	background-color: #434254;
 	background-color: rgba(67, 66, 84, .9);
-	color: #fff;
+	color: rgba(204,207,211,1);
 	top: 125px;
 	padding: 20px;
 	width: 860px;
@@ -478,8 +478,8 @@ html.dromas body.intro #intro-overlay {
 }
 
 #content-intro-guide h2, #content-intro-terms h2 {
-	font-size: 24px;
-	font-weight: 800;
+	font-size: 1.5rem;
+	font-weight: 400;
 	margin-top: 0;
 	border-bottom: 1px solid #fff;
 	margin-bottom: 10px;
@@ -494,11 +494,15 @@ html.dromas body.intro #intro-overlay {
 }
 
 #content-intro-guide h3, #content-intro-terms h3 {
-	font-size: 14px;
+	font-size: 1.1rem;
+	font-weight: 500;
+	margin-bottom: .2rem;
 }
 
 #content-intro-guide p {
-	margin-bottom: 10px;
+	margin-bottom: 15px;
+	font-size: .8rem;
+	font-weight: 400;
 }
 
 /* Application */

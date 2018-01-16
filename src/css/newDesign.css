@@ -285,8 +285,7 @@
 
 /* Intro === */
 .newDesign #content-intro, .newDesign #content-intro-guide {
-	background-color: rgb(67, 66, 84);
-	background-color: rgba(67, 66, 84, .9);
+	background-color: rgba(33,38,53,.95);
 	border: 1px solid #666;
 }
 
@@ -298,7 +297,7 @@
 
 .newDesign #content-intro-guide {
 	border-right: 0;
-	color: #eee;
+	color: rgba(204,207,211,1);
 	top: auto;
 	bottom: 150px;
 }
@@ -348,20 +347,29 @@
 }
 
 .newDesign #content-intro .x-form-trigger {
-	background: rgba(255, 255, 255, .2) url('../images/new/expand-white.png') no-repeat 50% 50%;
-	border-left-width: 0;
+	background: rgba(255, 255, 255, .15);
+	border: 0;
 }
 
 .newDesign #content-intro .custom-combo .x-form-text {
 	border-radius: 1px 0 0 1px;
-	color: #ddd;
-	font-size: 12px;
-	font-weight: 600;
+	color: rgb(204,207,211);
+	background: rgba(255, 255, 255, .15);
+	border: 0;
+	border-right: 0;
+	font-size: .85rem;
+	font-weight: 500;
+	transition: background .3s ease-out;
 }
 
 .newDesign #content-intro .field > .label {
-	font-size: 12px;
-	font-weight: 600;
+	padding-right: 7px;
+	vertical-align: top;
+	line-height: 30px;
+	color: rgba(204,207,211,1);
+	font-family: "Open Sans", sans-serif;
+	font-size: .85rem;
+	font-weight: 500;
 }
 
 /* === Application === */
@@ -1004,17 +1012,20 @@
 }
 
 .newDesign .x-btn.custom-button.btn-confirm {
-	background: rgba(201, 45, 66, .7);
-	border: 1px solid rgba(255, 255, 255, .3);
+	background: rgba(153,54,75,1);
+	border: 1px solid rgba(255, 255, 255, .15);
+	border-radius: .15rem;
 	transition: background .3s ease-out;
 }
 
 .newDesign .x-btn.custom-button.btn-confirm .x-btn-inner {
 	color: #fff;
+	font-size: .85rem;
+	font-weight: 500;
 }
 
 .newDesign .x-btn.custom-button.btn-confirm:hover, .x-btn.btn-confirm:focus {
-	background: #ad2738;
+	background: rgba(186,65,91,1);
 }
 
 .newDesign #app-tools-actions .x-btn {
