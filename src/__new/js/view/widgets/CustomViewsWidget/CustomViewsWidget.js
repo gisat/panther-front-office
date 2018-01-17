@@ -5,6 +5,7 @@ define(['../../../actions/Actions',
 	'../../../util/RemoteJQ',
 	'../../../util/viewUtils',
 
+	'./AboutWindow/AboutWindow',
 	'./DataviewCard/DataviewCard',
 	'../../../stores/Stores',
 	'../Widget',
@@ -20,6 +21,7 @@ define(['../../../actions/Actions',
 			RemoteJQ,
 			viewUtils,
 
+			AboutWindow,
 			DataviewCard,
 			Stores,
 			Widget,
@@ -151,6 +153,9 @@ define(['../../../actions/Actions',
 
 		if (Config.toggles.dataviewsOverlayHasIntro){
 			this.renderContentItem("intro", "About");
+			new AboutWindow({
+				target: $("#about-window-wrapper")
+			});
 		}
 
 		for (var dataset in data){
@@ -191,11 +196,18 @@ define(['../../../actions/Actions',
 	 */
 	CustomViewsWidget.prototype.renderContentItem = function(id, name){
 		this._categoriesContainerSelector.append('<div class="custom-views-category" data-for="custom-views-dataviews-' + id + '">' + name + '</div>');
-		this._dataviewsContainerSelector.append('<div class="custom-views-window" id="custom-views-dataviews-' + id + '">' +
+		if (id === "intro"){
+			this._dataviewsContainerSelector.append('<div class="custom-views-window" id="custom-views-dataviews-' + id + '">' +
+					'<div class="custom-views-window-wrapper" id="about-window-wrapper">' +
+					'</div>'+
+				'</div>');
+		} else {
+			this._dataviewsContainerSelector.append('<div class="custom-views-window" id="custom-views-dataviews-' + id + '">' +
 				'<div class="custom-views-window-wrapper">' +
-					'<div class="custom-views-window-content"></div>' +
+				'<div class="custom-views-window-content"></div>' +
 				'</div>' +
-			'</div>');
+				'</div>');
+		}
 	};
 
 	/**

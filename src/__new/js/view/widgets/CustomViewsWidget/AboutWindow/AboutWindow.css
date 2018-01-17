@@ -1,0 +1,39 @@
+#about-window {
+	height: 100%;
+	overflow-x: hidden;
+}
+.about-window-header {
+	position: relative;
+	background: url('../../../../../img/panther/panther_background.jpg') no-repeat;
+	background-size: cover;
+}
+.about-window-header-title {
+	font-family: "Roboto";
+	font-size: 3rem;
+	font-weight: 100;
+	color: white;
+	background: rgba(153,54,75,.9);
+	padding: 5rem 2rem 9rem 2rem;
+	text-align: center;
+	width: 100%;
+}
+.about-window-header-title::after {
+	position: absolute;
+	content: " ";
+	display: block;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	border-style: solid;
+	border-width: 0 0 7rem 100vw;
+	border-color: transparent transparent white transparent;
+}
+.about-window-logo {
+
+}
+.about-window-logo > img {
+
+}
+.about-window-logo.logo-circle {
+
+}

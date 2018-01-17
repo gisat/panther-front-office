@@ -47,7 +47,7 @@ body.intro #floater-custom-views-widget .custom-views-content {
 
 #floater-custom-views-widget.intro-overlay .floater-body,
 #floater-custom-views-widget.intro-overlay .floater-overlay {
-	background-image: linear-gradient(160deg, #212635 0%, #212635 50%, /*#332035*/#372939 100%);
+	background-image: linear-gradient(160deg, rgba(33,38,53,1) 0%, rgba(33,38,53,1) 50%, rgba(55,41,57,1) 100%);
 }
 
 /* switch */
@@ -86,7 +86,8 @@ body.application #overlay-switch {
 	padding-left: 2.5rem;
 	cursor: pointer;
 	font-size: 1.1rem;
-	font-weight: 400;
+	font-weight: 300;
+	font-family: "Roboto";
 	color: rgb(204,207,211);
 	line-height: 3.2rem;
 	transition: background-color .3s;
@@ -95,7 +96,7 @@ body.application #overlay-switch {
 	background: rgba(153,54,75,.2);
 }
 .custom-views-category.active {
-	background: rgba(153,54,75,.4);
+	background: rgba(153,54,75,.6);
 }
 
 /* dataviews */
@@ -138,20 +139,23 @@ body.application #overlay-switch {
 	z-index: 2;
 	opacity: 1;
 	padding: 3rem 6rem 4rem 0;
-	/*transition: opacity 0s ease-in-out .2s, padding .4s ease-in-out;*/
 }
 .custom-views-window-wrapper {
 	background: white;
 	height: 100%;
 	padding: 1rem;
 	overflow-y: auto;
+	position: relative;
+	border-radius: .1rem;
+}
+#about-window-wrapper {
+	padding: 0;
 }
 .custom-views-window-content {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 }
-
 
 @media (max-width: 1200px) {
 	.custom-views-category {
