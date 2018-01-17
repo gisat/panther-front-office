@@ -16,7 +16,7 @@
 }
 .dataview-card:hover {
 	background: rgb(235,237,239);
-	box-shadow: 0 0 5px 1px rgba(33,38,53,.15);
+	box-shadow: 0 0 5px 2px rgba(33,38,53,.25);
 }
 .dataview-card-preview {
 	align-self: center;

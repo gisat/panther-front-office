@@ -85,11 +85,11 @@ body.application #overlay-switch {
 .custom-views-category {
 	padding-left: 2.5rem;
 	cursor: pointer;
-	font-size: 1.2rem;
-	font-weight: 300;
+	font-size: 1.1rem;
+	font-weight: 400;
 	color: rgb(204,207,211);
 	line-height: 3.2rem;
-	transition: background-color .3s
+	transition: background-color .3s;
 }
 .custom-views-category:hover {
 	background: rgba(153,54,75,.2);

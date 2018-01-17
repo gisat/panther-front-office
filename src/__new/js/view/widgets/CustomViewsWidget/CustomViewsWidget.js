@@ -149,6 +149,10 @@ define(['../../../actions/Actions',
 		this._categoriesContainerSelector = this._contentSelector.find('.custom-views-categories');
 		this._dataviewsContainerSelector = this._contentSelector.find('.custom-views-dataviews-container');
 
+		if (Config.toggles.dataviewsOverlayHasIntro){
+			this.renderContentItem("intro", "About");
+		}
+
 		for (var dataset in data){
 			var scope = _.find(scopes, function(scope){
 				return Number(scope.id) === Number(dataset);
@@ -156,12 +160,7 @@ define(['../../../actions/Actions',
 
 			if (scope && scope.name){
 				var name = scope.name;
-				this._categoriesContainerSelector.append('<div class="custom-views-category" data-for="custom-views-dataviews-' + dataset + '">' + name + '</div>');
-				this._dataviewsContainerSelector.append('<div class="custom-views-window" id="custom-views-dataviews-' + dataset + '">' +
-					'<div class="custom-views-window-wrapper">' +
-					'<div class="custom-views-window-content"></div>' +
-					'</div>' +
-					'</div>');
+				this.renderContentItem(dataset, name);
 
 				var window = $('#custom-views-dataviews-' + dataset + ' .custom-views-window-content');
 				var sortedData = this.sortDataByTime(data[dataset]);
@@ -183,6 +182,20 @@ define(['../../../actions/Actions',
 		this._thirdWindow.addClass("third");
 
 		this.addCategoryListener();
+	};
+
+	/**
+	 * Append Item in categories menu and connected window in content
+	 * @param id {string|number} id of the window
+	 * @param name {string} name of the category
+	 */
+	CustomViewsWidget.prototype.renderContentItem = function(id, name){
+		this._categoriesContainerSelector.append('<div class="custom-views-category" data-for="custom-views-dataviews-' + id + '">' + name + '</div>');
+		this._dataviewsContainerSelector.append('<div class="custom-views-window" id="custom-views-dataviews-' + id + '">' +
+				'<div class="custom-views-window-wrapper">' +
+					'<div class="custom-views-window-content"></div>' +
+				'</div>' +
+			'</div>');
 	};
 
 	/**

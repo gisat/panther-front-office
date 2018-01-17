@@ -1,7 +1,7 @@
 var Config = {
-	// url: 'http://localhost:4000/',
-	url: 'https://urban-tep.eo.esa.int/puma/backend/',
-	// signupAddress: 'http://panther.gisat.cz/account/signup/',
+	url: 'http://localhost:4000/',
+	// url: 'https://urban-tep.eo.esa.int/puma/backend/',
+	// url: 'http://panther.gisat.cz/backend/',
 	// url: 'https://puma.worldbank.org/backend/',                // PUMA
 	// signupAddress: 'https://puma.worldbank.org/account/signup/',
 	// url: 'http://urbis.gisat.cz/backend/',                     // URBIS
@@ -13,8 +13,8 @@ var Config = {
 	/**
 	 * URL needed for correct WMS request on Analytical units layer
 	 */
-	// geoServerUrl: "http://admin:geoserver@10.0.75.2:80/geoserver/panther/wms",
-	geoServerUrl: 'https://urban-tep.eo.esa.int/puma/geoserver/',
+	geoServerUrl: "http://admin:geoserver@10.0.75.2:80/geoserver/panther/wms",
+	// geoServerUrl: 'https://urban-tep.eo.esa.int/puma/geoserver/',
 
 	initialBaseMap: "osm",
 	initialMapBounds: [
@@ -53,7 +53,9 @@ var Config = {
 		skipInitialSelection: false,
 		hideWorldBank: false,
 		hideSelectorToolbar: false,
-		showDataviewsOverlay: true
+
+		showDataviewsOverlay: true,
+		dataviewsOverlayHasIntro: true
 	},
 
 	basicTexts: {
