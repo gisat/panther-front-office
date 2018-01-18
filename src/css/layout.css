@@ -298,6 +298,7 @@ body.intro #header .menu li:first-child::before {
 
 body.intro #content-intro, body.intro #content-intro-guide, body.intro #content-intro-terms, body.application #content-application {
 	display: block;
+	border: 0;
 }
 
 body.dataview #content-intro-terms,

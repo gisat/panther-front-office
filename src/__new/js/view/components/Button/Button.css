@@ -10,7 +10,7 @@
 	width: 8rem;
 }
 .component-button:hover {
-	background: rgba(65,69,81,.15);
+	background: rgba(65,69,81,.2);
 }
 
 /* text */
@@ -20,6 +20,11 @@
 .component-button.text-small {
 	font-size: .85rem;
 	line-height: 1.7rem;
+}
+.component-button.extra-large {
+	font-size: 1.5rem;
+	line-height: 3rem;
+	border-width: .1rem;
 }
 
 /* widths */
@@ -41,6 +46,14 @@
 .component-button.w14 {
 	width: 14rem;
 }
+.component-button.w18 {
+	width: 18rem;
+}
+.component-button.w20 {
+	width: 20rem;
+}
+
+
 .component-button.compare-button {
 	display: inline-block;
 	vertical-align: middle;

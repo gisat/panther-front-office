@@ -154,7 +154,8 @@ define(['../../../actions/Actions',
 		if (Config.toggles.dataviewsOverlayHasIntro){
 			this.renderContentItem("intro", "About");
 			new AboutWindow({
-				target: $("#about-window-wrapper")
+				target: $("#about-window-wrapper"),
+				onShowMapsClick: this.onShowMapsClick.bind(this)
 			});
 		}
 
@@ -203,9 +204,13 @@ define(['../../../actions/Actions',
 				'</div>');
 		} else {
 			this._dataviewsContainerSelector.append('<div class="custom-views-window" id="custom-views-dataviews-' + id + '">' +
-				'<div class="custom-views-window-wrapper">' +
-				'<div class="custom-views-window-content"></div>' +
-				'</div>' +
+					'<div class="custom-views-window-wrapper">' +
+						'<div class="custom-views-window-header">' +
+							'<h1 class="custom-views-window-header-title"><i>' + polyglot.t("scope") + ":</i>" + name + '</h1>' +
+						'</div>' +
+						'<div class="custom-views-window-content">' +
+						'</div>' +
+					'</div>' +
 				'</div>');
 		}
 	};
@@ -308,6 +313,10 @@ define(['../../../actions/Actions',
 			self._secondWindow.addClass("second");
 			self._thirdWindow.addClass("third");
 		});
+	};
+
+	CustomViewsWidget.prototype.onShowMapsClick = function(){
+		this._categoriesContainerSelector.find(".custom-views-category:nth-child(2)").trigger("click");
 	};
 
 	/**

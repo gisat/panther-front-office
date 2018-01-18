@@ -47,7 +47,7 @@ body.intro #floater-custom-views-widget .custom-views-content {
 
 #floater-custom-views-widget.intro-overlay .floater-body,
 #floater-custom-views-widget.intro-overlay .floater-overlay {
-	background-image: linear-gradient(160deg, rgba(33,38,53,1) 0%, rgba(33,38,53,1) 50%, rgba(55,41,57,1) 100%);
+	background-image: linear-gradient(160deg, rgba(33,38,53,1) 0%, rgba(33,38,53,1) 40%, rgba(55,41,57,1) 100%);
 }
 
 /* switch */
@@ -140,32 +140,58 @@ body.application #overlay-switch {
 	opacity: 1;
 	padding: 3rem 6rem 4rem 0;
 }
+
+/* window content */
 .custom-views-window-wrapper {
 	background: white;
 	height: 100%;
 	padding: 1rem;
 	overflow-y: auto;
+	overflow-x: hidden;
 	position: relative;
 	border-radius: .1rem;
 }
 #about-window-wrapper {
 	padding: 0;
 }
+.custom-views-window-header {
+	position: relative;
+	width: 100%;
+}
+.custom-views-window-header-title {
+	font-family: "Roboto";
+	font-size: 2.5rem;
+	font-weight: 300;
+	color: rgb(65,69,81);
+	padding: .7rem 0.5rem 1rem;
+	width: 100%;
+}
+.custom-views-window-header-title i {
+	font-weight: 100;
+	font-style: normal;
+}
 .custom-views-window-content {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 }
-
+@media (max-width: 1600px) {
+	.custom-views-window-header-title {
+		font-size: 2.15rem;
+	}
+}
 @media (max-width: 1200px) {
 	.custom-views-category {
 		padding-left: 2rem;
 		font-size: 1rem;
 		line-height: 3rem;
 	}
+	.custom-views-window-header-title {
+		font-size: 2rem;
+	}
 }
 
-@media (max-width: 1000px) {
+@media (max-width: 1000px), (max-height: 700px) {
 	/* Categories */
 	.custom-views-categories {
 		margin: 2rem 0 3rem 0;
@@ -182,5 +208,8 @@ body.application #overlay-switch {
 	}
 	.custom-views-window-wrapper {
 		padding: .5rem;
+	}
+	.custom-views-window-header-title {
+		font-size: 1.8rem;
 	}
 }
