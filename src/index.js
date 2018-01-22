@@ -32,8 +32,6 @@ var configuration = Config.environment;
 if (configuration == 'development') {
     createScript('lib/OpenLayers.min.js').then(function(){
         return createScript('gisatlib/OpenLayers/Geoserver23.js');
-	}).then(function(){
-	    return createScript('lib/d3/d3.js');
     }).then(function(){
         return createScript('extjs-4.1.3/ext-debug.js');
     }).then(function(){
@@ -63,8 +61,6 @@ if (configuration == 'development') {
 } else {
     createScript('lib/OpenLayers.min.js').then(function(){
         return createScript('extjs-4.1.3/ext.js');
-    }).then(function(){
-		return createScript('lib/d3/d3.min.js');
     }).then(function(){
         return createScript('appde.all.js');
     }).then(function(){
