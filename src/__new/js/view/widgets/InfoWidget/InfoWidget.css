@@ -12,22 +12,24 @@
 	font-size: 1.2rem;
 	font-weight: 600;
 	margin: 1.5rem 0 .3rem;
-	color: #555;
+	color: #444;
 }
 #floater-info-widget .floater-body h4 {
 	font-size: .85rem;
 	font-weight: 600;
 	margin: 1rem 0 .2rem;
-	color: #555;
+	color: #444;
 }
 #floater-info-widget .floater-body p {
 	font-size: .8rem;
 	margin: .3rem 0;
-	color: #555;
+	color: #444;
 	line-height: 1.5;
 }
 #floater-info-widget .floater-body a {
 	text-decoration: underline;
+	font-size: .8rem;
+	font-weight: 600;
 }
 #floater-info-widget .floater-body ul {
 	margin: .3rem 1.5rem .5rem;
@@ -36,7 +38,7 @@
 	font-size: .8rem;
 	font-weight: 400;
 	list-style: disc;
-	color: #555;
+	color: #444;
 }
 #floater-info-widget .floater-body table {
 	margin: .7rem 0;
