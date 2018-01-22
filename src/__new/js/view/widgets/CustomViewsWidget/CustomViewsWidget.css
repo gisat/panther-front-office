@@ -146,10 +146,13 @@ body.application #overlay-switch {
 	background: white;
 	height: 100%;
 	padding: 1rem;
-	overflow-y: auto;
+	overflow-y: hidden;
 	overflow-x: hidden;
 	position: relative;
 	border-radius: .1rem;
+}
+.custom-views-window.active .custom-views-window-wrapper {
+	overflow-y: auto;
 }
 #about-window-wrapper {
 	padding: 0;

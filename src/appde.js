@@ -36,7 +36,7 @@ Ext.application({
 		$("#content-intro > .label").html(Config.basicTexts.appName);
 
 		if (Config.toggles.isUrbanTep) {
-			$('body').addClass("urban-tep");
+			$('html').addClass("urban-tep");
 			$('#header .menu #intro-link').hide();
             $('#header .menu #downloads-link').hide();
             $('#header .menu #help-link').hide();

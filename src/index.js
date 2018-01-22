@@ -171,6 +171,7 @@ if (configuration == 'development') {
         }
     });
 }
+
 // load project styles depending on the toggles
 if((Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool) ||
     (Config.toggles.hasOwnProperty("hasNewFeatureInfo") && Config.toggles.hasNewFeatureInfo) ||
@@ -184,15 +185,13 @@ if((Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasN
 }
 if(Config.toggles.isNewDesign){
     createLink("css/newDesign.css");
+	createLink("__new/styles/projects.css");
 }
 if(Config.toggles.isUrbis){
     createLink("css/project/urbis.css");
 }
 if(Config.toggles.isEea){
     createLink("css/project/eea.css");
-}
-if(Config.toggles.isUrbanTep){
-    createLink("__new/styles/urban-tep.css");
 }
 if(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies){
     createLink("css/project/melodies.css");

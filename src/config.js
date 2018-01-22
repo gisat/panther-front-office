@@ -14,6 +14,7 @@ var Config = {
 	 * URL needed for correct WMS request on Analytical units layer
 	 */
 	geoServerUrl: "http://admin:geoserver@10.0.75.2:80/geoserver/panther/wms",
+	// geoServerUrl: "http://panther.gisat.cz/geoserver/panther/wms",
 	// geoServerUrl: 'https://urban-tep.eo.esa.int/puma/geoserver/',
 
 	initialBaseMap: "osm",
@@ -55,7 +56,66 @@ var Config = {
 		hideSelectorToolbar: false,
 
 		showDataviewsOverlay: true,
-		dataviewsOverlayHasIntro: true
+		dataviewsOverlayHasIntro: true,
+
+		// intro: {
+		// 	title: "Panther Data Exploration",
+		// 	text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mollis sodales lorem, nec hendrerit mi tincidunt pellentesque. Quisque facilisis ipsum id elit hendrerit, vitae elementum tortor elementum. Proin in pretium tellus, sit amet pretium nisi. Curabitur eget egestas mauris.",
+		// 	logo: {
+		// 		/**
+		// 		 * location of image in src/__new/img/
+		// 		 */
+		// 		source: "panther/panther_logo.png",
+		// 		/**
+		// 		 * possible values: circle, wide_rectangle (if other or empty value, default rectangle shape will be used
+		// 		 */
+		// 		type: "circle"
+		// 	}
+		// },
+
+		intro: {
+			title: "ESA Urban TEP",
+			text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mollis sodales lorem, nec hendrerit mi tincidunt pellentesque. Quisque facilisis ipsum id elit hendrerit, vitae elementum tortor elementum. Proin in pretium tellus, sit amet pretium nisi. Curabitur eget egestas mauris.",
+			logo: {
+				/**
+				 * location of image in src/__new/img/
+				 */
+				source: "urban_tep/urban_tep_logo.png",
+				/**
+				 * possible values: circle, wide_rectangle (if other or empty value, default rectangle shape will be used
+				 */
+				type: "circle"
+			}
+		},
+
+		"http://dromas.gisat.cz": {
+			classes: ['dromas'],
+			url: 'http://dromas.gisat.cz/backend/',
+			publicUrl: 'http://dromas.gisat.cz/tool/',
+			geoServerUrl: "http://dromas.gisat.cz/geoserver/panther/wms",
+
+			/**
+			 * It updates the selector in 3D mode to the select version for multiple maps.
+			 */
+			hasPeriodsSelector: true,
+
+			/**
+			 * It removes link to the administration from the top part of the panel.
+			 */
+			disableAdministration: true,
+
+			/**
+			 * Configuration of intro window for Dromas
+			 */
+			intro: {
+				title: "Dromas Portál",
+				text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mollis sodales lorem, nec hendrerit mi tincidunt pellentesque. Quisque facilisis ipsum id elit hendrerit, vitae elementum tortor elementum. Proin in pretium tellus, sit amet pretium nisi. Curabitur eget egestas mauris.",
+				logo: {
+					source: "dromas/dromas_logo.png",
+					type: "wide_rectangle"
+				}
+			}
+		}
 	},
 
 	basicTexts: {

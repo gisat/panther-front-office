@@ -79,6 +79,11 @@
 	border-radius: 7rem;
 	padding: 1.5rem;
 }
+.about-window-logo.logo-wide-rectangle {
+	width: 24rem;
+	height: 8rem;
+	margin-top: 2rem;
+}
 .about-window-logo > img {
 	width: 100%;
 }
@@ -128,6 +133,10 @@
 		height: 12rem;
 		border-radius: 6rem;
 	}
+	.about-window-logo.logo-wide-rectangle {
+		width: 22rem;
+		height: 7rem;
+	}
 	.about-window-text p {
 		font-size: 1.05rem;
 	}
@@ -150,6 +159,10 @@
 		width: 14rem;
 		height: 8rem;
 	}
+	.about-window-logo.logo-wide-rectangle {
+		width: 20rem;
+		height: 6rem;
+	}
 	.about-window-text p {
 		font-size: .9rem;
 		max-width: 35rem;
@@ -168,6 +181,10 @@
 	.about-window-logo {
 		width: 16rem;
 		height: 10rem;
+	}
+	.about-window-logo.logo-wide-rectangle {
+		width: 20rem;
+		height: 6rem;
 	}
 	.about-window-logo.logo-circle {
 		width: 10rem;
@@ -194,6 +211,12 @@
 		padding: 1rem;
 		width: 14rem;
 		height: 8rem;
+	}
+	.about-window-logo.logo-wide-rectangle {
+		width: 18rem;
+		height: 6rem;
+		margin-top: 1rem;
+		padding: 1rem 2rem;
 	}
 	.about-window-logo.logo-circle {
 		width: 8rem;

@@ -43,6 +43,10 @@
 	border: 0;
 	border-left: 1px solid rgba(255, 255, 255, .25);
 	color: rgb(204,207,211);
+	transition: background .3s ease-in-out;
+}
+.select-multi-container.top-bar-multiselect:hover {
+	background: rgba(255, 255, 255, .2);
 }
 .select-multi-container.top-bar-multiselect.onlyArrow {
 	min-height: initial;

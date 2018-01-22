@@ -8,6 +8,10 @@
 	 background: rgba(255, 255, 255, .15);
 	 border: 0;
 	 height: 26px;
+	transition: background .3s ease-in-out;
+}
+.select-basic-container.top-bar-select:hover {
+	background: rgba(255, 255, 255, .2);
 }
 .select-basic-container.top-bar-select .select2-selection__rendered {
 	line-height: 26px;

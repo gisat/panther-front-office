@@ -27,14 +27,37 @@ define([
 	};
 
 	AboutWindow.prototype.build = function(){
+		var logoClass = "logo-circle";
+		var logoSource = "panther/panther_logo.png";
+		var title = "Panther Data Exploration";
+		var text = "";
+
+		if (Config.toggles.intro){
+			var intro = Config.toggles.intro;
+			if (intro.title){
+				title = intro.title;
+			}
+			if (intro.text){
+				text = intro.text;
+			}
+			if (intro.logo && intro.logo.type){
+				var type = intro.logo.type;
+				if (type === 'rectangle'){
+					logoClass = "";
+				} else if (type === 'wide_rectangle'){
+					logoClass = "logo-wide-rectangle";
+				}
+			}
+			if (intro.logo && intro.logo.source){
+				logoSource = intro.logo.source;
+			}
+		}
+
 		var html = S(aboutWindowHtml).template({
-			logoSource: "__new/img/panther/panther_logo.png",
-			logoClass: "logo-circle",
-			projectName: "Panther Data Exploration",
-			projectAbout: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.\n" +
-			"\t\t\tPhasellus mollis sodales lorem, nec hendrerit mi tincidunt pellentesque.\n" +
-			"\t\t\tQuisque facilisis ipsum id elit hendrerit, vitae elementum tortor elementum.\n" +
-			"\t\t\tProin in pretium tellus, sit amet pretium nisi. Curabitur eget egestas mauris."
+			logoSource: "__new/img/" + logoSource,
+			logoClass: logoClass,
+			projectName: title,
+			projectAbout: text
 		}).toString();
 		this._target.append(html);
 
