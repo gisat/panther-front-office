@@ -175,9 +175,9 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 				iFrame: panelIFrame
 			});
 
+			widgets.push(buildInfoWidget());
 			widgets.push(buildSnowWidget(snowMapController, panelIFrame));
 			widgets.push(buildSnowRegistration());
-			widgets.push(buildInfoWidget());
 			snowViewChanges();
 		} else {
 			// create tools and widgets according to configuration
@@ -392,7 +392,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 	function buildSnowWidget (mapController, iFrame){
 		return new SnowWidget({
 			elementId: 'snow-widget',
-			name: 'Saved configurations',
+			name: 'Saved views',
 			placeholderTargetId: 'widget-container',
 			iFrame: iFrame,
 			mapController: mapController,
@@ -512,13 +512,25 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 		if (introLink.length){
 			introLink.remove();
 		}
-		// use snow portal logo
+
 		var headerSelector = $("#header");
 		headerSelector.find("h1").remove();
-		headerSelector.prepend("<a target='_blank' href='" + Config.snowIntroUrl + "' id='project-logo'></a>");
+		headerSelector.prepend("<div class='logo-container'><a target='_blank' href='" + Config.snowIntroUrl + "' id='project-logo'></a></div>");
 
 		// hide top toolbar tools
 		var topToolbarTools = $("#top-toolbar-tools");
 		topToolbarTools.remove();
+
+		// change content of wb-header and add logos
+		var wbHeader = $("#wb-header");
+		wbHeader.html('<div class="header-logos-container">' +
+				'<a class="header-logo gisat" href="http://gisat.cz/content/en" target="_blank"><img src="images/snow/logo_gisat.png"/></a>' +
+				'<a class="header-logo e2o" href="http://www.earth2observe.eu/" target="_blank"><img src="images/snow/logo_e2o.png"/></a>' +
+			'</div>');
+
+		// move toolbar with widgets placeholders to menu
+		var menu = $("#header .menu");
+		menu.html("");
+		$("#top-toolbar").appendTo(menu);
 	}
 });

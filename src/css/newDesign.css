@@ -57,18 +57,24 @@
 
 .newDesign #header a {
 	font-family: "Open sans", "arial", sans-serif;
-	font-size: 10px;
 	color: #ddd;
+	font-weight: 400;
+	color: rgba(189,192,197,1);
+	height: 100%;
+	text-transform: none;
+	padding: 0;
+	margin: 0;
 }
 
 .newDesign #header .user {
 	/* background: #333; */
-	height: 28px;
-	padding-right: 10px;
-	position: absolute;
 	display: inline-block;
 	right: 0;
-	top: 8px;
+	height: auto;
+	top: auto;
+	padding: 0;
+	position: relative;
+	line-height: 50px;
 }
 
 .newDesign #header .user .sep {
@@ -86,27 +92,30 @@
 
 .newDesign #header .user .login:before, .newDesign #header .user .signup:before {
 	display: inline-block;
-	width: 15px;
-	height: 15px;
 	line-height: 15px;
-	margin: -3px 5px 0 0;
-	padding: 0;
 	vertical-align: middle;
+	font-family: "FontAwesome";
+	font-size: 1rem;
+	width: auto;
+	height: auto;
+	margin: 0;
+	padding: 0 7px 0 0;
 }
 
 .newDesign #header .user .login:before {
-	content: url("../images/new/login.png");
+	content: "\f090";
 }
 
+.newDesign #header .user .login.logged:before {
+	content: "\f2c0";
+}
 .newDesign #header .user .signup:before {
-	content: url("../images/new/signup.png");
+	content: "\f234";
+}
+.newDesign #header .user .signup.logout:before {
+	content: "\f08b";
 }
 
-.newDesign #header .user .login.logged:before, .newDesign #header .user .signup.logged:before {
-	content: "";
-	margin: 0;
-	width: 0;
-}
 
 /* login */
 .newDesign #loginwindow .x-btn {

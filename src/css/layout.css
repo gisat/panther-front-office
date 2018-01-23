@@ -793,7 +793,7 @@ body.mode-3d #top-toolbar-3dmap:not(.world-wind-2d) {
 }
 
 #top-toolbar .item#top-toolbar-snow-configuration::before {
-	content: '\f085';
+	content: '\f06e';
 }
 #top-toolbar .item#top-toolbar-tour::before {
 	content: '\f128';

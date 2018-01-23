@@ -19,8 +19,8 @@ define([], function () {
 		}
 		if (leg.rawData.el === "#top-toolbar"){
 			leg.$el.css({
-				left: "auto",
-				right: "0px"
+				left: "500px",
+				right: "auto"
 			});
 		}
 		if (leg.rawData.el === "#scope-config-controls .ptr-button"){

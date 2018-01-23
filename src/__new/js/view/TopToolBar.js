@@ -102,7 +102,7 @@ define([
 			}
 			if (tools.snow){
 				var classesSnowWidget3d = $('#floater-snow-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesSnowWidget3d + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget">Saved configurations</div>');
+				this._target.append('<div class="' + classesSnowWidget3d + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget">Saved views</div>');
 			}
 			if (tools.info){
 				var classesInfoWidget3d = $('#floater-info-widget').hasClass('open') ? "item open" : "item";
@@ -152,7 +152,7 @@ define([
 			}
 			if (tools.snow){
 				var classesSnowWidget = $('#floater-snow-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesSnowWidget + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget">Saved configurations</div>');
+				this._target.append('<div class="' + classesSnowWidget + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget">Saved views</div>');
 			}
 			if (tools.info){
 				var classesInfoWidget = $('#floater-info-widget').hasClass('open') ? "item open" : "item";

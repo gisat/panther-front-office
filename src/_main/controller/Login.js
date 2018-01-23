@@ -18,6 +18,8 @@ Ext.define('PumaMain.controller.Login',{
             if (Config.toggles.isSnow){
                 Stores.notify("user#loggedIn");
             }
+			$("#header .login").addClass("logged");
+			$("#header .signup").addClass("logout");
         } else {
 			if (Config.toggles.isSnow){
 				Stores.notify("user#loggedOut");
@@ -25,6 +27,8 @@ Ext.define('PumaMain.controller.Login',{
             if(Config.toggles.onlyLoggedIn) {
                 window.location = Config.notAuthenticatedUrl
             }
+			$("#header .login").removeClass("logged");
+			$("#header .signup").removeClass("logout");
         }
         if (Config.auth && Config.auth.groups && Ext.Array.contains(Config.auth.groups, 'admingroup')) {
             Config.auth.isAdmin = true;

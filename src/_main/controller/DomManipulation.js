@@ -62,6 +62,9 @@ Ext.define('PumaMain.controller.DomManipulation', {
 		}
 		
 		$("#map-holder").css({width : w, height : h});
+		if (Config.toggles.isSnow){
+			$("#map-holder").css({width : w, height : (h+45)});
+		}
 		$("#maps-container").css({width : w, height : h});
 		
 		var map = Ext.ComponentQuery.query('#map')[0];
@@ -94,10 +97,11 @@ Ext.define('PumaMain.controller.DomManipulation', {
 	
 	resizeReports: function() {
 		var availableSize = this.getContentAvailableSize();
-		$("#sidebar-reports").height(availableSize.height);
 		if(Config.toggles.isSnow) {
-			$("#app-extra-content").height(availableSize.height);
+			$("#sidebar-reports").height(availableSize.height + 45);
+			$("#app-extra-content").height(availableSize.height + 45);
 		} else {
+			$("#sidebar-reports").height(availableSize.height);
 			$("#app-reports-accordeon").height(availableSize.height - $("#app-reports-paging").outerHeight(true));
 		}
 	},

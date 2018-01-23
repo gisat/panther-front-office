@@ -1,15 +1,29 @@
+/* Table of contents
+
+	APPLICATION...........adjustments of original sidebar-reports element
+	MAP...................adjustments of map container
+	HEADER TOOLBARS.......adjustments of header toolbars
+	  wb-header
+	  header
+	WIDGETS
+	  Snow widget
+	  Login window
+ */
+
+
+/* =============================================
+   === APPLICATION =============================
+   =============================================
+ */
 .snow #sidebar-reports-add {
 	display: none;
 }
-
 .snow #app-reports-paging {
 	display: none;
 }
-
 .snow #app-reports-accordeon {
 	display: none;
 }
-
 .snow #app-extra-content {
 	display: block;
 }
@@ -17,10 +31,10 @@
 #snow-iframe {
 	border: 0;
 }
-
-.snow #sidebar-reports {
+.snow.toggle-useTopToolbar.toggle-useHeader.toggle-hideSelectorToolbar #sidebar-reports {
 	right: auto;
 	left: 0;
+	top: 0;
 }
 .snow #sidebar-reports.hidden {
 	right: auto;
@@ -51,25 +65,91 @@
 .snow #sidebar-reports.show-map.hidden #sidebar-reports-toggle:before {
 	content: "\f105";
 }
+
+/* =============================================
+   === MAP =====================================
+   =============================================
+ */
+.snow.toggle-useTopToolbar.toggle-useHeader.toggle-useWBHeader body.application #main {
+	padding-top: 70px;
+}
 .snow #maps-container {
 	right: 0;
 	left: auto;
 }
-
 .snow #map-holder {
 	position: absolute;
 	right: 0;
 }
 
-/* Selectors toolbar */
-.snow #header {
-	background: rgba(45,53,60,1);
-	z-index: 12000;
+/* =============================================
+   === HEADER TOOLBARS =========================
+   =============================================
+ */
+
+/* Wb-header */
+.snow #wb-header {
+	background: white;
+	border: 0;
+	padding: 0 25px;
 }
-.snow #header .menu {
-	display: none;
+.snow #wb-header .header-logos-container {
+	display: flex;
+	justify-content: flex-end;
+}
+.snow #wb-header .header-logo {
+	background: none;
+	width: 110px;
+	padding: 0 10px;
+	position: relative;
+	transition: background .3s ease-in-out;
+}
+.snow #wb-header .header-logo:hover {
+	background: rgba(125,125,125,.15);
+}
+.snow #wb-header .header-logo > img {
+	width: 80%;
 	position: absolute;
-	right: 180px;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+}
+.snow #wb-header .header-logo.gisat > img {
+	width: 70%;
+}
+/* header */
+.snow #header {
+	background: rgba(33,38,53,1);
+	box-shadow: 0 0 5px 2px rgba(0,0,0,.2);
+	z-index: 12000;
+	padding: 0 20px 0 35px;
+	display: flex;
+}
+/* logo */
+.snow #header .logo-container {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	width: 170px;
+	top: -13px;
+	height: 70px;
+	background-image: linear-gradient(135deg, rgb(26,128,182) 0%, rgb(26,128,182) 40%, rgb(25,119,169) 60%, rgb(25,119,169) 100%);
+	box-shadow: 0 0 5px 2px rgba(0,0,0,.2);
+}
+.snow #project-logo {
+	background: url('../../images/snow/logo_snow.png');
+	background-repeat: no-repeat;
+	background-position: 20px;
+	display: inline-block;
+	width: 160px;
+	height: 80px;
+	margin-top: 10px;
+	transition: background .3s ease-in-out;
+}
+/* menu */
+.snow #header .menu {
+	flex: 1;
+	margin: 0 0 0 205px;
 }
 .snow #header .menu li:before {
 	position: absolute;
@@ -77,58 +157,69 @@
 	right: 0;
 	width: 2px;
 }
-.snow #project-logo {
-	background: url('../../images/snow/logo_snow.png');
-	background-repeat: no-repeat;
-	background-position: 15px;
-	display: inline-block;
-	width: 150px;
-	height: 70px;
-	padding: 15px;
-	transition: background .3s ease-in-out;
-}
-.snow #project-logo:hover {
-	background: url('../../images/snow/logo_snow_hover.png');
-	background-repeat: no-repeat;
-	background-position: 15px;
-}
 .snow #top-toolbar {
-	background: rgba(45,53,60,1);
-	border-bottom: 1px solid rgba(140,145,150,0.3);
-}
-.snow #top-toolbar .item {
-	font-size: 14px;
-	font-weight: 600;
-}
-.snow #top-toolbar-features {
-	background: rgba(45,53,60,1);
-	border-bottom: 1px solid rgba(140,145,150,0.3);
-	text-align: right;
-}
-.snow #top-toolbar-features .item {
-	color: #ddd;
-	border-color: #888;
-}
-.snow #top-toolbar-features .item:before {
-	color: #ddd;
-}
-.snow #top-toolbar-tools .item {
+	background: transparent;
+	position: relative;
 	border: 0;
-}
-.snow #top-toolbar-tools .item:hover {
-	background: rgba(125,125,125,.15)
+	height: 100%;
 }
 .snow #top-toolbar-features {
 	margin-right: .5rem;
+	display: flex;
+	align-items: center;
+	height: 100%;
 }
-.snow #top-toolbar-widgets .item:last-child {
-	border-right: 0;
+.snow #top-toolbar-widgets {
+	height: 100%;
 }
+.snow #top-toolbar .item {
+	font-size: 16px;
+	font-weight: 500;
+	line-height: 45px;
+	padding: 0 20px 0 35px;
+	border: 0;
+	color: rgba(189,192,197,1);
+	text-transform: none;
+}
+.snow #top-toolbar .item::before {
+	height: 100%;
+	font-size: 16px;
+	color: rgba(189,192,197,1);
+}
+.snow #header .user {
+	line-height: 0;
+}
+.snow #header .user a {
+	line-height: 45px;
+	height: 100%;
+}
+.snow #header .user a:hover {
+	text-decoration: none;
+	background: rgba(125,125,125,.15);
+}
+.snow #header .user .sep {
+	display: none;
+}
+
 body.mode-3d #top-toolbar-3dmap:not(.world-wind-2d),
 .snow #top-toolbar-features .item.open {
 	color: rgba(26,128,182,1);
 }
+/* TODO temporary changes */
+.snow #top-toolbar-3dmap {
+	display: none !important;
+}
+/* logins */
+.snow #header .user {
+	position: relative;
+}
 
+
+
+/* =============================================
+   === WIDGETS  ================================
+   =============================================
+ */
 /* snow widget */
 .snow .floater {
 	background: none;
@@ -223,9 +314,4 @@ body.mode-3d #top-toolbar-3dmap:not(.world-wind-2d),
 }
 .snow #loginwindow .x-btn-default-small.x-btn-focus {
 	box-shadow: 0 0 0 1px #4d8aff;
-}
-
-/* TODO temporary changes */
-.snow #top-toolbar-3dmap {
-	display: none !important;
 }
