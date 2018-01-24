@@ -1,4 +1,6 @@
 define([
+	'js/actions/Actions',
+
 	'js/error/ArgumentError',
 	'js/error/NotFoundError',
 	'js/util/Logger',
@@ -7,17 +9,23 @@ define([
 	'js/stores/Stores',
 	'js/stores/gisat/Attributes',
 	'js/stores/gisat/AttributeSets',
+	'js/stores/gisat/Dataviews',
 	'js/stores/gisat/Layers',
 	'js/stores/gisat/Locations',
 	'js/stores/gisat/Periods',
 	'js/stores/gisat/Scopes',
+	'js/stores/gisat/Themes',
 	'js/stores/gisat/Visualizations',
 	'js/stores/gisat/WmsLayers',
     'js/stores/UrbanTepPortalStore',
     'js/stores/UrbanTepCommunitiesStore',
+    'js/view/widgets/EvaluationWidget/EvaluationWidget',
+
     'jquery',
 	'underscore'
-], function(ArgumentError,
+], function(Actions,
+
+			ArgumentError,
 			NotFoundError,
 			Logger,
 			Promise,
@@ -25,14 +33,18 @@ define([
 			Stores,
 			Attributes,
 			AttributeSets,
+			Dataviews,
 			Layers,
 			Locations,
 			Periods,
 			Scopes,
+			Themes,
 			Visualizations,
 			WmsLayers,
 			UrbanTepPortalStore,
 			UrbanTepCommunitiesStore,
+			EvaluationWidget,
+
 			$,
 			_){
 	/**
@@ -49,12 +61,14 @@ define([
 
 		this._dataset = null;
 		Observer.addListener("rebuild", this.rebuild.bind(this));
+        Observer.addListener('user#onLogin', this.loadData.bind(this));
+        Observer.addListener('Select#onChangeColor', this.rebuildEvaluationWidget.bind(this));
 	};
 
 	/**
 	 * Rebuild all components 
 	 */
-	FrontOffice.prototype.rebuild = function(){
+	FrontOffice.prototype.rebuild = function(options){
 		this._options.config = ThemeYearConfParams;
 		this._options.changes = {
 			scope: false,
@@ -62,7 +76,8 @@ define([
 			theme: false,
 			period: false,
 			level: false,
-			visualization: false
+			visualization: false,
+			dataview: false
 		};
 		this.checkConfiguration();
 		Stores.retrieve("state").setChanges(this._options.changes);
@@ -70,7 +85,7 @@ define([
 		var visualization = Number(ThemeYearConfParams.visualization);
 
 		var self = this;
-		if (visualization > 0){
+		if (visualization > 0 && this._options.changes.visualization && !this._options.changes.dataview){
 			Stores.retrieve("visualization").byId(visualization).then(function(response){
 				var attributes = response[0].attributes;
 				var options = response[0].options;
@@ -93,17 +108,21 @@ define([
 				self.toggleSidebars(options);
 				self.toggleWidgets(options);
 				self.toggleCustomLayers(options);
+			}).catch(function(err){
+				throw new Error(err);
 			});
 		}
 
 		else {
 			var attributesData = this.getAttributesMetadata();
 			Promise.all([attributesData]).then(function(result){
-				self.rebuildComponents(result[0])
+				self.rebuildComponents(result[0]);
 			});
 		}
 
 		ThemeYearConfParams.datasetChanged = false;
+
+		Stores.retrieve("period").notify(Actions.periodsRebuild);
 	};
 
 	/**
@@ -121,6 +140,18 @@ define([
 		this._widgets.forEach(function(widget){
 			widget.rebuild(data, self._options);
 		});
+	};
+
+	FrontOffice.prototype.rebuildEvaluationWidget = function(){
+		var self = this;
+        var attributesData = this.getAttributesMetadata();
+        Promise.all([attributesData]).then(function(result){
+        	self._widgets.forEach(function(widget){
+        		if(widget instanceof EvaluationWidget) {
+        			widget.rebuild(result[0], self._options);
+				}
+			});
+        });
 	};
 
 	/**
@@ -240,12 +271,17 @@ define([
 		ThemeYearConfParams.actions = [];
 
 
-		if (this._options.changes.scope){
-			if (this._dataset == ThemeYearConfParams.dataset){
+		if (this._options.changes.scope && !this._options.changes.dataview){
+			if (this._dataset === ThemeYearConfParams.dataset){
 				console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "FrontOffice", "checkConfiguration", "missingDataset"));
 			}
 		}
-		this._dataset = ThemeYearConfParams.dataset;
+
+		if (this._options.changes.dataview){
+			this._dataset = this._options.config.dataset;
+		} else {
+			this._dataset = ThemeYearConfParams.dataset;
+		}
 	};
 
 	/**
@@ -281,6 +317,10 @@ define([
 			case "detaillevel":
 				this._options.changes.level = true;
 				break;
+			case "dataview":
+				this._options.changes.scope = true;
+				this._options.changes.dataview = true;
+				break;
 		}
 	};
 
@@ -288,14 +328,16 @@ define([
 	 * Load metadata from server
 	 */
 	FrontOffice.prototype.loadData = function(){
-		Stores.retrieve('attribute').all();
-		Stores.retrieve('attributeSet').all();
-		Stores.retrieve('layer').all();
-		Stores.retrieve('location').all();
-		Stores.retrieve('period').all();
-		Stores.retrieve('scope').all();
-		Stores.retrieve('visualization').all();
-		Stores.retrieve('wmsLayer').all();
+		Stores.retrieve('attribute').load();
+		Stores.retrieve('attributeSet').load();
+		Stores.retrieve('dataview').load();
+		Stores.retrieve('layer').load();
+		Stores.retrieve('location').load();
+		Stores.retrieve('period').load();
+		Stores.retrieve('scope').load();
+		Stores.retrieve('theme').load();
+		Stores.retrieve('visualization').load();
+		Stores.retrieve('wmsLayer').load();
 
         if(Config.toggles.isUrbanTep) {
             UrbanTepPortalStore.communities().then(function(communities){

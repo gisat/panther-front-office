@@ -3,12 +3,13 @@
     margin: .5rem 0;
 }
 
-.widgets label.select-menu-caption {
+label.select-menu-caption {
+    font-weight: 600;
+    height: 1.3rem;
+    line-height: 1.3rem;
+    font-size: .85rem;
+    width: 100%;
     display: block;
-    font-weight: bold;
-    height: 1.2rem;
-    line-height: 1.2rem;
-    font-size: .8rem;
 }
 
 .option-count {

@@ -54,33 +54,46 @@ define(['../../../error/ArgumentError',
 	 * @param order {number} order of the layer among other layers
 	 */
 	Layers.prototype.addLayerToMap = function(layer, order){
-		var group = layer.metadata.group;
-		if (order >= 0){
-			var position = this.findLayerZposition(order);
-			this._wwd.insertLayer(position, layer);
-		} else {
-			this._wwd.addLayer(layer);
-		}
+		var position = this.findLayerZposition(order, layer);
+		this._wwd.insertLayer(position, layer);
 		this._wwd.redraw();
 	};
 
 	/**
-	 * @param order {number} order in 2D
-	 * @returns {number} position in world wind layers
+	 * TODO: Figure how do you handle the layers from other areas and panels. At the moment, the ordered layers will be on the bottom.
+	 * @param order {Number} order in 2D
+	 * @param currentLayer {WorldWind.Layer} layer being inserted
+	 * @returns {Number} position in world wind layers
 	 */
-	Layers.prototype.findLayerZposition = function(order){
+	Layers.prototype.findLayerZposition = function(order, currentLayer){
 		var layers = this._wwd.layers;
 		var position = null;
-		layers.forEach(function (layer, index) {
-			if ((layer.metadata.order >= 0) && (order > layer.metadata.order) && !position){
+
+		layers.forEach(function(layer, index){
+			if(!layer.metadata.group) {
 				position = index;
 			}
 		});
-		if (position){
-			return position;
+		// Find the first which has metadata.group
+		// If there is no specific place to put the layer add it as last.
+		if (currentLayer.metadata.order !== null && currentLayer.metadata.order < layers.length && !(currentLayer.metadata.group === "areaoutlines") && !(currentLayer.metadata.group === "selectedareasfilled")){
+			position = position += currentLayer.metadata.order;
 		} else {
-			return layers.length;
+            position = layers.length;
 		}
+
+		// push layer just under AU layer
+		if (!currentLayer.metadata || !currentLayer.metadata.group || !((currentLayer.metadata.group === "areaoutlines") || (currentLayer.metadata.group === "selectedareasfilled"))){
+			if (position > 0){
+				layers.forEach(function(layer){
+					if (layer.metadata && (layer.metadata.group === "areaoutlines" || layer.metadata.group === "selectedareasfilled")){
+						position--;
+					}
+				});
+			}
+		}
+
+		return position;
 	};
 
 	/**
@@ -107,31 +120,43 @@ define(['../../../error/ArgumentError',
 	 * Remove layer from the list of layers
 	 * @param layer {WorldWind.Layer}
 	 */
-	Layers.prototype.removeLayer = function(layer){
+	Layers.prototype.removeLayer = function(layer, redraw){
 		this._layers = _.filter(this._layers, function(item) {
 			return item.metadata.id !== layer.metadata.id;
 		});
-		this.removeLayerFromMap(layer);
+		this.removeLayerFromMap(layer, redraw);
+	};
+
+	/**
+	 * Get AU layer, if it is present on map
+	 * @returns {WorldWind.Layer}
+	 */
+	Layers.prototype.getAuLayer = function(){
+		return _.filter(this._layers, function(item){
+			return item.metadata.id === "areaoutlines";
+		});
 	};
 
 	/**
 	 * Remove layer from map
 	 * @param layer {WorldWind.Layer}
 	 */
-	Layers.prototype.removeLayerFromMap = function(layer){
+	Layers.prototype.removeLayerFromMap = function(layer, redraw){
 		this._wwd.removeLayer(layer);
-		this._wwd.redraw();
+		if(redraw !== false) {
+            this._wwd.redraw();
+        }
 	};
 
 	/**
 	 * Remove all layers from given group
 	 * @param group {string} name of the group
 	 */
-	Layers.prototype.removeAllLayersFromGroup = function(group){
+	Layers.prototype.removeAllLayersFromGroup = function(group, redraw){
 		var layers = this.getLayersByGroup(group);
 		var self = this;
 		layers.forEach(function(layer){
-			self.removeLayer(layer);
+			self.removeLayer(layer, redraw);
 		});
 	};
 
@@ -228,15 +253,18 @@ define(['../../../error/ArgumentError',
 			levelZeroDelta: new WorldWind.Location(45,45),
 			numLevels: 14,
 			format: "image/png",
+			opacity: .9,
 			size: 256,
-			version: "1.1.1"
+			version: "1.1.1",
+			customParams: layerData.customParams
 		}, null);
 		layer.urlBuilder.version = "1.1.1";
 		layer.metadata = {
 			active: state,
 			name: layerData.name,
 			id: layerData.id,
-			group: group
+			group: group,
+			order: layerData.order
 		};
 		this.addLayer(layer);
 	};
@@ -253,7 +281,7 @@ define(['../../../error/ArgumentError',
 			layerNames: layerData.layerPaths,
 			sector: new WorldWind.Sector(-90,90,-180,180),
 			levelZeroDelta: new WorldWind.Location(45,45),
-			opacity: layerData.opacity/100,
+			opacity: .7,
 			numLevels: 22,
 			format: "image/png",
 			size: 256,
@@ -297,6 +325,39 @@ define(['../../../error/ArgumentError',
 		};
 		this.addLayer(layer);
 	};
+
+    /**
+	 * Add analytical units layer to the list of layers.
+     * @param layerData {Object} info about layer retrieved from server
+     * @param group {string} name of the group
+     * @param state {boolean} true, if the layer should be displayed
+     */
+    Layers.prototype.addAULayer = function(layerData, group, state){
+    	var layerNames = layerData.data.namedLayers.map(function(layer){
+    		return layer.name;
+		}).join(',');
+        var layer = new MyWmsLayer({
+            service: Config.geoServerUrl,
+            sector: new WorldWind.Sector(-90,90,-180,180),
+            layerNames: layerNames,
+            levelZeroDelta: new WorldWind.Location(45,45),
+            numLevels: 22,
+            opacity: layerData.opacity/100,
+            format: "image/png",
+            size: 256,
+			styleNames: 'outlines',
+			version: "1.1.0"
+        }, null);
+        layer.urlBuilder.wmsVersion = "1.1.0";
+        layer.metadata = {
+            active: state,
+            id: layerData.id,
+            name: layerData.name,
+            group: group,
+			style: 'outlines'
+        };
+        this.addLayer(layer);
+    };
 
 	return Layers;
 });

@@ -38,6 +38,8 @@ define(['../../error/ArgumentError',
      * @param {string} [options.name] - Optional parameter. Name of the widget
      * @param {boolean} [options.isFloaterExtAlike] - Optional parameter. If true, floater will look like Ext window
      * @param {boolean} [options.isOpen] - Optional parameter. If true, floater is open by default
+	 * @param {boolean} [options.isExpandable] - Optional parameter. If true, floater could be expanded
+	 * @param {boolean} [options.isExpanded] - Optional parameter. If true, floater is expanded by default
      * @param {boolean} [options.isWithoutFooter] - Optional parameter. If true, floater is rendered without footer
 	 * @param {boolean} [options.is3dOnly] - Optional parameter. If true, floater will be visible in 3D mode only
 	 * @param {boolean} [options.is2dOnly] - Optional parameter. If true, floater will be visible in 2D mode only
@@ -54,6 +56,8 @@ define(['../../error/ArgumentError',
 		this._widgetId = options.elementId;
         this._isFloaterExtAlike = options.isFloaterExtAlike;
         this._isOpen = options.isOpen;
+        this._isExpandable = options.isExpandable;
+		this._isExpanded = options.isExpanded;
 		this._isWithoutFooter = options.isWithoutFooter;
 		this._is2dOnly = options.is2dOnly;
 		this._is3dOnly = options.is3dOnly;
@@ -92,11 +96,9 @@ define(['../../error/ArgumentError',
 	 */
 	Widget.prototype.renderFloater = function(){
 		var floaterClass = "";
-	    var minimiseIconSrc = "__new/img/minimise-icon.png";
 
 	    if (this._isFloaterExtAlike){
 	        floaterClass = "inverse";
-			minimiseIconSrc = "__new/img/minimise-icon-dark.png";
         }
 
         if (this._is2dOnly){
@@ -106,12 +108,20 @@ define(['../../error/ArgumentError',
 		if (this._is3dOnly){
 			floaterClass += " only-3d";
 		}
+		if (this._isExpandable){
+			floaterClass += " expandable";
+			if (this._isExpanded){
+				floaterClass += " expanded";
+			}
+		}
 
 		var floater = S(WidgetFloater).template({
 			name: this._name,
 			widgetId: this._widgetId,
-			minimiseSrc: minimiseIconSrc,
-            floaterClass: floaterClass
+            floaterClass: floaterClass,
+            minimise: polyglot.t("minimise"),
+			expand: polyglot.t("expand"),
+			compress: polyglot.t("compress")
 		}).toString();
 
 		this._floaterTarget.append(floater);
@@ -124,6 +134,13 @@ define(['../../error/ArgumentError',
 		if (this._isWithoutFooter){
 			this.deleteFooter(this._widgetSelector);
 		}
+
+		if (this._isExpandable){
+			this.addExpandListeners();
+			if (this._isExpanded){
+				this._widgetExpandSelector.trigger("click");
+			}
+		}
     };
 
 	/**
@@ -133,7 +150,8 @@ define(['../../error/ArgumentError',
 		var placeholdersContainer = this._placeholderTarget.find('.placeholders-container');
 		var placeholder = S(WidgetPlaceholder).template({
 			name: this._name,
-			widgetId: this._widgetId
+			widgetId: this._widgetId,
+            maximise: polyglot.t("maximise")
 		}).toString();
 		placeholdersContainer.append(placeholder);
 
@@ -197,18 +215,6 @@ define(['../../error/ArgumentError',
     };
 
 	/**
-     * Create tool in header
-     * @param name {string}
-     */
-    Widget.prototype.buildToolIconInHeader = function(name){
-        var id = name.toLowerCase();
-        this._widgetSelector.find(".floater-tools-container")
-            .append('<div id="' + this._widgetId + '-' + id + '" title="'+ name +'" class="floater-tool widget-'+ id +'">' +
-                '<img alt="' + name + '" src="__new/img/'+ id +'-dark.png"/>' +
-                '</div>');
-    };
-
-	/**
 	 * It shows in a widget body info about problems connected with this widget
      * @param action {string} CSS display value
      * @param warnings {Array} list of warnings codes
@@ -220,6 +226,31 @@ define(['../../error/ArgumentError',
             this._warningSelector.html(message);
         }
     };
+
+	/**
+	 * Add listeners to expand buttons
+	 */
+	Widget.prototype.addExpandListeners = function () {
+		var self = this;
+		this._widgetExpandSelector = this._widgetHeaderSelector.find(".widget-expand");
+		this._widgetCompressSelector = this._widgetHeaderSelector.find(".widget-compress");
+		this._widgetExpandSelector.off("click.expand").on("click.expand", function(){
+			self._widgetSelector.addClass("expanded");
+			self._widgetSelector.css({
+				left: 0,
+				top: 45
+			});
+			setTimeout(function(){
+				self._widgetSelector.draggable("disable");
+			},500);
+		});
+		this._widgetCompressSelector.off("click.compress").on("click.compress", function(){
+			self._widgetSelector.removeClass("expanded");
+			setTimeout(function(){
+				self._widgetSelector.draggable("enable");
+			},500);
+		});
+	};
 
     return Widget;
 });

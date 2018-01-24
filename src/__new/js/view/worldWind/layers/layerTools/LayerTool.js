@@ -34,14 +34,17 @@ define(['../../../../error/ArgumentError',
 		this._name = options.name || "layer";
 		this._target = options.target;
 		this._class = options.class || "";
-		this._maps = options.maps;
+		this._maps = options.maps || null;
 
 		this._layerMetadata = options.layerMetadata;
 
-		// todo do it better
-		this._layer = this._maps['default-map'].layers.getLayerById(this._layerMetadata.id);
+		// todo do it better, now it is just for default map
+		var map = _.filter(this._maps, function(map){ return map.id === 'default-map'; })[0];
 
-		this._id = "layer-tool-" + this._layerMetadata.id;
+		if (this._layerMetadata){
+			this._layer = map.layers.getLayerById(this._layerMetadata.id);
+			this._id = "layer-tool-" + this._layerMetadata.id;
+		}
 	};
 
 	LayerTool.prototype.addEventsListener = function(){
@@ -84,6 +87,14 @@ define(['../../../../error/ArgumentError',
 	};
 
 	/**
+	 * Hide floater and switch icon
+	 */
+	LayerTool.prototype.hide = function(){
+		this._iconSelector.removeClass("open");
+		this._floaterSelector.removeClass("open");
+	};
+
+	/**
 	 * Show/hide legend on icon click
 	 */
 	LayerTool.prototype.addIconOnClickListener = function(){
@@ -95,7 +106,7 @@ define(['../../../../error/ArgumentError',
 				self._floaterSelector.removeClass("open");
 			} else {
 				icon.addClass("open");
-				$(".floater, .tool-window").removeClass("active");
+				$(".floating-window").removeClass("active");
 				self._floaterSelector.addClass("open");
 				if ($("#sidebar-reports").hasClass("hidden")){
 					self._floaterSelector.css({

@@ -1,15 +1,15 @@
-<div class="tool-window settings-window" id="{{id}}">
+<div class="floating-window tool-window settings-window" id="{{id}}">
     <div class="tool-window-header">
-        <span>Settings</span>
+        <div class="tool-window-title">{{settings}}</div>
         <div class="tool-window-tools-container">
-            <div class="window-close">
-                <img alt="Close" src="__new/img/close.png"/>
-                </div>
+            <div title="Close" class="floater-tool settings-close feature-info-close">
+                &#x2716
             </div>
         </div>
+    </div>
     <div class="tool-window-body">
     </div>
     <div class="tool-window-footer">
-        <div class="widget-button tool-window-button settings-confirm">Confirm</div>
+        <div class="widget-button tool-window-button settings-confirm">{{confirm}}</div>
     </div>
 </div>

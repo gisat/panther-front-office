@@ -23,7 +23,7 @@ Ext.define('PumaMain.view.InitialBar', {
                 items: [{
                     xtype: 'displayfield',
                     width: 80,
-                    value: 'Focus: '
+                    value: polyglot.t('focus')
                 }
 //                ,{
 //                    text: 'Global',
@@ -54,7 +54,7 @@ Ext.define('PumaMain.view.InitialBar', {
                 items: [{
                     xtype: 'displayfield',
                     width: 80,
-                    value: 'Dataset: '
+                    value: polyglot.t('dataset')
                 }
 //                ,{
 //                    text: 'Global',
@@ -91,7 +91,7 @@ Ext.define('PumaMain.view.InitialBar', {
                 items: [{
                     xtype: 'displayfield',
                     width: 80,
-                    value: 'Theme: '
+                    value: polyglot.t('theme')
                 }]
             },{
                 xtype: 'container',
@@ -113,7 +113,7 @@ Ext.define('PumaMain.view.InitialBar', {
                 items: [{
                     xtype: 'displayfield',
                     width: 80,
-                    value: 'Year: '
+                    value: polyglot.t('year')
                 }]
             },{
                 xtype: 'container',
@@ -134,7 +134,7 @@ Ext.define('PumaMain.view.InitialBar', {
                 items: [{
                     xtype: 'displayfield',
                     width: 80,
-                    value: 'Visualization: '
+                    value: polyglot.t('visualization')
                 }]
             },{
                 xtype: 'toolbar',
@@ -154,34 +154,34 @@ Ext.define('PumaMain.view.InitialBar', {
                         itemId: 'selectinmapbtn',
                         enableToggle: true,
                         toggleGroup: 'mapmodal',
-                        text: 'Select in map'
+                        text: polyglot.t('selectInMap')
                 },{
                         xtype: 'button',
                         itemId: 'hoverbtn',
                         enableToggle: true,
-                        text: 'Hover'
+                        text: polyglot.t('hover')
                 },{
                 xtype: 'button',
                 itemId: 'zoomselectedbtn',
-                text: 'Zoom selected'
+                text: polyglot.t('zoomSelected')
             },{
                 xtype: 'button',
                 itemId: 'measurelinebtn',
                 enableToggle: true,
                 toggleGroup: 'mapmodal',
-                text: 'Measure line'
+                text: polyglot.t('measureLine')
             },{
                 xtype: 'button',
                 itemId: 'measurepolygonbtn',
                 enableToggle: true,
                 toggleGroup: 'mapmodal',
-                text: 'Measure polygon'
+                text: polyglot.t('measurePolygon')
             },{
                 xtype: 'button',
                 itemId: 'multiplemapsbtn',
                 enableToggle: true,
                 disabled: true,
-                text: 'Multiple maps'
+                text: polyglot.t('multipleMaps')
             }]},{
                 xtype: 'toolbar',
                 items: [
@@ -202,7 +202,7 @@ Ext.define('PumaMain.view.InitialBar', {
             {
                 xtype: 'button',
                 itemId: 'visualizationsbtn',
-                text: 'Visualizations'
+                text: polyglot.t('visualizations')
             },
 //            {
 //                xtype: 'button',
@@ -223,11 +223,11 @@ Ext.define('PumaMain.view.InitialBar', {
             {
                 xtype: 'button',
                 itemId: 'chartbtn',
-                text: 'Add chart'
+                text: polyglot.t('addChart')
             },{
                 xtype: 'button',
                 itemId: 'savevisbtn',
-                text: 'Save'
+                text: polyglot.t('save')
             }]},{
                 xtype: 'toolbar',
                 items: [
@@ -268,18 +268,18 @@ Ext.define('PumaMain.view.InitialBar', {
             {
                 xtype: 'button',
                 itemId: 'exportallzipbtn',
-                text: 'Export ZIP'
+                text: polyglot.t('exportZip')
             },
             {
                 xtype: 'button',
                 itemId: 'urlbtn',
-                text: 'URL'
+                text: polyglot.t('URL')
             },
             {
                 xtype: 'button',
                 itemId: 'helpbtn',
                 enableToggle: true,
-                text: 'Help'
+                text: polyglot.t('help')
             },
             
             ]

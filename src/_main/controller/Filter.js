@@ -49,6 +49,7 @@ Ext.define('PumaMain.controller.Filter', {
                         afterlayout: this.afterAccordionLayout
                     }
                 })
+        Observer.notify('Filter#init');
     },
         
     onAfterValueRender: function(obj) {
@@ -231,8 +232,7 @@ Ext.define('PumaMain.controller.Filter', {
         
 
         if (this.filterActive) {
-            this.getController('Area').showLoading("block");
-            
+            // this.getController('Area').showLoading("block");
         }
 
     },
@@ -538,7 +538,7 @@ Ext.define('PumaMain.controller.Filter', {
         
         if (this.filterActive) {
 			console.log('Filter hide');
-			this.getController('Area').showLoading("none");
+			// this.getController('Area').showLoading("none");
             this.getController('Select').selectInternal(areas || []);
             
         }
@@ -594,7 +594,7 @@ Ext.define('PumaMain.controller.Filter', {
             }
             else if (val[0]<cfg.min || val[1]>cfg.max) {
                 newValue = [cfg.min,cfg.max];
-                Puma.util.Msg.msg('Filter '+slider.attrObj.attrName+' was reset','','l');
+                Puma.util.Msg.msg(polyglot.t('filter')+slider.attrObj.attrName+polyglot.t('wasReset'),'','l');
             }
         }
         

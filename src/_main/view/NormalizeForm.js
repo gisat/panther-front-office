@@ -21,7 +21,7 @@ Ext.define('PumaMain.view.NormalizeForm', {
 		};
 		this.items = [{
 			xtype: 'textfield',
-			fieldLabel: 'Attribute unit - original',
+			fieldLabel: polyglot.t('attributeUnitOriginal'),
 			labelWidth: 170,
 			name: 'units',
 			valueField: 'type',
@@ -29,7 +29,7 @@ Ext.define('PumaMain.view.NormalizeForm', {
 			disabled: true
 		}, {
 			xtype: 'textfield',
-			fieldLabel: 'Attribute unit - displayed',
+			fieldLabel: polyglot.t('attributeUnitDisplayed'),
 			labelWidth: 170,
 			name: 'displayUnits',
 			valueField: 'type',
@@ -38,13 +38,12 @@ Ext.define('PumaMain.view.NormalizeForm', {
 		},{
 			xtype: 'pumacombo',
 			store: Ext.StoreMgr.lookup('change_units'),
-			fieldLabel: 'Modify Displayed Units',
+			fieldLabel: polyglot.t('modifyDisplayedUnits'),
 			labelWidth: 170,
 			afterLabelTpl: new Ext.XTemplate(
 				'<div class="form-label-help">',
 					'<i class="form-label-help-button">i</i>',
-					'<p>Modify units to be displayed in chart only in case you want to display the attribute in units other than those which are set as default for the attribute. e.g. default units are m2 and you want to display the values in km2. <br>',
-					'Then the values will be multiplied by the Custom Factor (0,000001 in this case).</p>',
+					polyglot.t('modifyDisplayedUnitsText'),
 				'</div>'
 			),
 			name: 'normalizationUnits',
@@ -52,12 +51,12 @@ Ext.define('PumaMain.view.NormalizeForm', {
 			itemId: 'normalizationUnits'
 		}, {
 			xtype: 'textfield', // TODO: Validate that it is Number.
-			fieldLabel: 'Custom factor',
+			fieldLabel: polyglot.t('customFactor'),
 			labelWidth: 170,
 			afterLabelTpl: new Ext.XTemplate(
 				'<div class="form-label-help">',
 					'<i class="form-label-help-button">i</i>',
-					'<p>The factor by which the default units of the attribute should be multiplied to get the units which will be displayed in this chart.</p>',
+					polyglot.t('customFactorTooltip'),
 				'</div>'
 			),
 			name: 'customFactor',
@@ -65,12 +64,12 @@ Ext.define('PumaMain.view.NormalizeForm', {
 			itemId: 'customFactor'
 		}, {
 			xtype: 'label',
-			text: 'Normalization',
+			text: polyglot.t('normalization'),
 			cls: 'form-section-title'
 		},{
 			xtype: 'pumacombo',
 			store: Ext.StoreMgr.lookup('normalization4chart'),
-			fieldLabel: 'Normalization type',
+			fieldLabel: polyglot.t('normalizationType'),
 			labelWidth: 170,
 			name: 'normType',
 			valueField: 'type',
@@ -78,7 +77,7 @@ Ext.define('PumaMain.view.NormalizeForm', {
 		}, {
 			xtype: 'pumacombo',
 			store: Ext.StoreMgr.lookup('area_units'),
-			fieldLabel: 'Area units',
+			fieldLabel: polyglot.t('areaUnits'),
 			labelWidth: 170,
 			name: 'areaUnits',
 			hidden: true,
@@ -87,7 +86,7 @@ Ext.define('PumaMain.view.NormalizeForm', {
 		}, {
 			xtype: 'pumacombo',
 			store: Ext.StoreMgr.lookup('attributeset2choose'),
-			fieldLabel: 'Normalization Attr set',
+			fieldLabel: polyglot.t('normalizationAttrSet'),
 			labelWidth: 170,
 			name: 'normAttributeSet',
 			hidden: true,
@@ -95,7 +94,7 @@ Ext.define('PumaMain.view.NormalizeForm', {
 		}, {
 			xtype: 'pumacombo',
 			store: this.attrStore,
-			fieldLabel: 'Normalization Attribute',
+			fieldLabel: polyglot.t('normalizationAttribute'),
 			labelWidth: 170,
 			name: 'normAttribute',
 			hidden: true,
@@ -103,7 +102,7 @@ Ext.define('PumaMain.view.NormalizeForm', {
 		}, {
 			xtype: 'pumacombo',
 			store: Ext.StoreMgr.lookup('area_units'),
-			fieldLabel: 'Normalization attribute area units',
+			fieldLabel: polyglot.t('normalizationAttributeAreaUnits'),
 			name: 'normalizationAreaUnits',
 			hidden: true,
 			valueField: 'type',
@@ -111,10 +110,10 @@ Ext.define('PumaMain.view.NormalizeForm', {
 		}];
 
 		this.buttons = [{
-			text: 'Change Settings',
+			text: polyglot.t('changeSettings'),
 			itemId: 'normalize'
 		}, {
-			text: 'Back',
+			text: polyglot.t('back'),
 			itemId: 'back'
 		}];
 		this.callParent();

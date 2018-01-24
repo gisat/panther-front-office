@@ -34,19 +34,19 @@ define([], function () {
 		var message;
 		switch (code) {
 			case 1:
-				message = "Attributes are missing! Possible reason: There are no linked attribute sets to analytical units for this place.";
+				message = polyglot.t("attributesAreMissingNoLinked");
 				break;
 			case 2:
-				message = "Attributes are missing! Possible reason: Current user does not have appropriate permissions for current configuration.";
+				message = polyglot.t("attributesAreMissingPermissions");
 				break;
 			case 3:
-				message = "Attributes are missing! Possible reason: Broken links in visualizations (e.g. non-existing attributes or attribute sets). Try to create visualizations again.";
+				message = polyglot.t("attributesAreMissingBrokenLinks");
 				break;
 			case 4:
-				message = "Attributes are missing! Possible reason: Choropleths includes non-existing attributes or attribute sets. Try to create choropleths again.";
+				message = polyglot.t("attributesAreMissingChoropleths");
 				break;
 			case 5:
-				message = "Dataset is not defined!";
+				message = polyglot.t("datasetIsNotDefined");
 				break;
 		}
 

@@ -12,24 +12,27 @@
 }
 .floater p, .floater a, .floater span, .floater label,
 .tool-window p, .tool-window a, .tool-window span, .tool-window label {
-    color: #666;
+    color: rgb(65,69,81);
     font-size: .75rem;
 }
 
 /* === Buttons === */
 .widget-button {
-    background: #c92d42;
-    border-radius: .15rem;
-    display: inline-block;
-    color: white;
-    font-weight: 700;
-    padding: .4rem .2rem .35rem;
-    text-align: center;
-    text-transform: uppercase;
-    transition: background .3s ease-out;
+	border: 1px solid rgb(65,69,81);
+	border-radius: .15rem;
+	color: rgb(33,38,53);
+	cursor: pointer;
+	font-size: .95rem;
+	font-weight: 500;
+	transition: background .3s ease-in-out;
+	width: 8rem;
+	display: inline-block;
+	padding: 0 .2rem;
+	line-height: 2rem;
+	text-align: center;
 }
 .widget-button.w8 {
-	width: 10rem;
+	width: 8rem;
 }
 .widget-button.w10 {
 	width: 10rem;
@@ -39,7 +42,7 @@
 }
 
 .widget-button:hover, .widget-button.active {
-    background: #ad2738;
+	background: rgba(65,69,81,.15);
     cursor: pointer;
 }
 .widget-button.secondary {
@@ -51,20 +54,19 @@
 
 .widget-button[disabled=disabled] {
     pointer-events: none;
-    color: #bbb;
-    background-color: #e5e5e5;
+	color: #bbb;
+	border: 1px solid rgb(204,207,211);
 }
 
 .widget-button-export {
-    background: none;
-    border: 0;
-    color: #c92d42;
-    font-size: 11px;
-    font-weight: 600;
-    padding: .2rem .15rem .3rem .15rem;
-    text-transform: none;
-    margin: 0;
-    min-width: 49%;
+	border: 0;
+	color: rgb(186,65,91);
+	font-size: 13px;
+	font-weight: 500;
+	padding: .2rem .15rem .3rem .15rem;
+	text-transform: none;
+	margin: 0;
+	min-width: 49%;
 }
 .widget-button-export:hover {
     background: rgba(173,39,56,.2);
@@ -73,7 +75,8 @@
 .widget-button-export[disabled=disabled] {
     pointer-events: none;
     background: transparent;
-    color: #aaa;
+    color: #bbb;
+	border: 0;
 }
 .widget-button-export[disabled=disabled]:hover {
     pointer-events: none;
@@ -300,4 +303,9 @@ label.container > input {
 
 #top-toolbar .item#top-toolbar-functional-urban-area::before {
 	content: '\f0b0';
+}
+
+/* === 3D mode changes === */
+body.application.mode-3d #view-selector .period.hidden {
+	display: none;
 }

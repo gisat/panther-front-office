@@ -4,23 +4,23 @@ Ext.define('PumaMain.view.LayerMenu', {
     initComponent: function() {
         
         this.items = [{
-            text: 'Opacity',
+            text: polyglot.t('opacity'),
             hidden: this.layerName==null,
             itemId: 'opacity'
         },{
-            text: 'Config',
+            text: polyglot.t('config'),
             hidden: this.bindChart==null,
             itemId: 'config'
         },{
-            text: 'Remove',
+            text: polyglot.t('remove'),
             hidden: this.bindChart==null,
             itemId: 'remove'
         }, {
-            text: 'Export PNG',
+            text: polyglot.t('exportPng'),
             hidden: this.map==null,
             itemId: 'exportpng'
         }, {
-            text: 'URL',
+            text: polyglot.t('URL'),
             hidden: this.map==null,
             itemId: 'url'
         }]

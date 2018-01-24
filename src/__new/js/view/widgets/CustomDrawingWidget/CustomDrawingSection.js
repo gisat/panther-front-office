@@ -57,10 +57,10 @@ define([
 	 * Build basic structure of section
 	 * @param content {string} HTML code
 	 */
-	CustomDrawingSection.prototype.build = function(content){
-		var html = S(content).template({
-			id: this._sectionId
-		}).toString();
+	CustomDrawingSection.prototype.build = function(content, params){
+		params = params || {};
+		params.id = this._sectionId;
+		var html = S(content).template(params).toString();
 		this._target.append(html);
 		this._table = new TableCustomDrawing({
 			targetId: this._sectionId + "-table-container",
@@ -147,7 +147,7 @@ define([
 			this.saveRequest(feature).done(function(result){
 				if (result.status == "OK"){
 					button.attr("disabled", "disabled")
-						.html("Saved!")
+						.html(polyglot.t("saved"))
 						.css("color", "#d35400")
 						.parents('tr').addClass("saved");
 				} else {
@@ -171,7 +171,7 @@ define([
 		var name = input.val();
 
 		if (name.length == 0){
-			window.alert("Fill the name!");
+			window.alert(polyglot.t("fillTheName"));
 			return;
 		} else {
 			input.attr("disabled", true);
@@ -206,7 +206,7 @@ define([
 		var uuid = button.parents('tr').attr("data-uuid");
 		var name = button.parents('tr').find(".record-name input").val();
 
-		var conf = confirm("Do you really want to delete line " + name + "?");
+		var conf = confirm(polyglot.t("doYouReallyWantToDeleteLine") + name + "?");
 		if (!conf){
 			return;
 		}

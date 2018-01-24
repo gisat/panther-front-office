@@ -1,21 +1,32 @@
-<div id="{{id}}">
+<div id="{{id}}" class="{{classes}} floating-window">
 	<div class="feature-info-window-header">
-		<div class="feature-info-title">Feature name (GID)</div>
-		<div class="feature-info-close">
-			<img title="Close" src="__new/img/close.png">
-		</div>
-		<div class="feature-info-settings">
-			<img title="Settings" src="__new/img/settings-gray.png">
+		<div class="feature-info-title">{{featureName}}</div>
+		<div class="feature-info-tools">
+			<div title="Close" class="floater-tool widget-close feature-info-close">
+				&#x2716
+			</div>
+			<div title="Settings" class="floater-tool widget-settings feature-info-settings">
+				<i class="fa fa-sliders"></i>
+			</div>
 		</div>
 	</div>
 	<div class="feature-info-window-body">
-		<table>
-		</table>
 	</div>
 	<div class="feature-info-window-footer">
 		<div class="floater-row">
-			<div class="widget-button widget-button-export" id="export-feature-info-csv">Export to XLS</div>
+			<div class="widget-button widget-button-export" id="export-feature-info-csv">{{exportToXls}}</div>
 		</div>
 	</div>
-	<div class="overlay"></div>
+	<div class="overlay">
+		<div id="loading-screen-content-wrap">
+			<div id="loading-screen-content">
+				<div class="a-loader-container small blackandwhite">
+					<i class="i1"></i>
+					<i class="i2"></i>
+					<i class="i3"></i>
+					<i class="i4"></i>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

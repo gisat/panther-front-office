@@ -2,6 +2,8 @@ define(['../../../../error/ArgumentError',
 	'../../../../error/NotFoundError',
 	'../../../../util/Logger',
 
+	'./legend/LayerLegend',
+	'./opacity/LayerOpacity',
 	'./legend/Legend',
 	'./opacity/Opacity',
 
@@ -11,6 +13,8 @@ define(['../../../../error/ArgumentError',
 			NotFoundError,
 			Logger,
 
+			LayerLegend,
+			LayerOpacity,
 			Legend,
 			Opacity,
 
@@ -20,8 +24,12 @@ define(['../../../../error/ArgumentError',
 	 * Class representing layer tools
 	 * @param options {Object}
 	 * @param options.id {string} id of the element
+	 * @param options.name {name} name of the element
 	 * @param options.class {string}
-	 * @param options.target {JQuery} selector of target element
+	 * @param options.target {Object} JQuery selector of target element
+	 * @param options.maps {Array} list of current maps
+	 * @param options.layers {Array} associated layers
+	 * @param options.style {Object} associated style
 	 * @constructor
 	 */
 	var LayerTools = function(options){
@@ -31,14 +39,19 @@ define(['../../../../error/ArgumentError',
 		if (!options.class){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "LayerTools", "constructor", "missingClass"));
 		}
-		if (!options.target || options.target.length == 0){
+		if (!options.target || options.target.length === 0){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "LayerTools", "constructor", "missingTarget"));
 		}
 
 		this._target = options.target;
 		this._id = options.id;
+		this._name = options.name;
 		this._class = options.class;
+		this._layers = options.layers || null;
+		this._maps = options.maps || null;
+		this._style = options.style || null;
 
+		this.tools = [];
 		this.build();
 	};
 
@@ -66,11 +79,12 @@ define(['../../../../error/ArgumentError',
 
 	/**
 	 * Build legend for layer
+	 * @param maps {Array} List of WorldWindMaps
 	 * @param layerMetadata {Object}
 	 * @returns {Legend}
 	 */
 	LayerTools.prototype.addLegend = function(layerMetadata, maps){
-		return new Legend({
+		var legend = new Legend({
 			active: false,
 			class: this._class,
 			name: layerMetadata.name,
@@ -78,6 +92,8 @@ define(['../../../../error/ArgumentError',
 			target: this._toolsContainer,
 			maps: maps
 		});
+		this.tools.push(legend);
+		return legend;
 	};
 
 	/**
@@ -87,7 +103,7 @@ define(['../../../../error/ArgumentError',
 	 * @returns {Opacity}
 	 */
 	LayerTools.prototype.addOpacity = function(layerMetadata, maps){
-		return new Opacity({
+		var opacity = new Opacity({
 			active: false,
 			class: this._class,
 			name: layerMetadata.name,
@@ -95,10 +111,57 @@ define(['../../../../error/ArgumentError',
 			target: this._toolsContainer,
 			maps: maps
 		});
+		this.tools.push(opacity);
+		return opacity;
+	};
+
+	/**
+	 * NEW! Build legend for layers
+	 * @returns {LayerLegend}
+	 */
+	LayerTools.prototype.buildLegend = function(){
+		var legend =  new LayerLegend({
+			id: this._id,
+			name: this._name,
+			class: this._class,
+			target: this._toolsContainer,
+			layers: this._layers,
+			style: this._style
+		});
+		this.tools.push(legend);
+		return legend;
+	};
+
+	/**
+	 * NEW! Build opacity control for layers
+	 * @returns {LayerOpacity}
+	 */
+	LayerTools.prototype.buildOpacity = function(){
+		var opacity = new LayerOpacity({
+			id: this._id,
+			name: this._name,
+			class: this._class,
+			target: this._toolsContainer,
+			layers: this._layers,
+			maps: this._maps,
+			style: this._style
+		});
+		this.tools.push(opacity);
+		return opacity;
+	};
+
+	/**
+	 * Hide all tool floaters
+	 */
+	LayerTools.prototype.hide = function(){
+		this.tools.forEach(function(tool){
+			tool.hide();
+		});
 	};
 
 	/**
 	 * Add metadata icon to tool box
+	 * @param data {Object}
 	 */
 	LayerTools.prototype.addMetadataIcon = function(data){
 		this._toolsContainer.append('<div title="Metadata" class="layer-tool-icon metadata-icon" data-for="' + data.id + '">' +

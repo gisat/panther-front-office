@@ -2,6 +2,7 @@ define(['../../../../error/ArgumentError',
 	'../../../../error/NotFoundError',
 	'../../../../util/Logger',
 
+	'../../../../stores/Stores',
 	'./WorldWindWidgetPanel',
 
 	'jquery',
@@ -10,6 +11,7 @@ define(['../../../../error/ArgumentError',
 			NotFoundError,
 			Logger,
 
+			Stores,
 			WorldWindWidgetPanel,
 
 			$,
@@ -24,34 +26,100 @@ define(['../../../../error/ArgumentError',
 		WorldWindWidgetPanel.apply(this, arguments);
 
 		this.layerControls = [];
+        this.rebuild();
 
-		this.addLayerControls();
-		this.addEventsListeners();
+        var self = this;
+        Observer.addListener('scopeChange', function(){
+        	self.rebuild();
+		});
 	};
 
 	BackgroundLayersPanel.prototype = Object.create(WorldWindWidgetPanel.prototype);
 
+    BackgroundLayersPanel.prototype.rebuild = function() {
+        var scope = Stores.retrieve("state").current().scopeFull;
+        this.addLayerControls(scope);
+        this.addEventsListeners();
+		this.toggleLayers();
+    };
+
 	/**
 	 * Add control for background layers
 	 */
-	BackgroundLayersPanel.prototype.addLayerControls = function(){
-		this.layerControls.push({
-			id: "osm",
-			control: this.addRadio(this._id + "-osm", "OpenStreetMap", this._panelBodySelector, "osm", true)
-		});
-		this.layerControls.push({
-			id: "cartoDb",
-			control: this.addRadio(this._id + "-carto-db", "Carto DB basemap", this._panelBodySelector, "cartoDb", false)
-		});
-		this.layerControls.push({
-			id: "bingAerial",
-			control: this.addRadio(this._id + "-bing-aerial", "Bing Aerial", this._panelBodySelector, "bingAerial", false)
-		});
-		this.layerControls.push({
-			id: "landsat",
-			control: this.addRadio(this._id + "-landsat", "Blue Marble", this._panelBodySelector, "landsat", false)
-		})
+	BackgroundLayersPanel.prototype.addLayerControls = function(scope){
+		var disabledLayers = (scope && scope['disabledLayers']) || {};
+		var activeBackgroundMap = (scope && scope['activeBackgroundMap']) || this.getValidBackground(disabledLayers);
+
+		this.toggleLayerWithControl('osm', 'openStreetMap', disabledLayers, activeBackgroundMap);
+		this.toggleLayerWithControl('cartoDb', 'cartoDbBasemap', disabledLayers, activeBackgroundMap);
+		this.toggleLayerWithControl('bingAerial', 'bingAerial', disabledLayers, activeBackgroundMap);
+		this.toggleLayerWithControl('landsat', 'blueMarble', disabledLayers, activeBackgroundMap);
 	};
+
+	BackgroundLayersPanel.prototype.toggleLayerWithControl = function(id, name, disabledLayers, activeBackgroundMap) {
+		if(this.containsLayerWithId(this.layerControls, id)) {
+			// Decide whether to remove
+			if(disabledLayers[id]) {
+				this.removeLayerWithControl(this.layerControls, id);
+			}
+		} else {
+			// Decide whether to add
+			if(!disabledLayers[id]) {
+				this.layerControls.push({
+					id: id,
+					control: this.addRadio(this._id + "-" + id, polyglot.t(name), this._panelBodySelector, id, activeBackgroundMap === id)
+				});
+			}
+		}
+	};
+
+	BackgroundLayersPanel.prototype.removeLayerWithControl = function(layers, id) {
+		layers.forEach(function(layer, index){
+			if(layer.id === id) {
+				this._mapStore.getAll().forEach(function(map){
+					map.layers.removeLayer(map.layers.getLayerById(id), false);
+				});
+				// Remove the control for the layer.
+				$('#' +  layer.control._id).remove();
+				layers.splice(index, 1);
+			}
+		}.bind(this));
+	};
+
+	BackgroundLayersPanel.prototype.getValidBackground = function(disabledLayers) {
+		var activeBackgroundMapPriorities = ['osm', 'cartoDb', 'bingAerial', 'landsat'];
+		var result = null;
+
+		activeBackgroundMapPriorities.forEach(function(id){
+			if(!result && !disabledLayers[id]) {
+				result = id;
+			}
+		});
+		return result;
+	};
+
+	BackgroundLayersPanel.prototype.containsLayerWithId = function(layerControls, id) {
+		return layerControls.filter(function(control){
+			return control.id === id;
+		}).length > 0;
+	};
+
+    /**
+     * Remove all layers from specific group from map and all floaters connected with this group
+     */
+    BackgroundLayersPanel.prototype.clearLayers = function(group){
+        $("." + group + "-floater").remove();
+
+        this._mapStore.getAll().forEach(function(map){
+            map.layers.removeAllLayersFromGroup(group, false);
+        });
+
+        if (group === "selectedareasfilled" || group === "areaoutlines"){
+            this._panelBodySelector.find(".layer-row[data-id=" + group + "]").removeClass("checked");
+        } else {
+            this._panelBodySelector.find(".layer-row").removeClass("checked");
+        }
+    };
 
 	/**
 	 * Add background layers to a map
@@ -81,13 +149,13 @@ define(['../../../../error/ArgumentError',
 				var radio = item.control.getRadiobox();
 				var dataId = radio.attr("data-id");
 				if (radio.hasClass("checked")){
-					for(var key in self._maps){
-						self._maps[key].layers.showBackgroundLayer(dataId);
-					}
+					self._mapStore.getAll().forEach(function(map){
+						map.layers.showBackgroundLayer(dataId);
+					});
 				} else {
-					for(var key in self._maps){
-						self._maps[key].layers.hideBackgroundLayer(dataId);
-					}
+					self._mapStore.getAll().forEach(function(map){
+						map.layers.hideBackgroundLayer(dataId);
+					});
 				}
 			});
 		},50);

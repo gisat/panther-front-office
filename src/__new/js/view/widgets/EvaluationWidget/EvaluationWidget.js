@@ -1,4 +1,5 @@
 define([
+    '../../../actions/Actions',
     '../../../error/ArgumentError',
     '../../../error/NotFoundError',
     './CategorizeSettings',
@@ -23,7 +24,8 @@ define([
 
     'text!./EvaluationWidgetFooter.html',
     'css!./EvaluationWidget'
-], function(ArgumentError,
+], function(Actions,
+            ArgumentError,
             NotFoundError,
 			CategorizeSettings,
             Color,
@@ -37,7 +39,7 @@ define([
             SelectBox,
             Settings,
             SliderBox,
-            Stores,
+            InternalStores,
             Widget,
 
             resize,
@@ -130,7 +132,7 @@ define([
                     if (about.attributeType == "numeric"){
                         if (self.attributeHasData(attribute)){
 							// TODO: Fix ugly hack for showing Kathmandu.
-							if(Stores.retrieve('state').current().scope == 38433) {
+							if(InternalStores.retrieve('state').current().scope == 38433) {
 								self._attributes.push({
 									values: [Number(attribute.min), Number(attribute.max) + 1000],
 									distribution: attribute.distribution,
@@ -169,10 +171,6 @@ define([
                 self.handleLoading("hide");
             }
 
-            // When Evaluation Tool is loaded, everything is loaded for sure.
-            console.log('EvaluationWidget#Loading finished');
-			$("#loading-screen").css("display", "none");
-
             // clear categories and sets
 			self._categorize.clearAll();
 		});
@@ -192,6 +190,9 @@ define([
 			   hasData = true;
            }
         });
+        if (attribute.min === attribute.max){
+			hasData = true;
+        }
         return hasData;
     };
 
@@ -217,6 +218,7 @@ define([
      */
     EvaluationWidget.prototype.build = function(){
         this.buildSettings();
+        this._dispatcher.addListener(this.onEvent.bind(this));
     };
 
 	/**
@@ -224,9 +226,9 @@ define([
      */
     EvaluationWidget.prototype.buildSettings = function(){
         var tool = "settings";
-        var name = "Settings";
+        var name = polyglot.t("settings");
         this._widgetSelector.find(".floater-tools-container").append('<div title="'+ name +'" class="floater-tool widget-'+ tool +'">' +
-            '<img alt="' + name + '" src="__new/img/'+ tool +'.png"/>' +
+			'<i class="fa fa-sliders"></i>' +
             '</div>');
         this.addSettingsListener();
 
@@ -398,7 +400,13 @@ define([
         }
 
         var html = S(htmlFooterContent).template({
-            hidden: addCategoryClass
+            hidden: addCategoryClass,
+            clearSelection: polyglot.t("clearSelection"),
+            addCategory: polyglot.t("addCategory"),
+            exportToGeoJson: polyglot.t("exportToGeoJson"),
+            exportToXls: polyglot.t("exportToXls"),
+            exportToShp: polyglot.t("exportToShp"),
+            exportToCsv: polyglot.t("exportToCsv")
         }).toString();
         this._widgetSelector.find(".floater-footer").html("").append(html);
     };
@@ -465,16 +473,23 @@ define([
     EvaluationWidget.prototype.addSelectionConfirmListener = function(amount){
         var self = this;
         var count = 0;
-        if (amount.hasOwnProperty("amount")){
+
+        if(Select.selectedAreasMap && Select.selectedAreasMap[Select.actualColor] && Select.selectedAreasMap[Select.actualColor].length > 0) {
+            count = Select.selectedAreasMap[Select.actualColor].length;
+            if(count > 0) {
+                $('#evaluation-confirm').attr("disabled", true);
+                $('#evaluation-unselect').attr("disabled", false);
+            }
+        } else if (amount && amount.hasOwnProperty("amount")){
             count = amount.amount;
         }
 
         if (count > 0){
-            var areasName = "areas";
-            if (count == 1){
-                areasName = "area";
+            var areasName = polyglot.t("areas");
+            if (count === 1){
+                areasName = polyglot.t("area");
             }
-            $('#evaluation-confirm').html("Select " + count + " " + areasName)
+            $('#evaluation-confirm').html(polyglot.t("select") + " " + count + " " + areasName)
                 .removeClass("hidden")
                 .off("click.confirm")
                 .on("click.confirm", function(){
@@ -486,7 +501,7 @@ define([
                 });
         }
         else {
-            $('#evaluation-confirm').html("No area selected")
+            $('#evaluation-confirm').html(polyglot.t("noAreaSelected"))
                 .off("click.confirm");
         }
 
@@ -500,7 +515,7 @@ define([
 			.attr("disabled", false)
 			.off("click.addcategory")
 			.on("click.addcategory", function(){
-				$(".floater, .tool-window").removeClass("active");
+				$(".floating-window").removeClass("active");
 				setTimeout(function(){
 					$('#categorize-settings').addClass('open').addClass('active');
 					var attributes = self._filter.getAttributesFromCategories(self._categories);
@@ -520,14 +535,9 @@ define([
                     self._map.removeLayers();
                     Observer.notify('selectInternal');
                 } else {
-                    Observer.notify("selectAreas");
-                    if (Config.toggles.hasNew3Dmap){
-                        Stores.notify("clearAllSelections");
-                    }
+                    self._dispatcher.notify("selection#clearAll");
                 }
-                self.disableExports();
-                $('#evaluation-confirm').attr("disabled",false);
-                $(this).attr("disabled",true);
+                self.resetButtons();
         });
     };
 
@@ -622,7 +632,7 @@ define([
         var self = this;
         var tool = "settings";
         $('#floater-' + self._widgetId + ' .widget-' + tool).on("click", function(){
-            $(".floater, .tool-window").removeClass("active");
+            $(".floating-window").removeClass("active");
             setTimeout(function(){
                 $('#' + self._widgetId + '-' + tool).addClass('open').addClass('active');
             },50);
@@ -660,13 +670,6 @@ define([
         }
     };
 
-    /**
-     * Disable export buttons
-     */
-    EvaluationWidget.prototype.disableExports = function(){
-        $("#export-shp, #export-csv, #export-xls, #export-json").attr("disabled",true);
-    };
-
 	/**
      * Prepare attributes for export
      * @param categories {Object}
@@ -679,6 +682,52 @@ define([
             }
         }
         ExchangeParams.attributesState = attributes;
+    };
+
+
+	/**
+	 * Reset widget
+	 */
+	EvaluationWidget.prototype.resetWidget = function(){
+		this.rebuildInputs(this._categories);
+		this.resetButtons();
+	};
+
+	/**
+     * Reset current selection
+	 */
+	EvaluationWidget.prototype.resetSelection = function(){
+		this.amount();
+		this.resetButtons();
+    };
+
+	/**
+     * Switch buttons in footer to the default state
+	 */
+	EvaluationWidget.prototype.resetButtons = function(){
+		this.disableExports();
+		$('#evaluation-confirm').attr("disabled",false);
+		$('#evaluation-unselect').attr("disabled",true);
+    };
+
+	/**
+	 * Disable export buttons
+	 */
+	EvaluationWidget.prototype.disableExports = function(){
+		$("#export-shp, #export-csv, #export-xls, #export-json").attr("disabled",true);
+	};
+
+	/**
+	 * @param type {string}
+	 */
+	EvaluationWidget.prototype.onEvent = function(type){
+        if (type === Actions.selectionSelected){
+            this.addSelectionConfirmListener();
+        } else if (type === Actions.selectionEverythingCleared){
+            this.resetWidget();
+        } else if (type === Actions.selectionActiveCleared){
+			this.resetSelection();
+		}
     };
 
     return EvaluationWidget;

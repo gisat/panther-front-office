@@ -5,13 +5,13 @@ Ext.define('PumaMain.view.CommonSaveForm', {
     initComponent: function() {
         this.items = [{
             xtype: 'textfield',
-            fieldLabel: 'Name',
+            fieldLabel: polyglot.t('name'),
             name: 'name',
             itemId: 'name',
             allowBlank: false
         }]
         this.buttons = [{
-                text: 'Save',
+                text: polyglot.t('save'),
                 itemId: 'save'
             }]
         this.callParent();

@@ -20,7 +20,7 @@ Ext.define('Puma.controller.Login', {
             me.onLoginClicked();
         })
         $('.signup').click(function() {
-            if ($(this).html()=='Log out') {
+            if ($(this).html()==polyglot.t('logOut')) {
                 me.onLogoutClicked();
             }
             else {
@@ -55,7 +55,7 @@ Ext.define('Puma.controller.Login', {
                 me.checkLogin(true)
             },
             failure: function(error) {
-                alert("Incorrect username or password. Please try again.");
+                alert(polyglot.t("incorrectLogin"));
             }
         })
     },
@@ -67,7 +67,14 @@ Ext.define('Puma.controller.Login', {
             method: 'POST',
             success: function(response) {
                 Config.auth = null;
-                me.onChangeLoginState(false);
+
+                if(!new URL(window.location).searchParams.get('needLogin')) {
+                    me.onChangeLoginState(false);
+                } else {
+					me.onLoginClicked();
+                    var zIndex = Number($('#loginwindow').css("z-index"));
+                    $('#hideAllExceptLogin').show().css("z-index", zIndex-1);
+                }
             }
         })
     },
@@ -79,7 +86,7 @@ Ext.define('Puma.controller.Login', {
             success: function(response) {
                 var response = JSON.parse(response.responseText);
                 if (fromLogin && !response.data) {
-                    Ext.Msg.alert('Error', 'Bad credentials');
+                    Ext.Msg.alert(polyglot.t('error'), polyglot.t('badCredentials'));
                     Ext.ComponentQuery.query('loginwindow #password')[0].setValue('');
                     return;
                 }
@@ -96,10 +103,10 @@ Ext.define('Puma.controller.Login', {
             if (window) {
                 window.close();
             }
-            $('.login').html(Config.auth ? Config.auth.userName : 'Log in');
-            $('.signup').html(Config.auth ? 'Log out' : 'Sign up');
+            $('.login').html(Config.auth ? Config.auth.userName : polyglot.t('logIn'));
+            $('.signup').html(Config.auth ? polyglot.t('logOut') : polyglot.t('signUp'));
 
-            if ($('.signup').html() == "Log in"){
+            if ($('.signup').html() == polyglot.t("logIn")){
                 $('.signup, .login').addClass("logged");
             }
             else {
@@ -107,7 +114,9 @@ Ext.define('Puma.controller.Login', {
             }
 
             if(loggedIn) {
-				$('#bo-link').show();
+                if(!Config.toggles.disableAdministration) {
+					$('#bo-link').show();
+				}
 				$('#top-toolbar-saved-views').removeClass('hidden');
             } else {
 				$('#bo-link').hide();
@@ -117,9 +126,9 @@ Ext.define('Puma.controller.Login', {
             this.application.fireEvent('login', loggedIn);
             return;
         }
-        var text = 'Not logged in'
+        var text = polyglot.t('notLoggedIn');
         if (loggedIn) {
-			text = 'Logged in as ' + Config.auth.userName;
+			text = polyglot.t('loggedInAs') + Config.auth.userName;
 			var window = Ext.WindowManager.get('loginwindow');
 			if (window) {
 				window.close();

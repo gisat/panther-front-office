@@ -1,14 +1,23 @@
 var Config = {
-	url: 'https://puma.worldbank.org/backend/',
-	signupAddress: 'http://panther.gisat.cz/account/signup/',
+	// url: 'http://localhost:4000/',
+	url: 'https://urban-tep.eo.esa.int/puma/backend/',
+	// url: 'http://panther.gisat.cz/backend/',
 	// url: 'https://puma.worldbank.org/backend/',                // PUMA
 	// signupAddress: 'https://puma.worldbank.org/account/signup/',
 	// url: 'http://urbis.gisat.cz/backend/',                     // URBIS
 	// signupAddress: 'http://urbis.gisat.cz/account/signup/',
-	// url: 'http://35.165.51.145/backend/',                      // Snow Portal
+	//  url: 'http://snow.gisat.cz/backend/',                      // Snow Portal
 	// signupAddress: 'http://35.165.51.145/account/signup/',
 	geoserver2Workspace: "panther",
-	initialBaseMap: "terrain",
+
+	/**
+	 * URL needed for correct WMS request on Analytical units layer
+	 */
+	// geoServerUrl: "http://admin:geoserver@10.0.75.2:80/geoserver/panther/wms",
+	// geoServerUrl: "http://panther.gisat.cz/geoserver/panther/wms",
+	geoServerUrl: 'https://urban-tep.eo.esa.int/puma/geoserver/',
+
+	initialBaseMap: "osm",
 	initialMapBounds: [
 		112.4251556396,
 		-7.7001045314,
@@ -25,22 +34,89 @@ var Config = {
 		useWBFooter: false,
 		useNewViewSelector: true,
 		useTopToolbar: true,
+		useWorldWindOnly: false,
 		allowPumaHelp: false,
-		allowDownloadsLink: true,
+		allowDownloadsLink: false,
 		usePumaLogo: false,
 		advancedFiltersFirst: false,
 		hasNew3Dmap: true,
-		hasNewEvaluationTool: false,
+		hasNewEvaluationTool: true,
 		hasNewCustomPolygonsTool: false,
 		hasNewFeatureInfo: true,
-		hasOsmWidget: true,
+		hasPeriodsSelector: true,
+		hasPeriodsWidget: false,
+		hasOsmWidget: false,
 		isNewDesign: true,
 		isUrbis: false,
 		isEea: false,
 		isMelodies: false,
-		isUrbanTep: false,
+		isUrbanTep: true,
 		isSnow: false,
-		hideWorldBank: true
+		skipInitialSelection: false,
+		hideWorldBank: false,
+		hideSelectorToolbar: false,
+
+		showDataviewsOverlay: true,
+		dataviewsOverlayHasIntro: true,
+
+		// intro: {
+		// 	title: "Panther Data Exploration",
+		// 	text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mollis sodales lorem, nec hendrerit mi tincidunt pellentesque. Quisque facilisis ipsum id elit hendrerit, vitae elementum tortor elementum. Proin in pretium tellus, sit amet pretium nisi. Curabitur eget egestas mauris.",
+		// 	logo: {
+		// 		/**
+		// 		 * location of image in src/__new/img/
+		// 		 */
+		// 		source: "panther/panther_logo.png",
+		// 		/**
+		// 		 * possible values: circle, wide_rectangle (if other or empty value, default rectangle shape will be used
+		// 		 */
+		// 		type: "circle"
+		// 	}
+		// },
+
+		intro: {
+			title: "ESA Urban TEP",
+			text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mollis sodales lorem, nec hendrerit mi tincidunt pellentesque. Quisque facilisis ipsum id elit hendrerit, vitae elementum tortor elementum. Proin in pretium tellus, sit amet pretium nisi. Curabitur eget egestas mauris.",
+			logo: {
+				/**
+				 * location of image in src/__new/img/
+				 */
+				source: "urban_tep/urban_tep_logo.png",
+				/**
+				 * possible values: circle, wide_rectangle (if other or empty value, default rectangle shape will be used
+				 */
+				type: "circle"
+			}
+		},
+
+		"http://dromas.gisat.cz": {
+			classes: ['dromas'],
+			url: 'http://dromas.gisat.cz/backend/',
+			publicUrl: 'http://dromas.gisat.cz/tool/',
+			geoServerUrl: "http://dromas.gisat.cz/geoserver/panther/wms",
+
+			/**
+			 * It updates the selector in 3D mode to the select version for multiple maps.
+			 */
+			hasPeriodsSelector: true,
+
+			/**
+			 * It removes link to the administration from the top part of the panel.
+			 */
+			disableAdministration: true,
+
+			/**
+			 * Configuration of intro window for Dromas
+			 */
+			intro: {
+				title: "Dromas Portál",
+				text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mollis sodales lorem, nec hendrerit mi tincidunt pellentesque. Quisque facilisis ipsum id elit hendrerit, vitae elementum tortor elementum. Proin in pretium tellus, sit amet pretium nisi. Curabitur eget egestas mauris.",
+				logo: {
+					source: "dromas/dromas_logo.png",
+					type: "wide_rectangle"
+				}
+			}
+		}
 	},
 
 	basicTexts: {
@@ -50,18 +126,7 @@ var Config = {
 		appName: "Data exploration",
 		scopeName: "Scale"
 	},
-	urbisTexts: {
-		scopeName: "Scale",
-		scopeAbout: "Different type of data and information address different scales of analysis, which correspond to different levels of urban-related decision making. Please choose your scale of interest first.",
-		placeName: "Pilot",
-		placeAbout: "URBIS services are demonstrated thought implementation on three pilot sites, represented by city-regions distributed across Europe. The basic portfolio of URBIS services is prepared for all three pilots, advanced types of services must not be implemented for all pilots. You can start with analysis for single pilot of your interest or with benchmarking of all three pilots.",
-		themeName: "Theme",
-		themeAbout: "URBIS services are focused on different thematic information, including Green and Grey infrastructure or Urban Land Typology and Dynamics. Please select theme/service according your thematic interests."
-	},
-	eeaTexts: {
-		placeName: "Country",
-		placeAbout: ""
-	},
+
 	googleAnalyticsTracker: '',
 	googleAnalyticsCookieDomain: 'auto',
 	environment: 'development'
@@ -69,16 +134,22 @@ var Config = {
 
 // Allow custom configuration per URL.
 if(Config.toggles[window.location.origin] && Config.toggles[window.location.origin].url) {
-    Config.url = Config.toggles[window.location.origin].url;
+	Config.url = Config.toggles[window.location.origin].url;
 }
 if(Config.toggles[window.location.origin] && Config.toggles[window.location.origin].publicUrl) {
-    Config.publicUrl = Config.toggles[window.location.origin].publicUrl;
+	Config.publicUrl = Config.toggles[window.location.origin].publicUrl;
+}
+if(Config.toggles[window.location.origin] && Config.toggles[window.location.origin].geoServerUrl) {
+	Config.geoServerUrl = Config.toggles[window.location.origin].geoServerUrl;
+}
+if(Config.toggles[window.location.origin] && Config.toggles[window.location.origin].initialBaseMap) {
+	Config.initialBaseMap = Config.toggles[window.location.origin].initialBaseMap;
 }
 
 // Go through all the site specific toggles and rewrite the default ones.
 if(Config.toggles[window.location.origin]) {
 	var properties = Object.keys(Config.toggles[window.location.origin]);
 	properties.forEach(function(property) {
-        Config.toggles[property] = Config.toggles[window.location.origin][property];
+		Config.toggles[property] = Config.toggles[window.location.origin][property];
 	});
 }
