@@ -11,14 +11,14 @@ Ext.define('PumaMain.view.ChoroplethForm', {
 			xtype: 'pumacombo',
 			forChoro: 1,
 			store: Ext.StoreMgr.lookup('classificationtype'),
-			fieldLabel: 'Class. type',
+			fieldLabel: polyglot.t('classType'),
 			itemId: 'classType',
 			name: 'classType',
 			value: 'quantiles',
 			valueField: 'type'
 		}, {
 			xtype: 'numberfield',
-			fieldLabel: 'Num categories',
+			fieldLabel: polyglot.t('numCategories'),
 			name: 'numCategories',
 			forChoro: 1,
 			value: 5,
@@ -28,10 +28,10 @@ Ext.define('PumaMain.view.ChoroplethForm', {
 		}
 		]
 		this.buttons = [{
-			text: 'Apply',
+			text: polyglot.t('apply'),
 			itemId: 'apply'
 		}, {
-			text: 'Back',
+			text: polyglot.t('back'),
 			itemId: 'back'
 		}]
 		this.callParent();

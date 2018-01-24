@@ -17,19 +17,19 @@ Ext.define('Puma.view.LoginHeader', {
         this.items = [{
             xtype: 'component',
             itemId: 'logintext',
-            html: 'Not logged in'
+            html: polyglot.t('notLoggedIn')
         },{
             xtype: 'component',
             cls: 'loginbtn',
             itemId: 'loginbtn',
             hidden: false,
-            html: '<a href="">Login</a>'
+            html: '<a href="">'+polyglot.t('login')+'</a>'
         },{
             xtype: 'component',
             cls: 'logoutbtn',
             itemId: 'logoutbtn',
             hidden: true,
-            html: '<a href="">Logout</a>'
+            html: '<a href="">'+polyglot.t('logout')+'</a>'
         }];
 
         this.callParent();

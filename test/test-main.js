@@ -6,6 +6,14 @@ var ThemeYearConfParams = {
     years: [4]
 };
 
+window.Config = {
+    toggles: {}
+};
+
+window.polyglot = {
+    t: function() {}
+};
+
 // Get a list of all the test files to include
 Object.keys(window.__karma__.files).forEach(function (file) {
     if (TEST_REGEXP.test(file)) {

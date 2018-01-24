@@ -259,6 +259,13 @@ tbody .x-grid-row.select_d97dff .x-grid-cell {
 	display: none!important;
 }
 
+#window-maptools-body .x-btn-center {
+	overflow: visible;
+}
+
+#window-maptools-body .x-btn-center .x-btn-inner {
+	overflow: visible;
+}
 #draggingOverMapProtectionOverlay {
 	position: absolute;
 	top: 0;

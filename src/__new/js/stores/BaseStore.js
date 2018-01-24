@@ -37,6 +37,12 @@ define([
 				params: options.params || {}
 			}).then(function (dataFromApi) {
 				dataFromApi = JSON.parse(dataFromApi);
+				// User and Group endpoint return twice wrapped information.
+				try{
+					if(!dataFromApi.data) {
+						dataFromApi = JSON.parse(dataFromApi);
+					}
+				} catch(e) {}
 				var models = [];
 				if(_.isArray(dataFromApi.data)) {
 					dataFromApi.data.forEach(function (model) {
@@ -49,7 +55,9 @@ define([
 				}
 				self.loaded(models);
 				resolve(models);
-			}, reject);
+			}, reject).catch(function(error){
+				reject(error);
+			});
 		});
 	};
 
@@ -97,11 +105,12 @@ define([
 
 	/**
 	 * Notifies all listeners.
-	 * @param event {Object} Object representing information about event.
+	 * @param event {Object|string} Object representing information about event. Type of event, if string.
+	 * @param options {Object}
 	 */
-	BaseStore.prototype.notify = function(event) {
+	BaseStore.prototype.notify = function(event, options) {
 		this._listeners.forEach(function(listener){
-			listener(event);
+			listener(event, options);
 		});
 	};
 

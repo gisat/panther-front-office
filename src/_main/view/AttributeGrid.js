@@ -22,19 +22,19 @@ Ext.define('PumaMain.view.AttributeGrid', {
 			flex: 3,
 			resizable: false,
 			menuDisabled: true,
-			text: 'Attribute'
+			text: polyglot.t("attribute")
 		}, {
 			dataIndex: 'asName',
 			flex: 3,
 			resizable: false,
 			menuDisabled: true,
-			text: 'Attribute set'
+			text: polyglot.t("attributeSet")
 		}, {
 			dataIndex: 'asName',
 			flex: 3,
 			resizable: false,
 			menuDisabled: true,
-			text: 'Normalization base',
+			text: polyglot.t('normalizationBase'),
 			renderer: function (value, metadata, record) {
 				var type = record.get('normType');
 				var attrStore = Ext.StoreMgr.lookup('attribute');
@@ -67,7 +67,7 @@ Ext.define('PumaMain.view.AttributeGrid', {
 			resizable: false,
 			menuDisabled: true,
 			formType: this.formType,
-			text: 'Normalization',
+			text: polyglot.t('normalization'),
 			renderer: function (value, metadata, record) {
 				var store = Ext.StoreMgr.lookup('normalization4chart');
 				var rec = store.findRecord('type', value);
@@ -79,14 +79,14 @@ Ext.define('PumaMain.view.AttributeGrid', {
 			resizable: false,
 			menuDisabled: true,
 			formType: this.formType,
-			text: 'Units'
+			text: polyglot.t('units')
 		}, {
 			dataIndex: 'displayUnits',
 			flex: 1,
 			resizable: false,
 			menuDisabled: true,
 			formType: this.formType,
-			text: 'Displayed units',
+			text: polyglot.t('displayedUnits'),
 			renderer: function (value, metadata, record) {
 				return record.get('displayUnits') || record.get('units');
 			}
@@ -96,7 +96,7 @@ Ext.define('PumaMain.view.AttributeGrid', {
 			hidden: this.formType != 'layers',
 			resizable: false,
 			menuDisabled: true,
-			text: 'Classification',
+			text: polyglot.t('Classification'),
 			renderer: function (value, metadata, record) {
 				value = value || 'quantiles';
 				var store = Ext.StoreMgr.lookup('classificationtype');
@@ -109,7 +109,7 @@ Ext.define('PumaMain.view.AttributeGrid', {
 			hidden: this.formType != 'layers',
 			resizable: false,
 			menuDisabled: true,
-			text: 'Cat.',
+			text: polyglot.t('cat'),
 			renderer: function (value, metadata, record) {
 				value = value || 5;
 				return value;
@@ -120,7 +120,7 @@ Ext.define('PumaMain.view.AttributeGrid', {
 			hidden: this.formType != 'layers',
 			resizable: false,
 			menuDisabled: true,
-			text: 'Name',
+			text: polyglot.t('name'),
 			field: {
 				type: 'textfield'
 			}
@@ -128,21 +128,21 @@ Ext.define('PumaMain.view.AttributeGrid', {
 		this.tbar = [{
 			xtype: 'button',
 			itemId: 'add',
-			text: 'Add'
+			text: polyglot.t('add')
 		}, {
 			xtype: 'button',
 			itemId: 'remove',
-			text: 'Remove'
+			text: polyglot.t('remove'),
 		}, {
 			xtype: 'button',
 			//disabled: this.formType=='filters',
 			itemId: 'normalize',
-			text: 'Setting'
+			text: polyglot.t('setting')
 		}, {
 			xtype: 'button',
 			hidden: this.formType != 'layers',
 			itemId: 'choroplethparams',
-			text: 'Choropleth params'
+			text: polyglot.t('choroplethParams')
 		}];
 		this.viewConfig = {
 			plugins: {

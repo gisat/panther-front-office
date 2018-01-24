@@ -8,6 +8,8 @@ define(['../../../error/ArgumentError',
 	'./panels/ThematicLayersPanel',
 	'./panels/WmsLayersPanel',
 
+	'../../../stores/Stores',
+
 	'jquery',
 	'string',
 	'text!./WorldWindWidgetPanels.html',
@@ -22,6 +24,8 @@ define(['../../../error/ArgumentError',
 			ThematicLayersPanel,
 			WmsLayersPanel,
 
+			Stores,
+
 			$,
 			S,
 			htmlBody
@@ -29,7 +33,7 @@ define(['../../../error/ArgumentError',
 	/**
 	 * @param options {Object}
 	 * @param options.id {string} id of element
-	 * @param options.target {JQuery} JQuery selector of target element
+	 * @param options.target {Object} JQuery selector of target element
 	 * @param options.currentMap
 	 * @constructor
 	 */
@@ -48,16 +52,15 @@ define(['../../../error/ArgumentError',
 
 	/**
 	 * Rebuild panels with current configuration
-	 * @param stateChanges {Object} changes in configuration
 	 */
-	WorldWindWidgetPanels.prototype.rebuild = function(stateChanges){
-		if (!stateChanges){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingParameter"));
-		}
-		if (stateChanges && !stateChanges.scope){
-			this._auLayersPanel.switchOnLayersFrom2D();
+	WorldWindWidgetPanels.prototype.rebuild = function(){
+		var configChanges = Stores.retrieve('state').current().changes;
+		if (!configChanges.scope){
 			this._thematicLayersPanel.switchOnLayersFrom2D();
+			// this._auLayersPanel.switchOnLayersFrom2D();
 		}
+
+		this._auLayersPanel.rebuild("updateOutlines","updateOutlines");
 		this._infoLayersPanel.rebuild();
 		this._wmsLayersPanel.rebuild();
 	};
@@ -95,7 +98,7 @@ define(['../../../error/ArgumentError',
 	WorldWindWidgetPanels.prototype.buildBackgroundLayersPanel = function(){
 		return new BackgroundLayersPanel({
 			id: "background-layers",
-			name: "Background Layers",
+			name: polyglot.t("backgroundLayers"),
 			target: this._panelsSelector,
 			isOpen: true
 		});
@@ -107,7 +110,7 @@ define(['../../../error/ArgumentError',
 	WorldWindWidgetPanels.prototype.buildThematicLayersPanel = function(){
 		return new ThematicLayersPanel({
 			id: "thematic-layers",
-			name: "Thematic Layers",
+			name: polyglot.t("thematicLayers"),
 			target: this._panelsSelector,
 			isOpen: true
 		});
@@ -119,7 +122,7 @@ define(['../../../error/ArgumentError',
 	WorldWindWidgetPanels.prototype.buildAuLayersPanel = function(){
 		return new AuLayersPanel({
 			id: "au-layers",
-			name: "Analytical Units Layers",
+			name: polyglot.t("analyticalUnitsLayers"),
 			target: this._panelsSelector,
 			isOpen: true
 		});
@@ -131,7 +134,7 @@ define(['../../../error/ArgumentError',
 	WorldWindWidgetPanels.prototype.buildInfoLayersPanel = function(){
 		return new InfoLayersPanel({
 			id: "info-layers",
-			name: "Info Layers",
+			name: polyglot.t("infoLayers"),
 			target: this._panelsSelector,
 			isOpen: true
 		});
@@ -143,7 +146,7 @@ define(['../../../error/ArgumentError',
 	WorldWindWidgetPanels.prototype.buildWmsLayersPanel = function(){
 		return new WmsLayersPanel({
 			id: "wms-layers",
-			name: "Custom WMS Layers",
+			name: polyglot.t("customWmsLayers"),
 			target: this._panelsSelector,
 			isOpen: true
 		});

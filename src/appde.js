@@ -20,6 +20,15 @@ Ext.application({
 		'PumaMain.view.LayerPanel', 'PumaMain.view.MapTools', 'Gisatlib.slider.DiscreteTimeline', 'PumaMain.view.AreaTree'
 	],
 	launch: function() {
+		// replace protocol with no-ssl http when loading chart or map in Phantomjs
+		//if(location.protocol=="http:"){
+		//	var originalUrl = Config.url;
+		//	Config.url = Config.url.replace("https://", "http://");
+		//	if(originalUrl != Config.url){
+		//		console.log("Config.url replaced:", originalUrl, " -> ", Config.url);
+		//	}
+		//}
+
 		// set Home link in header // todo Move this somewhere else?
 		$("#home-link").attr("href", Config.projectHome);
 		$("title").html(Config.basicTexts.appTitle);
@@ -27,7 +36,7 @@ Ext.application({
 		$("#content-intro > .label").html(Config.basicTexts.appName);
 
 		if (Config.toggles.isUrbanTep) {
-			$('body').addClass("urban-tep");
+			$('html').addClass("urban-tep");
 			$('#header .menu #intro-link').hide();
             $('#header .menu #downloads-link').hide();
             $('#header .menu #help-link').hide();
@@ -119,6 +128,10 @@ Ext.application({
 			$("html").addClass("toggle-usePumaLogo");
 		}
 
+		if(Config.toggles.hideSelectorToolbar){
+			$("html").addClass("toggle-hideSelectorToolbar");
+		}
+
 		if(Config.toggles[window.location.origin]) {
 			Config.toggles[window.location.origin].classes.forEach(function(className){
                 $("html").addClass(className);
@@ -146,33 +159,71 @@ Ext.application({
 		});
 		Ext.window.Window.prototype.resizable = false;
 		
-		this.getController('Puma.controller.Login');
+		var loginController = this.getController('Puma.controller.Login');
 		var search = window.location.search.split('?')[1];
 		var afterId = search ? search.split('id=')[1] : null;
 		var id = afterId ? afterId.split('&')[0] : null;
-		Config.dataviewId = id;
-		if (id) {
-			// Load stores when only for print.
-            var stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic', 'dataview'];
-            stores.forEach(function(store){
-                Ext.StoreMgr.lookup(store).load();
-            });
+		if(new URL(window.location).searchParams.get('needLogin')) {
+			$('#hideAllExceptLogin').show();
 
-			this.getController('DomManipulation').renderApp();
-			this.getController('Render').renderApp();
-			
-			this.getController('Render').renderMap();
-		}
-		else {
-			this.getController('Render').renderIntro();
+			this.on('login', function(loggedIn) {
+				if(loggedIn) {
+                    Config.dataviewId = id;
+                    $('#hideAllExceptLogin').hide();
+
+					var stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic', 'dataview'];
+					stores.forEach(function (store) {
+						Ext.StoreMgr.lookup(store).load();
+					});
+
+					this.getController('Dataview').onLoadingFinished();
+
+					if (this._dataviewId !== id) {
+						this.getController('DomManipulation').renderApp();
+						this.getController('Render').renderApp();
+						this.getController('Render').renderMap();
+					}
+
+					this._dataviewId = id;
+                } else {
+					window.Stores.notify("initialLoadingFinished");
+                    loginController.onLoginClicked();
+                }
+			});
+		} else if (id) {
+            Config.dataviewId = id;
+            // Load stores when only for print or loading the whole application.
+            var stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic', 'dataview'];
+            var promises = [];
+            stores.forEach(function(storeName){
+            	promises.push(new Promise(function(resolve, reject){
+            		var store = Ext.StoreMgr.lookup(storeName);
+            		store.on('datachanged', function(data){
+            			console.log('Store Name: ' + storeName + ' DataChanged', arguments);
+            			resolve(data);
+					});
+					store.load();
+				}));
+            });
+            var self = this;
+			Promise.all(promises).then(function(){
+				console.log('appde# Loading done.');
+
+				self.getController('DomManipulation').renderApp();
+				self.getController('Render').renderApp();
+
+				self.getController('Render').renderMap();
+			}).catch(function(err){
+				console.log(err);
+				alert(polyglot.t("notPossibleToLoadData"));
+			});
+		} else {
+            Config.dataviewId = id;
+            this.getController('Render').renderIntro();
 		}
 	}
 });
 
 Ext.onReady(function(){
-	if(!Config.dataviewId) {
-		$("#loading-screen").css("display", "none");
-	}
-
 	Stores.notify('extLoaded');
 });

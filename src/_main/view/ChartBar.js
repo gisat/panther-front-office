@@ -27,7 +27,7 @@ Ext.define('PumaMain.view.ChartBar', {
                 }],
                 cfgType: 'screenshots',  
                 height: 400,
-                title: 'Snapshots'
+                title: polyglot.t('snapshots')
             }
 //            ,
 //            {

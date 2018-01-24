@@ -38,14 +38,18 @@ define(['../error/ArgumentError',
 
 	/**
 	 * Set the location according to current configuration
-	 * @param config {Object} ThemeYearConfParams (configuration from global variable)
 	 */
-	MyGoToAnimator.prototype.setLocation = function(appState){
+	MyGoToAnimator.prototype.setLocation = function(){
 		var self = this;
-		var places = appState.places;
-		var dataset = appState.scope;
+		var stateStore = Stores.retrieve("state");
+		var currentState = stateStore.current();
+		var places = currentState.places;
+		var dataset = currentState.scope;
+
+		console.log('MyGoToAnimator#setLocation CurrentState: ', currentState);
 		if (!dataset){
 			console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "MyGoToAnimator", "setLocation", "missingDataset"));
+			stateStore.removeLoadingOperation("ScopeLocationChanged");
 		}
 		else {
 			var values = {dataset: dataset};
@@ -54,6 +58,7 @@ define(['../error/ArgumentError',
 			}
 
 			Stores.retrieve("location").filter(values).then(function(response){
+				console.log('MyGoToAnimator#setLocation Location: ', response);
 				if (response.length > 0){
 					var points = [];
 					response.forEach(function(location){
@@ -80,6 +85,9 @@ define(['../error/ArgumentError',
 					self.wwd.navigator.lookAtLocation.latitude = self._defaultLoc[0];
                     self.wwd.navigator.lookAtLocation.longitude = self._defaultLoc[1];
 				}
+                self.wwd.redraw();
+				self.wwd.redrawIfNeeded(); // TODO: Check with new releases. This isn't part of the public API and therefore might change.
+				stateStore.removeLoadingOperation("ScopeLocationChanged");
 			}).catch(function(err){
 				throw new Error(Logger.log(Logger.LEVEL_SEVERE, err));
 			});

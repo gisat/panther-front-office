@@ -87,6 +87,8 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 				}
 
 			});
+
+        Observer.notify('AttributeConfig#init');
     },
 	addInfoOnClickListener: function(){
 		$("body").on("click", ".form-label-help", function(){
@@ -157,18 +159,18 @@ Ext.define('PumaMain.controller.AttributeConfig', {
             var attr = attrs[i];
             var attrName = 'as_'+attr.as+'_attr_'+attr.attr;
             if (attrMap[attrName]) {
-                Puma.util.Msg.msg('Duplicate attributes not allowed','','l');
+                Puma.util.Msg.msg(polyglot.t('duplicateAttributesNotAllowed'),'','l');
                 return;
             }
             
             attrMap[attrName] = true;
             var type = attr.normType;
             if (isSelect === true && type!='select') {
-                Puma.util.Msg.msg('All attributes have to be normalized to "First selected"','','l');
+                Puma.util.Msg.msg(polyglot.t('allAttributesHaveToBeNormalized'),'','l');
                 return;
             }
             if (isSelect === false && type=='select') {
-                Puma.util.Msg.msg('All attributes have to be normalized to "First selected"','','l');
+                Puma.util.Msg.msg(polyglot.t('allAttributesHaveToBeNormalized'),'','l');
                 return;
             }
             isSelect = type == 'select';
@@ -222,9 +224,9 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         var title = 'Chart configuration';
         switch (cmp.xtype=='tool' ? 'tool' : cmp.itemId) {
             case 'configurelayers':
-                title = 'Thematic maps configuration'; break;
+                title = polyglot.t('thematicMapsConfiguration'); break;
             case 'configurefilters':
-                title = 'Filters configuration'; break;
+                title = polyglot.t('filtersConfiguration'); break;
             case 'tool':
                 title += ' - '+cfg.title
             
@@ -379,7 +381,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 			form.getForm().applyToFields({disabled: true});
 			form.getForm().reset();
 
-			alert('You can bulk edit configuration only for attributes with the same source units, same normalization type, change units, custom factor and for attribute and attribute set normalization also the same attribute and/or attribute set.');
+			alert(polyglot.t('bulkEditConfiguration'));
 		}
 	},
 

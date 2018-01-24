@@ -6,6 +6,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
 		Observer.addListener("PumaMain.controller.LocationTheme.reloadWmsLayers",this.reloadWmsLayers.bind(this));
 		Stores.addListener(this.areaTemplateChange.bind(this));
+		Stores.addListener(this.triggerConfirm.bind(this));
 
         this.control({
             '#initialdataset':{
@@ -42,6 +43,13 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 click: this.onCancelAgreement
             }
         })
+
+        Observer.notify('LocationTheme#init');
+    },
+    triggerConfirm: function(action){
+        if (action === "confirmInitialSelection"){
+            this.onConfirm();
+        }
     },
     onAcceptAgreement: function() {
         var checked = Ext.ComponentQuery.query('#agreementCheck')[0].getValue();
@@ -60,9 +68,10 @@ Ext.define('PumaMain.controller.LocationTheme', {
         ThemeYearConfParams.actions.push(cnt.itemId);
         // new URBIS change
         if (!$('body').hasClass("intro")){
-            $("#loading-screen").css({
+			console.log('LocationTheme#onDatasetChange Show Loading');
+			$("#loading-screen").css({
                 display: "block",
-                background: "radial-gradient(rgba(255, 255, 255, .75), rgba(230, 230, 230, .75))"
+                background: "radial-gradient(rgba(255, 255, 255, .85), rgba(230, 230, 230, .85))"
             })
         }
         ThemeYearConfParams.datasetChanged = true;
@@ -140,10 +149,10 @@ Ext.define('PumaMain.controller.LocationTheme', {
             themeCombo.setValue(first)
         }
         if (cnt.initial) {
-            locationCombo.emptyText = 'Select place...';
+            locationCombo.emptyText = polyglot.t('selectPlace');
             locationCombo.setValue(null);
             if (themeCombo && themeCombo.isVisible()) {
-                themeCombo.emptyText = 'Select theme...';
+                themeCombo.emptyText = polyglot.t('selectTheme');
                 themeCombo.setValue(null);
             }
         }
@@ -155,6 +164,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
         locationCombo.resumeEvents();
         locationComboAlt.resumeEvents();
         themeComboAlt.resumeEvents();
+
+        Observer.notify('scopeChange');
     },
 
     onLocationChange: function(cnt,val) {
@@ -304,7 +315,9 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
         var visStore = Ext.StoreMgr.lookup('visualization4sel');
         var yearStore = Ext.StoreMgr.lookup('year4sel');
-        var themeYears = Ext.StoreMgr.lookup('theme').getById(val).get('years');
+
+        var themeStore = Ext.StoreMgr.lookup('theme');
+        var themeYears = themeStore.getById(val).get('years');
 
         yearStore.clearFilter(true);
         yearStore.filter([function(rec) {
@@ -331,7 +344,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 this.visChanged = true;
         }
         var years = yearCnt.getValue();
-        if (!years.length) {
+        if (!years.length && !Config.toggles.hideSelectorToolbar) {
             this.yearChanged = true;
             var yearCount = yearStore.getCount();
             yearCnt.setValue([yearStore.getAt(yearCount-1).get('_id')])
@@ -981,14 +994,14 @@ Ext.define('PumaMain.controller.LocationTheme', {
         if (!systemNode.childNodes.length) {
             selectedLayerNode = {
                 type: 'selectedareas',
-                name: 'Selected areas',
+                name: polyglot.t('selectedAreas'),
                 sortIndex: 0,
                 checked: false,
                 leaf: true
             };
             selectedLayerFilledNode = {
                 type: 'selectedareasfilled',
-                name: 'Selected areas filled',
+                name: polyglot.t('selectedAreasFilled'),
                 sortIndex: 0,
                 checked: true,
                 leaf: true
@@ -996,7 +1009,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
             areaLayerNode = {
                 type: 'areaoutlines',
                 sortIndex: 1,
-                name: 'Area outlines',
+                name: polyglot.t('areaOutlines'),
                 checked: true,
                 leaf: true
             };
@@ -1068,11 +1081,14 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
     },
     onThemeLocationConfReceived: function(response) {
+		ThemeYearConfParams.actions.push(response.request.options.originatingCnt.itemId);
+
         var conf = JSON.parse(response.responseText).data;
         var scope = Ext.StoreMgr.lookup('dataset').getById(Number(response.request.options.params.dataset));
 
         if (conf.hasOwnProperty("auRefMap")){
             OlMap.auRefMap = conf.auRefMap;
+			ThemeYearConfParams.auRefMap = conf.auRefMap;
             var counter = 1;
             for (var a in conf.auRefMap){
                 var auLevels = Object.keys(conf.auRefMap[a]).length;
@@ -1104,16 +1120,103 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 // Remove the possibility to switch back
                 $('#top-toolbar-3dmap').hide();
             } else {
-                $('.areaTreeSelection').show();
-				$('#top-toolbar-areas').show();
-				$('#window-areatree').show();
-                if(scope.get("aggregated")) {
-                    this.getController('DomManipulation')._onReportsSidebarToggleClick();
-                }
-				$('#sidebar-reports').show();
-				$('#top-toolbar-3dmap').show()
+				var tools = scope.get('removedTools') || [];
+				var dataset = Ext.ComponentQuery.query('#seldataset')[0].getValue();
+				var only3D = (tools.indexOf('2dmap') !== -1);
 
-				// Add the possibility to switch back.
+				if(dataset !== this._datasetId) {
+					if ((this._datasetId || only3D) && !Config.cfg){
+						Stores.notify('map#show3D');
+					}
+					this._datasetId = dataset;
+					if ((Config.cfg && !Config.cfg.sidebarReportsOpen) || !Config.cfg){
+						this.getController('DomManipulation')._onReportsSidebarHide();
+                    }
+				} else {
+					$('#sidebar-reports').show();
+				}
+
+                if(tools.indexOf('2dmap') !== -1) {
+                    $('#top-toolbar-3dmap').hide();
+                } else {
+                    $('#top-toolbar-3dmap').show();
+                }
+
+                if(tools.indexOf('evaluationTool') !== -1) {
+                    $('#top-toolbar-selection-filter').hide();
+                    $('#top-toolbar-selections').hide();
+                }
+
+                if(tools.indexOf('mapTools') !== -1) {
+                    $('#top-toolbar-map-tools').hide();
+                }
+
+                // if(tools.indexOf('savedViews') !== -1) {
+                //     $('#top-toolbar-saved-views').hide();
+                // }
+
+				if(tools.indexOf('savedViews') !== -1 && Config.auth.userName !== "admin") {
+					$('#top-toolbar-saved-views').hide();
+				}
+
+				// if(tools.indexOf('visualization') !== -1) {
+				//     $('.field.visualization').hide();
+				// }
+
+				if(tools.indexOf('visualization') !== -1 && Config.auth.userName !== "admin") {
+					$('.field.visualization').hide();
+				}
+
+
+                if(tools.indexOf('snapshots') !== -1) {
+                    $('#top-toolbar-snapshot').hide();
+                }
+
+                if(tools.indexOf('context-help') !== -1) {
+                    $('#top-toolbar-context-help').hide();
+                }
+
+				if(window.location.origin === "http://dromas.gisat.cz" && Config.auth.userName !== "admin") {
+					$('#top-toolbar-share-view').hide();
+				}
+
+				if(tools.indexOf('scope') !== -1) {
+                    $('.field.scope').hide();
+                }
+
+                if(tools.indexOf('theme') !== -1) {
+                    $('.field.theme').hide();
+                }
+
+				if(tools.indexOf('place') !== -1) {
+					$('.field.place').hide();
+				}
+
+				if(tools.indexOf('add-layer') !== -1) {
+					$('#top-toolbar-custom-layers').hide();
+				}
+
+				if(tools.indexOf('3dMap') !== -1) {
+				    $('#top-toolbar-3dmap').hide();
+				}
+
+                if(tools.indexOf('areas') !== -1) {
+                    $('.areaTreeSelection').hide();
+                    $('#window-areatree').hide();
+                    $('#top-toolbar-areas').hide();
+                } else {
+                    $('.areaTreeSelection').show();
+                    $('#window-areatree').show();
+                }
+
+                if (!Config.toggles.isSnow) {
+                    $('#top-toolbar-areas').show();
+                }
+
+                // TODO: To be removed and replaced with toggles.
+                if (scope.get("aggregated")) {
+                    this.getController('DomManipulation')._onReportsSidebarHide();
+                }
 			}
         }
         if (response.request.options.originatingCnt.itemId == 'selectfilter') {
@@ -1204,14 +1307,14 @@ Ext.define('PumaMain.controller.LocationTheme', {
         if (Config.cfg && Config.cfg.multipleMaps) {
             multiMapBtn.toggle(true);
         }
-        if (response.request.options.locationChanged || response.request.options.datasetChanged) {
+        if ((response.request.options.locationChanged || response.request.options.datasetChanged) && (response.request.options.originatingCnt.itemId !== "dataview")) {
             this.getController('Area').zoomToLocation();
         }
         this.getController('Map').updateGetFeatureControl();
 		console.log('LocationTheme hide');
-		if(!Config.dataviewId) {
-			this.getController('Area').showLoading("none");
-		}
+		// if(!Config.dataviewId) {
+		// 	this.getController('Area').showLoading("none");
+		// }
 
         if (!this.placeInitialChange) {
              var locStore = Ext.StoreMgr.lookup('location4init');
@@ -1225,6 +1328,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 this.placeInitialChange = true;
         }
 
+        console.log('LocationTheme#onThemeLocationConfReceived Delete Config');
         delete Config.cfg;
 
 		Stores.notify('extRestructured');
@@ -1281,13 +1385,12 @@ Ext.define('PumaMain.controller.LocationTheme', {
 	    var attributesWithData = null;
 	    if (allAttributes){
 			attributesWithData = Ext.Array.filter(allAttributes.attributes, function(rec){
-				return rec.distribution[0] > 0;
+				return rec.distribution[0] > 0 || (rec.min === rec.max);
 			});
         } else {
 	        console.log("LocationTheme#rebuildAttributesTree: No attributes!");
 	        return;
         }
-
 		var prefTopics = theme.get('prefTopics'); // get pref. topics of current theme
 		var a2chStore = Ext.StoreMgr.lookup('attributes2choose');
 		var rootNode = a2chStore.getRootNode();
@@ -1466,7 +1569,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
             map.setCenter([Config.cfg.mapCfg.center.lon,Config.cfg.mapCfg.center.lat],Config.cfg.mapCfg.zoom);
 
         }
-        delete Config.cfg;
+		console.log('LocationTheme#onVisualizationChange Delete Config');
+		delete Config.cfg;
     }
 
 });

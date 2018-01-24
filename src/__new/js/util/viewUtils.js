@@ -26,7 +26,26 @@ define([], function () {
         return !isNaN(n1) && n2 === n1 && n1.toString() === n;
     }
 
+	/**
+	 * @returns {string} Pseudorandom color from the list of colors
+	 */
+	function getPseudorandomColor(){
+        var position = Math.floor(Math.random() * 8);
+        var colors = [
+            '#BBBB88',
+            '#EEDD99',
+            '#EEC290',
+			'#EEAA88',
+			'#73A8AF',
+			'#FF9E9D',
+			'#B2B6AB',
+			'#7FC7AF'
+        ];
+        return colors[position];
+    }
+
     return {
+        getPseudorandomColor: getPseudorandomColor,
         isNaturalNumber: isNaturalNumber,
         numberFormat: numberFormat
     };

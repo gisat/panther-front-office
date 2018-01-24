@@ -11,14 +11,6 @@ define(['./Stores'], function(Stores){
         });
     };
 
-    UrbanTepCommunitiesStore.prototype.share = function(url, community) {
-        var url = new URL(url);
-        return $.post(Config.url + '/rest/share/communities', {
-            dataViewId: url.searchParams.get('id'),
-            group: community
-        });
-    };
-
     if(!urbanTepCommunities) {
         urbanTepCommunities = new UrbanTepCommunitiesStore();
         Stores.register('urbanTepCommunities', urbanTepCommunities);

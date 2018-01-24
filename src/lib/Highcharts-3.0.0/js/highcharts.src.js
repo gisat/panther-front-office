@@ -1492,8 +1492,8 @@ defaultOptions = {
 		weekdays: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
 		decimalPoint: '.',
 		numericSymbols: ['k', 'M', 'G', 'T', 'P', 'E'], // SI prefixes used in axis labels
-		resetZoom: 'Reset zoom',
-		resetZoomTitle: 'Reset zoom level 1:1',
+		resetZoom: polyglot.t('resetZoom'),
+		resetZoomTitle: polyglot.t('resetZoomTitle'),
 		thousandsSep: ','
 	},
 	global: {

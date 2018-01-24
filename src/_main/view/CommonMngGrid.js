@@ -9,7 +9,7 @@ Ext.define('PumaMain.view.CommonMngGrid', {
         var actionItems = [
             {
                 icon: 'images/icons/up.png', // Use a URL in the icon config
-                tooltip: 'Up',
+                tooltip: polyglot.t('up'),
                 hidden: !this.allowReorder,
                 width: 16,
                 height: 16,
@@ -18,7 +18,7 @@ Ext.define('PumaMain.view.CommonMngGrid', {
                 }
             }, {
                 icon: 'images/icons/down.png', // Use a URL in the icon config
-                tooltip: 'Down',
+                tooltip: polyglot.t('down'),
                 hidden: !this.allowReorder,
                 width: 16,
                 height: 16,
@@ -28,7 +28,7 @@ Ext.define('PumaMain.view.CommonMngGrid', {
             },
             {
                 icon: 'images/icons/view.png', // Use a URL in the icon config
-                tooltip: 'Open',
+                tooltip: polyglot.t('open'),
                 hidden: this.allowReorder ? true: false,
                 width: 16,
                 height: 16,
@@ -38,7 +38,7 @@ Ext.define('PumaMain.view.CommonMngGrid', {
             },
             {
                 icon: 'images/icons/remove-16.png', // Use a URL in the icon config
-                tooltip: 'Remove',
+                tooltip: polyglot.t('remove'),
                 width: 16,
                 height: 16,
                 handler: function(grid, rowIndex, colIndex, item, e, record) {
@@ -58,7 +58,7 @@ Ext.define('PumaMain.view.CommonMngGrid', {
                 resizable: false,
                 menuDisabled: true,
                 sortable: false,
-                text: 'Name',
+                text: polyglot.t('name'),
             },
             {
                 xtype: 'actioncolumn',

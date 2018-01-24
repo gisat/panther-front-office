@@ -11,6 +11,8 @@ Ext.define('PumaMain.controller.Dataview', {
             '00ffff':'5c6d7e',
             'ff00ff':'d97dff'
         }
+
+        Observer.notify('Dataview#init');
     },
         
         
@@ -30,6 +32,7 @@ Ext.define('PumaMain.controller.Dataview', {
                 if (!loading) {
                     me.onLoadingFinished();
                     runner.destroy();
+                    Observer.notify('Dataview#checkLoading Loading finished');
                 }
             },
             interval: 1000
@@ -39,6 +42,7 @@ Ext.define('PumaMain.controller.Dataview', {
     onLoadingFinished: function() {
         var me = this;
         if (Config.dataviewId) {
+            console.log('Dataview#onLoadingFinished Show Loading');
 			$("#loading-screen").css("display", "block");
             Ext.Ajax.request({
                 url: Config.url + 'rest/dataview/'+Config.dataviewId,
@@ -53,7 +57,7 @@ Ext.define('PumaMain.controller.Dataview', {
                     
                     var cfg = JSON.parse(respText).data;
                     if (!cfg.length) {
-                        alert('No such dataview');
+                        alert(polyglot.t('noSuchDataview'));
                         return;
                     }
                     Config.cfg = cfg[0].conf;

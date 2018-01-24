@@ -1,5 +1,235 @@
+/* Table of contents
+
+	* EXT COMPONENTS.....................overriding default ext style
+		* Windows........................common for all Ext-based windows
+			* Window header..............header and it's components
+			* Login window...............login window
+
+	* COMMON LAYOUT COMPONENTS
+		* Header.........................declarations of header toolbars
+		* Header for overlay.............adjustment of header for intro overlay of dataviews
+
+*/
+
+/* =====================================================
+=== EXT COMPONENTS =====================================
+======================================================== */
+
+/* === Windows ========================================= */
+.newDesign .x-window {
+
+}
+.newDesign .x-window.x-window-default {
+	background: #fff;
+	border: 0;
+	box-shadow: 0 0 4px rgb(136, 136, 136);
+}
+
+/* window header */
+.newDesign .x-window-header {
+	border: 0;
+}
+
+/* login window */
+.newDesign #loginwindow {
+	z-index: 99998 !important;
+	top: 0 !important;
+	left: 0 !important;
+	width: 100% !important;
+	height: 100% !important;
+	background: rgba(33,38,53,.9);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.newDesign #loginwindow .x-window.body {
+	border: 1px solid rgba(33,38,53,.5);
+}
+.newDesign #loginwindow .x-toolbar-footer {
+	background: none;
+}
+
+/* TODO move button declarations to buttons  */
+.newDesign #loginwindow .x-btn {
+	background: none;
+	border-color: rgb(65,69,81);
+	border-style: solid;
+	border-width: 1px !important;
+	border-radius: .15rem;
+	transition: background .3s ease-in-out, border .3s ease-in-out;
+	width: 120px !important;
+}
+.newDesign #loginwindow .x-btn-default-small-noicon button {
+	line-height: 2rem;
+}
+.newDesign #loginwindow .x-btn-over,
+.newDesign #loginwindow .x-btn-focus {
+	background: rgba(65,69,81,.25);
+}
+.newDesign #loginwindow .x-btn-focus {
+	box-shadow: 0 0 2px 1px rgba(55,125,166,1);
+}
+.newDesign #loginwindow .x-btn:first-child {
+	border-color: rgb(33,38,53);
+	background: rgb(33,38,53);
+	right: 140px;
+}
+.newDesign #loginwindow .x-btn-over.x-btn:first-child,
+.newDesign #loginwindow .x-btn-focus.x-btn:first-child {
+	border-color: transparent;
+	background: rgba(33,38,53, .9);
+}
+
+.newDesign #loginwindow .x-btn:last-child {
+
+}
+.newDesign #loginwindow .x-btn-inner {
+	color: #eee;
+	font-size: .95rem;
+	font-weight: 500;
+	line-height: 1.2;
+}
+.newDesign #loginwindow .x-btn:last-child .x-btn-inner {
+	color: rgb(33,38,53);
+}
+
+/* TODO move form declarations to forms*/
+.newDesign #loginwindow .x-form-field {
+	background: rgba(224,227,231,1);
+	font-size: 1rem;
+	font-weight: 400;
+	line-height: 2rem;
+	border: .1rem solid rgba(224,227,231,1);
+	border-radius: 0 .15rem .15rem 0;
+	padding-left: .3rem;
+	width: 100%;
+	height: 2.5rem;
+}
+.newDesign #loginwindow input.x-form-field {
+	color: rgba(106,110,120,1);
+}
+.newDesign #loginwindow .x-form-item-label {
+	color: transparent;
+	display: inline-block;
+	padding: 0;
+}
+.newDesign #loginwindow .x-form-item-label::after {
+	width: 40px;
+	height: 2.5rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(224,227,231,1);
+	border-radius: .15rem 0 0 .15rem;
+	font-family: "FontAwesome";
+	font-size: 1.15rem;
+	color: rgba(106,110,120,1);
+}
+
+.newDesign #loginwindow .login-username .x-form-item-label::after {
+	content: "\f2c0";
+	font-size: 1.05rem;
+}
+.newDesign #loginwindow .login-password .x-form-item-label::after {
+	content: "\f023";
+}
+
+/* =====================================================
+=== COMMON LAYOUT COMPONENTS ===========================
+======================================================== */
+
 .newDesign body {
 	background: rgb(163, 205, 255);
+}
+
+/* Header === */
+.newDesign #wb-header {
+
+}
+.newDesign #wb-header a {
+	background: url('../images/new/world-bank-logo.png') no-repeat 5px 5px;
+}
+.newDesign #header {
+	background: #212635;
+	display: flex;
+	padding: 0 1.5rem 0 1rem;
+	z-index: 1;
+}
+.newDesign #header .menu {
+	margin: 0;
+	flex: 1;
+	line-height: 50px;
+}
+.newDesign #header .menu li:before {
+	background-color: #888;
+	display: inline-block;
+	vertical-align: text-bottom;
+	position: relative;
+	top: auto;
+}
+
+.newDesign #header a {
+	font-family: "Open sans", "arial", sans-serif;
+	font-size: 10px;
+	color: #ddd;
+}
+
+.newDesign #header .user {
+	/* background: #333; */
+	display: inline-block;
+	right: 0;
+	height: auto;
+	top: auto;
+	padding: 0;
+	position: relative;
+	line-height: 50px;
+}
+
+.newDesign #header .user .sep {
+	width: 1px;
+	background: #888;
+	display: inline-block;
+	vertical-align: middle;
+	height: 15px;
+	margin-bottom: 3px;
+}
+
+.newDesign #header .user a {
+	padding: 0 10px;
+}
+
+.newDesign #header .user .login:before, .newDesign #header .user .signup:before {
+	display: inline-block;
+	line-height: 15px;
+	vertical-align: middle;
+	font-family: "FontAwesome";
+	font-size: 1rem;
+	width: auto;
+	height: auto;
+	margin: 0;
+	padding: 0 7px 0 0;
+}
+
+.newDesign #header .user .login:before {
+	content: "\f090";
+}
+
+.newDesign #header .user .login.logged:before {
+	content: "\f2c0";
+}
+.newDesign #header .user .signup:before {
+	content: "\f234";
+}
+.newDesign #header .user .signup.logout:before {
+	content: "\f08b";
+}
+
+/* header for overlay */
+.newDesign #header a {
+	font-size: .85rem;
+	font-weight: 400;
+	color: rgba(168,172,180,1);
+	text-transform: none;
 }
 
 /* Agreement === */
@@ -35,93 +265,6 @@
 	background-image: url('../images/new/checked.png');
 }
 
-/* Header === */
-.newDesign #wb-header {
-
-}
-
-.newDesign #wb-header a {
-	background: url('../images/new/world-bank-logo.png') no-repeat 5px 5px;
-}
-
-.newDesign #header {
-	background: #434254;
-	/* border-bottom: 2px solid rgb(36, 36, 49); */
-	padding-left: 5px;
-	z-index: 10000;
-}
-
-.newDesign #header .menu li:before {
-	background-color: #888;
-}
-
-.newDesign #header a {
-	font-family: "Open sans", "arial", sans-serif;
-	font-size: 10px;
-	color: #ddd;
-}
-
-.newDesign #header .user {
-	/* background: #333; */
-	height: 28px;
-	padding-right: 10px;
-	position: absolute;
-	display: inline-block;
-	right: 0;
-	top: 8px;
-}
-
-.newDesign #header .user .sep {
-	width: 1px;
-	background: #888;
-	display: inline-block;
-	vertical-align: middle;
-	height: 15px;
-	margin-bottom: 3px;
-}
-
-.newDesign #header .user a {
-	padding: 0 10px;
-}
-
-.newDesign #header .user .login:before, .newDesign #header .user .signup:before {
-	display: inline-block;
-	width: 15px;
-	height: 15px;
-	line-height: 15px;
-	margin: -3px 5px 0 0;
-	padding: 0;
-	vertical-align: middle;
-}
-
-.newDesign #header .user .login:before {
-	content: url("../images/new/login.png");
-}
-
-.newDesign #header .user .signup:before {
-	content: url("../images/new/signup.png");
-}
-
-.newDesign #header .user .login.logged:before, .newDesign #header .user .signup.logged:before {
-	content: "";
-	margin: 0;
-	width: 0;
-}
-
-/* login */
-.newDesign #loginwindow .x-btn {
-	border-right: 1px solid white;
-}
-
-.newDesign #loginwindow .x-btn:last-child {
-	border-right: 1px solid white;
-	background: #aaa;
-}
-
-.newDesign #loginwindow .x-btn:last-child:hover {
-	background: #888;
-}
-
 /* Footer === */
 .newDesign #footer {
 	z-index: initial;
@@ -142,8 +285,7 @@
 
 /* Intro === */
 .newDesign #content-intro, .newDesign #content-intro-guide {
-	background-color: rgb(67, 66, 84);
-	background-color: rgba(67, 66, 84, .9);
+	background-color: rgba(33,38,53,.95);
 	border: 1px solid #666;
 }
 
@@ -155,7 +297,7 @@
 
 .newDesign #content-intro-guide {
 	border-right: 0;
-	color: #eee;
+	color: rgba(204,207,211,1);
 	top: auto;
 	bottom: 150px;
 }
@@ -196,7 +338,10 @@
 }
 
 /* intro toolbar inputs */
-.newDesign #content-intro table:hover .x-form-text, .newDesign #content-intro table:hover .x-form-trigger {
+.newDesign #content-intro table:hover .x-form-text,
+.newDesign #content-intro table:hover .x-form-trigger,
+.newDesign #content-intro .x-form-trigger,
+.newDesign #content-intro .custom-combo .x-form-text {
 	background-color: rgba(255, 255, 255, .15);
 }
 
@@ -205,20 +350,27 @@
 }
 
 .newDesign #content-intro .x-form-trigger {
-	background: rgba(255, 255, 255, .2) url('../images/new/expand-white.png') no-repeat 50% 50%;
-	border-left-width: 0;
+	border: 0;
 }
 
 .newDesign #content-intro .custom-combo .x-form-text {
 	border-radius: 1px 0 0 1px;
-	color: #ddd;
-	font-size: 12px;
-	font-weight: 600;
+	color: rgb(204,207,211);
+	border: 0;
+	border-right: 0;
+	font-size: .85rem;
+	font-weight: 500;
+	transition: background .3s ease-out;
 }
 
 .newDesign #content-intro .field > .label {
-	font-size: 12px;
-	font-weight: 600;
+	padding-right: 7px;
+	vertical-align: top;
+	line-height: 30px;
+	color: rgba(204,207,211,1);
+	font-family: "Open Sans", sans-serif;
+	font-size: .85rem;
+	font-weight: 500;
 }
 
 /* === Application === */
@@ -341,10 +493,6 @@
 	transition: background-color .3s ease-out;
 }
 
-.newDesign .app-legacy-view-selector-help .help-btn .x-btn:hover {
-	background-color: rgba(255, 255, 255, .15);
-}
-
 .newDesign #app-legacy-view-selector-contexthelp span.x-btn-icon {
 	background: url('../images/new/help-context-white.png') no-repeat 50% 50% !important;
 }
@@ -364,6 +512,29 @@
 
 .newDesign #button-1033-btnIconEl {
 	color: #555;
+}
+
+/* visualization */
+.newDesign #app-view-selector-visualization-save {
+	height: 26px;
+}
+.newDesign #app-view-selector-visualization-save .x-btn.custom-button.x-btn-default-small {
+	background: rgb(106,110,120);
+	border: 0;
+}
+.newDesign #app-view-selector-visualization-save .x-btn.custom-button.x-btn-default-small .x-btn-inner {
+	font-weight: 500;
+	font-size: .75rem;
+	color: rgb(204,207,211);
+}
+.newDesign #app-view-selector-visualization-manage {
+	height: 26px;
+	width: auto;
+}
+.newDesign #app-view-selector-visualization-manage .x-btn.custom-button.x-btn-default-small {
+	background: rgb(106,110,120);
+	border: 0;
+	width: 26px !important;
 }
 
 /* dataview field */
@@ -449,7 +620,7 @@
 }
 
 .newDesign.x-border-box .x-form-trigger {
-	background: #eee url("../images/new/expand.png") no-repeat 50% 50%;
+	background: none;
 	border-radius: 0 1px 1px 0;
 	border-left: 0;
 }
@@ -467,44 +638,68 @@
 }
 
 .newDesign.x-border-box .x-form-trigger.x-form-refresh-trigger {
-	background: rgba(255, 255, 255, .25) url("../images/new/refresh-white.png") no-repeat 50% 50% !important;
-	border-left: 1px solid rgba(255, 255, 255, .3) !important;
 	transition: background .3s ease-out;
+	border-left: 1px solid rgba(255, 255, 255, .1) !important;
 }
 
-.newDesign.x-border-box .x-form-trigger.x-form-spinner-up {
-	background: #eee url("../images/new/collapse.png") no-repeat 50% 50%;
+.newDesign .app-legacy-view-selector-help .help-btn .x-btn:hover,
+.newDesign.x-border-box .x-form-trigger.x-form-refresh-trigger,
+.newDesign.x-border-box .custom-combo .x-form-text,
+.newDesign.x-border-box .custom-combo .x-form-trigger,
+.newDesign .x-btn.custom-button.x-btn-default-small,
+.newDesign .x-btn.custom-button.x-btn-default-small:hover {
+	background: rgba(255, 255, 255, .15);
+}
+.newDesign.x-border-box .custom-combo:hover .x-form-text,
+.newDesign.x-border-box .custom-combo:hover .x-form-trigger,
+.newDesign.x-border-box .custom-combo:hover .x-form-trigger.x-form-refresh-trigger {
+	background: rgba(255, 255, 255, .2) !important;
 }
 
-.newDesign.x-border-box .x-tbar-loading {
-	background: #eee url("../images/new/refresh-small.png") no-repeat 50% 50% !important;
-}
+/*.newDesign.x-border-box .x-form-trigger.x-form-spinner-up {*/
+	/*background: none;*/
+/*}*/
+
+/*.newDesign.x-border-box .x-tbar-loading {*/
+	/*background: none !important;*/
+/*}*/
 
 .newDesign.x-border-box .custom-combo .x-form-text {
 	border-radius: 1px 0 0 1px;
-	color: #ddd;
-	background: rgba(255, 255, 255, .25);
-	border: 1px solid rgba(255, 255, 255, .3);
+	color: rgb(204,207,211);;
+	border: 0;
 	border-right: 0;
-	font-size: 11px;
-	font-weight: 700;
-	height: 23px;
+	font-size: .85rem;
+	font-weight: 500;
+	height: 26px;
 	transition: background .3s ease-out;
 }
 
 .newDesign.x-border-box .custom-combo .x-form-trigger {
-	background: rgba(255, 255, 255, .25) url('../images/new/expand-white.png') no-repeat 50% 50%;;
-	border: 1px solid rgba(255, 255, 255, .3);
+	/*background: none;*/
+	border: 0;
 	border-left: 0;
 	border-radius: 0 1px 1px 0;
-	height: 23px;
+	height: 26px;
 	transition: background .3s ease-out;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
-
-.newDesign.x-border-box .custom-combo:hover .x-form-text,
-.newDesign.x-border-box .custom-combo:hover .x-form-trigger,
-.newDesign.x-border-box .custom-combo:hover .x-form-trigger.x-form-refresh-trigger {
-	background-color: rgba(255, 255, 255, .15) !important;
+.newDesign.x-border-box .custom-combo .x-form-trigger:before {
+	color: rgb(204,207,211);
+	font-family: "FontAwesome";
+	font-size: 1rem;
+}
+.newDesign.x-border-box .custom-combo .x-form-arrow-trigger:before {
+	content: "\f107";
+}
+.newDesign.x-border-box .custom-combo .x-pickerfield-open .x-form-arrow-trigger:before {
+	content: "\f106";
+}
+.newDesign.x-border-box .custom-combo .x-form-refresh-trigger:before {
+	content: "\f021";
+	font-size: .85rem;
 }
 
 .newDesign.x-border-box .x-tbar-page-number .x-form-text {
@@ -532,8 +727,8 @@
 	text-align: center;
 	font-family: serif;
 	font-style: normal;
-	font-size: 12px;
-	font-weight: 700;
+	font-size: .85rem;
+	font-weight: 600;
 	color: white;
 	background: rgba(100, 100, 100, .8);
 	border-radius: 10px;
@@ -807,13 +1002,14 @@
 }
 
 .newDesign .x-btn.custom-button.x-btn-default-small {
-	background: rgba(255, 255, 255, .25);
-	border: 1px solid rgba(255, 255, 255, .3);
 	transition: background-color .3s ease-out;
-}
-
-.newDesign .x-btn.custom-button.x-btn-default-small:hover {
-	background: rgba(255, 255, 255, .15);
+	display: inline-block;
+	vertical-align: middle;
+	border: 0;
+	border-radius: .05rem;
+	color: #ddd;
+	height: 26px;
+	line-height: 26px;
 }
 
 .newDesign .x-btn.custom-button.x-btn-default-small.x-disabled {
@@ -821,17 +1017,20 @@
 }
 
 .newDesign .x-btn.custom-button.btn-confirm {
-	background: rgba(201, 45, 66, .7);
-	border: 1px solid rgba(255, 255, 255, .3);
+	background: rgba(153,54,75,1);
+	border: 1px solid rgba(255, 255, 255, .15);
+	border-radius: .15rem;
 	transition: background .3s ease-out;
 }
 
 .newDesign .x-btn.custom-button.btn-confirm .x-btn-inner {
 	color: #fff;
+	font-size: .85rem;
+	font-weight: 500;
 }
 
 .newDesign .x-btn.custom-button.btn-confirm:hover, .x-btn.btn-confirm:focus {
-	background: #ad2738;
+	background: rgba(186,65,91,1);
 }
 
 .newDesign #app-tools-actions .x-btn {
@@ -851,11 +1050,6 @@
 
 .newDesign .btn-map-select.x-pressed .x-btn-icon {
 	background-image: url('../images/new/map-select-active.png') !important;
-}
-
-/* login buttons */
-.newDesign #loginwindow .x-btn-default-small {
-	margin-right: 5px;
 }
 
 /* panel header buttons */
@@ -1067,18 +1261,15 @@
 }
 
 /* Windows ================= */
-.newDesign .x-window-default {
-	background: #fff;
-	border: 1px solid #ccc;
-}
-
 .newDesign .x-tool {
 	padding-bottom: 1px;
 }
 
 .newDesign .x-window-header-text-default {
-	padding-left: 5px;
+	line-height: 1.4;
 	color: #333;
+	font-size: 1rem;
+	font-weight: 600;
 }
 
 .newDesign .x-window-body {
@@ -1111,7 +1302,8 @@
 .newDesign .x-boundlist.custom-combo-list .x-boundlist-item {
 	background: #eee;
 	color: #333;
-	padding: 3px 5px;
+	padding: 5px 5px;
+	font-size: .85rem;
 	transition: background .3s ease-out;
 }
 
@@ -1149,10 +1341,6 @@
 }
 
 @media screen and (max-height: 700px) {
-	.newDesign #content-intro {
-		top: 30px;
-	}
-
 	.newDesign #content-intro-guide {
 		bottom: 20px;
 	}
