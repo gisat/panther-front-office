@@ -6,6 +6,8 @@
 	URBAN-TEP...................adjustments for Urban-TEP
 	  Intro overlay
 	  Header
+	  User
+	  Top toolbar inputs
 
 */
 
@@ -69,6 +71,12 @@ html.dromas .about-window-header-title {
 .urban-tep .fields-holder > .label {
 	width: 390px;
 }
+
+/* user */
+.urban-tep #header .user .signup {
+	display: none;
+}
+
 /* top toolbaar inputs */
 .newDesign #content-intro .x-form-text, .newDesign #content-intro .x-form-trigger {
 	background-color: rgba(255, 255, 255, .3);
