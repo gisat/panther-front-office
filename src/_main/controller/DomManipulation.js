@@ -18,6 +18,10 @@ Ext.define('PumaMain.controller.DomManipulation', {
 			"toolspanel" : {
 				resize: this.onToolsResize,
 				afterrender: this.onToolsResize
+			},
+			"window" : {
+				dragstart: this.onWindowDragStart,
+				dragend: this.onWindowDragEnd
 			}
 		});
 		this.resizeMap();
@@ -25,7 +29,15 @@ Ext.define('PumaMain.controller.DomManipulation', {
 
         Observer.notify('DomManipulation#init');
 	},
+
+	onWindowDragStart: function() {
+		$("#map-holder").append('<div id="draggingOverMapProtectionOverlay"></div>');
+	},
 	
+	onWindowDragEnd: function() {
+		$("#draggingOverMapProtectionOverlay").remove();
+	},
+
 	onToolsResize: function(toolPanel) {
 		this.resizeTools();
 	},
