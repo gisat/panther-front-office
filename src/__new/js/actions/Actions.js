@@ -42,6 +42,7 @@ define([], function(){
 		mapShow3DFromDataview: 'map#show3DFromDataview',
 
 		sharingUrlReceived: 'sharing#urlReceived',
+		sharingViewShared: 'sharing#viewShared',
 
 		widgetChangedState: 'widget#changedState'
 	};

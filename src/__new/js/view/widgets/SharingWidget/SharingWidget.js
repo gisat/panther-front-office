@@ -161,6 +161,7 @@ define([
 			alert(polyglot.t('theStateWasCorrectlyShared') + self._url);
 			minimiseBtn.trigger("click");
 			self.rebuild();
+			self._dispatcher.notify("sharing#viewShared");
 		}).catch(function(error){
 			alert(polyglot.t('thereWasAnIssueWithSharing') + error);
 		});
