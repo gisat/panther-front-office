@@ -36,7 +36,7 @@ Ext.define('PumaMain.view.ConfigForm', {
 			}, {
 				xtype: 'container',
 				hidden: this.formType == 'chart',
-				height: 500,
+				height: 400,
 				itemId: 'attributecontainer',
 				helpId: 'test',
 				layout: 'card',
@@ -80,7 +80,7 @@ Ext.define('PumaMain.view.ConfigForm', {
 				name: 'constrainFl',
 				values: [0, this.featureLayers.length - 1],
 				hidden: true,
-				width: 672,
+				width: 500,
 				useTips: {
 					getText: function (thumb) {
 						return thumb.slider.up('form').featureLayers[thumb.value].get('name')

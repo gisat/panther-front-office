@@ -234,14 +234,14 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         var window = Ext.widget('window',{
 			layout: 'fit',
 			cls: 'thematic-maps-settings',
-            width: 710,
-            height: 724,
+            width: 800,
+            height: 600,
             
             title: title,
             items: [{
                 xtype: 'configform',
                 featureLayers: fls,
-                padding: 5,
+                padding: 0,
                 cls: 'configform',
                 chart: chart,
                 formType: formType,
