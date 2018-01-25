@@ -3,7 +3,13 @@
 	* EXT COMPONENTS.....................overriding default ext style
 		* Windows........................common for all Ext-based windows
 			* Window header..............header and it's components
-			* Login window...............login window
+			* Window body................body declarations
+			* Login window...............login window specific declarations
+		* Forms..........................Ext forms
+			* Config form
+		* Buttons........................Ext buttons
+			* Default small button
+			* Login window buttons
 
 	* COMMON LAYOUT COMPONENTS
 		* Header.........................declarations of header toolbars
@@ -23,11 +29,52 @@
 	background: #fff;
 	border: 0;
 	box-shadow: 0 0 4px rgb(136, 136, 136);
+	padding: 0;
+}
+.newDesign .x-toolbar-footer.x-docked-bottom {
+	border-top: 2px solid #ddd !important;
+	background: rgba(233,235,237,1);
+	padding: 1rem;
+}
+.newDesign .x-window .x-grid .x-toolbar-default.x-docked-top {
+	background: #CFCFD3;
+	margin-bottom: 5px !important;
+	border-bottom: 0 !important;
 }
 
 /* window header */
 .newDesign .x-window-header {
 	border: 0;
+	padding: .3rem .3rem 0;
+	height: 2.5rem !important;
+}
+.newDesign .x-window-header-text-default {
+	line-height: 1.4;
+	color: #444;
+	font-size: 1rem;
+	font-weight: 500;
+	padding-left: .3rem;
+}
+.newDesign .thematic-maps-settings .x-window-header-text-default {
+	color: rgb(65,69,81);
+	font-size: 1.1rem;
+	font-weight: 600;
+}
+.newDesign .x-tool {
+	padding-bottom: 1px;
+}
+.newDesign .x-tool-close,
+.newDesign .legend-window .x-tool-close,
+.newDesign .x-window-header .x-tool-close {
+	background: url("../images/new/close.png") no-repeat 50% 50% !important;
+}
+
+/* Window body */
+.newDesign .x-window-body {
+	border: 0;
+}
+.newDesign .x-panel-body-default-framed {
+	padding: 10px;
 }
 
 /* login window */
@@ -47,50 +94,7 @@
 }
 .newDesign #loginwindow .x-toolbar-footer {
 	background: none;
-}
-
-/* TODO move button declarations to buttons  */
-.newDesign #loginwindow .x-btn {
-	background: none;
-	border-color: rgb(65,69,81);
-	border-style: solid;
-	border-width: 1px !important;
-	border-radius: .15rem;
-	transition: background .3s ease-in-out, border .3s ease-in-out;
-	width: 120px !important;
-}
-.newDesign #loginwindow .x-btn-default-small-noicon button {
-	line-height: 2rem;
-}
-.newDesign #loginwindow .x-btn-over,
-.newDesign #loginwindow .x-btn-focus {
-	background: rgba(65,69,81,.25);
-}
-.newDesign #loginwindow .x-btn-focus {
-	box-shadow: 0 0 2px 1px rgba(55,125,166,1);
-}
-.newDesign #loginwindow .x-btn:first-child {
-	border-color: rgb(33,38,53);
-	background: rgb(33,38,53);
-	right: 140px;
-}
-.newDesign #loginwindow .x-btn-over.x-btn:first-child,
-.newDesign #loginwindow .x-btn-focus.x-btn:first-child {
-	border-color: transparent;
-	background: rgba(33,38,53, .9);
-}
-
-.newDesign #loginwindow .x-btn:last-child {
-
-}
-.newDesign #loginwindow .x-btn-inner {
-	color: #eee;
-	font-size: .95rem;
-	font-weight: 500;
-	line-height: 1.2;
-}
-.newDesign #loginwindow .x-btn:last-child .x-btn-inner {
-	color: rgb(33,38,53);
+	border: 0 !important;
 }
 
 /* TODO move form declarations to forms*/
@@ -133,6 +137,187 @@
 .newDesign #loginwindow .login-password .x-form-item-label::after {
 	content: "\f023";
 }
+
+/* === Forms =========================================== */
+.newDesign.x-border-box .x-form-text {
+	background: rgba(233,235,237,1);
+	border: 1px solid rgba(204,207,211,1);
+	border-radius: 1px 0 0 1px;
+	color: rgb(65,69,81);
+	font-size: .95rem;
+	padding-left: .3rem;
+}
+
+/* Config form */
+.newDesign .configform label {
+	float: left;
+	color: rgb(106,110,120);
+	font-size: .75rem;
+	font-weight: 400;
+	text-transform: uppercase;
+}
+.newDesign.x-border-box .configform .x-form-trigger {
+	background: rgba(233,235,237,1);
+	border: 1px solid rgba(204,207,211,1);
+	border-left: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.newDesign.x-border-box .configform .x-form-trigger:before {
+	color: rgb(106,110,120);
+	font-family: "FontAwesome";
+	font-size: 1rem;
+}
+.newDesign.x-border-box .configform  .x-form-arrow-trigger:before {
+	content: "\f107";
+}
+.newDesign.x-border-box .configform  .x-pickerfield-open .x-form-arrow-trigger:before {
+	content: "\f106";
+}
+
+/* help */
+.newDesign .configform .form-label-help {
+	position: absolute;
+	right: 0;
+}
+
+.newDesign .configform .form-label-help i {
+	display: block;
+	text-align: center;
+	font-family: serif;
+	font-style: normal;
+	font-size: .85rem;
+	font-weight: 600;
+	color: white;
+	background: rgba(100, 100, 100, .8);
+	border-radius: 10px;
+	width: 15px;
+	height: 15px;
+	padding-top: 1px;
+	cursor: pointer;
+	transition: background .3s;
+}
+
+.newDesign .configform .form-label-help i:hover {
+	background: rgba(100, 100, 100, 1);
+}
+
+.newDesign .configform .form-label-help p {
+	display: none;
+	position: absolute;
+	z-index: 100000;
+	width: 200px;
+	background: rgba(255, 215, 215, .9);
+	margin-top: 3px;
+	margin-left: 10px;
+	border: 1px dotted;
+	border-radius: 3px;
+	padding: 5px;
+}
+
+.newDesign .configform .form-label-help p.open {
+	display: block;
+}
+
+/* === Buttons ========================================= */
+
+/* Default small button */
+.newDesign .x-btn-default-small {
+	background: none;
+	border-color: rgb(65,69,81);
+	border-style: solid;
+	border-width: 1px !important;
+	border-radius: .15rem;
+	transition: background .3s ease-in-out, border .3s ease-in-out;
+}
+.newDesign .x-btn-default-small.x-btn-over,
+.newDesign .x-btn-default-small.x-btn-focus {
+	background: rgba(65,69,81,.25);
+}
+.newDesign .x-btn-default-small.x-btn-focus {
+	box-shadow: 0 0 2px 1px rgba(55,125,166,1);
+}
+.newDesign .x-btn-default-small .x-btn-inner {
+	color: rgb(33,38,53);
+	font-size: .95rem;
+	font-weight: 500;
+	line-height: 1.6;
+	height: 100%;
+}
+
+
+/* TODO cleanup following declarations */
+.newDesign .x-btn-default-toolbar-small-over {
+	background: #bbbbc0;
+	border: 1px solid #bbbbc0;
+}
+.newDesign #app-legacy-view-selector-visualization-save .x-btn-default-small .x-btn-inner, .newDesign #app-legacy-view-selector-visualization-manage .x-btn-default-small .x-btn-inner, .newDesign #app-legacy-view-selector-save .x-btn-default-small .x-btn-inner, .newDesign #app-legacy-view-selector-share .x-btn-default-small .x-btn-inner {
+	color: #555;
+	font-size: 11px;
+}
+.newDesign #agreement-btns .x-btn-default-small .x-btn-inner {
+	color: #fff;
+}
+.newDesign .x-btn.custom-button.x-btn-default-small {
+	transition: background-color .3s ease-out;
+	display: inline-block;
+	vertical-align: middle;
+	border: 0;
+	border-radius: .05rem;
+	color: #ddd;
+	height: 26px;
+	line-height: 26px;
+}
+.newDesign .x-btn.custom-button.x-btn-default-small.x-disabled {
+	pointer-events: none;
+}
+.newDesign .x-btn.custom-button.btn-confirm {
+	background: rgba(153,54,75,1);
+	border: 1px solid rgba(255, 255, 255, .15);
+	border-radius: .15rem;
+	transition: background .3s ease-out;
+}
+.newDesign .x-btn.custom-button.btn-confirm .x-btn-inner {
+	color: #fff;
+	font-size: .85rem;
+	font-weight: 500;
+}
+.newDesign .x-btn.custom-button.btn-confirm:hover, .x-btn.btn-confirm:focus {
+	background: rgba(186,65,91,1);
+}
+.newDesign #app-tools-actions .x-btn {
+	background: #eee;
+}
+.newDesign #app-tools-actions .x-btn:hover {
+	background: #ddd;
+}
+
+/* Login window buttons */
+.newDesign #loginwindow .x-btn {
+	width: 120px !important;
+}
+.newDesign #loginwindow .x-btn-default-small-noicon button {
+	line-height: 2rem;
+}
+.newDesign #loginwindow .x-btn:first-child {
+	border-color: rgb(33,38,53);
+	background: rgb(33,38,53);
+	right: 140px;
+}
+.newDesign #loginwindow .x-btn-over.x-btn:first-child,
+.newDesign #loginwindow .x-btn-focus.x-btn:first-child {
+	border-color: transparent;
+	background: rgba(33,38,53, .9);
+}
+.newDesign #loginwindow .x-btn-inner {
+	color: #eee;
+	line-height: 1.2;
+}
+.newDesign #loginwindow .x-btn:last-child .x-btn-inner {
+	color: rgb(33,38,53);
+}
+
 
 /* =====================================================
 === COMMON LAYOUT COMPONENTS ===========================
@@ -609,11 +794,6 @@
 }
 
 /* Form ================== */
-.newDesign.x-border-box .x-form-text {
-	color: #555;
-	background: #eee;
-	border-radius: 1px 0 0 1px;
-}
 
 .newDesign.x-border-box .x-form-text.x-trigger-noedit {
 	border-right: 0;
@@ -706,60 +886,6 @@
 	border: 1px solid #aaa;
 }
 
-.newDesign .configform td {
-	width: 200px;
-}
-
-.newDesign .configform label {
-	float: left;
-}
-
-.newDesign .configform .form-label-help {
-	display: block;
-	float: right;
-	width: 20px;
-	margin-top: 5px;
-	margin-right: 5px;
-}
-
-.newDesign .configform .form-label-help i {
-	display: block;
-	text-align: center;
-	font-family: serif;
-	font-style: normal;
-	font-size: .85rem;
-	font-weight: 600;
-	color: white;
-	background: rgba(100, 100, 100, .8);
-	border-radius: 10px;
-	width: 15px;
-	height: 15px;
-	padding-top: 1px;
-	cursor: pointer;
-	transition: background .3s;
-}
-
-.newDesign .configform .form-label-help i:hover {
-	background: rgba(100, 100, 100, 1);
-}
-
-.newDesign .configform .form-label-help p {
-	display: none;
-	position: absolute;
-	z-index: 100000;
-	width: 200px;
-	background: rgba(255, 215, 215, .9);
-	margin-top: 3px;
-	margin-left: 10px;
-	border: 1px dotted;
-	border-radius: 3px;
-	padding: 5px;
-}
-
-.newDesign .configform .form-label-help p.open {
-	display: block;
-}
-
 /* === Box === */
 .newDesign #app-reports-paging, #app-tools-actions, #maptools-1059 {
 	border-bottom: 1px solid #ddd;
@@ -820,7 +946,7 @@
 /* Tables ================ */
 .newDesign .x-grid-with-row-lines {
 	border: 0;
-	padding: 10px;
+	padding: 0;
 }
 
 .newDesign .x-grid-with-row-lines.x-grid-locked .x-grid-inner-locked, .newDesign .x-grid-with-row-lines.x-grid-locked .x-grid-with-row-lines {
@@ -970,77 +1096,6 @@
 	background-color: #e4e3df;
 }
 
-/*Basic buttons*/
-.newDesign .x-btn-default-small {
-	background: rgba(201, 45, 66, .85);
-	border: 0;
-	border-radius: 1px;
-	transition: background .3s ease-out;
-}
-
-.newDesign .x-btn-default-small:hover {
-	background: #ad2738;
-}
-
-.newDesign .x-btn-default-small .x-btn-inner {
-	color: white;
-	font-size: 11px;
-}
-
-.newDesign .x-btn-default-toolbar-small-over {
-	background: #bbbbc0;
-	border: 1px solid #bbbbc0;
-}
-
-.newDesign #app-legacy-view-selector-visualization-save .x-btn-default-small .x-btn-inner, .newDesign #app-legacy-view-selector-visualization-manage .x-btn-default-small .x-btn-inner, .newDesign #app-legacy-view-selector-save .x-btn-default-small .x-btn-inner, .newDesign #app-legacy-view-selector-share .x-btn-default-small .x-btn-inner {
-	color: #555;
-	font-size: 11px;
-}
-
-.newDesign #agreement-btns .x-btn-default-small .x-btn-inner {
-	color: #fff;
-}
-
-.newDesign .x-btn.custom-button.x-btn-default-small {
-	transition: background-color .3s ease-out;
-	display: inline-block;
-	vertical-align: middle;
-	border: 0;
-	border-radius: .05rem;
-	color: #ddd;
-	height: 26px;
-	line-height: 26px;
-}
-
-.newDesign .x-btn.custom-button.x-btn-default-small.x-disabled {
-	pointer-events: none;
-}
-
-.newDesign .x-btn.custom-button.btn-confirm {
-	background: rgba(153,54,75,1);
-	border: 1px solid rgba(255, 255, 255, .15);
-	border-radius: .15rem;
-	transition: background .3s ease-out;
-}
-
-.newDesign .x-btn.custom-button.btn-confirm .x-btn-inner {
-	color: #fff;
-	font-size: .85rem;
-	font-weight: 500;
-}
-
-.newDesign .x-btn.custom-button.btn-confirm:hover, .x-btn.btn-confirm:focus {
-	background: rgba(186,65,91,1);
-}
-
-.newDesign #app-tools-actions .x-btn {
-	background: #eee;
-}
-
-.newDesign #app-tools-actions .x-btn:hover {
-	background: #ddd;
-}
-
 /* top widgetTools buttons */
 .newDesign .btn-map-select .x-btn-icon {
 	background-image: url('../images/new/map-select.png') !important;
@@ -1086,10 +1141,6 @@
 .newDesign .x-tool-expand-top, .newDesign .x-tool-expand-right, .newDesign .x-tool-expand-bottom, .newDesign .x-tool-expand-left,
 .newDesign .x-tool-over .x-tool-expand-top, .newDesign .x-tool-over .x-tool-expand-right, .newDesign .x-tool-over .x-tool-expand-bottom, .newDesign .x-tool-over .x-tool-expand-left {
 	background: url("../images/new/expand.png") no-repeat 50% 50%;
-}
-
-.newDesign .x-tool-close, .newDesign .legend-window .x-tool-close, .newDesign .x-window-header .x-tool-close {
-	background: url("../images/new/close.png") no-repeat 50% 50% !important;
 }
 
 .newDesign .detached-window .x-window-header .x-tool-close {
@@ -1258,37 +1309,6 @@
 
 .newDesign .tools-filters-list .x-slider-horz .x-slider-end {
 	background-position: 0;
-}
-
-/* Windows ================= */
-.newDesign .x-tool {
-	padding-bottom: 1px;
-}
-
-.newDesign .x-window-header-text-default {
-	line-height: 1.4;
-	color: #333;
-	font-size: 1rem;
-	font-weight: 600;
-}
-
-.newDesign .x-window-body {
-	border: 0;
-}
-
-.newDesign .x-toolbar-footer {
-	background: none;
-	border: 0;
-}
-
-.newDesign .x-toolbar-footer.x-docked-bottom {
-	border: 0 !important;
-}
-
-.newDesign .x-window .x-grid .x-toolbar-default.x-docked-top {
-	background: #CFCFD3;
-	margin-bottom: 5px !important;
-	border-bottom: 0 !important;
 }
 
 .newDesign .x-action-col-icon:hover {
