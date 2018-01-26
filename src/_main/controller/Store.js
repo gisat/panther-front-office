@@ -494,7 +494,18 @@ Ext.define('PumaMain.controller.Store', {
 				name: polyglot.t('double'),
 				type: 'double'
 			}]
-		})
+		});
+		Ext.create('Ext.data.Store', {
+			storeId: 'periods4chart',
+			fields: ['name', 'type'],
+			data: [{
+				name: polyglot.t('allPeriods'),
+				type: 'all'
+			}, {
+				name: polyglot.t('latest'),
+				type: 'latest'
+			}]
+		});
 		Ext.create('Ext.data.Store', {
 			storeId: 'aggregate4chart',
 			fields: ['name', 'type'],
