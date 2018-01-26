@@ -283,12 +283,14 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 			});
 			checkNode.parentNode.set('checked', parentChecked);
 			
-		}else if(checkNode.get('as')){
+		} else if(checkNode.get('as')){
 			// check/uncheck all attributes of this attribute set
 			Ext.Array.each(checkNode.childNodes, function(node){
 				node.set('checked', checked);
 			});
-			if( checked ) checkNode.expand();
+			if( checked ){
+				checkNode.expand();
+			}
 		}
 		
 	},
@@ -297,6 +299,11 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 		if(node.get('attr') && e.target.className != 'x-tree-checkbox'){
 			node.set('checked', !node.get('checked'));
 			this.onAddAttrCheck(node);
+		}
+
+		if (node.get('as') && !node.get('attr')){
+			node.set('checked', !node.get('checked'));
+			this.onAddAttrCheck(node, node.get('checked'));
 		}
 	},
 	
