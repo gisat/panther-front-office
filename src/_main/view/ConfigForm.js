@@ -105,6 +105,15 @@ Ext.define('PumaMain.view.ConfigForm', {
 				title: polyglot.t('advanced'),
 				items: [{
 					xtype: 'pumacombo',
+					store: Ext.StoreMgr.lookup('periods4chart'),
+					fieldLabel: polyglot.t('periods'),
+					valueField: 'type',
+					value: 'all',
+					name: 'periodsSettings',
+					itemId: 'periodsSettings',
+					hidden: true
+				},{
+					xtype: 'pumacombo',
 					store: Ext.StoreMgr.lookup('stacking4chart'),
 					fieldLabel: polyglot.t('stacking'),
 					valueField: 'type',
@@ -116,6 +125,7 @@ Ext.define('PumaMain.view.ConfigForm', {
 					store: Ext.StoreMgr.lookup('aggregate4chart'),
 					fieldLabel: polyglot.t('aggregate'),
 					valueField: 'type',
+					value: 'none',
 					name: 'aggregate',
 					itemId: 'aggregate'
 				}]

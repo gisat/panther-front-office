@@ -17,6 +17,7 @@ var langEn = {
     allAttributes: "All attributes",
     allAttributesHaveToBeNormalized: 'All attributes have to be normalized to "First selected"',
     allOptions: "All options",
+	allPeriods: "All periods",
     allPlaces: "All places",
     analysis: "Analysis",
     analyticalUnits: "Analytical units",
@@ -159,6 +160,7 @@ var langEn = {
     keywords: "Keywords",
 
     lastPage: "Last Page",
+	latest: "Latest",
     layer: "Layer",
     layerFeatureMissed: "You didn't hit any feature of the layer.",
     layerImportedSuccessfully: "Layer imported succesfully.",
@@ -378,6 +380,7 @@ var langCz = {
     allAttributesHaveToBeNormalized: 'Všechny atributy musí být normalizované ve stylu "První vybraný"',
     allOptions: "Všechny možnosti",
     allPlaces: "Všechna místa",
+	allPeriods: "Všechna časová období",
     analysis: "Analýza",
     analyticalUnits: "Analytické jednotky",
     analyticalUnitsLayers: "Vrstvy analytických jednotek",
@@ -519,6 +522,7 @@ var langCz = {
     keywords: "Klíčová slova",
 
 	lastPage: "Poslední stránka",
+    latest: "Nejnovější",
 	layer: "Vrstva",
 	layerFeatureMissed: "Žádný prvek pro danou pozici.",
     layerImportedSuccessfully: "Vrstva byla úspěšně naimportována",

@@ -719,7 +719,9 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 	onChartTypeChange: function(combo,val) {
         var configForm = combo.up('configform');
         var advanced = Ext.ComponentQuery.query('#advancedfieldset',configForm)[0];
+		var periodsSettings = Ext.ComponentQuery.query('#periodsSettings',configForm)[0];
         var cardContainer = Ext.ComponentQuery.query('#attributecontainer',configForm)[0];
+		var periods = Ext.ComponentQuery.query('#selyear')[0].getValue();
         cardContainer.show();
         if (val!='extentoutline') {
             cardContainer.getLayout().setActiveItem(0);
@@ -729,10 +731,14 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         }
         if (val=='columnchart') {
             advanced.show();
-        }
-        else {
+        } else {
             advanced.hide();
         }
+		if (val=='columnchart' && periods.length > 1 ) {
+			periodsSettings.show();
+		} else {
+			periodsSettings.hide();
+		}
     },
 
 	/**
