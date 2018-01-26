@@ -17,8 +17,18 @@ Ext.define('PumaMain.view.AddAttributeTree', {
             dataIndex: 'treeNodeText',
 			sortable: false,
             menuDisabled: true,
-			flex: 1
-        }]
+			flex: 1,
+			renderer: function (value, m, r) {
+				if (r.raw.hasOwnProperty('checked') && (r.raw.checked === true || r.raw.checked === false)){
+					return '<div class="tree-column-label">' +
+						value +
+						'</div>'
+				}
+				return '<div class="tree-root-label">' +
+					value +
+					'</div>';
+			}
+        }];
 
         this.buttons = [{
             itemId: 'add',
@@ -26,9 +36,9 @@ Ext.define('PumaMain.view.AddAttributeTree', {
         },{
             itemId: 'back',
             text: polyglot.t("back")
-        }]
+        }];
         this.callParent();
     }
-})
+});
 
 

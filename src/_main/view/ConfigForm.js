@@ -15,6 +15,7 @@ Ext.define('PumaMain.view.ConfigForm', {
 			xtype: 'textfield',
 			name: 'title',
 			marginLeft: 5,
+			width: 300,
 			hidden: this.formType != 'chart',
 			fieldLabel: polyglot.t('name')
 		}, {
@@ -24,6 +25,7 @@ Ext.define('PumaMain.view.ConfigForm', {
 			store: Ext.StoreMgr.lookup('charttype4chart'),
 			fieldLabel: polyglot.t('type'),
 			valueField: 'type',
+			width: 300,
 			name: 'type',
 			itemId: 'type'
 		},
@@ -36,10 +38,12 @@ Ext.define('PumaMain.view.ConfigForm', {
 			}, {
 				xtype: 'container',
 				hidden: this.formType == 'chart',
-				height: 400,
+				height: 350,
 				itemId: 'attributecontainer',
+				marginBottom: 30,
 				helpId: 'test',
 				layout: 'card',
+				cls: 'attribute-container',
 				items: [
 					{
 						xtype: 'attributegrid',
@@ -49,6 +53,7 @@ Ext.define('PumaMain.view.ConfigForm', {
 						xtype: 'addattributetree'
 					}, {
 						xtype: 'normalizeform',
+						cls: 'attribute-configuration',
 						formType: this.formType
 					}, {
 						xtype: 'form',
@@ -61,14 +66,16 @@ Ext.define('PumaMain.view.ConfigForm', {
 							store: Ext.StoreMgr.lookup('layers4outline'),
 							valueField: 'atWithSymbology',
 							fieldLabel: polyglot.t('layer'),
-							name: 'featureLayer'
+							name: 'featureLayer',
+							width: 300
 						}, {
 							xtype: 'numberfield',
 							minValue: 0,
 							value: 70,
 							maxValue: 100,
 							fieldLabel: polyglot.t('opacity'),
-							name: 'featureLayerOpacity'
+							name: 'featureLayerOpacity',
+							width: 300
 						}]
 
 					}, {
