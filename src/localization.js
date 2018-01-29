@@ -40,6 +40,7 @@ var langEn = {
     attributeUnitOriginal: "Attribute unit - original",
     availableLayers: "Available layers",
     average: "Average",
+	average4allPeriods: "Average for all periods",
 
     back: "Back",
     backgroundLayers: "Background layers",
@@ -349,6 +350,8 @@ var langEn = {
 
     warning: "Warning",
     wasReset: " was reset",
+	withMaxValue: "With maximal value",
+	withMinValue: "With minimal value",
     wmsAddress: "WMS address",
     wmsAddressIsMissing: "WMS address is missing or incorrect",
     wmsLayer: "WMS layer",
@@ -402,6 +405,7 @@ var langCz = {
     attributeUnitOriginal: "Jednotka atributu - původní",
     availableLayers: "Dostupné vrstvy",
     average: "Průměr",
+	average4allPeriods: "Průměr pro všechna časová období",
 
     back: "Zpět",
     backgroundLayers: "Podkladové vrstvy",
@@ -711,6 +715,8 @@ var langCz = {
 
     warning: "Varování",
     wasReset: " byl vyčistěn",
+	withMaxValue: "S maximální hodnotou",
+	withMinValue: "S minimální hodnotou",
     wmsAddress: "WMS adresa",
     wmsAddressIsMissing: "WMS adresa chybí nebo je chybná",
     wmsLayer: "WMS vrstva",

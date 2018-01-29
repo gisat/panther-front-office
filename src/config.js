@@ -59,38 +59,38 @@ var Config = {
 		showDataviewsOverlay: true,
 		dataviewsOverlayHasIntro: true,
 
-		// intro: {
-		// 	title: "Panther Data Exploration",
-		// 	text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mollis sodales lorem, nec hendrerit mi tincidunt pellentesque. Quisque facilisis ipsum id elit hendrerit, vitae elementum tortor elementum. Proin in pretium tellus, sit amet pretium nisi. Curabitur eget egestas mauris.",
-		// 	logo: {
-		// 		/**
-		// 		 * location of image in src/__new/img/
-		// 		 */
-		// 		source: "panther/panther_logo.png",
-		// 		/**
-		// 		 * possible values: circle, wide_rectangle (if other or empty value, default rectangle shape will be used
-		// 		 */
-		// 		type: "circle"
-		// 	}
-		// },
-
 		intro: {
-			title: "ESA Urban TEP",
-			text: "<p>The main goal of the Urban Thematic Exploitation Platform (TEP) is the implementation of an instrument that helps addressing key research questions and societal challenges arising from the phenomenon of global urbanization. </p>" +
-			"<p>Therefore, the Urban TEP represents a web-based platform that allows users to effectively utilize Earth Observation (EO) imagery and existing auxiliary data (e.g., geo-data, statistics) to measure and assess key properties of the urban environment and monitor the past and future spatiotemporal development of settlements. </p>" +
-			"<p>Key elements of the Urban TEP are the provision of easy and high performance access to EO data streams and archived data, multi-mission and multi-source data management and processing infrastructures, modular pre-processing and analysis procedures (value-adding processors), user-oriented functionalities for product and service development, validation and standardization as well as exchange and distribution of ideas, methods and thematic layers.</p>" +
-			"<p>To maximize the relevance and societal benefit of the Urban TEP, the initiative includes a comprehensive concept for active expert knowledge and user community integration. Hence, the Urban TEP core consortium – consisting of 5 partners - is supported by a network 6 key user communities including the group of scientists conducting the Group on Earth Observation (GEO - Task SB-04 Global Urban Observation and Information), the World Bank Group, the European Environment Agency (EEA), DG Regio of the European Commission, the International Society of City and Regional Planners (ISOCARP) and the City of Prague. In addition, 7 associated consultancy partners will bring in their expertise and competences in key sectors relevant for the Urban TEP development, implementation and sustainability.</p>",
+			title: "Panther Data Exploration",
+			text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus mollis sodales lorem, nec hendrerit mi tincidunt pellentesque. Quisque facilisis ipsum id elit hendrerit, vitae elementum tortor elementum. Proin in pretium tellus, sit amet pretium nisi. Curabitur eget egestas mauris.",
 			logo: {
 				/**
 				 * location of image in src/__new/img/
 				 */
-				source: "urban_tep/urban_tep_logo.png",
+				source: "panther/panther_logo.png",
 				/**
 				 * possible values: circle, wide_rectangle (if other or empty value, default rectangle shape will be used
 				 */
 				type: "circle"
 			}
 		},
+
+		// intro: {
+		// 	title: "ESA Urban TEP",
+		// 	text: "<p>The main goal of the Urban Thematic Exploitation Platform (TEP) is the implementation of an instrument that helps addressing key research questions and societal challenges arising from the phenomenon of global urbanization. </p>" +
+		// 	"<p>Therefore, the Urban TEP represents a web-based platform that allows users to effectively utilize Earth Observation (EO) imagery and existing auxiliary data (e.g., geo-data, statistics) to measure and assess key properties of the urban environment and monitor the past and future spatiotemporal development of settlements. </p>" +
+		// 	"<p>Key elements of the Urban TEP are the provision of easy and high performance access to EO data streams and archived data, multi-mission and multi-source data management and processing infrastructures, modular pre-processing and analysis procedures (value-adding processors), user-oriented functionalities for product and service development, validation and standardization as well as exchange and distribution of ideas, methods and thematic layers.</p>" +
+		// 	"<p>To maximize the relevance and societal benefit of the Urban TEP, the initiative includes a comprehensive concept for active expert knowledge and user community integration. Hence, the Urban TEP core consortium – consisting of 5 partners - is supported by a network 6 key user communities including the group of scientists conducting the Group on Earth Observation (GEO - Task SB-04 Global Urban Observation and Information), the World Bank Group, the European Environment Agency (EEA), DG Regio of the European Commission, the International Society of City and Regional Planners (ISOCARP) and the City of Prague. In addition, 7 associated consultancy partners will bring in their expertise and competences in key sectors relevant for the Urban TEP development, implementation and sustainability.</p>",
+		// 	logo: {
+		// 		/**
+		// 		 * location of image in src/__new/img/
+		// 		 */
+		// 		source: "urban_tep/urban_tep_logo.png",
+		// 		/**
+		// 		 * possible values: circle, wide_rectangle (if other or empty value, default rectangle shape will be used
+		// 		 */
+		// 		type: "circle"
+		// 	}
+		// },
 
 		"http://dromas.gisat.cz": {
 			classes: ['dromas'],

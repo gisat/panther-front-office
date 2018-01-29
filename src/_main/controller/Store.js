@@ -502,8 +502,17 @@ Ext.define('PumaMain.controller.Store', {
 				name: polyglot.t('allPeriods'),
 				type: 'all'
 			}, {
+				name: polyglot.t('average4allPeriods'),
+				type: 'average'
+			}, {
 				name: polyglot.t('latest'),
 				type: 'latest'
+			}, {
+				name: polyglot.t('withMinValue'),
+				type: 'min'
+			}, {
+				name: polyglot.t('withMaxValue'),
+				type: 'max'
 			}]
 		});
 		Ext.create('Ext.data.Store', {
