@@ -418,6 +418,9 @@
 	font-size: 1rem;
 	font-weight: 500;
 }
+.newDesign .attribute-configuration .x-panel-body {
+	overflow-y: auto;
+}
 
 /* === Charts ========================================= */
 .newDesign #app-reports-paging {
