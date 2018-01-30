@@ -109,7 +109,7 @@ Ext.define('PumaMain.view.ConfigForm', {
 					fieldLabel: polyglot.t('periods'),
 					valueField: 'type',
 					value: 'all',
-					width: 350,
+					width: 500,
 					name: 'periodsSettings',
 					itemId: 'periodsSettings',
 					hidden: true
