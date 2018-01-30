@@ -513,6 +513,12 @@ Ext.define('PumaMain.controller.Store', {
 			}, {
 				name: polyglot.t('withMaxValue'),
 				type: 'max'
+			}, {
+				name: polyglot.t('withMinMaxValue'),
+				type: 'minMax'
+			}, {
+				name: polyglot.t('withMinAverageMaxValue'),
+				type: 'minAverageMax'
 			}]
 		});
 		Ext.create('Ext.data.Store', {
