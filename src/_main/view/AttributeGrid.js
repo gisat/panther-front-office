@@ -96,7 +96,7 @@ Ext.define('PumaMain.view.AttributeGrid', {
 			hidden: this.formType != 'layers',
 			resizable: false,
 			menuDisabled: true,
-			text: polyglot.t('Classification'),
+			text: polyglot.t('classification'),
 			renderer: function (value, metadata, record) {
 				value = value || 'quantiles';
 				var store = Ext.StoreMgr.lookup('classificationtype');
