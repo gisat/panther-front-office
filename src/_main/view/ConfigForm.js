@@ -119,7 +119,7 @@ Ext.define('PumaMain.view.ConfigForm', {
 					fieldLabel: polyglot.t('stacking'),
 					valueField: 'type',
 					value: 'none',
-					width: 350,
+					width: 500,
 					name: 'stacking',
 					itemId: 'stacking'
 				}, {
@@ -128,7 +128,7 @@ Ext.define('PumaMain.view.ConfigForm', {
 					fieldLabel: polyglot.t('aggregate'),
 					valueField: 'type',
 					value: 'none',
-					width: 350,
+					width: 500,
 					name: 'aggregate',
 					itemId: 'aggregate'
 				}]

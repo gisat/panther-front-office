@@ -542,7 +542,7 @@ Ext.define('PumaMain.controller.Store', {
 					name: polyglot.t('all'),
 					type: 'topall'
 				}, {
-					name: polyglot.t('select'),
+					name: polyglot.t('selectedAreaForChart'),
 					type: 'select'
 				}]
 		})
