@@ -10,6 +10,7 @@ Ext.define('PumaMain.view.AddAttributeTree', {
 	title: polyglot.t("selectAttributesToAdd"),
     requires: ['Ext.ux.CheckColumn','Ext.ux.grid.filter.StringFilter'],
     initComponent: function() {
+    	this.id = 'attributeSelectionTree';
 		this.hideHeaders = true;
         this.store = Ext.StoreMgr.lookup('attributes2choose'); // store se jmenuje stejne, ale je predelan na treestore
         this.columns = [{

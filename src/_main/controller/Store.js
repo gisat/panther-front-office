@@ -373,6 +373,7 @@ Ext.define('PumaMain.controller.Store', {
 			storeId: 'attributes2choose',
 			// JJJ TODO mozna i prejmenovat ten model
 			model: 'Puma.model.MappedChartAttribute',
+			model: 'Puma.model.MappedChartAttribute',
 			root: {
 				expanded: true
 			}

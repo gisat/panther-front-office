@@ -265,6 +265,20 @@ Ext.define('PumaMain.controller.AttributeConfig', {
     
 	// triggered when AddAttributeTree opened
     onAddAttribute: function(btn) {
+		var form = btn.up('configform');
+		var values = form.getForm().getValues();
+		var type = values.type;
+
+		Ext.StoreMgr.lookup('attributes2choose').getRootNode().cascadeBy(function(node){
+			node.collapseChildren();
+			if (node.data.attrType === "text"){
+				if (type !== "grid"){
+					node.data.cls = "nonnumeric-attribute";
+				} else {
+					node.data.cls = "";
+				}
+			}
+		});
         this.setActiveCard(btn,1);
     },
 

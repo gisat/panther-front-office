@@ -1385,7 +1385,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 	    var attributesWithData = null;
 	    if (allAttributes){
 			attributesWithData = Ext.Array.filter(allAttributes.attributes, function(rec){
-				return rec.distribution[0] > 0 || (rec.min === rec.max);
+				return rec.type === "text" || rec.distribution[0] > 0 || (rec.min === rec.max);
 			});
         } else {
 	        console.log("LocationTheme#rebuildAttributesTree: No attributes!");
@@ -1427,15 +1427,16 @@ Ext.define('PumaMain.controller.LocationTheme', {
 						var attrSetNode = topicNode.lastChild;
 
 						attrStore.data.each(function(attribute){ // iterate attributes (objects)
-							if( Ext.Array.contains(attrSetAttributes, attribute.get('_id')) && attribute.data.type === "numeric"){
+							if( Ext.Array.contains(attrSetAttributes, attribute.get('_id')) && (attribute.data.type === "numeric" || attribute.data.type === "text")){
 							    var attrs = Ext.Array.filter(attributesWithData, function(rec){
-                                    return (rec.attribute === attribute.get('_id') && rec.attributeSet === attrSet.get('_id'));
+                                    return (Number(rec.attribute) === attribute.get('_id') && Number(rec.attributeSet) === attrSet.get('_id'));
                                 });
                                 if (attrs.length > 0){
 									attrSetNode.appendChild(Ext.create('Puma.model.MappedChartAttribute',{
-										attr: attribute.get('_id'),
-										as: attrSet.get('_id'),
+										attr: Number(attribute.get('_id')),
+										as: Number(attrSet.get('_id')),
 										topic: topics[topic],
+                                        type: attribute.get('type'),
 										leaf: true,
 										checked: false
 									}));
@@ -1472,7 +1473,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 				if(attrSet.get('topic') === topics[topic]){
 					var attrSetAttributes = attrSet.get('attributes');
 					attrStore.data.each(function(attribute){ // iterate attributes (objects)
-						if( Ext.Array.contains(attrSetAttributes, attribute.get('_id')) && attribute.data.type === "numeric"){
+						if( Ext.Array.contains(attrSetAttributes, attribute.get('_id')) && (attribute.data.type === "numeric" || attribute.data.type === "text")){
 							var attr = attribute.data;
 							attr.attributeSet = attrSet.internalId;
 							attr.attribute = attribute.data._id;

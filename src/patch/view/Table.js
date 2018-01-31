@@ -2,7 +2,10 @@ Ext.define('Puma.patch.view.Table', {
     override: 'Ext.view.Table',
     refreshSize: function() {
         if (!this.dontRefreshSize) {
-            this.callParent();
+            var self = this;
+            setTimeout(function(){
+				self.callParent();
+            },100);
         }
     }
 

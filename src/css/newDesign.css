@@ -397,6 +397,10 @@
 .newDesign .x-window .attribute-container .x-panel-body-default {
 	margin-top: 5px;
 }
+
+.newDesign .nonnumeric-attribute {
+	display: none;
+}
 /*.newDesign .attribute-container .x-column-header {*/
 	/*border: 0;*/
 	/*background: rgba(65,69,81,1);*/
