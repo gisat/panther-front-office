@@ -1262,6 +1262,8 @@ Ext.define('PumaMain.controller.Chart', {
             column.menuDisabled = true;
             column.resizable = false;
             column.sortable = cmp.disableSort!==true;
+			column.text = column.text + " (" + column.yearName + ")";
+			column.width = 130;
             if (column.dataIndex=='name') {
                 if (data.columns.length>5) {
                     column.locked = true;
@@ -1277,12 +1279,14 @@ Ext.define('PumaMain.controller.Chart', {
                 var attrConf = [{
                     name: column.fullName,
                     val: val,
-                    units: column.units
-                }]
-                var html = me.getTooltipHtml(rec.get('name'),column.yearName,attrConf)
+                    units: column.units,
+                    text: column.text + "a"
+                }];
+                var html = me.getTooltipHtml(rec.get('name'),column.yearName,attrConf);
                 metadata.tdAttr = 'data-qtip="' + html + '"';
                 return me.formatVal(val);
-            }
+            };
+
         }
         data.columns[0].text = polyglot.t(data.columns[0].dataIndex);
         var grid = Ext.widget('grid', {
