@@ -269,7 +269,10 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 		var values = form.getForm().getValues();
 		var type = values.type;
 
-		Ext.StoreMgr.lookup('attributes2choose').getRootNode().cascadeBy(function(node){
+		var rootNode = Ext.StoreMgr.lookup('attributes2choose').getRootNode();
+
+		// hide non-numeric attributes for every type, but table
+		rootNode.cascadeBy(function(node){
 			node.collapseChildren();
 			if (node.data.attrType === "text"){
 				if (type !== "grid"){
@@ -279,6 +282,28 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 				}
 			}
 		});
+
+		// hide empty attribute sets
+		rootNode.cascadeBy(function(node){
+			var data = node.data;
+
+			// detect attribute set nodes
+			if (data.as > 0 && data.attr.length === 0){
+				var hasVisibleAttribute = false;
+				node.childNodes.forEach(function(childNode){
+					if (childNode.data.cls !== "nonnumeric-attribute"){
+						hasVisibleAttribute = true;
+					}
+				});
+
+				// if there is no visible attribute in attr set, then hide attribute set
+				node.data.cls = "";
+				if (!hasVisibleAttribute){
+					node.data.cls = "nonnumeric-attribute"
+				}
+			}
+		});
+
         this.setActiveCard(btn,1);
     },
 
