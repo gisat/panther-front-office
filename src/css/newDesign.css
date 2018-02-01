@@ -13,6 +13,8 @@
 		* Checkbox.......................checkbox adjustments
 		* Grids..........................Ext grids
 			* Attribute container........declarations for table with attributes (chart or choropleth creation)
+			* Attribute configuration
+			* Advanced chart configuration
 		* Charts.........................declarations for panel with charts
 			* Common panel parts
 			* Sidebar charts
@@ -162,6 +164,13 @@
 	font-size: .75rem;
 	font-weight: 400;
 	text-transform: uppercase;
+}
+.newDesign .configform label.form-section-title {
+	width: 100%;
+	color: rgb(65,69,81);
+	padding: 20px 0 10px;
+	font-size: 1rem;
+	text-transform: none;
 }
 .newDesign.x-border-box .configform .x-form-trigger {
 	background: rgba(233,235,237,1);
@@ -395,6 +404,7 @@
 }
 .newDesign .x-window .attribute-container .x-panel-body-default {
 	margin-top: 5px;
+	margin-bottom: 5px;
 }
 
 .newDesign .nonnumeric-attribute {
@@ -423,6 +433,29 @@
 }
 .newDesign .attribute-configuration .x-panel-body {
 	overflow-y: auto;
+}
+
+/* Advanced chart configuration */
+.newDesign .thematic-maps-settings .x-fieldset {
+	border: 1px solid rgba(204,207,211,1);
+}
+.newDesign .thematic-maps-settings .x-fieldset-header .x-tool {
+	display: none;
+}
+.newDesign .thematic-maps-settings .x-fieldset-header-text {
+	color: rgb(106,110,120);
+	font-size: .9rem;
+	line-height: 1.5;
+	margin-right: .5rem;
+}
+.newDesign .thematic-maps-settings .x-fieldset-header-text:before {
+	content: "\f0d8";
+	font-size: 1rem;
+	font-family: "FontAwesome";
+	margin: 0 .5rem;
+}
+.newDesign .thematic-maps-settings .x-fieldset-collapsed .x-fieldset-header-text:before {
+	content: "\f0d7";
 }
 
 /* === Charts ========================================= */
@@ -1158,13 +1191,6 @@
 	color: #555;
 	font-family: "Open Sans", sans-serif;
 	font-size: 12px;
-}
-
-.newDesign .form-section-title {
-	width: 100%;
-	padding: 20px 0 10px;
-	font-weight: 700;
-	color: #555;
 }
 
 /* Tabs ================= */
