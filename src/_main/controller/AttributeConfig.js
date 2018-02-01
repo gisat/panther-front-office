@@ -221,14 +221,14 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         var fls = Ext.StoreMgr.lookup('layertemplate').queryBy(function(rec) {
             return Ext.Array.contains(levels,rec.get('_id'));
         }).getRange();
-        var title = 'Chart configuration';
+        var title = polyglot.t("chartConfiguration");
         switch (cmp.xtype=='tool' ? 'tool' : cmp.itemId) {
             case 'configurelayers':
                 title = polyglot.t('thematicMapsConfiguration'); break;
             case 'configurefilters':
                 title = polyglot.t('filtersConfiguration'); break;
             case 'tool':
-                title += ' - '+cfg.title
+                // title += ' - '+cfg.title
             
         }
         var window = Ext.widget('window',{
