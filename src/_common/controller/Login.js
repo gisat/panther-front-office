@@ -37,7 +37,10 @@ Ext.define('Puma.controller.Login', {
         }
         Ext.ComponentQuery.query('#password',window)[0].setValue('');
         window.show();
-        
+
+        setTimeout(function(){
+			$(".login-username input").focus();
+        },50)
     },
 
     onLoginSubmit: function(btn) {

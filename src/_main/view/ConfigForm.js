@@ -15,6 +15,7 @@ Ext.define('PumaMain.view.ConfigForm', {
 			xtype: 'textfield',
 			name: 'title',
 			marginLeft: 5,
+			width: 300,
 			hidden: this.formType != 'chart',
 			fieldLabel: polyglot.t('name')
 		}, {
@@ -24,6 +25,7 @@ Ext.define('PumaMain.view.ConfigForm', {
 			store: Ext.StoreMgr.lookup('charttype4chart'),
 			fieldLabel: polyglot.t('type'),
 			valueField: 'type',
+			width: 300,
 			name: 'type',
 			itemId: 'type'
 		},
@@ -36,10 +38,12 @@ Ext.define('PumaMain.view.ConfigForm', {
 			}, {
 				xtype: 'container',
 				hidden: this.formType == 'chart',
-				height: 500,
+				height: 350,
 				itemId: 'attributecontainer',
+				marginBottom: 30,
 				helpId: 'test',
 				layout: 'card',
+				cls: 'attribute-container',
 				items: [
 					{
 						xtype: 'attributegrid',
@@ -49,6 +53,7 @@ Ext.define('PumaMain.view.ConfigForm', {
 						xtype: 'addattributetree'
 					}, {
 						xtype: 'normalizeform',
+						cls: 'attribute-configuration',
 						formType: this.formType
 					}, {
 						xtype: 'form',
@@ -61,14 +66,16 @@ Ext.define('PumaMain.view.ConfigForm', {
 							store: Ext.StoreMgr.lookup('layers4outline'),
 							valueField: 'atWithSymbology',
 							fieldLabel: polyglot.t('layer'),
-							name: 'featureLayer'
+							name: 'featureLayer',
+							width: 300
 						}, {
 							xtype: 'numberfield',
 							minValue: 0,
 							value: 70,
 							maxValue: 100,
 							fieldLabel: polyglot.t('opacity'),
-							name: 'featureLayerOpacity'
+							name: 'featureLayerOpacity',
+							width: 300
 						}]
 
 					}, {
@@ -80,7 +87,7 @@ Ext.define('PumaMain.view.ConfigForm', {
 				name: 'constrainFl',
 				values: [0, this.featureLayers.length - 1],
 				hidden: true,
-				width: 672,
+				width: 500,
 				useTips: {
 					getText: function (thumb) {
 						return thumb.slider.up('form').featureLayers[thumb.value].get('name')
@@ -98,10 +105,21 @@ Ext.define('PumaMain.view.ConfigForm', {
 				title: polyglot.t('advanced'),
 				items: [{
 					xtype: 'pumacombo',
+					store: Ext.StoreMgr.lookup('periods4chart'),
+					fieldLabel: polyglot.t('periods'),
+					valueField: 'type',
+					value: 'all',
+					width: 500,
+					name: 'periodsSettings',
+					itemId: 'periodsSettings',
+					hidden: true
+				},{
+					xtype: 'pumacombo',
 					store: Ext.StoreMgr.lookup('stacking4chart'),
 					fieldLabel: polyglot.t('stacking'),
 					valueField: 'type',
 					value: 'none',
+					width: 500,
 					name: 'stacking',
 					itemId: 'stacking'
 				}, {
@@ -109,6 +127,8 @@ Ext.define('PumaMain.view.ConfigForm', {
 					store: Ext.StoreMgr.lookup('aggregate4chart'),
 					fieldLabel: polyglot.t('aggregate'),
 					valueField: 'type',
+					value: 'none',
+					width: 500,
 					name: 'aggregate',
 					itemId: 'aggregate'
 				}]

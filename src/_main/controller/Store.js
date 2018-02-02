@@ -494,7 +494,33 @@ Ext.define('PumaMain.controller.Store', {
 				name: polyglot.t('double'),
 				type: 'double'
 			}]
-		})
+		});
+		Ext.create('Ext.data.Store', {
+			storeId: 'periods4chart',
+			fields: ['name', 'type'],
+			data: [{
+				name: polyglot.t('allPeriods'),
+				type: 'all'
+			}, {
+				name: polyglot.t('average4allPeriods'),
+				type: 'average'
+			}, {
+				name: polyglot.t('latest'),
+				type: 'latest'
+			}, {
+				name: polyglot.t('withMinValue'),
+				type: 'min'
+			}, {
+				name: polyglot.t('withMaxValue'),
+				type: 'max'
+			}, {
+				name: polyglot.t('withMinMaxValue'),
+				type: 'minMax'
+			}, {
+				name: polyglot.t('withMinAverageMaxValue'),
+				type: 'minAverageMax'
+			}]
+		});
 		Ext.create('Ext.data.Store', {
 			storeId: 'aggregate4chart',
 			fields: ['name', 'type'],
@@ -513,10 +539,10 @@ Ext.define('PumaMain.controller.Store', {
 					name: polyglot.t('average'),
 					type: 'avg'
 				}, {
-					name: polyglot.t('all'),
-					type: 'topall'
-				}, {
-					name: polyglot.t('select'),
+				// 	name: polyglot.t('all'),
+				// 	type: 'topall'
+				// }, {
+					name: polyglot.t('selectedAreaForChart'),
 					type: 'select'
 				}]
 		})

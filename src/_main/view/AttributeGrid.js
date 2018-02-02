@@ -19,19 +19,19 @@ Ext.define('PumaMain.view.AttributeGrid', {
 			dataIndex: 'checked'
 		}, {
 			dataIndex: 'attrName',
-			flex: 3,
+			flex: 2,
 			resizable: false,
 			menuDisabled: true,
 			text: polyglot.t("attribute")
 		}, {
 			dataIndex: 'asName',
-			flex: 3,
+			flex: 2,
 			resizable: false,
 			menuDisabled: true,
 			text: polyglot.t("attributeSet")
 		}, {
 			dataIndex: 'asName',
-			flex: 3,
+			flex: 2,
 			resizable: false,
 			menuDisabled: true,
 			text: polyglot.t('normalizationBase'),
@@ -96,7 +96,7 @@ Ext.define('PumaMain.view.AttributeGrid', {
 			hidden: this.formType != 'layers',
 			resizable: false,
 			menuDisabled: true,
-			text: polyglot.t('Classification'),
+			text: polyglot.t('classification'),
 			renderer: function (value, metadata, record) {
 				value = value || 'quantiles';
 				var store = Ext.StoreMgr.lookup('classificationtype');

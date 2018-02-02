@@ -328,6 +328,8 @@ define(['../../../actions/Actions',
 			Stores.retrieve('dataview').load().then(this.redraw.bind(this));
 		} else if (type === Actions.dataviewShow){
 			this._widgetSelector.find(".widget-minimise").trigger("click");
+		} else if (type === Actions.sharingViewShared){
+			this.rebuild();
 		}
 	};
 

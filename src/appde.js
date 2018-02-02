@@ -41,7 +41,6 @@ Ext.application({
             $('#header .menu #downloads-link').hide();
             $('#header .menu #help-link').hide();
             $('.user .sep').hide();
-			$('.user .signup').hide();
 		}
 
 		if(Config.toggles.hideWorldBank) {

@@ -234,14 +234,14 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         var window = Ext.widget('window',{
 			layout: 'fit',
 			cls: 'thematic-maps-settings',
-            width: 710,
-            height: 724,
+            width: 800,
+            height: 600,
             
             title: title,
             items: [{
                 xtype: 'configform',
                 featureLayers: fls,
-                padding: 5,
+                padding: 0,
                 cls: 'configform',
                 chart: chart,
                 formType: formType,
@@ -283,12 +283,14 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 			});
 			checkNode.parentNode.set('checked', parentChecked);
 			
-		}else if(checkNode.get('as')){
+		} else if(checkNode.get('as')){
 			// check/uncheck all attributes of this attribute set
 			Ext.Array.each(checkNode.childNodes, function(node){
 				node.set('checked', checked);
 			});
-			if( checked ) checkNode.expand();
+			if( checked ){
+				checkNode.expand();
+			}
 		}
 		
 	},
@@ -297,6 +299,11 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 		if(node.get('attr') && e.target.className != 'x-tree-checkbox'){
 			node.set('checked', !node.get('checked'));
 			this.onAddAttrCheck(node);
+		}
+
+		if (node.get('as') && !node.get('attr')){
+			node.set('checked', !node.get('checked'));
+			this.onAddAttrCheck(node, node.get('checked'));
 		}
 	},
 	
@@ -712,7 +719,9 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 	onChartTypeChange: function(combo,val) {
         var configForm = combo.up('configform');
         var advanced = Ext.ComponentQuery.query('#advancedfieldset',configForm)[0];
+		var periodsSettings = Ext.ComponentQuery.query('#periodsSettings',configForm)[0];
         var cardContainer = Ext.ComponentQuery.query('#attributecontainer',configForm)[0];
+		var periods = Ext.ComponentQuery.query('#selyear')[0].getValue();
         cardContainer.show();
         if (val!='extentoutline') {
             cardContainer.getLayout().setActiveItem(0);
@@ -722,10 +731,14 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         }
         if (val=='columnchart') {
             advanced.show();
-        }
-        else {
+        } else {
             advanced.hide();
         }
+		if (val=='columnchart' && periods.length > 1 ) {
+			periodsSettings.show();
+		} else {
+			periodsSettings.hide();
+		}
     },
 
 	/**
