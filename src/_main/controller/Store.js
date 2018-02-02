@@ -373,7 +373,6 @@ Ext.define('PumaMain.controller.Store', {
 			storeId: 'attributes2choose',
 			// JJJ TODO mozna i prejmenovat ten model
 			model: 'Puma.model.MappedChartAttribute',
-			model: 'Puma.model.MappedChartAttribute',
 			root: {
 				expanded: true
 			}
@@ -540,9 +539,9 @@ Ext.define('PumaMain.controller.Store', {
 					name: polyglot.t('average'),
 					type: 'avg'
 				}, {
-					name: polyglot.t('all'),
-					type: 'topall'
-				}, {
+				// 	name: polyglot.t('all'),
+				// 	type: 'topall'
+				// }, {
 					name: polyglot.t('selectedAreaForChart'),
 					type: 'select'
 				}]

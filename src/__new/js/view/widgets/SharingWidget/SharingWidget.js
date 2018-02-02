@@ -52,62 +52,23 @@ define([
 	SharingWidget.prototype.rebuild = function(){
 		this.handleLoading("show");
 
-		var name = $('#floater-sharing .floater-body #sharing-name').val() || '';
 		$('#floater-sharing .floater-body').empty();
-		$('#floater-sharing .floater-footer').empty();
-
 
         var self = this;
-        if(Config.toggles.isUrbanTep) {
-        	UrbanTepPortalStore.communities().then(function(communities){
-				var optionsHtml = communities.map(function(community){
-					return '<option value="'+community.identifier+'">'+community.title+'</option>';
-				}).join(' ');
-				$('#floater-sharing .floater-body').append(
-					'<div>' +
-					'	<div><label>'+polyglot.t('name')+': <input id="sharing-name" type="text" value="'+name+'"/></label></div>' +
-					'	<div><label>'+polyglot.t('community')+': ' +
-					'		<select id="sharing-community">' + optionsHtml +
-					'		</select>' +
-					'	</label></div>' +
-					'</div>'
-				);
-				$('#floater-sharing .floater-footer').append('<div class="widget-button w8" id="sharing-portal">'+polyglot.t('shareOnPortal')+'</div>');
+		Promise.all([
+			Groups.all(),
+			Users.all()
+		]).then(function(results){
+			var groups = results[0];
+			var users = results[1];
 
-				$('#sharing-portal').off();
-				$('#sharing-portal').on('click', function(){
-                    var state = Stores.retrieve("state").current();
-                    var selectedGroup = $( "#floater-sharing .floater-body #sharing-group option:checked" ).val(); // Find from groups by name.
-
-					Groups.all().then(function(groups){
-						var groupId = groups.filter(function(group){
-							return group.name == selectedGroup;
-						})[0].id;
-                        return Groups.share(groupId, state.scope, state.places)
-					}).then(function(){
-                        alert(polyglot.t('theStateWasCorrectlyShared') + self.url);
-                    }).catch(function(error){
-                        alert(polyglot.t('thereWasAnIssueWithSharing') + error);
-                    });
-				});
-			});
-		} else {
-			Promise.all([
-				Groups.all(),
-				Users.all()
-			]).then(function(results){
-                var groups = results[0];
-				var users = results[1];
-
-                self.addWidgetContent(groups, users);
-				self.handleLoading("hide");
-			}).catch(function(error){
-				console.error(error);
-				alert(polyglot.t('itWasntPossibleToLoadGroupsUsers') + error);
-				self.handleLoading("hide");
-			});
-
-		}
+			self.addWidgetContent(groups, users);
+			self.handleLoading("hide");
+		}).catch(function(error){
+			console.error(error);
+			alert(polyglot.t('itWasntPossibleToLoadGroupsUsers') + error);
+			self.handleLoading("hide");
+		});
 	};
 
 	/**
