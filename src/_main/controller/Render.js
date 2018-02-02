@@ -381,10 +381,10 @@ Ext.define('PumaMain.controller.Render', {
                 //text: 'Only selected',
                 enableToggle: true,
                 tooltip: polyglot.t('onlySelected'),
-                icon: 'images/icons/switchsel.gif'
+                cls: "paging-only-selected"
             }],
             store: Ext.StoreMgr.lookup('paging')
-        })
+        });
         Ext.ComponentQuery.query('#screenshotpanel')[0].collapse();
         Ext.ComponentQuery.query('#areapager #useselectedcolorpicker')[0].select(['ff4c39', '34ea81', '39b0ff', 'ffde58', '5c6d7e', 'd97dff']);
 
