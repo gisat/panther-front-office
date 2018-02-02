@@ -342,6 +342,8 @@
 }
 .paging-toolbar .x-tbar-page-prev:before {
 	content: '\f04b';
+	transform: rotate(180deg);
+	display: block;
 }
 .paging-toolbar .x-tbar-page-next:before {
 	content: '\f04b';
