@@ -766,7 +766,8 @@ body.mode-3d #top-toolbar-3dmap:not(.world-wind-2d) {
 }
 
 #top-toolbar .item#top-toolbar-snapshot::before {
-	background: url('../images/icons/snapshot.png') center center no-repeat;
+	content: '\f030';
+	font-size: 16px;
 }
 #top-toolbar .item#top-toolbar-share-view::before {
 	content: '\f1e0';

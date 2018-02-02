@@ -5,7 +5,7 @@ Ext.define('Puma.patch.view.Table', {
             var self = this;
             setTimeout(function(){
 				self.callParent();
-            },100);
+            },10);
         }
     }
 

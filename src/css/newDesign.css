@@ -18,6 +18,9 @@
 		* Charts.........................declarations for panel with charts
 			* Common panel parts
 			* Sidebar charts
+			* Chart panel header
+			* Chart panel header tools
+			* Tables
 
 	* COMMON LAYOUT COMPONENTS
 		* Header.........................declarations of header toolbars
@@ -461,6 +464,7 @@
 /* === Charts ========================================= */
 .newDesign #app-reports-paging {
 	border-bottom: 0;
+	background: #f4f3ef;
 }
 /* Common panel parts */
 .newDesign .x-panel-header {
@@ -474,12 +478,101 @@
 }
 
 /* Sidebar charts */
-.newDesign #app-reports-accordeon .x-panel-header {
-	background: rgba(204,207,211,1) !important;
-	transition: background .3s ease-in-out;
+.newDesign .x-toolbar .x-toolbar-separator {
+	border-left: 1px solid #aaa;
+	border-right: 0;
 }
-.newDesign #app-reports-accordeon .x-panel-header:hover {
-	background: rgba(204,207,211,.8) !important;
+.newDesign .paging-toolbar .x-toolbar-item:hover {
+	background: none;
+}
+.newDesign .chart-panel {
+	border-top: 1px solid rgba(194,197,201,1);
+}
+/* Chart panel header */
+.newDesign .chart-panel .x-panel-header {
+	background: rgba(204,207,211,.7) !important;
+	transition: background .3s ease-in-out;
+	padding: 0 5px 0 0;
+}
+.newDesign .chart-panel .x-panel-header:hover {
+	background: rgba(204,207,211,1) !important;
+}
+.newDesign .chart-panel .x-panel-header-text-container {
+	left: 28px !important;
+}
+.newDesign .chart-panel .x-panel-header-text {
+	font-size: .85rem;
+	font-weight: 600;
+	line-height: 1.3;
+	color: rgba(65,69,81,1);
+}
+
+/* Chart panel header tools */
+.newDesign .chart-panel .x-panel-header .x-tool {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.newDesign .chart-panel .x-panel-header .tool-chart-collapse,
+.newDesign .chart-panel.panel-snapshots .x-panel-header .x-tool {
+	left: 3px !important;
+}
+.newDesign .chart-panel .x-panel-header .tool-icon:before,
+.newDesign .chart-panel.panel-snapshots .x-panel-header .x-tool:before {
+	font-family: "FontAwesome";
+	font-size: 1rem;
+	position: absolute;
+	color: rgba(65,69,81,.8);
+	transition: color .3s ease-in-out;
+}
+.newDesign .chart-panel .x-panel-header .tool-icon:hover:before,
+.newDesign .chart-panel.panel-snapshots .x-panel-header .x-tool:hover:before {
+	color: rgba(186,65,91,1);
+}
+.newDesign .chart-panel .x-panel-header .tool-chart-settings:before {
+	content: "\f1de";
+}
+.newDesign .chart-panel .x-panel-header .tool-chart-help:before {
+	content: "\f022";
+	top: 3px;
+}
+.newDesign .chart-panel .x-panel-header .tool-chart-export-csv:before {
+	content: "\f15c";
+}
+.newDesign .chart-panel .x-panel-header .tool-chart-export-png:before {
+	content: "\f1c5";
+}
+.newDesign .chart-panel .x-panel-header .tool-chart-snapshot:before {
+	content: "\f030";
+}
+.newDesign .chart-panel.x-panel-collapsed .x-panel-header .tool-chart-collapse:before,
+.newDesign .chart-panel.panel-snapshots.x-panel-collapsed .x-panel-header .x-tool:before {
+	content: "\f107";
+}
+.newDesign .chart-panel .x-panel-header .tool-chart-collapse:before,
+.newDesign .chart-panel.panel-snapshots .x-panel-header .x-tool:before {
+	content: "\f106";
+	font-weight: bold;
+}
+.newDesign .chart-panel .x-panel-header .tool-chart-close:before {
+	font-family: "Open Sans";
+	content: "\00d7";
+	font-size: 1.4rem;
+	font-weight: 600;
+	top: -6px;
+}
+.newDesign .chart-panel .x-panel-header .tool-icon .x-tool-gear,
+.newDesign .chart-panel .x-panel-header .tool-icon .x-tool-help,
+.newDesign .chart-panel .x-panel-header .tool-icon .x-tool-collapse,
+.newDesign .chart-panel .x-panel-header .tool-icon .x-tool-print,
+.newDesign .chart-panel .x-panel-header .tool-icon .x-tool-save,
+.newDesign .chart-panel .x-panel-header .tool-icon .x-tool-close,
+.newDesign .chart-panel .x-panel-header .x-tool-collapse-top,
+.newDesign .chart-panel .x-panel-header .x-tool-over .x-tool-collapse-top,
+.newDesign .chart-panel .x-panel-header .x-tool-expand-bottom,
+.newDesign .chart-panel .x-panel-header .x-tool-over .x-tool-expand-bottom {
+	background: transparent !important;
+	position: absolute;
 }
 
 /* Tables */
@@ -501,7 +594,7 @@
 	background: rgba(224,227,231,.8);
 }
 .newDesign .x-column-header-text {
-	font-size: .85rem;
+	font-size: .75rem;
 }
 .newDesign .x-grid-header-ct {
 	border: 1px solid #ddd;
@@ -1094,31 +1187,6 @@
 
 .newDesign #sidebar-tools-toggle {
 	right: -22px;
-}
-
-/* Accordion =============== */
-.newDesign .x-box-inner {
-	background: none;
-}
-
-.newDesign .x-accordion-hd {
-	border-color: white !important;
-}
-
-.newDesign .x-accordion-hd .x-panel-header-text {
-	color: #333;
-}
-
-.newDesign .x-accordion-body {
-	border: 0;
-}
-
-.newDesign .x-accordion-hd .x-tool-over .x-tool-collapse-top {
-	background-position: 50% 50%;
-}
-
-.newDesign .x-accordion-hd .x-tool-over .x-tool-expand-bottom {
-	background-position: 50% 50%;
 }
 
 /* Tables ================ */
