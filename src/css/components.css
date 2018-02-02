@@ -318,9 +318,10 @@
 	transition: color .3s ease-in-out;
 }
 .paging-toolbar .paging-only-selected:before {
+	left: 3px;
 	top: 5px;
 	font-size: .9rem;
-	display: inline-block;
+	position: absolute;
 }
 .paging-toolbar .paging-only-selected em {
 	display: inline-block;

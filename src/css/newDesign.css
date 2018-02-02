@@ -485,6 +485,11 @@
 .newDesign .paging-toolbar .x-toolbar-item:hover {
 	background: none;
 }
+.newDesign .paging-toolbar .x-btn-split-right,
+.newDesign .paging-toolbar .x-btn-over .x-btn-split-right {
+	/*background: none !important;*/
+	width: 30px;
+}
 .newDesign .chart-panel {
 	border-top: 1px solid rgba(194,197,201,1);
 }
