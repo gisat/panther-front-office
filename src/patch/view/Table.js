@@ -8,7 +8,6 @@ Ext.define('Puma.patch.view.Table', {
             },10);
         }
     }
-
-})
+});
 
 

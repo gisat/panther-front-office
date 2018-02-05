@@ -17,6 +17,13 @@ var Config = {
 	// geoServerUrl: "http://panther.gisat.cz/geoserver/panther/wms",
 	// geoServerUrl: 'https://urban-tep.eo.esa.int/puma/geoserver/',
 
+	/**
+	 * Log in to geoserver
+	 */
+	geoServerLoginUrl: "http://10.0.75.2/geoserver/j_spring_security_check",
+	geoServerUser: "admin",
+	geoServerPassword: "geoserve",
+
 	initialBaseMap: "osm",
 	initialMapBounds: [
 		112.4251556396,
