@@ -594,6 +594,9 @@
 .newDesign .chart-panel .x-panel-header .tool-chart-snapshot:before {
 	content: "\f030";
 }
+.newDesign .chart-panel .x-panel-header .tool-chart-search:before {
+	content: "\f00e";
+}
 .newDesign .chart-panel.x-panel-collapsed .x-panel-header .tool-chart-collapse:before,
 .newDesign .chart-panel.panel-snapshots.x-panel-collapsed .x-panel-header .x-tool:before {
 	content: "\f107";
@@ -616,6 +619,7 @@
 .newDesign .chart-panel .x-panel-header .tool-icon .x-tool-print,
 .newDesign .chart-panel .x-panel-header .tool-icon .x-tool-save,
 .newDesign .chart-panel .x-panel-header .tool-icon .x-tool-close,
+.newDesign .chart-panel .x-panel-header .tool-icon .x-tool-search,
 .newDesign .chart-panel .x-panel-header .x-tool-collapse-top,
 .newDesign .chart-panel .x-panel-header .x-tool-over .x-tool-collapse-top,
 .newDesign .chart-panel .x-panel-header .x-tool-expand-bottom,
