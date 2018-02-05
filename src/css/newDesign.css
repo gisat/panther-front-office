@@ -1597,6 +1597,18 @@
 	background-color: #eee;
 }
 
+.newDesign #window-layerpanel-body .x-tree-checkbox {
+	 background-image: url('../images/new/unchecked.png');
+	 background-repeat: no-repeat;
+	 margin-top: 2px;
+	 width: 16px;
+	 height: 16px;
+	 }
+
+.newDesign #window-layerpanel-body .x-tree-checkbox-checked {
+	 background-image: url('../images/new/checked.png');
+}
+
 /* sreenshots */
 .newDesign img.screenshotimg {
 	background: rgb(240, 240, 240);
