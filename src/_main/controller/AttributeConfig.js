@@ -778,6 +778,14 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 		} else {
 			periodsSettings.hide();
 		}
+
+		// For all chart types but tables, remove attribute if it isn't numeric
+		var store = configForm.down('attributegrid').store;
+        store.data.items.forEach(function(record){
+        	if (record.data.attrType !== 'numeric' && val !== "grid"){
+        		store.remove(record);
+			}
+		});
     },
 
 	/**

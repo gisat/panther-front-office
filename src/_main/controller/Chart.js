@@ -1261,7 +1261,8 @@ Ext.define('PumaMain.controller.Chart', {
             var column = data.columns[i];
             column.menuDisabled = true;
             column.resizable = false;
-            column.sortable = cmp.disableSort!==true;
+            // column.sortable = cmp.disableSort!==true;
+			column.sortable=true;
 			column.text = column.text + " (" + column.yearName + ")";
 			column.width = 100;
             if (column.dataIndex=='name') {
