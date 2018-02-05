@@ -221,14 +221,14 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         var fls = Ext.StoreMgr.lookup('layertemplate').queryBy(function(rec) {
             return Ext.Array.contains(levels,rec.get('_id'));
         }).getRange();
-        var title = 'Chart configuration';
+        var title = polyglot.t("chartConfiguration");
         switch (cmp.xtype=='tool' ? 'tool' : cmp.itemId) {
             case 'configurelayers':
                 title = polyglot.t('thematicMapsConfiguration'); break;
             case 'configurefilters':
                 title = polyglot.t('filtersConfiguration'); break;
             case 'tool':
-                title += ' - '+cfg.title
+                // title += ' - '+cfg.title
             
         }
         var window = Ext.widget('window',{
@@ -265,6 +265,45 @@ Ext.define('PumaMain.controller.AttributeConfig', {
     
 	// triggered when AddAttributeTree opened
     onAddAttribute: function(btn) {
+		var form = btn.up('configform');
+		var values = form.getForm().getValues();
+		var type = values.type;
+
+		var rootNode = Ext.StoreMgr.lookup('attributes2choose').getRootNode();
+
+		// hide non-numeric attributes for every type, but table
+		rootNode.cascadeBy(function(node){
+			node.collapseChildren();
+			if (node.data.attrType === "text"){
+				if (type !== "grid"){
+					node.data.cls = "nonnumeric-attribute";
+				} else {
+					node.data.cls = "";
+				}
+			}
+		});
+
+		// hide empty attribute sets
+		rootNode.cascadeBy(function(node){
+			var data = node.data;
+
+			// detect attribute set nodes
+			if (data.as > 0 && data.attr.length === 0){
+				var hasVisibleAttribute = false;
+				node.childNodes.forEach(function(childNode){
+					if (childNode.data.cls !== "nonnumeric-attribute"){
+						hasVisibleAttribute = true;
+					}
+				});
+
+				// if there is no visible attribute in attr set, then hide attribute set
+				node.data.cls = "";
+				if (!hasVisibleAttribute){
+					node.data.cls = "nonnumeric-attribute"
+				}
+			}
+		});
+
         this.setActiveCard(btn,1);
     },
 

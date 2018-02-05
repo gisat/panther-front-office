@@ -11,10 +11,11 @@ Ext.define('PumaMain.view.ChartBar', {
             type: 'accordion',
             multi: true,
             fill: false
-        }
+        };
         this.items = [
             {
                 xtype: 'panel',
+                cls: 'chart-panel panel-snapshots',
                 collapsed: false,
                 layout: 'fit',
                 iconCls: 'cmptype-snapshot',
@@ -40,9 +41,9 @@ Ext.define('PumaMain.view.ChartBar', {
 //                hideCollapseTool: true,
 //                title: 'Add chart'
 //            }
-        ]
+        ];
         this.callParent();
     }
-})
+});
 
 

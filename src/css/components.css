@@ -274,42 +274,19 @@
 .paging-toolbar .x-form-text {
 	font-family: "Open Sans", sans-serif;
 	font-size: 12px;
+	color: rgb(65,69,81);
 }
 
-.paging-toolbar .x-tbar-page-first {
-	background-image: url("../images/icons/paging-first.png") !important;
-}
-
-.paging-toolbar .x-item-disabled .x-tbar-page-first {
-	background-image: url("../images/icons/paging-first-disabled.png") !important;
-}
-
-.paging-toolbar .x-tbar-page-last {
-	background-image: url("../images/icons/paging-last.png") !important;
-}
-
-.paging-toolbar .x-item-disabled .x-tbar-page-last {
-	background-image: url("../images/icons/paging-last-disabled.png") !important;
-}
-
-.paging-toolbar .x-tbar-page-prev {
-	background-image: url("../images/icons/paging-prev.png") !important;
-}
-
-.paging-toolbar .x-item-disabled .x-tbar-page-prev {
-	background-image: url("../images/icons/paging-prev-disabled.png") !important;
-}
-
-.paging-toolbar .x-tbar-page-next {
-	background-image: url("../images/icons/paging-next.png") !important;
-}
-
-.paging-toolbar .x-item-disabled .x-tbar-page-next {
-	background-image: url("../images/icons/paging-next-disabled.png") !important;
-}
-
+.paging-toolbar .x-tbar-page-first,
+.paging-toolbar .x-item-disabled .x-tbar-page-first,
+.paging-toolbar .x-tbar-page-last,
+.paging-toolbar .x-item-disabled .x-tbar-page-last,
+.paging-toolbar .x-tbar-page-prev,
+.paging-toolbar .x-item-disabled .x-tbar-page-prev,
+.paging-toolbar .x-tbar-page-next,
+.paging-toolbar .x-item-disabled .x-tbar-page-next,
 .paging-toolbar .x-tbar-loading {
-	background-image: url("../images/icons/paging-refresh.png") !important;
+	background: transparent !important;
 }
 
 .paging-toolbar .x-btn:hover,
@@ -331,6 +308,60 @@
 	background: -webkit-linear-gradient(center top, #ccc, #ddd);
 	background: linear-gradient(center top, #ccc, #ddd);
 }
+
+.paging-toolbar .x-btn-icon:before,
+.paging-toolbar .paging-only-selected:before {
+	font-family: "FontAwesome";
+	font-size: 1rem;
+	left: 0;
+	color: rgba(65,69,81,.8);
+	transition: color .3s ease-in-out;
+}
+.paging-toolbar .paging-only-selected:before {
+	left: 3px;
+	top: 5px;
+	font-size: .9rem;
+	position: absolute;
+}
+.paging-toolbar .paging-only-selected em {
+	display: inline-block;
+	padding-right: 3px !important;
+}
+.paging-toolbar .paging-only-selected em .x-btn-inner {
+	color: rgba(65,69,81,.8);
+}
+.paging-toolbar .paging-only-selected:hover {
+	background: none;
+}
+.paging-toolbar .x-btn:not(.x-item-disabled) .x-btn-icon:hover:before,
+.paging-toolbar .paging-only-selected:hover:before {
+	color: rgba(186,65,91,1);
+}
+.paging-toolbar .x-tbar-page-first:before {
+	content: '\f048';
+}
+.paging-toolbar .x-tbar-page-prev:before {
+	content: '\f04b';
+	transform: rotate(180deg);
+	display: block;
+}
+.paging-toolbar .x-tbar-page-next:before {
+	content: '\f04b';
+}
+.paging-toolbar .x-tbar-page-last:before {
+	content: '\f051';
+}
+.paging-toolbar .x-tbar-loading:before {
+	content: '\f021';
+	font-size: .9rem;
+	font-weight: bold;
+	left: 1px;
+}
+.paging-toolbar .paging-only-selected:before {
+	content: '\f24d';
+}
+
+
 
 .x-panel-header .x-tool {
 	border: 1px solid transparent;
@@ -399,38 +430,38 @@
 	background-image: url("../images/icons/unselect_all.gif") !important;
 }
 
-.x-panel-header .x-tool-close {
-	background-image: url("../images/icons/close.png") !important;
-}
+/*.x-panel-header .x-tool-close {*/
+	/*background-image: url("../images/icons/close.png") !important;*/
+/*}*/
 
-.x-panel-header .x-tool-help,
-.x-window-header .x-tool-help {
-	background-image: url("../images/icons/legend.png") !important;
-}
+/*.x-panel-header .x-tool-help,*/
+/*.x-window-header .x-tool-help {*/
+	/*background-image: url("../images/icons/legend.png") !important;*/
+/*}*/
 
-.x-panel-header .x-tool-save,
-.x-window-header .x-tool-save {
-	background-image: url("../images/icons/snapshot.png") !important;
-}
+/*.x-panel-header .x-tool-save,*/
+/*.x-window-header .x-tool-save {*/
+	/*background-image: url("../images/icons/snapshot.png") !important;*/
+/*}*/
 
-.x-panel-header .x-tool-print,
-.x-window-header .x-tool-print {
-	background-image: url("../images/icons/save.png") !important;
-}
+/*.x-panel-header .x-tool-print,*/
+/*.x-window-header .x-tool-print {*/
+	/*background-image: url("../images/icons/save.png") !important;*/
+/*}*/
 
-.x-panel-header .x-tool-search,
-.x-window-header .x-tool-search {
-	background-image: url("../images/icons/search.png") !important;
-}
+/*.x-panel-header .x-tool-search,*/
+/*.x-window-header .x-tool-search {*/
+	/*background-image: url("../images/icons/search.png") !important;*/
+/*}*/
 
-.x-panel-header .x-tool-collapse,
-.x-window-header .x-tool-collapse {
-	background-image: url("../images/icons/save-csv.png") !important;
-}
+/*.x-panel-header .x-tool-collapse,*/
+/*.x-window-header .x-tool-collapse {*/
+	/*background-image: url("../images/icons/save-csv.png") !important;*/
+/*}*/
 
-.x-window .x-panel-body-default {
-	border-color: transparent;
-}
+/*.x-window .x-panel-body-default {*/
+	/*border-color: transparent;*/
+/*}*/
 
 .cmptype-grid,
 .cmptype-piechart,
@@ -439,32 +470,33 @@
 .cmptype-addchart,
 .cmptype-columnchart,
 .cmptype-extentoutline {
-	width: 17px;
+	width: 0;
+	display: none;
 }
 
-.cmptype-grid {
-	background-image: url("../images/icons/grid.png");
-}
+/*.cmptype-grid {*/
+	/*background-image: url("../images/icons/grid.png");*/
+/*}*/
 
-.cmptype-piechart {
-	background-image: url("../images/icons/graph.png");
-}
+/*.cmptype-piechart {*/
+	/*background-image: url("../images/icons/graph.png");*/
+/*}*/
 
-.cmptype-scatterchart {
-	background-image: url("../images/icons/graph.png");
-}
+/*.cmptype-scatterchart {*/
+	/*background-image: url("../images/icons/graph.png");*/
+/*}*/
 
-.cmptype-columnchart {
-	background-image: url("../images/icons/graph.png");
-}
+/*.cmptype-columnchart {*/
+	/*background-image: url("../images/icons/graph.png");*/
+/*}*/
 
-.cmptype-snapshot {
-	background-image: url("../images/icons/snapshots.png");
-}
+/*.cmptype-snapshot {*/
+	/*background-image: url("../images/icons/snapshots.png");*/
+/*}*/
 
-.cmptype-extentoutline {
-	background-image: url("../images/icons/graph.png");
-}
+/*.cmptype-extentoutline {*/
+	/*background-image: url("../images/icons/graph.png");*/
+/*}*/
 
 .cmptype-addchart {
 	background-image: url("../images/icons/add.png");
