@@ -22,6 +22,13 @@ define([
 	};
 
 	/**
+	 * Clear store
+	 */
+	BaseStore.prototype.clear = function(){
+		this._models = null;
+	};
+
+	/**
 	 * It returns the promise of all loaded models. It doesn't by default saves the information into the store.
 	 * @param options {Object}
 	 * @param options.params {Object} Parameters, which should be appended to the request.
