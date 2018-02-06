@@ -62,23 +62,19 @@
     /*background: #e5e5e5;*/
 /*}*/
 
+
 .widget-button-export:before {
-    height: 100%;
-    width: 100%;
-    margin-right: 8px;
-    position: relative;
-    top: 3px;
+    font-family: "FontAwesome";
+    font-size: 1rem;
+    margin: 0 .5rem;
 }
 
-#export-shp:before, #export-json:before {
-    content: url('../../../../img/map.png');
+#export-json:before {
+    content: "\f1c9";
 }
-#export-shp[disabled=disabled]:before, #export-json[disabled=disabled]:before {
-    content: url('../../../../img/map-disabled.png');
+#export-csv:before {
+    content: "\f15c";
 }
-#export-csv:before, #export-xls:before {
-    content: url('../../../../img/table.png');
-}
-#export-csv[disabled=disabled]:before, #export-xls[disabled=disabled]:before {
-    content: url('../../../../img/table-disabled.png');
+#export-xls:before {
+    content: "\f1c3";
 }
