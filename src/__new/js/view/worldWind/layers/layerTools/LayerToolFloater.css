@@ -2,8 +2,11 @@
 	background: rgba(255,255,255,.95);
 	display: none;
 	position: absolute;
-	min-height: 100px;
+	min-height: 130px;
+	max-height: 250px;
 	height: auto;
+	min-width: 300px;
+	max-width: 400px;
 	width: 300px;
 	left: auto;
 	bottom: 55px;
