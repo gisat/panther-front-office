@@ -48,11 +48,11 @@
 	top: 0;
 	height: 100%;
 }
-.tool-window-header .settings-close {
+.tool-window-header .window-close {
 	font-size: .95rem;
 	color: rgb(65,69,81);
 }
-.tool-window-header .settings-close:hover {
+.tool-window-header .window-close:hover {
 	cursor: pointer;
 	background: rgb(224,227,231);
 }
