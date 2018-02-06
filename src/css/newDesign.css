@@ -674,7 +674,7 @@
 	padding: 0 1.5rem 0 1rem;
 	z-index: 1;
 }
-.newDesign .geoserver-login #header {
+.newDesign #geoserver-login #header {
 	z-index: 0;
 }
 .newDesign #header .menu {
