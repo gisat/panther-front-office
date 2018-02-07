@@ -135,7 +135,9 @@
 	background: rgba(173,39,56,.2);
 }
 #export-feature-info-csv:before {
-	content: url('../../../../img/table.png');
+	content: "\f1c3";
+	font-family: "FontAwesome";
+	font-size: 1rem;
 }
 
 
