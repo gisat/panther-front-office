@@ -384,18 +384,18 @@
 .newDesign .x-btn.custom-button.x-btn-default-small.x-disabled {
 	pointer-events: none;
 }
-.newDesign .x-btn.custom-button.btn-confirm {
+.newDesign .x-btn.custom-button.x-btn-default-small.btn-confirm {
 	background: rgba(153,54,75,1);
 	border: 1px solid rgba(255, 255, 255, .15);
 	border-radius: .15rem;
 	transition: background .3s ease-out;
 }
-.newDesign .x-btn.custom-button.btn-confirm .x-btn-inner {
+.newDesign .x-btn.custom-button.x-btn-default-small.btn-confirm .x-btn-inner {
 	color: #fff;
 	font-size: .85rem;
 	font-weight: 500;
 }
-.newDesign .x-btn.custom-button.btn-confirm:hover, .x-btn.btn-confirm:focus {
+.newDesign .x-btn.custom-button.x-btn-default-small.btn-confirm:hover, .newDesign .x-btn.custom-button.x-btn-default-small.x-btn.btn-confirm:focus {
 	background: rgba(186,65,91,1);
 }
 .newDesign #app-tools-actions .x-btn {
