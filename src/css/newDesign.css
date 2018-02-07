@@ -232,10 +232,12 @@
 	font-family: "FontAwesome";
 	font-size: 1rem;
 }
-.newDesign.x-border-box .configform  .x-form-arrow-trigger:before {
+.newDesign.x-border-box .configform  .x-form-arrow-trigger:before,
+.newDesign.x-border-box .configform  .x-form-spinner-down:before {
 	content: "\f107";
 }
-.newDesign.x-border-box .configform  .x-pickerfield-open .x-form-arrow-trigger:before {
+.newDesign.x-border-box .configform  .x-pickerfield-open .x-form-arrow-trigger:before,
+.newDesign.x-border-box .configform  .x-form-spinner-up:before {
 	content: "\f106";
 }
 
