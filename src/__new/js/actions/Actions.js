@@ -17,6 +17,8 @@ define([], function(){
 		filterAdd: 'filter#add',
 		filterRemove: 'filter#remove',
 
+		floatersSort: 'floaters#sort',
+
 		periodsRebuild: 'periods#rebuild',
 		periodsChange: 'periods#change',
 

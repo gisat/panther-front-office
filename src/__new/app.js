@@ -41,7 +41,8 @@ requirejs.config({
     }
 });
 
-define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
+define(['js/actions/Actions',
+		'js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 		'js/util/metadata/Attributes',
         'js/util/metadata/AnalyticalUnits',
         'js/view/widgets/CityWidget/CityWidget',
@@ -77,7 +78,8 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         'jquery',
         'jquery-ui',
         'underscore'
-], function (AggregatedChartWidget,
+], function (Actions,
+			 AggregatedChartWidget,
 			 Attributes,
              AnalyticalUnits,
              CityWidget,
@@ -113,6 +115,8 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
              $){
 
     $(document).ready(function() {
+    	window.Stores.addListener(sortFloaters);
+
         var tools = [];
         var widgets = [];
 
@@ -216,6 +220,7 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         var widgetElement = $("#widget-container");
         var floater = $(".floater");
 
+        /* TODO obsolete code? */
         widgetElement.on("click", ".placeholder", function(e){
             if (!(e.which > 1 || e.shiftKey || e.altKey || e.metaKey || e.ctrlKey)) {
                 var placeholderSelector = "#" + $(this).attr("id");
@@ -236,6 +241,9 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
                 }
             }
         });
+        /* TODO end of obsolete code */
+
+
         floater.on("click", ".widget-minimise", function(e){
             var mode3d = $("body").hasClass("mode-3d");
             if (!(e.which > 1 || e.shiftKey || e.altKey || e.metaKey || e.ctrlKey)) {
@@ -260,11 +268,53 @@ define(['js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
         floater.draggable({
             containment: "body",
             handle: ".floater-header"
-        }).on("click drag", function(){
-            $(".floating-window").removeClass("active");
-            $(this).addClass("active");
         });
+
+        $("body").on("click drag", ".floating-window", function(){
+			window.Stores.notify(Actions.floatersSort, {
+				fromExt: false,
+				floaterJQuerySelector: $(this)
+			});
+		});
+
+		$("body").on("click drag", ".x-window", function(){
+			window.Stores.notify(Actions.floatersSort, {
+				fromExt: false,
+				xWindowJQuerySelector: $(this)[0]
+			});
+		});
     });
+
+	/**
+	 * Move active floater on the top
+	 * @param type {string} type of action
+	 * @param options {Object}
+	 * @param options.fromExt {boolean} True, if notification comes from Ext code
+	 * @param [options.xWindow] {Object} Optional. Ext window.
+	 * @param [options.xWindowJQuerySelector] {Object} Optional. JQuery selector of Ext window element
+	 * @param [options.floaterJQuerySelector] {Object} Optional. JQuery selector of floating window element
+	 */
+	function sortFloaters (type, options){
+		setTimeout(function(){
+			if (type === Actions.floatersSort){
+				if (options.fromExt){
+					window.ActiveWindowZindex = Number(options.xWindow.el.dom.style.zIndex);
+					$(".floating-window").removeClass("active").css("zIndex", "");
+				} else {
+					if (options.xWindowJQuerySelector){
+						window.ActiveWindowZindex = Number(options.xWindowJQuerySelector.style.zIndex);
+						$(".floating-window").removeClass("active").css("zIndex", "");
+					} else if (options.floaterJQuerySelector){
+						$(".floating-window").removeClass("active").css("zIndex", "");
+						options.floaterJQuerySelector.addClass("active");
+						if (window.ActiveWindowZindex > 0){
+							options.floaterJQuerySelector.css("zIndex", (window.ActiveWindowZindex + 1));
+						}
+					}
+				}
+			}
+		},20);
+	}
 
 	/**
      * Build Attributes instance
