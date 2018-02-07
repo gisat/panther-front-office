@@ -3,6 +3,8 @@ define(['../../../actions/Actions',
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 
+	'../../components/ToggleIcon/ToggleIcon',
+
 	'jquery',
 	'string',
 	'text!./MapToolTrigger.html',
@@ -11,6 +13,8 @@ define(['../../../actions/Actions',
 			ArgumentError,
 			NotFoundError,
 			Logger,
+
+			ToggleIcon,
 
 			$,
 			S,
@@ -79,7 +83,8 @@ define(['../../../actions/Actions',
 		}).toString();
 		this._target.append(content);
 		this._mapToolTrigger = $("#" + this._id);
-		this._mapToolTriggerToggle = this._mapToolTrigger.find(".toggle-switch");
+		this._mapToolTriggerIcons = this._mapToolTrigger.find(".map-tool-trigger-icons");
+		this._mapToolTriggerToggle = this.buildToggle();
 
 		var icon = this._mapToolTrigger.find(".map-tool-icon");
 		if (iconType === 'svg'){
@@ -102,12 +107,22 @@ define(['../../../actions/Actions',
 			if (isActive){
 				self._onDeactivate();
 				trigger.removeClass("active");
-				self._mapToolTriggerToggle.find("input[type=checkbox]")[0].checked = false;
+				self._mapToolTriggerToggle.deactivate();
 			} else {
 				self._onActivate();
 				trigger.addClass("active");
-				self._mapToolTriggerToggle.find("input[type=checkbox]")[0].checked = true;
+				self._mapToolTriggerToggle.activate();
 			}
+		});
+	};
+
+	/**
+	 * Build toggle icon
+	 */
+	MapToolTrigger.prototype.buildToggle = function(){
+		return new ToggleIcon({
+			id: this._id + "-toggle-icon",
+			target: this._mapToolTriggerIcons
 		});
 	};
 
