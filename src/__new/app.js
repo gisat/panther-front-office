@@ -458,7 +458,7 @@ define(['js/actions/Actions',
 			dispatcher: window.Stores,
 			stateStore: stateStore,
 			isWithoutFooter: true,
-			isFloaterExtAlike: true
+			isFloaterExtAlike: false
         });
     }
 

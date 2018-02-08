@@ -19,7 +19,7 @@
 
 /* Floater body */
 #floater-world-wind-widget .floater-body {
-	padding: .2rem 0 0 0;
+	padding: .5rem 0 0 0;
 }
 #floater-world-wind-widget .checkbox-row {
 	transition: background .3s ease-out;
