@@ -111,6 +111,7 @@
 	padding: .15rem .2rem;
 	font-weight: 300;
 	color: rgb(65,69,81);
+	transition: background .3s ease-in-out;
 }
 .fi-window .feature-info-window-body table tr td i {
 	color: rgb(65,69,81);
@@ -118,7 +119,7 @@
 	font-weight: 300;
 }
 .fi-window .feature-info-window-body table tr:hover td {
-	background: rgba(224,227,231,.8);
+	background: rgba(224,227,231,.4);
 }
 .fi-window .feature-info-window-body table tr td:first-child {
 	font-weight: 600;
