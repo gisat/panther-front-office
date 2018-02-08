@@ -271,7 +271,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 
 		var rootNode = Ext.StoreMgr.lookup('attributes2choose').getRootNode();
 
-		// hide non-numeric attributes for every type, but table
+		// hide non-numeric attributes for every type, but table. Add type of the node
 		rootNode.cascadeBy(function(node){
 			node.collapseChildren();
 			if (node.data.attrType === "text"){
@@ -280,6 +280,9 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 				} else {
 					node.data.cls = "";
 				}
+			}
+			if (type === "grid" && node.data.attrType){
+				node.data.treeNodeText = node.data.attrName + " (" + polyglot.t(node.data.attrType) + ")";
 			}
 		});
 

@@ -109,9 +109,6 @@ define(['../../../../error/ArgumentError',
 					bottom: "auto"
 				});
 			}
-		}).on("click drag", function(){
-			$(".floating-window").removeClass("active");
-			$(this).addClass("active");
 		});
 	};
 

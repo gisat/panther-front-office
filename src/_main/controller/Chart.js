@@ -1162,7 +1162,8 @@ Ext.define('PumaMain.controller.Chart', {
             limit: store.pageSize
         }
         if (grid) {
-            Ext.apply(params,this.getSortParamsFromGrid(grid));
+            var sortParams = this.getSortParamsFromGrid(grid);
+            Ext.apply(params,sortParams);
         }
         else {
             for (var i=0;i<chartCmps.length;i++) {
@@ -1406,7 +1407,20 @@ Ext.define('PumaMain.controller.Chart', {
             }
             else if (type == 'page' && chart.cfg.type == 'grid') {
                 var store = chart.chart.store;
-                Ext.apply(store.proxy.extraParams,this.getPagingParams());
+                var pagingParams = this.getPagingParams();
+                Ext.apply(store.proxy.extraParams,pagingParams);
+
+                var keys = store.sorters.keys;
+                if (keys.length){
+                    var sortAttr = store.sorters.map[keys[0]];
+                    var sortAttrAdjusted = [{
+                        direction: sortAttr.direction,
+                        property: sortAttr.property
+                    }];
+                    if (!store.proxy.extraParams.sort){
+						store.proxy.extraParams.sort = JSON.stringify(sortAttrAdjusted);
+                    }
+                }
                 store.load();
             }
         }

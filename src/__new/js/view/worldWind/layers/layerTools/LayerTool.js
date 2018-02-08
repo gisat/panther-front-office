@@ -106,7 +106,6 @@ define(['../../../../error/ArgumentError',
 				self._floaterSelector.removeClass("open");
 			} else {
 				icon.addClass("open");
-				$(".floating-window").removeClass("active");
 				self._floaterSelector.addClass("open");
 				if ($("#sidebar-reports").hasClass("hidden")){
 					self._floaterSelector.css({
@@ -115,7 +114,10 @@ define(['../../../../error/ArgumentError',
 				}
 				self.addContent();
 				setTimeout(function(){
-					self._floaterSelector.addClass("active");
+					window.Stores.notify('floaters#sort', {
+						fromExt: false,
+						floaterJQuerySelector: self._floaterSelector
+					});
 				}, 50);
 			}
 		});

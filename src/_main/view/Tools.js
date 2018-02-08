@@ -114,6 +114,7 @@ var widgets = {
 			cls: 'hide',
 			tooltip: polyglot.t('hide'),
 			itemId: 'hide',
+			margin: '0 10',
 			hidden: !Config.toggles.useTopToolbar,
 			listeners: {
 				click: {
