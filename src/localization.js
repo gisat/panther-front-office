@@ -610,7 +610,7 @@ var langCz = {
     percent: "Procenta",
     period: "Časové období",
     periods: "Časová období",
-    pie: "Koláčový graf",
+    pie: "Kruhový diagram",
     place: "Místo",
     polygon: "polygon",
     pleaseSelectAreas: "Prosím vyberte území...",
