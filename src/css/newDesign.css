@@ -3,7 +3,10 @@
 	* EXT COMPONENTS.....................overriding default ext style
 		* Windows........................common for all Ext-based windows
 			* Window header..............header and it's components
+			* 3D Map Window header.......header and it's components in mode-3d
 			* Window body................body declarations
+			* Areas window
+			* Colour selection window
 			* Login window...............login window specific declarations
 		* Forms..........................Ext forms
 			* Config form
@@ -81,12 +84,109 @@
 	background: rgba(234,237,241,1) url("../images/new/close.png") no-repeat 50% 50% !important;
 }
 
+/* 3D Map Window header */
+.newDesign .mode-3d .detached-window .x-window-header {
+	background: rgba(153,54,75,.9) !important;
+	height: 2.3rem !important;
+	padding: 0 .3rem;
+}
+.newDesign .mode-3d .detached-window .x-window-header .x-window-header-body,
+.newDesign .mode-3d .detached-window .x-window-header .x-window-header-body .x-box-inner {
+	height: 2.3rem !important;
+	line-height: 2.4rem;
+}
+.newDesign .mode-3d .detached-window .x-window-header-text-default {
+	color: #eee;
+}
+.newDesign .mode-3d .detached-window .x-window-header .x-tool {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: background .3s ease-in-out;
+	top: 0 !important;
+	height: 2.3rem !important;
+	width: 1.7rem !important;
+}
+.newDesign .mode-3d .detached-window .x-window-header .x-tool:not(.x-tool-disabled):hover {
+	background: rgba(255,255,255,.2);
+}
+.newDesign .mode-3d .detached-window .x-window-header .x-tool .x-tool-areacollapseall,
+.newDesign .mode-3d .detached-window .x-window-header .x-tool .x-tool-areacollapselevel,
+.newDesign .mode-3d .detached-window .x-window-header .x-tool .x-tool-areaexpandlevel {
+	background: transparent !important;
+	display: block;
+	z-index: 2;
+	position: relative;
+	height: 100%;
+	width: 100%;
+}
+
+.newDesign .mode-3d .detached-window .x-window-header .x-tool .x-tool-hide,
+.newDesign .mode-3d .detached-window .x-window-header .x-tool .x-tool-unselect,
+.newDesign .mode-3d .detached-window .x-window-header .x-tool .x-tool-unselectall {
+	display: block;
+	z-index: 2;
+	position: relative;
+	height: 100%;
+	width: 100%;
+}
+.newDesign .mode-3d .detached-window .x-window-header .x-tool .x-tool-hide {
+	background-image: url("../__new/img/minimise-icon-rounded.png") !important;
+	background-position-x: 1px;
+}
+.newDesign .mode-3d .detached-window .x-window-header .x-tool .x-tool-unselect {
+	background-image: url("../__new/img/unselect.png") !important;
+}
+.newDesign .mode-3d .detached-window .x-window-header .x-tool .x-tool-unselectall {
+	background-image: url("../__new/img/unselect-all.png") !important;
+	background-position-x: 3px;
+}
+
+.newDesign .mode-3d .detached-window .x-window-header .x-tool .x-mask {
+	background: none;
+}
+.newDesign .mode-3d .detached-window .x-window-header .x-tool:before {
+	color: #eee;
+	font-family: "FontAwesome";
+	font-size: 1rem;
+	display: block;
+	z-index: 1;
+	position: absolute;
+}
+.newDesign .mode-3d .detached-window .x-window-header .x-tool.x-tool-disabled:before {
+	color: #888;
+}
+.newDesign .mode-3d .detached-window .x-window-header .x-tool.areacollapseall:before {
+	content: "\f04a";
+}
+.newDesign .mode-3d .detached-window .x-window-header .x-tool.areacollapselevel:before {
+	content: "\f04b";
+	transform: rotate(180deg);
+}
+.newDesign .mode-3d .detached-window .x-window-header .x-tool.areaexpandlevel:before {
+	content: "\f04b";
+}
+
 /* Window body */
 .newDesign .x-window-body {
 	border: 0;
 }
 .newDesign .x-panel-body-default-framed {
 	padding: 10px;
+}
+
+/* Areas window */
+.newDesign .mode-3d .x-window .x-tree-panel.areaTreeSelection {
+	border: 0;
+	padding: 0 0 0 .2rem;
+}
+
+	/* Colour selection window */
+.newDesign  #window-colourSelection-body {
+	padding: 1rem 0;
+}
+.newDesign  #window-colourSelection-body .x-panel-body-default {
+	border: 0;
 }
 
 /* login window */
@@ -513,6 +613,9 @@
 	background: #f4f3ef;
 }
 /* Common panel parts */
+.mewDesign .x-panel {
+	padding: .5rem 0;
+}
 .newDesign .x-panel-header {
 	background: rgba(233,235,237,1);
 	border-bottom: 0;
