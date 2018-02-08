@@ -15,17 +15,25 @@ Ext.define('PumaMain.view.ConfigForm', {
 			xtype: 'textfield',
 			name: 'title',
 			marginLeft: 5,
-			width: 300,
+			width: 500,
 			hidden: this.formType != 'chart',
 			fieldLabel: polyglot.t('name')
 		}, {
+			xtype: 'textareafield',
+			name: 'description',
+			marginLeft: 5,
+			width: 500,
+			height: 80,
+			hidden: this.formType != 'chart',
+			fieldLabel: polyglot.t('description')
+		},{
 			xtype: 'pumacombo',
 			marginLeft: 5,
 			hidden: this.formType != 'chart',
 			store: Ext.StoreMgr.lookup('charttype4chart'),
 			fieldLabel: polyglot.t('type'),
 			valueField: 'type',
-			width: 300,
+			width: 500,
 			name: 'type',
 			itemId: 'type'
 		},
@@ -38,7 +46,7 @@ Ext.define('PumaMain.view.ConfigForm', {
 			}, {
 				xtype: 'container',
 				hidden: this.formType == 'chart',
-				height: 350,
+				height: 300,
 				itemId: 'attributecontainer',
 				marginBottom: 30,
 				helpId: 'test',
