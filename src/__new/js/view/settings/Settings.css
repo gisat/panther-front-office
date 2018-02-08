@@ -8,7 +8,11 @@
 
 	display: none;
 	height: 25rem;
+	min-height: 20rem;
+	max-height: 35rem;
 	width: 35rem;
+	min-width: 25rem;
+	max-width: 45rem;
 	padding: .2rem .5rem .5rem;
 	position: absolute;
 	top: 8rem;
@@ -48,11 +52,11 @@
 	top: 0;
 	height: 100%;
 }
-.tool-window-header .settings-close {
+.tool-window-header .window-close {
 	font-size: .95rem;
 	color: rgb(65,69,81);
 }
-.tool-window-header .settings-close:hover {
+.tool-window-header .window-close:hover {
 	cursor: pointer;
 	background: rgb(224,227,231);
 }

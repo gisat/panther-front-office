@@ -24,7 +24,7 @@
 /* Header */
 .about-window-header {
 	position: relative;
-	background: url('../../../../../img/panther/panther_background.jpg') no-repeat;
+	background: url('../../../../../../__new/img/panther/panther_background.jpg') no-repeat;
 	background-size: cover;
 	opacity: 0;
 	transition: opacity .3s ease-in-out;

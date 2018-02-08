@@ -178,9 +178,20 @@ define([
 		if (targetId) {
 			if (targetId == 'window-customviews') Ext.ComponentQuery.query('#window-customviews')[0].show();
 			if (targetId == 'window-customLayers') this.initCustomLayersWindow();
-			$('.floating-window').removeClass('active');
 			var floater = $('#' + targetId);
-			floater.toggleClass('open').toggleClass("active");
+			floater.toggleClass('open');
+			var type = targetId.split("-")[0];
+			if (type === "window"){
+				window.Stores.notify('floaters#sort', {
+					fromExt: false,
+					xWindowJQuerySelector: floater[0]
+				});
+			} else {
+				window.Stores.notify('floaters#sort', {
+					fromExt: false,
+					floaterJQuerySelector: floater
+				});
+			}
 			$(e.target).toggleClass('open');
 			Stores.notify("widget#changedState", {floater: floater});
 		}
@@ -228,8 +239,11 @@ define([
 			floater.removeClass("open");
 		} else {
 			item.addClass("open");
-			$('.floating-window').removeClass("active");
-			floater.addClass("open active");
+			floater.addClass("open");
+			window.Stores.notify('floaters#sort', {
+				fromExt: false,
+				floaterJQuerySelector: floater
+			});
 		}
 	};
 

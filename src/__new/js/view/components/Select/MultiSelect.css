@@ -62,6 +62,6 @@
 }
 .select2-container--default.select2-container--focus .select-multi-container.top-bar-multiselect.select2-selection--multiple {
 	border: 0;
-	border: 1px solid rgba(255, 255, 255, .3);
+	border-left: 1px solid rgba(255, 255, 255, .3);
 	outline: 0;
 }
