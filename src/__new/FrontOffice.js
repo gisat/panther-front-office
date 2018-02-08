@@ -15,6 +15,7 @@ define([
 	'js/stores/gisat/WmsLayers',
     'js/stores/UrbanTepPortalStore',
     'js/stores/UrbanTepCommunitiesStore',
+    'js/view/charts/PolarChart/PolarChart',
     'jquery',
 	'underscore'
 ], function(ArgumentError,
@@ -33,6 +34,7 @@ define([
 			WmsLayers,
 			UrbanTepPortalStore,
 			UrbanTepCommunitiesStore,
+			PolarChart,
 			$,
 			_){
 	/**
@@ -46,6 +48,7 @@ define([
 		this._options = options.widgetOptions;
 		this._tools = options.tools;
 		this._widgets = options.widgets;
+		this._charts = [];
 
 		this._dataset = null;
 		Observer.addListener("rebuild", this.rebuild.bind(this));
@@ -104,6 +107,30 @@ define([
 		}
 
 		ThemeYearConfParams.datasetChanged = false;
+
+		Charts.forEach(function(exchangeChartData) {
+			var isNew = true;
+
+			console.log("this._charts:", self._charts);
+
+			self._charts.forEach(function(chart) {
+				if (exchangeChartData.chartId === chart.chartId) {
+					isNew = false;
+				}
+			});
+
+			if (isNew) {
+				// TODO here decide which chart
+				switch (exchangeChartData.chartType) {
+					case "polarchart":
+						exchangeChartData.chart = new PolarChart(exchangeChartData);
+						exchangeChartData.chartId = exchangeChartData.chart.id;
+						break;
+					default:
+						console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "FrontOffice", "rebuild", "Unknown chart type (" + exchangeChartData.chartType + ")"));
+				}
+			}
+		});
 	};
 
 	/**

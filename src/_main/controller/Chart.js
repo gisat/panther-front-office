@@ -364,13 +364,16 @@ Ext.define('PumaMain.controller.Chart', {
         }
     },
     onChartRemove: function(btn, panel) {
-
         var panel = btn ? btn.up('panel') : panel;
         if (panel.chart.chart && panel.chart.chart.renderTo) {
             panel.chart.chart.destroy();
+
+            // remove from exchangeParams#Charts
+            Charts = Charts.filter(function (chart) {
+                return chart.chartId !== panel.chart.chart.id;
+			});
         }
         panel.destroy();
-        
     },
     toggleLegendState: function(chart, on) {
         var id = chart.container.id;
@@ -670,10 +673,32 @@ Ext.define('PumaMain.controller.Chart', {
         cmp.chart = chart;
         chart.cmp = cmp;
     },
-    
+
     onChartReceived: function(response) {
-		console.info('Chart#onChartReceived response: ' + response);
+		var cmp = response.cmp || response.request.options.cmp;
+
+		// call legacy HighCharts function
+        // TODO add charts to Charts in the legacy function too?
+		if(['columnchart', 'piechart', 'grid', 'scatterchart', 'extentoutline'].includes(cmp.cfg.type)){ // TODO dopsat typy
+			return this.onChartReceived_highcharts(response);
+		}
+
+		// D3.js charts:
+		// create new record in exchangeParams
+        Charts.push({
+            chartType: cmp.cfg.type,
+            containerComponent: cmp,
+            backendResponse: response
+        });
+		// trigger FrontOffice rebuild
+        Observer.notify('rebuild');
+    },
+
+	onChartReceived_highcharts: function(response) {
+		console.info('Chart#onChartReceived_highcharts response:', response);
         var cmp = response.cmp || response.request.options.cmp;
+
+        // remove old chart
         if (cmp.chart) {
             try {
                 cmp.chart.destroy();
@@ -681,12 +706,14 @@ Ext.define('PumaMain.controller.Chart', {
             }
         }
 
+        // get and parse graph data
         var data = response.responseText ? JSON.parse(response.responseText).data : null;
         if (cmp.queryCfg.type == 'filter') {
             //this.onFilterReceived(data, cmp);
             return;
         }
 
+        // create NoData chart
         if (!data || data.noData) {
             this.createNoDataChart(cmp);
             return;
@@ -712,6 +739,7 @@ Ext.define('PumaMain.controller.Chart', {
         //var legendBtn = singlePage ? Ext.widget('button') : Ext.ComponentQuery.query('#legendbtn', cmp.ownerCt)[0];
 
         cmp.noData = false;
+
         if (Ext.Array.contains(['extentoutline'], cmp.cfg.type)) {
             if (singlePage) {
                 data.colorMap = JSON.parse(response.request.options.params.colorMap);
@@ -719,6 +747,7 @@ Ext.define('PumaMain.controller.Chart', {
             this.onOutlineReceived(data, cmp);
             return;
         }
+
         cmp.layout = {
             type: 'fit'
         };
@@ -727,11 +756,13 @@ Ext.define('PumaMain.controller.Chart', {
         //if (!Ext.Array.contains(['grid', 'featurecount'], cmp.cfg.type)) {
         //    legendBtn.show();
         //}
+
         var isGrid = cmp.queryCfg.type == 'grid';
         if (isGrid) {
             this.onGridReceived(response);
             return;
         }
+
         data.chart.events = {};
         var me = this;
         data.chart.events.selection = function(evt) {
@@ -746,6 +777,7 @@ Ext.define('PumaMain.controller.Chart', {
                 });
             }
         };
+
         data.tooltip.formatter = function() {
             var obj = this;
             var type = obj.series.type;
@@ -831,10 +863,13 @@ Ext.define('PumaMain.controller.Chart', {
                 }
             }
         }
+
         data.exporting = {
             enabled: false
         };
+
         data.chart.renderTo = cmp.el.dom;
+
         data.chart.events.load = function() {
             if (this.options.chart.isPieSingle) {
                 var chart = this;
@@ -870,6 +905,7 @@ Ext.define('PumaMain.controller.Chart', {
         this.setLabelsView(data);
 
         var chart = new Highcharts.Chart(data);
+
         cmp.chart = chart;
         chart.cmp = cmp;
         var panel = cmp.ownerCt;

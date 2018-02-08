@@ -190,3 +190,11 @@ var Select = {
 var Widgets = {
 	sharing: null
 };
+
+/**
+ * This global array contains charts as objects of chartId, containerComponent, backendResponse and ... TODO
+ * TODO Change this to a store?
+ */
+var Charts = [];
+
+
