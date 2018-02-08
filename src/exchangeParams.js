@@ -94,6 +94,7 @@ var Stores = {
  * @param changed {String} key used to distinguish the actions.
  */
 Stores.notify = function(changed, options) {
+	console.log('Stores#notify Changed: ', changed, ' Options: ', options);
 	Stores.listeners.forEach(function(listener){
 		listener(changed, options);
 	})
@@ -102,9 +103,13 @@ Stores.notify = function(changed, options) {
 /**
  * Simply adds listener.
  * @param listener {Function} Function which will be called when any event occurs.
+ * @param [options] {string|object} Optional parametr.
  */
-Stores.addListener = function(listener) {
+Stores.addListener = function(listener, options) {
 	Stores.listeners.push(listener);
+	if (options === "initialLoading"){
+		Stores.notify("initialLoadingStarted");
+	}
 };
 
 /**

@@ -23,6 +23,7 @@ define(['../../../../error/ArgumentError',
 		this.addListeners();
 
 		this._choropleths = [];
+		this._layersControls = [];
 		this._groupId = "chartlayer";
 	};
 
@@ -46,6 +47,7 @@ define(['../../../../error/ArgumentError',
 		if (action === notification && notification === "choropleths"){
 			this.clear(this._id);
 			this._choropleths = Stores.choropleths;
+			this._layersControls = [];
 			if (this._choropleths.length > 0){
 				var self = this;
 				this._choropleths.forEach(function(choropleth){
@@ -59,6 +61,7 @@ define(['../../../../error/ArgumentError',
 					};
 					choropleth.layer = layer;
 					choropleth.control = self.addLayerControl(layer.id, layer.name, self._panelBodySelector, false);
+					self._layersControls.push(choropleth.control);
 				});
 				this.displayPanel("block");
 			} else {
@@ -87,15 +90,15 @@ define(['../../../../error/ArgumentError',
 						path: choropleth.data.legendLayer,
 						opacity: 70
 					};
-					for (var key in self._maps){
-						self._maps[key].layers.addChoroplethLayer(layer, self._id, false);
-					}
+					self._mapStore.getAll().forEach(function(map){
+						map.layers.addChoroplethLayer(layer, self._id, false);
+					});
 
 					var toolsContainer = $("#layer-tool-box-" + layer.id);
 					toolsContainer.html('');
 					var toolBox = choropleth.control.getToolBox();
-					toolBox.addLegend(layer, self._maps);
-					toolBox.addOpacity(layer, self._maps);
+					toolBox.addLegend(layer, self._mapStore.getAll());
+					toolBox.addOpacity(layer, self._mapStore.getAll());
 				}
 			});
 

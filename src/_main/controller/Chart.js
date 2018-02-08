@@ -88,6 +88,8 @@ Ext.define('PumaMain.controller.Chart', {
                 }
             }
         })
+
+        Observer.notify('Chart#init');
     },
     
     onChartExpand: function(panel) {
@@ -345,7 +347,7 @@ Ext.define('PumaMain.controller.Chart', {
 
 
         var cnt = Ext.widget('chartpanel', {
-            title: cfg.title || ('Anonymous ' + cfg.type),
+            title: cfg.title || (polyglot.t('anonymous') + cfg.type),
             cfgType: cfg.type,
             iconCls: 'cmptype-'+cfg.type,
             layout: {
@@ -644,7 +646,7 @@ Ext.define('PumaMain.controller.Chart', {
 
     },
     
-    createNoDataChart: function(cmp) {
+    createSelectAreaChart: function(cmp) {
 
         var cfg = {
             chart: {
@@ -657,7 +659,7 @@ Ext.define('PumaMain.controller.Chart', {
                 enabled: false
             },
             labels: {items: [{
-                        html: 'Please select areas...',
+                        html: polyglot.t('pleaseSelectAreas'),
                         style: {
                             left: '125px',
                             top: '180px',
@@ -672,6 +674,15 @@ Ext.define('PumaMain.controller.Chart', {
         var chart = new Highcharts.Chart(cfg);
         cmp.chart = chart;
         chart.cmp = cmp;
+    },
+
+    hideChart: function(cmp) {
+        cmp.up().hide();
+    },
+
+    showChart: function(cmp) {
+        // Show chart only when there is something to show therefore ignoring this piece in printing.
+        cmp.up() && cmp.up().show();
     },
 
     onChartReceived: function(response) {
@@ -703,21 +714,29 @@ Ext.define('PumaMain.controller.Chart', {
             try {
                 cmp.chart.destroy();
             } catch (e) {
+                console.warn('Chart#onChartReceived Not possible to destroy chart. Error: ', e);
             }
         }
 
         // get and parse graph data
         var data = response.responseText ? JSON.parse(response.responseText).data : null;
         if (cmp.queryCfg.type == 'filter') {
-            //this.onFilterReceived(data, cmp);
+            //this.onFilterReceived(data, cmp)
             return;
         }
 
         // create NoData chart
+        console.log('Chart#onChartReceived Response', response, ' CMP: ', cmp);
         if (!data || data.noData) {
-            this.createNoDataChart(cmp);
+            if(cmp.chart && cmp.chart.type == 'extentoutline') {
+                this.createSelectAreaChart(cmp);
+            } else {
+                this.hideChart(cmp);
+            }
             return;
         }
+
+        this.showChart(cmp);
 
         // Make sure that the results are Numbers.
         if(data.series) {
@@ -742,7 +761,7 @@ Ext.define('PumaMain.controller.Chart', {
 
         if (Ext.Array.contains(['extentoutline'], cmp.cfg.type)) {
             if (singlePage) {
-                data.colorMap = JSON.parse(response.request.options.params.colorMap);
+                data.colorMap = JSON.parse(response.request.options.params.colorMap)
             }
             this.onOutlineReceived(data, cmp);
             return;
@@ -797,7 +816,7 @@ Ext.define('PumaMain.controller.Chart', {
                 areaName = obj.series.name;
                 yearName = obj.series.userOptions.yearName;
                 attrConf.push({
-                    name: obj.point.swap ? 'Other' : obj.key,
+                    name: obj.point.swap ? polyglot.t('other') : obj.key,
                     val: obj.y,
                     units: obj.point.units
                 });
@@ -868,7 +887,7 @@ Ext.define('PumaMain.controller.Chart', {
             enabled: false
         };
 
-        data.chart.renderTo = cmp.el.dom;
+        data.chart.renderTo = cmp.el && cmp.el.dom;
 
         data.chart.events.load = function() {
             if (this.options.chart.isPieSingle) {
@@ -982,7 +1001,7 @@ Ext.define('PumaMain.controller.Chart', {
         if (scrollLeft) {
             cfg.scrollLeft = scrollLeft;
         }
-        Puma.util.Msg.msg('Snapshot creation started','','r');
+        Puma.util.Msg.msg(polyglot.t('snapshotCreationStarted'),'','r');
         Ext.Ajax.request({
             url: Config.url + 'api/urlview/saveChart',
             params: {
@@ -1031,7 +1050,7 @@ Ext.define('PumaMain.controller.Chart', {
             $('img[src="'+url+'"]').css('background', 0);
             var img = Ext.DomQuery.select('img[src="'+url+'"]');
             Ext.get(img[0]).on('load',function() {
-                Puma.util.Msg.msg('Snapshot done','','r');
+                Puma.util.Msg.msg(polyglot.t('snapshotDone'),'','r');
                 $('img[src="'+url+'"]').css('background', 'rgb(240,240,240)');
                 var snapshotPanel = Ext.ComponentQuery.query('chartbar #screenshotpanel')[0];
                 snapshotPanel.expand();
@@ -1119,7 +1138,7 @@ Ext.define('PumaMain.controller.Chart', {
                 return;
             }
         }
-        var areas = [{at: at, gid: gid, loc: loc}]
+        var areas = [{at: at, gid: gid, loc: loc, index: 1}];
         var add = evt.originalEvent ? evt.originalEvent.ctrlKey : evt.ctrlKey;
         var fromChart = cmp.cfg.type=='grid' || cmp.cfg.type=='piechart' || cmp.cfg.type=='columnchart';
         //this.
@@ -1181,7 +1200,8 @@ Ext.define('PumaMain.controller.Chart', {
             limit: store.pageSize
         }
         if (grid) {
-            Ext.apply(params,this.getSortParamsFromGrid(grid));
+            var sortParams = this.getSortParamsFromGrid(grid);
+            Ext.apply(params,sortParams);
         }
         else {
             for (var i=0;i<chartCmps.length;i++) {
@@ -1280,7 +1300,10 @@ Ext.define('PumaMain.controller.Chart', {
             var column = data.columns[i];
             column.menuDisabled = true;
             column.resizable = false;
-            column.sortable = cmp.disableSort!==true;
+            // column.sortable = cmp.disableSort!==true;
+			column.sortable=true;
+			column.text = column.text + " (" + column.yearName + ")";
+			column.width = 100;
             if (column.dataIndex=='name') {
                 if (data.columns.length>5) {
                     column.locked = true;
@@ -1296,13 +1319,16 @@ Ext.define('PumaMain.controller.Chart', {
                 var attrConf = [{
                     name: column.fullName,
                     val: val,
-                    units: column.units
-                }]
-                var html = me.getTooltipHtml(rec.get('name'),column.yearName,attrConf)
+                    units: column.units,
+                    text: column.text + "a"
+                }];
+                var html = me.getTooltipHtml(rec.get('name'),column.yearName,attrConf);
                 metadata.tdAttr = 'data-qtip="' + html + '"';
                 return me.formatVal(val);
-            }
+            };
+
         }
+        data.columns[0].text = polyglot.t(data.columns[0].dataIndex);
         var grid = Ext.widget('grid', {
             renderTo: cmp.el,
             height: '100%',
@@ -1366,6 +1392,10 @@ Ext.define('PumaMain.controller.Chart', {
         return html;
     },
     formatVal: function(val) {
+        if (typeof val === "string"){
+            return val;
+        }
+
         val = Number(val);
         if (this.isInt(val)) return val;
         var deci = 3;
@@ -1415,7 +1445,20 @@ Ext.define('PumaMain.controller.Chart', {
             }
             else if (type == 'page' && chart.cfg.type == 'grid') {
                 var store = chart.chart.store;
-                Ext.apply(store.proxy.extraParams,this.getPagingParams());
+                var pagingParams = this.getPagingParams();
+                Ext.apply(store.proxy.extraParams,pagingParams);
+
+                var keys = store.sorters.keys;
+                if (keys.length){
+                    var sortAttr = store.sorters.map[keys[0]];
+                    var sortAttrAdjusted = [{
+                        direction: sortAttr.direction,
+                        property: sortAttr.property
+                    }];
+                    if (!store.proxy.extraParams.sort){
+						store.proxy.extraParams.sort = JSON.stringify(sortAttrAdjusted);
+                    }
+                }
                 store.load();
             }
         }

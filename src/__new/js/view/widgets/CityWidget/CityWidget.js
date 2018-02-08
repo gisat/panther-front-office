@@ -83,7 +83,7 @@ define([
 	 */
 	CityWidget.prototype.prepareFooter = function(){
 		this._widgetSelector.find(".floater-footer").append('<div class="floater-row">' +
-				'<div class="widget-button" id="melodies-selection-confirm">Send</div>' +
+				'<div class="widget-button" id="melodies-selection-confirm">'+polyglot.t("send")+'</div>' +
 			'</div>' +
 			'<div class="floater-row table-row" id="melodies-monitoring-table">' +
 				'<table>' +
@@ -175,10 +175,10 @@ define([
 		}).then(function(response){
 			var data = JSON.parse(response);
 			if (data.status == "Ok"){
-				$('#melodies-selection-confirm').html("Request has been sent...").attr("disabled", true);
+				$('#melodies-selection-confirm').html(polyglot.t("requestHasBeenSent")).attr("disabled", true);
 			}
 			else {
-				$('#melodies-selection-confirm').html("Failed to send request!").attr("disabled", true).addClass("failed");
+				$('#melodies-selection-confirm').html(polyglot.t("failedToSendRequest")).attr("disabled", true).addClass("failed");
 			}
 		});
 	};

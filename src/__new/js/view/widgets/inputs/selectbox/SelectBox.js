@@ -78,7 +78,7 @@ define(['../../../../error/ArgumentError',
     SelectBox.prototype.getSelectOptions = function(){
         var content = "";
         if (this._data.length > 1){
-            content += '<option value="" class="selectbox-all-options">All options</option>';
+            content += '<option value="" class="selectbox-all-options">'+polyglot.t("allOptions")+'</option>';
         }
         this._data.forEach(function(item){
             if (item){

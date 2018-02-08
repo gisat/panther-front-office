@@ -1,4 +1,6 @@
-define(['../../../../error/ArgumentError',
+define([
+	'../../../../actions/Actions',
+	'../../../../error/ArgumentError',
 	'../../../../error/NotFoundError',
 	'../../../../util/Logger',
 
@@ -8,7 +10,8 @@ define(['../../../../error/ArgumentError',
 	'jquery',
 	'string',
 	'underscore'
-], function(ArgumentError,
+], function(Actions,
+			ArgumentError,
 			NotFoundError,
 			Logger,
 
@@ -31,38 +34,32 @@ define(['../../../../error/ArgumentError',
 			outlines: {},
 			selected: {}
 		};
+		this._layersControls = [];
 	};
 
 	AuLayersPanel.prototype = Object.create(ThematicLayersPanel.prototype);
 
 	AuLayersPanel.prototype.addListeners = function(){
-		Stores.listeners.push(this.rebuild.bind(this, "updateOutlines"));
-		Stores.listeners.push(this.clearAllSelections.bind(this, "clearAllSelections"));
-		Stores.listeners.push(this.clearActiveSelection.bind(this, "clearActiveSelection"));
+		Stores.addListener(this.onEvent.bind(this));
 	};
 
 	/**
 	 * Clear whole selection
-	 * @param action
-	 * @param notification
 	 */
 	AuLayersPanel.prototype.clearAllSelections = function(action, notification){
-		if (action == notification && notification == "clearAllSelections"){
-			$("#selectedareasfilled-panel-row").remove();
-			this.clearLayers("selectedareasfilled");
-			Stores.selectedOutlines = null;
-		}
+		$("#selectedareasfilled-panel-row").remove();
+		this.clearLayers("selectedareasfilled");
+		Stores.selectedOutlines = null;
+		var control = _.find(this._layersControls, function(control){return control._id == "selectedareasfilled"});
+		control._toolBox.hide();
 	};
 
 	/**
 	 * Clear active selection
-	 * @param action
-	 * @param notification
 	 */
-	AuLayersPanel.prototype.clearActiveSelection = function(action, notification){
-		if (action == notification && notification == "clearActiveSelection") {
-			this.redrawLayer(this._layers.selected, "selectedareasfilled", Stores.selectedOutlines);
-		}
+	AuLayersPanel.prototype.clearActiveSelection = function(){
+		this.redrawLayer(this._layers.selected, "selectedareasfilled", Stores.selectedOutlines);
+
 	};
 
 	/**
@@ -83,28 +80,27 @@ define(['../../../../error/ArgumentError',
 	};
 
 	AuLayersPanel.prototype.switchOnSelected = function(){
-		this.redrawLayer(this._layers.selected, "selectedareasfilled", Stores.selectedOutlines);
+		this.redrawSelectedLayer(this._layers.selected, "selectedareasfilled", Stores.selectedOutlines);
 		this.switchOnActiveLayers("selectedareasfilled");
 	};
 
 	/**
 	 * Rebuild AU layers panel.
-	 * @param action
-	 * @param notification
 	 */
-	AuLayersPanel.prototype.rebuild = function(action, notification){
-		if (action == notification && notification == "updateOutlines"){
-			this.clear(this._id);
+	AuLayersPanel.prototype.rebuild = function(){
+		this.clear(this._id);
+		this._layersControls = [];
 
-			if(Stores.selectedOutlines) {
-				this.rebuildControl("Selected areas filled", this._layers.selected, "selectedareasfilled");
-				this.switchOnSelected();
-			}
+		if(Stores.selectedOutlines) {
+			this.rebuildControl(polyglot.t("selectedAreasFilled"), this._layers.selected, "selectedareasfilled");
+			this.switchOnSelected();
+		}
 
-			if(Stores.outlines){
-				this.rebuildControl("Area outlines", this._layers.outlines, "areaoutlines");
-				this.switchOnOutlines();
-			}
+		if(Stores.outlines){
+			console.log('AuLayersPanel#rebuild ', this._layers.outlines);
+			this.rebuildControl(polyglot.t("areaOutlines"), this._layers.outlines, "areaoutlines");
+			this._layers.outlines.additionalData = Stores.outlines.data;
+			this.switchOnOutlines();
 		}
 	};
 
@@ -123,6 +119,7 @@ define(['../../../../error/ArgumentError',
 
 		layer.layerData = selected;
 		layer.control = this.addLayerControl(selected.id, selected.name, this._panelBodySelector, false);
+		this._layersControls.push(layer.control);
 	};
 
 	/**
@@ -132,18 +129,55 @@ define(['../../../../error/ArgumentError',
 	 * @param store {Object} store with data from 2D
 	 */
 	AuLayersPanel.prototype.redrawLayer = function(layer, id, store){
+		console.log('AuLayersPanel ', layer);
+		this.clearLayers(id);
+		if (!_.isEmpty(layer)){
+			layer.layerData.layer = store.layerNames;
+			layer.layerData.sldId = store.sldId;
+			layer.layerData.data = store.data;
+
+			this._mapStore.getAll().forEach(function(map){
+				map.layers.addAULayer(layer.layerData, id, false);
+			});
+
+			var toolBox = layer.control.getToolBox();
+			toolBox.clear();
+			toolBox.addOpacity(layer.layerData, this._mapStore.getAll());
+		}
+	};
+
+	/**
+	 * Redraw selected layer
+	 * @param layer {Object} layer data
+	 * @param id {string} id of the group
+	 * @param store {Object} store with data from 2D
+	 */
+	AuLayersPanel.prototype.redrawSelectedLayer = function(layer, id, store){
 		this.clearLayers(id);
 		if (!_.isEmpty(layer)){
 			layer.layerData.layer = store.layerNames;
 			layer.layerData.sldId = store.sldId;
 
-			for (var key in this._maps){
-				this._maps[key].layers.addChoroplethLayer(layer.layerData, id, false);
-			}
+			this._mapStore.getAll().forEach(function(map){
+				map.layers.addChoroplethLayer(layer.layerData, id, false);
+			});
 
 			var toolBox = layer.control.getToolBox();
 			toolBox.clear();
-			toolBox.addOpacity(layer.layerData, this._maps);
+			toolBox.addOpacity(layer.layerData, this._mapStore.getAll());
+		}
+	};
+
+	/**
+	 * @param type {string}
+	 */
+	AuLayersPanel.prototype.onEvent = function(type){
+		if (type === "updateOutlines"){
+			this.rebuild();
+		} else if (type === Actions.selectionEverythingCleared){
+			this.clearAllSelections();
+		} else if (type === Actions.selectionActiveCleared){
+			this.clearActiveSelection()
 		}
 	};
 

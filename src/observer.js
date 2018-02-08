@@ -14,10 +14,11 @@ Observer.addListener = function(flag, listener) {
 	});
 };
 
-Observer.notify = function(event){
+Observer.notify = function(event, options){
+	console.log('Observer#notify Event: ', event);
 	Observer.listeners.forEach(function(lst){
 		if (event == lst.flag){
-			lst.listener();
+			lst.listener(options);
 		}
 	});
 };

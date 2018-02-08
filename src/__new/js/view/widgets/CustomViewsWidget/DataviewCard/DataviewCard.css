@@ -1,0 +1,115 @@
+.dataview-card {
+	cursor: pointer;
+	display: flex;
+	flex-direction: column;
+	background: white;
+	border-radius: .1rem;
+	border: 1px solid #ccc;
+	border-bottom: 2px solid #ddd;
+	border-top: 1px solid #ccc;
+	margin: .5rem;
+	max-width: 20rem;
+	min-width: 12rem;
+	padding-bottom: .5rem;
+	width: 30%;
+	transition: background .3s ease-in-out, box-shadow .3s ease-in-out;
+}
+.dataview-card:hover {
+	background: rgb(235,237,239);
+	box-shadow: 0 0 5px 2px rgba(33,38,53,.25);
+}
+.dataview-card-preview {
+	width: 100%;
+	height: 6rem;
+}
+.dataview-card-text {
+	flex: 1;
+	padding: .7rem;
+}
+.dataview-card-text > h3 {
+	font-size: 1.15rem;
+	color: rgb(65,69,81);
+	font-weight: 400;
+	margin-bottom: .2rem;
+}
+.dataview-card-text > p {
+	font-size: .9rem;
+	color: rgb(128,132,140);
+	font-weight: 400;
+}
+.dataview-card-tools {
+	display: flex;
+	justify-content: flex-end;
+	padding: 0 .5rem;
+}
+.dataview-card-buttons {
+	text-align: right;
+	padding: .3rem .2rem 0 0;
+	flex: 1;
+}
+.dataview-card-icons {
+	display: flex;
+}
+.dataview-card-icons .fa {
+	border-radius: .1rem;
+	width: 1.8rem;
+	height: 1.8rem;
+	font-size: 1.05rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	color: rgb(106,110,120);
+	cursor: pointer;
+	transition: background .3s ease-in-out;
+}
+.dataview-card-icons .fa.fa-pencil-square-o {
+	padding-top: .1rem;
+	padding-left: .1rem;
+}
+.dataview-card-icons .fa:hover {
+	background: rgba(65,69,81,.15);
+}
+.dataview-card-icons .fa.disabled {
+	color: rgb(204,207,211);
+	pointer-events: none;
+}
+
+@media (max-width: 1200px) {
+	.dataview-card-text {
+		padding: .5rem;
+	}
+	.dataview-card-text > h3 {
+		font-size: 1.05rem;
+	}
+	.dataview-card-text > p {
+		font-size: .85rem;
+	}
+}
+@media (max-width: 1000px) {
+	.dataview-card {
+		margin: .3rem;
+		padding-bottom: .3rem;
+	}
+	.dataview-card-preview {
+		height: 4.5rem;
+	}
+	.dataview-card-text > h3 {
+	}
+	.dataview-card-text > p {
+	}
+	.dataview-card-icons .fa {
+		width: 1.6rem;
+		height: 1.6rem;
+		font-size: .95rem;
+	}
+}
+@media (max-width: 850px) {
+	.dataview-card {
+		width: 20rem;
+	}
+}
+@media (max-height: 650px) {
+	.dataview-card {
+		width: 20rem;
+	}
+}

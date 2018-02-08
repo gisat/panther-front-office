@@ -23,7 +23,7 @@ define([
             var output = viewUtils.numberFormat(number2, true, 2);
 
             it("It should be rounded to 2 decimal digits", function(){
-                expect(output).toBe('0.76');
+                expect(output).toBe(0.76);
             });
         });
     });

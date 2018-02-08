@@ -7,9 +7,10 @@ Ext.define('PumaMain.view.AddAttributeTree', {
     border: false,
     autoScroll: true,
 	rootVisible: false,
-	title: 'Select attributes to add',
+	title: polyglot.t("selectAttributesToAdd"),
     requires: ['Ext.ux.CheckColumn','Ext.ux.grid.filter.StringFilter'],
     initComponent: function() {
+    	this.id = 'attributeSelectionTree';
 		this.hideHeaders = true;
         this.store = Ext.StoreMgr.lookup('attributes2choose'); // store se jmenuje stejne, ale je predelan na treestore
         this.columns = [{
@@ -17,18 +18,28 @@ Ext.define('PumaMain.view.AddAttributeTree', {
             dataIndex: 'treeNodeText',
 			sortable: false,
             menuDisabled: true,
-			flex: 1
-        }]
+			flex: 1,
+			renderer: function (value, m, r) {
+				if (r.raw.hasOwnProperty('checked') && (r.raw.checked === true || r.raw.checked === false)){
+					return '<div class="tree-column-label">' +
+						value +
+						'</div>'
+				}
+				return '<div class="tree-root-label">' +
+					value +
+					'</div>';
+			}
+        }];
 
         this.buttons = [{
             itemId: 'add',
-            text: 'Add'
+            text: polyglot.t("add")
         },{
             itemId: 'back',
-            text: 'Back'
-        }]
+            text: polyglot.t("back")
+        }];
         this.callParent();
     }
-})
+});
 
 

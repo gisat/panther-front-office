@@ -41,7 +41,11 @@ define([
      * Build the settings window, fill it with data and add listeners
      */
     Settings.prototype.buildContent = function(){
-        var html = S(htmlContent).template({id: this._id}).toString();
+        var html = S(htmlContent).template({
+            id: this._id,
+            settings: polyglot.t("settings"),
+            confirm: polyglot.t("confirm")
+        }).toString();
         if (!$("#" + this._id).length){
             this._target.append(html);
         }
@@ -106,7 +110,7 @@ define([
      */
     Settings.prototype.addCloseListener = function(){
         var self = this;
-        $('#' + this._id + ' .window-close, #' + this._id + ' .settings-confirm').off("click").on("click", self.close.bind(self));
+        $('#' + this._id + ' .settings-close, #' + this._id + ' .settings-confirm').off("click").on("click", self.close.bind(self));
     };
 
 	/**
@@ -208,9 +212,6 @@ define([
                     height: ""
                 });
             }
-        }).on("click drag", function(){
-            $(".floater, .tool-window, #feature-info-window").removeClass("active");
-            $(this).addClass("active");
         });
     };
 

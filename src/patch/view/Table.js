@@ -5,7 +5,6 @@ Ext.define('Puma.patch.view.Table', {
             this.callParent();
         }
     }
-
-})
+});
 
 

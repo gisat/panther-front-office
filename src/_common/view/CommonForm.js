@@ -7,15 +7,15 @@ Ext.define('Puma.view.CommonForm', {
     initComponent: function() {
         this.buttons = [{
                 itemId: 'resetbtn',
-                text: 'Reset'
+                text: polyglot.t('reset')
             }, {
                 itemId: 'reloadbtn',
-                text: 'Reload'
+                text: polyglot.t('reload')
             }, {
                 itemId: 'savebtn',
                 formBind: true,
                 disabled: true,
-                text: 'Save'
+                text: polyglot.t('save')
             }]
         this.fieldDefaults = {
             labelAlign: 'left',

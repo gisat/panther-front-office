@@ -40,8 +40,8 @@ define(['../../../../../error/ArgumentError',
 	 * Build an opactiy control
 	 */
 	Opacity.prototype.build = function(){
-		this._icon = this.buildIcon("Opacity", "opacity-icon", "opacity");
-		this._floater = this.buildFloater("Opacity", "opacity-floater");
+		this._icon = this.buildIcon(polyglot.t("opacity"), "opacity-icon", "opacity");
+		this._floater = this.buildFloater(polyglot.t("opacity"), "opacity-floater");
 
 		this._iconSelector = this._icon.getElement();
 		this._floaterSelector = this._floater.getElement();
@@ -68,7 +68,7 @@ define(['../../../../../error/ArgumentError',
 	Opacity.prototype.buildSlider = function(){
 		return new SliderBox({
 			id: this._id + "-slider",
-			name: "Opacity",
+			name: polyglot.t("opacity"),
 			target: this._floaterBodySelector,
 			isRange: false,
 			range: [0,100],
@@ -84,21 +84,35 @@ define(['../../../../../error/ArgumentError',
 		var self = this;
 
 		this._floaterBodySelector.on("slide", "#" + sliderId, function(e, ui){
-			self._layer.opacity = ui.value/100;
-			for (var key in self._maps){
-				self._maps[key].redraw();
-			}
+			self.setOpacity(ui.value/100);
 		});
 
 		this._floaterBodySelector.on("slidechange", "#" + sliderId, function(e, ui){
-			self._layer.opacity = ui.value/100;
+			// todo find out in which case this is used
 			if (self._layer.hasOwnProperty("renderables")){
 				self._layer.changeOpacity(ui.value/100);
 			}
-			for (var key in self._maps){
-				self._maps[key].redraw();
-			}
+			self.setOpacity(ui.value/100);
 		});
+	};
+
+	/**
+	 * Set opacity for this layer in all maps
+	 * @param opacity
+	 */
+	Opacity.prototype.setOpacity = function(opacity){
+		this._opacityValue = opacity*100;
+
+		var self = this;
+		this._maps.forEach(function(map){
+			map.layers._layers.forEach(function(layer){
+				if (layer.metadata && layer.metadata.id === self._layerMetadata.id){
+					layer.opacity = opacity;
+				}
+			});
+			map.redraw();
+		});
+
 	};
 
 	return Opacity;

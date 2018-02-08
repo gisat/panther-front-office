@@ -45,7 +45,12 @@ define([
 			throw new NotFoundError(Logger.logMessage(Logger.LEVEL_SEVERE, "DrawCustomAU", "constructor", "missingHTMLElement"));
 		}
 
-		this.build(DrawCustomAUHtml);
+		this.build(DrawCustomAUHtml, {
+            drawCustomAnalyticalUnits: polyglot.t("drawCustomAnalyticalUnits"),
+            exportLayerToGeoJson: polyglot.t("exportLayerToGeoJson"),
+            exportLayerToShp: polyglot.t("exportLayerToShp"),
+            activateDrawing: polyglot.t("activateDrawing")
+		});
 
 		this._buttonDraw = $("#button-draw-polygons");
 		this._section = $("#custom-au-container");
@@ -62,7 +67,7 @@ define([
 	DrawCustomAU.prototype.buildLayerCheckbox = function(){
 		return new Checkbox({
 			id: this._sectionId + "-layer-checkbox",
-			name: "Show Custom Analytical units Layer",
+			name: polyglot.t("showCustomAnalyticalUnitsLayer"),
 			checked: true,
 			target: this._section.find(".layer-check"),
 			containerId: this._sectionId
@@ -79,7 +84,7 @@ define([
 		if (ThemeYearConfParams.place.length == 0){
 			section.css("display", "none");
 			info.css("display","block");
-			info.find("p").html("Drawing of custom analytical units is disabled for All places option. To enable drawing, please select place (pilot).");
+			info.find("p").html(polyglot.t("drawCustomAnalyticalUnitsIsDisabled"));
 			return false;
 		} else {
 			section.css("display", "block");

@@ -7,7 +7,7 @@ html, body {
 body, body.x-body {
 	font-family: "Open Sans", sans-serif;
 	font-size: 12px;
-	background: #e5e3df url("../images/loading.gif") no-repeat 50% 50%;
+	background: #e5e3df;
 }
 
 body.application {
@@ -152,7 +152,10 @@ body.application #main {
 	display: inline-block;
 	margin: 0;
 	font-size: 21px;
-	line-height: 45px;
+	line-height: 50px;
+	font-weight: 600;
+	padding-right: 1rem;
+	color: rgb(224,227,231);
 	/* height: 45px; */
 }
 body.intro #header h1 {
@@ -295,45 +298,13 @@ body.intro #header .menu li:first-child::before {
 
 body.intro #content-intro, body.intro #content-intro-guide, body.intro #content-intro-terms, body.application #content-application {
 	display: block;
+	border: 0;
 }
 
 body.dataview #content-intro-terms,
 body.intro #content-intro-terms {
 	display: none; /* useWBAgreement toggle default */
 	z-index: 1000000;
-}
-
-/* dromas */
-html.dromas #content-intro-guide, html.dromas #header h1 {
-	display: none;
-}
-html.dromas #content-intro > .label {
-	background: url('../images/dromas/dromas-logo-white.png') no-repeat .5rem 1.2rem;
-}
-html.dromas body.application .project-logo {
-	height: 100%;
-	width: 13rem;
-	background: url(../images/dromas/dromas-logo-white.png) no-repeat;
-	background-size: contain;
-	margin: .7rem;
-}
-
-html.dromas body.intro #map-holder {
-	background: url(../images/dromas/dromas-background-3.jpg) no-repeat;
-	background-size: cover;
-}
-html.dromas body.intro #app-map {
-	display: none;
-}
-html.dromas body.application #intro-overlay {
-	display: none;
-}
-html.dromas body.intro #intro-overlay {
-	display: block;
-	position: absolute;
-	height: 100%;
-	width: 100%;
-	background: rgba(150,150,150,.3);
 }
 
 /* Fields */
@@ -348,8 +319,8 @@ html.dromas body.intro #intro-overlay {
 	padding-left: 81px;
 	/* background       : url("../images/project-logo.png") no-repeat 0 8px; /* usePumaLogo toggle default */
 	line-height: 38px;
-	font-size: 30px;
-	font-weight: 800;
+	font-size: 1.9rem;
+	font-weight: 700;
 	float: left;
 	text-transform: uppercase;
 }
@@ -416,7 +387,7 @@ html.dromas body.intro #intro-overlay {
 #content-intro {
 	background-color: #434254;
 	background-color: rgba(67, 66, 84, .9);
-	color: #fff;
+	color: rgba(204,207,211,1);
 	top: 125px;
 	padding: 20px;
 	width: 860px;
@@ -475,8 +446,8 @@ html.dromas body.intro #intro-overlay {
 }
 
 #content-intro-guide h2, #content-intro-terms h2 {
-	font-size: 24px;
-	font-weight: 800;
+	font-size: 1.5rem;
+	font-weight: 400;
 	margin-top: 0;
 	border-bottom: 1px solid #fff;
 	margin-bottom: 10px;
@@ -491,11 +462,15 @@ html.dromas body.intro #intro-overlay {
 }
 
 #content-intro-guide h3, #content-intro-terms h3 {
-	font-size: 14px;
+	font-size: 1.1rem;
+	font-weight: 500;
+	margin-bottom: .2rem;
 }
 
 #content-intro-guide p {
-	margin-bottom: 10px;
+	margin-bottom: 15px;
+	font-size: .8rem;
+	font-weight: 400;
 }
 
 /* Application */
@@ -507,7 +482,7 @@ html.dromas body.intro #intro-overlay {
 #view-selector {
 	width: 100%;
 	height: 40px;
-	background-color: #434254;
+	background-color: #212635;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -523,7 +498,7 @@ html.dromas body.intro #intro-overlay {
 #view-selector .field {
 	display: inline-block;
 	/* width: 210px; */
-	margin-right: 20px;
+	margin-right: 15px;
 }
 
 #view-selector .field > div {
@@ -531,13 +506,13 @@ html.dromas body.intro #intro-overlay {
 }
 
 #view-selector .field .label {
-	padding-right: 10px;
+	padding-right: 3px;
 	vertical-align: top;
 	line-height: 30px;
-	color: white;
+	color: rgba(168,172,180,1);
 	font-family: "Open Sans", sans-serif;
-	font-size: 11px;
-	font-weight: 700;
+	font-size: .85rem;
+	font-weight: 500;
 }
 
 
@@ -549,11 +524,20 @@ html.dromas body.intro #intro-overlay {
 }
 
 #app-view-selector-visualization-manage .x-btn-icon, #app-view-selector-manage .x-btn-icon {
-	background: url(../images/new/settings.png) no-repeat 50% 50% !important;
+	/*background: url(../images/new/settings.png) no-repeat 50% 50% !important;*/
 	width: 100%;
 	height: 100%;
 	left: 0;
 	top: 0;
+	display: flex;
+	justify-content: center;
+	line-height: 27px;
+}
+#app-view-selector-visualization-manage .x-btn-icon:before, #app-view-selector-manage .x-btn-icon:before {
+	content: "\f013";
+	font-family: "FontAwesome";
+	font-size: 1.15rem;
+	color: rgb(204,207,211);
 }
 
 #app-view-selector-save,
@@ -577,17 +561,21 @@ html.dromas body.intro #intro-overlay {
 }
 
 #app-view-selector-visualization-save {
-	width: 50px;
+	width: auto;
 }
 #app-view-selector-period-compare {
-	width: 62px;
 	vertical-align: top;
 	margin-left: 4px;
+	width: 66px;
+
 }
 #app-view-selector-period-compare button,
 #app-view-selector-period-compare button span {
-	height: 21px!important; /* because Ext magic */
-	line-height: 21px!important;
+	height: 23px!important; /* because Ext magic */
+	line-height: 23px!important;
+	font-size: .85rem;
+	font-weight: 500;
+	color: rgb(204,207,211);
 }
 
 #view-selector .timeline-labels {
@@ -672,6 +660,7 @@ html.dromas body.intro #intro-overlay {
 	top: 0;
 	right: 0;
 	width: 93px;
+	text-align: right;
 }
 #top-toolbar-widgets {
 	display: inline-block;
@@ -683,8 +672,8 @@ html.dromas body.intro #intro-overlay {
 	height: 100%;
 	padding: 0 15px;
 	line-height: 29px;
-	font-size: 12px;
-	font-weight: 700;
+	font-size: .85rem;
+	font-weight: 600;
 	color: #444;
 	transition:
 		background .3s ease-in-out;
@@ -692,11 +681,13 @@ html.dromas body.intro #intro-overlay {
 #top-toolbar .item.open {
     /* background: #ffe6e9; */
     background-color: #FCFCFA;
-    color: #c92d42;
+    color: rgba(186,65,91,1);
 }
 body.mode-3d #top-toolbar-3dmap {
 	background-color: #FCFCFA;
-    color: #c92d42;
+}
+body.mode-3d #top-toolbar-3dmap:not(.world-wind-2d) {
+    color: rgba(186,65,91,1);
 }
 #top-toolbar .item:not(.disabled) {
 	cursor: pointer;
@@ -775,13 +766,21 @@ body.mode-3d #top-toolbar-3dmap {
 }
 
 #top-toolbar .item#top-toolbar-snapshot::before {
-	background: url('../images/icons/snapshot.png') center center no-repeat;
+	content: '\f030';
+	font-size: 16px;
 }
 #top-toolbar .item#top-toolbar-share-view::before {
 	content: '\f1e0';
 }
+#top-toolbar .item#top-toolbar-share-view.open::before {
+	color: rgba(186,65,91,1);
+}
 #top-toolbar .item#top-toolbar-context-help::before {
 	background: url('../images/icons/context-help.svg') center center no-repeat;
+}
+
+#top-toolbar .item#top-toolbar-snow-configuration::before {
+	content: '\f085';
 }
 
 
@@ -1068,6 +1067,11 @@ Apache license 2.0, Copyright (c) 2015 Tom Adamec */
 	left: 50%;
 	transform: translate(-50%,-50%);
 }
+.a-loader-container.small {
+	width: 40px;
+	height: 40px;
+	font-size: 40px;
+}
 @keyframes a-loader {
 	0% {
 		transform: rotate(0deg);
@@ -1108,5 +1112,17 @@ Apache license 2.0, Copyright (c) 2015 Tom Adamec */
 	/*border-top-color: rgba(255,255,0,.6);*/
 	border-top-color: rgba(245,245,0,.6);
 	/*border-top-color: rgba(255,255,255,.45);*/
+}
+.a-loader-container.blackandwhite i.i1 {
+	border-top-color: rgba(0,0,0,.2);
+}
+.a-loader-container.blackandwhite i.i2 {
+	border-top-color: rgba(255,255,255,.35);
+}
+.a-loader-container.blackandwhite i.i3 {
+	border-top-color: rgba(0,0,0,.3);
+}
+.a-loader-container.blackandwhite i.i4 {
+	border-top-color: rgba(255,255,255,.45);
 }
 /* A loader end */

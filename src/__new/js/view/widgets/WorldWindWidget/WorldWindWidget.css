@@ -2,25 +2,24 @@
 	display: none;
 	left: 10rem;
 	top: 10rem;
+	min-width: 260px;
 	max-width: 40rem;
-	min-height: 4rem;
+	min-height: 10rem;
+	max-height: 25rem;
 	width: 260px;
 	background: rgba(255,255,255,.9);
 }
 #floater-world-wind-widget.open {
 	display: block;
 }
-#floater-world-wind-widget .floater-header {
-	height: 2rem;
-}
 #floater-world-wind-widget .floater-body {
-	height: calc(100% - 2rem);
+	height: calc(100% - 3rem);
 	border: 1px solid #ddd;
 }
 
 /* Floater body */
 #floater-world-wind-widget .floater-body {
-	padding: .2rem 0 0 0;
+	padding: .5rem 0 0 0;
 }
 #floater-world-wind-widget .checkbox-row {
 	transition: background .3s ease-out;

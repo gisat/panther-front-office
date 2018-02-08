@@ -14,6 +14,8 @@ Ext.define('PumaMain.controller.UserPolygon', {
                 toggle: this.onDeleteAreaToggle
             }
         })
+
+        Observer.notify('UserPolygon#init');
     },
     onAddPolygonToggle: function(btn, toggled) {
         var mc = this.getController('Map');

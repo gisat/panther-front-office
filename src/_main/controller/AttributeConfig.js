@@ -87,6 +87,8 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 				}
 
 			});
+
+        Observer.notify('AttributeConfig#init');
     },
 	addInfoOnClickListener: function(){
 		$("body").on("click", ".form-label-help", function(){
@@ -157,18 +159,18 @@ Ext.define('PumaMain.controller.AttributeConfig', {
             var attr = attrs[i];
             var attrName = 'as_'+attr.as+'_attr_'+attr.attr;
             if (attrMap[attrName]) {
-                Puma.util.Msg.msg('Duplicate attributes not allowed','','l');
+                Puma.util.Msg.msg(polyglot.t('duplicateAttributesNotAllowed'),'','l');
                 return;
             }
             
             attrMap[attrName] = true;
             var type = attr.normType;
             if (isSelect === true && type!='select') {
-                Puma.util.Msg.msg('All attributes have to be normalized to "First selected"','','l');
+                Puma.util.Msg.msg(polyglot.t('allAttributesHaveToBeNormalized'),'','l');
                 return;
             }
             if (isSelect === false && type=='select') {
-                Puma.util.Msg.msg('All attributes have to be normalized to "First selected"','','l');
+                Puma.util.Msg.msg(polyglot.t('allAttributesHaveToBeNormalized'),'','l');
                 return;
             }
             isSelect = type == 'select';
@@ -219,27 +221,27 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         var fls = Ext.StoreMgr.lookup('layertemplate').queryBy(function(rec) {
             return Ext.Array.contains(levels,rec.get('_id'));
         }).getRange();
-        var title = 'Chart configuration';
+        var title = polyglot.t("chartConfiguration");
         switch (cmp.xtype=='tool' ? 'tool' : cmp.itemId) {
             case 'configurelayers':
-                title = 'Thematic maps configuration'; break;
+                title = polyglot.t('thematicMapsConfiguration'); break;
             case 'configurefilters':
-                title = 'Filters configuration'; break;
+                title = polyglot.t('filtersConfiguration'); break;
             case 'tool':
-                title += ' - '+cfg.title
+                // title += ' - '+cfg.title
             
         }
         var window = Ext.widget('window',{
 			layout: 'fit',
 			cls: 'thematic-maps-settings',
-            width: 710,
-            height: 724,
+            width: 800,
+            height: 600,
             
             title: title,
             items: [{
                 xtype: 'configform',
                 featureLayers: fls,
-                padding: 5,
+                padding: 0,
                 cls: 'configform',
                 chart: chart,
                 formType: formType,
@@ -263,6 +265,48 @@ Ext.define('PumaMain.controller.AttributeConfig', {
     
 	// triggered when AddAttributeTree opened
     onAddAttribute: function(btn) {
+		var form = btn.up('configform');
+		var values = form.getForm().getValues();
+		var type = values.type;
+
+		var rootNode = Ext.StoreMgr.lookup('attributes2choose').getRootNode();
+
+		// hide non-numeric attributes for every type, but table. Add type of the node
+		rootNode.cascadeBy(function(node){
+			node.collapseChildren();
+			if (node.data.attrType === "text"){
+				if (type !== "grid"){
+					node.data.cls = "nonnumeric-attribute";
+				} else {
+					node.data.cls = "";
+				}
+			}
+			if (type === "grid" && node.data.attrType){
+				node.data.treeNodeText = node.data.attrName + " (" + polyglot.t(node.data.attrType) + ")";
+			}
+		});
+
+		// hide empty attribute sets
+		rootNode.cascadeBy(function(node){
+			var data = node.data;
+
+			// detect attribute set nodes
+			if (data.as > 0 && data.attr.length === 0){
+				var hasVisibleAttribute = false;
+				node.childNodes.forEach(function(childNode){
+					if (childNode.data.cls !== "nonnumeric-attribute"){
+						hasVisibleAttribute = true;
+					}
+				});
+
+				// if there is no visible attribute in attr set, then hide attribute set
+				node.data.cls = "";
+				if (!hasVisibleAttribute){
+					node.data.cls = "nonnumeric-attribute"
+				}
+			}
+		});
+
         this.setActiveCard(btn,1);
     },
 
@@ -281,12 +325,14 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 			});
 			checkNode.parentNode.set('checked', parentChecked);
 			
-		}else if(checkNode.get('as')){
+		} else if(checkNode.get('as')){
 			// check/uncheck all attributes of this attribute set
 			Ext.Array.each(checkNode.childNodes, function(node){
 				node.set('checked', checked);
 			});
-			if( checked ) checkNode.expand();
+			if( checked ){
+				checkNode.expand();
+			}
 		}
 		
 	},
@@ -295,6 +341,11 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 		if(node.get('attr') && e.target.className != 'x-tree-checkbox'){
 			node.set('checked', !node.get('checked'));
 			this.onAddAttrCheck(node);
+		}
+
+		if (node.get('as') && !node.get('attr')){
+			node.set('checked', !node.get('checked'));
+			this.onAddAttrCheck(node, node.get('checked'));
 		}
 	},
 	
@@ -379,7 +430,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 			form.getForm().applyToFields({disabled: true});
 			form.getForm().reset();
 
-			alert('You can bulk edit configuration only for attributes with the same source units, same normalization type, change units, custom factor and for attribute and attribute set normalization also the same attribute and/or attribute set.');
+			alert(polyglot.t('bulkEditConfiguration'));
 		}
 	},
 
@@ -710,7 +761,9 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 	onChartTypeChange: function(combo,val) {
         var configForm = combo.up('configform');
         var advanced = Ext.ComponentQuery.query('#advancedfieldset',configForm)[0];
+		var periodsSettings = Ext.ComponentQuery.query('#periodsSettings',configForm)[0];
         var cardContainer = Ext.ComponentQuery.query('#attributecontainer',configForm)[0];
+		var periods = Ext.ComponentQuery.query('#selyear')[0].getValue();
         cardContainer.show();
         if (val!='extentoutline') {
             cardContainer.getLayout().setActiveItem(0);
@@ -720,10 +773,22 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         }
         if (val=='columnchart') {
             advanced.show();
-        }
-        else {
+        } else {
             advanced.hide();
         }
+		if (val=='columnchart' && periods.length > 1 ) {
+			periodsSettings.show();
+		} else {
+			periodsSettings.hide();
+		}
+
+		// For all chart types but tables, remove attribute if it isn't numeric
+		var store = configForm.down('attributegrid').store;
+        store.data.items.forEach(function(record){
+        	if (record.data.attrType !== 'numeric' && val !== "grid"){
+        		store.remove(record);
+			}
+		});
     },
 
 	/**

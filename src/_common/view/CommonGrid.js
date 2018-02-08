@@ -21,20 +21,20 @@ Ext.define('Puma.view.CommonGrid', {
         }
         this.columns = this.columns || [{
             dataIndex: 'name',
-            header: 'Name',
+            header: polyglot.t('name'),
             flex: 1
         }]
         this.buttons = this.buttons || [];
         this.buttons = Ext.Array.merge(this.buttons,[{
-                text: 'Delete',
+                text: polyglot.t('delete'),
                 itemId: 'deletebtn',
                 disabled: true,
             }, {
-                text: 'Create copy',
+                text: polyglot.t('createCopy'),
                 disabled: true,
                 itemId: 'copybtn'
             }, {
-                text: 'Create blank',
+                text: polyglot.t('createBlank'),
                 itemId: 'createbtn'
             }])
         this.selModel = {

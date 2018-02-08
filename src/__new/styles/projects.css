@@ -1,0 +1,125 @@
+/* Table of contents
+
+	DROMAS......................adjustments for Dromas
+	  Intro overlay
+
+	URBAN-TEP...................adjustments for Urban-TEP
+	  Intro overlay
+	  Header
+	  User
+	  Top toolbar inputs
+
+*/
+
+/* ===================================================
+   === DROMAS ========================================
+   =================================================== */
+
+/* Intro overlay */
+html.dromas #floater-custom-views-widget.intro-overlay .floater-body,
+html.dromas #floater-custom-views-widget.intro-overlay .floater-overlay {
+	background-image: linear-gradient(160deg, rgba(33,38,53,1) 0%, rgba(33,38,53,1) 40%, rgba(63,50,43,1) 100%);
+}
+html.dromas .custom-views-category.active {
+	background: rgba(172,98,33,.6);
+}
+html.dromas .custom-views-category:hover {
+	background: rgba(172,98,33,.2);
+}
+html.dromas .about-window-header-title {
+	background: rgba(172,98,33,.85);
+}
+
+/* ===================================================
+   === URBAN-TEP =====================================
+   =================================================== */
+
+/* Intro overlay */
+.urban-tep #floater-custom-views-widget.intro-overlay .floater-body,
+.urban-tep #floater-custom-views-widget.intro-overlay .floater-overlay {
+	background-image: linear-gradient(160deg, rgba(65,69,81,1) 0%, rgba(65,69,81,1) 40%, rgba(106,110,120,1) 100%);
+}
+.urban-tep .custom-views-category:hover {
+	background: rgba(153,55,64,.35);
+}
+.urban-tep .custom-views-category.active {
+	background: rgba(153,55,64,.8);
+	border: 1px solid rgba(255,255,255,.15);
+	border-left: 0;
+	border-right: 0;
+}
+.urban-tep .about-window-header {
+	background: url('../img/urban_tep/urban_tep_background.png') no-repeat;
+}
+.urban-tep .about-window-header-title {
+	background: rgba(153,55,64,.9);
+}
+
+/* header */
+.urban-tep #header, .urban-tep #view-selector, .urban-tep #content-intro, .urban-tep #content-intro-guide {
+	background-color: #414551;
+}
+.urban-tep .fields-holder > .label {
+	background: url(../img/logo_tep_urban.png) no-repeat 0 8px;
+	padding-left: 160px;
+}
+.urban-tep #header h1 {
+	background: url(../img/logo_tep_urban.png) no-repeat 0 10px;
+	background-size: 40%;
+	padding-left: 104px;
+}
+.urban-tep .fields-holder > .label {
+	width: 390px;
+}
+
+/* user */
+.urban-tep #header .user .signup {
+	display: none;
+}
+
+/* top toolbaar inputs */
+.newDesign #content-intro .x-form-text, .newDesign #content-intro .x-form-trigger {
+	background-color: rgba(255, 255, 255, .3);
+}
+.newDesign #content-intro table:hover .x-form-text,
+.newDesign #content-intro table:hover .x-form-trigger,
+.newDesign #content-intro .x-form-trigger,
+.newDesign #content-intro .custom-combo .x-form-text,
+.urban-tep .app-legacy-view-selector-help .help-btn .x-btn:hover,
+.urban-tep.x-border-box .x-form-trigger.x-form-refresh-trigger,
+.urban-tep.x-border-box .custom-combo .x-form-text,
+.urban-tep.x-border-box .custom-combo .x-form-trigger,
+.urban-tep .x-btn.custom-button.x-btn-default-small,
+.urban-tep .select-multi-container.top-bar-multiselect,
+.urban-tep .component-button.compare-button:hover,
+.urban-tep .select-basic-container.top-bar-select {
+	background: rgba(255, 255, 255, .25);
+}
+.urban-tep.x-border-box .custom-combo:hover .x-form-text,
+.urban-tep.x-border-box .custom-combo:hover .x-form-trigger,
+.urban-tep.x-border-box .custom-combo:hover .x-form-trigger.x-form-refresh-trigger,
+.urban-tep .x-btn.custom-button.x-btn-default-small:hover {
+	background-color: rgba(255, 255, 255, .3) !important;
+}
+.urban-tep .select-multi-container.top-bar-multiselect:hover,
+.urban-tep .select-basic-container.top-bar-select:hover,
+.urban-tep .component-button.compare-button {
+	background: rgba(255, 255, 255, .3);
+}
+
+.urban-tep body.intro .x-btn.custom-button.x-btn-default-small {
+	background: rgba(153,55,64,.8);
+}
+.urban-tep body.intro .x-btn.custom-button.x-btn-default-small:hover {
+	background: rgba(153,55,64,.7) !important;
+}
+
+.urban-tep #content-intro {
+	padding: 19px;
+	border-left: 0;
+	width: 950px;
+}
+.urban-tep .x-border-box .custom-combo .x-form-text {
+	background: rgba(255, 255, 255,0);
+	border: 1px solid rgba(255, 255, 255, .7);
+}

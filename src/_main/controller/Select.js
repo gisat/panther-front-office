@@ -4,6 +4,7 @@ Ext.define('PumaMain.controller.Select', {
     requires: [],
     init: function() {
         Observer.addListener("selectInternal",this.selectInternal.bind(this));
+        Stores.addListener(this._onEvent.bind(this));
         this.control({
             '#hoverbtn': {
                 toggle: this.onToggleHover
@@ -35,6 +36,8 @@ Ext.define('PumaMain.controller.Select', {
         Select.selectedAreasMap = {};
         Select.selectedAreasMap[this.actualColor] = [];
         Select.controller = this;
+
+        Observer.notify('Select#init');
     },
     onAfterUnselectRender: function() {
         //Ext.get('app-tools-colors-unselect').on('click',this.clearSelections,this);
@@ -97,6 +100,7 @@ Ext.define('PumaMain.controller.Select', {
     },
     onChangeColor: function(picker,value) {
         Select.actualColor = this.actualColor = value;
+        Observer.notify('Select#onChangeColor');
         this.selMap[value] = this.selMap[value] || [];
         if (this.hoverMap.length) {
             this.hoverMap = [];
@@ -147,7 +151,7 @@ Ext.define('PumaMain.controller.Select', {
         else {
             this.hoverMap = newSel;
         }
-        
+
         this.colorMap = this.prepareColorMap();
 
         if (OneLevelAreas.hasOneLevel){
@@ -253,13 +257,15 @@ Ext.define('PumaMain.controller.Select', {
     },
         
     clearSelectionsAll: function() {
-        Stores.notify("clearAllSelections");
         this.selMap = {'ff4c39':[]};
         this.hoverMap = [];
         this.colorMap = {};
         this.getController('Area').colourTree(this.colorMap); 
         this.updateCounts();
         this.selectDelayed();
+
+        Select.selectedAreasMap = null;
+		Stores.notify("selection#everythingCleared");
     },
     clearSelections: function() {
         this.selMap[this.actualColor] = [];
@@ -269,7 +275,7 @@ Ext.define('PumaMain.controller.Select', {
         this.updateCounts();
         this.selectDelayed();
 
-        Stores.notify("clearActiveSelection");
+        Stores.notify("selection#activeCleared");
         var clearAll = true;
         for (var key in this.selMap){
             if (this.selMap[key].length > 0){
@@ -277,7 +283,7 @@ Ext.define('PumaMain.controller.Select', {
             }
         }
         if (clearAll){
-            Stores.notify("clearAllSelections");
+            Stores.notify("selection#everythingCleared");
         }
     },    
     
@@ -299,9 +305,25 @@ Ext.define('PumaMain.controller.Select', {
             resultMap[area.loc][area.at][area.gid] = this.actualColor;
         }
         this.colorMap = resultMap;
+
+		if (area && window.location.origin === 'http://dromas.gisat.cz' && actual.length === 1 && area.index > 0){
+        // if (area && actual.length === 1 && area.index > 0){
+			var gid = area.gid;
+			Stores.notify("map#selectFromAreas", gid);
+        }
+
+        setTimeout(function(){
+			Stores.notify('selection#selected');
+        },1000);
+
         return resultMap;
+    },
+
+    _onEvent: function(type){
+        if (type === "selection#clearAll"){
+            this.clearSelectionsAll();
+        }
     }
-    
     
 });
 

@@ -42,5 +42,43 @@ define(['../error/ArgumentError',
 		});
 	};
 
+	/**
+	 * Delete request
+	 * @returns {Promise}
+	 */
+	RemoteJQ.prototype.delete = function(){
+		var self = this;
+		return new Promise(function(resolve, reject){
+			$.ajax({
+				type: "DELETE",
+				url: self._url,
+				params: self._params
+			}).done(function(data) {
+				resolve(data);
+			}).catch(function(err){
+				throw new Error(err);
+			});
+		});
+	};
+
+	/**
+	 * Post request
+	 * @returns {Promise}
+	 */
+	RemoteJQ.prototype.post = function(){
+		var self = this;
+		return new Promise(function(resolve, reject){
+			$.ajax({
+				type: "POST",
+				url: self._url,
+				data: self._params
+			}).done(function(data) {
+				resolve(data);
+			}).catch(function(err){
+				throw new Error(err);
+			});
+		});
+	};
+
 	return RemoteJQ;
 });

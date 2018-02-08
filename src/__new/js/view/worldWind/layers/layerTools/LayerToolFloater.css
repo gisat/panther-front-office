@@ -2,8 +2,11 @@
 	background: rgba(255,255,255,.95);
 	display: none;
 	position: absolute;
-	min-height: 100px;
+	min-height: 130px;
+	max-height: 250px;
 	height: auto;
+	min-width: 300px;
+	max-width: 400px;
 	width: 300px;
 	left: auto;
 	bottom: 55px;
@@ -17,7 +20,9 @@
 body.mode-3d .tool-window.layer-tool-floater.open {
 	display: block;
 }
-
+.layer-tool-floater-header .tool-window-title {
+	font-size: .9rem;
+}
 .layer-tool-floater-body {
 	padding: .3rem;
 	height: calc(100% - 2.5rem);

@@ -15,7 +15,7 @@
    viewBox="0 0 744.09448819 1052.3622047"
    id="svg2"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
    sodipodi:docname="source.svg"
    inkscape:export-filename="D:\DATA\panther-front-office\src\__new\img\source.png"
    inkscape:export-xdpi="90"
@@ -60,16 +60,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.9462687"
-     inkscape:cx="99.751135"
-     inkscape:cy="68.5"
+     inkscape:zoom="8.4077361"
+     inkscape:cx="78.975733"
+     inkscape:cy="115.63899"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="true"
-     inkscape:window-width="1818"
-     inkscape:window-height="1058"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
+     inkscape:window-width="1747"
+     inkscape:window-height="1051"
+     inkscape:window-x="-9"
+     inkscape:window-y="1071"
      inkscape:window-maximized="1"
      inkscape:snap-bbox="true"
      inkscape:bbox-nodes="false"
@@ -80,7 +80,7 @@
      inkscape:snap-smooth-nodes="true"
      inkscape:snap-nodes="false"
      inkscape:snap-others="false"
-     inkscape:snap-global="true"
+     inkscape:snap-global="false"
      inkscape:snap-bbox-edge-midpoints="false">
     <inkscape:grid
        type="xygrid"
@@ -652,11 +652,10 @@
        inkscape:export-ydpi="90" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:14.26201057px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#f6f6f6;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#f6f6f6;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="250.13863"
        y="1028.0449"
        id="text4206"
-       sodipodi:linespacing="125%"
        transform="scale(1.0001228,0.99987721)"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"><tspan
@@ -664,7 +663,7 @@
          id="tspan4208"
          x="250.13863"
          y="1028.0449"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.43086147px;font-family:Elephant;-inkscape-font-specification:Elephant;fill:#f6f6f6">i</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.43086147px;line-height:1.25;font-family:Elephant;-inkscape-font-specification:Elephant;fill:#f6f6f6">i</tspan></text>
     <path
        style="fill:#f6f6f6;fill-rule:evenodd;stroke:#f6f6f6;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 244.74958,1019.8648 2.50107,6.8775"
@@ -683,11 +682,10 @@
        inkscape:export-ydpi="90" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-weight:normal;font-size:14.26201057px;line-height:125%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#424354;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;"
+       style="font-style:normal;font-weight:normal;line-height:0%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#424354;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        x="264.76196"
        y="1027.8232"
        id="text4206-0"
-       sodipodi:linespacing="125%"
        transform="scale(1.0001228,0.99987721)"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"><tspan
@@ -695,7 +693,7 @@
          id="tspan4208-0"
          x="264.76196"
          y="1027.8232"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.43086147px;font-family:Elephant;-inkscape-font-specification:Elephant;fill:#424354;fill-opacity:1;">i</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:11.43086147px;line-height:1.25;font-family:Elephant;-inkscape-font-specification:Elephant;fill:#424354;fill-opacity:1">i</tspan></text>
     <path
        style="fill:#424354;fill-rule:evenodd;stroke:#424354;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 259.37471,1019.6431 2.50107,6.8775"
@@ -806,20 +804,20 @@
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <rect
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#f6f6f6;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#eeeeee;stroke-width:1.87500012;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4595-4-0"
-       width="12"
-       height="12.000022"
-       x="-79.999992"
-       y="-1003.3622"
+       width="11.953115"
+       height="11.953136"
+       x="-87.363014"
+       y="-959.51477"
        inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"
        ry="0"
-       transform="scale(-1,-1)" />
+       transform="scale(-1)" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#f6f6f6;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 83,1001.3622 0,-14.00002"
+       style="fill:none;fill-rule:evenodd;stroke:#eeeeee;stroke-width:1.87500012;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 90.351306,957.52263 V 943.57731"
        id="path4683-08"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
@@ -827,36 +825,9 @@
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
-       style="fill:none;fill-rule:evenodd;stroke:#f6f6f6;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 70,988.3622 14,-2e-5"
+       style="fill:none;fill-rule:evenodd;stroke:#eeeeee;stroke-width:1.87500012;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 77.402097,944.57342 13.945301,-2e-5"
        id="path4683-5-1"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc"
-       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#f6f6f6;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 77,994.36218 -6,6.00002"
-       id="path4683-0-1"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc"
-       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#f6f6f6;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 70,1000.3622 6,0"
-       id="path4683-0-7-02"
-       inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cc"
-       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
-       inkscape:export-xdpi="90"
-       inkscape:export-ydpi="90" />
-    <path
-       style="fill:none;fill-rule:evenodd;stroke:#f6f6f6;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 71,1001.3622 0,-6"
-       id="path4683-0-7-0-6"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
        inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
@@ -1024,6 +995,137 @@
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="cc"
        inkscape:export-filename="D:\DATA\urbis\puma\public\__new\img\minimise-icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#686774;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4595-4-0-0-8-0-7-4"
+       width="14"
+       height="13.99998"
+       x="-49.625"
+       y="-925.79968"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\__new\img\minimise-icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       ry="0"
+       transform="scale(-1)"
+       rx="2.8125" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#686774;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 39.09375,921.79971 h 7.062188"
+       id="path4683-5-1-9-6-2-3-2-1"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\__new\img\minimise-icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#eeeeee;stroke-width:1.875;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4595-4-0-0-8-0-7-4-1"
+       width="14.875"
+       height="14.874979"
+       x="-83.3125"
+       y="-930.48718"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\__new\img\minimise-icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       ry="2.8125"
+       transform="scale(-1)"
+       rx="2.8125" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#eeeeee;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 72.123047,926.23721 h 7.503575"
+       id="path4683-5-1-9-6-2-3-2-1-6"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\__new\img\minimise-icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#f6f6f6;stroke-width:2;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4595-4-0-0-8-1"
+       width="9.8823528"
+       height="9.7500181"
+       x="-25.507353"
+       y="-952.36218"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\__new\img\maximise-icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       ry="0"
+       transform="scale(-1)" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#f6f6f6;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 27.977939,950.7372 v -11.375"
+       id="path4683-08-4-7-5"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\__new\img\maximise-icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#f6f6f6;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 17.272065,940.1747 H 28.801468"
+       id="path4683-5-1-9-6-0"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\__new\img\maximise-icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#f6f6f6;stroke-width:2;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 14.801468,944.2372 H 26.33088"
+       id="path4683-5-1-9-6-2-33"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\__new\img\maximise-icon.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#eeeeee;stroke-width:1.87500012;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 79.078877,951.40053 4.459163,4.45919"
+       id="path4683-0-9-0-4-2-5-1-7"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\panther-front-office\src\images\melodies\fail.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#eeeeee;stroke-width:1.87500012;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 83.53804,951.40053 -4.459163,4.45919"
+       id="path4683-0-9-0-4-2-3-3-5-9"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#eeeeee;stroke-width:1.87500024;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect4595-4-0-0"
+       width="11.953116"
+       height="11.953136"
+       x="-113.24384"
+       y="-961.77594"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"
+       ry="0"
+       transform="scale(-1)" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#eeeeee;stroke-width:1.87500024;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 104.9597,953.66168 4.45917,4.45919"
+       id="path4683-0-9-0-4-2-5-1-7-6"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\panther-front-office\src\images\melodies\fail.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       style="fill:none;fill-rule:evenodd;stroke:#eeeeee;stroke-width:1.87500024;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 109.41887,953.66168 -4.45917,4.45919"
+       id="path4683-0-9-0-4-2-3-3-5-9-2"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="cc"
+       inkscape:export-filename="D:\DATA\urbis\puma\public\images\icons\urbis-detach.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
   </g>
