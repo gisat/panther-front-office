@@ -632,10 +632,14 @@ define([
         var self = this;
         var tool = "settings";
         $('#floater-' + self._widgetId + ' .widget-' + tool).on("click", function(){
-            $(".floating-window").removeClass("active");
+            var floater = $('#' + self._widgetId + '-' + tool);
+            floater.addClass('open');
             setTimeout(function(){
-                $('#' + self._widgetId + '-' + tool).addClass('open').addClass('active');
-            },50);
+				window.Stores.notify('floaters#sort', {
+					fromExt: false,
+					floaterJQuerySelector: floater
+				});
+            },20);
         });
     };
 

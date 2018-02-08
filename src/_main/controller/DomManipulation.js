@@ -34,8 +34,12 @@ Ext.define('PumaMain.controller.DomManipulation', {
 		$("#map-holder").append('<div id="draggingOverMapProtectionOverlay"></div>');
 	},
 	
-	onWindowDragEnd: function() {
+	onWindowDragEnd: function(xWindow) {
 		$("#draggingOverMapProtectionOverlay").remove();
+		window.Stores.notify('floaters#sort', {
+			fromExt: true,
+			xWindow: xWindow
+		});
 	},
 
 	onToolsResize: function(toolPanel) {

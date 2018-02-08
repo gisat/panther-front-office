@@ -5,14 +5,16 @@
 	color: #555;
 	display: none;
 	height: 15rem;
+	min-height: 12rem;
+	max-height: 20rem;
 	left: 100px;
 	position: absolute;
 	right: 100px;
 	resize: both;
 	overflow: auto;
-	min-width: 25rem;
+	min-width: 20rem;
 	width: 30rem;
-	max-width: 40rem;
+	max-width: 35rem;
 	z-index: 10000;
 }
 .fi-window.no-data {
@@ -43,6 +45,7 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 	width: calc(100% - 45px);
+	font-size: .9rem;
 }
 .fi-window .feature-info-tools {
 	display: flex;
@@ -108,6 +111,7 @@
 	padding: .15rem .2rem;
 	font-weight: 300;
 	color: rgb(65,69,81);
+	transition: background .3s ease-in-out;
 }
 .fi-window .feature-info-window-body table tr td i {
 	color: rgb(65,69,81);
@@ -115,7 +119,7 @@
 	font-weight: 300;
 }
 .fi-window .feature-info-window-body table tr:hover td {
-	background: rgba(224,227,231,.8);
+	background: rgba(224,227,231,.4);
 }
 .fi-window .feature-info-window-body table tr td:first-child {
 	font-weight: 600;
@@ -132,7 +136,9 @@
 	background: rgba(173,39,56,.2);
 }
 #export-feature-info-csv:before {
-	content: url('../../../../img/table.png');
+	content: "\f1c3";
+	font-family: "FontAwesome";
+	font-size: 1rem;
 }
 
 

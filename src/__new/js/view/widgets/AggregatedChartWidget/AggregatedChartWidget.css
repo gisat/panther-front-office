@@ -55,7 +55,7 @@
     /*background: #e5e5e5;*/
 /*}*/
 
-.widget-button-export:before {
+#floater-functional-urban-area-result .widget-button-export:before {
     height: 100%;
     width: 100%;
     margin-right: 5px;
@@ -63,15 +63,15 @@
     top: 3px;
 }
 
-#export-shp:before, #export-json:before {
+#floater-functional-urban-area-result #export-shp:before, #floater-functional-urban-area-result #export-json:before {
     content: url('../../../../img/map.png');
 }
-#export-shp[disabled=disabled]:before, #export-json[disabled=disabled]:before {
+#floater-functional-urban-area-result #export-shp[disabled=disabled]:before, #floater-functional-urban-area-result #export-json[disabled=disabled]:before {
     content: url('../../../../img/map-disabled.png');
 }
-#export-csv:before, #export-xls:before {
+#floater-functional-urban-area-result #export-csv:before, #floater-functional-urban-area-result #export-xls:before {
     content: url('../../../../img/table.png');
 }
-#export-csv[disabled=disabled]:before, #export-xls[disabled=disabled]:before {
+#floater-functional-urban-area-result #export-csv[disabled=disabled]:before, #floater-functional-urban-area-result #export-xls[disabled=disabled]:before {
     content: url('../../../../img/table-disabled.png');
 }

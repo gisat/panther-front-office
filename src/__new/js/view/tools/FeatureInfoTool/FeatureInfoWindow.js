@@ -187,8 +187,10 @@ define(['../../../error/ArgumentError',
 			containment: "body",
 			handle: ".feature-info-window-header"
 		}).on("click drag", function(){
-			$(".floating-window").removeClass("active");
-			$(this).addClass("active");
+			window.Stores.notify('floaters#sort', {
+				fromExt: false,
+				floaterJQuerySelector: $(this)
+			});
 		});
 	};
 
@@ -232,8 +234,11 @@ define(['../../../error/ArgumentError',
 		var self = this;
 		$(".feature-info-settings").on("click", function(){
 			setTimeout(function(){
-				$(".floating-window").removeClass("active");
-				$('#' + self._id + '-settings').addClass('open').addClass('active');
+				$('#' + self._id + '-settings').addClass('open');
+				window.Stores.notify('floaters#sort', {
+					fromExt: false,
+					floaterJQuerySelector: $('#' + self._id + '-settings')
+				});
 			}, 50);
 		});
 	};

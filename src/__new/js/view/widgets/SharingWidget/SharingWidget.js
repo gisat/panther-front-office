@@ -55,6 +55,10 @@ define([
 		$('#floater-sharing .floater-body').empty();
 
         var self = this;
+
+        Groups.clear();
+        Users.clear();
+
 		Promise.all([
 			Groups.all(),
 			Users.all()
@@ -195,6 +199,8 @@ define([
 	SharingWidget.prototype.onEvent = function(type, options){
 		if (type === Actions.sharingUrlReceived){
 			this.showUrl(options);
+		} else if (type === Actions.userChanged){
+			this.rebuild();
 		}
 	};
 
