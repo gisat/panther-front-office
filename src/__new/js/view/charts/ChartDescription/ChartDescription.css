@@ -68,7 +68,7 @@
 }
 .info-window-header .window-close:hover {
 	cursor: pointer;
-	background: rgba(189,192,197,.05);
+	background: rgba(189,192,197,.1);
 }
 
 /* body */
