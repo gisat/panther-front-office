@@ -75,43 +75,43 @@ define([
 		if (isWorldWind){
 			if (tools.layers){
 				var classesLayers3d = $('#floater-world-wind-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesLayers3d + '" id="top-toolbar-layers" data-for="floater-world-wind-widget">'+polyglot.t('layers')+'</div>');
+				this._target.append('<div class="' + classesLayers3d + '" id="top-toolbar-layers" data-for="floater-world-wind-widget"><span>'+polyglot.t('layers')+'</span></div>');
 			}
 			if (tools.areas){
 				var classesAreas3d = $('#window-areatree').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesAreas3d + '" id="top-toolbar-areas" data-for="window-areatree">'+polyglot.t('areas')+'</div>');
+				this._target.append('<div class="' + classesAreas3d + '" id="top-toolbar-areas" data-for="window-areatree"><span>'+polyglot.t('areas')+'</span></div>');
 			}
 			if (tools.periods){
 				var classesPeriods3d = $('#floater-periods-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesPeriods3d + '" id="top-toolbar-periods" data-for="floater-periods-widget">'+polyglot.t('periods')+'</div>');
+				this._target.append('<div class="' + classesPeriods3d + '" id="top-toolbar-periods" data-for="floater-periods-widget"><span>'+polyglot.t('periods')+'</span></div>');
 			}
 			if (tools.osm){
 				var classesOsm3d = $('#floater-osm-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesOsm3d + '" id="top-toolbar-osm" data-for="floater-osm-widget">'+polyglot.t('osm')+'</div>');
+				this._target.append('<div class="' + classesOsm3d + '" id="top-toolbar-osm" data-for="floater-osm-widget"><span>'+polyglot.t('osm')+'</span></div>');
 			}
 			if (tools.selections){
 				var classesSelections3d = $('#window-colourSelection').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesSelections3d + '" id="top-toolbar-selections" data-for="window-colourSelection">'+polyglot.t('selections')+'</div>');
+				this._target.append('<div class="' + classesSelections3d + '" id="top-toolbar-selections" data-for="window-colourSelection"><span>'+polyglot.t('selections')+'</span></div>');
 			}
 			if (tools.areasFilterNew){
 				var classesAreasFilter3d = $('#floater-evaluation-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesAreasFilter3d + '" id="top-toolbar-selection-filter" data-for="floater-evaluation-widget">'+polyglot.t('areasFilter')+'</div>');
+				this._target.append('<div class="' + classesAreasFilter3d + '" id="top-toolbar-selection-filter" data-for="floater-evaluation-widget"><span>'+polyglot.t('areasFilter')+'</span></div>');
 			}
 			if (tools.areasFilterOld){
 				var classesLegacyAreasFilter3d = $('#window-legacyAdvancedFilters').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesLegacyAreasFilter3d + '" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters">'+polyglot.t('areasFilter')+'</div>');
+				this._target.append('<div class="' + classesLegacyAreasFilter3d + '" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters"><span>'+polyglot.t('areasFilter')+'</span></div>');
 			}
 			if (tools.mapTools){
 				var classesMapTools3d = $('#floater-map-tools-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesMapTools3d + '" id="top-toolbar-map-tools" data-for="floater-map-tools-widget">'+polyglot.t('mapTools')+'</div>');
+				this._target.append('<div class="' + classesMapTools3d + '" id="top-toolbar-map-tools" data-for="floater-map-tools-widget"><span>'+polyglot.t('mapTools')+'</span></div>');
 			}
 			if (tools.customViews){
 				var classesCustomViews3d = $('#floater-custom-views-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesCustomViews3d + '" id="top-toolbar-saved-views" data-for="floater-custom-views-widget">'+polyglot.t('customViews')+'</div>');
+				this._target.append('<div class="' + classesCustomViews3d + '" id="top-toolbar-saved-views" data-for="floater-custom-views-widget"><span>'+polyglot.t('customViews')+'</span></div>');
 			}
 			if (tools.snow){
 				var classesSnowWidget3d = $('#floater-snow-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesSnowWidget3d + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget">'+polyglot.t('savedConfigurations')+'</div>');
+				this._target.append('<div class="' + classesSnowWidget3d + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget"><span>'+polyglot.t('savedConfigurations')+'</span></div>');
 			}
 		}
 
@@ -119,44 +119,44 @@ define([
 		else {
 			if (tools.layers){
 				var classesLayers = $('#window-layerpanel').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesLayers + '" id="top-toolbar-layers" data-for="window-layerpanel">'+polyglot.t('layers')+'</div>');
+				this._target.append('<div class="' + classesLayers + '" id="top-toolbar-layers" data-for="window-layerpanel"><span>'+polyglot.t('layers')+'</span></div>');
 			}
 			if (tools.areas){
 				var classesAreas = $('#window-areatree').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesAreas + '" id="top-toolbar-areas" data-for="window-areatree">'+polyglot.t('areas')+'</div>');
+				this._target.append('<div class="' + classesAreas + '" id="top-toolbar-areas" data-for="window-areatree"><span>'+polyglot.t('areas')+'</span></div>');
 			}
 			if (tools.selections){
 				var classesSelections = $('#window-colourSelection').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesSelections + '" id="top-toolbar-selections" data-for="window-colourSelection">'+polyglot.t('selections')+'</div>');
+				this._target.append('<div class="' + classesSelections + '" id="top-toolbar-selections" data-for="window-colourSelection"><span>'+polyglot.t('selections')+'</span></div>');
 			}
 			if (tools.areasFilterNew){
 				var classesAreasFilter = $('#floater-evaluation-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesAreasFilter + '" id="top-toolbar-selection-filter" data-for="floater-evaluation-widget">'+polyglot.t('areasFilter')+'</div>');
+				this._target.append('<div class="' + classesAreasFilter + '" id="top-toolbar-selection-filter" data-for="floater-evaluation-widget"><span>'+polyglot.t('areasFilter')+'</span></div>');
 			}
 			if (tools.areasFilterOld){
 				var classesLegacyAreasFilter = $('#window-legacyAdvancedFilters').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesLegacyAreasFilter + '" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters">'+polyglot.t('areasFilter')+'</div>');
+				this._target.append('<div class="' + classesLegacyAreasFilter + '" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters"><span>'+polyglot.t('areasFilter')+'</span></div>');
 			}
 			if (tools.mapTools){
 				var classesMapTools = $('#window-maptools').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesMapTools + '" id="top-toolbar-map-tools" data-for="window-maptools">'+polyglot.t('mapTools')+'</div>');
+				this._target.append('<div class="' + classesMapTools + '" id="top-toolbar-map-tools" data-for="window-maptools"><span>'+polyglot.t('mapTools')+'</span></div>');
 			}
 			if (tools.customViews){
 				var classesCustomViews = $('#floater-custom-views-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesCustomViews + '" id="top-toolbar-saved-views" data-for="floater-custom-views-widget">'+polyglot.t('customViews')+'</div>');
+				this._target.append('<div class="' + classesCustomViews + '" id="top-toolbar-saved-views" data-for="floater-custom-views-widget"><span>'+polyglot.t('customViews')+'</span></div>');
 			}
 			if (tools.customLayers){
 				var classesCustomLayers = "item";
 				classesCustomLayers += $('#window-customLayers').hasClass('open') ? " open" : "";
-				this._target.append('<div class="' + classesCustomLayers + '" id="top-toolbar-custom-layers" data-for="window-customLayers">'+polyglot.t('addLayer')+'</div>');
+				this._target.append('<div class="' + classesCustomLayers + '" id="top-toolbar-custom-layers" data-for="window-customLayers"><span>'+polyglot.t('addLayer')+'</span></div>');
 			}
 			if (tools.functionalFilrer){
 				var classesFunctionalFilter = $('#floater-functional-urban-area').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesFunctionalFilter + '" id="top-toolbar-functional-urban-area" data-for="floater-functional-urban-area">'+polyglot.t('functionalUrbanArea')+'</div>');
+				this._target.append('<div class="' + classesFunctionalFilter + '" id="top-toolbar-functional-urban-area" data-for="floater-functional-urban-area"><span>'+polyglot.t('functionalUrbanArea')+'</span></div>');
 			}
 			if (tools.snow){
 				var classesSnowWidget = $('#floater-snow-widget').hasClass('open') ? "item open" : "item";
-				this._target.append('<div class="' + classesSnowWidget + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget">'+polyglot.t('savedConfigurations')+'</div>');
+				this._target.append('<div class="' + classesSnowWidget + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget"><span>'+polyglot.t('savedConfigurations')+'</span></div>');
 			}
 		}
 	};
@@ -175,6 +175,10 @@ define([
 
 	TopToolBar.prototype.handleClick = function(e){
 		var targetId = e.target.getAttribute('data-for');
+		if (!targetId){
+			targetId = $(e.currentTarget).attr("data-for");
+		}
+
 		if (targetId) {
 			if (targetId == 'window-customviews') Ext.ComponentQuery.query('#window-customviews')[0].show();
 			if (targetId == 'window-customLayers') this.initCustomLayersWindow();
@@ -192,7 +196,7 @@ define([
 					floaterJQuerySelector: floater
 				});
 			}
-			$(e.target).toggleClass('open');
+			$(e.currentTarget).toggleClass('open');
 			Stores.notify("widget#changedState", {floater: floater});
 		}
 	};

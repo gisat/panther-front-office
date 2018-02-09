@@ -33,9 +33,9 @@
 	color: rgb(65,69,81);
 	font-size: .95rem;
 	font-weight: 600;
-	padding: 0 .3rem 0 .5rem;
-	height: 2.2rem;
-	line-height: 2.2rem;
+	padding: 0;
+	height: 2rem;
+	line-height: 2rem;
 	cursor: move;
 	display: flex;
 }
@@ -46,6 +46,7 @@
 	text-overflow: ellipsis;
 	width: calc(100% - 45px);
 	font-size: .9rem;
+	padding-left: .5rem;
 }
 .fi-window .feature-info-tools {
 	display: flex;
@@ -59,6 +60,7 @@
 }
 .fi-window .floater-tool .fa {
 	color: rgb(65,69,81);
+	font-size: 1rem;
 }
 .fi-window .feature-info-close,
 .fi-window .feature-info-settings {
@@ -82,10 +84,10 @@
 	padding: .2rem .3rem;
 	overflow-x: hidden;
 	overflow-y: auto;
-	height: calc(100% - 2.2rem);
+	height: calc(100% - 2.1rem);
 }
 .fi-window.has-footer .feature-info-window-body {
-	height: calc(100% - 5.2rem);
+	height: calc(100% - 5rem);
 }
 .fi-window .feature-info-window-footer {
 	border-top: 2px solid #ddd;
