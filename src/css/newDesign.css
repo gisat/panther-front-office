@@ -680,7 +680,8 @@
 	transition: color .3s ease-in-out;
 }
 .newDesign .chart-panel .x-panel-header .tool-icon:hover:before,
-.newDesign .chart-panel.panel-snapshots .x-panel-header .x-tool:hover:before {
+.newDesign .chart-panel.panel-snapshots .x-panel-header .x-tool:hover:before,
+.newDesign .chart-panel .x-panel-header .tool-icon.tool-active:before {
 	color: rgba(186,65,91,1);
 }
 .newDesign .chart-panel .x-panel-header .tool-chart-description:before {
@@ -735,6 +736,9 @@
 .newDesign .chart-panel .x-panel-header .x-tool-over .x-tool-expand-bottom {
 	background: transparent !important;
 	position: absolute;
+}
+.newDesign .chart-panel .x-panel-header .tool-icon.tool-active{
+	border: 0;
 }
 
 /* Tables */
