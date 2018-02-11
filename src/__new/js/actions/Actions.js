@@ -1,5 +1,6 @@
 define([], function(){
 	return {
+		chartToggleDescription: "chart#toggleDescription",
 		dataviewShow: "dataview#show",
 
 		mapAdd: 'map#add',

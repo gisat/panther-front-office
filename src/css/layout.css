@@ -1126,3 +1126,28 @@ Apache license 2.0, Copyright (c) 2015 Tom Adamec */
 	border-top-color: rgba(255,255,255,.45);
 }
 /* A loader end */
+
+@media screen and (max-width: 1300px) {
+	#top-toolbar-features .item {
+		padding-left: 34px;
+		padding-right: 10px;
+		font-size: .75rem;
+	}
+	#top-toolbar-features .item::before {
+		left: 2px;
+	}
+}
+@media screen and (max-width: 1050px) {
+	#top-toolbar-features .item {
+		height: 30px;
+	}
+	#top-toolbar-features .item.open {
+		background: #ffffff;
+	}
+	#top-toolbar-features .item::before {
+		left: 7px;
+	}
+	#top-toolbar-features .item span {
+		display: none;
+	}
+}

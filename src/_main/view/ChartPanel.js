@@ -9,6 +9,11 @@ Ext.define('PumaMain.view.ChartPanel', {
     padding: 0,
     initComponent: function() {
         this.toolMap = {
+			description: {
+				type: 'description',
+				tooltip: polyglot.t('description'),
+				cls: 'tool-icon tool-chart-description'
+			},
             gear: {
                 type: 'gear',
                 helpId: 'Modifyingcharts',
@@ -55,7 +60,7 @@ Ext.define('PumaMain.view.ChartPanel', {
         }
         this.tools = [];
         
-        var toolNames = ['gear','help','collapse','print','save','search','close'];
+        var toolNames = ['description','gear','help','collapse','print','save','search','close'];
         for (var i=0;i<toolNames.length;i++) {
             this.tools.push(this.toolMap[toolNames[i]]);
         }
@@ -67,15 +72,15 @@ Ext.define('PumaMain.view.ChartPanel', {
         var toolNames = [];
         switch (this.cfgType) {
             case 'grid':
-                toolNames = ['gear','collapse','print','save','close']; break;
+                toolNames = ['description','gear','collapse','print','save','close']; break;
             case 'piechart':
-                toolNames = ['gear','help','collapse','print','save','close']; break;
+                toolNames = ['description','gear','help','collapse','print','save','close']; break;
             case 'columnchart':
-                toolNames = ['gear','help','collapse','print','save','close']; break;
+                toolNames = ['description','gear','help','collapse','print','save','close']; break;
             case 'scatterchart':
-                toolNames = ['gear','help','collapse','print','save','search','close']; break;
+                toolNames = ['description','gear','help','collapse','print','save','search','close']; break;
             case 'extentoutline':
-                toolNames = ['gear','print','save','close']; break;
+                toolNames = ['description','gear','print','save','close']; break;
             case 'filter':
                 toolNames = ['close']; break;
         }
