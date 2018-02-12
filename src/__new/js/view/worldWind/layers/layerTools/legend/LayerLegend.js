@@ -66,12 +66,16 @@ define(['../../../../../error/ArgumentError',
 	 */
 	LayerLegend.prototype.addContent = function(){
 		var style = "";
+		var layer = this._defaultLayer.path;
 		if (this._style){
 			style = this._style.path;
 		}
+		if (!layer){
+			layer = this._defaultLayer.layer
+		}
 
 		var params = {
-			'LAYER': this._defaultLayer.path,
+			'LAYER': layer,
 			'REQUEST': 'GetLegendGraphic',
 			'FORMAT': 'image/png',
 			'WIDTH': 50,
@@ -82,7 +86,21 @@ define(['../../../../../error/ArgumentError',
 		}
 
 		var imgSrc = Config.url + "api/proxy/wms?" + stringUtils.makeUriComponent(params);
-		this._floater.addContent('<img src="' + imgSrc + '">');
+
+		var self = this;
+		$.get(imgSrc)
+			.done(function(result) {
+				// if result is XML, the legend is not available
+				try {
+					$.parseXML(result);
+					self._floater.addContent('<p>' + polyglot.t('legendNotAvailable') + '<p>');
+				}
+				catch(err) {
+					self._floater.addContent('<img src="' + imgSrc + '">');
+				}
+			}).fail(function() {
+			self._floater.addContent('<p>' + polyglot.t('legendNotAvailable') + '<p>');
+		});
 	};
 
 

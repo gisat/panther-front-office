@@ -1,10 +1,7 @@
 .layer-tools {
-	display: inline-block;
-	vertical-align: middle;
+	display: flex;
 	height: 100%;
-	margin: 0 .25rem 0 0;
-	width: 2.7rem;
+	margin-left: .2rem;
 }
 .panel-layer-group-body .layer-tools {
-	width: 4rem;
 }
