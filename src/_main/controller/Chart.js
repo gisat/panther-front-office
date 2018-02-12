@@ -62,6 +62,9 @@ Ext.define('PumaMain.controller.Chart', {
             'chartpanel tool[type=save]': {
                 click: this.onUrlClick
             },
+			'chartpanel tool[type=description]': {
+				click: this.onDescriptionClick
+			},
             '#areapager' : {
                 beforechange: this.onPageChange
             },
@@ -1018,6 +1021,17 @@ Ext.define('PumaMain.controller.Chart', {
                 snapshotPanel.expand();
             })
         }
+    },
+
+    onDescriptionClick: function(icon){
+		var chart = icon.up('panel').chart;
+		var button = $(icon.el.dom);
+		button.toggleClass('tool-active');
+
+		window.Stores.notify("chart#toggleDescription", {
+		    icon: button,
+		    chart: chart
+		});
     },
     
     onLegendToggle: function(point) {
