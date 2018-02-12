@@ -1281,7 +1281,7 @@ Ext.define('PumaMain.controller.Chart', {
 			column.text = column.text + " (" + column.yearName + ")";
 			column.width = 100;
             if (column.dataIndex=='name') {
-                if (data.columns.length>5) {
+                if (data.columns.length>4) {
                     column.locked = true;
                     column.width = 160;
                     column.flex = null;

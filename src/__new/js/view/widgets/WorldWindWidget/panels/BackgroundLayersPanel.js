@@ -40,7 +40,7 @@ define(['../../../../error/ArgumentError',
         var scope = Stores.retrieve("state").current().scopeFull;
         this.addLayerControls(scope);
         this.addEventsListeners();
-		this.toggleLayers();
+        this.toggleLayers();
     };
 
 	/**
@@ -54,6 +54,19 @@ define(['../../../../error/ArgumentError',
 		this.toggleLayerWithControl('cartoDb', 'cartoDbBasemap', disabledLayers, activeBackgroundMap);
 		this.toggleLayerWithControl('bingAerial', 'bingAerial', disabledLayers, activeBackgroundMap);
 		this.toggleLayerWithControl('landsat', 'blueMarble', disabledLayers, activeBackgroundMap);
+
+		if (scope && scope['extraBackgroundLayers']){
+			var extraLayers = scope['extraBackgroundLayers'];
+			for (var layer in extraLayers){
+				if (extraLayers[layer] && layer === 'cuzkOrto'){
+					this.toggleLayerWithControl('cuzkOrto', 'cuzkOrto', disabledLayers, activeBackgroundMap);
+					this._defaultMap.layers.addBackgroundLayer('cuzkOrto', this._id);
+				} else if (extraLayers[layer] && layer === 'lpisOrto'){
+					this.toggleLayerWithControl('lpisOrto', 'lpisOrto', disabledLayers, activeBackgroundMap);
+					this._defaultMap.layers.addBackgroundLayer('lpisOrto', this._id);
+				}
+			}
+		}
 	};
 
 	BackgroundLayersPanel.prototype.toggleLayerWithControl = function(id, name, disabledLayers, activeBackgroundMap) {
@@ -126,6 +139,9 @@ define(['../../../../error/ArgumentError',
 	 * @param map {WorldWindMap}
 	 */
 	BackgroundLayersPanel.prototype.addLayersToMap = function(map){
+		if (map._id === "default-map"){
+			this._defaultMap = map;
+		}
 		this.layerControls.forEach(function(control){
 			map.layers.addBackgroundLayer(control.id, this._id);
 		});

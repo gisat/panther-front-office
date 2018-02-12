@@ -293,7 +293,7 @@ define(['../../../../error/ArgumentError',
 		var control = this.buildLayerControl(target, id, name, layers, style, checked, this._groupId);
 		this._layersControls.push(control);
 		control.layerTools.buildOpacity();
-		if (this._groupId === "info-layers"){
+		if (this._groupId === "info-layers" || this._groupId === "wms-layers"){
 			control.layerTools.buildLegend();
 		}
 		if (checked){

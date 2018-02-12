@@ -230,6 +230,32 @@ define(['../../../error/ArgumentError',
 			case "landsat":
 				layer = new WorldWind.BMNGLandsatLayer();
 				break;
+			case "cuzkOrto":
+				layer = new MyWmsLayer({
+					service: "http://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/WMService.aspx?",
+					layerNames: "GR_ORTFOTORGB",
+					sector: new WorldWind.Sector(-90,90,-180,180),
+					levelZeroDelta: new WorldWind.Location(45,45),
+					numLevels: 14,
+					format: "image/png",
+					opacity: 1,
+					size: 256,
+					version: "1.3.0"
+				});
+				break;
+			case "lpisOrto":
+				layer = new MyWmsLayer({
+					service: "http://eagri.cz/public/app/wms/plpis.fcgi?",
+					layerNames: "ILPIS_RASTRY",
+					sector: new WorldWind.Sector(-90,90,-180,180),
+					levelZeroDelta: new WorldWind.Location(45,45),
+					numLevels: 14,
+					format: "image/png",
+					opacity: 1,
+					size: 256,
+					version: "1.3.0"
+				});
+				break;
 		}
 		layer.metadata = {
 			active: true,

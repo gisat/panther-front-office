@@ -42,19 +42,11 @@ define(['../../../../error/ArgumentError',
 	 * Build the icon
 	 */
 	LayerToolsIcon.prototype.build = function(){
-		var icon = '<img src="__new/img/' + this._fileName + '.png"/>';
-		if (this._class == "legend-icon"){
-			icon += '<img class="active" src="__new/img/' + this._fileName + '-active.png"/>';
-		}
-
 		this._class += " layer-tool-icon";
 		if (this._active){
 			this._class += " open"
 		}
-		this._target.append('<div title="' + this._title + '" class="' + this._class + '" id="' + this._id + '">' +
-				icon +
-			'</div>');
-
+		this._target.append('<div title="' + this._title + '" class="' + this._class + '" id="' + this._id + '"></div>');
 		this._iconSelector = $("#" + this._id);
 	};
 
