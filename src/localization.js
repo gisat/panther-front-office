@@ -90,6 +90,7 @@ var langEn = {
     customViews: "Custom views",
     customWms: "Custom WMS",
     customWmsLayers: "Custom WMS Layers",
+	cuzkOrto: "ČÚZK Ortophoto",
 
     dataExploration: "Data exploration",
     dataset: "Dataset: ",
@@ -187,6 +188,7 @@ var langEn = {
     logIn: "Log in",
     logout: "Logout",
     logOut: "Log out",
+	lpisOrto: "LPIS Ortophoto",
 
     manageVisualizations: "Manage visualizations",
     maximise: "Maximise",
@@ -462,6 +464,7 @@ var langCz = {
     customViews: "Další náhledy",
     customWms: "Další WMS",
     customWmsLayers: "Další WMS vrstvy",
+    cuzkOrto: "ČÚZK Ortofoto",
 
     dataExploration: "Průzkum dat",
     dataset: "Datová sada: ",
@@ -559,6 +562,7 @@ var langCz = {
     logIn: "Přihlásit",
     logout: "Odhlásit",
     logOut: "Odhlásit",
+	lpisOrto: "LPIS Ortofoto",
 
     manageVisualizations: "Spravovat vizualizace",
     maximise: "Maximalizovat",
