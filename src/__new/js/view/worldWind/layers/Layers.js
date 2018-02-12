@@ -35,6 +35,13 @@ define(['../../../error/ArgumentError',
 		 * @type {SelectionController}
 		 */
 		this.controller = new SelectionController(wwd);
+		this.addBaseLayer();
+	};
+
+	Layers.prototype.addBaseLayer = function(){
+		this._wwd.addLayer(new MyOsmLayer({
+			attribution: "\u00A9 Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL",
+			source: "http://a.basemaps.cartocdn.com/light_nolabels/"}));
 	};
 
 	/**
@@ -70,7 +77,7 @@ define(['../../../error/ArgumentError',
 		var position = null;
 
 		layers.forEach(function(layer, index){
-			if(!layer.metadata.group) {
+			if(!layer.metadata || !layer.metadata.group) {
 				position = index;
 			}
 		});
