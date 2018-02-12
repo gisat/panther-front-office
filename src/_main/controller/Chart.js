@@ -62,6 +62,9 @@ Ext.define('PumaMain.controller.Chart', {
             'chartpanel tool[type=save]': {
                 click: this.onUrlClick
             },
+			'chartpanel tool[type=description]': {
+				click: this.onDescriptionClick
+			},
             '#areapager' : {
                 beforechange: this.onPageChange
             },
@@ -1019,6 +1022,17 @@ Ext.define('PumaMain.controller.Chart', {
             })
         }
     },
+
+    onDescriptionClick: function(icon){
+		var chart = icon.up('panel').chart;
+		var button = $(icon.el.dom);
+		button.toggleClass('tool-active');
+
+		window.Stores.notify("chart#toggleDescription", {
+		    icon: button,
+		    chart: chart
+		});
+    },
     
     onLegendToggle: function(point) {
         var as = point.as;
@@ -1267,7 +1281,7 @@ Ext.define('PumaMain.controller.Chart', {
 			column.text = column.text + " (" + column.yearName + ")";
 			column.width = 100;
             if (column.dataIndex=='name') {
-                if (data.columns.length>5) {
+                if (data.columns.length>4) {
                     column.locked = true;
                     column.width = 160;
                     column.flex = null;

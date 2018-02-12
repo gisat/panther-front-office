@@ -97,13 +97,13 @@
     background: rgba(153,54,75,.9);
     height: 2.3rem;
     line-height: 2.4rem;
-    padding: 0 .5rem;
     position: relative;
     cursor: move;
     display: flex;
 }
 .floater-header-title {
     color: #eee;
+    padding: 0 .5rem;
     flex: 1;
     font-size: 1rem;
     font-weight: 500;
@@ -117,10 +117,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 1.7rem;
+    width: 2rem;
     height: 100%;
     cursor: pointer;
     transition: background .3s ease-in-out;
+}
+.floater-tool.widget-minimise {
+    width: 2.3rem;
 }
 .floater-tool:hover {
     background: rgba(255,255,255,.2);

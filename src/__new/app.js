@@ -45,6 +45,7 @@ define(['js/actions/Actions',
 		'js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 		'js/util/metadata/Attributes',
         'js/util/metadata/AnalyticalUnits',
+        'js/view/charts/ChartContainer',
         'js/view/widgets/CityWidget/CityWidget',
         'js/view/widgets/CustomDrawingWidget/CustomDrawingWidget',
 		'js/view/widgets/CustomViewsWidget/CustomViewsWidget',
@@ -82,6 +83,7 @@ define(['js/actions/Actions',
 			 AggregatedChartWidget,
 			 Attributes,
              AnalyticalUnits,
+             ChartContainer,
              CityWidget,
              CustomDrawingWidget,
 			 CustomViewsWidget,
@@ -145,6 +147,11 @@ define(['js/actions/Actions',
 			dispatcher: window.Stores,
 			useWorldWindOnly: Config.toggles.useWorldWindOnly,
 			skipSelection: Config.toggles.skipInitialSelection
+		});
+
+		// Chart container
+		new ChartContainer({
+			dispatcher: window.Stores
 		});
 
 		// ALWAYS add new feature info

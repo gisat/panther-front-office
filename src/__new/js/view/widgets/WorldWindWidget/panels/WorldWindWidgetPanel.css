@@ -69,17 +69,17 @@
 	display: block;
 }
 .panel-body .panel-row {
+	display: flex;
 	position: relative;
 	height: 1.3rem;
 }
 .panel-body .layer-row {
 	display: inline-block;
 	vertical-align: middle;
-	width: calc(100% - 3rem);
+	flex: 1;
 }
 .panel-body .panel-layer-group-body .layer-row {
 	padding-left: 2.15rem;
-	width: calc(100% - 4.3rem);
 }
 .panel-body .layer-row a {
 	width: auto;
