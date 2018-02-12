@@ -761,6 +761,11 @@
 }
 .newDesign .x-column-header-text {
 	font-size: .75rem;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 100%;
+	display: block;
 }
 .newDesign .x-grid-header-ct {
 	border: 1px solid #ddd;
