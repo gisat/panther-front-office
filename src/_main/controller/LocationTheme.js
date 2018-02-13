@@ -1103,7 +1103,10 @@ Ext.define('PumaMain.controller.LocationTheme', {
             OneLevelAreas.hasOneLevel = (counter == 1 && scope.get('oneLevelOnly'));
 
             if (OneLevelAreas.hasOneLevel){
-				// Hide areas fully
+                var tools = scope.get('removedTools') || [];
+                var dataset = Ext.ComponentQuery.query('#seldataset')[0].getValue();
+
+                // Hide areas fully
 				Stores.notify('map#show3D');
 
                 $('.areaTreeSelection').hide();
