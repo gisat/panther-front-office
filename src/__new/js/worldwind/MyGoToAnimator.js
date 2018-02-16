@@ -67,28 +67,11 @@ define(['../error/ArgumentError',
 					response.forEach(function(location){
 						if (location.bbox){
 							var bbox = location.bbox.split(",");
-							var minLon = Number(bbox[0]);
-							var minLat = Number(bbox[1]);
-							var maxLon = Number(bbox[2]);
-							var maxLat = Number(bbox[3]);
-							points.push([minLon,minLat]);
-							points.push([maxLon,maxLat]);
-							points.push(self.getCentroid([[minLon,minLat],[maxLon,maxLat]]));
+							var pointsForArea = self.getPointsFromBBox(bbox);
+							points = points.concat(pointsForArea);
 						}
 					});
-					var json = self.getGeoJsonFromPoints(points);
-					var bounds = d3.geoBounds(json);
-
-					// add other two corners to bbox
-					bounds.push([bounds[0][0],bounds[1][1]]);
-					bounds.push([bounds[1][0],bounds[0][1]]);
-
-					var centroid = self.getCentroid(bounds);
-
-					setTimeout(function(){
-						var position = self.getPosition(centroid, bounds);
-						self.updateLocation(position.lat, position.lon, position.alt);
-					},100);
+					self.setLocationFromPointSet(points);
 				} else {
 					console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "MyGoToAnimator", "setLocation", "emptyResult"));
 					self.updateLocation(self._defaultLocation[0], self._defaultLocation[1], self._defaultRange);
@@ -97,6 +80,74 @@ define(['../error/ArgumentError',
 				throw new Error(Logger.log(Logger.LEVEL_SEVERE, err));
 			});
 		}
+	};
+
+	/**
+	 * Set location and range based on given point set
+	 * @param points {Array} listo of [lon,lat] points
+	 */
+	MyGoToAnimator.prototype.setLocationFromPointSet = function(points){
+		var json = this.getGeoJsonFromPoints(points);
+
+		/**
+		 * get boundaries from point set
+		 */
+		var bounds = d3.geoBounds(json);
+
+		/**
+		 * add other two corners to bbox
+		 */
+		bounds.push([bounds[0][0],bounds[1][1]]);
+		bounds.push([bounds[1][0],bounds[0][1]]);
+
+		/**
+		 * calculate centroid (it will be the postion of camera)
+		 */
+		var centroid = this.getCentroid(bounds);
+
+		/**
+		 * according to centroid, bounding box and other settings (window size ratio, area size and area size ratio),
+		 * update the position and range of the camera
+		 */
+		var self = this;
+		setTimeout(function(){
+			var position = self.getPosition(centroid, bounds);
+			self.updateLocation(position.lat, position.lon, position.alt);
+		},100);
+	};
+
+	/**
+	 * It returns corners of bounding box and centroid in form of three [lon,lat] points
+	 * @param bbox {Array} 4 coordinates
+	 * @returns {Array} Corners and centroid
+	 */
+	MyGoToAnimator.prototype.getPointsFromBBox = function(bbox){
+		var points = [];
+
+		var minLon = Number(bbox[0]);
+		var minLat = Number(bbox[1]);
+		var maxLon = Number(bbox[2]);
+		var maxLat = Number(bbox[3]);
+		points.push([minLon,minLat]);
+		points.push([maxLon,maxLat]);
+		points.push(this.getCentroid([[minLon,minLat],[maxLon,maxLat]]));
+
+		return points;
+	};
+
+	/**
+	 * Zoom map to given area
+	 * @param bboxes {Array} list of bboxes of areas
+	 */
+	MyGoToAnimator.prototype.zoomToArea = function(bboxes){
+		var points = [];
+		var self = this;
+		bboxes.forEach(function(bbox){
+			var pointsForArea = self.getPointsFromBBox(bbox);
+			points = points.concat(pointsForArea);
+		});
+
+		this.setLocationFromPointSet(points);
 	};
 
 	/**
@@ -167,7 +218,7 @@ define(['../error/ArgumentError',
 	 * @returns {number} Range (distance from surface to camera)
 	 */
 	MyGoToAnimator.prototype.calculateRange = function(bbox){
-		const RANGE_COEFF = 130000;
+		const RANGE_COEFF = 140000;
 		var windowSizeRatio = 1;
 
 		var width = this.wwd.viewport.width;
@@ -208,6 +259,10 @@ define(['../error/ArgumentError',
 			range /= windowSizeRatio;
 		}
 
+		// TODO Solve this for locations with high altitude (e.g. mountains)
+		if (range < 1000) {
+			return 1000;
+		}
 		return range;
 	};
 

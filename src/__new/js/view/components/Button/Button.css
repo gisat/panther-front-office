@@ -3,28 +3,50 @@
 	border-radius: .15rem;
 	color: rgb(33,38,53);
 	cursor: pointer;
-	font-size: .95rem;
-	font-weight: 500;
 	line-height: 2rem;
 	transition: background .3s ease-in-out;
 	width: 8rem;
+	display: flex;
 }
 .component-button:hover {
 	background: rgba(65,69,81,.2);
 }
-
-/* text */
-.component-button.text-centered {
-	text-align: center;
-}
 .component-button.text-small {
-	font-size: .85rem;
 	line-height: 1.7rem;
 }
 .component-button.extra-large {
-	font-size: 1.5rem;
 	line-height: 3rem;
 	border-width: .1rem;
+}
+
+/* text */
+.component-button span {
+	font-size: .95rem;
+	font-weight: 500;
+	display: inline-block;
+	flex: 1;
+}
+.component-button.text-centered span {
+	text-align: center;
+}
+.component-button.text-small span {
+	font-size: .85rem;
+}
+.component-button.extra-large span {
+	font-size: 1.5rem;
+}
+
+/* icon */
+.component-button .fa {
+	color: rgb(65,69,81);
+	font-size: 1rem;
+	display: flex;
+	width: 2rem;
+	justify-content: center;
+	align-items: center;
+}
+.component-button.text-small .fa {
+	font-size: .95rem;
 }
 
 /* widths */
@@ -36,6 +58,9 @@
 }
 .component-button.w8 {
 	width: 8rem;
+}
+.component-button.w9 {
+	width: 9rem;
 }
 .component-button.w10 {
 	width: 10rem;
@@ -63,6 +88,9 @@
 	color: #ddd;
 	height: 26px;
 	line-height: 26px;
+}
+.component-button.compare-button span {
+	width: 100%;
 }
 .component-button.compare-button:hover {
 	background: rgba(255, 255, 255, .25);

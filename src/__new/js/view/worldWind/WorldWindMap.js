@@ -301,6 +301,15 @@ define(['../../actions/Actions',
 	};
 
 	/**
+	 * Zoom map to given area
+	 * @param bboxes {Array} list of bboxes of areas
+	 */
+	WorldWindMap.prototype.zoomToArea = function (bboxes) {
+		this._goToAnimator.zoomToArea(bboxes);
+		this.redraw();
+	};
+
+	/**
 	 * Switch projection from 3D to 2D and vice versa
 	 */
 	WorldWindMap.prototype.switchProjection = function(){
