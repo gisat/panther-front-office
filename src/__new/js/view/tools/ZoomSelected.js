@@ -1,10 +1,12 @@
 define([
 	'../../stores/Stores',
 	'../../util/RemoteJQ',
-	'jquery'
+	'jquery',
+	'underscore'
 ], function(Stores,
 			RemoteJQ,
-			$){
+			$,
+			_){
 
 	/**
 	 * Class representing Zoom Selected functionality on Map Tools Widget
@@ -22,9 +24,7 @@ define([
 	ZoomSelected.prototype.zoom = function(){
 		var areas = this.getSelectedAreas();
 		var self = this;
-		if (areas.length){
-			// get bounding boxes from server
-			var bboxes = [];
+		if (areas){
 			new RemoteJQ({
 				url: 'rest/info/bboxes',
 				params: {
@@ -33,7 +33,7 @@ define([
 				}
 			}).post().then(function(result){
 					if (result.status === 'ok'){
-						self._dispatcher.notify('map#zoomSelected', result.data);
+						self._dispatcher.notify('map#zoomSelected', result.bbox);
 					} else {
 						window.alert(result.message);
 					}
@@ -61,8 +61,24 @@ define([
 				});
 			}
 		}
+		var groupedAreas = _.groupBy(areas, function(area){return area.loc});
 
-		return areas;
+		var finalAreas = [];
+		for (var location in groupedAreas){
+			var areasForLocation = groupedAreas[location];
+			var locationObj = {
+				loc: location,
+				at: areasForLocation[0].at,
+				gids: []
+			};
+			areasForLocation.forEach(function (area) {
+				locationObj.gids.push(area.gid);
+			});
+			finalAreas.push(locationObj)
+		}
+
+
+		return finalAreas;
 	};
 
 	return ZoomSelected;

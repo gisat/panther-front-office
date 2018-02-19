@@ -137,17 +137,29 @@ define(['../error/ArgumentError',
 
 	/**
 	 * Zoom map to given area
-	 * @param bboxes {Array} list of bboxes of areas
+	 * @param bounds {Array}
 	 */
-	MyGoToAnimator.prototype.zoomToArea = function(bboxes){
-		var points = [];
-		var self = this;
-		bboxes.forEach(function(bbox){
-			var pointsForArea = self.getPointsFromBBox(bbox);
-			points = points.concat(pointsForArea);
-		});
+	MyGoToAnimator.prototype.zoomToArea = function(bounds){
+		/**
+		 * add other two corners to bbox
+		 */
+		bounds.push([bounds[0][0],bounds[1][1]]);
+		bounds.push([bounds[1][0],bounds[0][1]]);
 
-		this.setLocationFromPointSet(points);
+		/**
+		 * calculate centroid (it will be used as a postion of the camera)
+		 */
+		var centroid = this.getCentroid(bounds);
+
+		/**
+		 * according to centroid, bounding box and other settings (window size ratio, area size and area size ratio),
+		 * update the position and range of the camera
+		 */
+		var self = this;
+		setTimeout(function(){
+			var position = self.getPosition(centroid, bounds);
+			self.updateLocation(position.lat, position.lon, position.alt);
+		},100);
 	};
 
 	/**
@@ -243,6 +255,9 @@ define(['../error/ArgumentError',
 		// calculate window size ratio
 		if (width > 1 && height > 1){
 			windowSizeRatio = width/height;
+			if (windowSizeRatio < 1){
+				windowSizeRatio = 1/windowSizeRatio;
+			}
 		}
 
 		// calculate area size ratio
@@ -250,6 +265,9 @@ define(['../error/ArgumentError',
 
 		// distance between bounding box corners in degrees
 		var distanceInDegrees = diagonalDistance_1 * (180/Math.PI);
+		if (distanceInDegrees < 0.01){
+			distanceInDegrees = 0.01;
+		}
 
 		// Calculate range
 		range = distanceInDegrees*RANGE_COEFF*windowSizeRatio;
