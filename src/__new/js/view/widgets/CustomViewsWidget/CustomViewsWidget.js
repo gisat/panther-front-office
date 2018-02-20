@@ -95,19 +95,14 @@ define(['../../../actions/Actions',
 			isAdmin = true;
 		}
 
-		if (data.length === 0){
-			this._widgetSelector.find(".widget-minimise").trigger("click");
-			$("#top-toolbar-saved-views").addClass("hidden");
-		} else {
-			if (isIntro && Config.toggles.showDataviewsOverlay){
-				this.renderAsOverlay(data, isAdmin);
+		if (isIntro && Config.toggles.showDataviewsOverlay){
+			this.renderAsOverlay(data, isAdmin);
 
-			} else {
-				var scope = Stores.retrieve("state").current().scope;
-				this.renderAsWidget(data, scope, isAdmin);
-				this._widgetSelector.removeClass("intro-overlay");
-				bodySelector.removeClass("intro-overlay");
-			}
+		} else {
+			var scope = Stores.retrieve("state").current().scope;
+			this.renderAsWidget(data, scope, isAdmin);
+			this._widgetSelector.removeClass("intro-overlay");
+			bodySelector.removeClass("intro-overlay");
 		}
 	};
 
