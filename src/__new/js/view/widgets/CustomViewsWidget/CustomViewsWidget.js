@@ -125,7 +125,7 @@ define(['../../../actions/Actions',
 		var self = this;
 		Promise.all(scopeNamesPromises).then(function(results){
 			var scopes = _.flatten(results).filter(function(scope){
-				return scope.urls.indexOf(window.location.origin) !== -1
+				return !scope.urls || scope.urls.indexOf(window.location.origin) !== -1
 			});
 			// Filter scopes that doesn't contain the correct URLs
 			self.renderAsOverlayContent(scopes, groupedData, isAdmin);
