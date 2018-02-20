@@ -84,24 +84,24 @@ define(['../error/ArgumentError',
 
 	/**
 	 * Set location and range based on given point set
-	 * @param points {Array} listo of [lon,lat] points
+	 * @param points {Array} list of [lon,lat] points
 	 */
 	MyGoToAnimator.prototype.setLocationFromPointSet = function(points){
 		var json = this.getGeoJsonFromPoints(points);
 
 		/**
-		 * get boundaries from point set
+		 * get bounding box of point set
 		 */
 		var bounds = d3.geoBounds(json);
 
 		/**
-		 * add other two corners to bbox
+		 * add other two corners to bbox (due to more precise calculation of centroid)
 		 */
 		bounds.push([bounds[0][0],bounds[1][1]]);
 		bounds.push([bounds[1][0],bounds[0][1]]);
 
 		/**
-		 * calculate centroid (it will be the postion of camera)
+		 * calculate centroid (it will be used as the reference postion of camera)
 		 */
 		var centroid = this.getCentroid(bounds);
 
@@ -136,15 +136,39 @@ define(['../error/ArgumentError',
 	};
 
 	/**
-	 * Zoom map to given area
-	 * @param bounds {Array}
+	 * Zoom map to area (represented by bounding box)
+	 * @param bounds {Array} Bounding box represented by a two pairs of coordinates
 	 */
 	MyGoToAnimator.prototype.zoomToArea = function(bounds){
+		var minLon = bounds[0][0];
+		var minLat = bounds[0][1];
+		var maxLon = bounds[1][0];
+		var maxLat = bounds[1][1];
+
+		var bottomLeft = bounds[0];
+		var topRight = bounds[1];
+		var bottomRight = [maxLon, minLat];
+		var topLeft = [minLon, maxLat];
+
+		var leftCentroid = this.getCentroid([bottomLeft, topLeft]);
+		var topCentroid = this.getCentroid([topLeft, topRight]);
+		var rightCentroid = this.getCentroid([topRight, bottomRight]);
+		var bottomCentroid = this.getCentroid([bottomRight, bottomLeft]);
+
+		var topCenter = [topCentroid[0], maxLat];
+		var centerRight = [maxLon, rightCentroid[1]];
+		var bottomCenter = [bottomCentroid[0], minLat];
+		var centerLeft = [minLon, leftCentroid[1]];
+
 		/**
-		 * add other two corners to bbox
+		 * add other two corners to bbox and center points of boundary segments (due to more precise calculation of centroid)
 		 */
 		bounds.push([bounds[0][0],bounds[1][1]]);
 		bounds.push([bounds[1][0],bounds[0][1]]);
+		bounds.push(topCenter);
+		bounds.push(centerRight);
+		bounds.push(bottomCenter);
+		bounds.push(centerLeft);
 
 		/**
 		 * calculate centroid (it will be used as a postion of the camera)
@@ -160,20 +184,6 @@ define(['../error/ArgumentError',
 			var position = self.getPosition(centroid, bounds);
 			self.updateLocation(position.lat, position.lon, position.alt);
 		},100);
-	};
-
-	/**
-	 * Get position for camera from centroid and bbox
-	 * @param centroid {[lon,lat]} coordinates of centroid
-	 * @param bbox {[[{Number}, {Number}],[{Number}, {Number}]]} bottom left and top right corner of the bounding box
-	 * @returns {{lat: number, lon: number, alt: number}}
-	 */
-	MyGoToAnimator.prototype.getPosition = function(centroid, bbox){
-		return {
-			lat: centroid[1],
-			lon: centroid[0],
-			alt: this.calculateRange(bbox)
-		}
 	};
 
 	/**
@@ -212,6 +222,20 @@ define(['../error/ArgumentError',
 			})
 		});
 		return json;
+	};
+
+	/**
+	 * Get position for camera from centroid and bbox
+	 * @param centroid {[lon,lat]} coordinates of centroid
+	 * @param bbox {[[{Number}, {Number}],[{Number}, {Number}]]} bottom left and top right corner of the bounding box
+	 * @returns {{lat: number, lon: number, alt: number}}
+	 */
+	MyGoToAnimator.prototype.getPosition = function(centroid, bbox){
+		return {
+			lat: centroid[1],
+			lon: centroid[0],
+			alt: this.calculateRange(bbox)
+		}
 	};
 
 	/**

@@ -19,12 +19,12 @@ define([
 	};
 
 	/**
-	 * Zoom to selected area/areas
+	 * Zoom to selected area/areas. Get bounding box of selection from server, then notify MapsContainer
 	 */
 	ZoomSelected.prototype.zoom = function(){
 		var areas = this.getSelectedAreas();
-		var self = this;
 		if (areas){
+			var self = this;
 			new RemoteJQ({
 				url: 'rest/info/bboxes',
 				params: {
@@ -44,40 +44,50 @@ define([
 	};
 
 	/**
-	 * Get a list of selected areas
-	 * @returns {Array}
+	 * Get selected areas and group them by unique place-areaTemplate combination
+	 * @returns {Array} List of areas
 	 */
 	ZoomSelected.prototype.getSelectedAreas = function(){
 		var areas = [];
+		var finalAreas = [];
 		var selection = Select.selectedAreasMap;
 
+		/**
+		 * Go through all selections and get list of selected areas
+		 */
 		if (selection){
 			for (var color in selection){
 				var items = selection[color];
 				items.forEach(function(item){
 					delete item.equals;
 					delete item.geom;
+					delete item.index;
 					areas.push(item);
 				});
 			}
 		}
-		var groupedAreas = _.groupBy(areas, function(area){return area.loc});
 
-		var finalAreas = [];
-		for (var location in groupedAreas){
-			var areasForLocation = groupedAreas[location];
-			var locationObj = {
-				loc: location,
-				at: areasForLocation[0].at,
-				gids: []
-			};
-			areasForLocation.forEach(function (area) {
-				locationObj.gids.push(area.gid);
-			});
-			finalAreas.push(locationObj)
+		/**
+		 * Get objects representing set of areas for given location and area template
+		 */
+		var areasGroupedByLocation = _.groupBy(areas, function(area){return area.loc});
+		for(var location in areasGroupedByLocation){
+			var areasForLocation = areasGroupedByLocation[location];
+			var areasGroupedByAt = _.groupBy(areasForLocation, function(area){return area.at});
+
+			for(var template in areasGroupedByAt){
+				var areasForAt = areasGroupedByAt[template];
+				var group = {
+					loc: location,
+					at: areasForAt[0].at,
+					gids: []
+				};
+				areasForAt.forEach(function (area) {
+					group.gids.push(area.gid);
+				});
+				finalAreas.push(group);
+			}
 		}
-
-
 		return finalAreas;
 	};
 
