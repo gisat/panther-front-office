@@ -129,6 +129,14 @@ define(['../../actions/Actions',
 		if (this._id !== 'default-map'){
 			this.addPeriod();
 		}
+
+        $('#' + this._id).off('drop');
+		$('#' + this._id).on('drop', function(e){
+            e.preventDefault();
+            let files = e.originalEvent.dataTransfer.files;
+            this.addFiles(files);
+            return false;
+		}.bind(this))
 	};
 
 	/**
@@ -453,6 +461,74 @@ define(['../../actions/Actions',
 		if (type === Actions.mapControl) {
 			this.setNavigator(options);
 		}
+	};
+
+	WorldWindMap.prototype.addKML = function(url) {
+		var self = this;
+        var kmlFilePromise = new WorldWind.KmlFile(url, []);
+        kmlFilePromise.then(function (kmlFile) {
+            var renderableLayer = new WorldWind.RenderableLayer("Surface Shapes");
+            renderableLayer.addRenderable(kmlFile);
+
+            self._wwd.addLayer(renderableLayer);
+            self._wwd.redraw();
+        });
+	};
+
+    WorldWindMap.prototype.addGeoTiff = function(url) {
+        var geotiffObject = new WorldWind.GeoTiffReader(url);
+		var self = this;
+
+        geotiffObject.readAsImage(function (canvas) {
+            var surfaceGeoTiff = new WorldWind.SurfaceImage(
+                geotiffObject.metadata.bbox,
+                new WorldWind.ImageSource(canvas)
+            );
+
+            var geotiffLayer = new WorldWind.RenderableLayer("GeoTiff");
+            geotiffLayer.addRenderable(surfaceGeoTiff);
+            self._wwd.addLayer(geotiffLayer);
+            self._wwd.redraw();
+        });
+    };
+
+    WorldWindMap.prototype.addGeoJson = function(url) {
+        let renderableLayer = new WorldWind.RenderableLayer("GeoJSON");
+        this._wwd.addLayer(renderableLayer);
+        let geoJson = new WorldWind.GeoJSONParser(url);
+        geoJson.load(null, null, renderableLayer);
+        this._wwd.redraw();
+    };
+
+	WorldWindMap.prototype.addFiles = function(files) {
+        var reader = new FileReader();
+        var self = this;
+
+        for(var i=0;i<files.length;i++) {
+            if(files[i].type === 'application/vnd.google-earth.kml+xml') {
+                reader.onload = (function() {
+                    //console.log(this.result);
+                    self.addKML(this.result);
+                });
+                reader.readAsDataURL(files[i]);
+            }
+
+            if(files[i].type === 'image/tiff') {
+                reader.onload = (function() {
+                    //console.log(this.result);
+                    self.addGeoTiff(this.result);
+                });
+                reader.readAsDataURL(files[i]);
+            }
+
+            if(files[i].name.endsWith('.geojson')) {
+                reader.onload = (function() {
+                    //console.log(this.result);
+                    self.addGeoJson(this.result);
+                });
+                reader.readAsDataURL(files[i]);
+            }
+        }
 	};
 
 	return WorldWindMap;
