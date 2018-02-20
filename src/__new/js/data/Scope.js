@@ -20,6 +20,9 @@ define(['./Model'], function(Model){
 			},
 			periods: {
 				serverName: 'years'
+			},
+			urls: {
+				serverName: 'urls'
 			}
 		};
 	};
