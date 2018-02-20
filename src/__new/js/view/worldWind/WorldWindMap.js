@@ -130,6 +130,7 @@ define(['../../actions/Actions',
 			this.addPeriod();
 		}
 
+        $('#' + this._id).off('drop');
 		$('#' + this._id).on('drop', function(e){
             e.preventDefault();
             let files = e.originalEvent.dataTransfer.files;
