@@ -1,15 +1,23 @@
 .component-button {
+	background: transparent;
 	border: 1px solid rgb(65,69,81);
 	border-radius: .15rem;
 	color: rgb(33,38,53);
 	cursor: pointer;
+	font-family: "Open Sans", sans-serif;
 	line-height: 2rem;
-	transition: background .3s ease-in-out;
+	padding: 0;
+	transition: background .3s ease-in-out, box-shadow .2s ease-in-out;
 	width: 8rem;
 	display: flex;
+	align-items: center;
 }
-.component-button:hover {
+.component-button:hover,
+.component-button:focus {
 	background: rgba(65,69,81,.2);
+}
+.component-button:focus {
+	box-shadow: 0 0 2px 1px rgba(55,125,166,1);
 }
 .component-button.text-small {
 	line-height: 1.7rem;
