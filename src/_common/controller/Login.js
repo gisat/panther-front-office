@@ -74,9 +74,8 @@ Ext.define('Puma.controller.Login', {
                 if(!new URL(window.location).searchParams.get('needLogin')) {
                     me.onChangeLoginState(false);
                 } else {
-					me.onLoginClicked();
-                    var zIndex = Number($('#loginwindow').css("z-index"));
-                    $('#hideAllExceptLogin').show().css("z-index", zIndex-1);
+					me.onChangeLoginState(false);
+					window.location = window.location.origin + window.location.pathname;
                 }
             }
         })
