@@ -15,6 +15,7 @@ define([], function(){
 		mapSwitchProjection: 'map#switchProjection',
 		mapUseWorldWindOnly: 'map#useWorldWindOnly',
 		mapZoomSelected: 'map#zoomSelected',
+		mapZoomToExtent: 'map#zoomToExtent',
 
 		filterAdd: 'filter#add',
 		filterRemove: 'filter#remove',

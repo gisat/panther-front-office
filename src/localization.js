@@ -371,7 +371,8 @@ var langEn = {
     year: "Year: ",
     yesNo: "(Yes/No)",
 
-    zoomSelected: "Zoom selected"
+    zoomSelected: "Zoom selected",
+	zoomToExtent: "Zoom to extent"
 };
 
 var langCz = {
@@ -747,7 +748,8 @@ var langCz = {
     year: "Rok: ",
     yesNo: "(Ano/Ne)",
 
-    zoomSelected: "Zoom na vybrané"
+    zoomSelected: "Přiblížit výběr",
+	zoomToExtent: "Přiblížit na výchozí rozsah"
 };
 
 var polyglot = new Polyglot();

@@ -219,6 +219,16 @@ define([
 	};
 
 	/**
+	 * Zoom all maps to extent
+	 */
+	MapsContainer.prototype.zoomToExtent = function(){
+		var maps = this._mapStore.getAll();
+		for(var key in maps){
+			maps[key].zoomToExtent();
+		}
+	};
+
+	/**
 	 * Build a World Wind Map
 	 * @param id {string} Id of the map which should distinguish one map from another
 	 * @param periodId {number} Id of the period
@@ -279,6 +289,8 @@ define([
 			this.handleSelection(options);
 		} else if (type === Actions.mapZoomSelected){
 			this.zoomToArea(options);
+		} else if (type === Actions.mapZoomToExtent){
+			this.zoomToExtent();
 		}
 	};
 

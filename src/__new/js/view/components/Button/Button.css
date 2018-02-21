@@ -8,9 +8,9 @@
 	line-height: 2rem;
 	padding: 0;
 	transition: background .3s ease-in-out, box-shadow .2s ease-in-out;
-	width: 8rem;
 	display: flex;
 	align-items: center;
+	justify-content: center;
 }
 .component-button:hover,
 .component-button:focus {
@@ -32,7 +32,7 @@
 	font-size: .95rem;
 	font-weight: 500;
 	display: inline-block;
-	flex: 1;
+	padding: 0 1rem 0 0;
 }
 .component-button.text-centered span {
 	text-align: center;
@@ -99,6 +99,7 @@
 }
 .component-button.compare-button span {
 	width: 100%;
+	padding: 0;
 }
 .component-button.compare-button:hover {
 	background: rgba(255, 255, 255, .25);

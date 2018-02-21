@@ -14,14 +14,21 @@ define([
 	 * @param options.dispatcher {Object} Object for handling events in the application.
 	 * @constructor
 	 */
-	var ZoomSelected = function(options){
+	var Zooming = function(options){
 		this._dispatcher = options.dispatcher;
+	};
+
+	/**
+	 * Zoom to place
+	 */
+	Zooming.prototype.zoomToExtent = function(){
+		this._dispatcher.notify('map#zoomToExtent');
 	};
 
 	/**
 	 * Zoom to selected area/areas. Get bounding box of selection from server, then notify MapsContainer
 	 */
-	ZoomSelected.prototype.zoom = function(){
+	Zooming.prototype.zoomSelected = function(){
 		var areas = this.getSelectedAreas();
 		if (areas){
 			var self = this;
@@ -47,7 +54,7 @@ define([
 	 * Get selected areas and group them by unique place-areaTemplate combination
 	 * @returns {Array} List of areas
 	 */
-	ZoomSelected.prototype.getSelectedAreas = function(){
+	Zooming.prototype.getSelectedAreas = function(){
 		var areas = [];
 		var finalAreas = [];
 		var selection = Select.selectedAreasMap;
@@ -91,5 +98,5 @@ define([
 		return finalAreas;
 	};
 
-	return ZoomSelected;
+	return Zooming;
 });
