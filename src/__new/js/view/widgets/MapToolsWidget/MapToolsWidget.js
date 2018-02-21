@@ -4,9 +4,11 @@ define(['../../../actions/Actions',
 	'../../../util/Logger',
 	'../../../util/RemoteJQ',
 
+	'../../components/Button/Button',
 	'../../tools/FeatureInfoTool/LayerInfoTool',
 	'./MapToolTrigger',
 	'../Widget',
+	'../../tools/ZoomSelected',
 
 	'jquery',
 	'css!./MapToolsWidget'
@@ -16,9 +18,11 @@ define(['../../../actions/Actions',
 			Logger,
 			RemoteJQ,
 
+			Button,
 			LayerInfoTool,
 			MapToolTrigger,
 			Widget,
+			ZoomSelected,
 
 			$){
 
@@ -34,7 +38,9 @@ define(['../../../actions/Actions',
 
 		this._dispatcher = options.dispatcher;
 		this._featureInfo = options.featureInfo;
-		this._tools = [];
+
+		this._triggers = [];
+		this._buttons = [];
 
 		this.build();
 		this._dispatcher.addListener(this.onEvent.bind(this));
@@ -46,15 +52,28 @@ define(['../../../actions/Actions',
 	 * Build basic view of the widget
 	 */
 	MapToolsWidget.prototype.build = function(){
-		this._widgetBodySelector.append('<div class="map-tools-triggers-container"></div>');
+		this._widgetBodySelector.append('' +
+			'<div class="map-tools-container map-tools-triggers-container">' +
+				'<h4>' + polyglot.t("featureInfo") + '</h4>' +
+			'</div>' +
+			'<div class="map-tools-container map-tools-buttons-container">' +
+				'<h4>' + polyglot.t("tools") + '</h4>' +
+			'</div>');
 		this._triggersContainerSelector = this._widgetBodySelector.find(".map-tools-triggers-container");
+		this._buttonsContainerSelector = this._widgetBodySelector.find(".map-tools-buttons-container");
 
+		// Area info functionality
 		if (this._featureInfo){
-			this._tools.push(this.buildFeatureInfoTrigger());
+			this._triggers.push(this.buildFeatureInfoTrigger());
 		}
 
+		// Layer info functionality
 		this._layerInfo = this.buildLayerInfo();
-		this._tools.push(this.buildLayerInfoTrigger());
+		this._triggers.push(this.buildLayerInfoTrigger());
+
+		// Zoom selected functionality
+		this._zoomSelected = new ZoomSelected({dispatcher: this._dispatcher});
+		this._buttons.push(this.buildZoomSelectedButton());
 
 		this.handleLoading("hide");
 	};
@@ -63,8 +82,8 @@ define(['../../../actions/Actions',
 	 * Rebuild all tools in widget
 	 */
 	MapToolsWidget.prototype.rebuild = function(){
-		this._tools.forEach(function(tool){
-			tool.rebuild();
+		this._triggers.forEach(function(trigger){
+			trigger.rebuild();
 		});
 	};
 
@@ -86,7 +105,7 @@ define(['../../../actions/Actions',
 	MapToolsWidget.prototype.buildFeatureInfoTrigger = function(){
 		return new MapToolTrigger({
 			id: 'feature-info-trigger',
-			label: polyglot.t("featureInfo"),
+			label: polyglot.t("areaInfo"),
 			hasSvgIcon: true,
 			iconPath: '__new/icons/feature-info.svg',
 			dispatcher: this._dispatcher,
@@ -110,6 +129,27 @@ define(['../../../actions/Actions',
 			target: this._triggersContainerSelector,
 			onDeactivate: this._layerInfo.deactivate.bind(this._layerInfo),
 			onActivate: this._layerInfo.activate.bind(this._layerInfo)
+		});
+	};
+
+	/**
+	 * Build button for zooming to selected areas
+	 * @returns {Button}
+	 */
+	MapToolsWidget.prototype.buildZoomSelectedButton = function(){
+		return new Button({
+			id: "zoom-selected-button",
+			containerSelector: this._buttonsContainerSelector,
+			title: polyglot.t('zoomSelected'),
+			text: polyglot.t('zoomSelected'),
+			textCentered: true,
+			textSmall: true,
+			classes: "w10",
+			icon: {
+				type: "fa",
+				class: "search-plus"
+			},
+			onClick: this._zoomSelected.zoom.bind(this._zoomSelected)
 		});
 	};
 

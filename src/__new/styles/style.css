@@ -129,7 +129,7 @@
 
 /* JQuery UI */
 .ui-front {
-    z-index: 10002;
+    z-index: 20002;
 }
 .ui-menu .ui-menu-item .ui-menu-item-wrapper {
     background: #eee;
