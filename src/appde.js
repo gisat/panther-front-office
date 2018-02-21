@@ -243,7 +243,8 @@ Ext.application({
 			} else {
 				console.error("GEOSERVER AUTHENTICATION: Authentication failed!");
 			}
-			geoserverEl.remove();
+			var element = document.getElementById('geoserver-login');
+			element.remove();
 		}).fail(function(err){
 			console.error("GEOSERVER AUTHENTICATION: Authentication failed: " + err);
 		});

@@ -208,6 +208,17 @@ define([
 	};
 
 	/**
+	 * Zoom all maps to area
+	 * @param bboxes {Array} bboxes of areas
+	 */
+	MapsContainer.prototype.zoomToArea = function(bboxes){
+		var maps = this._mapStore.getAll();
+		for(var key in maps){
+			maps[key].zoomToArea(bboxes);
+		}
+	};
+
+	/**
 	 * Build a World Wind Map
 	 * @param id {string} Id of the map which should distinguish one map from another
 	 * @param periodId {number} Id of the period
@@ -266,6 +277,8 @@ define([
 			this.checkMapsCloseButton();
 		} else if (type === Actions.mapSelectFromAreas){
 			this.handleSelection(options);
+		} else if (type === Actions.mapZoomSelected){
+			this.zoomToArea(options);
 		}
 	};
 
