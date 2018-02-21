@@ -33,3 +33,70 @@
 .map-tools-buttons-container-body > .component-button {
 	margin: 0 .5rem .5rem 0;
 }
+
+/* pinned mode */
+#floater-map-tools-widget.pinned {
+	min-width: 35px;
+	max-width: 35px;
+	max-height: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+#floater-map-tools-widget.pinned .floater-header,
+#floater-map-tools-widget.pinned .floater-body {
+	background: rgba(153,54,75,1);
+	overflow: hidden;
+}
+#floater-map-tools-widget.pinned .floater-tool {
+	width: 35px;
+}
+#floater-map-tools-widget.pinned .map-tools-container,
+#floater-map-tools-widget.pinned .map-tools-trigger,
+#floater-map-tools-widget.pinned .map-tools-buttons-container-body {
+	padding: 0;
+	margin: 0;
+}
+#floater-map-tools-widget.pinned .map-tools-container > h4 {
+	display: none;
+}
+#floater-map-tools-widget.pinned .map-tool-trigger {
+	padding: 0;
+	border: 0;
+	height: 40px;
+}
+#floater-map-tools-widget.pinned .map-tool-trigger:hover,
+#floater-map-tools-widget.pinned .map-tool-trigger.active {
+	background: rgba(255,255,255,.15);
+}
+#floater-map-tools-widget.pinned .map-tool-trigger-label-title,
+#floater-map-tools-widget.pinned .map-tools-trigger-icons,
+#floater-map-tools-widget.pinned .component-button span {
+	display: none;
+}
+#floater-map-tools-widget.pinned .map-tool-icon {
+	width: 35px;
+	margin: 0;
+}
+#floater-map-tools-widget.pinned .map-tool-icon-svg path {
+	fill: #eee;
+}
+#floater-map-tools-widget.pinned .component-button .fa {
+	color: #eee;
+	width: 35px;
+}
+#floater-map-tools-widget.pinned .component-button.text-small .fa {
+	font-size: 1rem;
+}
+#floater-map-tools-widget.pinned .component-button {
+	border: 0;
+	margin: 0;
+	height: 40px;
+	border-radius: 0;
+}
+#floater-map-tools-widget.pinned .component-button:hover,
+#floater-map-tools-widget.pinned .component-button:focus {
+	background: rgba(255,255,255,.15);
+}
+#floater-map-tools-widget.pinned .component-button:focus {
+	box-shadow: 0 0 0 0;
+}

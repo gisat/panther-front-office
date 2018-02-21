@@ -62,6 +62,7 @@ define([
 		this._stateStore = options.stateStore;
 
 		this._mapControls = null;
+		this._toolsPinned = false;
 		this._mapsInContainerCount = 0;
 
 		this.build();
@@ -291,6 +292,20 @@ define([
 			this.zoomToArea(options);
 		} else if (type === Actions.mapZoomToExtent){
 			this.zoomToExtent();
+		} else if (type === Actions.mapsContainerToolsPinned){
+			this.handleTools(true);
+		} else if (type === Actions.mapsContainerToolsDetached){
+			this.handleTools(false);
+		}
+	};
+
+	MapsContainer.prototype.handleTools = function (toolsPinned) {
+		if (toolsPinned){
+			this._toolsPinned = true;
+			this._containerSelector.addClass("tools-active");
+		} else {
+			this._toolsPinned = false;
+			this._containerSelector.removeClass("tools-active");
 		}
 	};
 
@@ -356,6 +371,11 @@ define([
 		} else if (this._mapsInContainerCount > 12 && this._mapsInContainerCount <= 16){
 			cls += a + '4 ' + b + '4';
 		}
+
+		if (this._toolsPinned){
+			cls += " tools-active"
+		}
+
 		this._containerSelector.addClass(cls);
 
 		this.sortMapsByPeriod();

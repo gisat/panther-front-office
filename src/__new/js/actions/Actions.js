@@ -17,6 +17,9 @@ define([], function(){
 		mapZoomSelected: 'map#zoomSelected',
 		mapZoomToExtent: 'map#zoomToExtent',
 
+		mapsContainerToolsDetached: 'mapsContainer#toolsDetached',
+		mapsContainerToolsPinned: 'mapsContainer#toolsPinned',
+
 		filterAdd: 'filter#add',
 		filterRemove: 'filter#remove',
 
