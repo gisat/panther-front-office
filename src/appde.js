@@ -12,7 +12,7 @@ Ext.Loader.setPath('Puma', '_common');
 Ext.application({
 	name: 'PumaMain',
 	appFolder: '_main',
-	controllers: ['Export','DomManipulation','Render','Store','Map','LocationTheme','Area','Layers','Screenshot','AttributeConfig','Help','Filter','ViewMng','Login','Select','Chart'],
+	controllers: ['Export','DomManipulation','Render','Store','LocationTheme','Area','Layers','Screenshot','AttributeConfig','Help','Filter','ViewMng','Login','Select','Chart'],
 	enableQuickTips: true,
 	requires: [
 		'Puma.patch.Main', // JJJ zakomentovat při buildu, odkomentovat při sencha create jsb a pak ho z .jsb3 vymazat
@@ -182,7 +182,6 @@ Ext.application({
 					if (this._dataviewId !== id) {
 						this.getController('DomManipulation').renderApp();
 						this.getController('Render').renderApp();
-						this.getController('Render').renderMap();
 					}
 
 					this._dataviewId = id;
@@ -209,8 +208,6 @@ Ext.application({
 			Promise.all(promises).then(function(){
 				self.getController('DomManipulation').renderApp();
 				self.getController('Render').renderApp();
-
-				self.getController('Render').renderMap();
 			}).catch(function(err){
 				console.log(err);
 				alert(polyglot.t("notPossibleToLoadData"));
