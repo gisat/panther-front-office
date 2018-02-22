@@ -137,7 +137,10 @@ define(['../../../error/ArgumentError',
 		this.handleLoading("show");
 
 		new Filter({
-			dispatcher: function(){}
+			dispatcher: function(){},
+			store: {
+				state: this._store.state
+			}
 		}).featureInfo(this._selectedAttributes, this._gid, this._periods).then(this.redraw.bind(this));
 	};
 
