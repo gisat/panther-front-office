@@ -762,6 +762,9 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         var configForm = combo.up('configform');
         var advanced = Ext.ComponentQuery.query('#advancedfieldset',configForm)[0];
 		var periodsSettings = Ext.ComponentQuery.query('#periodsSettings',configForm)[0];
+		var polarAxesNormalizationSettings = Ext.ComponentQuery.query('#polarAxesNormalizationSettings',configForm)[0];
+		var stackingSettings = Ext.ComponentQuery.query('#stackingSettings',configForm)[0];
+		var aggregateSettings = Ext.ComponentQuery.query('#aggregateSettings',configForm)[0];
         var cardContainer = Ext.ComponentQuery.query('#attributecontainer',configForm)[0];
 		var periods = Ext.ComponentQuery.query('#selyear')[0].getValue();
         cardContainer.show();
@@ -771,16 +774,39 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         else {
             cardContainer.getLayout().setActiveItem(3);
         }
-        if (val=='columnchart') {
+
+        // show/hide advanced settings (periods, aggregation, stacking...)
+        if (val=='columnchart' || val=='polarchart') {
             advanced.show();
         } else {
             advanced.hide();
         }
-		if (val=='columnchart' && periods.length > 1 ) {
+
+        // show/hide aggregation and stacking
+        if (val=='columnchart') {
+			stackingSettings.show();
+			aggregateSettings.show();
+        } else {
+			stackingSettings.hide();
+			aggregateSettings.hide();
+        }
+
+        // show/hide periods settings
+		if ((val=='columnchart' || val=='polarchart') && periods.length > 1 ) {
 			periodsSettings.show();
 		} else {
 			periodsSettings.hide();
 		}
+
+		// show/hide polar chart normalization options
+		// TODO --- Rename normalization?
+		if (val=='polarchart') {
+			polarAxesNormalizationSettings.show();
+		} else {
+			polarAxesNormalizationSettings.hide();
+		}
+
+
 
 		// For all chart types but tables, remove attribute if it isn't numeric
 		var store = configForm.down('attributegrid').store;

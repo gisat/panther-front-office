@@ -27,6 +27,7 @@ define([
 				h: 600,
 				factor: 1,
 				factorLegend: .85,
+				format: "",
 				levels: 3,
 				maxValue: 0,
 				radians: 2 * Math.PI,
@@ -50,7 +51,7 @@ define([
 			var allAxis = (d[0].map(function(i, j){return i.axis}));
 			var total = allAxis.length;
 			var radius = cfg.factor*Math.min(cfg.w/2, cfg.h/2);
-			var Format = d3.format('%');
+			var Format = d3.format(cfg.format);
 			d3.select(id).select("svg").remove();
 
 			var g = d3.select(id)
