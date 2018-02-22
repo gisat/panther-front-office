@@ -32,6 +32,9 @@
 	font-size: .95rem;
 	font-weight: 500;
 	display: inline-block;
+	padding: 0 1rem;
+}
+.component-button.has-icon span {
 	padding: 0 1rem 0 0;
 }
 .component-button.text-centered span {

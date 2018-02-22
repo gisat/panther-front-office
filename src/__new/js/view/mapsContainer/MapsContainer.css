@@ -14,6 +14,7 @@ body.mode-3d .maps-container {
 .maps-container .map-tools {
 	width: 0;
 	height: 100%;
+	z-index: 1;
 }
 .maps-container.tools-active .map-tools {
 	width: 35px;
