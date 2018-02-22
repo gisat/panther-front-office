@@ -42,8 +42,7 @@ Ext.define('PumaMain.controller.Dataview', {
     onLoadingFinished: function() {
         var me = this;
         if (Config.dataviewId) {
-            console.log('Dataview#onLoadingFinished Show Loading');
-			$("#loading-screen").css("display", "block");
+            $("#loading-screen").css("display", "block");
             Ext.Ajax.request({
                 url: Config.url + 'rest/dataview/'+Config.dataviewId,
                 scope: this,

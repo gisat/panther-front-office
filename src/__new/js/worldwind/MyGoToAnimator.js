@@ -64,7 +64,7 @@ define(['../error/ArgumentError',
 
 		if (!dataset){
 			console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "MyGoToAnimator", "setLocation", "missingDataset"));
-			this._stateStore.removeLoadingOperation("ScopeLocationChanged");
+			this._store.state.removeLoadingOperation("ScopeLocationChanged");
 		}
 		else {
 			var values = {dataset: dataset};
@@ -210,7 +210,7 @@ define(['../error/ArgumentError',
 
         this.wwd.redraw();
         this.wwd.redrawIfNeeded(); // TODO: Check with new releases. This isn't part of the public API and therefore might change.
-        this._stateStore.removeLoadingOperation("ScopeLocationChanged");
+        this._store.state.removeLoadingOperation("ScopeLocationChanged");
     };
 
 

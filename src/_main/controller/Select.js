@@ -58,41 +58,12 @@ Ext.define('PumaMain.controller.Select', {
     },
         
     onToggleHover: function(btn,value) {
-        var infoControls1 = this.getController('Map').map1.infoControls;
-        var infoControls2 = this.getController('Map').map2.infoControls;
-        this.getController('Area').hovering = value;
-        this.getController('Chart').hovering = value;
-        if (value) {
-            infoControls1.hover.activate();
-            infoControls2.hover.activate();
-        }
-        else {
-            infoControls1.hover.deactivate();
-            infoControls2.hover.deactivate();
-        }
-        if (this.hoverMap.length) {
-            this.hoverMap = [];
-            this.selectInternal([],true,false);
-        }
+
         
     },
         
     onToggleSelectInMap: function(btn,value) {
-        var hoverBtn = Ext.ComponentQuery.query('#hoverbtn')[0];
-        var infoControls1 = this.getController('Map').map1.infoControls;
-        var infoControls2 = this.getController('Map').map2.infoControls;
-        var fn1 = value ? infoControls1.click.activate : infoControls1.click.deactivate;
-        fn1.call(infoControls1.click);
-        var fn2 = value ? infoControls2.click.activate : infoControls2.click.deactivate;
-        fn2.call(infoControls2.click);
-//        if (hoverBtn.pressed && value) {
-//            infoControls1.hover.activate();
-//            infoControls2.hover.activate();
-//        }
-//        else {
-//            infoControls1.hover.deactivate();
-//            infoControls2.hover.deactivate();
-//        }
+
     },
     onChangeChartColor: function(picker, value) {
         this.updateCounts();
