@@ -68,10 +68,14 @@ define(['../../../../error/ArgumentError',
 			for (var layer in extraLayers){
 				if (extraLayers[layer] && layer === 'cuzkOrto'){
 					this.toggleLayerWithControl('cuzkOrto', 'cuzkOrto', disabledLayers, activeBackgroundMap);
-					this._defaultMap.layers.addBackgroundLayer('cuzkOrto', this._id);
+					if (!this._defaultMap.layers.getLayerById('cuzkOrto')){
+						this._defaultMap.layers.addBackgroundLayer('cuzkOrto', this._id);
+					}
 				} else if (extraLayers[layer] && layer === 'lpisOrto'){
 					this.toggleLayerWithControl('lpisOrto', 'lpisOrto', disabledLayers, activeBackgroundMap);
-					this._defaultMap.layers.addBackgroundLayer('lpisOrto', this._id);
+					if (!this._defaultMap.layers.getLayerById('lpisOrto')){
+						this._defaultMap.layers.addBackgroundLayer('lpisOrto', this._id);
+					}
 				}
 			}
 		}

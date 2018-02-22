@@ -154,6 +154,14 @@ define(['js/actions/Actions',
     };
 
     $(document).ready(function() {
+    	function stop(event){
+            event.preventDefault();
+            event.stopPropagation();
+		}
+    	window.addEventListener('dragenter', stop);
+        window.addEventListener('dragover', stop);
+        window.addEventListener('dragleave', stop);
+
     	window.Stores.addListener(sortFloaters);
 
         var tools = [];

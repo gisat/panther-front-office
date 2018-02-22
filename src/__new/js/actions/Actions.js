@@ -10,10 +10,11 @@ define([], function(){
 
 		mapAddVisibleLayer: 'map#addVisibleLayer',
 		mapRemoveVisibleLayer: 'map#removeVisibleLayer',
+		mapSelectFromAreas: 'map#selectFromAreas',
 		mapSwitchFramework: 'map#switchFramework',
 		mapSwitchProjection: 'map#switchProjection',
 		mapUseWorldWindOnly: 'map#useWorldWindOnly',
-		mapSelectFromAreas: 'map#selectFromAreas',
+		mapZoomSelected: 'map#zoomSelected',
 
 		filterAdd: 'filter#add',
 		filterRemove: 'filter#remove',

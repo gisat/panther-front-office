@@ -366,7 +366,9 @@ define(['../../../error/ArgumentError',
      * @param state {boolean} true, if the layer should be displayed
      */
     Layers.prototype.addAULayer = function(layerData, group, state){
+    	var styles = [];
     	var layerNames = layerData.data.namedLayers.map(function(layer){
+    		styles.push("outlines");
     		return layer.name;
 		}).join(',');
         var layer = new MyWmsLayer({
@@ -378,7 +380,7 @@ define(['../../../error/ArgumentError',
             opacity: layerData.opacity/100,
             format: "image/png",
             size: 256,
-			styleNames: 'outlines',
+			styleNames: styles.join(','),
 			version: "1.1.0"
         }, null);
         layer.urlBuilder.wmsVersion = "1.1.0";

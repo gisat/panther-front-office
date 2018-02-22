@@ -26,6 +26,7 @@ define([
 	 * @param options.text {string} Text for button
 	 * @param options.onClick {function}
 	 * @param [options.classes] {string} Optional parameter. Additional classes.
+	 * @param [options.icon] {Object} Optional parameter. Data about icon.
 	 * @param [options.title] {string} Optional parameter.
 	 * @param [options.textCentered] {boolean} Optional parameter.
 	 * @param [options.textSmall] {boolean} Optional parameter.
@@ -47,6 +48,7 @@ define([
 		this._classes = options.classes;
 		this.onClick = options.onClick;
 
+		this._icon = options.icon;
 		this._title = options.title || polyglot.t("select");
 		this._textCentered = options.textCentered;
 		this._textSmall = options.textSmall;
@@ -64,8 +66,10 @@ define([
 		}
 
 		var classes = this.getClasses();
+		var icon = this.renderIcon();
 		var html = S(ButtonHtml).template({
 			id: this._id,
+			icon: icon,
 			title: this._title,
 			text: this._text,
 			classes: classes
@@ -90,6 +94,20 @@ define([
 			classes += " text-small"
 		}
 		return classes;
+	};
+
+	/**
+	 * Render icon according to type
+	 * @returns {string} Icon HTML
+	 */
+	Button.prototype.renderIcon = function(){
+		var icon = '';
+		if (this._icon){
+			if (this._icon.type === 'fa'){
+				icon = '<i class="fa fa-'+ this._icon.class +'"></i>'
+			}
+		}
+		return icon;
 	};
 
 	Button.prototype.addOnClickListener = function(){
