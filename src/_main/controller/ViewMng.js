@@ -261,9 +261,6 @@ Ext.define('PumaMain.controller.ViewMng', {
         onlySel.resumeEvents();
         
         this.getController('AttributeConfig').filterConfig = cfg.filterAttrs;
-        this.getController('Filter').attrs = cfg.filterAttrs;
-        this.getController('Filter').initialValues = cfg.filterMap;
-        this.getController('Filter').changeActiveState(cfg.filterActive);
         var locationTheme = this.getController('LocationTheme');
         locationTheme.datasetChanged = true;
         locationTheme.visChanged = true;
@@ -364,8 +361,6 @@ Ext.define('PumaMain.controller.ViewMng', {
 		}
 
 		cfg.filterMap = filterMap;
-		cfg.filterData = this.getController('Filter').filterData;
-		cfg.filterAttrs = this.getController('Filter').attrs;
 		cfg.filterActive = false;
 
 		var layers = Ext.StoreMgr.lookup('selectedlayers').getRange();

@@ -83,9 +83,6 @@ Ext.define('PumaMain.controller.Render', {
         panel.expand();
         panel.doLayout();
         panel.header.items.getByKey('undock').hide();
-        if (panel.itemId=='advancedfilters') {
-            this.getController('Filter').afterAccordionLayout();
-        }
     },
 
 

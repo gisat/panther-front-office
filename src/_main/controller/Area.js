@@ -525,7 +525,6 @@ Ext.define('PumaMain.controller.Area', {
 			Ext.StoreMgr.lookup('paging').setCount(count2);
 
 			this.getController('Layers').refreshOutlines();
-			this.getController('Filter').reconfigureFiltersCall();
 			return;
 		}
 
@@ -695,8 +694,7 @@ Ext.define('PumaMain.controller.Area', {
 		Ext.StoreMgr.lookup('paging').setCount(count);
 		
 		this.getController('Layers').refreshOutlines();
-		this.getController('Filter').reconfigureFiltersCall();
-		
+
 		//this.getController('Layers').checkVisibilityAndStyles(true,false);
 
 		// disable + button in Analysis level for PUMA National scope, All places, second level

@@ -156,10 +156,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 themeCombo.setValue(null);
             }
         }
-        else {
-            this.getController('Filter').clearFilters();
-
-        }
 
         locationCombo.resumeEvents();
         locationComboAlt.resumeEvents();
@@ -1240,7 +1236,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
         }
         else if (response.request.options.yearChanged){
             this.getController('Layers').refreshOutlines();
-            this.getController('Filter').reconfigureFiltersCall();
         }
         if (conf.attrSets) {
             this.checkFeatureLayers();

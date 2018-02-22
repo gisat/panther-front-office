@@ -194,7 +194,6 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         }
         else if (form.formType=='filters') {
             this.filterConfig = values.attrs;
-            this.getController('Filter').reconfigureFilters(values);
         }
         form.up('window').close();
     },
