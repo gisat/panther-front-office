@@ -1,10 +1,14 @@
 define([
-	'../../stores/Stores',
+	'../../error/ArgumentError',
+	'../../util/Logger',
 	'../../util/RemoteJQ',
+
 	'jquery',
 	'underscore'
-], function(Stores,
+], function(ArgumentError,
+			Logger,
 			RemoteJQ,
+
 			$,
 			_){
 
@@ -12,10 +16,21 @@ define([
 	 * Class representing Zoom Selected functionality on Map Tools Widget
 	 * @param options {Object}
 	 * @param options.dispatcher {Object} Object for handling events in the application.
+	 * @param options.store {Object}
+	 * @param options.store.state {StateStore}
 	 * @constructor
 	 */
 	var ZoomSelected = function(options){
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'ZoomSelected', 'constructor', 'Stores must be provided'));
+        }
+        if(!options.store.state){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'ZoomSelected', 'constructor', 'Store state must be provided'));
+        }
+
 		this._dispatcher = options.dispatcher;
+
+		this._store = options.store;
 	};
 
 	/**
@@ -29,7 +44,7 @@ define([
 				url: 'rest/info/bboxes',
 				params: {
 					areas: areas,
-					periods: Stores.retrieve('state').current().periods
+					periods: this._store.state.current().periods
 				}
 			}).post().then(function(result){
 					if (result.status === 'ok'){

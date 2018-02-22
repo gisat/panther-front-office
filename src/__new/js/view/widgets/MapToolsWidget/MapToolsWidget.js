@@ -87,7 +87,12 @@ define(['../../../actions/Actions',
 		this._triggers.push(this.buildLayerInfoTrigger());
 
 		// Zoom selected functionality
-		this._zoomSelected = new ZoomSelected({dispatcher: this._dispatcher});
+		this._zoomSelected = new ZoomSelected({
+			dispatcher: this._dispatcher,
+			store: {
+				state: this._store.state
+			}
+		});
 		this._buttons.push(this.buildZoomSelectedButton());
 
 		this.handleLoading("hide");
