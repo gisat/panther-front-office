@@ -22,8 +22,7 @@ define([
         if(!options.store){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'StateStore', 'constructor', 'Stores must be provided'));
         }
-
-        if(!options.store){
+        if(!options.store.maps){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'StateStore', 'constructor', 'Store map must be provided'));
         }
 
