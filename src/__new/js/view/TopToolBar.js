@@ -271,12 +271,17 @@ define([
 	 */
 	TopToolBar.prototype.handleDataview = function(widgets){
 		var openWidgets = widgets.open;
+		var self = this;
 		openWidgets.forEach(function(widget){
 			var floater = $('#' + widget.floater.id);
 			var toolbarItem = $('#' + widget.topToolbarItem.id);
 			floater.addClass("open");
 			toolbarItem.addClass("open");
-			Floater.setPosition(floater, widget.floater.position);
+			if (widget.floater.pinned && widget.floater.id === 'floater-map-tools-widget'){
+				self._dispatcher.notify('widget#pinMapTools');
+			} else {
+				Floater.setPosition(floater, widget.floater.position);
+			}
 		});
 	};
 

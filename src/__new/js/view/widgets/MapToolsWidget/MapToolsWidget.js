@@ -184,6 +184,8 @@ define(['../../../actions/Actions',
 			if (id === "floater-map-tools-widget"){
 				this.rebuild();
 			}
+		} else if (type === Actions.widgetPinMapTools){
+			this._widgetPinSelector.trigger("click");
 		}
 	};
 

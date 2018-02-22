@@ -185,6 +185,7 @@ define([
 				if (item.hasClass("open")){
 					var floater = $("#" + item.attr("data-for"));
 					widget.floater.position = Floater.getPosition(floater);
+					widget.floater.pinned = floater.hasClass("pinned");
 					widgets.open.push(widget);
 				} else if (item.hasClass("disabled")){
 					widgets.disabled.push(widget);

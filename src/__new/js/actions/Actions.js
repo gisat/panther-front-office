@@ -52,6 +52,7 @@ define([], function(){
 		sharingUrlReceived: 'sharing#urlReceived',
 		sharingViewShared: 'sharing#viewShared',
 
-		widgetChangedState: 'widget#changedState'
+		widgetChangedState: 'widget#changedState',
+		widgetPinMapTools: 'widget#pinMapTools'
 	};
 });
