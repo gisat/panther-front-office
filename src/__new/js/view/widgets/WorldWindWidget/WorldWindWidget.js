@@ -4,7 +4,6 @@ define([
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 
-	'../../../stores/Stores',
 	'../Widget',
 	'./WorldWindWidgetPanels',
 
@@ -17,7 +16,6 @@ define([
 			NotFoundError,
 			Logger,
 
-			Stores,
 			Widget,
 			WorldWindWidgetPanels,
 
@@ -29,7 +27,10 @@ define([
 	 * Class representing widget for 3D map
 	 * @param options {Object}
 	 * @param options.mapsContainer {MapsContainer} Container where should be all maps rendered
-	 * @param options.stateStore {StateStore}
+	 * @param options.store {Object}
+	 * @param options.store.state {StateStore}
+	 * @param options.store.map {MapStore}
+	 * @param options.store.wmsLayers {WmsLayers}
 	 * @param options.topToolBar {TopToolBar}
 	 * @constructor
 	 */
@@ -39,17 +40,30 @@ define([
 		if (!options.mapsContainer){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidget", "constructor", "missingMapsContainer"));
 		}
-		if (!options.stateStore){
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindWidget', 'constructor', 'Stores must be provided'));
+        }
+		if (!options.store.state){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidget", "constructor", "missingStateStore"));
 		}
+        if (!options.store.map){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidget", "constructor", "missingMapStore"));
+        }
+        if (!options.store.wmsLayers){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidget", "constructor", "missingWmsLayersStore"));
+        }
+
 
 		this._mapsContainer = options.mapsContainer;
-		this._stateStore = options.stateStore;
+		this._stateStore = options.store.state;
+		this._mapStore = options.store.map;
+		this._store = options.store;
 
 		if (options.topToolBar){
 			this._topToolBar = options.topToolBar;
 		}
 
+		// Inherited from Widget
 		this._dispatcher.addListener(this.onEvent.bind(this));
 
 		this.build();
@@ -122,7 +136,12 @@ define([
 	WorldWindWidget.prototype.buildPanels = function(){
 		return new WorldWindWidgetPanels({
 			id: this._widgetId + "-panels",
-			target: this._widgetBodySelector
+			target: this._widgetBodySelector,
+			store: {
+				state: this._stateStore,
+				map: this._mapStore,
+				wmsLayers: this._store.wmsLayers
+			}
 		});
 	};
 
@@ -140,7 +159,7 @@ define([
 		var self = this;
 		var body = $("body");
 
-		var state = Stores.retrieve("state");
+		var state = this._stateStore;
 		state.setChanges({
 			scope: true,
 			location: true,
@@ -208,20 +227,17 @@ define([
 	 */
 	WorldWindWidget.prototype.getPosition = function(options){
 		if (options && options.worldWindState){
-			console.log('WorldWindWidget#getPosition Position from Dataview: ', options.worldWindState.location);
 			return options.worldWindState.location;
 		} else {
 			var places = this._stateStore.current().objects.places;
 			var locations;
 			if(places.length === 1 && places[0]){
 				locations = places[0].get('bbox').split(',');
-				console.log('WorldWindWidget#getPosition Place: ', places[0]);
 			} else {
 				places = this._stateStore.current().allPlaces.map(function(place) {
 					return Ext.StoreMgr.lookup('location').getById(place);
 				});
 				locations = this.getBboxForMultiplePlaces(places);
-				console.log('WorldWindWidget#getPosition Locations: ', locations);
 			}
 
 			if(locations.length != 4) {
@@ -230,7 +246,6 @@ define([
 			}
 			var position = new WorldWind.Position((Number(locations[1]) + Number(locations[3])) / 2, (Number(locations[0]) + Number(locations[2])) / 2, 1000000);
 
-			console.log('WorldWindWidget#getPosition Position: ', position);
 			return position;
 		}
 	};
@@ -252,7 +267,6 @@ define([
 
 		var locations;
 		places.forEach(function(place){
-            console.log('WorldWindWidget#getBboxForMultiplePlaces Place: ', place);
             locations = place.get('bbox').split(',');
 			if(locations[0] < minLongitude) {
 				minLongitude = locations[0];

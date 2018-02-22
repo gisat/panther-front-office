@@ -7,7 +7,6 @@ define(['../../actions/Actions',
 		'./layers/Layers',
 		'../../worldwind/MyGoToAnimator',
 		'../../worldwind/layers/osm3D/OSMTBuildingLayer',
-		'../../stores/Stores',
 		'../../stores/internal/VisibleLayersStore',
 		'../../util/Uuid',
 		'../../worldwind/WmsFeatureInfo',
@@ -22,11 +21,10 @@ define(['../../actions/Actions',
 			NotFoundError,
 			Logger,
 
-			dataMininig,
+			DataMining,
 			Layers,
 			MyGoToAnimator,
 			OSMTBuildingLayer,
-			Stores,
 			VisibleLayersStore,
 			Uuid,
 			WmsFeatureInfo,
@@ -42,13 +40,43 @@ define(['../../actions/Actions',
 	 * @param options.mapsContainer {Object} JQuery selector of target element
 	 * @param options.period {Number|null} Period associated with this map.
 	 * @param options.dispatcher {Object} Object for handling events in the application.
+	 * @param options.store {Object}
+	 * @param options.store.state {StateStore}
+	 * @param options.store.map {MapStore}
+	 * @param options.store.periods {Periods}
+	 * @param options.store.locations {Locations}
 	 * @constructor
 	 */
 	var WorldWindMap = function(options){
 		if (!options.mapsContainer){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindMap", "constructor", "missingMapsContainer"));
 		}
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindMap', 'constructor', 'Stores must be provided'));
+        }
+        if(!options.store.locations){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindMap', 'constructor', 'Stores locations must be provided'));
+        }
+        if(!options.store.state){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindMap', 'constructor', 'Stores state must be provided'));
+        }
+        if(!options.store.map){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindMap', 'constructor', 'Stores map must be provided'));
+        }
+        if(!options.store.periods){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindMap', 'constructor', 'Stores periods must be provided'));
+        }
+
+
 		this._mapsContainerSelector = options.mapsContainer;
+
+		this._store = options.store;
+
+		this._dataMining = new DataMining({
+            store: {
+                state: options.store.state
+            }
+		});
 
 		this._dispatcher = options.dispatcher;
 
@@ -157,7 +185,7 @@ define(['../../actions/Actions',
 			this._periodLabelSelector.remove();
 		}
 		var self = this;
-		Stores.retrieve("period").byId(this._period).then(function(periods){
+		this._store.periods.byId(this._period).then(function(periods){
 			if (periods.length === 1){
 				self._mapBoxSelector.find(".map-period-label").remove();
 				var periodName = periods[0].name;
@@ -177,7 +205,12 @@ define(['../../actions/Actions',
 		this._wwd.addEventListener("mousemove", this.updateNavigatorState.bind(this));
 		this._wwd.addEventListener("wheel", this.updateNavigatorState.bind(this));
 
-		this._goToAnimator = new MyGoToAnimator(this._wwd);
+		this._goToAnimator = new MyGoToAnimator(this._wwd, {
+			store: {
+				locations: this._store.locations,
+				state: this._store.state
+			}
+		});
 		this.layers = new Layers(this._wwd);
 	};
 
@@ -193,11 +226,10 @@ define(['../../actions/Actions',
 	 * Rebuild map
 	 */
 	WorldWindMap.prototype.rebuild = function(){
-		var stateStore = Stores.retrieve("state");
+		var stateStore = this._store.state;
 		stateStore.removeLoadingOperation("initialLoading");
 		var state = stateStore.current();
 		var changes = state.changes;
-		console.log('WorldWindMap#rebuild State: ', changes);
 
 		if (changes.scope || changes.location){
 			stateStore.removeLoadingOperation("appRendering");
@@ -235,7 +267,7 @@ define(['../../actions/Actions',
 	 * Get navigator state from store and set this map navigator's parameters.
 	 */
 	WorldWindMap.prototype.setNavigator = function(){
-		var navigatorState = Stores.retrieve('map').getNavigatorState();
+		var navigatorState = this._store.map.getNavigatorState();
 
 		this._wwd.navigator.heading = navigatorState.heading;
 		this._wwd.navigator.lookAtLocation = navigatorState.lookAtLocation;
@@ -244,7 +276,7 @@ define(['../../actions/Actions',
 		this._wwd.navigator.tilt = navigatorState.tilt;
 
 		this.redraw();
-		var stateStore = Stores.retrieve("state");
+		var stateStore = this._store.state;
 		stateStore.removeLoadingOperation("DefaultMap");
 	};
 
@@ -293,9 +325,7 @@ define(['../../actions/Actions',
 	 * @param position {Position}
 	 */
 	WorldWindMap.prototype.goTo = function(position) {
-		console.log('WorldWindMap#goTo Position: ', position);
-
-        this._wwd.navigator.lookAtLocation = position;
+		this._wwd.navigator.lookAtLocation = position;
         this._wwd.redraw();
         this._wwd.redrawIfNeeded(); // TODO: Check with new releases. This isn't part of the public API and therefore might change.
 	};
@@ -378,7 +408,6 @@ define(['../../actions/Actions',
 		var position = this.getPositionFromCanvasCoordinates(x,y);
 
 		var tablePromises = event.worldWindow.layers.map(function(layer){
-			console.log('WorldWindMap#showFeatureInfo Layer: ', layer);
 			if(!layer || !layer.metadata || !layer.metadata.group || layer.metadata.group === 'areaoutlines') {
 				return;
 			}

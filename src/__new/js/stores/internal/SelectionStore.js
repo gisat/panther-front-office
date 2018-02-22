@@ -1,11 +1,13 @@
 define([
 	'../../actions/Actions',
+	'../../error/ArgumentError',
 	'../../Config',
 	'../../util/Logger',
 	'../../util/FilteredSld',
 	'../../models/FilterLayer'
 ], function(
 	Actions,
+	ArgumentError,
 	Config,
 	Logger,
 	FilteredSld,
@@ -20,10 +22,19 @@ define([
 	 * For the map it is just a layer associated with a color.
 	 * @param options {Object}
 	 * @param options.dispatcher {Object} Allows adding listeners
-	 * @param options.stateStore {StateStore} Store containing state. Necessary for querying the server for base layers.
+	 * @param options.store {Object}
+	 * @param options.store.state {StateStore} Store containing state. Necessary for querying the server for base layers.
 	 * @constructor
 	 */
 	var SelectionStore = function(options) {
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'SelectionStore', 'constructor', 'Stores must be provided'));
+        }
+
+        if(!options.store.state){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'SelectionStore', 'constructor', 'Store state must be provided'));
+        }
+
 		/**
 		 * For each color you need to keep the information about the selected gids of the areas alongside the map.
 		 * The map layer will differ for select single and filters, but it is still part of the standard selection process.
@@ -36,7 +47,7 @@ define([
 		this._wmsUrl = Config.geoServerUrl + 'wms';
 		this._serverUrl = Config.serverUrl;
 
-		this._stateStore = options.stateStore;
+		this._stateStore = options.store.state;
 
 		this._dispatcher = options.dispatcher;
 

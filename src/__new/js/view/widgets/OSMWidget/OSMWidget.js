@@ -4,7 +4,6 @@ define([
     '../../../error/NotFoundError',
     '../../../util/Logger',
 
-    '../../../stores/Stores',
     '../../../worldwind/layers/osm3D/OSMTBuildingLayer',
     '../Widget',
 
@@ -16,7 +15,6 @@ define([
             NotFoundError,
             Logger,
 
-            Stores,
             OSMTBuildingLayer,
             Widget,
 
@@ -30,13 +28,21 @@ define([
      * relevant data it asks the user to provide the bounding box.
      * @param options {Object}
      * @param options.mapsContainer {MapsContainer}
+     * @param options.store {Object}
+     * @param options.store.map {MapStore}
      * @constructor
      */
     var OSMWidget = function(options){
         Widget.apply(this, arguments);
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'OSMWidget', 'constructor', 'Stores must be provided'));
+        }
+        if(!options.store.map){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'OSMWidget', 'constructor', 'Store map must be provided'));
+        }
 
         this._mapsContainer = options.mapsContainer;
-        this._mapStore = options.mapStore;
+        this._mapStore = options.store.map;
 
         this.addEventListeners();
 

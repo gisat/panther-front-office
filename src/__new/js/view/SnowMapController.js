@@ -1,20 +1,37 @@
 define([
+	'../error/ArgumentError',
 	'../util/metadata/Attributes',
+	'../util/Logger',
 	'../util/RemoteJQ',
-	'../stores/Stores',
 
 	'jquery'
 ], function (
+	ArgumentError,
 	Attributes,
+	Logger,
 	RemoteJQ,
-	Stores,
 
 	$
 ) {
 	"use strict";
 
+    /**
+	 *
+     * @param options {Object}
+	 * @param options.worldWind {WorldWindow}
+	 * @param options.store {Object}
+	 * @param options.store.state {StateStore}
+     * @constructor
+     */
 	var SnowMapController = function(options) {
 		this._iFrame = options.iFrame;
+
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'SnowMapController', 'constructor', 'Stores must be provided'));
+        }
+        if(!options.store.state){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'SnowMapController', 'constructor', 'Store state must be provided'));
+        }
 
 		if (options.worldWind){
 			this._worldWind = options.worldWind;
@@ -23,6 +40,8 @@ define([
 		this._countryLayer = null;
 		this._previousLayer = null;
 		this._previousLayerId = null;
+
+		this._store = options.store;
 	};
 
 	SnowMapController.prototype.rebuild = function(){
@@ -207,7 +226,7 @@ define([
 	 * @param countryKey {string}
 	 */
 	SnowMapController.prototype.getCountry = function(countryKey, attribute){
-		var state = Stores.retrieve('state').current();
+		var state = this._store.state.current();
 		return new RemoteJQ({
 			url: "rest/filter/attribute/filter",
 			params: {

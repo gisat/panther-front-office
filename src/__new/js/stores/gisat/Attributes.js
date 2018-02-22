@@ -1,12 +1,9 @@
 define([
 	'../BaseStore',
-	'../Stores',
 	'../../data/Attribute'
 ], function(BaseStore,
-			Stores,
 			Attribute){
 	"use strict";
-	var attributes;
 
 	/**
 	 * Store for retrieval of Attributes from the API.
@@ -34,9 +31,5 @@ define([
 		return "rest/attribute";
 	};
 
-	if(!attributes) {
-		attributes = new Attributes();
-		Stores.register('attribute', attributes);
-	}
-	return attributes;
+	return Attributes;
 });

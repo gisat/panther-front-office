@@ -4,7 +4,6 @@ define(['../../../actions/Actions',
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 	'../../../view/map/Map',
-	'../../../stores/Stores',
 	'../../View',
 
 	'jquery',
@@ -18,7 +17,6 @@ define(['../../../actions/Actions',
 			 NotFoundError,
 			 Logger,
 			 Map,
-			 InternalStores,
 			 View,
 
 			 $,
@@ -32,6 +30,9 @@ define(['../../../actions/Actions',
 	 * @param options.id {string} id of the element
 	 * @param options.control2dClass {string} class of the tool used in ExtJS to identify a tool
 	 * @param options.dispatcher {Object} Object for handling events in the application.
+	 * @param options.store {Object}
+	 * @param options.store.map {MapStore}
+	 * @param options.store.state {StateStore}
 	 * @constructor
 	 */
 	var FeatureInfoTool = function (options) {
@@ -40,10 +41,22 @@ define(['../../../actions/Actions',
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "FeatureInfoTool", "constructor", "missingId"));
 		}
 
-		this._floaterTarget = $("body");
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'FeatureInfoTool', 'constructor', 'Stores must be provided'));
+        }
+        if(!options.store.map){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'FeatureInfoTool', 'constructor', 'Store map must be provided'));
+        }
+        if(!options.store.state){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'FeatureInfoTool', 'constructor', 'Store state must be provided'));
+        }
+
+
+        this._floaterTarget = $("body");
 		this._control2dClass = options.control2dClass;
 		this._id = options.id;
 		this._dispatcher = options.dispatcher;
+		this._store = options.store;
 
 		this.build();
 		this._dispatcher.addListener(this.onEvent.bind(this));
@@ -71,7 +84,10 @@ define(['../../../actions/Actions',
 			id: this._id + "-window",
 			resizable: resizable,
 			hasSettings: hasSettings,
-			hasFooter: hasFooter
+			hasFooter: hasFooter,
+			store: {
+				state: this._store.state
+			}
 		});
 	};
 
@@ -125,7 +141,7 @@ define(['../../../actions/Actions',
 	 */
 	FeatureInfoTool.prototype.activateFor3D = function(){
 		var self = this;
-		var maps = InternalStores.retrieve('map').getAll();
+		var maps = this._store.map.getAll();
 		maps.forEach(function(map){
 			map.addClickRecognizer(self.onWorldWindClick.bind(self), "gid");
 		});
@@ -144,7 +160,7 @@ define(['../../../actions/Actions',
 	 */
 	FeatureInfoTool.prototype.deactivateFor3D = function(){
 		this.hideComponents();
-		var maps = InternalStores.retrieve('map').getAll();
+		var maps = this._store.map.getAll();
 		maps.forEach(function(map){
 			map.disableClickRecognizer();
 		});

@@ -94,7 +94,6 @@ var Stores = {
  * @param changed {String} key used to distinguish the actions.
  */
 Stores.notify = function(changed, options) {
-	console.log('Stores#notify Changed: ', changed, ' Options: ', options);
 	Stores.listeners.forEach(function(listener){
 		listener(changed, options);
 	})

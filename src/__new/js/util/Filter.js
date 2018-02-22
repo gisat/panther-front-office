@@ -1,13 +1,18 @@
-define(['../actions/Actions',
+define([
+	'../actions/Actions',
+	'../error/ArgumentError',
 	'./Color',
+	'../util/Logger',
 	'./Remote',
-	'../stores/Stores',
+
 	'jquery',
 	'underscore'
 ], function (Actions,
+			 ArgumentError,
 			 Color,
+			 Logger,
 			 Remote,
-			 InternalStores,
+
 			 $,
 			 _) {
 
@@ -15,11 +20,21 @@ define(['../actions/Actions',
 	 * Class for data filtering
 	 * @param options {Object}
 	 * @param options.dispatcher (Object) Object for dispatching actions.
+	 * @param options.store {Object}
+	 * @param options.store.state {StateStore}
 	 * @constructor
 	 */
 
 	var Filter = function (options) {
-		this._dispatcher = options.dispatcher;
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'Filter', 'constructor', 'Stores must be provided'));
+        }
+        if(!options.store.state){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'Filter', 'constructor', 'Store state must be provided'));
+        }
+
+        this._dispatcher = options.dispatcher;
+		this._store = options.store;
 	};
 
 	/**
@@ -93,7 +108,7 @@ define(['../actions/Actions',
 	 * @returns {*|Promise}
 	 */
 	Filter.prototype.featureInfo = function (attributes, gid, periods) {
-		var state = InternalStores.retrieve('state').current();
+		var state = this._store.state.current();
 		var places = state.places;
 		if (!places || places[0] === "All places"){
 			places = state.allPlaces;

@@ -704,7 +704,6 @@ Ext.define('PumaMain.controller.Chart', {
         }
        
         
-        console.log('Chart#onChartReceived Response', response, ' CMP: ', cmp);
         if (!data || data.noData) {
             if(cmp.chart && cmp.chart.type == 'extentoutline') {
                 this.createSelectAreaChart(cmp);

@@ -1,6 +1,4 @@
-define(['./Stores'], function(Stores){
-    var urbanTepCommunities;
-
+define([], function(){
     var UrbanTepCommunitiesStore = function() {
 
     };
@@ -11,9 +9,5 @@ define(['./Stores'], function(Stores){
         });
     };
 
-    if(!urbanTepCommunities) {
-        urbanTepCommunities = new UrbanTepCommunitiesStore();
-        Stores.register('urbanTepCommunities', urbanTepCommunities);
-    }
-    return urbanTepCommunities;
+    return UrbanTepCommunitiesStore;
 });

@@ -7,7 +7,6 @@ define([
 	'../../components/Button/Button',
 	'../../components/Select/MultiSelect',
 	'../../components/Select/Select',
-	'../../../stores/Stores',
 
 	'jquery',
 	'string',
@@ -22,7 +21,6 @@ define([
 			Button,
 			MultiSelect,
 			Select,
-			Stores,
 
 			$,
 			S,
@@ -35,12 +33,29 @@ define([
 	 * @params options.containerSelector {Object} JQuery selector of parent element, where will be rendered the PeriodsSelector
 	 * @params options.dispatcher {Object} Dispatcher, which is used to distribute actions across the application.
 	 * @params [options.maxSelected] {number} maximal number of selected periods
+	 * @params options.store {Object}
+	 * @params options.store.periods {Periods}
+	 * @params options.store.scopes {Scopes}
+	 * @params options.store.state {StateStore}
 	 * @constructor
 	 */
 	var PeriodsSelector = function(options){
 		if (!options.containerSelector){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "PeriodsSelector", "constructor", "missingTarget"));
 		}
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'PeriodsSelector', 'constructor', 'Stores must be provided'));
+        }
+        if(!options.store.periods){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'PeriodsSelector', 'constructor', 'Store periods must be provided'));
+        }
+        if(!options.store.scopes){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'PeriodsSelector', 'constructor', 'Store scopes must be provided'));
+        }
+        if(!options.store.state){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'PeriodsSelector', 'constructor', 'Store state must be provided'));
+        }
+
 		this._containerSelector = options.containerSelector;
 		this._dispatcher = options.dispatcher;
 		this._maxSelected = options.maxSelected || 16;
@@ -48,9 +63,9 @@ define([
 
 		this._id = "selector-periods";
 
-		this._periodStore = Stores.retrieve("period");
-		this._scopeStore = Stores.retrieve("scope");
-		this._stateStore = Stores.retrieve("state");
+		this._periodStore = options.store.periods;
+		this._scopeStore = options.store.scopes;
+		this._stateStore = options.store.state;
 
 		this._periodStore.addListener(this.onEvent.bind(this));
 

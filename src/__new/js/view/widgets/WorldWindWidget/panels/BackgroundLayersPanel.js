@@ -2,7 +2,6 @@ define(['../../../../error/ArgumentError',
 	'../../../../error/NotFoundError',
 	'../../../../util/Logger',
 
-	'../../../../stores/Stores',
 	'./WorldWindWidgetPanel',
 
 	'jquery',
@@ -11,7 +10,6 @@ define(['../../../../error/ArgumentError',
 			NotFoundError,
 			Logger,
 
-			Stores,
 			WorldWindWidgetPanel,
 
 			$,
@@ -20,11 +18,21 @@ define(['../../../../error/ArgumentError',
 	/**
 	 * Class representing Background Layers Panel of WorldWindWidget
 	 * @param options {Object}
+	 * @param options.store {Object}
+	 * @param options.store.state {StateStore}
 	 * @constructor
 	 */
 	var BackgroundLayersPanel = function(options){
 		WorldWindWidgetPanel.apply(this, arguments);
 
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'BackgroundLayersPanel', 'constructor', 'Stores must be provided'));
+        }
+        if(!options.store.state){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'BackgroundLayersPanel', 'constructor', 'Store state must be provided'));
+        }
+
+        this._store = options.store;
 		this.layerControls = [];
         this.rebuild();
 
@@ -37,7 +45,7 @@ define(['../../../../error/ArgumentError',
 	BackgroundLayersPanel.prototype = Object.create(WorldWindWidgetPanel.prototype);
 
     BackgroundLayersPanel.prototype.rebuild = function() {
-        var scope = Stores.retrieve("state").current().scopeFull;
+        var scope = this._store.state.current().scopeFull;
         this.addLayerControls(scope);
         this.addEventsListeners();
         this.toggleLayers();

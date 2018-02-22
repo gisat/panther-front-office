@@ -5,7 +5,6 @@ define(['../../../actions/Actions',
 
 	'./FeatureInfoTool',
 	'./LayerInfoWindow',
-	'../../../stores/Stores',
 
 	'jquery',
 	'worldwind'
@@ -16,16 +15,34 @@ define(['../../../actions/Actions',
 
 			 FeatureInfoTool,
 			 LayerInfoWindow,
-			 InternalStores,
 
 			 $) {
 	"use strict";
 
+    /**
+	 *
+     * @param options {Object}
+	 * @param options.store {Object}
+	 * @param options.store.map {MapStore}
+	 * @param options.store.state {StateStore}
+     * @constructor
+     */
 	var LayerInfoTool = function (options) {
 		FeatureInfoTool.apply(this, arguments);
 		if (!options.id){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "FeatureInfoTool", "constructor", "missingId"));
 		}
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'FeatureInfoTool', 'constructor', 'Stores must be provided'));
+        }
+        if(!options.store.map){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'FeatureInfoTool', 'constructor', 'Store map must be provided'));
+        }
+        if(!options.store.state){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'FeatureInfoTool', 'constructor', 'Store state must be provided'));
+        }
+
+		this._store = options.store;
 	};
 
 	LayerInfoTool.prototype = Object.create(FeatureInfoTool.prototype);
@@ -41,13 +58,16 @@ define(['../../../actions/Actions',
 		return new LayerInfoWindow({
 			target: this._floaterTarget,
 			id: this._id + "-window",
-			title: polyglot.t("layerInfo")
+			title: polyglot.t("layerInfo"),
+			store: {
+				state: this._store.state
+			}
 		});
 	};
 
 	LayerInfoTool.prototype.activate = function(){
 		var self = this;
-		var maps = InternalStores.retrieve('map').getAll();
+		var maps = this._store.map.getAll();
 		maps.forEach(function(map){
 			map.layerInfoListener = map.getLayersInfo.bind(map, self.rebuildWindow.bind(self));
 			map._wwd.addEventListener("click", map.layerInfoListener);
@@ -56,7 +76,7 @@ define(['../../../actions/Actions',
 
 	LayerInfoTool.prototype.deactivate = function(){
 		var self = this;
-		var maps = InternalStores.retrieve('map').getAll();
+		var maps = this._store.map.getAll();
 		maps.forEach(function(map){
 			if (map.layerInfoListener){
 				map._wwd.removeEventListener("click", map.layerInfoListener);

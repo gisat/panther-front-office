@@ -2,24 +2,40 @@ define(['../../error/ArgumentError',
 		'../../error/NotFoundError',
 		'../../util/Logger',
 		'../../util/Remote',
-		'../../stores/Stores',
+
 		'jquery',
 		'underscore'
 ],function(ArgumentError,
 		   NotFoundError,
 		   Logger,
 		   Remote,
-		   Stores,
+
 		   $,
 		   _){
 
 	/**
 	 * Class for gathering attributes metadata
 	 * @constructor
+	 * @param options {Object}
+	 * @param options.store {Object}
+	 * @param options.store.attributeSets {AttributeSets}
+	 * @param options.store.attributes {Attributes}
 	 */
 
-	var Attributes = function(){
+	var Attributes = function(options){
+		if(!options.store){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'Attributes', 'constructor', 'Stores must be provided'));
+		}
+        if(!options.store.attributes){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'Attributes', 'constructor', 'Store attribute must be provided'));
+        }
+        if(!options.store.attributeSets){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'Attributes', 'constructor', 'Store attribute set must be provided'));
+        }
+
 		this._attributeSets = null;
+
+		this._store = options.store;
 	};
 
 	/**
@@ -75,7 +91,7 @@ define(['../../error/ArgumentError',
 	 */
 	Attributes.prototype.getAttributeSet = function (attributeSet) {
 		var self = this;
-		return Stores.retrieve("attributeSet").byId(attributeSet).then(function (attrSet) {
+		return this._store.attributeSets.byId(attributeSet).then(function (attrSet) {
 			return attrSet[0];
 		}).then(self.getAttributesFromAttributeSet.bind(self));
 	};
@@ -105,7 +121,7 @@ define(['../../error/ArgumentError',
 	 */
 	Attributes.prototype.getAttribute = function(attributeSet, attribute){
 		var self = this;
-		return Stores.retrieve("attribute").byId(attribute).then(
+		return this._store.attributes.byId(attribute).then(
 			self.getAttributeDataByType.bind(self, attributeSet)
 		);
 	};

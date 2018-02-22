@@ -1,12 +1,9 @@
 define([
 	'../BaseStore',
-	'../Stores',
 	'../../data/Scope'
 ], function(BaseStore,
-			Stores,
 			Scope){
 	"use strict";
-	var scopes;
 
 	/**
 	 * Store for retrieval of Scopes from the API.
@@ -34,9 +31,5 @@ define([
 		return "rest/dataset";
 	};
 
-	if(!scopes) {
-		scopes = new Scopes();
-		Stores.register('scope', scopes);
-	}
-	return scopes;
+	return Scopes;
 });

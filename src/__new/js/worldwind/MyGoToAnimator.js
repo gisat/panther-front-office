@@ -1,7 +1,6 @@
 define(['../error/ArgumentError',
 	'../error/NotFoundError',
 	'../util/Logger',
-	'js/stores/Stores',
 
 	'd3',
 	'jquery',
@@ -10,7 +9,6 @@ define(['../error/ArgumentError',
 ], function(ArgumentError,
 			NotFoundError,
 			Logger,
-			Stores,
 
 			d3,
 			$,
@@ -21,13 +19,28 @@ define(['../error/ArgumentError',
 	/**
 	 * Class extending the WorldWind.GoToAnimator class
 	 * @param wwd {WorldWindow} The World Window in which to perform the animation.
+	 * @param options {Object}
+	 * @param options.store {Object}
+	 * @param options.store.state {StateStore}
+	 * @param options.store.locations {Locations}
 	 * @constructor
 	 */
-	var MyGoToAnimator = function(wwd){
+	var MyGoToAnimator = function(wwd, options){
 		if (!wwd){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MyGoToAnimator", "constructor", "missingWorldWind"));
 		}
 
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MyGoToAnimator', 'constructor', 'Stores must be provided'));
+        }
+        if(!options.store.state){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MyGoToAnimator', 'constructor', 'Store state must be provided'));
+        }
+        if(!options.store.locations){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MyGoToAnimator', 'constructor', 'Store locations must be provided'));
+        }
+
+		this._store = options.store;
 		GoToAnimator.call(this, wwd);
 		this.wwd = wwd;
 		this.travelTime = 0;
@@ -41,12 +54,11 @@ define(['../error/ArgumentError',
 	 */
 	MyGoToAnimator.prototype.setLocation = function(){
 		var self = this;
-		var stateStore = Stores.retrieve("state");
+		var stateStore = this._store.state;
 		var currentState = stateStore.current();
 		var places = currentState.places;
 		var dataset = currentState.scope;
 
-		console.log('MyGoToAnimator#setLocation CurrentState: ', currentState);
 		if (!dataset){
 			console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "MyGoToAnimator", "setLocation", "missingDataset"));
 			stateStore.removeLoadingOperation("ScopeLocationChanged");
@@ -57,8 +69,7 @@ define(['../error/ArgumentError',
 				values.id = places[0];
 			}
 
-			Stores.retrieve("location").filter(values).then(function(response){
-				console.log('MyGoToAnimator#setLocation Location: ', response);
+			this._store.locations.filter(values).then(function(response){
 				if (response.length > 0){
 					var points = [];
 					response.forEach(function(location){

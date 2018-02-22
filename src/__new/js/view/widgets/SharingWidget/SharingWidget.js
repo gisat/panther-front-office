@@ -1,9 +1,8 @@
 define([
 	'../../../actions/Actions',
-	'../../../stores/gisat/Groups',
-	'../../../stores/Stores',
+	'../../../error/ArgumentError',
+	'../../../util/Logger',
 	'../../../stores/UrbanTepPortalStore',
-    '../../../stores/gisat/Users',
     '../Widget',
 
 	'../../components/Button/Button',
@@ -14,10 +13,9 @@ define([
 	'text!./SharingWidget.html',
 	'css!./SharingWidget'
 ], function (Actions,
-			 Groups,
-			 Stores,
+			 ArgumentError,
+			 Logger,
 			 UrbanTepPortalStore,
-			 Users,
 			 Widget,
 
 			 Button,
@@ -26,8 +24,33 @@ define([
 			 $,
 			 S,
 			 SharingWidgetHtml) {
+    /**
+	 *
+     * @param options {Object}
+	 * @param options.dispatcher {Object}
+	 * @param options.store {Object}
+	 * @param options.store.state {StateStore}
+	 * @param options.store.groups {Groups}
+	 * @param options.store.users {Users}
+     * @constructor
+     */
 	var SharingWidget = function (options) {
 		Widget.call(this, options);
+
+		if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'SharingWidget', 'constructor', 'Stores must be provided'));
+        }
+        if(!options.store.state){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'SharingWidget', 'constructor', 'Store state must be provided'));
+        }
+        if(!options.store.groups){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'SharingWidget', 'constructor', 'Store groups must be provided'));
+        }
+        if(!options.store.users){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'SharingWidget', 'constructor', 'Store users must be provided'));
+        }
+
+		this._store = options.store;
 
 		this.build();
 
@@ -56,12 +79,12 @@ define([
 
         var self = this;
 
-        Groups.clear();
-        Users.clear();
+        this._store.groups.clear();
+        this._store.users.clear();
 
 		Promise.all([
-			Groups.all(),
-			Users.all()
+            this._store.groups.all(),
+            this._store.users.all()
 		]).then(function(results){
 			var groups = results[0];
 			var users = results[1];
@@ -133,7 +156,7 @@ define([
 		var name = $( "#floater-sharing .floater-body #sharing-name" ).val();
 		var description = $( "#floater-sharing .floater-body #sharing-description" ).val();
 		var language = $( "#floater-sharing .floater-body #sharing-lang option:checked" ).val();
-		var state = Stores.retrieve("state").currentExtended();
+		var state = this._store.state.currentExtended();
 
 		Observer.notify("PumaMain.controller.ViewMng.onShare", {
 			state: state,
@@ -151,7 +174,7 @@ define([
 		var selectedGroup = $( "#floater-sharing .floater-body #sharing-group option:checked" ).val();
 		var selectedUser = $( "#floater-sharing .floater-body #sharing-user option:checked" ).val();
 		var minimiseBtn = this._widgetSelector.find(".widget-minimise");
-		var state = Stores.retrieve("state").currentExtended();
+		var state = this._store.state.currentExtended();
 		var self = this;
 		Promise.all([
 			Groups.share(selectedGroup, state.scope, state.places, options.dataviewId),

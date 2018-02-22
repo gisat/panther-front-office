@@ -1,12 +1,9 @@
 define([
 	'../BaseStore',
-	'../Stores',
 	'../../data/Location'
 ], function(BaseStore,
-			Stores,
 			Location){
 	"use strict";
-	var locations;
 
 	/**
 	 * Store for retrieval of Locations from the API.
@@ -34,9 +31,5 @@ define([
 		return "rest/location";
 	};
 
-	if(!locations) {
-		locations = new Locations();
-		Stores.register('location', locations);
-	}
-	return locations;
+	return Locations;
 });
