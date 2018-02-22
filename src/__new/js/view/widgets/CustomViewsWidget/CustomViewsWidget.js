@@ -7,7 +7,6 @@ define(['../../../actions/Actions',
 
 	'./AboutWindow/AboutWindow',
 	'./DataviewCard/DataviewCard',
-	'../../../stores/Stores',
 	'../Widget',
 
 	'jquery',
@@ -23,7 +22,6 @@ define(['../../../actions/Actions',
 
 			AboutWindow,
 			DataviewCard,
-			Stores,
 			Widget,
 
 			$,
@@ -33,11 +31,30 @@ define(['../../../actions/Actions',
 	/**
 	 *
 	 * @param options {Object}
+	 * @param options.store {Object}
+	 * @param options.store.state {StateStore}
+	 * @param options.store.dataviews {Dataviews}
+	 * @param options.store.scopes {Scopes}
 	 * @constructor
 	 * @augments Widget
 	 */
 	var CustomViewsWidget = function(options){
 		Widget.apply(this, arguments);
+
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'CustomViewsWidget', 'constructor', 'Stores must be provided'));
+        }
+        if(!options.store.state){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'CustomViewsWidget', 'constructor', 'Store state must be provided'));
+        }
+        if(!options.store.dataviews){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'CustomViewsWidget', 'constructor', 'Store dataviews must be provided'));
+        }
+        if(!options.store.scopes){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'CustomViewsWidget', 'constructor', 'Store scopes must be provided'));
+        }
+
+        this._store = options.store;
 
 		this._dispatcher = options.dispatcher;
 		this._dispatcher.addListener(this.onEvent.bind(this));
@@ -65,7 +82,7 @@ define(['../../../actions/Actions',
 	CustomViewsWidget.prototype.rebuild = function(){
 		this.handleLoading("show");
 		var self = this;
-		var changed = Stores.retrieve("state").current().changes;
+		var changed = this._store.state.current().changes;
 
 		if (changed.dataview && Config.toggles.showDataviewsOverlay){
 			this._widgetSelector.removeClass("open expanded active");
@@ -75,7 +92,7 @@ define(['../../../actions/Actions',
 			},500);
 		}
 
-		Stores.retrieve('dataview').load()
+		this._store.dataviews.load()
 			.then(this.redraw.bind(this))
 			.catch(function(err){throw new Error(err);});
 	};
@@ -103,7 +120,7 @@ define(['../../../actions/Actions',
 				this.renderAsOverlay(data, isAdmin);
 
 			} else {
-				var scope = Stores.retrieve("state").current().scope;
+				var scope = this._store.state.current().scope;
 				this.renderAsWidget(data, scope, isAdmin);
 				this._widgetSelector.removeClass("intro-overlay");
 				bodySelector.removeClass("intro-overlay");
@@ -124,7 +141,7 @@ define(['../../../actions/Actions',
 		var groupedData = this.groupDataByScope(data);
 		var scopeNamesPromises = [];
 		for (var ds in groupedData){
-			scopeNamesPromises.push(Stores.retrieve('scope').byId(Number(ds)));
+			scopeNamesPromises.push(this._store.scopes.byId(Number(ds)));
 		}
 
 		var self = this;
@@ -325,8 +342,8 @@ define(['../../../actions/Actions',
 	CustomViewsWidget.prototype.onEvent = function(type){
 		if (type === Actions.userChanged || type === "initialLoadingFinished"){
 			this.handleLoading("show");
-			Stores.retrieve('scope').clear();
-			Stores.retrieve('dataview').load().then(this.redraw.bind(this));
+			this._store.scopes.clear();
+			this._store.dataviews.load().then(this.redraw.bind(this));
 		} else if (type === Actions.dataviewShow){
 			this._widgetSelector.find(".widget-minimise").trigger("click");
 		} else if (type === Actions.sharingViewShared){

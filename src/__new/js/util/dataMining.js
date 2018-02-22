@@ -1,6 +1,25 @@
 define([
-	'../stores/Stores'
-], function (InternalStores) {
+	'../error/ArgumentError',
+	'../util/Logger'
+], function (ArgumentError,
+			 Logger) {
+    /**
+	 *
+     * @param options
+	 * @param options.store
+	 * @param options.store.state {StateStore}
+     * @constructor
+     */
+	var DataMining = function(options) {
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'DataMining', 'constructor', 'Stores must be provided'));
+        }
+        if(!options.store.state){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'DataMining', 'constructor', 'Store state must be provided'));
+        }
+
+        this._store = options.store;
+	};
 
 	/**
 	 * TODO fix for All places and refactor
@@ -8,8 +27,8 @@ define([
 	 * @params currentPeriod {number}
 	 * @returns {Array} List of base layers
 	 */
-	function getAuBaseLayers(currentPeriod){
-		var appState = InternalStores.retrieve("state").current();
+	DataMining.prototype.getAuBaseLayers = function(currentPeriod){
+		var appState = this._store.state.current();
 
 		var locations = appState.places;
 		if (!locations || locations[0] === "All places"){
@@ -44,13 +63,13 @@ define([
 			});
 		}
 		return layers;
-	}
+	};
 
 	/**
 	 * @param data {string}
 	 * @returns {boolean} true, if data is in JSON format
 	 */
-	function isJson(data){
+	DataMining.prototype.isJson = function(data){
 		var ret = true;
 		try {
 			return JSON.parse(data);
@@ -59,10 +78,7 @@ define([
 			return false;
 		}
 		return ret;
-	}
-
-	return {
-		getAuBaseLayers: getAuBaseLayers,
-		isJson: isJson
 	};
+
+	return DataMining;
 });

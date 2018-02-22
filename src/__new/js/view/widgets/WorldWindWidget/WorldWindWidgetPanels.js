@@ -8,8 +8,6 @@ define(['../../../error/ArgumentError',
 	'./panels/ThematicLayersPanel',
 	'./panels/WmsLayersPanel',
 
-	'../../../stores/Stores',
-
 	'jquery',
 	'string',
 	'text!./WorldWindWidgetPanels.html',
@@ -24,8 +22,6 @@ define(['../../../error/ArgumentError',
 			ThematicLayersPanel,
 			WmsLayersPanel,
 
-			Stores,
-
 			$,
 			S,
 			htmlBody
@@ -35,6 +31,10 @@ define(['../../../error/ArgumentError',
 	 * @param options.id {string} id of element
 	 * @param options.target {Object} JQuery selector of target element
 	 * @param options.currentMap
+	 * @param options.store {Object}
+	 * @param options.store.state {StateStore}
+	 * @param options.store.map {MapStore}
+	 * @param options.store.wmsLayers {WmsLayers}
 	 * @constructor
 	 */
 	var WorldWindWidgetPanels = function(options){
@@ -44,7 +44,20 @@ define(['../../../error/ArgumentError',
 		if (!options.target || options.target.length === 0){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingTarget"));
 		}
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindWidgetPanels', 'constructor', 'Stores must be provided'));
+        }
+        if(!options.store.map){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindWidgetPanels', 'constructor', 'Store map must be provided'));
+        }
+        if(!options.store.state){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindWidgetPanels', 'constructor', 'Store state must be provided'));
+        }
+        if(!options.store.wmsLayers){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindWidgetPanels', 'constructor', 'Store wms layers must be provided'));
+        }
 
+		this._store = options.store;
 		this._id = options.id;
 		this._target = options.target;
 		this.build();
@@ -54,7 +67,7 @@ define(['../../../error/ArgumentError',
 	 * Rebuild panels with current configuration
 	 */
 	WorldWindWidgetPanels.prototype.rebuild = function(){
-		var configChanges = Stores.retrieve('state').current().changes;
+		var configChanges = this._store.state.current().changes;
 		if (!configChanges.scope){
 			this._thematicLayersPanel.switchOnLayersFrom2D();
 			// this._auLayersPanel.switchOnLayersFrom2D();
@@ -100,7 +113,11 @@ define(['../../../error/ArgumentError',
 			id: "background-layers",
 			name: polyglot.t("backgroundLayers"),
 			target: this._panelsSelector,
-			isOpen: true
+			isOpen: true,
+			store: {
+				map: this._store.map,
+				state: this._store.state
+			}
 		});
 	};
 
@@ -112,7 +129,11 @@ define(['../../../error/ArgumentError',
 			id: "thematic-layers",
 			name: polyglot.t("thematicLayers"),
 			target: this._panelsSelector,
-			isOpen: true
+			isOpen: true,
+            store: {
+                map: this._store.map,
+				state: this._store.state
+            }
 		});
 	};
 
@@ -124,7 +145,11 @@ define(['../../../error/ArgumentError',
 			id: "au-layers",
 			name: polyglot.t("analyticalUnitsLayers"),
 			target: this._panelsSelector,
-			isOpen: true
+			isOpen: true,
+            store: {
+                map: this._store.map,
+				state: this._store.state
+            }
 		});
 	};
 
@@ -136,7 +161,11 @@ define(['../../../error/ArgumentError',
 			id: "info-layers",
 			name: polyglot.t("infoLayers"),
 			target: this._panelsSelector,
-			isOpen: true
+			isOpen: true,
+            store: {
+                map: this._store.map,
+				state: this._store.state
+            }
 		});
 	};
 
@@ -148,7 +177,12 @@ define(['../../../error/ArgumentError',
 			id: "wms-layers",
 			name: polyglot.t("customWmsLayers"),
 			target: this._panelsSelector,
-			isOpen: true
+			isOpen: true,
+            store: {
+                map: this._store.map,
+				state: this._store.state,
+				wmsLayers: this._store.wmsLayers
+            }
 		});
 	};
 

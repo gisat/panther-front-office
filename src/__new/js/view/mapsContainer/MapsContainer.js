@@ -6,7 +6,6 @@ define([
 
 	'../worldWind/controls/Controls',
 	'../../util/Filter',
-	'../../stores/Stores',
 	'../worldWind/WorldWindMap',
 
 	'string',
@@ -21,7 +20,6 @@ define([
 
 			Controls,
 			Filter,
-			Stores,
 			WorldWindMap,
 
 			S,
@@ -35,8 +33,11 @@ define([
 	 * @param options.id {string} id of the container
 	 * @param options.dispatcher {Object} Object for handling events in the application.
 	 * @param options.target {Object} JQuery selector of target element
-	 * @param options.mapStore {MapStore}
-	 * @param options.stateStore {StateStore}
+	 * @param options.store {Object}
+	 * @param options.store.map {MapStore}
+	 * @param options.store.state {StateStore}
+	 * @param options.store.periods {Periods}
+	 * @param options.store.locations {Locations}
 	 * @constructor
 	 */
 	var MapsContainer = function(options){
@@ -49,17 +50,27 @@ define([
 		if (!options.id){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MapsContainer", "constructor", "missingId"));
 		}
-		if (!options.mapStore){
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MapsContainer', 'constructor', 'Stores must be provided'));
+        }
+		if (!options.store.map){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MapsContainer", "constructor", "missingMapStore"));
 		}
-		if (!options.stateStore){
+		if (!options.store.state){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MapsContainer", "constructor", "missingStateStore"));
 		}
+        if (!options.store.periods){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MapsContainer", "constructor", "missingPeriodsStore"));
+        }
+        if (!options.store.locations){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MapsContainer", "constructor", "missingLocationsStore"));
+        }
 		this._target = options.target;
 		this._id = options.id;
 		this._dispatcher = options.dispatcher;
-		this._mapStore = options.mapStore;
-		this._stateStore = options.stateStore;
+		this._mapStore = options.store.map;
+		this._stateStore = options.store.state;
+		this._store = options.store;
 
 		this._mapControls = null;
 		this._mapsInContainerCount = 0;
@@ -67,7 +78,7 @@ define([
 		this.build();
 
 		this._dispatcher.addListener(this.onEvent.bind(this));
-		Stores.retrieve("period").addListener(this.onEvent.bind(this));
+		options.store.periods.addListener(this.onEvent.bind(this));
 	};
 
 	/**
@@ -229,7 +240,13 @@ define([
 			dispatcher: window.Stores,
 			id: id,
 			period: periodId,
-			mapsContainer: this._containerSelector.find(".map-fields")
+			mapsContainer: this._containerSelector.find(".map-fields"),
+			store: {
+				state: this._stateStore,
+				map: this._mapStore,
+				periods: this._store.periods,
+				locations: this._store.locations
+			}
 		});
 	};
 

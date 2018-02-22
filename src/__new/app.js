@@ -44,35 +44,46 @@ requirejs.config({
 define(['js/actions/Actions',
 		'js/view/widgets/AggregatedChartWidget/AggregatedChartWidget',
 		'js/util/metadata/Attributes',
+        'js/stores/gisat/Attributes',
+        'js/stores/gisat/AttributeSets',
         'js/util/metadata/AnalyticalUnits',
         'js/view/charts/ChartContainer',
         'js/view/widgets/CityWidget/CityWidget',
         'js/view/widgets/CustomDrawingWidget/CustomDrawingWidget',
 		'js/view/widgets/CustomViewsWidget/CustomViewsWidget',
 		'js/util/Customization',
+        'js/stores/gisat/Dataviews',
         'js/view/widgets/EvaluationWidget/EvaluationWidget',
         'js/view/tools/FeatureInfoTool/FeatureInfoTool',
         'js/util/Filter',
         'js/util/Floater',
 		'./FrontOffice',
-        'js/util/Logger',
+        'js/stores/gisat/Groups',
+		'js/stores/gisat/Layers',
+		'js/stores/gisat/Locations',
+		'js/util/Logger',
         'js/view/map/Map',
 		'js/view/mapsContainer/MapsContainer',
 		'js/stores/internal/MapStore',
 		'js/view/widgets/MapToolsWidget/MapToolsWidget',
 		'js/view/widgets/OSMWidget/OSMWidget',
 		'js/view/PanelIFrame/PanelIFrame',
+		'js/stores/gisat/Periods',
 		'js/view/selectors/PeriodsSelector/PeriodsSelector',
 		'js/view/widgets/PeriodsWidget/PeriodsWidget',
 		'js/util/Placeholder',
 		'js/util/Remote',
+		'js/stores/gisat/Scopes',
 		'js/view/widgets/SharingWidget/SharingWidget',
 		'js/stores/internal/SelectionStore',
 		'js/view/SnowMapController',
 		'js/view/widgets/SnowWidget/SnowWidget',
 		'js/stores/internal/StateStore',
-		'js/stores/Stores',
-        'js/view/TopToolBar',
+		'js/stores/gisat/Themes',
+		'js/view/TopToolBar',
+        'js/stores/gisat/Users',
+        'js/stores/gisat/Visualizations',
+        'js/stores/gisat/WmsLayers',
         'js/view/widgets/WorldWindWidget/WorldWindWidget',
 
         'string',
@@ -82,17 +93,23 @@ define(['js/actions/Actions',
 ], function (Actions,
 			 AggregatedChartWidget,
 			 Attributes,
+             AttributesStore,
+             AttributeSets,
              AnalyticalUnits,
              ChartContainer,
              CityWidget,
              CustomDrawingWidget,
 			 CustomViewsWidget,
 			 Customization,
+             Dataviews,
              EvaluationWidget,
              FeatureInfoTool,
              Filter,
              Floater,
 			 FrontOffice,
+             Groups,
+             Layers,
+             Locations,
              Logger,
              Map,
              MapsContainer,
@@ -100,21 +117,41 @@ define(['js/actions/Actions',
 			 MapToolsWidget,
 			 OSMWidget,
 			 PanelIFrame,
+			 Periods,
 			 PeriodsSelector,
 			 PeriodsWidget,
 			 Placeholder,
 			 Remote,
+			 Scopes,
 			 SharingWidget,
 			 SelectionStore,
 			 SnowMapController,
 			 SnowWidget,
 			 StateStore,
-			 Stores,
+			 Themes,
 			 TopToolBar,
+             Users,
+             Visualizations,
+             WmsLayers,
              WorldWindWidget,
 
              S,
              $){
+
+    var store = {
+        attributes: new AttributesStore(),
+        attributeSets: new AttributeSets(),
+        dataviews: new Dataviews(),
+        groups: new Groups(),
+        layers: new Layers(),
+        locations: new Locations(),
+        periods: new Periods(),
+        scopes: new Scopes(),
+        themes: new Themes(),
+        users: new Users(),
+        visualizations: new Visualizations(),
+        wmsLayers: new WmsLayers()
+    };
 
     $(document).ready(function() {
     	function stop(event){
@@ -130,31 +167,38 @@ define(['js/actions/Actions',
         var tools = [];
         var widgets = [];
 
-        var stateStore = new StateStore({
-			dispatcher: window.Stores
-		});
-		var mapStore = new MapStore({
-			dispatcher: window.Stores
-		});
-        var selectionStore = new SelectionStore({
-			dispatcher: window.Stores,
-			stateStore: stateStore
-		});
-        window.selectionStore = selectionStore;
 
-		Stores.register('state', stateStore);
-        Stores.register('selection', selectionStore);
-        Stores.register('map', mapStore);
+        var mapStore = new MapStore({
+            dispatcher: window.Stores
+        });
+        var stateStore = new StateStore({
+			dispatcher: window.Stores,
+			store: {
+				maps: mapStore
+			}
+		});
+		window.selectionStore = new SelectionStore({
+			dispatcher: window.Stores,
+			store: {
+				state: stateStore
+			}
+		});
+
 
         var attributes = buildAttributes();
-        var filter = buildFilter();
-        var olMap = buildOpenLayersMap();
+        var filter = buildFilter(stateStore);
+        var olMap = buildOpenLayersMap(stateStore);
 
 		// customization
 		new Customization({
 			dispatcher: window.Stores,
 			useWorldWindOnly: Config.toggles.useWorldWindOnly,
-			skipSelection: Config.toggles.skipInitialSelection
+			skipSelection: Config.toggles.skipInitialSelection,
+			store: {
+				locations: store.locations,
+				themes: store.themes,
+				scopes: store.scopes
+			}
 		});
 
 		// Chart container
@@ -163,14 +207,19 @@ define(['js/actions/Actions',
 		});
 
 		// ALWAYS add new feature info
-		var featureInfoTool = buildFeatureInfoTool();
+		var featureInfoTool = buildFeatureInfoTool(mapStore, stateStore);
 		tools.push(featureInfoTool);
 
         if (Config.toggles.hasPeriodsSelector){
         	new PeriodsSelector({
 				containerSelector: $("#content-application .group-visualization"),
 				dispatcher: window.Stores,
-				maxSelected: 12
+				maxSelected: 12,
+				store: {
+					periods: store.periods,
+					scopes: store.scopes,
+					state: stateStore
+				}
 			});
         	$("#view-selector .period").addClass("hidden");
 		}
@@ -183,9 +232,9 @@ define(['js/actions/Actions',
         // create tools and widgets according to configuration
         if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
         	var mapsContainer = buildMapsContainer(mapStore, stateStore);
-			var worldWindWidget = buildWorldWindWidget(mapsContainer, topToolBar, stateStore);
+			var worldWindWidget = buildWorldWindWidget(mapsContainer, topToolBar, stateStore, mapStore);
 			widgets.push(worldWindWidget);
-			var mapToolsWidget = buildMapToolsWidget(featureInfoTool);
+			var mapToolsWidget = buildMapToolsWidget(featureInfoTool, stateStore, mapStore);
 			widgets.push(mapToolsWidget);
 
             if(Config.toggles.hasOsmWidget) {
@@ -193,7 +242,7 @@ define(['js/actions/Actions',
             }
         }
         if(Config.toggles.hasPeriodsWidget){
-			var periodsWidget = buildPeriodsWidget(mapsContainer);
+			var periodsWidget = buildPeriodsWidget(mapsContainer, stateStore);
 			widgets.push(periodsWidget);
 		}
         if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
@@ -219,8 +268,8 @@ define(['js/actions/Actions',
 			snowViewChanges();
 		}
 
-		widgets.push(buildCustomViewsWidget());
-		widgets.push(buildSharingWidget());
+		widgets.push(buildCustomViewsWidget(stateStore));
+		widgets.push(buildSharingWidget(stateStore));
 
 		// build app, map is class for OpenLayers map
 		new FrontOffice({
@@ -229,6 +278,22 @@ define(['js/actions/Actions',
 			widgets: widgets,
 			widgetOptions: {
 				olMap: olMap
+			},
+			store: {
+                attributes: store.attributes,
+                attributeSets: store.attributeSets,
+                dataviews: store.dataviews,
+                groups: store.groups,
+                layers: store.layers,
+                locations: store.locations,
+                periods: store.periods,
+                scopes: store.scopes,
+                themes: store.themes,
+                users: store.users,
+                visualizations: store.visualizations,
+                wmsLayers: store.wmsLayers,
+				map: mapStore,
+				state: stateStore
 			}
 		});
 
@@ -336,16 +401,24 @@ define(['js/actions/Actions',
      * @returns {Attributes}
      */
     function buildAttributes (){
-        return new Attributes();
+        return new Attributes({
+			store: {
+				attributes: store.attributes,
+				attributeSets: store.attributeSets
+			}
+		});
     }
 
 	/**
 	 * Build Filter instance
      * @returns {Filter}
      */
-    function buildFilter (){
+    function buildFilter (stateStore){
         return new Filter({
-			dispatcher: window.Stores
+			dispatcher: window.Stores,
+			store: {
+				state: stateStore
+			}
 		});
     }
 
@@ -353,8 +426,12 @@ define(['js/actions/Actions',
 	 * Build Map instance
      * @returns {Map}
      */
-    function buildOpenLayersMap (){
-        return new Map();
+    function buildOpenLayersMap (stateStore){
+        return new Map({
+			store: {
+				state: stateStore
+			}
+		});
     }
 
     /**
@@ -372,13 +449,15 @@ define(['js/actions/Actions',
 
         return new EvaluationWidget({
             filter: filter,
-			stateStore: stateStore,
-            elementId: 'evaluation-widget',
+			elementId: 'evaluation-widget',
             name: polyglot.t('areasFilter'),
             placeholderTargetId: 'widget-container',
 			aggregatedChart: aggregatedChart,
 			isOpen: isOpen,
-			dispatcher: window.Stores
+			dispatcher: window.Stores,
+			store: {
+            	state: stateStore
+			}
         });
     }
 
@@ -388,7 +467,9 @@ define(['js/actions/Actions',
 			elementId: 'functional-urban-area-result',
 			name: "Aggregated Chart",
 			placeholderTargetId: 'widget-container',
-			stateStore: stateStore
+			store: {
+				state: stateStore
+			}
 		})
 	}
 
@@ -429,14 +510,19 @@ define(['js/actions/Actions',
         })
     }
 
-    function buildPeriodsWidget (mapsContainer){
+    function buildPeriodsWidget (mapsContainer, stateStore){
     	return new PeriodsWidget({
 			elementId: 'periods-widget',
 			name: polyglot.t('periods'),
 			mapsContainer: mapsContainer,
 			dispatcher: window.Stores,
 			isWithoutFooter: true,
-			is3dOnly: true
+			is3dOnly: true,
+			store: {
+				scopes: store.scopes,
+				periods: store.periods,
+				state: stateStore
+			}
 		});
 	}
 
@@ -463,7 +549,7 @@ define(['js/actions/Actions',
 	 * @param stateStore {StateStore}
      * @returns {WorldWindWidget}
      */
-    function buildWorldWindWidget (mapsContainer, topToolBar, stateStore){
+    function buildWorldWindWidget (mapsContainer, topToolBar, stateStore, mapStore){
         return new WorldWindWidget({
             elementId: 'world-wind-widget',
             name: polyglot.t('layers'),
@@ -471,7 +557,11 @@ define(['js/actions/Actions',
             placeholderTargetId: 'widget-container',
             topToolBar: topToolBar,
 			dispatcher: window.Stores,
-			stateStore: stateStore,
+			store: {
+            	state: stateStore,
+				map: mapStore,
+				wmsLayers: store.wmsLayers
+			},
 			isWithoutFooter: true,
 			isFloaterExtAlike: false
         });
@@ -481,11 +571,15 @@ define(['js/actions/Actions',
 	 * Build Feature Info Tool instance
      * @returns {FeatureInfoTool}
      */
-    function buildFeatureInfoTool(){
+    function buildFeatureInfoTool(mapStore, stateStore){
         return new FeatureInfoTool({
             id: 'feature-info',
 			control2dClass: 'btn-tool-feature-info',
-			dispatcher: window.Stores
+			dispatcher: window.Stores,
+			store: {
+            	map: mapStore,
+				state: stateStore
+			}
         });
     }
 
@@ -493,12 +587,17 @@ define(['js/actions/Actions',
 	 * It builds widget for sharing.
 	 * @returns {*}
 	 */
-	function buildSharingWidget() {
+	function buildSharingWidget(stateStore) {
 		Widgets.sharing = new SharingWidget({
 			elementId: 'sharing',
 			name: polyglot.t('share'),
 			placeholderTargetId: 'widget-container',
-			dispatcher: window.Stores
+			dispatcher: window.Stores,
+			store: {
+				users: store.users,
+				groups: store.groups,
+				state: stateStore
+			}
 		});
 
 		return Widgets.sharing;
@@ -514,9 +613,13 @@ define(['js/actions/Actions',
 		return new MapsContainer({
 			id: "maps-container",
 			dispatcher: window.Stores,
-			mapStore: mapStore,
-			stateStore: stateStore,
-			target: $("#content")
+			target: $("#content"),
+			store: {
+				periods: store.periods,
+				locations: store.locations,
+				map: mapStore,
+				state: stateStore
+			}
 		})
 	}
 
@@ -530,7 +633,9 @@ define(['js/actions/Actions',
             elementId: 'osm-widget',
             name: polyglot.t('openStreetMaps'),
             mapsContainer: mapsContainer,
-            mapStore: mapStore,
+            store: {
+            	map: mapStore
+			},
             dispatcher: window.Stores,
             isWithoutFooter: true,
             is3dOnly: true
@@ -542,14 +647,18 @@ define(['js/actions/Actions',
 	 * @param featureInfo {FeatureInfoTool}
 	 * @returns {MapToolsWidget}
 	 */
-	function buildMapToolsWidget(featureInfo){
+	function buildMapToolsWidget(featureInfo, stateStore, mapStore){
 		return new MapToolsWidget({
 			elementId: 'map-tools-widget',
 			name: polyglot.t("mapTools"),
 			is3dOnly: true,
 			isWithoutFooter: true,
 			dispatcher: window.Stores,
-			featureInfo: featureInfo
+			featureInfo: featureInfo,
+			store: {
+				map: mapStore,
+				state: stateStore
+			}
 		})
 	}
 
@@ -557,14 +666,19 @@ define(['js/actions/Actions',
 	 * Build widget for dealing with custom views
 	 * @returns {CustomViewsWidget}
 	 */
-	function buildCustomViewsWidget(){
+	function buildCustomViewsWidget(stateStore){
 		return new CustomViewsWidget({
 			elementId: 'custom-views-widget',
 			name: polyglot.t("customViews"),
 			isWithoutFooter: true,
 			isExpanded: true,
 			isExpandable: true,
-			dispatcher: window.Stores
+			dispatcher: window.Stores,
+			store: {
+				dataviews: store.dataviews,
+				scopes: store.scopes,
+				state: stateStore
+			}
 		})
 	}
 

@@ -1,12 +1,9 @@
 define([
     '../BaseStore',
-    '../Stores',
     '../../data/User'
 ], function(BaseStore,
-            Stores,
             User){
     "use strict";
-    var users;
 
     /**
      * Store for retrieval of users from the API.
@@ -55,9 +52,5 @@ define([
         });
     };
 
-    if(!users) {
-        users = new Users();
-        Stores.register('user', users);
-    }
-    return users;
+    return Users;
 });
