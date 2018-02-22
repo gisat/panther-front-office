@@ -297,26 +297,7 @@ Ext.define('PumaMain.controller.Area', {
 	},
 
 	zoomToLocation: function() {
-		var areaRoot = Ext.StoreMgr.lookup('area').getRootNode();
-		var locObj = this.getLocationObj();
-		var loc = locObj.location;
-		if (locObj.bbox){
-			var bounds = new OpenLayers.Bounds(locObj.bbox.split(","));
-			bounds = bounds.transform(new OpenLayers.Projection("EPSG:4326"),new OpenLayers.Projection("EPSG:900913"));
-			this.getController('Map').zoomToExtent(bounds);
-			return;
-		}
-		var locGid = locObj.locGid;
-		var areas = [];
-		for (var i=0;i<areaRoot.childNodes.length;i++) {
-			var node = areaRoot.childNodes[i];
-			if (!loc || (node.get('loc')==loc && node.get('gid')==locGid)) {
-				areas.push(node);
-			}
-		}
-		if (areas.length) {
-			this.getController('Map').onZoomSelected(null,areas);
-		}
+
 	},
 			
 	getArea: function(area) {
@@ -490,7 +471,6 @@ Ext.define('PumaMain.controller.Area', {
 
 			this.initialized = true;
 			this.areaTemplates = [level];
-			this.getController('Map').updateGetFeatureControl();
 			this.lowestCount = areas.length;
 			this.allMap = {};
 			if (place){
@@ -665,7 +645,6 @@ Ext.define('PumaMain.controller.Area', {
 
 		this.newAreasChange();
 
-		this.getController('Map').updateGetFeatureControl();
 		this.lowestCount = lowestCount;
 		this.allMap = allMap;
 		this.lowestMap = lowestMap;

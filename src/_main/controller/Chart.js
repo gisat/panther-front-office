@@ -136,12 +136,6 @@ Ext.define('PumaMain.controller.Chart', {
         var cfg = {};
         cfg.chartCfg = this.gatherCfg();
         cfg.layerCfg = this.getController('Layers').gatherSymbologiesAndOpacities();
-        var map = this.getController('Map').map1;
-        cfg.mapCfg = {
-            center: map.center,
-            size: map.size,
-            zoom: map.zoom
-        }
         cfg.dataset = Ext.ComponentQuery.query('initialbar #datasetcontainer button[pressed=true]')[0].objId;
         cfg.theme = Ext.ComponentQuery.query('initialbar #themecontainer button[pressed=true]')[0].objId
         cfg.years = Ext.Array.pluck(Ext.ComponentQuery.query('initialbar #yearcontainer button[pressed=true]'), 'objId');

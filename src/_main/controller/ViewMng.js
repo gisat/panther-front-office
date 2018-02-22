@@ -270,8 +270,7 @@ Ext.define('PumaMain.controller.ViewMng', {
         locationTheme.themeChanged = true;
         locationTheme.yearChanged = true;
         locationTheme.locationChanged = true;
-        this.getController('Map').map1.controls[0].activate();
-		locationTheme.onYearChange({itemId:'dataview'});
+        locationTheme.onYearChange({itemId:'dataview'});
 
 		var locStore = Ext.StoreMgr.lookup('location4init');
 		var locationsData = locStore.query('dataset',cfg.dataset);

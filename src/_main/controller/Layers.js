@@ -1068,7 +1068,6 @@ Ext.define('PumaMain.controller.Layers', {
 		var attrSetObj = Ext.StoreMgr.lookup('attributeset').getById(attr.as);
 
 		var layerDefaults = this.getWmsLayerDefaults();
-		var mapController = this.getController('Map');
 
 		var params = this.getController('Chart').getParams(cfg);
 
@@ -1078,8 +1077,6 @@ Ext.define('PumaMain.controller.Layers', {
 		layer1.events.register('visibilitychanged',{layer:layer1,me:this},function(a,b,c) {
 			this.me.onLayerLegend(null,this.layer.nodeRec,this.layer.visibility);
 		});
-		mapController.map1.addLayers([layer1]);
-		mapController.map2.addLayers([layer2]);
 
 		// TODO at this point add new choropleth layer to their store.
 		//      The same is going to happen with the Selection information. Store the tree information in memory and then
@@ -1118,12 +1115,7 @@ Ext.define('PumaMain.controller.Layers', {
 
 
 	onChoroplethRemove: function(panel,record) {
-		var mapController = this.getController('Map');
-		record.get('layer1').setVisibility(false);
-		record.get('layer2').setVisibility(false);
-		mapController.map1.removeLayer(record.get('layer1'));
-		mapController.map2.removeLayer(record.get('layer2'));
-		record.destroy();
+
 	},
 
 
