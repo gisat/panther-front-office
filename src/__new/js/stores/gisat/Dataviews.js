@@ -1,12 +1,9 @@
 define([
 	'../BaseStore',
-	'../Stores',
 	'../../data/Dataview'
 ], function(BaseStore,
-			Stores,
 			Dataview){
 	"use strict";
-	var dataviews;
 
 	/**
 	 * Store for retrieval of Dataviews from the API.
@@ -34,9 +31,5 @@ define([
 		return "rest/dataview";
 	};
 
-	if(!dataviews) {
-		dataviews = new Dataviews();
-		Stores.register('dataview', dataviews);
-	}
-	return dataviews;
+	return Dataviews;
 });

@@ -97,7 +97,6 @@ define([
 		}
 
 		if(Stores.outlines){
-			console.log('AuLayersPanel#rebuild ', this._layers.outlines);
 			this.rebuildControl(polyglot.t("areaOutlines"), this._layers.outlines, "areaoutlines");
 			this._layers.outlines.additionalData = Stores.outlines.data;
 			this.switchOnOutlines();
@@ -129,7 +128,6 @@ define([
 	 * @param store {Object} store with data from 2D
 	 */
 	AuLayersPanel.prototype.redrawLayer = function(layer, id, store){
-		console.log('AuLayersPanel ', layer);
 		this.clearLayers(id);
 		if (!_.isEmpty(layer)){
 			layer.layerData.layer = store.layerNames;

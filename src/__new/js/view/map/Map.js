@@ -3,14 +3,12 @@ define([
 	'../../util/Logger',
 
 	'../../util/dataMining',
-	'../../stores/Stores',
 
 	'jquery'
 ], function (ArgumentError,
 			 Logger,
 
-			 dataMining,
-			 InternalStores,
+			 DataMining,
 
 			 $) {
 	"use strict";
@@ -19,13 +17,27 @@ define([
 	 * Class for handling with map
 	 * @param options {Object}
 	 * @param options.map {Object} Open Layers map
+	 * @param options.store {Object}
+	 * @param options.store.state {StateStore}
 	 * @constructor
 	 */
 	var Map = function (options) {
-		if (options){
-			this._map = options.map;
-		}
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'Map', 'constructor', 'Stores must be provided'));
+        }
+        if(!options.store.state){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'Map', 'constructor', 'Store state must be provided'));
+        }
+
+		this._map = options.map;
 		this._layers = [];
+
+        this._store = options.store;
+		this._dataMining = new DataMining({
+			store: {
+				state: options.store.state
+			}
+		})
 	};
 	
 	Map.prototype.rebuild = function(){
@@ -194,7 +206,7 @@ define([
 	};
 
 	Map.prototype.addOnClickListener = function(attributes, infoWindow){
-		var layers = dataMining.getAuBaseLayers();
+		var layers = this._dataMining.getAuBaseLayers();
 		this._attributes = attributes;
 		this._map.selectInMapLayer.params['LAYERS'] = layers.join(',');
 		this._map2.selectInMapLayer.params['LAYERS'] = layers.join(',');
@@ -225,7 +237,7 @@ define([
 	};
 
 	Map.prototype.getInfoAboutArea = function(infoWindow, e){
-		var appState = InternalStores.retrieve('state').current();
+		var appState = this._store.state.current();
 		var allFeatures = JSON.parse(e.text).features;
 		if (allFeatures.length > 0){
 			infoWindow.setVisibility("show");

@@ -1,12 +1,12 @@
 define([
 	'./CustomLayers',
 	'../util/Floater',
-	'../stores/Stores',
+
 	'jquery'
 ], function (
 	CustomLayers,
 	Floater,
-	InternalStores,
+
 	$
 ) {
 	"use strict";

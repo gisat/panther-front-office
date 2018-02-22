@@ -1,14 +1,11 @@
 define([
     '../BaseStore',
-    '../Stores',
     '../../data/Group',
 
     'jquery'
 ], function(BaseStore,
-            Stores,
             Group){
     "use strict";
-    var groups;
 
     /**
      * Store for retrieval of groups from the API.
@@ -57,9 +54,5 @@ define([
         });
     };
 
-    if(!groups) {
-        groups = new Groups();
-        Stores.register('group', groups);
-    }
-    return groups;
+    return Groups;
 });

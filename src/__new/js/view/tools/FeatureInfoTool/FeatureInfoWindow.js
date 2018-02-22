@@ -4,7 +4,6 @@ define(['../../../error/ArgumentError',
 
 	'../../../util/Filter',
 	'../../../util/MapExport',
-	'../../../stores/Stores',
 	'../../../util/viewUtils',
 
 	'./FeatureInfoSettings',
@@ -20,7 +19,6 @@ define(['../../../error/ArgumentError',
 
 			 Filter,
 			 MapExport,
-			 InternalStores,
 			 viewUtils,
 
 			 FeatureInfoSettings,
@@ -36,6 +34,8 @@ define(['../../../error/ArgumentError',
 	 * @param options {Object}
 	 * @param options.id {string} id of the element
 	 * @param options.target {Object} JQuery object
+	 * @param options.store {Object}
+	 * @param options.store.state {StateStore}
 	 * @param [options.resizable] {boolean} optional
 	 * @param [options.hasSettings] {boolean} optional
 	 * @param [options.hasFooter] {boolean} optional
@@ -49,8 +49,14 @@ define(['../../../error/ArgumentError',
 		if (!options.target){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "FeatureInfoWindow", "constructor", "missingTargetElement"));
 		}
+		if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'FeatureInfoWindow', 'constructor', 'Stores must be provided'));
+        }
+        if(!options.store.state){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'FeatureInfoWindow', 'constructor', 'Store state must be provided'));
+        }
 
-		this._id = options.id;
+        this._id = options.id;
 		this._target = options.target;
 
 		this._resizable = options.resizable;
@@ -60,6 +66,8 @@ define(['../../../error/ArgumentError',
 
 		this._windowHeight = 0;
 		this._windowWidth = 0;
+
+		this._store = options.store;
 
 		this.build();
 	};
@@ -117,7 +125,7 @@ define(['../../../error/ArgumentError',
 
 		this._gid = gid;
 		this._periods = _.isArray(period) ? period : [period];
-		this._appState = InternalStores.retrieve('state').current();
+		this._appState = this._store.state.current();
 
 		this.rebuildWindow();
 	};

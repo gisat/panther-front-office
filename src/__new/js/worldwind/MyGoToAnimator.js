@@ -1,7 +1,6 @@
 define(['../error/ArgumentError',
 	'../error/NotFoundError',
 	'../util/Logger',
-	'js/stores/Stores',
 
 	'd3',
 	'jquery',
@@ -10,7 +9,6 @@ define(['../error/ArgumentError',
 ], function(ArgumentError,
 			NotFoundError,
 			Logger,
-			Stores,
 
 			d3,
 			$,
@@ -21,13 +19,28 @@ define(['../error/ArgumentError',
 	/**
 	 * Class extending the WorldWind.GoToAnimator class
 	 * @param wwd {WorldWindow} The World Window in which to perform the animation.
+	 * @param options {Object}
+	 * @param options.store {Object}
+	 * @param options.store.state {StateStore}
+	 * @param options.store.locations {Locations}
 	 * @constructor
 	 */
-	var MyGoToAnimator = function(wwd){
+	var MyGoToAnimator = function(wwd, options){
 		if (!wwd){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MyGoToAnimator", "constructor", "missingWorldWind"));
 		}
 
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MyGoToAnimator', 'constructor', 'Stores must be provided'));
+        }
+        if(!options.store.state){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MyGoToAnimator', 'constructor', 'Store state must be provided'));
+        }
+        if(!options.store.locations){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MyGoToAnimator', 'constructor', 'Store locations must be provided'));
+        }
+
+		this._store = options.store;
 		GoToAnimator.call(this, wwd);
 
 		this.wwd = wwd;
@@ -44,12 +57,11 @@ define(['../error/ArgumentError',
 	 */
 	MyGoToAnimator.prototype.setLocation = function(){
 		var self = this;
-		this._stateStore = Stores.retrieve("state");
-		var currentState = this._stateStore.current();
+		var stateStore = this._store.state;
+		var currentState = stateStore.current();
 		var places = currentState.places;
 		var dataset = currentState.scope;
 
-		console.log('MyGoToAnimator#setLocation CurrentState: ', currentState);
 		if (!dataset){
 			console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "MyGoToAnimator", "setLocation", "missingDataset"));
 			this._stateStore.removeLoadingOperation("ScopeLocationChanged");
@@ -60,149 +72,149 @@ define(['../error/ArgumentError',
 				values.id = places[0];
 			}
 
-			Stores.retrieve("location").filter(values).then(function(response){
-				console.log('MyGoToAnimator#setLocation Location: ', response);
+			this._store.locations.filter(values).then(function(response){
 				if (response.length > 0){
 					var points = [];
 					response.forEach(function(location){
 						if (location.bbox){
 							var bbox = location.bbox.split(",");
-							var pointsForArea = self.getPointsFromBBox(bbox);
-							points = points.concat(pointsForArea);
-						}
-					});
-					self.setLocationFromPointSet(points);
-				} else {
-					console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "MyGoToAnimator", "setLocation", "emptyResult"));
-					self.updateLocation(self._defaultLocation[0], self._defaultLocation[1], self._defaultRange);
-				}
-			}).catch(function(err){
-				throw new Error(Logger.log(Logger.LEVEL_SEVERE, err));
-			});
-		}
-	};
+                            var pointsForArea = self.getPointsFromBBox(bbox);
+                            points = points.concat(pointsForArea);
+                        }
+                    });
+                    self.setLocationFromPointSet(points);
+                } else {
+                    console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "MyGoToAnimator", "setLocation", "emptyResult"));
+                    self.updateLocation(self._defaultLocation[0], self._defaultLocation[1], self._defaultRange);
+                }
+            }).catch(function(err){
+                throw new Error(Logger.log(Logger.LEVEL_SEVERE, err));
+            });
+        }
+    };
 
-	/**
-	 * Set location and range based on given point set
-	 * @param points {Array} list of [lon,lat] points
-	 */
-	MyGoToAnimator.prototype.setLocationFromPointSet = function(points){
-		var json = this.getGeoJsonFromPoints(points);
+    /**
+     * Set location and range based on given point set
+     * @param points {Array} list of [lon,lat] points
+     */
+    MyGoToAnimator.prototype.setLocationFromPointSet = function(points){
+        var json = this.getGeoJsonFromPoints(points);
 
-		/**
-		 * get bounding box of point set
-		 */
-		var bounds = d3.geoBounds(json);
+        /**
+         * get bounding box of point set
+         */
+        var bounds = d3.geoBounds(json);
 
-		/**
-		 * add other two corners to bbox (due to more precise calculation of centroid)
-		 */
-		bounds.push([bounds[0][0],bounds[1][1]]);
-		bounds.push([bounds[1][0],bounds[0][1]]);
+        /**
+         * add other two corners to bbox (due to more precise calculation of centroid)
+         */
+        bounds.push([bounds[0][0],bounds[1][1]]);
+        bounds.push([bounds[1][0],bounds[0][1]]);
 
-		/**
-		 * calculate centroid (it will be used as the reference postion of camera)
-		 */
-		var centroid = this.getCentroid(bounds);
+        /**
+         * calculate centroid (it will be used as the reference postion of camera)
+         */
+        var centroid = this.getCentroid(bounds);
 
-		/**
-		 * according to centroid, bounding box and other settings (window size ratio, area size and area size ratio),
-		 * update the position and range of the camera
-		 */
-		var self = this;
-		setTimeout(function(){
-			var position = self.getPosition(centroid, bounds);
-			self.updateLocation(position.lat, position.lon, position.alt);
-		},100);
-	};
+        /**
+         * according to centroid, bounding box and other settings (window size ratio, area size and area size ratio),
+         * update the position and range of the camera
+         */
+        var self = this;
+        setTimeout(function(){
+            var position = self.getPosition(centroid, bounds);
+            self.updateLocation(position.lat, position.lon, position.alt);
+        },100);
+    };
 
-	/**
-	 * It returns corners of bounding box and centroid in form of three [lon,lat] points
-	 * @param bbox {Array} 4 coordinates
-	 * @returns {Array} Corners and centroid
-	 */
-	MyGoToAnimator.prototype.getPointsFromBBox = function(bbox){
-		var points = [];
+    /**
+     * It returns corners of bounding box and centroid in form of three [lon,lat] points
+     * @param bbox {Array} 4 coordinates
+     * @returns {Array} Corners and centroid
+     */
+    MyGoToAnimator.prototype.getPointsFromBBox = function(bbox){
+        var points = [];
 
-		var minLon = Number(bbox[0]);
-		var minLat = Number(bbox[1]);
-		var maxLon = Number(bbox[2]);
-		var maxLat = Number(bbox[3]);
-		points.push([minLon,minLat]);
-		points.push([maxLon,maxLat]);
-		points.push(this.getCentroid([[minLon,minLat],[maxLon,maxLat]]));
+        var minLon = Number(bbox[0]);
+        var minLat = Number(bbox[1]);
+        var maxLon = Number(bbox[2]);
+        var maxLat = Number(bbox[3]);
+        points.push([minLon,minLat]);
+        points.push([maxLon,maxLat]);
+        points.push(this.getCentroid([[minLon,minLat],[maxLon,maxLat]]));
 
-		return points;
-	};
+        return points;
+    };
 
-	/**
-	 * Zoom map to area (represented by bounding box)
-	 * @param bounds {Array} Bounding box represented by a two pairs of coordinates
-	 */
-	MyGoToAnimator.prototype.zoomToArea = function(bounds){
-		var minLon = bounds[0][0];
-		var minLat = bounds[0][1];
-		var maxLon = bounds[1][0];
-		var maxLat = bounds[1][1];
+    /**
+     * Zoom map to area (represented by bounding box)
+     * @param bounds {Array} Bounding box represented by a two pairs of coordinates
+     */
+    MyGoToAnimator.prototype.zoomToArea = function(bounds){
+        var minLon = bounds[0][0];
+        var minLat = bounds[0][1];
+        var maxLon = bounds[1][0];
+        var maxLat = bounds[1][1];
 
-		var bottomLeft = bounds[0];
-		var topRight = bounds[1];
-		var bottomRight = [maxLon, minLat];
-		var topLeft = [minLon, maxLat];
+        var bottomLeft = bounds[0];
+        var topRight = bounds[1];
+        var bottomRight = [maxLon, minLat];
+        var topLeft = [minLon, maxLat];
 
-		var leftCentroid = this.getCentroid([bottomLeft, topLeft]);
-		var topCentroid = this.getCentroid([topLeft, topRight]);
-		var rightCentroid = this.getCentroid([topRight, bottomRight]);
-		var bottomCentroid = this.getCentroid([bottomRight, bottomLeft]);
+        var leftCentroid = this.getCentroid([bottomLeft, topLeft]);
+        var topCentroid = this.getCentroid([topLeft, topRight]);
+        var rightCentroid = this.getCentroid([topRight, bottomRight]);
+        var bottomCentroid = this.getCentroid([bottomRight, bottomLeft]);
 
-		var topCenter = [topCentroid[0], maxLat];
-		var centerRight = [maxLon, rightCentroid[1]];
-		var bottomCenter = [bottomCentroid[0], minLat];
-		var centerLeft = [minLon, leftCentroid[1]];
+        var topCenter = [topCentroid[0], maxLat];
+        var centerRight = [maxLon, rightCentroid[1]];
+        var bottomCenter = [bottomCentroid[0], minLat];
+        var centerLeft = [minLon, leftCentroid[1]];
 
-		/**
-		 * add other two corners to bbox and center points of boundary segments (due to more precise calculation of centroid)
-		 */
-		bounds.push([bounds[0][0],bounds[1][1]]);
-		bounds.push([bounds[1][0],bounds[0][1]]);
-		bounds.push(topCenter);
-		bounds.push(centerRight);
-		bounds.push(bottomCenter);
-		bounds.push(centerLeft);
+        /**
+         * add other two corners to bbox and center points of boundary segments (due to more precise calculation of centroid)
+         */
+        bounds.push([bounds[0][0],bounds[1][1]]);
+        bounds.push([bounds[1][0],bounds[0][1]]);
+        bounds.push(topCenter);
+        bounds.push(centerRight);
+        bounds.push(bottomCenter);
+        bounds.push(centerLeft);
 
-		/**
-		 * calculate centroid (it will be used as a postion of the camera)
-		 */
-		var centroid = this.getCentroid(bounds);
+        /**
+         * calculate centroid (it will be used as a postion of the camera)
+         */
+        var centroid = this.getCentroid(bounds);
 
-		/**
-		 * according to centroid, bounding box and other settings (window size ratio, area size and area size ratio),
-		 * update the position and range of the camera
-		 */
-		var self = this;
-		setTimeout(function(){
-			var position = self.getPosition(centroid, bounds);
-			self.updateLocation(position.lat, position.lon, position.alt);
-		},100);
-	};
+        /**
+         * according to centroid, bounding box and other settings (window size ratio, area size and area size ratio),
+         * update the position and range of the camera
+         */
+        var self = this;
+        setTimeout(function(){
+            var position = self.getPosition(centroid, bounds);
+            self.updateLocation(position.lat, position.lon, position.alt);
+        },100);
+    };
 
-	/**
-	 * Update look at location and range
-	 * @param lat {number} Latitude of camera. From -90 to 90
-	 * @param lon {number} Longitude of camera. From -180 to 180
-	 * @param range {number} Distance from surface. From 0 to inf
-	 */
-	MyGoToAnimator.prototype.updateLocation = function(lat, lon, range){
-		this.wwd.navigator.lookAtLocation.latitude = lat;
-		this.wwd.navigator.lookAtLocation.longitude = lon;
-		this.wwd.navigator.range = range;
+    /**
+     * Update look at location and range
+     * @param lat {number} Latitude of camera. From -90 to 90
+     * @param lon {number} Longitude of camera. From -180 to 180
+     * @param range {number} Distance from surface. From 0 to inf
+     */
+    MyGoToAnimator.prototype.updateLocation = function(lat, lon, range){
+        this.wwd.navigator.lookAtLocation.latitude = lat;
+        this.wwd.navigator.lookAtLocation.longitude = lon;
+        this.wwd.navigator.range = range;
 
-		this.wwd.redraw();
-		this.wwd.redrawIfNeeded(); // TODO: Check with new releases. This isn't part of the public API and therefore might change.
-		this._stateStore.removeLoadingOperation("ScopeLocationChanged");
-	};
+        this.wwd.redraw();
+        this.wwd.redrawIfNeeded(); // TODO: Check with new releases. This isn't part of the public API and therefore might change.
+        this._stateStore.removeLoadingOperation("ScopeLocationChanged");
+    };
 
-	/**
+
+    /**
 	 * It converts list of points [lon,lat] to GeoJSON structure
 	 * @param points {Array} list of points
 	 * @returns {Object} GeoJSON
@@ -248,65 +260,65 @@ define(['../error/ArgumentError',
 		return d3.geoCentroid(json);
 	};
 
-	/**
-	 * Calculate range acording to distance between bounding box corners and map window size
-	 * @param bbox {[[{Number}, {Number}],[{Number}, {Number}]]} bottom left and top right corner of the bounding box
-	 * @returns {number} Range (distance from surface to camera)
-	 */
-	MyGoToAnimator.prototype.calculateRange = function(bbox){
-		const RANGE_COEFF = 140000;
-		var windowSizeRatio = 1;
+    /**
+     * Calculate range acording to distance between bounding box corners and map window size
+     * @param bbox {[[{Number}, {Number}],[{Number}, {Number}]]} bottom left and top right corner of the bounding box
+     * @returns {number} Range (distance from surface to camera)
+     */
+    MyGoToAnimator.prototype.calculateRange = function(bbox){
+        const RANGE_COEFF = 140000;
+        var windowSizeRatio = 1;
 
-		var width = this.wwd.viewport.width;
-		var height = this.wwd.viewport.height;
-		var range = this._defaultRange;
-		var diagonalDistance_1 = d3.geoDistance(bbox[0], bbox[1]);
-		var diagonalDistance_2 = d3.geoDistance(bbox[3], bbox[2]);
+        var width = this.wwd.viewport.width;
+        var height = this.wwd.viewport.height;
+        var range = this._defaultRange;
+        var diagonalDistance_1 = d3.geoDistance(bbox[0], bbox[1]);
+        var diagonalDistance_2 = d3.geoDistance(bbox[3], bbox[2]);
 
-		var meridianDistance = d3.geoDistance(bbox[0], bbox[2]);
-		var parallelDistance_1 = d3.geoDistance(bbox[0], bbox[3]);
-		var parallelDistance_2 = d3.geoDistance(bbox[1], bbox[2]);
-		var parallelDistance = parallelDistance_1;
-		if (parallelDistance_2 > parallelDistance_1){
-			parallelDistance = parallelDistance_2;
-		}
+        var meridianDistance = d3.geoDistance(bbox[0], bbox[2]);
+        var parallelDistance_1 = d3.geoDistance(bbox[0], bbox[3]);
+        var parallelDistance_2 = d3.geoDistance(bbox[1], bbox[2]);
+        var parallelDistance = parallelDistance_1;
+        if (parallelDistance_2 > parallelDistance_1){
+            parallelDistance = parallelDistance_2;
+        }
 
-		if (Math.abs(diagonalDistance_1 - diagonalDistance_2) > 0.000001){
-			console.error("MyGoToAnimator#calculate range: A control distance calculation is higher than a limit.");
-			return range;
-		}
+        if (Math.abs(diagonalDistance_1 - diagonalDistance_2) > 0.000001){
+            console.error("MyGoToAnimator#calculate range: A control distance calculation is higher than a limit.");
+            return range;
+        }
 
-		// calculate window size ratio
-		if (width > 1 && height > 1){
-			windowSizeRatio = width/height;
-			if (windowSizeRatio < 1){
-				windowSizeRatio = 1/windowSizeRatio;
-			}
-		}
+        // calculate window size ratio
+        if (width > 1 && height > 1){
+            windowSizeRatio = width/height;
+            if (windowSizeRatio < 1){
+                windowSizeRatio = 1/windowSizeRatio;
+            }
+        }
 
-		// calculate area size ratio
-		var areaSizeRatio = parallelDistance/meridianDistance;
+        // calculate area size ratio
+        var areaSizeRatio = parallelDistance/meridianDistance;
 
-		// distance between bounding box corners in degrees
-		var distanceInDegrees = diagonalDistance_1 * (180/Math.PI);
-		if (distanceInDegrees < 0.01){
-			distanceInDegrees = 0.01;
-		}
+        // distance between bounding box corners in degrees
+        var distanceInDegrees = diagonalDistance_1 * (180/Math.PI);
+        if (distanceInDegrees < 0.01){
+            distanceInDegrees = 0.01;
+        }
 
-		// Calculate range
-		range = distanceInDegrees*RANGE_COEFF*windowSizeRatio;
+        // Calculate range
+        range = distanceInDegrees*RANGE_COEFF*windowSizeRatio;
 
-		// Adjust range for specific options
-		if (areaSizeRatio > 2 && windowSizeRatio > 1.5 && distanceInDegrees < 20){
-			range /= windowSizeRatio;
-		}
+        // Adjust range for specific options
+        if (areaSizeRatio > 2 && windowSizeRatio > 1.5 && distanceInDegrees < 20){
+            range /= windowSizeRatio;
+        }
 
-		// TODO Solve this for locations with high altitude (e.g. mountains)
-		if (range < 1000) {
-			return 1000;
-		}
-		return range;
-	};
+        // TODO Solve this for locations with high altitude (e.g. mountains)
+        if (range < 1000) {
+            return 1000;
+        }
+        return range;
+    };
 
 	return MyGoToAnimator;
 });

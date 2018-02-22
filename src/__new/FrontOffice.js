@@ -6,20 +6,7 @@ define([
 	'js/util/Logger',
 	'js/util/Promise',
 
-	'js/stores/Stores',
-	'js/stores/gisat/Attributes',
-	'js/stores/gisat/AttributeSets',
-	'js/stores/gisat/Dataviews',
-	'js/stores/gisat/Layers',
-	'js/stores/gisat/Locations',
-	'js/stores/gisat/Periods',
-	'js/stores/gisat/Scopes',
-	'js/stores/gisat/Themes',
-	'js/stores/gisat/Visualizations',
-	'js/stores/gisat/WmsLayers',
-    'js/stores/UrbanTepPortalStore',
-    'js/stores/UrbanTepCommunitiesStore',
-    'js/view/widgets/EvaluationWidget/EvaluationWidget',
+	'js/view/widgets/EvaluationWidget/EvaluationWidget',
 
     'jquery',
 	'underscore'
@@ -30,34 +17,29 @@ define([
 			Logger,
 			Promise,
 
-			Stores,
-			Attributes,
-			AttributeSets,
-			Dataviews,
-			Layers,
-			Locations,
-			Periods,
-			Scopes,
-			Themes,
-			Visualizations,
-			WmsLayers,
-			UrbanTepPortalStore,
-			UrbanTepCommunitiesStore,
 			EvaluationWidget,
 
 			$,
 			_){
 	/**
 	 * Constructor for assembling current application.
+	 * @param options {Object}
+	 * @param options.store {Object}
 	 * @constructor
 	 */
 	var FrontOffice = function(options) {
-		this.loadData();
-		this._attributesMetadata = options.attributesMetadata;
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'FrontOffice', 'constructor', 'Stores must be provided'));
+        }
+
+		this.loadData(options.store);
+
+        this._attributesMetadata = options.attributesMetadata;
 
 		this._options = options.widgetOptions;
 		this._tools = options.tools;
 		this._widgets = options.widgets;
+		this._store = options.store;
 
 		this._dataset = null;
 		Observer.addListener("rebuild", this.rebuild.bind(this));
@@ -66,7 +48,7 @@ define([
 	};
 
 	/**
-	 * Rebuild all components 
+	 * Rebuild all components
 	 */
 	FrontOffice.prototype.rebuild = function(options){
 		this._options.config = ThemeYearConfParams;
@@ -80,13 +62,13 @@ define([
 			dataview: false
 		};
 		this.checkConfiguration();
-		Stores.retrieve("state").setChanges(this._options.changes);
+		this._store.state.setChanges(this._options.changes);
 
 		var visualization = Number(ThemeYearConfParams.visualization);
 
 		var self = this;
 		if (visualization > 0 && this._options.changes.visualization && !this._options.changes.dataview){
-			Stores.retrieve("visualization").byId(visualization).then(function(response){
+			this._store.visualizations.byId(visualization).then(function(response){
 				var attributes = response[0].attributes;
 				var options = response[0].options;
 
@@ -122,7 +104,7 @@ define([
 
 		ThemeYearConfParams.datasetChanged = false;
 
-		Stores.retrieve("period").notify(Actions.periodsRebuild);
+		this._store.periods.notify(Actions.periodsRebuild);
 	};
 
 	/**
@@ -327,23 +309,19 @@ define([
 	/**
 	 * Load metadata from server
 	 */
-	FrontOffice.prototype.loadData = function(){
-		Stores.retrieve('attribute').load();
-		Stores.retrieve('attributeSet').load();
-		Stores.retrieve('dataview').load();
-		Stores.retrieve('layer').load();
-		Stores.retrieve('location').load();
-		Stores.retrieve('period').load();
-		Stores.retrieve('scope').load();
-		Stores.retrieve('theme').load();
-		Stores.retrieve('visualization').load();
-		Stores.retrieve('wmsLayer').load();
-
-        if(Config.toggles.isUrbanTep) {
-            UrbanTepPortalStore.communities().then(function(communities){
-            	UrbanTepCommunitiesStore.update(communities);
-            });
-        }
+	FrontOffice.prototype.loadData = function(store){
+        return Promise.all([
+            store.attributes.load(),
+            store.attributeSets.load(),
+            store.dataviews.load(),
+            store.layers.load(),
+            store.locations.load(),
+            store.periods.load(),
+            store.scopes.load(),
+            store.themes.load(),
+            store.visualizations.load(),
+            store.wmsLayers.load()
+        ]);
 	};
 
 	return FrontOffice;

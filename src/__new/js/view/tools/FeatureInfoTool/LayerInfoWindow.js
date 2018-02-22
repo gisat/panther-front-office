@@ -23,7 +23,13 @@ define(['../../../error/ArgumentError',
 			 _) {
 	"use strict";
 
-
+    /**
+	 *
+     * @param options
+	 * @param options.store
+	 * @param options.store.state {StateStore}
+     * @constructor
+     */
 	var LayerInfoWindow = function (options) {
 		FeatureInfoWindow.apply(this, arguments);
 

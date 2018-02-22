@@ -1,12 +1,9 @@
 define([
 	'../BaseStore',
-	'../Stores',
 	'../../data/Theme'
 ], function(BaseStore,
-			Stores,
 			Theme){
 	"use strict";
-	var themes;
 
 	/**
 	 * Store for retrieval of Themes from the API.
@@ -34,9 +31,5 @@ define([
 		return "rest/theme";
 	};
 
-	if(!themes) {
-		themes = new Themes();
-		Stores.register('theme', themes);
-	}
-	return themes;
+	return Themes;
 });
