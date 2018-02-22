@@ -1,12 +1,9 @@
 define([
 	'../BaseStore',
-	'../Stores',
 	'../../data/Visualization'
 ], function(BaseStore,
-			Stores,
 			Visualization){
 	"use strict";
-	var visualizations;
 
 	/**
 	 * Store for retrieval of Visualizations from the API.
@@ -34,9 +31,5 @@ define([
 		return "rest/visualization";
 	};
 
-	if(!visualizations) {
-		visualizations = new Visualizations();
-		Stores.register('visualization', visualizations);
-	}
-	return visualizations;
+	return Visualizations;
 });

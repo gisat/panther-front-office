@@ -1,12 +1,9 @@
 define([
 	'../BaseStore',
-	'../Stores',
 	'../../data/Period'
 ], function(BaseStore,
-			Stores,
 			Period){
 	"use strict";
-	var periods;
 
 	/**
 	 * Store for retrieval of Periods from the API.
@@ -34,9 +31,5 @@ define([
 		return "rest/year";
 	};
 
-	if(!periods) {
-		periods = new Periods();
-		Stores.register('period', periods);
-	}
-	return periods;
+	return Periods;
 });

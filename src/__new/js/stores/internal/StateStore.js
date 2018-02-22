@@ -1,10 +1,12 @@
 define([
+	'../../error/ArgumentError',
 	'../../util/Floater',
-	'../Stores',
+	'../../util/Logger',
 	'../../util/Uuid',
 	'underscore'], function (
+		ArgumentError,
 		Floater,
-		Stores,
+		Logger,
 		Uuid,
 		_
 ) {
@@ -12,10 +14,24 @@ define([
 	 * This store is the ultimate source of truth about current state of the application. Everything else updates it
 	 * and everything that needs something from it, is notified.
 	 * @constructor
+	 * @param options {Object}
+	 * @param options.store {Object}
+	 * @param options.store.maps {MapStore} Store containing current maps.
 	 */
 	var StateStore = function (options) {
-		this._changes = {};
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'StateStore', 'constructor', 'Stores must be provided'));
+        }
+
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'StateStore', 'constructor', 'Store map must be provided'));
+        }
+
+
+        this._changes = {};
 		this._loadingOperations = [];
+
+		this._store = options.store;
 
 		window.Stores.addListener(this.onEvent.bind(this), "initialLoading");
 		window.Stores.hasStateStore = true;
@@ -55,7 +71,7 @@ define([
 	StateStore.prototype.currentExtended = function(){
 		return _.extend(this.current(), {
 			widgets: this.widgets(),
-			worldWindNavigator: Stores.retrieve("map").getNavigatorState()
+			worldWindNavigator: this._store.maps.getNavigatorState()
 		});
 	};
 

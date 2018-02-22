@@ -7,7 +7,6 @@ define(['../../../../error/ArgumentError',
 	'../../../worldWind/layers/layerTools/LayerTools',
 	'./panelRow/PanelRow',
 	'../../inputs/checkbox/Radiobox',
-	'../../../../stores/Stores',
 
 	'jquery',
 	'string',
@@ -22,7 +21,6 @@ define(['../../../../error/ArgumentError',
 			LayerTools,
 			PanelRow,
 			Radiobox,
-			StoresInternal,
 
 			$,
 			S,
@@ -35,6 +33,8 @@ define(['../../../../error/ArgumentError',
 	 * @param options.name {string} name of panel
 	 * @param options.target {JQuery} JQuery selector of target element
 	 * @param options.currentMap {WorldWindMap}
+	 * @param options.store {Object}
+	 * @param options.store.map {MapStore}
 	 * @constructor
 	 */
 	var WorldWindWidgetPanel = function(options){
@@ -47,6 +47,12 @@ define(['../../../../error/ArgumentError',
 		if (!options.target || options.target.length === 0){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanel", "constructor", "missingTarget"));
 		}
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindWidgetPanel', 'constructor', 'Stores must be provided'));
+        }
+        if(!options.store.map){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindWidgetPanel', 'constructor', 'Store map must be provided'));
+        }
 
 		this._id = options.id;
 		this._name = options.name;
@@ -56,7 +62,7 @@ define(['../../../../error/ArgumentError',
 		if (options.hasOwnProperty("isOpen")){
 			this._isOpen = options.isOpen;
 		}
-		this._mapStore = StoresInternal.retrieve('map');
+		this._mapStore = options.store.map;
 		this.build();
 	};
 
@@ -64,8 +70,6 @@ define(['../../../../error/ArgumentError',
 	 * Build panel
 	 */
 	WorldWindWidgetPanel.prototype.build = function(){
-		console.log('WorldWindWidgetPanel#build Name: ', this._name, ' Id: ', this._id);
-
 		var html = S(htmlBody).template({
 			panelId: this._id,
 			name: this._name

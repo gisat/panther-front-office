@@ -48,7 +48,6 @@ define([
 	 */
 	var AggregatedChartWidget = function (options) {
 		Widget.apply(this, arguments);
-		console.log('AggregatedChartWidget');
 
 		this._settings = null;
 

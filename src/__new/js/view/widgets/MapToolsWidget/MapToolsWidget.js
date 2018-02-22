@@ -31,10 +31,25 @@ define(['../../../actions/Actions',
 	 * @param options {Object}
 	 * @param options.dispatcher {Object} Object for handling events in the application.
 	 * @param options.featureInfo {FeatureInfoTool}
+	 * @param options.store {Object}
+	 * @param options.store.map {MapStore}
+	 * @param options.store.state {StateStore}
 	 * @constructor
 	 */
 	var MapToolsWidget = function(options){
 		Widget.apply(this, arguments);
+
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MapToolsWidget', 'constructor', 'Stores must be provided'));
+        }
+        if(!options.store.map){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MapToolsWidget', 'constructor', 'Store map must be provided'));
+        }
+        if(!options.store.state){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MapToolsWidget', 'constructor', 'Store state must be provided'));
+        }
+
+		this._store = options.store;
 
 		this._dispatcher = options.dispatcher;
 		this._featureInfo = options.featureInfo;
@@ -73,7 +88,12 @@ define(['../../../actions/Actions',
 		this._triggers.push(this.buildLayerInfoTrigger());
 
 		// Zooming functionality
-		this._zooming = new Zooming({dispatcher: this._dispatcher});
+		this._zooming = new Zooming({
+			dispatcher: this._dispatcher,
+			store: {
+				state: this._store.state
+			}
+		});
 		this._buttons.push(this.buildZoomSelectedButton());
 		this._buttons.push(this.buildZoomToExtentButton());
 
@@ -96,7 +116,11 @@ define(['../../../actions/Actions',
 	MapToolsWidget.prototype.buildLayerInfo = function(){
 		return new LayerInfoTool({
 			id: 'layer-info',
-			dispatcher: this._dispatcher
+			dispatcher: this._dispatcher,
+			store: {
+				map: this._store.map,
+				state: this._store.state
+			}
 		})
 	};
 

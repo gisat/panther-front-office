@@ -200,7 +200,6 @@ Ext.application({
             	promises.push(new Promise(function(resolve, reject){
             		var store = Ext.StoreMgr.lookup(storeName);
             		store.on('datachanged', function(data){
-            			console.log('Store Name: ' + storeName + ' DataChanged', arguments);
             			resolve(data);
 					});
 					store.load();
@@ -208,8 +207,6 @@ Ext.application({
             });
             var self = this;
 			Promise.all(promises).then(function(){
-				console.log('appde# Loading done.');
-
 				self.getController('DomManipulation').renderApp();
 				self.getController('Render').renderApp();
 

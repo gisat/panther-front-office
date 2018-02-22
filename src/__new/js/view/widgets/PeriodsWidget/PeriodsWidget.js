@@ -4,7 +4,6 @@ define([
 	'../../../error/NotFoundError',
 	'../../../util/Logger',
 
-	'../../../stores/Stores',
 	'../Widget',
 
 	'jquery',
@@ -15,7 +14,6 @@ define([
 			NotFoundError,
 			Logger,
 
-			Stores,
 			Widget,
 
 			$,
@@ -25,20 +23,35 @@ define([
 	 * Class representing widget for periods
 	 * @param options {Object}
 	 * @param options.mapsContainer {MapsContainer}
+	 * @param options.store {Object}
+	 * @param options.store.scopes {Scopes}
+	 * @param options.store.state {StateStore}
+	 * @param options.store.periods {Periods}
 	 * @constructor
 	 */
 	var PeriodsWidget = function(options){
 		Widget.apply(this, arguments);
 
+		if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'PeriodsWidget', 'constructor', 'Stores must be provided'));
+        }
+        if(!options.store.scopes){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'PeriodsWidget', 'constructor', 'Store scopes must be provided'));
+        }
+        if(!options.store.state){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'PeriodsWidget', 'constructor', 'Store state must be provided'));
+        }
+        if(!options.store.periods){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'PeriodsWidget', 'constructor', 'Store periods must be provided'));
+        }
+
 		this._mapsContainer = options.mapsContainer;
 
-		this._scopeStore = Stores.retrieve("scope");
-		this._stateStore = Stores.retrieve("state");
-		this._periodStore = Stores.retrieve("period");
+		this._scopeStore = options.store.scopes;
+		this._stateStore = options.store.state;
+		this._periodStore = options.store.periods;
 
 		this.addEventListeners();
-
-		console.log('PeriodsWidget#constructor');
 	};
 
 	PeriodsWidget.prototype = Object.create(Widget.prototype);
@@ -52,10 +65,8 @@ define([
 	 */
 	PeriodsWidget.prototype.rebuild = function(){
 		var stateChanges = this._stateStore.current().changes;
-        console.log('PeriodsWidget#rebuild State changes: ', stateChanges);
         if (stateChanges.period || stateChanges.scope){
-            console.log('PeriodsWidget#rebuild redraw');
-			this.redraw();
+        	this.redraw();
 		}
 		this.handleLoading("hide");
 	};

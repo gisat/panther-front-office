@@ -1,15 +1,39 @@
 define([
+	'../error/ArgumentError',
 	'../actions/Actions',
-	'./Promise',
-	'../stores/Stores'
-], function(Actions,
-			Promise,
-			Stores){
+	'../util/Logger'
+], function(ArgumentError,
+			Actions,
+			Logger){
 
+    /**
+	 *
+     * @param options {Object}
+	 * @param options.store {Object}
+	 * @param options.store.locations {Locations} Store containing locations
+	 * @param options.store.themes {Themes} Store containing Themes
+	 * @param options.store.scopes {Scopes} Store containing Scopes
+     * @constructor
+     */
 	var Customization = function(options) {
-		this._dispatcher = options.dispatcher;
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'Customization', 'constructor', 'Stores must be provided'));
+        }
+
+        if(!options.store.locations){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'Customization', 'constructor', 'Store locations must be provided'));
+        }
+        if(!options.store.themes){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'Customization', 'constructor', 'Stores themes be provided'));
+        }
+        if(!options.store.scopes){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'Customization', 'constructor', 'Stores scopes be provided'));
+        }
+
+        this._dispatcher = options.dispatcher;
 		this._useWorldWindOnly = options.useWorldWindOnly;
 		this._skipSelection = options.skipSelection;
+		this._store = options.store;
 
 		if (this._skipSelection){
 			this._dispatcher.addListener(this.skipSelection.bind(this));
@@ -88,7 +112,7 @@ define([
 	 * @param scopeId {number}
 	 */
 	Customization.prototype.getFirstLocation = function(scopeId){
-		return Stores.retrieve('location').filter({dataset: scopeId}).then(function(locations){
+		return this._store.locations.filter({dataset: scopeId}).then(function(locations){
 			return locations[0];
 		});
 	};
@@ -98,7 +122,7 @@ define([
 	 * @param scopeId {number}
 	 */
 	Customization.prototype.getFirstTheme = function(scopeId){
-		return Stores.retrieve('theme').filter({dataset: scopeId}).then(function(themes){
+		return this._store.themes.filter({dataset: scopeId}).then(function(themes){
 			return themes[0];
 		});
 	};
@@ -108,7 +132,7 @@ define([
 	 *
 	 */
 	Customization.prototype.getFirstScope = function(){
-		return Stores.retrieve('scope').all().then(function(scopes){
+		return this._store.scopes.all().then(function(scopes){
 			return scopes[0];
 		});
 	};

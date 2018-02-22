@@ -1,12 +1,9 @@
 define([
 	'../BaseStore',
-	'../Stores',
 	'../../data/Layer'
 ], function(BaseStore,
-			Stores,
 			Layer){
 	"use strict";
-	var layers;
 
 	/**
 	 * Store for retrieval of layers from the API.
@@ -34,9 +31,5 @@ define([
 		return "rest/layer";
 	};
 
-	if(!layers) {
-		layers = new Layers();
-		Stores.register('layer', layers);
-	}
-	return layers;
+	return Layers;
 });

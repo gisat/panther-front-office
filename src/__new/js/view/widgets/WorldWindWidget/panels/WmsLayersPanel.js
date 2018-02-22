@@ -4,7 +4,6 @@ define(['../../../../error/ArgumentError',
 	'../../../../util/Promise',
 
 	'./LayerControl/LayerControl',
-	'../../../../stores/Stores',
 	'./WorldWindWidgetPanel',
 
 	'jquery',
@@ -15,7 +14,6 @@ define(['../../../../error/ArgumentError',
 			Promise,
 
 			LayerControl,
-			StoresInternal,
 			WorldWindWidgetPanel,
 
 			$,
@@ -24,14 +22,33 @@ define(['../../../../error/ArgumentError',
 	/**
 	 * Class representing Wms Layers Panel of WorldWindWidget
 	 * @param options {Object}
+	 * @param options.store {Object}
+	 * @param options.store.map {MapStore}
+	 * @param options.store.state {StateStore}
+	 * @param options.store.wmsLayers {WmsLayers}
 	 * @constructor
 	 */
 	var WmsLayersPanel = function(options){
 		WorldWindWidgetPanel.apply(this, arguments);
+
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WmsLayersPanel', 'constructor', 'Stores must be provided'));
+        }
+        if(!options.store.map){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WmsLayersPanel', 'constructor', 'Store map must be provided'));
+        }
+        if(!options.store.state){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WmsLayersPanel', 'constructor', 'Store state must be provided'));
+        }
+        if(!options.store.wmsLayers){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WmsLayersPanel', 'constructor', 'Store wmsLayers must be provided'));
+        }
+
 		this._groupId = "wms-layers";
 		this._group2dId = "wmsLayer";
 		this._idPrefix = "wmsLayer";
 		this._layersControls = [];
+		this._store = options.store;
 	};
 
 	WmsLayersPanel.prototype = Object.create(WorldWindWidgetPanel.prototype);
@@ -48,7 +65,7 @@ define(['../../../../error/ArgumentError',
 	 * Rebuild panel
 	 */
 	WmsLayersPanel.prototype.rebuild = function(){
-		this._allMaps = StoresInternal.retrieve("map").getAll();
+		this._allMaps = this._store.map.getAll();
 		this.getLayersForCurrentConfiguration().then(this.addPanelContent.bind(this)).catch(function(error){
 			console.error('WmsLayerPanel#rebuild Error: ', error);
 		});
@@ -64,7 +81,7 @@ define(['../../../../error/ArgumentError',
 		this._previousLayersControls = jQuery.extend(true, [], this._layersControls);
 		this._layersControls = [];
 		if (layers && layers.length > 0){
-			var currentScope = StoresInternal.retrieve("state").current().scopeFull;
+			var currentScope = this._store.state.current().scopeFull;
 			layers.forEach(function(layer, index){
 				if(currentScope && currentScope.layerOptions && currentScope.layerOptions.ordering == 'topBottomPanel') {
                     // Add the index of the layer relevant to its position in the panel.
@@ -85,8 +102,8 @@ define(['../../../../error/ArgumentError',
 	 * Get WMS layers for each place.
 	 */
 	WmsLayersPanel.prototype.getLayersForCurrentConfiguration = function(){
-		var wmsStore = StoresInternal.retrieve('wmsLayer');
-		var configuration = StoresInternal.retrieve("state").current();
+		var wmsStore = this._store.wmsLayers;
+		var configuration = this._store.state.current();
 		var locations = configuration.allPlaces;
 		if (configuration.place.length > 0){
 			locations = [Number(configuration.place)];

@@ -5,7 +5,6 @@ define(['../../../../error/ArgumentError',
 	'./LayerControl/LayerControl',
 
 	'../../../../util/RemoteJQ',
-	'../../../../stores/Stores',
 	'./WorldWindWidgetPanel',
 
 	'jquery',
@@ -17,7 +16,6 @@ define(['../../../../error/ArgumentError',
 			LayerControl,
 
 			Remote,
-			StoresInternal,
 			WorldWindWidgetPanel,
 
 			$,
@@ -27,14 +25,30 @@ define(['../../../../error/ArgumentError',
 	 * Class representing Info Layers Panel of WorldWindWidget
 	 * TODO move general methods to WorldWindWidgetPanel class
 	 * @params options {Object}
+	 * @params options.store {Object}
+	 * @params options.store.map {MapStore}
+	 * @params options.store.state {StateStore}
 	 * @constructor
 	 */
 	var InfoLayersPanel = function(options){
 		WorldWindWidgetPanel.apply(this, arguments);
+
+		if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'InfoLayersPanel', 'constructor', 'Stores must be provided'));
+        }
+        if(!options.store.state){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'InfoLayersPanel', 'constructor', 'Store state must be provided'));
+        }
+        if(!options.store.map){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'InfoLayersPanel', 'constructor', 'Store map must be provided'));
+        }
+
 		this._groupId = "info-layers";
 		this._group2dId = "topiclayer";
 
 		this._layersControls = [];
+
+		this._store = options.store;
 	};
 
 	InfoLayersPanel.prototype = Object.create(WorldWindWidgetPanel.prototype);
@@ -52,8 +66,8 @@ define(['../../../../error/ArgumentError',
 	 */
 	InfoLayersPanel.prototype.rebuild = function(){
 		var self = this;
-		this._allMaps = StoresInternal.retrieve("map").getAll();
-        var scope = StoresInternal.retrieve("state").current().scope;
+		this._allMaps = this._store.map.getAll();
+        var scope = this._store.state.current().scope;
         var opacity = scope && scope.get && scope.get('defaultOpacity') || 70;
         this.getLayersForCurrentConfiguration().then(function(result){
 			self.clear(self._id);
@@ -165,7 +179,7 @@ define(['../../../../error/ArgumentError',
 	 * Get layers for each period separately.
 	 */
 	InfoLayersPanel.prototype.getLayersForCurrentConfiguration = function(){
-		var configuration = StoresInternal.retrieve("state").current();
+		var configuration = this._store.state.current();
 		var scope = configuration.scope;
 		var theme = configuration.theme;
 		var periods = configuration.periods;

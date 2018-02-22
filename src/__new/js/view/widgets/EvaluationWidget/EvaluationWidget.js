@@ -14,7 +14,6 @@ define([
     '../inputs/selectbox/SelectBox',
     './EvaluationWidgetSettings',
     '../inputs/sliderbox/SliderBox',
-    '../../../stores/Stores',
     '../Widget',
 
     'resize',
@@ -39,7 +38,6 @@ define([
             SelectBox,
             Settings,
             SliderBox,
-            InternalStores,
             Widget,
 
             resize,
@@ -52,7 +50,8 @@ define([
      * @param options {Object}
      * @param options.elementId {String} ID of widget
      * @param options.filter {Object} instance of class for data filtering
-     * @param options.stateStore {StateStore}
+     * @param options.store {Object}
+     * @param options.store.state {StateStore}
      * @param options.targetId {String} ID of an element in which should be the widget rendered
      * @param options.name {String} Name of the widget
      * @constructor
@@ -63,11 +62,15 @@ define([
         if (!options.filter){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingFilter"));
         }
-		if (!options.stateStore){
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'EvaluationWidget', 'constructor', 'Stores must be provided'));
+        }
+
+        if (!options.store.state){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "EvaluationWidget", "constructor", "missingStateStore"));
 		}
         this._filter = options.filter;
-		this._stateStore = options.stateStore;
+		this._stateStore = options.store.state;
         this._settings = null;
 
         this._categorize = new CategorizeSettings({
@@ -131,20 +134,11 @@ define([
 
                     if (about.attributeType == "numeric"){
                         if (self.attributeHasData(attribute)){
-							// TODO: Fix ugly hack for showing Kathmandu.
-							if(InternalStores.retrieve('state').current().scope == 38433) {
-								self._attributes.push({
-									values: [Number(attribute.min), Number(attribute.max) + 1000],
-									distribution: attribute.distribution,
-									about: about
-								});
-							} else {
-								self._attributes.push({
-									values: [Number(attribute.min), Number(attribute.max)],
-									distribution: attribute.distribution,
-									about: about
-								});
-							}
+                            self._attributes.push({
+                                values: [Number(attribute.min), Number(attribute.max)],
+                                distribution: attribute.distribution,
+                                about: about
+                            });
                         }
                     }
                     else if (about.attributeType == "boolean") {
@@ -244,7 +238,10 @@ define([
     EvaluationWidget.prototype.rebuildMap = function(){
         if (!this._map){
             this._map = new Map({
-                map: OneLevelAreas.map
+                map: OneLevelAreas.map,
+                store: {
+                    state: this._stateStore
+                }
             });
         }
         else {

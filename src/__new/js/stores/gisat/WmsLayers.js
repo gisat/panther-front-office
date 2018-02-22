@@ -1,12 +1,9 @@
 define([
 	'../BaseStore',
-	'../Stores',
 	'../../data/WmsLayer'
 ], function(BaseStore,
-			Stores,
 			WmsLayer){
 	"use strict";
-	var layers;
 
 	/**
 	 * Store for retrieval of WMS Layers from the API.
@@ -34,9 +31,5 @@ define([
 		return "rest/wms/layer";
 	};
 
-	if(!layers) {
-		layers = new WmsLayers();
-		Stores.register('wmsLayer', layers);
-	}
-	return layers;
+	return WmsLayers;
 });

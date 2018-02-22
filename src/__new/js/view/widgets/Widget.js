@@ -3,8 +3,7 @@ define(['../../error/ArgumentError',
         '../../util/Logger',
 
         './inputs/checkbox/Checkbox',
-	    '../../stores/Stores',
-        '../View',
+	    '../View',
         './WidgetWarning',
 
         'string',
@@ -18,7 +17,6 @@ define(['../../error/ArgumentError',
              Logger,
 
              Checkbox,
-             Stores,
              View,
              WidgetWarning,
 
