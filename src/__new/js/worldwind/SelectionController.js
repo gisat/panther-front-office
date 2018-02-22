@@ -1,23 +1,35 @@
 define([
+    '../error/ArgumentError',
+    '../util/Logger',
+
 	'jquery',
 	'worldwind'
-], function ($) {
+], function (ArgumentError,
+             Logger,
+
+             $) {
 	var ClickRecognizer = WorldWind.ClickRecognizer;
 
 	/**
-	 *
-	 * @param wwd
+	 * The tool for controlling
+	 * @param wwd {WorldWind}
 	 * @constructor
 	 */
 	var SelectionController = function (wwd) {
-		this.wwd = wwd;
-		// Use the wwd to retrieve the state using the lookAt navigator.
-		// Set it up so that when enabled it handles clicks alongside the LookAtNavigator.
-		new ClickRecognizer(wwd, function (recognizer) {
+	    if(!wwd) {
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "SelectionController", "constructor", "missingWebWorldWind"));
+        }
+
+		this._wwd = wwd;
+
+		this._enabled = false;
+
+        this.ctrl = false;
+
+        this._clickRecognizer = new ClickRecognizer(wwd, function (recognizer) {
 			this.retrieveInfoForPoint(recognizer);
 		}.bind(this));
 
-		this.ctrl = false;
 		$(document).keydown(function(event){
 			if(event.which=="17") {
 				this.ctrl = true;
@@ -30,8 +42,23 @@ define([
 		}.bind(this));
 	};
 
+	Object.defineProperties(SelectionController.prototype, {
+		enabled: {
+			get: function() {
+				return this._enabled;
+			},
+			set: function(enabled) {
+				this._enabled = enabled;
+			}
+		}
+	});
+
 	SelectionController.prototype.retrieveInfoForPoint = function (recognizer) {
-		var pointObjects = this.wwd.pick(this.wwd.canvasCoordinates(recognizer.clientX, recognizer.clientY));
+		if(!this.enabled) {
+			return;
+		}
+
+		var pointObjects = this._wwd.pick(this._wwd.canvasCoordinates(recognizer.clientX, recognizer.clientY));
 
 		var latitude = pointObjects.objects[0].position.latitude;
 		var longitude = pointObjects.objects[0].position.longitude;
@@ -43,8 +70,6 @@ define([
 		var url = Config.url + 'rest/area?latitude='+latitude+'&longitude='+longitude+'&' + layers.join('');
 
 		$.get(url, function(data){
-			// Handle showing the layer with selected areas
-
 			if(this.ctrl) {
 				this.selectAreas(data.areas);
 			} else {
