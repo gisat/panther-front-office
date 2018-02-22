@@ -4,7 +4,6 @@ define(['../../../error/ArgumentError',
 
 	'../../../worldwind/layers/MyOsmLayer',
 	'../../../worldwind/layers/MyWmsLayer',
-	'../../../worldwind/SelectionController',
 
 	'jquery',
 	'worldwind'
@@ -14,16 +13,17 @@ define(['../../../error/ArgumentError',
 
 			MyOsmLayer,
 			MyWmsLayer,
-			SelectionController,
 
 			$
 ){
 	/**
 	 * This class is intended for operations with layers
 	 * @param wwd {WorldWindow}
+	 * @param options {Object}
+	 * @param options.selectController {SelectionController}
 	 * @constructor
 	 */
-	var Layers = function(wwd){
+	var Layers = function(wwd, options){
 		if (!wwd){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Layers", "constructor", "missingWorldWind"));
 		}
@@ -34,7 +34,8 @@ define(['../../../error/ArgumentError',
 		 * It handles selection in the map based on the user interactions.
 		 * @type {SelectionController}
 		 */
-		this.controller = new SelectionController(wwd);
+		this.controller = options.selectController;
+
 		this.addBaseLayer();
 	};
 

@@ -7,6 +7,7 @@ define(['../../actions/Actions',
 		'./layers/Layers',
 		'../../worldwind/MyGoToAnimator',
 		'../../worldwind/layers/osm3D/OSMTBuildingLayer',
+		'../../worldwind/SelectionController',
 		'../../stores/internal/VisibleLayersStore',
 		'../../util/Uuid',
 		'../../worldwind/WmsFeatureInfo',
@@ -25,6 +26,7 @@ define(['../../actions/Actions',
 			Layers,
 			MyGoToAnimator,
 			OSMTBuildingLayer,
+			SelectionController,
 			VisibleLayersStore,
 			Uuid,
 			WmsFeatureInfo,
@@ -219,7 +221,10 @@ define(['../../actions/Actions',
 				state: this._store.state
 			}
 		});
-		this.layers = new Layers(this._wwd);
+        this.selectionController = new SelectionController(this._wwd);
+		this.layers = new Layers(this._wwd, {
+			selectController: this.selectionController
+		});
 	};
 
 	/**

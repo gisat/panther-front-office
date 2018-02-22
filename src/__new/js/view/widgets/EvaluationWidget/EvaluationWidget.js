@@ -236,17 +236,6 @@ define([
      * It rebuilds the map. If map is present, it removes previously added layers
      */
     EvaluationWidget.prototype.rebuildMap = function(){
-        if (!this._map){
-            this._map = new Map({
-                map: OneLevelAreas.map,
-                store: {
-                    state: this._stateStore
-                }
-            });
-        }
-        else {
-            this._map.removeLayers();
-        }
     };
 
 	/**
@@ -425,7 +414,20 @@ define([
                     self.addDownloadListener(areas);
 
                     if (!OneLevelAreas.hasOneLevel) {
-                        Observer.notify("selectAreas");
+                        var areasToSelect = [];
+
+                        areas.forEach(function (area) {
+                            var unit = {
+                                at: ThemeYearConfParams.auCurrentAt,
+                                gid: area.gid,
+                                loc: area.loc
+                            };
+
+                            areasToSelect.push(unit);
+                        });
+
+                        Select.select(areasToSelect, true, false);
+                        Select.colourMap(Select.selectedAreasMap);
                     }
                     $('#evaluation-unselect').attr("disabled", false);
                 }
