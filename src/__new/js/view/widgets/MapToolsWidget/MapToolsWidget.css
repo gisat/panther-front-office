@@ -41,14 +41,25 @@
 	max-height: 100%;
 	height: 100%;
 	overflow: hidden;
+	border-radius: 0;
 }
-#floater-map-tools-widget.pinned .floater-header,
+#floater-map-tools-widget.pinned .floater-header {
+	height: 1.5rem;
+}
 #floater-map-tools-widget.pinned .floater-body {
-	background: rgba(153,54,75,1);
+	background: #f4f3ef;
 	overflow: hidden;
 }
 #floater-map-tools-widget.pinned .floater-tool {
+	color: rgba(189,192,197,1);
 	width: 35px;
+}
+#floater-map-tools-widget.pinned .floater-tool .fa-external-link:before {
+	font-size: 1.1rem;
+	content: "\f105";
+}
+#floater-map-tools-widget.pinned .floater-tool:hover {
+	background: rgba(255,255,255,.1);
 }
 #floater-map-tools-widget.pinned .map-tools-container,
 #floater-map-tools-widget.pinned .map-tools-trigger,
@@ -64,9 +75,8 @@
 	border: 0;
 	height: 40px;
 }
-#floater-map-tools-widget.pinned .map-tool-trigger:hover,
-#floater-map-tools-widget.pinned .map-tool-trigger.active {
-	background: rgba(255,255,255,.15);
+#floater-map-tools-widget.pinned .map-tool-trigger:hover {
+	background: rgba(125,128,137,.2);
 }
 #floater-map-tools-widget.pinned .map-tool-trigger-label-title,
 #floater-map-tools-widget.pinned .map-tools-trigger-icons,
@@ -77,15 +87,27 @@
 	width: 35px;
 	margin: 0;
 }
+#floater-map-tools-widget.pinned .map-tool-icon-svg {
+	height: 1.1rem;
+}
+#floater-map-tools-widget.pinned #layers-info-icon {
+	height: 1.3rem;
+}
 #floater-map-tools-widget.pinned .map-tool-icon-svg path {
-	fill: #eee;
+	fill: rgba(65,69,81,.8);
 }
 #floater-map-tools-widget.pinned .component-button .fa {
-	color: #eee;
+	color: rgba(65,69,81,.8);
 	width: 35px;
 }
+#floater-map-tools-widget.pinned .map-tool-trigger.active .map-tool-icon-svg path {
+	fill: rgba(186,65,91,1);
+}
+#floater-map-tools-widget.pinned .map-tool-trigger.active .component-button .fa {
+	color: rgba(186,65,91,1);
+}
 #floater-map-tools-widget.pinned .component-button.text-small .fa {
-	font-size: 1rem;
+	font-size: 1.05rem;
 }
 #floater-map-tools-widget.pinned .component-button {
 	border: 0;
@@ -95,7 +117,7 @@
 }
 #floater-map-tools-widget.pinned .component-button:hover,
 #floater-map-tools-widget.pinned .component-button:focus {
-	background: rgba(255,255,255,.15);
+	background: rgba(125,128,137,.2);
 }
 #floater-map-tools-widget.pinned .component-button:focus {
 	box-shadow: 0 0 0 0;

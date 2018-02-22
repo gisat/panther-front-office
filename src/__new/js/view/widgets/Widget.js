@@ -128,7 +128,7 @@ define(['../../error/ArgumentError',
 			expand: polyglot.t("expand"),
 			compress: polyglot.t("compress"),
 			pin: polyglot.t("pinWidget"),
-			detach: polyglot.t("detachWidget")
+			detach: polyglot.t("expandMapToolsWidget")
 		}).toString();
 
 		this._floaterTarget.append(floater);

@@ -183,7 +183,11 @@ define([
 			if (targetId == 'window-customviews') Ext.ComponentQuery.query('#window-customviews')[0].show();
 			if (targetId == 'window-customLayers') this.initCustomLayersWindow();
 			var floater = $('#' + targetId);
+			if (targetId === 'floater-map-tools-widget' && floater.hasClass("open")){
+				floater.find(".widget-detach").trigger("click");
+			}
 			floater.toggleClass('open');
+
 			var type = targetId.split("-")[0];
 			if (type === "window"){
 				window.Stores.notify('floaters#sort', {
