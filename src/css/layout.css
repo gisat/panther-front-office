@@ -693,7 +693,7 @@ body.mode-3d #top-toolbar-3dmap:not(.world-wind-2d) {
 	cursor: pointer;
 }
 #top-toolbar .item:not(.disabled):hover {
-	background: rgba(125,125,125,.15);
+	background: rgba(125,128,137,.2);
 }
 #top-toolbar .item.open:not(.disabled):hover {
 	background: rgba(245,245,245,.75);

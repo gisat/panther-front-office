@@ -120,6 +120,7 @@ var langEn = {
     error: "Error",
     equal: "Equal",
     expand: "Expand",
+	expandMapToolsWidget: "Expand map tools",
     expandLastLevel: "Expand last level",
     explore: "Explore",
     exportCsv: "Export CSV",
@@ -243,6 +244,7 @@ var langEn = {
     period: "Period",
     periods: "Periods",
     pie: "Pie",
+	pinWidget: "Pin widget",
     place: "Place",
     polygon: "polygon",
     pleaseSelectAreas: "Please select areas...",
@@ -371,7 +373,8 @@ var langEn = {
     year: "Year: ",
     yesNo: "(Yes/No)",
 
-    zoomSelected: "Zoom selected"
+    zoomSelected: "Zoom selected",
+	zoomToExtent: "Zoom to extent"
 };
 
 var langCz = {
@@ -496,6 +499,7 @@ var langCz = {
     error: "Chyba",
     equal: "Stejný",
     expand: "Rozšířit",
+	expandMapToolsWidget: "Rozšířit mapové nástroje",
     expandLastLevel: "Rozbalte poslední úroveň",
     explore: "Prozkoumat",
     exportCsv: "Export CSV",
@@ -619,6 +623,7 @@ var langCz = {
     period: "Časové období",
     periods: "Časová období",
     pie: "Kruhový diagram",
+	pinWidget: "Připnout widget",
     place: "Místo",
     polygon: "polygon",
     pleaseSelectAreas: "Prosím vyberte území...",
@@ -747,7 +752,8 @@ var langCz = {
     year: "Rok: ",
     yesNo: "(Ano/Ne)",
 
-    zoomSelected: "Zoom na vybrané"
+    zoomSelected: "Přiblížit výběr",
+	zoomToExtent: "Přiblížit na výchozí rozsah"
 };
 
 var polyglot = new Polyglot();

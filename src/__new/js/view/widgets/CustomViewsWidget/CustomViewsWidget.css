@@ -17,7 +17,7 @@
 
 /* header */
 body.intro #floater-custom-views-widget .floater-header{
-	display: none;
+	display: none !important;
 }
 
 /* body */

@@ -183,7 +183,11 @@ define([
 			if (targetId == 'window-customviews') Ext.ComponentQuery.query('#window-customviews')[0].show();
 			if (targetId == 'window-customLayers') this.initCustomLayersWindow();
 			var floater = $('#' + targetId);
+			if (targetId === 'floater-map-tools-widget' && floater.hasClass("open")){
+				floater.find(".widget-detach").trigger("click");
+			}
 			floater.toggleClass('open');
+
 			var type = targetId.split("-")[0];
 			if (type === "window"){
 				window.Stores.notify('floaters#sort', {
@@ -267,12 +271,17 @@ define([
 	 */
 	TopToolBar.prototype.handleDataview = function(widgets){
 		var openWidgets = widgets.open;
+		var self = this;
 		openWidgets.forEach(function(widget){
 			var floater = $('#' + widget.floater.id);
 			var toolbarItem = $('#' + widget.topToolbarItem.id);
 			floater.addClass("open");
 			toolbarItem.addClass("open");
-			Floater.setPosition(floater, widget.floater.position);
+			if (widget.floater.pinned && widget.floater.id === 'floater-map-tools-widget'){
+				self._dispatcher.notify('widget#pinMapTools');
+			} else {
+				Floater.setPosition(floater, widget.floater.position);
+			}
 		});
 	};
 

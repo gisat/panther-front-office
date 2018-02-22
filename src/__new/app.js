@@ -653,6 +653,7 @@ define(['js/actions/Actions',
 			name: polyglot.t("mapTools"),
 			is3dOnly: true,
 			isWithoutFooter: true,
+			isPinnable: true,
 			dispatcher: window.Stores,
 			featureInfo: featureInfo,
 			store: {

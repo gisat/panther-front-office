@@ -73,6 +73,7 @@ define([
 		this._store = options.store;
 
 		this._mapControls = null;
+		this._toolsPinned = false;
 		this._mapsInContainerCount = 0;
 
 		this.build();
@@ -230,6 +231,16 @@ define([
 	};
 
 	/**
+	 * Zoom all maps to extent
+	 */
+	MapsContainer.prototype.zoomToExtent = function(){
+		var maps = this._mapStore.getAll();
+		for(var key in maps){
+			maps[key].zoomToExtent();
+		}
+	};
+
+	/**
 	 * Build a World Wind Map
 	 * @param id {string} Id of the map which should distinguish one map from another
 	 * @param periodId {number} Id of the period
@@ -296,6 +307,22 @@ define([
 			this.handleSelection(options);
 		} else if (type === Actions.mapZoomSelected){
 			this.zoomToArea(options);
+		} else if (type === Actions.mapZoomToExtent){
+			this.zoomToExtent();
+		} else if (type === Actions.mapsContainerToolsPinned){
+			this.handleTools(true);
+		} else if (type === Actions.mapsContainerToolsDetached){
+			this.handleTools(false);
+		}
+	};
+
+	MapsContainer.prototype.handleTools = function (toolsPinned) {
+		if (toolsPinned){
+			this._toolsPinned = true;
+			this._containerSelector.addClass("tools-active");
+		} else {
+			this._toolsPinned = false;
+			this._containerSelector.removeClass("tools-active");
 		}
 	};
 
@@ -361,6 +388,11 @@ define([
 		} else if (this._mapsInContainerCount > 12 && this._mapsInContainerCount <= 16){
 			cls += a + '4 ' + b + '4';
 		}
+
+		if (this._toolsPinned){
+			cls += " tools-active"
+		}
+
 		this._containerSelector.addClass(cls);
 
 		this.sortMapsByPeriod();

@@ -26,14 +26,17 @@
 .map-tool-icon {
 	display: flex;
 	margin: 0 .3rem;
-	width: 1.1rem;
+	width: 1.3rem;
 }
 .map-tool-icon-svg {
 	flex: 1;
 	height: 1.1rem;
 }
+#layers-info-icon {
+	height: 1.3rem;
+}
 .map-tool-icon-svg path {
-	fill: rgb(106,110,120);
+	fill: rgb(65,69,81);
 }
 
 /* icons container */

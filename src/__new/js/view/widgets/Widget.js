@@ -38,6 +38,7 @@ define(['../../error/ArgumentError',
      * @param {boolean} [options.isOpen] - Optional parameter. If true, floater is open by default
 	 * @param {boolean} [options.isExpandable] - Optional parameter. If true, floater could be expanded
 	 * @param {boolean} [options.isExpanded] - Optional parameter. If true, floater is expanded by default
+	 * @param {boolean} [options.isPinnable] - Optional parameter. If true, floater could be pinned to the left side of Maps Container
      * @param {boolean} [options.isWithoutFooter] - Optional parameter. If true, floater is rendered without footer
 	 * @param {boolean} [options.is3dOnly] - Optional parameter. If true, floater will be visible in 3D mode only
 	 * @param {boolean} [options.is2dOnly] - Optional parameter. If true, floater will be visible in 2D mode only
@@ -56,6 +57,7 @@ define(['../../error/ArgumentError',
         this._isOpen = options.isOpen;
         this._isExpandable = options.isExpandable;
 		this._isExpanded = options.isExpanded;
+		this._isPinnable = options.isPinnable;
 		this._isWithoutFooter = options.isWithoutFooter;
 		this._is2dOnly = options.is2dOnly;
 		this._is3dOnly = options.is3dOnly;
@@ -112,6 +114,9 @@ define(['../../error/ArgumentError',
 				floaterClass += " expanded";
 			}
 		}
+		if (this._isPinnable){
+	    	floaterClass += " pinnable"
+		}
 
 		var floater = S(WidgetFloater).template({
 			name: this._name,
@@ -119,7 +124,9 @@ define(['../../error/ArgumentError',
             floaterClass: floaterClass,
             minimise: polyglot.t("minimise"),
 			expand: polyglot.t("expand"),
-			compress: polyglot.t("compress")
+			compress: polyglot.t("compress"),
+			pin: polyglot.t("pinWidget"),
+			detach: polyglot.t("expandMapToolsWidget")
 		}).toString();
 
 		this._floaterTarget.append(floater);
@@ -138,6 +145,10 @@ define(['../../error/ArgumentError',
 			if (this._isExpanded){
 				this._widgetExpandSelector.trigger("click");
 			}
+		}
+
+		if (this._isPinnable){
+			this.addPinListeners();
 		}
     };
 
@@ -244,6 +255,39 @@ define(['../../error/ArgumentError',
 		});
 		this._widgetCompressSelector.off("click.compress").on("click.compress", function(){
 			self._widgetSelector.removeClass("expanded");
+			setTimeout(function(){
+				self._widgetSelector.draggable("enable");
+			},500);
+		});
+	};
+
+	/**
+	 * Add listeners to pin buttons
+	 */
+	Widget.prototype.addPinListeners = function () {
+		var self = this;
+		this._widgetPinSelector = this._widgetHeaderSelector.find(".widget-pin");
+		this._widgetDetachSelector = this._widgetHeaderSelector.find(".widget-detach");
+		this._widgetPinSelector.off("click.pin").on("click.pin", function(){
+			self._widgetSelector.addClass("pinned");
+			self._dispatcher.notify("mapsContainer#toolsPinned");
+			self._widgetSelector.appendTo(".maps-container .map-tools");
+			self._widgetSelector.css({
+				left: 0,
+				top: 0
+			});
+			setTimeout(function(){
+				self._widgetSelector.draggable("disable");
+			},500);
+		});
+		this._widgetDetachSelector.off("click.detach").on("click.detach", function(){
+			self._widgetSelector.removeClass("pinned");
+			self._dispatcher.notify("mapsContainer#toolsDetached");
+			self._widgetSelector.appendTo("body");
+			self._widgetSelector.css({
+				left: 50,
+				top: 100
+			});
 			setTimeout(function(){
 				self._widgetSelector.draggable("enable");
 			},500);

@@ -8,7 +8,7 @@ define(['../../../actions/Actions',
 	'../../tools/FeatureInfoTool/LayerInfoTool',
 	'./MapToolTrigger',
 	'../Widget',
-	'../../tools/ZoomSelected',
+	'../../tools/Zooming',
 
 	'jquery',
 	'css!./MapToolsWidget'
@@ -22,7 +22,7 @@ define(['../../../actions/Actions',
 			LayerInfoTool,
 			MapToolTrigger,
 			Widget,
-			ZoomSelected,
+			Zooming,
 
 			$){
 
@@ -73,9 +73,10 @@ define(['../../../actions/Actions',
 			'</div>' +
 			'<div class="map-tools-container map-tools-buttons-container">' +
 				'<h4>' + polyglot.t("tools") + '</h4>' +
+				'<div class="map-tools-buttons-container-body"></div>' +
 			'</div>');
 		this._triggersContainerSelector = this._widgetBodySelector.find(".map-tools-triggers-container");
-		this._buttonsContainerSelector = this._widgetBodySelector.find(".map-tools-buttons-container");
+		this._buttonsContainerSelector = this._widgetBodySelector.find(".map-tools-buttons-container-body");
 
 		// Area info functionality
 		if (this._featureInfo){
@@ -86,14 +87,15 @@ define(['../../../actions/Actions',
 		this._layerInfo = this.buildLayerInfo();
 		this._triggers.push(this.buildLayerInfoTrigger());
 
-		// Zoom selected functionality
-		this._zoomSelected = new ZoomSelected({
+		// Zooming functionality
+		this._zooming = new Zooming({
 			dispatcher: this._dispatcher,
 			store: {
 				state: this._store.state
 			}
 		});
 		this._buttons.push(this.buildZoomSelectedButton());
+		this._buttons.push(this.buildZoomToExtentButton());
 
 		this.handleLoading("hide");
 	};
@@ -148,7 +150,7 @@ define(['../../../actions/Actions',
 			id: 'layer-info-trigger',
 			label: polyglot.t("layerInfo"),
 			hasSvgIcon: true,
-			iconPath: '__new/icons/layers-info.svg',
+			iconPath: '__new/icons/layers-info-a.svg',
 			dispatcher: this._dispatcher,
 			target: this._triggersContainerSelector,
 			onDeactivate: this._layerInfo.deactivate.bind(this._layerInfo),
@@ -168,12 +170,31 @@ define(['../../../actions/Actions',
 			text: polyglot.t('zoomSelected'),
 			textCentered: true,
 			textSmall: true,
-			classes: "w10",
 			icon: {
 				type: "fa",
 				class: "search-plus"
 			},
-			onClick: this._zoomSelected.zoom.bind(this._zoomSelected)
+			onClick: this._zooming.zoomSelected.bind(this._zooming)
+		});
+	};
+
+	/**
+	 * Build button for zooming to extent
+	 * @returns {Button}
+	 */
+	MapToolsWidget.prototype.buildZoomToExtentButton = function(){
+		return new Button({
+			id: "zoom-to-extent-button",
+			containerSelector: this._buttonsContainerSelector,
+			title: polyglot.t('zoomToExtent'),
+			text: polyglot.t('zoomToExtent'),
+			textCentered: true,
+			textSmall: true,
+			icon: {
+				type: "fa",
+				class: "arrows-alt"
+			},
+			onClick: this._zooming.zoomToExtent.bind(this._zooming)
 		});
 	};
 
@@ -187,6 +208,8 @@ define(['../../../actions/Actions',
 			if (id === "floater-map-tools-widget"){
 				this.rebuild();
 			}
+		} else if (type === Actions.widgetPinMapTools){
+			this._widgetPinSelector.trigger("click");
 		}
 	};
 

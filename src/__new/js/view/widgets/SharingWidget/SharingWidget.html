@@ -1,4 +1,5 @@
-<div class="widget-section">
+<form class="basic-form">
+	<div class="widget-section">
 	<h3>{{dataviewMetadataTitle}}</h3>
 	<p>{{dataviewMetadataDescription}}</p>
 	<div class="widget-form-row">
@@ -24,19 +25,20 @@
 		</label>
 	</div>
 </div>
-<div class="widget-section">
-	<h3>{{permissionsTitle}}</h3>
-	<p>{{permissionsDescription}}</p>
-	<div class="widget-form-row">
-		<label>
-			<span>{{userLabel}}</span>
-			<select id="sharing-user">{{userOptions}}</select>
-		</label>
+	<div class="widget-section">
+		<h3>{{permissionsTitle}}</h3>
+		<p>{{permissionsDescription}}</p>
+		<div class="widget-form-row">
+			<label>
+				<span>{{userLabel}}</span>
+				<select id="sharing-user">{{userOptions}}</select>
+			</label>
+		</div>
+		<div class="widget-form-row">
+			<label>
+				<span>{{groupLabel}}</span>
+				<select id="sharing-group">{{groupOptions}}</select>
+			</label>
+		</div>
 	</div>
-	<div class="widget-form-row">
-		<label>
-			<span>{{groupLabel}}</span>
-			<select id="sharing-group">{{groupOptions}}</select>
-		</label>
-	</div>
-</div>
+</form>

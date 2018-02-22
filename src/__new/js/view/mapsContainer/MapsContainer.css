@@ -8,11 +8,19 @@
 	top: 0;
 }
 body.mode-3d .maps-container {
-	display: block;
+	display: flex;
 	position: absolute;
 }
+.maps-container .map-tools {
+	width: 0;
+	height: 100%;
+	z-index: 1;
+}
+.maps-container.tools-active .map-tools {
+	width: 35px;
+}
 .maps-container .map-fields {
-	width: 100%;
+	flex: 1;
 	height: 100%;
 }
 .world-wind-map-box {

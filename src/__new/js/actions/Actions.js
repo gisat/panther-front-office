@@ -15,6 +15,10 @@ define([], function(){
 		mapSwitchProjection: 'map#switchProjection',
 		mapUseWorldWindOnly: 'map#useWorldWindOnly',
 		mapZoomSelected: 'map#zoomSelected',
+		mapZoomToExtent: 'map#zoomToExtent',
+
+		mapsContainerToolsDetached: 'mapsContainer#toolsDetached',
+		mapsContainerToolsPinned: 'mapsContainer#toolsPinned',
 
 		filterAdd: 'filter#add',
 		filterRemove: 'filter#remove',
@@ -48,6 +52,7 @@ define([], function(){
 		sharingUrlReceived: 'sharing#urlReceived',
 		sharingViewShared: 'sharing#viewShared',
 
-		widgetChangedState: 'widget#changedState'
+		widgetChangedState: 'widget#changedState',
+		widgetPinMapTools: 'widget#pinMapTools'
 	};
 });

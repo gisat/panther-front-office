@@ -50,6 +50,7 @@ Ext.define('Puma.view.LoginWindow' ,{
 					height: 36,
                     handler: function() {
                         me.close();
+                        $("#hideAllExceptLogin").css("display","none");
                     }
                 }]
         }

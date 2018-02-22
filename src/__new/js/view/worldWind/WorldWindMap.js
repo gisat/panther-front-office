@@ -161,7 +161,7 @@ define(['../../actions/Actions',
         $('#' + this._id).off('drop');
 		$('#' + this._id).on('drop', function(e){
             e.preventDefault();
-            let files = e.originalEvent.dataTransfer.files;
+            var files = e.originalEvent.dataTransfer.files;
             this.addFiles(files);
             return false;
 		}.bind(this))
@@ -344,6 +344,14 @@ define(['../../actions/Actions',
 	 */
 	WorldWindMap.prototype.zoomToArea = function (bboxes) {
 		this._goToAnimator.zoomToArea(bboxes);
+		this.redraw();
+	};
+
+	/**
+	 * Zoom map to extent (place or all places)
+	 */
+	WorldWindMap.prototype.zoomToExtent = function () {
+		this._goToAnimator.setLocation();
 		this.redraw();
 	};
 
@@ -531,9 +539,9 @@ define(['../../actions/Actions',
     };
 
     WorldWindMap.prototype.addGeoJson = function(url) {
-        let renderableLayer = new WorldWind.RenderableLayer("GeoJSON");
+        var renderableLayer = new WorldWind.RenderableLayer("GeoJSON");
         this._wwd.addLayer(renderableLayer);
-        let geoJson = new WorldWind.GeoJSONParser(url);
+        var geoJson = new WorldWind.GeoJSONParser(url);
         geoJson.load(null, null, renderableLayer);
         this._wwd.redraw();
     };

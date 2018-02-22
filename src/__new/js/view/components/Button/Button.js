@@ -93,6 +93,9 @@ define([
 		if (this._textSmall){
 			classes += " text-small"
 		}
+		if (this._icon){
+			classes += " has-icon"
+		}
 		return classes;
 	};
 

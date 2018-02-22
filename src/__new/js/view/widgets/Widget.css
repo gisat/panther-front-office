@@ -117,7 +117,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 2rem;
+    width: 30px;
     height: 100%;
     cursor: pointer;
     transition: background .3s ease-in-out;
@@ -158,11 +158,15 @@
     font-size: .45rem;
 }
 .floater-tool.widget-expand,
-.floater-tool.widget-compress {
+.floater-tool.widget-compress,
+.floater-tool.widget-pin,
+.floater-tool.widget-detach {
     display: none;
 }
 .floater-tool.widget-expand .fa,
-.floater-tool.widget-compress .fa {
+.floater-tool.widget-compress .fa,
+.floater-tool.widget-pin .fa,
+.floater-tool.widget-detach .fa {
     font-size: 1.05rem;
 }
 
@@ -274,6 +278,22 @@ body.mode-3d .floater.only-3d.open {
     display: none;
 }
 
+/* pinnable */
+.floater.pinnable .widget-pin {
+    display: flex;
+}
+.floater.pinnable .widget-pin .fa {
+    display: flex;
+    transform: rotate(30deg);
+}
+.floater.pinned .widget-detach {
+    display: flex;
+}
+.floater.pinned .widget-pin,
+.floater.pinned .widget-minimise,
+.floater.pinned .floater-header-title {
+    display: none;
+}
 
 .floater.active {
     z-index: 10001;

@@ -20,23 +20,29 @@ define([
 	 * @param options.store.state {StateStore}
 	 * @constructor
 	 */
-	var ZoomSelected = function(options){
-        if(!options.store){
-            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'ZoomSelected', 'constructor', 'Stores must be provided'));
-        }
-        if(!options.store.state){
-            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'ZoomSelected', 'constructor', 'Store state must be provided'));
-        }
-
+	var Zooming  = function(options){
+		if(!options.store){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'ZoomSelected', 'constructor', 'Stores must be provided'));
+		}
+		if(!options.store.state){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'ZoomSelected', 'constructor', 'Store state must be provided'));
+		}
 		this._dispatcher = options.dispatcher;
 
 		this._store = options.store;
 	};
 
 	/**
+	 * Zoom to place
+	 */
+	Zooming.prototype.zoomToExtent = function(){
+		this._dispatcher.notify('map#zoomToExtent');
+	};
+
+	/**
 	 * Zoom to selected area/areas. Get bounding box of selection from server, then notify MapsContainer
 	 */
-	ZoomSelected.prototype.zoom = function(){
+	Zooming.prototype.zoomSelected = function(){
 		var areas = this.getSelectedAreas();
 		if (areas){
 			var self = this;
@@ -62,7 +68,7 @@ define([
 	 * Get selected areas and group them by unique place-areaTemplate combination
 	 * @returns {Array} List of areas
 	 */
-	ZoomSelected.prototype.getSelectedAreas = function(){
+	Zooming.prototype.getSelectedAreas = function(){
 		var areas = [];
 		var finalAreas = [];
 		var selection = Select.selectedAreasMap;
@@ -106,5 +112,5 @@ define([
 		return finalAreas;
 	};
 
-	return ZoomSelected;
+	return Zooming;
 });

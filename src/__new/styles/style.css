@@ -1,3 +1,25 @@
+/* Table of contents
+
+   FORMS........................basic forms declarations
+
+*/
+
+
+/* === FORMS ========================================== */
+form.basic-form input,
+form.basic-form textarea,
+form.basic-form select {
+	transition: box-shadow .2s ease-in-out;
+}
+form.basic-form input:focus,
+form.basic-form textarea:focus,
+form.basic-form select:focus {
+	box-shadow: 0 0 2px 1px rgba(55,125,166,1);
+}
+
+
+
+/* TODO cleanup content bellow */
 /* === old FO === */
 #sidebar-tools.hidden-complete {
     left: -1000px;
