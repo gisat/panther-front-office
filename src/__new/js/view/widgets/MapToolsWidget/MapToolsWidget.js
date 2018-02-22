@@ -6,6 +6,7 @@ define(['../../../actions/Actions',
 
 	'../../components/Button/Button',
 	'../../tools/FeatureInfoTool/LayerInfoTool',
+	'../../tools/SelectInMap',
 	'./MapToolTrigger',
 	'../Widget',
 	'../../tools/Zooming',
@@ -20,6 +21,7 @@ define(['../../../actions/Actions',
 
 			Button,
 			LayerInfoTool,
+			SelectInMap,
 			MapToolTrigger,
 			Widget,
 			Zooming,
@@ -78,11 +80,14 @@ define(['../../../actions/Actions',
 		this._triggersContainerSelector = this._widgetBodySelector.find(".map-tools-triggers-container");
 		this._buttonsContainerSelector = this._widgetBodySelector.find(".map-tools-buttons-container-body");
 
+		// Select areas functionality
+		this._selectInMap = this.buildSelectInMap();
+		this._triggers.push(this.buildSelectInMapTrigger());
+
 		// Area info functionality
 		if (this._featureInfo){
 			this._triggers.push(this.buildFeatureInfoTrigger());
 		}
-
 		// Layer info functionality
 		this._layerInfo = this.buildLayerInfo();
 		this._triggers.push(this.buildLayerInfoTrigger());
@@ -110,6 +115,19 @@ define(['../../../actions/Actions',
 	};
 
 	/**
+	 * @returns {SelectInMap}
+	 */
+	MapToolsWidget.prototype.buildSelectInMap = function(){
+		return new SelectInMap({
+			dispatcher: this._dispatcher,
+			store: {
+				map: this._store.map,
+				state: this._store.state
+			}
+		});
+	};
+
+	/**
 	 * Build tool for info about layers
 	 * @returns {LayerInfoTool}
 	 */
@@ -122,6 +140,23 @@ define(['../../../actions/Actions',
 				state: this._store.state
 			}
 		})
+	};
+
+	/**
+	 * Build select in map tool trigger
+	 * @returns {MapToolTrigger}
+	 */
+	MapToolsWidget.prototype.buildSelectInMapTrigger = function(){
+		return new MapToolTrigger({
+			id: 'select-in-map-trigger',
+			label: polyglot.t("selectInMap"),
+			hasFaIcon: true,
+			iconClass: 'fa-hand-o-up',
+			dispatcher: this._dispatcher,
+			target: this._triggersContainerSelector,
+			onDeactivate: this._selectInMap.activate.bind(this._selectInMap),
+			onActivate: this._selectInMap.deactivate.bind(this._selectInMap)
+		});
 	};
 
 	/**

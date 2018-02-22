@@ -27,6 +27,11 @@
 	display: flex;
 	margin: 0 .3rem;
 	width: 1.3rem;
+	justify-content: center;
+}
+.map-tool-icon .fa {
+	font-size: 1rem;
+	color: rgb(65,69,81);
 }
 .map-tool-icon-svg {
 	flex: 1;
