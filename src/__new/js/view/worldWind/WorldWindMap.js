@@ -403,7 +403,7 @@ define(['../../actions/Actions',
 		var gid = null;
 		var coordinates = null;
 		var auLayer = this.layers.getAuLayer()[0];
-		var auBaseLayers = dataMininig.getAuBaseLayers(this._period);
+		var auBaseLayers = this._dataMining.getAuBaseLayers(this._period);
 
 		var x = event._clientX;
 		var y = event._clientY;
