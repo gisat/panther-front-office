@@ -66,7 +66,7 @@ if (configuration == 'development') {
     }).then(function(){
         return createScript('lib/Highcharts-3.0.0/js/modules/exporting.js');
     }).then(function(){
-        return createScript('extjs-4.1.3/ext-debug.js');
+        return createScript('extjs-4.1.3/ext.js');
     }).then(function(){
 		var urlLang = new URL(window.location).searchParams.get('lang');
         if(urlLang == "cz") {
@@ -113,6 +113,8 @@ if (configuration == 'development') {
 
         return createScript('lib/OpenLayers.min.js');
     }).then(function(){
+        return createScript('gisatlib/OpenLayers/Geoserver23.js');
+    }).then(function(){
         return createScript('lib/Highcharts-3.0.0/js/highcharts.src.js');
     }).then(function(){
         return createScript('lib/Highcharts-3.0.0/js/highcharts-more.js');
@@ -144,7 +146,4 @@ if((Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasN
 if(Config.toggles.isNewDesign){
     createLink("css/newDesign.css");
 	createLink("__new/styles/projects.css");
-}
-if(Config.toggles.isUrbis){
-    createLink("css/project/urbis.css");
 }

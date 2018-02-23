@@ -1,11 +1,13 @@
 define([
 	'./CustomLayers',
 	'../util/Floater',
+	'../util/Uuid',
 
 	'jquery'
 ], function (
 	CustomLayers,
 	Floater,
+	Uuid,
 
 	$
 ) {
@@ -219,25 +221,20 @@ define([
 		}
 	};
 
-	TopToolBar.prototype.handleContextHelpClick = function(e){
-		var target = $(e.target);
-		var active = target.hasClass('active');
-		if (active) {
-			Config.contextHelp = false;
-			if (PumaMain.controller.Help.overEl) {
-				PumaMain.controller.Help.overEl.removeCls('help-over');
-				PumaMain.controller.Help.overEl.un('mouseout', PumaMain.controller.Help.overEl.fc);
-			}
-		} else {
-			Config.contextHelp = true;
-		}
-		target.toggleClass('active');
-	};
+	TopToolBar.prototype.handleContextHelpClick = function(e){};
 
-	TopToolBar.prototype.handleSnapshotClick = function(e){
-		// TODO: Fix not working.
-		Observer.notify("PumaMain.controller.Map.onExportMapUrl");
-	};
+    TopToolBar.prototype.handleSnapshotClick = function () {
+        var uuid = new Uuid().generate();
+        $.post(Config.url + '/print/snapshot/' + uuid, {
+            url: $('#top-toolbar-snapshot').attr('data-url')
+        }).then(function () {
+            $('.panel-snapshots .x-component-default').append('<div style="margin: 10px;">' +
+                '	<a download="' + uuid + '.png" href="' + Config.url + '/print/download/' + uuid + '">' +
+                '   	<img width="128" height="128" src="' + Config.url + '/print/download/' + uuid + '" />' +
+                '	</a>' +
+				'</div>');
+        })
+    };
 
 	TopToolBar.prototype.handleShareViewClick = function(e){
 		var item = $(this);
@@ -257,13 +254,8 @@ define([
 	};
 
 	TopToolBar.prototype.handle3dMapClick = function(e){
-		var isIn3DMode = $('body').hasClass("mode-3d");
-		if (Config.toggles.useWorldWindOnly && isIn3DMode){
-			this._dispatcher.notify("map#switchProjection");
-			$(e.target).toggleClass('world-wind-2d');
-		} else {
-			this._dispatcher.notify("map#switchFramework");
-		}
+		this._dispatcher.notify("map#switchProjection");
+		$(e.target).toggleClass('world-wind-2d');
 	};
 
 	/**

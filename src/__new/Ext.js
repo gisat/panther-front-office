@@ -25,7 +25,7 @@ define([
                 name: 'PumaMain',
                 appFolder: '_main',
                 controllers: [
-                    'Export', 'DomManipulation', 'Render', 'Store', 'LocationTheme', 'Area', 'Layers', 'Screenshot',
+                    'DomManipulation', 'Render', 'Store', 'LocationTheme', 'Area', 'Layers', 
                     'AttributeConfig', 'ViewMng', 'Login', 'Select', 'Chart'
                 ],
                 enableQuickTips: true,
