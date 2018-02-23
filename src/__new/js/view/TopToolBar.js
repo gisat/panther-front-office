@@ -18,7 +18,7 @@ define([
 		this.build();
 
 		$('#top-toolbar-context-help').on('click.topToolBar', this.handleContextHelpClick);
-		$('#top-toolbar-snapshot').on('click.topToolBar', this.handleSnapshotClick);
+		$('#top-toolbar-snapshot').on('click.topToolBar', this.handleSnapshotClick.bind(this, document.getElementById('top-toolbar-snapshot')));
 		$('#top-toolbar-share-view').on('click.topToolBar', this.handleShareViewClick);
 		$('#top-toolbar-3dmap').on("click.topToolBar", this.handle3dMapClick.bind(this));
 
@@ -235,6 +235,7 @@ define([
 	};
 
 	TopToolBar.prototype.handleSnapshotClick = function(e){
+		// TODO: Fix not working.
 		Observer.notify("PumaMain.controller.Map.onExportMapUrl");
 	};
 
