@@ -255,7 +255,7 @@ define([
 
 	TopToolBar.prototype.handle3dMapClick = function(e){
 		this._dispatcher.notify("map#switchProjection");
-		$(e.target).toggleClass('world-wind-2d');
+		$('#top-toolbar-3dmap span').toggleClass('world-wind-2d');
 	};
 
 	/**
