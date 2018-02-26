@@ -77,5 +77,9 @@ define([
 		});
 	};
 
+	AboutWindow.prototype.hideShowMapsButton = function(){
+		this._buttonContainerSelector.find("#show-maps").hide();
+	};
+
 	return AboutWindow;
 });

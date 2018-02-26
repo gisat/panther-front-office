@@ -151,18 +151,20 @@ define(['../../../actions/Actions',
 
 		if (Config.toggles.dataviewsOverlayHasIntro){
 			this.renderContentItem("intro", "About");
-			new AboutWindow({
+			this._aboutWindow = new AboutWindow({
 				target: $("#about-window-wrapper"),
 				onShowMapsClick: this.onShowMapsClick.bind(this)
 			});
 		}
 
+		var scopes = 0;
 		for (var dataset in data){
 			var scope = _.find(scopes, function(scope){
 				return Number(scope.id) === Number(dataset);
 			});
 
 			if (scope && scope.name){
+				scopes++;
 				var name = scope.name;
 				this.renderContentItem(dataset, name);
 
@@ -174,6 +176,10 @@ define(['../../../actions/Actions',
 					self.addDataviewCard(data, window, isAdmin);
 				});
 			}
+		}
+
+		if (scopes === 0){
+			this._aboutWindow.hideShowMapsButton();
 		}
 
 		$(".custom-views-category:first-child").addClass("active");

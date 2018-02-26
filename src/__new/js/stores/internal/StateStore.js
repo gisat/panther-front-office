@@ -210,6 +210,11 @@ define([
 	 * Remove loading operation
 	 */
 	StateStore.prototype.removeLoadingOperation = function (type) {
+		if (type === "initialLoading"){
+			this._loadingOperations = [];
+			this.checkLoading(type);
+		}
+
 		var index = _.findIndex(this._loadingOperations, function(item){return item === type});
 		if (index !== -1){
 			this._loadingOperations.splice(index, 1);
