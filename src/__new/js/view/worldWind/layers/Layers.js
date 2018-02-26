@@ -264,6 +264,19 @@ define(['../../../error/ArgumentError',
 					version: "1.3.0"
 				});
 				break;
+			case "sentinel2":
+				layer = new MyWmsLayer({
+					service: "https://tiles.maps.eox.at/wms",
+					layerNames: "s2cloudless",
+					sector: new WorldWind.Sector(-90,90,-180,180),
+					levelZeroDelta: new WorldWind.Location(45,45),
+					numLevels: 19,
+					format: "image/png",
+					opacity: 1,
+					size: 256,
+					version: "1.3.0"
+				});
+				break;
 		}
 		layer.metadata = {
 			active: true,
