@@ -380,15 +380,10 @@ Ext.define('PumaMain.controller.ViewMng', {
 			})
 		}
 		cfg.layers = layerCfg;
-		cfg.trafficLayer = Ext.StoreMgr.lookup('layers').getRootNode().findChild('type', 'livegroup').childNodes[0].get('checked');
+		// cfg.trafficLayer = Ext.StoreMgr.lookup('layers').getRootNode().findChild('type', 'livegroup').childNodes[0].get('checked');
 		var store = Ext.StoreMgr.lookup('paging');
 		cfg.page = store.currentPage;
 
-		var map = Ext.ComponentQuery.query('#map')[0].map;
-		cfg.mapCfg = {
-			center: map.center,
-			zoom: map.zoom
-		};
 		// SelectionStore
 		cfg.selection = window.selectionStore.serialize();
 

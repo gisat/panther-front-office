@@ -177,8 +177,8 @@ define([
 		var state = this._store.state.currentExtended();
 		var self = this;
 		Promise.all([
-			Groups.share(selectedGroup, state.scope, state.places, options.dataviewId),
-			Users.share(selectedUser, state.scope, state.places, options.dataviewId)
+			this._store.groups.share(selectedGroup, state.scope, state.places, options.dataviewId),
+			this._store.users.share(selectedUser, state.scope, state.places, options.dataviewId)
 		]).then(function(){
 			var auth = "&needLogin=true";
 			if (Config.auth && selectedGroup === '2'){
