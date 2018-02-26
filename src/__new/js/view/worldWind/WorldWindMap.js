@@ -212,6 +212,11 @@ define(['../../actions/Actions',
 	 */
 	WorldWindMap.prototype.setupWebWorldWind = function(){
 		this._wwd = this.buildWorldWindow();
+		var self = this;
+		this._wwd._redrawCallbacks.push(function(){
+			var input = document.getElementById('top-toolbar-snapshot');
+			$(input).attr('data-url', document.getElementById(self._id + '-canvas').toDataURL());
+		});
 		this._wwd.addEventListener("mousemove", this.updateNavigatorState.bind(this));
 		this._wwd.addEventListener("wheel", this.updateNavigatorState.bind(this));
 

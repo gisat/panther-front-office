@@ -121,8 +121,7 @@ define(['../../../actions/Actions',
 		return new SelectInMap({
 			dispatcher: this._dispatcher,
 			store: {
-				map: this._store.map,
-				state: this._store.state
+				map: this._store.map
 			}
 		});
 	};
@@ -154,8 +153,8 @@ define(['../../../actions/Actions',
 			iconClass: 'fa-hand-o-up',
 			dispatcher: this._dispatcher,
 			target: this._triggersContainerSelector,
-			onDeactivate: this._selectInMap.activate.bind(this._selectInMap),
-			onActivate: this._selectInMap.deactivate.bind(this._selectInMap)
+			onDeactivate: this._selectInMap.deactivate.bind(this._selectInMap),
+			onActivate: this._selectInMap.activate.bind(this._selectInMap)
 		});
 	};
 

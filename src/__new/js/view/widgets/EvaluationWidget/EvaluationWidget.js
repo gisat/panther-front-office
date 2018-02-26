@@ -410,6 +410,7 @@ define([
                     count = areas.length;
                 }
                 if (count > 0 ) {
+                    // TODO: Refactor this change. 
                     SelectedAreasExchange.data.data = areas;
                     self.addDownloadListener(areas);
 

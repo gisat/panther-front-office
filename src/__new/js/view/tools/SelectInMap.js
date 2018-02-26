@@ -1,43 +1,43 @@
 define([
-	'../../error/ArgumentError',
-	'../../util/Logger',
-	'../../util/RemoteJQ',
+    '../../error/ArgumentError',
+    '../../util/Logger'
+], function (ArgumentError,
+             Logger,) {
 
-	'jquery',
-	'underscore'
-], function(ArgumentError,
-			Logger,
-			RemoteJQ,
+    /**
+     * @param options {Object}
+     * @param options.store {Object}
+     * @param options.store.map {MapStore}
+     * @constructor
+     */
+    var SelectInMap = function (options) {
+        if (!options.store) {
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'SelectInMap', 'constructor', 'Stores must be provided'));
+        }
+        if (!options.store.map) {
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'SelectInMap', 'constructor', 'Store map must be provided'));
+        }
 
-			$,
-			_){
+        this._store = options.store;
+    };
 
-	/**
-	 * @param options {Object}
-	 * @param options.dispatcher {Object} Object for handling events in the application.
-	 * @param options.store {Object}
-	 * @param options.store.state {StateStore}
-	 * @constructor
-	 */
-	var SelectInMap  = function(options){
-		if(!options.store){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'SelectInMap', 'constructor', 'Stores must be provided'));
-		}
-		if(!options.store.state){
-			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'SelectInMap', 'constructor', 'Store state must be provided'));
-		}
-		this._dispatcher = options.dispatcher;
+    SelectInMap.prototype.activate = function () {
+        var maps = this._store.map.getAll();
+        if (maps) {
+            maps.forEach(function (map) {
+                map.selectionController.enabled = true;
+            })
+        }
+    };
 
-		this._store = options.store;
-	};
+    SelectInMap.prototype.deactivate = function () {
+        var maps = this._store.map.getAll();
+        if (maps) {
+            maps.forEach(function (map) {
+                map.selectionController.enabled = false;
+            })
+        }
+    };
 
-	SelectInMap.prototype.activate = function(){
-		// TODO add logic
-	};
-
-	SelectInMap.prototype.deactivate = function(){
-		// TODO add logic
-	};
-
-	return SelectInMap;
+    return SelectInMap;
 });
