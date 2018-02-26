@@ -242,7 +242,7 @@ define([
 
 	StateStore.prototype.onEvent = function(type){
 		if (type === "initialLoadingStarted"){
-			this.addLoadingOperation("initialLoading");
+			// this.addLoadingOperation("initialLoading");
 		} else if (type === "initialLoadingFinished"){
 			this.removeLoadingOperation("initialLoading");
 		} else if (type === "appRenderingStarted"){
