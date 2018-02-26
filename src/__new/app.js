@@ -319,6 +319,19 @@ define(['js/actions/Actions',
             handle: ".floater-header"
         });
 
+		floater.on("click", ".widget-minimise", function(e){
+			var mode3d = $("body").hasClass("mode-3d");
+			if (!(e.which > 1 || e.shiftKey || e.altKey || e.metaKey || e.ctrlKey)) {
+				var floater = $(this).parent().parent().parent();
+				if (Config.toggles.useNewViewSelector && Config.toggles.useTopToolbar){
+					var id = floater.attr('id');
+					floater.removeClass('open');
+					$('.item[data-for=' + id + ']').removeClass('open');
+				}
+				window.Stores.notify("widget#changedState", {floater: floater});
+			}
+		});
+
         $("body").on("click drag", ".floating-window", function(){
             window.Stores.notify(Actions.floatersSort, {
                 fromExt: false,
