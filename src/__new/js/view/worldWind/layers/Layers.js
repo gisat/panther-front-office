@@ -4,7 +4,6 @@ define(['../../../error/ArgumentError',
 
 	'../../../worldwind/layers/MyOsmLayer',
 	'../../../worldwind/layers/MyWmsLayer',
-	'../../../worldwind/SelectionController',
 
 	'jquery',
 	'worldwind'
@@ -14,16 +13,17 @@ define(['../../../error/ArgumentError',
 
 			MyOsmLayer,
 			MyWmsLayer,
-			SelectionController,
 
 			$
 ){
 	/**
 	 * This class is intended for operations with layers
 	 * @param wwd {WorldWindow}
+	 * @param options {Object}
+	 * @param options.selectController {SelectionController}
 	 * @constructor
 	 */
-	var Layers = function(wwd){
+	var Layers = function(wwd, options){
 		if (!wwd){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Layers", "constructor", "missingWorldWind"));
 		}
@@ -34,7 +34,8 @@ define(['../../../error/ArgumentError',
 		 * It handles selection in the map based on the user interactions.
 		 * @type {SelectionController}
 		 */
-		this.controller = new SelectionController(wwd);
+		this.controller = options.selectController;
+
 		this.addBaseLayer();
 	};
 
@@ -257,6 +258,19 @@ define(['../../../error/ArgumentError',
 					sector: new WorldWind.Sector(-90,90,-180,180),
 					levelZeroDelta: new WorldWind.Location(45,45),
 					numLevels: 14,
+					format: "image/png",
+					opacity: 1,
+					size: 256,
+					version: "1.3.0"
+				});
+				break;
+			case "sentinel2":
+				layer = new MyWmsLayer({
+					service: "https://tiles.maps.eox.at/wms",
+					layerNames: "s2cloudless",
+					sector: new WorldWind.Sector(-90,90,-180,180),
+					levelZeroDelta: new WorldWind.Location(45,45),
+					numLevels: 19,
 					format: "image/png",
 					opacity: 1,
 					size: 256,

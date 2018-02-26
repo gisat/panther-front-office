@@ -7,6 +7,7 @@ define(['../../actions/Actions',
 		'./layers/Layers',
 		'../../worldwind/MyGoToAnimator',
 		'../../worldwind/layers/osm3D/OSMTBuildingLayer',
+		'../../worldwind/SelectionController',
 		'../../stores/internal/VisibleLayersStore',
 		'../../util/Uuid',
 		'../../worldwind/WmsFeatureInfo',
@@ -25,6 +26,7 @@ define(['../../actions/Actions',
 			Layers,
 			MyGoToAnimator,
 			OSMTBuildingLayer,
+			SelectionController,
 			VisibleLayersStore,
 			Uuid,
 			WmsFeatureInfo,
@@ -210,6 +212,11 @@ define(['../../actions/Actions',
 	 */
 	WorldWindMap.prototype.setupWebWorldWind = function(){
 		this._wwd = this.buildWorldWindow();
+		var self = this;
+		this._wwd._redrawCallbacks.push(function(){
+			var input = document.getElementById('top-toolbar-snapshot');
+			$(input).attr('data-url', document.getElementById(self._id + '-canvas').toDataURL());
+		});
 		this._wwd.addEventListener("mousemove", this.updateNavigatorState.bind(this));
 		this._wwd.addEventListener("wheel", this.updateNavigatorState.bind(this));
 
@@ -219,7 +226,10 @@ define(['../../actions/Actions',
 				state: this._store.state
 			}
 		});
-		this.layers = new Layers(this._wwd);
+        this.selectionController = new SelectionController(this._wwd);
+		this.layers = new Layers(this._wwd, {
+			selectController: this.selectionController
+		});
 	};
 
 	/**
@@ -403,7 +413,7 @@ define(['../../actions/Actions',
 		var gid = null;
 		var coordinates = null;
 		var auLayer = this.layers.getAuLayer()[0];
-		var auBaseLayers = dataMininig.getAuBaseLayers(this._period);
+		var auBaseLayers = this._dataMining.getAuBaseLayers(this._period);
 
 		var x = event._clientX;
 		var y = event._clientY;

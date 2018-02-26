@@ -85,6 +85,10 @@
 #floater-map-tools-widget.pinned .component-button span {
 	display: none;
 }
+#floater-map-tools-widget.pinned .map-tool-icon .fa {
+	color: rgba(65,69,81,.8);
+	font-size: 1.05rem;
+}
 #floater-map-tools-widget.pinned .map-tool-icon {
 	width: 35px;
 	margin: 0;
@@ -105,7 +109,8 @@
 #floater-map-tools-widget.pinned .map-tool-trigger.active .map-tool-icon-svg path {
 	fill: rgba(186,65,91,1);
 }
-#floater-map-tools-widget.pinned .map-tool-trigger.active .component-button .fa {
+#floater-map-tools-widget.pinned .map-tool-trigger.active .component-button .fa,
+#floater-map-tools-widget.pinned .map-tool-trigger.active .map-tool-icon .fa {
 	color: rgba(186,65,91,1);
 }
 #floater-map-tools-widget.pinned .component-button.text-small .fa {

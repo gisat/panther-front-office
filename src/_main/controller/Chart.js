@@ -940,80 +940,52 @@ Ext.define('PumaMain.controller.Chart', {
     },
 
     onUrlClick: function(btn) {
-        var chart = btn.up('panel').chart;
-        var cfg = Ext.apply(Ext.clone(chart.queryCfg),this.gatherChartCfg(chart, true));
-        
-        cfg.oldAreas = chart.cfg.areas;
-        cfg.colorMap = this.getController('Select').colorMap;
-        var me = this;
-        if (chart.noData) {
-            return;
-        }
-        var scrollLeft = 0;
-        if (cfg.type == 'grid') {
-            scrollLeft = $(chart.chart.el.dom).find('.x-grid-with-row-lines:not(.x-grid-inner-locked)').find('.x-grid-view').scrollLeft()
-        }
-        if (cfg.type == 'columnchart') {
-            scrollLeft = $(chart.el.dom).scrollLeft()
-        }
-        if (scrollLeft) {
-            cfg.scrollLeft = scrollLeft;
-        }
-        Puma.util.Msg.msg(polyglot.t('snapshotCreationStarted'),'','r');
-        Ext.Ajax.request({
-            url: Config.url + 'api/urlview/saveChart',
-            params: {
-                cfg: JSON.stringify(cfg)
-            },
-            scope: this,
-            method: 'POST',
-            success: function(response) {
-                var id = JSON.parse(response.responseText).data;
-                me.onUrlCallback(id, btn.type == 'print');
-            }
-        })
+        // Get the URL and then use the standard.
+        var chart = $($('#'+btn.container.id).closest('.chart-panel').find('.highcharts-container')[0]);
+        var name = $('#'+btn.container.id).closest('.chart-panel').find('.x-panel-header-text').html();
 
+        var width = chart.width();
+        var height = chart.height();
 
+        var svg = '' +
+            '<svg xmlns="http://www.w3.org/2000/svg" width="'+width+'" height="'+height+'">' +
+            '<foreignObject width="100%" height="100%"><div>'+name+'</div>' + chart.html() + '' +
+            '</foreignObject>' +
+            '</svg>';
+        var data = encodeURIComponent(svg);
+
+        var canvas = $('<canvas width="'+Number(Number(width) + 50) +'" height="'+Number(Number(height) + 50)+'"></canvas>')[0];
+        var ctx = canvas.getContext('2d');
+
+        var img = new Image();
+
+        var self = this;
+        img.onload = function() {
+            ctx.drawImage(img, 0, 0);
+            var uuid = self.uuid();
+            $.post(Config.url + '/print/snapshot/' + uuid, {
+                url: canvas.toDataURL()
+            }).then(function () {
+                $('.panel-snapshots .x-component-default').append('<div style="margin: 10px;">' +
+                    '	<a download="' + uuid + '.png" href="' + Config.url + '/print/download/' + uuid + '">' +
+                    '   	<img width="128" height="128" src="' + Config.url + '/print/download/' + uuid + '" />' +
+                    '	</a>' +
+                    '</div>');
+            })
+        };
+
+        img.src = "data:image/svg+xml;utf8," + data
 
     },
-    onUrlCallback: function(id, isPrint){
-        var url = Config.url;
-        if (isPrint) {
-            url = url + 'print/download/' + id;
-            var form = Ext.widget('form'
-                    , {
-                items: [{
-                        xtype: 'filefield',
-                        name: 'file'
-                    }, {
-                        xtype: 'textfield',
-                        name: 'dummy',
-                        value: 'dummy'
-                    }]
-            });
-            form.getForm().submit({
-                url: url
-            });
-        } else {
-            url = url + 'print/snapshot/' + id;
-            var rec = Ext.StoreMgr.lookup('screenshot').findRecord('large',true);
-            var screenshot = Ext.create('Puma.model.Screenshot',{
-                src: url,
-                visible: rec ? 0 : 1
-            });
-            var snapshotPanel = Ext.ComponentQuery.query('chartbar #screenshotpanel')[0];
-            snapshotPanel.show();
-            Ext.StoreMgr.lookup('screenshot').loadData([screenshot],true);
-            console.log(url);
-            $('img[src="'+url+'"]').css('background', 0);
-            var img = Ext.DomQuery.select('img[src="'+url+'"]');
-            Ext.get(img[0]).on('load',function() {
-                Puma.util.Msg.msg(polyglot.t('snapshotDone'),'','r');
-                $('img[src="'+url+'"]').css('background', 'rgb(240,240,240)');
-                var snapshotPanel = Ext.ComponentQuery.query('chartbar #screenshotpanel')[0];
-                snapshotPanel.expand();
-            })
+
+    uuid: function() {
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000)
+                .toString(16)
+                .substring(1);
         }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+            s4() + '-' + s4() + s4() + s4();
     },
 
     onDescriptionClick: function(icon){
@@ -1026,7 +998,7 @@ Ext.define('PumaMain.controller.Chart', {
 		    chart: chart
 		});
     },
-    
+
     onLegendToggle: function(point) {
         var as = point.as;
         var attr = point.attr;

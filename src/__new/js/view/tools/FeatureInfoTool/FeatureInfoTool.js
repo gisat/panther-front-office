@@ -53,13 +53,11 @@ define(['../../../actions/Actions',
 
 
         this._floaterTarget = $("body");
-		this._control2dClass = options.control2dClass;
 		this._id = options.id;
 		this._dispatcher = options.dispatcher;
 		this._store = options.store;
 
 		this.build();
-		this._dispatcher.addListener(this.onEvent.bind(this));
 	};
 
 	FeatureInfoTool.prototype = Object.create(View.prototype);
@@ -94,46 +92,9 @@ define(['../../../actions/Actions',
 	/**
 	 * Rebuild Feature info for specific attributes and map. If the feautre info functionality is activated, deactivate it
 	 * @param attributes {Array}
-	 * @param options {Object}
-	 * @param options.olMap {Map}
 	 */
-	FeatureInfoTool.prototype.rebuild = function(attributes, options) {
-		this._control2dSelector = $('.' + this._control2dClass);
-		if (this._control2dSelector.hasClass("x-btn-pressed")){
-			this.trigger2dControlClick();
-		}
-
+	FeatureInfoTool.prototype.rebuild = function(attributes) {
 		this._attributes = attributes;
-		this.add2dControlListener(options.olMap);
-	};
-
-	/**
-	 * Add on click listener to the feature button in Ext.
-	 * @param map
-	 */
-	FeatureInfoTool.prototype.add2dControlListener = function(map){
-		var self = this;
-		$('body').off("click.featureInfo").on("click.featureInfo", '.' + this._control2dClass, function () {
-			var button = $(this);
-			setTimeout(function(){
-				var active = button.hasClass("x-btn-pressed");
-				if (active){
-					map.rebuild();
-					self._map = map;
-					self.activateFor2D();
-				} else {
-					self.deactivateFor2D();
-				}
-			}, 50);
-		});
-	};
-
-	/**
-	 * Activate feature info functionality for 2D map
-	 */
-	FeatureInfoTool.prototype.activateFor2D = function(){
-		this._map.addOnClickListener(this._attributes, this._infoWindow);
-		this._map.onClickActivate();
 	};
 
 	/**
@@ -145,14 +106,6 @@ define(['../../../actions/Actions',
 		maps.forEach(function(map){
 			map.addClickRecognizer(self.onWorldWindClick.bind(self), "gid");
 		});
-	};
-
-	/**
-	 * Deactivate feature info functionality for 2D map
-	 */
-	FeatureInfoTool.prototype.deactivateFor2D = function(){
-		this.hideComponents();
-		this._map.onClickDeactivate(this._infoWindow);
 	};
 
 	/**
@@ -189,24 +142,6 @@ define(['../../../actions/Actions',
 			this._infoWindow.setScreenPosition(screenCoord .x, screenCoord.y, true);
 		} else {
 			this.hideComponents();
-		}
-	};
-
-	/**
-	 * Trigger click on Ext Feature info control
-	 */
-	FeatureInfoTool.prototype.trigger2dControlClick = function(){
-		this._control2dSelector.trigger("click")
-	};
-
-	/**
-	 * @param type {string} type of event
-	 */
-	FeatureInfoTool.prototype.onEvent = function (type) {
-		if (type === Actions.mapSwitchFramework){
-			if (this._control2dSelector && this._control2dSelector.hasClass("x-btn-pressed")){
-				this.trigger2dControlClick();
-			}
 		}
 	};
 

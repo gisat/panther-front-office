@@ -27,8 +27,10 @@ define(['../../../actions/Actions',
 	 * @param options.target {Object} JQuery selector of container where trigger will be rendered
 	 * @param options.id {string} id of the tool trigger
 	 * @param options.label {string} label of the tool trigger
-	 * @param options.hasSvgIcon {boolean} true, if trigger has svg icon //TODO implement case when there is no SVG icon
+	 * @param options.hasSvgIcon {boolean} true, if trigger has svg icon
+	 * @param options.hasFaIcon {boolean} true, if trigger has Font Awesome icon
 	 * @param options.iconPath {string} path to icon
+	 * @param options.iconClass {string} Class of FA icon, if exists
 	 * @param options.onActivate {function} execute when trigger has been activated
 	 * @param options.onDeactivate {function} execute when trigger has been deactivated
 	 * @constructor
@@ -39,6 +41,7 @@ define(['../../../actions/Actions',
 		this._id = options.id;
 		this._label = options.label;
 		this._hasSvgIcon = options.hasSvgIcon;
+		this._hasFaIcon = options.hasFaIcon;
 
 		this._onActivate = options.onActivate;
 		this._onDeactivate = options.onDeactivate;
@@ -46,17 +49,22 @@ define(['../../../actions/Actions',
 		if (this._hasSvgIcon){
 			this._iconPath = options.iconPath;
 		}
+		if (this._hasFaIcon){
+			this._iconClass = options.iconClass;
+		}
 
 		this.build();
 		this._dispatcher.addListener(this.onEvent.bind(this));
 	};
 
 	/**
-	 * Build tool trigger with icon. //TODO implement for other types of icons
+	 * Build tool trigger with icon.
 	 */
 	MapToolTrigger.prototype.build = function(){
 		if (this._hasSvgIcon){
 			this.buildTrigger('svg');
+		} else if (this._hasFaIcon){
+			this.buildTrigger('fa');
 		} else {
 			this.buildTrigger();
 		}
@@ -89,6 +97,9 @@ define(['../../../actions/Actions',
 		var icon = this._mapToolTrigger.find(".map-tool-icon");
 		if (iconType === 'svg'){
 			icon.load(this._iconPath);
+		}
+		if (iconType === 'fa'){
+			icon.append('<i class="fa ' + this._iconClass + '"></i>')
 		}
 
 		this.addTriggerListener();

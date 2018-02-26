@@ -3,7 +3,7 @@ Ext.define('PumaMain.view.ScreenshotView', {
     alias: 'widget.screenshotview',
     //height: 270,
     overItemCls: 'screenshotover',
-    initComponent: function() {
+    initComponent: function () {
         this.store = Ext.StoreMgr.lookup('screenshot');
         this.itemSelector = 'div.screenshot';
         this.style = {
@@ -13,7 +13,7 @@ Ext.define('PumaMain.view.ScreenshotView', {
         var snapshotDownload = 'images/icons/snapshot-download.png';
         var snapshotDelete = 'images/icons/snapshot-delete.png';
 
-        if (Config.toggles.hasOwnProperty("isUrbis") && Config.toggles.isUrbis){
+        if (Config.toggles.hasOwnProperty("isUrbis") && Config.toggles.isUrbis) {
             snapshotDownload = 'images/urbis/snapshot-download.png';
             snapshotDelete = 'images/urbis/snapshot-delete.png';
         }
@@ -27,23 +27,23 @@ Ext.define('PumaMain.view.ScreenshotView', {
             '</div>',
             '<img class="screenshoticon screenshotpng" height=30 width=30 src="' + snapshotDownload + '" />',
             '<tpl if="!large"><img class="screenshoticon screenshotremove" height=30 width=30 src="' + snapshotDelete + '" /></tpl>',
-            '<img class="screenshoticon screenshotenlarge" height=36 width=36 src="images/icons/snapshot-enlarge.png" />',    
+            '<img class="screenshoticon screenshotenlarge" height=36 width=36 src="images/icons/snapshot-enlarge.png" />',
             '</div>',
             '</tpl>'
         ]
         this.callParent();
         var me = this;
-        this.addEvents('screenshotexport','screenshotremove','screenshotexpand')
-        this.on('itemclick', function(view,rec,domEl,d,e) {
+        this.addEvents('screenshotexport', 'screenshotremove', 'screenshotexpand')
+        this.on('itemclick', function (view, rec, domEl, d, e) {
             var className = e.target.className;
-            if (className.indexOf('screenshotpng')>-1) {
-                me.fireEvent('screenshotexport',me,rec)
+            if (className.indexOf('screenshotpng') > -1) {
+                me.fireEvent('screenshotexport', me, rec)
             }
-            else if (className.indexOf('screenshotremove')>-1) {
-                me.fireEvent('screenshotremove',me,rec)
+            else if (className.indexOf('screenshotremove') > -1) {
+                me.fireEvent('screenshotremove', me, rec)
             }
             else {
-                me.fireEvent('screenshotexpand',me,rec,Ext.get(domEl))
+                me.fireEvent('screenshotexpand', me, rec, Ext.get(domEl))
             }
         })
     }

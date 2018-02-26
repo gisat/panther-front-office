@@ -54,10 +54,12 @@ define(['js/actions/Actions',
 		'js/util/Customization',
         'js/stores/gisat/Dataviews',
         'js/view/widgets/EvaluationWidget/EvaluationWidget',
+        './Ext',
         'js/view/tools/FeatureInfoTool/FeatureInfoTool',
         'js/util/Filter',
         'js/util/Floater',
 		'./FrontOffice',
+        'js/geoserver/GeoServer',
         'js/stores/gisat/Groups',
 		'js/stores/gisat/Layers',
 		'js/stores/gisat/Locations',
@@ -103,10 +105,12 @@ define(['js/actions/Actions',
 			 Customization,
              Dataviews,
              EvaluationWidget,
+             Ext,
              FeatureInfoTool,
              Filter,
              Floater,
 			 FrontOffice,
+             GeoServer,
              Groups,
              Layers,
              Locations,
@@ -154,15 +158,26 @@ define(['js/actions/Actions',
     };
 
     $(document).ready(function() {
-    	function stop(event){
+        new GeoServer().login();
+        var ext = new Ext();
+        ext.setUp().then(function(){
+        	return ext.afterLoad();
+		}).then(function(){
+			setUpNewApp();
+			window.Stores.notify('extLoaded');
+		})
+    });
+
+    function setUpNewApp() {
+        function stop(event){
             event.preventDefault();
             event.stopPropagation();
-		}
-    	window.addEventListener('dragenter', stop);
+        }
+        window.addEventListener('dragenter', stop);
         window.addEventListener('dragover', stop);
         window.addEventListener('dragleave', stop);
 
-    	window.Stores.addListener(sortFloaters);
+        window.Stores.addListener(sortFloaters);
 
         var tools = [];
         var widgets = [];
@@ -172,82 +187,82 @@ define(['js/actions/Actions',
             dispatcher: window.Stores
         });
         var stateStore = new StateStore({
-			dispatcher: window.Stores,
-			store: {
-				maps: mapStore
-			}
-		});
-		window.selectionStore = new SelectionStore({
-			dispatcher: window.Stores,
-			store: {
-				state: stateStore
-			}
-		});
+            dispatcher: window.Stores,
+            store: {
+                maps: mapStore
+            }
+        });
+        window.selectionStore = new SelectionStore({
+            dispatcher: window.Stores,
+            store: {
+                state: stateStore
+            }
+        });
 
 
         var attributes = buildAttributes();
         var filter = buildFilter(stateStore);
         var olMap = buildOpenLayersMap(stateStore);
 
-		// customization
-		new Customization({
-			dispatcher: window.Stores,
-			useWorldWindOnly: Config.toggles.useWorldWindOnly,
-			skipSelection: Config.toggles.skipInitialSelection,
-			store: {
-				locations: store.locations,
-				themes: store.themes,
-				scopes: store.scopes
-			}
-		});
+        // customization
+        new Customization({
+            dispatcher: window.Stores,
+            useWorldWindOnly: Config.toggles.useWorldWindOnly,
+            skipSelection: Config.toggles.skipInitialSelection,
+            store: {
+                locations: store.locations,
+                themes: store.themes,
+                scopes: store.scopes
+            }
+        });
 
-		// Chart container
-		new ChartContainer({
-			dispatcher: window.Stores
-		});
+        // Chart container
+        new ChartContainer({
+            dispatcher: window.Stores
+        });
 
-		// ALWAYS add new feature info
-		var featureInfoTool = buildFeatureInfoTool(mapStore, stateStore);
-		tools.push(featureInfoTool);
+        // ALWAYS add new feature info
+        var featureInfoTool = buildFeatureInfoTool(mapStore, stateStore);
+        tools.push(featureInfoTool);
 
         if (Config.toggles.hasPeriodsSelector){
-        	new PeriodsSelector({
-				containerSelector: $("#content-application .group-visualization"),
-				dispatcher: window.Stores,
-				maxSelected: 12,
-				store: {
-					periods: store.periods,
-					scopes: store.scopes,
-					state: stateStore
-				}
-			});
-        	$("#view-selector .period").addClass("hidden");
-		}
+            new PeriodsSelector({
+                containerSelector: $("#content-application .group-visualization"),
+                dispatcher: window.Stores,
+                maxSelected: 12,
+                store: {
+                    periods: store.periods,
+                    scopes: store.scopes,
+                    state: stateStore
+                }
+            });
+            $("#view-selector .period").addClass("hidden");
+        }
 
         if(Config.toggles.useTopToolbar){
             var topToolBar = new TopToolBar({
-				dispatcher: window.Stores
-			});
+                dispatcher: window.Stores
+            });
         }
         // create tools and widgets according to configuration
         if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
-        	var mapsContainer = buildMapsContainer(mapStore, stateStore);
-			var worldWindWidget = buildWorldWindWidget(mapsContainer, topToolBar, stateStore, mapStore);
-			widgets.push(worldWindWidget);
-			var mapToolsWidget = buildMapToolsWidget(featureInfoTool, stateStore, mapStore);
-			widgets.push(mapToolsWidget);
+            var mapsContainer = buildMapsContainer(mapStore, stateStore);
+            var worldWindWidget = buildWorldWindWidget(mapsContainer, topToolBar, stateStore, mapStore);
+            widgets.push(worldWindWidget);
+            var mapToolsWidget = buildMapToolsWidget(featureInfoTool, stateStore, mapStore);
+            widgets.push(mapToolsWidget);
 
             if(Config.toggles.hasOsmWidget) {
                 widgets.push(buildOsmWidget(mapsContainer, mapStore));
             }
         }
         if(Config.toggles.hasPeriodsWidget){
-			var periodsWidget = buildPeriodsWidget(mapsContainer, stateStore);
-			widgets.push(periodsWidget);
-		}
+            var periodsWidget = buildPeriodsWidget(mapsContainer, stateStore);
+            widgets.push(periodsWidget);
+        }
         if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
-        	var aggregatedWidget = buildAggregatedChartWidget(filter, stateStore);
-        	var evaluationTool = buildEvaluationWidget(filter, stateStore, aggregatedWidget);
+            var aggregatedWidget = buildAggregatedChartWidget(filter, stateStore);
+            var evaluationTool = buildEvaluationWidget(filter, stateStore, aggregatedWidget);
             widgets.push(evaluationTool);
             widgets.push(aggregatedWidget);
         }
@@ -257,29 +272,29 @@ define(['js/actions/Actions',
         if(Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies){
             widgets.push(buildCityWidget());
         }
-		if(Config.toggles.isSnow){
-			var panelIFrame = new PanelIFrame(Config.snowUrl + 'snow/');
-			//var panelIFrame = new PanelIFrame('http://localhost:63326/panther-front-office/src/iframe-test.html');
-			var snowMapController = new SnowMapController({
-				iFrame: panelIFrame
-			});
+        if(Config.toggles.isSnow){
+            var panelIFrame = new PanelIFrame(Config.snowUrl + 'snow/');
+            //var panelIFrame = new PanelIFrame('http://localhost:63326/panther-front-office/src/iframe-test.html');
+            var snowMapController = new SnowMapController({
+                iFrame: panelIFrame
+            });
 
-			widgets.push(buildSnowWidget(snowMapController, panelIFrame));
-			snowViewChanges();
-		}
+            widgets.push(buildSnowWidget(snowMapController, panelIFrame));
+            snowViewChanges();
+        }
 
-		widgets.push(buildCustomViewsWidget(stateStore));
-		widgets.push(buildSharingWidget(stateStore));
+        widgets.push(buildCustomViewsWidget(stateStore));
+        widgets.push(buildSharingWidget(stateStore));
 
-		// build app, map is class for OpenLayers map
-		new FrontOffice({
-			attributesMetadata: attributes,
-			tools: tools,
-			widgets: widgets,
-			widgetOptions: {
-				olMap: olMap
-			},
-			store: {
+        // build app, map is class for OpenLayers map
+        new FrontOffice({
+            attributesMetadata: attributes,
+            tools: tools,
+            widgets: widgets,
+            widgetOptions: {
+                olMap: olMap
+            },
+            store: {
                 attributes: store.attributes,
                 attributeSets: store.attributeSets,
                 dataviews: store.dataviews,
@@ -292,78 +307,45 @@ define(['js/actions/Actions',
                 users: store.users,
                 visualizations: store.visualizations,
                 wmsLayers: store.wmsLayers,
-				map: mapStore,
-				state: stateStore
-			}
-		});
+                map: mapStore,
+                state: stateStore
+            }
+        });
 
-        var widgetElement = $("#widget-container");
         var floater = $(".floater");
-
-        /* TODO obsolete code? */
-        widgetElement.on("click", ".placeholder", function(e){
-            if (!(e.which > 1 || e.shiftKey || e.altKey || e.metaKey || e.ctrlKey)) {
-                var placeholderSelector = "#" + $(this).attr("id");
-                var floaterSelector = "#" + $(this).attr("id").replace("placeholder", "floater");
-                var floater = $(floaterSelector);
-                var placeholder = $(placeholderSelector);
-                if (floater.hasClass("open")) {
-                    Floater.minimise(floater);
-                    Placeholder.floaterClosed(placeholder);
-                    ExchangeParams.options.openWidgets[floaterSelector.slice(1)] = false;
-                }
-                else {
-                    Floater.maximise(floater);
-                    Placeholder.floaterOpened(placeholder);
-                    $(".floating-window").removeClass("active");
-                    floater.addClass("active");
-                    ExchangeParams.options.openWidgets[floaterSelector.slice(1)] = true;
-                }
-            }
-        });
-        /* TODO end of obsolete code */
-
-
-        floater.on("click", ".widget-minimise", function(e){
-            var mode3d = $("body").hasClass("mode-3d");
-            if (!(e.which > 1 || e.shiftKey || e.altKey || e.metaKey || e.ctrlKey)) {
-                var floater = $(this).parent().parent().parent();
-                if (Config.toggles.useNewViewSelector && Config.toggles.useTopToolbar){
-                    var id = floater.attr('id');
-                    floater.removeClass('open');
-                    $('.item[data-for=' + id + ']').removeClass('open');
-                } else {
-                    if (!mode3d){
-                        var placeholderSelector = "#" + floater.attr("id").replace("floater", "placeholder");
-                        var placeholder = $(placeholderSelector);
-                        Floater.minimise(floater);
-                        Placeholder.floaterClosed(placeholder);
-                        ExchangeParams.options.openWidgets[floater.attr("id")] = false;
-                    }
-                }
-				window.Stores.notify("widget#changedState", {floater: floater});
-            }
-        });
 
         floater.draggable({
             containment: "body",
             handle: ".floater-header"
         });
 
-        $("body").on("click drag", ".floating-window", function(){
-			window.Stores.notify(Actions.floatersSort, {
-				fromExt: false,
-				floaterJQuerySelector: $(this)
-			});
+		floater.on("click", ".widget-minimise", function(e){
+			var mode3d = $("body").hasClass("mode-3d");
+			if (!(e.which > 1 || e.shiftKey || e.altKey || e.metaKey || e.ctrlKey)) {
+				var floater = $(this).parent().parent().parent();
+				if (Config.toggles.useNewViewSelector && Config.toggles.useTopToolbar){
+					var id = floater.attr('id');
+					floater.removeClass('open');
+					$('.item[data-for=' + id + ']').removeClass('open');
+				}
+				window.Stores.notify("widget#changedState", {floater: floater});
+			}
 		});
 
-		$("body").on("click drag", ".x-window", function(){
-			window.Stores.notify(Actions.floatersSort, {
-				fromExt: false,
-				xWindowJQuerySelector: $(this)[0]
-			});
-		});
-    });
+        $("body").on("click drag", ".floating-window", function(){
+            window.Stores.notify(Actions.floatersSort, {
+                fromExt: false,
+                floaterJQuerySelector: $(this)
+            });
+        });
+
+        $("body").on("click drag", ".x-window", function(){
+            window.Stores.notify(Actions.floatersSort, {
+                fromExt: false,
+                xWindowJQuerySelector: $(this)[0]
+            });
+        });
+	}
 
 	/**
 	 * Move active floater on the top

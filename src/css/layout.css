@@ -686,7 +686,7 @@ body.intro #content-intro-terms {
 body.mode-3d #top-toolbar-3dmap {
 	background-color: #FCFCFA;
 }
-body.mode-3d #top-toolbar-3dmap:not(.world-wind-2d) {
+body.mode-3d #top-toolbar-3dmap span:not(.world-wind-2d) {
     color: rgba(186,65,91,1);
 }
 #top-toolbar .item:not(.disabled) {

@@ -30,17 +30,6 @@ Ext.define('PumaMain.view.ChartBar', {
                 height: 400,
                 title: polyglot.t('snapshots')
             }
-//            ,
-//            {
-//                xtype: 'panel',
-//                collapsed: true,
-//                cfgType: 'add',
-//                helpId: 'Addingnewcharts',
-//                iconCls: 'cmptype-addchart',
-//                leftSpace: 25,
-//                hideCollapseTool: true,
-//                title: 'Add chart'
-//            }
         ];
         this.callParent();
     }

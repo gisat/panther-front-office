@@ -61,7 +61,7 @@ define(['../../../../error/ArgumentError',
 		this.toggleLayerWithControl('osm', 'openStreetMap', disabledLayers, activeBackgroundMap);
 		this.toggleLayerWithControl('cartoDb', 'cartoDbBasemap', disabledLayers, activeBackgroundMap);
 		this.toggleLayerWithControl('bingAerial', 'bingAerial', disabledLayers, activeBackgroundMap);
-		this.toggleLayerWithControl('landsat', 'blueMarble', disabledLayers, activeBackgroundMap);
+		this.toggleLayerWithControl('sentinel2', 'sentinel2', disabledLayers, activeBackgroundMap);
 
 		if (scope && scope['extraBackgroundLayers']){
 			var extraLayers = scope['extraBackgroundLayers'];
@@ -75,6 +75,11 @@ define(['../../../../error/ArgumentError',
 					this.toggleLayerWithControl('lpisOrto', 'lpisOrto', disabledLayers, activeBackgroundMap);
 					if (!this._defaultMap.layers.getLayerById('lpisOrto')){
 						this._defaultMap.layers.addBackgroundLayer('lpisOrto', this._id);
+					}
+				} else if (extraLayers[layer] && layer === 'landsat'){
+					this.toggleLayerWithControl('landsat', 'blueMarble', disabledLayers, activeBackgroundMap);
+					if (!this._defaultMap.layers.getLayerById('landsat')){
+						this._defaultMap.layers.addBackgroundLayer('landsat', this._id);
 					}
 				}
 			}
