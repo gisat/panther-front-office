@@ -131,6 +131,13 @@ define([
 		$('#floater-sharing .floater-body').html(content);
 		$('#floater-sharing .floater-footer').empty();
 		this.buildSaveButton();
+
+		// prevent action after enter is pressed while filling out the name
+		$("#sharing-name").on('keydown', function (e) {
+			if (e.keyCode === 13) {
+				e.preventDefault();
+			}
+		});
 	};
 
 	/**
