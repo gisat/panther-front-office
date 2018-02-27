@@ -1,10 +1,12 @@
 define([
+	'../actions/Actions',
 	'./CustomLayers',
 	'../util/Floater',
 	'../util/Uuid',
 
 	'jquery'
 ], function (
+	Actions,
 	CustomLayers,
 	Floater,
 	Uuid,
@@ -19,10 +21,12 @@ define([
 		this._target.on('click.topToolBar', '.item', this.handleClick.bind(this));
 		this.build();
 
+		this._map3dSwitchSelector = $('#top-toolbar-3dmap');
+
 		$('#top-toolbar-context-help').on('click.topToolBar', this.handleContextHelpClick);
 		$('#top-toolbar-snapshot').on('click.topToolBar', this.handleSnapshotClick.bind(this, document.getElementById('top-toolbar-snapshot')));
 		$('#top-toolbar-share-view').on('click.topToolBar', this.handleShareViewClick);
-		$('#top-toolbar-3dmap').on("click.topToolBar", this.handle3dMapClick.bind(this));
+		this._map3dSwitchSelector.on("click.topToolBar", this.handle3dMapClick.bind(this));
 
 		Observer.addListener("Tools.hideClick.layerpanel",this.handleHideClick.bind(this, 'window-layerpanel'));
 		Observer.addListener("Tools.hideClick.areatree",this.handleHideClick.bind(this, 'window-areatree'));
@@ -32,6 +36,8 @@ define([
 		Observer.addListener("Tools.hideClick.customviews",this.handleHideClick.bind(this, 'window-customviews'));
 		Observer.addListener("Tools.hideClick.customLayers",this.handleHideClick.bind(this, 'window-customLayers'));
 		Observer.addListener("Tools.hideClick.periods",this.handleHideClick.bind(this, 'floater-periods'));
+
+		this._dispatcher.addListener(this.onEvent.bind(this));
 	};
 
 
@@ -255,7 +261,18 @@ define([
 
 	TopToolBar.prototype.handle3dMapClick = function(e){
 		this._dispatcher.notify("map#switchProjection");
-		$('#top-toolbar-3dmap span').toggleClass('world-wind-2d');
+		this._map3dSwitchSelector.toggleClass('open');
+	};
+
+	/**
+	 * @param enable {boolean} if true, item should be enabled
+	 */
+	TopToolBar.prototype.handle3dMapButtonState = function(enable){
+		if (enable){
+			this._map3dSwitchSelector.removeClass("disabled");
+		} else {
+			this._map3dSwitchSelector.addClass("disabled");
+		}
 	};
 
 	/**
@@ -276,6 +293,19 @@ define([
 				Floater.setPosition(floater, widget.floater.position);
 			}
 		});
+	};
+
+	/**
+	 * @param type {string} type of event
+	 */
+	TopToolBar.prototype.onEvent = function(type){
+		if (type === Actions.toolBarEnable3d){
+			this.handle3dMapButtonState(true);
+		} else if (type === Actions.toolBarDisable3d){
+			this.handle3dMapButtonState(false);
+		} else if (type === Actions.toolBarClick3d){
+			this.handle3dMapClick();
+		}
 	};
 
 

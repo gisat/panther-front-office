@@ -308,7 +308,8 @@ Ext.define('PumaMain.controller.ViewMng', {
 		if (Config.cfg.worldWindState){
 			options.worldWindState = {
 				location: Config.cfg.worldWindState.location,
-				range: Config.cfg.worldWindState.range
+				range: Config.cfg.worldWindState.range,
+				is2D: Config.cfg.worldWindState.is2D
 			}
 		}
 
@@ -418,6 +419,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 			// world wind map settings
 			if (options.state && options.state.worldWindNavigator){
 				cfg.worldWindState = {
+					is2D: !$('#top-toolbar-3dmap').hasClass("open"),
 					range: options.state.worldWindNavigator.range,
 					location: options.state.worldWindNavigator.lookAtLocation
 				};
