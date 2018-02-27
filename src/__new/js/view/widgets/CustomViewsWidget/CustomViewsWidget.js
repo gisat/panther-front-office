@@ -75,7 +75,7 @@ define(['../../../actions/Actions',
 			},500);
 		}
 
-		Stores.retrieve('dataview').load()
+		Stores.retrieve('dataviewMinimised').load()
 			.then(this.redraw.bind(this))
 			.catch(function(err){throw new Error(err);});
 	};
@@ -330,7 +330,7 @@ define(['../../../actions/Actions',
 		if (type === Actions.userChanged || type === "initialLoadingFinished"){
 			this.handleLoading("show");
 			Stores.retrieve('scope').clear();
-			Stores.retrieve('dataview').load().then(this.redraw.bind(this));
+			Stores.retrieve('dataviewMinimised').load().then(this.redraw.bind(this));
 		} else if (type === Actions.dataviewShow){
 			this._widgetSelector.find(".widget-minimise").trigger("click");
 		} else if (type === Actions.sharingViewShared){

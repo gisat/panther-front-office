@@ -10,6 +10,7 @@ define([
 	'js/stores/gisat/Attributes',
 	'js/stores/gisat/AttributeSets',
 	'js/stores/gisat/Dataviews',
+	'js/stores/gisat/DataviewsMinimised',
 	'js/stores/gisat/Layers',
 	'js/stores/gisat/Locations',
 	'js/stores/gisat/Periods',
@@ -34,6 +35,7 @@ define([
 			Attributes,
 			AttributeSets,
 			Dataviews,
+			DataviewsMinimised,
 			Layers,
 			Locations,
 			Periods,
@@ -331,6 +333,7 @@ define([
 		Stores.retrieve('attribute').load();
 		Stores.retrieve('attributeSet').load();
 		Stores.retrieve('dataview').load();
+		Stores.retrieve('dataviewMinimised').load();
 		Stores.retrieve('layer').load();
 		Stores.retrieve('location').load();
 		Stores.retrieve('period').load();
