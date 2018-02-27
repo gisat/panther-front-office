@@ -40,7 +40,7 @@ define([
 	AuLayersPanel.prototype = Object.create(ThematicLayersPanel.prototype);
 
 	AuLayersPanel.prototype.addListeners = function(){
-		Stores.addListener(this.onEvent.bind(this));
+		window.Stores.addListener(this.onEvent.bind(this));
 	};
 
 	/**
@@ -62,26 +62,24 @@ define([
 
 	};
 
-	/**
-	 * Check the list of active layers and switch them on
-	 */
-	AuLayersPanel.prototype.switchOnLayersFrom2D = function(){
-		if(Stores.outlines){
-			this.switchOnOutlines();
-		}
-		if(Stores.selectedOutlines){
-			this.switchOnSelected();
-		}
-	};
-
 	AuLayersPanel.prototype.switchOnOutlines = function(){
 		this.redrawLayer(this._layers.outlines, "areaoutlines", Stores.outlines);
-		this.switchOnActiveLayers("areaoutlines");
+		this.switchOnActiveLayers("areaoutlines", this._layers.outlines);
 	};
 
 	AuLayersPanel.prototype.switchOnSelected = function(){
 		this.redrawSelectedLayer(this._layers.selected, "selectedareasfilled", Stores.selectedOutlines);
-		this.switchOnActiveLayers("selectedareasfilled");
+		this.switchOnActiveLayers("selectedareasfilled", this._layers.selected);
+	};
+
+	AuLayersPanel.prototype.switchOnActiveLayers = function(groupId, layer){
+		if (layer.layerData.id == groupId){
+			var checkbox = $(".checkbox-row[data-id=" + layer.layerData.id +"]");
+			checkbox.addClass("checked");
+			this._mapStore.getAll().forEach(function(map){
+				map.layers.showLayer(layer.layerData.id, 0);
+			});
+		}
 	};
 
 	/**

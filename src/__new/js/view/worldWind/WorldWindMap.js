@@ -271,6 +271,7 @@ define(['../../actions/Actions',
 			}
 		} else {
 			stateStore.addLoadingOperation("AditionalMap");
+			this.switchProjectionTo2D();
 			stateStore.removeLoadingOperation("AditionalMap");
 		}
 	};
@@ -372,15 +373,14 @@ define(['../../actions/Actions',
 	 */
 	WorldWindMap.prototype.switchProjection = function(){
 		var globe = null;
-		var body = $("body");
 		var is2D = this._wwd.globe.is2D();
 		if (is2D){
 			globe = new WorldWind.Globe(new WorldWind.EarthElevationModel());
-			body.removeClass("projection-2d");
+			this._mapBoxSelector.removeClass("projection-2d");
 		} else {
 			globe = new WorldWind.Globe2D();
 			globe.projection = new WorldWind.ProjectionMercator();
-			body.addClass("projection-2d");
+			this._mapBoxSelector.addClass("projection-2d");
 		}
 		this._wwd.globe = globe;
 		this.redraw();
@@ -390,7 +390,7 @@ define(['../../actions/Actions',
 	 * Switch projection to 2D only
 	 */
 	WorldWindMap.prototype.switchProjectionTo2D = function(){
-		var is2D = $("body").hasClass("projection-2d");
+		var is2D = this._mapBoxSelector.hasClass("projection-2d");
 		if (!is2D){
 			$("#top-toolbar-3dmap").removeClass('open');
 			this.switchProjection();
