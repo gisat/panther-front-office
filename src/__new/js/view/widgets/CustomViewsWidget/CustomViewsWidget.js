@@ -157,14 +157,14 @@ define(['../../../actions/Actions',
 			});
 		}
 
-		var scopes = 0;
+		var scopesCount = 0;
 		for (var dataset in data){
 			var scope = _.find(scopes, function(scope){
 				return Number(scope.id) === Number(dataset);
 			});
 
 			if (scope && scope.name){
-				scopes++;
+				scopesCount++;
 				var name = scope.name;
 				this.renderContentItem(dataset, name);
 
@@ -178,7 +178,7 @@ define(['../../../actions/Actions',
 			}
 		}
 
-		if (scopes === 0){
+		if (scopesCount === 0){
 			this._aboutWindow.hideShowMapsButton();
 		}
 
