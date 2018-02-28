@@ -215,7 +215,7 @@ define(['../../../actions/Actions',
 				type: "fa",
 				class: "eraser"
 			},
-			onClick: function(){}
+			onClick: this._dispatcher.notify.bind(this._dispatcher, 'selection#clearAll')
 		});
 	};
 
