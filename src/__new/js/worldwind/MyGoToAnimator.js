@@ -250,6 +250,7 @@ define(['../error/ArgumentError',
 	 */
 	MyGoToAnimator.prototype.getPosition = function(centroid, bbox){
 		var range = this.calculateRange(bbox);
+		range = this.adjustRangeAccordingToProjection(range, centroid);
 		this.checkRange(range);
 
 		return {
@@ -334,14 +335,33 @@ define(['../error/ArgumentError',
 	 * @param range {number}
 	 */
 	MyGoToAnimator.prototype.checkRange = function(range){
+		var is2D = this.wwd.globe.is2D();
+
     	if (range < 1000000){
     		this._dispatcher.notify("toolBar#disable3DMapButton");
-			var is2D = this.wwd.globe.is2D();
     		if (is2D){
 				this._dispatcher.notify("toolBar#click3DMapButton");
 			}
 		} else {
 			this._dispatcher.notify("toolBar#enable3DMapButton");
+		}
+
+		return range;
+	};
+
+	/**
+	 * Adjust range according to projection
+	 * @param range {number}
+	 * @param position {Array} coordinates of camera
+	 * @returns {number} adjustec range
+	 */
+	MyGoToAnimator.prototype.adjustRangeAccordingToProjection = function(range, position){
+		var is2D = this.wwd.globe.is2D();
+		if (is2D){
+			var latitude = position[1];
+			return (range/Math.abs(Math.cos(latitude)));
+		} else {
+			return range;
 		}
 	};
 
