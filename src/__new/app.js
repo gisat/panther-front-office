@@ -357,25 +357,25 @@ define(['js/actions/Actions',
 	 * @param [options.floaterJQuerySelector] {Object} Optional. JQuery selector of floating window element
 	 */
 	function sortFloaters (type, options){
-		setTimeout(function(){
-			if (type === Actions.floatersSort){
-				if (options.fromExt){
-					window.ActiveWindowZindex = Number(options.xWindow.el.dom.style.zIndex);
+		if (type === Actions.floatersSort){
+			setTimeout(function(){
+			if (options.fromExt){
+				window.ActiveWindowZindex = Number(options.xWindow.el.dom.style.zIndex);
+				$(".floating-window").removeClass("active").css("zIndex", "");
+			} else {
+				if (options.xWindowJQuerySelector){
+					window.ActiveWindowZindex = Number(options.xWindowJQuerySelector.style.zIndex);
 					$(".floating-window").removeClass("active").css("zIndex", "");
-				} else {
-					if (options.xWindowJQuerySelector){
-						window.ActiveWindowZindex = Number(options.xWindowJQuerySelector.style.zIndex);
-						$(".floating-window").removeClass("active").css("zIndex", "");
-					} else if (options.floaterJQuerySelector){
-						$(".floating-window").removeClass("active").css("zIndex", "");
-						options.floaterJQuerySelector.addClass("active");
-						if (window.ActiveWindowZindex > 0){
-							options.floaterJQuerySelector.css("zIndex", (window.ActiveWindowZindex + 1));
-						}
+				} else if (options.floaterJQuerySelector){
+					$(".floating-window").removeClass("active").css("zIndex", "");
+					options.floaterJQuerySelector.addClass("active");
+					if (window.ActiveWindowZindex > 0){
+						options.floaterJQuerySelector.css("zIndex", (window.ActiveWindowZindex + 1));
 					}
 				}
 			}
-		},20);
+			},20);
+		}
 	}
 
 	/**

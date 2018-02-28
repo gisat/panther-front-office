@@ -51,9 +51,11 @@ define(['../../error/ArgumentError',
 	MyOsmLayer.prototype = Object.create(OsmLayer.prototype);
 
 	MyOsmLayer.prototype.doRender = function (dc) {
-		MercatorLayer.prototype.doRender.call(this, dc);
-		if (this.inCurrentFrame) {
-			dc.screenCreditController.addStringCredit(this._attribution, Color.MEDIUM_GRAY);
+		if (!this._credit){
+			MercatorLayer.prototype.doRender.call(this, dc);
+			if (this.inCurrentFrame) {
+				this._credit = dc.screenCreditController.addStringCredit(this._attribution, Color.MEDIUM_GRAY);
+			}
 		}
 	};
 
