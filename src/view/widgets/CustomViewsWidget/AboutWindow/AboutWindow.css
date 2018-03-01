@@ -1,0 +1,240 @@
+/* Table of contents
+
+	WINDOW STRUCTURE
+		Header
+		Logo
+		Text section
+		Footer
+	MEDIA QUERIES
+		Width restrictions
+		Height restrictions
+ */
+
+
+/* ==================================
+========= MEDIA QUERIES =============
+===================================== */
+#about-window {
+	min-height: 100%;
+	overflow-x: hidden;
+	display: flex;
+	flex-direction: column;
+}
+
+/* Header */
+.about-window-header {
+	position: relative;
+	background: url('../../../../img/panther/panther_background.jpg') no-repeat;
+	background-size: cover;
+	opacity: 0;
+	transition: opacity .3s ease-in-out;
+}
+.custom-views-window.active .about-window-header {
+	opacity: 1;
+}
+.about-window-header-title {
+	font-family: "Roboto";
+	font-size: 4rem;
+	font-weight: 100;
+	color: white;
+	background: rgba(153,54,75,.85);
+	padding: 8rem 2rem 12rem 2rem;
+	text-align: center;
+	width: 100%;
+}
+.about-window-header-title::after {
+	position: absolute;
+	content: " ";
+	display: block;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	border-style: solid;
+	border-width: 0 0 7rem 100vw;
+	border-color: transparent transparent white transparent;
+}
+
+/* Logo */
+.about-window-logo-wrapper {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	margin-top: -9rem;
+	z-index: 2;
+}
+.about-window-logo {
+	background: white;
+	border: 1px solid rgba(189,192,197,1);
+	box-shadow: 0 0 5px 1px rgba(0,0,0,.3);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 2rem;
+	width: 20rem;
+	height: 12rem;
+}
+.about-window-logo.logo-circle {
+	width: 14rem;
+	height: 14rem;
+	border-radius: 7rem;
+	padding: 1.5rem;
+}
+.about-window-logo.logo-wide-rectangle {
+	width: 24rem;
+	height: 8rem;
+	margin-top: 2rem;
+}
+.about-window-logo > img {
+	width: 100%;
+}
+
+/* Text section */
+.about-window-text {
+	padding: 2rem 3rem 1rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	flex: 1;
+}
+.about-window-text p {
+	font-size: 1.15rem;
+	font-weight: 400;
+	color: rgb(65,69,81);
+	text-align: center;
+	max-width: 40rem;
+	margin-bottom: 1rem;
+}
+
+/* Footer */
+.about-window-footer {
+	width: 100%;
+	padding: 1rem 1rem 3rem;
+	display: flex;
+	justify-content: center;
+}
+
+/* ==================================
+========= MEDIA QUERIES =============
+===================================== */
+
+/* Width restrictions */
+@media (max-width: 1600px) {
+	.about-window-header-title {
+		font-size: 3.5rem;
+	}
+	.about-window-logo-wrapper {
+		margin-top: -7.5rem;
+	}
+	.about-window-logo {
+		width: 18rem;
+		height: 10rem;
+	}
+	.about-window-logo.logo-circle {
+		width: 12rem;
+		height: 12rem;
+		border-radius: 6rem;
+	}
+	.about-window-logo.logo-wide-rectangle {
+		width: 22rem;
+		height: 7rem;
+	}
+	.about-window-text p {
+		font-size: 1.05rem;
+	}
+}
+@media (max-width: 1200px) {
+	.about-window-header-title {
+		font-size: 3rem;
+		font-weight: 100;
+	}
+	.about-window-text p {
+		font-size: 1rem;
+	}
+}
+@media (max-width: 850px) {
+	.about-window-header-title {
+		font-size: 2.5rem;
+	}
+	.about-window-logo {
+		padding: 1rem;
+		width: 14rem;
+		height: 8rem;
+	}
+	.about-window-logo.logo-wide-rectangle {
+		width: 20rem;
+		height: 6rem;
+	}
+	.about-window-text p {
+		font-size: .9rem;
+		max-width: 35rem;
+	}
+}
+
+/* Height restrictions */
+@media (max-height: 900px) {
+	.about-window-header-title {
+		font-size: 3rem;
+		padding: 4rem 2rem 10rem 2rem;
+	}
+	.about-window-logo-wrapper {
+		margin-top: -7rem;
+	}
+	.about-window-logo {
+		width: 16rem;
+		height: 10rem;
+	}
+	.about-window-logo.logo-wide-rectangle {
+		width: 20rem;
+		height: 6rem;
+	}
+	.about-window-logo.logo-circle {
+		width: 10rem;
+		height: 10rem;
+		border-radius: 5rem;
+		padding: 1rem;
+	}
+	.about-window-text p {
+		font-size: 1rem;
+	}
+	.about-window-footer {
+		padding: 1rem 1rem 2rem;
+	}
+}
+@media (max-height: 700px) {
+	.about-window-header-title {
+		font-size: 2.5rem;
+		padding: 4rem 2rem 9rem 2rem;
+	}
+	.about-window-logo-wrapper {
+		margin-top: -6rem;
+	}
+	.about-window-logo {
+		padding: 1rem;
+		width: 14rem;
+		height: 8rem;
+	}
+	.about-window-logo.logo-wide-rectangle {
+		width: 18rem;
+		height: 6rem;
+		margin-top: 1rem;
+		padding: 1rem 2rem;
+	}
+	.about-window-logo.logo-circle {
+		width: 8rem;
+		height: 8rem;
+		border-radius: 4rem;
+	}
+	.about-window-text p {
+		max-width: 35rem;
+	}
+}
+@media (max-height: 600px) {
+	.about-window-header-title {
+		font-size: 2.3rem;
+		padding: 2rem 2rem 7rem 2rem;
+	}
+	.about-window-text p {
+		font-size: .9rem;
+	}
+}

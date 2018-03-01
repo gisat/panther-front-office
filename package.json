@@ -3,9 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@nasaworldwind/worldwind": "^0.9.0",
+    "d3": "^4.13.0",
+    "earcut": "^2.1.3",
+    "jquery": "^3.3.1",
+    "jquery-ui": "^1.12.1",
+    "osmtogeojson": "^3.0.0-beta.3",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
-    "react-scripts": "1.1.1"
+    "react-scripts": "1.1.1",
+    "select2": "^4.0.6-rc.1",
+    "string": "^3.3.3",
+    "tinysort": "^2.3.6",
+    "underscore": "^1.8.3",
+    "wicket": "^1.3.2"
   },
   "scripts": {
     "start": "react-scripts start",
