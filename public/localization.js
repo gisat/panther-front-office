@@ -374,6 +374,7 @@ var langEn = {
     year: "Year: ",
     yesNo: "(Yes/No)",
 
+	zoom: "Zoom",
     zoomSelected: "Zoom selected",
 	zoomToExtent: "Zoom to extent"
 };
@@ -754,6 +755,7 @@ var langCz = {
     year: "Rok: ",
     yesNo: "(Ano/Ne)",
 
+    zoom: "Přiblížení",
     zoomSelected: "Přiblížit výběr",
 	zoomToExtent: "Přiblížit na výchozí rozsah"
 };

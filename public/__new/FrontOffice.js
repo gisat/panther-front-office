@@ -43,7 +43,7 @@ define([
 
 		this._dataset = null;
 		Observer.addListener("rebuild", this.rebuild.bind(this));
-        Observer.addListener('user#onLogin', this.loadData.bind(this));
+        Observer.addListener('user#onLogin', this.loadData.bind(this, options.store));
         Observer.addListener('Select#onChangeColor', this.rebuildEvaluationWidget.bind(this));
 	};
 

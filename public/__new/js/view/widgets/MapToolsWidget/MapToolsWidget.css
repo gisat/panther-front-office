@@ -1,11 +1,11 @@
 #floater-map-tools-widget {
 	left: 17rem;
 	top: 10rem;
-	height: 20rem;
+	height: 24rem;
 	min-height: 14rem;
 	max-height: 24rem;
 	min-width: 16rem;
-	max-width: 24rem;
+	max-width: 30rem;
 }
 
 #floater-map-tools-widget .floater-body {
@@ -25,13 +25,10 @@
 	font-weight: 400;
 	text-transform: uppercase;
 	color: rgba(186,65,91,1);
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid #e0e3e7;
 }
-.map-tools-buttons-container-body {
-	margin: .5rem;
-}
-.map-tools-buttons-container-body > .component-button {
-	margin: 0 .5rem .5rem 0;
+.map-tools-container .component-button {
+	margin: .5rem 0 0 .5rem;
 }
 
 /* pinned mode */

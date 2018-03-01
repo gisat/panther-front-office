@@ -23,6 +23,7 @@ define(['../error/ArgumentError',
 	 * @param options.store {Object}
 	 * @param options.store.state {StateStore}
 	 * @param options.store.locations {Locations}
+	 * @param options.dispatcher {Object}
 	 * @constructor
 	 */
 	var MyGoToAnimator = function(wwd, options){
@@ -39,8 +40,13 @@ define(['../error/ArgumentError',
         if(!options.store.locations){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MyGoToAnimator', 'constructor', 'Store locations must be provided'));
         }
+        if (!options.dispatcher){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MyGoToAnimator', 'constructor', 'Dispatcher must be provided'));
+		}
 
 		this._store = options.store;
+		this._dispatcher = options.dispatcher;
+
 		GoToAnimator.call(this, wwd);
 
 		this.wwd = wwd;
@@ -243,10 +249,14 @@ define(['../error/ArgumentError',
 	 * @returns {{lat: number, lon: number, alt: number}}
 	 */
 	MyGoToAnimator.prototype.getPosition = function(centroid, bbox){
+		var range = this.calculateRange(bbox);
+		range = this.adjustRangeAccordingToProjection(range, centroid);
+		this.checkRange(range);
+
 		return {
 			lat: centroid[1],
 			lon: centroid[0],
-			alt: this.calculateRange(bbox)
+			alt: range
 		}
 	};
 
@@ -319,6 +329,41 @@ define(['../error/ArgumentError',
         }
         return range;
     };
+
+	/**
+	 * Check range value. If the value is higher than
+	 * @param range {number}
+	 */
+	MyGoToAnimator.prototype.checkRange = function(range){
+		var is2D = this.wwd.globe.is2D();
+
+    	if (range < 1000000){
+    		this._dispatcher.notify("toolBar#disable3DMapButton");
+    		if (is2D){
+				this._dispatcher.notify("toolBar#click3DMapButton");
+			}
+		} else {
+			this._dispatcher.notify("toolBar#enable3DMapButton");
+		}
+
+		return range;
+	};
+
+	/**
+	 * Adjust range according to projection
+	 * @param range {number}
+	 * @param position {Array} coordinates of camera
+	 * @returns {number} adjustec range
+	 */
+	MyGoToAnimator.prototype.adjustRangeAccordingToProjection = function(range, position){
+		var is2D = this.wwd.globe.is2D();
+		if (is2D){
+			var latitude = position[1];
+			return (range/Math.abs(Math.cos(latitude)));
+		} else {
+			return range;
+		}
+	};
 
 	return MyGoToAnimator;
 });

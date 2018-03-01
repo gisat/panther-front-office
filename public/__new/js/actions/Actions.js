@@ -19,6 +19,7 @@ define([], function(){
 
 		mapsContainerToolsDetached: 'mapsContainer#toolsDetached',
 		mapsContainerToolsPinned: 'mapsContainer#toolsPinned',
+		mapsContainerWorldWind2D: 'mapsContainer#worldWind2D',
 
 		filterAdd: 'filter#add',
 		filterRemove: 'filter#remove',
@@ -38,6 +39,10 @@ define([], function(){
 		stateUpdateAnalyticalUnitLevel: 'state#updatAnalyticalUnitLevel',
 		stateUpdateTheme: 'state#updateTheme',
 		stateUpdateScope: 'state#updateScope',
+
+		toolBarClick3d: 'toolBar#click3DMapButton',
+		toolBarDisable3d: 'toolBar#disable3DMapButton',
+		toolBarEnable3d: 'toolBar#enable3DMapButton',
 
 		layerSelect: 'layer#select',
 

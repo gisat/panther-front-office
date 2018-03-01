@@ -686,8 +686,11 @@ body.intro #content-intro-terms {
 body.mode-3d #top-toolbar-3dmap {
 	background-color: #FCFCFA;
 }
-body.mode-3d #top-toolbar-3dmap span:not(.world-wind-2d) {
-    color: rgba(186,65,91,1);
+body.mode-3d #top-toolbar-3dmap.disabled {
+	pointer-events: none;
+}
+body.mode-3d #top-toolbar-3dmap.disabled:not(.world-wind-2d) span {
+	color: rgba(186,65,91,.5);
 }
 #top-toolbar .item:not(.disabled) {
 	cursor: pointer;

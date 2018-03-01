@@ -14,7 +14,7 @@ define(['../../../error/ArgumentError',
 			 NotFoundError,
 			 Logger,
 
-			 utils,
+			 Utils,
 			 Collapse,
 			 FeatureInfoWindow,
 			 Table,
@@ -32,6 +32,14 @@ define(['../../../error/ArgumentError',
      */
 	var LayerInfoWindow = function (options) {
 		FeatureInfoWindow.apply(this, arguments);
+		if(!options.store){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'LayerInfoWindow', 'constructor', 'Stores must be provided'));
+		}
+		if(!options.store.state){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'LayerInfoWindow', 'constructor', 'Store state must be provided'));
+		}
+
+		this._store = options.store;
 
 	};
 
@@ -96,12 +104,15 @@ define(['../../../error/ArgumentError',
 	 */
 	LayerInfoWindow.prototype.prepareData = function(data){
 		var dataPerLayer = [];
+		var self = this;
 		data.forEach(function(content){
 			var layerData = content.options;
 			var featureInfo = content.featureInfo;
 
 			if (typeof featureInfo === 'string'){
-				var isJson = utils.isJson(featureInfo);
+				var isJson = new Utils({
+					store: self._store
+				}).isJson(featureInfo);
 				if (isJson){
 					featureInfo = JSON.parse(content.featureInfo);
 					layerData.queryable = true;
@@ -120,10 +131,12 @@ define(['../../../error/ArgumentError',
 			} else {
 				delete layerData.position;
 				delete layerData.screenCoordinates;
-				if (layerData.queryable){
-					layerData.featureProperties = polyglot.t("layerFeatureMissed");
-				} else {
-					layerData.featureProperties = polyglot.t("notQueryableLayerInfo");
+				if (layerData.queryable) {
+					if (layerData.queryable) {
+						layerData.featureProperties = polyglot.t("layerFeatureMissed");
+					} else {
+						layerData.featureProperties = polyglot.t("notQueryableLayerInfo");
+					}
 				}
 			}
 			dataPerLayer.push(layerData);

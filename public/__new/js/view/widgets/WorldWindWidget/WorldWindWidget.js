@@ -214,6 +214,9 @@ define([
 	WorldWindWidget.prototype.adjustAppConfiguration = function(options){
 		if (options.worldWindState){
 			this._mapsContainer.setAllMapsRange(options.worldWindState.range);
+			if (options.worldWindState.is2D){
+				this._dispatcher.notify('mapsContainer#worldWind2D');
+			}
 		}
 		if (options.widgets){
 			this._topToolBar.handleDataview(options.widgets);

@@ -212,10 +212,16 @@ define(['../../actions/Actions',
 	 */
 	WorldWindMap.prototype.setupWebWorldWind = function(){
 		this._wwd = this.buildWorldWindow();
+
 		var self = this;
 		this._wwd._redrawCallbacks.push(function(){
-			var input = document.getElementById('top-toolbar-snapshot');
-			$(input).attr('data-url', document.getElementById(self._id + '-canvas').toDataURL());
+			if (self._snapshotTimeout){
+				clearTimeout(self._snapshotTimeout);
+			}
+			self._snapshotTimeout = setTimeout(function(){
+				var input = document.getElementById('top-toolbar-snapshot');
+				$(input).attr('data-url', document.getElementById(self._id + '-canvas').toDataURL());
+			},1000);
 		});
 		this._wwd.addEventListener("mousemove", this.updateNavigatorState.bind(this));
 		this._wwd.addEventListener("wheel", this.updateNavigatorState.bind(this));
@@ -224,7 +230,8 @@ define(['../../actions/Actions',
 			store: {
 				locations: this._store.locations,
 				state: this._store.state
-			}
+			},
+			dispatcher: this._dispatcher
 		});
         this.selectionController = new SelectionController(this._wwd);
 		this.layers = new Layers(this._wwd, {
@@ -270,6 +277,7 @@ define(['../../actions/Actions',
 			}
 		} else {
 			stateStore.addLoadingOperation("AditionalMap");
+			this.switchProjectionTo2D();
 			stateStore.removeLoadingOperation("AditionalMap");
 		}
 	};
@@ -293,6 +301,7 @@ define(['../../actions/Actions',
 		this._wwd.navigator.roll = navigatorState.roll;
 		this._wwd.navigator.tilt = navigatorState.tilt;
 
+		this._goToAnimator.checkRange(navigatorState.range);
 		this.redraw();
 		var stateStore = this._store.state;
 		stateStore.removeLoadingOperation("DefaultMap");
@@ -373,12 +382,25 @@ define(['../../actions/Actions',
 		var is2D = this._wwd.globe.is2D();
 		if (is2D){
 			globe = new WorldWind.Globe(new WorldWind.EarthElevationModel());
+			this._mapBoxSelector.removeClass("projection-2d");
 		} else {
 			globe = new WorldWind.Globe2D();
 			globe.projection = new WorldWind.ProjectionMercator();
+			this._mapBoxSelector.addClass("projection-2d");
 		}
 		this._wwd.globe = globe;
 		this.redraw();
+	};
+
+	/**
+	 * Switch projection to 2D only
+	 */
+	WorldWindMap.prototype.switchProjectionTo2D = function(){
+		var is2D = this._mapBoxSelector.hasClass("projection-2d");
+		if (!is2D){
+			$("#top-toolbar-3dmap").removeClass('open');
+			this.switchProjection();
+		}
 	};
 
 	/**

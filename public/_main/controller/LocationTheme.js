@@ -1052,9 +1052,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
             OneLevelAreas.hasOneLevel = (counter == 1 && scope.get('oneLevelOnly'));
 
+			Stores.notify('map#show3D');
             if (OneLevelAreas.hasOneLevel){
-				// Hide areas fully
-				Stores.notify('map#show3D');
 
                 $('.areaTreeSelection').hide();
 				$('#top-toolbar-areas').hide();
@@ -1075,9 +1074,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
 				var only3D = (tools.indexOf('2dmap') !== -1);
 
 				if(dataset !== this._datasetId) {
-					if ((this._datasetId || only3D) && !Config.cfg){
-						Stores.notify('map#show3D');
-					}
 					this._datasetId = dataset;
 					if ((Config.cfg && !Config.cfg.sidebarReportsOpen) || !Config.cfg){
 						this.getController('DomManipulation')._onReportsSidebarHide();

@@ -220,6 +220,16 @@ define([
 	};
 
 	/**
+	 * Switch projection of all maps to 2D only
+	 */
+	MapsContainer.prototype.switchProjectionTo2D = function () {
+		var maps = this._mapStore.getAll();
+		for(var key in maps){
+			maps[key].switchProjectionTo2D();
+		}
+	};
+
+	/**
 	 * Zoom all maps to area
 	 * @param bboxes {Array} bboxes of areas
 	 */
@@ -313,6 +323,8 @@ define([
 			this.handleTools(true);
 		} else if (type === Actions.mapsContainerToolsDetached){
 			this.handleTools(false);
+		} else if (type === Actions.mapsContainerWorldWind2D){
+			this.switchProjectionTo2D();
 		}
 	};
 

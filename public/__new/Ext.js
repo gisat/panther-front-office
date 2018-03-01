@@ -158,9 +158,11 @@ define([
         if (url.searchParams.get('needLogin')) {
             $('#hideAllExceptLogin').show();
 
-            this.on('login', function (loggedIn) {
-                self.login(loggedIn);
-            });
+			this.loginController.getApplication().on('login',function(loggedIn) {
+				Config.dataviewId = id;
+				$('#hideAllExceptLogin').hide();
+				self.login(loggedIn);
+			});
         } else if (id) {
             Config.dataviewId = id;
             // Load stores when only for print or loading the whole application.
@@ -191,9 +193,6 @@ define([
 
     ExtApp.prototype.login = function(loggedIn) {
         if (loggedIn) {
-            Config.dataviewId = id;
-            $('#hideAllExceptLogin').hide();
-
             var stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic', 'dataview'];
             stores.forEach(function (store) {
                 Ext.StoreMgr.lookup(store).load();
@@ -201,12 +200,12 @@ define([
 
             this.dataViewController.onLoadingFinished();
 
-            if (this._dataviewId !== id) {
+            if (this._dataviewId !== Config.dataviewId) {
                 this.domManipulationController.renderApp();
                 this.renderController.renderApp();
             }
 
-            this._dataviewId = id;
+            this._dataviewId = Config.dataviewId;
         } else {
             window.Stores.notify("initialLoadingFinished");
             this.loginController.onLoginClicked();
