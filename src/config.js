@@ -1,19 +1,9 @@
 var Config = {
-	url: 'http://localhost:4000/',
-	// signupAddress: 'http://panther.gisat.cz/account/signup/',
-	// url: 'https://puma.worldbank.org/backend/',                // PUMA
-	// signupAddress: 'https://puma.worldbank.org/account/signup/',
-	// url: 'http://urbis.gisat.cz/backend/',                     // URBIS
-	// signupAddress: 'http://urbis.gisat.cz/account/signup/',
-	//  url: 'http://snow.gisat.cz/backend/',                      // Snow Portal
-	// signupAddress: 'http://35.165.51.145/account/signup/',
+	geoserverUrl: 'https://puma.worldbank.org/geoserver/',
+	url: 'https://puma.worldbank.org/backend/',
+	signupAddress: 'https://puma.worldbank.org/account/signup/',
 	geoserver2Workspace: "panther",
-
-	/**
-	 * URL needed for correct WMS request on Analytical units layer
-	 */
-	geoServerUrl: "http://admin:geoserver@10.0.75.2:80/geoserver/panther/wms",
-
+	geoServerUrl: "https://puma.worldbank.org/geoserver/panther/wms",
 	initialBaseMap: "osm",
 	initialMapBounds: [
 		112.4251556396,
@@ -21,37 +11,43 @@ var Config = {
 		113.0046844482,
 		-6.9809544265
 	],
-	melodiesRemoteUrl: "",
+
+	/**
+	 * It represents URL to which will point the Administration link in the front office.
+	 */
+	backOfficeUrl: "https://puma.worldbank.org/backoffice/",
+
+	/**
+	 * Log in to geoserver
+	 */
+	geoServerLoginUrl: "https://puma.worldbank.org/geoserver/j_spring_security_check",
+	geoServerUser: "admin",
+	geoServerPassword: "geoserver",
 
 	toggles: {
 		noGeoserverLayerGroups: false,
-		useWBAgreement: false,
-		useWBHeader: false,
+		useWBAgreement: true,
+		useWBHeader: true,
 		useHeader: true,
-		useWBFooter: false,
+		useWBFooter: true,
 		useNewViewSelector: true,
 		useTopToolbar: true,
-		useWorldWindOnly: false,
-		allowPumaHelp: false,
-		allowDownloadsLink: false,
-		usePumaLogo: false,
+		allowPumaHelp: true,
+		allowDownloadsLink: true,
+		usePumaLogo: true,
 		advancedFiltersFirst: false,
+		isUrbis: false,
+		isEea: false,
 		hasNew3Dmap: true,
 		hasNewEvaluationTool: true,
 		hasNewCustomPolygonsTool: false,
 		hasNewFeatureInfo: true,
-		hasPeriodsSelector: true,
-		hasPeriodsWidget: false,
-		hasOsmWidget: false,
 		isNewDesign: true,
-		isUrbis: false,
-		isEea: false,
-		isMelodies: false,
-		isUrbanTep: false,
-		isSnow: false,
-		skipInitialSelection: false,
-		hideWorldBank: false,
-		hideSelectorToolbar: false
+
+		/**
+		 * If it is true functional urban area is shown.
+		 */
+		hasFunctionalUrbanArea: false
 	},
 
 	basicTexts: {
