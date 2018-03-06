@@ -189,6 +189,13 @@ define([
 	};
 
 	/**
+	 * Rebuild the container when sidebar-reports panel changes it's state
+	 */
+	MapsContainer.prototype.addSidebarReportsStateListener = function(){
+		$("#sidebar-reports-toggle").on("click", this.rebuildContainerLayout.bind(this));
+	};
+
+	/**
 	 * Build container
 	 */
 	MapsContainer.prototype.build = function(){
@@ -200,13 +207,6 @@ define([
 
 		this.addCloseButtonOnClickListener();
 		this.addSidebarReportsStateListener();
-	};
-
-	/**
-	 * Rebuild the container when sidebar-reports panel changes it's state
-	 */
-	MapsContainer.prototype.addSidebarReportsStateListener = function(){
-		$("#sidebar-reports-toggle").on("click", this.rebuildContainerLayout.bind(this));
 	};
 
 	/**

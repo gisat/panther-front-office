@@ -345,6 +345,7 @@ define([
 	 * @param [options] {Object} Optional. Settings from dataview
 	 */
 	FrontOffice.prototype.show3DMap = function(options) {
+		var state = this._stateStore.current();
 		$("body").addClass("mode-3d");
 
 		this.toggleComponents("none");
@@ -357,11 +358,16 @@ define([
 		}
 
 		// set default position of the map
-		var position = this.getPosition(options);
-		this._mapsContainer.setAllMapsPosition(position);
+		if (_.isEmpty(state.changes) || (!state.changes.dataview && (state.changes.scope || state.changes.location))){
+			var position = this.getPosition(options);
+			this._mapsContainer.setAllMapsPosition(position);
+		}
 
 		// execute if there are settings from dataview
 		if (options){
+			this._stateStore._changes = {
+				dataview: true
+			};
 			this.adjustAppConfiguration(options);
 		}
 	};
@@ -372,6 +378,7 @@ define([
 	 */
 	FrontOffice.prototype.adjustAppConfiguration = function(options){
 		if (options.worldWindState){
+			this._mapsContainer.setAllMapsPosition(options.worldWindState.location);
 			this._mapsContainer.setAllMapsRange(options.worldWindState.range);
 			if (options.worldWindState.is2D && this._stateStore.current().isMap3D){
 				this._dispatcher.notify('map#switchProjection');
