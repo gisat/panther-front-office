@@ -265,10 +265,21 @@ define([
 	};
 
 	/**
+	 * Switch map projection
+	 */
+	StateStore.prototype.handleMapProjection = function(){
+		if (this.isMap3D){
+			this.switchMapTo2D();
+		} else {
+			this.switchMapTo3D();
+		}
+	};
+
+	/**
 	 * Switch map to 2D
 	 */
 	StateStore.prototype.switchMapTo2D = function(){
-		this._stateStore.isMap3D = false;
+		this.isMap3D = false;
 		$("#top-toolbar-3dmap").removeClass("open");
 		this._dispatcher.notify('map#switchTo2D');
 	};
@@ -277,7 +288,7 @@ define([
 	 * Switch map to 3D
 	 */
 	StateStore.prototype.switchMapTo3D = function(){
-		this._stateStore.isMap3D = true;
+		this.isMap3D = true;
 		$("#top-toolbar-3dmap").addClass("open");
 		this._dispatcher.notify('map#switchTo3D');
 	};

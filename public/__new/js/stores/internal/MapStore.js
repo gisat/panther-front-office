@@ -76,17 +76,6 @@ define([
 	};
 
 	/**
-	 * Switch map projection
-	 */
-	MapStore.prototype.handleMapProjection = function(){
-		if (this._stateStore.current().isMap3D){
-			this.switchMapTo2D();
-		} else {
-			this.switchMapTo3D();
-		}
-	};
-
-	/**
 	 * It removes old map from the store.
 	 * @param options {Object}
 	 * @param options.id {String} Map which should be removed from DOM.
