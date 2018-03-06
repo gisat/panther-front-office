@@ -28,8 +28,9 @@ define([], function(){
 
 		floatersSort: 'floaters#sort',
 
-		periodsRebuild: 'periods#rebuild',
 		periodsChange: 'periods#change',
+		periodsDefault: 'periods#default',
+		periodsRebuild: 'periods#rebuild',
 
 		selectionSelected: 'selection#selected',
 		selectionClearAll: 'selection#clearAll',

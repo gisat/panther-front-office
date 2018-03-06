@@ -32,9 +32,12 @@ define([
 		this._dispatcher = options.dispatcher;
         this._changes = {};
 		this._loadingOperations = [];
-
 		this._store = options.store;
+
 		this.isMap3D = true;
+
+		// TODO get this from scope setting
+		// this.isMapIndependentOfPeriod = true;
 
 		window.Stores.addListener(this.onEvent.bind(this), "initialLoading");
 		window.Stores.hasStateStore = true;
@@ -43,7 +46,7 @@ define([
 	/**
 	 * It returns complete information about the current state. At some point in time, it will be simply stored probably
 	 * in URL and therefore will be accessible to outside.
-	 * todo remove dependency on ThemeYearConfParams global object
+	 * TODO remove dependency on ThemeYearConfParams global object
 	 */
 	StateStore.prototype.current = function () {
 		return {
@@ -65,7 +68,8 @@ define([
 				places: this.placesObjects()
 			},
 			changes: this._changes,
-			isMap3D: this.isMap3D
+			isMap3D: this.isMap3D,
+			isMapIndependentOfPeriod: this.isMapIndependentOfPeriod
 		}
 	};
 

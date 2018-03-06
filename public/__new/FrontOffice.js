@@ -78,7 +78,7 @@ define([
 			dataview: false
 		};
 		this.checkConfiguration();
-		this._store.state.setChanges(this._options.changes);
+		this._stateStore.setChanges(this._options.changes);
 
 		var visualization = Number(ThemeYearConfParams.visualization);
 
@@ -120,7 +120,7 @@ define([
 
 		ThemeYearConfParams.datasetChanged = false;
 
-		this._store.periods.notify(Actions.periodsRebuild);
+		this.handlePeriods();
 	};
 
 	/**
@@ -323,24 +323,6 @@ define([
 	};
 
 	/**
-	 * Load metadata from server
-	 */
-	FrontOffice.prototype.loadData = function(store){
-        return Promise.all([
-            store.attributes.load(),
-            store.attributeSets.load(),
-            store.dataviews.load(),
-            store.layers.load(),
-            store.locations.load(),
-            store.periods.load(),
-            store.scopes.load(),
-            store.themes.load(),
-            store.visualizations.load(),
-            store.wmsLayers.load()
-        ]);
-	};
-
-	/**
 	 * It shows the 3D Map.
 	 * @param [options] {Object} Optional. Settings from dataview
 	 */
@@ -475,6 +457,38 @@ define([
 		$(".x-window:not(.thematic-maps-settings, .x-window-ghost, .metadata-window, .window-savevisualization, .window-savedataview, #loginwindow, #window-managevisualization, #window-areatree, #window-colourSelection, #window-legacyAdvancedFilters), #tools-container, #widget-container .placeholder:not(#placeholder-" + this._widgetId + ")")
 			.css("display", action);
 
+	};
+
+	// TODO reviewed methods -----------------------------------------------------------------------------------------
+
+	/**
+	 * Handle periods according to scope setting
+	 */
+	FrontOffice.prototype.handlePeriods = function(){
+		var state = this._stateStore.current();
+		if (state.isMapIndependentOfPeriod){
+			this._store.periods.notify('periods#default')
+		} else {
+			this._store.periods.notify('periods#rebuild');
+		}
+	};
+
+	/**
+	 * Load metadata from server
+	 */
+	FrontOffice.prototype.loadData = function(store){
+		return Promise.all([
+			store.attributes.load(),
+			store.attributeSets.load(),
+			store.dataviews.load(),
+			store.layers.load(),
+			store.locations.load(),
+			store.periods.load(),
+			store.scopes.load(),
+			store.themes.load(),
+			store.visualizations.load(),
+			store.wmsLayers.load()
+		]);
 	};
 
 	/**

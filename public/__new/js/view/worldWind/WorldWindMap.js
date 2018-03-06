@@ -5,6 +5,7 @@ define(['../../actions/Actions',
 
 		'../../util/dataMining',
 		'./layers/Layers',
+		'./MapWindowTools/MapWindowTools',
 		'../../worldwind/MyGoToAnimator',
 		'../../worldwind/layers/osm3D/OSMTBuildingLayer',
 		'../../worldwind/SelectionController',
@@ -24,6 +25,7 @@ define(['../../actions/Actions',
 
 			DataMining,
 			Layers,
+			MapWindowTools,
 			MyGoToAnimator,
 			OSMTBuildingLayer,
 			SelectionController,
@@ -40,6 +42,7 @@ define(['../../actions/Actions',
 	 * @param options {Object}
 	 * @param options.id {String|null} Id distinguishing the map from the other ones.
 	 * @param options.mapsContainer {Object} JQuery selector of target element
+	 * @param options.orderFromStart {number} Order of a map from MapsContainer instance initialization
 	 * @param options.period {Number|null} Period associated with this map.
 	 * @param options.dispatcher {Object} Object for handling events in the application.
 	 * @param options.store {Object}
@@ -74,8 +77,8 @@ define(['../../actions/Actions',
 
 		this._store = options.store;
 		this._stateStore = options.store.state;
+		this._periodsStore = options.store.periods;
 
-		// TODO what to do with this one
 		this._dataMining = new DataMining({
             store: {
                 state: options.store.state
@@ -86,6 +89,7 @@ define(['../../actions/Actions',
 		this._id = options.id || new Uuid().generate();
 		this._mapSelector = $("#" + this._id);
 
+		this._name = "Map " + options.orderFromStart;
 
 		/**
 		 * Every map is associated with the period. If no period is specified, then it is supplied latest when the first
@@ -93,7 +97,6 @@ define(['../../actions/Actions',
 		 * @type {Number|null}
 		 * @private
 		 */
-		// TODO ok, this should be solved at first
 		this._period = options.period || null; // Accept all state changes unless the period is specified.
 
 		/**
@@ -123,6 +126,15 @@ define(['../../actions/Actions',
 		id: {
 			get: function() {
 				return this._id;
+			}
+		},
+
+		name: {
+			get: function() {
+				return this._name;
+			},
+			set: function(name) {
+				this._name = name;
 			}
 		},
 
@@ -175,7 +187,7 @@ define(['../../actions/Actions',
 				this._period = periods[0];
 			}
 			if (!Config.toggles.hideSelectorToolbar){
-				this.addMapLabel();
+				this._mapWindowTools.addMapLabel(this._period);
 			}
 		} else {
 			// TODO what if this will be removed
@@ -187,7 +199,7 @@ define(['../../actions/Actions',
 
 	/**
 	 * Execute on map click. Find out a location of click target in lat, lon. And execute getFeatureInfo query for this location.
-	 * TODO better naming
+	 * TODO better name of this method
 	 * @param callback {function} on click callback
 	 * @param property {string} property for to find via getFeatureInfo
 	 * @param event {Object}
@@ -394,39 +406,8 @@ define(['../../actions/Actions',
 	 * Add listeners to map, which listen any move or zoom of the map
 	 */
 	WorldWindMap.prototype.addMapControlListeners = function(){
-		// TODO maybe better do it directly in the navigator
 		this._wwd.addEventListener("mousemove", this.updateNavigatorState.bind(this));
 		this._wwd.addEventListener("wheel", this.updateNavigatorState.bind(this));
-	};
-
-	/**
-	 * Add label with info about a map (aka map title)
-	 */
-	WorldWindMap.prototype.addMapLabel = function() {
-		if (this._period) {
-			this.addMapLabelWithPeriod();
-		}
-	};
-
-	/**
-	 * Add label with info about about period to the map.
-	 * Add dataPeriod attribute of the map container (it is used for sorting)
-	 */
-	WorldWindMap.prototype.addMapLabelWithPeriod = function(){
-		if (this._periodLabelSelector){
-			this._periodLabelSelector.remove();
-		}
-		var self = this;
-		this._store.periods.byId(this._period).then(function(periods){
-			if (periods.length === 1){
-				self._mapBoxSelector.find(".map-period-label").remove();
-				var periodName = periods[0].name;
-				var html = '<div class="map-period-label">' + periodName + '</div>';
-				self._mapBoxSelector.attr("data-period", periodName);
-				self._mapBoxSelector.find(".map-window-tools").append(html);
-				self._periodLabelSelector = self._mapBoxSelector.find(".map-period-label")
-			}
-		});
 	};
 
 	/**
@@ -455,11 +436,12 @@ define(['../../actions/Actions',
 		this._mapsContainerSelector.append(html);
 		this._mapBoxSelector = this._mapsContainerSelector.find("#" + this._id + "-box");
 
+		this._mapWindowTools = this.buildMapWindowTools();
 		this.setupWebWorldWind();
 		this.addDropListener();
 
 		if (this._id !== 'default-map'){
-			this.addMapLabel();
+			this._mapWindowTools.addMapLabel(this._period);
 		}
 	};
 
@@ -474,6 +456,20 @@ define(['../../actions/Actions',
 				state: this._store.state
 			},
 			dispatcher: this._dispatcher
+		});
+	};
+
+	/**
+	 * @returns {MapWindowTools}
+	 */
+	WorldWindMap.prototype.buildMapWindowTools = function(){
+		return new MapWindowTools({
+			mapName: this._name,
+			store: {
+				periods: this._periodsStore,
+				state: this._stateStore
+			},
+			targetContainer: this._mapBoxSelector
 		});
 	};
 

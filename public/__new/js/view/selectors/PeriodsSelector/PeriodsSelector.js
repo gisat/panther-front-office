@@ -96,6 +96,8 @@ define([
 	 * @param periods {Array} list of periods with metadata
 	 */
 	PeriodsSelector.prototype.render = function(periods){
+		var state = this._stateStore.current();
+
 		if (this._periodsContainerSelector){
 			this._periodsContainerSelector.remove();
 		}
@@ -110,7 +112,7 @@ define([
 
 		this._basicSelect = this.renderBasicPeriodSelection(periods);
 
-		if (periods.length > 1){
+		if (periods.length > 1 && !state.isMapIndependentOfPeriod){
 			this._compareButton = this.renderCompareButton();
 			this._multiSelect = this.renderMultiplePeriodSelection(periods);
 		}
@@ -215,21 +217,12 @@ define([
 	};
 
 	/**
-	 * @param type {string} type of event
-	 */
-	PeriodsSelector.prototype.onEvent = function(type){
-		if (type === Actions.periodsRebuild){
-			this.rebuild();
-		}
-	};
-
-	/**
 	 * If a change in basic selector of period occured, get selected period and notify Ext DiscreteTimeline.js
 	 */
 	PeriodsSelector.prototype.updatePeriod = function(){
 		var selected = this._basicSelect.getSelected()[0];
 		var periods = [Number(selected.id)];
-		this._dispatcher.notify(Actions.periodsChange, periods);
+		this._dispatcher.notify('periods#change', periods);
 	};
 
 	/**
@@ -249,7 +242,7 @@ define([
 			if (self._defaultPeriod){
 				periods.push(self._defaultPeriod);
 			}
-			self._dispatcher.notify(Actions.periodsChange, periods);
+			self._dispatcher.notify('periods#change', periods);
 		}, 50);
 	};
 
@@ -259,7 +252,7 @@ define([
 	PeriodsSelector.prototype.selectAllPeriods = function(){
 		if (this._multiSelect){
 			var periods = this.checkMaxNumberOfSelectedPeriods(this._multiSelect.getAllOptions());
-			this._dispatcher.notify(Actions.periodsChange, periods);
+			this._dispatcher.notify('periods#change', periods);
 		}
 	};
 
@@ -299,6 +292,17 @@ define([
 		});
 
 		return selectedPeriods;
+	};
+
+	/**
+	 * @param type {string} type of event
+	 */
+	PeriodsSelector.prototype.onEvent = function(type){
+		if (type === Actions.periodsRebuild){
+			this.rebuild();
+		} else if (type === Actions.periodsDefault){
+			this.rebuild();
+		}
 	};
 
 	return PeriodsSelector;

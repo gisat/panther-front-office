@@ -75,7 +75,9 @@ define([
 
 		this._mapControls = null;
 		this._toolsPinned = false;
+
 		this._mapsInContainerCount = 0;
+		this._mapsToContainerAdded = 1;
 
 		this.build();
 
@@ -138,11 +140,9 @@ define([
 	 * Add map to container
 	 * @param id {string|null} Id of the map
 	 * @param periodId {number} Id of the period connected with map
-	 * TODO add of a map shouldn't depend on period
-	 * TODO distinguish according to scope setting
 	 */
 	MapsContainer.prototype.addMap = function (id, periodId) {
-		var worldWindMap = this.buildWorldWindMap(id, periodId);
+		var worldWindMap = this.buildWorldWindMap(id, periodId, this._mapsToContainerAdded++);
 		this._dispatcher.notify('map#add', {map: worldWindMap});
 		this.addControls(worldWindMap);
 		this.rebuildContainerLayout();
@@ -224,14 +224,15 @@ define([
 	 * Build a World Wind Map
 	 * @param id {string} Id of the map which should distinguish one map from another
 	 * @param periodId {number} Id of the period
-	 * TODO again, it should be independent of period
+	 * @param orderFromStart {number} Order of a map from MapsContainer instance initialization
 	 * @returns {WorldWindMap}
 	 */
-	MapsContainer.prototype.buildWorldWindMap = function(id, periodId){
+	MapsContainer.prototype.buildWorldWindMap = function(id, periodId, orderFromStart){
 		return new WorldWindMap({
 			dispatcher: window.Stores,
 			id: id,
 			period: periodId,
+			orderFromStart: orderFromStart,
 			mapsContainer: this._containerSelector.find(".map-fields"),
 			store: {
 				state: this._stateStore,
@@ -362,13 +363,17 @@ define([
 
 	/**
 	 * Sort maps in container by associated period
-	 * TODO solve this for maps without periods
 	 */
 	MapsContainer.prototype.sortMaps = function(){
-		var containerCls = this._containerSelector.find(".map-fields").attr('class');
-		var container = document.getElementsByClassName(containerCls)[0];
-		var maps = container.childNodes;
-		tinysort(maps, {attr: 'data-period'});
+		var state = this._stateStore.current();
+		if (state.isMapIndependentOfPeriod){
+			// TODO sort maps somehow
+		} else {
+			var containerCls = this._containerSelector.find(".map-fields").attr('class');
+			var container = document.getElementsByClassName(containerCls)[0];
+			var maps = container.childNodes;
+			tinysort(maps, {attr: 'data-period'});
+		}
 	};
 
 	/**
@@ -447,20 +452,11 @@ define([
 	MapsContainer.prototype.onEvent = function(type, options){
 		if (type === Actions.mapRemove){
 			this.removeMap(options.id);
-		}
-
-		// TODO check what does it mean
-		else if (type === Actions.periodsRebuild){
+		} else if (type === Actions.periodsRebuild){
 			var periods = this._stateStore.current().periods;
 			this.rebuildContainerWithPeriods(periods);
 			this.checkMapsCloseButton();
-		}
-		// TODO temporary for Dromas. It should be removed in a version with new areas widget
-		else if (type === Actions.mapSelectFromAreas){
-			this.handleSelection(options);
-		}
-
-		else if (type === Actions.mapZoomSelected){
+		} else if (type === Actions.mapZoomSelected){
 			this.zoomToArea(options);
 		} else if (type === Actions.mapZoomToExtent){
 			this.zoomToExtent();
@@ -474,6 +470,11 @@ define([
 			this.setProjection('3D');
 		} else if (type === Actions.navigatorUpdate){
 			this.updateAllMapsNavigators();
+		}
+
+		// TODO temporary for Dromas. It should be removed in a version with new areas widget
+		else if (type === Actions.mapSelectFromAreas){
+			this.handleSelection(options);
 		}
 	};
 
