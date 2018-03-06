@@ -32,7 +32,7 @@ define([
 	 * @param options {Object}
 	 * @param options.id {string} id of the container
 	 * @param options.dispatcher {Object} Object for handling events in the application.
-	 * @param options.target {Object} JQuery selector of target element
+	 * @param options.target {Object} JQuery selector of parent element
 	 * @param options.store {Object}
 	 * @param options.store.map {MapStore}
 	 * @param options.store.state {StateStore}
@@ -68,6 +68,7 @@ define([
 		this._target = options.target;
 		this._id = options.id;
 		this._dispatcher = options.dispatcher;
+
 		this._mapStore = options.store.map;
 		this._stateStore = options.store.state;
 		this._store = options.store;
@@ -80,20 +81,6 @@ define([
 
 		this._dispatcher.addListener(this.onEvent.bind(this));
 		options.store.periods.addListener(this.onEvent.bind(this));
-	};
-
-	/**
-	 * Build container
-	 */
-	MapsContainer.prototype.build = function(){
-		var html = S(mapsContainer).template({
-			id: this._id
-		}).toString();
-		this._target.append(html);
-		this._containerSelector = $("#" + this._id);
-
-		this.addCloseButtonOnClickListener();
-		this.addSidebarReportsStateListener();
 	};
 
 	/**
@@ -119,6 +106,8 @@ define([
 			if (periodsCount === 1){
 				var counter = mapsCount;
 				allMaps.forEach(function(map){
+
+					// TODO solve default maps problem
 					if (map.id !== "default-map"){
 						counter--;
 						if (counter > 0){
@@ -149,111 +138,93 @@ define([
 	 * Add map to container
 	 * @param id {string|null} Id of the map
 	 * @param periodId {number} Id of the period connected with map
-	 * TODO allow max 16 maps (due to WebGL restrictions)
+	 * TODO add of a map shouldn't depend on period
+	 * TODO distinguish according to scope setting
 	 */
 	MapsContainer.prototype.addMap = function (id, periodId) {
 		var worldWindMap = this.buildWorldWindMap(id, periodId);
 		this._dispatcher.notify('map#add', {map: worldWindMap});
-
-		// if there are controls for default map already, attach world window of this map to them
-		if (this._mapControls){
-			this._mapControls.addWorldWindow(worldWindMap._wwd);
-		} else {
-			this._mapControls = this.buildMapControls(worldWindMap._wwd);
-		}
-		this._mapsInContainerCount++;
+		this.addControls(worldWindMap);
 		this.rebuildContainerLayout();
 	};
 
 	/**
 	 * Remove map from container
+	 * TODO clearly distinguish this method and removeMapFromContainer (or perhaps mapIsUpToRemove?)
 	 * @param id {string} ID of the map
 	 */
 	MapsContainer.prototype.removeMap = function(id){
 		$("#" + id + "-box").remove();
-		this._mapsInContainerCount--;
 		this.rebuildContainerLayout();
 	};
 
 	/**
-	 * Rebuild all maps in container
-	 * TODO rebuild each map with relevant data
+	 * Add listener to close button of each map
+	 * TODO this should be independent of period
+	 * TODO Something like creation of removeMapFromContainer
 	 */
-	MapsContainer.prototype.rebuildMaps = function(){
-		var maps = this._mapStore.getAll();
-		maps.forEach(function(map){
-			map.rebuild();
-		});
-		this.rebuildContainerLayout();
-	};
-
-	/**
-	 * Set position of all maps in this container
-	 * @param position {WorldWind.Position}
-	 */
-	MapsContainer.prototype.setAllMapsPosition = function(position){
-		var maps = this._mapStore.getAll();
-		maps.forEach(function(map){
-			map.goTo(position);
+	MapsContainer.prototype.addCloseButtonOnClickListener = function(){
+		var self = this;
+		this._containerSelector.on("click", ".close-map-button", function(){
+			var mapId = $(this).attr("data-id");
+			var mapPeriod = self._mapStore.getMapById(mapId).period;
+			var periods = _.reject(self._stateStore.current().periods, function(period) { return period === mapPeriod; });
+			self._dispatcher.notify("periods#change", periods);
 		});
 	};
 
+	// TODO reviewed methods --------------------------------------------------------------------------------------------
+
 	/**
-	 * Set range of all maps in this container
-	 * @param range {number}
+	 * Add map controls
+	 * @param map {WorldWindMap}
 	 */
-	MapsContainer.prototype.setAllMapsRange = function(range){
-		var maps = this._mapStore.getAll();
-		maps.forEach(function(map){
-			map.setRange(range);
+	MapsContainer.prototype.addControls = function(map){
+		// if there are controls for default map already, attach world window of this map to them
+		if (this._mapControls){
+			this._mapControls.addWorldWindow(map._wwd);
+		} else {
+			this._mapControls = this.buildMapControls(map._wwd);
+		}
+	};
+
+	/**
+	 * Build container
+	 */
+	MapsContainer.prototype.build = function(){
+		var html = S(mapsContainer).template({
+			id: this._id
+		}).toString();
+		this._target.append(html);
+		this._containerSelector = $("#" + this._id);
+
+		this.addCloseButtonOnClickListener();
+		this.addSidebarReportsStateListener();
+	};
+
+	/**
+	 * Rebuild the container when sidebar-reports panel changes it's state
+	 */
+	MapsContainer.prototype.addSidebarReportsStateListener = function(){
+		$("#sidebar-reports-toggle").on("click", this.rebuildContainerLayout.bind(this));
+	};
+
+	/**
+	 * Build controls and setup interaction
+	 * @param wwd {WorldWindow}
+	 */
+	MapsContainer.prototype.buildMapControls = function(wwd){
+		return new Controls({
+			mapContainer: this._containerSelector,
+			worldWindow: wwd
 		});
-	};
-
-	/**
-	 * Switch projection of all maps from 2D to 3D and vice versa
-	 */
-	MapsContainer.prototype.switchProjection = function () {
-		var maps = this._mapStore.getAll();
-		for(var key in maps){
-			maps[key].switchProjection();
-		}
-	};
-
-	/**
-	 * Switch projection of all maps to 2D only
-	 */
-	MapsContainer.prototype.switchProjectionTo2D = function () {
-		var maps = this._mapStore.getAll();
-		for(var key in maps){
-			maps[key].switchProjectionTo2D();
-		}
-	};
-
-	/**
-	 * Zoom all maps to area
-	 * @param bboxes {Array} bboxes of areas
-	 */
-	MapsContainer.prototype.zoomToArea = function(bboxes){
-		var maps = this._mapStore.getAll();
-		for(var key in maps){
-			maps[key].zoomToArea(bboxes);
-		}
-	};
-
-	/**
-	 * Zoom all maps to extent
-	 */
-	MapsContainer.prototype.zoomToExtent = function(){
-		var maps = this._mapStore.getAll();
-		for(var key in maps){
-			maps[key].zoomToExtent();
-		}
 	};
 
 	/**
 	 * Build a World Wind Map
 	 * @param id {string} Id of the map which should distinguish one map from another
 	 * @param periodId {number} Id of the period
+	 * TODO again, it should be independent of period
 	 * @returns {WorldWindMap}
 	 */
 	MapsContainer.prototype.buildWorldWindMap = function(id, periodId){
@@ -272,62 +243,26 @@ define([
 	};
 
 	/**
-	 * Build controls and setup interaction
-	 * @param wwd {WorldWindow}
+	 * Check close button for all maps.
+	 * If there is only one map present, remove check button.
+	 * Otherwise add close button to all maps.
 	 */
-	MapsContainer.prototype.buildMapControls = function(wwd){
-		return new Controls({
-			mapContainer: this._containerSelector,
-			worldWindow: wwd
-		});
-	};
+	MapsContainer.prototype.checkMapsCloseButton = function(){
+		var maps = this._mapStore.getAll();
 
-	/**
-	 * Add listener to close button of each map except the default one
-	 */
-	MapsContainer.prototype.addCloseButtonOnClickListener = function(){
-		var self = this;
-		this._containerSelector.on("click", ".close-map-button", function(){
-			var mapId = $(this).attr("data-id");
-			var mapPeriod = self._mapStore.getMapById(mapId).period;
-			var periods = _.reject(self._stateStore.current().periods, function(period) { return period === mapPeriod; });
-			self._dispatcher.notify("periods#change", periods);
-		});
-	};
-
-	/**
-	 * Rebuild the container when sidebar-reports panel changes it's state
-	 */
-	MapsContainer.prototype.addSidebarReportsStateListener = function(){
-		$("#sidebar-reports").on("click", this.rebuildContainerLayout.bind(this));
-	};
-
-	/**
-	 * @param type {string} type of event
-	 * @param options {Object|string}
-	 */
-	MapsContainer.prototype.onEvent = function(type, options){
-		if (type === Actions.mapRemove){
-			this.removeMap(options.id);
-		} else if (type === Actions.periodsRebuild){
-			var periods = this._stateStore.current().periods;
-			this.rebuildContainerWithPeriods(periods);
-			this.checkMapsCloseButton();
-		} else if (type === Actions.mapSelectFromAreas){
-			this.handleSelection(options);
-		} else if (type === Actions.mapZoomSelected){
-			this.zoomToArea(options);
-		} else if (type === Actions.mapZoomToExtent){
-			this.zoomToExtent();
-		} else if (type === Actions.mapsContainerToolsPinned){
-			this.handleTools(true);
-		} else if (type === Actions.mapsContainerToolsDetached){
-			this.handleTools(false);
-		} else if (type === Actions.mapsContainerWorldWind2D){
-			this.switchProjectionTo2D();
+		if (maps.length === 1){
+			maps[0].removeCloseButton();
+		} else {
+			maps.forEach(function(map){
+				map.addCloseButton();
+			});
 		}
 	};
 
+	/**
+	 * Adjust container size when Map tools widget is pinned
+	 * @param toolsPinned {boolean}
+	 */
 	MapsContainer.prototype.handleTools = function (toolsPinned) {
 		if (toolsPinned){
 			this._toolsPinned = true;
@@ -339,40 +274,12 @@ define([
 	};
 
 	/**
-	 * TODO temporary solution for zoom to selected from Areas widget
-	 * @param gid {string} gid of selected area
-	 */
-	MapsContainer.prototype.handleSelection = function(gid){
-		var self = this;
-		new Filter({
-			dispatcher: function(){}
-		}).featureInfo([], gid, this._stateStore.current().periods).then(function(result){
-			if (result && result.length){
-				var extent = result[0].wgsExtent;
-				var bbox = {
-					lonMin: extent[0],
-					latMin: extent[1],
-					lonMax: extent[2],
-					latMax: extent[3]
-				};
-				self.adaptAllMapsToSelection(bbox);
-			}
-		}).catch(function(err){
-			throw new Error(err);
-		});
-	};
-
-	MapsContainer.prototype.adaptAllMapsToSelection = function(bbox){
-		var maps = this._mapStore.getAll();
-		maps.forEach(function(map){
-			map.setPositionRangeFromBbox(bbox);
-		});
-	};
-
-	/**
-	 * Rebuild grid according to a number of active maps
+	 * Rebuild container grid according to a number of active maps.
+	 * If any widget is pinned, adjust the grid as well.
 	 */
 	MapsContainer.prototype.rebuildContainerLayout = function(){
+		this._mapsInContainerCount = this._mapStore.getAll().length;
+
 		var width = this._containerSelector.width();
 		var height = this._containerSelector.height();
 
@@ -404,16 +311,60 @@ define([
 		if (this._toolsPinned){
 			cls += " tools-active"
 		}
-
 		this._containerSelector.addClass(cls);
+		this.sortMaps();
+	};
 
-		this.sortMapsByPeriod();
+	/**
+	 * Rebuild all maps in container
+	 */
+	MapsContainer.prototype.rebuildMaps = function(){
+		var maps = this._mapStore.getAll();
+		maps.forEach(function(map){
+			map.rebuild();
+		});
+		this.rebuildContainerLayout();
+	};
+
+	/**
+	 * Set position of all maps in this container
+	 * @param position {WorldWind.Position}
+	 */
+	MapsContainer.prototype.setAllMapsPosition = function(position){
+		var maps = this._mapStore.getAll();
+		maps.forEach(function(map){
+			map.goTo(position);
+		});
+	};
+
+	/**
+	 * Set range of all maps in this container
+	 * @param range {number}
+	 */
+	MapsContainer.prototype.setAllMapsRange = function(range){
+		var maps = this._mapStore.getAll();
+		maps.forEach(function(map){
+			map.setRange(range);
+		});
+	};
+
+
+	/**
+	 * Set projection of all maps
+	 * @param targetProjection {string} 2D or 3D
+	 */
+	MapsContainer.prototype.setProjection = function (targetProjection) {
+		var maps = this._mapStore.getAll();
+		for(var key in maps){
+			maps[key].setProjection(targetProjection);
+		}
 	};
 
 	/**
 	 * Sort maps in container by associated period
+	 * TODO solve this for maps without periods
 	 */
-	MapsContainer.prototype.sortMapsByPeriod = function(){
+	MapsContainer.prototype.sortMaps = function(){
 		var containerCls = this._containerSelector.find(".map-fields").attr('class');
 		var container = document.getElementsByClassName(containerCls)[0];
 		var maps = container.childNodes;
@@ -421,17 +372,108 @@ define([
 	};
 
 	/**
-	 * Check close button for all maps. If there is only one map present, remove check button. Otherwise add close button to all maps.
+	 * Update navigator of all available maps
 	 */
-	MapsContainer.prototype.checkMapsCloseButton = function(){
+	MapsContainer.prototype.updateAllMapsNavigators = function(){
 		var maps = this._mapStore.getAll();
+		maps.forEach(function(map){
+			map.setNavigator();
+		});
+	};
 
-		if (maps.length === 1){
-			maps[0].removeCloseButton();
-		} else {
-			maps.forEach(function(map){
-				map.addCloseButton();
-			});
+	/**
+	 * Zoom all maps to area
+	 * @param bboxes {Array} bboxes of areas
+	 */
+	MapsContainer.prototype.zoomToArea = function(bboxes){
+		var maps = this._mapStore.getAll();
+		for(var key in maps){
+			maps[key].zoomToArea(bboxes);
+		}
+	};
+
+	/**
+	 * Zoom all maps to extent
+	 */
+	MapsContainer.prototype.zoomToExtent = function(){
+		var maps = this._mapStore.getAll();
+		for(var key in maps){
+			maps[key].zoomToExtent();
+		}
+	};
+
+	// TODO temporary methods ----------------------------------------------------
+	/**
+	 * TODO temporary solution for zoom to selected from Areas widget.
+	 * TODO Should be removed in a version with new areas widget.
+	 * @param gid {string} gid of selected area
+	 */
+	MapsContainer.prototype.handleSelection = function(gid){
+		var self = this;
+		new Filter({
+			dispatcher: function(){}
+		}).featureInfo([], gid, this._stateStore.current().periods).then(function(result){
+			if (result && result.length){
+				var extent = result[0].wgsExtent;
+				var bbox = {
+					lonMin: extent[0],
+					latMin: extent[1],
+					lonMax: extent[2],
+					latMax: extent[3]
+				};
+				self.adaptAllMapsToSelection(bbox);
+			}
+		}).catch(function(err){
+			throw new Error(err);
+		});
+	};
+
+	/**
+	 * TODO temporary solution for zoom to selected from Areas widget.
+	 * TODO Should be removed in a version with new areas widget.
+	 * @param bbox
+	 */
+	MapsContainer.prototype.adaptAllMapsToSelection = function(bbox){
+		var maps = this._mapStore.getAll();
+		maps.forEach(function(map){
+			map.setPositionRangeFromBbox(bbox);
+		});
+	};
+
+	/**
+	 * @param type {string} type of event
+	 * @param options {Object|string}
+	 */
+	MapsContainer.prototype.onEvent = function(type, options){
+		if (type === Actions.mapRemove){
+			this.removeMap(options.id);
+		}
+
+		// TODO check what does it mean
+		else if (type === Actions.periodsRebuild){
+			var periods = this._stateStore.current().periods;
+			this.rebuildContainerWithPeriods(periods);
+			this.checkMapsCloseButton();
+		}
+		// TODO temporary for Dromas. It should be removed in a version with new areas widget
+		else if (type === Actions.mapSelectFromAreas){
+			this.handleSelection(options);
+		}
+
+		else if (type === Actions.mapZoomSelected){
+			this.zoomToArea(options);
+		} else if (type === Actions.mapZoomToExtent){
+			this.zoomToExtent();
+		} else if (type === Actions.mapsContainerToolsPinned){
+			this.handleTools(true);
+		} else if (type === Actions.mapsContainerToolsDetached){
+			this.handleTools(false);
+		} else if (type === Actions.mapSwitchTo2D){
+			this.setProjection('2D');
+		} else if (type === Actions.mapSwitchTo3D){
+			this.setProjection('3D');
+		} else if (type === Actions.navigatorUpdate){
+			this.updateAllMapsNavigators();
 		}
 	};
 

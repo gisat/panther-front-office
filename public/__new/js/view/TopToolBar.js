@@ -261,7 +261,6 @@ define([
 
 	TopToolBar.prototype.handle3dMapClick = function(e){
 		this._dispatcher.notify("map#switchProjection");
-		this._map3dSwitchSelector.toggleClass('open');
 	};
 
 	/**

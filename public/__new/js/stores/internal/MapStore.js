@@ -1,27 +1,40 @@
 define([
 	'../../actions/Actions',
+	'../../error/ArgumentError',
+	'../../error/NotFoundError',
+	'../../util/Logger',
 	'underscore'
 ], function(Actions,
+			ArgumentError,
+			NotFoundError,
+			Logger,
 			_
 ){
 	/**
 	 * It creates MapStore and contains maps themselves
 	 * @constructor
 	 * @param options {Object}
-	 * @param options.dispatcher Dispatcher, which is used to distribute actions across the application.
+	 *
+	 * @param options.dispatcher {Object} Dispatcher, which is used to distribute actions across the application.
 	 * @param options.maps {WorldWindMap[]} 3D maps which are handled by this store.
+	 * @param options.store {Object}
 	 */
 	var MapStore = function(options) {
-		options.dispatcher.addListener(this.onEvent.bind(this));
+		if (!options.dispatcher){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MapStore", "constructor", "Dispatcher must be provided"));
+		}
+
+		this._dispatcher = options.dispatcher;
 
 		this._maps = [];
-		this._navigatorState = {};
 
 		if (options.maps){
 			options.maps.forEach(function(map){
 				this._maps.push(map);
 			}.bind(this));
 		}
+
+		this._dispatcher.addListener(this.onEvent.bind(this));
 	};
 
 	/**
@@ -31,15 +44,6 @@ define([
 	 */
 	MapStore.prototype.add = function(options) {
 		this._maps.push(options.map);
-	};
-
-	/**
-	 * It removes old map from the store.
-	 * @param options {Object}
-	 * @param options.id {String} Map which should be removed from DOM.
-	 */
-	MapStore.prototype.remove = function(options) {
-		this._maps = _.reject(this._maps, function(map) { return map.id === options.id; });
 	};
 
 	/**
@@ -72,19 +76,23 @@ define([
 	};
 
 	/**
-	 * It updates the settings of World wind navigator
-	 * @param options {Object}
+	 * Switch map projection
 	 */
-	MapStore.prototype.updateNavigator = function(options){
-		this._navigatorState = options;
+	MapStore.prototype.handleMapProjection = function(){
+		if (this._stateStore.current().isMap3D){
+			this.switchMapTo2D();
+		} else {
+			this.switchMapTo3D();
+		}
 	};
 
 	/**
-	 * Return the current settings of World wind navigator
-	 * @returns {Object}
+	 * It removes old map from the store.
+	 * @param options {Object}
+	 * @param options.id {String} Map which should be removed from DOM.
 	 */
-	MapStore.prototype.getNavigatorState = function(){
-		return this._navigatorState;
+	MapStore.prototype.remove = function(options) {
+		this._maps = _.reject(this._maps, function(map) { return map.id === options.id; });
 	};
 
 	/**
@@ -97,8 +105,6 @@ define([
 			this.add(options);
 		} else if (type === Actions.mapRemove) {
 			this.remove(options);
-		} else if (type === Actions.mapControl) {
-			this.updateNavigator(options);
 		}
 	};
 

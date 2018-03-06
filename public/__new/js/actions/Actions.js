@@ -11,15 +11,17 @@ define([], function(){
 		mapAddVisibleLayer: 'map#addVisibleLayer',
 		mapRemoveVisibleLayer: 'map#removeVisibleLayer',
 		mapSelectFromAreas: 'map#selectFromAreas',
-		mapSwitchFramework: 'map#switchFramework',
 		mapSwitchProjection: 'map#switchProjection',
+		mapSwitchTo2D: 'map#switchTo2D',
+		mapSwitchTo3D: 'map#switchTo3D',
 		mapUseWorldWindOnly: 'map#useWorldWindOnly',
 		mapZoomSelected: 'map#zoomSelected',
 		mapZoomToExtent: 'map#zoomToExtent',
 
 		mapsContainerToolsDetached: 'mapsContainer#toolsDetached',
 		mapsContainerToolsPinned: 'mapsContainer#toolsPinned',
-		mapsContainerWorldWind2D: 'mapsContainer#worldWind2D',
+
+		navigatorUpdate: 'navigator#update',
 
 		filterAdd: 'filter#add',
 		filterRemove: 'filter#remove',

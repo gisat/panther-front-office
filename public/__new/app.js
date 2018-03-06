@@ -182,16 +182,16 @@ define(['js/actions/Actions',
         var tools = [];
         var widgets = [];
 
+		var mapStore = new MapStore({
+			dispatcher: window.Stores
+		});
+		var stateStore = new StateStore({
+			dispatcher: window.Stores,
+			store: {
+				maps: mapStore
+			}
+		});
 
-        var mapStore = new MapStore({
-            dispatcher: window.Stores
-        });
-        var stateStore = new StateStore({
-            dispatcher: window.Stores,
-            store: {
-                maps: mapStore
-            }
-        });
         window.selectionStore = new SelectionStore({
             dispatcher: window.Stores,
             store: {
@@ -288,8 +288,11 @@ define(['js/actions/Actions',
 
         // build app, map is class for OpenLayers map
         new FrontOffice({
+			dispatcher: window.Stores,
             attributesMetadata: attributes,
+			mapsContainer: mapsContainer,
             tools: tools,
+			topToolBar: topToolBar,
             widgets: widgets,
             widgetOptions: {
                 olMap: olMap
