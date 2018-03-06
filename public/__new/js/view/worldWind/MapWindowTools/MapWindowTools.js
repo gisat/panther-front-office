@@ -16,6 +16,7 @@ define(['../../../actions/Actions',
 	 * Class representing tools of WorldWindMap (such as label, close button etc.)
 	 * @param options {Object}
 	 * @param options.dispatcher {Object} Object for handling events in the application.
+	 * @param options.mapId {string} id of the map
 	 * @param options.mapName {string} name of the map
 	 * @param options.store {Object}
 	 * @param options.store.map {MapStore}
@@ -27,6 +28,9 @@ define(['../../../actions/Actions',
 	var MapWindowTools = function(options){
 		if(!options.dispatcher){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MapWindowTools', 'constructor', 'Dispatcher  must be provided'));
+		}
+		if(!options.mapId){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MapWindowTools', 'constructor', 'Map id must be provided'));
 		}
 		if(!options.store){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MapWindowTools', 'constructor', 'Stores must be provided'));
@@ -45,6 +49,7 @@ define(['../../../actions/Actions',
 		}
 
 		this._dispatcher = options.dispatcher;
+		this._mapId = options.mapId;
 		this._name = options.mapName || "Map";
 		this._mapStore = options.store.map;
 		this._periodsStore = options.store.periods;
@@ -57,10 +62,10 @@ define(['../../../actions/Actions',
 	 * Add close button to map
 	 * @param mapId {string} Id of the map
 	 */
-	MapWindowTools.prototype.addCloseButton = function(mapId){
+	MapWindowTools.prototype.addCloseButton = function(){
 		var closeButton = this._mapToolsSelector.find(".close-map-button");
 		if (closeButton.length === 0){
-			var html = '<div title="Remove map" class="close-map-button" data-id="' + mapId + '"><i class="close-map-icon">&#x2715;</i></div>';
+			var html = '<div title="Remove map" class="close-map-button"><i class="close-map-icon">&#x2715;</i></div>';
 			this._mapToolsSelector.append(html);
 			this._closeButton = this._mapToolsSelector.find(".close-map-button");
 			this.addCloseButtonListener();
@@ -74,11 +79,10 @@ define(['../../../actions/Actions',
 		var state = this._stateStore.current();
 		var self = this;
 		this._closeButton.on("click", function(){
-			var mapId = $(this).attr("data-id");
 			if (state.isMapIndependentOfPeriod){
 				// TODO add functionality for this case
 			} else {
-				var mapPeriod = self._mapStore.getMapById(mapId).period;
+				var mapPeriod = self._mapStore.getMapById(self._mapId).period;
 				var periods = _.reject(self._stateStore.current().periods, function(period) { return period === mapPeriod; });
 				self._dispatcher.notify("periods#change", periods);
 			}
@@ -136,6 +140,13 @@ define(['../../../actions/Actions',
 	MapWindowTools.prototype.build = function(){
 		this._targetContainer.append('<div class="map-window-tools"></div>');
 		this._mapToolsSelector = this._targetContainer.find('.map-window-tools');
+	};
+
+	/**
+	 * Remove close button from this map
+	 */
+	MapWindowTools.prototype.removeCloseButton = function(){
+		this._mapToolsSelector.find(".close-map-button").remove();
 	};
 
 	return MapWindowTools;

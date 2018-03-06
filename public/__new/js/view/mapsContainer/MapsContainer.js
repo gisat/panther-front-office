@@ -236,10 +236,10 @@ define([
 		var maps = this._mapStore.getAll();
 
 		if (maps.length === 1){
-			maps[0].removeCloseButton();
+			maps[0].mapWindowTools.removeCloseButton();
 		} else {
 			maps.forEach(function(map){
-				map.addCloseButton();
+				map.mapWindowTools.addCloseButton();
 			});
 		}
 	};

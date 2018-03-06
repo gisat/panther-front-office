@@ -187,7 +187,7 @@ define(['../../actions/Actions',
 				this._period = periods[0];
 			}
 			if (!Config.toggles.hideSelectorToolbar){
-				this._mapWindowTools.addMapLabel(this._period);
+				this.mapWindowTools.addMapLabel(this._period);
 			}
 		} else {
 			// TODO what if this will be removed
@@ -301,13 +301,6 @@ define(['../../actions/Actions',
 			this._clickRecognizer = new WorldWind.ClickRecognizer(this._wwd.canvas, this.onMapClick.bind(this, callback, property));
 		}
 		this._clickRecognizer.enabled = true;
-	};
-
-	/**
-	 * Add close button to this map
-	 */
-	WorldWindMap.prototype.addCloseButton = function(){
-		this._mapWindowTools.addCloseButton(this._id);
 	};
 
 	/**
@@ -432,12 +425,12 @@ define(['../../actions/Actions',
 		this._mapsContainerSelector.append(html);
 		this._mapBoxSelector = this._mapsContainerSelector.find("#" + this._id + "-box");
 
-		this._mapWindowTools = this.buildMapWindowTools();
+		this.mapWindowTools = this.buildMapWindowTools();
 		this.setupWebWorldWind();
 		this.addDropListener();
 
 		if (this._id !== 'default-map'){
-			this._mapWindowTools.addMapLabel(this._period);
+			this.mapWindowTools.addMapLabel(this._period);
 		}
 	};
 
@@ -461,6 +454,7 @@ define(['../../actions/Actions',
 	WorldWindMap.prototype.buildMapWindowTools = function(){
 		return new MapWindowTools({
 			dispatcher: this._dispatcher,
+			mapId: this._id,
 			mapName: this._name,
 			store: {
 				map: this._store.map,
@@ -529,13 +523,6 @@ define(['../../actions/Actions',
 	 */
 	WorldWindMap.prototype.redraw = function(){
 		this._wwd.redraw();
-	};
-
-	/**
-	 * Remove close button from this map
-	 */
-	WorldWindMap.prototype.removeCloseButton = function(){
-		this._mapBoxSelector.find(".close-map-button").remove();
 	};
 
 	/**
