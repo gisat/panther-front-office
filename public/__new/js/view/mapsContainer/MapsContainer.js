@@ -158,21 +158,6 @@ define([
 		this.rebuildContainerLayout();
 	};
 
-	/**
-	 * Add listener to close button of each map
-	 * TODO this should be independent of period
-	 * TODO Something like creation of removeMapFromContainer
-	 */
-	MapsContainer.prototype.addCloseButtonOnClickListener = function(){
-		var self = this;
-		this._containerSelector.on("click", ".close-map-button", function(){
-			var mapId = $(this).attr("data-id");
-			var mapPeriod = self._mapStore.getMapById(mapId).period;
-			var periods = _.reject(self._stateStore.current().periods, function(period) { return period === mapPeriod; });
-			self._dispatcher.notify("periods#change", periods);
-		});
-	};
-
 	// TODO reviewed methods --------------------------------------------------------------------------------------------
 
 	/**
@@ -205,7 +190,6 @@ define([
 		this._target.append(html);
 		this._containerSelector = $("#" + this._id);
 
-		this.addCloseButtonOnClickListener();
 		this.addSidebarReportsStateListener();
 	};
 

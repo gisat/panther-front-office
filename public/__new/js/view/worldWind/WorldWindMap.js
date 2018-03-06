@@ -307,11 +307,7 @@ define(['../../actions/Actions',
 	 * Add close button to this map
 	 */
 	WorldWindMap.prototype.addCloseButton = function(){
-		var closeButton = this._mapBoxSelector.find(".close-map-button");
-		if (closeButton.length === 0){
-			var html = '<div title="Remove map" class="close-map-button" data-id="' + this._id + '"><i class="close-map-icon">&#x2715;</i></div>';
-			this._mapBoxSelector.find(".map-window-tools").append(html);
-		}
+		this._mapWindowTools.addCloseButton(this._id);
 	};
 
 	/**
@@ -464,8 +460,10 @@ define(['../../actions/Actions',
 	 */
 	WorldWindMap.prototype.buildMapWindowTools = function(){
 		return new MapWindowTools({
+			dispatcher: this._dispatcher,
 			mapName: this._name,
 			store: {
+				map: this._store.map,
 				periods: this._periodsStore,
 				state: this._stateStore
 			},

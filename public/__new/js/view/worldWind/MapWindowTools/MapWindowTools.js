@@ -15,16 +15,24 @@ define(['../../../actions/Actions',
 	/**
 	 * Class representing tools of WorldWindMap (such as label, close button etc.)
 	 * @param options {Object}
+	 * @param options.dispatcher {Object} Object for handling events in the application.
 	 * @param options.mapName {string} name of the map
 	 * @param options.store {Object}
+	 * @param options.store.map {MapStore}
 	 * @param options.store.periods {Periods}
 	 * @param options.store.state {StateStore}
 	 * @param options.targetContainer {Object} JQuery selector of target element
 	 * @constructor
 	 */
 	var MapWindowTools = function(options){
+		if(!options.dispatcher){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MapWindowTools', 'constructor', 'Dispatcher  must be provided'));
+		}
 		if(!options.store){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MapWindowTools', 'constructor', 'Stores must be provided'));
+		}
+		if(!options.store.map){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MapWindowTools', 'constructor', 'Stores map must be provided'));
 		}
 		if(!options.store.periods){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MapWindowTools', 'constructor', 'Stores periods must be provided'));
@@ -36,11 +44,45 @@ define(['../../../actions/Actions',
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MapWindowTools", "constructor", "Target container selector must be provided!"));
 		}
 
+		this._dispatcher = options.dispatcher;
 		this._name = options.mapName || "Map";
+		this._mapStore = options.store.map;
 		this._periodsStore = options.store.periods;
 		this._stateStore = options.store.state;
 		this._targetContainer = options.targetContainer;
 		this.build();
+	};
+
+	/**
+	 * Add close button to map
+	 * @param mapId {string} Id of the map
+	 */
+	MapWindowTools.prototype.addCloseButton = function(mapId){
+		var closeButton = this._mapToolsSelector.find(".close-map-button");
+		if (closeButton.length === 0){
+			var html = '<div title="Remove map" class="close-map-button" data-id="' + mapId + '"><i class="close-map-icon">&#x2715;</i></div>';
+			this._mapToolsSelector.append(html);
+			this._closeButton = this._mapToolsSelector.find(".close-map-button");
+			this.addCloseButtonListener();
+		}
+	};
+
+	/**
+	 * Add listener to close button of each map
+	 */
+	MapWindowTools.prototype.addCloseButtonListener = function(){
+		var state = this._stateStore.current();
+		var self = this;
+		this._closeButton.on("click", function(){
+			var mapId = $(this).attr("data-id");
+			if (state.isMapIndependentOfPeriod){
+				// TODO add functionality for this case
+			} else {
+				var mapPeriod = self._mapStore.getMapById(mapId).period;
+				var periods = _.reject(self._stateStore.current().periods, function(period) { return period === mapPeriod; });
+				self._dispatcher.notify("periods#change", periods);
+			}
+		});
 	};
 
 	/**
