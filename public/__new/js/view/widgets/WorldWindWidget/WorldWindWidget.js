@@ -166,7 +166,7 @@ define([
 	 * @param options {Object}
 	 */
 	WorldWindWidget.prototype.onEvent = function(type, options) {
-		if(type === Actions.mapAdd){
+		if(type === Actions.mapAdded){
 			this.addDataToMap(options.map);
 		}
 	};

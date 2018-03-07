@@ -44,6 +44,7 @@ define([
 	 */
 	MapStore.prototype.add = function(options) {
 		this._maps.push(options.map);
+		this._dispatcher.notify('map#added', options);
 	};
 
 	/**
@@ -82,6 +83,7 @@ define([
 	 */
 	MapStore.prototype.remove = function(options) {
 		this._maps = _.reject(this._maps, function(map) { return map.id === options.id; });
+		this._dispatcher.notify('map#removed', options);
 	};
 
 	/**

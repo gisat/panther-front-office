@@ -136,16 +136,6 @@ define([
 		}
 	};
 
-	/**
-	 * Remove map from container
-	 * TODO clearly distinguish this method and removeMapFromContainer (or perhaps mapIsUpToRemove?)
-	 * @param id {string} ID of the map
-	 */
-	MapsContainer.prototype.removeMap = function(id){
-		$("#" + id + "-box").remove();
-		this.rebuildContainerLayout();
-	};
-
 	// TODO reviewed methods --------------------------------------------------------------------------------------------
 
 	/**
@@ -312,6 +302,15 @@ define([
 	};
 
 	/**
+	 * Remove map from container
+	 * @param id {string} ID of the map
+	 */
+	MapsContainer.prototype.removeMapFromContainer = function(id){
+		$("#" + id + "-box").remove();
+		this.rebuildContainerLayout();
+	};
+
+	/**
 	 * Set position of all maps in this container
 	 * @param position {WorldWind.Position}
 	 */
@@ -434,8 +433,8 @@ define([
 	 * @param options {Object|string}
 	 */
 	MapsContainer.prototype.onEvent = function(type, options){
-		if (type === Actions.mapRemove){
-			this.removeMap(options.id);
+		if (type === Actions.mapRemoved){
+			this.removeMapFromContainer(options.id);
 		} else if (type === Actions.periodsRebuild){
 			var periods = this._stateStore.current().periods;
 			this.rebuildContainerWithPeriods(periods);

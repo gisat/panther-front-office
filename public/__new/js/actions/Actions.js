@@ -4,7 +4,9 @@ define([], function(){
 		dataviewShow: "dataview#show",
 
 		mapAdd: 'map#add',
+		mapAdded: 'map#added',
 		mapRemove: 'map#remove',
+		mapRemoved: 'map#removed',
 
 		mapControl: 'map#control',
 
