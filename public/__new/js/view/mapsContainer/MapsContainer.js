@@ -86,59 +86,6 @@ define([
 	};
 
 	/**
-	 * Rebuild maps container with list of periods. For new periods, add maps. On the other hand, remove maps which
-	 * are not connected with any of periods in the list
-	 * @param periods {Array} selected periods.
-	 */
-	MapsContainer.prototype.rebuildContainerWithPeriods = function(periods){
-		var allMaps = this._mapStore.getAll();
-		var mapsCount = Object.keys(allMaps).length;
-		var periodsCount = periods.length;
-
-		var self = this;
-		if (mapsCount < periodsCount){
-			// go trough periods, check if map exists for period, if not, add map
-			periods.forEach(function(period){
-				var map = self._mapStore.getMapByPeriod(period);
-				if (!map){
-					self.addMap(null, period);
-				}
-			});
-		} else if (mapsCount > periodsCount) {
-			if (periodsCount === 1){
-				var counter = mapsCount;
-				allMaps.forEach(function(map){
-
-					// TODO solve default maps problem
-					if (map.id !== "default-map"){
-						counter--;
-						if (counter > 0){
-							map._wwd.drawContext.currentGlContext.getExtension('WEBGL_lose_context').loseContext();
-							self._dispatcher.notify("map#remove",{id: map.id});
-						} else {
-							map._id = "default-map";
-							map.rebuild();
-						}
-					}
-				});
-			} else {
-				// go trough maps, check if period exists for map, if not, remove map
-				allMaps.forEach(function(map){
-					var period =_.filter(periods, function(per){
-						return per === map.period;
-					});
-					if (period.length === 0){
-						map._wwd.drawContext.currentGlContext.getExtension('WEBGL_lose_context').loseContext();
-						self._dispatcher.notify("map#remove",{id: map.id});
-					}
-				});
-			}
-		}
-	};
-
-	// TODO reviewed methods --------------------------------------------------------------------------------------------
-
-	/**
 	 * Add map controls
 	 * @param map {WorldWindMap}
 	 */
@@ -288,6 +235,55 @@ define([
 		}
 		this._containerSelector.addClass(cls);
 		this.sortMaps();
+	};
+
+	/**
+	 * If maps depends of periods, rebuild maps container with list of periods.
+	 * For new periods, add maps. On the other hand, remove maps which are not connected with any of periods in the list.
+	 * @param periods {Array} selected periods.
+	 */
+	MapsContainer.prototype.rebuildContainerWithPeriods = function(periods){
+		var allMaps = this._mapStore.getAll();
+		var mapsCount = Object.keys(allMaps).length;
+		var periodsCount = periods.length;
+
+		var self = this;
+		if (mapsCount < periodsCount){
+			// go trough periods, check if map exists for period, if not, add map
+			periods.forEach(function(period){
+				var map = self._mapStore.getMapByPeriod(period);
+				if (!map){
+					self.addMap(null, period);
+				}
+			});
+		} else if (mapsCount > periodsCount) {
+			if (periodsCount === 1){
+				var counter = mapsCount;
+				allMaps.forEach(function(map){
+					if (map.id !== "default-map"){
+						counter--;
+						if (counter > 0){
+							map._wwd.drawContext.currentGlContext.getExtension('WEBGL_lose_context').loseContext();
+							self._dispatcher.notify("map#remove",{id: map.id});
+						} else {
+							map._id = "default-map";
+							map.rebuild();
+						}
+					}
+				});
+			} else {
+				// go trough maps, check if period exists for map, if not, remove map
+				allMaps.forEach(function(map){
+					var period =_.filter(periods, function(per){
+						return per === map.period;
+					});
+					if (period.length === 0){
+						map._wwd.drawContext.currentGlContext.getExtension('WEBGL_lose_context').loseContext();
+						self._dispatcher.notify("map#remove",{id: map.id});
+					}
+				});
+			}
+		}
 	};
 
 	/**

@@ -160,138 +160,6 @@ define(['../../actions/Actions',
 	});
 
 	/**
-	 * Rebuild map
-	 */
-	WorldWindMap.prototype.rebuild = function(){
-		this._stateStore.removeLoadingOperation("initialLoading");
-		var state = this._stateStore.current();
-		var changes = state.changes;
-
-		if (changes.scope || changes.location){
-			this._stateStore.removeLoadingOperation("appRendering");
-		}
-		if ((changes.scope || changes.location) && !changes.dataview){
-			this._stateStore.addLoadingOperation("ScopeLocationChanged");
-			// TODO go through this
-			this._goToAnimator.setLocation();
-		}
-
-
-		// TODO solve this somehow
-		if (this._id === "default-map"){
-			this._stateStore.addLoadingOperation("DefaultMap");
-			// TODO potential risk
-			this.updateNavigatorState();
-			var periods = state.periods;
-			if (periods.length === 1 || !this._period){
-				this._period = periods[0];
-			}
-			if (!Config.toggles.hideSelectorToolbar){
-				this.mapWindowTools.addMapLabel(this._period);
-			}
-		} else {
-			// TODO what if this will be removed
-			this._stateStore.addLoadingOperation("AditionalMap");
-			// this.updateNavigatorState();
-			this._stateStore.removeLoadingOperation("AditionalMap");
-		}
-	};
-
-	/**
-	 * Execute on map click. Find out a location of click target in lat, lon. And execute getFeatureInfo query for this location.
-	 * TODO better name of this method
-	 * @param callback {function} on click callback
-	 * @param property {string} property for to find via getFeatureInfo
-	 * @param event {Object}
-	 */
-	WorldWindMap.prototype.onMapClick = function(callback, property, event){
-		var self = this;
-		var gid = null;
-		var coordinates = null;
-		var auLayer = this.layers.getAuLayer()[0];
-		var auBaseLayers = this._dataMining.getAuBaseLayers(this._period);
-
-		var x = event._clientX;
-		var y = event._clientY;
-		var position = this.getPositionFromCanvasCoordinates(x,y);
-		if (position) {
-			coordinates = {
-				lat: position.latitude,
-				lon: position.longitude
-			};
-		}
-
-		if (auLayer.metadata.active && coordinates){
-			auLayer.getFeatureInfo(property, coordinates, auBaseLayers.join(",")).then(function(feature){
-				if (feature && feature.properties){
-					gid = feature.properties[property];
-				}
-				callback(gid, self._period, {x:x,y:y});
-			});
-		} else {
-			callback(gid);
-		}
-	};
-
-	// todo comments
-	WorldWindMap.prototype.getLayersInfo = function(callback, event) {
-		var x = event.x,
-			y = event.y;
-		var position = this.getPositionFromCanvasCoordinates(x,y);
-
-		var tablePromises = event.worldWindow.layers.map(function(layer){
-			if(!layer || !layer.metadata || !layer.metadata.group || layer.metadata.group === 'areaoutlines') {
-				return;
-			}
-			var serviceAddress = layer.urlBuilder.serviceAddress;
-			var layerNames = layer.urlBuilder.layerNames;
-			var crs = layer.urlBuilder.crs;
-			var name = layerNames;
-			var customParams = null;
-			if (layer.metadata && layer.metadata.name){
-				name = layer.metadata.name;
-			}
-			if (layer.urlBuilder.customParams){
-				customParams = layer.urlBuilder.customParams;
-			}
-
-			return new WmsFeatureInfo({
-				customParameters: customParams,
-				serviceAddress: serviceAddress,
-				layers: layerNames,
-				position: position,
-				src: crs,
-				screenCoordinates: {x: x, y: y},
-				name: name
-			}).get();
-		}).filter(function(state){
-			return state;
-		});
-
-		return Promise.all(tablePromises).then(function(result){
-			callback(result)
-		});
-	};
-
-	/**
-	 * Get geographic position from canvas coordinates
-	 * @param x {number}
-	 * @param y {number}
-	 * @returns {WorldWind.Position}
-	 */
-	WorldWindMap.prototype.getPositionFromCanvasCoordinates = function(x, y){
-		var currentPoint = this._wwd.pickTerrain(this._wwd.canvasCoordinates(x, y));
-		if(!currentPoint.objects.length) {
-			// TODO: Build better error mechanism.
-			alert('Please click on the area containing the globe.');
-			return;
-		}
-		return currentPoint.objects[0].position;
-	};
-
-	// TODO reviewed methods ----------------------------------------------------------------------
-
-	/**
 	 * Add on click recognizer
 	 * @param callback {function} on click callback
 	 * @param property {string} property for to find via getFeatureInfo
@@ -519,6 +387,40 @@ define(['../../actions/Actions',
 	};
 
 	/**
+	 * Rebuild map
+	 */
+	WorldWindMap.prototype.rebuild = function(){
+		this._stateStore.removeLoadingOperation("initialLoading");
+		var state = this._stateStore.current();
+		var changes = state.changes;
+
+		if (changes.scope || changes.location){
+			this._stateStore.removeLoadingOperation("appRendering");
+		}
+
+		/**
+		 * Set location if location or scope has been changed, but dataview
+		 */
+		if ((changes.scope || changes.location) && !changes.dataview){
+			this._stateStore.addLoadingOperation("ScopeLocationChanged");
+			this._goToAnimator.setLocation();
+		}
+
+
+		if (this._id === "default-map"){
+			this._stateStore.addLoadingOperation("DefaultMap");
+			this.updateNavigatorState();
+			var periods = state.periods;
+			if (periods.length === 1 || !this._period){
+				this._period = periods[0];
+			}
+			if (!Config.toggles.hideSelectorToolbar){
+				this.mapWindowTools.addMapLabel(this._period);
+			}
+		}
+	};
+
+	/**
 	 * Redraw the map
 	 */
 	WorldWindMap.prototype.redraw = function(){
@@ -615,10 +517,104 @@ define(['../../actions/Actions',
 		this.redraw();
 	};
 
+	// TODO review following methods ------------------------------------------
+	/**
+	 * Execute on map click. Find out a location of click target in lat, lon. And execute getFeatureInfo query for this location.
+	 * TODO better name of this method
+	 * @param callback {function} on click callback
+	 * @param property {string} property for to find via getFeatureInfo
+	 * @param event {Object}
+	 */
+	WorldWindMap.prototype.onMapClick = function(callback, property, event){
+		var self = this;
+		var gid = null;
+		var coordinates = null;
+		var auLayer = this.layers.getAuLayer()[0];
+		var auBaseLayers = this._dataMining.getAuBaseLayers(this._period);
+
+		var x = event._clientX;
+		var y = event._clientY;
+		var position = this.getPositionFromCanvasCoordinates(x,y);
+		if (position) {
+			coordinates = {
+				lat: position.latitude,
+				lon: position.longitude
+			};
+		}
+
+		if (auLayer.metadata.active && coordinates){
+			auLayer.getFeatureInfo(property, coordinates, auBaseLayers.join(",")).then(function(feature){
+				if (feature && feature.properties){
+					gid = feature.properties[property];
+				}
+				callback(gid, self._period, {x:x,y:y});
+			});
+		} else {
+			callback(gid);
+		}
+	};
+
+	// todo comments
+	WorldWindMap.prototype.getLayersInfo = function(callback, event) {
+		var x = event.x,
+			y = event.y;
+		var position = this.getPositionFromCanvasCoordinates(x,y);
+
+		var tablePromises = event.worldWindow.layers.map(function(layer){
+			if(!layer || !layer.metadata || !layer.metadata.group || layer.metadata.group === 'areaoutlines') {
+				return;
+			}
+			var serviceAddress = layer.urlBuilder.serviceAddress;
+			var layerNames = layer.urlBuilder.layerNames;
+			var crs = layer.urlBuilder.crs;
+			var name = layerNames;
+			var customParams = null;
+			if (layer.metadata && layer.metadata.name){
+				name = layer.metadata.name;
+			}
+			if (layer.urlBuilder.customParams){
+				customParams = layer.urlBuilder.customParams;
+			}
+
+			return new WmsFeatureInfo({
+				customParameters: customParams,
+				serviceAddress: serviceAddress,
+				layers: layerNames,
+				position: position,
+				src: crs,
+				screenCoordinates: {x: x, y: y},
+				name: name
+			}).get();
+		}).filter(function(state){
+			return state;
+		});
+
+		return Promise.all(tablePromises).then(function(result){
+			callback(result)
+		});
+	};
+
+	/**
+	 * Get geographic position from canvas coordinates
+	 * @param x {number}
+	 * @param y {number}
+	 * @returns {WorldWind.Position}
+	 */
+	WorldWindMap.prototype.getPositionFromCanvasCoordinates = function(x, y){
+		var currentPoint = this._wwd.pickTerrain(this._wwd.canvasCoordinates(x, y));
+		if(!currentPoint.objects.length) {
+			// TODO: Build better error mechanism.
+			alert('Please click on the area containing the globe.');
+			return;
+		}
+		return currentPoint.objects[0].position;
+	};
+
 	// TODO temporary methods -------------------------------------------------
 
 	/**
-	 * TODO temporary solution for zoom to selected from Areas widget
+	 * TODO temporary solution for zoom to selected from Areas widget. It is used in DROMAS project.
+	 * TODO It sholud be removed when new Areas widget will be implemented.
 	 * @param bbox {Object}
 	 */
 	WorldWindMap.prototype.setPositionRangeFromBbox = function(bbox){
