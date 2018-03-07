@@ -68,13 +68,9 @@ define([
 			this._topToolBar = options.topToolBar;
 		}
 
-		// Inherited from Widget
 		this._dispatcher.addListener(this.onEvent.bind(this));
 
 		this.build();
-
-		// TODO it should be higher
-		this._mapsContainer.addMap('default-map');
 	};
 
 	WorldWindWidget.prototype = Object.create(Widget.prototype);

@@ -137,18 +137,6 @@ define([
 	};
 
 	/**
-	 * Add map to container
-	 * @param id {string|null} Id of the map
-	 * @param periodId {number} Id of the period connected with map
-	 */
-	MapsContainer.prototype.addMap = function (id, periodId) {
-		var worldWindMap = this.buildWorldWindMap(id, periodId, this._mapsToContainerAdded++);
-		this._dispatcher.notify('map#add', {map: worldWindMap});
-		this.addControls(worldWindMap);
-		this.rebuildContainerLayout();
-	};
-
-	/**
 	 * Remove map from container
 	 * TODO clearly distinguish this method and removeMapFromContainer (or perhaps mapIsUpToRemove?)
 	 * @param id {string} ID of the map
@@ -171,6 +159,18 @@ define([
 		} else {
 			this._mapControls = this.buildMapControls(map._wwd);
 		}
+	};
+
+	/**
+	 * Add map to container
+	 * @param id {string|null} Id of the map
+	 * @param periodId {number} Id of the period connected with map
+	 */
+	MapsContainer.prototype.addMap = function (id, periodId) {
+		var worldWindMap = this.buildWorldWindMap(id, periodId, this._mapsToContainerAdded++);
+		this._dispatcher.notify('map#add', {map: worldWindMap});
+		this.addControls(worldWindMap);
+		this.rebuildContainerLayout();
 	};
 
 	/**

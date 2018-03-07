@@ -53,6 +53,7 @@ define([
 		this._topToolBar = options.topToolBar;
 
 		this._mapsContainer = options.mapsContainer;
+		this._mapsContainer.addMap('default-map');
 
 		this._dataset = null;
 
