@@ -35,9 +35,7 @@ define([
 		this._store = options.store;
 
 		this.isMap3D = true;
-
-		// TODO get this from scope setting
-		// this.isMapIndependentOfPeriod = true;
+		this.isMapIndependentOfPeriod = false;
 
 		window.Stores.addListener(this.onEvent.bind(this), "initialLoading");
 		window.Stores.hasStateStore = true;
@@ -269,6 +267,13 @@ define([
 	};
 
 	/**
+	 * @param isDependent {boolean} true, if maps are dependent on periods
+	 */
+	StateStore.prototype.handleMapDependencyOnPeriod = function(isDependent){
+		this.isMapIndependentOfPeriod = !isDependent;
+	};
+
+	/**
 	 * Switch map projection
 	 */
 	StateStore.prototype.handleMapProjection = function(){
@@ -317,6 +322,10 @@ define([
 			this.updateNavigator(options);
 		} else if (type === Actions.mapSwitchProjection){
 			this.handleMapProjection();
+		} else if (type === Actions.foMapIsIndependentOfPeriod){
+			this.handleMapDependencyOnPeriod(false);
+		} else if (type === Actions.foMapIsDependentOnPeriod){
+			this.handleMapDependencyOnPeriod(true);
 		}
 	};
 

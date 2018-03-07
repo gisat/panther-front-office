@@ -48,6 +48,7 @@ define([
 		this._tools = options.tools;
 		this._widgets = options.widgets;
 		this._store = options.store;
+		this._scopesStore = options.store.scopes;
 		this._stateStore = options.store.state;
 		this._dispatcher = options.dispatcher;
 		this._topToolBar = options.topToolBar;
@@ -107,6 +108,7 @@ define([
 				self.toggleSidebars(options);
 				self.toggleWidgets(options);
 				self.toggleCustomLayers(options);
+				self.handlePeriods();
 			}).catch(function(err){
 				throw new Error(err);
 			});
@@ -116,12 +118,11 @@ define([
 			var attributesData = this.getAttributesMetadata();
 			Promise.all([attributesData]).then(function(result){
 				self.rebuildComponents(result[0]);
+				self.handlePeriods();
 			});
 		}
 
 		ThemeYearConfParams.datasetChanged = false;
-
-		this.handlePeriods();
 	};
 
 	/**
@@ -324,55 +325,6 @@ define([
 	};
 
 	/**
-	 * It shows the 3D Map.
-	 * @param [options] {Object} Optional. Settings from dataview
-	 */
-	FrontOffice.prototype.show3DMap = function(options) {
-		var state = this._stateStore.current();
-		$("body").addClass("mode-3d");
-
-		this.toggleComponents("none");
-		this._worldWindWidget = _.find(this._widgets, function(widget){return widget._widgetId === 'world-wind-widget'});
-
-		this._worldWindWidget.rebuild();
-
-		if (this._topToolBar){
-			this._topToolBar.build();
-		}
-
-		// set default position of the map
-		if (_.isEmpty(state.changes) || (!state.changes.dataview && (state.changes.scope || state.changes.location))){
-			var position = this.getPosition(options);
-			this._mapsContainer.setAllMapsPosition(position);
-		}
-
-		// execute if there are settings from dataview
-		if (options){
-			this._stateStore._changes = {
-				dataview: true
-			};
-			this.adjustAppConfiguration(options);
-		}
-	};
-
-	/**
-	 * Use dataview options and adjust configuration
-	 * @param options {Object}
-	 */
-	FrontOffice.prototype.adjustAppConfiguration = function(options){
-		if (options.worldWindState){
-			this._mapsContainer.setAllMapsPosition(options.worldWindState.location);
-			this._mapsContainer.setAllMapsRange(options.worldWindState.range);
-			if (options.worldWindState.is2D && this._stateStore.current().isMap3D){
-				this._dispatcher.notify('map#switchProjection');
-			}
-		}
-		if (options.widgets){
-			this._topToolBar.handleDataview(options.widgets);
-		}
-	};
-
-	/**
 	 * Get default position in the map according to configuration
 	 * @param [options] {Object} Optional. Settings from dataview
 	 * @return position {WorldWind.Position}
@@ -440,27 +392,77 @@ define([
 		return [minLongitude, maxLatitude, maxLongitude, minLatitude];
 	};
 
-	/**
-	 * Show/hide components
-	 * @param action {string} css display value
-	 */
-	FrontOffice.prototype.toggleComponents = function(action){
-		if (!Config.toggles.useTopToolbar) {
-			var sidebarTools = $("#sidebar-tools");
-			if (action === "none") {
-				sidebarTools.addClass("hidden-complete");
-				sidebarTools.css("display", "none");
-			} else {
-				sidebarTools.removeClass("hidden-complete");
-				sidebarTools.css("display", "block");
-			}
-		}
-		$(".x-window:not(.thematic-maps-settings, .x-window-ghost, .metadata-window, .window-savevisualization, .window-savedataview, #loginwindow, #window-managevisualization, #window-areatree, #window-colourSelection, #window-legacyAdvancedFilters), #tools-container, #widget-container .placeholder:not(#placeholder-" + this._widgetId + ")")
-			.css("display", action);
+	// TODO reviewed methods -----------------------------------------------------------------------------------------
 
+	/**
+	 * Adjust FO view
+	 * @param options {Object} settings from dataview
+	 */
+	FrontOffice.prototype.adjustConfiguration = function(options){
+		var state = this._stateStore.current();
+		var htmlBody = $("body");
+		var self = this;
+
+		this._scopesStore.byId(state.scope).then(function(scopes){
+			var scope = scopes[0];
+			if (scope && scope.isMapIndependentOfPeriod){
+				self._dispatcher.notify("fo#mapIsIndependentOfPeriod");
+			} else {
+				self._dispatcher.notify("fo#mapIsDependentOnPeriod");
+			}
+
+			htmlBody.addClass("mode-3d");
+			self.toggleExtComponents("none");
+
+			/**
+			 * Rebuild World wind widget
+			 */
+			self._worldWindWidget = _.find(self._widgets, function(widget){return widget._widgetId === 'world-wind-widget'});
+			self._worldWindWidget.rebuild();
+
+			/**
+			 * Rebuild Top tool bar
+			 */
+			if (self._topToolBar){
+				self._topToolBar.build();
+			}
+
+			/**
+			 * Set default position of the map
+			 */
+			if (_.isEmpty(state.changes) || (!state.changes.dataview && (state.changes.scope || state.changes.location))){
+				var position = self.getPosition(options);
+				self._mapsContainer.setAllMapsPosition(position);
+			}
+
+			/**
+			 * Apply settings from dataview, if exists
+			 */
+			if (options){
+				self.applySettingsFromDataview(options);
+			}
+		});
 	};
 
-	// TODO reviewed methods -----------------------------------------------------------------------------------------
+	/**
+	 * Apply dataview settings
+	 * @param options {Object} settings
+	 */
+	FrontOffice.prototype.applySettingsFromDataview = function(options){
+		this._stateStore._changes = {
+			dataview: true
+		};
+		if (options.worldWindState){
+			this._mapsContainer.setAllMapsPosition(options.worldWindState.location);
+			this._mapsContainer.setAllMapsRange(options.worldWindState.range);
+			if (options.worldWindState.is2D && this._stateStore.current().isMap3D){
+				this._dispatcher.notify('map#switchProjection');
+			}
+		}
+		if (options.widgets){
+			this._topToolBar.handleDataview(options.widgets);
+		}
+	};
 
 	/**
 	 * Handle periods according to scope setting
@@ -493,14 +495,34 @@ define([
 	};
 
 	/**
+	 * Show/hide components
+	 * @param action {string} css display value
+	 */
+	FrontOffice.prototype.toggleExtComponents = function(action){
+		if (!Config.toggles.useTopToolbar) {
+			var sidebarTools = $("#sidebar-tools");
+			if (action === "none") {
+				sidebarTools.addClass("hidden-complete");
+				sidebarTools.css("display", "none");
+			} else {
+				sidebarTools.removeClass("hidden-complete");
+				sidebarTools.css("display", "block");
+			}
+		}
+		$(".x-window:not(.thematic-maps-settings, .x-window-ghost, .metadata-window, .window-savevisualization, .window-savedataview, #loginwindow, #window-managevisualization, #window-areatree, #window-colourSelection, #window-legacyAdvancedFilters), #tools-container, #widget-container .placeholder:not(#placeholder-" + this._widgetId + ")")
+			.css("display", action);
+
+	};
+
+	/**
 	 * @param type {string} type of event
 	 * @param options {Object}
 	 */
 	FrontOffice.prototype.onEvent = function(type, options) {
-		if(type === Actions.mapShow3D) {
-			this.show3DMap();
-		} else if (type === Actions.mapShow3DFromDataview){
-			this.show3DMap(options);
+		if(type === Actions.adjustConfiguration) {
+			this.adjustConfiguration();
+		} else if (type === Actions.adjustConfigurationFromDataview){
+			this.adjustConfiguration(options);
 		}
 	};
 

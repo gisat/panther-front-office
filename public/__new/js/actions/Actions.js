@@ -1,5 +1,10 @@
 define([], function(){
 	return {
+		adjustConfiguration: 'fo#adjustConfiguration',
+		adjustConfigurationFromDataview: 'fo#adjustConfigurationFromDataview',
+		foMapIsIndependentOfPeriod: 'fo#mapIsIndependentOfPeriod',
+		foMapIsDependentOnPeriod: 'fo#mapIsDependentOnPeriod',
+
 		chartToggleDescription: "chart#toggleDescription",
 		dataviewShow: "dataview#show",
 
@@ -55,9 +60,6 @@ define([], function(){
 		extThemeYearLoaded: 'extRestructured',
 
 		userChanged: 'user#changed',
-
-		mapShow3D: 'map#show3D',
-		mapShow3DFromDataview: 'map#show3DFromDataview',
 
 		sharingUrlReceived: 'sharing#urlReceived',
 		sharingViewShared: 'sharing#viewShared',

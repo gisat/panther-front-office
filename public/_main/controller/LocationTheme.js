@@ -1052,7 +1052,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
             OneLevelAreas.hasOneLevel = (counter == 1 && scope.get('oneLevelOnly'));
 
-			Stores.notify('map#show3D');
+			Stores.notify('fo#adjustConfiguration');
             if (OneLevelAreas.hasOneLevel){
 
                 $('.areaTreeSelection').hide();

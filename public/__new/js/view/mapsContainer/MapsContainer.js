@@ -282,6 +282,8 @@ define([
 						self._dispatcher.notify("map#remove",{id: map.id});
 					}
 				});
+
+				// remove duplicates
 			}
 		}
 	};
@@ -429,11 +431,16 @@ define([
 	 * @param options {Object|string}
 	 */
 	MapsContainer.prototype.onEvent = function(type, options){
+		var periods = this._stateStore.current().periods;
 		if (type === Actions.mapRemoved){
 			this.removeMapFromContainer(options.id);
 		} else if (type === Actions.periodsRebuild){
-			var periods = this._stateStore.current().periods;
 			this.rebuildContainerWithPeriods(periods);
+			this.checkMapsCloseButton();
+		}
+		// TODO adapt this for mapIndependentOfPeriod case
+		else if (type === Actions.periodsDefault){
+			this.rebuildContainerWithPeriods([periods[0]]);
 			this.checkMapsCloseButton();
 		} else if (type === Actions.mapZoomSelected){
 			this.zoomToArea(options);

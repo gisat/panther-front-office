@@ -282,7 +282,7 @@ Ext.define('PumaMain.controller.ViewMng', {
         var selection = cfg.selection;
         if(scope.get('oneLevelOnly')){
         	setTimeout(function(){
-				Stores.notify('map#show3D');
+				Stores.notify('fo#adjustConfiguration');
 
 				$('.areaTreeSelection').hide();
 				$('#top-toolbar-areas').hide();
@@ -319,7 +319,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 		}
 
 		if (Config.cfg.is3D){
-			Stores.notify('map#show3DFromDataview', options);
+			Stores.notify('fo#adjustConfigurationFromDataview', options);
 
         	// show right panel
         	if (Config.cfg.sidebarReportsOpen){
