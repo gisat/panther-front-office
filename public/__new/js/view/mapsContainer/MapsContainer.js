@@ -119,6 +119,21 @@ define([
 	};
 
 	/**
+	 * Add on click listener to all map boxes
+	 */
+	MapsContainer.prototype.addMapBoxOnClickListener = function(){
+		var self = this;
+		this._containerSelector.on("click", ".world-wind-map-box", function(){
+			var state = self._stateStore.current();
+			if (state.isMapIndependentOfPeriod){
+				var mapId = $(this).find('.world-wind-map').attr('id');
+				var map = self._mapStore.getMapById(mapId);
+				self.handleMapSelection(map);
+			}
+		});
+	};
+
+	/**
 	 * Rebuild the container when sidebar-reports panel changes it's state
 	 */
 	MapsContainer.prototype.addSidebarReportsStateListener = function(){
@@ -132,6 +147,7 @@ define([
 		this._containerSelector = $("#" + this._id);
 
 		this.addSidebarReportsStateListener();
+		this.addMapBoxOnClickListener();
 	};
 
 	/**
