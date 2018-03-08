@@ -26,6 +26,7 @@ define([
 		$('#top-toolbar-context-help').on('click.topToolBar', this.handleContextHelpClick);
 		$('#top-toolbar-snapshot').on('click.topToolBar', this.handleSnapshotClick.bind(this, document.getElementById('top-toolbar-snapshot')));
 		$('#top-toolbar-share-view').on('click.topToolBar', this.handleShareViewClick);
+		$('#top-toolbar-add-map').on('click.topToolBar', this.handleAddMapClick);
 		this._map3dSwitchSelector.on("click.topToolBar", this.handle3dMapClick.bind(this));
 
 		Observer.addListener("Tools.hideClick.layerpanel",this.handleHideClick.bind(this, 'window-layerpanel'));
@@ -275,6 +276,21 @@ define([
 	};
 
 	/**
+	 * Show hide button for new map adding
+	 * @param value {string} CSS display value
+	 */
+	TopToolBar.prototype.handleAddMapButton = function(value){
+		$('#top-toolbar-add-map').css('display', value);
+	};
+
+	/**
+	 * Handle click on Add map button
+	 */
+	TopToolBar.prototype.handleAddMapClick = function(){
+		debugger;
+	};
+
+	/**
 	 * Set top tool bar items state and wingets state according to dataview configuration
 	 * @param widgets {Object}
 	 */
@@ -304,6 +320,10 @@ define([
 			this.handle3dMapButtonState(false);
 		} else if (type === Actions.toolBarClick3d){
 			this.handle3dMapClick();
+		} else if (type === Actions.foMapIsIndependentOfPeriod){
+			this.handleAddMapButton('inline-block');
+		} else if (type === Actions.foMapIsDependentOnPeriod){
+			this.handleAddMapButton('none');
 		}
 	};
 

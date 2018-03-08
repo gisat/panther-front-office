@@ -659,7 +659,7 @@ body.intro #content-intro-terms {
 	position: absolute;
 	top: 0;
 	right: 0;
-	width: 93px;
+	width: 124px;
 	text-align: right;
 }
 #top-toolbar-widgets {
@@ -713,6 +713,9 @@ body.mode-3d #top-toolbar-3dmap.disabled:not(.world-wind-2d) span {
 }
 #top-toolbar-tools .item {
 	border-left: 1px solid #ddd;
+}
+#top-toolbar .item#top-toolbar-add-map {
+	display: none;
 }
 #top-toolbar .item::before {
 	content: '';
@@ -777,6 +780,9 @@ body.mode-3d #top-toolbar-3dmap.disabled:not(.world-wind-2d) span {
 }
 #top-toolbar .item#top-toolbar-share-view.open::before {
 	color: rgba(186,65,91,1);
+}
+#top-toolbar .item#top-toolbar-add-map::before {
+	content: '\f055';
 }
 #top-toolbar .item#top-toolbar-context-help::before {
 	background: url('../images/icons/context-help.svg') center center no-repeat;
