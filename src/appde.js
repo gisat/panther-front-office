@@ -187,10 +187,10 @@ Ext.application({
 
 					this._dataviewId = id;
                 } else {
-					window.Stores.notify("initialLoadingFinished");
                     loginController.onLoginClicked();
                 }
 			});
+			window.Stores.notify("initialLoadingFinished");
 		} else if (id) {
             Config.dataviewId = id;
             // Load stores when only for print or loading the whole application.
