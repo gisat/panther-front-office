@@ -7,7 +7,6 @@ define([
 	'../worldWind/controls/Controls',
 	'../../util/Filter',
 	'../worldWind/WorldWindMap',
-	'../mapsTimeline/MapsTimeline',
 
 	'string',
 	'jquery',
@@ -22,7 +21,6 @@ define([
 			Controls,
 			Filter,
 			WorldWindMap,
-			MapsTimeline,
 
 			S,
 			$,
@@ -94,18 +92,8 @@ define([
 		this._target.append(html);
 		this._containerSelector = $("#" + this._id);
 
-		this.buildTimeline();
-
 		this.addCloseButtonOnClickListener();
 		this.addSidebarReportsStateListener();
-	};
-
-	/**
-	 * Build timeline
-	 * @returns {MapsTimeline}
-	 */
-	MapsContainer.prototype.buildTimeline = function(){
-		//return new MapsTimeline();
 	};
 
 	/**
