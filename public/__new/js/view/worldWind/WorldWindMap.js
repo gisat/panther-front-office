@@ -441,14 +441,24 @@ define(['../../actions/Actions',
 	WorldWindMap.prototype.setNavigator = function(){
 		var navigatorState = this._stateStore.getNavigatorState();
 
-		this._wwd.navigator.heading = navigatorState.heading;
-		this._wwd.navigator.lookAtLocation = navigatorState.lookAtLocation;
-		this._wwd.navigator.range = navigatorState.range;
-		this._wwd.navigator.roll = navigatorState.roll;
-		this._wwd.navigator.tilt = navigatorState.tilt;
+		if (navigatorState){
+			this._wwd.navigator.heading = navigatorState.heading;
+			this._wwd.navigator.lookAtLocation = navigatorState.lookAtLocation;
+			this._wwd.navigator.range = navigatorState.range;
+			this._wwd.navigator.roll = navigatorState.roll;
+			this._wwd.navigator.tilt = navigatorState.tilt;
 
-		this._goToAnimator.checkRange(navigatorState.range);
-		this.redraw();
+			this._goToAnimator.checkRange(navigatorState.range);
+			this.redraw();
+		}
+	};
+
+	/**
+	 * Set map period
+	 * @param period {number}
+	 */
+	WorldWindMap.prototype.setPeriod = function(period){
+		this._period = period;
 	};
 
 	/**
@@ -490,6 +500,7 @@ define(['../../actions/Actions',
 
 		this.addSnapshotCallback();
 		this.addMapControlListeners();
+		this.setNavigator();
 	};
 
 	/**

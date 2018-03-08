@@ -104,6 +104,10 @@ define([
 	 * @param periodId {number} Id of the period connected with map
 	 */
 	MapsContainer.prototype.addMap = function (id, periodId) {
+		var state = this._stateStore.current();
+		if (state.isMapIndependentOfPeriod && state.periods){
+			periodId = state.periods[0];
+		}
 		var worldWindMap = this.buildWorldWindMap(id, periodId, this._mapsToContainerAdded++);
 		this._dispatcher.notify('map#add', {map: worldWindMap});
 		this.addControls(worldWindMap);
@@ -326,6 +330,16 @@ define([
 		});
 	};
 
+	/**
+	 * Set a period of all maps. It is used if maps are independent of periods
+	 * @param periodId {number}
+	 */
+	MapsContainer.prototype.setPeriodOfAllMaps = function (periodId) {
+		var maps = this._mapStore.getAll();
+		maps.forEach(function(map){
+			map.setPeriod(periodId);
+		});
+	};
 
 	/**
 	 * Set projection of all maps
@@ -434,10 +448,8 @@ define([
 		} else if (type === Actions.periodsRebuild){
 			this.rebuildContainerWithPeriods(periods);
 			this.checkMapsCloseButton();
-		}
-		// TODO adapt this for mapIndependentOfPeriod case
-		else if (type === Actions.periodsDefault){
-			this.rebuildContainerWithPeriods([periods[0]]);
+		} else if (type === Actions.periodsDefault){
+			this.setPeriodOfAllMaps(periods[0]);
 			this.checkMapsCloseButton();
 		} else if (type === Actions.mapZoomSelected){
 			this.zoomToArea(options);
