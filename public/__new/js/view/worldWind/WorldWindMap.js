@@ -90,6 +90,7 @@ define(['../../actions/Actions',
 		this._mapSelector = $("#" + this._id);
 
 		this._name = "Map " + options.orderFromStart;
+		this._selected = false;
 
 		/**
 		 * Every map is associated with the period. If no period is specified, then it is supplied latest when the first
@@ -417,6 +418,9 @@ define(['../../actions/Actions',
 			if (!Config.toggles.hideSelectorToolbar){
 				this.mapWindowTools.addMapLabel(this._period);
 			}
+			if (!state.isMapIndependentOfPeriod){
+				this.unselect();
+			}
 		}
 	};
 
@@ -433,6 +437,14 @@ define(['../../actions/Actions',
 	 */
 	WorldWindMap.prototype.removeLayer = function(layer) {
 		this._wwd.removeLayer(layer);
+	};
+
+	/**
+	 * Select map
+	 */
+	WorldWindMap.prototype.select = function(){
+		this._selected = true;
+		this._mapBoxSelector.addClass('selected');
 	};
 
 	/**
@@ -509,6 +521,14 @@ define(['../../actions/Actions',
 	 */
 	WorldWindMap.prototype.updateNavigatorState = function(){
 		this._dispatcher.notify('map#control', this._wwd.navigator);
+	};
+
+	/**
+	 * Unselect map
+	 */
+	WorldWindMap.prototype.unselect = function(){
+		this._selected = false;
+		this._mapBoxSelector.removeClass('selected');
 	};
 
 	/**

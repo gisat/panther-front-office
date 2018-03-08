@@ -111,6 +111,10 @@ define([
 		var worldWindMap = this.buildWorldWindMap(id, periodId, this._mapsToContainerAdded++);
 		this._dispatcher.notify('map#add', {map: worldWindMap});
 		this.addControls(worldWindMap);
+
+		if (state.isMapIndependentOfPeriod || id === 'default-map'){
+			this.handleMapSelection(worldWindMap);
+		}
 		this.rebuildContainerLayout();
 	};
 
@@ -309,6 +313,31 @@ define([
 	};
 
 	/**
+	 * If current map is provided, select it. Otherwise find out, if any map is selected. If not, select the first one.
+	 * @param [currentMap] {WorldWindMap} optional parameter
+	 */
+	MapsContainer.prototype.handleMapSelection = function(currentMap){
+		var allMaps = this._mapStore.getAll();
+		if (currentMap){
+			allMaps.forEach(function(map){
+				map.unselect();
+			});
+			currentMap.select();
+		} else {
+			var selected = false;
+			allMaps.forEach(function(map){
+				if (map._selected){
+					selected = true;
+				}
+			});
+			if (!selected){
+				var firstMap = allMaps[0];
+				firstMap.select();
+			}
+		}
+	};
+
+	/**
 	 * Set position of all maps in this container
 	 * @param position {WorldWind.Position}
 	 */
@@ -441,10 +470,15 @@ define([
 	 * @param options {Object|string}
 	 */
 	MapsContainer.prototype.onEvent = function(type, options){
-		var periods = this._stateStore.current().periods;
+		var state = this._stateStore.current();
+		var periods = state.periods;
+		var isMapIndependentOfPeriod = state.isMapIndependentOfPeriod;
 		if (type === Actions.mapRemoved){
 			this.removeMapFromContainer(options.id);
 			this.checkMapsCloseButton();
+			if (isMapIndependentOfPeriod){
+				this.handleMapSelection();
+			}
 		} else if (type === Actions.periodsRebuild){
 			this.rebuildContainerWithPeriods(periods);
 			this.checkMapsCloseButton();
