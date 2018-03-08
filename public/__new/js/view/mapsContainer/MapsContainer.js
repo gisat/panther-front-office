@@ -121,10 +121,6 @@ define([
 	 * Build container
 	 */
 	MapsContainer.prototype.build = function(){
-		var html = S(mapsContainer).template({
-			id: this._id
-		}).toString();
-		this._target.append(html);
 		this._containerSelector = $("#" + this._id);
 
 		this.addSidebarReportsStateListener();
