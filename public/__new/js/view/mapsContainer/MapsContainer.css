@@ -1,7 +1,6 @@
 .maps-container {
 	background: #ccc;
 	display: none;
-	flex-wrap: wrap;
 	position: relative;
 	z-index: 5555;
 	width: 100%;
@@ -9,7 +8,20 @@
 }
 body.mode-3d .maps-container {
 	display: flex;
+	flex-direction: column;
 	position: absolute;
+}
+.maps-container > div:first-child {
+	display: flex;
+	flex-grow: 1;
+	position: relative;
+}
+.maps-container #maps-container-bar-bottom {
+	flex-grow: 0;
+	height: 0;
+
+	height: 40px;
+	background: #ff0;
 }
 .maps-container .map-tools {
 	width: 0;
@@ -21,7 +33,6 @@ body.mode-3d .maps-container {
 }
 .maps-container .map-fields {
 	flex: 1;
-	height: 100%;
 }
 .world-wind-map-box {
 	background: black url("../../../img/night-sky.jpg") top left no-repeat;
