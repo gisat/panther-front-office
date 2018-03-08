@@ -45,7 +45,6 @@ body.mode-3d .maps-container {
 	margin: 0;
 	vertical-align: top;
 }
-
 /* maps container grid */
 .maps-container.h2 .world-wind-map-box {
 	height: 50%;
@@ -66,18 +65,37 @@ body.mode-3d .maps-container {
 	width: 25%;
 }
 /* delete right border for all maps on the right */
-.maps-container.h1.w1 .map-fields .world-wind-map-box {
+.maps-container.h1.w1 .map-fields .world-wind-map-box:not(.selected) {
 	border-bottom: 0;
 	border-right: 0;
 }
-.maps-container.w1.h2 .map-fields .world-wind-map-box,
-.maps-container.w2.h1 .map-fields .world-wind-map-box:nth-child(2n),
-.maps-container.w2.h2 .map-fields .world-wind-map-box:nth-child(2n),
-.maps-container.w2.h3 .map-fields .world-wind-map-box:nth-child(2n),
-.maps-container.w3.h2 .map-fields .world-wind-map-box:nth-child(3n),
-.maps-container.w3.h3 .map-fields .world-wind-map-box:nth-child(3n),
-.maps-container.w3.h4 .map-fields .world-wind-map-box:nth-child(3n),
-.maps-container.w4.h3 .map-fields .world-wind-map-box:nth-child(4n),
-.maps-container.w4.h4 .map-fields .world-wind-map-box:nth-child(4n){
+.maps-container.w1.h2 .map-fields .world-wind-map-box:not(.selected),
+.maps-container.w2.h1 .map-fields .world-wind-map-box:not(.selected):nth-child(2n),
+.maps-container.w2.h2 .map-fields .world-wind-map-box:not(.selected):nth-child(2n),
+.maps-container.w2.h3 .map-fields .world-wind-map-box:not(.selected):nth-child(2n),
+.maps-container.w3.h2 .map-fields .world-wind-map-box:not(.selected):nth-child(3n),
+.maps-container.w3.h3 .map-fields .world-wind-map-box:not(.selected):nth-child(3n),
+.maps-container.w3.h4 .map-fields .world-wind-map-box:not(.selected):nth-child(3n),
+.maps-container.w4.h3 .map-fields .world-wind-map-box:not(.selected):nth-child(4n),
+.maps-container.w4.h4 .map-fields .world-wind-map-box:not(.selected):nth-child(4n){
 	border-right: 0;
+}
+
+/* selected map */
+.maps-container .map-fields .world-wind-map-box.selected {
+	border: 2px solid rgb(186,65,91)
+}
+.maps-container .map-fields .world-wind-map-box.selected .map-name-label,
+.maps-container .map-fields .world-wind-map-box.selected .close-map-button {
+	background:  rgba(153,54,75,.9);
+	color: rgb(209,211,215);
+}
+.maps-container .map-fields .world-wind-map-box.selected .close-map-button:hover {
+	background:  rgba(183,84,105,.9);
+}
+.maps-container .map-fields .world-wind-map-box.selected .close-map-icon {
+	color: rgb(209,211,215);
+}
+.maps-container .map-fields .world-wind-map-box.selected .close-map-button {
+	border-right: 1px solid rgba(189,192,197,.7);
 }
