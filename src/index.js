@@ -16,14 +16,14 @@ let getStore = function() {
 };
 
 let listener = function(event, options) {
-	if (event == "EVERYTHING_TOTALLY_LOADED") {
+	if (event == "PERIODS_LOADED") {
 		initialize();
 	}
 };
 
 let initialize = function() {
 
-	//ReactDOM.render(<MapsTimeline />, document.getElementById('maps-timeline'));
+	ReactDOM.render(<MapsTimeline />, document.getElementById('maps-timeline'));
 
 };
 
