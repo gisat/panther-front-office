@@ -33,6 +33,8 @@ Ext.define('PumaMain.controller.Dataview', {
                     me.onLoadingFinished();
                     runner.destroy();
                     Observer.notify('Dataview#checkLoading Loading finished');
+                    // TODO fix for DROMAS (version 2.6.1)
+					window.Stores.notify("initialLoadingFinished");
                 }
             },
             interval: 1000

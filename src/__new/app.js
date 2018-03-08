@@ -284,7 +284,7 @@ define(['js/actions/Actions',
 			});
 		});
 
-		$("body").on("click drag", ".x-window", function(){
+		$("body").on("click drag", ".x-window:not(#loginwindow)", function(){
 			window.Stores.notify(Actions.floatersSort, {
 				fromExt: false,
 				xWindowJQuerySelector: $(this)[0]
