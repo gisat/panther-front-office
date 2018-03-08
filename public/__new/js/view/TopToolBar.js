@@ -26,7 +26,7 @@ define([
 		$('#top-toolbar-context-help').on('click.topToolBar', this.handleContextHelpClick);
 		$('#top-toolbar-snapshot').on('click.topToolBar', this.handleSnapshotClick.bind(this, document.getElementById('top-toolbar-snapshot')));
 		$('#top-toolbar-share-view').on('click.topToolBar', this.handleShareViewClick);
-		$('#top-toolbar-add-map').on('click.topToolBar', this.handleAddMapClick);
+		$('#top-toolbar-add-map').on('click.topToolBar', this.handleAddMapClick.bind(this));
 		this._map3dSwitchSelector.on("click.topToolBar", this.handle3dMapClick.bind(this));
 
 		Observer.addListener("Tools.hideClick.layerpanel",this.handleHideClick.bind(this, 'window-layerpanel'));
@@ -287,7 +287,8 @@ define([
 	 * Handle click on Add map button
 	 */
 	TopToolBar.prototype.handleAddMapClick = function(){
-		debugger;
+		this._dispatcher.notify('mapsContainer#addMap');
+		this._dispatcher.notify('worldWindWidget#rebuild');
 	};
 
 	/**

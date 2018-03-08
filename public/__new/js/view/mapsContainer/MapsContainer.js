@@ -446,6 +446,9 @@ define([
 			this.zoomToArea(options);
 		} else if (type === Actions.mapZoomToExtent){
 			this.zoomToExtent();
+		} else if (type === Actions.mapsContainerAddMap){
+			this.addMap();
+			this.checkMapsCloseButton();
 		} else if (type === Actions.mapsContainerToolsPinned){
 			this.handleTools(true);
 		} else if (type === Actions.mapsContainerToolsDetached){

@@ -168,6 +168,8 @@ define([
 	WorldWindWidget.prototype.onEvent = function(type, options) {
 		if(type === Actions.mapAdded){
 			this.addDataToMap(options.map);
+		} else if (type === Actions.worldWindWidgetRebuild){
+			this.rebuild();
 		}
 	};
 

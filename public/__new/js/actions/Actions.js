@@ -25,6 +25,7 @@ define([], function(){
 		mapZoomSelected: 'map#zoomSelected',
 		mapZoomToExtent: 'map#zoomToExtent',
 
+		mapsContainerAddMap: 'mapsContainer#addMap',
 		mapsContainerToolsDetached: 'mapsContainer#toolsDetached',
 		mapsContainerToolsPinned: 'mapsContainer#toolsPinned',
 
@@ -65,6 +66,7 @@ define([], function(){
 		sharingViewShared: 'sharing#viewShared',
 
 		widgetChangedState: 'widget#changedState',
-		widgetPinMapTools: 'widget#pinMapTools'
+		widgetPinMapTools: 'widget#pinMapTools',
+		worldWindWidgetRebuild: 'worldWindWidget#rebuild'
 	};
 });

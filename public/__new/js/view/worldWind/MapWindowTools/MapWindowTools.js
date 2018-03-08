@@ -66,7 +66,7 @@ define(['../../../actions/Actions',
 		var closeButton = this._mapToolsSelector.find(".close-map-button");
 		if (closeButton.length === 0){
 			var html = '<div title="Remove map" class="close-map-button"><i class="close-map-icon">&#x2715;</i></div>';
-			this._mapToolsSelector.append(html);
+			this._mapToolsSelector.prepend(html);
 			this._closeButton = this._mapToolsSelector.find(".close-map-button");
 			this.addCloseButtonListener();
 		}
@@ -80,7 +80,7 @@ define(['../../../actions/Actions',
 		var self = this;
 		this._closeButton.on("click", function(){
 			if (state.isMapIndependentOfPeriod){
-				// TODO add functionality for this case
+				self._dispatcher.notify("map#remove",{id: self._mapId});
 			} else {
 				var mapPeriod = self._mapStore.getMapById(self._mapId).period;
 				var periods = _.reject(self._stateStore.current().periods, function(period) { return period === mapPeriod; });
