@@ -430,6 +430,7 @@ define([
 		var periods = this._stateStore.current().periods;
 		if (type === Actions.mapRemoved){
 			this.removeMapFromContainer(options.id);
+			this.checkMapsCloseButton();
 		} else if (type === Actions.periodsRebuild){
 			this.rebuildContainerWithPeriods(periods);
 			this.checkMapsCloseButton();
