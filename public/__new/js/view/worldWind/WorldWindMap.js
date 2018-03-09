@@ -77,6 +77,7 @@ define(['../../actions/Actions',
 
 		this._store = options.store;
 		this._stateStore = options.store.state;
+		this._mapStore = options.store.map;
 		this._periodsStore = options.store.periods;
 
 		this._dataMining = new DataMining({
@@ -407,13 +408,14 @@ define(['../../actions/Actions',
 			this._goToAnimator.setLocation();
 		}
 
-
-		if (this._id === "default-map"){
+		var maps = this._mapStore.getAll();
+		if (this._id === "default-map" || maps.length === 1){
 			this._stateStore.addLoadingOperation("DefaultMap");
 			this.updateNavigatorState();
 			var periods = state.periods;
 			if (periods.length === 1 || !this._period){
 				this._period = periods[0];
+				this._stateStore.updateMapsMetadata({periodId: this._period});
 			}
 			if (!Config.toggles.hideSelectorToolbar){
 				this.mapWindowTools.addMapLabel(this._period);

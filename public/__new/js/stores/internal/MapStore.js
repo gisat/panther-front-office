@@ -14,10 +14,8 @@ define([
 	 * It creates MapStore and contains maps themselves
 	 * @constructor
 	 * @param options {Object}
-	 *
 	 * @param options.dispatcher {Object} Dispatcher, which is used to distribute actions across the application.
 	 * @param options.maps {WorldWindMap[]} 3D maps which are handled by this store.
-	 * @param options.store {Object}
 	 */
 	var MapStore = function(options) {
 		if (!options.dispatcher){

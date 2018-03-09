@@ -20,6 +20,8 @@ define([
 	 * @constructor
 	 * @param options {Object}
 	 * @param options.dispatcher {Object} Dispatcher, which is used to distribute actions across the application.
+	 * @param options.store.maps {MapStore[]}
+	 * @param options.store {Object}
 	 */
 	var StateStore = function (options) {
         if(!options.store){
@@ -31,6 +33,10 @@ define([
 
 		this._dispatcher = options.dispatcher;
         this._changes = {};
+        this._maps = {
+        	activeLayers: [],
+			maps: []
+		};
 		this._loadingOperations = [];
 		this._store = options.store;
 
@@ -67,18 +73,10 @@ define([
 			},
 			changes: this._changes,
 			isMap3D: this.isMap3D,
-			isMapIndependentOfPeriod: this.isMapIndependentOfPeriod
-		}
-	};
-
-	/**
-	 * Extended current state for sharing
-	 */
-	StateStore.prototype.currentExtended = function(){
-		return _.extend(this.current(), {
+			isMapIndependentOfPeriod: this.isMapIndependentOfPeriod,
 			widgets: this.widgets(),
 			worldWindNavigator: this.getNavigatorState()
-		});
+		}
 	};
 
 	/**
@@ -303,6 +301,29 @@ define([
 	};
 
 	/**
+	 * Update metadata about maps and layers
+	 * @param options {Object}
+	 * @param options.map {WorldWindMap}
+	 * @param options.id {string} Id of the map
+	 * @param options.periodId {number} Id of the period
+	 */
+	StateStore.prototype.updateMapsMetadata = function(options){
+		if (options.map){
+			this._maps.maps.push({
+				id: options.map._id,
+				name: options.map._name,
+				period: options.map._period
+			});
+		} else if (options.id){
+			this._maps.maps = _.reject(this._maps.maps, function(map) { return map.id === options.id;});
+		} else if (options.periodId){
+			this._maps.maps.forEach(function(map){
+				map.period = options.periodId;
+			});
+		}
+	};
+
+	/**
 	 * It updates the settings of World wind navigator
 	 * @param options {Object}
 	 */
@@ -326,6 +347,12 @@ define([
 			this.handleMapDependencyOnPeriod(false);
 		} else if (type === Actions.foMapIsDependentOnPeriod){
 			this.handleMapDependencyOnPeriod(true);
+		} else if (type === Actions.mapAdded || type === Actions.mapRemoved){
+			this.updateMapsMetadata(options);
+		} else if (type === Actions.periodsChange){
+			if (this.current().isMapIndependentOfPeriod){
+				this.updateMapsMetadata({periodId: this.current().periods[0]});
+			}
 		}
 	};
 
