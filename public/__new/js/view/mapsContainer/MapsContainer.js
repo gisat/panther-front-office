@@ -104,10 +104,33 @@ define([
 	 * @param periodId {number} Id of the period connected with map
 	 */
 	MapsContainer.prototype.addMap = function (id, periodId) {
+		var state = this._stateStore.current();
+		if (state.isMapIndependentOfPeriod && state.periods){
+			periodId = state.periods[0];
+		}
 		var worldWindMap = this.buildWorldWindMap(id, periodId, this._mapsToContainerAdded++);
 		this._dispatcher.notify('map#add', {map: worldWindMap});
 		this.addControls(worldWindMap);
+
+		if (state.isMapIndependentOfPeriod || id === 'default-map'){
+			this.handleMapSelection(worldWindMap);
+		}
 		this.rebuildContainerLayout();
+	};
+
+	/**
+	 * Add on click listener to all map boxes
+	 */
+	MapsContainer.prototype.addMapBoxOnClickListener = function(){
+		var self = this;
+		this._containerSelector.on("click", ".world-wind-map-box", function(){
+			var state = self._stateStore.current();
+			if (state.isMapIndependentOfPeriod){
+				var mapId = $(this).find('.world-wind-map').attr('id');
+				var map = self._mapStore.getMapById(mapId);
+				self.handleMapSelection(map);
+			}
+		});
 	};
 
 	/**
@@ -124,6 +147,7 @@ define([
 		this._containerSelector = $("#" + this._id);
 
 		this.addSidebarReportsStateListener();
+		this.addMapBoxOnClickListener();
 	};
 
 	/**
@@ -256,15 +280,12 @@ define([
 			if (periodsCount === 1){
 				var counter = mapsCount;
 				allMaps.forEach(function(map){
-					if (map.id !== "default-map"){
-						counter--;
-						if (counter > 0){
-							map._wwd.drawContext.currentGlContext.getExtension('WEBGL_lose_context').loseContext();
-							self._dispatcher.notify("map#remove",{id: map.id});
-						} else {
-							map._id = "default-map";
-							map.rebuild();
-						}
+					counter--;
+					if (counter > 0){
+						map._wwd.drawContext.currentGlContext.getExtension('WEBGL_lose_context').loseContext();
+						self._dispatcher.notify("map#remove",{id: map.id});
+					} else {
+						map.rebuild();
 					}
 				});
 			} else {
@@ -305,6 +326,31 @@ define([
 	};
 
 	/**
+	 * If current map is provided, select it. Otherwise find out, if any map is selected. If not, select the first one.
+	 * @param [currentMap] {WorldWindMap} optional parameter
+	 */
+	MapsContainer.prototype.handleMapSelection = function(currentMap){
+		var allMaps = this._mapStore.getAll();
+		if (currentMap){
+			allMaps.forEach(function(map){
+				map.unselect();
+			});
+			currentMap.select();
+		} else {
+			var selected = false;
+			allMaps.forEach(function(map){
+				if (map._selected){
+					selected = true;
+				}
+			});
+			if (!selected){
+				var firstMap = allMaps[0];
+				firstMap.select();
+			}
+		}
+	};
+
+	/**
 	 * Set position of all maps in this container
 	 * @param position {WorldWind.Position}
 	 */
@@ -326,6 +372,16 @@ define([
 		});
 	};
 
+	/**
+	 * Set a period of all maps. It is used if maps are independent of periods
+	 * @param periodId {number}
+	 */
+	MapsContainer.prototype.setPeriodOfAllMaps = function (periodId) {
+		var maps = this._mapStore.getAll();
+		maps.forEach(function(map){
+			map.setPeriod(periodId);
+		});
+	};
 
 	/**
 	 * Set projection of all maps
@@ -427,16 +483,20 @@ define([
 	 * @param options {Object|string}
 	 */
 	MapsContainer.prototype.onEvent = function(type, options){
-		var periods = this._stateStore.current().periods;
+		var state = this._stateStore.current();
+		var periods = state.periods;
+		var isMapIndependentOfPeriod = state.isMapIndependentOfPeriod;
 		if (type === Actions.mapRemoved){
 			this.removeMapFromContainer(options.id);
+			this.checkMapsCloseButton();
+			if (isMapIndependentOfPeriod){
+				this.handleMapSelection();
+			}
 		} else if (type === Actions.periodsRebuild){
 			this.rebuildContainerWithPeriods(periods);
 			this.checkMapsCloseButton();
-		}
-		// TODO adapt this for mapIndependentOfPeriod case
-		else if (type === Actions.periodsDefault){
-			this.rebuildContainerWithPeriods([periods[0]]);
+		} else if (type === Actions.periodsDefault){
+			this.setPeriodOfAllMaps(periods[0]);
 			this.checkMapsCloseButton();
 		} else if (type === Actions.mapZoomSelected){
 			this.zoomToArea(options);

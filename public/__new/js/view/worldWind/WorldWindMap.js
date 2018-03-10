@@ -77,6 +77,7 @@ define(['../../actions/Actions',
 
 		this._store = options.store;
 		this._stateStore = options.store.state;
+		this._mapStore = options.store.map;
 		this._periodsStore = options.store.periods;
 
 		this._dataMining = new DataMining({
@@ -90,6 +91,7 @@ define(['../../actions/Actions',
 		this._mapSelector = $("#" + this._id);
 
 		this._name = "Map " + options.orderFromStart;
+		this._selected = false;
 
 		/**
 		 * Every map is associated with the period. If no period is specified, then it is supplied latest when the first
@@ -406,16 +408,20 @@ define(['../../actions/Actions',
 			this._goToAnimator.setLocation();
 		}
 
-
-		if (this._id === "default-map"){
+		var maps = this._mapStore.getAll();
+		if (this._id === "default-map" || maps.length === 1){
 			this._stateStore.addLoadingOperation("DefaultMap");
 			this.updateNavigatorState();
 			var periods = state.periods;
 			if (periods.length === 1 || !this._period){
 				this._period = periods[0];
+				this._stateStore.updateMapsMetadata({periodId: this._period});
 			}
 			if (!Config.toggles.hideSelectorToolbar){
 				this.mapWindowTools.addMapLabel(this._period);
+			}
+			if (!state.isMapIndependentOfPeriod){
+				this.unselect();
 			}
 		}
 	};
@@ -436,19 +442,37 @@ define(['../../actions/Actions',
 	};
 
 	/**
+	 * Select map
+	 */
+	WorldWindMap.prototype.select = function(){
+		this._selected = true;
+		this._mapBoxSelector.addClass('selected');
+	};
+
+	/**
 	 * Get navigator state from store and set this map navigator's parameters.
 	 */
 	WorldWindMap.prototype.setNavigator = function(){
 		var navigatorState = this._stateStore.getNavigatorState();
 
-		this._wwd.navigator.heading = navigatorState.heading;
-		this._wwd.navigator.lookAtLocation = navigatorState.lookAtLocation;
-		this._wwd.navigator.range = navigatorState.range;
-		this._wwd.navigator.roll = navigatorState.roll;
-		this._wwd.navigator.tilt = navigatorState.tilt;
+		if (navigatorState){
+			this._wwd.navigator.heading = navigatorState.heading;
+			this._wwd.navigator.lookAtLocation = navigatorState.lookAtLocation;
+			this._wwd.navigator.range = navigatorState.range;
+			this._wwd.navigator.roll = navigatorState.roll;
+			this._wwd.navigator.tilt = navigatorState.tilt;
 
-		this._goToAnimator.checkRange(navigatorState.range);
-		this.redraw();
+			this._goToAnimator.checkRange(navigatorState.range);
+			this.redraw();
+		}
+	};
+
+	/**
+	 * Set map period
+	 * @param period {number}
+	 */
+	WorldWindMap.prototype.setPeriod = function(period){
+		this._period = period;
 	};
 
 	/**
@@ -490,6 +514,7 @@ define(['../../actions/Actions',
 
 		this.addSnapshotCallback();
 		this.addMapControlListeners();
+		this.setNavigator();
 	};
 
 	/**
@@ -498,6 +523,14 @@ define(['../../actions/Actions',
 	 */
 	WorldWindMap.prototype.updateNavigatorState = function(){
 		this._dispatcher.notify('map#control', this._wwd.navigator);
+	};
+
+	/**
+	 * Unselect map
+	 */
+	WorldWindMap.prototype.unselect = function(){
+		this._selected = false;
+		this._mapBoxSelector.removeClass('selected');
 	};
 
 	/**

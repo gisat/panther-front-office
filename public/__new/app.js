@@ -509,7 +509,9 @@ define(['js/actions/Actions',
     /**
      * Build WorldWindWidget instance
 	 * @param mapsContainer {MapsContainer}
+	 * @param topToolBar {TopToolBar}
 	 * @param stateStore {StateStore}
+	 * @param mapStore {MapStore}
      * @returns {WorldWindWidget}
      */
     function buildWorldWindWidget (mapsContainer, topToolBar, stateStore, mapStore){

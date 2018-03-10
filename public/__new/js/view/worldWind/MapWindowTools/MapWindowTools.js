@@ -106,9 +106,7 @@ define(['../../../actions/Actions',
 	 * Add label with map name
 	 */
 	MapWindowTools.prototype.addMapLabelWithName = function(){
-		if (this._nameLabelSelector){
-			this._nameLabelSelector.remove();
-		}
+		this._mapToolsSelector.find(".map-name-label").remove();
 		var html = '<div class="map-name-label">' + this._name + '</div>';
 		this._mapToolsSelector.append(html);
 		this._nameLabelSelector = this._targetContainer.find(".map-name-label");
@@ -119,12 +117,10 @@ define(['../../../actions/Actions',
 	 * Add dataPeriod attribute of the map container (it is used for sorting)
 	 */
 	MapWindowTools.prototype.addMapLabelWithPeriod = function(period){
-		if (this._nameLabelSelector){
-			this._nameLabelSelector.remove();
-		}
 		var self = this;
 		this._periodsStore.byId(period).then(function(periods){
 			if (periods.length === 1){
+				self._mapToolsSelector.find(".map-name-label").remove();
 				var periodName = periods[0].name;
 				var html = '<div class="map-name-label">' + periodName + '</div>';
 				self._targetContainer.attr("data-period", periodName);
