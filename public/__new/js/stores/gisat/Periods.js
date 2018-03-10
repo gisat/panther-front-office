@@ -31,5 +31,9 @@ define([
 		return "rest/year";
 	};
 
+	Periods.prototype.loaded = function(models) {
+		window.Stores.notify("PERIODS_LOADED", models);
+	};
+
 	return Periods;
 });

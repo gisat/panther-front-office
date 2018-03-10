@@ -67,11 +67,10 @@ define(['../../../error/ArgumentError',
 	 * Rebuild panels with current configuration
 	 */
 	WorldWindWidgetPanels.prototype.rebuild = function(){
-		var configChanges = this._store.state.current().changes;
-		if (!configChanges.scope){
-			this._thematicLayersPanel.switchOnLayersFrom2D();
-			// this._auLayersPanel.switchOnLayersFrom2D();
-		}
+		// var configChanges = this._store.state.current().changes;
+		// if (!configChanges.scope){
+		// 	this._thematicLayersPanel.switchOnLayersFrom2D();
+		// }
 
 		this._auLayersPanel.rebuild("updateOutlines","updateOutlines");
 		this._infoLayersPanel.rebuild();

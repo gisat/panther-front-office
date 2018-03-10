@@ -8,6 +8,6 @@
 
 export default {
 
-	legacy: Config
+	// legacy: Config
 
 };

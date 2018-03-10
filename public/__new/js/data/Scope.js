@@ -20,6 +20,9 @@ define(['./Model'], function(Model){
 			},
 			periods: {
 				serverName: 'years'
+			},
+			isMapIndependentOfPeriod: {
+				serverName: 'isMapIndependentOfPeriod'
 			}
 		};
 	};

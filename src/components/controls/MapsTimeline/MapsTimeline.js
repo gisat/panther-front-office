@@ -12,7 +12,7 @@ class MapsTimeline extends React.PureComponent {
 
 		return (
 			<div id="maps-timeline">
-				huehue, {config.legacy.toggles.isNewDesign}
+				huehue
 			</div>
 		);
 	}

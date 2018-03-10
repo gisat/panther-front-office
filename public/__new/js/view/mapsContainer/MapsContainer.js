@@ -7,7 +7,6 @@ define([
 	'../worldWind/controls/Controls',
 	'../../util/Filter',
 	'../worldWind/WorldWindMap',
-	'../mapsTimeline/MapsTimeline',
 
 	'string',
 	'jquery',
@@ -22,7 +21,6 @@ define([
 			Controls,
 			Filter,
 			WorldWindMap,
-			MapsTimeline,
 
 			S,
 			$,
@@ -34,7 +32,7 @@ define([
 	 * @param options {Object}
 	 * @param options.id {string} id of the container
 	 * @param options.dispatcher {Object} Object for handling events in the application.
-	 * @param options.target {Object} JQuery selector of target element
+	 * @param options.target {Object} JQuery selector of parent element
 	 * @param options.store {Object}
 	 * @param options.store.map {MapStore}
 	 * @param options.store.state {StateStore}
@@ -70,13 +68,16 @@ define([
 		this._target = options.target;
 		this._id = options.id;
 		this._dispatcher = options.dispatcher;
+
 		this._mapStore = options.store.map;
 		this._stateStore = options.store.state;
 		this._store = options.store;
 
 		this._mapControls = null;
 		this._toolsPinned = false;
+
 		this._mapsInContainerCount = 0;
+		this._mapsToContainerAdded = 1;
 
 		this.build();
 
@@ -85,32 +86,156 @@ define([
 	};
 
 	/**
+	 * Add map controls
+	 * @param map {WorldWindMap}
+	 */
+	MapsContainer.prototype.addControls = function(map){
+		// if there are controls for default map already, attach world window of this map to them
+		if (this._mapControls){
+			this._mapControls.addWorldWindow(map._wwd);
+		} else {
+			this._mapControls = this.buildMapControls(map._wwd);
+		}
+	};
+
+	/**
+	 * Add map to container
+	 * @param id {string|null} Id of the map
+	 * @param periodId {number} Id of the period connected with map
+	 */
+	MapsContainer.prototype.addMap = function (id, periodId) {
+		var worldWindMap = this.buildWorldWindMap(id, periodId, this._mapsToContainerAdded++);
+		this._dispatcher.notify('map#add', {map: worldWindMap});
+		this.addControls(worldWindMap);
+		this.rebuildContainerLayout();
+	};
+
+	/**
+	 * Rebuild the container when sidebar-reports panel changes it's state
+	 */
+	MapsContainer.prototype.addSidebarReportsStateListener = function(){
+		$("#sidebar-reports-toggle").on("click", this.rebuildContainerLayout.bind(this));
+	};
+
+	/**
 	 * Build container
 	 */
 	MapsContainer.prototype.build = function(){
-		var html = S(mapsContainer).template({
-			id: this._id
-		}).toString();
-		this._target.append(html);
 		this._containerSelector = $("#" + this._id);
 
-		this.buildTimeline();
-
-		this.addCloseButtonOnClickListener();
 		this.addSidebarReportsStateListener();
 	};
 
 	/**
-	 * Build timeline
-	 * @returns {MapsTimeline}
+	 * Build controls and setup interaction
+	 * @param wwd {WorldWindow}
 	 */
-	MapsContainer.prototype.buildTimeline = function(){
-		//return new MapsTimeline();
+	MapsContainer.prototype.buildMapControls = function(wwd){
+		return new Controls({
+			mapContainer: this._containerSelector,
+			worldWindow: wwd
+		});
 	};
 
 	/**
-	 * Rebuild maps container with list of periods. For new periods, add maps. On the other hand, remove maps which
-	 * are not connected with any of periods in the list
+	 * Build a World Wind Map
+	 * @param id {string} Id of the map which should distinguish one map from another
+	 * @param periodId {number} Id of the period
+	 * @param orderFromStart {number} Order of a map from MapsContainer instance initialization
+	 * @returns {WorldWindMap}
+	 */
+	MapsContainer.prototype.buildWorldWindMap = function(id, periodId, orderFromStart){
+		return new WorldWindMap({
+			dispatcher: window.Stores,
+			id: id,
+			period: periodId,
+			orderFromStart: orderFromStart,
+			mapsContainer: this._containerSelector.find(".map-fields"),
+			store: {
+				state: this._stateStore,
+				map: this._mapStore,
+				periods: this._store.periods,
+				locations: this._store.locations
+			}
+		});
+	};
+
+	/**
+	 * Check close button for all maps.
+	 * If there is only one map present, remove check button.
+	 * Otherwise add close button to all maps.
+	 */
+	MapsContainer.prototype.checkMapsCloseButton = function(){
+		var maps = this._mapStore.getAll();
+
+		if (maps.length === 1){
+			maps[0].mapWindowTools.removeCloseButton();
+		} else {
+			maps.forEach(function(map){
+				map.mapWindowTools.addCloseButton();
+			});
+		}
+	};
+
+	/**
+	 * Adjust container size when Map tools widget is pinned
+	 * @param toolsPinned {boolean}
+	 */
+	MapsContainer.prototype.handleTools = function (toolsPinned) {
+		if (toolsPinned){
+			this._toolsPinned = true;
+			this._containerSelector.addClass("tools-active");
+		} else {
+			this._toolsPinned = false;
+			this._containerSelector.removeClass("tools-active");
+		}
+	};
+
+	/**
+	 * Rebuild container grid according to a number of active maps.
+	 * If any widget is pinned, adjust the grid as well.
+	 */
+	MapsContainer.prototype.rebuildContainerLayout = function(){
+		this._mapsInContainerCount = this._mapStore.getAll().length;
+
+		var width = this._containerSelector.width();
+		var height = this._containerSelector.height();
+
+		var a = 'w';
+		var b = 'h';
+		if (height > width){
+			a = 'h';
+			b = 'w';
+		}
+
+		this._containerSelector.attr('class', 'maps-container');
+		var cls = '';
+		if (this._mapsInContainerCount === 1){
+			cls += a + '1 ' + b + '1';
+		} else if (this._mapsInContainerCount === 2){
+			cls += a + '2 ' + b + '1';
+		} else if (this._mapsInContainerCount > 2 && this._mapsInContainerCount <= 4){
+			cls += a + '2 ' + b + '2';
+		} else if (this._mapsInContainerCount > 4 && this._mapsInContainerCount <= 6){
+			cls += a + '3 ' + b + '2';
+		} else if (this._mapsInContainerCount > 6 && this._mapsInContainerCount <= 9){
+			cls += a + '3 ' + b + '3';
+		} else if (this._mapsInContainerCount > 9 && this._mapsInContainerCount <= 12){
+			cls += a + '4 ' + b + '3';
+		} else if (this._mapsInContainerCount > 12 && this._mapsInContainerCount <= 16){
+			cls += a + '4 ' + b + '4';
+		}
+
+		if (this._toolsPinned){
+			cls += " tools-active"
+		}
+		this._containerSelector.addClass(cls);
+		this.sortMaps();
+	};
+
+	/**
+	 * If maps depends of periods, rebuild maps container with list of periods.
+	 * For new periods, add maps. On the other hand, remove maps which are not connected with any of periods in the list.
 	 * @param periods {Array} selected periods.
 	 */
 	MapsContainer.prototype.rebuildContainerWithPeriods = function(periods){
@@ -153,27 +278,20 @@ define([
 						self._dispatcher.notify("map#remove",{id: map.id});
 					}
 				});
+
+				// remove duplicates
 			}
 		}
 	};
 
 	/**
-	 * Add map to container
-	 * @param id {string|null} Id of the map
-	 * @param periodId {number} Id of the period connected with map
-	 * TODO allow max 16 maps (due to WebGL restrictions)
+	 * Rebuild all maps in container
 	 */
-	MapsContainer.prototype.addMap = function (id, periodId) {
-		var worldWindMap = this.buildWorldWindMap(id, periodId);
-		this._dispatcher.notify('map#add', {map: worldWindMap});
-
-		// if there are controls for default map already, attach world window of this map to them
-		if (this._mapControls){
-			this._mapControls.addWorldWindow(worldWindMap._wwd);
-		} else {
-			this._mapControls = this.buildMapControls(worldWindMap._wwd);
-		}
-		this._mapsInContainerCount++;
+	MapsContainer.prototype.rebuildMaps = function(){
+		var maps = this._mapStore.getAll();
+		maps.forEach(function(map){
+			map.rebuild();
+		});
 		this.rebuildContainerLayout();
 	};
 
@@ -181,21 +299,8 @@ define([
 	 * Remove map from container
 	 * @param id {string} ID of the map
 	 */
-	MapsContainer.prototype.removeMap = function(id){
+	MapsContainer.prototype.removeMapFromContainer = function(id){
 		$("#" + id + "-box").remove();
-		this._mapsInContainerCount--;
-		this.rebuildContainerLayout();
-	};
-
-	/**
-	 * Rebuild all maps in container
-	 * TODO rebuild each map with relevant data
-	 */
-	MapsContainer.prototype.rebuildMaps = function(){
-		var maps = this._mapStore.getAll();
-		maps.forEach(function(map){
-			map.rebuild();
-		});
 		this.rebuildContainerLayout();
 	};
 
@@ -221,24 +326,41 @@ define([
 		});
 	};
 
+
 	/**
-	 * Switch projection of all maps from 2D to 3D and vice versa
+	 * Set projection of all maps
+	 * @param targetProjection {string} 2D or 3D
 	 */
-	MapsContainer.prototype.switchProjection = function () {
+	MapsContainer.prototype.setProjection = function (targetProjection) {
 		var maps = this._mapStore.getAll();
 		for(var key in maps){
-			maps[key].switchProjection();
+			maps[key].setProjection(targetProjection);
 		}
 	};
 
 	/**
-	 * Switch projection of all maps to 2D only
+	 * Sort maps in container by associated period
 	 */
-	MapsContainer.prototype.switchProjectionTo2D = function () {
-		var maps = this._mapStore.getAll();
-		for(var key in maps){
-			maps[key].switchProjectionTo2D();
+	MapsContainer.prototype.sortMaps = function(){
+		var state = this._stateStore.current();
+		if (state.isMapIndependentOfPeriod){
+			// TODO sort maps somehow
+		} else {
+			var containerCls = this._containerSelector.find(".map-fields").attr('class');
+			var container = document.getElementsByClassName(containerCls)[0];
+			var maps = container.childNodes;
+			tinysort(maps, {attr: 'data-period'});
 		}
+	};
+
+	/**
+	 * Update navigator of all available maps
+	 */
+	MapsContainer.prototype.updateAllMapsNavigators = function(){
+		var maps = this._mapStore.getAll();
+		maps.forEach(function(map){
+			map.setNavigator();
+		});
 	};
 
 	/**
@@ -262,96 +384,10 @@ define([
 		}
 	};
 
+	// TODO temporary methods ----------------------------------------------------
 	/**
-	 * Build a World Wind Map
-	 * @param id {string} Id of the map which should distinguish one map from another
-	 * @param periodId {number} Id of the period
-	 * @returns {WorldWindMap}
-	 */
-	MapsContainer.prototype.buildWorldWindMap = function(id, periodId){
-		return new WorldWindMap({
-			dispatcher: window.Stores,
-			id: id,
-			period: periodId,
-			mapsContainer: this._containerSelector.find(".map-fields"),
-			store: {
-				state: this._stateStore,
-				map: this._mapStore,
-				periods: this._store.periods,
-				locations: this._store.locations
-			}
-		});
-	};
-
-	/**
-	 * Build controls and setup interaction
-	 * @param wwd {WorldWindow}
-	 */
-	MapsContainer.prototype.buildMapControls = function(wwd){
-		return new Controls({
-			mapContainer: this._containerSelector.children().first(),
-			worldWindow: wwd
-		});
-	};
-
-	/**
-	 * Add listener to close button of each map except the default one
-	 */
-	MapsContainer.prototype.addCloseButtonOnClickListener = function(){
-		var self = this;
-		this._containerSelector.on("click", ".close-map-button", function(){
-			var mapId = $(this).attr("data-id");
-			var mapPeriod = self._mapStore.getMapById(mapId).period;
-			var periods = _.reject(self._stateStore.current().periods, function(period) { return period === mapPeriod; });
-			self._dispatcher.notify("periods#change", periods);
-		});
-	};
-
-	/**
-	 * Rebuild the container when sidebar-reports panel changes it's state
-	 */
-	MapsContainer.prototype.addSidebarReportsStateListener = function(){
-		$("#sidebar-reports").on("click", this.rebuildContainerLayout.bind(this));
-	};
-
-	/**
-	 * @param type {string} type of event
-	 * @param options {Object|string}
-	 */
-	MapsContainer.prototype.onEvent = function(type, options){
-		if (type === Actions.mapRemove){
-			this.removeMap(options.id);
-		} else if (type === Actions.periodsRebuild){
-			var periods = this._stateStore.current().periods;
-			this.rebuildContainerWithPeriods(periods);
-			this.checkMapsCloseButton();
-		} else if (type === Actions.mapSelectFromAreas){
-			this.handleSelection(options);
-		} else if (type === Actions.mapZoomSelected){
-			this.zoomToArea(options);
-		} else if (type === Actions.mapZoomToExtent){
-			this.zoomToExtent();
-		} else if (type === Actions.mapsContainerToolsPinned){
-			this.handleTools(true);
-		} else if (type === Actions.mapsContainerToolsDetached){
-			this.handleTools(false);
-		} else if (type === Actions.mapsContainerWorldWind2D){
-			this.switchProjectionTo2D();
-		}
-	};
-
-	MapsContainer.prototype.handleTools = function (toolsPinned) {
-		if (toolsPinned){
-			this._toolsPinned = true;
-			this._containerSelector.addClass("tools-active");
-		} else {
-			this._toolsPinned = false;
-			this._containerSelector.removeClass("tools-active");
-		}
-	};
-
-	/**
-	 * TODO temporary solution for zoom to selected from Areas widget
+	 * TODO temporary solution for zoom to selected from Areas widget.
+	 * TODO Should be removed in a version with new areas widget.
 	 * @param gid {string} gid of selected area
 	 */
 	MapsContainer.prototype.handleSelection = function(gid){
@@ -374,6 +410,11 @@ define([
 		});
 	};
 
+	/**
+	 * TODO temporary solution for zoom to selected from Areas widget.
+	 * TODO Should be removed in a version with new areas widget.
+	 * @param bbox
+	 */
 	MapsContainer.prototype.adaptAllMapsToSelection = function(bbox){
 		var maps = this._mapStore.getAll();
 		maps.forEach(function(map){
@@ -382,68 +423,43 @@ define([
 	};
 
 	/**
-	 * Rebuild grid according to a number of active maps
+	 * @param type {string} type of event
+	 * @param options {Object|string}
 	 */
-	MapsContainer.prototype.rebuildContainerLayout = function(){
-		var width = this._containerSelector.width();
-		var height = this._containerSelector.height();
-
-		var a = 'w';
-		var b = 'h';
-		if (height > width){
-			a = 'h';
-			b = 'w';
+	MapsContainer.prototype.onEvent = function(type, options){
+		var periods = this._stateStore.current().periods;
+		if (type === Actions.mapRemoved){
+			this.removeMapFromContainer(options.id);
+		} else if (type === Actions.periodsRebuild){
+			this.rebuildContainerWithPeriods(periods);
+			this.checkMapsCloseButton();
+		}
+		// TODO adapt this for mapIndependentOfPeriod case
+		else if (type === Actions.periodsDefault){
+			this.rebuildContainerWithPeriods([periods[0]]);
+			this.checkMapsCloseButton();
+		} else if (type === Actions.mapZoomSelected){
+			this.zoomToArea(options);
+		} else if (type === Actions.mapZoomToExtent){
+			this.zoomToExtent();
+		} else if (type === Actions.mapsContainerAddMap){
+			this.addMap();
+			this.checkMapsCloseButton();
+		} else if (type === Actions.mapsContainerToolsPinned){
+			this.handleTools(true);
+		} else if (type === Actions.mapsContainerToolsDetached){
+			this.handleTools(false);
+		} else if (type === Actions.mapSwitchTo2D){
+			this.setProjection('2D');
+		} else if (type === Actions.mapSwitchTo3D){
+			this.setProjection('3D');
+		} else if (type === Actions.navigatorUpdate){
+			this.updateAllMapsNavigators();
 		}
 
-		this._containerSelector.attr('class', 'maps-container');
-		var cls = '';
-		if (this._mapsInContainerCount === 1){
-			cls += a + '1 ' + b + '1';
-		} else if (this._mapsInContainerCount === 2){
-			cls += a + '2 ' + b + '1';
-		} else if (this._mapsInContainerCount > 2 && this._mapsInContainerCount <= 4){
-			cls += a + '2 ' + b + '2';
-		} else if (this._mapsInContainerCount > 4 && this._mapsInContainerCount <= 6){
-			cls += a + '3 ' + b + '2';
-		} else if (this._mapsInContainerCount > 6 && this._mapsInContainerCount <= 9){
-			cls += a + '3 ' + b + '3';
-		} else if (this._mapsInContainerCount > 9 && this._mapsInContainerCount <= 12){
-			cls += a + '4 ' + b + '3';
-		} else if (this._mapsInContainerCount > 12 && this._mapsInContainerCount <= 16){
-			cls += a + '4 ' + b + '4';
-		}
-
-		if (this._toolsPinned){
-			cls += " tools-active"
-		}
-
-		this._containerSelector.addClass(cls);
-
-		this.sortMapsByPeriod();
-	};
-
-	/**
-	 * Sort maps in container by associated period
-	 */
-	MapsContainer.prototype.sortMapsByPeriod = function(){
-		var containerCls = this._containerSelector.find(".map-fields").attr('class');
-		var container = document.getElementsByClassName(containerCls)[0];
-		var maps = container.childNodes;
-		tinysort(maps, {attr: 'data-period'});
-	};
-
-	/**
-	 * Check close button for all maps. If there is only one map present, remove check button. Otherwise add close button to all maps.
-	 */
-	MapsContainer.prototype.checkMapsCloseButton = function(){
-		var maps = this._mapStore.getAll();
-
-		if (maps.length === 1){
-			maps[0].removeCloseButton();
-		} else {
-			maps.forEach(function(map){
-				map.addCloseButton();
-			});
+		// TODO temporary for Dromas. It should be removed in a version with new areas widget
+		else if (type === Actions.mapSelectFromAreas){
+			this.handleSelection(options);
 		}
 	};
 

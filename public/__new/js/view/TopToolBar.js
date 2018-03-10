@@ -26,6 +26,7 @@ define([
 		$('#top-toolbar-context-help').on('click.topToolBar', this.handleContextHelpClick);
 		$('#top-toolbar-snapshot').on('click.topToolBar', this.handleSnapshotClick.bind(this, document.getElementById('top-toolbar-snapshot')));
 		$('#top-toolbar-share-view').on('click.topToolBar', this.handleShareViewClick);
+		$('#top-toolbar-add-map').on('click.topToolBar', this.handleAddMapClick.bind(this));
 		this._map3dSwitchSelector.on("click.topToolBar", this.handle3dMapClick.bind(this));
 
 		Observer.addListener("Tools.hideClick.layerpanel",this.handleHideClick.bind(this, 'window-layerpanel'));
@@ -261,7 +262,6 @@ define([
 
 	TopToolBar.prototype.handle3dMapClick = function(e){
 		this._dispatcher.notify("map#switchProjection");
-		this._map3dSwitchSelector.toggleClass('open');
 	};
 
 	/**
@@ -273,6 +273,22 @@ define([
 		} else {
 			this._map3dSwitchSelector.addClass("disabled");
 		}
+	};
+
+	/**
+	 * Show hide button for new map adding
+	 * @param value {string} CSS display value
+	 */
+	TopToolBar.prototype.handleAddMapButton = function(value){
+		$('#top-toolbar-add-map').css('display', value);
+	};
+
+	/**
+	 * Handle click on Add map button
+	 */
+	TopToolBar.prototype.handleAddMapClick = function(){
+		this._dispatcher.notify('mapsContainer#addMap');
+		this._dispatcher.notify('worldWindWidget#rebuild');
 	};
 
 	/**
@@ -305,6 +321,10 @@ define([
 			this.handle3dMapButtonState(false);
 		} else if (type === Actions.toolBarClick3d){
 			this.handle3dMapClick();
+		} else if (type === Actions.foMapIsIndependentOfPeriod){
+			this.handleAddMapButton('inline-block');
+		} else if (type === Actions.foMapIsDependentOnPeriod){
+			this.handleAddMapButton('none');
 		}
 	};
 
