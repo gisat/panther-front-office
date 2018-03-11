@@ -1,5 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+
+import store from './state/Store';
+
 import './index.css';
 import App from './App';
 import MapsTimeline from './components/controls/MapsTimeline';
@@ -23,7 +27,7 @@ let listener = function(event, options) {
 
 let initialize = function() {
 
-	ReactDOM.render(<MapsTimeline />, document.getElementById('maps-timeline'));
+	ReactDOM.render(<Provider store={store}><MapsTimeline /></Provider>, document.getElementById('maps-timeline'));
 
 };
 

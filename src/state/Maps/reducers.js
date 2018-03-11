@@ -1,7 +1,9 @@
 import ActionTypes from '../../constants/ActionTypes';
 import Action from '../Action';
+import _ from 'lodash';
 
 const INITIAL_STATE = {
+	activeMapKey: null,
 	defaults: null,
 	data: null
 };
@@ -35,6 +37,10 @@ function updateDefaults(state, action) {
 	return {...state, defaults: state.defaults ? _.merge(state.defaults, action.defaults) : action.defaults};
 }
 
+function setActive(state, action) {
+	return {...state, activeMapKey: action.key};
+}
+
 
 export default function tasksReducer(state = INITIAL_STATE, action) {
 	switch (action.type) {
@@ -46,6 +52,8 @@ export default function tasksReducer(state = INITIAL_STATE, action) {
 			return update(state, action);
 		case ActionTypes.MAPS_UPDATE_DEFAULTS:
 			return updateDefaults(state, action);
+		case ActionTypes.MAPS_SET_ACTIVE:
+			return setActive(state, action);
 		default:
 			return state;
 	}

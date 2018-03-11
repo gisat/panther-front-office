@@ -33,6 +33,12 @@ function updateDefaults(defaults) {
 	};
 }
 
+function setActive(key) {
+	return dispatch => {
+		dispatch(actionSetActive(key));
+	};
+}
+
 // ============ actions ===========
 
 function actionAdd(maps) {
@@ -63,11 +69,19 @@ function actionUpdateDefaults(defaults) {
 	}
 }
 
+function actionSetActive(key) {
+	return {
+		type: ActionTypes.MAPS_SET_ACTIVE,
+		key: key
+	}
+}
+
 // ============ export ===========
 
 export default {
 	add: add,
 	remove: remove,
 	update: update,
-	updateDefaults: updateDefaults
+	updateDefaults: updateDefaults,
+	setActive: setActive
 }
