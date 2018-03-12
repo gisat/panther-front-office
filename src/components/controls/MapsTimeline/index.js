@@ -12,6 +12,9 @@ const mapDispatchToProps = dispatch => {
 	return {
 		setActive: (key) => {
 			dispatch(Action.maps.setActive(key));
+		},
+		initialize: () => {
+			dispatch(Action.maps.initialize());
 		}
 	}
 };

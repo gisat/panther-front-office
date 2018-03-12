@@ -5,7 +5,8 @@ import _ from 'lodash';
 const INITIAL_STATE = {
 	activeMapKey: null,
 	defaults: null,
-	data: null
+	data: null,
+	initialized: false,
 };
 
 
@@ -41,6 +42,10 @@ function setActive(state, action) {
 	return {...state, activeMapKey: action.key};
 }
 
+function initialize(state, action) {
+	return {...state, initialized: true};
+}
+
 
 export default function tasksReducer(state = INITIAL_STATE, action) {
 	switch (action.type) {
@@ -54,6 +59,8 @@ export default function tasksReducer(state = INITIAL_STATE, action) {
 			return updateDefaults(state, action);
 		case ActionTypes.MAPS_SET_ACTIVE:
 			return setActive(state, action);
+		case ActionTypes.INITIALIZE:
+			return initialize(state, action);
 		default:
 			return state;
 	}

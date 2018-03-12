@@ -45,6 +45,7 @@ define([
 
 		window.Stores.addListener(this.onEvent.bind(this), "initialLoading");
 		window.Stores.hasStateStore = true;
+		window.Stores.state = this;
 	};
 
 	/**

@@ -336,6 +336,9 @@ define([
 				map.unselect();
 			});
 			currentMap.select();
+			this._dispatcher.notify('map#selected', {
+				id: currentMap._id
+			});
 		} else {
 			var selected = false;
 			allMaps.forEach(function(map){
@@ -346,6 +349,9 @@ define([
 			if (!selected){
 				var firstMap = allMaps[0];
 				firstMap.select();
+				this._dispatcher.notify('map#selected', {
+					id: firstMap._id
+				});
 			}
 		}
 	};

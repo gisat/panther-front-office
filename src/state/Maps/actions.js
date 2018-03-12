@@ -13,6 +13,12 @@ function add(maps) {
 	};
 }
 
+function initialize() {
+	return dispatch => {
+		dispatch(actionInitialize());
+	};
+}
+
 function remove(mapKeys) {
 	return dispatch => {
 		if (!_.isArray(mapKeys)) mapKeys = [mapKeys];
@@ -76,10 +82,17 @@ function actionSetActive(key) {
 	}
 }
 
+function actionInitialize() {
+	return {
+		type: ActionTypes.INITIALIZE
+	}
+}
+
 // ============ export ===========
 
 export default {
 	add: add,
+	initialize: initialize,
 	remove: remove,
 	update: update,
 	updateDefaults: updateDefaults,

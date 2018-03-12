@@ -9,9 +9,9 @@ import utils from '../../../utils/utils';
 
 class MapsTimeline extends React.PureComponent {
 
-	constructor() {
+	constructor(props) {
 		super();
-
+		props.initialize();
 		this.onChangeActiveClick = this.onChangeActiveClick.bind(this);
 	}
 
