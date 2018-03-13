@@ -35,7 +35,8 @@ define([
         this._changes = {};
         this._maps = {
         	activeLayers: [],
-			maps: []
+			maps: [],
+			selectedMapKey: null
 		};
 		this._loadingOperations = [];
 		this._store = options.store;
@@ -307,6 +308,7 @@ define([
 	 * @param options.map {WorldWindMap}
 	 * @param options.id {string} Id of the map
 	 * @param options.periodId {number} Id of the period
+	 * @param options.selectedMapKey {string} Id of selected map
 	 */
 	StateStore.prototype.updateMapsMetadata = function(options){
 		if (options.map){
@@ -321,6 +323,8 @@ define([
 			this._maps.maps.forEach(function(map){
 				map.period = options.periodId;
 			});
+		} else if (options.hasOwnProperty('selectedMapKey')){
+			this._maps.selectedMapKey = options.selectedMapKey;
 		}
 	};
 
@@ -354,6 +358,10 @@ define([
 			if (this.current().isMapIndependentOfPeriod){
 				this.updateMapsMetadata({periodId: this.current().periods[0]});
 			}
+		} else if (type === Actions.mapSelected){
+			this.updateMapsMetadata({selectedMapKey: options.id});
+		} else if (type === Actions.mapDefaultMapUnselected){
+			this.updateMapsMetadata({selectedMapKey: null})
 		}
 	};
 

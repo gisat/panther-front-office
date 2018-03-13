@@ -13,6 +13,7 @@ define([], function(){
 		mapRemove: 'map#remove',
 		mapRemoved: 'map#removed',
 		mapSelected: 'map#selected',
+		mapDefaultMapUnselected: 'map#defaultMapUnselected',
 
 		mapControl: 'map#control',
 

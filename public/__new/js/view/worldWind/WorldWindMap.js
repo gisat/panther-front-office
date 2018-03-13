@@ -422,6 +422,7 @@ define(['../../actions/Actions',
 			}
 			if (!state.isMapIndependentOfPeriod){
 				this.unselect();
+				this._dispatcher.notify('map#defaultMapUnselected');
 			}
 		}
 	};
