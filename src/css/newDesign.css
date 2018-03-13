@@ -714,6 +714,7 @@
 .newDesign .chart-panel.panel-snapshots .x-panel-header .x-tool:before {
 	content: "\f106";
 	font-weight: bold;
+	position: relative;
 }
 .newDesign .chart-panel .x-panel-header .tool-chart-close:before {
 	font-family: "Open Sans";
