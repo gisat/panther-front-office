@@ -325,7 +325,7 @@ if (Config.toggles.useTopToolbar) {
 								$("#map-holder").append('<div id="draggingOverMapProtectionOverlay"></div>');
 							}
 						},
-						afterresize: {
+						resize: {
 							fn: function () {
 								$("#draggingOverMapProtectionOverlay").remove();
 							}
