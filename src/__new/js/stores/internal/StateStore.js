@@ -202,7 +202,7 @@ define([
 	 */
 	StateStore.prototype.addLoadingOperation = function(type){
 		this._loadingOperations.push(type);
-		console.log("StateStore#addLoadingOperation: Loading operation added!");
+		console.log("*** StateStore#addLoadingOperation: Loading operation added!");
 		this.checkLoading(type);
 	};
 
@@ -218,7 +218,7 @@ define([
 		var index = _.findIndex(this._loadingOperations, function(item){return item === type});
 		if (index !== -1){
 			this._loadingOperations.splice(index, 1);
-			console.log("StateStore#removeLoadingOperation: Loading operation removed!");
+			console.log("*** StateStore#removeLoadingOperation: Loading operation removed!");
 			this.checkLoading(type);
 		}
 	};
@@ -231,11 +231,11 @@ define([
 		if (this._loadingOperations.length === 0){
 			// wait 3 sec and then hide loader
 			this._loading = setTimeout(function(){
-				console.log("StateStore#checkLoading: *** HIDE LOADER ***!" + type);
+				console.log("*** StateStore#checkLoading: *** HIDE LOADER ***!" + type);
 				$("#loading-screen").css("display", "none");
-			},3000);
+			},5000);
 		} else {
-			console.log("StateStore#checkLoading: *** SHOW LOADER ***!" + type);
+			console.log("*** StateStore#checkLoading: *** SHOW LOADER ***!" + type);
 			$("#loading-screen").css("display", "block");
 		}
 	};
