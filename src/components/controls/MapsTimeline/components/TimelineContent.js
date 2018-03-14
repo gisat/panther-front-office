@@ -62,7 +62,8 @@ class TimelineContent extends React.PureComponent {
 					x={start}
 					width={end-start}
 					y={0}
-					height="30"
+					height="40"
+					className="ptr-timeline-month"
 				/>
 			);
 		});

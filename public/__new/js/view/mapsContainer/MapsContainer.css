@@ -105,3 +105,10 @@ body.mode-3d .maps-container {
 	width: 100%;
 	height: 100%;
 }
+
+.ptr-timeline-month {
+	fill: #fff;
+}
+.ptr-timeline-month:nth-child(odd) {
+	fill: #eee;
+}
