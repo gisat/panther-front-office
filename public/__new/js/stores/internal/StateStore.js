@@ -352,16 +352,12 @@ define([
 			this.handleMapDependencyOnPeriod(false);
 		} else if (type === Actions.foMapIsDependentOnPeriod){
 			this.handleMapDependencyOnPeriod(true);
-		} else if (type === Actions.mapAdded || type === Actions.mapRemoved){
-			this.updateMapsMetadata(options);
-		} else if (type === Actions.periodsChange){
+		}
+
+		else if (type === Actions.periodsChange){
 			if (this.current().isMapIndependentOfPeriod){
 				this.updateMapsMetadata({periodId: this.current().periods[0]});
 			}
-		} else if (type === Actions.mapSelected){
-			this.updateMapsMetadata({activeMapKey: options.id});
-		} else if (type === Actions.mapDefaultMapUnselected){
-			this.updateMapsMetadata({activeMapKey: null})
 		}
 	};
 
