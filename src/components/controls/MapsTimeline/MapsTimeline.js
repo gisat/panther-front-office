@@ -4,32 +4,70 @@ import config from '../../../config';
 
 import _ from 'lodash';
 import classNames from 'classnames';
+import Dimensions from 'react-dimensions';
+import moment from 'moment';
 
 import utils from '../../../utils/utils';
 
+import TimelineContent from './components/TimelineContent';
+
+
+const CONTROLS_WIDTH = 100;
+
 class MapsTimeline extends React.PureComponent {
+
+	static propTypes = {
+		period: PropTypes.array
+	};
+
+	static defaultProps = {
+		period: [new Date('2017-03'), new Date('2017-10')]
+	};
 
 	constructor(props) {
 		super();
 		props.initialize();
-		this.onChangeActiveClick = this.onChangeActiveClick.bind(this);
+
+		this.calculate = this.calculate.bind(this);
+
+		this.calculate(props);
 	}
 
-	onChangeActiveClick() {
-		let randomKey = utils.guid();
-		this.props.setActive(randomKey);
+	componentWillReceiveProps(nextProps) {
+		if (nextProps.containerWidth != this.props.containerWidth) {
+			this.calculate(nextProps);
+		}
+	}
+
+
+	calculate(props) {
+		let start = moment(props.period[0]);
+		let end = moment(props.period[1]);
+
+		let diff = end.diff(start, 'days');
+
+		this.dimensions = {
+			width: props.containerWidth - CONTROLS_WIDTH,
+			days: diff,
+			dayWidth: (props.containerWidth - CONTROLS_WIDTH)/diff
+		};
 	}
 
 	render() {
 
+		console.log('MapsTimeline#render dimensions', this.dimensions);
 
 		return (
-			<div id="maps-timeline">
-				<a onClick={this.onChangeActiveClick}>{this.props.maps.activeMapKey || "not set"}</a>
+			<div className="ptr-timeline-container">
+				<TimelineContent
+					height="20"
+					period={this.props.period}
+					width={this.dimensions.days * Math.floor(this.dimensions.dayWidth)}
+				/>
 			</div>
 		);
 	}
 
 }
 
-export default MapsTimeline;
+export default Dimensions()(MapsTimeline);
