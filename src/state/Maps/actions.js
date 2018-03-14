@@ -45,6 +45,12 @@ function setActive(key) {
 	};
 }
 
+function handleMapDependencyOnPeriod(independent) {
+	return dispatch => {
+		dispatch(actionSetMapIndependentOfPeriod(independent));
+	};
+}
+
 // ============ actions ===========
 
 function actionAdd(maps) {
@@ -71,7 +77,7 @@ function actionUpdate(maps) {
 function actionUpdateDefaults(defaults) {
 	return {
 		type: ActionTypes.MAPS_UPDATE_DEFAULTS,
-		data: defaults
+		defaults: defaults
 	}
 }
 
@@ -88,6 +94,13 @@ function actionInitialize() {
 	}
 }
 
+function actionSetMapIndependentOfPeriod(independent) {
+	return {
+		type: ActionTypes.MAPS_SET_INDEPENDENT_OF_PERIOD,
+		independent: independent
+	}
+}
+
 // ============ export ===========
 
 export default {
@@ -96,5 +109,6 @@ export default {
 	remove: remove,
 	update: update,
 	updateDefaults: updateDefaults,
-	setActive: setActive
+	setActive: setActive,
+	handleMapDependencyOnPeriod: handleMapDependencyOnPeriod
 }

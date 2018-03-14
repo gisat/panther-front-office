@@ -415,7 +415,7 @@ define(['../../actions/Actions',
 			var periods = state.periods;
 			if (periods.length === 1 || !this._period){
 				this._period = periods[0];
-				this._stateStore.updateMapsMetadata({periodId: this._period});
+				this._dispatcher.notify('periods#initial', periods);
 			}
 			if (!Config.toggles.hideSelectorToolbar){
 				this.mapWindowTools.addMapLabel(this._period);

@@ -7,6 +7,7 @@ const INITIAL_STATE = {
 	defaults: null,
 	data: null,
 	initialized: false,
+	independentOfPeriod: false
 };
 
 
@@ -42,6 +43,10 @@ function setActive(state, action) {
 	return {...state, activeMapKey: action.key};
 }
 
+function setIndependentOfPeriod(state, action) {
+	return {...state, independentOfPeriod: action.independent};
+}
+
 function initialize(state, action) {
 	return {...state, initialized: true};
 }
@@ -49,6 +54,8 @@ function initialize(state, action) {
 
 export default function tasksReducer(state = INITIAL_STATE, action) {
 	switch (action.type) {
+		case ActionTypes.INITIALIZE:
+			return initialize(state, action);
 		case ActionTypes.MAPS_ADD:
 			return add(state, action);
 		case ActionTypes.MAPS_REMOVE:
@@ -59,8 +66,8 @@ export default function tasksReducer(state = INITIAL_STATE, action) {
 			return updateDefaults(state, action);
 		case ActionTypes.MAPS_SET_ACTIVE:
 			return setActive(state, action);
-		case ActionTypes.INITIALIZE:
-			return initialize(state, action);
+		case ActionTypes.MAPS_SET_INDEPENDENT_OF_PERIOD:
+			return setIndependentOfPeriod(state, action);
 		default:
 			return state;
 	}
