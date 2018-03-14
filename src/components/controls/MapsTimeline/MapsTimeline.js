@@ -8,6 +8,7 @@ import Dimensions from 'react-dimensions';
 import moment from 'moment';
 
 import utils from '../../../utils/utils';
+import periodUtils from '../../../utils/period';
 
 import TimelineContent from './components/TimelineContent';
 
@@ -60,9 +61,10 @@ class MapsTimeline extends React.PureComponent {
 		return (
 			<div className="ptr-timeline-container">
 				<TimelineContent
-					height="20"
+					height="40"
 					period={this.props.period}
 					width={this.dimensions.days * Math.floor(this.dimensions.dayWidth)}
+					dayWidth={Math.floor(this.dimensions.dayWidth)}
 				/>
 			</div>
 		);

@@ -1,3 +1,4 @@
+//import moment from 'moment';
 
 const parse = (string) => {
 	if (string.match(/\//)) {
@@ -22,6 +23,10 @@ const parse = (string) => {
 			new Date(string),
 			new Date(end - 1)
 		];
+		//return [
+		//	moment(string),
+		//	moment(string).endOf('month')
+		//];
 	}
 };
 
