@@ -26,6 +26,7 @@ const mapDispatchToProps = (dispatch) => ({
 // ===============================================
 
 let listenersRegistered = false;
+
 const registerListeners = (props) => {
 	if (!listenersRegistered){
 		window.Stores.addListener((event, options) => {
@@ -37,19 +38,8 @@ const registerListeners = (props) => {
 	}
 };
 
-let initialize = (props) => {
-	console.log('####', window.Stores.state);
-	if (window && window.Stores && window.Stores.state) {
-		let state = window.Stores.state;
-		if (state['_maps'] && state['_maps']['activeMapKey']) {
-			props.setActiveMapKey(state['_maps']['activeMapKey']);
-		}
-	}
-};
-
 const mapsSubscriber = (props) => {
 	registerListeners(props);
-	initialize(props);
 };
 
 
