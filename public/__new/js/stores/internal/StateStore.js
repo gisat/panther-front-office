@@ -36,7 +36,7 @@ define([
         this._maps = {
         	activeLayers: [],
 			maps: [],
-			selectedMapKey: null
+			activeMapKey: null
 		};
 		this._loadingOperations = [];
 		this._store = options.store;
@@ -323,8 +323,8 @@ define([
 			this._maps.maps.forEach(function(map){
 				map.period = options.periodId;
 			});
-		} else if (options.hasOwnProperty('selectedMapKey')){
-			this._maps.selectedMapKey = options.selectedMapKey;
+		} else if (options.hasOwnProperty('activeMapKey')){
+			this._maps.activeMapKey = options.activeMapKey;
 		}
 	};
 
@@ -359,9 +359,9 @@ define([
 				this.updateMapsMetadata({periodId: this.current().periods[0]});
 			}
 		} else if (type === Actions.mapSelected){
-			this.updateMapsMetadata({selectedMapKey: options.id});
+			this.updateMapsMetadata({activeMapKey: options.id});
 		} else if (type === Actions.mapDefaultMapUnselected){
-			this.updateMapsMetadata({selectedMapKey: null})
+			this.updateMapsMetadata({activeMapKey: null})
 		}
 	};
 
