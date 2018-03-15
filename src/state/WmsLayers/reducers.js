@@ -6,17 +6,13 @@ const INITIAL_STATE = {
 	data: null,
 };
 
-function add(state, action) {
+function addDistinct(state, action) {
 	let data;
 	if (state.data && state.data.length){
-		data = _.map(state.data, layer => {
-			let layerExists = _.find(action.data, {id: layer.id});
-			if (layerExists) {
-				return layer
-			} else {
-				return data.push(layer);
-			}
+		let newData = _.reject(action.data, layer => {
+			return _.find(state.data, {key: layer.key});
 		});
+		data = state.data.concat(newData);
 	} else {
 		data = (state.data && state.data.length) ? [...state.data, ...action.data] : [...action.data];
 	}
@@ -26,7 +22,7 @@ function add(state, action) {
 export default function tasksReducer(state = INITIAL_STATE, action) {
 	switch (action.type) {
 		case ActionTypes.WMS_LAYERS_ADD:
-			return add(state, action);
+			return addDistinct(state, action);
 		default:
 			return state;
 	}
