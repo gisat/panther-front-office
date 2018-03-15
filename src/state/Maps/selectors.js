@@ -9,7 +9,7 @@ export const getMaps = createSelector(
 	[getMapDefaults, getMapsOverrides],
 	(defaults, overrides) => {
 		return _.map(overrides, override => {
-			return _.merge({}, defaults, override);
+			return {...defaults, ...override};
 		});
 	}
 );
