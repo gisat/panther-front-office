@@ -33,6 +33,7 @@ class TimelineContent extends React.PureComponent {
 				height={this.props.height}
 			>
 				{this.renderMonths(this.props.period)}
+				{this.renderDays(this.props.period)}
 			</svg>
 		);
 	}
@@ -44,11 +45,11 @@ class TimelineContent extends React.PureComponent {
 		let months = [];
 		let current = moment(period[0]);
 
-		while (end > current || current.format('M') === end.format('M')) {
+		while (end > current || current.format('YYYY-MM') === end.format('YYYY-MM')) {
 			months.push({
 				month: current.format('YYYY-MM'),
-				start: (current.format('M') === start.format('M')) ? start : moment(current).startOf('month'),
-				end: (current.format('M') === end.format('M')) ? end : moment(current).endOf('month')
+				start: (current.format('YYYY-MM') === start.format('YYYY-MM')) ? start : moment(current).startOf('month'),
+				end: (current.format('YYYY-MM') === end.format('YYYY-MM')) ? end : moment(current).endOf('month')
 			});
 			current.add(1,'month');
 		}
@@ -64,6 +65,39 @@ class TimelineContent extends React.PureComponent {
 					y={0}
 					height="40"
 					className="ptr-timeline-month"
+				/>
+			);
+		});
+
+	}
+
+	renderDays(period) {
+		let ret = [];
+		let start = moment(period[0]);
+		let end = moment(period[1]);
+		let days = [];
+		let current = moment(period[0]);
+
+		while (end > current || current.format('D') === end.format('D')) {
+			days.push({
+				day: current.format('YYYY-MM-DD'),
+				start: (current.format('YYYY-MM-DD') === start.format('YYYY-MM-DD')) ? start : moment(current).startOf('day'),
+				end: (current.format('YYYY-MM-DD') === end.format('YYYY-MM-DD')) ? end : moment(current).endOf('day')
+			});
+			current.add(1,'day');
+		}
+
+		return _.map(days, day => {
+			let start = this.getX(day.start);
+			let end = this.getX(day.end);
+			return (
+				<line
+					key={day.day}
+					x1={start}
+					x2={start}
+					y1={0}
+					y1={day.start.format('dddd') === 'Monday' ? 30 : 25}
+					className={classNames("ptr-timeline-day", day.start.format('dddd'))}
 				/>
 			);
 		});

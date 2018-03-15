@@ -124,3 +124,11 @@ body.mode-3d .maps-container {
 .ptr-timeline-month:nth-child(odd) {
 	fill: #eee;
 }
+
+.ptr-timeline-day {
+	stroke-width: 1;
+	stroke: rgba(0,0,0,.3);
+}
+.ptr-timeline-day.Monday {
+	stroke: rgba(0,0,0,.4);
+}
