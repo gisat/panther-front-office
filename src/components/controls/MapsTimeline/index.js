@@ -1,10 +1,12 @@
 import { connect } from 'react-redux';
 import Action from '../../../state/Action';
+import Select from '../../../state/Select';
 import MapsTimeline from './MapsTimeline';
 
 const mapStateToProps = state => {
 	return {
-		maps: state.maps
+		maps: Select.maps.getMaps(state),
+		activeMapKey: Select.maps.getActiveMapKey(state)
 	}
 };
 

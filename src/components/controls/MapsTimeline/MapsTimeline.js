@@ -8,7 +8,6 @@ import Dimensions from 'react-dimensions';
 import moment from 'moment';
 
 import utils from '../../../utils/utils';
-import periodUtils from '../../../utils/period';
 
 import TimelineContent from './components/TimelineContent';
 
@@ -22,7 +21,7 @@ class MapsTimeline extends React.PureComponent {
 	};
 
 	static defaultProps = {
-		period: [new Date('2017-03'), new Date('2017-10')]
+		period: [utils.period('2017-03')[0], utils.period('2017-10')[1]]
 	};
 
 	constructor(props) {

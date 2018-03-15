@@ -3,7 +3,11 @@ import React from 'react';
 import config from '../config';
 import _ from 'lodash';
 
+import period from './period';
+
 export default {
+
+	period: period,
 
 	deepClone: function (data) {
 		var clone = data;
