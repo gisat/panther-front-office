@@ -3,19 +3,19 @@ import Action from '../state/Action';
 import utils from '../utils/utils';
 
 const mapStateToProps = (state, prevState) => {
-	const getLayers = (state) =>
+	const getPeriods = (state) =>
 		state &&
-		state.wmsLayers &&
-		state.wmsLayers.data;
+		state.periods &&
+		state.periods.data;
 
 	return {
-		data: getLayers(state)
+		data: getPeriods(state)
 	}
 };
 
 const mapDispatchToProps = (dispatch) => ({
-	addLayers: (layers) => {
-		dispatch(Action.wmsLayers.add(layers));
+	addPeriods: (periods) => {
+		dispatch(Action.periods.add(periods));
 	},
 });
 
@@ -25,17 +25,17 @@ let listenersRegistered = false;
 const registerListeners = (props) => {
 	if (!listenersRegistered) {
 		window.Stores.addListener((event, options) => {
-			if (event === 'WMS_LAYERS_LOADED') {
-				props.addLayers(utils.replaceIdWithKey(options));
+			if (event === 'PERIODS_LOADED') {
+				props.addPeriods(utils.replaceIdWithKey(options));
 			}
 		});
 		listenersRegistered = true;
 	}
 };
 
-const wmsLayersSubscriber = (props) => {
+const periodsSubscriber = (props) => {
 	registerListeners(props);
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(wmsLayersSubscriber)
+export default connect(mapStateToProps, mapDispatchToProps)(periodsSubscriber)
