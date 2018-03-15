@@ -156,7 +156,7 @@ define([
 	 */
 	MapsContainer.prototype.buildMapControls = function(wwd){
 		return new Controls({
-			mapContainer: this._containerSelector,
+			mapContainer: this._containerSelector.find('.maps-container-top'),
 			worldWindow: wwd
 		});
 	};

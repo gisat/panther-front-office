@@ -35,7 +35,6 @@ body.mode-3d .maps-container {
 	flex: 1;
 }
 .world-wind-map-box {
-	background: black url("../../../img/night-sky.jpg") top left no-repeat;
 	border-bottom: 1px solid #888;
 	border-right: 1px solid #888;
 	display: inline-block;
@@ -83,15 +82,28 @@ body.mode-3d .maps-container {
 
 /* selected map */
 .maps-container .map-fields .world-wind-map-box.selected {
-	border: 2px solid rgb(186,65,91)
+	z-index: 2;
+}
+.maps-container .map-fields .world-wind-map-box.selected .world-wind-canvas {
+	width: 100%;
+	height: 100%;
+}
+.maps-container .map-fields .world-wind-map-box.selected::after {
+	content: " ";
+	display: block;
+	position: absolute;
+	top: 0; right: 0; bottom: -1px; left: 0;
+	pointer-events: none;
+	border: 2px solid rgba(153,54,75,.9);
 }
 .maps-container .map-fields .world-wind-map-box.selected .map-name-label,
 .maps-container .map-fields .world-wind-map-box.selected .close-map-button {
-	background:  rgba(153,54,75,.9);
+	background:  rgba(153,54,75,1);
 	color: rgb(209,211,215);
+	transition: none;
 }
 .maps-container .map-fields .world-wind-map-box.selected .close-map-button:hover {
-	background:  rgba(183,84,105,.9);
+	background:  rgba(183,84,105,1);
 }
 .maps-container .map-fields .world-wind-map-box.selected .close-map-icon {
 	color: rgb(209,211,215);
