@@ -1,4 +1,4 @@
-import * as Maps from './Maps/selectors';
+import Maps from './Maps/selectors';
 
 export default {
 

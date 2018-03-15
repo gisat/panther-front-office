@@ -3,9 +3,10 @@ import _ from 'lodash';
 
 const getMapDefaults = state => state.maps.defaults;
 const getMapsOverrides = state => state.maps.data;
-export const getActiveMapKey = state => state.maps.activeMapKey;
+const getActiveMapKey = state => state.maps.activeMapKey;
+const getPeriodIndependence = state => state.maps.independentOfPeriod;
 
-export const getMaps = createSelector(
+const getMaps = createSelector(
 	[getMapDefaults, getMapsOverrides],
 	(defaults, overrides) => {
 		return _.map(overrides, override => {
@@ -13,3 +14,9 @@ export const getMaps = createSelector(
 		});
 	}
 );
+
+export default {
+	getActiveMapKey: getActiveMapKey,
+	getMaps: getMaps,
+	getPeriodIndependence: getPeriodIndependence
+};
