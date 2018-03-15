@@ -31,5 +31,9 @@ define([
 		return "rest/wms/layer";
 	};
 
+	WmsLayers.prototype.loaded = function(models) {
+		window.Stores.notify("WMS_LAYERS_LOADED", models);
+	};
+
 	return WmsLayers;
 });
