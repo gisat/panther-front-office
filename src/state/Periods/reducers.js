@@ -8,8 +8,8 @@ const INITIAL_STATE = {
 function addDistinct(state, action) {
 	let data;
 	if (state.data && state.data.length){
-		let newData = _.reject(action.data, layer => {
-			return _.find(state.data, {key: layer.key});
+		let newData = _.reject(action.data, period => {
+			return _.find(state.data, {key: period.key});
 		});
 		data = state.data.concat(newData);
 	} else {
@@ -20,7 +20,7 @@ function addDistinct(state, action) {
 
 export default function tasksReducer(state = INITIAL_STATE, action) {
 	switch (action.type) {
-		case ActionTypes.WMS_LAYERS_ADD:
+		case ActionTypes.PERIODS_ADD:
 			return addDistinct(state, action);
 		default:
 			return state;
