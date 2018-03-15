@@ -11,7 +11,6 @@ import registerServiceWorker from './registerServiceWorker';
 
 let getStore = function() {
 	if (window.Stores && window.Stores.hasOwnProperty('addListener')) {
-		// window.Stores.addListener(listener);
 		initialize();
 	} else {
 		setTimeout(getStore, 200);
