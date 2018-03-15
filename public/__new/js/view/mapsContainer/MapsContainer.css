@@ -122,13 +122,13 @@ body.mode-3d .maps-container {
 	fill: #fff;
 }
 .ptr-timeline-month:nth-child(odd) {
-	fill: #eee;
+	fill: #f1f1f1;
 }
 
 .ptr-timeline-day {
 	stroke-width: 1;
-	stroke: rgba(0,0,0,.3);
+	stroke: rgba(0,0,0,.2);
 }
 .ptr-timeline-day.Monday {
-	stroke: rgba(0,0,0,.4);
+	stroke: rgba(0,0,0,.3);
 }

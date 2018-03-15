@@ -96,7 +96,7 @@ class TimelineContent extends React.PureComponent {
 					x1={start}
 					x2={start}
 					y1={0}
-					y1={day.start.format('dddd') === 'Monday' ? 30 : 25}
+					y1={day.start.format('dddd') === 'Monday' ? 28 : 25}
 					className={classNames("ptr-timeline-day", day.start.format('dddd'))}
 				/>
 			);
