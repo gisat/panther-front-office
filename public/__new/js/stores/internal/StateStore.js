@@ -303,32 +303,6 @@ define([
 	};
 
 	/**
-	 * Update metadata about maps and layers
-	 * @param options {Object}
-	 * @param options.map {WorldWindMap}
-	 * @param options.id {string} Id of the map
-	 * @param options.periodId {number} Id of the period
-	 * @param options.selectedMapKey {string} Id of selected map
-	 */
-	StateStore.prototype.updateMapsMetadata = function(options){
-		if (options.map){
-			this._maps.maps.push({
-				id: options.map._id,
-				name: options.map._name,
-				period: options.map._period
-			});
-		} else if (options.id){
-			this._maps.maps = _.reject(this._maps.maps, function(map) { return map.id === options.id;});
-		} else if (options.periodId){
-			this._maps.maps.forEach(function(map){
-				map.period = options.periodId;
-			});
-		} else if (options.hasOwnProperty('activeMapKey')){
-			this._maps.activeMapKey = options.activeMapKey;
-		}
-	};
-
-	/**
 	 * It updates the settings of World wind navigator
 	 * @param options {Object}
 	 */
@@ -352,12 +326,6 @@ define([
 			this.handleMapDependencyOnPeriod(false);
 		} else if (type === Actions.foMapIsDependentOnPeriod){
 			this.handleMapDependencyOnPeriod(true);
-		}
-
-		else if (type === Actions.periodsChange){
-			if (this.current().isMapIndependentOfPeriod){
-				this.updateMapsMetadata({periodId: this.current().periods[0]});
-			}
 		}
 	};
 

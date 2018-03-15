@@ -21,8 +21,14 @@ define(['./Model'], function(Model){
 			periods: {
 				serverName: 'years'
 			},
+			featureLayers: {
+				serverName: 'featureLayers'
+			},
 			isMapIndependentOfPeriod: {
 				serverName: 'isMapIndependentOfPeriod'
+			},
+			aoiLayer: {
+				serverName: 'aoiLayer'
 			}
 		};
 	};
