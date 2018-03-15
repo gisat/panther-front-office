@@ -27,7 +27,7 @@ function update(state, action) {
 	let data = _.map(state.data, map => {
 		let mapUpdate = _.find(action.data, {key: map.key});
 		if (mapUpdate) {
-			return _.merge(map, mapUpdate);
+			return _.merge({}, map, mapUpdate);
 		} else {
 			return map;
 		}
@@ -36,7 +36,7 @@ function update(state, action) {
 }
 
 function updateDefaults(state, action) {
-	return {...state, defaults: state.defaults ? _.merge(state.defaults, action.defaults) : action.defaults};
+	return {...state, defaults: state.defaults ? _.merge({}, state.defaults, action.defaults) : action.defaults};
 }
 
 function setActive(state, action) {
