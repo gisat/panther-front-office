@@ -1,41 +1,16 @@
-import {connect} from 'redux-haiku';
 import Action from '../state/Action';
 import utils from '../utils/utils';
 
-const mapStateToProps = (state, prevState) => {
-	const getLayers = (state) =>
-		state &&
-		state.wmsLayers &&
-		state.wmsLayers.data;
-
-	return {
-		data: getLayers(state)
-	}
+export default store => {
+	setEventListeners(store);
 };
 
-const mapDispatchToProps = (dispatch) => ({
-	addLayers: (layers) => {
-		dispatch(Action.wmsLayers.add(layers));
-	},
-});
-
-// ===============================================
-let listenersRegistered = false;
-
-const registerListeners = (props) => {
-	if (!listenersRegistered) {
-		window.Stores.addListener((event, options) => {
-			if (event === 'WMS_LAYERS_LOADED') {
-				props.addLayers(utils.replaceIdWithKey(options));
-			}
-		});
-		listenersRegistered = true;
-	}
+const setEventListeners = store => {
+	window.Stores.addListener((event, options) => {
+		switch(event) {
+			case 'WMS_LAYERS_LOADED':
+				store.dispatch(Action.wmsLayers.add(utils.replaceIdWithKey(options)));
+				break;
+		}
+	});
 };
-
-const wmsLayersSubscriber = (props) => {
-	registerListeners(props);
-};
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(wmsLayersSubscriber)

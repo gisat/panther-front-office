@@ -1,46 +1,50 @@
-import {connect} from 'redux-haiku';
 import Action from '../state/Action';
 import utils from '../utils/utils';
+import Select from "../state/Select";
+import watch from "redux-watch";
 
-const mapStateToProps = (state, prevState) => {
-	const getScopes = (state) =>
-		state &&
-		state.scopes &&
-		state.scopes.data;
+let state = {};
 
-	return {
-		data: getScopes(state)
+export default store => {
+	setEventListeners(store);
+	setStoreWatchers(store);
+};
+
+const setStoreWatchers = store => {
+
+	createWatcher(store, Select.scopes.getActiveScopeKey, activeScopeKeyWatcher);
+
+};
+
+const setEventListeners = store => {
+	window.Stores.addListener((event, options) => {
+		switch(event) {
+			case 'SCOPES_LOADED':
+				store.dispatch(Action.scopes.add(utils.replaceIdWithKey(options)));
+				break;
+			case 'scope#activeScopeChanged':
+				store.dispatch(Action.scopes.setActiveScopeKey(options.activeScopeKey));
+				break;
+		}
+	});
+};
+
+// ======== state watchers ========
+
+const activeScopeKeyWatcher = (value, previousValue) => {
+	console.log('@@ activeScopeKeyWatcher', previousValue, '->', value);
+};
+
+/////// logic todo move to common location
+
+const createWatcher = (store, selector, watcher, stateKey) => {
+	if (stateKey) {
+		state[stateKey] = selector(store.getState());
+		store.subscribe(watch(() => selector(store.getState()))((value, previousValue) => {
+			state[stateKey] = value;
+			watcher(value, previousValue);
+		}));
+	} else {
+		store.subscribe(watch(() => selector(store.getState()))(watcher));
 	}
 };
-
-const mapDispatchToProps = (dispatch) => ({
-	addScopes: (scopes) => {
-		dispatch(Action.scopes.add(scopes));
-	},
-	setActiveScopeKey: (key) => {
-		dispatch(Action.scopes.setActiveScopeKey(key));
-	},
-});
-
-// ===============================================
-let listenersRegistered = false;
-
-const registerListeners = (props) => {
-	if (!listenersRegistered) {
-		window.Stores.addListener((event, options) => {
-			if (event === 'SCOPES_LOADED') {
-				props.addScopes(utils.replaceIdWithKey(options));
-			} else if (event === 'scope#activeScopeChanged'){
-				props.setActiveScopeKey(options.activeScopeKey);
-			}
-		});
-		listenersRegistered = true;
-	}
-};
-
-const scopesSubscriber = (props) => {
-	registerListeners(props);
-};
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(scopesSubscriber)
