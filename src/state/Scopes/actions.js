@@ -11,6 +11,11 @@ function add(scopes) {
 		dispatch(actionAdd(scopes));
 	};
 }
+function setActiveScopeKey(key) {
+	return dispatch => {
+		dispatch(actionSetActiveScopeKey(key));
+	};
+}
 
 // ============ actions ===========
 
@@ -20,9 +25,16 @@ function actionAdd(scopes) {
 		data: scopes
 	}
 }
+function actionSetActiveScopeKey(key) {
+	return {
+		type: ActionTypes.SCOPES_SET_ACTIVE_KEY,
+		activeScopeKey: key
+	}
+}
 
 // ============ export ===========
 
 export default {
 	add: add,
+	setActiveScopeKey: setActiveScopeKey
 }

@@ -19,10 +19,16 @@ function addDistinct(state, action) {
 	return {...state, data: data};
 }
 
+function setActiveKey(state, action){
+	return {...state, activeScopeKey: action.activeScopeKey};
+}
+
 export default function tasksReducer(state = INITIAL_STATE, action) {
 	switch (action.type) {
 		case ActionTypes.SCOPES_ADD:
 			return addDistinct(state, action);
+		case ActionTypes.SCOPES_SET_ACTIVE_KEY:
+			return setActiveKey(state, action);
 		default:
 			return state;
 	}

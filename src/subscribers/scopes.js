@@ -17,6 +17,9 @@ const mapDispatchToProps = (dispatch) => ({
 	addScopes: (scopes) => {
 		dispatch(Action.scopes.add(scopes));
 	},
+	setActiveScopeKey: (key) => {
+		dispatch(Action.scopes.setActiveScopeKey(key));
+	},
 });
 
 // ===============================================
@@ -27,6 +30,8 @@ const registerListeners = (props) => {
 		window.Stores.addListener((event, options) => {
 			if (event === 'SCOPES_LOADED') {
 				props.addScopes(utils.replaceIdWithKey(options));
+			} else if (event === 'scope#activeScopeChanged'){
+				props.setActiveScopeKey(options.activeScopeKey);
 			}
 		});
 		listenersRegistered = true;

@@ -70,8 +70,8 @@ const periodIndependenceWatcher = (value, previousValue) => {
 // ======== event listeners ========
 
 const onPeriodsChanged = (store, options, initial) => {
-	if (state.independentOfPeriod && (options.periods.length === 1)){
-		store.dispatch(Action.maps.updateDefaults({period: options.periods[0]}));
+	if (state.independentOfPeriod && (options.length === 1)){
+		store.dispatch(Action.maps.updateDefaults({period: options[0]}));
 	} else if (initial) {
 		if (options && options.length && state.data.length){
 			store.dispatch(Action.maps.update({

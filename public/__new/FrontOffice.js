@@ -122,6 +122,7 @@ define([
 			});
 		}
 
+		this._dispatcher.notify('scope#activeScopeChanged', {activeScopeKey: Number(self._dataset)});
 		ThemeYearConfParams.datasetChanged = false;
 	};
 

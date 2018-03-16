@@ -42,6 +42,8 @@ define([], function(){
 		periodsDefault: 'periods#default',
 		periodsRebuild: 'periods#rebuild',
 
+		scopeActiveChanged: 'scope#activeScopeChanged',
+
 		selectionSelected: 'selection#selected',
 		selectionClearAll: 'selection#clearAll',
 		selectionActiveCleared: 'selection#activeCleared',
