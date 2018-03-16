@@ -417,9 +417,7 @@ define(['../../actions/Actions',
 				this._period = periods[0];
 				this._dispatcher.notify('periods#initial', periods);
 			}
-			if (!Config.toggles.hideSelectorToolbar){
-				this.mapWindowTools.addMapLabel(this._period);
-			}
+			this.mapWindowTools.addMapLabel(this._period);
 			if (!state.isMapIndependentOfPeriod){
 				this.unselect();
 				this._dispatcher.notify('map#defaultMapUnselected');
