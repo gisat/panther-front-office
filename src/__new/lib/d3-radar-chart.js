@@ -200,7 +200,7 @@ define([
 						tooltip
 							.attr('x', newX)
 							.attr('y', newY)
-							.text(Format(d.value))
+							.text(d.label || Format(d.label))
 							.transition(200)
 							.style('opacity', 1);
 
