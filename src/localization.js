@@ -202,6 +202,7 @@ var langEn = {
 
     name: "Name",
     nextPage: "Next Page",
+    no: "No",
     noAreas: "No areas",
     noAreaSelected: "No area selected",
     noAttributesInfo: "No attributes or no data for selected attributes.",
@@ -365,6 +366,7 @@ var langEn = {
     wmsLayerIsMissing: "WMS layer is missing",
 
     year: "Year: ",
+    yes: "Yes",
     yesNo: "(Yes/No)",
 
     zoomSelected: "Zoom selected"
@@ -574,6 +576,7 @@ var langCz = {
 
     name: "Jméno",
 	nextPage: "Další stránka",
+    no: "Ne",
 	noAreas: "Žádná jednotka",
     noAreaSelected: "Žádná jednotka není vybraná",
 	noAttributesInfo: "K této jednotce se neváží žádné atributy.",
@@ -737,6 +740,7 @@ var langCz = {
     wmsLayerIsMissing: "WMS vrstva chybí",
 
     year: "Rok: ",
+    yes: "Ano",
     yesNo: "(Ano/Ne)",
 
     zoomSelected: "Zoom na vybrané"
