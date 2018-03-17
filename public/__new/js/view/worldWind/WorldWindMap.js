@@ -47,6 +47,7 @@ define(['../../actions/Actions',
 	 * @param options.dispatcher {Object} Object for handling events in the application.
 	 * @param options.store {Object}
 	 * @param options.store.state {StateStore}
+	 * @param options.store.scopes {Scopes}
 	 * @param options.store.map {MapStore}
 	 * @param options.store.periods {Periods}
 	 * @param options.store.locations {Locations}
@@ -62,6 +63,9 @@ define(['../../actions/Actions',
         if(!options.store.locations){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindMap', 'constructor', 'Stores locations must be provided'));
         }
+		if (!options.store.scopes){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindMap", "constructor", "missingScopesStore"));
+		}
         if(!options.store.state){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindMap', 'constructor', 'Stores state must be provided'));
         }
@@ -76,6 +80,7 @@ define(['../../actions/Actions',
 		this._mapsContainerSelector = options.mapsContainer;
 
 		this._store = options.store;
+		this._scopesStore = options.store.scopes;
 		this._stateStore = options.store.state;
 		this._mapStore = options.store.map;
 		this._periodsStore = options.store.periods;
@@ -329,6 +334,7 @@ define(['../../actions/Actions',
 			store: {
 				map: this._store.map,
 				periods: this._periodsStore,
+				scopes: this._scopesStore,
 				state: this._stateStore
 			},
 			targetContainer: this._mapBoxSelector

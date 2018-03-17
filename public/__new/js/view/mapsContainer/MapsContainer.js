@@ -35,6 +35,7 @@ define([
 	 * @param options.target {Object} JQuery selector of parent element
 	 * @param options.store {Object}
 	 * @param options.store.map {MapStore}
+	 * @param options.store.scopes {Scopes}
 	 * @param options.store.state {StateStore}
 	 * @param options.store.periods {Periods}
 	 * @param options.store.locations {Locations}
@@ -56,6 +57,9 @@ define([
 		if (!options.store.map){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MapsContainer", "constructor", "missingMapStore"));
 		}
+		if (!options.store.scopes){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MapsContainer", "constructor", "missingScopesStore"));
+		}
 		if (!options.store.state){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MapsContainer", "constructor", "missingStateStore"));
 		}
@@ -71,6 +75,7 @@ define([
 
 		this._mapStore = options.store.map;
 		this._stateStore = options.store.state;
+		this._scopesStore = options.store.scopes;
 		this._store = options.store;
 
 		this._mapControls = null;
@@ -176,6 +181,7 @@ define([
 			orderFromStart: orderFromStart,
 			mapsContainer: this._containerSelector.find(".map-fields"),
 			store: {
+				scopes: this._scopesStore,
 				state: this._stateStore,
 				map: this._mapStore,
 				periods: this._store.periods,

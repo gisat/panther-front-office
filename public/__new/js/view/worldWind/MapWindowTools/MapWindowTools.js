@@ -21,6 +21,7 @@ define(['../../../actions/Actions',
 	 * @param options.store {Object}
 	 * @param options.store.map {MapStore}
 	 * @param options.store.periods {Periods}
+	 * @param options.store.scopes {Scopes}
 	 * @param options.store.state {StateStore}
 	 * @param options.targetContainer {Object} JQuery selector of target element
 	 * @constructor
@@ -41,6 +42,9 @@ define(['../../../actions/Actions',
 		if(!options.store.periods){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MapWindowTools', 'constructor', 'Stores periods must be provided'));
 		}
+		if (!options.store.scopes){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MapWindowTools", "constructor", "missingScopesStore"));
+		}
 		if(!options.store.state){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MapWindowTools', 'constructor', 'Stores state must be provided'));
 		}
@@ -53,6 +57,7 @@ define(['../../../actions/Actions',
 		this._name = options.mapName || "Map";
 		this._mapStore = options.store.map;
 		this._periodsStore = options.store.periods;
+		this._scopesStore = options.store.scopes;
 		this._stateStore = options.store.state;
 		this._targetContainer = options.targetContainer;
 		this.build();
@@ -95,11 +100,17 @@ define(['../../../actions/Actions',
 	 */
 	MapWindowTools.prototype.addMapLabel = function(period) {
 		var state = this._stateStore.current();
-		if (period && !state.isMapIndependentOfPeriod) {
-			this.addMapLabelWithPeriod(period);
-		} else {
-			this.addMapLabelWithName();
-		}
+		var self = this;
+		this._scopesStore.byId(state.scope).then(function(scopes){
+			var scope = scopes[0];
+			if (!scope.hideMapName){
+				if (period && !state.isMapIndependentOfPeriod) {
+					self.addMapLabelWithPeriod(period);
+				} else {
+					self.addMapLabelWithName();
+				}
+			}
+		});
 	};
 
 	/**
@@ -143,6 +154,13 @@ define(['../../../actions/Actions',
 	 */
 	MapWindowTools.prototype.removeCloseButton = function(){
 		this._mapToolsSelector.find(".close-map-button").remove();
+	};
+
+	MapWindowTools.prototype.onEvent = function(type, options){
+		if (type === Actions.mapHandleMapNameLabel){
+			this._mapNameVisibility = options.visibility;
+			this._nameLabelSelector.remove();
+		}
 	};
 
 	return MapWindowTools;

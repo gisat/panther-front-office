@@ -36,8 +36,8 @@ define(['./Model'], function(Model){
 			oneLayerPerMap: {
 				serverName: 'oneLayerPerMap'
 			},
-			showMapName: {
-				serverName: 'showMapName'
+			hideMapName: {
+				serverName: 'hideMapName'
 			},
 			mapLayerInfo: {
 				serverName: 'mapLayerInfo'

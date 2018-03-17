@@ -586,6 +586,7 @@ define(['js/actions/Actions',
 			store: {
 				periods: store.periods,
 				locations: store.locations,
+				scopes: store.scopes,
 				map: mapStore,
 				state: stateStore
 			}
