@@ -40,6 +40,8 @@ define([
 		} else if (this._useWorldWindOnly){
 			this._dispatcher.addListener(this.useWorldWind.bind(this));
 		}
+
+		this._dispatcher.addListener(this.onScopeChange.bind(this));
 	};
 
 	/**
@@ -135,6 +137,27 @@ define([
 		return this._store.scopes.all().then(function(scopes){
 			return scopes[0];
 		});
+	};
+
+	/**
+	 * Adjust application on scope change
+	 * @param type {string}
+	 * @param options {Object}
+	 */
+	Customization.prototype.onScopeChange = function(type, options){
+		if (type === 'scope#activeScopeChanged'){
+			this._store.scopes.byId(options.activeScopeKey).then(function(scopes){
+				var scope = scopes[0];
+				if (scope && scope.viewSelection){
+					var header = $("#header");
+					header.find("h1").css("display", "none");
+					header.find(".menu").css("display", "none");
+					header.find("#header-view-selection").css("display", "inline-block");
+				}
+			}).catch(function(err){
+				throw new Error(err);
+			});
+		}
 	};
 
 	return Customization;

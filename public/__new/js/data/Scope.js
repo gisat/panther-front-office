@@ -42,8 +42,8 @@ define(['./Model'], function(Model){
 			mapLayerInfo: {
 				serverName: 'mapLayerInfo'
 			},
-			viewSelelection: {
-				serverName: 'viewSelelection'
+			viewSelection: {
+				serverName: 'viewSelection'
 			},
 			hideSidebarReports: {
 				serverName: 'hideSidebarReports'

@@ -792,6 +792,10 @@
 	padding: 0 1.5rem 0 1rem;
 	z-index: 1;
 }
+.newDesign #header-view-selection {
+	flex: 1;
+	display: none;
+}
 .newDesign #geoserver-login #header {
 	z-index: 0;
 }
