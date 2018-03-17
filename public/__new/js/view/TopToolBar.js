@@ -15,8 +15,32 @@ define([
 ) {
 	"use strict";
 
+	/**
+	 * @param options {Object}
+	 * @param options.dispatcher {Object} Object for handling events in the application.
+	 * @param options.store {Object}
+	 * @param options.store.scope {Scopes}
+	 * @param options.store.state {StateStore}
+	 * @constructor
+	 */
 	var TopToolBar = function(options) {
+		if (!options.dispatcher){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "TopToolBar", "constructor", "missingDispatcher"));
+		}
+		if(!options.store){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'TopToolBar', 'constructor', 'Stores must be provided'));
+		}
+		if(!options.store.scopes){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'TopToolBar', 'constructor', 'Scope store must be provided'));
+		}
+		if (!options.store.state){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "TopToolBar", "constructor", "missingStateStore"));
+		}
+
 		this._dispatcher = options.dispatcher;
+		this._scopeStore = options.store.scopes;
+		this._stateStore = options.store.state;
+
 		this._target = $('#top-toolbar-widgets');
 		this._target.on('click.topToolBar', '.item', this.handleClick.bind(this));
 		this.build();
@@ -47,11 +71,15 @@ define([
 			layers: true,
 			areas: true,
 			selections: true,
+			areasFilterNew: true,
 			mapTools: true,
 			addLayer: true,
 			customViews: true,
 			customLayers: true,
-			functionalFilrer: false
+			functionalFilrer: false,
+			share: true,
+			snapshot: true,
+			contextHelp: true
 		};
 
 
@@ -73,7 +101,23 @@ define([
 			tools = this.handleSnow();
 		}
 
-		this.renderFeatures(tools);
+		var self = this;
+		this.handleScopeSettings(tools).then(function(tools){
+			self.renderFeatures(tools);
+			self.hideTools(tools);
+		});
+	};
+
+	TopToolBar.prototype.hideTools = function (tools) {
+		if (!tools.share){
+			$('#top-toolbar-share-view').css("display", "none")
+		}
+		if (!tools.snapshot){
+			$('#top-toolbar-snapshot').css("display", "none")
+		}
+		if (!tools.contextHelp){
+			$('#top-toolbar-context-help').css("display", "none")
+		}
 	};
 
 	TopToolBar.prototype.renderFeatures = function(tools){
@@ -167,6 +211,61 @@ define([
 				var classesSnowWidget = $('#floater-snow-widget').hasClass('open') ? "item open" : "item";
 				this._target.append('<div class="' + classesSnowWidget + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget"><span>'+polyglot.t('savedConfigurations')+'</span></div>');
 			}
+		}
+	};
+
+	/**
+	 * Hide top toolbar tools according to additional scope settings
+	 * @param tools {Object} default tools visibility
+	 * @returns {Object} adjusted tools visibility
+	 */
+	TopToolBar.prototype.handleScopeSettings = function (tools) {
+		var activeScope = this._stateStore.current().scope;
+		if (activeScope){
+			return this._scopeStore.byId(activeScope).then(function(scopes){
+				if (scopes && scopes.length && scopes[0].removedTools){
+					var removedTools = scopes[0].removedTools;
+					removedTools.forEach(function(tool){
+						if (tool === 'layers'){
+							tools.layers = false;
+						}
+						if (tool === 'areas'){
+							tools.areas = false;
+						}
+						if (tool === 'selections'){
+							tools.selections = false;
+						}
+						if (tool === 'areasFilter'){
+							tools.areasFilterNew = false;
+						}
+						if (tool === 'mapTools'){
+							tools.mapTools = false;
+						}
+						if (tool === 'customViews'){
+							tools.customViews = false;
+						}
+						if (tool === 'customLayers'){
+							tools.customLayers = false;
+						}
+						if (tool === 'share'){
+							tools.share = false;
+						}
+						if (tool === 'snapshot'){
+							tools.snapshot = false;
+						}
+						if (tool === 'contextHelp'){
+							tools.contextHelp = false;
+						}
+					});
+					return tools;
+				} else {
+					return tools;
+				}
+			}).catch(function(err){
+				throw new Error(err);
+			});
+		} else {
+			return Promise.resolve(tools);
 		}
 	};
 

@@ -239,7 +239,11 @@ define(['js/actions/Actions',
 
         if(Config.toggles.useTopToolbar){
             var topToolBar = new TopToolBar({
-                dispatcher: window.Stores
+                dispatcher: window.Stores,
+				store: {
+					scopes: store.scopes,
+					state: stateStore
+				}
             });
         }
         // create tools and widgets according to configuration

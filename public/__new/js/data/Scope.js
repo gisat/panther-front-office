@@ -29,7 +29,26 @@ define(['./Model'], function(Model){
 			},
 			aoiLayer: {
 				serverName: 'aoiLayer'
-			}
+			},
+			removedTools: {
+				serverName: 'removedTools'
+			},
+			oneLayerPerMap: {
+				serverName: 'oneLayerPerMap'
+			},
+			showMapName: {
+				serverName: 'showMapName'
+			},
+			mapLayerInfo: {
+				serverName: 'mapLayerInfo'
+			},
+			viewSelelection: {
+				serverName: 'viewSelelection'
+			},
+			hideSidebarReports: {
+				serverName: 'hideSidebarReports'
+			},
+
 		};
 	};
 
