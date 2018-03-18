@@ -13,7 +13,11 @@ class UISelect extends React.PureComponent {
 		name: PropTypes.string,
 		onChange: PropTypes.func,
 		options: PropTypes.array,
-		placeholder: PropTypes.string
+		placeholder: PropTypes.string,
+		value: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.number
+		])
 	};
 
 	constructor(props) {
@@ -41,6 +45,7 @@ class UISelect extends React.PureComponent {
 					onChange={this.props.onChange}
 					options={this.props.options}
 					placeholder={this.props.placeholder}
+					value={this.props.value}
 				/>
 			</div>
 		)

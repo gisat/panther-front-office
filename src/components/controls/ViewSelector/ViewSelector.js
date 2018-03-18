@@ -5,22 +5,19 @@ import UISelect from '../../atoms/UISelect'
 class ViewSelector extends React.PureComponent {
 
 	static propTypes = {
+		activeAoi: PropTypes.object,
 		activeScope: PropTypes.shape({
+			aoiLayer: PropTypes.shape({
+				idColumn: PropTypes.string,
+				key: PropTypes.string
+			}),
 			viewSelection: PropTypes.string
-		})
+		}),
+		aois: PropTypes.array
 	};
 
 	static defaultProps = {
-		aois: [{
-			key: '1224/4',
-			geometry: null
-		},{
-			key: '2224',
-			geometry: null
-		},{
-			key: '7896654455662785566224/4',
-			geometry: null
-		}],
+		aois: null,
 		periods: null
 	};
 
@@ -28,8 +25,8 @@ class ViewSelector extends React.PureComponent {
 		super();
 	}
 
-	handleAoiChange(a){
-		debugger;
+	selectAoi(aoi){
+		this.props.setActiveAoi(aoi.value);
 	}
 
 	render() {
@@ -68,22 +65,31 @@ class ViewSelector extends React.PureComponent {
 
 	renderAoiSelector(){
 		let options = [];
+		let selected = null;
 
-		this.props.aois.map(aoi => {
-			options.push({
-				value: aoi.key,
-				label: aoi.key
-			})
-		});
+		if (this.props.aois && this.props.activeScope && this.props.activeScope.aoiLayer){
+			let columnId = this.props.activeScope.aoiLayer.idColumn;
+			this.props.aois.map(aoi => {
+				options.push({
+					value: aoi.id,
+					label: aoi.properties[columnId]
+				})
+			});
+
+			if (this.props.activeAoi){
+				selected = this.props.activeAoi.id
+			}
+		}
 
 		return (
 			<UISelect
 				classes='ptr-aoi-selector'
 				label='left'
 				name='AOI'
-				onChange={this.handleAoiChange.bind(this)}
+				onChange={this.selectAoi.bind(this)}
 				options={options}
 				placeholder='Insert AOI code'
+				value={selected}
 			/>
 		)
 	}

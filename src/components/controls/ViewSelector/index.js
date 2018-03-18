@@ -5,12 +5,18 @@ import ViewSelector from './ViewSelector';
 
 const mapStateToProps = state => {
 	return {
-		activeScope: Select.scopes.getActiveScopeData(state)
+		activeAoi: Select.aoi.getActiveAoiData(state),
+		activeScope: Select.scopes.getActiveScopeData(state),
+		aois: Select.aoi.getAois(state)
 	}
 };
 
 const mapDispatchToProps = dispatch => {
-	return {}
+	return {
+		setActiveAoi: (key) => {
+			dispatch(Action.aoi.setActiveKey(key));
+		}
+	}
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ViewSelector);

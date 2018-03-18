@@ -13,15 +13,15 @@ import Select from '../Select';
 function load() {
 	//geonode:i2_lpis_cr_wgs84_plzen
 	//NKOD_DPB
-	return dispatch => {
+	return (dispatch, getState) => {
 
 		dispatch(actionLoadRequest());
 
-		let scope = Select.scopes.getActiveScopeData();
+		let scope = Select.scopes.getActiveScopeData(getState());
 
 		if (scope && scope.aoiLayer && scope.aoiLayer.key && scope.aoiLayer.idColumn) {
 
-			let url = path.join(config.apiGeoserverWFSProtocol, '://', config.apiGeoserverWFSHost, config.apiGeoserverWFSPath);
+			let url = config.apiGeoserverWFSProtocol + '://' + path.join(config.apiGeoserverWFSHost, config.apiGeoserverWFSPath);
 			url += '?service=wfs&version=2.0.0.&request=GetFeature&typeName=' + scope.aoiLayer.key + '&outputFormat=application/json&propertyName=' + scope.aoiLayer.idColumn;
 
 			return fetch(url).then(response => {
@@ -29,7 +29,7 @@ function load() {
 				if (response.ok) {
 					response.json().then(data => {
 						if (data) {
-							dispatch(actionLoadReceive(data));
+							dispatch(actionLoadReceive(data.features));
 						} else {
 							dispatch(actionLoadError('no data returned'));
 						}

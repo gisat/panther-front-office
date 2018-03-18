@@ -57,6 +57,7 @@ define([
 		this._mapsContainer.addMap('default-map');
 
 		this._dataset = null;
+		this._previousDataset = null;
 
 		Observer.addListener("rebuild", this.rebuild.bind(this));
         Observer.addListener('user#onLogin', this.loadData.bind(this, options.store));
@@ -122,7 +123,10 @@ define([
 			});
 		}
 
-		this._dispatcher.notify('scope#activeScopeChanged', {activeScopeKey: Number(self._dataset)});
+		if (this._previousDataset !== this._dataset){
+			this._dispatcher.notify('scope#activeScopeChanged', {activeScopeKey: Number(self._dataset)});
+			this._previousDataset = this._dataset;
+		}
 		ThemeYearConfParams.datasetChanged = false;
 	};
 
