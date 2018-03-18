@@ -6,6 +6,7 @@ import store from './state/Store';
 
 import './index.css';
 import MapsTimeline from './components/controls/MapsTimeline';
+import ViewSelector from './components/controls/ViewSelector';
 import registerServiceWorker from './registerServiceWorker';
 
 
@@ -17,15 +18,10 @@ let getStore = function() {
 	}
 };
 
-let listener = function(event, options) {
-	if (event == "PERIODS_LOADED") {
-		initialize();
-	}
-};
-
 let initialize = function() {
 
 	ReactDOM.render(<Provider store={store}><MapsTimeline /></Provider>, document.getElementById('maps-timeline'));
+	ReactDOM.render(<Provider store={store}><ViewSelector /></Provider>, document.getElementById('header-view-selection'));
 
 };
 
