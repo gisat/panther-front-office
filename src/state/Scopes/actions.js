@@ -14,6 +14,7 @@ function add(scopes) {
 function setActiveScopeKey(key) {
 	return dispatch => {
 		dispatch(actionSetActiveScopeKey(key));
+		return Promise.resolve();
 	};
 }
 
