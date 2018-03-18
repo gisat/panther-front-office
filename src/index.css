@@ -1,5 +1,51 @@
+/* Table of contents
+
+    BASIC ELEMENTS............declarations for basic HTML elements
+    COMPONENTS
+      View Selector
+    ATOMS
+      UI Select
+*/
+
+
+/* ================================================================
+   === BASIC ELEMENTS =============================================
+   ================================================================ */
+
 body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
+}
+
+/* ================================================================
+   === COMPONENTS =================================================
+   ================================================================ */
+
+/* == View Selector =============================================== */
+
+.ptr-view-selection-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+/* ================================================================
+   === ATOMS ======================================================
+   ================================================================ */
+
+/* == UI Select =================================================== */
+
+.ptr-ui-select {
+  display: flex;
+  align-items: center;
+}
+.ptr-ui-select.label-top {
+  flex-direction: column;
+}
+.ptr-ui-select-label {
+  padding: 0 1rem 0 0;
+}
+.ptr-ui-select .Select {
+  width: 10rem;
 }
