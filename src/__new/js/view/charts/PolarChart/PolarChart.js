@@ -29,8 +29,8 @@ define([
 		var data = this._options.backendResponse.responseText ? JSON.parse(this._options.backendResponse.responseText).data : null;
 
 
-		var w = 300,
-			h = 300;
+		var w = 350,
+			h = 350;
 
 		// var colorscale = d3.scale.category10();
 
@@ -42,7 +42,10 @@ define([
 			w: w,
 			h: h,
 			// maxValue: 0.6,
-			// levels: 6
+			levels: 10,
+			levelCaptions: false,
+			ExtraWidthX: 200,
+			ExtraWidthY: 50
 		};
 
 
