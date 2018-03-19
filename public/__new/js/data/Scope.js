@@ -48,6 +48,9 @@ define(['./Model'], function(Model){
 			hideSidebarReports: {
 				serverName: 'hideSidebarReports'
 			},
+			showTimeline: {
+				serverName: 'showTimeline'
+			}
 
 		};
 	};

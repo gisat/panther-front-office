@@ -145,6 +145,8 @@ define([
 	 * @param options {Object}
 	 */
 	Customization.prototype.onScopeChange = function(type, options){
+		var mapsContainerBottomBar = $('#maps-container-bar-bottom');
+
 		if (type === 'scope#activeScopeChanged'){
 			this._store.scopes.byId(options.activeScopeKey).then(function(scopes){
 				var scope = scopes[0];
@@ -153,6 +155,11 @@ define([
 					header.find("h1").css("display", "none");
 					header.find(".menu").css("display", "none");
 					header.find("#header-view-selection").css("display", "inline-block");
+				}
+				if (scope && scope.showTimeline){
+					mapsContainerBottomBar.addClass("open");
+				} else {
+					mapsContainerBottomBar.removeClass("open");
 				}
 			}).catch(function(err){
 				throw new Error(err);
