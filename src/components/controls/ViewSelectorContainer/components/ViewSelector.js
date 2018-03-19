@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import UISelect from '../../atoms/UISelect'
+import UISelect from '../../../atoms/UISelect/index'
 
 class ViewSelector extends React.PureComponent {
 
@@ -31,7 +31,7 @@ class ViewSelector extends React.PureComponent {
 
 	render() {
 		let content = [];
-		let activeScope = this.props.activeScope;
+		let activeScope = this.props.scope;
 		if (activeScope && activeScope.viewSelection){
 			content = this.renderContent(activeScope.viewSelection);
 			return (
@@ -67,10 +67,11 @@ class ViewSelector extends React.PureComponent {
 		let options = [];
 		let selected = null;
 
-		if (this.props.aois && this.props.activeScope && this.props.activeScope.aoiLayer){
-			let columnId = this.props.activeScope.aoiLayer.idColumn;
+		if (this.props.aois && this.props.scope && this.props.scope.aoiLayer){
+			let columnId = this.props.scope.aoiLayer.idColumn;
 			this.props.aois.map(aoi => {
 				options.push({
+					key: aoi.id,
 					value: aoi.id,
 					label: aoi.properties[columnId]
 				})
@@ -83,6 +84,7 @@ class ViewSelector extends React.PureComponent {
 
 		return (
 			<UISelect
+				key='aoi-selector'
 				classes='ptr-aoi-selector'
 				label='left'
 				name='AOI'
