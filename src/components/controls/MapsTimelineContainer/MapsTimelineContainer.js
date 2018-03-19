@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import MapsTimeline from './components/MapsTimeline';
+import Dimensions from 'react-dimensions';
+import utils from '../../../utils/utils';
 
 class MapsTimelineContainer extends React.PureComponent {
 
@@ -10,10 +12,10 @@ class MapsTimelineContainer extends React.PureComponent {
 
 	render() {
 
-		if (this.props.scope && this.props.period) {
+		if (this.props.scope && this.props.period && this.props.scope.showTimeline) {
 
-			let {scope, ...props} = this.props;
-			return React.createElement(MapsTimeline, props);
+			let {scope, period, ...props} = this.props;
+			return React.createElement(MapsTimeline, {...props, period:  utils.period(period.period)});
 
 		} else {
 
@@ -24,4 +26,4 @@ class MapsTimelineContainer extends React.PureComponent {
 
 }
 
-export default MapsTimelineContainer;
+export default Dimensions()(MapsTimelineContainer);

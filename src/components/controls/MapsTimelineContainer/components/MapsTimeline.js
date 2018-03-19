@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Dimensions from 'react-dimensions';
 import moment from 'moment';
 
 import utils from '../../../../utils/utils';
@@ -65,4 +64,4 @@ class MapsTimeline extends React.PureComponent {
 
 }
 
-export default Dimensions()(MapsTimeline);
+export default MapsTimeline;
