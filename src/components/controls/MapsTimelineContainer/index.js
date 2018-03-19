@@ -6,7 +6,9 @@ import MapsTimelineContainer from '../MapsTimelineContainer/MapsTimelineContaine
 const mapStateToProps = state => {
 	return {
 		maps: Select.maps.getMaps(state),
-		activeMapKey: Select.maps.getActiveMapKey(state)
+		activeMapKey: Select.maps.getActiveMapKey(state),
+		period: Select.periods.getActivePeriod(state),
+		scope: Select.scopes.getActiveScopeData(state)
 	}
 };
 

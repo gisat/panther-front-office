@@ -2,8 +2,15 @@ import ActionTypes from '../../constants/ActionTypes';
 import _ from 'lodash';
 
 const INITIAL_STATE = {
+	activeKey: null,
 	data: null,
+	loading: false
 };
+
+
+function setActive(state, action) {
+	return {...state, activeKey: action.key};
+}
 
 function addDistinct(state, action) {
 	let data;
@@ -18,10 +25,12 @@ function addDistinct(state, action) {
 	return {...state, data: data};
 }
 
-export default function tasksReducer(state = INITIAL_STATE, action) {
+export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.PERIODS_ADD:
 			return addDistinct(state, action);
+		case ActionTypes.PERIODS_SET_ACTIVE:
+			return setActive(state, action);
 		default:
 			return state;
 	}
