@@ -12,6 +12,12 @@ function add(periods) {
 	};
 }
 
+function setActiveKey(key) {
+	return dispatch => {
+		dispatch(actionSetActiveKey(key));
+	};
+}
+
 // ============ actions ===========
 
 function actionAdd(periods) {
@@ -21,8 +27,16 @@ function actionAdd(periods) {
 	}
 }
 
+function actionSetActiveKey(key) {
+	return {
+		type: ActionTypes.PERIODS_SET_ACTIVE,
+		key: key
+	}
+}
+
 // ============ export ===========
 
 export default {
 	add: add,
+	setActiveKey: setActiveKey
 }
