@@ -11,7 +11,7 @@ export default {
 	// legacy: Config
 
 	apiGeoserverWFSProtocol: 'http',
-	apiGeoserverWFSHost: '10.0.75.2:80',
+	apiGeoserverWFSHost: 'localhost',
 	apiGeoserverWFSPath: 'geoserver/geonode/wfs'
 
 };

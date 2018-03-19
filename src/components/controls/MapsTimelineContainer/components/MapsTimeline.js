@@ -11,12 +11,15 @@ const CONTROLS_WIDTH = 0;
 class MapsTimeline extends React.PureComponent {
 
 	static propTypes = {
-		period: PropTypes.array
+		period: PropTypes.shape({
+			start: PropTypes.object,
+			end: PropTypes.object
+		}).isRequired
 	};
 
-	static defaultProps = {
-		period: [utils.period('2017-03')[0], utils.period('2017-10')[1]]
-	};
+	//static defaultProps = {
+	//
+	//};
 
 	constructor(props) {
 		super();
@@ -35,8 +38,8 @@ class MapsTimeline extends React.PureComponent {
 
 
 	calculate(props) {
-		let start = moment(props.period[0]);
-		let end = moment(props.period[1]);
+		let start = moment(props.period.start);
+		let end = moment(props.period.end);
 
 		let diff = end.diff(start, 'days');
 

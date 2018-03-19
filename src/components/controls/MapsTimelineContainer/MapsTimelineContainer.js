@@ -10,15 +10,16 @@ class MapsTimelineContainer extends React.PureComponent {
 
 	render() {
 
-		console.log('MapsTimeline#render dimensions', this.dimensions);
-		return (
-			<MapsTimeline
-				activeKey={this.props.activeKey}
-				initialize={this.props.initialize.bind(this)}
-				maps={this.props.maps}
-				setActive={this.props.setActive.bind(this)}
-			/>
-		);
+		if (this.props.scope && this.props.period) {
+
+			let {scope, ...props} = this.props;
+			return React.createElement(MapsTimeline, props);
+
+		} else {
+
+			return null;
+
+		}
 	}
 
 }

@@ -18,7 +18,7 @@ class TimelineContent extends React.PureComponent {
 	getX(date, props) {
 		props = props || this.props;
 		date = moment(date);
-		let diff = date.unix() - moment(props.period[0]).unix();
+		let diff = date.unix() - moment(props.period.start).unix();
 		let diffDays = diff / (60 * 60 * 24);
 		return diffDays * props.dayWidth;
 	}
@@ -40,10 +40,10 @@ class TimelineContent extends React.PureComponent {
 
 	renderMonths(period) {
 		let ret = [];
-		let start = moment(period[0]);
-		let end = moment(period[1]);
+		let start = moment(period.start);
+		let end = moment(period.end);
 		let months = [];
-		let current = moment(period[0]);
+		let current = moment(period.start);
 
 		while (end > current || current.format('YYYY-MM') === end.format('YYYY-MM')) {
 			months.push({
@@ -73,10 +73,10 @@ class TimelineContent extends React.PureComponent {
 
 	renderDays(period) {
 		let ret = [];
-		let start = moment(period[0]);
-		let end = moment(period[1]);
+		let start = moment(period.start);
+		let end = moment(period.end);
 		let days = [];
-		let current = moment(period[0]);
+		let current = moment(period.start);
 
 		while (end > current || current.format('D') === end.format('D')) {
 			days.push({
