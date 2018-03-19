@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import Action from '../../../state/Action';
 import Select from '../../../state/Select';
-import ViewSelector from './ViewSelector';
+import ViewSelectorContainer from './ViewSelectorContainer';
 
 const mapStateToProps = state => {
 	return {
 		activeAoi: Select.aoi.getActiveAoiData(state),
-		activeScope: Select.scopes.getActiveScopeData(state),
+		scope: Select.scopes.getActiveScopeData(state),
 		aois: Select.aoi.getAois(state)
 	}
 };
@@ -19,4 +19,4 @@ const mapDispatchToProps = dispatch => {
 	}
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ViewSelector);
+export default connect(mapStateToProps, mapDispatchToProps)(ViewSelectorContainer);
