@@ -4,6 +4,7 @@
     ATOMS
       UI Select
     COMPONENTS
+      Overlay
       View Selector
 */
 
@@ -44,6 +45,20 @@ body {
 /* ================================================================
    === COMPONENTS =================================================
    ================================================================ */
+
+.ptr-overlay {
+  position: absolute;
+  display: none;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  top: 45px;
+  background: rgba(33,38,53,.9);
+  z-index: 10000;
+}
+.ptr-overlay.open {
+  display: block;
+}
 
 /* == View Selector =============================================== */
 

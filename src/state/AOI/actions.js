@@ -10,11 +10,9 @@ import Select from '../Select';
 
 // ============ creators ===========
 
+let repeatLoad = 0;
 function load() {
-	//geonode:i2_lpis_cr_wgs84_plzen
-	//NKOD_DPB
 	return (dispatch, getState) => {
-
 		dispatch(actionLoadRequest());
 
 		let scope = Select.scopes.getActiveScopeData(getState());
@@ -32,6 +30,11 @@ function load() {
 							dispatch(actionLoadReceive(data.features));
 						} else {
 							dispatch(actionLoadError('no data returned'));
+						}
+					}).catch(function(err){
+						if (repeatLoad < 3){
+							load();
+							repeatLoad++;
 						}
 					});
 				} else {

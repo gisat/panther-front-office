@@ -6,7 +6,7 @@ class ViewSelector extends React.PureComponent {
 
 	static propTypes = {
 		activeAoi: PropTypes.object,
-		activeScope: PropTypes.shape({
+		scope: PropTypes.shape({
 			aoiLayer: PropTypes.shape({
 				idColumn: PropTypes.string,
 				key: PropTypes.string

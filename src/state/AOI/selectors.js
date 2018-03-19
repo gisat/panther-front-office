@@ -15,5 +15,6 @@ const getActiveAoiData = createSelector(
 
 export default {
 	getAois: getAois,
+	getActiveAoiKey: getActiveAoiKey,
 	getActiveAoiData: getActiveAoiData
 };
