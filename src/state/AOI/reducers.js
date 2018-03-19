@@ -28,6 +28,17 @@ function receive(state, action) {
 	return {...state, loading: false, data: data};
 }
 
+function receiveGeometry(state, action) {
+	let data = _.map(state.data, model => {
+		if (model.id === action.key) {
+			return {...model, geometry: action.geometry};
+		} else {
+			return model;
+		}
+	});
+	return {...state, data: data};
+}
+
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
@@ -39,6 +50,8 @@ export default (state = INITIAL_STATE, action) => {
 			return requestError(state, action);
 		case ActionTypes.AOI_SET_ACTIVE:
 			return setActive(state, action);
+		case ActionTypes.AOI_GEOMETRY_RECEIVE:
+			return receiveGeometry(state, action);
 		default:
 			return state;
 	}
