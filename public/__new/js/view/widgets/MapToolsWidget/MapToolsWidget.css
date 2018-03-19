@@ -1,0 +1,128 @@
+#floater-map-tools-widget {
+	left: 17rem;
+	top: 10rem;
+	height: 24rem;
+	min-height: 14rem;
+	max-height: 24rem;
+	min-width: 16rem;
+	max-width: 30rem;
+}
+
+#floater-map-tools-widget .floater-body {
+	height: calc(100% - 2.3rem);
+	padding: 0;
+}
+
+.map-tools-container {
+	display: flex;
+	flex-direction: column;
+	padding: 1rem 0 0;
+}
+.map-tools-container > h4 {
+	padding: 0 .5rem;
+	font-size: .95rem;
+	line-height: 1.7;
+	font-weight: 400;
+	text-transform: uppercase;
+	color: rgba(186,65,91,1);
+	border-bottom: 1px solid #e0e3e7;
+}
+.map-tools-container .component-button {
+	margin: .5rem 0 0 .5rem;
+}
+
+/* pinned mode */
+#floater-map-tools-widget.pinned {
+	min-width: 35px;
+	max-width: 35px;
+	max-height: 100%;
+	height: 100%;
+	overflow: hidden;
+	border-radius: 0;
+}
+#floater-map-tools-widget.pinned .floater-header {
+	height: 1.5rem;
+	border-right: 1px solid rgba(106,110,120,1);
+}
+#floater-map-tools-widget.pinned .floater-body {
+	background: #f4f3ef;
+	overflow: hidden;
+}
+#floater-map-tools-widget.pinned .floater-tool {
+	color: rgba(189,192,197,1);
+	width: 35px;
+}
+#floater-map-tools-widget.pinned .floater-tool .fa-external-link:before {
+	font-size: 1.1rem;
+	content: "\f105";
+}
+#floater-map-tools-widget.pinned .floater-tool:hover {
+	background: rgba(255,255,255,.1);
+}
+#floater-map-tools-widget.pinned .map-tools-container,
+#floater-map-tools-widget.pinned .map-tools-trigger,
+#floater-map-tools-widget.pinned .map-tools-buttons-container-body {
+	padding: 0;
+	margin: 0;
+	border-bottom: 1px solid #ddd;
+}
+#floater-map-tools-widget.pinned .map-tools-container > h4 {
+	display: none;
+}
+#floater-map-tools-widget.pinned .map-tool-trigger {
+	padding: 0;
+	border: 0;
+	height: 40px;
+}
+#floater-map-tools-widget.pinned .map-tool-trigger:hover {
+	background: rgba(125,128,137,.2);
+}
+#floater-map-tools-widget.pinned .map-tool-trigger-label-title,
+#floater-map-tools-widget.pinned .map-tools-trigger-icons,
+#floater-map-tools-widget.pinned .component-button span {
+	display: none;
+}
+#floater-map-tools-widget.pinned .map-tool-icon .fa {
+	color: rgba(65,69,81,.8);
+	font-size: 1.05rem;
+}
+#floater-map-tools-widget.pinned .map-tool-icon {
+	width: 35px;
+	margin: 0;
+}
+#floater-map-tools-widget.pinned .map-tool-icon-svg {
+	height: 1.1rem;
+}
+#floater-map-tools-widget.pinned #layers-info-icon {
+	height: 1.3rem;
+}
+#floater-map-tools-widget.pinned .map-tool-icon-svg path {
+	fill: rgba(65,69,81,.8);
+}
+#floater-map-tools-widget.pinned .component-button .fa {
+	color: rgba(65,69,81,.8);
+	width: 35px;
+}
+#floater-map-tools-widget.pinned .map-tool-trigger.active .map-tool-icon-svg path {
+	fill: rgba(186,65,91,1);
+}
+#floater-map-tools-widget.pinned .map-tool-trigger.active .component-button .fa,
+#floater-map-tools-widget.pinned .map-tool-trigger.active .map-tool-icon .fa {
+	color: rgba(186,65,91,1);
+}
+#floater-map-tools-widget.pinned .component-button.text-small .fa {
+	font-size: 1.05rem;
+}
+#floater-map-tools-widget.pinned .component-button {
+	border: 0;
+	margin: 0;
+	height: 40px;
+	border-radius: 0;
+}
+#floater-map-tools-widget.pinned .component-button:hover,
+#floater-map-tools-widget.pinned .component-button:focus {
+	background: rgba(125,128,137,.2);
+}
+#floater-map-tools-widget.pinned .component-button:focus {
+	box-shadow: 0 0 0 0;
+}

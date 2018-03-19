@@ -1,0 +1,83 @@
+/* TODO move to general info window definition */
+.info-window {
+	width: 20rem;
+	height: 10rem;
+	min-height: 10rem;
+	max-height: 20rem;
+	min-width: 15rem;
+	max-width: 25rem;
+	right: 5rem;
+	top: 8rem;
+
+	background: rgba(65,69,81,.95);
+	border-radius: .1rem;
+	-webkit-box-shadow: 0 0 4px rgb(136, 136, 136);
+	-moz-box-shadow: 0 0 4px rgb(136, 136, 136);
+	box-shadow: 0 0 4px rgb(136, 136, 136);
+
+	display: none;
+	position: absolute;
+	z-index: 10000;
+	resize: both;
+	overflow: auto;
+}
+.info-window.open {
+	display: block;
+}
+.info-window.active {
+	z-index: 10001;
+}
+
+/* header */
+.info-window-header {
+	cursor: move;
+	height: 2rem;
+	position: relative;
+	display: flex;
+	line-height: 2rem;
+	background: rgba(33,38,53,.6);
+}
+.info-window-title {
+	color: rgb(189,192,197);
+	font-size: .95rem;
+	font-weight: 500;
+	padding-left: .5rem;
+	white-space: nowrap;
+	width: 90%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.info-window-tools-container {
+	position: absolute;
+	right: 0;
+	top: 0;
+	height: 100%;
+}
+.info-window-tool {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 2rem;
+	height: 100%;
+	cursor: pointer;
+	transition: background .3s ease-in-out;
+}
+.info-window-header .window-close {
+	font-size: .95rem;
+	color: rgb(189,192,197);
+}
+.info-window-header .window-close:hover {
+	cursor: pointer;
+	background: rgba(189,192,197,.1);
+}
+
+/* body */
+.info-window-body {
+	background: transparent;
+	height: calc(100% - 2.5rem);
+	padding: .5rem;
+	overflow: auto;
+	color: rgb(189,192,197);
+	font-size: .85rem;
+	font-weight: 300;
+}
