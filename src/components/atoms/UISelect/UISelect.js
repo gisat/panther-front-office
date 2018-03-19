@@ -41,6 +41,7 @@ class UISelect extends React.PureComponent {
 			<div className={classes}>
 				{label}
 				<ReactSelect
+					clearable={false}
 					name={this.props.name}
 					onChange={this.props.onChange}
 					options={this.props.options}
