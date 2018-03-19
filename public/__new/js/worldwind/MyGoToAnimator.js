@@ -158,6 +158,10 @@ define(['../error/ArgumentError',
      * @param bounds {Array} Bounding box represented by a two pairs of coordinates
      */
     MyGoToAnimator.prototype.zoomToArea = function(bounds){
+    	if (bounds.length === 4){
+    		bounds = [[bounds[0], bounds[1]], [bounds[2], bounds[3]]]
+		}
+
         var minLon = bounds[0][0];
         var minLat = bounds[0][1];
         var maxLon = bounds[1][0];

@@ -529,6 +529,11 @@ define([
 			this.updateAllMapsNavigators();
 		}
 
+		// notifications from React
+		else if (type === "AOI_GEOMETRY_SET"){
+			this.zoomToArea(options.extent)
+		}
+
 		// TODO temporary for Dromas. It should be removed in a version with new areas widget
 		else if (type === Actions.mapSelectFromAreas){
 			this.handleSelection(options);
