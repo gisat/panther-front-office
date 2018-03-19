@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import store from './state/Store';
 
 import './index.css';
-import MapsTimeline from './components/controls/MapsTimeline';
+import MapsTimelineContainer from './components/controls/MapsTimelineContainer/index';
 import ViewSelector from './components/controls/ViewSelector';
 import registerServiceWorker from './registerServiceWorker';
 
@@ -20,7 +20,7 @@ let getStore = function() {
 
 let initialize = function() {
 
-	ReactDOM.render(<Provider store={store}><MapsTimeline /></Provider>, document.getElementById('maps-timeline'));
+	ReactDOM.render(<Provider store={store}><MapsTimelineContainer /></Provider>, document.getElementById('maps-timeline'));
 	ReactDOM.render(<Provider store={store}><ViewSelector /></Provider>, document.getElementById('header-view-selection'));
 
 };

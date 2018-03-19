@@ -1,16 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import config from '../../../config';
-
-import _ from 'lodash';
-import classNames from 'classnames';
 import Dimensions from 'react-dimensions';
 import moment from 'moment';
 
-import utils from '../../../utils/utils';
-
-import TimelineContent from './components/TimelineContent';
-
+import utils from '../../../../utils/utils';
+import TimelineContent from './TimelineContent';
 
 const CONTROLS_WIDTH = 0;
 
@@ -54,16 +48,11 @@ class MapsTimeline extends React.PureComponent {
 	}
 
 	render() {
-
-		console.log('MapsTimeline#render dimensions', this.dimensions);
-
 		return (
 			<div className="ptr-timeline-container">
 				<TimelineContent
 					height="40"
 					period={this.props.period}
-					//width={this.dimensions.days * Math.floor(this.dimensions.dayWidth)}
-					//dayWidth={Math.floor(this.dimensions.dayWidth)}
 					width={this.dimensions.days * this.dimensions.dayWidth}
 					dayWidth={this.dimensions.dayWidth}
 				/>
