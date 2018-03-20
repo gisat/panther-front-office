@@ -12,6 +12,10 @@ export default {
 
 	apiGeoserverWFSProtocol: 'http',
 	apiGeoserverWFSHost: 'localhost',
-	apiGeoserverWFSPath: 'geoserver/geonode/wfs'
+	apiGeoserverWFSPath: 'geoserver/geonode/wfs',
+
+	apiBackendProtocol: 'http',
+	apiBackendHost: 'localhost',
+	apiBackendAoiLayerPeriodsPath: 'backend/rest/imagemosaic/getDates'
 
 };
