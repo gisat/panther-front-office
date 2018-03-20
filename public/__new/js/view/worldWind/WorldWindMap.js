@@ -414,14 +414,26 @@ define(['../../actions/Actions',
 	};
 
 	/**
+	 * Handle AOI Layer. If exists
+	 */
+	WorldWindMap.prototype.handleAoiLayer = function(layerData){
+		if (layerData.layer){
+			this._aoiLayer = layerData.layer;
+		} else {
+			this._aoiLayer = new WorldWind.RenderableLayer('aoi-layer');
+			this._dispatcher.notify('scope#aoiLayerUpdate', this._aoiLayer);
+		}
+		this._wwd.addLayer(this._aoiLayer);
+		this.redraw();
+	};
+
+	/**
 	 * Handle settings for current scope
 	 */
 	WorldWindMap.prototype.handleScopeSettings = function(){
-		let aoiLayer = this._stateStore.current().aoiLayer;
-		if (aoiLayer){
-			this._aoiLayer = new WorldWind.RenderableLayer('aoi-layer');
-			this._wwd.addLayer(this._aoiLayer);
-			this.redraw();
+		let state = this._stateStore.current();
+		if (state.aoiLayer){
+			this.handleAoiLayer(state.aoiLayer);
 		}
 	};
 

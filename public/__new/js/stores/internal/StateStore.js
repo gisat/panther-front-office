@@ -286,6 +286,10 @@ define([
 		this._aoiLayer = options;
 	};
 
+	StateStore.prototype.updateAoiLayer = function(layer){
+		this._aoiLayer.layer = layer;
+	};
+
 	/**
 	 * Switch map to 2D
 	 */
@@ -330,6 +334,8 @@ define([
 			this.handleMapDependencyOnPeriod(true);
 		} else if (type === Actions.scopeAoiLayer){
 			this.setAoiLayer(options);
+		} else if (type === Actions.scopeAoiLayerUpdate){
+			this.updateAoiLayer(options);
 		}
 	};
 

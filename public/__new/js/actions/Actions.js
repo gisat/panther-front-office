@@ -44,6 +44,7 @@ define([], function(){
 
 		scopeActiveChanged: 'scope#activeScopeChanged',
 		scopeAoiLayer: 'scope#aoiLayer',
+		scopeAoiLayerUpdate: 'scope#aoiLayerUpdate',
 
 		selectionSelected: 'selection#selected',
 		selectionClearAll: 'selection#clearAll',

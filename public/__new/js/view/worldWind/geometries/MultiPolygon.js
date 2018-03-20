@@ -10,6 +10,7 @@ define([
 			Logger,
 			_
 ){
+
 	/**
 	 *
 	 * @param options {Object}
@@ -25,6 +26,11 @@ define([
 
 		this._coordinates = options.geometry.coordinates;
 		this._switchedCoordinates = options.switchedCoordinates;
+
+		this._shapeAttributes = new WorldWind.ShapeAttributes(null);
+		this._shapeAttributes.outlineColor = new WorldWind.Color(.4, .15, .7, 1);
+		this._shapeAttributes.outlineWidth = 4;
+		this._shapeAttributes.interiorColor = new WorldWind.Color(1, 1, 1, 0.2);
 	};
 
 	/**
@@ -42,7 +48,7 @@ define([
 			bounds.push(coords);
 		});
 
-		return new WorldWind.SurfacePolygon(bounds,null);
+		return new WorldWind.SurfacePolygon(bounds, this._shapeAttributes);
 	};
 
 	/**
