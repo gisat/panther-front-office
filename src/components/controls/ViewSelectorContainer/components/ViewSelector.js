@@ -71,14 +71,14 @@ class ViewSelector extends React.PureComponent {
 			let columnId = this.props.scope.aoiLayer.idColumn;
 			this.props.aois.map(aoi => {
 				options.push({
-					key: aoi.id,
-					value: aoi.id,
-					label: aoi.properties[columnId]
+					key: aoi.key,
+					value: aoi.key,
+					label: aoi.code
 				})
 			});
 
 			if (this.props.activeAoi){
-				selected = this.props.activeAoi.id
+				selected = this.props.activeAoi.key
 			}
 		}
 

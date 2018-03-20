@@ -27,7 +27,7 @@ function load() {
 				if (response.ok) {
 					response.json().then(data => {
 						if (data) {
-							dispatch(actionLoadReceive(data.features));
+							dispatch(loadReceive(data.features, scope.aoiLayer));
 						} else {
 							dispatch(actionLoadError('no data returned'));
 						}
@@ -46,6 +46,18 @@ function load() {
 			dispatch(actionLoadError('cannot get layer data from scope'));
 		}
 
+	};
+}
+
+function loadReceive(features, aoiLayer) {
+	return dispatch => {
+		features = _.map(features, feature => {
+			return {
+				key: feature.properties[aoiLayer.fidColumn || 'fid'],
+				code: feature.properties[aoiLayer.idColumn]
+			};
+		});
+		dispatch(actionLoadReceive(features));
 	};
 }
 

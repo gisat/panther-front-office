@@ -30,7 +30,7 @@ function receive(state, action) {
 
 function receiveGeometry(state, action) {
 	let data = _.map(state.data, model => {
-		if (model.id === action.key) {
+		if (model.key === action.key) {
 			return {...model, geometry: action.geometry};
 		} else {
 			return model;

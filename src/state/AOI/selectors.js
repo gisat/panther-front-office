@@ -8,7 +8,7 @@ const getActiveAoiData = createSelector(
 	[getAois, getActiveAoiKey],
 	(aois, activeKey) => {
 		return _.find(aois, function(aoi){
-			return aoi.id === activeKey;
+			return aoi.key === activeKey;
 		});
 	}
 );
