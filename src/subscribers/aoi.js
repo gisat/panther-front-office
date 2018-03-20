@@ -29,7 +29,7 @@ const setEventListeners = store => {
 
 const activeAOIWatcher = (value, previousValue) => {
 	console.log('@@ activeAOIWatcher', previousValue, '->', value);
-	if (previousValue && !previousValue.geometry && value.geometry) {
+	if (value.geometry) {
 		let bbox = geoBounds(value.geometry);
 		window.Stores.notify('AOI_GEOMETRY_SET', {id: value.key, geometry: value.geometry, extent: bbox});
 	}
