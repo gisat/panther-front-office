@@ -7,11 +7,13 @@ import fetch from 'isomorphic-fetch';
 import config from '../../config';
 import Select from '../Select';
 
+const TTL = 3;
+
 
 // ============ creators ===========
 
-let repeatLoad = 0;
-function load() {
+function load(ttl) {
+	if (_.isUndefined(ttl)) ttl = TTL;
 	return (dispatch, getState) => {
 		dispatch(actionLoadRequest());
 
@@ -32,9 +34,8 @@ function load() {
 							dispatch(actionLoadError('no data returned'));
 						}
 					}).catch(function(err){
-						if (repeatLoad < 3){
-							load();
-							repeatLoad++;
+						if (ttl - 1){
+							load(ttl - 1);
 						}
 					});
 				} else {
