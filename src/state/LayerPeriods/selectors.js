@@ -1,12 +1,11 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
 
-import Select from '../Select';
-
 const getByAoiKey = state => state.layerPeriods.byAoiKey;
+const getActiveAoiKey = state => state.aoi.activeKey;
 
 const getActiveAoiData = createSelector(
-	[getByAoiKey, Select.aoi.getActiveAoiKey],
+	[getByAoiKey, getActiveAoiKey],
 	(byAoiKey, activeAoiKey) => {
 		return byAoiKey[activeAoiKey];
 	}
