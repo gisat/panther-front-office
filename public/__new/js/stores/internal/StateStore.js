@@ -33,13 +33,10 @@ define([
 
 		this._dispatcher = options.dispatcher;
         this._changes = {};
-        this._maps = {
-        	activeLayers: [],
-			maps: [],
-			activeMapKey: null
-		};
+
 		this._loadingOperations = [];
 		this._store = options.store;
+		this._aoiLayer = null;
 
 		this.isMap3D = true;
 		this.isMapIndependentOfPeriod = false;
@@ -76,6 +73,7 @@ define([
 			changes: this._changes,
 			isMap3D: this.isMap3D,
 			isMapIndependentOfPeriod: this.isMapIndependentOfPeriod,
+			aoiLayer: this._aoiLayer,
 			widgets: this.widgets(),
 			worldWindNavigator: this.getNavigatorState()
 		}
@@ -284,6 +282,10 @@ define([
 		}
 	};
 
+	StateStore.prototype.setAoiLayer = function(options){
+		this._aoiLayer = options;
+	};
+
 	/**
 	 * Switch map to 2D
 	 */
@@ -326,6 +328,8 @@ define([
 			this.handleMapDependencyOnPeriod(false);
 		} else if (type === Actions.foMapIsDependentOnPeriod){
 			this.handleMapDependencyOnPeriod(true);
+		} else if (type === Actions.scopeAoiLayer){
+			this.setAoiLayer(options);
 		}
 	};
 

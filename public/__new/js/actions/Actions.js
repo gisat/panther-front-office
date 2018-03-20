@@ -43,6 +43,7 @@ define([], function(){
 		periodsRebuild: 'periods#rebuild',
 
 		scopeActiveChanged: 'scope#activeScopeChanged',
+		scopeAoiLayer: 'scope#aoiLayer',
 
 		selectionSelected: 'selection#selected',
 		selectionClearAll: 'selection#clearAll',

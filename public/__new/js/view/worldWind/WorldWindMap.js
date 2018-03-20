@@ -7,6 +7,7 @@ define(['../../actions/Actions',
 		'./layers/Layers',
 		'./MapWindowTools/MapWindowTools',
 		'../../worldwind/MyGoToAnimator',
+		'./geometries/MultiPolygon',
 		'../../worldwind/layers/osm3D/OSMTBuildingLayer',
 		'../../worldwind/SelectionController',
 		'../../stores/internal/VisibleLayersStore',
@@ -27,6 +28,7 @@ define(['../../actions/Actions',
 			Layers,
 			MapWindowTools,
 			MyGoToAnimator,
+			MultiPolygon,
 			OSMTBuildingLayer,
 			SelectionController,
 			VisibleLayersStore,
@@ -97,6 +99,7 @@ define(['../../actions/Actions',
 
 		this._name = "Map " + options.orderFromStart;
 		this._selected = false;
+		this._aoiLayer = null;
 
 		/**
 		 * Every map is associated with the period. If no period is specified, then it is supplied latest when the first
@@ -303,6 +306,7 @@ define(['../../actions/Actions',
 		this.mapWindowTools = this.buildMapWindowTools();
 		this.setupWebWorldWind();
 		this.addDropListener();
+		this.handleScopeSettings();
 
 		if (this._id !== 'default-map'){
 			this.mapWindowTools.addMapLabel(this._period);
@@ -368,6 +372,21 @@ define(['../../actions/Actions',
 	};
 
 	/**
+	 * Change geometry in AOI Layer, if layer exists
+	 * @param geometry {GeoJSON}
+	 * @param geometry.coordintes {Array}
+	 * @param geometry.type {string}
+	 */
+	WorldWindMap.prototype.changeGeometryInAoiLayer = function(geometry){
+		if (this._aoiLayer){
+			this._aoiLayer.removeAllRenderables();
+			let renderables = new MultiPolygon({geometry: geometry, switchedCoordinates: true}).render();
+			this._aoiLayer.addRenderables(renderables);
+			this._wwd.redraw();
+		}
+	};
+
+	/**
 	 * Disable map on click recognizer
 	 */
 	WorldWindMap.prototype.disableClickRecognizer = function(){
@@ -392,6 +411,18 @@ define(['../../actions/Actions',
 		this._wwd.navigator.lookAtLocation = position;
 		this._wwd.redraw();
 		this._wwd.redrawIfNeeded(); // TODO: Check with new releases. This isn't part of the public API and therefore might change.
+	};
+
+	/**
+	 * Handle settings for current scope
+	 */
+	WorldWindMap.prototype.handleScopeSettings = function(){
+		let aoiLayer = this._stateStore.current().aoiLayer;
+		if (aoiLayer){
+			this._aoiLayer = new WorldWind.RenderableLayer('aoi-layer');
+			this._wwd.addLayer(this._aoiLayer);
+			this.redraw();
+		}
 	};
 
 	/**
@@ -427,6 +458,9 @@ define(['../../actions/Actions',
 			if (!state.isMapIndependentOfPeriod){
 				this.unselect();
 				this._dispatcher.notify('map#defaultMapUnselected');
+			}
+			if (!this._aoiLayer){
+				this.handleScopeSettings();
 			}
 		}
 	};

@@ -191,6 +191,17 @@ define([
 	};
 
 	/**
+	 * Change geometry in AOI layer for all maps
+	 * @param geometry {GeoJSON}
+	 */
+	MapsContainer.prototype.changeGeometryInAoiLayer = function(geometry){
+		var maps = this._mapStore.getAll();
+		maps.forEach(function(map){
+			map.changeGeometryInAoiLayer(geometry);
+		});
+	};
+
+	/**
 	 * Check close button for all maps.
 	 * If there is only one map present, remove check button.
 	 * Otherwise add close button to all maps.
@@ -531,7 +542,8 @@ define([
 
 		// notifications from React
 		else if (type === "AOI_GEOMETRY_SET"){
-			this.zoomToArea(options.extent)
+			this.zoomToArea(options.extent);
+			this.changeGeometryInAoiLayer(options.geometry);
 		}
 
 		// TODO temporary for Dromas. It should be removed in a version with new areas widget

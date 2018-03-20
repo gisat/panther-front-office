@@ -416,6 +416,8 @@ define([
 				self._dispatcher.notify("fo#mapIsDependentOnPeriod");
 			}
 
+			self._dispatcher.notify("scope#aoiLayer", scope.aoiLayer);
+
 			htmlBody.addClass("mode-3d");
 			self.toggleExtComponents("none");
 
