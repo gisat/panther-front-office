@@ -180,13 +180,15 @@ define(['js/actions/Actions',
         var tools = [];
         var widgets = [];
 
-		var mapStore = new MapStore({
-			dispatcher: window.Stores
-		});
 		var stateStore = new StateStore({
 			dispatcher: window.Stores,
+			store: {}
+		});
+		var mapStore = new MapStore({
+			dispatcher: window.Stores,
 			store: {
-				maps: mapStore
+				state: stateStore,
+				wms: store.wmsLayers
 			}
 		});
 
@@ -346,6 +348,11 @@ define(['js/actions/Actions',
                 xWindowJQuerySelector: $(this)[0]
             });
         });
+
+        // TODO just for testing
+        $("#maps-timeline").on("click", function(){
+        	window.Stores.notify("ADD_WMS_LAYER");
+		});
 	}
 
 	/**
@@ -588,7 +595,8 @@ define(['js/actions/Actions',
 				locations: store.locations,
 				scopes: store.scopes,
 				map: mapStore,
-				state: stateStore
+				state: stateStore,
+				wmsLayers: store.wmsLayers
 			}
 		})
 	}

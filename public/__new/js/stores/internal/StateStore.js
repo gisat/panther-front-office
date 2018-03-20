@@ -20,7 +20,6 @@ define([
 	 * @constructor
 	 * @param options {Object}
 	 * @param options.dispatcher {Object} Dispatcher, which is used to distribute actions across the application.
-	 * @param options.store.maps {MapStore[]}
 	 * @param options.store {Object}
 	 */
 	var StateStore = function (options) {
@@ -37,6 +36,7 @@ define([
 		this._loadingOperations = [];
 		this._store = options.store;
 		this._aoiLayer = null;
+		this._selectedMapId = null;
 
 		this.isMap3D = true;
 		this.isMapIndependentOfPeriod = false;
@@ -74,6 +74,7 @@ define([
 			isMap3D: this.isMap3D,
 			isMapIndependentOfPeriod: this.isMapIndependentOfPeriod,
 			aoiLayer: this._aoiLayer,
+			selectedMapId: this._selectedMapId,
 			widgets: this.widgets(),
 			worldWindNavigator: this.getNavigatorState()
 		}
@@ -336,6 +337,8 @@ define([
 			this.setAoiLayer(options);
 		} else if (type === Actions.scopeAoiLayerUpdate){
 			this.updateAoiLayer(options);
+		} else if (type === Actions.mapSelected){
+			this._selectedMapId = options.id;
 		}
 	};
 

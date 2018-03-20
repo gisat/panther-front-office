@@ -16,13 +16,19 @@ define([
 	 * @param options {Object}
 	 * @param options.dispatcher {Object} Dispatcher, which is used to distribute actions across the application.
 	 * @param options.maps {WorldWindMap[]} 3D maps which are handled by this store.
+	 * @param options.store {Object}
 	 */
 	var MapStore = function(options) {
 		if (!options.dispatcher){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MapStore", "constructor", "Dispatcher must be provided"));
 		}
+		if(!options.store){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MapStore', 'constructor', 'Stores must be provided'));
+		}
 
 		this._dispatcher = options.dispatcher;
+		this._stateStore = options.store.state;
+		this._wmsStore = options.store.wms;
 
 		this._maps = [];
 
@@ -43,6 +49,37 @@ define([
 	MapStore.prototype.add = function(options) {
 		this._maps.push(options.map);
 		this._dispatcher.notify('map#added', options);
+	};
+
+	/**
+	 * Add WMS layer to given map.
+	 * @param layerId {string|number} id of WMS Layer
+	 * @param layerOptions {Object}
+	 * @param mapId {string} id of the map
+	 */
+	MapStore.prototype.addWmsLayerToMap = function(layerId, layerOptions, mapId){
+		var self = this;
+		this._wmsStore.byId(layerId).then(function(results){
+			if (results.length){
+				var layer = results[0];
+				self._maps.forEach(function(map){
+					if (map.id === mapId){
+						map.layers.addWmsLayer({
+							url: layer.url,
+							layerPaths: layer.layer,
+							customParams: layerOptions,
+							name: layer.name,
+							id: layer.id
+						},'wms-layers-independent',true);
+					}
+				});
+			} else {
+				console.error('MapStore#addWmsLayersToMap: No layer with id' + layerId + 'present in WMS Layers store');
+			}
+
+		}).catch(function(err){
+			throw new Error(err);
+		});
 	};
 
 	/**
@@ -85,16 +122,46 @@ define([
 	};
 
 	/**
+	 * Remove all layers from group in given map
+	 * @param group {string}
+	 * @param mapId {string}
+	 */
+	MapStore.prototype.removeAllLayersFromGroup = function(group, mapId){
+		this._maps.forEach(function(map){
+			if (map.id === mapId){
+				map._wwd.layers.forEach(function(layer){
+					if (layer.metadata && layer.metadata.group === group){
+						map.layers.removeLayerFromMap(layer, true);
+					}
+				});
+			}
+		});
+	};
+
+	/**
 	 * It accepts events in the application and handles these that are relevant.
 	 * @param type {String} Event type to distinguish whether this store cares.
 	 * @param options {Object} additional options, may be specific per action.
 	 */
 	MapStore.prototype.onEvent = function(type, options) {
+		var state = this._stateStore.current();
+		var scope = state.scopeFull;
+
 		if(type === Actions.mapAdd) {
 			this.add(options);
 		} else if (type === Actions.mapRemove) {
 			this.remove(options);
 		}
+
+		// notifications from React
+		else if (type === "ADD_WMS_LAYER"){
+			// TODO replace with parameters from options
+			if (scope.oneLayerPerMap){
+				this.removeAllLayersFromGroup('wms-layers-independent', state.selectedMapId)
+			}
+			this.addWmsLayerToMap(3, {time: '2017-12-01'}, state.selectedMapId);
+		}
+
 	};
 
 	return MapStore;

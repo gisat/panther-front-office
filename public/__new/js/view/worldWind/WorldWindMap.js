@@ -423,6 +423,9 @@ define(['../../actions/Actions',
 			this._aoiLayer = new WorldWind.RenderableLayer('aoi-layer');
 			this._dispatcher.notify('scope#aoiLayerUpdate', this._aoiLayer);
 		}
+		this._aoiLayer.metadata = {
+			group: "aoi-layer"
+		};
 		this._wwd.addLayer(this._aoiLayer);
 		this.redraw();
 	};

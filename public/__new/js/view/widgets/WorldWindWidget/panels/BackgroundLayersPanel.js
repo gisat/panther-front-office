@@ -159,8 +159,9 @@ define(['../../../../error/ArgumentError',
 		if (map._id === "default-map"){
 			this._defaultMap = map;
 		}
+		var self = this;
 		this.layerControls.forEach(function(control){
-			map.layers.addBackgroundLayer(control.id, this._id);
+			map.layers.addBackgroundLayer(control.id, self._id);
 		});
 		this.toggleLayers();
 	};

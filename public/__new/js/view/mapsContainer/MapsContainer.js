@@ -39,6 +39,7 @@ define([
 	 * @param options.store.state {StateStore}
 	 * @param options.store.periods {Periods}
 	 * @param options.store.locations {Locations}
+	 * @param options.store.wmsLayers {WmsLayers}
 	 * @constructor
 	 */
 	var MapsContainer = function(options){
@@ -69,6 +70,9 @@ define([
         if (!options.store.locations){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MapsContainer", "constructor", "missingLocationsStore"));
         }
+		if (!options.store.wmsLayers){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MapsContainer", "constructor", "Wms layers Store must be provided"));
+		}
 		this._target = options.target;
 		this._id = options.id;
 		this._dispatcher = options.dispatcher;
@@ -76,6 +80,7 @@ define([
 		this._mapStore = options.store.map;
 		this._stateStore = options.store.state;
 		this._scopesStore = options.store.scopes;
+		this._wmsStore = options.store.wmsLayers;
 		this._store = options.store;
 
 		this._mapControls = null;
