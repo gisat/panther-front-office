@@ -28,7 +28,7 @@ function load(ttl) {
 			return fetch(url).then(response => {
 				console.log('#### load AOI response', response);
 				if (response.ok) {
-					response.json().then(data => {
+					return response.json().then(data => {
 						if (data) {
 							dispatch(loadReceive(data.features, scope.aoiLayer));
 						} else {
@@ -97,7 +97,7 @@ function loadGeometry(key) {
 			return fetch(url).then(response => {
 				console.log('#### load AOI geometry response', response);
 				if (response.ok) {
-					response.json().then(data => {
+					return response.json().then(data => {
 						if (data && data.features && data.features.length === 1 && data.features[0].geometry) {
 							dispatch(actionLoadGeometryReceive(key, data.features[0].geometry));
 						} else {
