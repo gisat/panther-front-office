@@ -6,6 +6,7 @@ import fetch from 'isomorphic-fetch';
 
 import config from '../../config';
 import Select from '../Select';
+import LayerPeriods from '../LayerPeriods/actions';
 
 const TTL = 3;
 
@@ -27,7 +28,7 @@ function load(ttl) {
 			return fetch(url).then(response => {
 				console.log('#### load AOI response', response);
 				if (response.ok) {
-					response.json().then(data => {
+					return response.json().then(data => {
 						if (data) {
 							dispatch(loadReceive(data.features, scope.aoiLayer));
 						} else {
@@ -65,10 +66,20 @@ function loadReceive(features, aoiLayer) {
 function setActiveKey(key) {
 	return (dispatch, getState) => {
 		dispatch(actionSetActiveKey(key));
+		return dispatch(ensureGeometry(key)).then(() => {
+			return dispatch(LayerPeriods.loadForAoi(key));
+		});
+	};
+}
 
-		let activeAOI = Select.aoi.getActiveAoiData(getState());
-		if (!activeAOI.geometry) {
-			dispatch(loadGeometry(key));
+function ensureGeometry(key) {
+	return (dispatch, getState) => {
+		let aois = Select.aoi.getAois(getState());
+		let aoi = _.find(aois, {key: key});
+		if (!aoi.geometry) {
+			return dispatch(loadGeometry(key));
+		} else {
+			return Promise.resolve();
 		}
 	};
 }
@@ -86,7 +97,7 @@ function loadGeometry(key) {
 			return fetch(url).then(response => {
 				console.log('#### load AOI geometry response', response);
 				if (response.ok) {
-					response.json().then(data => {
+					return response.json().then(data => {
 						if (data && data.features && data.features.length === 1 && data.features[0].geometry) {
 							dispatch(actionLoadGeometryReceive(key, data.features[0].geometry));
 						} else {

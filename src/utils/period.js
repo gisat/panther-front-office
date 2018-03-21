@@ -23,49 +23,59 @@ const parseOne = string => {
 		// year
 		return {
 			start: moment(string),
-			end: moment(string).endOf('year')
+			end: moment(string).endOf('year'),
+			source: string
 		};
 	}
 	if (string.match(/^[0-9]{4}-[0-9]{2}$/)) {
 		// month
 		return {
 			start: moment(string),
-			end: moment(string).endOf('month')
+			end: moment(string).endOf('month'),
+			source: string
 		};
 	}
 	if (string.match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/)) {
 		// day
 		return {
 			start: moment(string),
-			end: moment(string).endOf('day')
+			end: moment(string).endOf('day'),
+			source: string
 		};
 	}
 	if (string.match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}$/)) {
 		// hour
 		return {
 			start: moment(string),
-			end: moment(string).endOf('hour')
+			end: moment(string).endOf('hour'),
+			source: string
 		};
 	}
 	if (string.match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}$/)) {
 		// minute
 		return {
 			start: moment(string),
-			end: moment(string).endOf('minute')
+			end: moment(string).endOf('minute'),
+			source: string
 		};
 	}
-	if (string.match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$/)) {
+	if (
+		string.match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}$/)
+		|| string.match(/^[0-9]{4}[0-9]{2}[0-9]{2}T[0-9]{2}[0-9]{2}[0-9]{2}$/)
+	) {
 		// second
 		return {
 			start: moment(string),
-			end: moment(string).endOf('second')
+			end: moment(string).endOf('second'),
+			source: string
 		};
 	}
 	if (string.match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}/)) {
 		// full datetime incl. timezone
 		return {
 			start: moment(string),
-			end: moment(string).endOf('second')
+			end: moment(string).endOf('second'),
+			source: string
 		};
 	}
 };
