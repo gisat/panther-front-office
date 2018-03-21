@@ -59,11 +59,14 @@ define([
 	 */
 	MapStore.prototype.addWmsLayerToMap = function(layerId, layerOptions, mapId){
 		var self = this;
+		var scope = this._stateStore.current().scopeFull;
 		this._wmsStore.byId(layerId).then(function(results){
 			if (results.length){
 				var layer = results[0];
 				self._maps.forEach(function(map){
 					if (map.id === mapId){
+
+						// add layer
 						map.layers.addWmsLayer({
 							url: layer.url,
 							layerPaths: layer.layer,
@@ -71,6 +74,11 @@ define([
 							name: layer.name,
 							id: layer.id
 						},'wms-layers-independent',true);
+
+						// add map title
+						if (scope.mapLayerInfo && scope.mapLayerInfo === 'simple'){
+							map.mapWindowTools.addLayerInfo(layer.name + " (" + layerOptions.time + ")");
+						}
 					}
 				});
 			} else {

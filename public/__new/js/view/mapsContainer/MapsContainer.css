@@ -99,6 +99,7 @@ body.mode-3d .maps-container {
 	border: 2px solid rgba(153,54,75,.9);
 }
 .maps-container .map-fields .world-wind-map-box.selected .map-name-label,
+.maps-container .map-fields .world-wind-map-box.selected .layer-info-label,
 .maps-container .map-fields .world-wind-map-box.selected .close-map-button {
 	background:  rgba(153,54,75,1);
 	color: rgb(209,211,215);

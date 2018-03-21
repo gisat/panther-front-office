@@ -142,6 +142,16 @@ define(['../../../actions/Actions',
 	};
 
 	/**
+	 * Add label with info about layer
+	 * @param info {string}
+	 */
+	MapWindowTools.prototype.addLayerInfo = function(info){
+		this._mapToolsSelector.find(".layer-info-label").remove();
+		var html = '<div class="layer-info-label">' + info + '</div>';
+		this._mapToolsSelector.append(html);
+	};
+
+	/**
 	 * Build tools container
 	 */
 	MapWindowTools.prototype.build = function(){
