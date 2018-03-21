@@ -34,11 +34,11 @@ function receiveForAoi(state, action) {
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case ActionTypes.LAYER_PERIODS_AOI_REQUEST:
+		case ActionTypes.LAYER_PERIODS_AOI_LAYER_REQUEST:
 			return requestForAoi(state, action);
-		case ActionTypes.LAYER_PERIODS_AOI_RECEIVE:
+		case ActionTypes.LAYER_PERIODS_AOI_LAYER_RECEIVE:
 			return receiveForAoi(state, action);
-		case ActionTypes.LAYER_PERIODS_AOI_REQUEST_ERROR:
+		case ActionTypes.LAYER_PERIODS_AOI_LAYER_REQUEST_ERROR:
 			return requestForAoiError(state, action);
 		default:
 			return state;
