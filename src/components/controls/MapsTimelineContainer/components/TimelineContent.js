@@ -13,23 +13,9 @@ import Layers from './Layers';
 
 class TimelineContent extends React.PureComponent {
 
-	constructor(props) {
-		super(props);
-
-		this.getX = this.getX.bind(this);
-	}
-
 	static propTypes = {
 
 	};
-
-	getX(date, props) {
-		props = props || this.props;
-		date = moment(date);
-		let diff = date.unix() - moment(props.period.start).unix();
-		let diffDays = diff / (60 * 60 * 24);
-		return diffDays * props.dayWidth;
-	}
 
 	render() {
 
@@ -44,7 +30,7 @@ class TimelineContent extends React.PureComponent {
 				{this.renderDays(this.props.period)}
 				<Layers
 					layers={this.props.layers}
-					getX={this.getX}
+					getX={this.props.getX}
 				/>
 			</svg>
 		);

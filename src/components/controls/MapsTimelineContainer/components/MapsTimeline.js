@@ -25,6 +25,7 @@ class MapsTimeline extends React.PureComponent {
 		props.initialize();
 
 		this.calculate = this.calculate.bind(this);
+		this.getX = this.getX.bind(this);
 
 		this.calculate(props);
 	}
@@ -49,6 +50,15 @@ class MapsTimeline extends React.PureComponent {
 		};
 	}
 
+	getX(date, props) {
+		props = props || this.props;
+		date = moment(date);
+		let diff = date.unix() - moment(props.period.start).unix();
+		let diffDays = diff / (60 * 60 * 24);
+		return diffDays * this.dimensions.dayWidth;
+	}
+
+
 	render() {
 		return (
 			<div className="ptr-timeline-container">
@@ -58,6 +68,7 @@ class MapsTimeline extends React.PureComponent {
 					width={this.dimensions.days * this.dimensions.dayWidth}
 					dayWidth={this.dimensions.dayWidth}
 					layers={this.props.layers}
+					getX={this.getX}
 				/>
 			</div>
 		);
