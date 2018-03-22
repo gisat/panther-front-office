@@ -9,6 +9,7 @@ import Select from '../Select';
 import LayerPeriods from '../LayerPeriods/actions';
 
 const TTL = 3;
+const TTL_GEOMETRY = 3;
 
 
 // ============ creators ===========
@@ -37,6 +38,8 @@ function load(ttl) {
 					}).catch(function(err){
 						if (ttl - 1){
 							load(ttl - 1);
+						} else {
+							throw new Error("AOI#actions load: AOI weren't loaded!");
 						}
 					});
 				} else {
@@ -84,7 +87,8 @@ function ensureGeometry(key) {
 	};
 }
 
-function loadGeometry(key) {
+function loadGeometry(key,ttl) {
+	if (_.isUndefined(ttl)) ttl = TTL_GEOMETRY;
 	return (dispatch, getState) => {
 
 		let scope = Select.scopes.getActiveScopeData(getState());
@@ -102,6 +106,12 @@ function loadGeometry(key) {
 							dispatch(actionLoadGeometryReceive(key, data.features[0].geometry));
 						} else {
 							dispatch(actionLoadGeometryError('no data returned'));
+						}
+					}).catch(function(err){
+						if (ttl - 1){
+							loadGeometry(ttl - 1);
+						} else {
+							throw new Error("AOI#actions loadGeometry: Geometry wasn't loaded!");
 						}
 					});
 				} else {
