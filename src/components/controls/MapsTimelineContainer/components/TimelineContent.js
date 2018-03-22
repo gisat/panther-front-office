@@ -9,7 +9,15 @@ import moment from 'moment';
 
 import utils from '../../../../utils/utils';
 
+import Layers from './Layers';
+
 class TimelineContent extends React.PureComponent {
+
+	constructor(props) {
+		super(props);
+
+		this.getX = this.getX.bind(this);
+	}
 
 	static propTypes = {
 
@@ -34,6 +42,10 @@ class TimelineContent extends React.PureComponent {
 			>
 				{this.renderMonths(this.props.period)}
 				{this.renderDays(this.props.period)}
+				<Layers
+					layers={this.props.layers}
+					getX={this.getX}
+				/>
 			</svg>
 		);
 	}
