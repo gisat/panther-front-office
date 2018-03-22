@@ -149,6 +149,7 @@ define(['../../../actions/Actions',
 		this._mapToolsSelector.find(".layer-info-label").remove();
 		var html = '<div class="layer-info-label">' + info + '</div>';
 		this._mapToolsSelector.append(html);
+		this._layerInfoSelector = this._mapToolsSelector.find(".layer-info-label");
 	};
 
 	/**
@@ -165,6 +166,16 @@ define(['../../../actions/Actions',
 	MapWindowTools.prototype.removeCloseButton = function(){
 		this._mapToolsSelector.find(".close-map-button").remove();
 	};
+
+	/**
+	 * Remove layer info label
+	 */
+	MapWindowTools.prototype.removeLayerInfo = function(){
+		if (this._layerInfoSelector){
+			this._layerInfoSelector.remove();
+		}
+	};
+
 
 	MapWindowTools.prototype.onEvent = function(type, options){
 		if (type === Actions.mapHandleMapNameLabel){

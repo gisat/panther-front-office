@@ -140,9 +140,25 @@ define([
 				map._wwd.layers.forEach(function(layer){
 					if (layer.metadata && layer.metadata.group === group){
 						map.layers.removeLayerFromMap(layer, true);
+						map.mapWindowTools.removeLayerInfo();
 					}
 				});
 			}
+		});
+	};
+
+	/**
+	 * Remove all layers from group in all maps
+	 * @param group {string}
+	 */
+	MapStore.prototype.removeAllLayersFromGroupFromAllMaps = function(group){
+		this._maps.forEach(function(map){
+			map._wwd.layers.forEach(function(layer){
+				if (layer.metadata && layer.metadata.group === group){
+					map.layers.removeLayerFromMap(layer, true);
+					map.mapWindowTools.removeLayerInfo();
+				}
+			});
 		});
 	};
 
@@ -168,6 +184,8 @@ define([
 				this.removeAllLayersFromGroup('wms-layers-independent', state.selectedMapId)
 			}
 			this.addWmsLayerToMap(3, {time: '2017-12-01'}, state.selectedMapId);
+		} else if (type === "AOI_GEOMETRY_SET"){
+			this.removeAllLayersFromGroupFromAllMaps('wms-layers-independent');
 		}
 
 	};
