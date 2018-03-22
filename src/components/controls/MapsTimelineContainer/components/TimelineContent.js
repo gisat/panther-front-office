@@ -53,8 +53,8 @@ class TimelineContent extends React.PureComponent {
 		}
 
 		return _.map(months, month => {
-			let start = this.getX(month.start);
-			let end = this.getX(month.end);
+			let start = this.props.getX(month.start);
+			let end = this.props.getX(month.end);
 			return (
 				<rect
 					key={month.month}
@@ -86,8 +86,8 @@ class TimelineContent extends React.PureComponent {
 		}
 
 		return _.map(days, day => {
-			let start = this.getX(day.start);
-			let end = this.getX(day.end);
+			let start = this.props.getX(day.start);
+			let end = this.props.getX(day.end);
 			return (
 				<line
 					key={day.day}
