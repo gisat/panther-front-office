@@ -8,8 +8,8 @@ import config from '../../config';
 import Select from '../Select';
 import LayerPeriods from '../LayerPeriods/actions';
 
-const TTL = 3;
-const TTL_GEOMETRY = 3;
+const TTL = 5;
+const TTL_GEOMETRY = 5;
 
 
 // ============ creators ===========
@@ -37,7 +37,7 @@ function load(ttl) {
 						}
 					}).catch(function(err){
 						if (ttl - 1){
-							load(ttl - 1);
+							dispatch(load(ttl - 1));
 						} else {
 							throw new Error("AOI#actions load: AOI weren't loaded!");
 						}
@@ -109,7 +109,7 @@ function loadGeometry(key,ttl) {
 						}
 					}).catch(function(err){
 						if (ttl - 1){
-							loadGeometry(ttl - 1);
+							dispatch(loadGeometry(key, ttl - 1));
 						} else {
 							throw new Error("AOI#actions loadGeometry: Geometry wasn't loaded!");
 						}
