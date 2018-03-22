@@ -42,6 +42,8 @@ define([
 	 * @param options.store.wmsLayers {WmsLayers}
 	 * @constructor
 	 */
+	var MAX_MAPS = 12;
+
 	var MapsContainer = function(options){
 		if (!options.target || !options.target.length){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MapsContainer", "constructor", "missingTarget"));
@@ -243,6 +245,11 @@ define([
 	 */
 	MapsContainer.prototype.rebuildContainerLayout = function(){
 		this._mapsInContainerCount = this._mapStore.getAll().length;
+		if (this._mapsInContainerCount >= MAX_MAPS){
+			this._dispatcher.notify('mapsContainer#disableAdding');
+		} else {
+			this._dispatcher.notify('mapsContainer#enableAdding');
+		}
 
 		var width = this._containerSelector.width();
 		var height = this._containerSelector.height();
