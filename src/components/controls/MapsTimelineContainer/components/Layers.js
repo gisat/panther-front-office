@@ -33,6 +33,7 @@ class Layers extends React.PureComponent {
 					}
 					return (
 						<g
+							key={layer.key + '#' + period.source}
 							className="ptr-timeline-layer-period"
 						>
 							<rect
@@ -46,7 +47,7 @@ class Layers extends React.PureComponent {
 								ry="5"
 							/>
 							<rect
-								key={layer.key + '#' + period.source}
+								key={layer.key + '#' + period.source + '#symbol'}
 								x={start}
 								width={end-start}
 								y={5}
@@ -59,7 +60,7 @@ class Layers extends React.PureComponent {
 					);
 				});
 			}
-			return React.createElement('g', {className: 'ptr-timeline-layer'}, periods);
+			return React.createElement('g', {key: layer.key, className: 'ptr-timeline-layer'}, periods);
 		});
 
 		return React.createElement('g', null, layers);
