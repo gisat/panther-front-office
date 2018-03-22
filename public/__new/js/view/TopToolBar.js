@@ -383,6 +383,22 @@ define([
 	};
 
 	/**
+	 * @param active {boolean} false, if button for map adding should be disabled
+	 */
+	TopToolBar.prototype.handleMapButtonActivity = function(active){
+		var state = this._stateStore.current();
+		var button = $('#top-toolbar-add-map');
+		if (state.isMapIndependentOfPeriod){
+			if (active){
+				button.removeClass("disabled");
+			} else {
+				button.addClass("disabled");
+			}
+		}
+	};
+
+
+	/**
 	 * Handle click on Add map button
 	 */
 	TopToolBar.prototype.handleAddMapClick = function(){
@@ -424,6 +440,10 @@ define([
 			this.handleAddMapButton('inline-block');
 		} else if (type === Actions.foMapIsDependentOnPeriod){
 			this.handleAddMapButton('none');
+		} else if (type === Actions.mapsContainerDisableAdding){
+			this.handleMapButtonActivity(false);
+		} else if (type === Actions.mapsContainerEnableAdding){
+			this.handleMapButtonActivity(true);
 		}
 	};
 

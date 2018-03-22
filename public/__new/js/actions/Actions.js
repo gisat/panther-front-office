@@ -28,6 +28,8 @@ define([], function(){
 		mapZoomToExtent: 'map#zoomToExtent',
 
 		mapsContainerAddMap: 'mapsContainer#addMap',
+		mapsContainerDisableAdding: 'mapsContainer#disableAdding',
+		mapsContainerEnableAdding: 'mapsContainer#enableAdding',
 		mapsContainerToolsDetached: 'mapsContainer#toolsDetached',
 		mapsContainerToolsPinned: 'mapsContainer#toolsPinned',
 

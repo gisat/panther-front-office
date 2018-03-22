@@ -717,6 +717,12 @@ body.mode-3d #top-toolbar-3dmap.disabled:not(.world-wind-2d) span {
 #top-toolbar .item#top-toolbar-add-map {
 	display: none;
 }
+#top-toolbar .item#top-toolbar-add-map.disabled {
+	pointer-events: none;
+}
+#top-toolbar .item#top-toolbar-add-map.disabled:before {
+	color: #aaa;
+}
 #top-toolbar .item::before {
 	content: '';
 	display: block;
