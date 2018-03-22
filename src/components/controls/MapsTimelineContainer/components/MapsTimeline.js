@@ -57,6 +57,7 @@ class MapsTimeline extends React.PureComponent {
 					period={this.props.period}
 					width={this.dimensions.days * this.dimensions.dayWidth}
 					dayWidth={this.dimensions.dayWidth}
+					layers={this.props.layers}
 				/>
 			</div>
 		);
