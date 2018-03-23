@@ -39,7 +39,7 @@ function load(ttl) {
 						if (ttl - 1){
 							dispatch(load(ttl - 1));
 						} else {
-							throw new Error("AOI#actions load: AOI weren't loaded!");
+							dispatch(actionLoadError("AOI#actions load: AOI weren't loaded!"));
 						}
 					});
 				} else {
