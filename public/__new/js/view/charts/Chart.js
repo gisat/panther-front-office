@@ -38,7 +38,7 @@ define([
 	};
 
 	Chart.prototype.destroy = function () {
-		// TODO
+
 	};
 
 
