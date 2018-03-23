@@ -6,8 +6,8 @@ define([
 	'js/util/Logger',
 	'js/util/Promise',
 
-	'js/view/charts/PolarChart/PolarChart',
 	'js/view/widgets/EvaluationWidget/EvaluationWidget',
+	'js/view/charts/PolarChart/PolarChart',
 
     'jquery',
 	'underscore'
