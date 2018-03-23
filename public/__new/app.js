@@ -348,11 +348,6 @@ define(['js/actions/Actions',
                 xWindowJQuerySelector: $(this)[0]
             });
         });
-
-        // TODO just for testing
-        $("#maps-timeline").on("click", function(){
-        	window.Stores.notify("ADD_WMS_LAYER");
-		});
 	}
 
 	/**
