@@ -41,6 +41,7 @@ class TimelineContent extends React.PureComponent {
 				<Layers
 					layers={this.props.layers}
 					getX={this.props.getX}
+					onPeriodClick={this.props.onLayerPeriodClick}
 				/>
 			</svg>
 		);

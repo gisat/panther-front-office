@@ -35,6 +35,7 @@ class Layers extends React.PureComponent {
 						<g
 							key={layer.key + '#' + period.source}
 							className="ptr-timeline-layer-period"
+							onClick={this.props.onPeriodClick.bind(null, layer.key, period.source)}
 						>
 							<rect
 								key={layer.key + '#' + period.source + '#area'}

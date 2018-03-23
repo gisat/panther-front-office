@@ -88,6 +88,7 @@ class MapsTimeline extends React.PureComponent {
 					getX={this.getX}
 					onMouseOver={this.onMouseOver}
 					onMouseLeave={this.onMouseLeave}
+					onLayerPeriodClick={this.props.onLayerPeriodClick}
 				/>
 			</div>
 		);

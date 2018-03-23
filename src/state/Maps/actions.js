@@ -3,6 +3,8 @@ import ActionTypes from '../../constants/ActionTypes';
 
 import _ from 'lodash';
 
+import Select from '../Select';
+
 
 // ============ creators ===========
 
@@ -48,6 +50,25 @@ function setActive(key) {
 function handleMapDependencyOnPeriod(independent) {
 	return dispatch => {
 		dispatch(actionSetMapIndependentOfPeriod(independent));
+	};
+}
+
+// specialized
+
+function selectLayerPeriod(layerKey, period, mapKey) {
+	return (dispatch, getState) => {
+		if (mapKey) {
+			let state = _.find(Select.maps.getMaps(getState()), {key: mapKey});
+			let stateUpdate = {
+				key: mapKey,
+				layerPeriods: {...state.layerPeriods, [layerKey]: period}
+			};
+			dispatch(update(stateUpdate))
+		} else {
+			let state = Select.maps.getMapDefaults(getState());
+			let stateUpdate = {layerPeriods: {...state.layerPeriods, [layerKey]: period}};
+			dispatch(updateDefaults(stateUpdate));
+		}
 	};
 }
 
@@ -110,5 +131,6 @@ export default {
 	update: update,
 	updateDefaults: updateDefaults,
 	setActive: setActive,
-	handleMapDependencyOnPeriod: handleMapDependencyOnPeriod
+	handleMapDependencyOnPeriod: handleMapDependencyOnPeriod,
+	selectLayerPeriod: selectLayerPeriod
 }

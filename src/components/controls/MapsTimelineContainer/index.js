@@ -20,6 +20,9 @@ const mapDispatchToProps = dispatch => {
 		},
 		initialize: () => {
 			dispatch(Action.maps.initialize());
+		},
+		selectLayerPeriod: (layerKey, period, mapKey) => {
+			dispatch(Action.maps.selectLayerPeriod(layerKey, period, mapKey));
 		}
 	}
 };
