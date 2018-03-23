@@ -68,10 +68,15 @@ function loadReceive(features, aoiLayer) {
 
 function setActiveKey(key) {
 	return (dispatch, getState) => {
+		let aois = Select.aoi.getAois(getState());
 		dispatch(actionSetActiveKey(key));
-		return dispatch(ensureGeometry(key)).then(() => {
-			return dispatch(LayerPeriods.loadForAoi(key));
-		});
+		if (aois){
+			return dispatch(ensureGeometry(key)).then(() => {
+				return dispatch(LayerPeriods.loadForAoi(key));
+			});
+		} else {
+			return Promise.resolve();
+		}
 	};
 }
 

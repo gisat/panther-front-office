@@ -20,9 +20,15 @@ const setStoreWatchers = store => {
 };
 
 const setEventListeners = store => {
-
-
-
+	window.Stores.addListener((event, options) => {
+		switch(event) {
+			case 'dataview#activeAoi':
+				store.dispatch(Action.aoi.load()).then(() => {
+					store.dispatch(Action.aoi.setActiveKey(options.key));
+				});
+				break;
+		}
+	});
 };
 
 // ======== state watchers ========

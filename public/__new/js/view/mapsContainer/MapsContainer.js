@@ -226,6 +226,26 @@ define([
 	};
 
 	/**
+	 * Deal with maps according to dataview settings
+	 * @param mapsMetadata {Array} list of maps
+	 * @param selectedMap {number} id of selected map
+	 */
+	MapsContainer.prototype.handleMapsFromDataview = function(mapsMetadata, selectedMap){
+		var state = this._stateStore.current();
+		var self = this;
+		if (state.isMapIndependentOfPeriod){
+			mapsMetadata.forEach(function(map){
+				if (map.key !== 'default-map'){
+					self.addMap(map.key, map.period);
+				}
+			});
+		}
+		if (selectedMap){
+			this.handleMapSelection(null, selectedMap)
+		}
+	};
+
+	/**
 	 * Adjust container size when Map tools widget is pinned
 	 * @param toolsPinned {boolean}
 	 */
@@ -355,10 +375,13 @@ define([
 	};
 
 	/**
-	 * If current map is provided, select it. Otherwise find out, if any map is selected. If not, select the first one.
+	 * If current map is provided, select it.
+	 * If selectedId is porvided, select map with this id
+	 * Otherwise find out, if any map is selected. If not, select the first one.
 	 * @param [currentMap] {WorldWindMap} optional parameter
+	 * @param [selectedId] {string} id of map which will be selected
 	 */
-	MapsContainer.prototype.handleMapSelection = function(currentMap){
+	MapsContainer.prototype.handleMapSelection = function(currentMap, selectedId){
 		var allMaps = this._mapStore.getAll();
 		if (currentMap){
 			allMaps.forEach(function(map){
@@ -367,6 +390,17 @@ define([
 			currentMap.select();
 			this._dispatcher.notify('map#selected', {
 				id: currentMap._id
+			});
+		} else if (selectedId) {
+			var self = this;
+			allMaps.forEach(function(map){
+				map.unselect();
+				if (map._id === selectedId){
+					map.select();
+					self._dispatcher.notify('map#selected', {
+						id: selectedId
+					});
+				}
 			});
 		} else {
 			var selected = false;

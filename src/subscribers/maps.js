@@ -61,6 +61,7 @@ const activeMapKeyWatcher = (value, previousValue) => {
 
 const mapsWatcher = (value, previousValue) => {
 	console.log('@@ mapsWatcher', previousValue, '->', value);
+	window.Stores.notify('REDUX_STORE_MAPS_CHANGED', value);
 };
 
 const periodIndependenceWatcher = (value, previousValue) => {

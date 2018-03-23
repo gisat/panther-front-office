@@ -445,8 +445,9 @@ define([
 			/**
 			 * Apply settings from dataview, if exists
 			 */
-			if (options){
+			if (options && !this._dataviewSettingsUsed){
 				self.applySettingsFromDataview(options);
+				this._dataviewSettingsUsed = true;
 			}
 		});
 	};
@@ -468,6 +469,12 @@ define([
 		}
 		if (options.widgets){
 			this._topToolBar.handleDataview(options.widgets);
+		}
+		if (options.mapsMetadata){
+			this._mapsContainer.handleMapsFromDataview(options.mapsMetadata, options.selectedMapId);
+		}
+		if (options.activeAoi){
+			this._dispatcher.notify('dataview#activeAoi', {key: options.activeAoi});
 		}
 	};
 
