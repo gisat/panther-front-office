@@ -238,6 +238,15 @@ define([
 				if (map.key !== 'default-map'){
 					self.addMap(map.key, map.period);
 				}
+				if (map.layerPeriods){
+					for (var layer in map.layerPeriods){
+						self._dispatcher.notify("layerPeriods#add", {
+							mapKey: map.key,
+							layerKey: layer,
+							period: map.layerPeriods[layer]
+						});
+					}
+				}
 			});
 		}
 		if (selectedMap){

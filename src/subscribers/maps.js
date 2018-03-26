@@ -48,6 +48,8 @@ const setEventListeners = store => {
 			case 'fo#mapIsDependentOnPeriod':
 				store.dispatch(Action.maps.handleMapDependencyOnPeriod(false));
 				break;
+			case 'layerPeriods#add':
+				store.dispatch(Action.maps.selectLayerPeriod(options.layerKey, options.period, options.mapKey));
 		}
 	});
 
