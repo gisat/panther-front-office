@@ -15,6 +15,9 @@ const mapDispatchToProps = dispatch => {
 	return {
 		setActiveAoi: (key) => {
 			dispatch(Action.aoi.setActiveKey(key));
+		},
+		clearLayerPeriods: () => {
+			dispatch(Action.maps.clearLayerPeriodsOfAllMaps());
 		}
 	}
 };

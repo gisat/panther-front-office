@@ -72,6 +72,16 @@ function selectLayerPeriod(layerKey, period, mapKey) {
 	};
 }
 
+function clearLayerPeriodsOfAllMaps(){
+	return (dispatch, getState) => {
+		let state = Select.maps.getMaps(getState());
+		state.map(map => {
+			map.layerPeriods = null;
+		});
+		dispatch(update(state));
+	}
+}
+
 // ============ actions ===========
 
 function actionAdd(maps) {
@@ -132,5 +142,6 @@ export default {
 	updateDefaults: updateDefaults,
 	setActive: setActive,
 	handleMapDependencyOnPeriod: handleMapDependencyOnPeriod,
+	clearLayerPeriodsOfAllMaps: clearLayerPeriodsOfAllMaps,
 	selectLayerPeriod: selectLayerPeriod
 }
