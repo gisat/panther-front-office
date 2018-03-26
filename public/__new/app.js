@@ -38,7 +38,7 @@ requirejs.config({
         'underscore': {
             exports: '_'
         }
-    }
+	}
 });
 
 define(['js/actions/Actions',

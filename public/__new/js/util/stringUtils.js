@@ -13,7 +13,19 @@ define([], function () {
 		return paramsList.join('&');
 	}
 
+	/**
+	 * @param dateString {string} ISO 8601 format
+	 * @returns {string}
+	 */
+	function parseDate(dateString){
+		var d = new Date(dateString);
+		var date = d.toLocaleDateString()
+		var time = d.toLocaleTimeString();
+		return date + ' - ' + time;
+	}
+
 	return {
-		makeUriComponent: makeUriComponent
+		makeUriComponent: makeUriComponent,
+		parseDate: parseDate
 	};
 });

@@ -3,11 +3,15 @@ define([
 	'../../error/ArgumentError',
 	'../../error/NotFoundError',
 	'../../util/Logger',
+
+	'../../util/stringUtils',
+
 	'underscore'
 ], function(Actions,
 			ArgumentError,
 			NotFoundError,
 			Logger,
+			utils,
 			_
 ){
 	/**
@@ -77,7 +81,11 @@ define([
 
 						// add map title
 						if (scope.mapLayerInfo && scope.mapLayerInfo === 'simple'){
-							map.mapWindowTools.addLayerInfo(layer.name + " (" + layerOptions.time + ")");
+							var content = layer.name;
+							if (layerOptions.time){
+								content += " (" + utils.parseDate(layerOptions.time) + ")";
+							}
+							map.mapWindowTools.addLayerInfo(content);
 						}
 					}
 				});
