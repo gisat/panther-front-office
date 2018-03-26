@@ -38,7 +38,7 @@ requirejs.config({
         'underscore': {
             exports: '_'
         }
-    }
+	}
 });
 
 define(['js/actions/Actions',
@@ -72,7 +72,6 @@ define(['js/actions/Actions',
 		'js/view/PanelIFrame/PanelIFrame',
 		'js/stores/gisat/Periods',
 		'js/view/selectors/PeriodsSelector/PeriodsSelector',
-		'js/view/widgets/PeriodsWidget/PeriodsWidget',
 		'js/util/Placeholder',
 		'js/util/Remote',
 		'js/stores/gisat/Scopes',
@@ -123,7 +122,6 @@ define(['js/actions/Actions',
 			 PanelIFrame,
 			 Periods,
 			 PeriodsSelector,
-			 PeriodsWidget,
 			 Placeholder,
 			 Remote,
 			 Scopes,
@@ -182,16 +180,18 @@ define(['js/actions/Actions',
         var tools = [];
         var widgets = [];
 
+		var stateStore = new StateStore({
+			dispatcher: window.Stores,
+			store: {}
+		});
+		var mapStore = new MapStore({
+			dispatcher: window.Stores,
+			store: {
+				state: stateStore,
+				wms: store.wmsLayers
+			}
+		});
 
-        var mapStore = new MapStore({
-            dispatcher: window.Stores
-        });
-        var stateStore = new StateStore({
-            dispatcher: window.Stores,
-            store: {
-                maps: mapStore
-            }
-        });
         window.selectionStore = new SelectionStore({
             dispatcher: window.Stores,
             store: {
@@ -241,7 +241,11 @@ define(['js/actions/Actions',
 
         if(Config.toggles.useTopToolbar){
             var topToolBar = new TopToolBar({
-                dispatcher: window.Stores
+                dispatcher: window.Stores,
+				store: {
+					scopes: store.scopes,
+					state: stateStore
+				}
             });
         }
         // create tools and widgets according to configuration
@@ -255,10 +259,6 @@ define(['js/actions/Actions',
             if(Config.toggles.hasOsmWidget) {
                 widgets.push(buildOsmWidget(mapsContainer, mapStore));
             }
-        }
-        if(Config.toggles.hasPeriodsWidget){
-            var periodsWidget = buildPeriodsWidget(mapsContainer, stateStore);
-            widgets.push(periodsWidget);
         }
         if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
             var aggregatedWidget = buildAggregatedChartWidget(filter, stateStore);
@@ -288,8 +288,11 @@ define(['js/actions/Actions',
 
         // build app, map is class for OpenLayers map
         new FrontOffice({
+			dispatcher: window.Stores,
             attributesMetadata: attributes,
+			mapsContainer: mapsContainer,
             tools: tools,
+			topToolBar: topToolBar,
             widgets: widgets,
             widgetOptions: {
                 olMap: olMap
@@ -492,22 +495,6 @@ define(['js/actions/Actions',
         })
     }
 
-    function buildPeriodsWidget (mapsContainer, stateStore){
-    	return new PeriodsWidget({
-			elementId: 'periods-widget',
-			name: polyglot.t('periods'),
-			mapsContainer: mapsContainer,
-			dispatcher: window.Stores,
-			isWithoutFooter: true,
-			is3dOnly: true,
-			store: {
-				scopes: store.scopes,
-				periods: store.periods,
-				state: stateStore
-			}
-		});
-	}
-
 	/**
 	 * Build SnowWidget instance
 	 * @param mapController {SnowMapController}
@@ -528,7 +515,9 @@ define(['js/actions/Actions',
     /**
      * Build WorldWindWidget instance
 	 * @param mapsContainer {MapsContainer}
+	 * @param topToolBar {TopToolBar}
 	 * @param stateStore {StateStore}
+	 * @param mapStore {MapStore}
      * @returns {WorldWindWidget}
      */
     function buildWorldWindWidget (mapsContainer, topToolBar, stateStore, mapStore){
@@ -599,8 +588,10 @@ define(['js/actions/Actions',
 			store: {
 				periods: store.periods,
 				locations: store.locations,
+				scopes: store.scopes,
 				map: mapStore,
-				state: stateStore
+				state: stateStore,
+				wmsLayers: store.wmsLayers
 			}
 		})
 	}

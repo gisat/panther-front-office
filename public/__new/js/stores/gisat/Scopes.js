@@ -31,5 +31,9 @@ define([
 		return "rest/dataset";
 	};
 
+	Scopes.prototype.loaded = function(models) {
+		window.Stores.notify("SCOPES_LOADED", models);
+	};
+
 	return Scopes;
 });

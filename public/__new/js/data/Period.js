@@ -17,6 +17,9 @@ define(['./Model'], function(Model){
 			},
 			name: {
 				serverName: 'name'
+			},
+			period: {
+				serverName: 'period'
 			}
 		};
 	};

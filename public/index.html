@@ -243,6 +243,7 @@
     </div>
     <div id="header">
         <h1>Data exploration</h1>
+        <div id="header-view-selection"></div>
         <ul class="menu">
             <li id="intro-link"><a href="/">Introduction</a></li>
             <li id="downloads-link"><a href="/intro/index.php/downloads">Downloads</a></li>
@@ -585,12 +586,13 @@
             </div>
             <div id="top-toolbar">
                 <div id="top-toolbar-features">
-                    <div class="item" id="top-toolbar-3dmap"><span>3D Map</span></div>
+                    <div class="item open" id="top-toolbar-3dmap"><span>3D Map</span></div>
                     <div id="top-toolbar-widgets"></div>
                 </div>
                 <div id="top-toolbar-tools">
-                    <a class="item" id="top-toolbar-snapshot" title="Take map snapshot"></a>
+                    <div class="item" id="top-toolbar-add-map" title="Add map"></div>
                     <div class="item" id="top-toolbar-share-view" title="Share view"></div>
+                    <a class="item" id="top-toolbar-snapshot" title="Take map snapshot"></a>
                     <div class="item" id="top-toolbar-context-help" title="Context help"></div>
                 </div>
             </div>
@@ -606,6 +608,15 @@
                 <div id="app-reports-paging"></div>
                 <div id="app-reports-accordeon"></div>
                 <div id="app-extra-content"></div>
+            </div>
+        </div>
+        <div class="maps-container" id="maps-container">
+            <div class="maps-container-top">
+                <div class="map-tools"></div>
+                <div class="map-fields"></div>
+            </div>
+            <div id="maps-container-bar-bottom">
+                <div id="maps-timeline"></div>
             </div>
         </div>
     </div>

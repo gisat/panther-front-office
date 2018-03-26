@@ -26,28 +26,47 @@ define([
 	/**
 	 * Constructor for assembling current application.
 	 * @param options {Object}
+	 * @param options.mapsContainer {Object}
 	 * @param options.store {Object}
+	 * @param options.dispatcher {Object}
+	 * @param options.topToolBar {TopToolBar}
 	 * @constructor
 	 */
 	var FrontOffice = function(options) {
         if(!options.store){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'FrontOffice', 'constructor', 'Stores must be provided'));
         }
+		if(!options.mapsContainer){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'FrontOffice', 'constructor', 'Maps container must be provided'));
+		}
+		if (!options.dispatcher){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'FrontOffice', 'constructor', 'Dispatcher must be provided'));
+		}
 
 		this.loadData(options.store);
 
         this._attributesMetadata = options.attributesMetadata;
-
 		this._options = options.widgetOptions;
 		this._tools = options.tools;
 		this._widgets = options.widgets;
 		this._store = options.store;
 		this._charts = [];
+		this._scopesStore = options.store.scopes;
+		this._stateStore = options.store.state;
+		this._dispatcher = options.dispatcher;
+		this._topToolBar = options.topToolBar;
+
+		this._mapsContainer = options.mapsContainer;
+		this._mapsContainer.addMap('default-map');
 
 		this._dataset = null;
+		this._previousDataset = null;
+
 		Observer.addListener("rebuild", this.rebuild.bind(this));
         Observer.addListener('user#onLogin', this.loadData.bind(this, options.store));
         Observer.addListener('Select#onChangeColor', this.rebuildEvaluationWidget.bind(this));
+
+        this._dispatcher.addListener(this.onEvent.bind(this));
 	};
 
 	/**
@@ -65,7 +84,7 @@ define([
 			dataview: false
 		};
 		this.checkConfiguration();
-		this._store.state.setChanges(this._options.changes);
+		this._stateStore.setChanges(this._options.changes);
 
 		var visualization = Number(ThemeYearConfParams.visualization);
 
@@ -93,6 +112,7 @@ define([
 				self.toggleSidebars(options);
 				self.toggleWidgets(options);
 				self.toggleCustomLayers(options);
+				self.handlePeriods();
 			}).catch(function(err){
 				throw new Error(err);
 			});
@@ -102,12 +122,15 @@ define([
 			var attributesData = this.getAttributesMetadata();
 			Promise.all([attributesData]).then(function(result){
 				self.rebuildComponents(result[0]);
+				self.handlePeriods();
 			});
 		}
 
+		if (this._previousDataset !== this._dataset){
+			this._dispatcher.notify('scope#activeScopeChanged', {activeScopeKey: Number(self._dataset)});
+			this._previousDataset = this._dataset;
+		}
 		ThemeYearConfParams.datasetChanged = false;
-
-		this._store.periods.notify(Actions.periodsRebuild);
 
 		Charts.forEach(function(exchangeChartData) {
 			var isNew = true;
@@ -334,21 +357,216 @@ define([
 	};
 
 	/**
+	 * Get default position in the map according to configuration
+	 * @param [options] {Object} Optional. Settings from dataview
+	 * @return position {WorldWind.Position}
+	 */
+	FrontOffice.prototype.getPosition = function(options){
+		if (options && options.worldWindState){
+			return options.worldWindState.location;
+		} else {
+			var places = this._stateStore.current().objects.places;
+			var locations;
+			if(places.length === 1 && places[0]){
+				locations = places[0].get('bbox').split(',');
+			} else {
+				places = this._stateStore.current().allPlaces.map(function(place) {
+					return Ext.StoreMgr.lookup('location').getById(place);
+				});
+				locations = this.getBboxForMultiplePlaces(places);
+			}
+
+			if(locations.length != 4) {
+				console.warn('WorldWindWidget#getPosition Incorrect locations: ', locations);
+				return;
+			}
+			var position = new WorldWind.Position((Number(locations[1]) + Number(locations[3])) / 2, (Number(locations[0]) + Number(locations[2])) / 2, 1000000);
+
+			return position;
+		}
+	};
+
+	/**
+	 * It combines bboxes of all places to get an extent, which will show all of them.
+	 * @param places
+	 * @returns {*}
+	 */
+	FrontOffice.prototype.getBboxForMultiplePlaces = function(places) {
+		if(places.length == 0) {
+			return [];
+		}
+
+		var minLongitude = 180;
+		var maxLongitude = -180;
+		var minLatitude = 90;
+		var maxLatitude = -90;
+
+		var locations;
+		places.forEach(function(place){
+			locations = place.get('bbox').split(',');
+			if(locations[0] < minLongitude) {
+				minLongitude = locations[0];
+			}
+
+			if(locations[1] < minLatitude) {
+				minLatitude = locations[1];
+			}
+
+			if(locations[2] > maxLongitude) {
+				maxLongitude = locations[2];
+			}
+
+			if(locations[3] > maxLatitude) {
+				maxLatitude = locations[3];
+			}
+		});
+
+		return [minLongitude, maxLatitude, maxLongitude, minLatitude];
+	};
+
+	// TODO reviewed methods -----------------------------------------------------------------------------------------
+
+	/**
+	 * Adjust FO view
+	 * @param options {Object} settings from dataview
+	 */
+	FrontOffice.prototype.adjustConfiguration = function(options){
+		var state = this._stateStore.current();
+		var htmlBody = $("body");
+		var self = this;
+
+		this._scopesStore.byId(state.scope).then(function(scopes){
+			var scope = scopes[0];
+			if (scope && scope.isMapIndependentOfPeriod){
+				self._dispatcher.notify("fo#mapIsIndependentOfPeriod");
+			} else {
+				self._dispatcher.notify("fo#mapIsDependentOnPeriod");
+			}
+
+			self._dispatcher.notify("scope#aoiLayer", scope.aoiLayer);
+
+			htmlBody.addClass("mode-3d");
+			self.toggleExtComponents("none");
+
+			/**
+			 * Rebuild World wind widget
+			 */
+			self._worldWindWidget = _.find(self._widgets, function(widget){return widget._widgetId === 'world-wind-widget'});
+			self._worldWindWidget.rebuild();
+
+			/**
+			 * Rebuild Top tool bar
+			 */
+			if (self._topToolBar){
+				self._topToolBar.build();
+			}
+
+			/**
+			 * Set default position of the map
+			 */
+			if (_.isEmpty(state.changes) || (!state.changes.dataview && (state.changes.scope || state.changes.location))){
+				var position = self.getPosition(options);
+				self._mapsContainer.setAllMapsPosition(position);
+			}
+
+			/**
+			 * Apply settings from dataview, if exists
+			 */
+			if (options && !self._dataviewSettingsUsed){
+				self._dispatcher.notify('scope#activeScopeChanged', {activeScopeKey: Number(options.scope)});
+				self._previousDataset = options.scope;
+				self._dataviewSettingsUsed = true;
+				self.applySettingsFromDataview(options);
+			}
+		});
+	};
+
+	/**
+	 * Apply dataview settings
+	 * @param options {Object} settings
+	 */
+	FrontOffice.prototype.applySettingsFromDataview = function(options){
+		this._stateStore._changes = {
+			dataview: true
+		};
+		if (options.worldWindState){
+			this._mapsContainer.setAllMapsPosition(options.worldWindState.location);
+			this._mapsContainer.setAllMapsRange(options.worldWindState.range);
+			if (options.worldWindState.is2D && this._stateStore.current().isMap3D){
+				this._dispatcher.notify('map#switchProjection');
+			}
+		}
+		if (options.widgets){
+			this._topToolBar.handleDataview(options.widgets);
+		}
+		if (options.mapsMetadata){
+			this._mapsContainer.handleMapsFromDataview(options.mapsMetadata, options.selectedMapId);
+		}
+		if (options.activeAoi){
+			this._dispatcher.notify('dataview#activeAoi', {key: options.activeAoi});
+		}
+	};
+
+	/**
+	 * Handle periods according to scope setting
+	 */
+	FrontOffice.prototype.handlePeriods = function(){
+		var state = this._stateStore.current();
+		if (state.isMapIndependentOfPeriod){
+			this._store.periods.notify('periods#default')
+		} else {
+			this._store.periods.notify('periods#rebuild');
+		}
+	};
+
+	/**
 	 * Load metadata from server
 	 */
 	FrontOffice.prototype.loadData = function(store){
-        return Promise.all([
-            store.attributes.load(),
-            store.attributeSets.load(),
-            store.dataviews.load(),
-            store.layers.load(),
-            store.locations.load(),
-            store.periods.load(),
-            store.scopes.load(),
-            store.themes.load(),
-            store.visualizations.load(),
-            store.wmsLayers.load()
-        ]);
+		return Promise.all([
+			store.attributes.load(),
+			store.attributeSets.load(),
+			store.dataviews.load(),
+			store.layers.load(),
+			store.locations.load(),
+			store.periods.load(),
+			store.scopes.load(),
+			store.themes.load(),
+			store.visualizations.load(),
+			store.wmsLayers.load()
+		]);
+	};
+
+	/**
+	 * Show/hide components
+	 * @param action {string} css display value
+	 */
+	FrontOffice.prototype.toggleExtComponents = function(action){
+		if (!Config.toggles.useTopToolbar) {
+			var sidebarTools = $("#sidebar-tools");
+			if (action === "none") {
+				sidebarTools.addClass("hidden-complete");
+				sidebarTools.css("display", "none");
+			} else {
+				sidebarTools.removeClass("hidden-complete");
+				sidebarTools.css("display", "block");
+			}
+		}
+		$(".x-window:not(.thematic-maps-settings, .x-window-ghost, .metadata-window, .window-savevisualization, .window-savedataview, #loginwindow, #window-managevisualization, #window-areatree, #window-colourSelection, #window-legacyAdvancedFilters), #tools-container, #widget-container .placeholder:not(#placeholder-" + this._widgetId + ")")
+			.css("display", action);
+
+	};
+
+	/**
+	 * @param type {string} type of event
+	 * @param options {Object}
+	 */
+	FrontOffice.prototype.onEvent = function(type, options) {
+		if(type === Actions.adjustConfiguration) {
+			this.adjustConfiguration();
+		} else if (type === Actions.adjustConfigurationFromDataview){
+			this.adjustConfiguration(options);
+		}
 	};
 
 	return FrontOffice;

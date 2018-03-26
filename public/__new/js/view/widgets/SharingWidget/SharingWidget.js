@@ -163,7 +163,7 @@ define([
 		var name = $( "#floater-sharing .floater-body #sharing-name" ).val();
 		var description = $( "#floater-sharing .floater-body #sharing-description" ).val();
 		var language = $( "#floater-sharing .floater-body #sharing-lang option:checked" ).val();
-		var state = this._store.state.currentExtended();
+		var state = this._store.state.current();
 
 		Observer.notify("PumaMain.controller.ViewMng.onShare", {
 			state: state,
@@ -181,7 +181,7 @@ define([
 		var selectedGroup = $( "#floater-sharing .floater-body #sharing-group option:checked" ).val();
 		var selectedUser = $( "#floater-sharing .floater-body #sharing-user option:checked" ).val();
 		var minimiseBtn = this._widgetSelector.find(".widget-minimise");
-		var state = this._store.state.currentExtended();
+		var state = this._store.state.current();
 		var self = this;
 		Promise.all([
 			this._store.groups.share(selectedGroup, state.scope, state.places, options.dataviewId),
