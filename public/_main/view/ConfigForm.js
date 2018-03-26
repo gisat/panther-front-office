@@ -123,6 +123,16 @@ Ext.define('PumaMain.view.ConfigForm', {
 				hidden: true
 			},{
 				xtype: 'pumacombo',
+				store: Ext.StoreMgr.lookup('periods4polarchart'),
+				fieldLabel: polyglot.t('periods'),
+				valueField: 'type',
+				value: 'latest',
+				width: 500,
+				name: 'periodsSettingsPolarChart',
+				itemId: 'periodsSettingsPolarChart',
+				hidden: true
+			},{
+				xtype: 'pumacombo',
 				store: Ext.StoreMgr.lookup('normalization4polarchart'),
 				fieldLabel: polyglot.t('normalization'),
 				valueField: 'type',

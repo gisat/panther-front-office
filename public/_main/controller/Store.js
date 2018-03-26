@@ -525,6 +525,23 @@ Ext.define('PumaMain.controller.Store', {
 			}]
 		});
 		Ext.create('Ext.data.Store', {
+			storeId: 'periods4polarchart',
+			fields: ['name', 'type'],
+			data: [{
+				name: polyglot.t('average4allPeriods'),
+				type: 'average'
+			}, {
+				name: polyglot.t('latest'),
+				type: 'latest'
+			}, {
+				name: polyglot.t('withMinValue'),
+				type: 'min'
+			}, {
+				name: polyglot.t('withMaxValue'),
+				type: 'max'
+			}]
+		});
+		Ext.create('Ext.data.Store', {
 			storeId: 'normalization4polarchart',
 			fields: ['name', 'type'],
 			data: [{

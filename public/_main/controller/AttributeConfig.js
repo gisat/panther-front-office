@@ -761,6 +761,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
         var configForm = combo.up('configform');
         var advanced = Ext.ComponentQuery.query('#advancedfieldset',configForm)[0];
 		var periodsSettings = Ext.ComponentQuery.query('#periodsSettings',configForm)[0];
+		var periodsSettingsPolarChart = Ext.ComponentQuery.query('#periodsSettingsPolarChart',configForm)[0];
 		var polarAxesNormalizationSettings = Ext.ComponentQuery.query('#polarAxesNormalizationSettings',configForm)[0];
 		var stackingSettings = Ext.ComponentQuery.query('#stackingSettings',configForm)[0];
 		var aggregateSettings = Ext.ComponentQuery.query('#aggregateSettings',configForm)[0];
@@ -790,15 +791,21 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 			aggregateSettings.hide();
         }
 
-        // show/hide periods settings
-		if ((val=='columnchart' || val=='polarchart') && periods.length > 1 ) {
+		// show/hide periods settings
+		if (val=='columnchart' && periods.length > 1 ) {
 			periodsSettings.show();
 		} else {
 			periodsSettings.hide();
 		}
 
+		// show/hide periods settings
+		if (val=='polarchart' && periods.length > 1 ) {
+			periodsSettingsPolarChart.show();
+		} else {
+			periodsSettingsPolarChart.hide();
+		}
+
 		// show/hide polar chart normalization options
-		// TODO --- Rename normalization?
 		if (val=='polarchart') {
 			polarAxesNormalizationSettings.show();
 		} else {
