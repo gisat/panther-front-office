@@ -330,6 +330,10 @@ Ext.define('PumaMain.controller.ViewMng', {
 			options.selectedMapId = Config.cfg.selectedMapId;
 		}
 
+		if (Config.cfg.dataset){
+			options.scope = Config.cfg.dataset;
+		}
+
 		if (Config.cfg.is3D){
 			Stores.notify('fo#adjustConfigurationFromDataview', options);
 

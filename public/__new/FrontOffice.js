@@ -445,9 +445,11 @@ define([
 			/**
 			 * Apply settings from dataview, if exists
 			 */
-			if (options && !this._dataviewSettingsUsed){
+			if (options && !self._dataviewSettingsUsed){
+				self._dispatcher.notify('scope#activeScopeChanged', {activeScopeKey: Number(options.scope)});
+				self._previousDataset = options.scope;
+				self._dataviewSettingsUsed = true;
 				self.applySettingsFromDataview(options);
-				this._dataviewSettingsUsed = true;
 			}
 		});
 	};

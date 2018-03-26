@@ -185,7 +185,9 @@ define([
 			}
 			this.addWmsLayerToMap(options.layerKey, {time: options.period}, options.mapKey);
 		} else if (type === "AOI_GEOMETRY_SET"){
-			this.removeAllLayersFromGroupFromAllMaps('wms-layers-independent');
+			if (state.previousAoi){
+				this.removeAllLayersFromGroupFromAllMaps('wms-layers-independent');
+			}
 		}
 
 	};

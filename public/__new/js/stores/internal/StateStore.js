@@ -74,6 +74,7 @@ define([
 
 			aoiLayer: this._aoiLayer,
 			activeAoi: this._activeAoi,
+			previousAoi: this._previousAoi,
 			isMap3D: this.isMap3D,
 			isMapIndependentOfPeriod: this.isMapIndependentOfPeriod,
 			mapsMetadata: this._mapsMetadata,
@@ -291,6 +292,7 @@ define([
 	};
 
 	StateStore.prototype.setActiveAoi = function(aoiId){
+		this._previousAoi = this._activeAoi;
 		this._activeAoi = aoiId;
 	};
 

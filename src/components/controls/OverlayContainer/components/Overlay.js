@@ -7,7 +7,7 @@ class Overlay extends React.PureComponent {
 
 	static propTypes = {
 		scope: PropTypes.object,
-		activeAoi: PropTypes.string,
+		activeAoi: PropTypes.number,
 		content: PropTypes.shape({
 			title: PropTypes.string,
 			text: PropTypes.string
