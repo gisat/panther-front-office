@@ -272,7 +272,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 
 		// hide non-numeric attributes for every type, but table. Add type of the node
 		rootNode.cascadeBy(function(node){
-			node.collapseChildren();
+			// node.collapseChildren();
 			if (node.data.attrType === "text"){
 				if (type !== "grid"){
 					node.data.cls = "nonnumeric-attribute";
