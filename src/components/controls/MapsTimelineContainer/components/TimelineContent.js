@@ -11,11 +11,63 @@ import utils from '../../../../utils/utils';
 
 import Layers from './Layers';
 
+/*
+Necessary updates
+  The minimum size for what is shown is 4px
+  The size is changing at 10% speed with the wheel movement.
+  If the size is big enough we draw the month text
+    Month names. Is it possible to figure out the size? As for names of the months it should be ok to use the first
+    three letters
+  If the size is big enough we draw the day name
+    First two letters should be big enough.
+  If the size is big enough we draw the hour
+    Always two letters 01 to 24
+
+
+  The Layers contain the information about points that are available there.
+ */
 class TimelineContent extends React.PureComponent {
 
 	static propTypes = {
 
 	};
+
+	constructor(props) {
+		super(props);
+
+		this.onMouseUp = this.onMouseUp.bind(this);
+		this.onMouseDown = this.onMouseDown.bind(this);
+		this.onMouseMove = this.onMouseMove.bind(this);
+
+		this._drag = false;
+		this._lastX = null;
+	}
+
+	onMouseUp() {
+		console.log('onMouseUp');
+		this._drag = false;
+
+		this._lastX = null;
+	}
+	onMouseDown(e) {
+        console.log('onMouseDown');
+        this._drag = true;
+
+		this._lastX = e.clientX;
+	}
+	onMouseMove(e) {
+		if(this._drag) {
+            let distance = e.clientX - this._lastX;
+            if(distance !== 0) {
+                this.props.onDrag({
+                    distance: Math.abs(distance),
+                    direction: distance < 0 ? 'future': 'past'
+                });
+
+                this._lastX = e.clientX;
+            }
+		}
+	}
 
 	render() {
 
@@ -27,11 +79,17 @@ class TimelineContent extends React.PureComponent {
 				height={this.props.height}
 				onMouseOver={this.props.onMouseOver}
 				onMouseLeave={this.props.onMouseLeave}
+				onWheel={this.props.onWheel}
+
+				onMouseDown={this.onMouseDown}
+                onMouseUp={this.onMouseUp}
+                onMouseMove={this.onMouseMove}
 			>
-				{this.renderMonths(this.props.period)}
+                {this.renderMonths(this.props.period)}
 				{this.renderDays(this.props.period)}
-				<Layers
+                <Layers
 					layers={this.props.layers}
+					dayWidth={this.props.dayWidth}
 					getX={this.props.getX}
 				/>
 			</svg>
@@ -48,6 +106,7 @@ class TimelineContent extends React.PureComponent {
 		while (end > current || current.format('YYYY-MM') === end.format('YYYY-MM')) {
 			months.push({
 				month: current.format('YYYY-MM'),
+				monthName: current.format('MMM'),
 				start: (current.format('YYYY-MM') === start.format('YYYY-MM')) ? start : moment(current).startOf('month'),
 				end: (current.format('YYYY-MM') === end.format('YYYY-MM')) ? end : moment(current).endOf('month')
 			});
@@ -103,7 +162,6 @@ class TimelineContent extends React.PureComponent {
 		});
 
 	}
-
 }
 
 export default TimelineContent;

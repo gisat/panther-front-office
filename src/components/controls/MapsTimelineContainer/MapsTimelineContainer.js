@@ -15,7 +15,11 @@ class MapsTimelineContainer extends React.PureComponent {
 		if (this.props.scope && this.props.period && this.props.scope.showTimeline) {
 
 			let {scope, period, ...props} = this.props;
-			return React.createElement(MapsTimeline, {...props, period:  utils.period(period.period)});
+			return React.createElement(MapsTimeline, {
+				...props,
+				period:  utils.period(period.period),
+				initialPeriod: utils.period(period.period)
+			});
 
 		} else {
 
