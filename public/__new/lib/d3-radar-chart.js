@@ -209,7 +209,8 @@ define([
 							.attr('y', newY)
 							.text(d.label || Format(d.label))
 							.transition(200)
-							.style('opacity', 1);
+							.style('opacity', 1)
+							.style('display', 'block');
 
 						var z = "polygon."+d3.select(this).attr("class");
 						g.selectAll("polygon")
@@ -222,13 +223,15 @@ define([
 					.on('mouseout', function(){
 						tooltip
 							.transition(200)
-							.style('opacity', 0);
+							.style('opacity', 0)
+							.style('display', 'none');
 						g.selectAll("polygon")
 							.transition(200)
 							.style("fill-opacity", cfg.opacityArea);
 					})
-					.append("svg:title")
-					.text(function(j){return Math.max(j.value, 0)});
+					// .append("svg:title")
+					// .text(function(j){return Math.max(j.value, 0)*100 + " %"})
+					;
 
 				series++;
 			});
