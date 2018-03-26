@@ -8,7 +8,8 @@ const mapStateToProps = state => {
 		maps: Select.maps.getMaps(state),
 		activeMapKey: Select.maps.getActiveMapKey(state),
 		period: Select.periods.getActivePeriod(state),
-		scope: Select.scopes.getActiveScopeData(state)
+		scope: Select.scopes.getActiveScopeData(state),
+		layers: Select.wmsLayers.getLayersWithAoiPeriods(state)
 	}
 };
 
@@ -19,6 +20,9 @@ const mapDispatchToProps = dispatch => {
 		},
 		initialize: () => {
 			dispatch(Action.maps.initialize());
+		},
+		selectLayerPeriod: (layerKey, period, mapKey) => {
+			dispatch(Action.maps.selectLayerPeriod(layerKey, period, mapKey));
 		}
 	}
 };

@@ -135,3 +135,13 @@ body.mode-3d .maps-container {
 .ptr-timeline-day.Monday {
 	stroke: rgba(0,0,0,.3);
 }
+
+.ptr-timeline-layer-period {
+	cursor: pointer;
+}
+.ptr-timeline-layer-period-area {
+	fill: rgba(0,0,0,0);
+}
+.ptr-timeline-layer-period-symbol {
+	fill: #0022cc;
+}

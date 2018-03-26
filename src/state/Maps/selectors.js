@@ -18,5 +18,6 @@ const getMaps = createSelector(
 export default {
 	getActiveMapKey: getActiveMapKey,
 	getMaps: getMaps,
+	getMapDefaults: getMapDefaults,
 	getPeriodIndependence: getPeriodIndependence
 };

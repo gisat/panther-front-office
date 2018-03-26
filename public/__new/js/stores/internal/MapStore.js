@@ -179,16 +179,11 @@ define([
 
 		// notifications from React
 		else if (type === "ADD_WMS_LAYER"){
-			// TODO replace with parameters from options
+			console.log("## ADD_WMS_LAYER", options);
 			if (scope.oneLayerPerMap){
-				this.removeAllLayersFromGroup('wms-layers-independent', state.selectedMapId);
+				this.removeAllLayersFromGroup('wms-layers-independent', options.mapKey)
 			}
-			this.addWmsLayerToMap(3, {time: '2017-12-01'}, state.selectedMapId);
-
-			// TODO only for testing
-			var map = _.find(state.mapsMetadata, function(m){return m.key === state.selectedMapId});
-			map.layerPeriods = {3: '2017-12-01'};
-
+			this.addWmsLayerToMap(options.layerKey, {time: options.period}, options.mapKey);
 		} else if (type === "AOI_GEOMETRY_SET"){
 			this.removeAllLayersFromGroupFromAllMaps('wms-layers-independent');
 		}

@@ -63,6 +63,29 @@ const activeMapKeyWatcher = (value, previousValue) => {
 
 const mapsWatcher = (value, previousValue) => {
 	console.log('@@ mapsWatcher', previousValue, '->', value);
+	_.each(value, map => {
+		let previousMap = _.find(previousValue, {key: map.key});
+		if (previousMap) {
+			let diff = compare(map.layerPeriods, previousMap.layerPeriods);
+			console.log('@@ diff', diff);
+			_.each(diff.added, (value, key) => {
+				window.Stores.notify('ADD_WMS_LAYER', {
+					mapKey: map.key,
+					layerKey: key,
+					period: value
+				});
+			});
+			_.each(diff.changed, (value, key) => {
+				window.Stores.notify('ADD_WMS_LAYER', {
+					mapKey: map.key,
+					layerKey: key,
+					period: value
+				});
+			});
+		} else {
+			// new map added
+		}
+	});
 	window.Stores.notify('REDUX_STORE_MAPS_CHANGED', value);
 };
 
@@ -97,6 +120,33 @@ const convertWorldWindMapToMap = (map) => {
 	}
 
 	return data;
+};
+
+const compare = (next, prev) => {
+	if (prev) {
+		let ret = {
+			added: {},
+			removed: {},
+			changed: {}
+		};
+		_.each(next, (value, key) => {
+			if (!prev.hasOwnProperty(key)) {
+				ret.added[key] = value;
+			} else if (prev[key] != value) {
+				ret.changed[key] = value;
+			}
+		});
+		_.each(prev, (value, key) => {
+			if (!next.hasOwnProperty(key)) {
+				ret.removed[key] = value;
+			}
+		});
+		return ret;
+	} else {
+		return {
+			added: next
+		};
+	}
 };
 
 

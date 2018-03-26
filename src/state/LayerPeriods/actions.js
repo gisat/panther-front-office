@@ -97,12 +97,12 @@ function actionLoadForAoiRequest(aoiKey, layerKey) {
 	}
 }
 
-function actionLoadForAoiLayerReceive(aoiKey, layerKey, dates) {
+function actionLoadForAoiLayerReceive(aoiKey, layerKey, periods) {
 	return {
 		type: ActionTypes.LAYER_PERIODS_AOI_LAYER_RECEIVE,
 		aoiKey: aoiKey,
 		layerKey: layerKey,
-		dates: dates
+		periods: periods
 	}
 }
 

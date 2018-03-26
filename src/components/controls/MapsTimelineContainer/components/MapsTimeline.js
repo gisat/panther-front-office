@@ -25,6 +25,9 @@ class MapsTimeline extends React.PureComponent {
 		props.initialize();
 
 		this.calculate = this.calculate.bind(this);
+		this.getX = this.getX.bind(this);
+		this.onMouseOver = this.onMouseOver.bind(this);
+		this.onMouseLeave = this.onMouseLeave.bind(this);
 
 		this.calculate(props);
 	}
@@ -49,6 +52,30 @@ class MapsTimeline extends React.PureComponent {
 		};
 	}
 
+	getX(date, props) {
+		props = props || this.props;
+		date = moment(date);
+		let diff = date.unix() - moment(props.period.start).unix();
+		let diffDays = diff / (60 * 60 * 24);
+		return diffDays * this.dimensions.dayWidth;
+	}
+
+	getTime(x, props) {
+		props = props || this.props;
+		let diffDays = x / this.dimensions.dayWidth;
+		let diff = diffDays * (60 * 60 * 24);
+		return moment(props.period.start).add(diff, 's');
+	}
+
+
+	onMouseOver(e) {
+		console.log(e.clientX, this.getTime(e.clientX));
+	}
+	onMouseLeave(e) {
+		console.log('out');
+	}
+
+
 	render() {
 		return (
 			<div className="ptr-timeline-container">
@@ -57,6 +84,11 @@ class MapsTimeline extends React.PureComponent {
 					period={this.props.period}
 					width={this.dimensions.days * this.dimensions.dayWidth}
 					dayWidth={this.dimensions.dayWidth}
+					layers={this.props.layers}
+					getX={this.getX}
+					onMouseOver={this.onMouseOver}
+					onMouseLeave={this.onMouseLeave}
+					onLayerPeriodClick={this.props.onLayerPeriodClick}
 				/>
 			</div>
 		);
