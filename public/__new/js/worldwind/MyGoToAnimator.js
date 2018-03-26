@@ -45,6 +45,7 @@ define(['../error/ArgumentError',
 		}
 
 		this._store = options.store;
+		this._stateStore = options.store.state;
 		this._dispatcher = options.dispatcher;
 
 		GoToAnimator.call(this, wwd);
@@ -157,6 +158,10 @@ define(['../error/ArgumentError',
      * @param bounds {Array} Bounding box represented by a two pairs of coordinates
      */
     MyGoToAnimator.prototype.zoomToArea = function(bounds){
+    	if (bounds.length === 4){
+    		bounds = [[bounds[0], bounds[1]], [bounds[2], bounds[3]]]
+		}
+
         var minLon = bounds[0][0];
         var minLat = bounds[0][1];
         var maxLon = bounds[1][0];
@@ -335,9 +340,9 @@ define(['../error/ArgumentError',
 	 * @param range {number}
 	 */
 	MyGoToAnimator.prototype.checkRange = function(range){
-		var is2D = this.wwd.globe.is2D();
+		var is2D = !this._stateStore.current().isMap3D;
 
-    	if (range < 1000000){
+		if (range < 1000000){
     		this._dispatcher.notify("toolBar#disable3DMapButton");
     		if (is2D){
 				this._dispatcher.notify("toolBar#click3DMapButton");
@@ -356,7 +361,7 @@ define(['../error/ArgumentError',
 	 * @returns {number} adjustec range
 	 */
 	MyGoToAnimator.prototype.adjustRangeAccordingToProjection = function(range, position){
-		var is2D = this.wwd.globe.is2D();
+		var is2D = !this._stateStore.current().isMap3D;
 		if (is2D){
 			var latitude = position[1];
 			return (range/Math.abs(Math.cos(latitude)));

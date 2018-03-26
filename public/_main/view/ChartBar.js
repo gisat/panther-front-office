@@ -20,7 +20,7 @@ Ext.define('PumaMain.view.ChartBar', {
                 layout: 'fit',
                 iconCls: 'cmptype-snapshot',
                 collapseLeft: true,
-                //hidden: true,
+                hidden: true,
                 itemId: 'screenshotpanel',
                 helpId: 'Snapshots',
                 items: [{

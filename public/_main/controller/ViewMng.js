@@ -282,7 +282,7 @@ Ext.define('PumaMain.controller.ViewMng', {
         var selection = cfg.selection;
         if(scope.get('oneLevelOnly')){
         	setTimeout(function(){
-				Stores.notify('map#show3D');
+				Stores.notify('fo#adjustConfiguration');
 
 				$('.areaTreeSelection').hide();
 				$('#top-toolbar-areas').hide();
@@ -317,9 +317,25 @@ Ext.define('PumaMain.controller.ViewMng', {
 		if (Config.cfg.widgets){
 			options.widgets = Config.cfg.widgets;
 		}
+		// maps metadata
+		if (Config.cfg.mapsMetadata){
+			options.mapsMetadata = Config.cfg.mapsMetadata;
+		}
+		// active aoi
+		if (Config.cfg.activeAoi){
+			options.activeAoi = Config.cfg.activeAoi;
+		}
+		// active aoi
+		if (Config.cfg.selectedMapId){
+			options.selectedMapId = Config.cfg.selectedMapId;
+		}
+
+		if (Config.cfg.dataset){
+			options.scope = Config.cfg.dataset;
+		}
 
 		if (Config.cfg.is3D){
-			Stores.notify('map#show3DFromDataview', options);
+			Stores.notify('fo#adjustConfigurationFromDataview', options);
 
         	// show right panel
         	if (Config.cfg.sidebarReportsOpen){
@@ -419,7 +435,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 			// world wind map settings
 			if (options.state && options.state.worldWindNavigator){
 				cfg.worldWindState = {
-					is2D: !$('#top-toolbar-3dmap').hasClass("open"),
+					is2D: !options.state.isMap3D,
 					range: options.state.worldWindNavigator.range,
 					location: options.state.worldWindNavigator.lookAtLocation
 				};
@@ -427,6 +443,18 @@ Ext.define('PumaMain.controller.ViewMng', {
 			// widgets state
 			if (options.state && options.state.widgets){
 				cfg.widgets = options.state.widgets;
+			}
+			// maps metadata
+			if (options.state && options.state.mapsMetadata){
+				cfg.mapsMetadata = options.state.mapsMetadata;
+			}
+			// active aoi
+			if (options.state && options.state.activeAoi){
+				cfg.activeAoi = options.state.activeAoi;
+			}
+			// selected map
+			if (options.state && options.state.selectedMapId){
+				cfg.selectedMapId = options.state.selectedMapId;
 			}
 
 			// sidebar reports settings

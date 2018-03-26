@@ -237,8 +237,9 @@ define(['../../../actions/Actions',
 	 * @param isAdmin {boolean} true, if logged user is admin
 	 */
 	CustomViewsWidget.prototype.toggleOverlaySwitch = function(isAdmin){
+		var isIntro = $('body').hasClass("intro");
 		if (this._overlaySwitchSelector){
-			if (isAdmin){
+			if (isAdmin && isIntro){
 				this._overlaySwitchSelector.css("display", "inline-block");
 			} else {
 				this._overlaySwitchSelector.css("display", "none");
@@ -296,6 +297,7 @@ define(['../../../actions/Actions',
 			self.addDataviewCard(data, self._contentSelector, isAdmin);
 		});
 		this.handleLoading("hide");
+		this.toggleOverlaySwitch();
 	};
 
 	/**

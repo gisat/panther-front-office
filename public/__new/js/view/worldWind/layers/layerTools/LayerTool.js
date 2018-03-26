@@ -38,10 +38,9 @@ define(['../../../../error/ArgumentError',
 
 		this._layerMetadata = options.layerMetadata;
 
-		// todo do it better, now it is just for default map
-		var map = _.filter(this._maps, function(map){ return map.id === 'default-map'; })[0];
-
 		if (this._layerMetadata){
+			// todo do it better, now it is just for default map
+			var map = this._maps[0];
 			this._layer = map.layers.getLayerById(this._layerMetadata.id);
 			this._id = "layer-tool-" + this._layerMetadata.id;
 		}

@@ -1,13 +1,17 @@
 define([
+	'../../actions/Actions',
 	'../../error/ArgumentError',
 	'../../util/Floater',
 	'../../util/Logger',
 	'../../util/Uuid',
+	'jquery',
 	'underscore'], function (
+		Actions,
 		ArgumentError,
 		Floater,
 		Logger,
 		Uuid,
+		$,
 		_
 ) {
 	/**
@@ -15,31 +19,37 @@ define([
 	 * and everything that needs something from it, is notified.
 	 * @constructor
 	 * @param options {Object}
+	 * @param options.dispatcher {Object} Dispatcher, which is used to distribute actions across the application.
 	 * @param options.store {Object}
-	 * @param options.store.maps {MapStore} Store containing current maps.
 	 */
 	var StateStore = function (options) {
         if(!options.store){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'StateStore', 'constructor', 'Stores must be provided'));
         }
-        if(!options.store.maps){
-            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'StateStore', 'constructor', 'Store map must be provided'));
-        }
+		if (!options.dispatcher){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MapStore", "constructor", "Dispatcher must be provided"));
+		}
 
-
+		this._dispatcher = options.dispatcher;
         this._changes = {};
-		this._loadingOperations = [];
 
+		this._loadingOperations = [];
 		this._store = options.store;
+		this._aoiLayer = null;
+		this._selectedMapId = null;
+
+		this.isMap3D = true;
+		this.isMapIndependentOfPeriod = false;
 
 		window.Stores.addListener(this.onEvent.bind(this), "initialLoading");
 		window.Stores.hasStateStore = true;
+		window.Stores.state = this;
 	};
 
 	/**
 	 * It returns complete information about the current state. At some point in time, it will be simply stored probably
 	 * in URL and therefore will be accessible to outside.
-	 * todo remove dependency on ThemeYearConfParams global object
+	 * TODO remove dependency on ThemeYearConfParams global object
 	 */
 	StateStore.prototype.current = function () {
 		return {
@@ -60,18 +70,18 @@ define([
 			objects: {
 				places: this.placesObjects()
 			},
-			changes: this._changes
-		}
-	};
+			changes: this._changes,
 
-	/**
-	 * Extended current state for sharing
-	 */
-	StateStore.prototype.currentExtended = function(){
-		return _.extend(this.current(), {
+			aoiLayer: this._aoiLayer,
+			activeAoi: this._activeAoi,
+			previousAoi: this._previousAoi,
+			isMap3D: this.isMap3D,
+			isMapIndependentOfPeriod: this.isMapIndependentOfPeriod,
+			mapsMetadata: this._mapsMetadata,
+			selectedMapId: this._selectedMapId,
 			widgets: this.widgets(),
-			worldWindNavigator: this._store.maps.getNavigatorState()
-		});
+			worldWindNavigator: this.getNavigatorState()
+		}
 	};
 
 	/**
@@ -251,13 +261,108 @@ define([
 		}
 	};
 
-	StateStore.prototype.onEvent = function(type){
+	/**
+	 * Return the current settings of World wind navigator
+	 * @returns {Object}
+	 */
+	StateStore.prototype.getNavigatorState = function(){
+		return this._navigatorState;
+	};
+
+	/**
+	 * @param isDependent {boolean} true, if maps are dependent on periods
+	 */
+	StateStore.prototype.handleMapDependencyOnPeriod = function(isDependent){
+		this.isMapIndependentOfPeriod = !isDependent;
+	};
+
+	/**
+	 * Switch map projection
+	 */
+	StateStore.prototype.handleMapProjection = function(){
+		if (this.isMap3D){
+			this.switchMapTo2D();
+		} else {
+			this.switchMapTo3D();
+		}
+	};
+
+	StateStore.prototype.setAoiLayer = function(options){
+		this._aoiLayer = options;
+	};
+
+	StateStore.prototype.setActiveAoi = function(aoiId){
+		this._previousAoi = this._activeAoi;
+		this._activeAoi = aoiId;
+	};
+
+	StateStore.prototype.updateAoiLayer = function(layer){
+		this._aoiLayer.layer = layer;
+	};
+
+	/**
+	 * Switch map to 2D
+	 */
+	StateStore.prototype.switchMapTo2D = function(){
+		this.isMap3D = false;
+		$("#top-toolbar-3dmap").removeClass("open");
+		this._dispatcher.notify('map#switchTo2D');
+	};
+
+	/**
+	 * Switch map to 3D
+	 */
+	StateStore.prototype.switchMapTo3D = function(){
+		this.isMap3D = true;
+		$("#top-toolbar-3dmap").addClass("open");
+		this._dispatcher.notify('map#switchTo3D');
+	};
+
+	/**
+	 * It is used for maps metadata storing (currently for view sharing purposes).
+	 * @param maps {Array} list of maps metadata received from redux store
+	 */
+	StateStore.prototype.updateMapsMetadata = function(maps){
+		this._mapsMetadata = maps;
+	};
+
+	/**
+	 * It updates the settings of World wind navigator
+	 * @param options {Object}
+	 */
+	StateStore.prototype.updateNavigator = function(options){
+		this._navigatorState = options;
+		this._dispatcher.notify("navigator#update");
+	};
+
+	StateStore.prototype.onEvent = function(type, options){
 		if (type === "initialLoadingStarted"){
 			this.addLoadingOperation("initialLoading");
 		} else if (type === "initialLoadingFinished"){
 			this.removeLoadingOperation("initialLoading");
 		} else if (type === "appRenderingStarted"){
 			this.addLoadingOperation("appRendering");
+		} else if (type === Actions.mapControl) {
+			this.updateNavigator(options);
+		} else if (type === Actions.mapSwitchProjection){
+			this.handleMapProjection();
+		} else if (type === Actions.foMapIsIndependentOfPeriod){
+			this.handleMapDependencyOnPeriod(false);
+		} else if (type === Actions.foMapIsDependentOnPeriod){
+			this.handleMapDependencyOnPeriod(true);
+		} else if (type === Actions.scopeAoiLayer){
+			this.setAoiLayer(options);
+		} else if (type === Actions.scopeAoiLayerUpdate){
+			this.updateAoiLayer(options);
+		} else if (type === Actions.mapSelected){
+			this._selectedMapId = options.id;
+		}
+
+		// notification from redux
+		else if (type === 'REDUX_STORE_MAPS_CHANGED'){
+			this.updateMapsMetadata(options);
+		} else if (type === 'AOI_GEOMETRY_SET'){
+			this.setActiveAoi(options.id);
 		}
 	};
 

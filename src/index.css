@@ -1,5 +1,118 @@
+/* Table of contents
+
+    BASIC ELEMENTS............declarations for basic HTML elements
+    ATOMS
+      UI Select
+    COMPONENTS
+      Overlay
+      View Selector
+*/
+
+
+/* ================================================================
+   === BASIC ELEMENTS =============================================
+   ================================================================ */
+
 body {
+  font-family: sans-serif;
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+}
+
+/* ================================================================
+   === ATOMS ======================================================
+   ================================================================ */
+
+/* == UI Select =================================================== */
+
+.ptr-ui-select {
+  align-items: center;
+  display: flex;
+}
+.ptr-ui-select.label-top {
+  flex-direction: column;
+}
+.ptr-ui-select-label {
+  color: rgba(168,172,180,1);
+  font-size: .8rem;
+  font-weight: 600;
+  padding: 0 1rem 0 0;
+}
+.ptr-ui-select .Select {
+  width: 10rem;
+}
+
+/* ================================================================
+   === COMPONENTS =================================================
+   ================================================================ */
+
+.ptr-overlay {
+  position: absolute;
+  display: none;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  top: 45px;
+  background: rgba(33,38,53,.9);
+  z-index: 10000;
+}
+.ptr-overlay-content {
+  position: absolute;
+  width: 500px;
+  height: 200px;
+}
+.ptr-overlay-content h3 {
+  color: rgb(148,152,160);
+  font-size: 1.5rem;
+  margin-bottom: .3rem;
+}
+.ptr-overlay-content p {
+  color: rgb(148,152,160);
+  font-size: 1rem;
+}
+.ptr-overlay.open {
+  display: block;
+}
+
+/* == View Selector =============================================== */
+
+.ptr-view-selection-container {
+  align-items: center;
+  display: flex;
+  height: 100%;
+}
+.ptr-view-selection-selector.ptr-ui-select .Select {
+
+}
+.ptr-view-selection-selector.ptr-ui-select .Select-control {
+  background-color: rgba(255,255,255,.15);
+  border: 0;
+  border-radius: 2px;
+  height: 1.5rem;
+  transition: background-color .3s ease-in-out;
+}
+.ptr-view-selection-selector.ptr-ui-select .Select-control .Select-value {
+  line-height: 1.8rem;
+}
+.ptr-view-selection-selector.ptr-ui-select .Select-input {
+  display: block;
+  height: 1.8rem;
+  line-height: 1.8rem;
+}
+.ptr-view-selection-selector.ptr-ui-select .Select-input > input {
+  padding: 0;
+}
+.ptr-view-selection-selector.ptr-ui-select .Select-control:hover,
+.ptr-view-selection-selector.ptr-ui-select .Select.is-focused > .Select-control {
+  background-color: rgba(255,255,255,.25);
+}
+.ptr-view-selection-selector.ptr-ui-select .Select-placeholder {
+  line-height: 1.8rem;
+  text-transform: none;
+}
+.ptr-view-selection-selector.ptr-ui-select .Select.has-value.Select--single > .Select-control .Select-value .Select-value-label,
+.ptr-view-selection-selector.ptr-ui-select .Select.has-value.is-focused.Select--single > .Select-control .Select-value .Select-value-label,
+.ptr-view-selection-selector.ptr-ui-select .Select.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value .Select-value-label,
+.ptr-view-selection-selector.ptr-ui-select .Select-input > input {
+  color: rgb(204,207,211);
 }

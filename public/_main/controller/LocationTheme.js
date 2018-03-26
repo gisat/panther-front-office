@@ -1052,7 +1052,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
             OneLevelAreas.hasOneLevel = (counter == 1 && scope.get('oneLevelOnly'));
 
-			Stores.notify('map#show3D');
+			Stores.notify('fo#adjustConfiguration');
             if (OneLevelAreas.hasOneLevel){
 
                 $('.areaTreeSelection').hide();
@@ -1078,9 +1078,13 @@ Ext.define('PumaMain.controller.LocationTheme', {
 					if ((Config.cfg && !Config.cfg.sidebarReportsOpen) || !Config.cfg){
 						this.getController('DomManipulation')._onReportsSidebarHide();
                     }
-				} else {
-					$('#sidebar-reports').show();
 				}
+
+				if (!scope.get('hideSidebarReports')) {
+					$('#sidebar-reports').show();
+				} else {
+					$('#sidebar-reports').hide();
+                }
 
                 if(tools.indexOf('2dmap') !== -1) {
                     $('#top-toolbar-3dmap').hide();

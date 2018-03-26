@@ -84,6 +84,10 @@
 	.toggle-useTopToolbar.toggle-useHeader.toggle-useWBHeader body.application #maps-container {
 		top: 185px;
 	}
+
+	.toggle-useTopToolbar.toggle-useHeader.toggle-hideSelectorToolbar body.application #maps-container {
+		top: 75px;
+	}
 }
 
 @media screen and (max-width: 1140px) {

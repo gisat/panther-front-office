@@ -15,8 +15,32 @@ define([
 ) {
 	"use strict";
 
+	/**
+	 * @param options {Object}
+	 * @param options.dispatcher {Object} Object for handling events in the application.
+	 * @param options.store {Object}
+	 * @param options.store.scope {Scopes}
+	 * @param options.store.state {StateStore}
+	 * @constructor
+	 */
 	var TopToolBar = function(options) {
+		if (!options.dispatcher){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "TopToolBar", "constructor", "missingDispatcher"));
+		}
+		if(!options.store){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'TopToolBar', 'constructor', 'Stores must be provided'));
+		}
+		if(!options.store.scopes){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'TopToolBar', 'constructor', 'Scope store must be provided'));
+		}
+		if (!options.store.state){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "TopToolBar", "constructor", "missingStateStore"));
+		}
+
 		this._dispatcher = options.dispatcher;
+		this._scopeStore = options.store.scopes;
+		this._stateStore = options.store.state;
+
 		this._target = $('#top-toolbar-widgets');
 		this._target.on('click.topToolBar', '.item', this.handleClick.bind(this));
 		this.build();
@@ -26,6 +50,7 @@ define([
 		$('#top-toolbar-context-help').on('click.topToolBar', this.handleContextHelpClick);
 		$('#top-toolbar-snapshot').on('click.topToolBar', this.handleSnapshotClick.bind(this, document.getElementById('top-toolbar-snapshot')));
 		$('#top-toolbar-share-view').on('click.topToolBar', this.handleShareViewClick);
+		$('#top-toolbar-add-map').on('click.topToolBar', this.handleAddMapClick.bind(this));
 		this._map3dSwitchSelector.on("click.topToolBar", this.handle3dMapClick.bind(this));
 
 		Observer.addListener("Tools.hideClick.layerpanel",this.handleHideClick.bind(this, 'window-layerpanel'));
@@ -46,11 +71,15 @@ define([
 			layers: true,
 			areas: true,
 			selections: true,
+			areasFilterNew: true,
 			mapTools: true,
 			addLayer: true,
 			customViews: true,
 			customLayers: true,
-			functionalFilrer: false
+			functionalFilrer: false,
+			share: true,
+			snapshot: true,
+			contextHelp: true
 		};
 
 
@@ -72,7 +101,23 @@ define([
 			tools = this.handleSnow();
 		}
 
-		this.renderFeatures(tools);
+		var self = this;
+		this.handleScopeSettings(tools).then(function(tools){
+			self.renderFeatures(tools);
+			self.hideTools(tools);
+		});
+	};
+
+	TopToolBar.prototype.hideTools = function (tools) {
+		if (!tools.share){
+			$('#top-toolbar-share-view').css("display", "none")
+		}
+		if (!tools.snapshot){
+			$('#top-toolbar-snapshot').css("display", "none")
+		}
+		if (!tools.contextHelp){
+			$('#top-toolbar-context-help').css("display", "none")
+		}
 	};
 
 	TopToolBar.prototype.renderFeatures = function(tools){
@@ -170,6 +215,61 @@ define([
 	};
 
 	/**
+	 * Hide top toolbar tools according to additional scope settings
+	 * @param tools {Object} default tools visibility
+	 * @returns {Object} adjusted tools visibility
+	 */
+	TopToolBar.prototype.handleScopeSettings = function (tools) {
+		var activeScope = this._stateStore.current().scope;
+		if (activeScope){
+			return this._scopeStore.byId(activeScope).then(function(scopes){
+				if (scopes && scopes.length && scopes[0].removedTools){
+					var removedTools = scopes[0].removedTools;
+					removedTools.forEach(function(tool){
+						if (tool === 'layers'){
+							tools.layers = false;
+						}
+						if (tool === 'areas'){
+							tools.areas = false;
+						}
+						if (tool === 'selections'){
+							tools.selections = false;
+						}
+						if (tool === 'areasFilter'){
+							tools.areasFilterNew = false;
+						}
+						if (tool === 'mapTools'){
+							tools.mapTools = false;
+						}
+						if (tool === 'customViews'){
+							tools.customViews = false;
+						}
+						if (tool === 'customLayers'){
+							tools.customLayers = false;
+						}
+						if (tool === 'share'){
+							tools.share = false;
+						}
+						if (tool === 'snapshot'){
+							tools.snapshot = false;
+						}
+						if (tool === 'contextHelp'){
+							tools.contextHelp = false;
+						}
+					});
+					return tools;
+				} else {
+					return tools;
+				}
+			}).catch(function(err){
+				throw new Error(err);
+			});
+		} else {
+			return Promise.resolve(tools);
+		}
+	};
+
+	/**
 	 * SNOW: add configuration widget only
 	 */
 	TopToolBar.prototype.handleSnow = function() {
@@ -261,7 +361,6 @@ define([
 
 	TopToolBar.prototype.handle3dMapClick = function(e){
 		this._dispatcher.notify("map#switchProjection");
-		this._map3dSwitchSelector.toggleClass('open');
 	};
 
 	/**
@@ -273,6 +372,38 @@ define([
 		} else {
 			this._map3dSwitchSelector.addClass("disabled");
 		}
+	};
+
+	/**
+	 * Show hide button for new map adding
+	 * @param value {string} CSS display value
+	 */
+	TopToolBar.prototype.handleAddMapButton = function(value){
+		$('#top-toolbar-add-map').css('display', value);
+	};
+
+	/**
+	 * @param active {boolean} false, if button for map adding should be disabled
+	 */
+	TopToolBar.prototype.handleMapButtonActivity = function(active){
+		var state = this._stateStore.current();
+		var button = $('#top-toolbar-add-map');
+		if (state.isMapIndependentOfPeriod){
+			if (active){
+				button.removeClass("disabled");
+			} else {
+				button.addClass("disabled");
+			}
+		}
+	};
+
+
+	/**
+	 * Handle click on Add map button
+	 */
+	TopToolBar.prototype.handleAddMapClick = function(){
+		this._dispatcher.notify('mapsContainer#addMap');
+		this._dispatcher.notify('worldWindWidget#rebuild');
 	};
 
 	/**
@@ -305,6 +436,14 @@ define([
 			this.handle3dMapButtonState(false);
 		} else if (type === Actions.toolBarClick3d){
 			this.handle3dMapClick();
+		} else if (type === Actions.foMapIsIndependentOfPeriod){
+			this.handleAddMapButton('inline-block');
+		} else if (type === Actions.foMapIsDependentOnPeriod){
+			this.handleAddMapButton('none');
+		} else if (type === Actions.mapsContainerDisableAdding){
+			this.handleMapButtonActivity(false);
+		} else if (type === Actions.mapsContainerEnableAdding){
+			this.handleMapButtonActivity(true);
 		}
 	};
 
