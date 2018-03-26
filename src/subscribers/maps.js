@@ -137,7 +137,7 @@ const compare = (next, prev) => {
 			}
 		});
 		_.each(prev, (value, key) => {
-			if (!next.hasOwnProperty(key)) {
+			if (!next || !next.hasOwnProperty(key)) {
 				ret.removed[key] = value;
 			}
 		});
