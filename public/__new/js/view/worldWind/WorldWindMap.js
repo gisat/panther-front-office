@@ -380,9 +380,13 @@ define(['../../actions/Actions',
 	WorldWindMap.prototype.changeGeometryInAoiLayer = function(geometry){
 		if (this._aoiLayer){
 			this._aoiLayer.removeAllRenderables();
-			let renderables = new MultiPolygon({geometry: geometry, switchedCoordinates: true}).render();
-			this._aoiLayer.addRenderables(renderables);
-			this._wwd.redraw();
+			var renderables = new MultiPolygon({geometry: geometry, switchedCoordinates: true}).render();
+
+			var self = this;
+			setTimeout(function(){
+				self._aoiLayer.addRenderables(renderables);
+				self._wwd.redraw();
+			},100);
 		}
 	};
 

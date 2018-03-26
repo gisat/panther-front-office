@@ -96,17 +96,17 @@ body.mode-3d .maps-container {
 	position: absolute;
 	top: 0; right: 0; bottom: -1px; left: 0;
 	pointer-events: none;
-	border: 2px solid rgba(153,54,75,.9);
+	border: 2px solid rgba(255,50,90,1);
 }
 .maps-container .map-fields .world-wind-map-box.selected .map-name-label,
 .maps-container .map-fields .world-wind-map-box.selected .layer-info-label,
 .maps-container .map-fields .world-wind-map-box.selected .close-map-button {
-	background:  rgba(153,54,75,1);
+	background:  rgba(255,50,90,1);
 	color: rgb(209,211,215);
 	transition: none;
 }
 .maps-container .map-fields .world-wind-map-box.selected .close-map-button:hover {
-	background:  rgba(183,84,105,1);
+	background:  rgba(255,50,90,1);
 }
 .maps-container .map-fields .world-wind-map-box.selected .close-map-icon {
 	color: rgb(209,211,215);
