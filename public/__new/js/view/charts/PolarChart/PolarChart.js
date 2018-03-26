@@ -44,8 +44,8 @@ define([
 			// maxValue: 0.6,
 			levels: 10,
 			levelCaptions: false,
-			ExtraWidthX: 200,
-			ExtraWidthY: 50
+			ExtraWidthX: 210,
+			ExtraWidthY: 32
 		};
 
 
