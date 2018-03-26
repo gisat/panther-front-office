@@ -37,6 +37,10 @@ define([
 		this._store = options.store;
 		this._aoiLayer = null;
 		this._selectedMapId = null;
+		this._user = {
+			isLoggedIn: false,
+			isAdmin: false
+		};
 
 		this.isMap3D = true;
 		this.isMapIndependentOfPeriod = false;
@@ -79,6 +83,7 @@ define([
 			isMapIndependentOfPeriod: this.isMapIndependentOfPeriod,
 			mapsMetadata: this._mapsMetadata,
 			selectedMapId: this._selectedMapId,
+			user: this._user,
 			widgets: this.widgets(),
 			worldWindNavigator: this.getNavigatorState()
 		}
@@ -326,6 +331,13 @@ define([
 		this._mapsMetadata = maps;
 	};
 
+	StateStore.prototype.updateUser = function(options){
+		this._user = {
+			isLoggedIn: options.isLoggedIn,
+			isAdmin: options.isAdmin
+		}
+	};
+
 	/**
 	 * It updates the settings of World wind navigator
 	 * @param options {Object}
@@ -356,6 +368,8 @@ define([
 			this.updateAoiLayer(options);
 		} else if (type === Actions.mapSelected){
 			this._selectedMapId = options.id;
+		} else if (type === Actions.userChanged){
+			this.updateUser(options);
 		}
 
 		// notification from redux
