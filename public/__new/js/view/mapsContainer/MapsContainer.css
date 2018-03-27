@@ -6,6 +6,15 @@
 	width: 100%;
 	top: 0;
 }
+.maps-container.extended {
+	margin-top: -30px;
+	border-top: 1px solid #888;
+	bottom: 0;
+	height: auto !important;
+}
+.maps-container.extended .map-fields .world-wind-map-box .close-map-button {
+	display: none;
+}
 body.mode-3d .maps-container {
 	display: flex;
 	flex-direction: column;

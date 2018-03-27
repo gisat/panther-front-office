@@ -13,7 +13,8 @@ class ViewSelector extends React.PureComponent {
 			}),
 			viewSelection: PropTypes.string
 		}),
-		aois: PropTypes.array
+		aois: PropTypes.array,
+		userIsAdmin: PropTypes.bool
 	};
 
 	static defaultProps = {
@@ -67,6 +68,7 @@ class ViewSelector extends React.PureComponent {
 	renderAoiSelector(){
 		let options = [];
 		let selected = null;
+		let disabled = false;
 
 		if (this.props.aois && this.props.scope && this.props.scope.aoiLayer){
 			let columnId = this.props.scope.aoiLayer.idColumn;
@@ -83,6 +85,10 @@ class ViewSelector extends React.PureComponent {
 			}
 		}
 
+		if (!this.props.userIsAdmin && this.props.scope.restrictEditingToAdmins){
+			disabled = true;
+		}
+
 		return (
 			<UISelect
 				key='aoi-selector'
@@ -93,6 +99,7 @@ class ViewSelector extends React.PureComponent {
 				options={options}
 				placeholder='Insert AOI code'
 				value={selected}
+				disabled={disabled}
 			/>
 		)
 	}

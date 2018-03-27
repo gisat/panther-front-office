@@ -7,7 +7,8 @@ const mapStateToProps = state => {
 	return {
 		activeAoi: Select.aoi.getActiveAoiData(state),
 		scope: Select.scopes.getActiveScopeData(state),
-		aois: Select.aoi.getAois(state)
+		aois: Select.aoi.getAois(state),
+		userIsAdmin: Select.user.isAdmin(state)
 	}
 };
 

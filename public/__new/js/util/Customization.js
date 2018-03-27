@@ -13,6 +13,7 @@ define([
 	 * @param options.store.locations {Locations} Store containing locations
 	 * @param options.store.themes {Themes} Store containing Themes
 	 * @param options.store.scopes {Scopes} Store containing Scopes
+	 * @param options.store.state {StateStore}
      * @constructor
      */
 	var Customization = function(options) {
@@ -29,11 +30,15 @@ define([
         if(!options.store.scopes){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'Customization', 'constructor', 'Stores scopes be provided'));
         }
+		if(!options.store.state){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'Customization', 'constructor', 'State store should be provided'));
+		}
 
         this._dispatcher = options.dispatcher;
 		this._useWorldWindOnly = options.useWorldWindOnly;
 		this._skipSelection = options.skipSelection;
 		this._store = options.store;
+		this._stateStore = options.store.state;
 
 		if (this._skipSelection){
 			this._dispatcher.addListener(this.skipSelection.bind(this));
@@ -41,7 +46,7 @@ define([
 			this._dispatcher.addListener(this.useWorldWind.bind(this));
 		}
 
-		this._dispatcher.addListener(this.onScopeChange.bind(this));
+		this._dispatcher.addListener(this.onEvent.bind(this));
 	};
 
 	/**
@@ -140,30 +145,102 @@ define([
 	};
 
 	/**
+	 * @param showTopTools {boolean} true, if tool bar should be visible
+	 */
+	Customization.prototype.handleTopTools = function(showTopTools){
+		var toolBar = $("#top-toolbar");
+		var mapsContainer = $("#maps-container");
+
+		if (showTopTools && toolBar.hasClass("hidden")){
+			toolBar.removeClass("hidden");
+			mapsContainer.removeClass("extended")
+		} else {
+			toolBar.addClass("hidden");
+			mapsContainer.addClass("extended");
+		}
+	};
+
+	/**
+	 * Handle user restrictions
+	 * @param options {Object}
+	 */
+	Customization.prototype.handleUser = function(options){
+		var user = this._stateStore.current().user;
+		var scope = this._stateStore.current().scope;
+		var mapsContainerBottomBar = $('#maps-container-bar-bottom');
+		var self = this;
+
+		this._store.scopes.byId(scope).then(function(scopes){
+			var scope = scopes[0];
+			var signUpBtn = $(".signup");
+			var separator = $(".user .sep");
+
+			// handle logging buttons
+			// todo use the first one
+			if (scope && scope.restrictEditingToAdmins && !user.isAdmin && !signUpBtn.hasClass('logout')){
+			// if (scope && !user.isAdmin && !signUpBtn.hasClass('logout')){
+				signUpBtn.css("display", "none");
+				separator.css("display", "none");
+			} else {
+				signUpBtn.css("display", "inline-block");
+				separator.css("display", "inline-block");
+			}
+
+			// handle timeline
+			if (scope && scope.restrictEditingToAdmins && !user.isAdmin){
+				mapsContainerBottomBar.removeClass("open");
+				self.handleTopTools(false);
+			} else {
+				mapsContainerBottomBar.addClass("open");
+				self.handleTopTools(true);
+			}
+
+		}).catch(function(err){
+			throw new Error(err);
+		});
+	};
+
+	/**
 	 * Adjust application on scope change
+	 * @param options {Object}
+	 */
+	Customization.prototype.onScopeChange = function(options){
+		var mapsContainerBottomBar = $('#maps-container-bar-bottom');
+
+		this._store.scopes.byId(options.activeScopeKey).then(function(scopes){
+			var scope = scopes[0];
+
+			// handle view selection
+			if (scope && scope.viewSelection){
+				var header = $("#header");
+				header.find("h1").css("display", "none");
+				header.find(".menu").css("display", "none");
+				header.find("#header-view-selection").css("display", "inline-block");
+			}
+
+			// handle timeline
+			if (scope && scope.showTimeline){
+				mapsContainerBottomBar.addClass("open");
+			} else {
+				mapsContainerBottomBar.removeClass("open");
+			}
+
+		}).catch(function(err){
+			throw new Error(err);
+		});
+	};
+
+	/**
+	 *
 	 * @param type {string}
 	 * @param options {Object}
 	 */
-	Customization.prototype.onScopeChange = function(type, options){
-		var mapsContainerBottomBar = $('#maps-container-bar-bottom');
-
-		if (type === 'scope#activeScopeChanged'){
-			this._store.scopes.byId(options.activeScopeKey).then(function(scopes){
-				var scope = scopes[0];
-				if (scope && scope.viewSelection){
-					var header = $("#header");
-					header.find("h1").css("display", "none");
-					header.find(".menu").css("display", "none");
-					header.find("#header-view-selection").css("display", "inline-block");
-				}
-				if (scope && scope.showTimeline){
-					mapsContainerBottomBar.addClass("open");
-				} else {
-					mapsContainerBottomBar.removeClass("open");
-				}
-			}).catch(function(err){
-				throw new Error(err);
-			});
+	Customization.prototype.onEvent = function(type, options){
+		if (type === Actions.scopeActiveChanged){
+			this.onScopeChange(options);
+		}
+		if (type === Actions.scopeActiveChanged || type === Actions.customizationUserChanged){
+			this.handleUser(options);
 		}
 	};
 

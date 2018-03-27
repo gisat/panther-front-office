@@ -212,7 +212,8 @@ define(['js/actions/Actions',
             store: {
                 locations: store.locations,
                 themes: store.themes,
-                scopes: store.scopes
+                scopes: store.scopes,
+				state: stateStore
             }
         });
 

@@ -331,6 +331,10 @@ define([
 		this._mapsMetadata = maps;
 	};
 
+	/**
+	 * Update data about user
+	 * @param options {Object}
+	 */
 	StateStore.prototype.updateUser = function(options){
 		this._user = {
 			isLoggedIn: options.isLoggedIn,
@@ -370,6 +374,7 @@ define([
 			this._selectedMapId = options.id;
 		} else if (type === Actions.userChanged){
 			this.updateUser(options);
+			this._dispatcher.notify('customization#userChanged');
 		}
 
 		// notification from redux
