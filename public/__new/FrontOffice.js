@@ -7,6 +7,7 @@ define([
 	'js/util/Promise',
 
 	'js/view/widgets/EvaluationWidget/EvaluationWidget',
+	'js/view/charts/PolarChart/PolarChart',
 
     'jquery',
 	'underscore'
@@ -18,6 +19,7 @@ define([
 			Promise,
 
 			EvaluationWidget,
+			PolarChart,
 
 			$,
 			_){
@@ -48,6 +50,7 @@ define([
 		this._tools = options.tools;
 		this._widgets = options.widgets;
 		this._store = options.store;
+		this._charts = [];
 		this._scopesStore = options.store.scopes;
 		this._stateStore = options.store.state;
 		this._dispatcher = options.dispatcher;
@@ -128,6 +131,30 @@ define([
 			this._previousDataset = this._dataset;
 		}
 		ThemeYearConfParams.datasetChanged = false;
+
+		Charts.forEach(function(exchangeChartData) {
+			var isNew = true;
+
+			console.log("this._charts:", self._charts);
+
+			self._charts.forEach(function(chart) {
+				if (exchangeChartData.chartId === chart.chartId) {
+					isNew = false;
+				}
+			});
+
+			if (isNew) {
+				// TODO here decide which chart
+				switch (exchangeChartData.chartType) {
+					case "polarchart":
+						exchangeChartData.chart = new PolarChart(exchangeChartData);
+						exchangeChartData.chartId = exchangeChartData.chart.id;
+						break;
+					default:
+						console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "FrontOffice", "rebuild", "Unknown chart type (" + exchangeChartData.chartType + ")"));
+				}
+			}
+		});
 	};
 
 	/**

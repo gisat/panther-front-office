@@ -208,6 +208,7 @@ var langEn = {
 
     name: "Name",
     nextPage: "Next Page",
+    no: "No",
     noAreas: "No areas",
     noAreaSelected: "No area selected",
     noAttributesInfo: "No attributes or no data for selected attributes.",
@@ -246,6 +247,7 @@ var langEn = {
     pie: "Pie",
 	pinWidget: "Pin widget",
     place: "Place",
+    polar: "Polar",
     polygon: "polygon",
     pleaseSelectAreas: "Please select areas...",
     previousPage: "Previous Page",
@@ -372,6 +374,7 @@ var langEn = {
     wmsLayerIsMissing: "WMS layer is missing",
 
     year: "Year: ",
+    yes: "Yes",
     yesNo: "(Yes/No)",
 
 	zoom: "Zoom",
@@ -589,6 +592,7 @@ var langCz = {
 
     name: "Jméno",
 	nextPage: "Další stránka",
+    no: "Ne",
 	noAreas: "Žádná jednotka",
     noAreaSelected: "Žádná jednotka není vybraná",
 	noAttributesInfo: "K této jednotce se neváží žádné atributy.",
@@ -627,6 +631,7 @@ var langCz = {
     pie: "Kruhový diagram",
 	pinWidget: "Připnout widget",
     place: "Místo",
+	polar: "Polární graf",
     polygon: "polygon",
     pleaseSelectAreas: "Prosím vyberte území...",
 	previousPage: "Předchozí stránka",
@@ -753,6 +758,7 @@ var langCz = {
     wmsLayerIsMissing: "WMS vrstva chybí",
 
     year: "Rok: ",
+    yes: "Ano",
     yesNo: "(Ano/Ne)",
 
     zoom: "Přiblížení",
