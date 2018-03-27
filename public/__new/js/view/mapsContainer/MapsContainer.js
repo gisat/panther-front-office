@@ -247,6 +247,14 @@ define([
 						});
 					}
 				}
+				if (map.wmsLayers){
+					map.wmsLayers.forEach(function(layer){
+						self._dispatcher.notify("wmsLayer#add", {
+							mapKey: map.key,
+							layerKey: layer
+						});
+					});
+				}
 			});
 		}
 		if (selectedMap){
