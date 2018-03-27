@@ -50,6 +50,10 @@ const setEventListeners = store => {
 				break;
 			case 'layerPeriods#add':
 				store.dispatch(Action.maps.selectLayerPeriod(options.layerKey, options.period, options.mapKey));
+				break;
+			case 'wmsLayer#add':
+				store.dispatch(Action.maps.selectWmsLayer(options.layerKey, options.mapKey));
+				break;
 		}
 	});
 
@@ -67,6 +71,7 @@ const mapsWatcher = (value, previousValue) => {
 		let previousMap = _.find(previousValue, {key: map.key});
 		if (previousMap) {
 			let diff = compare(map.layerPeriods, previousMap.layerPeriods);
+			let diffWmsLayers = compare(map.wmsLayers, previousMap.wmsLayers);
 			console.log('@@ diff', diff);
 			_.each(diff.added, (value, key) => {
 				window.Stores.notify('ADD_WMS_LAYER', {
@@ -80,6 +85,14 @@ const mapsWatcher = (value, previousValue) => {
 					mapKey: map.key,
 					layerKey: key,
 					period: value
+				});
+			});
+
+			console.log('@@ diffWmsLayers', diffWmsLayers);
+			_.each(diffWmsLayers.added, (value) => {
+				window.Stores.notify('ADD_WMS_LAYER', {
+					layerKey: value,
+					mapKey: map.key
 				});
 			});
 		} else {
