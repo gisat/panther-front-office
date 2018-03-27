@@ -14,7 +14,11 @@ class MapsTimelineContainer extends React.PureComponent {
 
 
 	onLayerPeriodClick(layerKey, periodString) {
-		this.props.selectLayerPeriod(layerKey, periodString, this.props.activeMapKey);
+		if (periodString === 'all') {
+			this.props.selectWmsLayer(layerKey, this.props.activeMapKey);
+		} else {
+			this.props.selectLayerPeriod(layerKey, periodString, this.props.activeMapKey);
+		}
 	}
 
 

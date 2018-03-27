@@ -23,6 +23,9 @@ const mapDispatchToProps = dispatch => {
 		},
 		selectLayerPeriod: (layerKey, period, mapKey) => {
 			dispatch(Action.maps.selectLayerPeriod(layerKey, period, mapKey));
+		},
+		selectWmsLayer: (layerKey, mapKey) => {
+			dispatch(Action.maps.selectWmsLayer(layerKey, mapKey));
 		}
 	}
 };
