@@ -86,7 +86,15 @@ class ViewSelector extends React.PureComponent {
 		}
 
 		if (!this.props.userIsAdmin && this.props.scope.restrictEditingToAdmins){
-			disabled = true;
+
+			if (this.props.activeAoi) {
+				return (
+					<div className="ptr-aoi-selected"><span>DPB:</span>{this.props.activeAoi.code}</div>
+				);
+			} else {
+				return null;
+			}
+
 		}
 
 		return (

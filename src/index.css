@@ -121,3 +121,11 @@ body {
 .ptr-view-selection-selector.ptr-ui-select .Select.is-disabled .Select-arrow-zone {
   display: none;
 }
+
+.ptr-aoi-selected {
+  font-weight: bold;
+}
+.ptr-aoi-selected > span {
+  font-weight: normal;
+  margin-right: 1em;
+}
