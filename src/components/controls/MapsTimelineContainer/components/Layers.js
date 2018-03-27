@@ -25,6 +25,7 @@ class Layers extends React.PureComponent {
 			let periods = null;
 			if (layer.periods && !layer.periods.loading && layer.periods.data) {
 				periods = _.map(layer.periods.data, period => {
+					let active = this.props.activeLayerPeriods && this.props.activeLayerPeriods[layer.key] === period;
 					period = utils.period(period);
 					let start = this.props.getX(period.start);
 					let end = this.props.getX(period.end);
@@ -55,7 +56,9 @@ class Layers extends React.PureComponent {
 								width={end-start}
 								y={5 + index * LAYER_HEIGHT}
 								height="5"
-								className="ptr-timeline-layer-period-symbol"
+								className={classNames("ptr-timeline-layer-period-symbol", {
+									active: active
+								})}
 								rx="2"
 								ry="2"
 							/>
@@ -64,6 +67,7 @@ class Layers extends React.PureComponent {
 				});
 			} else {
 				// layer w/o defined periods -> valid for whole timeline extent
+				let active = this.props.activeLayers && _.includes(this.props.activeLayers, layer.key);
 				let start = this.props.getX(this.props.period.start);
 				let end = this.props.getX(this.props.period.end);
 				console.log('### layers#period', start, end, end-start);
@@ -93,7 +97,9 @@ class Layers extends React.PureComponent {
 							width={end-start}
 							y={5 + index * LAYER_HEIGHT}
 							height="5"
-							className="ptr-timeline-layer-period-symbol"
+							className={classNames("ptr-timeline-layer-period-symbol", {
+								active: active
+							})}
 							rx="2"
 							ry="2"
 						/>

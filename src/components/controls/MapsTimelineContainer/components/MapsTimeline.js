@@ -85,6 +85,8 @@ class MapsTimeline extends React.PureComponent {
 					width={this.dimensions.days * this.dimensions.dayWidth}
 					dayWidth={this.dimensions.dayWidth}
 					layers={this.props.layers}
+					activeLayers={this.props.activeLayers}
+					activeLayerPeriods={this.props.activeLayerPeriods}
 					getX={this.getX}
 					onMouseOver={this.onMouseOver}
 					onMouseLeave={this.onMouseLeave}

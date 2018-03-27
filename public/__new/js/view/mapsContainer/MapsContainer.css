@@ -154,3 +154,6 @@ body.mode-3d .maps-container {
 .ptr-timeline-layer-period-symbol {
 	fill: #0022cc;
 }
+.ptr-timeline-layer-period-symbol.active {
+	fill: #cc0044;
+}

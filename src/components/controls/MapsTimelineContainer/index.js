@@ -7,6 +7,14 @@ const mapStateToProps = state => {
 	return {
 		maps: Select.maps.getMaps(state),
 		activeMapKey: Select.maps.getActiveMapKey(state),
+		activeLayers: (state => {
+			let map = Select.maps.getActiveMap(state);
+			return map ? map.wmsLayers : null;
+		})(state),
+		activeLayerPeriods: (state => {
+			let map = Select.maps.getActiveMap(state);
+			return map ? map.layerPeriods : null;
+		})(state),
 		period: Select.periods.getActivePeriod(state),
 		scope: Select.scopes.getActiveScopeData(state),
 		layers: Select.wmsLayers.getLayersWithAoiPeriods(state)
