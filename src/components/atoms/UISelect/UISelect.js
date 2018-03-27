@@ -17,7 +17,8 @@ class UISelect extends React.PureComponent {
 		value: PropTypes.oneOfType([
 			PropTypes.string,
 			PropTypes.number
-		])
+		]),
+		disabled: PropTypes.bool
 	};
 
 	constructor(props) {
@@ -47,6 +48,7 @@ class UISelect extends React.PureComponent {
 					options={this.props.options}
 					placeholder={this.props.placeholder}
 					value={this.props.value}
+					disabled={this.props.disabled}
 				/>
 			</div>
 		)

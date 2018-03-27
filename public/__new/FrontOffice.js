@@ -437,7 +437,7 @@ define([
 			/**
 			 * Set default position of the map
 			 */
-			if (_.isEmpty(state.changes) || (!state.changes.dataview && (state.changes.scope || state.changes.location))){
+			if (options && (_.isEmpty(state.changes) || (!state.changes.dataview && (state.changes.scope || state.changes.location)))){
 				var position = self.getPosition(options);
 				self._mapsContainer.setAllMapsPosition(position);
 			}

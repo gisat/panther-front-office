@@ -5,6 +5,8 @@ define([], function(){
 		foMapIsIndependentOfPeriod: 'fo#mapIsIndependentOfPeriod',
 		foMapIsDependentOnPeriod: 'fo#mapIsDependentOnPeriod',
 
+		customizationUserChanged: 'customization#userChanged',
+
 		chartToggleDescription: "chart#toggleDescription",
 		dataviewShow: "dataview#show",
 

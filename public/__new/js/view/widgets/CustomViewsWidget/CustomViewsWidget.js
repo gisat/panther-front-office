@@ -55,6 +55,7 @@ define(['../../../actions/Actions',
         }
 
         this._store = options.store;
+        this._stateStore = options.store.state;
 
 		this._dispatcher = options.dispatcher;
 		this._dispatcher.addListener(this.onEvent.bind(this));
@@ -107,10 +108,7 @@ define(['../../../actions/Actions',
 		this._widgetBodySelector.html('<div class="custom-views-content"></div>');
 		this._contentSelector = this._widgetBodySelector.find(".custom-views-content");
 
-		var isAdmin = false;
-		if (Config.auth && Config.auth.userId === 1){
-			isAdmin = true;
-		}
+		var isAdmin = this._stateStore.current().user.isAdmin;
 
 		if (data.length === 0){
 			this._widgetSelector.find(".widget-minimise").trigger("click");

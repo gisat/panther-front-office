@@ -81,10 +81,11 @@ body {
   display: flex;
   height: 100%;
 }
-.ptr-view-selection-selector.ptr-ui-select .Select {
-
+.ptr-view-selection-selector.ptr-ui-select .Select.is-disabled {
+  pointer-events: none;
 }
-.ptr-view-selection-selector.ptr-ui-select .Select-control {
+.ptr-view-selection-selector.ptr-ui-select .Select-control,
+.ptr-view-selection-selector.ptr-ui-select .Select.is-disabled .Select-control{
   background-color: rgba(255,255,255,.15);
   border: 0;
   border-radius: 2px;
@@ -115,4 +116,8 @@ body {
 .ptr-view-selection-selector.ptr-ui-select .Select.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value .Select-value-label,
 .ptr-view-selection-selector.ptr-ui-select .Select-input > input {
   color: rgb(204,207,211);
+}
+
+.ptr-view-selection-selector.ptr-ui-select .Select.is-disabled .Select-arrow-zone {
+  display: none;
 }

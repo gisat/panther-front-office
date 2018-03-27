@@ -26,14 +26,17 @@ Ext.define('PumaMain.controller.Login',{
 			$("#header .login").removeClass("logged");
 			$("#header .signup").removeClass("logout");
         }
-        if (Config.auth && Config.auth.groups && Ext.Array.contains(Config.auth.groups, 'admingroup')) {
+        if ((Config.auth && Config.auth.groups && Ext.Array.contains(Config.auth.groups, 'admingroup')) || (Config.auth && Config.auth.userId === 1)) {
             Config.auth.isAdmin = true;
             isAdmin = true;
         }
 
         this.reloadStores();
         var saveVis = Ext.ComponentQuery.query('#savevisualization')[0];
-		window.Stores.notify('user#changed');
+		window.Stores.notify('user#changed', {
+		    isLoggedIn: isUser,
+            isAdmin: isAdmin
+        });
         if (!saveVis) return;
         var manageVis = Ext.ComponentQuery.query('#managevisualization')[0];
         var saveView = Ext.ComponentQuery.query('#savedataview')[0];

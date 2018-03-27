@@ -282,12 +282,17 @@ define([
 
 		var width = this._containerSelector.width();
 		var height = this._containerSelector.height();
+		var isExtended = false;
 
 		var a = 'w';
 		var b = 'h';
 		if (height > width){
 			a = 'h';
 			b = 'w';
+		}
+
+		if (this._containerSelector.hasClass('extended')){
+			isExtended = true;
 		}
 
 		this._containerSelector.attr('class', 'maps-container');
@@ -310,6 +315,9 @@ define([
 
 		if (this._toolsPinned){
 			cls += " tools-active"
+		}
+		if (isExtended){
+			cls += " extended"
 		}
 		this._containerSelector.addClass(cls);
 		this.sortMaps();
