@@ -145,22 +145,6 @@ define([
 	};
 
 	/**
-	 * @param showTopTools {boolean} true, if tool bar should be visible
-	 */
-	Customization.prototype.handleTopTools = function(showTopTools){
-		var toolBar = $("#top-toolbar");
-		var mapsContainer = $("#maps-container");
-
-		if (showTopTools && toolBar.hasClass("hidden")){
-			toolBar.removeClass("hidden");
-			mapsContainer.removeClass("extended")
-		} else {
-			toolBar.addClass("hidden");
-			mapsContainer.addClass("extended");
-		}
-	};
-
-	/**
 	 * Handle user restrictions
 	 * @param options {Object}
 	 */
@@ -168,6 +152,8 @@ define([
 		var user = this._stateStore.current().user;
 		var scope = this._stateStore.current().scope;
 		var mapsContainerBottomBar = $('#maps-container-bar-bottom');
+		var toolBar = $("#top-toolbar");
+		var mapsContainer = $("#maps-container");
 		var self = this;
 
 		this._store.scopes.byId(scope).then(function(scopes){
@@ -189,10 +175,13 @@ define([
 			// handle timeline
 			if (scope && scope.restrictEditingToAdmins && !user.isAdmin){
 				mapsContainerBottomBar.removeClass("open");
-				self.handleTopTools(false);
+				toolBar.addClass("hidden");
+				mapsContainer.addClass("extended");
+
 			} else {
 				mapsContainerBottomBar.addClass("open");
-				self.handleTopTools(true);
+				toolBar.removeClass("hidden");
+				mapsContainer.removeClass("extended")
 			}
 
 		}).catch(function(err){
