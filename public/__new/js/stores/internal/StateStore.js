@@ -36,6 +36,8 @@ define([
 		this._loadingOperations = [];
 		this._store = options.store;
 		this._aoiLayer = null;
+		this._activeAoi = null;
+		this._previousAoi = null;
 		this._selectedMapId = null;
 		this._user = {
 			isLoggedIn: false,

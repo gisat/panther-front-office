@@ -382,11 +382,8 @@ define(['../../actions/Actions',
 			this._aoiLayer.removeAllRenderables();
 			var renderables = new MultiPolygon({geometry: geometry, switchedCoordinates: true}).render();
 
-			var self = this;
-			setTimeout(function(){
-				self._aoiLayer.addRenderables(renderables);
-				self._wwd.redraw();
-			},100);
+			this._aoiLayer.addRenderables(renderables);
+			this._wwd.redraw();
 		}
 	};
 
