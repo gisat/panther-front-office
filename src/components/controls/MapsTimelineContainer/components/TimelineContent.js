@@ -11,6 +11,7 @@ import utils from '../../../../utils/utils';
 
 import Months from './Months';
 import Days from './Days';
+import Years from './Years';
 import Layers from './Layers';
 
 class TimelineContent extends React.PureComponent {
@@ -42,6 +43,12 @@ class TimelineContent extends React.PureComponent {
 					period={this.props.period}
 					getX={this.props.getX}
 					height={height}
+				/>
+				<Years
+					period={this.props.period}
+					getX={this.props.getX}
+					height={height}
+					dayWidth={this.props.dayWidth}
 				/>
 				<Layers
 					layers={this.props.layers}
