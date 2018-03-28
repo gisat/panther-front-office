@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import MapsTimeline from './components/MapsTimeline';
 import Dimensions from 'react-dimensions';
 import utils from '../../../utils/utils';
+import _ from 'lodash';
 
 class MapsTimelineContainer extends React.PureComponent {
 
@@ -12,12 +13,44 @@ class MapsTimelineContainer extends React.PureComponent {
 		this.onLayerPeriodClick = this.onLayerPeriodClick.bind(this);
 	}
 
+	handleLayerPeriod(layerKey, periodString){
+		let layerPeriods = this.props.activeLayerPeriods;
+		let isActive = layerPeriods && layerPeriods[layerKey] && layerPeriods[layerKey] === periodString;
+		let isOneLayerPerMap = this.props.scope.oneLayerPerMap;
+		let mapKey = this.props.activeMapKey;
+
+		if (isActive){
+			if (isOneLayerPerMap){
+				this.props.clearAllLayers(mapKey);
+			} else {
+				this.props.clearLayerPeriod(layerKey, mapKey);
+			}
+		} else {
+			this.props.selectLayerPeriod(layerKey, periodString, mapKey);
+		}
+	}
+
+	handleWmsLayer(layerKey){
+		let isActive = _.find(this.props.activeLayers, (key) => {return key === layerKey});
+		let isOneLayerPerMap = this.props.scope.oneLayerPerMap;
+		let mapKey = this.props.activeMapKey;
+
+		if (isActive){
+			if (isOneLayerPerMap){
+				this.props.clearAllLayers(mapKey);
+			} else {
+				this.props.clearWmsLayer(layerKey, mapKey);
+			}
+		} else {
+			this.props.selectWmsLayer(layerKey, mapKey);
+		}
+	}
 
 	onLayerPeriodClick(layerKey, periodString) {
 		if (periodString === 'all') {
-			this.props.selectWmsLayer(layerKey, this.props.activeMapKey);
+			this.handleWmsLayer(layerKey);
 		} else {
-			this.props.selectLayerPeriod(layerKey, periodString, this.props.activeMapKey);
+			this.handleLayerPeriod(layerKey, periodString);
 		}
 	}
 

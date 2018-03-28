@@ -61,30 +61,22 @@ function selectLayerPeriod(layerKey, period, mapKey) {
 		if (mapKey) {
 			let state = _.find(Select.maps.getMaps(appState), {key: mapKey});
 			let scope = Select.scopes.getActiveScopeData(appState);
-			let layerPeriodPresent = state.layerPeriods && state.layerPeriods[layerKey] && state.layerPeriods[layerKey] === period;
 
-			if (layerPeriodPresent){
-				if (scope.oneLayerPerMap){
-					dispatch(clearAllLayers(mapKey));
-				} else {
-					dispatch(clearLayerPeriod(layerKey, mapKey));
-				}
+			let stateUpdate;
+			if (scope.oneLayerPerMap){
+				stateUpdate = {
+					key: mapKey,
+					wmsLayers: null,
+					layerPeriods: {[layerKey]: period}
+				};
 			} else {
-				let stateUpdate;
-				if (scope.oneLayerPerMap){
-					stateUpdate = {
-						key: mapKey,
-						wmsLayers: null,
-						layerPeriods: {...state.layerPeriods, [layerKey]: period}
-					};
-				} else {
-					stateUpdate = {
-						key: mapKey,
-						layerPeriods: {...state.layerPeriods, [layerKey]: period}
-					};
-				}
-				dispatch(update(stateUpdate));
+				stateUpdate = {
+					key: mapKey,
+					layerPeriods: {...state.layerPeriods, [layerKey]: period}
+				};
 			}
+			dispatch(update(stateUpdate));
+
 		} else {
 			let state = Select.maps.getMapDefaults(appState);
 			let stateUpdate = {layerPeriods: {...state.layerPeriods, [layerKey]: period}};
@@ -118,30 +110,22 @@ function selectWmsLayer(layerKey, mapKey) {
 		if (mapKey) {
 			let state = _.find(Select.maps.getMaps(appState), {key: mapKey});
 			let scope = Select.scopes.getActiveScopeData(appState);
-			let wmsLayerPresent = _.find(state.wmsLayers, (key) => {return key === layerKey});
 
-			if (wmsLayerPresent){
-				if (scope.oneLayerPerMap){
-					dispatch(clearAllLayers(mapKey));
-				} else {
-					dispatch(clearWmsLayer(layerKey, mapKey));
-				}
+			let stateUpdate;
+			if (scope.oneLayerPerMap){
+				stateUpdate = {
+					key: mapKey,
+					wmsLayers: [layerKey],
+					layerPeriods: null
+				};
 			} else {
-				let stateUpdate;
-				if (scope.oneLayerPerMap){
-					stateUpdate = {
-						key: mapKey,
-						wmsLayers: [layerKey],
-						layerPeriods: null
-					};
-				} else {
-					stateUpdate = {
-						key: mapKey,
-						wmsLayers: state.wmsLayers ? [...state.wmsLayers, layerKey] : [layerKey]
-					};
-				}
-				dispatch(update(stateUpdate));
+				stateUpdate = {
+					key: mapKey,
+					wmsLayers: state.wmsLayers ? [...state.wmsLayers, layerKey] : [layerKey]
+				};
 			}
+			dispatch(update(stateUpdate));
+
 		} else {
 			let state = Select.maps.getMapDefaults(appState);
 			let wmsLayers = state.wmsLayers ? [...state.wmsLayers, layerKey] : [layerKey];
@@ -156,7 +140,7 @@ function clearWmsLayer(layerKey, mapKey){
 		let state = _.find(Select.maps.getMaps(getState()), {key: mapKey});
 		let stateUpdate = {
 			key: mapKey,
-			wmsLayers: _.reject(state.wmsLayers, (key) => {return key === layerKey})
+			wmsLayers: _.without(state.wmsLayers, layerKey)
 		};
 		dispatch(update(stateUpdate));
 	}
@@ -235,14 +219,17 @@ function actionSetMapIndependentOfPeriod(independent) {
 
 export default {
 	add: add,
+	clearAllLayers: clearAllLayers,
+	clearLayerPeriod: clearLayerPeriod,
+	clearLayerPeriodsOfAllMaps: clearLayerPeriodsOfAllMaps,
+	clearWmsLayer: clearWmsLayer,
+	clearWmsLayersOfAllMaps: clearWmsLayersOfAllMaps,
+	handleMapDependencyOnPeriod: handleMapDependencyOnPeriod,
 	initialize: initialize,
 	remove: remove,
-	update: update,
-	updateDefaults: updateDefaults,
-	setActive: setActive,
-	handleMapDependencyOnPeriod: handleMapDependencyOnPeriod,
-	clearLayerPeriodsOfAllMaps: clearLayerPeriodsOfAllMaps,
-	clearWmsLayersOfAllMaps: clearWmsLayersOfAllMaps,
 	selectLayerPeriod: selectLayerPeriod,
-	selectWmsLayer: selectWmsLayer
+	selectWmsLayer: selectWmsLayer,
+	setActive: setActive,
+	update: update,
+	updateDefaults: updateDefaults
 }
