@@ -42,7 +42,7 @@ class Months extends React.PureComponent {
 					x={start}
 					width={end-start}
 					y={0}
-					height="40"
+					height={this.props.height}
 					className="ptr-timeline-month"
 				/>
 			);

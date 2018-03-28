@@ -23,20 +23,24 @@ class TimelineContent extends React.PureComponent {
 
 		console.log('TimelineContent#render props', this.props);
 
+		let height = this.props.layers.length * 10 + 20;
+
 		return (
 			<svg
 				width={this.props.width}
-				height={this.props.height}
+				height={height}
 				onMouseOver={this.props.onMouseOver}
 				onMouseLeave={this.props.onMouseLeave}
 			>
 				<Months
 					period={this.props.period}
 					getX={this.props.getX}
+					height={height}
 				/>
 				<Days
 					period={this.props.period}
 					getX={this.props.getX}
+					height={height}
 				/>
 				<Layers
 					layers={this.props.layers}

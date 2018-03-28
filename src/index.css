@@ -129,3 +129,8 @@ body {
   font-weight: normal;
   margin-right: 1em;
 }
+
+
+.ptr-timeline-container {
+  font-size: 0;
+}
