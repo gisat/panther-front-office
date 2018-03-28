@@ -128,11 +128,16 @@ body.mode-3d .maps-container {
 	width: 100%;
 }
 
-.ptr-timeline-month {
+.ptr-timeline-month > rect {
 	fill: #fff;
 }
-.ptr-timeline-month:nth-child(odd) {
+.ptr-timeline-month:nth-child(odd) > rect {
 	fill: #f1f1f1;
+}
+.ptr-timeline-month-label {
+	font-family: "Open Sans", sans-serif;
+	font-size: 10px;
+	fill: rgba(0,0,0,.4);
 }
 
 .ptr-timeline-day {
