@@ -71,7 +71,7 @@ const mapsWatcher = (value, previousValue) => {
 		let previousMap = _.find(previousValue, {key: map.key});
 		if (previousMap) {
 			let diff = compare(map.layerPeriods, previousMap.layerPeriods);
-			let diffWmsLayers = compare(map.wmsLayers, previousMap.wmsLayers);
+			let diffWmsLayers = compareWmsLayers(map.wmsLayers, previousMap.wmsLayers);
 			console.log('@@ diff', diff);
 			_.each(diff.added, (value, key) => {
 				window.Stores.notify('ADD_WMS_LAYER', {
@@ -81,16 +81,33 @@ const mapsWatcher = (value, previousValue) => {
 				});
 			});
 			_.each(diff.changed, (value, key) => {
-				window.Stores.notify('ADD_WMS_LAYER', {
+				window.Stores.notify('REMOVE_WMS_LAYER', {
 					mapKey: map.key,
-					layerKey: key,
-					period: value
+					layerKey: key
+				});
+				if (value){
+					window.Stores.notify('ADD_WMS_LAYER', {
+						mapKey: map.key,
+						layerKey: key,
+						period: value
+					});
+				}
+			});
+			_.each(diff.removed, (value, key) => {
+				window.Stores.notify('REMOVE_WMS_LAYER', {
+					mapKey: map.key,
+					layerKey: key
 				});
 			});
-
 			console.log('@@ diffWmsLayers', diffWmsLayers);
 			_.each(diffWmsLayers.added, (value) => {
 				window.Stores.notify('ADD_WMS_LAYER', {
+					layerKey: value,
+					mapKey: map.key
+				});
+			});
+			_.each(diffWmsLayers.removed, (value) => {
+				window.Stores.notify('REMOVE_WMS_LAYER', {
 					layerKey: value,
 					mapKey: map.key
 				});
@@ -161,6 +178,25 @@ const compare = (next, prev) => {
 		};
 	}
 };
+
+const compareWmsLayers = (next, prev) => {
+	if (prev) {
+		let nextLayers = [];
+		if (_.isArray(next)){
+			nextLayers = next;
+		}
+		return {
+			added: _.difference(nextLayers, prev),
+			removed: _.difference(prev, nextLayers)
+		};
+	} else {
+		return {
+			added: next
+		};
+	}
+};
+
+
 
 
 /////// logic todo move to common location

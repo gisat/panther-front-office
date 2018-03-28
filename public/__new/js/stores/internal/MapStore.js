@@ -170,6 +170,19 @@ define([
 		});
 	};
 
+	MapStore.prototype.removeLayerFromGroup = function(mapId, layerId, group){
+		this._maps.forEach(function(map){
+			if (map.id === mapId){
+				map._wwd.layers.forEach(function(layer){
+					if (layer.metadata && layer.metadata.group === group && layer.metadata.id == layerId){
+						map.layers.removeLayerFromMap(layer, true);
+						map.mapWindowTools.removeLayerInfo();
+					}
+				});
+			}
+		});
+	};
+
 	/**
 	 * It accepts events in the application and handles these that are relevant.
 	 * @param type {String} Event type to distinguish whether this store cares.
@@ -188,14 +201,14 @@ define([
 		// notifications from React
 		else if (type === "ADD_WMS_LAYER"){
 			console.log("## ADD_WMS_LAYER", options);
-			if (scope.oneLayerPerMap){
-				this.removeAllLayersFromGroup('wms-layers-independent', options.mapKey)
-			}
 			let customParams = null;
 			if (options.period){
 				customParams = {time: options.period};
 			}
 			this.addWmsLayerToMap(options.layerKey, customParams, options.mapKey);
+		} else if (type === "REMOVE_WMS_LAYER"){
+			console.log("## REMOVE_WMS_LAYER", options);
+			this.removeLayerFromGroup(options.mapKey, options.layerKey, 'wms-layers-independent');
 		} else if (type === "AOI_GEOMETRY_SET"){
 			if (state.previousAoi){
 				this.removeAllLayersFromGroupFromAllMaps('wms-layers-independent');
