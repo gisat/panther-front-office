@@ -154,17 +154,6 @@ function clearWmsLayersOfAllMaps(){
 	}
 }
 
-function clearAllLayers(mapKey){
-	return (dispatch, getState) => {
-		let stateUpdate = {
-			key: mapKey,
-			wmsLayers: null,
-			layerPeriods: null
-		};
-		dispatch(update(stateUpdate));
-	}
-}
-
 // ============ actions ===========
 
 function actionAdd(maps) {
@@ -219,7 +208,6 @@ function actionSetMapIndependentOfPeriod(independent) {
 
 export default {
 	add: add,
-	clearAllLayers: clearAllLayers,
 	clearLayerPeriod: clearLayerPeriod,
 	clearLayerPeriodsOfAllMaps: clearLayerPeriodsOfAllMaps,
 	clearWmsLayer: clearWmsLayer,

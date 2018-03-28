@@ -23,9 +23,6 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
 	return {
-		clearAllLayers: (mapKey) => {
-			dispatch(Action.maps.clearAllLayers(mapKey));
-		},
 		clearLayerPeriod: (layerKey, mapKey) => {
 			dispatch(Action.maps.clearLayerPeriod(layerKey, mapKey));
 		},
