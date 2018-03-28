@@ -170,3 +170,15 @@ body.mode-3d .maps-container {
 .ptr-timeline-layer-period-symbol.active {
 	fill: #cc0044;
 }
+
+
+.ptr-timeline-tooltip {
+	position: absolute;
+	bottom: 50px;
+	left: 0;
+	z-index: 50;
+
+	width: 10px;
+	height: 10px;
+	background: #f40;
+}

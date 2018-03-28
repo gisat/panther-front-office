@@ -6,6 +6,9 @@ import utils from '../../../../utils/utils';
 import TimelineContent from './TimelineContent';
 
 const CONTROLS_WIDTH = 0;
+const INITIAL_STATE = {
+	mouseX: null
+};
 
 class MapsTimeline extends React.PureComponent {
 
@@ -22,6 +25,7 @@ class MapsTimeline extends React.PureComponent {
 
 	constructor(props) {
 		super();
+		this.state = {...INITIAL_STATE};
 		props.initialize();
 
 		this.calculate = this.calculate.bind(this);
@@ -69,14 +73,46 @@ class MapsTimeline extends React.PureComponent {
 
 
 	onMouseOver(e) {
-		console.log(e.clientX, this.getTime(e.clientX));
+		this.setState({
+			mouseX: e.clientX
+		});
 	}
 	onMouseLeave(e) {
-		console.log('out');
+		this.setState({
+			mouseX: null
+		});
 	}
 
 
 	render() {
+
+		let tooltip = null;
+		if (this.state.mouseX) {
+			let width = 50;
+			let height = 50;
+			let left = 0;
+			if (this.state.mouseX < width/2) {
+
+			} else if (this.state.mouseX > (this.props.containerWidth - width/2)) {
+				left = this.props.containerWidth - width;
+			} else {
+				left = this.state.mouseX - Math.round(width/2);
+			}
+			tooltip = (
+				<div
+					className="ptr-timeline-tooltip"
+					style={{
+						left: left,
+						bottom: (this.props.layers && this.props.layers.length || 0) * 10 + 30,
+						width: width,
+						height: height
+					}}
+				>
+
+				</div>
+			);
+		}
+
 		return (
 			<div className="ptr-timeline-container">
 				<TimelineContent
@@ -92,6 +128,7 @@ class MapsTimeline extends React.PureComponent {
 					onMouseLeave={this.onMouseLeave}
 					onLayerPeriodClick={this.props.onLayerPeriodClick}
 				/>
+				{tooltip}
 			</div>
 		);
 	}
