@@ -98,6 +98,14 @@ function selectWmsLayer(layerKey, mapKey) {
 	};
 }
 
+function clearWmsLayersOfAllMaps(){
+	return (dispatch, getState) => {
+		let state = Select.maps.getMaps(getState());
+		let updates = state.map(map => {return {key: map.key, wmsLayers: null}});
+		dispatch(update(updates));
+	}
+}
+
 // ============ actions ===========
 
 function actionAdd(maps) {
@@ -159,6 +167,7 @@ export default {
 	setActive: setActive,
 	handleMapDependencyOnPeriod: handleMapDependencyOnPeriod,
 	clearLayerPeriodsOfAllMaps: clearLayerPeriodsOfAllMaps,
+	clearWmsLayersOfAllMaps: clearWmsLayersOfAllMaps,
 	selectLayerPeriod: selectLayerPeriod,
 	selectWmsLayer: selectWmsLayer
 }

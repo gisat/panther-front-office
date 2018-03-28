@@ -29,6 +29,7 @@ class ViewSelector extends React.PureComponent {
 	selectAoi(aoi){
 		this.props.setActiveAoi(aoi.value);
 		this.props.clearLayerPeriods();
+		this.props.clearWmsLayers();
 	}
 
 	render() {

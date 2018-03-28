@@ -19,6 +19,9 @@ const mapDispatchToProps = dispatch => {
 		},
 		clearLayerPeriods: () => {
 			dispatch(Action.maps.clearLayerPeriodsOfAllMaps());
+		},
+		clearWmsLayers: () => {
+			dispatch(Action.maps.clearWmsLayersOfAllMaps());
 		}
 	}
 };
