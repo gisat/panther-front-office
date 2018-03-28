@@ -82,7 +82,7 @@ define([
 						// add map title
 						if (scope.mapLayerInfo && scope.mapLayerInfo === 'simple'){
 							var content = layer.name;
-							if (layerOptions.time){
+							if (layerOptions && layerOptions.time){
 								content += " (" + utils.parseDate(layerOptions.time) + ")";
 							}
 							map.mapWindowTools.addLayerInfo(content);
@@ -191,7 +191,11 @@ define([
 			if (scope.oneLayerPerMap){
 				this.removeAllLayersFromGroup('wms-layers-independent', options.mapKey)
 			}
-			this.addWmsLayerToMap(options.layerKey, {time: options.period}, options.mapKey);
+			let customParams = null;
+			if (options.period){
+				customParams = {time: options.period};
+			}
+			this.addWmsLayerToMap(options.layerKey, customParams, options.mapKey);
 		} else if (type === "AOI_GEOMETRY_SET"){
 			if (state.previousAoi){
 				this.removeAllLayersFromGroupFromAllMaps('wms-layers-independent');
