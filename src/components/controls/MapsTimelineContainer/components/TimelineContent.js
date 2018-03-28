@@ -43,6 +43,7 @@ class TimelineContent extends React.PureComponent {
 					period={this.props.period}
 					getX={this.props.getX}
 					height={height}
+					dayWidth={this.props.dayWidth}
 				/>
 				<Years
 					period={this.props.period}
