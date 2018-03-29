@@ -68,7 +68,7 @@ function loadForAoi(aoiKey) {
 		let state = getState();
 		let aoi = _.find(Select.aoi.getAois(state), {key: aoiKey});
 		_.each(state.wmsLayers.data, wmsLayer => {
-			dispatch(loadForAoiLayer(aoi, wmsLayer));
+			if (wmsLayer.getDates) dispatch(loadForAoiLayer(aoi, wmsLayer));
 		});
 
 	};

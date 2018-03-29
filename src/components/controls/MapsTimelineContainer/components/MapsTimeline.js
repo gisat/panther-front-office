@@ -3,9 +3,14 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import utils from '../../../../utils/utils';
+
 import TimelineContent from './TimelineContent';
+import Tooltip from './Tooltip';
 
 const CONTROLS_WIDTH = 0;
+const INITIAL_STATE = {
+	mouseX: null
+};
 
 /*
 HOw do we figure out what is the time we want to display? It is part of the received props.
@@ -43,6 +48,7 @@ class MapsTimeline extends React.PureComponent {
 
 	constructor(props) {
 		super();
+		this.state = {...INITIAL_STATE};
 		props.initialize();
 
 		this.calculate = this.calculate.bind(this);
@@ -100,10 +106,14 @@ class MapsTimeline extends React.PureComponent {
 
 
 	onMouseOver(e) {
-		console.log(e.clientX, this.getTime(e.clientX));
+		this.setState({
+			mouseX: e.clientX
+		});
 	}
 	onMouseLeave(e) {
-		console.log('out');
+		this.setState({
+			mouseX: null
+		});
 	}
 
     /**
@@ -171,26 +181,30 @@ class MapsTimeline extends React.PureComponent {
 	// Make sure that the size doesn't change.
 
 	render() {
-		return (
-			<div className="ptr-timeline-container">
-				<TimelineContent
-					height="40"
-					period={this.state.period}
 
+		let children = [];
+		let {maps, activeMapKey, ...contentProps} = this.props; // consume unneeded props (though we'll probably use them in the future)
+		contentProps = {...contentProps,
+			width: this.dimensions.days * this.dimensions.dayWidth,
+			dayWidth: this.dimensions.dayWidth,
+			getX: this.getX,
+			onMouseOver: this.onMouseOver,
+			onMouseLeave: this.onMouseLeave,
+            onWheel= this.onWheel,
+            onDrag=this.onDrag
+		};
+		children.push(React.createElement(TimelineContent, contentProps));
 
-					width={this.dimensions.days * this.dimensions.dayWidth}
-					dayWidth={this.state.dayWidth}
+		if (this.state.mouseX) {
+			children.push(React.createElement(Tooltip, {
+				mouseX: this.state.mouseX,
+				getTime: this.getTime,
+				layers: this.props.layers,
+				containerWidth: this.props.containerWidth
+			}));
+		}
 
-					layers={this.props.layers}
-					getX={this.getX}
-					onMouseOver={this.onMouseOver}
-					onMouseLeave={this.onMouseLeave}
-
-					onWheel={this.onWheel}
-					onDrag={this.onDrag}
-				/>
-			</div>
-		);
+		return React.createElement('div', {className: 'ptr-timeline-container'}, children);
 	}
 
 }

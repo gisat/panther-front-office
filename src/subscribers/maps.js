@@ -48,6 +48,12 @@ const setEventListeners = store => {
 			case 'fo#mapIsDependentOnPeriod':
 				store.dispatch(Action.maps.handleMapDependencyOnPeriod(false));
 				break;
+			case 'layerPeriods#add':
+				store.dispatch(Action.maps.selectLayerPeriod(options.layerKey, options.period, options.mapKey));
+				break;
+			case 'wmsLayer#add':
+				store.dispatch(Action.maps.selectWmsLayer(options.layerKey, options.mapKey));
+				break;
 		}
 	});
 
@@ -61,6 +67,56 @@ const activeMapKeyWatcher = (value, previousValue) => {
 
 const mapsWatcher = (value, previousValue) => {
 	console.log('@@ mapsWatcher', previousValue, '->', value);
+	_.each(value, map => {
+		let previousMap = _.find(previousValue, {key: map.key});
+		if (previousMap) {
+			let diff = compare(map.layerPeriods, previousMap.layerPeriods);
+			let diffWmsLayers = compareWmsLayers(map.wmsLayers, previousMap.wmsLayers);
+			console.log('@@ diff', diff);
+			_.each(diff.added, (value, key) => {
+				window.Stores.notify('ADD_WMS_LAYER', {
+					mapKey: map.key,
+					layerKey: key,
+					period: value
+				});
+			});
+			_.each(diff.changed, (value, key) => {
+				window.Stores.notify('REMOVE_WMS_LAYER', {
+					mapKey: map.key,
+					layerKey: key
+				});
+				if (value){
+					window.Stores.notify('ADD_WMS_LAYER', {
+						mapKey: map.key,
+						layerKey: key,
+						period: value
+					});
+				}
+			});
+			_.each(diff.removed, (value, key) => {
+				window.Stores.notify('REMOVE_WMS_LAYER', {
+					mapKey: map.key,
+					layerKey: key
+				});
+			});
+			console.log('@@ diffWmsLayers', diffWmsLayers);
+			_.each(diffWmsLayers.added, (value) => {
+				window.Stores.notify('ADD_WMS_LAYER', {
+					layerKey: value,
+					mapKey: map.key
+				});
+			});
+			_.each(diffWmsLayers.removed, (value) => {
+				window.Stores.notify('REMOVE_WMS_LAYER', {
+					layerKey: value,
+					mapKey: map.key
+				});
+			});
+		} else {
+			// new map added
+		}
+	});
+	window.Stores.notify('REDUX_STORE_MAPS_CHANGED', value);
 };
 
 const periodIndependenceWatcher = (value, previousValue) => {
@@ -95,6 +151,52 @@ const convertWorldWindMapToMap = (map) => {
 
 	return data;
 };
+
+const compare = (next, prev) => {
+	if (prev) {
+		let ret = {
+			added: {},
+			removed: {},
+			changed: {}
+		};
+		_.each(next, (value, key) => {
+			if (!prev.hasOwnProperty(key)) {
+				ret.added[key] = value;
+			} else if (prev[key] != value) {
+				ret.changed[key] = value;
+			}
+		});
+		_.each(prev, (value, key) => {
+			if (!next || !next.hasOwnProperty(key)) {
+				ret.removed[key] = value;
+			}
+		});
+		return ret;
+	} else {
+		return {
+			added: next
+		};
+	}
+};
+
+const compareWmsLayers = (next, prev) => {
+	if (prev) {
+		let nextLayers = [];
+		if (_.isArray(next)){
+			nextLayers = next;
+		}
+		return {
+			added: _.difference(nextLayers, prev),
+			removed: _.difference(prev, nextLayers)
+		};
+	} else {
+		return {
+			added: next
+		};
+	}
+};
+
+
 
 
 /////// logic todo move to common location

@@ -437,7 +437,7 @@ define([
 			/**
 			 * Set default position of the map
 			 */
-			if (_.isEmpty(state.changes) || (!state.changes.dataview && (state.changes.scope || state.changes.location))){
+			if (options && (_.isEmpty(state.changes) || (!state.changes.dataview && (state.changes.scope || state.changes.location)))){
 				var position = self.getPosition(options);
 				self._mapsContainer.setAllMapsPosition(position);
 			}
@@ -445,7 +445,10 @@ define([
 			/**
 			 * Apply settings from dataview, if exists
 			 */
-			if (options){
+			if (options && !self._dataviewSettingsUsed){
+				self._dispatcher.notify('scope#activeScopeChanged', {activeScopeKey: Number(options.scope)});
+				self._previousDataset = options.scope;
+				self._dataviewSettingsUsed = true;
 				self.applySettingsFromDataview(options);
 			}
 		});
@@ -468,6 +471,12 @@ define([
 		}
 		if (options.widgets){
 			this._topToolBar.handleDataview(options.widgets);
+		}
+		if (options.mapsMetadata){
+			this._mapsContainer.handleMapsFromDataview(options.mapsMetadata, options.selectedMapId);
+		}
+		if (options.activeAoi){
+			this._dispatcher.notify('dataview#activeAoi', {key: options.activeAoi});
 		}
 	};
 

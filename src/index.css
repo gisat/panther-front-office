@@ -56,6 +56,20 @@ body {
   background: rgba(33,38,53,.9);
   z-index: 10000;
 }
+.ptr-overlay-content {
+  position: absolute;
+  width: 500px;
+  height: 200px;
+}
+.ptr-overlay-content h3 {
+  color: rgb(148,152,160);
+  font-size: 1.5rem;
+  margin-bottom: .3rem;
+}
+.ptr-overlay-content p {
+  color: rgb(148,152,160);
+  font-size: 1rem;
+}
 .ptr-overlay.open {
   display: block;
 }
@@ -67,10 +81,11 @@ body {
   display: flex;
   height: 100%;
 }
-.ptr-view-selection-selector.ptr-ui-select .Select {
-
+.ptr-view-selection-selector.ptr-ui-select .Select.is-disabled {
+  pointer-events: none;
 }
-.ptr-view-selection-selector.ptr-ui-select .Select-control {
+.ptr-view-selection-selector.ptr-ui-select .Select-control,
+.ptr-view-selection-selector.ptr-ui-select .Select.is-disabled .Select-control{
   background-color: rgba(255,255,255,.15);
   border: 0;
   border-radius: 2px;
@@ -101,4 +116,21 @@ body {
 .ptr-view-selection-selector.ptr-ui-select .Select.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value .Select-value-label,
 .ptr-view-selection-selector.ptr-ui-select .Select-input > input {
   color: rgb(204,207,211);
+}
+
+.ptr-view-selection-selector.ptr-ui-select .Select.is-disabled .Select-arrow-zone {
+  display: none;
+}
+
+.ptr-aoi-selected {
+  font-weight: bold;
+}
+.ptr-aoi-selected > span {
+  font-weight: normal;
+  margin-right: 1em;
+}
+
+
+.ptr-timeline-container {
+  font-size: 0;
 }

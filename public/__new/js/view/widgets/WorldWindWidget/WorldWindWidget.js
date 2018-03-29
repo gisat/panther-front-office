@@ -82,7 +82,7 @@ define([
 	WorldWindWidget.prototype.addDataToMap = function(map){
 		this._panels.addLayersToMap(map);
 		if (map._id !== 'default-map'){
-			map.rebuild();
+			// map.rebuild();
 			this._panels.rebuild();
 		}
 	};
@@ -169,6 +169,7 @@ define([
 		if(type === Actions.mapAdded){
 			this.addDataToMap(options.map);
 		} else if (type === Actions.worldWindWidgetRebuild){
+			this._stateStore.resetChanges();
 			this.rebuild();
 		}
 	};

@@ -38,7 +38,7 @@ requirejs.config({
         'underscore': {
             exports: '_'
         }
-    }
+	}
 });
 
 define(['js/actions/Actions',
@@ -212,7 +212,8 @@ define(['js/actions/Actions',
             store: {
                 locations: store.locations,
                 themes: store.themes,
-                scopes: store.scopes
+                scopes: store.scopes,
+				state: stateStore
             }
         });
 
@@ -348,11 +349,6 @@ define(['js/actions/Actions',
                 xWindowJQuerySelector: $(this)[0]
             });
         });
-
-        // TODO just for testing
-        $("#maps-timeline").on("click", function(){
-        	window.Stores.notify("ADD_WMS_LAYER");
-		});
 	}
 
 	/**

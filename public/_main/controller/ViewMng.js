@@ -317,6 +317,22 @@ Ext.define('PumaMain.controller.ViewMng', {
 		if (Config.cfg.widgets){
 			options.widgets = Config.cfg.widgets;
 		}
+		// maps metadata
+		if (Config.cfg.mapsMetadata){
+			options.mapsMetadata = Config.cfg.mapsMetadata;
+		}
+		// active aoi
+		if (Config.cfg.activeAoi){
+			options.activeAoi = Config.cfg.activeAoi;
+		}
+		// active aoi
+		if (Config.cfg.selectedMapId){
+			options.selectedMapId = Config.cfg.selectedMapId;
+		}
+
+		if (Config.cfg.dataset){
+			options.scope = Config.cfg.dataset;
+		}
 
 		if (Config.cfg.is3D){
 			Stores.notify('fo#adjustConfigurationFromDataview', options);
@@ -427,6 +443,18 @@ Ext.define('PumaMain.controller.ViewMng', {
 			// widgets state
 			if (options.state && options.state.widgets){
 				cfg.widgets = options.state.widgets;
+			}
+			// maps metadata
+			if (options.state && options.state.mapsMetadata){
+				cfg.mapsMetadata = options.state.mapsMetadata;
+			}
+			// active aoi
+			if (options.state && options.state.activeAoi){
+				cfg.activeAoi = options.state.activeAoi;
+			}
+			// selected map
+			if (options.state && options.state.selectedMapId){
+				cfg.selectedMapId = options.state.selectedMapId;
 			}
 
 			// sidebar reports settings

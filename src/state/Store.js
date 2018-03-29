@@ -5,6 +5,7 @@ import layerPeriodsReducers from './LayerPeriods/reducers';
 import mapsReducers from './Maps/reducers';
 import periodsReducers from './Periods/reducers';
 import scopesReducers from './Scopes/reducers';
+import userReducers from './User/reducers';
 import wmsLayersReducers from './WmsLayers/reducers';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
@@ -18,6 +19,7 @@ const Store = createStore(combineReducers({
 	maps: mapsReducers,
 	periods: periodsReducers,
 	scopes: scopesReducers,
+	user: userReducers,
 	wmsLayers: wmsLayersReducers
 }), applyMiddleware(thunk, logger));
 

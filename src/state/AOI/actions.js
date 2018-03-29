@@ -39,7 +39,7 @@ function load(ttl) {
 						if (ttl - 1){
 							dispatch(load(ttl - 1));
 						} else {
-							throw new Error("AOI#actions load: AOI weren't loaded!");
+							dispatch(actionLoadError("AOI#actions load: AOI weren't loaded!"));
 						}
 					});
 				} else {
@@ -68,10 +68,15 @@ function loadReceive(features, aoiLayer) {
 
 function setActiveKey(key) {
 	return (dispatch, getState) => {
+		let aois = Select.aoi.getAois(getState());
 		dispatch(actionSetActiveKey(key));
-		return dispatch(ensureGeometry(key)).then(() => {
-			return dispatch(LayerPeriods.loadForAoi(key));
-		});
+		if (aois){
+			return dispatch(ensureGeometry(key)).then(() => {
+				return dispatch(LayerPeriods.loadForAoi(key));
+			});
+		} else {
+			return Promise.resolve();
+		}
 	};
 }
 

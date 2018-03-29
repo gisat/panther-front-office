@@ -36,7 +36,13 @@ define([
 		this._loadingOperations = [];
 		this._store = options.store;
 		this._aoiLayer = null;
+		this._activeAoi = null;
+		this._previousAoi = null;
 		this._selectedMapId = null;
+		this._user = {
+			isLoggedIn: false,
+			isAdmin: false
+		};
 
 		this.isMap3D = true;
 		this.isMapIndependentOfPeriod = false;
@@ -71,10 +77,15 @@ define([
 				places: this.placesObjects()
 			},
 			changes: this._changes,
+
+			aoiLayer: this._aoiLayer,
+			activeAoi: this._activeAoi,
+			previousAoi: this._previousAoi,
 			isMap3D: this.isMap3D,
 			isMapIndependentOfPeriod: this.isMapIndependentOfPeriod,
-			aoiLayer: this._aoiLayer,
+			mapsMetadata: this._mapsMetadata,
 			selectedMapId: this._selectedMapId,
+			user: this._user,
 			widgets: this.widgets(),
 			worldWindNavigator: this.getNavigatorState()
 		}
@@ -287,6 +298,11 @@ define([
 		this._aoiLayer = options;
 	};
 
+	StateStore.prototype.setActiveAoi = function(aoiId){
+		this._previousAoi = this._activeAoi;
+		this._activeAoi = aoiId;
+	};
+
 	StateStore.prototype.updateAoiLayer = function(layer){
 		this._aoiLayer.layer = layer;
 	};
@@ -307,6 +323,25 @@ define([
 		this.isMap3D = true;
 		$("#top-toolbar-3dmap").addClass("open");
 		this._dispatcher.notify('map#switchTo3D');
+	};
+
+	/**
+	 * It is used for maps metadata storing (currently for view sharing purposes).
+	 * @param maps {Array} list of maps metadata received from redux store
+	 */
+	StateStore.prototype.updateMapsMetadata = function(maps){
+		this._mapsMetadata = maps;
+	};
+
+	/**
+	 * Update data about user
+	 * @param options {Object}
+	 */
+	StateStore.prototype.updateUser = function(options){
+		this._user = {
+			isLoggedIn: options.isLoggedIn,
+			isAdmin: options.isAdmin
+		}
 	};
 
 	/**
@@ -339,6 +374,16 @@ define([
 			this.updateAoiLayer(options);
 		} else if (type === Actions.mapSelected){
 			this._selectedMapId = options.id;
+		} else if (type === Actions.userChanged){
+			this.updateUser(options);
+			this._dispatcher.notify('customization#userChanged');
+		}
+
+		// notification from redux
+		else if (type === 'REDUX_STORE_MAPS_CHANGED'){
+			this.updateMapsMetadata(options);
+		} else if (type === 'AOI_GEOMETRY_SET'){
+			this.setActiveAoi(options.id);
 		}
 	};
 

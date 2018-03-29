@@ -648,6 +648,9 @@ body.intro #content-intro-terms {
 	display: none; /* useTopToolbar toggle default */
 	height: 0; /* useTopToolbar toggle default */
 }
+#top-toolbar.hidden {
+	display: none;
+}
 #top-toolbar > div {
 	height: 30px;
 	overflow: hidden;

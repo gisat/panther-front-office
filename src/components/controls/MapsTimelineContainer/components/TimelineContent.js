@@ -4,11 +4,13 @@ import config from '../../../../config/index';
 
 import _ from 'lodash';
 import classNames from 'classnames';
-import Dimensions from 'react-dimensions';
 import moment from 'moment';
 
 import utils from '../../../../utils/utils';
 
+import Months from './Months';
+import Days from './Days';
+import Years from './Years';
 import Layers from './Layers';
 
 /*
@@ -67,101 +69,57 @@ class TimelineContent extends React.PureComponent {
                 this._lastX = e.clientX;
             }
 		}
+
+		this.props.onMouseOver.apply(this, arguments);
 	}
 
 	render() {
 
 		console.log('TimelineContent#render props', this.props);
 
+		let height = (this.props.layers && this.props.layers.length * 10 + 20) || 20;
+
 		return (
 			<svg
 				width={this.props.width}
-				height={this.props.height}
-				onMouseOver={this.props.onMouseOver}
+				height={height}
 				onMouseLeave={this.props.onMouseLeave}
-				onWheel={this.props.onWheel}
+                onWheel={this.props.onWheel}
 
-				onMouseDown={this.onMouseDown}
+                onMouseDown={this.onMouseDown}
                 onMouseUp={this.onMouseUp}
                 onMouseMove={this.onMouseMove}
 			>
-                {this.renderMonths(this.props.period)}
-				{this.renderDays(this.props.period)}
-                <Layers
-					layers={this.props.layers}
-					dayWidth={this.props.dayWidth}
+				<Months
+					period={this.props.period}
 					getX={this.props.getX}
+					height={height}
+					dayWidth={this.props.dayWidth}
+				/>
+				<Days
+					period={this.props.period}
+					getX={this.props.getX}
+					height={height}
+					dayWidth={this.props.dayWidth}
+				/>
+				<Years
+					period={this.props.period}
+					getX={this.props.getX}
+					height={height}
+					dayWidth={this.props.dayWidth}
+				/>
+				<Layers
+					layers={this.props.layers}
+					getX={this.props.getX}
+					onPeriodClick={this.props.onLayerPeriodClick}
+					period={this.props.period}
+					activeLayers={this.props.activeLayers}
+					activeLayerPeriods={this.props.activeLayerPeriods}
 				/>
 			</svg>
 		);
 	}
 
-	renderMonths(period) {
-		let ret = [];
-		let start = moment(period.start);
-		let end = moment(period.end);
-		let months = [];
-		let current = moment(period.start);
-
-		while (end > current || current.format('YYYY-MM') === end.format('YYYY-MM')) {
-			months.push({
-				month: current.format('YYYY-MM'),
-				monthName: current.format('MMM'),
-				start: (current.format('YYYY-MM') === start.format('YYYY-MM')) ? start : moment(current).startOf('month'),
-				end: (current.format('YYYY-MM') === end.format('YYYY-MM')) ? end : moment(current).endOf('month')
-			});
-			current.add(1,'month');
-		}
-
-		return _.map(months, month => {
-			let start = this.props.getX(month.start);
-			let end = this.props.getX(month.end);
-			return (
-				<rect
-					key={month.month}
-					x={start}
-					width={end-start}
-					y={0}
-					height="40"
-					className="ptr-timeline-month"
-				/>
-			);
-		});
-
-	}
-
-	renderDays(period) {
-		let ret = [];
-		let start = moment(period.start);
-		let end = moment(period.end);
-		let days = [];
-		let current = moment(period.start);
-
-		while (end > current || current.format('D') === end.format('D')) {
-			days.push({
-				day: current.format('YYYY-MM-DD'),
-				start: (current.format('YYYY-MM-DD') === start.format('YYYY-MM-DD')) ? start : moment(current).startOf('day'),
-				end: (current.format('YYYY-MM-DD') === end.format('YYYY-MM-DD')) ? end : moment(current).endOf('day')
-			});
-			current.add(1,'day');
-		}
-
-		return _.map(days, day => {
-			let start = this.props.getX(day.start);
-			let end = this.props.getX(day.end);
-			return (
-				<line
-					key={day.day}
-					x1={start}
-					x2={start}
-					y1={0}
-					y1={day.start.format('dddd') === 'Monday' ? 28 : 25}
-					className={classNames("ptr-timeline-day", day.start.format('dddd'))}
-				/>
-			);
-		});
-
-	}
 }
 
 export default TimelineContent;

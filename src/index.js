@@ -23,7 +23,16 @@ let initialize = function() {
 
 	ReactDOM.render(<Provider store={store}><MapsTimelineContainer /></Provider>, document.getElementById('maps-timeline'));
 	ReactDOM.render(<Provider store={store}><ViewSelectorContainer /></Provider>, document.getElementById('header-view-selection'));
-	ReactDOM.render(<Provider store={store}><OverlayContainer /></Provider>, document.getElementById('root'));
+	ReactDOM.render(<Provider store={store}><OverlayContainer
+			contentOffset={{
+				top: 100,
+				left: 200
+			}}
+			content={{
+				title: "Insert AOI Code",
+				text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam dui sem, fermentum vitae, sagittis id, malesuada in, quam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos."
+			}}
+		/></Provider>, document.getElementById('root'));
 
 };
 
