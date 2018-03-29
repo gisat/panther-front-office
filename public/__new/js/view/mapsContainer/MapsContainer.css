@@ -173,11 +173,11 @@ body.mode-3d .maps-container {
 
 
 .ptr-timeline-mouse > rect {
-	fill: rgba(76, 177, 204, .2);
+	fill: rgba(76, 177, 204, .15);
 }
 .ptr-timeline-mouse > line {
 	stroke-width: 1;
-	stroke: rgba(76, 177, 204, .6);
+	stroke: rgba(76, 177, 204, .7);
 }
 
 .ptr-timeline-tooltip {

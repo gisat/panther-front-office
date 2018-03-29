@@ -25,13 +25,13 @@ class Mouse extends React.PureComponent {
 				>
 					<rect
 						x={this.props.mouseX - this.props.mouseBufferWidth}
-						width={this.props.mouseBufferWidth * 2}
+						width={this.props.mouseBufferWidth * 2 + 1}
 						y={0}
 						height={this.props.height}
 					/>
 					<line
-						x1={this.props.mouseX}
-						x2={this.props.mouseX}
+						x1={this.props.mouseX + 0.5}
+						x2={this.props.mouseX + 0.5}
 						y1={0}
 						y2={this.props.height}
 					/>
