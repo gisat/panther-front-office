@@ -53,8 +53,8 @@ class Years extends React.PureComponent {
 					className="ptr-timeline-year"
 				>
 					<line
-						x1={start}
-						x2={start}
+						x1={start + 0.5}
+						x2={start + 0.5}
 						y1={0}
 						y2={this.props.height}
 					/>

@@ -40,8 +40,8 @@ class Days extends React.PureComponent {
 				return (
 					<line
 						key={day.day}
-						x1={start}
-						x2={start}
+						x1={start + 0.5}
+						x2={start + 0.5}
 						y1={0}
 						y2={monday ? this.props.height - 12 : this.props.height - 15}
 						className={classNames("ptr-timeline-day", day.start.format('dddd'))}
