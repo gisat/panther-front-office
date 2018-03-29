@@ -53,6 +53,7 @@ class MapsTimelineContainer extends React.PureComponent {
 			let {scope, period, ...props} = this.props;
 			return React.createElement(MapsTimeline, {...props,
 				period:  utils.period(period.period),
+                initialPeriod: utils.period(period.period),
 				onLayerPeriodClick: this.onLayerPeriodClick
 			});
 

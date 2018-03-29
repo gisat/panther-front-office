@@ -18,7 +18,6 @@ class Layers extends React.PureComponent {
 
 	render() {
 
-		console.log('Layers#render props', this.props);
 
 		let layers = _.map(this.props.layers, (layer, index) => {
 			let periods = null;
@@ -28,7 +27,6 @@ class Layers extends React.PureComponent {
 					period = utils.period(period);
 					let start = this.props.getX(period.start);
 					let end = this.props.getX(period.end);
-					console.log('### layers#period', start, end, end-start);
 					if (end-start < 5) {
 						start = start - 2.5;
 						end = end + 2.5;
@@ -69,7 +67,6 @@ class Layers extends React.PureComponent {
 				let active = this.props.activeLayers && _.includes(this.props.activeLayers, layer.key);
 				let start = this.props.getX(this.props.period.start);
 				let end = this.props.getX(this.props.period.end);
-				console.log('### layers#period', start, end, end-start);
 				if (end-start < 5) {
 					start = start - 2.5;
 					end = end + 2.5;
