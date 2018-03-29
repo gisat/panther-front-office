@@ -110,6 +110,7 @@ class TimelineContent extends React.PureComponent {
 				/>
 				<Layers
 					layers={this.props.layers}
+                    dayWidth={this.props.dayWidth} // It is here to make sure the layers get rendered as the timeline is changed.
 					getX={this.props.getX}
 					onPeriodClick={this.props.onLayerPeriodClick}
 					period={this.props.period}
