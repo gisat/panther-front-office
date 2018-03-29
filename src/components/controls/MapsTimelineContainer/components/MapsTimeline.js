@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import utils from '../../../../utils/utils';
+
 import TimelineContent from './TimelineContent';
+import Tooltip from './Tooltip';
 
 const CONTROLS_WIDTH = 0;
 const INITIAL_STATE = {
@@ -86,51 +88,27 @@ class MapsTimeline extends React.PureComponent {
 
 	render() {
 
-		let tooltip = null;
+		let children = [];
+		let {maps, activeMapKey, ...contentProps} = this.props; // consume unneeded props (though we'll probably use them in the future)
+		contentProps = {...contentProps,
+			width: this.dimensions.days * this.dimensions.dayWidth,
+			dayWidth: this.dimensions.dayWidth,
+			getX: this.getX,
+			onMouseOver: this.onMouseOver,
+			onMouseLeave: this.onMouseLeave
+		};
+		children.push(React.createElement(TimelineContent, contentProps));
+
 		if (this.state.mouseX) {
-			let width = 50;
-			let height = 50;
-			let left = 0;
-			if (this.state.mouseX < width/2) {
-
-			} else if (this.state.mouseX > (this.props.containerWidth - width/2)) {
-				left = this.props.containerWidth - width;
-			} else {
-				left = this.state.mouseX - Math.round(width/2);
-			}
-			tooltip = (
-				<div
-					className="ptr-timeline-tooltip"
-					style={{
-						left: left,
-						bottom: (this.props.layers && this.props.layers.length || 0) * 10 + 30,
-						width: width,
-						height: height
-					}}
-				>
-
-				</div>
-			);
+			children.push(React.createElement(Tooltip, {
+				mouseX: this.state.mouseX,
+				getTime: this.getTime,
+				layers: this.props.layers,
+				containerWidth: this.props.containerWidth
+			}));
 		}
 
-		return (
-			<div className="ptr-timeline-container">
-				<TimelineContent
-					height="40"
-					period={this.props.period}
-					width={this.dimensions.days * this.dimensions.dayWidth}
-					dayWidth={this.dimensions.dayWidth}
-					layers={this.props.layers}
-					activeLayers={this.props.activeLayers}
-					activeLayerPeriods={this.props.activeLayerPeriods}
-					getX={this.getX}
-					onMouseOver={this.onMouseOver}
-					onMouseLeave={this.onMouseLeave}
-					onLayerPeriodClick={this.props.onLayerPeriodClick}
-				/>
-				{tooltip}
-			</div>
-		);
+		return React.createElement('div', {className: 'ptr-timeline-container'}, children);
 	}
 
 }

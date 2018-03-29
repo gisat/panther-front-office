@@ -4,7 +4,6 @@ import config from '../../../../config/index';
 
 import _ from 'lodash';
 import classNames from 'classnames';
-import Dimensions from 'react-dimensions';
 import moment from 'moment';
 
 import utils from '../../../../utils/utils';
@@ -24,7 +23,7 @@ class TimelineContent extends React.PureComponent {
 
 		console.log('TimelineContent#render props', this.props);
 
-		let height = this.props.layers.length * 10 + 20;
+		let height = (this.props.layers && this.props.layers.length * 10 + 20) || 20;
 
 		return (
 			<svg
