@@ -8,6 +8,7 @@ import TimelineContent from './TimelineContent';
 import Tooltip from './Tooltip';
 
 const CONTROLS_WIDTH = 0;
+const MOUSE_BUFFER_WIDTH = 5;
 const INITIAL_STATE = {
 	mouseX: null
 };
@@ -95,7 +96,9 @@ class MapsTimeline extends React.PureComponent {
 			dayWidth: this.dimensions.dayWidth,
 			getX: this.getX,
 			onMouseOver: this.onMouseOver,
-			onMouseLeave: this.onMouseLeave
+			onMouseLeave: this.onMouseLeave,
+			mouseX: this.state.mouseX,
+			mouseBufferWidth: MOUSE_BUFFER_WIDTH
 		};
 		children.push(React.createElement(TimelineContent, contentProps));
 
@@ -104,7 +107,8 @@ class MapsTimeline extends React.PureComponent {
 				mouseX: this.state.mouseX,
 				getTime: this.getTime,
 				layers: this.props.layers,
-				containerWidth: this.props.containerWidth
+				containerWidth: this.props.containerWidth,
+				mouseBufferWidth: MOUSE_BUFFER_WIDTH
 			}));
 		}
 

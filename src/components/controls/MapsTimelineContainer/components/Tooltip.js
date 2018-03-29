@@ -16,7 +16,7 @@ class Tooltip extends React.PureComponent {
 
 	render() {
 
-		console.log('Tooltip#render props', this.props);
+		//console.log('Tooltip#render props', this.props);
 
 		let width = 50;
 		let height = 50;

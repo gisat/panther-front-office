@@ -11,6 +11,7 @@ import utils from '../../../../utils/utils';
 import Months from './Months';
 import Days from './Days';
 import Years from './Years';
+import Mouse from './Mouse';
 import Layers from './Layers';
 
 class TimelineContent extends React.PureComponent {
@@ -21,7 +22,7 @@ class TimelineContent extends React.PureComponent {
 
 	render() {
 
-		console.log('TimelineContent#render props', this.props);
+		//console.log('TimelineContent#render props', this.props);
 
 		let height = (this.props.layers && this.props.layers.length * 10 + 20) || 20;
 
@@ -49,6 +50,11 @@ class TimelineContent extends React.PureComponent {
 					getX={this.props.getX}
 					height={height}
 					dayWidth={this.props.dayWidth}
+				/>
+				<Mouse
+					mouseBufferWidth={this.props.mouseBufferWidth}
+					mouseX={this.props.mouseX}
+					height={height}
 				/>
 				<Layers
 					layers={this.props.layers}
