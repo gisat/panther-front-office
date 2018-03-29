@@ -30,7 +30,7 @@ class TimelineContent extends React.PureComponent {
 			<svg
 				width={this.props.width}
 				height={height}
-				onMouseOver={this.props.onMouseOver}
+				onMouseMove={this.props.onMouseOver}
 				onMouseLeave={this.props.onMouseLeave}
 			>
 				<Months
