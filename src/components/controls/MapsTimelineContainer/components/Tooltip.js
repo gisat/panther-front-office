@@ -14,12 +14,44 @@ class Tooltip extends React.PureComponent {
 
 	};
 
+	overlap(one, two) {
+		return !(one.end < two.start || two.end < one.start);
+	}
+
 	render() {
 
 		//console.log('Tooltip#render props', this.props);
 
-		let width = 50;
-		let height = 50;
+		let interval = {
+			start: this.props.getTime(this.props.mouseX - this.props.mouseBufferWidth),
+			end: this.props.getTime(this.props.mouseX + this.props.mouseBufferWidth)
+		};
+
+		let layers = [];
+		_.each(this.props.layers, layer => {
+			if (layer.periods && layer.periods.loading) {
+				// loading, do nothing (todo or flag something is still loading?)
+			} else if (layer.periods && !layer.periods.loading && layer.periods.data) {
+				// time-based, check periods overlap
+				let periods = [];
+				_.each(layer.periods.data, period => {
+					period = utils.period(period);
+					if (this.overlap(period, interval)) {
+						periods.push(period);
+					}
+				});
+				if (periods.length) {
+					// we have some overlap(s), add
+					layers.push({...layer, periods: periods})
+				}
+			} else {
+				// not time-based, keep as is
+				layers.push(layer);
+			}
+		});
+
+		let width = 200;
+		let height = layers.length * 30 + 20;
 		let left = 0;
 		if (this.props.mouseX < width/2) {
 

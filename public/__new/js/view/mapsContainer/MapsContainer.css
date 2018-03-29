@@ -185,8 +185,7 @@ body.mode-3d .maps-container {
 	bottom: 50px;
 	left: 0;
 	z-index: 50;
-
-	width: 10px;
-	height: 10px;
-	background: #f40;
+	border-radius: 3px;
+	background: #fff;
+	border: 1px solid rgba(0,0,0,.2);
 }

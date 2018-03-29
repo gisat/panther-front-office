@@ -33,6 +33,7 @@ class MapsTimeline extends React.PureComponent {
 
 		this.calculate = this.calculate.bind(this);
 		this.getX = this.getX.bind(this);
+		this.getTime = this.getTime.bind(this);
 		this.onMouseOver = this.onMouseOver.bind(this);
 		this.onMouseLeave = this.onMouseLeave.bind(this);
 
