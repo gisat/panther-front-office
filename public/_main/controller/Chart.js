@@ -966,7 +966,11 @@ Ext.define('PumaMain.controller.Chart', {
             $.post(Config.url + '/print/snapshot/' + uuid, {
                 url: canvas.toDataURL()
             }).then(function () {
-                $('.panel-snapshots .x-component-default').append('<div style="margin: 10px;">' +
+				if($('.panel-snapshots-new').length === 0) {
+					$('#sidebar-reports').prepend('<div class="panel-snapshots-new" height="200px" width="100%"></div>')
+				}
+
+                $('.panel-snapshots-new').append('<div style="margin: 10px;">' +
                     '	<a download="' + uuid + '.png" href="' + Config.url + '/print/download/' + uuid + '">' +
                     '   	<img width="128" height="128" src="' + Config.url + '/print/download/' + uuid + '" />' +
                     '	</a>' +
