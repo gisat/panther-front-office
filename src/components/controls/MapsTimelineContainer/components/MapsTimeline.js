@@ -108,7 +108,7 @@ class MapsTimeline extends React.PureComponent {
 		let change;
         let start = moment(this.state.period.start);
         let end = moment(this.state.period.end);
-        if(e.deltaY < 0) {
+        if(e.deltaY > 0) {
             change = 1 - Math.abs(e.deltaY / (100 * 100));
             end.subtract((end.diff(start) * Math.abs(e.deltaY / (100 * 100))));
 		} else {
