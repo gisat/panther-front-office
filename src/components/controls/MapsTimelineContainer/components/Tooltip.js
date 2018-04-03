@@ -50,8 +50,25 @@ class Tooltip extends React.PureComponent {
 			}
 		});
 
+		let content = _.map(layers, layer => {
+			let periods = null;
+			let periodsLength = layer.periods && layer.periods.length;
+			if (periodsLength) {
+				if (periodsLength === 1) {
+					periods = layer.periods[0].source; //todo better formatting
+				} else {
+					periods = periodsLength + ' periods';
+				}
+			}
+			return (
+				<div className={classNames("ptr-timeline-tooltip-layer", {active: _.includes(this.props.activeLayers, layer.key)})}>
+					{layer.name}
+				</div>
+			);
+		});
+
 		let width = 200;
-		let height = layers.length * 30 + 20;
+		let height = layers.length * 18 + 20; //todo
 		let left = 0;
 		if (this.props.mouseX < width/2) {
 
@@ -70,8 +87,6 @@ class Tooltip extends React.PureComponent {
 				height: height
 			}
 		};
-
-		let content = null;
 
 		return React.createElement('div', props, content);
 	}

@@ -188,4 +188,25 @@ body.mode-3d .maps-container {
 	border-radius: 3px;
 	background: #fff;
 	border: 1px solid rgba(0,0,0,.2);
+	font-size: 12px;
+	padding: 10px;
+}
+.ptr-timeline-tooltip-layer {
+	margin: 2px 0;
+	padding-left: 10px;
+	position: relative;
+}
+.ptr-timeline-tooltip-layer::before {
+	content: ' ';
+	position: absolute;
+	top: 6px;
+	left: 0;
+	display: block;
+	width: 5px;
+	height: 5px;
+	border-radius: 2px;
+	background: #6594e2;
+}
+.ptr-timeline-tooltip-layer.active::before {
+	background: #cc0044;
 }
