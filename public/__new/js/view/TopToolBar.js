@@ -40,6 +40,7 @@ define([
 		this._dispatcher = options.dispatcher;
 		this._scopeStore = options.store.scopes;
 		this._stateStore = options.store.state;
+		this._mapStores = options.store.map;
 
 		this._target = $('#top-toolbar-widgets');
 		this._target.on('click.topToolBar', '.item', this.handleClick.bind(this));
@@ -330,20 +331,42 @@ define([
 	TopToolBar.prototype.handleContextHelpClick = function(e){};
 
     TopToolBar.prototype.handleSnapshotClick = function () {
-        var uuid = new Uuid().generate();
-        $.post(Config.url + '/print/snapshot/' + uuid, {
-            url: $('#top-toolbar-snapshot').attr('data-url')
-        }).then(function () {
-        	if($('.panel-snapshots-new').length === 0) {
-        		$('#sidebar-reports').prepend('<div class="panel-snapshots-new" height="200px" width="100%"></div>')
-			}
+		if($('.panel-snapshots-new').length === 0) {
+			$('#sidebar-reports').prepend('<div class="panel-snapshots-new" height="200px" width="100%"></div>')
+		}
 
-            $('.panel-snapshots-new').append('<div style="margin: 10px;">' +
-                '	<a download="' + uuid + '.png" href="' + Config.url + '/print/download/' + uuid + '">' +
-                '   	<img width="128" height="128" src="' + Config.url + '/print/download/' + uuid + '" />' +
-                '	</a>' +
-				'</div>');
-        })
+		$('.panel-snapshots-new').append('<div style="margin: 10px;height: 100px;" class="snapshot-loading">' +
+			'<div id="loading-screen-content-wrap">' +
+			'  <div id="loading-screen-content">' +
+			'    <div class="a-loader-container small blackandwhite">' +
+			'      <i class="i1"></i>' +
+			'      <i class="i2"></i>' +
+			'      <i class="i3"></i>' +
+			'      <i class="i4"></i>' +
+			'    </div>' +
+			'  </div>' +
+			'</div>' +
+			'</div>');
+
+        this._mapStores.getAll().forEach(function(map){
+        	var promises = []
+        	map.snapshot().then(function(snapshotUrl){
+				var uuid = new Uuid().generate();
+				promises.push($.post(Config.url + '/print/snapshot/' + uuid, {
+					url: snapshotUrl
+				}).then(function () {
+					$('.panel-snapshots-new').append('<div style="margin: 10px;">' +
+						'	<a download="' + uuid + '.png" href="' + Config.url + '/print/download/' + uuid + '">' +
+						'   	<img width="128" height="128" src="' + Config.url + '/print/download/' + uuid + '" />' +
+						'	</a>' +
+						'</div>');
+				}));
+
+				Promise.all(promises).then(function(){
+					$('.snapshot-loading').remove();
+				})
+			})
+		});
     };
 
 	TopToolBar.prototype.handleShareViewClick = function(e){
