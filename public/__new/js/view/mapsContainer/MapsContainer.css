@@ -197,6 +197,10 @@ body.mode-3d .maps-container {
 .ptr-timeline-tooltip-layer {
 	margin: 2px 0;
 	display: flex;
+	width: 100%;
+}
+.ptr-timeline-tooltip-layer > div {
+	flex-grow: 1;
 }
 .ptr-timeline-tooltip-layer > div:first-child {
 	position: relative;

@@ -55,13 +55,18 @@ class Tooltip extends React.PureComponent {
 			let periodsLength = layer.periods && layer.periods.length;
 			if (periodsLength) {
 				if (periodsLength === 1) {
-					periods = layer.periods[0].source; //todo better formatting
+					periods = utils.periodToString(layer.periods[0]);
 				} else {
 					periods = periodsLength + ' periods';
 				}
 			}
 			return (
-				<div className={classNames("ptr-timeline-tooltip-layer", {active: _.includes(this.props.activeLayers, layer.key)})}>
+				<div
+					className={classNames("ptr-timeline-tooltip-layer", {
+						active: _.includes(this.props.activeLayers, layer.key)
+						})}
+					key={layer.key}
+				>
 					<div></div>
 					<div>{layer.name}</div>
 					<div className="ptr-timeline-tooltip-layer-periods">{periods}</div>
@@ -69,8 +74,7 @@ class Tooltip extends React.PureComponent {
 			);
 		});
 
-		let width = 200;
-		let height = layers.length * 18 + 20; //todo
+		let width = 300;
 		let left = 0;
 		if (this.props.mouseX < width/2) {
 
