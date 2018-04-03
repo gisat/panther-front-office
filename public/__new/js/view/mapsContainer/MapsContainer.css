@@ -131,7 +131,7 @@ body.mode-3d .maps-container {
 .ptr-timeline-month > rect {
 	fill: #fff;
 }
-.ptr-timeline-month:nth-child(odd) > rect {
+.ptr-timeline-month.odd > rect {
 	fill: #f1f1f1;
 }
 .ptr-timeline-month-label {
