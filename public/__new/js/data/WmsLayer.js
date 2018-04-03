@@ -38,6 +38,9 @@ define(['./Model'], function(Model){
 			},
 			custom: {
 				serverName: 'custom'
+			},
+			getDates: {
+				serverName: 'getDates'
 			}
 		};
 	};

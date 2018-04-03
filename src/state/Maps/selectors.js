@@ -15,8 +15,16 @@ const getMaps = createSelector(
 	}
 );
 
+const getActiveMap = createSelector(
+	[getMaps, getActiveMapKey],
+	(maps, activeMapKey) => {
+		return _.find(maps, {key: activeMapKey});
+	}
+);
+
 export default {
 	getActiveMapKey: getActiveMapKey,
+	getActiveMap: getActiveMap,
 	getMaps: getMaps,
 	getMapDefaults: getMapDefaults,
 	getPeriodIndependence: getPeriodIndependence

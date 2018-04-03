@@ -396,7 +396,7 @@ var langCz = {
     addLayer: "Přidat vrstvu",
     administration: "Administrace",
     advanced: "Pokročilé",
-    aggregate: "Aggregovat",
+    aggregate: "Agregovat",
     all: "Vše",
     allAttributes: "Všechny atributy",
     allAttributesHaveToBeNormalized: 'Všechny atributy musí být normalizované ve stylu "První vybraný"',

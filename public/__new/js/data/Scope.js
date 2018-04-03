@@ -50,6 +50,9 @@ define(['./Model'], function(Model){
 			},
 			showTimeline: {
 				serverName: 'showTimeline'
+			},
+			restrictEditingToAdmins: {
+				serverName: 'restrictEditingToAdmins'
 			}
 
 		};

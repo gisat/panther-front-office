@@ -4,7 +4,6 @@ import config from '../../../../config/index';
 
 import _ from 'lodash';
 import classNames from 'classnames';
-import Dimensions from 'react-dimensions';
 import moment from 'moment';
 
 import utils from '../../../../utils/utils';
@@ -36,16 +35,21 @@ class Days extends React.PureComponent {
 		let ret = _.map(days, day => {
 			let start = this.props.getX(day.start);
 			let end = this.props.getX(day.end);
-			return (
-				<line
-					key={day.day}
-					x1={start}
-					x2={start}
-					y1={0}
-					y1={day.start.format('dddd') === 'Monday' ? 28 : 25}
-					className={classNames("ptr-timeline-day", day.start.format('dddd'))}
-				/>
-			);
+			let monday = day.start.format('dddd') === 'Monday';
+			if (this.props.dayWidth > 2 || (this.props.dayWidth > 0.3 && monday)) {
+				return (
+					<line
+						key={day.day}
+						x1={start + 0.5}
+						x2={start + 0.5}
+						y1={0}
+						y2={monday ? this.props.height - 12 : this.props.height - 15}
+						className={classNames("ptr-timeline-day", day.start.format('dddd'))}
+					/>
+				);
+			} else {
+				return null;
+			}
 		});
 
 		return React.createElement('g', null, ret);

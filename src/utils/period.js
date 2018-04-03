@@ -1,4 +1,5 @@
 import moment from 'moment';
+import _ from 'lodash';
 
 const parse = string => {
 	if (string.match(/\/P/)) {
@@ -10,7 +11,8 @@ const parse = string => {
 		let dates = string.split('/');
 		return {
 			start: parseOne(dates[0]).start,
-			end: parseOne(dates[1]).end
+			end: parseOne(dates[1]).end,
+			type: 'interval'
 		};
 	}
 	// anything else
@@ -24,7 +26,8 @@ const parseOne = string => {
 		return {
 			start: moment(string),
 			end: moment(string).endOf('year'),
-			source: string
+			source: string,
+			type: 'year'
 		};
 	}
 	if (string.match(/^[0-9]{4}-[0-9]{2}$/)) {
@@ -32,7 +35,8 @@ const parseOne = string => {
 		return {
 			start: moment(string),
 			end: moment(string).endOf('month'),
-			source: string
+			source: string,
+			type: 'month'
 		};
 	}
 	if (string.match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/)) {
@@ -40,7 +44,8 @@ const parseOne = string => {
 		return {
 			start: moment(string),
 			end: moment(string).endOf('day'),
-			source: string
+			source: string,
+			type: 'day'
 		};
 	}
 	if (string.match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}$/)) {
@@ -48,7 +53,8 @@ const parseOne = string => {
 		return {
 			start: moment(string),
 			end: moment(string).endOf('hour'),
-			source: string
+			source: string,
+			type: 'hour'
 		};
 	}
 	if (string.match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}$/)) {
@@ -56,7 +62,8 @@ const parseOne = string => {
 		return {
 			start: moment(string),
 			end: moment(string).endOf('minute'),
-			source: string
+			source: string,
+			type: 'minute'
 		};
 	}
 	if (
@@ -67,7 +74,8 @@ const parseOne = string => {
 		return {
 			start: moment(string),
 			end: moment(string).endOf('second'),
-			source: string
+			source: string,
+			type: 'second'
 		};
 	}
 	if (string.match(/^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}/)) {
@@ -75,9 +83,31 @@ const parseOne = string => {
 		return {
 			start: moment(string),
 			end: moment(string).endOf('second'),
-			source: string
+			source: string,
+			type: 'full'
 		};
 	}
 };
 
 export default parse;
+
+export const toString = period => {
+	if (!(_.isObject(period) && period.start && period.end && period.type)) throw new Error('Invalid period supplied to period.toString');
+	switch (period.type) {
+		case 'interval':
+			return period.start.format('YYYY-MM-DD h:mm:ss') + ' - ' + period.end.format('YYYY-MM-DD h:mm:ss');
+			break;
+		case 'second':
+		case 'full':
+			return period.start.format('YYYY-MM-DD h:mm:ss');
+			break;
+		case 'minute':
+			return period.start.format('YYYY-MM-DD h:mm');
+			break;
+		case 'hour':
+			return period.start.format('YYYY-MM-DD h') + 'h';
+			break;
+		default:
+			return period.source;
+	}
+};

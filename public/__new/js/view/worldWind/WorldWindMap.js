@@ -170,6 +170,29 @@ define(['../../actions/Actions',
 	});
 
 	/**
+	 * It returns promise which in the end returns URL to be sent to the server. This URL is BASE64 encoded state of the
+	 * WWW.
+	 * @return {Promise<any>}
+	 */
+	WorldWindMap.prototype.snapshot = function() {
+		var index;
+		var self = this;
+		return new Promise(function(resolve){
+			// TODO: There might happen possible concurrency problem.
+			index = self._wwd._redrawCallbacks.length;
+			self._wwd._redrawCallbacks.push(function(worldwind, stage) {
+				if(stage === WorldWind.AFTER_REDRAW) {
+					resolve(document.getElementById(self._id + '-canvas').toDataURL());
+				}
+			});
+		}).then(function(url){
+			self._wwd._redrawCallbacks.splice(index, 1);
+
+			return url;
+		});
+	};
+
+	/**
 	 * Add on click recognizer
 	 * @param callback {function} on click callback
 	 * @param property {string} property for to find via getFeatureInfo
@@ -380,7 +403,8 @@ define(['../../actions/Actions',
 	WorldWindMap.prototype.changeGeometryInAoiLayer = function(geometry){
 		if (this._aoiLayer){
 			this._aoiLayer.removeAllRenderables();
-			let renderables = new MultiPolygon({geometry: geometry, switchedCoordinates: true}).render();
+			var renderables = new MultiPolygon({geometry: geometry, switchedCoordinates: true}).render();
+
 			this._aoiLayer.addRenderables(renderables);
 			this._wwd.redraw();
 		}
@@ -566,7 +590,6 @@ define(['../../actions/Actions',
 		this.selectionController = this.buildSelectionController();
 		this.layers = this.buildLayers();
 
-		this.addSnapshotCallback();
 		this.addMapControlListeners();
 		this.setNavigator();
 	};

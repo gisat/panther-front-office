@@ -212,7 +212,8 @@ define(['js/actions/Actions',
             store: {
                 locations: store.locations,
                 themes: store.themes,
-                scopes: store.scopes
+                scopes: store.scopes,
+				state: stateStore
             }
         });
 
@@ -244,7 +245,8 @@ define(['js/actions/Actions',
                 dispatcher: window.Stores,
 				store: {
 					scopes: store.scopes,
-					state: stateStore
+					state: stateStore,
+					map: mapStore
 				}
             });
         }

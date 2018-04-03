@@ -1,9 +1,12 @@
 import React from 'react';
-import ReactSelect from 'react-select'
+import VirtualizedSelect from 'react-virtualized-select';
 import PropTypes from 'prop-types';
+import createFilterOptions from 'react-select-fast-filter-options';
 
 import classNames from 'classnames';
 import 'react-select/dist/react-select.css';
+import 'react-virtualized/styles.css'
+import 'react-virtualized-select/styles.css'
 
 class UISelect extends React.PureComponent {
 
@@ -17,11 +20,14 @@ class UISelect extends React.PureComponent {
 		value: PropTypes.oneOfType([
 			PropTypes.string,
 			PropTypes.number
-		])
+		]),
+		disabled: PropTypes.bool
 	};
 
 	constructor(props) {
 		super();
+
+		this.filterOptions = null;
 	}
 
 	render() {
@@ -37,16 +43,24 @@ class UISelect extends React.PureComponent {
 			label = this.renderLabel();
 		}
 
+		let options = this.props.options;
+
+		if(options.length > 0 && !this.filterOptions) {
+			this.filterOptions = createFilterOptions({options});
+		}
+
 		return (
 			<div className={classes}>
 				{label}
-				<ReactSelect
+				<VirtualizedSelect
 					clearable={false}
 					name={this.props.name}
 					onChange={this.props.onChange}
-					options={this.props.options}
+					options={options}
+					filterOptions={this.filterOptions}
 					placeholder={this.props.placeholder}
 					value={this.props.value}
+					disabled={this.props.disabled}
 				/>
 			</div>
 		)

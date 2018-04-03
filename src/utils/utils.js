@@ -3,11 +3,12 @@ import React from 'react';
 import config from '../config';
 import _ from 'lodash';
 
-import period from './period';
+import period, {toString as periodToString} from './period';
 
 export default {
 
 	period: period,
+	periodToString: periodToString,
 
 	deepClone: function (data) {
 		var clone = data;

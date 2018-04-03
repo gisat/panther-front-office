@@ -192,6 +192,9 @@ define([
 				auth = "";
 			}
 			self._url = options.url + auth +'&lang=' + $( "#floater-sharing .floater-body #sharing-lang option:checked" ).val();
+			if(Config.toggles.isUrbanTep && selectedGroup) {
+				UrbanTepPortalStore.share(self._url, $("#floater-sharing .floater-body #sharing-name").val(), selectedGroup);
+			}
 			alert(polyglot.t('theStateWasCorrectlyShared') + self._url);
 			minimiseBtn.trigger("click");
 			self.rebuild();

@@ -4,7 +4,6 @@ import config from '../../../../config/index';
 
 import _ from 'lodash';
 import classNames from 'classnames';
-import Dimensions from 'react-dimensions';
 import moment from 'moment';
 
 import utils from '../../../../utils/utils';
@@ -36,15 +35,31 @@ class Months extends React.PureComponent {
 		let ret = _.map(months, month => {
 			let start = this.props.getX(month.start);
 			let end = this.props.getX(month.end);
+			let label = null;
+			if (this.props.dayWidth > 1.5) {
+				label = (
+					<text
+						x={start + 3}
+						y={this.props.height - 2}
+						className="ptr-timeline-month-label"
+					>
+						{month.month}
+					</text>
+				);
+			}
 			return (
-				<rect
+				<g
 					key={month.month}
-					x={start}
-					width={end-start}
-					y={0}
-					height="40"
 					className="ptr-timeline-month"
-				/>
+				>
+					<rect
+						x={start}
+						width={end-start}
+						y={0}
+						height={this.props.height}
+					/>
+					{label}
+				</g>
 			);
 		});
 
