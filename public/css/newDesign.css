@@ -349,28 +349,21 @@
 
 .newDesign .configform .form-label-help i {
 	display: block;
-	text-align: center;
-	font-family: serif;
-	font-style: normal;
-	font-size: .85rem;
-	font-weight: 600;
-	color: white;
-	background: rgba(100, 100, 100, .8);
-	border-radius: 10px;
-	width: 15px;
-	height: 15px;
-	padding-top: 1px;
-	cursor: pointer;
-	transition: background .3s;
+	font-family: FontAwesome;
+	font-size: 1rem;
+	color: rgba(100, 100, 100, 1);
+	transition: color .3s ease-in-out;
+	width: 20px;
+	height: 20px;
 }
 
 .newDesign .configform .form-label-help i:hover {
-	background: rgba(100, 100, 100, 1);
+	color: rgba(153,54,75,.9);
 }
 
 .newDesign .configform .form-label-help p {
 	display: none;
-	position: absolute;
+	position: fixed;
 	z-index: 100000;
 	width: 200px;
 	background: rgba(255, 215, 215, .9);
