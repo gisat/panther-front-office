@@ -97,8 +97,15 @@
 	align-items: center;
 	flex: 1;
 }
+.about-window-text h2 {
+	font-size: 1.5rem;
+	font-weight: 400;
+	margin-bottom: 1rem;
+	color: rgb(65,69,81);
+	text-align: center;
+}
 .about-window-text p {
-	font-size: 1.15rem;
+	font-size: 1.05rem;
 	font-weight: 400;
 	color: rgb(65,69,81);
 	text-align: center;
@@ -139,6 +146,9 @@
 		width: 22rem;
 		height: 7rem;
 	}
+	.about-window-text h2 {
+		font-size: 1.4rem;
+	}
 	.about-window-text p {
 		font-size: 1.05rem;
 	}
@@ -147,6 +157,9 @@
 	.about-window-header-title {
 		font-size: 3rem;
 		font-weight: 100;
+	}
+	.about-window-text h2 {
+		font-size: 1.3rem;
 	}
 	.about-window-text p {
 		font-size: 1rem;
@@ -164,6 +177,9 @@
 	.about-window-logo.logo-wide-rectangle {
 		width: 20rem;
 		height: 6rem;
+	}
+	.about-window-text h2 {
+		font-size: 1.15rem;
 	}
 	.about-window-text p {
 		font-size: .9rem;
@@ -193,6 +209,9 @@
 		height: 10rem;
 		border-radius: 5rem;
 		padding: 1rem;
+	}
+	.about-window-text h2 {
+		font-size: 1.3rem;
 	}
 	.about-window-text p {
 		font-size: 1rem;
@@ -233,6 +252,9 @@
 	.about-window-header-title {
 		font-size: 2.3rem;
 		padding: 2rem 2rem 7rem 2rem;
+	}
+	.about-window-text h2 {
+		font-size: 1.15rem;
 	}
 	.about-window-text p {
 		font-size: .9rem;
