@@ -196,8 +196,10 @@ class MapsTimeline extends React.PureComponent {
 			getX: this.getX,
 			onMouseOver: this.onMouseOver,
 			onMouseLeave: this.onMouseLeave,
-            onWheel: this.onWheel,
-            onDrag: this.onDrag
+      onWheel: this.onWheel,
+      onDrag: this.onDrag,
+			mouseX: this.state.mouseX,
+			mouseBufferWidth: MOUSE_BUFFER_WIDTH
 		};
 		children.push(React.createElement(TimelineContent, contentProps));
 
