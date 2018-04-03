@@ -613,7 +613,7 @@ define([
 
 		// notifications from React
 		else if (type === "AOI_GEOMETRY_SET"){
-			if (!(!state.previousAoi && state.changes.dataview)){
+			if (!(!state.previousAoi && state.changes.dataview) || (state.withoutAoi && state.changes.dataview)){
 				this.zoomToArea(options.extent);
 			}
 			this.changeGeometryInAoiLayer(options.geometry);
