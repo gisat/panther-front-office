@@ -87,6 +87,7 @@ define([
 			selectedMapId: this._selectedMapId,
 			user: this._user,
 			widgets: this.widgets(),
+			withoutAoi: this._withoutAoi,
 			worldWindNavigator: this.getNavigatorState()
 		}
 	};
@@ -377,6 +378,8 @@ define([
 		} else if (type === Actions.userChanged){
 			this.updateUser(options);
 			this._dispatcher.notify('customization#userChanged');
+		} else if (type === Actions.dataviewWithoutAoi){
+			this._withoutAoi = options.status;
 		}
 
 		// notification from redux
