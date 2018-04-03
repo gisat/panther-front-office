@@ -62,7 +62,9 @@ class Tooltip extends React.PureComponent {
 			}
 			return (
 				<div className={classNames("ptr-timeline-tooltip-layer", {active: _.includes(this.props.activeLayers, layer.key)})}>
-					{layer.name}
+					<div></div>
+					<div>{layer.name}</div>
+					<div className="ptr-timeline-tooltip-layer-periods">{periods}</div>
 				</div>
 			);
 		});
@@ -84,7 +86,7 @@ class Tooltip extends React.PureComponent {
 				left: left,
 				bottom: (this.props.layers && this.props.layers.length || 0) * 10 + 30,
 				width: width,
-				height: height
+				//height: height
 			}
 		};
 
