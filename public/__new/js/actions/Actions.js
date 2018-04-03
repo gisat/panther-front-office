@@ -9,6 +9,7 @@ define([], function(){
 
 		chartToggleDescription: "chart#toggleDescription",
 		dataviewShow: "dataview#show",
+		dataviewWithoutAoi: "dataview#withoutAoi",
 
 		mapAdd: 'map#add',
 		mapAdded: 'map#added',
