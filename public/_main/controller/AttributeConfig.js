@@ -102,7 +102,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 		});
 		$("body").on("click", ".x-window", function(e){
 			var cls = e.target.className;
-			if (cls != "form-label-help" && cls != "form-label-help-button"){
+			if (cls != "form-label-help" && cls != "form-label-help-button fa fa-info-circle"){
 				$(".form-label-help p").removeClass("open");
 			}
 		});

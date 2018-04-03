@@ -3,7 +3,7 @@ Ext.define('PumaMain.view.NormalizeForm', {
 	alias: 'widget.normalizeform',
 	frame: true,
 	header: true,
-	title: 'Attribute configuration',
+	title: polyglot.t('attributeConfiguration'),
 	initComponent: function () {
 		this.attrStore = Ext.create('Gisatlib.data.SlaveStore', {
 			slave: true,
@@ -42,7 +42,7 @@ Ext.define('PumaMain.view.NormalizeForm', {
 			labelWidth: 170,
 			afterLabelTpl: new Ext.XTemplate(
 				'<div class="form-label-help">',
-					'<i class="form-label-help-button">i</i>',
+					'<i class="form-label-help-button fa fa-info-circle"></i>',
 					polyglot.t('modifyDisplayedUnitsText'),
 				'</div>'
 			),
@@ -55,7 +55,7 @@ Ext.define('PumaMain.view.NormalizeForm', {
 			labelWidth: 170,
 			afterLabelTpl: new Ext.XTemplate(
 				'<div class="form-label-help">',
-					'<i class="form-label-help-button">i</i>',
+					'<i class="form-label-help-button fa fa-info-circle"></i>',
 					polyglot.t('customFactorTooltip'),
 				'</div>'
 			),
