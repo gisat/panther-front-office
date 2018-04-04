@@ -17,42 +17,50 @@ const TTL_GEOMETRY = 5;
 function load(ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
 	return (dispatch, getState) => {
-		dispatch(actionLoadRequest());
 
-		let scope = Select.scopes.getActiveScopeData(getState());
-
-		if (scope && scope.aoiLayer && scope.aoiLayer.key && scope.aoiLayer.idColumn && scope.aoiLayer.fidColumn) {
-
-			let url = config.apiGeoserverWFSProtocol + '://' + path.join(config.apiGeoserverWFSHost, config.apiGeoserverWFSPath);
-			url += '?service=wfs&version=2.0.0.&request=GetFeature&typeName=' + scope.aoiLayer.key + '&outputFormat=application/json&propertyName=' + scope.aoiLayer.idColumn + ',' + scope.aoiLayer.fidColumn;
-
-			return fetch(url).then(
-				response => {
-					console.log('#### load AOI response', response);
-					if (response.ok) {
-						return response.json().then(data => {
-							if (data) {
-								dispatch(loadReceive(data.features, scope.aoiLayer));
-							} else {
-								dispatch(actionLoadError('no data returned'));
-							}
-						});
-					} else {
-						dispatch(actionLoadError(response))
-					}
-				},
-				error => {
-					console.log('#### load AOI error', error);
-					if (ttl - 1){
-						dispatch(load(ttl - 1));
-					} else {
-						dispatch(actionLoadError("AOI#actions load: AOI weren't loaded!"));
-					}
-				}
-			);
-
+		let state = getState();
+		if (state.aoi.loading) {
+			// already loading, do nothing
+			console.log('#### load AOI: duplicate load canceled');
 		} else {
-			dispatch(actionLoadError('cannot get layer data from scope'));
+			dispatch(actionLoadRequest());
+
+			let scope = Select.scopes.getActiveScopeData(state);
+
+			if (scope && scope.aoiLayer && scope.aoiLayer.key && scope.aoiLayer.idColumn && scope.aoiLayer.fidColumn) {
+
+				let url = config.apiGeoserverWFSProtocol + '://' + path.join(config.apiGeoserverWFSHost, config.apiGeoserverWFSPath);
+				url += '?service=wfs&version=2.0.0.&request=GetFeature&typeName=' + scope.aoiLayer.key + '&outputFormat=application/json&propertyName=' + scope.aoiLayer.idColumn + ',' + scope.aoiLayer.fidColumn;
+
+				return fetch(url).then(
+					response => {
+						console.log('#### load AOI response', response);
+						if (response.ok) {
+							return response.json().then(data => {
+								if (data) {
+									dispatch(loadReceive(data.features, scope.aoiLayer));
+								} else {
+									dispatch(actionLoadError('no data returned'));
+								}
+							});
+						} else {
+							dispatch(actionLoadError(response))
+						}
+					},
+					error => {
+						console.log('#### load AOI error', error);
+						if (ttl - 1) {
+							dispatch(load(ttl - 1));
+						} else {
+							dispatch(actionLoadError("AOI#actions load: AOI weren't loaded!"));
+						}
+					}
+				);
+
+			} else {
+				dispatch(actionLoadError('cannot get layer data from scope'));
+			}
+
 		}
 
 	};
