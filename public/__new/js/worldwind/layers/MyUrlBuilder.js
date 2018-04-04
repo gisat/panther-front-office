@@ -1,6 +1,8 @@
 define([
+	'./proj4-src',
+
 	'worldwind'
-], function(){
+], function(proj4){
 	var WmsUrlBuilder = WorldWind.WmsUrlBuilder;
 
 	/**
@@ -13,6 +15,9 @@ define([
 
 		this.sldId = sldId;
 		this.customParams = customParams;
+		if(this.customParams && this.customParams.crs) {
+			this.crs = this.customParams.crs;
+		}
 	};
 
 	MyUrlBuilder.prototype = Object.create(WmsUrlBuilder.prototype);
@@ -51,7 +56,9 @@ define([
 
 		if (this.customParams){
 			for (var key in this.customParams){
-				sb = sb + "&" + key + "=" + this.customParams[key];
+				if(key != 'crs') {
+					sb = sb + "&" + key + "=" + this.customParams[key];
+				}
 			}
 		}
 
@@ -61,18 +68,42 @@ define([
 			if (this.crs === "CRS:84") {
 				sb = sb + sector.minLongitude + "," + sector.minLatitude + ",";
 				sb = sb + sector.maxLongitude+ "," + sector.maxLatitude;
-			} else {
+			} else if(this.crs = "EPSG:4326") {
 				sb = sb + sector.minLatitude + "," + sector.minLongitude + ",";
 				sb = sb + sector.maxLatitude+ "," + sector.maxLongitude;
+			} else {
+				sb = this.transform(sb, sector)
 			}
 		} else {
 			sb = sb + "&srs=" + this.crs;
-			sb = sb + "&bbox=";
-			sb = sb + sector.minLongitude + "," + sector.minLatitude + ",";
-			sb = sb + sector.maxLongitude+ "," + sector.maxLatitude;
+			if(this.crs == "EPSG:4326") {
+				sb = sb + "&bbox=";
+				sb = sb + sector.minLongitude + "," + sector.minLatitude + ",";
+				sb = sb + sector.maxLongitude + "," + sector.maxLatitude;
+			} else {
+				sb = this.transform(sb, sector)
+			}
 		}
+
 		sb = sb.replace(" ", "%20");
 		return sb;
+	};
+
+	MyUrlBuilder.prototype.transform = function(sb, sector) {
+		var source = new proj4.Proj('EPSG:4326');
+		var dest = new proj4.Proj(this.crs);
+
+		var southWestOld = new proj4.Point( sector.minLongitude, sector.minLatitude );
+		var northEastOld = new proj4.Point( sector.maxLongitude, sector.maxLatitude );
+
+		var southWestNew = proj4.transform(source, dest, southWestOld);
+		var northEastNew = proj4.transform(source, dest, northEastOld);
+
+		sb = sb + "&bbox=";
+		sb = sb + southWestNew.x + "," + southWestNew.y + ",";
+		sb = sb + northEastNew.x+ "," + northEastNew.y;
+
+		return sb
 	};
 
 	return MyUrlBuilder;
