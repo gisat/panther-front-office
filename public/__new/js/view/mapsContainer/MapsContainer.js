@@ -225,6 +225,15 @@ define([
 		}
 	};
 
+	MapsContainer.prototype.handleMapDefaultsFromDataview = function(defaults){
+		var state = this._stateStore.current();
+		if (!state.isMapIndependentOfPeriod && defaults.wmsLayers){
+			this._dispatcher.notify("wmsLayer#add", {
+				layerKey: defaults.wmsLayers
+			});
+		}
+	};
+
 	/**
 	 * Deal with maps according to dataview settings
 	 * @param mapsMetadata {Array} list of maps

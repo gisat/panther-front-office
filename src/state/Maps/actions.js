@@ -128,7 +128,14 @@ function selectWmsLayer(layerKey, mapKey) {
 
 		} else {
 			let state = Select.maps.getMapDefaults(appState);
-			let wmsLayers = state.wmsLayers ? [...state.wmsLayers, layerKey] : [layerKey];
+			let layerKeys = layerKey;
+			if (!_.isArray(layerKeys)) layerKeys = [layerKeys];
+			let wmsLayers;
+			if (state && state.wmsLayers){
+				wmsLayers = _.union(state.wmsLayers, layerKeys);
+			} else {
+				wmsLayers = layerKeys;
+			}
 			let stateUpdate = {wmsLayers: wmsLayers};
 			dispatch(updateDefaults(stateUpdate));
 		}
@@ -137,12 +144,21 @@ function selectWmsLayer(layerKey, mapKey) {
 
 function clearWmsLayer(layerKey, mapKey){
 	return (dispatch, getState) => {
-		let state = _.find(Select.maps.getMaps(getState()), {key: mapKey});
-		let stateUpdate = {
-			key: mapKey,
-			wmsLayers: _.without(state.wmsLayers, layerKey)
-		};
-		dispatch(update(stateUpdate));
+		let appState = getState();
+		if (mapKey){
+			let state = _.find(Select.maps.getMaps(appState), {key: mapKey});
+			let stateUpdate = {
+				key: mapKey,
+				wmsLayers: _.without(state.wmsLayers, layerKey)
+			};
+			dispatch(update(stateUpdate));
+		} else {
+			let state = Select.maps.getMapDefaults(appState);
+			let stateUpdate = {
+				wmsLayers: _.without(state.wmsLayers, layerKey)
+			};
+			dispatch(updateDefaults(stateUpdate));
+		}
 	}
 }
 

@@ -321,6 +321,10 @@ Ext.define('PumaMain.controller.ViewMng', {
 		if (Config.cfg.mapsMetadata){
 			options.mapsMetadata = Config.cfg.mapsMetadata;
 		}
+		// map defaults
+		if (Config.cfg.mapDefaults){
+			options.mapDefaults = Config.cfg.mapDefaults;
+		}
 		// active aoi
 		if (Config.cfg.activeAoi){
 			options.activeAoi = Config.cfg.activeAoi;
@@ -447,6 +451,10 @@ Ext.define('PumaMain.controller.ViewMng', {
 			// maps metadata
 			if (options.state && options.state.mapsMetadata){
 				cfg.mapsMetadata = options.state.mapsMetadata;
+			}
+			// maps defaults
+			if (options.state && options.state.mapDefaults){
+				cfg.mapDefaults = options.state.mapDefaults;
 			}
 			// active aoi
 			if (options.state && options.state.activeAoi){
