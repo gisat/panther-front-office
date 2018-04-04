@@ -4,6 +4,7 @@ define(['../../../error/ArgumentError',
 
 	'../../../worldwind/layers/MyOsmLayer',
 	'../../../worldwind/layers/MyWmsLayer',
+	'../../../worldwind/layers/MercatorLayer',
 
 	'jquery',
 	'worldwind'
@@ -13,6 +14,7 @@ define(['../../../error/ArgumentError',
 
 			MyOsmLayer,
 			MyWmsLayer,
+			MercatorLayer,
 
 			$
 ){
@@ -206,7 +208,9 @@ define(['../../../error/ArgumentError',
 	 */
 	Layers.prototype.hideBackgroundLayer = function(id){
 		var layer = this.getLayerById(id);
-		layer.enabled = false;
+		if(layer) {
+			layer.enabled = false;
+		}
 		this._wwd.redraw();
 	};
 
@@ -293,27 +297,50 @@ define(['../../../error/ArgumentError',
 	 * @param state {boolean} true, if the layer should be displayed
 	 */
 	Layers.prototype.addWmsLayer = function(layerData, group, state){
-		var layer = new MyWmsLayer({
-			service: layerData.url,
-			layerNames: layerData.layerPaths,
-			sector: new WorldWind.Sector(-90,90,-180,180),
-			levelZeroDelta: new WorldWind.Location(90,90),
-			numLevels: 18,
-			format: "image/png",
-			opacity: .9,
-			size: 256,
-			version: "1.1.1",
-			customParams: layerData.customParams
-		}, null);
-		layer.urlBuilder.version = "1.1.1";
-		layer.metadata = {
-			active: state,
-			name: layerData.name,
-			id: layerData.id,
-			group: group,
-			order: layerData.order
-		};
-		this.addLayer(layer);
+		var layer;
+		if(layerData.customParams.crs === 'EPSG:3857') {
+			layer = new MercatorLayer({
+				service: layerData.url,
+				layerNames: layerData.layerPaths,
+				numLevels: 19,
+				format: "image/png",
+				opacity: .9,
+				size: 256,
+				version: "1.1.1",
+				customParams: layerData.customParams
+			}, null);
+			layer.urlBuilder.version = "1.1.1";
+			layer.metadata = {
+				active: state,
+				name: layerData.name,
+				id: layerData.id,
+				group: group,
+				order: layerData.order
+			};
+			this.addLayer(layer);
+		} else {
+			layer = new MyWmsLayer({
+				service: layerData.url,
+				layerNames: layerData.layerPaths,
+				sector: new WorldWind.Sector(-90, 90, -180, 180),
+				levelZeroDelta: new WorldWind.Location(90, 90),
+				numLevels: 18,
+				format: "image/png",
+				opacity: .9,
+				size: 256,
+				version: "1.1.1",
+				customParams: layerData.customParams
+			}, null);
+			layer.urlBuilder.version = "1.1.1";
+			layer.metadata = {
+				active: state,
+				name: layerData.name,
+				id: layerData.id,
+				group: group,
+				order: layerData.order
+			};
+			this.addLayer(layer);
+		}
 	};
 
 	/**
