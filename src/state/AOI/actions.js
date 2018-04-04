@@ -26,26 +26,30 @@ function load(ttl) {
 			let url = config.apiGeoserverWFSProtocol + '://' + path.join(config.apiGeoserverWFSHost, config.apiGeoserverWFSPath);
 			url += '?service=wfs&version=2.0.0.&request=GetFeature&typeName=' + scope.aoiLayer.key + '&outputFormat=application/json&propertyName=' + scope.aoiLayer.idColumn + ',' + scope.aoiLayer.fidColumn;
 
-			return fetch(url).then(response => {
-				console.log('#### load AOI response', response);
-				if (response.ok) {
-					return response.json().then(data => {
-						if (data) {
-							dispatch(loadReceive(data.features, scope.aoiLayer));
-						} else {
-							dispatch(actionLoadError('no data returned'));
-						}
-					}).catch(function(err){
-						if (ttl - 1){
-							dispatch(load(ttl - 1));
-						} else {
-							dispatch(actionLoadError("AOI#actions load: AOI weren't loaded!"));
-						}
-					});
-				} else {
-					dispatch(actionLoadError(response))
+			return fetch(url).then(
+				response => {
+					console.log('#### load AOI response', response);
+					if (response.ok) {
+						return response.json().then(data => {
+							if (data) {
+								dispatch(loadReceive(data.features, scope.aoiLayer));
+							} else {
+								dispatch(actionLoadError('no data returned'));
+							}
+						});
+					} else {
+						dispatch(actionLoadError(response))
+					}
+				},
+				error => {
+					console.log('#### load AOI error', error);
+					if (ttl - 1){
+						dispatch(load(ttl - 1));
+					} else {
+						dispatch(actionLoadError("AOI#actions load: AOI weren't loaded!"));
+					}
 				}
-			});
+			);
 
 		} else {
 			dispatch(actionLoadError('cannot get layer data from scope'));
