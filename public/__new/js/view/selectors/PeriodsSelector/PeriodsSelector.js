@@ -116,6 +116,10 @@ define([
 			this._compareButton = this.renderCompareButton();
 			this._multiSelect = this.renderMultiplePeriodSelection(periods);
 		}
+
+		if(state.scopeFull.removedTools && state.scopeFull.removedTools.indexOf('period') !== -1) {
+			$(this._id).hide();
+		}
 	};
 
 	/**
