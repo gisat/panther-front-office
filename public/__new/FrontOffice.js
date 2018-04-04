@@ -126,9 +126,9 @@ define([
 			});
 		}
 
-		if (this._previousDataset !== this._dataset){
+		if (this._previousDataset !== this._dataset && !this._options.changes.dataview){
 			this._dispatcher.notify('scope#activeScopeChanged', {activeScopeKey: Number(self._dataset)});
-			this._previousDataset = this._dataset;
+			this._previousDataset = Number(this._dataset);
 		}
 		ThemeYearConfParams.datasetChanged = false;
 
