@@ -118,7 +118,7 @@ define([
 		}
 
 		if(state.scopeFull.removedTools && state.scopeFull.removedTools.indexOf('period') !== -1) {
-			$(this._id).hide();
+			$('#'+this._id).hide();
 		}
 	};
 
