@@ -83,8 +83,8 @@ class MapsTimeline extends React.PureComponent {
 
 	getTime(x, props) {
 		let diffDays = x / this.state.dayWidth;
-		let diff = diffDays * (60 * 60 * 24);
-		return moment(this.state.period.start).add(diff, 's');
+		let diff = diffDays * (60 * 60 * 24 * 1000);
+		return moment(this.state.period.start).add(moment.duration(diff, 'ms'));
 	}
 
 
@@ -104,35 +104,52 @@ class MapsTimeline extends React.PureComponent {
      * @param e {SyntheticEvent}
 	 *
      */
-	onWheel(e){
-		let change;
-        let start = moment(this.state.period.start);
-        let end = moment(this.state.period.end);
-        if(e.deltaY > 0) {
-            change = 1 - Math.abs(e.deltaY / (100 * 100));
-            end.subtract((end.diff(start) * Math.abs(e.deltaY / (100 * 100))));
-		} else {
-            change = 1 + Math.abs(e.deltaY / (100 * 100));
-            end.add((end.diff(start) * Math.abs(e.deltaY / (100 * 100))));
-		}
-
-		let newWidth = this.state.dayWidth * change;
-
-        let diff = end.diff(start, 'days');
-        if((newWidth * diff) < this.dimensions.width) {
-        	newWidth = this.dimensions.width / this.dimensions.days;
-        	start = this.props.initialPeriod.start;
-        	end = this.props.initialPeriod.end;
-		}
-
-		this.setState({
-			dayWidth: newWidth,
-			period: {
-				start: start,
-				end: end
+		onWheel(e) {
+			let change;
+			let mouseTime = this.getTime(this.state.mouseX);
+			if (e.deltaY > 0) {
+				// zoom out
+				change = 1 - Math.abs(e.deltaY / (10 * 100));
+			} else {
+				// zoom in
+				change = 1 + Math.abs(e.deltaY / (10 * 100));
 			}
-		});
-	}
+
+			let newWidth = this.state.dayWidth * change;
+
+			//for now, don't allow zoom outside initial period - todo better solution
+			if (newWidth < this.dimensions.dayWidth) {
+				newWidth = this.dimensions.dayWidth;
+			}
+
+			let beforeMouseDays = this.state.mouseX / newWidth;
+			let afterMouseDays = (this.props.containerWidth - this.state.mouseX) / newWidth;
+			let allDays = this.props.containerWidth / newWidth;
+
+			let start = moment(mouseTime).subtract(moment.duration(beforeMouseDays * (60 * 60 * 24 * 1000), 'ms'));
+			//let end = moment(mouseTime).add(moment.duration(afterMouseDays, 'days));
+			let end = moment(start).add(moment.duration(allDays * (60 * 60 * 24 * 1000), 'ms'));
+
+			//for now, don't allow zoom outside initial period - todo better solution
+			if (start < this.props.initialPeriod.start) {
+				let outOfIntervalDiff = this.props.initialPeriod.start - start;
+				start = moment(this.props.initialPeriod.start);
+				end = end.add(outOfIntervalDiff);
+			}
+			if (end > this.props.initialPeriod.end) {
+				let outOfIntervalDiff = end - this.props.initialPeriod.end;
+				end = moment(this.props.initialPeriod.end);
+				start = start.subtract(outOfIntervalDiff);
+			}
+
+			this.setState({
+				dayWidth: newWidth,
+				period: {
+					start: start,
+					end: end
+				}
+			});
+		}
 
     /**
 	 * When the user drags the timeline, if it is still permitted, it updates the available and visible period and

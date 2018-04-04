@@ -21,10 +21,10 @@ function load(ttl) {
 
 		let scope = Select.scopes.getActiveScopeData(getState());
 
-		if (scope && scope.aoiLayer && scope.aoiLayer.key && scope.aoiLayer.idColumn) {
+		if (scope && scope.aoiLayer && scope.aoiLayer.key && scope.aoiLayer.idColumn && scope.aoiLayer.fidColumn) {
 
 			let url = config.apiGeoserverWFSProtocol + '://' + path.join(config.apiGeoserverWFSHost, config.apiGeoserverWFSPath);
-			url += '?service=wfs&version=2.0.0.&request=GetFeature&typeName=' + scope.aoiLayer.key + '&outputFormat=application/json&propertyName=' + scope.aoiLayer.idColumn;
+			url += '?service=wfs&version=2.0.0.&request=GetFeature&typeName=' + scope.aoiLayer.key + '&outputFormat=application/json&propertyName=' + scope.aoiLayer.idColumn + ',' + scope.aoiLayer.fidColumn;
 
 			return fetch(url).then(response => {
 				console.log('#### load AOI response', response);

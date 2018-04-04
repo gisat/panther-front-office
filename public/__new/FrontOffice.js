@@ -504,6 +504,9 @@ define([
 		}
 		if (options.activeAoi){
 			this._dispatcher.notify('dataview#activeAoi', {key: options.activeAoi});
+			this._dispatcher.notify('dataview#withoutAoi', {status: false});
+		} else {
+			this._dispatcher.notify('dataview#withoutAoi', {status: true});
 		}
 	};
 

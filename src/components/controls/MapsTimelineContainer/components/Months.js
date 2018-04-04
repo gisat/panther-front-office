@@ -50,7 +50,7 @@ class Months extends React.PureComponent {
 			return (
 				<g
 					key={month.month}
-					className="ptr-timeline-month"
+					className={classNames("ptr-timeline-month", (+month.start.format('M') % 2) ? 'odd' : 'even')}
 				>
 					<rect
 						x={start}
