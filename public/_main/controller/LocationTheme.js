@@ -1139,7 +1139,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 				}
 
 				if(tools.indexOf("view-selector") !== -1) {
-				    $('#view-selector').hide();
+					$("html").addClass("toggle-hideSelectorToolbar");
                 }
 
                 if(tools.indexOf('theme') !== -1) {
