@@ -1138,11 +1138,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 					$('#selector-periods').hide();
 				}
 
-				if(tools.indexOf("view-selector") !== -1) {
-					$("html").addClass("toggle-hideSelectorToolbar");
-                }
-
-                if(tools.indexOf('theme') !== -1) {
+				if(tools.indexOf('theme') !== -1) {
                     $('.field.theme').hide();
                 }
 
