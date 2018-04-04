@@ -1113,7 +1113,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 				//     $('.field.visualization').hide();
 				// }
 
-				if(tools.indexOf('visualization') !== -1 && Config.auth.userName !== "admin") {
+				if((tools.indexOf('visualization') !== -1 && Config.auth.userName !== "admin") || tools.indexOf('visualization-always')) {
 					$('.field.visualization').hide();
 				}
 
@@ -1138,11 +1138,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 					$('#selector-periods').hide();
 				}
 
-				if(tools.indexOf("view-selector") !== -1) {
-				    $('#view-selector').hide();
-                }
-
-                if(tools.indexOf('theme') !== -1) {
+				if(tools.indexOf('theme') !== -1) {
                     $('.field.theme').hide();
                 }
 
