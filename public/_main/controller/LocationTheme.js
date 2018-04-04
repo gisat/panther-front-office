@@ -1134,6 +1134,14 @@ Ext.define('PumaMain.controller.LocationTheme', {
                     $('.field.scope').hide();
                 }
 
+				if(tools.indexOf('period') !== -1) {
+					$('#selector-periods').hide();
+				}
+
+				if(tools.indexOf("view-selector") !== -1) {
+				    $('#view-selector').hide();
+                }
+
                 if(tools.indexOf('theme') !== -1) {
                     $('.field.theme').hide();
                 }
