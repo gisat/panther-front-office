@@ -1113,7 +1113,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 				//     $('.field.visualization').hide();
 				// }
 
-				if(tools.indexOf('visualization') !== -1 && Config.auth.userName !== "admin") {
+				if((tools.indexOf('visualization') !== -1 && Config.auth.userName !== "admin") || tools.indexOf('visualization-always')) {
 					$('.field.visualization').hide();
 				}
 
