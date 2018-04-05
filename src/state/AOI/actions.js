@@ -14,6 +14,12 @@ const TTL_GEOMETRY = 5;
 
 // ============ creators ===========
 
+function add(key) {
+	return (dispatch) => {
+		dispatch(actionAdd(key));
+	};
+}
+
 function load(ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
 	return (dispatch, getState) => {
@@ -120,7 +126,8 @@ function loadGeometry(key,ttl) {
 				if (response.ok) {
 					return response.json().then(data => {
 						if (data && data.features && data.features.length === 1 && data.features[0].geometry) {
-							dispatch(actionLoadGeometryReceive(key, data.features[0].geometry));
+							let code = data.features[0].properties[scope.aoiLayer.idColumn];
+							dispatch(actionLoadGeometryReceive(key, data.features[0].geometry, code));
 						} else {
 							dispatch(actionLoadGeometryError('no data returned'));
 						}
@@ -144,6 +151,15 @@ function loadGeometry(key,ttl) {
 }
 
 // ============ actions ===========
+
+function actionAdd(key) {
+	return {
+		type: ActionTypes.AOI_ADD,
+		data: [{
+			key: key
+		}]
+	}
+}
 
 function actionSetActiveKey(key) {
 	return {
@@ -172,11 +188,12 @@ function actionLoadError(error) {
 	}
 }
 
-function actionLoadGeometryReceive(key, geometry) {
+function actionLoadGeometryReceive(key, geometry, code) {
 	return {
 		type: ActionTypes.AOI_GEOMETRY_RECEIVE,
 		key: key,
-		geometry: geometry
+		geometry: geometry,
+		code: code
 	}
 }
 
@@ -190,6 +207,7 @@ function actionLoadGeometryError(error) {
 // ============ export ===========
 
 export default {
+	add: add,
 	load: load,
 	setActiveKey: setActiveKey
 }

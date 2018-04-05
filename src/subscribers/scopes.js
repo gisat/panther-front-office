@@ -23,9 +23,16 @@ const setEventListeners = store => {
 				store.dispatch(Action.scopes.add(utils.replaceIdWithKey(options)));
 				break;
 			case 'scope#activeScopeChanged':
-				store.dispatch(Action.scopes.setActiveScopeKey(options.activeScopeKey)).then(() => {
-					store.dispatch(Action.aoi.load());
-				});
+				let state = store.getState();
+				if (state.user.isAdmin){
+					store.dispatch(Action.scopes.setActiveScopeKey(options.activeScopeKey)).then(() => {
+						store.dispatch(Action.aoi.load());
+					});
+				} else {
+					store.dispatch(Action.scopes.setActiveScopeKey(options.activeScopeKey));
+				}
+
+
 				break;
 		}
 	});
