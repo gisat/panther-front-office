@@ -1105,7 +1105,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 //     $('#top-toolbar-saved-views').hide();
                 // }
 
-				if(tools.indexOf('savedViews') !== -1 && Config.auth.userName !== "admin") {
+				if(tools.indexOf('savedViews') !== -1 && Config.auth && Config.auth.userName !== "admin") {
 					$('#top-toolbar-saved-views').hide();
 				}
 
@@ -1113,7 +1113,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 				//     $('.field.visualization').hide();
 				// }
 
-				if((tools.indexOf('visualization') !== -1 && Config.auth.userName !== "admin") || tools.indexOf('visualization-always')) {
+				if((tools.indexOf('visualization') !== -1 && Config.auth && Config.auth.userName !== "admin") || tools.indexOf('visualization-always')) {
 					$('.field.visualization').hide();
 				}
 
