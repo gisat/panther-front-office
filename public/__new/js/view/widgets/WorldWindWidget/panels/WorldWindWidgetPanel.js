@@ -284,6 +284,10 @@ define(['../../../../error/ArgumentError',
 	// All methods below are reviewed and used
 	// TODO review obsolete methods above this line after Thematic layers an AU layers for multiple maps will be implemented
 
+	WorldWindWidgetPanel.prototype.hidePanel = function () {
+		this._panelSelector.addClass("hidden");
+	};
+
 	/**
 	 * Build layer control and add tools
 	 * @param target {Object} JQuery selector of target element

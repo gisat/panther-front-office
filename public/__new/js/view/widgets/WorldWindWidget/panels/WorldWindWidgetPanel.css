@@ -1,3 +1,7 @@
+.widget-panel.hidden {
+	display: none;
+}
+
 .panel-header {
 	color: #555;
 	cursor: pointer;

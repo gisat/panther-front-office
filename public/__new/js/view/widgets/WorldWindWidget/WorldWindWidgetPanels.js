@@ -10,6 +10,7 @@ define(['../../../error/ArgumentError',
 
 	'jquery',
 	'string',
+	'underscore',
 	'text!./WorldWindWidgetPanels.html',
 	'css!./WorldWindWidgetPanels'
 ], function(ArgumentError,
@@ -24,6 +25,7 @@ define(['../../../error/ArgumentError',
 
 			$,
 			S,
+			_,
 			htmlBody
 ){
 	/**
@@ -58,6 +60,7 @@ define(['../../../error/ArgumentError',
         }
 
 		this._store = options.store;
+		this._stateStore = options.store.state;
 		this._id = options.id;
 		this._target = options.target;
 		this.build();
@@ -72,9 +75,9 @@ define(['../../../error/ArgumentError',
 		// 	this._thematicLayersPanel.switchOnLayersFrom2D();
 		// }
 
-		this._auLayersPanel.rebuild("updateOutlines","updateOutlines");
-		this._infoLayersPanel.rebuild();
-		this._wmsLayersPanel.rebuild();
+		var scope = this._stateStore.current().scopeFull;
+		var hiddenPanels = scope.layersWidgetHiddenPanels;
+		this.handlePanels(hiddenPanels);
 	};
 
 	/**
@@ -183,6 +186,42 @@ define(['../../../error/ArgumentError',
 				wmsLayers: this._store.wmsLayers
             }
 		});
+	};
+
+	/**
+	 * @param hiddenPanels {Array} list of panels
+	 */
+	WorldWindWidgetPanels.prototype.handlePanels = function(hiddenPanels){
+		var self = this;
+
+		var infoLayersHidden = _.find(hiddenPanels, function(panel){return panel === "info-layers"});
+		if (infoLayersHidden){
+			this._infoLayersPanel.hidePanel();
+		} else {
+			this._infoLayersPanel.rebuild();
+		}
+
+		var thematicLayersHidden = _.find(hiddenPanels, function(panel){return panel === "thematic-layers"});
+		if (thematicLayersHidden){
+			this._thematicLayersPanel.hidePanel();
+			$("#thematic-layers-configuration").css("display","none");
+		} else {
+			this._thematicLayersPanel.rebuild();
+		}
+
+		var wmsLayersHidden = _.find(hiddenPanels, function(panel){return panel === "wms-layers"});
+		if (wmsLayersHidden){
+			this._wmsLayersPanel.hidePanel();
+		} else {
+			this._wmsLayersPanel.rebuild();
+		}
+
+		var auLayersHidden = _.find(hiddenPanels, function(panel){return panel === "analytical-units"});
+		if (auLayersHidden){
+			this._auLayersPanel.hidePanel();
+		} else {
+			this._auLayersPanel.rebuild("updateOutlines","updateOutlines");
+		}
 	};
 
 	/**
