@@ -298,7 +298,7 @@ define(['../../../error/ArgumentError',
 	 */
 	Layers.prototype.addWmsLayer = function(layerData, group, state){
 		var layer;
-		if(layerData.customParams.crs === 'EPSG:3857') {
+		if(layerData.customParams && layerData.customParams.crs === 'EPSG:3857') {
 			layer = new MercatorLayer({
 				service: layerData.url,
 				layerNames: layerData.layerPaths,
