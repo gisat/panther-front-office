@@ -49,6 +49,8 @@ define(['../../../../error/ArgumentError',
 		this._idPrefix = "wmsLayer";
 		this._layersControls = [];
 		this._store = options.store;
+		this._stateStore = options.store.state;
+		this._mapStore = options.store.map;
 	};
 
 	WmsLayersPanel.prototype = Object.create(WorldWindWidgetPanel.prototype);
@@ -65,7 +67,7 @@ define(['../../../../error/ArgumentError',
 	 * Rebuild panel
 	 */
 	WmsLayersPanel.prototype.rebuild = function(){
-		this._allMaps = this._store.map.getAll();
+		this._allMaps = this._mapStore.getAll();
 		this.getLayersForCurrentConfiguration().then(this.addPanelContent.bind(this)).catch(function(error){
 			console.error('WmsLayerPanel#rebuild Error: ', error);
 		});
@@ -78,7 +80,7 @@ define(['../../../../error/ArgumentError',
 	WmsLayersPanel.prototype.addPanelContent = function(layers){
 		var self = this;
 		this.clear(this._id);
-		this._previousLayersControls = jQuery.extend(true, [], this._layersControls);
+
 		this._layersControls = [];
 		if (layers && layers.length > 0){
 			var currentScope = this._store.state.current().scopeFull;
@@ -162,6 +164,27 @@ define(['../../../../error/ArgumentError',
 			}
 		});
 		return groupedLayers;
+	};
+
+	/**
+	 * Go through a list of active layers. If at least one layer associated with given control is among active wmsLayers,
+	 * the control should be active.
+	 * @param id {string} id of control
+	 * @param layers {Array} Layers associated with this control
+	 * @returns {boolean} true, if control should be active
+	 */
+	WmsLayersPanel.prototype.isControlActive = function(id, layers){
+		var state = this._stateStore.current().mapDefaults;
+		var active = false;
+		layers.forEach(function(layer){
+			if (state && state.wmsLayers){
+				var existingLayer = _.find(state.wmsLayers, function(id){return id == layer.id});
+				if (existingLayer){
+					active = true;
+				}
+			}
+		});
+		return active;
 	};
 
 	return WmsLayersPanel;

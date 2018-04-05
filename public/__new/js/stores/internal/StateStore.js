@@ -83,6 +83,7 @@ define([
 			previousAoi: this._previousAoi,
 			isMap3D: this.isMap3D,
 			isMapIndependentOfPeriod: this.isMapIndependentOfPeriod,
+			mapDefaults: this._mapDefaults,
 			mapsMetadata: this._mapsMetadata,
 			selectedMapId: this._selectedMapId,
 			user: this._user,
@@ -328,10 +329,16 @@ define([
 
 	/**
 	 * It is used for maps metadata storing (currently for view sharing purposes).
-	 * @param maps {Array} list of maps metadata received from redux store
+	 * @param options.maps {Array} list of maps metadata received from redux store
+	 * @param options.defaults {Object}
 	 */
-	StateStore.prototype.updateMapsMetadata = function(maps){
-		this._mapsMetadata = maps;
+	StateStore.prototype.updateMapsMetadata = function(options){
+		if (options.maps){
+			this._mapsMetadata = options.maps;
+		}
+		if (options.defaults){
+			this._mapDefaults = options.defaults;
+		}
 	};
 
 	/**
