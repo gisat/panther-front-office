@@ -502,6 +502,9 @@ define([
 		if (options.mapsMetadata){
 			this._mapsContainer.handleMapsFromDataview(options.mapsMetadata, options.selectedMapId);
 		}
+		if (options.mapDefaults){
+			this._mapsContainer.handleMapDefaultsFromDataview(options.mapDefaults);
+		}
 		if (options.activeAoi){
 			this._dispatcher.notify('dataview#activeAoi', {key: options.activeAoi});
 			this._dispatcher.notify('dataview#withoutAoi', {status: false});

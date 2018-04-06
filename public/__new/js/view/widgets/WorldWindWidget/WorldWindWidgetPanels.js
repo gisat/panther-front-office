@@ -30,6 +30,7 @@ define(['../../../error/ArgumentError',
 ){
 	/**
 	 * @param options {Object}
+	 * @param options.dispatcher {Object}
 	 * @param options.id {string} id of element
 	 * @param options.target {Object} JQuery selector of target element
 	 * @param options.currentMap
@@ -58,11 +59,15 @@ define(['../../../error/ArgumentError',
         if(!options.store.wmsLayers){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindWidgetPanels', 'constructor', 'Store wms layers must be provided'));
         }
+		if (!options.dispatcher){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindWidgetPanels', 'constructor', 'Dispatcher must be provided'));
+		}
 
 		this._store = options.store;
 		this._stateStore = options.store.state;
 		this._id = options.id;
 		this._target = options.target;
+		this._dispatcher = options.dispatcher;
 		this.build();
 	};
 
@@ -184,7 +189,8 @@ define(['../../../error/ArgumentError',
                 map: this._store.map,
 				state: this._store.state,
 				wmsLayers: this._store.wmsLayers
-            }
+            },
+            dispatcher: this._dispatcher
 		});
 	};
 

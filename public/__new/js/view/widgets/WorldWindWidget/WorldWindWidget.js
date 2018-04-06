@@ -148,7 +148,8 @@ define([
 				state: this._stateStore,
 				map: this._mapStore,
 				wmsLayers: this._store.wmsLayers
-			}
+			},
+			dispatcher: this._dispatcher
 		});
 	};
 

@@ -29,6 +29,7 @@ define(['../../../../error/ArgumentError',
 	/**
 	 * Class representing a panel of WorldWindWidgetPanels
 	 * @param options {Object}
+	 * @param options.dispatcher {Object}
 	 * @param options.id {string} id of element
 	 * @param options.name {string} name of panel
 	 * @param options.target {JQuery} JQuery selector of target element
@@ -56,6 +57,7 @@ define(['../../../../error/ArgumentError',
 
 		this._id = options.id;
 		this._name = options.name;
+		this._dispatcher = options.dispatcher;
 		this._target = options.target;
 
 		this._isOpen = true;
@@ -297,7 +299,7 @@ define(['../../../../error/ArgumentError',
 	 * @param style {Object|null} associated style, if exist
 	 */
 	WorldWindWidgetPanel.prototype.buildLayerControlRow = function(target, id, name, layers, style){
-		var checked = this.isControlActive(id);
+		var checked = this.isControlActive(id, layers);
 		var control = this.buildLayerControl(target, id, name, layers, style, checked, this._groupId);
 		this._layersControls.push(control);
 		control.layerTools.buildOpacity();
@@ -315,16 +317,8 @@ define(['../../../../error/ArgumentError',
 	 * @returns {boolean} true, if the control should be selected
 	 */
 	WorldWindWidgetPanel.prototype.isControlActive = function(controlId){
-		var control2d = this.getExtLayerControl(controlId);
-		// if there exists the control for the same layer in 2D, use its state
-		if (control2d && control2d.length){
-			return control2d.attr('aria-checked') === "true";
-		}
-		// Otherwise check if control was checked before rebuild. If existed and was not checked, do not check it again.
-		else {
-			var existingControl = _.find(this._previousLayersControls, function(control){return control._id == controlId});
-			return !!((existingControl && existingControl.active));
-		}
+		var existingControl = _.find(this._previousLayersControls, function(control){return control._id == controlId});
+		return !!((existingControl && existingControl.active));
 	};
 
 	/**
@@ -361,20 +355,21 @@ define(['../../../../error/ArgumentError',
 		setTimeout(function(){
 			var checkbox = $(event.currentTarget);
 			var layerId = checkbox.attr("data-id");
-			var control2d = self.getExtLayerControl(layerId);
-			if (control2d && control2d.length){
-				Stores.notify("checklayer", control2d);
-				control2d.trigger("click", ["ctrl"]);
-			}
 
 			var control = _.find(self._layersControls, function(control){return control._id == layerId});
 			if (checkbox.hasClass("checked")){
 				control.active = true;
 				self.addLayer(control);
+				if (self._groupId === "wms-layers"){
+					self._dispatcher.notify('wmsLayer#add', {layerKey: control.layers[0].id})
+				}
 			} else {
 				control.active = false;
 				control.layerTools.hide();
 				self.removeLayer(control);
+				if (self._groupId === "wms-layers"){
+					self._dispatcher.notify('wmsLayer#remove', {layerKey: control.layers[0].id})
+				}
 			}
 		},50);
 	};
@@ -481,31 +476,6 @@ define(['../../../../error/ArgumentError',
 			return layerPeriods === mapPeriod;
 		}
 
-	};
-
-	/**
-	 * Get the associated layer control in ext
-	 * @param layerId {string} id of the layer in 3D
-	 * @returns {Object} Jquery selector of Ext control
-	 */
-	WorldWindWidgetPanel.prototype.getExtLayerControl = function (layerId) {
-		var checkbox2d = $('#window-layerpanel').find("td[data-for=" + this._group2dId + "-" + layerId + "]").find("input");
-		if (!checkbox2d.length){
-			this._previousLayersControls.forEach(function(control){
-				if (control._id === layerId){
-					control.layers.forEach(function(layer){
-						if (layer.idFor2d){
-							var checkbox = $("td[data-for=" + layer.idFor2d + "]").find("input");
-							if (checkbox.length){
-								checkbox2d = checkbox;
-							}
-						}
-					});
-				}
-			});
-		}
-
-		return checkbox2d;
 	};
 
 	return WorldWindWidgetPanel;
