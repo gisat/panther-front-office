@@ -72,6 +72,10 @@ class MapsTimeline extends React.PureComponent {
 			days: diff,
 			dayWidth: (props.containerWidth - CONTROLS_WIDTH)/diff
 		};
+
+		this.setState({
+			dayWidth: this.dimensions.dayWidth
+		});
 	}
 
 	getX(date, props) {
@@ -207,6 +211,7 @@ class MapsTimeline extends React.PureComponent {
 		let children = [];
 		let {maps, activeMapKey, ...contentProps} = this.props; // consume unneeded props (though we'll probably use them in the future)
 		contentProps = {...contentProps,
+			key: 'mapsTimelineContent',
 			width: this.dimensions.days * this.dimensions.dayWidth,
 			dayWidth: this.state.dayWidth,
 			period: this.state.period,
@@ -222,6 +227,7 @@ class MapsTimeline extends React.PureComponent {
 
 		if (this.state.mouseX) {
 			children.push(React.createElement(Tooltip, {
+				key: 'mapsTimelineTooltip',
 				mouseX: this.state.mouseX,
 				getTime: this.getTime,
 				layers: this.props.layers,
