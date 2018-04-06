@@ -1126,7 +1126,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
                     $('#top-toolbar-context-help').hide();
                 }
 
-				if(window.location.origin === "http://dromas.gisat.cz" && Config.auth.userName !== "admin") {
+				if(window.location.origin === "http://dromas.gisat.cz" && Config.auth && Config.auth.userName !== "admin") {
 					$('#top-toolbar-share-view').hide();
 				}
 
