@@ -37,14 +37,11 @@ define(['../../../error/ArgumentError',
 		 * @type {SelectionController}
 		 */
 		this.controller = options.selectController;
-
-		this.addBaseLayer();
 	};
 
-	Layers.prototype.addBaseLayer = function(){
-		this._wwd.addLayer(new MyOsmLayer({
-			attribution: "\u00A9 Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL",
-			source: "http://a.basemaps.cartocdn.com/light_nolabels/"}));
+	Layers.prototype.addBaseLayer = function(layer){
+		this._wwd.addLayer(layer);
+		this._wwd.redraw();
 	};
 
 	/**

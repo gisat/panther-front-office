@@ -15,6 +15,17 @@ function add(maps) {
 	};
 }
 
+function addBackgroundLayer(layerKey) {
+	return (dispatch, getState) => {
+		let appState = getState();
+		let state = Select.maps.getMapDefaults(appState);
+		let stateUpdate = {
+			backgroundLayers: state.backgroundLayers ? [...state.backgroundLayers, layerKey] : [layerKey]
+		};
+		dispatch(updateDefaults(stateUpdate));
+	};
+}
+
 function initialize() {
 	return dispatch => {
 		dispatch(actionInitialize());
@@ -224,6 +235,7 @@ function actionSetMapIndependentOfPeriod(independent) {
 
 export default {
 	add: add,
+	addBackgroundLayer: addBackgroundLayer,
 	clearLayerPeriod: clearLayerPeriod,
 	clearLayerPeriodsOfAllMaps: clearLayerPeriodsOfAllMaps,
 	clearWmsLayer: clearWmsLayer,

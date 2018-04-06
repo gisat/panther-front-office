@@ -29,6 +29,9 @@ define([
 		if(!options.store){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MapStore', 'constructor', 'Stores must be provided'));
 		}
+		if(!options.store.state){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MapStore', 'constructor', 'State store must be provided'));
+		}
 
 		this._dispatcher = options.dispatcher;
 		this._stateStore = options.store.state;
@@ -52,6 +55,7 @@ define([
 	 */
 	MapStore.prototype.add = function(options) {
 		this._maps.push(options.map);
+		this._dispatcher.notify('map#initialized', options);
 		this._dispatcher.notify('map#added', options);
 	};
 

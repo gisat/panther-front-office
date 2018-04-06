@@ -62,6 +62,7 @@ define(['js/actions/Actions',
         'js/geoserver/GeoServer',
         'js/stores/gisat/Groups',
 		'js/stores/gisat/Layers',
+		'js/stores/internal/LayerStore',
 		'js/stores/gisat/Locations',
 		'js/util/Logger',
         'js/view/map/Map',
@@ -112,6 +113,7 @@ define(['js/actions/Actions',
              GeoServer,
              Groups,
              Layers,
+             LayerStore,
              Locations,
              Logger,
              Map,
@@ -183,6 +185,12 @@ define(['js/actions/Actions',
 		var stateStore = new StateStore({
 			dispatcher: window.Stores,
 			store: {}
+		});
+		var layerStore = new LayerStore({
+			dispatcher: window.Stores,
+			store: {
+				state: stateStore
+			}
 		});
 		var mapStore = new MapStore({
 			dispatcher: window.Stores,
