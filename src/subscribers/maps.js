@@ -16,6 +16,7 @@ const setStoreWatchers = store => {
 
 	createWatcher(store, Select.maps.getActiveMapKey, activeMapKeyWatcher);
 	createWatcher(store, Select.maps.getMaps, mapsWatcher, 'data');
+	createWatcher(store, Select.maps.getMapDefaults, mapDefaultsWatcher);
 	createWatcher(store, Select.maps.getPeriodIndependence, periodIndependenceWatcher, 'independentOfPeriod');
 
 };
@@ -53,6 +54,9 @@ const setEventListeners = store => {
 				break;
 			case 'wmsLayer#add':
 				store.dispatch(Action.maps.selectWmsLayer(options.layerKey, options.mapKey));
+				break;
+			case 'wmsLayer#remove':
+				store.dispatch(Action.maps.clearWmsLayer(options.layerKey));
 				break;
 		}
 	});
@@ -116,7 +120,12 @@ const mapsWatcher = (value, previousValue) => {
 			// new map added
 		}
 	});
-	window.Stores.notify('REDUX_STORE_MAPS_CHANGED', value);
+	window.Stores.notify('REDUX_STORE_MAPS_CHANGED', {maps: value});
+};
+
+const mapDefaultsWatcher = (value, previousValue) => {
+	console.log('@@ mapDefualtsWatcher', previousValue, '->', value);
+	window.Stores.notify('REDUX_STORE_MAPS_CHANGED', {defaults: value});
 };
 
 const periodIndependenceWatcher = (value, previousValue) => {
