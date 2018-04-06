@@ -5,10 +5,11 @@ import { Provider } from 'react-redux';
 import store from './state/Store';
 
 import './index.css';
-import MapsTimelineContainer from './components/controls/MapsTimelineContainer/index';
 import OverlayContainer from './components/controls/OverlayContainer/index';
 import ViewSelectorContainer from './components/controls/ViewSelectorContainer/index';
 import registerServiceWorker from './registerServiceWorker';
+
+import MapsTimeline from './scopemagicswitches/MapsTimeline';
 
 
 let getStore = function() {
@@ -21,7 +22,7 @@ let getStore = function() {
 
 let initialize = function() {
 
-	ReactDOM.render(<Provider store={store}><MapsTimelineContainer /></Provider>, document.getElementById('maps-timeline'));
+	ReactDOM.render(<Provider store={store}><MapsTimeline /></Provider>, document.getElementById('maps-timeline'));
 	ReactDOM.render(<Provider store={store}><ViewSelectorContainer /></Provider>, document.getElementById('header-view-selection'));
 	ReactDOM.render(<Provider store={store}><OverlayContainer
 			contentOffset={{
