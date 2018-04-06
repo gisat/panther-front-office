@@ -16,7 +16,7 @@ class Days extends React.PureComponent {
 
 	render() {
 
-		console.log('Days#render props', this.props);
+		//console.log('Days#render props', this.props);
 
 		let start = moment(this.props.period.start);
 		let end = moment(this.props.period.end);
