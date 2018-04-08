@@ -44,35 +44,43 @@ define([
 	};
 
 	/**
-	 *
-	 * @param [layer] {MyOsmLayer}
+	 * @param map {WorldWindMap}
+	 * @param [layer] {Object}
+	 * @param [layer.key] {string}
+	 * @param [layer.data] {MyOsmLayer}
 	 */
 	LayerStore.prototype.addBaseLayer = function(map, layer){
 		var baseLayer = layer;
 
 		if (!baseLayer){
-			baseLayer = new MyOsmLayer({
-				attribution: "\u00A9 Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL",
-				source: "http://a.basemaps.cartocdn.com/light_nolabels/"});
-			this._layers.backgroundLayers.push({
+			baseLayer = {
 				key: "base-layer",
-				data: baseLayer
-			});
+				data: new MyOsmLayer({
+					attribution: "\u00A9 Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL",
+					source: "http://a.basemaps.cartocdn.com/light_nolabels/"})
+			};
+			this._layers.backgroundLayers.push(baseLayer);
 		}
 
-		map.layers.addBaseLayer(baseLayer);
+		map.layers.addBaseLayer(baseLayer.data);
 		this._dispatcher.notify("backgroundLayer#add", {key: "base-layer"});
 	};
 
+	/**
+	 * If the base layer was already created, use it for the map. Otherwise, create the base layer.
+	 * @param map {WorldWindMap}
+	 */
 	LayerStore.prototype.handleBaseLayer = function(map){
 		var state = this._stateStore.current();
 		if (state.mapDefaults && state.mapDefaults.backgroundLayers){
-			debugger;
-			// if so, find the layer in layers.backgroundLayers
-			// this.addBaseLayer(map, layer);
-
-			// else
-			// this.addBaseLayer(map);
+			var backgroundLayers = state.mapDefaults.backgroundLayers;
+			var layerInRedux = _.find(backgroundLayers, function(layer){return layer === "base-layer"});
+			if (layerInRedux){
+				var layer = _.find(this._layers.backgroundLayers, function(layer){return layer.key === "base-layer"});
+				this.addBaseLayer(map, layer);
+			} else {
+				this.addBaseLayer(map);
+			}
 		} else {
 			this.addBaseLayer(map);
 		}

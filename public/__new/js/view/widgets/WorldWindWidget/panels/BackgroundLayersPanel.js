@@ -58,10 +58,10 @@ define(['../../../../error/ArgumentError',
 		var disabledLayers = (scope && scope['disabledLayers']) || {};
 		var activeBackgroundMap = (scope && scope['activeBackgroundMap']) || this.getValidBackground(disabledLayers);
 
-		this.toggleLayerWithControl('osm', 'openStreetMap', disabledLayers, activeBackgroundMap);
-		this.toggleLayerWithControl('cartoDb', 'cartoDbBasemap', disabledLayers, activeBackgroundMap);
-		this.toggleLayerWithControl('bingAerial', 'bingAerial', disabledLayers, activeBackgroundMap);
-		this.toggleLayerWithControl('sentinel2', 'sentinel2', disabledLayers, activeBackgroundMap);
+		// this.toggleLayerWithControl('osm', 'openStreetMap', disabledLayers, activeBackgroundMap);
+		// this.toggleLayerWithControl('cartoDb', 'cartoDbBasemap', disabledLayers, activeBackgroundMap);
+		// this.toggleLayerWithControl('bingAerial', 'bingAerial', disabledLayers, activeBackgroundMap);
+		// this.toggleLayerWithControl('sentinel2', 'sentinel2', disabledLayers, activeBackgroundMap);
 
 		if (scope && scope['extraBackgroundLayers']){
 			var extraLayers = scope['extraBackgroundLayers'];

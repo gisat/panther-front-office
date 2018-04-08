@@ -39,6 +39,10 @@ define(['../../../error/ArgumentError',
 		this.controller = options.selectController;
 	};
 
+	/**
+	 * Add base layer to the map
+	 * @param layer {MyOsmLayer}
+	 */
 	Layers.prototype.addBaseLayer = function(layer){
 		this._wwd.addLayer(layer);
 		this._wwd.redraw();
