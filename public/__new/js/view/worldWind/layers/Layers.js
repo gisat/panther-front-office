@@ -231,13 +231,13 @@ define(['../../../error/ArgumentError',
 			case "osm":
 				layer = new MyOsmLayer({
 					attribution: "\u00A9 OpenStreetMap contributors",
-					source: "http://a.tile.openstreetmap.org/"
+					source: "https://a.tile.openstreetmap.org/"
 				});
 				break;
 			case "cartoDb":
 				layer = new MyOsmLayer({
 					attribution: "\u00A9 Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL",
-					source: "http://a.basemaps.cartocdn.com/light_all/"});
+					source: "https://a.basemaps.cartocdn.com/light_all/"});
 				break;
 			case "landsat":
 				layer = new WorldWind.BMNGLandsatLayer();
