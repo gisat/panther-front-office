@@ -55,7 +55,6 @@ define([
 	 */
 	MapStore.prototype.add = function(options) {
 		this._maps.push(options.map);
-		this._dispatcher.notify('map#initialized', options);
 		this._dispatcher.notify('map#added', options);
 	};
 

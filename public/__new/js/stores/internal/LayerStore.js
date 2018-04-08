@@ -36,7 +36,9 @@ define([
 
 		this._dispatcher = options.dispatcher;
 		this._stateStore = options.store.state;
+
 		this._layers = {
+			baseLayer: null,
 			backgroundLayers: []
 		};
 
@@ -46,24 +48,21 @@ define([
 	/**
 	 * @param map {WorldWindMap}
 	 * @param [layer] {Object}
-	 * @param [layer.key] {string}
+	 * @param [layer.active] {boolean}
 	 * @param [layer.data] {MyOsmLayer}
 	 */
 	LayerStore.prototype.addBaseLayer = function(map, layer){
-		var baseLayer = layer;
-
-		if (!baseLayer){
-			baseLayer = {
-				key: "base-layer",
+		if (!layer){
+			this._layers.baseLayer = {
+				active: true,
 				data: new MyOsmLayer({
 					attribution: "\u00A9 Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL",
 					source: "http://a.basemaps.cartocdn.com/light_nolabels/"})
 			};
-			this._layers.backgroundLayers.push(baseLayer);
 		}
 
-		map.layers.addBaseLayer(baseLayer.data);
-		this._dispatcher.notify("backgroundLayer#add", {key: "base-layer"});
+		map.layers.addBaseLayer(this._layers.baseLayer.data);
+		this._dispatcher.notify("baseLayer#update", {created: true, active: true});
 	};
 
 	/**
@@ -72,15 +71,8 @@ define([
 	 */
 	LayerStore.prototype.handleBaseLayer = function(map){
 		var state = this._stateStore.current();
-		if (state.mapDefaults && state.mapDefaults.backgroundLayers){
-			var backgroundLayers = state.mapDefaults.backgroundLayers;
-			var layerInRedux = _.find(backgroundLayers, function(layer){return layer === "base-layer"});
-			if (layerInRedux){
-				var layer = _.find(this._layers.backgroundLayers, function(layer){return layer.key === "base-layer"});
-				this.addBaseLayer(map, layer);
-			} else {
-				this.addBaseLayer(map);
-			}
+		if (state.mapDefaults && state.mapDefaults.baseLayer && state.mapDefaults.baseLayer.created && this._layers.baseLayer.data){
+			this.addBaseLayer(map, this._layers.baseLayer.data);
 		} else {
 			this.addBaseLayer(map);
 		}
@@ -92,8 +84,9 @@ define([
 	 * @param options {Object} additional options, may be specific per action.
 	 */
 	LayerStore.prototype.onEvent = function(type, options) {
-		if (type === 'map#initialized'){
+		if (type === 'map#added'){
 			this.handleBaseLayer(options.map);
+			// this.handleBackroundLayers(options.map);
 		}
 	};
 

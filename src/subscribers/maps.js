@@ -25,8 +25,8 @@ const setEventListeners = store => {
 
 	window.Stores.addListener((event, options) => {
 		switch(event) {
-			case 'backgroundLayer#add':
-				store.dispatch(Action.maps.addDistinctBackgroundLayer(options.key));
+			case 'baseLayer#update':
+				store.dispatch(Action.maps.updateBaseLayer(options));
 				break;
 			case 'map#selected':
 				store.dispatch(Action.maps.setActive(options.id));

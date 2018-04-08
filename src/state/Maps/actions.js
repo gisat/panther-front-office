@@ -15,29 +15,6 @@ function add(maps) {
 	};
 }
 
-function addDistinctBackgroundLayer(layerKey) {
-	return (dispatch, getState) => {
-		let appState = getState();
-		let state = Select.maps.getMapDefaults(appState);
-		let stateUpdate;
-		if (state && state.backgroundLayers){
-			let layer = _.find(state.backgroundLayers, layer => {return layer === layerKey});
-			if (layer){
-				stateUpdate = {
-					backgroundLayers: [...state.backgroundLayers]
-				};
-			} else {
-				stateUpdate = {
-					backgroundLayers: state.backgroundLayers ? [...state.backgroundLayers, layerKey] : [layerKey]
-				};
-			}
-		} else {
-			stateUpdate = {backgroundLayers: [layerKey]};
-		}
-		dispatch(updateDefaults(stateUpdate));
-	};
-}
-
 function initialize() {
 	return dispatch => {
 		dispatch(actionInitialize());
@@ -61,6 +38,24 @@ function update(maps) {
 function updateDefaults(defaults) {
 	return dispatch => {
 		dispatch(actionUpdateDefaults(defaults));
+	};
+}
+
+function updateBaseLayer(data) {
+	return (dispatch, getState) => {
+		let appState = getState();
+		let state = Select.maps.getMapDefaults(appState);
+		let stateUpdate;
+		if (state && state.baseLayer){
+			stateUpdate = {
+				baseLayer: { ...state.baseLayer, ...data}
+			};
+		} else {
+			stateUpdate = {
+				baseLayer: data
+			};
+		}
+		dispatch(updateDefaults(stateUpdate));
 	};
 }
 
@@ -247,7 +242,6 @@ function actionSetMapIndependentOfPeriod(independent) {
 
 export default {
 	add: add,
-	addDistinctBackgroundLayer: addDistinctBackgroundLayer,
 	clearLayerPeriod: clearLayerPeriod,
 	clearLayerPeriodsOfAllMaps: clearLayerPeriodsOfAllMaps,
 	clearWmsLayer: clearWmsLayer,
@@ -259,5 +253,6 @@ export default {
 	selectWmsLayer: selectWmsLayer,
 	setActive: setActive,
 	update: update,
+	updateBaseLayer: updateBaseLayer,
 	updateDefaults: updateDefaults
 }
