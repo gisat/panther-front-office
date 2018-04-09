@@ -38,8 +38,10 @@ class MapsTimeline extends React.PureComponent {
 		this.calculate = this.calculate.bind(this);
 		this.getX = this.getX.bind(this);
 		this.getTime = this.getTime.bind(this);
-		this.onMouseOver = this.onMouseOver.bind(this);
+		this.onMouseMove = this.onMouseMove.bind(this);
 		this.onMouseLeave = this.onMouseLeave.bind(this);
+		this.onMouseUp = this.onMouseUp.bind(this);
+		this.onMouseDown = this.onMouseDown.bind(this);
 		this.onWheel = this.onWheel.bind(this);
 		this.onDrag = this.onDrag.bind(this);
 
@@ -92,15 +94,38 @@ class MapsTimeline extends React.PureComponent {
 	}
 
 
-	onMouseOver(e) {
+	onMouseMove(e) {
 		this.setState({
 			mouseX: e.clientX
 		});
+
+		if(this._drag) {
+			let distance = e.clientX - this._lastX;
+			if(distance !== 0) {
+				this.onDrag({
+					distance: Math.abs(distance),
+					direction: distance < 0 ? 'future': 'past'
+				});
+
+				this._lastX = e.clientX;
+			}
+		}
 	}
 	onMouseLeave(e) {
 		this.setState({
 			mouseX: null
 		});
+	}
+
+	onMouseUp() {
+		console.log('onMouseUp');
+		this._drag = false;
+		this._lastX = null;
+	}
+	onMouseDown(e) {
+		console.log('onMouseDown');
+		this._drag = true;
+		this._lastX = e.clientX;
 	}
 
 	/**
@@ -216,8 +241,10 @@ class MapsTimeline extends React.PureComponent {
 			dayWidth: this.state.dayWidth,
 			period: this.state.period,
 			getX: this.getX,
-			onMouseOver: this.onMouseOver,
+			onMouseMove: this.onMouseMove,
 			onMouseLeave: this.onMouseLeave,
+			onMouseUp: this.onMouseUp,
+			onMouseDown: this.onMouseDown,
       onWheel: this.onWheel,
       onDrag: this.onDrag,
 			mouseX: this.state.mouseX,

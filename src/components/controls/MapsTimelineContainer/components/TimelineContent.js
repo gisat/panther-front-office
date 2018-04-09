@@ -21,45 +21,6 @@ class TimelineContent extends React.PureComponent {
 
 	};
 
-	constructor(props) {
-		super(props);
-
-		this.onMouseUp = this.onMouseUp.bind(this);
-		this.onMouseDown = this.onMouseDown.bind(this);
-		this.onMouseMove = this.onMouseMove.bind(this);
-
-		this._drag = false;
-		this._lastX = null;
-	}
-
-	onMouseUp() {
-		console.log('onMouseUp');
-		this._drag = false;
-
-		this._lastX = null;
-	}
-	onMouseDown(e) {
-        console.log('onMouseDown');
-        this._drag = true;
-
-		this._lastX = e.clientX;
-	}
-	onMouseMove(e) {
-		if(this._drag) {
-            let distance = e.clientX - this._lastX;
-            if(distance !== 0) {
-                this.props.onDrag({
-                    distance: Math.abs(distance),
-                    direction: distance < 0 ? 'future': 'past'
-                });
-
-                this._lastX = e.clientX;
-            }
-		}
-
-		this.props.onMouseOver.apply(this, arguments);
-	}
-
 	render() {
 
 		//console.log('TimelineContent#render props', this.props);
@@ -72,9 +33,9 @@ class TimelineContent extends React.PureComponent {
 				height={height}
 				onMouseLeave={this.props.onMouseLeave}
         onWheel={this.props.onWheel}
-				onMouseDown={this.onMouseDown}
-        onMouseUp={this.onMouseUp}
-        onMouseMove={this.onMouseMove}
+				onMouseDown={this.props.onMouseDown}
+        onMouseUp={this.props.onMouseUp}
+        onMouseMove={this.props.onMouseMove}
 			>
 				<Months
 					period={this.props.period}
