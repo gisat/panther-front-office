@@ -4,8 +4,8 @@ import moment from 'moment';
 
 import utils from '../../../../utils/utils';
 
-import TimelineContent from './TimelineContent';
-import Tooltip from './Tooltip';
+import TimelineContent from './components/TimelineContent';
+import Tooltip from './components/Tooltip';
 
 const CONTROLS_WIDTH = 0;
 const MOUSE_BUFFER_WIDTH = 5;

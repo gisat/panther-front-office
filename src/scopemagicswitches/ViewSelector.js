@@ -1,13 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Select from '../state/Select';
-import AoiWmsMapsTimeline from '../components/containers/controls/AoiWmsMapsTimeline';
+import AoiPeriodsSelector from '../components/containers/view-selectors/AoiPeriodsSelector';
 
 
 const MagicSwitch = ({scope}) => {
 	if (scope) {
-		if (scope.showTimeline && scope.aoiLayer) {
-			return <AoiWmsMapsTimeline />
+		if (scope.viewSelection === 'aoiPeriodsSelector' && scope.aoiLayer) {
+			return <AoiPeriodsSelector />
 		}
 	}
 	return null;

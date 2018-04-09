@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import MapsTimeline from './components/MapsTimeline';
+import MapsTimeline from './../../../presentation/controls/MapsTimeline/MapsTimeline';
 import Dimensions from 'react-dimensions';
-import utils from '../../../utils/utils';
+import utils from '../../../../utils/utils';
 import _ from 'lodash';
 
-class MapsTimelineContainer extends React.PureComponent {
+class AoiWmsMapsTimeline extends React.PureComponent {
 
 	constructor(){
 		super();
@@ -66,4 +66,4 @@ class MapsTimelineContainer extends React.PureComponent {
 
 }
 
-export default Dimensions()(MapsTimelineContainer);
+export default Dimensions()(AoiWmsMapsTimeline);

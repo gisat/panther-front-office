@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import UISelect from '../../../atoms/UISelect/index'
+import UISelect from '../../../presentation/atoms/UISelect/index'
 
-class ViewSelector extends React.PureComponent {
+class AoiPeriodsSelector extends React.PureComponent {
 
 	static propTypes = {
 		activeAoi: PropTypes.object,
@@ -124,4 +124,4 @@ class ViewSelector extends React.PureComponent {
 
 }
 
-export default ViewSelector;
+export default AoiPeriodsSelector;

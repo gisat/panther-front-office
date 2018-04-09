@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import Action from '../../../state/Action';
-import Select from '../../../state/Select';
-import OverlayContainer from './OverlayContainer';
+import Action from '../../../../../state/Action';
+import Select from '../../../../../state/Select';
+import Overlay from './Overlay';
 
 const mapStateToProps = state => {
 	return {
@@ -14,4 +14,4 @@ const mapDispatchToProps = dispatch => {
 	return {}
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(OverlayContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(Overlay);

@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import Action from '../../../state/Action';
-import Select from '../../../state/Select';
-import MapsTimelineContainer from '../MapsTimelineContainer/MapsTimelineContainer';
+import Action from '../../../../state/Action';
+import Select from '../../../../state/Select';
+import AoiWmsMapsTimeline from './AoiWmsMapsTimeline';
 
 const mapStateToProps = state => {
 	return {
@@ -44,4 +44,4 @@ const mapDispatchToProps = dispatch => {
 	}
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(MapsTimelineContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(AoiWmsMapsTimeline);

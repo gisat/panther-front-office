@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import Action from '../../../state/Action';
-import Select from '../../../state/Select';
-import ViewSelectorContainer from './ViewSelectorContainer';
+import Action from '../../../../state/Action';
+import Select from '../../../../state/Select';
+import AoiPeriodsSelector from './AoiPeriodsSelector';
 
 const mapStateToProps = state => {
 	return {
@@ -26,4 +26,4 @@ const mapDispatchToProps = dispatch => {
 	}
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ViewSelectorContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(AoiPeriodsSelector);
