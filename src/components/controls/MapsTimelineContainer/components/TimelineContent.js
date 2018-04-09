@@ -14,21 +14,7 @@ import Years from './Years';
 import Mouse from './Mouse';
 import Layers from './Layers';
 
-/*
-Necessary updates
-  The minimum size for what is shown is 4px
-  The size is changing at 10% speed with the wheel movement.
-  If the size is big enough we draw the month text
-    Month names. Is it possible to figure out the size? As for names of the months it should be ok to use the first
-    three letters
-  If the size is big enough we draw the day name
-    First two letters should be big enough.
-  If the size is big enough we draw the hour
-    Always two letters 01 to 24
 
-
-  The Layers contain the information about points that are available there.
- */
 class TimelineContent extends React.PureComponent {
 
 	static propTypes = {
@@ -85,11 +71,10 @@ class TimelineContent extends React.PureComponent {
 				width={this.props.width}
 				height={height}
 				onMouseLeave={this.props.onMouseLeave}
-                onWheel={this.props.onWheel}
-
-                onMouseDown={this.onMouseDown}
-                onMouseUp={this.onMouseUp}
-                onMouseMove={this.onMouseMove}
+        onWheel={this.props.onWheel}
+				onMouseDown={this.onMouseDown}
+        onMouseUp={this.onMouseUp}
+        onMouseMove={this.onMouseMove}
 			>
 				<Months
 					period={this.props.period}
@@ -116,7 +101,7 @@ class TimelineContent extends React.PureComponent {
 				/>
 				<Layers
 					layers={this.props.layers}
-                    dayWidth={this.props.dayWidth} // It is here to make sure the layers get rendered as the timeline is changed.
+          dayWidth={this.props.dayWidth} // It is here to make sure the layers get rendered as the timeline is changed.
 					getX={this.props.getX}
 					onPeriodClick={this.props.onLayerPeriodClick}
 					period={this.props.period}

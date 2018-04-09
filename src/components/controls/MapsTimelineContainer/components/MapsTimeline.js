@@ -46,12 +46,12 @@ class MapsTimeline extends React.PureComponent {
 		this.calculate(props);
 
 		this.state = {
-            period: {
-                start: props.initialPeriod.start,
-                end: props.initialPeriod.end
-            },
-            dayWidth: this.dimensions.dayWidth
-        };
+			period: {
+				start: props.initialPeriod.start,
+				end: props.initialPeriod.end
+			},
+			dayWidth: this.dimensions.dayWidth
+		};
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -103,83 +103,83 @@ class MapsTimeline extends React.PureComponent {
 		});
 	}
 
-    /**
+	/**
 	 * Based on the amount of pixels the wheel moves update the size of the visible pixels.
-     * @param e {SyntheticEvent}
+	 * @param e {SyntheticEvent}
 	 *
-     */
-		onWheel(e) {
-			let change;
-			let mouseTime = this.getTime(this.state.mouseX);
-			if (e.deltaY > 0) {
-				// zoom out
-				change = 1 - Math.abs(e.deltaY / (10 * 100));
-			} else {
-				// zoom in
-				change = 1 + Math.abs(e.deltaY / (10 * 100));
-			}
-
-			let newWidth = this.state.dayWidth * change;
-
-			//for now, don't allow zoom outside initial period - todo better solution
-			if (newWidth < this.dimensions.dayWidth) {
-				newWidth = this.dimensions.dayWidth;
-			}
-
-			let beforeMouseDays = this.state.mouseX / newWidth;
-			let afterMouseDays = (this.props.containerWidth - this.state.mouseX) / newWidth;
-			let allDays = this.props.containerWidth / newWidth;
-
-			let start = moment(mouseTime).subtract(moment.duration(beforeMouseDays * (60 * 60 * 24 * 1000), 'ms'));
-			//let end = moment(mouseTime).add(moment.duration(afterMouseDays, 'days));
-			let end = moment(start).add(moment.duration(allDays * (60 * 60 * 24 * 1000), 'ms'));
-
-			//for now, don't allow zoom outside initial period - todo better solution
-			if (start < this.props.initialPeriod.start) {
-				let outOfIntervalDiff = this.props.initialPeriod.start - start;
-				start = moment(this.props.initialPeriod.start);
-				end = end.add(outOfIntervalDiff);
-			}
-			if (end > this.props.initialPeriod.end) {
-				let outOfIntervalDiff = end - this.props.initialPeriod.end;
-				end = moment(this.props.initialPeriod.end);
-				start = start.subtract(outOfIntervalDiff);
-			}
-
-			this.setState({
-				dayWidth: newWidth,
-				period: {
-					start: start,
-					end: end
-				}
-			});
+	 */
+	onWheel(e) {
+		let change;
+		let mouseTime = this.getTime(this.state.mouseX);
+		if (e.deltaY > 0) {
+			// zoom out
+			change = 1 - Math.abs(e.deltaY / (10 * 100));
+		} else {
+			// zoom in
+			change = 1 + Math.abs(e.deltaY / (10 * 100));
 		}
 
-    /**
+		let newWidth = this.state.dayWidth * change;
+
+		//for now, don't allow zoom outside initial period - todo better solution
+		if (newWidth < this.dimensions.dayWidth) {
+			newWidth = this.dimensions.dayWidth;
+		}
+
+		let beforeMouseDays = this.state.mouseX / newWidth;
+		let afterMouseDays = (this.props.containerWidth - this.state.mouseX) / newWidth;
+		let allDays = this.props.containerWidth / newWidth;
+
+		let start = moment(mouseTime).subtract(moment.duration(beforeMouseDays * (60 * 60 * 24 * 1000), 'ms'));
+		//let end = moment(mouseTime).add(moment.duration(afterMouseDays, 'days));
+		let end = moment(start).add(moment.duration(allDays * (60 * 60 * 24 * 1000), 'ms'));
+
+		//for now, don't allow zoom outside initial period - todo better solution
+		if (start < this.props.initialPeriod.start) {
+			let outOfIntervalDiff = this.props.initialPeriod.start - start;
+			start = moment(this.props.initialPeriod.start);
+			end = end.add(outOfIntervalDiff);
+		}
+		if (end > this.props.initialPeriod.end) {
+			let outOfIntervalDiff = end - this.props.initialPeriod.end;
+			end = moment(this.props.initialPeriod.end);
+			start = start.subtract(outOfIntervalDiff);
+		}
+
+		this.setState({
+			dayWidth: newWidth,
+			period: {
+				start: start,
+				end: end
+			}
+		});
+	}
+
+	/**
 	 * When the user drags the timeline, if it is still permitted, it updates the available and visible period and
 	 * therefore redraws the information.
-     * @param dragInfo {Object}
+	 * @param dragInfo {Object}
 	 * @param dragInfo.distance {Number} Amount of pixels to move in given direction
 	 * @param dragInfo.direction {String} Either past or future. Based on this.
-     */
+	 */
 	onDrag(dragInfo) {
 		let start = moment(this.state.period.start);
-        let end = moment(this.state.period.end);
+    let end = moment(this.state.period.end);
 
-        // Either add  to start and end.
+    // Either add  to start and end.
 		let daysChange = Math.abs(dragInfo.distance) / this.state.dayWidth;
 		if(dragInfo.direction === 'past') {
 			start.subtract(daysChange, 'days');
-            end.subtract(daysChange, 'days');
-            if(start.isBefore(this.props.initialPeriod.start)) {
-            	start = moment(this.props.initialPeriod.start);
+      end.subtract(daysChange, 'days');
+      if(start.isBefore(this.props.initialPeriod.start)) {
+      	start = moment(this.props.initialPeriod.start);
 			}
 		} else {
-            start.add(daysChange, 'days');
-            end.add(daysChange, 'days');
-            if(end.isAfter(this.props.initialPeriod.end)) {
-                end = moment(this.props.initialPeriod.end);
-            }
+			start.add(daysChange, 'days');
+			end.add(daysChange, 'days');
+			if(end.isAfter(this.props.initialPeriod.end)) {
+				end = moment(this.props.initialPeriod.end);
+			}
 		}
 
 
@@ -196,12 +196,12 @@ class MapsTimeline extends React.PureComponent {
 			}
 		}
 
-        this.setState({
-            period: {
-                start: start,
-                end: end
-            }
-        });
+		this.setState({
+			period: {
+				start: start,
+				end: end
+			}
+		});
 	}
 
 	// Make sure that the size doesn't change.
