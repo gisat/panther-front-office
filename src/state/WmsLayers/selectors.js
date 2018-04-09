@@ -47,5 +47,6 @@ const getLayersWithAoiPeriods = createSelector(
 );
 
 export default {
+	getLayers: getLayers,
 	getLayersWithAoiPeriods: getLayersWithAoiPeriods
 };

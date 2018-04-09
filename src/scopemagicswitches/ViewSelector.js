@@ -9,6 +9,9 @@ const MagicSwitch = ({scope}) => {
 		if (scope.viewSelection === 'aoiPeriodsSelector' && scope.aoiLayer) {
 			return <AoiPeriodsSelector />
 		}
+		if (scope.viewSelection === 'placeAuPeriodFrequency') {
+			// todo component
+		}
 	}
 	return null;
 };

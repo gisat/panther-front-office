@@ -236,6 +236,14 @@ class MapsTimeline extends React.PureComponent {
 	render() {
 
 		let children = [];
+
+		if (this.props.content) {
+			children.push(React.createElement(this.props.content, {
+				period: this.state.period,
+				getX: this.getX
+			}));
+		}
+
 		let {maps, activeMapKey, ...contentProps} = this.props; // consume unneeded props (though we'll probably use them in the future)
 		contentProps = {...contentProps,
 			key: 'mapsTimelineContent',

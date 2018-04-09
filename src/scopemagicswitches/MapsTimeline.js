@@ -2,12 +2,17 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Select from '../state/Select';
 import AoiWmsMapsTimeline from '../components/containers/controls/AoiWmsMapsTimeline';
+import MapsTimeline from '../components/containers/controls/MapsTimeline';
+import AuAttributeFrequencyGraph from '../components/containers/controls/MapsTimeline/content/AuAttributeFrequencyGraph';
 
 
 const MagicSwitch = ({scope}) => {
 	if (scope) {
 		if (scope.showTimeline && scope.aoiLayer) {
 			return <AoiWmsMapsTimeline />
+		}
+		if (scope.showTimeline && scope.timelineContent === "auAttributeFrequencyGraph") {
+			return <MapsTimeline content={AuAttributeFrequencyGraph} />
 		}
 	}
 	return null;
