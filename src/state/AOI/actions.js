@@ -41,7 +41,8 @@ function load(ttl) {
 				return fetch(url).then(
 					response => {
 						console.log('#### load AOI response', response);
-						if (response.ok) {
+						let contentType = response.headers.get('Content-type');
+						if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
 							return response.json().then(data => {
 								if (data) {
 									dispatch(loadReceive(data.features, scope.aoiLayer));
