@@ -75,9 +75,11 @@ class MapsTimeline extends React.PureComponent {
 			dayWidth: (props.containerWidth - CONTROLS_WIDTH)/diff
 		};
 
-		this.setState({
-			dayWidth: this.dimensions.dayWidth
-		});
+		if (this.state.dayWidth) { // don't set state in constructor
+			this.setState({
+				dayWidth: this.dimensions.dayWidth
+			});
+		}
 	}
 
 	getX(date, props) {
