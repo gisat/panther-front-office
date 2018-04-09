@@ -31,5 +31,9 @@ define([
 		return "rest/location";
 	};
 
+	Locations.prototype.loaded = function(models) {
+		window.Stores.notify("PLACES_LOADED", models);
+	};
+
 	return Locations;
 });

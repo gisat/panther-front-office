@@ -4,6 +4,7 @@ import aoiReducers from './AOI/reducers';
 import layerPeriodsReducers from './LayerPeriods/reducers';
 import mapsReducers from './Maps/reducers';
 import periodsReducers from './Periods/reducers';
+import placesReducers from './Places/reducers';
 import scopesReducers from './Scopes/reducers';
 import userReducers from './User/reducers';
 import wmsLayersReducers from './WmsLayers/reducers';
@@ -18,6 +19,7 @@ const Store = createStore(combineReducers({
 	layerPeriods: layerPeriodsReducers,
 	maps: mapsReducers,
 	periods: periodsReducers,
+	places: placesReducers,
 	scopes: scopesReducers,
 	user: userReducers,
 	wmsLayers: wmsLayersReducers
