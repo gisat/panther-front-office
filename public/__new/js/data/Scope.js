@@ -53,8 +53,13 @@ define(['./Model'], function(Model){
 			},
 			restrictEditingToAdmins: {
 				serverName: 'restrictEditingToAdmins'
+			},
+			timelineContent: {
+				serverName: 'timelineContent'
+			},
+			layersWidgetHiddenPanels: {
+				serverName: 'layersWidgetHiddenPanels'
 			}
-
 		};
 	};
 

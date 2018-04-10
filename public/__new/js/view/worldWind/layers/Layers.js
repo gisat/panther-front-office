@@ -231,13 +231,13 @@ define(['../../../error/ArgumentError',
 			case "osm":
 				layer = new MyOsmLayer({
 					attribution: "\u00A9 OpenStreetMap contributors",
-					source: "http://a.tile.openstreetmap.org/"
+					source: "https://a.tile.openstreetmap.org/"
 				});
 				break;
 			case "cartoDb":
 				layer = new MyOsmLayer({
 					attribution: "\u00A9 Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL",
-					source: "http://a.basemaps.cartocdn.com/light_all/"});
+					source: "https://a.basemaps.cartocdn.com/light_all/"});
 				break;
 			case "landsat":
 				layer = new WorldWind.BMNGLandsatLayer();
@@ -298,13 +298,13 @@ define(['../../../error/ArgumentError',
 	 */
 	Layers.prototype.addWmsLayer = function(layerData, group, state){
 		var layer;
-		if(layerData.customParams.crs === 'EPSG:3857') {
+		if(layerData.customParams && layerData.customParams.crs === 'EPSG:3857') {
 			layer = new MercatorLayer({
 				service: layerData.url,
 				layerNames: layerData.layerPaths,
 				numLevels: 19,
 				format: "image/png",
-				opacity: .9,
+				opacity: 1,
 				size: 256,
 				version: "1.1.1",
 				customParams: layerData.customParams
@@ -326,7 +326,7 @@ define(['../../../error/ArgumentError',
 				levelZeroDelta: new WorldWind.Location(90, 90),
 				numLevels: 18,
 				format: "image/png",
-				opacity: .9,
+				opacity: 1,
 				size: 256,
 				version: "1.1.1",
 				customParams: layerData.customParams

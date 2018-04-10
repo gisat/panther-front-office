@@ -8,6 +8,10 @@ const INITIAL_STATE = {
 	loading: false
 };
 
+function add(state,action) {
+	let data = (state.data && state.data.length) ? [...state.data, ...action.data] : [...action.data];
+	return {...state, loading: false, data: data};
+}
 
 function setActive(state, action) {
 	return {...state, activeKey: action.key};
@@ -31,7 +35,7 @@ function receive(state, action) {
 function receiveGeometry(state, action) {
 	let data = _.map(state.data, model => {
 		if (model.key === action.key) {
-			return {...model, geometry: action.geometry};
+			return {...model, geometry: action.geometry, code: action.code};
 		} else {
 			return model;
 		}
@@ -42,6 +46,8 @@ function receiveGeometry(state, action) {
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
+		case ActionTypes.AOI_ADD:
+			return add(state, action);
 		case ActionTypes.AOI_REQUEST:
 			return request(state, action);
 		case ActionTypes.AOI_RECEIVE:

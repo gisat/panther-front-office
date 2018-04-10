@@ -1105,7 +1105,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 //     $('#top-toolbar-saved-views').hide();
                 // }
 
-				if(tools.indexOf('savedViews') !== -1 && Config.auth.userName !== "admin") {
+				if(tools.indexOf('savedViews') !== -1 && Config.auth && Config.auth.userName !== "admin") {
 					$('#top-toolbar-saved-views').hide();
 				}
 
@@ -1113,7 +1113,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 				//     $('.field.visualization').hide();
 				// }
 
-				if(tools.indexOf('visualization') !== -1 && Config.auth.userName !== "admin") {
+				if((tools.indexOf('visualization') !== -1 && Config.auth && Config.auth.userName !== "admin") || (tools.indexOf('visualization-always') !== -1)) {
 					$('.field.visualization').hide();
 				}
 
@@ -1126,7 +1126,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
                     $('#top-toolbar-context-help').hide();
                 }
 
-				if(window.location.origin === "http://dromas.gisat.cz" && Config.auth.userName !== "admin") {
+				if(window.location.origin === "http://dromas.gisat.cz" && Config.auth && Config.auth.userName !== "admin") {
 					$('#top-toolbar-share-view').hide();
 				}
 
@@ -1134,7 +1134,11 @@ Ext.define('PumaMain.controller.LocationTheme', {
                     $('.field.scope').hide();
                 }
 
-                if(tools.indexOf('theme') !== -1) {
+				if(tools.indexOf('period') !== -1) {
+					$('#selector-periods').hide();
+				}
+
+				if(tools.indexOf('theme') !== -1) {
                     $('.field.theme').hide();
                 }
 

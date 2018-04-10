@@ -13,7 +13,7 @@ define([
 	 */
 	var MercatorLayer = function (options) {
 		MercatorTiledImageLayer.call(this,
-			new Sector(-85.05, 85.05, -180, 180), new Location(85.05, 180), 19, "image/png", "Mercator Layer",
+			new Sector(-85.05, 85.05, -180, 180), new Location(85.05, 180), 19, "image/png", options.service + "/" + options.layerNames + "/" + options.sldId,
 			256, 256);
 
 		this.sldId = options.sldId;

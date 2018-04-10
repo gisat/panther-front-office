@@ -25,16 +25,26 @@ define([
 	/**
 	 * Class representing AU Layers Panel of WorldWindWidget
 	 * @param options {Object}
+	 * @param options.store {Object}
+	 * @param options.store.state {StateStore}
 	 * @constructor
 	 */
 	var AuLayersPanel = function(options){
 		ThematicLayersPanel.apply(this, arguments);
+
+		if(!options.store){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'AuLayersPanel', 'constructor', 'Stores must be provided'));
+		}
+		if(!options.store.state){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'AuLayersPanel', 'constructor', 'Store state must be provided'));
+		}
 
 		this._layers = {
 			outlines: {},
 			selected: {}
 		};
 		this._layersControls = [];
+		this._stateStore = options.store.state;
 	};
 
 	AuLayersPanel.prototype = Object.create(ThematicLayersPanel.prototype);
@@ -168,7 +178,15 @@ define([
 	 * @param type {string}
 	 */
 	AuLayersPanel.prototype.onEvent = function(type){
-		if (type === "updateOutlines"){
+		var scope = this._stateStore.current().scopeFull;
+		var isAvailable = true;
+		if (scope && scope.layersWidgetHiddenPanels){
+			var auPanel = _.find(scope.layersWidgetHiddenPanels, function(panel){return panel === 'analytical-units'});
+			if (auPanel){
+				isAvailable = false;
+			}
+		}
+		if (type === "updateOutlines" && isAvailable){
 			this.rebuild();
 		} else if (type === Actions.selectionEverythingCleared){
 			this.clearAllSelections();

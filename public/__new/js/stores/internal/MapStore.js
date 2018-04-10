@@ -61,14 +61,18 @@ define([
 	 * @param layerOptions {Object}
 	 * @param mapId {string} id of the map
 	 */
-	MapStore.prototype.addWmsLayerToMap = function(layerId, layerOptions, mapId){
+	MapStore.prototype.addWmsLayerToMap = function(layerId, layerOptions, mapId, groupId){
 		var self = this;
-		var scope = this._stateStore.current().scopeFull;
+		var state = this._stateStore.current();
+		var scope = state.scopeFull;
+		var isIndependent = state.isMapIndependentOfPeriod;
 		this._wmsStore.byId(layerId).then(function(results){
 			if (results.length){
 				var layer = results[0];
 				self._maps.forEach(function(map){
-					if (map.id === mapId){
+					var periodExists = _.find(layer.periods, function(period){return period == map._period});
+
+					if (map.id === mapId && (isIndependent || (!isIndependent && periodExists))){
 
 						// add layer
 						map.layers.addWmsLayer({
@@ -77,7 +81,7 @@ define([
 							customParams: layerOptions,
 							name: layer.name,
 							id: layer.id
-						},'wms-layers-independent',true);
+						},groupId,true);
 
 						// add map title
 						if (scope.mapLayerInfo && scope.mapLayerInfo === 'simple'){
@@ -191,6 +195,10 @@ define([
 	MapStore.prototype.onEvent = function(type, options) {
 		var state = this._stateStore.current();
 		var scope = state.scopeFull;
+		var wmsGroup = "wms-layers";
+		if(scope && scope.isMapIndependentOfPeriod){
+			wmsGroup = "wms-layers-independent";
+		}
 
 		if(type === Actions.mapAdd) {
 			this.add(options);
@@ -205,13 +213,13 @@ define([
 			if (options.period){
 				customParams = {time: options.period};
 			}
-			this.addWmsLayerToMap(options.layerKey, customParams, options.mapKey);
+			this.addWmsLayerToMap(options.layerKey, customParams, options.mapKey, wmsGroup);
 		} else if (type === "REMOVE_WMS_LAYER"){
 			console.log("## REMOVE_WMS_LAYER", options);
-			this.removeLayerFromGroup(options.mapKey, options.layerKey, 'wms-layers-independent');
+			this.removeLayerFromGroup(options.mapKey, options.layerKey, wmsGroup);
 		} else if (type === "AOI_GEOMETRY_SET"){
 			if (state.previousAoi){
-				this.removeAllLayersFromGroupFromAllMaps('wms-layers-independent');
+				this.removeAllLayersFromGroupFromAllMaps(wmsGroup);
 			}
 		}
 

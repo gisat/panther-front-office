@@ -126,10 +126,6 @@ define([
 			});
 		}
 
-		if (this._previousDataset !== this._dataset){
-			this._dispatcher.notify('scope#activeScopeChanged', {activeScopeKey: Number(self._dataset)});
-			this._previousDataset = this._dataset;
-		}
 		ThemeYearConfParams.datasetChanged = false;
 
 		Charts.forEach(function(exchangeChartData) {
@@ -297,22 +293,36 @@ define([
 	 */
 	FrontOffice.prototype.checkConfiguration = function(){
 		var self = this;
+		var state = this._stateStore.current();
 		ThemeYearConfParams.actions.forEach(function(action){
 			self.mapActions(action);
 		});
 		ThemeYearConfParams.actions = [];
 
-
+		// warning if scope wasn't selected properly
 		if (this._options.changes.scope && !this._options.changes.dataview){
 			if (this._dataset === ThemeYearConfParams.dataset){
 				console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "FrontOffice", "checkConfiguration", "missingDataset"));
 			}
 		}
 
+		// handle active dataset
 		if (this._options.changes.dataview){
 			this._dataset = this._options.config.dataset;
 		} else {
 			this._dataset = ThemeYearConfParams.dataset;
+		}
+
+		if (this._previousDataset !== this._dataset && !this._options.changes.dataview){
+			this._dispatcher.notify('scope#activeScopeChanged', {activeScopeKey: Number(self._dataset)});
+			this._previousDataset = Number(this._dataset);
+		}
+
+		// handle active places
+		if (state.place){
+			this._dispatcher.notify('place#setActivePlace', {data: [Number(state.place)]});
+		} else {
+			this._dispatcher.notify('place#setActivePlace', {data: state.allPlaces});
 		}
 	};
 
@@ -501,6 +511,9 @@ define([
 		}
 		if (options.mapsMetadata){
 			this._mapsContainer.handleMapsFromDataview(options.mapsMetadata, options.selectedMapId);
+		}
+		if (options.mapDefaults){
+			this._mapsContainer.handleMapDefaultsFromDataview(options.mapDefaults);
 		}
 		if (options.activeAoi){
 			this._dispatcher.notify('dataview#activeAoi', {key: options.activeAoi});
