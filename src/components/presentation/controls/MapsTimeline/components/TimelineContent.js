@@ -33,7 +33,9 @@ class TimelineContent extends React.PureComponent {
 				width: this.props.width,
 				dayWidth: this.props.dayWidth,
 				period: this.props.period,
-				getX: this.props.getX
+				getX: this.props.getX,
+				mouseX: this.props.mouseX,
+				mouseBufferWidth: this.props.mouseBufferWidth
 			});
 		}
 

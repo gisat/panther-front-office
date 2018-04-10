@@ -5,6 +5,7 @@ import utils from '../../../../../../utils/utils';
 import _ from 'lodash';
 
 import Months from '../../../../../presentation/controls/MapsTimeline/components/Months';
+import Mouse from '../../../../../presentation/controls/MapsTimeline/components/Mouse';
 
 class AuAttributeFrequencyGraph extends React.PureComponent {
 
@@ -17,10 +18,16 @@ class AuAttributeFrequencyGraph extends React.PureComponent {
 				height={height}
 			>
 				<Months
+					background
 					period={this.props.period}
 					getX={this.props.getX}
 					height={height}
 					dayWidth={this.props.dayWidth}
+				/>
+				<Mouse
+					mouseBufferWidth={this.props.mouseBufferWidth}
+					mouseX={this.props.mouseX}
+					height={height}
 				/>
 
 			</svg>

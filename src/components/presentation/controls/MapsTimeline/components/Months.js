@@ -36,7 +36,7 @@ class Months extends React.PureComponent {
 			let start = this.props.getX(month.start);
 			let end = this.props.getX(month.end);
 			let label = null;
-			if (this.props.dayWidth > 1.5) {
+			if (!this.props.background && this.props.dayWidth > 1.5) {
 				label = (
 					<text
 						x={start + 3}
@@ -50,7 +50,9 @@ class Months extends React.PureComponent {
 			return (
 				<g
 					key={month.month}
-					className={classNames("ptr-timeline-month", (+month.start.format('M') % 2) ? 'odd' : 'even')}
+					className={classNames("ptr-timeline-month", (+month.start.format('M') % 2) ? 'odd' : 'even', {
+						background: this.props.background
+					})}
 				>
 					<rect
 						x={start}
