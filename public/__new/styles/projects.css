@@ -1,5 +1,8 @@
 /* Table of contents
 
+	DEFAULT
+	  Intro overlay
+
 	DROMAS......................adjustments for Dromas
 	  Intro overlay
 
@@ -10,6 +13,11 @@
 	  Top toolbar inputs
 
 */
+
+/* Intro Overlay */
+.about-window-header {
+	background-image: url('../img/panther/panther_background.jpg');
+}
 
 /* ===================================================
    === DROMAS ========================================
