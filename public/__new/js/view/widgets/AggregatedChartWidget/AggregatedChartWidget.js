@@ -52,7 +52,7 @@ define([
 		this._settings = null;
 
 		this._filter = options.filter;
-		this._stateStore = options.stateStore;
+		this._stateStore = options.store.state;
 	};
 
 	AggregatedChartWidget.prototype = Object.create(Widget.prototype);
