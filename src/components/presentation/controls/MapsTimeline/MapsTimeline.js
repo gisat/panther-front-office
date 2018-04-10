@@ -114,6 +114,7 @@ class MapsTimeline extends React.PureComponent {
 
 				this._lastX = e.clientX;
 			}
+			e.preventDefault();
 		}
 	}
 	onMouseLeave(e) {
@@ -210,14 +211,14 @@ class MapsTimeline extends React.PureComponent {
     // Either add  to start and end.
 		let daysChange = Math.abs(dragInfo.distance) / this.state.dayWidth;
 		if(dragInfo.direction === 'past') {
-			start.subtract(daysChange, 'days');
-      end.subtract(daysChange, 'days');
+			start.subtract(daysChange * (60 * 60 * 24 * 1000), 'ms');
+      end.subtract(daysChange * (60 * 60 * 24 * 1000), 'ms');
       if(start.isBefore(this.props.initialPeriod.start)) {
       	start = moment(this.props.initialPeriod.start);
 			}
 		} else {
-			start.add(daysChange, 'days');
-			end.add(daysChange, 'days');
+			start.add(daysChange * (60 * 60 * 24 * 1000), 'ms');
+			end.add(daysChange * (60 * 60 * 24 * 1000), 'ms');
 			if(end.isAfter(this.props.initialPeriod.end)) {
 				end = moment(this.props.initialPeriod.end);
 			}
@@ -231,9 +232,9 @@ class MapsTimeline extends React.PureComponent {
 		if(widthOfResult < widthOfTimeline) {
 			let daysNeededToUpdate = (widthOfTimeline - widthOfResult) / this.state.dayWidth;
 			if(dragInfo.direction === 'past') {
-				end.add(daysNeededToUpdate, 'days');
+				end.add(daysNeededToUpdate * (60 * 60 * 24 * 1000), 'ms');
 			} else {
-				start.subtract(daysNeededToUpdate, 'days');
+				start.subtract(daysNeededToUpdate * (60 * 60 * 24 * 1000), 'ms');
 			}
 		}
 
