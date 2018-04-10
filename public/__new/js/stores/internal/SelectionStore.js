@@ -44,7 +44,7 @@ define([
 		 */
 		this._selected = {};
 
-		this._wmsUrl = Config.geoServerUrl + 'wms';
+		this._wmsUrl = Config.geoServerUrl;
 		this._serverUrl = Config.serverUrl;
 
 		this._stateStore = options.store.state;
