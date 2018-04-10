@@ -14,6 +14,9 @@ const MagicSwitch = ({scope}) => {
 		if (scope.showTimeline && scope.timelineContent === "auAttributeFrequencyGraph") {
 			return <MapsTimeline content={AuAttributeFrequencyGraph} />
 		}
+		if (scope.showTimeline) {
+			return <MapsTimeline />
+		}
 	}
 	return null;
 };
