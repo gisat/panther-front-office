@@ -1053,125 +1053,109 @@ Ext.define('PumaMain.controller.LocationTheme', {
             OneLevelAreas.hasOneLevel = (counter == 1 && scope.get('oneLevelOnly'));
 
 			Stores.notify('fo#adjustConfiguration');
-            if (OneLevelAreas.hasOneLevel){
 
-                $('.areaTreeSelection').hide();
-				$('#top-toolbar-areas').hide();
+            var tools = scope.get('removedTools') || [];
+            var dataset = Ext.ComponentQuery.query('#seldataset')[0].getValue();
+            var only3D = (tools.indexOf('2dmap') !== -1);
 
-				// Also hide chart related stuff
-				$('#window-areatree').hide();
-				if(scope.get("aggregated")) {
-                    this.getController('DomManipulation')._onReportsSidebarToggleClick();
-                }
-                $('#sidebar-reports').hide();
-
-                // Also switch map to 3D mode
-                // Remove the possibility to switch back
-                $('#top-toolbar-3dmap').hide();
-            } else {
-				var tools = scope.get('removedTools') || [];
-				var dataset = Ext.ComponentQuery.query('#seldataset')[0].getValue();
-				var only3D = (tools.indexOf('2dmap') !== -1);
-
-				if(dataset !== this._datasetId) {
-					this._datasetId = dataset;
-					if ((Config.cfg && !Config.cfg.sidebarReportsOpen) || !Config.cfg){
-						this.getController('DomManipulation')._onReportsSidebarHide();
-                    }
-				}
-
-				if (!scope.get('hideSidebarReports')) {
-					$('#sidebar-reports').show();
-				} else {
-					$('#sidebar-reports').hide();
-                }
-
-                if(tools.indexOf('2dmap') !== -1) {
-                    $('#top-toolbar-3dmap').hide();
-                } else {
-                    $('#top-toolbar-3dmap').show();
-                }
-
-                if(tools.indexOf('evaluationTool') !== -1) {
-                    $('#top-toolbar-selection-filter').hide();
-                    $('#top-toolbar-selections').hide();
-                }
-
-                if(tools.indexOf('mapTools') !== -1) {
-                    $('#top-toolbar-map-tools').hide();
-                }
-
-                // if(tools.indexOf('savedViews') !== -1) {
-                //     $('#top-toolbar-saved-views').hide();
-                // }
-
-				if(tools.indexOf('savedViews') !== -1 && Config.auth && Config.auth.userName !== "admin") {
-					$('#top-toolbar-saved-views').hide();
-				}
-
-				// if(tools.indexOf('visualization') !== -1) {
-				//     $('.field.visualization').hide();
-				// }
-
-				if((tools.indexOf('visualization') !== -1 && Config.auth && Config.auth.userName !== "admin") || (tools.indexOf('visualization-always') !== -1)) {
-					$('.field.visualization').hide();
-				}
-
-
-                if(tools.indexOf('snapshots') !== -1) {
-                    $('#top-toolbar-snapshot').hide();
-                }
-
-                if(tools.indexOf('context-help') !== -1) {
-                    $('#top-toolbar-context-help').hide();
-                }
-
-				if(window.location.origin === "http://dromas.gisat.cz" && Config.auth && Config.auth.userName !== "admin") {
-					$('#top-toolbar-share-view').hide();
-				}
-
-				if(tools.indexOf('scope') !== -1) {
-                    $('.field.scope').hide();
-                }
-
-				if(tools.indexOf('period') !== -1) {
-					$('#selector-periods').hide();
-				}
-
-				if(tools.indexOf('theme') !== -1) {
-                    $('.field.theme').hide();
-                }
-
-				if(tools.indexOf('place') !== -1) {
-					$('.field.place').hide();
-				}
-
-				if(tools.indexOf('add-layer') !== -1) {
-					$('#top-toolbar-custom-layers').hide();
-				}
-
-				if(tools.indexOf('3dMap') !== -1) {
-				    $('#top-toolbar-3dmap').hide();
-				}
-
-                if(tools.indexOf('areas') !== -1) {
-                    $('.areaTreeSelection').hide();
-                    $('#window-areatree').hide();
-                    $('#top-toolbar-areas').hide();
-                } else {
-                    $('.areaTreeSelection').show();
-                    $('#window-areatree').show();
-                }
-
-                if (!Config.toggles.isSnow) {
-                    $('#top-toolbar-areas').show();
-                }
-
-                // TODO: To be removed and replaced with toggles.
-                if (scope.get("aggregated")) {
+            if(dataset !== this._datasetId) {
+                this._datasetId = dataset;
+                if ((Config.cfg && !Config.cfg.sidebarReportsOpen) || !Config.cfg){
                     this.getController('DomManipulation')._onReportsSidebarHide();
                 }
-			}
+            }
+
+            if (!scope.get('hideSidebarReports')) {
+                $('#sidebar-reports').show();
+            } else {
+                $('#sidebar-reports').hide();
+            }
+
+            if(tools.indexOf('2dmap') !== -1) {
+                $('#top-toolbar-3dmap').hide();
+            } else {
+                $('#top-toolbar-3dmap').show();
+            }
+
+            if(tools.indexOf('evaluationTool') !== -1) {
+                $('#top-toolbar-selection-filter').hide();
+                $('#top-toolbar-selections').hide();
+            }
+
+            if(tools.indexOf('mapTools') !== -1) {
+                $('#top-toolbar-map-tools').hide();
+            }
+
+            // if(tools.indexOf('savedViews') !== -1) {
+            //     $('#top-toolbar-saved-views').hide();
+            // }
+
+            if(tools.indexOf('savedViews') !== -1 && Config.auth && Config.auth.userName !== "admin") {
+                $('#top-toolbar-saved-views').hide();
+            }
+
+            // if(tools.indexOf('visualization') !== -1) {
+            //     $('.field.visualization').hide();
+            // }
+
+            if((tools.indexOf('visualization') !== -1 && Config.auth && Config.auth.userName !== "admin") || (tools.indexOf('visualization-always') !== -1)) {
+                $('.field.visualization').hide();
+            }
+
+
+            if(tools.indexOf('snapshots') !== -1) {
+                $('#top-toolbar-snapshot').hide();
+            }
+
+            if(tools.indexOf('context-help') !== -1) {
+                $('#top-toolbar-context-help').hide();
+            }
+
+            if(window.location.origin === "http://dromas.gisat.cz" && Config.auth && Config.auth.userName !== "admin") {
+                $('#top-toolbar-share-view').hide();
+            }
+
+            if(tools.indexOf('scope') !== -1) {
+                $('.field.scope').hide();
+            }
+
+            if(tools.indexOf('period') !== -1) {
+                $('#selector-periods').hide();
+            }
+
+            if(tools.indexOf('theme') !== -1) {
+                $('.field.theme').hide();
+            }
+
+            if(tools.indexOf('place') !== -1) {
+                $('.field.place').hide();
+            }
+
+            if(tools.indexOf('add-layer') !== -1) {
+                $('#top-toolbar-custom-layers').hide();
+            }
+
+            if(tools.indexOf('3dMap') !== -1) {
+                $('#top-toolbar-3dmap').hide();
+            }
+
+            if(tools.indexOf('areas') !== -1) {
+                $('.areaTreeSelection').hide();
+                $('#window-areatree').hide();
+                $('#top-toolbar-areas').hide();
+            } else {
+                $('.areaTreeSelection').show();
+                $('#window-areatree').show();
+            }
+
+            if (!Config.toggles.isSnow) {
+                $('#top-toolbar-areas').show();
+            }
+
+            // TODO: To be removed and replaced with toggles.
+            if (scope.get("aggregated")) {
+                this.getController('DomManipulation')._onReportsSidebarHide();
+            }
         }
         if (response.request.options.originatingCnt.itemId == 'selectfilter') {
             this.getController('Select').selectInternal(conf.areas, false, false, 1);

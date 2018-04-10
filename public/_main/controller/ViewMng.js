@@ -284,18 +284,6 @@ Ext.define('PumaMain.controller.ViewMng', {
         	setTimeout(function(){
 				Stores.notify('fo#adjustConfiguration');
 
-				$('.areaTreeSelection').hide();
-				$('#top-toolbar-areas').hide();
-
-				// Also hide chart related stuff
-				$('#window-areatree').hide();
-				this.getController('DomManipulation')._onReportsSidebarToggleClick();
-				$('#sidebar-reports').hide();
-
-				// Also switch map to 3D mode
-				// Remove the possibility to switch back
-				$('#top-toolbar-3dmap').hide();
-
 				if(selection) {
 					window.selectionStore.deserialize(selection);
 				}
