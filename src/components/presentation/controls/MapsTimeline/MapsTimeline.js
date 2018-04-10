@@ -10,7 +10,8 @@ import Tooltip from './components/Tooltip';
 const CONTROLS_WIDTH = 0;
 const MOUSE_BUFFER_WIDTH = 5;
 const INITIAL_STATE = {
-	mouseX: null
+	mouseX: null,
+	displayTooltip: false
 };
 
 class MapsTimeline extends React.PureComponent {
@@ -44,6 +45,8 @@ class MapsTimeline extends React.PureComponent {
 		this.onMouseDown = this.onMouseDown.bind(this);
 		this.onWheel = this.onWheel.bind(this);
 		this.onDrag = this.onDrag.bind(this);
+		this.displayTooltip = this.displayTooltip.bind(this);
+		this.hideTooltip = this.hideTooltip.bind(this);
 
 		this.calculate(props);
 
@@ -128,6 +131,17 @@ class MapsTimeline extends React.PureComponent {
 		console.log('onMouseDown');
 		this._drag = true;
 		this._lastX = e.clientX;
+	}
+
+	displayTooltip() {
+		this.setState({
+			displayTooltip: true
+		});
+	}
+	hideTooltip() {
+		this.setState({
+			displayTooltip: false
+		});
 	}
 
 	/**
@@ -237,15 +251,6 @@ class MapsTimeline extends React.PureComponent {
 
 		let children = [];
 
-		if (this.props.content) {
-			children.push(React.createElement(this.props.content, {
-				width: this.dimensions.days * this.dimensions.dayWidth,
-				dayWidth: this.state.dayWidth,
-				period: this.state.period,
-				getX: this.getX
-			}));
-		}
-
 		let {maps, activeMapKey, ...contentProps} = this.props; // consume unneeded props (though we'll probably use them in the future)
 		contentProps = {...contentProps,
 			key: 'mapsTimelineContent',
@@ -260,11 +265,13 @@ class MapsTimeline extends React.PureComponent {
       onWheel: this.onWheel,
       onDrag: this.onDrag,
 			mouseX: this.state.mouseX,
-			mouseBufferWidth: MOUSE_BUFFER_WIDTH
+			mouseBufferWidth: MOUSE_BUFFER_WIDTH,
+			displayTooltip: this.displayTooltip,
+			hideTooltip: this.hideTooltip,
 		};
 		children.push(React.createElement(TimelineContent, contentProps));
 
-		if (this.state.mouseX) {
+		if (this.state.mouseX && this.state.displayTooltip) {
 			children.push(React.createElement(Tooltip, {
 				key: 'mapsTimelineTooltip',
 				mouseX: this.state.mouseX,

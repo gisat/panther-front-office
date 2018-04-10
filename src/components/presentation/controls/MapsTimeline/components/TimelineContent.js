@@ -27,49 +27,66 @@ class TimelineContent extends React.PureComponent {
 
 		let height = (this.props.layers && this.props.layers.length * 10 + 20) || 20;
 
+		let content = null;
+		if (this.props.content) {
+			content = React.createElement(this.props.content, {
+				width: this.props.width,
+				dayWidth: this.props.dayWidth,
+				period: this.props.period,
+				getX: this.props.getX
+			});
+		}
+
 		return (
-			<svg
-				width={this.props.width}
-				height={height}
+			<div
+				className="ptr-timeline-content"
 				onMouseLeave={this.props.onMouseLeave}
-        onWheel={this.props.onWheel}
+				onWheel={this.props.onWheel}
 				onMouseDown={this.props.onMouseDown}
-        onMouseUp={this.props.onMouseUp}
-        onMouseMove={this.props.onMouseMove}
+				onMouseUp={this.props.onMouseUp}
+				onMouseMove={this.props.onMouseMove}
 			>
-				<Months
-					period={this.props.period}
-					getX={this.props.getX}
+				{content}
+				<svg
+					width={this.props.width}
 					height={height}
-					dayWidth={this.props.dayWidth}
-				/>
-				<Days
-					period={this.props.period}
-					getX={this.props.getX}
-					height={height}
-					dayWidth={this.props.dayWidth}
-				/>
-				<Years
-					period={this.props.period}
-					getX={this.props.getX}
-					height={height}
-					dayWidth={this.props.dayWidth}
-				/>
-				<Mouse
-					mouseBufferWidth={this.props.mouseBufferWidth}
-					mouseX={this.props.mouseX}
-					height={height}
-				/>
-				<Layers
-					layers={this.props.layers}
-          dayWidth={this.props.dayWidth} // It is here to make sure the layers get rendered as the timeline is changed.
-					getX={this.props.getX}
-					onPeriodClick={this.props.onLayerPeriodClick}
-					period={this.props.period}
-					activeLayers={this.props.activeLayers}
-					activeLayerPeriods={this.props.activeLayerPeriods}
-				/>
-			</svg>
+					onMouseEnter={this.props.displayTooltip}
+					onMouseLeave={this.props.hideTooltip}
+				>
+					<Months
+						period={this.props.period}
+						getX={this.props.getX}
+						height={height}
+						dayWidth={this.props.dayWidth}
+					/>
+					<Days
+						period={this.props.period}
+						getX={this.props.getX}
+						height={height}
+						dayWidth={this.props.dayWidth}
+					/>
+					<Years
+						period={this.props.period}
+						getX={this.props.getX}
+						height={height}
+						dayWidth={this.props.dayWidth}
+					/>
+					<Mouse
+						mouseBufferWidth={this.props.mouseBufferWidth}
+						mouseX={this.props.mouseX}
+						height={height}
+					/>
+					<Layers
+						layers={this.props.layers}
+						dayWidth={this.props.dayWidth} // It is here to make sure the layers get rendered as the timeline is changed.
+						getX={this.props.getX}
+						onPeriodClick={this.props.onLayerPeriodClick}
+						period={this.props.period}
+						activeLayers={this.props.activeLayers}
+						activeLayerPeriods={this.props.activeLayerPeriods}
+					/>
+				</svg>
+			</div>
 		);
 	}
 
