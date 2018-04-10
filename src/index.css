@@ -4,8 +4,10 @@
     ATOMS
       UI Select
     COMPONENTS
+      Change Review Map Control
       Overlay
       View Selector
+
 */
 
 
@@ -46,6 +48,17 @@ body {
    === COMPONENTS =================================================
    ================================================================ */
 
+/* == Change Review Map Control =================================== */
+.ptr-change-review-map-control {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: #dddcd7;
+}
+
+/* == Overlay ===================================================== */
 .ptr-overlay {
   position: absolute;
   display: none;

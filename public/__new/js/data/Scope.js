@@ -59,6 +59,9 @@ define(['./Model'], function(Model){
 			},
 			layersWidgetHiddenPanels: {
 				serverName: 'layersWidgetHiddenPanels'
+			},
+			featurePlaceChangeReview: {
+				serverName: 'featurePlaceChangeReview'
 			}
 		};
 	};
