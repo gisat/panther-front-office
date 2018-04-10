@@ -239,6 +239,8 @@ class MapsTimeline extends React.PureComponent {
 
 		if (this.props.content) {
 			children.push(React.createElement(this.props.content, {
+				width: this.dimensions.days * this.dimensions.dayWidth,
+				dayWidth: this.state.dayWidth,
 				period: this.state.period,
 				getX: this.getX
 			}));
