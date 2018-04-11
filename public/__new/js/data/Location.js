@@ -23,6 +23,15 @@ define(['./Model'], function(Model){
 			},
 			dataset: {
 				serverName: 'dataset'
+			},
+			geometry: {
+				serverName: 'geometry'
+			},
+			changeReviewGeometryBefore: {
+				serverName: 'changeReviewGeometryBefore'
+			},
+			changeReviewGeometryAfter: {
+				serverName: 'changeReviewGeometryAfter'
 			}
 		};
 	};
