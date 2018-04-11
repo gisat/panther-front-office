@@ -5,13 +5,21 @@ import ChangeReviewMapControl from './ChangeReviewMapControl';
 
 const mapStateToProps = state => {
 	return {
-
+		map: Select.maps.getActiveMap(state)
 	}
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
-
+		toggleGeometries: (mapKey, showBefore, showAfter) => {
+			dispatch(Action.maps.update({
+				key: mapKey,
+				placeGeometryChangeReview: {
+					showGeometryBefore: showBefore,
+					showGeometryAfter: showAfter
+				}
+			}));
+		}
 	}
 };
 
