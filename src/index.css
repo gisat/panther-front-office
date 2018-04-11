@@ -56,6 +56,25 @@ body {
   bottom: 0;
   right: 0;
   background: #dddcd7;
+
+  display: flex;
+}
+
+.ptr-change-review-map-control > div, .ptr-change-review-map-control > span {
+  padding: 11px;
+}
+.ptr-change-review-map-control-map-name {
+  color: #cd0044;
+  margin-right: 15px;
+}
+
+.ptr-change-review-map-control-toggles > label {
+  margin-right: 30px;
+}
+.ptr-change-review-map-control-toggles > label > input {
+  position: relative;
+  top: 2px;
+  margin-right: 6px;
 }
 
 /* == Overlay ===================================================== */
