@@ -15,6 +15,7 @@ export default store => {
 
 const setStoreWatchers = store => {
 	createWatcher(store, Select.places.getActive, activePlaceWatcher);
+	createWatcher(store, Select.places.getActivePlaces, activePlacesWatcher);
 };
 
 
@@ -47,7 +48,28 @@ const activePlaceWatcher = (value, previousValue) => {
 			extent = geoBounds(value.geometry);
 		}
 		if (!previousValue || (previousValue && (previousValue.key !== value.key))){
-			window.Stores.notify('REDUX_SET_ACTIVE_PLACE', {key: value.key, extent: extent});
+			window.Stores.notify('REDUX_SET_ACTIVE_PLACES', {keys: value.key, extents: extent});
+		}
+	}
+};
+
+const activePlacesWatcher = (value, previousValue) => {
+	console.log('@@ activePlaceWatcher', previousValue, '->', value);
+	let extents = [];
+	let keys = [];
+	if (value){
+		value.map(place => {
+			let extent;
+			if (place.bbox && place.bbox.length){
+				extent = place.bbox.split(',');
+			} else if (place.geometry){
+				extent = geoBounds(place.geometry);
+			}
+			extents.push(extent);
+			keys.push(place.key);
+		});
+		if (!previousValue || (previousValue && !utils.collectionsAreEqual(value, previousValue, 'key'))){
+			window.Stores.notify('REDUX_SET_ACTIVE_PLACES', {keys: keys, extents: extents});
 		}
 	}
 };
