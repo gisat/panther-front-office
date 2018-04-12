@@ -125,7 +125,7 @@ body {
   height: 1.5rem;
   transition: background-color .3s ease-in-out;
 }
-.VirtualizedSelectOption {
+.ptr-view-selection-selector.ptr-ui-select .VirtualizedSelectOption {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -137,18 +137,20 @@ body {
   background-color: #6a6e78;
   color: rgb(204,207,211);
 }
-.VirtualizedSelectFocusedOption {
-  background-color: rgba(0, 126, 255, 0.1);
-}
-.VirtualizedSelectDisabledOption {
+.ptr-view-selection-selector.ptr-ui-select .VirtualizedSelectDisabledOption {
   opacity: 0.5;
   background-color: #6a6e78;
   color: rgb(204,207,211);
 }
-.VirtualizedSelectSelectedOption {
+.ptr-view-selection-selector.ptr-ui-select .VirtualizedSelectSelectedOption {
   font-weight: bold;
-  background-color: #6a6e78;
+  background-color: #315678;
   color: rgb(204,207,211);
+}
+.ptr-view-selection-selector.ptr-ui-select .VirtualizedSelectFocusedOption {
+  /*background-color: rgba(0, 126, 255, 0.1);*/
+  background-color: #7ba1c6;
+  color: #fff;
 }
 
 .ptr-view-selection-selector.ptr-ui-select .Select-control .Select-value {
