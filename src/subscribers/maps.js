@@ -14,10 +14,13 @@ export default store => {
 
 const setStoreWatchers = store => {
 
+	createWatcher(store, Select.maps.getActiveMap, activeMapWatcher);
 	createWatcher(store, Select.maps.getActiveMapKey, activeMapKeyWatcher);
 	createWatcher(store, Select.maps.getMaps, mapsWatcher, 'data');
 	createWatcher(store, Select.maps.getMapDefaults, mapDefaultsWatcher);
 	createWatcher(store, Select.maps.getPeriodIndependence, periodIndependenceWatcher, 'independentOfPeriod');
+
+	createWatcher(store, Select.places.getActive, ()=>{}, 'activePlace');
 
 };
 
@@ -64,6 +67,45 @@ const setEventListeners = store => {
 };
 
 // ======== state watchers ========
+
+const activeMapWatcher = (value, previousValue) => {
+	if (!state.lastActiveMapKey || state.lastActiveMapKey == value.key) {
+		if (value.hasOwnProperty('placeGeometryChangeReview')) {
+			if (value.placeGeometryChangeReview.showGeometryBefore != (previousValue.placeGeometryChangeReview && previousValue.placeGeometryChangeReview.showGeometryBefore)) {
+				// show geometry before changed
+				if (value.placeGeometryChangeReview.showGeometryBefore) {
+					window.Stores.notify('MAP_SHOW_LAYER', {
+						mapKey: value.key,
+						layerKey: 'placeGeometryChangeReviewGeometryBefore',
+						geometry: state.activePlace.changeReviewGeometryBefore
+					});
+				} else {
+					window.Stores.notify('MAP_HIDE_LAYER', {
+						mapKey: value.key,
+						layerKey: 'placeGeometryChangeReviewGeometryBefore'
+					});
+				}
+			}
+			if (value.placeGeometryChangeReview.showGeometryAfter != (previousValue.placeGeometryChangeReview && previousValue.placeGeometryChangeReview.showGeometryAfter)) {
+				// show geometry after changed
+				if (value.placeGeometryChangeReview.showGeometryAfter) {
+					window.Stores.notify('MAP_SHOW_LAYER', {
+						mapKey: value.key,
+						layerKey: 'placeGeometryChangeReviewGeometryAfter',
+						geometry: state.activePlace.changeReviewGeometryAfter
+					});
+				} else {
+					window.Stores.notify('MAP_HIDE_LAYER', {
+						mapKey: value.key,
+						layerKey: 'placeGeometryChangeReviewGeometryAfter'
+					});
+				}
+			}
+		}
+	}
+	state.lastActiveMapKey = value.key;
+};
+
 
 const activeMapKeyWatcher = (value, previousValue) => {
 	console.log('@@ activeMapKeyWatcher', previousValue, '->', value);
