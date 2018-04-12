@@ -200,5 +200,8 @@ body {
 .ptr-timeline-graph-line {
 	fill: transparent;
 	stroke: #2e5099;
-	stroke-width: 2;
+	stroke-width: 1;
+}
+.ptr-timeline-graph-point {
+	fill: #2e5099;
 }

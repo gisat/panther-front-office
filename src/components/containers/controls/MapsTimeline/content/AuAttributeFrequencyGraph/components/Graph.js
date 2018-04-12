@@ -25,11 +25,28 @@ class Graph extends React.PureComponent {
 			let path = d3.line().curve(d3.curveCatmullRom.alpha(0.5)).x(d => this.props.getX(d.date)).y(d => y(d.value));
 			let pathD = path(this.props.data);
 
+			let points = _.map(this.props.data, record => {
+				return (
+					<circle
+						key={record.date}
+						cx={this.props.getX(record.date)}
+						cy={y(record.value)}
+						r={2}
+						className="ptr-timeline-graph-point"
+					/>
+				);
+			});
+
 			return (
-				<path
-					d={pathD}
-					className="ptr-timeline-graph-line"
-				/>
+				<g>
+					<path
+						d={pathD}
+						className="ptr-timeline-graph-line"
+					/>
+					<g>
+						{points}
+					</g>
+				</g>
 			);
 
 		}
