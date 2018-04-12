@@ -5,7 +5,9 @@ import ChangeReviewMapControl from './ChangeReviewMapControl';
 
 const mapStateToProps = state => {
 	return {
-		map: Select.maps.getActiveMap(state)
+		map: Select.maps.getActiveMap(state),
+		scope: Select.scopes.getActiveScopeData(state),
+		userIsAdmin: Select.user.isAdmin(state)
 	}
 };
 

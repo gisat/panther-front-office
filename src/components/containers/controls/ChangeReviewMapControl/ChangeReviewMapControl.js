@@ -14,29 +14,32 @@ class ChangeReviewMapControl extends React.PureComponent {
 	}
 
 	render() {
-		return (
-			<div className='ptr-change-review-map-control'>
-				<span className="ptr-change-review-map-control-map-name">{this.props.map && this.props.map.name}</span>
-				<div className="ptr-change-review-map-control-toggles">
-					<label>
-						<input
-							type="checkbox"
-							checked={!!(this.props.map && this.props.map.placeGeometryChangeReview && this.props.map.placeGeometryChangeReview.showGeometryBefore)}
-							onChange={this.onToggleGeometry.bind(this, 'before')}
-						/>
-						<span>Původní geometrie</span>
-					</label>
-					<label>
-						<input
-							type="checkbox"
-							checked={!!(this.props.map && this.props.map.placeGeometryChangeReview && this.props.map.placeGeometryChangeReview.showGeometryAfter)}
-							onChange={this.onToggleGeometry.bind(this, 'after')}
-						/>
-						<span>Geometrie po změně</span>
-					</label>
+		if (!this.props.scope.restrictEditingToAdmins || this.props.userIsAdmin) {
+			return (
+				<div className='ptr-change-review-map-control'>
+					<span className="ptr-change-review-map-control-map-name">{this.props.map && this.props.map.name}</span>
+					<div className="ptr-change-review-map-control-toggles">
+						<label>
+							<input
+								type="checkbox"
+								checked={!!(this.props.map && this.props.map.placeGeometryChangeReview && this.props.map.placeGeometryChangeReview.showGeometryBefore)}
+								onChange={this.onToggleGeometry.bind(this, 'before')}
+							/>
+							<span>Původní geometrie</span>
+						</label>
+						<label>
+							<input
+								type="checkbox"
+								checked={!!(this.props.map && this.props.map.placeGeometryChangeReview && this.props.map.placeGeometryChangeReview.showGeometryAfter)}
+								onChange={this.onToggleGeometry.bind(this, 'after')}
+							/>
+							<span>Geometrie po změně</span>
+						</label>
+					</div>
 				</div>
-			</div>
-		);
+			);
+		}
+		return null;
 	}
 
 }
