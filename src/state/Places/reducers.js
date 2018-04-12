@@ -21,11 +21,11 @@ function addDistinct(state, action) {
 }
 
 function setActive(state, action){
-	return {...state, activeKey: action.key};
+	return {...state, activeKey: action.key, activeKeys: null};
 }
 
 function setActiveMultiple(state, action){
-	return {...state, activeKeys: action.keys};
+	return {...state, activeKeys: action.keys, activeKey: null};
 }
 
 export default function tasksReducer(state = INITIAL_STATE, action) {

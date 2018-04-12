@@ -403,10 +403,10 @@ define([
 			this.updateMapsMetadata(options);
 		} else if (type === 'AOI_GEOMETRY_SET'){
 			this.setActiveAoi(options.id);
-		} else if (type === 'REDUX_SET_ACTIVE_PLACE'){
-			this.setActiveLocations(options.key);
+		} else if (type === 'REDUX_SET_ACTIVE_PLACES'){
+			this.setActiveLocations(options.keys);
 			if (this._changes && !this._changes.dataview){
-				this._dispatcher.notify('map#zoomToArea', options.extent);
+				this._dispatcher.notify('map#zoomToArea', options.extents);
 			}
 		}
 	};

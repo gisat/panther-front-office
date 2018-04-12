@@ -44,7 +44,7 @@ function actionSetActive(key) {
 function actionSetActiveKeys(places) {
 	return {
 		type: ActionTypes.PLACES_SET_ACTIVE_MULTI,
-		data: places
+		keys: places
 	}
 }
 
