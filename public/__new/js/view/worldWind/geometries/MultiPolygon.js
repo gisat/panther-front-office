@@ -34,6 +34,10 @@ define([
 		this._shapeAttributes.outlineColor = new WorldWind.Color(.4, .15, .7, 1);
 		this._shapeAttributes.outlineWidth = 4;
 		this._shapeAttributes.interiorColor = new WorldWind.Color(1, 1, 1, 0);
+
+		if (this._key === "placeGeometryChangeReviewGeometryBefore"){
+			this._shapeAttributes.outlineColor = new WorldWind.Color(1, .15, .15, 1);
+		}
 	};
 
 	/**
