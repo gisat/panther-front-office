@@ -6,6 +6,8 @@ import _ from 'lodash';
 
 import Graph from './components/Graph';
 import Months from '../../../../../presentation/controls/MapsTimeline/components/Months';
+import Days from '../../../../../presentation/controls/MapsTimeline/components/Days';
+import Years from '../../../../../presentation/controls/MapsTimeline/components/Years';
 import Mouse from '../../../../../presentation/controls/MapsTimeline/components/Mouse';
 
 const FAKE_DATA = [
@@ -66,6 +68,20 @@ class AuAttributeFrequencyGraph extends React.PureComponent {
 				height={height}
 			>
 				<Months
+					background
+					period={this.props.period}
+					getX={this.props.getX}
+					height={height}
+					dayWidth={this.props.dayWidth}
+				/>
+				<Days
+					background
+					period={this.props.period}
+					getX={this.props.getX}
+					height={height}
+					dayWidth={this.props.dayWidth}
+				/>
+				<Years
 					background
 					period={this.props.period}
 					getX={this.props.getX}

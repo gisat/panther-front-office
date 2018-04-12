@@ -162,6 +162,24 @@ body.mode-3d .maps-container {
 	fill: rgba(0,0,0,.6);
 }
 
+
+/*.ptr-timeline-month.background > rect {*/
+	/*fill: #fff;*/
+/*}*/
+.ptr-timeline-month.background.odd > rect {
+	fill: #f9f9f9;
+}
+.ptr-timeline-day.background {
+	stroke: rgba(0,0,0,.07);
+}
+.ptr-timeline-day.background.Monday {
+	stroke: rgba(0,0,0,.1);
+}
+.ptr-timeline-year.background > line {
+	stroke: rgba(0,0,0,.2);
+}
+
+
 .ptr-timeline-layer-period {
 	cursor: pointer;
 }

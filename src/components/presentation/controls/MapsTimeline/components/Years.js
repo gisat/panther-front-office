@@ -50,7 +50,7 @@ class Years extends React.PureComponent {
 			return (
 				<g
 					key={year.year}
-					className="ptr-timeline-year"
+					className={classNames("ptr-timeline-year", {background: this.props.background})}
 				>
 					<line
 						x1={start + 0.5}

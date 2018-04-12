@@ -37,14 +37,18 @@ class Days extends React.PureComponent {
 			let end = this.props.getX(day.end);
 			let monday = day.start.format('dddd') === 'Monday';
 			if (this.props.dayWidth > 2 || (this.props.dayWidth > 0.3 && monday)) {
+				let height = this.props.height;
+				if (!this.props.background) {
+					height = monday ? height - 12 : height - 15
+				}
 				return (
 					<line
 						key={day.day}
 						x1={start + 0.5}
 						x2={start + 0.5}
 						y1={0}
-						y2={monday ? this.props.height - 12 : this.props.height - 15}
-						className={classNames("ptr-timeline-day", day.start.format('dddd'))}
+						y2={height}
+						className={classNames("ptr-timeline-day", day.start.format('dddd'), {background: this.props.background})}
 					/>
 				);
 			} else {
