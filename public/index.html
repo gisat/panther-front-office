@@ -192,14 +192,6 @@
                 $('#content #content-application #sidebar-reports #sidebar-reports-toggle').attr('title', polyglot.t('reports'));
             });
 
-            return jQuery.get(Config.url + 'rest/fo/version');
-        }).then(function(result){
-            if(result.status === 'ok') {
-                version = result.version;
-            } else {
-                alert('There was an issue with retrieving version of the application. It is possible that the cached version will be used.')
-            }
-
             return createScript('%PUBLIC_URL%/lib/OpenLayers.js');
         }).then(function(){
             return createScript('%PUBLIC_URL%/gisatlib/OpenLayers/Geoserver23.js');
@@ -531,6 +523,7 @@
                         <div id="app-view-selector-period-compare" class="widget"></div>
                     </div>
                 </div>
+                <div id="view-selector-placeholder"></div>
             </div>
             <div id="legacy-view-selector" class="fields-holder">
                 <div class="label">Data Exploration</div>

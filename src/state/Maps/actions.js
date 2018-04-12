@@ -104,6 +104,14 @@ function clearLayerPeriodsOfAllMaps(){
 	}
 }
 
+function clearPlaceGeometryChangeReviewOfAllMaps(){
+	return (dispatch, getState) => {
+		let state = Select.maps.getMaps(getState());
+		let updates = state.map(map => {return {key: map.key, placeGeometryChangeReview: null}});
+		dispatch(update(updates));
+	}
+}
+
 function selectWmsLayer(layerKey, mapKey) {
 	return (dispatch, getState) => {
 		let appState = getState();
@@ -228,6 +236,7 @@ export default {
 	clearLayerPeriodsOfAllMaps: clearLayerPeriodsOfAllMaps,
 	clearWmsLayer: clearWmsLayer,
 	clearWmsLayersOfAllMaps: clearWmsLayersOfAllMaps,
+	clearPlaceGeometryChangeReviewOfAllMaps: clearPlaceGeometryChangeReviewOfAllMaps,
 	handleMapDependencyOnPeriod: handleMapDependencyOnPeriod,
 	initialize: initialize,
 	remove: remove,

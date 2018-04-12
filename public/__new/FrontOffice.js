@@ -113,6 +113,7 @@ define([
 				self.toggleWidgets(options);
 				self.toggleCustomLayers(options);
 				self.handlePeriods();
+				self._stateStore.resetChanges();
 			}).catch(function(err){
 				throw new Error(err);
 			});
@@ -123,6 +124,7 @@ define([
 			Promise.all([attributesData]).then(function(result){
 				self.rebuildComponents(result[0]);
 				self.handlePeriods();
+				self._stateStore.resetChanges();
 			});
 		}
 
@@ -319,9 +321,9 @@ define([
 		}
 
 		// handle active places
-		if (state.place){
+		if (state.place && !this._options.changes.dataview){
 			this._dispatcher.notify('place#setActivePlace', {data: [Number(state.place)]});
-		} else {
+		} else if (!this._options.changes.dataview) {
 			this._dispatcher.notify('place#setActivePlace', {data: state.allPlaces});
 		}
 	};
@@ -520,6 +522,10 @@ define([
 			this._dispatcher.notify('dataview#withoutAoi', {status: false});
 		} else {
 			this._dispatcher.notify('dataview#withoutAoi', {status: true});
+		}
+
+		if (options.locations){
+			this._dispatcher.notify('place#setActivePlace', {data: options.locations});
 		}
 	};
 

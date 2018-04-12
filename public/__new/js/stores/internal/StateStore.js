@@ -78,6 +78,7 @@ define([
 			},
 			changes: this._changes,
 
+			locations: this._locations,
 			aoiLayer: this._aoiLayer,
 			activeAoi: this._activeAoi,
 			previousAoi: this._previousAoi,
@@ -90,6 +91,14 @@ define([
 			widgets: this.widgets(),
 			withoutAoi: this._withoutAoi,
 			worldWindNavigator: this.getNavigatorState()
+		}
+	};
+
+	StateStore.prototype.setActiveLocations = function(locations){
+		if (!_.isArray(locations)){
+			this._locations = [locations];
+		} else {
+			this._locations = locations;
 		}
 	};
 
@@ -394,6 +403,11 @@ define([
 			this.updateMapsMetadata(options);
 		} else if (type === 'AOI_GEOMETRY_SET'){
 			this.setActiveAoi(options.id);
+		} else if (type === 'REDUX_SET_ACTIVE_PLACES'){
+			this.setActiveLocations(options.keys);
+			if (this._changes && !this._changes.dataview){
+				this._dispatcher.notify('map#zoomToArea', options.extents);
+			}
 		}
 	};
 

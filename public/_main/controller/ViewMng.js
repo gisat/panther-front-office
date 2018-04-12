@@ -284,18 +284,6 @@ Ext.define('PumaMain.controller.ViewMng', {
         	setTimeout(function(){
 				Stores.notify('fo#adjustConfiguration');
 
-				$('.areaTreeSelection').hide();
-				$('#top-toolbar-areas').hide();
-
-				// Also hide chart related stuff
-				$('#window-areatree').hide();
-				this.getController('DomManipulation')._onReportsSidebarToggleClick();
-				$('#sidebar-reports').hide();
-
-				// Also switch map to 3D mode
-				// Remove the possibility to switch back
-				$('#top-toolbar-3dmap').hide();
-
 				if(selection) {
 					window.selectionStore.deserialize(selection);
 				}
@@ -336,6 +324,9 @@ Ext.define('PumaMain.controller.ViewMng', {
 
 		if (Config.cfg.dataset){
 			options.scope = Config.cfg.dataset;
+		}
+		if (Config.cfg.locations){
+			options.locations = Config.cfg.locations;
 		}
 
 		if (Config.cfg.is3D){
@@ -460,6 +451,11 @@ Ext.define('PumaMain.controller.ViewMng', {
 			if (options.state && options.state.activeAoi){
 				cfg.activeAoi = options.state.activeAoi;
 			}
+			// active location
+			if (options.state && options.state.locations){
+				cfg.locations = options.state.locations;
+			}
+
 			// selected map
 			if (options.state && options.state.selectedMapId){
 				cfg.selectedMapId = options.state.selectedMapId;

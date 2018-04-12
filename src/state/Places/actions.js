@@ -12,6 +12,12 @@ function add(places) {
 	};
 }
 
+function setActive(key) {
+	return dispatch => {
+		dispatch(actionSetActive(key));
+	};
+}
+
 function setActiveKeys(places) {
 	return dispatch => {
 		if (!_.isArray(places)) places = [places];
@@ -28,10 +34,17 @@ function actionAdd(places) {
 	}
 }
 
-function actionSetActiveKeys(places) {
+function actionSetActive(key) {
 	return {
 		type: ActionTypes.PLACES_SET_ACTIVE,
-		data: places
+		key: key
+	}
+}
+
+function actionSetActiveKeys(places) {
+	return {
+		type: ActionTypes.PLACES_SET_ACTIVE_MULTI,
+		keys: places
 	}
 }
 
@@ -39,5 +52,6 @@ function actionSetActiveKeys(places) {
 
 export default {
 	add: add,
+	setActive: setActive,
 	setActiveKeys: setActiveKeys
 }

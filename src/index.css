@@ -4,8 +4,10 @@
     ATOMS
       UI Select
     COMPONENTS
+      Change Review Map Control
       Overlay
       View Selector
+
 */
 
 
@@ -46,6 +48,36 @@ body {
    === COMPONENTS =================================================
    ================================================================ */
 
+/* == Change Review Map Control =================================== */
+.ptr-change-review-map-control {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: #dddcd7;
+
+  display: flex;
+}
+
+.ptr-change-review-map-control > div, .ptr-change-review-map-control > span {
+  padding: 11px;
+}
+.ptr-change-review-map-control-map-name {
+  color: #cd0044;
+  margin-right: 15px;
+}
+
+.ptr-change-review-map-control-toggles > label {
+  margin-right: 30px;
+}
+.ptr-change-review-map-control-toggles > label > input {
+  position: relative;
+  top: 2px;
+  margin-right: 6px;
+}
+
+/* == Overlay ===================================================== */
 .ptr-overlay {
   position: absolute;
   display: none;
@@ -93,7 +125,7 @@ body {
   height: 1.5rem;
   transition: background-color .3s ease-in-out;
 }
-.VirtualizedSelectOption {
+.ptr-view-selection-selector.ptr-ui-select .VirtualizedSelectOption {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -105,18 +137,20 @@ body {
   background-color: #6a6e78;
   color: rgb(204,207,211);
 }
-.VirtualizedSelectFocusedOption {
-  background-color: rgba(0, 126, 255, 0.1);
-}
-.VirtualizedSelectDisabledOption {
+.ptr-view-selection-selector.ptr-ui-select .VirtualizedSelectDisabledOption {
   opacity: 0.5;
   background-color: #6a6e78;
   color: rgb(204,207,211);
 }
-.VirtualizedSelectSelectedOption {
+.ptr-view-selection-selector.ptr-ui-select .VirtualizedSelectSelectedOption {
   font-weight: bold;
-  background-color: #6a6e78;
+  background-color: #315678;
   color: rgb(204,207,211);
+}
+.ptr-view-selection-selector.ptr-ui-select .VirtualizedSelectFocusedOption {
+  /*background-color: rgba(0, 126, 255, 0.1);*/
+  background-color: #7ba1c6;
+  color: #fff;
 }
 
 .ptr-view-selection-selector.ptr-ui-select .Select-control .Select-value {
