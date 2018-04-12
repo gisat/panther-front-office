@@ -22,6 +22,9 @@ const mapDispatchToProps = dispatch => {
 		},
 		clearWmsLayers: () => {
 			dispatch(Action.maps.clearWmsLayersOfAllMaps());
+		},
+		clearPlaceGeometryChangeReviewOfAllMaps: () => {
+			dispatch(Action.maps.clearPlaceGeometryChangeReviewOfAllMaps());
 		}
 	}
 };

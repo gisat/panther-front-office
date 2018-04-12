@@ -22,6 +22,7 @@ class PlaceSelector extends React.PureComponent {
 		this.props.setActivePlace(place.value);
 		this.props.clearLayerPeriods();
 		this.props.clearWmsLayers();
+		this.props.clearPlaceGeometryChangeReviewOfAllMaps();
 	}
 
 	render() {
