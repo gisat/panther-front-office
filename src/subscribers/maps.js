@@ -71,33 +71,33 @@ const setEventListeners = store => {
 const activeMapWatcher = (value, previousValue) => {
 	if (!state.lastActiveMapKey || state.lastActiveMapKey == value.key) {
 		if (value.hasOwnProperty('placeGeometryChangeReview')) {
-			if (value.placeGeometryChangeReview.showGeometryBefore != (previousValue.placeGeometryChangeReview && previousValue.placeGeometryChangeReview.showGeometryBefore)) {
+			if (value.placeGeometryChangeReview && value.placeGeometryChangeReview.showGeometryBefore != (previousValue.placeGeometryChangeReview && previousValue.placeGeometryChangeReview && previousValue.placeGeometryChangeReview.showGeometryBefore)) {
 				// show geometry before changed
 				if (value.placeGeometryChangeReview.showGeometryBefore) {
-					window.Stores.notify('MAP_SHOW_LAYER', {
+					window.Stores.notify('PLACE_GEOMETRY_ADD', {
 						mapKey: value.key,
-						layerKey: 'placeGeometryChangeReviewGeometryBefore',
+						geometryKey: 'placeGeometryChangeReviewGeometryBefore',
 						geometry: state.activePlace.changeReviewGeometryBefore
 					});
 				} else {
-					window.Stores.notify('MAP_HIDE_LAYER', {
+					window.Stores.notify('PLACE_GEOMETRY_REMOVE', {
 						mapKey: value.key,
-						layerKey: 'placeGeometryChangeReviewGeometryBefore'
+						geometryKey: 'placeGeometryChangeReviewGeometryBefore'
 					});
 				}
 			}
-			if (value.placeGeometryChangeReview.showGeometryAfter != (previousValue.placeGeometryChangeReview && previousValue.placeGeometryChangeReview.showGeometryAfter)) {
+			if (value.placeGeometryChangeReview && value.placeGeometryChangeReview.showGeometryAfter != (previousValue.placeGeometryChangeReview && previousValue.placeGeometryChangeReview && previousValue.placeGeometryChangeReview.showGeometryAfter)) {
 				// show geometry after changed
 				if (value.placeGeometryChangeReview.showGeometryAfter) {
-					window.Stores.notify('MAP_SHOW_LAYER', {
+					window.Stores.notify('PLACE_GEOMETRY_ADD', {
 						mapKey: value.key,
-						layerKey: 'placeGeometryChangeReviewGeometryAfter',
+						geometryKey: 'placeGeometryChangeReviewGeometryAfter',
 						geometry: state.activePlace.changeReviewGeometryAfter
 					});
 				} else {
-					window.Stores.notify('MAP_HIDE_LAYER', {
+					window.Stores.notify('PLACE_GEOMETRY_REMOVE', {
 						mapKey: value.key,
-						layerKey: 'placeGeometryChangeReviewGeometryAfter'
+						geometryKey: 'placeGeometryChangeReviewGeometryAfter'
 					});
 				}
 			}

@@ -55,6 +55,14 @@ define([
 		this._dispatcher.notify('map#added', options);
 	};
 
+	MapStore.prototype.addGeometryToPlaceLayer = function(geometry, mapKey){
+		this._maps.forEach(function(map){
+			if (map.id === mapKey){
+				map.addGeometryToPlaceLayer(geometry);
+			}
+		});
+	};
+
 	/**
 	 * Add WMS layer to given map.
 	 * @param layerId {string|number} id of WMS Layer
@@ -141,6 +149,12 @@ define([
 		this._dispatcher.notify('map#removed', options);
 	};
 
+	MapStore.prototype.removeAllGeometriesFromAllPlaceLayers = function(){
+		this._maps.forEach(function(map){
+			map.removeAllGeometriesFromPlaceLayer();
+		});
+	};
+
 	/**
 	 * Remove all layers from group in given map
 	 * @param group {string}
@@ -171,6 +185,14 @@ define([
 					map.mapWindowTools.removeLayerInfo();
 				}
 			});
+		});
+	};
+
+	MapStore.prototype.removeGeometryFromPlaceLayer = function(geometryKey, mapKey){
+		this._maps.forEach(function(map){
+			if (map.id === mapKey){
+				map.removeGeometryFromPlaceLayer(geometryKey);
+			}
 		});
 	};
 
@@ -221,6 +243,15 @@ define([
 			if (state.previousAoi){
 				this.removeAllLayersFromGroupFromAllMaps(wmsGroup);
 			}
+		} else if (type === "PLACE_GEOMETRY_ADD"){
+			this.addGeometryToPlaceLayer({
+				key: options.geometryKey,
+				geometry: options.geometry
+			}, options.mapKey);
+		} else if (type === "PLACE_GEOMETRY_REMOVE"){
+			this.removeGeometryFromPlaceLayer(options.geometryKey, options.mapKey);
+		} else if (type === "REDUX_SET_ACTIVE_PLACES"){
+			this.removeAllGeometriesFromAllPlaceLayers();
 		}
 
 	};
