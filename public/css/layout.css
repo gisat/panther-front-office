@@ -230,6 +230,9 @@ body.intro #header .menu li:first-child::before {
 #downloads-link {
 	display: none; /* useDownloadsLink toggle default */
 }
+#load-data {
+	display: none;
+}
 
 #legacy-view-selector .user {
 	position: absolute;
