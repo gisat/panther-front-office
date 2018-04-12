@@ -195,3 +195,10 @@ body {
 .ptr-timeline-container {
   font-size: 0;
 }
+
+
+.ptr-timeline-graph-line {
+	fill: transparent;
+	stroke: #2e5099;
+	stroke-width: 2;
+}
