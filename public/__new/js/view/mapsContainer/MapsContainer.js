@@ -264,6 +264,21 @@ define([
 						});
 					});
 				}
+				if (map.placeGeometryChangeReview){
+					var showBefore = false;
+					var showAfter = false;
+					if (map.placeGeometryChangeReview.showGeometryAfter){
+						showAfter = true;
+					}
+					if (map.placeGeometryChangeReview.showGeometryBefore){
+						showBefore = true;
+					}
+					self._dispatcher.notify("placeGeometryChangeReview#showGeometry", {
+						mapKey: map.key,
+						showBefore: showBefore,
+						showAfter: showAfter
+					});
+				}
 			});
 		}
 		if (selectedMap){
