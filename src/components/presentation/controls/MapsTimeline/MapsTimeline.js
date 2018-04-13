@@ -55,6 +55,10 @@ class MapsTimeline extends React.PureComponent {
 				start: props.initialPeriod.start,
 				end: props.initialPeriod.end
 			},
+			periodLimit: {
+				start: props.initialPeriod.start,
+				end: props.initialPeriod.end
+			},
 			dayWidth: this.dimensions.dayWidth
 		};
 	}
@@ -163,7 +167,7 @@ class MapsTimeline extends React.PureComponent {
 
 		let newWidth = this.state.dayWidth * change;
 
-		//for now, don't allow zoom outside initial period - todo better solution
+		//don't allow zoom out outside initial zoom
 		if (newWidth < this.dimensions.dayWidth) {
 			newWidth = this.dimensions.dayWidth;
 		}
@@ -176,16 +180,22 @@ class MapsTimeline extends React.PureComponent {
 		//let end = moment(mouseTime).add(moment.duration(afterMouseDays, 'days));
 		let end = moment(start).add(moment.duration(allDays * (60 * 60 * 24 * 1000), 'ms'));
 
-		//for now, don't allow zoom outside initial period - todo better solution
+		// if zoomed out of initial period, save temporary period limit (for drag)
 		if (start < this.props.initialPeriod.start) {
-			let outOfIntervalDiff = this.props.initialPeriod.start - start;
-			start = moment(this.props.initialPeriod.start);
-			end = end.add(outOfIntervalDiff);
+			this.setState({
+				periodLimit: {
+					start: moment(start),
+					end: this.state.periodLimit.end
+				}
+			});
 		}
 		if (end > this.props.initialPeriod.end) {
-			let outOfIntervalDiff = end - this.props.initialPeriod.end;
-			end = moment(this.props.initialPeriod.end);
-			start = start.subtract(outOfIntervalDiff);
+			this.setState({
+				periodLimit: {
+					start: this.state.periodLimit.start,
+					end: moment(end)
+				}
+			});
 		}
 
 		this.setState({
@@ -207,27 +217,42 @@ class MapsTimeline extends React.PureComponent {
 	onDrag(dragInfo) {
 		let start = moment(this.state.period.start);
     let end = moment(this.state.period.end);
+		let periodLimit = {...this.state.periodLimit};
 
     // Either add  to start and end.
 		let daysChange = Math.abs(dragInfo.distance) / this.state.dayWidth;
 		if(dragInfo.direction === 'past') {
 			start.subtract(daysChange * (60 * 60 * 24 * 1000), 'ms');
       end.subtract(daysChange * (60 * 60 * 24 * 1000), 'ms');
-      if(start.isBefore(this.props.initialPeriod.start)) {
-      	start = moment(this.props.initialPeriod.start);
+      if(start.isBefore(this.state.periodLimit.start)) {
+      	start = moment(this.state.periodLimit.start);
+			}
+			if (end.isBefore(this.state.periodLimit.end)) {
+				if (end.isAfter(this.props.initialPeriod.end)) {
+					periodLimit.end = moment(end);
+				} else {
+					periodLimit.end = moment(this.props.initialPeriod.end);
+				}
 			}
 		} else {
 			start.add(daysChange * (60 * 60 * 24 * 1000), 'ms');
 			end.add(daysChange * (60 * 60 * 24 * 1000), 'ms');
-			if(end.isAfter(this.props.initialPeriod.end)) {
-				end = moment(this.props.initialPeriod.end);
+			if(end.isAfter(this.state.periodLimit.end)) {
+				end = moment(this.state.periodLimit.end);
+			}
+			if (start.isAfter(this.state.periodLimit.start)) {
+				if (start.isBefore(this.props.initialPeriod.start)) {
+					periodLimit.start = moment(start);
+				} else {
+					periodLimit.start = moment(this.props.initialPeriod.start);
+				}
 			}
 		}
 
 
 		let widthOfTimeline = this.dimensions.width;
 		// If the result is smaller than width of the timeline
-		let widthOfResult = end.diff(start, 'days') * this.state.dayWidth;
+		let widthOfResult = (end.diff(start, 'ms') / (60 * 60 * 24 * 1000)) * this.state.dayWidth;
 		// Make sure that we stay within the limits.
 		if(widthOfResult < widthOfTimeline) {
 			let daysNeededToUpdate = (widthOfTimeline - widthOfResult) / this.state.dayWidth;
@@ -242,7 +267,8 @@ class MapsTimeline extends React.PureComponent {
 			period: {
 				start: start,
 				end: end
-			}
+			},
+			periodLimit: periodLimit
 		});
 	}
 
