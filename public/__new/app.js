@@ -220,6 +220,9 @@ define(['js/actions/Actions',
         if(Config.toggles.home) {
 			$('#home-page').attr('href', Config.toggles.home);
 		}
+		if(Config.toggles.administration) {
+        	$('#bo-link').attr('href', Config.toggles.administration);
+		}
 		if(Config.toggles.topLinks) {
 			var links = Config.toggles.topLinks.map(function(link){
 				return '<li><a href="'+link.url+'" target="_blank">'+link.text+'</a></li>';
