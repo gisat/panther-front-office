@@ -74,12 +74,13 @@ class MapsTimeline extends React.PureComponent {
 		let start = moment(props.initialPeriod.start);
 		let end = moment(props.initialPeriod.end);
 
-		let diff = end.diff(start, 'days');
+		let diff = end.diff(start, 'ms');
+		let diffDays = diff / (60 * 60 * 24 * 1000);
 
 		this.dimensions = {
 			width: props.containerWidth - CONTROLS_WIDTH,
-			days: diff,
-			dayWidth: (props.containerWidth - CONTROLS_WIDTH)/diff
+			days: diffDays,
+			dayWidth: (props.containerWidth - CONTROLS_WIDTH)/diffDays
 		};
 
 		if (this.state.dayWidth) { // don't set state in constructor
