@@ -205,3 +205,9 @@ body {
 .ptr-timeline-graph-point {
 	fill: #2e5099;
 }
+
+.ptr-timeline-graph-axis {
+	stroke-width: 1;
+	/*stroke-dasharray: 2 1;*/
+	stroke: rgba(0,0,0,.2);
+}

@@ -5,10 +5,13 @@ import utils from '../../../../../../utils/utils';
 import _ from 'lodash';
 
 import Graph from './components/Graph';
+import HorizontalLines from './components/HorizontalLines';
 import Months from '../../../../../presentation/controls/MapsTimeline/components/Months';
 import Days from '../../../../../presentation/controls/MapsTimeline/components/Days';
 import Years from '../../../../../presentation/controls/MapsTimeline/components/Years';
 import Mouse from '../../../../../presentation/controls/MapsTimeline/components/Mouse';
+
+import './style.css';
 
 const FAKE_DATA = [
 	{date: '2017-01-03', value: 12.5},
@@ -66,6 +69,7 @@ class AuAttributeFrequencyGraph extends React.PureComponent {
 			<svg
 				width={this.props.width}
 				height={height}
+				className="ptr-au-attribute-frequency-graph"
 			>
 				<Months
 					background
@@ -87,6 +91,13 @@ class AuAttributeFrequencyGraph extends React.PureComponent {
 					getX={this.props.getX}
 					height={height}
 					dayWidth={this.props.dayWidth}
+				/>
+				<HorizontalLines
+					width={this.props.width}
+					height={height}
+					data={FAKE_DATA}
+					height={height}
+					buffer={GRAPH_BUFFER}
 				/>
 				<Graph
 					period={this.props.period}
