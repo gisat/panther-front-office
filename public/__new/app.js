@@ -217,6 +217,8 @@ define(['js/actions/Actions',
             }
         });
 
+        $('#home-page').attr('href', Config.toggles.home);
+
         // Chart container
         new ChartContainer({
             dispatcher: window.Stores
