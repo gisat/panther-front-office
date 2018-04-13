@@ -7,14 +7,14 @@ const INITIAL_STATE = {
 	}
 };
 
-function updateDataUploadOverlay(state, action) {
-	return {...state, dataUploadOverlay: state.dataUploadOverlay ? {...state.dataUploadOverlay, ...action.dataUploadOverlay} : action.dataUploadOverlay};
+function update(state, action) {
+	return {...state, [action.component]: state[action.component] ? {...state[action.component], ...action.update} : action.update};
 }
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case ActionTypes.COMPONENTS_DATA_UPLOAD_OVERLAY_UPDATE:
-			return updateDataUploadOverlay(state, action);
+		case ActionTypes.COMPONENTS_UPDATE:
+			return update(state, action);
 		default:
 			return state;
 	}

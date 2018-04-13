@@ -9,4 +9,12 @@ const mapStateToProps = state => {
 	}
 };
 
-export default connect(mapStateToProps)(DataUploadOverlay);
+const mapDispatchToProps = dispatch => {
+	return {
+		closeOverlay: () => {
+			dispatch(Action.components.handleUploadDataOverlay(false));
+		}
+	}
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DataUploadOverlay);

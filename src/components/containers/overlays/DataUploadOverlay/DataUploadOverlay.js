@@ -8,6 +8,10 @@ class DataUploadOverlay extends React.PureComponent {
 		open: PropTypes.bool
 	};
 
+	close() {
+		this.props.closeOverlay();
+	}
+
 	render() {
 		let classes = classnames("ptr-overlay", {
 			"open": this.props.open
@@ -15,6 +19,11 @@ class DataUploadOverlay extends React.PureComponent {
 
 		return (
 			<div className={classes}>
+				<div className="ptr-overlay-header">
+					<h2 className="ptr-overlay-title">Data upload</h2>
+					<div onClick={this.close.bind(this)} className="ptr-overlay-close">Close</div>
+				</div>
+				<div className="ptr-overlay-content"></div>
 			</div>
 		);
 	}

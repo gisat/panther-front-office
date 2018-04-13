@@ -12,7 +12,7 @@ const setEventListeners = store => {
 	window.Stores.addListener((event, options) => {
 		switch(event) {
 			case 'header#uploadDataClick':
-				store.dispatch(Action.components.showUploadDataOverlay(true));
+				store.dispatch(Action.components.handleUploadDataOverlay(true));
 				break;
 		}
 	});

@@ -5,31 +5,32 @@ import _ from 'lodash';
 
 // ============ creators ===========
 
-function showUploadDataOverlay() {
+function handleUploadDataOverlay(open) {
 	return (dispatch, getState) => {
 		let state = getState();
 		let isOpen = Select.components.isDataUploadOverlayOpen(state);
-		if (!isOpen){
+		if (isOpen !== open){
 			let stateUpdate = {
-				open: true
+				open: open
 			};
-			dispatch(updateDataUploadOverlay(stateUpdate));
+			dispatch(update("dataUploadOverlay", stateUpdate));
 		}
 	};
 }
 
-function updateDataUploadOverlay(component) {
+function update(component, data) {
 	return dispatch => {
-		dispatch(actionUpdateDataUploadOverlay(component));
+		dispatch(actionUpdate(component, data));
 	};
 }
 
 
 // ============ actions ===========
-function actionUpdateDataUploadOverlay(component) {
+function actionUpdate(component, data) {
 	return {
-		type: ActionTypes.COMPONENTS_DATA_UPLOAD_OVERLAY_UPDATE,
-		dataUploadOverlay: component
+		type: ActionTypes.COMPONENTS_UPDATE,
+		component: component,
+		update: data
 	}
 }
 
@@ -38,5 +39,5 @@ function actionUpdateDataUploadOverlay(component) {
 // ============ export ===========
 
 export default {
-	showUploadDataOverlay: showUploadDataOverlay
+	handleUploadDataOverlay: handleUploadDataOverlay
 }

@@ -6,6 +6,7 @@
     COMPONENTS
       Change Review Map Control
       Overlay
+        Aoi Overlay
       View Selector
 
 */
@@ -84,26 +85,47 @@ body {
   left: 0;
   bottom: 0;
   right: 0;
+  top: 0;
+  background: rgba(255,255,255,.85);
+  padding: 1rem;
+  z-index: 90000;
+  flex-direction: column;
+}
+.ptr-overlay-header {
+  display: flex;
+}
+.ptr-overlay-title {
+  flex: 1;
+  font-size: 2rem;
+  font-weight: 400;
+}
+.ptr-overlay-close {
+  cursor: pointer;
+}
+.ptr-overlay.open {
+  display: flex;
+}
+
+
+/* aoi overlay */
+.ptr-overlay-aoi {
   top: 45px;
   background: rgba(33,38,53,.9);
   z-index: 10000;
 }
-.ptr-overlay-content {
+.ptr-overlay-aoi-content {
   position: absolute;
   width: 500px;
   height: 200px;
 }
-.ptr-overlay-content h3 {
+.ptr-overlay-aoi-content h3 {
   color: rgb(148,152,160);
   font-size: 1.5rem;
   margin-bottom: .3rem;
 }
-.ptr-overlay-content p {
+.ptr-overlay-aoi-content p {
   color: rgb(148,152,160);
   font-size: 1rem;
-}
-.ptr-overlay.open {
-  display: block;
 }
 
 /* == View Selector =============================================== */

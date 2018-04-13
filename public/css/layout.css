@@ -985,6 +985,14 @@ body.application #sidebar-reports {
 	color: #666;
 }
 
+#app-overlays {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+}
+
 /* SpinKit
 The MIT License (MIT), Copyright (c) 2015 Tobias Ahlin */
 .sk-cube-grid {
