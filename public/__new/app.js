@@ -222,7 +222,7 @@ define(['js/actions/Actions',
 		}
 		if(Config.toggles.topLinks) {
 			var links = Config.toggles.topLinks.map(function(link){
-				return '<li><a href="'+link.url+'">'+link.text+'</a></li>';
+				return '<li><a href="'+link.url+'" target="_blank">'+link.text+'</a></li>';
 			});
         	$('#header .menu').append(links);
 		}
