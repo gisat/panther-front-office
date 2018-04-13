@@ -217,7 +217,15 @@ define(['js/actions/Actions',
             }
         });
 
-        $('#home-page').attr('href', Config.toggles.home);
+        if(Config.toggles.home) {
+			$('#home-page').attr('href', Config.toggles.home);
+		}
+		if(Config.toggles.topLinks) {
+			var links = Config.toggles.topLinks.map(function(link){
+				return '<li><a href="'+link.url+'">'+link.text+'</a></li>';
+			});
+        	$('#header .menu').append(links);
+		}
 
         // Chart container
         new ChartContainer({
