@@ -221,7 +221,7 @@ define(['js/actions/Actions',
 			$('#home-page').attr('href', Config.toggles.home);
 		}
 		if(Config.toggles.administration) {
-        	$('#bo-link').attr('href', Config.toggles.administration);
+        	$('#bo-link a').attr('href', Config.toggles.administration);
 		}
 		if(Config.toggles.topLinks) {
 			var links = Config.toggles.topLinks.map(function(link){
