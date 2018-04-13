@@ -3,7 +3,7 @@ import _ from 'lodash';
 
 const INITIAL_STATE = {
 	dataUploadOverlay: {
-		open: false,
+		open: false
 	}
 };
 
