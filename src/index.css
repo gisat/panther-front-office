@@ -211,3 +211,7 @@ body {
 	/*stroke-dasharray: 2 1;*/
 	stroke: rgba(0,0,0,.2);
 }
+
+.ptr-timeline-out-of-scope-overlay {
+	fill: rgba(125,125,125,.2);
+}

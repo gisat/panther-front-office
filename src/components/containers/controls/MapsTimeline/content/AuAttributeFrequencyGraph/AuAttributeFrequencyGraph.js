@@ -10,6 +10,7 @@ import Months from '../../../../../presentation/controls/MapsTimeline/components
 import Days from '../../../../../presentation/controls/MapsTimeline/components/Days';
 import Years from '../../../../../presentation/controls/MapsTimeline/components/Years';
 import Mouse from '../../../../../presentation/controls/MapsTimeline/components/Mouse';
+import OutOfScopeOverlays from '../../../../../presentation/controls/MapsTimeline/components/OutOfScopeOverlays';
 
 import './style.css';
 
@@ -132,6 +133,13 @@ class AuAttributeFrequencyGraph extends React.PureComponent {
 				<Mouse
 					mouseBufferWidth={this.props.mouseBufferWidth}
 					mouseX={this.props.mouseX}
+					height={height}
+				/>
+				<OutOfScopeOverlays
+					dayWidth={this.props.dayWidth}
+					getX={this.props.getX}
+					period={this.props.period}
+					dataPeriod={this.props.dataPeriod}
 					height={height}
 				/>
 

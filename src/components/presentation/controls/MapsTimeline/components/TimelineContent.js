@@ -13,6 +13,7 @@ import Days from './Days';
 import Years from './Years';
 import Mouse from './Mouse';
 import Layers from './Layers';
+import OutOfScopeOverlays from './OutOfScopeOverlays';
 
 
 class TimelineContent extends React.PureComponent {
@@ -33,6 +34,7 @@ class TimelineContent extends React.PureComponent {
 				width: this.props.width,
 				dayWidth: this.props.dayWidth,
 				period: this.props.period,
+				dataPeriod: this.props.dataPeriod,
 				getX: this.props.getX,
 				mouseX: this.props.mouseX,
 				mouseBufferWidth: this.props.mouseBufferWidth
@@ -80,12 +82,19 @@ class TimelineContent extends React.PureComponent {
 					/>
 					<Layers
 						layers={this.props.layers}
-						dayWidth={this.props.dayWidth} // It is here to make sure the layers get rendered as the timeline is changed.
+						dayWidth={this.props.dayWidth}
 						getX={this.props.getX}
 						onPeriodClick={this.props.onLayerPeriodClick}
 						period={this.props.period}
 						activeLayers={this.props.activeLayers}
 						activeLayerPeriods={this.props.activeLayerPeriods}
+					/>
+					<OutOfScopeOverlays
+						dayWidth={this.props.dayWidth}
+						getX={this.props.getX}
+						period={this.props.period}
+						dataPeriod={this.props.dataPeriod}
+						height={height}
 					/>
 				</svg>
 			</div>
