@@ -307,7 +307,8 @@ class MapsTimeline extends React.PureComponent {
 				layers: this.props.layers,
 				containerWidth: this.props.containerWidth,
 				mouseBufferWidth: MOUSE_BUFFER_WIDTH,
-				activeLayers: this.props.activeLayers
+				activeLayers: this.props.activeLayers,
+				dataPeriod: this.props.initialPeriod
 			}));
 		}
 
