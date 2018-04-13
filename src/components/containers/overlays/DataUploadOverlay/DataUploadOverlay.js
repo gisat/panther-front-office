@@ -64,14 +64,17 @@ class DataUploadOverlay extends React.PureComponent {
 		}).then(
 			response => {
 				console.log('#### upload data Response', response);
-				debugger;
+				if (response.ok) {
+					window.alert("Upload was successful!");
+				} else {
+					window.alert("Upload wasn't successful! Error: " + response.message);
+				}
 			},
 			error => {
 				console.log('#### upload data error', error);
-				debugger;
+				window.alert("Upload wasn't successful! Error: " + error);
 			}).catch(err => {
-				console.error('#### upload data error', err);
-				debugger;
+				window.alert("Upload wasn't successful! Error: " + err);
 		});
 	}
 
