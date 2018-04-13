@@ -31,9 +31,6 @@ const setEventListeners = store => {
 			case 'map#selected':
 				store.dispatch(Action.maps.setActive(options.id));
 				break;
-			case 'map#defaultMapUnselected':
-				store.dispatch(Action.maps.setActive(null));
-				break;
 			case 'map#added':
 				store.dispatch(Action.maps.add(convertWorldWindMapToMap(options.map)));
 				break;
@@ -60,6 +57,15 @@ const setEventListeners = store => {
 				break;
 			case 'wmsLayer#remove':
 				store.dispatch(Action.maps.clearWmsLayer(options.layerKey));
+				break;
+			case 'placeGeometryChangeReview#showGeometry':
+				store.dispatch(Action.maps.update({
+					key: options.mapKey,
+					placeGeometryChangeReview: {
+						showGeometryBefore: options.showBefore,
+						showGeometryAfter: options.showAfter
+					}
+				}));
 				break;
 		}
 	});

@@ -1,6 +1,7 @@
 import ActionTypes from '../constants/ActionTypes';
 
 import AOI from './AOI/actions';
+import Components from './Components/actions';
 import Maps from './Maps/actions';
 import Periods from './Periods/actions';
 import Places from './Places/actions';
@@ -11,6 +12,7 @@ import WmsLayers from './WmsLayers/actions';
 export default {
 
 	aoi: AOI,
+	components: Components,
 	maps: Maps,
 	periods: Periods,
 	places: Places,

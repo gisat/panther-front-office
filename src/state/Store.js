@@ -1,6 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 
 import aoiReducers from './AOI/reducers';
+import componentsReducers from './Components/reducers';
 import layerPeriodsReducers from './LayerPeriods/reducers';
 import mapsReducers from './Maps/reducers';
 import periodsReducers from './Periods/reducers';
@@ -16,6 +17,7 @@ import subscribers from '../subscribers';
 // Redux store
 const Store = createStore(combineReducers({
 	aoi: aoiReducers,
+	components: componentsReducers,
 	layerPeriods: layerPeriodsReducers,
 	maps: mapsReducers,
 	periods: periodsReducers,

@@ -154,7 +154,14 @@ define([
 		var mapsContainerBottomBar = $('#maps-container-bar-bottom');
 		var toolBar = $("#top-toolbar");
 		var mapsContainer = $("#maps-container");
+		var uploadDataBtn = $("#upload-data");
 		var self = this;
+
+		if (user.isAdmin){
+			uploadDataBtn.css("display","inline-block");
+		} else {
+			uploadDataBtn.css("display","none");
+		}
 
 		this._store.scopes.byId(scope).then(function(scopes){
 			var scope = scopes[0];

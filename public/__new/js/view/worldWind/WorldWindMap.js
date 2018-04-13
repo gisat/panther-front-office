@@ -528,9 +528,7 @@ define(['../../actions/Actions',
 	WorldWindMap.prototype.removeAllGeometriesFromPlaceLayer = function () {
 		var self = this;
 		if (this._placeLayer && this._placeLayer.renderables){
-			this._placeLayer.renderables.forEach(function (renderable) {
-				self._placeLayer.removeRenderable(renderable);
-			});
+			this._placeLayer.removeAllRenderables();
 			this.redraw();
 		}
 	};

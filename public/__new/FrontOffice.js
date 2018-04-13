@@ -511,6 +511,9 @@ define([
 		if (options.widgets){
 			this._topToolBar.handleDataview(options.widgets);
 		}
+		if (options.locations){
+			this._dispatcher.notify('place#setActivePlace', {data: options.locations});
+		}
 		if (options.mapsMetadata){
 			this._mapsContainer.handleMapsFromDataview(options.mapsMetadata, options.selectedMapId);
 		}
@@ -522,10 +525,6 @@ define([
 			this._dispatcher.notify('dataview#withoutAoi', {status: false});
 		} else {
 			this._dispatcher.notify('dataview#withoutAoi', {status: true});
-		}
-
-		if (options.locations){
-			this._dispatcher.notify('place#setActivePlace', {data: options.locations});
 		}
 	};
 
@@ -587,7 +586,10 @@ define([
 		if(type === Actions.adjustConfiguration) {
 			this.adjustConfiguration();
 		} else if (type === Actions.adjustConfigurationFromDataview){
-			this.adjustConfiguration(options);
+			var self = this;
+			this._store.locations.load().then(function(){
+				self.adjustConfiguration(options);
+			});
 		}
 	};
 
