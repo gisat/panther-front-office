@@ -158,7 +158,8 @@ var langEn = {
     incorrectLogin: "Incorrect username or password. Please try again.",
     info: "Info",
     infoLayers: "Info Layers",
-    interpolate: "Interpolate",
+	integrateCustomLayer: "Integrate new layers",
+	interpolate: "Interpolate",
     introduction: "Introduction",
     itWasntPossibleToLoadGroupsUsers: "It wasnt possible to load available users and groups. Please try later. Error: ",
 
@@ -543,6 +544,7 @@ var langCz = {
     incorrectLogin: "Chybné uživatelské jméno nebo heslo. Zkuste to prosím znovu.",
     info: "Info",
     infoLayers: "Informační vrstvy",
+    integrateCustomLayer: "Integrace nových vrstev",
     interpolate: "Interpolovat",
     introduction: "Úvod",
     itWasntPossibleToLoadGroupsUsers: "Nebylo možné načíst dostupné uživatele a skupiny. Zkuste to prosím později. Chyba: ",

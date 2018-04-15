@@ -1,40 +1,57 @@
 define([
-	'jquery'
-], function (
-	$
-) {
-	"use strict";
+	'../Widget',
+	'jquery',
 
-	var CustomLayers = function() {
-		this._target = $('#custom-layers');
+	'css!./IntegrateCustomLayersWidget'
+], function(Widget,
+
+			$){
+
+	/**
+	 * Class representing a widget for integration of custom layers in the solution.
+	 * @augments Widget
+	 * @param options {Object}
+	 * @param options.target {jQuery} Jquery object containing this piece.
+	 * @constructor
+	 */
+	var IntegrateCustomLayersWidget = function(options){
+		Widget.call(this, options);
+
+		this._target = $('#floater-custom-integration-layers .floater-body');
 		this._target.on('click.customLayers', '.ptr-btn', this.handleClick.bind(this));
-		this.build();
+		this.rebuild();
 	};
 
+	IntegrateCustomLayersWidget.prototype = Object.create(Widget.prototype);
 
-	CustomLayers.prototype.build = function(){
+	/**
+	 * Rebuild all tools in widget
+	 */
+	IntegrateCustomLayersWidget.prototype.rebuild = function(){
+		this.handleLoading("show");
 
 		this._target.empty();
 
 		this._target.append(
 			'<div id="custom-layers-container">' +
-				'<div class="custom-layers-content" id="custom-layers-start">' +
-					'<div>' +
-						'<div class="ptr-btn primary" id="custom-layers-file-btn">'+polyglot.t('loadFromFile')+'</div>' +
-						'<div class="ptr-btn primary" id="custom-layers-wms-btn">'+polyglot.t('connectToWms')+'</div>' +
-					'</div>' +
-				'</div>' +
-				'<div class="custom-layers-content" id="custom-layers-action">' +
-				'</div>' +
+			'<div class="custom-layers-content" id="custom-layers-start">' +
+			'<div>' +
+			'<div class="ptr-btn primary" id="custom-layers-file-btn">'+polyglot.t('loadFromFile')+'</div>' +
+			'<div class="ptr-btn primary" id="custom-layers-wms-btn">'+polyglot.t('connectToWms')+'</div>' +
+			'</div>' +
+			'</div>' +
+			'<div class="custom-layers-content" id="custom-layers-action">' +
+			'</div>' +
 			'</div>'
 		);
 
 		this._container = this._target.find('#custom-layers-container');
 		this._actionContainer = this._container.find('#custom-layers-action');
 
+		this.handleLoading("hide");
 	};
 
-	CustomLayers.prototype.handleClick = function(e) {
+	IntegrateCustomLayersWidget.prototype.handleClick = function(e) {
 		// todo button & modifiers check
 		var targetId = e.target.getAttribute('id');
 		switch (targetId) {
@@ -66,67 +83,67 @@ define([
 		}
 	};
 
-	CustomLayers.prototype.clearAction = function() {
+	IntegrateCustomLayersWidget.prototype.clearAction = function() {
 		this._action = null;
 		this._actionContainer.empty();
 	};
 
-	CustomLayers.prototype.buildFileForm = function() {
+	IntegrateCustomLayersWidget.prototype.buildFileForm = function() {
 		if (this._action != 'file') {
 			this.clearAction();
 			this._action = 'file';
 			this._actionContainer.append(
 				'<label class="container">' +
-					polyglot.t('file') +
-					'<input type="file" id="custom-layers-file-file" />' +
+				polyglot.t('file') +
+				'<input type="file" id="custom-layers-file-file" />' +
 				'</label>' +
 				'<label class="container">' +
-					polyglot.t('layerName') +
-					'<input type="text" id="custom-layers-file-name" />' +
+				polyglot.t('layerName') +
+				'<input type="text" id="custom-layers-file-name" />' +
 				'</label>' +
 				'<div class="ptr-btn-group">' +
-					'<div class="ptr-btn primary" id="custom-layers-file-load-btn">'+polyglot.t('load')+'</div>' +
-					'<div class="ptr-btn primary" id="custom-layers-file-load-without-statistics-btn">'+polyglot.t('loadWithoutStatistics')+'</div>' +
-					'<div class="ptr-btn" id="custom-layers-file-cancel-btn">'+polyglot.t('cancel')+'</div>' +
+				'<div class="ptr-btn primary" id="custom-layers-file-load-btn">'+polyglot.t('load')+'</div>' +
+				'<div class="ptr-btn primary" id="custom-layers-file-load-without-statistics-btn">'+polyglot.t('loadWithoutStatistics')+'</div>' +
+				'<div class="ptr-btn" id="custom-layers-file-cancel-btn">'+polyglot.t('cancel')+'</div>' +
 				'</div>'
 			);
 		}
 	};
 
-	CustomLayers.prototype.buildWMSForm = function() {
+	IntegrateCustomLayersWidget.prototype.buildWMSForm = function() {
 		if (this._action != 'wms') {
 			this.clearAction();
 			this._action = 'wms';
 			this._actionContainer.append(
 				'<label class="container">' +
-					polyglot.t('wmsAddress') +
-					'<input type="text" id="custom-layers-wms-address" />' +
+				polyglot.t('wmsAddress') +
+				'<input type="text" id="custom-layers-wms-address" />' +
 				'</label>' +
 				'<label class="container">' +
-					polyglot.t('wmsLayer') +
-					'<input type="text" id="custom-layers-wms-layer" />' +
+				polyglot.t('wmsLayer') +
+				'<input type="text" id="custom-layers-wms-layer" />' +
 				'</label>' +
 				'<label class="container">' +
-					polyglot.t('layerName') +
-					'<input type="text" id="custom-layers-wms-name" />' +
+				polyglot.t('layerName') +
+				'<input type="text" id="custom-layers-wms-name" />' +
 				'</label>' +
 				'<div class="ptr-btn-group">' +
-					'<div class="ptr-btn primary" id="custom-layers-wms-add-btn">'+polyglot.t('add')+'</div>' +
-					'<div class="ptr-btn" id="custom-layers-wms-cancel-btn">'+polyglot.t('cancel')+'</div>' +
+				'<div class="ptr-btn primary" id="custom-layers-wms-add-btn">'+polyglot.t('add')+'</div>' +
+				'<div class="ptr-btn" id="custom-layers-wms-cancel-btn">'+polyglot.t('cancel')+'</div>' +
 				'</div>' +
 				'<div class="custom-layers-status"></div>'
 			);
 		}
 	};
 
-	CustomLayers.prototype.view = function(view) {
+	IntegrateCustomLayersWidget.prototype.view = function(view) {
 		this._container.removeClass('view-action');
 		if (view) this._container.addClass('view-' + view);
 	};
 
 
 
-	CustomLayers.prototype.loadFile = function(relativeUrl) {
+	IntegrateCustomLayersWidget.prototype.loadFile = function(relativeUrl) {
 		var fileInput = this._container.find('#custom-layers-file-file')[0];
 		var file = fileInput.files[0];
 		var name = this._container.find('#custom-layers-file-name')[0].value;
@@ -154,7 +171,7 @@ define([
 
 	};
 
-	CustomLayers.prototype.buildFileImport = function() {
+	IntegrateCustomLayersWidget.prototype.buildFileImport = function() {
 		this._actionContainer.empty();
 		this._actionContainer.append(
 			'<div class="custom-layers-status"></div>' +
@@ -166,7 +183,7 @@ define([
 	};
 
 
-	CustomLayers.prototype.checkStatus = function(operationId) {
+	IntegrateCustomLayersWidget.prototype.checkStatus = function(operationId) {
 		var url = Config.url + 'rest/layerImporter/status/' + operationId;
 		//var url = 'http://192.168.2.112/backend/' + 'rest/layerImporter/status/' + operationId;
 		var self = this;
@@ -182,7 +199,7 @@ define([
 		});
 	};
 
-	CustomLayers.prototype.updateFileStatus = function(result) {
+	IntegrateCustomLayersWidget.prototype.updateFileStatus = function(result) {
 		var statusEl = this._actionContainer.find('.custom-layers-status').first();
 		var statusMessageEl = this._actionContainer.find('.custom-layers-status-message').first();
 		var progressEl = this._actionContainer.find('.custom-layers-progress').first().find('div').first();
@@ -214,7 +231,7 @@ define([
 	};
 
 
-	CustomLayers.prototype.addWMS = function() {
+	IntegrateCustomLayersWidget.prototype.addWMS = function() {
 		var wmsAddress = this._container.find('#custom-layers-wms-address')[0].value;
 		var wmsLayer = this._container.find('#custom-layers-wms-layer')[0].value;
 		var name = this._container.find('#custom-layers-wms-name')[0].value;
@@ -265,11 +282,11 @@ define([
 		};
 		var self = this;
 		$.post({
-				url: url,
-				data: JSON.stringify(payload),
-				processData: false,
-				contentType: "application/json"
-			})
+			url: url,
+			data: JSON.stringify(payload),
+			processData: false,
+			contentType: "application/json"
+		})
 			.fail(function(xhr, message){
 				console.error("Add WMS failed: ", message);
 				statusEl.classList.add('error');
@@ -288,17 +305,11 @@ define([
 
 	};
 
-
-
-	CustomLayers.prototype.addWMSToLayers = function() {
+	IntegrateCustomLayersWidget.prototype.addWMSToLayers = function() {
 		// reload WMS layers from
 		Observer.notify('PumaMain.controller.LocationTheme.reloadWmsLayers');
 
 	};
 
-
-
-
-	return CustomLayers;
+	return IntegrateCustomLayersWidget;
 });
-

@@ -61,6 +61,7 @@ define(['js/actions/Actions',
 		'./FrontOffice',
         'js/geoserver/GeoServer',
         'js/stores/gisat/Groups',
+		'js/view/widgets/IntegrateCustomLayersWidget/IntegrateCustomLayersWidget',
 		'js/stores/gisat/Layers',
 		'js/stores/gisat/Locations',
 		'js/util/Logger',
@@ -111,6 +112,7 @@ define(['js/actions/Actions',
 			 FrontOffice,
              GeoServer,
              Groups,
+             IntegrateCustomLayersWidget,
              Layers,
              Locations,
              Logger,
@@ -287,8 +289,9 @@ define(['js/actions/Actions',
 
         widgets.push(buildCustomViewsWidget(stateStore));
         widgets.push(buildSharingWidget(stateStore));
+		widgets.push(buildIntegrateCustomLayersWidget());
 
-        // build app, map is class for OpenLayers map
+		// build app, map is class for OpenLayers map
         new FrontOffice({
 			dispatcher: window.Stores,
             attributesMetadata: attributes,
@@ -574,6 +577,15 @@ define(['js/actions/Actions',
 		});
 
 		return Widgets.sharing;
+	}
+
+
+	function buildIntegrateCustomLayersWidget() {
+		return new IntegrateCustomLayersWidget({
+			elementId: 'custom-integration-layers',
+			name: polyglot.t('integrateCustomLayer'),
+			placeholderTargetId: 'widget-container'
+		});
 	}
 
 	/**

@@ -1,13 +1,11 @@
 define([
 	'../actions/Actions',
-	'./CustomLayers',
 	'../util/Floater',
 	'../util/Uuid',
 
 	'jquery'
 ], function (
 	Actions,
-	CustomLayers,
 	Floater,
 	Uuid,
 
@@ -163,6 +161,10 @@ define([
 				var classesCustomViews3d = $('#floater-custom-views-widget').hasClass('open') ? "item open" : "item";
 				this._target.append('<div class="' + classesCustomViews3d + '" id="top-toolbar-saved-views" data-for="floater-custom-views-widget"><span>'+polyglot.t('customViews')+'</span></div>');
 			}
+			if (tools.customLayers){
+				var classesCustomLayers = $('#floater-custom-integration-layers').hasClass('open') ? "item open" : "item";
+				this._target.append('<div class="' + classesCustomLayers + '" id="top-toolbar-custom-integration-layers" data-for="floater-custom-integration-layers"><span>'+polyglot.t('addLayer')+'</span></div>');
+			}
 			if (tools.snow){
 				var classesSnowWidget3d = $('#floater-snow-widget').hasClass('open') ? "item open" : "item";
 				this._target.append('<div class="' + classesSnowWidget3d + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget"><span>'+polyglot.t('savedConfigurations')+'</span></div>');
@@ -290,7 +292,6 @@ define([
 
 		if (targetId) {
 			if (targetId == 'window-customviews') Ext.ComponentQuery.query('#window-customviews')[0].show();
-			if (targetId == 'window-customLayers') this.initCustomLayersWindow();
 			var floater = $('#' + targetId);
 			if (targetId === 'floater-map-tools-widget' && floater.hasClass("open")){
 				floater.find(".widget-detach").trigger("click");
@@ -318,13 +319,6 @@ define([
 		if (targetId) {
 			$('#' + targetId).removeClass('open');
 			this._target.find('div[data-for="' + targetId + '"]').removeClass('open');
-		}
-	};
-
-	TopToolBar.prototype.initCustomLayersWindow = function() {
-		var component = $('#custom-layers-container');
-		if (!component.length) {
-			new CustomLayers;
 		}
 	};
 
