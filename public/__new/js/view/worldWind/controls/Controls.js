@@ -89,6 +89,13 @@ define([
 			 */
 			this.panIncrement = 0.001;
 
+			/**
+			 * The scale factor governing the vertical exxageration. Increased values cause faster vertical exxageration.
+			 * @type {Number}
+			 * @default 1
+			 */
+			this.exaggerationIncrement = 1;
+
 			this.wwds = [this.wwd];
 
 			// Render icons
@@ -117,6 +124,14 @@ define([
 		// Intentionally not documented.
 		Controls.prototype.setupInteraction = function () {
 			//// Add the mouse listeners.
+			$("#exaggerate-plus-control").on({
+				"mousedown": this.handleMouseEvent.bind(this,this.handleExaggeratePlus),
+				"mouseup": this.handleMouseEvent.bind(this,this.handleExaggeratePlus),
+				"mouseleave": this.handleMouseEvent.bind(this,this.handleExaggeratePlus)});
+			$("#exaggerate-minus-control").on({
+				"mousedown": this.handleMouseEvent.bind(this,this.handleExaggerateMinus),
+				"mouseup": this.handleMouseEvent.bind(this,this.handleExaggerateMinus),
+				"mouseleave": this.handleMouseEvent.bind(this,this.handleExaggerateMinus)});
 			$("#zoom-plus-control").on({
 				"mousedown": this.handleMouseEvent.bind(this,this.handleZoomIn),
 				"mouseup": this.handleMouseEvent.bind(this,this.handleZoomIn),
@@ -183,6 +198,22 @@ define([
 		Controls.prototype.handleOperationEnd = function (e) {
 			this.activeOperation = null;
 			e.preventDefault();
+		};
+
+		Controls.prototype.handleExaggeratePlus = function() {
+			var self = this;
+			this.wwds.forEach(function(wwd){
+				wwd.verticalExaggeration += self.exaggerationIncrement;
+				wwd.redraw();
+			});
+		};
+
+		Controls.prototype.handleExaggerateMinus = function() {
+			var self = this;
+			this.wwds.forEach(function(wwd){
+				wwd.verticalExaggeration = Math.max(1, wwd.verticalExaggeration - self.exaggerationIncrement);
+				wwd.redraw();
+			});
 		};
 
 		Controls.prototype.handleZoomIn = function() {
