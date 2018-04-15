@@ -59,7 +59,6 @@ define(['js/actions/Actions',
         'js/util/Filter',
         'js/util/Floater',
 		'./FrontOffice',
-        'js/geoserver/GeoServer',
         'js/stores/gisat/Groups',
 		'js/view/widgets/IntegrateCustomLayersWidget/IntegrateCustomLayersWidget',
 		'js/stores/gisat/Layers',
@@ -110,7 +109,6 @@ define(['js/actions/Actions',
              Filter,
              Floater,
 			 FrontOffice,
-             GeoServer,
              Groups,
              IntegrateCustomLayersWidget,
              Layers,
@@ -158,7 +156,6 @@ define(['js/actions/Actions',
     };
 
     $(document).ready(function() {
-        new GeoServer().login();
         var ext = new Ext();
         ext.setUp().then(function(){
         	return ext.afterLoad();
