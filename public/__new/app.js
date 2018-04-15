@@ -59,7 +59,6 @@ define(['js/actions/Actions',
         'js/util/Filter',
         'js/util/Floater',
 		'./FrontOffice',
-        'js/geoserver/GeoServer',
         'js/stores/gisat/Groups',
 		'js/stores/gisat/Layers',
 		'js/stores/gisat/Locations',
@@ -109,7 +108,6 @@ define(['js/actions/Actions',
              Filter,
              Floater,
 			 FrontOffice,
-             GeoServer,
              Groups,
              Layers,
              Locations,
@@ -156,7 +154,6 @@ define(['js/actions/Actions',
     };
 
     $(document).ready(function() {
-        new GeoServer().login();
         var ext = new Ext();
         ext.setUp().then(function(){
         	return ext.afterLoad();
