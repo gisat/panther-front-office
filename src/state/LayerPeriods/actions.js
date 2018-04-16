@@ -62,6 +62,54 @@ function loadForAoiLayer(aoi, wmsLayer, ttl) {
 	};
 }
 
+function loadForPlaceLayer(place, wmsLayer, ttl) {
+	if (_.isUndefined(ttl)) ttl = TTL;
+	return (dispatch, getState) => {
+
+		if (!_.isObject(place)) {
+			place = _.find(Select.places.getPlaces(getState()), {key: place});
+		}
+		if (!_.isObject(wmsLayer)) {
+			wmsLayer = _.find(getState().wmsLayers.data, {key: place});
+		}
+
+		dispatch(actionLoadForPlaceRequest(place.key, wmsLayer.key));
+
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendAoiLayerPeriodsPath);
+		let body = {
+			data: {
+				geometry: place.geometry,
+				layerName: wmsLayer.layerName
+			}
+		};
+
+		return fetch(url, {
+			method: 'POST',
+			body: JSON.stringify(body),
+			headers: {
+				'content-type': 'application/json'
+			}
+		}).then(response => {
+			console.log('#### LayerPeriods receive', response);
+			if (response.ok) {
+				response.json().then(data => {
+					if (data) {
+						dispatch(actionLoadForPlaceLayerReceive(place.key, wmsLayer.key, data.dates));
+					} else {
+						dispatch(actionLoadForPlaceLayerError(place.key, wmsLayer.key, 'no data returned'));
+					}
+				}).catch(function(err){
+					if (ttl - 1){
+						loadForPlaceLayer(place, wmsLayer, ttl - 1);
+					}
+				});
+			} else {
+				dispatch(actionLoadForPlaceLayerError(place.key, wmsLayer.key, response))
+			}
+		});
+	};
+}
+
 function loadForAoi(aoiKey) {
 	return (dispatch, getState) => {
 
@@ -71,6 +119,18 @@ function loadForAoi(aoiKey) {
 			if (wmsLayer.getDates) dispatch(loadForAoiLayer(aoi, wmsLayer));
 		});
 
+	};
+}
+
+function loadForPlace(placeKey) {
+	return (dispatch, getState) => {
+		let state = getState();
+		let place = _.find(Select.places.getPlaces(state), {key: placeKey});
+		if (place.geometry){
+			_.each(state.wmsLayers.data, wmsLayer => {
+				if (wmsLayer.getDates) dispatch(loadForPlaceLayer(place, wmsLayer));
+			});
+		}
 	};
 }
 
@@ -115,8 +175,35 @@ function actionloadForAoiLayerError(aoiKey, layerKey, error) {
 	}
 }
 
+function actionLoadForPlaceLayerReceive(placeKey, layerKey, periods) {
+	return {
+		type: ActionTypes.LAYER_PERIODS_PLACE_LAYER_RECEIVE,
+		placeKey: placeKey,
+		layerKey: layerKey,
+		periods: periods
+	}
+}
+
+function actionLoadForPlaceLayerError(placeKey, layerKey, error) {
+	return {
+		type: ActionTypes.LAYER_PERIODS_PLACE_LAYER_REQUEST_ERROR,
+		placeKey: placeKey,
+		layerKey: layerKey,
+		error: error
+	}
+}
+
+function actionLoadForPlaceRequest(placeKey, layerKey) {
+	return {
+		type: ActionTypes.LAYER_PERIODS_PLACE_LAYER_REQUEST,
+		placeKey: placeKey,
+		layerKey: layerKey
+	}
+}
+
 // ============ export ===========
 
 export default {
-	loadForAoi: loadForAoi
+	loadForAoi: loadForAoi,
+	loadForPlace: loadForPlace
 }
