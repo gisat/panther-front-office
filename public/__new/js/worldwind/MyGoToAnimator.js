@@ -160,13 +160,13 @@ define(['../error/ArgumentError',
     MyGoToAnimator.prototype.zoomToArea = function(bounds){
     	if (bounds.length === 4 && !_.isArray(bounds[0])){
     		bounds = [[bounds[0], bounds[1]], [bounds[2], bounds[3]]]
-		} else if (bounds.length === 4 && _.isArray(bounds[0]) && bounds[0].length === 4){
+		} else if (_.isArray(bounds[0]) && bounds[0].length === 4){
     		var points = [];
     		var self = this;
     		bounds.forEach(function(bbox){
     			points.push(self.getPointsFromBBox(bbox));
 			});
-    		self.setLocationFromPointSet(points);
+    		self.setLocationFromPointSet(_.flatten(points, true));
     		return;
 		}
 
