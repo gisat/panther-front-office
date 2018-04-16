@@ -616,7 +616,7 @@ define([
 		} else if (type === Actions.periodsDefault){
 			this.setPeriodOfAllMaps(periods[0]);
 			this.checkMapsCloseButton();
-		} else if (type === Actions.mapZoomSelected || type === Actions.mapZoomToArea){
+		} else if (type === Actions.mapZoomSelected || type === Actions.mapZoomToLocations){
 			this.zoomToArea(options);
 		} else if (type === Actions.mapZoomToExtent){
 			this.zoomToExtent();
