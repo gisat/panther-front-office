@@ -46,7 +46,21 @@ const getLayersWithAoiPeriods = createSelector(
 	}
 );
 
+const getLayersWithPlacePeriods = createSelector(
+	[getLayers, LayerPeriods.getActivePlaceData],
+	(layers, activePlaceLayerPeriods) => {
+		return _.map(layers, layer => {
+			let placePeriods = activePlaceLayerPeriods && activePlaceLayerPeriods.byLayerKey[layer.key];
+			if (placePeriods && placePeriods.data && placePeriods.data.length) {
+				return {...layer, periods: placePeriods};
+			}
+			return layer
+		});
+	}
+);
+
 export default {
 	getLayers: getLayers,
-	getLayersWithAoiPeriods: getLayersWithAoiPeriods
+	getLayersWithAoiPeriods: getLayersWithAoiPeriods,
+	getLayersWithPlacePeriods: getLayersWithPlacePeriods
 };
