@@ -208,7 +208,7 @@ define([
             this._dataviewId = Config.dataviewId;
         } else {
             window.Stores.notify("initialLoadingFinished");
-            this.loginController.onLoginClicked();
+            this.loginController.onLoginClicked(null, true);
         }
     };
 

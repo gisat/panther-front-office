@@ -100,6 +100,7 @@ define(['../../actions/Actions',
 		this._name = "Map " + options.orderFromStart;
 		this._selected = false;
 		this._aoiLayer = null;
+		this._placeLayer = null;
 
 		/**
 		 * Every map is associated with the period. If no period is specified, then it is supplied latest when the first
@@ -282,6 +283,19 @@ define(['../../actions/Actions',
 			self._wwd.addLayer(renderableLayer);
 			self._wwd.redraw();
 		});
+	};
+
+	WorldWindMap.prototype.addGeometryToPlaceLayer = function(geometry){
+		if (!this._placeLayer){
+			this._placeLayer = new WorldWind.RenderableLayer('place-layer');
+			this._placeLayer.metadata = {
+				group: "place-layer"
+			};
+			this._wwd.addLayer(this._placeLayer);
+		}
+		var renderables = new MultiPolygon({geometry: geometry.geometry, key: geometry.key, switchedCoordinates: true}).render();
+		this._placeLayer.addRenderables(renderables);
+		this._wwd.redraw();
 	};
 
 	/**
@@ -472,7 +486,7 @@ define(['../../actions/Actions',
 		var state = this._stateStore.current();
 		var changes = state.changes;
 
-		if (changes.scope || changes.location){
+		if (changes.scope || changes.location || _.isEmpty(changes)){
 			this._stateStore.removeLoadingOperation("appRendering");
 		}
 
@@ -509,6 +523,28 @@ define(['../../actions/Actions',
 	 */
 	WorldWindMap.prototype.redraw = function(){
 		this._wwd.redraw();
+	};
+
+	WorldWindMap.prototype.removeAllGeometriesFromPlaceLayer = function () {
+		var self = this;
+		if (this._placeLayer && this._placeLayer.renderables){
+			this._placeLayer.removeAllRenderables();
+			this.redraw();
+		}
+	};
+
+	WorldWindMap.prototype.removeGeometryFromPlaceLayer = function (geometryKey) {
+		var self = this;
+		if (this._placeLayer && geometryKey){
+			var renderables = _.filter(this._placeLayer.renderables, function (rend){
+				return rend.key === geometryKey});
+			if (renderables && renderables.length){
+				renderables.forEach(function(renderable){
+					self._placeLayer.removeRenderable(renderable);
+				});
+			}
+			this.redraw();
+		}
 	};
 
 	/**

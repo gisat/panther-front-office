@@ -363,6 +363,10 @@ define(['js/actions/Actions',
                 xWindowJQuerySelector: $(this)[0]
             });
         });
+
+        $("#upload-data").on("click", function(){
+        	window.Stores.notify("header#uploadDataClick");
+		});
 	}
 
 	/**

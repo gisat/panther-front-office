@@ -113,6 +113,7 @@ define([
 				self.toggleWidgets(options);
 				self.toggleCustomLayers(options);
 				self.handlePeriods();
+				self._stateStore.resetChanges();
 			}).catch(function(err){
 				throw new Error(err);
 			});
@@ -123,13 +124,10 @@ define([
 			Promise.all([attributesData]).then(function(result){
 				self.rebuildComponents(result[0]);
 				self.handlePeriods();
+				self._stateStore.resetChanges();
 			});
 		}
 
-		if (this._previousDataset !== this._dataset && !this._options.changes.dataview){
-			this._dispatcher.notify('scope#activeScopeChanged', {activeScopeKey: Number(self._dataset)});
-			this._previousDataset = Number(this._dataset);
-		}
 		ThemeYearConfParams.datasetChanged = false;
 
 		Charts.forEach(function(exchangeChartData) {
@@ -297,22 +295,36 @@ define([
 	 */
 	FrontOffice.prototype.checkConfiguration = function(){
 		var self = this;
+		var state = this._stateStore.current();
 		ThemeYearConfParams.actions.forEach(function(action){
 			self.mapActions(action);
 		});
 		ThemeYearConfParams.actions = [];
 
-
+		// warning if scope wasn't selected properly
 		if (this._options.changes.scope && !this._options.changes.dataview){
 			if (this._dataset === ThemeYearConfParams.dataset){
 				console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "FrontOffice", "checkConfiguration", "missingDataset"));
 			}
 		}
 
+		// handle active dataset
 		if (this._options.changes.dataview){
 			this._dataset = this._options.config.dataset;
 		} else {
 			this._dataset = ThemeYearConfParams.dataset;
+		}
+
+		if (this._previousDataset !== this._dataset && !this._options.changes.dataview){
+			this._dispatcher.notify('scope#activeScopeChanged', {activeScopeKey: Number(self._dataset)});
+			this._previousDataset = Number(this._dataset);
+		}
+
+		// handle active places
+		if (state.place && !this._options.changes.dataview){
+			this._dispatcher.notify('place#setActivePlace', {data: [Number(state.place)]});
+		} else if (!this._options.changes.dataview) {
+			this._dispatcher.notify('place#setActivePlace', {data: state.allPlaces});
 		}
 	};
 
@@ -499,6 +511,9 @@ define([
 		if (options.widgets){
 			this._topToolBar.handleDataview(options.widgets);
 		}
+		if (options.locations){
+			this._dispatcher.notify('place#setActivePlace', {data: options.locations});
+		}
 		if (options.mapsMetadata){
 			this._mapsContainer.handleMapsFromDataview(options.mapsMetadata, options.selectedMapId);
 		}
@@ -571,7 +586,10 @@ define([
 		if(type === Actions.adjustConfiguration) {
 			this.adjustConfiguration();
 		} else if (type === Actions.adjustConfigurationFromDataview){
-			this.adjustConfiguration(options);
+			var self = this;
+			this._store.locations.load().then(function(){
+				self.adjustConfiguration(options);
+			});
 		}
 	};
 

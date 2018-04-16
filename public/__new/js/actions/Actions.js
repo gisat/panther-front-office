@@ -29,6 +29,8 @@ define([], function(){
 		mapUseWorldWindOnly: 'map#useWorldWindOnly',
 		mapZoomSelected: 'map#zoomSelected',
 		mapZoomToExtent: 'map#zoomToExtent',
+		mapZoomToArea: 'map#zoomToArea',
+		mapZoomToLocations: 'map#zoomToLocations',
 
 		mapsContainerAddMap: 'mapsContainer#addMap',
 		mapsContainerDisableAdding: 'mapsContainer#disableAdding',

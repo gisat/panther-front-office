@@ -14,10 +14,13 @@ export default store => {
 
 const setStoreWatchers = store => {
 
+	createWatcher(store, Select.maps.getActiveMap, activeMapWatcher);
 	createWatcher(store, Select.maps.getActiveMapKey, activeMapKeyWatcher);
 	createWatcher(store, Select.maps.getMaps, mapsWatcher, 'data');
 	createWatcher(store, Select.maps.getMapDefaults, mapDefaultsWatcher);
 	createWatcher(store, Select.maps.getPeriodIndependence, periodIndependenceWatcher, 'independentOfPeriod');
+
+	createWatcher(store, Select.places.getActive, ()=>{}, 'activePlace');
 
 };
 
@@ -27,9 +30,6 @@ const setEventListeners = store => {
 		switch(event) {
 			case 'map#selected':
 				store.dispatch(Action.maps.setActive(options.id));
-				break;
-			case 'map#defaultMapUnselected':
-				store.dispatch(Action.maps.setActive(null));
 				break;
 			case 'map#added':
 				store.dispatch(Action.maps.add(convertWorldWindMapToMap(options.map)));
@@ -58,12 +58,60 @@ const setEventListeners = store => {
 			case 'wmsLayer#remove':
 				store.dispatch(Action.maps.clearWmsLayer(options.layerKey));
 				break;
+			case 'placeGeometryChangeReview#showGeometry':
+				store.dispatch(Action.maps.update({
+					key: options.mapKey,
+					placeGeometryChangeReview: {
+						showGeometryBefore: options.showBefore,
+						showGeometryAfter: options.showAfter
+					}
+				}));
+				break;
 		}
 	});
 
 };
 
 // ======== state watchers ========
+
+const activeMapWatcher = (value, previousValue) => {
+	if (!state.lastActiveMapKey || state.lastActiveMapKey == value.key) {
+		if (value.hasOwnProperty('placeGeometryChangeReview')) {
+			if (value.placeGeometryChangeReview && value.placeGeometryChangeReview.showGeometryBefore != (previousValue.placeGeometryChangeReview && previousValue.placeGeometryChangeReview && previousValue.placeGeometryChangeReview.showGeometryBefore)) {
+				// show geometry before changed
+				if (value.placeGeometryChangeReview.showGeometryBefore) {
+					window.Stores.notify('PLACE_GEOMETRY_ADD', {
+						mapKey: value.key,
+						geometryKey: 'placeGeometryChangeReviewGeometryBefore',
+						geometry: state.activePlace.changeReviewGeometryBefore
+					});
+				} else {
+					window.Stores.notify('PLACE_GEOMETRY_REMOVE', {
+						mapKey: value.key,
+						geometryKey: 'placeGeometryChangeReviewGeometryBefore'
+					});
+				}
+			}
+			if (value.placeGeometryChangeReview && value.placeGeometryChangeReview.showGeometryAfter != (previousValue.placeGeometryChangeReview && previousValue.placeGeometryChangeReview && previousValue.placeGeometryChangeReview.showGeometryAfter)) {
+				// show geometry after changed
+				if (value.placeGeometryChangeReview.showGeometryAfter) {
+					window.Stores.notify('PLACE_GEOMETRY_ADD', {
+						mapKey: value.key,
+						geometryKey: 'placeGeometryChangeReviewGeometryAfter',
+						geometry: state.activePlace.changeReviewGeometryAfter
+					});
+				} else {
+					window.Stores.notify('PLACE_GEOMETRY_REMOVE', {
+						mapKey: value.key,
+						geometryKey: 'placeGeometryChangeReviewGeometryAfter'
+					});
+				}
+			}
+		}
+	}
+	state.lastActiveMapKey = value.key;
+};
+
 
 const activeMapKeyWatcher = (value, previousValue) => {
 	console.log('@@ activeMapKeyWatcher', previousValue, '->', value);

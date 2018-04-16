@@ -264,6 +264,21 @@ define([
 						});
 					});
 				}
+				if (map.placeGeometryChangeReview){
+					var showBefore = false;
+					var showAfter = false;
+					if (map.placeGeometryChangeReview.showGeometryAfter){
+						showAfter = true;
+					}
+					if (map.placeGeometryChangeReview.showGeometryBefore){
+						showBefore = true;
+					}
+					self._dispatcher.notify("placeGeometryChangeReview#showGeometry", {
+						mapKey: map.key,
+						showBefore: showBefore,
+						showAfter: showAfter
+					});
+				}
 			});
 		}
 		if (selectedMap){
@@ -601,7 +616,7 @@ define([
 		} else if (type === Actions.periodsDefault){
 			this.setPeriodOfAllMaps(periods[0]);
 			this.checkMapsCloseButton();
-		} else if (type === Actions.mapZoomSelected){
+		} else if (type === Actions.mapZoomSelected || type === Actions.mapZoomToLocations){
 			this.zoomToArea(options);
 		} else if (type === Actions.mapZoomToExtent){
 			this.zoomToExtent();

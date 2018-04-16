@@ -5,10 +5,13 @@ import { Provider } from 'react-redux';
 import store from './state/Store';
 
 import './index.css';
-import MapsTimelineContainer from './components/controls/MapsTimelineContainer/index';
-import OverlayContainer from './components/controls/OverlayContainer/index';
-import ViewSelectorContainer from './components/controls/ViewSelectorContainer/index';
 import registerServiceWorker from './registerServiceWorker';
+
+import AppOverlays from './scopemagicswitches/AppOverlays';
+import MapsTimeline from './scopemagicswitches/MapsTimeline';
+import HeaderViewSelector from './scopemagicswitches/HeaderViewSelector';
+import ViewSelectorOverlay from './scopemagicswitches/ViewSelectorOverlay';
+import ViewSelector from './scopemagicswitches/ViewSelector';
 
 
 let getStore = function() {
@@ -21,19 +24,11 @@ let getStore = function() {
 
 let initialize = function() {
 
-	ReactDOM.render(<Provider store={store}><MapsTimelineContainer /></Provider>, document.getElementById('maps-timeline'));
-	ReactDOM.render(<Provider store={store}><ViewSelectorContainer /></Provider>, document.getElementById('header-view-selection'));
-	ReactDOM.render(<Provider store={store}><OverlayContainer
-			contentOffset={{
-				top: 100,
-				left: 200
-			}}
-			content={{
-				title: "Insert AOI Code",
-				text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam dui sem, fermentum vitae, sagittis id, malesuada in, quam. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos hymenaeos."
-			}}
-		/></Provider>, document.getElementById('root'));
-
+	ReactDOM.render(<Provider store={store}><MapsTimeline /></Provider>, document.getElementById('maps-timeline'));
+	ReactDOM.render(<Provider store={store}><HeaderViewSelector /></Provider>, document.getElementById('header-view-selection'));
+	ReactDOM.render(<Provider store={store}><ViewSelectorOverlay	/></Provider>, document.getElementById('root'));
+	ReactDOM.render(<Provider store={store}><ViewSelector	/></Provider>, document.getElementById('view-selector-placeholder'));
+	ReactDOM.render(<Provider store={store}><AppOverlays	/></Provider>, document.getElementById('app-overlays'));
 };
 
 

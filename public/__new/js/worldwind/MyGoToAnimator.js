@@ -155,11 +155,19 @@ define(['../error/ArgumentError',
 
     /**
      * Zoom map to area (represented by bounding box)
-     * @param bounds {Array} Bounding box represented by a two pairs of coordinates
+     * @param bounds {Array} Bounding box represented by two pairs of coordinates
      */
     MyGoToAnimator.prototype.zoomToArea = function(bounds){
-    	if (bounds.length === 4){
+    	if (bounds.length === 4 && !_.isArray(bounds[0])){
     		bounds = [[bounds[0], bounds[1]], [bounds[2], bounds[3]]]
+		} else if (_.isArray(bounds[0]) && bounds[0].length === 4){
+    		var points = [];
+    		var self = this;
+    		bounds.forEach(function(bbox){
+    			points.push(self.getPointsFromBBox(bbox));
+			});
+    		self.setLocationFromPointSet(_.flatten(points, true));
+    		return;
 		}
 
         var minLon = bounds[0][0];

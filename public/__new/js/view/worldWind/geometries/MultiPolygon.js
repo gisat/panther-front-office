@@ -17,6 +17,7 @@ define([
 	 * @param options.geometry {JSON}
 	 * @param options.geometry.coordinates {Array}
 	 * @param options.switchedCoordinates {boolean}
+	 * @param options.key {string}
 	 * @constructor
 	 */
 	var MultiPolygon = function(options) {
@@ -25,12 +26,18 @@ define([
 		}
 
 		this._coordinates = options.geometry.coordinates;
+		this._type = options.geometry.type;
 		this._switchedCoordinates = options.switchedCoordinates;
+		this._key = options.key;
 
 		this._shapeAttributes = new WorldWind.ShapeAttributes(null);
 		this._shapeAttributes.outlineColor = new WorldWind.Color(.4, .15, .7, 1);
 		this._shapeAttributes.outlineWidth = 4;
 		this._shapeAttributes.interiorColor = new WorldWind.Color(1, 1, 1, 0);
+
+		if (this._key === "placeGeometryChangeReviewGeometryBefore"){
+			this._shapeAttributes.outlineColor = new WorldWind.Color(1, .15, .15, 1);
+		}
 	};
 
 	/**
@@ -48,7 +55,10 @@ define([
 			bounds.push(coords);
 		});
 
-		return new WorldWind.SurfacePolygon(bounds, this._shapeAttributes);
+		var surfacePolygon = new WorldWind.SurfacePolygon(bounds, this._shapeAttributes);
+		surfacePolygon.key = this._key;
+
+		return surfacePolygon;
 	};
 
 	/**
@@ -73,9 +83,16 @@ define([
 	MultiPolygon.prototype.render = function(){
 		var renderables = [];
 		var self = this;
-		this._coordinates.forEach(function(polygon){
-			renderables.push(self.getPolygon(polygon));
-		});
+		if (this._type === "Polygon"){
+			renderables.push(self.getPolygon(this._coordinates));
+		} else if (this._type === "MultiPolygon"){
+			this._coordinates.forEach(function(polygon){
+				renderables.push(self.getPolygon(polygon));
+			});
+		} else {
+			console.error("MultiPolygon#render: Unsupported type of geometry!");
+		}
+
 		return renderables;
 	};
 
