@@ -12,7 +12,7 @@ class DataUploadOverlay extends React.PureComponent {
 	};
 
 	static defaultProps = {
-		scopeId: 4043
+		scopeId: 3747
 	};
 
 	constructor(props) {
