@@ -42,7 +42,7 @@ body {
   padding: 0 1rem 0 0;
 }
 .ptr-ui-select .Select {
-  width: 10rem;
+  width: 12rem;
 }
 
 /* ================================================================
@@ -205,6 +205,7 @@ body {
 
 .ptr-view-selection-selector.ptr-ui-select .Select-control .Select-value {
   line-height: 1.8rem;
+  padding-right: 25px;
 }
 .ptr-view-selection-selector.ptr-ui-select .Select-input {
   display: block;

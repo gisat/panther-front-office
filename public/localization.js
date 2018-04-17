@@ -380,7 +380,7 @@ var langEn = {
 
 	zoom: "Zoom",
     zoomSelected: "Zoom selected",
-	zoomToExtent: "Zoom to extent"
+	zoomToPlace: "Zoom to place"
 };
 
 var langCz = {
@@ -765,7 +765,7 @@ var langCz = {
 
     zoom: "Přiblížení",
     zoomSelected: "Přiblížit výběr",
-	zoomToExtent: "Přiblížit na výchozí rozsah"
+	zoomToPlace: "Přiblížit na místo"
 };
 
 var polyglot = new Polyglot();

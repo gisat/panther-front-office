@@ -66,7 +66,7 @@ define(['../error/ArgumentError',
 		var self = this;
 		var stateStore = this._store.state;
 		var currentState = stateStore.current();
-		var places = currentState.places;
+		var places = currentState.locations;
 		var dataset = currentState.scope;
 
 		if (!dataset){
@@ -75,7 +75,7 @@ define(['../error/ArgumentError',
 		}
 		else {
 			var values = {dataset: dataset};
-			if ((places[0] !== 'All places') && places.length === 1){
+			if (places.length === 1){
 				values.id = places[0];
 			}
 
@@ -87,7 +87,11 @@ define(['../error/ArgumentError',
 							var bbox = location.bbox.split(",");
                             var pointsForArea = self.getPointsFromBBox(bbox);
                             points = points.concat(pointsForArea);
-                        }
+                        } else if (location.geometry){
+							location.geometry.coordinates.forEach(function(coord){
+								points = points.concat(coord);
+							});
+						}
                     });
                     self.setLocationFromPointSet(points);
                 } else {
