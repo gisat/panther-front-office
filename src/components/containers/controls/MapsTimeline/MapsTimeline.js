@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import MapsTimelinePresentation from './../../../presentation/controls/MapsTimeline/MapsTimeline';
-import Dimensions from 'react-dimensions';
+import ReactResizeDetector from 'react-resize-detector';
 import utils from '../../../../utils/utils';
 import _ from 'lodash';
 
@@ -10,7 +10,12 @@ class MapsTimeline extends React.PureComponent {
 	constructor(){
 		super();
 
+		this.state = {
+			width: null
+		};
+
 		this.onLayerPeriodClick = this.onLayerPeriodClick.bind(this);
+		this.onResize = this.onResize.bind(this);
 	}
 
 	handleLayerPeriod(layerKey, periodString){
@@ -44,25 +49,36 @@ class MapsTimeline extends React.PureComponent {
 		}
 	}
 
+	onResize(width, height) {
+		this.setState({
+			width: width
+		});
+	}
+
 
 	render() {
 
-		if (this.props.scope && this.props.period && this.props.scope.showTimeline) {
+		let timeline = null;
+		if (this.props.scope && this.props.period && this.state.width) {
 
 			let {scope, period, ...props} = this.props;
-			return React.createElement(MapsTimelinePresentation, {...props,
+			timeline =  React.createElement(MapsTimelinePresentation, {...props,
 				period:  utils.period(period.period),
         initialPeriod: utils.period(period.period),
-				onLayerPeriodClick: this.onLayerPeriodClick
+				onLayerPeriodClick: this.onLayerPeriodClick,
+				containerWidth: this.state.width
 			});
 
-		} else {
-
-			return null;
-
 		}
+
+		return (
+			<div>
+				<ReactResizeDetector handleWidth onResize={this.onResize} />
+				{timeline}
+			</div>
+		);
 	}
 
 }
 
-export default Dimensions()(MapsTimeline);
+export default MapsTimeline;
