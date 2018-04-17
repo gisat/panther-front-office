@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import MapsTimeline from './../../../presentation/controls/MapsTimeline/MapsTimeline';
-import Dimensions from 'react-dimensions';
 import utils from '../../../../utils/utils';
 import _ from 'lodash';
 

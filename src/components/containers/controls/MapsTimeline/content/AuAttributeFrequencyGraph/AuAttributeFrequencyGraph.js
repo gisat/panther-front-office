@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Dimensions from 'react-dimensions';
 import utils from '../../../../../../utils/utils';
 import _ from 'lodash';
 
@@ -124,6 +123,7 @@ class AuAttributeFrequencyGraph extends React.PureComponent {
 					buffer={GRAPH_BUFFER}
 				/>
 				<Graph
+					dayWidth={this.props.dayWidth}
 					period={this.props.period}
 					getX={this.props.getX}
 					data={FAKE_DATA}
