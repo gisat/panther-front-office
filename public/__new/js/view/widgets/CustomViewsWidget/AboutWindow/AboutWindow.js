@@ -31,6 +31,7 @@ define([
 		var logoSource = "panther/panther_logo.png";
 		var title = "Panther Data Exploration";
 		var text = "";
+		var introClass = "";
 
 		if (Config.toggles.intro){
 			var intro = Config.toggles.intro;
@@ -46,6 +47,8 @@ define([
 					logoClass = "";
 				} else if (type === 'wide_rectangle'){
 					logoClass = "logo-wide-rectangle";
+				} else if (type === 'none'){
+					introClass = "without-logo";
 				}
 			}
 			if (intro.logo && intro.logo.source){
@@ -54,6 +57,7 @@ define([
 		}
 
 		var html = S(aboutWindowHtml).template({
+			introClass: introClass,
 			logoSource: "__new/img/" + logoSource,
 			logoClass: logoClass,
 			projectName: title,

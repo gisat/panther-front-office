@@ -1,5 +1,6 @@
 var langEn = {
 
+    aboutPlatform: "About",
     abstract: "Abstract",
     activateDeactivate: "Activate/deactivate",
     activateDrawing: "Activate drawing",
@@ -385,6 +386,7 @@ var langEn = {
 
 var langCz = {
 
+	aboutPlatform: "O platformě",
     abstract: "Abstrakt",
     activateDeactivate: "Aktivovat/deaktivovat",
     activateDrawing: "Aktivovat kreslení",

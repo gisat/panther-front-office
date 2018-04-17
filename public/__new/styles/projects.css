@@ -6,6 +6,9 @@
 	DROMAS......................adjustments for Dromas
 	  Intro overlay
 
+	INVAZE......................adjustments for Invaze
+	  Intro overlay
+
 	URBAN-TEP...................adjustments for Urban-TEP
 	  Intro overlay
 	  Header
@@ -39,6 +42,28 @@ html.dromas .about-window-header {
 }
 html.dromas .about-window-header-title {
 	background: rgba(172,98,33,.7);
+}
+
+/* ===================================================
+   === INVAZE ========================================
+   =================================================== */
+
+/* Intro overlay */
+html.invaze #floater-custom-views-widget.intro-overlay .floater-body,
+html.invaze #floater-custom-views-widget.intro-overlay .floater-overlay {
+	background-image: linear-gradient(160deg, rgba(33,38,53,1) 0%, rgba(33,38,53,1) 40%, rgba(40,40,0,1) 100%)
+}
+html.invaze .about-window-header {
+	background-image: url('../img/invaze/invaze-background.jpg');
+}
+html.invaze .custom-views-category.active {
+	background: rgba(110,130,13,.6);
+}
+html.invaze .custom-views-category:hover {
+	background: rgba(110,130,13,.2);
+}
+html.invaze .about-window-header-title {
+	background: rgba(110,130,13,.8);
 }
 
 /* ===================================================
