@@ -86,8 +86,8 @@ body {
   bottom: 0;
   right: 0;
   top: 0;
-  background: rgba(255,255,255,.85);
-  padding: 1rem;
+  background: rgba(255,255,255,.9);
+  padding: 1.5rem 1.5rem 1.5rem 2rem;
   z-index: 90000;
   flex-direction: column;
 }
@@ -98,9 +98,37 @@ body {
   flex: 1;
   font-size: 2rem;
   font-weight: 400;
+  color: #212635;
 }
 .ptr-overlay-close {
   cursor: pointer;
+  font-size: 1.3rem;
+}
+.ptr-overlay-content {
+  margin-top: 1rem;
+}
+.ptr-overlay-content form {
+  display: flex;
+  flex-direction: column;
+}
+.ptr-overlay-content form label {
+  display: flex;
+  flex-direction: column;
+  font-size: .9rem;
+  margin:  0 0 .7rem 0;
+}
+.ptr-overlay-content form input {
+  max-width: 15rem;
+}
+.ptr-overlay-content form input[type=file] {
+  max-width: 15rem;
+  margin: .3rem 0;
+  font-size: .8rem;
+}
+.ptr-overlay-content form input[type=submit] {
+  max-width: 10rem;
+  margin-top: 1rem;
+  font-size: 1rem;
 }
 .ptr-overlay.open {
   display: flex;

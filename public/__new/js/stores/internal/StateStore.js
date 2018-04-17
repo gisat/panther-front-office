@@ -406,7 +406,7 @@ define([
 		} else if (type === 'REDUX_SET_ACTIVE_PLACES'){
 			this.setActiveLocations(options.keys);
 			if (this._changes && !this._changes.dataview){
-				this._dispatcher.notify('map#zoomToArea', options.extents);
+				this._dispatcher.notify('map#zoomToLocations', options.extents);
 			}
 		}
 	};

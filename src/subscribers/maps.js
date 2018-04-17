@@ -75,41 +75,43 @@ const setEventListeners = store => {
 // ======== state watchers ========
 
 const activeMapWatcher = (value, previousValue) => {
-	if (!state.lastActiveMapKey || state.lastActiveMapKey == value.key) {
-		if (value.hasOwnProperty('placeGeometryChangeReview')) {
-			if (value.placeGeometryChangeReview && value.placeGeometryChangeReview.showGeometryBefore != (previousValue.placeGeometryChangeReview && previousValue.placeGeometryChangeReview && previousValue.placeGeometryChangeReview.showGeometryBefore)) {
-				// show geometry before changed
-				if (value.placeGeometryChangeReview.showGeometryBefore) {
-					window.Stores.notify('PLACE_GEOMETRY_ADD', {
-						mapKey: value.key,
-						geometryKey: 'placeGeometryChangeReviewGeometryBefore',
-						geometry: state.activePlace.changeReviewGeometryBefore
-					});
-				} else {
-					window.Stores.notify('PLACE_GEOMETRY_REMOVE', {
-						mapKey: value.key,
-						geometryKey: 'placeGeometryChangeReviewGeometryBefore'
-					});
+	if (value){
+		if (!state.lastActiveMapKey || state.lastActiveMapKey == value.key) {
+			if (value.hasOwnProperty('placeGeometryChangeReview')) {
+				if (value.placeGeometryChangeReview && value.placeGeometryChangeReview.showGeometryBefore != (previousValue.placeGeometryChangeReview && previousValue.placeGeometryChangeReview && previousValue.placeGeometryChangeReview.showGeometryBefore)) {
+					// show geometry before changed
+					if (value.placeGeometryChangeReview.showGeometryBefore) {
+						window.Stores.notify('PLACE_GEOMETRY_ADD', {
+							mapKey: value.key,
+							geometryKey: 'placeGeometryChangeReviewGeometryBefore',
+							geometry: state.activePlace.changeReviewGeometryBefore
+						});
+					} else {
+						window.Stores.notify('PLACE_GEOMETRY_REMOVE', {
+							mapKey: value.key,
+							geometryKey: 'placeGeometryChangeReviewGeometryBefore'
+						});
+					}
 				}
-			}
-			if (value.placeGeometryChangeReview && value.placeGeometryChangeReview.showGeometryAfter != (previousValue.placeGeometryChangeReview && previousValue.placeGeometryChangeReview && previousValue.placeGeometryChangeReview.showGeometryAfter)) {
-				// show geometry after changed
-				if (value.placeGeometryChangeReview.showGeometryAfter) {
-					window.Stores.notify('PLACE_GEOMETRY_ADD', {
-						mapKey: value.key,
-						geometryKey: 'placeGeometryChangeReviewGeometryAfter',
-						geometry: state.activePlace.changeReviewGeometryAfter
-					});
-				} else {
-					window.Stores.notify('PLACE_GEOMETRY_REMOVE', {
-						mapKey: value.key,
-						geometryKey: 'placeGeometryChangeReviewGeometryAfter'
-					});
+				if (value.placeGeometryChangeReview && value.placeGeometryChangeReview.showGeometryAfter != (previousValue.placeGeometryChangeReview && previousValue.placeGeometryChangeReview && previousValue.placeGeometryChangeReview.showGeometryAfter)) {
+					// show geometry after changed
+					if (value.placeGeometryChangeReview.showGeometryAfter) {
+						window.Stores.notify('PLACE_GEOMETRY_ADD', {
+							mapKey: value.key,
+							geometryKey: 'placeGeometryChangeReviewGeometryAfter',
+							geometry: state.activePlace.changeReviewGeometryAfter
+						});
+					} else {
+						window.Stores.notify('PLACE_GEOMETRY_REMOVE', {
+							mapKey: value.key,
+							geometryKey: 'placeGeometryChangeReviewGeometryAfter'
+						});
+					}
 				}
 			}
 		}
+		state.lastActiveMapKey = value.key;
 	}
-	state.lastActiveMapKey = value.key;
 };
 
 

@@ -294,6 +294,9 @@ define(['../../../actions/Actions',
 			var data = self.prepareDataForCard(dataview);
 			self.addDataviewCard(data, self._contentSelector, isAdmin);
 		});
+		if (Config.dataviewId){
+			this._widgetSelector.find(".widget-minimise").trigger("click");
+		}
 		this.handleLoading("hide");
 		this.toggleOverlaySwitch();
 	};
@@ -344,8 +347,6 @@ define(['../../../actions/Actions',
 			this.handleLoading("show");
 			this._store.scopes.clear();
 			this._store.dataviews.load().then(this.redraw.bind(this));
-		} else if (type === Actions.dataviewShow){
-			this._widgetSelector.find(".widget-minimise").trigger("click");
 		} else if (type === Actions.sharingViewShared){
 			this.rebuild();
 		}

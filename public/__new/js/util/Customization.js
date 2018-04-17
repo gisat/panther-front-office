@@ -186,7 +186,9 @@ define([
 				mapsContainer.addClass("extended");
 
 			} else {
-				mapsContainerBottomBar.addClass("open");
+				if (scope.showTimeline){
+					mapsContainerBottomBar.addClass("open");
+				}
 				toolBar.removeClass("hidden");
 				mapsContainer.removeClass("extended")
 			}

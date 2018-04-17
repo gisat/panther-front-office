@@ -182,10 +182,14 @@ define([
 		var selectedUser = $( "#floater-sharing .floater-body #sharing-user option:checked" ).val();
 		var minimiseBtn = this._widgetSelector.find(".widget-minimise");
 		var state = this._store.state.current();
+		var places = state.places;
+		if (state.locations){
+			places = state.locations;
+		}
 		var self = this;
 		Promise.all([
-			this._store.groups.share(selectedGroup, state.scope, state.places, options.dataviewId),
-			this._store.users.share(selectedUser, state.scope, state.places, options.dataviewId)
+			this._store.groups.share(selectedGroup, state.scope, places, options.dataviewId),
+			this._store.users.share(selectedUser, state.scope, places, options.dataviewId)
 		]).then(function(){
 			var auth = "&needLogin=true";
 			if (Config.auth && selectedGroup === '2'){

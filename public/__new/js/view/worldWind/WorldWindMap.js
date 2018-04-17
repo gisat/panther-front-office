@@ -486,7 +486,7 @@ define(['../../actions/Actions',
 		var state = this._stateStore.current();
 		var changes = state.changes;
 
-		if (changes.scope || changes.location){
+		if (changes.scope || changes.location || _.isEmpty(changes)){
 			this._stateStore.removeLoadingOperation("appRendering");
 		}
 

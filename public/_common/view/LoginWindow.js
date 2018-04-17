@@ -45,6 +45,7 @@ Ext.define('Puma.view.LoginWindow' ,{
                     itemId: 'loginbtn'
                 }, {
                     xtype: 'button',
+                    itemId: 'cancelbtn',
                     text: polyglot.t('cancel'),
                     margin: '5 2',
 					height: 36,

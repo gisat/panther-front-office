@@ -1,6 +1,7 @@
 import ActionTypes from '../../constants/ActionTypes';
 
 import _ from 'lodash';
+import LayerPeriods from "../LayerPeriods/actions";
 
 
 // ============ creators ===========
@@ -15,6 +16,7 @@ function add(places) {
 function setActive(key) {
 	return dispatch => {
 		dispatch(actionSetActive(key));
+		dispatch(LayerPeriods.loadForPlace(key));
 	};
 }
 
