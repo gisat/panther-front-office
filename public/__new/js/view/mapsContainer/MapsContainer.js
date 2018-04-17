@@ -135,12 +135,14 @@ define([
 	 */
 	MapsContainer.prototype.addMapBoxOnClickListener = function(){
 		var self = this;
-		this._containerSelector.on("click", ".world-wind-map-box", function(){
-			var state = self._stateStore.current();
-			if (state.isMapIndependentOfPeriod){
-				var mapId = $(this).find('.world-wind-map').attr('id');
-				var map = self._mapStore.getMapById(mapId);
-				self.handleMapSelection(map);
+		this._containerSelector.on("click", ".world-wind-map-box", function(e){
+			if (e.target.className !== "close-map-button" && e.target.className !== "close-map-icon"){
+				var state = self._stateStore.current();
+				if (state.isMapIndependentOfPeriod){
+					var mapId = $(this).find('.world-wind-map').attr('id');
+					var map = self._mapStore.getMapById(mapId);
+					self.handleMapSelection(map);
+				}
 			}
 		});
 	};
