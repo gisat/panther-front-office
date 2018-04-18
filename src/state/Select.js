@@ -6,6 +6,7 @@ import LayerPeriods from './LayerPeriods/selectors';
 import Maps from './Maps/selectors';
 import Periods from './Periods/selectors';
 import Places from './Places/selectors';
+import Scenarios from './Scenarios/selectors';
 import Scopes from './Scopes/selectors';
 import User from './User/selectors';
 import WmsLayers from './WmsLayers/selectors';
@@ -19,6 +20,7 @@ export default {
 	maps: Maps,
 	periods: Periods,
 	places: Places,
+	scenarios: Scenarios,
 	scopes: Scopes,
 	user: User,
 	wmsLayers: WmsLayers

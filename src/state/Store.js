@@ -8,6 +8,7 @@ import layerPeriodsReducers from './LayerPeriods/reducers';
 import mapsReducers from './Maps/reducers';
 import periodsReducers from './Periods/reducers';
 import placesReducers from './Places/reducers';
+import scenariosReducers from './Scenarios/reducers';
 import scopesReducers from './Scopes/reducers';
 import userReducers from './User/reducers';
 import wmsLayersReducers from './WmsLayers/reducers';
@@ -26,6 +27,7 @@ const Store = createStore(combineReducers({
 	maps: mapsReducers,
 	periods: periodsReducers,
 	places: placesReducers,
+	scenarios: scenariosReducers,
 	scopes: scopesReducers,
 	user: userReducers,
 	wmsLayers: wmsLayersReducers

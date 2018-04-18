@@ -7,6 +7,7 @@ import Components from './Components/actions';
 import Maps from './Maps/actions';
 import Periods from './Periods/actions';
 import Places from './Places/actions';
+import Scenarios from './Scenarios/actions';
 import Scopes from './Scopes/actions';
 import User from './User/actions';
 import WmsLayers from './WmsLayers/actions';
@@ -20,6 +21,7 @@ export default {
 	maps: Maps,
 	periods: Periods,
 	places: Places,
+	scenarios: Scenarios,
 	scopes: Scopes,
 	user: User,
 	wmsLayers: WmsLayers
