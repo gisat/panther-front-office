@@ -209,12 +209,30 @@ define(['../../actions/Actions',
 	 * Add listener for drag and drop files
 	 */
 	WorldWindMap.prototype.addDropListener = function(){
-		this._mapSelector.off('drop').on('drop', function(e){
+		$('body').off('drop').on('drop', function(e){
 			e.preventDefault();
-			var files = e.originalEvent.dataTransfer.files;
-			this.addFiles(files);
+			if(e.originalEvent.dataTransfer.files && e.originalEvent.dataTransfer.files.length > 0) {
+				var files = e.originalEvent.dataTransfer.files;
+				this.addFiles(files);
+			}
+
+			if(!e.originalEvent.dataTransfer.files || e.originalEvent.dataTransfer.files.length === 0) {
+				var url = e.originalEvent.dataTransfer.getData("URL");
+				this.addUrl(url);
+			}
+
 			return false;
 		}.bind(this));
+	};
+
+	WorldWindMap.prototype.addUrl = function(url) {
+		if(url.endsWith('.geojson') || url.endsWith('.json')) {
+			this.addGeoJson(url);
+		} else if(url.endsWith('.tif') || url.endsWith('.tiff')) {
+			this.addGeoTiff(url);
+		} else if(url.endsWith('.kml')) {
+			this.addKML(url);
+		}
 	};
 
 	WorldWindMap.prototype.addFiles = function(files) {
