@@ -1,4 +1,6 @@
 import Aoi from './AOI/selectors';
+import Attributes from './Attributes/selectors';
+import AttributeSets from './AttributeSets/selectors';
 import Components from './Components/selectors';
 import LayerPeriods from './LayerPeriods/selectors';
 import Maps from './Maps/selectors';
@@ -10,6 +12,8 @@ import WmsLayers from './WmsLayers/selectors';
 
 export default {
 	aoi: Aoi,
+	attributes: Attributes,
+	attributeSets: AttributeSets,
 	components: Components,
 	layerPeriods: LayerPeriods,
 	maps: Maps,

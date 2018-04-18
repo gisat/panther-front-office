@@ -36,8 +36,8 @@ define(['./Model'], function(Model){
 			attributes: {
 				serverName: 'attributes'
 			},
-			topics: {
-				serverName: 'topics'
+			topic: {
+				serverName: 'topic'
 			},
 			featureLayers: {
 				serverName: 'featureLayers'

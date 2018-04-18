@@ -31,5 +31,9 @@ define([
 		return "rest/attributeset";
 	};
 
+	AttributeSets.prototype.loaded = function(models) {
+		window.Stores.notify("ATTRIBUTE_SETS_LOADED", models);
+	};
+
 	return AttributeSets;
 });

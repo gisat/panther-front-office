@@ -1,6 +1,8 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 
 import aoiReducers from './AOI/reducers';
+import attributesReducers from './Attributes/reducers';
+import attributeSetsReducers from './AttributeSets/reducers';
 import componentsReducers from './Components/reducers';
 import layerPeriodsReducers from './LayerPeriods/reducers';
 import mapsReducers from './Maps/reducers';
@@ -17,6 +19,8 @@ import subscribers from '../subscribers';
 // Redux store
 const Store = createStore(combineReducers({
 	aoi: aoiReducers,
+	attributes: attributesReducers,
+	attributeSets: attributeSetsReducers,
 	components: componentsReducers,
 	layerPeriods: layerPeriodsReducers,
 	maps: mapsReducers,

@@ -17,12 +17,16 @@ define(['../../error/ArgumentError',
 	 * Class for gathering attributes metadata
 	 * @constructor
 	 * @param options {Object}
+	 * @param options.dispatcher {Object}
 	 * @param options.store {Object}
 	 * @param options.store.attributeSets {AttributeSets}
 	 * @param options.store.attributes {Attributes}
 	 */
 
 	var Attributes = function(options){
+		if(!options.dispatcher){
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'Attributes', 'constructor', 'Dispatcher must be provided'));
+		}
 		if(!options.store){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'Attributes', 'constructor', 'Stores must be provided'));
 		}
@@ -35,6 +39,7 @@ define(['../../error/ArgumentError',
 
 		this._attributeSets = null;
 
+		this._dispatcher = options.dispatcher;
 		this._store = options.store;
 	};
 
@@ -65,10 +70,12 @@ define(['../../error/ArgumentError',
 				if (output.data.hasOwnProperty("attrSets")){
 					self._attributeSets = output.data.attrSets;
 				}
+				self._dispatcher.notify("attributeSets#updateActive", {attributeSets: self._attributeSets});
 				return self.getAttributesFromAllAttributeSets(self._attributeSets);
 			});
 		}
 		else {
+			this._dispatcher.notify("attributeSets#updateActive", {attributeSets: this._attributeSets});
 			return this.getAttributesFromAllAttributeSets(this._attributeSets);
 		}
 	};
