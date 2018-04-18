@@ -209,7 +209,7 @@ define(['../../actions/Actions',
 	 * Add listener for drag and drop files
 	 */
 	WorldWindMap.prototype.addDropListener = function(){
-		this._mapSelector.off('drop').on('drop', function(e){
+		$('body').off('drop').on('drop', function(e){
 			e.preventDefault();
 			var files = e.originalEvent.dataTransfer.files;
 			this.addFiles(files);
