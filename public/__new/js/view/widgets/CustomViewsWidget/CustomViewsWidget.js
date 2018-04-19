@@ -179,7 +179,13 @@ define(['../../../actions/Actions',
 				return Number(scope.id) === Number(dataset);
 			});
 
-			if (scope && scope.name){
+			// Filter the scope
+			var validUrl = true;
+			if(scope && scope.urls){
+				validUrl = scope.urls.indexOf(location.href) !== -1;
+			}
+
+			if (scope && scope.name && validUrl){
 				var name = scope.name;
 				this.renderContentItem(dataset, name);
 
@@ -238,9 +244,9 @@ define(['../../../actions/Actions',
 		var isIntro = $('body').hasClass("intro");
 		if (this._overlaySwitchSelector){
 			if (isAdmin && isIntro){
-				this._overlaySwitchSelector.css("display", "inline-block");
+				this._overlaySwitchSelector.addClass("open");
 			} else {
-				this._overlaySwitchSelector.css("display", "none");
+				this._overlaySwitchSelector.removeClass("open");
 			}
 		} else if (isAdmin) {
 			this.renderOverlaySwitch();

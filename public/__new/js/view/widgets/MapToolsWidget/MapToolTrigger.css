@@ -7,6 +7,9 @@
 	transition: background .3s ease-in-out;
 	padding: 0 .5rem;
 }
+.map-tool-trigger.hidden {
+	display: none;
+}
 .map-tool-trigger:hover,
 .map-tool-trigger.active {
 	background: rgba(0,0,0,.07);

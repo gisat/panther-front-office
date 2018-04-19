@@ -230,8 +230,11 @@ body.intro #header .menu li:first-child::before {
 #downloads-link {
 	display: none; /* useDownloadsLink toggle default */
 }
-#load-data {
+#upload-data {
 	display: none;
+}
+body.intro #upload-data.open {
+	display: inline-block;
 }
 
 #legacy-view-selector .user {

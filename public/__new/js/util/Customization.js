@@ -158,9 +158,9 @@ define([
 		var self = this;
 
 		if (user.isAdmin){
-			uploadDataBtn.css("display","inline-block");
+			uploadDataBtn.addClass("open");
 		} else {
-			uploadDataBtn.css("display","none");
+			uploadDataBtn.removeClass("open");
 		}
 
 		this._store.scopes.byId(scope).then(function(scopes){
