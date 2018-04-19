@@ -725,7 +725,10 @@ define(['../../actions/Actions',
 		var position = this.getPositionFromCanvasCoordinates(x,y);
 
 		var tablePromises = event.worldWindow.layers.map(function(layer){
-			if(!layer || !layer.metadata || !layer.metadata.group || layer.metadata.group === 'areaoutlines' || layer.metadata.group === 'background-layers') {
+			if(!layer || !layer.metadata || !layer.metadata.group ||
+				layer.metadata.group === 'areaoutlines' ||
+				layer.metadata.group === 'background-layers' ||
+				layer.metadata.group === 'place-layer') {
 				return;
 			}
 			var serviceAddress = layer.urlBuilder.serviceAddress;

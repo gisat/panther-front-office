@@ -34,6 +34,7 @@
 .about-window-header-title {
 	font-family: "Roboto";
 	font-size: 4rem;
+	font-weight: 300;
 	color: white;
 	background: rgba(153,54,75,.85);
 	padding: 8rem 2rem 12rem 2rem;
