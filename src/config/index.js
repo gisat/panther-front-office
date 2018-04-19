@@ -14,11 +14,12 @@ import defaults from './defaults';
  * Per-instance values, development values & features.
  */
 import rewrites from './rewrites';
+console.log(rewrites);
 
 let url = window.location.origin;
 let validConfigurationUpdate = {};
 for(let configKey in rewrites) {
-	if(rewrites[url][configKey]){
+	if(rewrites[url] && rewrites[url][configKey]){
 		validConfigurationUpdate[configKey] = rewrites[url][configKey];
 	}else {
 		validConfigurationUpdate[configKey] = rewrites[configKey];
