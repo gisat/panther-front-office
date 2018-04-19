@@ -105,6 +105,10 @@ define(['../../../actions/Actions',
 		this.addTriggerListener();
 	};
 
+	MapToolTrigger.prototype.hide = function(){
+		this._mapToolTrigger.addClass("hidden");
+	};
+
 
 	/**
 	 * Add on click listener to map tool trigger

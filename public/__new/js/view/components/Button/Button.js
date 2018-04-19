@@ -78,6 +78,10 @@ define([
 		this._buttonSelector = $("#" + this._id);
 	};
 
+	Button.prototype.hide = function(){
+		this._buttonSelector.addClass("hidden");
+	};
+
 	/**
 	 * Get classes based on button's configuration
 	 * @returns {string} html classes
