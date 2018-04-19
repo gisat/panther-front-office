@@ -1,34 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1cb906fe-0f30-411b-acc2-b30a926fcdec" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/ExtJS.xml" afterPath="$PROJECT_DIR$/.idea/libraries/ExtJS.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Highcharts_3_0_0.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Highcharts_3_0_0.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/jQuery.xml" afterPath="$PROJECT_DIR$/.idea/libraries/jQuery.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change beforePath="$PROJECT_DIR$/public/__new/FrontOffice.js" afterPath="$PROJECT_DIR$/public/__new/FrontOffice.js" />
-      <change beforePath="$PROJECT_DIR$/public/__new/app.js" afterPath="$PROJECT_DIR$/public/__new/app.js" />
-      <change beforePath="$PROJECT_DIR$/public/__new/js/actions/Actions.js" afterPath="$PROJECT_DIR$/public/__new/js/actions/Actions.js" />
-      <change beforePath="$PROJECT_DIR$/public/__new/js/stores/internal/MapStore.js" afterPath="$PROJECT_DIR$/public/__new/js/stores/internal/MapStore.js" />
-      <change beforePath="$PROJECT_DIR$/public/__new/js/stores/internal/StateStore.js" afterPath="$PROJECT_DIR$/public/__new/js/stores/internal/StateStore.js" />
-      <change beforePath="$PROJECT_DIR$/public/__new/js/view/TopToolBar.js" afterPath="$PROJECT_DIR$/public/__new/js/view/TopToolBar.js" />
-      <change beforePath="$PROJECT_DIR$/public/__new/js/view/mapsContainer/MapsContainer.js" afterPath="$PROJECT_DIR$/public/__new/js/view/mapsContainer/MapsContainer.js" />
-      <change beforePath="$PROJECT_DIR$/public/__new/js/view/widgets/WorldWindWidget/WorldWindWidget.js" afterPath="$PROJECT_DIR$/public/__new/js/view/widgets/WorldWindWidget/WorldWindWidget.js" />
-      <change beforePath="$PROJECT_DIR$/public/__new/js/view/widgets/WorldWindWidget/WorldWindWidgetPanels.js" afterPath="$PROJECT_DIR$/public/__new/js/view/widgets/WorldWindWidget/WorldWindWidgetPanels.js" />
-      <change beforePath="$PROJECT_DIR$/public/__new/js/view/worldWind/WorldWindMap.js" afterPath="$PROJECT_DIR$/public/__new/js/view/worldWind/WorldWindMap.js" />
-      <change beforePath="$PROJECT_DIR$/public/__new/js/view/worldWind/layers/layerTools/LayerTool.js" afterPath="$PROJECT_DIR$/public/__new/js/view/worldWind/layers/layerTools/LayerTool.js" />
-      <change beforePath="$PROJECT_DIR$/public/__new/js/worldwind/MyGoToAnimator.js" afterPath="$PROJECT_DIR$/public/__new/js/worldwind/MyGoToAnimator.js" />
-      <change beforePath="$PROJECT_DIR$/public/_main/controller/ViewMng.js" afterPath="$PROJECT_DIR$/public/_main/controller/ViewMng.js" />
-      <change beforePath="$PROJECT_DIR$/public/index.html" afterPath="$PROJECT_DIR$/public/index.html" />
+    <list default="true" id="122b7d9d-41eb-47f5-ac2e-02afba3d015e" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/panther-front-office.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/panther-front-office.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/__new/js/data/Scope.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/__new/js/data/Scope.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/__new/js/view/widgets/CustomViewsWidget/CustomViewsWidget.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/__new/js/view/widgets/CustomViewsWidget/CustomViewsWidget.js" afterDir="false" />
     </list>
-    <list id="babd0b06-6beb-4735-88cd-a684d600b9b4" name="config" comment="">
-      <change beforePath="$PROJECT_DIR$/public/config.js" afterPath="$PROJECT_DIR$/public/config.js" />
-    </list>
-    <ignored path="$PROJECT_DIR$/.tmp/" />
-    <ignored path="$PROJECT_DIR$/temp/" />
-    <ignored path="$PROJECT_DIR$/tmp/" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,147 +14,17 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="MapsContainer.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/__new/js/view/mapsContainer/MapsContainer.js">
+    <leaf>
+      <file leaf-file-name="Scope.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/public/__new/js/data/Scope.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2328">
-              <caret line="332" column="4" lean-forward="false" selection-start-line="332" selection-start-column="4" selection-end-line="332" selection-end-column="4" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="config.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/public/config.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="312">
-              <caret line="13" column="7" lean-forward="true" selection-start-line="13" selection-start-column="7" selection-end-line="13" selection-end-column="7" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="StateStore.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/__new/js/stores/internal/StateStore.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-199">
-              <caret line="72" column="41" lean-forward="false" selection-start-line="72" selection-start-column="41" selection-end-line="72" selection-end-column="41" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MapStore.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/__new/js/stores/internal/MapStore.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1822">
-              <caret line="17" column="7" lean-forward="false" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="113" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="app.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/__new/app.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="211">
-              <caret line="185" column="37" lean-forward="false" selection-start-line="185" selection-start-column="37" selection-end-line="185" selection-end-column="37" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WorldWindWidget.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/__new/js/view/widgets/WorldWindWidget/WorldWindWidget.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2440">
-              <caret line="59" column="0" lean-forward="false" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="FrontOffice.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/__new/FrontOffice.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="441">
-              <caret line="56" column="29" lean-forward="false" selection-start-line="56" selection-start-column="29" selection-end-line="56" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WorldWindMap.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/__new/js/view/worldWind/WorldWindMap.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3576">
-              <caret line="199" column="39" lean-forward="false" selection-start-line="199" selection-start-column="32" selection-end-line="199" selection-end-column="39" />
-              <folding>
-                <marker date="1519994276257" expanded="true" signature="8944:8952" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Actions.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/__new/js/actions/Actions.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-775">
-              <caret line="12" column="50" lean-forward="false" selection-start-line="12" selection-start-column="50" selection-end-line="12" selection-end-column="50" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MyGoToAnimator.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/public/__new/js/worldwind/MyGoToAnimator.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="8141">
-              <caret line="347" column="9" lean-forward="false" selection-start-line="347" selection-start-column="9" selection-end-line="347" selection-end-column="9" />
-              <folding />
+            <state relative-caret-position="867">
+              <caret line="66" column="34" selection-start-line="66" selection-start-column="34" selection-end-line="66" selection-end-column="34" />
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
-  </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>mapControl</find>
-      <find>updateNavigatorState</find>
-      <find>sw</find>
-      <find>adaptAll</find>
-      <find>removeMap</find>
-      <find>addPeriod</find>
-      <find>.mapControl</find>
-      <find>updateNavig</find>
-      <find>updateNa</find>
-      <find>setNavigator</find>
-      <find>setN</find>
-      <find>sortMaps</find>
-      <find>'map#switchFramework'</find>
-      <find>.switchMapFramework</find>
-      <find>switchMapFr</find>
-      <find>getPosi</find>
-      <find>toggleCompo</find>
-      <find>_stateStore</find>
-      <find>getPosition</find>
-      <find>show3</find>
-      <find>MapSto</find>
-      <find>FrontOff</find>
-      <find>TopToolBar</find>
-      <find>store</find>
-      <find>getNavigatorState</find>
-      <find>navigator</find>
-      <find>options.stor</find>
-      <find>_sta</find>
-      <find>_topToolBar</find>
-      <find>_dataMi</find>
-    </findStrings>
-    <dirStrings>
-      <dir>C:\Users\jbalhar\SourceCode\panther-front-office\src\_main\controller</dir>
-    </dirStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -189,61 +37,27 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/_main/controller/Chart.js" />
-        <option value="$PROJECT_DIR$/src/__new/js/view/widgets/WorldWindWidget/panels/BackgroundLayersPanel.js" />
-        <option value="$PROJECT_DIR$/src/config.js" />
-        <option value="$PROJECT_DIR$/src/_main/controller/LocationTheme.js" />
-        <option value="$PROJECT_DIR$/public/config.js" />
-        <option value="$PROJECT_DIR$/public/__new/js/view/TopToolBar.js" />
-        <option value="$PROJECT_DIR$/public/index.html" />
-        <option value="$PROJECT_DIR$/public/__new/js/worldwind/MyGoToAnimator.js" />
-        <option value="$PROJECT_DIR$/public/_main/controller/ViewMng.js" />
-        <option value="$PROJECT_DIR$/public/__new/js/view/widgets/WorldWindWidget/WorldWindWidgetPanels.js" />
-        <option value="$PROJECT_DIR$/public/__new/js/view/worldWind/layers/layerTools/LayerTool.js" />
-        <option value="$PROJECT_DIR$/public/__new/js/view/mapsContainer/MapsContainer.js" />
-        <option value="$PROJECT_DIR$/public/__new/js/actions/Actions.js" />
-        <option value="$PROJECT_DIR$/public/__new/js/view/widgets/WorldWindWidget/WorldWindWidget.js" />
-        <option value="$PROJECT_DIR$/public/__new/FrontOffice.js" />
-        <option value="$PROJECT_DIR$/public/__new/js/stores/internal/MapStore.js" />
-        <option value="$PROJECT_DIR$/public/__new/app.js" />
-        <option value="$PROJECT_DIR$/public/__new/js/view/worldWind/WorldWindMap.js" />
-        <option value="$PROJECT_DIR$/public/__new/js/stores/internal/StateStore.js" />
+        <option value="$PROJECT_DIR$/public/__new/js/view/widgets/CustomViewsWidget/CustomViewsWidget.js" />
+        <option value="$PROJECT_DIR$/public/__new/js/data/Scope.js" />
       </list>
     </option>
   </component>
   <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
-  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER">
-    <package-json value="$PROJECT_DIR$/package.json" />
-  </component>
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
   <component name="JsGulpfileManager">
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
-  <component name="NodeModulesDirectoryManager">
-    <handled-path value="$PROJECT_DIR$/node_modules" />
-  </component>
-  <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-9" />
-    <option name="y" value="-1089" />
-    <option name="width" value="1938" />
-    <option name="height" value="1060" />
+  <component name="NodePackageJsonFileManager">
+    <packageJsonPaths>
+      <path value="$PROJECT_DIR$/package.json" />
+    </packageJsonPaths>
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
-      <flattenPackages />
-      <showMembers />
-      <showModules />
-      <showLibraryContents />
-      <hideEmptyPackages />
-      <abbreviatePackageNames />
-      <autoscrollToSource />
-      <autoscrollFromSource />
-      <sortByType />
-      <manualOrder />
+    <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -275,24 +89,7 @@
               <item name="public" type="462c0819:PsiDirectoryNode" />
               <item name="__new" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="actions" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="panther-front-office" type="b2602c69:ProjectViewProjectNode" />
-              <item name="panther-front-office" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-              <item name="__new" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="stores" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="panther-front-office" type="b2602c69:ProjectViewProjectNode" />
-              <item name="panther-front-office" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-              <item name="__new" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="stores" type="462c0819:PsiDirectoryNode" />
-              <item name="internal" type="462c0819:PsiDirectoryNode" />
+              <item name="data" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="panther-front-office" type="b2602c69:ProjectViewProjectNode" />
@@ -301,24 +98,6 @@
               <item name="__new" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
               <item name="view" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="panther-front-office" type="b2602c69:ProjectViewProjectNode" />
-              <item name="panther-front-office" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-              <item name="__new" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="view" type="462c0819:PsiDirectoryNode" />
-              <item name="map" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="panther-front-office" type="b2602c69:ProjectViewProjectNode" />
-              <item name="panther-front-office" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-              <item name="__new" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="view" type="462c0819:PsiDirectoryNode" />
-              <item name="mapsContainer" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="panther-front-office" type="b2602c69:ProjectViewProjectNode" />
@@ -337,49 +116,73 @@
               <item name="js" type="462c0819:PsiDirectoryNode" />
               <item name="view" type="462c0819:PsiDirectoryNode" />
               <item name="widgets" type="462c0819:PsiDirectoryNode" />
-              <item name="WorldWindWidget" type="462c0819:PsiDirectoryNode" />
+              <item name="MapToolsWidget" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="panther-front-office" type="b2602c69:ProjectViewProjectNode" />
               <item name="panther-front-office" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-              <item name="__new" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="view" type="462c0819:PsiDirectoryNode" />
-              <item name="worldWind" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="panther-front-office" type="b2602c69:ProjectViewProjectNode" />
               <item name="panther-front-office" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-              <item name="__new" type="462c0819:PsiDirectoryNode" />
-              <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="worldwind" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="panther-front-office" type="b2602c69:ProjectViewProjectNode" />
               <item name="panther-front-office" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-              <item name="_main" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="controls" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="panther-front-office" type="b2602c69:ProjectViewProjectNode" />
               <item name="panther-front-office" type="462c0819:PsiDirectoryNode" />
-              <item name="public" type="462c0819:PsiDirectoryNode" />
-              <item name="_main" type="462c0819:PsiDirectoryNode" />
-              <item name="controller" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="panther-front-office" type="b2602c69:ProjectViewProjectNode" />
+              <item name="panther-front-office" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="state" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="panther-front-office" type="b2602c69:ProjectViewProjectNode" />
+              <item name="panther-front-office" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="state" type="462c0819:PsiDirectoryNode" />
+              <item name="AOI" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="panther-front-office" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+            </path>
+            <path>
+              <item name="panther-front-office" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Scratches and Consoles" type="1a2a3e82:ScratchProjectViewPane$MyProjectNode" />
+              <item name="Scratches" type="d62648e6:ScratchProjectViewPane$MyRootNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="HbShouldOpenHtmlAsHb" value="" />
     <property name="Git.Branch.Popup.ShowAllRemotes" value="true" />
+    <property name="HbShouldOpenHtmlAsHb" value="" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="com.intellij.ide.scratch.LRUPopupBuilder$2/Languages" value="TEXT" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Projects/Interni/Cesko v Datech/urbanAtlasCr/CZ011L1_ZLIN/Shapefiles/Urban_Atlas_2012_Legend.sld" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="node.js.detected.package.prettier" value="true" />
+    <property name="node.js.path.for.package.prettier" value="project" />
+    <property name="node.js.selected.package.prettier" value="" />
+    <property name="nodejs.jest.jest_package" value="$PROJECT_DIR$/node_modules/react-scripts" />
+    <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -393,28 +196,29 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="npm.FO">
-    <configuration name="Local" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" engineId="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" uri="http://localhost:63342/panther-front-office/src/index.html" />
-    <configuration name="FO" type="js.build_tools.npm" factoryName="npm">
-      <package-json value="$PROJECT_DIR$/package.json" />
-      <command value="start" />
+  <component name="RunManager">
+    <configuration name="App.test.js" type="JavaScriptTestRunnerJest" factoryName="Jest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
-      <envs>
-        <env name="PORT" value="3010" />
-      </envs>
+      <node-options value="" />
+      <working-dir value="$PROJECT_DIR$/src" />
+      <envs />
+      <scope-kind value="TEST_FILE" />
+      <test-file value="$PROJECT_DIR$/src/App.test.js" />
     </configuration>
-    <list size="2">
-      <item index="0" class="java.lang.String" itemvalue="npm.FO" />
-      <item index="1" class="java.lang.String" itemvalue="JavaScript Debug.Local" />
+    <configuration name="Local" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" engineId="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" uri="http://localhost:63342/panther-front-office/src/index.html" />
+    <configuration name="index.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/panther-front-office/src/index.html" />
+    <list>
+      <item itemvalue="JavaScript Debug.index.html" />
+      <item itemvalue="JavaScript Debug.Local" />
+      <item itemvalue="Jest.App.test.js" />
     </list>
     <recent_temporary>
-      <list size="1">
-        <item index="0" class="java.lang.String" itemvalue="JavaScript Debug.Local" />
+      <list>
+        <item itemvalue="Jest.App.test.js" />
+        <item itemvalue="JavaScript Debug.Local" />
+        <item itemvalue="JavaScript Debug.index.html" />
       </list>
     </recent_temporary>
-  </component>
-  <component name="ShelveChangesManager" show_recycled="false">
-    <option name="remove_strategy" value="false" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -436,6 +240,35 @@
       <workItem from="1515422635723" duration="3757000" />
       <workItem from="1515501760183" duration="2785000" />
       <workItem from="1515666760278" duration="1671000" />
+      <workItem from="1522403230211" duration="20911000" />
+      <workItem from="1522653276799" duration="11761000" />
+      <workItem from="1522736662658" duration="621000" />
+      <workItem from="1522739385814" duration="12501000" />
+      <workItem from="1522833730696" duration="6323000" />
+      <workItem from="1522853411828" duration="3750000" />
+      <workItem from="1522910262785" duration="1103000" />
+      <workItem from="1522911455475" duration="625000" />
+      <workItem from="1522912998310" duration="6527000" />
+      <workItem from="1523085698066" duration="5768000" />
+      <workItem from="1523105863874" duration="38000" />
+      <workItem from="1523273040687" duration="1589000" />
+      <workItem from="1523280458660" duration="1087000" />
+      <workItem from="1523285688990" duration="1658000" />
+      <workItem from="1523345968896" duration="6742000" />
+      <workItem from="1523370759629" duration="33000" />
+      <workItem from="1523441300432" duration="971000" />
+      <workItem from="1523449567794" duration="8000" />
+      <workItem from="1523547254099" duration="6000" />
+      <workItem from="1523604055717" duration="2392000" />
+      <workItem from="1523606696690" duration="77000" />
+      <workItem from="1523607203930" duration="745000" />
+      <workItem from="1523612503788" duration="3733000" />
+      <workItem from="1523637240414" duration="6526000" />
+      <workItem from="1523809021374" duration="277000" />
+      <workItem from="1523810667156" duration="980000" />
+      <workItem from="1523877817369" duration="751000" />
+      <workItem from="1524040009368" duration="3610000" />
+      <workItem from="1524125285803" duration="2863000" />
     </task>
     <task id="LOCAL-00001" summary="Translate name in the table.">
       <created>1515063757673</created>
@@ -465,380 +298,654 @@
       <option name="project" value="LOCAL" />
       <updated>1515673160460</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Show asynchronously hundreds thousands of the analytical units.">
+      <created>1522609132817</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1522609132817</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Return sharing to the Portal for UrbanTEP instance.">
+      <created>1522657492983</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1522657492984</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Show snapshots of charts.">
+      <created>1522660395857</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1522660395857</updated>
+    </task>
+    <task id="LOCAL-00008" summary="Text fix.">
+      <created>1522661586879</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1522661586879</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Standard zooming behavior.">
+      <created>1522662009206</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1522662009206</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Fix the snapshot creation to provide at least basic functionality.">
+      <created>1522746414474</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1522746414474</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Allow adding layers in the Web Mercator Projection">
+      <created>1522849524399</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1522849524399</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Update configuration for visible.">
+      <created>1522854513276</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1522854513276</updated>
+    </task>
+    <task id="LOCAL-00013" summary="Hide selector toolbar">
+      <created>1522855004132</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1522855004132</updated>
+    </task>
+    <task id="LOCAL-00014" summary="Remove only tools.">
+      <created>1522855315402</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1522855315402</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Hide visualisation also for admin.">
+      <created>1522855714818</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1522855714818</updated>
+    </task>
+    <task id="LOCAL-00016" summary="Hide periods correctly.">
+      <created>1522856239532</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1522856239532</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Hide correctly">
+      <created>1522856667366</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1522856667366</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Update to https versions of the maps.">
+      <created>1523085873280</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1523085873280</updated>
+    </task>
+    <task id="LOCAL-00019" summary="Make sure correct layers are displayed.">
+      <created>1523101138499</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1523101138499</updated>
+    </task>
+    <task id="LOCAL-00020" summary="Update UTEP Sharing">
+      <created>1523280920931</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1523280920931</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Update configuration of the scope.">
+      <created>1523291153543</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1523291153543</updated>
+    </task>
+    <task id="LOCAL-00022" summary="Update oneLevelOnly configuration.">
+      <created>1523346194976</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1523346194976</updated>
+    </task>
+    <task id="LOCAL-00023" summary="Update the path to the WMS.">
+      <created>1523349931825</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1523349931825</updated>
+    </task>
+    <task id="LOCAL-00024" summary="Remove irrelevant request.">
+      <created>1523357837439</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1523357837439</updated>
+    </task>
+    <task id="LOCAL-00025" summary="Use correct state store">
+      <created>1523359928655</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1523359928655</updated>
+    </task>
+    <task id="LOCAL-00026" summary="Update the header to point to homepage.">
+      <created>1523604724573</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1523604724573</updated>
+    </task>
+    <task id="LOCAL-00027" summary="Allow customization of the top menu with custom links.">
+      <created>1523606105321</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1523606105321</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Open new window.">
+      <created>1523606744064</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1523606744064</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Update link to the administration.">
+      <created>1523607467207</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1523607467207</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Move the href to actual link.">
+      <created>1523607690648</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1523607690648</updated>
+    </task>
+    <task id="LOCAL-00031" summary="Remove GeoServer Login">
+      <created>1523781858583</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1523781858583</updated>
+    </task>
+    <task id="LOCAL-00032" summary="Return the Add Layer widget.">
+      <created>1523784791598</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1523784791598</updated>
+    </task>
+    <task id="LOCAL-00033" summary="Return the imagery to the top tool bar.">
+      <created>1523785139832</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1523785139832</updated>
+    </task>
+    <task id="LOCAL-00034" summary="Add possibility to modify exaggeration.">
+      <created>1523786406565</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1523786406565</updated>
+    </task>
+    <task id="LOCAL-00035" summary="The Drag and Drop needs to be defined properly on top level in order to work.">
+      <created>1524041024304</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1524041024304</updated>
+    </task>
+    <task id="LOCAL-00036" summary="Works for URL as well.">
+      <created>1524043344735</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1524043344735</updated>
+    </task>
+    <task id="LOCAL-00037" summary="The URL parameter in scope reflects what is visible after all the othe rthings was taken into the account.">
+      <created>1524127869420</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1524127869420</updated>
+    </task>
+    <option name="localTasksCounter" value="38" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="56948000" />
+    <option name="totallyTimeSpent" value="188000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="-1089" width="1938" height="1060" extended-state="6" />
+    <frame x="0" y="0" width="1920" height="1080" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32847533" sideWeight="0.4928609" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4899103" sideWeight="0.50608146" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35874438" sideWeight="0.49391857" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23766816" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32580644" sideWeight="0.49175668" order="10" side_tool="false" content_ui="tabs" x="446" y="-360" width="952" height="307" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19354838" sideWeight="0.4912" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5896861" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295979" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3295979" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.375" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.234375" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
+      <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" weight="0.3295979" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.58909446" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.5043817" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.41187927" />
+      <window_info id="npm" order="2" side_tool="true" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32911393" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Messages" order="7" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
     </layout>
     <layout-to-restore>
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32853982" sideWeight="0.4928609" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23076923" sideWeight="0.50396615" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25784755" sideWeight="0.49603385" order="10" side_tool="false" content_ui="tabs" />
-      <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32632744" sideWeight="0.49175668" order="11" side_tool="false" content_ui="tabs" x="446" y="-360" width="952" height="307" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2714036" sideWeight="0.4912" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.41290322" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info anchor="bottom" id="Docker" order="8" show_stripe_button="false" />
+      <window_info id="npm" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4912" visible="true" weight="0.2714036" />
+      <window_info id="Structure" order="1" weight="0.25" />
+      <window_info anchor="right" id="Commander" order="0" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="TODO" order="6" sideWeight="0.4928609" weight="0.32853982" />
+      <window_info anchor="bottom" id="Run" order="2" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
+      <window_info anchor="bottom" x="446" y="-360" width="952" height="307" id="Terminal" order="11" sideWeight="0.49175668" weight="0.32632744" />
+      <window_info anchor="bottom" id="Event Log" order="7" sideWeight="0.50396615" side_tool="true" weight="0.23076923" />
+      <window_info anchor="bottom" id="Version Control" order="10" sideWeight="0.49603385" weight="0.25784755" />
+      <window_info anchor="bottom" id="Find" order="1" visible="true" weight="0.41290322" />
+      <window_info anchor="bottom" id="Messages" order="9" />
+      <window_info id="Favorites" order="3" side_tool="true" />
     </layout-to-restore>
   </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="1" />
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+              <option name="COLUMN_ORDER">
+                <list>
+                  <option value="0" />
+                  <option value="1" />
+                  <option value="2" />
+                  <option value="3" />
+                </list>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsContentAnnotationSettings">
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Translate name in the table." />
-    <MESSAGE value="Allow configuration for different 2D basemaps based on the URL." />
-    <MESSAGE value="Allow hiding of place as well." />
-    <option name="LAST_COMMIT_MESSAGE" value="Allow hiding of place as well." />
+    <MESSAGE value="Hide selector toolbar" />
+    <MESSAGE value="Remove only tools." />
+    <MESSAGE value="Hide visualisation also for admin." />
+    <MESSAGE value="Hide periods correctly." />
+    <MESSAGE value="Hide correctly" />
+    <MESSAGE value="Update to https versions of the maps." />
+    <MESSAGE value="Make sure correct layers are displayed." />
+    <MESSAGE value="Update UTEP Sharing" />
+    <MESSAGE value="Update configuration of the scope." />
+    <MESSAGE value="Update oneLevelOnly configuration." />
+    <MESSAGE value="Update the path to the WMS." />
+    <MESSAGE value="Remove irrelevant request." />
+    <MESSAGE value="Use correct state store" />
+    <MESSAGE value="Update the header to point to homepage." />
+    <MESSAGE value="Allow customization of the top menu with custom links." />
+    <MESSAGE value="Open new window." />
+    <MESSAGE value="Update link to the administration." />
+    <MESSAGE value="Move the href to actual link." />
+    <MESSAGE value="Remove GeoServer Login" />
+    <MESSAGE value="Return the Add Layer widget." />
+    <MESSAGE value="Return the imagery to the top tool bar." />
+    <MESSAGE value="Add possibility to modify exaggeration." />
+    <MESSAGE value="The Drag and Drop needs to be defined properly on top level in order to work." />
+    <MESSAGE value="Works for URL as well." />
+    <MESSAGE value="The URL parameter in scope reflects what is visible after all the othe rthings was taken into the account." />
+    <option name="LAST_COMMIT_MESSAGE" value="The URL parameter in scope reflects what is visible after all the othe rthings was taken into the account." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <option name="time" value="2" />
     </breakpoint-manager>
-    <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/__new/js/view/tools/Zooming.js">
+    <entry file="file://$PROJECT_DIR$/public/_main/controller/Store.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="547">
-          <caret line="56" column="49" lean-forward="false" selection-start-line="56" selection-start-column="49" selection-end-line="56" selection-end-column="65" />
+        <state relative-caret-position="285">
+          <caret line="468" column="20" selection-start-line="468" selection-start-column="20" selection-end-line="468" selection-end-column="20" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/__new/js/view/mapsContainer/MapsContainer.js">
+    <entry file="file://$PROJECT_DIR$/public/__new/Ext.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="348">
-          <caret line="238" column="29" lean-forward="true" selection-start-line="238" selection-start-column="29" selection-end-line="238" selection-end-column="29" />
+        <state relative-caret-position="682">
+          <caret line="181" column="59" lean-forward="true" selection-start-line="181" selection-start-column="59" selection-end-line="181" selection-end-column="59" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/__new/js/view/worldWind/WorldWindMap.js">
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/selectors/PeriodsSelector/PeriodsSelector.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="234" column="11" lean-forward="true" selection-start-line="234" selection-start-column="11" selection-end-line="234" selection-end-column="11" />
+        <state relative-caret-position="189">
+          <caret line="93" column="7" selection-start-line="93" selection-start-column="7" selection-end-line="93" selection-end-column="7" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/__new/js/worldwind/MyGoToAnimator.js">
+    <entry file="file://$PROJECT_DIR$/src/components/controls/MapsTimelineContainer/components/MapsTimeline.js" />
+    <entry file="file://$PROJECT_DIR$/src/components/atoms/UISelect/UISelect.js" />
+    <entry file="file://$USER_HOME$/Projects/Interni/Cesko v Datech/obce.geojson">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
-          <caret line="350" column="0" lean-forward="true" selection-start-line="350" selection-start-column="0" selection-end-line="350" selection-end-column="0" />
+        <state relative-caret-position="306">
+          <caret column="14326" selection-start-column="14326" selection-end-column="14326" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/localization.js">
+    <entry file="file://$USER_HOME$/Projects/Interni/Cesko v Datech/urbanAtlasCr/CZ011L1_ZLIN/Shapefiles/Urban_Atlas_2012_Legend.sld">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9624">
-          <caret line="401" column="24" lean-forward="false" selection-start-line="401" selection-start-column="24" selection-end-line="401" selection-end-column="24" />
-          <folding />
+        <state relative-caret-position="510">
+          <caret line="30" column="27" selection-start-line="30" selection-start-column="27" selection-end-line="30" selection-end-column="27" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/__new/js/view/widgets/MapToolsWidget/MapToolsWidget.css">
+    <entry file="file://$PROJECT_DIR$/public/__new/js/stores/gisat/Layers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="20" column="27" lean-forward="false" selection-start-line="20" selection-start-column="27" selection-end-line="20" selection-end-column="27" />
-          <folding />
+        <state relative-caret-position="221">
+          <caret line="13" column="8" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="8" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/__new/js/view/widgets/MapToolsWidget/MapToolTrigger.css">
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/worldWind/layers/Layers.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="48">
-          <caret line="2" column="29" lean-forward="false" selection-start-line="2" selection-start-column="29" selection-end-line="2" selection-end-column="33" />
-          <folding />
+        <state relative-caret-position="289">
+          <caret line="236" column="27" lean-forward="true" selection-start-line="236" selection-start-column="27" selection-end-line="236" selection-end-column="27" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/__new/js/actions/Actions.js">
+    <entry file="file://$PROJECT_DIR$/src/config/defaults.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="744">
-          <caret line="31" column="28" lean-forward="false" selection-start-line="31" selection-start-column="28" selection-end-line="31" selection-end-column="28" />
-          <folding />
+        <state relative-caret-position="289">
+          <caret line="17" column="4" lean-forward="true" selection-start-line="16" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/__new/js/view/widgets/MapToolsWidget/MapToolsWidget.js">
+    <entry file="file://$PROJECT_DIR$/src/config/rewrites.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-33">
-          <caret line="195" column="47" lean-forward="false" selection-start-line="195" selection-start-column="47" selection-end-line="195" selection-end-column="47" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/_main/controller/ViewMng.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9240">
-          <caret line="385" column="0" lean-forward="false" selection-start-line="385" selection-start-column="0" selection-end-line="385" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/__new/Ext.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4416">
-          <caret line="184" column="15" lean-forward="false" selection-start-line="184" selection-start-column="15" selection-end-line="184" selection-end-column="15" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/_main/controller/Area.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/_main/controller/Login.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="7" column="7" lean-forward="false" selection-start-line="7" selection-start-column="7" selection-end-line="9" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/__new/js/view/widgets/SharingWidget/SharingWidget.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4128">
-          <caret line="172" column="56" lean-forward="false" selection-start-line="172" selection-start-column="56" selection-end-line="172" selection-end-column="56" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="369">
-          <caret line="150" column="1" lean-forward="true" selection-start-line="150" selection-start-column="1" selection-end-line="150" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/__new/js/view/widgets/WorldWindWidget/panels/BackgroundLayersPanel.js" />
-    <entry file="file://$PROJECT_DIR$/src/config.js" />
-    <entry file="file://$PROJECT_DIR$/src/config.js" />
-    <entry file="file://$PROJECT_DIR$/src/_main/controller/Chart.js" />
-    <entry file="file://$PROJECT_DIR$/src/_main/controller/Chart.js" />
-    <entry file="file://$PROJECT_DIR$/src/config.js" />
-    <entry file="file://$PROJECT_DIR$/src/config.js" />
-    <entry file="file://$PROJECT_DIR$/src/_main/view/Chart.js" />
-    <entry file="file://$PROJECT_DIR$/build.cmd" />
-    <entry file="file://$PROJECT_DIR$/build-mng.cmd" />
-    <entry file="file://$PROJECT_DIR$/build-de.cmd">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/localization.js" />
-    <entry file="file://$PROJECT_DIR$/src/_main/controller/Chart.js" />
-    <entry file="file://$PROJECT_DIR$/src/__new/js/view/widgets/WorldWindWidget/panels/BackgroundLayersPanel.js" />
-    <entry file="file://$PROJECT_DIR$/src/config.js" />
-    <entry file="file://$PROJECT_DIR$/src/__new/FrontOffice.js" />
-    <entry file="file://$PROJECT_DIR$/src/_main/controller/LocationTheme.js" />
-    <entry file="file://$PROJECT_DIR$/src/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/_main/controller/LocationTheme.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="137">
-          <caret line="1054" column="27" lean-forward="false" selection-start-line="1054" selection-start-column="27" selection-end-line="1054" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="161">
-          <caret line="587" column="41" lean-forward="false" selection-start-line="587" selection-start-column="41" selection-end-line="587" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/_main/controller/ViewMng.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4591">
-          <caret line="112" column="4" lean-forward="false" selection-start-line="112" selection-start-column="4" selection-end-line="112" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/__new/js/view/TopToolBar.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="262" column="56" lean-forward="false" selection-start-line="262" selection-start-column="56" selection-end-line="262" selection-end-column="56" />
-          <folding>
-            <marker date="1519914530221" expanded="true" signature="10839:10852" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/__new/js/view/worldWind/layers/layerTools/LayerTool.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="384">
-          <caret line="42" column="36" lean-forward="false" selection-start-line="42" selection-start-column="36" selection-end-line="42" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/__new/js/view/widgets/WorldWindWidget/WorldWindWidgetPanels.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1752">
-          <caret line="73" column="0" lean-forward="false" selection-start-line="73" selection-start-column="0" selection-end-line="73" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/__new/js/worldwind/SelectionController.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3407">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/__new/js/stores/internal/StateStore.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-199">
-          <caret line="72" column="41" lean-forward="false" selection-start-line="72" selection-start-column="41" selection-end-line="72" selection-end-column="41" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/__new/js/stores/internal/MapStore.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1822">
-          <caret line="17" column="7" lean-forward="false" selection-start-line="17" selection-start-column="7" selection-end-line="17" selection-end-column="113" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/__new/app.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="211">
-          <caret line="185" column="37" lean-forward="false" selection-start-line="185" selection-start-column="37" selection-end-line="185" selection-end-column="37" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/__new/js/view/widgets/WorldWindWidget/WorldWindWidget.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2440">
-          <caret line="59" column="0" lean-forward="false" selection-start-line="59" selection-start-column="0" selection-end-line="59" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/__new/FrontOffice.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="441">
-          <caret line="56" column="29" lean-forward="false" selection-start-line="56" selection-start-column="29" selection-end-line="56" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/__new/js/view/worldWind/WorldWindMap.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3576">
-          <caret line="199" column="39" lean-forward="false" selection-start-line="199" selection-start-column="32" selection-end-line="199" selection-end-column="39" />
-          <folding>
-            <marker date="1519994276257" expanded="true" signature="8944:8952" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/__new/js/worldwind/MyGoToAnimator.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8141">
-          <caret line="347" column="9" lean-forward="false" selection-start-line="347" selection-start-column="9" selection-end-line="347" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/__new/js/actions/Actions.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-775">
-          <caret line="12" column="50" lean-forward="false" selection-start-line="12" selection-start-column="50" selection-end-line="12" selection-end-column="50" />
-          <folding />
+        <state relative-caret-position="272">
+          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/public/__new/js/view/mapsContainer/MapsContainer.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2328">
-          <caret line="332" column="4" lean-forward="false" selection-start-line="332" selection-start-column="4" selection-end-line="332" selection-end-column="4" />
-          <folding />
+        <state relative-caret-position="406">
+          <caret line="313" lean-forward="true" selection-start-line="313" selection-end-line="313" />
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/worldwind/layers/MyUrlBuilder.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="391">
+          <caret line="79" column="28" selection-start-line="79" selection-start-column="28" selection-end-line="79" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/worldwind/layers/MercatorLayer.js" />
+    <entry file="file://$PROJECT_DIR$/public/__new/js/stores/UrbanTepCommunitiesStore.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="34" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/stores/UrbanTepPortalStore.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="16" column="29" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/_main/controller/ViewMng.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="274">
+          <caret line="280" column="72" lean-forward="true" selection-start-line="280" selection-start-column="72" selection-end-line="280" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/exchangeParams.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="376">
+          <caret line="160" column="4" selection-start-line="160" selection-start-column="4" selection-end-line="160" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/_main/controller/Select.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="223">
+          <caret line="179" column="6" lean-forward="true" selection-start-line="179" selection-start-column="6" selection-end-line="179" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/_main/controller/Layers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-261">
+          <caret line="248" column="6" lean-forward="true" selection-start-line="248" selection-start-column="6" selection-end-line="248" selection-end-column="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/models/FilterLayer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="344">
+          <caret line="25" column="38" selection-start-line="25" selection-start-column="38" selection-end-line="25" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/stores/internal/SelectionStore.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="46" column="42" selection-start-line="46" selection-start-column="42" selection-end-line="46" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/widgets/WorldWindWidget/panels/BackgroundLayersPanel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="55" column="7" lean-forward="true" selection-start-line="55" selection-start-column="7" selection-end-line="55" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/widgets/AggregatedChartWidget/AggregatedChartWidget.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="393">
+          <caret line="45" column="45" lean-forward="true" selection-start-line="45" selection-start-column="45" selection-end-line="45" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="242" column="27" lean-forward="true" selection-start-line="242" selection-start-column="20" selection-end-line="242" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/widgets/MapToolsWidget/MapToolsWidget.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/_main/controller/LocationTheme.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="325">
+          <caret line="1141" column="45" selection-start-line="1141" selection-start-column="45" selection-end-line="1141" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/geoserver/GeoServer.js" />
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/CustomLayers.js" />
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/widgets/Widget.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="71" column="18" selection-start-line="71" selection-start-column="13" selection-end-line="71" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/FrontOffice.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="192">
+          <caret line="256" column="7" lean-forward="true" selection-start-line="256" selection-start-column="7" selection-end-line="256" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/localization.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="160" column="46" lean-forward="true" selection-start-line="160" selection-start-column="46" selection-end-line="160" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/widgets/SharingWidget/SharingWidget.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret selection-end-line="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/widgets/IntegrateCustomLayersWidget/IntegrateCustomLayersWidget.css" />
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/widgets/EvaluationWidget/EvaluationWidget.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="459">
+          <caret line="27" column="9" lean-forward="true" selection-start-line="27" selection-start-column="9" selection-end-line="27" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/widgets/IntegrateCustomLayersWidget/IntegrateCustomLayersWidget.js" />
+    <entry file="file://$PROJECT_DIR$/public/__new/styles/style.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="366">
+          <caret line="324" column="31" selection-start-line="324" selection-start-column="19" selection-end-line="324" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/widgets/SharingWidget/SharingWidget.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2392">
+          <caret line="25" column="13" selection-start-line="25" selection-start-column="13" selection-end-line="25" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/widgets/OSMWidget/OSMWidget.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="1" selection-start-column="1" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/css/layout.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="99">
+          <caret line="778" column="44" selection-start-line="778" selection-start-column="44" selection-end-line="778" selection-end-column="44" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/worldWind/controls/Controls.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="65" lean-forward="true" selection-start-line="3" selection-start-column="65" selection-end-line="3" selection-end-column="65" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/worldWind/controls/Controls.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2159">
+          <caret line="127" column="37" selection-start-line="127" selection-start-column="37" selection-end-line="127" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/TopToolBar.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="352" column="31" selection-start-line="352" selection-start-column="31" selection-end-line="352" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/map/Map.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-969" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/app.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="156" selection-start-line="156" selection-end-line="156" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/View.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/public/config.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="312">
-          <caret line="13" column="7" lean-forward="true" selection-start-line="13" selection-start-column="7" selection-end-line="13" selection-end-column="7" />
-          <folding />
+        <state relative-caret-position="782">
+          <caret line="46" lean-forward="true" selection-start-line="46" selection-end-line="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/_main/controller/Chart.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/worldWind/WorldWindMap.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="507">
+          <caret line="237" column="55" lean-forward="true" selection-start-line="237" selection-start-column="55" selection-end-line="237" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/widgets/CustomViewsWidget/CustomViewsWidget.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="467">
+          <caret line="185" column="13" lean-forward="true" selection-start-line="185" selection-start-column="13" selection-end-line="185" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/data/Scope.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="867">
+          <caret line="66" column="34" selection-start-line="66" selection-start-column="34" selection-end-line="66" selection-end-column="34" />
         </state>
       </provider>
     </entry>

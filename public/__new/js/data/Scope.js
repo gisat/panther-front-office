@@ -62,6 +62,9 @@ define(['./Model'], function(Model){
 			},
 			featurePlaceChangeReview: {
 				serverName: 'featurePlaceChangeReview'
+			},
+			url: {
+				serverName: 'urls'
 			}
 		};
 	};
