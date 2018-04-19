@@ -244,9 +244,9 @@ define(['../../../actions/Actions',
 		var isIntro = $('body').hasClass("intro");
 		if (this._overlaySwitchSelector){
 			if (isAdmin && isIntro){
-				this._overlaySwitchSelector.css("display", "inline-block");
+				this._overlaySwitchSelector.addClass("open");
 			} else {
-				this._overlaySwitchSelector.css("display", "none");
+				this._overlaySwitchSelector.removeClass("open");
 			}
 		} else if (isAdmin) {
 			this.renderOverlaySwitch();
