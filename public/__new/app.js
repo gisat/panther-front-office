@@ -406,6 +406,7 @@ define(['js/actions/Actions',
      */
     function buildAttributes (){
         return new Attributes({
+			dispatcher: window.Stores,
 			store: {
 				attributes: store.attributes,
 				attributeSets: store.attributeSets

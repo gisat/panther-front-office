@@ -1,5 +1,6 @@
 var langEn = {
 
+    aboutPlatform: "About",
     abstract: "Abstract",
     activateDeactivate: "Activate/deactivate",
     activateDrawing: "Activate drawing",
@@ -380,11 +381,12 @@ var langEn = {
 
 	zoom: "Zoom",
     zoomSelected: "Zoom selected",
-	zoomToExtent: "Zoom to extent"
+	zoomToPlace: "Zoom to place"
 };
 
 var langCz = {
 
+	aboutPlatform: "O platformě",
     abstract: "Abstrakt",
     activateDeactivate: "Aktivovat/deaktivovat",
     activateDrawing: "Aktivovat kreslení",
@@ -765,7 +767,7 @@ var langCz = {
 
     zoom: "Přiblížení",
     zoomSelected: "Přiblížit výběr",
-	zoomToExtent: "Přiblížit na výchozí rozsah"
+	zoomToPlace: "Přiblížit na místo"
 };
 
 var polyglot = new Polyglot();

@@ -247,8 +247,8 @@ define(['../../../actions/Actions',
 		return new Button({
 			id: "zoom-to-extent-button",
 			containerSelector: this._zoomingContainerSelector,
-			title: polyglot.t('zoomToExtent'),
-			text: polyglot.t('zoomToExtent'),
+			title: polyglot.t('zoomToPlace'),
+			text: polyglot.t('zoomToPlace'),
 			textCentered: true,
 			textSmall: true,
 			icon: {

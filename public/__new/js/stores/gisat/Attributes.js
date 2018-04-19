@@ -31,5 +31,9 @@ define([
 		return "rest/attribute";
 	};
 
+	Attributes.prototype.loaded = function(models) {
+		window.Stores.notify("ATTRIBUTES_LOADED", models);
+	};
+
 	return Attributes;
 });

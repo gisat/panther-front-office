@@ -167,7 +167,7 @@ define(['../../../actions/Actions',
 		this._dataviewsContainerSelector = this._contentSelector.find('.custom-views-dataviews-container');
 
 		if (Config.toggles.dataviewsOverlayHasIntro){
-			this.renderContentItem("intro", "About");
+			this.renderContentItem("intro", polyglot.t('aboutPlatform'));
 			new AboutWindow({
 				target: $("#about-window-wrapper"),
 				onShowMapsClick: this.onShowMapsClick.bind(this)
