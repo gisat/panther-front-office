@@ -1,8 +1,14 @@
 define([
+	'../../error/ArgumentError',
+	'../../util/Logger',
+
 	'./proj4-src',
 
 	'worldwind'
-], function(proj4){
+], function(ArgumentError,
+			Logger,
+
+			proj4){
 	var WmsUrlBuilder = WorldWind.WmsUrlBuilder;
 
 	/**
@@ -17,12 +23,14 @@ define([
 		this.customParams = customParams;
 		if(this.customParams && this.customParams.crs) {
 			this.crs = this.customParams.crs;
+			console.log('CRS: ', this.crs);
 		}
 	};
 
 	MyUrlBuilder.prototype = Object.create(WmsUrlBuilder.prototype);
 
 	MyUrlBuilder.prototype.urlForTile = function (tile, imageFormat) {
+		console.log('CRS Tile: ', this.crs, ' Layer Names: ', this.layerNames);
 		if (!tile) {
 			throw new ArgumentError(
 				Logger.logMessage(Logger.LEVEL_SEVERE, "WmsUrlBuilder", "urlForTile", "missingTile"));
@@ -68,7 +76,7 @@ define([
 			if (this.crs === "CRS:84") {
 				sb = sb + sector.minLongitude + "," + sector.minLatitude + ",";
 				sb = sb + sector.maxLongitude+ "," + sector.maxLatitude;
-			} else if(this.crs = "EPSG:4326") {
+			} else if(this.crs === "EPSG:4326") {
 				sb = sb + sector.minLatitude + "," + sector.minLongitude + ",";
 				sb = sb + sector.maxLatitude+ "," + sector.maxLongitude;
 			} else {
@@ -76,7 +84,7 @@ define([
 			}
 		} else {
 			sb = sb + "&srs=" + this.crs;
-			if(this.crs == "EPSG:4326") {
+			if(this.crs === "EPSG:4326") {
 				sb = sb + "&bbox=";
 				sb = sb + sector.minLongitude + "," + sector.minLatitude + ",";
 				sb = sb + sector.maxLongitude + "," + sector.maxLatitude;
@@ -84,6 +92,8 @@ define([
 				sb = this.transform(sb, sector)
 			}
 		}
+
+		console.log('CRS Tile END: ', this.crs);
 
 		sb = sb.replace(" ", "%20");
 		return sb;

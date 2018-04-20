@@ -748,7 +748,7 @@ define(['../../actions/Actions',
 				serviceAddress: serviceAddress,
 				layers: layerNames,
 				position: position,
-				src: crs,
+				srs: crs,
 				screenCoordinates: {x: x, y: y},
 				name: name
 			}).get();
