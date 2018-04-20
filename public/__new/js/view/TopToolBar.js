@@ -80,7 +80,10 @@ define([
 			functionalFilrer: false,
 			share: true,
 			snapshot: true,
-			contextHelp: true
+			contextHelp: true,
+
+			// todo remove
+			scenarios: true
 		};
 
 
@@ -166,6 +169,11 @@ define([
 			if (tools.snow){
 				var classesSnowWidget3d = $('#floater-snow-widget').hasClass('open') ? "item open" : "item";
 				this._target.append('<div class="' + classesSnowWidget3d + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget"><span>'+polyglot.t('savedConfigurations')+'</span></div>');
+			}
+
+			// todo remove
+			if (tools.scenarios){
+				this._target.append('<div class="item" id="top-toolbar-scenarios"><span>Sceanrios</span></div>');
 			}
 		}
 
@@ -283,34 +291,39 @@ define([
 	};
 
 	TopToolBar.prototype.handleClick = function(e){
-		var targetId = e.target.getAttribute('data-for');
-		if (!targetId){
-			targetId = $(e.currentTarget).attr("data-for");
-		}
-
-		if (targetId) {
-			if (targetId == 'window-customviews') Ext.ComponentQuery.query('#window-customviews')[0].show();
-			if (targetId == 'window-customLayers') this.initCustomLayersWindow();
-			var floater = $('#' + targetId);
-			if (targetId === 'floater-map-tools-widget' && floater.hasClass("open")){
-				floater.find(".widget-detach").trigger("click");
+		// todo remove if
+		if ($(e.currentTarget).attr("id") === 'top-toolbar-scenarios'){
+			Stores.notify("component#scenarioButtonClick");
+		} else {
+			var targetId = e.target.getAttribute('data-for');
+			if (!targetId){
+				targetId = $(e.currentTarget).attr("data-for");
 			}
-			floater.toggleClass('open');
 
-			var type = targetId.split("-")[0];
-			if (type === "window"){
-				window.Stores.notify('floaters#sort', {
-					fromExt: false,
-					xWindowJQuerySelector: floater[0]
-				});
-			} else {
-				window.Stores.notify('floaters#sort', {
-					fromExt: false,
-					floaterJQuerySelector: floater
-				});
+			if (targetId) {
+				if (targetId == 'window-customviews') Ext.ComponentQuery.query('#window-customviews')[0].show();
+				if (targetId == 'window-customLayers') this.initCustomLayersWindow();
+				var floater = $('#' + targetId);
+				if (targetId === 'floater-map-tools-widget' && floater.hasClass("open")){
+					floater.find(".widget-detach").trigger("click");
+				}
+				floater.toggleClass('open');
+
+				var type = targetId.split("-")[0];
+				if (type === "window"){
+					window.Stores.notify('floaters#sort', {
+						fromExt: false,
+						xWindowJQuerySelector: floater[0]
+					});
+				} else {
+					window.Stores.notify('floaters#sort', {
+						fromExt: false,
+						floaterJQuerySelector: floater
+					});
+				}
+				$(e.currentTarget).toggleClass('open');
+				Stores.notify("widget#changedState", {floater: floater});
 			}
-			$(e.currentTarget).toggleClass('open');
-			Stores.notify("widget#changedState", {floater: floater});
 		}
 	};
 

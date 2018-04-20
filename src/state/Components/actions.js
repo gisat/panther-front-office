@@ -18,6 +18,21 @@ function handleUploadDataOverlay(open) {
 	};
 }
 
+function handleWindowVisibility(window, open){
+	return (dispatch, getState) => {
+		let state = getState();
+		let windows = Select.components.getWindows(state);
+		if (window && windows[window]){
+			let openState = false;
+			if (open){
+				openState = true;
+			}
+			let stateUpdate = {...windows, [window]: {...windows[window], open: openState}};
+			dispatch(update("windows", stateUpdate));
+		}
+	};
+}
+
 function update(component, data) {
 	return dispatch => {
 		dispatch(actionUpdate(component, data));
@@ -39,5 +54,6 @@ function actionUpdate(component, data) {
 // ============ export ===========
 
 export default {
+	handleWindowVisibility: handleWindowVisibility,
 	handleUploadDataOverlay: handleUploadDataOverlay
 }

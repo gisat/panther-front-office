@@ -988,7 +988,7 @@ body.application #sidebar-reports {
 	color: #666;
 }
 
-#app-overlays {
+#app-container {
 	position: absolute;
 	top: 0;
 	left: 0;

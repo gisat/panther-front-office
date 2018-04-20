@@ -4,6 +4,12 @@ import _ from 'lodash';
 const INITIAL_STATE = {
 	dataUploadOverlay: {
 		open: false
+	},
+	windows: {
+		scenarios: {
+			open: false
+		},
+		areas: {}
 	}
 };
 

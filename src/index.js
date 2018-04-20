@@ -10,6 +10,7 @@ import registerServiceWorker from './registerServiceWorker';
 import AppOverlays from './scopemagicswitches/AppOverlays';
 import MapsTimeline from './scopemagicswitches/MapsTimeline';
 import HeaderViewSelector from './scopemagicswitches/HeaderViewSelector';
+import ScenariosWindow from './scopemagicswitches/ScenariosWindow';
 import ViewSelectorOverlay from './scopemagicswitches/ViewSelectorOverlay';
 import ViewSelector from './scopemagicswitches/ViewSelector';
 
@@ -28,7 +29,8 @@ let initialize = function() {
 	ReactDOM.render(<Provider store={store}><HeaderViewSelector /></Provider>, document.getElementById('header-view-selection'));
 	ReactDOM.render(<Provider store={store}><ViewSelectorOverlay	/></Provider>, document.getElementById('root'));
 	ReactDOM.render(<Provider store={store}><ViewSelector	/></Provider>, document.getElementById('view-selector-placeholder'));
-	ReactDOM.render(<Provider store={store}><AppOverlays	/></Provider>, document.getElementById('app-overlays'));
+
+	ReactDOM.render(<Provider store={store}><div><AppOverlays	/><ScenariosWindow /></div></Provider>, document.getElementById('app-container'));
 };
 
 
