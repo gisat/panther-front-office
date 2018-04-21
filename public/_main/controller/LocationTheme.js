@@ -1066,10 +1066,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
             }
 
 
-            if(tools.indexOf('snapshots') !== -1) {
-                $('#top-toolbar-snapshot').hide();
-            }
-
             if(tools.indexOf('context-help') !== -1) {
                 $('#top-toolbar-context-help').hide();
             }

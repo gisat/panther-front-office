@@ -49,7 +49,6 @@ define([
 		this._map3dSwitchSelector = $('#top-toolbar-3dmap');
 
 		$('#top-toolbar-context-help').on('click.topToolBar', this.handleContextHelpClick);
-		$('#top-toolbar-snapshot').on('click.topToolBar', this.handleSnapshotClick.bind(this, document.getElementById('top-toolbar-snapshot')));
 		$('#top-toolbar-share-view').on('click.topToolBar', this.handleShareViewClick);
 		$('#top-toolbar-add-map').on('click.topToolBar', this.handleAddMapClick.bind(this));
 		this._map3dSwitchSelector.on("click.topToolBar", this.handle3dMapClick.bind(this));
@@ -112,9 +111,6 @@ define([
 	TopToolBar.prototype.hideTools = function (tools) {
 		if (!tools.share){
 			$('#top-toolbar-share-view').css("display", "none")
-		}
-		if (!tools.snapshot){
-			$('#top-toolbar-snapshot').css("display", "none")
 		}
 		if (!tools.contextHelp){
 			$('#top-toolbar-context-help').css("display", "none")

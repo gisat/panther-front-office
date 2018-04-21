@@ -23,14 +23,12 @@ define([
 		this.customParams = customParams;
 		if(this.customParams && this.customParams.crs) {
 			this.crs = this.customParams.crs;
-			console.log('CRS: ', this.crs);
 		}
 	};
 
 	MyUrlBuilder.prototype = Object.create(WmsUrlBuilder.prototype);
 
 	MyUrlBuilder.prototype.urlForTile = function (tile, imageFormat) {
-		console.log('CRS Tile: ', this.crs, ' Layer Names: ', this.layerNames);
 		if (!tile) {
 			throw new ArgumentError(
 				Logger.logMessage(Logger.LEVEL_SEVERE, "WmsUrlBuilder", "urlForTile", "missingTile"));
@@ -92,8 +90,6 @@ define([
 				sb = this.transform(sb, sector)
 			}
 		}
-
-		console.log('CRS Tile END: ', this.crs);
 
 		sb = sb.replace(" ", "%20");
 		return sb;

@@ -333,22 +333,6 @@ define(['../../actions/Actions',
 	};
 
 	/**
-	 * Add callback for snapshots
-	 */
-	WorldWindMap.prototype.addSnapshotCallback = function(){
-		var self = this;
-		this._wwd._redrawCallbacks.push(function(){
-			if (self._snapshotTimeout){
-				clearTimeout(self._snapshotTimeout);
-			}
-			self._snapshotTimeout = setTimeout(function(){
-				var input = document.getElementById('top-toolbar-snapshot');
-				$(input).attr('data-url', document.getElementById(self._id + '-canvas').toDataURL());
-			},1000);
-		});
-	};
-
-	/**
 	 * It builds Web World Wind
 	 */
 	WorldWindMap.prototype.build = function(){
