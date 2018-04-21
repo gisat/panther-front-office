@@ -1,6 +1,8 @@
 define([
+    'js/util/Logger',
     'js/util/Promise'
-], function(Promise){
+], function(Logger,
+            Promise){
     /**
      *
      * @constructor
@@ -182,7 +184,7 @@ define([
                 self.domManipulationController.renderApp();
                 self.renderController.renderApp();
             }).catch(function (err) {
-                console.log(err);
+                Logger.logMessage(Logger.LEVEL_SEVERE, 'Ext', 'afterLoad', err);
                 alert(polyglot.t("notPossibleToLoadData"));
             });
         } else {

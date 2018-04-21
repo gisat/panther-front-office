@@ -149,7 +149,7 @@ define([
 						exchangeChartData.chartId = exchangeChartData.chart.id;
 						break;
 					default:
-						console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "FrontOffice", "rebuild", "Unknown chart type (" + exchangeChartData.chartType + ")"));
+						Logger.logMessage(Logger.LEVEL_WARNING, "FrontOffice", "rebuild", "Unknown chart type (" + exchangeChartData.chartType + ")");
 				}
 			}
 		});
@@ -202,7 +202,7 @@ define([
 					}
 				});
 			} else {
-				console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "FrontOffice", "getAttributesMetadata", "emptyResult"));
+				Logger.logMessage(Logger.LEVEL_WARNING, "FrontOffice", "getAttributesMetadata", "emptyResult");
 			}
 			return attributes;
 		});
@@ -304,7 +304,7 @@ define([
 		// warning if scope wasn't selected properly
 		if (this._options.changes.scope && !this._options.changes.dataview){
 			if (this._dataset === ThemeYearConfParams.dataset){
-				console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "FrontOffice", "checkConfiguration", "missingDataset"));
+				Logger.logMessage(Logger.LEVEL_WARNING, "FrontOffice", "checkConfiguration", "missingDataset");
 			}
 		}
 

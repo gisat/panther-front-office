@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="122b7d9d-41eb-47f5-ac2e-02afba3d015e" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/panther-front-office.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/panther-front-office.iml" afterDir="false" />
+    <list default="true" id="122b7d9d-41eb-47f5-ac2e-02afba3d015e" name="Default" comment="Allow for rewrites per URL.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/__new/js/data/Scope.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/__new/js/data/Scope.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/__new/js/view/widgets/CustomViewsWidget/CustomViewsWidget.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/__new/js/view/widgets/CustomViewsWidget/CustomViewsWidget.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/__new/Ext.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/__new/Ext.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/__new/FrontOffice.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/__new/FrontOffice.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/__new/js/view/TopToolBar.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/__new/js/view/TopToolBar.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/__new/js/view/widgets/WorldWindWidget/panels/InfoLayersPanel.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/__new/js/view/widgets/WorldWindWidget/panels/InfoLayersPanel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/config.js" afterDir="false" />
     </list>
+    <list id="a14b631b-6424-4054-8c5d-79c775e7e51e" name="DontCommit" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/panther-front-office.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/panther-front-office.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/config.js" afterDir="false" />
+    </list>
+    <ignored path="$PROJECT_DIR$/.tmp/" />
+    <ignored path="$PROJECT_DIR$/temp/" />
+    <ignored path="$PROJECT_DIR$/tmp/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -15,16 +25,37 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Scope.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/public/__new/js/data/Scope.js">
+      <file leaf-file-name="TopToolBar.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/public/__new/js/view/TopToolBar.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="867">
-              <caret line="66" column="34" selection-start-line="66" selection-start-column="34" selection-end-line="66" selection-end-column="34" />
+            <state relative-caret-position="524">
+              <caret line="82" column="22" selection-start-line="82" selection-start-column="22" selection-end-line="82" selection-end-column="22" />
+              <folding>
+                <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
     </leaf>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>Legend</find>
+      <find>WmsFeatureInfo</find>
+      <find>.crs</find>
+      <find>crs</find>
+      <find>onsole.log</find>
+      <find>top-toolbar-snapshot</find>
+      <find>console.</find>
+      <find>OSMWid</find>
+    </findStrings>
+    <dirStrings>
+      <dir>C:\Users\jbalhar\SourceCode\panther-front-office\public\__new\js\view</dir>
+      <dir>C:\Users\jbalhar\SourceCode\panther-front-office\public</dir>
+      <dir>C:\Users\jbalhar\SourceCode\panther-front-office\public\__new</dir>
+    </dirStrings>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -39,6 +70,23 @@
       <list>
         <option value="$PROJECT_DIR$/public/__new/js/view/widgets/CustomViewsWidget/CustomViewsWidget.js" />
         <option value="$PROJECT_DIR$/public/__new/js/data/Scope.js" />
+        <option value="$PROJECT_DIR$/src/config/index.js" />
+        <option value="$PROJECT_DIR$/public/__new/js/view/worldWind/layers/layerTools/legend/LayerLegend.js" />
+        <option value="$PROJECT_DIR$/public/__new/js/stores/internal/MapStore.js" />
+        <option value="$PROJECT_DIR$/public/__new/js/worldwind/WmsFeatureInfoUrlBuilder.js" />
+        <option value="$PROJECT_DIR$/public/__new/js/view/widgets/WorldWindWidget/panels/WmsLayersPanel.js" />
+        <option value="$PROJECT_DIR$/public/__new/js/view/worldWind/layers/Layers.js" />
+        <option value="$PROJECT_DIR$/public/__new/js/worldwind/layers/MyUrlBuilder.js" />
+        <option value="$PROJECT_DIR$/public/config.js" />
+        <option value="$PROJECT_DIR$/public/_main/controller/Chart.js" />
+        <option value="$PROJECT_DIR$/public/_main/view/ChartPanel.js" />
+        <option value="$PROJECT_DIR$/public/index.html" />
+        <option value="$PROJECT_DIR$/public/_main/controller/LocationTheme.js" />
+        <option value="$PROJECT_DIR$/public/__new/js/view/worldWind/WorldWindMap.js" />
+        <option value="$PROJECT_DIR$/public/__new/js/view/widgets/WorldWindWidget/panels/InfoLayersPanel.js" />
+        <option value="$PROJECT_DIR$/public/__new/Ext.js" />
+        <option value="$PROJECT_DIR$/public/__new/FrontOffice.js" />
+        <option value="$PROJECT_DIR$/public/__new/js/view/TopToolBar.js" />
       </list>
     </option>
   </component>
@@ -48,16 +96,35 @@
     <detection-done>true</detection-done>
     <sorting>DEFINITION_ORDER</sorting>
   </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/public/config.js">
+      <ranges>
+        <range start1="2" end1="3" start2="2" end2="3" changelist="a14b631b-6424-4054-8c5d-79c775e7e51e" />
+        <range start1="4" end1="5" start2="4" end2="5" changelist="122b7d9d-41eb-47f5-ac2e-02afba3d015e" />
+        <range start1="17" end1="20" start2="17" end2="20" changelist="a14b631b-6424-4054-8c5d-79c775e7e51e" />
+        <range start1="24" end1="25" start2="24" end2="26" changelist="a14b631b-6424-4054-8c5d-79c775e7e51e" />
+        <range start1="26" end1="27" start2="27" end2="28" changelist="122b7d9d-41eb-47f5-ac2e-02afba3d015e" />
+      </ranges>
+    </file>
+  </component>
+  <component name="NodeModulesDirectoryManager">
+    <handled-path value="$PROJECT_DIR$/node_modules" />
+  </component>
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths>
       <path value="$PROJECT_DIR$/package.json" />
     </packageJsonPaths>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6" fullScreen="true">
+    <option name="width" value="1920" />
+    <option name="height" value="1080" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -89,7 +156,15 @@
               <item name="public" type="462c0819:PsiDirectoryNode" />
               <item name="__new" type="462c0819:PsiDirectoryNode" />
               <item name="js" type="462c0819:PsiDirectoryNode" />
-              <item name="data" type="462c0819:PsiDirectoryNode" />
+              <item name="error" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="panther-front-office" type="b2602c69:ProjectViewProjectNode" />
+              <item name="panther-front-office" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="__new" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="util" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="panther-front-office" type="b2602c69:ProjectViewProjectNode" />
@@ -116,7 +191,85 @@
               <item name="js" type="462c0819:PsiDirectoryNode" />
               <item name="view" type="462c0819:PsiDirectoryNode" />
               <item name="widgets" type="462c0819:PsiDirectoryNode" />
-              <item name="MapToolsWidget" type="462c0819:PsiDirectoryNode" />
+              <item name="OSMWidget" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="panther-front-office" type="b2602c69:ProjectViewProjectNode" />
+              <item name="panther-front-office" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="__new" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="view" type="462c0819:PsiDirectoryNode" />
+              <item name="widgets" type="462c0819:PsiDirectoryNode" />
+              <item name="WorldWindWidget" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="panther-front-office" type="b2602c69:ProjectViewProjectNode" />
+              <item name="panther-front-office" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="__new" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="view" type="462c0819:PsiDirectoryNode" />
+              <item name="widgets" type="462c0819:PsiDirectoryNode" />
+              <item name="WorldWindWidget" type="462c0819:PsiDirectoryNode" />
+              <item name="panels" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="panther-front-office" type="b2602c69:ProjectViewProjectNode" />
+              <item name="panther-front-office" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="__new" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="view" type="462c0819:PsiDirectoryNode" />
+              <item name="worldWind" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="panther-front-office" type="b2602c69:ProjectViewProjectNode" />
+              <item name="panther-front-office" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="__new" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="view" type="462c0819:PsiDirectoryNode" />
+              <item name="worldWind" type="462c0819:PsiDirectoryNode" />
+              <item name="layers" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="panther-front-office" type="b2602c69:ProjectViewProjectNode" />
+              <item name="panther-front-office" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="__new" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="view" type="462c0819:PsiDirectoryNode" />
+              <item name="worldWind" type="462c0819:PsiDirectoryNode" />
+              <item name="layers" type="462c0819:PsiDirectoryNode" />
+              <item name="layerTools" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="panther-front-office" type="b2602c69:ProjectViewProjectNode" />
+              <item name="panther-front-office" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="__new" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="view" type="462c0819:PsiDirectoryNode" />
+              <item name="worldWind" type="462c0819:PsiDirectoryNode" />
+              <item name="MapWindowTools" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="panther-front-office" type="b2602c69:ProjectViewProjectNode" />
+              <item name="panther-front-office" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="__new" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="worldwind" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="panther-front-office" type="b2602c69:ProjectViewProjectNode" />
+              <item name="panther-front-office" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
+              <item name="__new" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+              <item name="worldwind" type="462c0819:PsiDirectoryNode" />
+              <item name="layers" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="panther-front-office" type="b2602c69:ProjectViewProjectNode" />
@@ -168,7 +321,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -196,7 +348,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="npm.FO">
     <configuration name="App.test.js" type="JavaScriptTestRunnerJest" factoryName="Jest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
@@ -207,7 +359,14 @@
     </configuration>
     <configuration name="Local" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" engineId="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" uri="http://localhost:63342/panther-front-office/src/index.html" />
     <configuration name="index.html" type="JavascriptDebugType" factoryName="JavaScript Debug" temporary="true" nameIsGenerated="true" uri="http://localhost:63342/panther-front-office/src/index.html" />
+    <configuration name="FO" type="js.build_tools.npm" factoryName="npm">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="start" />
+      <node-interpreter value="project" />
+      <envs />
+    </configuration>
     <list>
+      <item itemvalue="npm.FO" />
       <item itemvalue="JavaScript Debug.index.html" />
       <item itemvalue="JavaScript Debug.Local" />
       <item itemvalue="Jest.App.test.js" />
@@ -225,7 +384,8 @@
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="1cb906fe-0f30-411b-acc2-b30a926fcdec" name="Default" comment="" />
+      <changelist id="122b7d9d-41eb-47f5-ac2e-02afba3d015e" name="Default" comment="Allow for rewrites per URL." />
+      <changelist id="a14b631b-6424-4054-8c5d-79c775e7e51e" name="DontCommit" comment="" />
       <created>1514901173348</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
@@ -268,7 +428,9 @@
       <workItem from="1523810667156" duration="980000" />
       <workItem from="1523877817369" duration="751000" />
       <workItem from="1524040009368" duration="3610000" />
-      <workItem from="1524125285803" duration="2863000" />
+      <workItem from="1524125285803" duration="6223000" />
+      <workItem from="1524225563806" duration="9236000" />
+      <workItem from="1524293691562" duration="5179000" />
     </task>
     <task id="LOCAL-00001" summary="Translate name in the table.">
       <created>1515063757673</created>
@@ -529,11 +691,67 @@
       <option name="project" value="LOCAL" />
       <updated>1524127869420</updated>
     </task>
-    <option name="localTasksCounter" value="38" />
+    <task id="LOCAL-00038" summary="The URL parameter in scope reflects what is visible after all the othe rthings was taken into the account.">
+      <created>1524128184141</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1524128184141</updated>
+    </task>
+    <task id="LOCAL-00039" summary="Allow for rewrites per URL.">
+      <created>1524129410982</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1524129410982</updated>
+    </task>
+    <task id="LOCAL-00040" summary="Update rewrite handling.">
+      <created>1524129963149</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1524129963149</updated>
+    </task>
+    <task id="LOCAL-00041" summary="Remove log">
+      <created>1524140590860</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1524140590860</updated>
+    </task>
+    <task id="LOCAL-00042" summary="Provide correct URL for GetLegendGraphics for Custom Layers.">
+      <created>1524227618282</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1524227618282</updated>
+    </task>
+    <task id="LOCAL-00043" summary="Support WFS layer for Custom Location with Mercator projection.">
+      <created>1524235576600</created>
+      <option name="number" value="00043" />
+      <option name="presentableId" value="LOCAL-00043" />
+      <option name="project" value="LOCAL" />
+      <updated>1524235576600</updated>
+    </task>
+    <task id="LOCAL-00044" summary="Fix displaying layer multiple times when in All Places.">
+      <created>1524236962758</created>
+      <option name="number" value="00044" />
+      <option name="presentableId" value="LOCAL-00044" />
+      <option name="project" value="LOCAL" />
+      <updated>1524236962758</updated>
+    </task>
+    <task id="LOCAL-00045" summary="Remove snapshot possibilities until we implement them in stable way.">
+      <created>1524297403460</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1524297403460</updated>
+    </task>
+    <option name="localTasksCounter" value="46" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="188000" />
+    <option name="totallyTimeSpent" value="17963000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1080" extended-state="6" />
@@ -543,15 +761,15 @@
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" weight="0.3295979" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.58909446" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.5043817" />
-      <window_info anchor="bottom" id="Version Control" order="7" weight="0.41187927" />
-      <window_info id="npm" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.38043478" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.4110672" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.50395256" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="7" weight="0.32911393" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
+      <window_info id="npm" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -580,6 +798,9 @@
       <window_info anchor="bottom" id="Messages" order="9" />
       <window_info id="Favorites" order="3" side_tool="true" />
     </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -611,13 +832,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Hide selector toolbar" />
-    <MESSAGE value="Remove only tools." />
-    <MESSAGE value="Hide visualisation also for admin." />
-    <MESSAGE value="Hide periods correctly." />
-    <MESSAGE value="Hide correctly" />
-    <MESSAGE value="Update to https versions of the maps." />
-    <MESSAGE value="Make sure correct layers are displayed." />
     <MESSAGE value="Update UTEP Sharing" />
     <MESSAGE value="Update configuration of the scope." />
     <MESSAGE value="Update oneLevelOnly configuration." />
@@ -636,7 +850,14 @@
     <MESSAGE value="The Drag and Drop needs to be defined properly on top level in order to work." />
     <MESSAGE value="Works for URL as well." />
     <MESSAGE value="The URL parameter in scope reflects what is visible after all the othe rthings was taken into the account." />
-    <option name="LAST_COMMIT_MESSAGE" value="The URL parameter in scope reflects what is visible after all the othe rthings was taken into the account." />
+    <MESSAGE value="Allow for rewrites per URL." />
+    <MESSAGE value="Update rewrite handling." />
+    <MESSAGE value="Remove log" />
+    <MESSAGE value="Provide correct URL for GetLegendGraphics for Custom Layers." />
+    <MESSAGE value="Support WFS layer for Custom Location with Mercator projection." />
+    <MESSAGE value="Fix displaying layer multiple times when in All Places." />
+    <MESSAGE value="Remove snapshot possibilities until we implement them in stable way." />
+    <option name="LAST_COMMIT_MESSAGE" value="Remove snapshot possibilities until we implement them in stable way." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -644,114 +865,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/public/_main/controller/Store.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="468" column="20" selection-start-line="468" selection-start-column="20" selection-end-line="468" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/__new/Ext.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="682">
-          <caret line="181" column="59" lean-forward="true" selection-start-line="181" selection-start-column="59" selection-end-line="181" selection-end-column="59" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/__new/js/view/selectors/PeriodsSelector/PeriodsSelector.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="189">
-          <caret line="93" column="7" selection-start-line="93" selection-start-column="7" selection-end-line="93" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/controls/MapsTimelineContainer/components/MapsTimeline.js" />
-    <entry file="file://$PROJECT_DIR$/src/components/atoms/UISelect/UISelect.js" />
-    <entry file="file://$USER_HOME$/Projects/Interni/Cesko v Datech/obce.geojson">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret column="14326" selection-start-column="14326" selection-end-column="14326" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/Projects/Interni/Cesko v Datech/urbanAtlasCr/CZ011L1_ZLIN/Shapefiles/Urban_Atlas_2012_Legend.sld">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="30" column="27" selection-start-line="30" selection-start-column="27" selection-end-line="30" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/__new/js/stores/gisat/Layers.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="13" column="8" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/__new/js/view/worldWind/layers/Layers.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="236" column="27" lean-forward="true" selection-start-line="236" selection-start-column="27" selection-end-line="236" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/config/defaults.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="289">
-          <caret line="17" column="4" lean-forward="true" selection-start-line="16" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/config/rewrites.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" lean-forward="true" selection-start-line="16" selection-end-line="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/__new/js/view/mapsContainer/MapsContainer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="406">
-          <caret line="313" lean-forward="true" selection-start-line="313" selection-end-line="313" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/__new/js/worldwind/layers/MyUrlBuilder.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="391">
-          <caret line="79" column="28" selection-start-line="79" selection-start-column="28" selection-end-line="79" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/__new/js/worldwind/layers/MercatorLayer.js" />
-    <entry file="file://$PROJECT_DIR$/public/__new/js/stores/UrbanTepCommunitiesStore.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="34" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/__new/js/stores/UrbanTepPortalStore.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="16" column="29" selection-start-line="16" selection-start-column="4" selection-end-line="16" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/_main/controller/ViewMng.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="280" column="72" lean-forward="true" selection-start-line="280" selection-start-column="72" selection-end-line="280" selection-end-column="72" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/exchangeParams.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="376">
-          <caret line="160" column="4" selection-start-line="160" selection-start-column="4" selection-end-line="160" selection-end-column="4" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/_main/controller/Select.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="223">
@@ -794,24 +907,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="242" column="27" lean-forward="true" selection-start-line="242" selection-start-column="20" selection-end-line="242" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/__new/js/view/widgets/MapToolsWidget/MapToolsWidget.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="340">
           <caret line="20" lean-forward="true" selection-start-line="20" selection-end-line="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/_main/controller/LocationTheme.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="325">
-          <caret line="1141" column="45" selection-start-line="1141" selection-start-column="45" selection-end-line="1141" selection-end-column="45" />
         </state>
       </provider>
     </entry>
@@ -821,13 +920,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="228">
           <caret line="71" column="18" selection-start-line="71" selection-start-column="13" selection-end-line="71" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/__new/FrontOffice.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="192">
-          <caret line="256" column="7" lean-forward="true" selection-start-line="256" selection-start-column="7" selection-end-line="256" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -896,13 +988,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/__new/js/view/TopToolBar.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="352" column="31" selection-start-line="352" selection-start-column="31" selection-end-line="352" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/__new/js/view/map/Map.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-969" />
@@ -915,26 +1000,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/__new/js/view/View.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/config.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="782">
-          <caret line="46" lean-forward="true" selection-start-line="46" selection-end-line="46" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/_main/controller/Chart.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/public/__new/js/view/worldWind/WorldWindMap.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="507">
-          <caret line="237" column="55" lean-forward="true" selection-start-line="237" selection-start-column="55" selection-end-line="237" selection-end-column="55" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/__new/js/view/widgets/CustomViewsWidget/CustomViewsWidget.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="467">
@@ -944,8 +1009,193 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/__new/js/data/Scope.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="867">
-          <caret line="66" column="34" selection-start-line="66" selection-start-column="34" selection-end-line="66" selection-end-column="34" />
+        <state relative-caret-position="357">
+          <caret line="29" column="23" lean-forward="true" selection-start-line="29" selection-start-column="23" selection-end-line="29" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/config/defaults.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="17" column="4" lean-forward="true" selection-start-line="16" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/config/rewrites.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="13" lean-forward="true" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/config/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="493">
+          <caret line="29" selection-start-line="29" selection-end-line="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/widgets/WorldWindWidget/panels/WorldWindWidgetPanel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="490">
+          <caret line="306" column="34" selection-start-line="306" selection-start-column="34" selection-end-line="306" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/worldWind/layers/layerTools/LayerTools.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="15" column="12" selection-start-line="15" selection-start-column="12" selection-end-line="15" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/worldWind/layers/layerTools/legend/LayerLegend.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="495">
+          <caret line="80" column="42" selection-start-line="80" selection-start-column="42" selection-end-line="80" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/worldwind/layers/MercatorLayer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="206">
+          <caret line="13" column="8" selection-start-line="13" selection-start-column="8" selection-end-line="13" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/worldwind/layers/MyWmsLayer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="943">
+          <caret line="74" column="38" selection-start-line="74" selection-start-column="38" selection-end-line="74" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/worldwind/WmsFeatureInfoUrlBuilder.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="563">
+          <caret line="64" column="80" selection-start-line="64" selection-start-column="80" selection-end-line="64" selection-end-column="80" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/widgets/WorldWindWidget/panels/WmsLayersPanel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="737">
+          <caret line="135" column="7" lean-forward="true" selection-start-line="135" selection-start-column="7" selection-end-line="135" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/worldWind/layers/Layers.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="329">
+          <caret line="301" column="12" selection-start-line="301" selection-start-column="12" selection-end-line="301" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/worldwind/layers/MyUrlBuilder.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="291">
+          <caret line="80" column="21" lean-forward="true" selection-start-line="80" selection-start-column="21" selection-end-line="80" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/config.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="612">
+          <caret line="36" column="21" lean-forward="true" selection-start-line="36" selection-start-column="21" selection-end-line="36" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/_main/view/Chart.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="11" selection-start-column="11" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/_main/controller/Chart.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="687">
+          <caret line="57" column="13" selection-start-line="57" selection-start-column="13" selection-end-line="57" selection-end-column="13" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/_main/view/ChartBar.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/_main/view/ChartPanel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="357">
+          <caret line="60" column="31" lean-forward="true" selection-start-line="60" selection-start-column="31" selection-end-line="60" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="652">
+          <caret line="186" column="16" selection-start-line="186" selection-start-column="16" selection-end-line="186" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/_main/controller/LocationTheme.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="1068" column="12" selection-start-line="1068" selection-start-column="12" selection-end-line="1068" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/worldWind/WorldWindMap.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="963">
+          <caret line="354" column="7" lean-forward="true" selection-start-line="354" selection-start-column="7" selection-end-line="354" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/widgets/WorldWindWidget/panels/InfoLayersPanel.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="84" column="16" selection-start-line="84" selection-start-column="16" selection-end-line="84" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/Ext.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="130">
+          <caret line="186" column="72" selection-start-line="186" selection-start-column="72" selection-end-line="186" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/FrontOffice.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="342">
+          <caret line="391" column="16" selection-start-line="391" selection-start-column="16" selection-end-line="391" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/stores/internal/MapStore.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="427">
+          <caret line="236" column="53" lean-forward="true" selection-start-line="236" selection-start-column="53" selection-end-line="236" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/widgets/OSMWidget/OSMWidget.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="340">
+          <caret line="47" lean-forward="true" selection-start-line="47" selection-end-line="47" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/public/__new/js/view/TopToolBar.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="524">
+          <caret line="82" column="22" selection-start-line="82" selection-start-column="22" selection-end-line="82" selection-end-column="22" />
+          <folding>
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

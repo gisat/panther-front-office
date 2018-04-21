@@ -79,7 +79,8 @@ define([
 			functionalFilrer: false,
 			share: true,
 			snapshot: true,
-			contextHelp: true
+			contextHelp: true,
+			osm: false
 		};
 
 
@@ -88,9 +89,6 @@ define([
 		}
 		if (Config.toggles.hasPeriodsWidget){
 			tools.periods = true;
-		}
-		if (Config.toggles.hasOsmWidget){
-			tools.osm = true;
 		}
 		if (Config.toggles.hasNewEvaluationTool) {
 			tools.areasFilterNew = true;
