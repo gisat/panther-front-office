@@ -12,9 +12,7 @@ function changeWindowPosition(window, options){
 			let stateUpdate = {...windows, [window]: {
 					...windows[window],
 					positionX: options.positionX,
-					positionY: options.positionY,
-					floaterPositionX: options.floaterPositionX,
-					floaterPositionY: options.floaterPositionY
+					positionY: options.positionY
 				}};
 			dispatch(Action.components.update("windows", stateUpdate));
 		}
@@ -29,27 +27,21 @@ function changeWindowSize(window, options){
 			let stateUpdate = {...windows, [window]: {
 					...windows[window],
 					width: options.width,
-					height: options.height,
-					floaterWidth: options.floaterWidth,
-					floaterHeight: options.floaterHeight
+					height: options.height
 				}};
 			dispatch(Action.components.update("windows", stateUpdate));
 		}
 	};
 }
 
-function expandWindow(window, options){
+function expandWindow(window){
 	return (dispatch, getState) => {
 		let state = getState();
 		let windows = Select.components.windows.getWindows(state);
 		if (window && windows[window]){
 			let stateUpdate = {...windows, [window]: {
 					...windows[window],
-					floating: false,
-					width: '100%',
-					height: '100%',
-					positionX: 0,
-					positionY: 0
+					floating: false
 				}};
 			dispatch(Action.components.update("windows", stateUpdate));
 		}
@@ -71,18 +63,14 @@ function handleWindowVisibility(window, open){
 	};
 }
 
-function shrinkWindow(window, options){
+function shrinkWindow(window){
 	return (dispatch, getState) => {
 		let state = getState();
 		let windows = Select.components.windows.getWindows(state);
 		if (window && windows[window]){
 			let stateUpdate = {...windows, [window]: {
 					...windows[window],
-					floating: true,
-					width: options.width ? options.width : windows[window].width,
-					height: options.height ? options.height : windows[window].height,
-					positionX: options.positionX ? options.positionX : windows[window].positionX,
-					positionY: options.positionY ? options.positionY : windows[window].positionY
+					floating: true
 				}};
 			dispatch(Action.components.update("windows", stateUpdate));
 		}
