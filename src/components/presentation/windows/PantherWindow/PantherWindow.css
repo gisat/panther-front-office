@@ -14,7 +14,7 @@
 	display: flex;
 	height: 2.3rem;
 }
-.ptr-window.floating {
+.ptr-window-header.floating {
 	cursor: move;
 }
 .ptr-window-title {
