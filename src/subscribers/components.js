@@ -14,8 +14,8 @@ const setEventListeners = store => {
 				store.dispatch(Action.components.handleUploadDataOverlay(true));
 				break;
 			case 'component#scenarioButtonClick':
-				let open = Select.components.isScenariosWindowOpen(store.getState());
-				store.dispatch(Action.components.handleWindowVisibility('scenarios', !open));
+				let open = Select.components.windows.isScenariosWindowOpen(store.getState());
+				store.dispatch(Action.components.windows.handleWindowVisibility('scenarios', !open));
 				break;
 		}
 	});
