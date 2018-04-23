@@ -6,10 +6,11 @@ const INITIAL_STATE = {
 		open: false
 	},
 	windows: {
+		// TODO windows z-order
 		scenarios: {
 			open: false
 		},
-		areas: {}
+		areas: null
 	}
 };
 

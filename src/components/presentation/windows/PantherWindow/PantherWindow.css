@@ -12,8 +12,10 @@
 .ptr-window-header {
 	background: rgba(153,54,75,.9);
 	display: flex;
-	cursor: move;
 	height: 2.3rem;
+}
+.ptr-window.floating {
+	cursor: move;
 }
 .ptr-window-title {
 	line-height: 2.4rem;
@@ -23,6 +25,7 @@
 	padding: 0 .5rem;
 }
 .ptr-window-tools {
+	display: flex;
 }
 .ptr-window-tool {
 	cursor: pointer;

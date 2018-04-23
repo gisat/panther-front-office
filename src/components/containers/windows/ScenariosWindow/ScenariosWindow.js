@@ -11,15 +11,14 @@ class ScenariosWindow extends React.PureComponent {
 	}
 
 	render() {
-		let window =  React.createElement(PantherWindow, {
+		let props = {
 			name: "Scenarios",
-			id: "scenarios-window",
-			open: this.props.open,
-			onClose: this.props.onClose.bind(this)
-		});
+			id: "scenarios-window"
+		};
+		let window =  React.createElement(PantherWindow, {...props, ...this.props});
 
 		return (
-			<div>
+			<div className="ptr-window-container">
 				{window}
 			</div>
 		);
