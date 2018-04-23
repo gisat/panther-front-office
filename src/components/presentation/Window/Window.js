@@ -2,22 +2,23 @@ import React from 'react';
 import Rnd from 'react-rnd';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import _ from 'lodash';
 
-import './PantherWindow.css';
-
-const DEFAULT_STATE = {
-	height: '100%',
-	width: '100%',
-	positionX: 0,
-	positionY: 0,
-	open: false,
-	floating: false
-};
+import './Window.css';
 
 const DEFAULT_FLOATER_WIDTH = 400;
 const DEFAULT_FLOATER_HEIGHT = 500;
 const DEFAULT_FLOATER_X = 100;
 const DEFAULT_FLOATER_Y = 100;
+
+const DEFAULT_STATE = {
+	height: DEFAULT_FLOATER_HEIGHT,
+	width: DEFAULT_FLOATER_WIDTH,
+	positionX: DEFAULT_FLOATER_X,
+	positionY: DEFAULT_FLOATER_Y,
+	open: false,
+	floating: true
+};
 
 class PantherWindow extends React.PureComponent {
 
@@ -26,46 +27,47 @@ class PantherWindow extends React.PureComponent {
 			PropTypes.string,
 			PropTypes.number
 		]),
-		floaterHeight: PropTypes.number,
 		minHeight: PropTypes.number,
 		width: PropTypes.oneOfType([
 			PropTypes.string,
 			PropTypes.number
 		]),
-		floaterWidth: PropTypes.number,
 		minWidth: PropTypes.number,
 		positionX: PropTypes.number,
 		positionY: PropTypes.number,
 		name: PropTypes.string,
-		id: PropTypes.string,
+		elementId: PropTypes.string,
 		floatable: PropTypes.bool,
 		floating: PropTypes.bool,
 		open: PropTypes.bool,
-		onClose: PropTypes.func
+		onClose: PropTypes.func,
+		onShrink: PropTypes.func,
+		onExpand: PropTypes.func,
+		onDragStop: PropTypes.func,
+		onResize: PropTypes.func
 	};
 
 	static defaultProps = {
 		floatable: true,
 		name: "Window",
 		minWidth: 200,
-		minHeight: 200,
+		minHeight: 200
 	};
 
 	constructor(props){
-		super();
-		this.state = {...DEFAULT_STATE, ...props}
+		super(props);
+		this.state = {...DEFAULT_STATE, ..._.pick(props, ['width', 'height', 'open', 'floating', 'positionX', 'positionY'])};
 	}
 
 	componentWillReceiveProps(nextProps) {
-		this.setState({...this.state, ...nextProps});
+		let nextState = {...this.state, ..._.pick(nextProps, ['width', 'height', 'open', 'floating', 'positionX', 'positionY'])};
+		this.setState(nextState);
 	}
 
 	onDragStop(e, d){
 		this.props.onDragStop({
 			positionX: d.x,
-			positionY: d.y,
-			floaterPositionX: d.x,
-			floaterPositionY: d.y
+			positionY: d.y
 		});
 	}
 
@@ -75,24 +77,15 @@ class PantherWindow extends React.PureComponent {
 
 	onResize(e, direction, ref, delta, position){
 		this.props.onResize({
-			floaterWidth: ref.offsetWidth,
-			floaterHeight: ref.offsetHeight,
 			width: ref.offsetWidth,
 			height: ref.offsetHeight,
 			positionX: position.x,
-			positionY: position.y,
-			floaterPositionX: position.x,
-			floaterPositionY: position.y
+			positionY: position.y
 		});
 	}
 
 	onShrink(){
-		this.props.onShrink({
-			width: this.state.floaterWidth || DEFAULT_FLOATER_WIDTH,
-			height: this.state.floaterHeight || DEFAULT_FLOATER_HEIGHT,
-			positionX: this.state.floaterPositionX || DEFAULT_FLOATER_X,
-			positionY: this.state.floaterPositionY || DEFAULT_FLOATER_Y
-		});
+		this.props.onShrink();
 	}
 
 	render() {
@@ -122,10 +115,10 @@ class PantherWindow extends React.PureComponent {
 			<Rnd
 				style={style}
 				className={classes}
-				id={this.state.id}
+				id={this.props.elementId}
 				dragHandleClassName=".ptr-window-header"
-				size={{ width: this.state.width,  height: this.state.height }}
-				position={{ x: this.state.positionX, y: this.state.positionY }}
+				size={this.state.floating ? { width: this.state.width,  height: this.state.height } : {width: '100%', height: '100%'}}
+				position={this.state.floating ? { x: this.state.positionX, y: this.state.positionY } : {x: 0, y: 0}}
 				minHeight={this.props.minHeight}
 				minWidth={this.props.minWidth}
 				maxWidth={'100%'}
@@ -149,7 +142,7 @@ class PantherWindow extends React.PureComponent {
 	}
 
 	renderContent(){
-		return <div className="ptr-window-content"></div>
+		return <div className="ptr-window-content">{this.props.children}</div>
 	}
 
 	renderHeader(){
