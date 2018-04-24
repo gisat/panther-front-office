@@ -5,6 +5,7 @@
 	position: relative;
 }
 .ptr-screen-container {
+	display: flex;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -13,11 +14,5 @@
 }
 .ptr-screen-container > div {
 	height: 100%;
-	display: inline-block;
-}
-.ptr-screen-container > div:first-child {
-	background: indianred;
-}
-.ptr-screen-container > div:last-child {
-	background: rosybrown;
+	position: relative;
 }

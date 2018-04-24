@@ -28,9 +28,9 @@ const INITIAL_STATE = {
 	cases: {
 		activeKey: null,
 		data: [
-			{key: 1, name: "123", scenarios: [1,2,3]},
-			{key: 2, name: "45", scenarios: [4,5]},
-			{key: 3, name: "6", scenarios: [6]}
+			{key: 1, name: "Case blabla wtf 123", scenarios: [1,2,3]},
+			{key: 2, name: "Omg another case 45", scenarios: [4,5]},
+			{key: 3, name: "aaaaaaaaaaaaaa case 6", scenarios: [6]}
 		],
 		loading: false
 	}

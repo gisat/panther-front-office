@@ -1,0 +1,47 @@
+.case-list-container {
+	padding: .7rem 1rem 1rem .7rem;
+}
+.case-list-item {
+	background: #fff;
+	border: 1px solid #d7d7d7;
+	border-bottom-width: 2px;
+	border-radius: 2px;
+	cursor: pointer;
+	margin-bottom: .5rem;
+	padding: .5rem .5rem 1rem;
+}
+.case-list-item > h4 {
+	color: rgb(65,69,81);
+	font-size: 1.15rem;
+	font-weight: 400;
+	margin-bottom: .2rem;
+}
+.case-list-item > span {
+	font-size: .9rem;
+	color: rgb(128,132,140);
+	font-weight: 400;
+}
+
+.add-case-button {
+	position: absolute;
+	bottom: 20px;
+	height: 50px;
+	width: 50px;
+	right: 20px;
+	background: rgb(65,69,81);
+	border-radius: 25px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-shadow: 0 3px 3px 0 rgba(100,100,100,.5);
+	cursor: pointer;
+	transition: background .3s ease-in-out;
+}
+.add-case-button:hover {
+	background: rgb(33,38,53);
+}
+.add-case-button > span {
+	font-size: 2rem;
+	color: white;
+	font-weight: 300;
+}
