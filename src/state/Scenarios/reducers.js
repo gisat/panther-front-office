@@ -1,14 +1,37 @@
 import ActionTypes from '../../constants/ActionTypes';
 import _ from 'lodash';
 
+//const INITIAL_STATE = {
+//	activeKey: null,
+//	activeKeys: null,
+//	data: null,
+//	loading: false,
+//	cases: {
+//		activeKey: null,
+//		data: null,
+//		loading: false
+//	}
+//};
+
 const INITIAL_STATE = {
 	activeKey: null,
 	activeKeys: null,
-	data: null,
+	data: [
+		{key: 1, name: "Scenario 1"},
+		{key: 2, name: "Scenario 2"},
+		{key: 3, name: "Scenario 3"},
+		{key: 4, name: "Scenario 4"},
+		{key: 5, name: "Scenario 5"},
+		{key: 6, name: "Scenario 6"}
+	],
 	loading: false,
 	cases: {
 		activeKey: null,
-		data: null,
+		data: [
+			{key: 1, name: "123", scenarios: [1,2,3]},
+			{key: 2, name: "45", scenarios: [4,5]},
+			{key: 3, name: "6", scenarios: [6]}
+		],
 		loading: false
 	}
 };
