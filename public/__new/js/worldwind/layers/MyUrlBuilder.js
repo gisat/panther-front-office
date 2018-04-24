@@ -1,8 +1,14 @@
 define([
+	'../../error/ArgumentError',
+	'../../util/Logger',
+
 	'./proj4-src',
 
 	'worldwind'
-], function(proj4){
+], function(ArgumentError,
+			Logger,
+
+			proj4){
 	var WmsUrlBuilder = WorldWind.WmsUrlBuilder;
 
 	/**
@@ -68,7 +74,7 @@ define([
 			if (this.crs === "CRS:84") {
 				sb = sb + sector.minLongitude + "," + sector.minLatitude + ",";
 				sb = sb + sector.maxLongitude+ "," + sector.maxLatitude;
-			} else if(this.crs = "EPSG:4326") {
+			} else if(this.crs === "EPSG:4326") {
 				sb = sb + sector.minLatitude + "," + sector.minLongitude + ",";
 				sb = sb + sector.maxLatitude+ "," + sector.maxLongitude;
 			} else {
@@ -76,7 +82,7 @@ define([
 			}
 		} else {
 			sb = sb + "&srs=" + this.crs;
-			if(this.crs == "EPSG:4326") {
+			if(this.crs === "EPSG:4326") {
 				sb = sb + "&bbox=";
 				sb = sb + sector.minLongitude + "," + sector.minLatitude + ",";
 				sb = sb + sector.maxLongitude + "," + sector.maxLatitude;

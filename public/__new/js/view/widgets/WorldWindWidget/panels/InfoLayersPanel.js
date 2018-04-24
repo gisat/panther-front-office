@@ -82,7 +82,7 @@ define(['../../../../error/ArgumentError',
 					self.displayPanel("none");
 				}
 			} else {
-				console.warn("InfoLayersPanel#rebuild: No info layers for current configuration.");
+				Logger.logMessage(Logger.LEVEL_WARNING, 'InfoLayersPanel', 'rebuild', 'No info layers for current configuration.');
 				self.displayPanel("none");
 			}
 		}).catch(function(err){

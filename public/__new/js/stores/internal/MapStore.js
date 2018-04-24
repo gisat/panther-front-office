@@ -81,12 +81,16 @@ define([
 					var periodExists = _.find(layer.periods, function(period){return period == map._period});
 
 					if (map.id === mapId && (isIndependent || (!isIndependent && periodExists))){
+						var customOptions = null;
+						try{
+							customOptions = JSON.parse(layer.custom);
+						} catch(e){}
 
 						// add layer
 						map.layers.addWmsLayer({
 							url: layer.url,
 							layerPaths: layer.layer,
-							customParams: layerOptions,
+							customParams: layerOptions || customOptions,
 							name: layer.name,
 							id: layer.id
 						},groupId,true);

@@ -56,12 +56,6 @@ Ext.define('PumaMain.controller.Chart', {
             'chartpanel tool[type=search]': {
                 click: this.onSwitchZooming
             },
-            'chartpanel tool[type=print]': {
-                click: this.onUrlClick
-            },
-            'chartpanel tool[type=save]': {
-                click: this.onUrlClick
-            },
 			'chartpanel tool[type=description]': {
 				click: this.onDescriptionClick
 			},

@@ -14,7 +14,6 @@ import defaults from './defaults';
  * Per-instance values, development values & features.
  */
 import rewrites from './rewrites';
-console.log(rewrites);
 
 let url = window.location.origin;
 let validConfigurationUpdate = {};
