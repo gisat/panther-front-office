@@ -80,10 +80,7 @@ define([
 			functionalFilrer: false,
 			share: true,
 			snapshot: true,
-			contextHelp: true,
-
-			// todo remove
-			scenarios: true
+			contextHelp: true
 		};
 
 
@@ -170,10 +167,8 @@ define([
 				var classesSnowWidget3d = $('#floater-snow-widget').hasClass('open') ? "item open" : "item";
 				this._target.append('<div class="' + classesSnowWidget3d + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget"><span>'+polyglot.t('savedConfigurations')+'</span></div>');
 			}
-
-			// todo remove
 			if (tools.scenarios){
-				this._target.append('<div class="item" id="top-toolbar-scenarios"><span>Sceanrios</span></div>');
+				this._target.append('<div class="item" id="top-toolbar-scenarios"><span>'+polyglot.t('scenarios')+'</span></div>');
 			}
 		}
 
@@ -266,10 +261,13 @@ define([
 							tools.contextHelp = false;
 						}
 					});
-					return tools;
-				} else {
-					return tools;
 				}
+
+				if (scopes[0].scenarios) {
+					tools.scenarios = true;
+				}
+
+				return tools;
 			}).catch(function(err){
 				throw new Error(err);
 			});
@@ -291,7 +289,6 @@ define([
 	};
 
 	TopToolBar.prototype.handleClick = function(e){
-		// todo remove if
 		if ($(e.currentTarget).attr("id") === 'top-toolbar-scenarios'){
 			Stores.notify("component#scenarioButtonClick");
 		} else {
@@ -484,6 +481,8 @@ define([
 			this.handleMapButtonActivity(false);
 		} else if (type === Actions.mapsContainerEnableAdding){
 			this.handleMapButtonActivity(true);
+		} else if (type === 'SCENARIOS_WINDOW_TOGGLE'){
+			$('#top-toolbar-scenarios').toggleClass('open');
 		}
 	};
 

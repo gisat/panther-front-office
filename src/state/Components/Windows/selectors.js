@@ -1,12 +1,17 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
 
-const isScenariosWindowOpen = state => state.components.windows.scenarios.open;
-const getScenariosWindow = state => state.components.windows.scenarios;
 const getWindows = state => state.components.windows;
+const getWindow = (state, props) => state.components.windows[props.key];
+
+const isWindowOpen = createSelector(
+	getWindow,
+	(window) => {
+		return window ? window.open : false;
+	}
+);
 
 export default {
-	isScenariosWindowOpen: isScenariosWindowOpen,
-	getScenariosWindow: getScenariosWindow,
+	isWindowOpen: isWindowOpen,
 	getWindows: getWindows
 };

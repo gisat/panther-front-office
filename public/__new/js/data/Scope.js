@@ -65,6 +65,9 @@ define(['./Model'], function(Model){
 			},
 			url: {
 				serverName: 'urls'
+			},
+			scenarios: {
+				serverName: 'scenarios'
 			}
 		};
 	};
