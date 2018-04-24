@@ -168,7 +168,7 @@ define([
 				this._target.append('<div class="' + classesSnowWidget3d + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget"><span>'+polyglot.t('savedConfigurations')+'</span></div>');
 			}
 			if (tools.scenarios){
-				this._target.append('<div class="item" id="top-toolbar-scenarios"><span>Sceanrios</span></div>');
+				this._target.append('<div class="item" id="top-toolbar-scenarios"><span>'+polyglot.t('scenarios')+'</span></div>');
 			}
 		}
 
@@ -481,6 +481,8 @@ define([
 			this.handleMapButtonActivity(false);
 		} else if (type === Actions.mapsContainerEnableAdding){
 			this.handleMapButtonActivity(true);
+		} else if (type === 'SCENARIOS_WINDOW_TOGGLE'){
+			$('#top-toolbar-scenarios').toggleClass('open');
 		}
 	};
 

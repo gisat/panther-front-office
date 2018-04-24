@@ -89,8 +89,9 @@ class PantherWindow extends React.PureComponent {
 	}
 
 	render() {
-		let classes = classnames('ptr-window',{
-			'floating': this.state.floating
+		let classes = classnames(`ptr-window ${this.props.elementId}`,{
+			'floating': this.state.floating,
+			'open': this.state.open
 		});
 		let style = {
 			display: 'none'
@@ -115,7 +116,6 @@ class PantherWindow extends React.PureComponent {
 			<Rnd
 				style={style}
 				className={classes}
-				id={this.props.elementId}
 				dragHandleClassName=".ptr-window-header"
 				size={this.state.floating ? { width: this.state.width,  height: this.state.height } : {width: '100%', height: '100%'}}
 				position={this.state.floating ? { x: this.state.positionX, y: this.state.positionY } : {x: 0, y: 0}}
