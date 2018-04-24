@@ -117,7 +117,11 @@ define(['../../../../error/ArgumentError',
 		var self = this;
 		return Promise.all(promises).then(function(results){
 			if (results.length > 0){
-				var layers = _.flatten(results);
+				var layers = _.groupBy(_.flatten(results), 'id');
+
+				layers = Object.keys(layers).map(function(layerKey){
+					return layers[layerKey][0];
+				});
 				var groupedLayers = self.groupLayersByName(layers);
 				return self.getLayersRelevantForPeriods(groupedLayers, configuration.periods);
 			}

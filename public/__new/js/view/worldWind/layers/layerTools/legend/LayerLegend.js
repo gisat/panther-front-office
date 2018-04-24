@@ -67,11 +67,13 @@ define(['../../../../../error/ArgumentError',
 	LayerLegend.prototype.addContent = function(){
 		var style = "";
 		var layer = this._defaultLayer.path;
+		var url = Config.url + "api/proxy/wms?";
 		if (this._style){
 			style = this._style.path;
 		}
 		if (!layer){
-			layer = this._defaultLayer.layer
+			layer = this._defaultLayer.layer;
+			url = this._defaultLayer.url + '?';
 		}
 
 		var params = {
@@ -85,7 +87,7 @@ define(['../../../../../error/ArgumentError',
 			params['SLD_ID'] = this._defaultLayer.sldId;
 		}
 
-		var imgSrc = Config.url + "api/proxy/wms?" + stringUtils.makeUriComponent(params);
+		var imgSrc = url + stringUtils.makeUriComponent(params);
 
 		var self = this;
 		$.get(imgSrc)
