@@ -1,0 +1,23 @@
+.ptr-screen-viewport {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+	position: relative;
+}
+.ptr-screen-container {
+	position: absolute;
+	top: 0;
+	left: 0;
+	height: 100%;
+	transition: left .3s ease-in-out;
+}
+.ptr-screen-container > div {
+	height: 100%;
+	display: inline-block;
+}
+.ptr-screen-container > div:first-child {
+	background: indianred;
+}
+.ptr-screen-container > div:last-child {
+	background: rosybrown;
+}
