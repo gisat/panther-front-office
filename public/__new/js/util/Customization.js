@@ -155,12 +155,15 @@ define([
 		var toolBar = $("#top-toolbar");
 		var mapsContainer = $("#maps-container");
 		var uploadDataBtn = $("#upload-data");
+		var originalScopeSelectionBtn = $("#overlay-switch");
 		var self = this;
 
 		if (user.isAdmin){
 			uploadDataBtn.addClass("open");
+			originalScopeSelectionBtn.addClass("open");
 		} else {
 			uploadDataBtn.removeClass("open");
+			originalScopeSelectionBtn.removeClass("open");
 		}
 
 		this._store.scopes.byId(scope).then(function(scopes){
