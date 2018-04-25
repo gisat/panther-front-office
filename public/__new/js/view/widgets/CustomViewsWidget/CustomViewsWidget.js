@@ -134,7 +134,7 @@ define(['../../../actions/Actions',
 	CustomViewsWidget.prototype.renderAsOverlay = function(data, isAdmin){
 		this._widgetSelector.addClass("open expanded active");
 
-		this.toggleOverlaySwitch(isAdmin);
+		this.renderOverlaySwitch(isAdmin);
 
 		var groupedData = this.groupDataByScope(data);
 		var scopeNamesPromises = [];
@@ -237,43 +237,33 @@ define(['../../../actions/Actions',
 	};
 
 	/**
-	 * Show/hide overlay switch
-	 * @param isAdmin {boolean} true, if logged user is admin
-	 */
-	CustomViewsWidget.prototype.toggleOverlaySwitch = function(isAdmin){
-		var isIntro = $('body').hasClass("intro");
-		if (this._overlaySwitchSelector){
-			if (isAdmin && isIntro){
-				this._overlaySwitchSelector.addClass("open");
-			} else {
-				this._overlaySwitchSelector.removeClass("open");
-			}
-		} else if (isAdmin) {
-			this.renderOverlaySwitch();
-		}
-	};
-
-	/**
 	 * Add switch to the header toolbar, which allows to admin switch off/on the overlay
 	 */
-	CustomViewsWidget.prototype.renderOverlaySwitch = function(){
-		$("#header .menu").append("<li id='overlay-switch'><a href='#'>" + polyglot.t("dataviewOverlaySwitchToOld") + "</a></li>");
-		this._overlaySwitchSelector = $("#overlay-switch");
-		var self = this;
-		this._overlaySwitchSelector.on("click",function(){
-			var switcherLink = $(this).find("a");
-			var bodySelector = $('body');
-			var overlayActive = self._widgetSelector.hasClass("open");
-			if (overlayActive){
-				self._widgetSelector.removeClass("open");
-				bodySelector.removeClass("intro-overlay");
-				switcherLink.text(polyglot.t("dataviewOverlaySwitchToNew"));
-			} else {
-				self._widgetSelector.addClass("open");
-				bodySelector.addClass("intro-overlay");
-				switcherLink.text(polyglot.t("dataviewOverlaySwitchToOld"));
+	CustomViewsWidget.prototype.renderOverlaySwitch = function(isAdmin){
+		if (!this._overlaySwitchSelector){
+			$("#header .menu").append("<li id='overlay-switch'><a href='#'>" + polyglot.t("dataviewOverlaySwitchToOld") + "</a></li>");
+			this._overlaySwitchSelector = $("#overlay-switch");
+
+			if (isAdmin){
+				this._overlaySwitchSelector.addClass("open");
 			}
-		});
+
+			var self = this;
+			this._overlaySwitchSelector.on("click",function(){
+				var switcherLink = $(this).find("a");
+				var bodySelector = $('body');
+				var overlayActive = self._widgetSelector.hasClass("open");
+				if (overlayActive){
+					self._widgetSelector.removeClass("open");
+					bodySelector.removeClass("intro-overlay");
+					switcherLink.text(polyglot.t("dataviewOverlaySwitchToNew"));
+				} else {
+					self._widgetSelector.addClass("open");
+					bodySelector.addClass("intro-overlay");
+					switcherLink.text(polyglot.t("dataviewOverlaySwitchToOld"));
+				}
+			});
+		}
 	};
 
 	/**
@@ -304,7 +294,6 @@ define(['../../../actions/Actions',
 			this._widgetSelector.find(".widget-minimise").trigger("click");
 		}
 		this.handleLoading("hide");
-		this.toggleOverlaySwitch();
 	};
 
 	/**

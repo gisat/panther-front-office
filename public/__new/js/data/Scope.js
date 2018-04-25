@@ -63,7 +63,7 @@ define(['./Model'], function(Model){
 			featurePlaceChangeReview: {
 				serverName: 'featurePlaceChangeReview'
 			},
-			url: {
+			urls: {
 				serverName: 'urls'
 			},
 			scenarios: {
