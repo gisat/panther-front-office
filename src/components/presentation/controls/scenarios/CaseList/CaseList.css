@@ -3,17 +3,18 @@
 }
 .case-list-item {
 	background: #fff;
-	border: 1px solid #d7d7d7;
+	border: 1px solid #ccc;
 	border-bottom-width: 2px;
 	border-radius: 2px;
 	cursor: pointer;
 	margin-bottom: .5rem;
 	max-width: 40rem;
 	padding: .5rem .5rem 1rem;
-	transition: box-shadow .3s ease-in-out;
+	transition: box-shadow .3s ease-in-out, border-color .3s ease-in-out;
 }
 .case-list-item:hover {
-	box-shadow: 0 0 2px 1px rgba(33,38,53,.25);
+	border-color: #bbb;
+	box-shadow: 0 0 2px 1px rgba(33,38,53,.2);
 }
 .case-list-item > h4 {
 	color: rgb(65,69,81);
