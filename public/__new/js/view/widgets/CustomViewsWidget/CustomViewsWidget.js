@@ -181,8 +181,8 @@ define(['../../../actions/Actions',
 
 			// Filter the scope
 			var validUrl = true;
-			if(scope && scope.urls){
-				validUrl = scope.urls.indexOf(location.href) !== -1;
+			if(!isAdmin && scope && scope.urls){
+				validUrl = scope.urls.indexOf(location.origin) !== -1;
 			}
 
 			if (scope && scope.name && validUrl){
