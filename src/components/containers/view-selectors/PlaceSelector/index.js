@@ -8,7 +8,7 @@ const mapStateToProps = state => {
 		activePlace: Select.places.getActive(state),
 		scope: Select.scopes.getActiveScopeData(state),
 		places: Select.places.getPlacesForActiveScope(state),
-		userIsAdmin: Select.user.isAdmin(state)
+		isDromasAdmin: Select.user.isDromasAdmin(state)
 	}
 };
 

@@ -144,6 +144,16 @@ define([
 		});
 	};
 
+	Customization.prototype.isDromasAdmin = function(user) {
+		let isDromasAdmin = false;
+		user.groups.forEach(group => {
+			if(group.name === 'Aktualizace LPIS admin') {
+				isDromasAdmin = true;
+			}
+		});
+		return isDromasAdmin || user.isAdmin;
+	};
+
 	/**
 	 * Handle user restrictions
 	 * @param options {Object}
@@ -173,7 +183,7 @@ define([
 
 			// handle logging buttons
 			// todo use the first one
-			if (scope && scope.restrictEditingToAdmins && !user.isAdmin && !signUpBtn.hasClass('logout')){
+			if (scope && scope.restrictEditingToAdmins && !this.isDromasAdmin(user) && !signUpBtn.hasClass('logout')){
 			// if (scope && !user.isAdmin && !signUpBtn.hasClass('logout')){
 				signUpBtn.css("display", "none");
 				separator.css("display", "none");
@@ -183,7 +193,7 @@ define([
 			}
 
 			// handle timeline
-			if (scope && scope.restrictEditingToAdmins && !user.isAdmin){
+			if (scope && scope.restrictEditingToAdmins && !this.isDromasAdmin(user)){
 				mapsContainerBottomBar.removeClass("open");
 				toolBar.addClass("hidden");
 				mapsContainer.addClass("extended");

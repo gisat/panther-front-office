@@ -41,7 +41,8 @@ define([
 		this._selectedMapId = null;
 		this._user = {
 			isLoggedIn: false,
-			isAdmin: false
+			isAdmin: false,
+			groups: []
 		};
 
 		this.isMap3D = true;
@@ -357,7 +358,8 @@ define([
 	StateStore.prototype.updateUser = function(options){
 		this._user = {
 			isLoggedIn: options.isLoggedIn,
-			isAdmin: options.isAdmin
+			isAdmin: options.isAdmin,
+			groups: options.groups
 		}
 	};
 

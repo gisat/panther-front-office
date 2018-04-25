@@ -10,7 +10,7 @@ class PlaceSelector extends React.PureComponent {
 			viewSelection: PropTypes.string
 		}),
 		places: PropTypes.array,
-		userIsAdmin: PropTypes.bool
+		isDromasAdmin: PropTypes.bool
 	};
 
 	static defaultProps = {
@@ -28,7 +28,7 @@ class PlaceSelector extends React.PureComponent {
 	render() {
 		let content = null;
 
-		if (!this.props.userIsAdmin && this.props.scope.restrictEditingToAdmins){
+		if (!this.props.isDromasAdmin && this.props.scope.restrictEditingToAdmins){
 
 			if (this.props.activePlace) {
 				content = (
