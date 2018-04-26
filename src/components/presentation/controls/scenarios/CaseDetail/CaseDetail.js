@@ -5,9 +5,15 @@ import _ from 'lodash';
 
 class CaseDetail extends React.PureComponent {
 
+	static propTypes = {
+		screenId: PropTypes.string,
+		contentType: PropTypes.string,
+		switchScreen: PropTypes.func
+	};
+
 	render() {
 		return (
-			<div onClick={this.props.switchScreen.bind(null, 'caseList')}>Detail</div>
+			<div onClick={this.props.switchScreen.bind(null, 'caseList')}>{this.props.contentType}</div>
 		);
 	}
 

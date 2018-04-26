@@ -7,10 +7,21 @@ import './CaseList.css'
 
 class CaseList extends React.PureComponent {
 
+	static propTypes = {
+		screenId: PropTypes.string,
+		setCaseDetailType: PropTypes.func,
+		switchScreen: PropTypes.func
+	};
+
+	showDetail(type){
+		this.props.setCaseDetailType(type);
+		this.props.switchScreen('caseDetail');
+	}
+
 	render() {
 		let cases = this.props.cases.map((caseData) => {
 			return (
-				<div className='case-list-item' onClick={this.props.switchScreen.bind(null, 'caseDetail')}>
+				<div className='case-list-item' onClick={this.showDetail.bind(this, 'existing')}>
 					<h4>{caseData.name}</h4>
 					<span>Scenarios: {caseData.scenarios.length}</span>
 				</div>);
@@ -20,7 +31,7 @@ class CaseList extends React.PureComponent {
 		return (
 			<div>
 				<div className='case-list-container'>{cases}</div>
-				<div className='add-case-button' onClick={this.props.switchScreen.bind(null, 'caseDetail')}>
+				<div className='add-case-button' onClick={this.showDetail.bind(this, 'new')}>
 					<span>+</span>
 				</div>
 			</div>

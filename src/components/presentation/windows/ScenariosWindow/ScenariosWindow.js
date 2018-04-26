@@ -8,6 +8,20 @@ import CaseDetails from "../../../containers/controls/scenarios/CaseDetail/CaseD
 import CaseList from "../../../containers/controls/scenarios/CaseList/CaseList";
 
 class ScenariosWindow extends React.PureComponent {
+	constructor(props){
+		super(props);
+		this.state = {
+			caseDetailType: null
+		};
+
+		this.setCaseDetailType = this.setCaseDetailType.bind(this);
+	}
+
+	setCaseDetailType(type){
+		this.setState({
+			caseDetailType: type
+		});
+	}
 
 	render() {
 		return (
@@ -17,8 +31,14 @@ class ScenariosWindow extends React.PureComponent {
 				elementId="scenarios-window"
 			>
 				<ScreenAnimator>
-					<CaseList screenId="caseList"/>
-					<CaseDetails screenId="caseDetail"/>
+					<CaseList
+						screenId="caseList"
+						setCaseDetailType={this.setCaseDetailType}
+					/>
+					<CaseDetails
+						screenId="caseDetail"
+						contentType={this.state.caseDetailType}
+					/>
 				</ScreenAnimator>
 			</Window>
 		);
