@@ -187,6 +187,7 @@ define([
 			// if (scope && !user.isAdmin && !signUpBtn.hasClass('logout')){
 				signUpBtn.css("display", "none");
 				separator.css("display", "none");
+				$('#top-toolbar-share-view').hide();
 			} else {
 				signUpBtn.css("display", "inline-block");
 				separator.css("display", "inline-block");
