@@ -6,7 +6,7 @@ const isAdmin = state => state.user.isAdmin;
 const isDromasAdmin = state => {
 	let isDromasAdmin = false;
 	state.user.groups.forEach(group => {
-		if(group.name === 'Kontrola LPIS admin') {
+		if(group.name === 'Aktualizace LPIS admin') {
 			isDromasAdmin = true;
 		}
 	});
