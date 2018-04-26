@@ -13,15 +13,15 @@ class CaseList extends React.PureComponent {
 		switchScreen: PropTypes.func
 	};
 
-	showDetail(type){
-		this.props.setCaseDetailType(type);
+	showDetail(caseKey){
+		this.props.setActiveCase(caseKey);
 		this.props.switchScreen('caseDetail');
 	}
 
 	render() {
 		let cases = this.props.cases.map((caseData) => {
 			return (
-				<div className='case-list-item' onClick={this.showDetail.bind(this, 'existing')}>
+				<div className='case-list-item' onClick={this.showDetail.bind(this, caseData.key)}>
 					<h4>{caseData.name}</h4>
 					<span>Scenarios: {caseData.scenarios.length}</span>
 				</div>);
@@ -29,9 +29,9 @@ class CaseList extends React.PureComponent {
 
 		// todo render button only for admin group
 		return (
-			<div>
+			<div className='case-list-wrap'>
 				<div className='case-list-container'>{cases}</div>
-				<div className='add-case-button' onClick={this.showDetail.bind(this, 'new')}>
+				<div className='add-case-button' onClick={this.showDetail.bind(this, null)}>
 					<span>+</span>
 				</div>
 			</div>

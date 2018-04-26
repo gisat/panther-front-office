@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 const getActiveCaseKey = state => state.scenarios.cases.activeKey;
 const getActiveKey = state => state.scenarios.activeKey;
+const getActiveKeys = state => state.scenarios.activeKeys;
 const getCases = state => state.scenarios.cases.data;
 const getScenarios = state => state.scenarios.data;
 
@@ -20,10 +21,35 @@ const getActiveCase = createSelector(
 	}
 );
 
+const getActiveCaseScenarioKeys = createSelector(
+	[getActiveCase],
+	(activeCase) => {
+		return activeCase ? activeCase.scenarios : null;
+	}
+);
+
+const getActiveCaseScenarios = createSelector(
+	[getScenarios, getActiveCaseScenarioKeys],
+	(scenarios, activeCaseScenarioKeys) => {
+		if (activeCaseScenarioKeys){
+			return _.filter(scenarios, (scenario) => {
+				return _.find(activeCaseScenarioKeys, (key) => {
+					return key === scenario.key;
+				});
+			});
+		} else {
+			return null;
+		}
+	}
+);
+
 export default {
 	getActive: getActive,
 	getActiveCase: getActiveCase,
 	getActiveCaseKey: getActiveCaseKey,
+	getActiveCaseScenarioKeys: getActiveCaseScenarioKeys,
+	getActiveCaseScenarios: getActiveCaseScenarios,
 	getActiveKey: getActiveKey,
+	getActiveKeys: getActiveKeys,
 	getCases: getCases,
 };

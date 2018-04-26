@@ -30,7 +30,14 @@ const INITIAL_STATE = {
 		data: [
 			{key: 1, name: "Case blabla wtf 123", scenarios: [1,2,3]},
 			{key: 2, name: "Omg another case 45", scenarios: [4,5]},
-			{key: 3, name: "aaaaaaaaaaaaaa case 6", scenarios: [6]}
+			{key: 3, name: "aaaaaaaaaaaaaa case 6", scenarios: [6]},
+			{key: 11, name: "Case blabla wtf 123", scenarios: [1,2,3]},
+			{key: 21, name: "Omg another case 45", scenarios: [4,5]},
+			{key: 31, name: "aaaaaaaaaaaaaa case 6", scenarios: [6]},
+			{key: 12, name: "Case blabla wtf 123", scenarios: [1,2,3]},
+			{key: 22, name: "Omg another case 45", scenarios: [4,5]},
+			{key: 32, name: "aaaaaaaaaaaaaa case 6", scenarios: [6]}
+
 		],
 		loading: false
 	}
@@ -54,7 +61,7 @@ function setActive(state, action){
 }
 
 function setActiveKeys(state, action){
-	return {...state, activeKeys: action.keys};
+	return {...state, activeKeys: action.keys ? action.keys : null};
 }
 
 function request(state, action) {

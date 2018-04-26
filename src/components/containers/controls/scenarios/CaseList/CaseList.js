@@ -11,7 +11,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-
+		setActiveCase: (caseKey) => {
+			dispatch(Action.scenarios.setActiveCase(caseKey));
+		},
 	}
 };
 

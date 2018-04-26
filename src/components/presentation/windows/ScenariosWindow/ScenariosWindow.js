@@ -4,25 +4,10 @@ import utils from '../../../../utils/utils';
 import _ from 'lodash';
 import Window from "../../../containers/Window";
 import ScreenAnimator from "../../ScreenAnimator/ScreenAnimator";
-import CaseDetails from "../../../containers/controls/scenarios/CaseDetail/CaseDetail";
+import CaseDetail from "../../../containers/controls/scenarios/CaseDetail/CaseDetail";
 import CaseList from "../../../containers/controls/scenarios/CaseList/CaseList";
 
 class ScenariosWindow extends React.PureComponent {
-	constructor(props){
-		super(props);
-		this.state = {
-			caseDetailType: null
-		};
-
-		this.setCaseDetailType = this.setCaseDetailType.bind(this);
-	}
-
-	setCaseDetailType(type){
-		this.setState({
-			caseDetailType: type
-		});
-	}
-
 	render() {
 		return (
 			<Window
@@ -33,11 +18,9 @@ class ScenariosWindow extends React.PureComponent {
 				<ScreenAnimator>
 					<CaseList
 						screenId="caseList"
-						setCaseDetailType={this.setCaseDetailType}
 					/>
-					<CaseDetails
+					<CaseDetail
 						screenId="caseDetail"
-						contentType={this.state.caseDetailType}
 					/>
 				</ScreenAnimator>
 			</Window>
