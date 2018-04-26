@@ -169,11 +169,15 @@ define([
 		var self = this;
 
 		if (user.isAdmin){
-			uploadDataBtn.addClass("open");
 			originalScopeSelectionBtn.addClass("open");
 		} else {
-			uploadDataBtn.removeClass("open");
 			originalScopeSelectionBtn.removeClass("open");
+		}
+
+		if(this.isDromasAdmin(user) || user.isAdmin) {
+            uploadDataBtn.addClass("open");
+		} else {
+            uploadDataBtn.removeClass("open");
 		}
 
 		this._store.scopes.byId(scope).then(function(scopes){
