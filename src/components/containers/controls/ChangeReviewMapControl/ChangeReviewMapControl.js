@@ -16,7 +16,6 @@ class ChangeReviewMapControl extends React.PureComponent {
 		if (!this.props.scope.restrictEditingToAdmins || this.props.isDromasAdmin) {
 			return (
 				<div className='ptr-change-review-map-control'>
-					<span className="ptr-change-review-map-control-map-name">{this.props.map && this.props.map.name}</span>
 					<div className="ptr-change-review-map-control-toggles">
 						<label>
 							<input
