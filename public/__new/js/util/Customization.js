@@ -187,7 +187,7 @@ define([
 
 			// handle logging buttons
 			// todo use the first one
-			if (scope && scope.restrictEditingToAdmins && !this.isDromasAdmin(user) && !signUpBtn.hasClass('logout')){
+			if (scope && scope.restrictEditingToAdmins && !self.isDromasAdmin(user) && !signUpBtn.hasClass('logout')){
 			// if (scope && !user.isAdmin && !signUpBtn.hasClass('logout')){
 				signUpBtn.css("display", "none");
 				separator.css("display", "none");
@@ -198,13 +198,13 @@ define([
 			}
 
 			// handle timeline
-			if (scope && scope.restrictEditingToAdmins && !this.isDromasAdmin(user)){
+			if (scope && scope.restrictEditingToAdmins && !self.isDromasAdmin(user)){
 				mapsContainerBottomBar.removeClass("open");
 				toolBar.addClass("hidden");
 				mapsContainer.addClass("extended");
 
 			} else {
-				if (scope.showTimeline){
+				if (scope && scope.showTimeline){
 					mapsContainerBottomBar.addClass("open");
 				}
 				toolBar.removeClass("hidden");
@@ -212,6 +212,7 @@ define([
 			}
 
 		}).catch(function(err){
+			console.log(err);
 			throw new Error(err);
 		});
 	};
