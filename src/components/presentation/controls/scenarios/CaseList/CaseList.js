@@ -21,7 +21,7 @@ class CaseList extends React.PureComponent {
 	render() {
 		let cases = this.props.cases.map((caseData) => {
 			return (
-				<div className='case-list-item' onClick={this.showDetail.bind(this, caseData.key)}>
+				<div key={caseData.key} className='case-list-item' onClick={this.showDetail.bind(this, caseData.key)}>
 					<h4>{caseData.name}</h4>
 					<span>Scenarios: {caseData.scenarios.length}</span>
 				</div>);

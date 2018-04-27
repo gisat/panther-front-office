@@ -1,0 +1,16 @@
+.case-detail-header {
+	background: rgba(204,207,211,1);
+	padding: 1rem .7rem;
+}
+.case-detail-header-buttons {
+	margin-bottom: .5rem;
+}
+.case-detail-body {
+	padding: .7rem;
+}
+
+.scenario-container {
+	border: 1px solid silver;
+	padding: .5rem;
+	margin-bottom: .7rem;
+}
