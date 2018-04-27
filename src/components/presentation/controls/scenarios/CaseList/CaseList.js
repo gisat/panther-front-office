@@ -8,6 +8,7 @@ import './CaseList.css'
 class CaseList extends React.PureComponent {
 
 	static propTypes = {
+		disableEditing: PropTypes.bool,
 		screenId: PropTypes.string,
 		setCaseDetailType: PropTypes.func,
 		switchScreen: PropTypes.func
@@ -27,13 +28,18 @@ class CaseList extends React.PureComponent {
 				</div>);
 		});
 
-		// todo render button only for admin group
+		let addCaseBtn = null;
+		if (!this.props.disableEditing){
+			addCaseBtn = (<div className='add-case-button' onClick={this.showDetail.bind(this, null)}>
+				<span>+</span>
+			</div>);
+		}
+
+
 		return (
 			<div className='case-list-wrap'>
 				<div className='case-list-container'>{cases}</div>
-				<div className='add-case-button' onClick={this.showDetail.bind(this, null)}>
-					<span>+</span>
-				</div>
+				{addCaseBtn}
 			</div>
 		);
 	}

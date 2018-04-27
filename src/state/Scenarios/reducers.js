@@ -17,10 +17,10 @@ const INITIAL_STATE = {
 	activeKey: null,
 	activeKeys: null,
 	data: [
-		{key: 1, name: "Scenario 1"},
+		{key: 1, name: "Scenario 1", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis."},
 		{key: 2, name: "Scenario 2"},
 		{key: 3, name: "Scenario 3"},
-		{key: 4, name: "Scenario 4"},
+		{key: 4, name: "Scenario 4", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis."},
 		{key: 5, name: "Scenario 5"},
 		{key: 6, name: "Scenario 6"}
 	],

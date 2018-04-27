@@ -9,12 +9,12 @@ import './InputText.css';
 class InputText extends React.PureComponent {
 
 	static propTypes = {
+		disableEditing: PropTypes.bool,
 		extraLarge: PropTypes.bool,
 		focus: PropTypes.bool,
 		multiline: PropTypes.bool,
 		large: PropTypes.bool,
 		placeholder: PropTypes.string,
-		uneditable: PropTypes.bool,
 		value: PropTypes.string,
 		simpleDecoration: PropTypes.bool
 	};
@@ -77,13 +77,13 @@ class InputText extends React.PureComponent {
 			'large': this.props.large,
 			'simple-decoration': this.props.simpleDecoration,
 			'empty': !this.state.value,
-			'uneditable': this.props.uneditable
+			'uneditable': this.props.disableEditing
 		});
 
 		let content = null;
-		if (this.props.multiline && !this.state.editMultiline && this.state.value && !this.props.uneditable){
+		if (this.props.multiline && !this.state.editMultiline && this.state.value && !this.props.disableEditing){
 			content = this.renderParagraph();
-		} else if (this.state.value || !this.props.uneditable){
+		} else if (this.state.value || !this.props.disableEditing){
 			content = this.renderInput();
 		}
 

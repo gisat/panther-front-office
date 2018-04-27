@@ -13,7 +13,13 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-
+		handleScenarioClick: (key, checked) => {
+			if (checked){
+				dispatch(Action.scenarios.addActiveScenario(key));
+			} else {
+				dispatch(Action.scenarios.removeActiveScenario(key));
+			}
+		}
 	}
 };
 

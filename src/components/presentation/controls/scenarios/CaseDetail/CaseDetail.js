@@ -4,12 +4,15 @@ import utils from '../../../../../utils/utils';
 import _ from 'lodash';
 
 import InputText from '../../../atoms/InputText/InputText';
+import ScenarioCard from '../SceanrioCard/ScenarioCard';
+
 import './CaseDetail.css';
 
 class CaseDetail extends React.PureComponent {
 
 	static propTypes = {
 		activeScenarioKeys: PropTypes.array,
+		disableEditing: PropTypes.bool,
 		case: PropTypes.object,
 		contentType: PropTypes.string,
 		scenarios: PropTypes.array,
@@ -17,15 +20,35 @@ class CaseDetail extends React.PureComponent {
 		switchScreen: PropTypes.func
 	};
 
+	constructor(props){
+		super(props);
+
+		this.state = {
+			scenarios: this.props.scenarios
+		};
+
+		this.addScenario = this.addScenario.bind(this);
+	}
+
+	componentWillReceiveProps(nextProps){
+		this.setState({
+			scenarios: nextProps.scenarios
+		});
+	}
+
+	addScenario(){
+		let nextScenarios = [...this.state.scenarios, {}];
+		this.setState({
+			scenarios: nextScenarios
+		});
+	}
+
 	render() {
 		let caseData = this.props.case;
-		let scenariosData = this.props.scenarios;
+		let scenariosData = this.state.scenarios;
 		let name = "";
 		let description = "";
 		let scenarios = null;
-
-		// todo for non-admin
-		let disableEditing = false;
 
 		if (caseData){
 			name = caseData.name;
@@ -44,45 +67,58 @@ class CaseDetail extends React.PureComponent {
 			<div className="case-detail-wrap">
 				<div className="case-detail-header">
 					<div className="case-detail-header-buttons">
-						<div onClick={this.props.switchScreen.bind(null, 'caseList')}>Back</div>
+						<button onClick={this.props.switchScreen.bind(null, 'caseList')}>Back</button>
 					</div>
 					<InputText
 						extraLarge
 						placeholder="What is your case?"
 						simpleDecoration
-						uneditable={disableEditing}
+						disableEditing={this.props.disableEditing}
 						value={name}/>
 					<InputText
 						multiline
-						placeholder="Add description..."
+						placeholder="Add description"
 						simpleDecoration
-						uneditable={disableEditing}
+						disableEditing={this.props.disableEditing}
 						value={description}/>
 				</div>
 				<div className="case-detail-body">
 					{scenarios}
+					<button onClick={this.addScenario}>Add next scenario</button>
 				</div>
 			</div>
 		);
 	}
 
 	renderScenario(data){
-		let name = "new scenario";
-		let description = "description";
-		let addFile = <input type="file"/>;
+		let name = "";
+		let description = "";
+		let key = null;
+		let checked = false;
 
 		if (data){
+			key = data.key;
 			name = data.name;
 			description = data.description;
-			addFile = null;
+		}
+
+		let activeScenarioKey = _.find(this.props.activeScenarioKeys, (key) => {
+			return (key === data.key);
+		});
+		if (activeScenarioKey){
+			checked = true;
 		}
 
 		return (
-			<div className="scenario-container">
-				<div>{name}</div>
-				<div>{description}</div>
-				{addFile}
-			</div>
+			<ScenarioCard
+				key={utils.guid()}
+				scenarioKey={key}
+				checked={checked}
+				disableEditing={this.props.disableEditing}
+				description={description}
+				handleScenarioClick={this.props.handleScenarioClick}
+				name={name}
+			/>
 		);
 	}
 

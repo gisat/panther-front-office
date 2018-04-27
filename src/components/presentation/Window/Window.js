@@ -6,8 +6,8 @@ import _ from 'lodash';
 
 import './Window.css';
 
-const DEFAULT_FLOATER_WIDTH = 400;
-const DEFAULT_FLOATER_HEIGHT = 500;
+const DEFAULT_FLOATER_WIDTH = 500;
+const DEFAULT_FLOATER_HEIGHT = 600;
 const DEFAULT_FLOATER_X = 100;
 const DEFAULT_FLOATER_Y = 100;
 

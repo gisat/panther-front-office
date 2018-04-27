@@ -17,9 +17,11 @@ class ScenariosWindow extends React.PureComponent {
 			>
 				<ScreenAnimator>
 					<CaseList
+						disableEditing={false}
 						screenId="caseList"
 					/>
 					<CaseDetail
+						disableEditing={false}
 						screenId="caseDetail"
 					/>
 				</ScreenAnimator>

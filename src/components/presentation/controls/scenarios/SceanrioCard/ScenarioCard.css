@@ -1,0 +1,37 @@
+.scenario-card {
+	background: #fff;
+	border: 1px solid #ccc;
+	border-bottom-width: 2px;
+	border-radius: 2px;
+	margin-bottom: .7rem;
+	max-width: 40rem;
+	transition: box-shadow .3s ease-in-out, border-color .3s ease-in-out;
+}
+.scenario-card-header {
+	display: flex;
+	align-items: center;
+}
+.scenario-card-header-checkbox {
+	width: 2rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.scenario-card-header-title {
+	flex: 1;
+}
+.scenario-card.not-created .scenario-card-header-title {
+	padding-left: .7rem;
+}
+.scenario-card-header-buttons {
+	padding: 0 .3rem;
+	text-align: right;
+}
+.scenario-card-body {
+	padding: .7rem;
+	border-top: 1px dashed #aaa;
+}
+.scenario-card-body-buttons {
+	padding: .7rem 0;
+}
+
