@@ -108,7 +108,14 @@ define(['../../../actions/Actions',
 		this._widgetBodySelector.html('<div class="custom-views-content"></div>');
 		this._contentSelector = this._widgetBodySelector.find(".custom-views-content");
 
-		var isAdmin = this._stateStore.current().user.isAdmin;
+		var user = this._stateStore.current().user;
+		var isDromasAdmin = false;
+        user.groups.forEach(group => {
+            if(group.name === 'Aktualizace LPIS admin') {
+                isDromasAdmin = true;
+            }
+        });
+		var isAdmin = user.isAdmin || isDromasAdmin;
 
 		if (data.length === 0){
 			this._widgetSelector.find(".widget-minimise").trigger("click");
