@@ -10,6 +10,7 @@ class ScenarioCard extends React.PureComponent {
 
 	static propTypes = {
 		checked: PropTypes.bool,
+		defaultSituation: PropTypes.bool,
 		description: PropTypes.string,
 		disableEditing: PropTypes.bool,
 		name: PropTypes.string,
@@ -23,6 +24,7 @@ class ScenarioCard extends React.PureComponent {
 			checked: this.props.checked,
 			showDetails: !this.props.scenarioKey || false
 		};
+
 		this.handleDetailsButtonClick = this.handleDetailsButtonClick.bind(this);
 		this.handleScenarioClick = this.handleScenarioClick.bind(this);
 	}
@@ -41,18 +43,18 @@ class ScenarioCard extends React.PureComponent {
 	};
 
 	handleScenarioClick(e){
-		this.props.handleScenarioClick(this.props.scenarioKey, e.target.checked);
+		this.props.handleScenarioClick(this.props.scenarioKey, e.target.checked, this.props.defaultSituation);
 	};
 
 	render() {
 		let classes = classNames("scenario-card", {
-			'not-created': !this.props.scenarioKey
+			'not-created': !this.props.scenarioKey && !this.props.defaultSituation
 		});
 
 		let header = this.renderHeader();
 		let body = null;
 
-		if (this.state.showDetails){
+		if (this.state.showDetails && !this.props.defaultSituation){
 			body = this.renderBody();
 		}
 
@@ -66,10 +68,21 @@ class ScenarioCard extends React.PureComponent {
 
 	renderHeader(){
 		let checkbox = null;
-		if (this.props.scenarioKey){
-			checkbox = (<div className="scenario-card-header-checkbox">
-				<input onChange={this.handleScenarioClick} type="checkbox" checked={this.state.checked}/>
-			</div>);
+		let buttons = null;
+
+		if (this.props.scenarioKey || this.props.defaultSituation){
+			checkbox = (
+				<div className="scenario-card-header-checkbox">
+					<input onChange={this.handleScenarioClick} type="checkbox" checked={this.state.checked}/>
+				</div>
+			);
+		}
+		if (!this.props.defaultSituation){
+			buttons = (
+				<div className="scenario-card-header-buttons">
+					<button onClick={this.handleDetailsButtonClick}>Details</button>
+				</div>
+			);
 		}
 
 		return (
@@ -83,9 +96,7 @@ class ScenarioCard extends React.PureComponent {
 						disableEditing={this.props.disableEditing}
 						value={this.props.name}/>
 				</div>
-				<div className="scenario-card-header-buttons">
-					<button onClick={this.handleDetailsButtonClick}>Details</button>
-				</div>
+				{buttons}
 			</div>
 		);
 	}

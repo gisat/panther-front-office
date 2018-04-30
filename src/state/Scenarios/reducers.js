@@ -16,6 +16,7 @@ import _ from 'lodash';
 const INITIAL_STATE = {
 	activeKey: null,
 	activeKeys: null,
+	defaultSituationActive: true,
 	data: [
 		{key: 1, name: "Scenario 1", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis."},
 		{key: 2, name: "Scenario 2"},
@@ -88,6 +89,10 @@ function setActiveCase(state, action){
 	return {...state, cases: {...state.cases, activeKey: action.key}};
 }
 
+function setDefaultSituationActive(state, action){
+	return {...state, defaultSituationActive: action.active};
+}
+
 function requestCases(state, action) {
 	return {...state, cases: {...state.cases, loading: true}};
 }
@@ -111,6 +116,8 @@ export default (state = INITIAL_STATE, action) => {
 			return setActive(state, action);
 		case ActionTypes.SCENARIOS_SET_ACTIVE_MULTI:
 			return setActiveKeys(state, action);
+		case ActionTypes.SCENARIOS_SET_DEFAULT_SITUATION_ACTIVE:
+			return setDefaultSituationActive(state, action);
 		case ActionTypes.SCENARIOS_CASES_ADD:
 			return addCasesDistinct(state, action);
 		case ActionTypes.SCENARIOS_CASES_SET_ACTIVE:

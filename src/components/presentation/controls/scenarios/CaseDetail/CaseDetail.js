@@ -12,9 +12,10 @@ class CaseDetail extends React.PureComponent {
 
 	static propTypes = {
 		activeScenarioKeys: PropTypes.array,
-		disableEditing: PropTypes.bool,
 		case: PropTypes.object,
 		contentType: PropTypes.string,
+		disableEditing: PropTypes.bool,
+		isDefaultSituationActive: PropTypes.bool,
 		scenarios: PropTypes.array,
 		screenId: PropTypes.string,
 		switchScreen: PropTypes.func
@@ -49,6 +50,7 @@ class CaseDetail extends React.PureComponent {
 		let name = "";
 		let description = "";
 		let scenarios = null;
+		let defaultState = null;
 
 		if (caseData){
 			name = caseData.name;
@@ -56,6 +58,7 @@ class CaseDetail extends React.PureComponent {
 		}
 
 		if (scenariosData){
+			defaultState = this.renderDefaultState();
 			scenarios = scenariosData.map(scenario => {
 				return this.renderScenario(scenario);
 			});
@@ -83,6 +86,7 @@ class CaseDetail extends React.PureComponent {
 						value={description}/>
 				</div>
 				<div className="case-detail-body">
+					{defaultState}
 					{scenarios}
 					<button onClick={this.addScenario}>Add next scenario</button>
 				</div>
@@ -118,6 +122,19 @@ class CaseDetail extends React.PureComponent {
 				description={description}
 				handleScenarioClick={this.props.handleScenarioClick}
 				name={name}
+			/>
+		);
+	}
+
+	renderDefaultState(){
+		return (
+			<ScenarioCard
+				key={utils.guid()}
+				defaultSituation
+				checked={this.props.isDefaultSituationActive}
+				disableEditing
+				handleScenarioClick={this.props.handleScenarioClick}
+				name="Default state"
 			/>
 		);
 	}

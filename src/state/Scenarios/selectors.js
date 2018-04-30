@@ -6,6 +6,7 @@ const getActiveKey = state => state.scenarios.activeKey;
 const getActiveKeys = state => state.scenarios.activeKeys;
 const getCases = state => state.scenarios.cases.data;
 const getScenarios = state => state.scenarios.data;
+const isDefaultSituationActive = state => state.scenarios.defaultSituationActive;
 
 const getActive = createSelector(
 	[getScenarios, getActiveKey],
@@ -52,4 +53,5 @@ export default {
 	getActiveKey: getActiveKey,
 	getActiveKeys: getActiveKeys,
 	getCases: getCases,
+	isDefaultSituationActive: isDefaultSituationActive
 };

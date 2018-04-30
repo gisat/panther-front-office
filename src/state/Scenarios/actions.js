@@ -35,6 +35,12 @@ function setActiveCase(key) {
 	}
 }
 
+function setDefaultSituationActive(active) {
+	return (dispatch, getState) => {
+		dispatch(actionSetDefaultSituationActive(active));
+	};
+}
+
 function addActiveScenario(key){
 	return (dispatch, getState) => {
 		let activeScenarioKeys = Select.scenarios.getActiveKeys(getState());
@@ -81,6 +87,13 @@ function actionSetActiveCase(caseKey) {
 	}
 }
 
+function actionSetDefaultSituationActive(active) {
+	return {
+		type: ActionTypes.SCENARIOS_SET_DEFAULT_SITUATION_ACTIVE,
+		active: active
+	}
+}
+
 // ============ export ===========
 
 export default {
@@ -89,5 +102,6 @@ export default {
 	removeActiveScenario: removeActiveScenario,
 	setActive: setActive,
 	setActiveCase: setActiveCase,
+	setDefaultSituationActive: setDefaultSituationActive,
 }
 

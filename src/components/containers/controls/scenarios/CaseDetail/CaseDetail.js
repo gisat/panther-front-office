@@ -7,17 +7,22 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		case: Select.scenarios.getActiveCase(state),
 		scenarios: Select.scenarios.getActiveCaseScenarios(state),
-		activeScenarioKeys: Select.scenarios.getActiveKeys(state)
+		activeScenarioKeys: Select.scenarios.getActiveKeys(state),
+		isDefaultSituationActive: Select.scenarios.isDefaultSituationActive(state)
 	}
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-		handleScenarioClick: (key, checked) => {
-			if (checked){
-				dispatch(Action.scenarios.addActiveScenario(key));
+		handleScenarioClick: (key, checked, defaultSituation) => {
+			if (defaultSituation){
+				dispatch(Action.scenarios.setDefaultSituationActive(checked));
 			} else {
-				dispatch(Action.scenarios.removeActiveScenario(key));
+				if (checked){
+					dispatch(Action.scenarios.addActiveScenario(key));
+				} else {
+					dispatch(Action.scenarios.removeActiveScenario(key));
+				}
 			}
 		}
 	}
