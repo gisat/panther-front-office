@@ -25,6 +25,7 @@ class CaseDetail extends React.PureComponent {
 		super(props);
 
 		this.state = {
+			disableUncheck: false,
 			scenarios: this.props.scenarios
 		};
 
@@ -33,6 +34,7 @@ class CaseDetail extends React.PureComponent {
 
 	componentWillReceiveProps(nextProps){
 		this.setState({
+			disableUncheck: this.disableUncheck(nextProps),
 			scenarios: nextProps.scenarios
 		});
 	}
@@ -42,6 +44,15 @@ class CaseDetail extends React.PureComponent {
 		this.setState({
 			scenarios: nextScenarios
 		});
+	}
+
+	disableUncheck(props){
+		if (props.activeScenarioKeys){
+			let activeScenarios = props.activeScenarioKeys;
+			return (activeScenarios.length === 1 && !props.isDefaultSituationActive) || (activeScenarios.length === 0 && props.isDefaultSituationActive);
+		} else {
+			return true;
+		}
 	}
 
 	render() {
@@ -119,6 +130,7 @@ class CaseDetail extends React.PureComponent {
 				scenarioKey={key}
 				checked={checked}
 				disableEditing={this.props.disableEditing}
+				disableUncheck={this.state.disableUncheck}
 				description={description}
 				handleScenarioClick={this.props.handleScenarioClick}
 				name={name}
@@ -133,6 +145,7 @@ class CaseDetail extends React.PureComponent {
 				defaultSituation
 				checked={this.props.isDefaultSituationActive}
 				disableEditing
+				disableUncheck={this.state.disableUncheck}
 				handleScenarioClick={this.props.handleScenarioClick}
 				name="Default state"
 			/>

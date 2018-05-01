@@ -13,6 +13,7 @@ class ScenarioCard extends React.PureComponent {
 		defaultSituation: PropTypes.bool,
 		description: PropTypes.string,
 		disableEditing: PropTypes.bool,
+		disableUncheck: PropTypes.bool,
 		name: PropTypes.string,
 		scenarioKey: PropTypes.number,
 	};
@@ -71,9 +72,10 @@ class ScenarioCard extends React.PureComponent {
 		let buttons = null;
 
 		if (this.props.scenarioKey || this.props.defaultSituation){
+			let disabled = this.state.checked && this.props.disableUncheck;
 			checkbox = (
 				<div className="scenario-card-header-checkbox">
-					<input onChange={this.handleScenarioClick} type="checkbox" checked={this.state.checked}/>
+					<input onChange={this.handleScenarioClick} type="checkbox" checked={this.state.checked} disabled={disabled}/>
 				</div>
 			);
 		}
