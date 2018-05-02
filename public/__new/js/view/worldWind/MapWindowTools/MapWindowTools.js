@@ -84,8 +84,15 @@ define(['../../../actions/Actions',
 		var state = this._stateStore.current();
 		var self = this;
 		this._closeButton.on("click", function(){
-			if (state.isMapIndependentOfPeriod){
+			if (state.isMapIndependentOfPeriod && !state.isMapDependentOnScenario){
 				self._dispatcher.notify("map#remove",{id: self._mapId});
+			} else if (state.isMapDependentOnScenario){
+				var scenarioKey = self._mapStore.getMapById(self._mapId).scenarioKey;
+				if (scenarioKey){
+					self._dispatcher.notify("scenario#removeActive",{scenarioKey: scenarioKey});
+				} else {
+					self._dispatcher.notify("scenario#removeDefaultSituation");
+				}
 			} else {
 				var mapPeriod = self._mapStore.getMapById(self._mapId).period;
 				var periods = _.reject(self._stateStore.current().periods, function(period) { return period === mapPeriod; });
@@ -104,7 +111,7 @@ define(['../../../actions/Actions',
 		this._scopesStore.byId(state.scope).then(function(scopes){
 			var scope = scopes[0];
 			if (!scope.hideMapName){
-				if (period && !state.isMapIndependentOfPeriod) {
+				if (period && !state.isMapIndependentOfPeriod && !state.isMapDependentOnScenario) {
 					self.addMapLabelWithPeriod(period);
 				} else {
 					self.addMapLabelWithName();
@@ -116,7 +123,10 @@ define(['../../../actions/Actions',
 	/**
 	 * Add label with map name
 	 */
-	MapWindowTools.prototype.addMapLabelWithName = function(){
+	MapWindowTools.prototype.addMapLabelWithName = function(name){
+		if (name){
+			this._name = name;
+		}
 		this._mapToolsSelector.find(".map-name-label").remove();
 		var html = '<div class="map-name-label">' + this._name + '</div>';
 		this._mapToolsSelector.append(html);

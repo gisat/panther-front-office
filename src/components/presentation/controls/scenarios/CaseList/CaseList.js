@@ -9,14 +9,18 @@ class CaseList extends React.PureComponent {
 
 	static propTypes = {
 		disableEditing: PropTypes.bool,
+		defaultSituationName: PropTypes.string,
 		screenId: PropTypes.string,
-		setCaseDetailType: PropTypes.func,
 		switchScreen: PropTypes.func
 	};
 
 	showDetail(caseKey){
 		this.props.setActiveCase(caseKey);
+		if (!caseKey){
+			this.props.setDefaultSituationActive();
+		}
 		this.props.switchScreen('caseDetail');
+		this.props.changeDefaultMapName(this.props.defaultSituationName);
 	}
 
 	render() {

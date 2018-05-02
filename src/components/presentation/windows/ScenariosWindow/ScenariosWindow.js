@@ -7,6 +7,8 @@ import ScreenAnimator from "../../ScreenAnimator/ScreenAnimator";
 import CaseDetail from "../../../containers/controls/scenarios/CaseDetail/CaseDetail";
 import CaseList from "../../../containers/controls/scenarios/CaseList/CaseList";
 
+const DEFAULT_SITUATION_NAME = "Default state";
+
 class ScenariosWindow extends React.PureComponent {
 	render() {
 		return (
@@ -17,10 +19,12 @@ class ScenariosWindow extends React.PureComponent {
 			>
 				<ScreenAnimator>
 					<CaseList
+						defaultSituationName={DEFAULT_SITUATION_NAME}
 						disableEditing={false}
 						screenId="caseList"
 					/>
 					<CaseDetail
+						defaultSituationName={DEFAULT_SITUATION_NAME}
 						disableEditing={false}
 						screenId="caseDetail"
 					/>

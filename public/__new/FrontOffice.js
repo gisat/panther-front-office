@@ -449,8 +449,14 @@ define([
 
 		this._scopesStore.byId(state.scope).then(function(scopes){
 			var scope = scopes[0];
-			if (scope && scope.isMapIndependentOfPeriod){
+			if (scope && scope.isMapIndependentOfPeriod && scope.isMapDependentOnScenario){
+				self._dispatcher.notify("fo#mapIsDependentOnScenario");
 				self._dispatcher.notify("fo#mapIsIndependentOfPeriod");
+			} else if (scope && scope.isMapIndependentOfPeriod && !scope.isMapDependentOnScenario){
+				self._dispatcher.notify("fo#allowMapAdding");
+				self._dispatcher.notify("fo#mapIsIndependentOfPeriod");
+			} else if (scope && !scope.isMapIndependentOfPeriod && scope.isMapDependentOnScenario){
+				self._dispatcher.notify("fo#mapIsDependentOnScenario");
 			} else {
 				self._dispatcher.notify("fo#mapIsDependentOnPeriod");
 			}
@@ -533,7 +539,7 @@ define([
 	 */
 	FrontOffice.prototype.handlePeriods = function(){
 		var state = this._stateStore.current();
-		if (state.isMapIndependentOfPeriod){
+		if (state.isMapIndependentOfPeriod || state.isMapDependentOnScenario){
 			this._store.periods.notify('periods#default')
 		} else {
 			this._store.periods.notify('periods#rebuild');

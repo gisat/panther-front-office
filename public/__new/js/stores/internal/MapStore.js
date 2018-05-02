@@ -114,6 +114,15 @@ define([
 		});
 	};
 
+	MapStore.prototype.changeMapName = function(mapId, name){
+		this._maps.forEach(function(map){
+			if (map.id === mapId){
+				map._name = name;
+				map.mapWindowTools.addMapLabelWithName(name);
+			}
+		});
+	};
+
 	/**
 	 * Get all maps from this store
 	 * @returns {{}|*}
@@ -141,6 +150,19 @@ define([
 		return _.filter(this._maps, function (map) {
 			return map.id === id;
 		})[0];
+	};
+
+	MapStore.prototype.handleScenarioDefaultSituation = function (showDefault) {
+		if (showDefault){
+			this._dispatcher.notify("scenario#addDefaultSituationMap");
+		} else {
+			var mapId = "default-map";
+			var map = _.find(this._maps, function(map){return map.isDefaultScenarioSituation === true});
+			if (map){
+				mapId = map._id
+			}
+			this.remove({id: mapId});
+		}
 	};
 
 	/**
@@ -190,6 +212,11 @@ define([
 				}
 			});
 		});
+	};
+
+	MapStore.prototype.removeByScenario = function(scenarioKey){
+		var map = _.find(this._maps, function(map){return map.scenarioKey === scenarioKey});
+		this.remove({id: map._id});
 	};
 
 	MapStore.prototype.removeGeometryFromPlaceLayer = function(geometryKey, mapKey){
@@ -256,8 +283,13 @@ define([
 			this.removeGeometryFromPlaceLayer(options.geometryKey, options.mapKey);
 		} else if (type === "REDUX_SET_ACTIVE_PLACES"){
 			this.removeAllGeometriesFromAllPlaceLayers();
+		} else if (type === "REMOVE_MAP_BY_SCENARIO"){
+			this.removeByScenario(options.scenarioKey);
+		} else if (type === "HANDLE_SCENARIO_DEFAULT_SITUATION"){
+			this.handleScenarioDefaultSituation(options.showDeafaultSituation);
+		} else if (type === "CHANGE_MAP_NAME") {
+			this.changeMapName(options.mapKey, options.name);
 		}
-
 	};
 
 	return MapStore;

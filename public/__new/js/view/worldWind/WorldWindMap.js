@@ -47,6 +47,7 @@ define(['../../actions/Actions',
 	 * @param options.orderFromStart {number} Order of a map from MapsContainer instance initialization
 	 * @param options.period {Number|null} Period associated with this map.
 	 * @param options.dispatcher {Object} Object for handling events in the application.
+	 * @param [options.metadata] {Object}
 	 * @param options.store {Object}
 	 * @param options.store.state {StateStore}
 	 * @param options.store.scopes {Scopes}
@@ -98,9 +99,24 @@ define(['../../actions/Actions',
 		this._mapSelector = $("#" + this._id);
 
 		this._name = "Map " + options.orderFromStart;
+
 		this._selected = false;
 		this._aoiLayer = null;
 		this._placeLayer = null;
+
+		if (options.metadata){
+			let m = options.metadata;
+			if (m.scenarioKey){
+				this.scenarioKey = m.scenarioKey;
+			}
+			if (m.scenarioData){
+				this._name = m.scenarioData.name;
+			}
+			if (m.isDefaultScenarioSituation){
+				this.isDefaultScenarioSituation = m.isDefaultScenarioSituation;
+				this._name = "Default state";
+			}
+		}
 
 		/**
 		 * Every map is associated with the period. If no period is specified, then it is supplied latest when the first
@@ -510,7 +526,7 @@ define(['../../actions/Actions',
 				this._dispatcher.notify('periods#initial', periods);
 			}
 			this.mapWindowTools.addMapLabel(this._period);
-			if (!state.isMapIndependentOfPeriod){
+			if (!state.isMapIndependentOfPeriod || state.isMapDependentOnScenario){
 				this.unselect();
 				this._dispatcher.notify('map#defaultMapUnselected');
 			}
