@@ -32,7 +32,7 @@ class PlaceSelector extends React.PureComponent {
 
 			if (this.props.activePlace) {
 				content = (
-					<div className="ptr-aoi-selected"><span>DPB:</span>{this.props.activePlace.name}</div>
+					<div className="ptr-aoi-selected"><span>Ohlášení územní změny:</span>{this.props.activePlace.name}</div>
 				);
 			} // else keep null
 
@@ -61,7 +61,7 @@ class PlaceSelector extends React.PureComponent {
 					key='place-selector'
 					classes='ptr-place-selector'
 					label='left'
-					name='Place'
+					name='Ohlášení územní změny'
 					onChange={this.selectPlace.bind(this)}
 					options={options}
 					placeholder=''
