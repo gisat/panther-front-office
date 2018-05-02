@@ -2,8 +2,10 @@ define([], function(){
 	return {
 		adjustConfiguration: 'fo#adjustConfiguration',
 		adjustConfigurationFromDataview: 'fo#adjustConfigurationFromDataview',
+		foAllowMapAdding: 'fo#allowMapAdding',
 		foMapIsIndependentOfPeriod: 'fo#mapIsIndependentOfPeriod',
 		foMapIsDependentOnPeriod: 'fo#mapIsDependentOnPeriod',
+		foMapIsDependentOnScenario: 'fo#mapIsDependentOnScenario',
 
 		customizationUserChanged: 'customization#userChanged',
 
@@ -48,6 +50,8 @@ define([], function(){
 		periodsChange: 'periods#change',
 		periodsDefault: 'periods#default',
 		periodsRebuild: 'periods#rebuild',
+
+		scenarioAddDefaultSituationMap: "scenario#addDefaultSituationMap",
 
 		scopeActiveChanged: 'scope#activeScopeChanged',
 		scopeAoiLayer: 'scope#aoiLayer',

@@ -126,6 +126,8 @@ const mapsWatcher = (value, previousValue) => {
 		if (previousMap) {
 			let diff = compare(map.layerPeriods, previousMap.layerPeriods);
 			let diffWmsLayers = compareWmsLayers(map.wmsLayers, previousMap.wmsLayers);
+			let diffName = compareName(map.name, previousMap.name);
+
 			console.log('@@ diff', diff);
 			_.each(diff.added, (value, key) => {
 				window.Stores.notify('ADD_WMS_LAYER', {
@@ -153,6 +155,7 @@ const mapsWatcher = (value, previousValue) => {
 					layerKey: key
 				});
 			});
+
 			console.log('@@ diffWmsLayers', diffWmsLayers);
 			_.each(diffWmsLayers.added, (value) => {
 				window.Stores.notify('ADD_WMS_LAYER', {
@@ -166,6 +169,14 @@ const mapsWatcher = (value, previousValue) => {
 					mapKey: map.key
 				});
 			});
+
+			console.log('@@ diffName', diffName);
+			if (diffName){
+				window.Stores.notify('CHANGE_MAP_NAME', {
+					mapKey: map.key,
+					name: map.name
+				});
+			}
 		} else {
 			// new map added
 		}
@@ -253,6 +264,10 @@ const compareWmsLayers = (next, prev) => {
 			added: next
 		};
 	}
+};
+
+const compareName = (next, prev) => {
+	return !prev || (prev !== next);
 };
 
 

@@ -85,6 +85,15 @@ function selectLayerPeriod(layerKey, period, mapKey) {
 	};
 }
 
+function changeDefaultMapName(name){
+	return (dispatch, getState) => {
+		dispatch(update({
+			key: "default-map",
+			name: name
+		}));
+	}
+}
+
 function clearLayerPeriod(layerKey, mapKey){
 	return (dispatch, getState) => {
 		let state = _.find(Select.maps.getMaps(getState()), {key: mapKey});
@@ -232,6 +241,7 @@ function actionSetMapIndependentOfPeriod(independent) {
 
 export default {
 	add: add,
+	changeDefaultMapName: changeDefaultMapName,
 	clearLayerPeriod: clearLayerPeriod,
 	clearLayerPeriodsOfAllMaps: clearLayerPeriodsOfAllMaps,
 	clearWmsLayer: clearWmsLayer,

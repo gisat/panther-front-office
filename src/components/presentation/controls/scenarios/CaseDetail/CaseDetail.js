@@ -14,6 +14,7 @@ class CaseDetail extends React.PureComponent {
 		activeScenarioKeys: PropTypes.array,
 		case: PropTypes.object,
 		contentType: PropTypes.string,
+		defaultSituationName: PropTypes.string,
 		disableEditing: PropTypes.bool,
 		isDefaultSituationActive: PropTypes.bool,
 		scenarios: PropTypes.array,
@@ -147,7 +148,7 @@ class CaseDetail extends React.PureComponent {
 				disableEditing
 				disableUncheck={this.state.disableUncheck}
 				handleScenarioClick={this.props.handleScenarioClick}
-				name="Default state"
+				name={this.props.defaultSituationName}
 			/>
 		);
 	}

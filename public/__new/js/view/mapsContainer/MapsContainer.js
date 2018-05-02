@@ -114,17 +114,23 @@ define([
 	 * Add map to container
 	 * @param id {string|null} Id of the map
 	 * @param periodId {number} Id of the period connected with map
+	 * @param [options] {Object}
+	 * @param [options.scenarioKey] {number}
+	 * @param [options.scenarioData] {Object}
+	 * @param [options.isDefaultScenarioSituation] {bool}
 	 */
-	MapsContainer.prototype.addMap = function (id, periodId) {
+	MapsContainer.prototype.addMap = function (id, periodId, options) {
 		var state = this._stateStore.current();
-		if (state.isMapIndependentOfPeriod && state.periods){
+
+		if ((state.isMapIndependentOfPeriod || state.isMapDependentOnScenario) && state.periods){
 			periodId = state.periods[0];
 		}
-		var worldWindMap = this.buildWorldWindMap(id, periodId, this._mapsToContainerAdded++);
+
+		var worldWindMap = this.buildWorldWindMap(id, periodId, this._mapsToContainerAdded++, options);
 		this._dispatcher.notify('map#add', {map: worldWindMap});
 		this.addControls(worldWindMap);
 
-		if (state.isMapIndependentOfPeriod || id === 'default-map'){
+		if ((state.isMapIndependentOfPeriod || id === 'default-map') && !state.isMapDependentOnScenario){
 			this.handleMapSelection(worldWindMap);
 		}
 		this.rebuildContainerLayout();
@@ -138,7 +144,7 @@ define([
 		this._containerSelector.on("click", ".world-wind-map-box", function(e){
 			if (e.target.className !== "close-map-button" && e.target.className !== "close-map-icon"){
 				var state = self._stateStore.current();
-				if (state.isMapIndependentOfPeriod){
+				if (state.isMapIndependentOfPeriod && !state.isMapDependentOnScenario){
 					var mapId = $(this).find('.world-wind-map').attr('id');
 					var map = self._mapStore.getMapById(mapId);
 					self.handleMapSelection(map);
@@ -180,15 +186,17 @@ define([
 	 * @param id {string} Id of the map which should distinguish one map from another
 	 * @param periodId {number} Id of the period
 	 * @param orderFromStart {number} Order of a map from MapsContainer instance initialization
+	 * @param [metadata] {Object}
 	 * @returns {WorldWindMap}
 	 */
-	MapsContainer.prototype.buildWorldWindMap = function(id, periodId, orderFromStart){
+	MapsContainer.prototype.buildWorldWindMap = function(id, periodId, orderFromStart, metadata){
 		return new WorldWindMap({
 			dispatcher: window.Stores,
 			id: id,
 			period: periodId,
 			orderFromStart: orderFromStart,
 			mapsContainer: this._containerSelector.find(".map-fields"),
+			metadata: metadata,
 			store: {
 				scopes: this._scopesStore,
 				state: this._stateStore,
@@ -606,10 +614,11 @@ define([
 		var state = this._stateStore.current();
 		var periods = state.periods;
 		var isMapIndependentOfPeriod = state.isMapIndependentOfPeriod;
+		var isMapDependentOnScenario = state.isMapDependentOnScenario;
 		if (type === Actions.mapRemoved){
 			this.removeMapFromContainer(options.id);
 			this.checkMapsCloseButton();
-			if (isMapIndependentOfPeriod){
+			if (isMapIndependentOfPeriod && !isMapDependentOnScenario){
 				this.handleMapSelection();
 			}
 		} else if (type === Actions.periodsRebuild){
@@ -635,6 +644,9 @@ define([
 			this.setProjection('3D');
 		} else if (type === Actions.navigatorUpdate){
 			this.updateAllMapsNavigators();
+		} else if (type === Actions.scenarioAddDefaultSituationMap){
+			this.addMap(null, null, {isDefaultScenarioSituation: true});
+			this.checkMapsCloseButton();
 		}
 
 		// notifications from React
@@ -643,6 +655,9 @@ define([
 				this.zoomToArea(options.extent);
 			}
 			this.changeGeometryInAoiLayer(options.geometry);
+		} else if (type === 'ADD_MAP_BY_SCENARIO'){
+			this.addMap(null, null, options);
+			this.checkMapsCloseButton();
 		}
 
 		// TODO temporary for Dromas. It should be removed in a version with new areas widget

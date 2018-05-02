@@ -24,6 +24,9 @@ define(['./Model'], function(Model){
 			featureLayers: {
 				serverName: 'featureLayers'
 			},
+			isMapDependentOnScenario: {
+				serverName: 'isMapDependentOnScenario'
+			},
 			isMapIndependentOfPeriod: {
 				serverName: 'isMapIndependentOfPeriod'
 			},

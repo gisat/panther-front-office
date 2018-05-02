@@ -419,7 +419,7 @@ define([
 	TopToolBar.prototype.handleMapButtonActivity = function(active){
 		var state = this._stateStore.current();
 		var button = $('#top-toolbar-add-map');
-		if (state.isMapIndependentOfPeriod){
+		if (state.isMapIndependentOfPeriod && !state.isMapDependentOnScenario){
 			if (active){
 				button.removeClass("disabled");
 			} else {
@@ -467,7 +467,7 @@ define([
 			this.handle3dMapButtonState(false);
 		} else if (type === Actions.toolBarClick3d){
 			this.handle3dMapClick();
-		} else if (type === Actions.foMapIsIndependentOfPeriod){
+		} else if (type === Actions.foAllowMapAdding){
 			this.handleAddMapButton('inline-block');
 		} else if (type === Actions.foMapIsDependentOnPeriod){
 			this.handleAddMapButton('none');

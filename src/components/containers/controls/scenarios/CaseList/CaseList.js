@@ -11,9 +11,15 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
+		changeDefaultMapName: (name) => {
+			dispatch(Action.maps.changeDefaultMapName(name));
+		},
 		setActiveCase: (caseKey) => {
 			dispatch(Action.scenarios.setActiveCase(caseKey));
 		},
+		setDefaultSituationActive: () => {
+			dispatch(Action.scenarios.setDefaultSituationActive(true));
+		}
 	}
 };
 

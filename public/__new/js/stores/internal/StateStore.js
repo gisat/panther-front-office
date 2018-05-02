@@ -46,6 +46,7 @@ define([
 
 		this.isMap3D = true;
 		this.isMapIndependentOfPeriod = false;
+		this.isMapDependentOnScenario = false;
 
 		window.Stores.addListener(this.onEvent.bind(this), "initialLoading");
 		window.Stores.hasStateStore = true;
@@ -83,6 +84,7 @@ define([
 			activeAoi: this._activeAoi,
 			previousAoi: this._previousAoi,
 			isMap3D: this.isMap3D,
+			isMapDependentOnScenario: this.isMapDependentOnScenario,
 			isMapIndependentOfPeriod: this.isMapIndependentOfPeriod,
 			mapDefaults: this._mapDefaults,
 			mapsMetadata: this._mapsMetadata,
@@ -297,6 +299,13 @@ define([
 	};
 
 	/**
+	 * @param isDependent {boolean} true, if maps are dependent on scenarios
+	 */
+	StateStore.prototype.handleMapDependencyOnScenario = function(isDependent){
+		this.isMapDependentOnScenario = isDependent;
+	};
+
+	/**
 	 * Switch map projection
 	 */
 	StateStore.prototype.handleMapProjection = function(){
@@ -385,6 +394,8 @@ define([
 			this.handleMapProjection();
 		} else if (type === Actions.foMapIsIndependentOfPeriod){
 			this.handleMapDependencyOnPeriod(false);
+		} else if (type === Actions.foMapIsDependentOnScenario){
+			this.handleMapDependencyOnScenario(true);
 		} else if (type === Actions.foMapIsDependentOnPeriod){
 			this.handleMapDependencyOnPeriod(true);
 		} else if (type === Actions.scopeAoiLayer){
