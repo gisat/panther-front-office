@@ -1,51 +1,130 @@
 /* Table of contents
 
-    BASIC ELEMENTS............declarations for basic HTML elements
-    ATOMS
-      UI Select
-    COMPONENTS
-      Change Review Map Control
-      Overlay
-        Aoi Overlay
-      View Selector
-      Windows
+	BASIC ELEMENTS............declarations for basic HTML elements
+	ATOMS
+		Button
+		UI Select
+	COMPONENTS
+		Change Review Map Control
+		Overlay
+			Aoi Overlay
+		View Selector
+		Windows
 
-      screen
+		screen
 
 */
-
 
 /* ================================================================
    === BASIC ELEMENTS =============================================
    ================================================================ */
 
 body {
-  font-family: sans-serif;
-  margin: 0;
-  padding: 0;
+	font-family: sans-serif;
+	margin: 0;
+	padding: 0;
 }
 
 /* ================================================================
-   === ATOMS ======================================================
-   ================================================================ */
+	 === ATOMS ======================================================
+	 ================================================================ */
+
+/* == Button ====================================================== */
+
+.ptr-button {
+	display: inline-block;
+	height: 2rem;
+	/*font-size: .9375rem;*/
+	/*line-height: 1.5rem;*/
+	padding: .25rem;
+
+	border-radius: .2rem;
+	transition:
+		background .3s ease-in-out;
+
+	position: relative;
+}
+.ptr-button.large {
+	height: 3rem;
+	padding: .75rem;
+}
+
+.ptr-button:not(.disabled) {
+	cursor: pointer;
+}
+
+.ptr-button:focus::after {
+	content: ' ';
+	position: absolute;
+	top: 0; right: 0; bottom: 0; left: 0;
+	box-shadow: 0 0 2px 2px rgba(0,134,252,1);
+	pointer-events: none;
+}
+
+.ptr-button-caption {
+	display: inline-block;
+	vertical-align: top;
+	font-size: .9375rem;
+	line-height: 1.5rem;
+}
+
+.ptr-button {
+	background: rgba(125,125,125,.3);
+	color: #222;
+	border: 1px solid rgba(0,0,0,.02);
+	box-shadow: 0 1px 2px 0 rgba(0,0,0,0.1);
+}
+.ptr-button:hover {
+	background: rgba(125,125,125,.4);
+	color: #111;
+}
+
+.ptr-button.primary {
+	background: rgb(153, 54, 75);
+	color: #ccc;
+}
+.ptr-button.primary:hover {
+	background: rgb(122, 37, 55);
+	color: #e2e2e2;
+}
+
+.ptr-button.secondary {
+	background: rgb(65, 69, 81);
+	color: #ccc;
+}
+.ptr-button.secondary:hover {
+	background: rgb(33, 38, 53);
+	color: #e2e2e2;
+}
+
+.ptr-button > .ptr-icon {
+	display: inline-block;
+	width: 1.25rem;
+	height: 1.25rem;
+	margin: .125rem .25rem;
+}
+
 
 /* == UI Select =================================================== */
 
 .ptr-ui-select {
-  align-items: center;
-  display: flex;
+	align-items: center;
+	display: flex;
 }
+
 .ptr-ui-select.label-top {
-  flex-direction: column;
+	flex-direction: column;
 }
+
 .ptr-ui-select-label {
-  color: rgba(168,172,180,1);
-  font-size: .8rem;
-  font-weight: 600;
-  padding: 0 1rem 0 0;
+	color: rgba(168, 172, 180, 1);
+	font-size: .8rem;
+	font-weight: 600;
+	padding: 0 1rem 0 0;
 }
+
 .ptr-ui-select .Select {
-  width: 12rem;
+	width: 12rem;
 }
 
 /* ================================================================
@@ -57,208 +136,232 @@ body {
 
 /* == Change Review Map Control =================================== */
 .ptr-change-review-map-control {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: #dddcd7;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background: #dddcd7;
 
-  display: flex;
+	display: flex;
 }
 
 .ptr-change-review-map-control > div, .ptr-change-review-map-control > span {
-  padding: 11px;
+	padding: 11px;
 }
+
 .ptr-change-review-map-control-map-name {
-  color: #cd0044;
-  margin-right: 15px;
+	color: #cd0044;
+	margin-right: 15px;
 }
 
 .ptr-change-review-map-control-toggles > label {
-  margin-right: 30px;
+	margin-right: 30px;
 }
+
 .ptr-change-review-map-control-toggles > label > input {
-  position: relative;
-  top: 2px;
-  margin-right: 6px;
+	position: relative;
+	top: 2px;
+	margin-right: 6px;
 }
 
 /* == Overlay ===================================================== */
 .ptr-overlay {
-  position: absolute;
-  display: none;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  top: 0;
-  background: rgba(255,255,255,.9);
-  padding: 1.5rem 1.5rem 1.5rem 2rem;
-  z-index: 90000;
-  flex-direction: column;
-}
-.ptr-overlay-header {
-  display: flex;
-}
-.ptr-overlay-title {
-  flex: 1;
-  font-size: 2rem;
-  font-weight: 400;
-  color: #212635;
-}
-.ptr-overlay-close {
-  cursor: pointer;
-  font-size: 1.3rem;
-}
-.ptr-overlay-content {
-  margin-top: 1rem;
-}
-.ptr-overlay-content form {
-  display: flex;
-  flex-direction: column;
-}
-.ptr-overlay-content form label {
-  display: flex;
-  flex-direction: column;
-  font-size: .9rem;
-  margin:  0 0 .7rem 0;
-}
-.ptr-overlay-content form input {
-  max-width: 15rem;
-}
-.ptr-overlay-content form input[type=file] {
-  max-width: 15rem;
-  margin: .3rem 0;
-  font-size: .8rem;
-}
-.ptr-overlay-content form input[type=submit] {
-  max-width: 10rem;
-  margin-top: 1rem;
-  font-size: 1rem;
-}
-.ptr-overlay.open {
-  display: flex;
+	position: absolute;
+	display: none;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	top: 0;
+	background: rgba(255, 255, 255, .9);
+	padding: 1.5rem 1.5rem 1.5rem 2rem;
+	z-index: 90000;
+	flex-direction: column;
 }
 
+.ptr-overlay-header {
+	display: flex;
+}
+
+.ptr-overlay-title {
+	flex: 1;
+	font-size: 2rem;
+	font-weight: 400;
+	color: #212635;
+}
+
+.ptr-overlay-close {
+	cursor: pointer;
+	font-size: 1.3rem;
+}
+
+.ptr-overlay-content {
+	margin-top: 1rem;
+}
+
+.ptr-overlay-content form {
+	display: flex;
+	flex-direction: column;
+}
+
+.ptr-overlay-content form label {
+	display: flex;
+	flex-direction: column;
+	font-size: .9rem;
+	margin: 0 0 .7rem 0;
+}
+
+.ptr-overlay-content form input {
+	max-width: 15rem;
+}
+
+.ptr-overlay-content form input[type=file] {
+	max-width: 15rem;
+	margin: .3rem 0;
+	font-size: .8rem;
+}
+
+.ptr-overlay-content form input[type=submit] {
+	max-width: 10rem;
+	margin-top: 1rem;
+	font-size: 1rem;
+}
+
+.ptr-overlay.open {
+	display: flex;
+}
 
 /* aoi overlay */
 .ptr-overlay-aoi {
-  top: 45px;
-  background: rgba(33,38,53,.9);
-  z-index: 10000;
+	top: 45px;
+	background: rgba(33, 38, 53, .9);
+	z-index: 10000;
 }
+
 .ptr-overlay-aoi-content {
-  position: absolute;
-  width: 500px;
-  height: 200px;
+	position: absolute;
+	width: 500px;
+	height: 200px;
 }
+
 .ptr-overlay-aoi-content h3 {
-  color: rgb(148,152,160);
-  font-size: 1.5rem;
-  margin-bottom: .3rem;
+	color: rgb(148, 152, 160);
+	font-size: 1.5rem;
+	margin-bottom: .3rem;
 }
+
 .ptr-overlay-aoi-content p {
-  color: rgb(148,152,160);
-  font-size: 1rem;
+	color: rgb(148, 152, 160);
+	font-size: 1rem;
 }
 
 /* == View Selector =============================================== */
 
 .ptr-view-selection-container {
-  align-items: center;
-  display: flex;
-  height: 100%;
+	align-items: center;
+	display: flex;
+	height: 100%;
 }
+
 .ptr-view-selection-selector.ptr-ui-select .Select.is-disabled {
-  pointer-events: none;
+	pointer-events: none;
 }
+
 .ptr-view-selection-selector.ptr-ui-select .Select-control,
-.ptr-view-selection-selector.ptr-ui-select .Select.is-disabled .Select-control
-{
-  background-color: rgba(255,255,255,.15);
-  border: 0;
-  border-radius: 2px;
-  height: 1.5rem;
-  transition: background-color .3s ease-in-out;
+.ptr-view-selection-selector.ptr-ui-select .Select.is-disabled .Select-control {
+	background-color: rgba(255, 255, 255, .15);
+	border: 0;
+	border-radius: 2px;
+	height: 1.5rem;
+	transition: background-color .3s ease-in-out;
 }
+
 .ptr-view-selection-selector.ptr-ui-select .VirtualizedSelectOption {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  padding: 0 .5rem;
-  cursor: pointer;
-  background-color: #6a6e78;
-  color: rgb(204,207,211);
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	padding: 0 .5rem;
+	cursor: pointer;
+	background-color: #6a6e78;
+	color: rgb(204, 207, 211);
 }
+
 .ptr-view-selection-selector.ptr-ui-select .VirtualizedSelectDisabledOption {
-  opacity: 0.5;
-  background-color: #6a6e78;
-  color: rgb(204,207,211);
+	opacity: 0.5;
+	background-color: #6a6e78;
+	color: rgb(204, 207, 211);
 }
+
 .ptr-view-selection-selector.ptr-ui-select .VirtualizedSelectSelectedOption {
-  font-weight: bold;
-  background-color: #315678;
-  color: rgb(204,207,211);
+	font-weight: bold;
+	background-color: #315678;
+	color: rgb(204, 207, 211);
 }
+
 .ptr-view-selection-selector.ptr-ui-select .VirtualizedSelectFocusedOption {
-  /*background-color: rgba(0, 126, 255, 0.1);*/
-  background-color: #7ba1c6;
-  color: #fff;
+	/*background-color: rgba(0, 126, 255, 0.1);*/
+	background-color: #7ba1c6;
+	color: #fff;
 }
 
 .ptr-view-selection-selector.ptr-ui-select .Select-control .Select-value {
-  line-height: 1.8rem;
-  padding-right: 25px;
+	line-height: 1.8rem;
+	padding-right: 25px;
 }
+
 .ptr-view-selection-selector.ptr-ui-select .Select-input {
-  display: block;
-  height: 1.8rem;
-  line-height: 1.8rem;
+	display: block;
+	height: 1.8rem;
+	line-height: 1.8rem;
 }
+
 .ptr-view-selection-selector.ptr-ui-select .Select-input > input {
-  padding: 0;
+	padding: 0;
 }
+
 .ptr-view-selection-selector.ptr-ui-select .Select-control:hover,
 .ptr-view-selection-selector.ptr-ui-select .Select.is-focused > .Select-control {
-  background-color: rgba(255,255,255,.25);
+	background-color: rgba(255, 255, 255, .25);
 }
+
 .ptr-view-selection-selector.ptr-ui-select .Select-placeholder {
-  line-height: 1.8rem;
-  text-transform: none;
+	line-height: 1.8rem;
+	text-transform: none;
 }
+
 .ptr-view-selection-selector.ptr-ui-select .Select.has-value.Select--single > .Select-control .Select-value .Select-value-label,
 .ptr-view-selection-selector.ptr-ui-select .Select.has-value.is-focused.Select--single > .Select-control .Select-value .Select-value-label,
 .ptr-view-selection-selector.ptr-ui-select .Select.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value .Select-value-label,
 .ptr-view-selection-selector.ptr-ui-select .Select-input > input {
-  color: rgb(204,207,211);
+	color: rgb(204, 207, 211);
 }
 
 .ptr-view-selection-selector.ptr-ui-select .Select.is-disabled .Select-arrow-zone {
-  display: none;
+	display: none;
 }
 
 .ptr-aoi-selected {
-  font-weight: bold;
-}
-.ptr-aoi-selected > span {
-  font-weight: normal;
-  margin-right: 1em;
+	font-weight: bold;
 }
 
+.ptr-aoi-selected > span {
+	font-weight: normal;
+	margin-right: 1em;
+}
 
 .ptr-timeline-container {
-  font-size: 0;
+	font-size: 0;
 }
-
 
 .ptr-timeline-graph-line {
 	fill: transparent;
 	stroke: #2e5099;
 	stroke-width: 1;
 }
+
 .ptr-timeline-graph-point {
 	fill: #2e5099;
 }
@@ -266,14 +369,14 @@ body {
 .ptr-timeline-graph-axis {
 	stroke-width: 1;
 	/*stroke-dasharray: 2 1;*/
-	stroke: rgba(0,0,0,.2);
+	stroke: rgba(0, 0, 0, .2);
 }
 
 .ptr-timeline-out-of-scope-overlay {
-	fill: rgba(125,125,125,.2);
+	fill: rgba(125, 125, 125, .2);
 }
 
 /* == Windows =================================== */
 .ptr-window-container {
-  	height: 100%;
+	height: 100%;
 }

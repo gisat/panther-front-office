@@ -64,13 +64,16 @@ class Button extends React.PureComponent {
 			);
 		}
 
-		//let captionInsert = null;
-		//if (React.Children.count(this.props.children) == 1) {
-		//
-		//	captionInsert = (
-		//		<div className="ptr-button-caption">{this.props.children}</div>
-		//	);
-		//}
+		let content = React.Children.map(this.props.children, child => {
+
+			if (typeof child === 'string') {
+				return (
+					<div className="ptr-button-caption">{child}</div>
+				);
+			} else {
+				return child;
+			}
+		});
 
 		let classes = classNames(
 			'ptr-button', {
@@ -97,7 +100,7 @@ class Button extends React.PureComponent {
 				//onBlur={this.setFocus.bind(this, false)}
 			>
 				{iconInsert}
-				{this.props.children}
+				{content}
 			</div>
 		);
 
