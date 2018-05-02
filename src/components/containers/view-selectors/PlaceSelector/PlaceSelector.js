@@ -15,7 +15,8 @@ class PlaceSelector extends React.PureComponent {
 
 	static defaultProps = {
 		places: null,
-		periods: null
+		periods: null,
+		label: "Place"
 	};
 
 	selectPlace(place){
@@ -32,7 +33,7 @@ class PlaceSelector extends React.PureComponent {
 
 			if (this.props.activePlace) {
 				content = (
-					<div className="ptr-aoi-selected"><span>DPB:</span>{this.props.activePlace.name}</div>
+					<div className="ptr-aoi-selected"><span>{this.props.label}:</span>{this.props.activePlace.name}</div>
 				);
 			} // else keep null
 
@@ -56,7 +57,15 @@ class PlaceSelector extends React.PureComponent {
 				}
 			}
 
-			content = (
+			content = [];
+
+			if (this.props.homeLink && window.Config.toggles.home) {
+				content.push((
+					<a href={window.Config.toggles.home} style={{position: 'relative', left: -20}}>Home</a>
+				));
+			}
+
+			content.push((
 				<UISelect
 					key='place-selector'
 					classes='ptr-place-selector'
@@ -68,7 +77,7 @@ class PlaceSelector extends React.PureComponent {
 					value={selected}
 					disabled={disabled}
 				/>
-			);
+			));
 
 		}
 
