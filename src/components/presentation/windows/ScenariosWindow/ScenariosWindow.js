@@ -17,16 +17,20 @@ class ScenariosWindow extends React.PureComponent {
 				name="Scenarios"
 				elementId="scenarios-window"
 			>
-				<ScreenAnimator>
+				<ScreenAnimator
+					activeScreenKey={this.props.activeScreenKey}
+				>
 					<CaseList
+						changeActiveScreen={this.props.changeActiveScreen.bind(this)}
 						defaultSituationName={DEFAULT_SITUATION_NAME}
 						disableEditing={false}
-						screenId="caseList"
+						screenKey="caseList"
 					/>
 					<CaseDetail
+						changeActiveScreen={this.props.changeActiveScreen.bind(this)}
 						defaultSituationName={DEFAULT_SITUATION_NAME}
 						disableEditing={false}
-						screenId="caseDetail"
+						screenKey="caseDetail"
 					/>
 				</ScreenAnimator>
 			</Window>

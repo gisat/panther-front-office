@@ -8,7 +8,8 @@ const INITIAL_STATE = {
 	windows: {
 		// TODO windows z-order
 		scenarios: {
-			open: false
+			open: false,
+			activeScreenKey: "caseList"
 		},
 		areas: null
 	}

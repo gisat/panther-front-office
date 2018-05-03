@@ -4,6 +4,8 @@ import _ from 'lodash';
 const getWindows = state => state.components.windows;
 const getWindow = (state, props) => state.components.windows[props.key];
 
+const getScenariosWindowActiveScreenKey = (state) => state.components.windows.scenarios.activeScreenKey;
+
 const isWindowOpen = createSelector(
 	getWindow,
 	(window) => {
@@ -13,5 +15,7 @@ const isWindowOpen = createSelector(
 
 export default {
 	isWindowOpen: isWindowOpen,
-	getWindows: getWindows
+	getWindows: getWindows,
+
+	getScenariosWindowActiveScreenKey: getScenariosWindowActiveScreenKey
 };

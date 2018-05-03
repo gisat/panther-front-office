@@ -77,6 +77,20 @@ function shrinkWindow(window){
 	};
 }
 
+function setWindowActiveScreen(windowKey, screenKey){
+	return (dispatch, getState) => {
+		let state = getState();
+		let windows = Select.components.windows.getWindows(state);
+		if (windowKey && windows[windowKey]){
+			let stateUpdate = {...windows, [windowKey]: {
+					...windows[windowKey],
+					activeScreenKey: screenKey
+				}};
+			dispatch(Action.components.update("windows", stateUpdate));
+		}
+	};
+}
+
 // ============ export ===========
 
 export default {
@@ -84,5 +98,7 @@ export default {
 	changeWindowSize: changeWindowSize,
 	expandWindow: expandWindow,
 	handleWindowVisibility: handleWindowVisibility,
-	shrinkWindow: shrinkWindow
+	shrinkWindow: shrinkWindow,
+
+	setWindowActiveScreen: setWindowActiveScreen
 }

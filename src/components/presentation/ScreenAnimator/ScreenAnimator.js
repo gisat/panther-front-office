@@ -9,10 +9,18 @@ class ScreenAnimator extends React.PureComponent {
 	constructor(props){
 		super(props);
 		this.state = {
-			activeScreen: null,
+			activeScreen: props.activeScreenKey || null,
 			screenCount: React.Children.count(props.children)
 		};
 		this.switchScreen = this.switchScreen.bind(this);
+	}
+
+	componentWillReceiveProps(nextProps){
+		if (this.state.activeScreen !== nextProps.activeScreenKey){
+			this.setState({
+				activeScreen: nextProps.activeScreenKey
+			});
+		}
 	}
 
 	switchScreen(key){
@@ -24,7 +32,7 @@ class ScreenAnimator extends React.PureComponent {
 	render() {
 		let activeScreenIndex = 0;
 		let children = React.Children.map(this.props.children, (child, index) => {
-			if (child.props.screenId === this.state.activeScreen){
+			if (child.props.screenKey === this.state.activeScreen){
 				activeScreenIndex = index;
 			}
 			return (<div style={{

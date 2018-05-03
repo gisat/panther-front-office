@@ -8,9 +8,10 @@ import './CaseList.css'
 class CaseList extends React.PureComponent {
 
 	static propTypes = {
+		changeActiveScreen: PropTypes.func,
 		disableEditing: PropTypes.bool,
 		defaultSituationName: PropTypes.string,
-		screenId: PropTypes.string,
+		screenKey: PropTypes.string,
 		switchScreen: PropTypes.func
 	};
 
@@ -19,7 +20,7 @@ class CaseList extends React.PureComponent {
 		if (!caseKey){
 			this.props.setDefaultSituationActive();
 		}
-		this.props.switchScreen('caseDetail');
+		this.props.changeActiveScreen('caseDetail');
 		this.props.changeDefaultMapName(this.props.defaultSituationName);
 	}
 

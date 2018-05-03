@@ -13,12 +13,13 @@ class CaseDetail extends React.PureComponent {
 	static propTypes = {
 		activeScenarioKeys: PropTypes.array,
 		case: PropTypes.object,
+		changeActiveScreen: PropTypes.func,
 		contentType: PropTypes.string,
 		defaultSituationName: PropTypes.string,
 		disableEditing: PropTypes.bool,
 		isDefaultSituationActive: PropTypes.bool,
 		scenarios: PropTypes.array,
-		screenId: PropTypes.string,
+		screenKey: PropTypes.string,
 		switchScreen: PropTypes.func
 	};
 
@@ -82,7 +83,7 @@ class CaseDetail extends React.PureComponent {
 			<div className="case-detail-wrap">
 				<div className="case-detail-header">
 					<div className="case-detail-header-buttons">
-						<button onClick={this.props.switchScreen.bind(null, 'caseList')}>Back</button>
+						<button onClick={this.props.changeActiveScreen.bind(null, 'caseList')}>Back</button>
 					</div>
 					<InputText
 						extraLarge
