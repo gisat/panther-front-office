@@ -5,6 +5,7 @@ import _ from 'lodash';
 
 import InputText from '../../../atoms/InputText/InputText';
 import Button from '../../../atoms/Button';
+import Center from '../../../atoms/Center';
 import ScenarioCard from '../SceanrioCard/ScenarioCard';
 
 import './CaseDetail.css';
@@ -102,7 +103,7 @@ class CaseDetail extends React.PureComponent {
 				<div className="case-detail-body">
 					{defaultState}
 					{scenarios}
-					<Button onClick={this.addScenario} icon="plus" />
+					<Center horizontally><Button circular icon="plus" onClick={this.addScenario} /></Center>
 				</div>
 			</div>
 		);

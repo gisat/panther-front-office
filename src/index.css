@@ -123,6 +123,19 @@ body {
 	border-radius: 50%;
 }
 
+/* == Center ====================================================== */
+
+.ptr-center {
+	display: flex;
+}
+.ptr-center.horizontally {
+	justify-content: center;
+}
+.ptr-center.vertically {
+	height: 100%;
+	align-items: center;
+}
+
 /* == UI Select =================================================== */
 
 .ptr-ui-select {
