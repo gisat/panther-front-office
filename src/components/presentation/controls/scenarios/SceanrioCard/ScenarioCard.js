@@ -67,7 +67,7 @@ class ScenarioCard extends React.PureComponent {
 					<input
 						type="checkbox"
 						checked={this.state.checked}
-						disabled={this.props.disableUncheck || (!this.props.scenarioKey && !this.props.defaultSituation)}
+						disabled={(this.props.disableUncheck && this.state.checked) || (!this.props.scenarioKey && !this.props.defaultSituation)}
 						onChange={this.handleScenarioClick}
 					/>
 				</div>
