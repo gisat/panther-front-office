@@ -61,7 +61,7 @@ class DataUploadOverlay extends React.PureComponent {
 		fetch(url, {
 			method: 'POST',
 			body: data,
-			credentials: 'include'
+			credentials: 'same-origin'
 		}).then(
 			response => {
 				console.log('#### upload data Response', response);
