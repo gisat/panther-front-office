@@ -12,9 +12,10 @@ export default store => {
 };
 
 const setStoreWatchers = store => {
+	createWatcher(store, Select.scenarios.getAll, scenariosWatcher);
+	createWatcher(store, Select.scenarios.getActiveCaseScenarios, activeCaseScenariosWatcher, 'activeScenarios');
 	createWatcher(store, Select.scenarios.getActiveKeys, activeScenarioKeysWatcher);
 	createWatcher(store, Select.scenarios.isDefaultSituationActive, defaultSituationWatcher);
-	createWatcher(store, Select.scenarios.getActiveCaseScenarios, activeCaseScenariosWatcher, 'activeScenarios');
 };
 
 const setEventListeners = store => {
@@ -25,6 +26,9 @@ const setEventListeners = store => {
 				break;
 			case 'scenario#removeDefaultSituation':
 				store.dispatch(Action.scenarios.setDefaultSituationActive(false));
+				break;
+			case 'scenarios#applyFromDataview':
+				store.dispatch(Action.scenarios.update(options.scenarios));
 				break;
 		}
 	});
@@ -77,6 +81,11 @@ const compareActiveScenarios = (next, prev) => {
 			added: next
 		};
 	}
+};
+
+const scenariosWatcher = (value, previousValue) => {
+	console.log('@@ scenariosWatcher', value);
+	window.Stores.notify('REDUX_STORE_SCENARIOS_CHANGED', value);
 };
 
 /////// logic todo move to common location

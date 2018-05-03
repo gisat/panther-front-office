@@ -57,6 +57,12 @@ function removeActiveScenario(key){
 	}
 }
 
+function update(data){
+	return dispatch => {
+		dispatch(actionUpdate(data));
+	};
+}
+
 // ============ actions ===========
 
 function actionAdd(scenarios) {
@@ -94,6 +100,13 @@ function actionSetDefaultSituationActive(active) {
 	}
 }
 
+function actionUpdate(data) {
+	return {
+		type: ActionTypes.SCENARIOS_UPDATE,
+		data: data
+	}
+}
+
 // ============ export ===========
 
 export default {
@@ -103,5 +116,6 @@ export default {
 	setActive: setActive,
 	setActiveCase: setActiveCase,
 	setDefaultSituationActive: setDefaultSituationActive,
+	update: update
 }
 

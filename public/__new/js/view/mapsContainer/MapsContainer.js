@@ -252,7 +252,7 @@ define([
 	MapsContainer.prototype.handleMapsFromDataview = function(mapsMetadata, selectedMap){
 		var state = this._stateStore.current();
 		var self = this;
-		if (state.isMapIndependentOfPeriod){
+		if (state.isMapIndependentOfPeriod && !state.isMapDependentOnScenario){
 			mapsMetadata.forEach(function(map){
 				if (map.key !== 'default-map'){
 					self.addMap(map.key, map.period);

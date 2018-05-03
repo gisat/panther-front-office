@@ -108,6 +108,10 @@ function receiveCases(state, action) {
 	return {...state, cases: {...state.cases, loading: false, data: data}};
 }
 
+function update(state, action){
+	return {...state, ...action.data}
+}
+
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.SCENARIOS_ADD:
@@ -122,6 +126,8 @@ export default (state = INITIAL_STATE, action) => {
 			return addCasesDistinct(state, action);
 		case ActionTypes.SCENARIOS_CASES_SET_ACTIVE:
 			return setActiveCase(state, action);
+		case ActionTypes.SCENARIOS_UPDATE:
+			return update(state, action);
 		default:
 			return state;
 	}

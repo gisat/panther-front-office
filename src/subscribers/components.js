@@ -39,10 +39,8 @@ const sceanriosWindowWatcher = (value, previousValue) => {
 };
 
 const componentsWatcher = (value, previousValue) => {
-	console.log('@@ componentsWatcher', previousValue, '->', value);
-	if (previousValue !== value){
-		window.Stores.notify('REDUX_STORE_COMPONENTS_CHANGED', value);
-	}
+	console.log('@@ componentsWatcher', value);
+	window.Stores.notify('REDUX_STORE_COMPONENTS_CHANGED', value);
 };
 
 /////// logic todo move to common location

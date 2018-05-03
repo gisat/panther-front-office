@@ -518,7 +518,10 @@ define([
 			this._topToolBar.handleDataview(options.widgets);
 		}
 		if (options.components){
-			this._dispatcher.notify('components#applyFromDataview', {windows: options.components.windows})
+			this._dispatcher.notify('components#applyFromDataview', {windows: options.components.windows});
+		}
+		if (options.scenarios){
+			this._dispatcher.notify('scenarios#applyFromDataview', {scenarios: options.scenarios});
 		}
 		if (options.locations){
 			this._dispatcher.notify('place#setActivePlace', {data: options.locations});

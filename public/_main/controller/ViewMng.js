@@ -305,8 +305,13 @@ Ext.define('PumaMain.controller.ViewMng', {
 		if (Config.cfg.widgets){
 			options.widgets = Config.cfg.widgets;
 		}
+		// redux components
 		if (Config.cfg.components){
 			options.components = Config.cfg.components;
+		}
+		// redux scenarios
+		if (Config.cfg.scenarios){
+			options.scenarios = Config.cfg.scenarios;
 		}
 		// maps metadata
 		if (Config.cfg.mapsMetadata){
@@ -453,6 +458,10 @@ Ext.define('PumaMain.controller.ViewMng', {
 			// maps defaults
 			if (options.state && options.state.mapDefaults){
 				cfg.mapDefaults = options.state.mapDefaults;
+			}
+			// scenarios
+			if (options.state && options.state.scenarios){
+				cfg.scenarios = options.state.scenarios;
 			}
 			// active aoi
 			if (options.state && options.state.activeAoi){

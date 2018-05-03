@@ -92,6 +92,7 @@ define([
 			selectedMapId: this._selectedMapId,
 
 			components: this._components,
+			scenarios: this._scenarios,
 
 			user: this._user,
 			widgets: this.widgets(),
@@ -374,6 +375,14 @@ define([
 	};
 
 	/**
+	 * Store scenarios from Redux store for view sharing purposes
+	 * @param scenarios {Object}
+	 */
+	StateStore.prototype.updateScenariosMetadata = function(scenarios){
+		this._scenarios = scenarios;
+	};
+
+	/**
 	 * Update data about user
 	 * @param options {Object}
 	 */
@@ -428,6 +437,8 @@ define([
 			this.updateMapsMetadata(options);
 		} else if (type === 'REDUX_STORE_COMPONENTS_CHANGED'){
 			this.updateComponentsMetadata(options);
+		} else if (type === 'REDUX_STORE_SCENARIOS_CHANGED'){
+			this.updateScenariosMetadata(options);
 		} else if (type === 'AOI_GEOMETRY_SET'){
 			this.setActiveAoi(options.id);
 		} else if (type === 'REDUX_SET_ACTIVE_PLACES'){
