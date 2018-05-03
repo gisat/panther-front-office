@@ -305,6 +305,9 @@ Ext.define('PumaMain.controller.ViewMng', {
 		if (Config.cfg.widgets){
 			options.widgets = Config.cfg.widgets;
 		}
+		if (Config.cfg.components){
+			options.components = Config.cfg.components;
+		}
 		// maps metadata
 		if (Config.cfg.mapsMetadata){
 			options.mapsMetadata = Config.cfg.mapsMetadata;
@@ -439,6 +442,10 @@ Ext.define('PumaMain.controller.ViewMng', {
 			if (options.state && options.state.widgets){
 				cfg.widgets = options.state.widgets;
 			}
+			// components
+			if (options.state && options.state.components){
+				cfg.components = options.state.components;
+			}
 			// maps metadata
 			if (options.state && options.state.mapsMetadata){
 				cfg.mapsMetadata = options.state.mapsMetadata;
@@ -455,7 +462,6 @@ Ext.define('PumaMain.controller.ViewMng', {
 			if (options.state && options.state.locations){
 				cfg.locations = options.state.locations;
 			}
-
 			// selected map
 			if (options.state && options.state.selectedMapId){
 				cfg.selectedMapId = options.state.selectedMapId;

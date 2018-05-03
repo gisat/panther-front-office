@@ -517,6 +517,9 @@ define([
 		if (options.widgets){
 			this._topToolBar.handleDataview(options.widgets);
 		}
+		if (options.components){
+			this._dispatcher.notify('components#applyFromDataview', {windows: options.components.windows})
+		}
 		if (options.locations){
 			this._dispatcher.notify('place#setActivePlace', {data: options.locations});
 		}
