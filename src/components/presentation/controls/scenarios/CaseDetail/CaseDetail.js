@@ -85,7 +85,7 @@ class CaseDetail extends React.PureComponent {
 			<div className="case-detail-wrap">
 				<div className="case-detail-header">
 					<div className="case-detail-header-buttons">
-						<button onClick={this.props.changeActiveScreen.bind(null, 'caseList')}>Back</button>
+						<Button icon="arrow-left" invisible circular onClick={this.props.changeActiveScreen.bind(null, 'caseList')} />
 					</div>
 					<InputText
 						extraLarge

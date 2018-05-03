@@ -1,12 +1,18 @@
 import React from 'react';
 
+import ArrowLeft from './ArrowLeft';
 import Dots from './Dots';
+import Edit from './Edit';
 import Plus from './Plus';
 
 const icon = key => {
 	switch(key) {
+		case 'arrow-left':
+			return <ArrowLeft />;
 		case 'dots':
 			return <Dots />;
+		case 'edit':
+			return <Edit />;
 		case 'plus':
 			return <Plus />;
 		default:
