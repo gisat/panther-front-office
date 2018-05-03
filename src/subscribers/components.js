@@ -11,6 +11,7 @@ export default store => {
 
 const setStoreWatchers = store => {
 	createWatcher(store, Select.components.windows.isWindowOpen, sceanriosWindowWatcher, null, {key: 'scenarios'});
+	createWatcher(store, Select.components.getComponents, componentsWatcher);
 };
 
 const setEventListeners = store => {
@@ -23,6 +24,9 @@ const setEventListeners = store => {
 				let open = Select.components.windows.isWindowOpen(store.getState(), {key: 'scenarios'});
 				store.dispatch(Action.components.windows.handleWindowVisibility('scenarios', !open));
 				break;
+			case 'components#applyFromDataview':
+				store.dispatch(Action.components.update("windows", options.windows));
+				break;
 		}
 	});
 };
@@ -31,6 +35,13 @@ const sceanriosWindowWatcher = (value, previousValue) => {
 	console.log('@@ activeMapKeyWatcher', previousValue, '->', value);
 	if (previousValue !== value){
 		window.Stores.notify('SCENARIOS_WINDOW_TOGGLE');
+	}
+};
+
+const componentsWatcher = (value, previousValue) => {
+	console.log('@@ componentsWatcher', previousValue, '->', value);
+	if (previousValue !== value){
+		window.Stores.notify('REDUX_STORE_COMPONENTS_CHANGED', value);
 	}
 };
 

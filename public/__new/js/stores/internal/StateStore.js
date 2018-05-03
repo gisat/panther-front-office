@@ -86,9 +86,13 @@ define([
 			isMap3D: this.isMap3D,
 			isMapDependentOnScenario: this.isMapDependentOnScenario,
 			isMapIndependentOfPeriod: this.isMapIndependentOfPeriod,
+
 			mapDefaults: this._mapDefaults,
 			mapsMetadata: this._mapsMetadata,
 			selectedMapId: this._selectedMapId,
+
+			components: this._components,
+
 			user: this._user,
 			widgets: this.widgets(),
 			withoutAoi: this._withoutAoi,
@@ -348,6 +352,14 @@ define([
 	};
 
 	/**
+	 * Store components from Redux store for view sharing purposes
+	 * @param components {Object}
+	 */
+	StateStore.prototype.updateComponentsMetadata = function(components){
+		this._components = components;
+	};
+
+	/**
 	 * It is used for maps metadata storing (currently for view sharing purposes).
 	 * @param options.maps {Array} list of maps metadata received from redux store
 	 * @param options.defaults {Object}
@@ -414,6 +426,8 @@ define([
 		// notification from redux
 		else if (type === 'REDUX_STORE_MAPS_CHANGED'){
 			this.updateMapsMetadata(options);
+		} else if (type === 'REDUX_STORE_COMPONENTS_CHANGED'){
+			this.updateComponentsMetadata(options);
 		} else if (type === 'AOI_GEOMETRY_SET'){
 			this.setActiveAoi(options.id);
 		} else if (type === 'REDUX_SET_ACTIVE_PLACES'){
