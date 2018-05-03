@@ -6,6 +6,7 @@ import _ from 'lodash';
 import InputText from '../../../atoms/InputText/InputText';
 import Button from '../../../atoms/Button';
 import Center from '../../../atoms/Center';
+import EditableText from '../../../atoms/EditableText';
 import ScenarioCard from '../SceanrioCard/ScenarioCard';
 
 import './CaseDetail.css';
@@ -93,12 +94,9 @@ class CaseDetail extends React.PureComponent {
 						simpleDecoration
 						disableEditing={this.props.disableEditing}
 						value={name}/>
-					<InputText
-						multiline
-						placeholder="Add description"
-						simpleDecoration
-						disableEditing={this.props.disableEditing}
-						value={description}/>
+					<EditableText
+						value={description}
+					/>
 				</div>
 				<div className="case-detail-body">
 					{defaultState}

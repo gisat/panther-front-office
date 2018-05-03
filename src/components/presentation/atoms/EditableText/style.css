@@ -1,0 +1,11 @@
+.ptr-editable-text {
+	resize: none;
+	overflow: hidden;
+	border: 1px solid transparent;
+	background: transparent;
+	padding: .5rem;
+	font-size: 1rem;
+	line-height: 1.5rem;
+
+	width: 100%;
+}
