@@ -86,61 +86,81 @@ Ext.define('PumaMain.view.ConfigForm', {
 							width: 300
 						}]
 
-					}, {
-						xtype: 'choroplethform'
-					}]
-			}, {
-				xtype: 'multislider',
-				itemId: 'constrainFl',
-				name: 'constrainFl',
-				values: [0, this.featureLayers.length - 1],
-				hidden: true,
-				width: 500,
-				useTips: {
-					getText: function (thumb) {
-						return thumb.slider.up('form').featureLayers[thumb.value].get('name')
-					}
-				},
-				increment: 1,
-				minValue: 0,
-				maxValue: this.featureLayers.length - 1
-			}, {
-				xtype: 'fieldset',
-				itemId: 'advancedfieldset',
-				collapsible: true,
-				collapsed: true,
-				hidden: true,
-				title: polyglot.t('advanced'),
-				items: [{
-					xtype: 'pumacombo',
-					store: Ext.StoreMgr.lookup('periods4chart'),
-					fieldLabel: polyglot.t('periods'),
-					valueField: 'type',
-					value: 'all',
-					width: 500,
-					name: 'periodsSettings',
-					itemId: 'periodsSettings',
-					hidden: true
-				},{
-					xtype: 'pumacombo',
-					store: Ext.StoreMgr.lookup('stacking4chart'),
-					fieldLabel: polyglot.t('stacking'),
-					valueField: 'type',
-					value: 'none',
-					width: 500,
-					name: 'stacking',
-					itemId: 'stacking'
 				}, {
-					xtype: 'pumacombo',
-					store: Ext.StoreMgr.lookup('aggregate4chart'),
-					fieldLabel: polyglot.t('aggregate'),
-					valueField: 'type',
-					value: 'none',
-					width: 500,
-					name: 'aggregate',
-					itemId: 'aggregate'
+					xtype: 'choroplethform'
 				}]
-			}];
+		}, {
+			xtype: 'multislider',
+			itemId: 'constrainFl',
+			name: 'constrainFl',
+			values: [0, this.featureLayers.length - 1],
+			hidden: true,
+			width: 500,
+			useTips: {
+				getText: function (thumb) {
+					return thumb.slider.up('form').featureLayers[thumb.value].get('name')
+				}
+			},
+			increment: 1,
+			minValue: 0,
+			maxValue: this.featureLayers.length - 1
+		}, {
+			xtype: 'fieldset',
+			itemId: 'advancedfieldset',
+			collapsible: true,
+			collapsed: true,
+			hidden: true,
+			title: polyglot.t('advanced'),
+			items: [{
+				xtype: 'pumacombo',
+				store: Ext.StoreMgr.lookup('periods4chart'),
+				fieldLabel: polyglot.t('periods'),
+				valueField: 'type',
+				value: 'all',
+				width: 500,
+				name: 'periodsSettings',
+				itemId: 'periodsSettings',
+				hidden: true
+			},{
+				xtype: 'pumacombo',
+				store: Ext.StoreMgr.lookup('periods4polarchart'),
+				fieldLabel: polyglot.t('periods'),
+				valueField: 'type',
+				value: 'latest',
+				width: 500,
+				name: 'periodsSettingsPolarChart',
+				itemId: 'periodsSettingsPolarChart',
+				hidden: true
+			},{
+				xtype: 'pumacombo',
+				store: Ext.StoreMgr.lookup('normalization4polarchart'),
+				fieldLabel: polyglot.t('normalization'),
+				valueField: 'type',
+				value: 'no',
+				width: 500,
+				name: 'polarAxesNormalizationSettings',
+				itemId: 'polarAxesNormalizationSettings',
+				hidden: true
+			},{
+				xtype: 'pumacombo',
+				store: Ext.StoreMgr.lookup('stacking4chart'),
+				fieldLabel: polyglot.t('stacking'),
+				valueField: 'type',
+				value: 'none',
+				width: 500,
+				name: 'stackingSettings',
+				itemId: 'stackingSettings'
+			}, {
+				xtype: 'pumacombo',
+				store: Ext.StoreMgr.lookup('aggregate4chart'),
+				fieldLabel: polyglot.t('aggregate'),
+				valueField: 'type',
+				value: 'none',
+				width: 500,
+				name: 'aggregateSettings',
+				itemId: 'aggregateSettings'
+			}]
+		}];
 		this.buttons = [{
 			text: polyglot.t('ok'),
 			itemId: 'configurefinish'

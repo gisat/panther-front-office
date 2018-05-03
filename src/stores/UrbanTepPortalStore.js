@@ -1,7 +1,7 @@
 
 
 class UrbanTepPortalStore {
-    communities() {
+    static communities() {
         return $.get('https://urban-tep.eo.esa.int/t2api/community/search?status=joined&format=json').then(function (result) {
             return result.features.map(function (feature) {
                 return {
@@ -10,6 +10,17 @@ class UrbanTepPortalStore {
                 }
             })
         });
+    };
+
+    static share(url, name, community) {
+        $.post('https://urban-tep.eo.esa.int/t2api/apps/puma', {
+            url: url,
+            name: name,
+            community: community
+        }, function () {
+            UrbanTepCommunitiesStore.share(url, community);
+            alert('Application was published on the portal.');
+        })
     };
 }
 

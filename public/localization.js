@@ -32,6 +32,7 @@ var langEn = {
 	areasFilter: "Areas filter",
     areaUnits: "Area units",
     attribute: "Attribute",
+	attributeConfiguration: "Attribute configuration",
     attributesAreMissingNoLinked: "Attributes are missing! Possible reason: There are no linked attribute sets to analytical units for this place.",
     attributesAreMissingPermissions: "Attributes are missing! Possible reason: Current user does not have appropriate permissions for current configuration.",
     attributesAreMissingBrokenLinks: "Attributes are missing! Possible reason: Broken links in visualizations (e.g. non-existing attributes or attribute sets). Try to create visualizations again.",
@@ -157,7 +158,8 @@ var langEn = {
     incorrectLogin: "Incorrect username or password. Please try again.",
     info: "Info",
     infoLayers: "Info Layers",
-    interpolate: "Interpolate",
+	integrateCustomLayer: "Integrate new layers",
+	interpolate: "Interpolate",
     introduction: "Introduction",
     itWasntPossibleToLoadGroupsUsers: "It wasnt possible to load available users and groups. Please try later. Error: ",
 
@@ -208,6 +210,7 @@ var langEn = {
 
     name: "Name",
     nextPage: "Next Page",
+    no: "No",
     noAreas: "No areas",
     noAreaSelected: "No area selected",
     noAttributesInfo: "No attributes or no data for selected attributes.",
@@ -246,6 +249,7 @@ var langEn = {
     pie: "Pie",
 	pinWidget: "Pin widget",
     place: "Place",
+    polar: "Polar",
     polygon: "polygon",
     pleaseSelectAreas: "Please select areas...",
     previousPage: "Previous Page",
@@ -372,8 +376,10 @@ var langEn = {
     wmsLayerIsMissing: "WMS layer is missing",
 
     year: "Year: ",
+    yes: "Yes",
     yesNo: "(Yes/No)",
 
+	zoom: "Zoom",
     zoomSelected: "Zoom selected",
 	zoomToExtent: "Zoom to extent"
 };
@@ -392,7 +398,7 @@ var langCz = {
     addLayer: "Přidat vrstvu",
     administration: "Administrace",
     advanced: "Pokročilé",
-    aggregate: "Aggregovat",
+    aggregate: "Agregovat",
     all: "Vše",
     allAttributes: "Všechny atributy",
     allAttributesHaveToBeNormalized: 'Všechny atributy musí být normalizované ve stylu "První vybraný"',
@@ -412,6 +418,7 @@ var langCz = {
     areasFilter: "Filtrování území",
     areaUnits: "Plošné jednotky",
     attribute: "Atribut",
+    attributeConfiguration: "Nastavení atributu",
     attributesAreMissingNoLinked: "Chybí atributy! Možný důvod: K tomuto místu nejsou připojené žádné skupiny atributů.",
     attributesAreMissingPermissions: "Chybí atributy! Možný důvod: Aktuální uživatel nemá dostatečná práva k této konfiguraci.",
     attributesAreMissingBrokenLinks: "Chybí atributy! Možný důvod: Rozbité vazby ve vizualizaci (např. neexistující atributz nebo skupinz atributů). Zkuste znovu vytvořit vizualizaci.",
@@ -537,6 +544,7 @@ var langCz = {
     incorrectLogin: "Chybné uživatelské jméno nebo heslo. Zkuste to prosím znovu.",
     info: "Info",
     infoLayers: "Informační vrstvy",
+    integrateCustomLayer: "Integrace nových vrstev",
     interpolate: "Interpolovat",
     introduction: "Úvod",
     itWasntPossibleToLoadGroupsUsers: "Nebylo možné načíst dostupné uživatele a skupiny. Zkuste to prosím později. Chyba: ",
@@ -588,6 +596,7 @@ var langCz = {
 
     name: "Jméno",
 	nextPage: "Další stránka",
+    no: "Ne",
 	noAreas: "Žádná jednotka",
     noAreaSelected: "Žádná jednotka není vybraná",
 	noAttributesInfo: "K této jednotce se neváží žádné atributy.",
@@ -626,6 +635,7 @@ var langCz = {
     pie: "Kruhový diagram",
 	pinWidget: "Připnout widget",
     place: "Místo",
+	polar: "Polární graf",
     polygon: "polygon",
     pleaseSelectAreas: "Prosím vyberte území...",
 	previousPage: "Předchozí stránka",
@@ -752,8 +762,10 @@ var langCz = {
     wmsLayerIsMissing: "WMS vrstva chybí",
 
     year: "Rok: ",
+    yes: "Ano",
     yesNo: "(Ano/Ne)",
 
+    zoom: "Přiblížení",
     zoomSelected: "Přiblížit výběr",
 	zoomToExtent: "Přiblížit na výchozí rozsah"
 };

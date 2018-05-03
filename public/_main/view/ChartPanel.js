@@ -65,6 +65,7 @@ Ext.define('PumaMain.view.ChartPanel', {
     updateToolVisibility: function() {
         var toolNames = [];
         switch (this.cfgType) {
+            case 'polarchart': // TODO do we want also 'help'?
             case 'grid':
                 toolNames = ['description','gear','collapse','save','close']; break;
             case 'piechart':

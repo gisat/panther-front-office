@@ -164,7 +164,9 @@ class ExtApp {
         if (url.searchParams.get('needLogin')) {
             $('#hideAllExceptLogin').show();
 
-            this.on('login', function (loggedIn) {
+            this.loginController.getApplication().on('login',function(loggedIn) {
+                Config.dataviewId = id;
+                $('#hideAllExceptLogin').hide();
                 self.login(loggedIn, id);
             });
         } else if (id) {
@@ -197,9 +199,6 @@ class ExtApp {
 
     login(loggedIn, id) {
         if (loggedIn) {
-            Config.dataviewId = id;
-            $('#hideAllExceptLogin').hide();
-
             let stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic', 'dataview'];
             stores.forEach(function (store) {
                 Ext.StoreMgr.lookup(store).load();
@@ -207,12 +206,12 @@ class ExtApp {
 
             this.dataViewController.onLoadingFinished();
 
-            if (this._dataviewId !== id) {
+            if (this._dataviewId !== Config.dataviewId) {
                 this.domManipulationController.renderApp();
                 this.renderController.renderApp();
             }
 
-            this._dataviewId = id;
+            this._dataviewId = Config.dataviewId;
         } else {
             window.Stores.notify("initialLoadingFinished");
             this.loginController.onLoginClicked();

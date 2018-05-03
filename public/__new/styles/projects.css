@@ -1,5 +1,8 @@
 /* Table of contents
 
+	DEFAULT
+	  Intro overlay
+
 	DROMAS......................adjustments for Dromas
 	  Intro overlay
 
@@ -10,6 +13,11 @@
 	  Top toolbar inputs
 
 */
+
+/* Intro Overlay */
+.about-window-header {
+	background-image: url('../img/panther/panther_background.jpg');
+}
 
 /* ===================================================
    === DROMAS ========================================
@@ -27,7 +35,7 @@ html.dromas .custom-views-category:hover {
 	background: rgba(172,98,33,.2);
 }
 html.dromas .about-window-header {
-	background: url('../img/dromas/dromas-background.jpeg') no-repeat;
+	background-image: url('../img/dromas/dromas-background.jpeg');
 }
 html.dromas .about-window-header-title {
 	background: rgba(172,98,33,.7);
