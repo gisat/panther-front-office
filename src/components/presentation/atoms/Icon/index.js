@@ -1,11 +1,14 @@
 import React from 'react';
 
 import Dots from './Dots';
+import Plus from './Plus';
 
 const icon = key => {
 	switch(key) {
 		case 'dots':
 			return <Dots />;
+		case 'plus':
+			return <Plus />;
 		default:
 			return null;
 	}

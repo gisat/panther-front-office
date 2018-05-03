@@ -4,6 +4,7 @@ import utils from '../../../../../utils/utils';
 import _ from 'lodash';
 
 import InputText from '../../../atoms/InputText/InputText';
+import Button from '../../../atoms/Button';
 import ScenarioCard from '../SceanrioCard/ScenarioCard';
 
 import './CaseDetail.css';
@@ -101,7 +102,7 @@ class CaseDetail extends React.PureComponent {
 				<div className="case-detail-body">
 					{defaultState}
 					{scenarios}
-					<button onClick={this.addScenario}>Add next scenario</button>
+					<Button onClick={this.addScenario} icon="plus" />
 				</div>
 			</div>
 		);
