@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 
 import InputText from '../../../atoms/InputText/InputText';
+import Button from '../../../atoms/Button';
 import './ScenarioCard.css';
 
 class ScenarioCard extends React.PureComponent {
@@ -22,12 +23,14 @@ class ScenarioCard extends React.PureComponent {
 		super(props);
 
 		this.state = {
-			checked: this.props.checked,
-			showDetails: !this.props.scenarioKey || false
+			checked: props.checked,
+			editing: !props.scenarioKey && !props.defaultSituation,
+			showDetails: !props.scenarioKey || false
 		};
 
 		this.handleDetailsButtonClick = this.handleDetailsButtonClick.bind(this);
 		this.handleScenarioClick = this.handleScenarioClick.bind(this);
+		this.toggleEditing = this.toggleEditing.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -35,6 +38,11 @@ class ScenarioCard extends React.PureComponent {
 			checked: nextProps.checked,
 			showDetails:!this.props.scenarioKey || false
 		});
+	}
+
+
+	toggleEditing() {
+		this.setState({editing: !this.state.editing});
 	}
 
 	handleDetailsButtonClick(){
@@ -47,83 +55,66 @@ class ScenarioCard extends React.PureComponent {
 		this.props.handleScenarioClick(this.props.scenarioKey, e.target.checked, this.props.defaultSituation);
 	};
 
+
 	render() {
 		let classes = classNames("scenario-card", {
 			'not-created': !this.props.scenarioKey && !this.props.defaultSituation
 		});
 
-		let header = this.renderHeader();
-		let body = null;
-
-		if (this.state.showDetails && !this.props.defaultSituation){
-			body = this.renderBody();
-		}
-
-		return (
-			<div className={classes}>
-				{header}
-				{body}
-			</div>
-		);
-	}
-
-	renderHeader(){
-		let checkbox = null;
-		let buttons = null;
-
-		if (this.props.scenarioKey || this.props.defaultSituation){
-			let disabled = this.state.checked && this.props.disableUncheck;
-			checkbox = (
-				<div className="scenario-card-header-checkbox">
-					<input onChange={this.handleScenarioClick} type="checkbox" checked={this.state.checked} disabled={disabled}/>
-				</div>
-			);
-		}
-		if (!this.props.defaultSituation){
-			buttons = (
-				<div className="scenario-card-header-buttons">
-					<button onClick={this.handleDetailsButtonClick}>Details</button>
-				</div>
-			);
-		}
-
-		return (
+		let header = (
 			<div className="scenario-card-header">
-				{checkbox}
+				<div className="scenario-card-header-checkbox">
+					<input
+						type="checkbox"
+						checked={this.state.checked}
+						disabled={this.props.disableUncheck || (!this.props.scenarioKey && !this.props.defaultSituation)}
+						onChange={this.handleScenarioClick}
+					/>
+				</div>
 				<div className="scenario-card-header-title">
 					<InputText
 						large
 						placeholder="Add scenario name"
 						simpleDecoration
-						disableEditing={this.props.disableEditing}
-						value={this.props.name}/>
+						disableEditing={!this.props.editing || this.props.disableEditing}
+						value={this.props.name}
+					/>
 				</div>
-				{buttons}
+				<div className="scenario-card-header-buttons">
+					{!this.props.defaultSituation ? (
+						<Button
+							invisible
+							icon="edit"
+							onClick={this.toggleEditing}
+						/>
+					) : null}
+				</div>
 			</div>
 		);
-	}
 
-	renderBody(){
-		return (
+		let body = !this.props.defaultSituation ? (
 			<div className="scenario-card-body">
 				<InputText
 					multiline
 					placeholder="Add scenario description"
 					simpleDecoration
-					disableEditing={this.props.disableEditing}
+					disableEditing={!this.props.editing || this.props.disableEditing}
 					value={this.props.description}
 				/>
-				<div className="scenario-card-body-buttons">
-					<button disabled={true}>
-						Upload
-					</button>
-					<button disabled={true}>
-						Download
-					</button>
-					<button disabled={true}>
-						Save
-					</button>
-				</div>
+				{this.state.editing ? (
+					<div className="scenario-card-body-buttons">
+						<Button disabled={true}>
+							Save
+						</Button>
+					</div>
+				) : null}
+			</div>
+		) : null;
+
+		return (
+			<div className={classes}>
+				{header}
+				{body}
 			</div>
 		);
 	}

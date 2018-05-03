@@ -29,7 +29,7 @@
 }
 .scenario-card-body {
 	padding: .7rem;
-	border-top: 1px dashed #aaa;
+	/*border-top: 1px dashed #aaa;*/
 }
 .scenario-card-body-buttons {
 	padding: .7rem 0;
