@@ -60,6 +60,12 @@ class CaseDetail extends React.PureComponent {
 		}
 	}
 
+	onChangeDescription(caseKey, value) {
+		this.setState({
+			description: value
+		});
+	}
+
 	render() {
 		let caseData = this.props.case;
 		let scenariosData = this.state.scenarios;
@@ -70,7 +76,7 @@ class CaseDetail extends React.PureComponent {
 
 		if (caseData){
 			name = caseData.name;
-			description = caseData.description;
+			description = this.state.hasOwnProperty('description') ? this.state.description : caseData.description;
 		}
 
 		if (scenariosData){
@@ -96,6 +102,7 @@ class CaseDetail extends React.PureComponent {
 						value={name}/>
 					<EditableText
 						value={description}
+						onChange={caseData ? this.onChangeDescription.bind(this, caseData.key) : undefined}
 					/>
 				</div>
 				<div className="case-detail-body">

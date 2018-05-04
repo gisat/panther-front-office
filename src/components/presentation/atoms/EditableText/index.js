@@ -22,6 +22,7 @@ class EditableText extends React.PureComponent {
 		this.ref = this.ref.bind(this);
 		this.onFocus = this.onFocus.bind(this);
 		this.onBlur = this.onBlur.bind(this);
+		this.onChange = this.onChange.bind(this);
 	}
 
 	ref(el) {
@@ -64,9 +65,16 @@ class EditableText extends React.PureComponent {
 	}
 
 	onChange(e){
-		this.setState({
-			value: e.target.value
-		});
+		if (this.props.hasOwnProperty('value') && this.props.onChange) {
+			// controlled
+			console.log('#######', e.target.value);
+			this.props.onChange(e.target.value);
+		} else {
+			// uncontrolled
+			this.setState({
+				value: e.target.value
+			});
+		}
 	}
 
 	render() {
@@ -88,6 +96,7 @@ class EditableText extends React.PureComponent {
 					onFocus={this.onFocus}
 					onBlur={this.onBlur}
 					spellCheck={this.state.focused}
+					onChange={this.onChange}
 				/>
 			);
 		} else {

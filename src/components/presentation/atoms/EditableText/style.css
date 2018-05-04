@@ -9,3 +9,7 @@
 
 	width: 100%;
 }
+
+textarea.ptr-editable-text:focus {
+	border: 1px dashed rgba(0,0,0,.5);
+}
