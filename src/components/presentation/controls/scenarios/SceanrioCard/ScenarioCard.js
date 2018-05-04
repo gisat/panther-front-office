@@ -63,6 +63,12 @@ class ScenarioCard extends React.PureComponent {
 		});
 	}
 
+	onChangeDescription(value) {
+		this.setState({
+			description: value
+		});
+	}
+
 
 	render() {
 
@@ -88,6 +94,7 @@ class ScenarioCard extends React.PureComponent {
 							large
 							disabled={!this.state.editing || this.props.disableEditing}
 							value={this.state.hasOwnProperty('name') ? this.state.name : this.props.name}
+							placeholder="Scenario name"
 							onChange={this.onChangeName}
 						/>
 					</div>
@@ -106,12 +113,11 @@ class ScenarioCard extends React.PureComponent {
 
 		let body = !this.props.defaultSituation ? (
 			<div className="scenario-card-body">
-				<InputText
-					multiline
-					placeholder="Add scenario description"
-					simpleDecoration
-					disableEditing={!this.props.editing || this.props.disableEditing}
-					value={this.props.description}
+				<EditableText
+					disabled={!this.state.editing || this.props.disableEditing}
+					value={this.state.hasOwnProperty('description') ? this.state.description : this.props.description}
+					placeholder="Description"
+					onChange={this.onChangeDescription}
 				/>
 				{this.state.editing && false ? ( // don't save with button for now
 					<div className="scenario-card-body-buttons">
