@@ -60,6 +60,12 @@ class CaseDetail extends React.PureComponent {
 		}
 	}
 
+	onChangeName(caseKey, value) {
+		this.setState({
+			name: value
+		});
+	}
+
 	onChangeDescription(caseKey, value) {
 		this.setState({
 			description: value
@@ -75,7 +81,7 @@ class CaseDetail extends React.PureComponent {
 		let defaultState = null;
 
 		if (caseData){
-			name = caseData.name;
+			name = this.state.hasOwnProperty('name') ? this.state.name : caseData.name;
 			description = this.state.hasOwnProperty('description') ? this.state.description : caseData.description;
 		}
 
@@ -94,14 +100,14 @@ class CaseDetail extends React.PureComponent {
 					<div className="case-detail-header-buttons">
 						<Button icon="arrow-left" invisible circular onClick={this.props.changeActiveScreen.bind(null, 'caseList')} />
 					</div>
-					<InputText
-						extraLarge
-						placeholder="What is your case?"
-						simpleDecoration
-						disableEditing={this.props.disableEditing}
-						value={name}/>
+					<EditableText
+						value={name}
+						placeholder="Case title"
+						onChange={caseData ? this.onChangeName.bind(this, caseData.key) : undefined}
+					/>
 					<EditableText
 						value={description}
+						placeholder="Description"
 						onChange={caseData ? this.onChangeDescription.bind(this, caseData.key) : undefined}
 					/>
 				</div>
