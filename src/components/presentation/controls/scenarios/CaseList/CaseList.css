@@ -33,26 +33,26 @@
 	font-weight: 400;
 }
 
-.add-case-button {
+.ptr-button#ptr-case-list-add-case-button {
 	position: absolute;
-	bottom: 20px;
-	height: 50px;
-	width: 50px;
-	right: 20px;
-	background: rgb(65,69,81);
-	border-radius: 25px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	bottom: 1rem;
+	/*height: 50px;*/
+	/*width: 50px;*/
+	right: 1.5rem;
+	/*background: rgb(65,69,81);*/
+	/*border-radius: 25px;*/
+	/*display: flex;*/
+	/*justify-content: center;*/
+	/*align-items: center;*/
 	box-shadow: 0 3px 3px 0 rgba(100,100,100,.5);
-	cursor: pointer;
-	transition: background .3s ease-in-out;
+	/*cursor: pointer;*/
+	/*transition: background .3s ease-in-out;*/
 }
 .add-case-button:hover {
-	background: rgb(33,38,53);
+	/*background: rgb(33,38,53);*/
 }
-.add-case-button > span {
-	font-size: 2rem;
-	color: white;
-	font-weight: 300;
-}
+/*.add-case-button > span {*/
+	/*font-size: 2rem;*/
+	/*color: white;*/
+	/*font-weight: 300;*/
+/*}*/

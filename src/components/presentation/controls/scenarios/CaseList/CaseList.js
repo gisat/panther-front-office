@@ -5,6 +5,8 @@ import _ from 'lodash';
 
 import './CaseList.css'
 
+import Button from '../../../atoms/Button';
+
 class CaseList extends React.PureComponent {
 
 	static propTypes = {
@@ -35,9 +37,15 @@ class CaseList extends React.PureComponent {
 
 		let addCaseBtn = null;
 		if (!this.props.disableEditing){
-			addCaseBtn = (<div className='add-case-button' onClick={this.showDetail.bind(this, null)}>
-				<span>+</span>
-			</div>);
+			addCaseBtn = (
+				<Button
+					floatingAction
+					circular
+					icon="plus"
+					onClick={this.showDetail.bind(this, null)}
+					id="ptr-case-list-add-case-button"
+				/>
+			);
 		}
 
 

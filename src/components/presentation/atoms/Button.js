@@ -17,6 +17,7 @@ class Button extends React.PureComponent {
 		invisible: PropTypes.bool,
 		circular: PropTypes.bool,
 		small: PropTypes.bool,
+		floatingAction: PropTypes.bool,
 		onClick: PropTypes.func,
 		className: PropTypes.string
 	};
@@ -82,6 +83,7 @@ class Button extends React.PureComponent {
 				ghost: !!this.props.ghost,
 				invisible: !!this.props.invisible,
 				circular: !!this.props.circular,
+				'floating-action': !!this.props.floatingAction,
 				//hasIcon: !!this.props.icon,
 				//focused: this.state.focused,
 				disabled: this.props.disabled

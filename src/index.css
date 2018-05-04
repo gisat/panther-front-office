@@ -81,6 +81,12 @@ body {
 	background: rgba(125,125,125,.4);
 	color: #111;
 }
+.ptr-button.floating-action {
+	background: rgb(200,200,200);
+}
+.ptr-button.floating-action:hover {
+	background: rgb(180,180,180);
+}
 
 .ptr-button.primary {
 	background: rgb(153, 54, 75);
@@ -118,6 +124,8 @@ body {
 	height: 2.25rem;
 	border-radius: 50%;
 	padding: calc(.5rem - 1px);
+}
+.ptr-button.circular:not(.floating-action) {
 	position: relative;
 	top: -.125rem;
 	left: -.125rem;
