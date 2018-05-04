@@ -242,6 +242,11 @@ define([
 				layerKey: defaults.wmsLayers
 			});
 		}
+		if (defaults.layerTemplates){
+			this._dispatcher.notify("infoLayer#add", {
+				layerTemplates: defaults.layerTemplates
+			});
+		}
 	};
 
 	/**
