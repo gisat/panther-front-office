@@ -29,19 +29,19 @@ let polyglot = window.polyglot;
 let $ = window.$;
 class PeriodsSelector {
     constructor(options) {
-        if (!options.containerSelector) {
+        if (!options.containerSelector){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "PeriodsSelector", "constructor", "missingTarget"));
         }
-        if (!options.store) {
+        if(!options.store){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'PeriodsSelector', 'constructor', 'Stores must be provided'));
         }
-        if (!options.store.periods) {
+        if(!options.store.periods){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'PeriodsSelector', 'constructor', 'Store periods must be provided'));
         }
-        if (!options.store.scopes) {
+        if(!options.store.scopes){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'PeriodsSelector', 'constructor', 'Store scopes must be provided'));
         }
-        if (!options.store.state) {
+        if(!options.store.state){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'PeriodsSelector', 'constructor', 'Store state must be provided'));
         }
 
@@ -85,6 +85,8 @@ class PeriodsSelector {
      * @param periods {Array} list of periods with metadata
      */
     render(periods) {
+        let state = this._stateStore.current();
+
         if (this._periodsContainerSelector) {
             this._periodsContainerSelector.remove();
         }
@@ -103,9 +105,13 @@ class PeriodsSelector {
 
         this._basicSelect = this.renderBasicPeriodSelection(periods);
 
-        if (periods.length > 1) {
+        if (periods.length > 1 && !state.isMapIndependentOfPeriod){
             this._compareButton = this.renderCompareButton();
             this._multiSelect = this.renderMultiplePeriodSelection(periods);
+        }
+
+        if(state.scopeFull.removedTools && state.scopeFull.removedTools.indexOf('period') !== -1) {
+            $('#'+this._id).hide();
         }
     };
 
@@ -208,16 +214,18 @@ class PeriodsSelector {
             textSmall: true,
             onClick: this.selectAllPeriods.bind(this)
         });
-    };
+    }
 
     /**
      * @param type {string} type of event
      */
     onEvent(type) {
-        if (type === Actions.periodsRebuild) {
+        if (type === Actions.periodsRebuild){
+            this.rebuild();
+        } else if (type === Actions.periodsDefault){
             this.rebuild();
         }
-    };
+    }
 
     /**
      * If a change in basic selector of period occured, get selected period and notify Ext DiscreteTimeline.js
@@ -299,8 +307,7 @@ class PeriodsSelector {
         });
 
         return selectedPeriods;
-    };
-
+    }
 }
 
 export default PeriodsSelector;

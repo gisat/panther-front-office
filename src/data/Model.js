@@ -38,7 +38,9 @@ class Model {
             }
         });
 
-        return Promise.all(promises);
+        return Promise.all(promises).then(() => {
+            return self;
+        });
     };
 }
 

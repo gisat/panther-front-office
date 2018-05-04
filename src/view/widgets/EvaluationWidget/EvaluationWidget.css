@@ -4,6 +4,7 @@
 
 /* = Evaluation floater = */
 #floater-evaluation-widget {
+    position: absolute;
     left: 16rem;
     top: 10rem;
     min-width: 22rem;

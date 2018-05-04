@@ -8,6 +8,8 @@ import Logger from '../../util/Logger';
 
 import DataMining from '../../util/dataMining';
 import Layers from './layers/Layers';
+import MapWindowTools from './MapWindowTools/MapWindowTools';
+import MultiPolygon from './geometries/MultiPolygon';
 import MyGoToAnimator from '../../worldwind/MyGoToAnimator';
 import SelectionController from '../../worldwind/SelectionController';
 import VisibleLayersStore from '../../stores/internal/VisibleLayersStore';
@@ -15,8 +17,6 @@ import Uuid from '../../util/Uuid';
 import WmsFeatureInfo from '../../worldwind/WmsFeatureInfo';
 
 import './WorldWindMap.css';
-
-let Config = window.Config;
 
 /**
  * Class World Wind Map
@@ -35,22 +35,25 @@ let Config = window.Config;
 let $ = window.$;
 class WorldWindMap {
     constructor(options) {
-        if (!options.mapsContainer) {
+        if (!options.mapsContainer){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindMap", "constructor", "missingMapsContainer"));
         }
-        if (!options.store) {
+        if(!options.store){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindMap', 'constructor', 'Stores must be provided'));
         }
-        if (!options.store.locations) {
+        if(!options.store.locations){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindMap', 'constructor', 'Stores locations must be provided'));
         }
-        if (!options.store.state) {
+        if (!options.store.scopes){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindMap", "constructor", "missingScopesStore"));
+        }
+        if(!options.store.state){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindMap', 'constructor', 'Stores state must be provided'));
         }
-        if (!options.store.map) {
+        if(!options.store.map){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindMap', 'constructor', 'Stores map must be provided'));
         }
-        if (!options.store.periods) {
+        if(!options.store.periods){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindMap', 'constructor', 'Stores periods must be provided'));
         }
 
@@ -58,6 +61,10 @@ class WorldWindMap {
         this._mapsContainerSelector = options.mapsContainer;
 
         this._store = options.store;
+        this._scopesStore = options.store.scopes;
+        this._stateStore = options.store.state;
+        this._mapStore = options.store.map;
+        this._periodsStore = options.store.periods;
 
         this._dataMining = new DataMining({
             store: {
@@ -66,9 +73,12 @@ class WorldWindMap {
         });
 
         this._dispatcher = options.dispatcher;
-
         this._id = options.id || new Uuid().generate();
+        this._mapSelector = $("#" + this._id);
 
+        this._name = "Map " + options.orderFromStart;
+        this._selected = false;
+        this._aoiLayer = null;
 
         /**
          * Every map is associated with the period. If no period is specified, then it is supplied latest when the first
@@ -112,6 +122,13 @@ class WorldWindMap {
         return this._selectedLayers;
     }
 
+    get name() {
+        return this._name;
+    }
+    set name(name) {
+        this._name = name;
+    }
+
 
     /**
      * It builds Web World Wind
@@ -124,9 +141,6 @@ class WorldWindMap {
                     Your browser does not support HTML5 Canvas.
                 </canvas>
             </div>
-            <div class="map-window-tools">
-        
-            </div>
         </div>
         `).template({
             id: this._id
@@ -134,20 +148,58 @@ class WorldWindMap {
         this._mapsContainerSelector.append(html);
         this._mapBoxSelector = this._mapsContainerSelector.find("#" + this._id + "-box");
 
+        this.mapWindowTools = this.buildMapWindowTools();
         this.setupWebWorldWind();
+        this.addDropListener();
+        this.handleScopeSettings();
 
-        if (this._id !== 'default-map') {
-            this.addPeriod();
+        if (this._id !== 'default-map'){
+            this.mapWindowTools.addMapLabel(this._period);
         }
-
-        $('#' + this._id).off('drop');
-        $('#' + this._id).on('drop', function (e) {
-            e.preventDefault();
-            let files = e.originalEvent.dataTransfer.files;
-            this.addFiles(files);
-            return false;
-        }.bind(this))
     };
+
+    /**
+     * It builds an instance of MyGoToAnimator
+     * @returns {MyGoToAnimator}
+     */
+    buildGoToAnimator(){
+        return new MyGoToAnimator(this._wwd, {
+            store: {
+                locations: this._store.locations,
+                state: this._store.state
+            },
+            dispatcher: this._dispatcher
+        });
+    }
+
+    buildMapWindowTools(){
+        return new MapWindowTools({
+            dispatcher: this._dispatcher,
+            mapId: this._id,
+            mapName: this._name,
+            store: {
+                map: this._store.map,
+                periods: this._periodsStore,
+                scopes: this._scopesStore,
+                state: this._stateStore
+            },
+            targetContainer: this._mapBoxSelector
+        });
+    }
+
+    /**
+     * It builds an instance of Layers for this map
+     * @returns {Layers}
+     */
+    buildLayers(){
+        return new Layers(this._wwd, {
+            selectController: this.selectionController
+        });
+    }
+
+    buildSelectionController(){
+        return new SelectionController(this._wwd);
+    }
 
     /**
      * Add close button to this map
@@ -159,6 +211,22 @@ class WorldWindMap {
             this._mapBoxSelector.find(".map-window-tools").append(html);
         }
     };
+
+    /**
+     * Change geometry in AOI Layer, if layer exists
+     * @param geometry {GeoJSON}
+     * @param geometry.coordintes {Array}
+     * @param geometry.type {string}
+     */
+    changeGeometryInAoiLayer(geometry){
+        if (this._aoiLayer){
+            this._aoiLayer.removeAllRenderables();
+            let renderables = new MultiPolygon({geometry: geometry, switchedCoordinates: true}).render();
+
+            this._aoiLayer.addRenderables(renderables);
+            this._wwd.redraw();
+        }
+    }
 
     /**
      * Remove close button to this map
@@ -192,24 +260,17 @@ class WorldWindMap {
      */
     setupWebWorldWind() {
         this._wwd = this.buildWorldWindow();
-        let self = this;
-        this._wwd._redrawCallbacks.push(function () {
-            let input = document.getElementById('top-toolbar-snapshot');
-            $(input).attr('data-url', document.getElementById(self._id + '-canvas').toDataURL());
-        });
-        this._wwd.addEventListener("mousemove", this.updateNavigatorState.bind(this));
-        this._wwd.addEventListener("wheel", this.updateNavigatorState.bind(this));
 
-        this._goToAnimator = new MyGoToAnimator(this._wwd, {
-            store: {
-                locations: this._store.locations,
-                state: this._store.state
-            }
-        });
-        this.selectionController = new SelectionController(this._wwd);
-        this.layers = new Layers(this._wwd, {
-            selectController: this.selectionController
-        });
+        if (!this._stateStore.current().isMap3D){
+            this.setProjection('2D');
+        }
+
+        this._goToAnimator = this.buildGoToAnimator();
+        this.selectionController = this.buildSelectionController();
+        this.layers = this.buildLayers();
+
+        this.addMapControlListeners();
+        this.setNavigator();
     };
 
     /**
@@ -224,33 +285,39 @@ class WorldWindMap {
      * Rebuild map
      */
     rebuild() {
-        let stateStore = this._store.state;
-        stateStore.removeLoadingOperation("initialLoading");
-        let state = stateStore.current();
+        this._stateStore.removeLoadingOperation("initialLoading");
+        let state = this._stateStore.current();
         let changes = state.changes;
 
-        if (changes.scope || changes.location) {
-            stateStore.removeLoadingOperation("appRendering");
+        if (changes.scope || changes.location){
+            this._stateStore.removeLoadingOperation("appRendering");
         }
-        if ((changes.scope || changes.location) && !changes.dataview) {
-            stateStore.addLoadingOperation("ScopeLocationChanged");
+
+        /**
+         * Set location if location or scope has been changed, but dataview
+         */
+        if ((changes.scope || changes.location) && !changes.dataview){
+            this._stateStore.addLoadingOperation("ScopeLocationChanged");
             this._goToAnimator.setLocation();
         }
 
-
-        if (this._id === "default-map") {
-            stateStore.addLoadingOperation("DefaultMap");
+        let maps = this._mapStore.getAll();
+        if (this._id === "default-map" || maps.length === 1){
+            this._stateStore.addLoadingOperation("DefaultMap");
             this.updateNavigatorState();
             let periods = state.periods;
-            if (periods.length === 1 || !this._period) {
+            if (periods.length === 1 || !this._period){
                 this._period = periods[0];
+                this._dispatcher.notify('periods#initial', periods);
             }
-            if (!Config.toggles.hideSelectorToolbar) {
-                this.addPeriod();
+            this.mapWindowTools.addMapLabel(this._period);
+            if (!state.isMapIndependentOfPeriod){
+                this.unselect();
+                this._dispatcher.notify('map#defaultMapUnselected');
             }
-        } else {
-            stateStore.addLoadingOperation("AditionalMap");
-            stateStore.removeLoadingOperation("AditionalMap");
+            if (!this._aoiLayer){
+                this.handleScopeSettings();
+            }
         }
     };
 
@@ -265,18 +332,27 @@ class WorldWindMap {
      * Get navigator state from store and set this map navigator's parameters.
      */
     setNavigator() {
-        let navigatorState = this._store.map.getNavigatorState();
+        var navigatorState = this._stateStore.getNavigatorState();
 
-        this._wwd.navigator.heading = navigatorState.heading;
-        this._wwd.navigator.lookAtLocation = navigatorState.lookAtLocation;
-        this._wwd.navigator.range = navigatorState.range;
-        this._wwd.navigator.roll = navigatorState.roll;
-        this._wwd.navigator.tilt = navigatorState.tilt;
+        if (navigatorState){
+            this._wwd.navigator.heading = navigatorState.heading;
+            this._wwd.navigator.lookAtLocation = navigatorState.lookAtLocation;
+            this._wwd.navigator.range = navigatorState.range;
+            this._wwd.navigator.roll = navigatorState.roll;
+            this._wwd.navigator.tilt = navigatorState.tilt;
 
-        this.redraw();
-        let stateStore = this._store.state;
-        stateStore.removeLoadingOperation("DefaultMap");
+            this._goToAnimator.checkRange(navigatorState.range);
+            this.redraw();
+        }
     };
+
+    /**
+     * Unselect map
+     */
+    unselect(){
+        this._selected = false;
+        this._mapBoxSelector.removeClass('selected');
+    }
 
     /**
      * Set map range
@@ -286,6 +362,28 @@ class WorldWindMap {
         this._wwd.navigator.range = range;
         this.redraw();
     };
+
+    /**
+     * Set map period
+     * @param period {number}
+     */
+    setPeriod(period){
+        this._period = period;
+    }
+
+    /**
+     * Set projection of current map
+     * @param projection {string} 2D or 3D
+     */
+    setProjection(projection){
+        if (projection === '2D'){
+            this._wwd.globe = new WorldWind.Globe2D();
+            this._wwd.globe.projection = new WorldWind.ProjectionMercator();
+        } else if (projection === '3D'){
+            this._wwd.globe = new WorldWind.Globe(new WorldWind.EarthElevationModel());
+        }
+        this.redraw();
+    }
 
     /**
      * It returns container for rendering of Web World Wind
@@ -318,6 +416,19 @@ class WorldWindMap {
         this._wwd.removeLayer(layer);
     };
 
+    addMapControlListeners(){
+        this._wwd.addEventListener("mousemove", this.updateNavigatorState.bind(this));
+        this._wwd.addEventListener("wheel", this.updateNavigatorState.bind(this));
+    }
+
+    /**
+     * Select map
+     */
+    select(){
+        this._selected = true;
+        this._mapBoxSelector.addClass('selected');
+    }
+
     /**
      * Go to specific position in map
      * @param position {Position}
@@ -344,6 +455,33 @@ class WorldWindMap {
         this._goToAnimator.setLocation();
         this.redraw();
     };
+
+    /**
+     * Handle AOI Layer. If exists
+     */
+    handleAoiLayer(layerData){
+        if (layerData.layer){
+            this._aoiLayer = layerData.layer;
+        } else {
+            this._aoiLayer = new WorldWind.RenderableLayer('aoi-layer');
+            this._dispatcher.notify('scope#aoiLayerUpdate', this._aoiLayer);
+        }
+        this._aoiLayer.metadata = {
+            group: "aoi-layer"
+        };
+        this._wwd.addLayer(this._aoiLayer);
+        this.redraw();
+    }
+
+    /**
+     * Handle settings for current scope
+     */
+    handleScopeSettings(){
+        let state = this._stateStore.current();
+        if (state.aoiLayer){
+            this.handleAoiLayer(state.aoiLayer);
+        }
+    }
 
     /**
      * Switch projection from 3D to 2D and vice versa
@@ -383,6 +521,86 @@ class WorldWindMap {
     };
 
     /**
+     * Add listener for drag and drop files
+     */
+    addDropListener(){
+        this._mapSelector.off('drop').on('drop', function(e){
+            e.preventDefault();
+            let files = e.originalEvent.dataTransfer.files;
+            this.addFiles(files);
+            return false;
+        }.bind(this));
+    }
+
+    addFiles(files) {
+        let reader = new FileReader();
+        let self = this;
+
+        for(let i=0;i<files.length;i++) {
+            if(files[i].type === 'application/vnd.google-earth.kml+xml') {
+                reader.onload = (function() {
+                    //console.log(this.result);
+                    self.addKML(this.result);
+                });
+                reader.readAsDataURL(files[i]);
+            }
+
+            if(files[i].type === 'image/tiff') {
+                reader.onload = (function() {
+                    //console.log(this.result);
+                    self.addGeoTiff(this.result);
+                });
+                reader.readAsDataURL(files[i]);
+            }
+
+            if(files[i].name.endsWith('.geojson')) {
+                reader.onload = (function() {
+                    //console.log(this.result);
+                    self.addGeoJson(this.result);
+                });
+                reader.readAsDataURL(files[i]);
+            }
+        }
+    }
+
+    addGeoJson(url) {
+        let renderableLayer = new WorldWind.RenderableLayer("GeoJSON");
+        this._wwd.addLayer(renderableLayer);
+        let geoJson = new WorldWind.GeoJSONParser(url);
+        geoJson.load(null, null, renderableLayer);
+        this._wwd.redraw();
+    }
+
+    addGeoTiff(url) {
+        let geotiffObject = new WorldWind.GeoTiffReader(url);
+        let self = this;
+
+        geotiffObject.readAsImage(function (canvas) {
+            let surfaceGeoTiff = new WorldWind.SurfaceImage(
+                geotiffObject.metadata.bbox,
+                new WorldWind.ImageSource(canvas)
+            );
+
+            let geotiffLayer = new WorldWind.RenderableLayer("GeoTiff");
+            geotiffLayer.addRenderable(surfaceGeoTiff);
+            self._wwd.addLayer(geotiffLayer);
+            self._wwd.redraw();
+        });
+    }
+
+    addKML(url) {
+        let self = this;
+        let kmlFilePromise = new WorldWind.KmlFile(url, []);
+        kmlFilePromise.then(function (kmlFile) {
+            let renderableLayer = new WorldWind.RenderableLayer("Surface Shapes");
+            renderableLayer.addRenderable(kmlFile);
+
+            self._wwd.addLayer(renderableLayer);
+            self._wwd.redraw();
+        });
+    }
+
+    /**
      * Execute on map click. Find out a location of click target in lat, lon. And execute getFeatureInfo query for this location.
      * @param callback {function} on click callback
      * @param property {string} property for to find via getFeatureInfo
@@ -418,23 +636,23 @@ class WorldWindMap {
     };
 
     getLayersInfo(callback, event) {
-        let x = event.x,
+        var x = event.x,
             y = event.y;
-        let position = this.getPositionFromCanvasCoordinates(x, y);
+        var position = this.getPositionFromCanvasCoordinates(x,y);
 
-        let tablePromises = event.worldWindow.layers.map(function (layer) {
-            if (!layer || !layer.metadata || !layer.metadata.group || layer.metadata.group === 'areaoutlines') {
-                return null;
+        var tablePromises = event.worldWindow.layers.map(function(layer){
+            if(!layer || !layer.metadata || !layer.metadata.group || layer.metadata.group === 'areaoutlines') {
+                return;
             }
-            let serviceAddress = layer.urlBuilder.serviceAddress;
-            let layerNames = layer.urlBuilder.layerNames;
-            let crs = layer.urlBuilder.crs;
-            let name = layerNames;
-            let customParams = null;
-            if (layer.metadata && layer.metadata.name) {
+            var serviceAddress = layer.urlBuilder.serviceAddress;
+            var layerNames = layer.urlBuilder.layerNames;
+            var crs = layer.urlBuilder.crs;
+            var name = layerNames;
+            var customParams = null;
+            if (layer.metadata && layer.metadata.name){
                 name = layer.metadata.name;
             }
-            if (layer.urlBuilder.customParams) {
+            if (layer.urlBuilder.customParams){
                 customParams = layer.urlBuilder.customParams;
             }
 
@@ -447,11 +665,11 @@ class WorldWindMap {
                 screenCoordinates: {x: x, y: y},
                 name: name
             }).get();
-        }).filter(function (state) {
+        }).filter(function(state){
             return state;
         });
 
-        return Promise.all(tablePromises).then(function (result) {
+        return Promise.all(tablePromises).then(function(result){
             callback(result)
         });
     };
@@ -495,75 +713,7 @@ class WorldWindMap {
      */
     onEvent(type, options) {
         if (type === Actions.mapControl) {
-            this.setNavigator(options);
-        }
-    };
-
-    addKML(url) {
-        let self = this;
-        let kmlFilePromise = new WorldWind.KmlFile(url, []);
-        kmlFilePromise.then(function (kmlFile) {
-            let renderableLayer = new WorldWind.RenderableLayer("Surface Shapes");
-            renderableLayer.addRenderable(kmlFile);
-
-            self._wwd.addLayer(renderableLayer);
-            self._wwd.redraw();
-        });
-    };
-
-    addGeoTiff(url) {
-        let geotiffObject = new WorldWind.GeoTiffReader(url);
-        let self = this;
-
-        geotiffObject.readAsImage(function (canvas) {
-            let surfaceGeoTiff = new WorldWind.SurfaceImage(
-                geotiffObject.metadata.bbox,
-                new WorldWind.ImageSource(canvas)
-            );
-
-            let geotiffLayer = new WorldWind.RenderableLayer("GeoTiff");
-            geotiffLayer.addRenderable(surfaceGeoTiff);
-            self._wwd.addLayer(geotiffLayer);
-            self._wwd.redraw();
-        });
-    };
-
-    addGeoJson(url) {
-        let renderableLayer = new WorldWind.RenderableLayer("GeoJSON");
-        this._wwd.addLayer(renderableLayer);
-        let geoJson = new WorldWind.GeoJSONParser(url);
-        geoJson.load(null, null, renderableLayer);
-        this._wwd.redraw();
-    };
-
-    addFiles(files) {
-        let reader = new FileReader();
-        let self = this;
-
-        for (let i = 0; i < files.length; i++) {
-            if (files[i].type === 'application/vnd.google-earth.kml+xml') {
-                reader.onload = (function () {
-                    //console.log(this.result);
-                    self.addKML(this.result);
-                });
-                reader.readAsDataURL(files[i]);
-            }
-
-            if (files[i].type === 'image/tiff') {
-                reader.onload = (function () {
-                    //console.log(this.result);
-                    self.addGeoTiff(this.result);
-                });
-                reader.readAsDataURL(files[i]);
-            }
-
-            if (files[i].name.endsWith('.geojson')) {
-                reader.onload = (function () {
-                    //console.log(this.result);
-                    self.addGeoJson(this.result);
-                });
-                reader.readAsDataURL(files[i]);
-            }
+            this._stateStore.removeLoadingOperation("DefaultMap");
         }
     };
 }

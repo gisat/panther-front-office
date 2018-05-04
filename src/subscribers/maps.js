@@ -58,6 +58,8 @@ const setEventListeners = store => {
 			case 'wmsLayer#remove':
 				store.dispatch(Action.maps.clearWmsLayer(options.layerKey));
 				break;
+			default:
+				break;
 		}
 	});
 
@@ -171,7 +173,7 @@ const compare = (next, prev) => {
 		_.each(next, (value, key) => {
 			if (!prev.hasOwnProperty(key)) {
 				ret.added[key] = value;
-			} else if (prev[key] != value) {
+			} else if (prev[key] !== value) {
 				ret.changed[key] = value;
 			}
 		});

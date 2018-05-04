@@ -1,26 +1,42 @@
 import Actions from '../../actions/Actions';
+import ArgumentError from '../../error/ArgumentError';
+import Logger from '../../util/Logger';
+
+import stringUtils from '../../util/stringUtils';
+
 import _ from 'underscore';
 
 /**
  * It creates MapStore and contains maps themselves
  * @constructor
  * @param options {Object}
- * @param options.dispatcher Dispatcher, which is used to distribute actions across the application.
+ * @param options.dispatcher {Object} Dispatcher, which is used to distribute actions across the application.
  * @param options.maps {WorldWindMap[]} 3D maps which are handled by this store.
+ * @param options.store {Object}
  */
 class MapStore {
     constructor(options) {
-        options.dispatcher.addListener(this.onEvent.bind(this));
+        if (!options.dispatcher) {
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MapStore", "constructor", "Dispatcher must be provided"));
+        }
+        if (!options.store) {
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MapStore', 'constructor', 'Stores must be provided'));
+        }
+
+        this._dispatcher = options.dispatcher;
+        this._stateStore = options.store.state;
+        this._wmsStore = options.store.wms;
 
         this._maps = [];
-        this._navigatorState = {};
 
         if (options.maps) {
             options.maps.forEach(function (map) {
                 this._maps.push(map);
             }.bind(this));
         }
-    };
+
+        this._dispatcher.addListener(this.onEvent.bind(this));
+    }
 
     /**
      * It adds new map into this store.
@@ -29,16 +45,56 @@ class MapStore {
      */
     add(options) {
         this._maps.push(options.map);
+        this._dispatcher.notify('map#added', options);
     };
 
     /**
-     * It removes old map from the store.
-     * @param options {Object}
-     * @param options.id {String} Map which should be removed from DOM.
+     * Add WMS layer to given map.
+     * @param layerId {string|number} id of WMS Layer
+     * @param layerOptions {Object}
+     * @param mapId {string} id of the map
+     * @param groupId
      */
-    remove(options) {
-        this._maps = _.reject(this._maps, function (map) {
-            return map.id === options.id;
+    addWmsLayerToMap(layerId, layerOptions, mapId, groupId) {
+        let self = this;
+        let state = this._stateStore.current();
+        let scope = state.scopeFull;
+        let isIndependent = state.isMapIndependentOfPeriod;
+        this._wmsStore.byId(layerId).then(function (results) {
+            if (results.length) {
+                let layer = results[0];
+                self._maps.forEach(function (map) {
+                    let periodExists = _.find(layer.periods, function (period) {
+                        return period === map._period
+                    });
+
+                    if (map.id === mapId && (isIndependent || (!isIndependent && periodExists))) {
+
+                        // add layer
+                        map.layers.addWmsLayer({
+                            url: layer.url,
+                            layerPaths: layer.layer,
+                            customParams: layerOptions,
+                            name: layer.name,
+                            id: layer.id
+                        }, groupId, true);
+
+                        // add map title
+                        if (scope.mapLayerInfo && scope.mapLayerInfo === 'simple') {
+                            let content = layer.name;
+                            if (layerOptions && layerOptions.time) {
+                                content += " (" + stringUtils.parseDate(layerOptions.time) + ")";
+                            }
+                            map.mapWindowTools.addLayerInfo(content);
+                        }
+                    }
+                });
+            } else {
+                console.error('MapStore#addWmsLayersToMap: No layer with id' + layerId + 'present in WMS Layers store');
+            }
+
+        }).catch(function (err) {
+            throw new Error(err);
         });
     };
 
@@ -72,19 +128,61 @@ class MapStore {
     };
 
     /**
-     * It updates the settings of World wind navigator
+     * It removes old map from the store.
      * @param options {Object}
+     * @param options.id {String} Map which should be removed from DOM.
      */
-    updateNavigator(options) {
-        this._navigatorState = options;
+    remove(options) {
+        this._maps = _.reject(this._maps, function (map) {
+            return map.id === options.id;
+        });
+        this._dispatcher.notify('map#removed', options);
     };
 
     /**
-     * Return the current settings of World wind navigator
-     * @returns {Object}
+     * Remove all layers from group in given map
+     * @param group {string}
+     * @param mapId {string}
      */
-    getNavigatorState() {
-        return this._navigatorState;
+    removeAllLayersFromGroup(group, mapId) {
+        this._maps.forEach(function (map) {
+            if (map.id === mapId) {
+                map._wwd.layers.forEach(function (layer) {
+                    if (layer.metadata && layer.metadata.group === group) {
+                        map.layers.removeLayerFromMap(layer, true);
+                        map.mapWindowTools.removeLayerInfo();
+                    }
+                });
+            }
+        });
+    };
+
+    /**
+     * Remove all layers from group in all maps
+     * @param group {string}
+     */
+    removeAllLayersFromGroupFromAllMaps(group) {
+        this._maps.forEach(function (map) {
+            map._wwd.layers.forEach(function (layer) {
+                if (layer.metadata && layer.metadata.group === group) {
+                    map.layers.removeLayerFromMap(layer, true);
+                    map.mapWindowTools.removeLayerInfo();
+                }
+            });
+        });
+    };
+
+    removeLayerFromGroup(mapId, layerId, group) {
+        this._maps.forEach(function (map) {
+            if (map.id === mapId) {
+                map._wwd.layers.forEach(function (layer) {
+                    if (layer.metadata && layer.metadata.group === group && layer.metadata.id === layerId) {
+                        map.layers.removeLayerFromMap(layer, true);
+                        map.mapWindowTools.removeLayerInfo();
+                    }
+                });
+            }
+        });
     };
 
     /**
@@ -93,12 +191,34 @@ class MapStore {
      * @param options {Object} additional options, may be specific per action.
      */
     onEvent(type, options) {
+        let state = this._stateStore.current();
+        let scope = state.scopeFull;
+        let wmsGroup = "wms-layers";
+        if (scope && scope.isMapIndependentOfPeriod) {
+            wmsGroup = "wms-layers-independent";
+        }
+
         if (type === Actions.mapAdd) {
             this.add(options);
         } else if (type === Actions.mapRemove) {
             this.remove(options);
-        } else if (type === Actions.mapControl) {
-            this.updateNavigator(options);
+        }
+
+        // notifications from React
+        else if (type === "ADD_WMS_LAYER") {
+            console.log("## ADD_WMS_LAYER", options);
+            let customParams = null;
+            if (options.period) {
+                customParams = {time: options.period};
+            }
+            this.addWmsLayerToMap(options.layerKey, customParams, options.mapKey, wmsGroup);
+        } else if (type === "REMOVE_WMS_LAYER") {
+            console.log("## REMOVE_WMS_LAYER", options);
+            this.removeLayerFromGroup(options.mapKey, options.layerKey, wmsGroup);
+        } else if (type === "AOI_GEOMETRY_SET") {
+            if (state.previousAoi) {
+                this.removeAllLayersFromGroupFromAllMaps(wmsGroup);
+            }
         }
     };
 }

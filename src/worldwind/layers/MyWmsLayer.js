@@ -66,7 +66,7 @@ class MyWmsLayer extends WmsLayer {
             }
         }).get().then(function (results) {
             let feature = null;
-            if (results && results.features.length > 0) {
+            if (results && results.features && results.features.length > 0) {
                 feature = results.features[0];
             }
             return feature;

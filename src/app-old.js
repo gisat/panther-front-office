@@ -14,8 +14,8 @@ import ExtApp from './ExtApp';
 import FeatureInfoTool from './view/tools/FeatureInfoTool/FeatureInfoTool';
 import Filter from './util/Filter';
 import FrontOffice from './FrontOffice';
-import GeoServer from './geoserver/GeoServer';
 import Groups from './stores/gisat/Groups';
+import IntegrateCustomLayersWidget from './view/widgets/IntegrateCustomLayersWidget/IntegrateCustomLayersWidget'
 import Layers from './stores/gisat/Layers';
 import Locations from './stores/gisat/Locations';
 import Map from './view/map/Map';
@@ -26,7 +26,6 @@ import OSMWidget from './view/widgets/OSMWidget/OSMWidget';
 import PanelIFrame from './view/PanelIFrame/PanelIFrame';
 import Periods from './stores/gisat/Periods';
 import PeriodsSelector from './view/selectors/PeriodsSelector/PeriodsSelector';
-import PeriodsWidget from './view/widgets/PeriodsWidget/PeriodsWidget';
 import Scopes from './stores/gisat/Scopes';
 import SharingWidget from './view/widgets/SharingWidget/SharingWidget';
 import SelectionStore from './stores/internal/SelectionStore';
@@ -109,10 +108,6 @@ function loadApp() {
             if(urlLang === "cz") {
                 return createScript('/extjs-4.1.3/locale/ext-lang-cs.js');
             }
-        }).then(function(){
-            return createScript('/lib/detect-element-resize.js');
-        }).then(function(){
-            return new GeoServer().login();
         }).then(() => {
             ext = new ExtApp();
             return ext.setUp();
@@ -143,30 +138,31 @@ function loadApp() {
     });
 
     function setUpNewApp() {
-        function stop(event) {
+        function stop(event){
             event.preventDefault();
             event.stopPropagation();
         }
-
         window.addEventListener('dragenter', stop);
         window.addEventListener('dragover', stop);
         window.addEventListener('dragleave', stop);
 
         window.Stores.addListener(sortFloaters);
 
-        let tools = [];
-        let widgets = [];
+        var tools = [];
+        var widgets = [];
 
-
-        let mapStore = new MapStore({
-            dispatcher: window.Stores
+        var stateStore = new StateStore({
+            dispatcher: window.Stores,
+            store: {}
         });
-        let stateStore = new StateStore({
+        var mapStore = new MapStore({
             dispatcher: window.Stores,
             store: {
-                maps: mapStore
+                state: stateStore,
+                wms: store.wmsLayers
             }
         });
+
         window.selectionStore = new SelectionStore({
             dispatcher: window.Stores,
             store: {
@@ -175,9 +171,9 @@ function loadApp() {
         });
 
 
-        let attributes = buildAttributes();
-        let filter = buildFilter(stateStore);
-        let olMap = buildOpenLayersMap(stateStore);
+        var attributes = buildAttributes();
+        var filter = buildFilter(stateStore);
+        var olMap = buildOpenLayersMap(stateStore);
 
         // customization
         new Customization({
@@ -187,7 +183,8 @@ function loadApp() {
             store: {
                 locations: store.locations,
                 themes: store.themes,
-                scopes: store.scopes
+                scopes: store.scopes,
+                state: stateStore
             }
         });
 
@@ -197,10 +194,10 @@ function loadApp() {
         });
 
         // ALWAYS add new feature info
-        let featureInfoTool = buildFeatureInfoTool(mapStore, stateStore);
+        var featureInfoTool = buildFeatureInfoTool(mapStore, stateStore);
         tools.push(featureInfoTool);
 
-        if (Config.toggles.hasPeriodsSelector) {
+        if (Config.toggles.hasPeriodsSelector){
             new PeriodsSelector({
                 containerSelector: $("#content-application .group-visualization"),
                 dispatcher: window.Stores,
@@ -214,39 +211,38 @@ function loadApp() {
             $("#view-selector .period").addClass("hidden");
         }
 
-        let topToolBar;
-        if (Config.toggles.useTopToolbar) {
-            topToolBar = new TopToolBar({
-                dispatcher: window.Stores
+        if(Config.toggles.useTopToolbar){
+            var topToolBar = new TopToolBar({
+                dispatcher: window.Stores,
+                store: {
+                    scopes: store.scopes,
+                    state: stateStore,
+                    map: mapStore
+                }
             });
         }
         // create tools and widgets according to configuration
-        let mapsContainer;
-        if (Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap) {
-            mapsContainer = buildMapsContainer(mapStore, stateStore);
-            let worldWindWidget = buildWorldWindWidget(mapsContainer, topToolBar, stateStore, mapStore);
+        if(Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap){
+            var mapsContainer = buildMapsContainer(mapStore, stateStore);
+            var worldWindWidget = buildWorldWindWidget(mapsContainer, topToolBar, stateStore, mapStore);
             widgets.push(worldWindWidget);
-            let mapToolsWidget = buildMapToolsWidget(featureInfoTool, stateStore, mapStore);
+            var mapToolsWidget = buildMapToolsWidget(featureInfoTool, stateStore, mapStore);
             widgets.push(mapToolsWidget);
 
-            if (Config.toggles.hasOsmWidget) {
+            if(Config.toggles.hasOsmWidget) {
                 widgets.push(buildOsmWidget(mapsContainer, mapStore));
             }
         }
-        if (Config.toggles.hasPeriodsWidget) {
-            let periodsWidget = buildPeriodsWidget(mapsContainer, stateStore);
-            widgets.push(periodsWidget);
-        }
-        if (Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool) {
-            let aggregatedWidget = buildAggregatedChartWidget(filter, stateStore);
-            let evaluationTool = buildEvaluationWidget(filter, stateStore, aggregatedWidget);
+        if(Config.toggles.hasOwnProperty("hasNewEvaluationTool") && Config.toggles.hasNewEvaluationTool){
+            var aggregatedWidget = buildAggregatedChartWidget(filter, stateStore);
+            var evaluationTool = buildEvaluationWidget(filter, stateStore, aggregatedWidget);
             widgets.push(evaluationTool);
             widgets.push(aggregatedWidget);
         }
-        if (Config.toggles.isSnow) {
-            let panelIFrame = new PanelIFrame(Config.snowUrl + 'snow/');
-            //let panelIFrame = new PanelIFrame('http://localhost:63326/panther-front-office/src/iframe-test.html');
-            let snowMapController = new SnowMapController({
+        if(Config.toggles.isSnow){
+            var panelIFrame = new PanelIFrame(Config.snowUrl + 'snow/');
+            //var panelIFrame = new PanelIFrame('http://localhost:63326/panther-front-office/src/iframe-test.html');
+            var snowMapController = new SnowMapController({
                 iFrame: panelIFrame
             });
 
@@ -256,11 +252,15 @@ function loadApp() {
 
         widgets.push(buildCustomViewsWidget(stateStore));
         widgets.push(buildSharingWidget(stateStore));
+        widgets.push(buildIntegrateCustomLayersWidget());
 
         // build app, map is class for OpenLayers map
         new FrontOffice({
+            dispatcher: window.Stores,
             attributesMetadata: attributes,
+            mapsContainer: mapsContainer,
             tools: tools,
+            topToolBar: topToolBar,
             widgets: widgets,
             widgetOptions: {
                 olMap: olMap
@@ -283,21 +283,19 @@ function loadApp() {
             }
         });
 
-        let floater = $(".floater");
+        var floater = $(".floater");
 
         floater.draggable({
             containment: "body",
             handle: ".floater-header"
         });
 
-        // eslint-disable-next-line
-        let mode3d;
-        floater.on("click", ".widget-minimise", function (e) {
-            mode3d = $("body").hasClass("mode-3d");
+        floater.on("click", ".widget-minimise", function(e){
+            var mode3d = $("body").hasClass("mode-3d");
             if (!(e.which > 1 || e.shiftKey || e.altKey || e.metaKey || e.ctrlKey)) {
-                let floater = $(this).parent().parent().parent();
-                if (Config.toggles.useNewViewSelector && Config.toggles.useTopToolbar) {
-                    let id = floater.attr('id');
+                var floater = $(this).parent().parent().parent();
+                if (Config.toggles.useNewViewSelector && Config.toggles.useTopToolbar){
+                    var id = floater.attr('id');
                     floater.removeClass('open');
                     $('.item[data-for=' + id + ']').removeClass('open');
                 }
@@ -305,14 +303,14 @@ function loadApp() {
             }
         });
 
-        $("body").on("click drag", ".floating-window", function () {
+        $("body").on("click drag", ".floating-window", function(){
             window.Stores.notify(Actions.floatersSort, {
                 fromExt: false,
                 floaterJQuerySelector: $(this)
             });
         });
 
-        $("body").on("click drag", ".x-window", function () {
+        $("body").on("click drag", ".x-window", function(){
             window.Stores.notify(Actions.floatersSort, {
                 fromExt: false,
                 xWindowJQuerySelector: $(this)[0]
@@ -451,21 +449,7 @@ function loadApp() {
         })
     }
 
-    function buildPeriodsWidget(mapsContainer, stateStore) {
-        return new PeriodsWidget({
-            elementId: 'periods-widget',
-            name: polyglot.t('periods'),
-            mapsContainer: mapsContainer,
-            dispatcher: window.Stores,
-            isWithoutFooter: true,
-            is3dOnly: true,
-            store: {
-                scopes: store.scopes,
-                periods: store.periods,
-                state: stateStore
-            }
-        });
-    }
+
 
     /**
      * Build SnowWidget instance
@@ -544,6 +528,14 @@ function loadApp() {
         return Widgets.sharing;
     }
 
+    function buildIntegrateCustomLayersWidget() {
+        return new IntegrateCustomLayersWidget({
+            elementId: 'custom-integration-layers',
+            name: polyglot.t('integrateCustomLayer'),
+            placeholderTargetId: 'widget-container'
+        });
+    }
+
     /**
      * Build container for world wind maps within content element
      * @param mapStore {MapStore}
@@ -559,7 +551,9 @@ function loadApp() {
                 periods: store.periods,
                 locations: store.locations,
                 map: mapStore,
-                state: stateStore
+                state: stateStore,
+                scopes: store.scopes,
+                wmsLayers: store.wmsLayers
             }
         })
     }

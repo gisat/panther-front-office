@@ -13,7 +13,11 @@ class WmsLayers extends BaseStore {
      * @inheritDoc
      */
     getPath() {
-        return "rest/wms/layers";
+        return "rest/wms/layer";
+    }
+
+    loaded(models) {
+        window.Stores.notify("WMS_LAYERS_LOADED", models);
     }
 }
 

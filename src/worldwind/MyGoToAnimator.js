@@ -13,6 +13,7 @@ let GoToAnimator = WorldWind.GoToAnimator;
  * @param options.store {Object}
  * @param options.store.state {StateStore}
  * @param options.store.locations {Locations}
+ * @param options.dispatcher
  * @constructor
  */
 class MyGoToAnimator extends GoToAnimator {
@@ -39,6 +40,8 @@ class MyGoToAnimator extends GoToAnimator {
 
         this._defaultLocation = [14, 50];
         this._defaultRange = 10000000;
+
+        this._dispatcher = options.dispatcher;
     }
 
     /**
@@ -238,13 +241,17 @@ class MyGoToAnimator extends GoToAnimator {
      * @returns {{lat: number, lon: number, alt: number}}
      */
     getPosition(centroid, bbox) {
+        var range = this.calculateRange(bbox);
+        range = this.adjustRangeAccordingToProjection(range, centroid);
+        this.checkRange(range);
+
         return {
             lat: centroid[1],
             lon: centroid[0],
-            alt: this.calculateRange(bbox)
+            alt: range
         }
     }
-    ;
+
 
     /**
      * Calculate centroid from bounding box
@@ -316,7 +323,31 @@ class MyGoToAnimator extends GoToAnimator {
         }
         return range;
     }
-    ;
+
+    checkRange(range){
+        var is2D = !this._store.state.current().isMap3D;
+
+        if (range < 1000000){
+            this._dispatcher.notify("toolBar#disable3DMapButton");
+            if (is2D){
+                this._dispatcher.notify("toolBar#click3DMapButton");
+            }
+        } else {
+            this._dispatcher.notify("toolBar#enable3DMapButton");
+        }
+
+        return range;
+    }
+
+    adjustRangeAccordingToProjection(range, position){
+        var is2D = !this._store.state.current().isMap3D;
+        if (is2D){
+            var latitude = position[1];
+            return (range/Math.abs(Math.cos(latitude)));
+        } else {
+            return range;
+        }
+    }
 }
 
 export default MyGoToAnimator;

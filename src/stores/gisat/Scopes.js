@@ -15,6 +15,10 @@ class Scopes extends BaseStore {
     getPath() {
         return "rest/dataset";
     }
+
+    loaded(models) {
+        window.Stores.notify("SCOPES_LOADED", models);
+    }
 }
 
 export default Scopes;

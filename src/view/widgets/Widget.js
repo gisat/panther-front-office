@@ -8,6 +8,8 @@ import Checkbox from './inputs/checkbox/Checkbox';
 import View from '../View';
 import WidgetWarning from './WidgetWarning';
 
+import './Widget.css';
+
 let ExchangeParams = window.ExchangeParams;
 let polyglot = window.polyglot;
 

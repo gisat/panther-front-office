@@ -62,8 +62,10 @@ class BaseStore {
                     dataFromApi.data.params = options.params;
                     models.push(self.getInstance(dataFromApi.data));
                 }
-                self.loaded(models);
-                resolve(models);
+                Promise.all(models).then(models => {
+                    self.loaded(models);
+                    resolve(models);
+                });
             }, reject).catch(function (error) {
                 console.log('BaseStore#load Error: ', error);
                 reject(error);

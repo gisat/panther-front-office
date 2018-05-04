@@ -1,4 +1,5 @@
-
+import UrbanTepCommunitiesStore from './UrbanTepCommunitiesStore';
+let $ = window.$;
 
 class UrbanTepPortalStore {
     static communities() {

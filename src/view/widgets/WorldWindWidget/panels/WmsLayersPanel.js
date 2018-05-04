@@ -37,6 +37,8 @@ class WmsLayersPanel extends WorldWindWidgetPanel {
         this._idPrefix = "wmsLayer";
         this._layersControls = [];
         this._store = options.store;
+        this._stateStore = options.store.state;
+        this._mapStore = options.store.map;
     };
 
     /**
@@ -151,6 +153,28 @@ class WmsLayersPanel extends WorldWindWidgetPanel {
         });
         return groupedLayers;
     };
+
+    /**
+     * Go through a list of active layers. If at least one layer associated with given control is among active wmsLayers,
+     * the control should be active.
+     * @param id {string} id of control
+     * @param layers {Array} Layers associated with this control
+     * @returns {boolean} true, if control should be active
+     */
+    isControlActive(id, layers){
+        layers = layers || [];
+        let state = this._stateStore.current().mapDefaults;
+        let active = false;
+        layers.forEach(function(layer){
+            if (state && state.wmsLayers){
+                let existingLayer = _.find(state.wmsLayers, function(id){return id === layer.id});
+                if (existingLayer){
+                    active = true;
+                }
+            }
+        });
+        return active;
+    }
 }
 
 export default WmsLayersPanel;

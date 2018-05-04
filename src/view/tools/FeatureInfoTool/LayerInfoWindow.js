@@ -1,3 +1,6 @@
+import ArgumentError from '../../../error/ArgumentError';
+import Logger from '../../../util/Logger';
+
 import utils from '../../../util/dataMining';
 import Collapse from '../../components/Collapse/Collapse';
 import FeatureInfoWindow from './FeatureInfoWindow';
@@ -15,6 +18,19 @@ let polyglot = window.polyglot;
  * @constructor
  */
 class LayerInfoWindow extends FeatureInfoWindow {
+    constructor(options) {
+        super(options);
+
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'LayerInfoWindow', 'constructor', 'Stores must be provided'));
+        }
+        if(!options.store.state){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'LayerInfoWindow', 'constructor', 'Store state must be provided'));
+        }
+
+        this._store = options.store;
+    }
+
     /**
      * Rebuild window with current data
      * @param data {Array}

@@ -15,6 +15,10 @@ class Locations extends BaseStore {
     getPath() {
         return "rest/location";
     }
+
+    loaded(models) {
+        window.Stores.notify("PLACES_LOADED", models);
+    }
 }
 
 export default Locations;

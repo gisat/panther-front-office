@@ -13,6 +13,9 @@ class Period extends Model {
             },
             name: {
                 serverName: 'name'
+            },
+            period: {
+                serverName: 'period'
             }
         };
     };

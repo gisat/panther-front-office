@@ -1,4 +1,4 @@
-import config from '../../config';
+import config from '../../Config';
 import ActionTypes from '../../constants/ActionTypes';
 
 import _ from 'lodash';

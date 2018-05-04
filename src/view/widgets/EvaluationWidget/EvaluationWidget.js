@@ -21,7 +21,6 @@ let Select = window.Select;
 let Observer = window.Observer;
 let ThemeYearConfParams = window.ThemeYearConfParams;
 let ExchangeParams = window.ExchangeParams;
-let resize = window.resize;
 
 /**
  * @param options {Object}
@@ -599,7 +598,7 @@ class EvaluationWidget extends Widget {
         let resizeElement = document.getElementById(id);
 
         let timeout;
-        resize.addResizeListener(resizeElement, function () {
+        window.resize.addResizeListener(resizeElement, function () {
             clearTimeout(timeout);
             timeout = setTimeout(function () {
                 if (self._initializeResize) {

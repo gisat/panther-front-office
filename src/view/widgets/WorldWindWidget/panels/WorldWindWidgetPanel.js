@@ -28,28 +28,29 @@ let Stores = window.Stores;
 let $ = window.$;
 class WorldWindWidgetPanel {
     constructor(options) {
-        if (!options.id) {
+        if (!options.id){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanel", "constructor", "missingId"));
         }
-        if (!options.name) {
+        if (!options.name){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanel", "constructor", "missingName"));
         }
-        if (!options.target || options.target.length === 0) {
+        if (!options.target || options.target.length === 0){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanel", "constructor", "missingTarget"));
         }
-        if (!options.store) {
+        if(!options.store){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindWidgetPanel', 'constructor', 'Stores must be provided'));
         }
-        if (!options.store.map) {
+        if(!options.store.map){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindWidgetPanel', 'constructor', 'Store map must be provided'));
         }
 
         this._id = options.id;
         this._name = options.name;
+        this._dispatcher = options.dispatcher;
         this._target = options.target;
 
         this._isOpen = true;
-        if (options.hasOwnProperty("isOpen")) {
+        if (options.hasOwnProperty("isOpen")){
             this._isOpen = options.isOpen;
         }
         this._mapStore = options.store.map;
@@ -235,33 +236,32 @@ class WorldWindWidgetPanel {
      * @param event {Object}
      */
     toggleLayer(event) {
-        let self = this;
-        setTimeout(function () {
-            let checkbox = $(event.currentTarget);
-            let layerId = checkbox.attr("data-id");
+        var self = this;
+        setTimeout(function(){
+            var checkbox = $(event.currentTarget);
+            var layerId = checkbox.attr("data-id");
 
             // check/uncheck layer in 2D
-            let checkbox2d = $("td[data-for=" + layerId + "]").find("input");
+            var checkbox2d = $("td[data-for=" + layerId + "]").find("input");
             Stores.notify("checklayer", checkbox2d);
 
             checkbox2d.trigger("click", ["ctrl"]);
 
 
-            let control = _.find(self._layersControls, function (control) {
-                return control._id === layerId
-            });
 
-            if (checkbox.hasClass("checked")) {
-                self._mapStore.getAll().forEach(function (map) {
+            var control = _.find(self._layersControls, function(control){return control._id === layerId});
+
+            if (checkbox.hasClass("checked")){
+                self._mapStore.getAll().forEach(function(map){
                     map.layers.showLayer(layerId);
                 });
             } else {
-                self._mapStore.getAll().forEach(function (map) {
+                self._mapStore.getAll().forEach(function(map){
                     map.layers.hideLayer(layerId);
                 });
                 control._toolBox.hide();
             }
-        }, 50);
+        },50);
     };
 
     /**
@@ -285,6 +285,9 @@ class WorldWindWidgetPanel {
     // --- Common methods after multiple maps functionality added --- //
     // All methods below are reviewed and used
     // TODO review obsolete methods above this line after Thematic layers an AU layers for multiple maps will be implemented
+    hidePanel() {
+        this._panelSelector.addClass("hidden");
+    }
 
     /**
      * Build layer control and add tools
@@ -313,18 +316,8 @@ class WorldWindWidgetPanel {
      * @returns {boolean} true, if the control should be selected
      */
     isControlActive(controlId) {
-        let control2d = this.getExtLayerControl(controlId);
-        // if there exists the control for the same layer in 2D, use its state
-        if (control2d && control2d.length) {
-            return control2d.attr('aria-checked') === "true";
-        }
-        // Otherwise check if control was checked before rebuild. If existed and was not checked, do not check it again.
-        else {
-            let existingControl = _.find(this._previousLayersControls, function (control) {
-                return control._id === controlId
-            });
-            return !!((existingControl && existingControl.active));
-        }
+        let existingControl = _.find(this._previousLayersControls, function(control){return control._id === controlId});
+        return !!((existingControl && existingControl.active));
     };
 
     /**
@@ -358,27 +351,28 @@ class WorldWindWidgetPanel {
      */
     switchLayer(event) {
         let self = this;
-        setTimeout(function () {
+        setTimeout(function(){
             let checkbox = $(event.currentTarget);
             let layerId = checkbox.attr("data-id");
-            let control2d = self.getExtLayerControl(layerId);
-            if (control2d && control2d.length) {
-                Stores.notify("checklayer", control2d);
-                control2d.trigger("click", ["ctrl"]);
-            }
 
-            let control = _.find(self._layersControls, function (control) {
+            let control = _.find(self._layersControls, function(control){
                 return control._id === layerId
             });
-            if (checkbox.hasClass("checked")) {
+            if (checkbox.hasClass("checked")){
                 control.active = true;
                 self.addLayer(control);
+                if (self._groupId === "wms-layers"){
+                    self._dispatcher.notify('wmsLayer#add', {layerKey: control.layers[0].id})
+                }
             } else {
                 control.active = false;
                 control.layerTools.hide();
                 self.removeLayer(control);
+                if (self._groupId === "wms-layers"){
+                    self._dispatcher.notify('wmsLayer#remove', {layerKey: control.layers[0].id})
+                }
             }
-        }, 50);
+        },50);
     };
 
     /**
@@ -387,19 +381,19 @@ class WorldWindWidgetPanel {
      */
     removeLayer(control) {
         let self = this;
-        control.layers.forEach(function (layerData) {
-            self._allMaps.forEach(function (map) {
+        control.layers.forEach(function(layerData){
+            self._allMaps.forEach(function(map){
                 let layerPeriods = layerData.periods;
-                if (layerData.period) {
+                if (layerData.period){
                     layerPeriods = layerData.period
                 }
-                if (self.samePeriod(layerPeriods, map._period)) {
+                if (self.samePeriod(layerPeriods, map._period)){
                     let prefix = "";
-                    if (self._idPrefix) {
+                    if (self._idPrefix){
                         prefix = self._idPrefix + "-";
                     }
                     let id = prefix + layerData.id;
-                    if (control.style) {
+                    if (control.style){
                         id = id + "-" + control.style.path;
                     }
                     let layer = map.layers.getLayerById(id);
@@ -415,14 +409,14 @@ class WorldWindWidgetPanel {
      */
     addLayer(control) {
         let self = this;
-        if (control.active) {
-            control.layers.forEach(function (layerData) {
-                self._allMaps.forEach(function (map) {
+        if (control.active){
+            control.layers.forEach(function(layerData){
+                self._allMaps.forEach(function(map){
                     let layerPeriods = layerData.periods;
-                    if (layerData.period) {
+                    if (layerData.period){
                         layerPeriods = layerData.period
                     }
-                    if (self.samePeriod(layerPeriods, map._period)) {
+                    if (self.samePeriod(layerPeriods, map._period)){
                         let layer = {};
                         let prefix = "";
                         let stylePaths = "";
@@ -430,21 +424,21 @@ class WorldWindWidgetPanel {
                         let url = null;
                         let layerName = layerData.name;
 
-                        if (self._idPrefix) {
+                        if (self._idPrefix){
                             prefix = self._idPrefix + "-";
                         }
                         let layerId = prefix + layerData.id;
-                        if (control.style) {
+                        if (control.style){
                             stylePaths = control.style.path;
-                            if (control.style.name) {
+                            if (control.style.name){
                                 layerName = layerName + " - " + control.style.name;
                             }
                             layerId = layerId + "-" + stylePaths;
                         }
-                        if (layerData.custom && layerData.custom !== "undefined") {
+                        if (layerData.custom && layerData.custom !== "undefined"){
                             customParams = JSON.parse(layerData.custom);
                         }
-                        if (layerData.url) {
+                        if (layerData.url){
                             url = layerData.url;
                         }
                         layer.data = {
@@ -457,7 +451,7 @@ class WorldWindWidgetPanel {
                             order: layerData.order
                             // path: layerPaths.split(",")[0]
                         };
-                        if (self._groupId === "wms-layers") {
+                        if (self._groupId === "wms-layers"){
                             layer.data.layerPaths = layerData.layer;
                             map.layers.addWmsLayer(layer.data, self._id, true);
                         } else if (self._groupId === "info-layers") {
@@ -483,32 +477,7 @@ class WorldWindWidgetPanel {
             return layerPeriods === mapPeriod;
         }
 
-    };
-
-    /**
-     * Get the associated layer control in ext
-     * @param layerId {string} id of the layer in 3D
-     * @returns {Object} Jquery selector of Ext control
-     */
-    getExtLayerControl(layerId) {
-        let checkbox2d = $('#window-layerpanel').find("td[data-for=" + this._group2dId + "-" + layerId + "]").find("input");
-        if (!checkbox2d.length) {
-            this._previousLayersControls.forEach(function (control) {
-                if (control._id === layerId) {
-                    control.layers.forEach(function (layer) {
-                        if (layer.idFor2d) {
-                            let checkbox = $("td[data-for=" + layer.idFor2d + "]").find("input");
-                            if (checkbox.length) {
-                                checkbox2d = checkbox;
-                            }
-                        }
-                    });
-                }
-            });
-        }
-
-        return checkbox2d;
-    };
+    }
 }
 
 export default WorldWindWidgetPanel;

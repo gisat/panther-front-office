@@ -4,9 +4,8 @@ import _ from 'lodash';
 import path from 'path';
 import fetch from 'isomorphic-fetch';
 
-import config from '../../config';
+import config from '../../Config';
 import Select from '../Select';
-import utils from '../../utils/utils';
 
 const TTL = 3;
 

@@ -1,4 +1,5 @@
 import WorldWind from '@nasaworldwind/worldwind';
+import proj4 from 'proj4';
 
 import ArgumentError from '../../error/ArgumentError';
 import Logger from '../../util/Logger';
@@ -42,7 +43,7 @@ class MyUrlBuilder extends WmsUrlBuilder {
         sb = sb + "&width=" + tile.tileWidth;
         sb = sb + "&height=" + tile.tileHeight;
 
-        if (this.sldId) {
+        if (this.sldId){
             sb = sb + "&sld_id=" + this.sldId;
         }
 
@@ -50,9 +51,11 @@ class MyUrlBuilder extends WmsUrlBuilder {
             sb = sb + "&time=" + this.timeString;
         }
 
-        if (this.customParams) {
-            for (let key in this.customParams) {
-                sb = sb + "&" + key + "=" + this.customParams[key];
+        if (this.customParams){
+            for (let key in this.customParams){
+                if(key !== 'crs') {
+                    sb = sb + "&" + key + "=" + this.customParams[key];
+                }
             }
         }
 
@@ -61,20 +64,44 @@ class MyUrlBuilder extends WmsUrlBuilder {
             sb = sb + "&bbox=";
             if (this.crs === "CRS:84") {
                 sb = sb + sector.minLongitude + "," + sector.minLatitude + ",";
-                sb = sb + sector.maxLongitude + "," + sector.maxLatitude;
-            } else {
+                sb = sb + sector.maxLongitude+ "," + sector.maxLatitude;
+            } else if(this.crs === "EPSG:4326") {
                 sb = sb + sector.minLatitude + "," + sector.minLongitude + ",";
-                sb = sb + sector.maxLatitude + "," + sector.maxLongitude;
+                sb = sb + sector.maxLatitude+ "," + sector.maxLongitude;
+            } else {
+                sb = this.transform(sb, sector)
             }
         } else {
             sb = sb + "&srs=" + this.crs;
-            sb = sb + "&bbox=";
-            sb = sb + sector.minLongitude + "," + sector.minLatitude + ",";
-            sb = sb + sector.maxLongitude + "," + sector.maxLatitude;
+            if(this.crs === "EPSG:4326") {
+                sb = sb + "&bbox=";
+                sb = sb + sector.minLongitude + "," + sector.minLatitude + ",";
+                sb = sb + sector.maxLongitude + "," + sector.maxLatitude;
+            } else {
+                sb = this.transform(sb, sector)
+            }
         }
+
         sb = sb.replace(" ", "%20");
         return sb;
     };
+
+    transform(sb, sector) {
+        let source = new proj4.Proj('EPSG:4326');
+        let dest = new proj4.Proj(this.crs);
+
+        let southWestOld = new proj4.Point( sector.minLongitude, sector.minLatitude );
+        let northEastOld = new proj4.Point( sector.maxLongitude, sector.maxLatitude );
+
+        let southWestNew = proj4.transform(source, dest, southWestOld);
+        let northEastNew = proj4.transform(source, dest, northEastOld);
+
+        sb = sb + "&bbox=";
+        sb = sb + southWestNew.x + "," + southWestNew.y + ",";
+        sb = sb + northEastNew.x+ "," + northEastNew.y;
+
+        return sb
+    }
 }
 
 export default MyUrlBuilder;

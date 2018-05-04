@@ -45,7 +45,7 @@ class Controls {
          * @type {Number}
          * @default 0.01
          */
-        this.exaggerationIncrement = 0.01;
+        this.exaggerationIncrement = 1;
 
         /**
          * The incremental amount to increase or decrease the eye distance (for zoom) each cycle.
@@ -104,6 +104,10 @@ class Controls {
     buildIcons() {
         let html = S(`
         <div id="map-controls">
+            <div class="exaggerate-control control">
+                <a href="#" id="exaggerate-plus-control"><i class="fa fa-arrow-up"></i></a>
+                <a href="#" id="exaggerate-minus-control"><i class="fa fa-arrow-down"></i></a>
+            </div>
             <div class="zoom-control control">
                 <a href="#" id="zoom-plus-control"><i class="fa fa-plus"></i></a>
                 <a href="#" id="zoom-minus-control"><i class="fa fa-minus"></i></a>
@@ -156,6 +160,14 @@ class Controls {
     // Intentionally not documented.
     setupInteraction() {
         //// Add the mouse listeners.
+        $("#exaggerate-plus-control").on({
+            "mousedown": this.handleMouseEvent.bind(this,this.handleExaggeratePlus),
+            "mouseup": this.handleMouseEvent.bind(this,this.handleExaggeratePlus),
+            "mouseleave": this.handleMouseEvent.bind(this,this.handleExaggeratePlus)});
+        $("#exaggerate-minus-control").on({
+            "mousedown": this.handleMouseEvent.bind(this,this.handleExaggerateMinus),
+            "mouseup": this.handleMouseEvent.bind(this,this.handleExaggerateMinus),
+            "mouseleave": this.handleMouseEvent.bind(this,this.handleExaggerateMinus)});
         $("#zoom-plus-control").on({
             "mousedown": this.handleMouseEvent.bind(this, this.handleZoomIn),
             "mouseup": this.handleMouseEvent.bind(this, this.handleZoomIn),
@@ -229,6 +241,22 @@ class Controls {
         this.activeOperation = null;
         e.preventDefault();
     };
+
+    handleExaggeratePlus() {
+        var self = this;
+        this.wwds.forEach(function(wwd){
+            wwd.verticalExaggeration += self.exaggerationIncrement;
+            wwd.redraw();
+        });
+    }
+
+    handleExaggerateMinus() {
+        var self = this;
+        this.wwds.forEach(function(wwd){
+            wwd.verticalExaggeration = Math.max(1, wwd.verticalExaggeration - self.exaggerationIncrement);
+            wwd.redraw();
+        });
+    }
 
     handleZoomIn() {
         let self = this;

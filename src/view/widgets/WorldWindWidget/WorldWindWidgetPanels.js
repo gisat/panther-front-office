@@ -1,5 +1,6 @@
 
 import S from 'string';
+import _ from 'underscore';
 
 import ArgumentError from '../../../error/ArgumentError';
 import Logger from '../../../util/Logger';
@@ -26,28 +27,33 @@ import './WorldWindWidgetPanels.css';
 let $ = window.$;
 class WorldWindWidgetPanels {
     constructor(options) {
-        if (!options.id) {
+        if (!options.id){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingId"));
         }
-        if (!options.target || options.target.length === 0) {
+        if (!options.target || options.target.length === 0){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidgetPanels", "constructor", "missingTarget"));
         }
-        if (!options.store) {
+        if(!options.store){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindWidgetPanels', 'constructor', 'Stores must be provided'));
         }
-        if (!options.store.map) {
+        if(!options.store.map){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindWidgetPanels', 'constructor', 'Store map must be provided'));
         }
-        if (!options.store.state) {
+        if(!options.store.state){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindWidgetPanels', 'constructor', 'Store state must be provided'));
         }
-        if (!options.store.wmsLayers) {
+        if(!options.store.wmsLayers){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindWidgetPanels', 'constructor', 'Store wms layers must be provided'));
+        }
+        if (!options.dispatcher){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindWidgetPanels', 'constructor', 'Dispatcher must be provided'));
         }
 
         this._store = options.store;
+        this._stateStore = options.store.state;
         this._id = options.id;
         this._target = options.target;
+        this._dispatcher = options.dispatcher;
         this.build();
     };
 
@@ -56,15 +62,9 @@ class WorldWindWidgetPanels {
      * Rebuild panels with current configuration
      */
     rebuild() {
-        let configChanges = this._store.state.current().changes;
-        if (!configChanges.scope) {
-            this._thematicLayersPanel.switchOnLayersFrom2D();
-            // this._auLayersPanel.switchOnLayersFrom2D();
-        }
-
-        this._auLayersPanel.rebuild("updateOutlines", "updateOutlines");
-        this._infoLayersPanel.rebuild();
-        this._wmsLayersPanel.rebuild();
+        let scope = this._stateStore.current().scopeFull;
+        let hiddenPanels = scope.layersWidgetHiddenPanels;
+        this.handlePanels(hiddenPanels);
     };
 
     /**
@@ -173,9 +173,44 @@ class WorldWindWidgetPanels {
                 map: this._store.map,
                 state: this._store.state,
                 wmsLayers: this._store.wmsLayers
-            }
+            },
+            dispatcher: this._dispatcher
         });
     };
+
+    /**
+     * @param hiddenPanels {Array} list of panels
+     */
+    handlePanels(hiddenPanels){
+        let infoLayersHidden = _.find(hiddenPanels, function(panel){return panel === "info-layers"});
+        if (infoLayersHidden){
+            this._infoLayersPanel.hidePanel();
+        } else {
+            this._infoLayersPanel.rebuild();
+        }
+
+        let thematicLayersHidden = _.find(hiddenPanels, function(panel){return panel === "thematic-layers"});
+        if (thematicLayersHidden){
+            this._thematicLayersPanel.hidePanel();
+            $("#thematic-layers-configuration").css("display","none");
+        } else {
+            this._thematicLayersPanel.rebuild();
+        }
+
+        let wmsLayersHidden = _.find(hiddenPanels, function(panel){return panel === "wms-layers"});
+        if (wmsLayersHidden){
+            this._wmsLayersPanel.hidePanel();
+        } else {
+            this._wmsLayersPanel.rebuild();
+        }
+
+        let auLayersHidden = _.find(hiddenPanels, function(panel){return panel === "analytical-units"});
+        if (auLayersHidden){
+            this._auLayersPanel.hidePanel();
+        } else {
+            this._auLayersPanel.rebuild("updateOutlines","updateOutlines");
+        }
+    }
 
     /**
      * Add listeners

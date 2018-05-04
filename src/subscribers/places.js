@@ -1,9 +1,5 @@
 import Action from '../state/Action';
 import utils from '../utils/utils';
-import Select from "../state/Select";
-import watch from "redux-watch";
-
-let state = {};
 
 export default store => {
 	setEventListeners(store);
@@ -18,6 +14,8 @@ const setEventListeners = store => {
 				break;
 			case 'place#setActivePlace':
 				store.dispatch(Action.places.setActiveKeys(options.data));
+				break;
+			default:
 				break;
 		}
 	});

@@ -1,6 +1,4 @@
 
-import 'select2';
-
 import BaseSelect from './BaseSelect';
 import './Select.css';
 
@@ -13,7 +11,7 @@ import './Select.css';
 let $ = window.$;
 class Select extends BaseSelect {
     constructor(options) {
-        super(arguments);
+        super(options);
         this.onChange = options.onChange;
 
         this._placeholder = options.placeholder;

@@ -2,6 +2,8 @@
 import _ from 'underscore';
 
 import Actions from '../../../../actions/Actions';
+import ArgumentError from '../../../../error/ArgumentError';
+import Logger from '../../../../util/Logger';
 
 import ThematicLayersPanel from './ThematicLayersPanel';
 
@@ -18,11 +20,19 @@ class AuLayersPanel extends ThematicLayersPanel {
     constructor(options) {
         super(options);
 
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'AuLayersPanel', 'constructor', 'Stores must be provided'));
+        }
+        if(!options.store.state){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'AuLayersPanel', 'constructor', 'Store state must be provided'));
+        }
+
         this._layers = {
             outlines: {},
             selected: {}
         };
         this._layersControls = [];
+        this._stateStore = options.store.state;
     };
 
     addListeners() {
@@ -61,6 +71,16 @@ class AuLayersPanel extends ThematicLayersPanel {
             this.switchOnSelected();
         }
     };
+
+    switchOnActiveLayers(groupId, layer){
+        if (layer && layer.layerData && layer.layerData.id === groupId){
+            var checkbox = $(".checkbox-row[data-id=" + layer.layerData.id +"]");
+            checkbox.addClass("checked");
+            this._mapStore.getAll().forEach(function(map){
+                map.layers.showLayer(layer.layerData.id, 0);
+            });
+        }
+    }
 
     switchOnOutlines() {
         this.redrawLayer(this._layers.outlines, "areaoutlines", Stores.outlines);
@@ -158,11 +178,19 @@ class AuLayersPanel extends ThematicLayersPanel {
      * @param type {string}
      */
     onEvent(type) {
-        if (type === "updateOutlines") {
+        var scope = this._stateStore.current().scopeFull;
+        var isAvailable = true;
+        if (scope && scope.layersWidgetHiddenPanels){
+            var auPanel = _.find(scope.layersWidgetHiddenPanels, function(panel){return panel === 'analytical-units'});
+            if (auPanel){
+                isAvailable = false;
+            }
+        }
+        if (type === "updateOutlines" && isAvailable){
             this.rebuild();
-        } else if (type === Actions.selectionEverythingCleared) {
+        } else if (type === Actions.selectionEverythingCleared){
             this.clearAllSelections();
-        } else if (type === Actions.selectionActiveCleared) {
+        } else if (type === Actions.selectionActiveCleared){
             this.clearActiveSelection()
         }
     };

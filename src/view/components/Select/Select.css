@@ -3,7 +3,7 @@
 }
 
 /* topbar select*/
-.select-basic-container.top-bar-select {
+.select2 .select-basic-container.top-bar-select {
 	 border-radius: 0.05rem;
 	 background: rgba(255, 255, 255, .15);
 	 border: 0;

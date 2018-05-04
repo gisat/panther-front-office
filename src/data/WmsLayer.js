@@ -35,6 +35,9 @@ class WmsLayer extends Model {
             },
             custom: {
                 serverName: 'custom'
+            },
+            getDates: {
+                serverName: 'getDates'
             }
         };
     };

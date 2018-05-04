@@ -54,22 +54,29 @@ class MapToolsWidget extends Widget {
      */
     build() {
         this._widgetBodySelector.append('' +
-            '<div class="map-tools-container map-tools-triggers-container">' +
-            '<h4>' + polyglot.t("featureInfo") + '</h4>' +
+            '<div class="map-tools-container" id="map-tools-selections">' +
+            '<h4>' + polyglot.t("selections") + '</h4>' +
+            '<div class="map-tools-container-body"></div>' +
             '</div>' +
-            '<div class="map-tools-container map-tools-buttons-container">' +
-            '<h4>' + polyglot.t("tools") + '</h4>' +
-            '<div class="map-tools-buttons-container-body"></div>' +
+            '<div class="map-tools-container" id="map-tools-info">' +
+            '<h4>' + polyglot.t("featureInfo") + '</h4>' +
+            '<div class="map-tools-container-body"></div>' +
+            '</div>' +
+            '<div class="map-tools-container" id="map-tools-zooming">' +
+            '<h4>' + polyglot.t("zoom") + '</h4>' +
+            '<div class="map-tools-container-body"></div>' +
             '</div>');
-        this._triggersContainerSelector = this._widgetBodySelector.find(".map-tools-triggers-container");
-        this._buttonsContainerSelector = this._widgetBodySelector.find(".map-tools-buttons-container-body");
+        this._infoContainerSelector = this._widgetBodySelector.find("#map-tools-info").find(".map-tools-container-body");
+        this._selectionsContainerSelector = this._widgetBodySelector.find("#map-tools-selections").find(".map-tools-container-body");
+        this._zoomingContainerSelector = this._widgetBodySelector.find("#map-tools-zooming").find(".map-tools-container-body");
 
         // Select areas functionality
         this._selectInMap = this.buildSelectInMap();
         this._triggers.push(this.buildSelectInMapTrigger());
+        this._buttons.push(this.buildClearSelectedButton());
 
         // Area info functionality
-        if (this._featureInfo) {
+        if (this._featureInfo){
             this._triggers.push(this.buildFeatureInfoTrigger());
         }
         // Layer info functionality
@@ -136,7 +143,7 @@ class MapToolsWidget extends Widget {
             hasFaIcon: true,
             iconClass: 'fa-hand-o-up',
             dispatcher: this._dispatcher,
-            target: this._triggersContainerSelector,
+            target: this._selectionsContainerSelector,
             onDeactivate: this._selectInMap.deactivate.bind(this._selectInMap),
             onActivate: this._selectInMap.activate.bind(this._selectInMap)
         });
@@ -153,7 +160,7 @@ class MapToolsWidget extends Widget {
             hasSvgIcon: true,
             iconPath: '__new/icons/feature-info.svg',
             dispatcher: this._dispatcher,
-            target: this._triggersContainerSelector,
+            target: this._infoContainerSelector,
             onDeactivate: this._featureInfo.deactivateFor3D.bind(this._featureInfo),
             onActivate: this._featureInfo.activateFor3D.bind(this._featureInfo)
         });
@@ -170,11 +177,31 @@ class MapToolsWidget extends Widget {
             hasSvgIcon: true,
             iconPath: '__new/icons/layers-info-a.svg',
             dispatcher: this._dispatcher,
-            target: this._triggersContainerSelector,
+            target: this._infoContainerSelector,
             onDeactivate: this._layerInfo.deactivate.bind(this._layerInfo),
             onActivate: this._layerInfo.activate.bind(this._layerInfo)
         });
     };
+
+    /**
+     * Build button for selection clearing
+     * @returns {Button}
+     */
+    buildClearSelectedButton(){
+        return new Button({
+            id: "clear-selected-button",
+            containerSelector: this._selectionsContainerSelector,
+            title: polyglot.t('clearSelection'),
+            text: polyglot.t('clearSelection'),
+            textCentered: true,
+            textSmall: true,
+            icon: {
+                type: "fa",
+                class: "eraser"
+            },
+            onClick: this._dispatcher.notify.bind(this._dispatcher, 'selection#clearAll')
+        });
+    }
 
     /**
      * Build button for zooming to selected areas
@@ -183,7 +210,7 @@ class MapToolsWidget extends Widget {
     buildZoomSelectedButton() {
         return new Button({
             id: "zoom-selected-button",
-            containerSelector: this._buttonsContainerSelector,
+            containerSelector: this._zoomingContainerSelector,
             title: polyglot.t('zoomSelected'),
             text: polyglot.t('zoomSelected'),
             textCentered: true,
@@ -203,7 +230,7 @@ class MapToolsWidget extends Widget {
     buildZoomToExtentButton() {
         return new Button({
             id: "zoom-to-extent-button",
-            containerSelector: this._buttonsContainerSelector,
+            containerSelector: this._zoomingContainerSelector,
             title: polyglot.t('zoomToExtent'),
             text: polyglot.t('zoomToExtent'),
             textCentered: true,

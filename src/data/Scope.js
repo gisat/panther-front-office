@@ -16,6 +16,45 @@ class Scope extends Model {
             },
             periods: {
                 serverName: 'years'
+            },
+            featureLayers: {
+                serverName: 'featureLayers'
+            },
+            isMapIndependentOfPeriod: {
+                serverName: 'isMapIndependentOfPeriod'
+            },
+            aoiLayer: {
+                serverName: 'aoiLayer'
+            },
+            removedTools: {
+                serverName: 'removedTools'
+            },
+            oneLayerPerMap: {
+                serverName: 'oneLayerPerMap'
+            },
+            hideMapName: {
+                serverName: 'hideMapName'
+            },
+            mapLayerInfo: {
+                serverName: 'mapLayerInfo'
+            },
+            viewSelection: {
+                serverName: 'viewSelection'
+            },
+            hideSidebarReports: {
+                serverName: 'hideSidebarReports'
+            },
+            showTimeline: {
+                serverName: 'showTimeline'
+            },
+            restrictEditingToAdmins: {
+                serverName: 'restrictEditingToAdmins'
+            },
+            timelineContent: {
+                serverName: 'timelineContent'
+            },
+            layersWidgetHiddenPanels: {
+                serverName: 'layersWidgetHiddenPanels'
             }
         };
     };

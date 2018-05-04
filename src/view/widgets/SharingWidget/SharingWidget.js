@@ -5,6 +5,7 @@ import Actions from '../../../actions/Actions';
 import ArgumentError from '../../../error/ArgumentError';
 import Logger from '../../../util/Logger';
 import Widget from '../Widget';
+import UrbanTepPortalStore from '../../../stores/UrbanTepPortalStore';
 
 import Button from '../../components/Button/Button';
 
@@ -163,6 +164,13 @@ class SharingWidget extends Widget {
         $('#floater-sharing .floater-body').html(content);
         $('#floater-sharing .floater-footer').empty();
         this.buildSaveButton();
+
+        // prevent action after enter is pressed while filling out the name
+        $("#sharing-name").on('keydown', function (e) {
+            if (e.keyCode === 13) {
+                e.preventDefault();
+            }
+        });
     };
 
     /**
@@ -203,25 +211,30 @@ class SharingWidget extends Widget {
      * @param options {Object}
      */
     showUrl(options) {
-        let selectedGroup = $("#floater-sharing .floater-body #sharing-group option:checked").val();
-        let selectedUser = $("#floater-sharing .floater-body #sharing-user option:checked").val();
+        let selectedGroup = $( "#floater-sharing .floater-body #sharing-group option:checked" ).val();
+        let selectedUser = $( "#floater-sharing .floater-body #sharing-user option:checked" ).val();
         let minimiseBtn = this._widgetSelector.find(".widget-minimise");
-        let state = this._store.state.currentExtended();
+        let state = this._store.state.current();
         let self = this;
         Promise.all([
             this._store.groups.share(selectedGroup, state.scope, state.places, options.dataviewId),
             this._store.users.share(selectedUser, state.scope, state.places, options.dataviewId)
-        ]).then(function () {
+        ]).then(function(){
             let auth = "&needLogin=true";
-            if (Config.auth && selectedGroup === '2') {
+            if (Config.auth && selectedGroup === '2'){
                 auth = "";
             }
-            self._url = options.url + auth + '&lang=' + $("#floater-sharing .floater-body #sharing-lang option:checked").val();
+            self._url = options.url + auth +'&lang=' + $( "#floater-sharing .floater-body #sharing-lang option:checked" ).val();
+            if(Config.toggles.isUrbanTep && selectedGroup) {
+                if(selectedGroup !== '1' && selectedGroup !== '2' && selectedGroup !== '3') {
+                    UrbanTepPortalStore.share(self._url, $("#floater-sharing .floater-body #sharing-name").val(), $("#floater-sharing .floater-body #sharing-group option:checked").text());
+                }
+            }
             alert(polyglot.t('theStateWasCorrectlyShared') + self._url);
             minimiseBtn.trigger("click");
             self.rebuild();
             self._dispatcher.notify("sharing#viewShared");
-        }).catch(function (error) {
+        }).catch(function(error){
             alert(polyglot.t('thereWasAnIssueWithSharing') + error);
         });
     };

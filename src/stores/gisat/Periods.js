@@ -15,6 +15,10 @@ class Periods extends BaseStore {
     getPath() {
         return "rest/year";
     }
+
+    loaded(models) {
+        window.Stores.notify("PERIODS_LOADED", models);
+    }
 }
 
 export default Periods;

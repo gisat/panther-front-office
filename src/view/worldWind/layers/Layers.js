@@ -6,6 +6,7 @@ import ArgumentError from '../../../error/ArgumentError';
 import Logger from '../../../util/Logger';
 import MyOsmLayer from '../../../worldwind/layers/MyOsmLayer';
 import MyWmsLayer from '../../../worldwind/layers/MyWmsLayer';
+import MercatorLayer from '../../../worldwind/layers/MercatorLayer';
 
 let Config = window.Config;
 
@@ -73,24 +74,24 @@ class Layers {
         let layers = this._wwd.layers;
         let position = null;
 
-        layers.forEach(function (layer, index) {
-            if (!layer.metadata || !layer.metadata.group) {
+        layers.forEach(function(layer, index){
+            if(!layer.metadata || !layer.metadata.group) {
                 position = index;
             }
         });
         // Find the first which has metadata.group
         // If there is no specific place to put the layer add it as last.
-        if (currentLayer.metadata.order !== null && currentLayer.metadata.order < layers.length && !(currentLayer.metadata.group === "areaoutlines") && !(currentLayer.metadata.group === "selectedareasfilled")) {
+        if (currentLayer.metadata.order !== null && currentLayer.metadata.order < layers.length && !(currentLayer.metadata.group === "areaoutlines") && !(currentLayer.metadata.group === "selectedareasfilled")){
             position = position += currentLayer.metadata.order;
         } else {
             position = layers.length;
         }
 
         // push layer just under AU layer
-        if (!currentLayer.metadata || !currentLayer.metadata.group || !((currentLayer.metadata.group === "areaoutlines") || (currentLayer.metadata.group === "selectedareasfilled"))) {
-            if (position > 0) {
-                layers.forEach(function (layer) {
-                    if (layer.metadata && (layer.metadata.group === "areaoutlines" || layer.metadata.group === "selectedareasfilled")) {
+        if (!currentLayer.metadata || !currentLayer.metadata.group || !((currentLayer.metadata.group === "areaoutlines") || (currentLayer.metadata.group === "selectedareasfilled"))){
+            if (position > 0){
+                layers.forEach(function(layer){
+                    if (layer.metadata && (layer.metadata.group === "areaoutlines" || layer.metadata.group === "selectedareasfilled")){
                         position--;
                     }
                 });
@@ -203,8 +204,10 @@ class Layers {
      * @param id {string}
      */
     hideBackgroundLayer(id) {
-        let layer = this.getLayerById(id);
-        layer.enabled = false;
+        var layer = this.getLayerById(id);
+        if(layer) {
+            layer.enabled = false;
+        }
         this._wwd.redraw();
     };
 
@@ -294,27 +297,50 @@ class Layers {
      * @param state {boolean} true, if the layer should be displayed
      */
     addWmsLayer(layerData, group, state) {
-        let layer = new MyWmsLayer({
-            service: layerData.url,
-            layerNames: layerData.layerPaths,
-            sector: new WorldWind.Sector(-90, 90, -180, 180),
-            levelZeroDelta: new WorldWind.Location(45, 45),
-            numLevels: 14,
-            format: "image/png",
-            opacity: .9,
-            size: 256,
-            version: "1.1.1",
-            customParams: layerData.customParams
-        }, null);
-        layer.urlBuilder.version = "1.1.1";
-        layer.metadata = {
-            active: state,
-            name: layerData.name,
-            id: layerData.id,
-            group: group,
-            order: layerData.order
-        };
-        this.addLayer(layer);
+        var layer;
+        if(layerData.customParams && layerData.customParams.crs === 'EPSG:3857') {
+            layer = new MercatorLayer({
+                service: layerData.url,
+                layerNames: layerData.layerPaths,
+                numLevels: 19,
+                format: "image/png",
+                opacity: 1,
+                size: 256,
+                version: "1.1.1",
+                customParams: layerData.customParams
+            }, null);
+            layer.urlBuilder.version = "1.1.1";
+            layer.metadata = {
+                active: state,
+                name: layerData.name,
+                id: layerData.id,
+                group: group,
+                order: layerData.order
+            };
+            this.addLayer(layer);
+        } else {
+            layer = new MyWmsLayer({
+                service: layerData.url,
+                layerNames: layerData.layerPaths,
+                sector: new WorldWind.Sector(-90, 90, -180, 180),
+                levelZeroDelta: new WorldWind.Location(90, 90),
+                numLevels: 18,
+                format: "image/png",
+                opacity: 1,
+                size: 256,
+                version: "1.1.1",
+                customParams: layerData.customParams
+            }, null);
+            layer.urlBuilder.version = "1.1.1";
+            layer.metadata = {
+                active: state,
+                name: layerData.name,
+                id: layerData.id,
+                group: group,
+                order: layerData.order
+            };
+            this.addLayer(layer);
+        }
     };
 
     /**

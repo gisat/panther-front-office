@@ -20,11 +20,11 @@ import FilterLayer from '../../models/FilterLayer';
  */
 class SelectionStore {
     constructor(options) {
-        if (!options.store) {
+        if(!options.store){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'SelectionStore', 'constructor', 'Stores must be provided'));
         }
 
-        if (!options.store.state) {
+        if(!options.store.state){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'SelectionStore', 'constructor', 'Store state must be provided'));
         }
 
@@ -37,7 +37,7 @@ class SelectionStore {
          */
         this._selected = {};
 
-        this._wmsUrl = Config.geoServerUrl + 'wms';
+        this._wmsUrl = Config.geoServerUrl;
         this._serverUrl = Config.serverUrl;
 
         this._stateStore = options.store.state;
@@ -54,17 +54,17 @@ class SelectionStore {
      *    existing layer.
      */
     addFilter(options) {
-        let color = options.color,
+        var color = options.color,
             self = this,
             layer;
-        let promise = Promise.resolve(null);
-        if (this._selected[color]) {
+        var promise = Promise.resolve(null);
+        if(this._selected[color]) {
             promise = this.removeFilter(options);
         }
-        return promise.then(function () {
+        return promise.then(function(){
             // Generate sld. This will differ on whether it is filtered or standard.
             return new FilteredSld(options.attributes, color).toString();
-        }).then(function (style) {
+        }).then(function(style){
             // Update layers on the server
             layer = new FilterLayer({
                 style: style,
@@ -74,7 +74,7 @@ class SelectionStore {
             });
 
             return layer.save();
-        }).then(function (wmsLayer) {
+        }).then(function(wmsLayer){
             self._selected[options.color] = {
                 layer: layer
             };
@@ -83,7 +83,7 @@ class SelectionStore {
             self._dispatcher.notify(Actions.mapAddVisibleLayer, {
                 layer: wmsLayer
             });
-        }).catch(function (error) {
+        }).catch(function(error) {
             Logger.logMessage(Logger.LEVEL_SEVERE, 'SelectionStore', 'add', 'Error when creating layer for selection: ' + error);
         });
     };
@@ -94,12 +94,12 @@ class SelectionStore {
      * @param options.color {String} Color of the selection.
      */
     removeFilter(options) {
-        if (!this._selected[options.color]) {
+        if(!this._selected[options.color]) {
             Logger.logMessage(Logger.LEVEL_WARN, 'SelectionStore', 'remove', "Tried to remove selection for color which wasn't already shown");
             return Promise.resolve(null);
         }
 
-        let self = this;
+        var self = this;
         self._dispatcher.notify(Actions.mapRemoveVisibleLayer, {
             layerId: self._selected[options.color].layer.id
         });
@@ -109,17 +109,17 @@ class SelectionStore {
     };
 
     onEvent(type, options) {
-        if (type === Actions.filterAdd) {
+        if(type === Actions.filterAdd) {
             this.addFilter(options);
-        } else if (type === Actions.filterRemove) {
+        } else if(type === Actions.filterRemove) {
             this.removeFilter(options);
         }
     };
 
     serialize() {
-        let keys = Object.keys(this._selected);
-        let self = this;
-        return keys.map(function (key) {
+        var keys = Object.keys(this._selected);
+        var self = this;
+        return keys.map(function(key){
             return {
                 color: key,
                 layer: self._selected[key].layer.serialize()
@@ -128,9 +128,9 @@ class SelectionStore {
     };
 
     deserialize(selected) {
-        let self = this;
-        selected.forEach(function (selected) {
-            let layer = FilterLayer.deserialize(selected.layer, self._stateStore);
+        var self = this;
+        selected.forEach(function(selected){
+            var layer = FilterLayer.deserialize(selected.layer, self._stateStore);
             self._selected[selected.color] = {
                 layer: layer
             };

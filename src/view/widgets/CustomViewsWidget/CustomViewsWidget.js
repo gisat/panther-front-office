@@ -91,25 +91,22 @@ class CustomViewsWidget extends Widget {
      * @param data {Array}
      */
     redraw(data) {
-        let bodySelector = $('body');
-        let isIntro = bodySelector.hasClass('intro');
+        var bodySelector = $('body');
+        var isIntro = bodySelector.hasClass('intro');
         this._widgetBodySelector.html('<div class="custom-views-content"></div>');
         this._contentSelector = this._widgetBodySelector.find(".custom-views-content");
 
-        let isAdmin = false;
-        if (Config.auth && Config.auth.userId === 1) {
-            isAdmin = true;
-        }
+        var isAdmin = this._store.state.current().user.isAdmin;
 
-        if (data.length === 0) {
+        if (data.length === 0){
             this._widgetSelector.find(".widget-minimise").trigger("click");
             $("#top-toolbar-saved-views").addClass("hidden");
         } else {
-            if (isIntro && Config.toggles.showDataviewsOverlay) {
+            if (isIntro && Config.toggles.showDataviewsOverlay){
                 this.renderAsOverlay(data, isAdmin);
 
             } else {
-                let scope = this._store.state.current().scope;
+                var scope = this._store.state.current().scope;
                 this.renderAsWidget(data, scope, isAdmin);
                 this._widgetSelector.removeClass("intro-overlay");
                 bodySelector.removeClass("intro-overlay");
@@ -291,6 +288,7 @@ class CustomViewsWidget extends Widget {
      * Add on click listener to category menu item
      */
     addCategoryListener() {
+
         let self = this;
         $(".custom-views-category").off("click.category").on("click.category", function () {
             let category = $(this);
@@ -381,7 +379,6 @@ class CustomViewsWidget extends Widget {
      * @returns {Object} data grouped by scope
      */
     groupDataByScope(data) {
-        console.log('Data: ', data);
         return _.groupBy(data, function (d) {
             return d.data.dataset;
         });

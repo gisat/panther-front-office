@@ -1,7 +1,6 @@
 
 import S from 'string';
 import _ from 'underscore';
-import 'select2';
 
 import ArgumentError from '../../../error/ArgumentError';
 import Logger from '../../../util/Logger';
