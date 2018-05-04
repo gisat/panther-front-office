@@ -54,6 +54,28 @@ function handleMapDependencyOnPeriod(independent) {
 }
 
 // specialized
+function addLayerTemplates(templates) {
+	return (dispatch, getState) => {
+		let state = Select.maps.getMapDefaults(getState());
+		let layerTemplates;
+		if (state && state.layerTemplates){
+			layerTemplates = _.union(state.layerTemplates, templates);
+		} else {
+			layerTemplates = templates;
+		}
+		dispatch(updateDefaults({layerTemplates: layerTemplates}));
+	};
+}
+function removeLayerTemplates(templates) {
+	return (dispatch, getState) => {
+		let state = Select.maps.getMapDefaults(getState());
+		if (state && state.layerTemplates){
+			let layerTemplates = _.difference(state.layerTemplates, templates);
+			dispatch(updateDefaults({layerTemplates: layerTemplates}));
+		}
+	};
+}
+
 
 function selectLayerPeriod(layerKey, period, mapKey) {
 	return (dispatch, getState) => {
@@ -241,6 +263,7 @@ function actionSetMapIndependentOfPeriod(independent) {
 
 export default {
 	add: add,
+	addLayerTemplates: addLayerTemplates,
 	changeDefaultMapName: changeDefaultMapName,
 	clearLayerPeriod: clearLayerPeriod,
 	clearLayerPeriodsOfAllMaps: clearLayerPeriodsOfAllMaps,
@@ -250,6 +273,7 @@ export default {
 	handleMapDependencyOnPeriod: handleMapDependencyOnPeriod,
 	initialize: initialize,
 	remove: remove,
+	removeLayerTemplates: removeLayerTemplates,
 	selectLayerPeriod: selectLayerPeriod,
 	selectWmsLayer: selectWmsLayer,
 	setActive: setActive,

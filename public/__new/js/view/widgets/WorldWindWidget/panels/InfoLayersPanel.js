@@ -49,6 +49,7 @@ define(['../../../../error/ArgumentError',
 		this._layersControls = [];
 
 		this._store = options.store;
+		this._stateStore = options.store.state;
 	};
 
 	InfoLayersPanel.prototype = Object.create(WorldWindWidgetPanel.prototype);
@@ -103,10 +104,10 @@ define(['../../../../error/ArgumentError',
 					layerTemplate.styles.forEach(function(style){
 						var id = layerTemplate.layerTemplateId + "-" + style.path;
 						var name = layerTemplate.name + " - " + style.name;
-						self.buildLayerControlRow(layerGroupBodySelector, id, name, layerTemplate.layers, style);
+						self.buildLayerControlRow(layerGroupBodySelector, id, name, layerTemplate.layers, style, layerTemplate.layerTemplateId);
 					});
 				} else {
-					self.buildLayerControlRow(layerGroupBodySelector, layerTemplate.layerTemplateId, layerTemplate.name, layerTemplate.layers, null);
+					self.buildLayerControlRow(layerGroupBodySelector, layerTemplate.layerTemplateId, layerTemplate.name, layerTemplate.layers, null, layerTemplate.layerTemplateId);
 				}
 			});
 		});
@@ -214,6 +215,21 @@ define(['../../../../error/ArgumentError',
 				year: period,
 				theme: theme
 			}}).get();
+	};
+
+	/**
+	 * Go through a list of active layers. If at least one layer associated with given control is among active infoLayers,
+	 * the control should be active.
+	 * @param templateId {string} id of template
+	 * @returns {boolean} true, if control should be active
+	 */
+	InfoLayersPanel.prototype.isControlActive = function(templateId){
+		var state = this._stateStore.current().mapDefaults;
+		if (state && state.layerTemplates){
+			return (_.findIndex(state.layerTemplates, function(template){return template === templateId}) > -1);
+		} else {
+			return false;
+		}
 	};
 
 	return InfoLayersPanel;
