@@ -58,6 +58,12 @@ const setEventListeners = store => {
 			case 'wmsLayer#remove':
 				store.dispatch(Action.maps.clearWmsLayer(options.layerKey));
 				break;
+			case 'infoLayer#add':
+				store.dispatch(Action.maps.addLayerTemplates(options.layerTemplates));
+				break;
+			case 'infoLayer#remove':
+				store.dispatch(Action.maps.removeLayerTemplates(options.layerTemplates));
+				break;
 			case 'placeGeometryChangeReview#showGeometry':
 				store.dispatch(Action.maps.update({
 					key: options.mapKey,

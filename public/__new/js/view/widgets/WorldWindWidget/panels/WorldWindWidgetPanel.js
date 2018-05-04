@@ -10,6 +10,7 @@ define(['../../../../error/ArgumentError',
 
 	'jquery',
 	'string',
+	'underscore',
 	'text!./WorldWindWidgetPanel.html',
 	'css!./WorldWindWidgetPanel'
 ], function(ArgumentError,
@@ -24,6 +25,7 @@ define(['../../../../error/ArgumentError',
 
 			$,
 			S,
+			_,
 			htmlBody
 ){
 	/**
@@ -297,9 +299,15 @@ define(['../../../../error/ArgumentError',
 	 * @param name {string} label
 	 * @param layers {Array} list of associated layers
 	 * @param style {Object|null} associated style, if exist
+	 * @param layerTemplateId {number}
 	 */
-	WorldWindWidgetPanel.prototype.buildLayerControlRow = function(target, id, name, layers, style){
-		var checked = this.isControlActive(id, layers);
+	WorldWindWidgetPanel.prototype.buildLayerControlRow = function(target, id, name, layers, style, layerTemplateId){
+		var checked = false;
+		if (this._groupId === "info-layers"){
+			checked = this.isControlActive(layerTemplateId);
+		} else {
+			checked = this.isControlActive(id, layers);
+		}
 		var control = this.buildLayerControl(target, id, name, layers, style, checked, this._groupId);
 		this._layersControls.push(control);
 		control.layerTools.buildOpacity();
@@ -362,6 +370,9 @@ define(['../../../../error/ArgumentError',
 				self.addLayer(control);
 				if (self._groupId === "wms-layers"){
 					self._dispatcher.notify('wmsLayer#add', {layerKey: control.layers[0].id})
+				} else if (self._groupId === "info-layers"){
+					var templates = _.map(control.layers, function(layer){return layer.layerTemplateId});
+					self._dispatcher.notify('infoLayer#add', {layerTemplates: templates})
 				}
 			} else {
 				control.active = false;
@@ -369,6 +380,9 @@ define(['../../../../error/ArgumentError',
 				self.removeLayer(control);
 				if (self._groupId === "wms-layers"){
 					self._dispatcher.notify('wmsLayer#remove', {layerKey: control.layers[0].id})
+				} else if (self._groupId === "info-layers"){
+					var templatesToRemove = _.map(control.layers, function(layer){return layer.layerTemplateId});
+					self._dispatcher.notify('infoLayer#remove', {layerTemplates: templatesToRemove})
 				}
 			}
 		},50);
