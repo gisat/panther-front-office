@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 
 import InputText from '../../../atoms/InputText/InputText';
+import InputFile from '../../../atoms/InputFile';
 import Button from '../../../atoms/Button';
 import EditableText from '../../../atoms/EditableText';
 import './ScenarioCard.css';
@@ -69,6 +70,10 @@ class ScenarioCard extends React.PureComponent {
 		});
 	}
 
+	onChangeFile(x) {
+		console.log('######', x);
+	}
+
 
 	render() {
 
@@ -118,6 +123,12 @@ class ScenarioCard extends React.PureComponent {
 					value={this.state.hasOwnProperty('description') ? this.state.description : this.props.description}
 					placeholder="Description"
 					onChange={this.onChangeDescription}
+				/>
+				<InputFile
+					disabled={!this.state.editing || this.props.disableEditing}
+					value={this.state.file}
+					placeholder="File"
+					onChange={this.onChangeFile}
 				/>
 				{this.state.editing && false ? ( // don't save with button for now
 					<div className="scenario-card-body-buttons">
