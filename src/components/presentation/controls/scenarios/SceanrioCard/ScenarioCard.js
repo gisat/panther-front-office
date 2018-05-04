@@ -124,12 +124,14 @@ class ScenarioCard extends React.PureComponent {
 					placeholder="Description"
 					onChange={this.onChangeDescription}
 				/>
+				{this.state.editing ? (
 				<InputFile
 					disabled={!this.state.editing || this.props.disableEditing}
 					value={this.state.file}
 					placeholder="File"
 					onChange={this.onChangeFile}
 				/>
+				) : null}
 				{this.state.editing && false ? ( // don't save with button for now
 					<div className="scenario-card-body-buttons">
 						<Button disabled={true}>

@@ -101,6 +101,7 @@ class CaseDetail extends React.PureComponent {
 						<Button icon="arrow-left" invisible circular onClick={this.props.changeActiveScreen.bind(null, 'caseList')} />
 					</div>
 					<EditableText
+						large
 						value={name}
 						placeholder="Case title"
 						onChange={caseData ? this.onChangeName.bind(this, caseData.key) : undefined}

@@ -80,7 +80,8 @@ class EditableText extends React.PureComponent {
 	render() {
 		let classes = classNames("ptr-editable-text", {
 			disabled: this.props.disabled,
-			empty: !(this.props.value || this.state && this.state.value)
+			empty: !(this.props.value || this.state && this.state.value),
+			large: this.props.large
 		});
 
 		let style = {
