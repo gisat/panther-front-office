@@ -5,6 +5,7 @@ import _ from 'lodash';
 
 import InputText from '../../../atoms/InputText/InputText';
 import Button from '../../../atoms/Button';
+import EditableText from '../../../atoms/EditableText';
 import './ScenarioCard.css';
 
 class ScenarioCard extends React.PureComponent {
@@ -16,7 +17,7 @@ class ScenarioCard extends React.PureComponent {
 		disableEditing: PropTypes.bool,
 		disableUncheck: PropTypes.bool,
 		name: PropTypes.string,
-		scenarioKey: PropTypes.number,
+		scenarioKey: PropTypes.number
 	};
 
 	constructor(props){
@@ -31,6 +32,7 @@ class ScenarioCard extends React.PureComponent {
 		this.handleDetailsButtonClick = this.handleDetailsButtonClick.bind(this);
 		this.handleScenarioClick = this.handleScenarioClick.bind(this);
 		this.toggleEditing = this.toggleEditing.bind(this);
+		this.onChangeName = this.onChangeName.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -55,31 +57,41 @@ class ScenarioCard extends React.PureComponent {
 		this.props.handleScenarioClick(this.props.scenarioKey, e.target.checked, this.props.defaultSituation);
 	};
 
+	onChangeName(value) {
+		this.setState({
+			name: value
+		});
+	}
+
 
 	render() {
+
+		console.log('### ScenarioCard render', this.props, this.state);
+
 		let classes = classNames("scenario-card", {
 			'not-created': !this.props.scenarioKey && !this.props.defaultSituation
 		});
 
 		let header = (
 			<div className="scenario-card-header">
-				<div className="scenario-card-header-checkbox">
-					<input
-						type="checkbox"
-						checked={this.state.checked}
-						disabled={(this.props.disableUncheck && this.state.checked) || (!this.props.scenarioKey && !this.props.defaultSituation)}
-						onChange={this.handleScenarioClick}
-					/>
-				</div>
-				<div className="scenario-card-header-title">
-					<InputText
-						large
-						placeholder="Add scenario name"
-						simpleDecoration
-						disableEditing={!this.props.editing || this.props.disableEditing}
-						value={this.props.name}
-					/>
-				</div>
+				<label>
+					<div className="scenario-card-header-checkbox">
+						<input
+							type="checkbox"
+							checked={this.state.checked}
+							disabled={(this.props.disableUncheck && this.state.checked) || (!this.props.scenarioKey && !this.props.defaultSituation)}
+							onChange={this.handleScenarioClick}
+						/>
+					</div>
+					<div className="scenario-card-header-title">
+						<EditableText
+							large
+							disabled={!this.state.editing || this.props.disableEditing}
+							value={this.state.hasOwnProperty('name') ? this.state.name : this.props.name}
+							onChange={this.onChangeName}
+						/>
+					</div>
+				</label>
 				<div className="scenario-card-header-buttons">
 					{!this.props.defaultSituation ? (
 						<Button
@@ -101,7 +113,7 @@ class ScenarioCard extends React.PureComponent {
 					disableEditing={!this.props.editing || this.props.disableEditing}
 					value={this.props.description}
 				/>
-				{this.state.editing ? (
+				{this.state.editing && false ? ( // don't save with button for now
 					<div className="scenario-card-body-buttons">
 						<Button disabled={true}>
 							Save
