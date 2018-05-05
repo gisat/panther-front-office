@@ -51,8 +51,11 @@ body.intro #floater-custom-views-widget .custom-views-content {
 }
 
 /* switch */
-body.application #overlay-switch {
+#overlay-switch {
 	display: none;
+}
+body.intro #overlay-switch.open {
+	display: inline-block;
 }
 
 /* Categories */

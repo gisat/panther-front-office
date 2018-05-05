@@ -98,6 +98,14 @@ export default {
 		} else {
 			return options;
 		}
+	},
+
+	collectionsAreEqual (collection1, collection2, sortBy) {
+		// Sort conditions so the arrays match up.
+		sortBy = sortBy || 'id';
+		collection1 = _.sortBy(collection1, sortBy);
+		collection2 = _.sortBy(collection2, sortBy);
+		return JSON.stringify(collection1) === JSON.stringify(collection2);
 	}
 
 }

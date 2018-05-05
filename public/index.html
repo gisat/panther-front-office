@@ -99,13 +99,14 @@
         <a href="http://www.worldbank.org/"><span>The World Bank</span></a>
     </div>
     <div id="header">
-        <h1>Data exploration</h1>
+        <a id="home-page"><h1>Data exploration</h1></a>
         <div id="header-view-selection"></div>
         <ul class="menu">
             <li id="intro-link"><a href="/">Introduction</a></li>
             <li id="downloads-link"><a href="/intro/index.php/downloads">Downloads</a></li>
             <li id="help-link"><a href="/help-frontoffice/" target="_blank">Help</a></li>
             <li id="bo-link" style="display:none;"><a href="/backoffice/" target="_blank">Administration</a></li>
+            <li id="upload-data"><a href="#">Upload data</a></li>
         </ul>
         <div class="user">
             <a href="#" class="login">LOG IN</a>
@@ -388,6 +389,7 @@
                         <div id="app-view-selector-period-compare" class="widget"></div>
                     </div>
                 </div>
+                <div id="view-selector-placeholder"></div>
             </div>
             <div id="legacy-view-selector" class="fields-holder">
                 <div class="label">Data Exploration</div>
@@ -449,7 +451,6 @@
                 <div id="top-toolbar-tools">
                     <div class="item" id="top-toolbar-add-map" title="Add map"></div>
                     <div class="item" id="top-toolbar-share-view" title="Share view"></div>
-                    <a class="item" id="top-toolbar-snapshot" title="Take map snapshot"></a>
                     <div class="item" id="top-toolbar-context-help" title="Context help"></div>
                 </div>
             </div>
@@ -493,6 +494,7 @@
         </div>
     </div>
 </div>
+<div id="app-overlays"></div>
 <div id="loading-mask-shim"></div>
 <div id="loading-mask"></div>
 <div id="loading-screen">

@@ -35,12 +35,16 @@
 .about-window-header-title {
 	font-family: "Roboto";
 	font-size: 4rem;
-	font-weight: 100;
+	font-weight: 300;
 	color: white;
 	background: rgba(153,54,75,.85);
 	padding: 8rem 2rem 12rem 2rem;
 	text-align: center;
 	width: 100%;
+}
+#about-window.without-logo .about-window-header-title {
+	font-weight: 300;
+	padding: 6rem 2rem 8rem 2rem;
 }
 .about-window-header-title::after {
 	position: absolute;
@@ -79,6 +83,9 @@
 	border-radius: 7rem;
 	padding: 1.5rem;
 }
+#about-window.without-logo .about-window-logo {
+	display: none;
+}
 .about-window-logo.logo-wide-rectangle {
 	width: 24rem;
 	height: 8rem;
@@ -96,6 +103,9 @@
 	justify-content: center;
 	align-items: center;
 	flex: 1;
+}
+#about-window.without-logo .about-window-text {
+	padding: 4rem 3rem 1rem;
 }
 .about-window-text h2 {
 	font-size: 1.5rem;

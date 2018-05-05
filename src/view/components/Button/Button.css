@@ -12,6 +12,9 @@
 	align-items: center;
 	justify-content: center;
 }
+.component-button.hidden {
+	display: none;
+}
 .component-button:hover,
 .component-button:focus {
 	background: rgba(65,69,81,.2);

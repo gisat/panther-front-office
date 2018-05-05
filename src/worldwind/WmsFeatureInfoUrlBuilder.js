@@ -40,17 +40,22 @@ class WmsFeatureInfoUrlBuilder {
      * It returns valid URL for retrieval of the information.
      * @return {String} Valid URL.
      */
-    url() {
-        let bbox = this.position.latitude + ',' + this.position.longitude + ',' + (Number(this.position.latitude) + 0.000001) +
-            ',' + (Number(this.position.longitude) + 0.000001);
+    WmsFeatureInfoUrlBuilder.prototype.url = function () {
+        var position = this.position;
+        if (this.srs !== 'EPSG:4326') {
+            position = this.transform(position);
+        }
+
+        var bbox = position.latitude + ',' + position.longitude + ',' + (Number(position.latitude) + 0.000001) +
+            ',' + (Number(position.longitude) + 0.000001);
 
         // todo hotfix for sentinel hub, where the bbox has switched longitude and latitude
         if (!_.isEmpty(this.customParameters)) {
-            bbox = this.position.longitude + ',' + this.position.latitude + ',' + (Number(this.position.longitude) + 0.000001) +
-                ',' + (Number(this.position.latitude) + 0.000001);
+            bbox = position.longitude + ',' + position.latitude + ',' + (Number(position.longitude) + 0.000001) +
+                ',' + (Number(position.latitude) + 0.000001);
         }
 
-        let customParameters = '';
+        var customParameters = '';
         Object.keys(this.customParameters).forEach(function (key) {
             customParameters += '&' + key + '=' + this.customParameters[key];
         }.bind(this));
@@ -58,6 +63,19 @@ class WmsFeatureInfoUrlBuilder {
         return this.serviceAddress + '?SERVICE=WMS&REQUEST=GetFeatureInfo&VERSION=' + this.version + '&TRANSPARENT=TRUE' +
             '&LAYERS=' + this.layers + '&STYLES=&FORMAT=image/png&WIDTH=256&HEIGHT=256&SRS=' + this.srs + '&INFO_FORMAT=' +
             this.infoFormat + '&QUERY_LAYERS=' + this.layers + '&X=0&Y=0&BBOX=' + bbox + customParameters;
+    };
+
+    WmsFeatureInfoUrlBuilder.prototype.transform = function (position) {
+        var source = new proj4.Proj('EPSG:4326');
+        var dest = new proj4.Proj(this.srs);
+
+        var oldPosition = new proj4.Point(position.longitude, position.latitude);
+        var newPosition = proj4.transform(source, dest, oldPosition);
+
+        return {
+            latitude: newPosition.y,
+            longitude: newPosition.x
+        }
     };
 }
 

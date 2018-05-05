@@ -1,5 +1,6 @@
 var langEn = {
 
+    aboutPlatform: "About",
     abstract: "Abstract",
     activateDeactivate: "Activate/deactivate",
     activateDrawing: "Activate drawing",
@@ -320,7 +321,7 @@ var langEn = {
     showMaps: "Show maps",
     showCustomAnalyticalUnitsLayer: "Show Custom Analytical units Layer",
     showInChart: "Show in chart",
-    signUp: "Sign up",
+    signUp: "",
     snapshot: "Snapshot",
     snapshotCreationStarted: "Snapshot creation started",
     snapshotDone: "Snapshot done",
@@ -381,11 +382,12 @@ var langEn = {
 
 	zoom: "Zoom",
     zoomSelected: "Zoom selected",
-	zoomToExtent: "Zoom to extent"
+	zoomToPlace: "Zoom to place"
 };
 
 var langCz = {
 
+	aboutPlatform: "O platformě",
     abstract: "Abstrakt",
     activateDeactivate: "Aktivovat/deaktivovat",
     activateDrawing: "Aktivovat kreslení",
@@ -706,7 +708,7 @@ var langCz = {
 	showMaps: "Zobraz mapy",
     showCustomAnalyticalUnitsLayer: "Zobrazit vrstvu dalších analytických jednotek",
     showInChart: "Zobrazit v grafu",
-    signUp: "Registrace",
+    signUp: "",
     snapshot: "Náhled",
     snapshotCreationStarted: "Začala tvorba náhledu",
     snapshotDone: "Náhled vytvořen",
@@ -767,7 +769,7 @@ var langCz = {
 
     zoom: "Přiblížení",
     zoomSelected: "Přiblížit výběr",
-	zoomToExtent: "Přiblížit na výchozí rozsah"
+	zoomToPlace: "Přiblížit na místo"
 };
 
 var polyglot = new Polyglot();

@@ -4,7 +4,7 @@ Ext.define('Puma.model.Dataset', {
         '_id', 'name', 'active', 'featureLayers', 'oneLevelOnly', 'aggregated', 'removedTools',
         'disabledBackgroundMaps', 'activeBackgroundMap', 'disabledLayerCategories', 'layerOptions',
         'disabledLayers', 'extraBackgroundLayers', 'hideSidebarReports', 'isMapIndependentOfPeriod', 'oneLayerPerMap',
-        'mapLayerInfo', 'aoiLayer', 'viewSelection', 'showTimeline', 'timelineContent', 'layersWidgetHiddenPanels'
+        'mapLayerInfo', 'aoiLayer', 'viewSelection', 'showTimeline', 'timelineContent', 'layersWidgetHiddenPanels', 'featurePlaceChangeReview'
     ],
     idProperty: '_id',
     proxy: {

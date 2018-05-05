@@ -15,6 +15,15 @@ import defaults from './defaults';
  */
 import rewrites from './rewrites';
 
+let url = window.location.origin;
+let validConfigurationUpdate = {};
+for(let configKey in rewrites) {
+	if(rewrites[url] && rewrites[url][configKey]){
+		validConfigurationUpdate[configKey] = rewrites[url][configKey];
+	}else {
+		validConfigurationUpdate[configKey] = rewrites[configKey];
+	}
+}
 
-let config = _.merge({}, defaults, rewrites);
+let config = _.merge({}, defaults, validConfigurationUpdate);
 export default config;

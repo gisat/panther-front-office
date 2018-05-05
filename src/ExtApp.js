@@ -1,4 +1,4 @@
-
+import Logger from './util/Logger';
 
 let Config = window.Config;
 let polyglot = window.polyglot;
@@ -188,7 +188,7 @@ class ExtApp {
                 self.domManipulationController.renderApp();
                 self.renderController.renderApp();
             }).catch(function (err) {
-                console.log(err);
+                Logger.logMessage(Logger.LEVEL_SEVERE, 'Ext', 'afterLoad', err);
                 alert(polyglot.t("notPossibleToLoadData"));
             });
         } else {
@@ -214,7 +214,7 @@ class ExtApp {
             this._dataviewId = Config.dataviewId;
         } else {
             window.Stores.notify("initialLoadingFinished");
-            this.loginController.onLoginClicked();
+            this.loginController.onLoginClicked(null, true);
         }
     };
 }

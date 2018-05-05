@@ -18,6 +18,9 @@
 	flex-direction: column;
 	padding: 1rem 0 0;
 }
+.map-tools-container.hidden {
+	display: none;
+}
 .map-tools-container > h4 {
 	padding: 0 .5rem;
 	font-size: .95rem;

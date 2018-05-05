@@ -44,17 +44,11 @@ Ext.define('PumaMain.view.ChartPanel', {
 				cls: 'tool-icon tool-chart-search',
                 width: 22,
                 height: 22
-            },
-            save: {
-                type: 'save',
-                helpId: 'Snapshots',
-                tooltip: polyglot.t('snapshot'),
-				cls: 'tool-icon tool-chart-snapshot'
             }
         }
         this.tools = [];
         
-        var toolNames = ['description','gear','help','collapse','save','search','close'];
+        var toolNames = ['description','gear','help','collapse','search','close'];
         for (var i=0;i<toolNames.length;i++) {
             this.tools.push(this.toolMap[toolNames[i]]);
         }
@@ -67,15 +61,15 @@ Ext.define('PumaMain.view.ChartPanel', {
         switch (this.cfgType) {
             case 'polarchart': // TODO do we want also 'help'?
             case 'grid':
-                toolNames = ['description','gear','collapse','save','close']; break;
+                toolNames = ['description','gear','collapse','close']; break;
             case 'piechart':
-                toolNames = ['description','gear','help','collapse','save','close']; break;
+                toolNames = ['description','gear','help','collapse','close']; break;
             case 'columnchart':
-                toolNames = ['description','gear','help','collapse','save','close']; break;
+                toolNames = ['description','gear','help','collapse','close']; break;
             case 'scatterchart':
-                toolNames = ['description','gear','help','collapse','save','search','close']; break;
+                toolNames = ['description','gear','help','collapse','search','close']; break;
             case 'extentoutline':
-                toolNames = ['description','gear','save','close']; break;
+                toolNames = ['description','gear','close']; break;
             case 'filter':
                 toolNames = ['close']; break;
         }
