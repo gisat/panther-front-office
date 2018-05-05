@@ -57,11 +57,13 @@ class LayerLegend extends LayerTool {
     addContent() {
         let style = "";
         let layer = this._defaultLayer.path;
+        let url = Config.url + "api/proxy/wms?";
         if (this._style) {
             style = this._style.path;
         }
         if (!layer) {
-            layer = this._defaultLayer.layer
+            layer = this._defaultLayer.layer;
+            url = this._defaultLayer.url + '?';
         }
 
         let params = {
@@ -75,7 +77,7 @@ class LayerLegend extends LayerTool {
             params['SLD_ID'] = this._defaultLayer.sldId;
         }
 
-        let imgSrc = Config.url + "api/proxy/wms?" + stringUtils.makeUriComponent(params);
+        let imgSrc = url + stringUtils.makeUriComponent(params);
 
         let self = this;
         $.get(imgSrc)

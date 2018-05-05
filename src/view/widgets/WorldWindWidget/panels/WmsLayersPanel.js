@@ -53,7 +53,7 @@ class WmsLayersPanel extends WorldWindWidgetPanel {
      * Rebuild panel
      */
     rebuild() {
-        this._allMaps = this._store.map.getAll();
+        this._allMaps = this._mapStore.getAll();
         this.getLayersForCurrentConfiguration().then(this.addPanelContent.bind(this)).catch(function (error) {
             console.error('WmsLayerPanel#rebuild Error: ', error);
         });
@@ -66,7 +66,7 @@ class WmsLayersPanel extends WorldWindWidgetPanel {
     addPanelContent(layers) {
         let self = this;
         this.clear(this._id);
-        this._previousLayersControls = jQuery.extend(true, [], this._layersControls);
+
         this._layersControls = [];
         if (layers && layers.length > 0) {
             let currentScope = this._store.state.current().scopeFull;
@@ -103,7 +103,11 @@ class WmsLayersPanel extends WorldWindWidgetPanel {
         let self = this;
         return Promise.all(promises).then(function (results) {
             if (results.length > 0) {
-                let layers = _.flatten(results);
+                let layers = _.groupBy(_.flatten(results), 'id');
+
+                layers = Object.keys(layers).map(function(layerKey){
+                    return layers[layerKey][0];
+                });
                 let groupedLayers = self.groupLayersByName(layers);
                 return self.getLayersRelevantForPeriods(groupedLayers, configuration.periods);
             }

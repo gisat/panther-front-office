@@ -69,7 +69,11 @@ class Button {
         }).toString();
         this._containerSelector.append(html);
         this._buttonSelector = $("#" + this._id);
-    };
+    }
+
+    hide(){
+        this._buttonSelector.addClass("hidden");
+    }
 
     /**
      * Get classes based on button's configuration

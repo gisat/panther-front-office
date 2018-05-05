@@ -12,6 +12,14 @@ let Ext;
 let Stores = window.Stores;
 
 let $ = window.$;
+/**
+ * @param options {Object}
+ * @param options.dispatcher {Object} Object for handling events in the application.
+ * @param options.store {Object}
+ * @param options.store.scope {Scopes}
+ * @param options.store.state {StateStore}
+ * @constructor
+ */
 class TopToolBar {
     constructor(options) {
         Ext = window.Ext;
@@ -40,7 +48,6 @@ class TopToolBar {
         this._map3dSwitchSelector = $('#top-toolbar-3dmap');
 
         $('#top-toolbar-context-help').on('click.topToolBar', this.handleContextHelpClick);
-        $('#top-toolbar-snapshot').on('click.topToolBar', this.handleSnapshotClick.bind(this, document.getElementById('top-toolbar-snapshot')));
         $('#top-toolbar-share-view').on('click.topToolBar', this.handleShareViewClick);
         $('#top-toolbar-add-map').on('click.topToolBar', this.handleAddMapClick.bind(this));
         this._map3dSwitchSelector.on("click.topToolBar", this.handle3dMapClick.bind(this));
@@ -71,7 +78,8 @@ class TopToolBar {
             functionalFilrer: false,
             share: true,
             snapshot: true,
-            contextHelp: true
+            contextHelp: true,
+            osm: false
         };
 
 
@@ -80,9 +88,6 @@ class TopToolBar {
         }
         if (Config.toggles.hasPeriodsWidget){
             tools.periods = true;
-        }
-        if (Config.toggles.hasOsmWidget){
-            tools.osm = true;
         }
         if (Config.toggles.hasNewEvaluationTool) {
             tools.areasFilterNew = true;
@@ -103,9 +108,6 @@ class TopToolBar {
     hideTools(tools) {
         if (!tools.share){
             $('#top-toolbar-share-view').css("display", "none")
-        }
-        if (!tools.snapshot){
-            $('#top-toolbar-snapshot').css("display", "none")
         }
         if (!tools.contextHelp){
             $('#top-toolbar-context-help').css("display", "none")

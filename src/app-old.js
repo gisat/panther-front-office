@@ -188,6 +188,19 @@ function loadApp() {
             }
         });
 
+        if(Config.toggles.home) {
+            $('#home-page').attr('href', Config.toggles.home);
+        }
+        if(Config.toggles.administration) {
+            $('#bo-link a').attr('href', Config.toggles.administration);
+        }
+        if(Config.toggles.topLinks) {
+            var links = Config.toggles.topLinks.map(function(link){
+                return '<li><a href="'+link.url+'" target="_blank">'+link.text+'</a></li>';
+            });
+            $('#header .menu').append(links);
+        }
+
         // Chart container
         new ChartContainer({
             dispatcher: window.Stores
@@ -378,6 +391,7 @@ function loadApp() {
      */
     function buildAttributes() {
         return new Attributes({
+            dispatcher: window.Stores,
             store: {
                 attributes: store.attributes,
                 attributeSets: store.attributeSets

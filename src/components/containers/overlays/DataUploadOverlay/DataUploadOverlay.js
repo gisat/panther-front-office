@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import path from "path";
 import fetch from "isomorphic-fetch";
-import config from "../../../../config";
+import config from "../../../../Config";
 
 class DataUploadOverlay extends React.PureComponent {
 

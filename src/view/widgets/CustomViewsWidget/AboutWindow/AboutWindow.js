@@ -26,6 +26,7 @@ class AboutWindow {
         let logoSource = "panther/panther_logo.png";
         let title = "Panther Data Exploration";
         let text = "";
+        var introClass = "";
 
         if (Config.toggles.intro) {
             let intro = Config.toggles.intro;
@@ -41,6 +42,8 @@ class AboutWindow {
                     logoClass = "";
                 } else if (type === 'wide_rectangle') {
                     logoClass = "logo-wide-rectangle";
+                } else if (type === 'none'){
+                    introClass = "without-logo";
                 }
             }
             if (intro.logo && intro.logo.source) {
@@ -49,7 +52,7 @@ class AboutWindow {
         }
 
         let html = S(`
-        <div id="about-window">
+        <div id="about-window" class="{{introClass}}">
             <div class="about-window-header">
                 <h1 class="about-window-header-title">{{projectName}}</h1>
             </div>
@@ -66,6 +69,7 @@ class AboutWindow {
             </div>
         </div>
         `).template({
+            introClass: introClass,
             logoSource: "__new/img/" + logoSource,
             logoClass: logoClass,
             projectName: title,

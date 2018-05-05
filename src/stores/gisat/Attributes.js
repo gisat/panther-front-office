@@ -14,7 +14,11 @@ class Attributes extends BaseStore {
      */
     getPath() {
         return "rest/attribute";
-    };
+    }
+
+    loaded(models) {
+        window.Stores.notify("ATTRIBUTES_LOADED", models);
+    }
 }
 
 export default Attributes;

@@ -11,6 +11,7 @@ let Ext;
  * @param options.store.locations {Locations} Store containing locations
  * @param options.store.themes {Themes} Store containing Themes
  * @param options.store.scopes {Scopes} Store containing Scopes
+ * @param options.store.state {StateStore}
  * @constructor
  */
 let $ = window.$;
@@ -144,12 +145,42 @@ class Customization {
         });
     };
 
+    // TODO: FIXME
+    isDromasAdmin(user) {
+        let isDromasAdmin = false;
+        user.groups.forEach(group => {
+            if(group.name === 'Aktualizace LPIS admin') {
+                isDromasAdmin = true;
+            }
+        });
+        return isDromasAdmin || user.isAdmin;
+    }
+
+    /**
+     * Handle user restrictions
+     * @param options {Object}
+     */
     handleUser(){
         var user = this._stateStore.current().user;
         var scope = this._stateStore.current().scope;
         var mapsContainerBottomBar = $('#maps-container-bar-bottom');
         var toolBar = $("#top-toolbar");
         var mapsContainer = $("#maps-container");
+        var uploadDataBtn = $("#upload-data");
+        var originalScopeSelectionBtn = $("#overlay-switch");
+        var self = this;
+
+        if (user.isAdmin){
+            originalScopeSelectionBtn.addClass("open");
+        } else {
+            originalScopeSelectionBtn.removeClass("open");
+        }
+
+        if(this.isDromasAdmin(user) || user.isAdmin) {
+            uploadDataBtn.addClass("open");
+        } else {
+            uploadDataBtn.removeClass("open");
+        }
 
         this._store.scopes.byId(scope).then(function(scopes){
             var scope = scopes[0];
@@ -158,7 +189,7 @@ class Customization {
 
             // handle logging buttons
             // todo use the first one
-            if (scope && scope.restrictEditingToAdmins && !user.isAdmin && !signUpBtn.hasClass('logout')){
+            if (scope && scope.restrictEditingToAdmins && !self.isDromasAdmin(user) && !signUpBtn.hasClass('logout')){
                 // if (scope && !user.isAdmin && !signUpBtn.hasClass('logout')){
                 signUpBtn.css("display", "none");
                 separator.css("display", "none");
@@ -168,22 +199,29 @@ class Customization {
             }
 
             // handle timeline
-            if (scope && scope.restrictEditingToAdmins && !user.isAdmin){
+            if (scope && scope.restrictEditingToAdmins && !self.isDromasAdmin(user)){
                 mapsContainerBottomBar.removeClass("open");
                 toolBar.addClass("hidden");
                 mapsContainer.addClass("extended");
 
             } else {
-                mapsContainerBottomBar.addClass("open");
+                if (scope && scope.showTimeline){
+                    mapsContainerBottomBar.addClass("open");
+                }
                 toolBar.removeClass("hidden");
                 mapsContainer.removeClass("extended")
             }
 
         }).catch(function(err){
+            console.log(err);
             throw new Error(err);
         });
     }
 
+    /**
+     * Adjust application on scope change
+     * @param options {Object}
+     */
     onScopeChange(options){
         var mapsContainerBottomBar = $('#maps-container-bar-bottom');
 

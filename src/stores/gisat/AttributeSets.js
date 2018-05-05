@@ -15,6 +15,10 @@ class AttributeSets extends BaseStore {
     getPath() {
         return "rest/attributeset";
     }
+
+    loaded(models) {
+        window.Stores.notify("ATTRIBUTE_SETS_LOADED", models);
+    }
 }
 
 export default AttributeSets;

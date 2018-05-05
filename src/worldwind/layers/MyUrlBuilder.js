@@ -17,6 +17,9 @@ class MyUrlBuilder extends WmsUrlBuilder {
 
         this.sldId = sldId;
         this.customParams = customParams;
+        if(this.customParams && this.customParams.crs) {
+            this.crs = this.customParams.crs;
+        }
     };
 
     urlForTile(tile, imageFormat) {

@@ -16,6 +16,7 @@ let Ext;
  * @param options {Object}
  * @param options.store {Object}
  * @param options.store.maps {MapStore} Store containing current maps.
+ * @param options.dispatcher {Object} Dispatcher, which is used to distribute actions across the application.
  */
 let $ = window.$;
 class StateStore {
@@ -39,7 +40,8 @@ class StateStore {
         this._selectedMapId = null;
         this._user = {
             isLoggedIn: false,
-            isAdmin: false
+            isAdmin: false,
+            groups: []
         };
 
         this.isMap3D = true;
@@ -76,6 +78,7 @@ class StateStore {
             },
             changes: this._changes,
 
+            locations: this._locations,
             aoiLayer: this._aoiLayer,
             activeAoi: this._activeAoi,
             previousAoi: this._previousAoi,
@@ -91,15 +94,13 @@ class StateStore {
         }
     };
 
-    /**
-     * Extended current state for sharing
-     */
-    currentExtended() {
-        return _.extend(this.current(), {
-            widgets: this.widgets(),
-            worldWindNavigator: this._store.maps.getNavigatorState()
-        });
-    };
+    setActiveLocations(locations){
+        if (!_.isArray(locations)){
+            this._locations = [locations];
+        } else {
+            this._locations = locations;
+        }
+    }
 
     /**
      * Set what changed after last action in Ext UI
@@ -280,14 +281,24 @@ class StateStore {
         }
     };
 
+    /**
+     * Return the current settings of World wind navigator
+     * @returns {Object}
+     */
     getNavigatorState(){
         return this._navigatorState;
     }
 
+    /**
+     * @param isDependent {boolean} true, if maps are dependent on periods
+     */
     handleMapDependencyOnPeriod(isDependent){
         this.isMapIndependentOfPeriod = !isDependent;
     }
 
+    /**
+     * Switch map projection
+     */
     handleMapProjection(){
         if (this.isMap3D){
             this.switchMapTo2D();
@@ -309,18 +320,29 @@ class StateStore {
         this._aoiLayer.layer = layer;
     }
 
+    /**
+     * Switch map to 2D
+     */
     switchMapTo2D(){
         this.isMap3D = false;
         $("#top-toolbar-3dmap").removeClass("open");
         this._dispatcher.notify('map#switchTo2D');
     }
 
+    /**
+     * Switch map to 3D
+     */
     switchMapTo3D(){
         this.isMap3D = true;
         $("#top-toolbar-3dmap").addClass("open");
         this._dispatcher.notify('map#switchTo3D');
     }
 
+    /**
+     * It is used for maps metadata storing (currently for view sharing purposes).
+     * @param options.maps {Array} list of maps metadata received from redux store
+     * @param options.defaults {Object}
+     */
     updateMapsMetadata(options){
         if (options.maps){
             this._mapsMetadata = options.maps;
@@ -330,13 +352,22 @@ class StateStore {
         }
     }
 
+    /**
+     * Update data about user
+     * @param options {Object}
+     */
     updateUser(options){
         this._user = {
             isLoggedIn: options.isLoggedIn,
-            isAdmin: options.isAdmin
+            isAdmin: options.isAdmin,
+            groups: options.groups
         }
     }
 
+    /**
+     * It updates the settings of World wind navigator
+     * @param options {Object}
+     */
     updateNavigator(options){
         this._navigatorState = options;
         this._dispatcher.notify("navigator#update");
@@ -375,6 +406,11 @@ class StateStore {
             this.updateMapsMetadata(options);
         } else if (type === 'AOI_GEOMETRY_SET'){
             this.setActiveAoi(options.id);
+        } else if (type === 'REDUX_SET_ACTIVE_PLACES'){
+            this.setActiveLocations(options.keys);
+            if (this._changes && !this._changes.dataview){
+                this._dispatcher.notify('map#zoomToLocations', options.extents);
+            }
         }
     };
 

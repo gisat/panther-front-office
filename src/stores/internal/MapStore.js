@@ -48,6 +48,14 @@ class MapStore {
         this._dispatcher.notify('map#added', options);
     };
 
+    addGeometryToPlaceLayer(geometry, mapKey){
+        this._maps.forEach(function(map){
+            if (map.id === mapKey){
+                map.addGeometryToPlaceLayer(geometry);
+            }
+        });
+    }
+
     /**
      * Add WMS layer to given map.
      * @param layerId {string|number} id of WMS Layer
@@ -69,12 +77,16 @@ class MapStore {
                     });
 
                     if (map.id === mapId && (isIndependent || (!isIndependent && periodExists))) {
+                        var customOptions = null;
+                        try{
+                            customOptions = JSON.parse(layer.custom);
+                        } catch(e){}
 
                         // add layer
                         map.layers.addWmsLayer({
                             url: layer.url,
                             layerPaths: layer.layer,
-                            customParams: layerOptions,
+                            customParams: layerOptions || customOptions,
                             name: layer.name,
                             id: layer.id
                         }, groupId, true);
@@ -82,7 +94,10 @@ class MapStore {
                         // add map title
                         if (scope.mapLayerInfo && scope.mapLayerInfo === 'simple') {
                             let content = layer.name;
-                            if (layerOptions && layerOptions.time) {
+                            // TODO: FIX QUICK HACK.
+                            if(layerOptions.time.length === 4) {
+                                content += " (" + layerOptions.time + ")";
+                            } else {
                                 content += " (" + stringUtils.parseDate(layerOptions.time) + ")";
                             }
                             map.mapWindowTools.addLayerInfo(content);
@@ -139,6 +154,12 @@ class MapStore {
         this._dispatcher.notify('map#removed', options);
     };
 
+    removeAllGeometriesFromAllPlaceLayers(){
+        this._maps.forEach(function(map){
+            map.removeAllGeometriesFromPlaceLayer();
+        });
+    }
+
     /**
      * Remove all layers from group in given map
      * @param group {string}
@@ -171,6 +192,14 @@ class MapStore {
             });
         });
     };
+
+    removeGeometryFromPlaceLayer(geometryKey, mapKey){
+        this._maps.forEach(function(map){
+            if (map.id === mapKey){
+                map.removeGeometryFromPlaceLayer(geometryKey);
+            }
+        });
+    }
 
     removeLayerFromGroup(mapId, layerId, group) {
         this._maps.forEach(function (map) {
@@ -219,6 +248,15 @@ class MapStore {
             if (state.previousAoi) {
                 this.removeAllLayersFromGroupFromAllMaps(wmsGroup);
             }
+        } else if (type === "PLACE_GEOMETRY_ADD"){
+            this.addGeometryToPlaceLayer({
+                key: options.geometryKey,
+                geometry: options.geometry
+            }, options.mapKey);
+        } else if (type === "PLACE_GEOMETRY_REMOVE"){
+            this.removeGeometryFromPlaceLayer(options.geometryKey, options.mapKey);
+        } else if (type === "REDUX_SET_ACTIVE_PLACES"){
+            this.removeAllGeometriesFromAllPlaceLayers();
         }
     };
 }

@@ -196,7 +196,7 @@ class SharingWidget extends Widget {
         let name = $("#floater-sharing .floater-body #sharing-name").val();
         let description = $("#floater-sharing .floater-body #sharing-description").val();
         let language = $("#floater-sharing .floater-body #sharing-lang option:checked").val();
-        let state = this._store.state.currentExtended();
+        let state = this._store.state.current();
 
         Observer.notify("PumaMain.controller.ViewMng.onShare", {
             state: state,
@@ -215,10 +215,14 @@ class SharingWidget extends Widget {
         let selectedUser = $( "#floater-sharing .floater-body #sharing-user option:checked" ).val();
         let minimiseBtn = this._widgetSelector.find(".widget-minimise");
         let state = this._store.state.current();
+        var places = state.places;
+        if (state.locations){
+            places = state.locations;
+        }
         let self = this;
         Promise.all([
-            this._store.groups.share(selectedGroup, state.scope, state.places, options.dataviewId),
-            this._store.users.share(selectedUser, state.scope, state.places, options.dataviewId)
+            this._store.groups.share(selectedGroup, state.scope, places, options.dataviewId),
+            this._store.users.share(selectedUser, state.scope, places, options.dataviewId)
         ]).then(function(){
             let auth = "&needLogin=true";
             if (Config.auth && selectedGroup === '2'){

@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import {geoCentroid, geoBounds, geoDistance} from 'd3';
 import WorldWind from '@nasaworldwind/worldwind';
 
@@ -13,7 +14,7 @@ let GoToAnimator = WorldWind.GoToAnimator;
  * @param options.store {Object}
  * @param options.store.state {StateStore}
  * @param options.store.locations {Locations}
- * @param options.dispatcher
+ * @param options.dispatcher {Object}
  * @constructor
  */
 class MyGoToAnimator extends GoToAnimator {
@@ -31,9 +32,13 @@ class MyGoToAnimator extends GoToAnimator {
         if (!options.store.locations) {
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MyGoToAnimator', 'constructor', 'Store locations must be provided'));
         }
+        if (!options.dispatcher){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'MyGoToAnimator', 'constructor', 'Dispatcher must be provided'));
+        }
 
         super(wwd);
         this._store = options.store;
+        this._stateStore = options.store.state;
 
         this.wwd = wwd;
         this.travelTime = 0;
@@ -51,7 +56,7 @@ class MyGoToAnimator extends GoToAnimator {
         let self = this;
         let stateStore = this._store.state;
         let currentState = stateStore.current();
-        let places = currentState.places;
+        let places = currentState.locations;
         let dataset = currentState.scope;
 
         if (!dataset) {
@@ -60,7 +65,7 @@ class MyGoToAnimator extends GoToAnimator {
         }
         else {
             let values = {dataset: dataset};
-            if ((places[0] !== 'All places') && places.length === 1) {
+            if (places.length === 1) {
                 values.id = places[0];
             }
 
@@ -72,6 +77,10 @@ class MyGoToAnimator extends GoToAnimator {
                             let bbox = location.bbox.split(",");
                             let pointsForArea = self.getPointsFromBBox(bbox);
                             points = points.concat(pointsForArea);
+                        } else if (location.geometry){
+                            location.geometry.coordinates.forEach(function(coord){
+                                points = points.concat(coord);
+                            });
                         }
                     });
                     self.setLocationFromPointSet(points);
@@ -84,7 +93,6 @@ class MyGoToAnimator extends GoToAnimator {
             });
         }
     }
-    ;
 
     /**
      * Set location and range based on given point set
@@ -146,6 +154,18 @@ class MyGoToAnimator extends GoToAnimator {
      * @param bounds {Array} Bounding box represented by a two pairs of coordinates
      */
     zoomToArea(bounds) {
+        if (bounds.length === 4 && !_.isArray(bounds[0])){
+            bounds = [[bounds[0], bounds[1]], [bounds[2], bounds[3]]]
+        } else if (_.isArray(bounds[0]) && bounds[0].length === 4){
+            var points = [];
+            let self = this;
+            bounds.forEach(function(bbox){
+                points.push(self.getPointsFromBBox(bbox));
+            });
+            self.setLocationFromPointSet(_.flatten(points, true));
+            return;
+        }
+
         let minLon = bounds[0][0];
         let minLat = bounds[0][1];
         let maxLon = bounds[1][0];
@@ -208,7 +228,6 @@ class MyGoToAnimator extends GoToAnimator {
         this.wwd.redrawIfNeeded(); // TODO: Check with new releases. This isn't part of the public API and therefore might change.
         this._store.state.removeLoadingOperation("ScopeLocationChanged");
     }
-    ;
 
 
     /**
@@ -262,7 +281,6 @@ class MyGoToAnimator extends GoToAnimator {
         let json = this.getGeoJsonFromPoints(bbox);
         return geoCentroid(json);
     }
-    ;
 
     /**
      * Calculate range acording to distance between bounding box corners and map window size
@@ -324,6 +342,10 @@ class MyGoToAnimator extends GoToAnimator {
         return range;
     }
 
+    /**
+     * Check range value. If the value is higher than
+     * @param range {number}
+     */
     checkRange(range){
         var is2D = !this._store.state.current().isMap3D;
 
@@ -339,6 +361,12 @@ class MyGoToAnimator extends GoToAnimator {
         return range;
     }
 
+    /**
+     * Adjust range according to projection
+     * @param range {number}
+     * @param position {Array} coordinates of camera
+     * @returns {number} adjustec range
+     */
     adjustRangeAccordingToProjection(range, position){
         var is2D = !this._store.state.current().isMap3D;
         if (is2D){

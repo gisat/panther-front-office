@@ -55,6 +55,12 @@ class Scope extends Model {
             },
             layersWidgetHiddenPanels: {
                 serverName: 'layersWidgetHiddenPanels'
+            },
+            featurePlaceChangeReview: {
+                serverName: 'featurePlaceChangeReview'
+            },
+            urls: {
+                serverName: 'urls'
             }
         };
     };

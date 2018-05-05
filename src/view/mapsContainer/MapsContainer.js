@@ -187,13 +187,15 @@ class MapsContainer {
      * Add on click listener to all map boxes
      */
     addMapBoxOnClickListener(){
-        let self = this;
-        this._containerSelector.on("click", ".world-wind-map-box", function(){
-            let state = self._stateStore.current();
-            if (state.isMapIndependentOfPeriod){
-                let mapId = $(this).find('.world-wind-map').attr('id');
-                let map = self._mapStore.getMapById(mapId);
-                self.handleMapSelection(map);
+        var self = this;
+        this._containerSelector.on("click", ".world-wind-map-box", function(e){
+            if (e.target.className !== "close-map-button" && e.target.className !== "close-map-icon"){
+                var state = self._stateStore.current();
+                if (state.isMapIndependentOfPeriod){
+                    var mapId = $(this).find('.world-wind-map').attr('id');
+                    var map = self._mapStore.getMapById(mapId);
+                    self.handleMapSelection(map);
+                }
             }
         });
     }
@@ -580,6 +582,21 @@ class MapsContainer {
                         });
                     });
                 }
+                if (map.placeGeometryChangeReview){
+                    var showBefore = false;
+                    var showAfter = false;
+                    if (map.placeGeometryChangeReview.showGeometryAfter){
+                        showAfter = true;
+                    }
+                    if (map.placeGeometryChangeReview.showGeometryBefore){
+                        showBefore = true;
+                    }
+                    self._dispatcher.notify("placeGeometryChangeReview#showGeometry", {
+                        mapKey: map.key,
+                        showBefore: showBefore,
+                        showAfter: showAfter
+                    });
+                }
             });
         }
         if (selectedMap){
@@ -624,7 +641,7 @@ class MapsContainer {
         } else if (type === Actions.periodsDefault){
             this.setPeriodOfAllMaps(periods[0]);
             this.checkMapsCloseButton();
-        } else if (type === Actions.mapZoomSelected){
+        } else if (type === Actions.mapZoomSelected|| type === Actions.mapZoomToLocations){
             this.zoomToArea(options);
         } else if (type === Actions.mapZoomToExtent){
             this.zoomToExtent();

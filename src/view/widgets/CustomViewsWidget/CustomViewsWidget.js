@@ -44,6 +44,7 @@ class CustomViewsWidget extends Widget {
         }
 
         this._store = options.store;
+        this._stateStore = options.store.state;
 
         this._dispatcher = options.dispatcher;
         this._dispatcher.addListener(this.onEvent.bind(this));
@@ -91,23 +92,30 @@ class CustomViewsWidget extends Widget {
      * @param data {Array}
      */
     redraw(data) {
-        var bodySelector = $('body');
-        var isIntro = bodySelector.hasClass('intro');
+        let bodySelector = $('body');
+        let isIntro = bodySelector.hasClass('intro');
         this._widgetBodySelector.html('<div class="custom-views-content"></div>');
         this._contentSelector = this._widgetBodySelector.find(".custom-views-content");
 
-        var isAdmin = this._store.state.current().user.isAdmin;
+        let user = this._stateStore.current().user;
+        let isDromasAdmin = false;
+        user.groups.forEach(group => {
+            if(group.name === 'Aktualizace LPIS admin') {
+                isDromasAdmin = true;
+            }
+        });
+        let isAdmin = user.isAdmin;
 
         if (data.length === 0){
             this._widgetSelector.find(".widget-minimise").trigger("click");
             $("#top-toolbar-saved-views").addClass("hidden");
         } else {
             if (isIntro && Config.toggles.showDataviewsOverlay){
-                this.renderAsOverlay(data, isAdmin);
+                this.renderAsOverlay(data, isAdmin, isDromasAdmin);
 
             } else {
-                var scope = this._store.state.current().scope;
-                this.renderAsWidget(data, scope, isAdmin);
+                let scope = this._store.state.current().scope;
+                this.renderAsWidget(data, scope, isAdmin, isDromasAdmin);
                 this._widgetSelector.removeClass("intro-overlay");
                 bodySelector.removeClass("intro-overlay");
             }
@@ -119,7 +127,7 @@ class CustomViewsWidget extends Widget {
      * @param data {Array} data for dataviews card
      * @param isAdmin {boolean} true, if logged user is admin
      */
-    renderAsOverlay(data, isAdmin) {
+    renderAsOverlay(data, isAdmin, isDromasAdmin) {
         this._widgetSelector.addClass("open expanded active");
 
         this.toggleOverlaySwitch(isAdmin);
@@ -133,7 +141,7 @@ class CustomViewsWidget extends Widget {
         let self = this;
         Promise.all(scopeNamesPromises).then(function (results) {
             let scopes = _.flatten(results);
-            self.renderAsOverlayContent(scopes, groupedData, isAdmin);
+            self.renderAsOverlayContent(scopes, groupedData, isAdmin, isDromasAdmin);
             self.handleLoading("hide");
         }).catch(function (err) {
             throw new Error(err);
@@ -146,7 +154,7 @@ class CustomViewsWidget extends Widget {
      * @param data {Object} Data about dataviews grouped by scope
      * @param isAdmin {boolean} true, if logged user is admin
      */
-    renderAsOverlayContent(scopes, data, isAdmin) {
+    renderAsOverlayContent(scopes, data, isAdmin, isDromasAdmin) {
         this._contentSelector.html('<div class="custom-views-categories"></div>' +
             '<div class="custom-views-dataviews">' +
             '<div class="custom-views-dataviews-container"></div>' +
@@ -155,7 +163,7 @@ class CustomViewsWidget extends Widget {
         this._dataviewsContainerSelector = this._contentSelector.find('.custom-views-dataviews-container');
 
         if (Config.toggles.dataviewsOverlayHasIntro) {
-            this.renderContentItem("intro", "About");
+            this.renderContentItem("intro", polyglot.t('aboutPlatform'));
             new AboutWindow({
                 target: $("#about-window-wrapper"),
                 onShowMapsClick: this.onShowMapsClick.bind(this)
@@ -167,6 +175,12 @@ class CustomViewsWidget extends Widget {
                 return Number(scope.id) === Number(dataset);
             });
 
+            // Filter the scope
+            let validUrl = true;
+            if(!isAdmin && scope && scope.urls){
+                validUrl = scope.urls.indexOf(window.location.origin) !== -1;
+            }
+
             if (scope && scope.name) {
                 let name = scope.name;
                 this.renderContentItem(dataset, name);
@@ -176,7 +190,7 @@ class CustomViewsWidget extends Widget {
                 let self = this;
                 sortedData.forEach(function (dataview) {
                     let data = self.prepareDataForCard(dataview);
-                    self.addDataviewCard(data, window, isAdmin);
+                    self.addDataviewCard(data, window, isAdmin || isDromasAdmin);
                 });
             }
         }
@@ -230,31 +244,38 @@ class CustomViewsWidget extends Widget {
                 this._overlaySwitchSelector.css("display", "none");
             }
         } else if (isAdmin) {
-            this.renderOverlaySwitch();
+            this.renderOverlaySwitch(isAdmin);
         }
     };
 
     /**
      * Add switch to the header toolbar, which allows to admin switch off/on the overlay
      */
-    renderOverlaySwitch() {
-        $("#header .menu").append("<li id='overlay-switch'><a href='#'>" + polyglot.t("dataviewOverlaySwitchToOld") + "</a></li>");
-        this._overlaySwitchSelector = $("#overlay-switch");
-        let self = this;
-        this._overlaySwitchSelector.on("click", function () {
-            let switcherLink = $(this).find("a");
-            let bodySelector = $('body');
-            let overlayActive = self._widgetSelector.hasClass("open");
-            if (overlayActive) {
-                self._widgetSelector.removeClass("open");
-                bodySelector.removeClass("intro-overlay");
-                switcherLink.text(polyglot.t("dataviewOverlaySwitchToNew"));
-            } else {
-                self._widgetSelector.addClass("open");
-                bodySelector.addClass("intro-overlay");
-                switcherLink.text(polyglot.t("dataviewOverlaySwitchToOld"));
+    renderOverlaySwitch(isAdmin) {
+        if (!this._overlaySwitchSelector){
+            $("#header .menu").append("<li id='overlay-switch'><a href='#'>" + polyglot.t("dataviewOverlaySwitchToOld") + "</a></li>");
+            this._overlaySwitchSelector = $("#overlay-switch");
+
+            if (isAdmin){
+                this._overlaySwitchSelector.addClass("open");
             }
-        });
+
+            let self = this;
+            this._overlaySwitchSelector.on("click",function(){
+                let switcherLink = $(this).find("a");
+                let bodySelector = $('body');
+                let overlayActive = self._widgetSelector.hasClass("open");
+                if (overlayActive){
+                    self._widgetSelector.removeClass("open");
+                    bodySelector.removeClass("intro-overlay");
+                    switcherLink.text(polyglot.t("dataviewOverlaySwitchToNew"));
+                } else {
+                    self._widgetSelector.addClass("open");
+                    bodySelector.addClass("intro-overlay");
+                    switcherLink.text(polyglot.t("dataviewOverlaySwitchToOld"));
+                }
+            });
+        }
     };
 
     /**
@@ -263,7 +284,7 @@ class CustomViewsWidget extends Widget {
      * @param scope {string|number} current scope
      * @param isAdmin {boolean} true, if logged user is admin
      */
-    renderAsWidget(data, scope, isAdmin) {
+    renderAsWidget(data, scope, isAdmin, isDromasAdmin) {
 
         //filter dataviews for this scope only
         // TODO move fiter to backend
@@ -279,8 +300,11 @@ class CustomViewsWidget extends Widget {
         let self = this;
         sortedData.forEach(function (dataview) {
             let data = self.prepareDataForCard(dataview);
-            self.addDataviewCard(data, self._contentSelector, isAdmin);
+            self.addDataviewCard(data, self._contentSelector, isAdmin || isDromasAdmin);
         });
+        if (Config.dataviewId){
+            this._widgetSelector.find(".widget-minimise").trigger("click");
+        }
         this.handleLoading("hide");
     };
 
@@ -298,6 +322,7 @@ class CustomViewsWidget extends Widget {
             let activeId = self._activeWindow.attr("id");
             let secondId = self._secondWindow.attr("id");
             let thirdId = self._thirdWindow.attr("id");
+            let index = contentWindows.index(this);
 
             categories.removeClass("active");
             category.addClass("active");

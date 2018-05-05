@@ -38,6 +38,7 @@ class MapToolsWidget extends Widget {
         }
 
         this._store = options.store;
+        this._stateStore = options.store.state;
 
         this._dispatcher = options.dispatcher;
         this._featureInfo = options.featureInfo;
@@ -72,16 +73,20 @@ class MapToolsWidget extends Widget {
 
         // Select areas functionality
         this._selectInMap = this.buildSelectInMap();
-        this._triggers.push(this.buildSelectInMapTrigger());
-        this._buttons.push(this.buildClearSelectedButton());
+        this._selectInMapTrigger = this.buildSelectInMapTrigger();
+        this._triggers.push(this._selectInMapTrigger);
+        this._clearSelectedButton = this.buildClearSelectedButton();
+        this._buttons.push(this._clearSelectedButton);
 
         // Area info functionality
         if (this._featureInfo){
-            this._triggers.push(this.buildFeatureInfoTrigger());
+            this._featureInfoTrigger = this.buildFeatureInfoTrigger();
+            this._triggers.push(this._featureInfoTrigger);
         }
         // Layer info functionality
         this._layerInfo = this.buildLayerInfo();
-        this._triggers.push(this.buildLayerInfoTrigger());
+        this._layerInfoTrigger = this.buildLayerInfoTrigger();
+        this._triggers.push(this._layerInfoTrigger);
 
         // Zooming functionality
         this._zooming = new Zooming({
@@ -90,8 +95,10 @@ class MapToolsWidget extends Widget {
                 state: this._store.state
             }
         });
-        this._buttons.push(this.buildZoomSelectedButton());
-        this._buttons.push(this.buildZoomToExtentButton());
+        this._zoomSelectedButton = this.buildZoomSelectedButton();
+        this._buttons.push(this._zoomSelectedButton);
+        this._zoomToExtentButton = this.buildZoomToExtentButton();
+        this._buttons.push(this._zoomToExtentButton);
 
         this.handleLoading("hide");
     };
@@ -100,7 +107,15 @@ class MapToolsWidget extends Widget {
      * Rebuild all tools in widget
      */
     rebuild() {
-        this._triggers.forEach(function (trigger) {
+        var scope = this._stateStore.current().scopeFull;
+        if (scope.featurePlaceChangeReview){
+            this.hideTools({
+                sections: ['selections'],
+                tools: ['zoom-selected', 'area-info']
+            })
+        }
+
+        this._triggers.forEach(function(trigger){
             trigger.rebuild();
         });
     };
@@ -143,7 +158,7 @@ class MapToolsWidget extends Widget {
             hasFaIcon: true,
             iconClass: 'fa-hand-o-up',
             dispatcher: this._dispatcher,
-            target: this._selectionsContainerSelector,
+            target: this._selectionsContainerSelector.find(".map-tools-container-body"),
             onDeactivate: this._selectInMap.deactivate.bind(this._selectInMap),
             onActivate: this._selectInMap.activate.bind(this._selectInMap)
         });
@@ -160,7 +175,7 @@ class MapToolsWidget extends Widget {
             hasSvgIcon: true,
             iconPath: '__new/icons/feature-info.svg',
             dispatcher: this._dispatcher,
-            target: this._infoContainerSelector,
+            target: this._infoContainerSelector.find(".map-tools-container-body"),
             onDeactivate: this._featureInfo.deactivateFor3D.bind(this._featureInfo),
             onActivate: this._featureInfo.activateFor3D.bind(this._featureInfo)
         });
@@ -177,7 +192,7 @@ class MapToolsWidget extends Widget {
             hasSvgIcon: true,
             iconPath: '__new/icons/layers-info-a.svg',
             dispatcher: this._dispatcher,
-            target: this._infoContainerSelector,
+            target: this._infoContainerSelector.find(".map-tools-container-body"),
             onDeactivate: this._layerInfo.deactivate.bind(this._layerInfo),
             onActivate: this._layerInfo.activate.bind(this._layerInfo)
         });
@@ -190,7 +205,7 @@ class MapToolsWidget extends Widget {
     buildClearSelectedButton(){
         return new Button({
             id: "clear-selected-button",
-            containerSelector: this._selectionsContainerSelector,
+            containerSelector: this._selectionsContainerSelector.find(".map-tools-container-body"),
             title: polyglot.t('clearSelection'),
             text: polyglot.t('clearSelection'),
             textCentered: true,
@@ -210,7 +225,7 @@ class MapToolsWidget extends Widget {
     buildZoomSelectedButton() {
         return new Button({
             id: "zoom-selected-button",
-            containerSelector: this._zoomingContainerSelector,
+            containerSelector: this._zoomingContainerSelector.find(".map-tools-container-body"),
             title: polyglot.t('zoomSelected'),
             text: polyglot.t('zoomSelected'),
             textCentered: true,
@@ -230,9 +245,9 @@ class MapToolsWidget extends Widget {
     buildZoomToExtentButton() {
         return new Button({
             id: "zoom-to-extent-button",
-            containerSelector: this._zoomingContainerSelector,
-            title: polyglot.t('zoomToExtent'),
-            text: polyglot.t('zoomToExtent'),
+            containerSelector: this._zoomingContainerSelector.find(".map-tools-container-body"),
+            title: polyglot.t('zoomToPlace'),
+            text: polyglot.t('zoomToPlace'),
             textCentered: true,
             textSmall: true,
             icon: {
@@ -242,6 +257,42 @@ class MapToolsWidget extends Widget {
             onClick: this._zooming.zoomToExtent.bind(this._zooming)
         });
     };
+
+    hideTools(options){
+        var self = this;
+
+        // hide whole section
+        if (options.sections){
+            options.sections.forEach(function(section){
+                if (section === 'selections'){
+                    self._selectionsContainerSelector.addClass("hidden");
+                } else if (section === 'zooming'){
+                    self._zoomingContainerSelector.addClass("hidden");
+                } else if (section === 'info'){
+                    self._infoContainerSelector.addClass("hidden");
+                }
+            });
+        }
+
+        // hide specific tool
+        if (options.tools){
+            options.tools.forEach(function(tool){
+                if (tool === 'zoom-selected'){
+                    self._zoomSelectedButton.hide();
+                } else if (tool === 'zoom-place'){
+                    self._zoomToExtentButton.hide();
+                } else if (tool === 'area-info'){
+                    self._featureInfoTrigger.hide();
+                } else if (tool === 'layer-info'){
+                    self._layerInfoTrigger.hide();
+                } else if (tool === 'select-in-map'){
+                    self._selectInMapTrigger.hide();
+                } else if (tool === 'clear-selection'){
+                    self._clearSelectedButton.hide();
+                }
+            });
+        }
+    }
 
     /**
      * @param type {string} type of event

@@ -104,6 +104,7 @@ class FrontOffice {
                 self.toggleWidgets(options);
                 self.toggleCustomLayers(options);
                 self.handlePeriods();
+                self._stateStore.resetChanges();
             }).catch(function(err){
                 throw new Error(err);
             });
@@ -114,6 +115,7 @@ class FrontOffice {
             Promise.all([attributesData]).then(function(result){
                 self.rebuildComponents(result[0]);
                 self.handlePeriods();
+                self._stateStore.resetChanges();
             });
         }
 
@@ -499,6 +501,9 @@ class FrontOffice {
         if (options.widgets){
             this._topToolBar.handleDataview(options.widgets);
         }
+        if (options.locations){
+            this._dispatcher.notify('place#setActivePlace', {data: options.locations});
+        }
         if (options.mapsMetadata){
             this._mapsContainer.handleMapsFromDataview(options.mapsMetadata, options.selectedMapId);
         }
@@ -571,7 +576,10 @@ class FrontOffice {
         if(type === Actions.adjustConfiguration) {
             this.adjustConfiguration();
         } else if (type === Actions.adjustConfigurationFromDataview){
-            this.adjustConfiguration(options);
+            var self = this;
+            this._store.locations.load().then(function(){
+                self.adjustConfiguration(options);
+            });
         }
     }
 }

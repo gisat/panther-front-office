@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import S from 'string';
 
 import WorldWind from '@nasaworldwind/worldwind';
@@ -23,10 +24,12 @@ import './WorldWindMap.css';
  * @param options {Object}
  * @param options.id {String|null} Id distinguishing the map from the other ones.
  * @param options.mapsContainer {Object} JQuery selector of target element
+ * @param options.orderFromStart {number} Order of a map from MapsContainer instance initialization
  * @param options.period {Number|null} Period associated with this map.
  * @param options.dispatcher {Object} Object for handling events in the application.
  * @param options.store {Object}
  * @param options.store.state {StateStore}
+ * @param options.store.scopes {Scopes}
  * @param options.store.map {MapStore}
  * @param options.store.periods {Scopes}
  * @param options.store.locations {Locations}
@@ -79,6 +82,7 @@ class WorldWindMap {
         this._name = "Map " + options.orderFromStart;
         this._selected = false;
         this._aoiLayer = null;
+        this._placeLayer = null;
 
         /**
          * Every map is associated with the period. If no period is specified, then it is supplied latest when the first
@@ -93,7 +97,7 @@ class WorldWindMap {
          * unselected ones.
          * It isn't actually used here. It is only created, but as the map can be destroyed, the store must be also
          * destroyed.
-         * @type {SelectedLayersStore}
+         * @type {VisibleLayersStore}
          * @private
          */
         this._selectedLayers = new VisibleLayersStore({
@@ -289,7 +293,7 @@ class WorldWindMap {
         let state = this._stateStore.current();
         let changes = state.changes;
 
-        if (changes.scope || changes.location){
+        if (changes.scope || changes.location || _.isEmpty(changes)){
             this._stateStore.removeLoadingOperation("appRendering");
         }
 
@@ -332,7 +336,7 @@ class WorldWindMap {
      * Get navigator state from store and set this map navigator's parameters.
      */
     setNavigator() {
-        var navigatorState = this._stateStore.getNavigatorState();
+        let navigatorState = this._stateStore.getNavigatorState();
 
         if (navigatorState){
             this._wwd.navigator.heading = navigatorState.heading;
@@ -520,16 +524,67 @@ class WorldWindMap {
         }
     };
 
+    addGeometryToPlaceLayer(geometry){
+        if (!this._placeLayer){
+            this._placeLayer = new WorldWind.RenderableLayer('place-layer');
+            this._placeLayer.metadata = {
+                group: "place-layer"
+            };
+            this._wwd.addLayer(this._placeLayer);
+        }
+        let renderables = new MultiPolygon({geometry: geometry.geometry, key: geometry.key, switchedCoordinates: true}).render();
+        this._placeLayer.addRenderables(renderables);
+        this._wwd.redraw();
+    }
+
+    removeAllGeometriesFromPlaceLayer() {
+        let self = this;
+        if (this._placeLayer && this._placeLayer.renderables){
+            this._placeLayer.removeAllRenderables();
+            this.redraw();
+        }
+    }
+
+    removeGeometryFromPlaceLayer(geometryKey) {
+        let self = this;
+        if (this._placeLayer && geometryKey){
+            let renderables = _.filter(this._placeLayer.renderables, function (rend){
+                return rend.key === geometryKey});
+            if (renderables && renderables.length){
+                renderables.forEach(function(renderable){
+                    self._placeLayer.removeRenderable(renderable);
+                });
+            }
+            this.redraw();
+        }
+    }
+
     /**
      * Add listener for drag and drop files
      */
     addDropListener(){
-        this._mapSelector.off('drop').on('drop', function(e){
+        $('body').off('drop').on('drop', function(e){
             e.preventDefault();
-            let files = e.originalEvent.dataTransfer.files;
-            this.addFiles(files);
-            return false;
+            if(e.originalEvent.dataTransfer.files && e.originalEvent.dataTransfer.files.length > 0) {
+                let files = e.originalEvent.dataTransfer.files;
+                this.addFiles(files);
+            }
+
+            if(!e.originalEvent.dataTransfer.files || e.originalEvent.dataTransfer.files.length === 0) {
+                let url = e.originalEvent.dataTransfer.getData("URL");
+                this.addUrl(url);
+            }
         }.bind(this));
+    }
+
+    addUrl(url) {
+        if(url.endsWith('.geojson') || url.endsWith('.json')) {
+            this.addGeoJson(url);
+        } else if(url.endsWith('.tif') || url.endsWith('.tiff')) {
+            this.addGeoTiff(url);
+        } else if(url.endsWith('.kml')) {
+            this.addKML(url);
+        }
     }
 
     addFiles(files) {
@@ -636,19 +691,22 @@ class WorldWindMap {
     };
 
     getLayersInfo(callback, event) {
-        var x = event.x,
+        let x = event.x,
             y = event.y;
-        var position = this.getPositionFromCanvasCoordinates(x,y);
+        let position = this.getPositionFromCanvasCoordinates(x,y);
 
-        var tablePromises = event.worldWindow.layers.map(function(layer){
-            if(!layer || !layer.metadata || !layer.metadata.group || layer.metadata.group === 'areaoutlines') {
+        let tablePromises = event.worldWindow.layers.map(function(layer){
+            if(!layer || !layer.metadata || !layer.metadata.group ||
+                layer.metadata.group === 'areaoutlines' ||
+                layer.metadata.group === 'background-layers' ||
+                layer.metadata.group === 'place-layer') {
                 return;
             }
-            var serviceAddress = layer.urlBuilder.serviceAddress;
-            var layerNames = layer.urlBuilder.layerNames;
-            var crs = layer.urlBuilder.crs;
-            var name = layerNames;
-            var customParams = null;
+            let serviceAddress = layer.urlBuilder.serviceAddress;
+            let layerNames = layer.urlBuilder.layerNames;
+            let crs = layer.urlBuilder.crs;
+            let name = layerNames;
+            let customParams = null;
             if (layer.metadata && layer.metadata.name){
                 name = layer.metadata.name;
             }
@@ -661,7 +719,7 @@ class WorldWindMap {
                 serviceAddress: serviceAddress,
                 layers: layerNames,
                 position: position,
-                src: crs,
+                srs: crs,
                 screenCoordinates: {x: x, y: y},
                 name: name
             }).get();
