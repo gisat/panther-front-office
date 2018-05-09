@@ -487,37 +487,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
 			if(data.data && data.data.length) {
 				var nodes = data.data.map(function(layer, index) {
-				    var layerAddOptions = {};
-				    var coreOptions = {};
-				    try{
-				        layerAddOptions = JSON.parse(layer.custom) || {};
-				        coreOptions = JSON.parse(layer.custom) || {};
-                    } catch(e) {
-				        console.error("LocationTheme#reloadWmsLayer Incorrect custom ", layer.custom);
-                    }
-				    layerAddOptions.visibility = false;
-				    layerAddOptions.isBaseLayer = false;
-				    if(layerAddOptions.srs) {
-                        layerAddOptions.projection = new OpenLayers.Projection(layerAddOptions.srs);
-                        coreOptions.srs = layerAddOptions.srs;
-                    } else if(layerAddOptions.crs) {
-                        layerAddOptions.projection = new OpenLayers.Projection(layerAddOptions.crs);
-                        coreOptions.srs = layerAddOptions.crs;
-                    }else {
-                        layerAddOptions.projection = new OpenLayers.Projection("EPSG:3857");
-                        coreOptions.srs = "EPSG:3857";
-                    }
-
-				    coreOptions.layers = layer.layer;
-				    coreOptions.transparent = true;
-				    var layer1 = new OpenLayers.Layer.WMS(layer.name,
-						layer.url,
-						coreOptions,
-                        layerAddOptions);
-				    var layer2 = new OpenLayers.Layer.WMS(layer.name,
-						layer.url,
-						coreOptions,
-                        layerAddOptions);
 				    var node = Ext.create('Puma.model.MapLayer', {
 						name: layer.name,
                         id: layer.id,
@@ -526,14 +495,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
 						checked: false,
 						leaf: true,
 						sortIndex: index,
-						type: 'wmsLayer',
-						layer1: layer1, // Layer which is shown when only one map is visible
-						layer2: layer2, // Layer to be shown when both maps are visible
+						type: 'wmsLayer'
 					});
-				    layer1.nodeRec = node;
-				    layer1.initialized = true;
-				    layer2.nodeRec = node;
-				    layer2.initialized = true;
 
 					if(selectedLayers.indexOf(layer.name) != -1) {
 						selectedNodes.push(node);
@@ -1103,16 +1066,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
             }
 
 
-            if(tools.indexOf('snapshots') !== -1) {
-                $('#top-toolbar-snapshot').hide();
-            }
-
             if(tools.indexOf('context-help') !== -1) {
                 $('#top-toolbar-context-help').hide();
-            }
-
-            if(window.location.origin === "http://dromas.gisat.cz" && Config.auth && Config.auth.userName !== "admin") {
-                $('#top-toolbar-share-view').hide();
             }
 
             if(tools.indexOf('scope') !== -1) {
@@ -1392,10 +1347,10 @@ Ext.define('PumaMain.controller.LocationTheme', {
 		for(var topic in topics){ // iterate topics (id's) of actual theme
 			attrSetStore.data.each(function(attrSet){ // iterate attrSets (objects)
 				if(attrSet.get('topic') === topics[topic]){
-					var attrSetAttributes = attrSet.get('attributes');
+				    var attrSetAttributes = attrSet.get('attributes');
 					attrStore.data.each(function(attribute){ // iterate attributes (objects)
 						if( Ext.Array.contains(attrSetAttributes, attribute.get('_id')) && (attribute.data.type === "numeric" || attribute.data.type === "text")){
-							var attr = attribute.data;
+					        var attr = $.extend({}, attribute.data);
 							attr.attributeSet = attrSet.internalId;
 							attr.attribute = attribute.data._id;
 						    attributes.push(attr);

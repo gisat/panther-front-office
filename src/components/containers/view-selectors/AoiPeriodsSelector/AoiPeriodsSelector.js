@@ -14,7 +14,7 @@ class AoiPeriodsSelector extends React.PureComponent {
 			viewSelection: PropTypes.string
 		}),
 		aois: PropTypes.array,
-		userIsAdmin: PropTypes.bool
+		isDromasAdmin: PropTypes.bool
 	};
 
 	static defaultProps = {
@@ -31,7 +31,7 @@ class AoiPeriodsSelector extends React.PureComponent {
 	render() {
 		let content = null;
 
-		if (!this.props.userIsAdmin && this.props.scope.restrictEditingToAdmins){
+		if (!this.props.isDromasAdmin && this.props.scope.restrictEditingToAdmins){
 
 			if (this.props.activeAoi) {
 				content = (

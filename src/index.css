@@ -4,8 +4,11 @@
     ATOMS
       UI Select
     COMPONENTS
+      Change Review Map Control
       Overlay
+        Aoi Overlay
       View Selector
+
 */
 
 
@@ -39,39 +42,118 @@ body {
   padding: 0 1rem 0 0;
 }
 .ptr-ui-select .Select {
-  width: 10rem;
+  width: 12rem;
 }
 
 /* ================================================================
    === COMPONENTS =================================================
    ================================================================ */
 
+/* == Change Review Map Control =================================== */
+.ptr-change-review-map-control {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: #dddcd7;
+
+  display: flex;
+}
+
+.ptr-change-review-map-control > div, .ptr-change-review-map-control > span {
+  padding: 11px;
+}
+.ptr-change-review-map-control-map-name {
+  color: #cd0044;
+  margin-right: 15px;
+}
+
+.ptr-change-review-map-control-toggles > label {
+  margin-right: 30px;
+}
+.ptr-change-review-map-control-toggles > label > input {
+  position: relative;
+  top: 2px;
+  margin-right: 6px;
+}
+
+/* == Overlay ===================================================== */
 .ptr-overlay {
   position: absolute;
   display: none;
   left: 0;
   bottom: 0;
   right: 0;
+  top: 0;
+  background: rgba(255,255,255,.9);
+  padding: 1.5rem 1.5rem 1.5rem 2rem;
+  z-index: 90000;
+  flex-direction: column;
+}
+.ptr-overlay-header {
+  display: flex;
+}
+.ptr-overlay-title {
+  flex: 1;
+  font-size: 2rem;
+  font-weight: 400;
+  color: #212635;
+}
+.ptr-overlay-close {
+  cursor: pointer;
+  font-size: 1.3rem;
+}
+.ptr-overlay-content {
+  margin-top: 1rem;
+}
+.ptr-overlay-content form {
+  display: flex;
+  flex-direction: column;
+}
+.ptr-overlay-content form label {
+  display: flex;
+  flex-direction: column;
+  font-size: .9rem;
+  margin:  0 0 .7rem 0;
+}
+.ptr-overlay-content form input {
+  max-width: 15rem;
+}
+.ptr-overlay-content form input[type=file] {
+  max-width: 15rem;
+  margin: .3rem 0;
+  font-size: .8rem;
+}
+.ptr-overlay-content form input[type=submit] {
+  max-width: 10rem;
+  margin-top: 1rem;
+  font-size: 1rem;
+}
+.ptr-overlay.open {
+  display: flex;
+}
+
+
+/* aoi overlay */
+.ptr-overlay-aoi {
   top: 45px;
   background: rgba(33,38,53,.9);
   z-index: 10000;
 }
-.ptr-overlay-content {
+.ptr-overlay-aoi-content {
   position: absolute;
   width: 500px;
   height: 200px;
 }
-.ptr-overlay-content h3 {
+.ptr-overlay-aoi-content h3 {
   color: rgb(148,152,160);
   font-size: 1.5rem;
   margin-bottom: .3rem;
 }
-.ptr-overlay-content p {
+.ptr-overlay-aoi-content p {
   color: rgb(148,152,160);
   font-size: 1rem;
-}
-.ptr-overlay.open {
-  display: block;
 }
 
 /* == View Selector =============================================== */
@@ -93,7 +175,7 @@ body {
   height: 1.5rem;
   transition: background-color .3s ease-in-out;
 }
-.VirtualizedSelectOption {
+.ptr-view-selection-selector.ptr-ui-select .VirtualizedSelectOption {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -105,22 +187,25 @@ body {
   background-color: #6a6e78;
   color: rgb(204,207,211);
 }
-.VirtualizedSelectFocusedOption {
-  background-color: rgba(0, 126, 255, 0.1);
-}
-.VirtualizedSelectDisabledOption {
+.ptr-view-selection-selector.ptr-ui-select .VirtualizedSelectDisabledOption {
   opacity: 0.5;
   background-color: #6a6e78;
   color: rgb(204,207,211);
 }
-.VirtualizedSelectSelectedOption {
+.ptr-view-selection-selector.ptr-ui-select .VirtualizedSelectSelectedOption {
   font-weight: bold;
-  background-color: #6a6e78;
+  background-color: #315678;
   color: rgb(204,207,211);
+}
+.ptr-view-selection-selector.ptr-ui-select .VirtualizedSelectFocusedOption {
+  /*background-color: rgba(0, 126, 255, 0.1);*/
+  background-color: #7ba1c6;
+  color: #fff;
 }
 
 .ptr-view-selection-selector.ptr-ui-select .Select-control .Select-value {
   line-height: 1.8rem;
+  padding-right: 25px;
 }
 .ptr-view-selection-selector.ptr-ui-select .Select-input {
   display: block;

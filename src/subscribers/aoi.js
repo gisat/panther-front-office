@@ -1,7 +1,6 @@
 import watch from 'redux-watch';
 import Action from '../state/Action';
 import Select from '../state/Select';
-import _ from 'lodash';
 import {geoBounds} from 'd3-geo';
 
 let state = {};
@@ -32,6 +31,8 @@ const setEventListeners = store => {
 					store.dispatch(Action.aoi.add(options.key));
 					store.dispatch(Action.aoi.setActiveKey(options.key));
 				}
+				break;
+			default:
 				break;
 		}
 	});

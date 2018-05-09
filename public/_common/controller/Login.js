@@ -28,7 +28,7 @@ Ext.define('Puma.controller.Login', {
             }
         })
     },
-    onLoginClicked: function(btn) {
+    onLoginClicked: function(btn, hideCancelButton) {
         var window = Ext.WindowManager.get('loginwindow');
         if (!window) {
             window = Ext.widget('loginwindow', {
@@ -36,6 +36,8 @@ Ext.define('Puma.controller.Login', {
             })
         }
         Ext.ComponentQuery.query('#password',window)[0].setValue('');
+        Ext.ComponentQuery.query('#cancelbtn')[0].setVisible(!hideCancelButton);
+
         window.show();
 
         setTimeout(function(){

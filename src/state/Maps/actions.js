@@ -1,4 +1,4 @@
-import config from '../../config';
+import config from '../../Config';
 import ActionTypes from '../../constants/ActionTypes';
 
 import _ from 'lodash';
@@ -100,6 +100,14 @@ function clearLayerPeriodsOfAllMaps(){
 	return (dispatch, getState) => {
 		let state = Select.maps.getMaps(getState());
 		let updates = state.map(map => {return {key: map.key, layerPeriods: null}});
+		dispatch(update(updates));
+	}
+}
+
+function clearPlaceGeometryChangeReviewOfAllMaps(){
+	return (dispatch, getState) => {
+		let state = Select.maps.getMaps(getState());
+		let updates = state.map(map => {return {key: map.key, placeGeometryChangeReview: null}});
 		dispatch(update(updates));
 	}
 }
@@ -228,6 +236,7 @@ export default {
 	clearLayerPeriodsOfAllMaps: clearLayerPeriodsOfAllMaps,
 	clearWmsLayer: clearWmsLayer,
 	clearWmsLayersOfAllMaps: clearWmsLayersOfAllMaps,
+	clearPlaceGeometryChangeReviewOfAllMaps: clearPlaceGeometryChangeReviewOfAllMaps,
 	handleMapDependencyOnPeriod: handleMapDependencyOnPeriod,
 	initialize: initialize,
 	remove: remove,

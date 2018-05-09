@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import _ from 'lodash';
 
 class Overlay extends React.PureComponent {
 
@@ -12,12 +11,12 @@ class Overlay extends React.PureComponent {
 	render() {
 		return (
 			<div
-				className={classNames('ptr-overlay', {
+				className={classNames('ptr-overlay ptr-overlay-aoi', {
 					'open': !this.props.activeAoi
 				})}
 			>
 				<div
-					className='ptr-overlay-content'
+					className='ptr-overlay-aoi-content'
 					style={{
 					bottom: 'auto',
 					right: 'auto',

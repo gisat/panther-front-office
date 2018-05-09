@@ -3,7 +3,8 @@ import Action from '../Action';
 import _ from 'lodash';
 
 const INITIAL_STATE = {
-	byAoiKey: {}
+	byAoiKey: {},
+	byPlaceKey: {}
 };
 
 
@@ -31,6 +32,30 @@ function receiveForAoi(state, action) {
 	return {...state, byAoiKey: byAoiKey};
 }
 
+function requestForPlace(state, action) {
+	let layerRecord = {...getLayerRecord(state, action.placeKey, action.layerKey), data: action.periods, loading: true};
+	let byLayerKey = {...getByLayerKey(state, action.placeKey), [action.layerKey]: layerRecord};
+	let placeRecord = {...state.byPlaceKey[action.placeKey], byLayerKey: byLayerKey};
+	let byPlaceKey = {...state.byPlaceKey, [action.placeKey]: placeRecord};
+	return {...state, byPlaceKey: byPlaceKey};
+}
+
+function requestForPlaceError(state, action) {
+	let layerRecord = {...getLayerRecord(state, action.placeKey, action.layerKey), loading: false};
+	let byLayerKey = {...getByLayerKey(state, action.placeKey), [action.layerKey]: layerRecord};
+	let placeRecord = {...state.byPlaceKey[action.placeKey], byLayerKey: byLayerKey};
+	let byPlaceKey = {...state.byPlaceKey, [action.placeKey]: placeRecord};
+	return {...state, byPlaceKey: byPlaceKey};
+}
+
+function receiveForPlace(state, action) {
+	let layerRecord = {...getLayerRecord(state, action.placeKey, action.layerKey), data: action.periods, loading: false};
+	let byLayerKey = {...getByLayerKey(state, action.placeKey), [action.layerKey]: layerRecord};
+	let placeRecord = {...state.byPlaceKey[action.placeKey], byLayerKey: byLayerKey};
+	let byPlaceKey = {...state.byPlaceKey, [action.placeKey]: placeRecord};
+	return {...state, byPlaceKey: byPlaceKey};
+}
+
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
@@ -40,6 +65,12 @@ export default (state = INITIAL_STATE, action) => {
 			return receiveForAoi(state, action);
 		case ActionTypes.LAYER_PERIODS_AOI_LAYER_REQUEST_ERROR:
 			return requestForAoiError(state, action);
+		case ActionTypes.LAYER_PERIODS_PLACE_LAYER_REQUEST:
+			return requestForPlace(state, action);
+		case ActionTypes.LAYER_PERIODS_PLACE_LAYER_RECEIVE:
+			return receiveForPlace(state, action);
+		case ActionTypes.LAYER_PERIODS_PLACE_LAYER_REQUEST_ERROR:
+			return requestForPlaceError(state, action);
 		default:
 			return state;
 	}
