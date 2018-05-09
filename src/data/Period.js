@@ -9,7 +9,8 @@ class Period extends Model {
     data() {
         return {
             id: {
-                serverName: '_id'
+                serverName: '_id',
+                transformToLocal: Number
             },
             name: {
                 serverName: 'name'

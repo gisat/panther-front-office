@@ -9,34 +9,30 @@ class AttributeSet extends Model {
     data() {
         return {
             id: {
-                serverName: '_id'
+                serverName: '_id',
+                transformToLocal: Number
             },
             active: {
                 serverName: 'active'
-            },
-            created: {
-                serverName: 'created'
-            },
-            createdBy: {
-                serverName: 'createdBy'
-            },
-            changed: {
-                serverName: 'changed'
-            },
-            changedBy: {
-                serverName: 'changedBy'
             },
             name: {
                 serverName: 'name'
             },
             attributes: {
-                serverName: 'attributes'
+                serverName: 'attributes',
+                transformToLocal: objects => {
+                    return objects.map(obj => Number(obj))
+                }
             },
             topic: {
-                serverName: 'topic'
+                serverName: 'topic',
+                transformToLocal: Number
             },
             featureLayers: {
-                serverName: 'featureLayers'
+                serverName: 'featureLayers',
+                transformToLocal: objects => {
+                    return objects.map(obj => Number(obj))
+                }
             }
         };
     };

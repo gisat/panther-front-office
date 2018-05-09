@@ -4,7 +4,7 @@ import _ from 'lodash';
 import path from 'path';
 import fetch from 'isomorphic-fetch';
 
-import config from '../../Config';
+import config from '../../config';
 import Select from '../Select';
 import LayerPeriods from '../LayerPeriods/actions';
 

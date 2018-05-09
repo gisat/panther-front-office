@@ -10,7 +10,8 @@ class WmsLayer extends Model {
     data() {
         return {
             id: {
-                serverName: 'id'
+                serverName: 'id',
+                transformToLocal: Number
             },
             name: {
                 serverName: 'name'
@@ -22,13 +23,20 @@ class WmsLayer extends Model {
                 serverName: 'url'
             },
             scope: {
-                serverName: 'scope'
+                serverName: 'scope',
+                transformToLocal: Number
             },
             locations: {
-                serverName: 'places'
+                serverName: 'places',
+                transformToLocal: objects => {
+                    return objects.map(obj => Number(obj))
+                }
             },
             periods: {
-                serverName: 'periods'
+                serverName: 'periods',
+                transformToLocal: objects => {
+                    return objects.map(obj => Number(obj))
+                }
             },
             permissions: {
                 serverName: 'permissions'

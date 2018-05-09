@@ -9,16 +9,23 @@ class Scope extends Model {
     data() {
         return {
             id: {
-                serverName: '_id'
+                serverName: '_id',
+                transformToLocal: Number
             },
             name: {
                 serverName: 'name'
             },
             periods: {
-                serverName: 'years'
+                serverName: 'years',
+                transformToLocal: objects => {
+                    return objects.map(obj => Number(obj))
+                }
             },
             featureLayers: {
-                serverName: 'featureLayers'
+                serverName: 'featureLayers',
+                transformToLocal: objects => {
+                    return objects.map(obj => Number(obj))
+                }
             },
             isMapIndependentOfPeriod: {
                 serverName: 'isMapIndependentOfPeriod'

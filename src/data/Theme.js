@@ -9,13 +9,15 @@ class Theme extends Model {
     data() {
         return {
             id: {
-                serverName: '_id'
+                serverName: '_id',
+                transformToLocal: Number
             },
             name: {
                 serverName: 'name'
             },
             dataset: {
-                serverName: 'dataset'
+                serverName: 'dataset',
+                transformToLocal: Number
             }
         };
     };

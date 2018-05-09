@@ -9,22 +9,11 @@ class Attribute extends Model {
     data() {
         return {
             id: {
-                serverName: '_id'
+                serverName: '_id',
+                transformToLocal: Number
             },
             active: {
                 serverName: 'active'
-            },
-            created: {
-                serverName: 'created'
-            },
-            createdBy: {
-                serverName: 'createdBy'
-            },
-            changed: {
-                serverName: 'changed'
-            },
-            changedBy: {
-                serverName: 'changedBy'
             },
             name: {
                 serverName: 'name'

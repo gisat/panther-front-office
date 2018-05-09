@@ -9,7 +9,8 @@ class Location extends Model {
     data() {
         return {
             id: {
-                serverName: '_id'
+                serverName: '_id',
+                transformToLocal: Number
             },
             name: {
                 serverName: 'name'
@@ -18,7 +19,8 @@ class Location extends Model {
                 serverName: 'bbox'
             },
             dataset: {
-                serverName: 'dataset'
+                serverName: 'dataset',
+                transformToLocal: Number
             },
             geometry: {
                 serverName: 'geometry'
