@@ -99,15 +99,6 @@ class MapsContainer {
      * Build container
      */
     build() {
-        let html = S(`
-        <div class="maps-container" id="{{id}}">
-            <div class="map-tools"></div>
-            <div class="map-fields"></div>
-        </div>
-        `).template({
-            id: this._id
-        }).toString();
-        this._target.append(html);
         this._containerSelector = $("#" + this._id);
 
         this.addCloseButtonOnClickListener();
