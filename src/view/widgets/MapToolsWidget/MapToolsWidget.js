@@ -67,9 +67,9 @@ class MapToolsWidget extends Widget {
             '<h4>' + polyglot.t("zoom") + '</h4>' +
             '<div class="map-tools-container-body"></div>' +
             '</div>');
-        this._infoContainerSelector = this._widgetBodySelector.find("#map-tools-info").find(".map-tools-container-body");
-        this._selectionsContainerSelector = this._widgetBodySelector.find("#map-tools-selections").find(".map-tools-container-body");
-        this._zoomingContainerSelector = this._widgetBodySelector.find("#map-tools-zooming").find(".map-tools-container-body");
+        this._infoContainerSelector = this._widgetBodySelector.find("#map-tools-info");
+        this._selectionsContainerSelector = this._widgetBodySelector.find("#map-tools-selections");
+        this._zoomingContainerSelector = this._widgetBodySelector.find("#map-tools-zooming");
 
         // Select areas functionality
         this._selectInMap = this.buildSelectInMap();

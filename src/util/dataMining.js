@@ -47,11 +47,11 @@ class DataMining {
         let layers = [];
         for (let place in auRefMap) {
             locations.forEach(function (location) {
-                if (auRefMap.hasOwnProperty(place) && place === location) {
+                if (auRefMap.hasOwnProperty(place) && place == location) {
                     for (let aTpl in auRefMap[place]) {
-                        if (auRefMap[place].hasOwnProperty(aTpl) && aTpl === areaTemplate) {
+                        if (auRefMap[place].hasOwnProperty(aTpl) && aTpl == areaTemplate) {
                             for (let currentYear in auRefMap[place][aTpl]) {
-                                if (auRefMap[place][aTpl].hasOwnProperty(currentYear) && currentYear === period) {
+                                if (auRefMap[place][aTpl].hasOwnProperty(currentYear) && currentYear == period) {
                                     let unit = auRefMap[place][aTpl][currentYear];
                                     if (unit.hasOwnProperty("_id")) {
                                         layers.push(Config.geoserver2Workspace + ':layer_' + unit._id);

@@ -3,6 +3,7 @@ import WorldWind from '@nasaworldwind/worldwind';
 
 import ArgumentError from '../error/ArgumentError';
 import Logger from '../util/Logger';
+import DataMining from '../util/dataMining';
 
 let ClickRecognizer = WorldWind.ClickRecognizer;
 
@@ -18,31 +19,46 @@ let OlMap = window.OlMap;
  */
 let $ = window.$;
 class SelectionController {
-    constructor(wwd) {
+    constructor(wwd, options) {
         if (!wwd) {
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "SelectionController", "constructor", "missingWebWorldWind"));
         }
 
+        if(!options.store){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'SelectionController', 'constructor', 'Stores must be provided'));
+        }
+        if(!options.store.state){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'SelectionController', 'constructor', 'Stores state must be provided'));
+        }
+
         this._wwd = wwd;
+
+        this._store = options.store;
+
+        this._dataMining = new DataMining({
+            store: {
+                state: options.store.state
+            }
+        });
 
         this._enabled = false;
 
         this.ctrl = false;
 
-        this._clickRecognizer = new ClickRecognizer(wwd, function (recognizer) {
+        this._clickRecognizer = new ClickRecognizer(wwd, recognizer => {
             this.retrieveInfoForPoint(recognizer);
-        }.bind(this));
+        });
 
-        $(document).keydown(function (event) {
+        $(document).keydown(event => {
             if (event.which === 17) {
                 this.ctrl = true;
             }
-        }.bind(this));
-        $(document).keyup(function (event) {
+        });
+        $(document).keyup(event => {
             if (event.which === 17) {
                 this.ctrl = false;
             }
-        }.bind(this));
+        });
     };
 
     get enabled() {
@@ -64,7 +80,7 @@ class SelectionController {
         let longitude = pointObjects.objects[0].position.longitude;
 
         // Selection layers.
-        let layers = this.getBaseLayerIds().map(function (layer) {
+        let layers = this._dataMining.getAuBaseLayers().map(function (layer) {
             return 'layers[]=' + layer + '&';
         });
         let url = Config.url + 'rest/area?latitude=' + latitude + '&longitude=' + longitude + '&' + layers.join('');
@@ -119,40 +135,6 @@ class SelectionController {
 
         Select.select(areasToSelect, true, false);
         Select.colourMap(Select.selectedAreasMap);
-    };
-
-    //TODO: Refactor, duplicate code.
-    getBaseLayerIds() {
-        let auRefMap = OlMap.auRefMap;
-        let locations;
-        if (ThemeYearConfParams.place.length > 0) {
-            locations = [Number(ThemeYearConfParams.place)];
-        } else {
-            locations = ThemeYearConfParams.allPlaces;
-        }
-        let year = JSON.parse(ThemeYearConfParams.years)[0];
-        let areaTemplate = ThemeYearConfParams.auCurrentAt;
-
-        let layers = [];
-        for (let place in auRefMap) {
-            locations.forEach(function (location) {
-                if (auRefMap.hasOwnProperty(place) && place === location) {
-                    for (let aTpl in auRefMap[place]) {
-                        if (auRefMap[place].hasOwnProperty(aTpl) && aTpl === areaTemplate) {
-                            for (let currentYear in auRefMap[place][aTpl]) {
-                                if (auRefMap[place][aTpl].hasOwnProperty(currentYear) && currentYear === year) {
-                                    let unit = auRefMap[place][aTpl][currentYear];
-                                    if (unit.hasOwnProperty("_id")) {
-                                        layers.push(Config.geoserver2Workspace + ':layer_' + unit._id);
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-        return layers;
     };
 }
 

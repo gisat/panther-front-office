@@ -202,7 +202,11 @@ class WorldWindMap {
     }
 
     buildSelectionController(){
-        return new SelectionController(this._wwd);
+        return new SelectionController(this._wwd, {
+            store: {
+                state: this._stateStore
+            }
+        });
     }
 
     /**

@@ -49,8 +49,10 @@ class AuLayersPanel extends ThematicLayersPanel {
         let control = _.find(this._layersControls, function (control) {
             return control._id === "selectedareasfilled"
         });
-        control._toolBox.hide();
-    };
+        if(control) {
+            control._toolBox.hide();
+        }
+    }
 
     /**
      * Clear active selection
