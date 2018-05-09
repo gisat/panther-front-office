@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Icon from './Icon';
+import Menu from './Menu';
 
 
 class Button extends React.PureComponent {
@@ -67,10 +68,14 @@ class Button extends React.PureComponent {
 
 		let content = React.Children.map(this.props.children, child => {
 
+			console.log('#####', child, typeof child, child.type instanceof Menu);
+
 			if (typeof child === 'string') {
 				return (
 					<div className="ptr-button-caption">{child}</div>
 				);
+			} else if (typeof child === 'object' && child instanceof Menu) {
+				return child;
 			} else {
 				return child;
 			}

@@ -1,18 +1,24 @@
 import React from 'react';
 import classNames from 'classnames';
 
-export default props => (
-	<div
-		className={classNames('ptr-menu', {
-			open: props.open
-		})}
-		style={{
-			height: props.open ? (React.children.count(props.children) * 2) + 'rem' : 0
-		}}
-	>
-		{props.children}
-	</div>
-);
+class Menu extends React.PureComponent {
+	render() {
+		return (
+			<div
+				className={classNames('ptr-menu', {
+					open: this.props.open
+				})}
+				style={{
+					height: this.props.open ? (React.children.count(this.props.children) * 2) + 'rem' : 0
+				}}
+			>
+				{this.props.children}
+			</div>
+		);
+	}
+}
+
+export default Menu;
 
 export const MenuItem = props => (
 	<div
