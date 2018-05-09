@@ -102,7 +102,7 @@ function loadApp() {
         }).then(function(){
             return createScript('/lib/Highcharts-3.0.0/js/modules/exporting.js');
         }).then(function(){
-            return createScript('/extjs-4.1.3/ext.js');
+            return createScript('/extjs-4.1.3/ext-all.js');
         }).then(function(){
             var urlLang = new URL(window.location).searchParams.get('lang');
             if(urlLang === "cz") {
@@ -126,14 +126,14 @@ function loadApp() {
             (Config.toggles.hasOwnProperty("hasNew3Dmap") && Config.toggles.hasNew3Dmap) ||
             (Config.toggles.hasOwnProperty("isMelodies") && Config.toggles.isMelodies))
         {
-            createLink("__new/styles/font-awesome.min.css");
-            createLink("__new/styles/jquery-ui.css");
-            createLink("__new/styles/style.css");
-            createLink("__new/styles/select2.min.css");
+            createLink("styles/font-awesome.min.css");
+            createLink("styles/jquery-ui.css");
+            createLink("styles/style.css");
+            createLink("styles/select2.min.css");
         }
         if(Config.toggles.isNewDesign){
             createLink("css/newDesign.css");
-            createLink("__new/styles/projects.css");
+            createLink("styles/projects.css");
         }
     });
 

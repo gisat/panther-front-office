@@ -157,7 +157,7 @@ class LayerTools {
      */
     addMetadataIcon(data) {
         this._toolsContainer.append('<div title="Metadata" class="layer-tool-icon metadata-icon" data-for="' + data.id + '">' +
-            '<img src="__new/img/info.png"/>' +
+            '<img src="img/info.png"/>' +
             '</div>');
     };
 

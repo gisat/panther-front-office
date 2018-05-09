@@ -193,7 +193,7 @@ class Widget extends View {
             <span>{{name}}</span>
             <div class="placeholder-tools-container">
                 <div class="placeholder-tool widget-maximise">
-                    <img alt="{{maximise}}" src="__new/img/maximise-icon.png"/>
+                    <img alt="{{maximise}}" src="img/maximise-icon.png"/>
                 </div>
             </div>
         </div>
