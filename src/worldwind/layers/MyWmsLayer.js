@@ -2,6 +2,7 @@ import WorldWind from '@nasaworldwind/worldwind';
 
 import RemoteJQ from '../../util/RemoteJQ';
 import MyUrlBuilder from './MyUrlBuilder';
+import Cache from "../Cache";
 
 let WmsLayer = WorldWind.WmsLayer;
 
@@ -14,6 +15,8 @@ let WmsLayer = WorldWind.WmsLayer;
 class MyWmsLayer extends WmsLayer {
     constructor(options) {
         super(options);
+
+        this.tileCache = Cache;
 
         this.sldId = options.sldId;
         this.customParams = options.customParams;

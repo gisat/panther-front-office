@@ -2,6 +2,7 @@ import WorldWind from '@nasaworldwind/worldwind';
 
 import ArgumentError from '../../error/ArgumentError';
 import Logger from '../../util/Logger';
+import Cache from "../Cache";
 
 let OsmLayer = WorldWind.OpenStreetMapImageLayer;
 let MercatorLayer = WorldWind.MercatorTiledImageLayer;
@@ -22,6 +23,8 @@ class MyOsmLayer extends OsmLayer {
         if (!options.source) {
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MyOsmLayer", "constructor", "missingSource"));
         }
+
+        this.tileCache = Cache;
 
         this._source = options.source;
         this._attribution = options.attribution;

@@ -1,5 +1,6 @@
 import WorldWind from '@nasaworldwind/worldwind';
 import MyUrlBuilder from './MyUrlBuilder';
+import Cache from '../Cache';
 
 var Location = WorldWind.Location;
 var MercatorTiledImageLayer = WorldWind.MercatorTiledImageLayer;
@@ -13,6 +14,8 @@ class MercatorLayer extends MercatorTiledImageLayer {
     constructor(options) {
         super(new Sector(-85.05, 85.05, -180, 180), new Location(85.05, 180), 19, "image/png", options.service + "/" + options.layerNames + "/" + options.sldId,
             256, 256);
+
+        this.tileCache = Cache;
 
         this.sldId = options.sldId;
         this.customParams = options.customParams;
