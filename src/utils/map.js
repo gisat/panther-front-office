@@ -111,7 +111,7 @@ function getNavigatorParams(geometry, viewport) {
  * @returns {number} range
  */
 function getRangeFromBbox(bbox, viewport){
-	let viewportRatio = 1;
+	let viewportRatio = 16/9;
 
 	let width = viewport.width;
 	let height = viewport.height;

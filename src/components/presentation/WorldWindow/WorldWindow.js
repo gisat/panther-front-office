@@ -17,29 +17,10 @@ class WorldWindow extends React.PureComponent {
 	constructor(props){
 		super(props);
 		this.canvasId = "world-wind-canvas-case-detail";
-		this.state = {
-			bbox: props.bbox,
-			caseGeometry: props.caseGeometry
-		};
 	}
 
-	componentWillReceiveProps(nextProps, prevState){
-		let geometry = null;
-		let bbox = null;
-
-		if (nextProps.caseGeometry){
-			geometry = nextProps.caseGeometry;
-			// todo draw geometry
-			this.zoomToGeometry(nextProps);
-		} else if (nextProps.bbox){
-			bbox = nextProps.bbox;
-			this.zoomToGeometry(nextProps)
-		}
-
-		this.setState({
-			caseGeometry: geometry,
-			bbox: bbox
-		});
+	componentWillReceiveProps(prevProps){
+		this.zoomToGeometry(prevProps);
 	}
 
 	zoomToGeometry(props){
@@ -66,6 +47,7 @@ class WorldWindow extends React.PureComponent {
 		if (this.props.zoomToGeometry){
 			this.zoomToGeometry(this.props);
 		}
+		this.wwd.redraw();
 	}
 
 	render() {
