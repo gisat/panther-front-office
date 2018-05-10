@@ -68,13 +68,12 @@ class Button extends React.PureComponent {
 
 		let content = React.Children.map(this.props.children, child => {
 
-			console.log('#####', child, typeof child, child.type instanceof Menu);
-
 			if (typeof child === 'string') {
 				return (
 					<div className="ptr-button-caption">{child}</div>
 				);
-			} else if (typeof child === 'object' && child instanceof Menu) {
+			} else if (typeof child === 'object' && child.type === Menu) {
+				//todo
 				return child;
 			} else {
 				return child;
