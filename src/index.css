@@ -178,6 +178,8 @@ body {
 .ptr-menu-item {
 	height: 2rem;
 	padding: .25rem;
+	white-space: nowrap;
+	overflow: hidden;
 
 	background: #eee;
 

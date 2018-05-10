@@ -8,6 +8,11 @@
 }
 .case-detail-header-buttons {
 	margin-bottom: .5rem;
+	display: flex;
+	justify-content: space-between;
+}
+.case-detail-header-buttons > div {
+	flex-grow: 0;
 }
 .case-detail-body {
 	padding: .7rem;
