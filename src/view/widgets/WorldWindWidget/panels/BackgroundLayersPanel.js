@@ -153,7 +153,9 @@ class BackgroundLayersPanel extends WorldWindWidgetPanel {
             this._defaultMap = map;
         }
         this.layerControls.forEach(control => {
-            map.layers.addBackgroundLayer(control.id, this._id);
+            if(control.control._checked) {
+                map.layers.addBackgroundLayer(control.id, this._id);
+            }
         });
         this.toggleLayers();
     };

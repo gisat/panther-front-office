@@ -53,10 +53,7 @@ Ext.define('PumaMain.controller.Login',{
     },
 
     reloadStores: function() {
-        var stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic', 'dataview'];
-        if(Config.toggles.isUrbanTep) {
-            stores = ['location', 'theme', 'dataset', 'topic'];
-        }
+        var stores = ['location', 'theme', 'dataset', 'topic'];
         stores.forEach(function(store){
 			Ext.StoreMgr.lookup(store).load();
         });

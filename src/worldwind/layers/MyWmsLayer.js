@@ -2,6 +2,7 @@ import WorldWind from '@nasaworldwind/worldwind';
 
 import RemoteJQ from '../../util/RemoteJQ';
 import MyUrlBuilder from './MyUrlBuilder';
+import Cache from "../Cache";
 
 let WmsLayer = WorldWind.WmsLayer;
 

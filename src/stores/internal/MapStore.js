@@ -95,10 +95,12 @@ class MapStore {
                         if (scope.mapLayerInfo && scope.mapLayerInfo === 'simple') {
                             let content = layer.name;
                             // TODO: FIX QUICK HACK.
-                            if(layerOptions.time.length === 4) {
-                                content += " (" + layerOptions.time + ")";
-                            } else {
-                                content += " (" + stringUtils.parseDate(layerOptions.time) + ")";
+                            if(layerOptions && layerOptions.time) {
+                                if (layerOptions.time.length === 4) {
+                                    content += " (" + layerOptions.time + ")";
+                                } else {
+                                    content += " (" + stringUtils.parseDate(layerOptions.time) + ")";
+                                }
                             }
                             map.mapWindowTools.addLayerInfo(content);
                         }

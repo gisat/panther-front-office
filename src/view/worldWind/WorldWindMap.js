@@ -197,7 +197,8 @@ class WorldWindMap {
      */
     buildLayers(){
         return new Layers(this._wwd, {
-            selectController: this.selectionController
+            selectController: this.selectionController,
+            name: this._name
         });
     }
 

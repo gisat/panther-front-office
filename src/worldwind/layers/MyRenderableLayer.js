@@ -1,4 +1,5 @@
 import WorldWind from '@nasaworldwind/worldwind';
+import Cache from "../Cache";
 
 let RenderableLayer = WorldWind.RenderableLayer;
 
@@ -13,6 +14,8 @@ class MyRenderableLayer extends RenderableLayer {
     constructor(options) {
         super(options.name);
         this.metadata = options.metadata;
+
+        this.tileCache = Cache;
     }
 
 

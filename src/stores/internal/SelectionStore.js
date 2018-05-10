@@ -1,6 +1,6 @@
 import Actions from '../../actions/Actions';
 import ArgumentError from '../../error/ArgumentError';
-import Config from '../../Config';
+import Config from '../../config';
 import Logger from '../../util/Logger';
 import FilteredSld from '../../util/FilteredSld';
 import FilterLayer from '../../models/FilterLayer';

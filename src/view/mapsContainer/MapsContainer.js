@@ -101,6 +101,7 @@ class MapsContainer {
     build() {
         this._containerSelector = $("#" + this._id);
 
+        this.addMapBoxOnClickListener();
         this.addCloseButtonOnClickListener();
         this.addSidebarReportsStateListener();
     };

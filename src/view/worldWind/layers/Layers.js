@@ -15,6 +15,7 @@ let Config = window.Config;
  * @param wwd {WorldWindow}
  * @param options {Object}
  * @param options.selectController {SelectionController}
+ * @param options.name {String}
  * @constructor
  */
 class Layers {
@@ -30,6 +31,8 @@ class Layers {
          * @type {SelectionController}
          */
         this.controller = options.selectController;
+
+        this.name = options.name;
 
         this.addBaseLayer();
     };
@@ -60,7 +63,9 @@ class Layers {
      */
     addLayerToMap(layer, order) {
         let position = this.findLayerZposition(order, layer);
+        console.log(`Layers#addLayerToMap Layer: `, layer, ` Order: `, order, ` Name: `, this.name, ` Position: `, position);
         this._wwd.insertLayer(position, layer);
+        console.log(`Layers#addLayerToMap `,this._wwd.layers);
         this._wwd.redraw();
     };
 
