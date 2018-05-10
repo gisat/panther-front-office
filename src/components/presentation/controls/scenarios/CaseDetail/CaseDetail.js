@@ -6,6 +6,7 @@ import _ from 'lodash';
 import InputText from '../../../atoms/InputText/InputText';
 import Button from '../../../atoms/Button';
 import Center from '../../../atoms/Center';
+import Icon from '../../../atoms/Icon';
 import Menu, {MenuItem} from '../../../atoms/Menu';
 import EditableText from '../../../atoms/EditableText';
 import ScenarioCard from '../SceanrioCard/ScenarioCard';
@@ -116,13 +117,17 @@ class CaseDetail extends React.PureComponent {
 			<div className="case-detail-wrap">
 				<div className="case-detail-header">
 					<div className="case-detail-header-buttons">
-						<Button icon="arrow-left" invisible circular onClick={this.props.changeActiveScreen.bind(null, 'caseList')} />
-						<Button icon="dots" invisible>
-							<Menu bottom left>
-								<MenuItem>hohoho</MenuItem>
-								<MenuItem>hahaha</MenuItem>
-							</Menu>
-						</Button>
+						<div>
+							<Button icon="arrow-left" invisible circular onClick={this.props.changeActiveScreen.bind(null, 'caseList')} />
+						</div>
+						<div>
+							<Button icon="dots" invisible>
+								<Menu bottom left>
+									<MenuItem><Icon icon="edit" /> Edit</MenuItem>
+									<MenuItem><Icon icon="remove" /> Delete</MenuItem>
+								</Menu>
+							</Button>
+						</div>
 					</div>
 					<EditableText
 						large
