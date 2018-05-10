@@ -29,18 +29,31 @@ class Button extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
-		//this.state = {
-		//	focused: false
-		//};
+		this.state = {
+			focused: false,
+			menuOpen: false
+		};
 		this.onClick = this.onClick.bind(this);
 		this.onKeyPress = this.onKeyPress.bind(this);
+		this.onBlur = this.onBlur.bind(this);
 	}
 
 
 	onClick(e) {
 		if (!this.props.disabled) {
-			this.props.onClick(e)
+			if (this.props.onClick) {
+				this.props.onClick(e);
+			}
+			this.setState({
+				menuOpen: !this.state.menuOpen
+			});
 		}
+	}
+
+	onBlur() {
+		this.setState({
+			menuOpen: false
+		});
 	}
 
 	//setFocus(focused) {
@@ -66,16 +79,25 @@ class Button extends React.PureComponent {
 			);
 		}
 
+		let hasContent = false;
 		let content = React.Children.map(this.props.children, child => {
 
+			//if (typeof child === 'object') console.log('####', child.type === Menu, child.type.prototype instanceof Menu);
+
 			if (typeof child === 'string') {
+				hasContent = true;
 				return (
 					<div className="ptr-button-caption">{child}</div>
 				);
 			} else if (typeof child === 'object' && child.type === Menu) {
-				//todo
-				return child;
+				let props = {
+					...child.props,
+					open: !!this.state.menuOpen,
+					className: classNames(child.props.className, 'ptr-button-menu')
+				};
+				return React.cloneElement(child, props, child.props.children);
 			} else {
+				hasContent = true;
 				return child;
 			}
 		});
@@ -90,7 +112,8 @@ class Button extends React.PureComponent {
 				'floating-action': !!this.props.floatingAction,
 				//hasIcon: !!this.props.icon,
 				//focused: this.state.focused,
-				disabled: this.props.disabled
+				disabled: this.props.disabled,
+				icon: !!iconInsert && !hasContent
 			},
 			this.props.className
 		);
@@ -103,7 +126,7 @@ class Button extends React.PureComponent {
 				onClick={this.onClick}
 				onKeyPress={this.onKeyPress}
 				//onFocus={this.setFocus.bind(this, true)}
-				//onBlur={this.setFocus.bind(this, false)}
+				onBlur={this.onBlur}
 			>
 				{iconInsert}
 				{content}

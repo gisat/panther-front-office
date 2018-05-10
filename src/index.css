@@ -118,6 +118,9 @@ body {
 	height: 1.25rem;
 	margin: .125rem .25rem;
 }
+.ptr-button.icon > .ptr-icon {
+	margin: .125rem;
+}
 
 .ptr-button.circular {
 	width: 2.25rem;
@@ -135,6 +138,71 @@ body {
 }
 .ptr-button.circular:focus::after {
 	border-radius: 50%;
+}
+
+/* == Menu ======================================================== */
+
+.ptr-menu {
+	overflow: hidden;
+	background: #eee;
+	/*box-shadow: 0 0 2px 1px rgba(0,0,0,0.3);*/
+
+	transition:
+		height .2s ease-in-out,
+		box-shadow .1s .1s ease-in-out;
+}
+.ptr-menu.open {
+	box-shadow: 0 0 2px 1px rgba(0,0,0,0.3);
+
+	transition:
+		height .2s ease-in-out,
+		box-shadow .1s ease-in-out;
+}
+
+.ptr-button-menu {
+	position: absolute;
+}
+.ptr-button-menu.bottom {
+	top: 100%;
+}
+.ptr-button-menu.top {
+	bottom: 100%;
+}
+.ptr-button-menu.left {
+	right: 0;
+}
+.ptr-button-menu.right {
+	left: 0;
+}
+
+.ptr-menu-item {
+	height: 2rem;
+	padding: .25rem;
+
+	background: #eee;
+
+	transition:
+		background .3s ease-in-out;
+}
+.ptr-menu-item:not(:first-child) {
+	border-top: 1px solid rgba(0,0,0,0.2);
+}
+.ptr-menu-item:hover {
+	background: #fff;
+}
+
+.ptr-menu-item > .ptr-icon {
+	display: inline-block;
+	width: 1.25rem;
+	height: 1.25rem;
+	margin: .125rem .25rem;
+}
+.ptr-menu-item-caption {
+	display: inline-block;
+	vertical-align: top;
+	font-size: .9375rem;
+	line-height: 1.5rem;
+	margin: 0 .25rem;
 }
 
 /* == Center ====================================================== */

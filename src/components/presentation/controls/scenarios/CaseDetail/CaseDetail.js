@@ -101,7 +101,7 @@ class CaseDetail extends React.PureComponent {
 					<div className="case-detail-header-buttons">
 						<Button icon="arrow-left" invisible circular onClick={this.props.changeActiveScreen.bind(null, 'caseList')} />
 						<Button icon="dots" invisible>
-							<Menu>
+							<Menu bottom left>
 								<MenuItem>hohoho</MenuItem>
 								<MenuItem>hahaha</MenuItem>
 							</Menu>
