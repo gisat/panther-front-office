@@ -9,6 +9,7 @@ import Center from '../../../atoms/Center';
 import Menu, {MenuItem} from '../../../atoms/Menu';
 import EditableText from '../../../atoms/EditableText';
 import ScenarioCard from '../SceanrioCard/ScenarioCard';
+import WorldWindow from '../../../../containers/WorldWindow/WorldWindow';
 
 import './CaseDetail.css';
 
@@ -81,9 +82,15 @@ class CaseDetail extends React.PureComponent {
 		let scenarios = null;
 		let defaultState = null;
 
+		let caseGeometry = null;
+		let caseBbox = null;
+
 		if (caseData){
 			name = this.state.hasOwnProperty('name') ? this.state.name : caseData.name;
 			description = this.state.hasOwnProperty('description') ? this.state.description : caseData.description;
+			if (caseData.geometry){
+				caseGeometry = caseData.geometry;
+			}
 		}
 
 		if (scenariosData){
@@ -93,6 +100,16 @@ class CaseDetail extends React.PureComponent {
 			});
 		} else {
 			scenarios = this.renderScenario();
+		}
+
+		if (!caseGeometry){
+			let place = this.props.place;
+			if (place && place.geometry){
+				caseGeometry = place.geometry;
+			}
+			if (place && place.bbox){
+				caseBbox = place.bbox;
+			}
 		}
 
 		return (
@@ -117,6 +134,11 @@ class CaseDetail extends React.PureComponent {
 						value={description}
 						placeholder="Description"
 						onChange={caseData ? this.onChangeDescription.bind(this, caseData.key) : undefined}
+					/>
+					<WorldWindow
+						bbox={caseBbox}
+						caseGeometry={caseGeometry}
+						zoomToGeometry
 					/>
 				</div>
 				<div className="case-detail-body">

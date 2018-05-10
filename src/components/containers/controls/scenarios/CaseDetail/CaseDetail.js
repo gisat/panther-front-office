@@ -6,6 +6,7 @@ import CaseDetail from "../../../../presentation/controls/scenarios/CaseDetail/C
 const mapStateToProps = (state, ownProps) => {
 	return {
 		case: Select.scenarios.getActiveCase(state),
+		place: Select.places.getActive(state),
 		scenarios: Select.scenarios.getActiveCaseScenarios(state),
 		activeScenarioKeys: Select.scenarios.getActiveKeys(state),
 		isDefaultSituationActive: Select.scenarios.isDefaultSituationActive(state)

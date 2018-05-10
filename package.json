@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@nasaworldwind/worldwind": "0.9.0",
     "classnames": "2.2.5",
     "d3": "4.13.0",
     "isomorphic-fetch": "2.2.1",
