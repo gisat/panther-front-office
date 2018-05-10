@@ -43,7 +43,6 @@ class BaseStore {
                 url: Config.url + self.getPath(),
                 params: options.params || {}
             }).then(function (dataFromApi) {
-                console.log('Path: ', self.getPath());
                 dataFromApi = JSON.parse(dataFromApi);
                 // User and Group endpoint return twice wrapped information.
                 try {

@@ -16,8 +16,6 @@ class MyWmsLayer extends WmsLayer {
     constructor(options) {
         super(options);
 
-        this.tileCache = Cache;
-
         this.sldId = options.sldId;
         this.customParams = options.customParams;
 

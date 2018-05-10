@@ -132,19 +132,19 @@ const mapsWatcher = (value, previousValue) => {
 			_.each(diff.added, (value, key) => {
 				window.Stores.notify('ADD_WMS_LAYER', {
 					mapKey: map.key,
-					layerKey: key,
+					layerKey: Number(key),
 					period: value
 				});
 			});
 			_.each(diff.changed, (value, key) => {
 				window.Stores.notify('REMOVE_WMS_LAYER', {
 					mapKey: map.key,
-					layerKey: key
+					layerKey: Number(key)
 				});
 				if (value){
 					window.Stores.notify('ADD_WMS_LAYER', {
 						mapKey: map.key,
-						layerKey: key,
+						layerKey: Number(key),
 						period: value
 					});
 				}
@@ -152,7 +152,7 @@ const mapsWatcher = (value, previousValue) => {
 			_.each(diff.removed, (value, key) => {
 				window.Stores.notify('REMOVE_WMS_LAYER', {
 					mapKey: map.key,
-					layerKey: key
+					layerKey: Number(key)
 				});
 			});
 			console.log('@@ diffWmsLayers', diffWmsLayers);

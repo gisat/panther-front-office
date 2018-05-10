@@ -1,7 +1,6 @@
 import ArgumentError from '../../../error/ArgumentError';
 import Logger from '../../../util/Logger';
 
-import utils from '../../../util/dataMining';
 import Collapse from '../../components/Collapse/Collapse';
 import FeatureInfoWindow from './FeatureInfoWindow';
 import Table from '../../table/Table'
@@ -95,11 +94,10 @@ class LayerInfoWindow extends FeatureInfoWindow {
             let featureInfo = content.featureInfo;
 
             if (typeof featureInfo === 'string') {
-                let isJson = utils.isJson(featureInfo);
-                if (isJson) {
+                try {
                     featureInfo = JSON.parse(content.featureInfo);
                     layerData.queryable = true;
-                } else {
+                } catch(e) {
                     layerData.queryable = false;
                 }
             }

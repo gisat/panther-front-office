@@ -18,4 +18,6 @@ export default {
     apiBackendHost: 'panther.gisat.cz',
     apiBackendAoiLayerPeriodsPath: 'backend/rest/imagemosaic/getDates',
     apiBackendSzifPath: 'backend/rest/szif/case',
+
+    hasPeriodsSelector: true
 };
