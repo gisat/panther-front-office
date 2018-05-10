@@ -66,13 +66,13 @@ body.mode-3d .maps-container {
 	height: 25%;
 }
 .maps-container.w2 .world-wind-map-box {
-	width: 50%;
+	width: 49.8%;
 }
 .maps-container.w3 .world-wind-map-box {
-	width: 33.33%;
+	width: 33.1%;
 }
 .maps-container.w4 .world-wind-map-box {
-	width: 25%;
+	width: 24.8%;
 }
 /* delete right border for all maps on the right */
 .maps-container.h1.w1 .map-fields .world-wind-map-box:not(.selected) {
