@@ -15,7 +15,7 @@ class PlaceSelector extends React.PureComponent {
 
 	static defaultProps = {
 		places: null,
-		label: "Place:",
+		label: "Place",
 		homeLinkLabel: "Home"
 	};
 
@@ -32,7 +32,7 @@ class PlaceSelector extends React.PureComponent {
 	render() {
 		let content = null;
 
-		if (!this.props.disabledHard){
+		if (this.props.disabledHard){
 
 			if (this.props.activePlace) {
 				content = (
