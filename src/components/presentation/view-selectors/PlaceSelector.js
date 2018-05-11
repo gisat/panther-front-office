@@ -1,35 +1,38 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import UISelect from '../../../presentation/atoms/UISelect/index'
+import UISelect from '../atoms/UISelect'
 
 class PlaceSelector extends React.PureComponent {
 
 	static propTypes = {
-		activeAoi: PropTypes.object,
-		scope: PropTypes.shape({
-			viewSelection: PropTypes.string
-		}),
+		activePlace: PropTypes.object,
 		places: PropTypes.array,
-		isDromasAdmin: PropTypes.bool
+		onChangePlace: PropTypes.func,
+		label: PropTypes.string,
+		homeLink: PropTypes.bool,
+		homeLinkLabel: PropTypes.string
 	};
 
 	static defaultProps = {
 		places: null,
-		periods: null,
-		label: "Ohlášení územní změny:"
+		label: "Place:",
+		homeLinkLabel: "Home"
 	};
 
-	selectPlace(place){
-		this.props.setActivePlace(place.value);
-		this.props.clearLayerPeriods();
-		this.props.clearWmsLayers();
-		this.props.clearPlaceGeometryChangeReviewOfAllMaps();
+	constructor(props) {
+		super(props);
+
+		this.onChangePlace = this.onChangePlace.bind(this);
+	}
+
+	onChangePlace(object){
+		this.props.onChangePlace(object.value);
 	}
 
 	render() {
 		let content = null;
 
-		if (!this.props.isDromasAdmin && this.props.scope.restrictEditingToAdmins){
+		if (!this.props.disabledHard){
 
 			if (this.props.activePlace) {
 				content = (
@@ -41,7 +44,6 @@ class PlaceSelector extends React.PureComponent {
 
 			let options = [];
 			let selected = null;
-			let disabled = false;
 
 			if (this.props.places){
 				this.props.places.map(place => {
@@ -61,7 +63,7 @@ class PlaceSelector extends React.PureComponent {
 
 			if (this.props.homeLink && window.Config.toggles.home) {
 				content.push((
-					<a href={window.Config.toggles.home} style={{position: 'relative', left: -20}}>Home</a>
+					<a href={window.Config.toggles.home} style={{position: 'relative', left: -20}}>{this.props.homeLinkLabel}</a>
 				));
 			}
 
@@ -71,11 +73,11 @@ class PlaceSelector extends React.PureComponent {
 					classes='ptr-place-selector'
 					label='left'
 					name={this.props.label}
-					onChange={this.selectPlace.bind(this)}
+					onChange={this.onChangePlace}
 					options={options}
 					placeholder=''
 					value={selected}
-					disabled={disabled}
+					disabled={!!this.props.disabled}
 				/>
 			));
 
