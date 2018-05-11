@@ -1,5 +1,5 @@
 import Action from '../state/Action';
-import utils from '../utils/utils';
+import mapUtils from '../utils/map';
 import Select from "../state/Select";
 import watch from "redux-watch";
 import _ from "lodash";
@@ -13,6 +13,7 @@ export default store => {
 
 const setStoreWatchers = store => {
 	createWatcher(store, Select.scenarios.getAll, scenariosWatcher);
+	createWatcher(store, Select.scenarios.getActiveCase, activeCaseWatcher);
 	createWatcher(store, Select.scenarios.getActiveCaseScenarios, activeCaseScenariosWatcher, 'activeScenarios');
 	createWatcher(store, Select.scenarios.getActiveKeys, activeScenarioKeysWatcher);
 	createWatcher(store, Select.scenarios.isDefaultSituationActive, defaultSituationWatcher);
@@ -64,6 +65,15 @@ const defaultSituationWatcher = (value, previousValue) => {
 
 const activeCaseScenariosWatcher = (value, previousValue) => {
 	console.log('@@ activeCaseScenariosWatcher', previousValue, '->', value);
+};
+
+const activeCaseWatcher = (value, previousValue) => {
+	console.log('@@ activeCaseWatcher', previousValue, '->', value);
+	let options = null;
+	if (value && value.geometry){
+		options = {bbox: mapUtils.getGeometryBbox(value.geometry)};
+	}
+	window.Stores.notify('ZOOM_MAPS_BY_CASE_GEOMETRY', options);
 };
 
 const compareActiveScenarios = (next, prev) => {

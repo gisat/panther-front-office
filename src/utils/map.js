@@ -70,12 +70,11 @@ function getGeometryFromBbox (bboxString){
 }
 
 /**
- * It calculates lookAtLocation and range parametrs for zooming based on given geometry and viewport ratio
+ *
  * @param geometry {Object} GeoJSON geometry
- * @param viewport {WorldWind.Rectangle}
- * @returns {{lookAtLocation: {latitude: number, longitude: number}, range: number}}
+ * @returns {Array}
  */
-function getNavigatorParams(geometry, viewport) {
+function getGeometryBbox(geometry){
 	let geojson = getGeoJsonFromGeometry(geometry);
 
 	/**
@@ -88,6 +87,35 @@ function getNavigatorParams(geometry, viewport) {
 	 */
 	bounds.push([bounds[0][0],bounds[1][1]]);
 	bounds.push([bounds[1][0],bounds[0][1]]);
+
+	return bounds;
+}
+
+/**
+ * Get polygon geometry from two WorldWind Positions
+ * @param positions {Array} Collection of two WorldWind.Position
+ * @returns {Object} GeoJSON geometry
+ */
+function getPoltgonGeometryFromWorldWindPositions(positions){
+	let topLeft = [positions[0].longitude, positions[0].latitude];
+	let bottomRight = [positions[1].longitude, positions[1].latitude];
+	let topRight = [positions[1].longitude, positions[0].latitude];
+	let bottomLeft = [positions[0].longitude, positions[1].latitude];
+
+	return {
+		"type": "Polygon",
+		"coordinates": [[topLeft, topRight, bottomRight, bottomLeft, topLeft]]
+	}
+}
+
+/**
+ * It calculates lookAtLocation and range parametrs for zooming based on given geometry and viewport ratio
+ * @param geometry {Object} GeoJSON geometry
+ * @param viewport {WorldWind.Rectangle}
+ * @returns {{lookAtLocation: {latitude: number, longitude: number}, range: number}}
+ */
+function getNavigatorParams(geometry, viewport) {
+	let bounds = getGeometryBbox(geometry);
 
 	/**
 	 * calculate centroid
@@ -165,6 +193,7 @@ function getRangeFromBbox(bbox, viewport){
 	return range;
 }
 
+
 export default {
 	/**
 	 * @param bbox {string} minLon, maxLat, maxLon, minLat
@@ -181,7 +210,10 @@ export default {
 	 */
 	getNavigatorParamsFromGeometry: function(geometry, viewport){
 		return getNavigatorParams(geometry, viewport);
-	}
+	},
+
+	getGeometryBbox: getGeometryBbox,
+	getPoltgonGeometryFromWorldWindPositions: getPoltgonGeometryFromWorldWindPositions
 }
 
 
