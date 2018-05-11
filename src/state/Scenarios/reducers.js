@@ -29,7 +29,7 @@ const INITIAL_STATE = {
 	cases: {
 		activeKey: null,
 		data: [
-			{key: 1, name: "Case blabla wtf 123", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis.", scenarios: [1,2,3], geometry: {
+			{key: 1, name: "Prague", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis.", scenarios: [1,2,3], geometry: {
 					"type": "Polygon",
 					"coordinates":
 						[[
@@ -56,15 +56,34 @@ const INITIAL_STATE = {
 						]
 					]
 				}},
-			{key: 2, name: "Omg another case 45", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis. Phasellus enim erat, vestibulum vel, aliquam a, posuere eu, velit.", scenarios: [4,5]},
-			{key: 3, name: "aaaaaaaaaaaaaa case 6", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis.", scenarios: [6]},
-			{key: 11, name: "Case blabla wtf 123", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis.", scenarios: [1,2,3]},
-			{key: 21, name: "Omg another case 45", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis.", scenarios: [4,5]},
-			{key: 31, name: "aaaaaaaaaaaaaa case 6", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis.", scenarios: [6]},
-			{key: 12, name: "Case blabla wtf 123", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis.", scenarios: [1,2,3]},
-			{key: 22, name: "Omg another case 45", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis.", scenarios: [4,5]},
-			{key: 32, name: "aaaaaaaaaaaaaa case 6", scenarios: [6]}
-
+			{key: 2, name: "Letenská pláň", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis. Phasellus enim erat, vestibulum vel, aliquam a, posuere eu, velit.", scenarios: [4,5], geometry: {
+					"type": "Polygon",
+					"coordinates": [
+						[
+							[
+								14.405908584594727,
+								50.09217295121259
+							],
+							[
+								14.405908584594727,
+								50.09905558914327
+							],
+							[
+								14.4305419921875,
+								50.09905558914327
+							],
+							[
+								14.4305419921875,
+								50.09217295121259
+							],
+							[
+								14.405908584594727,
+								50.09217295121259
+							]
+						]
+					]
+				}},
+			{key: 3, name: "Without location", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis.", scenarios: [6]}
 		],
 		loading: false
 	}

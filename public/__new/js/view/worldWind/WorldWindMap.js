@@ -534,6 +534,10 @@ define(['../../actions/Actions',
 				this.handleScopeSettings();
 			}
 		}
+
+		if (this._id === "default-map" && state.isMapDependentOnScenario){
+			this.mapWindowTools.addMapLabelWithName("Default state");
+		}
 	};
 
 	/**

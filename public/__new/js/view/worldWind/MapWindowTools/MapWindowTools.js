@@ -103,16 +103,16 @@ define(['../../../actions/Actions',
 
 	/**
 	 * Add label with info about a map (aka map title)
-	 * @param period {number}
+	 * @param name {number | string}
 	 */
-	MapWindowTools.prototype.addMapLabel = function(period) {
+	MapWindowTools.prototype.addMapLabel = function(name) {
 		var state = this._stateStore.current();
 		var self = this;
 		this._scopesStore.byId(state.scope).then(function(scopes){
 			var scope = scopes[0];
 			if (!scope.hideMapName){
-				if (period && !state.isMapIndependentOfPeriod && !state.isMapDependentOnScenario) {
-					self.addMapLabelWithPeriod(period);
+				if (name && !state.isMapIndependentOfPeriod && !state.isMapDependentOnScenario) {
+					self.addMapLabelWithPeriod(name);
 				} else {
 					self.addMapLabelWithName();
 				}

@@ -661,8 +661,19 @@ define([
 			}
 			this.changeGeometryInAoiLayer(options.geometry);
 		} else if (type === 'ADD_MAP_BY_SCENARIO'){
+			this._stateStore.addLoadingOperation("scenariosCaseChange");
 			this.addMap(null, null, options);
 			this.checkMapsCloseButton();
+		} else if (type === "ZOOM_MAPS_BY_CASE_GEOMETRY"){
+			var self = this;
+			setTimeout(function(){
+				if (options && options.bbox){
+					self.zoomToArea(options.bbox);
+				} else {
+					self.zoomToExtent();
+				}
+				self._stateStore.removeLoadingOperation("scenariosCaseChange", true);
+			});
 		}
 
 		// TODO temporary for Dromas. It should be removed in a version with new areas widget
