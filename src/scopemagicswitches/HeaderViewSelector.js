@@ -10,6 +10,9 @@ const MagicSwitch = ({scope}) => {
 		if (scope.viewSelection === 'aoiPeriodsSelector' && scope.aoiLayer) {
 			return <AoiPeriodsSelector />
 		}
+		if (scope.viewSelection === 'placeSelector' && scope.featurePlaceChangeReview) {
+			return <PlaceSelector label="Ohlášení územní změny" homeLink />
+		}
 		if (scope.viewSelection === 'placeSelector') {
 			return <PlaceSelector />
 		}

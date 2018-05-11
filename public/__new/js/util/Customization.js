@@ -144,6 +144,16 @@ define([
 		});
 	};
 
+	Customization.prototype.isDromasAdmin = function(user) {
+		let isDromasAdmin = false;
+		user.groups.forEach(group => {
+			if(group.name === 'Aktualizace LPIS admin') {
+				isDromasAdmin = true;
+			}
+		});
+		return isDromasAdmin || user.isAdmin;
+	};
+
 	/**
 	 * Handle user restrictions
 	 * @param options {Object}
@@ -159,11 +169,15 @@ define([
 		var self = this;
 
 		if (user.isAdmin){
-			uploadDataBtn.addClass("open");
 			originalScopeSelectionBtn.addClass("open");
 		} else {
-			uploadDataBtn.removeClass("open");
 			originalScopeSelectionBtn.removeClass("open");
+		}
+
+		if(this.isDromasAdmin(user) || user.isAdmin) {
+            uploadDataBtn.addClass("open");
+		} else {
+            uploadDataBtn.removeClass("open");
 		}
 
 		this._store.scopes.byId(scope).then(function(scopes){
@@ -173,23 +187,24 @@ define([
 
 			// handle logging buttons
 			// todo use the first one
-			if (scope && scope.restrictEditingToAdmins && !user.isAdmin && !signUpBtn.hasClass('logout')){
+			if (scope && scope.restrictEditingToAdmins && !self.isDromasAdmin(user) && !signUpBtn.hasClass('logout')){
 			// if (scope && !user.isAdmin && !signUpBtn.hasClass('logout')){
 				signUpBtn.css("display", "none");
 				separator.css("display", "none");
+				$('#top-toolbar-share-view').hide();
 			} else {
 				signUpBtn.css("display", "inline-block");
 				separator.css("display", "inline-block");
 			}
 
 			// handle timeline
-			if (scope && scope.restrictEditingToAdmins && !user.isAdmin){
+			if (scope && scope.restrictEditingToAdmins && !self.isDromasAdmin(user)){
 				mapsContainerBottomBar.removeClass("open");
 				toolBar.addClass("hidden");
 				mapsContainer.addClass("extended");
 
 			} else {
-				if (scope.showTimeline){
+				if (scope && scope.showTimeline){
 					mapsContainerBottomBar.addClass("open");
 				}
 				toolBar.removeClass("hidden");
@@ -197,6 +212,7 @@ define([
 			}
 
 		}).catch(function(err){
+			console.log(err);
 			throw new Error(err);
 		});
 	};

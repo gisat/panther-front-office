@@ -108,18 +108,25 @@ define(['../../../actions/Actions',
 		this._widgetBodySelector.html('<div class="custom-views-content"></div>');
 		this._contentSelector = this._widgetBodySelector.find(".custom-views-content");
 
-		var isAdmin = this._stateStore.current().user.isAdmin;
+		var user = this._stateStore.current().user;
+		var isDromasAdmin = false;
+        user.groups.forEach(group => {
+            if(group.name === 'Aktualizace LPIS admin') {
+                isDromasAdmin = true;
+            }
+        });
+		var isAdmin = user.isAdmin;
 
 		if (data.length === 0){
 			this._widgetSelector.find(".widget-minimise").trigger("click");
 			$("#top-toolbar-saved-views").addClass("hidden");
 		} else {
 			if (isIntro && Config.toggles.showDataviewsOverlay){
-				this.renderAsOverlay(data, isAdmin);
+				this.renderAsOverlay(data, isAdmin, isDromasAdmin);
 
 			} else {
 				var scope = this._store.state.current().scope;
-				this.renderAsWidget(data, scope, isAdmin);
+				this.renderAsWidget(data, scope, isAdmin, isDromasAdmin);
 				this._widgetSelector.removeClass("intro-overlay");
 				bodySelector.removeClass("intro-overlay");
 			}
@@ -131,7 +138,7 @@ define(['../../../actions/Actions',
 	 * @param data {Array} data for dataviews card
 	 * @param isAdmin {boolean} true, if logged user is admin
 	 */
-	CustomViewsWidget.prototype.renderAsOverlay = function(data, isAdmin){
+	CustomViewsWidget.prototype.renderAsOverlay = function(data, isAdmin, isDromasAdmin){
 		this._widgetSelector.addClass("open expanded active");
 
 		this.renderOverlaySwitch(isAdmin);
@@ -145,7 +152,7 @@ define(['../../../actions/Actions',
 		var self = this;
 		Promise.all(scopeNamesPromises).then(function(results){
 			var scopes = _.flatten(results);
-			self.renderAsOverlayContent(scopes, groupedData, isAdmin);
+			self.renderAsOverlayContent(scopes, groupedData, isAdmin, isDromasAdmin);
 			self.handleLoading("hide");
 		}).catch(function(err){
 			throw new Error(err);
@@ -158,7 +165,7 @@ define(['../../../actions/Actions',
 	 * @param data {Object} Data about dataviews grouped by scope
 	 * @param isAdmin {boolean} true, if logged user is admin
 	 */
-	CustomViewsWidget.prototype.renderAsOverlayContent = function(scopes, data, isAdmin){
+	CustomViewsWidget.prototype.renderAsOverlayContent = function(scopes, data, isAdmin, isDromasAdmin){
 		this._contentSelector.html('<div class="custom-views-categories"></div>' +
 			'<div class="custom-views-dataviews">' +
 				'<div class="custom-views-dataviews-container"></div>' +
@@ -194,7 +201,7 @@ define(['../../../actions/Actions',
 				var self = this;
 				sortedData.forEach(function(dataview){
 					var data = self.prepareDataForCard(dataview);
-					self.addDataviewCard(data, window, isAdmin);
+					self.addDataviewCard(data, window, isAdmin || isDromasAdmin);
 				});
 			}
 		}
@@ -272,7 +279,7 @@ define(['../../../actions/Actions',
 	 * @param scope {string|number} current scope
 	 * @param isAdmin {boolean} true, if logged user is admin
 	 */
-	CustomViewsWidget.prototype.renderAsWidget = function(data, scope, isAdmin){
+	CustomViewsWidget.prototype.renderAsWidget = function(data, scope, isAdmin, isDromasAdmin){
 
 		//filter dataviews for this scope only
 		// TODO move fiter to backend
@@ -288,7 +295,7 @@ define(['../../../actions/Actions',
 		var self = this;
 		sortedData.forEach(function(dataview){
 			var data = self.prepareDataForCard(dataview);
-			self.addDataviewCard(data, self._contentSelector, isAdmin);
+			self.addDataviewCard(data, self._contentSelector, isAdmin || isDromasAdmin);
 		});
 		if (Config.dataviewId){
 			this._widgetSelector.find(".widget-minimise").trigger("click");

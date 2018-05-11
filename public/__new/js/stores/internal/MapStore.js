@@ -99,7 +99,12 @@ define([
 						if (scope.mapLayerInfo && scope.mapLayerInfo === 'simple'){
 							var content = layer.name;
 							if (layerOptions && layerOptions.time){
-								content += " (" + utils.parseDate(layerOptions.time) + ")";
+								// TODO: FIX QUICK HACK.
+								if(layerOptions.time.length === 4) {
+                                    content += " (" + layerOptions.time + ")";
+								} else {
+                                    content += " (" + utils.parseDate(layerOptions.time) + ")";
+                                }
 							}
 							map.mapWindowTools.addLayerInfo(content);
 						}

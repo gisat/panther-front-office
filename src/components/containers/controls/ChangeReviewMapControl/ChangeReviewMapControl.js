@@ -13,10 +13,9 @@ class ChangeReviewMapControl extends React.PureComponent {
 	}
 
 	render() {
-		if (!this.props.scope.restrictEditingToAdmins || this.props.userIsAdmin) {
+		if (!this.props.scope.restrictEditingToAdmins || this.props.isDromasAdmin) {
 			return (
 				<div className='ptr-change-review-map-control'>
-					<span className="ptr-change-review-map-control-map-name">{this.props.map && this.props.map.name}</span>
 					<div className="ptr-change-review-map-control-toggles">
 						<label>
 							<input
@@ -24,7 +23,7 @@ class ChangeReviewMapControl extends React.PureComponent {
 								checked={!!(this.props.map && this.props.map.placeGeometryChangeReview && this.props.map.placeGeometryChangeReview.showGeometryBefore)}
 								onChange={this.onToggleGeometry.bind(this, 'before')}
 							/>
-							<span>Původní geometrie</span>
+							<span>Původní hranice DPB</span>
 						</label>
 						<label>
 							<input
@@ -32,7 +31,7 @@ class ChangeReviewMapControl extends React.PureComponent {
 								checked={!!(this.props.map && this.props.map.placeGeometryChangeReview && this.props.map.placeGeometryChangeReview.showGeometryAfter)}
 								onChange={this.onToggleGeometry.bind(this, 'after')}
 							/>
-							<span>Geometrie po změně</span>
+							<span>Návrh zákresu nové hranice DPB</span>
 						</label>
 					</div>
 				</div>

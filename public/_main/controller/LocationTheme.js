@@ -1070,10 +1070,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 $('#top-toolbar-context-help').hide();
             }
 
-            if(window.location.origin === "http://dromas.gisat.cz" && Config.auth && Config.auth.userName !== "admin") {
-                $('#top-toolbar-share-view').hide();
-            }
-
             if(tools.indexOf('scope') !== -1) {
                 $('.field.scope').hide();
             }
@@ -1351,10 +1347,10 @@ Ext.define('PumaMain.controller.LocationTheme', {
 		for(var topic in topics){ // iterate topics (id's) of actual theme
 			attrSetStore.data.each(function(attrSet){ // iterate attrSets (objects)
 				if(attrSet.get('topic') === topics[topic]){
-					var attrSetAttributes = attrSet.get('attributes');
+				    var attrSetAttributes = attrSet.get('attributes');
 					attrStore.data.each(function(attribute){ // iterate attributes (objects)
 						if( Ext.Array.contains(attrSetAttributes, attribute.get('_id')) && (attribute.data.type === "numeric" || attribute.data.type === "text")){
-							var attr = attribute.data;
+					        var attr = $.extend({}, attribute.data);
 							attr.attributeSet = attrSet.internalId;
 							attr.attribute = attribute.data._id;
 						    attributes.push(attr);
