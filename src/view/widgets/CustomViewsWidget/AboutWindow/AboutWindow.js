@@ -70,7 +70,7 @@ class AboutWindow {
         </div>
         `).template({
             introClass: introClass,
-            logoSource: "__new/img/" + logoSource,
+            logoSource: "img/" + logoSource,
             logoClass: logoClass,
             projectName: title,
             projectAbout: text
