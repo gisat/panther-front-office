@@ -53,6 +53,43 @@ function addActiveScenario(key){
 	}
 }
 
+function applyDataviewSettings(data){
+	return (dispatch, getState) => {
+
+		let scenariosState = Select.scenarios.getAll(getState());
+		let casesState = Select.scenarios.getCasesAll(getState());
+
+		// check, if case saved as active still exists
+		let activeCase = null;
+		if (data && data.cases && casesState && casesState.data){
+			let selectedCase = _.find(casesState.data, (storedCase) => {
+				return storedCase.key === data.cases.activeKey
+			});
+			activeCase = selectedCase ? data.cases.activeKey : null;
+		}
+
+		// check, if all scenarios save as active still exist
+		let activeScenarios = null;
+		if (data && data.activeKeys && scenariosState && scenariosState.data){
+			activeScenarios = [];
+			data.activeKeys.map(activeKey => {
+				let scenarioExists = _.find(scenariosState.data, (storedScenario) => {return storedScenario.key === activeKey});
+				if (scenarioExists){
+					activeScenarios.push(activeKey);
+				}
+			});
+		}
+
+		let stateUpdate = {...scenariosState,
+			activeKeys: activeScenarios,
+			defaultSituationActive: data.defaultSituationActive,
+			cases: {...casesState, activeKey: activeCase}
+		};
+
+		dispatch(actionUpdate(stateUpdate));
+	}
+}
+
 function removeActiveScenario(key){
 	return (dispatch, getState) => {
 		let activeScenarioKeys = Select.scenarios.getActiveKeys(getState());
@@ -212,6 +249,7 @@ function actionLoadError(error) {
 export default {
 	add: add,
 	addActiveScenario: addActiveScenario,
+	applyDataviewSettings: applyDataviewSettings,
 	removeActiveScenario: removeActiveScenario,
 	setActive: setActive,
 	setActiveCase: setActiveCase,

@@ -84,7 +84,8 @@ const INITIAL_STATE = {
 					]
 				}},
 			{key: 3, name: "Without location", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis.", scenarios: [6]},
-			{key: 4, name: "Without scenario", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis."}
+			{key: 4, name: "Without scenario", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis."},
+			{key: 5, name: "Added after dataview was created"}
 		],
 		loading: false
 	}

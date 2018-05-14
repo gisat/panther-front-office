@@ -6,6 +6,7 @@ const getActiveKey = state => state.scenarios.activeKey;
 const getActiveKeys = state => state.scenarios.activeKeys;
 const getAll = state => state.scenarios;
 const getCases = state => state.scenarios.cases.data;
+const getCasesAll = state => state.scenarios.cases;
 const getScenarios = state => state.scenarios.data;
 const isDefaultSituationActive = state => state.scenarios.defaultSituationActive;
 
@@ -55,5 +56,6 @@ export default {
 	getActiveKeys: getActiveKeys,
 	getAll: getAll,
 	getCases: getCases,
+	getCasesAll: getCasesAll,
 	isDefaultSituationActive: isDefaultSituationActive
 };

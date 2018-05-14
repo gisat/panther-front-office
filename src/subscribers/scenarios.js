@@ -29,7 +29,7 @@ const setEventListeners = store => {
 				store.dispatch(Action.scenarios.setDefaultSituationActive(false));
 				break;
 			case 'scenarios#applyFromDataview':
-				store.dispatch(Action.scenarios.update(options.scenarios));
+				store.dispatch(Action.scenarios.applyDataviewSettings(options.scenarios));
 				break;
 		}
 	});
