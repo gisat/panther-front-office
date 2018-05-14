@@ -161,6 +161,7 @@ body {
 
 .ptr-button-menu {
 	position: absolute;
+	z-index: 1;
 }
 .ptr-button-menu.bottom {
 	top: 100%;

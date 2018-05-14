@@ -13,7 +13,7 @@ class Menu extends React.PureComponent {
 					right: this.props.right
 				})}
 				style={{
-					height: this.props.open ? (React.Children.count(this.props.children) * 2) + 'rem' : 0
+					height: this.props.open ? (React.Children.toArray(this.props.children).filter((child) => React.isValidElement(child)).length * 2) + 'rem' : 0
 				}}
 				onClick={(e)=>{e.preventDefault()}}
 			>

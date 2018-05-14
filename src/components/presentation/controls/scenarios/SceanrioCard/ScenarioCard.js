@@ -7,6 +7,10 @@ import InputText from '../../../atoms/InputText/InputText';
 import InputFile from '../../../atoms/InputFile';
 import Button from '../../../atoms/Button';
 import EditableText from '../../../atoms/EditableText';
+
+import Icon from '../../../atoms/Icon';
+import Menu, {MenuItem} from '../../../atoms/Menu';
+
 import './ScenarioCard.css';
 
 class ScenarioCard extends React.PureComponent {
@@ -109,13 +113,16 @@ class ScenarioCard extends React.PureComponent {
 					</div>
 				</label>
 				<div className="scenario-card-header-buttons">
-					{!this.props.defaultSituation ? (
-						<Button
-							invisible
-							icon="edit"
-							onClick={this.toggleEditing}
-						/>
-					) : null}
+					{this.props.scenarioKey || this.props.defaultSituation ? (
+						<Button icon="dots" invisible>
+							<Menu bottom left>
+								<MenuItem><Icon icon="download" /> Download</MenuItem>
+								{this.props.defaultSituation ? null : (
+									<MenuItem onClick={this.toggleEditing}><Icon icon="edit"/> Edit</MenuItem>
+								)}
+							</Menu>
+						</Button>
+					): null}
 				</div>
 			</div>
 		);
