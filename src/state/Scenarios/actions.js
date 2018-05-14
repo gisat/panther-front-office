@@ -214,8 +214,8 @@ function loadCases(ttl) {
 						let contentType = response.headers.get('Content-type');
 						if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
 							return response.json().then(data => {
-								if (data) {
-									dispatch(loadCasesReceive(data));
+								if (data.data) {
+									dispatch(loadCasesReceive(data.data));
 								} else {
 									dispatch(actionLoadCasesError('no data returned'));
 								}
@@ -245,14 +245,10 @@ function loadCases(ttl) {
 
 function loadCasesReceive(data) {
 	return dispatch => {
-		//data = _.map(data, feature => {
-		//	return {
-		//		key: feature.properties[aoiLayer.fidColumn || 'fid'],
-		//		code: feature.properties[aoiLayer.idColumn]
-		//	};
-		//});
-		console.log('#########@@@@', data);
-		//dispatch(actionLoadReceive(data));
+		data = _.map(data, ({id, ...model}) => {
+			return {...model, key: id};
+		});
+		dispatch(actionLoadCasesReceive(data));
 	};
 }
 

@@ -175,6 +175,8 @@ export default (state = INITIAL_STATE, action) => {
 			return setActiveCase(state, action);
 		case ActionTypes.SCENARIOS_UPDATE:
 			return update(state, action);
+		case ActionTypes.SCENARIOS_CASES_RECEIVE:
+			return receiveCases(state, action);
 		default:
 			return state;
 	}
