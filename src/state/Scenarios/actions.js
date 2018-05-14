@@ -118,7 +118,7 @@ function load(ttl) {
 
 			if (activePlaceKey) {
 
-				let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/scenarios/get');
+				let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/scenarios/get');
 
 				let payload = {
 					place_id: activePlaceKey
@@ -176,6 +176,82 @@ function loadReceive(data) {
 		//	};
 		//});
 		console.log('#########', data);
+		//dispatch(actionLoadReceive(data));
+	};
+}
+
+function loadCases(ttl) {
+	if (_.isUndefined(ttl)) ttl = TTL;
+	return (dispatch, getState) => {
+
+		let state = getState();
+		if (state.scenarios.loading) {
+			// already loading, do nothing
+		} else {
+			dispatch(actionLoadCasesRequest());
+
+			let activePlaceKey = Select.places.getActiveKey(state);
+
+			if (activePlaceKey) {
+
+				let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/scenario_cases/get');
+
+				let payload = {
+					place_id: activePlaceKey
+				};
+
+				return fetch(url, {
+					method: 'POST',
+					credentials: 'include',
+					headers: {
+						'Content-Type': 'application/json',
+						'Accept': 'application/json'
+					},
+					body: JSON.stringify(payload)
+				}).then(
+					response => {
+						console.log('#### load scenarios cases response', response);
+						let contentType = response.headers.get('Content-type');
+						if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
+							return response.json().then(data => {
+								if (data) {
+									dispatch(loadCasesReceive(data));
+								} else {
+									dispatch(actionLoadCasesError('no data returned'));
+								}
+							});
+						} else {
+							dispatch(actionLoadCasesError(response))
+						}
+					},
+					error => {
+						console.log('#### load scenario cases error', error);
+						if (ttl - 1) {
+							dispatch(load(ttl - 1));
+						} else {
+							dispatch(actionLoadCasesError("scenarios#actions load cases: cases weren't loaded!"));
+						}
+					}
+				);
+
+			} else {
+				dispatch(actionLoadCasesError('scenarios#actions load cases: no active place'));
+			}
+
+		}
+
+	};
+}
+
+function loadCasesReceive(data) {
+	return dispatch => {
+		//data = _.map(data, feature => {
+		//	return {
+		//		key: feature.properties[aoiLayer.fidColumn || 'fid'],
+		//		code: feature.properties[aoiLayer.idColumn]
+		//	};
+		//});
+		console.log('#########@@@@', data);
 		//dispatch(actionLoadReceive(data));
 	};
 }
@@ -244,6 +320,26 @@ function actionLoadError(error) {
 	}
 }
 
+function actionLoadCasesRequest() {
+	return {
+		type: ActionTypes.SCENARIOS_CASES_REQUEST
+	}
+}
+
+function actionLoadCasesReceive(data) {
+	return {
+		type: ActionTypes.SCENARIOS_CASES_RECEIVE,
+		data: data
+	}
+}
+
+function actionLoadCasesError(error) {
+	return {
+		type: ActionTypes.SCENARIOS_CASES_REQUEST_ERROR,
+		error: error
+	}
+}
+
 // ============ export ===========
 
 export default {
@@ -255,6 +351,7 @@ export default {
 	setActiveCase: setActiveCase,
 	setDefaultSituationActive: setDefaultSituationActive,
 	update: update,
-	load: load
+	load: load,
+	loadCases: loadCases
 }
 

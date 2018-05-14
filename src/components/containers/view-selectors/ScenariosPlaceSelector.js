@@ -17,8 +17,8 @@ const mapDispatchToProps = dispatch => {
 			//	dispatch(Action.scenarios.load());
 			//});
 			dispatch(Action.places.setActive(key));
+			dispatch(Action.scenarios.loadCases());
 			dispatch(Action.scenarios.load());
-			console.log('#######################');
 		}
 	}
 };
