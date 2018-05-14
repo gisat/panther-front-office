@@ -15,7 +15,7 @@ const MagicSwitch = ({scope}) => {
 		if (scope.viewSelection === 'placeSelector' && scope.featurePlaceChangeReview) {
 			return <ChangeReviewPlaceSelector label="Ohlášení územní změny" homeLink />
 		}
-		if (scope.viewSelection === 'placeSelector' && scope.config && scope.config.pucsLandUseScenarios) { //todo model!!!!
+		if (scope.viewSelection === 'placeSelector' && scope.configuration && scope.configuration.pucsLandUseScenarios) { //todo model!!!!
 			return <ScenariosPlaceSelector />
 		}
 		if (scope.viewSelection === 'placeSelector') {
