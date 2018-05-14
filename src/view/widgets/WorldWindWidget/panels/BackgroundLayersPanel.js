@@ -178,6 +178,10 @@ class BackgroundLayersPanel extends WorldWindWidgetPanel {
                 let dataId = radio.attr("data-id");
                 if (radio.hasClass("checked")) {
                     self._mapStore.getAll().forEach(function (map) {
+                        let layer = map.layers.getLayerById(dataId);
+                        if (!layer){
+							map.layers.addBackgroundLayer(dataId, self._id);
+                        }
                         map.layers.showBackgroundLayer(dataId);
                     });
                 } else {
