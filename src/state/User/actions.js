@@ -1,7 +1,5 @@
 import ActionTypes from '../../constants/ActionTypes';
 
-import _ from 'lodash';
-
 
 // ============ creators ===========
 

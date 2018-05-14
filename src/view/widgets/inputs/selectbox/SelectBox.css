@@ -1,0 +1,39 @@
+/* === Selections === */
+.select-menu-box {
+    margin: .5rem 0;
+}
+
+label.select-menu-caption {
+    font-weight: 600;
+    height: 1.3rem;
+    line-height: 1.3rem;
+    font-size: .85rem;
+    width: 100%;
+    display: block;
+}
+
+.option-count {
+    color: #aaa;
+    font-style: normal;
+    position: absolute;
+    right: .7rem;
+}
+
+.select-menu-box .ui-selectmenu-button {
+    background: #eee;
+    min-width: 15rem;
+    width: 90%;
+    margin: .1rem 0;
+    padding: .4rem .5rem;
+    border: 1px solid #bbb;
+    line-height: 1rem;
+}
+
+.select-menu-box .ui-selectmenu-icon, .select-menu-box .ui-selectmenu-button-open .ui-selectmenu-icon,
+.select-menu-box .ui-selectmenu-button-closed .ui-selectmenu-icon {
+    background: url('/../../../../img/arrow-down.png');
+}
+
+.select-menu-box .ui-corner-all {
+    border-radius: .1rem;
+}

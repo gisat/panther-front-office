@@ -6,6 +6,7 @@ import store from './state/Store';
 
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
+import loadApp from './app-old';
 
 import AppOverlays from './scopemagicswitches/AppOverlays';
 import MapsTimeline from './scopemagicswitches/MapsTimeline';
@@ -38,3 +39,5 @@ getStore();
 
 
 registerServiceWorker();
+
+loadApp();

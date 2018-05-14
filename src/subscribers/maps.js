@@ -73,6 +73,8 @@ const setEventListeners = store => {
 					}
 				}));
 				break;
+            default:
+                break;
 		}
 	});
 
@@ -138,19 +140,19 @@ const mapsWatcher = (value, previousValue) => {
 			_.each(diff.added, (value, key) => {
 				window.Stores.notify('ADD_WMS_LAYER', {
 					mapKey: map.key,
-					layerKey: key,
+					layerKey: Number(key),
 					period: value
 				});
 			});
 			_.each(diff.changed, (value, key) => {
 				window.Stores.notify('REMOVE_WMS_LAYER', {
 					mapKey: map.key,
-					layerKey: key
+					layerKey: Number(key)
 				});
 				if (value){
 					window.Stores.notify('ADD_WMS_LAYER', {
 						mapKey: map.key,
-						layerKey: key,
+						layerKey: Number(key),
 						period: value
 					});
 				}
@@ -158,7 +160,7 @@ const mapsWatcher = (value, previousValue) => {
 			_.each(diff.removed, (value, key) => {
 				window.Stores.notify('REMOVE_WMS_LAYER', {
 					mapKey: map.key,
-					layerKey: key
+					layerKey: Number(key)
 				});
 			});
 
@@ -238,7 +240,7 @@ const compare = (next, prev) => {
 		_.each(next, (value, key) => {
 			if (!prev.hasOwnProperty(key)) {
 				ret.added[key] = value;
-			} else if (prev[key] != value) {
+			} else if (prev[key] !== value) {
 				ret.changed[key] = value;
 			}
 		});

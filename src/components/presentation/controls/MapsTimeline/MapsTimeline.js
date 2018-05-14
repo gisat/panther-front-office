@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import utils from '../../../../utils/utils';
-
 import TimelineContent from './components/TimelineContent';
 import Tooltip from './components/Tooltip';
 
@@ -64,7 +62,7 @@ class MapsTimeline extends React.PureComponent {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		if (nextProps.containerWidth != this.props.containerWidth) {
+		if (nextProps.containerWidth !== this.props.containerWidth) {
 			this.calculate(nextProps);
 		}
 	}

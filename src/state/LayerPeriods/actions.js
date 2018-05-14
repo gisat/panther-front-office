@@ -6,7 +6,6 @@ import fetch from 'isomorphic-fetch';
 
 import config from '../../config';
 import Select from '../Select';
-import utils from '../../utils/utils';
 
 const TTL = 3;
 

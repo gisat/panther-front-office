@@ -34,6 +34,8 @@ const setEventListeners = store => {
 					store.dispatch(Action.places.setActiveKeys(options.data));
 				}
 				break;
+			default:
+				break;
 		}
 	});
 };

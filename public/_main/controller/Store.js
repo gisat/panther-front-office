@@ -70,10 +70,9 @@ Ext.define('PumaMain.controller.Store', {
 
 	},
 	initStores: function () {
-		var autoLoad = true;
-		if(Config.toggles.isUrbanTep) {
-			autoLoad = false;
-		}
+        console.log('Store#initStores Load stores');
+
+        var autoLoad = false;
 
 		Ext.create('Ext.data.Store', {
 			storeId: 'location',

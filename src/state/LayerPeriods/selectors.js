@@ -1,5 +1,4 @@
 import {createSelector} from 'reselect';
-import _ from 'lodash';
 
 const getByAoiKey = state => state.layerPeriods.byAoiKey;
 const getByPlaceKey = state => state.layerPeriods.byPlaceKey;

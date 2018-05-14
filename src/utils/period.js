@@ -96,17 +96,13 @@ export const toString = period => {
 	switch (period.type) {
 		case 'interval':
 			return period.start.format('YYYY-MM-DD h:mm:ss') + ' - ' + period.end.format('YYYY-MM-DD h:mm:ss');
-			break;
 		case 'second':
 		case 'full':
 			return period.start.format('YYYY-MM-DD h:mm:ss');
-			break;
 		case 'minute':
 			return period.start.format('YYYY-MM-DD h:mm');
-			break;
 		case 'hour':
 			return period.start.format('YYYY-MM-DD h') + 'h';
-			break;
 		default:
 			return period.source;
 	}
