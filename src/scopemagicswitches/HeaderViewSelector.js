@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import Select from '../state/Select';
 import AoiPeriodsSelector from '../components/containers/view-selectors/AoiPeriodsSelector';
 import PlaceSelector from '../components/containers/view-selectors/PlaceSelector';
+import ChangeReviewPlaceSelector from '../components/containers/view-selectors/ChangeReviewPlaceSelector';
+import ScenariosPlaceSelector from '../components/containers/view-selectors/ScenariosPlaceSelector';
 
 
 const MagicSwitch = ({scope}) => {
@@ -11,7 +13,10 @@ const MagicSwitch = ({scope}) => {
 			return <AoiPeriodsSelector />
 		}
 		if (scope.viewSelection === 'placeSelector' && scope.featurePlaceChangeReview) {
-			return <PlaceSelector label="Ohlášení územní změny" homeLink />
+			return <ChangeReviewPlaceSelector label="Ohlášení územní změny" homeLink />
+		}
+		if (scope.viewSelection === 'placeSelector' && scope.config && scope.config.pucsLandUseScenarios) { //todo model!!!!
+			return <ScenariosPlaceSelector />
 		}
 		if (scope.viewSelection === 'placeSelector') {
 			return <PlaceSelector />
