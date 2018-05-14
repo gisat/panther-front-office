@@ -56,7 +56,7 @@ const INITIAL_STATE = {
 						]
 					]
 				}},
-			{key: 2, name: "Letenská pláň", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis. Phasellus enim erat, vestibulum vel, aliquam a, posuere eu, velit.", scenarios: [4,5], geometry: {
+			{key: 2, name: "Letenská pláň (without desc)", scenarios: [4,5], geometry: {
 					"type": "Polygon",
 					"coordinates": [
 						[
@@ -83,7 +83,8 @@ const INITIAL_STATE = {
 						]
 					]
 				}},
-			{key: 3, name: "Without location", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis.", scenarios: [6]}
+			{key: 3, name: "Without location", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis.", scenarios: [6]},
+			{key: 4, name: "Without scenario", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis."}
 		],
 		loading: false
 	}

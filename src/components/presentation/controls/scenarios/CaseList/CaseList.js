@@ -28,10 +28,15 @@ class CaseList extends React.PureComponent {
 
 	render() {
 		let cases = this.props.cases.map((caseData) => {
+			let scenariosCount = 0;
+			if (caseData.scenarios){
+				scenariosCount = caseData.scenarios.length;
+			}
+
 			return (
 				<div key={caseData.key} className='case-list-item' onClick={this.showDetail.bind(this, caseData.key)}>
 					<h4>{caseData.name}</h4>
-					<span>Scenarios: {caseData.scenarios.length}</span>
+					<span>Scenarios: {scenariosCount}</span>
 				</div>);
 		});
 

@@ -16,7 +16,7 @@ class EditableText extends React.PureComponent {
 		super(props);
 
 		this.state = {
-			height: 0
+			height: 40
 		};
 
 		this.ref = this.ref.bind(this);

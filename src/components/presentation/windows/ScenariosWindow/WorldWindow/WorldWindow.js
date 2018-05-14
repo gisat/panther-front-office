@@ -30,6 +30,9 @@ class WorldWindow extends React.PureComponent {
 		if (this.props.zoomToGeometry){
 			this.zoomToGeometry(this.props);
 		}
+		if (this.props.caseGeometry){
+			this.drawGeometry(this.props.caseGeometry);
+		}
 
 		this._clickRecognizer = new WorldWind.ClickRecognizer(this.wwd.canvas, this.onClick.bind(this));
 		this._clickRecognizer.enabled = true;

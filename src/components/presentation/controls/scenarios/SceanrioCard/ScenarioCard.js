@@ -83,8 +83,12 @@ class ScenarioCard extends React.PureComponent {
 			'not-created': !this.props.scenarioKey && !this.props.defaultSituation
 		});
 
+		let headerClasses = classNames("scenario-card-header", {
+			'editing-inactive': !this.state.editing
+		});
+
 		let header = (
-			<div className="scenario-card-header">
+			<div className={headerClasses}>
 				<label>
 					<div className="scenario-card-header-checkbox">
 						<input

@@ -33,22 +33,48 @@ class CaseDetail extends React.PureComponent {
 		super(props);
 
 		this.state = {
+			caseEditingActive: false,
 			disableUncheck: false,
 			scenarios: this.props.scenarios
 		};
 
 		this.addScenario = this.addScenario.bind(this);
+		this.activateCaseEditing = this.activateCaseEditing.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps){
+		let caseEditing = false;
+
+		/**
+		 * Turn on Default state, if there is no scenario in the Case
+		 */
+		if (!nextProps.scenarios && !nextProps.isDefaultSituationActive){
+			nextProps.handleScenarioClick(null, true, true);
+			return;
+		}
+
+		if (!nextProps.case){
+			caseEditing = true;
+		}
+
 		this.setState({
 			disableUncheck: this.disableUncheck(nextProps),
-			scenarios: nextProps.scenarios
+			scenarios: nextProps.scenarios,
+			caseEditingActive: caseEditing
+		});
+	}
+
+	activateCaseEditing(){
+		this.setState({
+			caseEditingActive: true
 		});
 	}
 
 	addScenario(){
-		let nextScenarios = [...this.state.scenarios, {}];
+		let nextScenarios = [{},{}];
+		if (this.state.scenarios){
+			nextScenarios = [...this.state.scenarios, {}];
+		}
 		this.setState({
 			scenarios: nextScenarios
 		});
@@ -83,15 +109,9 @@ class CaseDetail extends React.PureComponent {
 		let scenarios = null;
 		let defaultState = null;
 
-		let caseGeometry = null;
-		let caseBbox = null;
-
 		if (caseData){
 			name = this.state.hasOwnProperty('name') ? this.state.name : caseData.name;
 			description = this.state.hasOwnProperty('description') ? this.state.description : caseData.description;
-			if (caseData.geometry){
-				caseGeometry = caseData.geometry;
-			}
 		}
 
 		if (scenariosData){
@@ -100,7 +120,59 @@ class CaseDetail extends React.PureComponent {
 				return this.renderScenario(scenario);
 			});
 		} else {
+			defaultState = this.renderDefaultState();
 			scenarios = this.renderScenario();
+		}
+
+		let map = this.renderMap();
+
+		return (
+			<div className="case-detail-wrap">
+				<div className="case-detail-header">
+					<div className="case-detail-header-buttons">
+						<div>
+							<Button icon="arrow-left" invisible circular onClick={this.props.changeActiveScreen.bind(null, 'caseList')} />
+						</div>
+						<div>
+							<Button icon="dots" invisible>
+								<Menu bottom left>
+									<MenuItem onClick={this.activateCaseEditing}><Icon icon="edit"/> Edit</MenuItem>
+									<MenuItem><Icon icon="remove" /> Delete</MenuItem>
+								</Menu>
+							</Button>
+						</div>
+					</div>
+					<EditableText
+						disabled={!this.state.caseEditingActive}
+						large
+						value={name}
+						placeholder="Case title"
+						onChange={caseData ? this.onChangeName.bind(this, caseData.key) : undefined}
+					/>
+					<EditableText
+						disabled={!this.state.caseEditingActive}
+						value={description}
+						placeholder="Description"
+						onChange={caseData ? this.onChangeDescription.bind(this, caseData.key) : undefined}
+					/>
+					{map}
+				</div>
+				<div className="case-detail-body">
+					{defaultState}
+					{scenarios}
+					<Center horizontally><Button circular icon="plus" onClick={this.addScenario} /></Center>
+				</div>
+			</div>
+		);
+	}
+
+	renderMap(){
+		let caseData = this.props.case;
+		let caseGeometry = null;
+		let caseBbox = null;
+
+		if (caseData && caseData.geometry){
+			caseGeometry = caseData.geometry;
 		}
 
 		if (!caseGeometry){
@@ -113,46 +185,17 @@ class CaseDetail extends React.PureComponent {
 			}
 		}
 
-		return (
-			<div className="case-detail-wrap">
-				<div className="case-detail-header">
-					<div className="case-detail-header-buttons">
-						<div>
-							<Button icon="arrow-left" invisible circular onClick={this.props.changeActiveScreen.bind(null, 'caseList')} />
-						</div>
-						<div>
-							<Button icon="dots" invisible>
-								<Menu bottom left>
-									<MenuItem><Icon icon="edit" /> Edit</MenuItem>
-									<MenuItem><Icon icon="remove" /> Delete</MenuItem>
-								</Menu>
-							</Button>
-						</div>
-					</div>
-					<EditableText
-						large
-						value={name}
-						placeholder="Case title"
-						onChange={caseData ? this.onChangeName.bind(this, caseData.key) : undefined}
-					/>
-					<EditableText
-						value={description}
-						placeholder="Description"
-						onChange={caseData ? this.onChangeDescription.bind(this, caseData.key) : undefined}
-					/>
-					<WorldWindow
-						bbox={caseBbox}
-						caseGeometry={caseGeometry}
-						zoomToGeometry
-					/>
-				</div>
-				<div className="case-detail-body">
-					{defaultState}
-					{scenarios}
-					<Center horizontally><Button circular icon="plus" onClick={this.addScenario} /></Center>
-				</div>
-			</div>
-		);
+		if (this.state.caseEditingActive){
+			return (
+				<WorldWindow
+					bbox={caseBbox}
+					caseGeometry={caseGeometry}
+					zoomToGeometry
+				/>
+			);
+		} else {
+			return false;
+		}
 	}
 
 	renderScenario(data){
