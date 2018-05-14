@@ -131,14 +131,14 @@
 	width: 100%;
 }
 .newDesign .mode-3d .detached-window .x-window-header .x-tool .x-tool-hide {
-	background-image: url("../__new/img/minimise-icon-rounded.png") !important;
+	background-image: url("../img/minimise-icon-rounded.png") !important;
 	background-position-x: 1px;
 }
 .newDesign .mode-3d .detached-window .x-window-header .x-tool .x-tool-unselect {
-	background-image: url("../__new/img/unselect.png") !important;
+	background-image: url("../img/unselect.png") !important;
 }
 .newDesign .mode-3d .detached-window .x-window-header .x-tool .x-tool-unselectall {
-	background-image: url("../__new/img/unselect-all.png") !important;
+	background-image: url("../img/unselect-all.png") !important;
 	background-position-x: 3px;
 }
 

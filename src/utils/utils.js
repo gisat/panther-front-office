@@ -1,6 +1,5 @@
 import React from 'react';
 
-import config from '../config';
 import _ from 'lodash';
 
 import period, {toString as periodToString} from './period';

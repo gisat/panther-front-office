@@ -7,9 +7,17 @@
  */
 
 export default {
+    geoServerUrl: 'http://panther.gisat.cz/geoserver/',
+    serverUrl: 'http://panther.gisat.cz/backend/',
 
-	apiGeoserverWFSHost: 'panther.gisat.cz',
-	apiBackendHost: 'panther.gisat.cz',
-	// apiGeoserverWFSHost: '10.0.75.2',
-	// apiBackendHost: 'localhost:4000',
+    apiGeoserverWFSProtocol: 'http',
+    apiGeoserverWFSHost: 'panther.gisat.cz',
+    apiGeoserverWFSPath: 'geoserver/geonode/wfs',
+
+    apiBackendProtocol: 'http',
+    apiBackendHost: 'panther.gisat.cz',
+    apiBackendAoiLayerPeriodsPath: 'backend/rest/imagemosaic/getDates',
+    apiBackendSzifPath: 'backend/rest/szif/case',
+
+    hasPeriodsSelector: true
 };

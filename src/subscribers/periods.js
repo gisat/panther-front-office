@@ -1,7 +1,5 @@
 import Action from '../state/Action';
 import utils from '../utils/utils';
-import watch from "redux-watch";
-import Select from "../state/Select";
 
 export default store => {
 	setEventListeners(store);
@@ -16,6 +14,8 @@ const setEventListeners = store => {
 			case 'periods#change':
 			case 'periods#initial':
 				onPeriodsChanged(store, options);
+				break;
+			default:
 				break;
 		}
 	});
