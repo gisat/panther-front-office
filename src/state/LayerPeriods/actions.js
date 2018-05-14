@@ -125,7 +125,7 @@ function loadForPlace(placeKey) {
 	return (dispatch, getState) => {
 		let state = getState();
 		let place = _.find(Select.places.getPlaces(state), {key: placeKey});
-		if (place.geometry){
+		if (place && place.geometry){
 			_.each(state.wmsLayers.data, wmsLayer => {
 				if (wmsLayer.getDates) dispatch(loadForPlaceLayer(place, wmsLayer));
 			});
