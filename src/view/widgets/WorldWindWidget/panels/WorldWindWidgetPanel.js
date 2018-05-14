@@ -296,18 +296,24 @@ class WorldWindWidgetPanel {
      * @param name {string} label
      * @param layers {Array} list of associated layers
      * @param style {Object|null} associated style, if exist
+     * @param layerTemplateId {number}
      */
-    buildLayerControlRow(target, id, name, layers, style) {
-        let checked = this.isControlActive(id);
-        let control = this.buildLayerControl(target, id, name, layers, style, checked, this._groupId);
-        this._layersControls.push(control);
-        control.layerTools.buildOpacity();
-        if (this._groupId === "info-layers" || this._groupId === "wms-layers") {
-            control.layerTools.buildLegend();
-        }
-        if (checked) {
-            this.addLayer(control);
-        }
+    buildLayerControlRow(target, id, name, layers, style, layerTemplateId) {
+		let checked = false;
+		if (this._groupId === "info-layers"){
+			checked = this.isControlActive(layerTemplateId);
+		} else {
+			checked = this.isControlActive(id, layers);
+		}
+		let control = this.buildLayerControl(target, id, name, layers, style, checked, this._groupId);
+		this._layersControls.push(control);
+		control.layerTools.buildOpacity();
+		if (this._groupId === "info-layers" || this._groupId === "wms-layers"){
+			control.layerTools.buildLegend();
+		}
+		if (checked){
+			this.addLayer(control);
+		}
     };
 
     /**
@@ -363,14 +369,20 @@ class WorldWindWidgetPanel {
                 self.addLayer(control);
                 if (self._groupId === "wms-layers"){
                     self._dispatcher.notify('wmsLayer#add', {layerKey: control.layers[0].id})
-                }
+                } else if (self._groupId === "info-layers"){
+					let templates = _.map(control.layers, function(layer){return layer.layerTemplateId});
+					self._dispatcher.notify('infoLayer#add', {layerTemplates: templates})
+				}
             } else {
                 control.active = false;
                 control.layerTools.hide();
                 self.removeLayer(control);
                 if (self._groupId === "wms-layers"){
                     self._dispatcher.notify('wmsLayer#remove', {layerKey: control.layers[0].id})
-                }
+                } else if (self._groupId === "info-layers"){
+					let templatesToRemove = _.map(control.layers, function(layer){return layer.layerTemplateId});
+					self._dispatcher.notify('infoLayer#remove', {layerTemplates: templatesToRemove})
+				}
             }
         },50);
     };

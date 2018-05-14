@@ -21,9 +21,11 @@ import './MapsContainer.css'
  * @param options.target {Object} JQuery selector of target element
  * @param options.store {Object}
  * @param options.store.map {MapStore}
+ * @param options.store.scopes {Scopes}
  * @param options.store.state {StateStore}
  * @param options.store.periods {Scopes}
  * @param options.store.locations {Locations}
+ * @param options.store.wmsLayers {WmsLayers}
  * @constructor
  */
 const MAX_MAPS = 12;
@@ -82,6 +84,21 @@ class MapsContainer {
         options.store.periods.addListener(this.onEvent.bind(this));
     };
 
+	/**
+	 * Add listener to close button of each map except the default one
+	 */
+	addCloseButtonOnClickListener() {
+		let self = this;
+		this._containerSelector.on("click", ".close-map-button", function () {
+			let mapId = $(this).attr("data-id");
+			let mapPeriod = self._mapStore.getMapById(mapId).period;
+			let periods = _.reject(self._stateStore.current().periods, function (period) {
+				return period === mapPeriod;
+			});
+			self._dispatcher.notify("periods#change", periods);
+		});
+	};
+
     /**
      * Add map controls
      * @param map {WorldWindMap}
@@ -95,6 +112,56 @@ class MapsContainer {
         }
     }
 
+	/**
+	 * Add map to container
+	 * @param id {string|null} Id of the map
+	 * @param periodId {number} Id of the period connected with map
+	 * @param [options.scenarioKey] {number}
+	 * @param [options.scenarioData] {Object}
+	 * @param [options.isDefaultScenarioSituation] {bool}
+	 * TODO allow max 16 maps (due to WebGL restrictions)
+	 */
+	addMap(id, periodId, options) {
+		var state = this._stateStore.current();
+
+		if ((state.isMapIndependentOfPeriod || state.isMapDependentOnScenario) && state.periods){
+			periodId = state.periods[0];
+		}
+
+		var worldWindMap = this.buildWorldWindMap(id, periodId, this._mapsToContainerAdded++, options);
+		this._dispatcher.notify('map#add', {map: worldWindMap});
+		this.addControls(worldWindMap);
+
+		if ((state.isMapIndependentOfPeriod || id === 'default-map') && !state.isMapDependentOnScenario){
+			this.handleMapSelection(worldWindMap);
+		}
+		this.rebuildContainerLayout();
+	};
+
+	/**
+	 * Add on click listener to all map boxes
+	 */
+	addMapBoxOnClickListener(){
+		var self = this;
+		this._containerSelector.on("click", ".world-wind-map-box", function(e){
+			if (e.target.className !== "close-map-button" && e.target.className !== "close-map-icon"){
+				var state = self._stateStore.current();
+				if (state.isMapIndependentOfPeriod  && !state.isMapDependentOnScenario){
+					var mapId = $(this).find('.world-wind-map').attr('id');
+					var map = self._mapStore.getMapById(mapId);
+					self.handleMapSelection(map);
+				}
+			}
+		});
+	}
+
+	/**
+	 * Rebuild the container when sidebar-reports panel changes it's state
+	 */
+	addSidebarReportsStateListener() {
+		$("#sidebar-reports").on("click", this.rebuildContainerLayout.bind(this));
+	};
+
     /**
      * Build container
      */
@@ -106,113 +173,313 @@ class MapsContainer {
         this.addSidebarReportsStateListener();
     };
 
-    /**
-     * Rebuild maps container with list of periods. For new periods, add maps. On the other hand, remove maps which
-     * are not connected with any of periods in the list
-     * @param periods {Array} selected periods.
-     */
-    rebuildContainerWithPeriods(periods) {
-        let allMaps = this._mapStore.getAll();
-        let mapsCount = Object.keys(allMaps).length;
-        let periodsCount = periods.length;
+	/**
+	 * Build controls and setup interaction
+	 * @param wwd {WorldWindow}
+	 */
+	buildMapControls(wwd) {
+		return new Controls({
+			mapContainer: this._containerSelector.find('.maps-container-top'),
+			worldWindow: wwd
+		});
+	};
 
-        let self = this;
-        if (mapsCount < periodsCount){
-            // go trough periods, check if map exists for period, if not, add map
-            periods.forEach(function(period){
-                let map = self._mapStore.getMapByPeriod(period);
-                if (!map){
-                    self.addMap(null, period);
-                }
-            });
-        } else if (mapsCount > periodsCount) {
-            if (periodsCount === 1){
-                let counter = mapsCount;
-                allMaps.forEach(function(map){
-                    counter--;
-                    if (counter > 0){
-                        map._wwd.drawContext.currentGlContext.getExtension('WEBGL_lose_context').loseContext();
-                        self._dispatcher.notify("map#remove",{id: map.id});
-                    } else {
-                        map.rebuild();
-                    }
-                });
-            } else {
-                // go trough maps, check if period exists for map, if not, remove map
-                allMaps.forEach(function(map){
-                    let period =_.filter(periods, function(per){
-                        return per === map.period;
-                    });
-                    if (period.length === 0){
-                        map._wwd.drawContext.currentGlContext.getExtension('WEBGL_lose_context').loseContext();
-                        self._dispatcher.notify("map#remove",{id: map.id});
-                    }
-                });
+	/**
+	 * Build a World Wind Map
+	 * @param id {string} Id of the map which should distinguish one map from another
+	 * @param periodId {number} Id of the period
+	 * @param orderFromStart {number} Order of a map from MapsContainer instance initialization
+	 * @returns {WorldWindMap}
+	 */
+	buildWorldWindMap(id, periodId, orderFromStart, metadata) {
+		return new WorldWindMap({
+			dispatcher: window.Stores,
+			id: id,
+			period: periodId,
+			orderFromStart: orderFromStart,
+			mapsContainer: this._containerSelector.find(".map-fields"),
+			metadata: metadata,
+			store: {
+				scopes: this._scopesStore,
+				state: this._stateStore,
+				map: this._mapStore,
+				periods: this._store.periods,
+				locations: this._store.locations
+			}
+		});
+	};
 
-                // remove duplicates
-            }
-        }
-    };
+	/**
+	 * Change geometry in AOI layer for all maps
+	 * @param geometry {GeoJSON}
+	 */
+	changeGeometryInAoiLayer(geometry){
+		let maps = this._mapStore.getAll();
+		maps.forEach(function(map){
+			map.changeGeometryInAoiLayer(geometry);
+		});
+	}
 
-    /**
-     * Add map to container
-     * @param id {string|null} Id of the map
-     * @param periodId {number} Id of the period connected with map
-     * TODO allow max 16 maps (due to WebGL restrictions)
-     */
-    addMap(id, periodId) {
-        let state = this._stateStore.current();
-        if (state.isMapIndependentOfPeriod && state.periods){
-            periodId = state.periods[0];
-        }
-        let worldWindMap = this.buildWorldWindMap(id, periodId, this._mapsToContainerAdded++);
-        this._dispatcher.notify('map#add', {map: worldWindMap});
-        this.addControls(worldWindMap);
 
-        if (state.isMapIndependentOfPeriod || id === 'default-map'){
-            this.handleMapSelection(worldWindMap);
-        }
-        this.rebuildContainerLayout();
-    };
+	/**
+	 * Check close button for all maps. If there is only one map present, remove check button. Otherwise add close button to all maps.
+	 */
+	checkMapsCloseButton() {
+		let maps = this._mapStore.getAll();
 
-    /**
-     * Add on click listener to all map boxes
-     */
-    addMapBoxOnClickListener(){
-        var self = this;
-        this._containerSelector.on("click", ".world-wind-map-box", function(e){
-            if (e.target.className !== "close-map-button" && e.target.className !== "close-map-icon"){
-                var state = self._stateStore.current();
-                if (state.isMapIndependentOfPeriod){
-                    var mapId = $(this).find('.world-wind-map').attr('id');
-                    var map = self._mapStore.getMapById(mapId);
-                    self.handleMapSelection(map);
-                }
-            }
-        });
-    }
+		if (maps.length === 1){
+			maps[0].mapWindowTools.removeCloseButton();
+		} else {
+			maps.forEach(function(map){
+				map.mapWindowTools.addCloseButton();
+			});
+		}
+	}
 
-    /**
-     * Remove map from container
-     * @param id {string} ID of the map
-     */
-    removeMap(id) {
-        $("#" + id + "-box").remove();
-        this._mapsInContainerCount--;
-        this.rebuildContainerLayout();
-    };
+	handleMapDefaultsFromDataview(defaults){
+		let state = this._stateStore.current();
+		if (!state.isMapIndependentOfPeriod && defaults.wmsLayers){
+			this._dispatcher.notify("wmsLayer#add", {
+				layerKey: defaults.wmsLayers
+			});
+		}
+		if (defaults.layerTemplates){
+			this._dispatcher.notify("infoLayer#add", {
+				layerTemplates: defaults.layerTemplates
+			});
+		}
+	}
 
-    /**
-     * Rebuild all maps in container
-     * TODO rebuild each map with relevant data
-     */
-    rebuildMaps() {
-        let maps = this._mapStore.getAll();
-        maps.forEach(function (map) {
-            map.rebuild();
-        });
-        this.rebuildContainerLayout();
-    };
+	/**
+	 * Deal with maps according to dataview settings
+	 * @param mapsMetadata {Array} list of maps
+	 * @param selectedMap {number} id of selected map
+	 */
+	handleMapsFromDataview(mapsMetadata, selectedMap){
+		let state = this._stateStore.current();
+		let self = this;
+		if (state.isMapIndependentOfPeriod && !state.isMapDependentOnScenario){
+			mapsMetadata.forEach(function(map){
+				if (map.key !== 'default-map'){
+					self.addMap(map.key, map.period);
+				}
+				if (map.layerPeriods){
+					for (let layer in map.layerPeriods){
+						self._dispatcher.notify("layerPeriods#add", {
+							mapKey: map.key,
+							layerKey: layer,
+							period: map.layerPeriods[layer]
+						});
+					}
+				}
+				if (map.wmsLayers){
+					map.wmsLayers.forEach(function(layer){
+						self._dispatcher.notify("wmsLayer#add", {
+							mapKey: map.key,
+							layerKey: layer
+						});
+					});
+				}
+				if (map.placeGeometryChangeReview){
+					var showBefore = false;
+					var showAfter = false;
+					if (map.placeGeometryChangeReview.showGeometryAfter){
+						showAfter = true;
+					}
+					if (map.placeGeometryChangeReview.showGeometryBefore){
+						showBefore = true;
+					}
+					self._dispatcher.notify("placeGeometryChangeReview#showGeometry", {
+						mapKey: map.key,
+						showBefore: showBefore,
+						showAfter: showAfter
+					});
+				}
+			});
+		}
+		if (selectedMap){
+			this.handleMapSelection(null, selectedMap)
+		}
+	}
+
+	/**
+	 * If current map is provided, select it.
+	 * If selectedId is porvided, select map with this id
+	 * Otherwise find out, if any map is selected. If not, select the first one.
+	 * @param [currentMap] {WorldWindMap} optional parameter
+	 * @param [selectedId] {string} id of map which will be selected
+	 */
+	handleMapSelection(currentMap, selectedId){
+		let allMaps = this._mapStore.getAll();
+		if (currentMap){
+			allMaps.forEach(function(map){
+				map.unselect();
+			});
+			currentMap.select();
+			this._dispatcher.notify('map#selected', {
+				id: currentMap._id
+			});
+		} else if (selectedId) {
+			let self = this;
+			allMaps.forEach(function(map){
+				map.unselect();
+				if (map._id === selectedId){
+					map.select();
+					self._dispatcher.notify('map#selected', {
+						id: selectedId
+					});
+				}
+			});
+		} else {
+			let selected = false;
+			allMaps.forEach(function(map){
+				if (map._selected){
+					selected = true;
+				}
+			});
+			if (!selected){
+				let firstMap = allMaps[0];
+				firstMap.select();
+				this._dispatcher.notify('map#selected', {
+					id: firstMap._id
+				});
+			}
+		}
+	}
+
+	handleTools(toolsPinned) {
+		if (toolsPinned) {
+			this._toolsPinned = true;
+			this._containerSelector.addClass("tools-active");
+		} else {
+			this._toolsPinned = false;
+			this._containerSelector.removeClass("tools-active");
+		}
+	};
+
+	/**
+	 * Rebuild grid according to a number of active maps
+	 */
+	rebuildContainerLayout() {
+		this._mapsInContainerCount = this._mapStore.getAll().length;
+		if (this._mapsInContainerCount >= MAX_MAPS){
+			this._dispatcher.notify('mapsContainer#disableAdding');
+		} else {
+			this._dispatcher.notify('mapsContainer#enableAdding');
+		}
+
+		let width = this._containerSelector.width();
+		let height = this._containerSelector.height();
+		let isExtended = false;
+
+		let a = 'w';
+		let b = 'h';
+		if (height > width){
+			a = 'h';
+			b = 'w';
+		}
+
+		if (this._containerSelector.hasClass('extended')){
+			isExtended = true;
+		}
+
+		this._containerSelector.attr('class', 'maps-container');
+		let cls = '';
+		if (this._mapsInContainerCount === 1){
+			cls += a + '1 ' + b + '1';
+		} else if (this._mapsInContainerCount === 2){
+			cls += a + '2 ' + b + '1';
+		} else if (this._mapsInContainerCount > 2 && this._mapsInContainerCount <= 4){
+			cls += a + '2 ' + b + '2';
+		} else if (this._mapsInContainerCount > 4 && this._mapsInContainerCount <= 6){
+			cls += a + '3 ' + b + '2';
+		} else if (this._mapsInContainerCount > 6 && this._mapsInContainerCount <= 9){
+			cls += a + '3 ' + b + '3';
+		} else if (this._mapsInContainerCount > 9 && this._mapsInContainerCount <= 12){
+			cls += a + '4 ' + b + '3';
+		} else if (this._mapsInContainerCount > 12 && this._mapsInContainerCount <= 16){
+			cls += a + '4 ' + b + '4';
+		}
+
+		if (this._toolsPinned){
+			cls += " tools-active"
+		}
+		if (isExtended){
+			cls += " extended"
+		}
+		this._containerSelector.addClass(cls);
+		this.sortMaps();
+	}
+
+	/**
+	 * Rebuild maps container with list of periods. For new periods, add maps. On the other hand, remove maps which
+	 * are not connected with any of periods in the list
+	 * @param periods {Array} selected periods.
+	 */
+	rebuildContainerWithPeriods(periods) {
+		let allMaps = this._mapStore.getAll();
+		let mapsCount = Object.keys(allMaps).length;
+		let periodsCount = periods.length;
+
+		let self = this;
+		if (mapsCount < periodsCount){
+			// go trough periods, check if map exists for period, if not, add map
+			periods.forEach(function(period){
+				let map = self._mapStore.getMapByPeriod(period);
+				if (!map){
+					self.addMap(null, period);
+				}
+			});
+		} else if (mapsCount > periodsCount) {
+			if (periodsCount === 1){
+				let counter = mapsCount;
+				allMaps.forEach(function(map){
+					counter--;
+					if (counter > 0){
+						map._wwd.drawContext.currentGlContext.getExtension('WEBGL_lose_context').loseContext();
+						self._dispatcher.notify("map#remove",{id: map.id});
+					} else {
+						map.rebuild();
+					}
+				});
+			} else {
+				// go trough maps, check if period exists for map, if not, remove map
+				allMaps.forEach(function(map){
+					let period =_.filter(periods, function(per){
+						return per === map.period;
+					});
+					if (period.length === 0){
+						map._wwd.drawContext.currentGlContext.getExtension('WEBGL_lose_context').loseContext();
+						self._dispatcher.notify("map#remove",{id: map.id});
+					}
+				});
+
+				// remove duplicates
+			}
+		}
+	};
+
+	/**
+	 * Rebuild all maps in container
+	 * TODO rebuild each map with relevant data
+	 */
+	rebuildMaps() {
+		let maps = this._mapStore.getAll();
+		maps.forEach(function (map) {
+			map.rebuild();
+		});
+		this.rebuildContainerLayout();
+	};
+
+	/**
+	 * Remove map from container
+	 * @param id {string} ID of the map
+	 */
+	removeMap(id) {
+		$("#" + id + "-box").remove();
+		this._mapsInContainerCount--;
+		this.rebuildContainerLayout();
+	};
 
     /**
      * Remove map from container
@@ -233,6 +500,17 @@ class MapsContainer {
             map.goTo(position);
         });
     }
+
+	/**
+	 * Set range of all maps in this container
+	 * @param range {number}
+	 */
+	setAllMapsRange(range) {
+		let maps = this._mapStore.getAll();
+		maps.forEach(function (map) {
+			map.setRange(range);
+		});
+	};
 
     /**
      * Set a period of all maps. It is used if maps are independent of periods
@@ -274,6 +552,16 @@ class MapsContainer {
         }
     }
 
+	/**
+	 * Switch projection of all maps from 2D to 3D and vice versa
+	 */
+	switchProjection() {
+		let maps = this._mapStore.getAll();
+		for (let key in maps) {
+			maps[key].switchProjection();
+		}
+	};
+
     /**
      * Update navigator of all available maps
      */
@@ -283,72 +571,6 @@ class MapsContainer {
             map.setNavigator();
         });
     }
-
-    /**
-     * If current map is provided, select it.
-     * If selectedId is porvided, select map with this id
-     * Otherwise find out, if any map is selected. If not, select the first one.
-     * @param [currentMap] {WorldWindMap} optional parameter
-     * @param [selectedId] {string} id of map which will be selected
-     */
-    handleMapSelection(currentMap, selectedId){
-        let allMaps = this._mapStore.getAll();
-        if (currentMap){
-            allMaps.forEach(function(map){
-                map.unselect();
-            });
-            currentMap.select();
-            this._dispatcher.notify('map#selected', {
-                id: currentMap._id
-            });
-        } else if (selectedId) {
-            let self = this;
-            allMaps.forEach(function(map){
-                map.unselect();
-                if (map._id === selectedId){
-                    map.select();
-                    self._dispatcher.notify('map#selected', {
-                        id: selectedId
-                    });
-                }
-            });
-        } else {
-            let selected = false;
-            allMaps.forEach(function(map){
-                if (map._selected){
-                    selected = true;
-                }
-            });
-            if (!selected){
-                let firstMap = allMaps[0];
-                firstMap.select();
-                this._dispatcher.notify('map#selected', {
-                    id: firstMap._id
-                });
-            }
-        }
-    }
-
-    /**
-     * Set range of all maps in this container
-     * @param range {number}
-     */
-    setAllMapsRange(range) {
-        let maps = this._mapStore.getAll();
-        maps.forEach(function (map) {
-            map.setRange(range);
-        });
-    };
-
-    /**
-     * Switch projection of all maps from 2D to 3D and vice versa
-     */
-    switchProjection() {
-        let maps = this._mapStore.getAll();
-        for (let key in maps) {
-            maps[key].switchProjection();
-        }
-    };
 
     /**
      * Zoom all maps to area
@@ -368,84 +590,6 @@ class MapsContainer {
         let maps = this._mapStore.getAll();
         for (let key in maps) {
             maps[key].zoomToExtent();
-        }
-    };
-
-    /**
-     * Build a World Wind Map
-     * @param id {string} Id of the map which should distinguish one map from another
-     * @param periodId {number} Id of the period
-     * @param orderFromStart {number} Order of a map from MapsContainer instance initialization
-     * @returns {WorldWindMap}
-     */
-    buildWorldWindMap(id, periodId, orderFromStart) {
-        return new WorldWindMap({
-            dispatcher: window.Stores,
-            id: id,
-            period: periodId,
-            orderFromStart: orderFromStart,
-            mapsContainer: this._containerSelector.find(".map-fields"),
-            store: {
-                scopes: this._scopesStore,
-                state: this._stateStore,
-                map: this._mapStore,
-                periods: this._store.periods,
-                locations: this._store.locations
-            }
-        });
-    };
-
-    /**
-     * Change geometry in AOI layer for all maps
-     * @param geometry {GeoJSON}
-     */
-    changeGeometryInAoiLayer(geometry){
-        let maps = this._mapStore.getAll();
-        maps.forEach(function(map){
-            map.changeGeometryInAoiLayer(geometry);
-        });
-    }
-
-    /**
-     * Build controls and setup interaction
-     * @param wwd {WorldWindow}
-     */
-    buildMapControls(wwd) {
-        return new Controls({
-            mapContainer: this._containerSelector.find('.maps-container-top'),
-            worldWindow: wwd
-        });
-    };
-
-    /**
-     * Add listener to close button of each map except the default one
-     */
-    addCloseButtonOnClickListener() {
-        let self = this;
-        this._containerSelector.on("click", ".close-map-button", function () {
-            let mapId = $(this).attr("data-id");
-            let mapPeriod = self._mapStore.getMapById(mapId).period;
-            let periods = _.reject(self._stateStore.current().periods, function (period) {
-                return period === mapPeriod;
-            });
-            self._dispatcher.notify("periods#change", periods);
-        });
-    };
-
-    /**
-     * Rebuild the container when sidebar-reports panel changes it's state
-     */
-    addSidebarReportsStateListener() {
-        $("#sidebar-reports").on("click", this.rebuildContainerLayout.bind(this));
-    };
-
-    handleTools(toolsPinned) {
-        if (toolsPinned) {
-            this._toolsPinned = true;
-            this._containerSelector.addClass("tools-active");
-        } else {
-            this._toolsPinned = false;
-            this._containerSelector.removeClass("tools-active");
         }
     };
 
@@ -474,144 +618,12 @@ class MapsContainer {
         });
     };
 
-    adaptAllMapsToSelection(bbox) {
-        let maps = this._mapStore.getAll();
-        maps.forEach(function (map) {
-            map.setPositionRangeFromBbox(bbox);
-        });
-    };
-
-    /**
-     * Rebuild grid according to a number of active maps
-     */
-    rebuildContainerLayout() {
-        this._mapsInContainerCount = this._mapStore.getAll().length;
-        if (this._mapsInContainerCount >= MAX_MAPS){
-            this._dispatcher.notify('mapsContainer#disableAdding');
-        } else {
-            this._dispatcher.notify('mapsContainer#enableAdding');
-        }
-
-        let width = this._containerSelector.width();
-        let height = this._containerSelector.height();
-        let isExtended = false;
-
-        let a = 'w';
-        let b = 'h';
-        if (height > width){
-            a = 'h';
-            b = 'w';
-        }
-
-        if (this._containerSelector.hasClass('extended')){
-            isExtended = true;
-        }
-
-        this._containerSelector.attr('class', 'maps-container');
-        let cls = '';
-        if (this._mapsInContainerCount === 1){
-            cls += a + '1 ' + b + '1';
-        } else if (this._mapsInContainerCount === 2){
-            cls += a + '2 ' + b + '1';
-        } else if (this._mapsInContainerCount > 2 && this._mapsInContainerCount <= 4){
-            cls += a + '2 ' + b + '2';
-        } else if (this._mapsInContainerCount > 4 && this._mapsInContainerCount <= 6){
-            cls += a + '3 ' + b + '2';
-        } else if (this._mapsInContainerCount > 6 && this._mapsInContainerCount <= 9){
-            cls += a + '3 ' + b + '3';
-        } else if (this._mapsInContainerCount > 9 && this._mapsInContainerCount <= 12){
-            cls += a + '4 ' + b + '3';
-        } else if (this._mapsInContainerCount > 12 && this._mapsInContainerCount <= 16){
-            cls += a + '4 ' + b + '4';
-        }
-
-        if (this._toolsPinned){
-            cls += " tools-active"
-        }
-        if (isExtended){
-            cls += " extended"
-        }
-        this._containerSelector.addClass(cls);
-        this.sortMaps();
-    }
-
-    handleMapDefaultsFromDataview(defaults){
-        let state = this._stateStore.current();
-        if (!state.isMapIndependentOfPeriod && defaults.wmsLayers){
-            this._dispatcher.notify("wmsLayer#add", {
-                layerKey: defaults.wmsLayers
-            });
-        }
-    }
-
-    /**
-     * Deal with maps according to dataview settings
-     * @param mapsMetadata {Array} list of maps
-     * @param selectedMap {number} id of selected map
-     */
-    handleMapsFromDataview(mapsMetadata, selectedMap){
-        let state = this._stateStore.current();
-        let self = this;
-        if (state.isMapIndependentOfPeriod){
-            mapsMetadata.forEach(function(map){
-                if (map.key !== 'default-map'){
-                    self.addMap(map.key, map.period);
-                }
-                if (map.layerPeriods){
-                    for (let layer in map.layerPeriods){
-                        self._dispatcher.notify("layerPeriods#add", {
-                            mapKey: map.key,
-                            layerKey: layer,
-                            period: map.layerPeriods[layer]
-                        });
-                    }
-                }
-                if (map.wmsLayers){
-                    map.wmsLayers.forEach(function(layer){
-                        self._dispatcher.notify("wmsLayer#add", {
-                            mapKey: map.key,
-                            layerKey: layer
-                        });
-                    });
-                }
-                if (map.placeGeometryChangeReview){
-                    var showBefore = false;
-                    var showAfter = false;
-                    if (map.placeGeometryChangeReview.showGeometryAfter){
-                        showAfter = true;
-                    }
-                    if (map.placeGeometryChangeReview.showGeometryBefore){
-                        showBefore = true;
-                    }
-                    self._dispatcher.notify("placeGeometryChangeReview#showGeometry", {
-                        mapKey: map.key,
-                        showBefore: showBefore,
-                        showAfter: showAfter
-                    });
-                }
-            });
-        }
-        if (selectedMap){
-            this.handleMapSelection(null, selectedMap)
-        }
-    }
-
-
-
-    /**
-     * Check close button for all maps. If there is only one map present, remove check button. Otherwise add close button to all maps.
-     */
-    checkMapsCloseButton() {
-        let maps = this._mapStore.getAll();
-
-        if (maps.length === 1){
-            maps[0].mapWindowTools.removeCloseButton();
-        } else {
-            maps.forEach(function(map){
-                map.mapWindowTools.addCloseButton();
-            });
-        }
-    }
+	adaptAllMapsToSelection(bbox) {
+		let maps = this._mapStore.getAll();
+		maps.forEach(function (map) {
+			map.setPositionRangeFromBbox(bbox);
+		});
+	};
 
     /**
      * @param type {string} type of event
@@ -621,10 +633,11 @@ class MapsContainer {
         let state = this._stateStore.current();
         let periods = state.periods;
         let isMapIndependentOfPeriod = state.isMapIndependentOfPeriod;
+		let isMapDependentOnScenario = state.isMapDependentOnScenario;
         if (type === Actions.mapRemoved){
             this.removeMapFromContainer(options.id);
             this.checkMapsCloseButton();
-            if (isMapIndependentOfPeriod){
+            if (isMapIndependentOfPeriod  && !isMapDependentOnScenario){
                 this.handleMapSelection();
             }
         } else if (type === Actions.periodsRebuild){
@@ -650,7 +663,10 @@ class MapsContainer {
             this.setProjection('3D');
         } else if (type === Actions.navigatorUpdate){
             this.updateAllMapsNavigators();
-        }
+        } else if (type === Actions.scenarioAddDefaultSituationMap){
+			this.addMap(null, null, {isDefaultScenarioSituation: true});
+			this.checkMapsCloseButton();
+		}
 
         // notifications from React
         else if (type === "AOI_GEOMETRY_SET"){
@@ -658,7 +674,21 @@ class MapsContainer {
                 this.zoomToArea(options.extent);
             }
             this.changeGeometryInAoiLayer(options.geometry);
-        }
+        } else if (type === 'ADD_MAP_BY_SCENARIO'){
+			this.addMap(null, null, options);
+			this.checkMapsCloseButton();
+		} else if (type === "ZOOM_MAPS_BY_CASE_GEOMETRY"){
+			this._stateStore.addLoadingOperation("scenariosCaseChange");
+			let self = this;
+			setTimeout(function(){
+				if (options && options.bbox){
+					self.zoomToArea(options.bbox);
+				} else {
+					self.zoomToExtent();
+				}
+				self._stateStore.removeLoadingOperation("scenariosCaseChange", true);
+			},50);
+		}
 
         // TODO temporary for Dromas. It should be removed in a version with new areas widget
         else if (type === Actions.mapSelectFromAreas){

@@ -310,12 +310,12 @@ class FrontOffice {
             this._previousDataset = Number(this._dataset);
         }
 
-        // handle active places
-        if (state.place){
-            this._dispatcher.notify('place#setActivePlace', {data: [Number(state.place)]});
-        } else {
-            this._dispatcher.notify('place#setActivePlace', {data: state.allPlaces});
-        }
+		// handle active places
+		if (state.place && !this._options.changes.dataview){
+			this._dispatcher.notify('place#setActivePlace', {data: [Number(state.place)]});
+		} else if (!this._options.changes.dataview) {
+			this._dispatcher.notify('place#setActivePlace', {data: state.allPlaces});
+		}
     };
 
     /**
@@ -439,11 +439,17 @@ class FrontOffice {
 
         this._scopesStore.byId(state.scope).then(function(scopes){
             let scope = scopes[0];
-            if (scope && scope.isMapIndependentOfPeriod){
-                self._dispatcher.notify("fo#mapIsIndependentOfPeriod");
-            } else {
-                self._dispatcher.notify("fo#mapIsDependentOnPeriod");
-            }
+			if (scope && scope.isMapIndependentOfPeriod && scope.isMapDependentOnScenario){
+				self._dispatcher.notify("fo#mapIsDependentOnScenario");
+				self._dispatcher.notify("fo#mapIsIndependentOfPeriod");
+			} else if (scope && scope.isMapIndependentOfPeriod && !scope.isMapDependentOnScenario){
+				self._dispatcher.notify("fo#allowMapAdding");
+				self._dispatcher.notify("fo#mapIsIndependentOfPeriod");
+			} else if (scope && !scope.isMapIndependentOfPeriod && scope.isMapDependentOnScenario){
+				self._dispatcher.notify("fo#mapIsDependentOnScenario");
+			} else {
+				self._dispatcher.notify("fo#mapIsDependentOnPeriod");
+			}
 
             self._dispatcher.notify("scope#aoiLayer", scope.aoiLayer);
 
@@ -501,6 +507,12 @@ class FrontOffice {
         if (options.widgets){
             this._topToolBar.handleDataview(options.widgets);
         }
+		if (options.components){
+			this._dispatcher.notify('components#applyFromDataview', {windows: options.components.windows});
+		}
+		if (options.scenarios){
+			this._dispatcher.notify('scenarios#applyFromDataview', {scenarios: options.scenarios});
+		}
         if (options.locations){
             this._dispatcher.notify('place#setActivePlace', {data: options.locations});
         }
@@ -523,7 +535,7 @@ class FrontOffice {
      */
     handlePeriods(){
         let state = this._stateStore.current();
-        if (state.isMapIndependentOfPeriod){
+        if (state.isMapIndependentOfPeriod || state.isMapDependentOnScenario){
             this._store.periods.notify('periods#default')
         } else {
             this._store.periods.notify('periods#rebuild');

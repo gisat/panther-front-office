@@ -164,6 +164,9 @@ class TopToolBar {
                 let classesSnowWidget3d = $('#floater-snow-widget').hasClass('open') ? "item open" : "item";
                 this._target.append('<div class="' + classesSnowWidget3d + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget"><span>'+polyglot.t('savedConfigurations')+'</span></div>');
             }
+			if (tools.scenarios){
+				this._target.append('<div class="item" id="top-toolbar-scenarios"><span>'+polyglot.t('scenarios')+'</span></div>');
+			}
         }
 
         // tools for OpenLayers mode
@@ -255,10 +258,13 @@ class TopToolBar {
                             tools.contextHelp = false;
                         }
                     });
-                    return tools;
-                } else {
-                    return tools;
                 }
+
+                if (scopes[0].scenarios) {
+					tools.scenarios = true;
+				}
+
+				return tools;
             }).catch(function(err){
                 throw new Error(err);
             });
@@ -280,34 +286,39 @@ class TopToolBar {
     };
 
     handleClick(e) {
-        let targetId = e.target.getAttribute('data-for');
-        if (!targetId){
-            targetId = $(e.currentTarget).attr("data-for");
-        }
+		if ($(e.currentTarget).attr("id") === 'top-toolbar-scenarios'){
+			Stores.notify("component#scenarioButtonClick");
+		} else {
+			let targetId = e.target.getAttribute('data-for');
+			if (!targetId){
+				targetId = $(e.currentTarget).attr("data-for");
+			}
 
-        if (targetId) {
-            if (targetId === 'window-customviews') Ext.ComponentQuery.query('#window-customviews')[0].show();
-            let floater = $('#' + targetId);
-            if (targetId === 'floater-map-tools-widget' && floater.hasClass("open")){
-                floater.find(".widget-detach").trigger("click");
-            }
-            floater.toggleClass('open');
+			if (targetId) {
+				if (targetId === 'window-customviews') Ext.ComponentQuery.query('#window-customviews')[0].show();
+				if (targetId === 'window-customLayers') this.initCustomLayersWindow();
+				let floater = $('#' + targetId);
+				if (targetId === 'floater-map-tools-widget' && floater.hasClass("open")){
+					floater.find(".widget-detach").trigger("click");
+				}
+				floater.toggleClass('open');
 
-            let type = targetId.split("-")[0];
-            if (type === "window"){
-                window.Stores.notify('floaters#sort', {
-                    fromExt: false,
-                    xWindowJQuerySelector: floater[0]
-                });
-            } else {
-                window.Stores.notify('floaters#sort', {
-                    fromExt: false,
-                    floaterJQuerySelector: floater
-                });
-            }
-            $(e.currentTarget).toggleClass('open');
-            Stores.notify("widget#changedState", {floater: floater});
-        }
+				let type = targetId.split("-")[0];
+				if (type === "window"){
+					window.Stores.notify('floaters#sort', {
+						fromExt: false,
+						xWindowJQuerySelector: floater[0]
+					});
+				} else {
+					window.Stores.notify('floaters#sort', {
+						fromExt: false,
+						floaterJQuerySelector: floater
+					});
+				}
+				$(e.currentTarget).toggleClass('open');
+				Stores.notify("widget#changedState", {floater: floater});
+			}
+		}
     };
 
     handleHideClick(targetId) {
@@ -413,7 +424,7 @@ class TopToolBar {
     handleMapButtonActivity(active){
         let state = this._stateStore.current();
         let button = $('#top-toolbar-add-map');
-        if (state.isMapIndependentOfPeriod){
+        if (state.isMapIndependentOfPeriod && !state.isMapDependentOnScenario){
             if (active){
                 button.removeClass("disabled");
             } else {
@@ -454,21 +465,23 @@ class TopToolBar {
      * @param type {string} type of event
      */
     onEvent(type){
-        if (type === Actions.toolBarEnable3d){
-            this.handle3dMapButtonState(true);
-        } else if (type === Actions.toolBarDisable3d){
-            this.handle3dMapButtonState(false);
-        } else if (type === Actions.toolBarClick3d){
-            this.handle3dMapClick();
-        } else if (type === Actions.foMapIsIndependentOfPeriod){
-            this.handleAddMapButton('inline-block');
-        } else if (type === Actions.foMapIsDependentOnPeriod){
-            this.handleAddMapButton('none');
-        } else if (type === Actions.mapsContainerDisableAdding){
-            this.handleMapButtonActivity(false);
-        } else if (type === Actions.mapsContainerEnableAdding){
-            this.handleMapButtonActivity(true);
-        }
+		if (type === Actions.toolBarEnable3d){
+			this.handle3dMapButtonState(true);
+		} else if (type === Actions.toolBarDisable3d){
+			this.handle3dMapButtonState(false);
+		} else if (type === Actions.toolBarClick3d){
+			this.handle3dMapClick();
+		} else if (type === Actions.foAllowMapAdding){
+			this.handleAddMapButton('inline-block');
+		} else if (type === Actions.foMapIsDependentOnPeriod){
+			this.handleAddMapButton('none');
+		} else if (type === Actions.mapsContainerDisableAdding){
+			this.handleMapButtonActivity(false);
+		} else if (type === Actions.mapsContainerEnableAdding){
+			this.handleMapButtonActivity(true);
+		} else if (type === 'SCENARIOS_WINDOW_TOGGLE'){
+			$('#top-toolbar-scenarios').toggleClass('open');
+		}
     }
 }
 

@@ -27,6 +27,7 @@ import './WorldWindMap.css';
  * @param options.orderFromStart {number} Order of a map from MapsContainer instance initialization
  * @param options.period {Number|null} Period associated with this map.
  * @param options.dispatcher {Object} Object for handling events in the application.
+ * @param [options.metadata] {Object}
  * @param options.store {Object}
  * @param options.store.state {StateStore}
  * @param options.store.scopes {Scopes}
@@ -84,6 +85,20 @@ class WorldWindMap {
         this._aoiLayer = null;
         this._placeLayer = null;
 
+		if (options.metadata){
+			let m = options.metadata;
+			if (m.scenarioKey){
+				this.scenarioKey = m.scenarioKey;
+			}
+			if (m.scenarioData){
+				this._name = m.scenarioData.name;
+			}
+			if (m.isDefaultScenarioSituation){
+				this.isDefaultScenarioSituation = m.isDefaultScenarioSituation;
+				this._name = "Default state";
+			}
+		}
+
         /**
          * Every map is associated with the period. If no period is specified, then it is supplied latest when the first
          * state change containing period happens.
@@ -133,6 +148,172 @@ class WorldWindMap {
         this._name = name;
     }
 
+	/**
+	 * Add on click recognizer
+	 * @param callback {function} on click callback
+	 * @param property {string} property for to find via getFeatureInfo
+	 */
+	addClickRecognizer(callback, property) {
+		if (!this._clickRecognizer) {
+			this._clickRecognizer = new WorldWind.ClickRecognizer(this._wwd.canvas, this.onMapClick.bind(this, callback, property));
+		}
+		this._clickRecognizer.enabled = true;
+	};
+
+	/**
+	 * Add close button to this map
+	 */
+	addCloseButton() {
+		let closeButton = this._mapBoxSelector.find(".close-map-button");
+		if (closeButton.length === 0) {
+			let html = '<div title="Remove map" class="close-map-button" data-id="' + this._id + '"><i class="close-map-icon">&#x2715;</i></div>';
+			this._mapBoxSelector.find(".map-window-tools").append(html);
+		}
+	};
+
+	/**
+	 * Add listener for drag and drop files
+	 */
+	addDropListener(){
+		$('body').off('drop').on('drop', function(e){
+			e.preventDefault();
+			if(e.originalEvent.dataTransfer.files && e.originalEvent.dataTransfer.files.length > 0) {
+				let files = e.originalEvent.dataTransfer.files;
+				this.addFiles(files);
+			}
+
+			if(!e.originalEvent.dataTransfer.files || e.originalEvent.dataTransfer.files.length === 0) {
+				let url = e.originalEvent.dataTransfer.getData("URL");
+				this.addUrl(url);
+			}
+		}.bind(this));
+	}
+
+	addFiles(files) {
+		let reader = new FileReader();
+		let self = this;
+
+		for(let i=0;i<files.length;i++) {
+			if(files[i].type === 'application/vnd.google-earth.kml+xml') {
+				reader.onload = (function() {
+					//console.log(this.result);
+					self.addKML(this.result);
+				});
+				reader.readAsDataURL(files[i]);
+			}
+
+			if(files[i].type === 'image/tiff') {
+				reader.onload = (function() {
+					//console.log(this.result);
+					self.addGeoTiff(this.result);
+				});
+				reader.readAsDataURL(files[i]);
+			}
+
+			if(files[i].name.endsWith('.geojson')) {
+				reader.onload = (function() {
+					//console.log(this.result);
+					self.addGeoJson(this.result);
+				});
+				reader.readAsDataURL(files[i]);
+			}
+		}
+	}
+
+	addGeoJson(url) {
+		let renderableLayer = new WorldWind.RenderableLayer("GeoJSON");
+		this._wwd.addLayer(renderableLayer);
+		let geoJson = new WorldWind.GeoJSONParser(url);
+		geoJson.load(null, null, renderableLayer);
+		this._wwd.redraw();
+	}
+
+	addGeometryToPlaceLayer(geometry){
+		if (!this._placeLayer){
+			this._placeLayer = new WorldWind.RenderableLayer('place-layer');
+			this._placeLayer.metadata = {
+				group: "place-layer"
+			};
+			this._wwd.addLayer(this._placeLayer);
+		}
+		let renderables = new MultiPolygon({geometry: geometry.geometry, key: geometry.key, switchedCoordinates: true}).render();
+		this._placeLayer.addRenderables(renderables);
+		this._wwd.redraw();
+	}
+
+
+	addGeoTiff(url) {
+		let geotiffObject = new WorldWind.GeoTiffReader(url);
+		let self = this;
+
+		geotiffObject.readAsImage(function (canvas) {
+			let surfaceGeoTiff = new WorldWind.SurfaceImage(
+				geotiffObject.metadata.bbox,
+				new WorldWind.ImageSource(canvas)
+			);
+
+			let geotiffLayer = new WorldWind.RenderableLayer("GeoTiff");
+			geotiffLayer.addRenderable(surfaceGeoTiff);
+			self._wwd.addLayer(geotiffLayer);
+			self._wwd.redraw();
+		});
+	}
+
+	addKML(url) {
+		let self = this;
+		let kmlFilePromise = new WorldWind.KmlFile(url, []);
+		kmlFilePromise.then(function (kmlFile) {
+			let renderableLayer = new WorldWind.RenderableLayer("Surface Shapes");
+			renderableLayer.addRenderable(kmlFile);
+
+			self._wwd.addLayer(renderableLayer);
+			self._wwd.redraw();
+		});
+	}
+
+	/**
+	 * Add layer to map
+	 * @param layer {Layer}
+	 */
+	addLayer(layer) {
+		this._wwd.addLayer(layer);
+	};
+
+	addMapControlListeners(){
+		this._wwd.addEventListener("mousemove", this.updateNavigatorState.bind(this));
+		this._wwd.addEventListener("wheel", this.updateNavigatorState.bind(this));
+	}
+
+	/**
+	 * Add label with info about period to the map and add dataPeriod attribute of the map container (it is used for sorting)
+	 */
+	addPeriod() {
+		if (this._periodLabelSelector) {
+			this._periodLabelSelector.remove();
+		}
+		let self = this;
+		this._store.periods.byId(this._period).then(function (periods) {
+			if (periods.length === 1) {
+				self._mapBoxSelector.find(".map-period-label").remove();
+				let periodName = periods[0].name;
+				let html = '<div class="map-period-label">' + periodName + '</div>';
+				self._mapBoxSelector.attr("data-period", periodName);
+				self._mapBoxSelector.find(".map-window-tools").append(html);
+				self._periodLabelSelector = self._mapBoxSelector.find(".map-period-label")
+			}
+		});
+	};
+
+	addUrl(url) {
+		if(url.endsWith('.geojson') || url.endsWith('.json')) {
+			this.addGeoJson(url);
+		} else if(url.endsWith('.tif') || url.endsWith('.tiff')) {
+			this.addGeoTiff(url);
+		} else if(url.endsWith('.kml')) {
+			this.addKML(url);
+		}
+	}
+
 
     /**
      * It builds Web World Wind
@@ -176,6 +357,17 @@ class WorldWindMap {
         });
     }
 
+	/**
+	 * It builds an instance of Layers for this map
+	 * @returns {Layers}
+	 */
+	buildLayers(){
+		return new Layers(this._wwd, {
+			selectController: this.selectionController,
+			name: this._name
+		});
+	}
+
     buildMapWindowTools(){
         return new MapWindowTools({
             dispatcher: this._dispatcher,
@@ -191,17 +383,6 @@ class WorldWindMap {
         });
     }
 
-    /**
-     * It builds an instance of Layers for this map
-     * @returns {Layers}
-     */
-    buildLayers(){
-        return new Layers(this._wwd, {
-            selectController: this.selectionController,
-            name: this._name
-        });
-    }
-
     buildSelectionController(){
         return new SelectionController(this._wwd, {
             store: {
@@ -210,16 +391,13 @@ class WorldWindMap {
         });
     }
 
-    /**
-     * Add close button to this map
-     */
-    addCloseButton() {
-        let closeButton = this._mapBoxSelector.find(".close-map-button");
-        if (closeButton.length === 0) {
-            let html = '<div title="Remove map" class="close-map-button" data-id="' + this._id + '"><i class="close-map-icon">&#x2715;</i></div>';
-            this._mapBoxSelector.find(".map-window-tools").append(html);
-        }
-    };
+	/**
+	 * Build the World Wind Window
+	 * @returns {WorldWind.WorldWindow}
+	 */
+	buildWorldWindow() {
+		return new WorldWind.WorldWindow(this._id + "-canvas");
+	};
 
     /**
      * Change geometry in AOI Layer, if layer exists
@@ -237,32 +415,205 @@ class WorldWindMap {
         }
     }
 
-    /**
-     * Remove close button to this map
-     */
-    removeCloseButton() {
-        this._mapBoxSelector.find(".close-map-button").remove();
-    };
+	/**
+	 * Disable map on click recognizer
+	 */
+	disableClickRecognizer() {
+		if (this._clickRecognizer) {
+			this._clickRecognizer.enabled = false;
+		}
+	};
 
-    /**
-     * Add label with info about period to the map and add dataPeriod attribute of the map container (it is used for sorting)
-     */
-    addPeriod() {
-        if (this._periodLabelSelector) {
-            this._periodLabelSelector.remove();
-        }
-        let self = this;
-        this._store.periods.byId(this._period).then(function (periods) {
-            if (periods.length === 1) {
-                self._mapBoxSelector.find(".map-period-label").remove();
-                let periodName = periods[0].name;
-                let html = '<div class="map-period-label">' + periodName + '</div>';
-                self._mapBoxSelector.attr("data-period", periodName);
-                self._mapBoxSelector.find(".map-window-tools").append(html);
-                self._periodLabelSelector = self._mapBoxSelector.find(".map-period-label")
-            }
-        });
-    };
+	/**
+	 * It returns container for rendering of Web World Wind
+	 * @returns {Object} JQuery selector
+	 */
+	getContainer() {
+		return this._mapBoxSelector;
+	};
+
+	/**
+	 * Go to specific position in map
+	 * @param position {Position}
+	 */
+	goTo(position) {
+		this._wwd.navigator.lookAtLocation = position;
+		this._wwd.redraw();
+		this._wwd.redrawIfNeeded(); // TODO: Check with new releases. This isn't part of the public API and therefore might change.
+	};
+
+	/**
+	 * Handle AOI Layer. If exists
+	 */
+	handleAoiLayer(layerData){
+		if (layerData.layer){
+			this._aoiLayer = layerData.layer;
+		} else {
+			this._aoiLayer = new WorldWind.RenderableLayer('aoi-layer');
+			this._dispatcher.notify('scope#aoiLayerUpdate', this._aoiLayer);
+		}
+		this._aoiLayer.metadata = {
+			group: "aoi-layer"
+		};
+		this._wwd.addLayer(this._aoiLayer);
+		this.redraw();
+	}
+
+	/**
+	 * Handle settings for current scope
+	 */
+	handleScopeSettings(){
+		let state = this._stateStore.current();
+		if (state.aoiLayer){
+			this.handleAoiLayer(state.aoiLayer);
+		}
+	}
+
+	/**
+	 * Rebuild map
+	 */
+	rebuild() {
+		this._stateStore.removeLoadingOperation("initialLoading");
+		let state = this._stateStore.current();
+		let changes = state.changes;
+
+		if (changes.scope || changes.location || _.isEmpty(changes)){
+			this._stateStore.removeLoadingOperation("appRendering");
+		}
+
+		/**
+		 * Set location if location or scope has been changed, but dataview
+		 */
+		if ((changes.scope || changes.location) && !changes.dataview){
+			this._stateStore.addLoadingOperation("ScopeLocationChanged");
+			this._goToAnimator.setLocation();
+		}
+
+		let maps = this._mapStore.getAll();
+		if (this._id === "default-map" || maps.length === 1){
+			this._stateStore.addLoadingOperation("DefaultMap");
+			this.updateNavigatorState();
+			let periods = state.periods;
+			if (periods.length === 1 || !this._period){
+				this._period = periods[0];
+				this._dispatcher.notify('periods#initial', periods);
+			}
+			this.mapWindowTools.addMapLabel(this._period);
+			if (!state.isMapIndependentOfPeriod || state.isMapDependentOnScenario){
+				this.unselect();
+				this._dispatcher.notify('map#defaultMapUnselected');
+			}
+			if (!this._aoiLayer){
+				this.handleScopeSettings();
+			}
+		}
+
+		if (this._id === "default-map" && state.isMapDependentOnScenario){
+			this.mapWindowTools.addMapLabelWithName("Default state");
+		}
+	};
+
+	/**
+	 * Redraw the map
+	 */
+	redraw() {
+		this._wwd.redraw();
+	};
+
+	removeAllGeometriesFromPlaceLayer() {
+		let self = this;
+		if (this._placeLayer && this._placeLayer.renderables){
+			this._placeLayer.removeAllRenderables();
+			this.redraw();
+		}
+	}
+
+	/**
+	 * Remove close button to this map
+	 */
+	removeCloseButton() {
+		this._mapBoxSelector.find(".close-map-button").remove();
+	};
+
+	removeGeometryFromPlaceLayer(geometryKey) {
+		let self = this;
+		if (this._placeLayer && geometryKey){
+			let renderables = _.filter(this._placeLayer.renderables, function (rend){
+				return rend.key === geometryKey});
+			if (renderables && renderables.length){
+				renderables.forEach(function(renderable){
+					self._placeLayer.removeRenderable(renderable);
+				});
+			}
+			this.redraw();
+		}
+	}
+
+	/**
+	 * Remove layer from map
+	 * @param layer {Layer}
+	 */
+	removeLayer(layer) {
+		this._wwd.removeLayer(layer);
+	};
+
+	/**
+	 * Select map
+	 */
+	select(){
+		this._selected = true;
+		this._mapBoxSelector.addClass('selected');
+	}
+
+	/**
+	 * Get navigator state from store and set this map navigator's parameters.
+	 */
+	setNavigator() {
+		let navigatorState = this._stateStore.getNavigatorState();
+
+		if (navigatorState){
+			this._wwd.navigator.heading = navigatorState.heading;
+			this._wwd.navigator.lookAtLocation = navigatorState.lookAtLocation;
+			this._wwd.navigator.range = navigatorState.range;
+			this._wwd.navigator.roll = navigatorState.roll;
+			this._wwd.navigator.tilt = navigatorState.tilt;
+
+			this._goToAnimator.checkRange(navigatorState.range);
+			this.redraw();
+		}
+	};
+
+	/**
+	 * Set map period
+	 * @param period {number}
+	 */
+	setPeriod(period){
+		this._period = period;
+	}
+
+	/**
+	 * Set projection of current map
+	 * @param projection {string} 2D or 3D
+	 */
+	setProjection(projection){
+		if (projection === '2D'){
+			this._wwd.globe = new WorldWind.Globe2D();
+			this._wwd.globe.projection = new WorldWind.ProjectionMercator();
+		} else if (projection === '3D'){
+			this._wwd.globe = new WorldWind.Globe(new WorldWind.EarthElevationModel());
+		}
+		this.redraw();
+	}
+
+	/**
+	 * Set map range
+	 * @param range {number}
+	 */
+	setRange(range) {
+		this._wwd.navigator.range = range;
+		this.redraw();
+	};
+
 
     /**
      * Set up Web World Wind
@@ -282,170 +633,35 @@ class WorldWindMap {
         this.setNavigator();
     };
 
-    /**
-     * Build the World Wind Window
-     * @returns {WorldWind.WorldWindow}
-     */
-    buildWorldWindow() {
-        return new WorldWind.WorldWindow(this._id + "-canvas");
-    };
+	/**
+	 * Switch projection from 3D to 2D and vice versa
+	 */
+	switchProjection() {
+		let globe = null;
+		let is2D = this._wwd.globe.is2D();
+		if (is2D) {
+			globe = new WorldWind.Globe(new WorldWind.EarthElevationModel());
+		} else {
+			globe = new WorldWind.Globe2D();
+			globe.projection = new WorldWind.ProjectionMercator();
+		}
+		this._wwd.globe = globe;
+		this.redraw();
+	};
 
-    /**
-     * Rebuild map
-     */
-    rebuild() {
-        this._stateStore.removeLoadingOperation("initialLoading");
-        let state = this._stateStore.current();
-        let changes = state.changes;
-
-        if (changes.scope || changes.location || _.isEmpty(changes)){
-            this._stateStore.removeLoadingOperation("appRendering");
-        }
-
-        /**
-         * Set location if location or scope has been changed, but dataview
-         */
-        if ((changes.scope || changes.location) && !changes.dataview){
-            this._stateStore.addLoadingOperation("ScopeLocationChanged");
-            this._goToAnimator.setLocation();
-        }
-
-        let maps = this._mapStore.getAll();
-        if (this._id === "default-map" || maps.length === 1){
-            this._stateStore.addLoadingOperation("DefaultMap");
-            this.updateNavigatorState();
-            let periods = state.periods;
-            if (periods.length === 1 || !this._period){
-                this._period = periods[0];
-                this._dispatcher.notify('periods#initial', periods);
-            }
-            this.mapWindowTools.addMapLabel(this._period);
-            if (!state.isMapIndependentOfPeriod){
-                this.unselect();
-                this._dispatcher.notify('map#defaultMapUnselected');
-            }
-            if (!this._aoiLayer){
-                this.handleScopeSettings();
-            }
-        }
-    };
+	/**
+	 * Unselect map
+	 */
+	unselect(){
+		this._selected = false;
+		this._mapBoxSelector.removeClass('selected');
+	}
 
     /**
      * Update state of the navigator in MapStore. It is used for contolling of multiple maps at the same time.
      */
     updateNavigatorState() {
         this._dispatcher.notify(Actions.mapControl, this._wwd.navigator);
-    };
-
-    /**
-     * Get navigator state from store and set this map navigator's parameters.
-     */
-    setNavigator() {
-        let navigatorState = this._stateStore.getNavigatorState();
-
-        if (navigatorState){
-            this._wwd.navigator.heading = navigatorState.heading;
-            this._wwd.navigator.lookAtLocation = navigatorState.lookAtLocation;
-            this._wwd.navigator.range = navigatorState.range;
-            this._wwd.navigator.roll = navigatorState.roll;
-            this._wwd.navigator.tilt = navigatorState.tilt;
-
-            this._goToAnimator.checkRange(navigatorState.range);
-            this.redraw();
-        }
-    };
-
-    /**
-     * Unselect map
-     */
-    unselect(){
-        this._selected = false;
-        this._mapBoxSelector.removeClass('selected');
-    }
-
-    /**
-     * Set map range
-     * @param range {number}
-     */
-    setRange(range) {
-        this._wwd.navigator.range = range;
-        this.redraw();
-    };
-
-    /**
-     * Set map period
-     * @param period {number}
-     */
-    setPeriod(period){
-        this._period = period;
-    }
-
-    /**
-     * Set projection of current map
-     * @param projection {string} 2D or 3D
-     */
-    setProjection(projection){
-        if (projection === '2D'){
-            this._wwd.globe = new WorldWind.Globe2D();
-            this._wwd.globe.projection = new WorldWind.ProjectionMercator();
-        } else if (projection === '3D'){
-            this._wwd.globe = new WorldWind.Globe(new WorldWind.EarthElevationModel());
-        }
-        this.redraw();
-    }
-
-    /**
-     * It returns container for rendering of Web World Wind
-     * @returns {Object} JQuery selector
-     */
-    getContainer() {
-        return this._mapBoxSelector;
-    };
-
-    /**
-     * Redraw the map
-     */
-    redraw() {
-        this._wwd.redraw();
-    };
-
-    /**
-     * Add layer to map
-     * @param layer {Layer}
-     */
-    addLayer(layer) {
-        this._wwd.addLayer(layer);
-    };
-
-    /**
-     * Remove layer from map
-     * @param layer {Layer}
-     */
-    removeLayer(layer) {
-        this._wwd.removeLayer(layer);
-    };
-
-    addMapControlListeners(){
-        this._wwd.addEventListener("mousemove", this.updateNavigatorState.bind(this));
-        this._wwd.addEventListener("wheel", this.updateNavigatorState.bind(this));
-    }
-
-    /**
-     * Select map
-     */
-    select(){
-        this._selected = true;
-        this._mapBoxSelector.addClass('selected');
-    }
-
-    /**
-     * Go to specific position in map
-     * @param position {Position}
-     */
-    goTo(position) {
-        this._wwd.navigator.lookAtLocation = position;
-        this._wwd.redraw();
-        this._wwd.redrawIfNeeded(); // TODO: Check with new releases. This isn't part of the public API and therefore might change.
     };
 
     /**
@@ -464,201 +680,6 @@ class WorldWindMap {
         this._goToAnimator.setLocation();
         this.redraw();
     };
-
-    /**
-     * Handle AOI Layer. If exists
-     */
-    handleAoiLayer(layerData){
-        if (layerData.layer){
-            this._aoiLayer = layerData.layer;
-        } else {
-            this._aoiLayer = new WorldWind.RenderableLayer('aoi-layer');
-            this._dispatcher.notify('scope#aoiLayerUpdate', this._aoiLayer);
-        }
-        this._aoiLayer.metadata = {
-            group: "aoi-layer"
-        };
-        this._wwd.addLayer(this._aoiLayer);
-        this.redraw();
-    }
-
-    /**
-     * Handle settings for current scope
-     */
-    handleScopeSettings(){
-        let state = this._stateStore.current();
-        if (state.aoiLayer){
-            this.handleAoiLayer(state.aoiLayer);
-        }
-    }
-
-    /**
-     * Switch projection from 3D to 2D and vice versa
-     */
-    switchProjection() {
-        let globe = null;
-        let is2D = this._wwd.globe.is2D();
-        if (is2D) {
-            globe = new WorldWind.Globe(new WorldWind.EarthElevationModel());
-        } else {
-            globe = new WorldWind.Globe2D();
-            globe.projection = new WorldWind.ProjectionMercator();
-        }
-        this._wwd.globe = globe;
-        this.redraw();
-    };
-
-    /**
-     * Add on click recognizer
-     * @param callback {function} on click callback
-     * @param property {string} property for to find via getFeatureInfo
-     */
-    addClickRecognizer(callback, property) {
-        if (!this._clickRecognizer) {
-            this._clickRecognizer = new WorldWind.ClickRecognizer(this._wwd.canvas, this.onMapClick.bind(this, callback, property));
-        }
-        this._clickRecognizer.enabled = true;
-    };
-
-    /**
-     * Disable map on click recognizer
-     */
-    disableClickRecognizer() {
-        if (this._clickRecognizer) {
-            this._clickRecognizer.enabled = false;
-        }
-    };
-
-    addGeometryToPlaceLayer(geometry){
-        if (!this._placeLayer){
-            this._placeLayer = new WorldWind.RenderableLayer('place-layer');
-            this._placeLayer.metadata = {
-                group: "place-layer"
-            };
-            this._wwd.addLayer(this._placeLayer);
-        }
-        let renderables = new MultiPolygon({geometry: geometry.geometry, key: geometry.key, switchedCoordinates: true}).render();
-        this._placeLayer.addRenderables(renderables);
-        this._wwd.redraw();
-    }
-
-    removeAllGeometriesFromPlaceLayer() {
-        let self = this;
-        if (this._placeLayer && this._placeLayer.renderables){
-            this._placeLayer.removeAllRenderables();
-            this.redraw();
-        }
-    }
-
-    removeGeometryFromPlaceLayer(geometryKey) {
-        let self = this;
-        if (this._placeLayer && geometryKey){
-            let renderables = _.filter(this._placeLayer.renderables, function (rend){
-                return rend.key === geometryKey});
-            if (renderables && renderables.length){
-                renderables.forEach(function(renderable){
-                    self._placeLayer.removeRenderable(renderable);
-                });
-            }
-            this.redraw();
-        }
-    }
-
-    /**
-     * Add listener for drag and drop files
-     */
-    addDropListener(){
-        $('body').off('drop').on('drop', function(e){
-            e.preventDefault();
-            if(e.originalEvent.dataTransfer.files && e.originalEvent.dataTransfer.files.length > 0) {
-                let files = e.originalEvent.dataTransfer.files;
-                this.addFiles(files);
-            }
-
-            if(!e.originalEvent.dataTransfer.files || e.originalEvent.dataTransfer.files.length === 0) {
-                let url = e.originalEvent.dataTransfer.getData("URL");
-                this.addUrl(url);
-            }
-        }.bind(this));
-    }
-
-    addUrl(url) {
-        if(url.endsWith('.geojson') || url.endsWith('.json')) {
-            this.addGeoJson(url);
-        } else if(url.endsWith('.tif') || url.endsWith('.tiff')) {
-            this.addGeoTiff(url);
-        } else if(url.endsWith('.kml')) {
-            this.addKML(url);
-        }
-    }
-
-    addFiles(files) {
-        let reader = new FileReader();
-        let self = this;
-
-        for(let i=0;i<files.length;i++) {
-            if(files[i].type === 'application/vnd.google-earth.kml+xml') {
-                reader.onload = (function() {
-                    //console.log(this.result);
-                    self.addKML(this.result);
-                });
-                reader.readAsDataURL(files[i]);
-            }
-
-            if(files[i].type === 'image/tiff') {
-                reader.onload = (function() {
-                    //console.log(this.result);
-                    self.addGeoTiff(this.result);
-                });
-                reader.readAsDataURL(files[i]);
-            }
-
-            if(files[i].name.endsWith('.geojson')) {
-                reader.onload = (function() {
-                    //console.log(this.result);
-                    self.addGeoJson(this.result);
-                });
-                reader.readAsDataURL(files[i]);
-            }
-        }
-    }
-
-    addGeoJson(url) {
-        let renderableLayer = new WorldWind.RenderableLayer("GeoJSON");
-        this._wwd.addLayer(renderableLayer);
-        let geoJson = new WorldWind.GeoJSONParser(url);
-        geoJson.load(null, null, renderableLayer);
-        this._wwd.redraw();
-    }
-
-    addGeoTiff(url) {
-        let geotiffObject = new WorldWind.GeoTiffReader(url);
-        let self = this;
-
-        geotiffObject.readAsImage(function (canvas) {
-            let surfaceGeoTiff = new WorldWind.SurfaceImage(
-                geotiffObject.metadata.bbox,
-                new WorldWind.ImageSource(canvas)
-            );
-
-            let geotiffLayer = new WorldWind.RenderableLayer("GeoTiff");
-            geotiffLayer.addRenderable(surfaceGeoTiff);
-            self._wwd.addLayer(geotiffLayer);
-            self._wwd.redraw();
-        });
-    }
-
-    addKML(url) {
-        let self = this;
-        let kmlFilePromise = new WorldWind.KmlFile(url, []);
-        kmlFilePromise.then(function (kmlFile) {
-            let renderableLayer = new WorldWind.RenderableLayer("Surface Shapes");
-            renderableLayer.addRenderable(kmlFile);
-
-            self._wwd.addLayer(renderableLayer);
-            self._wwd.redraw();
-        });
-    }
 
     /**
      * Execute on map click. Find out a location of click target in lat, lon. And execute getFeatureInfo query for this location.

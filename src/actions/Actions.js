@@ -1,8 +1,10 @@
 export default {
     adjustConfiguration: 'fo#adjustConfiguration',
     adjustConfigurationFromDataview: 'fo#adjustConfigurationFromDataview',
+	foAllowMapAdding: 'fo#allowMapAdding',
     foMapIsIndependentOfPeriod: 'fo#mapIsIndependentOfPeriod',
     foMapIsDependentOnPeriod: 'fo#mapIsDependentOnPeriod',
+	foMapIsDependentOnScenario: 'fo#mapIsDependentOnScenario',
 
     customizationUserChanged: 'customization#userChanged',
 
@@ -48,9 +50,11 @@ export default {
     periodsDefault: 'periods#default',
     periodsRebuild: 'periods#rebuild',
 
-    scopeActiveChanged: 'scope#activeScopeChanged',
-    scopeAoiLayer: 'scope#aoiLayer',
-    scopeAoiLayerUpdate: 'scope#aoiLayerUpdate',
+		scenarioAddDefaultSituationMap: "scenario#addDefaultSituationMap",
+
+		scopeActiveChanged: 'scope#activeScopeChanged',
+		scopeAoiLayer: 'scope#aoiLayer',
+		scopeAoiLayerUpdate: 'scope#aoiLayerUpdate',
 
     selectionSelected: 'selection#selected',
     selectionClearAll: 'selection#clearAll',
