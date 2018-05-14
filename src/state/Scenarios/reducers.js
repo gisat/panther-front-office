@@ -18,18 +18,18 @@ const INITIAL_STATE = {
 	activeKeys: null,
 	defaultSituationActive: true,
 	data: [
-		{key: 1, name: "Scenario 1", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis."},
-		{key: 2, name: "Scenario 2"},
-		{key: 3, name: "Scenario 3"},
-		{key: 4, name: "Scenario 4", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis."},
-		{key: 5, name: "Scenario 5"},
-		{key: 6, name: "Scenario 6"}
+		{key: 9999991, name: "Scenario 1", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis."},
+		{key: 9999992, name: "Scenario 2"},
+		{key: 9999993, name: "Scenario 3"},
+		{key: 9999994, name: "Scenario 4", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis."},
+		{key: 9999995, name: "Scenario 5"},
+		{key: 9999996, name: "Scenario 6"}
 	],
 	loading: false,
 	cases: {
 		activeKey: null,
 		data: [
-			{key: 1, name: "Prague", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis.", scenarios: [1,2,3], geometry: {
+			{key: 9999991, name: "Prague", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis.", scenarios: [9999991,9999992,9999993], geometry: {
 					"type": "Polygon",
 					"coordinates":
 						[[
@@ -56,7 +56,7 @@ const INITIAL_STATE = {
 						]
 					]
 				}},
-			{key: 2, name: "Letenská pláň (without desc)", scenarios: [4,5], geometry: {
+			{key: 9999992, name: "Letenská pláň (without desc)", scenarios: [9999994,9999995], geometry: {
 					"type": "Polygon",
 					"coordinates": [
 						[
@@ -83,9 +83,9 @@ const INITIAL_STATE = {
 						]
 					]
 				}},
-			{key: 3, name: "Without location", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis.", scenarios: [6]},
-			{key: 4, name: "Without scenario", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis."},
-			{key: 5, name: "Added after dataview was created"}
+			{key: 9999993, name: "Without location", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis.", scenarios: [9999996]},
+			{key: 9999994, name: "Without scenario", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis."},
+			{key: 9999995, name: "Added after dataview was created"}
 		],
 		loading: false
 	}
