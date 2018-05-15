@@ -150,8 +150,16 @@ function requestCasesError(state, action) {
 }
 
 function receiveCases(state, action) {
-	// save user data
-	let data = (state.cases.data && state.cases.data.length) ? [...state.cases.data, ...action.data] : [...action.data];
+	let data;
+	if (state.cases.data && state.cases.data.length) {
+		// remove old versions of received models
+		let oldData = _.reject(state.cases.data, model => {
+			return _.find(action.data, {key: model.key});
+		});
+		data = [...oldData, ...action.data];
+	} else {
+		data = [...action.data];
+	}
 	return {...state, cases: {...state.cases, loading: false, data: data}};
 }
 
