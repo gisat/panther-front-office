@@ -172,6 +172,7 @@ class BackgroundLayersPanel extends WorldWindWidgetPanel {
      */
     toggleLayers() {
         let self = this;
+        let activeBackgroundLayer = null;
         setTimeout(function () {
             self._mapStore.getAll().map(map => {
                self.layerControls.map(layerControl => {
@@ -183,11 +184,13 @@ class BackgroundLayersPanel extends WorldWindWidgetPanel {
 						   map.layers.addBackgroundLayer(dataId, self._id);
 					   }
 					   map.layers.showBackgroundLayer(dataId);
+					   activeBackgroundLayer = dataId;
                    } else {
 					   map.layers.hideBackgroundLayer(dataId);
                    }
                });
                map._wwd.redraw();
+               self._dispatcher.notify('backgroundLayer#setActive', {key: activeBackgroundLayer});
             });
         }, 50);
     };

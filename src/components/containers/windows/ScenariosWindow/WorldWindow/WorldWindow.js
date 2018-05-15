@@ -5,6 +5,7 @@ import WorldWindow from "../../../../presentation/windows/ScenariosWindow/WorldW
 
 const mapStateToProps = (state, ownProps) => {
 	return {
+		activeBackgroundLayerKey: Select.maps.getActiveBackgroundLayerKey(state)
 	}
 };
 

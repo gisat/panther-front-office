@@ -31,9 +31,10 @@ class Layers {
          * It handles selection in the map based on the user interactions.
          * @type {SelectionController}
          */
-        this.controller = options.selectController;
-
-        this.name = options.name;
+        if (options){
+			this.controller = options.selectController;
+			this.name = options.name;
+        }
 
         this.addBaseLayer();
     };
@@ -201,7 +202,9 @@ class Layers {
      */
     showBackgroundLayer(id) {
         let layer = this.getLayerById(id);
-        layer.enabled = true;
+		if (layer){
+			layer.enabled = true;
+		}
     };
 
     /**

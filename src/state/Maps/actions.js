@@ -209,6 +209,17 @@ function clearWmsLayersOfAllMaps(){
 	}
 }
 
+function setActiveBackgroundLayer(key){
+	return (dispatch, getState) => {
+		let state = Select.maps.getMapDefaults(getState());
+		if (state && state.activeBackgroundLayerKey !== key){
+			dispatch(updateDefaults({
+				activeBackgroundLayerKey: key
+			}));
+		}
+	}
+}
+
 // ============ actions ===========
 
 function actionAdd(maps) {
@@ -277,6 +288,7 @@ export default {
 	selectLayerPeriod: selectLayerPeriod,
 	selectWmsLayer: selectWmsLayer,
 	setActive: setActive,
+	setActiveBackgroundLayer: setActiveBackgroundLayer,
 	update: update,
 	updateDefaults: updateDefaults
 }
