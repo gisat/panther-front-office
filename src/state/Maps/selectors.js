@@ -22,7 +22,19 @@ const getActiveMap = createSelector(
 	}
 );
 
+const getActiveBackgroundLayerKey = createSelector(
+	[getMapDefaults],
+	defaults => {
+		if (defaults && defaults.activeBackgroundLayerKey){
+			return defaults.activeBackgroundLayerKey
+		} else {
+			return null;
+		}
+	}
+);
+
 export default {
+	getActiveBackgroundLayerKey: getActiveBackgroundLayerKey,
 	getActiveMapKey: getActiveMapKey,
 	getActiveMap: getActiveMap,
 	getMaps: getMaps,

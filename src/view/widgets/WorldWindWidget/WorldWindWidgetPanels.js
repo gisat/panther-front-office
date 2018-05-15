@@ -108,7 +108,8 @@ class WorldWindWidgetPanels {
             store: {
                 map: this._store.map,
                 state: this._store.state
-            }
+            },
+            dispatcher: this._dispatcher
         });
     };
 

@@ -4,14 +4,21 @@ import mapUtils from '../../../../../utils/map';
 import _ from 'lodash';
 import WorldWind from '@nasaworldwind/worldwind';
 
+import Layers from '../../../../../view/worldWind/layers/Layers';
+
 import './WorldWindow.css';
 
 class WorldWindow extends React.PureComponent {
 
 	static propTypes = {
+		activeBackgroundLayerKey: PropTypes.string,
 		bbox: PropTypes.string,
 		caseGeometry: PropTypes.object,
 		zoomToGeometry: PropTypes.bool
+	};
+
+	static defaultProps = {
+		activeBackgroundLayerKey: null,
 	};
 
 	constructor(props){
@@ -21,10 +28,14 @@ class WorldWindow extends React.PureComponent {
 
 	componentDidMount(){
 		this.wwd = new WorldWind.WorldWindow(this.canvasId);
-		let backgroundLayer = new WorldWind.BingAerialWithLabelsLayer(null);
-		this.aoiLayer = new WorldWind.RenderableLayer("aoi-layer");
 
-		this.wwd.addLayer(backgroundLayer);
+		// TODO remove dependency on obsolete code
+		this.layersControl = new Layers(this.wwd);
+		if (this.props.activeBackgroundLayerKey){
+			this.changeBackgroundLayer(this.props.activeBackgroundLayerKey);
+		}
+
+		this.aoiLayer = new WorldWind.RenderableLayer("aoi-layer");
 		this.wwd.addLayer(this.aoiLayer);
 
 		if (this.props.zoomToGeometry){
@@ -40,13 +51,24 @@ class WorldWindow extends React.PureComponent {
 		this._clickRecognizer.maxClickInterval = 3000;
 	}
 
-	componentWillReceiveProps(nextProps){
-		this.aoiLayer.removeAllRenderables();
-
-		if (nextProps.caseGeometry){
-			this.drawGeometry(nextProps.caseGeometry);
+	componentWillReceiveProps(nextProps, prevProps){
+		if (_.isEmpty(prevProps) || (nextProps.activeBackgroundLayerKey !== prevProps.activeBackgroundLayerKey)){
+			this.changeBackgroundLayer(nextProps.activeBackgroundLayerKey);
 		}
-		this.zoomToGeometry(nextProps);
+
+		if (nextProps.bbox || nextProps.caseGeometry){
+			this.aoiLayer.removeAllRenderables();
+			if (nextProps.caseGeometry){
+				this.drawGeometry(nextProps.caseGeometry);
+			}
+			this.zoomToGeometry(nextProps);
+		}
+	}
+
+	changeBackgroundLayer(key){
+		this.layersControl.removeAllLayersFromGroup('background-layers');
+		this.layersControl.addBackgroundLayer(key, 'background-layers');
+		this.wwd.redraw();
 	}
 
 	/**
