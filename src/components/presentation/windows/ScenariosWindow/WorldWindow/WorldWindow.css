@@ -3,7 +3,7 @@
 	height: 15rem;
 	max-width: 40rem;
 	position: relative;
-	background: black;
+	border: 1px solid #888;
 }
 
 .world-wind-canvas {

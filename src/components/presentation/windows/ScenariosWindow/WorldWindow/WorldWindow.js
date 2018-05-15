@@ -5,6 +5,7 @@ import _ from 'lodash';
 import WorldWind from '@nasaworldwind/worldwind';
 
 import Layers from '../../../../../view/worldWind/layers/Layers';
+import Controls from '../../../../../view/worldWind/controls/Controls';
 
 import './WorldWindow.css';
 
@@ -28,6 +29,12 @@ class WorldWindow extends React.PureComponent {
 
 	componentDidMount(){
 		this.wwd = new WorldWind.WorldWindow(this.canvasId);
+		this.mapControls = new Controls({
+			worldWindow: this.wwd,
+			mapContainerClass: "world-wind-globe",
+			type: "basic",
+			classes: "small"
+		});
 
 		// TODO remove dependency on obsolete code
 		this.layersControl = new Layers(this.wwd);
