@@ -24,7 +24,7 @@ class MyOsmLayer extends OsmLayer {
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MyOsmLayer", "constructor", "missingSource"));
         }
 
-        this.tileCache = Cache;
+        // this.tileCache = Cache;
 
         this._source = options.source;
         this._attribution = options.attribution;
