@@ -148,12 +148,14 @@ class CaseDetail extends React.PureComponent {
 						value={name}
 						placeholder="Case title"
 						onChange={caseData ? this.onChangeName.bind(this, caseData.key) : undefined}
+						editing={this.state.caseEditingActive}
 					/>
 					<EditableText
 						disabled={!this.state.caseEditingActive}
 						value={description}
 						placeholder="Description"
 						onChange={caseData ? this.onChangeDescription.bind(this, caseData.key) : undefined}
+						editing={this.state.caseEditingActive}
 					/>
 					{map}
 				</div>

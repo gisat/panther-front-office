@@ -245,8 +245,8 @@ function loadCases(ttl) {
 
 function loadCasesReceive(data) {
 	return dispatch => {
-		data = _.map(data, ({id, ...model}) => {
-			return {...model, key: id};
+		data = _.map(data, ({id, geometry, ...model}) => {
+			return {...model, key: id, geometry: JSON.parse(geometry)};
 		});
 		dispatch(actionLoadCasesReceive(data));
 	};
