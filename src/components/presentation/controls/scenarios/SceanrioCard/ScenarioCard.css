@@ -9,14 +9,11 @@
 }
 .scenario-card-header {
 	display: flex;
+	justify-content: space-between;
 	align-items: center;
 	transition: background .3s ease-in-out;
 }
-.scenario-card-header.editing-inactive:hover {
-	background: rgba(225,227,229,1);
-}
 .scenario-card-header > label {
-	flex: 1 1;
 	display: flex;
 }
 .scenario-card-header-checkbox {
