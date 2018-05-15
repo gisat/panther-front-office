@@ -9,6 +9,7 @@ import _ from 'lodash';
 //	cases: {
 //		activeKey: null,
 //		data: null,
+//		editedData: null,
 //		loading: false
 //	}
 //};
@@ -30,63 +31,64 @@ const INITIAL_STATE = {
 		activeKey: null,
 		data: [
 			{key: 9999991, name: "Prague", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis.", scenarios: [9999991,9999992,9999993], geometry: {
-					"type": "Polygon",
-					"coordinates":
-						[[
-							[
-								14.23004150390625,
-								50.0536119068041
-							],
-							[
-								14.23004150390625,
-								50.11793646935709
-							],
-							[
-								14.418182373046873,
-								50.11793646935709
-							],
-							[
-								14.418182373046873,
-								50.0536119068041
-							],
-							[
-								14.23004150390625,
-								50.0536119068041
-							]
-						]
-					]
-				}},
-			{key: 9999992, name: "Letenská pláň (without desc)", scenarios: [9999994,9999995], geometry: {
-					"type": "Polygon",
-					"coordinates": [
+				"type": "Polygon",
+				"coordinates":
+					[[
 						[
-							[
-								14.405908584594727,
-								50.09217295121259
-							],
-							[
-								14.405908584594727,
-								50.09905558914327
-							],
-							[
-								14.4305419921875,
-								50.09905558914327
-							],
-							[
-								14.4305419921875,
-								50.09217295121259
-							],
-							[
-								14.405908584594727,
-								50.09217295121259
-							]
+							14.23004150390625,
+							50.0536119068041
+						],
+						[
+							14.23004150390625,
+							50.11793646935709
+						],
+						[
+							14.418182373046873,
+							50.11793646935709
+						],
+						[
+							14.418182373046873,
+							50.0536119068041
+						],
+						[
+							14.23004150390625,
+							50.0536119068041
 						]
 					]
-				}},
+					]
+			}},
+			{key: 9999992, name: "Letenská pláň (without desc)", scenarios: [9999994,9999995], geometry: {
+				"type": "Polygon",
+				"coordinates": [
+					[
+						[
+							14.405908584594727,
+							50.09217295121259
+						],
+						[
+							14.405908584594727,
+							50.09905558914327
+						],
+						[
+							14.4305419921875,
+							50.09905558914327
+						],
+						[
+							14.4305419921875,
+							50.09217295121259
+						],
+						[
+							14.405908584594727,
+							50.09217295121259
+						]
+					]
+				]
+			}},
 			{key: 9999993, name: "Without location", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis.", scenarios: [9999996]},
 			{key: 9999994, name: "Without scenario", description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Proin in tellus sit amet nibh dignissim sagittis."},
 			{key: 9999995, name: "Added after dataview was created"}
 		],
+		editedData: null,
 		loading: false
 	}
 };
@@ -163,6 +165,25 @@ function receiveCases(state, action) {
 	return {...state, cases: {...state.cases, loading: false, data: data}};
 }
 
+function updateEditedCases(state, action) {
+	let data;
+	if (state.cases.editedData && state.cases.editedData.length) {
+		// update old versions of received models
+		let oldData = _.map(state.cases.editedData, model => {
+			let update = _.find(action.data, {key: model.key});
+			if (update) {
+				return {...model, data: {...model.data, ...update.data}};
+			} else {
+				return model;
+			}
+		});
+		data = [...oldData, ...action.data];
+	} else {
+		data = [...action.data];
+	}
+	return {...state, cases: {...state.cases, editedData: data}};
+}
+
 function update(state, action){
 	return {...state, ...action.data}
 }
@@ -185,6 +206,8 @@ export default (state = INITIAL_STATE, action) => {
 			return update(state, action);
 		case ActionTypes.SCENARIOS_CASES_RECEIVE:
 			return receiveCases(state, action);
+		case ActionTypes.SCENARIOS_CASES_EDITED_UPDATE:
+			return updateEditedCases(state, action);
 		default:
 			return state;
 	}

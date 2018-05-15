@@ -6,6 +6,7 @@ import CaseDetail from "../../../../presentation/controls/scenarios/CaseDetail/C
 const mapStateToProps = (state, ownProps) => {
 	return {
 		case: Select.scenarios.getActiveCase(state),
+		caseEdited: Select.scenarios.getActiveCaseEdited(state),
 		place: Select.places.getActive(state),
 		scenarios: Select.scenarios.getActiveCaseScenarios(state),
 		activeScenarioKeys: Select.scenarios.getActiveKeys(state),
@@ -25,6 +26,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 					dispatch(Action.scenarios.removeActiveScenario(key));
 				}
 			}
+		},
+		updateEditedCase: (key, value) => {
+			let dataUpdate = {
+				[key]: value
+			};
+			dispatch(Action.scenarios.updateEditedActiveCase(dataUpdate))
 		}
 	}
 };

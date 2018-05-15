@@ -47,6 +47,13 @@ class CaseDetail extends React.PureComponent {
 
 	componentWillReceiveProps(nextProps){
 		let caseEditing = false;
+		let sameCase = nextProps.case && (this.props.case && this.props.case.key === nextProps.case.key);
+
+		if (sameCase) {
+			caseEditing = this.state.caseEditingActive;
+		} else if (!nextProps.case){
+			caseEditing = true;
+		}
 
 		/**
 		 * Turn on Default state, if there is no scenario in the Case
@@ -54,10 +61,6 @@ class CaseDetail extends React.PureComponent {
 		if (!nextProps.scenarios && !nextProps.isDefaultSituationActive){
 			nextProps.handleScenarioClick(null, true, true);
 			return;
-		}
-
-		if (!nextProps.case){
-			caseEditing = true;
 		}
 
 		this.setState({
@@ -104,9 +107,10 @@ class CaseDetail extends React.PureComponent {
 	}
 
 	onChangeName(caseKey, value) {
-		this.setState({
-			name: value
-		});
+		//this.setState({
+		//	name: value
+		//});
+		this.props.updateEditedCase('name', value);
 	}
 
 	onChangeDescription(caseKey, value) {
@@ -124,7 +128,8 @@ class CaseDetail extends React.PureComponent {
 		let defaultState = null;
 
 		if (caseData){
-			name = this.state.hasOwnProperty('name') ? this.state.name : caseData.name;
+			//name = this.state.hasOwnProperty('name') ? this.state.name : caseData.name;
+			name = this.props.caseEdited && this.props.caseEdited.data.hasOwnProperty('name') ? this.props.caseEdited.data.name : caseData.name;
 			description = this.state.hasOwnProperty('description') ? this.state.description : caseData.description;
 		}
 

@@ -24,6 +24,13 @@ function setActive(key) {
 	};
 }
 
+function updateEditedActiveCase(dataUpdate) {
+	return (dispatch, getState) => {
+		let activeCaseKey = Select.scenarios.getActiveCaseKey(getState());
+		dispatch(actionUpdateEditedCases([{key: activeCaseKey, data: dataUpdate}]));
+	};
+}
+
 function setActiveCase(key) {
 	return (dispatch, getState) => {
 		let previousCase = Select.scenarios.getActiveCaseKey(getState());
@@ -336,6 +343,13 @@ function actionLoadCasesError(error) {
 	}
 }
 
+function actionUpdateEditedCases(data) {
+	return {
+		type: ActionTypes.SCENARIOS_CASES_EDITED_UPDATE,
+		data: data
+	}
+}
+
 // ============ export ===========
 
 export default {
@@ -348,6 +362,7 @@ export default {
 	setDefaultSituationActive: setDefaultSituationActive,
 	update: update,
 	load: load,
-	loadCases: loadCases
+	loadCases: loadCases,
+	updateEditedActiveCase: updateEditedActiveCase
 }
 
