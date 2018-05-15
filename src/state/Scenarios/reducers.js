@@ -169,7 +169,7 @@ function updateEditedCases(state, action) {
 	let data;
 	if (state.cases.editedData && state.cases.editedData.length) {
 		// update old versions of received models
-		let oldData = _.map(state.cases.editedData, model => {
+		let oldCases = _.map(state.cases.editedData, model => {
 			let update = _.find(action.data, {key: model.key});
 			if (update) {
 				return {...model, data: {...model.data, ...update.data}};
@@ -177,11 +177,21 @@ function updateEditedCases(state, action) {
 				return model;
 			}
 		});
-		data = [...oldData, ...action.data];
+		// clear updated old cases from new
+		let newCases = _.reject(action.data, update => {
+			return _.find(oldCases, {key: update.key});
+		});
+		data = [...oldCases, ...newCases];
 	} else {
 		data = [...action.data];
 	}
 	return {...state, cases: {...state.cases, editedData: data}};
+}
+
+function removeEditedCases(state, action) {
+	return {...state, cases: {...state.cases, editedData: _.reject(state.cases.editedData, editedCase => {
+		return _.includes(action.keys, editedCase.key);
+	})}};
 }
 
 function update(state, action){
@@ -208,6 +218,8 @@ export default (state = INITIAL_STATE, action) => {
 			return receiveCases(state, action);
 		case ActionTypes.SCENARIOS_CASES_EDITED_UPDATE:
 			return updateEditedCases(state, action);
+		case ActionTypes.SCENARIOS_CASES_EDITED_REMOVE:
+			return removeEditedCases(state, action);
 		default:
 			return state;
 	}

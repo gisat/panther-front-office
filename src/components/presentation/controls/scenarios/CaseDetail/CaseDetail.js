@@ -43,6 +43,8 @@ class CaseDetail extends React.PureComponent {
 		this.revertEditing = this.revertEditing.bind(this);
 		this.save = this.save.bind(this);
 		this.activateCaseEditing = this.activateCaseEditing.bind(this);
+		this.onChangeDescription = this.onChangeDescription.bind(this);
+		this.onChangeName = this.onChangeName.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps){
