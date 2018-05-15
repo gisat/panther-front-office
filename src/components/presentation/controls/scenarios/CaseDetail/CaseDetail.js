@@ -84,7 +84,7 @@ class CaseDetail extends React.PureComponent {
 		this.setState({
 			caseEditingActive: false
 		});
-		//this.props.revertCase(); //todo
+		this.props.revertCase();
 	}
 
 	addScenario(){
@@ -106,17 +106,16 @@ class CaseDetail extends React.PureComponent {
 		}
 	}
 
-	onChangeName(caseKey, value) {
-		//this.setState({
-		//	name: value
-		//});
-		this.props.updateEditedCase('name', value);
+	onChangeName(value) {
+		if (this.props.case) {
+			this.props.updateEditedCase('name', value);
+		}
 	}
 
-	onChangeDescription(caseKey, value) {
-		this.setState({
-			description: value
-		});
+	onChangeDescription(value) {
+		if (this.props.case) {
+			this.props.updateEditedCase('description', value);
+		}
 	}
 
 	render() {
@@ -128,9 +127,8 @@ class CaseDetail extends React.PureComponent {
 		let defaultState = null;
 
 		if (caseData){
-			//name = this.state.hasOwnProperty('name') ? this.state.name : caseData.name;
 			name = this.props.caseEdited && this.props.caseEdited.data.hasOwnProperty('name') ? this.props.caseEdited.data.name : caseData.name;
-			description = this.state.hasOwnProperty('description') ? this.state.description : caseData.description;
+			description = this.props.caseEdited && this.props.caseEdited.data.hasOwnProperty('description') ? this.props.caseEdited.data.description : caseData.description;
 		}
 
 		if (scenariosData){
@@ -164,14 +162,14 @@ class CaseDetail extends React.PureComponent {
 						large
 						value={name}
 						placeholder="Case title"
-						onChange={caseData ? this.onChangeName.bind(this, caseData.key) : undefined}
+						onChange={caseData ? this.onChangeName : undefined}
 						editing={this.state.caseEditingActive}
 					/>
 					<EditableText
 						disabled={!this.state.caseEditingActive}
 						value={description}
 						placeholder="Description"
-						onChange={caseData ? this.onChangeDescription.bind(this, caseData.key) : undefined}
+						onChange={caseData ? this.onChangeDescription : undefined}
 						editing={this.state.caseEditingActive}
 					/>
 					{this.state.caseEditingActive ? this.renderMap() : null}
