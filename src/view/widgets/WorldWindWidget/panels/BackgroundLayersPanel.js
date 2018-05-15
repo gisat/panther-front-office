@@ -173,22 +173,21 @@ class BackgroundLayersPanel extends WorldWindWidgetPanel {
     toggleLayers() {
         let self = this;
         setTimeout(function () {
-            self.layerControls.forEach(function (item, index) {
-                let radio = item.control.getRadiobox();
-                let dataId = radio.attr("data-id");
-                if (radio.hasClass("checked")) {
-                    self._mapStore.getAll().forEach(function (map) {
-                        let layer = map.layers.getLayerById(dataId);
-                        if (!layer){
-							map.layers.addBackgroundLayer(dataId, self._id);
-                        }
-                        map.layers.showBackgroundLayer(dataId);
-                    });
-                } else {
-                    self._mapStore.getAll().forEach(function (map) {
-                        map.layers.hideBackgroundLayer(dataId);
-                    });
-                }
+            self._mapStore.getAll().map(map => {
+               self.layerControls.map(layerControl => {
+				   let radio = layerControl.control.getRadiobox();
+				   let dataId = radio.attr("data-id");
+				   if (radio.hasClass("checked")) {
+					   let layer = map.layers.getLayerById(dataId);
+					   if (!layer){
+						   map.layers.addBackgroundLayer(dataId, self._id);
+					   }
+					   map.layers.showBackgroundLayer(dataId);
+                   } else {
+					   map.layers.hideBackgroundLayer(dataId);
+                   }
+               });
+               map._wwd.redraw();
             });
         }, 50);
     };

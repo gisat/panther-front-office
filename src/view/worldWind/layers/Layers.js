@@ -5,6 +5,7 @@ import WorldWind from '@nasaworldwind/worldwind';
 import ArgumentError from '../../../error/ArgumentError';
 import Logger from '../../../util/Logger';
 import MyOsmLayer from '../../../worldwind/layers/MyOsmLayer';
+import MyOsmCartoLayer from '../../../worldwind/layers/MyOsmCartoLayer';
 import MyWmsLayer from '../../../worldwind/layers/MyWmsLayer';
 import MercatorLayer from '../../../worldwind/layers/MercatorLayer';
 
@@ -201,7 +202,6 @@ class Layers {
     showBackgroundLayer(id) {
         let layer = this.getLayerById(id);
         layer.enabled = true;
-        this._wwd.redraw();
     };
 
     /**
@@ -209,11 +209,10 @@ class Layers {
      * @param id {string}
      */
     hideBackgroundLayer(id) {
-        var layer = this.getLayerById(id);
+        let layer = this.getLayerById(id);
         if(layer) {
             layer.enabled = false;
         }
-        this._wwd.redraw();
     };
 
     /**
@@ -237,7 +236,7 @@ class Layers {
                 });
                 break;
             case "cartoDb":
-                layer = new MyOsmLayer({
+                layer = new MyOsmCartoLayer({
                     attribution: "\u00A9 Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL",
                     source: "http://a.basemaps.cartocdn.com/light_all/"
                 });
