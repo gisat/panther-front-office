@@ -40,6 +40,9 @@ class CaseDetail extends React.PureComponent {
 
 		this.addScenario = this.addScenario.bind(this);
 		this.activateCaseEditing = this.activateCaseEditing.bind(this);
+		this.revertEditing = this.revertEditing.bind(this);
+		this.save = this.save.bind(this);
+		this.activateCaseEditing = this.activateCaseEditing.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -64,10 +67,21 @@ class CaseDetail extends React.PureComponent {
 		});
 	}
 
-	activateCaseEditing(){
+	activateCaseEditing() {
 		this.setState({
 			caseEditingActive: true
 		});
+	}
+
+	save() {
+		//this.props.save();
+	}
+
+	revertEditing() {
+		this.setState({
+			caseEditingActive: false
+		});
+		//this.props.revertCase(); //todo
 	}
 
 	addScenario(){
@@ -124,8 +138,6 @@ class CaseDetail extends React.PureComponent {
 			scenarios = this.renderScenario();
 		}
 
-		let map = this.renderMap();
-
 		return (
 			<div className="case-detail-wrap">
 				<div className="case-detail-header">
@@ -157,7 +169,8 @@ class CaseDetail extends React.PureComponent {
 						onChange={caseData ? this.onChangeDescription.bind(this, caseData.key) : undefined}
 						editing={this.state.caseEditingActive}
 					/>
-					{map}
+					{this.state.caseEditingActive ? this.renderMap() : null}
+					{this.state.caseEditingActive ? this.renderButtons() : null}
 				</div>
 				<div className="case-detail-body">
 					{defaultState}
@@ -187,17 +200,25 @@ class CaseDetail extends React.PureComponent {
 			}
 		}
 
-		if (this.state.caseEditingActive){
-			return (
+		return (
+			<div className="ptr-case-detail-map">
+				<div>Extent:</div>
 				<WorldWindow
 					bbox={caseBbox}
 					caseGeometry={caseGeometry}
 					zoomToGeometry
 				/>
-			);
-		} else {
-			return false;
-		}
+			</div>
+		);
+	}
+
+	renderButtons() {
+		return (
+			<div className="ptr-case-detail-buttons">
+				<Button onClick={this.save} primary>Save</Button>
+				<Button onClick={this.revertEditing}>Revert</Button>
+			</div>
+		);
 	}
 
 	renderScenario(data){

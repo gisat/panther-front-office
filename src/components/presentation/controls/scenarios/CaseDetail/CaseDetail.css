@@ -17,3 +17,14 @@
 .case-detail-body {
 	padding: .7rem;
 }
+.ptr-case-detail-map > div:first-child {
+	font-size: .875rem;
+	line-height: 1rem;
+	margin: .65rem 0 .35rem 0;
+}
+.ptr-case-detail-buttons {
+	margin: .5rem 0;
+}
+.ptr-case-detail-buttons > .ptr-button {
+	margin: 0 .5rem 0 0;
+}
