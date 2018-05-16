@@ -74,6 +74,7 @@ export default {
 	getAll: getAll,
 	getCases: getCases,
 	getCasesAll: getCasesAll,
+	getCasesEdited: getCasesEdited,
 	getScenarioEdited: getScenarioEdited,
 	isDefaultSituationActive: isDefaultSituationActive
 };

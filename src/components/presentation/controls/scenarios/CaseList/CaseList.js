@@ -28,7 +28,10 @@ class CaseList extends React.PureComponent {
 	}
 
 	render() {
-		let cases = this.props.cases.map((caseData) => {
+		let cases = [...this.props.cases, ..._.reject(this.props.casesEdited, model => {
+			return _.find(this.props.cases, {key: model.key});
+		})]; //todo move to selector?
+		let casesInsert = cases.map((caseData) => {
 			let scenariosCount = 0;
 			if (caseData.scenarios){
 				scenariosCount = caseData.scenarios.length;
@@ -57,7 +60,7 @@ class CaseList extends React.PureComponent {
 
 		return (
 			<div className='case-list-wrap'>
-				<div className='case-list-container'>{cases}</div>
+				<div className='case-list-container'>{casesInsert}</div>
 				{addCaseBtn}
 			</div>
 		);
