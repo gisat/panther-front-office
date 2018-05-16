@@ -103,13 +103,8 @@ class ScenarioCard extends React.PureComponent {
 			'editing-inactive': !this.state.editing
 		});
 
-		let name = "";
-		let description = "";
-
-
-		name = this.props.scenarioEdited && this.props.scenarioEdited.data.hasOwnProperty('name') ? this.props.scenarioEdited.data.name : this.props.name;
-		description = this.props.scenarioEdited && this.props.scenarioEdited.data.hasOwnProperty('description') ? this.props.scenarioEdited.data.description : this.props.description;
-
+		let name = this.props.scenarioEdited && this.props.scenarioEdited.data.hasOwnProperty('name') ? this.props.scenarioEdited.data.name : this.props.name;
+		let description = this.props.scenarioEdited && this.props.scenarioEdited.data.hasOwnProperty('description') ? this.props.scenarioEdited.data.description : this.props.description;
 
 		let header = (
 			<div className={headerClasses}>
@@ -148,7 +143,7 @@ class ScenarioCard extends React.PureComponent {
 			</div>
 		);
 
-		let body = !this.props.defaultSituation ? (
+		let body = (!this.props.defaultSituation && (this.state.editing || (description && description.length > 0))) ? (
 			<div className="scenario-card-body">
 				<EditableText
 					disabled={!this.state.editing || this.props.disableEditing}

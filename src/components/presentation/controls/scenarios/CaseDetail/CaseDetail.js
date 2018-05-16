@@ -150,22 +150,22 @@ class CaseDetail extends React.PureComponent {
 			scenarios = this.renderScenario();
 		}
 
-		return (
-			<div className="case-detail-wrap">
-				<div className="case-detail-header">
-					<div className="case-detail-header-buttons">
-						<div>
-							<Button icon="arrow-left" invisible circular onClick={this.props.changeActiveScreen.bind(null, 'caseList')} />
-						</div>
-						<div>
-							<Button icon="dots" invisible>
-								<Menu bottom left>
-									<MenuItem onClick={this.activateCaseEditing}><Icon icon="edit"/> Edit</MenuItem>
-									<MenuItem><Icon icon="remove" /> Delete</MenuItem>
-								</Menu>
-							</Button>
-						</div>
+		let header = (
+			<div className="case-detail-header">
+				<div className="case-detail-header-buttons">
+					<div>
+						<Button icon="arrow-left" invisible circular onClick={this.props.changeActiveScreen.bind(null, 'caseList')} />
 					</div>
+					<div>
+						<Button icon="dots" invisible>
+							<Menu bottom left>
+								<MenuItem onClick={this.activateCaseEditing}><Icon icon="edit"/> Edit</MenuItem>
+								<MenuItem><Icon icon="remove" /> Delete</MenuItem>
+							</Menu>
+						</Button>
+					</div>
+				</div>
+				{(this.state.caseEditingActive || name) ? (
 					<EditableText
 						disabled={!this.state.caseEditingActive}
 						large
@@ -174,6 +174,8 @@ class CaseDetail extends React.PureComponent {
 						onChange={caseData ? this.onChangeName : undefined}
 						editing={this.state.caseEditingActive}
 					/>
+				) : null}
+				{(this.state.caseEditingActive || description) ? (
 					<EditableText
 						disabled={!this.state.caseEditingActive}
 						value={description}
@@ -181,14 +183,24 @@ class CaseDetail extends React.PureComponent {
 						onChange={caseData ? this.onChangeDescription : undefined}
 						editing={this.state.caseEditingActive}
 					/>
-					{this.state.caseEditingActive ? this.renderMap() : null}
-					{this.state.caseEditingActive ? this.renderButtons() : null}
-				</div>
-				<div className="case-detail-body">
-					{defaultState}
-					{scenarios}
-					<Center horizontally><Button circular icon="plus" onClick={this.addScenario} /></Center>
-				</div>
+				) : null}
+				{this.state.caseEditingActive ? this.renderMap() : null}
+				{this.state.caseEditingActive ? this.renderButtons() : null}
+			</div>
+		);
+
+		let body = (
+			<div className="case-detail-body">
+				{defaultState}
+				{scenarios}
+				<Center horizontally><Button circular icon="plus" onClick={this.addScenario} /></Center>
+			</div>
+		);
+
+		return (
+			<div className="case-detail-wrap">
+				{header}
+				{body}
 			</div>
 		);
 	}
