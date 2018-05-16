@@ -83,7 +83,7 @@ class CaseDetail extends React.PureComponent {
 	}
 
 	save() {
-		//this.props.save();
+		this.props.save();
 	}
 
 	revertEditing() {

@@ -35,6 +35,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		},
 		revertCase: () => {
 			dispatch(Action.scenarios.removeEditedActiveCase());
+		},
+		save: () => {
+			dispatch(Action.scenarios.saveActiveCase());
 		}
 	}
 };
