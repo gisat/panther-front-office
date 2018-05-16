@@ -1,5 +1,7 @@
 import ActionTypes from '../../constants/ActionTypes';
 import _ from 'lodash';
+import { buildCleaner } from 'lodash-clean';
+
 
 //const INITIAL_STATE = {
 //	activeKey: null,
@@ -13,6 +15,11 @@ import _ from 'lodash';
 //		loading: false
 //	}
 //};
+
+const lodashClean = buildCleaner({
+	isNull: _.noop,
+	isString: _.identity
+});
 
 const INITIAL_STATE = {
 	activeKey: null,
@@ -193,19 +200,25 @@ function updateEditedScenarios(state, action) {
 	let data;
 	if (state.editedData && state.editedData.length) {
 		// update old versions of received models
-		let oldCases = _.map(state.editedData, model => {
+		let oldScenarios = _.map(state.editedData, model => {
 			let update = _.find(action.data, {key: model.key});
 			if (update) {
-				return {...model, data: {...model.data, ...update.data}};
+				let oldScenario = {...model, data: {...model.data, ...update.data}};
+				// clean null property values and empty objects
+				return lodashClean(oldScenario);
 			} else {
 				return model;
 			}
 		});
 		// clear updated old cases from new
-		let newCases = _.reject(action.data, update => {
-			return _.find(oldCases, {key: update.key});
+		let newScenarios = _.reject(action.data, update => {
+			return _.find(oldScenarios, {key: update.key});
 		});
-		data = [...oldCases, ...newCases];
+		let updatedData = [...oldScenarios, ...newScenarios];
+		data = _.reject(updatedData, scenario => {
+			let keys = _.keys(scenario);
+			return (keys && keys.length === 1 && keys[0] === 'key')
+		});
 	} else {
 		data = [...action.data];
 	}
