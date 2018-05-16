@@ -70,7 +70,7 @@ class ScenarioCard extends React.PureComponent {
 
 	onChangeName(value) {
 		let updateValue = null;
-		if (value !== this.props.name){
+		if ((value !== this.props.name) && !(!this.props.name && value.length === 0)){
 			updateValue = value;
 		}
 		this.props.updateEditedScenario(this.props.scenarioKey, 'name', updateValue);
@@ -78,7 +78,7 @@ class ScenarioCard extends React.PureComponent {
 
 	onChangeDescription(value) {
 		let updateValue = null;
-		if (value !== this.props.description){
+		if ((value !== this.props.description) && !(!this.props.description && value.length === 0)){
 			updateValue = value;
 		}
 		this.props.updateEditedScenario(this.props.scenarioKey, 'description', updateValue);

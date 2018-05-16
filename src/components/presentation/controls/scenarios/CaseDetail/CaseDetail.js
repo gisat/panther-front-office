@@ -42,6 +42,7 @@ class CaseDetail extends React.PureComponent {
 		this.activateCaseEditing = this.activateCaseEditing.bind(this);
 		this.revertEditing = this.revertEditing.bind(this);
 		this.save = this.save.bind(this);
+		this.cancel = this.cancel.bind(this);
 		this.activateCaseEditing = this.activateCaseEditing.bind(this);
 		this.onChangeDescription = this.onChangeDescription.bind(this);
 		this.onChangeGeometry = this.onChangeGeometry.bind(this);
@@ -86,6 +87,12 @@ class CaseDetail extends React.PureComponent {
 		this.props.save();
 	}
 
+	cancel(){
+		this.setState({
+			caseEditingActive: false
+		});
+	}
+
 	revertEditing() {
 		this.setState({
 			caseEditingActive: false
@@ -113,15 +120,37 @@ class CaseDetail extends React.PureComponent {
 	}
 
 	onChangeName(value) {
-		this.props.updateEditedCase('name', value);
+		let updateValue = null;
+		if ((value !== this.props.case.name) && !(!this.props.case.name && value.length === 0)){
+			updateValue = value;
+		}
+		this.props.updateEditedCase('name', updateValue);
 	}
 
 	onChangeDescription(value) {
-		this.props.updateEditedCase('description', value);
+		let updateValue = null;
+		if ((value !== this.props.case.description) && !(!this.props.case.description && value.length === 0)){
+			updateValue = value;
+		}
+		this.props.updateEditedCase('description', updateValue);
 	}
 
 	onChangeGeometry(value){
-		this.props.updateEditedCase('geometry', value);
+		let newCoordinates = null;
+		let oldCoordinates = null;
+		let updateValue = null;
+
+		if (value && value.coordinates){
+			newCoordinates = JSON.stringify(value.coordinates);
+		}
+		if (this.props.geometry && this.props.geometry.coordinates){
+			oldCoordinates = JSON.stringify(value.coordinates);
+		}
+		if (oldCoordinates !== newCoordinates){
+			updateValue = value;
+		}
+
+		this.props.updateEditedCase('geometry', updateValue);
 	}
 
 	render() {
@@ -202,7 +231,9 @@ class CaseDetail extends React.PureComponent {
 		let caseGeometry = null;
 		let caseBbox = null;
 
-		if (caseData && caseData.geometry){
+		if (this.props.caseEdited && this.props.caseEdited.data.hasOwnProperty('geometry')){
+			caseGeometry = this.props.caseEdited.data.geometry;
+		} else if (caseData && caseData.geometry){
 			caseGeometry = caseData.geometry;
 		}
 
@@ -231,10 +262,14 @@ class CaseDetail extends React.PureComponent {
 
 	renderButtons() {
 		return (
-			<div className="ptr-case-detail-buttons">
-				<Button onClick={this.save} primary>Save</Button>
-				<Button onClick={this.revertEditing}>Revert</Button>
-			</div>
+			this.props.caseEdited ?
+				(<div className="ptr-case-detail-buttons">
+					<Button key="save" onClick={this.save} primary>Save</Button>
+					<Button key="revert" onClick={this.revertEditing}>Revert</Button>
+				</div>) :
+				(<div className="ptr-case-detail-buttons">
+					<Button key="cancel" onClick={this.cancel}>Cancel</Button>
+				</div>)
 		);
 	}
 
