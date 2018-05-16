@@ -44,6 +44,7 @@ class CaseDetail extends React.PureComponent {
 		this.save = this.save.bind(this);
 		this.activateCaseEditing = this.activateCaseEditing.bind(this);
 		this.onChangeDescription = this.onChangeDescription.bind(this);
+		this.onChangeGeometry = this.onChangeGeometry.bind(this);
 		this.onChangeName = this.onChangeName.bind(this);
 	}
 
@@ -117,6 +118,12 @@ class CaseDetail extends React.PureComponent {
 	onChangeDescription(value) {
 		if (this.props.case) {
 			this.props.updateEditedCase('description', value);
+		}
+	}
+
+	onChangeGeometry(value){
+		if (this.props.case){
+			this.props.updateEditedCase('geometry', value);
 		}
 	}
 
@@ -211,6 +218,7 @@ class CaseDetail extends React.PureComponent {
 				<WorldWindow
 					bbox={caseBbox}
 					caseGeometry={caseGeometry}
+					onGeometryChange={this.onChangeGeometry}
 					zoomToGeometry
 				/>
 			</div>

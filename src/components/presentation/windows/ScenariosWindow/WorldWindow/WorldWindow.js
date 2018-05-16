@@ -14,6 +14,7 @@ class WorldWindow extends React.PureComponent {
 	static propTypes = {
 		activeBackgroundLayerKey: PropTypes.string,
 		bbox: PropTypes.string,
+		onGeometryChange: PropTypes.func,
 		caseGeometry: PropTypes.object,
 		zoomToGeometry: PropTypes.bool
 	};
@@ -114,6 +115,7 @@ class WorldWindow extends React.PureComponent {
 		if (geometry){
 			this.aoiLayer.removeAllRenderables();
 			this.drawGeometry(geometry);
+			this.props.onGeometryChange(geometry);
 		}
 	}
 
