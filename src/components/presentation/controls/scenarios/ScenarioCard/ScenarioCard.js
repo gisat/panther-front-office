@@ -36,8 +36,11 @@ class ScenarioCard extends React.PureComponent {
 
 		this.handleDetailsButtonClick = this.handleDetailsButtonClick.bind(this);
 		this.handleScenarioClick = this.handleScenarioClick.bind(this);
-		this.toggleEditing = this.toggleEditing.bind(this);
+		this.activateScenarioEditing = this.activateScenarioEditing.bind(this);
+		this.onChangeDescription = this.onChangeDescription.bind(this);
 		this.onChangeName = this.onChangeName.bind(this);
+		this.save = this.save.bind(this);
+		this.revertEditing = this.revertEditing.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -48,8 +51,10 @@ class ScenarioCard extends React.PureComponent {
 	}
 
 
-	toggleEditing() {
-		this.setState({editing: !this.state.editing});
+	activateScenarioEditing() {
+		this.setState({
+			editing: true
+		});
 	}
 
 	handleDetailsButtonClick(){
@@ -63,19 +68,26 @@ class ScenarioCard extends React.PureComponent {
 	};
 
 	onChangeName(value) {
-		this.setState({
-			name: value
-		});
+		this.props.updateEditedScenario(this.props.scenarioKey, 'name', value);
 	}
 
 	onChangeDescription(value) {
-		this.setState({
-			description: value
-		});
+		this.props.updateEditedScenario(this.props.scenarioKey, 'description', value);
 	}
 
 	onChangeFile(x) {
 		console.log('######', x);
+	}
+
+	save() {
+		//this.props.save();
+	}
+
+	revertEditing() {
+		this.setState({
+			editing: false
+		});
+		this.props.revertScenario(this.props.scenarioKey);
 	}
 
 
@@ -90,6 +102,14 @@ class ScenarioCard extends React.PureComponent {
 		let headerClasses = classNames("scenario-card-header", {
 			'editing-inactive': !this.state.editing
 		});
+
+		let name = "";
+		let description = "";
+
+
+		name = this.props.scenarioEdited && this.props.scenarioEdited.data.hasOwnProperty('name') ? this.props.scenarioEdited.data.name : this.props.name;
+		description = this.props.scenarioEdited && this.props.scenarioEdited.data.hasOwnProperty('description') ? this.props.scenarioEdited.data.description : this.props.description;
+
 
 		let header = (
 			<div className={headerClasses}>
@@ -106,9 +126,10 @@ class ScenarioCard extends React.PureComponent {
 						<EditableText
 							large
 							disabled={!this.state.editing || this.props.disableEditing}
-							value={this.state.hasOwnProperty('name') ? this.state.name : this.props.name}
+							value={name}
 							placeholder="Scenario name"
 							onChange={this.onChangeName}
+							editing={this.state.editing}
 						/>
 					</div>
 				</label>
@@ -118,7 +139,7 @@ class ScenarioCard extends React.PureComponent {
 							<Menu bottom left>
 								<MenuItem><Icon icon="download" /> Download</MenuItem>
 								{this.props.defaultSituation ? null : (
-									<MenuItem onClick={this.toggleEditing}><Icon icon="edit"/> Edit</MenuItem>
+									<MenuItem onClick={this.activateScenarioEditing}><Icon icon="edit"/> Edit</MenuItem>
 								)}
 							</Menu>
 						</Button>
@@ -131,9 +152,10 @@ class ScenarioCard extends React.PureComponent {
 			<div className="scenario-card-body">
 				<EditableText
 					disabled={!this.state.editing || this.props.disableEditing}
-					value={this.state.hasOwnProperty('description') ? this.state.description : this.props.description}
+					value={description}
 					placeholder="Description"
 					onChange={this.onChangeDescription}
+					editing={this.state.editing}
 				/>
 				{this.state.editing ? (
 				<InputFile
@@ -157,6 +179,16 @@ class ScenarioCard extends React.PureComponent {
 			<div className={classes}>
 				{header}
 				{body}
+				{this.state.editing ? this.renderButtons() : null}
+			</div>
+		);
+	}
+
+	renderButtons() {
+		return (
+			<div className="scenario-card-footer-buttons">
+				<Button onClick={this.save} primary>Save</Button>
+				<Button onClick={this.revertEditing}>Revert</Button>
 			</div>
 		);
 	}

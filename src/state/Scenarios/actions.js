@@ -31,10 +31,22 @@ function updateEditedActiveCase(dataUpdate) {
 	};
 }
 
+function updateEditedScenario(key, dataUpdate) {
+	return (dispatch, getState) => {
+		dispatch(actionUpdateEditedScenarios([{key: key, data: dataUpdate}]));
+	};
+}
+
 function removeEditedActiveCase() {
 	return (dispatch, getState) => {
 		let activeCaseKey = Select.scenarios.getActiveCaseKey(getState());
 		dispatch(actionRemoveEditedCases([activeCaseKey]));
+	};
+}
+
+function removeEditedScenario(key) {
+	return (dispatch, getState) => {
+		dispatch(actionRemoveEditedScenarios([key]));
 	};
 }
 
@@ -356,10 +368,21 @@ function actionUpdateEditedCases(data) {
 		data: data
 	}
 }
-
+function actionUpdateEditedScenarios(data) {
+	return {
+		type: ActionTypes.SCENARIOS_EDITED_UPDATE,
+		data: data
+	}
+}
 function actionRemoveEditedCases(keys) {
 	return {
 		type: ActionTypes.SCENARIOS_CASES_EDITED_REMOVE,
+		keys: keys
+	}
+}
+function actionRemoveEditedScenarios(keys) {
+	return {
+		type: ActionTypes.SCENARIOS_EDITED_REMOVE,
 		keys: keys
 	}
 }
@@ -378,6 +401,8 @@ export default {
 	load: load,
 	loadCases: loadCases,
 	updateEditedActiveCase: updateEditedActiveCase,
-	removeEditedActiveCase: removeEditedActiveCase
+	updateEditedScenario: updateEditedScenario,
+	removeEditedActiveCase: removeEditedActiveCase,
+	removeEditedScenario: removeEditedScenario
 }
 

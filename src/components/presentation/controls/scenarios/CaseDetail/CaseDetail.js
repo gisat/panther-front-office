@@ -9,7 +9,7 @@ import Center from '../../../atoms/Center';
 import Icon from '../../../atoms/Icon';
 import Menu, {MenuItem} from '../../../atoms/Menu';
 import EditableText from '../../../atoms/EditableText';
-import ScenarioCard from '../SceanrioCard/ScenarioCard';
+import ScenarioCard from '../../../../containers/controls/scenarios/ScenarioCard';
 import WorldWindow from '../../../../containers/windows/ScenariosWindow/WorldWindow/WorldWindow';
 
 import './CaseDetail.css';

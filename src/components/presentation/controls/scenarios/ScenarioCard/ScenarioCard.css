@@ -38,4 +38,10 @@
 .scenario-card-body-buttons {
 	padding: .7rem 0;
 }
+.scenario-card-footer-buttons {
+	margin: .5rem 0 1rem .7rem;
+}
+.scenario-card-footer-buttons > .ptr-button {
+	margin: 0 .5rem 0 0;
+}
 

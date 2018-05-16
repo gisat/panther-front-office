@@ -26,6 +26,7 @@ const INITIAL_STATE = {
 		{key: 9999995, name: "Scenario 5"},
 		{key: 9999996, name: "Scenario 6"}
 	],
+	editedData: null,
 	loading: false,
 	cases: {
 		activeKey: null,
@@ -188,10 +189,39 @@ function updateEditedCases(state, action) {
 	return {...state, cases: {...state.cases, editedData: data}};
 }
 
+function updateEditedScenarios(state, action) {
+	let data;
+	if (state.editedData && state.editedData.length) {
+		// update old versions of received models
+		let oldCases = _.map(state.editedData, model => {
+			let update = _.find(action.data, {key: model.key});
+			if (update) {
+				return {...model, data: {...model.data, ...update.data}};
+			} else {
+				return model;
+			}
+		});
+		// clear updated old cases from new
+		let newCases = _.reject(action.data, update => {
+			return _.find(oldCases, {key: update.key});
+		});
+		data = [...oldCases, ...newCases];
+	} else {
+		data = [...action.data];
+	}
+	return {...state, editedData: data};
+}
+
 function removeEditedCases(state, action) {
 	return {...state, cases: {...state.cases, editedData: _.reject(state.cases.editedData, editedCase => {
 		return _.includes(action.keys, editedCase.key);
 	})}};
+}
+
+function removeEditedScenarios(state, action) {
+	return {...state, editedData: _.reject(state.editedData, editedCase => {
+				return _.includes(action.keys, editedCase.key);
+			})};
 }
 
 function update(state, action){
@@ -202,6 +232,10 @@ export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.SCENARIOS_ADD:
 			return addDistinct(state, action);
+		case ActionTypes.SCENARIOS_EDITED_UPDATE:
+			return updateEditedScenarios(state, action);
+		case ActionTypes.SCENARIOS_EDITED_REMOVE:
+			return removeEditedScenarios(state, action);
 		case ActionTypes.SCENARIOS_SET_ACTIVE:
 			return setActive(state, action);
 		case ActionTypes.SCENARIOS_SET_ACTIVE_MULTI:
