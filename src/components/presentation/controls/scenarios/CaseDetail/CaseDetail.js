@@ -50,7 +50,10 @@ class CaseDetail extends React.PureComponent {
 
 	componentWillReceiveProps(nextProps){
 		let caseEditing = false;
-		let sameCase = nextProps.case && (this.props.case && this.props.case.key === nextProps.case.key);
+		let sameCase = (
+			(nextProps.case && (this.props.case && this.props.case.key === nextProps.case.key))
+			|| (nextProps.caseEdited && (this.props.caseEdited && this.props.caseEdited.key === nextProps.caseEdited.key))
+		);
 
 		if (sameCase) {
 			caseEditing = this.state.caseEditingActive;
@@ -110,35 +113,24 @@ class CaseDetail extends React.PureComponent {
 	}
 
 	onChangeName(value) {
-		if (this.props.case) {
-			this.props.updateEditedCase('name', value);
-		}
+		this.props.updateEditedCase('name', value);
 	}
 
 	onChangeDescription(value) {
-		if (this.props.case) {
-			this.props.updateEditedCase('description', value);
-		}
+		this.props.updateEditedCase('description', value);
 	}
 
 	onChangeGeometry(value){
-		if (this.props.case){
-			this.props.updateEditedCase('geometry', value);
-		}
+		this.props.updateEditedCase('geometry', value);
 	}
 
 	render() {
-		let caseData = this.props.case;
 		let scenariosData = this.state.scenarios;
-		let name = "";
-		let description = "";
 		let scenarios = null;
 		let defaultState = null;
 
-		if (caseData){
-			name = this.props.caseEdited && this.props.caseEdited.data.hasOwnProperty('name') ? this.props.caseEdited.data.name : caseData.name;
-			description = this.props.caseEdited && this.props.caseEdited.data.hasOwnProperty('description') ? this.props.caseEdited.data.description : caseData.description;
-		}
+		let name = this.props.caseEdited && this.props.caseEdited.data.hasOwnProperty('name') ? this.props.caseEdited.data.name : this.props.case && this.props.case.name;
+		let description = this.props.caseEdited && this.props.caseEdited.data.hasOwnProperty('description') ? this.props.caseEdited.data.description : this.props.case && this.props.case.description;
 
 		if (scenariosData){
 			defaultState = this.renderDefaultState();
@@ -171,7 +163,7 @@ class CaseDetail extends React.PureComponent {
 						large
 						value={name}
 						placeholder="Case title"
-						onChange={caseData ? this.onChangeName : undefined}
+						onChange={this.onChangeName}
 						editing={this.state.caseEditingActive}
 					/>
 				) : null}
@@ -180,7 +172,7 @@ class CaseDetail extends React.PureComponent {
 						disabled={!this.state.caseEditingActive}
 						value={description}
 						placeholder="Description"
-						onChange={caseData ? this.onChangeDescription : undefined}
+						onChange={this.onChangeDescription}
 						editing={this.state.caseEditingActive}
 					/>
 				) : null}

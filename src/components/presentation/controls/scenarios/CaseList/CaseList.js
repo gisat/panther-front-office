@@ -18,10 +18,11 @@ class CaseList extends React.PureComponent {
 	};
 
 	showDetail(caseKey){
-		this.props.setActiveCase(caseKey);
-		if (!caseKey){
+		if (!caseKey) {
+			caseKey = utils.guid();
 			this.props.setDefaultSituationActive();
 		}
+		this.props.setActiveCase(caseKey);
 		this.props.changeActiveScreen('caseDetail');
 		this.props.changeDefaultMapName(this.props.defaultSituationName);
 	}
