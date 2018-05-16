@@ -278,6 +278,20 @@ function loadCasesReceive(data) {
 	};
 }
 
+function saveActiveCase() {
+	return (dispatch, getState) => {
+		let state = getState();
+		let saved = Select.scenarios.getActiveCase(state);
+		let edited = Select.scenarios.getActiveCaseEdited(state);
+
+		if (saved) {
+			// update
+		} else {
+			// create
+		}
+	};
+}
+
 // ============ actions ===========
 
 function actionAdd(scenarios) {
@@ -403,6 +417,7 @@ export default {
 	updateEditedActiveCase: updateEditedActiveCase,
 	updateEditedScenario: updateEditedScenario,
 	removeEditedActiveCase: removeEditedActiveCase,
-	removeEditedScenario: removeEditedScenario
+	removeEditedScenario: removeEditedScenario,
+	saveActiveCase: saveActiveCase
 }
 

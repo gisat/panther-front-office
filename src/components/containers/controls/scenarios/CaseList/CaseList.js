@@ -5,7 +5,8 @@ import CaseList from "../../../../presentation/controls/scenarios/CaseList/CaseL
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		cases: Select.scenarios.getCases(state)
+		cases: Select.scenarios.getCases(state),
+		casesEdited: Select.scenarios.getCasesEdited(state),
 	}
 };
 
