@@ -98,7 +98,8 @@ class WorldWindow extends React.PureComponent {
 	}
 
 	getPositionFromCanvasCoordinates (x, y){
-		let currentPoint = this.wwd.pickTerrain(this.wwd.canvasCoordinates(x, y));
+		let canvasCoordinates = this.wwd.canvasCoordinates(x, y);
+		let currentPoint = this.wwd.pickTerrain(canvasCoordinates);
 
 		if(!currentPoint.objects.length) {
 			alert('Please click on the area containing the globe.');
@@ -111,7 +112,7 @@ class WorldWindow extends React.PureComponent {
 		let positions = recognizer.clicks.map(click => {
 			return this.getPositionFromCanvasCoordinates(click.clientX, click.clientY);
 		});
-		let geometry = mapUtils.getPoltgonGeometryFromWorldWindPositions(positions);
+		let geometry = mapUtils.getPolygonGeometryFromWorldWindPositions(positions);
 		if (geometry){
 			this.aoiLayer.removeAllRenderables();
 			this.drawGeometry(geometry);
@@ -135,9 +136,9 @@ class WorldWindow extends React.PureComponent {
 		if (props.zoomToGeometry){
 			let navigatorParams = null;
 			if (props.caseGeometry){
-				navigatorParams = mapUtils.getNavigatorParamsFromGeometry(props.caseGeometry, this.wwd.viewport);
+				navigatorParams = mapUtils.getNavigatorParamsFromGeometry(props.caseGeometry, this.wwd);
 			} else if (props.bbox){
-				navigatorParams = mapUtils.getNavigatorParamsFromBbox(props.bbox, this.wwd.viewport);
+				navigatorParams = mapUtils.getNavigatorParamsFromBbox(props.bbox, this.wwd);
 			}
 			if (navigatorParams){
 				this.wwd.navigator.lookAtLocation.latitude = navigatorParams.lookAtLocation.latitude;

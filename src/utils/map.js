@@ -1,9 +1,11 @@
 import config from '../config';
 import _ from 'lodash';
 import {geoBounds, geoCentroid, geoDistance} from 'd3-geo';
+import WorldWind from '@nasaworldwind/worldwind';
 
 const RANGE_COEFF = 140000;
 const DEFAULT_RANGE = 10000000;
+const DEFAULT_ALTITUDE = 500;
 
 /**
  * @param geometry {Object} GeoJSON geometry
@@ -96,7 +98,7 @@ function getGeometryBbox(geometry){
  * @param positions {Array} Collection of two WorldWind.Position
  * @returns {Object} GeoJSON geometry
  */
-function getPoltgonGeometryFromWorldWindPositions(positions){
+function getPolygonGeometryFromWorldWindPositions(positions){
 	let topLeft = [positions[0].longitude, positions[0].latitude];
 	let bottomRight = [positions[1].longitude, positions[1].latitude];
 	let topRight = [positions[1].longitude, positions[0].latitude];
@@ -111,23 +113,24 @@ function getPoltgonGeometryFromWorldWindPositions(positions){
 /**
  * It calculates lookAtLocation and range parametrs for zooming based on given geometry and viewport ratio
  * @param geometry {Object} GeoJSON geometry
- * @param viewport {WorldWind.Rectangle}
+ * @param wwd {WorldWind.Window}
  * @returns {{lookAtLocation: {latitude: number, longitude: number}, range: number}}
  */
-function getNavigatorParams(geometry, viewport) {
+function getNavigatorParams(geometry, wwd) {
 	let bounds = getGeometryBbox(geometry);
 
 	/**
 	 * calculate centroid
 	 */
 	let centroid = geoCentroid(getGeoJsonFromPoints(bounds));
-	let range = getRangeFromBbox(bounds, viewport);
+	let lookAtLocation = {
+		latitude: centroid[1],
+		longitude: centroid[0]
+	};
+	let range = getRangeFromBbox(bounds, lookAtLocation, wwd);
 
 	return {
-		lookAtLocation: {
-			latitude: centroid[1],
-			longitude: centroid[0]
-		},
+		lookAtLocation: lookAtLocation,
 		range: range
 	}
 }
@@ -135,15 +138,25 @@ function getNavigatorParams(geometry, viewport) {
 /**
  * Calculate range according to bbox size and viewport ratio
  * @param bbox {Array}
- * @param viewport {WorldWind.Rectangle}
+ * @param wwd {WorldWind.Window}
+ * @param centroid {WorldWind.lookAtLocation}
  * @returns {number} range
  */
-function getRangeFromBbox(bbox, viewport){
+function getRangeFromBbox(bbox, centroid, wwd){
 	let viewportRatio = 16/9;
 
-	let width = viewport.width;
-	let height = viewport.height;
+	let width = wwd.viewport.width;
+	let height = wwd.viewport.height;
 	let range = DEFAULT_RANGE;
+	let altitude = DEFAULT_ALTITUDE;
+
+	let elevationModel = wwd.globe.elevationModel;
+	if (elevationModel && centroid){
+		let elevation = elevationModel.elevationAtLocation(centroid.latitude, centroid.longitude);
+		if (elevation){
+			altitude = elevation;
+		}
+	}
 
 	let diagonalDistance_1 = geoDistance(bbox[0], bbox[1]);
 	let diagonalDistance_2 = geoDistance(bbox[3], bbox[2]);
@@ -173,47 +186,42 @@ function getRangeFromBbox(bbox, viewport){
 
 	// distance between bounding box corners in degrees
 	let distanceInDegrees = diagonalDistance_1 * (180/Math.PI);
-	if (distanceInDegrees < 0.01){
-		distanceInDegrees = 0.01;
+	if (distanceInDegrees < 0.0001){
+		distanceInDegrees = 0.0001;
 	}
 
 	// Calculate range
 	range = distanceInDegrees*RANGE_COEFF*viewportRatio;
 
 	// Adjust range for specific options
-	if (areaSizeRatio > 2 && viewportRatio > 1.5 && distanceInDegrees < 20){
+	if (areaSizeRatio > 2 && viewportRatio > 1.5 && distanceInDegrees < 20 && distanceInDegrees > 0.01){
 		range /= viewportRatio;
 	}
 
-	// TODO Solve this for locations with high altitude (e.g. mountains)
-	if (range < 1000) {
-		return 1000;
-	}
-
-	return range;
+	return (range + altitude);
 }
 
 
 export default {
 	/**
 	 * @param bbox {string} minLon, maxLat, maxLon, minLat
-	 * @param viewport {WorldWind.Rectangle}
+	 * @param wwd {WorldWind.Window}
 	 */
-	getNavigatorParamsFromBbox: function(bbox, viewport){
+	getNavigatorParamsFromBbox: function(bbox, wwd){
 		let geometry = getGeometryFromBbox(bbox);
-		return getNavigatorParams(geometry, viewport);
+		return getNavigatorParams(geometry, wwd);
 	},
 
 	/**
 	 * @param geometry {Object} GeoJSON geometry
-	 * @param viewport {WorldWind.Rectangle}
+	 * @param wwd {WorldWind.Window}
 	 */
-	getNavigatorParamsFromGeometry: function(geometry, viewport){
-		return getNavigatorParams(geometry, viewport);
+	getNavigatorParamsFromGeometry: function(geometry, wwd){
+		return getNavigatorParams(geometry, wwd);
 	},
 
 	getGeometryBbox: getGeometryBbox,
-	getPoltgonGeometryFromWorldWindPositions: getPoltgonGeometryFromWorldWindPositions
+	getPolygonGeometryFromWorldWindPositions: getPolygonGeometryFromWorldWindPositions
 }
 
 
