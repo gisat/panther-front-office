@@ -28,10 +28,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 			}
 		},
 		updateEditedCase: (key, value) => {
-			let dataUpdate = {
-				[key]: value
-			};
-			dispatch(Action.scenarios.updateEditedActiveCase(dataUpdate))
+			dispatch(Action.scenarios.updateEditedActiveCase(key, value))
 		},
 		revertCase: () => {
 			dispatch(Action.scenarios.removeEditedActiveCase());

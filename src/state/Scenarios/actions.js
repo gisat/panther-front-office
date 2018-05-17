@@ -24,10 +24,24 @@ function setActive(key) {
 	};
 }
 
-function updateEditedActiveCase(dataUpdate) {
+function updateEditedActiveCase(key, value) {
 	return (dispatch, getState) => {
-		let activeCaseKey = Select.scenarios.getActiveCaseKey(getState());
-		dispatch(actionUpdateEditedCases([{key: activeCaseKey, data: dataUpdate}]));
+		let activeCase = Select.scenarios.getActiveCase(getState());
+		let sameCoordinates = false;
+
+		if (activeCase){
+			if (key === 'geometry' && activeCase.geometry){
+				let geometry = _.cloneDeep(activeCase.geometry);
+				sameCoordinates = JSON.stringify(value.coordinates) === JSON.stringify(geometry.coordinates);
+			}
+			if (sameCoordinates || (value === activeCase[key]) || (!activeCase[key] && value.length === 0)){
+				dispatch(actionRemovePropertyFromEditedCase(activeCase.key, key));
+			} else {
+				dispatch(actionUpdateEditedCases([{key: activeCase.key, data: {[key]: value}}]));
+			}
+		} else {
+			dispatch(actionUpdateEditedCases([{key: null, data: {[key]: value}}]));
+		}
 	};
 }
 
@@ -36,7 +50,7 @@ function updateEditedScenario(scenarioKey, key, value) {
 		let state = Select.scenarios.getScenario(getState(), scenarioKey);
 
 		// delete property from edited, if the value in update is the same as in state
-		if (value === state[key] || (!state[key] && value.length === 0)){
+		if (state && (value === state[key] || (!state[key] && value.length === 0))){
 			dispatch(actionRemovePropertyFromEditedScenario(scenarioKey, key));
 		} else {
 			dispatch(actionUpdateEditedScenarios([{key: scenarioKey, data: {[key]: value}}]));
@@ -400,6 +414,13 @@ function actionRemoveEditedCases(keys) {
 	return {
 		type: ActionTypes.SCENARIOS_CASES_EDITED_REMOVE,
 		keys: keys
+	}
+}
+function actionRemovePropertyFromEditedCase(caseKey, property) {
+	return {
+		type: ActionTypes.SCENARIOS_CASE_EDITED_REMOVE_PROPERTY,
+		caseKey: caseKey,
+		property: property
 	}
 }
 function actionRemoveEditedScenarios(keys) {

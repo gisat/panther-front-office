@@ -237,6 +237,25 @@ function removeEditedScenarios(state, action) {
 			})};
 }
 
+function removeEditedCaseProperty(state, action) {
+
+	let editedData = [];
+	_.each(state.cases.editedData, model => {
+		if (model.key === action.caseKey) {
+			let newModelData = _.omit(model.data, action.property);
+			if (Object.keys(newModelData).length) {
+				editedData.push({...model, data: newModelData})
+			} else {
+				// we removed last property, do nothing
+			}
+		} else {
+			editedData.push(model);
+		}
+	});
+
+	return {...state, cases: {...state.cases, editedData: editedData}};
+}
+
 function removeEditedScenarioProperty(state, action) {
 
 	let editedData = [];
@@ -288,6 +307,8 @@ export default (state = INITIAL_STATE, action) => {
 			return updateEditedCases(state, action);
 		case ActionTypes.SCENARIOS_CASES_EDITED_REMOVE:
 			return removeEditedCases(state, action);
+		case ActionTypes.SCENARIOS_CASE_EDITED_REMOVE_PROPERTY:
+			return removeEditedCaseProperty(state, action);
 		default:
 			return state;
 	}

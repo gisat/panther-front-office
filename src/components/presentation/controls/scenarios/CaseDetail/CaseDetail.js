@@ -120,37 +120,15 @@ class CaseDetail extends React.PureComponent {
 	}
 
 	onChangeName(value) {
-		let updateValue = null;
-		if ((value !== this.props.case.name) && !(!this.props.case.name && value.length === 0)){
-			updateValue = value;
-		}
-		this.props.updateEditedCase('name', updateValue);
+		this.props.updateEditedCase('name', value);
 	}
 
 	onChangeDescription(value) {
-		let updateValue = null;
-		if ((value !== this.props.case.description) && !(!this.props.case.description && value.length === 0)){
-			updateValue = value;
-		}
-		this.props.updateEditedCase('description', updateValue);
+		this.props.updateEditedCase('description', value);
 	}
 
 	onChangeGeometry(value){
-		let newCoordinates = null;
-		let oldCoordinates = null;
-		let updateValue = null;
-
-		if (value && value.coordinates){
-			newCoordinates = JSON.stringify(value.coordinates);
-		}
-		if (this.props.geometry && this.props.geometry.coordinates){
-			oldCoordinates = JSON.stringify(value.coordinates);
-		}
-		if (oldCoordinates !== newCoordinates){
-			updateValue = value;
-		}
-
-		this.props.updateEditedCase('geometry', updateValue);
+		this.props.updateEditedCase('geometry', value);
 	}
 
 	render() {
