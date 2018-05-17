@@ -361,8 +361,9 @@ class WorldWindWidgetPanel {
             let checkbox = $(event.currentTarget);
             let layerId = checkbox.attr("data-id");
 
+            // TODO hotfix - cometimes control._id is a number
             let control = _.find(self._layersControls, function(control){
-                return control._id === layerId
+                return control._id == layerId;
             });
             if (checkbox.hasClass("checked")){
                 control.active = true;
