@@ -9,6 +9,7 @@ const getCases = state => state.scenarios.cases.data;
 const getCasesEdited = state => state.scenarios.cases.editedData;
 const getCasesAll = state => state.scenarios.cases;
 const getScenarios = state => state.scenarios.data;
+const getScenariosEdited = state => state.scenarios.editedData;
 const isDefaultSituationActive = state => state.scenarios.defaultSituationActive;
 
 const getScenarioEdited = (state, key) => {
@@ -76,5 +77,6 @@ export default {
 	getCasesAll: getCasesAll,
 	getCasesEdited: getCasesEdited,
 	getScenarioEdited: getScenarioEdited,
+	getScenariosEdited: getScenariosEdited,
 	isDefaultSituationActive: isDefaultSituationActive
 };

@@ -4,7 +4,6 @@
 	border-bottom-width: 2px;
 	border-radius: 2px;
 	margin-bottom: .7rem;
-	max-width: 40rem;
 	transition: box-shadow .3s ease-in-out, border-color .3s ease-in-out;
 }
 .scenario-card-header {

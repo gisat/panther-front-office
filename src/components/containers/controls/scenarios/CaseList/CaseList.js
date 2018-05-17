@@ -7,6 +7,7 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		cases: Select.scenarios.getCases(state),
 		casesEdited: Select.scenarios.getCasesEdited(state),
+		scenariosEdited: Select.scenarios.getScenariosEdited(state)
 	}
 };
 
