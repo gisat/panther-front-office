@@ -26,10 +26,17 @@ const setEventListeners = store => {
 				store.dispatch(Action.places.add(_.map(options, transform)));
 				break;
 			case 'place#setActivePlace':
+				let scope = Select.scopes.getActiveScopeData(store.getState());
 				if (typeof options.data === "number"){
 					store.dispatch(Action.places.setActive(options.data));
+					if (scope.scenarios){
+						store.dispatch(Action.scenarios.loadCases(options.data));
+					}
 				} else if (options.data.length && options.data.length === 1){
 					store.dispatch(Action.places.setActive(options.data[0]));
+					if (scope.scenarios){
+						store.dispatch(Action.scenarios.loadCases(options.data[0]));
+					}
 				} else if (options.data.length && options.data.length > 1){
 					store.dispatch(Action.places.setActiveKeys(options.data));
 				}

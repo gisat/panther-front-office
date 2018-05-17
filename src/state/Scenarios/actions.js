@@ -144,20 +144,20 @@ function load(ttl) {
 
 			if (activePlaceKey) {
 
-				let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/scenarios/get');
+				let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/scenarios');
 
 				let payload = {
 					place_id: activePlaceKey
 				};
 
 				return fetch(url, {
-					method: 'POST',
+					method: 'GET',
 					credentials: 'include',
 					headers: {
 						'Content-Type': 'application/json',
 						'Accept': 'application/json'
 					},
-					body: JSON.stringify(payload)
+					params: JSON.stringify(payload)
 				}).then(
 					response => {
 						console.log('#### load scenarios response', response);
@@ -220,20 +220,20 @@ function loadCases(ttl) {
 
 			if (activePlaceKey) {
 
-				let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/scenario_cases/get');
+				let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/scenario_cases');
 
 				let payload = {
 					place_id: activePlaceKey
 				};
 
 				return fetch(url, {
-					method: 'POST',
+					method: 'GET',
 					credentials: 'include',
 					headers: {
 						'Content-Type': 'application/json',
 						'Accept': 'application/json'
 					},
-					body: JSON.stringify(payload)
+					params: JSON.stringify(payload)
 				}).then(
 					response => {
 						console.log('#### load scenarios cases response', response);
