@@ -238,21 +238,22 @@ function removeEditedScenarios(state, action) {
 }
 
 function removeEditedScenarioProperty(state, action) {
-	let data = _.cloneDeep(state.editedData);
-	data.map(scenario => {
-		if (scenario.key === action.data.key && scenario.data && scenario.data.hasOwnProperty(action.data.property)){
-			delete scenario.data[action.data.property]
+
+	let editedData = [];
+	_.each(state.editedData, model => {
+		if (model.key === action.scenarioKey) {
+			let newModelData = _.omit(model.data, action.property);
+			if (Object.keys(newModelData).length) {
+				editedData.push({...model, data: newModelData})
+			} else {
+				// we removed last property, do nothing
+			}
+		} else {
+			editedData.push(model);
 		}
-		if (scenario.data && _.isEmpty(scenario.data)){
-			delete scenario.data;
-		}
-	});
-	let cleanedData = _.reject(data, scenario => {
-		let keys = _.keys(scenario);
-		return (keys && keys.length === 1 && keys[0] === 'key')
 	});
 
-	return {...state, editedData: cleanedData};
+	return {...state, editedData: editedData};
 }
 
 function update(state, action){

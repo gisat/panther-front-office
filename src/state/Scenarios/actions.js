@@ -37,7 +37,7 @@ function updateEditedScenario(scenarioKey, key, value) {
 
 		// delete property from edited, if the value in update is the same as in state
 		if (value === state[key] || (!state[key] && value.length === 0)){
-			dispatch(actionRemovePropertyFromEditedScenarios({key: scenarioKey, property: key}));
+			dispatch(actionRemovePropertyFromEditedScenario(scenarioKey, key));
 		} else {
 			dispatch(actionUpdateEditedScenarios([{key: scenarioKey, data: {[key]: value}}]));
 		}
@@ -290,6 +290,7 @@ function saveActiveCase() {
 		let state = getState();
 		let saved = Select.scenarios.getActiveCase(state);
 		let edited = Select.scenarios.getActiveCaseEdited(state);
+		let activePlaceKey = Select.places.getActiveKey(state);
 
 		if (saved) {
 			// update
@@ -408,10 +409,11 @@ function actionRemoveEditedScenarios(keys) {
 	}
 }
 
-function actionRemovePropertyFromEditedScenarios(data) {
+function actionRemovePropertyFromEditedScenario(scenarioKey, property) {
 	return {
 		type: ActionTypes.SCENARIOS_EDITED_REMOVE_PROPERTY,
-		data: data
+		scenarioKey: scenarioKey,
+		property: property
 	}
 }
 
