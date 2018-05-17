@@ -37,6 +37,7 @@ class PantherWindow extends React.PureComponent {
 		positionY: PropTypes.number,
 		name: PropTypes.string,
 		elementId: PropTypes.string,
+		expandable: PropTypes.bool,
 		floatable: PropTypes.bool,
 		floating: PropTypes.bool,
 		open: PropTypes.bool,
@@ -147,12 +148,12 @@ class PantherWindow extends React.PureComponent {
 
 	renderHeader(){
 		let floatingSwitch;
-		if (this.props.floatable && this.state.floating){
+		if (this.props.expandable && this.props.floatable && this.state.floating){
 			floatingSwitch = (<div
 				className="ptr-window-tool window-expand"
 				onClick={this.onExpand.bind(this)}
 			>Expand</div>);
-		} else if (this.props.floatable && !this.state.floating){
+		} else if (this.props.expandable && this.props.floatable && !this.state.floating){
 			floatingSwitch = (<div
 				className="ptr-window-tool window-shrink"
 				onClick={this.onShrink.bind(this)}
