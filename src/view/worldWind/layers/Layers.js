@@ -181,9 +181,11 @@ class Layers {
      */
     showLayer(id, order) {
         let layer = this.getLayerById(id);
-        layer.metadata.active = true;
-        layer.metadata.order = order;
-        this.addLayerToMap(layer, order);
+        if (layer){
+			layer.metadata.active = true;
+			layer.metadata.order = order;
+			this.addLayerToMap(layer, order);
+        }
     };
 
     /**
@@ -192,8 +194,10 @@ class Layers {
      */
     hideLayer(id) {
         let layer = this.getLayerById(id);
-        layer.metadata.active = false;
-        this.removeLayerFromMap(layer);
+        if (layer){
+			layer.metadata.active = false;
+			this.removeLayerFromMap(layer);
+        }
     };
 
     /**
