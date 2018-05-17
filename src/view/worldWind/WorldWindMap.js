@@ -498,7 +498,6 @@ class WorldWindMap {
 				this._period = periods[0];
 				this._dispatcher.notify('periods#initial', periods);
 			}
-			this.mapWindowTools.addMapLabel(this._period);
 			if (!state.isMapIndependentOfPeriod || state.isMapDependentOnScenario){
 				this.unselect();
 				this._dispatcher.notify('map#defaultMapUnselected');
@@ -508,8 +507,15 @@ class WorldWindMap {
 			}
 		}
 
-		if (this._id === "default-map" && state.isMapDependentOnScenario){
-			this.mapWindowTools.addMapLabelWithName("Default state");
+		/**
+		 * Handle label for first map
+		 */
+		if (this._id === "default-map" || maps.length === 1){
+			if (state.isMapDependentOnScenario){
+				this.mapWindowTools.addMapLabelWithName("Default state");
+			} else {
+				this.mapWindowTools.addMapLabel(this._period);
+			}
 		}
 	};
 
