@@ -12,10 +12,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		updateEditedScenario: (scenarioKey, key, value) => {
-			let dataUpdate = {
-				[key]: value
-			};
-			dispatch(Action.scenarios.updateEditedScenario(scenarioKey, dataUpdate))
+			dispatch(Action.scenarios.updateEditedScenario(scenarioKey, key, value))
 		},
 		revertScenario: (scenarioKey) => {
 			dispatch(Action.scenarios.removeEditedScenario(scenarioKey));

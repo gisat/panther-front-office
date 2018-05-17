@@ -209,9 +209,7 @@ function updateEditedScenarios(state, action) {
 		let oldScenarios = _.map(state.editedData, model => {
 			let update = _.find(action.data, {key: model.key});
 			if (update) {
-				let oldScenario = {...model, data: {...model.data, ...update.data}};
-				// clean null property values and empty objects
-				return lodashClean(oldScenario);
+				return {...model, data: {...model.data, ...update.data}};
 			} else {
 				return model;
 			}
@@ -220,11 +218,7 @@ function updateEditedScenarios(state, action) {
 		let newScenarios = _.reject(action.data, update => {
 			return _.find(oldScenarios, {key: update.key});
 		});
-		let updatedData = [...oldScenarios, ...newScenarios];
-		data = _.reject(updatedData, scenario => {
-			let keys = _.keys(scenario);
-			return (keys && keys.length === 1 && keys[0] === 'key')
-		});
+		data = [...oldScenarios, ...newScenarios];
 	} else {
 		data = [...action.data];
 	}
@@ -243,6 +237,24 @@ function removeEditedScenarios(state, action) {
 			})};
 }
 
+function removeEditedScenarioProperty(state, action) {
+	let data = _.cloneDeep(state.editedData);
+	data.map(scenario => {
+		if (scenario.key === action.data.key && scenario.data && scenario.data.hasOwnProperty(action.data.property)){
+			delete scenario.data[action.data.property]
+		}
+		if (scenario.data && _.isEmpty(scenario.data)){
+			delete scenario.data;
+		}
+	});
+	let cleanedData = _.reject(data, scenario => {
+		let keys = _.keys(scenario);
+		return (keys && keys.length === 1 && keys[0] === 'key')
+	});
+
+	return {...state, editedData: cleanedData};
+}
+
 function update(state, action){
 	return {...state, ...action.data}
 }
@@ -255,6 +267,8 @@ export default (state = INITIAL_STATE, action) => {
 			return updateEditedScenarios(state, action);
 		case ActionTypes.SCENARIOS_EDITED_REMOVE:
 			return removeEditedScenarios(state, action);
+		case ActionTypes.SCENARIOS_EDITED_REMOVE_PROPERTY:
+			return removeEditedScenarioProperty(state, action);
 		case ActionTypes.SCENARIOS_SET_ACTIVE:
 			return setActive(state, action);
 		case ActionTypes.SCENARIOS_SET_ACTIVE_MULTI:

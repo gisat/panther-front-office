@@ -31,9 +31,16 @@ function updateEditedActiveCase(dataUpdate) {
 	};
 }
 
-function updateEditedScenario(key, dataUpdate) {
+function updateEditedScenario(scenarioKey, key, value) {
 	return (dispatch, getState) => {
-		dispatch(actionUpdateEditedScenarios([{key: key, data: dataUpdate}]));
+		let state = Select.scenarios.getScenario(getState(), scenarioKey);
+
+		// delete property from edited, if the value in update is the same as in state
+		if (value === state[key] || (!state[key] && value.length === 0)){
+			dispatch(actionRemovePropertyFromEditedScenarios({key: scenarioKey, property: key}));
+		} else {
+			dispatch(actionUpdateEditedScenarios([{key: scenarioKey, data: {[key]: value}}]));
+		}
 	};
 }
 
@@ -398,6 +405,13 @@ function actionRemoveEditedScenarios(keys) {
 	return {
 		type: ActionTypes.SCENARIOS_EDITED_REMOVE,
 		keys: keys
+	}
+}
+
+function actionRemovePropertyFromEditedScenarios(data) {
+	return {
+		type: ActionTypes.SCENARIOS_EDITED_REMOVE_PROPERTY,
+		data: data
 	}
 }
 
