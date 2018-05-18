@@ -89,10 +89,10 @@ class InfoLayersPanel extends WorldWindWidgetPanel {
                     layerTemplate.styles.forEach(function (style) {
                         let id = layerTemplate.layerTemplateId + "-" + style.path;
                         let name = layerTemplate.name + " - " + style.name;
-                        self.buildLayerControlRow(layerGroupBodySelector, id, name, layerTemplate.layers, style);
+                        self.buildLayerControlRow(layerGroupBodySelector, id, name, layerTemplate.layers, style, layerTemplate.layerTemplateId);
                     });
                 } else {
-                    self.buildLayerControlRow(layerGroupBodySelector, layerTemplate.layerTemplateId, layerTemplate.name, layerTemplate.layers, null);
+                    self.buildLayerControlRow(layerGroupBodySelector, layerTemplate.layerTemplateId, layerTemplate.name, layerTemplate.layers, null, layerTemplate.layerTemplateId);
                 }
             });
         });
