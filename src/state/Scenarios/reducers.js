@@ -132,8 +132,16 @@ function requestError(state, action) {
 }
 
 function receive(state, action) {
-	// save user data
-	let data = (state.data && state.data.length) ? [...state.data, ...action.data] : [...action.data];
+	let data;
+	if (state.data && state.data.length) {
+		// remove old versions of received models
+		let oldData = _.reject(state.data, model => {
+			return _.find(action.data, {key: model.key});
+		});
+		data = [...oldData, ...action.data];
+	} else {
+		data = [...action.data];
+	}
 	return {...state, loading: false, data: data};
 }
 
@@ -301,6 +309,8 @@ export default (state = INITIAL_STATE, action) => {
 			return setActiveCase(state, action);
 		case ActionTypes.SCENARIOS_UPDATE:
 			return update(state, action);
+		case ActionTypes.SCENARIOS_RECEIVE:
+			return receive(state, action);
 		case ActionTypes.SCENARIOS_CASES_RECEIVE:
 			return receiveCases(state, action);
 		case ActionTypes.SCENARIOS_CASES_EDITED_UPDATE:

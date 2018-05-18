@@ -18,6 +18,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		},
 		setActiveCase: (caseKey) => {
 			dispatch(Action.scenarios.setActiveCase(caseKey));
+			dispatch(Action.scenarios.load(caseKey));
 		},
 		setDefaultSituationActive: () => {
 			dispatch(Action.scenarios.setDefaultSituationActive(true));

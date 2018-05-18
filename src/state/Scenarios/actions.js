@@ -5,6 +5,7 @@ import config from '../../config';
 import _ from 'lodash';
 import path from 'path';
 import fetch from 'isomorphic-fetch';
+import queryString from 'query-string';
 
 const TTL = 5;
 
@@ -153,7 +154,7 @@ function update(data){
 	};
 }
 
-function load(ttl) {
+function load(caseKey, ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
 	return (dispatch, getState) => {
 
@@ -161,17 +162,19 @@ function load(ttl) {
 		if (state.scenarios.loading) {
 			// already loading, do nothing
 		} else {
-			dispatch(actionLoadRequest());
+			dispatch(actionLoadRequest(caseKey));
 
-			let activePlaceKey = Select.places.getActiveKey(state);
+			//let activePlaceKey = Select.places.getActiveKey(state);
 
-			if (activePlaceKey) {
+			//if (activePlaceKey) {
 
 				let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/scenarios');
-
-				let payload = {
-					place_id: activePlaceKey
-				};
+				let query = queryString.stringify({
+					scenario_case_id: caseKey
+				});
+				if (query) {
+					url += '?' + query;
+				}
 
 				return fetch(url, {
 					method: 'GET',
@@ -179,16 +182,15 @@ function load(ttl) {
 					headers: {
 						'Content-Type': 'application/json',
 						'Accept': 'application/json'
-					},
-					params: JSON.stringify(payload)
+					}
 				}).then(
 					response => {
 						console.log('#### load scenarios response', response);
 						let contentType = response.headers.get('Content-type');
 						if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
 							return response.json().then(data => {
-								if (data) {
-									dispatch(loadReceive(data));
+								if (data.data) {
+									dispatch(loadReceive(data.data)); //todo cancel loading for caseKey?
 								} else {
 									dispatch(actionLoadError('no data returned'));
 								}
@@ -200,16 +202,16 @@ function load(ttl) {
 					error => {
 						console.log('#### load scenarios error', error);
 						if (ttl - 1) {
-							dispatch(load(ttl - 1));
+							dispatch(load(caseKey, ttl - 1));
 						} else {
 							dispatch(actionLoadError("scenarios#actions load: scenarios weren't loaded!"));
 						}
 					}
 				);
 
-			} else {
-				dispatch(actionLoadError('scenarios#actions load: no active place'));
-			}
+			//} else {
+			//	dispatch(actionLoadError('scenarios#actions load: no active place'));
+			//}
 
 		}
 
@@ -218,14 +220,10 @@ function load(ttl) {
 
 function loadReceive(data) {
 	return dispatch => {
-		//data = _.map(data, feature => {
-		//	return {
-		//		key: feature.properties[aoiLayer.fidColumn || 'fid'],
-		//		code: feature.properties[aoiLayer.idColumn]
-		//	};
-		//});
-		console.log('#########', data);
-		//dispatch(actionLoadReceive(data));
+		data = _.map(data, ({id, ...model}) => {
+			return {...model, key: id};
+		});
+		dispatch(actionLoadReceive(data));
 	};
 }
 
@@ -244,10 +242,12 @@ function loadCases(ttl) {
 			if (activePlaceKey) {
 
 				let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/scenario_cases');
-
-				let payload = {
+				let query = queryString.stringify({
 					place_id: activePlaceKey
-				};
+				});
+				if (query) {
+					url += '?' + query;
+				}
 
 				return fetch(url, {
 					method: 'GET',
@@ -255,8 +255,7 @@ function loadCases(ttl) {
 					headers: {
 						'Content-Type': 'application/json',
 						'Accept': 'application/json'
-					},
-					params: JSON.stringify(payload)
+					}
 				}).then(
 					response => {
 						console.log('#### load scenarios cases response', response);
@@ -485,9 +484,10 @@ function actionUpdate(data) {
 	}
 }
 
-function actionLoadRequest() {
+function actionLoadRequest(caseKey) {
 	return {
-		type: ActionTypes.SCENARIOS_REQUEST
+		type: ActionTypes.SCENARIOS_REQUEST,
+		caseKey: caseKey
 	}
 }
 
