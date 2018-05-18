@@ -136,8 +136,23 @@ const mapsWatcher = (value, previousValue) => {
 		let previousMap = _.find(previousValue, {key: map.key});
 		if (previousMap) {
 			let diff = compare(map.layerPeriods, previousMap.layerPeriods);
-			let diffWmsLayers = compareWmsLayers(map.wmsLayers, previousMap.wmsLayers);
+			let diffWmsLayers = compareValues(map.wmsLayers, previousMap.wmsLayers);
 			let diffName = compareName(map.name, previousMap.name);
+			let diffLayerTemplates = compareValues(map.layerTemplates, previousMap.layerTemplates);
+
+			console.log('@@ diffLayerTemplates', diffLayerTemplates);
+			_.each(diffLayerTemplates.added, (value) => {
+				window.Stores.notify('ADD_INFO_LAYER', {
+					layerTemplateKey: value,
+					mapKey: map.key
+				});
+			});
+			_.each(diffLayerTemplates.removed, (value) => {
+				window.Stores.notify('REMOVE_INFO_LAYER', {
+					layerTemplateKey: value,
+					mapKey: map.key
+				});
+			});
 
 			console.log('@@ diff', diff);
 			_.each(diff.added, (value, key) => {
@@ -260,7 +275,7 @@ const compare = (next, prev) => {
 	}
 };
 
-const compareWmsLayers = (next, prev) => {
+const compareValues = (next, prev) => {
 	if (prev) {
 		let nextLayers = [];
 		if (_.isArray(next)){
@@ -297,3 +312,4 @@ const createWatcher = (store, selector, watcher, stateKey) => {
 		store.subscribe(watch(() => selector(store.getState()))(watcher));
 	}
 };
+
