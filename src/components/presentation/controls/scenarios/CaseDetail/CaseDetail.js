@@ -43,6 +43,7 @@ class CaseDetail extends React.PureComponent {
 		this.revertEditing = this.revertEditing.bind(this);
 		this.save = this.save.bind(this);
 		this.cancel = this.cancel.bind(this);
+		this.discard = this.discard.bind(this);
 		this.activateCaseEditing = this.activateCaseEditing.bind(this);
 		this.onChangeDescription = this.onChangeDescription.bind(this);
 		this.onChangeGeometry = this.onChangeGeometry.bind(this);
@@ -91,6 +92,11 @@ class CaseDetail extends React.PureComponent {
 		this.setState({
 			caseEditingActive: false
 		});
+	}
+
+	discard(){
+		this.props.revertCase();
+		this.props.discard();
 	}
 
 	revertEditing() {
@@ -239,15 +245,26 @@ class CaseDetail extends React.PureComponent {
 	}
 
 	renderButtons() {
+		let buttons = [];
+		if (this.props.caseEdited){
+			buttons.push(<Button key="save" onClick={this.save} primary>Save</Button>);
+			if (this.props.case){
+				buttons.push(<Button key="revert" onClick={this.revertEditing}>Revert</Button>);
+			}
+		} else {
+			if (this.props.case){
+				buttons.push(<Button key="cancel" onClick={this.cancel}>Cancel</Button>);
+			}
+		}
+
+		if (!this.props.case){
+			buttons.push(<Button key="discard" onClick={this.discard}>Discard</Button>);
+		}
+
 		return (
-			this.props.caseEdited ?
-				(<div className="ptr-case-detail-buttons">
-					<Button key="save" onClick={this.save} primary>Save</Button>
-					<Button key="revert" onClick={this.revertEditing}>Revert</Button>
-				</div>) :
-				(<div className="ptr-case-detail-buttons">
-					<Button key="cancel" onClick={this.cancel}>Cancel</Button>
-				</div>)
+			<div className="ptr-case-detail-buttons">
+				{buttons}
+			</div>
 		);
 	}
 

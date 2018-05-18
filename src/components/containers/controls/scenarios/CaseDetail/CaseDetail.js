@@ -30,6 +30,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		updateEditedCase: (key, value) => {
 			dispatch(Action.scenarios.updateEditedActiveCase(key, value))
 		},
+		discard: () => {
+			ownProps.changeActiveScreen('caseList');
+			dispatch(Action.scenarios.setActiveCase());
+		},
 		revertCase: () => {
 			dispatch(Action.scenarios.removeEditedActiveCase());
 		},
