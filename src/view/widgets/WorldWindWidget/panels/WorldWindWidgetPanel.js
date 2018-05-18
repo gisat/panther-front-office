@@ -40,8 +40,11 @@ class WorldWindWidgetPanel {
         if(!options.store){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindWidgetPanel', 'constructor', 'Stores must be provided'));
         }
-        if(!options.store.map){
-            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindWidgetPanel', 'constructor', 'Store map must be provided'));
+        if(!options.store.map) {
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindWidgetPanel', 'constructor', 'Store map must be provided'));
+		}
+        if(!options.store.state){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindWidgetPanel', 'constructor', 'Store state must be provided'));
         }
 
         this._id = options.id;
@@ -54,6 +57,7 @@ class WorldWindWidgetPanel {
             this._isOpen = options.isOpen;
         }
         this._mapStore = options.store.map;
+        this._stateStore = options.store.state;
         this.build();
     };
 
@@ -357,6 +361,7 @@ class WorldWindWidgetPanel {
      */
     switchLayer(event) {
         let self = this;
+        let state = this._stateStore.current().scopeFull;
         setTimeout(function(){
             let checkbox = $(event.currentTarget);
             let layerId = checkbox.attr("data-id");
@@ -367,7 +372,9 @@ class WorldWindWidgetPanel {
             });
             if (checkbox.hasClass("checked")){
                 control.active = true;
-                self.addLayer(control);
+                if (!state.scenarios){
+					self.addLayer(control);
+                }
                 if (self._groupId === "wms-layers"){
                     self._dispatcher.notify('wmsLayer#add', {layerKey: control.layers[0].id})
                 } else if (self._groupId === "info-layers"){
@@ -376,8 +383,10 @@ class WorldWindWidgetPanel {
 				}
             } else {
                 control.active = false;
-                control.layerTools.hide();
-                self.removeLayer(control);
+				if (!state.scenarios){
+					control.layerTools.hide();
+					self.removeLayer(control);
+				}
                 if (self._groupId === "wms-layers"){
                     self._dispatcher.notify('wmsLayer#remove', {layerKey: control.layers[0].id})
                 } else if (self._groupId === "info-layers"){
