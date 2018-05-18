@@ -165,7 +165,8 @@ class TopToolBar {
                 this._target.append('<div class="' + classesSnowWidget3d + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget"><span>'+polyglot.t('savedConfigurations')+'</span></div>');
             }
 			if (tools.scenarios){
-				this._target.append('<div class="item" id="top-toolbar-scenarios"><span>'+polyglot.t('scenarios')+'</span></div>');
+                let classesScenarios = this._scenariosWidgetIsOpen ? "item open" : "item";
+				this._target.append('<div class="' + classesScenarios + '" id="top-toolbar-scenarios"><span>'+polyglot.t('scenarios')+'</span></div>');
 			}
         }
 
@@ -480,7 +481,12 @@ class TopToolBar {
 		} else if (type === Actions.mapsContainerEnableAdding){
 			this.handleMapButtonActivity(true);
 		} else if (type === 'SCENARIOS_WINDOW_TOGGLE'){
-			$('#top-toolbar-scenarios').toggleClass('open');
+		    var scenariosItem = $('#top-toolbar-scenarios');
+		    var isOpen = scenariosItem.hasClass('open');
+			this._scenariosWidgetIsOpen = !isOpen;
+			scenariosItem.toggleClass('open');
+
+
 		}
     }
 }
