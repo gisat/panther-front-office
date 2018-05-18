@@ -74,9 +74,11 @@ class WorldWindow extends React.PureComponent {
 	}
 
 	changeBackgroundLayer(key){
-		this.layersControl.removeAllLayersFromGroup('background-layers');
-		this.layersControl.addBackgroundLayer(key, 'background-layers');
-		this.wwd.redraw();
+		if (key){
+			this.layersControl.removeAllLayersFromGroup('background-layers');
+			this.layersControl.addBackgroundLayer(key, 'background-layers');
+			this.wwd.redraw();
+		}
 	}
 
 	/**

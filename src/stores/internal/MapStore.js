@@ -6,6 +6,65 @@ import stringUtils from '../../util/stringUtils';
 
 import _ from 'underscore';
 
+const fakeDataLayers = {
+	1: {
+		3332: {
+			layer: "geonode:i4314_pucs_ua2012_prague_scna",
+			style: "urbanAtlas"
+		},
+		4092: {
+			layer: "geonode:i4331_pucs_ua2012_prague_scna_mean_hwd_2007_2016_scenari",
+			style: "pucs_hwd"
+		},
+		4091: {
+			layer: "geonode:i4332_pucs_ua2012_prague_scna_mean_uhi_23h_2007_2016_sce",
+			style: "pucs_uhi"
+		}
+	},
+	2: {
+		3332: {
+			layer: "geonode:i4333_pucs_ua2012_prague_scnb",
+			style: "urbanAtlas"
+		},
+		4092: {
+			layer: "geonode:i4335_pucs_ua2012_prague_scnb_mean_hwd_2007_2016_scenari",
+			style: "pucs_hwd"
+		},
+		4091: {
+			layer: "geonode:i4336_pucs_ua2012_prague_scnb_mean_uhi_23h_2007_2016_sce",
+			style: "pucs_uhi"
+		}
+	},
+	3: {
+		3332: {
+			layer: "geonode:i4337_pucs_ua2012_prague_scnc",
+			style: "urbanAtlas"
+		},
+		4092: {
+			layer: "geonode:i4339_pucs_ua2012_prague_scnc_mean_hwd_2007_2016_scenari",
+			style: "pucs_hwd"
+		},
+		4091: {
+			layer: "geonode:i4340_pucs_ua2012_prague_scnc_mean_uhi_23h_2007_2016_sce",
+			style: "pucs_uhi"
+		}
+	},
+	"default": {
+		3332: {
+			layer: "geonode:i4316_default",
+			style: "urbanAtlas"
+		},
+		4092: {
+			layer: "geonode:i4320_prague_mean_hwd_2007_2016_scenario",
+			style: "pucs_hwd"
+		},
+		4091: {
+			layer: "geonode:i4321_prague_mean_uhi_23h_2007_2016_scenario",
+			style: "pucs_uhi"
+		}
+	}
+};
+
 /**
  * It creates MapStore and contains maps themselves
  * @constructor
@@ -55,6 +114,25 @@ class MapStore {
             }
         });
     }
+
+	/**
+	 * Add Info layer to given map.
+	 */
+	addInfoLayerToMap(layerTemplateId, mapId) {
+		let self = this;
+		self._maps.forEach(function (map) {
+			if (map.id === mapId){
+				let source = fakeDataLayers[map.scenarioKey || "default"][layerTemplateId];
+				if (source){
+					map.layers.addInfoLayer({
+						layerPaths: source.layer,
+						stylePaths: source.style,
+						id: layerTemplateId,
+					}, 'info-layers', true);
+				}
+            }
+		});
+	};
 
     /**
      * Add WMS layer to given map.
@@ -243,6 +321,18 @@ class MapStore {
         });
     };
 
+	removeLayerFromMap(layerId, mapId) {
+		this._maps.forEach(function (map) {
+			if (map.id === mapId) {
+				map._wwd.layers.forEach(function (layer) {
+					if (layer.metadata && layer.metadata.id === layerId) {
+						map.layers.removeLayerFromMap(layer, true);
+					}
+				});
+			}
+		});
+	};
+
     /**
      * It accepts events in the application and handles these that are relevant.
      * @param type {String} Event type to distinguish whether this store cares.
@@ -263,7 +353,13 @@ class MapStore {
         }
 
         // notifications from React
-        else if (type === "ADD_WMS_LAYER") {
+		else if (type === "ADD_INFO_LAYER") {
+			console.log("## ADD_INFO_LAYER", options);
+			this.addInfoLayerToMap(options.layerTemplateKey, options.mapKey);
+		} else if (type === "REMOVE_INFO_LAYER") {
+			console.log("## REMOVE_INFO_LAYER", options);
+			this.removeLayerFromMap(options.layerTemplateKey, options.mapKey);
+		} else if (type === "ADD_WMS_LAYER") {
             console.log("## ADD_WMS_LAYER", options);
             let customParams = null;
             if (options.period) {

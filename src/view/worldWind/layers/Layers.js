@@ -366,7 +366,7 @@ class Layers {
             layerNames: layerData.layerPaths,
             sector: new WorldWind.Sector(-90, 90, -180, 180),
             levelZeroDelta: new WorldWind.Location(45, 45),
-            opacity: .7,
+            opacity: layerData.opacity || .7,
             numLevels: 22,
             format: "image/png",
             size: 256,
@@ -376,7 +376,7 @@ class Layers {
         layer.metadata = {
             active: state,
             id: layerData.id,
-            name: layerData.name,
+            name: layerData.name ,
             group: group
         };
         this.addLayer(layer);
