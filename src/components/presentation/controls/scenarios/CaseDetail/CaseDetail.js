@@ -142,8 +142,8 @@ class CaseDetail extends React.PureComponent {
 		let scenarios = null;
 		let defaultState = null;
 
-		let name = this.props.caseEdited && this.props.caseEdited.data.hasOwnProperty('name') ? this.props.caseEdited.data.name : this.props.case && this.props.case.name;
-		let description = this.props.caseEdited && this.props.caseEdited.data.hasOwnProperty('description') ? this.props.caseEdited.data.description : this.props.case && this.props.case.description;
+		let name = this.props.caseEdited && this.props.caseEdited.data.hasOwnProperty('name') ? this.props.caseEdited.data.name : this.props.case && this.props.case.data && this.props.case.data.name;
+		let description = this.props.caseEdited && this.props.caseEdited.data.hasOwnProperty('description') ? this.props.caseEdited.data.description : this.props.case && this.props.case.data && this.props.case.data.description;
 
 		if (scenariosData){
 			defaultState = this.renderDefaultState();
@@ -211,7 +211,7 @@ class CaseDetail extends React.PureComponent {
 	}
 
 	renderMap(){
-		let caseData = this.props.case;
+		let caseData = this.props.case ? this.props.case.data : null;
 		let caseGeometry = null;
 		let caseBbox = null;
 
@@ -268,20 +268,22 @@ class CaseDetail extends React.PureComponent {
 		);
 	}
 
-	renderScenario(data){
+	renderScenario(scenario){
 		let name = "";
 		let description = "";
 		let key = null;
 		let checked = false;
 
-		if (data){
-			key = data.key;
-			name = data.name;
-			description = data.description;
+		if (scenario){
+			key = scenario.key;
+			if (scenario.data){
+				name = scenario.data.name;
+				description = scenario.data.description;
+			}
 		}
 
 		let activeScenarioKey = _.find(this.props.activeScenarioKeys, (key) => {
-			return (key === data.key);
+			return (key === scenario.key);
 		});
 		if (activeScenarioKey){
 			checked = true;

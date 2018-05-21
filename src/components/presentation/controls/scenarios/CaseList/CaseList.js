@@ -63,7 +63,7 @@ class CaseList extends React.PureComponent {
 			// always render Unsaved editing because of the same width of whole card
 			return (
 				<div key={caseData.key} className={classes} onClick={this.showDetail.bind(this, caseData.key)}>
-					<h4>{caseData.name}</h4>
+					<h4>{caseData.data.name}</h4>
 					<div className='case-list-item-footer'>
 						<span className='case-list-item-footer-scenarios'>{scenariosCount} {scenariosText}</span>
 						<span className='case-list-item-footer-editing'>Unsaved editing</span>
