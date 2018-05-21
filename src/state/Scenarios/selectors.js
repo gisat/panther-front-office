@@ -44,7 +44,7 @@ const getActiveCaseEdited = createSelector(
 const getActiveCaseScenarioKeys = createSelector(
 	[getActiveCase],
 	(activeCase) => {
-		return activeCase ? activeCase.scenarios : null;
+		return (activeCase && activeCase.data) ? activeCase.data.scenarios : null;
 	}
 );
 
