@@ -32,15 +32,15 @@ function updateEditedActiveCase(key, value) {
 		let activeCase = Select.scenarios.getActiveCase(state);
 		let sameCoordinates = false;
 
-		if (activeCase){
-			if (key === 'geometry' && activeCase.geometry){
-				let geometry = _.cloneDeep(activeCase.geometry);
+		if (activeCase && activeCase.data){
+			if (key === 'geometry' && activeCase.data.geometry){
+				let geometry = _.cloneDeep(activeCase.data.geometry);
 				sameCoordinates = JSON.stringify(value.coordinates) === JSON.stringify(geometry.coordinates);
 			}
-			if (sameCoordinates || (value === activeCase[key]) || (!activeCase[key] && value.length === 0)){
-				dispatch(actionRemovePropertyFromEditedCase(activeCase.key, key));
+			if (sameCoordinates || (value === activeCase.data[key]) || (!activeCase.data[key] && value.length === 0)){
+				dispatch(actionRemovePropertyFromEditedCase(activeCaseKey, key));
 			} else {
-				dispatch(actionUpdateEditedCases([{key: activeCase.key, data: {[key]: value}}]));
+				dispatch(actionUpdateEditedCases([{key: activeCaseKey, data: {[key]: value}}]));
 			}
 		} else {
 			dispatch(actionUpdateEditedCases([{key: activeCaseKey, data: {[key]: value}}]));
@@ -50,10 +50,10 @@ function updateEditedActiveCase(key, value) {
 
 function updateEditedScenario(scenarioKey, key, value) {
 	return (dispatch, getState) => {
-		let state = Select.scenarios.getScenario(getState(), scenarioKey);
+		let scenario = Select.scenarios.getScenario(getState(), scenarioKey);
 
 		// delete property from edited, if the value in update is the same as in state
-		if (state && (value === state[key] || (!state[key] && value.length === 0))){
+		if (scenario && (value === scenario.data[key] || (!scenario.data[key] && value.length === 0))){
 			dispatch(actionRemovePropertyFromEditedScenario(scenarioKey, key));
 		} else {
 			dispatch(actionUpdateEditedScenarios([{key: scenarioKey, data: {[key]: value}}]));
@@ -106,8 +106,9 @@ function addActiveScenario(key){
 function applyDataviewSettings(data){
 	return (dispatch, getState) => {
 
-		let scenariosState = Select.scenarios.getAll(getState());
-		let casesState = Select.scenarios.getCasesAll(getState());
+		let state = getState();
+		let scenariosState = Select.scenarios.getAll(state);
+		let casesState = Select.scenarios.getCasesAll(state);
 
 		// check, if case saved as active still exists
 		let activeCase = null;
@@ -291,12 +292,13 @@ function loadCases(ttl) {
 	};
 }
 
-function loadCasesReceive(data) {
+function loadCasesReceive(models) {
 	return dispatch => {
-		data = _.map(data, ({id, geometry, scenario_ids, ...model}) => {
-			return {...model, key: id, geometry: JSON.parse(geometry), scenarios: scenario_ids};
+		models = _.map(models, ({id, data, ...model}) => {
+			let {scenario_ids, ...modelData} = data;
+			return {...model, key: id, data: {...modelData, geometry: JSON.parse(modelData.geometry), scenarios: scenario_ids}};
 		});
-		dispatch(actionLoadCasesReceive(data));
+		dispatch(actionLoadCasesReceive(models));
 	};
 }
 
@@ -420,14 +422,14 @@ function apiUpdateCases(updates, ttl) {
 function apiCreateCasesReceive(data) {
 	return (dispatch, getState) => {
 		// add to data
-		let oldStructureData = _.map(data, model => {
-			return {
-				id: model.id,
-				...model.data
-			};
-		});
-		dispatch(loadCasesReceive(oldStructureData));
-		// change active key
+		//let oldStructureData = _.map(data, model => {
+		//	return {
+		//		id: model.id,
+		//		...model.data
+		//	};
+		//});
+		dispatch(loadCasesReceive(data));
+		// change active key if of temporary case
 		let activeCaseKey = Select.scenarios.getActiveCaseKey(getState());
 		if (activeCaseKey) {
 			let activeCaseCreated = _.find(data, {uuid: activeCaseKey});
