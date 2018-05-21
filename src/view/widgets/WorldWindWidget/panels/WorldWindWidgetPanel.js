@@ -304,12 +304,15 @@ class WorldWindWidgetPanel {
      */
     buildLayerControlRow(target, id, name, layers, style, layerTemplateId) {
 		let checked = false;
+		let control = null;
 		if (this._groupId === "info-layers"){
 			checked = this.isControlActive(layerTemplateId);
+			control = this.buildLayerControl(target, id, name, layers, style, checked, this._groupId);
 		} else {
 			checked = this.isControlActive(id, layers);
+			control = this.buildLayerControl(target, id, name, layers, style, checked, this._groupId);
 		}
-		let control = this.buildLayerControl(target, id, name, layers, style, checked, this._groupId);
+
 		this._layersControls.push(control);
 		control.layerTools.buildOpacity();
 		if (this._groupId === "info-layers" || this._groupId === "wms-layers"){
@@ -418,8 +421,16 @@ class WorldWindWidgetPanel {
                     if (control.style){
                         id = id + "-" + control.style.path;
                     }
+                    if (self._id === 'info-layers'){
+						id = layerData.layerTemplateId;
+						if (control.style){
+							id += "-" + control.style.path;
+						}
+                    }
                     let layer = map.layers.getLayerById(id);
-                    map.layers.removeLayer(layer);
+                    if (layer){
+						map.layers.removeLayer(layer);
+                    }
                 }
             });
         });
@@ -478,6 +489,11 @@ class WorldWindWidgetPanel {
                             map.layers.addWmsLayer(layer.data, self._id, true);
                         } else if (self._groupId === "info-layers") {
                             layer.data.layerPaths = layerData.path;
+                            let id = layerData.layerTemplateId;
+                            if (layer.data.stylePaths){
+                                id += "-" + layer.data.stylePaths;
+                            }
+                            layer.data.id = id;
                             map.layers.addInfoLayer(layer.data, self._id, true);
                         }
                     }

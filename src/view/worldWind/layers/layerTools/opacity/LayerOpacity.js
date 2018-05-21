@@ -103,8 +103,11 @@ class LayerOpacity extends LayerTool {
         this._maps.forEach(function (map) {
             self._layers.forEach(function (layer) {
                 let id = layer.id;
-                if (self._style) {
-                    id = id + "-" + self._style.path;
+                if (layer.layerTemplateId){
+                    id = layer.layerTemplateId;
+					if (self._style) {
+						id += "-" + self._style.path;
+					}
                 }
                 if (self._class === "wms-layers") {
                     id = "wmsLayer-" + id;

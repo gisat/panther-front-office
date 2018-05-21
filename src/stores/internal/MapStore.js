@@ -124,10 +124,14 @@ class MapStore {
 			if (map.id === mapId){
 				let source = fakeDataLayers[map.scenarioKey || "default"][layerTemplateId];
 				if (source){
+					let id = layerTemplateId;
+					if (source.style){
+						id += "-" + source.style;
+					}
 					map.layers.addInfoLayer({
 						layerPaths: source.layer,
 						stylePaths: source.style,
-						id: layerTemplateId,
+						id: id,
 					}, 'info-layers', true);
 				}
             }
@@ -325,8 +329,14 @@ class MapStore {
 		this._maps.forEach(function (map) {
 			if (map.id === mapId) {
 				map._wwd.layers.forEach(function (layer) {
-					if (layer.metadata && layer.metadata.id === layerId) {
-						map.layers.removeLayerFromMap(layer, true);
+					if (layer.metadata) {
+						let id = layerId;
+						if (layer.metadata.style){
+							id += "-" + layer.metadata.style;
+						}
+						if (layer.metadata.id === id){
+							map.layers.removeLayer(layer, true);
+						}
 					}
 				});
 			}
@@ -354,11 +364,15 @@ class MapStore {
 
         // notifications from React
 		else if (type === "ADD_INFO_LAYER") {
-			console.log("## ADD_INFO_LAYER", options);
-			this.addInfoLayerToMap(options.layerTemplateKey, options.mapKey);
+			if (scope.scenarios){
+				console.log("## ADD_INFO_LAYER", options);
+				this.addInfoLayerToMap(options.layerTemplateKey, options.mapKey);
+			}
 		} else if (type === "REMOVE_INFO_LAYER") {
-			console.log("## REMOVE_INFO_LAYER", options);
-			this.removeLayerFromMap(options.layerTemplateKey, options.mapKey);
+			if (scope.scenarios){
+				console.log("## REMOVE_INFO_LAYER", options);
+				this.removeLayerFromMap(options.layerTemplateKey, options.mapKey);
+			}
 		} else if (type === "ADD_WMS_LAYER") {
             console.log("## ADD_WMS_LAYER", options);
             let customParams = null;

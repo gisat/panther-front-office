@@ -376,8 +376,9 @@ class Layers {
         layer.metadata = {
             active: state,
             id: layerData.id,
-            name: layerData.name ,
-            group: group
+            name: layerData.name,
+            group: group,
+            style: layerData.stylePaths
         };
         this.addLayer(layer);
     };
