@@ -42,8 +42,8 @@ class CaseList extends React.PureComponent {
 			let scenariosCount = 0;
 			let scenariosText = "scenario";
 
-			if (caseData.scenarios){
-				caseData.scenarios.map(caseScenario => {
+			if (caseData.data && caseData.data.scenarios){
+				caseData.data.scenarios.map(caseScenario => {
 					if (self.props.scenariosEdited){
 						self.props.scenariosEdited.map(editedScenarioData => {
 							if (caseScenario === editedScenarioData.key){
@@ -52,7 +52,7 @@ class CaseList extends React.PureComponent {
 						});
 					}
 				});
-				scenariosCount = caseData.scenarios.length;
+				scenariosCount = caseData.data.scenarios.length;
 				scenariosText = "scenarios";
 			}
 
