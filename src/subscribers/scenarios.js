@@ -73,7 +73,9 @@ const activeCaseWatcher = (value, previousValue) => {
 	if (value && value.data && value.data.geometry){
 		options = {bbox: mapUtils.getGeometryBbox(value.data.geometry)};
 	}
-	window.Stores.notify('ZOOM_MAPS_BY_CASE_GEOMETRY', options);
+	if (value && (!previousValue || value.key !== previousValue.key)){
+		window.Stores.notify('ZOOM_MAPS_BY_CASE_GEOMETRY', options);
+	}
 };
 
 const compareActiveScenarios = (next, prev) => {
