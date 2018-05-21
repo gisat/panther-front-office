@@ -442,10 +442,17 @@ class WorldWindWidgetPanel {
      */
     addLayer(control) {
         let self = this;
+        let state = this._stateStore.current().scopeFull;
         if (control.active){
             control.layers.forEach(function(layerData){
                 self._allMaps.forEach(function(map){
                     let layerPeriods = layerData.periods;
+
+                    // todo fix for maps dependent on sceanrios
+                    if (state.scenarios && self._groupId === 'info-layers'){
+                        self._dispatcher.notify("ADD_INFO_LAYER", {layerTemplateKey: layerData.layerTemplateId, mapKey: map.id});
+                        return;
+                    }
                     if (layerData.period){
                         layerPeriods = layerData.period
                     }
