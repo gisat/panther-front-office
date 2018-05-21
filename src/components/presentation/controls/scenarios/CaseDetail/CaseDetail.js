@@ -283,7 +283,7 @@ class CaseDetail extends React.PureComponent {
 		}
 
 		let activeScenarioKey = _.find(this.props.activeScenarioKeys, (key) => {
-			return (key === scenario.key);
+			return scenario ? (key === scenario.key) : false;
 		});
 		if (activeScenarioKey){
 			checked = true;

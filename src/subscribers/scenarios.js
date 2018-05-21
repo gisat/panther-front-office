@@ -46,7 +46,7 @@ const activeScenarioKeysWatcher = (value, previousValue) => {
 			return scenario.key === value});
 		window.Stores.notify('ADD_MAP_BY_SCENARIO', {
 			scenarioKey: value,
-			scenarioData: scenarioData
+			scenarioData: scenarioData ? scenarioData.data : null
 		});
 	});
 	_.each(difference.removed, (value) => {
@@ -70,8 +70,8 @@ const activeCaseScenariosWatcher = (value, previousValue) => {
 const activeCaseWatcher = (value, previousValue) => {
 	console.log('@@ activeCaseWatcher', previousValue, '->', value);
 	let options = null;
-	if (value && value.geometry){
-		options = {bbox: mapUtils.getGeometryBbox(value.geometry)};
+	if (value && value.data && value.data.geometry){
+		options = {bbox: mapUtils.getGeometryBbox(value.data.geometry)};
 	}
 	window.Stores.notify('ZOOM_MAPS_BY_CASE_GEOMETRY', options);
 };

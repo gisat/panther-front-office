@@ -80,12 +80,20 @@ function setActiveCase(key) {
 		dispatch(actionSetActiveCase(key));
 		if (key){
 			let scenarios = Select.scenarios.getActiveCaseScenarioKeys(getState());
-			if (key !== previousCase){
+			let caseData = Select.scenarios.getCase(getState(), key);
+			if (key !== previousCase && caseData && caseData.scenariosLoaded){
 				dispatch(actionSetActiveKeys(scenarios));
 			}
 		} else {
 			dispatch(actionSetActiveKeys(null));
 		}
+	}
+}
+
+function setAllActiveCaseScenariosActive(caseKey) {
+	return (dispatch, getState) => {
+		let scenarios = Select.scenarios.getActiveCaseScenarioKeys(getState());
+		dispatch(actionSetActiveKeys(scenarios));
 	}
 }
 
@@ -155,6 +163,12 @@ function update(data){
 	};
 }
 
+function updateCases(data){
+	return dispatch => {
+		dispatch(actionUpdateCases(data));
+	};
+}
+
 function load(caseKey, ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
 	return (dispatch, getState) => {
@@ -192,6 +206,7 @@ function load(caseKey, ttl) {
 							return response.json().then(data => {
 								if (data.data) {
 									dispatch(loadReceive(data.data)); //todo cancel loading for caseKey?
+									dispatch(scenariosLoadedForCase(caseKey));
 								} else {
 									dispatch(actionLoadError('no data returned'));
 								}
@@ -225,6 +240,28 @@ function loadReceive(data) {
 			return {...model, key: id};
 		});
 		dispatch(actionLoadReceive(data));
+	};
+}
+
+function scenariosLoadedForCase(caseKey){
+	return (dispatch, getState) => {
+		let state = getState();
+		let casesState = Select.scenarios.getCasesAll(state);
+		let casesData = Select.scenarios.getCases(state);
+		let activeCaseKey = Select.scenarios.getActiveCaseKey(state);
+
+		let updatedData = [];
+		_.each(casesData, model => {
+			if (model.key === activeCaseKey) {
+				updatedData.push({...model, scenariosLoaded: true});
+			} else {
+				updatedData.push(model);
+			}
+		});
+		let stateUpdate = {...casesState, data: updatedData};
+
+		dispatch(updateCases(stateUpdate));
+		dispatch(setAllActiveCaseScenariosActive(caseKey));
 	};
 }
 
@@ -276,7 +313,7 @@ function loadCases(ttl) {
 					error => {
 						console.log('#### load scenario cases error', error);
 						if (ttl - 1) {
-							dispatch(load(ttl - 1));
+							dispatch(loadCases(ttl - 1));
 						} else {
 							dispatch(actionLoadCasesError("scenarios#actions load cases: cases weren't loaded!"));
 						}
@@ -482,6 +519,13 @@ function actionSetDefaultSituationActive(active) {
 function actionUpdate(data) {
 	return {
 		type: ActionTypes.SCENARIOS_UPDATE,
+		data: data
+	}
+}
+
+function actionUpdateCases(data) {
+	return {
+		type: ActionTypes.SCENARIOS_CASES_UPDATE,
 		data: data
 	}
 }

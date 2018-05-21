@@ -10,6 +10,7 @@ const getCasesEdited = state => state.scenarios.cases.editedData;
 const getCasesAll = state => state.scenarios.cases;
 const getScenarios = state => state.scenarios.data;
 const getScenariosEdited = state => state.scenarios.editedData;
+
 const isDefaultSituationActive = state => state.scenarios.defaultSituationActive;
 
 const getScenarioEdited = (state, key) => {
@@ -63,6 +64,14 @@ const getActiveCaseScenarios = createSelector(
 	}
 );
 
+const getCase = (state, key) => {
+	let caseData = null;
+	if (key && state.scenarios.cases && state.scenarios.cases.data){
+		caseData = _.find(state.scenarios.cases.data, {key: key});
+	}
+	return caseData;
+};
+
 const getScenario = (state, key) => {
 	let scenario = null;
 	if (key){
@@ -71,7 +80,15 @@ const getScenario = (state, key) => {
 	return scenario;
 };
 
+const activeCaseScenariosLoaded = createSelector(
+	[getActiveCase],
+	(activeCase) => {
+		return activeCase ? activeCase.scenariosLoaded : false;
+	});
+
+
 export default {
+	activeCaseScenariosLoaded: activeCaseScenariosLoaded,
 	getActive: getActive,
 	getActiveCase: getActiveCase,
 	getActiveCaseEdited: getActiveCaseEdited,
@@ -81,6 +98,7 @@ export default {
 	getActiveKey: getActiveKey,
 	getActiveKeys: getActiveKeys,
 	getAll: getAll,
+	getCase: getCase,
 	getCases: getCases,
 	getCasesAll: getCasesAll,
 	getCasesEdited: getCasesEdited,

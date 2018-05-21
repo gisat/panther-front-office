@@ -289,6 +289,10 @@ function update(state, action){
 	return {...state, ...action.data}
 }
 
+function updateCases(state, action){
+	return {...state, cases: {...state.cases, ...action.data}}
+}
+
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.SCENARIOS_ADD:
@@ -309,10 +313,16 @@ export default (state = INITIAL_STATE, action) => {
 			return addCasesDistinct(state, action);
 		case ActionTypes.SCENARIOS_CASES_SET_ACTIVE:
 			return setActiveCase(state, action);
+		case ActionTypes.SCENARIOS_CASES_UPDATE:
+			return updateCases(state, action);
 		case ActionTypes.SCENARIOS_UPDATE:
 			return update(state, action);
 		case ActionTypes.SCENARIOS_RECEIVE:
 			return receive(state, action);
+		case ActionTypes.SCENARIOS_REQUEST:
+			return request(state, action);
+		case ActionTypes.SCENARIOS_REQUEST_ERROR:
+			return requestError(state, action);
 		case ActionTypes.SCENARIOS_CASES_RECEIVE:
 			return receiveCases(state, action);
 		case ActionTypes.SCENARIOS_CASES_EDITED_UPDATE:
