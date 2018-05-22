@@ -220,6 +220,24 @@ function setActiveBackgroundLayer(key){
 	}
 }
 
+function updateWithScenarios(){
+	return (dispatch, getState) => {
+		let state = getState();
+		let maps = Select.maps.getMapsOverrides(state);
+		let activeScenarios = Select.scenarios.getActiveScenarios(state);
+		let updatedMaps = [];
+		maps.map(map => {
+			let scenarioForMap = _.find(activeScenarios, (scenario) => {return scenario.key === map.scenarioKey});
+			if (scenarioForMap){
+				updatedMaps.push({...map, name: scenarioForMap.data.name, dataLoading: false});
+			} else {
+				updatedMaps.push(map);
+			}
+		});
+		dispatch(update(updatedMaps));
+	}
+}
+
 // ============ actions ===========
 
 function actionAdd(maps) {
@@ -290,5 +308,6 @@ export default {
 	setActive: setActive,
 	setActiveBackgroundLayer: setActiveBackgroundLayer,
 	update: update,
-	updateDefaults: updateDefaults
+	updateDefaults: updateDefaults,
+	updateWithScenarios: updateWithScenarios
 }

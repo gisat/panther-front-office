@@ -38,6 +38,7 @@ export default {
 	getActiveMapKey: getActiveMapKey,
 	getActiveMap: getActiveMap,
 	getMaps: getMaps,
+	getMapsOverrides: getMapsOverrides,
 	getMapDefaults: getMapDefaults,
 	getPeriodIndependence: getPeriodIndependence
 };

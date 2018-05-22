@@ -28,6 +28,20 @@ const getActive = createSelector(
 	}
 );
 
+const getActiveScenarios = createSelector(
+	[getScenarios, getActiveKeys],
+	(scenarios, activeKeys) => {
+		let activeScenarios = [];
+		activeKeys.map(activeKey => {
+			let scenario = _.find(scenarios, {key: activeKey});
+			if (scenario){
+				activeScenarios.push(scenario);
+			}
+		});
+		return activeScenarios;
+	}
+);
+
 const getActiveCase = createSelector(
 	[getCases, getActiveCaseKey],
 	(cases, activeKey) => {
@@ -97,6 +111,7 @@ export default {
 	getActiveCaseScenarios: getActiveCaseScenarios,
 	getActiveKey: getActiveKey,
 	getActiveKeys: getActiveKeys,
+	getActiveScenarios: getActiveScenarios,
 	getAll: getAll,
 	getCase: getCase,
 	getCases: getCases,

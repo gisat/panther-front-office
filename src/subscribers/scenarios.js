@@ -70,11 +70,17 @@ const activeCaseScenariosWatcher = (value, previousValue) => {
 const activeCaseWatcher = (value, previousValue) => {
 	console.log('@@ activeCaseWatcher', previousValue, '->', value);
 	let options = null;
-	if (value && value.data && value.data.geometry){
-		options = {bbox: mapUtils.getGeometryBbox(value.data.geometry)};
-	}
-	if (value && (!previousValue || value.key !== previousValue.key)){
-		window.Stores.notify('ZOOM_MAPS_BY_CASE_GEOMETRY', options);
+	if (value){
+
+		// if case has geometry, pass it as an option
+		if (value.data && value.data.geometry){
+			options = {bbox: mapUtils.getGeometryBbox(value.data.geometry)};
+		}
+
+		// zoom all maps if case was changed
+		if (!previousValue || (value.key !== previousValue.key)){
+			window.Stores.notify('ZOOM_MAPS_BY_CASE_GEOMETRY', options);
+		}
 	}
 };
 

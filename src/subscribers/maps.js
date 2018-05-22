@@ -21,7 +21,6 @@ const setStoreWatchers = store => {
 	createWatcher(store, Select.maps.getPeriodIndependence, periodIndependenceWatcher, 'independentOfPeriod');
 
 	createWatcher(store, Select.places.getActive, ()=>{}, 'activePlace');
-
 };
 
 const setEventListeners = store => {
@@ -32,7 +31,13 @@ const setEventListeners = store => {
 				store.dispatch(Action.maps.setActive(options.id));
 				break;
 			case 'map#added':
-				store.dispatch(Action.maps.add(convertWorldWindMapToMap(options.map)));
+				let map = convertWorldWindMapToMap(options);
+				store.dispatch(Action.maps.add(map));
+
+				if (map.scenarioKey){
+					store.dispatch(Action.maps.updateWithScenarios())
+				}
+
 				break;
 			case 'map#removed':
 				store.dispatch(Action.maps.remove(options.id));
@@ -236,13 +241,19 @@ const onPeriodsChanged = (store, options, initial) => {
 
 // ======== helpers ========
 
-const convertWorldWindMapToMap = (map) => {
+const convertWorldWindMapToMap = (options) => {
+	let map = options.map;
+
 	let data = {
 		key: map._id,
 		name: map._name
 	};
 	if (map._period && !state.independentOfPeriod){
-		data['period'] = map._period
+		data['period'] = map._period;
+	}
+	if (map.scenarioKey){
+		data['scenarioKey'] = map.scenarioKey;
+		data['dataLoading'] = true;
 	}
 
 	return data;

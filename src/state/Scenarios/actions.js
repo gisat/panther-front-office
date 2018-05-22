@@ -1,3 +1,4 @@
+import Action from '../Action';
 import ActionTypes from '../../constants/ActionTypes';
 import Select from '../Select';
 import config from '../../config';
@@ -80,20 +81,12 @@ function setActiveCase(key) {
 		dispatch(actionSetActiveCase(key));
 		if (key){
 			let scenarios = Select.scenarios.getActiveCaseScenarioKeys(getState());
-			let caseData = Select.scenarios.getCase(getState(), key);
-			if (key !== previousCase && caseData && caseData.scenariosLoaded){
+			if (key !== previousCase){
 				dispatch(actionSetActiveKeys(scenarios));
 			}
 		} else {
 			dispatch(actionSetActiveKeys(null));
 		}
-	}
-}
-
-function setAllActiveCaseScenariosActive(caseKey) {
-	return (dispatch, getState) => {
-		let scenarios = Select.scenarios.getActiveCaseScenarioKeys(getState());
-		dispatch(actionSetActiveKeys(scenarios));
 	}
 }
 
@@ -259,9 +252,8 @@ function scenariosLoadedForCase(caseKey){
 			}
 		});
 		let stateUpdate = {...casesState, data: updatedData};
-
 		dispatch(updateCases(stateUpdate));
-		dispatch(setAllActiveCaseScenariosActive(caseKey));
+		dispatch(Action.maps.updateWithScenarios());
 	};
 }
 
