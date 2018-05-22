@@ -66,7 +66,7 @@ class CaseDetail extends React.PureComponent {
 		/**
 		 * Turn on Default state, if there is no scenario in the Case
 		 */
-		if (!nextProps.scenarios && !nextProps.isDefaultSituationActive){
+		if ((!nextProps.activeScenarioKeys || nextProps.activeScenarioKeys.length === 0) && !nextProps.isDefaultSituationActive){
 			nextProps.handleScenarioClick(null, true, true);
 			return;
 		}

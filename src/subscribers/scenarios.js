@@ -101,9 +101,18 @@ const compareActiveScenarios = (next, prev) => {
 	}
 };
 
-const scenariosWatcher = (value, previousValue) => {
-	console.log('@@ scenariosWatcher', value);
-	window.Stores.notify('REDUX_STORE_SCENARIOS_CHANGED', value);
+const scenariosWatcher = (data, previousData) => {
+	console.log('@@ scenariosWatcher', data);
+	if (data){
+		let dataForView = {
+			activeKeys: data.activeKeys,
+			cases: {
+				activeKey: data.cases ? data.cases.activeKey : null
+			},
+			defaultSituationActive: data.defaultSituationActive
+		};
+		window.Stores.notify('REDUX_STORE_SCENARIOS_CHANGED', dataForView);
+	}
 };
 
 /////// logic todo move to common location

@@ -510,12 +510,12 @@ class FrontOffice {
 		if (options.components){
 			this._dispatcher.notify('components#applyFromDataview', {windows: options.components.windows});
 		}
-		if (options.scenarios){
-			this._dispatcher.notify('scenarios#applyFromDataview', {scenarios: options.scenarios});
-		}
         if (options.locations){
             this._dispatcher.notify('place#setActivePlace', {data: options.locations});
         }
+		if (options.scenarios){
+			this._dispatcher.notify('scenarios#applyFromDataview', {scenarios: options.scenarios});
+		}
         if (options.mapsMetadata){
             this._mapsContainer.handleMapsFromDataview(options.mapsMetadata, options.selectedMapId);
         }

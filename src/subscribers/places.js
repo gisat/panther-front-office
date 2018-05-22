@@ -30,12 +30,12 @@ const setEventListeners = store => {
 				if (typeof options.data === "number"){
 					store.dispatch(Action.places.setActive(options.data));
 					if (scope.scenarios){
-						store.dispatch(Action.scenarios.loadCases(options.data));
+						store.dispatch(Action.scenarios.loadCases());
 					}
 				} else if (options.data.length && options.data.length === 1){
 					store.dispatch(Action.places.setActive(options.data[0]));
 					if (scope.scenarios){
-						store.dispatch(Action.scenarios.loadCases(options.data[0]));
+						store.dispatch(Action.scenarios.loadCases());
 					}
 				} else if (options.data.length && options.data.length > 1){
 					store.dispatch(Action.places.setActiveKeys(options.data));
