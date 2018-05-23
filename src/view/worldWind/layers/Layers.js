@@ -58,6 +58,13 @@ class Layers {
         }
     };
 
+    addLayerToPosition(layer, position){
+		this._layers.push(layer);
+		if (layer.hasOwnProperty("metadata") && layer.metadata.active) {
+			this.addLayerToMap(layer, position);
+		}
+    };
+
     /**
      * Add layer to the map
      * @param layer {WorldWind.Layer}
@@ -296,9 +303,10 @@ class Layers {
         layer.metadata = {
             active: true,
             id: id,
-            group: group
+            group: group,
+            order: 1
         };
-        this.addLayer(layer);
+        this.addLayerToPosition(layer, 1);
     };
 
     /**
