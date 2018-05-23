@@ -404,13 +404,13 @@ function apiUpdateCases(updates, ttl) {
 				if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
 					return response.json().then(data => {
 						if (data.data) {
-							//dispatch(loadCasesReceive(data.data));
+							dispatch(apiUpdateCasesReceive(data.data));
 						} else {
-							//dispatch(actionLoadCasesError('no data returned'));
+							dispatch(actionLoadCasesError('no data returned'));
 						}
 					});
 				} else {
-					//dispatch(actionLoadCasesError(response))
+					dispatch(actionLoadCasesError(response))
 				}
 			},
 			error => {
@@ -418,7 +418,7 @@ function apiUpdateCases(updates, ttl) {
 				if (ttl - 1) {
 					dispatch(apiUpdateCases(updates, ttl - 1));
 				} else {
-					//dispatch(actionLoadCasesError("scenarios#actions load cases: cases weren't loaded!"));
+					dispatch(actionLoadCasesError("scenarios#actions load cases: cases weren't loaded!"));
 				}
 			}
 		);
@@ -445,6 +445,13 @@ function apiCreateCasesReceive(data) {
 		}
 		// remove from editedData
 		dispatch(actionRemoveEditedCases(_.map(data, 'uuid')));
+	};
+}
+
+function apiUpdateCasesReceive(models) {
+	return dispatch => {
+		dispatch(loadCasesReceive(models));
+		dispatch(removeEditedActiveCase());
 	};
 }
 

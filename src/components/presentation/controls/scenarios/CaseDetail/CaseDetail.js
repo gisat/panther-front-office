@@ -57,7 +57,7 @@ class CaseDetail extends React.PureComponent {
 			|| (nextProps.caseEdited && (this.props.caseEdited && this.props.caseEdited.key === nextProps.caseEdited.key))
 		);
 
-		if (sameCase) {
+		if (sameCase && nextProps.caseEdited) {
 			caseEditing = this.state.caseEditingActive;
 		} else if (!nextProps.case){
 			caseEditing = true;
@@ -100,10 +100,10 @@ class CaseDetail extends React.PureComponent {
 	}
 
 	revertEditing() {
+		this.props.revertCase();
 		this.setState({
 			caseEditingActive: false
 		});
-		this.props.revertCase();
 	}
 
 	addScenario(){
