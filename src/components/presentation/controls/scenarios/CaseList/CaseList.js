@@ -7,13 +7,13 @@ import classNames from 'classnames';
 import './CaseList.css'
 
 import Button from '../../../atoms/Button';
+import Names from '../../../../../constants/Names';
 
 class CaseList extends React.PureComponent {
 
 	static propTypes = {
 		changeActiveScreen: PropTypes.func,
 		disableEditing: PropTypes.bool,
-		defaultSituationName: PropTypes.string,
 		screenKey: PropTypes.string,
 		switchScreen: PropTypes.func
 	};
@@ -25,7 +25,7 @@ class CaseList extends React.PureComponent {
 		}
 		this.props.setActiveCase(caseKey);
 		this.props.changeActiveScreen('caseDetail');
-		this.props.changeDefaultMapName(this.props.defaultSituationName);
+		this.props.changeDefaultMapName(Names.SCENARIOS_DEFAULT_SITUATION_NAME);
 	}
 
 	render() {

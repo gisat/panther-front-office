@@ -190,9 +190,7 @@ function updateEditedCases(state, action) {
 		let oldCases = _.map(state.cases.editedData, model => {
 			let update = _.find(action.data, {key: model.key});
 			if (update) {
-				let oldCase = {...model, data: {...model.data, ...update.data}};
-				// clean null property values and empty objects
-				return lodashClean(oldCase);
+				return {...model, data: {...model.data, ...update.data}};
 			} else {
 				return model;
 			}
@@ -201,11 +199,7 @@ function updateEditedCases(state, action) {
 		let newCases = _.reject(action.data, update => {
 			return _.find(oldCases, {key: update.key});
 		});
-		let updatedData = [...oldCases, ...newCases];
-		data = _.reject(updatedData, updatedCase => {
-			let keys = _.keys(updatedCase);
-			return (keys && keys.length === 1 && keys[0] === 'key')
-		});
+		data = [...oldCases, ...newCases];
 	} else {
 		data = [...action.data];
 	}

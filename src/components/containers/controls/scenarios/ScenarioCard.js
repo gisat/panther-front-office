@@ -5,7 +5,8 @@ import ScenarioCard from "../../../presentation/controls/scenarios/ScenarioCard/
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		scenarioEdited: Select.scenarios.getScenarioEdited(state, ownProps.scenarioKey),
+		scenarioData: Select.scenarios.getScenario(state, ownProps.scenarioKey),
+		scenarioEditedData: Select.scenarios.getScenarioEdited(state, ownProps.scenarioKey)
 	}
 };
 

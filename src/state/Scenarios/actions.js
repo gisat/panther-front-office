@@ -26,19 +26,51 @@ function setActive(key) {
 	};
 }
 
+
+// Edited data
+function addEditedScenario(key){
+	return (dispatch, getState) => {
+		let activeCaseScenarioKeys = Select.scenarios.getActiveCaseScenarioKeys(getState());
+		let activeCaseEditedScenarioKeys = Select.scenarios.getActiveCaseEditedScenarioKeys(getState());
+		let updatedScenarioKeys = activeCaseEditedScenarioKeys ? [...activeCaseEditedScenarioKeys, ...[key]] :
+			(activeCaseScenarioKeys ? [...activeCaseScenarioKeys, ...[key]] : [key] );
+		dispatch(actionUpdateEditedScenarios([{key: key}]));
+		dispatch(updateEditedActiveCase('scenarios', updatedScenarioKeys));
+	};
+}
+
+function removeEditedActiveCase() {
+	return (dispatch, getState) => {
+		let activeCaseKey = Select.scenarios.getActiveCaseKey(getState());
+		dispatch(actionRemoveEditedCases([activeCaseKey]));
+	};
+}
+
+function removeEditedScenario(key) {
+	return (dispatch, getState) => {
+		dispatch(actionRemoveEditedScenarios([key]));
+		let activeCaseEditedScenarioKeys = Select.scenarios.getActiveCaseEditedScenarioKeys(getState());
+		if (activeCaseEditedScenarioKeys){
+			let updatedScenarioKeys = _.without(activeCaseEditedScenarioKeys, key);
+			dispatch(updateEditedActiveCase('scenarios', updatedScenarioKeys));
+		}
+	};
+}
+
 function updateEditedActiveCase(key, value) {
 	return (dispatch, getState) => {
 		let state = getState();
 		let activeCaseKey = Select.scenarios.getActiveCaseKey(state);
 		let activeCase = Select.scenarios.getActiveCase(state);
-		let sameCoordinates = false;
+		let sameValue = false;
 
 		if (activeCase && activeCase.data){
-			if (key === 'geometry' && activeCase.data.geometry){
-				let geometry = _.cloneDeep(activeCase.data.geometry);
-				sameCoordinates = JSON.stringify(value.coordinates) === JSON.stringify(geometry.coordinates);
+			if ((key === 'geometry' || key === 'scenarios') && activeCase.data[key]){
+				let val = _.cloneDeep(activeCase.data[key]);
+				sameValue = JSON.stringify(value) === JSON.stringify(val);
 			}
-			if (sameCoordinates || (value === activeCase.data[key]) || (!activeCase.data[key] && value.length === 0)){
+
+			if (sameValue || (value === activeCase.data[key]) || (!activeCase.data[key] && value.length === 0)){
 				dispatch(actionRemovePropertyFromEditedCase(activeCaseKey, key));
 			} else {
 				dispatch(actionUpdateEditedCases([{key: activeCaseKey, data: {[key]: value}}]));
@@ -59,19 +91,6 @@ function updateEditedScenario(scenarioKey, key, value) {
 		} else {
 			dispatch(actionUpdateEditedScenarios([{key: scenarioKey, data: {[key]: value}}]));
 		}
-	};
-}
-
-function removeEditedActiveCase() {
-	return (dispatch, getState) => {
-		let activeCaseKey = Select.scenarios.getActiveCaseKey(getState());
-		dispatch(actionRemoveEditedCases([activeCaseKey]));
-	};
-}
-
-function removeEditedScenario(key) {
-	return (dispatch, getState) => {
-		dispatch(actionRemoveEditedScenarios([key]));
 	};
 }
 
@@ -636,16 +655,19 @@ export default {
 	addActiveScenario: addActiveScenario,
 	applyDataviewSettings: applyDataviewSettings,
 	removeActiveScenario: removeActiveScenario,
+	saveActiveCase: saveActiveCase,
 	setActive: setActive,
 	setActiveCase: setActiveCase,
 	setDefaultSituationActive: setDefaultSituationActive,
 	update: update,
+
 	load: load,
 	loadCases: loadCases,
-	updateEditedActiveCase: updateEditedActiveCase,
-	updateEditedScenario: updateEditedScenario,
+
+	addEditedScenario: addEditedScenario,
 	removeEditedActiveCase: removeEditedActiveCase,
 	removeEditedScenario: removeEditedScenario,
-	saveActiveCase: saveActiveCase
+	updateEditedActiveCase: updateEditedActiveCase,
+	updateEditedScenario: updateEditedScenario
 }
 

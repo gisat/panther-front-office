@@ -7,6 +7,7 @@ import InputText from '../../../atoms/InputText/InputText';
 import InputFile from '../../../atoms/InputFile';
 import Button from '../../../atoms/Button';
 import EditableText from '../../../atoms/EditableText';
+import Names from '../../../../../constants/Names';
 
 import Icon from '../../../atoms/Icon';
 import Menu, {MenuItem} from '../../../atoms/Menu';
@@ -18,11 +19,15 @@ class ScenarioCard extends React.PureComponent {
 	static propTypes = {
 		checked: PropTypes.bool,
 		defaultSituation: PropTypes.bool,
-		description: PropTypes.string,
 		disableEditing: PropTypes.bool,
 		disableUncheck: PropTypes.bool,
-		name: PropTypes.string,
-		scenarioKey: PropTypes.number
+		
+		scenarioEditedData: PropTypes.object,
+		scenarioData: PropTypes.object,
+		scenarioKey: PropTypes.oneOfType([
+			PropTypes.string,
+			PropTypes.number
+		]),
 	};
 
 	constructor(props){
@@ -30,7 +35,7 @@ class ScenarioCard extends React.PureComponent {
 
 		this.state = {
 			checked: props.checked,
-			editing: !props.scenarioKey && !props.defaultSituation,
+			editing: !props.scenarioData && props.scenarioEditedData,
 			showDetails: !props.scenarioKey || false
 		};
 
@@ -40,6 +45,7 @@ class ScenarioCard extends React.PureComponent {
 		this.onChangeDescription = this.onChangeDescription.bind(this);
 		this.onChangeName = this.onChangeName.bind(this);
 		this.cancel = this.cancel.bind(this);
+		this.discard = this.discard.bind(this);
 		this.save = this.save.bind(this);
 		this.revertEditing = this.revertEditing.bind(this);
 	}
@@ -86,6 +92,10 @@ class ScenarioCard extends React.PureComponent {
 		});
 	}
 
+	discard(){
+		this.revertEditing();
+	}
+
 	save() {
 		//this.props.save();
 	}
@@ -99,19 +109,33 @@ class ScenarioCard extends React.PureComponent {
 
 
 	render() {
-
 		console.log('### ScenarioCard render', this.props, this.state);
 
 		let classes = classNames("scenario-card", {
 			'not-created': !this.props.scenarioKey && !this.props.defaultSituation
 		});
-
 		let headerClasses = classNames("scenario-card-header", {
 			'editing-inactive': !this.state.editing
 		});
 
-		let name = this.props.scenarioEdited && this.props.scenarioEdited.data && this.props.scenarioEdited.data.hasOwnProperty('name') ? this.props.scenarioEdited.data.name : this.props.name;
-		let description = this.props.scenarioEdited && this.props.scenarioEdited.data && this.props.scenarioEdited.data.hasOwnProperty('description') ? this.props.scenarioEdited.data.description : this.props.description;
+		let scenario = this.props.scenarioData;
+		let scenarioEdited = this.props.scenarioEditedData;
+
+		let name = (scenarioEdited && scenarioEdited.data && scenarioEdited.data.hasOwnProperty('name')) ?
+			(scenarioEdited.data.name) : ((scenario && scenario.data && scenario.data.hasOwnProperty('name')) ?
+				scenario.data.name : null);
+		let description = (scenarioEdited && scenarioEdited.data && scenarioEdited.data.hasOwnProperty('description')) ?
+			(scenarioEdited.data.description) : ((scenario && scenario.data && scenario.data.hasOwnProperty('description')) ?
+				scenario.data.description : null);
+
+
+		if (this.props.defaultSituation){
+			name = Names.SCENARIOS_DEFAULT_SITUATION_NAME;
+		}
+
+		let disableCheckbox = (this.props.disableUncheck && this.state.checked) ||
+			((!this.props.scenarioData || !this.props.scenarioData.data) &&
+				(!this.props.scenarioEditedData || !this.props.scenarioEditedData.data) && !this.props.defaultSituation);
 
 		let header = (
 			<div className={headerClasses}>
@@ -120,7 +144,7 @@ class ScenarioCard extends React.PureComponent {
 						<input
 							type="checkbox"
 							checked={this.state.checked}
-							disabled={(this.props.disableUncheck && this.state.checked) || (!this.props.scenarioKey && !this.props.defaultSituation)}
+							disabled={disableCheckbox}
 							onChange={this.handleScenarioClick}
 						/>
 					</div>
@@ -187,15 +211,26 @@ class ScenarioCard extends React.PureComponent {
 	}
 
 	renderButtons() {
+		let buttons = [];
+		if (this.props.scenarioEditedData && this.props.scenarioEditedData.data){
+			buttons.push(<Button key="save" onClick={this.save} primary>Save</Button>);
+			if (this.props.scenarioData){
+				buttons.push(<Button key="revert" onClick={this.revertEditing}>Revert</Button>);
+			}
+		} else {
+			if (this.props.scenarioData){
+				buttons.push(<Button key="cancel" onClick={this.cancel}>Cancel</Button>);
+			}
+		}
+
+		if (!this.props.scenarioData){
+			buttons.push(<Button key="discard" onClick={this.discard}>Discard</Button>);
+		}
+
 		return (
-			this.props.scenarioEdited ?
-				(<div className="scenario-card-footer-buttons">
-					<Button key="save" onClick={this.save} primary>Save</Button>
-					<Button key="revert" onClick={this.revertEditing}>Revert</Button>
-				</div>) :
-				(<div className="scenario-card-footer-buttons">
-					<Button key="cancel" onClick={this.cancel}>Cancel</Button>
-				</div>)
+			<div className="scenario-card-footer-buttons">
+				{buttons}
+			</div>
 		);
 	}
 }

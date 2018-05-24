@@ -19,12 +19,13 @@ class CaseDetail extends React.PureComponent {
 	static propTypes = {
 		activeScenarioKeys: PropTypes.array,
 		case: PropTypes.object,
+		caseEdited: PropTypes.object,
 		changeActiveScreen: PropTypes.func,
 		contentType: PropTypes.string,
-		defaultSituationName: PropTypes.string,
 		disableEditing: PropTypes.bool,
 		isDefaultSituationActive: PropTypes.bool,
-		scenarios: PropTypes.array,
+		scenarioKeys: PropTypes.array,
+		scenarioKeysEdited: PropTypes.array,
 		screenKey: PropTypes.string,
 		switchScreen: PropTypes.func
 	};
@@ -35,7 +36,7 @@ class CaseDetail extends React.PureComponent {
 		this.state = {
 			caseEditingActive: false,
 			disableUncheck: false,
-			scenarios: this.props.scenarios
+			disableCaseEditing: props.disableEditing
 		};
 
 		this.addScenario = this.addScenario.bind(this);
@@ -52,15 +53,16 @@ class CaseDetail extends React.PureComponent {
 
 	componentWillReceiveProps(nextProps){
 		let caseEditing = false;
+		let disableButtons = false;
+
 		let sameCase = (
 			(nextProps.case && (this.props.case && this.props.case.key === nextProps.case.key))
 			|| (nextProps.caseEdited && (this.props.caseEdited && this.props.caseEdited.key === nextProps.caseEdited.key))
 		);
 
-		if (sameCase && nextProps.caseEdited) {
-			caseEditing = this.state.caseEditingActive;
-		} else if (!nextProps.case){
+		if ((sameCase && nextProps.caseEdited) || !nextProps.case) {
 			caseEditing = true;
+			disableButtons = !!(nextProps.caseEdited && nextProps.caseEdited.data && nextProps.caseEdited.data.scenarios && nextProps.caseEdited.data.scenarios.length);
 		}
 
 		/**
@@ -73,6 +75,8 @@ class CaseDetail extends React.PureComponent {
 
 		this.setState({
 			disableUncheck: this.disableUncheck(nextProps),
+			disableButtons: disableButtons,
+			disableCaseEditing: disableButtons,
 			scenarios: nextProps.scenarios,
 			caseEditingActive: caseEditing
 		});
@@ -95,25 +99,20 @@ class CaseDetail extends React.PureComponent {
 	}
 
 	discard(){
-		this.props.revertCase();
+		this.props.revert();
 		this.props.discard();
 	}
 
 	revertEditing() {
-		this.props.revertCase();
+		this.props.revert();
 		this.setState({
 			caseEditingActive: false
 		});
 	}
 
 	addScenario(){
-		let nextScenarios = [{},{}];
-		if (this.state.scenarios){
-			nextScenarios = [...this.state.scenarios, {}];
-		}
-		this.setState({
-			scenarios: nextScenarios
-		});
+		let scenarioKey = utils.guid();
+		this.props.addScenario(scenarioKey);
 	}
 
 	disableUncheck(props){
@@ -138,21 +137,20 @@ class CaseDetail extends React.PureComponent {
 	}
 
 	render() {
-		let scenariosData = this.state.scenarios;
+		let scenarioKeys = this.props.scenarioKeysEdited ? this.props.scenarioKeysEdited : this.props.scenarioKeys;
 		let scenarios = null;
 		let defaultState = null;
 
 		let name = this.props.caseEdited && this.props.caseEdited.data.hasOwnProperty('name') ? this.props.caseEdited.data.name : this.props.case && this.props.case.data && this.props.case.data.name;
 		let description = this.props.caseEdited && this.props.caseEdited.data.hasOwnProperty('description') ? this.props.caseEdited.data.description : this.props.case && this.props.case.data && this.props.case.data.description;
 
-		if (scenariosData){
+		if (scenarioKeys){
 			defaultState = this.renderDefaultState();
-			scenarios = scenariosData.map(scenario => {
+			scenarios = scenarioKeys.map(scenario => {
 				return this.renderScenario(scenario);
 			});
 		} else {
 			defaultState = this.renderDefaultState();
-			scenarios = this.renderScenario();
 		}
 
 		let header = (
@@ -172,7 +170,7 @@ class CaseDetail extends React.PureComponent {
 				</div>
 				{(this.state.caseEditingActive || name) ? (
 					<EditableText
-						disabled={!this.state.caseEditingActive}
+						disabled={!this.state.caseEditingActive || this.state.disableCaseEditing}
 						large
 						value={name}
 						placeholder="Case title"
@@ -182,14 +180,14 @@ class CaseDetail extends React.PureComponent {
 				) : null}
 				{(this.state.caseEditingActive || description) ? (
 					<EditableText
-						disabled={!this.state.caseEditingActive}
+						disabled={!this.state.caseEditingActive  || this.state.disableCaseEditing}
 						value={description}
 						placeholder="Description"
 						onChange={this.onChangeDescription}
 						editing={this.state.caseEditingActive}
 					/>
 				) : null}
-				{this.state.caseEditingActive ? this.renderMap() : null}
+				{this.state.caseEditingActive && !this.state.disableCaseEditing ? this.renderMap() : null}
 				{this.state.caseEditingActive ? this.renderButtons() : null}
 			</div>
 		);
@@ -247,18 +245,18 @@ class CaseDetail extends React.PureComponent {
 	renderButtons() {
 		let buttons = [];
 		if (this.props.caseEdited){
-			buttons.push(<Button key="save" onClick={this.save} primary>Save</Button>);
+			buttons.push(<Button key="save" onClick={this.save} disabled={this.state.disableButtons} primary>Save</Button>);
 			if (this.props.case){
-				buttons.push(<Button key="revert" onClick={this.revertEditing}>Revert</Button>);
+				buttons.push(<Button key="revert" onClick={this.revertEditing} disabled={this.state.disableButtons}>Revert</Button>);
 			}
 		} else {
 			if (this.props.case){
-				buttons.push(<Button key="cancel" onClick={this.cancel}>Cancel</Button>);
+				buttons.push(<Button key="cancel" onClick={this.cancel} disabled={this.state.disableButtons}>Cancel</Button>);
 			}
 		}
 
 		if (!this.props.case){
-			buttons.push(<Button key="discard" onClick={this.discard}>Discard</Button>);
+			buttons.push(<Button key="discard" onClick={this.discard} disabled={this.state.disableButtons}>Discard</Button>);
 		}
 
 		return (
@@ -268,22 +266,10 @@ class CaseDetail extends React.PureComponent {
 		);
 	}
 
-	renderScenario(scenario){
-		let name = "";
-		let description = "";
-		let key = null;
+	renderScenario(scenarioKey){
 		let checked = false;
-
-		if (scenario){
-			key = scenario.key;
-			if (scenario.data){
-				name = scenario.data.name;
-				description = scenario.data.description;
-			}
-		}
-
 		let activeScenarioKey = _.find(this.props.activeScenarioKeys, (key) => {
-			return scenario ? (key === scenario.key) : false;
+			return scenarioKey ? (key === scenarioKey) : false;
 		});
 		if (activeScenarioKey){
 			checked = true;
@@ -291,14 +277,12 @@ class CaseDetail extends React.PureComponent {
 
 		return (
 			<ScenarioCard
-				key={utils.guid()}
-				scenarioKey={key}
+				key={"scenario-" + scenarioKey}
+				scenarioKey={scenarioKey}
 				checked={checked}
 				disableEditing={this.props.disableEditing}
 				disableUncheck={this.state.disableUncheck}
-				description={description}
 				handleScenarioClick={this.props.handleScenarioClick}
-				name={name}
 			/>
 		);
 	}
@@ -306,13 +290,12 @@ class CaseDetail extends React.PureComponent {
 	renderDefaultState(){
 		return (
 			<ScenarioCard
-				key={utils.guid()}
+				key="default-state"
 				defaultSituation
 				checked={this.props.isDefaultSituationActive}
 				disableEditing
 				disableUncheck={this.state.disableUncheck}
 				handleScenarioClick={this.props.handleScenarioClick}
-				name={this.props.defaultSituationName}
 			/>
 		);
 	}

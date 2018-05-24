@@ -63,12 +63,35 @@ const getActiveCaseScenarioKeys = createSelector(
 	}
 );
 
+const getActiveCaseEditedScenarioKeys = createSelector(
+	[getActiveCaseEdited],
+	(activeCaseEdited) => {
+		return (activeCaseEdited && activeCaseEdited.data) ? activeCaseEdited.data.scenarios : null;
+	}
+);
+
 const getActiveCaseScenarios = createSelector(
 	[getScenarios, getActiveCaseScenarioKeys],
 	(scenarios, activeCaseScenarioKeys) => {
 		if (activeCaseScenarioKeys){
 			return _.filter(scenarios, (scenario) => {
 				return _.find(activeCaseScenarioKeys, (key) => {
+					return key === scenario.key;
+				});
+			});
+		} else {
+			return null;
+		}
+	}
+);
+
+const getActiveCaseScenariosEdited = createSelector(
+	[getScenariosEdited, getActiveCaseScenarioKeys, getActiveCaseEditedScenarioKeys],
+	(scenariosEdited, activeCaseScenarioKeys, activeCaseEditedScenarioKeys) => {
+		if (scenariosEdited && activeCaseScenarioKeys){
+			let keys = activeCaseEditedScenarioKeys ? [...activeCaseScenarioKeys, ...activeCaseEditedScenarioKeys] : activeCaseScenarioKeys;
+			return _.filter(scenariosEdited, (scenario) => {
+				return _.find(keys, (key) => {
 					return key === scenario.key;
 				});
 			});
@@ -106,9 +129,11 @@ export default {
 	getActive: getActive,
 	getActiveCase: getActiveCase,
 	getActiveCaseEdited: getActiveCaseEdited,
+	getActiveCaseEditedScenarioKeys: getActiveCaseEditedScenarioKeys,
 	getActiveCaseKey: getActiveCaseKey,
 	getActiveCaseScenarioKeys: getActiveCaseScenarioKeys,
 	getActiveCaseScenarios: getActiveCaseScenarios,
+	getActiveCaseScenariosEdited: getActiveCaseScenariosEdited,
 	getActiveKey: getActiveKey,
 	getActiveKeys: getActiveKeys,
 	getActiveScenarios: getActiveScenarios,

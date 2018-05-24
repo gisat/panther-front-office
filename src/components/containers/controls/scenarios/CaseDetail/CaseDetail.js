@@ -8,7 +8,8 @@ const mapStateToProps = (state, ownProps) => {
 		case: Select.scenarios.getActiveCase(state),
 		caseEdited: Select.scenarios.getActiveCaseEdited(state),
 		place: Select.places.getActive(state),
-		scenarios: Select.scenarios.getActiveCaseScenarios(state),
+		scenarioKeys: Select.scenarios.getActiveCaseScenarioKeys(state),
+		scenarioKeysEdited: Select.scenarios.getActiveCaseEditedScenarioKeys(state),
 		activeScenarioKeys: Select.scenarios.getActiveKeys(state),
 		isDefaultSituationActive: Select.scenarios.isDefaultSituationActive(state)
 	}
@@ -16,6 +17,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
+		addScenario: (scenarioKey) => {
+			dispatch(Action.scenarios.addEditedScenario(scenarioKey));
+		},
 		handleScenarioClick: (key, checked, defaultSituation) => {
 			if (defaultSituation){
 				dispatch(Action.scenarios.setDefaultSituationActive(checked));
@@ -34,7 +38,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 			ownProps.changeActiveScreen('caseList');
 			dispatch(Action.scenarios.setActiveCase());
 		},
-		revertCase: () => {
+		revert: () => {
 			dispatch(Action.scenarios.removeEditedActiveCase());
 		},
 		save: () => {
