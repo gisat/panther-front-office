@@ -36,14 +36,19 @@ class Layers {
 			this.name = options.name;
         }
 
-        this.addBaseLayer();
+        //this.addBaseLayer();
     };
 
 
     addBaseLayer() {
         this._wwd.addLayer(new MyOsmLayer({
             attribution: "\u00A9 Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL",
-            source: "http://a.basemaps.cartocdn.com/light_nolabels/"
+			sourceObject: {
+				host: "basemaps.cartocdn.com",
+                path: "light_nolabels",
+				prefixes: ["a", "b", "c"]
+			},
+			imageType: "jpg"
         }));
     };
 
@@ -243,17 +248,38 @@ class Layers {
             case "bingAerial":
                 layer = new WorldWind.BingAerialLayer();
                 break;
+			case "wikimedia":
+				layer = new MyOsmLayer({
+					attribution: "Wikimedia maps - Map data \u00A9 OpenStreetMap contributors",
+					sourceObject: {
+						host: "maps.wikimedia.org",
+						path: "osm-intl"
+					}
+				});
+				break;
             case "osm":
                 layer = new MyOsmLayer({
                     attribution: "\u00A9 OpenStreetMap contributors",
-                    source: "http://a.tile.openstreetmap.org/"
+                    sourceObject: {
+                        host: "tiles.wmflabs.org",
+                        path: "osm",
+                        prefixes: ["a", "b", "c"]
+                    }
                 });
                 break;
             case "cartoDb":
                 layer = new MyOsmCartoLayer({
-                    attribution: "\u00A9 Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL",
-                    source: "http://a.basemaps.cartocdn.com/light_all/"
-                });
+				    attribution: "\u00A9 Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL",
+				    sourceObject: {
+				        protocol: "https",
+					    host: "global.ssl.fastly.net",
+				        path: "light_all",
+					    prefixes: {
+				            prefix: "cartodb-basemaps-",
+                            data: ["a", "b", "c", "d"]
+                        }
+				    }
+				});
                 break;
             case "landsat":
                 layer = new WorldWind.BMNGLandsatLayer();
@@ -291,7 +317,7 @@ class Layers {
                     sector: new WorldWind.Sector(-90, 90, -180, 180),
                     levelZeroDelta: new WorldWind.Location(45, 45),
                     numLevels: 19,
-                    format: "image/png",
+                    format: "image/jpg",
                     opacity: 1,
                     size: 256,
                     version: "1.3.0"

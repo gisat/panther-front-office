@@ -16,6 +16,17 @@ class MyOsmCartoLayer extends MyOsmLayer {
 		super(options);
 		this.tileCache = null;
 	};
+
+	buildPrefix(prefixes){
+		let data = prefixes.data;
+		let prefix = prefixes.prefix;
+		if (data && prefix){
+			let index = Math.floor((Math.random() * data.length));
+			return prefix + data[index] + ".";
+		} else {
+			return "";
+		}
+	}
 }
 
 export default MyOsmCartoLayer;

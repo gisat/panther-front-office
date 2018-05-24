@@ -45,7 +45,6 @@ body.mode-3d .maps-container {
 	flex: 1;
 }
 .world-wind-map-box {
-	background: black url("../../img/night-sky.jpg") top left no-repeat;
 	border-bottom: 1px solid #888;
 	border-right: 1px solid #888;
 	display: inline-block;

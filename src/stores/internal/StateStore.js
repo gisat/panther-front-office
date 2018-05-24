@@ -254,7 +254,7 @@ class StateStore {
      */
     addLoadingOperation(type) {
         this._loadingOperations.push(type);
-        console.log("StateStore#addLoadingOperation: Loading operation added!");
+        console.log("StateStore#addLoadingOperation: Loading operation added: ", type);
         this.checkLoading(type);
     };
 
@@ -264,13 +264,13 @@ class StateStore {
     removeLoadingOperation(type, removeAllOfType) {
 		if (removeAllOfType){
 			this._loadingOperations = _.without(this._loadingOperations, type);
-			console.log("StateStore#removeLoadingOperation: All loading operations of type remove: !", type);
+			console.log("StateStore#removeLoadingOperation: All loading operations of type remove: ", type);
 			this.checkLoading(type);
 		} else {
 			let index = _.findIndex(this._loadingOperations, function(item){return item === type});
 			if (index !== -1){
 				this._loadingOperations.splice(index, 1);
-				console.log("StateStore#removeLoadingOperation: Loading operation removed!", type);
+				console.log("StateStore#removeLoadingOperation: Loading operation removed: ", type);
 				this.checkLoading(type);
 			}
 		}

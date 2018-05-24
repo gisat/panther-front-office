@@ -51,8 +51,9 @@ class BackgroundLayersPanel extends WorldWindWidgetPanel {
         let disabledLayers = (scope && scope['disabledLayers']) || {};
         let activeBackgroundMap = (scope && scope['activeBackgroundMap']) || this.getValidBackground(disabledLayers);
 
+		this.toggleLayerWithControl('cartoDb', 'cartoDbBasemap', disabledLayers, activeBackgroundMap);
         this.toggleLayerWithControl('osm', 'openStreetMap', disabledLayers, activeBackgroundMap);
-        this.toggleLayerWithControl('cartoDb', 'cartoDbBasemap', disabledLayers, activeBackgroundMap);
+		this.toggleLayerWithControl('wikimedia', 'Wikimedia', disabledLayers, activeBackgroundMap);
         this.toggleLayerWithControl('bingAerial', 'bingAerial', disabledLayers, activeBackgroundMap);
         this.toggleLayerWithControl('sentinel2', 'sentinel2', disabledLayers, activeBackgroundMap);
 
@@ -110,7 +111,7 @@ class BackgroundLayersPanel extends WorldWindWidgetPanel {
     };
 
     getValidBackground(disabledLayers) {
-        let activeBackgroundMapPriorities = ['osm', 'cartoDb', 'bingAerial', 'landsat'];
+        let activeBackgroundMapPriorities = ['cartoDb', 'wikimedia', 'osm', 'bingAerial', 'landsat'];
         let result = null;
 
         activeBackgroundMapPriorities.forEach(function (id) {
