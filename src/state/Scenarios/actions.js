@@ -462,12 +462,6 @@ function apiUpdateCases(updates, ttl) {
 function apiCreateCasesReceive(data) {
 	return (dispatch, getState) => {
 		// add to data
-		//let oldStructureData = _.map(data, model => {
-		//	return {
-		//		id: model.id,
-		//		...model.data
-		//	};
-		//});
 		dispatch(loadCasesReceive(data));
 		// change active key if of temporary case
 		let activeCaseKey = Select.scenarios.getActiveCaseKey(getState());
@@ -594,11 +588,32 @@ function apiUpdateScenarios(updates, ttl) {
 
 function apiCreateScenariosReceive(data) {
 	return (dispatch, getState) => {
+		// add to data
 		dispatch(loadReceive(data));
-
-		debugger;
-		// todo change key in cases?
-
+		// change keys in (edited) cases
+		let editedCases = Select.scenarios.getCasesEdited(getState());
+		let updates = [];
+		_.each(editedCases, editedCase => {
+			let scenariosChanged;
+			let newScenarios = _.map(editedCase.data.scenarios, scenarioKey => {
+				let createdScenario = _.find(data, {'uuid': scenarioKey});
+				if (createdScenario) {
+					scenariosChanged = true;
+					return createdScenario.id;
+				} else {
+					return scenarioKey;
+				}
+			});
+			if (scenariosChanged) {
+				updates.push({
+					key: editedCase.key,
+					data: {'scenarios': newScenarios}
+				});
+			}
+		});
+		if (updates.length) {
+			dispatch(actionUpdateEditedCases(updates));
+		}
 		// remove from editedData
 		dispatch(actionRemoveEditedScenarios(_.map(data, 'uuid')));
 	};
@@ -606,10 +621,10 @@ function apiCreateScenariosReceive(data) {
 
 function apiUpdateScenariosReceive(models) {
 	return dispatch => {
+		// add to data
 		dispatch(loadReceive(models));
-
-		// todo get updated scenario key
-		// dispatch(removeEditedScenario(key));
+		// remove from editedData
+		dispatch(actionRemoveEditedScenarios(_.map(models, 'id')));
 	};
 }
 
