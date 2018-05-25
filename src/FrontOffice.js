@@ -503,6 +503,7 @@ class FrontOffice {
             if (options.worldWindState.is2D && this._stateStore.current().isMap3D){
                 this._dispatcher.notify('map#switchProjection');
             }
+            this._stateStore.setAllowZoomByCase(false);
         }
         if (options.widgets){
             this._topToolBar.handleDataview(options.widgets);
