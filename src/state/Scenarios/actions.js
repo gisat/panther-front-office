@@ -344,6 +344,21 @@ function saveActiveCase() {
 	};
 }
 
+function saveScenario(scenarioKey){
+	return (dispatch, getState) => {
+		let state = getState();
+		let saved = Select.scenarios.getScenario(state, scenarioKey);
+		let edited = Select.scenarios.getScenarioEdited(state, scenarioKey);
+		if (saved){
+			// update
+			dispatch(apiUpdateScenarios([edited]));
+		} else {
+			// create
+			dispatch(apiCreateScenarios([edited]));
+		}
+	};
+}
+
 function apiCreateCases(updates, placeKey, ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
 	return dispatch => {
@@ -471,6 +486,130 @@ function apiUpdateCasesReceive(models) {
 	return dispatch => {
 		dispatch(loadCasesReceive(models));
 		dispatch(removeEditedActiveCase());
+	};
+}
+
+function apiCreateScenarios(updates, ttl) {
+	if (_.isUndefined(ttl)) ttl = TTL;
+	return dispatch => {
+		dispatch(actionApiCreateScenariosRequest(_.map(updates, 'key')));
+
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/scenarios');
+
+		let payload = _.map(updates, update => {
+			return {
+				uuid: update.key,
+				data: update.data
+			};
+		});
+
+		return fetch(url, {
+			method: 'POST',
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json'
+			},
+			body: JSON.stringify(payload)
+		}).then(
+			response => {
+				console.log('#### create scenarios response', response);
+				let contentType = response.headers.get('Content-type');
+				if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
+					return response.json().then(data => {
+						debugger;
+
+						if (data.data) {
+							dispatch(apiCreateScenariosReceive(data.data));
+						} else {
+							dispatch(actionApiCreateScenariosError('no data returned'));
+						}
+					});
+				} else {
+					dispatch(actionApiCreateScenariosError(response))
+				}
+			},
+			error => {
+				console.log('#### create scenarios error', error);
+				if (ttl - 1) {
+					dispatch(apiCreateScenarios(updates, ttl - 1));
+				} else {
+					dispatch(actionApiCreateScenariosError("scenarios#actions create scenarios: scenarios weren't created!"));
+				}
+			}
+		);
+	};
+}
+
+function apiUpdateScenarios(updates, ttl) {
+	if (_.isUndefined(ttl)) ttl = TTL;
+	return dispatch => {
+		dispatch(actionApiUpdateScenariosRequest(_.map(updates, 'key')));
+
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/scenarios');
+
+		let payload = _.map(updates, update => {
+			return {
+				id: update.key,
+				data: update.data
+			};
+		});
+
+		return fetch(url, {
+			method: 'PUT',
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json'
+			},
+			body: JSON.stringify(payload)
+		}).then(
+			response => {
+				console.log('#### update scenario response', response);
+				let contentType = response.headers.get('Content-type');
+				if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
+					return response.json().then(data => {
+						if (data.data) {
+							debugger;
+							dispatch(apiUpdateScenariosReceive(data.data));
+						} else {
+							dispatch(actionLoadError('no data returned'));
+						}
+					});
+				} else {
+					dispatch(actionLoadError(response))
+				}
+			},
+			error => {
+				console.log('#### update scenario error', error);
+				if (ttl - 1) {
+					dispatch(apiUpdateScenarios(updates, ttl - 1));
+				} else {
+					dispatch(actionLoadError("scenarios#actions load scenarios: scenarios weren't loaded!"));
+				}
+			}
+		);
+	};
+}
+
+function apiCreateScenariosReceive(data) {
+	return (dispatch, getState) => {
+		dispatch(loadReceive(data));
+
+		debugger;
+		// todo change key in cases?
+
+		// remove from editedData
+		dispatch(actionRemoveEditedScenarios(_.map(data, 'uuid')));
+	};
+}
+
+function apiUpdateScenariosReceive(models) {
+	return dispatch => {
+		dispatch(loadReceive(models));
+
+		// todo get updated scenario key
+		// dispatch(removeEditedScenario(key));
 	};
 }
 
@@ -613,6 +752,13 @@ function actionApiCreateCasesRequest(keys) {
 	}
 }
 
+function actionApiCreateScenariosRequest(keys) {
+	return {
+		type: ActionTypes.SCENARIOS_API_CREATE_REQUEST,
+		keys: keys
+	}
+}
+
 function actionApiCreateCasesReceive(data) {
 	return {
 		type: ActionTypes.SCENARIOS_CASES_API_CREATE_RECEIVE,
@@ -627,9 +773,23 @@ function actionApiCreateCasesError(error) {
 	}
 }
 
+function actionApiCreateScenariosError(error) {
+	return {
+		type: ActionTypes.SCENARIOS_API_CREATE_ERROR,
+		error: error
+	}
+}
+
 function actionApiUpdateCasesRequest(keys) {
 	return {
 		type: ActionTypes.SCENARIOS_CASES_API_UPDATE_REQUEST,
+		keys: keys
+	}
+}
+
+function actionApiUpdateScenariosRequest(keys) {
+	return {
+		type: ActionTypes.SCENARIOS_API_UPDATE_REQUEST,
 		keys: keys
 	}
 }
@@ -652,14 +812,18 @@ function actionApiUpdateCasesError(error) {
 
 export default {
 	add: add,
-	addActiveScenario: addActiveScenario,
-	applyDataviewSettings: applyDataviewSettings,
-	removeActiveScenario: removeActiveScenario,
-	saveActiveCase: saveActiveCase,
 	setActive: setActive,
-	setActiveCase: setActiveCase,
-	setDefaultSituationActive: setDefaultSituationActive,
 	update: update,
+
+	applyDataviewSettings: applyDataviewSettings,
+	setDefaultSituationActive: setDefaultSituationActive,
+
+	addActiveScenario: addActiveScenario,
+	removeActiveScenario: removeActiveScenario,
+	saveScenario: saveScenario,
+
+	saveActiveCase: saveActiveCase,
+	setActiveCase: setActiveCase,
 
 	load: load,
 	loadCases: loadCases,

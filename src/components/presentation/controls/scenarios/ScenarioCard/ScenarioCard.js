@@ -97,7 +97,7 @@ class ScenarioCard extends React.PureComponent {
 	}
 
 	save() {
-		//this.props.save();
+		this.props.save(this.props.scenarioKey);
 	}
 
 	revertEditing() {
