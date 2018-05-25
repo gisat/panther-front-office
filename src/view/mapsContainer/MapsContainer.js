@@ -678,16 +678,21 @@ class MapsContainer {
 			this.addMap(null, null, options);
 			this.checkMapsCloseButton();
 		} else if (type === "ZOOM_MAPS_BY_CASE_GEOMETRY"){
-			this._stateStore.addLoadingOperation("scenariosCaseChange");
-			let self = this;
-			setTimeout(function(){
-				if (options && options.bbox){
-					self.zoomToArea(options.bbox);
-				} else {
-					self.zoomToExtent();
-				}
-				self._stateStore.removeLoadingOperation("scenariosCaseChange", true);
-			},50);
+        	let allowZooming = this._stateStore.current().allowZoomByScenarioCase;
+        	if (allowZooming){
+				this._stateStore.addLoadingOperation("scenariosCaseChange");
+				let self = this;
+				setTimeout(function(){
+					if (options && options.bbox){
+						self.zoomToArea(options.bbox);
+					} else {
+						self.zoomToExtent();
+					}
+					self._stateStore.removeLoadingOperation("scenariosCaseChange", true);
+				},50);
+			} else {
+        		this._stateStore.setAllowZoomByCase(true);
+			}
 		}
 
         // TODO temporary for Dromas. It should be removed in a version with new areas widget
