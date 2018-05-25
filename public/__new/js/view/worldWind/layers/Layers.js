@@ -307,7 +307,7 @@ define(['../../../error/ArgumentError',
 				opacity: 1,
 				size: 256,
 				version: "1.1.1",
-                style: layerData.customParams && layerData.customParams.style || null,
+                styleNames: layerData.customParams && layerData.customParams.style || null,
                 customParams: layerData.customParams
 			}, null);
 			layer.urlBuilder.version = "1.1.1";
@@ -330,7 +330,7 @@ define(['../../../error/ArgumentError',
 				opacity: 1,
 				size: 256,
 				version: "1.1.1",
-				style: layerData.customParams && layerData.customParams.style || null,
+                styleNames: layerData.customParams && layerData.customParams.style || null,
 				customParams: layerData.customParams
 			}, null);
 			layer.urlBuilder.version = "1.1.1";
