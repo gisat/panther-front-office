@@ -313,7 +313,7 @@ class Widget extends View {
         this._widgetPinSelector.off("click.pin").on("click.pin", function () {
             self._widgetSelector.addClass("pinned");
             self._dispatcher.notify("mapsContainer#toolsPinned");
-            self._widgetSelector.appendTo(".maps-container .map-tools");
+            self._widgetSelector.prependTo(".maps-container .map-tools");
             self._widgetSelector.css({
                 left: 0,
                 top: 0

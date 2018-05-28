@@ -17,7 +17,7 @@ const DEFAULT_STATE = {
 	positionX: DEFAULT_FLOATER_X,
 	positionY: DEFAULT_FLOATER_Y,
 	open: false,
-	floating: true
+	floating: false
 };
 
 class PantherWindow extends React.PureComponent {
@@ -69,7 +69,7 @@ class PantherWindow extends React.PureComponent {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		let nextState = {...this.state, ..._.pick(nextProps, ['width', 'height', 'open', 'docked', 'expanded',  'floating', 'positionX', 'positionY'])};
+		let nextState = {...this.state, ..._.pick(nextProps, ['width', 'height', 'open', 'docked', 'expanded', 'floating', 'positionX', 'positionY'])};
 		this.setState(nextState);
 	}
 
@@ -121,14 +121,18 @@ class PantherWindow extends React.PureComponent {
 
 
 		if (this.state.open){
-			style.display = 'flex'
+			style.display = 'flex';
+		}
+		if (this.state.docked){
+			style.position = 'relative';
 		}
 
 		let header = this.renderHeader();
 		let content = this.renderContent();
 
 		let size = this.state.floating ? { width: this.state.width,  height: this.state.height } :
-			(this.state.expanded ? {width: '100%', height: '100%'} : {width: '50%', height: '100%'});
+			(this.state.expanded ? {width: '100%', height: '100%'} : {width: '300px', height: '100%'});
+		let position = this.state.floating ? { x: this.state.positionX, y: this.state.positionY } : {x: 0, y: 0};
 
 		return (
 			<Rnd
@@ -136,7 +140,7 @@ class PantherWindow extends React.PureComponent {
 				className={classes}
 				dragHandleClassName=".ptr-window-header"
 				size={size}
-				position={this.state.floating ? { x: this.state.positionX, y: this.state.positionY } : {x: 0, y: 0}}
+				position={position}
 				minHeight={this.props.minHeight}
 				minWidth={this.props.minWidth}
 				maxWidth={'100%'}

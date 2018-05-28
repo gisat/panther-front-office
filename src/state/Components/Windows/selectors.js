@@ -13,8 +13,17 @@ const isWindowOpen = createSelector(
 	}
 );
 
+const isWindowDocked = createSelector(
+	getWindow,
+	(window) => {
+		return window ? window.docked : false;
+	}
+);
+
 export default {
+	isWindowDocked: isWindowDocked,
 	isWindowOpen: isWindowOpen,
+
 	getWindows: getWindows,
 
 	getScenariosWindowActiveScreenKey: getScenariosWindowActiveScreenKey
