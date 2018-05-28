@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import utils from '../../../../../utils/utils';
 import _ from 'lodash';
+import classNames from 'classnames';
 
 import InputText from '../../../atoms/InputText/InputText';
 import Button from '../../../atoms/Button';
@@ -188,7 +189,6 @@ class CaseDetail extends React.PureComponent {
 					/>
 				) : null}
 				{this.state.caseEditingActive && !this.state.disableCaseEditing ? this.renderMap() : null}
-				{this.state.caseEditingActive ? this.renderButtons() : null}
 			</div>
 		);
 
@@ -201,9 +201,16 @@ class CaseDetail extends React.PureComponent {
 		);
 
 		return (
-			<div className="case-detail-wrap">
-				{header}
-				{body}
+			<div className="case-detail-container">
+				<div className="case-detail-content">
+					{header}
+					{body}
+				</div>
+				<div className={classNames("case-detail-controls", {
+					'expanded': this.state.caseEditingActive
+				})}>
+					<div>{this.renderButtons()}</div>
+				</div>
 			</div>
 		);
 	}

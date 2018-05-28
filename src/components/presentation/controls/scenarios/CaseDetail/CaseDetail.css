@@ -1,6 +1,25 @@
-.case-detail-wrap {
+.case-detail-container {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+.case-detail-content {
+	flex-grow: 1;
 	overflow-y: auto;
 	height: 100%;
+}
+.case-detail-controls {
+	flex-grow: 0;
+	height: 0;
+
+	transition:
+		height .1s ease-in-out;
+}
+.case-detail-controls.expanded {
+	height: 3rem;
+}
+.case-detail-controls > div {
+	padding: 0 .75rem;
 }
 .case-detail-header {
 	background: rgba(204,207,211,1);
