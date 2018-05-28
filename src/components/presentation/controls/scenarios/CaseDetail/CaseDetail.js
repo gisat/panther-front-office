@@ -25,8 +25,8 @@ class CaseDetail extends React.PureComponent {
 		contentType: PropTypes.string,
 		disableEditing: PropTypes.bool,
 		isDefaultSituationActive: PropTypes.bool,
-		scenarioKeys: PropTypes.array,
-		scenarioKeysEdited: PropTypes.array,
+		activeCaseScenarioKeys: PropTypes.array,
+		activeCaseScenarioKeysEdited: PropTypes.array,
 		screenKey: PropTypes.string,
 		switchScreen: PropTypes.func
 	};
@@ -138,7 +138,9 @@ class CaseDetail extends React.PureComponent {
 	}
 
 	render() {
-		let scenarioKeys = this.props.scenarioKeysEdited ? this.props.scenarioKeysEdited : this.props.scenarioKeys;
+		console.log('### CaseDetail render', this.props);
+
+		let scenarioKeys = this.props.activeCaseScenarioKeysEdited ? this.props.activeCaseScenarioKeysEdited : this.props.activeCaseScenarioKeys;
 		let scenarios = null;
 		let defaultState = null;
 

@@ -8,8 +8,8 @@ const mapStateToProps = (state, ownProps) => {
 		case: Select.scenarios.getActiveCase(state),
 		caseEdited: Select.scenarios.getActiveCaseEdited(state),
 		place: Select.places.getActive(state),
-		scenarioKeys: Select.scenarios.getActiveCaseScenarioKeys(state),
-		scenarioKeysEdited: Select.scenarios.getActiveCaseEditedScenarioKeys(state),
+		activeCaseScenarioKeys: Select.scenarios.getActiveCaseScenarioKeys(state),
+		activeCaseScenarioKeysEdited: Select.scenarios.getActiveCaseEditedScenarioKeys(state),
 		activeScenarioKeys: Select.scenarios.getActiveKeys(state),
 		isDefaultSituationActive: Select.scenarios.isDefaultSituationActive(state)
 	}
