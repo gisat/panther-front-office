@@ -47,7 +47,6 @@
 }
 #floater-map-tools-widget.pinned .floater-header {
 	height: 1.5rem;
-	border-right: 1px solid rgba(106,110,120,1);
 }
 #floater-map-tools-widget.pinned .floater-body {
 	background: #f4f3ef;

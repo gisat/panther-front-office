@@ -8,6 +8,9 @@
 	z-index: 80000;
 	box-shadow: 0 0 4px rgb(136, 136, 136);
 }
+.ptr-window.docked {
+	box-shadow: none;
+}
 
 /* === HEADER ================== */
 .ptr-window-header {
