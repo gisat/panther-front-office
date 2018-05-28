@@ -37,7 +37,8 @@ class CaseDetail extends React.PureComponent {
 		this.state = {
 			caseEditingActive: false,
 			disableUncheck: false,
-			disableCaseEditing: props.disableEditing
+			disableCaseEditing: props.disableEditing,
+			editingScenarios: []
 		};
 
 		this.addScenario = this.addScenario.bind(this);
@@ -50,6 +51,7 @@ class CaseDetail extends React.PureComponent {
 		this.onChangeDescription = this.onChangeDescription.bind(this);
 		this.onChangeGeometry = this.onChangeGeometry.bind(this);
 		this.onChangeName = this.onChangeName.bind(this);
+		this.editScenario = this.editScenario.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -111,6 +113,20 @@ class CaseDetail extends React.PureComponent {
 		});
 	}
 
+	editScenario(scenarioKey, edit) {
+		if (edit) {
+			// start editing
+			this.setState({
+				editingScenarios: _.union(this.state.editingScenarios, [scenarioKey])
+			});
+		} else {
+			// stop editing
+			this.setState({
+				editingScenarios: _.without(this.state.editingScenarios, scenarioKey)
+			});
+		}
+	}
+
 	addScenario(){
 		let scenarioKey = utils.guid();
 		this.props.addScenario(scenarioKey);
@@ -138,7 +154,7 @@ class CaseDetail extends React.PureComponent {
 	}
 
 	render() {
-		console.log('### CaseDetail render', this.props);
+		console.log('### CaseDetail render', this.state);
 
 		let scenarioKeys = this.props.activeCaseEditedScenarioKeys ? this.props.activeCaseEditedScenarioKeys : this.props.activeCaseScenarioKeys;
 		let scenarios = null;
@@ -209,7 +225,7 @@ class CaseDetail extends React.PureComponent {
 					{body}
 				</div>
 				<div className={classNames("case-detail-controls", {
-					'expanded': this.state.caseEditingActive
+					'expanded': this.state.caseEditingActive || this.state.editingScenarios.length
 				})}>
 					<div>{this.renderButtons()}</div>
 				</div>
@@ -292,6 +308,8 @@ class CaseDetail extends React.PureComponent {
 				disableEditing={this.props.disableEditing}
 				disableUncheck={this.state.disableUncheck}
 				handleScenarioClick={this.props.handleScenarioClick}
+				editing={_.includes(this.state.editingScenarios, scenarioKey)}
+				editScenario={this.editScenario.bind(this, scenarioKey)}
 			/>
 		);
 	}

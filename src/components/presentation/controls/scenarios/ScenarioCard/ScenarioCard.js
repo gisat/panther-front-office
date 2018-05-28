@@ -27,7 +27,7 @@ class ScenarioCard extends React.PureComponent {
 		scenarioKey: PropTypes.oneOfType([
 			PropTypes.string,
 			PropTypes.number
-		]),
+		])
 	};
 
 	constructor(props){
@@ -35,7 +35,6 @@ class ScenarioCard extends React.PureComponent {
 
 		this.state = {
 			checked: props.checked,
-			editing: !props.scenarioData && props.scenarioEditedData,
 			showDetails: !props.scenarioKey || false
 		};
 
@@ -59,9 +58,7 @@ class ScenarioCard extends React.PureComponent {
 
 
 	activateScenarioEditing() {
-		this.setState({
-			editing: true
-		});
+		this.props.editScenario(true);
 	}
 
 	handleDetailsButtonClick(){
@@ -87,9 +84,7 @@ class ScenarioCard extends React.PureComponent {
 	}
 
 	cancel(){
-		this.setState({
-			editing: false
-		});
+		this.props.editScenario(false);
 	}
 
 	discard(){
@@ -101,9 +96,7 @@ class ScenarioCard extends React.PureComponent {
 	}
 
 	revertEditing() {
-		this.setState({
-			editing: false
-		});
+		this.props.editScenario(false);
 		this.props.revertScenario(this.props.scenarioKey);
 	}
 
@@ -115,7 +108,7 @@ class ScenarioCard extends React.PureComponent {
 			'not-created': !this.props.scenarioKey && !this.props.defaultSituation
 		});
 		let headerClasses = classNames("scenario-card-header", {
-			'editing-inactive': !this.state.editing
+			'editing-inactive': !this.props.editing
 		});
 
 		let scenario = this.props.scenarioData;
@@ -151,11 +144,11 @@ class ScenarioCard extends React.PureComponent {
 					<div className="scenario-card-header-title">
 						<EditableText
 							large
-							disabled={!this.state.editing || this.props.disableEditing}
+							disabled={!this.props.editing || this.props.disableEditing}
 							value={name}
 							placeholder="Scenario name"
 							onChange={this.onChangeName}
-							editing={this.state.editing}
+							editing={this.props.editing}
 						/>
 					</div>
 				</label>
@@ -174,24 +167,24 @@ class ScenarioCard extends React.PureComponent {
 			</div>
 		);
 
-		let body = (!this.props.defaultSituation && (this.state.editing || (description && description.length > 0))) ? (
+		let body = (!this.props.defaultSituation && (this.props.editing || (description && description.length > 0))) ? (
 			<div className="scenario-card-body">
 				<EditableText
-					disabled={!this.state.editing || this.props.disableEditing}
+					disabled={!this.props.editing || this.props.disableEditing}
 					value={description}
 					placeholder="Description"
 					onChange={this.onChangeDescription}
-					editing={this.state.editing}
+					editing={this.props.editing}
 				/>
-				{this.state.editing ? (
+				{this.props.editing ? (
 				<InputFile
-					disabled={!this.state.editing || this.props.disableEditing}
+					disabled={!this.props.editing || this.props.disableEditing}
 					value={this.state.file}
 					placeholder="File"
 					onChange={this.onChangeFile}
 				/>
 				) : null}
-				{this.state.editing && false ? ( // don't save with button for now
+				{this.props.editing && false ? ( // don't save with button for now
 					<div className="scenario-card-body-buttons">
 						<Button disabled={true}>
 							Save
@@ -205,7 +198,7 @@ class ScenarioCard extends React.PureComponent {
 			<div className={classes}>
 				{header}
 				{body}
-				{this.state.editing ? this.renderButtons() : null}
+				{this.props.editing ? this.renderButtons() : null}
 			</div>
 		);
 	}
