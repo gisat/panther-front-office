@@ -11,7 +11,8 @@ const mapStateToProps = (state, ownProps) => {
 		activeCaseScenarioKeys: Select.scenarios.getActiveCaseScenarioKeys(state),
 		activeCaseEditedScenarioKeys: Select.scenarios.getActiveCaseEditedScenarioKeys(state),
 		activeScenarioKeys: Select.scenarios.getActiveKeys(state),
-		isDefaultSituationActive: Select.scenarios.isDefaultSituationActive(state)
+		isDefaultSituationActive: Select.scenarios.isDefaultSituationActive(state),
+		editedScenariosKeys: Select.scenarios.getActiveCaseScenariosEditedKeys(state)
 	}
 };
 

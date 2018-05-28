@@ -21,6 +21,13 @@ const getScenarioEdited = (state, key) => {
 	return edited;
 };
 
+const getScenariosEditedKeys = createSelector(
+	[getScenariosEdited],
+	editedScenarios => {
+		return _.map(editedScenarios, 'key');
+	}
+);
+
 const getActive = createSelector(
 	[getScenarios, getActiveKey],
 	(scenarios, activeKey) => {
@@ -60,6 +67,15 @@ const getActiveCaseScenarioKeys = createSelector(
 	[getActiveCase],
 	(activeCase) => {
 		return (activeCase && activeCase.data) ? activeCase.data.scenarios : null;
+	}
+);
+
+const getActiveCaseScenariosEditedKeys = createSelector(
+	[getActiveCase, getScenariosEditedKeys],
+	(activeCase, scenariosEditedKeys) => {
+		return activeCase ? _.filter(activeCase.data.scenarios, key => {
+			return _.includes(scenariosEditedKeys, key);
+		}) : null;
 	}
 );
 
@@ -145,5 +161,7 @@ export default {
 	getScenario: getScenario,
 	getScenarioEdited: getScenarioEdited,
 	getScenariosEdited: getScenariosEdited,
+	getScenariosEditedKeys: getScenariosEditedKeys,
+	getActiveCaseScenariosEditedKeys: getActiveCaseScenariosEditedKeys,
 	isDefaultSituationActive: isDefaultSituationActive
 };

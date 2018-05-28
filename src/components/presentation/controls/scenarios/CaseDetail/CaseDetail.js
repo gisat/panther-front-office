@@ -154,7 +154,7 @@ class CaseDetail extends React.PureComponent {
 	}
 
 	render() {
-		console.log('### CaseDetail render', this.state);
+		console.log('### CaseDetail render', this.props);
 
 		let scenarioKeys = this.props.activeCaseEditedScenarioKeys ? this.props.activeCaseEditedScenarioKeys : this.props.activeCaseScenarioKeys;
 		let scenarios = null;
@@ -268,25 +268,36 @@ class CaseDetail extends React.PureComponent {
 	}
 
 	renderButtons() {
-		let buttons = [];
-		if (this.props.caseEdited){
-			buttons.push(<Button key="save" onClick={this.save} disabled={this.state.disableButtons} primary>Save</Button>);
+		let saveButton, revertButton, discardButton, cancelButton;
+		if (this.props.caseEdited || this.props.editedScenariosKeys && this.props.editedScenariosKeys.length){
+			saveButton = true;
 			if (this.props.case){
-				buttons.push(<Button key="revert" onClick={this.revertEditing} disabled={this.state.disableButtons}>Revert</Button>);
+				revertButton = true;
 			}
 		} else {
 			if (this.props.case){
-				buttons.push(<Button key="cancel" onClick={this.cancel} disabled={this.state.disableButtons}>Cancel</Button>);
+				cancelButton = true;
 			}
 		}
 
 		if (!this.props.case){
-			buttons.push(<Button key="discard" onClick={this.discard} disabled={this.state.disableButtons}>Discard</Button>);
+			discardButton = true;
 		}
 
 		return (
 			<div className="ptr-case-detail-buttons">
-				{buttons}
+				{saveButton ? (
+					<Button key="save" onClick={this.save} disabled={this.state.disableButtons} primary>Save</Button>
+				) : null}
+				{revertButton ? (
+					<Button key="revert" onClick={this.revertEditing} disabled={this.state.disableButtons}>Revert</Button>
+				) : null}
+				{discardButton ? (
+					<Button key="discard" onClick={this.discard} disabled={this.state.disableButtons}>Discard</Button>
+				) : null}
+				{cancelButton ? (
+					<Button key="cancel" onClick={this.cancel} disabled={this.state.disableButtons}>Cancel</Button>
+				) : null}
 			</div>
 		);
 	}
