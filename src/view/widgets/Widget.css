@@ -91,6 +91,10 @@
     width: 18rem;
     z-index: 10000;
 }
+.floater.pinned {
+    box-shadow: none;
+    border-right: 1px solid rgba(186,190,200,1);
+}
 
 /* floater header */
 .floater-header {

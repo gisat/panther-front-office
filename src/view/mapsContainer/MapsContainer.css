@@ -35,6 +35,7 @@ body.mode-3d .maps-container {
 }
 .maps-container .map-tools {
 	display: flex;
+	box-shadow: 0 0 4px rgb(136, 136, 136);
 	z-index: 1;
 }
 .maps-container .map-fields {
