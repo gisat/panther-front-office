@@ -34,6 +34,22 @@ function changeWindowSize(window, options){
 	};
 }
 
+function dockWindow(window){
+	return (dispatch, getState) => {
+		let state = getState();
+		let windows = Select.components.windows.getWindows(state);
+		if (window && windows[window]){
+			let stateUpdate = {...windows, [window]: {
+					...windows[window],
+					floating: false,
+					expanded: false,
+					docked: true
+				}};
+			dispatch(Action.components.update("windows", stateUpdate));
+		}
+	};
+}
+
 function expandWindow(window){
 	return (dispatch, getState) => {
 		let state = getState();
@@ -41,7 +57,9 @@ function expandWindow(window){
 		if (window && windows[window]){
 			let stateUpdate = {...windows, [window]: {
 					...windows[window],
-					floating: false
+					floating: false,
+					expanded: true,
+					docked: false
 				}};
 			dispatch(Action.components.update("windows", stateUpdate));
 		}
@@ -63,14 +81,16 @@ function handleWindowVisibility(window, open){
 	};
 }
 
-function shrinkWindow(window){
+function floatWindow(window){
 	return (dispatch, getState) => {
 		let state = getState();
 		let windows = Select.components.windows.getWindows(state);
 		if (window && windows[window]){
 			let stateUpdate = {...windows, [window]: {
 					...windows[window],
-					floating: true
+					floating: true,
+					expanded: false,
+					docked: false
 				}};
 			dispatch(Action.components.update("windows", stateUpdate));
 		}
@@ -96,9 +116,10 @@ function setWindowActiveScreen(windowKey, screenKey){
 export default {
 	changeWindowPosition: changeWindowPosition,
 	changeWindowSize: changeWindowSize,
+	dockWindow: dockWindow,
 	expandWindow: expandWindow,
+	floatWindow: floatWindow,
 	handleWindowVisibility: handleWindowVisibility,
-	shrinkWindow: shrinkWindow,
 
 	setWindowActiveScreen: setWindowActiveScreen
 }

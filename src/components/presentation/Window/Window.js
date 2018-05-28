@@ -37,13 +37,21 @@ class PantherWindow extends React.PureComponent {
 		positionY: PropTypes.number,
 		name: PropTypes.string,
 		elementId: PropTypes.string,
+
+		dockable: PropTypes.bool,
+		docked: PropTypes.bool,
 		expandable: PropTypes.bool,
+		expanded: PropTypes.bool,
 		floatable: PropTypes.bool,
 		floating: PropTypes.bool,
 		open: PropTypes.bool,
+
 		onClose: PropTypes.func,
-		onShrink: PropTypes.func,
+
+		onDock: PropTypes.func,
+		onFloat: PropTypes.func,
 		onExpand: PropTypes.func,
+
 		onDragStop: PropTypes.func,
 		onResize: PropTypes.func
 	};
@@ -57,12 +65,16 @@ class PantherWindow extends React.PureComponent {
 
 	constructor(props){
 		super(props);
-		this.state = {...DEFAULT_STATE, ..._.pick(props, ['width', 'height', 'open', 'floating', 'positionX', 'positionY'])};
+		this.state = {...DEFAULT_STATE, ..._.pick(props, ['width', 'height', 'open', 'docked', 'expanded', 'floating', 'positionX', 'positionY'])};
 	}
 
 	componentWillReceiveProps(nextProps) {
-		let nextState = {...this.state, ..._.pick(nextProps, ['width', 'height', 'open', 'floating', 'positionX', 'positionY'])};
+		let nextState = {...this.state, ..._.pick(nextProps, ['width', 'height', 'open', 'docked', 'expanded',  'floating', 'positionX', 'positionY'])};
 		this.setState(nextState);
+	}
+
+	onDock(){
+		this.props.onDock();
 	}
 
 	onDragStop(e, d){
@@ -85,12 +97,14 @@ class PantherWindow extends React.PureComponent {
 		});
 	}
 
-	onShrink(){
-		this.props.onShrink();
+	onFloat(){
+		this.props.onFloat();
 	}
 
 	render() {
 		let classes = classnames(`ptr-window ${this.props.elementId}`,{
+			'docked': this.state.docked,
+			'expanded': this.state.expanded,
 			'floating': this.state.floating,
 			'open': this.state.open
 		});
@@ -113,12 +127,15 @@ class PantherWindow extends React.PureComponent {
 		let header = this.renderHeader();
 		let content = this.renderContent();
 
+		let size = this.state.floating ? { width: this.state.width,  height: this.state.height } :
+			(this.state.expanded ? {width: '100%', height: '100%'} : {width: '50%', height: '100%'});
+
 		return (
 			<Rnd
 				style={style}
 				className={classes}
 				dragHandleClassName=".ptr-window-header"
-				size={this.state.floating ? { width: this.state.width,  height: this.state.height } : {width: '100%', height: '100%'}}
+				size={size}
 				position={this.state.floating ? { x: this.state.positionX, y: this.state.positionY } : {x: 0, y: 0}}
 				minHeight={this.props.minHeight}
 				minWidth={this.props.minWidth}
@@ -147,17 +164,27 @@ class PantherWindow extends React.PureComponent {
 	}
 
 	renderHeader(){
-		let floatingSwitch;
-		if (this.props.expandable && this.props.floatable && this.state.floating){
-			floatingSwitch = (<div
+		let dockingSwitch = null;
+		let expandedSwitch = null;
+		let floatingSwitch = null;
+
+		if (this.props.expandable && !this.state.expanded){
+			expandedSwitch = (<div
 				className="ptr-window-tool window-expand"
 				onClick={this.onExpand.bind(this)}
 			>Expand</div>);
-		} else if (this.props.expandable && this.props.floatable && !this.state.floating){
+		}
+		if (this.props.floatable && !this.state.floating){
 			floatingSwitch = (<div
 				className="ptr-window-tool window-shrink"
-				onClick={this.onShrink.bind(this)}
-			>Shrink</div>);
+				onClick={this.onFloat.bind(this)}
+			>Float</div>);
+		}
+		if (this.props.dockable && !this.state.docked){
+			dockingSwitch = (<div
+				className="ptr-window-tool window-dock"
+				onClick={this.onDock.bind(this)}
+			>Dock</div>);
 		}
 
 		return (
@@ -167,6 +194,8 @@ class PantherWindow extends React.PureComponent {
 				</div>
 				<div className="ptr-window-tools">
 					{floatingSwitch}
+					{dockingSwitch}
+					{expandedSwitch}
 					<div
 						className="ptr-window-tool window-close"
 						onClick={this.props.onClose}

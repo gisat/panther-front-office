@@ -14,7 +14,8 @@ class ScenariosWindow extends React.PureComponent {
 				window="scenarios"
 				name="Scenarios"
 				elementId="scenarios-window"
-				expandable={false}
+				expandable={true}
+				dockable={true}
 			>
 				<ScreenAnimator
 					activeScreenKey={this.props.activeScreenKey}

@@ -12,6 +12,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		onClose: () => {
 			dispatch(Action.components.windows.handleWindowVisibility(ownProps.window, false));
 		},
+		onDock: () => {
+			dispatch(Action.components.windows.dockWindow(ownProps.window));
+		},
 		onDragStop: (options) => {
 			dispatch(Action.components.windows.changeWindowPosition(ownProps.window, options));
 		},
@@ -22,8 +25,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 			dispatch(Action.components.windows.changeWindowPosition(ownProps.window, options));
 			dispatch(Action.components.windows.changeWindowSize(ownProps.window, options));
 		},
-		onShrink: () => {
-			dispatch(Action.components.windows.shrinkWindow(ownProps.window));
+		onFloat: () => {
+			dispatch(Action.components.windows.floatWindow(ownProps.window));
 		}
 	}
 };
