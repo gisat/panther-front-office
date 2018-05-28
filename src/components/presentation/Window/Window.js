@@ -70,6 +70,11 @@ class PantherWindow extends React.PureComponent {
 
 	componentWillReceiveProps(nextProps) {
 		let nextState = {...this.state, ..._.pick(nextProps, ['width', 'height', 'open', 'docked', 'expanded', 'floating', 'positionX', 'positionY'])};
+
+		if (!nextProps.docked && !nextProps.expanded && nextProps.floatable){
+			nextState.floating = true;
+		}
+
 		this.setState(nextState);
 	}
 
@@ -130,9 +135,9 @@ class PantherWindow extends React.PureComponent {
 		let header = this.renderHeader();
 		let content = this.renderContent();
 
-		let size = this.state.floating ? { width: this.state.width,  height: this.state.height } :
-			(this.state.expanded ? {width: '100%', height: '100%'} : {width: '300px', height: '100%'});
-		let position = this.state.floating ? { x: this.state.positionX, y: this.state.positionY } : {x: 0, y: 0};
+		let size = this.state.docked ? {width: '300px', height: '100%'} :
+			(this.state.expanded ? {width: '100%', height: '100%'} : { width: this.state.width,  height: this.state.height });
+		let position = (this.state.docked || this.state.expanded) ? {x: 0, y: 0} : { x: this.state.positionX, y: this.state.positionY };
 
 		return (
 			<Rnd
