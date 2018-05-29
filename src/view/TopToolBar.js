@@ -454,8 +454,8 @@ class TopToolBar {
             let toolbarItem = $('#' + widget.topToolbarItem.id);
             floater.addClass("open");
             toolbarItem.addClass("open");
-            if (widget.floater.pinned && widget.floater.id === 'floater-map-tools-widget'){
-                self._dispatcher.notify('widget#pinMapTools');
+            if (widget.floater.pinned){
+                self._dispatcher.notify('widget#pin', {floaterId: widget.floater.id});
             } else {
                 Floater.setPosition(floater, widget.floater.position);
             }

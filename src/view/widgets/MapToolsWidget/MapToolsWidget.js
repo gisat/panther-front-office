@@ -47,7 +47,6 @@ class MapToolsWidget extends Widget {
         this._buttons = [];
 
         this.build();
-        this._dispatcher.addListener(this.onEvent.bind(this));
     };
 
     /**

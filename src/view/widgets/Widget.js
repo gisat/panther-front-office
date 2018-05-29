@@ -8,6 +8,7 @@ import View from '../View';
 import WidgetWarning from './WidgetWarning';
 
 import './Widget.css';
+import Actions from "../../actions/Actions";
 
 let ExchangeParams = window.ExchangeParams;
 let polyglot = window.polyglot;
@@ -51,6 +52,7 @@ class Widget extends View {
 
         if (options.dispatcher) {
             this._dispatcher = options.dispatcher;
+			this._dispatcher.addListener(this.onWidgetEvent.bind(this));
         }
         if (options.placeholderTargetId) {
             this._placeholderTarget = $("#" + options.placeholderTargetId);
@@ -375,6 +377,19 @@ class Widget extends View {
                 xmlSpace="preserve"
         >${icon}</svg>`).toString();
     };
+
+	/**
+	 * @param type {string} type of event
+	 * @param options {Object}
+	 */
+	onWidgetEvent(type, options) {
+		if (type === Actions.widgetPin) {
+		    let id = this._widgetSelector.attr('id');
+		    if (options.floaterId === id){
+				this._widgetPinSelector.trigger("click");
+            }
+		}
+	};
 }
 
 export default Widget;
