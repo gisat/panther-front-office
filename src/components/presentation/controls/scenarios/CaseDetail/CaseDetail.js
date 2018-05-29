@@ -55,7 +55,6 @@ class CaseDetail extends React.PureComponent {
 	}
 
 	componentWillReceiveProps(nextProps){
-		let disableButtons = false;
 
 		let sameCase = (
 			(nextProps.case && (this.props.case && this.props.case.key === nextProps.case.key))
@@ -66,7 +65,6 @@ class CaseDetail extends React.PureComponent {
 
 		if ((sameCase && nextProps.caseEdited) || !nextProps.case) {
 			caseEditing = true;
-			disableButtons = !!(nextProps.caseEdited && nextProps.caseEdited.data && nextProps.caseEdited.data.scenarios && nextProps.caseEdited.data.scenarios.length);
 		}
 
 		/**
@@ -79,8 +77,6 @@ class CaseDetail extends React.PureComponent {
 
 		this.setState({
 			disableUncheck: this.disableUncheck(nextProps),
-			disableButtons: disableButtons,
-			disableCaseEditing: disableButtons,
 			scenarios: nextProps.scenarios,
 			caseEditingActive: caseEditing
 		});
@@ -288,16 +284,16 @@ class CaseDetail extends React.PureComponent {
 		return (
 			<div className="ptr-case-detail-buttons">
 				{saveButton ? (
-					<Button key="save" onClick={this.save} disabled={this.state.disableButtons} primary>Save</Button>
+					<Button key="save" onClick={this.save} primary>Save</Button>
 				) : null}
 				{revertButton ? (
-					<Button key="revert" onClick={this.revertEditing} disabled={this.state.disableButtons}>Revert</Button>
+					<Button key="revert" onClick={this.revertEditing}>Revert</Button>
 				) : null}
 				{discardButton ? (
-					<Button key="discard" onClick={this.discard} disabled={this.state.disableButtons}>Discard</Button>
+					<Button key="discard" onClick={this.discard}>Discard</Button>
 				) : null}
 				{cancelButton ? (
-					<Button key="cancel" onClick={this.cancel} disabled={this.state.disableButtons}>Cancel</Button>
+					<Button key="cancel" onClick={this.cancel}>Cancel</Button>
 				) : null}
 			</div>
 		);
