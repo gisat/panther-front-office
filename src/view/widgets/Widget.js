@@ -1,6 +1,5 @@
 import S from 'string';
 
-
 import ArgumentError from '../../error/ArgumentError';
 import Logger from '../../util/Logger';
 
@@ -120,13 +119,13 @@ class Widget extends View {
                         <i class="fa fa-expand"></i>
                     </div>
                     <div title="{{compress}}" class="floater-tool widget-compress">
-                        <i class="fa fa-compress"></i>
+                        {{iconRestore}}
                     </div>
                     <div title="{{pin}}" class="floater-tool widget-pin">
                         <i class="fa fa-thumb-tack"></i>
                     </div>
                     <div title="{{detach}}" class="floater-tool widget-detach">
-                        <i class="fa fa-external-link"></i>
+                        {{iconRestore}}
                     </div>
                 </div>
             </div>
@@ -157,7 +156,8 @@ class Widget extends View {
             expand: polyglot.t("expand"),
             compress: polyglot.t("compress"),
             pin: polyglot.t("pinWidget"),
-            detach: polyglot.t("expandMapToolsWidget")
+            detach: polyglot.t("expandMapToolsWidget"),
+            iconRestore: this.renderIcon('restore')
         }).toString();
 
         this._floaterTarget.append(floater);
@@ -334,6 +334,39 @@ class Widget extends View {
                 self._widgetSelector.draggable("enable");
             }, 500);
         });
+    };
+
+	/**
+	 * @param type {string}
+	 * @returns {*}
+	 */
+	renderIcon(type){
+	    let icon = null;
+		switch(type) {
+			case 'restore':
+				icon = (`
+                    <g>
+                        <path class="polygon" d="M11 11 L11 5 L27 5 L27 21 L21 21" stroke-width="3"/>
+                        <rect class="polygon" x="5" y="11" width="16" height="16" stroke-width="3"/>
+                        <rect class="line" x="5" y="11" width="16" height="4"/>
+                    </g>`
+                );
+				break;
+		}
+
+
+        return S(`
+            <svg
+                version="1.1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlnsXlink="http://www.w3.org/1999/xlink"
+                x="0px"
+                y="0px"
+                width="32px"
+                height="32px"
+                viewBox="0 0 32 32"
+                xmlSpace="preserve"
+        >${icon}</svg>`).toString();
     };
 }
 
