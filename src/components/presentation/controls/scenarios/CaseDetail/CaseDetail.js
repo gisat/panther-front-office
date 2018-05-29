@@ -55,13 +55,14 @@ class CaseDetail extends React.PureComponent {
 	}
 
 	componentWillReceiveProps(nextProps){
-		let caseEditing = false;
 		let disableButtons = false;
 
 		let sameCase = (
 			(nextProps.case && (this.props.case && this.props.case.key === nextProps.case.key))
 			|| (nextProps.caseEdited && (this.props.caseEdited && this.props.caseEdited.key === nextProps.caseEdited.key))
 		);
+
+		let caseEditing = sameCase ? this.state.caseEditingActive : false;
 
 		if ((sameCase && nextProps.caseEdited) || !nextProps.case) {
 			caseEditing = true;
