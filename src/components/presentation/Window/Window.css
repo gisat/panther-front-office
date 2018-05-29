@@ -1,15 +1,16 @@
 /* Table of contents
 	HEADER
+		Tools
 	CONTENT
+
+	DOCKED...................adjustments for docked state
+	FLOATING.................adjustments for floating state
 */
 
 .ptr-window {
 	flex-direction: column;
 	z-index: 80000;
 	box-shadow: 0 0 4px rgb(136, 136, 136);
-}
-.ptr-window.docked {
-	box-shadow: none;
 }
 
 /* === HEADER ================== */
@@ -19,12 +20,6 @@
 	display: flex;
 	height: 2.3rem;
 }
-.ptr-window.docked .ptr-window-header {
-	height: 2rem;
-}
-.ptr-window.floating .ptr-window-header {
-	cursor: move;
-}
 .ptr-window-title {
 	line-height: 2.4rem;
 	font-size: 1rem;
@@ -32,9 +27,8 @@
 	color: #eee;
 	padding: 0 .5rem;
 }
-.ptr-window.docked .ptr-window-title {
-	line-height: 2.05rem;
-}
+
+/* Tools */
 .ptr-window-tools {
 	display: flex;
 }
@@ -52,8 +46,20 @@
 	background: rgba(255,255,255,.2);
 }
 .ptr-window-tool.window-close {
-	font-size: 1rem;
-	font-weight: 600;
+	font-size: 1.05rem;
+	font-weight: 300;
+	line-height: 2rem;
+}
+.ptr-window-tool .ptr-icon {
+	height: 1.25rem;
+	width: 1.25rem;
+}
+.ptr-window-tool.window-dock .ptr-icon {
+	transform: rotate(30deg);
+}
+.ptr-window-tool svg .line {
+	stroke: #eee;
+	fill: #eee;
 }
 
 /* === CONTENT ================= */
@@ -61,4 +67,23 @@
 	background: rgba(233,235,237,.95);
 	border-radius: 0 0 .1rem .1rem;
 	flex: 1;
+}
+
+/* === DOCKED ================= */
+.ptr-window.docked {
+	box-shadow: none;
+}
+.ptr-window.docked .ptr-window-header {
+	height: 2rem;
+}
+.ptr-window.docked .ptr-window-title {
+	line-height: 2.05rem;
+}
+.ptr-window.docked .ptr-window-tool {
+	width: 1.7rem;
+}
+
+/* === FLOATING =============== */
+.ptr-window.floating .ptr-window-header {
+	cursor: move;
 }

@@ -4,6 +4,8 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import _ from 'lodash';
 
+import Icon from '../atoms/Icon';
+
 import './Window.css';
 
 const DEFAULT_FLOATER_WIDTH = 500;
@@ -180,20 +182,23 @@ class PantherWindow extends React.PureComponent {
 		if (this.props.expandable && !this.state.expanded){
 			expandedSwitch = (<div
 				className="ptr-window-tool window-expand"
+				title="Maximize"
 				onClick={this.onExpand.bind(this)}
-			>Expand</div>);
+			><Icon icon="expand"/></div>);
 		}
 		if (this.props.floatable && !this.state.floating){
 			floatingSwitch = (<div
 				className="ptr-window-tool window-shrink"
+				title="Float"
 				onClick={this.onFloat.bind(this)}
-			>Float</div>);
+			><Icon icon="compress"/></div>);
 		}
 		if (this.props.dockable && !this.state.docked){
 			dockingSwitch = (<div
 				className="ptr-window-tool window-dock"
+				title="Dock"
 				onClick={this.onDock.bind(this)}
-			>Dock</div>);
+			><Icon icon="pushpin"/></div>);
 		}
 
 		return (
@@ -202,13 +207,14 @@ class PantherWindow extends React.PureComponent {
 					{this.props.name}
 				</div>
 				<div className="ptr-window-tools">
-					{floatingSwitch}
 					{dockingSwitch}
+					{floatingSwitch}
 					{expandedSwitch}
 					<div
 						className="ptr-window-tool window-close"
+						title="Close"
 						onClick={this.props.onClose}
-					>{'\u2715'}</div>
+					>{'\u2716'}</div>
 				</div>
 			</div>);
 	}
