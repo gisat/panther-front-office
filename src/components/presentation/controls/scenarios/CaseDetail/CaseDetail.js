@@ -319,7 +319,8 @@ class CaseDetail extends React.PureComponent {
 				disableEditing={this.props.disableEditing}
 				disableUncheck={this.state.disableUncheck}
 				handleScenarioClick={this.props.handleScenarioClick}
-				editing={_.includes(this.state.editingScenarios, scenarioKey)}
+				//editing={_.includes(this.state.editingScenarios, scenarioKey)}
+				editing={this.state.caseEditingActive}
 				editScenario={this.editScenario.bind(this, scenarioKey)}
 			/>
 		);

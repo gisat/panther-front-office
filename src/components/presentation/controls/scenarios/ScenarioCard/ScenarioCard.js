@@ -157,9 +157,6 @@ class ScenarioCard extends React.PureComponent {
 						<Button icon="dots" invisible>
 							<Menu bottom left>
 								<MenuItem><Icon icon="download" /> Download</MenuItem>
-								{this.props.defaultSituation ? null : (
-									<MenuItem onClick={this.activateScenarioEditing}><Icon icon="edit"/> Edit</MenuItem>
-								)}
 							</Menu>
 						</Button>
 					): null}
@@ -184,13 +181,6 @@ class ScenarioCard extends React.PureComponent {
 					onChange={this.onChangeFile}
 				/>
 				) : null}
-				{this.props.editing && false ? ( // don't save with button for now
-					<div className="scenario-card-body-buttons">
-						<Button disabled={true}>
-							Save
-						</Button>
-					</div>
-				) : null}
 			</div>
 		) : null;
 
@@ -198,7 +188,6 @@ class ScenarioCard extends React.PureComponent {
 			<div className={classes}>
 				{header}
 				{body}
-				{this.props.editing ? this.renderButtons() : null}
 			</div>
 		);
 	}
