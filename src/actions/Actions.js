@@ -82,6 +82,6 @@ export default {
     sharingViewShared: 'sharing#viewShared',
 
     widgetChangedState: 'widget#changedState',
-    widgetPinMapTools: 'widget#pinMapTools',
+    widgetPin: 'widget#pin',
     worldWindWidgetRebuild: 'worldWindWidget#rebuild'
 };

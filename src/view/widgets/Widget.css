@@ -320,6 +320,7 @@ body.mode-3d .floater.only-3d.open {
     background: rgba(153,54,75,.9);
     height: 2rem;
     line-height: 2.1rem;
+	cursor: auto;
 }
 .floater.pinned .floater-tool {
     width: 1.7rem;
