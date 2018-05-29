@@ -19,6 +19,9 @@
 	display: flex;
 	height: 2.3rem;
 }
+.ptr-window.docked .ptr-window-header {
+	height: 2rem;
+}
 .ptr-window.floating .ptr-window-header {
 	cursor: move;
 }
@@ -28,6 +31,9 @@
 	flex: 1;
 	color: #eee;
 	padding: 0 .5rem;
+}
+.ptr-window.docked .ptr-window-title {
+	line-height: 2.05rem;
 }
 .ptr-window-tools {
 	display: flex;
