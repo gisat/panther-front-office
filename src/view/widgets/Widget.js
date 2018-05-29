@@ -313,10 +313,16 @@ class Widget extends View {
         this._widgetPinSelector.off("click.pin").on("click.pin", function () {
             self._widgetSelector.addClass("pinned");
             self._dispatcher.notify("mapsContainer#toolsPinned");
-            self._widgetSelector.prependTo(".maps-container .map-tools");
+			if (self._widgetId === 'map-tools-widget'){
+				self._widgetSelector.prependTo(".maps-container .map-tools");
+            } else {
+				self._widgetSelector.appendTo(".maps-container .map-tools");
+            }
+			self._heightBeforePin = self._widgetSelector.height();
             self._widgetSelector.css({
                 left: 0,
-                top: 0
+                top: 0,
+                height: 'auto'
             });
             setTimeout(function () {
                 self._widgetSelector.draggable("disable");
@@ -328,7 +334,8 @@ class Widget extends View {
             self._widgetSelector.appendTo("body");
             self._widgetSelector.css({
                 left: 50,
-                top: 100
+                top: 100,
+                height: self._heightBeforePin
             });
             setTimeout(function () {
                 self._widgetSelector.draggable("enable");

@@ -11,14 +11,17 @@
 #floater-world-wind-widget.open {
 	display: block;
 }
-#floater-world-wind-widget .floater-body {
-	height: calc(100% - 3rem);
-	border: 1px solid #ddd;
+#floater-world-wind-widget.pinned {
+	min-width: 300px;
+	max-width: 300px;
+	max-height: none;
+	height: 100%;
 }
 
 /* Floater body */
 #floater-world-wind-widget .floater-body {
 	padding: .5rem 0 0 0;
+	height: calc(100% - 3rem);
 }
 #floater-world-wind-widget .checkbox-row {
 	transition: background .3s ease-out;

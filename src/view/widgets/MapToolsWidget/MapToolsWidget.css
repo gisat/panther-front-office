@@ -38,15 +38,13 @@
 #floater-map-tools-widget.pinned {
 	min-width: 35px;
 	max-width: 35px;
-	max-height: 100%;
+	max-height: none;
 	height: 100%;
-	overflow: hidden;
-	border-radius: 0;
-	resize: none;
-	position: relative;
 }
-#floater-map-tools-widget.pinned .floater-header {
-	height: 2rem;
+
+#floater-map-tools-widget.pinned .widget-minimise,
+#floater-map-tools-widget.pinned .floater-header-title {
+	display: none;
 }
 #floater-map-tools-widget.pinned .floater-body {
 	background: #f4f3ef;

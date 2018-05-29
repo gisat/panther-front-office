@@ -502,7 +502,8 @@ function loadApp() {
                 wmsLayers: store.wmsLayers
             },
             isWithoutFooter: true,
-            isFloaterExtAlike: false
+            isFloaterExtAlike: false,
+			isPinnable: true
         });
     }
 

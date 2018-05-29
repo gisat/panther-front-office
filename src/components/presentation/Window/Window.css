@@ -75,10 +75,13 @@
 
 /* === DOCKED ================= */
 .ptr-window.docked {
+	border-right: 1px solid rgba(186,190,200,1);
 	box-shadow: none;
 }
 .ptr-window.docked .ptr-window-header {
 	height: 2rem;
+	background: rgba(153,54,75,.9);
+	border-radius: 0;
 }
 .ptr-window.docked .ptr-window-title {
 	line-height: 2.05rem;
