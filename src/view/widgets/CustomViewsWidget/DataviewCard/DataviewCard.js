@@ -45,7 +45,7 @@ class DataviewCard {
             <div class="dataview-card-preview"></div>
             <div class="dataview-card-text">
                 <h3>{{name}}</h3>
-                <p>{{description}}</p>
+                <p class="dataview-card-description">{{description}}</p>
             </div>
             <div class="dataview-card-tools">
                 <div class="dataview-card-icons">

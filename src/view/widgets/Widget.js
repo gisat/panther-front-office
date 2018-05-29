@@ -109,11 +109,11 @@ class Widget extends View {
                 <div class="floater-header-title">{{name}}</div>
                 <div class="floater-tools-container">
                     <div title="{{minimise}}" class="floater-tool widget-minimise">
-                        <!--<img alt="{{minimise}}" src="{{minimiseSrc}}"/>-->
-                        <span class="fa-stack">
-                              <i class="fa fa-square-o fa-stack-2x"></i>
-                              <i class="fa fa-window-minimize fa-stack-1x"></i>
-                        </span>
+                        \u2716
+                        <!--<span class="fa-stack">-->
+                              <!--<i class="fa fa-square-o fa-stack-2x"></i>-->
+                              <!--<i class="fa fa-window-minimize fa-stack-1x"></i>-->
+                        <!--</span>-->
                     </div>
                     <div title="{{expand}}" class="floater-tool widget-expand">
                         <i class="fa fa-expand"></i>

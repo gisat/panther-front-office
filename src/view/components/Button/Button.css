@@ -31,22 +31,22 @@
 }
 
 /* text */
-.component-button span {
+.component-button .component-button-text {
 	font-size: .95rem;
 	font-weight: 500;
 	display: inline-block;
 	padding: 0 1rem;
 }
-.component-button.has-icon span {
+.component-button.has-icon .component-button-text {
 	padding: 0 1rem 0 0;
 }
-.component-button.text-centered span {
+.component-button.text-centered .component-button-text {
 	text-align: center;
 }
-.component-button.text-small span {
+.component-button.text-small .component-button-text {
 	font-size: .85rem;
 }
-.component-button.extra-large span {
+.component-button.extra-large .component-button-text {
 	font-size: 1.5rem;
 }
 
@@ -103,7 +103,7 @@
 	height: 26px;
 	line-height: 26px;
 }
-.component-button.compare-button span {
+.component-button.compare-button .component-button-text {
 	width: 100%;
 	padding: 0;
 }

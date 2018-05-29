@@ -91,10 +91,6 @@
     width: 18rem;
     z-index: 10000;
 }
-.floater.pinned {
-    box-shadow: none;
-    border-right: 1px solid rgba(186,190,200,1);
-}
 
 /* floater header */
 .floater-header {
@@ -121,13 +117,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 30px;
+    width: 2rem;
     height: 100%;
     cursor: pointer;
     transition: background .3s ease-in-out;
 }
 .floater-tool.widget-minimise {
-    width: 2.3rem;
+    width: 2rem;
+    font-size: 1.05rem;
+    font-weight: 300;
+    line-height: 2rem;
+    color: #eee;
 }
 .floater-tool:hover {
     background: rgba(255,255,255,.2);
@@ -281,7 +281,7 @@ body.mode-3d .floater.only-3d.open {
 .floater.expanded .floater-header {
     background: #212635;
     cursor: default;
-    padding: 0 1rem;
+    padding: 0 .3rem 0 .5rem;
     border-top: 1px solid rgba(255,255,255,.1);
 }
 .floater.expanded .floater-header-title {
@@ -304,6 +304,10 @@ body.mode-3d .floater.only-3d.open {
 .floater.pinnable .widget-pin .fa {
     display: flex;
     transform: rotate(30deg);
+}
+.floater.pinned {
+    box-shadow: none;
+    border-right: 1px solid rgba(186,190,200,1);
 }
 .floater.pinned .widget-detach {
     display: flex;
@@ -466,7 +470,7 @@ body.mode-3d .floater.only-3d.open {
     font-weight: 400;
     margin-bottom: .2rem;
 }
-.widget-section p {
+.widget-section .paragraph {
     font-size: .95rem;
     color: rgb(65,69,81);
     margin-bottom: .3rem;

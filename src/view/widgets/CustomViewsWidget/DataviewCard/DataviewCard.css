@@ -31,7 +31,7 @@
 	font-weight: 400;
 	margin-bottom: .2rem;
 }
-.dataview-card-text > p {
+.dataview-card-text .dataview-card-description {
 	font-size: .9rem;
 	color: rgb(128,132,140);
 	font-weight: 400;
@@ -80,7 +80,7 @@
 	.dataview-card-text > h3 {
 		font-size: 1.05rem;
 	}
-	.dataview-card-text > p {
+	.dataview-card-text .dataview-card-description {
 		font-size: .85rem;
 	}
 }
@@ -94,7 +94,7 @@
 	}
 	.dataview-card-text > h3 {
 	}
-	.dataview-card-text > p {
+	.dataview-card-text .dataview-card-description {
 	}
 	.dataview-card-icons .fa {
 		width: 1.6rem;
