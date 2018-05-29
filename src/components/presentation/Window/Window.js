@@ -191,7 +191,7 @@ class PantherWindow extends React.PureComponent {
 				className="ptr-window-tool window-shrink"
 				title="Float"
 				onClick={this.onFloat.bind(this)}
-			><Icon icon="compress"/></div>);
+			><Icon icon="restore"/></div>);
 		}
 		if (this.props.dockable && !this.state.docked){
 			dockingSwitch = (<div

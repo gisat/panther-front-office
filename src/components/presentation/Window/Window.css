@@ -61,6 +61,10 @@
 	stroke: #eee;
 	fill: #eee;
 }
+.ptr-window-tool svg .polygon {
+	stroke: #eee;
+	fill: transparent;
+}
 
 /* === CONTENT ================= */
 .ptr-window-content {

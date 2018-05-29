@@ -1,19 +1,17 @@
 import React from 'react';
 
 import ArrowLeft from './ArrowLeft';
-import Compress from './Compress';
 import Dots from './Dots';
 import Edit from './Edit';
 import Expand from './Expand';
 import Plus from './Plus';
 import Pushpin from './Pushpin';
+import Restore from './Restore';
 
 const icon = key => {
 	switch(key) {
 		case 'arrow-left':
 			return <ArrowLeft />;
-		case 'compress':
-			return <Compress />;
 		case 'dots':
 			return <Dots />;
 		case 'edit':
@@ -24,6 +22,8 @@ const icon = key => {
 			return <Plus />;
 		case 'pushpin':
 			return <Pushpin />;
+		case 'restore':
+			return <Restore />;
 		default:
 			return null;
 	}
