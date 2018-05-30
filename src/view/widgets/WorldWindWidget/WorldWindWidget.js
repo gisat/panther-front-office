@@ -59,6 +59,8 @@ class WorldWindWidget extends Widget {
             this._topToolBar = options.topToolBar;
         }
 
+        this._dispatcher.addListener(this.onEvent.bind(this));
+
         this.build();
     };
 

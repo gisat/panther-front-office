@@ -116,10 +116,10 @@ class MapsContainer {
 	 * Add map to container
 	 * @param id {string|null} Id of the map
 	 * @param periodId {number} Id of the period connected with map
+	 * @param options {Object}
 	 * @param [options.scenarioKey] {number}
 	 * @param [options.scenarioData] {Object}
 	 * @param [options.isDefaultScenarioSituation] {bool}
-	 * TODO allow max 16 maps (due to WebGL restrictions)
 	 */
 	addMap(id, periodId, options) {
 		var state = this._stateStore.current();
@@ -189,16 +189,20 @@ class MapsContainer {
 	 * @param id {string} Id of the map which should distinguish one map from another
 	 * @param periodId {number} Id of the period
 	 * @param orderFromStart {number} Order of a map from MapsContainer instance initialization
+	 * @param options {Object}
+	 * @param [options.scenarioKey] {number}
+	 * @param [options.scenarioData] {Object}
+	 * @param [options.isDefaultScenarioSituation] {bool}
 	 * @returns {WorldWindMap}
 	 */
-	buildWorldWindMap(id, periodId, orderFromStart, metadata) {
+	buildWorldWindMap(id, periodId, orderFromStart, options) {
 		return new WorldWindMap({
 			dispatcher: window.Stores,
 			id: id,
 			period: periodId,
 			orderFromStart: orderFromStart,
 			mapsContainer: this._containerSelector.find(".map-fields"),
-			metadata: metadata,
+			options: options,
 			store: {
 				scopes: this._scopesStore,
 				state: this._stateStore,

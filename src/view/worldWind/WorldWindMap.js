@@ -27,7 +27,7 @@ import './WorldWindMap.css';
  * @param options.orderFromStart {number} Order of a map from MapsContainer instance initialization
  * @param options.period {Number|null} Period associated with this map.
  * @param options.dispatcher {Object} Object for handling events in the application.
- * @param [options.metadata] {Object}
+ * @param [options.options] {Object}
  * @param options.store {Object}
  * @param options.store.state {StateStore}
  * @param options.store.scopes {Scopes}
@@ -85,8 +85,8 @@ class WorldWindMap {
         this._aoiLayer = null;
         this._placeLayer = null;
 
-		if (options.metadata){
-			let m = options.metadata;
+		if (options.options){
+			let m = options.options;
 			if (m.scenarioKey){
 				this.scenarioKey = m.scenarioKey;
 			}
