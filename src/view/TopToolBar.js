@@ -298,10 +298,8 @@ class TopToolBar {
 			if (targetId) {
 				if (targetId === 'window-customviews') Ext.ComponentQuery.query('#window-customviews')[0].show();
 				if (targetId === 'window-customLayers') this.initCustomLayersWindow();
+
 				let floater = $('#' + targetId);
-				if (targetId === 'floater-map-tools-widget' && floater.hasClass("open")){
-					floater.find(".widget-detach").trigger("click");
-				}
 				floater.toggleClass('open');
 
 				let type = targetId.split("-")[0];
