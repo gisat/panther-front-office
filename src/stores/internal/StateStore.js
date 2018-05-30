@@ -140,7 +140,18 @@ class StateStore {
         if (!scope) {
             return null;
         }
-        return Ext.StoreMgr.lookup('dataset').getById(this.scope()).data;
+        let data = Ext.StoreMgr.lookup('dataset').getById(this.scope()).data;
+        if (data && data.isMapDependentOnScenario){
+            this.handleMapDependencyOnScenario(true);
+        }
+        if (data && data.isMapIndependentOfPeriod){
+            this.handleMapDependencyOnPeriod(false);
+        }
+        if (data && data.scenarios){
+            this._scenarios = true;
+        }
+
+        return data;
     };
 
     scope() {
