@@ -318,7 +318,7 @@ class Widget extends View {
 			if (self._widgetId === 'map-tools-widget'){
 				self._widgetSelector.prependTo(".maps-container .map-tools");
             } else {
-				self._widgetSelector.appendTo(".maps-container .map-tools");
+				self._widgetSelector.insertBefore(".maps-container .docked-windows-container");
             }
 			self._heightBeforePin = self._widgetSelector.height();
             self._widgetSelector.css({
