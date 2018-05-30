@@ -147,9 +147,6 @@ class StateStore {
         if (data && data.isMapIndependentOfPeriod){
             this.handleMapDependencyOnPeriod(false);
         }
-        if (data && data.scenarios){
-            this._scenarios = true;
-        }
 
         return data;
     };
