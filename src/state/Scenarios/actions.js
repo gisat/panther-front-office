@@ -367,21 +367,23 @@ function apiCreateCases(cases, scenarios, placeKey, ttl) {
 	return dispatch => {
 		dispatch(actionApiCreateCasesRequest(_.map(cases, 'key')));
 
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/scenario_cases');
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata');
 
 		let payload = {
-			scenario_cases: _.map(cases, model => {
-				return {
-					uuid: model.key,
-					data: {...model.data, place_id: placeKey}
-				};
-			}),
-			scenarios: _.map(scenarios, model => {
-				return {
-					uuid: model.key,
-					data: {...model.data, place_id: placeKey}
-				};
-			})
+			data: {
+				scenario_cases: _.map(cases, model => {
+					return {
+						uuid: model.key,
+						data: {...model.data, place_id: placeKey}
+					};
+				}),
+				scenarios: _.map(scenarios, model => {
+					return {
+						uuid: model.key,
+						data: {...model.data, place_id: placeKey}
+					};
+				})
+			}
 		};
 
 		return fetch(url, {
