@@ -5,14 +5,32 @@ import _ from 'lodash';
 
 // ============ creators ===========
 function setActiveScreen(screenKey){
+	return (dispatch) => {
+		dispatch(updateProperty('activeScreenKey', screenKey));
+	};
+}
+
+function activateCaseEditing() {
+	return (dispatch) => {
+		dispatch(updateProperty('editingActive', true));
+	};
+}
+
+function deactivateCaseEditing() {
+	return (dispatch) => {
+		dispatch(updateProperty('editingActive', false));
+	};
+}
+
+function updateProperty(key, value){
 	return (dispatch, getState) => {
 		let state = getState();
 		let window = Select.components.windows.getWindow(state, {key: 'scenarios'});
 		if (window){
 			let stateUpdate = {
-					...window,
-					activeScreenKey: screenKey
-				};
+				...window,
+				[key]: value
+			};
 			dispatch(Action.components.windows.updateWindow('scenarios', stateUpdate));
 		}
 	};
@@ -21,7 +39,7 @@ function setActiveScreen(screenKey){
 // ============ export ===========
 
 export default {
-	// activateScenariosEditing: activateScenariosEditing,
-	// deactivateScenariosEditing: deactivateScenariosEditing,
+	activateCaseEditing: activateCaseEditing,
+	deactivateCaseEditing: deactivateCaseEditing,
 	setActiveScreen: setActiveScreen
 }

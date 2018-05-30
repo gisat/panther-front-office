@@ -28,17 +28,18 @@ class CaseDetail extends React.PureComponent {
 		activeCaseScenarioKeys: PropTypes.array,
 		activeCaseEditedScenarioKeys: PropTypes.array,
 		screenKey: PropTypes.string,
-		switchScreen: PropTypes.func
+		switchScreen: PropTypes.func,
+		editingActive: PropTypes.bool
 	};
 
 	constructor(props){
 		super(props);
 
 		this.state = {
-			caseEditingActive: false,
+			caseEditingActive: props.editingActive,
 			disableUncheck: false,
 			disableCaseEditing: props.disableEditing,
-			editingScenarios: []
+			editingScenarios: [],
 		};
 
 		this.addScenario = this.addScenario.bind(this);
@@ -51,6 +52,7 @@ class CaseDetail extends React.PureComponent {
 		this.onChangeDescription = this.onChangeDescription.bind(this);
 		this.onChangeGeometry = this.onChangeGeometry.bind(this);
 		this.onChangeName = this.onChangeName.bind(this);
+		this.onClickBack = this.onClickBack.bind(this);
 		this.editScenario = this.editScenario.bind(this);
 	}
 
@@ -61,7 +63,7 @@ class CaseDetail extends React.PureComponent {
 			|| (nextProps.caseEdited && (this.props.caseEdited && this.props.caseEdited.key === nextProps.caseEdited.key))
 		);
 
-		let caseEditing = sameCase ? this.state.caseEditingActive : false;
+		let caseEditing = sameCase ? nextProps.editingActive : false;
 
 		if ((sameCase && nextProps.caseEdited) || !nextProps.case) {
 			caseEditing = true;
@@ -83,9 +85,7 @@ class CaseDetail extends React.PureComponent {
 	}
 
 	activateCaseEditing() {
-		this.setState({
-			caseEditingActive: true
-		});
+		this.props.activateEditing();
 	}
 
 	save() {
@@ -93,23 +93,17 @@ class CaseDetail extends React.PureComponent {
 	}
 
 	cancel(){
-		this.setState({
-			caseEditingActive: false
-		});
+		this.props.deactivateEditing();
 	}
 
 	discard(){
 		this.props.discard();
-		this.setState({
-			caseEditingActive: false
-		});
+		this.props.deactivateEditing();
 	}
 
 	revertEditing() {
 		this.props.revert();
-		this.setState({
-			caseEditingActive: false
-		});
+		this.props.deactivateEditing();
 	}
 
 	editScenario(scenarioKey, edit) {
@@ -152,6 +146,12 @@ class CaseDetail extends React.PureComponent {
 		this.props.updateEditedCase('geometry', value);
 	}
 
+	onClickBack(){
+		this.props.deactivateEditing();
+		this.props.changeActiveScreen('caseList');
+
+	}
+
 	render() {
 		console.log('### CaseDetail render', this.props);
 
@@ -175,7 +175,7 @@ class CaseDetail extends React.PureComponent {
 			<div className="case-detail-header">
 				<div className="case-detail-header-buttons">
 					<div>
-						<Button icon="arrow-left" invisible circular onClick={this.props.changeActiveScreen.bind(null, 'caseList')} />
+						<Button icon="arrow-left" invisible circular onClick={this.onClickBack} />
 					</div>
 					<div>
 						<Button icon="dots" invisible>
