@@ -1,10 +1,9 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
+import Scenarios from './Scenarios/selectors'
 
 const getWindows = state => state.components.windows;
 const getWindow = (state, props) => state.components.windows[props.key];
-
-const getScenariosWindowActiveScreenKey = (state) => state.components.windows.scenarios.activeScreenKey;
 
 const isWindowOpen = createSelector(
 	getWindow,
@@ -24,7 +23,8 @@ export default {
 	isWindowDocked: isWindowDocked,
 	isWindowOpen: isWindowOpen,
 
+	getWindow: getWindow,
 	getWindows: getWindows,
 
-	getScenariosWindowActiveScreenKey: getScenariosWindowActiveScreenKey
+	scenarios: Scenarios
 };

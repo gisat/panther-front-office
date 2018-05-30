@@ -18,6 +18,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
+		activateEditing: () => {
+			dispatch(Action.components.windows.activateScenariosEditing());
+		},
 		addScenario: (scenarioKey) => {
 			dispatch(Action.scenarios.addEditedScenario(scenarioKey));
 		},
@@ -34,6 +37,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		},
 		updateEditedCase: (key, value) => {
 			dispatch(Action.scenarios.updateEditedActiveCase(key, value))
+		},
+		deactivateEditing: () => {
+			dispatch(Action.components.windows.deactivateScenariosEditing());
 		},
 		discard: () => {
 			ownProps.changeActiveScreen('caseList');
