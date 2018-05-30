@@ -99,8 +99,10 @@ class CaseDetail extends React.PureComponent {
 	}
 
 	discard(){
-		this.props.revert();
 		this.props.discard();
+		this.setState({
+			caseEditingActive: false
+		});
 	}
 
 	revertEditing() {

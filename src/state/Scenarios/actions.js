@@ -332,14 +332,17 @@ function saveActiveCase() {
 		let state = getState();
 		let saved = Select.scenarios.getActiveCase(state);
 		let edited = Select.scenarios.getActiveCaseEdited(state);
+		let editedScenarios = _.filter(Select.scenarios.getScenariosEdited(state), scenario => {
+			return _.includes(edited.data.scenarios, scenario.key);
+		});
 		let activePlaceKey = Select.places.getActiveKey(state);
 
 		if (saved) {
 			// update
-			dispatch(apiUpdateCases([edited]));
+			dispatch(apiUpdateCases([edited], editedScenarios));
 		} else {
 			// create
-			dispatch(apiCreateCases([edited], activePlaceKey));
+			dispatch(apiCreateCases([edited], editedScenarios, activePlaceKey));
 		}
 	};
 }
@@ -359,7 +362,7 @@ function saveScenario(scenarioKey){
 	};
 }
 
-function apiCreateCases(updates, placeKey, ttl) {
+function apiCreateCases(updates, editedScenarios, placeKey, ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
 	return dispatch => {
 		dispatch(actionApiCreateCasesRequest(_.map(updates, 'key')));
@@ -400,7 +403,7 @@ function apiCreateCases(updates, placeKey, ttl) {
 			error => {
 				console.log('#### create scenario case error', error);
 				if (ttl - 1) {
-					dispatch(apiCreateCases(updates, placeKey, ttl - 1));
+					dispatch(apiCreateCases(updates, editedScenarios, placeKey, ttl - 1));
 				} else {
 					dispatch(actionApiCreateCasesError("scenarios#actions create cases: cases weren't created!"));
 				}
@@ -409,7 +412,7 @@ function apiCreateCases(updates, placeKey, ttl) {
 	};
 }
 
-function apiUpdateCases(updates, ttl) {
+function apiUpdateCases(updates, editedScenarios, ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
 	return dispatch => {
 		dispatch(actionApiUpdateCasesRequest(_.map(updates, 'key')));
@@ -450,7 +453,7 @@ function apiUpdateCases(updates, ttl) {
 			error => {
 				console.log('#### update scenario case error', error);
 				if (ttl - 1) {
-					dispatch(apiUpdateCases(updates, ttl - 1));
+					dispatch(apiUpdateCases(updates, editedScenarios, ttl - 1));
 				} else {
 					dispatch(actionLoadCasesError("scenarios#actions load cases: cases weren't loaded!"));
 				}
