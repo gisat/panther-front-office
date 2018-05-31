@@ -146,15 +146,15 @@ const mapsWatcher = (value, previousValue) => {
 			let diffLayerTemplates = compareValues(map.layerTemplates, previousMap.layerTemplates);
 
 			console.log('@@ diffLayerTemplates', diffLayerTemplates);
-			_.each(diffLayerTemplates.added, (value) => {
+			_.each(diffLayerTemplates.added, (data) => {
 				window.Stores.notify('ADD_INFO_LAYER', {
-					layerTemplateKey: value,
+					layerTemplate: data,
 					mapKey: map.key
 				});
 			});
-			_.each(diffLayerTemplates.removed, (value) => {
+			_.each(diffLayerTemplates.removed, (data) => {
 				window.Stores.notify('REMOVE_INFO_LAYER', {
-					layerTemplateKey: value,
+					layerTemplate: data,
 					mapKey: map.key
 				});
 			});
