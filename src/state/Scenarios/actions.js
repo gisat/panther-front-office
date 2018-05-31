@@ -389,7 +389,7 @@ function apiCreateCases(cases, scenarios, placeKey, ttl) {
 				scenarios: _.map(scenarios, model => {
 					return {
 						uuid: model.key,
-						data: {...model.data, place_ids: [placeKey]}
+						data: {...model.data}
 					};
 				})
 			}
@@ -483,18 +483,21 @@ function apiUpdateCases(updates, editedScenarios, ttl) {
 
 function apiCreateCasesReceive(data) {
 	return (dispatch, getState) => {
+		let cases = data.scenario_cases;
+		let scenarios = data.scenarios;
 		// add to data
-		dispatch(loadCasesReceive(data));
+		dispatch(loadCasesReceive(cases));
+		dispatch(apiCreateScenariosReceive(scenarios));
 		// change active key if of temporary case
 		let activeCaseKey = Select.scenarios.getActiveCaseKey(getState());
 		if (activeCaseKey) {
-			let activeCaseCreated = _.find(data, {uuid: activeCaseKey});
+			let activeCaseCreated = _.find(cases, {uuid: activeCaseKey});
 			if (activeCaseCreated) {
 				dispatch(actionSetActiveCase(activeCaseCreated.id));
 			}
 		}
 		// remove from editedData
-		dispatch(actionRemoveEditedCases(_.map(data, 'uuid')));
+		dispatch(actionRemoveEditedCases(_.map(cases, 'uuid')));
 	};
 }
 
