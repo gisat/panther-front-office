@@ -12,6 +12,8 @@
 	flex-grow: 0;
 	height: 0;
 
+	background: #efc6cf;
+
 	transition:
 		height .1s ease-in-out;
 }
