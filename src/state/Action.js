@@ -9,6 +9,7 @@ import Periods from './Periods/actions';
 import Places from './Places/actions';
 import Scenarios from './Scenarios/actions';
 import Scopes from './Scopes/actions';
+import SpatialDataSources from './SpatialDataSources/actions';
 import User from './User/actions';
 import WmsLayers from './WmsLayers/actions';
 
@@ -23,6 +24,7 @@ export default {
 	places: Places,
 	scenarios: Scenarios,
 	scopes: Scopes,
+	spatialDataSources: SpatialDataSources,
 	user: User,
 	wmsLayers: WmsLayers
 };

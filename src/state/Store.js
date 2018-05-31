@@ -10,6 +10,7 @@ import periodsReducers from './Periods/reducers';
 import placesReducers from './Places/reducers';
 import scenariosReducers from './Scenarios/reducers';
 import scopesReducers from './Scopes/reducers';
+import spatialDataSourcesReducers from './SpatialDataSources/reducers';
 import userReducers from './User/reducers';
 import wmsLayersReducers from './WmsLayers/reducers';
 import thunk from 'redux-thunk';
@@ -29,6 +30,7 @@ const Store = createStore(combineReducers({
 	places: placesReducers,
 	scenarios: scenariosReducers,
 	scopes: scopesReducers,
+	spatialDataSources: spatialDataSourcesReducers,
 	user: userReducers,
 	wmsLayers: wmsLayersReducers
 }), applyMiddleware(thunk, logger));

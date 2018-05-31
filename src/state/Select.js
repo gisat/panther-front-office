@@ -8,6 +8,7 @@ import Periods from './Periods/selectors';
 import Places from './Places/selectors';
 import Scenarios from './Scenarios/selectors';
 import Scopes from './Scopes/selectors';
+import SpatialDataSources from './SpatialDataSources/selectors';
 import User from './User/selectors';
 import WmsLayers from './WmsLayers/selectors';
 
@@ -22,6 +23,7 @@ export default {
 	places: Places,
 	scenarios: Scenarios,
 	scopes: Scopes,
+	spatialDataSources: SpatialDataSources,
 	user: User,
 	wmsLayers: WmsLayers
 
