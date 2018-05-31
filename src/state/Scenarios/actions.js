@@ -372,15 +372,17 @@ function apiCreateCases(cases, scenarios, placeKey, ttl) {
 		let payload = {
 			data: {
 				scenario_cases: _.map(cases, model => {
+					let caseData = {...model.data, scenario_ids: model.data.scenarios};
+					delete caseData.scenarios;
 					return {
 						uuid: model.key,
-						data: {...model.data, place_id: placeKey}
+						data: {...caseData, place_ids: [placeKey]}
 					};
 				}),
 				scenarios: _.map(scenarios, model => {
 					return {
 						uuid: model.key,
-						data: {...model.data, place_id: placeKey}
+						data: {...model.data, place_ids: [placeKey]}
 					};
 				})
 			}
