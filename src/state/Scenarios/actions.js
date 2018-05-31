@@ -536,8 +536,6 @@ function apiCreateScenarios(updates, ttl) {
 				let contentType = response.headers.get('Content-type');
 				if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
 					return response.json().then(data => {
-						debugger;
-
 						if (data.data) {
 							dispatch(apiCreateScenariosReceive(data.data));
 						} else {

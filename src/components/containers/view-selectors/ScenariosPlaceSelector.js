@@ -18,6 +18,7 @@ const mapDispatchToProps = dispatch => {
 			//});
 			dispatch(Action.places.setActive(key));
 			dispatch(Action.scenarios.loadCases());
+			dispatch(Action.spatialRelations.load());
 			//dispatch(Action.scenarios.load());
 		}
 	}

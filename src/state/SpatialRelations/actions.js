@@ -19,9 +19,16 @@ function load(ttl) {
 		if (state.spatialDataSources.loading) {
 			// already loading, do nothing
 		} else {
-			dispatch(actionLoadDataSourcesRequest());
+			dispatch(actionLoadRelationsRequest());
 
-			let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/spatial_data_sources');
+			let activePlaceKey = Select.places.getActiveKey(state);
+			let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/spatial_relations');
+			let query = queryString.stringify({
+				place_id: activePlaceKey
+			});
+			if (query) {
+				url += '?' + query;
+			}
 
 			return fetch(url, {
 				method: 'GET',
@@ -32,26 +39,26 @@ function load(ttl) {
 				}
 			}).then(
 				response => {
-					console.log('#### load spatial data sources response', response);
+					console.log('#### load spatial relations response', response);
 					let contentType = response.headers.get('Content-type');
 					if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
 						return response.json().then(data => {
 							if (data.data && data.success) {
-								dispatch(loadDataSourcesReceive(data.data));
+								dispatch(loadRelationsReceive(data.data));
 							} else {
-								dispatch(actionLoadDataSourcesError('no data returned'));
+								dispatch(actionLoadRelationsError('no data returned'));
 							}
 						});
 					} else {
-						dispatch(actionLoadDataSourcesError(response))
+						dispatch(actionLoadRelationsError(response))
 					}
 				},
 				error => {
-					console.log('#### load data sources error', error);
+					console.log('#### load relations error', error);
 					if (ttl - 1) {
 						dispatch(load(ttl - 1));
 					} else {
-						dispatch(actionLoadDataSourcesError("spatialDataSources#actions load: sources weren't loaded!"));
+						dispatch(actionLoadRelationsError("spatialDataRelations#actions load: relations weren't loaded!"));
 					}
 				}
 			);
@@ -59,32 +66,32 @@ function load(ttl) {
 	};
 }
 
-function loadDataSourcesReceive(models) {
+function loadRelationsReceive(models) {
 	return dispatch => {
 		models = _.map(models, ({id, ...model}) => {
 			return {...model, key: id};
 		});
-		dispatch(actionLoadDataSourcesReceive(models));
+		dispatch(actionLoadRelationsReceive(models));
 	};
 }
 
 // ============ actions ===========
-function actionLoadDataSourcesReceive(data) {
+function actionLoadRelationsReceive(data) {
 	return {
-		type: ActionTypes.SPATIAL_DATA_SOURCES_RECEIVE,
+		type: ActionTypes.SPATIAL_RELATIONS_RECEIVE,
 		data: data
 	}
 }
 
-function actionLoadDataSourcesRequest() {
+function actionLoadRelationsRequest() {
 	return {
-		type: ActionTypes.SPATIAL_DATA_SOURCES_REQUEST
+		type: ActionTypes.SPATIAL_RELATIONS_REQUEST
 	}
 }
 
-function actionLoadDataSourcesError(error) {
+function actionLoadRelationsError(error) {
 	return {
-		type: ActionTypes.SPATIAL_DATA_SOURCES_REQUEST_ERROR,
+		type: ActionTypes.SPATIAL_RELATIONS_REQUEST_ERROR,
 		error: error
 	}
 }

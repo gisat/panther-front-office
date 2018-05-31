@@ -40,7 +40,7 @@ const setEventListeners = store => {
 				} else if (options.data.length && options.data.length > 1){
 					store.dispatch(Action.places.setActiveKeys(options.data));
 				}
-				store.dispatch(Action.spatialDataSources.load());
+				store.dispatch(Action.spatialRelations.load());
 				break;
 			default:
 				break;
