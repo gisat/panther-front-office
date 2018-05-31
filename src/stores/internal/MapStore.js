@@ -9,58 +9,46 @@ import _ from 'underscore';
 const fakeDataLayers = {
 	1: {
 		3332: {
-			layer: "geonode:i4314_pucs_ua2012_prague_scna",
-			style: "urbanAtlas"
+			layer: "geonode:i4314_pucs_ua2012_prague_scna"
 		},
 		4092: {
 			layer: "geonode:i4331_pucs_ua2012_prague_scna_mean_hwd_2007_2016_scenari",
-			style: "pucs_hwd"
 		},
 		4091: {
 			layer: "geonode:i4332_pucs_ua2012_prague_scna_mean_uhi_23h_2007_2016_sce",
-			style: "pucs_uhi"
 		}
 	},
 	2: {
 		3332: {
 			layer: "geonode:i4333_pucs_ua2012_prague_scnb",
-			style: "urbanAtlas"
 		},
 		4092: {
 			layer: "geonode:i4335_pucs_ua2012_prague_scnb_mean_hwd_2007_2016_scenari",
-			style: "pucs_hwd"
 		},
 		4091: {
 			layer: "geonode:i4336_pucs_ua2012_prague_scnb_mean_uhi_23h_2007_2016_sce",
-			style: "pucs_uhi"
 		}
 	},
 	3: {
 		3332: {
 			layer: "geonode:i4337_pucs_ua2012_prague_scnc",
-			style: "urbanAtlas"
 		},
 		4092: {
 			layer: "geonode:i4339_pucs_ua2012_prague_scnc_mean_hwd_2007_2016_scenari",
-			style: "pucs_hwd"
 		},
 		4091: {
 			layer: "geonode:i4340_pucs_ua2012_prague_scnc_mean_uhi_23h_2007_2016_sce",
-			style: "pucs_uhi"
 		}
 	},
 	"default": {
 		3332: {
 			layer: "geonode:i4316_default",
-			style: "urbanAtlas"
 		},
 		4092: {
 			layer: "geonode:i4320_prague_mean_hwd_2007_2016_scenario",
-			style: "pucs_hwd"
 		},
 		4091: {
 			layer: "geonode:i4321_prague_mean_uhi_23h_2007_2016_scenario",
-			style: "pucs_uhi"
 		}
 	}
 };
@@ -117,20 +105,23 @@ class MapStore {
 
 	/**
 	 * Add Info layer to given map.
+	 * TODO it uses only first style in a list
 	 */
-	addInfoLayerToMap(layerTemplateId, mapId) {
+	addInfoLayerToMap(layerTemplate, mapId) {
 		let self = this;
 		self._maps.forEach(function (map) {
 			if (map.id === mapId){
-				let source = fakeDataLayers[map.scenarioKey || "default"][layerTemplateId];
+				let source = fakeDataLayers[map.scenarioKey || "default"][layerTemplate.templateId];
 				if (source){
-					let id = layerTemplateId;
-					if (source.style){
-						id += "-" + source.style;
+					let id = layerTemplate.templateId;
+					let style = null;
+					if (layerTemplate.styles && layerTemplate.styles[0]){
+						id += "-" + layerTemplate.styles[0].path;
+						style = layerTemplate.styles[0].path
 					}
 					map.layers.addInfoLayer({
 						layerPaths: source.layer,
-						stylePaths: source.style,
+						stylePaths: style,
 						id: id,
 					}, 'info-layers', true);
 				}
@@ -325,12 +316,12 @@ class MapStore {
         });
     };
 
-	removeLayerFromMap(layerId, mapId) {
+	removeLayerFromMap(layerTemplate, mapId) {
 		this._maps.forEach(function (map) {
 			if (map.id === mapId) {
 				map._wwd.layers.forEach(function (layer) {
 					if (layer.metadata) {
-						let id = layerId;
+						let id = layerTemplate.templateId;
 						if (layer.metadata.style){
 							id += "-" + layer.metadata.style;
 						}
@@ -366,12 +357,12 @@ class MapStore {
 		else if (type === "ADD_INFO_LAYER") {
 			if (scope.scenarios){
 				console.log("## ADD_INFO_LAYER", options);
-				this.addInfoLayerToMap(options.layerTemplateKey, options.mapKey);
+				this.addInfoLayerToMap(options.layerTemplate, options.mapKey);
 			}
 		} else if (type === "REMOVE_INFO_LAYER") {
 			if (scope.scenarios){
 				console.log("## REMOVE_INFO_LAYER", options);
-				this.removeLayerFromMap(options.layerTemplateKey, options.mapKey);
+				this.removeLayerFromMap(options.layerTemplate, options.mapKey);
 			}
 		} else if (type === "ADD_WMS_LAYER") {
             console.log("## ADD_WMS_LAYER", options);

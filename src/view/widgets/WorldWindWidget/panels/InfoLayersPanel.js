@@ -218,7 +218,9 @@ class InfoLayersPanel extends WorldWindWidgetPanel {
 	isControlActive(templateId){
 		let state = this._stateStore.current().mapDefaults;
 		if (state && state.layerTemplates){
-			return (_.findIndex(state.layerTemplates, function(template){return template === templateId}) > -1);
+			return (_.findIndex(state.layerTemplates, function(template){
+			    return template.templateId === templateId
+			}) > -1);
 		} else {
 			return false;
 		}

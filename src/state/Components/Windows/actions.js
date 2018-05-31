@@ -3,6 +3,8 @@ import Action from '../../Action';
 import Select from '../../Select';
 import _ from 'lodash';
 
+import Scenarios from './Scenarios/actions';
+
 // ============ creators ===========
 function changeWindowPosition(window, options){
 	return (dispatch, getState) => {
@@ -97,18 +99,19 @@ function floatWindow(window){
 	};
 }
 
-function setWindowActiveScreen(windowKey, screenKey){
-	return (dispatch, getState) => {
-		let state = getState();
-		let windows = Select.components.windows.getWindows(state);
-		if (windowKey && windows[windowKey]){
-			let stateUpdate = {...windows, [windowKey]: {
-					...windows[windowKey],
-					activeScreenKey: screenKey
-				}};
-			dispatch(Action.components.update("windows", stateUpdate));
-		}
+function updateWindow(windowKey, data){
+	return (dispatch) => {
+		dispatch(actionUpdateWindow(windowKey, data));
 	};
+}
+
+// ============ actions ===========
+function actionUpdateWindow(windowKey, data) {
+	return {
+		type: ActionTypes.COMPONENTS_WINDOW_UPDATE,
+		windowKey: windowKey,
+		update: data
+	}
 }
 
 // ============ export ===========
@@ -120,6 +123,7 @@ export default {
 	expandWindow: expandWindow,
 	floatWindow: floatWindow,
 	handleWindowVisibility: handleWindowVisibility,
+	updateWindow: updateWindow,
 
-	setWindowActiveScreen: setWindowActiveScreen
+	scenarios: Scenarios
 }

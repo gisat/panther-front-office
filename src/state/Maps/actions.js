@@ -70,8 +70,14 @@ function removeLayerTemplates(templates) {
 	return (dispatch, getState) => {
 		let state = Select.maps.getMapDefaults(getState());
 		if (state && state.layerTemplates){
-			let layerTemplates = _.difference(state.layerTemplates, templates);
-			dispatch(updateDefaults({layerTemplates: layerTemplates}));
+			let finalTemplates = [];
+			state.layerTemplates.map(layerTemplate => {
+				let toRemove = _.find(templates, template => {return template === layerTemplate.templateId});
+				if (!toRemove){
+					finalTemplates.push(layerTemplate);
+				}
+			});
+			dispatch(updateDefaults({layerTemplates: finalTemplates}));
 		}
 	};
 }

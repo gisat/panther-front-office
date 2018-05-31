@@ -381,7 +381,12 @@ class WorldWindWidgetPanel {
                 if (self._groupId === "wms-layers"){
                     self._dispatcher.notify('wmsLayer#add', {layerKey: control.layers[0].id})
                 } else if (self._groupId === "info-layers"){
-					let templates = _.map(control.layers, function(layer){return layer.layerTemplateId});
+					let templates = _.map(control.layers, function(layer){
+					    return {
+					        templateId: layer.layerTemplateId,
+                            styles: layer.styles
+                        }
+					});
 					self._dispatcher.notify('infoLayer#add', {layerTemplates: templates})
 				}
             } else {
@@ -450,7 +455,13 @@ class WorldWindWidgetPanel {
 
                     // todo fix for maps dependent on sceanrios
                     if (state.scenarios && self._groupId === 'info-layers'){
-                        self._dispatcher.notify("ADD_INFO_LAYER", {layerTemplateKey: layerData.layerTemplateId, mapKey: map.id});
+                        self._dispatcher.notify("ADD_INFO_LAYER", {
+                            layerTemplate: {
+                                templateId: layerData.layerTemplateId,
+                                styles: layerData.styles
+                            },
+                            mapKey: map.id
+                        });
                         return;
                     }
                     if (layerData.period){

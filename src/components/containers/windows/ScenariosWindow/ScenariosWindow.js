@@ -5,14 +5,14 @@ import ScenariosWindow from "../../../presentation/windows/ScenariosWindow/Scena
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		activeScreenKey: Select.components.windows.getScenariosWindowActiveScreenKey(state)
+		activeScreenKey: Select.components.windows.scenarios.getActiveScreenKey(state)
 	}
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		changeActiveScreen: (screenKey) => {
-			dispatch(Action.components.windows.setWindowActiveScreen('scenarios', screenKey));
+			dispatch(Action.components.windows.scenarios.setActiveScreen(screenKey));
 		}
 	}
 };

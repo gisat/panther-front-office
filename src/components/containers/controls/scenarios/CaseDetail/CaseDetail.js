@@ -12,12 +12,16 @@ const mapStateToProps = (state, ownProps) => {
 		activeCaseEditedScenarioKeys: Select.scenarios.getActiveCaseEditedScenarioKeys(state),
 		activeScenarioKeys: Select.scenarios.getActiveKeys(state),
 		isDefaultSituationActive: Select.scenarios.isDefaultSituationActive(state),
-		editedScenariosKeys: Select.scenarios.getActiveCaseScenariosEditedKeys(state)
+		editedScenariosKeys: Select.scenarios.getActiveCaseScenariosEditedKeys(state),
+		editingActive: Select.components.windows.scenarios.isEditingActive(state)
 	}
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
+		activateEditing: () => {
+			dispatch(Action.components.windows.scenarios.activateCaseEditing());
+		},
 		addScenario: (scenarioKey) => {
 			dispatch(Action.scenarios.addEditedScenario(scenarioKey));
 		},
@@ -35,13 +39,17 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		updateEditedCase: (key, value) => {
 			dispatch(Action.scenarios.updateEditedActiveCase(key, value))
 		},
+		deactivateEditing: () => {
+			dispatch(Action.components.windows.scenarios.deactivateCaseEditing());
+		},
 		discard: () => {
 			ownProps.changeActiveScreen('caseList');
-			dispatch(Action.scenarios.setActiveCase());
 			dispatch(Action.scenarios.removeEditedActiveCase());
+			dispatch(Action.scenarios.setActiveCase());
 		},
 		revert: () => {
 			dispatch(Action.scenarios.removeEditedActiveCase());
+			dispatch(Action.scenarios.removeActiveCaseEditedScenarios())
 		},
 		save: () => {
 			dispatch(Action.scenarios.saveActiveCase());
