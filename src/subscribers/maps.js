@@ -143,7 +143,7 @@ const mapsWatcher = (value, previousValue) => {
 			let diff = compare(map.layerPeriods, previousMap.layerPeriods);
 			let diffWmsLayers = compareValues(map.wmsLayers, previousMap.wmsLayers);
 			let diffName = compareName(map.name, previousMap.name);
-			let diffLayerTemplates = compareValues(map.layerTemplates, previousMap.layerTemplates);
+			let diffLayerTemplates = compareTemplates(map.layerTemplates, previousMap.layerTemplates);
 
 			console.log('@@ diffLayerTemplates', diffLayerTemplates);
 			_.each(diffLayerTemplates.added, (data) => {
@@ -259,25 +259,26 @@ const convertWorldWindMapToMap = (options) => {
 	return data;
 };
 
-const compare = (next, prev) => {
+const compareTemplates = (next, prev) => {
 	if (prev) {
 		let ret = {
-			added: {},
-			removed: {},
-			changed: {}
+			added: [],
+			removed: []
 		};
-		_.each(next, (value, key) => {
-			if (!prev.hasOwnProperty(key)) {
-				ret.added[key] = value;
-			} else if (prev[key] !== value) {
-				ret.changed[key] = value;
+		next.map(template => {
+			let exist = _.find(prev, (prevTemplate) => {return prevTemplate.templateId === template.templateId});
+			if (!exist){
+				ret.added.push(template);
 			}
 		});
-		_.each(prev, (value, key) => {
-			if (!next || !next.hasOwnProperty(key)) {
-				ret.removed[key] = value;
+
+		prev.map(template => {
+			let exist = _.find(next, (nextTemplate) => {return nextTemplate.templateId === template.templateId});
+			if (!exist){
+				ret.removed.push(template);
 			}
 		});
+
 		return ret;
 	} else {
 		return {
@@ -296,6 +297,30 @@ const compareValues = (next, prev) => {
 			added: _.difference(nextLayers, prev),
 			removed: _.difference(prev, nextLayers)
 		};
+	} else {
+		return {
+			added: next
+		};
+	}
+};
+
+const compare = (next, prev) => {
+	if (prev) {
+		let ret = {
+			added: {},
+			removed: {},
+		};
+		_.each(next, (value, key) => {
+			if (!prev.hasOwnProperty(key)) {
+				ret.added[key] = value;
+			}
+		});
+		_.each(prev, (value, key) => {
+			if (!next || !next.hasOwnProperty(key)) {
+				ret.removed[key] = value;
+			}
+		});
+		return ret;
 	} else {
 		return {
 			added: next
