@@ -252,6 +252,11 @@ class MapsContainer {
 				layerTemplates: defaults.layerTemplates
 			});
 		}
+		if (defaults.activeBackgroundLayerKey){
+			this._dispatcher.notify("backgroundLayersPanel#setActiveBackgroundLayer", {
+				key: defaults.activeBackgroundLayerKey
+			});
+		}
 	}
 
 	/**

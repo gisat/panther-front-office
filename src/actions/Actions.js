@@ -6,6 +6,8 @@ export default {
     foMapIsDependentOnPeriod: 'fo#mapIsDependentOnPeriod',
 	foMapIsDependentOnScenario: 'fo#mapIsDependentOnScenario',
 
+	backgroundLayersPanelSetActive: "backgroundLayersPanel#setActiveBackgroundLayer",
+
     customizationUserChanged: 'customization#userChanged',
 
     chartToggleDescription: "chart#toggleDescription",

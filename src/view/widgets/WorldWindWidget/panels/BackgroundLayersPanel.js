@@ -4,6 +4,7 @@ import ArgumentError from '../../../../error/ArgumentError';
 import Logger from '../../../../util/Logger';
 
 import WorldWindWidgetPanel from './WorldWindWidgetPanel';
+import Actions from "../../../../actions/Actions";
 
 let Observer = window.Observer;
 let polyglot = window.polyglot;
@@ -35,6 +36,8 @@ class BackgroundLayersPanel extends WorldWindWidgetPanel {
         Observer.addListener('scopeChange', function () {
             self.rebuild();
         });
+
+        this._dispatcher.addListener(this.onEvent.bind(this));
     };
 
     rebuild() {
@@ -195,6 +198,29 @@ class BackgroundLayersPanel extends WorldWindWidgetPanel {
             });
         }, 50);
     };
+
+    setActiveBackgroundLayer(layerId){
+        this.layerControls.map(control => {
+			let radio = control.control.getRadiobox();
+			let dataId = radio.attr("data-id");
+			if (layerId === dataId){
+			    radio.addClass("checked");
+            } else {
+			    radio.removeClass("checked");
+            }
+        });
+        this.toggleLayers();
+    }
+
+	/**
+	 * @param type {string} type of event
+	 * @param options {Object|string}
+	 */
+	onEvent(type, options){
+		if (type === Actions.backgroundLayersPanelSetActive){
+            this.setActiveBackgroundLayer(options.key);
+		}
+	}
 }
 
 export default BackgroundLayersPanel;
