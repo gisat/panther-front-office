@@ -57,6 +57,13 @@ function removeEditedScenario(key) {
 	};
 }
 
+function removeActiveCaseEditedScenarios() {
+	return (dispatch, getState) => {
+		let activeCaseScenarioKeys = Select.scenarios.getActiveCaseScenarioKeys(getState());
+		dispatch(actionRemoveEditedScenarios(activeCaseScenarioKeys));
+	};
+}
+
 function updateEditedActiveCase(key, value) {
 	return (dispatch, getState) => {
 		let state = getState();
@@ -857,6 +864,7 @@ export default {
 	loadCases: loadCases,
 
 	addEditedScenario: addEditedScenario,
+	removeActiveCaseEditedScenarios: removeActiveCaseEditedScenarios,
 	removeEditedActiveCase: removeEditedActiveCase,
 	removeEditedScenario: removeEditedScenario,
 	updateEditedActiveCase: updateEditedActiveCase,

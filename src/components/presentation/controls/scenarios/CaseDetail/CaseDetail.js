@@ -64,8 +64,9 @@ class CaseDetail extends React.PureComponent {
 		);
 
 		let caseEditing = sameCase ? nextProps.editingActive : false;
+		let editedData = (nextProps.caseEdited || (nextProps.editedScenariosKeys && nextProps.editedScenariosKeys.length));
 
-		if ((sameCase && nextProps.caseEdited) || !nextProps.case) {
+		if ((sameCase && editedData) || !nextProps.case) {
 			caseEditing = true;
 		}
 

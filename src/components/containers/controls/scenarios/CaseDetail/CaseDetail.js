@@ -49,6 +49,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		},
 		revert: () => {
 			dispatch(Action.scenarios.removeEditedActiveCase());
+			dispatch(Action.scenarios.removeActiveCaseEditedScenarios())
 		},
 		save: () => {
 			dispatch(Action.scenarios.saveActiveCase());
