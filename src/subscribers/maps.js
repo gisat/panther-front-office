@@ -20,6 +20,8 @@ const setStoreWatchers = store => {
 	createWatcher(store, Select.maps.getMapDefaults, mapDefaultsWatcher);
 	createWatcher(store, Select.maps.getPeriodIndependence, periodIndependenceWatcher, 'independentOfPeriod');
 
+	createWatcher(store, Select.maps.getActiveLayers, activeLayersWatcher);
+
 	createWatcher(store, Select.places.getActive, ()=>{}, 'activePlace');
 };
 
@@ -222,6 +224,10 @@ const mapDefaultsWatcher = (value, previousValue) => {
 
 const periodIndependenceWatcher = (value, previousValue) => {
 	console.log('@@ periodIndependenceWatcher', previousValue, '->', value);
+};
+
+const activeLayersWatcher = (value, previousValue) => {
+	console.log('@@## activeLayersWatcher', previousValue, '->', value);
 };
 
 // ======== event listeners ========
