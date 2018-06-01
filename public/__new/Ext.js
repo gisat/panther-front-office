@@ -162,11 +162,18 @@ define([
 
 			this.loginController.getApplication().on('login',function(loggedIn) {
 				Config.dataviewId = id;
+                $('#header').hide();
+                $('#view-selector').hide();
+                $('#top-toolbar').hide();
 				$('#hideAllExceptLogin').hide();
 				self.login(loggedIn);
 			});
         } else if (id) {
             Config.dataviewId = id;
+            $('#header').hide();
+            $('#view-selector').hide();
+            $('#top-toolbar').hide();
+
             // Load stores when only for print or loading the whole application.
             var stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic', 'dataview'];
             var promises = [];

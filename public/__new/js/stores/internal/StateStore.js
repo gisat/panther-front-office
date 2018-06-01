@@ -273,6 +273,9 @@ define([
 			this._loading = setTimeout(function(){
 				console.log("StateStore#checkLoading: *** HIDE LOADER ***!" + type);
 				$("#loading-screen").css("display", "none");
+                $('#header').show();
+                $('#view-selector').show();
+                $('#top-toolbar').show();
 			},3000);
 		} else {
 			console.log("StateStore#checkLoading: *** SHOW LOADER ***!" + type);
