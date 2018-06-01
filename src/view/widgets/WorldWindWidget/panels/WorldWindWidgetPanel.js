@@ -109,6 +109,12 @@ class WorldWindWidgetPanel {
      * Remove all layers from specific group from map and all floaters connected with this group
      */
     clearLayers(group) {
+		// fix for maps dependent on sceanrios
+		let state = this._stateStore.current().scopeFull;
+		if (state.scenarios && group === 'info-layers'){
+			return;
+		}
+
         $("." + group + "-floater").remove();
 
         this._mapStore.getAll().forEach(function (map) {
@@ -373,6 +379,7 @@ class WorldWindWidgetPanel {
             let control = _.find(self._layersControls, function(control){
                 return control._id == layerId;
             });
+
             if (checkbox.hasClass("checked")){
                 control.active = true;
                 if (!state.scenarios){
@@ -453,17 +460,11 @@ class WorldWindWidgetPanel {
                 self._allMaps.forEach(function(map){
                     let layerPeriods = layerData.periods;
 
-                    // todo fix for maps dependent on sceanrios
+                    // fix for maps dependent on sceanrios
                     if (state.scenarios && self._groupId === 'info-layers'){
-                        self._dispatcher.notify("ADD_INFO_LAYER", {
-                            layerTemplate: {
-                                templateId: layerData.layerTemplateId,
-                                styles: layerData.styles
-                            },
-                            mapKey: map.id
-                        });
                         return;
                     }
+
                     if (layerData.period){
                         layerPeriods = layerData.period
                     }

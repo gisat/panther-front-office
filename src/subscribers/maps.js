@@ -16,11 +16,12 @@ const setStoreWatchers = store => {
 
 	createWatcher(store, Select.maps.getActiveMap, activeMapWatcher);
 	createWatcher(store, Select.maps.getActiveMapKey, activeMapKeyWatcher);
+	createWatcher(store, Select.maps.getMapKeys, mapKeysWatcher);
 	createWatcher(store, Select.maps.getMaps, mapsWatcher, 'data');
 	createWatcher(store, Select.maps.getMapDefaults, mapDefaultsWatcher);
 	createWatcher(store, Select.maps.getPeriodIndependence, periodIndependenceWatcher, 'independentOfPeriod');
 
-	createWatcher(store, Select.maps.getActiveLayers, activeLayersWatcher);
+	createWatcher(store, Select.maps.getActivePlaceActiveLayers, activeLayersWatcher, 'activePlaceActiveLayers');
 
 	createWatcher(store, Select.places.getActive, ()=>{}, 'activePlace');
 };
@@ -145,21 +146,6 @@ const mapsWatcher = (value, previousValue) => {
 			let diff = compare(map.layerPeriods, previousMap.layerPeriods);
 			let diffWmsLayers = compareValues(map.wmsLayers, previousMap.wmsLayers);
 			let diffName = compareName(map.name, previousMap.name);
-			let diffLayerTemplates = compareTemplates(map.layerTemplates, previousMap.layerTemplates);
-
-			console.log('@@ diffLayerTemplates', diffLayerTemplates);
-			_.each(diffLayerTemplates.added, (data) => {
-				window.Stores.notify('ADD_INFO_LAYER', {
-					layerTemplate: data,
-					mapKey: map.key
-				});
-			});
-			_.each(diffLayerTemplates.removed, (data) => {
-				window.Stores.notify('REMOVE_INFO_LAYER', {
-					layerTemplate: data,
-					mapKey: map.key
-				});
-			});
 
 			console.log('@@ diff', diff);
 			_.each(diff.added, (value, key) => {
@@ -228,6 +214,24 @@ const periodIndependenceWatcher = (value, previousValue) => {
 
 const activeLayersWatcher = (value, previousValue) => {
 	console.log('@@## activeLayersWatcher', previousValue, '->', value);
+	let diffLayers = compareCollections(value, previousValue, 'key');
+	console.log('@@## diffLayers', diffLayers);
+	if (diffLayers.added && diffLayers.added.length){
+		window.Stores.notify('ADD_INFO_LAYERS_BY_SCENARIOS', diffLayers.added);
+	}
+	if (diffLayers.removed && diffLayers.removed.length){
+		window.Stores.notify('REMOVE_INFO_LAYERS_BY_SCENARIOS', diffLayers.removed);
+	}
+};
+
+const mapKeysWatcher = (value, previousValue) => {
+	console.log('@@## mapKeysWatcher', previousValue, '->', value);
+	let diffMapKeys = compareValues(value, previousValue);
+	console.log('@@## diffLayers', diffMapKeys );
+	if (diffMapKeys.added && diffMapKeys.added.length && state.activePlaceActiveLayers  && state.activePlaceActiveLayers.length){
+		let data = state.activePlaceActiveLayers;
+		window.Stores.notify('ADD_INFO_LAYERS_BY_SCENARIOS', data);
+	}
 };
 
 // ======== event listeners ========
@@ -265,23 +269,23 @@ const convertWorldWindMapToMap = (options) => {
 	return data;
 };
 
-const compareTemplates = (next, prev) => {
+const compareCollections = (next, prev, key) => {
 	if (prev) {
 		let ret = {
 			added: [],
 			removed: []
 		};
-		next.map(template => {
-			let exist = _.find(prev, (prevTemplate) => {return prevTemplate.templateId === template.templateId});
+		next.map(object => {
+			let exist = _.find(prev, (prevObject) => {return prevObject[key] === object[key]});
 			if (!exist){
-				ret.added.push(template);
+				ret.added.push(object);
 			}
 		});
 
-		prev.map(template => {
-			let exist = _.find(next, (nextTemplate) => {return nextTemplate.templateId === template.templateId});
+		prev.map(object => {
+			let exist = _.find(next, (nextObject) => {return nextObject[key] === object[key]});
 			if (!exist){
-				ret.removed.push(template);
+				ret.removed.push(object);
 			}
 		});
 

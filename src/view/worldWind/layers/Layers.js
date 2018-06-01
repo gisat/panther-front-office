@@ -35,21 +35,6 @@ class Layers {
 			this.controller = options.selectController;
 			this.name = options.name;
         }
-
-        //this.addBaseLayer();
-    };
-
-
-    addBaseLayer() {
-        this._wwd.addLayer(new MyOsmLayer({
-            attribution: "\u00A9 Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL",
-			sourceObject: {
-				host: "basemaps.cartocdn.com",
-                path: "light_nolabels",
-				prefixes: ["a", "b", "c"]
-			},
-			imageType: "jpg"
-        }));
     };
 
     /**
@@ -115,6 +100,10 @@ class Layers {
                     }
                 });
             }
+        }
+
+        if (currentLayer.metadata && currentLayer.metadata.group && currentLayer.metadata.group === 'background-layers'){
+            position = 0;
         }
 
         return position;
@@ -332,7 +321,7 @@ class Layers {
             group: group,
             order: 1
         };
-        this.addLayerToPosition(layer, 1);
+        this.addLayerToPosition(layer, 0);
     };
 
     /**

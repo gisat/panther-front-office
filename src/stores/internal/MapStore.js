@@ -4,54 +4,8 @@ import Logger from '../../util/Logger';
 
 import stringUtils from '../../util/stringUtils';
 
-import _ from 'underscore';
+import _ from 'lodash';
 
-const fakeDataLayers = {
-	1: {
-		3332: {
-			layer: "geonode:i4314_pucs_ua2012_prague_scna"
-		},
-		4092: {
-			layer: "geonode:i4331_pucs_ua2012_prague_scna_mean_hwd_2007_2016_scenari",
-		},
-		4091: {
-			layer: "geonode:i4332_pucs_ua2012_prague_scna_mean_uhi_23h_2007_2016_sce",
-		}
-	},
-	2: {
-		3332: {
-			layer: "geonode:i4333_pucs_ua2012_prague_scnb",
-		},
-		4092: {
-			layer: "geonode:i4335_pucs_ua2012_prague_scnb_mean_hwd_2007_2016_scenari",
-		},
-		4091: {
-			layer: "geonode:i4336_pucs_ua2012_prague_scnb_mean_uhi_23h_2007_2016_sce",
-		}
-	},
-	3: {
-		3332: {
-			layer: "geonode:i4337_pucs_ua2012_prague_scnc",
-		},
-		4092: {
-			layer: "geonode:i4339_pucs_ua2012_prague_scnc_mean_hwd_2007_2016_scenari",
-		},
-		4091: {
-			layer: "geonode:i4340_pucs_ua2012_prague_scnc_mean_uhi_23h_2007_2016_sce",
-		}
-	},
-	"default": {
-		3332: {
-			layer: "geonode:i4316_default",
-		},
-		4092: {
-			layer: "geonode:i4320_prague_mean_hwd_2007_2016_scenario",
-		},
-		4091: {
-			layer: "geonode:i4321_prague_mean_uhi_23h_2007_2016_scenario",
-		}
-	}
-};
 
 /**
  * It creates MapStore and contains maps themselves
@@ -104,30 +58,63 @@ class MapStore {
     }
 
 	/**
-	 * Add Info layer to given map.
+	 * Add info layer to a particular map according to scenario key
 	 * TODO it uses only first style in a list
 	 */
-	addInfoLayerToMap(layerTemplate, mapId) {
-		let self = this;
-		self._maps.forEach(function (map) {
-			if (map.id === mapId){
-				let source = fakeDataLayers[map.scenarioKey || "default"][layerTemplate.templateId];
-				if (source){
-					let id = layerTemplate.templateId;
-					let style = null;
-					if (layerTemplate.styles && layerTemplate.styles[0]){
-						id += "-" + layerTemplate.styles[0].path;
-						style = layerTemplate.styles[0].path
-					}
+	addInfoLayersByScenarios(data) {
+		data.map(item => {
+			let map = null;
+			if (item.scenarioKey){
+				map = _.find(this._maps, ['scenarioKey', item.scenarioKey]);
+			} else {
+				map = _.find(this._maps, (map) => {return map.isDefaultScenarioSituation === true || map.id === 'default-map'});
+			}
+
+			if (map){
+				let id = item.layerTemplateKey;
+				let style = null;
+				if (item.styleSource && item.styleSource[0]){
+					id += "-" + item.styleSource[0].path;
+					style = item.styleSource[0].path
+				}
+
+				let alreadyAdded = map.layers.getLayerById(id);
+				if (!alreadyAdded){
 					map.layers.addInfoLayer({
-						layerPaths: source.layer,
+						layerPaths: item.dataSource,
 						stylePaths: style,
 						id: id,
 					}, 'info-layers', true);
 				}
-            }
+			}
 		});
 	};
+
+	removeInfoLayersByScenarios(data) {
+		data.map(item => {
+			let map = null;
+			if (item.scenarioKey){
+				map = _.find(this._maps, ['scenarioKey', item.scenarioKey]);
+			} else {
+				map = _.find(this._maps, (map) => {return map.isDefaultScenarioSituation === true || map.id === 'default-map'});
+			}
+
+			if (map){
+				let id = item.layerTemplateKey;
+				if (item.styleSource && item.styleSource[0]){
+					id += "-" + item.styleSource[0].path;
+				}
+
+				map._wwd.layers.map(layer => {
+					if (layer.metadata && layer.metadata.id === id){
+						map.layers.removeLayer(layer, true);
+					}
+				});
+			}
+		});
+	};
+
+
 
     /**
      * Add WMS layer to given map.
@@ -354,15 +341,15 @@ class MapStore {
         }
 
         // notifications from React
-		else if (type === "ADD_INFO_LAYER") {
+		else if (type === "ADD_INFO_LAYERS_BY_SCENARIOS") {
 			if (scope.scenarios){
-				console.log("## ADD_INFO_LAYER", options);
-				this.addInfoLayerToMap(options.layerTemplate, options.mapKey);
+				console.log("## ADD_INFO_LAYERS_BY_SCENARIOS", options);
+				this.addInfoLayersByScenarios(options);
 			}
-		} else if (type === "REMOVE_INFO_LAYER") {
+		} else if (type === "REMOVE_INFO_LAYERS_BY_SCENARIOS") {
 			if (scope.scenarios){
-				console.log("## REMOVE_INFO_LAYER", options);
-				this.removeLayerFromMap(options.layerTemplate, options.mapKey);
+				console.log("## REMOVE_INFO_LAYERS_BY_SCENARIOS", options);
+				this.removeInfoLayersByScenarios(options);
 			}
 		} else if (type === "ADD_WMS_LAYER") {
             console.log("## ADD_WMS_LAYER", options);

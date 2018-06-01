@@ -20,6 +20,15 @@ const getMaps = createSelector(
 	}
 );
 
+const getMapKeys = createSelector(
+	[getMaps],
+	(maps) => {
+		return maps.map(map => {
+			return map.key;
+		});
+	}
+);
+
 const getActiveMap = createSelector(
 	[getMaps, getActiveMapKey],
 	(maps, activeMapKey) => {
@@ -42,6 +51,17 @@ const getActiveLayerTemplates = createSelector(
 	[getMapDefaults],
 	(defaults) => {
 		if (defaults && defaults.layerTemplates){
+			return defaults.layerTemplates;
+		} else {
+			return [];
+		}
+	}
+);
+
+const getActiveLayerTemplateIds = createSelector(
+	[getMapDefaults],
+	(defaults) => {
+		if (defaults && defaults.layerTemplates){
 			let templates = defaults.layerTemplates;
 			return templates.map(template => {return template.templateId});
 		} else {
@@ -50,12 +70,37 @@ const getActiveLayerTemplates = createSelector(
 	}
 );
 
-const getActiveLayers = createSelector(
-	[getActivePlaceKey, getActiveLayerTemplates, getSpatialRelations, getSpatialDataSources],
-	(place, templates, relations, sources) => {
-		if (place && templates.length && relations.length && sources.length){
-			let realtionsForPlace = filter(relations, 'place_id', [place]);
-			debugger;
+const getActivePlaceActiveLayers = createSelector(
+	[getActivePlaceKey, getActiveLayerTemplates, getActiveLayerTemplateIds, getSpatialRelations, getSpatialDataSources],
+	(place, templates, templateIds, relations, sources) => {
+		if (place && templateIds.length && relations.length && sources.length){
+			let relationsForPlace = _.filter(relations, ['place_id', place]);
+			if (relationsForPlace){
+				let relationsForTemplates = _.filter(relationsForPlace, model => {
+					return _.find(templateIds, (value) => {return value === model['layer_template_id']});
+				});
+				if (relationsForTemplates){
+					return relationsForTemplates.map(relation => {
+						let dataSource = _.find(sources, {'key': relation.data_source_id});
+						let layerTemplate = relation.layer_template_id;
+						let scenario = relation.scenario_id;
+						let template = _.find(templates, {'templateId': relation.layer_template_id});
+						return {
+							dataSource: dataSource.data.layer_name,
+							layerTemplateKey: layerTemplate,
+							scenarioKey: scenario,
+							styleSource: template.styles ? template.styles : null,
+							key: relation.key
+						}
+					});
+				} else {
+					return [];
+				}
+			} else {
+				return [];
+			}
+		} else {
+			return [];
 		}
 	}
 );
@@ -73,7 +118,8 @@ export default {
 	getActiveBackgroundLayerKey: getActiveBackgroundLayerKey,
 	getActiveMapKey: getActiveMapKey,
 	getActiveMap: getActiveMap,
-	getActiveLayers: getActiveLayers,
+	getActivePlaceActiveLayers: getActivePlaceActiveLayers,
+	getMapKeys: getMapKeys,
 	getMaps: getMaps,
 	getMapsOverrides: getMapsOverrides,
 	getMapDefaults: getMapDefaults,
