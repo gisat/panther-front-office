@@ -161,7 +161,9 @@ define(['../../../../error/ArgumentError',
 		}
 		var self = this;
 		this.layerControls.forEach(function(control){
-			map.layers.addBackgroundLayer(control.id, self._id);
+            if(control.control._checked) {
+                map.layers.addBackgroundLayer(control.id, self._id);
+            }
 		});
 		this.toggleLayers();
 	};
