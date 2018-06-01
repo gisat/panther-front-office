@@ -2,6 +2,7 @@ define(['../../error/ArgumentError',
 	'../../error/NotFoundError',
 	'../../util/Logger',
 
+	'../Cache',
 	'./MyUrlBuilder',
 
 	'jquery',
@@ -10,6 +11,7 @@ define(['../../error/ArgumentError',
 			NotFoundError,
 			Logger,
 
+			Cache,
 			MyUrlBuilder,
 
 			$
@@ -32,6 +34,8 @@ define(['../../error/ArgumentError',
 		if (!options.source){
 			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MyOsmLayer", "constructor", "missingSource"));
 		}
+
+        this.tileCache = Cache;
 
 		this._source = options.source;
 		this._attribution = options.attribution;
