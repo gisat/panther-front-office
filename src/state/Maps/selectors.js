@@ -82,6 +82,9 @@ const getActivePlaceActiveLayers = createSelector(
 				if (relationsForTemplates){
 					return relationsForTemplates.map(relation => {
 						let dataSource = _.find(sources, {'key': relation.data_source_id});
+						if (!dataSource){
+							console.error("Maps.selectors#getActivePlaceActiveLayers Data source with given key doesn't exist. Key: ",relation.data_source_id);
+						}
 						let layerTemplate = relation.layer_template_id;
 						let scenario = relation.scenario_id;
 						let template = _.find(templates, {'templateId': relation.layer_template_id});

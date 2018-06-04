@@ -59,6 +59,58 @@ function load(ttl) {
 	};
 }
 
+function loadFiltered(filterData, ttl){
+	if (_.isUndefined(ttl)) ttl = TTL;
+	return (dispatch, getState) => {
+		let state = getState();
+		if (state.spatialDataSources.loading) {
+			// already loading, do nothing
+		} else {
+			let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/spatial_data_sources/filtered');
+			let filter = {any: null};
+			if (filterData){
+				filter.any = filterData;
+			}
+
+			dispatch(actionLoadFilteredDataSourcesRequest(filter));
+
+			return fetch(url, {
+				method: 'POST',
+				credentials: 'include',
+				headers: {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json'
+				},
+				body: JSON.stringify(filter)
+			}).then(
+				response => {
+					console.log('#### load filtered spatial data sources response', response);
+					let contentType = response.headers.get('Content-type');
+					if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
+						return response.json().then(data => {
+							if (data.data && data.success) {
+								dispatch(loadDataSourcesReceive(data.data));
+							} else {
+								dispatch(actionLoadDataSourcesError('no data returned'));
+							}
+						});
+					} else {
+						dispatch(actionLoadDataSourcesError(response))
+					}
+				},
+				error => {
+					console.log('#### load data sources error', error);
+					if (ttl - 1) {
+						dispatch(load(filterData, ttl - 1));
+					} else {
+						dispatch(actionLoadDataSourcesError("spatialDataSources#actions loadFiltered: sources weren't loaded!"));
+					}
+				}
+			);
+		}
+	};
+}
+
 function loadDataSourcesReceive(models) {
 	return dispatch => {
 		models = _.map(models, ({id, ...model}) => {
@@ -82,6 +134,13 @@ function actionLoadDataSourcesRequest() {
 	}
 }
 
+function actionLoadFilteredDataSourcesRequest(filter) {
+	return {
+		type: ActionTypes.SPATIAL_DATA_SOURCES_FILTERED_REQUEST,
+		filter: filter
+	}
+}
+
 function actionLoadDataSourcesError(error) {
 	return {
 		type: ActionTypes.SPATIAL_DATA_SOURCES_REQUEST_ERROR,
@@ -92,5 +151,6 @@ function actionLoadDataSourcesError(error) {
 // ============ export ===========
 
 export default {
-	load: load
+	load: load,
+	loadFiltered: loadFiltered,
 }

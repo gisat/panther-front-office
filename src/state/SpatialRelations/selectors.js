@@ -3,13 +3,16 @@ import _ from 'lodash';
 
 const getData = (state) => state.spatialRelations.data;
 
-const filter = (state, key, data) => {
-	let models = getData(state);
-	return _.filter(models, model => {
-		return _.find(data, (value) => {return value === model[key]});
-	});
-};
+const getActivePlaceKey = (state) => state.places.activeKey;
+
+const getActivePlaceDataSourceIds = createSelector(
+	[getData, getActivePlaceKey],
+	(models, acitvePlaceKey) => {
+		let filteredByPlace = _.filter(models, {'place_id': acitvePlaceKey});
+		return filteredByPlace.map(relation => {return relation['data_source_id']});
+	}
+);
 
 export default {
-	filter: filter
+	getActivePlaceDataSourceIds: getActivePlaceDataSourceIds,
 };

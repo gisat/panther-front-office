@@ -25,6 +25,11 @@ function request(state, action) {
 	return {...state, loading: true};
 }
 
+function requestFiltered(state, action) {
+	console.log('#### SpatialDataSources/reducers#requestFiltered filter:', action.filter);
+	return {...state, loading: true};
+}
+
 function requestError(state, action) {
 	// message action
 	return {...state, loading: false};
@@ -36,6 +41,8 @@ export default (state = INITIAL_STATE, action) => {
 			return receive(state, action);
 		case ActionTypes.SPATIAL_DATA_SOURCES_REQUEST:
 			return request(state, action);
+		case ActionTypes.SPATIAL_DATA_SOURCES_FILTERED_REQUEST:
+			return requestFiltered(state, action);
 		case ActionTypes.SPATIAL_DATA_SOURCES_REQUEST_ERROR:
 			return requestError(state, action);
 		default:
