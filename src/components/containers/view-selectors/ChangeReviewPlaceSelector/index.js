@@ -6,7 +6,7 @@ import PlaceSelector from '../../../presentation/view-selectors/PlaceSelector';
 const mapStateToProps = state => {
 
 	let scope = Select.scopes.getActiveScopeData(state);
-	let disabledHard = scope && scope.restrictEditingToAdmins && !Select.user.isDromasAdmin(state);
+	let disabledHard = scope && scope.restrictEditingToAdmins && !Select.users.isDromasAdmin(state);
 
 	return {
 		activePlace: Select.places.getActive(state),

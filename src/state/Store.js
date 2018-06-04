@@ -12,7 +12,8 @@ import scenariosReducers from './Scenarios/reducers';
 import scopesReducers from './Scopes/reducers';
 import spatialDataSourcesReducers from './SpatialDataSources/reducers';
 import spatialRelationsReducers from './SpatialRelations/reducers';
-import userReducers from './User/reducers';
+import usersReducers from './Users/reducers';
+import userGroupsReducers from './UserGroups/reducers';
 import wmsLayersReducers from './WmsLayers/reducers';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
@@ -33,7 +34,8 @@ const Store = createStore(combineReducers({
 	scopes: scopesReducers,
 	spatialDataSources: spatialDataSourcesReducers,
 	spatialRelations: spatialRelationsReducers,
-	user: userReducers,
+	users: usersReducers,
+	userGroups: userGroupsReducers,
 	wmsLayers: wmsLayersReducers
 }), applyMiddleware(thunk, logger));
 

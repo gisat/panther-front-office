@@ -1,25 +1,27 @@
 import ActionTypes from '../../constants/ActionTypes';
+import _ from 'lodash';
 
 
 // ============ creators ===========
 
-function update(user) {
+function add(groups){
 	return dispatch => {
-		dispatch(actionUpdate(user));
+		if (!_.isArray(groups)) groups = [groups];
+		dispatch(actionAdd(groups));
 	};
 }
 
 // ============ actions ===========
 
-function actionUpdate(user) {
+function actionAdd(groups) {
 	return {
-		type: ActionTypes.USER_UPDATE,
-		data: user
+		type: ActionTypes.USER_GROUPS_ADD,
+		data: groups
 	}
 }
 
 // ============ export ===========
 
 export default {
-	update: update
+	add: add
 }

@@ -7,7 +7,7 @@ const mapStateToProps = state => {
 	return {
 		map: Select.maps.getActiveMap(state),
 		scope: Select.scopes.getActiveScopeData(state),
-		isDromasAdmin: Select.user.isDromasAdmin(state)
+		isDromasAdmin: Select.users.isDromasAdmin(state)
 	}
 };
 

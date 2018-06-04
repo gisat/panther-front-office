@@ -44,7 +44,7 @@ class BaseStore {
                 params: options.params || {}
             }).then(function (dataFromApi) {
                 dataFromApi = JSON.parse(dataFromApi);
-                // User and Group endpoint return twice wrapped information.
+                // Users and Group endpoint return twice wrapped information.
                 try {
                     if (!dataFromApi.data) {
                         dataFromApi = JSON.parse(dataFromApi);

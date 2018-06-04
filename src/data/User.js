@@ -17,7 +17,22 @@ class User extends Model {
             },
             email: {
                 serverName: 'email'
-            }
+            },
+            groups: {
+                serverName: 'groups'
+            },
+			permissions: {
+				serverName: 'permissions'
+			},
+			permissionsGroups: {
+				serverName: 'permissionsGroups'
+			},
+			permissionsTowards: {
+				serverName: 'permissionsTowards'
+			},
+			permissionsUsers: {
+				serverName: 'permissionsUsers'
+			}
         };
     };
 }

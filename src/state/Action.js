@@ -11,7 +11,8 @@ import Scenarios from './Scenarios/actions';
 import Scopes from './Scopes/actions';
 import SpatialDataSources from './SpatialDataSources/actions';
 import SpatialRelations from './SpatialRelations/actions';
-import User from './User/actions';
+import Users from './Users/actions';
+import UserGroups from './UserGroups/actions';
 import WmsLayers from './WmsLayers/actions';
 
 export default {
@@ -27,6 +28,7 @@ export default {
 	scopes: Scopes,
 	spatialDataSources: SpatialDataSources,
 	spatialRelations: SpatialRelations,
-	user: User,
+	users: Users,
+	userGroups: UserGroups,
 	wmsLayers: WmsLayers
 };

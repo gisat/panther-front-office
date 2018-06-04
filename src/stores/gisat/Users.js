@@ -41,6 +41,10 @@ class Users extends BaseStore {
             places: places
         });
     };
+
+	loaded(models) {
+		window.Stores.notify("USERS_LOADED", models);
+	}
 }
 
 export default Users;

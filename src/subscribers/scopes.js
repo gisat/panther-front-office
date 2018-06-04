@@ -23,8 +23,7 @@ const setEventListeners = store => {
 				store.dispatch(Action.scopes.add(utils.replaceIdWithKey(options)));
 				break;
 			case 'scope#activeScopeChanged':
-				let state = store.getState();
-				if (state.user.isAdmin){
+				if (Select.users.isAdmin(store.getState())){
 					store.dispatch(Action.scopes.setActiveScopeKey(options.activeScopeKey)).then(() => {
 						store.dispatch(Action.aoi.load());
 					});
