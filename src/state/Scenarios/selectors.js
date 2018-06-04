@@ -1,5 +1,6 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
+import Select from '../Select';
 
 const getActiveCaseKey = state => state.scenarios.cases.activeKey;
 const getActiveKey = state => state.scenarios.activeKey;
@@ -12,6 +13,8 @@ const getScenarios = state => state.scenarios.data;
 const getScenariosEdited = state => state.scenarios.editedData;
 
 const isDefaultSituationActive = state => state.scenarios.defaultSituationActive;
+
+const getActivePlaceKey = state => state.places.activeKey;
 
 const getScenarioEdited = (state, key) => {
 	let edited = null;
@@ -32,6 +35,19 @@ const getActive = createSelector(
 	[getScenarios, getActiveKey],
 	(scenarios, activeKey) => {
 		return _.find(scenarios, {key: activeKey});
+	}
+);
+
+const getActivePlaceCases = createSelector(
+	[getCases, getActivePlaceKey],
+	(cases, activePlaceKey) => {
+		if (cases.length && activePlaceKey){
+			return _.filter(cases, (caseItem)=>{
+				return caseItem.data.place_id === activePlaceKey;
+			});
+		} else {
+			return [];
+		}
 	}
 );
 
@@ -152,6 +168,7 @@ export default {
 	getActiveCaseScenariosEdited: getActiveCaseScenariosEdited,
 	getActiveKey: getActiveKey,
 	getActiveKeys: getActiveKeys,
+	getActivePlaceCases: getActivePlaceCases,
 	getActiveScenarios: getActiveScenarios,
 	getAll: getAll,
 	getCase: getCase,

@@ -18,6 +18,12 @@ class CaseList extends React.PureComponent {
 		switchScreen: PropTypes.func
 	};
 
+	componentWillReceiveProps(nextProps){
+		if (!nextProps.cases || !nextProps.cases.length){
+			this.props.setActiveCase(null);
+		}
+	}
+
 	showDetail(caseKey){
 		if (!caseKey) {
 			caseKey = utils.guid();

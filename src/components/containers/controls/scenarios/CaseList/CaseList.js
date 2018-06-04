@@ -5,7 +5,7 @@ import CaseList from "../../../../presentation/controls/scenarios/CaseList/CaseL
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		cases: Select.scenarios.getCases(state),
+		cases: Select.scenarios.getActivePlaceCases(state),
 		casesEdited: Select.scenarios.getCasesEdited(state),
 		scenariosEdited: Select.scenarios.getScenariosEdited(state)
 	}
@@ -18,7 +18,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		},
 		setActiveCase: (caseKey) => {
 			dispatch(Action.scenarios.setActiveCase(caseKey));
-			dispatch(Action.scenarios.load(caseKey));
+			if (caseKey){
+				dispatch(Action.scenarios.load(caseKey));
+			}
 		},
 		setDefaultSituationActive: () => {
 			dispatch(Action.scenarios.setDefaultSituationActive(true));
