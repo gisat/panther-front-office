@@ -200,8 +200,8 @@ function load(caseKey, ttl) {
 						let contentType = response.headers.get('Content-type');
 						if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
 							return response.json().then(data => {
-								if (data.data) {
-									dispatch(loadReceive(data.data)); //todo cancel loading for caseKey?
+								if (data.data && data.data.scenarios && data.data.scenarios.data) {
+									dispatch(loadReceive(data.data.scenarios.data)); //todo cancel loading for caseKey?
 									dispatch(scenariosLoadedForCase(caseKey));
 								} else {
 									dispatch(actionLoadError('no data returned'));
@@ -295,8 +295,8 @@ function loadCases(ttl) {
 						let contentType = response.headers.get('Content-type');
 						if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
 							return response.json().then(data => {
-								if (data.data) {
-									dispatch(loadCasesReceive(data.data));
+								if (data.data && data.data.scenario_cases.data) {
+									dispatch(loadCasesReceive(data.data.scenario_cases.data));
 								} else {
 									dispatch(actionLoadCasesError('no data returned'));
 								}

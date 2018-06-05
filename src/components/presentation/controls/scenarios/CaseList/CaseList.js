@@ -60,7 +60,9 @@ class CaseList extends React.PureComponent {
 					}
 				});
 				scenariosCount = caseData.data.scenarios.length;
-				scenariosText = "scenarios";
+				if (scenariosCount > 1){
+					scenariosText = "scenarios";
+				}
 			}
 
 			let classes = classNames('case-list-item', {

@@ -43,7 +43,7 @@ const getActivePlaceCases = createSelector(
 	(cases, activePlaceKey) => {
 		if (cases.length && activePlaceKey){
 			return _.filter(cases, (caseItem)=>{
-				return caseItem.data.place_id === activePlaceKey;
+				return _.find(caseItem.data.place_ids, (placeId) => {return placeId === activePlaceKey});
 			});
 		} else {
 			return [];
@@ -55,12 +55,14 @@ const getActiveScenarios = createSelector(
 	[getScenarios, getActiveKeys],
 	(scenarios, activeKeys) => {
 		let activeScenarios = [];
-		activeKeys.map(activeKey => {
-			let scenario = _.find(scenarios, {key: activeKey});
-			if (scenario){
-				activeScenarios.push(scenario);
-			}
-		});
+		if (activeKeys){
+			activeKeys.map(activeKey => {
+				let scenario = _.find(scenarios, {key: activeKey});
+				if (scenario){
+					activeScenarios.push(scenario);
+				}
+			});
+		}
 		return activeScenarios;
 	}
 );
