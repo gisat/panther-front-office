@@ -1,5 +1,6 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
+import Select from '../Select';
 
 const getActiveKey = state => state.users.activeKey;
 const getUsers = state => state.users.data;
@@ -18,19 +19,55 @@ const getActiveUser = createSelector(
 	}
 );
 
+const getGroupsForActiveUser = createSelector(
+	[getActiveKey, (state) => Select.userGroups.getGroups(state)],
+	(activeUserKey, groups) => {
+		return _.filter(groups, (group) => {
+			return _.find(group.users, (user) => {return user === activeUserKey});
+		});
+	}
+);
+
+const getGroupsForActiveUserPermissionsTowards = createSelector(
+	[getGroupsForActiveUser],
+	(groups) => {
+		if (groups && groups.length){
+			let permissions = [];
+			groups.map(group => {
+				if (group.permissionsTowards){
+					permissions = [...permissions, ...group.permissionsTowards];
+				}
+			});
+			return permissions;
+		} else {
+			return [];
+		}
+	}
+);
+
 const getActiveUserPermissionsTowards = createSelector(
 	[getActiveUser],
 	(user) => {
 		if (user && user.permissionsTowards){
 			return user.permissionsTowards;
 		} else {
-			return null;
+			return [];
 		}
 	}
 );
 
+/**
+ * This selector puts together permissionsTowards of acitve user and groups, where active user belongs
+ */
+const getActiveUserPermissionsTowardsCombined = createSelector(
+	[getActiveUserPermissionsTowards, getGroupsForActiveUserPermissionsTowards],
+	(userPermissions, groupsPermissions) => {
+		return [...userPermissions, ...groupsPermissions];
+	}
+);
+
 const hasActiveUserPermissionToCreate = createSelector(
-	[getActiveUserPermissionsTowards, (state, type) => type],
+	[getActiveUserPermissionsTowardsCombined, (state, type) => type],
 	(permissionsTowards, type) => {
 		if (!permissionsTowards || !permissionsTowards.length){
 			return false;

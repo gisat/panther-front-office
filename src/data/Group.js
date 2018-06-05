@@ -27,7 +27,9 @@ class Group extends Model {
 			permissionsUsers: {
 				serverName: 'permissionsUsers'
 			},
-            users: 'users'
+			users: {
+				serverName: 'users'
+			},
         };
     }
 }

@@ -10,6 +10,7 @@ import Scenarios from './Scenarios/selectors';
 import Scopes from './Scopes/selectors';
 import SpatialDataSources from './SpatialDataSources/selectors';
 import SpatialRelations from './SpatialRelations/selectors';
+import UserGroups from './UserGroups/selectors';
 import Users from './Users/selectors';
 import WmsLayers from './WmsLayers/selectors';
 
@@ -26,6 +27,7 @@ export default {
 	scopes: Scopes,
 	spatialDataSources: SpatialDataSources,
 	spatialRelations: SpatialRelations,
+	userGroups: UserGroups,
 	users: Users,
 	wmsLayers: WmsLayers
 
