@@ -13,7 +13,10 @@ const mapStateToProps = (state, ownProps) => {
 		activeScenarioKeys: Select.scenarios.getActiveKeys(state),
 		isDefaultSituationActive: Select.scenarios.isDefaultSituationActive(state),
 		editedScenariosKeys: Select.scenarios.getActiveCaseScenariosEditedKeys(state),
-		editingActive: Select.components.windows.scenarios.isEditingActive(state)
+		editingActive: Select.components.windows.scenarios.isEditingActive(state),
+
+		// permissions
+		enableCreate: Select.users.isAdmin(state) || Select.users.hasActiveUserPermissionToCreate(state, 'scenario_case')
 	}
 };
 

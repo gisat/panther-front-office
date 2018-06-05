@@ -4,7 +4,7 @@ import _ from 'lodash';
 const INITIAL_STATE = {
 	isLoggedIn: false,
 	isAdmin: false,
-	activeUserKey: null,
+	activeKey: null,
 	data: []
 };
 
@@ -23,7 +23,7 @@ function addDistinct(state, action) {
 
 function update(state, action) {
 	let {userId, ...data} = action.data;
-	data.activeUserKey = action.data.userId;
+	data.activeKey = action.data.userId;
 
 	return {...state, ...data};
 }

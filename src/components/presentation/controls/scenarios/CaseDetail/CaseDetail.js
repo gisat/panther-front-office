@@ -29,7 +29,9 @@ class CaseDetail extends React.PureComponent {
 		activeCaseEditedScenarioKeys: PropTypes.array,
 		screenKey: PropTypes.string,
 		switchScreen: PropTypes.func,
-		editingActive: PropTypes.bool
+		editingActive: PropTypes.bool,
+
+		enableCreate: PropTypes.bool
 	};
 
 	constructor(props){
@@ -215,7 +217,7 @@ class CaseDetail extends React.PureComponent {
 			<div className="case-detail-body">
 				{defaultState}
 				{scenarios}
-				<Center horizontally><Button circular icon="plus" onClick={this.addScenario} /></Center>
+				{this.props.enableCreate ? (<Center horizontally><Button circular icon="plus" onClick={this.addScenario} /></Center>) : null}
 			</div>
 		);
 

@@ -13,9 +13,10 @@ class CaseList extends React.PureComponent {
 
 	static propTypes = {
 		changeActiveScreen: PropTypes.func,
-		disableEditing: PropTypes.bool,
 		screenKey: PropTypes.string,
-		switchScreen: PropTypes.func
+		switchScreen: PropTypes.func,
+
+		enableCreate: PropTypes.bool
 	};
 
 	componentWillReceiveProps(nextProps){
@@ -79,7 +80,7 @@ class CaseList extends React.PureComponent {
 
 
 		let addCaseBtn = null;
-		if (!this.props.disableEditing){
+		if (this.props.enableCreate){
 			addCaseBtn = (
 				<Button
 					floatingAction

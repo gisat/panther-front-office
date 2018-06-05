@@ -7,7 +7,10 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		cases: Select.scenarios.getActivePlaceCases(state),
 		casesEdited: Select.scenarios.getCasesEdited(state),
-		scenariosEdited: Select.scenarios.getScenariosEdited(state)
+		scenariosEdited: Select.scenarios.getScenariosEdited(state),
+
+		// permissions
+		enableCreate: Select.users.isAdmin(state) || Select.users.hasActiveUserPermissionToCreate(state, 'scenario_case')
 	}
 };
 

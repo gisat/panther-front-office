@@ -22,12 +22,10 @@ class ScenariosWindow extends React.PureComponent {
 				>
 					<CaseList
 						changeActiveScreen={this.props.changeActiveScreen.bind(this)}
-						disableEditing={false}
 						screenKey="caseList"
 					/>
 					<CaseDetail
 						changeActiveScreen={this.props.changeActiveScreen.bind(this)}
-						disableEditing={false}
 						screenKey="caseDetail"
 					/>
 				</ScreenAnimator>
