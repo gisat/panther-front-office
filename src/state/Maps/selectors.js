@@ -108,13 +108,33 @@ const getActivePlaceActiveLayers = createSelector(
 	}
 );
 
-
-function filter (models, key, data){
-	return _.filter(models, model => {
-		return _.find(data, (value) => {return value === model[key]});
-	});
-}
-
+const getActivePlaceVectorLayers = createSelector(
+	[getActivePlaceKey, getSpatialRelations, getSpatialDataSources],
+	(place, relations, sources) => {
+		if (place && relations.length && sources.length){
+			let relationsForPlace = _.filter(relations, ['place_id', place]);
+			if (relationsForPlace){
+				let vectorSources = [];
+				relationsForPlace.map(relation => {
+					let dataSource = _.find(sources, {'key': relation.data_source_id, 'type': 'shapefile'});
+					let scenario = relation.scenario_id;
+					if (dataSource){
+						vectorSources.push({
+							dataSource: dataSource.data.layer_name,
+							scenarioKey: scenario,
+							key: relation.key
+						});
+					}
+				});
+				return vectorSources;
+			} else {
+				return [];
+			}
+		} else {
+			return [];
+		}
+	}
+);
 
 
 export default {
@@ -122,6 +142,7 @@ export default {
 	getActiveMapKey: getActiveMapKey,
 	getActiveMap: getActiveMap,
 	getActivePlaceActiveLayers: getActivePlaceActiveLayers,
+	getActivePlaceVectorLayers: getActivePlaceVectorLayers,
 	getMapKeys: getMapKeys,
 	getMaps: getMaps,
 	getMapsOverrides: getMapsOverrides,

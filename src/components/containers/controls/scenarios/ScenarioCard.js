@@ -6,12 +6,17 @@ import ScenarioCard from "../../../presentation/controls/scenarios/ScenarioCard/
 const mapStateToProps = (state, ownProps) => {
 	return {
 		scenarioData: Select.scenarios.getScenario(state, ownProps.scenarioKey),
-		scenarioEditedData: Select.scenarios.getScenarioEdited(state, ownProps.scenarioKey)
+		scenarioEditedData: Select.scenarios.getScenarioEdited(state, ownProps.scenarioKey),
+
+		scenarioSpatialDataSource: Select.scenarios.getVectorSource(state, ownProps.scenarioKey, ownProps.defaultSituation)
 	}
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
+		downloadDataSource: (sourceName) => {
+			dispatch(Action.spatialDataSources.download(sourceName))
+		},
 		updateEditedScenario: (scenarioKey, key, value) => {
 			dispatch(Action.scenarios.updateEditedScenario(scenarioKey, key, value))
 		}

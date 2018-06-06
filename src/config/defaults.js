@@ -13,6 +13,7 @@ export default {
 	apiGeoserverWFSProtocol: 'http',
 	apiGeoserverWFSHost: 'localhost',
 	apiGeoserverWFSPath: 'geoserver/geonode/wfs',
+	apiGeoserverOWSPath: 'geoserver/geonode/ows',
 
 	apiBackendProtocol: 'http',
 	apiBackendHost: 'localhost',

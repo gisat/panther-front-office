@@ -27,7 +27,9 @@ class ScenarioCard extends React.PureComponent {
 		scenarioKey: PropTypes.oneOfType([
 			PropTypes.string,
 			PropTypes.number
-		])
+		]),
+
+		scenarioSpatialDataSource: PropTypes.string
 	};
 
 	constructor(props){
@@ -43,6 +45,7 @@ class ScenarioCard extends React.PureComponent {
 		this.activateScenarioEditing = this.activateScenarioEditing.bind(this);
 		this.onChangeDescription = this.onChangeDescription.bind(this);
 		this.onChangeName = this.onChangeName.bind(this);
+		this.onDownloadClick = this.onDownloadClick.bind(this);
 		this.onChangeFile = this.onChangeFile.bind(this);
 	}
 
@@ -78,6 +81,10 @@ class ScenarioCard extends React.PureComponent {
 
 	onChangeFile(value) {
 		this.props.updateEditedScenario(this.props.scenarioKey, 'file', value);
+	}
+
+	onDownloadClick(){
+		this.props.downloadDataSource(this.props.scenarioSpatialDataSource);
 	}
 
 	render() {
@@ -135,7 +142,7 @@ class ScenarioCard extends React.PureComponent {
 					{this.props.scenarioKey || this.props.defaultSituation ? (
 						<Button icon="dots" invisible>
 							<Menu bottom left>
-								<MenuItem><Icon icon="download" /> Download</MenuItem>
+								<MenuItem onClick={this.onDownloadClick} disabled={!this.props.scenarioSpatialDataSource}><Icon icon="download" /> Download</MenuItem>
 							</Menu>
 						</Button>
 					): null}

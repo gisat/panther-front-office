@@ -12,6 +12,31 @@ const TTL = 3;
 
 
 // ============ creators ===========
+
+// todo Temporary solution for download - open url in new window
+function download(sourceName){
+	return (dispatch) => {
+		let source = sourceName;
+		if (source){
+			dispatch(actionDownloadSourceFileRequest());
+			let url = config.apiGeoserverWFSProtocol + '://' + path.join(config.apiGeoserverWFSHost, config.apiGeoserverOWSPath);
+			let query = queryString.stringify({
+				service: 'WFS',
+				version: '1.0.0',
+				request: 'GetFeature',
+				typeName: source,
+				outputFormat: 'SHAPE-ZIP'
+			});
+			if (query) {
+				url += '?' + query;
+			}
+			window.open(url, '_blank');
+		} else {
+			dispatch(actionDownloadSourceFileError('SpatialDataSources actions#download: sourceName is:', sourceName));
+		}
+	};
+}
+
 function load(ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
 	return (dispatch, getState) => {
@@ -121,6 +146,19 @@ function loadDataSourcesReceive(models) {
 }
 
 // ============ actions ===========
+function actionDownloadSourceFileRequest(){
+	return {
+		type: ActionTypes.SPATIAL_DATA_SOURCES_DOWNLOAD_FILE_REQUEST
+	}
+}
+
+function actionDownloadSourceFileError(message){
+	return {
+		type: ActionTypes.SPATIAL_DATA_SOURCES_DOWNLOAD_FILE_ERROR,
+		message: message
+	}
+}
+
 function actionLoadDataSourcesReceive(data) {
 	return {
 		type: ActionTypes.SPATIAL_DATA_SOURCES_RECEIVE,
@@ -151,6 +189,7 @@ function actionLoadDataSourcesError(error) {
 // ============ export ===========
 
 export default {
+	download: download,
 	load: load,
 	loadFiltered: loadFiltered,
 }

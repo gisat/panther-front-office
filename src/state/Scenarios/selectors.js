@@ -146,19 +146,39 @@ const getCase = (state, key) => {
 	return caseData;
 };
 
-const getScenario = (state, key) => {
-	let scenario = null;
-	if (key){
-		scenario = _.find(state.scenarios.data, {key: key});
+const getScenario = createSelector(
+	[getScenarios, (state, key) => (key)],
+	(scenarios, scenarioKey) => {
+		return scenarioKey ? _.find(scenarios, {key: scenarioKey}) : null;
 	}
-	return scenario;
-};
+);
 
 const activeCaseScenariosLoaded = createSelector(
 	[getActiveCase],
 	(activeCase) => {
 		return activeCase ? activeCase.scenariosLoaded : false;
 	});
+
+
+/**
+ * Select spatial data source for scenario (based on source type)
+ * TODO Info about original data source (download_data_source_id) will be part of scenario data in the future
+ */
+const getVectorSource = createSelector([
+		(state, scenarioKey, defaultSituation) => {return {scenarioKey: scenarioKey, defaultSituation: defaultSituation}},
+		(state) => Select.maps.getActivePlaceVectorLayers(state)
+	],
+	(scenarioData, activePlaceVectorLayers) => {
+		let source = null;
+		if (scenarioData.scenarioKey && activePlaceVectorLayers.length){
+			source = _.find(activePlaceVectorLayers, {'scenarioKey': scenarioData.scenarioKey});
+		} else if (scenarioData.defaultSituation && activePlaceVectorLayers.length){
+			source = _.find(activePlaceVectorLayers, {'scenarioKey': null});
+		}
+
+		return source ? source.dataSource : null;
+	}
+);
 
 
 export default {
@@ -185,5 +205,7 @@ export default {
 	getScenariosEdited: getScenariosEdited,
 	getScenariosEditedKeys: getScenariosEditedKeys,
 	getActiveCaseScenariosEditedKeys: getActiveCaseScenariosEditedKeys,
+
+	getVectorSource: getVectorSource,
 	isDefaultSituationActive: isDefaultSituationActive
 };
