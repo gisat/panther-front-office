@@ -215,6 +215,9 @@ body {
 	height: 1.25rem;
 	margin: .125rem .25rem;
 }
+.ptr-menu-item > .ptr-icon .line {
+	stroke: #444;
+}
 .ptr-menu-item-caption {
 	display: inline-block;
 	vertical-align: top;

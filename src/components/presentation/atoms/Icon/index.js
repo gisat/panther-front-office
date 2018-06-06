@@ -2,6 +2,7 @@ import React from 'react';
 
 import ArrowLeft from './ArrowLeft';
 import Dots from './Dots';
+import Download from './Download';
 import Edit from './Edit';
 import Expand from './Expand';
 import Plus from './Plus';
@@ -14,6 +15,8 @@ const icon = key => {
 			return <ArrowLeft />;
 		case 'dots':
 			return <Dots />;
+		case 'download':
+			return <Download />;
 		case 'edit':
 			return <Edit />;
 		case 'expand':
