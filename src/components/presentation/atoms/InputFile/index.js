@@ -44,7 +44,7 @@ class InputFile extends React.PureComponent {
 			<input
 				type="file"
 				className={classes}
-				value={this.props.value || this.state && this.state.value || ''}
+				filename={this.props.value || this.state && this.state.value || ''}
 				placeholder={this.props.placeholder}
 				onChange={this.onChange}
 			/>
