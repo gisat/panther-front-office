@@ -3,8 +3,8 @@
 	overflow: hidden;
 	border: 1px solid transparent;
 	background: transparent;
-	padding: .5rem;
-	font-size: 1rem;
+	padding: .3rem;
+	font-size: .825rem;
 	line-height: 1.5rem;
 
 	width: 100%;
@@ -17,5 +17,6 @@ textarea.ptr-editable-text.editing {
 }
 
 .ptr-editable-text.large {
-	font-size: 1.25rem;
+	font-size: 1.075rem;
+	line-height: 1.5;
 }

@@ -25,10 +25,9 @@
 }
 .case-detail-header {
 	background: rgba(204,207,211,1);
-	padding: 1rem .7rem;
+	padding: .7rem;
 }
 .case-detail-header-buttons {
-	margin-bottom: .5rem;
 	display: flex;
 	justify-content: space-between;
 }
