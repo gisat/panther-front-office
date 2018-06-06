@@ -365,9 +365,12 @@ function apiCreateCases(cases, scenarios, placeKey, ttl) {
 					};
 				}),
 				scenarios: _.map(scenarios, model => {
+					let scenarioData = {...model.data};
+					delete scenarioData['file'];
+
 					return {
 						uuid: model.key,
-						data: {...model.data}
+						data: {...scenarioData}
 					};
 				})
 			}
@@ -389,6 +392,7 @@ function apiCreateCases(cases, scenarios, placeKey, ttl) {
 					return response.json().then(data => {
 						if (data.data) {
 							dispatch(apiCreateCasesReceive(data.data));
+							dispatch(apiUploadScenarioFiles(scenarios));
 						} else {
 							dispatch(actionApiCreateCasesError('no data returned'));
 						}
@@ -435,6 +439,9 @@ function apiUpdateCases(updates, editedScenarios, ttl) {
 					} else {
 						scenario.uuid = model.key;
 					}
+
+					delete scenario.data['file'];
+
 					return scenario;
 				})
 			}
@@ -456,6 +463,7 @@ function apiUpdateCases(updates, editedScenarios, ttl) {
 					return response.json().then(data => {
 						if (data.data) {
 							dispatch(apiUpdateCasesReceive(data.data));
+							dispatch(apiUploadScenarioFiles(editedScenarios));
 						} else {
 							dispatch(actionApiUpdateCasesError('no data returned'));
 						}
@@ -474,6 +482,172 @@ function apiUpdateCases(updates, editedScenarios, ttl) {
 			}
 		);
 	};
+}
+
+function apiUploadScenarioFiles(scenarios) {
+	return (dispatch) => {
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/importer/upload');
+
+		let promises = [];
+		scenarios.forEach((scenario) => {
+			let postData = new FormData();
+			postData.append('file', scenario.data.file);
+			promises.push(
+				fetch(
+					url,
+					{
+						method: 'POST',
+						credentials: 'include',
+						body: postData
+					}
+				).then((response) => response.json())
+					.then((response) => {
+						return {
+							scenarioKey: scenario.key,
+							uploadKey: response.data.uploadKey
+						}
+					})
+			)
+		});
+
+		return Promise.all(promises)
+			.then((results) => {
+				dispatch(apiExecutePucsMatlabProcessOnUploadedScenarioFiles(results));
+			});
+	}
+}
+
+function apiExecutePucsMatlabProcessOnUploadedScenarioFiles(uploads) {
+	return (dispatch) => {
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/wps');
+		let promises = [];
+
+		uploads.forEach((upload) => {
+			promises.push(
+				fetch(
+					url,
+					{
+						method: 'POST',
+						credentials: 'include',
+						headers: {
+							'Content-Type': 'application/xml',
+							'Accept': 'application/xml'
+						},
+						body: `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+									<!-- Execute operation request assuming use of default formats, and RawDataOutput.-->
+									<!-- Equivalent GET request is 
+											http://foo.bar/foo?
+												Service=WPS&
+												Version=1.0.0&
+												Language=en-CA&
+												Request=Execute&
+												Identifier=Buffer&
+												DataInputs=[InputPolygon=@xlink:href=http%3A%2F%2Ffoo.bar%2Fsome_WFS_request.xml;BufferDistance=400]&
+												RawDataOutput=[BufferedPolygon]-->
+									<wps:Execute service="WPS" version="1.0.0" xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0/wpsExecute_request.xsd">
+										<ows:Identifier>CalculatePragueTemperatureMapUsingNeuralNetworkModel</ows:Identifier>
+									<ows:Title>CalculatePragueTemperatureMapUsingNeuralNetworkModel</ows:Title>
+									<ows:Abstract>Calculate temperature map for Prague using neural network model by VITO</ows:Abstract>
+									<DataInputs>
+										<wps:Input>
+											<ows:Identifier>inputFile</ows:Identifier>
+											<ows:Title>Distance which people will walk to get to a playground.</ows:Title>
+											<wps:Data>
+												<wps:LiteralData>upload:${upload.uploadKey}</wps:LiteralData>
+											</wps:Data>
+										</wps:Input>
+									</DataInputs>
+									</wps:Execute>`
+					}
+				).then((response) => response.text())
+					.then(responseText => (new window.DOMParser()).parseFromString(responseText, "text/xml"))
+					.then((responseXml) => {
+						let elements = responseXml.getElementsByTagName('LiteralData');
+						return {
+							scenarioKey: upload.scenarioKey,
+							processResults: elements && elements.length ? JSON.parse(elements[0].textContent) : null
+						}
+					})
+			)
+		});
+
+		return Promise.all(promises)
+			.then((results) => {
+				dispatch(apiCreateRelationsForScenarioProcessResults(results));
+			});
+	}
+}
+
+function apiCreateRelationsForScenarioProcessResults(results) {
+	return (dispatch, getState) => {
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/spatial_relations');
+
+		let activePlace = Select.places.getActive(getState());
+
+		let activePlaceKey = activePlace ? activePlace.key : null;
+		let inputVectorTemplateId = 3332;
+		let outputRasterHwdTemplateId = 4092;
+		let outputRasterUhiTemplateId = 4091;
+
+		let relations = [];
+		results.forEach((result) => {
+			if(activePlaceKey && result.scenarioKey) {
+				let inputVectors = result.processResults[0].inputVectors;
+				let outputRasters = result.processResults[0].outputRasters;
+
+				let inputVector = inputVectors[0];
+				let outputHwd = _.find(outputRasters, {indicator: 'hwd'});
+				let outputUhi = _.find(outputRasters, {indicator: 'uhi'});
+
+				if(inputVector && outputHwd && outputUhi) {
+					relations.push(
+						{
+							data: {
+								place_id: Number(activePlaceKey),
+								scenario_id: Number(result.scenarioKey),
+								layer_template_id: inputVectorTemplateId,
+								data_source_id: inputVector.spatialDataSourceId
+							}
+						}
+					);
+					relations.push(
+						{
+							data: {
+								place_id: Number(activePlaceKey),
+								scenario_id: Number(result.scenarioKey),
+								layer_template_id: outputRasterHwdTemplateId,
+								data_source_id: outputHwd.spatialDataSourceId
+							}
+						}
+					);
+					relations.push(
+						{
+							data: {
+								place_id: Number(activePlaceKey),
+								scenario_id: Number(result.scenarioKey),
+								layer_template_id: outputRasterUhiTemplateId,
+								data_source_id: outputUhi.spatialDataSourceId
+							}
+						}
+					)
+				}
+			}
+		});
+
+		if(relations.length) {
+			return fetch(url, {
+				method: 'POST',
+				credentials: 'include',
+				headers: {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json'
+				},
+				body: JSON.stringify(relations)
+			}).then((relationResults) => relationResults.json())
+				.then((relationResults) => {
+				});
+		}
+	}
 }
 
 function apiCreateCasesReceive(data) {
