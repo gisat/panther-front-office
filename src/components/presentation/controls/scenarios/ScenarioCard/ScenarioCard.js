@@ -43,6 +43,7 @@ class ScenarioCard extends React.PureComponent {
 		this.activateScenarioEditing = this.activateScenarioEditing.bind(this);
 		this.onChangeDescription = this.onChangeDescription.bind(this);
 		this.onChangeName = this.onChangeName.bind(this);
+		this.onChangeFile = this.onChangeFile.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -75,8 +76,8 @@ class ScenarioCard extends React.PureComponent {
 		this.props.updateEditedScenario(this.props.scenarioKey, 'description', value);
 	}
 
-	onChangeFile(x) {
-		console.log('######', x);
+	onChangeFile(value) {
+		this.props.updateEditedScenario(this.props.scenarioKey, 'file', value);
 	}
 
 	render() {
