@@ -79,8 +79,8 @@ class ScenarioCard extends React.PureComponent {
 		this.props.updateEditedScenario(this.props.scenarioKey, 'description', value);
 	}
 
-	onChangeFile(value) {
-		this.props.updateEditedScenario(this.props.scenarioKey, 'file', value);
+	onChangeFile(file) {
+		this.props.updateEditedScenario(this.props.scenarioKey, 'file', file);
 	}
 
 	onDownloadClick(){
@@ -107,8 +107,8 @@ class ScenarioCard extends React.PureComponent {
 			(scenarioEdited.data.description) : ((scenario && scenario.data && scenario.data.hasOwnProperty('description')) ?
 				scenario.data.description : null);
 		let file = (scenarioEdited && scenarioEdited.data && scenarioEdited.data.hasOwnProperty('file')) ?
-			(scenarioEdited.data.file) : ((scenario && scenario.data && scenario.data.hasOwnProperty('file')) ?
-				scenario.data.file : null);
+			(scenarioEdited.data.file.name) : ((scenario && scenario.data && scenario.data.hasOwnProperty('file')) ?
+				scenario.data.file.name : null);
 
 
 		if (this.props.defaultSituation){
