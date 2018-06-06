@@ -162,7 +162,7 @@ class ScenarioCard extends React.PureComponent {
 					onChange={this.onChangeDescription}
 					editing={this.props.editing}
 				/>
-				{this.props.editing ? (
+				{this.props.editing && !this.props.scenarioSpatialDataSource ? (
 				<InputFile
 					disabled={!this.props.editing || this.props.disableEditing}
 					value={file}
