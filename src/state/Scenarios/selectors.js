@@ -97,6 +97,9 @@ const getActiveCaseScenariosEditedKeys = createSelector(
 	}
 );
 
+/**
+ * It returns scenario keys from edited active case
+ */
 const getActiveCaseEditedScenarioKeys = createSelector(
 	[getActiveCaseEdited],
 	(activeCaseEdited) => {

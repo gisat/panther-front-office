@@ -43,10 +43,6 @@ class ScenarioCard extends React.PureComponent {
 		this.activateScenarioEditing = this.activateScenarioEditing.bind(this);
 		this.onChangeDescription = this.onChangeDescription.bind(this);
 		this.onChangeName = this.onChangeName.bind(this);
-		this.cancel = this.cancel.bind(this);
-		this.discard = this.discard.bind(this);
-		this.save = this.save.bind(this);
-		this.revertEditing = this.revertEditing.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -82,24 +78,6 @@ class ScenarioCard extends React.PureComponent {
 	onChangeFile(x) {
 		console.log('######', x);
 	}
-
-	cancel(){
-		this.props.editScenario(false);
-	}
-
-	discard(){
-		this.revertEditing();
-	}
-
-	save() {
-		this.props.save(this.props.scenarioKey);
-	}
-
-	revertEditing() {
-		this.props.editScenario(false);
-		this.props.revertScenario(this.props.scenarioKey);
-	}
-
 
 	render() {
 		console.log('### ScenarioCard render', this.props, this.state);
@@ -188,30 +166,6 @@ class ScenarioCard extends React.PureComponent {
 			<div className={classes}>
 				{header}
 				{body}
-			</div>
-		);
-	}
-
-	renderButtons() {
-		let buttons = [];
-		if (this.props.scenarioEditedData && this.props.scenarioEditedData.data){
-			buttons.push(<Button key="save" onClick={this.save} primary>Save</Button>);
-			if (this.props.scenarioData){
-				buttons.push(<Button key="revert" onClick={this.revertEditing}>Revert</Button>);
-			}
-		} else {
-			if (this.props.scenarioData){
-				buttons.push(<Button key="cancel" onClick={this.cancel}>Cancel</Button>);
-			}
-		}
-
-		if (!this.props.scenarioData){
-			buttons.push(<Button key="discard" onClick={this.discard}>Discard</Button>);
-		}
-
-		return (
-			<div className="scenario-card-footer-buttons">
-				{buttons}
 			</div>
 		);
 	}

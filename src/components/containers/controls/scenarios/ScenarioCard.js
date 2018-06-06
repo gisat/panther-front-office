@@ -14,12 +14,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		updateEditedScenario: (scenarioKey, key, value) => {
 			dispatch(Action.scenarios.updateEditedScenario(scenarioKey, key, value))
-		},
-		revertScenario: (scenarioKey) => {
-			dispatch(Action.scenarios.removeEditedScenario(scenarioKey));
-		},
-		save: (scenarioKey) => {
-			dispatch(Action.scenarios.saveScenario(scenarioKey));
 		}
 	}
 };

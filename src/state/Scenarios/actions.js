@@ -46,21 +46,21 @@ function removeEditedActiveCase() {
 	};
 }
 
-function removeEditedScenario(key) {
-	return (dispatch, getState) => {
-		dispatch(actionRemoveEditedScenarios([key]));
-		let activeCaseEditedScenarioKeys = Select.scenarios.getActiveCaseEditedScenarioKeys(getState());
-		if (activeCaseEditedScenarioKeys){
-			let updatedScenarioKeys = _.without(activeCaseEditedScenarioKeys, key);
-			dispatch(updateEditedActiveCase('scenarios', updatedScenarioKeys));
-		}
-	};
-}
-
+/**
+ * It removes edited scenarios for active case
+ */
 function removeActiveCaseEditedScenarios() {
 	return (dispatch, getState) => {
 		let activeCaseScenarioKeys = Select.scenarios.getActiveCaseScenarioKeys(getState());
-		dispatch(actionRemoveEditedScenarios(activeCaseScenarioKeys));
+		let activeCaseEditedScenarioKeys = Select.scenarios.getActiveCaseEditedScenarioKeys(getState());
+		let keys = [];
+		if (activeCaseScenarioKeys){
+			keys = [...keys, ...activeCaseScenarioKeys];
+		}
+		if (activeCaseEditedScenarioKeys){
+			keys = [...keys, ...activeCaseEditedScenarioKeys];
+		}
+		dispatch(actionRemoveEditedScenarios(keys));
 	};
 }
 
@@ -130,6 +130,14 @@ function addActiveScenario(key){
 	}
 }
 
+function removeActiveScenario(key){
+	return (dispatch, getState) => {
+		let activeScenarioKeys = Select.scenarios.getActiveKeys(getState());
+		let stateUpdate = _.without(activeScenarioKeys, key);
+		dispatch(actionSetActiveKeys(stateUpdate));
+	}
+}
+
 function applyDataviewSettings(data){
 	return (dispatch, getState) => {
 		dispatch(setActiveCase(data.cases.activeKey));
@@ -142,14 +150,6 @@ function applyDataviewSettings(data){
 			defaultSituationActive: data.defaultSituationActive,
 		};
 		dispatch(actionUpdate(stateUpdate));
-	}
-}
-
-function removeActiveScenario(key){
-	return (dispatch, getState) => {
-		let activeScenarioKeys = Select.scenarios.getActiveKeys(getState());
-		let stateUpdate = _.without(activeScenarioKeys, key);
-		dispatch(actionSetActiveKeys(stateUpdate));
 	}
 }
 
@@ -175,56 +175,47 @@ function load(caseKey, ttl) {
 		} else {
 			dispatch(actionLoadRequest(caseKey));
 
-			//let activePlaceKey = Select.places.getActiveKey(state);
+			let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/scenarios');
+			let query = queryString.stringify({
+				scenario_case_id: caseKey
+			});
+			if (query) {
+				url += '?' + query;
+			}
 
-			//if (activePlaceKey) {
-
-				let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/scenarios');
-				let query = queryString.stringify({
-					scenario_case_id: caseKey
-				});
-				if (query) {
-					url += '?' + query;
+			return fetch(url, {
+				method: 'GET',
+				credentials: 'include',
+				headers: {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json'
 				}
-
-				return fetch(url, {
-					method: 'GET',
-					credentials: 'include',
-					headers: {
-						'Content-Type': 'application/json',
-						'Accept': 'application/json'
+			}).then(
+				response => {
+					console.log('#### load scenarios response', response);
+					let contentType = response.headers.get('Content-type');
+					if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
+						return response.json().then(data => {
+							if (data.data && data.data.scenarios && data.data.scenarios.data) {
+								dispatch(loadReceive(data.data.scenarios.data)); //todo cancel loading for caseKey?
+								dispatch(scenariosLoadedForActiveCase());
+							} else {
+								dispatch(actionLoadError('no data returned'));
+							}
+						});
+					} else {
+						dispatch(actionLoadError(response))
 					}
-				}).then(
-					response => {
-						console.log('#### load scenarios response', response);
-						let contentType = response.headers.get('Content-type');
-						if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
-							return response.json().then(data => {
-								if (data.data && data.data.scenarios && data.data.scenarios.data) {
-									dispatch(loadReceive(data.data.scenarios.data)); //todo cancel loading for caseKey?
-									dispatch(scenariosLoadedForCase(caseKey));
-								} else {
-									dispatch(actionLoadError('no data returned'));
-								}
-							});
-						} else {
-							dispatch(actionLoadError(response))
-						}
-					},
-					error => {
-						console.log('#### load scenarios error', error);
-						if (ttl - 1) {
-							dispatch(load(caseKey, ttl - 1));
-						} else {
-							dispatch(actionLoadError("scenarios#actions load: scenarios weren't loaded!"));
-						}
+				},
+				error => {
+					console.log('#### load scenarios error', error);
+					if (ttl - 1) {
+						dispatch(load(caseKey, ttl - 1));
+					} else {
+						dispatch(actionLoadError("scenarios#actions load: scenarios weren't loaded!"));
 					}
-				);
-
-			//} else {
-			//	dispatch(actionLoadError('scenarios#actions load: no active place'));
-			//}
-
+				}
+			);
 		}
 
 	};
@@ -239,7 +230,7 @@ function loadReceive(data) {
 	};
 }
 
-function scenariosLoadedForCase(caseKey){
+function scenariosLoadedForActiveCase(){
 	return (dispatch, getState) => {
 		let state = getState();
 		let casesState = Select.scenarios.getCasesAll(state);
@@ -340,34 +331,21 @@ function saveActiveCase() {
 		let saved = Select.scenarios.getActiveCase(state);
 		let edited = Select.scenarios.getActiveCaseEdited(state);
 		let editedScenarios = _.filter(Select.scenarios.getScenariosEdited(state), scenario => {
-			return _.includes(edited.data.scenarios, scenario.key);
+			let keys = edited ? edited.data.scenarios : saved.data.scenarios;
+			return _.includes(keys, scenario.key);
 		});
 		let activePlaceKey = Select.places.getActiveKey(state);
 
 		if (saved) {
 			// update
-			dispatch(apiUpdateCases([edited], editedScenarios));
+			dispatch(apiUpdateCases(edited ? [edited] : [], editedScenarios));
 		} else {
 			// create
-			dispatch(apiCreateCases([edited], editedScenarios, activePlaceKey));
+			dispatch(apiCreateCases(edited ? [edited] : [], editedScenarios, activePlaceKey));
 		}
 	};
 }
 
-function saveScenario(scenarioKey){
-	return (dispatch, getState) => {
-		let state = getState();
-		let saved = Select.scenarios.getScenario(state, scenarioKey);
-		let edited = Select.scenarios.getScenarioEdited(state, scenarioKey);
-		if (saved){
-			// update
-			dispatch(apiUpdateScenarios([edited]));
-		} else {
-			// create
-			dispatch(apiCreateScenarios([edited]));
-		}
-	};
-}
 
 function apiCreateCases(cases, scenarios, placeKey, ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
@@ -436,14 +414,31 @@ function apiUpdateCases(updates, editedScenarios, ttl) {
 	return dispatch => {
 		dispatch(actionApiUpdateCasesRequest(_.map(updates, 'key')));
 
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/scenario_cases');
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata');
 
-		let payload = _.map(updates, update => {
-			return {
-				id: update.key,
-				data: update.data
-			};
-		});
+		let payload = {
+			data: {
+				scenario_cases: _.map(updates, model => {
+					let caseData = {...model.data, scenario_ids: model.data.scenarios};
+					delete caseData.scenarios;
+					return {
+						id: model.key,
+						data: caseData
+					};
+				}),
+				scenarios: _.map(editedScenarios, model => {
+					let scenario = {
+						data: {...model.data}
+					};
+					if (typeof model.key === "number"){
+						scenario.id = model.key;
+					} else {
+						scenario.uuid = model.key;
+					}
+					return scenario;
+				})
+			}
+		};
 
 		return fetch(url, {
 			method: 'PUT',
@@ -462,11 +457,11 @@ function apiUpdateCases(updates, editedScenarios, ttl) {
 						if (data.data) {
 							dispatch(apiUpdateCasesReceive(data.data));
 						} else {
-							dispatch(actionLoadCasesError('no data returned'));
+							dispatch(actionApiUpdateCasesError('no data returned'));
 						}
 					});
 				} else {
-					dispatch(actionLoadCasesError(response))
+					dispatch(actionApiUpdateCasesError(response))
 				}
 			},
 			error => {
@@ -474,7 +469,7 @@ function apiUpdateCases(updates, editedScenarios, ttl) {
 				if (ttl - 1) {
 					dispatch(apiUpdateCases(updates, editedScenarios, ttl - 1));
 				} else {
-					dispatch(actionLoadCasesError("scenarios#actions load cases: cases weren't loaded!"));
+					dispatch(actionApiUpdateCasesError("scenarios#actions load cases: cases weren't loaded!"));
 				}
 			}
 		);
@@ -485,9 +480,11 @@ function apiCreateCasesReceive(data) {
 	return (dispatch, getState) => {
 		let cases = data.scenario_cases;
 		let scenarios = data.scenarios;
+
 		// add to data
 		dispatch(loadCasesReceive(cases));
 		dispatch(apiCreateScenariosReceive(scenarios));
+
 		// change active key if of temporary case
 		let activeCaseKey = Select.scenarios.getActiveCaseKey(getState());
 		if (activeCaseKey) {
@@ -501,118 +498,29 @@ function apiCreateCasesReceive(data) {
 	};
 }
 
-function apiUpdateCasesReceive(models) {
+function apiUpdateCasesReceive(data) {
 	return dispatch => {
-		dispatch(loadCasesReceive(models));
+		let cases = data.scenario_cases;
+		let scenarios = data.scenarios;
+
+		if (scenarios.length){
+			// remove from editedData
+			dispatch(removeActiveCaseEditedScenarios());
+			// add/update data
+			dispatch(loadReceive(scenarios));
+		}
+
+		dispatch(loadCasesReceive(cases));
 		dispatch(removeEditedActiveCase());
-	};
-}
-
-function apiCreateScenarios(updates, ttl) {
-	if (_.isUndefined(ttl)) ttl = TTL;
-	return dispatch => {
-		dispatch(actionApiCreateScenariosRequest(_.map(updates, 'key')));
-
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/scenarios');
-
-		let payload = _.map(updates, update => {
-			return {
-				uuid: update.key,
-				data: update.data
-			};
-		});
-
-		return fetch(url, {
-			method: 'POST',
-			credentials: 'include',
-			headers: {
-				'Content-Type': 'application/json',
-				'Accept': 'application/json'
-			},
-			body: JSON.stringify(payload)
-		}).then(
-			response => {
-				console.log('#### create scenarios response', response);
-				let contentType = response.headers.get('Content-type');
-				if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
-					return response.json().then(data => {
-						if (data.data) {
-							dispatch(apiCreateScenariosReceive(data.data));
-						} else {
-							dispatch(actionApiCreateScenariosError('no data returned'));
-						}
-					});
-				} else {
-					dispatch(actionApiCreateScenariosError(response))
-				}
-			},
-			error => {
-				console.log('#### create scenarios error', error);
-				if (ttl - 1) {
-					dispatch(apiCreateScenarios(updates, ttl - 1));
-				} else {
-					dispatch(actionApiCreateScenariosError("scenarios#actions create scenarios: scenarios weren't created!"));
-				}
-			}
-		);
-	};
-}
-
-function apiUpdateScenarios(updates, ttl) {
-	if (_.isUndefined(ttl)) ttl = TTL;
-	return dispatch => {
-		dispatch(actionApiUpdateScenariosRequest(_.map(updates, 'key')));
-
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/scenarios');
-
-		let payload = _.map(updates, update => {
-			return {
-				id: update.key,
-				data: update.data
-			};
-		});
-
-		return fetch(url, {
-			method: 'PUT',
-			credentials: 'include',
-			headers: {
-				'Content-Type': 'application/json',
-				'Accept': 'application/json'
-			},
-			body: JSON.stringify(payload)
-		}).then(
-			response => {
-				console.log('#### update scenario response', response);
-				let contentType = response.headers.get('Content-type');
-				if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
-					return response.json().then(data => {
-						if (data.data) {
-							debugger;
-							dispatch(apiUpdateScenariosReceive(data.data));
-						} else {
-							dispatch(actionLoadError('no data returned'));
-						}
-					});
-				} else {
-					dispatch(actionLoadError(response))
-				}
-			},
-			error => {
-				console.log('#### update scenario error', error);
-				if (ttl - 1) {
-					dispatch(apiUpdateScenarios(updates, ttl - 1));
-				} else {
-					dispatch(actionLoadError("scenarios#actions load scenarios: scenarios weren't loaded!"));
-				}
-			}
-		);
 	};
 }
 
 function apiCreateScenariosReceive(data) {
 	return (dispatch, getState) => {
+
 		// add to data
 		dispatch(loadReceive(data));
+
 		// change keys in (edited) cases
 		let editedCases = Select.scenarios.getCasesEdited(getState());
 		let updates = [];
@@ -637,17 +545,9 @@ function apiCreateScenariosReceive(data) {
 		if (updates.length) {
 			dispatch(actionUpdateEditedCases(updates));
 		}
-		// remove from editedData
-		dispatch(actionRemoveEditedScenarios(_.map(data, 'uuid')));
-	};
-}
 
-function apiUpdateScenariosReceive(models) {
-	return dispatch => {
-		// add to data
-		dispatch(loadReceive(models));
 		// remove from editedData
-		dispatch(actionRemoveEditedScenarios(_.map(models, 'id')));
+		dispatch(removeActiveCaseEditedScenarios());
 	};
 }
 
@@ -790,30 +690,9 @@ function actionApiCreateCasesRequest(keys) {
 	}
 }
 
-function actionApiCreateScenariosRequest(keys) {
-	return {
-		type: ActionTypes.SCENARIOS_API_CREATE_REQUEST,
-		keys: keys
-	}
-}
-
-function actionApiCreateCasesReceive(data) {
-	return {
-		type: ActionTypes.SCENARIOS_CASES_API_CREATE_RECEIVE,
-		data: data
-	}
-}
-
 function actionApiCreateCasesError(error) {
 	return {
 		type: ActionTypes.SCENARIOS_CASES_API_CREATE_ERROR,
-		error: error
-	}
-}
-
-function actionApiCreateScenariosError(error) {
-	return {
-		type: ActionTypes.SCENARIOS_API_CREATE_ERROR,
 		error: error
 	}
 }
@@ -825,24 +704,10 @@ function actionApiUpdateCasesRequest(keys) {
 	}
 }
 
-function actionApiUpdateScenariosRequest(keys) {
-	return {
-		type: ActionTypes.SCENARIOS_API_UPDATE_REQUEST,
-		keys: keys
-	}
-}
-
-function actionApiUpdateCasesReceive(data) {
-	return {
-		type: ActionTypes.SCENARIOS_CASES_API_UPDATE_RECEIVE,
-		data: data
-	}
-}
-
-function actionApiUpdateCasesError(error) {
+function actionApiUpdateCasesError(keys) {
 	return {
 		type: ActionTypes.SCENARIOS_CASES_API_UPDATE_ERROR,
-		error: error
+		keys: keys
 	}
 }
 
@@ -858,7 +723,6 @@ export default {
 
 	addActiveScenario: addActiveScenario,
 	removeActiveScenario: removeActiveScenario,
-	saveScenario: saveScenario,
 
 	saveActiveCase: saveActiveCase,
 	setActiveCase: setActiveCase,
@@ -869,7 +733,7 @@ export default {
 	addEditedScenario: addEditedScenario,
 	removeActiveCaseEditedScenarios: removeActiveCaseEditedScenarios,
 	removeEditedActiveCase: removeEditedActiveCase,
-	removeEditedScenario: removeEditedScenario,
+
 	updateEditedActiveCase: updateEditedActiveCase,
 	updateEditedScenario: updateEditedScenario
 }
