@@ -41,7 +41,8 @@ export const MenuItem = props => {
 	return (
 		<div
 			className={classNames('ptr-menu-item', props.className, {
-				selected: props.selected
+				selected: props.selected,
+				disabled: props.disabled
 			})}
 			onClick={(e)=>{
 				if (props.onClick) props.onClick(e);

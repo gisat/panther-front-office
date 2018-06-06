@@ -195,6 +195,13 @@ body {
 	transition:
 		background .3s ease-in-out;
 }
+.ptr-menu-item.disabled {
+	pointer-events: none;
+	color: #b7b7b7;
+}
+.ptr-menu-item.disabled > .ptr-icon .line {
+	stroke: #b7b7b7;
+}
 .ptr-menu-item:not(:first-child) {
 	border-top: 1px solid rgba(0,0,0,0.2);
 }

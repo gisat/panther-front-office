@@ -31,7 +31,9 @@ class CaseDetail extends React.PureComponent {
 		switchScreen: PropTypes.func,
 		editingActive: PropTypes.bool,
 
-		enableCreate: PropTypes.bool
+		enableCreate: PropTypes.bool,
+		enableDelete: PropTypes.bool,
+		enableEdit: PropTypes.bool
 	};
 
 	constructor(props){
@@ -184,8 +186,8 @@ class CaseDetail extends React.PureComponent {
 					<div>
 						<Button icon="dots" invisible>
 							<Menu bottom left>
-								<MenuItem onClick={this.activateCaseEditing}><Icon icon="edit"/> Edit</MenuItem>
-								<MenuItem><Icon icon="remove" /> Delete</MenuItem>
+								<MenuItem disabled={!this.props.enableEdit} onClick={this.activateCaseEditing}><Icon icon="edit"/> Edit</MenuItem>
+								{/*<MenuItem><Icon icon="remove" /> Delete</MenuItem>*/}
 							</Menu>
 						</Button>
 					</div>
