@@ -25,8 +25,7 @@ class InputFile extends React.PureComponent {
 	onChange(e){
 		if (this.props.hasOwnProperty('value') && this.props.onChange) {
 			// controlled
-			console.log('#######', e.target.value);
-			this.props.onChange(e.target.value);
+			this.props.onChange(e.target.files[0]);
 		} else {
 			// uncontrolled
 			this.setState({
