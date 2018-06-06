@@ -106,6 +106,9 @@ class ScenarioCard extends React.PureComponent {
 		let description = (scenarioEdited && scenarioEdited.data && scenarioEdited.data.hasOwnProperty('description')) ?
 			(scenarioEdited.data.description) : ((scenario && scenario.data && scenario.data.hasOwnProperty('description')) ?
 				scenario.data.description : null);
+		let file = (scenarioEdited && scenarioEdited.data && scenarioEdited.data.hasOwnProperty('file')) ?
+			(scenarioEdited.data.file) : ((scenario && scenario.data && scenario.data.hasOwnProperty('file')) ?
+				scenario.data.file : null);
 
 
 		if (this.props.defaultSituation){
@@ -162,7 +165,7 @@ class ScenarioCard extends React.PureComponent {
 				{this.props.editing ? (
 				<InputFile
 					disabled={!this.props.editing || this.props.disableEditing}
-					value={this.state.file}
+					value={file}
 					placeholder="File"
 					onChange={this.onChangeFile}
 				/>
