@@ -56,19 +56,19 @@ body.mode-3d .maps-container {
 	height: 50%;
 }
 .maps-container.h3 .world-wind-map-box {
-	height: 33.33%;
+	height: 33.3%;
 }
 .maps-container.h4 .world-wind-map-box {
 	height: 25%;
 }
 .maps-container.w2 .world-wind-map-box {
-	width: 49.8%;
+	width: calc(50% - 2px);
 }
 .maps-container.w3 .world-wind-map-box {
-	width: 33.1%;
+	width: calc(33.3% - 3px);
 }
 .maps-container.w4 .world-wind-map-box {
-	width: 24.8%;
+	width: calc(25% - 4px);
 }
 /* delete right border for all maps on the right */
 .maps-container.h1.w1 .map-fields .world-wind-map-box:not(.selected) {
