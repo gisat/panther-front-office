@@ -7,6 +7,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 		Observer.addListener("PumaMain.controller.LocationTheme.reloadWmsLayers",this.reloadWmsLayers.bind(this));
 		Stores.addListener(this.areaTemplateChange.bind(this));
 		Stores.addListener(this.triggerConfirm.bind(this));
+		Stores.addListener(this.setLocationFromRedux.bind(this));
 
         this.control({
             '#initialdataset':{
@@ -162,6 +163,21 @@ Ext.define('PumaMain.controller.LocationTheme', {
         themeComboAlt.resumeEvents();
 
         Observer.notify('scopeChange');
+    },
+
+    setLocationFromRedux: function(type, options){
+        if (type === 'REDUX_SET_ACTIVE_PLACES'){
+            if (options && options.keys){
+                let placeId = options.keys;
+                if (placeId.length){
+                    placeId = placeId[0];
+                }
+				let locationCombo = Ext.ComponentQuery.query('#sellocation')[0];
+				locationCombo.suspendEvents();
+				locationCombo.setValue(placeId);
+				locationCombo.resumeEvents();
+            }
+        }
     },
 
     onLocationChange: function(cnt,val) {

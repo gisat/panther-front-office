@@ -26,25 +26,34 @@ const setEventListeners = store => {
 				store.dispatch(Action.places.add(_.map(options, transform)));
 				break;
 			case 'place#setActivePlace':
+				let activePlace = Select.places.getActiveKey(store.getState());
 				let scope = Select.scopes.getActiveScopeData(store.getState());
+				let place = null;
+				let places = null;
+
 				if (typeof options.data === "number"){
-					store.dispatch(Action.places.setActive(options.data));
-					if (scope.scenarios){
-						store.dispatch(Action.scenarios.loadCases());
-					}
+					place = options.data;
 				} else if (options.data.length && options.data.length === 1){
-					store.dispatch(Action.places.setActive(options.data[0]));
-					if (scope.scenarios){
-						store.dispatch(Action.scenarios.loadCases());
-					}
+					place = options.data[0];
 				} else if (options.data.length && options.data.length > 1){
-					store.dispatch(Action.places.setActiveKeys(options.data));
+					places = options.data;
 				}
 
-				store.dispatch(Action.spatialRelations.load()).then(() => {
-					let dataSourcesIds = Select.spatialRelations.getActivePlaceDataSourceIds(store.getState());
-					store.dispatch(Action.spatialDataSources.loadFiltered({'id': dataSourcesIds}));
-				});
+				if (place && place !== activePlace){
+					// set active place
+					store.dispatch(Action.places.setActive(place));
+
+					// if scope has scenario property: load scenario cases, spatial relations and then spatial data sources
+					if (scope.scenarios){
+						store.dispatch(Action.scenarios.loadCases());
+						store.dispatch(Action.spatialRelations.load()).then(() => {
+							let dataSourcesIds = Select.spatialRelations.getActivePlaceDataSourceIds(store.getState());
+							store.dispatch(Action.spatialDataSources.loadFiltered({'id': dataSourcesIds}));
+						});
+					}
+				} else if (places){
+					store.dispatch(Action.places.setActiveKeys(places));
+				}
 				break;
 			default:
 				break;
