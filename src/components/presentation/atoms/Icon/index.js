@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ArrowLeft from './ArrowLeft';
+import Delete from './Delete';
 import Dots from './Dots';
 import Download from './Download';
 import Edit from './Edit';
@@ -13,6 +14,8 @@ const icon = key => {
 	switch(key) {
 		case 'arrow-left':
 			return <ArrowLeft />;
+		case 'delete':
+			return <Delete />;
 		case 'dots':
 			return <Dots />;
 		case 'download':

@@ -199,7 +199,8 @@ body {
 	pointer-events: none;
 	color: #b7b7b7;
 }
-.ptr-menu-item.disabled > .ptr-icon .line {
+.ptr-menu-item.disabled > .ptr-icon .line,
+.ptr-menu-item.disabled > .ptr-icon .polygon {
 	stroke: #b7b7b7;
 }
 .ptr-menu-item:not(:first-child) {
@@ -215,9 +216,11 @@ body {
 	height: 1.25rem;
 	margin: .125rem .25rem;
 }
-.ptr-menu-item > .ptr-icon .line {
+.ptr-menu-item > .ptr-icon .line,
+.ptr-menu-item > .ptr-icon .polygon {
 	stroke: #333;
 }
+
 .ptr-menu-item-caption {
 	display: inline-block;
 	vertical-align: top;
