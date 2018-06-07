@@ -490,30 +490,34 @@ function apiUploadScenarioFiles(scenarios) {
 
 		let promises = [];
 		scenarios.forEach((scenario) => {
-			let postData = new FormData();
-			postData.append('file', scenario.data.file);
-			promises.push(
-				fetch(
-					url,
-					{
-						method: 'POST',
-						credentials: 'include',
-						body: postData
-					}
-				).then((response) => response.json())
-					.then((response) => {
-						return {
-							scenarioKey: scenario.key,
-							uploadKey: response.data.uploadKey
+			if(scenario && scenario.data && scenario.data.file) {
+				let postData = new FormData();
+				postData.append('file', scenario.data.file);
+				promises.push(
+					fetch(
+						url,
+						{
+							method: 'POST',
+							credentials: 'include',
+							body: postData
 						}
-					})
-			)
+					).then((response) => response.json())
+						.then((response) => {
+							return {
+								scenarioKey: scenario.key,
+								uploadKey: response.data.uploadKey
+							}
+						})
+				)
+			}
 		});
 
-		return Promise.all(promises)
-			.then((results) => {
-				dispatch(apiExecutePucsMatlabProcessOnUploadedScenarioFiles(results));
-			});
+		if(promises.length) {
+			return Promise.all(promises)
+				.then((results) => {
+					dispatch(apiExecutePucsMatlabProcessOnUploadedScenarioFiles(results));
+				});
+		}
 	}
 }
 
