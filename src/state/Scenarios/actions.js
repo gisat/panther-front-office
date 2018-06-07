@@ -7,6 +7,9 @@ import _ from 'lodash';
 import path from 'path';
 import fetch from 'isomorphic-fetch';
 import queryString from 'query-string';
+import utils from '../../utils/utils';
+
+let requestIntervals = {};
 
 const TTL = 5;
 
@@ -393,7 +396,7 @@ function apiCreateCases(cases, scenarios, placeKey, ttl) {
 					return response.json().then(data => {
 						if (data.data) {
 							dispatch(apiCreateCasesReceive(data.data));
-							dispatch(apiUploadScenarioFiles(scenarios));
+							dispatch(apiUploadScenarioFiles(data.data.scenarios));
 						} else {
 							dispatch(actionApiCreateCasesError('no data returned'));
 						}
@@ -464,7 +467,7 @@ function apiUpdateCases(updates, editedScenarios, ttl) {
 					return response.json().then(data => {
 						if (data.data) {
 							dispatch(apiUpdateCasesReceive(data.data));
-							dispatch(apiUploadScenarioFiles(editedScenarios));
+							dispatch(apiUploadScenarioFiles(data.data.scenarios));
 						} else {
 							dispatch(actionApiUpdateCasesError('no data returned'));
 						}
@@ -522,7 +525,7 @@ function apiUploadScenarioFiles(scenarios) {
 	}
 }
 
-function apiExecutePucsMatlabProcessOnUploadedScenarioFiles(uploads) {
+function apiExecutePucsMatlabProcessOnUploadedScenario(uploads) {
 	return (dispatch) => {
 		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/wps');
 		let promises = [];
@@ -540,7 +543,7 @@ function apiExecutePucsMatlabProcessOnUploadedScenarioFiles(uploads) {
 						},
 						body: `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 									<!-- Execute operation request assuming use of default formats, and RawDataOutput.-->
-									<!-- Equivalent GET request is 
+									<!-- Equivalent GET request is
 											http://foo.bar/foo?
 												Service=WPS&
 												Version=1.0.0&
@@ -582,6 +585,52 @@ function apiExecutePucsMatlabProcessOnUploadedScenarioFiles(uploads) {
 			});
 	}
 }
+
+function clearRequestInterval(uuid) {
+	if (requestIntervals.hasOwnProperty(uuid)) {
+		clearInterval(requestIntervals[uuid]);
+	}
+}
+
+function apiExecutePucsMatlabProcessOnUploadedScenarioFiles(uploads) {
+	return (dispatch) => {
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/pucs/execute_matlab');
+
+		uploads.forEach((upload)=>{
+			let uuid = utils.guid();
+			let requestAttempt = () => {
+				fetch(url, {
+					method: 'POST',
+					credentials: 'include',
+					headers: {
+						'Content-Type': 'application/json',
+						'Accept': 'application/json'
+					},
+					body: JSON.stringify({
+						uploadKey: upload.uploadKey
+					})
+				}).then((response) => {
+					return response.json().then(data => {
+						if (data.result){
+							clearRequestInterval(uuid);
+							dispatch(apiCreateRelationsForScenarioProcessResults([{
+								scenarioKey: upload.scenarioKey,
+								processResults: JSON.parse(data.result)
+							}]));
+							console.log('achachach', data.result);
+						}
+					});
+				});
+			};
+
+			requestAttempt();
+			requestIntervals[uuid] = setInterval(() => {
+				requestAttempt();
+			}, 5000);
+		});
+	}
+}
+
 
 function apiCreateRelationsForScenarioProcessResults(results) {
 	return (dispatch, getState) => {
