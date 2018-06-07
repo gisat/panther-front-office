@@ -216,7 +216,7 @@ body {
 	margin: .125rem .25rem;
 }
 .ptr-menu-item > .ptr-icon .line {
-	stroke: #444;
+	stroke: #333;
 }
 .ptr-menu-item-caption {
 	display: inline-block;
