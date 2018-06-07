@@ -523,29 +523,28 @@ function apiUploadScenarioFiles(scenarios) {
 		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/importer/upload');
 
 		let promises = [];
+		let scenarioKeys = [];
 		scenarios.forEach((scenario) => {
 			if(scenario && scenario.data && scenario.data.file) {
+				dispatch(apiProcessingScenarioFileStarted(scenario.key));
+				scenarioKeys.push(scenario.key);
 				let postData = new FormData();
 				postData.append('file', scenario.data.file);
 				promises.push(
-					// fetch(
-					// 	url,
-					// 	{
-					// 		method: 'POST',
-					// 		credentials: 'include',
-					// 		body: postData
-					// 	}
-					// ).then((response) => response.json())
-					// 	.then((response) => {
-					// 		return {
-					// 			scenarioKey: scenario.key,
-					// 			uploadKey: response.data.uploadKey
-					// 		}
-					// 	})
-					Promise.resolve({
-									scenarioKey: scenario.key,
-									uploadKey: "d3db052b-1a85-45a0-8d8f-df44cfaf92fc"
-					})
+					fetch(
+						url,
+						{
+							method: 'POST',
+							credentials: 'include',
+							body: postData
+						}
+					).then((response) => response.json(), error => {dispatch(apiProcessingScenarioFileError(scenario.key, error));})
+						.then((response) => {
+							return {
+								scenarioKey: scenario.key,
+								uploadKey: response.data.uploadKey
+							}
+						}).catch(error => {dispatch(apiProcessingScenarioFileError(scenario.key, error));})
 				)
 			}
 		});
@@ -554,69 +553,8 @@ function apiUploadScenarioFiles(scenarios) {
 			return Promise.all(promises)
 				.then((results) => {
 					dispatch(apiExecutePucsMatlabProcessOnUploadedScenarioFiles(results));
-				});
+				}).catch(error => {dispatch(apiProcessingScenarioFilesError(scenarioKeys, error));});
 		}
-	}
-}
-
-function apiExecutePucsMatlabProcessOnUploadedScenario(uploads) {
-	return (dispatch) => {
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/wps');
-		let promises = [];
-
-		uploads.forEach((upload) => {
-			promises.push(
-				fetch(
-					url,
-					{
-						method: 'POST',
-						credentials: 'include',
-						headers: {
-							'Content-Type': 'application/xml',
-							'Accept': 'application/xml'
-						},
-						body: `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-									<!-- Execute operation request assuming use of default formats, and RawDataOutput.-->
-									<!-- Equivalent GET request is
-											http://foo.bar/foo?
-												Service=WPS&
-												Version=1.0.0&
-												Language=en-CA&
-												Request=Execute&
-												Identifier=Buffer&
-												DataInputs=[InputPolygon=@xlink:href=http%3A%2F%2Ffoo.bar%2Fsome_WFS_request.xml;BufferDistance=400]&
-												RawDataOutput=[BufferedPolygon]-->
-									<wps:Execute service="WPS" version="1.0.0" xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wps/1.0.0/wpsExecute_request.xsd">
-										<ows:Identifier>CalculatePragueTemperatureMapUsingNeuralNetworkModel</ows:Identifier>
-									<ows:Title>CalculatePragueTemperatureMapUsingNeuralNetworkModel</ows:Title>
-									<ows:Abstract>Calculate temperature map for Prague using neural network model by VITO</ows:Abstract>
-									<DataInputs>
-										<wps:Input>
-											<ows:Identifier>inputFile</ows:Identifier>
-											<ows:Title>Distance which people will walk to get to a playground.</ows:Title>
-											<wps:Data>
-												<wps:LiteralData>upload:${upload.uploadKey}</wps:LiteralData>
-											</wps:Data>
-										</wps:Input>
-									</DataInputs>
-									</wps:Execute>`
-					}
-				).then((response) => response.text())
-					.then(responseText => (new window.DOMParser()).parseFromString(responseText, "text/xml"))
-					.then((responseXml) => {
-						let elements = responseXml.getElementsByTagName('LiteralData');
-						return {
-							scenarioKey: upload.scenarioKey,
-							processResults: elements && elements.length ? JSON.parse(elements[0].textContent) : null
-						}
-					})
-			)
-		});
-
-		return Promise.all(promises)
-			.then((results) => {
-				dispatch(apiCreateRelationsForScenarioProcessResults(results));
-			});
 	}
 }
 
@@ -628,47 +566,41 @@ function clearRequestInterval(uuid) {
 
 function apiExecutePucsMatlabProcessOnUploadedScenarioFiles(uploads) {
 	return (dispatch) => {
-		setTimeout(() => {
-			dispatch(apiCreateRelationsForScenarioProcessResults([{
-				scenarioKey: uploads[0].scenarioKey,
-				processResults: JSON.parse(`[{"uuid":"0f1b9457-b8ef-4ba5-b8c7-739eee7c35c2","directory":"/home/mbabic/Dokumenty/TempStorage/Panther/pucs_matlab_outputs/0f1b9457-b8ef-4ba5-b8c7-739eee7c35c2","inputVectors":[{"systemName":"pucs_a7950fbd05e94f38b0aa8362b09927b4.shp","prj":"pucs_a7950fbd05e94f38b0aa8362b09927b4.prj","other":["pucs_a7950fbd05e94f38b0aa8362b09927b4.dbf","pucs_a7950fbd05e94f38b0aa8362b09927b4.shx"],"originalName":"PUCS_UA2012_Prague_scnA.shp","geoserverLayer":"geonode:pucs_a7950fbd05e94f38b0aa8362b09927b4","spatialDataSourceId":145}],"inputRasters":[{"systemName":"pucs_b44d449aa9a74b8ea59979c40fb213f3.tif","originalName":"PUCS_UA2012_Prague_scnA.tif","geoserverLayer":"geonode:pucs_b44d449aa9a74b8ea59979c40fb213f3","spatialDataSourceId":147}],"outputRasters":[{"systemName":"pucs_dec0ab3af86247ebad63cbd85232791e.tif","originalName":"PUCS_UA2012_Prague_scnA_MEAN_HWD_2007_2016_scenario.tif","geoserverLayer":"geonode:pucs_dec0ab3af86247ebad63cbd85232791e","indicator":"hwd","spatialDataSourceId":146},{"systemName":"pucs_f250aeb2a3664298b79357fb88a7d39f.tif","originalName":"PUCS_UA2012_Prague_scnA_MEAN_UHI_23H_2007_2016_scenario.tif","geoserverLayer":"geonode:pucs_f250aeb2a3664298b79357fb88a7d39f","indicator":"uhi","spatialDataSourceId":148}]}]`)
-			}]));
-		}, 5000);
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/pucs/execute_matlab');
 
-		// let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/pucs/execute_matlab');
-		//
-		// uploads.forEach((upload) => {
-		// 	let uuid = utils.guid();
-		// 	let requestAttempt = () => {
-		// 		fetch(url, {
-		// 			method: 'POST',
-		// 			credentials: 'include',
-		// 			headers: {
-		// 				'Content-Type': 'application/json',
-		// 				'Accept': 'application/json'
-		// 			},
-		// 			body: JSON.stringify({
-		// 				uploadKey: upload.uploadKey
-		// 			})
-		// 		}).then((response) => {
-		// 			return response.json().then(data => {
-		// 				if (data.result) {
-		// 					clearRequestInterval(uuid);
-		// 					dispatch(apiCreateRelationsForScenarioProcessResults([{
-		// 						scenarioKey: upload.scenarioKey,
-		// 						processResults: JSON.parse(data.result)
-		// 					}]));
-		// 					console.log('achachach', data.result);
-		// 				}
-		// 			});
-		// 		});
-		// 	};
-		//
-		// 	requestAttempt();
-		// 	requestIntervals[uuid] = setInterval(() => {
-		// 		requestAttempt();
-		// 	}, 5000);
-		// });
+		let scenarioKeys = [];
+		uploads.forEach((upload) => {
+			scenarioKeys.push(upload.scenarioKey);
+			let uuid = utils.guid();
+			let requestAttempt = () => {
+				fetch(url, {
+					method: 'POST',
+					credentials: 'include',
+					headers: {
+						'Content-Type': 'application/json',
+						'Accept': 'application/json'
+					},
+					body: JSON.stringify({
+						uploadKey: upload.uploadKey
+					})
+				}).then((response) => {
+					return response.json().then(data => {
+						if (data.result) {
+							clearRequestInterval(uuid);
+							dispatch(apiCreateRelationsForScenarioProcessResults([{
+								scenarioKey: upload.scenarioKey,
+								processResults: JSON.parse(data.result)
+							}]));
+						}
+					}).catch(error => {dispatch(apiProcessingScenarioFilesError(scenarioKeys, error));});
+				}).catch(error => {dispatch(apiProcessingScenarioFilesError(scenarioKeys, error));});
+			};
+
+			requestAttempt();
+			requestIntervals[uuid] = setInterval(() => {
+				requestAttempt();
+			}, 5000);
+		});
 	}
 }
 
@@ -685,8 +617,11 @@ function apiCreateRelationsForScenarioProcessResults(results) {
 		let outputRasterUhiTemplateId = 4091;
 
 		let relations = [];
+		let scenarioKeys = [];
+
 		results.forEach((result) => {
 			if(activePlaceKey && result.scenarioKey) {
+				scenarioKeys.push(result.scenarioKey);
 				let inputVectors = result.processResults[0].inputVectors;
 				let outputRasters = result.processResults[0].outputRasters;
 
@@ -740,9 +675,73 @@ function apiCreateRelationsForScenarioProcessResults(results) {
 				body: JSON.stringify(relations)
 			}).then((relationResults) => relationResults.json())
 				.then((relationResults) => {
+					if (relationResults.data){
+						// todo why there are data apart of key, while in Action.spatialRelations.load response are not?
+						let dataSourcesIds = [];
+						let data = relationResults.data.map(
+							relation => {
+								dataSourcesIds.push(relation.data.data_source_id);
+								return {...relation.data, key: relation.id};
+							}
+						);
+						dispatch(Action.spatialRelations.loadRelationsReceive(data));
+						dispatch(Action.spatialDataSources.loadFiltered({'id': dataSourcesIds}));
+
+						dispatch(apiProcessingScenarioFilesSuccess(scenarioKeys));
+					} else {
+						dispatch(apiProcessingScenarioFilesError(scenarioKeys, "Relations were not loaded"));
+					}
+				}).catch((error) => {
+					dispatch(apiProcessingScenarioFilesError(scenarioKeys, error));
 				});
 		}
 	}
+}
+
+function apiProcessingScenarioFileStarted(scenarioKey){
+	return (dispatch, getState) => {
+		let scenario = Select.scenarios.getScenario(getState(), scenarioKey);
+		if (scenario){
+			let updated = {...scenario, fileProcessing: {started: true}};
+			dispatch(actionApiProcessingScenarioFileStarted(updated));
+		}
+	};
+}
+
+function apiProcessingScenarioFilesSuccess(scenarioKeys){
+	return (dispatch, getState) => {
+		scenarioKeys.forEach(key => {
+			dispatch(apiProcessingScenarioFileSuccess(key));
+		});
+	};
+}
+
+function apiProcessingScenarioFilesError(scenarioKeys, message){
+	return (dispatch, getState) => {
+		scenarioKeys.forEach(key => {
+			dispatch(apiProcessingScenarioFileError(key, message));
+		});
+	};
+}
+
+function apiProcessingScenarioFileSuccess(scenarioKey){
+	return (dispatch, getState) => {
+		let scenario = Select.scenarios.getScenario(getState(), scenarioKey);
+		if (scenario){
+			let updated = {...scenario, fileProcessing: {started: true, finished: true}};
+			dispatch(actionApiProcessingScenarioFileSuccess(updated));
+		}
+	};
+}
+
+function apiProcessingScenarioFileError(scenarioKey, error){
+	return (dispatch, getState) => {
+		let scenario = Select.scenarios.getScenario(getState(), scenarioKey);
+		if (scenario){
+			let updated = {...scenario, fileProcessing: {started: true, finished: true, error: true, message: error}};
+			dispatch(actionApiProcessingScenarioFileError(updated));
+		}
+	};
 }
 
 function apiCreateCasesReceive(data) {
@@ -977,6 +976,27 @@ function actionApiUpdateCasesError(keys) {
 	return {
 		type: ActionTypes.SCENARIOS_CASES_API_UPDATE_ERROR,
 		keys: keys
+	}
+}
+
+function actionApiProcessingScenarioFileStarted(data) {
+	return {
+		type: ActionTypes.SCENARIOS_API_PROCESSING_FILE_STARTED,
+		data: data,
+	}
+}
+
+function actionApiProcessingScenarioFileSuccess(data) {
+	return {
+		type: ActionTypes.SCENARIOS_API_PROCESSING_FILE_SUCCESS,
+		data: data,
+	}
+}
+
+function actionApiProcessingScenarioFileError(data) {
+	return {
+		type: ActionTypes.SCENARIOS_API_PROCESSING_FILE_ERROR,
+		data: data,
 	}
 }
 

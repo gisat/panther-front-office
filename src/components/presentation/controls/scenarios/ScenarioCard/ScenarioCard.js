@@ -117,9 +117,9 @@ class ScenarioCard extends React.PureComponent {
 		let description = (data && data.hasOwnProperty('description')) ? data.description : null;
 		let file = (data && data.file && data.file.hasOwnProperty('name')) ? data.file.name : null;
 
-		let fileProcessingStarted = (data && data.fileProcessing && data.fileProcessing.started) ? data.fileProcessing.started : false;
-		let fileProcessingFinished = (data && data.fileProcessing && data.fileProcessing.finished) ? data.fileProcessing.finished : false;
-		let fileProcessingError = (data && data.fileProcessing && data.fileProcessing.error) ? data.fileProcessing.error : false;
+		let fileProcessingStarted = (scenario && scenario.fileProcessing && scenario.fileProcessing.started) ? scenario.fileProcessing.started : false;
+		let fileProcessingFinished = (scenario && scenario.fileProcessing && scenario.fileProcessing.finished) ? scenario.fileProcessing.finished : false;
+		let fileProcessingError = (scenario && scenario.fileProcessing && scenario.fileProcessing.error) ? scenario.fileProcessing.error : false;
 
 		let disableCheckbox = (this.props.disableUncheck && this.state.checked) ||
 			((!this.props.scenarioData || !this.props.scenarioData.data) &&
@@ -167,7 +167,7 @@ class ScenarioCard extends React.PureComponent {
 			</div>
 		);
 
-		let body = (!this.props.defaultSituation && (this.props.editing || (description && description.length > 0))) ? (
+		let body = (!this.props.defaultSituation && (this.props.editing || (description && description.length > 0) || fileProcessingFinished || fileProcessingFinished)) ? (
 			<div className="scenario-card-body">
 				<EditableText
 					disabled={!this.props.editing || this.props.disableEditing}

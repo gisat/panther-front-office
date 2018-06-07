@@ -99,5 +99,6 @@ function actionLoadRelationsError(error) {
 // ============ export ===========
 
 export default {
-	load: load
+	load: load,
+	loadRelationsReceive: loadRelationsReceive
 }

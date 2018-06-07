@@ -18,11 +18,6 @@ const INITIAL_STATE = {
 	}
 };
 
-const lodashClean = buildCleaner({
-	isNull: _.noop,
-	isString: _.identity
-});
-
 
 function addDistinct(state, action) {
 	let data;
@@ -208,6 +203,22 @@ function updateCases(state, action){
 	return {...state, cases: {...state.cases, ...action.data}}
 }
 
+function updateScenario(state, action){
+	let updatedData = [];
+	_.each(state.data, model => {
+		if (model.key === action.data.key) {
+			let newModelData = {...model, ...action.data};
+			updatedData.push(newModelData);
+		} else {
+			updatedData.push(model);
+		}
+	});
+	if (action.data && action.data.fileProcessing && action.data.fileProcessing.message){
+		console.error(action.data.fileProcessing.message);
+	}
+	return {...state, data: updatedData};
+}
+
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.SCENARIOS_ADD:
@@ -246,6 +257,12 @@ export default (state = INITIAL_STATE, action) => {
 			return removeEditedCases(state, action);
 		case ActionTypes.SCENARIOS_CASE_EDITED_REMOVE_PROPERTY:
 			return removeEditedCaseProperty(state, action);
+		case ActionTypes.SCENARIOS_API_PROCESSING_FILE_ERROR:
+			return updateScenario(state, action);
+		case ActionTypes.SCENARIOS_API_PROCESSING_FILE_STARTED:
+			return updateScenario(state, action);
+		case ActionTypes.SCENARIOS_API_PROCESSING_FILE_SUCCESS:
+			return updateScenario(state, action);
 		default:
 			return state;
 	}
