@@ -497,14 +497,10 @@ class FrontOffice {
         this._stateStore._changes = {
             dataview: true
         };
-        if (options.worldWindState){
-            this._mapsContainer.setAllMapsPosition(options.worldWindState.location);
-            this._mapsContainer.setAllMapsRange(options.worldWindState.range);
-            if (options.worldWindState.is2D && this._stateStore.current().isMap3D){
-                this._dispatcher.notify('map#switchProjection');
-            }
-            this._stateStore.setAllowZoomByCase(false);
-        }
+		if (options.worldWindState){
+			this.setMapsFromDataview(options.worldWindState);
+			this._stateStore.setAllowZoomByCase(false);
+		}
         if (options.widgets){
             this._topToolBar.handleDataview(options.widgets);
         }
@@ -515,7 +511,7 @@ class FrontOffice {
             this._dispatcher.notify('place#setActivePlace', {data: options.locations});
         }
 		if (options.scenarios){
-			this._dispatcher.notify('scenarios#applyFromDataview', {scenarios: options.scenarios});
+			this._dispatcher.notify('scenarios#applyFromDataview', {scenarios: options.scenarios, worldWindState: options.worldWindState});
 		}
         if (options.mapsMetadata){
             this._mapsContainer.handleMapsFromDataview(options.mapsMetadata, options.selectedMapId);
@@ -530,6 +526,14 @@ class FrontOffice {
             this._dispatcher.notify('dataview#withoutAoi', {status: true});
         }
     }
+
+    setMapsFromDataview(worldWindState){
+		this._mapsContainer.setAllMapsPosition(worldWindState.location);
+		this._mapsContainer.setAllMapsRange(worldWindState.range);
+		if (worldWindState.is2D && this._stateStore.current().isMap3D){
+			this._dispatcher.notify('map#switchProjection');
+		}
+	}
 
     /**
      * Handle periods according to scope setting
@@ -593,7 +597,9 @@ class FrontOffice {
             this._store.locations.load().then(function(){
                 self.adjustConfiguration(options);
             });
-        }
+        } else if (type === "dataview#setMapsFromDataview"){
+        	this.setMapsFromDataview(options);
+		}
     }
 }
 

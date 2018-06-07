@@ -38,8 +38,8 @@ const setEventListeners = store => {
 					places = options.data;
 				}
 
-				if (place){
-					// set active place
+				if (place && (!state.previousPlace || state.previousPlace !== place)){
+					state.previousPlace = place;
 					store.dispatch(Action.places.setActive(place));
 
 					// if scope has scenario property: load scenario cases, spatial relations and then spatial data sources

@@ -36,7 +36,7 @@ const setEventListeners = store => {
 				if (cases && cases.length){
 					store.dispatch(Action.scenarios.applyDataviewSettings(options.scenarios));
 				} else {
-					state.sceanriosDataviewSettings = options;
+					state.scenariosDataviewSettings = options;
 				}
 				break;
 		}
@@ -77,9 +77,9 @@ const activeCaseScenariosWatcher = (value, previousValue) => {
 
 const casesWatcher = (value, previousValue) => {
 	console.log('@@ casesWatcher', previousValue, '->', value);
-	if (value && state.sceanriosDataviewSettings){
-		window.Stores.notify("scenarios#applyFromDataview", state.sceanriosDataviewSettings);
-		state.sceanriosDataviewSettings = null;
+	if (value && state.scenariosDataviewSettings){
+		window.Stores.notify("scenarios#applyFromDataview", state.scenariosDataviewSettings);
+		state.scenariosDataviewSettings = null;
 	}
 };
 

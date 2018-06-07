@@ -484,7 +484,7 @@ class WorldWindMap {
 		/**
 		 * Set location if location or scope has been changed, but dataview
 		 */
-		if ((changes.scope || changes.location) && !changes.dataview){
+		if ((changes.scope || changes.location) && !changes.dataview && !window.Config.dataviewId){
 			this._stateStore.addLoadingOperation("ScopeLocationChanged");
 			this._goToAnimator.setLocation();
 		}
