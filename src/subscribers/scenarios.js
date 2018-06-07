@@ -17,6 +17,7 @@ const setStoreWatchers = store => {
 	createWatcher(store, Select.scenarios.getActiveCaseScenarios, activeCaseScenariosWatcher, 'activeScenarios');
 	createWatcher(store, Select.scenarios.getActiveKeys, activeScenarioKeysWatcher);
 	createWatcher(store, Select.scenarios.isDefaultSituationActive, defaultSituationWatcher);
+	createWatcher(store, Select.scenarios.getCases, casesWatcher);
 };
 
 const setEventListeners = store => {
@@ -29,7 +30,14 @@ const setEventListeners = store => {
 				store.dispatch(Action.scenarios.setDefaultSituationActive(false));
 				break;
 			case 'scenarios#applyFromDataview':
-				store.dispatch(Action.scenarios.applyDataviewSettings(options.scenarios));
+				let cases = Select.scenarios.getCases(store.getState());
+
+				// apply dataview settings only if cases are loaded. Otherwise use watcher to watch when cases are loaded and then apply dataview settings
+				if (cases && cases.length){
+					store.dispatch(Action.scenarios.applyDataviewSettings(options.scenarios));
+				} else {
+					state.sceanriosDataviewSettings = options;
+				}
 				break;
 		}
 	});
@@ -65,6 +73,14 @@ const defaultSituationWatcher = (value, previousValue) => {
 
 const activeCaseScenariosWatcher = (value, previousValue) => {
 	console.log('@@ activeCaseScenariosWatcher', previousValue, '->', value);
+};
+
+const casesWatcher = (value, previousValue) => {
+	console.log('@@ casesWatcher', previousValue, '->', value);
+	if (value && state.sceanriosDataviewSettings){
+		window.Stores.notify("scenarios#applyFromDataview", state.sceanriosDataviewSettings);
+		state.sceanriosDataviewSettings = null;
+	}
 };
 
 const activeCaseWatcher = (value, previousValue) => {

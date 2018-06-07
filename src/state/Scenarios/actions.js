@@ -141,6 +141,7 @@ function removeActiveScenario(key){
 function applyDataviewSettings(data){
 	return (dispatch, getState) => {
 		dispatch(setActiveCase(data.cases.activeKey));
+
 		dispatch(load(data.cases.activeKey));
 
 		let state = getState();

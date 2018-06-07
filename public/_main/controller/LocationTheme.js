@@ -173,9 +173,12 @@ Ext.define('PumaMain.controller.LocationTheme', {
                     placeId = placeId[0];
                 }
 				let locationCombo = Ext.ComponentQuery.query('#sellocation')[0];
-				locationCombo.suspendEvents();
-				locationCombo.setValue(placeId);
-				locationCombo.resumeEvents();
+
+                if (placeId !== locationCombo.value){
+					locationCombo.suspendEvents();
+					locationCombo.setValue(placeId);
+					locationCombo.resumeEvents();
+				}
             }
         }
     },

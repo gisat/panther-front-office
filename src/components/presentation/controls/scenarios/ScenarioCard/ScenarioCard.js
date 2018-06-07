@@ -83,6 +83,10 @@ class ScenarioCard extends React.PureComponent {
 		this.props.updateEditedScenario(this.props.scenarioKey, 'file', file);
 	}
 
+	onDelete(){
+		// delete action
+	}
+
 	onDownloadClick(){
 		this.props.downloadDataSource(this.props.scenarioSpatialDataSource);
 	}
@@ -155,6 +159,7 @@ class ScenarioCard extends React.PureComponent {
 						<Button icon="dots" invisible>
 							<Menu bottom left>
 								<MenuItem onClick={this.onDownloadClick} disabled={disableDownload}><Icon icon="download" /> Download</MenuItem>
+								<MenuItem onClick={this.onDelete} disabled={true}><Icon icon="delete" /> Delete</MenuItem>
 							</Menu>
 						</Button>
 					): null}

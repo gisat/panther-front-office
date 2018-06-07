@@ -26,7 +26,6 @@ const setEventListeners = store => {
 				store.dispatch(Action.places.add(_.map(options, transform)));
 				break;
 			case 'place#setActivePlace':
-				let activePlace = Select.places.getActiveKey(store.getState());
 				let scope = Select.scopes.getActiveScopeData(store.getState());
 				let place = null;
 				let places = null;
@@ -39,17 +38,24 @@ const setEventListeners = store => {
 					places = options.data;
 				}
 
-				if (place && place !== activePlace){
+				if (place){
 					// set active place
 					store.dispatch(Action.places.setActive(place));
 
 					// if scope has scenario property: load scenario cases, spatial relations and then spatial data sources
 					if (scope.scenarios){
 						store.dispatch(Action.scenarios.loadCases());
-						store.dispatch(Action.spatialRelations.load()).then(() => {
-							let dataSourcesIds = Select.spatialRelations.getActivePlaceDataSourceIds(store.getState());
-							store.dispatch(Action.spatialDataSources.loadFiltered({'id': dataSourcesIds}));
-						});
+						let dispatchRelationsLoading = store.dispatch(Action.spatialRelations.load());
+
+						// fix: sometimes dispatchRelationsLoading is undfined and I don't know why
+						if (dispatchRelationsLoading){
+							dispatchRelationsLoading.then(() => {
+								let dataSourcesIds = Select.spatialRelations.getActivePlaceDataSourceIds(store.getState());
+								if (dataSourcesIds && dataSourcesIds.length){
+									store.dispatch(Action.spatialDataSources.loadFiltered({'id': dataSourcesIds}));
+								}
+							});
+						}
 					}
 				} else if (places){
 					store.dispatch(Action.places.setActiveKeys(places));
