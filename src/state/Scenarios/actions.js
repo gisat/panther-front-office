@@ -396,7 +396,22 @@ function apiCreateCases(cases, scenarios, placeKey, ttl) {
 					return response.json().then(data => {
 						if (data.data) {
 							dispatch(apiCreateCasesReceive(data.data));
-							dispatch(apiUploadScenarioFiles(data.data.scenarios));
+
+							let uploadedScenarioFiles = [];
+
+							_.each(data.data.scenarios, createdScenario => {
+								let scenarioToCreate = _.find(scenarios, {key: createdScenario.uuid});
+								if (scenarioToCreate) {
+									uploadedScenarioFiles.push(
+										{
+											key: createdScenario.id,
+											data: scenarioToCreate.data
+										}
+									)
+								}
+							});
+
+							dispatch(apiUploadScenarioFiles(uploadedScenarioFiles));
 						} else {
 							dispatch(actionApiCreateCasesError('no data returned'));
 						}
@@ -467,7 +482,22 @@ function apiUpdateCases(updates, editedScenarios, ttl) {
 					return response.json().then(data => {
 						if (data.data) {
 							dispatch(apiUpdateCasesReceive(data.data));
-							dispatch(apiUploadScenarioFiles(data.data.scenarios));
+
+							let uploadedScenarioFiles = [];
+
+							_.each(data.data.scenarios, createdScenario => {
+								let scenarioToCreate = _.find(editedScenarios, {key: createdScenario.uuid || createdScenario.id});
+								if (scenarioToCreate) {
+									uploadedScenarioFiles.push(
+										{
+											key: createdScenario.id,
+											data: scenarioToCreate.data
+										}
+									)
+								}
+							});
+
+							dispatch(apiUploadScenarioFiles(uploadedScenarioFiles));
 						} else {
 							dispatch(actionApiUpdateCasesError('no data returned'));
 						}
@@ -498,20 +528,24 @@ function apiUploadScenarioFiles(scenarios) {
 				let postData = new FormData();
 				postData.append('file', scenario.data.file);
 				promises.push(
-					fetch(
-						url,
-						{
-							method: 'POST',
-							credentials: 'include',
-							body: postData
-						}
-					).then((response) => response.json())
-						.then((response) => {
-							return {
-								scenarioKey: scenario.key,
-								uploadKey: response.data.uploadKey
-							}
-						})
+					// fetch(
+					// 	url,
+					// 	{
+					// 		method: 'POST',
+					// 		credentials: 'include',
+					// 		body: postData
+					// 	}
+					// ).then((response) => response.json())
+					// 	.then((response) => {
+					// 		return {
+					// 			scenarioKey: scenario.key,
+					// 			uploadKey: response.data.uploadKey
+					// 		}
+					// 	})
+					Promise.resolve({
+									scenarioKey: scenario.key,
+									uploadKey: "d3db052b-1a85-45a0-8d8f-df44cfaf92fc"
+					})
 				)
 			}
 		});
@@ -594,40 +628,47 @@ function clearRequestInterval(uuid) {
 
 function apiExecutePucsMatlabProcessOnUploadedScenarioFiles(uploads) {
 	return (dispatch) => {
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/pucs/execute_matlab');
+		setTimeout(() => {
+			dispatch(apiCreateRelationsForScenarioProcessResults([{
+				scenarioKey: uploads[0].scenarioKey,
+				processResults: JSON.parse(`[{"uuid":"0f1b9457-b8ef-4ba5-b8c7-739eee7c35c2","directory":"/home/mbabic/Dokumenty/TempStorage/Panther/pucs_matlab_outputs/0f1b9457-b8ef-4ba5-b8c7-739eee7c35c2","inputVectors":[{"systemName":"pucs_a7950fbd05e94f38b0aa8362b09927b4.shp","prj":"pucs_a7950fbd05e94f38b0aa8362b09927b4.prj","other":["pucs_a7950fbd05e94f38b0aa8362b09927b4.dbf","pucs_a7950fbd05e94f38b0aa8362b09927b4.shx"],"originalName":"PUCS_UA2012_Prague_scnA.shp","geoserverLayer":"geonode:pucs_a7950fbd05e94f38b0aa8362b09927b4","spatialDataSourceId":145}],"inputRasters":[{"systemName":"pucs_b44d449aa9a74b8ea59979c40fb213f3.tif","originalName":"PUCS_UA2012_Prague_scnA.tif","geoserverLayer":"geonode:pucs_b44d449aa9a74b8ea59979c40fb213f3","spatialDataSourceId":147}],"outputRasters":[{"systemName":"pucs_dec0ab3af86247ebad63cbd85232791e.tif","originalName":"PUCS_UA2012_Prague_scnA_MEAN_HWD_2007_2016_scenario.tif","geoserverLayer":"geonode:pucs_dec0ab3af86247ebad63cbd85232791e","indicator":"hwd","spatialDataSourceId":146},{"systemName":"pucs_f250aeb2a3664298b79357fb88a7d39f.tif","originalName":"PUCS_UA2012_Prague_scnA_MEAN_UHI_23H_2007_2016_scenario.tif","geoserverLayer":"geonode:pucs_f250aeb2a3664298b79357fb88a7d39f","indicator":"uhi","spatialDataSourceId":148}]}]`)
+			}]));
+		}, 5000);
 
-		uploads.forEach((upload)=>{
-			let uuid = utils.guid();
-			let requestAttempt = () => {
-				fetch(url, {
-					method: 'POST',
-					credentials: 'include',
-					headers: {
-						'Content-Type': 'application/json',
-						'Accept': 'application/json'
-					},
-					body: JSON.stringify({
-						uploadKey: upload.uploadKey
-					})
-				}).then((response) => {
-					return response.json().then(data => {
-						if (data.result){
-							clearRequestInterval(uuid);
-							dispatch(apiCreateRelationsForScenarioProcessResults([{
-								scenarioKey: upload.scenarioKey,
-								processResults: JSON.parse(data.result)
-							}]));
-							console.log('achachach', data.result);
-						}
-					});
-				});
-			};
-
-			requestAttempt();
-			requestIntervals[uuid] = setInterval(() => {
-				requestAttempt();
-			}, 5000);
-		});
+		// let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/pucs/execute_matlab');
+		//
+		// uploads.forEach((upload) => {
+		// 	let uuid = utils.guid();
+		// 	let requestAttempt = () => {
+		// 		fetch(url, {
+		// 			method: 'POST',
+		// 			credentials: 'include',
+		// 			headers: {
+		// 				'Content-Type': 'application/json',
+		// 				'Accept': 'application/json'
+		// 			},
+		// 			body: JSON.stringify({
+		// 				uploadKey: upload.uploadKey
+		// 			})
+		// 		}).then((response) => {
+		// 			return response.json().then(data => {
+		// 				if (data.result) {
+		// 					clearRequestInterval(uuid);
+		// 					dispatch(apiCreateRelationsForScenarioProcessResults([{
+		// 						scenarioKey: upload.scenarioKey,
+		// 						processResults: JSON.parse(data.result)
+		// 					}]));
+		// 					console.log('achachach', data.result);
+		// 				}
+		// 			});
+		// 		});
+		// 	};
+		//
+		// 	requestAttempt();
+		// 	requestIntervals[uuid] = setInterval(() => {
+		// 		requestAttempt();
+		// 	}, 5000);
+		// });
 	}
 }
 
