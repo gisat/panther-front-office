@@ -100,24 +100,33 @@ class ScenarioCard extends React.PureComponent {
 		let scenario = this.props.scenarioData;
 		let scenarioEdited = this.props.scenarioEditedData;
 
-		let name = (scenarioEdited && scenarioEdited.data && scenarioEdited.data.hasOwnProperty('name')) ?
-			(scenarioEdited.data.name) : ((scenario && scenario.data && scenario.data.hasOwnProperty('name')) ?
-				scenario.data.name : null);
-		let description = (scenarioEdited && scenarioEdited.data && scenarioEdited.data.hasOwnProperty('description')) ?
-			(scenarioEdited.data.description) : ((scenario && scenario.data && scenario.data.hasOwnProperty('description')) ?
-				scenario.data.description : null);
-		let file = (scenarioEdited && scenarioEdited.data && scenarioEdited.data.hasOwnProperty('file')) ?
-			(scenarioEdited.data.file.name) : ((scenario && scenario.data && scenario.data.hasOwnProperty('file')) ?
-				scenario.data.file.name : null);
-
-
-		if (this.props.defaultSituation){
-			name = Names.SCENARIOS_DEFAULT_SITUATION_NAME;
+		let data = null;
+		if (scenario && scenarioEdited){
+			data = {...scenario.data, ...scenarioEdited.data}
+		} else if (scenario && !scenarioEdited){
+			data = scenario.data;
+		} else if (!scenario && scenarioEdited){
+			data = scenarioEdited.data;
 		}
+
+		let name = (data && data.hasOwnProperty('name')) ? data.name : null;
+		let description = (data && data.hasOwnProperty('description')) ? data.description : null;
+		let file = (data && data.file && data.file.hasOwnProperty('name')) ? data.file.name : null;
+
+		let fileProcessingStarted = (data && data.fileProcessing && data.fileProcessing.started) ? data.fileProcessing.started : false;
+		let fileProcessingFinished = (data && data.fileProcessing && data.fileProcessing.finished) ? data.fileProcessing.finished : false;
+		let fileProcessingError = (data && data.fileProcessing && data.fileProcessing.error) ? data.fileProcessing.error : false;
 
 		let disableCheckbox = (this.props.disableUncheck && this.state.checked) ||
 			((!this.props.scenarioData || !this.props.scenarioData.data) &&
 				(!this.props.scenarioEditedData || !this.props.scenarioEditedData.data) && !this.props.defaultSituation);
+
+		let disableDownload = !this.props.scenarioSpatialDataSource;
+		let showFileInput = this.props.editing && !this.props.scenarioSpatialDataSource;
+
+		if (this.props.defaultSituation){
+			name = Names.SCENARIOS_DEFAULT_SITUATION_NAME;
+		}
 
 		let header = (
 			<div className={headerClasses}>
@@ -145,7 +154,7 @@ class ScenarioCard extends React.PureComponent {
 					{this.props.scenarioKey || this.props.defaultSituation ? (
 						<Button icon="dots" invisible>
 							<Menu bottom left>
-								<MenuItem onClick={this.onDownloadClick} disabled={!this.props.scenarioSpatialDataSource}><Icon icon="download" /> Download</MenuItem>
+								<MenuItem onClick={this.onDownloadClick} disabled={disableDownload}><Icon icon="download" /> Download</MenuItem>
 							</Menu>
 						</Button>
 					): null}
@@ -162,7 +171,7 @@ class ScenarioCard extends React.PureComponent {
 					onChange={this.onChangeDescription}
 					editing={this.props.editing}
 				/>
-				{this.props.editing && !this.props.scenarioSpatialDataSource ? (
+				{showFileInput ? (
 				<InputFile
 					disabled={!this.props.editing || this.props.disableEditing}
 					value={file}
@@ -170,6 +179,7 @@ class ScenarioCard extends React.PureComponent {
 					onChange={this.onChangeFile}
 				/>
 				) : null}
+				{this.renderMessage(fileProcessingStarted, fileProcessingFinished, fileProcessingError)}
 			</div>
 		) : null;
 
@@ -177,6 +187,45 @@ class ScenarioCard extends React.PureComponent {
 			<div className={classes}>
 				{header}
 				{body}
+				{(fileProcessingStarted && !fileProcessingFinished) ? this.renderLoader() : null}
+			</div>
+		);
+	}
+
+	// todo create component
+	renderMessage(started, finished, error){
+		let classes = classNames('process-result-message', {
+			'success': (finished && !error),
+			'error': (finished && error)
+		});
+
+		let successMsg = (<div><b>{Names.SCENARIOS_PROCESSING_FILE_SUCCESS}: </b> {Names.SCENARIOS_PROCESSING_FILE_SUCCESS_MESSAGE}</div>);
+		let errorMsg = (<div><b>{Names.SCENARIOS_PROCESSING_FILE_ERROR}: </b> {Names.SCENARIOS_PROCESSING_FILE_ERROR_MESSAGE}</div>);
+
+		let text = finished ? (error ? errorMsg : successMsg) : null;
+
+		return (finished ? (<div className={classes}>
+				{text}
+			</div>) : null
+		);
+	}
+
+
+	// todo create component
+	renderLoader(){
+		return (
+			<div className="scenario-card-overlay">
+				<div className="loading-screen-content-wrap">
+					<div className="loading-screen-content">
+						<div className="b-loader-container extra-small grayscale">
+							<i className="i1"></i>
+							<i className="i2"></i>
+							<i className="i3"></i>
+							<i className="i4"></i>
+						</div>
+						<div className="b-loader-text">{Names.SCENARIOS_PROCESSING_FILE_LOADER_TEXT}</div>
+					</div>
+				</div>
 			</div>
 		);
 	}
