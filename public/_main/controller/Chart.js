@@ -445,12 +445,13 @@ Ext.define('PumaMain.controller.Chart', {
         if (!queryCfg.years.length) {
             queryCfg.years = [queryCfg.years]
         }
-        
-        if (Ext.Array.contains(['grid','columnchart','piechart'],cfg.type)) {
+
+        if(Ext.Array.contains(['grid','columnchart','piechart','scatterchart'],cfg.type)) {
             var onlySel = Ext.ComponentQuery.query('#areapager #onlySelected')[0].pressed;
             if (onlySel) {
                 queryCfg.areas = [];
             }
+        }if (Ext.Array.contains(['grid','columnchart','piechart'],cfg.type)) {
             Ext.apply(queryCfg,this.getPagingParams());
         }
         if (cfg.type=='scatterchart') {
