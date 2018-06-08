@@ -14,6 +14,7 @@ import ScenarioCard from '../../../../containers/controls/scenarios/ScenarioCard
 import WorldWindow from '../../../../containers/windows/ScenariosWindow/WorldWindow/WorldWindow';
 
 import './CaseDetail.css';
+import Names from "../../../../../constants/Names";
 
 class CaseDetail extends React.PureComponent {
 
@@ -94,8 +95,10 @@ class CaseDetail extends React.PureComponent {
 	}
 
 	save() {
-		this.props.save();
-		this.props.deactivateEditing();
+		if (window.confirm(Names.SCENARIO_CASES_SAVE_CONFIRM_MESSAGE)) {
+			this.props.save();
+			this.props.deactivateEditing();
+		}
 	}
 
 	cancel(){

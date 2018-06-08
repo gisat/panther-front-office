@@ -7,6 +7,9 @@
 	position: relative;
 	transition: box-shadow .3s ease-in-out, border-color .3s ease-in-out;
 }
+.scenario-card.edited {
+	background: #edc;
+}
 .scenario-card-overlay {
 	position: absolute;
 	left: 0;

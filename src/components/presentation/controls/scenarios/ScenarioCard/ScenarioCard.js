@@ -13,6 +13,7 @@ import Icon from '../../../atoms/Icon';
 import Menu, {MenuItem} from '../../../atoms/Menu';
 
 import './ScenarioCard.css';
+import Action from "../../../../../state/Action";
 
 class ScenarioCard extends React.PureComponent {
 
@@ -29,7 +30,10 @@ class ScenarioCard extends React.PureComponent {
 			PropTypes.number
 		]),
 
-		scenarioSpatialDataSource: PropTypes.string
+		scenarioSpatialDataSource: PropTypes.string,
+
+		enableDelete: PropTypes.bool,
+		enableEdit: PropTypes.bool
 	};
 
 	constructor(props){
@@ -47,6 +51,8 @@ class ScenarioCard extends React.PureComponent {
 		this.onChangeName = this.onChangeName.bind(this);
 		this.onDownloadClick = this.onDownloadClick.bind(this);
 		this.onChangeFile = this.onChangeFile.bind(this);
+
+		this.onEdit = this.onEdit.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -83,8 +89,14 @@ class ScenarioCard extends React.PureComponent {
 		this.props.updateEditedScenario(this.props.scenarioKey, 'file', file);
 	}
 
-	onDelete(){
-		// delete action
+	onDelete(name){
+		if (window.confirm(Names.SCENARIOS_DELETE_CONFIRM_MESSAGE + ' ' + (name ? name : ""))) {
+			this.props.deleteScenario(this.props.scenarioKey);
+		}
+	}
+
+	onEdit(){
+		this.props.edit();
 	}
 
 	onDownloadClick(){
@@ -95,7 +107,8 @@ class ScenarioCard extends React.PureComponent {
 		console.log('### ScenarioCard render', this.props, this.state);
 
 		let classes = classNames("scenario-card", {
-			'not-created': !this.props.scenarioKey && !this.props.defaultSituation
+			'not-created': !this.props.scenarioKey && !this.props.defaultSituation,
+			'edited': !!this.props.scenarioEditedData
 		});
 		let headerClasses = classNames("scenario-card-header", {
 			'editing-inactive': !this.props.editing
@@ -159,7 +172,8 @@ class ScenarioCard extends React.PureComponent {
 						<Button icon="dots" invisible>
 							<Menu bottom left>
 								<MenuItem onClick={this.onDownloadClick} disabled={disableDownload}><Icon icon="download" /> Download</MenuItem>
-								{!this.props.defaultSituation ? <MenuItem onClick={this.onDelete} disabled={true}><Icon icon="delete" /> Delete</MenuItem> : null}
+								{!this.props.defaultSituation && this.props.enableEdit ? <MenuItem onClick={this.onEdit.bind(this, name)}><Icon icon="edit" /> Edit</MenuItem> : null}
+								{!this.props.defaultSituation && this.props.enableDelete ? <MenuItem onClick={this.onDelete.bind(this, name)}><Icon icon="delete" /> Delete</MenuItem> : null}
 							</Menu>
 						</Button>
 					): null}
@@ -181,6 +195,7 @@ class ScenarioCard extends React.PureComponent {
 					disabled={!this.props.editing || this.props.disableEditing}
 					value={file}
 					placeholder="File"
+					accept=".zip"
 					onChange={this.onChangeFile}
 				/>
 				) : null}

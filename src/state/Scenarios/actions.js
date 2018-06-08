@@ -91,6 +91,32 @@ function updateEditedActiveCase(key, value) {
 	};
 }
 
+// it just remove scenario from active case (if it isn't last). Todo unlinking and delete scenario
+function removeScenarioFromActiveCase (scenarioKey) {
+	return ((dispatch, getState) => {
+		let activeCase = Select.scenarios.getActiveCase(getState());
+
+		if (activeCase && activeCase.data && activeCase.data.scenarios){
+			let updatedScenarios = _.without(activeCase.data.scenarios, scenarioKey);
+			let updatedCase = {...activeCase, data: {...activeCase.data, scenarios: updatedScenarios}};
+
+			dispatch(removeActiveScenario(scenarioKey));
+			dispatch(apiUpdateCases([updatedCase],[]));
+		}
+	});
+}
+
+function removeScenarioFromActiveCaseEdited (scenarioKey) {
+	return ((dispatch, getState) => {
+		let activeCaseEdited = Select.scenarios.getActiveCaseEdited(getState());
+
+		if (activeCaseEdited && activeCaseEdited.data && activeCaseEdited.data.scenarios){
+			let updatedScenarios = _.without(activeCaseEdited.data.scenarios, scenarioKey);
+			dispatch(updateEditedActiveCase('scenarios', updatedScenarios));
+		}
+	});
+}
+
 function updateEditedScenario(scenarioKey, key, value) {
 	return (dispatch, getState) => {
 		let scenario = Select.scenarios.getScenario(getState(), scenarioKey);
@@ -1025,6 +1051,9 @@ export default {
 	addEditedScenario: addEditedScenario,
 	removeActiveCaseEditedScenarios: removeActiveCaseEditedScenarios,
 	removeEditedActiveCase: removeEditedActiveCase,
+
+	removeScenarioFromActiveCase: removeScenarioFromActiveCase,
+	removeScenarioFromActiveCaseEdited: removeScenarioFromActiveCaseEdited,
 
 	updateEditedActiveCase: updateEditedActiveCase,
 	updateEditedScenario: updateEditedScenario
