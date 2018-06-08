@@ -24,7 +24,8 @@ function load(ttl) {
 			let activePlaceKey = Select.places.getActiveKey(state);
 			let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/spatial_relations');
 			let query = queryString.stringify({
-				place_id: activePlaceKey
+				place_id: activePlaceKey,
+				limit: 5000
 			});
 			if (query) {
 				url += '?' + query;
