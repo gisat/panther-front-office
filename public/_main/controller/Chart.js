@@ -446,7 +446,7 @@ Ext.define('PumaMain.controller.Chart', {
             queryCfg.years = [queryCfg.years]
         }
 
-        if(Ext.Array.contains(['grid','columnchart','piechart','scatterchart'],cfg.type)) {
+        if(Ext.Array.contains(['grid','columnchart','piechart','scatterchart', 'polarchart'],cfg.type)) {
             var onlySel = Ext.ComponentQuery.query('#areapager #onlySelected')[0].pressed;
             if (onlySel) {
                 queryCfg.areas = [];
@@ -459,7 +459,7 @@ Ext.define('PumaMain.controller.Chart', {
             delete queryCfg['start'];
             delete queryCfg['limit'];
         }
-        if (cfg.type=='extentoutline' || cfg.type == 'scatterchart') {
+        if (cfg.type=='extentoutline' || cfg.type == 'scatterchart' || cfg.type == 'polarchart') {
             var selectedAreas = this.getSelectedAreas()
             queryCfg.selectedAreas = JSON.stringify(selectedAreas.selectedAreas);
             queryCfg.defSelectedArea = JSON.stringify(selectedAreas.defArea);
