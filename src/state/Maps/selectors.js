@@ -80,22 +80,25 @@ const getActivePlaceActiveLayers = createSelector(
 					return _.find(templateIds, (value) => {return value === model['layer_template_id']});
 				});
 				if (relationsForTemplates){
-					return relationsForTemplates.map(relation => {
+					let usedRelations = [];
+					relationsForTemplates.map(relation => {
 						let dataSource = _.find(sources, {'key': relation.data_source_id});
-						if (!dataSource){
-							console.error("Maps.selectors#getActivePlaceActiveLayers Data source with given key doesn't exist. Key: ",relation.data_source_id);
-						}
 						let layerTemplate = relation.layer_template_id;
 						let scenario = relation.scenario_id;
 						let template = _.find(templates, {'templateId': relation.layer_template_id});
-						return {
-							dataSource: dataSource.data.layer_name,
-							layerTemplateKey: layerTemplate,
-							scenarioKey: scenario,
-							styleSource: template.styles ? template.styles : null,
-							key: relation.key
+						if (!dataSource){
+							console.warn("Maps.selectors#getActivePlaceActiveLayers Data source with given key doesn't exist. Key: ",relation.data_source_id);
+						} else {
+							usedRelations.push({
+								dataSource: dataSource.data.layer_name,
+								layerTemplateKey: layerTemplate,
+								scenarioKey: scenario,
+								styleSource: template.styles ? template.styles : null,
+								key: relation.key
+							});
 						}
 					});
+					return usedRelations;
 				} else {
 					return [];
 				}

@@ -681,7 +681,9 @@ function apiCreateRelationsForScenarioProcessResults(results) {
 						let data = relationResults.data.map(
 							relation => {
 								dataSourcesIds.push(relation.data.data_source_id);
-								return {...relation.data, key: relation.id};
+								let rel = {...relation.data, id: relation.id};
+								console.log('$$$ Scenarios/action#apiCreateRelationsForScenarioProcessResults relation:', rel);
+								return rel;
 							}
 						);
 						dispatch(Action.spatialRelations.loadRelationsReceive(data));
@@ -740,6 +742,7 @@ function apiProcessingScenarioFileError(scenarioKey, error){
 		if (scenario){
 			let updated = {...scenario, fileProcessing: {started: true, finished: true, error: true, message: error}};
 			dispatch(actionApiProcessingScenarioFileError(updated));
+			console.error('Scenarios/actions#apiProcessingScenarioFileError', error);
 		}
 	};
 }
