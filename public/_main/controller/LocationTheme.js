@@ -168,13 +168,16 @@ Ext.define('PumaMain.controller.LocationTheme', {
     setLocationFromRedux: function(type, options){
         if (type === 'REDUX_SET_ACTIVE_PLACES'){
             if (options && options.keys){
+				let locationCombo = Ext.ComponentQuery.query('#sellocation')[0];
+				let locComboValue = locationCombo.value;
                 let placeId = options.keys;
+
                 if (placeId.length){
                     placeId = placeId[0];
                 }
-				let locationCombo = Ext.ComponentQuery.query('#sellocation')[0];
 
-                if (placeId !== locationCombo.value){
+
+                if (placeId !== locComboValue && locComboValue !== "All places"){
 					locationCombo.suspendEvents();
 					locationCombo.setValue(placeId);
 					locationCombo.resumeEvents();
