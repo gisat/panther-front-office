@@ -457,6 +457,18 @@ Ext.define('PumaMain.controller.Layers', {
 						sldId: id,
 						layerNames: "selectedAreasFilled"
 					})
+				} else if (node.data.type == "selectedareas") {
+					Stores.updateSelectedAreas({
+                        data: {
+                            namedLayers: namedLayers,
+                            layer: layer,
+                            legendLayer: legendNamedLayers && legendNamedLayers.length ? legendNamedLayers[0].name : null,
+                            sldBody: sldText,
+                            legendSld: legendSld
+                        },
+                        sldId: id,
+                        layerNames: "selectedAreas"
+					});
 				}
 				// TODO: Add information about the selected layers sldId to show the information. .
 
