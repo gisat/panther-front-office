@@ -806,9 +806,8 @@ body.mode-3d #top-toolbar-3dmap.disabled:not(.world-wind-2d) span {
 #top-toolbar .item#top-toolbar-snow-configuration::before {
 	content: '\f085';
 }
-
 #top-toolbar .item#top-toolbar-scenarios::before {
-	content: '\f0e8';
+	background: url('../images/icons/scenarios.svg') center center no-repeat;
 }
 
 
