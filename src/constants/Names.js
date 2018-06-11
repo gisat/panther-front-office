@@ -1,5 +1,6 @@
 export default {
 	SCENARIO_CASES_SAVE_CONFIRM_MESSAGE: 'Do you really want to save all changes?',
+	SCENARIO_CASES_SAVE_MISSING_METADATA_ALERT_MESAGE: 'Fill out a name of every edited scenario!',
 
 	SCENARIOS_ADD_CASE_BUTTON_TEXT: 'Create case',
 	SCENARIOS_ADD_SCENARIO_BUTTON_TEXT: 'Add scenario',

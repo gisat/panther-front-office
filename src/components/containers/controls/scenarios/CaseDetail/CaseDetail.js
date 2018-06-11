@@ -13,6 +13,7 @@ const mapStateToProps = (state, ownProps) => {
 		activeScenarioKeys: Select.scenarios.getActiveKeys(state),
 		isDefaultSituationActive: Select.scenarios.isDefaultSituationActive(state),
 		editedScenariosKeys: Select.scenarios.getActiveCaseScenariosEditedKeys(state),
+		editedScenarios: Select.scenarios.getActiveCaseScenariosEdited(state),
 		editingActive: Select.components.windows.scenarios.isEditingActive(state),
 
 		// permissions

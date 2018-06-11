@@ -31,6 +31,7 @@ class CaseDetail extends React.PureComponent {
 		screenKey: PropTypes.string,
 		switchScreen: PropTypes.func,
 		editingActive: PropTypes.bool,
+		editedScenarios: PropTypes.array,
 
 		enableCreate: PropTypes.bool,
 		enableDelete: PropTypes.bool,
@@ -95,9 +96,14 @@ class CaseDetail extends React.PureComponent {
 	}
 
 	save() {
-		if (window.confirm(Names.SCENARIO_CASES_SAVE_CONFIRM_MESSAGE)) {
-			this.props.save();
-			this.props.deactivateEditing();
+		let scenarioWithoutMetadata = this.checkScenariosMetadata();
+		if (scenarioWithoutMetadata){
+			window.alert(Names.SCENARIO_CASES_SAVE_MISSING_METADATA_ALERT_MESAGE);
+		} else {
+			if (window.confirm(Names.SCENARIO_CASES_SAVE_CONFIRM_MESSAGE)) {
+				this.props.save();
+				this.props.deactivateEditing();
+			}
 		}
 	}
 
@@ -132,6 +138,20 @@ class CaseDetail extends React.PureComponent {
 	addScenario(){
 		let scenarioKey = utils.guid();
 		this.props.addScenario(scenarioKey);
+	}
+
+	checkScenariosMetadata(){
+		if (this.props.editedScenarios && this.props.editedScenarios.length){
+			let missingName = false;
+			this.props.editedScenarios.map(scenario => {
+				if (!scenario.data || (scenario.data && (!scenario.data.name || scenario.data.name.length === 0))){
+					missingName = true;
+				}
+			});
+			return missingName;
+		} else {
+			return false;
+		}
 	}
 
 	disableUncheck(props){
