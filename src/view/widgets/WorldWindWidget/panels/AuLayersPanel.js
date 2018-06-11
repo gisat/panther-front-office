@@ -29,7 +29,8 @@ class AuLayersPanel extends ThematicLayersPanel {
 
         this._layers = {
             outlines: {},
-            selected: {}
+            selected: {},
+            selectedAreas: {}
         };
         this._layersControls = [];
         this._stateStore = options.store.state;
@@ -44,10 +45,20 @@ class AuLayersPanel extends ThematicLayersPanel {
      */
     clearAllSelections(action, notification) {
         $("#selectedareasfilled-panel-row").remove();
+        this.clearLayers("selectedareas");
         this.clearLayers("selectedareasfilled");
         Stores.selectedOutlines = null;
         let control = _.find(this._layersControls, function (control) {
             return control._id === "selectedareasfilled"
+        });
+        if(control) {
+            control._toolBox.hide();
+        }
+
+        // TODO: Remove duplication.
+        Stores.selectedAreas = null;
+        control = _.find(this._layersControls, function (control) {
+            return control._id === "selectedareas"
         });
         if(control) {
             control._toolBox.hide();
@@ -59,7 +70,7 @@ class AuLayersPanel extends ThematicLayersPanel {
      */
     clearActiveSelection() {
         this.redrawLayer(this._layers.selected, "selectedareasfilled", Stores.selectedOutlines);
-
+        this.redrawLayer(this._layers.selectedAreas, "selectedareas", Stores.selectedAreas);
     };
 
     /**
@@ -69,7 +80,7 @@ class AuLayersPanel extends ThematicLayersPanel {
         if (Stores.outlines) {
             this.switchOnOutlines();
         }
-        if (Stores.selectedOutlines) {
+        if (Stores.selectedOutlines || Stores.selectedAreas) {
             this.switchOnSelected();
         }
     };
@@ -94,6 +105,11 @@ class AuLayersPanel extends ThematicLayersPanel {
         this.switchOnActiveLayers("selectedareasfilled");
     };
 
+    switchOnSelectedAreas() {
+        this.redrawSelectedLayer(this._layers.selectedAreas, "selectedareas", Stores.selectedAreas);
+        this.switchOnActiveLayers("selectedareas");
+    }
+
     /**
      * Rebuild AU layers panel.
      */
@@ -104,6 +120,11 @@ class AuLayersPanel extends ThematicLayersPanel {
         if (Stores.selectedOutlines) {
             this.rebuildControl(polyglot.t("selectedAreasFilled"), this._layers.selected, "selectedareasfilled");
             this.switchOnSelected();
+        }
+
+        if(Stores.selectedAreas) {
+            this.rebuildControl(polyglot.t("selectedAreas"), this._layers.selectedAreas, "selectedareas");
+            this.switchOnSelectedAreas();
         }
 
         if (Stores.outlines) {
