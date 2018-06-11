@@ -91,11 +91,14 @@ const activeCaseWatcher = (value, previousValue) => {
 		// if case has geometry, pass it as an option
 		if (value.data && value.data.geometry){
 			options = {bbox: mapUtils.getGeometryBbox(value.data.geometry)};
-		}
 
-		// zoom all maps if case was changed
-		if (!previousValue || (value.key !== previousValue.key)){
-			window.Stores.notify('ZOOM_MAPS_BY_CASE_GEOMETRY', options);
+			// zoom to geometry if geometry was changed
+			let currentGeomString = JSON.stringify(value.data.geometry);
+			let previousGeomString = previousValue && previousValue.data && previousValue.data.geometry ? JSON.stringify(previousValue.data.geometry) : "";
+
+			if (currentGeomString !== previousGeomString){
+				window.Stores.notify('ZOOM_MAPS_BY_CASE_GEOMETRY', options);
+			}
 		}
 	}
 };
