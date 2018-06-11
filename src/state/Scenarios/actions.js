@@ -611,15 +611,24 @@ function apiExecutePucsMatlabProcessOnUploadedScenarioFiles(uploads) {
 					})
 				}).then((response) => {
 					return response.json().then(data => {
-						if (data.result) {
+						if(!response.ok || (data.hasOwnProperty('success') && !data.success)) {
+							clearRequestInterval(uuid);
+							dispatch(apiProcessingScenarioFilesError(scenarioKeys, response.statusText));
+						} else if (data.result) {
 							clearRequestInterval(uuid);
 							dispatch(apiCreateRelationsForScenarioProcessResults([{
 								scenarioKey: upload.scenarioKey,
 								processResults: JSON.parse(data.result)
 							}]));
 						}
-					}).catch(error => {dispatch(apiProcessingScenarioFilesError(scenarioKeys, error));});
-				}).catch(error => {dispatch(apiProcessingScenarioFilesError(scenarioKeys, error));});
+					}).catch(error => {
+						clearRequestInterval(uuid);
+						dispatch(apiProcessingScenarioFilesError(scenarioKeys, error));
+					});
+				}).catch(error => {
+					clearRequestInterval(uuid);
+					dispatch(apiProcessingScenarioFilesError(scenarioKeys, error));
+				});
 			};
 
 			requestAttempt();
