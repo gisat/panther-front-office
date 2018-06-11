@@ -106,6 +106,31 @@ export default {
 		collection1 = _.sortBy(collection1, sortBy);
 		collection2 = _.sortBy(collection2, sortBy);
 		return JSON.stringify(collection1) === JSON.stringify(collection2);
+	},
+
+	scrollTo(elementId, containerId, duration){
+		let animationDuration = duration ? duration : 200;
+		let container = document.getElementById(containerId);
+		let element = document.getElementById(elementId);
+
+		let elementOffset = element.offsetTop;
+		let elementHeight = element.offsetHeight;
+		let containerHeight = container.offsetHeight;
+		let scroll = elementOffset + elementHeight - containerHeight + 10;
+
+		document.getElementById(containerId).scrollTop = elementOffset;
+
+		let step = Math.floor((animationDuration/scroll));
+		// let interval = setInterval(scrollTo.bind(this, scroll), step);
+
+		// function scrollTo(end){
+		// 	let scroll = document.getElementById(containerId).scrollTop;
+		// 	if (scroll >= end) {
+		// 		clearInterval(interval);
+		// 	} else {
+		// 		document.getElementById(containerId).scrollTop = scroll + 1;
+		// 	}
+		// }
 	}
 
 }

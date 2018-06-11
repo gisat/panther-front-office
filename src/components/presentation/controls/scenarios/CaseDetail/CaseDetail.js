@@ -147,7 +147,7 @@ class CaseDetail extends React.PureComponent {
 	scrollToBottom(){
 		let buttonId = this.AddScenario.props.id;
 		let containerId = this.CaseDetailContent.id;
-		// utils.scrollTo(buttonId, containerId, 500);
+		utils.scrollTo(buttonId, containerId);
 	}
 
 	checkScenariosMetadata(){
