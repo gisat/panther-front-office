@@ -138,14 +138,30 @@ class CaseDetail extends React.PureComponent {
 	addScenario(){
 		let scenarioKey = utils.guid();
 		this.props.addScenario(scenarioKey);
+
+		setTimeout(() => {
+			this.scrollToBottom();
+		}, 200);
+	}
+
+	scrollToBottom(){
+		let buttonId = this.AddScenario.props.id;
+		let containerId = this.CaseDetailContent.id;
+		// utils.scrollTo(buttonId, containerId, 500);
 	}
 
 	checkScenariosMetadata(){
 		if (this.props.editedScenarios && this.props.editedScenarios.length){
 			let missingName = false;
 			this.props.editedScenarios.map(scenario => {
-				if (!scenario.data || (scenario.data && (!scenario.data.name || scenario.data.name.length === 0))){
-					missingName = true;
+				if (typeof scenario.key === "string"){
+					if (!scenario.data || (scenario.data && !scenario.data.name)){
+						missingName = true;
+					}
+				} else {
+					if (!scenario.data || (scenario.data && scenario.data.hasOwnProperty('name') && !scenario.data.name)){
+						missingName = true;
+					}
 				}
 			});
 			return missingName;
@@ -242,13 +258,13 @@ class CaseDetail extends React.PureComponent {
 			<div className="case-detail-body">
 				{defaultState}
 				{scenarios}
-				{this.props.enableCreate ? (<Center horizontally><Button icon="plus" onClick={this.addScenario}>{Names.SCENARIOS_ADD_SCENARIO_BUTTON_TEXT}</Button></Center>) : null}
+				{this.props.enableCreate ? (<Center horizontally><Button id="add-scenario-button" ref={(btn) => {this.AddScenario = btn }} icon="plus" onClick={this.addScenario}>{Names.SCENARIOS_ADD_SCENARIO_BUTTON_TEXT}</Button></Center>) : null}
 			</div>
 		);
 
 		return (
 			<div className="case-detail-container">
-				<div className="case-detail-content">
+				<div className="case-detail-content" id="case-detail-content" ref={(content) => {this.CaseDetailContent = content }}>
 					{header}
 					{body}
 				</div>
