@@ -86,11 +86,10 @@ class CaseList extends React.PureComponent {
 			addCaseBtn = (
 				<Button
 					floatingAction
-					circular
 					icon="plus"
 					onClick={this.showDetail.bind(this, null)}
 					id="ptr-case-list-add-case-button"
-				/>
+				>{Names.SCENARIOS_ADD_CASE_BUTTON_TEXT}</Button>
 			);
 		}
 

@@ -222,7 +222,7 @@ class CaseDetail extends React.PureComponent {
 			<div className="case-detail-body">
 				{defaultState}
 				{scenarios}
-				{this.props.enableCreate ? (<Center horizontally><Button circular icon="plus" onClick={this.addScenario} /></Center>) : null}
+				{this.props.enableCreate ? (<Center horizontally><Button icon="plus" onClick={this.addScenario}>{Names.SCENARIOS_ADD_SCENARIO_BUTTON_TEXT}</Button></Center>) : null}
 			</div>
 		);
 

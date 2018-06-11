@@ -1,6 +1,9 @@
 export default {
 	SCENARIO_CASES_SAVE_CONFIRM_MESSAGE: 'Do you really want to save all changes?',
 
+	SCENARIOS_ADD_CASE_BUTTON_TEXT: 'Create case',
+	SCENARIOS_ADD_SCENARIO_BUTTON_TEXT: 'Add scenario',
+
 	SCENARIOS_DEFAULT_SITUATION_NAME: 'Default state',
 
 	SCENARIOS_DELETE_CONFIRM_MESSAGE: 'Do you really want to delete scenario?',
