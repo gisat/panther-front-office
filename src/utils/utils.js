@@ -119,18 +119,6 @@ export default {
 		let scroll = elementOffset + elementHeight - containerHeight + 10;
 
 		document.getElementById(containerId).scrollTop = elementOffset;
-
-		let step = Math.floor((animationDuration/scroll));
-		// let interval = setInterval(scrollTo.bind(this, scroll), step);
-
-		// function scrollTo(end){
-		// 	let scroll = document.getElementById(containerId).scrollTop;
-		// 	if (scroll >= end) {
-		// 		clearInterval(interval);
-		// 	} else {
-		// 		document.getElementById(containerId).scrollTop = scroll + 1;
-		// 	}
-		// }
 	}
 
 }
