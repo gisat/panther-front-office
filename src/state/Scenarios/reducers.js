@@ -52,9 +52,14 @@ function requestError(state, action) {
 function receive(state, action) {
 	let data;
 	if (state.data && state.data.length) {
-		// remove old versions of received models
-		let oldData = _.reject(state.data, model => {
-			return _.find(action.data, {key: model.key});
+		// update old versions of received models
+		let oldData = _.map(state.data, model => {
+			let newModel = _.find(action.data, {key: model.key});
+			if (newModel){
+				return {...model, ...newModel}
+			} else {
+				return model;
+			}
 		});
 		data = [...oldData, ...action.data];
 	} else {
