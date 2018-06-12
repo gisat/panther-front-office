@@ -20,20 +20,6 @@ const setStoreWatchers = store => {
 
 const setEventListeners = store => {
 	window.Stores.addListener((event, options) => {
-		switch(event) {
-			case 'dataview#activeAoi':
-				if (Select.users.isAdmin(store.getState())){
-					store.dispatch(Action.aoi.load()).then(() => {
-						store.dispatch(Action.aoi.setActiveKey(options.key));
-					});
-				} else {
-					store.dispatch(Action.aoi.add(options.key));
-					store.dispatch(Action.aoi.setActiveKey(options.key));
-				}
-				break;
-			default:
-				break;
-		}
 	});
 };
 

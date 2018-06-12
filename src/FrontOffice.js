@@ -311,7 +311,10 @@ class FrontOffice {
         }
 
 		// handle active places
-		if (state.place && !this._options.changes.dataview){
+        if (state.locations && !this._options.changes.dataview){
+			this._dispatcher.notify('place#setActivePlace', {data: state.locations});
+        }
+		else if (state.place && !this._options.changes.dataview){
 			this._dispatcher.notify('place#setActivePlace', {data: [Number(state.place)]});
 		} else if (!this._options.changes.dataview) {
 			this._dispatcher.notify('place#setActivePlace', {data: state.allPlaces});
@@ -518,12 +521,6 @@ class FrontOffice {
         }
         if (options.mapDefaults){
             this._mapsContainer.handleMapDefaultsFromDataview(options.mapDefaults);
-        }
-        if (options.activeAoi){
-            this._dispatcher.notify('dataview#activeAoi', {key: options.activeAoi});
-            this._dispatcher.notify('dataview#withoutAoi', {status: false});
-        } else {
-            this._dispatcher.notify('dataview#withoutAoi', {status: true});
         }
     }
 
