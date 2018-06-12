@@ -3,8 +3,19 @@ import { connect } from 'react-redux';
 import Select from '../state/Select';
 import ScenariosWindow from '../components/containers/windows/ScenariosWindow/ScenariosWindow';
 
-const MagicSwitch = () => {
-	return <ScenariosWindow />;
+const MagicSwitch = ({scope}) => {
+	if (scope){
+		if (scope.scenarios){
+			return <ScenariosWindow />;
+		}
+	}
+	return null;
 };
 
-export default MagicSwitch;
+const mapStateToProps = state => {
+	return {
+		scope: Select.scopes.getActiveScopeData(state)
+	};
+};
+
+export default connect(mapStateToProps)(MagicSwitch);

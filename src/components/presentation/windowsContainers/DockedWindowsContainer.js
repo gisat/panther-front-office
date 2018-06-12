@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ScenariosWindow from '../../containers/windows/ScenariosWindow/ScenariosWindow';
+import ScenariosWindow from '../../../scopemagicswitches/ScenariosWindow';
 
 import './DockedWindowsContainer.css'
 
