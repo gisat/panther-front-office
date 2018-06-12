@@ -136,6 +136,11 @@ Stores.updateSelectedOutlines = function(data) {
 	Stores.notify('updateOutlines');
 };
 
+Stores.updateSelectedAreas = function(data) {
+	Stores.selectedAreas = data;
+	Stores.notify('updateOutlines');
+};
+
 /**
  * This global object useful for handling the selection from anywhere and handling what is actually selected.
  * @type {{listeners: Array, select: Select.select, notify: Select.notify, selectedAreasMap: null}}

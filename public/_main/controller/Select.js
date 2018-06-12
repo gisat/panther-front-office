@@ -6,12 +6,6 @@ Ext.define('PumaMain.controller.Select', {
         Observer.addListener("selectInternal",this.selectInternal.bind(this));
         Stores.addListener(this._onEvent.bind(this));
         this.control({
-            '#hoverbtn': {
-                toggle: this.onToggleHover
-            },
-            '#selectinmapbtn': {
-                toggle: this.onToggleSelectInMap
-            },
             '#selectcolorpicker': {
                 select: this.onChangeColor
             },
@@ -25,7 +19,7 @@ Ext.define('PumaMain.controller.Select', {
                 click: this.clearSelectionsAll
             }
             
-        })
+        });
         this.selMap = {'ff4c39':[]};
         this.colorMap = {};
         this.hoverMap = [];
