@@ -1,5 +1,6 @@
 import Action from '../Action';
 import ActionTypes from '../../constants/ActionTypes';
+import Names from '../../constants/Names';
 import Select from '../Select';
 import config from '../../config';
 
@@ -195,6 +196,18 @@ function updateCases(data){
 	};
 }
 
+function removeCases(keys){
+	return (dispatch, getState) => {
+		let casesData = Select.scenarios.getCasesAll(getState());
+		if (casesData.data){
+			let updatedData = _.reject(casesData.data, (caseData) => {
+				return _.find(keys, (key) => {return key === caseData.key});
+			});
+			dispatch(actionUpdateCases({...casesData, data: updatedData}));
+		}
+	};
+}
+
 function load(caseKey, ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
 	return (dispatch, getState) => {
@@ -376,6 +389,15 @@ function saveActiveCase() {
 	};
 }
 
+function deleteActiveCase() {
+	return (dispatch, getState) => {
+		let state = getState();
+		let activeCase = Select.scenarios.getActiveCase(state);
+		if (activeCase){
+			dispatch(apiDeleteCases([activeCase]));
+		}
+	};
+}
 
 function apiCreateCases(cases, scenarios, placeKey, ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
@@ -542,6 +564,72 @@ function apiUpdateCases(updates, editedScenarios, ttl) {
 			}
 		);
 	};
+}
+
+function apiDeleteCases(cases, ttl) {
+	if (_.isUndefined(ttl)) ttl = TTL;
+	return dispatch => {
+		dispatch(actionApiDeleteCasesRequest(_.map(cases, 'key')));
+
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata');
+
+		let payload = {
+			data: {
+				scenario_cases: _.map(cases, model => {
+					return {
+						id: model.key
+					};
+				})
+			}
+		};
+
+		return fetch(url, {
+			method: 'DELETE',
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json'
+			},
+			body: JSON.stringify(payload)
+		}).then(
+			response => {
+				console.log('#### delete scenario case response', response);
+				let contentType = response.headers.get('Content-type');
+				if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
+					return response.json().then(data => {
+						if (data && data.data && data.data.scenario_cases) {
+							let caseKeys = [];
+							data.data.scenario_cases.map(scenarioCase => {
+								if (scenarioCase.deleted){
+									caseKeys.push(scenarioCase.id);
+								}
+							});
+							dispatch(removeCases(caseKeys));
+						} else {
+							dispatch(apiDeleteCasesError('no data about scenario cases returned'));
+						}
+					});
+				} else {
+					dispatch(apiDeleteCasesError(response))
+				}
+			},
+			error => {
+				console.log('#### delete scenario case error', error);
+				if (ttl - 1) {
+					dispatch(apiDeleteCases(cases, ttl - 1));
+				} else {
+					dispatch(apiDeleteCasesError("scenarios#actions load cases: cases weren't loaded!"));
+				}
+			}
+		);
+	};
+}
+
+function apiDeleteCasesError(message){
+	return (dispatch) => {
+		window.alert(Names.SCENARIO_CASES_DELETE_ERROR_MESSAGE);
+		dispatch(actionApiDeleteCasesError(message))
+	}
 }
 
 function apiUploadScenarioFiles(scenarios) {
@@ -1003,6 +1091,20 @@ function actionApiCreateCasesError(error) {
 	}
 }
 
+function actionApiDeleteCasesRequest(keys) {
+	return {
+		type: ActionTypes.SCENARIOS_CASES_API_DELETE_REQUEST,
+		keys: keys
+	}
+}
+
+function actionApiDeleteCasesError(error) {
+	return {
+		type: ActionTypes.SCENARIOS_CASES_API_DELETE_REQUEST,
+		error: error
+	}
+}
+
 function actionApiUpdateCasesRequest(keys) {
 	return {
 		type: ActionTypes.SCENARIOS_CASES_API_UPDATE_REQUEST,
@@ -1044,6 +1146,7 @@ export default {
 	add: add,
 	setActive: setActive,
 	update: update,
+	updateCases: updateCases,
 
 	applyDataviewSettings: applyDataviewSettings,
 	setDefaultSituationActive: setDefaultSituationActive,
@@ -1051,6 +1154,7 @@ export default {
 	addActiveScenario: addActiveScenario,
 	removeActiveScenario: removeActiveScenario,
 
+	deleteActiveCase: deleteActiveCase,
 	saveActiveCase: saveActiveCase,
 	setActiveCase: setActiveCase,
 

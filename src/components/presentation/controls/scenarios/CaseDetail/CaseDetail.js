@@ -111,6 +111,13 @@ class CaseDetail extends React.PureComponent {
 		this.props.deactivateEditing();
 	}
 
+	deleteCase(name){
+		if (window.confirm(Names.SCENARIO_CASES_DELETE_CONFIRM_MESSAGE + ' ' + (name ? name : ""))) {
+			this.props.deleteCase();
+			this.discard();
+		}
+	}
+
 	discard(){
 		this.props.discard();
 		this.props.deactivateEditing();
@@ -226,7 +233,7 @@ class CaseDetail extends React.PureComponent {
 						<Button icon="dots" invisible>
 							<Menu bottom left>
 								<MenuItem disabled={!this.props.enableEdit} onClick={this.activateCaseEditing}><Icon icon="edit"/> Edit</MenuItem>
-								{/*<MenuItem><Icon icon="remove" /> Delete</MenuItem>*/}
+								{this.props.enableDelete ? <MenuItem onClick={this.deleteCase.bind(this,name)}><Icon icon="delete" /> Delete</MenuItem> : null}
 							</Menu>
 						</Button>
 					</div>

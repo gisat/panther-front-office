@@ -49,6 +49,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		deactivateEditing: () => {
 			dispatch(Action.components.windows.scenarios.deactivateCaseEditing());
 		},
+		deleteCase: () => {
+			dispatch(Action.scenarios.deleteActiveCase());
+		},
 		discard: () => {
 			ownProps.changeActiveScreen('caseList');
 			dispatch(Action.scenarios.removeEditedActiveCase());
