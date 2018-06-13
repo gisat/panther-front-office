@@ -5,14 +5,14 @@ import DataUploadOverlay from './DataUploadOverlay';
 
 const mapStateToProps = state => {
 	return {
-		open: Select.components.isDataUploadOverlayOpen(state)
+		open: Select.components.overlays.isOverlayOpen(state, {key: 'dataUpload'})
 	}
 };
 
 const mapDispatchToProps = dispatch => {
 	return {
 		closeOverlay: () => {
-			dispatch(Action.components.handleUploadDataOverlay(false));
+			dispatch(Action.components.overlays.closeOverlay('dataUpload'));
 		}
 	}
 };

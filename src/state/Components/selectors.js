@@ -1,12 +1,12 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
+import Overlays from './Overlays/selectors'
 import Windows from './Windows/selectors'
 
 const getComponents = state => state.components;
-const isDataUploadOverlayOpen = state => state.components.dataUploadOverlay.open;
 
 export default {
 	getComponents: getComponents,
-	isDataUploadOverlayOpen: isDataUploadOverlayOpen,
+	overlays: Overlays,
 	windows: Windows
 };

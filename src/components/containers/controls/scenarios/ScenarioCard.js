@@ -31,7 +31,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 			dispatch(Action.components.windows.scenarios.activateCaseEditing());
 		},
 		onStartMapEditing: () => {
-			// dispatch(Action.components.mapEditing.open());
+			dispatch(Action.components.overlays.openOverlay('mapEditing'));
 		}
 	}
 };

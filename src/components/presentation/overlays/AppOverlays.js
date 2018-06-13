@@ -8,7 +8,7 @@ class AppOverlays extends React.PureComponent {
 		return (
 			<div className="app-overlays">
 				<DataUploadOverlay />
-				<MapEditingOverlay />
+				<MapEditingOverlay/>
 			</div>
 		);
 	}

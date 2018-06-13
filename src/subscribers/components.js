@@ -18,7 +18,7 @@ const setEventListeners = store => {
 	window.Stores.addListener((event, options) => {
 		switch(event) {
 			case 'header#uploadDataClick':
-				store.dispatch(Action.components.handleUploadDataOverlay(true));
+				store.dispatch(Action.components.overlays.openOverlay('dataUpload'));
 				break;
 			case 'component#scenarioButtonClick':
 				let open = Select.components.windows.isWindowOpen(store.getState(), {key: 'scenarios'});

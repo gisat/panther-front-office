@@ -315,6 +315,9 @@ body {
 	z-index: 90000;
 	flex-direction: column;
 }
+.ptr-overlay.no-padding {
+	padding: 0;
+}
 
 .ptr-overlay.opaque {
 	background: rgba(255, 255, 255, 1);
