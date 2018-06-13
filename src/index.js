@@ -8,7 +8,7 @@ import './index.css';
 import registerServiceWorker from './registerServiceWorker';
 import loadApp from './app-old';
 
-import AppOverlays from './scopemagicswitches/AppOverlays';
+import AppOverlays from './components/presentation/overlays/AppOverlays';
 import MapsTimeline from './scopemagicswitches/MapsTimeline';
 import HeaderViewSelector from './scopemagicswitches/HeaderViewSelector';
 import ViewSelectorOverlay from './scopemagicswitches/ViewSelectorOverlay';

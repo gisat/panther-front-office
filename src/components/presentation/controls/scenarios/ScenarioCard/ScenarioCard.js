@@ -51,6 +51,7 @@ class ScenarioCard extends React.PureComponent {
 		this.onChangeName = this.onChangeName.bind(this);
 		this.onDownloadClick = this.onDownloadClick.bind(this);
 		this.onChangeFile = this.onChangeFile.bind(this);
+		this.onStartMapEditing = this.onStartMapEditing.bind(this);
 
 		this.onEdit = this.onEdit.bind(this);
 	}
@@ -101,6 +102,10 @@ class ScenarioCard extends React.PureComponent {
 
 	onDownloadClick(){
 		this.props.downloadDataSource(this.props.scenarioSpatialDataSource);
+	}
+
+	onStartMapEditing(){
+		this.props.onStartMapEditing();
 	}
 
 	render() {
@@ -172,7 +177,8 @@ class ScenarioCard extends React.PureComponent {
 						<Button icon="dots" invisible>
 							<Menu bottom left>
 								<MenuItem onClick={this.onDownloadClick} disabled={disableDownload}><Icon icon="download" /> Download</MenuItem>
-								{!this.props.defaultSituation && this.props.enableEdit ? <MenuItem onClick={this.onEdit.bind(this, name)}><Icon icon="edit" /> Edit</MenuItem> : null}
+								{!this.props.defaultSituation && this.props.enableEdit ? <MenuItem onClick={this.onEdit.bind(this, name)}><Icon icon="edit" /> Edit metadata</MenuItem> : null}
+								{!this.props.defaultSituation && this.props.enableEdit ? <MenuItem onClick={this.onStartMapEditing}><Icon icon="edit" /> Modify features</MenuItem> : null}
 								{!this.props.defaultSituation && this.props.enableDelete ? <MenuItem onClick={this.onDelete.bind(this, name)}><Icon icon="delete" /> Delete</MenuItem> : null}
 							</Menu>
 						</Button>

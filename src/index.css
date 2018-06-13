@@ -316,6 +316,10 @@ body {
 	flex-direction: column;
 }
 
+.ptr-overlay.opaque {
+	background: rgba(255, 255, 255, 1);
+}
+
 .ptr-overlay-header {
 	display: flex;
 }
