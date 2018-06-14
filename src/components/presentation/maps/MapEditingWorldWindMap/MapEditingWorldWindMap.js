@@ -5,13 +5,13 @@ import WorldWind from '@nasaworldwind/worldwind';
 
 import Layers from '../../../../view/worldWind/layers/Layers';
 import Controls from '../../../../view/worldWind/controls/Controls';
+import mapUtils from "../../../../utils/map";
 
-import './MapEditingWorldWind.css';
-
-class WorldWindow extends React.PureComponent {
+class MapEditingWorldWindMap extends React.PureComponent {
 
 	static propTypes = {
 		activeBackgroundLayerKey: PropTypes.string,
+		bbox: PropTypes.string,
 		mapContainerClass: PropTypes.string
 	};
 
@@ -28,6 +28,11 @@ class WorldWindow extends React.PureComponent {
 			mapContainerClass: this.props.mapContainerClass
 		});
 
+		// TODO zoom to same position as scenario map
+		if (this.props.bbox){
+			this.zoomToBbox(this.props.bbox);
+		}
+
 		// TODO remove dependency on obsolete code
 		this.layersControl = new Layers(this.wwd);
 		if (this.props.activeBackgroundLayerKey){
@@ -39,12 +44,26 @@ class WorldWindow extends React.PureComponent {
 		if (_.isEmpty(prevProps) || (nextProps.activeBackgroundLayerKey !== prevProps.activeBackgroundLayerKey)){
 			this.changeBackgroundLayer(nextProps.activeBackgroundLayerKey);
 		}
+
+		if (nextProps.bbox){
+			this.zoomToBbox(nextProps.bbox);
+		}
 	}
 
 	changeBackgroundLayer(key){
 		if (key){
 			this.layersControl.removeAllLayersFromGroup('background-layers');
 			this.layersControl.addBackgroundLayer(key, 'background-layers');
+			this.wwd.redraw();
+		}
+	}
+
+	zoomToBbox(bbox){
+		let navigatorParams = mapUtils.getNavigatorParamsFromBbox(bbox, this.wwd);
+		if (navigatorParams){
+			this.wwd.navigator.lookAtLocation.latitude = navigatorParams.lookAtLocation.latitude;
+			this.wwd.navigator.lookAtLocation.longitude = navigatorParams.lookAtLocation.longitude;
+			this.wwd.navigator.range = navigatorParams.range;
 			this.wwd.redraw();
 		}
 	}
@@ -60,4 +79,4 @@ class WorldWindow extends React.PureComponent {
 	}
 }
 
-export default WorldWindow;
+export default MapEditingWorldWindMap;

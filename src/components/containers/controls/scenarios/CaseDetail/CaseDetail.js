@@ -5,6 +5,7 @@ import CaseDetail from "../../../../presentation/controls/scenarios/CaseDetail/C
 
 const mapStateToProps = (state, ownProps) => {
 	return {
+		activeBackgroundLayerKey: Select.maps.getActiveBackgroundLayerKey(state),
 		case: Select.scenarios.getActiveCase(state),
 		caseEdited: Select.scenarios.getActiveCaseEdited(state),
 		place: Select.places.getActive(state),

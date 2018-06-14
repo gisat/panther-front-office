@@ -11,7 +11,7 @@ import Icon from '../../../atoms/Icon';
 import Menu, {MenuItem} from '../../../atoms/Menu';
 import EditableText from '../../../atoms/EditableText';
 import ScenarioCard from '../../../../containers/controls/scenarios/ScenarioCard';
-import WorldWindow from '../../../../containers/windows/ScenariosWindow/WorldWindow/WorldWindow';
+import CaseDetailWorldWindMap from '../../../../presentation/maps/CaseDetailWorldWindMap/CaseDetailWorldWindMap';
 
 import './CaseDetail.css';
 import Names from "../../../../../constants/Names";
@@ -308,11 +308,12 @@ class CaseDetail extends React.PureComponent {
 		return (
 			<div className="ptr-case-detail-map">
 				<div>Extent:</div>
-				<WorldWindow
+				<CaseDetailWorldWindMap
 					bbox={caseBbox}
 					caseGeometry={caseGeometry}
 					onGeometryChange={this.onChangeGeometry}
 					zoomToGeometry
+					activeBackgroundLayerKey={this.props.activeBackgroundLayerKey}
 				/>
 			</div>
 		);
