@@ -1,0 +1,14 @@
+.ptr-overlay-editing {
+	padding: 0;
+	flex-direction: row;
+}
+
+.ptr-overlay-editing.open {
+	display: flex;
+}
+
+.close-map-editing {
+	position: absolute;
+	right: 0;
+	margin: .3rem .5rem;
+}

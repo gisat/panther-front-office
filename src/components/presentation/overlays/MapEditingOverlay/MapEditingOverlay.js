@@ -4,6 +4,11 @@ import classNames from 'classnames';
 import utils from '../../../../utils/utils';
 import _ from 'lodash';
 
+import MapEditingControlPanel from '../../../containers/controls/mapEditing/MapEditingControlPanel';
+import MapEditingMapContainer from '../../../containers/controls/mapEditing/MapEditingMapContainer';
+
+import './MapEditingOverlay.css';
+
 class MapEditingOverlay extends React.PureComponent {
 
 	static propTypes = {
@@ -22,13 +27,15 @@ class MapEditingOverlay extends React.PureComponent {
 	}
 
 	render() {
-		let classes = classNames('ptr-overlay opaque no-padding', {
+		let classes = classNames('ptr-overlay ptr-overlay-editing opaque', {
 			'open': this.props.open
 		});
 
 		return (
 			<div className={classes}>
-				<div onClick={this.onClose}>Close</div>
+				<MapEditingControlPanel/>
+				<MapEditingMapContainer/>
+				<div onClick={this.onClose} className="ptr-overlay-close close-map-editing">{'\u2716'}</div>
 			</div>
 		);
 	}
