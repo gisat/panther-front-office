@@ -305,6 +305,14 @@ Ext.define('PumaMain.controller.ViewMng', {
 		if (Config.cfg.widgets){
 			options.widgets = Config.cfg.widgets;
 		}
+		// redux components
+		if (Config.cfg.components){
+			options.components = Config.cfg.components;
+		}
+		// redux scenarios
+		if (Config.cfg.scenarios){
+			options.scenarios = Config.cfg.scenarios;
+		}
 		// maps metadata
 		if (Config.cfg.mapsMetadata){
 			options.mapsMetadata = Config.cfg.mapsMetadata;
@@ -439,6 +447,10 @@ Ext.define('PumaMain.controller.ViewMng', {
 			if (options.state && options.state.widgets){
 				cfg.widgets = options.state.widgets;
 			}
+			// components
+			if (options.state && options.state.components){
+				cfg.components = options.state.components;
+			}
 			// maps metadata
 			if (options.state && options.state.mapsMetadata){
 				cfg.mapsMetadata = options.state.mapsMetadata;
@@ -446,6 +458,10 @@ Ext.define('PumaMain.controller.ViewMng', {
 			// maps defaults
 			if (options.state && options.state.mapDefaults){
 				cfg.mapDefaults = options.state.mapDefaults;
+			}
+			// scenarios
+			if (options.state && options.state.scenarios){
+				cfg.scenarios = options.state.scenarios;
 			}
 			// active aoi
 			if (options.state && options.state.activeAoi){
@@ -455,7 +471,6 @@ Ext.define('PumaMain.controller.ViewMng', {
 			if (options.state && options.state.locations){
 				cfg.locations = options.state.locations;
 			}
-
 			// selected map
 			if (options.state && options.state.selectedMapId){
 				cfg.selectedMapId = options.state.selectedMapId;

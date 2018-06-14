@@ -30,6 +30,9 @@ class Scope extends Model {
             isMapIndependentOfPeriod: {
                 serverName: 'isMapIndependentOfPeriod'
             },
+			isMapDependentOnScenario: {
+				serverName: 'isMapDependentOnScenario'
+			},
             aoiLayer: {
                 serverName: 'aoiLayer'
             },
@@ -68,7 +71,13 @@ class Scope extends Model {
             },
             urls: {
                 serverName: 'urls'
-            }
+            },
+			scenarios: {
+				serverName: 'scenarios'
+			},
+			configuration: {
+				serverName: 'configuration'
+			}
         };
     };
 

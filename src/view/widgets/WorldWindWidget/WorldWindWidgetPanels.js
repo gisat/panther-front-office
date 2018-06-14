@@ -108,7 +108,8 @@ class WorldWindWidgetPanels {
             store: {
                 map: this._store.map,
                 state: this._store.state
-            }
+            },
+            dispatcher: this._dispatcher
         });
     };
 
@@ -156,7 +157,8 @@ class WorldWindWidgetPanels {
             store: {
                 map: this._store.map,
                 state: this._store.state
-            }
+            },
+			dispatcher: this._dispatcher
         });
     };
 
@@ -210,6 +212,13 @@ class WorldWindWidgetPanels {
         } else {
             this._auLayersPanel.rebuild("updateOutlines","updateOutlines");
         }
+
+		let backgroundLayersHidden = _.find(hiddenPanels, function(panel){return panel === "background-layers"});
+		if (backgroundLayersHidden){
+			this._backgroundLayersPanel.hidePanel();
+		} else {
+			this._backgroundLayersPanel.toggleLayers();
+		}
     }
 
     /**

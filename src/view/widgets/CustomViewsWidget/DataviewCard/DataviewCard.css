@@ -5,18 +5,17 @@
 	background: white;
 	border-radius: .1rem;
 	border: 1px solid #ccc;
-	border-bottom: 2px solid #ddd;
-	border-top: 1px solid #ccc;
+	border-bottom: 2px solid #ccc;
 	margin: .5rem;
 	max-width: 20rem;
 	min-width: 12rem;
 	padding-bottom: .5rem;
 	width: 30%;
-	transition: background .3s ease-in-out, box-shadow .3s ease-in-out;
+	transition: background .3s ease-in-out, box-shadow .3s ease-in-out, border-color .3s ease-in-out;
 }
 .dataview-card:hover {
-	background: rgb(235,237,239);
-	box-shadow: 0 0 5px 2px rgba(33,38,53,.25);
+	border-color: #bbb;
+	box-shadow: 0 0 2px 1px rgba(33,38,53,.2);
 }
 .dataview-card-preview {
 	width: 100%;
@@ -32,7 +31,7 @@
 	font-weight: 400;
 	margin-bottom: .2rem;
 }
-.dataview-card-text > p {
+.dataview-card-text .dataview-card-description {
 	font-size: .9rem;
 	color: rgb(128,132,140);
 	font-weight: 400;
@@ -81,7 +80,7 @@
 	.dataview-card-text > h3 {
 		font-size: 1.05rem;
 	}
-	.dataview-card-text > p {
+	.dataview-card-text .dataview-card-description {
 		font-size: .85rem;
 	}
 }
@@ -95,7 +94,7 @@
 	}
 	.dataview-card-text > h3 {
 	}
-	.dataview-card-text > p {
+	.dataview-card-text .dataview-card-description {
 	}
 	.dataview-card-icons .fa {
 		width: 1.6rem;

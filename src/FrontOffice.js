@@ -310,12 +310,15 @@ class FrontOffice {
             this._previousDataset = Number(this._dataset);
         }
 
-        // handle active places
-        if (state.place){
-            this._dispatcher.notify('place#setActivePlace', {data: [Number(state.place)]});
-        } else {
-            this._dispatcher.notify('place#setActivePlace', {data: state.allPlaces});
+		// handle active places
+        if (state.locations && !this._options.changes.dataview){
+			this._dispatcher.notify('place#setActivePlace', {data: state.locations});
         }
+		else if (state.place && !this._options.changes.dataview){
+			this._dispatcher.notify('place#setActivePlace', {data: [Number(state.place)]});
+		} else if (!this._options.changes.dataview) {
+			this._dispatcher.notify('place#setActivePlace', {data: state.allPlaces});
+		}
     };
 
     /**
@@ -439,11 +442,17 @@ class FrontOffice {
 
         this._scopesStore.byId(state.scope).then(function(scopes){
             let scope = scopes[0];
-            if (scope && scope.isMapIndependentOfPeriod){
-                self._dispatcher.notify("fo#mapIsIndependentOfPeriod");
-            } else {
-                self._dispatcher.notify("fo#mapIsDependentOnPeriod");
-            }
+			if (scope && scope.isMapIndependentOfPeriod && scope.isMapDependentOnScenario){
+				self._dispatcher.notify("fo#mapIsDependentOnScenario");
+				self._dispatcher.notify("fo#mapIsIndependentOfPeriod");
+			} else if (scope && scope.isMapIndependentOfPeriod && !scope.isMapDependentOnScenario){
+				self._dispatcher.notify("fo#allowMapAdding");
+				self._dispatcher.notify("fo#mapIsIndependentOfPeriod");
+			} else if (scope && !scope.isMapIndependentOfPeriod && scope.isMapDependentOnScenario){
+				self._dispatcher.notify("fo#mapIsDependentOnScenario");
+			} else {
+				self._dispatcher.notify("fo#mapIsDependentOnPeriod");
+			}
 
             self._dispatcher.notify("scope#aoiLayer", scope.aoiLayer);
 
@@ -491,39 +500,44 @@ class FrontOffice {
         this._stateStore._changes = {
             dataview: true
         };
-        if (options.worldWindState){
-            this._mapsContainer.setAllMapsPosition(options.worldWindState.location);
-            this._mapsContainer.setAllMapsRange(options.worldWindState.range);
-            if (options.worldWindState.is2D && this._stateStore.current().isMap3D){
-                this._dispatcher.notify('map#switchProjection');
-            }
-        }
+		if (options.worldWindState){
+			this.setMapsFromDataview(options.worldWindState);
+			this._stateStore.setAllowZoomByCase(false);
+		}
         if (options.widgets){
             this._topToolBar.handleDataview(options.widgets);
         }
+		if (options.components){
+			this._dispatcher.notify('components#applyFromDataview', {windows: options.components.windows});
+		}
         if (options.locations){
             this._dispatcher.notify('place#setActivePlace', {data: options.locations});
         }
+		if (options.scenarios){
+			this._dispatcher.notify('scenarios#applyFromDataview', {scenarios: options.scenarios, worldWindState: options.worldWindState});
+		}
         if (options.mapsMetadata){
             this._mapsContainer.handleMapsFromDataview(options.mapsMetadata, options.selectedMapId);
         }
         if (options.mapDefaults){
             this._mapsContainer.handleMapDefaultsFromDataview(options.mapDefaults);
         }
-        if (options.activeAoi){
-            this._dispatcher.notify('dataview#activeAoi', {key: options.activeAoi});
-            this._dispatcher.notify('dataview#withoutAoi', {status: false});
-        } else {
-            this._dispatcher.notify('dataview#withoutAoi', {status: true});
-        }
     }
+
+    setMapsFromDataview(worldWindState){
+		this._mapsContainer.setAllMapsPosition(worldWindState.location);
+		this._mapsContainer.setAllMapsRange(worldWindState.range);
+		if (worldWindState.is2D && this._stateStore.current().isMap3D){
+			this._dispatcher.notify('map#switchProjection');
+		}
+	}
 
     /**
      * Handle periods according to scope setting
      */
     handlePeriods(){
         let state = this._stateStore.current();
-        if (state.isMapIndependentOfPeriod){
+        if (state.isMapIndependentOfPeriod || state.isMapDependentOnScenario){
             this._store.periods.notify('periods#default')
         } else {
             this._store.periods.notify('periods#rebuild');
@@ -580,7 +594,9 @@ class FrontOffice {
             this._store.locations.load().then(function(){
                 self.adjustConfiguration(options);
             });
-        }
+        } else if (type === "dataview#setMapsFromDataview"){
+        	this.setMapsFromDataview(options);
+		}
     }
 }
 

@@ -15,8 +15,10 @@ Ext.define('PumaMain.controller.Login',{
     onLogin: function() {
         var isAdmin = false;
         var isUser = false;
+        var userId = null;
         if (Config.auth) {
             isUser = true;
+            userId = Config.auth.userId;
             $("#header .login").addClass("logged");
 			$("#header .signup").addClass("logout");
         } else {
@@ -36,6 +38,7 @@ Ext.define('PumaMain.controller.Login',{
 		window.Stores.notify('user#changed', {
 		    isLoggedIn: isUser,
             isAdmin: isAdmin,
+            userId : userId,
             groups: Config.auth && Config.auth.groups || []
         });
         if (!saveVis) return;

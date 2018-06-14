@@ -14,7 +14,22 @@ class Group extends Model {
             },
             name: {
                 serverName: 'name'
-            }
+            },
+            permissions: {
+                serverName: 'permissions'
+            },
+			permissionsGroups: {
+				serverName: 'permissionsGroups'
+			},
+			permissionsTowards: {
+				serverName: 'permissionsTowards'
+			},
+			permissionsUsers: {
+				serverName: 'permissionsUsers'
+			},
+			users: {
+				serverName: 'users'
+			},
         };
     }
 }

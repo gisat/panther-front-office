@@ -106,7 +106,7 @@ class SharingWidget extends Widget {
         <form class="basic-form">
             <div class="widget-section">
             <h3>{{dataviewMetadataTitle}}</h3>
-            <p>{{dataviewMetadataDescription}}</p>
+            <p class="paragraph">{{dataviewMetadataDescription}}</p>
             <div class="widget-form-row">
                 <label>
                     <span>{{nameLabel}}</span>
@@ -132,7 +132,7 @@ class SharingWidget extends Widget {
         </div>
             <div class="widget-section">
                 <h3>{{permissionsTitle}}</h3>
-                <p>{{permissionsDescription}}</p>
+                <p class="paragraph">{{permissionsDescription}}</p>
                 <div class="widget-form-row">
                     <label>
                         <span>{{userLabel}}</span>

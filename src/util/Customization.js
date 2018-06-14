@@ -178,6 +178,9 @@ class Customization {
 
         if(this.isDromasAdmin(user) || user.isAdmin) {
             uploadDataBtn.addClass("open");
+            uploadDataBtn.off("click").on("click", function(){
+				self._dispatcher.notify("header#uploadDataClick");
+            });
         } else {
             uploadDataBtn.removeClass("open");
         }

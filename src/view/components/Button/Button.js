@@ -60,7 +60,7 @@ class Button {
 
         let classes = this.getClasses();
         let icon = this.renderIcon();
-        let html = S('<button id="{{id}}" class="component-button {{classes}}" title="{{title}}">{{icon}}<span>{{text}}</span></button>').template({
+        let html = S('<button id="{{id}}" class="component-button {{classes}}" title="{{title}}">{{icon}}<span class="component-button-text">{{text}}</span></button>').template({
             id: this._id,
             icon: icon,
             title: this._title,

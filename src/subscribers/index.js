@@ -5,8 +5,9 @@ import components from './components';
 import maps from './maps';
 import periods from './periods';
 import places from './places';
+import scenarios from './scenarios';
 import scopes from './scopes';
-import user from './user';
+import users from './users';
 import wmsLayers from './wmsLayers';
 
 export default store => {
@@ -18,7 +19,8 @@ export default store => {
 	maps(store);
 	periods(store);
 	places(store);
+	scenarios(store);
 	scopes(store);
-	user(store);
+	users(store);
 	wmsLayers(store);
 };

@@ -1,0 +1,22 @@
+.ptr-editable-text {
+	resize: none;
+	overflow: hidden;
+	border: 1px solid transparent;
+	background: transparent;
+	padding: .3rem;
+	font-size: .825rem;
+	line-height: 1.5rem;
+
+	width: 100%;
+}
+
+textarea.ptr-editable-text:focus,
+textarea.ptr-editable-text.empty,
+textarea.ptr-editable-text.editing {
+	border: 1px dashed rgba(0,0,0,.5);
+}
+
+.ptr-editable-text.large {
+	font-size: 1.075rem;
+	line-height: 1.5;
+}

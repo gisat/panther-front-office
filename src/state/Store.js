@@ -10,7 +10,10 @@ import periodsReducers from './Periods/reducers';
 import placesReducers from './Places/reducers';
 import scenariosReducers from './Scenarios/reducers';
 import scopesReducers from './Scopes/reducers';
-import userReducers from './User/reducers';
+import spatialDataSourcesReducers from './SpatialDataSources/reducers';
+import spatialRelationsReducers from './SpatialRelations/reducers';
+import usersReducers from './Users/reducers';
+import userGroupsReducers from './UserGroups/reducers';
 import wmsLayersReducers from './WmsLayers/reducers';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
@@ -29,7 +32,10 @@ const Store = createStore(combineReducers({
 	places: placesReducers,
 	scenarios: scenariosReducers,
 	scopes: scopesReducers,
-	user: userReducers,
+	spatialDataSources: spatialDataSourcesReducers,
+	spatialRelations: spatialRelationsReducers,
+	users: usersReducers,
+	userGroups: userGroupsReducers,
 	wmsLayers: wmsLayersReducers
 }), applyMiddleware(thunk, logger));
 

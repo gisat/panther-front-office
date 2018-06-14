@@ -11,7 +11,9 @@ let Color = WorldWind.Color;
 /**
  * Class extending WorldWind.WmsLayer.
  * @param options {Object}
- * @param options.source {string} source URL
+ * @param options.source {string} Source URL
+ * @param options.sourceObject {Object}
+ * @param options.imageType {string} Type of image which will be used for tiles
  * @param options.attribution {string}
  * @augments WorldWind.OpenStreetMapImageLayer
  * @constructor
@@ -20,26 +22,50 @@ class MyOsmLayer extends OsmLayer {
     constructor(options) {
         super(options);
 
-        if (!options.source) {
+        if (!options.source && !options.sourceObject) {
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "MyOsmLayer", "constructor", "missingSource"));
         }
 
-        this.tileCache = Cache;
-
-        this._source = options.source;
+        this._source = options.sourceObject ? this.buildSourceUrl(options.sourceObject) : options.source;
         this._attribution = options.attribution;
+        this._imageType = options.imageType ? options.imageType : "png";
 
-        this.cachePath = options.source;
-        this.detailControl = 0.8;
+		// this.tileCache = Cache;
+		this.cachePath = this._source;
+		this.detailControl = options.detailControl ? options.detailControl : 1;
+		this.levels.numLevels = 18;
 
         let self = this;
         this.urlBuilder = {
             urlForTile: function (tile, imageFormat) {
                 return self._source +
-                    (tile.level.levelNumber + 1) + "/" + tile.column + "/" + tile.row + ".png";
+                    (tile.level.levelNumber + 1) + "/" + tile.column + "/" + tile.row + "." + self._imageType;
             }
         };
     };
+
+	/**
+     * Build source URL
+	 * @param source {Object}
+	 * @returns {string} URL of source
+	 */
+	buildSourceUrl(source){
+        let prefix = this.buildPrefix(source.prefixes);
+        let protocol = source.protocol ? source.protocol + "://" : "http://";
+        let host = source.host + "/";
+        let path = source.path ? source.path + "/" : "";
+
+        return protocol + prefix + host + path;
+    }
+
+    buildPrefix(prefixes){
+		let prefix = "";
+		if (prefixes){
+			let index = Math.floor((Math.random() * prefixes.length));
+			prefix = prefixes[index] + ".";
+		}
+		return prefix;
+    }
 
     doRender(dc) {
         if (!this._credit){

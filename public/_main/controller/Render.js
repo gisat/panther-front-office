@@ -422,7 +422,7 @@ Ext.define('PumaMain.controller.Render', {
         Ext.widget('checkbox',{
             renderTo: 'agreement-accept-chb',
             itemId: 'agreementCheck',
-            boxLabel: 'I have read this User Agreement and agree to these terms and conditions.'
+            boxLabel: 'I have read this Users Agreement and agree to these terms and conditions.'
 
 //			,listeners: { //JJJ HACK agreement
 //				el : {

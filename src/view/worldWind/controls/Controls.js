@@ -13,6 +13,9 @@ import './Controls.css';
  * @param {Object} options
  * @param {WorldWindow} options.worldWindow The World Window associated with these controls.
  * @param {JQuery} options.mapContainer selector of target container, where should be the controls rendered
+ * @param {string} options.mapContainerClass instead of selector could be a class provided
+ * @param {string}[options.type] Optional parameter, which specifies, which type of Controls will be rendered
+ * @param {string}[options.classes] Optional parameter.
  * @throws {ArgumentError} If the specified world window is null or undefined.
  */
 let $ = window.$;
@@ -22,16 +25,23 @@ class Controls {
             throw new ArgumentError(
                 Logger.logMessage(Logger.LEVEL_SEVERE, "Controls", "constructor", "missingWorldWindow"));
         }
-        if (!options.mapContainer) {
+        if (!options.mapContainer && !options.mapContainerClass) {
             throw new ArgumentError(
                 Logger.logMessage(Logger.LEVEL_SEVERE, "Controls", "constructor", "missingTarget"));
         }
 
-        /**
-         * Target element
-         * @type {JQuery}
-         */
-        this._mapContainer = options.mapContainer;
+		/**
+         * @type {string}
+		 */
+		this._type = options.type;
+
+        if (options.mapContainer){
+			this._mapContainer = options.mapContainer;
+        } else if (options.mapContainerClass){
+            this._mapContainer = $('.' + options.mapContainerClass);
+        }
+
+        this._classes = options.classes;
 
         /**
          * The World Window associated with controls.
@@ -103,23 +113,23 @@ class Controls {
      */
     buildIcons() {
         let html = S(`
-        <div id="map-controls">
+        <div class="map-controls ${this._classes}">
             <div class="exaggerate-control control">
-                <a href="#" id="exaggerate-plus-control"><i class="fa fa-arrow-up"></i></a>
-                <a href="#" id="exaggerate-minus-control"><i class="fa fa-arrow-down"></i></a>
+                <a href="#" class="exaggerate-plus-control"><i class="fa fa-arrow-up"></i></a>
+                <a href="#" class="exaggerate-minus-control"><i class="fa fa-arrow-down"></i></a>
             </div>
             <div class="zoom-control control">
-                <a href="#" id="zoom-plus-control"><i class="fa fa-plus"></i></a>
-                <a href="#" id="zoom-minus-control"><i class="fa fa-minus"></i></a>
+                <a href="#" class="zoom-plus-control"><i class="fa fa-plus"></i></a>
+                <a href="#" class="zoom-minus-control"><i class="fa fa-minus"></i></a>
             </div>
             <div class="rotate-control control">
-                <a href="#" id="rotate-right-control"><i class="fa fa-rotate-right"></i></a>
-                <a href="#" id="rotate-needle-control"><i class="fa fa-location-arrow"></i></a>
-                <a href="#" id="rotate-left-control"><i class="fa fa-rotate-left"></i></a>
+                <a href="#" class="rotate-right-control"><i class="fa fa-rotate-right"></i></a>
+                <a href="#" class="rotate-needle-control"><i class="fa fa-location-arrow"></i></a>
+                <a href="#" class="rotate-left-control"><i class="fa fa-rotate-left"></i></a>
             </div>
             <div class="tilt-control control">
-                <a href="#" id="tilt-more-control">
-                    <svg version="1.1" id="icon-tilt-more" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                <a href="#" class="tilt-more-control">
+                    <svg version="1.1" class="icon-tilt-more" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
              width="18px" height="18px" viewBox="0 0 511.625 511.627" enable-background="new 0 0 511.625 511.627"
              xml:space="preserve">
         <g>
@@ -135,8 +145,8 @@ class Controls {
         </g>
         </svg>
                 </a>
-                <a href="#" id="tilt-less-control">
-                    <svg version="1.1" id="icon-tilt-less" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                <a href="#" class="tilt-less-control">
+                    <svg version="1.1" class="icon-tilt-less" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
              width="18px" height="18px" viewBox="0 0 511.625 511.627" enable-background="new 0 0 511.625 511.627"
              xml:space="preserve">
         <g>
@@ -154,51 +164,63 @@ class Controls {
             </div>
         </div>
         `).template().toString();
+
+        if (this._type === "basic"){
+			html = S(`
+                <div class="map-controls ${this._classes}">
+                    <div class="zoom-control control">
+                        <a href="#" class="zoom-plus-control"><i class="fa fa-plus"></i></a>
+                        <a href="#" class="zoom-minus-control"><i class="fa fa-minus"></i></a>
+                    </div>
+                </div>
+        `).template().toString();
+        }
+
         this._mapContainer.append(html);
     };
 
     // Intentionally not documented.
     setupInteraction() {
         //// Add the mouse listeners.
-        $("#exaggerate-plus-control").on({
+        this._mapContainer.find(".exaggerate-plus-control").on({
             "mousedown": this.handleMouseEvent.bind(this,this.handleExaggeratePlus),
             "mouseup": this.handleMouseEvent.bind(this,this.handleExaggeratePlus),
             "mouseleave": this.handleMouseEvent.bind(this,this.handleExaggeratePlus)});
-        $("#exaggerate-minus-control").on({
+		this._mapContainer.find(".exaggerate-minus-control").on({
             "mousedown": this.handleMouseEvent.bind(this,this.handleExaggerateMinus),
             "mouseup": this.handleMouseEvent.bind(this,this.handleExaggerateMinus),
             "mouseleave": this.handleMouseEvent.bind(this,this.handleExaggerateMinus)});
-        $("#zoom-plus-control").on({
+		this._mapContainer.find(".zoom-plus-control").on({
             "mousedown": this.handleMouseEvent.bind(this, this.handleZoomIn),
             "mouseup": this.handleMouseEvent.bind(this, this.handleZoomIn),
             "mouseleave": this.handleMouseEvent.bind(this, this.handleZoomIn)
         });
-        $("#zoom-minus-control").on({
+		this._mapContainer.find(".zoom-minus-control").on({
             "mousedown": this.handleMouseEvent.bind(this, this.handleZoomOut),
             "mouseup": this.handleMouseEvent.bind(this, this.handleZoomOut),
             "mouseleave": this.handleMouseEvent.bind(this, this.handleZoomOut)
         });
-        $("#tilt-less-control").on({
+		this._mapContainer.find(".tilt-less-control").on({
             "mousedown": this.handleMouseEvent.bind(this, this.handleTiltUp),
             "mouseup": this.handleMouseEvent.bind(this, this.handleTiltUp),
             "mouseleave": this.handleMouseEvent.bind(this, this.handleTiltUp)
         });
-        $("#tilt-more-control").on({
+		this._mapContainer.find(".tilt-more-control").on({
             "mousedown": this.handleMouseEvent.bind(this, this.handleTiltDown),
             "mouseup": this.handleMouseEvent.bind(this, this.handleTiltDown),
             "mouseleave": this.handleMouseEvent.bind(this, this.handleTiltDown)
         });
-        $("#rotate-right-control").on({
+		this._mapContainer.find(".rotate-right-control").on({
             "mousedown": this.handleMouseEvent.bind(this, this.handleHeadingRight),
             "mouseup": this.handleMouseEvent.bind(this, this.handleHeadingRight),
             "mouseleave": this.handleMouseEvent.bind(this, this.handleHeadingRight)
         });
-        $("#rotate-left-control").on({
+		this._mapContainer.find(".rotate-left-control").on({
             "mousedown": this.handleMouseEvent.bind(this, this.handleHeadingLeft),
             "mouseup": this.handleMouseEvent.bind(this, this.handleHeadingLeft),
             "mouseleave": this.handleMouseEvent.bind(this, this.handleHeadingLeft)
         });
-        $("#rotate-needle-control").on({
+		this._mapContainer.find(".rotate-needle-control").on({
             "mouseup": this.handleHeadingReset.bind(this)
         });
         this.wwd.addEventListener("mousemove", this.handleManualRedraw.bind(this));
@@ -322,11 +344,12 @@ class Controls {
     };
 
     redrawHeadingIndicator() {
+        let self = this;
         this.wwds.forEach(function (wwd) {
             let initialAngle = 45;
             let currentHeading = wwd.navigator.heading;
             let rotateAngle = 0 - currentHeading - initialAngle;
-            $("#rotate-needle-control").find('i').css('transform', 'rotate(' + rotateAngle + 'deg)');
+			self._mapContainer.find(".rotate-needle-control").find('i').css('transform', 'rotate(' + rotateAngle + 'deg)');
         });
     };
 

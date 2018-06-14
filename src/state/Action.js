@@ -9,7 +9,10 @@ import Periods from './Periods/actions';
 import Places from './Places/actions';
 import Scenarios from './Scenarios/actions';
 import Scopes from './Scopes/actions';
-import User from './User/actions';
+import SpatialDataSources from './SpatialDataSources/actions';
+import SpatialRelations from './SpatialRelations/actions';
+import Users from './Users/actions';
+import UserGroups from './UserGroups/actions';
 import WmsLayers from './WmsLayers/actions';
 
 export default {
@@ -23,6 +26,9 @@ export default {
 	places: Places,
 	scenarios: Scenarios,
 	scopes: Scopes,
-	user: User,
+	spatialDataSources: SpatialDataSources,
+	spatialRelations: SpatialRelations,
+	users: Users,
+	userGroups: UserGroups,
 	wmsLayers: WmsLayers
 };

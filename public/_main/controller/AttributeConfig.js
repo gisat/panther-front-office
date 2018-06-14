@@ -469,7 +469,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 	},
 
 	/**
-	 * Event handler happening when User clicks on Setting in the open normalization panel. It simply gathers values in
+	 * Event handler happening when Users clicks on Setting in the open normalization panel. It simply gathers values in
 	 * the form and sets them.
 	 * It simply changes the view, when the values are invalid to be set.
 	 * @param btn

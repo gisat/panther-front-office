@@ -4,6 +4,7 @@ import ArgumentError from '../../../../error/ArgumentError';
 import Logger from '../../../../util/Logger';
 
 import WorldWindWidgetPanel from './WorldWindWidgetPanel';
+import Actions from "../../../../actions/Actions";
 
 let Observer = window.Observer;
 let polyglot = window.polyglot;
@@ -35,6 +36,8 @@ class BackgroundLayersPanel extends WorldWindWidgetPanel {
         Observer.addListener('scopeChange', function () {
             self.rebuild();
         });
+
+        this._dispatcher.addListener(this.onEvent.bind(this));
     };
 
     rebuild() {
@@ -51,8 +54,9 @@ class BackgroundLayersPanel extends WorldWindWidgetPanel {
         let disabledLayers = (scope && scope['disabledLayers']) || {};
         let activeBackgroundMap = (scope && scope['activeBackgroundMap']) || this.getValidBackground(disabledLayers);
 
+		this.toggleLayerWithControl('cartoDb', 'cartoDbBasemap', disabledLayers, activeBackgroundMap);
         this.toggleLayerWithControl('osm', 'openStreetMap', disabledLayers, activeBackgroundMap);
-        this.toggleLayerWithControl('cartoDb', 'cartoDbBasemap', disabledLayers, activeBackgroundMap);
+		this.toggleLayerWithControl('wikimedia', 'Wikimedia', disabledLayers, activeBackgroundMap);
         this.toggleLayerWithControl('bingAerial', 'bingAerial', disabledLayers, activeBackgroundMap);
         this.toggleLayerWithControl('sentinel2', 'sentinel2', disabledLayers, activeBackgroundMap);
 
@@ -110,7 +114,7 @@ class BackgroundLayersPanel extends WorldWindWidgetPanel {
     };
 
     getValidBackground(disabledLayers) {
-        let activeBackgroundMapPriorities = ['osm', 'cartoDb', 'bingAerial', 'landsat'];
+        let activeBackgroundMapPriorities = ['cartoDb', 'wikimedia', 'osm', 'bingAerial', 'landsat'];
         let result = null;
 
         activeBackgroundMapPriorities.forEach(function (id) {
@@ -172,22 +176,51 @@ class BackgroundLayersPanel extends WorldWindWidgetPanel {
      */
     toggleLayers() {
         let self = this;
+        let activeBackgroundLayer = null;
         setTimeout(function () {
-            self.layerControls.forEach(function (item, index) {
-                let radio = item.control.getRadiobox();
-                let dataId = radio.attr("data-id");
-                if (radio.hasClass("checked")) {
-                    self._mapStore.getAll().forEach(function (map) {
-                        map.layers.showBackgroundLayer(dataId);
-                    });
-                } else {
-                    self._mapStore.getAll().forEach(function (map) {
-                        map.layers.hideBackgroundLayer(dataId);
-                    });
-                }
+            self._mapStore.getAll().map(map => {
+               self.layerControls.map(layerControl => {
+				   let radio = layerControl.control.getRadiobox();
+				   let dataId = radio.attr("data-id");
+				   if (radio.hasClass("checked")) {
+					   let layer = map.layers.getLayerById(dataId);
+					   if (!layer){
+						   map.layers.addBackgroundLayer(dataId, self._id);
+					   }
+					   map.layers.showBackgroundLayer(dataId);
+					   activeBackgroundLayer = dataId;
+                   } else {
+					   map.layers.hideBackgroundLayer(dataId);
+                   }
+               });
+               map._wwd.redraw();
+               self._dispatcher.notify('backgroundLayer#setActive', {key: activeBackgroundLayer});
             });
         }, 50);
     };
+
+    setActiveBackgroundLayer(layerId){
+        this.layerControls.map(control => {
+			let radio = control.control.getRadiobox();
+			let dataId = radio.attr("data-id");
+			if (layerId === dataId){
+			    radio.addClass("checked");
+            } else {
+			    radio.removeClass("checked");
+            }
+        });
+        this.toggleLayers();
+    }
+
+	/**
+	 * @param type {string} type of event
+	 * @param options {Object|string}
+	 */
+	onEvent(type, options){
+		if (type === Actions.backgroundLayersPanelSetActive){
+            this.setActiveBackgroundLayer(options.key);
+		}
+	}
 }
 
 export default BackgroundLayersPanel;

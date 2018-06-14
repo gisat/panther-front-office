@@ -106,6 +106,19 @@ export default {
 		collection1 = _.sortBy(collection1, sortBy);
 		collection2 = _.sortBy(collection2, sortBy);
 		return JSON.stringify(collection1) === JSON.stringify(collection2);
+	},
+
+	scrollTo(elementId, containerId, duration){
+		let animationDuration = duration ? duration : 200;
+		let container = document.getElementById(containerId);
+		let element = document.getElementById(elementId);
+
+		let elementOffset = element.offsetTop;
+		let elementHeight = element.offsetHeight;
+		let containerHeight = container.offsetHeight;
+		let scroll = elementOffset + elementHeight - containerHeight + 10;
+
+		document.getElementById(containerId).scrollTop = elementOffset;
 	}
 
 }

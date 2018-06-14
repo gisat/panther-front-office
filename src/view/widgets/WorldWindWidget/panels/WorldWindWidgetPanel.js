@@ -40,8 +40,11 @@ class WorldWindWidgetPanel {
         if(!options.store){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindWidgetPanel', 'constructor', 'Stores must be provided'));
         }
-        if(!options.store.map){
-            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindWidgetPanel', 'constructor', 'Store map must be provided'));
+        if(!options.store.map) {
+			throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindWidgetPanel', 'constructor', 'Store map must be provided'));
+		}
+        if(!options.store.state){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindWidgetPanel', 'constructor', 'Store state must be provided'));
         }
 
         this._id = options.id;
@@ -54,6 +57,7 @@ class WorldWindWidgetPanel {
             this._isOpen = options.isOpen;
         }
         this._mapStore = options.store.map;
+        this._stateStore = options.store.state;
         this.build();
     };
 
@@ -63,7 +67,7 @@ class WorldWindWidgetPanel {
      */
     build() {
         let html = S(`
-        <div id="{{panelId}}-panel">
+        <div id="{{panelId}}-panel" class="widget-panel">
             <div class="panel-header open" id="{{panelId}}-panel-header">
                 <div class="panel-icon expand-icon"></div>
                 <div class="panel-icon folder-icon"></div>
@@ -105,6 +109,12 @@ class WorldWindWidgetPanel {
      * Remove all layers from specific group from map and all floaters connected with this group
      */
     clearLayers(group) {
+		// fix for maps dependent on sceanrios
+		let state = this._stateStore.current().scopeFull;
+		if (state.scenarios && group === 'info-layers'){
+			return;
+		}
+
         $("." + group + "-floater").remove();
 
         this._mapStore.getAll().forEach(function (map) {
@@ -296,18 +306,27 @@ class WorldWindWidgetPanel {
      * @param name {string} label
      * @param layers {Array} list of associated layers
      * @param style {Object|null} associated style, if exist
+     * @param layerTemplateId {number}
      */
-    buildLayerControlRow(target, id, name, layers, style) {
-        let checked = this.isControlActive(id);
-        let control = this.buildLayerControl(target, id, name, layers, style, checked, this._groupId);
-        this._layersControls.push(control);
-        control.layerTools.buildOpacity();
-        if (this._groupId === "info-layers" || this._groupId === "wms-layers") {
-            control.layerTools.buildLegend();
-        }
-        if (checked) {
-            this.addLayer(control);
-        }
+    buildLayerControlRow(target, id, name, layers, style, layerTemplateId) {
+		let checked = false;
+		let control = null;
+		if (this._groupId === "info-layers"){
+			checked = this.isControlActive(layerTemplateId);
+			control = this.buildLayerControl(target, id, name, layers, style, checked, this._groupId);
+		} else {
+			checked = this.isControlActive(id, layers);
+			control = this.buildLayerControl(target, id, name, layers, style, checked, this._groupId);
+		}
+
+		this._layersControls.push(control);
+		control.layerTools.buildOpacity();
+		if (this._groupId === "info-layers" || this._groupId === "wms-layers"){
+			control.layerTools.buildLegend();
+		}
+		if (checked){
+			this.addLayer(control);
+		}
     };
 
     /**
@@ -351,26 +370,44 @@ class WorldWindWidgetPanel {
      */
     switchLayer(event) {
         let self = this;
+        let state = this._stateStore.current().scopeFull;
         setTimeout(function(){
             let checkbox = $(event.currentTarget);
             let layerId = checkbox.attr("data-id");
 
+            // TODO hotfix - sometimes control._id is a number
             let control = _.find(self._layersControls, function(control){
-                return control._id === layerId
+                return control._id == layerId;
             });
+
             if (checkbox.hasClass("checked")){
                 control.active = true;
-                self.addLayer(control);
+                if (!state.scenarios){
+					self.addLayer(control);
+                }
                 if (self._groupId === "wms-layers"){
                     self._dispatcher.notify('wmsLayer#add', {layerKey: control.layers[0].id})
-                }
+                } else if (self._groupId === "info-layers"){
+					let templates = _.map(control.layers, function(layer){
+					    return {
+					        templateId: layer.layerTemplateId,
+                            styles: layer.styles
+                        }
+					});
+					self._dispatcher.notify('infoLayer#add', {layerTemplates: templates})
+				}
             } else {
                 control.active = false;
-                control.layerTools.hide();
-                self.removeLayer(control);
+				if (!state.scenarios){
+					control.layerTools.hide();
+					self.removeLayer(control);
+				}
                 if (self._groupId === "wms-layers"){
                     self._dispatcher.notify('wmsLayer#remove', {layerKey: control.layers[0].id})
-                }
+                } else if (self._groupId === "info-layers"){
+					let templatesToRemove = _.map(control.layers, function(layer){return layer.layerTemplateId});
+					self._dispatcher.notify('infoLayer#remove', {layerTemplates: templatesToRemove})
+				}
             }
         },50);
     };
@@ -396,8 +433,16 @@ class WorldWindWidgetPanel {
                     if (control.style){
                         id = id + "-" + control.style.path;
                     }
+                    if (self._id === 'info-layers'){
+						id = layerData.layerTemplateId;
+						if (control.style){
+							id += "-" + control.style.path;
+						}
+                    }
                     let layer = map.layers.getLayerById(id);
-                    map.layers.removeLayer(layer);
+                    if (layer){
+						map.layers.removeLayer(layer);
+                    }
                 }
             });
         });
@@ -409,10 +454,17 @@ class WorldWindWidgetPanel {
      */
     addLayer(control) {
         let self = this;
+        let state = this._stateStore.current().scopeFull;
         if (control.active){
             control.layers.forEach(function(layerData){
                 self._allMaps.forEach(function(map){
                     let layerPeriods = layerData.periods;
+
+                    // fix for maps dependent on sceanrios
+                    if (state.scenarios && self._groupId === 'info-layers'){
+                        return;
+                    }
+
                     if (layerData.period){
                         layerPeriods = layerData.period
                     }
@@ -456,6 +508,11 @@ class WorldWindWidgetPanel {
                             map.layers.addWmsLayer(layer.data, self._id, true);
                         } else if (self._groupId === "info-layers") {
                             layer.data.layerPaths = layerData.path;
+                            let id = layerData.layerTemplateId;
+                            if (layer.data.stylePaths){
+                                id += "-" + layer.data.stylePaths;
+                            }
+                            layer.data.id = id;
                             map.layers.addInfoLayer(layer.data, self._id, true);
                         }
                     }

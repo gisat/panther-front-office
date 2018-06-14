@@ -5,6 +5,7 @@ import WorldWind from '@nasaworldwind/worldwind';
 import ArgumentError from '../../../error/ArgumentError';
 import Logger from '../../../util/Logger';
 import MyOsmLayer from '../../../worldwind/layers/MyOsmLayer';
+import MyOsmCartoLayer from '../../../worldwind/layers/MyOsmCartoLayer';
 import MyWmsLayer from '../../../worldwind/layers/MyWmsLayer';
 import MercatorLayer from '../../../worldwind/layers/MercatorLayer';
 
@@ -30,19 +31,10 @@ class Layers {
          * It handles selection in the map based on the user interactions.
          * @type {SelectionController}
          */
-        this.controller = options.selectController;
-
-        this.name = options.name;
-
-        this.addBaseLayer();
-    };
-
-
-    addBaseLayer() {
-        this._wwd.addLayer(new MyOsmLayer({
-            attribution: "\u00A9 Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL",
-            source: "http://a.basemaps.cartocdn.com/light_nolabels/"
-        }));
+        if (options){
+			this.controller = options.selectController;
+			this.name = options.name;
+        }
     };
 
     /**
@@ -54,6 +46,13 @@ class Layers {
         if (layer.hasOwnProperty("metadata") && layer.metadata.active) {
             this.addLayerToMap(layer);
         }
+    };
+
+    addLayerToPosition(layer, position){
+		this._layers.push(layer);
+		if (layer.hasOwnProperty("metadata") && layer.metadata.active) {
+			this.addLayerToMap(layer, position);
+		}
     };
 
     /**
@@ -101,6 +100,10 @@ class Layers {
                     }
                 });
             }
+        }
+
+        if (currentLayer.metadata && currentLayer.metadata.group && currentLayer.metadata.group === 'background-layers'){
+            position = 0;
         }
 
         return position;
@@ -179,9 +182,11 @@ class Layers {
      */
     showLayer(id, order) {
         let layer = this.getLayerById(id);
-        layer.metadata.active = true;
-        layer.metadata.order = order;
-        this.addLayerToMap(layer, order);
+        if (layer){
+			layer.metadata.active = true;
+			layer.metadata.order = order;
+			this.addLayerToMap(layer, order);
+        }
     };
 
     /**
@@ -190,8 +195,10 @@ class Layers {
      */
     hideLayer(id) {
         let layer = this.getLayerById(id);
-        layer.metadata.active = false;
-        this.removeLayerFromMap(layer);
+        if (layer){
+			layer.metadata.active = false;
+			this.removeLayerFromMap(layer);
+        }
     };
 
     /**
@@ -200,8 +207,9 @@ class Layers {
      */
     showBackgroundLayer(id) {
         let layer = this.getLayerById(id);
-        layer.enabled = true;
-        this._wwd.redraw();
+		if (layer){
+			layer.enabled = true;
+		}
     };
 
     /**
@@ -209,11 +217,10 @@ class Layers {
      * @param id {string}
      */
     hideBackgroundLayer(id) {
-        var layer = this.getLayerById(id);
+        let layer = this.getLayerById(id);
         if(layer) {
             layer.enabled = false;
         }
-        this._wwd.redraw();
     };
 
     /**
@@ -230,17 +237,38 @@ class Layers {
             case "bingAerial":
                 layer = new WorldWind.BingAerialLayer();
                 break;
+			case "wikimedia":
+				layer = new MyOsmLayer({
+					attribution: "Wikimedia maps - Map data \u00A9 OpenStreetMap contributors",
+					sourceObject: {
+						host: "maps.wikimedia.org",
+						path: "osm-intl"
+					}
+				});
+				break;
             case "osm":
                 layer = new MyOsmLayer({
                     attribution: "\u00A9 OpenStreetMap contributors",
-                    source: "http://a.tile.openstreetmap.org/"
+                    sourceObject: {
+                        host: "tiles.wmflabs.org",
+                        path: "osm",
+                        prefixes: ["a", "b", "c"]
+                    }
                 });
                 break;
             case "cartoDb":
-                layer = new MyOsmLayer({
-                    attribution: "\u00A9 Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL",
-                    source: "http://a.basemaps.cartocdn.com/light_all/"
-                });
+                layer = new MyOsmCartoLayer({
+				    attribution: "\u00A9 Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL",
+				    sourceObject: {
+				        protocol: "https",
+					    host: "global.ssl.fastly.net",
+				        path: "light_all",
+					    prefixes: {
+				            prefix: "cartodb-basemaps-",
+                            data: ["a", "b", "c", "d"]
+                        }
+				    }
+				});
                 break;
             case "landsat":
                 layer = new WorldWind.BMNGLandsatLayer();
@@ -278,7 +306,7 @@ class Layers {
                     sector: new WorldWind.Sector(-90, 90, -180, 180),
                     levelZeroDelta: new WorldWind.Location(45, 45),
                     numLevels: 19,
-                    format: "image/png",
+                    format: "image/jpg",
                     opacity: 1,
                     size: 256,
                     version: "1.3.0"
@@ -290,9 +318,10 @@ class Layers {
         layer.metadata = {
             active: true,
             id: id,
-            group: group
+            group: group,
+            order: 1
         };
-        this.addLayer(layer);
+        this.addLayerToPosition(layer, 0);
     };
 
     /**
@@ -360,7 +389,7 @@ class Layers {
             layerNames: layerData.layerPaths,
             sector: new WorldWind.Sector(-90, 90, -180, 180),
             levelZeroDelta: new WorldWind.Location(45, 45),
-            opacity: .7,
+            opacity: layerData.opacity || .7,
             numLevels: 22,
             format: "image/png",
             size: 256,
@@ -371,7 +400,8 @@ class Layers {
             active: state,
             id: layerData.id,
             name: layerData.name,
-            group: group
+            group: group,
+            style: layerData.stylePaths
         };
         this.addLayer(layer);
     };

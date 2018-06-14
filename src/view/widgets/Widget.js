@@ -1,6 +1,5 @@
 import S from 'string';
 
-
 import ArgumentError from '../../error/ArgumentError';
 import Logger from '../../util/Logger';
 
@@ -9,6 +8,7 @@ import View from '../View';
 import WidgetWarning from './WidgetWarning';
 
 import './Widget.css';
+import Actions from "../../actions/Actions";
 
 let ExchangeParams = window.ExchangeParams;
 let polyglot = window.polyglot;
@@ -52,6 +52,7 @@ class Widget extends View {
 
         if (options.dispatcher) {
             this._dispatcher = options.dispatcher;
+			this._dispatcher.addListener(this.onWidgetEvent.bind(this));
         }
         if (options.placeholderTargetId) {
             this._placeholderTarget = $("#" + options.placeholderTargetId);
@@ -110,23 +111,23 @@ class Widget extends View {
                 <div class="floater-header-title">{{name}}</div>
                 <div class="floater-tools-container">
                     <div title="{{minimise}}" class="floater-tool widget-minimise">
-                        <!--<img alt="{{minimise}}" src="{{minimiseSrc}}"/>-->
-                        <span class="fa-stack">
-                              <i class="fa fa-square-o fa-stack-2x"></i>
-                              <i class="fa fa-window-minimize fa-stack-1x"></i>
-                        </span>
+                        \u2716
+                        <!--<span class="fa-stack">-->
+                              <!--<i class="fa fa-square-o fa-stack-2x"></i>-->
+                              <!--<i class="fa fa-window-minimize fa-stack-1x"></i>-->
+                        <!--</span>-->
                     </div>
                     <div title="{{expand}}" class="floater-tool widget-expand">
                         <i class="fa fa-expand"></i>
                     </div>
                     <div title="{{compress}}" class="floater-tool widget-compress">
-                        <i class="fa fa-compress"></i>
+                        {{iconRestore}}
                     </div>
                     <div title="{{pin}}" class="floater-tool widget-pin">
                         <i class="fa fa-thumb-tack"></i>
                     </div>
                     <div title="{{detach}}" class="floater-tool widget-detach">
-                        <i class="fa fa-external-link"></i>
+                        {{iconRestore}}
                     </div>
                 </div>
             </div>
@@ -157,7 +158,8 @@ class Widget extends View {
             expand: polyglot.t("expand"),
             compress: polyglot.t("compress"),
             pin: polyglot.t("pinWidget"),
-            detach: polyglot.t("expandMapToolsWidget")
+            detach: polyglot.t("expandMapToolsWidget"),
+            iconRestore: this.renderIcon('restore')
         }).toString();
 
         this._floaterTarget.append(floater);
@@ -313,10 +315,16 @@ class Widget extends View {
         this._widgetPinSelector.off("click.pin").on("click.pin", function () {
             self._widgetSelector.addClass("pinned");
             self._dispatcher.notify("mapsContainer#toolsPinned");
-            self._widgetSelector.appendTo(".maps-container .map-tools");
+			if (self._widgetId === 'map-tools-widget'){
+				self._widgetSelector.prependTo(".maps-container .map-tools");
+            } else {
+				self._widgetSelector.insertBefore(".maps-container .docked-windows-container");
+            }
+			self._heightBeforePin = self._widgetSelector.height();
             self._widgetSelector.css({
                 left: 0,
-                top: 0
+                top: 0,
+                height: 'auto'
             });
             setTimeout(function () {
                 self._widgetSelector.draggable("disable");
@@ -328,13 +336,60 @@ class Widget extends View {
             self._widgetSelector.appendTo("body");
             self._widgetSelector.css({
                 left: 50,
-                top: 100
+                top: 100,
+                height: self._heightBeforePin
             });
             setTimeout(function () {
                 self._widgetSelector.draggable("enable");
             }, 500);
         });
     };
+
+	/**
+	 * @param type {string}
+	 * @returns {*}
+	 */
+	renderIcon(type){
+	    let icon = null;
+		switch(type) {
+			case 'restore':
+				icon = (`
+                    <g>
+                        <path class="polygon" d="M11 11 L11 5 L27 5 L27 21 L21 21" stroke-width="3"/>
+                        <rect class="polygon" x="5" y="11" width="16" height="16" stroke-width="3"/>
+                        <rect class="line" x="5" y="11" width="16" height="4"/>
+                    </g>`
+                );
+				break;
+		}
+
+
+        return S(`
+            <svg
+                version="1.1"
+                xmlns="http://www.w3.org/2000/svg"
+                xmlnsXlink="http://www.w3.org/1999/xlink"
+                x="0px"
+                y="0px"
+                width="32px"
+                height="32px"
+                viewBox="0 0 32 32"
+                xmlSpace="preserve"
+        >${icon}</svg>`).toString();
+    };
+
+	/**
+	 * @param type {string} type of event
+	 * @param options {Object}
+	 */
+	onWidgetEvent(type, options) {
+		if (type === Actions.widgetPin) {
+		    let id = this._widgetSelector.attr('id');
+		    if (options.floaterId === id){
+				this._widgetPinSelector.trigger("click");
+            }
+		}
+	};
 }
 
 export default Widget;

@@ -16,12 +16,14 @@ const setStoreWatchers = store => {
 
 	createWatcher(store, Select.maps.getActiveMap, activeMapWatcher);
 	createWatcher(store, Select.maps.getActiveMapKey, activeMapKeyWatcher);
+	createWatcher(store, Select.maps.getMapKeys, mapKeysWatcher);
 	createWatcher(store, Select.maps.getMaps, mapsWatcher, 'data');
 	createWatcher(store, Select.maps.getMapDefaults, mapDefaultsWatcher);
 	createWatcher(store, Select.maps.getPeriodIndependence, periodIndependenceWatcher, 'independentOfPeriod');
 
-	createWatcher(store, Select.places.getActive, ()=>{}, 'activePlace');
+	createWatcher(store, Select.maps.getActivePlaceActiveLayers, activeLayersWatcher, 'activePlaceActiveLayers');
 
+	createWatcher(store, Select.places.getActive, ()=>{}, 'activePlace');
 };
 
 const setEventListeners = store => {
@@ -32,7 +34,13 @@ const setEventListeners = store => {
 				store.dispatch(Action.maps.setActive(options.id));
 				break;
 			case 'map#added':
-				store.dispatch(Action.maps.add(convertWorldWindMapToMap(options.map)));
+				let map = convertWorldWindMapToMap(options);
+				store.dispatch(Action.maps.add(map));
+
+				if (map.scenarioKey){
+					store.dispatch(Action.maps.updateWithScenarios())
+				}
+
 				break;
 			case 'map#removed':
 				store.dispatch(Action.maps.remove(options.id));
@@ -57,6 +65,15 @@ const setEventListeners = store => {
 				break;
 			case 'wmsLayer#remove':
 				store.dispatch(Action.maps.clearWmsLayer(options.layerKey));
+				break;
+			case 'infoLayer#add':
+				store.dispatch(Action.maps.addLayerTemplates(options.layerTemplates));
+				break;
+			case 'infoLayer#remove':
+				store.dispatch(Action.maps.removeLayerTemplates(options.layerTemplates));
+				break;
+			case 'backgroundLayer#setActive':
+				store.dispatch(Action.maps.setActiveBackgroundLayer(options.key));
 				break;
 			case 'placeGeometryChangeReview#showGeometry':
 				store.dispatch(Action.maps.update({
@@ -127,7 +144,9 @@ const mapsWatcher = (value, previousValue) => {
 		let previousMap = _.find(previousValue, {key: map.key});
 		if (previousMap) {
 			let diff = compare(map.layerPeriods, previousMap.layerPeriods);
-			let diffWmsLayers = compareWmsLayers(map.wmsLayers, previousMap.wmsLayers);
+			let diffWmsLayers = compareValues(map.wmsLayers, previousMap.wmsLayers);
+			let diffName = compareName(map.name, previousMap.name);
+
 			console.log('@@ diff', diff);
 			_.each(diff.added, (value, key) => {
 				window.Stores.notify('ADD_WMS_LAYER', {
@@ -155,6 +174,7 @@ const mapsWatcher = (value, previousValue) => {
 					layerKey: Number(key)
 				});
 			});
+
 			console.log('@@ diffWmsLayers', diffWmsLayers);
 			_.each(diffWmsLayers.added, (value) => {
 				window.Stores.notify('ADD_WMS_LAYER', {
@@ -168,6 +188,14 @@ const mapsWatcher = (value, previousValue) => {
 					mapKey: map.key
 				});
 			});
+
+			console.log('@@ diffName', diffName);
+			if (diffName){
+				window.Stores.notify('CHANGE_MAP_NAME', {
+					mapKey: map.key,
+					name: map.name
+				});
+			}
 		} else {
 			// new map added
 		}
@@ -182,6 +210,28 @@ const mapDefaultsWatcher = (value, previousValue) => {
 
 const periodIndependenceWatcher = (value, previousValue) => {
 	console.log('@@ periodIndependenceWatcher', previousValue, '->', value);
+};
+
+const activeLayersWatcher = (value, previousValue) => {
+	console.log('@@## activeLayersWatcher', previousValue, '->', value);
+	let diffLayers = compareCollections(value, previousValue, 'key');
+	console.log('@@## diffLayers', diffLayers);
+	if (diffLayers.added && diffLayers.added.length){
+		window.Stores.notify('ADD_INFO_LAYERS_BY_SCENARIOS', diffLayers.added);
+	}
+	if (diffLayers.removed && diffLayers.removed.length){
+		window.Stores.notify('REMOVE_INFO_LAYERS_BY_SCENARIOS', diffLayers.removed);
+	}
+};
+
+const mapKeysWatcher = (value, previousValue) => {
+	console.log('@@## mapKeysWatcher', previousValue, '->', value);
+	let diffMapKeys = compareValues(value, previousValue);
+	console.log('@@## diffLayers', diffMapKeys );
+	if (diffMapKeys.added && diffMapKeys.added.length && state.activePlaceActiveLayers  && state.activePlaceActiveLayers.length){
+		let data = state.activePlaceActiveLayers;
+		window.Stores.notify('ADD_INFO_LAYERS_BY_SCENARIOS', data);
+	}
 };
 
 // ======== event listeners ========
@@ -201,16 +251,67 @@ const onPeriodsChanged = (store, options, initial) => {
 
 // ======== helpers ========
 
-const convertWorldWindMapToMap = (map) => {
+const convertWorldWindMapToMap = (options) => {
+	let map = options.map;
+
 	let data = {
 		key: map._id,
 		name: map._name
 	};
 	if (map._period && !state.independentOfPeriod){
-		data['period'] = map._period
+		data['period'] = map._period;
+	}
+	if (map.scenarioKey){
+		data['scenarioKey'] = map.scenarioKey;
+		data['dataLoading'] = true;
 	}
 
 	return data;
+};
+
+const compareCollections = (next, prev, key) => {
+	if (prev) {
+		let ret = {
+			added: [],
+			removed: []
+		};
+		next.map(object => {
+			let exist = _.find(prev, (prevObject) => {return prevObject[key] === object[key]});
+			if (!exist){
+				ret.added.push(object);
+			}
+		});
+
+		prev.map(object => {
+			let exist = _.find(next, (nextObject) => {return nextObject[key] === object[key]});
+			if (!exist){
+				ret.removed.push(object);
+			}
+		});
+
+		return ret;
+	} else {
+		return {
+			added: next
+		};
+	}
+};
+
+const compareValues = (next, prev) => {
+	if (prev) {
+		let nextLayers = [];
+		if (_.isArray(next)){
+			nextLayers = next;
+		}
+		return {
+			added: _.difference(nextLayers, prev),
+			removed: _.difference(prev, nextLayers)
+		};
+	} else {
+		return {
+			added: next
+		};
+	}
 };
 
 const compare = (next, prev) => {
@@ -218,13 +319,10 @@ const compare = (next, prev) => {
 		let ret = {
 			added: {},
 			removed: {},
-			changed: {}
 		};
 		_.each(next, (value, key) => {
 			if (!prev.hasOwnProperty(key)) {
 				ret.added[key] = value;
-			} else if (prev[key] !== value) {
-				ret.changed[key] = value;
 			}
 		});
 		_.each(prev, (value, key) => {
@@ -240,21 +338,8 @@ const compare = (next, prev) => {
 	}
 };
 
-const compareWmsLayers = (next, prev) => {
-	if (prev) {
-		let nextLayers = [];
-		if (_.isArray(next)){
-			nextLayers = next;
-		}
-		return {
-			added: _.difference(nextLayers, prev),
-			removed: _.difference(prev, nextLayers)
-		};
-	} else {
-		return {
-			added: next
-		};
-	}
+const compareName = (next, prev) => {
+	return !prev || (prev !== next);
 };
 
 
@@ -273,3 +358,4 @@ const createWatcher = (store, selector, watcher, stateKey) => {
 		store.subscribe(watch(() => selector(store.getState()))(watcher));
 	}
 };
+

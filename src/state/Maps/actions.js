@@ -54,6 +54,34 @@ function handleMapDependencyOnPeriod(independent) {
 }
 
 // specialized
+function addLayerTemplates(templates) {
+	return (dispatch, getState) => {
+		let state = Select.maps.getMapDefaults(getState());
+		let layerTemplates;
+		if (state && state.layerTemplates){
+			layerTemplates = _.union(state.layerTemplates, templates);
+		} else {
+			layerTemplates = templates;
+		}
+		dispatch(updateDefaults({layerTemplates: layerTemplates}));
+	};
+}
+function removeLayerTemplates(templates) {
+	return (dispatch, getState) => {
+		let state = Select.maps.getMapDefaults(getState());
+		if (state && state.layerTemplates){
+			let finalTemplates = [];
+			state.layerTemplates.map(layerTemplate => {
+				let toRemove = _.find(templates, template => {return template === layerTemplate.templateId});
+				if (!toRemove){
+					finalTemplates.push(layerTemplate);
+				}
+			});
+			dispatch(updateDefaults({layerTemplates: finalTemplates}));
+		}
+	};
+}
+
 
 function selectLayerPeriod(layerKey, period, mapKey) {
 	return (dispatch, getState) => {
@@ -83,6 +111,15 @@ function selectLayerPeriod(layerKey, period, mapKey) {
 			dispatch(updateDefaults(stateUpdate));
 		}
 	};
+}
+
+function changeDefaultMapName(name){
+	return (dispatch, getState) => {
+		dispatch(update({
+			key: "default-map",
+			name: name
+		}));
+	}
 }
 
 function clearLayerPeriod(layerKey, mapKey){
@@ -178,6 +215,35 @@ function clearWmsLayersOfAllMaps(){
 	}
 }
 
+function setActiveBackgroundLayer(key){
+	return (dispatch, getState) => {
+		let state = Select.maps.getMapDefaults(getState());
+		if (state && state.activeBackgroundLayerKey !== key){
+			dispatch(updateDefaults({
+				activeBackgroundLayerKey: key
+			}));
+		}
+	}
+}
+
+function updateWithScenarios(){
+	return (dispatch, getState) => {
+		let state = getState();
+		let maps = Select.maps.getMapsOverrides(state);
+		let activeScenarios = Select.scenarios.getActiveScenarios(state);
+		let updatedMaps = [];
+		maps.map(map => {
+			let scenarioForMap = _.find(activeScenarios, (scenario) => {return scenario.key === map.scenarioKey});
+			if (scenarioForMap){
+				updatedMaps.push({...map, name: scenarioForMap.data.name, dataLoading: false});
+			} else {
+				updatedMaps.push(map);
+			}
+		});
+		dispatch(update(updatedMaps));
+	}
+}
+
 // ============ actions ===========
 
 function actionAdd(maps) {
@@ -232,6 +298,8 @@ function actionSetMapIndependentOfPeriod(independent) {
 
 export default {
 	add: add,
+	addLayerTemplates: addLayerTemplates,
+	changeDefaultMapName: changeDefaultMapName,
 	clearLayerPeriod: clearLayerPeriod,
 	clearLayerPeriodsOfAllMaps: clearLayerPeriodsOfAllMaps,
 	clearWmsLayer: clearWmsLayer,
@@ -240,9 +308,12 @@ export default {
 	handleMapDependencyOnPeriod: handleMapDependencyOnPeriod,
 	initialize: initialize,
 	remove: remove,
+	removeLayerTemplates: removeLayerTemplates,
 	selectLayerPeriod: selectLayerPeriod,
 	selectWmsLayer: selectWmsLayer,
 	setActive: setActive,
+	setActiveBackgroundLayer: setActiveBackgroundLayer,
 	update: update,
-	updateDefaults: updateDefaults
+	updateDefaults: updateDefaults,
+	updateWithScenarios: updateWithScenarios
 }

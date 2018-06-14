@@ -46,6 +46,9 @@ class StateStore {
 
         this.isMap3D = true;
         this.isMapIndependentOfPeriod = false;
+		this.isMapDependentOnScenario = false;
+
+		this.allowZoomByScenarioCase = true;
 
         window.Stores.addListener(this.onEvent.bind(this), "initialLoading");
         window.Stores.hasStateStore = true;
@@ -83,10 +86,16 @@ class StateStore {
             activeAoi: this._activeAoi,
             previousAoi: this._previousAoi,
             isMap3D: this.isMap3D,
+			isMapDependentOnScenario: this.isMapDependentOnScenario,
             isMapIndependentOfPeriod: this.isMapIndependentOfPeriod,
             mapDefaults: this._mapDefaults,
             mapsMetadata: this._mapsMetadata,
             selectedMapId: this._selectedMapId,
+
+			components: this._components,
+            allowZoomByScenarioCase: this.allowZoomByScenarioCase,
+			scenarios: this._scenarios,
+
             user: this._user,
             widgets: this.widgets(),
             withoutAoi: this._withoutAoi,
@@ -131,7 +140,15 @@ class StateStore {
         if (!scope) {
             return null;
         }
-        return Ext.StoreMgr.lookup('dataset').getById(this.scope()).data;
+        let data = Ext.StoreMgr.lookup('dataset').getById(this.scope()).data;
+        if (data && data.isMapDependentOnScenario){
+            this.handleMapDependencyOnScenario(true);
+        }
+        if (data && data.isMapIndependentOfPeriod){
+            this.handleMapDependencyOnPeriod(false);
+        }
+
+        return data;
     };
 
     scope() {
@@ -226,10 +243,12 @@ class StateStore {
                 };
 
                 if (item.hasClass("open")){
-                    var floater = $("#" + item.attr("data-for"));
-                    widget.floater.position = Floater.getPosition(floater);
-                    widget.floater.pinned = floater.hasClass("pinned");
-                    widgets.open.push(widget);
+					let floater = $("#" + item.attr("data-for"));
+					if (floater.length){
+						widget.floater.position = Floater.getPosition(floater);
+						widget.floater.pinned = floater.hasClass("pinned");
+						widgets.open.push(widget);
+					}
                 } else if (item.hasClass("disabled")){
                     widgets.disabled.push(widget);
                 } else {
@@ -246,22 +265,26 @@ class StateStore {
      */
     addLoadingOperation(type) {
         this._loadingOperations.push(type);
-        console.log("StateStore#addLoadingOperation: Loading operation added!");
+        console.log("StateStore#addLoadingOperation: Loading operation added: ", type);
         this.checkLoading(type);
     };
 
     /**
      * Remove loading operation
      */
-    removeLoadingOperation(type) {
-        let index = _.findIndex(this._loadingOperations, function (item) {
-            return item === type
-        });
-        if (index !== -1) {
-            this._loadingOperations.splice(index, 1);
-            console.log("StateStore#removeLoadingOperation: Loading operation removed!");
-            this.checkLoading(type);
-        }
+    removeLoadingOperation(type, removeAllOfType) {
+		if (removeAllOfType){
+			this._loadingOperations = _.without(this._loadingOperations, type);
+			console.log("StateStore#removeLoadingOperation: All loading operations of type remove: ", type);
+			this.checkLoading(type);
+		} else {
+			let index = _.findIndex(this._loadingOperations, function(item){return item === type});
+			if (index !== -1){
+				this._loadingOperations.splice(index, 1);
+				console.log("StateStore#removeLoadingOperation: Loading operation removed: ", type);
+				this.checkLoading(type);
+			}
+		}
     };
 
     /**
@@ -295,6 +318,13 @@ class StateStore {
     handleMapDependencyOnPeriod(isDependent){
         this.isMapIndependentOfPeriod = !isDependent;
     }
+
+	/**
+	 * @param isDependent {boolean} true, if maps are dependent on scenarios
+	 */
+	handleMapDependencyOnScenario(isDependent){
+		this.isMapDependentOnScenario = isDependent;
+	};
 
     /**
      * Switch map projection
@@ -338,6 +368,21 @@ class StateStore {
         this._dispatcher.notify('map#switchTo3D');
     }
 
+	/**
+	 * @param value {boolean} true, if zooming by case should be allowed
+	 */
+	setAllowZoomByCase(value){
+        this.allowZoomByScenarioCase = value;
+    }
+
+	/**
+	 * Store components from Redux store for view sharing purposes
+	 * @param components {Object}
+	 */
+	updateComponentsMetadata(components){
+		this._components = components;
+	};
+
     /**
      * It is used for maps metadata storing (currently for view sharing purposes).
      * @param options.maps {Array} list of maps metadata received from redux store
@@ -364,6 +409,10 @@ class StateStore {
         }
     }
 
+	updateScenariosMetadata(scenarios){
+		this._scenarios = scenarios;
+	};
+
     /**
      * It updates the settings of World wind navigator
      * @param options {Object}
@@ -386,7 +435,9 @@ class StateStore {
             this.handleMapProjection();
         } else if (type === Actions.foMapIsIndependentOfPeriod){
             this.handleMapDependencyOnPeriod(false);
-        } else if (type === Actions.foMapIsDependentOnPeriod){
+		} else if (type === Actions.foMapIsDependentOnScenario){
+				this.handleMapDependencyOnScenario(true);
+		} else if (type === Actions.foMapIsDependentOnPeriod){
             this.handleMapDependencyOnPeriod(true);
         } else if (type === Actions.scopeAoiLayer){
             this.setAoiLayer(options);
@@ -404,7 +455,11 @@ class StateStore {
         // notification from redux
         else if (type === 'REDUX_STORE_MAPS_CHANGED'){
             this.updateMapsMetadata(options);
-        } else if (type === 'AOI_GEOMETRY_SET'){
+        } else if (type === 'REDUX_STORE_COMPONENTS_CHANGED'){
+			this.updateComponentsMetadata(options);
+		} else if (type === 'REDUX_STORE_SCENARIOS_CHANGED'){
+			this.updateScenariosMetadata(options);
+		} else if (type === 'AOI_GEOMETRY_SET'){
             this.setActiveAoi(options.id);
         } else if (type === 'REDUX_SET_ACTIVE_PLACES'){
             this.setActiveLocations(options.keys);

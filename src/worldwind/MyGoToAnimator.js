@@ -65,7 +65,7 @@ class MyGoToAnimator extends GoToAnimator {
         }
         else {
             let values = {dataset: dataset};
-            if (places.length === 1) {
+            if (places && places.length === 1) {
                 values.id = places[0];
             }
 

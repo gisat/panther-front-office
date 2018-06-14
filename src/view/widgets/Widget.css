@@ -117,13 +117,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 30px;
+    width: 2rem;
     height: 100%;
     cursor: pointer;
     transition: background .3s ease-in-out;
 }
 .floater-tool.widget-minimise {
-    width: 2.3rem;
+    width: 2rem;
+    font-size: 1.05rem;
+    font-weight: 300;
+    line-height: 2rem;
+    color: #eee;
 }
 .floater-tool:hover {
     background: rgba(255,255,255,.2);
@@ -169,6 +173,21 @@
 .floater-tool.widget-detach .fa {
     font-size: 1.05rem;
 }
+
+.floater-tool svg {
+    height: 1.25rem;
+    width: 1.25rem;
+}
+.floater-tool svg .polygon {
+    stroke: #eee;
+    fill: transparent;
+}
+.floater-tool svg .line {
+    stroke: #eee;
+    fill: #eee;
+}
+
+
 
 /* floater body */
 .floater-body {
@@ -262,7 +281,7 @@ body.mode-3d .floater.only-3d.open {
 .floater.expanded .floater-header {
     background: #212635;
     cursor: default;
-    padding: 0 1rem;
+    padding: 0 .3rem 0 .5rem;
     border-top: 1px solid rgba(255,255,255,.1);
 }
 .floater.expanded .floater-header-title {
@@ -286,12 +305,30 @@ body.mode-3d .floater.only-3d.open {
     display: flex;
     transform: rotate(30deg);
 }
+.floater.pinned {
+    background: white;
+    box-shadow: none;
+    border-right: 1px solid rgba(186,190,200,1);
+    max-height: none;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 0;
+    resize: none;
+    position: relative;
+}
+.floater.pinned .floater-header {
+    background: rgba(153,54,75,.9);
+    height: 2rem;
+    line-height: 2.1rem;
+	cursor: auto;
+}
+.floater.pinned .floater-tool {
+    width: 1.7rem;
+}
 .floater.pinned .widget-detach {
     display: flex;
 }
-.floater.pinned .widget-pin,
-.floater.pinned .widget-minimise,
-.floater.pinned .floater-header-title {
+.floater.pinned .widget-pin {
     display: none;
 }
 
@@ -447,7 +484,7 @@ body.mode-3d .floater.only-3d.open {
     font-weight: 400;
     margin-bottom: .2rem;
 }
-.widget-section p {
+.widget-section .paragraph {
     font-size: .95rem;
     color: rgb(65,69,81);
     margin-bottom: .3rem;

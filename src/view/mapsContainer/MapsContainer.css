@@ -34,18 +34,14 @@ body.mode-3d .maps-container {
 	display: block;
 }
 .maps-container .map-tools {
-	width: 0;
-	height: 100%;
+	display: flex;
+	box-shadow: 0 0 4px rgb(136, 136, 136);
 	z-index: 1;
-}
-.maps-container.tools-active .map-tools {
-	width: 35px;
 }
 .maps-container .map-fields {
 	flex: 1;
 }
 .world-wind-map-box {
-	background: black url("../../img/night-sky.jpg") top left no-repeat;
 	border-bottom: 1px solid #888;
 	border-right: 1px solid #888;
 	display: inline-block;
@@ -60,19 +56,19 @@ body.mode-3d .maps-container {
 	height: 50%;
 }
 .maps-container.h3 .world-wind-map-box {
-	height: 33.33%;
+	height: 33.3%;
 }
 .maps-container.h4 .world-wind-map-box {
 	height: 25%;
 }
 .maps-container.w2 .world-wind-map-box {
-	width: 49.8%;
+	width: calc(50% - 2px);
 }
 .maps-container.w3 .world-wind-map-box {
-	width: 33.1%;
+	width: calc(33.3% - 3px);
 }
 .maps-container.w4 .world-wind-map-box {
-	width: 24.8%;
+	width: calc(25% - 4px);
 }
 /* delete right border for all maps on the right */
 .maps-container.h1.w1 .map-fields .world-wind-map-box:not(.selected) {
@@ -162,6 +158,24 @@ body.mode-3d .maps-container {
 	font-size: 10px;
 	fill: rgba(0,0,0,.6);
 }
+
+
+/*.ptr-timeline-month.background > rect {*/
+	/*fill: #fff;*/
+/*}*/
+.ptr-timeline-month.background.odd > rect {
+	fill: #f9f9f9;
+}
+.ptr-timeline-day.background {
+	stroke: rgba(0,0,0,.07);
+}
+.ptr-timeline-day.background.Monday {
+	stroke: rgba(0,0,0,.1);
+}
+.ptr-timeline-year.background > line {
+	stroke: rgba(0,0,0,.2);
+}
+
 
 .ptr-timeline-layer-period {
 	cursor: pointer;
