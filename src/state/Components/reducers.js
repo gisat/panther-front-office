@@ -7,7 +7,7 @@ const INITIAL_STATE = {
 			open: false
 		},
 		scenarioMapEditing: {
-			open: true
+			open: false
 		}
 	},
 	windows: {
