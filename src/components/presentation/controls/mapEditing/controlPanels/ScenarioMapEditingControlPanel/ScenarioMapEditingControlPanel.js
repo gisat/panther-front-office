@@ -1,10 +1,26 @@
 import { connect } from 'react-redux';
 import React from "react";
 
+import Button from '../../../../atoms/Button'
 import EditableText from '../../../../atoms/EditableText';
 import MapEditingControlPanel from '../MapEditingControlPanel/MapEditingControlPanel';
 
 class ScenarioMapEditingControlPanel extends React.PureComponent {
+	constructor(props){
+		super(props);
+
+		this.onDiscard = this.onDiscard.bind(this);
+		this.onSave = this.onSave.bind(this);
+	}
+
+	onDiscard(){
+		debugger;
+	}
+
+	onSave(){
+		debugger;
+	}
+
 	render() {
 		return (
 			<MapEditingControlPanel
@@ -28,8 +44,23 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 					</div>
 				</div>
 				<div className="ptr-editing-control-panel-controls">
+					<div>{this.renderButtons()}</div>
 				</div>
 			</MapEditingControlPanel>
+		);
+	}
+
+	renderButtons(){
+		let saveButton = true, discardButton = true;
+		return (
+			<div className="ptr-editing-control-panel-buttons">
+				{saveButton ? (
+					<Button key="save" onClick={this.onSave} primary>Save</Button>
+				) : null}
+				{discardButton ? (
+					<Button key="discard" onClick={this.onDiscard}>Discard</Button>
+				) : null}
+			</div>
 		);
 	}
 }
