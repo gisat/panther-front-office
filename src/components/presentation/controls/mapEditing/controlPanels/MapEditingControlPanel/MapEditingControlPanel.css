@@ -1,0 +1,20 @@
+.ptr-editing-control-panel {
+	min-width: 25rem;
+	flex-basis: 30%;
+	background: white;
+	box-shadow: 0 0 4px rgb(136, 136, 136);
+	z-index: 1;
+}
+
+.ptr-editing-control-panel-title {
+	padding: 1rem 1.5rem;
+	font-size: 1.85rem;
+	color: #333;
+	font-weight: 400;
+}
+.ptr-editing-control-panel-content {
+}
+.ptr-editing-control-panel-content-header {
+	background: rgba(224,227,231,1);
+	padding: 2rem 1.5rem;
+}

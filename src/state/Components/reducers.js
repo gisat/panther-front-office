@@ -6,8 +6,8 @@ const INITIAL_STATE = {
 		dataUpload: {
 			open: false
 		},
-		mapEditing: {
-			open: false
+		scenarioMapEditing: {
+			open: true
 		}
 	},
 	windows: {

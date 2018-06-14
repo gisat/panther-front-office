@@ -4,9 +4,6 @@ import classNames from 'classnames';
 import utils from '../../../../utils/utils';
 import _ from 'lodash';
 
-import MapEditingControlPanel from '../../../containers/controls/mapEditing/MapEditingControlPanel';
-import MapEditingMapContainer from '../../../containers/controls/mapEditing/MapEditingMapContainer';
-
 import './MapEditingOverlay.css';
 
 class MapEditingOverlay extends React.PureComponent {
@@ -18,7 +15,6 @@ class MapEditingOverlay extends React.PureComponent {
 
 	constructor(props){
 		super(props);
-
 		this.onClose = this.onClose.bind(this);
 	}
 
@@ -33,8 +29,7 @@ class MapEditingOverlay extends React.PureComponent {
 
 		return (
 			<div className={classes}>
-				<MapEditingControlPanel/>
-				<MapEditingMapContainer/>
+				{this.props.children}
 				<div onClick={this.onClose} className="ptr-overlay-close close-map-editing">{'\u2716'}</div>
 			</div>
 		);

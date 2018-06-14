@@ -6,14 +6,14 @@ import MapEditingOverlay from "../../presentation/overlays/MapEditingOverlay/Map
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		open: Select.components.overlays.isOverlayOpen(state, {key: 'mapEditing'})
+		open: Select.components.overlays.isOverlayOpen(state, {key: ownProps.overlayKey})
 	}
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		close: () => {
-			dispatch(Action.components.overlays.closeOverlay('mapEditing'));
+			dispatch(Action.components.overlays.closeOverlay(ownProps.overlayKey));
 		}
 	}
 };

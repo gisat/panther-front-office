@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import utils from '../../../../../utils/utils';
+import utils from '../../../../../../utils/utils';
 import _ from 'lodash';
 
 import './MapEditingControlPanel.css';
@@ -17,7 +17,12 @@ class MapEditingControlPanel extends React.PureComponent {
 
 	render() {
 		return (
-			<div className="ptr-overlay-editing-control-panel"></div>
+			<div className="ptr-editing-control-panel">
+				<h2 className="ptr-editing-control-panel-title">
+					{this.props.title}
+				</h2>
+				{this.props.children}
+			</div>
 		);
 	}
 }

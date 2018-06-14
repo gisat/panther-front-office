@@ -20,7 +20,7 @@ class MapEditingMapContainer extends React.PureComponent {
 	}
 
 	render() {
-		let mapContainerClass = "ptr-overlay-editing-map-container";
+		let mapContainerClass = "ptr-editing-map-container";
 		let bbox = this.props.place && this.props.place.bbox ? this.props.place.bbox : null;
 
 		return (
