@@ -735,9 +735,9 @@ function apiCreateRelationsForScenarioProcessResults(results) {
 		let activePlace = Select.places.getActive(getState());
 
 		let activePlaceKey = activePlace ? activePlace.key : null;
-		let inputVectorTemplateId = 3332;
-		let outputRasterHwdTemplateId = 4092;
-		let outputRasterUhiTemplateId = 4091;
+		let inputVectorTemplateId = config.pucsInputVectorTemplateId;
+		let outputRasterHwdTemplateId = config.pucsOutputRasterHwdTemplateId;
+		let outputRasterUhiTemplateId = config.pucsOutputRasterUhiTemplateId;
 
 		let relations = [];
 		let scenarioKeys = [];
