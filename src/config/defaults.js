@@ -21,6 +21,10 @@ export default {
 	apiBackendSzifPath: 'backend/rest/szif/case',
 
     geoServerUrl: window.Config.geoServerUrl,
-    serverUrl: window.Config.url
+    serverUrl: window.Config.url,
+
+	pucsInputVectorTemplateId: 3332,
+	pucsOutputRasterHwdTemplateId: 4092,
+	pucsOutputRasterUhiTemplateId: 4091
 
 };
