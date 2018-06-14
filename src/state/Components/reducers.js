@@ -7,7 +7,7 @@ const INITIAL_STATE = {
 			open: false
 		},
 		mapEditing: {
-			open: true
+			open: false
 		}
 	},
 	windows: {

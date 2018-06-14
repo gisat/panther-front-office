@@ -178,7 +178,7 @@ class ScenarioCard extends React.PureComponent {
 							<Menu bottom left>
 								<MenuItem onClick={this.onDownloadClick} disabled={disableDownload}><Icon icon="download" /> Download</MenuItem>
 								{!this.props.defaultSituation && this.props.enableEdit ? <MenuItem onClick={this.onEdit.bind(this, name)}><Icon icon="edit" /> Edit metadata</MenuItem> : null}
-								{!this.props.defaultSituation && this.props.enableEdit ? <MenuItem onClick={this.onStartMapEditing} disabled={disableDownload}><Icon icon="edit" /> Modify features</MenuItem> : null}
+								{/*{!this.props.defaultSituation && this.props.enableEdit ? <MenuItem onClick={this.onStartMapEditing} disabled={disableDownload}><Icon icon="edit" /> Modify features</MenuItem> : null}*/}
 								{!this.props.defaultSituation && this.props.enableDelete ? <MenuItem onClick={this.onDelete.bind(this, name)}><Icon icon="delete" /> Delete</MenuItem> : null}
 							</Menu>
 						</Button>
