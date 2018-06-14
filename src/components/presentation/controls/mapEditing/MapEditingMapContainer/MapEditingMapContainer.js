@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import utils from '../../../../../utils/utils';
 import _ from 'lodash';
 
-import MapEditingWorldWind from '../../../maps/MapEditingWorldWind/MapEditingWorldWind'
+import MapEditingWorldWindMap from '../../../maps/MapEditingWorldWindMap/MapEditingWorldWindMap'
 
 import './MapEditingMapContainer.css';
 
@@ -22,7 +22,7 @@ class MapEditingMapContainer extends React.PureComponent {
 
 		return (
 			<div className={mapContainerClass}>
-				<MapEditingWorldWind
+				<MapEditingWorldWindMap
 					activeBackgroundLayerKey={this.props.activeBackgroundLayerKey}
 					mapContainerClass={mapContainerClass}
 				/>

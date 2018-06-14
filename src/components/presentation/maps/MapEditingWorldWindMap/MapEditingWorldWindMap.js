@@ -6,9 +6,7 @@ import WorldWind from '@nasaworldwind/worldwind';
 import Layers from '../../../../view/worldWind/layers/Layers';
 import Controls from '../../../../view/worldWind/controls/Controls';
 
-import './MapEditingWorldWind.css';
-
-class WorldWindow extends React.PureComponent {
+class MapEditingWorldWindMap extends React.PureComponent {
 
 	static propTypes = {
 		activeBackgroundLayerKey: PropTypes.string,
@@ -60,4 +58,4 @@ class WorldWindow extends React.PureComponent {
 	}
 }
 
-export default WorldWindow;
+export default MapEditingWorldWindMap;
