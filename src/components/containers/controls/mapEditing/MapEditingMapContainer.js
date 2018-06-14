@@ -5,6 +5,7 @@ import MapEditingMapContainer from "../../../presentation/controls/mapEditing/Ma
 
 const mapStateToProps = (state, ownProps) => {
 	return {
+		activeBackgroundLayerKey: Select.maps.getActiveBackgroundLayerKey(state)
 	}
 };
 

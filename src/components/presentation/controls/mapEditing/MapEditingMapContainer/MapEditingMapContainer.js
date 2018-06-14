@@ -4,6 +4,8 @@ import classNames from 'classnames';
 import utils from '../../../../../utils/utils';
 import _ from 'lodash';
 
+import MapEditingWorldWind from '../../../maps/MapEditingWorldWind/MapEditingWorldWind'
+
 import './MapEditingMapContainer.css';
 
 class MapEditingMapContainer extends React.PureComponent {
@@ -16,8 +18,15 @@ class MapEditingMapContainer extends React.PureComponent {
 	}
 
 	render() {
+		let mapContainerClass = "ptr-overlay-editing-map-container";
+
 		return (
-			<div className="ptr-overlay-editing-map-container"></div>
+			<div className={mapContainerClass}>
+				<MapEditingWorldWind
+					activeBackgroundLayerKey={this.props.activeBackgroundLayerKey}
+					mapContainerClass={mapContainerClass}
+				/>
+			</div>
 		);
 	}
 }
