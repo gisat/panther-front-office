@@ -93,20 +93,20 @@ function loadApp() {
         }
 
         let ext;
-        createScript('/lib/OpenLayers.js').then(function(){
-            return createScript('/gisatlib/OpenLayers/Geoserver23.js');
+        createScript('lib/OpenLayers.js').then(function(){
+            return createScript('gisatlib/OpenLayers/Geoserver23.js');
         }).then(function(){
-            return createScript('/lib/Highcharts-3.0.0/js/highcharts.src.js');
+            return createScript('lib/Highcharts-3.0.0/js/highcharts.src.js');
         }).then(function(){
-            return createScript('/lib/Highcharts-3.0.0/js/highcharts-more.js');
+            return createScript('lib/Highcharts-3.0.0/js/highcharts-more.js');
         }).then(function(){
-            return createScript('/lib/Highcharts-3.0.0/js/modules/exporting.js');
+            return createScript('lib/Highcharts-3.0.0/js/modules/exporting.js');
         }).then(function(){
-            return createScript('/extjs-4.1.3/ext-all.js');
+            return createScript('extjs-4.1.3/ext-all.js');
         }).then(function(){
             var urlLang = new URL(window.location).searchParams.get('lang');
             if(urlLang === "cz") {
-                return createScript('/extjs-4.1.3/locale/ext-lang-cs.js');
+                return createScript('extjs-4.1.3/locale/ext-lang-cs.js');
             }
         }).then(() => {
             ext = new ExtApp();
