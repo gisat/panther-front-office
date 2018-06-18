@@ -56,10 +56,11 @@ class WfsService {
                 version: '1.1.0',
                 request: 'GetFeature',
                 typeNames: layer,
-                bbox: `${bbox.minLatitude},${bbox.minLongitude},${bbox.maxLatitude},${bbox.maxLongitude}`
+                bbox: `${bbox.minLatitude},${bbox.minLongitude},${bbox.maxLatitude},${bbox.maxLongitude}`,
+                outputFormat: 'application/json'
             }
         }).then(response => {
-            return new WfsGetFeature(response);
+            return response;
         });
     }
 

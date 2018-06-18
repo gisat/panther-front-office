@@ -2,17 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import WorldWind from '@nasaworldwind/worldwind';
+import GeoJSONParser from '../../../../worldwind/formats/geojson/GeoJSONParser';
 
 import Layers from '../../../../view/worldWind/layers/Layers';
 import Controls from '../../../../view/worldWind/controls/Controls';
 import mapUtils from "../../../../utils/map";
 import MyWmsLayer from '../../../../worldwind/layers/MyWmsLayer';
-import WfsService from '../../../../worldwind/ogc/wfs/WfsService';
 
-const WorldWindow = WorldWind.WorldWindow,
-	Sector = WorldWind.Sector,
-	Location = WorldWind.Location,
-    ClickRecognizer = WorldWind.ClickRecognizer;
+const {WorldWindow, Sector, Location, ClickRecognizer, RenderableLayer} = WorldWind;
 
 class MapEditingWorldWindMap extends React.PureComponent {
 
@@ -26,7 +23,6 @@ class MapEditingWorldWindMap extends React.PureComponent {
 	constructor(props){
 		super(props);
 		this.canvasId = "world-wind-canvas-map-editing";
-		this.wfsService = WfsService.create('http://192.168.2.205/geoserver/wfs');
 	}
 
 	componentDidMount(){
@@ -63,32 +59,47 @@ class MapEditingWorldWindMap extends React.PureComponent {
 			styleNames: "urbanAtlas"
 		}));
 
+		const layerWithUpdatedPolygons = new RenderableLayer('Updated polygons');
+		wwd.addLayer(layerWithUpdatedPolygons);
+
 		// Add Click Recognizer to use for construction of WFS.
         const clickRecognizer = new ClickRecognizer(wwd.canvas, (event) => {
-        	console.log(event);
-            let x = event._clientX;
+        	let x = event._clientX;
             let y = event._clientY;
 
             const topLeft = wwd.pickTerrain(wwd.canvasCoordinates(x, y)).objects[0].position;
             const rightBottom = wwd.pickTerrain(wwd.canvasCoordinates(x + 1, y + 1)).objects[0].position;
-            this.wfsService.getFeature('geonode:pucs_514f7a7552564ceebd269a8d334f1324',
-				new Sector(
-					rightBottom.latitude,
-                    topLeft.latitude,
-                    topLeft.longitude,
-					rightBottom.longitude
-				)).then(feature => {
-				console.log(feature);
-			});
+
+            const url = `http://192.168.2.205/geoserver/wfs?service=wfs&version=1.1.0&request=GetFeature&typeNames=geonode:pucs_514f7a7552564ceebd269a8d334f1324&bbox=${rightBottom.latitude},${topLeft.longitude},${topLeft.latitude},${rightBottom.longitude}&outputFormat=application/json`;
+
+            const parser = new GeoJSONParser(url);
+            parser.load(null, (geometry, properties) => {
+                const configuration = {};
+
+                const name = properties.name || properties.Name || properties.NAME;
+                if (name) {
+                    configuration.name = name;
+                }
+
+                if (geometry.isPointType() || geometry.isMultiPointType()) {
+                    configuration.attributes = this.defaultPlacemarkAttributes;
+                } else if (geometry.isLineStringType() || geometry.isMultiLineStringType()) {
+                    configuration.attributes = new ShapeAttributes();
+                } else if (geometry.isPolygonType() || geometry.isMultiPolygonType()) {
+                    configuration.attributes = new SH;
+                    // Get the legend and color.
+					configuration.attributes.interiorColor = '#ffaacc';
+                }
+
+                return configuration
+			}, layerWithUpdatedPolygons);
+
+            wwd.redraw();
         });
         clickRecognizer.enabled = true;
 	}
 
-	// Layer info needs to be in props.
 
-	// Load the selected WMS Layer
-	// Click should get the polygon via WFS
-	// On Change of the polygon draw the data
 
 	componentWillReceiveProps(nextProps, prevProps){
 		if (_.isEmpty(prevProps) || (nextProps.activeBackgroundLayerKey !== prevProps.activeBackgroundLayerKey)){
