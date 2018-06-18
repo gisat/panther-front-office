@@ -11,7 +11,9 @@ const mapStateToProps = (state, ownProps) => {
 		scenarioSpatialDataSource: Select.scenarios.getVectorSource(state, ownProps.scenarioKey, ownProps.defaultSituation),
 
 		enableDelete: Select.users.isAdmin(state) || Select.users.hasActiveUserPermissionToCreate(state, 'scenario_case'),
-		enableEdit: Select.users.isAdmin(state) || Select.users.hasActiveUserPermissionToCreate(state, 'scenario_case')
+		enableEdit: Select.users.isAdmin(state) || Select.users.hasActiveUserPermissionToCreate(state, 'scenario_case'),
+		enableModify: (Select.users.isAdmin(state) || Select.users.hasActiveUserPermissionToCreate(state, 'scenario_case')) &&
+			!ownProps.editing
 	}
 };
 
@@ -30,7 +32,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		edit: () => {
 			dispatch(Action.components.windows.scenarios.activateCaseEditing());
 		},
-		onStartMapEditing: () => {
+		onStartMapEditing: (scenarioKey) => {
+			dispatch(Action.scenarios.addEditedScenario(scenarioKey));
 			dispatch(Action.components.overlays.openOverlay('scenarioMapEditing'));
 		}
 	}

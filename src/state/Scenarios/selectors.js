@@ -138,6 +138,17 @@ const getActiveCaseScenariosEdited = createSelector(
 	}
 );
 
+const getActiveCaseScenarioEdited = createSelector(
+	[getActiveCaseScenariosEdited],
+	(scenariosEdited) => {
+		if (scenariosEdited && scenariosEdited.length === 1){
+			return scenariosEdited[0];
+		} else {
+			return null;
+		}
+	}
+);
+
 const getCase = (state, key) => {
 	let caseData = null;
 	if (key && state.scenarios.cases && state.scenarios.cases.data){
@@ -190,6 +201,7 @@ export default {
 	getActiveCaseKey: getActiveCaseKey,
 	getActiveCaseScenarioKeys: getActiveCaseScenarioKeys,
 	getActiveCaseScenarios: getActiveCaseScenarios,
+	getActiveCaseScenarioEdited: getActiveCaseScenarioEdited,
 	getActiveCaseScenariosEdited: getActiveCaseScenariosEdited,
 	getActiveKey: getActiveKey,
 	getActiveKeys: getActiveKeys,
