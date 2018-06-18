@@ -73,7 +73,9 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 	}
 
 	renderButtons(){
-		let saveButton = true, discardButton = true;
+		let saveButton = this.props.scenarioData && this.props.scenarioData.data && this.props.scenarioData.data.name;
+		let discardButton = true;
+
 		return (
 			<div className="ptr-editing-control-panel-buttons">
 				{saveButton ? (
