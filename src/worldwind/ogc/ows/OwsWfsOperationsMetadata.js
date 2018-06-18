@@ -1,5 +1,6 @@
 import WorldWind from '@nasaworldwind/worldwind';
 import OwsWfsConstraint from './OwsWfsConstraint';
+import OwsConstraint from './OwsConstraint';
 
 const ArgumentError = WorldWind.ArgumentError,
     Logger = WorldWind.Logger;
@@ -21,9 +22,10 @@ var OwsWfsOperationsMetadata = function (element) {
             Logger.logMessage(Logger.LEVEL_SEVERE, "OwsWfsOperationsMetadata", "constructor", "missingDomElement"));
     }
 
-    var children = element.children || element.childNodes;
-    for (var c = 0; c < children.length; c++) {
-        var child = children[c];
+    let children = element.children || element.childNodes;
+    let i = 0;
+    for (; i < children.length; i++) {
+        var child = children[i];
 
         if (child.localName === "Operation") {
             this.operation = this.operation || [];

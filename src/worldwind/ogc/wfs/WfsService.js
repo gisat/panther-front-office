@@ -1,5 +1,6 @@
 import WfsCapabilities from './WfsCapabilities';
 import WfsGetFeature from './WfsGetFeature';
+import $ from 'jquery';
 
 class WfsService {
     constructor(url) {

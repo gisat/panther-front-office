@@ -1,7 +1,5 @@
-define([], function(){
-    var WfsUpdate = function() {
+var WfsUpdate = function () {
 
-    };
+};
 
-    return WfsUpdate;
-});
+export default WfsUpdate;

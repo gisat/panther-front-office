@@ -23,7 +23,7 @@ var OwsWfsConstraint = function (element) {
     }
 
     var children = element.children || element.childNodes;
-    var child = children[c];
+    var child = children[0];
     if (child.localName === "AllowedValues") {
         var childrenValues = child.children || child.childNodes;
         for (var cc = 0; cc < childrenValues.length; cc++) {
