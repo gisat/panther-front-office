@@ -9,6 +9,7 @@ import './MapEditingOverlay.css';
 class MapEditingOverlay extends React.PureComponent {
 
 	static propTypes = {
+		close: PropTypes.func,
 		onClose: PropTypes.func,
 		open: PropTypes.bool
 	};
@@ -19,6 +20,8 @@ class MapEditingOverlay extends React.PureComponent {
 	}
 
 	onClose(){
+		// todo add window confirm
+		this.props.onClose();
 		this.props.close();
 	}
 

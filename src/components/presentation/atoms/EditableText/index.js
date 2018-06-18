@@ -6,6 +6,8 @@ import _ from 'lodash';
 
 import './style.css';
 
+const DEFAULT_HEIGHT = 36;
+
 class EditableText extends React.PureComponent {
 
 	static propTypes = {
@@ -16,7 +18,7 @@ class EditableText extends React.PureComponent {
 		super(props);
 
 		this.state = {
-			height: 40
+			height: DEFAULT_HEIGHT
 		};
 
 		this.ref = this.ref.bind(this);
@@ -45,7 +47,7 @@ class EditableText extends React.PureComponent {
 
 	resize() {
 		if (this.el && typeof this.el.scrollHeight != 'undefined') {
-			if (this.el.scrollHeight !== this.state.height) {
+			if (this.el.scrollHeight !== this.state.height && this.el.scrollHeight > DEFAULT_HEIGHT) {
 				this.setState({
 					height: this.el.scrollHeight
 				});

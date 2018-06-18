@@ -9,11 +9,24 @@ import ScenarioMapEditingControlPanel from '../../../containers/controls/mapEdit
 import MapEditingMapContainer from '../../../containers/controls/mapEditing/MapEditingMapContainer';
 
 class ScenarioMapEditingOverlay extends React.PureComponent {
+
+	static propTypes = {
+	};
+
+	onClose(){
+		this.props.onClose();
+	}
+
 	render() {
+		let overlayKey = "scenarioMapEditing";
+
 		return (
 			<MapEditingOverlay
-				overlayKey="scenarioMapEditing">
-				<ScenarioMapEditingControlPanel/>
+				overlayKey={overlayKey}
+				onClose={this.onClose.bind(this)}>
+				<ScenarioMapEditingControlPanel
+					overlayKey={overlayKey}
+				/>
 				<MapEditingMapContainer/>
 			</MapEditingOverlay>
 		);
