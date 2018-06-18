@@ -38,7 +38,9 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 	}
 
 	onSave(){
-		debugger;
+		if (window.confirm(Names.SCENARIO_MAP_EDITING_SAVE_MESSAGE)) {
+			this.props.save();
+		}
 	}
 
 	render() {

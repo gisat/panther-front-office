@@ -18,6 +18,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 			dispatch(Action.scenarios.removeEditedActiveCase());
 			dispatch(Action.components.overlays.closeOverlay(ownProps.overlayKey));
 		},
+		save: () => {
+			dispatch(Action.scenarios.saveActiveCase());
+			dispatch(Action.components.overlays.closeOverlay(ownProps.overlayKey));
+		},
 		updateEditedScenario: (scenarioKey, key, value) => {
 			dispatch(Action.scenarios.updateEditedScenario(scenarioKey, key, value))
 		},
