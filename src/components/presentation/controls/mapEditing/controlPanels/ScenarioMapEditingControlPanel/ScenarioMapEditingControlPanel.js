@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import Button from '../../../../atoms/Button'
 import EditableText from '../../../../atoms/EditableText';
 import MapEditingControlPanel from '../MapEditingControlPanel/MapEditingControlPanel';
+import Names from "../../../../../../constants/Names";
 
 class ScenarioMapEditingControlPanel extends React.PureComponent {
 
@@ -31,7 +32,9 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 	}
 
 	onDiscard(){
-		this.props.discard();
+		if (window.confirm(Names.SCENARIO_MAP_EDITING_CLOSE_MESSAGE)) {
+			this.props.discard();
+		}
 	}
 
 	onSave(){
@@ -51,7 +54,7 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 						<EditableText
 							large
 							value={name}
-							placeholder="Scenario name"
+							placeholder="Edited scenario name"
 							editing={true}
 							onChange={this.onChangeName}
 						/>

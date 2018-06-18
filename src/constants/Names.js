@@ -11,6 +11,8 @@ export default {
 
 	SCENARIOS_DELETE_CONFIRM_MESSAGE: 'Do you really want to delete scenario?',
 
+	SCENARIO_MAP_EDITING_CLOSE_MESSAGE: 'Do you really want to close editing and discard all changes?',
+
 	SCENARIOS_PROCESSING_FILE_LOADER_TEXT: 'Processing file...',
 	SCENARIOS_PROCESSING_FILE_ERROR: 'Error',
 	SCENARIOS_PROCESSING_FILE_ERROR_MESSAGE: 'Error during file processing!',

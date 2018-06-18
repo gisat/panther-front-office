@@ -7,6 +7,7 @@ import classNames from "classnames";
 
 import ScenarioMapEditingControlPanel from '../../../containers/controls/mapEditing/controlPanels/ScenarioMapEditingControlPanel';
 import MapEditingMapContainer from '../../../containers/controls/mapEditing/MapEditingMapContainer';
+import Names from "../../../../constants/Names";
 
 class ScenarioMapEditingOverlay extends React.PureComponent {
 
@@ -22,8 +23,10 @@ class ScenarioMapEditingOverlay extends React.PureComponent {
 
 		return (
 			<MapEditingOverlay
+				closeConfirmMessage={Names.SCENARIO_MAP_EDITING_CLOSE_MESSAGE}
 				overlayKey={overlayKey}
-				onClose={this.onClose.bind(this)}>
+				onClose={this.onClose.bind(this)}
+			>
 				<ScenarioMapEditingControlPanel
 					overlayKey={overlayKey}
 				/>

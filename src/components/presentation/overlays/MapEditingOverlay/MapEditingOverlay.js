@@ -5,11 +5,13 @@ import utils from '../../../../utils/utils';
 import _ from 'lodash';
 
 import './MapEditingOverlay.css';
+import Names from "../../../../constants/Names";
 
 class MapEditingOverlay extends React.PureComponent {
 
 	static propTypes = {
 		close: PropTypes.func,
+		closeConfirmMessage: PropTypes.string,
 		onClose: PropTypes.func,
 		open: PropTypes.bool
 	};
@@ -20,9 +22,15 @@ class MapEditingOverlay extends React.PureComponent {
 	}
 
 	onClose(){
-		// todo add window confirm
-		this.props.onClose();
-		this.props.close();
+		if (this.props.closeConfirmMessage){
+			if (window.confirm(this.props.closeConfirmMessage)) {
+				this.props.onClose();
+				this.props.close();
+			}
+		} else {
+			this.props.onClose();
+			this.props.close();
+		}
 	}
 
 	render() {
