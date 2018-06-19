@@ -187,7 +187,7 @@ class CustomViewsWidget extends Widget {
 
                 let window = $('#custom-views-dataviews-' + dataset + ' .custom-views-window-content');
                 if (scope.description) {
-                    window.append('<div>' + scope.description + '</div>');
+                    $('#custom-views-dataviews-' + dataset + ' .custom-views-window-header').append('<div>' + scope.description + '</div>');
                 }
                 let sortedData = this.sortDataByTime(data[dataset]);
                 let self = this;
