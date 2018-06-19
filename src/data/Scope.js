@@ -15,6 +15,9 @@ class Scope extends Model {
             name: {
                 serverName: 'name'
             },
+            description: {
+                serverName: 'description'
+            },
             periods: {
                 serverName: 'years',
                 transformToLocal: objects => {
