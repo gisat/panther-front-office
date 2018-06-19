@@ -1,13 +1,15 @@
 import { connect } from 'react-redux';
 import React from "react";
 import PropTypes from "prop-types";
+import _ from "lodash";
 
 import Button from '../../../../atoms/Button'
 import EditableText from '../../../../atoms/EditableText';
 import MapEditingControlPanel from '../MapEditingControlPanel/MapEditingControlPanel';
 import Names from "../../../../../../constants/Names";
 
-import UISelect from "../../../../atoms/UISelect"
+import UISelect from "../../../../atoms/UISelect";
+import * as urbanAtlas from '../../../../../../resources/urbanAtlasClasses.json'
 
 class ScenarioMapEditingControlPanel extends React.PureComponent {
 
@@ -27,7 +29,7 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 	}
 
 	onChangeLuClass(value){
-		debugger;
+		// todo handle change
 	}
 
 	onChangeName(value) {
@@ -54,9 +56,6 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 		let name = this.props.scenarioData && this.props.scenarioData.data && this.props.scenarioData.data.hasOwnProperty('name') ? this.props.scenarioData.data.name : null;
 		let description = this.props.scenarioData && this.props.scenarioData.data && this.props.scenarioData.data.hasOwnProperty('description') ? this.props.scenarioData.data.description : null;
 
-		let options = [{key: 1, value: 1, label: 'Class one'},{key: 2, value: 2, label: 'Second class', disabled: true},{key: 3, value: 3, label: 'Class with extra extra extra looooong name name name'}];
-		let selected = 1;
-
 		return (
 			<MapEditingControlPanel
 				title="Scenario editing"
@@ -80,17 +79,8 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 					</div>
 					<div className="ptr-editing-control-panel-content-body">
 						<div>
-							<UISelect
-								key='land-use-class-selector'
-								label='left'
-								name='LU/LC class'
-								fullWidth
-								onChange={this.onChangeLuClass}
-								options={options}
-								placeholder=''
-								value={selected}
-								disabled={!!this.props.disabled}
-							/>
+							<h3 className="ptr-editing-control-panel-section-title">Selected feature attributes</h3>
+							{this.renderUrbanAtlasClassSelect()}
 						</div>
 					</div>
 				</div>
@@ -114,6 +104,32 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 					<Button key="discard" onClick={this.onDiscard}>Discard</Button>
 				) : null}
 			</div>
+		);
+	}
+
+	renderUrbanAtlasClassSelect(){
+		let options = [];
+
+		_.forIn(urbanAtlas, (propertyValue, propertyKey) => {
+			options.push({
+				key: propertyKey,
+				value: propertyKey,
+				label: propertyKey + ': ' + propertyValue
+			});
+		});
+
+		return (
+			<UISelect
+				key='land-use-class-selector'
+				label='left'
+				name='LU/LC class'
+				fullWidth
+				onChange={this.onChangeLuClass}
+				options={options}
+				placeholder=''
+				value={null}
+				disabled={!!this.props.disabled}
+			/>
 		);
 	}
 }
