@@ -16,6 +16,17 @@ textarea.ptr-editable-text.editing {
 	border: 1px dashed rgba(0,0,0,.5);
 }
 
+textarea.ptr-editable-text.empty.required {
+	border-color: red;
+}
+
+.ptr-editable-text-message {
+	margin: -.1rem 0 .5rem;
+	color: rgb(255,30,30);
+	text-align: right;
+	font-size: .75rem;
+}
+
 .ptr-editable-text.large {
 	font-size: 1.075rem;
 	line-height: 1.5;

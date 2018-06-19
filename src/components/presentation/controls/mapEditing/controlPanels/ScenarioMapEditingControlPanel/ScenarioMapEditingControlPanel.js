@@ -68,6 +68,7 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 							value={name}
 							placeholder="Edited scenario name"
 							editing={true}
+							required
 							onChange={this.onChangeName}
 						/>
 						<EditableText
