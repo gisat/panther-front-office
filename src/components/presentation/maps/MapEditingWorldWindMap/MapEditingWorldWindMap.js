@@ -78,13 +78,25 @@ class MapEditingWorldWindMap extends React.PureComponent {
                 const url = `http://192.168.2.205/geoserver/wfs?service=wfs&version=1.1.0&request=GetFeature&typeNames=geonode:pucs_514f7a7552564ceebd269a8d334f1324&bbox=${rightBottom.latitude},${topLeft.longitude},${topLeft.latitude},${rightBottom.longitude}&outputFormat=application/json`;
 
                 const parser = new GeoJSONParser(url);
+                let props = null;
                 parser.load(layer => {
                     // Get last renderable and save it as a
                     self._editedPolygon = layer.renderables[layer.renderables.length - 1];
-                    self._editedPolygon.attributes.interiorColor = Color.CYAN;
+                    self._editedPolygon.props = props;
+                    // Test method
+                    setTimeout(() => {
+                        self._editedPolygon.props["CODE2012"] = "40000";
+                        self._editedPolygon.attributes.interiorColor = this.getTheColorForPolygon(legend, self._editedPolygon.props);
+
+                        // Update the transactions.
+                        this.updatePolygon(self._editedPolygon);
+
+                        wwd.redraw();
+                    }, 5000);
                     wwd.redraw();
                 }, (geometry, properties) => {
                     const configuration = {};
+                    props = properties;
 
                     const name = properties.name || properties.Name || properties.NAME;
                     if (name) {
@@ -105,6 +117,40 @@ class MapEditingWorldWindMap extends React.PureComponent {
                 }, layerWithUpdatedPolygons);
             });
             clickRecognizer.enabled = true;
+        });
+    }
+
+    updatePolygon(polygon) {
+        const body = `<wfs:Transaction service="WFS" version="1.0.0"
+                         xmlns:topp="http://www.openplans.org/topp"
+                         xmlns:ogc="http://www.opengis.net/ogc"
+                         xmlns:wfs="http://www.opengis.net/wfs">
+            <wfs:Update typeName="geonode:pucs_514f7a7552564ceebd269a8d334f1324">
+                <wfs:Property>
+                    <wfs:Name>CODE2012</wfs:Name>
+                    <wfs:Value>${polygon.props['CODE2012']}</wfs:Value>
+                </wfs:Property>
+                <ogc:Filter>
+                    <ogc:FeatureId fid="${polygon.props['fid']}"/>
+                </ogc:Filter>
+            </wfs:Update>
+        </wfs:Transaction>`;
+        console.log(body);
+
+        fetch('http://192.168.2.205/geoserver/wfs?service=WFS&version=1.1.0&request=Transaction', {
+            body: body, // must match 'Content-Type' header
+            cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+            credentials: 'include', // include, same-origin, *omit
+            headers: {
+                'user-agent': 'Mozilla/4.0 MDN Example',
+                'content-type': 'text/xml'
+            },
+            method: 'POST', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, cors, *same-origin
+            redirect: 'follow', // manual, *follow, error
+            referrer: 'no-referrer', // *client, no-referrer
+        }).then(response => {
+            console.log(response);
         });
     }
 
