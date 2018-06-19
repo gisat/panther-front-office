@@ -62,7 +62,7 @@ class AoiPeriodsSelector extends React.PureComponent {
 			content = (
 				<UISelect
 					key='aoi-selector'
-					classes='ptr-aoi-selector'
+					classes='ptr-aoi-selector ptr-view-selection-selector'
 					label='left'
 					name='AOI'
 					onChange={this.selectAoi.bind(this)}

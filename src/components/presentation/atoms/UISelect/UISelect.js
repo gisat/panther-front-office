@@ -12,6 +12,7 @@ class UISelect extends React.PureComponent {
 
 	static propTypes = {
 		classes: PropTypes.string,
+		fullWidth: PropTypes.bool,
 		label: PropTypes.string,
 		name: PropTypes.string,
 		onChange: PropTypes.func,
@@ -25,17 +26,18 @@ class UISelect extends React.PureComponent {
 	};
 
 	constructor(props) {
-		super();
+		super(props);
 
 		this.filterOptions = null;
 	}
 
 	render() {
 		let classes = classNames(
-			'ptr-ui-select ptr-view-selection-selector',
+			'ptr-ui-select',
 			this.props.classes, {
 				'label-left': this.props.label === 'left',
-				'label-top': this.props.label === 'top'
+				'label-top': this.props.label === 'top',
+				'full-width': this.props.fullWidth
 			}
 		);
 		let label;

@@ -255,13 +255,118 @@ body {
 
 .ptr-ui-select-label {
 	color: rgba(168, 172, 180, 1);
-	font-size: .8rem;
+	font-size: .85rem;
 	font-weight: 600;
 	padding: 0 1rem 0 0;
 }
 
 .ptr-ui-select .Select {
 	width: 12rem;
+	border: 1px solid;
+	border-radius: .15rem;
+	font-size: .85rem;
+}
+
+.ptr-ui-select.full-width .Select {
+	flex: 1;
+}
+
+.ptr-ui-select .Select.is-disabled {
+	pointer-events: none;
+}
+
+.ptr-ui-select .Select-control,
+.ptr-ui-select .Select.is-disabled .Select-control {
+	border: 0;
+	border-radius: 2px;
+	height: 2rem;
+	transition: background-color .3s ease-in-out;
+}
+
+.ptr-ui-select .VirtualizedSelectOption {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	padding: 0 .5rem;
+	cursor: pointer;
+
+	white-space: nowrap;
+}
+.ptr-ui-select .VirtualizedSelectDisabledOption {
+	opacity: 1;
+}
+.ptr-ui-select .VirtualizedSelectSelectedOption {
+	font-weight: 600;
+}
+.ptr-ui-select .Select-control .Select-value {
+	line-height: 1.8rem;
+	padding-right: 25px;
+}
+.ptr-ui-select .Select-input {
+	display: block;
+	height: 1.8rem;
+	line-height: 1.8rem;
+}
+.ptr-ui-select .Select-input > input {
+	padding: 0;
+}
+.ptr-ui-select .Select.is-disabled .Select-arrow-zone {
+	display: none;
+}
+.ptr-ui-select .Select-placeholder {
+	line-height: 1.8rem;
+	text-transform: none;
+}
+
+/* Default colors */
+.ptr-ui-select .ptr-ui-select-label {
+	color: #333;
+}
+
+.ptr-ui-select .Select {
+	border-color: rgba(0,0,0,.4);
+	transition: .3s border ease-in-out;
+}
+.ptr-ui-select .Select.is-focused {
+	box-shadow: 0 0 1px 1px rgba(0,134,252,1);
+}
+.ptr-ui-select .Select-control,
+.ptr-ui-select .Select.is-disabled .Select-control {
+	background-color: rgba(232,236,240,1);
+}
+
+.ptr-ui-select .VirtualizedSelectOption {
+	background-color: rgba(220, 224, 228, 1);
+	color: #333;
+}
+.ptr-ui-select .VirtualizedSelectDisabledOption {
+	background-color: rgba(220, 224, 228, 1);
+	color: #aaa;
+}
+.ptr-ui-select .VirtualizedSelectSelectedOption,
+.ptr-ui-select .VirtualizedSelectSelectedOption.VirtualizedSelectFocusedOption {
+	background-color: rgba(153,191,228,1);
+}
+.ptr-ui-select .VirtualizedSelectFocusedOption {
+	background-color: rgba(153,191,228,.7);
+}
+.ptr-ui-select .Select:hover,
+.ptr-ui-select .Select.is-focused {
+	border-color: rgba(0,0,0,.5);
+}
+.ptr-ui-select .Select-control:hover,
+.ptr-ui-select .Select.is-focused > .Select-control,
+.ptr-ui-select .Select.is-focused:not(.is-open) > .Select-control {
+	background-color: rgba(240,243,246,1);
+}
+.ptr-ui-select .Select.has-value.Select--single > .Select-control .Select-value .Select-value-label,
+.ptr-ui-select .Select.has-value.is-focused.Select--single > .Select-control .Select-value .Select-value-label,
+.ptr-ui-select .Select.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value .Select-value-label,
+.ptr-ui-select .Select-input > input {
+	color: #333;
 }
 
 /* ================================================================
@@ -403,6 +508,16 @@ body {
 	height: 100%;
 }
 
+.ptr-view-selection-selector.ptr-ui-select .ptr-ui-select-label {
+	color: rgba(168, 172, 180, 1);
+}
+.ptr-view-selection-selector.ptr-ui-select .Select {
+	font-size: .75rem;
+	border: none;
+}
+.ptr-ui-select .Select.is-focused {
+	box-shadow: none;
+}
 .ptr-view-selection-selector.ptr-ui-select .Select.is-disabled {
 	pointer-events: none;
 }

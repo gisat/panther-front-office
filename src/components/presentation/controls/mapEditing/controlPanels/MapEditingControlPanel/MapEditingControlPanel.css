@@ -21,6 +21,9 @@
 	background: rgba(224,227,231,1);
 	padding: 2rem 1.5rem;
 }
+.ptr-editing-control-panel-content-body {
+	padding: 1.5rem;
+}
 .ptr-editing-control-panel-controls {
 	padding: 1rem 1.5rem 1.5rem;
 	background: #efc6cf;
