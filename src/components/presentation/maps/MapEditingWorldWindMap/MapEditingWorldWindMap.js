@@ -63,6 +63,9 @@ class MapEditingWorldWindMap extends React.PureComponent {
         const layerWithUpdatedPolygons = new RenderableLayer('Updated polygons');
         wwd.addLayer(layerWithUpdatedPolygons);
 
+        const self = this;
+        this._editedPolygon = null;
+
         this.loadLegend().then(legend => {
             // Add Click Recognizer to use for construction of WFS.
             const clickRecognizer = new ClickRecognizer(wwd.canvas, (event) => {
@@ -75,7 +78,12 @@ class MapEditingWorldWindMap extends React.PureComponent {
                 const url = `http://192.168.2.205/geoserver/wfs?service=wfs&version=1.1.0&request=GetFeature&typeNames=geonode:pucs_514f7a7552564ceebd269a8d334f1324&bbox=${rightBottom.latitude},${topLeft.longitude},${topLeft.latitude},${rightBottom.longitude}&outputFormat=application/json`;
 
                 const parser = new GeoJSONParser(url);
-                parser.load(null, (geometry, properties) => {
+                parser.load(layer => {
+                    // Get last renderable and save it as a
+                    self._editedPolygon = layer.renderables[layer.renderables.length - 1];
+                    self._editedPolygon.attributes.interiorColor = Color.CYAN;
+                    wwd.redraw();
+                }, (geometry, properties) => {
                     const configuration = {};
 
                     const name = properties.name || properties.Name || properties.NAME;
@@ -95,8 +103,6 @@ class MapEditingWorldWindMap extends React.PureComponent {
 
                     return configuration
                 }, layerWithUpdatedPolygons);
-
-                wwd.redraw();
             });
             clickRecognizer.enabled = true;
         });
