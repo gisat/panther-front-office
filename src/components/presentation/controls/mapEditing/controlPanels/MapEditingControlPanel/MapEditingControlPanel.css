@@ -9,7 +9,8 @@
 }
 
 .ptr-editing-control-panel-title {
-	padding: 1rem 1.5rem;
+	background: rgba(224,227,231,1);
+	padding: 1.5rem 1.5rem 0;
 	font-size: 1.85rem;
 	color: #333;
 	font-weight: 400;
@@ -19,7 +20,7 @@
 }
 .ptr-editing-control-panel-content-header {
 	background: rgba(224,227,231,1);
-	padding: 2rem 1.5rem;
+	padding: 1.5rem;
 }
 .ptr-editing-control-panel-content-body {
 	padding: 1.5rem;
