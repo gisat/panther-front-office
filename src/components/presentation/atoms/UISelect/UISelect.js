@@ -17,6 +17,8 @@ class UISelect extends React.PureComponent {
 		name: PropTypes.string,
 		onChange: PropTypes.func,
 		options: PropTypes.array,
+		optionHeight: PropTypes.number,
+		optionRenderer: PropTypes.func,
 		placeholder: PropTypes.string,
 		value: PropTypes.oneOfType([
 			PropTypes.string,
@@ -51,6 +53,11 @@ class UISelect extends React.PureComponent {
 			this.filterOptions = createFilterOptions({options});
 		}
 
+		let optionHeight = 35;
+		if (this.props.optionHeight){
+			optionHeight = this.props.optionHeight;
+		}
+
 		return (
 			<div className={classes}>
 				{label}
@@ -59,6 +66,8 @@ class UISelect extends React.PureComponent {
 					name={this.props.name}
 					onChange={this.props.onChange}
 					options={options}
+					optionHeight={optionHeight}
+					optionRenderer={this.props.optionRenderer}
 					filterOptions={this.filterOptions}
 					placeholder={this.props.placeholder}
 					value={this.props.value}

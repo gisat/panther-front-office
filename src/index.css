@@ -292,8 +292,6 @@ body {
 	align-items: center;
 	padding: 0 .5rem;
 	cursor: pointer;
-
-	white-space: nowrap;
 }
 .ptr-ui-select .VirtualizedSelectDisabledOption {
 	opacity: 1;

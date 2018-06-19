@@ -9,7 +9,8 @@ import MapEditingControlPanel from '../MapEditingControlPanel/MapEditingControlP
 import Names from "../../../../../../constants/Names";
 
 import UISelect from "../../../../atoms/UISelect";
-import * as urbanAtlas from '../../../../../../resources/urbanAtlasClasses.json'
+import * as urbanAtlas from '../../../../../../resources/urbanAtlasClasses.json';
+import CustomOption from "../../../../atoms/UISelect/CustomOption";
 
 class ScenarioMapEditingControlPanel extends React.PureComponent {
 
@@ -26,10 +27,18 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 		this.onChangeName = this.onChangeName.bind(this);
 		this.onDiscard = this.onDiscard.bind(this);
 		this.onSave = this.onSave.bind(this);
+
+		this.state = {
+			luClass: null
+		}
 	}
 
 	onChangeLuClass(value){
-		// todo handle change
+		if (value){
+			this.setState({
+				luClass: value.value
+			})
+		}
 	}
 
 	onChangeName(value) {
@@ -114,7 +123,7 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 			options.push({
 				key: propertyKey,
 				value: propertyKey,
-				label: propertyKey + ': ' + propertyValue
+				label: propertyValue
 			});
 		});
 
@@ -126,12 +135,30 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 				fullWidth
 				onChange={this.onChangeLuClass}
 				options={options}
+				optionRenderer={this.urbanAtlasOptionRenderer.bind(this)}
+				optionHeight={70}
 				placeholder=''
-				value={null}
+				value={this.state.luClass}
 				disabled={!!this.props.disabled}
 			/>
 		);
 	}
+
+	urbanAtlasOptionRenderer(props){
+		return (
+			<CustomOption
+				centerVertically
+				focused={props.option.key === props.focusedOption.key}
+				key={props.option.key}
+				optionKey={props.option.key}
+				selectValue={props.selectValue}
+				style={props.style}
+				data={props.option}>
+				<div className="custom-option-code">{props.option.key}</div>
+				<div className="custom-option-name">{props.option.label}</div>
+			</CustomOption>
+		);
+	};
 }
 
 export default ScenarioMapEditingControlPanel;
