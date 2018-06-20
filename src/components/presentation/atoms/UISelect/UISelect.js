@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactSelect from 'react-select';
 import VirtualizedSelect from 'react-virtualized-select';
 import PropTypes from 'prop-types';
 import createFilterOptions from 'react-select-fast-filter-options';
@@ -24,6 +25,9 @@ class UISelect extends React.PureComponent {
 			PropTypes.string,
 			PropTypes.number
 		]),
+		valueRenderer: PropTypes.func,
+		virtualized: PropTypes.bool,
+		resizable: PropTypes.bool,
 		disabled: PropTypes.bool
 	};
 
@@ -39,7 +43,8 @@ class UISelect extends React.PureComponent {
 			this.props.classes, {
 				'label-left': this.props.label === 'left',
 				'label-top': this.props.label === 'top',
-				'full-width': this.props.fullWidth
+				'full-width': this.props.fullWidth,
+				'resizable': this.props.resizable
 			}
 		);
 		let label;
@@ -61,18 +66,34 @@ class UISelect extends React.PureComponent {
 		return (
 			<div className={classes}>
 				{label}
-				<VirtualizedSelect
-					clearable={false}
-					name={this.props.name}
-					onChange={this.props.onChange}
-					options={options}
-					optionHeight={optionHeight}
-					optionRenderer={this.props.optionRenderer}
-					filterOptions={this.filterOptions}
-					placeholder={this.props.placeholder}
-					value={this.props.value}
-					disabled={this.props.disabled}
-				/>
+				{this.props.virtualized ? (
+					<VirtualizedSelect
+						clearable={false}
+						name={this.props.name}
+						onChange={this.props.onChange}
+						options={options}
+						optionHeight={optionHeight}
+						optionRenderer={this.props.optionRenderer}
+						filterOptions={this.filterOptions}
+						placeholder={this.props.placeholder}
+						value={this.props.value}
+						valueRenderer={this.props.valueRenderer}
+						disabled={this.props.disabled}
+					/>
+				):(
+					<ReactSelect
+						autosize
+						clearable={false}
+						name={this.props.name}
+						onChange={this.props.onChange}
+						options={options}
+						filterOptions={this.filterOptions}
+						placeholder={this.props.placeholder}
+						value={this.props.value}
+						disabled={this.props.disabled}
+					/>
+				)}
+
 			</div>
 		)
 	}

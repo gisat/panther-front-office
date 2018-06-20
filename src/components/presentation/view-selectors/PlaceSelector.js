@@ -77,6 +77,7 @@ class PlaceSelector extends React.PureComponent {
 					options={options}
 					placeholder=''
 					value={selected}
+					virtualized
 					disabled={!!this.props.disabled}
 				/>
 			));
