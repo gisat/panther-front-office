@@ -279,7 +279,7 @@ var langEn = {
     saveSetName: "Save set name",
     saveView: "Save view",
     saveVisualization: "Save visualization",
-    scatter: "Scatter",
+    scatter: "Bodový",
     scenarios: "Scenarios",
     scope: "Scope",
     searchForMetadataStarted: "Search for metadata has started. Please wait.",
