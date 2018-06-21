@@ -4,6 +4,7 @@ import AOI from './AOI/actions';
 import Attributes from './Attributes/actions';
 import AttributeSets from './AttributeSets/actions';
 import Components from './Components/actions';
+import LayerTemplates from './LayerTemplates/actions';
 import Maps from './Maps/actions';
 import Periods from './Periods/actions';
 import Places from './Places/actions';
@@ -11,6 +12,7 @@ import Scenarios from './Scenarios/actions';
 import Scopes from './Scopes/actions';
 import SpatialDataSources from './SpatialDataSources/actions';
 import SpatialRelations from './SpatialRelations/actions';
+import Symbologies from './Symbologies/actions';
 import Users from './Users/actions';
 import UserGroups from './UserGroups/actions';
 import WmsLayers from './WmsLayers/actions';
@@ -21,6 +23,7 @@ export default {
 	attributes: Attributes,
 	attributeSets: AttributeSets,
 	components: Components,
+	layerTemplates: LayerTemplates,
 	maps: Maps,
 	periods: Periods,
 	places: Places,
@@ -28,6 +31,7 @@ export default {
 	scopes: Scopes,
 	spatialDataSources: SpatialDataSources,
 	spatialRelations: SpatialRelations,
+	symbologies: Symbologies,
 	users: Users,
 	userGroups: UserGroups,
 	wmsLayers: WmsLayers

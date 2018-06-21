@@ -113,6 +113,23 @@ Ext.define('PumaMain.controller.LocationTheme', {
         stores.forEach(function(store){
             var extStore = Ext.StoreMgr.lookup(store);
             extStore.proxy.extraParams = { scope: val };
+
+			extStore.on('load', function(store, records) {
+				if ((store.storeId === 'symbology' || store.storeId === 'areatemplate') && records){
+                    let data = [];
+                    records.forEach(function(record){
+                        data.push(record.raw);
+                    });
+                    switch(store.storeId){
+                        case 'symbology':
+							window.Stores.notify("SYMBOLOGIES_LOADED", data);
+                            break;
+                        case 'areatemplate':
+							window.Stores.notify("LAYER_TEMPLATES_LOADED", data);
+                            break;
+                    }
+                }
+			});
             extStore.load();
         });
 
