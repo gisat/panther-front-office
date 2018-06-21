@@ -61,6 +61,9 @@ const getAttributeKeysByActiveAttributeSets = createSelector(
 export default {
 	getActive: getActive,
 	getActiveKeys: getActiveKeys,
+
+	getAttributeSets: getAttributeSets,
+
 	getAttributeKeysByActiveAttributeSets: getAttributeKeysByActiveAttributeSets,
 	getAttributesDataByActiveAttributeSets: getAttributesDataByActiveAttributeSets
 };

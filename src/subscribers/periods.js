@@ -1,5 +1,6 @@
 import Action from '../state/Action';
 import utils from '../utils/utils';
+import Select from "../state/Select";
 
 export default store => {
 	setEventListeners(store);
@@ -9,7 +10,11 @@ const setEventListeners = store => {
 	window.Stores.addListener((event, options) => {
 		switch(event) {
 			case 'PERIODS_LOADED':
-				store.dispatch(Action.periods.add(utils.replaceIdWithKey(options)));
+				let oldModels = Select.periods.getPeriods(store.getState());
+				let newModels = utils.removeDuplicities(oldModels, options);
+				if (newModels && newModels.length){
+					store.dispatch(Action.periods.add(newModels));
+				}
 				break;
 			case 'periods#change':
 			case 'periods#initial':
