@@ -30,5 +30,6 @@ const getSymbologiesForTemplate = createSelector(
 export default {
 	getTemplates: getTemplates,
 
+	getTemplate: getTemplate,
 	getSymbologiesForTemplate: getSymbologiesForTemplate
 };
