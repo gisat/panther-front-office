@@ -32,6 +32,9 @@ class Attribute extends Model {
             },
             columnName: {
                 serverName: 'columnName'
+            },
+            enumerationValues: {
+                serverName: 'enumerationValues'
             }
         };
     };
