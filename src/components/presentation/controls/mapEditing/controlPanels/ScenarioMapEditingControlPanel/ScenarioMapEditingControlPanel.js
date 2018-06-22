@@ -10,7 +10,6 @@ import Names from "../../../../../../constants/Names";
 
 import UISelect from "../../../../atoms/UISelect";
 import * as urbanAtlas from '../../../../../../resources/urbanAtlasClasses.json';
-import CustomOption from "../../../../atoms/UISelect/CustomOption";
 
 class ScenarioMapEditingControlPanel extends React.PureComponent {
 
@@ -135,30 +134,13 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 				fullWidth
 				onChange={this.onChangeLuClass}
 				options={options}
-				optionRenderer={this.urbanAtlasOptionRenderer.bind(this)}
-				optionHeight={70}
 				placeholder=''
+				resizable
 				value={this.state.luClass}
 				disabled={!!this.props.disabled}
 			/>
 		);
 	}
-
-	urbanAtlasOptionRenderer(props){
-		return (
-			<CustomOption
-				centerVertically
-				focused={props.option.key === props.focusedOption.key}
-				key={props.option.key}
-				optionKey={props.option.key}
-				selectValue={props.selectValue}
-				style={props.style}
-				data={props.option}>
-				<div className="custom-option-code">{props.option.key}</div>
-				<div className="custom-option-name">{props.option.label}</div>
-			</CustomOption>
-		);
-	};
 }
 
 export default ScenarioMapEditingControlPanel;

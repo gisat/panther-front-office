@@ -174,17 +174,19 @@ class ExtApp {
             // Load stores when only for print or loading the whole application.
             let stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic', 'dataview'];
             let promises = [];
+            let self = this;
             stores.forEach(function (storeName) {
                 promises.push(new Promise(function (resolve, reject) {
                     let store = Ext.StoreMgr.lookup(storeName);
                     store.on('datachanged', function (data) {
                         resolve(data);
                     });
+					store.on('load', self.afterStoreLoad.bind(self));
                     store.load();
                 }));
             });
 
-            Promise.all(promises).then(function () {
+            Promise.all(promises).then(function (data) {
                 self.domManipulationController.renderApp();
                 self.renderController.renderApp();
             }).catch(function (err) {
@@ -200,8 +202,11 @@ class ExtApp {
     login(loggedIn, id) {
         if (loggedIn) {
             let stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic', 'dataview'];
+			let self = this;
             stores.forEach(function (store) {
-                Ext.StoreMgr.lookup(store).load();
+                let extStore = Ext.StoreMgr.lookup(store);
+				extStore.on('load', self.afterStoreLoad.bind(self));
+				extStore.load();
             });
 
             this.dataViewController.onLoadingFinished();
@@ -217,6 +222,23 @@ class ExtApp {
             this.loginController.onLoginClicked(null, true);
         }
     };
+
+    afterStoreLoad(store, records){
+		if ((store.storeId === 'symbology' || store.storeId === 'areatemplate') && records){
+			let data = [];
+			records.forEach(function(record){
+				data.push(record.raw);
+			});
+			switch(store.storeId){
+				case 'symbology':
+					window.Stores.notify("SYMBOLOGIES_LOADED", data);
+					break;
+				case 'areatemplate':
+					window.Stores.notify("LAYER_TEMPLATES_LOADED", data);
+					break;
+			}
+		}
+    }
 }
 
 export default ExtApp;

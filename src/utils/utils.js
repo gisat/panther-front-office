@@ -3,11 +3,14 @@ import React from 'react';
 import _ from 'lodash';
 
 import period, {toString as periodToString} from './period';
+import {replaceIdWithKey, removeDuplicities} from './models';
 
 export default {
 
 	period: period,
 	periodToString: periodToString,
+	replaceIdWithKey: replaceIdWithKey,
+	removeDuplicities: removeDuplicities,
 
 	deepClone: function (data) {
 		var clone = data;
@@ -85,19 +88,6 @@ export default {
 				}, object);
 			});
 
-	},
-
-	replaceIdWithKey (options) {
-		if (options.length){
-			return options.map(layer => {
-				let clone = _.cloneDeep(layer);
-				clone.key = clone.id;
-				delete clone.id;
-				return clone;
-			});
-		} else {
-			return options;
-		}
 	},
 
 	collectionsAreEqual (collection1, collection2, sortBy) {

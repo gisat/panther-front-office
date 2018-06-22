@@ -20,7 +20,11 @@ const setEventListeners = store => {
 	window.Stores.addListener((event, options) => {
 		switch(event) {
 			case 'SCOPES_LOADED':
-				store.dispatch(Action.scopes.add(utils.replaceIdWithKey(options)));
+				let oldModels = Select.scopes.getScopes(store.getState());
+				let newModels = utils.removeDuplicities(oldModels, options);
+				if (newModels && newModels.length){
+					store.dispatch(Action.scopes.add(newModels));
+				}
 				break;
 			case 'scope#activeScopeChanged':
 				store.dispatch(Action.scopes.setActiveScopeKey(options.activeScopeKey));

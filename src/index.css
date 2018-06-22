@@ -267,10 +267,6 @@ body {
 	font-size: .85rem;
 }
 
-.ptr-ui-select.full-width .Select {
-	flex: 1;
-}
-
 .ptr-ui-select .Select.is-disabled {
 	pointer-events: none;
 }
@@ -283,22 +279,6 @@ body {
 	transition: background-color .3s ease-in-out;
 }
 
-.ptr-ui-select .VirtualizedSelectOption {
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	-webkit-box-align: center;
-	-ms-flex-align: center;
-	align-items: center;
-	padding: 0 .5rem;
-	cursor: pointer;
-}
-.ptr-ui-select .VirtualizedSelectDisabledOption {
-	opacity: 1;
-}
-.ptr-ui-select .VirtualizedSelectSelectedOption {
-	font-weight: 600;
-}
 .ptr-ui-select .Select-control .Select-value {
 	line-height: 1.8rem;
 	padding-right: 25px;
@@ -319,6 +299,54 @@ body {
 	text-transform: none;
 }
 
+.ptr-ui-select .VirtualizedSelectOption {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	align-items: center;
+	padding: 0 .5rem;
+	cursor: pointer;
+}
+.ptr-ui-select .VirtualizedSelectDisabledOption {
+	opacity: 1;
+}
+.ptr-ui-select .VirtualizedSelectSelectedOption {
+	font-weight: 600;
+}
+
+/* Full width */
+.ptr-ui-select.full-width .Select {
+	flex: 1;
+}
+
+/* Resizable */
+.ptr-ui-select.resizable .Select-control {
+	min-height: 2rem;
+	height: auto;
+}
+.ptr-ui-select.resizable .Select-input {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.ptr-ui-select.resizable .Select-control > span:not(.Select-arrow-zone) {
+	display: block;
+}
+.ptr-ui-select.resizable .Select-input {
+	position: absolute;
+	left: 0;
+	top: 0;
+}
+.ptr-ui-select.resizable .Select--single > .Select-control .Select-value {
+	position: relative;
+	white-space: normal;
+	line-height: 20px;
+	padding: 5px 10px;
+}
+
+
 /* Default colors */
 .ptr-ui-select .ptr-ui-select-label {
 	color: #333;
@@ -336,19 +364,24 @@ body {
 	background-color: rgba(232,236,240,1);
 }
 
-.ptr-ui-select .VirtualizedSelectOption {
-	background-color: rgba(220, 224, 228, 1);
+.ptr-ui-select .VirtualizedSelectOption,
+.ptr-ui-select .Select-option {
+	background-color: rgba(240, 242, 244, 1);
 	color: #333;
 }
-.ptr-ui-select .VirtualizedSelectDisabledOption {
-	background-color: rgba(220, 224, 228, 1);
+.ptr-ui-select .VirtualizedSelectDisabledOption,
+.ptr-ui-select .Select-option.is-disabled {
+	background-color: rgba(240, 242, 244, 1);
 	color: #aaa;
 }
 .ptr-ui-select .VirtualizedSelectSelectedOption,
-.ptr-ui-select .VirtualizedSelectSelectedOption.VirtualizedSelectFocusedOption {
+.ptr-ui-select .VirtualizedSelectSelectedOption.VirtualizedSelectFocusedOption,
+.ptr-ui-select .Select-option.is-selected,
+.ptr-ui-select .Select-option.is-selected.is-focused {
 	background-color: rgba(153,191,228,1);
 }
-.ptr-ui-select .VirtualizedSelectFocusedOption {
+.ptr-ui-select .VirtualizedSelectFocusedOption,
+.ptr-ui-select .Select-option.is-focused {
 	background-color: rgba(153,191,228,.7);
 }
 .ptr-ui-select .Select:hover,

@@ -23,7 +23,11 @@ const setEventListeners = store => {
 	window.Stores.addListener((event, options) => {
 		switch(event) {
 			case 'PLACES_LOADED':
-				store.dispatch(Action.places.add(_.map(options, transform)));
+				let oldModels = Select.places.getPlaces(store.getState());
+				let newModels = utils.removeDuplicities(oldModels, _.map(options, transform));
+				if (newModels && newModels.length){
+					store.dispatch(Action.places.add(newModels));
+				}
 				break;
 			case 'place#setActivePlace':
 				let scope = Select.scopes.getActiveScopeData(store.getState());

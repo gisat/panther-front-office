@@ -5,6 +5,7 @@ import attributesReducers from './Attributes/reducers';
 import attributeSetsReducers from './AttributeSets/reducers';
 import componentsReducers from './Components/reducers';
 import layerPeriodsReducers from './LayerPeriods/reducers';
+import layerTemplatesReducers from './LayerTemplates/reducers';
 import mapsReducers from './Maps/reducers';
 import periodsReducers from './Periods/reducers';
 import placesReducers from './Places/reducers';
@@ -12,6 +13,7 @@ import scenariosReducers from './Scenarios/reducers';
 import scopesReducers from './Scopes/reducers';
 import spatialDataSourcesReducers from './SpatialDataSources/reducers';
 import spatialRelationsReducers from './SpatialRelations/reducers';
+import symbologiesReducers from './Symbologies/reducers';
 import usersReducers from './Users/reducers';
 import userGroupsReducers from './UserGroups/reducers';
 import wmsLayersReducers from './WmsLayers/reducers';
@@ -27,6 +29,7 @@ const Store = createStore(combineReducers({
 	attributeSets: attributeSetsReducers,
 	components: componentsReducers,
 	layerPeriods: layerPeriodsReducers,
+	layerTemplates: layerTemplatesReducers,
 	maps: mapsReducers,
 	periods: periodsReducers,
 	places: placesReducers,
@@ -34,6 +37,7 @@ const Store = createStore(combineReducers({
 	scopes: scopesReducers,
 	spatialDataSources: spatialDataSourcesReducers,
 	spatialRelations: spatialRelationsReducers,
+	symbologies: symbologiesReducers,
 	users: usersReducers,
 	userGroups: userGroupsReducers,
 	wmsLayers: wmsLayersReducers

@@ -90,6 +90,8 @@ const isDromasAdmin = state => {
 
 export default {
 	getActiveUserPermissionsTowards: getActiveUserPermissionsTowards,
+	getUsers: getUsers,
+
 	groups: groups,
 
 	hasActiveUserPermissionToCreate: hasActiveUserPermissionToCreate,
