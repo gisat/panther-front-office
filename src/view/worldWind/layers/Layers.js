@@ -247,13 +247,17 @@ class Layers {
 				});
 				break;
             case "osm":
-                layer = new MyOsmLayer({
+                layer = new MyWmsLayer({
                     attribution: "\u00A9 OpenStreetMap contributors",
-                    sourceObject: {
-                        host: "tiles.wmflabs.org",
-                        path: "osm",
-                        prefixes: ["a", "b", "c"]
-                    }
+                    service: "http://ows.terrestris.de/osm/service",
+                    layerNames: "OSM-WMS",
+                    sector: new WorldWind.Sector(-90, 90, -180, 180),
+                    levelZeroDelta: new WorldWind.Location(45, 45),
+                    numLevels: 14,
+                    format: "image/png",
+                    opacity: 1,
+                    size: 256,
+                    version: "1.3.0"
                 });
                 break;
             case "cartoDb":
