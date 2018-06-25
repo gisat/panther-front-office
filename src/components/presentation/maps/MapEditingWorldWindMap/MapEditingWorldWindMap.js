@@ -9,7 +9,7 @@ import Controls from '../../../../view/worldWind/controls/Controls';
 import mapUtils from "../../../../utils/map";
 import MyWmsLayer from '../../../../worldwind/layers/MyWmsLayer';
 
-const {WorldWindow, Sector, Location, ClickRecognizer, RenderableLayer, ShapeAttributes, Color} = WorldWind;
+const {WorldWindow, Sector, Location, ClickRecognizer, RenderableLayer, ShapeAttributes, Color, Polygon} = WorldWind;
 
 class MapEditingWorldWindMap extends React.PureComponent {
 
@@ -17,7 +17,8 @@ class MapEditingWorldWindMap extends React.PureComponent {
 		activeBackgroundLayerKey: PropTypes.string,
 		bbox: PropTypes.string,
 		mapContainerClass: PropTypes.string,
-		sourceLayer: PropTypes.string
+		sourceLayer: PropTypes.object,
+        polygons: PropTypes.array
 	};
 
 	constructor(props){
@@ -46,21 +47,16 @@ class MapEditingWorldWindMap extends React.PureComponent {
             this.changeBackgroundLayer(this.props.activeBackgroundLayerKey);
         }
 
-        // Add WMS Layer
-        wwd.addLayer(new MyWmsLayer({
-            service: "http://192.168.2.205/geoserver/wfs",
-            layerNames: "geonode:pucs_514f7a7552564ceebd269a8d334f1324",
-            sector: new Sector(-90, 90, -180, 180),
-            levelZeroDelta: new Location(45, 45),
-            numLevels: 14,
-            format: "image/png",
-            opacity: 1,
-            size: 256,
-            version: "1.3.0",
-            styleNames: "urbanAtlas"
-        }));
+        if(this.props.sourceLayer) {
+            this.reloadSourceLayer(this.props.sourceLayer);
+        }
+
+        if(this.props.polygons) {
+            this.visualizeChangedPolygons(this.props.polygons);
+        }
 
         const layerWithUpdatedPolygons = new RenderableLayer('Updated polygons');
+        this._layerWithUpdatedPolygons = layerWithUpdatedPolygons;
         wwd.addLayer(layerWithUpdatedPolygons);
 
         const self = this;
@@ -312,7 +308,46 @@ class MapEditingWorldWindMap extends React.PureComponent {
 		if (nextProps.bbox){
 			this.zoomToBbox(nextProps.bbox);
 		}
+
+		if(nextProps.polygons) {
+		    this.reloadSourceLayer();
+		    this.visualizeChangedPolygons(nextProps.polygons);
+        }
 	}
+
+	reloadSourceLayer() {
+	    if(this.wwd) {
+	        if(this.sourceLayer) {
+	            this.wwd.removeLayer(this.sourceLayer);
+            }
+
+            this.sourceLayer = new MyWmsLayer({
+                service: this.props.sourceLayer.url,
+                layerNames: this.props.sourceLayer.name,
+                sector: new Sector(-90, 90, -180, 180),
+                levelZeroDelta: new Location(45, 45),
+                numLevels: 14,
+                format: "image/png",
+                opacity: 1,
+                size: 256,
+                version: "1.3.0",
+                styleNames: this.props.sourceLayer.style || "urbanAtlas"
+            });
+
+            // Add WMS Layer
+            this.wwd.addLayer(this.sourceLayer);
+        }
+    }
+
+    visualizeChangedPolygons(polygons) {
+	    let shapeAttributes = new ShapeAttributes();
+	    if(this._layerWithUpdatedPolygons) {
+            this._layerWithUpdatedPolygons.removeAllRenderables();
+            this._layerWithUpdatedPolygons.addRenderables(polygons.map(polygon => {
+                return new Polygon(polygon, shapeAttributes);
+            }));
+        }
+    }
 
 	changeBackgroundLayer(key){
 		if (key){
