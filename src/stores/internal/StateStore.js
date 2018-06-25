@@ -419,7 +419,7 @@ class StateStore {
      */
     updateNavigator(options){
         this._navigatorState = options;
-        this._dispatcher.notify("navigator#update");
+        this._dispatcher.notify("navigator#update", options);
     }
 
     onEvent(type, options) {

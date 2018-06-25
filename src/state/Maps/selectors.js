@@ -29,6 +29,13 @@ const getMapKeys = createSelector(
 	}
 );
 
+const getNavigator = createSelector(
+	[getMapDefaults],
+	(defaults) => {
+		return defaults && defaults.navigator ? defaults.navigator : null;
+	}
+);
+
 const getActiveMap = createSelector(
 	[getMaps, getActiveMapKey],
 	(maps, activeMapKey) => {
@@ -150,5 +157,6 @@ export default {
 	getMaps: getMaps,
 	getMapsOverrides: getMapsOverrides,
 	getMapDefaults: getMapDefaults,
+	getNavigator: getNavigator,
 	getPeriodIndependence: getPeriodIndependence
 };
