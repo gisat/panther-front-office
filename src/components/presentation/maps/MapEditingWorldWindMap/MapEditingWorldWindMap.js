@@ -36,9 +36,8 @@ class MapEditingWorldWindMap extends React.PureComponent {
             mapContainerClass: this.props.mapContainerClass
         });
 
-        // TODO zoom to same position as scenario map
-        if (this.props.bbox) {
-            this.zoomToBbox(this.props.bbox);
+        if (this.props.navigatorState) {
+            this.setNavigator(this.props.navigatorState);
         }
 
         // TODO remove dependency on obsolete code
@@ -305,8 +304,8 @@ class MapEditingWorldWindMap extends React.PureComponent {
 			this.changeBackgroundLayer(nextProps.activeBackgroundLayerKey);
 		}
 
-		if (nextProps.bbox){
-			this.zoomToBbox(nextProps.bbox);
+		if (nextProps.navigatorState){
+			this.setNavigator(nextProps.navigatorState);
 		}
 
 		if(nextProps.polygons) {
@@ -357,16 +356,12 @@ class MapEditingWorldWindMap extends React.PureComponent {
 		}
 	}
 
-	zoomToBbox(bbox){
+	setNavigator(navigatorState){
         const wwd = this.wwd,
 			navigator = this.wwd.navigator;
-        let navigatorParams = mapUtils.getNavigatorParamsFromBbox(bbox, wwd);
-		if (navigatorParams){
-			navigator.lookAtLocation.latitude = navigatorParams.lookAtLocation.latitude;
-			navigator.lookAtLocation.longitude = navigatorParams.lookAtLocation.longitude;
-			navigator.range = navigatorParams.range;
-			wwd.redraw();
-		}
+        navigator.lookAtLocation = navigatorState.lookAtLocation;
+        navigator.range = navigatorState.range;
+        wwd.redraw();
 	}
 
 	render() {
