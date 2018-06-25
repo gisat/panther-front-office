@@ -1,7 +1,7 @@
 import Select from '../../../state/Select';
 import {Selector} from 'redux-testkit';
 
-let navigatorDataState = {
+let state = {
 	maps: {
 		defaults: {
 			navigator: {
@@ -12,6 +12,20 @@ let navigatorDataState = {
 				range: 3333
 			}
 		}
+	},
+	scopes: {
+		activeScopeKey: 3971,
+		data: [{
+			key: 3971,
+			configuration: {"pucsLandUseScenarios":{"templates":{"sourceVector":3332,"sourceRaster":4090,"uhi":4091,"hwd":4092}}}
+		}]
+	},
+	spatialDataSources: {
+		data: [{"type":"shapefile","data":{"layer_name":"geonode:pucs_514f7a7552564ceebd269a8d334f1324","table_name":"pucs_514f7a7552564ceebd269a8d334f1324"},"key":214},
+			{"type":"shapefile","data":{"layer_name":"geonode:pucs_514f7a7552564ceebd269a8d334f1324","table_name":"pucs_514f7a7552564ceebd269a8d334f1324"},"key":215}]
+	},
+	spatialRelations: {
+		data: [{"scope_id":null,"period_id":null,"place_id":3975,"data_source_id":214,"layer_template_id":3332,"scenario_id":null,"key":127}]
 	}
 };
 
@@ -30,10 +44,29 @@ describe('Maps Selectors', () => {
 			},
 			range: 3333
 		};
-		Selector(Select.maps.getNavigator).expect(navigatorDataState).toReturn(expectedResult);
+		Selector(Select.maps.getNavigator).expect(state).toReturn(expectedResult);
 	});
 
 	it('should return null when map defaults has not been initialized yet', () => {
 		Selector(Select.maps.getNavigator).expect(defaultsNullState).toReturn(null);
+	});
+
+	it('should select vector data sources for given template', () => {
+		let layerTemplate = 3332;
+		let dataForVectorLayer = [{
+			dataSource: "geonode:pucs_514f7a7552564ceebd269a8d334f1324",
+			scenarioKey: null,
+			key: 127
+		}];
+		Selector(Select.maps.getVectorLayersForTemplate).expect(state, layerTemplate).toReturn(dataForVectorLayer);
+	});
+
+	it('should select vector data sources for vectour source layer template from scope configuration', () => {
+		let dataForVectorLayer = [{
+			dataSource: "geonode:pucs_514f7a7552564ceebd269a8d334f1324",
+			scenarioKey: null,
+			key: 127
+		}];
+		Selector(Select.maps.getVectorLayersForPuscVectorSourceTemplate).expect(state).toReturn(dataForVectorLayer);
 	});
 });

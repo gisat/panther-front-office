@@ -173,18 +173,18 @@ const activeCaseScenariosLoaded = createSelector(
 
 /**
  * Select spatial data source for scenario (based on source type)
- * TODO Info about original data source (download_data_source_id) will be part of scenario data in the future
  */
-const getVectorSource = createSelector([
+const getPucsScenariosVectorSource = createSelector(
+	[
 		(state, scenarioKey, defaultSituation) => {return {scenarioKey: scenarioKey, defaultSituation: defaultSituation}},
-		(state) => Select.maps.getActivePlaceVectorLayers(state)
+		(state) => Select.maps.getVectorLayersForPuscVectorSourceTemplate(state)
 	],
-	(scenarioData, activePlaceVectorLayers) => {
+	(scenarioData, vectorLayers) => {
 		let source = null;
-		if (scenarioData.scenarioKey && activePlaceVectorLayers.length){
-			source = _.find(activePlaceVectorLayers, {'scenarioKey': scenarioData.scenarioKey});
-		} else if (scenarioData.defaultSituation && activePlaceVectorLayers.length){
-			source = _.find(activePlaceVectorLayers, {'scenarioKey': null});
+		if (scenarioData.scenarioKey && vectorLayers.length){
+			source = _.find(vectorLayers, {'scenarioKey': scenarioData.scenarioKey});
+		} else if (scenarioData.defaultSituation && vectorLayers.length){
+			source = _.find(vectorLayers, {'scenarioKey': null});
 		}
 
 		return source ? source.dataSource : null;
@@ -218,6 +218,6 @@ export default {
 	getScenariosEditedKeys: getScenariosEditedKeys,
 	getActiveCaseScenariosEditedKeys: getActiveCaseScenariosEditedKeys,
 
-	getVectorSource: getVectorSource,
+	getPucsScenariosVectorSource: getPucsScenariosVectorSource,
 	isDefaultSituationActive: isDefaultSituationActive
 };

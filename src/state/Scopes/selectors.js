@@ -13,8 +13,25 @@ const getActiveScopeData = createSelector(
 	}
 );
 
+const getActiveScopeConfiguration = createSelector(
+	[getActiveScopeData],
+	(data) => {
+		return data && data.configuration ? data.configuration : null;
+	}
+);
+
+const getPucsSourceVectorLayerTemplate = createSelector(
+	[getActiveScopeConfiguration],
+	(conf) => {
+		return conf && conf.pucsLandUseScenarios && conf.pucsLandUseScenarios.templates && conf.pucsLandUseScenarios.templates.sourceVector ? conf.pucsLandUseScenarios.templates.sourceVector : null;
+	}
+);
+
 export default {
+	getActiveScopeConfiguration: getActiveScopeConfiguration,
 	getActiveScopeData: getActiveScopeData,
 	getActiveScopeKey: getActiveScopeKey,
-	getScopes: getScopes
+	getScopes: getScopes,
+
+	getPucsSourceVectorLayerTemplate: getPucsSourceVectorLayerTemplate
 };
