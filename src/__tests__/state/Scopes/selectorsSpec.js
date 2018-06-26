@@ -8,6 +8,15 @@ let state = {
 			key: 3971,
 			configuration: {"pucsLandUseScenarios":{"templates":{"sourceVector":3332,"sourceRaster":4090,"uhi":4091,"hwd":4092}}}
 		}]
+	},
+	layerTemplates: {
+		data: [{"layerType":"vector","name":"PUCS Urban Atlas","attributeSets":[4497],"symbologies":[4325],"key":3332}]
+	},
+	attributes: {
+		data: [{enumerationValues: "A", key: 4496}]
+	},
+	attributeSets: {
+		data: [{"active":false,"name":"Land Use Classes","attributes":[4496],"topic":737,"featureLayers":[3332],"key":4497}]
 	}
 };
 
@@ -19,5 +28,9 @@ describe('Scope Selectors', () => {
 
 	it('should select sourceVector layerTemplate key', () => {
 		Selector(Select.scopes.getPucsSourceVectorLayerTemplate).expect(state).toReturn(3332);
+	});
+	it('should select ', () => {
+		let enumerationValues = "A";
+		Selector(Select.scopes.getPucsSourceVectorLandCoverClasses).expect(state).toReturn(enumerationValues);
 	});
 });

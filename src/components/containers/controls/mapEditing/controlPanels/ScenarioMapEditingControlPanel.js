@@ -7,7 +7,8 @@ import Select from "../../../../../state/Select";
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		scenarioData: Select.scenarios.getActiveCaseScenarioEdited(state)
+		scenarioData: Select.scenarios.getActiveCaseScenarioEdited(state),
+		landCoverClasses: Select.scopes.getPucsSourceVectorLandCoverClasses(state)
 	}
 };
 
