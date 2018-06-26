@@ -342,8 +342,8 @@ body {
 .ptr-ui-select.resizable .Select--single > .Select-control .Select-value {
 	position: relative;
 	white-space: normal;
-	line-height: 20px;
-	padding: 5px 10px;
+	line-height: normal;
+	padding: 10px 10px;
 }
 
 
@@ -378,11 +378,11 @@ body {
 .ptr-ui-select .VirtualizedSelectSelectedOption.VirtualizedSelectFocusedOption,
 .ptr-ui-select .Select-option.is-selected,
 .ptr-ui-select .Select-option.is-selected.is-focused {
-	background-color: rgba(153,191,228,1);
+	background-color: rgba(153,191,228,.7);
 }
 .ptr-ui-select .VirtualizedSelectFocusedOption,
 .ptr-ui-select .Select-option.is-focused {
-	background-color: rgba(153,191,228,.7);
+	background-color: rgba(153,191,228,.5);
 }
 .ptr-ui-select .Select:hover,
 .ptr-ui-select .Select.is-focused {

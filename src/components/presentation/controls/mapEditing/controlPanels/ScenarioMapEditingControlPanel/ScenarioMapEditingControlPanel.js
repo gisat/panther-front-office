@@ -8,13 +8,14 @@ import EditableText from '../../../../atoms/EditableText';
 import MapEditingControlPanel from '../MapEditingControlPanel/MapEditingControlPanel';
 import Names from "../../../../../../constants/Names";
 
+import CustomOption from "../../../../atoms/UISelect/CustomOption/CustomOption";
 import UISelect from "../../../../atoms/UISelect";
-import * as urbanAtlas from '../../../../../../resources/urbanAtlasClasses.json';
 
 class ScenarioMapEditingControlPanel extends React.PureComponent {
 
 	static propTypes = {
 		discard: PropTypes.func,
+		landCoverClasses: PropTypes.object,
 		scenarioData: PropTypes.object
 	};
 
@@ -116,14 +117,13 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 	}
 
 	renderUrbanAtlasClassSelect(){
-		let options = [];
-
-		_.forIn(urbanAtlas, (propertyValue, propertyKey) => {
-			options.push({
-				key: propertyKey,
-				value: propertyKey,
-				label: propertyValue
-			});
+		let options = this.props.landCoverClasses.map((lcClass) => {
+			return {
+				key: lcClass.value,
+				value: lcClass.value,
+				label: lcClass.name,
+				color: lcClass.color
+			}
 		});
 
 		return (
@@ -134,10 +134,27 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 				fullWidth
 				onChange={this.onChangeLuClass}
 				options={options}
+				optionClassName='custom-option ua-legend-option'
+				optionRenderer={this.renderUrbanAtlasClassSelectOption.bind(this)}
 				placeholder=''
 				resizable
 				value={this.state.luClass}
+				valueRenderer={this.renderUrbanAtlasClassSelectOption.bind(this)}
 				disabled={!!this.props.disabled}
+			/>
+		);
+	}
+
+	renderUrbanAtlasClassSelectOption(option){
+		let label = option.label.slice(6);
+
+		return (
+			<CustomOption
+				key={option.key}
+				value={option.value}
+				label={label}
+				color={option.color}
+				type="Urban atlas legend"
 			/>
 		);
 	}

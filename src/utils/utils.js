@@ -110,7 +110,6 @@ export default {
 
 		document.getElementById(containerId).scrollTop = elementOffset;
 	}
-
 }
 
 

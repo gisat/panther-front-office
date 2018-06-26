@@ -18,6 +18,7 @@ class UISelect extends React.PureComponent {
 		name: PropTypes.string,
 		onChange: PropTypes.func,
 		options: PropTypes.array,
+		optionClassName: PropTypes.string,
 		optionHeight: PropTypes.number,
 		optionRenderer: PropTypes.func,
 		placeholder: PropTypes.string,
@@ -73,11 +74,9 @@ class UISelect extends React.PureComponent {
 						onChange={this.props.onChange}
 						options={options}
 						optionHeight={optionHeight}
-						optionRenderer={this.props.optionRenderer}
 						filterOptions={this.filterOptions}
 						placeholder={this.props.placeholder}
 						value={this.props.value}
-						valueRenderer={this.props.valueRenderer}
 						disabled={this.props.disabled}
 					/>
 				):(
@@ -86,10 +85,13 @@ class UISelect extends React.PureComponent {
 						clearable={false}
 						name={this.props.name}
 						onChange={this.props.onChange}
+						optionClassName={this.props.optionClassName}
 						options={options}
+						optionRenderer={this.props.optionRenderer}
 						filterOptions={this.filterOptions}
 						placeholder={this.props.placeholder}
 						value={this.props.value}
+						valueRenderer={this.props.valueRenderer}
 						disabled={this.props.disabled}
 					/>
 				)}
