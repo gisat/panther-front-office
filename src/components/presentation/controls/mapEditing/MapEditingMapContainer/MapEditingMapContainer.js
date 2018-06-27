@@ -5,17 +5,34 @@ import utils from '../../../../../utils/utils';
 import _ from 'lodash';
 
 import MapEditingWorldWindMap from '../../../maps/MapEditingWorldWindMap/MapEditingWorldWindMap'
+import MapEditingTools from '../MapEditingTools/MapEditingTools'
 
 import './MapEditingMapContainer.css';
 
 class MapEditingMapContainer extends React.PureComponent {
 
 	static propTypes = {
-		activeBackgroundLayerKey: PropTypes.string,
+		closeConfirmMessage: PropTypes.string,
+		onCloseOverlay: PropTypes.func,
+		onCloseEditing: PropTypes.func,
+		activeBackgroundLayerKey: PropTypes.string
 	};
 
 	constructor(props){
 		super(props);
+		this.onClose = this.onClose.bind(this);
+	}
+
+	onClose(){
+		if (this.props.closeConfirmMessage){
+			if (window.confirm(this.props.closeConfirmMessage)) {
+				this.props.onCloseEditing();
+				this.props.onCloseOverlay();
+			}
+		} else {
+			this.props.onCloseEditing();
+			this.props.onCloseEditing();
+		}
 	}
 
 	render() {
@@ -28,6 +45,10 @@ class MapEditingMapContainer extends React.PureComponent {
 					mapContainerClass={mapContainerClass}
 					navigatorState={this.props.navigatorState}
 					selectFeatureForBbox={this.props.selectFeatureForBbox}
+				/>
+				<MapEditingTools
+					onCloseClick={this.onClose}
+
 				/>
 			</div>
 		);

@@ -15,7 +15,7 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 
 	static propTypes = {
 		discard: PropTypes.func,
-		landCoverClasses: PropTypes.object,
+		landCoverClasses: PropTypes.array,
 		scenarioData: PropTypes.object
 	};
 
@@ -150,7 +150,7 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 
 		return (
 			<CustomOption
-				key={option.key}
+				key={option.value}
 				value={option.value}
 				label={label}
 				color={option.color}

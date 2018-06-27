@@ -23,15 +23,16 @@ class ScenarioMapEditingOverlay extends React.PureComponent {
 
 		return (
 			<MapEditingOverlay
-				closeConfirmMessage={Names.SCENARIO_MAP_EDITING_CLOSE_MESSAGE}
 				overlayKey={overlayKey}
-				onClose={this.onClose.bind(this)}
 			>
 				<ScenarioMapEditingControlPanel
 					overlayKey={overlayKey}
 				/>
 				<MapEditingMapContainer
-					dataSourceKey={214} //todo where do we actually get this from?
+					overlayKey={overlayKey}
+					closeConfirmMessage={Names.SCENARIO_MAP_EDITING_CLOSE_MESSAGE}
+					dataSourceKey={214}
+					onCloseEditing={this.onClose.bind(this)}
 				/>
 			</MapEditingOverlay>
 		);

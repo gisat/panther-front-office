@@ -11,11 +11,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-	return {
-		close: () => {
-			dispatch(Action.components.overlays.closeOverlay(ownProps.overlayKey));
-		}
-	}
+	return {}
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MapEditingOverlay);

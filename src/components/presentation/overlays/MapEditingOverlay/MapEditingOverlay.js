@@ -10,27 +10,11 @@ import Names from "../../../../constants/Names";
 class MapEditingOverlay extends React.PureComponent {
 
 	static propTypes = {
-		close: PropTypes.func,
-		closeConfirmMessage: PropTypes.string,
-		onClose: PropTypes.func,
 		open: PropTypes.bool
 	};
 
 	constructor(props){
 		super(props);
-		this.onClose = this.onClose.bind(this);
-	}
-
-	onClose(){
-		if (this.props.closeConfirmMessage){
-			if (window.confirm(this.props.closeConfirmMessage)) {
-				this.props.onClose();
-				this.props.close();
-			}
-		} else {
-			this.props.onClose();
-			this.props.close();
-		}
 	}
 
 	render() {
@@ -41,7 +25,6 @@ class MapEditingOverlay extends React.PureComponent {
 		return (
 			<div className={classes}>
 				{this.props.children}
-				<div onClick={this.onClose} className="ptr-overlay-close close-map-editing">{'\u2716'}</div>
 			</div>
 		);
 	}
