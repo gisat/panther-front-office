@@ -8,6 +8,8 @@ import queryString from 'query-string';
 import config from '../../config';
 import Select from '../Select';
 
+import vectorActions from './vector/actions';
+
 const TTL = 3;
 
 
@@ -192,4 +194,5 @@ export default {
 	download: download,
 	load: load,
 	loadFiltered: loadFiltered,
+	vector: vectorActions
 }

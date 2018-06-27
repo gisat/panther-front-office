@@ -70,46 +70,50 @@ class MapEditingWorldWindMap extends React.PureComponent {
                 const topLeft = wwd.pickTerrain(wwd.canvasCoordinates(x, y)).objects[0].position;
                 const rightBottom = wwd.pickTerrain(wwd.canvasCoordinates(x + 1, y + 1)).objects[0].position;
 
-                const url = `http://192.168.2.205/geoserver/wfs?service=wfs&version=1.1.0&request=GetFeature&typeNames=geonode:pucs_514f7a7552564ceebd269a8d334f1324&bbox=${rightBottom.latitude},${topLeft.longitude},${topLeft.latitude},${rightBottom.longitude}&outputFormat=application/json`;
+							const bbox = [rightBottom.latitude,topLeft.longitude,topLeft.latitude,rightBottom.longitude]; //minLat, minLon, maxLat, maxLon
 
-                const parser = new GeoJSONParser(url);
-                let props = null;
-                parser.load(layer => {
-                    // Get last renderable and save it as a
-                    self._editedPolygon = layer.renderables[layer.renderables.length - 1];
-                    self._editedPolygon.props = props;
-                    // Test method
-                    setTimeout(() => {
-                        self._editedPolygon.props["CODE2012"] = "40000";
-                        self._editedPolygon.attributes.interiorColor = this.getTheColorForPolygon(legend, self._editedPolygon.props);
+							this.props.selectFeatureForBbox(bbox);
 
-                        // Update the transactions.
-                        this.updatePolygon(self._editedPolygon);
-
-                        wwd.redraw();
-                    }, 5000);
-                    wwd.redraw();
-                }, (geometry, properties) => {
-                    const configuration = {};
-                    props = properties;
-
-                    const name = properties.name || properties.Name || properties.NAME;
-                    if (name) {
-                        configuration.name = name;
-                    }
-
-                    if (geometry.isPointType() || geometry.isMultiPointType()) {
-                        configuration.attributes = this.defaultPlacemarkAttributes;
-                    } else if (geometry.isLineStringType() || geometry.isMultiLineStringType()) {
-                        configuration.attributes = new ShapeAttributes();
-                    } else if (geometry.isPolygonType() || geometry.isMultiPolygonType()) {
-                        configuration.attributes = new ShapeAttributes();
-                        // Get the legend and color.
-                        configuration.attributes.interiorColor = this.getTheColorForPolygon(legend, properties);
-                    }
-
-                    return configuration
-                }, layerWithUpdatedPolygons);
+                //const url = `http://192.168.2.205/geoserver/wfs?service=wfs&version=1.1.0&request=GetFeature&typeNames=geonode:pucs_514f7a7552564ceebd269a8d334f1324&bbox=${rightBottom.latitude},${topLeft.longitude},${topLeft.latitude},${rightBottom.longitude}&outputFormat=application/json`;
+								//
+                //const parser = new GeoJSONParser(url);
+                //let props = null;
+                //parser.load(layer => {
+                //    // Get last renderable and save it as a
+                //    self._editedPolygon = layer.renderables[layer.renderables.length - 1];
+                //    self._editedPolygon.props = props;
+                //    // Test method
+                //    setTimeout(() => {
+                //        self._editedPolygon.props["CODE2012"] = "40000";
+                //        self._editedPolygon.attributes.interiorColor = this.getTheColorForPolygon(legend, self._editedPolygon.props);
+								//
+                //        // Update the transactions.
+                //        this.updatePolygon(self._editedPolygon);
+								//
+                //        wwd.redraw();
+                //    }, 5000);
+                //    wwd.redraw();
+                //}, (geometry, properties) => {
+                //    const configuration = {};
+                //    props = properties;
+								//
+                //    const name = properties.name || properties.Name || properties.NAME;
+                //    if (name) {
+                //        configuration.name = name;
+                //    }
+								//
+                //    if (geometry.isPointType() || geometry.isMultiPointType()) {
+                //        configuration.attributes = this.defaultPlacemarkAttributes;
+                //    } else if (geometry.isLineStringType() || geometry.isMultiLineStringType()) {
+                //        configuration.attributes = new ShapeAttributes();
+                //    } else if (geometry.isPolygonType() || geometry.isMultiPolygonType()) {
+                //        configuration.attributes = new ShapeAttributes();
+                //        // Get the legend and color.
+                //        configuration.attributes.interiorColor = this.getTheColorForPolygon(legend, properties);
+                //    }
+								//
+                //    return configuration
+                //}, layerWithUpdatedPolygons);
             });
             clickRecognizer.enabled = true;
         });

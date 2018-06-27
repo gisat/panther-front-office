@@ -30,7 +30,9 @@ class ScenarioMapEditingOverlay extends React.PureComponent {
 				<ScenarioMapEditingControlPanel
 					overlayKey={overlayKey}
 				/>
-				<MapEditingMapContainer/>
+				<MapEditingMapContainer
+					dataSourceKey={214} //todo where do we actually get this from?
+				/>
 			</MapEditingOverlay>
 		);
 	}

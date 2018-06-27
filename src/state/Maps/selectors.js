@@ -9,7 +9,7 @@ const getPeriodIndependence = state => state.maps.independentOfPeriod;
 
 const getActivePlaceKey = state => state.places.activeKey;
 const getSpatialRelations = (state) => state.spatialRelations.data;
-const getSpatialDataSources = (state) => state.spatialDataSources.data;
+const getSpatialDataSources = (state) => state.spatialDataSources.main.data; //todo should use Select? if not circular
 
 const getMaps = createSelector(
 	[getMapDefaults, getMapsOverrides],

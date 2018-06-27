@@ -1,7 +1,7 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
 
-const getData = (state) => state.spatialDataSources.data;
+const getData = (state) => state.spatialDataSources.main.data;
 
 const filter = (state, key, data) => {
 	let models = getData(state);
@@ -11,5 +11,6 @@ const filter = (state, key, data) => {
 };
 
 export default {
-	filter: filter
+	filter: filter,
+	getData: getData
 };

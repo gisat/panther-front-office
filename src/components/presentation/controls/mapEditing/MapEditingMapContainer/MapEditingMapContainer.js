@@ -27,6 +27,7 @@ class MapEditingMapContainer extends React.PureComponent {
 					activeBackgroundLayerKey={this.props.activeBackgroundLayerKey}
 					mapContainerClass={mapContainerClass}
 					navigatorState={this.props.navigatorState}
+					selectFeatureForBbox={this.props.selectFeatureForBbox}
 				/>
 			</div>
 		);

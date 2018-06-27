@@ -2,6 +2,9 @@ import ActionTypes from '../../constants/ActionTypes';
 import Action from '../Action';
 import _ from 'lodash';
 
+import { combineReducers } from 'redux';
+import vectorReducers from './vector/reducers';
+
 const INITIAL_STATE = {
 	data: [],
 	loading: false
@@ -35,7 +38,7 @@ function requestError(state, action) {
 	return {...state, loading: false};
 }
 
-export default (state = INITIAL_STATE, action) => {
+const reducers = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.SPATIAL_DATA_SOURCES_RECEIVE:
 			return receive(state, action);
@@ -48,4 +51,9 @@ export default (state = INITIAL_STATE, action) => {
 		default:
 			return state;
 	}
-}
+};
+
+export default combineReducers({
+	main: reducers,
+	vector: vectorReducers
+});

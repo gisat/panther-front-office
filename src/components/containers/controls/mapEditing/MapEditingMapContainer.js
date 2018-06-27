@@ -12,6 +12,9 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
+		selectFeatureForBbox: (bbox) => {
+			dispatch(Action.spatialDataSources.vector.loadFeaturesForBbox(ownProps.dataSourceKey, bbox))
+		}
 	}
 };
 
