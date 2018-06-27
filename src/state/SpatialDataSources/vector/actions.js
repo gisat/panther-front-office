@@ -38,13 +38,14 @@ function loadFeaturesForBbox(dataSourceKey, bbox, ttl) {
 					if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
 						return response.json().then(data => {
 							if (data.type === 'FeatureCollection' && data.features && data.features.length) {
-								dispatch(loadFeaturesReceive(data.features));
+								return dispatch(loadFeaturesReceive(data.features));
 							} else {
 								dispatch(actionLoadFeaturesForBboxError('no data returned'));
 							}
 						});
 					} else {
-						dispatch(actionLoadFeaturesForBboxError(response))
+						dispatch(actionLoadFeaturesForBboxError(response));
+						return false;
 					}
 				},
 				error => {
@@ -54,14 +55,23 @@ function loadFeaturesForBbox(dataSourceKey, bbox, ttl) {
 					} else {
 						dispatch(actionLoadFeaturesForBboxError("requests failed"));
 					}
+					return false;
 				}
 			);
 		} else {
 			// data source not found or not vector/shapefile
+			return Promise.reject();
 		}
 	};
 }
 
+function loadFeaturesForBboxAndSelect(dataSourceKey, bbox) {
+	return dispatch => {
+		dispatch(loadFeaturesForBbox(dataSourceKey, bbox)).then(models => {
+			console.log('######## received features to select:', models);
+		});
+	}
+}
 
 function loadFeaturesReceive(models) {
 	return dispatch => {
@@ -69,6 +79,7 @@ function loadFeaturesReceive(models) {
 			return {key: id, data: {...model}};
 		});
 		dispatch(actionLoadFeaturesReceive(models));
+		return models;
 	};
 }
 
@@ -98,5 +109,6 @@ function actionLoadFeaturesForBboxError(error) {
 // ============ export ===========
 
 export default {
-	loadFeaturesForBbox: loadFeaturesForBbox
+	loadFeaturesForBbox: loadFeaturesForBbox,
+	loadFeaturesForBboxAndSelect: loadFeaturesForBboxAndSelect
 }
