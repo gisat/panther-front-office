@@ -22,7 +22,7 @@ class ScenarioMapEditingOverlay extends React.PureComponent {
 	render() {
 		let overlayKey = "scenarioMapEditing";
 		let sourceLayer = {
-			url: config.geoServerUrl + "geonode/wms",
+			url: config.apiGeoserverWMSProtocol + "://" + config.apiGeoserverWMSHost + "/" + config.apiGeoserverWMSPath,
 			name: this.props.mapData.layerSource,
 			opacity: this.props.mapData.layerOpacity,
 			style: null
