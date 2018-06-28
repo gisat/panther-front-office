@@ -32,6 +32,7 @@ class ScenarioMapEditingOverlay extends React.PureComponent {
 					overlayKey={overlayKey}
 					closeConfirmMessage={Names.SCENARIO_MAP_EDITING_CLOSE_MESSAGE}
 					dataSourceKey={214}
+					mapData={this.props.mapData}
 					onCloseEditing={this.onClose.bind(this)}
 				/>
 			</MapEditingOverlay>

@@ -7,7 +7,10 @@ const INITIAL_STATE = {
 			open: false
 		},
 		scenarioMapEditing: {
-			open: false
+			open: false,
+			map: {
+				layerOpacity: 70
+			}
 		}
 	},
 	windows: {

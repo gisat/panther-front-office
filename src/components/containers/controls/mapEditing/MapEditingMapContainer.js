@@ -6,12 +6,15 @@ import MapEditingMapContainer from "../../../presentation/controls/mapEditing/Ma
 const mapStateToProps = (state, ownProps) => {
 	return {
 		activeBackgroundLayerKey: Select.maps.getActiveBackgroundLayerKey(state),
-		navigatorState: Select.maps.getNavigator(state)
+		navigatorState: Select.maps.getNavigator(state),
 	}
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
+		setLayerOpacity: (value) => {
+			dispatch(Action.components.overlays.setScenarioMapEditingLayerOpacity(value));
+		},
 		onCloseOverlay: () => {
 			dispatch(Action.components.overlays.closeOverlay(ownProps.overlayKey));
 		},

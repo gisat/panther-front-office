@@ -7,6 +7,7 @@ import ScenarioMapEditingOverlay from '../../presentation/overlays/ScenarioMapEd
 
 const mapStateToProps = (state, ownProps) => {
 	return {
+		mapData: Select.components.overlays.getScenarioMapEditingMapData(state)
 	}
 };
 

@@ -15,7 +15,9 @@ class MapEditingMapContainer extends React.PureComponent {
 		closeConfirmMessage: PropTypes.string,
 		onCloseOverlay: PropTypes.func,
 		onCloseEditing: PropTypes.func,
-		activeBackgroundLayerKey: PropTypes.string
+		activeBackgroundLayerKey: PropTypes.string,
+		setLayerOpacity: PropTypes.func,
+		mapData: PropTypes.object
 	};
 
 	constructor(props){
@@ -48,7 +50,8 @@ class MapEditingMapContainer extends React.PureComponent {
 				/>
 				<MapEditingTools
 					onCloseClick={this.onClose}
-
+					opacity={this.props.mapData ? this.props.mapData.layerOpacity : null}
+					setOpacity={this.props.setLayerOpacity}
 				/>
 			</div>
 		);

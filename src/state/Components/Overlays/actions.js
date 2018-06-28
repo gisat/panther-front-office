@@ -5,7 +5,7 @@ import _ from 'lodash';
 // ============ creators ===========
 function closeOverlay(overlayKey){
 	return (dispatch, getState) => {
-		let overlay = Select.components.overlays.getOverlay(getState(), overlayKey);
+		let overlay = Select.components.overlays.getOverlay(getState(), {key: overlayKey});
 		let updatedData = overlay ? {...overlay, open: false} : {open: false};
 		dispatch(actionUpdateOverlay(overlayKey, updatedData));
 	}
@@ -13,9 +13,19 @@ function closeOverlay(overlayKey){
 
 function openOverlay(overlayKey){
 	return (dispatch, getState) => {
-		let overlay = Select.components.overlays.getOverlay(getState(), overlayKey);
+		let overlay = Select.components.overlays.getOverlay(getState(), {key: overlayKey});
 		let updatedData = overlay ? {...overlay, open: true} : {open: true};
 		dispatch(actionUpdateOverlay(overlayKey, updatedData));
+	}
+}
+
+function setScenarioMapEditingLayerOpacity(value) {
+	return (dispatch, getState) => {
+		let overlay = Select.components.overlays.getOverlay(getState(), {key: 'scenarioMapEditing'});
+		if (overlay){
+			let updatedData = {...overlay, map: overlay.map ? {...overlay.map, layerOpacity: value} : {layerOpacity: value}};
+			dispatch(actionUpdateOverlay('scenarioMapEditing', updatedData));
+		}
 	}
 }
 
@@ -32,5 +42,7 @@ function actionUpdateOverlay(overlayKey, data) {
 
 export default {
 	closeOverlay: closeOverlay,
-	openOverlay: openOverlay
+	openOverlay: openOverlay,
+
+	setScenarioMapEditingLayerOpacity: setScenarioMapEditingLayerOpacity
 }

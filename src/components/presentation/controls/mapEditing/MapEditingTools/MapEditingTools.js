@@ -13,13 +13,14 @@ import './MapEditingTools.css'
 class MapEditingTools extends React.PureComponent {
 
 	static propTypes = {
-		onCloseClick: PropTypes.func
+		onCloseClick: PropTypes.func,
+		setOpacity: PropTypes.func,
+		opacity: PropTypes.number
 	};
 
 	constructor(props){
 		super(props);
 		this.state = {
-			opacityValue: 100,
 			open: false
 		};
 
@@ -34,9 +35,7 @@ class MapEditingTools extends React.PureComponent {
 	}
 
 	onOpacityChange(value){
-		this.setState({
-			opacityValue: value
-		});
+		this.props.setOpacity(value);
 	}
 
 	render() {
@@ -62,7 +61,7 @@ class MapEditingTools extends React.PureComponent {
 							<Slider
 								className="map-editing-slider"
 								onChange={this.onOpacityChange}
-								value={this.state.opacityValue}
+								value={this.props.opacity ? this.props.opacity : 100}
 							/>
 						</div>
 					</div>
