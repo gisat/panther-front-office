@@ -5,7 +5,7 @@ import _ from 'lodash';
 const INITIAL_STATE = {
 	featuresBySourceKey: {},
 	editedFeaturesBySourceKey: {},
-	selectedFeaturesBySourceKey: {},
+	selectedFeaturesKeysBySourceKey: {},
 	loading: false
 };
 
@@ -24,7 +24,7 @@ function receive(state, action) {
 }
 
 function select(state, action) {
-	let selectedKeys = state.selectedFeaturesBySourceKey[action.dataSourceKey] || [];
+	let selectedKeys = state.selectedFeaturesKeysBySourceKey[action.dataSourceKey] || [];
 	switch (action.selectionMode) {
 		case 'replace':
 			selectedKeys = action.featureKeys;
@@ -36,7 +36,7 @@ function select(state, action) {
 			selectedKeys = _.without(selectedKeys, action.featureKeys);
 			break;
 	}
-	return {...state, selectedFeaturesBySourceKey: {...state.selectedFeaturesBySourceKey, [action.dataSourceKey]: selectedKeys}}
+	return {...state, selectedFeaturesKeysBySourceKey: {...state.selectedFeaturesKeysBySourceKey, [action.dataSourceKey]: selectedKeys}}
 }
 
 export default (state = INITIAL_STATE, action) => {

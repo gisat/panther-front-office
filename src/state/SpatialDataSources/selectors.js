@@ -1,6 +1,8 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
 
+import vectorSelectors from './vector/selectors';
+
 const getData = (state) => state.spatialDataSources.main.data;
 
 const filter = (state, key, data) => {
@@ -12,5 +14,6 @@ const filter = (state, key, data) => {
 
 export default {
 	filter: filter,
-	getData: getData
+	getData: getData,
+	vector: vectorSelectors
 };
