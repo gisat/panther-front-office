@@ -9,7 +9,7 @@ import Controls from '../../../../view/worldWind/controls/Controls';
 import mapUtils from "../../../../utils/map";
 import MyWmsLayer from '../../../../worldwind/layers/MyWmsLayer';
 
-const {WorldWindow, Sector, Location, ClickRecognizer, RenderableLayer, ShapeAttributes, Color, Polygon} = WorldWind;
+const {WorldWindow, Sector, Location, ClickRecognizer, RenderableLayer, ShapeAttributes, Color, Polygon, Position} = WorldWind;
 
 class MapEditingWorldWindMap extends React.PureComponent {
 
@@ -50,9 +50,16 @@ class MapEditingWorldWindMap extends React.PureComponent {
             this.reloadSourceLayer();
         }
 
-        if(this.props.polygons) {
-            this.visualizeChangedPolygons(this.props.polygons);
+        if(this.props.selectedFeatures) {
+            this.redrawSelectedPolygons(this.props.selectedFeatures);
         }
+        if(this.props.editedFeatures) {
+            this.redrawEditedPolygons(this.props.editedFeatures, this.props.selectedFeatures);
+        }
+
+        const layerWithSelectedPolygons = new RenderableLayer('Selected polygons');
+        this._layerWithSelectedPolygons = layerWithSelectedPolygons;
+        wwd.addLayer(layerWithSelectedPolygons);
 
         const layerWithUpdatedPolygons = new RenderableLayer('Updated polygons');
         this._layerWithUpdatedPolygons = layerWithUpdatedPolygons;
@@ -315,10 +322,23 @@ class MapEditingWorldWindMap extends React.PureComponent {
 			this.setLayerOpacity(nextProps.sourceLayer.opacity);
 		}
 
-		if (nextProps.polygons) {
-		    this.reloadSourceLayer();
-		    this.visualizeChangedPolygons(nextProps.polygons);
-        }
+		//if(nextProps.polygons) {
+		//    this.reloadSourceLayer();
+		//    this.visualizeChangedPolygons(nextProps.polygons);
+     //   }
+
+		if(nextProps.selectedFeatures) {
+			if(nextProps.sourceLayer && nextProps.sourceLayer.name) {
+				this.reloadSourceLayer(nextProps);
+			}
+			this.redrawSelectedPolygons(nextProps.selectedFeatures);
+		}
+		if(nextProps.editedFeatures) {
+			if(nextProps.sourceLayer && nextProps.sourceLayer.name) {
+				this.reloadSourceLayer(nextProps);
+			}
+			this.redrawEditedPolygons(nextProps.editedFeatures, nextProps.selectedFeatures);
+		}
 	}
 
 	componentDidUpdate(prevProps){
@@ -327,23 +347,24 @@ class MapEditingWorldWindMap extends React.PureComponent {
 		}
 	}
 
-	reloadSourceLayer() {
+	reloadSourceLayer(props) {
+		props = props || this.props;
 	    if(this.wwd) {
 	        if(this.sourceLayer) {
 	            this.wwd.removeLayer(this.sourceLayer);
             }
 
             this.sourceLayer = new MyWmsLayer({
-                service: this.props.sourceLayer.url,
-                layerNames: this.props.sourceLayer.name,
+                service: props.sourceLayer.url,
+                layerNames: props.sourceLayer.name,
                 sector: new Sector(-90, 90, -180, 180),
                 levelZeroDelta: new Location(45, 45),
                 numLevels: 14,
                 format: "image/png",
-                opacity: (this.props.sourceLayer.opacity/100) || 1,
+                opacity: (props.sourceLayer.opacity/100) || 1,
                 size: 256,
                 version: "1.3.0",
-                styleNames: this.props.sourceLayer.style || "urbanAtlas"
+                styleNames: props.sourceLayer.style || "urbanAtlas"
             });
 
             // Add WMS Layer
@@ -361,6 +382,47 @@ class MapEditingWorldWindMap extends React.PureComponent {
             }));
         }
     }
+
+	redrawSelectedPolygons(selectedFeatures) {
+		console.log('MapEditingWorldWindMap#redrawSelectedPolygons', selectedFeatures);
+		let shapeAttributes = new ShapeAttributes();
+		shapeAttributes.drawInterior = false;
+		shapeAttributes.outlineColor = Color.CYAN;
+		let polygons = this.featuresToPolygons(selectedFeatures, shapeAttributes);
+
+		console.log('MapEditingWorldWindMap#redrawSelectedPolygons polygons', polygons, this._layerWithSelectedPolygons);
+		if(this._layerWithSelectedPolygons) {
+			this._layerWithSelectedPolygons.removeAllRenderables();
+			this._layerWithSelectedPolygons.addRenderables(polygons);
+		}
+	}
+
+	redrawEditedPolygons(editedFeatures, selectedFeatures) {
+		//remove edited features that are also selected
+		editedFeatures = _.reject(editedFeatures, feature => {
+			return _.includes(_.map(selectedFeatures, 'key'), feature.key);
+		});
+
+		let shapeAttributes = new ShapeAttributes();
+		shapeAttributes.drawInterior = false;
+		shapeAttributes.outlineColor = Color.BLACK;
+		let polygons = this.featuresToPolygons(editedFeatures, shapeAttributes);
+		if(this._layerWithSelectedPolygons) {
+			this._layerWithSelectedPolygons.removeAllRenderables();
+			this._layerWithSelectedPolygons.addRenderables(polygons);
+		}
+	}
+
+	featuresToPolygons(features, shapeAttributes) {
+		return _.map(features, feature => {
+			let coordinates = feature.data.geometry.type === "MultiPolygon" ? feature.data.geometry.coordinates[0] : [feature.data.geometry.coordinates[0]];
+			return new Polygon(_.map(coordinates, simplePolygon => {
+				return _.map(simplePolygon, point => {
+					return new Position(point[1], point[0]);
+				});
+			}), shapeAttributes);
+		});
+	}
 
 	changeBackgroundLayer(key){
 		if (key){

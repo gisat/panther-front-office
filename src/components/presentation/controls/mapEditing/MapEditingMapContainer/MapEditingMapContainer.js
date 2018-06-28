@@ -49,6 +49,8 @@ class MapEditingMapContainer extends React.PureComponent {
 					navigatorState={this.props.navigatorState}
 					selectFeatureForBbox={this.props.selectFeatureForBbox}
 					sourceLayer={this.props.sourceLayer}
+					editedFeatures={this.props.editedFeatures}
+					selectedFeatures={this.props.selectedFeatures}
 				/>
 				<MapEditingTools
 					onCloseClick={this.onClose}
