@@ -7,8 +7,8 @@
  */
 
 export default {
-    geoServerUrl: 'http://panther.gisat.cz/geoserver/',
-    serverUrl: 'http://panther.gisat.cz/backend/',
+    geoServerUrl: 'http://192.168.2.205/geoserver/',
+    serverUrl: 'http://192.168.2.205/backend/',
 
     apiGeoserverWFSProtocol: 'http',
     apiGeoserverWFSHost: 'panther.gisat.cz',
