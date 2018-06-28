@@ -303,23 +303,26 @@ class MapEditingWorldWindMap extends React.PureComponent {
 	}
 
 
-	componentWillReceiveProps(nextProps, prevProps){
-		if (_.isEmpty(prevProps) || (nextProps.activeBackgroundLayerKey !== prevProps.activeBackgroundLayerKey)){
+	componentWillReceiveProps(nextProps){
+		if (_.isEmpty(this.props) || (nextProps.activeBackgroundLayerKey !== this.props.activeBackgroundLayerKey)){
 			this.changeBackgroundLayer(nextProps.activeBackgroundLayerKey);
 		}
 
-		if (nextProps.navigatorState){
+		if (nextProps.navigatorState && (JSON.stringify(nextProps.navigatorState) !== JSON.stringify(this.props.navigatorState))){
 			this.setNavigator(nextProps.navigatorState);
 		}
+		if (nextProps.sourceLayer && nextProps.sourceLayer.opacity){
+			this.setLayerOpacity(nextProps.sourceLayer.opacity);
+		}
 
-		if(nextProps.polygons) {
+		if (nextProps.polygons) {
 		    this.reloadSourceLayer();
 		    this.visualizeChangedPolygons(nextProps.polygons);
         }
 	}
 
-	componentDidUpdate(){
-		if(this.props.sourceLayer && this.props.sourceLayer.name) {
+	componentDidUpdate(prevProps){
+		if(this.props.sourceLayer && this.props.sourceLayer.name && (!prevProps.sourceLayer || this.props.sourceLayer.name !== prevProps.sourceLayer.name)) {
 			this.reloadSourceLayer();
 		}
 	}
@@ -345,6 +348,7 @@ class MapEditingWorldWindMap extends React.PureComponent {
 
             // Add WMS Layer
             this.wwd.addLayer(this.sourceLayer);
+            this.wwd.redraw();
         }
     }
 
@@ -372,6 +376,13 @@ class MapEditingWorldWindMap extends React.PureComponent {
         navigator.lookAtLocation = navigatorState.lookAtLocation;
         navigator.range = navigatorState.range;
         wwd.redraw();
+	}
+
+	setLayerOpacity(opacity){
+		if (this.sourceLayer){
+			this.sourceLayer.opacity = opacity/100;
+			this.wwd.redraw();
+		}
 	}
 
 	render() {
