@@ -23,10 +23,28 @@ function receive(state, action) {
 	return {...state, loading: false, featuresBySourceKey: {...state.featuresBySourceKey, [action.dataSourceKey]: data}};
 }
 
+function select(state, action) {
+	let selectedKeys = state.selectedFeaturesBySourceKey[action.dataSourceKey] || [];
+	switch (action.selectionMode) {
+		case 'replace':
+			selectedKeys = action.featureKeys;
+			break;
+		case 'add':
+			selectedKeys = _.uniq([...selectedKeys, ...action.featureKeys]);
+			break;
+		case 'remove':
+			selectedKeys = _.without(selectedKeys, action.featureKeys);
+			break;
+	}
+	return {...state, selectedFeaturesBySourceKey: {...state.selectedFeaturesBySourceKey, [action.dataSourceKey]: selectedKeys}}
+}
+
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.SPATIAL_DATA_SOURCES_VECTOR_FEATURES_RECEIVE:
 			return receive(state, action);
+		case ActionTypes.SPATIAL_DATA_SOURCES_VECTOR_FEATURES_SELECT:
+			return select(state, action);
 		default:
 			return state;
 	}

@@ -65,10 +65,10 @@ function loadFeaturesForBbox(dataSourceKey, bbox, ttl) {
 	};
 }
 
-function loadFeaturesForBboxAndSelect(dataSourceKey, bbox) {
+function loadFeaturesForBboxAndSelect(dataSourceKey, bbox, selectionMode) {
 	return dispatch => {
 		dispatch(loadFeaturesForBbox(dataSourceKey, bbox)).then(({dataSourceKey, models}) => {
-			console.log('######## received features to select:', dataSourceKey, models);
+			dispatch(actionSelectFeatures(dataSourceKey, _.map(models, 'key'), selectionMode));
 		});
 	}
 }
@@ -104,6 +104,15 @@ function actionLoadFeaturesForBboxError(error) {
 	return {
 		type: ActionTypes.SPATIAL_DATA_SOURCES_VECTOR_FEATURES_BBOX_REQUEST_ERROR,
 		error: error
+	}
+}
+
+function actionSelectFeatures(dataSourceKey, featureKeys, selectionMode) {
+	return {
+		type: ActionTypes.SPATIAL_DATA_SOURCES_VECTOR_FEATURES_SELECT,
+		dataSourceKey,
+		featureKeys,
+		selectionMode
 	}
 }
 
