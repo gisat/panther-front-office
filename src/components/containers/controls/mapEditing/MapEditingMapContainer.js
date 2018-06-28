@@ -19,7 +19,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 			dispatch(Action.components.overlays.closeOverlay(ownProps.overlayKey));
 		},
 		selectFeatureForBbox: (bbox) => {
-			dispatch(Action.spatialDataSources.vector.loadFeaturesForBbox(ownProps.dataSourceKey, bbox))
+			dispatch(Action.spatialDataSources.vector.loadFeaturesForBboxAndSelect(ownProps.dataSourceKey, bbox, 'replace')); //todo other modes?
 		}
 	}
 };

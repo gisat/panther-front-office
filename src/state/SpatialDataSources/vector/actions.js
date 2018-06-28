@@ -38,13 +38,14 @@ function loadFeaturesForBbox(dataSourceKey, bbox, ttl) {
 					if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
 						return response.json().then(data => {
 							if (data.type === 'FeatureCollection' && data.features && data.features.length) {
-								dispatch(loadFeaturesReceive(data.features));
+								return dispatch(loadFeaturesReceive(dataSourceKey, data.features));
 							} else {
 								dispatch(actionLoadFeaturesForBboxError('no data returned'));
 							}
 						});
 					} else {
-						dispatch(actionLoadFeaturesForBboxError(response))
+						dispatch(actionLoadFeaturesForBboxError(response));
+						return false;
 					}
 				},
 				error => {
@@ -54,30 +55,41 @@ function loadFeaturesForBbox(dataSourceKey, bbox, ttl) {
 					} else {
 						dispatch(actionLoadFeaturesForBboxError("requests failed"));
 					}
+					return false;
 				}
 			);
 		} else {
 			// data source not found or not vector/shapefile
+			return Promise.reject();
 		}
 	};
 }
 
+function loadFeaturesForBboxAndSelect(dataSourceKey, bbox, selectionMode) {
+	return dispatch => {
+		dispatch(loadFeaturesForBbox(dataSourceKey, bbox)).then(({dataSourceKey, models}) => {
+			dispatch(actionSelectFeatures(dataSourceKey, _.map(models, 'key'), selectionMode));
+		});
+	}
+}
 
-function loadFeaturesReceive(models) {
+function loadFeaturesReceive(dataSourceKey, models) {
 	return dispatch => {
 		models = _.map(models, ({id, ...model}) => {
 			return {key: id, data: {...model}};
 		});
-		dispatch(actionLoadFeaturesReceive(models));
+		dispatch(actionLoadFeaturesReceive(dataSourceKey, models));
+		return {dataSourceKey, models};
 	};
 }
 
 // ============ actions ===========
 
 
-function actionLoadFeaturesReceive(data) {
+function actionLoadFeaturesReceive(dataSourceKey, data) {
 	return {
 		type: ActionTypes.SPATIAL_DATA_SOURCES_VECTOR_FEATURES_RECEIVE,
+		dataSourceKey: dataSourceKey,
 		data: data
 	}
 }
@@ -95,8 +107,18 @@ function actionLoadFeaturesForBboxError(error) {
 	}
 }
 
+function actionSelectFeatures(dataSourceKey, featureKeys, selectionMode) {
+	return {
+		type: ActionTypes.SPATIAL_DATA_SOURCES_VECTOR_FEATURES_SELECT,
+		dataSourceKey,
+		featureKeys,
+		selectionMode
+	}
+}
+
 // ============ export ===========
 
 export default {
-	loadFeaturesForBbox: loadFeaturesForBbox
+	loadFeaturesForBbox: loadFeaturesForBbox,
+	loadFeaturesForBboxAndSelect: loadFeaturesForBboxAndSelect
 }
