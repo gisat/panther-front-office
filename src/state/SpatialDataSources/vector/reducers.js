@@ -3,23 +3,24 @@ import Action from '../../Action';
 import _ from 'lodash';
 
 const INITIAL_STATE = {
-	features: [],
-	editedFeatures: [],
+	featuresBySourceKey: {},
+	editedFeaturesBySourceKey: {},
+	selectedFeaturesBySourceKey: {},
 	loading: false
 };
 
 function receive(state, action) {
 	let data;
-	if (state.features && state.features.length) {
+	if (state.featuresBySourceKey.hasOwnProperty(action.dataSourceKey) && state.featuresBySourceKey[action.dataSourceKey].length) {
 		// remove old versions of received models
-		let oldData = _.reject(state.features, model => {
+		let oldData = _.reject(state.featuresBySourceKey[action.dataSourceKey], model => {
 			return _.find(action.data, {key: model.key});
 		});
 		data = [...oldData, ...action.data];
 	} else {
 		data = [...action.data];
 	}
-	return {...state, loading: false, features: data};
+	return {...state, loading: false, featuresBySourceKey: {...state.featuresBySourceKey, [action.dataSourceKey]: data}};
 }
 
 export default (state = INITIAL_STATE, action) => {

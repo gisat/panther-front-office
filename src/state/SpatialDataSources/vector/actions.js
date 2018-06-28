@@ -38,7 +38,7 @@ function loadFeaturesForBbox(dataSourceKey, bbox, ttl) {
 					if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
 						return response.json().then(data => {
 							if (data.type === 'FeatureCollection' && data.features && data.features.length) {
-								return dispatch(loadFeaturesReceive(data.features));
+								return dispatch(loadFeaturesReceive(dataSourceKey, data.features));
 							} else {
 								dispatch(actionLoadFeaturesForBboxError('no data returned'));
 							}
@@ -67,28 +67,29 @@ function loadFeaturesForBbox(dataSourceKey, bbox, ttl) {
 
 function loadFeaturesForBboxAndSelect(dataSourceKey, bbox) {
 	return dispatch => {
-		dispatch(loadFeaturesForBbox(dataSourceKey, bbox)).then(models => {
-			console.log('######## received features to select:', models);
+		dispatch(loadFeaturesForBbox(dataSourceKey, bbox)).then(({dataSourceKey, models}) => {
+			console.log('######## received features to select:', dataSourceKey, models);
 		});
 	}
 }
 
-function loadFeaturesReceive(models) {
+function loadFeaturesReceive(dataSourceKey, models) {
 	return dispatch => {
 		models = _.map(models, ({id, ...model}) => {
 			return {key: id, data: {...model}};
 		});
-		dispatch(actionLoadFeaturesReceive(models));
-		return models;
+		dispatch(actionLoadFeaturesReceive(dataSourceKey, models));
+		return {dataSourceKey, models};
 	};
 }
 
 // ============ actions ===========
 
 
-function actionLoadFeaturesReceive(data) {
+function actionLoadFeaturesReceive(dataSourceKey, data) {
 	return {
 		type: ActionTypes.SPATIAL_DATA_SOURCES_VECTOR_FEATURES_RECEIVE,
+		dataSourceKey: dataSourceKey,
 		data: data
 	}
 }
