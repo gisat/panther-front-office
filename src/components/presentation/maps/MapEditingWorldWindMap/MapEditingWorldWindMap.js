@@ -337,7 +337,7 @@ class MapEditingWorldWindMap extends React.PureComponent {
                 levelZeroDelta: new Location(45, 45),
                 numLevels: 14,
                 format: "image/png",
-                opacity: this.props.sourceLayer.opacity || 1,
+                opacity: (this.props.sourceLayer.opacity/100) || 1,
                 size: 256,
                 version: "1.3.0",
                 styleNames: this.props.sourceLayer.style || "urbanAtlas"
