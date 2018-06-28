@@ -80,11 +80,14 @@ const hasActiveUserPermissionToCreate = createSelector(
 
 const isDromasAdmin = state => {
 	let isDromasAdmin = false;
-	state.users.groups.forEach(group => {
-		if(group.name === 'Aktualizace LPIS admin') {
-			isDromasAdmin = true;
-		}
-	});
+	const currentUser = state.users.filter(user => user.key === state.users.activeKey);
+	if(currentUser.length > 0) {
+		currentUser[0].groups.forEach(group => {
+            if(group.name === 'Aktualizace LPIS admin') {
+                isDromasAdmin = true;
+            }
+        })
+	}
 	return isDromasAdmin || state.users.isAdmin;
 };
 
