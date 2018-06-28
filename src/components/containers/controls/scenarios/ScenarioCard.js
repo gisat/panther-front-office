@@ -32,8 +32,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		edit: () => {
 			dispatch(Action.components.windows.scenarios.activateCaseEditing());
 		},
-		onStartMapEditing: (scenarioKey) => {
+		onStartMapEditing: (scenarioKey, layerSource) => {
 			dispatch(Action.scenarios.addEditedScenario(scenarioKey));
+			dispatch(Action.components.overlays.apiCreateLayerCopyRequest(layerSource));
 			dispatch(Action.components.overlays.openOverlay('scenarioMapEditing'));
 		}
 	}

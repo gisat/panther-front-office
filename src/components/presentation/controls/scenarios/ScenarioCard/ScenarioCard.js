@@ -108,7 +108,7 @@ class ScenarioCard extends React.PureComponent {
 
 	onStartMapEditing(){
 		let scenarioKey = utils.guid();
-		this.props.onStartMapEditing(scenarioKey);
+		this.props.onStartMapEditing(scenarioKey, this.props.scenarioSpatialDataSource);
 	}
 
 	render() {

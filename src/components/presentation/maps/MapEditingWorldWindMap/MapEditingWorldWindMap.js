@@ -46,8 +46,8 @@ class MapEditingWorldWindMap extends React.PureComponent {
             this.changeBackgroundLayer(this.props.activeBackgroundLayerKey);
         }
 
-        if(this.props.sourceLayer) {
-            this.reloadSourceLayer(this.props.sourceLayer);
+        if(this.props.sourceLayer && this.props.sourceLayer.name) {
+            this.reloadSourceLayer();
         }
 
         if(this.props.polygons) {
@@ -316,6 +316,12 @@ class MapEditingWorldWindMap extends React.PureComponent {
 		    this.reloadSourceLayer();
 		    this.visualizeChangedPolygons(nextProps.polygons);
         }
+	}
+
+	componentDidUpdate(){
+		if(this.props.sourceLayer && this.props.sourceLayer.name) {
+			this.reloadSourceLayer();
+		}
 	}
 
 	reloadSourceLayer() {

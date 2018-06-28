@@ -17,7 +17,8 @@ class MapEditingMapContainer extends React.PureComponent {
 		onCloseEditing: PropTypes.func,
 		activeBackgroundLayerKey: PropTypes.string,
 		setLayerOpacity: PropTypes.func,
-		mapData: PropTypes.object
+		mapData: PropTypes.object,
+		sourceLayer: PropTypes.object
 	};
 
 	constructor(props){
@@ -47,6 +48,7 @@ class MapEditingMapContainer extends React.PureComponent {
 					mapContainerClass={mapContainerClass}
 					navigatorState={this.props.navigatorState}
 					selectFeatureForBbox={this.props.selectFeatureForBbox}
+					sourceLayer={this.props.sourceLayer}
 				/>
 				<MapEditingTools
 					onCloseClick={this.onClose}
