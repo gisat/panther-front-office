@@ -53,7 +53,6 @@ function apiCreateLayerCopyRequest(dataSource, ttl) {
 			layerLoading: true,
 			layerSource: null
 		}));
-		debugger;
 
 		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/importer/duplicate');
 		let payload = {
