@@ -10,6 +10,11 @@ const INITIAL_STATE = {
 	loading: false
 };
 
+function add(state, action) {
+	let data = (state.data && state.data.length) ? [...state.data, ...action.data] : [...action.data];
+	return {...state, data: data};
+}
+
 function receive(state, action) {
 	let data;
 	if (state.data && state.data.length) {
@@ -40,6 +45,8 @@ function requestError(state, action) {
 
 const reducers = (state = INITIAL_STATE, action) => {
 	switch (action.type) {
+		case ActionTypes.SPATIAL_DATA_SOURCES_ADD:
+			return add(state, action);
 		case ActionTypes.SPATIAL_DATA_SOURCES_RECEIVE:
 			return receive(state, action);
 		case ActionTypes.SPATIAL_DATA_SOURCES_REQUEST:

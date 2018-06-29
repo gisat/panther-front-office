@@ -12,7 +12,8 @@ const INITIAL_STATE = {
 				layerLoading: false,
 				layerLoadingProgress: 0,
 				layerOpacity: 70,
-				layerSource: null
+				layerSource: null,
+				dataSourceKey: null,
 			}
 		}
 	},

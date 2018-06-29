@@ -142,7 +142,8 @@ const getVectorLayersForTemplate = createSelector(
 						vectorSources.push({
 							dataSource: dataSource.data.layer_name,
 							scenarioKey: scenario,
-							key: relation.key
+							relationKey: relation.key,
+							dataSourceKey: dataSource.key
 						});
 					}
 				});

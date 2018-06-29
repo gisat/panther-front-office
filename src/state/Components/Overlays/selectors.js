@@ -4,6 +4,8 @@ import _ from 'lodash';
 const getOverlay = (state, props) => state.components.overlays[props.key];
 const getOverlays = (state) => state.components.overlays;
 
+const getScenarioMapEditingDataSourceKey = (state) => state.components.overlays.scenarioMapEditing.map.dataSourceKey;
+
 const isOverlayOpen = createSelector(
 	getOverlay,
 	(overlay) => {
@@ -22,5 +24,6 @@ export default {
 	getOverlay: getOverlay,
 	isOverlayOpen: isOverlayOpen,
 
-	getScenarioMapEditingMapData: getScenarioMapEditingMapData
+	getScenarioMapEditingMapData: getScenarioMapEditingMapData,
+	getScenarioMapEditingDataSourceKey: getScenarioMapEditingDataSourceKey
 };

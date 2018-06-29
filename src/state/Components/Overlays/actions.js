@@ -1,4 +1,5 @@
 import ActionTypes from '../../../constants/ActionTypes';
+import Action from  '../../Action';
 import Select from '../../Select';
 import _ from 'lodash';
 import fetch from "isomorphic-fetch";
@@ -10,7 +11,6 @@ import queryString from 'query-string';
 
 const TTL = 5;
 let requestIntervals = {};
-let duplicateProgress = 0;
 
 // ============ creators ===========
 function closeOverlay(overlayKey){
@@ -49,10 +49,12 @@ function clearRequestInterval(uuid) {
 function apiCreateLayerCopyRequest(dataSource, ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
 	return (dispatch, getState) => {
+		let duplicateProgress = 0;
 		let uuid = utils.guid();
 		dispatch(actionApiCreateLayerCopyRequest({
 			layerLoading: true,
-			layerSource: null
+			layerSource: null,
+			dataSourceKey: null
 		}));
 
 		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/importer/duplicate');
@@ -60,7 +62,7 @@ function apiCreateLayerCopyRequest(dataSource, ttl) {
 			data: [{
 				uuid: uuid,
 				data: {
-					layerName: dataSource
+					layerName: dataSource.dataSource
 				}
 			}]
 		};
@@ -85,17 +87,25 @@ function apiCreateLayerCopyRequest(dataSource, ttl) {
 							clearRequestInterval(uuid);
 							dispatch(apiCreateLayerCopyRequestError(response.message));
 						} else if (layer.status === 'running'){
-							duplicateProgress = (duplicateProgress > 90) ? 90 : (duplicateProgress + 3);
+							duplicateProgress = ((duplicateProgress + 3) > 90) ? 90 : (duplicateProgress + 3);
 							if (layer.progress > duplicateProgress){
 								duplicateProgress = layer.progress;
 							}
 							dispatch(actionApiCreateLayerCopyProgress({layerLoadingProgress: duplicateProgress}));
 						} else if (layer.status === 'done') {
 							clearRequestInterval(uuid);
+							let cloneKey = utils.guid();
+							dispatch(Action.spatialDataSources.cloneAndUpdate(dataSource.dataSourceKey, {
+									key: cloneKey,
+									data: {
+										"layer_name": layer.data.duplicatedLayerName
+									}
+							}));
 							dispatch(actionApiCreateLayerCopyReceive({
 								layerLoadingProgress: null,
 								layerLoading: false,
-								layerSource: layer.data.duplicatedLayerName
+								layerSource: layer.data.duplicatedLayerName,
+								dataSourceKey: cloneKey
 							}));
 						}
 					} else {

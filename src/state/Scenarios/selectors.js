@@ -187,7 +187,7 @@ const getPucsScenariosVectorSource = createSelector(
 			source = _.find(vectorLayers, {'scenarioKey': null});
 		}
 
-		return source ? source.dataSource : null;
+		return source ? source : null;
 	}
 );
 

@@ -110,26 +110,26 @@ function updateSelectedFeatures(dataSourceKey, luClass) { //todo generalize
 
 		let url = config.apiGeoserverWFSProtocol + '://' + path.join(config.apiGeoserverWFSHost, config.apiGeoserverWFSPath) + '?service=wfs&version=1.1.0&request=Transaction';
 
-		//fetch(url, {
-		//	body: body, // must match 'Content-Type' header
-		//	cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-		//	credentials: 'include', // include, same-origin, *omit
-		//	headers: {
-		//		'user-agent': 'Mozilla/4.0 MDN Example',
-		//		'content-type': 'text/xml'
-		//	},
-		//	method: 'POST', // *GET, POST, PUT, DELETE, etc.
-		//	mode: 'cors', // no-cors, cors, *same-origin
-		//	redirect: 'follow', // manual, *follow, error
-		//	referrer: 'no-referrer', // *client, no-referrer
-		//}).then(
-		//	response => {
-		//		console.log('#### update polygon request response', response);
-		//	},
-		//	error => {
-		//		console.log('#### update polygon request error', error);
-		//	}
-		//);
+		fetch(url, {
+			body: body, // must match 'Content-Type' header
+			cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+			credentials: 'include', // include, same-origin, *omit
+			headers: {
+				'user-agent': 'Mozilla/4.0 MDN Example',
+				'content-type': 'text/xml'
+			},
+			method: 'POST', // *GET, POST, PUT, DELETE, etc.
+			mode: 'cors', // no-cors, cors, *same-origin
+			redirect: 'follow', // manual, *follow, error
+			referrer: 'no-referrer', // *client, no-referrer
+		}).then(
+			response => {
+				console.log('#### update polygon request response', response);
+			},
+			error => {
+				console.log('#### update polygon request error', error);
+			}
+		);
 	}
 }
 

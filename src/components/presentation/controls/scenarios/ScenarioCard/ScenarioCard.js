@@ -31,7 +31,7 @@ class ScenarioCard extends React.PureComponent {
 			PropTypes.number
 		]),
 
-		scenarioSpatialDataSource: PropTypes.string,
+		scenarioSpatialDataSource: PropTypes.object,
 
 		enableDelete: PropTypes.bool,
 		enableEdit: PropTypes.bool,
@@ -103,7 +103,7 @@ class ScenarioCard extends React.PureComponent {
 	}
 
 	onDownloadClick(){
-		this.props.downloadDataSource(this.props.scenarioSpatialDataSource);
+		this.props.downloadDataSource(this.props.scenarioSpatialDataSource.dataSource);
 	}
 
 	onStartMapEditing(){

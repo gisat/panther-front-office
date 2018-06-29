@@ -8,7 +8,7 @@ import './Loader.css';
 class Loader extends React.PureComponent {
 
 	static propTypes = {
-		progress: PropTypes.bool,
+		progress: PropTypes.number,
 		transparent: PropTypes.bool
 	};
 
