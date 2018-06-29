@@ -105,10 +105,9 @@ class MapEditingWorldWindMap extends React.PureComponent {
 			}
 			this.redrawEditedPolygons(nextProps.editedFeatures, nextProps.selectedFeatures);
 		}
-		if(nextProps.editedPolygonsInfo) {
-			if(nextProps.editedPolygonsInfo != this.props.editedPolygonsInfo) {
-                this.reloadSourceLayer(this.props);
-			}
+
+		if(nextProps.editedPolygonsInfo !== this.props.editedPolygonsInfo) {
+			this.reloadSourceLayer(this.props);
 		}
 	}
 
