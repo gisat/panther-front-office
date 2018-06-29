@@ -25,7 +25,7 @@ class ScenarioMapEditingOverlay extends React.PureComponent {
 			url: config.apiGeoserverWMSProtocol + "://" + config.apiGeoserverWMSHost + "/" + config.apiGeoserverWMSPath,
 			name: this.props.mapData.layerSource,
 			opacity: this.props.mapData.layerOpacity,
-			style: null
+			style: this.props.pucsSourceVectorSymbology
 		};
 
 		return (

@@ -17,6 +17,9 @@ let state = {
 	},
 	attributeSets: {
 		data: [{"active":false,"name":"Land Use Classes","attributes":[4496],"topic":737,"featureLayers":[3332],"key":4497}]
+	},
+	symbologies: {
+		data: [{key: 4325, symbologyName: "urbanAtlas"}]
 	}
 };
 
@@ -29,8 +32,12 @@ describe('Scope Selectors', () => {
 	it('should select sourceVector layerTemplate key', () => {
 		Selector(Select.scopes.getPucsSourceVectorLayerTemplate).expect(state).toReturn(3332);
 	});
-	it('should select ', () => {
+	it('should select enumeration values of first attribute from attribute set attached to pucs source vector layer template', () => {
 		let enumerationValues = "A";
 		Selector(Select.scopes.getPucsSourceVectorLandCoverClasses).expect(state).toReturn(enumerationValues);
+	});
+	it ('should select symbology name of pucs source data layer first symbology', () => {
+		let expectedSymbologyName = "urbanAtlas";
+		Selector(Select.scopes.getSymbologyForPucsSourceVectorLayerTemplate).expect(state).toReturn(expectedSymbologyName);
 	});
 });
