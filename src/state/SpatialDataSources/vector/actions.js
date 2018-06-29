@@ -83,6 +83,59 @@ function loadFeaturesReceive(dataSourceKey, models) {
 	};
 }
 
+function updateFeatures(dataSourceKey, featureKeys) { //todo
+	return (dispatch, getState) => {
+		let state = getState();
+		let dataSource = _.find(Select.spatialDataSources.getData(state), {key: dataSourceKey});
+		let editedFeatures = Select.spatialDataSources.vector.getEditedFeatures(state)[dataSourceKey];
+
+		let body = `<wfs:Transaction service="WFS" version="1.0.0"
+				 xmlns:topp="http://www.openplans.org/topp"
+				 xmlns:ogc="http://www.opengis.net/ogc"
+				 xmlns:wfs="http://www.opengis.net/wfs">`;
+		_.each(featureKeys, key => {
+			let editedFeature = _.find(editedFeatures, {key: key});
+			body += `<wfs:Update typeName="${dataSource.data.layer_name}">
+								<ogc:Filter>
+									<ogc:FeatureId fid="${key}"/>
+								</ogc:Filter>`;
+			_.each(editedFeature.data.properties, (value, property) => {
+				body += `<wfs:Property>
+									<wfs:Name>${property}</wfs:Name>
+									<wfs:Value>${value}</wfs:Value>
+								</wfs:Property>`;
+			});
+			body += `</wfs:Update>`;
+		});
+		body += `</wfs:Transaction>`;
+
+		console.log('#### update polygon request body', body);
+
+		let url = config.apiGeoserverWFSProtocol + '://' + path.join(config.apiGeoserverWFSHost, config.apiGeoserverWFSPath) + '?service=wfs&version=1.1.0&request=Transaction';
+
+		//fetch(url, {
+		//	body: body, // must match 'Content-Type' header
+		//	cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+		//	credentials: 'include', // include, same-origin, *omit
+		//	headers: {
+		//		'user-agent': 'Mozilla/4.0 MDN Example',
+		//		'content-type': 'text/xml'
+		//	},
+		//	method: 'POST', // *GET, POST, PUT, DELETE, etc.
+		//	mode: 'cors', // no-cors, cors, *same-origin
+		//	redirect: 'follow', // manual, *follow, error
+		//	referrer: 'no-referrer', // *client, no-referrer
+		//}).then(
+		//	response => {
+		//		console.log('#### update polygon request response', response);
+		//	},
+		//	error => {
+		//		console.log('#### update polygon request error', error);
+		//	}
+		//);
+	};
+}
+
 // ============ actions ===========
 
 

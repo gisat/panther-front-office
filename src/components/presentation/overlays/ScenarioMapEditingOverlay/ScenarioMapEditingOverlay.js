@@ -35,6 +35,7 @@ class ScenarioMapEditingOverlay extends React.PureComponent {
 				<ScenarioMapEditingControlPanel
 					overlayKey={overlayKey}
 					mapData={this.props.mapData}
+					dataSourceKey={214}
 				/>
 				<MapEditingMapContainer
 					overlayKey={overlayKey}
