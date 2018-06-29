@@ -8,7 +8,8 @@ import Select from "../../../../../state/Select";
 const mapStateToProps = (state, ownProps) => {
 	return {
 		scenarioData: Select.scenarios.getActiveCaseScenarioEdited(state),
-		landCoverClasses: Select.scopes.getPucsSourceVectorLandCoverClasses(state) ? JSON.parse(Select.scopes.getPucsSourceVectorLandCoverClasses(state)) : []
+		landCoverClasses: Select.scopes.getPucsSourceVectorLandCoverClasses(state) ? JSON.parse(Select.scopes.getPucsSourceVectorLandCoverClasses(state)) : [],
+		selectedFeatures: Select.spatialDataSources.vector.noMemoGetSelectedFeaturesBySourceKey(state, ownProps)
 	}
 };
 

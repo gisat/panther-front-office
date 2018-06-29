@@ -88,10 +88,12 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 						/>
 					</div>
 					<div className="ptr-editing-control-panel-content-body">
+						{this.props.selectedFeatures && this.props.selectedFeatures.length ? (
 						<div>
 							<h3 className="ptr-editing-control-panel-section-title">Selected feature attributes</h3>
 							{this.renderUrbanAtlasClassSelect()}
 						</div>
+						) : null}
 					</div>
 				</div>
 				<div className="ptr-editing-control-panel-controls">
