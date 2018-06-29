@@ -83,6 +83,56 @@ function loadFeaturesReceive(dataSourceKey, models) {
 	};
 }
 
+function updateSelectedFeatures(dataSourceKey, luClass) { //todo generalize
+	return (dispatch, getState) => {
+		let state = getState();
+		let dataSource = _.find(Select.spatialDataSources.getData(state), {key: dataSourceKey});
+		let selectedFeatures = Select.spatialDataSources.vector.noMemoGetSelectedFeaturesBySourceKey(state, {dataSourceKey});
+
+		let body = `<wfs:Transaction service="WFS" version="1.0.0"
+				 xmlns:topp="http://www.openplans.org/topp"
+				 xmlns:ogc="http://www.opengis.net/ogc"
+				 xmlns:wfs="http://www.opengis.net/wfs">`;
+		_.each(selectedFeatures, feature => {
+			body += `<wfs:Update typeName="${dataSource.data.layer_name}">
+								<ogc:Filter>
+									<ogc:FeatureId fid="${feature.key}"/>
+								</ogc:Filter>`;
+			body += `<wfs:Property>
+								<wfs:Name>CODE2012</wfs:Name>
+								<wfs:Value>${luClass}</wfs:Value>
+							</wfs:Property>`;
+			body += `</wfs:Update>`;
+		});
+		body += `</wfs:Transaction>`;
+
+		console.log('#### update polygon request body', body);
+
+		let url = config.apiGeoserverWFSProtocol + '://' + path.join(config.apiGeoserverWFSHost, config.apiGeoserverWFSPath) + '?service=wfs&version=1.1.0&request=Transaction';
+
+		//fetch(url, {
+		//	body: body, // must match 'Content-Type' header
+		//	cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+		//	credentials: 'include', // include, same-origin, *omit
+		//	headers: {
+		//		'user-agent': 'Mozilla/4.0 MDN Example',
+		//		'content-type': 'text/xml'
+		//	},
+		//	method: 'POST', // *GET, POST, PUT, DELETE, etc.
+		//	mode: 'cors', // no-cors, cors, *same-origin
+		//	redirect: 'follow', // manual, *follow, error
+		//	referrer: 'no-referrer', // *client, no-referrer
+		//}).then(
+		//	response => {
+		//		console.log('#### update polygon request response', response);
+		//	},
+		//	error => {
+		//		console.log('#### update polygon request error', error);
+		//	}
+		//);
+	}
+}
+
 function updateFeatures(dataSourceKey, featureKeys) { //todo
 	return (dispatch, getState) => {
 		let state = getState();
@@ -173,5 +223,6 @@ function actionSelectFeatures(dataSourceKey, featureKeys, selectionMode) {
 
 export default {
 	loadFeaturesForBbox: loadFeaturesForBbox,
-	loadFeaturesForBboxAndSelect: loadFeaturesForBboxAndSelect
+	loadFeaturesForBboxAndSelect: loadFeaturesForBboxAndSelect,
+	updateSelectedFeatures: updateSelectedFeatures
 }

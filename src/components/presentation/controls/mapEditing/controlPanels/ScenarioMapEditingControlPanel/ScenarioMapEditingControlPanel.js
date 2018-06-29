@@ -38,7 +38,8 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 		if (value){
 			this.setState({
 				luClass: value.value
-			})
+			});
+			this.props.updateSelectedFeatures(value.value);
 		}
 	}
 

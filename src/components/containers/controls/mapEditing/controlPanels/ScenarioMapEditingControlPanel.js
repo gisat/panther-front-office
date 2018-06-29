@@ -27,6 +27,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		updateEditedScenario: (scenarioKey, key, value) => {
 			dispatch(Action.scenarios.updateEditedScenario(scenarioKey, key, value))
 		},
+		updateSelectedFeatures: (value) => {
+			dispatch(Action.spatialDataSources.vector.updateSelectedFeatures(ownProps.dataSourceKey, value));
+		}
 	}
 };
 
