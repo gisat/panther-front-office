@@ -10,6 +10,7 @@ import queryString from 'query-string';
 
 const TTL = 5;
 let requestIntervals = {};
+let duplicateProgress = 0;
 
 // ============ creators ===========
 function closeOverlay(overlayKey){
@@ -84,7 +85,11 @@ function apiCreateLayerCopyRequest(dataSource, ttl) {
 							clearRequestInterval(uuid);
 							dispatch(apiCreateLayerCopyRequestError(response.message));
 						} else if (layer.status === 'running'){
-							dispatch(actionApiCreateLayerCopyProgress({layerLoadingProgress: layer.progress}));
+							duplicateProgress = (duplicateProgress > 90) ? 90 : (duplicateProgress + 3);
+							if (layer.progress > duplicateProgress){
+								duplicateProgress = layer.progress;
+							}
+							dispatch(actionApiCreateLayerCopyProgress({layerLoadingProgress: duplicateProgress}));
 						} else if (layer.status === 'done') {
 							clearRequestInterval(uuid);
 							dispatch(actionApiCreateLayerCopyReceive({
