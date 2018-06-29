@@ -16,7 +16,8 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 	static propTypes = {
 		discard: PropTypes.func,
 		landCoverClasses: PropTypes.array,
-		scenarioData: PropTypes.object
+		scenarioData: PropTypes.object,
+		mapData: PropTypes.object,
 	};
 
 	constructor(props){
@@ -101,7 +102,7 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 	}
 
 	renderButtons(){
-		let saveButton = this.props.scenarioData && this.props.scenarioData.data && this.props.scenarioData.data.name;
+		let saveButton = this.props.scenarioData && this.props.scenarioData.data && this.props.scenarioData.data.name && !this.props.mapData.layerLoading;
 		let discardButton = true;
 
 		return (

@@ -4,8 +4,10 @@ import classNames from 'classnames';
 import utils from '../../../../../utils/utils';
 import _ from 'lodash';
 
-import MapEditingWorldWindMap from '../../../maps/MapEditingWorldWindMap/MapEditingWorldWindMap'
-import MapEditingTools from '../MapEditingTools/MapEditingTools'
+import MapEditingWorldWindMap from '../../../maps/MapEditingWorldWindMap/MapEditingWorldWindMap';
+import MapEditingTools from '../MapEditingTools/MapEditingTools';
+
+import Loader from '../../../atoms/Loader/Loader'
 
 import './MapEditingMapContainer.css';
 
@@ -57,6 +59,14 @@ class MapEditingMapContainer extends React.PureComponent {
 					opacity={this.props.mapData ? this.props.mapData.layerOpacity : null}
 					setOpacity={this.props.setLayerOpacity}
 				/>
+				{this.props.mapData && this.props.mapData.layerLoading ? (
+					<div className="ptr-editing-map-loader">
+						<Loader
+							transparent
+							progress={this.props.mapData.layerLoadingProgress}
+						/>
+					</div>
+				): null}
 			</div>
 		);
 	}

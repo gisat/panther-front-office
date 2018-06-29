@@ -34,6 +34,7 @@ class ScenarioMapEditingOverlay extends React.PureComponent {
 			>
 				<ScenarioMapEditingControlPanel
 					overlayKey={overlayKey}
+					mapData={this.props.mapData}
 				/>
 				<MapEditingMapContainer
 					overlayKey={overlayKey}
@@ -43,11 +44,6 @@ class ScenarioMapEditingOverlay extends React.PureComponent {
 					sourceLayer={sourceLayer}
 					onCloseEditing={this.onClose.bind(this)}
 				/>
-				{this.props.mapData && this.props.mapData.layerLoading ? (
-					<div className="ptr-overlay-editing-loader">
-						<div>Loading: {this.props.mapData.layerLoadingProgress} %</div>
-					</div>
-				): null}
 			</MapEditingOverlay>
 		);
 	}
