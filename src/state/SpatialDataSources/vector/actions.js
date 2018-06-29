@@ -8,6 +8,9 @@ import queryString from 'query-string';
 import config from '../../../config';
 import Select from '../../Select';
 
+import action from '../../Components/actions';
+import utils from '../../../utils/utils';
+
 const TTL = 3;
 
 
@@ -124,6 +127,7 @@ function updateSelectedFeatures(dataSourceKey, luClass) { //todo generalize
 			referrer: 'no-referrer', // *client, no-referrer
 		}).then(
 			response => {
+				dispatch(action.update('scenarioMapEditing', {editedPolygonsInfo: utils.guid()}));
 				console.log('#### update polygon request response', response);
 			},
 			error => {

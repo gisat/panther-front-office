@@ -8,7 +8,8 @@ const mapStateToProps = (state, ownProps) => {
 		activeBackgroundLayerKey: Select.maps.getActiveBackgroundLayerKey(state),
 		navigatorState: Select.maps.getNavigator(state),
 		editedFeatures: Select.spatialDataSources.vector.noMemoGetEditedFeaturesBySourceKey(state, ownProps),
-		selectedFeatures: Select.spatialDataSources.vector.noMemoGetSelectedFeaturesBySourceKey(state, ownProps)
+		selectedFeatures: Select.spatialDataSources.vector.noMemoGetSelectedFeaturesBySourceKey(state, ownProps),
+        editedPolygonsInfo: Select.components.overlays.getEditedPolygonInfo(state)
 	}
 };
 
