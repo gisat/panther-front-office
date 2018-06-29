@@ -9,7 +9,7 @@ import Controls from '../../../../view/worldWind/controls/Controls';
 import mapUtils from "../../../../utils/map";
 import MyWmsLayer from '../../../../worldwind/layers/MyWmsLayer';
 
-const {WorldWindow, Sector, Location, ClickRecognizer, RenderableLayer, ShapeAttributes, Color, Polygon, Position} = WorldWind;
+const {WorldWindow, Sector, Location, ClickRecognizer, RenderableLayer, ShapeAttributes, Color, SurfacePolygon, Position} = WorldWind;
 
 class MapEditingWorldWindMap extends React.PureComponent {
 
@@ -378,7 +378,7 @@ class MapEditingWorldWindMap extends React.PureComponent {
 	    if(this._layerWithUpdatedPolygons) {
             this._layerWithUpdatedPolygons.removeAllRenderables();
             this._layerWithUpdatedPolygons.addRenderables(polygons.map(polygon => {
-                return new Polygon(polygon, shapeAttributes);
+                return new SurfacePolygon(polygon, shapeAttributes);
             }));
         }
     }
@@ -416,7 +416,7 @@ class MapEditingWorldWindMap extends React.PureComponent {
 	featuresToPolygons(features, shapeAttributes) {
 		return _.map(features, feature => {
 			let coordinates = feature.data.geometry.type === "MultiPolygon" ? feature.data.geometry.coordinates[0] : [feature.data.geometry.coordinates[0]];
-			return new Polygon(_.map(coordinates, simplePolygon => {
+			return new SurfacePolygon(_.map(coordinates, simplePolygon => {
 				return _.map(simplePolygon, point => {
 					return new Position(point[1], point[0]);
 				});
