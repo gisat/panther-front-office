@@ -140,7 +140,7 @@ const getVectorLayersForTemplate = createSelector(
 					let scenario = relation.scenario_id;
 					if (dataSource){
 						vectorSources.push({
-							dataSource: dataSource.data.layer_name,
+							dataSource: dataSource.data.layer_name,	// todo prejmenovat na neco vhodneho
 							scenarioKey: scenario,
 							relationKey: relation.key,
 							dataSourceKey: dataSource.key
