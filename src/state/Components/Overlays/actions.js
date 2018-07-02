@@ -184,5 +184,7 @@ export default {
 	openOverlay: openOverlay,
 
 	apiCreateLayerCopyRequest: apiCreateLayerCopyRequest,
-	setScenarioMapEditingLayerOpacity: setScenarioMapEditingLayerOpacity
+	setScenarioMapEditingLayerOpacity: setScenarioMapEditingLayerOpacity,
+
+	actionUpdateOverlay: actionUpdateOverlay
 }

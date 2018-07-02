@@ -20,7 +20,9 @@ const getScenarioMapEditingMapData = createSelector(
 	}
 );
 
-const getEditedPolygonInfo = (state) => state.components.overlays.scenarioMapEditing.editedPolygonsInfo;
+const getEditedPolygonInfo = (state) => {
+	return state.components.overlays.scenarioMapEditing.editedPolygonsInfo;
+};
 
 export default {
 	getOverlay: getOverlay,
