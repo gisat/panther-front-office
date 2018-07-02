@@ -46,7 +46,7 @@ function clearRequestInterval(uuid) {
 	}
 }
 
-function apiCreateLayerCopyRequest(dataSource, ttl) {
+function apiCreateLayerCopyRequest(dataSource, dataSourceCloneKey, ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
 	return (dispatch, getState) => {
 		let duplicateProgress = 0;
@@ -94,9 +94,8 @@ function apiCreateLayerCopyRequest(dataSource, ttl) {
 							dispatch(actionApiCreateLayerCopyProgress({layerLoadingProgress: duplicateProgress}));
 						} else if (layer.status === 'done') {
 							clearRequestInterval(uuid);
-							let cloneKey = utils.guid();
 							dispatch(Action.spatialDataSources.cloneAndUpdate(dataSource.dataSourceKey, {
-									key: cloneKey,
+									key: dataSourceCloneKey,
 									data: {
 										"layer_name": layer.data.duplicatedLayerName
 									}
@@ -105,7 +104,7 @@ function apiCreateLayerCopyRequest(dataSource, ttl) {
 								layerLoadingProgress: null,
 								layerLoading: false,
 								layerSource: layer.data.duplicatedLayerName,
-								dataSourceKey: cloneKey
+								dataSourceKey: dataSourceCloneKey
 							}));
 						}
 					} else {
