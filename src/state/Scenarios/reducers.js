@@ -1,6 +1,5 @@
 import ActionTypes from '../../constants/ActionTypes';
 import _ from 'lodash';
-import { buildCleaner } from 'lodash-clean';
 
 
 const INITIAL_STATE = {
