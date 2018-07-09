@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import mapUtils from '../../../../../utils/map';
+import mapUtils from '../../../../utils/map';
 import _ from 'lodash';
 import WorldWind from '@nasaworldwind/worldwind';
 
-import Layers from '../../../../../view/worldWind/layers/Layers';
-import Controls from '../../../../../view/worldWind/controls/Controls';
+import Layers from '../../../../view/worldWind/layers/Layers';
+import Controls from '../../../../view/worldWind/controls/Controls';
 
-import './WorldWindow.css';
+import './CaseDetailWorldWindMap.css';
 
-class WorldWindow extends React.PureComponent {
+class CaseDetailWorldWindMap extends React.PureComponent {
 
 	static propTypes = {
 		activeBackgroundLayerKey: PropTypes.string,
@@ -162,4 +162,4 @@ class WorldWindow extends React.PureComponent {
 	}
 }
 
-export default WorldWindow;
+export default CaseDetailWorldWindMap;
