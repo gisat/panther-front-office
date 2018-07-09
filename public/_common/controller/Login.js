@@ -112,9 +112,11 @@ Ext.define('Puma.controller.Login', {
 
             if ($('.signup').html() == polyglot.t("logIn")){
                 $('.signup, .login').addClass("logged");
+				$('.user .sep').css("display","inline-block");
             }
             else {
                 $('.signup, .login').removeClass("logged");
+				$('.user .sep').css("display","none");
             }
 
             if(loggedIn) {
