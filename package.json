@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@nasaworldwind/worldwind": "^0.9.0",
+    "babel-preset-env": "1.7.0",
     "classnames": "2.2.5",
     "d3": "4.13.0",
     "earcut": "2.1.3",

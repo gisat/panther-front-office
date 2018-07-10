@@ -84,7 +84,7 @@
 	padding: .2rem .3rem;
 	overflow-x: hidden;
 	overflow-y: auto;
-	height: calc(100% - 2.1rem);
+	height: calc(100% - 2.5rem);
 }
 .fi-window.has-footer .feature-info-window-body {
 	height: calc(100% - 5rem);
