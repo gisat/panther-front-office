@@ -17,7 +17,7 @@ const INITIAL_STATE = {
 			}
 		},
 		views: {
-			open: false
+			open: true
 		}
 	},
 	windows: {

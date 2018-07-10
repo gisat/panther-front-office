@@ -20,5 +20,9 @@ export default {
 	SCENARIOS_PROCESSING_FILE_ERROR: 'Error',
 	SCENARIOS_PROCESSING_FILE_ERROR_MESSAGE: 'Error during file processing!',
 	SCENARIOS_PROCESSING_FILE_SUCCESS: 'Success',
-	SCENARIOS_PROCESSING_FILE_SUCCESS_MESSAGE: 'File was processed successfully!'
+	SCENARIOS_PROCESSING_FILE_SUCCESS_MESSAGE: 'File was processed successfully!',
+
+	// temporary
+	SCOPE_SWITCH_OVERLAY_CLOSE: 'Close overlay',
+	SCOPE_SWITCH_OVERLAY_OPEN: 'Open overlay'
 };
