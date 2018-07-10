@@ -15,6 +15,9 @@ const INITIAL_STATE = {
 				layerSource: null,
 				dataSourceKey: null,
 			}
+		},
+		views: {
+			open: false
 		}
 	},
 	windows: {
