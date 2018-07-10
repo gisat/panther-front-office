@@ -17,7 +17,8 @@ const INITIAL_STATE = {
 			}
 		},
 		views: {
-			open: true
+			open: true,
+			selectedScope: null
 		}
 	},
 	windows: {

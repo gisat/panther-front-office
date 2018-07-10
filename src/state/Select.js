@@ -14,6 +14,7 @@ import SpatialRelations from './SpatialRelations/selectors';
 import Symbologies from './Symbologies/selectors';
 import UserGroups from './UserGroups/selectors';
 import Users from './Users/selectors';
+import Views from './Views/selectors';
 import WmsLayers from './WmsLayers/selectors';
 
 export default {
@@ -33,6 +34,7 @@ export default {
 	symbologies: Symbologies,
 	userGroups: UserGroups,
 	users: Users,
+	views: Views,
 	wmsLayers: WmsLayers
 
 };

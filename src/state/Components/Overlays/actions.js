@@ -5,9 +5,9 @@ import _ from 'lodash';
 import fetch from "isomorphic-fetch";
 import path from "path";
 import config from "../../../config";
-import utils from "../../../utils/utils"
+import utils from "../../../utils/utils";
 
-import queryString from 'query-string';
+import Views from "./Views/actions";
 
 const TTL = 5;
 let requestIntervals = {};
@@ -186,5 +186,7 @@ export default {
 	apiCreateLayerCopyRequest: apiCreateLayerCopyRequest,
 	setScenarioMapEditingLayerOpacity: setScenarioMapEditingLayerOpacity,
 
-	actionUpdateOverlay: actionUpdateOverlay
+	actionUpdateOverlay: actionUpdateOverlay,
+
+	views: Views
 }

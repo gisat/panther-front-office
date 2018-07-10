@@ -5,15 +5,19 @@ import Select from '../../../state/Select';
 import ViewsOverlay from "../../presentation/overlays/ViewsOverlay/ViewsOverlay";
 
 const mapStateToProps = (state) => {
+	let scopes = Select.scopes.getScopes(state);
+
 	return {
-		open: Select.components.overlays.isOverlayOpen(state, {key: 'views'})
+		open: Select.components.overlays.isOverlayOpen(state, {key: 'views'}),
+		scopes: scopes ? scopes : [],
+		selectedScope: Select.components.overlays.views.getSelectedScopeData(state)
 	}
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		close: () => {
-			dispatch(Action.components.overlays.closeOverlay('views'));
+		selectScope: (key) => {
+			dispatch(Action.components.overlays.views.setSelectedScope(key));
 		}
 	}
 };

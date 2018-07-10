@@ -1,6 +1,8 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
 
+import Views from './Views/selectors';
+
 const getOverlay = (state, props) => state.components.overlays[props.key];
 const getOverlays = (state) => state.components.overlays;
 
@@ -30,5 +32,7 @@ export default {
 
 	getScenarioMapEditingMapData: getScenarioMapEditingMapData,
 	getScenarioMapEditingDataSourceKey: getScenarioMapEditingDataSourceKey,
-	getEditedPolygonInfo: getEditedPolygonInfo
+	getEditedPolygonInfo: getEditedPolygonInfo,
+
+	views: Views
 };

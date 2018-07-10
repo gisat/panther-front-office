@@ -1,0 +1,23 @@
+/*  PROJECTS SPECIFIC STYLES
+
+	Table of contents
+
+	DROMAS
+	INVAZE
+	URBAN TEP
+*/
+
+/* === DROMAS ======================================== */
+html.dromas .ptr-overlay.ptr-overlay-views {
+	background-image: linear-gradient(160deg, rgba(33,38,53,1) 0%, rgba(33,38,53,1) 40%, rgba(63,50,43,1) 100%);
+}
+
+/* === INVAZE ======================================== */
+html.invaze .ptr-overlay.ptr-overlay-views {
+	background-image: linear-gradient(160deg, rgba(33,38,53,1) 0%, rgba(33,38,53,1) 40%, rgba(40,40,0,1) 100%);
+}
+
+/* === URBAN TEP ===================================== */
+html.urban-tep .ptr-overlay.ptr-overlay-views {
+	background-image: linear-gradient(160deg, rgba(65,69,81,1) 0%, rgba(65,69,81,1) 40%, rgba(106,110,120,1) 100%);
+}

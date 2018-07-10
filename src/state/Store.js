@@ -16,6 +16,7 @@ import spatialRelationsReducers from './SpatialRelations/reducers';
 import symbologiesReducers from './Symbologies/reducers';
 import usersReducers from './Users/reducers';
 import userGroupsReducers from './UserGroups/reducers';
+import viewsReducers from './Views/reducers';
 import wmsLayersReducers from './WmsLayers/reducers';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
@@ -40,6 +41,7 @@ const Store = createStore(combineReducers({
 	symbologies: symbologiesReducers,
 	users: usersReducers,
 	userGroups: userGroupsReducers,
+	viewsReducers: viewsReducers,
 	wmsLayers: wmsLayersReducers
 }), applyMiddleware(thunk, logger));
 

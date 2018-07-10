@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import store from './state/Store';
 
 import './index.css';
+import './projects.css';
 import registerServiceWorker from './registerServiceWorker';
 import loadApp from './app-old';
 

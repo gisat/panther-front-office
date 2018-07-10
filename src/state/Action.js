@@ -15,6 +15,7 @@ import SpatialRelations from './SpatialRelations/actions';
 import Symbologies from './Symbologies/actions';
 import Users from './Users/actions';
 import UserGroups from './UserGroups/actions';
+import Views from './Views/actions';
 import WmsLayers from './WmsLayers/actions';
 
 export default {
@@ -34,5 +35,6 @@ export default {
 	symbologies: Symbologies,
 	users: Users,
 	userGroups: UserGroups,
+	views: Views,
 	wmsLayers: WmsLayers
 };
