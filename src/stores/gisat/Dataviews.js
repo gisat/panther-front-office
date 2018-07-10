@@ -13,7 +13,7 @@ class Dataviews extends BaseStore {
      * @inheritDoc
      */
     getPath() {
-        return "rest/dataview";
+        return "rest/views";
     }
 }
 
