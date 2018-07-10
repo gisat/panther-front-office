@@ -8,10 +8,27 @@ import queryString from 'query-string';
 import config from '../../config';
 import Select from '../Select';
 
+import vectorActions from './vector/actions';
+
 const TTL = 3;
 
 
 // ============ creators ===========
+
+function add(sources) {
+	return dispatch => {
+		if (!_.isArray(sources)) sources = [sources];
+		dispatch(actionAdd(sources));
+	};
+}
+
+function cloneAndUpdate(sourceKey, update){
+	return (dispatch, getState) => {
+		let source = Select.spatialDataSources.getDataSource(getState(), sourceKey);
+		let updatedClone = {...source, ...update};
+		dispatch(add(updatedClone));
+	}
+}
 
 // todo Temporary solution for download - open url in new window
 function download(sourceName){
@@ -146,6 +163,13 @@ function loadDataSourcesReceive(models) {
 }
 
 // ============ actions ===========
+function actionAdd(data) {
+	return {
+		type: ActionTypes.SPATIAL_DATA_SOURCES_ADD,
+		data: data
+	}
+}
+
 function actionDownloadSourceFileRequest(){
 	return {
 		type: ActionTypes.SPATIAL_DATA_SOURCES_DOWNLOAD_FILE_REQUEST
@@ -189,7 +213,9 @@ function actionLoadDataSourcesError(error) {
 // ============ export ===========
 
 export default {
+	cloneAndUpdate: cloneAndUpdate,
 	download: download,
 	load: load,
 	loadFiltered: loadFiltered,
+	vector: vectorActions
 }

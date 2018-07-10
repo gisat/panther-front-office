@@ -3,6 +3,7 @@ import Action from '../state/Action';
 import Select from '../state/Select';
 import _ from 'lodash';
 import {geoBounds} from 'd3-geo';
+import utils from "../utils/utils";
 
 let state = {};
 
@@ -18,17 +19,19 @@ const setEventListeners = store => {
 				store.dispatch(Action.users.update(options));
 				break;
 			case "USERS_LOADED":
-				store.dispatch(Action.users.add(_.map(options, transform)));
+				let oldModels = Select.users.getUsers(store.getState());
+				let newModels = utils.removeDuplicities(oldModels, options);
+				if (newModels && newModels.length){
+					store.dispatch(Action.users.add(newModels));
+				}
 				break;
 			case "USER_GROUPS_LOADED":
-				store.dispatch(Action.userGroups.add(_.map(options, transform)));
+				let oldModelsGroups = Select.userGroups.getGroups(store.getState());
+				let newModelsGroups = utils.removeDuplicities(oldModelsGroups, options);
+				if (newModelsGroups && newModelsGroups.length){
+					store.dispatch(Action.userGroups.add(newModelsGroups));
+				}
 				break;
 		}
 	});
-};
-
-const transform = model => {
-	let {id, ...newModel} = model;
-	newModel.key = model.id;
-	return newModel;
 };

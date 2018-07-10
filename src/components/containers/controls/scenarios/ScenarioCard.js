@@ -2,16 +2,19 @@ import { connect } from 'react-redux';
 import Action from '../../../../state/Action';
 import Select from '../../../../state/Select';
 import ScenarioCard from "../../../presentation/controls/scenarios/ScenarioCard/ScenarioCard";
+import utils from '../../../../utils/utils';
 
 const mapStateToProps = (state, ownProps) => {
 	return {
 		scenarioData: Select.scenarios.getScenario(state, ownProps.scenarioKey),
 		scenarioEditedData: Select.scenarios.getScenarioEdited(state, ownProps.scenarioKey),
 
-		scenarioSpatialDataSource: Select.scenarios.getVectorSource(state, ownProps.scenarioKey, ownProps.defaultSituation),
+		scenarioSpatialDataSource: Select.scenarios.getPucsScenariosVectorSource(state, ownProps.scenarioKey, ownProps.defaultSituation),
 
 		enableDelete: Select.users.isAdmin(state) || Select.users.hasActiveUserPermissionToCreate(state, 'scenario_case'),
-		enableEdit: Select.users.isAdmin(state) || Select.users.hasActiveUserPermissionToCreate(state, 'scenario_case')
+		enableEdit: Select.users.isAdmin(state) || Select.users.hasActiveUserPermissionToCreate(state, 'scenario_case'),
+		enableModify: (Select.users.isAdmin(state) || Select.users.hasActiveUserPermissionToCreate(state, 'scenario_case')) &&
+			!ownProps.editing
 	}
 };
 
@@ -30,8 +33,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		edit: () => {
 			dispatch(Action.components.windows.scenarios.activateCaseEditing());
 		},
-		onStartMapEditing: () => {
-			dispatch(Action.components.overlays.openOverlay('mapEditing'));
+		onStartMapEditing: (scenarioKey, layerSource) => {
+			let dataSourceCloneKey = utils.guid();
+			dispatch(Action.scenarios.addEditedScenario(scenarioKey, {dataSourceCloneKey: dataSourceCloneKey}));
+			dispatch(Action.components.overlays.apiCreateLayerCopyRequest(layerSource, dataSourceCloneKey));
+			dispatch(Action.components.overlays.openOverlay('scenarioMapEditing'));
 		}
 	}
 };

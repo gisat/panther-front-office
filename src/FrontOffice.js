@@ -311,13 +311,16 @@ class FrontOffice {
         }
 
 		// handle active places
-        if (state.locations && !this._options.changes.dataview){
-			this._dispatcher.notify('place#setActivePlace', {data: state.locations});
-        }
-		else if (state.place && !this._options.changes.dataview){
-			this._dispatcher.notify('place#setActivePlace', {data: [Number(state.place)]});
-		} else if (!this._options.changes.dataview) {
-			this._dispatcher.notify('place#setActivePlace', {data: state.allPlaces});
+		if (!this._options.changes.dataview){
+			let places;
+			if (state.place && state.place !== "All places" && typeof state.place === "string"){
+				places = [(Number(state.place))];
+			} else if (state.locations){
+				places = state.locations;
+			} else {
+				places = state.allPlaces;
+			}
+			this._dispatcher.notify('place#setActivePlace', {data: places});
 		}
     };
 

@@ -6,6 +6,7 @@ import Dots from './Dots';
 import Download from './Download';
 import Edit from './Edit';
 import Expand from './Expand';
+import Opacity from './Opacity';
 import Plus from './Plus';
 import Pushpin from './Pushpin';
 import Restore from './Restore';
@@ -24,6 +25,8 @@ const icon = key => {
 			return <Edit />;
 		case 'expand':
 			return <Expand />;
+		case 'opacity':
+			return <Opacity />;
 		case 'plus':
 			return <Plus />;
 		case 'pushpin':

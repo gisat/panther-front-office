@@ -32,13 +32,13 @@ function setActive(key) {
 
 
 // Edited data
-function addEditedScenario(key){
+function addEditedScenario(key, options){
 	return (dispatch, getState) => {
 		let activeCaseScenarioKeys = Select.scenarios.getActiveCaseScenarioKeys(getState());
 		let activeCaseEditedScenarioKeys = Select.scenarios.getActiveCaseEditedScenarioKeys(getState());
 		let updatedScenarioKeys = activeCaseEditedScenarioKeys ? [...activeCaseEditedScenarioKeys, ...[key]] :
 			(activeCaseScenarioKeys ? [...activeCaseScenarioKeys, ...[key]] : [key] );
-		dispatch(actionUpdateEditedScenarios([{key: key}]));
+		dispatch(actionUpdateEditedScenarios([{key: key, ...options}]));
 		dispatch(updateEditedActiveCase('scenarios', updatedScenarioKeys));
 	};
 }
@@ -482,8 +482,10 @@ function apiCreateCases(cases, scenarios, placeKey, ttl) {
 
 function apiUpdateCases(updates, editedScenarios, ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
-	return dispatch => {
+	return (dispatch, getState) => {
 		dispatch(actionApiUpdateCasesRequest(_.map(updates, 'key')));
+
+		let state = getState();
 
 		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata');
 
@@ -524,7 +526,6 @@ function apiUpdateCases(updates, editedScenarios, ttl) {
 			body: JSON.stringify(payload)
 		}).then(
 			response => {
-				console.log('#### update scenario case response', response);
 				let contentType = response.headers.get('Content-type');
 				if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
 					return response.json().then(data => {
@@ -532,20 +533,42 @@ function apiUpdateCases(updates, editedScenarios, ttl) {
 							dispatch(apiUpdateCasesReceive(data.data));
 
 							let uploadedScenarioFiles = [];
+							let duplicatedScenarios = [];
 
 							_.each(data.data.scenarios, createdScenario => {
 								let scenarioToCreate = _.find(editedScenarios, {key: createdScenario.uuid || createdScenario.id});
-								if (scenarioToCreate) {
+								if (scenarioToCreate && scenarioToCreate.data.file) {
 									uploadedScenarioFiles.push(
 										{
 											key: createdScenario.id,
 											data: scenarioToCreate.data
 										}
 									)
+								} else if(scenarioToCreate && scenarioToCreate.dataSourceCloneKey) {
+									let clonedDataSource = Select.spatialDataSources.getDataSource(getState(), scenarioToCreate.dataSourceCloneKey);
+									duplicatedScenarios.push(
+										{
+											key: createdScenario.id,
+											layerName: clonedDataSource.data.layer_name,
+											data: scenarioToCreate.data
+										}
+									)
 								}
 							});
 
-							dispatch(apiUploadScenarioFiles(uploadedScenarioFiles));
+							if(uploadedScenarioFiles.length) {
+								dispatch(apiUploadScenarioFiles(uploadedScenarioFiles));
+							}
+							if(duplicatedScenarios.length) {
+								dispatch(apiExecuteMultipleMatlabProcessAndPublisResults(_.map(duplicatedScenarios, duplicatedScenario => {
+									return {
+										scenario_id: duplicatedScenario.key,
+										scope_id: Select.scopes.getActiveScopeKey(state),
+										place_id: Select.places.getActiveKey(state),
+										localLayer: duplicatedScenario.layerName
+									}
+								})));
+							}
 						} else {
 							dispatch(actionApiUpdateCasesError('no data returned'));
 						}
@@ -676,6 +699,105 @@ function clearRequestInterval(uuid) {
 	if (requestIntervals.hasOwnProperty(uuid)) {
 		clearInterval(requestIntervals[uuid]);
 	}
+}
+
+function apiExecuteMultipleMatlabProcessAndPublisResults(processes) {
+	return (dispatch) => {
+		processes = _.isArray(processes) ? processes : [processes];
+
+		processes.forEach((process) => {
+			if(process.scenario_id) {
+				dispatch(apiProcessingScenarioFileStarted(process.scenario_id));
+			}
+		});
+
+		getBodyForMatlabProcessesRequest(processes)
+			.then((body) => {
+				let execute = () => {
+					executeMatlabProcessRequest(body)
+						.then((results) => {
+							return processMatlabProcessRequestResults(results, dispatch);
+						})
+						.then((repeat) => {
+							if(repeat) {
+								setTimeout(() => {
+									execute();
+								}, 2000);
+							}
+						})
+						.catch((error) => {
+							console.log(`apiExecuteMultipleMatlabProcessAndPublisResults#error`, error);
+						});
+				};
+				execute();
+			});
+	}
+}
+
+function processMatlabProcessRequestResults(results, dispatch) {
+	return Promise.resolve()
+		.then(() => {
+			let running = false;
+
+			results.data.forEach((resultData) => {
+				if (resultData.status === "running") {
+					running = true;
+				}
+			});
+
+			if (!running) {
+				let dataSourcesIds = [];
+				results.data.forEach((resultData) => {
+					if (resultData.status === "done" && resultData["spatial_relations"]) {
+						let data = resultData["spatial_relations"].map(relation => {
+								dataSourcesIds.push(relation.data.data_source_id);
+								return {...relation.data, id: relation.id};
+							}
+						);
+						dispatch(Action.spatialRelations.loadRelationsReceive(data));
+						dispatch(apiProcessingScenarioFileSuccess(resultData.data.scenario_id));
+					}
+				});
+				dispatch(Action.spatialDataSources.loadFiltered({'id': dataSourcesIds}));
+			} else {
+				return running;
+			}
+		});
+}
+
+function executeMatlabProcessRequest(body) {
+	return fetch(
+		config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/pucs/publish'),
+		{
+			method: "POST",
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json'
+			},
+			body: JSON.stringify(body)
+		}
+	).then((response) => {
+		if (response.status === 200) {
+			return response.json();
+		} else {
+			throw new Error('wrong status');
+		}
+	})
+}
+
+function getBodyForMatlabProcessesRequest(processes) {
+	return Promise.resolve()
+		.then(() => {
+			return {
+				data: _.map(processes, (process) => {
+					return {
+						uuid: utils.guid(),
+						data: process
+					}
+				})
+			};
+		});
 }
 
 function apiExecutePucsMatlabProcessOnUploadedScenarioFiles(uploads) {

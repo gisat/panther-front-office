@@ -4,26 +4,17 @@ import classNames from 'classnames';
 import utils from '../../../../utils/utils';
 import _ from 'lodash';
 
-import MapEditingControlPanel from '../../../containers/controls/mapEditing/MapEditingControlPanel';
-import MapEditingMapContainer from '../../../containers/controls/mapEditing/MapEditingMapContainer';
-
 import './MapEditingOverlay.css';
+import Names from "../../../../constants/Names";
 
 class MapEditingOverlay extends React.PureComponent {
 
 	static propTypes = {
-		onClose: PropTypes.func,
 		open: PropTypes.bool
 	};
 
 	constructor(props){
 		super(props);
-
-		this.onClose = this.onClose.bind(this);
-	}
-
-	onClose(){
-		this.props.close();
 	}
 
 	render() {
@@ -33,9 +24,7 @@ class MapEditingOverlay extends React.PureComponent {
 
 		return (
 			<div className={classes}>
-				<MapEditingControlPanel/>
-				<MapEditingMapContainer/>
-				<div onClick={this.onClose} className="ptr-overlay-close close-map-editing">{'\u2716'}</div>
+				{this.props.children}
 			</div>
 		);
 	}

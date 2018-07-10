@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@nasaworldwind/worldwind": "^0.9.0",
+    "babel-preset-env": "1.7.0",
     "classnames": "2.2.5",
     "d3": "4.13.0",
     "earcut": "2.1.3",
@@ -17,6 +18,7 @@
     "path": "0.12.7",
     "proj4": "2.4.4",
     "prop-types": "15.6.1",
+    "rc-slider": "8.6.1",
     "react": "16.2.0",
     "react-dom": "16.2.0",
     "react-redux": "5.0.7",
@@ -40,7 +42,14 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "jest",
+    "test:watch": "npm test -- --watch",
     "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "babel-jest": "23.0.1",
+    "babel-preset-env": "1.7.0",
+    "jest": "23.1.0",
+    "redux-testkit": "1.0.6"
   }
 }

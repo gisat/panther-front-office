@@ -198,7 +198,9 @@ class Customization {
                 separator.css("display", "none");
             } else {
                 signUpBtn.css("display", "inline-block");
-                separator.css("display", "inline-block");
+                if (signUpBtn.html()){
+					separator.css("display", "inline-block");
+                }
             }
 
             // handle timeline

@@ -70,13 +70,14 @@ class PlaceSelector extends React.PureComponent {
 			content.push((
 				<UISelect
 					key='place-selector'
-					classes='ptr-place-selector'
+					classes='ptr-place-selector ptr-view-selection-selector'
 					label='left'
 					name={this.props.label}
 					onChange={this.onChangePlace}
 					options={options}
 					placeholder=''
 					value={selected}
+					virtualized
 					disabled={!!this.props.disabled}
 				/>
 			));

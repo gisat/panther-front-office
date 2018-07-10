@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Select from '../state/Select';
-import MapEditingOverlay from '../components/containers/overlays/MapEditingOverlay';
+import ScenarioMapEditingOverlay from '../components/containers/overlays/ScenarioMapEditingOverlay';
 
 const MagicSwitch = ({scope}) => {
 	if (scope) {
 		if (scope.scenarios) {
-			return <MapEditingOverlay />
+			return <ScenarioMapEditingOverlay />
 		}
 	}
 	return null;

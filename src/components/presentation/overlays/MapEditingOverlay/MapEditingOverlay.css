@@ -6,10 +6,3 @@
 .ptr-overlay-editing.open {
 	display: flex;
 }
-
-.close-map-editing {
-	color: gray;
-	position: absolute;
-	right: 0;
-	margin: .3rem .5rem;
-}

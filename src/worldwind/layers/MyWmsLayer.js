@@ -19,14 +19,19 @@ class MyWmsLayer extends WmsLayer {
         this.sldId = options.sldId;
         this.customParams = options.customParams;
 
+        let cachePath = options.service + "/" + options.layerNames;
         if (this.sldId) {
-            this.cachePath = options.service + "/" + options.layerNames + "/" + this.sldId;
+            cachePath += "/" + this.sldId;
         }
         if (this.customParams) {
             if (this.customParams.time) {
-                this.cachePath = options.service + "/" + options.layerNames + "/" + this.customParams.time;
+                cachePath += "/" + this.customParams.time;
             }
         }
+        if(options.name) {
+            cachePath += "/" + options.name;
+        }
+        this.cachePath = cachePath;
 
         if (options.opacity) {
             this.opacity = options.opacity;

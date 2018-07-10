@@ -14,6 +14,7 @@ import Menu, {MenuItem} from '../../../atoms/Menu';
 
 import './ScenarioCard.css';
 import Action from "../../../../../state/Action";
+import utils from "../../../../../utils/utils";
 
 class ScenarioCard extends React.PureComponent {
 
@@ -30,10 +31,11 @@ class ScenarioCard extends React.PureComponent {
 			PropTypes.number
 		]),
 
-		scenarioSpatialDataSource: PropTypes.string,
+		scenarioSpatialDataSource: PropTypes.object,
 
 		enableDelete: PropTypes.bool,
-		enableEdit: PropTypes.bool
+		enableEdit: PropTypes.bool,
+		enableModify: PropTypes.bool
 	};
 
 	constructor(props){
@@ -101,11 +103,12 @@ class ScenarioCard extends React.PureComponent {
 	}
 
 	onDownloadClick(){
-		this.props.downloadDataSource(this.props.scenarioSpatialDataSource);
+		this.props.downloadDataSource(this.props.scenarioSpatialDataSource.dataSource);
 	}
 
 	onStartMapEditing(){
-		this.props.onStartMapEditing();
+		let scenarioKey = utils.guid();
+		this.props.onStartMapEditing(scenarioKey, this.props.scenarioSpatialDataSource);
 	}
 
 	render() {
@@ -144,6 +147,7 @@ class ScenarioCard extends React.PureComponent {
 				(!this.props.scenarioEditedData || !this.props.scenarioEditedData.data) && !this.props.defaultSituation);
 
 		let disableDownload = !this.props.scenarioSpatialDataSource;
+		let disableModify = !this.props.enableModify;
 		let showFileInput = this.props.editing && !this.props.scenarioSpatialDataSource;
 
 		if (this.props.defaultSituation){
@@ -177,8 +181,7 @@ class ScenarioCard extends React.PureComponent {
 						<Button icon="dots" invisible>
 							<Menu bottom left>
 								<MenuItem onClick={this.onDownloadClick} disabled={disableDownload}><Icon icon="download" /> Download</MenuItem>
-								{!this.props.defaultSituation && this.props.enableEdit ? <MenuItem onClick={this.onEdit.bind(this, name)}><Icon icon="edit" /> Edit metadata</MenuItem> : null}
-								{/*{!this.props.defaultSituation && this.props.enableEdit ? <MenuItem onClick={this.onStartMapEditing} disabled={disableDownload}><Icon icon="edit" /> Modify features</MenuItem> : null}*/}
+								{this.props.enableEdit ? <MenuItem onClick={this.onStartMapEditing} disabled={disableModify}><Icon icon="edit" /> Modify features</MenuItem> : null}
 								{!this.props.defaultSituation && this.props.enableDelete ? <MenuItem onClick={this.onDelete.bind(this, name)}><Icon icon="delete" /> Delete</MenuItem> : null}
 							</Menu>
 						</Button>

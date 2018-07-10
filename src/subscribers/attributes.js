@@ -11,7 +11,11 @@ const setEventListeners = store => {
 	window.Stores.addListener((event, options) => {
 		switch(event) {
 			case 'ATTRIBUTES_LOADED':
-				store.dispatch(Action.attributes.add(utils.replaceIdWithKey(options)));
+				let oldModels = Select.attributes.getAttributes(store.getState());
+				let newModels = utils.removeDuplicities(oldModels, options);
+				if (newModels && newModels.length){
+					store.dispatch(Action.attributes.add(newModels));
+				}
 				break;
 		}
 	});

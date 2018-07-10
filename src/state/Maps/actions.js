@@ -226,6 +226,12 @@ function setActiveBackgroundLayer(key){
 	}
 }
 
+function updateNavigator(navigator){
+	return (dispatch, getState) => {
+		dispatch(updateDefaults(navigator));
+	}
+}
+
 function updateWithScenarios(){
 	return (dispatch, getState) => {
 		let state = getState();
@@ -315,5 +321,6 @@ export default {
 	setActiveBackgroundLayer: setActiveBackgroundLayer,
 	update: update,
 	updateDefaults: updateDefaults,
+	updateNavigator: updateNavigator,
 	updateWithScenarios: updateWithScenarios
 }

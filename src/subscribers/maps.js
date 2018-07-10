@@ -4,6 +4,7 @@ import Select from '../state/Select';
 import _ from 'lodash';
 
 let state = {};
+let navigatorTimeout;
 
 export default store => {
 
@@ -83,6 +84,19 @@ const setEventListeners = store => {
 						showGeometryAfter: options.showAfter
 					}
 				}));
+				break;
+			case 'navigator#update':
+				if (navigatorTimeout){
+					clearTimeout(navigatorTimeout);
+				}
+				navigatorTimeout = setTimeout(()=>{
+					store.dispatch(Action.maps.updateNavigator({
+						navigator: {
+							lookAtLocation: options.lookAtLocation,
+							range: options.range
+						}
+					}));
+				},500);
 				break;
             default:
                 break;

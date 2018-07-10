@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
-import Action from '../../../../state/Action';
-import Select from '../../../../state/Select';
-import MapEditingControlPanel from "../../../presentation/controls/mapEditing/MapEditingControlPanel/MapEditingControlPanel";
+import Action from '../../../../../state/Action';
+import Select from '../../../../../state/Select';
+import MapEditingControlPanel from "../../../../presentation/controls/mapEditing/controlPanels/MapEditingControlPanel/MapEditingControlPanel";
 
 const mapStateToProps = (state, ownProps) => {
 	return {

@@ -3,20 +3,24 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import utils from '../../../../utils/utils';
 import _ from 'lodash';
+import Names from '../../../../constants/Names'
 
 import './style.css';
+
+const DEFAULT_HEIGHT = 36;
 
 class EditableText extends React.PureComponent {
 
 	static propTypes = {
-		disabled: PropTypes.bool
+		disabled: PropTypes.bool,
+		required: PropTypes.bool
 	};
 
 	constructor(props){
 		super(props);
 
 		this.state = {
-			height: 40
+			height: DEFAULT_HEIGHT
 		};
 
 		this.ref = this.ref.bind(this);
@@ -45,7 +49,7 @@ class EditableText extends React.PureComponent {
 
 	resize() {
 		if (this.el && typeof this.el.scrollHeight != 'undefined') {
-			if (this.el.scrollHeight !== this.state.height) {
+			if (this.el.scrollHeight !== this.state.height && this.el.scrollHeight > DEFAULT_HEIGHT) {
 				this.setState({
 					height: this.el.scrollHeight
 				});
@@ -82,7 +86,8 @@ class EditableText extends React.PureComponent {
 			disabled: this.props.disabled,
 			empty: !(this.props.value || this.state && this.state.value),
 			large: this.props.large,
-			editing: this.props.editing
+			editing: this.props.editing,
+			required: this.props.required
 		});
 
 		let style = {
@@ -90,18 +95,23 @@ class EditableText extends React.PureComponent {
 		};
 
 		if (!this.props.disabled) {
+			let message = this.renderMessage();
+
 			return (
-				<textarea
-					className={classes}
-					style={style}
-					ref={this.ref}
-					value={this.props.value || this.state && this.state.value || ''}
-					placeholder={this.props.placeholder}
-					onFocus={this.onFocus}
-					onBlur={this.onBlur}
-					spellCheck={this.state.focused}
-					onChange={this.onChange}
-				/>
+				<div>
+					<textarea
+						className={classes}
+						style={style}
+						ref={this.ref}
+						value={this.props.value || this.state && this.state.value || ''}
+						placeholder={this.props.placeholder}
+						onFocus={this.onFocus}
+						onBlur={this.onBlur}
+						spellCheck={this.state.focused}
+						onChange={this.onChange}
+					/>
+					{message}
+				</div>
 			);
 		} else {
 			return (
@@ -110,6 +120,13 @@ class EditableText extends React.PureComponent {
 				</div>
 			);
 		}
+	}
+
+	renderMessage(){
+		let message = Names.EDITABLE_TEXT_REQUIRED_FIELD_MESSAGE ? Names.EDITABLE_TEXT_REQUIRED_FIELD_MESSAGE : "This field is required";
+
+		return ((this.props.required && !(this.props.value || this.state && this.state.value)) ?
+			(<div className="ptr-editable-text-message">{message}</div>): null);
 	}
 }
 

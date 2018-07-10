@@ -9,7 +9,7 @@ const getPeriodIndependence = state => state.maps.independentOfPeriod;
 
 const getActivePlaceKey = state => state.places.activeKey;
 const getSpatialRelations = (state) => state.spatialRelations.data;
-const getSpatialDataSources = (state) => state.spatialDataSources.data;
+const getSpatialDataSources = (state) => state.spatialDataSources.main.data; //todo should use Select? if not circular
 
 const getMaps = createSelector(
 	[getMapDefaults, getMapsOverrides],
@@ -26,6 +26,13 @@ const getMapKeys = createSelector(
 		return maps.map(map => {
 			return map.key;
 		});
+	}
+);
+
+const getNavigator = createSelector(
+	[getMapDefaults],
+	(defaults) => {
+		return defaults && defaults.navigator ? defaults.navigator : null;
 	}
 );
 
@@ -111,21 +118,32 @@ const getActivePlaceActiveLayers = createSelector(
 	}
 );
 
-const getActivePlaceVectorLayers = createSelector(
-	[getActivePlaceKey, getSpatialRelations, getSpatialDataSources],
-	(place, relations, sources) => {
-		if (place && relations.length && sources.length){
-			let relationsForPlace = _.filter(relations, ['place_id', place]);
-			if (relationsForPlace){
+/**
+ * Specific usage of getVectorLayersForTemplate selector, where layer template key is known from scope configuration
+ */
+const getVectorLayersForPuscVectorSourceTemplate = createSelector(
+	[(state) => getVectorLayersForTemplate(state, Select.scopes.getPucsSourceVectorLayerTemplate(state))],
+	(vectorLayers) => {
+		return vectorLayers;
+	}
+);
+
+const getVectorLayersForTemplate = createSelector(
+	[(state, template) => (template), getSpatialRelations, getSpatialDataSources],
+	(layerTemplate, relations, sources) => {
+		if (layerTemplate && relations.length && sources.length){
+			let relationsForTemplate = _.filter(relations, ['layer_template_id', layerTemplate]);
+			if (relationsForTemplate){
 				let vectorSources = [];
-				relationsForPlace.map(relation => {
+				relationsForTemplate.map(relation => {
 					let dataSource = _.find(sources, {'key': relation.data_source_id, 'type': 'shapefile'});
 					let scenario = relation.scenario_id;
 					if (dataSource){
 						vectorSources.push({
-							dataSource: dataSource.data.layer_name,
+							dataSource: dataSource.data.layer_name,	// todo prejmenovat na neco vhodneho
 							scenarioKey: scenario,
-							key: relation.key
+							relationKey: relation.key,
+							dataSourceKey: dataSource.key
 						});
 					}
 				});
@@ -139,16 +157,17 @@ const getActivePlaceVectorLayers = createSelector(
 	}
 );
 
-
 export default {
 	getActiveBackgroundLayerKey: getActiveBackgroundLayerKey,
 	getActiveMapKey: getActiveMapKey,
 	getActiveMap: getActiveMap,
 	getActivePlaceActiveLayers: getActivePlaceActiveLayers,
-	getActivePlaceVectorLayers: getActivePlaceVectorLayers,
+	getVectorLayersForTemplate: getVectorLayersForTemplate,
+	getVectorLayersForPuscVectorSourceTemplate: getVectorLayersForPuscVectorSourceTemplate,
 	getMapKeys: getMapKeys,
 	getMaps: getMaps,
 	getMapsOverrides: getMapsOverrides,
 	getMapDefaults: getMapDefaults,
+	getNavigator: getNavigator,
 	getPeriodIndependence: getPeriodIndependence
 };
