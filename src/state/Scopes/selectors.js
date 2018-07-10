@@ -79,14 +79,14 @@ const getPucsSourceVectorLandCoverClasses = createSelector(
 					return attribute.enumerationValues;
 				} else {
 					console.warn('Scope selectors#getPucsSourceVectorLandCoverClasses: Attibute set ' + attributeSet.key + ' does not contain attributes or first attribute does not have enumeration values parameter!');
-					return [];
+					return null;
 				}
 			} else {
 				console.warn('Scope selectors#getPucsSourceVectorLandCoverClasses: Layer template ' + templateKey + ' does not contain attribute sets!');
-				return [];
+				return null;
 			}
 		} else {
-			return [];
+			return null;
 		}
 	}
 );
