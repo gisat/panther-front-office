@@ -20,7 +20,8 @@ class MapEditingMapContainer extends React.PureComponent {
 		activeBackgroundLayerKey: PropTypes.string,
 		setLayerOpacity: PropTypes.func,
 		mapData: PropTypes.object,
-		sourceLayer: PropTypes.object
+		sourceLayer: PropTypes.object,
+		editedPolygonsInfo: PropTypes.string
 	};
 
 	constructor(props){
@@ -53,6 +54,7 @@ class MapEditingMapContainer extends React.PureComponent {
 					sourceLayer={this.props.sourceLayer}
 					editedFeatures={this.props.editedFeatures}
 					selectedFeatures={this.props.selectedFeatures}
+					editedPolygonsInfo={this.props.editedPolygonsInfo}
 				/>
 				<MapEditingTools
 					onCloseClick={this.onClose}

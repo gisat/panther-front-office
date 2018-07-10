@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import Action from '../../../../state/Action';
 import Select from '../../../../state/Select';
 import ScenarioCard from "../../../presentation/controls/scenarios/ScenarioCard/ScenarioCard";
+import utils from '../../../../utils/utils';
 
 const mapStateToProps = (state, ownProps) => {
 	return {
@@ -33,8 +34,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 			dispatch(Action.components.windows.scenarios.activateCaseEditing());
 		},
 		onStartMapEditing: (scenarioKey, layerSource) => {
-			dispatch(Action.scenarios.addEditedScenario(scenarioKey));
-			dispatch(Action.components.overlays.apiCreateLayerCopyRequest(layerSource));
+			let dataSourceCloneKey = utils.guid();
+			dispatch(Action.scenarios.addEditedScenario(scenarioKey, {dataSourceCloneKey: dataSourceCloneKey}));
+			dispatch(Action.components.overlays.apiCreateLayerCopyRequest(layerSource, dataSourceCloneKey));
 			dispatch(Action.components.overlays.openOverlay('scenarioMapEditing'));
 		}
 	}
