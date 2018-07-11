@@ -6,6 +6,10 @@
 	overflow-y: auto;
 }
 
+.no-view-message {
+	font-size: .9rem;
+}
+
 .view-list-title {
 	font-family: "Roboto", sans-serif;
 	font-size: 2.3rem;

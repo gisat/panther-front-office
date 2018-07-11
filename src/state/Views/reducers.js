@@ -5,7 +5,7 @@ const INITIAL_STATE = {
 	data: [{
 		"key": 4038,
 		"changed": "2018-04-09T15:08:41.171Z",
-		"conf": {
+		"data": {
 			"name": "Georgia - L3 Comparison EO/Reference Statistics",
 			"description": "",
 			"language": "en",
@@ -18,7 +18,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4056,
 			"changed": "2018-04-11T14:25:14.535Z",
-			"conf": {
+			"data": {
 				"name": "Ukazka fallow land on fields",
 				"description": "zmeny mezi 2016 a 2017 - diry v klasifikaci",
 				"language": "en",
@@ -31,7 +31,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4234,
 			"changed": "2018-04-17T17:19:23.906Z",
-			"conf": {
+			"data": {
 				"name": "Visualization of invasive species occurence",
 				"description": "Case study - Černotín",
 				"language": "cz",
@@ -44,7 +44,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4238,
 			"changed": "2018-04-19T07:34:09.787Z",
-			"conf": {
+			"data": {
 				"name": "18/664/EPU/1/0020487",
 				"description": "Ukázkové view",
 				"language": "en",
@@ -57,7 +57,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4281,
 			"changed": "2018-04-24T11:40:59.605Z",
-			"conf": {
+			"data": {
 				"name": "17/547/EPU/1/0024026",
 				"description": "31.3.2017 - Uživatel vyčistil celý DPB",
 				"language": "cz",
@@ -70,7 +70,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4282,
 			"changed": "2018-04-24T11:44:25.182Z",
-			"conf": {
+			"data": {
 				"name": "17/438/EPU/2/0006353",
 				"description": "2.2.2017 - Potvrdit, že stávající zákres DPB je správně",
 				"language": "cz",
@@ -83,7 +83,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4283,
 			"changed": "2018-04-24T11:59:47.755Z",
-			"conf": {
+			"data": {
 				"name": "17/436/EPU/2/0018353",
 				"description": "16.3.2017 - Potvrdit, že stávající zákres DPB je správně",
 				"language": "cz",
@@ -96,7 +96,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4284,
 			"changed": "2018-04-24T12:10:53.806Z",
-			"conf": {
+			"data": {
 				"name": "16/219/EPU/2/0013126",
 				"description": "15.3.2016 - Potvrdit, že stávající zákres DPB je správně",
 				"language": "cz",
@@ -109,7 +109,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4285,
 			"changed": "2018-04-24T12:26:27.238Z",
-			"conf": {
+			"data": {
 				"name": "17/550/EPU/2/0007413",
 				"description": "13.1.2017 - Potvrdit, že stávající zákres DPB je správně",
 				"language": "cz",
@@ -122,7 +122,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4286,
 			"changed": "2018-04-24T12:35:17.572Z",
-			"conf": {
+			"data": {
 				"name": "17/655/EPU/2/0009872",
 				"description": "20.2.2017 - Potvrdit, že stávající zákres DPB je správně",
 				"language": "cz",
@@ -135,7 +135,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4287,
 			"changed": "2018-04-24T12:46:12.914Z",
-			"conf": {
+			"data": {
 				"name": "17/664/EPU/2/0042547",
 				"description": "12.5.2017 - Ortofoto neaktuální, aktuální stav v terénu odpovídá LPIS",
 				"language": "cz",
@@ -148,7 +148,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4288,
 			"changed": "2018-04-24T13:01:47.080Z",
-			"conf": {
+			"data": {
 				"name": "17/759/EPU/1/0024749",
 				"description": "3.4.2017 - Potvrdit, že stávající zákres DPB je správně",
 				"language": "cz",
@@ -161,7 +161,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4289,
 			"changed": "2018-04-24T13:09:02.400Z",
-			"conf": {
+			"data": {
 				"name": "17/759/EPU/1/0035631",
 				"description": "26.4.2017 - Změna kultury po snímkování",
 				"language": "cz",
@@ -174,7 +174,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4290,
 			"changed": "2018-04-24T13:14:01.143Z",
-			"conf": {
+			"data": {
 				"name": "17/759/EPU/2/0024367",
 				"description": "31.3.2017 - Potvrdit, že stávající zákres DPB je správně",
 				"language": "cz",
@@ -187,7 +187,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4291,
 			"changed": "2018-04-24T13:29:55.947Z",
-			"conf": {
+			"data": {
 				"name": "15/226/EPU/1/1052476",
 				"description": "11.11.2015 - není patrná skutečná kultura - vysázený les",
 				"language": "cz",
@@ -200,7 +200,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4295,
 			"changed": "2018-04-24T13:46:03.180Z",
-			"conf": {
+			"data": {
 				"name": "17/554/EPU/1/0055949",
 				"description": "7.12.2017 - Na snímku vypadá že výklenek ve východní části DPB je zemědělsky obhospodařován ale ve skutečnosti na podzim bylo provedeno shrnutí ornice na hromadu.",
 				"language": "cz",
@@ -213,7 +213,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4296,
 			"changed": "2018-04-25T10:23:23.939Z",
-			"conf": {
+			"data": {
 				"name": "",
 				"description": "",
 				"language": "en",
@@ -226,7 +226,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4297,
 			"changed": "2018-04-25T14:55:52.504Z",
-			"conf": {
+			"data": {
 				"name": "EPU Test",
 				"description": "",
 				"language": "en",
@@ -239,7 +239,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4299,
 			"changed": "2018-04-26T07:39:43.116Z",
-			"conf": {
+			"data": {
 				"name": "Test1",
 				"description": "",
 				"language": "en",
@@ -252,7 +252,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4300,
 			"changed": "2018-04-26T07:40:09.668Z",
-			"conf": {
+			"data": {
 				"name": "Test2",
 				"description": "",
 				"language": "en",
@@ -265,7 +265,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4303,
 			"changed": "2018-04-26T07:51:39.178Z",
-			"conf": {
+			"data": {
 				"name": "Test",
 				"description": "",
 				"language": "en",
@@ -278,7 +278,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4307,
 			"changed": "2018-04-26T13:27:13.074Z",
-			"conf": {
+			"data": {
 				"name": "Zkouška",
 				"description": "zkušební popis",
 				"language": "cz",
@@ -291,7 +291,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4309,
 			"changed": "2018-04-26T15:23:53.221Z",
-			"conf": {
+			"data": {
 				"name": "",
 				"description": "",
 				"language": "en",
@@ -304,7 +304,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4437,
 			"changed": "2018-06-08T11:20:23.200Z",
-			"conf": {
+			"data": {
 				"name": "Nádraží Bubny",
 				"description": "",
 				"language": "en",
@@ -317,7 +317,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4440,
 			"changed": "2018-06-08T12:49:30.495Z",
-			"conf": {
+			"data": {
 				"name": "Default",
 				"description": "",
 				"language": "en",
@@ -330,7 +330,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4447,
 			"changed": "2018-06-11T06:03:34.602Z",
-			"conf": {
+			"data": {
 				"name": "Ďáblice",
 				"description": "",
 				"language": "en",
@@ -343,7 +343,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4471,
 			"changed": "2018-06-13T08:54:37.800Z",
-			"conf": {
+			"data": {
 				"name": "Editing",
 				"description": "",
 				"language": "en",
@@ -356,7 +356,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4491,
 			"changed": "2018-06-21T11:38:54.490Z",
-			"conf": {
+			"data": {
 				"name": "Test pro nepřihlášeného",
 				"description": "",
 				"language": "en",
@@ -369,7 +369,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4506,
 			"changed": "2018-07-02T16:43:56.899Z",
-			"conf": {
+			"data": {
 				"name": "Prepared Testing Around Dablice",
 				"description": "",
 				"language": "en",
@@ -382,7 +382,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4513,
 			"changed": "2018-07-04T09:28:08.259Z",
-			"conf": {
+			"data": {
 				"name": "mbabic_eo4ep_georgia",
 				"description": "",
 				"language": "en",
@@ -395,7 +395,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4514,
 			"changed": "2018-07-04T09:28:52.585Z",
-			"conf": {
+			"data": {
 				"name": "mbabic_eo4ep_armenia",
 				"description": "",
 				"language": "en",
@@ -408,7 +408,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4515,
 			"changed": "2018-07-04T10:23:58.593Z",
-			"conf": {
+			"data": {
 				"name": "mbabic_eo4ep_georgia_v1",
 				"description": "",
 				"language": "en",
@@ -421,7 +421,7 @@ const INITIAL_STATE = {
 		{
 			"key": 4516,
 			"changed": "2018-07-04T10:40:42.905Z",
-			"conf": {
+			"data": {
 				"name": "mbabic_eo4ep_georgia_v2",
 				"description": "",
 				"language": "en",

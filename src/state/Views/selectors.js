@@ -9,7 +9,7 @@ const getViewsForScope = createSelector(
 		if (!scope){
 			return [];
 		} else {
-			return _.filter(views, (view) => {return view.conf.dataset === scope.key});
+			return _.filter(views, (view) => {return view.data.dataset === scope.key});
 		}
 	}
 );

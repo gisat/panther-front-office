@@ -6,7 +6,11 @@ import ViewsList from "../../presentation/controls/ViewsList/ViewsList";
 
 const mapStateToProps = (state, props) => {
 	return {
-		views: Select.views.getViewsForScope(state, props.selectedScope)
+		views: Select.views.getViewsForScope(state, props.selectedScope),
+
+		// TODO use permissions
+		editableViews: Select.users.isAdmin(state),
+		deletableViews: Select.users.isAdmin(state)
 	}
 };
 

@@ -18,6 +18,9 @@ const INITIAL_STATE = {
 		},
 		views: {
 			active: true,
+			intro: {
+				// todo there should be stored data like title, description etc., which are currently obtained from config
+			},
 			open: true,
 			selectedScope: null
 		}

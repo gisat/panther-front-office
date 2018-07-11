@@ -37,11 +37,36 @@
 	color: rgb(128,132,140);
 	font-weight: 400;
 }
+
+/* Card tools */
 .view-card-tools {
 	display: flex;
 	justify-content: flex-end;
 	padding: 0 .5rem;
 }
+.view-card-tool {
+	padding: 0 .3rem;
+	transition: background-color .3s ease-in-out;
+}
+.view-card-tool.disabled {
+	pointer-events: none;
+}
+.view-card-tool:hover {
+	background: rgba(65,69,81,.15);
+}
+.view-card-tool .ptr-icon {
+	width: 1.35rem;
+}
+.view-card-tool .ptr-icon .line,
+.view-card-tool .ptr-icon .polygon {
+	stroke: rgb(65,69,81);
+}
+.view-card-tool.disabled .ptr-icon .line,
+.view-card-tool.disabled .ptr-icon .polygon {
+	stroke: rgb(205,209,215);
+}
+
+/* Responsiveness */
 
 @media (max-width: 1200px) {
 	.view-card-text {
