@@ -362,6 +362,7 @@ var langEn = {
     user: "User",
 
     value: "Value",
+    views: "Views",
     visu: "Visualization",
     visualization: "Visualization",
     visualizations: "Visualizations",
@@ -750,6 +751,7 @@ var langCz = {
     user: "Uživatel",
 
     value: "Hodnota",
+    views: "Náhledy",
     visu: "Vizualizace",
     visualization: "Vizualizace ",
     visualizations: "Vizualizace",

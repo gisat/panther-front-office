@@ -31,7 +31,9 @@ const INITIAL_STATE = {
 			open: false,
 			activeScreenKey: "caseList"
 		},
-		areas: null
+		views: {
+			open: false
+		}
 	}
 };
 

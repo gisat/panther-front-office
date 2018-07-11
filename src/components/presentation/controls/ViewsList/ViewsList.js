@@ -24,7 +24,6 @@ class ViewsList extends React.PureComponent {
 	}
 
 	onCardClick(cardProps){
-		debugger;
 		this.props.redirect({...cardProps.data, key: cardProps.viewKey});
 
 	}

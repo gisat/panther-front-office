@@ -57,7 +57,6 @@ class TopToolBar {
         Observer.addListener("Tools.hideClick.selections",this.handleHideClick.bind(this, 'window-colourSelection'));
         Observer.addListener("Tools.hideClick.maptools",this.handleHideClick.bind(this, 'window-maptools'));
         Observer.addListener("Tools.hideClick.legacyAdvancedFilters",this.handleHideClick.bind(this, 'window-legacyAdvancedFilters'));
-        Observer.addListener("Tools.hideClick.customviews",this.handleHideClick.bind(this, 'window-customviews'));
         Observer.addListener("Tools.hideClick.customLayers",this.handleHideClick.bind(this, 'window-customLayers'));
         Observer.addListener("Tools.hideClick.periods",this.handleHideClick.bind(this, 'floater-periods'));
 
@@ -79,7 +78,8 @@ class TopToolBar {
             share: true,
             snapshot: true,
             contextHelp: true,
-            osm: false
+            osm: false,
+            views: true
         };
 
 
@@ -168,8 +168,13 @@ class TopToolBar {
                 let classesScenarios = this._scenariosWidgetIsOpen ? "item open" : "item";
 				this._target.append('<div class="' + classesScenarios + '" id="top-toolbar-scenarios"><span>'+polyglot.t('scenarios')+'</span></div>');
 			}
+			if (tools.views){
+				let classesViews = this._viewsWidgetIsOpen ? "item open" : "item";
+				this._target.append('<div class="' + classesViews + '" id="top-toolbar-views"><span>'+polyglot.t('views')+'</span></div>');
+			}
         }
 
+        // todo obsolete
         // tools for OpenLayers mode
         else {
             if (tools.layers){
@@ -289,6 +294,8 @@ class TopToolBar {
     handleClick(e) {
 		if ($(e.currentTarget).attr("id") === 'top-toolbar-scenarios'){
 			Stores.notify("component#scenarioButtonClick");
+		} else if ($(e.currentTarget).attr("id") === 'top-toolbar-views'){
+			Stores.notify("component#viewsButtonClick");
 		} else {
 			let targetId = e.target.getAttribute('data-for');
 			if (!targetId){
@@ -479,12 +486,15 @@ class TopToolBar {
 		} else if (type === Actions.mapsContainerEnableAdding){
 			this.handleMapButtonActivity(true);
 		} else if (type === 'SCENARIOS_WINDOW_TOGGLE'){
-		    var scenariosItem = $('#top-toolbar-scenarios');
-		    var isOpen = scenariosItem.hasClass('open');
+		    let scenariosItem = $('#top-toolbar-scenarios');
+		    let isOpen = scenariosItem.hasClass('open');
 			this._scenariosWidgetIsOpen = !isOpen;
 			scenariosItem.toggleClass('open');
-
-
+		} else if (type === 'VIEWS_WINDOW_TOGGLE'){
+			let viewsItem = $('#top-toolbar-views');
+			let isOpen = viewsItem.hasClass('open');
+			this._viewsWidgetIsOpen = !isOpen;
+			viewsItem.toggleClass('open');
 		}
     }
 }
