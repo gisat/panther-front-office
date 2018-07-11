@@ -41,7 +41,7 @@ const Store = createStore(combineReducers({
 	symbologies: symbologiesReducers,
 	users: usersReducers,
 	userGroups: userGroupsReducers,
-	viewsReducers: viewsReducers,
+	views: viewsReducers,
 	wmsLayers: wmsLayersReducers
 }), applyMiddleware(thunk, logger));
 

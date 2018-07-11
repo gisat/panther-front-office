@@ -6,12 +6,6 @@
 	background-image: linear-gradient(160deg, rgba(33,38,53,1) 0%, rgba(33,38,53,1) 40%, rgba(55,41,57,1) 100%);
 }
 
-.scope-dataviews-container {
-	background: white;
-	width: 100%;
-	margin: 2rem 4rem 2rem 0;
-}
-
 .scopes-list {
 	display: flex;
 	flex-direction: column;

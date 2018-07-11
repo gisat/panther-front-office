@@ -1,0 +1,41 @@
+.ptr-views-list {
+	background: white;
+	width: 100%;
+	margin: 2rem 4rem 2rem 0;
+	padding: 1.5rem;
+	overflow-y: auto;
+}
+
+.view-list-title {
+	font-family: "Roboto", sans-serif;
+	font-size: 2.3rem;
+	font-weight: 300;
+	color: rgb(65,69,81);
+	width: 100%;
+	margin-bottom: 1rem;
+}
+.view-list-content {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+@media (max-width: 1600px) {
+	.view-list-title {
+		font-size: 2.15rem;
+	}
+}
+@media (max-width: 1200px) {
+	.ptr-views-list {
+		margin: 1.5rem 3rem 1.5rem 0;
+		padding: 1rem;
+	}
+	.view-list-title {
+		font-size: 2rem;
+	}
+}
+
+@media (max-width: 1000px), (max-height: 700px) {
+	.view-list-title {
+		font-size: 1.8rem;
+	}
+}

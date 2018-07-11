@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import utils from '../../../../utils/utils';
-import _ from 'lodash';
 
-import Names from "../../../../constants/Names";
+import ViewsList from "../../../containers/controls/ViewsList";
+
 import './ViewsOverlay.css';
 
 class ViewsOverlay extends React.PureComponent {
@@ -36,9 +35,9 @@ class ViewsOverlay extends React.PureComponent {
 				<div className="scopes-list">
 					{scopes}
 				</div>
-				<div className="scope-dataviews-container">
-					<h2>{this.props.selectedScope ? this.props.selectedScope.name : null}</h2>
-				</div>
+				<ViewsList
+					selectedScope={this.props.selectedScope}
+				/>
 			</div>
 		);
 	}
