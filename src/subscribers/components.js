@@ -27,6 +27,9 @@ const setEventListeners = store => {
 			case 'components#applyFromDataview':
 				store.dispatch(Action.components.update("windows", options.windows));
 				break;
+			case 'components#applicationMode':
+				store.dispatch(Action.components.overlays.views.setInactive());
+				break;
 		}
 	});
 };

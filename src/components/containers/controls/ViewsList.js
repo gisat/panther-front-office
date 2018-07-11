@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 
+import Action from '../../../state/Action';
 import Select from '../../../state/Select';
 import ViewsList from "../../presentation/controls/ViewsList/ViewsList";
 
@@ -11,6 +12,9 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
+		redirect: (params) => {
+			dispatch(Action.components.redirectToView(params))
+		}
 	}
 };
 

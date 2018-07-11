@@ -6,6 +6,7 @@ import Names from '../../../constants/Names'
 class ScopePlaceThemeSelectionSwitch extends React.PureComponent {
 
 	static propTypes = {
+		active: PropTypes.bool,
 		open: PropTypes.bool,
 		openOverlay: PropTypes.func,
 		closeOverlay: PropTypes.func
@@ -35,9 +36,9 @@ class ScopePlaceThemeSelectionSwitch extends React.PureComponent {
 
 	render() {
 		return (
-			<div onClick={this.onSwitchClick} className="scope-place-theme-selection-switch">
+			this.props.active ? (<div onClick={this.onSwitchClick} className="scope-place-theme-selection-switch">
 				{this.state.name}
-			</div>
+			</div>) : null
 		);
 	}
 }

@@ -17,6 +17,7 @@ const INITIAL_STATE = {
 			}
 		},
 		views: {
+			active: true,
 			open: true,
 			selectedScope: null
 		}

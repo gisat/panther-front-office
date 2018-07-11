@@ -9,6 +9,7 @@ class ViewCard extends React.PureComponent {
 
 	static propTypes = {
 		data: PropTypes.object,
+		onClick: PropTypes.func,
 		viewKey: PropTypes.number
 	};
 
@@ -25,7 +26,7 @@ class ViewCard extends React.PureComponent {
 		};
 
 		return (
-			<div className="view-card" tabIndex={0}>
+			<div onClick={this.props.onClick.bind(this, this.props)} className="view-card" tabIndex={0}>
 				<div style={previewStyle} className="view-card-preview"></div>
 				<div className="view-card-text">
 					<h3 className="view-card-title">{name}</h3>

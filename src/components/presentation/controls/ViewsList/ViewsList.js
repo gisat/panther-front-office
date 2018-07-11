@@ -9,11 +9,18 @@ class ViewsList extends React.PureComponent {
 
 	static propTypes = {
 		selectedScope: PropTypes.object,
+		redirect: PropTypes.func,
 		views: PropTypes.array
 	};
 
 	constructor(props){
 		super(props);
+
+		this.onCardClick = this.onCardClick.bind(this);
+	}
+
+	onCardClick(cardProps){
+		this.props.redirect({...cardProps.data, key: cardProps.viewKey});
 	}
 
 	render() {
@@ -27,7 +34,12 @@ class ViewsList extends React.PureComponent {
 
 	renderViews(){
 		return this.props.views.map(view => {
-			return <ViewCard key={view.key} viewKey={view.key} data={view.conf}/>
+			return <ViewCard
+				key={view.key}
+				viewKey={view.key}
+				data={view.conf}
+				onClick={this.onCardClick}
+			/>
 		});
 	}
 }

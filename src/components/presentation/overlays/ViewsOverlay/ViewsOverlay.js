@@ -9,6 +9,7 @@ import './ViewsOverlay.css';
 class ViewsOverlay extends React.PureComponent {
 
 	static propTypes = {
+		active: PropTypes.bool,
 		open: PropTypes.bool,
 		selectScope: PropTypes.func,
 		selectedScope: PropTypes.object
@@ -31,14 +32,14 @@ class ViewsOverlay extends React.PureComponent {
 		let scopes = this.renderScopes();
 
 		return (
-			<div className={classes}>
+			this.props.active ? (<div className={classes}>
 				<div className="scopes-list">
 					{scopes}
 				</div>
 				<ViewsList
 					selectedScope={this.props.selectedScope}
 				/>
-			</div>
+			</div>) : null
 		);
 	}
 
