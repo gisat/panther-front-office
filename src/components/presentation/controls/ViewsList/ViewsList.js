@@ -9,6 +9,7 @@ import Names from "../../../../constants/Names";
 class ViewsList extends React.PureComponent {
 
 	static propTypes = {
+		hideTitle: PropTypes.bool,
 		selectedScope: PropTypes.object,
 		redirect: PropTypes.func,
 		views: PropTypes.array,
@@ -31,7 +32,7 @@ class ViewsList extends React.PureComponent {
 	render() {
 		return (
 			<div className="ptr-views-list">
-				<h2 className="view-list-title">{this.props.selectedScope ? this.props.selectedScope.name : null}</h2>
+				{this.props.hideTitle ? null : (<h2 className="view-list-title">{this.props.selectedScope ? this.props.selectedScope.name : null}</h2>)}
 				<div className="view-list-content">{this.renderViews()}</div>
 			</div>
 		);

@@ -24,7 +24,8 @@ class ViewsWindow extends React.PureComponent {
 				dockable={true}
 			>
 				<ViewsList
-						selectedScope={this.props.selectedScope}
+					hideTitle
+					selectedScope={this.props.selectedScope}
 				/>
 			</Window>
 		);
