@@ -15,5 +15,6 @@ const getViewsForScope = createSelector(
 );
 
 export default {
-	getViewsForScope: getViewsForScope
+	getViewsForScope: getViewsForScope,
+	getViews: getViews
 };
