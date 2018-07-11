@@ -1,0 +1,10 @@
+.views-window .ptr-window-content {
+	position: relative;
+	overflow-y: auto;
+	background: none;
+}
+.views-window .ptr-window-content .ptr-views-list {
+	position: absolute;
+	margin: 0;
+	background: rgba(235,235,235,.95);
+}
