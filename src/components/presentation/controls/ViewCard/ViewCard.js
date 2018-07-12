@@ -6,14 +6,16 @@ import './ViewCard.css';
 
 import Icon from '../../atoms/Icon';
 import viewUtils from "../../../../util/viewUtils";
+import Names from "../../../../constants/Names";
 
 class ViewCard extends React.PureComponent {
 
 	static propTypes = {
 		data: PropTypes.object,
 		deletable: PropTypes.bool,
+		deleteView: PropTypes.func,
 		editable: PropTypes.bool,
-		onClick: PropTypes.func,
+		redirect: PropTypes.func,
 		viewKey: PropTypes.number
 	};
 
@@ -22,16 +24,25 @@ class ViewCard extends React.PureComponent {
 
 		this.onDelete = this.onDelete.bind(this);
 		this.onEdit = this.onEdit.bind(this);
+		this.onRedirect = this.onRedirect.bind(this);
 	}
 
 	onDelete(e){
 		e.stopPropagation();
-		// todo handle delete
+		let name = this.props.data.name;
+		if (window.confirm(Names.VIEWS_DELETE_CONFIRM_MESSAGE + ' ' + (name ? name : 'View ' + this.props.viewKey))) {
+			this.props.deleteView(this.props.viewKey);
+		}
 	}
 
 	onEdit(e){
 		e.stopPropagation();
 		// todo handle edit
+	}
+
+	onRedirect(){
+		this.props.redirect({...this.props.data, key: this.props.viewKey});
+
 	}
 
 	render() {
@@ -43,7 +54,7 @@ class ViewCard extends React.PureComponent {
 		};
 
 		return (
-			<div onClick={this.props.onClick.bind(this, this.props)} className="view-card">
+			<div onClick={this.onRedirect} className="view-card">
 				<div style={previewStyle} className="view-card-preview"></div>
 				<div className="view-card-text">
 					<h3 className="view-card-title">{name}</h3>
@@ -58,7 +69,7 @@ class ViewCard extends React.PureComponent {
 		return (
 			<div className="view-card-tools">
 				{this.props.editable ? <div onClick={this.onEdit} className="view-card-tool disabled"><Icon icon="edit"/></div> : null}
-				{this.props.deletable ? <div onClick={this.onDelete} className="view-card-tool disabled"><Icon icon="delete"/></div> : null}
+				{this.props.deletable ? <div onClick={this.onDelete} className="view-card-tool"><Icon icon="delete"/></div> : null}
 			</div>
 		);
 	}
