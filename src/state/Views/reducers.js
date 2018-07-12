@@ -5,7 +5,7 @@ const INITIAL_STATE = {
 	data: null
 };
 
-function addDistinct(state, action) {
+function add(state, action) {
 	return {...state, data: (state.data ? [...state.data, ...action.data] : action.data)};
 }
 
@@ -19,7 +19,7 @@ function remove(state, action){
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.VIEWS_ADD:
-			return addDistinct(state, action);
+			return add(state, action);
 		case ActionTypes.VIEWS_REMOVE:
 			return remove(state, action);
 		default:
