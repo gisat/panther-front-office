@@ -10,6 +10,7 @@ const mapStateToProps = (state) => {
 	return {
 		active: Select.components.overlays.isOverlayActive(state, {key: 'views'}),
 		open: Select.components.overlays.isOverlayOpen(state, {key: 'views'}),
+		intro: Select.components.overlays.views.getIntro(state),
 		scopes: scopes ? scopes : [],
 		selectedScope: Select.components.overlays.views.getSelectedScopeData(state)
 	}

@@ -2,6 +2,7 @@ import {createSelector} from 'reselect';
 import _ from 'lodash';
 import Select from '../../../Select';
 
+const getIntro = (state) => state.components.overlays.views.intro;
 const getSelectedScope = (state) => state.components.overlays.views.selectedScope;
 
 const getSelectedScopeData = createSelector(
@@ -14,5 +15,6 @@ const getSelectedScopeData = createSelector(
 );
 
 export default {
+	getIntro: getIntro,
 	getSelectedScopeData: getSelectedScopeData
 };

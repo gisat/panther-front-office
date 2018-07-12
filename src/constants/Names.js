@@ -23,6 +23,7 @@ export default {
 	SCENARIOS_PROCESSING_FILE_SUCCESS_MESSAGE: 'File was processed successfully!',
 
 	VIEWS_DELETE_CONFIRM_MESSAGE: 'Do you really want to delete view?',
+	VIEWS_OVERLAY_INTRO_ITEM_NAME: 'About',
 	VIEWS_NO_VIEW_FOR_SCOPE: 'There is no view for selected scope.',
 
 	// temporary

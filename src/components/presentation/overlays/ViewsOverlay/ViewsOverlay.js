@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
+import Names from "../../../../constants/Names";
 import ViewsList from "../../../containers/controls/ViewsList";
 
 import './ViewsOverlay.css';
@@ -11,6 +12,7 @@ class ViewsOverlay extends React.PureComponent {
 	static propTypes = {
 		active: PropTypes.bool,
 		open: PropTypes.bool,
+		intro: PropTypes.object,
 		selectScope: PropTypes.func,
 		selectedScope: PropTypes.object
 	};
@@ -29,27 +31,48 @@ class ViewsOverlay extends React.PureComponent {
 			'open': this.props.open
 		});
 
-		let scopes = this.renderScopes();
+		let about = this.props.intro ? this.renderAboutItem() : null;
+		let firstScope = this.props.scopes && this.props.scopes.length ? this.props.scopes[0] : null;
+		let selectedScope = this.props.selectedScope ? this.props.selectedScope : (this.props.intro ? null : firstScope);
+		let scopes = this.renderScopes(selectedScope);
 
 		return (
 			this.props.active ? (<div className={classes}>
 				<div className="scopes-list">
+					{about}
 					{scopes}
 				</div>
-				<ViewsList
-					selectedScope={this.props.selectedScope}
-				/>
+				{selectedScope ? this.renderViewList(selectedScope) : this.renderIntro()}
 			</div>) : null
 		);
 	}
 
-	renderScopes(){
+	renderScopes(selectedScope){
 		return this.props.scopes.map(scope => {
 			let classes = classNames("scopes-list-item", {
-				"active": this.props.selectedScope ? (scope.key === this.props.selectedScope.key) : false
+				"active": selectedScope ? (scope.key === selectedScope.key) : false
 			});
 			return <div key={scope.key} className={classes} onClick={this.selectScope.bind(this, scope.key)}>{scope.name}</div>
 		});
+	}
+
+	renderAboutItem(){
+		let classes = classNames("scopes-list-item", {
+			"active": !this.props.selectedScope
+		});
+		return <div className={classes} onClick={this.selectScope.bind(this, null)}>{Names.VIEWS_OVERLAY_INTRO_ITEM_NAME}</div>
+	}
+
+	renderIntro(){
+		return <div className={"ptr-views-list"}>Intro</div>
+	}
+
+	renderViewList(scopeKey){
+		return (
+			<ViewsList
+				selectedScope={scopeKey}
+			/>
+		);
 	}
 }
 
