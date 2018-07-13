@@ -17,11 +17,11 @@ html.dromas .scopes-list-item:hover {
 html.dromas .scopes-list-item.active {
 	background: rgba(172,98,33,.6);
 }
-html.dromas .intro-screen-header {
+html.dromas .intro-screen-header:before {
 	background-image: url('./img/dromas/dromas-background.jpeg');
 }
 html.dromas .intro-screen-title {
-	background: rgba(172,98,33,.7);
+	background: rgba(172,98,33,.75);
 }
 
 /* === INVAZE ======================================== */
@@ -34,7 +34,7 @@ html.invaze .scopes-list-item:hover {
 html.invaze .scopes-list-item.active {
 	background: rgba(110,130,13,.6);
 }
-html.invaze .intro-screen-header {
+html.invaze .intro-screen-header:before {
 	background-image: url('./img/invaze/invaze-background.jpg');
 }
 html.invaze .intro-screen-title {
@@ -54,7 +54,7 @@ html.urban-tep .scopes-list-item.active {
 	border-left: 0;
 	border-right: 0;
 }
-html.urban-tep .intro-screen-header {
+html.urban-tep .intro-screen-header:before {
 	background: url('./img/urban_tep/urban_tep_background.png') no-repeat;
 }
 html.urban-tep .intro-screen-title {

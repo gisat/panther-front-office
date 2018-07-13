@@ -5,37 +5,37 @@
 }
 
 /* Header */
-.intro-screen-header {
-	position: relative;
+.intro-screen-header:before {
+	content: "";
 	background: url('../../../img/panther/panther_background.jpg') no-repeat;
 	background-size: cover;
-	transition: opacity .3s ease-in-out;
+	width: calc(100% + 20px);
+	height: calc(100% + 10px);
+	display: block;
+	position: absolute;
+	filter: blur(3px);
+	margin: -10px;
+}
+
+.intro-screen-header {
+	position: relative;
 }
 .intro-screen-title {
 	font-family: "Roboto", sans-serif;
 	font-size: 3.5rem;
 	font-weight: 300;
 	color: white;
-	background: rgba(153,54,75,.85);
-	padding: 8rem 2rem 12rem;
+	background: rgba(153,54,75,.75);
+	padding: 6rem 3rem;
 	text-align: center;
 	width: 100%;
-}
-.intro-screen-title::after {
-	position: absolute;
-	content: " ";
-	display: block;
-	left: 0;
-	bottom: 0;
-	width: 100%;
-	border-style: solid;
-	border-width: 0 0 7rem 100vw;
-	border-color: transparent transparent white transparent;
+	z-index: 1;
+	position: relative;
 }
 
 /* content */
 .intro-screen-content {
-	padding: 2rem;
+	padding: 4rem 2rem;
 	display: flex;
 	flex: 1;
 	justify-content: center;
