@@ -1,6 +1,8 @@
 export default {
 	EDITABLE_TEXT_REQUIRED_FIELD_MESSAGE: 'This field is required!',
 
+	INTRO_DEFAULT_TITLE: 'Panther Data Exploration',
+
 	SCENARIO_CASES_SAVE_CONFIRM_MESSAGE: 'Do you really want to save all changes?',
 	SCENARIO_CASES_SAVE_MISSING_METADATA_ALERT_MESAGE: 'Fill out a name of every edited scenario!',
 	SCENARIO_CASES_DELETE_CONFIRM_MESSAGE: 'Do you really want to delete case?',

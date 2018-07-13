@@ -1,5 +1,8 @@
 import ActionTypes from '../../constants/ActionTypes';
 import _ from 'lodash';
+import Names from '../../constants/Names';
+
+let config = window.Config.toggles.intro;
 
 const INITIAL_STATE = {
 	overlays: {
@@ -19,7 +22,8 @@ const INITIAL_STATE = {
 		views: {
 			active: true,
 			intro: {
-				// todo there should be stored data like title, description etc., which are currently obtained from config
+				title: config ? config.title : Names.INTRO_DEFAULT_TITLE,
+				text: config ? config.text : ""
 			},
 			open: true,
 			selectedScope: null
