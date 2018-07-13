@@ -40,4 +40,11 @@ describe('Scope Selectors', () => {
 		let expectedSymbologyName = "urbanAtlas";
 		Selector(Select.scopes.getSymbologyForPucsSourceVectorLayerTemplate).expect(state).toReturn(expectedSymbologyName);
 	});
+	it ('should select data for given scope', () => {
+		let expectedScopeData = {
+			key: 3971,
+			configuration: {"pucsLandUseScenarios":{"templates":{"sourceVector":3332,"sourceRaster":4090,"uhi":4091,"hwd":4092}}}
+		};
+		Selector(Select.scopes.getScopeData).expect(state, 3971).toReturn(expectedScopeData);
+	});
 });
