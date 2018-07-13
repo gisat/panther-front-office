@@ -5,7 +5,7 @@ import ViewsWindow from "../../../presentation/windows/ViewsWindow/ViewsWindow";
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		selectedScope: Select.scopes.getActiveScopeData(state)
+		scopeKey: Select.scopes.getActiveScopeKey(state)
 	}
 };
 

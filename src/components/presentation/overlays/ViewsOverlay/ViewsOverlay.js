@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import Names from "../../../../constants/Names";
+
+import ScopeIntroSwitch from '../../../containers/controls/ScopeIntroSwitch';
+
 import ViewsList from "../../../containers/controls/ViewsList";
 
 import './ViewsOverlay.css';
@@ -34,6 +37,7 @@ class ViewsOverlay extends React.PureComponent {
 		let about = this.props.intro ? this.renderAboutItem() : null;
 		let firstScope = this.props.scopes && this.props.scopes.length ? this.props.scopes[0] : null;
 		let selectedScope = this.props.selectedScope ? this.props.selectedScope : (this.props.intro ? null : firstScope);
+		let scopeKey = selectedScope ? selectedScope.key : null;
 		let scopes = this.renderScopes(selectedScope);
 
 		return (
@@ -42,7 +46,11 @@ class ViewsOverlay extends React.PureComponent {
 					{about}
 					{scopes}
 				</div>
-				{selectedScope ? this.renderViewList(selectedScope) : this.renderIntro()}
+				<div className="scope-intro-box">
+					<ScopeIntroSwitch
+						scopeKey={scopeKey}
+					/>
+				</div>
 			</div>) : null
 		);
 	}
@@ -61,18 +69,6 @@ class ViewsOverlay extends React.PureComponent {
 			"active": !this.props.selectedScope
 		});
 		return <div className={classes} onClick={this.selectScope.bind(this, null)}>{Names.VIEWS_OVERLAY_INTRO_ITEM_NAME}</div>
-	}
-
-	renderIntro(){
-		return <div className={"ptr-views-list"}>Intro</div>
-	}
-
-	renderViewList(scopeKey){
-		return (
-			<ViewsList
-				selectedScope={scopeKey}
-			/>
-		);
 	}
 }
 

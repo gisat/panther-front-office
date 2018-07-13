@@ -4,14 +4,14 @@ import utils from '../../../../utils/utils';
 import _ from 'lodash';
 
 import Window from "../../../containers/Window";
-import ViewsList from "../../../containers/controls/ViewsList";
+import ScopeIntroSwitch from "../../../containers/controls/ScopeIntroSwitch";
 
 import "./ViewsWindow.css";
 
 class ViewsWindow extends React.PureComponent {
 
 	static propTypes = {
-		selectedScope: PropTypes.object
+		scopeKey: PropTypes.number
 	};
 
 	render() {
@@ -23,9 +23,8 @@ class ViewsWindow extends React.PureComponent {
 				expandable={true}
 				dockable={true}
 			>
-				<ViewsList
-					hideTitle
-					selectedScope={this.props.selectedScope}
+				<ScopeIntroSwitch
+					scopeKey={this.props.scopeKey}
 				/>
 			</Window>
 		);

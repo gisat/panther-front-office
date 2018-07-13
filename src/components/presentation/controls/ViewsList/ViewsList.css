@@ -1,9 +1,7 @@
 .ptr-views-list {
-	background: white;
-	width: 100%;
-	margin: 2rem 4rem 2rem 0;
 	padding: 1.5rem;
 	overflow-y: auto;
+	height: 100%;
 }
 
 .no-view-message {

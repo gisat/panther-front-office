@@ -22,6 +22,13 @@ const getActiveScopeConfiguration = createSelector(
 	}
 );
 
+const getScopeData = createSelector(
+	[getScopes, (state,key) => (key)],
+	(scopes, key) => {
+		return _.find(scopes, (scope) => {return scope.key === key})
+	}
+);
+
 const getPucsSourceVectorLayerTemplate = createSelector(
 	[getActiveScopeConfiguration],
 	(conf) => {
@@ -96,6 +103,7 @@ export default {
 	getActiveScopeData: getActiveScopeData,
 	getActiveScopeKey: getActiveScopeKey,
 	getScopes: getScopes,
+	getScopeData: getScopeData,
 
 	getPucsSourceVectorLandCoverClasses: getPucsSourceVectorLandCoverClasses,
 	getPucsSourceVectorLayerTemplate: getPucsSourceVectorLayerTemplate,
