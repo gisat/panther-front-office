@@ -341,6 +341,7 @@ class Layers {
                 opacity: 1,
                 size: 256,
                 version: "1.1.1",
+                styleNames: layerData.customParams && layerData.customParams.styles || null,
                 customParams: layerData.customParams
             }, null);
             layer.urlBuilder.version = "1.1.1";
@@ -363,6 +364,7 @@ class Layers {
                 opacity: 1,
                 size: 256,
                 version: "1.1.1",
+                styleNames: layerData.customParams && layerData.customParams.styles || null,
                 customParams: layerData.customParams
             }, null);
             layer.urlBuilder.version = "1.1.1";
