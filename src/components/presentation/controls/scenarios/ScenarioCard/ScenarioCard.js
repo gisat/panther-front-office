@@ -181,7 +181,7 @@ class ScenarioCard extends React.PureComponent {
 						<Button icon="dots" invisible>
 							<Menu bottom left>
 								<MenuItem onClick={this.onDownloadClick} disabled={disableDownload}><Icon icon="download" /> Download</MenuItem>
-								{this.props.enableEdit ? <MenuItem onClick={this.onStartMapEditing} disabled={disableModify}><Icon icon="edit" /> Modify features</MenuItem> : null}
+								{this.props.enableEdit ? <MenuItem onClick={this.onStartMapEditing} disabled={disableModify}><Icon icon="edit" /> Copy & modify…</MenuItem> : null}
 								{!this.props.defaultSituation && this.props.enableDelete ? <MenuItem onClick={this.onDelete.bind(this, name)}><Icon icon="delete" /> Delete</MenuItem> : null}
 							</Menu>
 						</Button>
