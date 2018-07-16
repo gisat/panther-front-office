@@ -21,7 +21,7 @@ html.dromas .intro-screen-header:before {
 	background-image: url('./img/dromas/dromas-background.jpeg');
 }
 html.dromas .intro-screen-title {
-	background: rgba(172,98,33,.75);
+	background: rgba(172,98,33,.7);
 }
 
 /* === INVAZE ======================================== */

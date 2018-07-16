@@ -19,6 +19,13 @@ const getIntroText = createSelector(
 	}
 );
 
+const getIntroLogo = createSelector(
+	[getIntro],
+	(intro) => {
+		return intro ? intro.logo : false;
+	}
+);
+
 const getSelectedScopeData = createSelector(
 	[getSelectedScope, (state) => Select.scopes.getScopes(state)],
 	(selectedScopeKey, scopes) => {
@@ -30,6 +37,7 @@ const getSelectedScopeData = createSelector(
 
 export default {
 	getIntro: getIntro,
+	getIntroLogo: getIntroLogo,
 	getIntroTitle: getIntroTitle,
 	getIntroText: getIntroText,
 	getSelectedScopeData: getSelectedScopeData

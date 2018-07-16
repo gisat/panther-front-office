@@ -23,7 +23,8 @@ const INITIAL_STATE = {
 			active: true,
 			intro: {
 				title: config ? config.title : Names.INTRO_DEFAULT_TITLE,
-				text: config ? config.text : ""
+				text: config ? config.text : "",
+				logo: config && config.logo ? {source: config.logo.source} : null
 			},
 			open: true,
 			selectedScope: null

@@ -7,6 +7,7 @@ import Intro from "../presentation/Intro/Intro";
 
 const mapStateToProps = (state) => {
 	return {
+		logo: Select.components.overlays.views.getIntroLogo(state),
 		title: Select.components.overlays.views.getIntroTitle(state),
 		text: Select.components.overlays.views.getIntroText(state)
 	};

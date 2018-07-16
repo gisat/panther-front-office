@@ -8,6 +8,7 @@ class Intro extends React.PureComponent {
 
 	static propTypes = {
 		plainContent: PropTypes.bool,
+		logo: PropTypes.object,
 		title: PropTypes.string,
 		text: PropTypes.string
 	};
@@ -37,8 +38,17 @@ class Intro extends React.PureComponent {
 	renderContent(){
 		return (
 			<div className="intro-screen-content">
+				{this.props.logo ? this.renderLogo() : null}
 				<div className="intro-screen-content-text" dangerouslySetInnerHTML={{__html: this.props.text}}/>
 			</div>);
+	}
+
+	renderLogo(){
+		return (
+			<div className="intro-screen-logo">
+				<img alt="Project logo" src={"img/" + this.props.logo.source}/>
+			</div>
+		);
 	}
 }
 
