@@ -30,8 +30,22 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 		this.onSave = this.onSave.bind(this);
 
 		this.state = {
-			luClass: null
+			luClass: this.getLuClassFromFeatures(this.props.selectedFeatures) || null
 		}
+	}
+
+	componentWillReceiveProps(nextProps) {
+		let oldClass = this.getLuClassFromFeatures(this.props.selectedFeatures);
+		let nextClass = this.getLuClassFromFeatures(nextProps.selectedFeatures);
+		if (nextClass !== oldClass) {
+			this.setState({
+				luClass: nextClass
+			});
+		}
+	}
+
+	getLuClassFromFeatures(features) {
+		return features && features.length && features[0].data && features[0].data.properties && features[0].data.properties["CODE2012"]; //todo probably not that hard-coded
 	}
 
 	onChangeLuClass(value){
