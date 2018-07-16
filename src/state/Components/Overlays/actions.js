@@ -77,44 +77,46 @@ function apiCreateLayerCopyRequest(dataSource, dataSourceCloneKey, ttl) {
 				},
 				body: JSON.stringify(payload)
 			}).then((response) => {
-				return response.json().then(data => {
-					if (data && data.data && data.data.length){
-						let layer = _.find(data.data, (item) => item.uuid === uuid);
-						if (!layer){
-							clearRequestInterval(uuid);
-							dispatch(apiCreateLayerCopyRequestError("apiCreateLayerCopyRequest: Source with uuid " + uuid + "was not founf in response"));
-						} else if (!data.success || layer.status === "error") {
-							clearRequestInterval(uuid);
-							dispatch(apiCreateLayerCopyRequestError(response.message));
-						} else if (layer.status === 'running'){
-							duplicateProgress = ((duplicateProgress + 3) > 90) ? 90 : (duplicateProgress + 3);
-							if (layer.progress > duplicateProgress){
-								duplicateProgress = layer.progress;
-							}
-							dispatch(actionApiCreateLayerCopyProgress({layerLoadingProgress: duplicateProgress}));
-						} else if (layer.status === 'done') {
-							clearRequestInterval(uuid);
-							dispatch(Action.spatialDataSources.cloneAndUpdate(dataSource.dataSourceKey, {
+				if(response.status !== 502) {
+					return response.json().then(data => {
+						if (data && data.data && data.data.length){
+							let layer = _.find(data.data, (item) => item.uuid === uuid);
+							if (!layer){
+								clearRequestInterval(uuid);
+								dispatch(apiCreateLayerCopyRequestError("apiCreateLayerCopyRequest: Source with uuid " + uuid + "was not founf in response"));
+							} else if (!data.success || layer.status === "error") {
+								clearRequestInterval(uuid);
+								dispatch(apiCreateLayerCopyRequestError(response.message));
+							} else if (layer.status === 'running'){
+								duplicateProgress = ((duplicateProgress + 3) > 90) ? 90 : (duplicateProgress + 3);
+								if (layer.progress > duplicateProgress){
+									duplicateProgress = layer.progress;
+								}
+								dispatch(actionApiCreateLayerCopyProgress({layerLoadingProgress: duplicateProgress}));
+							} else if (layer.status === 'done') {
+								clearRequestInterval(uuid);
+								dispatch(Action.spatialDataSources.cloneAndUpdate(dataSource.dataSourceKey, {
 									key: dataSourceCloneKey,
 									data: {
 										"layer_name": layer.data.duplicatedLayerName
 									}
-							}));
-							dispatch(actionApiCreateLayerCopyReceive({
-								layerLoadingProgress: null,
-								layerLoading: false,
-								layerSource: layer.data.duplicatedLayerName,
-								dataSourceKey: dataSourceCloneKey
-							}));
+								}));
+								dispatch(actionApiCreateLayerCopyReceive({
+									layerLoadingProgress: null,
+									layerLoading: false,
+									layerSource: layer.data.duplicatedLayerName,
+									dataSourceKey: dataSourceCloneKey
+								}));
+							}
+						} else {
+							clearRequestInterval(uuid);
+							dispatch(apiCreateLayerCopyRequestError("apiCreateLayerCopyRequest: No data in response"));
 						}
-					} else {
+					}).catch(error => {
 						clearRequestInterval(uuid);
-						dispatch(apiCreateLayerCopyRequestError("apiCreateLayerCopyRequest: No data in response"));
-					}
-				}).catch(error => {
-					clearRequestInterval(uuid);
-					dispatch(apiCreateLayerCopyRequestError(error));
-				});
+						dispatch(apiCreateLayerCopyRequestError(error));
+					});
+				}
 			}, error => {
 				console.log('#### create layer copy error', error);
 				if (ttl - 1) {
