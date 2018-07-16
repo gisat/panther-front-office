@@ -22,7 +22,7 @@ describe('Maps Reducers', () => {
 		};
 		const action = {
 			type: ActionTypes.MAPS_UPDATE_DEFAULTS,
-			data: {
+			defaults: {
 				navigator: {
 					lookAtLocation: {
 						longitude: 150,
