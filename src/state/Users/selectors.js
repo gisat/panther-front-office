@@ -6,7 +6,8 @@ const getActiveKey = state => state.users.activeKey;
 const getUsers = state => state.users.data;
 const groups = state => state.users.groups;
 const isLoggedIn = state => state.users.isLoggedIn;
-const isAdmin = state => state.users.isAdmin;
+const isAdmin = state => state.users.isAdmin || state.userGroups &&
+	state.userGroups.filter(group => group.name === 'admin' && group.users.indexOf(state.users.activeKey !== -1)).length > 0;
 
 const getActiveUser = createSelector(
 	[getUsers, getActiveKey],
