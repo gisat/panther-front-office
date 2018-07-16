@@ -29,6 +29,6 @@ export default {
 	VIEWS_NO_VIEW_FOR_SCOPE: 'There is no view for selected scope.',
 
 	// temporary
-	SCOPE_SWITCH_OVERLAY_CLOSE: 'Close overlay',
-	SCOPE_SWITCH_OVERLAY_OPEN: 'Open overlay'
+	SCOPE_SWITCH_OVERLAY_CLOSE: 'Original scope selection',
+	SCOPE_SWITCH_OVERLAY_OPEN: 'Views'
 };

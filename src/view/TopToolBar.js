@@ -72,7 +72,6 @@ class TopToolBar {
             areasFilterNew: true,
             mapTools: true,
             addLayer: true,
-            customViews: true,
             customLayers: true,
             functionalFilrer: false,
             share: true,
@@ -152,10 +151,6 @@ class TopToolBar {
                 let classesMapTools3d = $('#floater-map-tools-widget').hasClass('open') ? "item open" : "item";
                 this._target.append('<div class="' + classesMapTools3d + '" id="top-toolbar-map-tools" data-for="floater-map-tools-widget"><span>'+polyglot.t('mapTools')+'</span></div>');
             }
-            if (tools.customViews){
-                let classesCustomViews3d = $('#floater-custom-views-widget').hasClass('open') ? "item open" : "item";
-                this._target.append('<div class="' + classesCustomViews3d + '" id="top-toolbar-saved-views" data-for="floater-custom-views-widget"><span>'+polyglot.t('customViews')+'</span></div>');
-            }
             if (tools.customLayers){
                 let classesCustomLayers = $('#floater-custom-integration-layers').hasClass('open') ? "item open" : "item";
                 this._target.append('<div class="' + classesCustomLayers + '" id="top-toolbar-custom-integration-layers" data-for="floater-custom-integration-layers"><span>'+polyglot.t('addLayer')+'</span></div>');
@@ -201,10 +196,6 @@ class TopToolBar {
                 let classesMapTools = $('#window-maptools').hasClass('open') ? "item open" : "item";
                 this._target.append('<div class="' + classesMapTools + '" id="top-toolbar-map-tools" data-for="window-maptools"><span>'+polyglot.t('mapTools')+'</span></div>');
             }
-            if (tools.customViews){
-                let classesCustomViews = $('#floater-custom-views-widget').hasClass('open') ? "item open" : "item";
-                this._target.append('<div class="' + classesCustomViews + '" id="top-toolbar-saved-views" data-for="floater-custom-views-widget"><span>'+polyglot.t('customViews')+'</span></div>');
-            }
             if (tools.customLayers){
                 let classesCustomLayers = "item";
                 classesCustomLayers += $('#window-customLayers').hasClass('open') ? " open" : "";
@@ -247,9 +238,6 @@ class TopToolBar {
                         }
                         if (tool === 'mapTools'){
                             tools.mapTools = false;
-                        }
-                        if (tool === 'customViews'){
-                            tools.customViews = false;
                         }
                         if (tool === 'customLayers'){
                             tools.customLayers = false;
@@ -303,7 +291,6 @@ class TopToolBar {
 			}
 
 			if (targetId) {
-				if (targetId === 'window-customviews') Ext.ComponentQuery.query('#window-customviews')[0].show();
 				if (targetId === 'window-customLayers') this.initCustomLayersWindow();
 
 				let floater = $('#' + targetId);

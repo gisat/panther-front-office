@@ -23,6 +23,9 @@ const setEventListeners = store => {
 				});
 				store.dispatch(Action.views.add(viewsToAdd));
 				break;
+			case "VIEWS_ADD":
+				store.dispatch(Action.views.add(options));
+				break;
 		}
 	});
 };

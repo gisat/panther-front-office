@@ -6,7 +6,6 @@ import Attributes from './util/metadata/Attributes';
 import AttributesStore from './stores/gisat/Attributes';
 import AttributeSets from './stores/gisat/AttributeSets';
 import ChartContainer from './view/charts/ChartContainer';
-import CustomViewsWidget from './view/widgets/CustomViewsWidget/CustomViewsWidget';
 import Customization from './util/Customization';
 import Dataviews from './stores/gisat/Dataviews';
 import EvaluationWidget from './view/widgets/EvaluationWidget/EvaluationWidget';
@@ -263,7 +262,6 @@ function loadApp() {
             snowViewChanges();
         }
 
-        widgets.push(buildCustomViewsWidget(stateStore));
         widgets.push(buildSharingWidget(stateStore));
         widgets.push(buildIntegrateCustomLayersWidget());
 
@@ -608,26 +606,6 @@ function loadApp() {
             featureInfo: featureInfo,
             store: {
                 map: mapStore,
-                state: stateStore
-            }
-        })
-    }
-
-    /**
-     * Build widget for dealing with custom views
-     * @returns {CustomViewsWidget}
-     */
-    function buildCustomViewsWidget(stateStore) {
-        return new CustomViewsWidget({
-            elementId: 'custom-views-widget',
-            name: polyglot.t("customViews"),
-            isWithoutFooter: true,
-            isExpanded: true,
-            isExpandable: true,
-            dispatcher: window.Stores,
-            store: {
-                dataviews: store.dataviews,
-                scopes: store.scopes,
                 state: stateStore
             }
         })
