@@ -1,0 +1,8 @@
+.views-window .ptr-window-content {
+	position: relative;
+	background: none;
+}
+.views-window .ptr-window-content .ptr-views-list {
+	position: absolute;
+	background: rgba(235,235,235,.95);
+}

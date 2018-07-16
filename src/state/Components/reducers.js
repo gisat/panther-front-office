@@ -1,5 +1,8 @@
 import ActionTypes from '../../constants/ActionTypes';
 import _ from 'lodash';
+import Names from '../../constants/Names';
+
+let config = window.Config.toggles.intro;
 
 const INITIAL_STATE = {
 	overlays: {
@@ -15,6 +18,16 @@ const INITIAL_STATE = {
 				layerSource: null,
 				dataSourceKey: null,
 			}
+		},
+		views: {
+			active: true,
+			intro: {
+				title: config ? config.title : Names.INTRO_DEFAULT_TITLE,
+				text: config ? config.text : "",
+				logo: config && config.logo ? {source: config.logo.source} : null
+			},
+			open: true,
+			selectedScope: null
 		}
 	},
 	windows: {
@@ -23,7 +36,9 @@ const INITIAL_STATE = {
 			open: false,
 			activeScreenKey: "caseList"
 		},
-		areas: null
+		views: {
+			open: false
+		}
 	}
 };
 

@@ -57,7 +57,6 @@ class TopToolBar {
         Observer.addListener("Tools.hideClick.selections",this.handleHideClick.bind(this, 'window-colourSelection'));
         Observer.addListener("Tools.hideClick.maptools",this.handleHideClick.bind(this, 'window-maptools'));
         Observer.addListener("Tools.hideClick.legacyAdvancedFilters",this.handleHideClick.bind(this, 'window-legacyAdvancedFilters'));
-        Observer.addListener("Tools.hideClick.customviews",this.handleHideClick.bind(this, 'window-customviews'));
         Observer.addListener("Tools.hideClick.customLayers",this.handleHideClick.bind(this, 'window-customLayers'));
         Observer.addListener("Tools.hideClick.periods",this.handleHideClick.bind(this, 'floater-periods'));
 
@@ -73,13 +72,13 @@ class TopToolBar {
             areasFilterNew: true,
             mapTools: true,
             addLayer: true,
-            customViews: true,
             customLayers: true,
             functionalFilrer: false,
             share: true,
             snapshot: true,
             contextHelp: true,
-            osm: false
+            osm: false,
+            views: true
         };
 
 
@@ -152,10 +151,6 @@ class TopToolBar {
                 let classesMapTools3d = $('#floater-map-tools-widget').hasClass('open') ? "item open" : "item";
                 this._target.append('<div class="' + classesMapTools3d + '" id="top-toolbar-map-tools" data-for="floater-map-tools-widget"><span>'+polyglot.t('mapTools')+'</span></div>');
             }
-            if (tools.customViews){
-                let classesCustomViews3d = $('#floater-custom-views-widget').hasClass('open') ? "item open" : "item";
-                this._target.append('<div class="' + classesCustomViews3d + '" id="top-toolbar-saved-views" data-for="floater-custom-views-widget"><span>'+polyglot.t('customViews')+'</span></div>');
-            }
             if (tools.customLayers){
                 let classesCustomLayers = $('#floater-custom-integration-layers').hasClass('open') ? "item open" : "item";
                 this._target.append('<div class="' + classesCustomLayers + '" id="top-toolbar-custom-integration-layers" data-for="floater-custom-integration-layers"><span>'+polyglot.t('addLayer')+'</span></div>');
@@ -168,8 +163,13 @@ class TopToolBar {
                 let classesScenarios = this._scenariosWidgetIsOpen ? "item open" : "item";
 				this._target.append('<div class="' + classesScenarios + '" id="top-toolbar-scenarios"><span>'+polyglot.t('scenarios')+'</span></div>');
 			}
+			if (tools.views){
+				let classesViews = this._viewsWidgetIsOpen ? "item open" : "item";
+				this._target.append('<div class="' + classesViews + '" id="top-toolbar-views"><span>'+polyglot.t('views')+'</span></div>');
+			}
         }
 
+        // todo obsolete
         // tools for OpenLayers mode
         else {
             if (tools.layers){
@@ -195,10 +195,6 @@ class TopToolBar {
             if (tools.mapTools){
                 let classesMapTools = $('#window-maptools').hasClass('open') ? "item open" : "item";
                 this._target.append('<div class="' + classesMapTools + '" id="top-toolbar-map-tools" data-for="window-maptools"><span>'+polyglot.t('mapTools')+'</span></div>');
-            }
-            if (tools.customViews){
-                let classesCustomViews = $('#floater-custom-views-widget').hasClass('open') ? "item open" : "item";
-                this._target.append('<div class="' + classesCustomViews + '" id="top-toolbar-saved-views" data-for="floater-custom-views-widget"><span>'+polyglot.t('customViews')+'</span></div>');
             }
             if (tools.customLayers){
                 let classesCustomLayers = "item";
@@ -243,9 +239,6 @@ class TopToolBar {
                         if (tool === 'mapTools'){
                             tools.mapTools = false;
                         }
-                        if (tool === 'customViews'){
-                            tools.customViews = false;
-                        }
                         if (tool === 'customLayers'){
                             tools.customLayers = false;
                         }
@@ -289,6 +282,8 @@ class TopToolBar {
     handleClick(e) {
 		if ($(e.currentTarget).attr("id") === 'top-toolbar-scenarios'){
 			Stores.notify("component#scenarioButtonClick");
+		} else if ($(e.currentTarget).attr("id") === 'top-toolbar-views'){
+			Stores.notify("component#viewsButtonClick");
 		} else {
 			let targetId = e.target.getAttribute('data-for');
 			if (!targetId){
@@ -296,7 +291,6 @@ class TopToolBar {
 			}
 
 			if (targetId) {
-				if (targetId === 'window-customviews') Ext.ComponentQuery.query('#window-customviews')[0].show();
 				if (targetId === 'window-customLayers') this.initCustomLayersWindow();
 
 				let floater = $('#' + targetId);
@@ -479,12 +473,15 @@ class TopToolBar {
 		} else if (type === Actions.mapsContainerEnableAdding){
 			this.handleMapButtonActivity(true);
 		} else if (type === 'SCENARIOS_WINDOW_TOGGLE'){
-		    var scenariosItem = $('#top-toolbar-scenarios');
-		    var isOpen = scenariosItem.hasClass('open');
+		    let scenariosItem = $('#top-toolbar-scenarios');
+		    let isOpen = scenariosItem.hasClass('open');
 			this._scenariosWidgetIsOpen = !isOpen;
 			scenariosItem.toggleClass('open');
-
-
+		} else if (type === 'VIEWS_WINDOW_TOGGLE'){
+			let viewsItem = $('#top-toolbar-views');
+			let isOpen = viewsItem.hasClass('open');
+			this._viewsWidgetIsOpen = !isOpen;
+			viewsItem.toggleClass('open');
 		}
     }
 }

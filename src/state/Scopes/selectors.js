@@ -22,6 +22,45 @@ const getActiveScopeConfiguration = createSelector(
 	}
 );
 
+const getScopeData = createSelector(
+	[getScopes, (state,key) => (key)],
+	(scopes, key) => {
+		return _.find(scopes, (scope) => {return scope.key === key})
+	}
+);
+
+const getScopesForActiveUser = createSelector([
+	getScopes,
+	(state) => Select.users.isAdmin(state),
+	(state) => Select.users.getActiveKey(state),
+	(state) => Select.users.getGroupKeysForActiveUser(state)
+	],(scopes, isAdmin, userKey, groups) => {
+		// return all scopes, if user is admin
+		if (isAdmin){
+			return scopes;
+		}
+		// return only scopes which have GET permissions for Guest group, if user is not logged in
+		else if (scopes && !userKey){
+			return _.filter(scopes, (scope) => {
+				return _.find(scope.permissions.group, (permission) => {
+					return permission.permission === 'GET' && permission.id === 2
+				});
+			});
+		}
+		// return only scopes which have GET permissions for logged user or for groups the logged user is part of (or guest group)
+		else if (scopes && userKey){
+		 	return _.filter(scopes, (scope) => {
+				return (_.find(scope.permissions.user, (permission) => {
+					return permission.permission === 'GET' && permission.id === userKey
+				})) || (_.find(scope.permissions.group, (permission) => {
+					return permission.permission === 'GET' && (permission.id === 2 || groups.includes(permission.id));
+				}));
+			});
+		}
+		return [];
+	}
+);
+
 const getPucsSourceVectorLayerTemplate = createSelector(
 	[getActiveScopeConfiguration],
 	(conf) => {
@@ -96,6 +135,8 @@ export default {
 	getActiveScopeData: getActiveScopeData,
 	getActiveScopeKey: getActiveScopeKey,
 	getScopes: getScopes,
+	getScopesForActiveUser: getScopesForActiveUser,
+	getScopeData: getScopeData,
 
 	getPucsSourceVectorLandCoverClasses: getPucsSourceVectorLandCoverClasses,
 	getPucsSourceVectorLayerTemplate: getPucsSourceVectorLayerTemplate,

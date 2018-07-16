@@ -1,0 +1,62 @@
+/*  PROJECTS SPECIFIC STYLES
+
+	Table of contents
+
+	DROMAS
+	INVAZE
+	URBAN TEP
+*/
+
+/* === DROMAS ======================================== */
+html.dromas .ptr-overlay.ptr-overlay-views {
+	background-image: linear-gradient(160deg, rgba(33,38,53,1) 0%, rgba(33,38,53,1) 40%, rgba(63,50,43,1) 100%);
+}
+html.dromas .scopes-list-item:hover {
+	background: rgba(172,98,33,.2);
+}
+html.dromas .scopes-list-item.active {
+	background: rgba(172,98,33,.6);
+}
+html.dromas .intro-screen-header:before {
+	background-image: url('./img/dromas/dromas-background.jpeg');
+}
+html.dromas .intro-screen-title {
+	background: rgba(172,98,33,.7);
+}
+
+/* === INVAZE ======================================== */
+html.invaze .ptr-overlay.ptr-overlay-views {
+	background-image: linear-gradient(160deg, rgba(33,38,53,1) 0%, rgba(33,38,53,1) 40%, rgba(40,40,0,1) 100%);
+}
+html.invaze .scopes-list-item:hover {
+	background: rgba(110,130,13,.2);
+}
+html.invaze .scopes-list-item.active {
+	background: rgba(110,130,13,.6);
+}
+html.invaze .intro-screen-header:before {
+	background-image: url('./img/invaze/invaze-background.jpg');
+}
+html.invaze .intro-screen-title {
+	background: rgba(110,130,13,.8);
+}
+
+/* === URBAN TEP ===================================== */
+html.urban-tep .ptr-overlay.ptr-overlay-views {
+	background-image: linear-gradient(160deg, rgba(65,69,81,1) 0%, rgba(65,69,81,1) 40%, rgba(106,110,120,1) 100%);
+}
+html.urban-tep .scopes-list-item:hover {
+	background: rgba(153,55,64,.35);
+}
+html.urban-tep .scopes-list-item.active {
+	background: rgba(153,55,64,.8);
+	border: 1px solid rgba(255,255,255,.15);
+	border-left: 0;
+	border-right: 0;
+}
+html.urban-tep .intro-screen-header:before {
+	background: url('./img/urban_tep/urban_tep_background.png') no-repeat;
+}
+html.urban-tep .intro-screen-title {
+	background: rgba(153,55,64,.9);
+}

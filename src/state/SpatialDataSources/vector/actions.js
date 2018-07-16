@@ -127,6 +127,10 @@ function updateSelectedFeatures(dataSourceKey, luClass) { //todo generalize
 			referrer: 'no-referrer', // *client, no-referrer
 		}).then(
 			response => {
+				//todo check response ?
+				dispatch(actionAddEditedFeatures(dataSourceKey, _.map(selectedFeatures, feature => {
+					return {key: feature.key, data: {properties: {CODE2012: luClass}, geometry: feature.data.geometry}}; //todo get column from attribute?
+				})));
 				dispatch(action.actionUpdateOverlay('scenarioMapEditing', {editedPolygonsInfo: utils.guid()}));
 				console.log('#### update polygon request response', response);
 			},
@@ -220,6 +224,14 @@ function actionSelectFeatures(dataSourceKey, featureKeys, selectionMode) {
 		dataSourceKey,
 		featureKeys,
 		selectionMode
+	}
+}
+
+function actionAddEditedFeatures(dataSourceKey, features) {
+	return {
+		type: ActionTypes.SPATIAL_DATA_SOURCES_VECTOR_FEATURES_EDITED_ADD,
+		dataSourceKey,
+		features
 	}
 }
 

@@ -28,6 +28,13 @@ const getGroupsForActiveUser = createSelector(
 	}
 );
 
+const getGroupKeysForActiveUser = createSelector(
+	[getGroupsForActiveUser],
+	(groups) => {
+		return groups.map(group => group.key)
+	}
+);
+
 const getGroupsForActiveUserPermissionsTowards = createSelector(
 	[getGroupsForActiveUser],
 	(groups) => {
@@ -80,16 +87,20 @@ const hasActiveUserPermissionToCreate = createSelector(
 
 const isDromasAdmin = state => {
 	let isDromasAdmin = false;
-	state.users.groups.forEach(group => {
-		if(group.name === 'Aktualizace LPIS admin') {
-			isDromasAdmin = true;
-		}
-	});
+	if (state.users && state.users.groups){
+		state.users.groups.forEach(group => {
+			if(group.name === 'Aktualizace LPIS admin') {
+				isDromasAdmin = true;
+			}
+		});
+	}
 	return isDromasAdmin || state.users.isAdmin;
 };
 
 export default {
+	getActiveKey: getActiveKey,
 	getActiveUserPermissionsTowards: getActiveUserPermissionsTowards,
+	getGroupKeysForActiveUser: getGroupKeysForActiveUser,
 	getUsers: getUsers,
 
 	groups: groups,
@@ -98,5 +109,5 @@ export default {
 
 	isAdmin: isAdmin,
 	isLoggedIn: isLoggedIn,
-	isDromasAdmin: isDromasAdmin
+	isDromasAdmin: isDromasAdmin,
 };

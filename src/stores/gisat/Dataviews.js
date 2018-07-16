@@ -13,8 +13,12 @@ class Dataviews extends BaseStore {
      * @inheritDoc
      */
     getPath() {
-        return "rest/dataview";
+        return "rest/views";
     }
+
+	loaded(models) {
+		window.Stores.notify("VIEWS_LOADED", models);
+	}
 }
 
 export default Dataviews;

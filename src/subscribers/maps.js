@@ -333,10 +333,13 @@ const compare = (next, prev) => {
 		let ret = {
 			added: {},
 			removed: {},
+			changed: {}
 		};
 		_.each(next, (value, key) => {
 			if (!prev.hasOwnProperty(key)) {
 				ret.added[key] = value;
+			} else if (prev[key] !== value) {
+				ret.changed[key] = value;
 			}
 		});
 		_.each(prev, (value, key) => {

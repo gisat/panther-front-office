@@ -10,6 +10,7 @@ import scenarios from './scenarios';
 import scopes from './scopes';
 import symbologies from './symbologies';
 import users from './users';
+import views from './views';
 import wmsLayers from './wmsLayers';
 
 export default store => {
@@ -26,5 +27,6 @@ export default store => {
 	scopes(store);
 	symbologies(store);
 	users(store);
+	views(store);
 	wmsLayers(store);
 };

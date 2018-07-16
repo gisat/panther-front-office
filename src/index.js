@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 import store from './state/Store';
 
 import './index.css';
+import './projects.css';
 import registerServiceWorker from './registerServiceWorker';
 import loadApp from './app-old';
 
@@ -16,6 +17,7 @@ import ViewSelector from './scopemagicswitches/ViewSelector';
 
 import DockedWindowsContainer from './components/containers/windowsContainers/DockedWindowsContainer';
 import WindowsContainer from './components/containers/windowsContainers/WindowsContainer';
+import ScopePlaceThemeSelectionSwitch from "./components/containers/temporary/ScopePlaceThemeSelectionSwitch";
 
 
 let getStore = function() {
@@ -43,6 +45,9 @@ let initialize = function() {
 	ReactDOM.render(<Provider store={store}>
 		<DockedWindowsContainer/>
 	</Provider>, document.getElementById('maps-tools'));
+
+	// temporary components
+	ReactDOM.render(<Provider store={store}><ScopePlaceThemeSelectionSwitch/></Provider>, document.getElementById('scope-selection-switch-container'));
 };
 
 

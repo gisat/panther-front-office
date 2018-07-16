@@ -1,4 +1,4 @@
-import {removeDuplicities, replaceIdWithKey} from '../../utils/models';
+import {removeDuplicities, replaceIdWithKey, filterScopesByUrl} from '../../utils/models';
 
 const emptyModels = [];
 const newModels = [{
@@ -18,6 +18,16 @@ const newModels = [{
 const oldModels = [{
 	key: 1,
 	name: "First"
+}];
+
+const scopes = [{
+	key: 1
+},{
+	key: 2,
+	urls: ["http://dromas.gisat.cz", "http://panther.gisat.cz"]
+},{
+	key: 3,
+	urls: ["http://panther.gisat.cz"]
 }];
 
 describe('Models utils#replaceIdWithKey', () => {
@@ -49,5 +59,13 @@ describe('Models utils#removeDuplicities', () => {
 		};
 		expect(models).toHaveLength(3);
 		expect(models[0]).toMatchObject(desiredModel);
+	});
+});
+
+describe('Models utils#filterScopesByUrl', () => {
+	it('should return only models for given url and scopes, which have urls parameter not defined', () => {
+		expect(filterScopesByUrl(scopes, "http://dromas.gisat.cz")).toHaveLength(2);
+		expect(filterScopesByUrl(scopes, "http://panther.gisat.cz")).toHaveLength(3);
+		expect(filterScopesByUrl(scopes, "http://puma.gisat.cz")).toHaveLength(1);
 	});
 });

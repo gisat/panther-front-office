@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ScenariosWindow from '../../../scopemagicswitches/ScenariosWindow';
+import ViewsWindow from '../../containers/windows/ViewsWindow/ViewsWindow';
 
 import './WindowsContainer.css'
 
@@ -10,6 +11,9 @@ class WindowsContainer extends React.PureComponent {
 
 		if (!this.props.scenariosWindowDocked){
 			windows.push(<ScenariosWindow key='scenario-window'/>);
+		}
+		if (!this.props.viewsWindowDocked){
+			windows.push(<ViewsWindow key='views-window'/>);
 		}
 
 		return (
