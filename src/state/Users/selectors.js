@@ -28,6 +28,13 @@ const getGroupsForActiveUser = createSelector(
 	}
 );
 
+const getGroupKeysForActiveUser = createSelector(
+	[getGroupsForActiveUser],
+	(groups) => {
+		return groups.map(group => group.key)
+	}
+);
+
 const getGroupsForActiveUserPermissionsTowards = createSelector(
 	[getGroupsForActiveUser],
 	(groups) => {
@@ -89,7 +96,9 @@ const isDromasAdmin = state => {
 };
 
 export default {
+	getActiveKey: getActiveKey,
 	getActiveUserPermissionsTowards: getActiveUserPermissionsTowards,
+	getGroupKeysForActiveUser: getGroupKeysForActiveUser,
 	getUsers: getUsers,
 
 	groups: groups,

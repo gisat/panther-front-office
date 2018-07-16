@@ -56,7 +56,8 @@ describe('Maps Selectors', () => {
 		let dataForVectorLayer = [{
 			dataSource: "geonode:pucs_514f7a7552564ceebd269a8d334f1324",
 			scenarioKey: null,
-			key: 127
+			relationKey: 127,
+			dataSourceKey: 214
 		}];
 		Selector(Select.maps.getVectorLayersForTemplate).expect(state, layerTemplate).toReturn(dataForVectorLayer);
 	});
@@ -65,7 +66,8 @@ describe('Maps Selectors', () => {
 		let dataForVectorLayer = [{
 			dataSource: "geonode:pucs_514f7a7552564ceebd269a8d334f1324",
 			scenarioKey: null,
-			key: 127
+			relationKey: 127,
+			dataSourceKey: 214
 		}];
 		Selector(Select.maps.getVectorLayersForPuscVectorSourceTemplate).expect(state).toReturn(dataForVectorLayer);
 	});

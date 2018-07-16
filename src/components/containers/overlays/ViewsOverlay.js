@@ -5,7 +5,7 @@ import Select from '../../../state/Select';
 import ViewsOverlay from "../../presentation/overlays/ViewsOverlay/ViewsOverlay";
 
 const mapStateToProps = (state) => {
-	let scopes = Select.scopes.getScopes(state);
+	let scopes = Select.scopes.getScopesForActiveUser(state);
 
 	return {
 		active: Select.components.overlays.isOverlayActive(state, {key: 'views'}),

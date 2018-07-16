@@ -77,7 +77,10 @@ class Scope extends Model {
 			},
 			configuration: {
 				serverName: 'configuration'
-			}
+			},
+            permissions: {
+                serverName: 'permissions'
+            }
         };
     };
 

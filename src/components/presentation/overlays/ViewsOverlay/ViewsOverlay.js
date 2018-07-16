@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import _ from 'lodash';
 
 import Names from "../../../../constants/Names";
 
 import ScopeIntroSwitch from '../../../containers/controls/ScopeIntroSwitch';
-
-import ViewsList from "../../../containers/controls/ViewsList";
 
 import './ViewsOverlay.css';
 
@@ -23,6 +22,17 @@ class ViewsOverlay extends React.PureComponent {
 	constructor(props){
 		super(props);
 		this.selectScope = this.selectScope.bind(this);
+	}
+
+	componentWillReceiveProps(nextProps){
+		if (nextProps.scopes && nextProps.selectedScope){
+			let selectedScope = _.find(nextProps.scopes, (scope) => {
+				return scope.key === nextProps.selectedScope.key
+			});
+			if (!selectedScope){
+				this.selectScope(null);
+			}
+		}
 	}
 
 	selectScope(key){
