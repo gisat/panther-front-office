@@ -817,7 +817,9 @@ function apiExecutePucsMatlabProcessOnUploadedScenarioFiles(uploads) {
 						'Accept': 'application/json'
 					},
 					body: JSON.stringify({
-						uploadKey: upload.uploadKey
+						data: {
+							uploadKey: upload.uploadKey
+						}
 					})
 				}).then((response) => {
 					return response.json().then(data => {
