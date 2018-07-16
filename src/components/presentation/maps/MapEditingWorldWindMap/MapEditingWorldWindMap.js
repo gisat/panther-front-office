@@ -63,6 +63,9 @@ class MapEditingWorldWindMap extends React.PureComponent {
         const layerWithSelectedPolygons = new RenderableLayer('Selected polygons');
         this._layerWithSelectedPolygons = layerWithSelectedPolygons;
         wwd.addLayer(layerWithSelectedPolygons);
+        const layerWithEditedPolygons = new RenderableLayer('Edited polygons');
+        this._layerWithEditedPolygons = layerWithEditedPolygons;
+        wwd.addLayer(layerWithEditedPolygons);
 
         // Add Click Recognizer to use for construction of WFS.
         const clickRecognizer = new ClickRecognizer(wwd.canvas, (event) => {
@@ -144,6 +147,7 @@ class MapEditingWorldWindMap extends React.PureComponent {
         let shapeAttributes = new ShapeAttributes();
         shapeAttributes.drawInterior = false;
         shapeAttributes.outlineColor = Color.CYAN;
+        shapeAttributes.outlineWidth = 3;
         let polygons = this.featuresToPolygons(selectedFeatures, shapeAttributes);
 
         console.log('MapEditingWorldWindMap#redrawSelectedPolygons polygons', polygons, this._layerWithSelectedPolygons);
@@ -162,10 +166,11 @@ class MapEditingWorldWindMap extends React.PureComponent {
         let shapeAttributes = new ShapeAttributes();
         shapeAttributes.drawInterior = false;
         shapeAttributes.outlineColor = Color.BLACK;
+        shapeAttributes.outlineWidth = 3;
         let polygons = this.featuresToPolygons(editedFeatures, shapeAttributes);
-        if (this._layerWithSelectedPolygons) {
-            this._layerWithSelectedPolygons.removeAllRenderables();
-            this._layerWithSelectedPolygons.addRenderables(polygons);
+        if (this._layerWithEditedPolygons) {
+            this._layerWithEditedPolygons.removeAllRenderables();
+            this._layerWithEditedPolygons.addRenderables(polygons);
         }
     }
 

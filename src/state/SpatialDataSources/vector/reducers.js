@@ -39,12 +39,23 @@ function select(state, action) {
 	return {...state, selectedFeaturesKeysBySourceKey: {...state.selectedFeaturesKeysBySourceKey, [action.dataSourceKey]: selectedKeys}}
 }
 
+function addEdited(state, action) {
+	// remove old versions
+	let oldEdited = _.reject(state.editedFeaturesBySourceKey[action.dataSourceKey], feature => {
+		return _.find(action.features, {key: feature.key});
+	});
+	let newEdited = [...oldEdited, ...action.features];
+	return {...state, editedFeaturesBySourceKey: {...state.editedFeaturesBySourceKey, [action.dataSourceKey]: newEdited}};
+}
+
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.SPATIAL_DATA_SOURCES_VECTOR_FEATURES_RECEIVE:
 			return receive(state, action);
 		case ActionTypes.SPATIAL_DATA_SOURCES_VECTOR_FEATURES_SELECT:
 			return select(state, action);
+		case ActionTypes.SPATIAL_DATA_SOURCES_VECTOR_FEATURES_EDITED_ADD:
+			return addEdited(state, action);
 		default:
 			return state;
 	}
