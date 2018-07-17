@@ -21,7 +21,11 @@ html.dromas .intro-screen-header:before {
 	background-image: url('./img/dromas/dromas-background.jpeg');
 }
 html.dromas .intro-screen-title {
+	background-image: linear-gradient(160deg, rgba(152,98,33,.7) 0%, rgba(202,98,33,.7) 100%);
+}
+html.dromas .ptr-change-reviews-list-header {
 	background: rgba(172,98,33,.7);
+	background-image: linear-gradient(160deg, rgba(152,98,33,1) 0%, rgba(202,98,33,1) 100%);
 }
 
 /* === INVAZE ======================================== */

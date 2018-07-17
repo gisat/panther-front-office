@@ -25,7 +25,8 @@
 	font-size: 3rem;
 	font-weight: 300;
 	color: white;
-	background: rgba(153,54,75,.75);
+	/*background: rgba(153,54,75,.75);*/
+	background-image: linear-gradient(160deg, rgba(123,54,75,.85) 0%, rgba(193,54,75,.85) 100%);
 	padding: 3rem;
 	text-align: center;
 	width: 100%;
