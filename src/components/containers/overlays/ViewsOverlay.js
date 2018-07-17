@@ -10,7 +10,8 @@ const mapStateToProps = (state) => {
 	let scopes = Select.scopes.getScopesForActiveUser(state);
 	let isAdmin = Select.users.isDromasAdmin(state);
 	let url = window.location.origin;
-	let filteredScopes = isAdmin ? scopes : filterScopesByUrl(scopes, url);
+	let hostName = window.location.hostname;
+	let filteredScopes = (isAdmin || hostName === "localhost")  ? scopes : filterScopesByUrl(scopes, url);
 
 	return {
 		active: Select.components.isAppInIntroMode(state),
