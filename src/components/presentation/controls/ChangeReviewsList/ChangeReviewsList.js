@@ -35,9 +35,89 @@ class ChangeReviewsList extends React.PureComponent {
 					</div>
 				</div>
 				<div className="ptr-change-reviews-list-body">
-					<div className="ptr-table change-reviews-list-table">
-						<div className="ptr-table-header">Název sloupce</div>
-						<div className="ptr-table-body"></div>
+					<div className="ptr-table change-reviews-table">
+						<div className="ptr-table-header">
+							<div className="ptr-table-header-item">Stav</div>
+							<div className="ptr-table-header-item">Spisová značka</div>
+							<div className="ptr-table-header-item">Zadáno</div>
+							<div className="ptr-table-header-item">Připraveno</div>
+							<div className="ptr-table-header-item">...</div>
+						</div>
+						<div className="ptr-table-body">
+							<div className="ptr-table-row">
+								<div className="ptr-table-row-record">
+									<div className="ptr-table-row-item">Schváleno</div>
+									<div className="ptr-table-row-item">18/6BJ/2785455/CDX</div>
+									<div className="ptr-table-row-item">22. 12. 2022 (22:22)</div>
+									<div className="ptr-table-row-item">22. 12. 2022 (22:22)</div>
+									<div className="ptr-table-row-item">
+										<Button>
+											Zobrazit
+										</Button>
+										<div><Icon icon="dots" /></div>
+									</div>
+								</div>
+							</div>
+							<div className="ptr-table-row">
+								<div className="ptr-table-row-record">
+									<div className="ptr-table-row-item">Schváleno</div>
+									<div className="ptr-table-row-item">18/6BJ/2785/1477</div>
+									<div className="ptr-table-row-item">22. 12. 2022 (22:22)</div>
+									<div className="ptr-table-row-item">1. 1. 1925 (07:35)</div>
+									<div className="ptr-table-row-item">
+										<Button>
+											Zobrazit
+										</Button>
+										<div><Icon icon="dots" /></div>
+									</div>
+								</div>
+							</div>
+							<div className="ptr-table-row">
+								<div className="ptr-table-row-record">
+									<div className="ptr-table-row-item">Zadáno</div>
+									<div className="ptr-table-row-item">18/6BJ/278</div>
+									<div className="ptr-table-row-item">12. 1. 2002 (22:22)</div>
+									<div className="ptr-table-row-item">1. 12. 2002 (07:22)</div>
+									<div className="ptr-table-row-item">
+										<Button>
+											Zobrazit
+										</Button>
+										<div><Icon icon="dots" /></div>
+									</div>
+								</div>
+								<div className="ptr-table-row-details">
+									TBD
+								</div>
+							</div>
+							<div className="ptr-table-row">
+								<div className="ptr-table-row-record">
+									<div className="ptr-table-row-item">Zadáno</div>
+									<div className="ptr-table-row-item">18/6BJ/2785455/CDX</div>
+									<div className="ptr-table-row-item">22. 12. 2022 (22:22)</div>
+									<div className="ptr-table-row-item">22. 12. 2022 (22:22)</div>
+									<div className="ptr-table-row-item">
+										<Button>
+											Zobrazit
+										</Button>
+										<div><Icon icon="dots" /></div>
+									</div>
+								</div>
+							</div>
+							<div className="ptr-table-row">
+								<div className="ptr-table-row-record">
+									<div className="ptr-table-row-item">Zadáno</div>
+									<div className="ptr-table-row-item">18/6BJ/278</div>
+									<div className="ptr-table-row-item">12. 1. 2002 (22:22)</div>
+									<div className="ptr-table-row-item">1. 12. 2002 (07:22)</div>
+									<div className="ptr-table-row-item">
+										<Button>
+											Zobrazit
+										</Button>
+										<div><Icon icon="dots" /></div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
