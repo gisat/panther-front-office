@@ -1,0 +1,40 @@
+.ptr-change-reviews-list {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+.ptr-change-reviews-list-header {
+	background: rgba(153,54,75,1);
+	background-image: linear-gradient(160deg, rgba(123,54,75,1) 0%, rgba(173,54,75,1) 100%);
+	display: flex;
+	align-items: center;
+	padding: 1rem 1rem 3rem;
+}
+.ptr-change-reviews-list-title {
+	color: #eee;
+	font-family: "Roboto", sans-serif;
+	flex: 1;
+	font-size: 2.3rem;
+	font-weight: 300;
+}
+.ptr-change-reviews-list-buttons {
+	display: flex;
+	align-items: center;
+	margin-right: .5rem;
+}
+.ptr-change-reviews-list-buttons > div {
+	margin: 0 0 0 1rem;
+}
+
+
+
+.ptr-change-reviews-list-body {
+	flex: 1;
+	background: #ddd;
+}
+.ptr-table {
+	margin-top: -2rem;
+}
+.ptr-table-header {
+	height: 2rem;
+}

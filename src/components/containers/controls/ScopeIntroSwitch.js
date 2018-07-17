@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import Names from '../../../constants/Names';
 import Select from '../../../state/Select';
 
+import ChangeReviewsList from './ChangeReviewsList';
 import Intro from "../Intro";
 import ViewsList from "./ViewsList";
 
@@ -10,7 +11,7 @@ const ScopeIntroSwitch = ({scope, intro}) => {
 	if (scope){
 		if (scope.configuration && scope.configuration && scope.configuration.introComponent){
 			if (scope.configuration.introComponent === "dromasLpisChangeReview"){
-				return <div>Dromas LPIS change review</div>
+				return <ChangeReviewsList/>
 			}
 		} else {
 			return <ViewsList

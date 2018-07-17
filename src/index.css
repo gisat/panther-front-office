@@ -106,12 +106,17 @@ body {
 }
 
 .ptr-button.secondary {
-	background: rgb(65, 69, 81);
+	background: rgb(48, 53, 68);
 	color: #ddd;
 }
 .ptr-button.secondary:hover {
 	background: rgb(33, 38, 53);
 	color: #eee;
+}
+.ptr-button.secondary .ptr-icon .line,
+.ptr-button.secondary .ptr-icon .polygon {
+	fill: rgba(208,212,220,1);
+	stroke: rgba(208,212,220,1);
 }
 
 .ptr-button.invisible {

@@ -1,37 +1,63 @@
 .ptr-input-text {
+	border-radius: .2rem;
 	margin: .3rem 0;
-}
-.ptr-input-text.uneditable {
-	pointer-events: none;
-}
-.ptr-input-text input,
-.ptr-input-text p {
-	width: 100%;
-	color: rgba(33,38,53,1);
-	font-size: .9rem;
+	height: 2rem;
+	width: 20rem;
+	display: flex;
+	padding: 0 .5rem;
 }
 .ptr-input-text input {
-	margin: .3rem 0;
+	border: 0;
+	width: 100%;
+	height: 100%;
+	color: rgba(33,38,53,1);
+	font-size: .9375rem;
+}
+.ptr-input-text .ptr-icon {
+	width: 1.6rem;
+}
+
+/* extra large */
+.ptr-input-text.extraLarge input {
+	font-size: 1.3rem;
+}
+
+/* large */
+.ptr-input-text.large {
+
 }
 .ptr-input-text.large input {
 	font-size: 1.1rem;
 }
-.ptr-input-text.extraLarge input {
-	font-size: 1.3rem;
+
+/* transparent */
+.ptr-input-text.transparent {
+	background: rgba(255,255,255,.2);
+	transition: background .3s ease-in-out;
 }
-.ptr-input-text.simple-decoration input {
+.ptr-input-text.transparent input {
 	background: none;
-	border: none;
-	border-bottom: 2px solid transparent;
-	transition: border-color .3s ease-in-out;
+	font-weight: 400;
+	color: rgba(255,255,255,.6);
+	transition: color .3s ease-in-out;
 }
-.ptr-input-text.simple-decoration input::placeholder {
-	color: rgba(148,152,160,1);
+.ptr-input-text.transparent .ptr-icon .line,
+.ptr-input-text.transparent .ptr-icon .polygon {
+	stroke: rgba(255,255,255,.6);
+	transition: stroke .3s ease-in-out;
 }
-.ptr-input-text.simple-decoration.empty input {
-	border-bottom-color: rgba(106,110,120,.5);
+.ptr-input-text.transparent input::placeholder {
+	color: rgba(255,255,255,.6);
 }
-.ptr-input-text.simple-decoration.empty input:focus,
-.ptr-input-text.simple-decoration input:focus {
-	border-bottom-color: rgba(106,110,120,1);
+
+/* transparent and focused */
+.ptr-input-text.transparent.focus {
+	background: rgba(255,255,255,.25);
+}
+.ptr-input-text.transparent.focus input {
+	color: rgba(255,255,255,1);
+}
+.ptr-input-text.transparent.focus .ptr-icon .line,
+.ptr-input-text.transparent.focus .ptr-icon .polygon {
+	stroke: rgba(255,255,255,1);
 }

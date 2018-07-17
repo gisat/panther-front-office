@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 
-import InputText from '../../../atoms/InputText/InputText';
 import InputFile from '../../../atoms/InputFile';
 import Button from '../../../atoms/Button';
 import EditableText from '../../../atoms/EditableText';
