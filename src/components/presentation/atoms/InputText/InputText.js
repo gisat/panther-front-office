@@ -74,7 +74,7 @@ class InputText extends React.PureComponent {
 	renderInput(){
 		return (
 			<input type="text"
-				   placeholder={this.props.placeholder}
+				   placeholder={this.state.focus ? null : this.props.placeholder}
 				   value={this.state.value}
 				   onChange={this.onChange}
 				   autoFocus={this.state.focus}
