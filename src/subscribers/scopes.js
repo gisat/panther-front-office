@@ -13,6 +13,7 @@ export default store => {
 const setStoreWatchers = store => {
 
 	createWatcher(store, Select.scopes.getActiveScopeKey, activeScopeKeyWatcher);
+	createWatcher(store, Select.scopes.getActiveScopeData, activeScopeWatcher, 'scope');
 
 };
 
@@ -37,6 +38,24 @@ const setEventListeners = store => {
 
 const activeScopeKeyWatcher = (value, previousValue) => {
 	console.log('@@ activeScopeKeyWatcher', previousValue, '->', value);
+};
+const activeScopeWatcher = (value, previousValue) => {
+	toggleBodyClasses(value, previousValue);
+};
+
+const toggleBodyClasses = (scope, previousScope) => {
+	if (scope && scope.configuration && scope.configuration.hasOwnProperty('headerComponent')) {
+		switch (scope.configuration.headerComponent) {
+			case 'dromasLpisChangeReview':
+				document.documentElement.classList.add('toggle-customHeader');
+				window.Stores.notify('resizeMap');
+				break;
+			default:
+				document.documentElement.classList.remove('toggle-customHeader');
+				break;
+		}
+	}
+
 };
 
 /////// logic todo move to common location
