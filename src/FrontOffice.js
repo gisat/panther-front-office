@@ -599,7 +599,9 @@ class FrontOffice {
             });
         } else if (type === "dataview#setMapsFromDataview"){
         	this.setMapsFromDataview(options);
-		}
+		} else if (type === Actions.userChanged){
+			this._store.scopes.load();
+        }
     }
 }
 
