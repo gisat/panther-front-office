@@ -33,7 +33,7 @@ const setEventListeners = store => {
 				store.dispatch(Action.components.update("windows", options.windows));
 				break;
 			case 'components#applicationMode':
-				store.dispatch(Action.components.overlays.views.setInactive());
+				store.dispatch(Action.components.setIntro(false));
 				break;
 		}
 	});

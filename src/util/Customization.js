@@ -167,13 +167,16 @@ class Customization {
         var toolBar = $("#top-toolbar");
         var mapsContainer = $("#maps-container");
         var uploadDataBtn = $("#upload-data");
+		var scopeSelectionSwitchBtn = $("#scope-selection-switch");
         var originalScopeSelectionBtn = $("#overlay-switch");
         var self = this;
 
         if (user.isAdmin){
             originalScopeSelectionBtn.addClass("open");
+			scopeSelectionSwitchBtn.addClass("open");
         } else {
             originalScopeSelectionBtn.removeClass("open");
+			scopeSelectionSwitchBtn.removeClass("open");
         }
 
         if(this.isDromasAdmin(user) || user.isAdmin) {

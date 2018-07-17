@@ -6,6 +6,15 @@ import Overlays from './Overlays/actions';
 import Windows from './Windows/actions';
 
 // ============ creators ===========
+function setIntro(visibility) {
+	return dispatch => {
+		let updatedData = {
+			intro: visibility
+		};
+		dispatch(update('application', updatedData));
+	};
+}
+
 function update(component, data) {
 	return dispatch => {
 		dispatch(actionUpdate(component, data));
@@ -43,6 +52,7 @@ function actionUpdate(component, data) {
 
 export default {
 	redirectToView: redirectToView,
+	setIntro: setIntro,
 	update: update,
 
 	windows: Windows,
