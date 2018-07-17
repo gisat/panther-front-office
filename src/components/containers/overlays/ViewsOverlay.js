@@ -13,7 +13,7 @@ const mapStateToProps = (state) => {
 	let filteredScopes = isAdmin ? scopes : filterScopesByUrl(scopes, url);
 
 	return {
-		active: Select.components.overlays.isOverlayActive(state, {key: 'views'}),
+		active: Select.components.isAppInIntroMode(state),
 		open: Select.components.overlays.isOverlayOpen(state, {key: 'views'}),
 		intro: Select.components.overlays.views.getIntro(state),
 		scopes: filteredScopes ? filteredScopes : [],

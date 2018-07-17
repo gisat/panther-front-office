@@ -15,13 +15,6 @@ const isOverlayOpen = createSelector(
 	}
 );
 
-const isOverlayActive = createSelector(
-	getOverlay,
-	(overlay) => {
-		return overlay ? overlay.active : false;
-	}
-);
-
 const getScenarioMapEditingMapData = createSelector(
 	getOverlays,
 	(overlays) => {
@@ -35,7 +28,6 @@ const getEditedPolygonInfo = (state) => {
 
 export default {
 	getOverlay: getOverlay,
-	isOverlayActive: isOverlayActive,
 	isOverlayOpen: isOverlayOpen,
 
 	getScenarioMapEditingMapData: getScenarioMapEditingMapData,
