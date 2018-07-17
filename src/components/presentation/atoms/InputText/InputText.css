@@ -2,7 +2,7 @@
 	border-radius: .2rem;
 	margin: .3rem 0;
 	height: 2rem;
-	width: 20rem;
+	min-width: 10rem;
 	display: flex;
 	padding: 0 .5rem;
 }
@@ -12,6 +12,7 @@
 	height: 100%;
 	color: rgba(33,38,53,1);
 	font-size: .9375rem;
+	flex: 1;
 }
 .ptr-input-text .ptr-icon {
 	width: 1.6rem;

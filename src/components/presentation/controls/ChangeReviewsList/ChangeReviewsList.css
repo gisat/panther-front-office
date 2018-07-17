@@ -21,9 +21,15 @@
 	display: flex;
 	align-items: center;
 	margin-right: .5rem;
+	justify-content: flex-end;
+	flex-basis: 50%;
+	flex-wrap: wrap;
 }
 .ptr-change-reviews-list-buttons > div {
-	margin: 0 0 0 1rem;
+	margin: .3rem 0 .3rem 1rem;
+}
+.ptr-change-reviews-list-buttons > .ptr-input-text {
+	flex: 1;
 }
 
 
