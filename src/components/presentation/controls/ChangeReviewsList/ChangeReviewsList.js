@@ -25,7 +25,7 @@ class ChangeReviewsList extends React.PureComponent {
 							placeholder="Vyhledat"
 							transparent
 						>
-							<Icon icon="delete"/>
+							<Icon icon="search"/>
 						</InputText>
 						<Button
 							icon="plus"

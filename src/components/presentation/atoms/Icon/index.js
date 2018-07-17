@@ -10,6 +10,7 @@ import Opacity from './Opacity';
 import Plus from './Plus';
 import Pushpin from './Pushpin';
 import Restore from './Restore';
+import Search from './Search';
 
 const icon = key => {
 	switch(key) {
@@ -33,6 +34,8 @@ const icon = key => {
 			return <Pushpin />;
 		case 'restore':
 			return <Restore />;
+		case 'search':
+			return <Search />;
 		default:
 			return null;
 	}
