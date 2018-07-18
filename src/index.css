@@ -8,6 +8,7 @@
 		Change Review Map Control
 		Overlay
 			Aoi Overlay
+		Table
 		View Selector
 		Windows
 
@@ -541,6 +542,83 @@ body {
 .ptr-overlay-aoi-content p {
 	color: rgb(148, 152, 160);
 	font-size: 1rem;
+}
+
+/* == Table ======================================================= */
+.ptr-table {
+
+}
+/* header */
+.ptr-table-header {
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	height: 2rem;
+	line-height: 2rem;
+	z-index: 1;
+}
+.ptr-table-header-item {
+	color: rgba(33,38,53,1);
+	padding: 0 .5rem;
+	font-size: .9375rem;
+	text-transform: uppercase;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* body */
+.ptr-table-body {
+	background: white;
+	height: calc(100% - 2rem);
+	overflow-y: auto;
+}
+.ptr-table-row {
+	display: flex;
+	flex-direction: column;
+	border-bottom: 1px solid #ddd;
+	transition: background .3s ease-in-out;
+}
+.ptr-table-row:hover {
+	background: rgba(223,225,228,1);
+}
+.ptr-table-row-record {
+	display: flex;
+	padding: .3rem 0;
+	align-items: center;
+}
+.ptr-table-row-details {
+	height: 5rem;
+	padding: .5rem 1.5rem;
+	background: rgba(230,230,230,1);
+}
+.ptr-table-row-item {
+	color: rgba(85,89,101,1);
+	padding: 0 .5rem;
+	font-size: .875rem;
+	align-items: center;
+
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.ptr-table-row-item.state,
+.ptr-table-row-item.buttons {
+	display: flex;
+}
+.ptr-table-row-action {
+	flex: 1;
+}
+.ptr-table-row-show-details {
+	cursor: pointer;
+}
+.ptr-table-row-show-details > svg {
+	padding: 0 .5rem;
+	transform: rotate(90deg);
+}
+.ptr-table-row-show-details > svg .line {
+	fill: rgba(33,38,53,1);
 }
 
 /* == View Selector =============================================== */

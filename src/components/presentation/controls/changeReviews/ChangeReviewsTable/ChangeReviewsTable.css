@@ -1,0 +1,45 @@
+/* === Change reviews table ==================================== */
+.ptr-table.change-reviews-table {
+	margin-top: -2rem;
+	height: 100%;
+	width: 100%;
+}
+.ptr-table.change-reviews-table .ptr-table-header {
+	padding: 0 .5rem;
+}
+.ptr-table.change-reviews-table .ptr-table-header-item {
+	color: rgba(208,212,220,1);
+}
+.ptr-table.change-reviews-table .ptr-table-row {
+	padding: 0 .5rem;
+}
+.ptr-table.change-reviews-table .ptr-table-header-item.buttons,
+.ptr-table.change-reviews-table .ptr-table-row-item.buttons {
+	min-width: 8rem;
+}
+.ptr-table.change-reviews-table .ptr-table-row-item:first-child {
+	padding-left: 0;
+}
+.ptr-table.change-reviews-table .ptr-table-header-item:nth-child(1),
+.ptr-table.change-reviews-table .ptr-table-row-item:nth-child(1) {
+	flex-basis: 20%;
+}
+.ptr-table.change-reviews-table .ptr-table-header-item:nth-child(2),
+.ptr-table.change-reviews-table .ptr-table-row-item:nth-child(2) {
+	flex-basis: 25%;
+}
+.ptr-table.change-reviews-table .ptr-table-row-item:nth-child(2) {
+	font-weight: 600;
+}
+.ptr-table.change-reviews-table .ptr-table-header-item:nth-child(3),
+.ptr-table.change-reviews-table .ptr-table-row-item:nth-child(3) {
+	flex-basis: 20%;
+}
+.ptr-table.change-reviews-table .ptr-table-header-item:nth-child(4),
+.ptr-table.change-reviews-table .ptr-table-row-item:nth-child(4) {
+	flex-basis: 20%;
+}
+.ptr-table.change-reviews-table .ptr-table-header-item:nth-child(5),
+.ptr-table.change-reviews-table .ptr-table-row-item:nth-child(5){
+	flex-basis: 15%;
+}

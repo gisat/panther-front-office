@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import ChangeReviewsList from "../../presentation/controls/ChangeReviewsList/ChangeReviewsList";
+import ChangeReviewsList from "../../presentation/controls/changeReviews/ChangeReviewsList/ChangeReviewsList";
 
 const mapStateToProps = (state, props) => {
 	return {
