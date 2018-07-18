@@ -59,6 +59,7 @@
 
 /* body */
 .ptr-table-body {
+	background: white;
 	height: calc(100% - 2rem);
 	overflow-y: auto;
 }
