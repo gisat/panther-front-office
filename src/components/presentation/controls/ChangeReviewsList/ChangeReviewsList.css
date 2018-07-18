@@ -77,8 +77,9 @@
 	align-items: center;
 }
 .ptr-table-row-details {
-	height: 4rem;
-	padding: .5rem;
+	height: 5rem;
+	padding: .5rem 1.5rem;
+	background: rgba(230,230,230,1);
 }
 .ptr-table-row-item {
 	color: rgba(85,89,101,1);
@@ -90,6 +91,8 @@
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+
+.ptr-table-row-item.state,
 .ptr-table-row-item.buttons {
 	display: flex;
 }
@@ -125,6 +128,9 @@
 .ptr-table.change-reviews-table .ptr-table-header-item.buttons,
 .ptr-table.change-reviews-table .ptr-table-row-item.buttons {
 	min-width: 8rem;
+}
+.ptr-table.change-reviews-table .ptr-table-row-item:first-child {
+	padding-left: 0;
 }
 .ptr-table.change-reviews-table .ptr-table-header-item:nth-child(1),
 .ptr-table.change-reviews-table .ptr-table-row-item:nth-child(1) {

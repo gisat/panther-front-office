@@ -46,7 +46,7 @@ class ChangeReviewsList extends React.PureComponent {
 						<div className="ptr-table-body">
 							<div className="ptr-table-row">
 								<div className="ptr-table-row-record">
-									<div className="ptr-table-row-item">Schváleno</div>
+									<div className="ptr-table-row-item state"><Icon icon="circle" color="green"/>Schváleno</div>
 									<div className="ptr-table-row-item">18/6BJ/2785455/CDX</div>
 									<div className="ptr-table-row-item">22. 12. 2022 (22:22)</div>
 									<div className="ptr-table-row-item">22. 12. 2022 (22:22)</div>
@@ -60,7 +60,7 @@ class ChangeReviewsList extends React.PureComponent {
 							</div>
 							<div className="ptr-table-row">
 								<div className="ptr-table-row-record">
-									<div className="ptr-table-row-item">Schváleno</div>
+									<div className="ptr-table-row-item state"><Icon icon="circle" color="green"/>Schváleno</div>
 									<div className="ptr-table-row-item">18/6BJ/2785/1477</div>
 									<div className="ptr-table-row-item">22. 12. 2022 (22:22)</div>
 									<div className="ptr-table-row-item">1. 1. 1925 (07:35)</div>
@@ -74,7 +74,7 @@ class ChangeReviewsList extends React.PureComponent {
 							</div>
 							<div className="ptr-table-row">
 								<div className="ptr-table-row-record">
-									<div className="ptr-table-row-item">Zadáno</div>
+									<div className="ptr-table-row-item state"><Icon icon="circle" color="orange"/>Zpracováno</div>
 									<div className="ptr-table-row-item">18/6BJ/278</div>
 									<div className="ptr-table-row-item">12. 1. 2002 (22:22)</div>
 									<div className="ptr-table-row-item">1. 12. 2002 (07:22)</div>
@@ -86,12 +86,12 @@ class ChangeReviewsList extends React.PureComponent {
 									</div>
 								</div>
 								<div className="ptr-table-row-details">
-									TBD
+									Detaily..TBD
 								</div>
 							</div>
 							<div className="ptr-table-row">
 								<div className="ptr-table-row-record">
-									<div className="ptr-table-row-item">Zadáno</div>
+									<div className="ptr-table-row-item state"><Icon icon="circle" color="red"/>Zadáno</div>
 									<div className="ptr-table-row-item">18/6BJ/2785455/CDX</div>
 									<div className="ptr-table-row-item">22. 12. 2022 (22:22)</div>
 									<div className="ptr-table-row-item">22. 12. 2022 (22:22)</div>
@@ -105,7 +105,7 @@ class ChangeReviewsList extends React.PureComponent {
 							</div>
 							<div className="ptr-table-row">
 								<div className="ptr-table-row-record">
-									<div className="ptr-table-row-item">Zadáno</div>
+									<div className="ptr-table-row-item state"><Icon icon="circle" color="red"/>Zadáno</div>
 									<div className="ptr-table-row-item">18/6BJ/278</div>
 									<div className="ptr-table-row-item">12. 1. 2002 (22:22)</div>
 									<div className="ptr-table-row-item">1. 12. 2002 (07:22)</div>
