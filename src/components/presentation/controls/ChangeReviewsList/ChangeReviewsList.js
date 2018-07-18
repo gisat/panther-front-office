@@ -41,7 +41,7 @@ class ChangeReviewsList extends React.PureComponent {
 							<div className="ptr-table-header-item">Spisová značka</div>
 							<div className="ptr-table-header-item">Zadáno</div>
 							<div className="ptr-table-header-item">Připraveno</div>
-							<div className="ptr-table-header-item">...</div>
+							<div className="ptr-table-header-item buttons"></div>
 						</div>
 						<div className="ptr-table-body">
 							<div className="ptr-table-row">
@@ -50,11 +50,11 @@ class ChangeReviewsList extends React.PureComponent {
 									<div className="ptr-table-row-item">18/6BJ/2785455/CDX</div>
 									<div className="ptr-table-row-item">22. 12. 2022 (22:22)</div>
 									<div className="ptr-table-row-item">22. 12. 2022 (22:22)</div>
-									<div className="ptr-table-row-item">
-										<Button>
-											Zobrazit
-										</Button>
-										<div><Icon icon="dots" /></div>
+									<div className="ptr-table-row-item buttons">
+										<div className="ptr-table-row-action">
+											<Button small>Zobrazit</Button>
+										</div>
+										<div className="ptr-table-row-show-details"><Icon icon="dots" /></div>
 									</div>
 								</div>
 							</div>
@@ -64,11 +64,11 @@ class ChangeReviewsList extends React.PureComponent {
 									<div className="ptr-table-row-item">18/6BJ/2785/1477</div>
 									<div className="ptr-table-row-item">22. 12. 2022 (22:22)</div>
 									<div className="ptr-table-row-item">1. 1. 1925 (07:35)</div>
-									<div className="ptr-table-row-item">
-										<Button>
-											Zobrazit
-										</Button>
-										<div><Icon icon="dots" /></div>
+									<div className="ptr-table-row-item buttons">
+										<div className="ptr-table-row-action">
+											<Button small>Zobrazit</Button>
+										</div>
+										<div className="ptr-table-row-show-details"><Icon icon="dots" /></div>
 									</div>
 								</div>
 							</div>
@@ -78,11 +78,11 @@ class ChangeReviewsList extends React.PureComponent {
 									<div className="ptr-table-row-item">18/6BJ/278</div>
 									<div className="ptr-table-row-item">12. 1. 2002 (22:22)</div>
 									<div className="ptr-table-row-item">1. 12. 2002 (07:22)</div>
-									<div className="ptr-table-row-item">
-										<Button>
-											Zobrazit
-										</Button>
-										<div><Icon icon="dots" /></div>
+									<div className="ptr-table-row-item buttons">
+										<div className="ptr-table-row-action">
+											<Button small>Zobrazit</Button>
+										</div>
+										<div className="ptr-table-row-show-details"><Icon icon="dots" /></div>
 									</div>
 								</div>
 								<div className="ptr-table-row-details">
@@ -95,11 +95,11 @@ class ChangeReviewsList extends React.PureComponent {
 									<div className="ptr-table-row-item">18/6BJ/2785455/CDX</div>
 									<div className="ptr-table-row-item">22. 12. 2022 (22:22)</div>
 									<div className="ptr-table-row-item">22. 12. 2022 (22:22)</div>
-									<div className="ptr-table-row-item">
-										<Button>
-											Zobrazit
-										</Button>
-										<div><Icon icon="dots" /></div>
+									<div className="ptr-table-row-item buttons">
+										<div className="ptr-table-row-action">
+											<Button small>Zobrazit</Button>
+										</div>
+										<div className="ptr-table-row-show-details"><Icon icon="dots" /></div>
 									</div>
 								</div>
 							</div>
@@ -109,11 +109,11 @@ class ChangeReviewsList extends React.PureComponent {
 									<div className="ptr-table-row-item">18/6BJ/278</div>
 									<div className="ptr-table-row-item">12. 1. 2002 (22:22)</div>
 									<div className="ptr-table-row-item">1. 12. 2002 (07:22)</div>
-									<div className="ptr-table-row-item">
-										<Button>
-											Zobrazit
-										</Button>
-										<div><Icon icon="dots" /></div>
+									<div className="ptr-table-row-item buttons">
+										<div className="ptr-table-row-action">
+											<Button small>Zobrazit</Button>
+										</div>
+										<div className="ptr-table-row-show-details"><Icon icon="dots" /></div>
 									</div>
 								</div>
 							</div>

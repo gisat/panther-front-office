@@ -113,7 +113,8 @@ class Button extends React.PureComponent {
 				//hasIcon: !!this.props.icon,
 				//focused: this.state.focused,
 				disabled: this.props.disabled,
-				icon: !!iconInsert && !hasContent
+				icon: !!iconInsert && !hasContent,
+				small: this.props.small
 			},
 			this.props.className
 		);

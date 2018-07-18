@@ -6,7 +6,7 @@
 	background-image: linear-gradient(160deg, rgba(123,54,75,1) 0%, rgba(193,54,75,1) 100%);
 	display: flex;
 	align-items: center;
-	height: 7rem;
+	height: 8rem;
 	padding: 1rem 1rem 3.5rem;
 }
 .ptr-change-reviews-list-title {
@@ -25,13 +25,13 @@
 	flex-wrap: wrap;
 }
 .ptr-change-reviews-list-buttons > div {
-	margin: .3rem 0 .3rem 1rem;
+	margin: .5rem 0 0 1rem;
 }
 .ptr-change-reviews-list-buttons > .ptr-input-text {
 	flex: 1;
 }
 .ptr-change-reviews-list-body {
-	height: calc(100% - 5rem);
+	height: calc(100% - 6rem);
 }
 
 /* Table */
@@ -66,24 +66,45 @@
 	display: flex;
 	flex-direction: column;
 	border-bottom: 1px solid #ddd;
+	transition: background .3s ease-in-out;
+}
+.ptr-table-row:hover {
+	background: rgba(223,225,228,1);
 }
 .ptr-table-row-record {
 	display: flex;
-	height: 3rem;
+	padding: .3rem 0;
 	align-items: center;
 }
 .ptr-table-row-details {
 	height: 4rem;
-	background: bisque;
+	padding: .5rem;
 }
 .ptr-table-row-item {
 	color: rgba(85,89,101,1);
-	display: flex;
 	padding: 0 .5rem;
 	font-size: .875rem;
+	align-items: center;
+
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+.ptr-table-row-item.buttons {
+	display: flex;
+}
+.ptr-table-row-action {
+	flex: 1;
+}
+.ptr-table-row-show-details {
+	cursor: pointer;
+}
+.ptr-table-row-show-details > svg {
+	padding: 0 .5rem;
+	transform: rotate(90deg);
+}
+.ptr-table-row-show-details > svg .line {
+	fill: rgba(33,38,53,1);
 }
 
 /* Change reviews table */
@@ -101,13 +122,17 @@
 .ptr-table.change-reviews-table .ptr-table-row {
 	padding: 0 .5rem;
 }
+.ptr-table.change-reviews-table .ptr-table-header-item.buttons,
+.ptr-table.change-reviews-table .ptr-table-row-item.buttons {
+	min-width: 8rem;
+}
 .ptr-table.change-reviews-table .ptr-table-header-item:nth-child(1),
 .ptr-table.change-reviews-table .ptr-table-row-item:nth-child(1) {
 	flex-basis: 20%;
 }
 .ptr-table.change-reviews-table .ptr-table-header-item:nth-child(2),
 .ptr-table.change-reviews-table .ptr-table-row-item:nth-child(2) {
-	flex-basis: 20%;
+	flex-basis: 25%;
 }
 .ptr-table.change-reviews-table .ptr-table-row-item:nth-child(2) {
 	font-weight: 600;
@@ -122,5 +147,5 @@
 }
 .ptr-table.change-reviews-table .ptr-table-header-item:nth-child(5),
 .ptr-table.change-reviews-table .ptr-table-row-item:nth-child(5){
-	flex-basis: 20%;
+	flex-basis: 15%;
 }
