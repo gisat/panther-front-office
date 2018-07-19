@@ -11,7 +11,9 @@ import './ChangeReviewsList.css';
 
 class ChangeReviewsList extends React.PureComponent {
 
-	static propTypes = {};
+	static propTypes = {
+		cases: PropTypes.array
+	};
 
 	constructor(props){
 		super(props);
@@ -37,7 +39,9 @@ class ChangeReviewsList extends React.PureComponent {
 					</div>
 				</div>
 				<div className="ptr-change-reviews-list-body">
-					<ChangeReviewsTable/>
+					<ChangeReviewsTable
+						cases={this.props.cases}
+					/>
 				</div>
 			</div>
 		);

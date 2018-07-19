@@ -8,7 +8,9 @@ import './ChangeReviewsTable.css';
 
 class ChangeReviewsTable extends React.PureComponent {
 
-	static propTypes = {};
+	static propTypes = {
+		cases: PropTypes.array
+	};
 
 	constructor(props){
 		super(props);
