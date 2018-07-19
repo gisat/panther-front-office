@@ -23,7 +23,7 @@ class ChangeReviewsTable extends React.PureComponent {
 					<div className="ptr-table-header-item">Stav</div>
 					<div className="ptr-table-header-item">Spisová značka</div>
 					<div className="ptr-table-header-item">Zadáno</div>
-					<div className="ptr-table-header-item">Připraveno</div>
+					<div className="ptr-table-header-item">Aktualizováno</div>
 					<div className="ptr-table-header-item buttons"></div>
 				</div>
 				<div className="ptr-table-body">

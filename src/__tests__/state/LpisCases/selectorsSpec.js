@@ -144,10 +144,93 @@ let state = {
 	}
 };
 
+let minimalisticState = {
+	lpisCases: {
+		cases: {
+			activeCaseKey: null,
+			data: [{
+				key: 1,
+				data: {
+					"place_id": 1
+				}
+			},{
+				key: 2,
+				data: {
+					"place_id": 2
+				}
+			}]
+		},
+		changes: [{
+			key: 1,
+			data: {
+				"lpis_case_id": 1,
+				"status": "created",
+			}
+		},{
+			key: 2,
+			data: {
+				"lpis_case_id": 1,
+				"status": "prepared",
+			}
+		},{
+			key: 3,
+			data: {
+				"lpis_case_id": 2,
+				"status": "created",
+			}
+		},{
+			key: 7,
+			data: {
+				"lpis_case_id": 4,
+				"status": "created"
+			}
+		}]
+	}
+};
+
 describe('Lpis cases selectors', () => {
+	let stateClone = _.cloneDeep(state);
 	it ('should select all cases', () => {
-		let stateClone = _.cloneDeep(state);
 		Selector(Select.lpisCases.getCases).expect(state).toReturn(stateClone.lpisCases.cases.data);
 
+	});
+	it ('should select all changes', () => {
+		let stateClone = _.cloneDeep(state);
+		Selector(Select.lpisCases.getChanges).expect(state).toReturn(stateClone.lpisCases.changes);
+	});
+	it ('should select all cases extended with changes for each case', () => {
+		let expectedOutput =  [{
+			key: 1,
+			data: {
+				"place_id": 1
+			},
+			changes: [{
+				key: 1,
+				data: {
+					"lpis_case_id": 1,
+					"status": "created",
+				}
+			},{
+				key: 2,
+				data: {
+					"lpis_case_id": 1,
+					"status": "prepared",
+				}
+			}]
+			},{
+				key: 2,
+				data: {
+					"place_id": 2
+				},
+				changes: [{
+					key: 3,
+					data: {
+						"lpis_case_id": 2,
+						"status": "created",
+					}
+				}]
+			}];
+
+		Selector(Select.lpisCases.getCasesWithChanges).expect(minimalisticState).toReturn(expectedOutput);
 	});
 });
