@@ -15,6 +15,7 @@ class InputText extends React.PureComponent {
 		placeholder: PropTypes.string,
 		transparent: PropTypes.bool,
 		value: PropTypes.string,
+		onChange: PropTypes.func
 	};
 
 	constructor(props){
@@ -38,6 +39,9 @@ class InputText extends React.PureComponent {
 		this.setState({
 			value: e.target.value
 		});
+		if (this.props.onChange){
+			this.props.onChange(e.target.value);
+		}
 	}
 
 	onBlur(){
