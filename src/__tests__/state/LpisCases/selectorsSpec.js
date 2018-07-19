@@ -165,24 +165,28 @@ let minimalisticState = {
 			data: {
 				"lpis_case_id": 1,
 				"status": "created",
+				"changed": "2018-12-23T17:34:57Z",
 			}
 		},{
 			key: 2,
 			data: {
 				"lpis_case_id": 1,
 				"status": "prepared",
+				"changed": "2018-12-24T17:34:57Z",
 			}
 		},{
 			key: 3,
 			data: {
 				"lpis_case_id": 2,
 				"status": "created",
+				"changed": "2018-12-25T17:34:57Z",
 			}
 		},{
 			key: 7,
 			data: {
 				"lpis_case_id": 4,
-				"status": "created"
+				"status": "created",
+				"changed": "2018-12-26T17:34:57Z",
 			}
 		}]
 	}
@@ -209,27 +213,34 @@ describe('Lpis cases selectors', () => {
 				data: {
 					"lpis_case_id": 1,
 					"status": "created",
+					"changed": "2018-12-23T17:34:57Z",
 				}
 			},{
 				key: 2,
 				data: {
 					"lpis_case_id": 1,
 					"status": "prepared",
+					"changed": "2018-12-24T17:34:57Z",
 				}
-			}]
-			},{
-				key: 2,
+			}],
+			status: "prepared",
+			updated: "2018-12-24T17:34:57Z"
+		},{
+			key: 2,
+			data: {
+				"place_id": 2
+			},
+			changes: [{
+				key: 3,
 				data: {
-					"place_id": 2
-				},
-				changes: [{
-					key: 3,
-					data: {
-						"lpis_case_id": 2,
-						"status": "created",
-					}
-				}]
-			}];
+					"lpis_case_id": 2,
+					"status": "created",
+					"changed": "2018-12-25T17:34:57Z",
+				}
+			}],
+			status: "created",
+			updated: "2018-12-25T17:34:57Z"
+		}];
 
 		Selector(Select.lpisCases.getCasesWithChanges).expect(minimalisticState).toReturn(expectedOutput);
 	});

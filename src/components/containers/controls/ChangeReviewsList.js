@@ -5,7 +5,7 @@ import ChangeReviewsList from "../../presentation/controls/changeReviews/ChangeR
 
 const mapStateToProps = (state, props) => {
 	return {
-		cases: Select.lpisCases.getCases(state)
+		cases: Select.lpisCases.getCasesWithChanges(state)
 	}
 };
 
