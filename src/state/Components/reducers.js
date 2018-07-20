@@ -29,7 +29,10 @@ const INITIAL_STATE = {
 				logo: config && config.logo ? {source: config.logo.source} : null
 			},
 			open: true,
-			selectedScope: null
+			selectedScope: null,
+			changeReviews: {
+				activeScreenKey: "changeReviewsList"
+			}
 		}
 	},
 	windows: {

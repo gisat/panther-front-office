@@ -9,11 +9,15 @@ import Icon from "../../../atoms/Icon";
 import InputText from "../../../atoms/InputText/InputText";
 
 import './ChangeReviewsList.css';
+import Names from "../../../../../constants/Names";
+import utils from "../../../../../utils/utils";
 
 class ChangeReviewsList extends React.PureComponent {
 
 	static propTypes = {
-		cases: PropTypes.array
+		cases: PropTypes.array,
+		changeActiveScreen: PropTypes.func,
+		screenKey: PropTypes.string,
 	};
 
 	constructor(props){
@@ -22,6 +26,10 @@ class ChangeReviewsList extends React.PureComponent {
 		this.state = {
 			cases: this.props.cases
 		};
+	}
+
+	addReview(){
+		this.props.changeActiveScreen('changeReviewForm');
 	}
 
 	onSearchChange(searchString){
@@ -52,7 +60,9 @@ class ChangeReviewsList extends React.PureComponent {
 						</InputText>
 						<Button
 							icon="plus"
-							secondary>
+							secondary
+							onClick={this.addReview.bind(this)}
+						>
 							Přidat řízení
 						</Button>
 					</div>
