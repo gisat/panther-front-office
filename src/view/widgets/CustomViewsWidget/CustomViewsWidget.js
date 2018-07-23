@@ -181,7 +181,7 @@ class CustomViewsWidget extends Widget {
                 validUrl = scope.urls.indexOf(window.location.origin) !== -1;
             }
 
-            if (scope && scope.name) {
+            if (scope && scope.name && validUrl) {
                 let name = scope.name;
                 this.renderContentItem(dataset, name);
 
