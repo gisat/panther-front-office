@@ -668,7 +668,7 @@ var langCz = {
     saveSetName: "Uložit jméno skupiny",
     saveView: "Uložit náhled",
     saveVisualization: "Uložit vizualizaci",
-    scatter: "Scatter",
+    scatter: "Bodový",
 	scenarios: "Scénáře",
     scope: "Kategorie",
     searchForMetadataStarted: "Prosím počkejte než se načtou metadata.",
