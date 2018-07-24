@@ -12,7 +12,7 @@ const getCasesWithChanges = createSelector(
 			let extendedCase = _.cloneDeep(caseItem);
 			extendedCase.changes = _.filter(changes, change => change.data.lpis_case_id === caseItem.key);
 			let latestChange = _.orderBy(extendedCase.changes, [(change) => {return change.data.changed}], ['desc'])[0];
-			extendedCase.updated = latestChange.data.changed;
+			extendedCase.updated = latestChange.data.date;
 			extendedCase.status = latestChange.data.status;
 			extendedCases.push(extendedCase);
 		});

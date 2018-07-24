@@ -141,8 +141,20 @@ const INITIAL_STATE = {
 	}]
 };
 
+function add(state, action) {
+	return {...state, cases: {data: (state.cases.data ? [...state.cases.data, ...action.data] : action.data)}};
+}
+
+function addChanges(state, action) {
+	return {...state, changes: (state.changes ? [...state.changes, ...action.data] : action.data)};
+}
+
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
+		case ActionTypes.LPIS_CASES_ADD:
+			return add(state, action);
+		case ActionTypes.LPIS_CASE_CHANGES_ADD:
+			return addChanges(state, action);
 		default:
 			return state;
 	}

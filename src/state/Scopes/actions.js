@@ -1,4 +1,6 @@
+import Action from '../Action';
 import ActionTypes from '../../constants/ActionTypes';
+import Select from '../Select';
 
 import _ from 'lodash';
 
@@ -14,8 +16,16 @@ function add(scopes) {
 function setActiveScopeKey(key) {
 	return dispatch => {
 		dispatch(actionSetActiveScopeKey(key));
-		return Promise.resolve();
+		dispatch(loadDataForActiveScope());
 	};
+}
+function loadDataForActiveScope() {
+	return (dispatch, getState) => {
+		let activeScopeConfiguration = Select.scopes.getActiveScopeConfiguration(getState());
+		if(activeScopeConfiguration && activeScopeConfiguration.hasOwnProperty(`dromasLpisChangeReview`)) {
+			dispatch(Action.lpisCases.load());
+		}
+	}
 }
 
 // ============ actions ===========
