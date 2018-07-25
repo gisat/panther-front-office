@@ -1,47 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Names from '../../../constants/Names';
 import Select from '../../../state/Select';
-
-import ChangeReviewsList from './ChangeReviewsList';
-import ChangeReviewForm from '../../presentation/controls/changeReviews/ChangeReviewForm/ChangeReviewForm';
-import Intro from "../Intro";
-import ScreenAnimator from "../../presentation/ScreenAnimator/ScreenAnimator";
-import ViewsList from "./ViewsList";
 import Action from "../../../state/Action";
 
-const ScopeIntroSwitch = ({scope, intro, changeReviewsActiveScreenKey,setChangeReviewsActiveScreen}) => {
-	if (scope){
-		if (scope.configuration && scope.configuration && scope.configuration.introComponent){
-			if (scope.configuration.introComponent === "dromasLpisChangeReview"){
-				return (
-					<ScreenAnimator
-						activeScreenKey={changeReviewsActiveScreenKey}
-					>
-						<ChangeReviewsList
-							screenKey="changeReviewsList"
-							changeActiveScreen={setChangeReviewsActiveScreen}
-						/>
-						<ChangeReviewForm
-							screenKey="changeReviewForm"
-							changeActiveScreen={setChangeReviewsActiveScreen}
-						/>
-					</ScreenAnimator>
-				);
-			}
-		} else {
-			return <ViewsList
-				selectedScope={scope}
-			/>
-		}
-	} else if (!scope && intro){
-		return <Intro
-			plainContent
-		/>
-	}
-	return null;
-};
-
+import ScopeIntroSwitch from "../../presentation/controls/ScopeIntroSwitch";
 
 const mapStateToProps = (state, ownProps) => {
 	return {
@@ -55,6 +17,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		setChangeReviewsActiveScreen: (screenKey) => {
 			dispatch(Action.components.overlays.views.setChangeReviewsActiveScreen(screenKey));
+		},
+		createLpisCase: (data, files) => {
+			dispatch(Action.lpisCases.createLpisCase(data, files));
 		}
 	}
 };
