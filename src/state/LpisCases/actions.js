@@ -13,7 +13,7 @@ import utils from '../../utils/utils';
 // ============ creators ===========
 
 function load() {
-	return (dispatch, getState) => {
+	return (dispatch) => {
 		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/lpis_cases');
 
 		return fetch(url, {
@@ -28,26 +28,7 @@ function load() {
 				return response.json();
 			}
 		}).then((responseContent) => {
-			if (responseContent) {
-				let lpisCases = responseContent['data']['lpis_cases'];
-				let lpisCaseChanges = responseContent['data']['lpis_case_changes'];
-				let places = responseContent['data']['places'];
-
-				if(places && places.length) {
-					let loadedPlaces = Select.places.getPlaces(getState());
-					dispatch(actionAddLpisCasePlaces(_getMissingRecords(loadedPlaces, places)));
-				}
-
-				if(lpisCaseChanges && lpisCaseChanges.length) {
-					let loadedLpisCaseChanges = Select.lpisCases.getChanges(getState());
-					dispatch(actionAddLpisCaseChanges(_getMissingRecords(loadedLpisCaseChanges, lpisCaseChanges)));
-				}
-
-				if(lpisCases && lpisCases.length) {
-					let loadedLpisCases = Select.lpisCases.getCases(getState());
-					dispatch(actionAddLpisCases(_getMissingRecords(loadedLpisCases, lpisCases)));
-				}
-			}
+			dispatch(_storeResponseContent(responseContent));
 		})
 	}
 }
@@ -77,9 +58,34 @@ function createLpisCase(data, files) {
 				return response.json();
 			}
 		}).then((responseContent) => {
-
+			dispatch(_storeResponseContent(responseContent));
 		});
 	};
+}
+
+function _storeResponseContent(content) {
+	return (dispatch, getState) => {
+		if (content) {
+			let lpisCases = content['data']['lpis_cases'];
+			let lpisCaseChanges = content['data']['lpis_case_changes'];
+			let places = content['data']['places'];
+
+			if(places && places.length) {
+				let loadedPlaces = Select.places.getPlaces(getState());
+				dispatch(actionAddLpisCasePlaces(_getMissingRecords(loadedPlaces, places)));
+			}
+
+			if(lpisCaseChanges && lpisCaseChanges.length) {
+				let loadedLpisCaseChanges = Select.lpisCases.getChanges(getState());
+				dispatch(actionAddLpisCaseChanges(_getMissingRecords(loadedLpisCaseChanges, lpisCaseChanges)));
+			}
+
+			if(lpisCases && lpisCases.length) {
+				let loadedLpisCases = Select.lpisCases.getCases(getState());
+				dispatch(actionAddLpisCases(_getMissingRecords(loadedLpisCases, lpisCases)));
+			}
+		}
+	}
 }
 
 function _getMissingRecords(existing, toAdd) {
