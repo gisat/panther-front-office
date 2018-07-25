@@ -120,9 +120,17 @@ function actionAddLpisCasePlaces(places) {
 	}
 }
 
+function actionChangeSearchString(searchString) {
+	return {
+		type: ActionTypes.LPIS_CASES_SEARCH_STRING_CHANGE,
+		searchString: searchString
+	}
+}
+
 // ============ export ===========
 
 export default {
 	load: load,
-	createLpisCase: createLpisCase
+	createLpisCase: createLpisCase,
+	changeSearchString: actionChangeSearchString
 }

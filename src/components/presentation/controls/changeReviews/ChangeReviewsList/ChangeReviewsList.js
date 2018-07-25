@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import FuzzySearch from 'fuzzy-search';
 
 import Button from "../../../atoms/Button";
 import ChangeReviewsTable from "../ChangeReviewsTable/ChangeReviewsTable";
@@ -17,32 +16,17 @@ class ChangeReviewsList extends React.PureComponent {
 	static propTypes = {
 		cases: PropTypes.array,
 		changeActiveScreen: PropTypes.func,
+		changeSearchString: PropTypes.func,
 		screenKey: PropTypes.string,
+		searchString: PropTypes.string,
 	};
-
-	constructor(props){
-		super(props);
-
-		this.state = {
-			cases: this.props.cases
-		};
-	}
 
 	addReview(){
 		this.props.changeActiveScreen('changeReviewForm');
 	}
 
 	onSearchChange(searchString){
-		if (searchString.length > 0){
-			let searcher = new FuzzySearch(this.props.cases, ['data.code_dpb', 'data.change_description_place']);
-			this.setState({
-				cases: searcher.search(searchString)
-			});
-		} else {
-			this.setState({
-				cases: this.props.cases
-			});
-		}
+		this.props.changeSearchString(searchString);
 	}
 
 	render() {
@@ -55,6 +39,7 @@ class ChangeReviewsList extends React.PureComponent {
 							placeholder="Vyhledat"
 							transparent
 							onChange={this.onSearchChange.bind(this)}
+							value={this.props.searchString}
 						>
 							<Icon icon="search"/>
 						</InputText>
@@ -69,7 +54,7 @@ class ChangeReviewsList extends React.PureComponent {
 				</div>
 				<div className="ptr-change-reviews-list-body">
 					<ChangeReviewsTable
-						cases={this.state.cases}
+						cases={this.props.cases}
 					/>
 				</div>
 			</div>
