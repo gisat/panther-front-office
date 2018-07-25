@@ -14,8 +14,6 @@ import utils from '../../utils/utils';
 
 function load() {
 	return (dispatch, getState) => {
-		console.log(`#### LpisCases/actions -> load()`);
-
 		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/lpis_cases');
 
 		return fetch(url, {
@@ -26,18 +24,18 @@ function load() {
 				'Accept': 'application/json'
 			}
 		}).then(response => {
-			if(response.status === 200) {
+			if (response.status === 200) {
 				return response.json();
 			}
 		}).then((responseContent) => {
-			if(responseContent) {
+			if (responseContent) {
 				let lpisCases = responseContent['data']['lpis_cases'];
 				let lpisCaseChanges = responseContent['data']['lpis_case_changes'];
 				let places = responseContent['data']['places'];
 
-				if(lpisCases && lpisCases.length) {
-					let loadedLpisCases = Select.lpisCases.getCases(getState());
-					dispatch(actionAddLpisCases(_getMissingRecords(loadedLpisCases, lpisCases)));
+				if(places && places.length) {
+					let loadedPlaces = Select.places.getPlaces(getState());
+					dispatch(actionAddLpisCasePlaces(_getMissingRecords(loadedPlaces, places)));
 				}
 
 				if(lpisCaseChanges && lpisCaseChanges.length) {
@@ -45,36 +43,63 @@ function load() {
 					dispatch(actionAddLpisCaseChanges(_getMissingRecords(loadedLpisCaseChanges, lpisCaseChanges)));
 				}
 
-				if(places && places.length) {
-					let loadedPlaces = Select.places.getPlaces(getState());
-					dispatch(actionAddLpisCasePlaces(_getMissingRecords(loadedPlaces, places)));
+				if(lpisCases && lpisCases.length) {
+					let loadedLpisCases = Select.lpisCases.getCases(getState());
+					dispatch(actionAddLpisCases(_getMissingRecords(loadedLpisCases, lpisCases)));
 				}
 			}
 		})
 	}
 }
 
+function createLpisCase(data, files) {
+	return (dispatch) => {
+		console.log(`#### createLpisCase`, data, files);
+
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata');
+
+		let formData = new FormData();
+		formData.append(`data`, JSON.stringify({lpis_cases: [{uuid: utils.guid(), data: data, status: "created"}]}));
+
+		Object.keys(files).forEach((fileKey) => {
+			formData.append(fileKey, files[fileKey]);
+		});
+
+		return fetch(url, {
+			method: 'POST',
+			credentials: 'include',
+			headers: {
+				'Accept': 'application/json'
+			},
+			body: formData
+		}).then(response => {
+			if (response.status === 200) {
+				return response.json();
+			}
+		}).then((responseContent) => {
+
+		});
+	};
+}
+
 function _getMissingRecords(existing, toAdd) {
-	console.log(`#### 3`);
 	let missing = [];
 
-	if(!_.isArray(toAdd)) toAdd = [toAdd];
-	if(!_.isArray(existing)) existing = [existing];
+	if (!_.isArray(toAdd)) toAdd = [toAdd];
+	if (!_.isArray(existing)) existing = [existing];
 
 	toAdd.forEach((toAddOne) => {
-		if(!_.find(existing, {key: toAddOne.id})) {
+		if (!_.find(existing, {key: toAddOne.id})) {
 			missing.push({key: toAddOne.id, data: toAddOne.data});
 		}
 	});
 
-	console.log(`#### 4`);
 	return missing;
 }
 
 // ============ actions ===========
 
 function actionAddLpisCases(lpisCases) {
-	console.log(`#### 2`);
 	return {
 		type: ActionTypes.LPIS_CASES_ADD,
 		data: lpisCases
@@ -98,5 +123,6 @@ function actionAddLpisCasePlaces(places) {
 // ============ export ===========
 
 export default {
-	load: load
+	load: load,
+	createLpisCase: createLpisCase
 }
