@@ -7,7 +7,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 	render() {
 		return (
 			<div id="dromasLpisChangeReviewHeader">
-				<div style={{position: 'absolute', height: '200'}} ></div>
+
 			</div>
 		);
 	}
