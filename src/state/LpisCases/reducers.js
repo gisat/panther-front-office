@@ -140,18 +140,32 @@ const INITIAL_STATE = {
 	}]
 };
 
-function add(state, action) {
-	return {
-		...state,
-		cases: state.cases ? [...state.cases, ...action.data] : action.data
-	};
+function receiveCases(state, action) {
+	let data;
+	if (state.cases && state.cases.length) {
+		// remove old versions of received models
+		let oldData = _.reject(state.cases, model => {
+			return _.find(action.data, {key: model.key});
+		});
+		data = [...oldData, ...action.data];
+	} else {
+		data = [...action.data];
+	}
+	return {...state, loading: false, cases: data};
 }
 
-function addChanges(state, action) {
-	return {
-		...state,
-		changes: state.changes ? [...state.changes, ...action.data] : action.data
-	};
+function receiveChanges(state, action) {
+	let data;
+	if (state.changes && state.changes.length) {
+		// remove old versions of received models
+		let oldData = _.reject(state.changes, model => {
+			return _.find(action.data, {key: model.key});
+		});
+		data = [...oldData, ...action.data];
+	} else {
+		data = [...action.data];
+	}
+	return {...state, loading: false, changes: data};
 }
 
 function changeSearchString(state, action) {
@@ -164,9 +178,9 @@ function changeSearchString(state, action) {
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.LPIS_CASES_ADD:
-			return add(state, action);
+			return receiveCases(state, action);
 		case ActionTypes.LPIS_CASE_CHANGES_ADD:
-			return addChanges(state, action);
+			return receiveChanges(state, action);
 		case ActionTypes.LPIS_CASES_SEARCH_STRING_CHANGE:
 			return changeSearchString(state, action);
 		default:
