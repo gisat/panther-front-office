@@ -10,6 +10,7 @@ const mapStateToProps = (state, ownProps) => {
 		scope: Select.scopes.getScopeData(state, ownProps.scopeKey),
 		intro: Select.components.overlays.views.getIntro(state),
 		changeReviewsActiveScreenKey: Select.components.overlays.views.getChangeReviewsActiveScreenKey(state),
+		activeNewEditedCase: Select.lpisCases.getActiveNewEditedCase(state)
 	};
 };
 
@@ -18,8 +19,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		setChangeReviewsActiveScreen: (screenKey) => {
 			dispatch(Action.components.overlays.views.setChangeReviewsActiveScreen(screenKey));
 		},
-		createLpisCase: (data, files) => {
-			dispatch(Action.lpisCases.createLpisCase(data, files));
+		createLpisCase: () => {
+			dispatch(Action.lpisCases.createLpisCase());
+		},
+		createNewActiveEditedCase: () => {
+			dispatch(Action.lpisCases.createNewActiveEditedCase());
+		},
+		editActiveEditedCase: (column, value, file) => {
+			dispatch(Action.lpisCases.editActiveEditedCase(column, value, file));
 		}
 	}
 };

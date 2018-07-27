@@ -19,10 +19,16 @@ class ChangeReviewsList extends React.PureComponent {
 		changeSearchString: PropTypes.func,
 		screenKey: PropTypes.string,
 		searchString: PropTypes.string,
+		createNewActiveEditedCase: PropTypes.func,
+		activeEditedCaseKey: PropTypes.string
 	};
 
 	addReview(){
 		this.props.changeActiveScreen('changeReviewForm');
+
+		if(!this.props.activeEditedCaseKey) {
+			this.props.createNewActiveEditedCase();
+		}
 	}
 
 	onSearchChange(searchString){
@@ -48,7 +54,7 @@ class ChangeReviewsList extends React.PureComponent {
 							secondary
 							onClick={this.addReview.bind(this)}
 						>
-							Přidat řízení
+							{this.props.activeEditedCaseKey ? 'Dokončit rozpracované řízení' : 'Přidat řízení'}
 						</Button>
 					</div>
 				</div>

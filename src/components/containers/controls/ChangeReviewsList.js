@@ -7,7 +7,8 @@ import ChangeReviewsList from "../../presentation/controls/changeReviews/ChangeR
 const mapStateToProps = (state, props) => {
 	return {
 		cases: Select.lpisCases.getSearchResults(state),
-		searchString: Select.lpisCases.getSearchString(state)
+		searchString: Select.lpisCases.getSearchString(state),
+		activeEditedCaseKey: Select.lpisCases.getActiveEditedCaseKey(state)
 	}
 };
 
@@ -15,6 +16,9 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		changeSearchString: (searchString) => {
 			dispatch(Action.lpisCases.changeSearchString(searchString))
+		},
+		createNewActiveEditedCase: () => {
+			dispatch(Action.lpisCases.createNewActiveEditedCase())
 		}
 	}
 };

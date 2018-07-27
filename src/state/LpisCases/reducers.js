@@ -1,9 +1,12 @@
 import ActionTypes from '../../constants/ActionTypes';
 import _ from 'lodash';
+import utils from "../../utils/utils";
 
 const INITIAL_STATE = {
 	activeCaseKey: null,
 	searchString: null,
+	activeNewEditedCaseKey: null,
+	editedCases: [],
 	cases: [{
 		key: 1,
 		data: {
@@ -80,7 +83,7 @@ const INITIAL_STATE = {
 			"view_id": 1,
 			"place_id": 4
 		}
-	}]	,
+	}],
 	changes: [{
 		key: 1,
 		data: {
@@ -175,6 +178,75 @@ function changeSearchString(state, action) {
 	}
 }
 
+function createNewActiveEditedCase(state, action) {
+	let uuid = utils.guid();
+	return {
+		...state,
+		activeNewEditedCaseKey: uuid,
+		editedCases: [
+			...state.editedCases,
+			{
+				key: uuid,
+				data: {},
+				files: {}
+			}
+		]
+	}
+}
+
+function editActiveEditedCase(state, action) {
+	let column = action.column;
+	let value = action.value;
+	let file = action.file;
+
+	let editedCases = [];
+
+	state.editedCases.forEach((editedCase) => {
+		if(editedCase.key === state.activeNewEditedCaseKey) {
+			let files = {...editedCase.files};
+			if(column.toLowerCase().includes(`geometry`) && editedCase.data[column] && file) {
+				let oldGeometryFileIdentifier = editedCase.data[column].identifier;
+				delete files[oldGeometryFileIdentifier];
+			}
+
+			editedCases.push(
+				{
+					...editedCase,
+					data: {
+						...editedCase.data,
+						[column]: value
+					},
+					files: (file ? {...files, [file.identifier]: file.file} : editedCase.files)
+				}
+			)
+		} else {
+			editedCases.push(editedCase)
+		}
+	});
+
+	return {
+		...state,
+		editedCases: editedCases
+	};
+}
+
+function removeEditedCasesByKeys(state, action) {
+	let keys = action.keys;
+
+	let filteredEditedCases = [];
+	state.editedCases.forEach((editedCase) => {
+		if(!keys.includes(editedCase.key)) {
+			filteredEditedCases.push(editedCase);
+		}
+	});
+
+	return {
+		...state,
+		editedCases: filteredEditedCases,
+		activeNewEditedCaseKey: keys.includes(state.activeNewEditedCaseKey) ? null : state.activeNewEditedCaseKey
+	}
+}
+
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.LPIS_CASES_ADD:
@@ -183,6 +255,12 @@ export default (state = INITIAL_STATE, action) => {
 			return receiveChanges(state, action);
 		case ActionTypes.LPIS_CASES_SEARCH_STRING_CHANGE:
 			return changeSearchString(state, action);
+		case ActionTypes.LPIS_CASES_EDIT_ACTIVE_EDITED_CASE:
+			return editActiveEditedCase(state, action);
+		case ActionTypes.LPIS_CASES_CREATE_NEW_ACTIVE_EDITED_CASE:
+			return createNewActiveEditedCase(state, action);
+		case ActionTypes.LPIS_CASES_REMOVE_EDITED_CASES_BY_KEYS:
+			return removeEditedCasesByKeys(state, action);
 		default:
 			return state;
 	}

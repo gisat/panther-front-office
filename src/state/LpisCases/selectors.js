@@ -5,6 +5,9 @@ import FuzzySearch from "fuzzy-search";
 const getCases = state => state.lpisCases.cases;
 const getChanges = state => state.lpisCases.changes;
 const getSearchString = state => state.lpisCases.searchString;
+const getActiveNewEditedCaseKey = state => state.lpisCases.activeNewEditedCaseKey;
+const getEditedCases = state => state.lpisCases.editedCases;
+const getActiveEditedCaseKey = state => state.lpisCases.activeNewEditedCaseKey;
 
 const getCasesWithChanges = createSelector(
 	[getCases, getChanges],
@@ -34,12 +37,22 @@ const getSearchResults = createSelector(
 			return casesWithChanges;
 		}
 	}
-)
+);
+
+const getActiveNewEditedCase = createSelector(
+	[getActiveNewEditedCaseKey, getEditedCases],
+	(activeNewEditedCaseKey, editedCases) => {
+		return _.find(editedCases, {key: activeNewEditedCaseKey});
+	}
+);
 
 export default {
 	getCases: getCases,
 	getChanges: getChanges,
 	getCasesWithChanges: getCasesWithChanges,
 	getSearchResults: getSearchResults,
-	getSearchString: getSearchString
+	getSearchString: getSearchString,
+	getActiveNewEditedCase: getActiveNewEditedCase,
+	getActiveEditedCaseKey: getActiveEditedCaseKey,
+	getEditedCases: getEditedCases
 };

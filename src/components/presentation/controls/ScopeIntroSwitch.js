@@ -6,7 +6,7 @@ import ScreenAnimator from "../../presentation/ScreenAnimator/ScreenAnimator";
 import ViewsList from "../../containers/controls/ViewsList";
 import Intro from "../../containers/Intro";
 
-export default ({scope, intro, changeReviewsActiveScreenKey, setChangeReviewsActiveScreen, createLpisCase}) => {
+export default ({scope, intro, changeReviewsActiveScreenKey, activeNewEditedCase, setChangeReviewsActiveScreen, createLpisCase, editActiveEditedCase, createNewActiveEditedCase}) => {
 	if (scope){
 		if (scope.configuration && scope.configuration && scope.configuration.introComponent){
 			if (scope.configuration.introComponent === "dromasLpisChangeReview"){
@@ -22,6 +22,9 @@ export default ({scope, intro, changeReviewsActiveScreenKey, setChangeReviewsAct
 							screenKey="changeReviewForm"
 							changeActiveScreen={setChangeReviewsActiveScreen}
 							createLpisCase={createLpisCase}
+							activeNewEditedCase={activeNewEditedCase}
+							editActiveEditedCase={editActiveEditedCase}
+							createNewActiveEditedCase={createNewActiveEditedCase}
 						/>
 					</ScreenAnimator>
 				);

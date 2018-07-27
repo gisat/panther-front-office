@@ -33,17 +33,29 @@ function load() {
 	}
 }
 
-function createLpisCase(data, files) {
-	return (dispatch) => {
-		console.log(`#### createLpisCase`, data, files);
-
+function createLpisCase() {
+	return (dispatch, getState) => {
 		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata');
+		let activeNewEditedCase = Select.lpisCases.getActiveNewEditedCase(getState());
 
 		let formData = new FormData();
-		formData.append(`data`, JSON.stringify({lpis_cases: [{uuid: utils.guid(), data: data, status: "created"}]}));
+		formData.append(
+			`data`,
+			JSON.stringify(
+				{
+					lpis_cases: [
+						{
+							uuid: activeNewEditedCase.key,
+							data: activeNewEditedCase.data,
+							status: "created"
+						}
+					]
+				}
+			)
+		);
 
-		Object.keys(files).forEach((fileKey) => {
-			formData.append(fileKey, files[fileKey]);
+		Object.keys(activeNewEditedCase.files).forEach((fileKey) => {
+			formData.append(fileKey, activeNewEditedCase.files[fileKey]);
 		});
 
 		return fetch(url, {
@@ -70,19 +82,30 @@ function _storeResponseContent(content) {
 			let lpisCaseChanges = content['data']['lpis_case_changes'];
 			let places = content['data']['places'];
 
-			if(places && places.length) {
+			if (places && places.length) {
 				let loadedPlaces = Select.places.getPlaces(getState());
 				dispatch(actionAddLpisCasePlaces(_getMissingRecords(loadedPlaces, places)));
 			}
 
-			if(lpisCaseChanges && lpisCaseChanges.length) {
+			if (lpisCaseChanges && lpisCaseChanges.length) {
 				let loadedLpisCaseChanges = Select.lpisCases.getChanges(getState());
 				dispatch(actionAddLpisCaseChanges(_getMissingRecords(loadedLpisCaseChanges, lpisCaseChanges)));
 			}
 
-			if(lpisCases && lpisCases.length) {
+			if (lpisCases && lpisCases.length) {
 				let loadedLpisCases = Select.lpisCases.getCases(getState());
+				let editedCases = Select.lpisCases.getEditedCases(getState());
+				let keysOkEditedCasesToRemove = _.compact(
+					_.map(editedCases, (editedCase) => {
+						return _.find(lpisCases, (lpisCase) => {
+							return (lpisCase.id === editedCase.key || lpisCase.uuid === editedCase.key) && lpisCase.status !== "error";
+						}) ? editedCase.key : null;
+					})
+				);
 				dispatch(actionAddLpisCases(_getMissingRecords(loadedLpisCases, lpisCases)));
+				if (keysOkEditedCasesToRemove.length) {
+					dispatch(actionRemoveEditedCasesByKeys(keysOkEditedCasesToRemove));
+				}
 			}
 		}
 	}
@@ -133,10 +156,34 @@ function actionChangeSearchString(searchString) {
 	}
 }
 
+function actionCreateNewActiveEditedCase() {
+	return {
+		type: ActionTypes.LPIS_CASES_CREATE_NEW_ACTIVE_EDITED_CASE
+	}
+}
+
+function actionEditActiveEditedCase(column, value, file) {
+	return {
+		type: ActionTypes.LPIS_CASES_EDIT_ACTIVE_EDITED_CASE,
+		column: column,
+		value: value,
+		file: file
+	}
+}
+
+function actionRemoveEditedCasesByKeys(keys) {
+	return {
+		type: ActionTypes.LPIS_CASES_REMOVE_EDITED_CASES_BY_KEYS,
+		keys: keys
+	}
+}
+
 // ============ export ===========
 
 export default {
 	load: load,
 	createLpisCase: createLpisCase,
-	changeSearchString: actionChangeSearchString
+	changeSearchString: actionChangeSearchString,
+	createNewActiveEditedCase: actionCreateNewActiveEditedCase,
+	editActiveEditedCase: actionEditActiveEditedCase
 }
