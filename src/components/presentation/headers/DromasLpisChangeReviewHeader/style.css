@@ -5,5 +5,31 @@
 	width: 100%;
 	height: 115px;
 
+	display: flex;
+
 	background: #ff0;
+}
+#dromasLpisChangeReviewHeader > div {
+	flex-grow: 1;
+}
+#dromasLpisChangeReviewHeader-case {
+	background: #906;
+}
+#dromasLpisChangeReviewHeader-review {
+	background: #6e8;
+}
+#dromasLpisChangeReviewHeader-actions {
+	background: #f7a;
+}
+#dromasLpisChangeReviewHeader-tools {
+	background: #cdf;
+}
+
+#dromasLpisChangeReviewHeader > div {
+	display: flex;
+	flex-direction: column;
+}
+.ptr-dromasLpisChangeReviewHeader-topBar {
+	height: 2.2rem;
+	flex-grow: 0;
 }
