@@ -79,7 +79,7 @@ class InputText extends React.PureComponent {
 		return (
 			<input type="text"
 				   placeholder={this.state.focus ? null : this.props.placeholder}
-				   value={this.state.value}
+				   value={this.state.value || ""}
 				   onChange={this.onChange}
 				   autoFocus={this.state.focus}
 				   onBlur={this.onBlur}
