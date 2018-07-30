@@ -53,6 +53,7 @@
 /* Scopes intro box */
 .scope-intro-box {
 	background: white;
+	box-shadow: 0 0 2px 2px rgba(33,38,53,.5);
 	width: 100%;
 	margin: 2rem 4rem 2rem 0;
 }

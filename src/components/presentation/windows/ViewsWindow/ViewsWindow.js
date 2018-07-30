@@ -19,6 +19,8 @@ class ViewsWindow extends React.PureComponent {
 			<Window
 				window="views"
 				name="Views"
+				minWidth={600}
+				width={800}
 				elementId="views-window"
 				expandable={true}
 				dockable={true}

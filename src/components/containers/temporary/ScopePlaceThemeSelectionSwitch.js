@@ -6,7 +6,7 @@ import ScopePlaceThemeSelectionSwitch from "../../presentation/temporary/ScopePl
 
 const mapStateToProps = (state) => {
 	return {
-		active: Select.components.overlays.isOverlayActive(state, {key: 'views'}),
+		active: Select.components.isAppInIntroMode(state) && Select.users.isAdmin(state),
 		open: Select.components.overlays.isOverlayOpen(state, {key: 'views'})
 	}
 };

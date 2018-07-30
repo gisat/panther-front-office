@@ -9,14 +9,13 @@ import './InputText.css';
 class InputText extends React.PureComponent {
 
 	static propTypes = {
-		disableEditing: PropTypes.bool,
 		extraLarge: PropTypes.bool,
 		focus: PropTypes.bool,
-		multiline: PropTypes.bool,
 		large: PropTypes.bool,
 		placeholder: PropTypes.string,
+		transparent: PropTypes.bool,
 		value: PropTypes.string,
-		simpleDecoration: PropTypes.bool
+		onChange: PropTypes.func
 	};
 
 	constructor(props){
@@ -28,7 +27,6 @@ class InputText extends React.PureComponent {
 		this.onBlur = this.onBlur.bind(this);
 		this.onChange = this.onChange.bind(this);
 		this.onFocus = this.onFocus.bind(this);
-		this.onMultilineClick = this.onMultilineClick.bind(this);
 	}
 
 	componentWillReceiveProps(nextProps){
@@ -37,36 +35,23 @@ class InputText extends React.PureComponent {
 		});
 	}
 
-	onBlur(){
-		if (this.props.multiline){
-			this.setState({
-				editMultiline: false,
-				focus: false
-			});
-		}
-	}
-
 	onChange(e){
 		this.setState({
 			value: e.target.value
 		});
+		if (this.props.onChange){
+			this.props.onChange(e.target.value);
+		}
 	}
 
-	onFocus(){
-		let editMultiline = false;
-		if (this.props.multiline){
-			editMultiline = true;
-		}
-
+	onBlur(){
 		this.setState({
-			editMultiline: {editMultiline},
-			focus: true
+			focus: false
 		});
 	}
 
-	onMultilineClick(){
+	onFocus(){
 		this.setState({
-			editMultiline: true,
 			focus: true
 		});
 	}
@@ -75,21 +60,17 @@ class InputText extends React.PureComponent {
 		let classes = classNames("ptr-input-text", {
 			'extraLarge': this.props.extraLarge,
 			'large': this.props.large,
-			'simple-decoration': this.props.simpleDecoration,
 			'empty': !this.state.value,
-			'uneditable': this.props.disableEditing
+			'focus': this.state.focus,
+			'transparent': this.props.transparent
 		});
 
-		let content = null;
-		if (this.props.multiline && !this.state.editMultiline && this.state.value && !this.props.disableEditing){
-			content = this.renderParagraph();
-		} else if (this.state.value || !this.props.disableEditing){
-			content = this.renderInput();
-		}
+		let content = this.renderInput();
 
 		return (
 			<div className={classes}>
 				{content}
+				{this.props.children}
 			</div>
 		);
 	}
@@ -97,18 +78,13 @@ class InputText extends React.PureComponent {
 	renderInput(){
 		return (
 			<input type="text"
-				   placeholder={this.props.placeholder}
+				   placeholder={this.state.focus ? null : this.props.placeholder}
 				   value={this.state.value}
 				   onChange={this.onChange}
 				   autoFocus={this.state.focus}
+				   onBlur={this.onBlur}
 				   onFocus={this.onFocus}
-				   onBlur={this.onBlur}/>);
-	}
-
-	renderParagraph(){
-		return (
-			<p onClick={this.onMultilineClick}>{this.state.value}</p>
-		);
+			/>);
 	}
 }
 

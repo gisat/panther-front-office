@@ -67,11 +67,11 @@ class PantherWindow extends React.PureComponent {
 
 	constructor(props){
 		super(props);
-		this.state = {...DEFAULT_STATE, ..._.pick(props, ['width', 'height', 'open', 'docked', 'expanded', 'floating', 'positionX', 'positionY'])};
+		this.state = {...DEFAULT_STATE, ..._.pick(props, ['width', 'minWidth', 'height', 'open', 'docked', 'expanded', 'floating', 'positionX', 'positionY'])};
 	}
 
 	componentWillReceiveProps(nextProps) {
-		let nextState = {...this.state, ..._.pick(nextProps, ['width', 'height', 'open', 'docked', 'expanded', 'floating', 'positionX', 'positionY'])};
+		let nextState = {...this.state, ..._.pick(nextProps, ['width', 'minWidth', 'height', 'open', 'docked', 'expanded', 'floating', 'positionX', 'positionY'])};
 
 		if (!nextProps.docked && !nextProps.expanded && nextProps.floatable){
 			nextState.floating = true;

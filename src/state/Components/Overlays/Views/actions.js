@@ -4,10 +4,20 @@ import Select from '../../../Select';
 import _ from 'lodash';
 
 // ============ creators ===========
-function setInactive(){
+function checkForActiveUser(){
+	return (dispatch, getState) => {
+		let isAdmin = Select.users.isAdmin(getState());
+		let isInItroMode = Select.components.isAppInIntroMode(getState());
+		if (!isAdmin && isInItroMode){
+			dispatch(Action.components.overlays.openOverlay('views'))
+		}
+	}
+}
+
+function setChangeReviewsActiveScreen(key){
 	return (dispatch, getState) => {
 		let data = Select.components.overlays.getOverlay(getState(), {key: 'views'});
-		let update = {...data, active: false, open: false};
+		let update = {...data, changeReviews: {...data.changeReviews, activeScreenKey: key}};
 		dispatch(Action.components.overlays.actionUpdateOverlay('views', update));
 	}
 }
@@ -25,6 +35,7 @@ function setSelectedScope(key){
 // ============ export ===========
 
 export default {
-	setInactive: setInactive,
+	checkForActiveUser: checkForActiveUser,
+	setChangeReviewsActiveScreen: setChangeReviewsActiveScreen,
 	setSelectedScope: setSelectedScope
 }

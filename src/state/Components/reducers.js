@@ -5,6 +5,9 @@ import Names from '../../constants/Names';
 let config = window.Config.toggles.intro;
 
 const INITIAL_STATE = {
+	application: {
+		intro: true
+	},
 	overlays: {
 		dataUpload: {
 			open: false
@@ -20,14 +23,16 @@ const INITIAL_STATE = {
 			}
 		},
 		views: {
-			active: true,
 			intro: {
 				title: config ? config.title : Names.INTRO_DEFAULT_TITLE,
 				text: config ? config.text : "",
 				logo: config && config.logo ? {source: config.logo.source} : null
 			},
 			open: true,
-			selectedScope: null
+			selectedScope: null,
+			changeReviews: {
+				activeScreenKey: "changeReviewsList"
+			}
 		}
 	},
 	windows: {

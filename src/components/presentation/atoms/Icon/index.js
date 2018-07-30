@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ArrowLeft from './ArrowLeft';
+import Circle from './Circle';
 import Delete from './Delete';
 import Dots from './Dots';
 import Download from './Download';
@@ -10,11 +11,16 @@ import Opacity from './Opacity';
 import Plus from './Plus';
 import Pushpin from './Pushpin';
 import Restore from './Restore';
+import Search from './Search';
 
-const icon = key => {
+const icon = (key, props) => {
 	switch(key) {
 		case 'arrow-left':
 			return <ArrowLeft />;
+		case 'circle':
+			return <Circle
+				color={props.color}
+			/>;
 		case 'delete':
 			return <Delete />;
 		case 'dots':
@@ -33,6 +39,8 @@ const icon = key => {
 			return <Pushpin />;
 		case 'restore':
 			return <Restore />;
+		case 'search':
+			return <Search />;
 		default:
 			return null;
 	}
@@ -51,6 +59,6 @@ export default props => (
 		xmlSpace="preserve"
 		className="ptr-icon"
 	>
-		{icon(props.icon)}
+		{icon(props.icon, props)}
 	</svg>
 );

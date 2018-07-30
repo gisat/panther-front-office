@@ -4,6 +4,7 @@ import AttributeSets from './AttributeSets/selectors';
 import Components from './Components/selectors';
 import LayerPeriods from './LayerPeriods/selectors';
 import LayerTemplates from './LayerTemplates/selectors';
+import LpisCases from './LpisCases/selectors';
 import Maps from './Maps/selectors';
 import Periods from './Periods/selectors';
 import Places from './Places/selectors';
@@ -24,6 +25,7 @@ export default {
 	components: Components,
 	layerPeriods: LayerPeriods,
 	layerTemplates: LayerTemplates,
+	lpisCases: LpisCases,
 	maps: Maps,
 	periods: Periods,
 	places: Places,

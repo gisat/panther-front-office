@@ -236,6 +236,12 @@ body.intro #header .menu li:first-child::before {
 body.intro #upload-data.open {
 	display: inline-block;
 }
+#scope-selection-switch {
+	display: none;
+}
+body.intro #scope-selection-switch.open {
+	display: inline-block;
+}
 
 #legacy-view-selector .user {
 	position: absolute;
