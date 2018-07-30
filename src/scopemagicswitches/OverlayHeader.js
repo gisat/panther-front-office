@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import Select from '../state/Select';
 
-import DromasLpisChangeReviewHeader from '../components/presentation/headers/DromasLpisChangeReviewHeader';
+import DromasLpisChangeReviewHeader from '../components/containers/headers/DromasLpisChangeReviewHeader';
 
 const MagicSwitch = ({scope}) => {
 	if (scope) {
