@@ -99,6 +99,7 @@ const isDromasAdmin = state => {
 
 export default {
 	getActiveKey: getActiveKey,
+	getActiveUser: getActiveUser,
 	getActiveUserPermissionsTowards: getActiveUserPermissionsTowards,
 	getGroupKeysForActiveUser: getGroupKeysForActiveUser,
 	getUsers: getUsers,
