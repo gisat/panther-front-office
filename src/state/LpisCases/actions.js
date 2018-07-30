@@ -77,24 +77,25 @@ function createLpisCase() {
 
 function _storeResponseContent(content) {
 	return (dispatch, getState) => {
+		let state = getState();
 		if (content) {
 			let lpisCases = content['data']['lpis_cases'];
 			let lpisCaseChanges = content['data']['lpis_case_changes'];
 			let places = content['data']['places'];
 
 			if (places && places.length) {
-				let loadedPlaces = Select.places.getPlaces(getState());
+				let loadedPlaces = Select.places.getPlaces(state);
 				dispatch(actionAddLpisCasePlaces(_getMissingRecords(loadedPlaces, places)));
 			}
 
 			if (lpisCaseChanges && lpisCaseChanges.length) {
-				let loadedLpisCaseChanges = Select.lpisCases.getChanges(getState());
+				let loadedLpisCaseChanges = Select.lpisCases.getChanges(state);
 				dispatch(actionAddLpisCaseChanges(_getMissingRecords(loadedLpisCaseChanges, lpisCaseChanges)));
 			}
 
 			if (lpisCases && lpisCases.length) {
-				let loadedLpisCases = Select.lpisCases.getCases(getState());
-				let editedCases = Select.lpisCases.getEditedCases(getState());
+				let loadedLpisCases = Select.lpisCases.getCases(state);
+				let editedCases = Select.lpisCases.getEditedCases(state);
 				let keysOkEditedCasesToRemove = _.compact(
 					_.map(editedCases, (editedCase) => {
 						return _.find(lpisCases, (lpisCase) => {
