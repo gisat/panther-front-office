@@ -5,8 +5,8 @@ import FuzzySearch from "fuzzy-search";
 const getCases = state => state.lpisCases.cases;
 const getChanges = state => state.lpisCases.changes;
 const getSearchString = state => state.lpisCases.searchString;
-const getActiveNewEditedCaseKey = state => state.lpisCases.activeNewEditedCaseKey;
 const getEditedCases = state => state.lpisCases.editedCases;
+const getActiveCaseKey = state => state.lpisCases.activeCaseKey;
 const getActiveEditedCaseKey = state => state.lpisCases.activeNewEditedCaseKey;
 
 const getCasesWithChanges = createSelector(
@@ -40,9 +40,23 @@ const getSearchResults = createSelector(
 );
 
 const getActiveNewEditedCase = createSelector(
-	[getActiveNewEditedCaseKey, getEditedCases],
-	(activeNewEditedCaseKey, editedCases) => {
-		return _.find(editedCases, {key: activeNewEditedCaseKey});
+	[getActiveEditedCaseKey, getEditedCases],
+	(activeEditedCaseKey, editedCases) => {
+		return _.find(editedCases, {key: activeEditedCaseKey});
+	}
+);
+
+const getActiveCase = createSelector(
+	[getActiveCaseKey, getCases],
+	(activeCaseKey, cases) => {
+		return _.find(cases, {key: activeCaseKey});
+	}
+);
+
+const getActiveCaseEdited = createSelector(
+	[getActiveCaseKey, getEditedCases],
+	(activeCaseKey, editedCases) => {
+		return _.find(editedCases, {key: activeCaseKey});
 	}
 );
 
@@ -54,5 +68,8 @@ export default {
 	getSearchString: getSearchString,
 	getActiveNewEditedCase: getActiveNewEditedCase,
 	getActiveEditedCaseKey: getActiveEditedCaseKey,
-	getEditedCases: getEditedCases
+	getEditedCases: getEditedCases,
+	getActiveCaseKey: getActiveCaseKey,
+	getActiveCase: getActiveCase,
+	getActiveCaseEdited: getActiveCaseEdited
 };

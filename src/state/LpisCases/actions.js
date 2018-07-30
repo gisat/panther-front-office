@@ -75,6 +75,41 @@ function createLpisCase() {
 	};
 }
 
+function editLpisCase() {
+	return (dispatch, getState) => {
+		let state = getState();
+		let editedCase = Select.lpisCases.getActiveCaseEdited(state);
+
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata');
+
+		return fetch(url, {
+			method: 'POST',
+			credentials: 'include',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(
+				{
+					lpis_cases: [
+						{
+							id: editedCase.key,
+							data: editedCase.data,
+							status: editedCase.status
+						}
+					]
+				}
+			)
+		}).then(response => {
+			if (response.status === 200) {
+				return response.json();
+			}
+		}).then((responseContent) => {
+			dispatch(_storeResponseContent(responseContent));
+		});
+	}
+}
+
 function _storeResponseContent(content) {
 	return (dispatch, getState) => {
 		let state = getState();
@@ -186,5 +221,6 @@ export default {
 	createLpisCase: createLpisCase,
 	changeSearchString: actionChangeSearchString,
 	createNewActiveEditedCase: actionCreateNewActiveEditedCase,
-	editActiveEditedCase: actionEditActiveEditedCase
+	editActiveEditedCase: actionEditActiveEditedCase,
+	editLpisCase: editLpisCase
 }
