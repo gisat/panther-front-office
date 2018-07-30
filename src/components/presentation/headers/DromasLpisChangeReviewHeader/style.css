@@ -33,3 +33,8 @@
 	height: 2.2rem;
 	flex-grow: 0;
 }
+
+
+.ptr-dromasLpisChangeReviewHeader-map-control-toggles > label {
+	display: block;
+}
