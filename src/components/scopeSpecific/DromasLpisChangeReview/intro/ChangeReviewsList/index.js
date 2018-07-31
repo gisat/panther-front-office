@@ -8,7 +8,8 @@ const mapStateToProps = (state, props) => {
 	return {
 		cases: Select.lpisCases.getSearchResults(state),
 		searchString: Select.lpisCases.getSearchString(state),
-		activeEditedCaseKey: Select.lpisCases.getActiveEditedCaseKey(state)
+		activeEditedCaseKey: Select.lpisCases.getActiveEditedCaseKey(state),
+		activeEditedCase: Select.lpisCases.getActiveEditedCase(state),
 	}
 };
 

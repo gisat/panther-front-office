@@ -39,7 +39,7 @@ const getSearchResults = createSelector(
 	}
 );
 
-const getActiveNewEditedCase = createSelector(
+const getActiveEditedCase = createSelector(
 	[getActiveEditedCaseKey, getEditedCases],
 	(activeEditedCaseKey, editedCases) => {
 		return _.find(editedCases, {key: activeEditedCaseKey});
@@ -66,7 +66,7 @@ export default {
 	getCasesWithChanges: getCasesWithChanges,
 	getSearchResults: getSearchResults,
 	getSearchString: getSearchString,
-	getActiveNewEditedCase: getActiveNewEditedCase,
+	getActiveEditedCase: getActiveEditedCase,
 	getActiveEditedCaseKey: getActiveEditedCaseKey,
 	getEditedCases: getEditedCases,
 	getActiveCaseKey: getActiveCaseKey,

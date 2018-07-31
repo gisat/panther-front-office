@@ -37,7 +37,7 @@ function createLpisCase() {
 	return (dispatch, getState) => {
 		let state = getState();
 		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata');
-		let activeNewEditedCase = Select.lpisCases.getActiveNewEditedCase(state);
+		let activeNewEditedCase = Select.lpisCases.getActiveEditedCase(state);
 
 		let formData = new FormData();
 		formData.append(

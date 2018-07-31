@@ -55,7 +55,7 @@ class ChangeReviewsList extends React.PureComponent {
 							secondary
 							onClick={this.addReview.bind(this)}
 						>
-							{this.props.activeEditedCaseKey ? 'Dokončit rozpracované řízení' : 'Přidat řízení'}
+							{this.props.activeEditedCase && this.props.activeEditedCase.data && Object.keys(this.props.activeEditedCase.data).length ? 'Dokončit rozpracované řízení' : 'Přidat řízení'}
 						</Button>
 					</div>
 				</div>
