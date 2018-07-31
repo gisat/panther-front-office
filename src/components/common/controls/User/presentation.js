@@ -16,11 +16,23 @@ class User extends React.PureComponent {
 
 	render() {
 
-		return (
-			<div>
-				User
-			</div>
-		);
+		if (this.props.user) {
+
+			return (
+				<div>
+					{this.props.user.name}
+				</div>
+			);
+
+		} else {
+
+			return (
+				<div>
+					login
+				</div>
+			);
+
+		}
 
 	}
 }
