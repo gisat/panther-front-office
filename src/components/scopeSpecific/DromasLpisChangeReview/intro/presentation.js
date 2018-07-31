@@ -1,8 +1,8 @@
 import React from 'react';
 
 import ScreenAnimator from "../../../presentation/ScreenAnimator/ScreenAnimator";
-import ChangeReviewsList from '../../../containers/controls/ChangeReviewsList';
-import ChangeReviewForm from '../../../presentation/controls/changeReviews/ChangeReviewForm/ChangeReviewForm';
+import ChangeReviewsList from './ChangeReviewsList';
+import ChangeReviewForm from './ChangeReviewForm';
 
 export default ({changeReviewsActiveScreenKey, activeNewEditedCase, setChangeReviewsActiveScreen, createLpisCase, editActiveEditedCase, createNewActiveEditedCase}) => {
 	return (

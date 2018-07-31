@@ -1,8 +1,8 @@
 import { connect } from 'react-redux';
-import Select from '../../../state/Select';
-import Action from "../../../state/Action";
+import Select from '../../../../../state/Select';
+import Action from "../../../../../state/Action";
 
-import ChangeReviewsList from "../../presentation/controls/changeReviews/ChangeReviewsList/ChangeReviewsList";
+import presentation from './presentation';
 
 const mapStateToProps = (state, props) => {
 	return {
@@ -23,4 +23,4 @@ const mapDispatchToProps = (dispatch) => {
 	}
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ChangeReviewsList);
+export default connect(mapStateToProps, mapDispatchToProps)(presentation);

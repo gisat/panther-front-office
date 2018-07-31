@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import Button from "../../../atoms/Button";
-import ChangeReviewsTable from "../ChangeReviewsTable/ChangeReviewsTable";
-import Icon from "../../../atoms/Icon";
-import InputText from "../../../atoms/InputText/InputText";
+import Button from "../../../../presentation/atoms/Button";
+import ChangeReviewsTable from "../../../../presentation/controls/changeReviews/ChangeReviewsTable/ChangeReviewsTable";
+import Icon from "../../../../presentation/atoms/Icon";
+import InputText from "../../../../presentation/atoms/InputText/InputText";
 
-import './ChangeReviewsList.css';
+import './style.css';
 import Names from "../../../../../constants/Names";
 import utils from "../../../../../utils/utils";
 

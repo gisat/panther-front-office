@@ -5,12 +5,12 @@ import Action from '../../../../../state/Action';
 
 import _ from 'lodash';
 
-import Button from "../../../atoms/Button";
-import Icon from "../../../atoms/Icon";
-import InputText from "../../../atoms/InputText/InputText";
+import Button from "../../../../presentation/atoms/Button";
+import Icon from "../../../../presentation/atoms/Icon";
+import InputText from "../../../../presentation/atoms/InputText/InputText";
 import utils from "../../../../../utils/utils.js";
 
-import './ChangeReviewForm.css';
+import './style.css';
 
 class ChangeReviewForm extends React.PureComponent {
 
