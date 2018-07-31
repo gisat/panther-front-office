@@ -247,6 +247,10 @@ function removeEditedCasesByKeys(state, action) {
 	}
 }
 
+function setActive(state, action) {
+	return {...state, activeCaseKey: action.key};
+}
+
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.LPIS_CASES_ADD:
@@ -261,6 +265,8 @@ export default (state = INITIAL_STATE, action) => {
 			return createNewActiveEditedCase(state, action);
 		case ActionTypes.LPIS_CASES_REMOVE_EDITED_CASES_BY_KEYS:
 			return removeEditedCasesByKeys(state, action);
+			case ActionTypes.LPIS_CASES_SET_ACTIVE:
+			return setActive(state, action);
 		default:
 			return state;
 	}

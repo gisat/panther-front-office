@@ -10,7 +10,8 @@ import './ChangeReviewsTable.css';
 class ChangeReviewsTable extends React.PureComponent {
 
 	static propTypes = {
-		cases: PropTypes.array
+		cases: PropTypes.array,
+		showCase: PropTypes.func
 	};
 
 	constructor(props){
@@ -45,6 +46,7 @@ class ChangeReviewsTable extends React.PureComponent {
 				key={reviewCase.key}
 				status={reviewCase.status}
 				updated={reviewCase.updated}
+				showCase={this.props.showCase}
 			/>
 		);
 	}

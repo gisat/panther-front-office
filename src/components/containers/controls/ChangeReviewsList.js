@@ -19,6 +19,11 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		createNewActiveEditedCase: () => {
 			dispatch(Action.lpisCases.createNewActiveEditedCase())
+		},
+		showCase: (caseKey) => {
+			dispatch(Action.lpisCases.setActive(caseKey));
+			// dispatch(Action.components.setIntro(false));
+			dispatch(Action.lpisCases.redirectToActiveCaseView());
 		}
 	}
 };

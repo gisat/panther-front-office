@@ -35,8 +35,9 @@ function load() {
 
 function createLpisCase() {
 	return (dispatch, getState) => {
+		let state = getState();
 		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata');
-		let activeNewEditedCase = Select.lpisCases.getActiveNewEditedCase(getState());
+		let activeNewEditedCase = Select.lpisCases.getActiveNewEditedCase(state);
 
 		let formData = new FormData();
 		formData.append(
@@ -50,6 +51,15 @@ function createLpisCase() {
 							status: "created"
 						}
 					]
+				}
+			)
+		);
+
+		formData.append(
+			`configuration`,
+			JSON.stringify(
+				{
+					scope_id: Select.scopes.getActiveScopeKey(state)
 				}
 			)
 		);
@@ -117,6 +127,12 @@ function _storeResponseContent(content) {
 			let lpisCases = content['data']['lpis_cases'];
 			let lpisCaseChanges = content['data']['lpis_case_changes'];
 			let places = content['data']['places'];
+			let views = content['data']['dataviews'];
+
+			if(views && views.length) {
+				let loadedViews = Select.views.getViews(state);
+				dispatch(Action.views.add(_getMissingRecords(loadedViews, views)));
+			}
 
 			if (places && places.length) {
 				let loadedPlaces = Select.places.getPlaces(state);
@@ -146,6 +162,30 @@ function _storeResponseContent(content) {
 		}
 	}
 }
+
+function setActive(caseKey) {
+	return (dispatch, getState) => {
+		let state = getState();
+		let cases = Select.lpisCases.getCases(state);
+		let futureActiveCase = _.find(cases, {key: caseKey});
+		let placeKey = futureActiveCase.data.place_id;
+
+		dispatch(actionSetActive(caseKey));
+		// dispatch(Action.places.setActive(placeKey));
+	}
+}
+
+function redirectToActiveCaseView() {
+	return (dispatch, getState) => {
+		let state = getState();
+		let activeCase = Select.lpisCases.getActiveCase(state);
+		let view = _.find(Select.views.getViews(state), {key: activeCase.data.view_id});
+
+		dispatch(Action.components.redirectToView({...view.data, key: view.key}));
+	}
+}
+
+// ============ helpers ===========
 
 function _getMissingRecords(existing, toAdd) {
 	let missing = [];
@@ -214,6 +254,13 @@ function actionRemoveEditedCasesByKeys(keys) {
 	}
 }
 
+function actionSetActive(caseKey) {
+	return  {
+		type: ActionTypes.LPIS_CASES_SET_ACTIVE,
+		key: caseKey
+	}
+}
+
 // ============ export ===========
 
 export default {
@@ -222,5 +269,7 @@ export default {
 	changeSearchString: actionChangeSearchString,
 	createNewActiveEditedCase: actionCreateNewActiveEditedCase,
 	editActiveEditedCase: actionEditActiveEditedCase,
-	editLpisCase: editLpisCase
+	editLpisCase: editLpisCase,
+	setActive: setActive,
+	redirectToActiveCaseView: redirectToActiveCaseView
 }
