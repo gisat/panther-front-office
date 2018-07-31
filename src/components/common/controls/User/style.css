@@ -1,0 +1,18 @@
+.ptr-user {
+	display: flex;
+	justify-content: flex-end;
+	height: 2rem;
+}
+.ptr-user > div {
+	flex-grow: 0;
+}
+
+.ptr-user-name {
+	height: 2rem;
+	padding: .25rem;
+	white-space: nowrap;
+	overflow: hidden;
+	line-height: 1.5rem;
+	font-size: .9375rem;
+}
+

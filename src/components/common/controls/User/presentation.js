@@ -7,6 +7,9 @@ import Names from '../../../../constants/Names'
 
 import './style.css';
 
+import Button from '../../../presentation/atoms/Button';
+import Menu, {MenuItem} from '../../../presentation/atoms/Menu';
+
 
 class User extends React.PureComponent {
 
@@ -19,8 +22,16 @@ class User extends React.PureComponent {
 		if (this.props.user) {
 
 			return (
-				<div>
-					{this.props.user.name}
+				<div className="ptr-user">
+					<div className="ptr-user-image"></div>
+					<div className="ptr-user-name">{this.props.user.name}</div>
+					<div className="ptr-user-options">
+						<Button icon="dots" invisible>
+							<Menu bottom left>
+								<MenuItem onClick={this.props.logout}>Log out</MenuItem>
+							</Menu>
+						</Button>
+					</div>
 				</div>
 			);
 
@@ -28,7 +39,7 @@ class User extends React.PureComponent {
 
 			return (
 				<div>
-					login
+					<a onClick={this.props.login}>Log in</a>
 				</div>
 			);
 
