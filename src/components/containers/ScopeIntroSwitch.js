@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Select from '../../../state/Select';
-import Action from "../../../state/Action";
+import Select from '../../state/Select';
+import Action from "../../state/Action";
 
-import ScopeIntroSwitch from "../../presentation/controls/ScopeIntroSwitch";
+import ScopeIntroSwitch from "../presentation/ScopeIntroSwitch";
 
 const mapStateToProps = (state, ownProps) => {
 	return {

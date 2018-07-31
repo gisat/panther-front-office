@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import Names from "../../../../constants/Names";
 
-import ScopeIntroSwitch from '../../../containers/controls/ScopeIntroSwitch';
+import ScopeIntroSwitch from '../../../containers/ScopeIntroSwitch';
 
 import './ViewsOverlay.css';
 
