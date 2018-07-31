@@ -35,8 +35,9 @@ function load() {
 
 function createLpisCase() {
 	return (dispatch, getState) => {
+		let state = getState();
 		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata');
-		let activeNewEditedCase = Select.lpisCases.getActiveNewEditedCase(getState());
+		let activeNewEditedCase = Select.lpisCases.getActiveNewEditedCase(state);
 
 		let formData = new FormData();
 		formData.append(
@@ -50,6 +51,15 @@ function createLpisCase() {
 							status: "created"
 						}
 					]
+				}
+			)
+		);
+
+		formData.append(
+			`configuration`,
+			JSON.stringify(
+				{
+					scope_id: Select.scopes.getActiveScopeKey(state)
 				}
 			)
 		);
@@ -75,26 +85,68 @@ function createLpisCase() {
 	};
 }
 
+function editLpisCase() {
+	return (dispatch, getState) => {
+		let state = getState();
+		let editedCase = Select.lpisCases.getActiveCaseEdited(state);
+
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata');
+
+		return fetch(url, {
+			method: 'POST',
+			credentials: 'include',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(
+				{
+					lpis_cases: [
+						{
+							id: editedCase.key,
+							data: editedCase.data,
+							status: editedCase.status
+						}
+					]
+				}
+			)
+		}).then(response => {
+			if (response.status === 200) {
+				return response.json();
+			}
+		}).then((responseContent) => {
+			dispatch(_storeResponseContent(responseContent));
+		});
+	}
+}
+
 function _storeResponseContent(content) {
 	return (dispatch, getState) => {
+		let state = getState();
 		if (content) {
 			let lpisCases = content['data']['lpis_cases'];
 			let lpisCaseChanges = content['data']['lpis_case_changes'];
 			let places = content['data']['places'];
+			let views = content['data']['dataviews'];
+
+			if(views && views.length) {
+				let loadedViews = Select.views.getViews(state);
+				dispatch(Action.views.add(_getMissingRecords(loadedViews, views)));
+			}
 
 			if (places && places.length) {
-				let loadedPlaces = Select.places.getPlaces(getState());
+				let loadedPlaces = Select.places.getPlaces(state);
 				dispatch(actionAddLpisCasePlaces(_getMissingRecords(loadedPlaces, places)));
 			}
 
 			if (lpisCaseChanges && lpisCaseChanges.length) {
-				let loadedLpisCaseChanges = Select.lpisCases.getChanges(getState());
+				let loadedLpisCaseChanges = Select.lpisCases.getChanges(state);
 				dispatch(actionAddLpisCaseChanges(_getMissingRecords(loadedLpisCaseChanges, lpisCaseChanges)));
 			}
 
 			if (lpisCases && lpisCases.length) {
-				let loadedLpisCases = Select.lpisCases.getCases(getState());
-				let editedCases = Select.lpisCases.getEditedCases(getState());
+				let loadedLpisCases = Select.lpisCases.getCases(state);
+				let editedCases = Select.lpisCases.getEditedCases(state);
 				let keysOkEditedCasesToRemove = _.compact(
 					_.map(editedCases, (editedCase) => {
 						return _.find(lpisCases, (lpisCase) => {
@@ -110,6 +162,30 @@ function _storeResponseContent(content) {
 		}
 	}
 }
+
+function setActive(caseKey) {
+	return (dispatch, getState) => {
+		let state = getState();
+		let cases = Select.lpisCases.getCases(state);
+		let futureActiveCase = _.find(cases, {key: caseKey});
+		let placeKey = futureActiveCase.data.place_id;
+
+		dispatch(actionSetActive(caseKey));
+		// dispatch(Action.places.setActive(placeKey));
+	}
+}
+
+function redirectToActiveCaseView() {
+	return (dispatch, getState) => {
+		let state = getState();
+		let activeCase = Select.lpisCases.getActiveCase(state);
+		let view = _.find(Select.views.getViews(state), {key: activeCase.data.view_id});
+
+		dispatch(Action.components.redirectToView({...view.data, key: view.key}));
+	}
+}
+
+// ============ helpers ===========
 
 function _getMissingRecords(existing, toAdd) {
 	let missing = [];
@@ -178,6 +254,13 @@ function actionRemoveEditedCasesByKeys(keys) {
 	}
 }
 
+function actionSetActive(caseKey) {
+	return  {
+		type: ActionTypes.LPIS_CASES_SET_ACTIVE,
+		key: caseKey
+	}
+}
+
 // ============ export ===========
 
 export default {
@@ -185,5 +268,8 @@ export default {
 	createLpisCase: createLpisCase,
 	changeSearchString: actionChangeSearchString,
 	createNewActiveEditedCase: actionCreateNewActiveEditedCase,
-	editActiveEditedCase: actionEditActiveEditedCase
+	editActiveEditedCase: actionEditActiveEditedCase,
+	editLpisCase: editLpisCase,
+	setActive: setActive,
+	redirectToActiveCaseView: redirectToActiveCaseView
 }

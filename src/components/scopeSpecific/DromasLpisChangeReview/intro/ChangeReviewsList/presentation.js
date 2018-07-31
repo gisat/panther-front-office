@@ -20,7 +20,8 @@ class ChangeReviewsList extends React.PureComponent {
 		screenKey: PropTypes.string,
 		searchString: PropTypes.string,
 		createNewActiveEditedCase: PropTypes.func,
-		activeEditedCaseKey: PropTypes.string
+		activeEditedCaseKey: PropTypes.string,
+		showCase: PropTypes.func
 	};
 
 	addReview(){
@@ -61,6 +62,7 @@ class ChangeReviewsList extends React.PureComponent {
 				<div className="ptr-change-reviews-list-body">
 					<ChangeReviewsTable
 						cases={this.props.cases}
+						showCase={this.props.showCase}
 					/>
 				</div>
 			</div>

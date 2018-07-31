@@ -13,7 +13,8 @@ class ChangeReviewsTable extends React.PureComponent {
 		changes: PropTypes.array,
 		data: PropTypes.object,
 		status: PropTypes.string,
-		updated: PropTypes.string
+		updated: PropTypes.string,
+		showCase: PropTypes.func
 	};
 
 	constructor(props){
@@ -24,6 +25,11 @@ class ChangeReviewsTable extends React.PureComponent {
 		};
 
 		this.onDetailsClick = this.onDetailsClick.bind(this);
+		this.onShowClick = this.onShowClick.bind(this);
+	}
+
+	onShowClick() {
+		this.props.showCase(this.props.caseKey);
 	}
 
 	onDetailsClick(){
@@ -47,7 +53,9 @@ class ChangeReviewsTable extends React.PureComponent {
 					<div className="ptr-table-row-item buttons">
 						<div className="ptr-table-row-action">
 							<Button
-								small>
+								small
+								onClick={this.onShowClick}
+							>
 								Zobrazit
 							</Button>
 						</div>
