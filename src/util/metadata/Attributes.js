@@ -78,6 +78,9 @@ class Attributes {
      * @returns {Promise}
      */
     getAttributesFromAllAttributeSets(attributeSets) {
+        if(!attributeSets) {
+            attributeSets = [];
+		}
         let self = this;
         return Promise.all(attributeSets.map(self.getAttributeSet.bind(self)));
     };
