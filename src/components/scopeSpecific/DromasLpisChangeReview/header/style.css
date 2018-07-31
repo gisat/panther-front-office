@@ -32,6 +32,7 @@
 .ptr-dromasLpisChangeReviewHeader-topBar {
 	height: 2.2rem;
 	flex-grow: 0;
+	padding: .1rem;
 }
 
 
