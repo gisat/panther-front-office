@@ -8,7 +8,7 @@ const INITIAL_STATE = {
 	activeNewEditedCaseKey: null,
 	editedCases: [],
 	cases: [{
-		key: 1,
+		key: 5646545641,
 		data: {
 			"submit_date": "2018-07-18T14:33:59Z",
 			"code_dpb": "18/664/EPU/1/0020487",
@@ -27,7 +27,7 @@ const INITIAL_STATE = {
 			"place_id": 1
 		}
 	}, {
-		key: 2,
+		key: 5646545642,
 		data: {
 			"submit_date": "2017-05-22T14:33:59Z",
 			"code_dpb": "17/554/EPU/1/0055949",
@@ -46,7 +46,7 @@ const INITIAL_STATE = {
 			"place_id": 2
 		}
 	}, {
-		key: 3,
+		key: 5646545643,
 		data: {
 			"submit_date": "2017-06-12T15:05:41Z",
 			"code_dpb": "16/219/EPU/2/0013126",
@@ -65,7 +65,7 @@ const INITIAL_STATE = {
 			"place_id": 3
 		}
 	}, {
-		key: 4,
+		key: 5646545644,
 		data: {
 			"submit_date": "2017-06-13T15:12:11Z",
 			"code_dpb": "16/219/EPU/2/1478456",
@@ -85,57 +85,57 @@ const INITIAL_STATE = {
 		}
 	}],
 	changes: [{
-		key: 1,
+		key: 5646545641,
 		data: {
-			"lpis_case_id": 1,
+			"lpis_case_id": 5646545641,
 			"status": "created",
 			"date": "2018-07-18T14:33:59Z",
 			"changed_by": 1
 		}
 	}, {
-		key: 2,
+		key: 5646545642,
 		data: {
-			"lpis_case_id": 1,
+			"lpis_case_id": 5646545641,
 			"status": "prepared",
 			"date": "2018-07-18T17:33:59Z",
 			"changed_by": 2
 		}
 	}, {
-		key: 3,
+		key: 5646545643,
 		data: {
-			"lpis_case_id": 2,
+			"lpis_case_id": 5646545642,
 			"status": "created",
 			"date": "2018-12-22T16:33:59Z",
 			"changed_by": 2
 		}
 	}, {
-		key: 4,
+		key: 5646545644,
 		data: {
-			"lpis_case_id": 3,
+			"lpis_case_id": 5646545643,
 			"status": "created",
 			"date": "2018-12-22T16:33:57Z",
 			"changed_by": 1
 		}
 	}, {
-		key: 5,
+		key: 5646545645,
 		data: {
-			"lpis_case_id": 3,
+			"lpis_case_id": 5646545643,
 			"status": "prepared",
 			"date": "2018-12-23T17:34:57Z",
 			"changed_by": 2
 		}
 	}, {
-		key: 6,
+		key: 5646545646,
 		data: {
-			"lpis_case_id": 3,
+			"lpis_case_id": 5646545643,
 			"status": "approved",
 			"date": "2018-12-26T07:25:04Z",
 			"changed_by": 3
 		}
 	}, {
-		key: 7,
+		key: 5646545647,
 		data: {
-			"lpis_case_id": 4,
+			"lpis_case_id": 5646545644,
 			"status": "created",
 			"date": "2018-10-27T16:54:57Z",
 			"changed_by": 18
