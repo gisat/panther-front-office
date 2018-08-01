@@ -76,8 +76,20 @@ class InputText extends React.PureComponent {
 	}
 
 	renderInput(){
+
+		let type = "text";
+		if (this.props.password) {
+			type = "password"
+		} else if (this.props.email) {
+			type = "email"
+		} else if (this.props.date) {
+			type = "date"
+		} else if (this.props.number) {
+			type = "number"
+		}
+
 		return (
-			<input type="text"
+			<input type={type}
 				   placeholder={this.state.focus ? null : this.props.placeholder}
 				   value={this.state.value || ""}
 				   onChange={this.onChange}
