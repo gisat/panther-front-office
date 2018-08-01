@@ -40,7 +40,7 @@ class User extends React.PureComponent {
 			return (
 				<div className="ptr-user">
 					<div className="ptr-user-login">
-						<a onClick={this.props.login}>Log in</a>
+						<Button invisible inverted onClick={this.props.login}>Log in</Button>
 					</div>
 				</div>
 			);
