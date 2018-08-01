@@ -1,9 +1,24 @@
 .ptr-overlay.ptr-overlay-views {
 	padding: 0;
-	top: 45px;
-	flex-direction: row;
+	top: 45px; /* todo remove */
+	/*flex-direction: row;*/
 
 	background-image: linear-gradient(160deg, rgba(33,38,53,1) 0%, rgba(33,38,53,1) 40%, rgba(55,41,57,1) 100%);
+}
+
+.ptr-overlay-views-top-bar {
+	height: 3rem;
+	display: flex;
+	justify-content: space-between;
+	padding: .5rem 1rem;
+}
+.ptr-overlay-views-top-bar-user {
+	flex-grow: 0;
+}
+
+.ptr-overlay-views-content {
+	display: flex;
+	flex-direction: row;
 }
 
 /* Scopes list */

@@ -38,8 +38,10 @@ class User extends React.PureComponent {
 		} else {
 
 			return (
-				<div>
-					<a onClick={this.props.login}>Log in</a>
+				<div className="ptr-user">
+					<div className="ptr-user-login">
+						<a onClick={this.props.login}>Log in</a>
+					</div>
 				</div>
 			);
 
