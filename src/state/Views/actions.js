@@ -17,6 +17,15 @@ function add(views) {
 	};
 }
 
+function addMongoView(view) {
+	return (dispatch) => {
+		dispatch(actionAdd({
+			key: view._id,
+			data: view.conf
+		}))
+	}
+}
+
 function apiDeleteView(key, ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
 	return dispatch => {
@@ -158,10 +167,19 @@ function actionApiDeleteViewRequestError(error) {
 	}
 }
 
+function actionSetActive(key) {
+	return {
+		type: ActionTypes.VIEWS_SET_ACTIVE,
+		key: key
+	}
+}
+
 // ============ export ===========
 
 export default {
 	add: add,
     apiLoadViews: apiLoadViews,
-	apiDeleteView: apiDeleteView
+	apiDeleteView: apiDeleteView,
+	addMongoView: addMongoView,
+	setActive: actionSetActive
 }
