@@ -221,8 +221,7 @@ class Customization {
             }
 
         }).catch(function(err){
-            console.log(err);
-            throw new Error(err);
+            console.log(`#### Customization@handleUser: err`, err);
         });
     }
 
