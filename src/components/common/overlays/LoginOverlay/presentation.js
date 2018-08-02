@@ -17,6 +17,35 @@ class LoginOverlay extends React.PureComponent {
 
 	};
 
+	constructor() {
+		super();
+
+		this.state = {
+			email: '',
+			password: ''
+		};
+
+		this.onChangeEmail = this.onChangeEmail.bind(this);
+		this.onChangePassword = this.onChangePassword.bind(this);
+		this.login = this.login.bind(this);
+	}
+
+	onChangeEmail(value){
+		this.setState({
+			email: value
+		});
+	}
+
+	onChangePassword(value) {
+		this.setState({
+			password: value
+		});
+	}
+
+	login(){
+        this.props.login(this.state.email, this.state.password);
+	}
+
 	render() {
 
 		return (
@@ -27,6 +56,8 @@ class LoginOverlay extends React.PureComponent {
 							email
 							transparent
 							placeholder="e-mail"
+							onChange={this.onChangeEmail}
+							value={this.state.email}
 						/>
 					</div>
 					<div>
@@ -34,12 +65,14 @@ class LoginOverlay extends React.PureComponent {
 							password
 							transparent
 							placeholder="passphrase"
+							onChange={this.onChangePassword}
+							value={this.state.password}
 						/>
 					</div>
 					<div>
 						<Button
 							primary
-							onClick={this.props.login}
+							onClick={this.login}
 						>
 							Log in
 						</Button>

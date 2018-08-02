@@ -4,7 +4,24 @@ import config from "../../config";
 import path from "path";
 import fetch from "isomorphic-fetch";
 
+import scopeActions from '../Scopes/actions';
+import dataViewActions from '../Views/actions';
+import overlaysActions from '../Components/Overlays/actions';
+import User from "../../data/User";
+
 const TTL = 5;
+
+// ============= Common logic ===========
+// TODO: Move Elsewhere.
+
+function reloadData(dispatch) {
+    // Reload scope
+    dispatch(scopeActions.apiLoadScopes());
+    // Reload Dataview
+    dispatch(dataViewActions.apiLoadViews());
+    // Reload current user
+    dispatch(apiLoadCurrentUser())
+}
 
 // ============ creators ===========
 
@@ -21,7 +38,7 @@ function update(user) {
 	};
 }
 
-function apiLoginUser(username, password, ttl) {
+function apiLoginUser(email, password, ttl) {
     if (_.isUndefined(ttl)) ttl = TTL;
     return dispatch => {
         dispatch(actionApiLoginRequest());
@@ -36,14 +53,14 @@ function apiLoginUser(username, password, ttl) {
                 'Accept': 'application/json'
             },
             body: JSON.stringify({
-                username: username,
+                username: email,
                 password: password
             })
         }).then(
             response => {
                 console.log('#### login user response', response);
                 if (response.ok) {
-                    window.location.reload();
+                    reloadData(dispatch);
                 } else {
                     dispatch(actionApiLoginRequestError('user#action login Problem with logging in the User, please try later.'));
                 }
@@ -54,6 +71,56 @@ function apiLoginUser(username, password, ttl) {
                     dispatch(apiLoginUser(ttl - 1));
                 } else {
                     dispatch(actionApiLoginRequestError('user#action login Problem with logging in the User, please try later.'));
+                }
+            }
+        );
+    };
+}
+
+function apiLoadCurrentUser(ttl) {
+    if (_.isUndefined(ttl)) ttl = TTL;
+    return dispatch => {
+        dispatch(actionApiLoadCurrentUserRequest());
+
+        let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/logged');
+
+        return fetch(url, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        }).then(
+            response => {
+                console.log('#### load current user response', response);
+                if (response.ok) {
+                    return response.json().then(data => {
+                        if(data._id != 0) {
+                            new User({data: data}).then(user => {
+                                user.key = user.id;
+                                dispatch(actionAdd([user]));
+
+                                dispatch(actionUpdate({
+                                    userId: data._id,
+                                    isLoggedIn: true,
+                                    isAdmin: false
+                                }));
+
+                                dispatch(overlaysActions.closeOverlay('login'));
+                            });
+                        }
+                    });
+                } else {
+                    dispatch(actionApiLoadCurrentUserRequestError('user#action loadCurrent Problem with loading current User, please try later.'));
+                }
+            },
+            error => {
+                console.log('#### load current users error', error);
+                if (ttl - 1) {
+                    dispatch(apiLoadCurrentUser(ttl - 1));
+                } else {
+                    dispatch(actionApiLoadCurrentUserRequestError('user#action loadCurrent Problem with loading current User, please try later.'));
                 }
             }
         );
@@ -137,10 +204,24 @@ function actionApiLoginRequestError(error) {
     }
 }
 
+function actionApiLoadCurrentUserRequest() {
+    return {
+        type: ActionTypes.USERS_LOAD_CURRENT_REQUEST
+    }
+}
+
+function actionApiLoadCurrentUserRequestError(error) {
+    return {
+        type: ActionTypes.USERS_LOAD_CURRENT_REQUEST_ERROR,
+        error: error
+    }
+}
+
 // ============ export ===========
 
 export default {
 	add: add,
+    apiLoadCurrentUser: apiLoadCurrentUser,
 	apiLoginUser: apiLoginUser,
 	apiLogoutUser: apiLogoutUser,
 	update: update

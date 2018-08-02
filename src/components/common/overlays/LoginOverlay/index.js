@@ -12,8 +12,8 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		login: () => {
-
+		login: (email, password) => {
+			dispatch(Action.users.apiLoginUser(email, password));
 		},
 		close: () => {
 			dispatch(Action.components.overlays.closeOverlay('login'));

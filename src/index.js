@@ -41,7 +41,6 @@ let initialize = function() {
 
 	ReactDOM.render(<Provider store={store}>
 		<div>
-			<TopToolBar />
 			<AppOverlays/>
 			<WindowsContainer/>
 		</div>
@@ -64,6 +63,8 @@ if(!id) {
 	store.dispatch(Action.scopes.apiLoadScopes());
 	// Load Views
 	store.dispatch(Action.views.apiLoadViews());
+	// Load Current User
+	store.dispatch(Action.users.apiLoadCurrentUser());
 
 	initialize();
 } else {

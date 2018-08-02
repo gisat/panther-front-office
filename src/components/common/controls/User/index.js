@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(Action.components.overlays.openOverlay('login'));
 		},
 		logout: () => {
-			Action.users.apiLogoutUser();
+			dispatch(Action.users.apiLogoutUser());
 		}
 	}
 };
