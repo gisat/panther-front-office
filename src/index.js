@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
 import store from './state/Store';
+import Action from './state/Action';
 
 import './index.css';
 import './projects.css';
-import registerServiceWorker from './registerServiceWorker';
+import { unregister } from './registerServiceWorker';
 import loadApp from './app-old';
 
 import AppOverlays from './components/presentation/overlays/AppOverlays';
@@ -19,6 +20,8 @@ import DockedWindowsContainer from './components/containers/windowsContainers/Do
 import WindowsContainer from './components/containers/windowsContainers/WindowsContainer';
 import ScopePlaceThemeSelectionSwitch from "./components/containers/temporary/ScopePlaceThemeSelectionSwitch";
 
+let url = new URL(window.location);
+let id = url.searchParams.get('id');
 
 let getStore = function() {
 	if (window.Stores && window.Stores.hasOwnProperty('addListener')) {
@@ -35,8 +38,10 @@ let initialize = function() {
 	ReactDOM.render(<Provider store={store}><ViewSelectorOverlay	/></Provider>, document.getElementById('root'));
 	ReactDOM.render(<Provider store={store}><ViewSelector	/></Provider>, document.getElementById('view-selector-placeholder'));
 
+
 	ReactDOM.render(<Provider store={store}>
 		<div>
+			<TopToolBar />
 			<AppOverlays/>
 			<WindowsContainer/>
 		</div>
@@ -48,12 +53,23 @@ let initialize = function() {
 
 	// temporary components
 	ReactDOM.render(<Provider store={store}><ScopePlaceThemeSelectionSwitch/></Provider>, document.getElementById('scope-selection-switch-container'));
+
+	if(!id) {
+		// Render TopToolbar Component.
+	}
 };
 
+if(!id) {
+	// Load Scopes
+	store.dispatch(Action.scopes.apiLoadScopes());
+	// Load Views
+	store.dispatch(Action.views.apiLoadViews());
 
-getStore();
+	initialize();
+} else {
+    getStore();
+}
 
-
-registerServiceWorker();
+unregister();
 
 loadApp();

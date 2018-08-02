@@ -2,7 +2,7 @@ import ActionTypes from '../../constants/ActionTypes';
 import _ from 'lodash';
 
 const INITIAL_STATE = {
-	data: null,
+	data: [],
 	activeScopeKey: null
 };
 

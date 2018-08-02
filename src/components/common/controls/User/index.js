@@ -12,11 +12,11 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		login: () => {
-
+		login: (username, password) => {
+			Action.users.apiLoginUser(username, password);
 		},
 		logout: () => {
-
+			Action.users.apiLogoutUser();
 		}
 	}
 };

@@ -36,7 +36,7 @@ class User extends React.PureComponent {
 			);
 
 		} else {
-
+			// It means render another component.
 			return (
 				<div>
 					<a onClick={this.props.login}>Log in</a>
