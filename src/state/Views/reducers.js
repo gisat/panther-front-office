@@ -2,7 +2,8 @@ import ActionTypes from '../../constants/ActionTypes';
 import _ from 'lodash';
 
 const INITIAL_STATE = {
-	data: []
+	data: [],
+	activeKey: null
 };
 
 function add(state, action) {
@@ -16,12 +17,21 @@ function remove(state, action){
 	return {...state, data: data};
 }
 
+function setActive(state, action) {
+	return {
+		...state,
+		activeKey: action.key
+	}
+}
+
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.VIEWS_ADD:
 			return add(state, action);
 		case ActionTypes.VIEWS_REMOVE:
 			return remove(state, action);
+		case ActionTypes.VIEWS_SET_ACTIVE:
+			return setActive(state, action);
 		default:
 			return state;
 	}
