@@ -33,6 +33,9 @@ const INITIAL_STATE = {
 			changeReviews: {
 				activeScreenKey: "changeReviewsList"
 			}
+		},
+		login: {
+			open: false
 		}
 	},
 	windows: {

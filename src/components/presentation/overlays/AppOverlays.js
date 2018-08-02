@@ -4,6 +4,7 @@ import ViewsOverlay from '../../containers/overlays/ViewsOverlay';
 import DataUploadOverlay from '../../containers/overlays/DataUploadOverlay';
 import MapEditingOverlay from '../../../scopemagicswitches/MapEditingOverlay';
 import OverlayHeader from '../../../scopemagicswitches/OverlayHeader';
+import LoginOverlay from '../../common/overlays/LoginOverlay';
 
 class AppOverlays extends React.PureComponent {
 	render() {
@@ -13,6 +14,7 @@ class AppOverlays extends React.PureComponent {
 				<DataUploadOverlay />
 				<MapEditingOverlay/>
 				<ViewsOverlay/>
+				<LoginOverlay />
 			</div>
 		);
 	}

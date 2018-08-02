@@ -97,6 +97,10 @@ body {
 	background: rgba(125,125,125,.4);
 	color: #111;
 }
+
+.ptr-button.inverted {
+	color: #ccc;
+}
 .ptr-button.floating-action {
 	background: rgb(200,200,200);
 }
@@ -466,6 +470,22 @@ body {
 }
 .ptr-overlay.opaque {
 	background: rgba(255, 255, 255, 1);
+}
+/*
+enable animation
+todo merge with overlay
+*/
+.ptr-overlay.ptr-overlay-fix {
+	display: flex;
+	opacity: 0;
+	pointer-events: none;
+
+	transition:
+		opacity .3s ease-in-out;
+}
+.ptr-overlay.ptr-overlay-fix.open {
+	opacity: 1;
+	pointer-events: all;
 }
 
 .ptr-overlay-header {

@@ -1,0 +1,20 @@
+.ptr-login-overlay {
+	background: rgba(30,30,30,.95);
+	color: #ccc;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.ptr-login {
+	width: 20rem;
+	height: 15rem;
+	flex-grow:0;
+}
+.ptr-login > div {
+	margin-bottom: .75rem;
+}
+
+.ptr-login .ptr-button {
+	margin-right: .5rem;
+}

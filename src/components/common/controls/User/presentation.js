@@ -38,8 +38,10 @@ class User extends React.PureComponent {
 		} else {
 			// It means render another component.
 			return (
-				<div>
-					<a onClick={this.props.login}>Log in</a>
+				<div className="ptr-user">
+					<div className="ptr-user-login">
+						<Button invisible inverted onClick={this.props.login}>Log in</Button>
+					</div>
 				</div>
 			);
 

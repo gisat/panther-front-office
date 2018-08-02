@@ -20,7 +20,8 @@ class Button extends React.PureComponent {
 		small: PropTypes.bool,
 		floatingAction: PropTypes.bool,
 		onClick: PropTypes.func,
-		className: PropTypes.string
+		className: PropTypes.string,
+		inverted: PropTypes.bool
 	};
 
 	static defaultProps = {
@@ -114,7 +115,8 @@ class Button extends React.PureComponent {
 				//focused: this.state.focused,
 				disabled: this.props.disabled,
 				icon: !!iconInsert && !hasContent,
-				small: this.props.small
+				small: this.props.small,
+				inverted: !!this.props.inverted
 			},
 			this.props.className
 		);

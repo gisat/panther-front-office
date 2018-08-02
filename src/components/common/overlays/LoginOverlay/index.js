@@ -6,17 +6,17 @@ import presentation from './presentation';
 
 const mapStateToProps = (state, props) => {
 	return {
-		user: Select.users.getActiveUser(state)
+		open: Select.components.overlays.isOverlayOpen(state, {key: 'login'})
 	}
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
 		login: () => {
-			dispatch(Action.components.overlays.openOverlay('login'));
+
 		},
-		logout: () => {
-			Action.users.apiLogoutUser();
+		close: () => {
+			dispatch(Action.components.overlays.closeOverlay('login'));
 		}
 	}
 };
