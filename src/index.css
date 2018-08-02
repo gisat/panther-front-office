@@ -16,6 +16,13 @@
 
 */
 
+/*
+	set border box model to everything that counts on it being default one day
+*/
+.ptr-button {
+	box-sizing: border-box;
+}
+
 /* ================================================================
    === BASIC ELEMENTS =============================================
    ================================================================ */
