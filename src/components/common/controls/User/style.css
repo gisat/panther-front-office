@@ -2,6 +2,11 @@
 	display: flex;
 	justify-content: flex-end;
 	height: 2rem;
+
+	color: #ccc;
+}
+.ptr-user svg .line {
+	fill: #ccc;
 }
 .ptr-user > div {
 	flex-grow: 0;

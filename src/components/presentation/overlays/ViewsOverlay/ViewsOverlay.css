@@ -1,6 +1,5 @@
 .ptr-overlay.ptr-overlay-views {
 	padding: 0;
-	top: 45px; /* todo remove */
 	/*flex-direction: row;*/
 
 	background-image: linear-gradient(160deg, rgba(33,38,53,1) 0%, rgba(33,38,53,1) 40%, rgba(55,41,57,1) 100%);
