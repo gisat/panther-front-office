@@ -33,9 +33,41 @@
 	height: 2.2rem;
 	flex-grow: 0;
 	padding: .1rem;
+
+	box-sizing: border-box; /* todo remove when redundant */
+}
+.ptr-dromasLpisChangeReviewHeader-content {
+	height: calc(115px - 2.2rem); /* whole header (old code dependent) - topBar height */
+}
+#dromasLpisChangeReviewHeader > div > div {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
 }
 
 
 .ptr-dromasLpisChangeReviewHeader-map-control-toggles > label {
 	display: block;
+}
+
+
+/* ============ expandable content ============ */
+
+.ptr-dromasLpisChangeReviewHeader-expandable-content {
+	position: relative;
+	background: #13003a;
+}
+.ptr-dromasLpisChangeReviewHeader-expandable-content {
+	height: calc(115px - 2.2rem); /* whole header (old code dependent) - topBar height */
+
+	transition:
+		height .3s ease-in-out;
+}
+.ptr-dromasLpisChangeReviewHeader-expandable-content.expanded {
+	height: calc(100vh - 2.2rem); /* topBar height */
+}
+.ptr-dromasLpisChangeReviewHeader-expandable-content-control {
+	position: absolute;
+	bottom: .25rem;
+	right: .25rem;
 }

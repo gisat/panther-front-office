@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import ExpandableContent from './ExpandableContent';
+
 class DromasLpisChangeReviewHeader extends React.PureComponent {
 	render() {
 		return (
@@ -8,8 +10,12 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 				<div className="ptr-dromasLpisChangeReviewHeader-topBar">
 					Ohlášení územní změny
 				</div>
-				<div>
-					popis etc
+				<div className="ptr-dromasLpisChangeReviewHeader-content">
+					<ExpandableContent>
+						<div>
+							HOHOHO
+						</div>
+					</ExpandableContent>
 				</div>
 			</div>
 		);
