@@ -1,6 +1,9 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
-import Select from '../Select';
+// import Select from '../Select';
+import UserGroupSelectors from '../UserGroups/selectors';
+
+import scopeSelectors from '../Scopes/selectors';
 
 const getActiveKey = state => state.users.activeKey;
 const getUsers = state => state.users.data;
@@ -20,7 +23,7 @@ const getActiveUser = createSelector(
 );
 
 const getGroupsForActiveUser = createSelector(
-	[getActiveKey, (state) => Select.userGroups.getGroups(state)],
+	[getActiveKey, (state) => UserGroupSelectors.getGroups(state)],
 	(activeUserKey, groups) => {
 		return _.filter(groups, (group) => {
 			return _.find(group.users, (user) => {return user === activeUserKey});
@@ -97,6 +100,23 @@ const isDromasAdmin = state => {
 	return isDromasAdmin || state.users.isAdmin;
 };
 
+const getActiveUserDromasLpisChangeReviewGroup  = createSelector(
+	[getGroupKeysForActiveUser, scopeSelectors.getActiveScopeConfiguration],
+	(activeUserGroupKeys, activeScopeConfiguration) => {
+		if (_.includes(activeUserGroupKeys, activeScopeConfiguration.dromasLpisChangeReview.groups.gisatAdmins)) {
+			return 'gisatAdmins';
+		} else if (_.includes(activeUserGroupKeys, activeScopeConfiguration.dromasLpisChangeReview.groups.szifAdmins)) {
+			return 'szifAdmins';
+		} else if (_.includes(activeUserGroupKeys, activeScopeConfiguration.dromasLpisChangeReview.groups.gisatUsers)){
+			return 'gisatUsers';
+		} else if (_.includes(activeUserGroupKeys, activeScopeConfiguration.dromasLpisChangeReview.groups.szifUsers)) {
+			return 'szifUsers';
+		} else {
+			return null;
+		}
+	}
+);
+
 export default {
 	getActiveKey: getActiveKey,
 	getActiveUser: getActiveUser,
@@ -111,4 +131,6 @@ export default {
 	isAdmin: isAdmin,
 	isLoggedIn: isLoggedIn,
 	isDromasAdmin: isDromasAdmin,
+
+	getActiveUserDromasLpisChangeReviewGroup: getActiveUserDromasLpisChangeReviewGroup
 };

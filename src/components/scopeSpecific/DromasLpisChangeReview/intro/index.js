@@ -9,7 +9,8 @@ import Presentation from "./presentation";
 const mapStateToProps = (state) => {
 	return {
 		changeReviewsActiveScreenKey: Select.components.overlays.views.getChangeReviewsActiveScreenKey(state),
-		activeEditedCase: Select.lpisCases.getActiveEditedCase(state)
+		activeEditedCase: Select.lpisCases.getActiveEditedCase(state),
+		activeUserDromasLpisChangeReviewGroup: Select.users.getActiveUserDromasLpisChangeReviewGroup(state)
 	};
 };
 

@@ -2,6 +2,8 @@ import {createSelector} from 'reselect';
 import _ from 'lodash';
 import FuzzySearch from "fuzzy-search";
 
+import LpisCaseStatuses, {order as LpisCaseStatusOrder} from '../../constants/LpisCaseStatuses';
+
 const getCases = state => state.lpisCases.cases;
 const getChanges = state => state.lpisCases.changes;
 const getSearchString = state => state.lpisCases.searchString;
@@ -18,8 +20,10 @@ const getCasesWithChanges = createSelector(
 		cases.map(caseItem => {
 			let extendedCase = _.cloneDeep(caseItem);
 			extendedCase.changes = _.filter(changes, change => change.data.lpis_case_id === caseItem.key);
-			let latestChange = _.orderBy(extendedCase.changes, [(change) => {return change.data.date}], ['desc'])[0];
-			if(latestChange) {
+			let latestChange = _.orderBy(extendedCase.changes, [(change) => {
+				return change.data.date
+			}], ['desc'])[0];
+			if (latestChange) {
 				extendedCase.updated = latestChange.data.date;
 				extendedCase.status = latestChange.data.status;
 				extendedCases.push(extendedCase);
@@ -29,10 +33,37 @@ const getCasesWithChanges = createSelector(
 	}
 );
 
+const getSortedCasesWithChanges = createSelector(
+	[
+		getCasesWithChanges,
+		(state, props) => {
+			return props.activeUserDromasLpisChangeReviewGroup
+		}
+	],
+	(cases, activeUserDromasLpisChangeReviewGroup) => {
+		cases = _.filter(cases, (oneCase) => {
+			return _.includes(_.flatten(LpisCaseStatusOrder[activeUserDromasLpisChangeReviewGroup]), oneCase.status);
+		});
+
+		return _.sortBy(cases, [
+			(oneCase) => {
+				_.forEach(LpisCaseStatusOrder[activeUserDromasLpisChangeReviewGroup], (record, index) => {
+					if((_.isArray(record) && _.includes(record, oneCase.status)) || record === oneCase.status) {
+						return index;
+					}
+				});
+			},
+			(oneCase) => {
+				return oneCase.data.submit_date;
+			}
+		])
+	}
+);
+
 const getSearchResults = createSelector(
-	[getSearchString, getCasesWithChanges],
+	[getSearchString, getSortedCasesWithChanges],
 	(searchString, casesWithChanges) => {
-		if (searchString && searchString.length > 0){
+		if (searchString && searchString.length > 0) {
 			let searcher = new FuzzySearch(casesWithChanges, ['data.code_dpb', 'data.change_description_place']);
 			return searcher.search(searchString);
 		} else {
