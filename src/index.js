@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import store from './state/Store';
 
 import './index.css';
-import registerServiceWorker from './registerServiceWorker';
+import {unregister} from './registerServiceWorker';
 import loadApp from './app-old';
 
 import AppOverlays from './components/presentation/overlays/AppOverlays';
@@ -48,7 +48,6 @@ let initialize = function() {
 
 getStore();
 
-
-registerServiceWorker();
+unregister();
 
 loadApp();

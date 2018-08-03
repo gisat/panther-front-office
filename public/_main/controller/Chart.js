@@ -734,7 +734,7 @@ Ext.define('PumaMain.controller.Chart', {
         // Make sure that the results are Numbers.
         if(data.series) {
             data.series.forEach(function(serie) {
-               if(serie.data) {
+               if(serie.data && serie.data.length < 1000) {
                    serie.data.forEach(function(dataItem){
                        if(dataItem.x) {
 						   dataItem.x = Number(dataItem.x);
@@ -742,6 +742,25 @@ Ext.define('PumaMain.controller.Chart', {
 					   if(dataItem.y) {
 						   dataItem.y = Number(dataItem.y);
 					   }
+                       if(dataItem.z) {
+                           dataItem.z = Number(dataItem.z);
+                       }
+                   })
+               } else {
+                   serie.data = serie.data.map(function(dataItem){
+                       var point = [];
+
+                       if(dataItem.x) {
+                           point.push(Number(dataItem.x));
+                       }
+                       if(dataItem.y) {
+                           point.push(Number(dataItem.y));
+                       }
+                       if(dataItem.z) {
+                           point.push(Number(dataItem.z));
+                       }
+
+                       return point;
                    })
                }
             });
