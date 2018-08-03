@@ -5,6 +5,9 @@ import config from "../../config";
 import path from "path";
 import queryString from 'query-string';
 import Dataview from "../../data/Dataview";
+import Select from "../Select";
+import ScopeActions from "../Scopes/actions";
+import PlaceActions from "../Places/actions";
 
 const TTL = 5;
 
@@ -19,10 +22,10 @@ function add(views) {
 
 function addMongoView(view) {
 	return (dispatch) => {
-		dispatch(actionAdd({
+		dispatch(actionAdd([{
 			key: view._id,
 			data: view.conf
-		}))
+		}]))
 	}
 }
 
@@ -117,6 +120,30 @@ function apiLoadViews(ttl) {
     };
 }
 
+function setActive(key) {
+	return (dispatch, getState) => {
+		let state = getState();
+		let views = Select.views.getViews(state);
+		let view = _.find(views, {key: key});
+
+		if(!view) {
+			throw new Error(`Views#actions#setActive: view not found`);
+		}
+
+		let scopeKey = view.data.dataset;
+		let placeKey = view.data.location;
+
+		if(scopeKey) {
+			dispatch(ScopeActions.setActiveScopeKey(scopeKey));
+		}
+		if(placeKey) {
+			dispatch(PlaceActions.setActive(placeKey));
+		}
+
+		dispatch(actionSetActive(key));
+	}
+}
+
 // ============ actions ===========
 
 function actionAdd(views) {
@@ -181,5 +208,5 @@ export default {
     apiLoadViews: apiLoadViews,
 	apiDeleteView: apiDeleteView,
 	addMongoView: addMongoView,
-	setActive: actionSetActive
+	setActive: setActive
 }

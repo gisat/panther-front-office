@@ -29,6 +29,14 @@ const setEventListeners = store => {
 			case "ActiveViewLoaded":
 				store.dispatch(Action.views.addMongoView(options));
 				store.dispatch(Action.views.setActive(options._id));
+
+				store
+					.dispatch(Action.lpisCases.loadCaseForActiveView())
+					.then(() => {
+						return store.dispatch(Action.lpisCases.setActiveCaseByActiveView());
+					});
+
+				store.dispatch(Action.lpisCases.setActiveCaseByActiveView());
 				break;
 		}
 	});
