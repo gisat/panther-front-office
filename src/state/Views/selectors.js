@@ -2,6 +2,7 @@ import {createSelector} from 'reselect';
 import _ from 'lodash';
 
 const getViews = state => state.views.data;
+const getActiveKey = state => state.views.activeKey;
 
 const getViewsForScope = createSelector(
 	[getViews, (state, scope) => (scope)],
@@ -16,5 +17,6 @@ const getViewsForScope = createSelector(
 
 export default {
 	getViewsForScope: getViewsForScope,
-	getViews: getViews
+	getViews: getViews,
+	getActiveKey: getActiveKey
 };

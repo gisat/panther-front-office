@@ -9,6 +9,8 @@ const getEditedCases = state => state.lpisCases.editedCases;
 const getActiveCaseKey = state => state.lpisCases.activeCaseKey;
 const getActiveEditedCaseKey = state => state.lpisCases.activeNewEditedCaseKey;
 
+const getActiveViewKey = state => state.views.activeKey;
+
 const getCasesWithChanges = createSelector(
 	[getCases, getChanges],
 	(cases, changes) => {
@@ -60,6 +62,15 @@ const getActiveCaseEdited = createSelector(
 	}
 );
 
+const getCaseByActiveView = createSelector(
+	[getActiveViewKey, getCases],
+	(activeViewKey, cases) => {
+		return _.find(cases, (oneCase) => {
+			return oneCase.data.view_id === activeViewKey;
+		});
+	}
+);
+
 export default {
 	getCases: getCases,
 	getChanges: getChanges,
@@ -71,5 +82,6 @@ export default {
 	getEditedCases: getEditedCases,
 	getActiveCaseKey: getActiveCaseKey,
 	getActiveCase: getActiveCase,
-	getActiveCaseEdited: getActiveCaseEdited
+	getActiveCaseEdited: getActiveCaseEdited,
+	getCaseByActiveView: getCaseByActiveView
 };

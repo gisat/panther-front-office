@@ -33,6 +33,28 @@ function load() {
 	}
 }
 
+function loadFiltered(filter) {
+	return (dispatch) => {
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/filtered/lpis_cases');
+
+		return fetch(url, {
+			method: 'POST',
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json'
+			},
+			body: JSON.stringify(filter)
+		}).then(response => {
+			if (response.status === 200) {
+				return response.json();
+			}
+		}).then((responseContent) => {
+			return dispatch(_storeResponseContent(responseContent));
+		})
+	}
+}
+
 function createLpisCase() {
 	return (dispatch, getState) => {
 		let state = getState();
@@ -185,6 +207,33 @@ function redirectToActiveCaseView() {
 	}
 }
 
+function loadCaseForActiveView() {
+	return (dispatch, getState) => {
+		let state = getState();
+		let activeViewKey = Select.views.getActiveKey(state);
+		let activeScope = Select.scopes.getActiveScopeData(state);
+
+		if(!activeScope) {
+			throw new Error(`LpisCases#actions#loadCaseForActiveView: active scope was not found`);
+		}
+
+		if(activeScope.configuration.dromasLpisChangeReview) {
+			return dispatch(loadFiltered({view_id: Number(activeViewKey)}));
+		}
+	}
+}
+
+function setActiveCaseByActiveView() {
+	return (dispatch, getState) => {
+		let state = getState();
+		let activeViewKey = Select.views.getActiveKey(state);
+		let caseByActiveView = Select.lpisCases.getCaseByActiveView(state);
+		if(caseByActiveView) {
+			dispatch(Action.lpisCases.setActive(caseByActiveView.key));
+		}
+	}
+}
+
 // ============ helpers ===========
 
 function _getMissingRecords(existing, toAdd) {
@@ -271,5 +320,7 @@ export default {
 	editActiveEditedCase: actionEditActiveEditedCase,
 	editLpisCase: editLpisCase,
 	setActive: setActive,
-	redirectToActiveCaseView: redirectToActiveCaseView
+	redirectToActiveCaseView: redirectToActiveCaseView,
+	loadCaseForActiveView: loadCaseForActiveView,
+	setActiveCaseByActiveView: setActiveCaseByActiveView
 }
