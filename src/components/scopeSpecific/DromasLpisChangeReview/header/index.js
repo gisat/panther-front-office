@@ -5,7 +5,8 @@ import presentation from "./presentation";
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		case: Select.lpisCases.getActiveCase(state)
+		case: Select.lpisCases.getActiveCase(state),
+		userGroup: Select.users.getActiveUserDromasLpisChangeReviewGroup(state)
 	};
 };
 

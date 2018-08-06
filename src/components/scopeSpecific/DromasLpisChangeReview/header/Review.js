@@ -1,10 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ExpandableContent from "./ExpandableContent";
+import EditableText from "../../../presentation/atoms/EditableText";
 
 class DromasLpisChangeReviewHeader extends React.PureComponent {
 	static propTypes = {
-		case: PropTypes.object
+		case: PropTypes.object,
+		userGroup: PropTypes.string
 	};
 
 	render() {
@@ -36,7 +38,10 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		if(changeReviewCase) {
 			return (
 				<div>
-					{changeReviewCase.data.evaluation_description}
+					<EditableText
+						value={changeReviewCase.data.evaluation_description}
+						disabled={!(this.props.userGroup && this.props.userGroup.toLowerCase().includes('gisat'))}
+					/>
 				</div>
 			)
 		}

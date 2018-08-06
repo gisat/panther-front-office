@@ -80,7 +80,7 @@ const getActiveEditedCase = createSelector(
 );
 
 const getActiveCase = createSelector(
-	[getActiveCaseKey, getCases],
+	[getActiveCaseKey, getCasesWithChanges],
 	(activeCaseKey, cases) => {
 		return _.find(cases, {key: activeCaseKey});
 	}
