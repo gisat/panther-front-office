@@ -9,11 +9,16 @@ import UserActions from './UserActions';
 import MapTools from './MapTools';
 
 class DromasLpisChangeReviewHeader extends React.PureComponent {
+
+	static propTypes = {
+		case: PropTypes.object
+	};
+
 	render() {
 		return (
 			<div id="dromasLpisChangeReviewHeader">
-				<div id="dromasLpisChangeReviewHeader-case"><Case /></div>
-				<div id="dromasLpisChangeReviewHeader-review"><Review /></div>
+				<div id="dromasLpisChangeReviewHeader-case"><Case case={this.props.case}/></div>
+				<div id="dromasLpisChangeReviewHeader-review"><Review  case={this.props.case}/></div>
 				<div id="dromasLpisChangeReviewHeader-actions"><UserActions /></div>
 				<div id="dromasLpisChangeReviewHeader-tools"><MapTools /></div>
 			</div>

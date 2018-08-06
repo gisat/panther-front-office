@@ -5,7 +5,7 @@ import presentation from "./presentation";
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-
+		case: Select.lpisCases.getActiveCase(state)
 	};
 };
 
