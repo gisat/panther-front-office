@@ -1,6 +1,10 @@
 .ptr-views-list {
 	padding: 1.5rem;
 	overflow-y: auto;
+	height: 100%;
+	width: 100%;
+}
+.ptr-overlay .ptr-views-list {
 	height: calc(100% - 3rem);
 }
 

@@ -13,15 +13,19 @@
 	flex-grow: 1;
 }
 #dromasLpisChangeReviewHeader-case {
+	width: 30%;
 	background: #906;
 }
 #dromasLpisChangeReviewHeader-review {
+	width: 30%;
 	background: #6e8;
 }
 #dromasLpisChangeReviewHeader-actions {
+	width: 20%;
 	background: #f7a;
 }
 #dromasLpisChangeReviewHeader-tools {
+	width: 20%;
 	background: #cdf;
 }
 
