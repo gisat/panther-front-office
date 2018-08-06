@@ -7,22 +7,29 @@
 
 	display: flex;
 
-	background: #ff0;
+	color: #ddd;
+
+	background: #212635;
 }
 #dromasLpisChangeReviewHeader > div {
 	flex-grow: 1;
 }
 #dromasLpisChangeReviewHeader-case {
-	background: #906;
+	width: 30%;
+	/*background: #906;*/
 }
 #dromasLpisChangeReviewHeader-review {
-	background: #6e8;
+	width: 30%;
+	/*background: #6e8;*/
 }
 #dromasLpisChangeReviewHeader-actions {
-	background: #f7a;
+	width: 20%;
+	/*background: #f7a;*/
 }
 #dromasLpisChangeReviewHeader-tools {
-	background: #cdf;
+	width: 20%;
+	color: #222;
+	background: #f6f3e2;
 }
 
 #dromasLpisChangeReviewHeader > div {
@@ -55,7 +62,8 @@
 
 .ptr-dromasLpisChangeReviewHeader-expandable-content {
 	position: relative;
-	background: #13003a;
+	background: #212635;
+	overflow: hidden;
 }
 .ptr-dromasLpisChangeReviewHeader-expandable-content {
 	height: calc(115px - 2.2rem); /* whole header (old code dependent) - topBar height */
