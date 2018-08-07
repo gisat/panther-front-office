@@ -14,6 +14,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		activeMap: PropTypes.object,
 		addMap: PropTypes.func,
 		case: PropTypes.object,
+		mapsCount: PropTypes.number,
 		userGroup: PropTypes.string,
 		editActiveCase: PropTypes.func,
 		activeCaseEdited: PropTypes.object
@@ -39,6 +40,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 				<div id="dromasLpisChangeReviewHeader-tools"><MapTools
 					addMap={this.props.addMap}
 					mapName={this.props.activeMap ? this.props.activeMap.name : ""}
+					mapsCount={this.props.mapsCount}
 				/></div>
 			</div>
 		);

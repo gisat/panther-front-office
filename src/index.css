@@ -162,6 +162,13 @@ body {
 	margin: .125rem;
 }
 
+.ptr-button.disabled .ptr-icon .line {
+	fill: #888;
+}
+.ptr-button.disabled .ptr-icon .polygon {
+	stroke: #888;
+}
+
 .ptr-button.circular {
 	width: 2.25rem;
 	height: 2.25rem;

@@ -6,7 +6,8 @@ class MapTools extends React.PureComponent {
 
 	static PropTypes = {
 		addMap: PropTypes.func,
-		mapName: PropTypes.string
+		mapName: PropTypes.string,
+		mapsCount: PropTypes.number
 	};
 
 	onToggleGeometry(key, e) {
@@ -24,6 +25,7 @@ class MapTools extends React.PureComponent {
 					</div>
 					<div className="ptr-dromasLpisChangeReviewHeader-map-add">
 						<Button
+							disabled={this.props.mapsCount > 15}
 							icon="plus"
 							onClick={this.props.addMap}
 							small
