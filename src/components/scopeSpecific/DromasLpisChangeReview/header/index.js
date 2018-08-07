@@ -7,13 +7,14 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		activeMap: Select.maps.getActiveMap(state),
 		case: Select.lpisCases.getActiveCase(state),
-		userGroup: Select.users.getActiveUserDromasLpisChangeReviewGroup(state)
+		userGroup: Select.users.getActiveUserDromasLpisChangeReviewGroup(state),
+		activeCaseEdited: Select.lpisCases.getActiveCaseEdited(state)
 	};
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-
+		editActiveCase: (property, value) => {dispatch(Action.lpisCases.editActiveCase(property, value))},
 		// todo old code actions
 		addMap: ()=>{
 			window.Stores.notify('mapsContainer#addMap');

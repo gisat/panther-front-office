@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import classnames from 'classnames';
 
-import Button from '../../../presentation/atoms/Button';
+import ExpandRowButton from '../../../presentation/atoms/ExpandRowButton';
 
 class ExpandableContent extends React.PureComponent {
 
@@ -30,9 +30,10 @@ class ExpandableContent extends React.PureComponent {
 					{this.props.children}
 				</div>
 				<div className="ptr-dromasLpisChangeReviewHeader-expandable-content-control">
-					<Button
+					<ExpandRowButton
 						invisible
-						icon="expand"
+						inverted
+						expanded={this.state.expanded}
 						onClick={this.onControlClick}
 					/>
 				</div>

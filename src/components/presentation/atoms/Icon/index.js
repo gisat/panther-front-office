@@ -7,6 +7,7 @@ import Dots from './Dots';
 import Download from './Download';
 import Edit from './Edit';
 import Expand from './Expand';
+import ExpandRow from './ExpandRow';
 import Opacity from './Opacity';
 import Plus from './Plus';
 import Pushpin from './Pushpin';
@@ -31,6 +32,8 @@ const icon = (key, props) => {
 			return <Edit />;
 		case 'expand':
 			return <Expand />;
+		case 'expand-row':
+			return <ExpandRow />;
 		case 'opacity':
 			return <Opacity />;
 		case 'plus':

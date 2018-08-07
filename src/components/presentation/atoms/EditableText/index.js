@@ -87,7 +87,8 @@ class EditableText extends React.PureComponent {
 			empty: !(this.props.value || this.state && this.state.value),
 			large: this.props.large,
 			editing: this.props.editing,
-			required: this.props.required
+			required: this.props.required,
+			inverted: this.props.inverted
 		});
 
 		let style = {

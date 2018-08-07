@@ -179,16 +179,26 @@ function changeSearchString(state, action) {
 }
 
 function createNewActiveEditedCase(state, action) {
-	let uuid = utils.guid();
+	let key = action.key || utils.guid();
+	let column = action.column;
+	let value = action.value;
+	let status = action.status || null;
+	let data = {};
+
+	if(column) {
+		data[column] = value;
+	}
+
 	return {
 		...state,
-		activeNewEditedCaseKey: uuid,
+		activeNewEditedCaseKey: key,
 		editedCases: [
 			...state.editedCases,
 			{
-				key: uuid,
-				data: {},
-				files: {}
+				key: key,
+				data: data,
+				files: {},
+				status: status
 			}
 		]
 	}

@@ -108,6 +108,9 @@ body {
 .ptr-button.inverted {
 	color: #ccc;
 }
+.ptr-button.inverted svg .line {
+	fill: #ccc;
+}
 .ptr-button.floating-action {
 	background: rgb(200,200,200);
 }
@@ -175,6 +178,14 @@ body {
 }
 .ptr-button.circular:focus::after {
 	border-radius: 50%;
+}
+
+
+.ptr-expand-row-button > .ptr-icon {
+	transition: transform .3s ease-in-out;
+}
+.ptr-expand-row-button.expanded > .ptr-icon {
+	transform: rotate(180deg);
 }
 
 /* == Menu ======================================================== */

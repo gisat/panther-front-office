@@ -6,8 +6,16 @@ import EditableText from "../../../presentation/atoms/EditableText";
 class DromasLpisChangeReviewHeader extends React.PureComponent {
 	static propTypes = {
 		case: PropTypes.object,
-		userGroup: PropTypes.string
+		userGroup: PropTypes.string,
+		editActiveCase: PropTypes.func,
+		activeCaseEdited: PropTypes.object
 	};
+
+	constructor(props) {
+		super(props);
+
+		this.onChange = this.onChange.bind(this);
+	}
 
 	render() {
 		return (
@@ -17,7 +25,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 				</div>
 				<div className="ptr-dromasLpisChangeReviewHeader-content">
 					<ExpandableContent>
-						{this.renderEvaluation(this.props.case)}
+						{this.renderEvaluation(this.props.activeCaseEdited || this.props.case)}
 					</ExpandableContent>
 				</div>
 			</div>
@@ -34,6 +42,10 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		}
 	}
 
+	onChange(value) {
+		this.props.editActiveCase(`evaluation_description`, value);
+	}
+
 	renderEvaluation(changeReviewCase) {
 		if(changeReviewCase) {
 			return (
@@ -41,6 +53,8 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 					<EditableText
 						value={changeReviewCase.data.evaluation_description}
 						disabled={!(this.props.userGroup && this.props.userGroup.toLowerCase().includes('gisat'))}
+						onChange={this.onChange}
+						inverted
 					/>
 				</div>
 			)
