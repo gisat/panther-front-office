@@ -25,7 +25,7 @@ class MapTools extends React.PureComponent {
 					</div>
 					<div className="ptr-dromasLpisChangeReviewHeader-map-add">
 						<Button
-							disabled={this.props.mapsCount > 15}
+							disabled={this.props.mapsCount > 11}
 							icon="plus"
 							onClick={this.props.addMap}
 							small
