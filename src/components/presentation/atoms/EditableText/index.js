@@ -61,11 +61,18 @@ class EditableText extends React.PureComponent {
 		this.setState({
 			focused: true
 		});
+		console.log("#####", this.props.onFocus);
+		if (this.props.onFocus) {
+			this.props.onFocus();
+		}
 	}
 	onBlur(){
 		this.setState({
 			focused: false
 		});
+		if (this.props.onBlur) {
+			this.props.onBlur();
+		}
 	}
 
 	onChange(e){

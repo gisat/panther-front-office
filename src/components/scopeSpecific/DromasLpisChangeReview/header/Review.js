@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ExpandableContent from "./ExpandableContent";
-import EditableText from "../../../presentation/atoms/EditableText";
+import ReviewForm from './ReviewForm';
 
 class DromasLpisChangeReviewHeader extends React.PureComponent {
 	static propTypes = {
@@ -11,12 +11,6 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		activeCaseEdited: PropTypes.object
 	};
 
-	constructor(props) {
-		super(props);
-
-		this.onChange = this.onChange.bind(this);
-	}
-
 	render() {
 		return (
 			<div>
@@ -25,7 +19,11 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 				</div>
 				<div className="ptr-dromasLpisChangeReviewHeader-content">
 					<ExpandableContent>
-						{this.renderEvaluation(this.props.activeCaseEdited || this.props.case)}
+						<ReviewForm
+							case={this.props.activeCaseEdited || this.props.case}
+							editActiveCase={this.props.editActiveCase}
+							userGroup={this.props.userGroup}
+						/>
 					</ExpandableContent>
 				</div>
 			</div>
@@ -37,25 +35,6 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 			return (
 				<div>
 					{changeReviewCase.status}
-				</div>
-			)
-		}
-	}
-
-	onChange(value) {
-		this.props.editActiveCase(`evaluation_description`, value);
-	}
-
-	renderEvaluation(changeReviewCase) {
-		if(changeReviewCase) {
-			return (
-				<div>
-					<EditableText
-						value={changeReviewCase.data.evaluation_description}
-						disabled={!(this.props.userGroup && this.props.userGroup.toLowerCase().includes('gisat'))}
-						onChange={this.onChange}
-						inverted
-					/>
 				</div>
 			)
 		}
