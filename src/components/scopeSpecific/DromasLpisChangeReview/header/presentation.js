@@ -12,7 +12,9 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 
 	static propTypes = {
 		case: PropTypes.object,
-		userGroup: PropTypes.string
+		userGroup: PropTypes.string,
+		editActiveCase: PropTypes.func,
+		activeCaseEdited: PropTypes.object
 	};
 
 	render() {
@@ -27,6 +29,8 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 					<Review
 						case={this.props.case}
 						userGroup={this.props.userGroup}
+						editActiveCase={this.props.editActiveCase}
+						activeCaseEdited={this.props.activeCaseEdited}
 					/>
 				</div>
 				<div id="dromasLpisChangeReviewHeader-actions"><UserActions /></div>
