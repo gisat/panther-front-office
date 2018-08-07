@@ -172,6 +172,14 @@ body {
 	border-radius: 50%;
 }
 
+
+.ptr-expand-row-button > .ptr-icon {
+	transition: transform .3s ease-in-out;
+}
+.ptr-expand-row-button.expanded > .ptr-icon {
+	transform: rotate(180deg);
+}
+
 /* == Menu ======================================================== */
 
 .ptr-menu {
