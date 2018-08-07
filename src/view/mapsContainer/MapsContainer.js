@@ -80,6 +80,11 @@ class MapsContainer {
 
         this.build();
 
+        let self = this;
+		$(window).resize(function() {
+			self.rebuildContainerLayout();
+		});
+
         this._dispatcher.addListener(this.onEvent.bind(this));
         options.store.periods.addListener(this.onEvent.bind(this));
     };
