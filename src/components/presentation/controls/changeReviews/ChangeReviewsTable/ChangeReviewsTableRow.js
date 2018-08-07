@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import Button from '../../../atoms/Button';
+import ExpandRowButton from '../../../atoms/ExpandRowButton';
 import Icon from '../../../atoms/Icon';
 
 class ChangeReviewsTable extends React.PureComponent {
@@ -59,7 +60,11 @@ class ChangeReviewsTable extends React.PureComponent {
 								Zobrazit
 							</Button>
 						</div>
-						<div onClick={this.onDetailsClick} className="ptr-table-row-show-details"><Icon icon="dots" /></div>
+						<ExpandRowButton
+							invisible
+							expanded={this.state.detailsOpen}
+							onClick={this.onDetailsClick}
+						/>
 					</div>
 				</div>
 				{this.renderDetails()}
