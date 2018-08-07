@@ -37,7 +37,7 @@
 	flex-direction: column;
 }
 .ptr-dromasLpisChangeReviewHeader-topBar {
-	height: 2.2rem;
+	display: flex;
 	flex-grow: 0;
 	padding: .1rem;
 

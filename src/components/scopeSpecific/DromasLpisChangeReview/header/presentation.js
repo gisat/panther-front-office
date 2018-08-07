@@ -11,6 +11,8 @@ import MapTools from './MapTools';
 class DromasLpisChangeReviewHeader extends React.PureComponent {
 
 	static propTypes = {
+		activeMap: PropTypes.object,
+		addMap: PropTypes.func,
 		case: PropTypes.object,
 		userGroup: PropTypes.string
 	};
@@ -30,7 +32,10 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 					/>
 				</div>
 				<div id="dromasLpisChangeReviewHeader-actions"><UserActions /></div>
-				<div id="dromasLpisChangeReviewHeader-tools"><MapTools /></div>
+				<div id="dromasLpisChangeReviewHeader-tools"><MapTools
+					addMap={this.props.addMap}
+					mapName={this.props.activeMap ? this.props.activeMap.name : ""}
+				/></div>
 			</div>
 		);
 	}

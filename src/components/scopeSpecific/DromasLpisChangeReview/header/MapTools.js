@@ -1,7 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Button from "../../../presentation/atoms/Button";
 
-class DromasLpisChangeReviewHeader extends React.PureComponent {
+class MapTools extends React.PureComponent {
+
+	static PropTypes = {
+		addMap: PropTypes.func,
+		mapName: PropTypes.string
+	};
 
 	onToggleGeometry(key, e) {
 		let showBefore = (key === 'before') ? e.target.checked : !!(this.props.map && this.props.map.placeGeometryChangeReview && this.props.map.placeGeometryChangeReview.showGeometryBefore);
@@ -13,7 +19,16 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		return (
 			<div>
 				<div className="ptr-dromasLpisChangeReviewHeader-topBar">
-					map
+					<div className="ptr-dromasLpisChangeReviewHeader-map-name">{this.props.mapName}</div>
+					<div className="ptr-dromasLpisChangeReviewHeader-map-add">
+						<Button
+							icon="plus"
+							onClick={this.props.addMap}
+							small
+						>
+							Add map
+						</Button>
+					</div>
 				</div>
 				<div>
 					<div className="ptr-dromasLpisChangeReviewHeader-map-control-toggles">
@@ -41,4 +56,4 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 
 }
 
-export default DromasLpisChangeReviewHeader;
+export default MapTools;

@@ -150,6 +150,11 @@ body {
 	height: 1.25rem;
 	margin: .125rem .25rem;
 }
+.ptr-button.small > .ptr-icon {
+	width: 1rem;
+	height: 1rem;
+	margin: .125rem .15rem;
+}
 .ptr-button.icon > .ptr-icon {
 	margin: .125rem;
 }
