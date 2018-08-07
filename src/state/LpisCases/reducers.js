@@ -187,12 +187,10 @@ function createNewActiveEditedCase(state, action) {
 		data: {}
 	};
 
-	if(column) {
+	if (column && column === `lpisCaseStatus`) {
+		futureEditedCase.status = value;
+	} else if (column) {
 		futureEditedCase.data[column] = value;
-	}
-
-	if(action.status) {
-		futureEditedCase.status = action.status;
 	}
 
 	return {
@@ -213,24 +211,24 @@ function editActiveEditedCase(state, action) {
 	let editedCases = [];
 
 	state.editedCases.forEach((editedCase) => {
-		if(editedCase.key === state.activeNewEditedCaseKey) {
+		if (editedCase.key === state.activeNewEditedCaseKey) {
 			let files = {...editedCase.files};
-			if(column.toLowerCase().includes(`geometry`) && editedCase.data[column] && file) {
+			if (column.toLowerCase().includes(`geometry`) && editedCase.data[column] && file) {
 				let oldGeometryFileIdentifier = editedCase.data[column].identifier;
 				delete files[oldGeometryFileIdentifier];
 			}
 
 			let futureEditedCase = {...editedCase};
 
-			futureEditedCase.data[column] = value;
-
-			if(action.status) {
-				futureEditedCase.status = action.status;
+			if (column && column === `lpisCaseStatus`) {
+				futureEditedCase.status = value;
+			} else if (column) {
+				futureEditedCase.data[column] = value;
 			}
 
 			futureEditedCase.files = (file ? {...files, [file.identifier]: file.file} : futureEditedCase.files);
 
-			if(!futureEditedCase.files || !Object.keys(futureEditedCase.files).length) {
+			if (!futureEditedCase.files || !Object.keys(futureEditedCase.files).length) {
 				delete futureEditedCase.files;
 			}
 

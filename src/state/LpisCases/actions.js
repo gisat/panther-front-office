@@ -113,6 +113,7 @@ function editLpisCase() {
 	return (dispatch, getState) => {
 		let state = getState();
 		let editedCase = Select.lpisCases.getActiveCaseEdited(state);
+		let activeCase = Select.lpisCases.getActiveCase(state);
 
 		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata');
 
@@ -129,7 +130,7 @@ function editLpisCase() {
 						{
 							id: editedCase.key,
 							data: editedCase.data,
-							status: editedCase.status
+							status: editedCase.status || activeCase.status
 						}
 					]
 				}
