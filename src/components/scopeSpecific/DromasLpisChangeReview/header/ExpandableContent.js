@@ -5,6 +5,8 @@ import classnames from 'classnames';
 
 import ExpandRowButton from '../../../presentation/atoms/ExpandRowButton';
 
+const BASE_HEIGHT = 79.8; //todo max height!
+
 class ExpandableContent extends React.PureComponent {
 
 	constructor(props) {
@@ -12,12 +14,32 @@ class ExpandableContent extends React.PureComponent {
 
 		this.state = {
 			expanded: props.initialExpanded || false,
-			focus: false
+			focus: false,
+			contentHeight: 0
 		};
 
+		this.contentRef = this.contentRef.bind(this);
 		this.onControlClick = this.onControlClick.bind(this);
 		this.onFocusInput = this.onFocusInput.bind(this);
 		this.onBlurInput = this.onBlurInput.bind(this);
+	}
+
+	contentRef(el) {
+		this.contentElement = el;
+	}
+
+	componentDidMount() {
+		this.resize();
+	}
+
+	componentDidUpdate() {
+		this.resize();
+	}
+
+	resize() {
+		this.setState({
+			contentHeight: this.contentElement.clientHeight
+		});
 	}
 
 	onControlClick() {
@@ -44,11 +66,18 @@ class ExpandableContent extends React.PureComponent {
 			return React.cloneElement(child, {...child.props, onFocusInput: this.onFocusInput, onBlurInput: this.onBlurInput});
 		});
 
+		let style = {};
+
+		if (this.state.expanded || this.state.focus) {
+			style.height = Math.max(BASE_HEIGHT + (this.state.expanded ? 20 : 0), this.state.contentHeight); // +20 for response to user click
+		}
+
 		return (
 			<div
 				className={classnames("ptr-dromasLpisChangeReviewHeader-expandable-content", {expanded: this.state.expanded || this.state.focus})}
+				style={style}
 			>
-				<div>
+				<div ref={this.contentRef}>
 					{children}
 				</div>
 				<div className="ptr-dromasLpisChangeReviewHeader-expandable-content-control">
