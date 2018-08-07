@@ -6,6 +6,7 @@ import presentation from "./presentation";
 const mapStateToProps = (state, ownProps) => {
 	return {
 		activeMap: Select.maps.getActiveMap(state),
+		mapsCount: Select.maps.getMapsCount(state),
 		case: Select.lpisCases.getActiveCase(state),
 		userGroup: Select.users.getActiveUserDromasLpisChangeReviewGroup(state),
 		activeCaseEdited: Select.lpisCases.getActiveCaseEdited(state)

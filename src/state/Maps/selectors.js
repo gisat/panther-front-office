@@ -20,6 +20,13 @@ const getMaps = createSelector(
 	}
 );
 
+const getMapsCount = createSelector(
+	[getMaps],
+	(maps) => {
+		return maps ? maps.length : 0
+	}
+);
+
 const getMapKeys = createSelector(
 	[getMaps],
 	(maps) => {
@@ -166,6 +173,7 @@ export default {
 	getVectorLayersForPuscVectorSourceTemplate: getVectorLayersForPuscVectorSourceTemplate,
 	getMapKeys: getMapKeys,
 	getMaps: getMaps,
+	getMapsCount: getMapsCount,
 	getMapsOverrides: getMapsOverrides,
 	getMapDefaults: getMapDefaults,
 	getNavigator: getNavigator,

@@ -182,11 +182,17 @@ function createNewActiveEditedCase(state, action) {
 	let key = action.key || utils.guid();
 	let column = action.column;
 	let value = action.value;
-	let status = action.status || null;
-	let data = {};
+	let futureEditedCase = {
+		key: key,
+		data: {}
+	};
 
 	if(column) {
-		data[column] = value;
+		futureEditedCase.data[column] = value;
+	}
+
+	if(action.status) {
+		futureEditedCase.status = action.status;
 	}
 
 	return {
@@ -194,12 +200,7 @@ function createNewActiveEditedCase(state, action) {
 		activeNewEditedCaseKey: key,
 		editedCases: [
 			...state.editedCases,
-			{
-				key: key,
-				data: data,
-				files: {},
-				status: status
-			}
+			futureEditedCase
 		]
 	}
 }
@@ -219,16 +220,21 @@ function editActiveEditedCase(state, action) {
 				delete files[oldGeometryFileIdentifier];
 			}
 
-			editedCases.push(
-				{
-					...editedCase,
-					data: {
-						...editedCase.data,
-						[column]: value
-					},
-					files: (file ? {...files, [file.identifier]: file.file} : editedCase.files)
-				}
-			)
+			let futureEditedCase = {...editedCase};
+
+			futureEditedCase.data[column] = value;
+
+			if(action.status) {
+				futureEditedCase.status = action.status;
+			}
+
+			futureEditedCase.files = (file ? {...files, [file.identifier]: file.file} : futureEditedCase.files);
+
+			if(!futureEditedCase.files || !Object.keys(futureEditedCase.files).length) {
+				delete futureEditedCase.files;
+			}
+
+			editedCases.push(futureEditedCase);
 		} else {
 			editedCases.push(editedCase)
 		}

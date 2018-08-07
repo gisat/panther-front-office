@@ -57,6 +57,22 @@
 	display: block;
 }
 
+/* ============ map tools ===================== */
+.ptr-dromasLpisChangeReviewHeader-topBar.mapTools {
+	display: flex;
+	align-items: center;
+	padding-right: .5rem;
+}
+.ptr-dromasLpisChangeReviewHeader-map-info {
+	flex: 1;
+}
+.ptr-dromasLpisChangeReviewHeader-map-name {
+	line-height: 1.5rem;
+	font-size: .9375rem;
+	padding: .25rem;
+	color: rgba(255,50,90,1);
+}
+
 
 /* ============ expandable content ============ */
 
