@@ -386,34 +386,50 @@ class MapsContainer {
 		let height = this._containerSelector.height();
 		let isExtended = false;
 
-		let a = 'w';
-		let b = 'h';
-		if (height > width){
-			a = 'h';
-			b = 'w';
-		}
-
 		if (this._containerSelector.hasClass('extended')){
 			isExtended = true;
 		}
 
 		this._containerSelector.attr('class', 'maps-container');
+
 		let cls = '';
+
+		let x = 0;
+		let y = 0;
 		if (this._mapsInContainerCount === 1){
-			cls += a + '1 ' + b + '1';
+			x = 1;
+			y = 1;
 		} else if (this._mapsInContainerCount === 2){
-			cls += a + '2 ' + b + '1';
+			x = 2;
+			y = 1;
 		} else if (this._mapsInContainerCount > 2 && this._mapsInContainerCount <= 4){
-			cls += a + '2 ' + b + '2';
+			x = 2;
+			y = 2;
 		} else if (this._mapsInContainerCount > 4 && this._mapsInContainerCount <= 6){
-			cls += a + '3 ' + b + '2';
+			x = 3;
+			y = 2;
 		} else if (this._mapsInContainerCount > 6 && this._mapsInContainerCount <= 9){
-			cls += a + '3 ' + b + '3';
+			x = 3;
+			y = 3;
 		} else if (this._mapsInContainerCount > 9 && this._mapsInContainerCount <= 12){
-			cls += a + '4 ' + b + '3';
+			x = 4;
+			y = 3;
 		} else if (this._mapsInContainerCount > 12 && this._mapsInContainerCount <= 16){
-			cls += a + '4 ' + b + '4';
+			x = 4;
+			y = 4;
 		}
+
+		let columns = x;
+		let rows = y;
+		if (height > width){
+			columns = y;
+			rows = x;
+		}
+		cls += 'w' + columns + ' ' + 'h' + rows;
+		window.Stores.notify('components#mapsGridChanged', {
+			columns: columns,
+			rows: rows
+		});
 
 		if (this._toolsPinned){
 			cls += " tools-active"

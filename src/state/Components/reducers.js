@@ -8,6 +8,10 @@ const INITIAL_STATE = {
 	application: {
 		intro: true
 	},
+	mapsContainer: {
+		columns: 1,
+		rows: 1
+	},
 	overlays: {
 		dataUpload: {
 			open: false

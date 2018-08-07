@@ -36,6 +36,13 @@ const getMapKeys = createSelector(
 	}
 );
 
+const getActiveMapOrder = createSelector(
+	[getMapKeys, getActiveMapKey],
+	(keys, activeKey) => {
+		return _.indexOf(keys, activeKey);
+	}
+);
+
 const getNavigator = createSelector(
 	[getMapDefaults],
 	(defaults) => {
@@ -168,6 +175,7 @@ export default {
 	getActiveBackgroundLayerKey: getActiveBackgroundLayerKey,
 	getActiveMapKey: getActiveMapKey,
 	getActiveMap: getActiveMap,
+	getActiveMapOrder: getActiveMapOrder,
 	getActivePlaceActiveLayers: getActivePlaceActiveLayers,
 	getVectorLayersForTemplate: getVectorLayersForTemplate,
 	getVectorLayersForPuscVectorSourceTemplate: getVectorLayersForPuscVectorSourceTemplate,

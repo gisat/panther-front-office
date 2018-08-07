@@ -53,10 +53,6 @@
 }
 
 
-.ptr-dromasLpisChangeReviewHeader-map-control-toggles > label {
-	display: block;
-}
-
 /* ============ map tools ===================== */
 .ptr-dromasLpisChangeReviewHeader-topBar.mapTools {
 	display: flex;
@@ -64,6 +60,8 @@
 	padding-right: .5rem;
 }
 .ptr-dromasLpisChangeReviewHeader-map-info {
+	display: flex;
+	align-items: center;
 	flex: 1;
 }
 .ptr-dromasLpisChangeReviewHeader-map-name {
@@ -72,7 +70,24 @@
 	padding: .25rem;
 	color: rgba(255,50,90,1);
 }
+.ptr-maps-grid-icon {
+	margin: 0 .15rem;
+}
+.ptr-maps-grid-icon rect {
+	fill: #444;
+	stroke-width: 0;
+}
+.ptr-maps-grid-icon rect.selected {
+	fill: rgba(255,50,90,1);
+}
 
+.ptr-dromasLpisChangeReviewHeader-map-control-toggles {
+	padding: .5rem .3rem;
+}
+
+.ptr-dromasLpisChangeReviewHeader-map-control-toggles > label {
+	display: block;
+}
 
 /* ============ expandable content ============ */
 
