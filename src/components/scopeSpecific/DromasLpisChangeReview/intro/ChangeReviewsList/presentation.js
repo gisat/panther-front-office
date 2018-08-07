@@ -20,7 +20,7 @@ class ChangeReviewsList extends React.PureComponent {
 		screenKey: PropTypes.string,
 		searchString: PropTypes.string,
 		createNewActiveEditedCase: PropTypes.func,
-		activeEditedCaseKey: PropTypes.string,
+		activeEditedCaseKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 		showCase: PropTypes.func
 	};
 

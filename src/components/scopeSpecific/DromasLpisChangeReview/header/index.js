@@ -6,13 +6,14 @@ import presentation from "./presentation";
 const mapStateToProps = (state, ownProps) => {
 	return {
 		case: Select.lpisCases.getActiveCase(state),
-		userGroup: Select.users.getActiveUserDromasLpisChangeReviewGroup(state)
+		userGroup: Select.users.getActiveUserDromasLpisChangeReviewGroup(state),
+		activeCaseEdited: Select.lpisCases.getActiveCaseEdited(state)
 	};
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-
+		editActiveCase: (property, value) => {dispatch(Action.lpisCases.editActiveCase(property, value))}
 	};
 };
 

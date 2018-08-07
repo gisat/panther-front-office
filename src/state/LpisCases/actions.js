@@ -240,6 +240,20 @@ function setActiveCaseByActiveView() {
 	}
 }
 
+function editActiveCase(column, value) {
+	return (dispatch, getState) => {
+		let state = getState();
+		let activeCaseEdited = Select.lpisCases.getActiveCaseEdited(state);
+		let activeCaseKey = Select.lpisCases.getActiveCaseKey(state);
+
+		if(activeCaseEdited) {
+			return dispatch(Action.lpisCases.editActiveEditedCase(column, value));
+		} else {
+			return dispatch(Action.lpisCases.createNewActiveEditedCase(activeCaseKey, column, value));
+		}
+	}
+}
+
 // ============ helpers ===========
 
 function _getMissingRecords(existing, toAdd) {
@@ -287,9 +301,12 @@ function actionChangeSearchString(searchString) {
 	}
 }
 
-function actionCreateNewActiveEditedCase() {
+function actionCreateNewActiveEditedCase(key, column, value) {
 	return {
-		type: ActionTypes.LPIS_CASES_CREATE_NEW_ACTIVE_EDITED_CASE
+		type: ActionTypes.LPIS_CASES_CREATE_NEW_ACTIVE_EDITED_CASE,
+		key: key,
+		column: column,
+		value: value
 	}
 }
 
@@ -328,5 +345,6 @@ export default {
 	setActive: setActive,
 	redirectToActiveCaseView: redirectToActiveCaseView,
 	loadCaseForActiveView: loadCaseForActiveView,
-	setActiveCaseByActiveView: setActiveCaseByActiveView
+	setActiveCaseByActiveView: setActiveCaseByActiveView,
+	editActiveCase: editActiveCase
 }
