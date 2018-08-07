@@ -108,6 +108,9 @@ body {
 .ptr-button.inverted {
 	color: #ccc;
 }
+.ptr-button.inverted svg .line {
+	fill: #ccc;
+}
 .ptr-button.floating-action {
 	background: rgb(200,200,200);
 }
