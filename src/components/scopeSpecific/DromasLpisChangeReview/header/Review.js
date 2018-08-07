@@ -54,6 +54,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 						value={changeReviewCase.data.evaluation_description}
 						disabled={!(this.props.userGroup && this.props.userGroup.toLowerCase().includes('gisat'))}
 						onChange={this.onChange}
+						inverted
 					/>
 				</div>
 			)
