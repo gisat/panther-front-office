@@ -11,10 +11,13 @@ class ExpandableContent extends React.PureComponent {
 		super(props);
 
 		this.state = {
-			expanded: props.initialExpanded || false
+			expanded: props.initialExpanded || false,
+			focus: false
 		};
 
 		this.onControlClick = this.onControlClick.bind(this);
+		this.onFocusInput = this.onFocusInput.bind(this);
+		this.onBlurInput = this.onBlurInput.bind(this);
 	}
 
 	onControlClick() {
@@ -23,17 +26,36 @@ class ExpandableContent extends React.PureComponent {
 		});
 	}
 
+	onFocusInput(){
+		this.setState({
+			focus: true
+		});
+	}
+
+	onBlurInput(){
+		this.setState({
+			focus: false
+		});
+	}
+
 	render() {
+
+		let children = React.Children.map(this.props.children, child => {
+			return React.cloneElement(child, {...child.props, onFocusInput: this.onFocusInput, onBlurInput: this.onBlurInput});
+		});
+
 		return (
-			<div className={classnames("ptr-dromasLpisChangeReviewHeader-expandable-content", {expanded: this.state.expanded})}>
+			<div
+				className={classnames("ptr-dromasLpisChangeReviewHeader-expandable-content", {expanded: this.state.expanded || this.state.focus})}
+			>
 				<div>
-					{this.props.children}
+					{children}
 				</div>
 				<div className="ptr-dromasLpisChangeReviewHeader-expandable-content-control">
 					<ExpandRowButton
 						invisible
 						inverted
-						expanded={this.state.expanded}
+						expanded={this.state.expanded || this.state.focus}
 						onClick={this.onControlClick}
 					/>
 				</div>
