@@ -18,8 +18,10 @@ class MapTools extends React.PureComponent {
 	render() {
 		return (
 			<div>
-				<div className="ptr-dromasLpisChangeReviewHeader-topBar">
-					<div className="ptr-dromasLpisChangeReviewHeader-map-name">{this.props.mapName}</div>
+				<div className="ptr-dromasLpisChangeReviewHeader-topBar mapTools">
+					<div className="ptr-dromasLpisChangeReviewHeader-map-info">
+						<div className="ptr-dromasLpisChangeReviewHeader-map-name">{this.props.mapName}</div>
+					</div>
 					<div className="ptr-dromasLpisChangeReviewHeader-map-add">
 						<Button
 							icon="plus"
