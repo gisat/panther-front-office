@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 import ExpandableContent from './ExpandableContent';
 
 class DromasLpisChangeReviewHeader extends React.PureComponent {
+	static propTypes = {
+		case: PropTypes.object
+	};
+
 	render() {
 		return (
 			<div>
@@ -12,15 +16,22 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 				</div>
 				<div className="ptr-dromasLpisChangeReviewHeader-content">
 					<ExpandableContent>
-						<div>
-							HOHOHO
-						</div>
+						{this.renderCase(this.props.case)}
 					</ExpandableContent>
 				</div>
 			</div>
 		);
 	}
 
+	renderCase(changeReviewCase) {
+		if(changeReviewCase) {
+			return (
+				<div>
+					{changeReviewCase.data.change_description}
+				</div>
+			)
+		}
+	}
 }
 
 export default DromasLpisChangeReviewHeader;

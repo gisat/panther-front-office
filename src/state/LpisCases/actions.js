@@ -4,6 +4,8 @@ import Select from '../Select';
 
 import config from '../../config';
 
+import LpisCaseStatuses, {order as LpisCaseStatusOrder} from '../../constants/LpisCaseStatuses';
+
 import _ from 'lodash';
 import path from 'path';
 import fetch from 'isomorphic-fetch';
@@ -70,7 +72,7 @@ function createLpisCase() {
 						{
 							uuid: activeNewEditedCase.key,
 							data: activeNewEditedCase.data,
-							status: "created"
+							status: LpisCaseStatuses.CREATED.database
 						}
 					]
 				}
@@ -217,9 +219,13 @@ function loadCaseForActiveView() {
 			throw new Error(`LpisCases#actions#loadCaseForActiveView: active scope was not found`);
 		}
 
-		if(activeScope.configuration.dromasLpisChangeReview) {
-			return dispatch(loadFiltered({view_id: Number(activeViewKey)}));
-		}
+		return Promise
+			.resolve()
+			.then(() => {
+				if(activeScope.configuration && activeScope.configuration.dromasLpisChangeReview) {
+					return dispatch(loadFiltered({view_id: Number(activeViewKey)}));
+				}
+			});
 	}
 }
 

@@ -10,6 +10,19 @@ function add(state, action) {
 	return {...state, data: (state.data ? [...state.data, ...action.data] : action.data)};
 }
 
+function addDistinct(state, action){
+	let data;
+	if (state.data && state.data.length){
+		let newData = _.reject(action.data, model => {
+			return _.find(state.data, {key: model.key});
+		});
+		data = [...state.data, ...newData];
+	} else {
+		data = [...action.data];
+	}
+	return {...state, data: data};
+}
+
 function remove(state, action){
 	let data = _.reject(state.data, view => {
 		return _.includes(action.keys, view.key);
@@ -27,7 +40,7 @@ function setActive(state, action) {
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.VIEWS_ADD:
-			return add(state, action);
+			return addDistinct(state, action);
 		case ActionTypes.VIEWS_REMOVE:
 			return remove(state, action);
 		case ActionTypes.VIEWS_SET_ACTIVE:

@@ -4,7 +4,7 @@ import ScreenAnimator from "../../../presentation/ScreenAnimator/ScreenAnimator"
 import ChangeReviewsList from './ChangeReviewsList';
 import ChangeReviewForm from './ChangeReviewForm';
 
-export default ({changeReviewsActiveScreenKey, activeEditedCase, setChangeReviewsActiveScreen, createLpisCase, editActiveEditedCase, createNewActiveEditedCase}) => {
+export default ({changeReviewsActiveScreenKey, activeEditedCase, setChangeReviewsActiveScreen, createLpisCase, editActiveEditedCase, createNewActiveEditedCase, activeUserDromasLpisChangeReviewGroup}) => {
 	return (
 		<ScreenAnimator
 			activeScreenKey={changeReviewsActiveScreenKey}
@@ -12,6 +12,7 @@ export default ({changeReviewsActiveScreenKey, activeEditedCase, setChangeReview
 			<ChangeReviewsList
 				screenKey="changeReviewsList"
 				changeActiveScreen={setChangeReviewsActiveScreen}
+				activeUserDromasLpisChangeReviewGroup={activeUserDromasLpisChangeReviewGroup}
 			/>
 			<ChangeReviewForm
 				screenKey="changeReviewForm"

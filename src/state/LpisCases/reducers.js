@@ -88,7 +88,7 @@ const INITIAL_STATE = {
 		key: 5646545641,
 		data: {
 			"lpis_case_id": 5646545641,
-			"status": "created",
+			"status": "CREATED",
 			"date": "2018-07-18T14:33:59Z",
 			"changed_by": 1
 		}
@@ -96,7 +96,7 @@ const INITIAL_STATE = {
 		key: 5646545642,
 		data: {
 			"lpis_case_id": 5646545641,
-			"status": "prepared",
+			"status": "EVALUATION_CREATED",
 			"date": "2018-07-18T17:33:59Z",
 			"changed_by": 2
 		}
@@ -104,7 +104,7 @@ const INITIAL_STATE = {
 		key: 5646545643,
 		data: {
 			"lpis_case_id": 5646545642,
-			"status": "created",
+			"status": "CLOSED",
 			"date": "2018-12-22T16:33:59Z",
 			"changed_by": 2
 		}
@@ -112,7 +112,7 @@ const INITIAL_STATE = {
 		key: 5646545644,
 		data: {
 			"lpis_case_id": 5646545643,
-			"status": "created",
+			"status": "CREATED",
 			"date": "2018-12-22T16:33:57Z",
 			"changed_by": 1
 		}
@@ -120,7 +120,7 @@ const INITIAL_STATE = {
 		key: 5646545645,
 		data: {
 			"lpis_case_id": 5646545643,
-			"status": "prepared",
+			"status": "EVALUATION_CREATED",
 			"date": "2018-12-23T17:34:57Z",
 			"changed_by": 2
 		}
@@ -128,7 +128,7 @@ const INITIAL_STATE = {
 		key: 5646545646,
 		data: {
 			"lpis_case_id": 5646545643,
-			"status": "approved",
+			"status": "EVALUATION_APPROVED",
 			"date": "2018-12-26T07:25:04Z",
 			"changed_by": 3
 		}
@@ -136,7 +136,7 @@ const INITIAL_STATE = {
 		key: 5646545647,
 		data: {
 			"lpis_case_id": 5646545644,
-			"status": "created",
+			"status": "CREATED",
 			"date": "2018-10-27T16:54:57Z",
 			"changed_by": 18
 		}

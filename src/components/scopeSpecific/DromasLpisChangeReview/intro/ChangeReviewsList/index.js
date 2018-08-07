@@ -4,9 +4,9 @@ import Action from "../../../../../state/Action";
 
 import presentation from './presentation';
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state, ownProps) => {
 	return {
-		cases: Select.lpisCases.getSearchResults(state),
+		cases: Select.lpisCases.getSearchResults(state, ownProps),
 		searchString: Select.lpisCases.getSearchString(state),
 		activeEditedCaseKey: Select.lpisCases.getActiveEditedCaseKey(state),
 		activeEditedCase: Select.lpisCases.getActiveEditedCase(state),
