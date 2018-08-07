@@ -95,3 +95,7 @@
 	bottom: .25rem;
 	right: .25rem;
 }
+
+.ptr-dromasLpisChangeReviewHeader-expandable-content > div {
+	padding: .5rem;
+}
