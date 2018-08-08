@@ -47,11 +47,13 @@ const getSortedCasesWithChanges = createSelector(
 
 		return _.sortBy(cases, [
 			(oneCase) => {
+				let ret;
 				_.forEach(LpisCaseStatusOrder[activeUserDromasLpisChangeReviewGroup], (record, index) => {
 					if((_.isArray(record) && _.includes(record, oneCase.status)) || record === oneCase.status) {
-						return index;
+						ret = index;
 					}
 				});
+				return ret;
 			},
 			(oneCase) => {
 				return oneCase.data.submit_date;
