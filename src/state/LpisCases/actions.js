@@ -271,6 +271,13 @@ function editActiveCaseStatus(status) {
 
 function saveCaseAsCreated() {
 	return (dispatch) => {
+		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.CREATED.database));
+		dispatch(Action.lpisCases.editLpisCase());
+	}
+}
+
+function saveCaseAsEvaluated() {
+	return (dispatch) => {
 		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.EVALUATION_CREATED.database));
 		dispatch(Action.lpisCases.editLpisCase());
 	}
@@ -386,6 +393,7 @@ export default {
 	setActiveCaseByActiveView: setActiveCaseByActiveView,
 	editActiveCase: editActiveCase,
 	saveCaseAsCreated,
+	saveCaseAsEvaluated,
 	saveCaseAsApproved,
 	saveCaseAsClosed,
 	editActiveCaseStatus

@@ -4,8 +4,16 @@ import PropTypes from 'prop-types';
 import LpisCaseStatuses from "../../../../constants/LpisCaseStatuses";
 
 import User from '../../../common/controls/User';
+import Button from "../../../presentation/atoms/Button";
 
 class DromasLpisChangeReviewHeader extends React.PureComponent {
+	static propTypes = {
+		saveCaseAsCreated: PropTypes.func,
+		saveCaseAsApproved: PropTypes.func,
+		saveCaseAsClosed: PropTypes.func,
+		saveCaseAsEvaluated: PropTypes.func
+	};
+
 	render() {
 		return (
 			<div>
@@ -17,9 +25,10 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 					<User />
 				</div>
 				<div>
-					<div>
-						actions
-					</div>
+					<Button onClick={this.props.saveCaseAsApproved}>Schválit</Button>
+					<Button onClick={this.props.saveCaseAsCreated}>Odmítnout</Button>
+					<Button onClick={this.props.saveCaseAsClosed}>Uzavřít</Button>
+					<Button onClick={this.props.saveCaseAsEvaluated}>Vyhodnotit</Button>
 				</div>
 			</div>
 		);

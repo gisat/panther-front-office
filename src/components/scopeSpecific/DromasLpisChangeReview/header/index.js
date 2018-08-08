@@ -30,6 +30,18 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 					showGeometryAfter: showAfter
 				}
 			}));
+		},
+		saveCaseAsCreated: () => {
+			dispatch(Action.lpisCases.saveCaseAsCreated());
+		},
+		saveCaseAsEvaluated: () => {
+			dispatch(Action.lpisCases.saveCaseAsEvaluated());
+		},
+		saveCaseAsApproved: () => {
+			dispatch(Action.lpisCases.saveCaseAsApproved());
+		},
+		saveCaseAsClosed: () => {
+			dispatch(Action.lpisCases.saveCaseAsClosed());
 		}
 	};
 };
