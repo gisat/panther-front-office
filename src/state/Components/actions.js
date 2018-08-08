@@ -14,6 +14,11 @@ function setIntro(visibility) {
 		dispatch(update('application', updatedData));
 	};
 }
+function updateMapsContainer(data) {
+	return dispatch => {
+		dispatch(update('mapsContainer', data));
+	};
+}
 
 function update(component, data) {
 	return dispatch => {
@@ -54,6 +59,7 @@ export default {
 	redirectToView: redirectToView,
 	setIntro: setIntro,
 	update: update,
+	updateMapsContainer: updateMapsContainer,
 
 	windows: Windows,
 	overlays: Overlays

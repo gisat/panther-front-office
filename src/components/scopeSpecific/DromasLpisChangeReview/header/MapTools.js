@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from "../../../presentation/atoms/Button";
+import MapsGridIcon from "../../../presentation/atoms/MapsGridIcon";
 
 class MapTools extends React.PureComponent {
 
-	static PropTypes = {
+	static propTypes = {
 		addMap: PropTypes.func,
 		mapName: PropTypes.string,
-		mapsCount: PropTypes.number
+		mapsContainer: PropTypes.object,
+		mapsCount: PropTypes.number,
+		selectedMapOrder: PropTypes.number
 	};
 
 	onToggleGeometry(key, e) {
@@ -21,11 +24,16 @@ class MapTools extends React.PureComponent {
 			<div>
 				<div className="ptr-dromasLpisChangeReviewHeader-topBar mapTools">
 					<div className="ptr-dromasLpisChangeReviewHeader-map-info">
+						<MapsGridIcon
+							columns={this.props.mapsContainer.columns}
+							rows={this.props.mapsContainer.rows}
+							selected={this.props.selectedMapOrder}
+						/>
 						<div className="ptr-dromasLpisChangeReviewHeader-map-name">{this.props.mapName}</div>
 					</div>
 					<div className="ptr-dromasLpisChangeReviewHeader-map-add">
 						<Button
-							disabled={this.props.mapsCount > 15}
+							disabled={this.props.mapsCount > 11}
 							icon="plus"
 							onClick={this.props.addMap}
 							small

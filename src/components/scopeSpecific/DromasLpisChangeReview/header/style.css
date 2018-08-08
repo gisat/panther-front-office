@@ -39,7 +39,10 @@
 .ptr-dromasLpisChangeReviewHeader-topBar {
 	height: 2.2rem;
 	flex-grow: 0;
-	padding: .1rem;
+	padding: .1rem .5rem;
+
+	display: flex;
+	align-items: center;
 
 	box-sizing: border-box; /* todo remove when redundant */
 }
@@ -52,18 +55,26 @@
 	flex-direction: column;
 }
 
-
-.ptr-dromasLpisChangeReviewHeader-map-control-toggles > label {
-	display: block;
+.ptr-dromasLpisChangeReviewHeader-heading {
+	text-transform: uppercase;
+	font-weight: 700;
+	letter-spacing: .02rem;
 }
+
+
+/* ============ user actions ================== */
+.ptr-dromasLpisChangeReviewHeader-topBar.userActions {
+	justify-content: space-between;
+}
+
 
 /* ============ map tools ===================== */
 .ptr-dromasLpisChangeReviewHeader-topBar.mapTools {
-	display: flex;
-	align-items: center;
 	padding-right: .5rem;
 }
 .ptr-dromasLpisChangeReviewHeader-map-info {
+	display: flex;
+	align-items: center;
 	flex: 1;
 }
 .ptr-dromasLpisChangeReviewHeader-map-name {
@@ -72,7 +83,31 @@
 	padding: .25rem;
 	color: rgba(255,50,90,1);
 }
+.ptr-maps-grid-icon {
+	margin: 0 .15rem;
+}
+.ptr-maps-grid-icon rect {
+	fill: #444;
+	stroke-width: 0;
+}
+.ptr-maps-grid-icon rect.selected {
+	fill: rgba(255,50,90,1);
+}
 
+.ptr-dromasLpisChangeReviewHeader-map-control-toggles {
+	padding: .5rem .3rem;
+}
+
+.ptr-dromasLpisChangeReviewHeader-map-control-toggles > label {
+	display: block;
+}
+
+.ptr-dromasLpisChangeReviewHeader-status {
+	padding: .2rem .5rem;
+	border-radius: .2rem;
+	color: #222;
+	margin-left: .75rem;
+}
 
 /* ============ expandable content ============ */
 
@@ -94,4 +129,8 @@
 	position: absolute;
 	bottom: .25rem;
 	right: .25rem;
+}
+
+.ptr-dromasLpisChangeReviewHeader-expandable-content > div {
+	padding: .5rem;
 }

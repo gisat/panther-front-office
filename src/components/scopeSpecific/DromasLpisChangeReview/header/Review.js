@@ -15,7 +15,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		return (
 			<div>
 				<div className="ptr-dromasLpisChangeReviewHeader-topBar">
-					{this.renderStatus(this.props.case)}
+					<span className='ptr-dromasLpisChangeReviewHeader-heading'>Vyhodnocení</span>
 				</div>
 				<div className="ptr-dromasLpisChangeReviewHeader-content">
 					<ExpandableContent>
@@ -28,16 +28,6 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 				</div>
 			</div>
 		);
-	}
-
-	renderStatus(changeReviewCase) {
-		if(changeReviewCase) {
-			return (
-				<div>
-					{changeReviewCase.status}
-				</div>
-			)
-		}
 	}
 
 }

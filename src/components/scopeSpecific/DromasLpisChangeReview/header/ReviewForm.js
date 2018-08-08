@@ -13,11 +13,16 @@ class ReviewForm extends React.PureComponent {
 	constructor(props) {
 		super(props);
 
-		this.onChange = this.onChange.bind(this);
+		this.onChangeDescription = this.onChangeDescription.bind(this);
+		this.onChangeOther = this.onChangeOther.bind(this);
 	}
 
-	onChange(value) {
+	onChangeDescription(value) {
 		this.props.editActiveCase(`evaluation_description`, value);
+	}
+
+	onChangeOther(value) {
+		this.props.editActiveCase(`evaluation_description_other`, value);
 	}
 
 	render() {
@@ -27,7 +32,15 @@ class ReviewForm extends React.PureComponent {
 					<EditableText
 						value={this.props.case.data.evaluation_description}
 						disabled={!(this.props.userGroup && this.props.userGroup.toLowerCase().includes("gisat"))}
-						onChange={this.onChange}
+						onChange={this.onChangeDescription}
+						onFocus={this.props.onFocusInput}
+						onBlur={this.props.onBlurInput}
+						inverted
+					/>
+					<EditableText
+						value={this.props.case.data.evaluation_description_other}
+						disabled={!(this.props.userGroup && this.props.userGroup.toLowerCase().includes("gisat"))}
+						onChange={this.onChangeOther}
 						onFocus={this.props.onFocusInput}
 						onBlur={this.props.onBlurInput}
 						inverted

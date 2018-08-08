@@ -12,7 +12,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		return (
 			<div>
 				<div className="ptr-dromasLpisChangeReviewHeader-topBar">
-					Ohlášení územní změny
+					<span className='ptr-dromasLpisChangeReviewHeader-heading'>Ohlášení územní změny</span>
 				</div>
 				<div className="ptr-dromasLpisChangeReviewHeader-content">
 					<ExpandableContent>
