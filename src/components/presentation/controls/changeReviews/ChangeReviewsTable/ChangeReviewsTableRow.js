@@ -7,6 +7,8 @@ import Button from '../../../atoms/Button';
 import ExpandRowButton from '../../../atoms/ExpandRowButton';
 import Icon from '../../../atoms/Icon';
 
+import LpisCaseStatuses, {order as LpisCaseStatusOrder} from '../../../../../constants/LpisCaseStatuses';
+
 class ChangeReviewsTable extends React.PureComponent {
 
 	static propTypes = {
@@ -87,30 +89,22 @@ class ChangeReviewsTable extends React.PureComponent {
 	}
 
 	renderStatus(){
-		let color = null;
-		let name = null;
-		switch(this.props.status){
-			case 'created':
-				color = 'red';
-				name = 'Zadáno';
-				break;
-			case 'prepared':
-				color = 'orange';
-				name = 'Připraveno';
-				break;
-			case 'approved':
-				color = 'green';
-				name = 'Schváleno';
-				break;
-			default:
-				color = 'black';
-				name = 'Bez statusu';
+		let status = LpisCaseStatuses[this.props.status];
+		let caption = null;
+		let colour = null;
+		let opacity = status.database === 'CLOSED' ? 0 : null;
+		if (this.props.userGroup === 'gisatUsers' || this.props.userGroup === 'gisatAdmins') {
+			caption = status.gisatName;
+			colour = status.gisatColour || status.colour;
+		} else {
+			caption = status.szifName;
+			colour = status.colour;
 		}
 
 		return (
 			<div className="ptr-table-row-item state">
-				<Icon icon="circle" color={color}/>
-				{name}
+				<Icon icon="circle" color={colour} opacity={opacity}/>
+				{caption}
 			</div>
 		);
 	}
