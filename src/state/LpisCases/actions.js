@@ -118,14 +118,14 @@ function editLpisCase() {
 		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata');
 
 		return fetch(url, {
-			method: 'POST',
+			method: 'PUT',
 			credentials: 'include',
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
 			},
-			body: JSON.stringify(
-				{
+			body: JSON.stringify({
+				data: {
 					lpis_cases: [
 						{
 							id: editedCase.key,
@@ -134,7 +134,7 @@ function editLpisCase() {
 						}
 					]
 				}
-			)
+			})
 		}).then(response => {
 			if (response.status === 200) {
 				return response.json();
@@ -154,7 +154,7 @@ function _storeResponseContent(content) {
 			let places = content['data']['places'];
 			let views = content['data']['dataviews'];
 
-			if(views && views.length) {
+			if (views && views.length) {
 				let loadedViews = Select.views.getViews(state);
 				dispatch(Action.views.add(_getMissingRecords(loadedViews, views)));
 			}
@@ -216,14 +216,14 @@ function loadCaseForActiveView() {
 		let activeViewKey = Select.views.getActiveKey(state);
 		let activeScope = Select.scopes.getActiveScopeData(state);
 
-		if(!activeScope) {
+		if (!activeScope) {
 			throw new Error(`LpisCases#actions#loadCaseForActiveView: active scope was not found`);
 		}
 
 		return Promise
 			.resolve()
 			.then(() => {
-				if(activeScope.configuration && activeScope.configuration.dromasLpisChangeReview) {
+				if (activeScope.configuration && activeScope.configuration.dromasLpisChangeReview) {
 					return dispatch(loadFiltered({view_id: Number(activeViewKey)}));
 				}
 			});
@@ -235,7 +235,7 @@ function setActiveCaseByActiveView() {
 		let state = getState();
 		let activeViewKey = Select.views.getActiveKey(state);
 		let caseByActiveView = Select.lpisCases.getCaseByActiveView(state);
-		if(caseByActiveView) {
+		if (caseByActiveView) {
 			dispatch(Action.lpisCases.setActive(caseByActiveView.key));
 		}
 	}
@@ -247,11 +247,34 @@ function editActiveCase(column, value) {
 		let activeCaseEdited = Select.lpisCases.getActiveCaseEdited(state);
 		let activeCaseKey = Select.lpisCases.getActiveCaseKey(state);
 
-		if(activeCaseEdited) {
+		if (activeCaseEdited) {
 			return dispatch(Action.lpisCases.editActiveEditedCase(column, value));
 		} else {
 			return dispatch(Action.lpisCases.createNewActiveEditedCase(activeCaseKey, column, value));
 		}
+	}
+}
+
+function saveCaseAsCreated() {
+	return (dispatch) => {
+		dispatch(Action.lpisCases.editActiveCase(`lpisCaseStatus`, LpisCaseStatuses.EVALUATION_CREATED.database))
+		dispatch(Action.lpisCases.editLpisCase());
+	}
+}
+
+function saveCaseAsApproved() {
+	return (dispatch, getState) => {
+		dispatch(Action.lpisCases.editActiveCase(`lpisCaseStatus`, LpisCaseStatuses.EVALUATION_APPROVED.database))
+		dispatch(Action.lpisCases.editLpisCase());
+	}
+}
+
+function saveCaseAsClosed() {
+	return (dispatch) => {
+		return dispatch(Action.lpisCases.editActiveCase(`lpisCaseStatus`, LpisCaseStatuses.CLOSED.database))
+			.then(() => {
+				return dispatch(Action.lpisCases.editLpisCase());
+			});
 	}
 }
 
@@ -328,7 +351,7 @@ function actionRemoveEditedCasesByKeys(keys) {
 }
 
 function actionSetActive(caseKey) {
-	return  {
+	return {
 		type: ActionTypes.LPIS_CASES_SET_ACTIVE,
 		key: caseKey
 	}
@@ -347,5 +370,8 @@ export default {
 	redirectToActiveCaseView: redirectToActiveCaseView,
 	loadCaseForActiveView: loadCaseForActiveView,
 	setActiveCaseByActiveView: setActiveCaseByActiveView,
-	editActiveCase: editActiveCase
+	editActiveCase: editActiveCase,
+	saveCaseAsCreated,
+	saveCaseAsApproved,
+	saveCaseAsClosed
 }

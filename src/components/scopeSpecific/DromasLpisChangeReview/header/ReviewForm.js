@@ -7,7 +7,9 @@ class ReviewForm extends React.PureComponent {
 	static propTypes = {
 		userGroup: PropTypes.string,
 		onFocusInput: PropTypes.any,
-		onBlurInput: PropTypes.any
+		onBlurInput: PropTypes.any,
+		caseEdited: PropTypes.object,
+		case: PropTypes.object
 	};
 
 	constructor(props) {
@@ -15,6 +17,7 @@ class ReviewForm extends React.PureComponent {
 
 		this.onChangeDescription = this.onChangeDescription.bind(this);
 		this.onChangeOther = this.onChangeOther.bind(this);
+		this.getValueForProperty = this.getValueForProperty.bind(this);
 	}
 
 	onChangeDescription(value) {
@@ -25,12 +28,22 @@ class ReviewForm extends React.PureComponent {
 		this.props.editActiveCase(`evaluation_description_other`, value);
 	}
 
+	getValueForProperty(property) {
+		if(this.props.caseEdited && this.props.caseEdited.data.hasOwnProperty(property)) {
+			return this.props.caseEdited.data[property];
+		} else if(this.props.case && this.props.case.data.hasOwnProperty(property)) {
+			return this.props.case.data[property];
+		} else {
+			return "";
+		}
+	}
+
 	render() {
 		if (this.props.case) {
 			return (
 				<div>
 					<EditableText
-						value={this.props.case.data.evaluation_description}
+						value={this.getValueForProperty(`evaluation_description`)}
 						disabled={!(this.props.userGroup && this.props.userGroup.toLowerCase().includes("gisat"))}
 						editing={(this.props.userGroup && this.props.userGroup.toLowerCase().includes("gisat"))}
 						onChange={this.onChangeDescription}
@@ -41,7 +54,7 @@ class ReviewForm extends React.PureComponent {
 					<label>
 						<span>Další komentář</span>
 						<EditableText
-							value={this.props.case.data.evaluation_description_other}
+							value={this.getValueForProperty(`evaluation_description_other`)}
 							disabled={!(this.props.userGroup && this.props.userGroup.toLowerCase().includes("gisat"))}
 							editing={(this.props.userGroup && this.props.userGroup.toLowerCase().includes("gisat"))}
 							onChange={this.onChangeOther}

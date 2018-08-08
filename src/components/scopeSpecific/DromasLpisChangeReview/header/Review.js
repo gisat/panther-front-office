@@ -20,7 +20,8 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 				<div className="ptr-dromasLpisChangeReviewHeader-content">
 					<ExpandableContent>
 						<ReviewForm
-							case={this.props.activeCaseEdited || this.props.case}
+							case={this.props.case}
+							caseEdited={this.props.activeCaseEdited}
 							editActiveCase={this.props.editActiveCase}
 							userGroup={this.props.userGroup}
 						/>
