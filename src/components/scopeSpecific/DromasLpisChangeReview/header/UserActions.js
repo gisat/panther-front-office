@@ -9,13 +9,13 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 	render() {
 		return (
 			<div>
-				<div className="ptr-dromasLpisChangeReviewHeader-topBar">
-					<User />
-				</div>
-				<div>
+				<div className="ptr-dromasLpisChangeReviewHeader-topBar userActions">
 					<div>
 						{this.renderStatus(this.props.case)}
 					</div>
+					<User />
+				</div>
+				<div>
 					<div>
 						actions
 					</div>

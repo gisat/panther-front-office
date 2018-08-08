@@ -39,7 +39,10 @@
 .ptr-dromasLpisChangeReviewHeader-topBar {
 	height: 2.2rem;
 	flex-grow: 0;
-	padding: .1rem;
+	padding: .1rem .5rem;
+
+	display: flex;
+	align-items: center;
 
 	box-sizing: border-box; /* todo remove when redundant */
 }
@@ -53,10 +56,14 @@
 }
 
 
+/* ============ user actions ================== */
+.ptr-dromasLpisChangeReviewHeader-topBar.userActions {
+	justify-content: space-between;
+}
+
+
 /* ============ map tools ===================== */
 .ptr-dromasLpisChangeReviewHeader-topBar.mapTools {
-	display: flex;
-	align-items: center;
 	padding-right: .5rem;
 }
 .ptr-dromasLpisChangeReviewHeader-map-info {
