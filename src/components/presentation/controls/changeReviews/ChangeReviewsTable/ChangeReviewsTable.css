@@ -17,8 +17,8 @@
 .ptr-table.change-reviews-table .ptr-table-row-item.buttons {
 	min-width: 8rem;
 }
-.ptr-table.change-reviews-table .ptr-table-row-item:first-child {
-	padding-left: 0;
+.ptr-table.change-reviews-table .ptr-table-row-item:first-child svg {
+	margin-left: -0.5rem
 }
 .ptr-table.change-reviews-table .ptr-table-header-item:nth-child(1),
 .ptr-table.change-reviews-table .ptr-table-row-item:nth-child(1) {

@@ -21,6 +21,7 @@ const icon = (key, props) => {
 		case 'circle':
 			return <Circle
 				color={props.color}
+				opacity={props.opacity}
 			/>;
 		case 'delete':
 			return <Delete />;

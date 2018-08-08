@@ -22,7 +22,7 @@ export default {
 		database:  `CLOSED`,
 		gisatName: `Uzavřeno`,
 		szifName: `Uzavřeno`,
-		colour: '#fff'
+		colour: '#ffffff'
 	}
 }
 
