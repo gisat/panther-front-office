@@ -532,7 +532,7 @@ class FrontOffice {
 
         if(worldWindState.hasOwnProperty('considerElevation')) {
 			let elevationAtLocation = this._mapsContainer.getElevationAtLocation(worldWindState.location);
-			this._mapsContainer.setAllMapsRange((worldWindState.range + elevationAtLocation) * 1.25);
+			this._mapsContainer.setAllMapsRange((worldWindState.range + elevationAtLocation) * 1.5);
         } else {
 			this._mapsContainer.setAllMapsRange(worldWindState.range);
         }
