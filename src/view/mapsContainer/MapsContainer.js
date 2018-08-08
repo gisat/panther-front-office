@@ -553,6 +553,13 @@ class MapsContainer {
         });
     }
 
+	getElevationAtLocation(location) {
+		let maps = this._mapStore.getAll();
+		if(maps.length) {
+			return maps[0].getElevationAtLocation(location.latitude, location.longitude);
+		}
+	}
+
     /**
      * Set projection of all maps
      * @param targetProjection {string} 2D or 3D
