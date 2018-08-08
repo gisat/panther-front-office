@@ -148,3 +148,9 @@
 .ptr-dromasLpisChangeReviewHeader-property {
 	color: rgb(181, 190, 201);
 }
+
+
+#dromasLpisChangeReviewHeader .ptr-editable-text {
+	font-size: 0.875rem;
+	line-height: 1.4;
+}
