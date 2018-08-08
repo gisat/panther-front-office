@@ -66,7 +66,7 @@ const getSearchResults = createSelector(
 	[getSearchString, getSortedCasesWithChanges],
 	(searchString, casesWithChanges) => {
 		if (searchString && searchString.length > 0) {
-			let searcher = new FuzzySearch(casesWithChanges, ['data.code_dpb', 'data.change_description_place']);
+			let searcher = new FuzzySearch(casesWithChanges, ['data.case_key', 'data.change_description_place']);
 			return searcher.search(searchString);
 		} else {
 			return casesWithChanges;

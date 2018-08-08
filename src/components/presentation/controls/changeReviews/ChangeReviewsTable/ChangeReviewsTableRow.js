@@ -50,7 +50,7 @@ class ChangeReviewsTable extends React.PureComponent {
 			<div className={classes}>
 				<div className="ptr-table-row-record">
 					{this.renderStatus()}
-					<div className="ptr-table-row-item">{this.props.data.code_dpb}</div>
+					<div className="ptr-table-row-item">{this.props.data.case_key}</div>
 					<div className="ptr-table-row-item">{this.props.data.submit_date}</div>
 					<div className="ptr-table-row-item">{this.props.updated}</div>
 					<div className="ptr-table-row-item buttons">
