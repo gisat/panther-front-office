@@ -24,7 +24,7 @@ const setStoreWatchers = store => {
 
 	createWatcher(store, Select.maps.getActivePlaceActiveLayers, activeLayersWatcher, 'activePlaceActiveLayers');
 
-	createWatcher(store, Select.places.getActive, ()=>{}, 'activePlace');
+	createWatcher(store, Select.lpisCases.getActiveCase, ()=>{}, 'activeLpisCase');
 };
 
 const setEventListeners = store => {
@@ -117,7 +117,7 @@ const activeMapWatcher = (value, previousValue) => {
 						window.Stores.notify('PLACE_GEOMETRY_ADD', {
 							mapKey: value.key,
 							geometryKey: 'placeGeometryChangeReviewGeometryBefore',
-							geometry: state.activePlace.changeReviewGeometryBefore
+							geometry: state.activeLpisCase.data.geometry_before
 						});
 					} else {
 						window.Stores.notify('PLACE_GEOMETRY_REMOVE', {
@@ -132,7 +132,7 @@ const activeMapWatcher = (value, previousValue) => {
 						window.Stores.notify('PLACE_GEOMETRY_ADD', {
 							mapKey: value.key,
 							geometryKey: 'placeGeometryChangeReviewGeometryAfter',
-							geometry: state.activePlace.changeReviewGeometryAfter
+							geometry: state.activeLpisCase.data.geometry_after
 						});
 					} else {
 						window.Stores.notify('PLACE_GEOMETRY_REMOVE', {

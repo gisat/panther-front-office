@@ -41,6 +41,7 @@ class MapsGridIcon extends React.PureComponent {
 			for (let j = 0; j < cols; j++) {
 				content.push(
 					<rect
+						key={count}
 						className={count === sel ? "selected" : ""}
 						x={1 + (SIZE/cols)*j}
 						y={1 + (SIZE/rows)*i}

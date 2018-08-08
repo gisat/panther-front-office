@@ -146,6 +146,14 @@ body {
 	border-color: transparent;
 	box-shadow: none;
 }
+.ptr-button.ghost {
+	background: transparent;
+	border: 1px solid rgba(0,0,0,.6);
+	box-shadow: none;
+}
+.ptr-button.ghost:hover {
+	background: rgba(0,0,0,.1);
+}
 
 .ptr-button > .ptr-icon {
 	display: inline-block;

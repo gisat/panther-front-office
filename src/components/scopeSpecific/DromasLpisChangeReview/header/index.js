@@ -21,6 +21,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		// todo old code actions
 		addMap: ()=>{
 			window.Stores.notify('mapsContainer#addMap');
+		},
+		toggleGeometries: (mapKey, showBefore, showAfter) => {
+			dispatch(Action.maps.update({
+				key: mapKey,
+				placeGeometryChangeReview: {
+					showGeometryBefore: showBefore,
+					showGeometryAfter: showAfter
+				}
+			}));
 		}
 	};
 };

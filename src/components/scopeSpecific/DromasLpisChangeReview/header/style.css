@@ -80,14 +80,11 @@
 .ptr-dromasLpisChangeReviewHeader-map-name {
 	line-height: 1.5rem;
 	font-size: .9375rem;
-	padding: .25rem;
+	padding: .25rem .5rem;
 	color: rgba(255,50,90,1);
 }
-.ptr-maps-grid-icon {
-	margin: 0 .15rem;
-}
 .ptr-maps-grid-icon rect {
-	fill: #444;
+	fill: #aaa;
 	stroke-width: 0;
 }
 .ptr-maps-grid-icon rect.selected {
@@ -95,11 +92,19 @@
 }
 
 .ptr-dromasLpisChangeReviewHeader-map-control-toggles {
-	padding: .5rem .3rem;
+	padding: .5rem;
 }
 
 .ptr-dromasLpisChangeReviewHeader-map-control-toggles > label {
-	display: block;
+	display: flex;
+	align-items: center;
+	line-height: 1.25rem;
+}
+.ptr-dromasLpisChangeReviewHeader-map-control-toggles span {
+	padding: 0 .15rem;
+}
+.ptr-dromasLpisChangeReviewHeader-map-control-toggles span.disabled {
+	color: #aaa;
 }
 
 .ptr-dromasLpisChangeReviewHeader-status {
