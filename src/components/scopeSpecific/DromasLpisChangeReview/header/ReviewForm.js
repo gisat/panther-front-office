@@ -32,6 +32,7 @@ class ReviewForm extends React.PureComponent {
 					<EditableText
 						value={this.props.case.data.evaluation_description}
 						disabled={!(this.props.userGroup && this.props.userGroup.toLowerCase().includes("gisat"))}
+						editing={(this.props.userGroup && this.props.userGroup.toLowerCase().includes("gisat"))}
 						onChange={this.onChangeDescription}
 						onFocus={this.props.onFocusInput}
 						onBlur={this.props.onBlurInput}
@@ -42,6 +43,7 @@ class ReviewForm extends React.PureComponent {
 						<EditableText
 							value={this.props.case.data.evaluation_description_other}
 							disabled={!(this.props.userGroup && this.props.userGroup.toLowerCase().includes("gisat"))}
+							editing={(this.props.userGroup && this.props.userGroup.toLowerCase().includes("gisat"))}
 							onChange={this.onChangeOther}
 							onFocus={this.props.onFocusInput}
 							onBlur={this.props.onBlurInput}
