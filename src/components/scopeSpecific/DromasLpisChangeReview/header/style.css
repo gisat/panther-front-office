@@ -89,6 +89,12 @@
 	display: block;
 }
 
+.ptr-dromasLpisChangeReviewHeader-status {
+	padding: .2rem .5rem;
+	border-radius: .2rem;
+	color: #222;
+}
+
 /* ============ expandable content ============ */
 
 .ptr-dromasLpisChangeReviewHeader-expandable-content {

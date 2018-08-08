@@ -41,6 +41,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 				<div id="dromasLpisChangeReviewHeader-actions">
 					<UserActions
 						case={this.props.case}
+						userGroup={this.props.userGroup}
 					/>
 				</div>
 				<div id="dromasLpisChangeReviewHeader-tools"><MapTools

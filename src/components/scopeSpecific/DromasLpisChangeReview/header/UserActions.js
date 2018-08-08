@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import LpisCaseStatuses from "../../../../constants/LpisCaseStatuses";
+
 import User from '../../../common/controls/User';
 
 class DromasLpisChangeReviewHeader extends React.PureComponent {
@@ -12,7 +14,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 				</div>
 				<div>
 					<div>
-						{this.props.case ? this.props.case.status : ''}
+						{this.renderStatus(this.props.case)}
 					</div>
 					<div>
 						actions
@@ -20,6 +22,26 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 				</div>
 			</div>
 		);
+	}
+
+	renderStatus(changeReviewCase) {
+		if (changeReviewCase) {
+			let status = LpisCaseStatuses[changeReviewCase.status];
+			let caption, colour;
+			if (this.props.userGroup === 'gisatUsers' || this.props.userGroup === 'gisatAdmins') {
+				caption = status.gisatName;
+				colour = status.gisatColour || status.colour;
+			} else {
+				caption = status.szifName;
+				colour = status.colour;
+			}
+			let style = {
+				'background': colour
+			};
+			return (
+				<span className='ptr-dromasLpisChangeReviewHeader-status' style={style}>{caption}</span>
+			);
+		}
 	}
 
 }
