@@ -38,7 +38,11 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 						activeCaseEdited={this.props.activeCaseEdited}
 					/>
 				</div>
-				<div id="dromasLpisChangeReviewHeader-actions"><UserActions /></div>
+				<div id="dromasLpisChangeReviewHeader-actions">
+					<UserActions
+						case={this.props.case}
+					/>
+				</div>
 				<div id="dromasLpisChangeReviewHeader-tools"><MapTools
 					addMap={this.props.addMap}
 					mapName={this.props.activeMap ? this.props.activeMap.name : ""}

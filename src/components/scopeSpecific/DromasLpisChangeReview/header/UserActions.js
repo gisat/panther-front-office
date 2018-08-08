@@ -11,7 +11,12 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 					<User />
 				</div>
 				<div>
-					actions
+					<div>
+						{this.props.case ? this.props.case.status : ''}
+					</div>
+					<div>
+						actions
+					</div>
 				</div>
 			</div>
 		);

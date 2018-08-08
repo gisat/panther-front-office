@@ -34,7 +34,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		if(changeReviewCase) {
 			return (
 				<div>
-					{changeReviewCase.status}
+					závěr
 				</div>
 			)
 		}
