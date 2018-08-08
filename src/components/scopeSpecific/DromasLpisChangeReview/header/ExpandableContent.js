@@ -82,7 +82,7 @@ class ExpandableContent extends React.PureComponent {
 				</div>
 				<div className="ptr-dromasLpisChangeReviewHeader-expandable-content-control">
 					<ExpandRowButton
-						invisible
+						circular
 						inverted
 						expanded={this.state.expanded || this.state.focus}
 						onClick={this.onControlClick}
