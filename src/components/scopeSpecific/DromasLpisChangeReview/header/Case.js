@@ -25,9 +25,31 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 
 	renderCase(changeReviewCase) {
 		if(changeReviewCase) {
+
+			let placeInsert, otherInsert;
+
+			if (changeReviewCase.data.change_description_place) {
+				placeInsert = (
+					<div>
+						<div className='ptr-dromasLpisChangeReviewHeader-property'>Určení místa změny v terénu</div>
+						<p>{changeReviewCase.data.change_description_place}</p>
+					</div>
+				);
+			}
+
+			if (changeReviewCase.data.change_description_other) {
+				otherInsert = (
+					<div>
+						<div className='ptr-dromasLpisChangeReviewHeader-property'>Další informace</div>
+						<p>{changeReviewCase.data.change_description_other}</p>
+					</div>
+				);
+			}
 			return (
 				<div>
-					{changeReviewCase.data.change_description}
+					<p>{changeReviewCase.data.change_description}</p>
+					{placeInsert}
+					{otherInsert}
 				</div>
 			)
 		}

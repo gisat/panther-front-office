@@ -50,14 +50,17 @@ class ReviewForm extends React.PureComponent {
 						onBlur={this.props.onBlurInput}
 						inverted
 					/>
-					<EditableText
-						value={this.getValueForProperty(`evaluation_description_other`)}
-						disabled={!(this.props.userGroup && this.props.userGroup.toLowerCase().includes("gisat"))}
-						onChange={this.onChangeOther}
-						onFocus={this.props.onFocusInput}
-						onBlur={this.props.onBlurInput}
-						inverted
-					/>
+					<label>
+						<span>Další komentář</span>
+						<EditableText
+							value={this.getValueForProperty(`evaluation_description_other`)}
+							disabled={!(this.props.userGroup && this.props.userGroup.toLowerCase().includes("gisat"))}
+							onChange={this.onChangeOther}
+							onFocus={this.props.onFocusInput}
+							onBlur={this.props.onBlurInput}
+							inverted
+						/>
+					</label>
 				</div>
 			);
 		} else {
