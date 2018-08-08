@@ -2,6 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import moment from 'moment';
 
 import Button from '../../../atoms/Button';
 import ExpandRowButton from '../../../atoms/ExpandRowButton';
@@ -46,13 +47,16 @@ class ChangeReviewsTable extends React.PureComponent {
 			active: this.state.detailsOpen
 		});
 
+		let submitDate = moment(this.props.data.submit_date).format("D. M. YYYY");
+		let updated = moment(this.props.updated).format("D. M. YYYY");
+
 		return (
 			<div className={classes}>
 				<div className="ptr-table-row-record">
 					{this.renderStatus()}
 					<div className="ptr-table-row-item">{this.props.data.case_key}</div>
-					<div className="ptr-table-row-item">{this.props.data.submit_date}</div>
-					<div className="ptr-table-row-item">{this.props.updated}</div>
+					<div className="ptr-table-row-item">{submitDate}</div>
+					<div className="ptr-table-row-item">{updated}</div>
 					<div className="ptr-table-row-item buttons">
 						<div className="ptr-table-row-action">
 							<Button
