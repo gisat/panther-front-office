@@ -55,6 +55,12 @@
 	flex-direction: column;
 }
 
+.ptr-dromasLpisChangeReviewHeader-heading {
+	text-transform: uppercase;
+	font-weight: 700;
+	letter-spacing: .02rem;
+}
+
 
 /* ============ user actions ================== */
 .ptr-dromasLpisChangeReviewHeader-topBar.userActions {
@@ -100,6 +106,7 @@
 	padding: .2rem .5rem;
 	border-radius: .2rem;
 	color: #222;
+	margin-left: .75rem;
 }
 
 /* ============ expandable content ============ */
