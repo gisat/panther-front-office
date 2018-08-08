@@ -180,17 +180,18 @@ function changeSearchString(state, action) {
 
 function createNewActiveEditedCase(state, action) {
 	let key = action.key || utils.guid();
-	let column = action.column;
-	let value = action.value;
+
 	let futureEditedCase = {
 		key: key,
 		data: {}
 	};
 
-	if (column && column === `lpisCaseStatus`) {
-		futureEditedCase.status = value;
-	} else if (column) {
-		futureEditedCase.data[column] = value;
+	if(action.status) {
+		futureEditedCase.status = action.status;
+	}
+
+	if (action.column) {
+		futureEditedCase.data[action.column] = action.value;
 	}
 
 	return {
@@ -204,29 +205,32 @@ function createNewActiveEditedCase(state, action) {
 }
 
 function editActiveEditedCase(state, action) {
-	let column = action.column;
-	let value = action.value;
-	let file = action.file;
+	// let column = action.column;
+	// let value = action.value;
+	// let file = action.file;
+	// let status = action.status;
 
 	let editedCases = [];
 
 	state.editedCases.forEach((editedCase) => {
 		if (editedCase.key === state.activeNewEditedCaseKey) {
 			let files = {...editedCase.files};
-			if (column.toLowerCase().includes(`geometry`) && editedCase.data[column] && file) {
-				let oldGeometryFileIdentifier = editedCase.data[column].identifier;
+			if (action.column.toLowerCase().includes(`geometry`) && editedCase.data[action.column] && action.file) {
+				let oldGeometryFileIdentifier = editedCase.data[action.column].identifier;
 				delete files[oldGeometryFileIdentifier];
 			}
 
 			let futureEditedCase = {...editedCase};
 
-			if (column && column === `lpisCaseStatus`) {
-				futureEditedCase.status = value;
-			} else if (column) {
-				futureEditedCase.data[column] = value;
+			if (action.status) {
+				futureEditedCase.status = action.status;
 			}
 
-			futureEditedCase.files = (file ? {...files, [file.identifier]: file.file} : futureEditedCase.files);
+			if (action.column) {
+				futureEditedCase.data[action.column] = action.value;
+			}
+
+			futureEditedCase.files = (action.file ? {...files, [action.file.identifier]: action.file.file} : futureEditedCase.files);
 
 			if (!futureEditedCase.files || !Object.keys(futureEditedCase.files).length) {
 				delete futureEditedCase.files;

@@ -255,26 +255,38 @@ function editActiveCase(column, value) {
 	}
 }
 
+function editActiveCaseStatus(status) {
+	return (dispatch, getState) => {
+		let state = getState();
+		let activeCaseEdited = Select.lpisCases.getActiveCaseEdited(state);
+		let activeCaseKey = Select.lpisCases.getActiveCaseKey(state);
+
+		if (activeCaseEdited) {
+			return dispatch(Action.lpisCases.editActiveEditedCase(null, null, null, status));
+		} else {
+			return dispatch(Action.lpisCases.createNewActiveEditedCase(activeCaseKey, null, null, status));
+		}
+	}
+}
+
 function saveCaseAsCreated() {
 	return (dispatch) => {
-		dispatch(Action.lpisCases.editActiveCase(`lpisCaseStatus`, LpisCaseStatuses.EVALUATION_CREATED.database))
+		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.EVALUATION_CREATED.database));
 		dispatch(Action.lpisCases.editLpisCase());
 	}
 }
 
 function saveCaseAsApproved() {
 	return (dispatch, getState) => {
-		dispatch(Action.lpisCases.editActiveCase(`lpisCaseStatus`, LpisCaseStatuses.EVALUATION_APPROVED.database))
+		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.EVALUATION_APPROVED.database));
 		dispatch(Action.lpisCases.editLpisCase());
 	}
 }
 
 function saveCaseAsClosed() {
 	return (dispatch) => {
-		return dispatch(Action.lpisCases.editActiveCase(`lpisCaseStatus`, LpisCaseStatuses.CLOSED.database))
-			.then(() => {
-				return dispatch(Action.lpisCases.editLpisCase());
-			});
+		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.CLOSED.database));
+		dispatch(Action.lpisCases.editLpisCase());
 	}
 }
 
@@ -325,21 +337,23 @@ function actionChangeSearchString(searchString) {
 	}
 }
 
-function actionCreateNewActiveEditedCase(key, column, value) {
+function actionCreateNewActiveEditedCase(key, column, value, status) {
 	return {
 		type: ActionTypes.LPIS_CASES_CREATE_NEW_ACTIVE_EDITED_CASE,
 		key: key,
 		column: column,
-		value: value
+		value: value,
+		status: status
 	}
 }
 
-function actionEditActiveEditedCase(column, value, file) {
+function actionEditActiveEditedCase(column, value, file, status) {
 	return {
 		type: ActionTypes.LPIS_CASES_EDIT_ACTIVE_EDITED_CASE,
 		column: column,
 		value: value,
-		file: file
+		file: file,
+		status: status
 	}
 }
 
@@ -373,5 +387,6 @@ export default {
 	editActiveCase: editActiveCase,
 	saveCaseAsCreated,
 	saveCaseAsApproved,
-	saveCaseAsClosed
+	saveCaseAsClosed,
+	editActiveCaseStatus
 }
