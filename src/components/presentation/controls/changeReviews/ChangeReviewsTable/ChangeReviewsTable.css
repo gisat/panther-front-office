@@ -61,20 +61,20 @@
 	margin-left: 2rem;
 	text-align: right;
 }
-.ptr-change-reviews-table-details-section > h3 {
+.ptr-change-reviews-table-details-section h3 {
 	font-size: .875rem;
 	font-weight: normal;
 	color: rgba(193,54,75,1);
 	margin-bottom: .5rem;
 	text-transform: uppercase;
 }
-.ptr-change-reviews-table-details-section > h4 {
+.ptr-change-reviews-table-details-section h4 {
 	font-size: .875rem;
 	font-weight: normal;
 	margin-bottom: .25rem;
 	color: rgba(65,69,81,1);
 }
-.ptr-change-reviews-table-details-section > p {
+.ptr-change-reviews-table-details-section p {
 	font-size: .8125rem;
 	font-weight: normal;
 	line-height: 1.2rem;
