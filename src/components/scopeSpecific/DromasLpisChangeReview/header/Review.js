@@ -7,6 +7,7 @@ import ExpandableContent from "./ExpandableContent";
 import ReviewForm from './ReviewForm';
 import UISelect from "../../../presentation/atoms/UISelect/UISelect";
 import {evaluationConclusions} from "../../../../constants/LpisCaseStatuses";
+import LpisCaseStatuses from "../../../../constants/LpisCaseStatuses";
 
 class DromasLpisChangeReviewHeader extends React.PureComponent {
 	static propTypes = {
@@ -20,7 +21,10 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 
 		let conclusionInsert, conclusionSelectInsert;
 
-		if (this.props.userGroup === 'gisatUsers' || this.props.userGroup === 'gisatAdmins') {
+		if (
+			(this.props.case && this.props.case.status === LpisCaseStatuses.CREATED.database)
+			&& (this.props.userGroup === 'gisatUsers' || this.props.userGroup === 'gisatAdmins')
+		) {
 			conclusionSelectInsert = (
 				<UISelect
 					inverted
