@@ -640,6 +640,11 @@ todo merge with overlay
 .ptr-table-row:hover {
 	background: rgba(233,235,238,1);
 }
+.ptr-table-row.active,
+.ptr-table-row.active:hover {
+	background: rgba(223,225,228,1);
+	border-bottom: 1px solid #bbb;
+}
 .ptr-table-row-record {
 	display: flex;
 	padding: .3rem 0;

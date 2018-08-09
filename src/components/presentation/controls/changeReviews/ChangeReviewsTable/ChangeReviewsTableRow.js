@@ -77,14 +77,41 @@ class ChangeReviewsTableRow extends React.PureComponent {
 
 	renderDetails(){
 		let classes = classNames(
-			"ptr-table-row-details", {
+			"ptr-table-row-details ptr-change-reviews-table-details", {
 				open: this.state.detailsOpen
 			}
 		);
 
 		return (
 			<div className={classes}>
-				{"Místo: " + this.props.data.change_description_place}
+				<div className="ptr-change-reviews-table-details-descriptions">
+					<div className="ptr-change-reviews-table-details-section">
+						<h3>Ohlášení územní změny</h3>
+						<h4>Popis důvodu pro aktualizaci LPIS</h4>
+						<p>Uživatel odhlásil minulý rok v březnu část DPB z LPIS z důvodu stavebních prací na poli. Práce nyní již
+							dokončeny. DPB bude upravován do současného skutečného stavu. Na ortofoto práce ještě probíhají.</p>
+						<h4>Určení místa změny v terénu</h4>
+						<p>Česká Třebová, vlevo od Janáčkovy č. p. 35</p>
+						<h4>Další informace</h4>
+						<p>Testovací komentář</p>
+					</div>
+					<div className="ptr-change-reviews-table-details-section">
+						<h3>Výsledek vyhodnocení družicových dat</h3>
+						<h4>Popis výsledků vyhodnocení</h4>
+						<p>Na družicových snímcích je v severní části DPB, kde byla vyjetá cesta ze staveniště, stále tato cesta patrná. Zatím nelze s jistotou rozhodnout, zda je DPB v pořádku nebo ne. Bude potřeba se podívat na pozdější snímek se vzrostlou vegetací.</p>
+						<h4>Využitá družicová a další referenční data</h4>
+						<p>Ortofoto LPIS (2015, 2017), Sentinel-2 (2017 - 2018)</p>
+						<h4>Další komentář</h4>
+						<p>Testovací komentář</p>
+					</div>
+				</div>
+				<div className="ptr-change-reviews-table-details-changes-info">
+					<div className="ptr-change-reviews-table-details-section align-right">
+						<h3>Poslední změna</h3>
+						<div className="ptr-change-reviews-table-details-user">dromas</div>
+						<div className="ptr-change-reviews-table-details-date">20. 12. 2017</div>
+					</div>
+				</div>
 			</div>
 		);
 	}
