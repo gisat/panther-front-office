@@ -85,7 +85,7 @@
 .ptr-change-reviews-table-details-record h4 {
 	font-size: .8125rem;
 	font-weight: normal;
-	text-transform: uppercase;
+	/*text-transform: uppercase;*/
 	margin-bottom: .1rem;
 	color: rgba(106,110,120,1);
 }

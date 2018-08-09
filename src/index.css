@@ -714,7 +714,7 @@ todo merge with overlay
 	display: flex;
 }
 .ptr-table-row-item {
-	color: rgba(85,89,101,1);
+	color: rgba(65,69,81,1);
 	padding: 0 .5rem;
 	font-size: .875rem;
 	align-items: center;
