@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ExpandableContent from "./ExpandableContent";
 import ReviewForm from './ReviewForm';
+import UISelect from "../../../presentation/atoms/UISelect/UISelect";
+import {evaluationConclusions} from "../../../../constants/LpisCaseStatuses";
 
 class DromasLpisChangeReviewHeader extends React.PureComponent {
 	static propTypes = {
@@ -14,8 +16,18 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 	render() {
 		return (
 			<div>
-				<div className="ptr-dromasLpisChangeReviewHeader-topBar">
-					<span className='ptr-dromasLpisChangeReviewHeader-heading'>Vyhodnocení</span>
+				<div className="ptr-dromasLpisChangeReviewHeader-topBar review">
+					<div>
+						<span className='ptr-dromasLpisChangeReviewHeader-heading'>Vyhodnocení</span>
+					</div>
+					<div>
+						<UISelect
+							inverted
+							options={evaluationConclusions}
+							value={this.props.case && this.props.case.data.evaluation_result}
+							placeholder="závěr"
+						/>
+					</div>
 				</div>
 				<div className="ptr-dromasLpisChangeReviewHeader-content">
 					<ExpandableContent>
