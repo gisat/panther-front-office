@@ -72,15 +72,15 @@
 	font-size: .875rem;
 	font-weight: normal;
 	margin-bottom: .25rem;
-	color: rgba(65,69,81,1);
+	color: rgba(106,110,120,1);
 }
 .ptr-change-reviews-table-details-section p {
-	font-size: .8125rem;
+	font-size: .875rem;
 	font-weight: normal;
 	line-height: 1.2rem;
 	margin-bottom: 1rem;
 	max-width: 35rem;
-	color: rgba(85,89,101,1);
+	color: #333;
 }
 .ptr-change-reviews-table-details-user,
 .ptr-change-reviews-table-details-date {

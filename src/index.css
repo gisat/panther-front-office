@@ -697,8 +697,8 @@ todo merge with overlay
 }
 .ptr-table-row.active,
 .ptr-table-row.active:hover {
-	background: rgba(223,225,228,1);
-	border-bottom: 1px solid #bbb;
+	background: rgba(234,248,255,1);
+	border-bottom: 1px solid #ccc;
 }
 .ptr-table-row-record {
 	display: flex;
