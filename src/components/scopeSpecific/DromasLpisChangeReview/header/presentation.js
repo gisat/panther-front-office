@@ -40,7 +40,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 						case={this.props.case}
 						userGroup={this.props.userGroup}
 						editActiveCase={this.props.editActiveCase}
-						activeCaseEdited={this.props.activeCaseEdited}
+						caseEdited={this.props.activeCaseEdited}
 					/>
 				</div>
 				<div id="dromasLpisChangeReviewHeader-actions">

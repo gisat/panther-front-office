@@ -17,6 +17,16 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		activeCaseEdited: PropTypes.object
 	};
 
+	constructor(props) {
+		super(props);
+
+		this.onChangeResult = this.onChangeResult.bind(this);
+	}
+
+	onChangeResult(value) {
+		this.props.editActiveCase(`evaluation_result`, value.value);
+	}
+
 	render() {
 
 		let conclusionInsert, conclusionSelectInsert;
@@ -29,8 +39,9 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 				<UISelect
 					inverted
 					options={evaluationConclusions}
-					value={this.props.case && this.props.case.data.evaluation_result}
+					value={this.props.caseEdited && this.props.caseEdited.data.evaluation_result || this.props.case && this.props.case.data.evaluation_result}
 					placeholder="závěr"
+					onChange={this.onChangeResult}
 				/>
 			);
 		} else {
@@ -62,7 +73,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 					<ExpandableContent>
 						<ReviewForm
 							case={this.props.case}
-							caseEdited={this.props.activeCaseEdited}
+							caseEdited={this.props.caseEdited}
 							editActiveCase={this.props.editActiveCase}
 							userGroup={this.props.userGroup}
 						/>
