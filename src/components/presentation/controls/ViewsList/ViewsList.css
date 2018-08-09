@@ -6,6 +6,7 @@
 }
 .ptr-overlay .ptr-views-list {
 	height: calc(100% - 3rem);
+	width: auto;
 }
 
 .no-view-message {
