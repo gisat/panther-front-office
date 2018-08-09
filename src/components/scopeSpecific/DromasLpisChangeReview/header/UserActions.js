@@ -52,21 +52,21 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 	renderButtonsForGisatAdmins(changeReviewCase) {
 		if(changeReviewCase.status === LpisCaseStatuses.CREATED.database) {
 			return (
-				<div>
+				<div key="gisatAdmins-created">
 					<div><Button inverted onClick={this.props.saveCaseAsEvaluated}>Uložit vyhodnocení</Button></div>
 					<div><Button inverted onClick={this.props.saveCaseAsApproved}>Uložit & schválit vyhodnocení</Button></div>
 				</div>
 			)
 		} else if(changeReviewCase.status === LpisCaseStatuses.EVALUATION_CREATED.database) {
 			return (
-				<div>
+				<div key="gisatAdmins-evaluationCreated">
 					<div><Button primary onClick={this.props.saveCaseAsApproved}>Schválit vyhodnocení</Button></div>
 					<div><Button inverted onClick={this.props.saveCaseAsCreated}>Vrátit k vyhodnocení</Button></div>
 				</div>
 			)
 		} else if(changeReviewCase.status === LpisCaseStatuses.EVALUATION_APPROVED.database) {
 			return (
-				<div>
+				<div key="gisatAdmins-evaluationApproved">
 					<div><Button inverted onClick={this.props.saveCaseAsCreated}>Vrátit k vyhodnocení</Button></div>
 				</div>
 			)
@@ -76,7 +76,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 	renderButtonsForGisatUsers(changeReviewCase) {
 		if(changeReviewCase.status === LpisCaseStatuses.CREATED.database) {
 			return (
-				<div>
+				<div key="gisatUsers-created">
 					<div><Button primary onClick={this.props.saveCaseAsEvaluated}>Uložit vyhodnocení</Button></div>
 				</div>
 			)
@@ -86,7 +86,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 	renderButtonsForSzifs(changeReviewCase) {
 		if(changeReviewCase.status === LpisCaseStatuses.EVALUATION_APPROVED.database) {
 			return (
-				<div>
+				<div key="szif-evaluationApproved">
 					<div><Button primary onClick={this.props.saveCaseAsClosed}>Uzavřít</Button></div>
 					<div><Button inverted onClick={this.props.saveCaseAsCreated}>Vrátit k vyhodnocení</Button></div>
 				</div>

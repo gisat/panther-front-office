@@ -75,20 +75,6 @@ class ChangeReviewsTableRow extends React.PureComponent {
 		);
 	}
 
-	renderDetails(){
-		let classes = classNames(
-			"ptr-table-row-details", {
-				open: this.state.detailsOpen
-			}
-		);
-
-		return (
-			<div className={classes}>
-				{"Místo: " + this.props.data.change_description_place}
-			</div>
-		);
-	}
-
 	renderStatus(){
 		let status = LpisCaseStatuses[this.props.status];
 		let caption = null;
@@ -130,6 +116,106 @@ class ChangeReviewsTableRow extends React.PureComponent {
 				Zobrazit
 			</Button>
 		) : null;
+	}
+
+	renderDetails(){
+		let classes = classNames(
+			"ptr-table-row-details ptr-change-reviews-table-details", {
+				open: this.state.detailsOpen
+			}
+		);
+
+		let data = this.props.data;
+
+		return (
+			data ? (<div className={classes}>
+				<div className="ptr-change-reviews-table-details-descriptions">
+					<div className="ptr-change-reviews-table-details-section change">
+						<h3>Ohlášení územní změny</h3>
+						{data.change_description ? this.renderChangeDescription(data.change_description) : null}
+						{data.change_description_place ? this.renderChangeDescriptionPlace(data.change_description_place) : null}
+						{data.change_description_other ? this.renderChangeDescriptionOther(data.change_description_place) : null}
+					</div>
+					<div className="ptr-change-reviews-table-details-section evaluation">
+						<h3>Výsledek vyhodnocení družicových dat</h3>
+						{data.evaluation_result ? this.renderEvaluationResult(data.evaluation_result) : null}
+						{data.evaluation_description ? this.renderEvaluationDescription(data.evaluation_description) : null}
+						{data.evaluation_used_sources ? this.renderEvaluationUsedSources(data.evaluation_used_sources) : null}
+						{data.evaluation_description_other ? this.renderEvaluationDescriptionOther(data.evaluation_description_other) : null}
+					</div>
+				</div>
+				<div className="ptr-change-reviews-table-details-changes-info">
+					<div className="ptr-change-reviews-table-details-section align-right">
+						<h3>Poslední změna</h3>
+						<div className="ptr-change-reviews-table-details-user">dromas</div>
+						<div className="ptr-change-reviews-table-details-date">20. 12. 2017</div>
+					</div>
+				</div>
+			</div>) : null
+		);
+	}
+
+	renderChangeDescription(data){
+		return (
+			<div>
+				<h4>Popis důvodu pro aktualizaci LPIS</h4>
+				<p>{data}</p>
+			</div>
+		);
+	}
+
+	renderChangeDescriptionPlace(data){
+		return (
+			<div>
+				<h4>Určení místa změny v terénu</h4>
+				<p>{data}</p>
+			</div>
+		);
+	}
+
+	renderChangeDescriptionOther(data){
+		return (
+			<div>
+				<h4>Další informace</h4>
+				<p>{data}</p>
+			</div>
+		);
+	}
+
+	renderEvaluationResult(data){
+		return (
+			<div>
+				<h4>Závěr vyhodnocení</h4>
+				<p>{data}</p>
+			</div>
+		);
+	}
+
+	renderEvaluationDescription(data){
+		return (
+			<div>
+				<h4>Popis výsledků vyhodnocení</h4>
+				<p>{data}</p>
+			</div>
+		);
+	}
+
+	renderEvaluationUsedSources(data){
+		return (
+			<div>
+				<h4>Využitá družicová a další referenční data</h4>
+				<p>{data}</p>
+			</div>
+		);
+	}
+
+	renderEvaluationDescriptionOther(data){
+		return (
+			<div>
+				<h4>Další komentář</h4>
+				<p>{data}</p>
+			</div>
+		);
 	}
 }
 

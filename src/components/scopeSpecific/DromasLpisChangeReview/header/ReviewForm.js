@@ -41,7 +41,10 @@ class ReviewForm extends React.PureComponent {
 
 	render() {
 		if (this.props.case) {
-			if (this.props.userGroup === 'gisatUsers' || this.props.userGroup === 'gisatAdmins') {
+			if (
+				(this.props.case && this.props.case.status === LpisCaseStatuses.CREATED.database)
+				&& (this.props.userGroup === 'gisatUsers' || this.props.userGroup === 'gisatAdmins')
+			) {
 				return (
 					<div>
 						<EditableText
