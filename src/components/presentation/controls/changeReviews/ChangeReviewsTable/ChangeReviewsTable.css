@@ -22,11 +22,11 @@
 }
 .ptr-table.change-reviews-table .ptr-table-header-item:nth-child(1),
 .ptr-table.change-reviews-table .ptr-table-row-item:nth-child(1) {
-	flex-basis: 20%;
+	flex-basis: 25%;
 }
 .ptr-table.change-reviews-table .ptr-table-header-item:nth-child(2),
 .ptr-table.change-reviews-table .ptr-table-row-item:nth-child(2) {
-	flex-basis: 25%;
+	flex-basis: 24%;
 }
 .ptr-table.change-reviews-table .ptr-table-row-item:nth-child(2) {
 	font-weight: 600;
@@ -41,5 +41,5 @@
 }
 .ptr-table.change-reviews-table .ptr-table-header-item:nth-child(5),
 .ptr-table.change-reviews-table .ptr-table-row-item:nth-child(5){
-	flex-basis: 15%;
+	flex-basis: 11%;
 }
