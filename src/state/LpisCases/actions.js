@@ -145,6 +145,38 @@ function editLpisCase() {
 	}
 }
 
+function editLpisCaseStatus(caseKey, status) {
+	return (dispatch) => {
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata');
+
+		return fetch(url, {
+			method: 'PUT',
+			credentials: 'include',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				data: {
+					lpis_cases: [
+						{
+							id: caseKey,
+							data: {},
+							status: status
+						}
+					]
+				}
+			})
+		}).then(response => {
+			if (response.status === 200) {
+				return response.json();
+			}
+		}).then((responseContent) => {
+			dispatch(_storeResponseContent(responseContent));
+		});
+	}
+}
+
 function _storeResponseContent(content) {
 	return (dispatch, getState) => {
 		let state = getState();
@@ -266,30 +298,50 @@ function editActiveCaseStatus(status) {
 }
 
 function saveCaseAsCreated() {
-	return (dispatch) => {
-		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.CREATED.database));
-		dispatch(Action.lpisCases.editLpisCase());
+	return (dispatch, getState) => {
+		let state = getState();
+		dispatch(
+			Action.lpisCases.editLpisCaseStatus(
+				Select.lpisCases.getActiveCaseKey(state),
+				LpisCaseStatuses.CREATED.database
+			)
+		);
 	}
 }
 
 function saveCaseAsEvaluated() {
-	return (dispatch) => {
-		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.EVALUATION_CREATED.database));
-		dispatch(Action.lpisCases.editLpisCase());
+	return (dispatch, getState) => {
+		let state = getState();
+		dispatch(
+			Action.lpisCases.editLpisCaseStatus(
+				Select.lpisCases.getActiveCaseKey(state),
+				LpisCaseStatuses.EVALUATION_CREATED.database
+			)
+		);
 	}
 }
 
 function saveCaseAsApproved() {
 	return (dispatch, getState) => {
-		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.EVALUATION_APPROVED.database));
-		dispatch(Action.lpisCases.editLpisCase());
+		let state = getState();
+		dispatch(
+			Action.lpisCases.editLpisCaseStatus(
+				Select.lpisCases.getActiveCaseKey(state),
+				LpisCaseStatuses.EVALUATION_APPROVED.database
+			)
+		);
 	}
 }
 
 function saveCaseAsClosed() {
-	return (dispatch) => {
-		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.CLOSED.database));
-		dispatch(Action.lpisCases.editLpisCase());
+	return (dispatch, getState) => {
+		let state = getState();
+		dispatch(
+			Action.lpisCases.editLpisCaseStatus(
+				Select.lpisCases.getActiveCaseKey(state),
+				LpisCaseStatuses.CLOSED.database
+			)
+		);
 	}
 }
 
@@ -386,5 +438,6 @@ export default {
 	saveCaseAsEvaluated,
 	saveCaseAsApproved,
 	saveCaseAsClosed,
-	editActiveCaseStatus
+	editActiveCaseStatus,
+	editLpisCaseStatus
 }
