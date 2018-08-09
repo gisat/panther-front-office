@@ -8,6 +8,8 @@ import Button from "../../../presentation/atoms/Button";
 
 class DromasLpisChangeReviewHeader extends React.PureComponent {
 	static propTypes = {
+		case: PropTypes.object,
+		userGroup: PropTypes.string,
 		saveCaseAsCreated: PropTypes.func,
 		saveCaseAsApproved: PropTypes.func,
 		saveCaseAsClosed: PropTypes.func,
@@ -24,14 +26,70 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 					</div>
 					<User />
 				</div>
+				{this.renderButtons(this.props.case)}
+			</div>
+		);
+	}
+
+	renderButtons(changeReviewCase) {
+		if(this.props.userGroup && changeReviewCase) {
+			switch (this.props.userGroup) {
+				case `gisatAdmins`:
+					return this.renderButtonsForGisatAdmins(changeReviewCase);
+				case `gisatUsers`:
+					return this.renderButtonsForGisatUsers(changeReviewCase);
+				case `szifAdmins`:
+				case `szifUsers`:
+					return this.renderButtonsForSzifs(changeReviewCase);
+			}
+		} else {
+			return null;
+		}
+	}
+
+	renderButtonsForGisatAdmins(changeReviewCase) {
+		if(changeReviewCase.status === LpisCaseStatuses.CREATED.database) {
+			return (
+				<div>
+					<Button onClick={this.props.saveCaseAsEvaluated}>Vyhodnotit</Button>
+					<Button onClick={this.props.saveCaseAsApproved}>Schválit</Button>
+				</div>
+			)
+		} else if(changeReviewCase.status === LpisCaseStatuses.EVALUATION_CREATED.database) {
+			return (
 				<div>
 					<Button onClick={this.props.saveCaseAsApproved}>Schválit</Button>
 					<Button onClick={this.props.saveCaseAsCreated}>Odmítnout</Button>
-					<Button onClick={this.props.saveCaseAsClosed}>Uzavřít</Button>
+				</div>
+			)
+		} else if(changeReviewCase.status === LpisCaseStatuses.EVALUATION_APPROVED.database) {
+			return (
+				<div>
+					<Button onClick={this.props.saveCaseAsCreated}>Odmítnout</Button>
+				</div>
+			)
+		}
+	}
+
+	renderButtonsForGisatUsers(changeReviewCase) {
+		if(changeReviewCase.status === LpisCaseStatuses.CREATED.database) {
+			return (
+				<div>
 					<Button onClick={this.props.saveCaseAsEvaluated}>Vyhodnotit</Button>
 				</div>
-			</div>
-		);
+			)
+		}
+	}
+
+	renderButtonsForSzifs(changeReviewCase) {
+		if(changeReviewCase.status === LpisCaseStatuses.EVALUATION_APPROVED.database) {
+			return (
+				<div>
+					<Button onClick={this.props.saveCaseAsCreated}>Odmítnout</Button>
+					<Button onClick={this.props.saveCaseAsClosed}>Uzavřít</Button>
+				</div>
+			)
+		}
 	}
 
 	renderStatus(changeReviewCase) {
