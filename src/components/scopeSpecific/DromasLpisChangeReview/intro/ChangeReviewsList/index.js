@@ -10,6 +10,7 @@ const mapStateToProps = (state, ownProps) => {
 		searchString: Select.lpisCases.getSearchString(state),
 		activeEditedCaseKey: Select.lpisCases.getActiveEditedCaseKey(state),
 		activeEditedCase: Select.lpisCases.getActiveEditedCase(state),
+		userGroup: Select.users.getActiveUserDromasLpisChangeReviewGroup(state),
 	}
 };
 

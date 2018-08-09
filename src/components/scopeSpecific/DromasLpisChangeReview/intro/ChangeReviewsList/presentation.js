@@ -21,7 +21,8 @@ class ChangeReviewsList extends React.PureComponent {
 		searchString: PropTypes.string,
 		createNewActiveEditedCase: PropTypes.func,
 		activeEditedCaseKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-		showCase: PropTypes.func
+		showCase: PropTypes.func,
+		userGroup: PropTypes.string
 	};
 
 	addReview(){
@@ -63,6 +64,7 @@ class ChangeReviewsList extends React.PureComponent {
 					<ChangeReviewsTable
 						cases={this.props.cases}
 						showCase={this.props.showCase}
+						userGroup={this.props.userGroup}
 					/>
 				</div>
 			</div>

@@ -10,7 +10,7 @@ import Icon from '../../../atoms/Icon';
 
 import LpisCaseStatuses, {order as LpisCaseStatusOrder} from '../../../../../constants/LpisCaseStatuses';
 
-class ChangeReviewsTable extends React.PureComponent {
+class ChangeReviewsTableRow extends React.PureComponent {
 
 	static propTypes = {
 		caseKey: PropTypes.number,
@@ -18,7 +18,8 @@ class ChangeReviewsTable extends React.PureComponent {
 		data: PropTypes.object,
 		status: PropTypes.string,
 		updated: PropTypes.string,
-		showCase: PropTypes.func
+		showCase: PropTypes.func,
+		userGroup: PropTypes.string
 	};
 
 	constructor(props){
@@ -49,6 +50,7 @@ class ChangeReviewsTable extends React.PureComponent {
 
 		let submitDate = moment(this.props.data.submit_date).format("D. M. YYYY");
 		let updated = moment(this.props.updated).format("D. M. YYYY");
+		let showMapButton = this.renderShowMapButton();
 
 		return (
 			<div className={classes}>
@@ -59,12 +61,7 @@ class ChangeReviewsTable extends React.PureComponent {
 					<div className="ptr-table-row-item">{updated}</div>
 					<div className="ptr-table-row-item buttons">
 						<div className="ptr-table-row-action">
-							<Button
-								small
-								onClick={this.onShowClick}
-							>
-								Zobrazit
-							</Button>
+							{showMapButton}
 						</div>
 						<ExpandRowButton
 							invisible
@@ -112,6 +109,28 @@ class ChangeReviewsTable extends React.PureComponent {
 			</div>
 		);
 	}
+
+	renderShowMapButton(){
+		let status = LpisCaseStatuses[this.props.status];
+		let group = this.props.userGroup;
+
+		let renderButton = group && (
+			(group === "gisatAdmins" || group === "gisatUsers") || (
+				(group === "szifAdmins" || group === "szifUsers") &&
+				status &&
+				(status.database === "EVALUATION_APPROVED" || status.database === "CLOSED")
+			)
+		);
+
+		return renderButton ? (
+			<Button
+				small
+				onClick={this.onShowClick}
+			>
+				Zobrazit
+			</Button>
+		) : null;
+	}
 }
 
-export default ChangeReviewsTable;
+export default ChangeReviewsTableRow;

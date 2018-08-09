@@ -11,7 +11,8 @@ class ChangeReviewsTable extends React.PureComponent {
 
 	static propTypes = {
 		cases: PropTypes.array,
-		showCase: PropTypes.func
+		showCase: PropTypes.func,
+		userGroup: PropTypes.string
 	};
 
 	constructor(props){
@@ -47,6 +48,7 @@ class ChangeReviewsTable extends React.PureComponent {
 				status={reviewCase.status}
 				updated={reviewCase.updated}
 				showCase={this.props.showCase}
+				userGroup={this.props.userGroup}
 			/>
 		);
 	}
