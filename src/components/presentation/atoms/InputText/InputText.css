@@ -5,6 +5,8 @@
 	min-width: 10rem;
 	display: flex;
 	padding: 0 .5rem;
+	background: white;
+	border: 1px solid #aaa;
 }
 .ptr-input-text input {
 	border: 0;
@@ -34,6 +36,7 @@
 /* transparent */
 .ptr-input-text.transparent {
 	background: rgba(255,255,255,.2);
+	border: 0;
 	transition: background .3s ease-in-out;
 }
 .ptr-input-text.transparent input {

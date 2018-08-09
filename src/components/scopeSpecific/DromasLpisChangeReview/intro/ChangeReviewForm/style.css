@@ -1,7 +1,7 @@
 .ptr-change-review-form {
 	width: 100%;
 	height: 100%;
-	background: silver;
+	background: rgba(208,212,220,1);
 }
 
 .ptr-change-review-form-header {
@@ -12,7 +12,7 @@
 	padding: 1rem;
 	flex-direction: column;
 }
-.ptr-change-review-form-buttons{
+.ptr-change-review-form-header-buttons{
 	margin-bottom: .5rem;
 	flex: 1;
 }
@@ -29,4 +29,20 @@
 	font-size: 2.3rem;
 	font-weight: 300;
 	padding-left: .5rem;
+}
+
+/* body */
+.ptr-change-review-form-body {
+	padding: 1.5rem;
+	height: calc(100% - 13rem);
+	overflow-y: auto;
+}
+.ptr-change-review-form-wrapper {
+	max-width: 40rem;
+}
+.ptr-change-review-form-buttons {
+	margin: 1rem 0;
+}
+.ptr-change-review-form-buttons > div {
+	margin-right: .5rem;
 }

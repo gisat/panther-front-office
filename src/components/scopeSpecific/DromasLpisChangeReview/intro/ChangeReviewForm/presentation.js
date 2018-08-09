@@ -8,6 +8,7 @@ import _ from 'lodash';
 import Button from "../../../../presentation/atoms/Button";
 import Icon from "../../../../presentation/atoms/Icon";
 import InputText from "../../../../presentation/atoms/InputText/InputText";
+import InputWrapper from "../../../../common/atoms/InputWrapper/InputWrapper";
 import utils from "../../../../../utils/utils.js";
 
 import './style.css';
@@ -53,6 +54,13 @@ class ChangeReviewForm extends React.PureComponent {
 		document.getElementById(`geometry_after`).value = '';
 	}
 
+	onTextInputChange(key, value){
+		this.props.editActiveEditedCase(
+			key,
+			value
+		);
+	}
+
 	onFormChange(event) {
 		let key = event.target.name;
 		let value = event.target.value;
@@ -84,7 +92,7 @@ class ChangeReviewForm extends React.PureComponent {
 		return (
 			<div className="ptr-change-review-form">
 				<div className="ptr-change-review-form-header">
-					<div className="ptr-change-review-form-buttons">
+					<div className="ptr-change-review-form-header-buttons">
 						<Button icon="arrow-left" invisible onClick={this.onClickBack}>
 							Změnová řízení
 						</Button>
@@ -92,62 +100,68 @@ class ChangeReviewForm extends React.PureComponent {
 					<h2 className="ptr-change-review-form-title">Nové řízení</h2>
 				</div>
 				<div className="ptr-change-review-form-body">
+					<div className="ptr-change-review-form-wrapper">
+						<InputWrapper
+							label="Kód DPB"
+						>
+							<InputText
+								type="text"
+								value={data.code_dpb || ""}
+								onChange={this.onTextInputChange.bind(this, "code_dpb")}
+							/>
+						</InputWrapper>
+						<InputWrapper
+							label="Kód JI"
+						>
+							<InputText
+								type="text"
+								value={data.code_ji || ""}
+								onChange={this.onTextInputChange.bind(this, "code_ji")}
+							/>
+						</InputWrapper>
+						<InputWrapper
+							label="Spisová značka řízení"
+						>
+							<InputText
+								type="text"
+								value={data.case_key || ""}
+								onChange={this.onTextInputChange.bind(this, "case_key")}
+							/>
+						</InputWrapper>
+						<InputWrapper
+							label="Popis důvodu pro aktualizaci LPIS"
+						>
+							<InputText
+								type="text"
+								value={data.change_description || ""}
+								onChange={this.onTextInputChange.bind(this, "change_description")}
+							/>
+						</InputWrapper>
+						<InputWrapper
+							label="Určení místa změny v terénu"
+						>
+							<InputText
+								type="text"
+								value={data.change_description_place || ""}
+								onChange={this.onTextInputChange.bind(this, "change_description_place")}
+							/>
+						</InputWrapper>
+						<InputWrapper
+							label="Další informace"
+						>
+							<InputText
+								type="text"
+								value={data.change_description_other || ""}
+								onChange={this.onTextInputChange.bind(this, "change_description_other")}
+							/>
+						</InputWrapper>
+					</div>
+
 					<div>
 						<label>submit_date</label>
 						<input name="submit_date" type="text" value={data.submit_date || ""}
 							   onChange={this.onFormChange}/>
 					</div>
-					<div>
-						<label>code_dpb</label>
-						<input name="code_dpb" type="text" value={data.code_dpb || ""}
-							   onChange={this.onFormChange}/>
-					</div>
-					<div>
-						<label>code_ji</label>
-						<input name="code_ji" type="text" value={data.code_ji || ""}
-							   onChange={this.onFormChange}/>
-					</div>
-					<div>
-						<label>case_key</label>
-						<input name="case_key" type="text" value={data.case_key || ""}
-							   onChange={this.onFormChange}/>
-					</div>
-					<div>
-						<label>change_description</label>
-						<input name="change_description" type="text" value={data.change_description || ""}
-							   onChange={this.onFormChange}/>
-					</div>
-					<div>
-						<label>change_description_place</label>
-						<input name="change_description_place" type="text" value={data.change_description_place || ""}
-							   onChange={this.onFormChange}/>
-					</div>
-					<div>
-						<label>change_description_other</label>
-						<input name="change_description_other" type="text" value={data.change_description_other || ""}
-							   onChange={this.onFormChange}/>
-					</div>
-					<div>
-						<label>evaluation_result</label>
-						<input name="evaluation_result" type="text" value={data.evaluation_result || ""}
-							   onChange={this.onFormChange}/>
-					</div>
-					<div>
-						<label>evaluation_description</label>
-						<input name="evaluation_description" type="text" value={data.evaluation_description || ""}
-							   onChange={this.onFormChange}/>
-					</div>
-					<div>
-						<label>evaluation_description_other</label>
-						<input name="evaluation_description_other" type="text" value={data.evaluation_description_other || ""}
-							   onChange={this.onFormChange}/>
-					</div>
-					<div>
-						<label>evaluation_used_sources</label>
-						<input name="evaluation_used_sources" type="text" value={data.evaluation_used_sources || ""}
-							   onChange={this.onFormChange}/>
-					</div>
-
 					<div>
 						<label>geometry_before</label>
 						<input id="geometry_before" name="geometry_before" type="file" onChange={this.onFormChange}/>
@@ -156,11 +170,19 @@ class ChangeReviewForm extends React.PureComponent {
 						<label>geometry_after</label>
 						<input id="geometry_after" name="geometry_after" type="file" onChange={this.onFormChange}/>
 					</div>
-					<div>
-						<input type="button" value="Podat a vytvořit nový" onClick={this.onClickSendAndCreateNewOne}/>
-					</div>
-					<div>
-						<input type="button" value="Podat a vrátit na seznam" onClick={this.onClickSendAndReturnBack}/>
+					<div className="ptr-change-review-form-buttons">
+						<Button
+							primary
+							onClick={this.onClickSendAndCreateNewOne}
+						>
+							Podat a vytvořit další
+						</Button>
+						<Button
+							secondary
+							onClick={this.onClickSendAndReturnBack}
+						>
+							Podat a vrátit se na seznam
+						</Button>
 					</div>
 				</div>
 			</div>

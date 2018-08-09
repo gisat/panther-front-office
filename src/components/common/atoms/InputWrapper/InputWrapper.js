@@ -1,13 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import utils from '../../../utils/utils';
+import utils from '../../../../utils/utils';
 import _ from 'lodash';
+
+import './style.css';
 
 class InputWrapper extends React.PureComponent {
 
 	static propTypes = {
-		disabled: PropTypes.bool
+		disabled: PropTypes.bool,
+		label: PropTypes.string
 	};
 
 	render() {

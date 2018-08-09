@@ -15,6 +15,7 @@ class InputText extends React.PureComponent {
 		placeholder: PropTypes.string,
 		transparent: PropTypes.bool,
 		value: PropTypes.string,
+		name: PropTypes.name,
 		onChange: PropTypes.func
 	};
 
@@ -40,7 +41,7 @@ class InputText extends React.PureComponent {
 			value: e.target.value
 		});
 		if (this.props.onChange){
-			this.props.onChange(e.target.value);
+			this.props.onChange(e.target.value, e.target.name);
 		}
 	}
 
@@ -92,6 +93,7 @@ class InputText extends React.PureComponent {
 			<input type={type}
 				   placeholder={this.state.focus ? null : this.props.placeholder}
 				   value={this.state.value || ""}
+				   name={this.props.name}
 				   onChange={this.onChange}
 				   autoFocus={this.state.focus}
 				   onBlur={this.onBlur}
