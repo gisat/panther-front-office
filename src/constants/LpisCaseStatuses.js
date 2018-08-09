@@ -32,3 +32,21 @@ export const order = {
 	szifAdmins: [`EVALUATION_APPROVED`, [`EVALUATION_CREATED`, `CREATED`], `CLOSED`],
 	szifUsers: [`EVALUATION_APPROVED`, [`EVALUATION_CREATED`, `CREATED`], `CLOSED`]
 };
+
+export const evaluationConclusions = [
+	{
+		value: 'MATCH',
+		label: 'V souladu',
+		colour: '#44ae08'
+	},
+	{
+		value: 'MISMATCH',
+		label: 'V rozporu',
+		colour: '#d02100'
+	},
+	{
+		value: 'UNCLEAR',
+		label: 'Nejasné',
+		colour: '#d1bd01'
+	},
+];

@@ -455,6 +455,61 @@ body {
 	color: #333;
 }
 
+
+
+.ptr-ui-select.inverted .Select {
+	border-color: rgba(255,255,255,.4);
+	transition: .3s border ease-in-out;
+}
+.ptr-ui-select.inverted  .Select.is-focused {
+	box-shadow: 0 0 1px 1px rgba(0,134,252,1);
+}
+.ptr-ui-select.inverted  .Select-control,
+.ptr-ui-select.inverted  .Select.is-disabled .Select-control,
+.ptr-ui-select.inverted  .Select.is-open > .Select-control {
+	background-color: rgba(232, 236, 240, 0.05);
+}
+
+.ptr-ui-select.inverted .Select-menu-outer {
+	background-color: #212635;
+	border-color: rgba(255,255,255,.3);
+}
+
+.ptr-ui-select.inverted  .VirtualizedSelectOption,
+.ptr-ui-select.inverted  .Select-option {
+	background-color: transparent;
+	color: #ddd;
+}
+.ptr-ui-select.inverted  .VirtualizedSelectDisabledOption,
+.ptr-ui-select.inverted  .Select-option.is-disabled {
+	background-color: transparent;
+	color: #666;
+}
+.ptr-ui-select.inverted  .VirtualizedSelectSelectedOption,
+.ptr-ui-select.inverted  .VirtualizedSelectSelectedOption.VirtualizedSelectFocusedOption,
+.ptr-ui-select.inverted  .Select-option.is-selected,
+.ptr-ui-select.inverted  .Select-option.is-selected.is-focused {
+	background-color: rgba(153,191,228,.3);
+}
+.ptr-ui-select.inverted  .VirtualizedSelectFocusedOption,
+.ptr-ui-select.inverted  .Select-option.is-focused {
+	background-color: rgba(153,191,228,.5);
+}
+.ptr-ui-select.inverted  .Select:hover,
+.ptr-ui-select.inverted  .Select.is-focused {
+	border-color: rgba(255,255,255,.5);
+}
+.ptr-ui-select.inverted  .Select-control:hover,
+.ptr-ui-select.inverted  .Select.is-focused > .Select-control,
+.ptr-ui-select.inverted  .Select.is-focused:not(.is-open) > .Select-control {
+	background-color: rgba(255,255,255,.1);
+}
+.ptr-ui-select.inverted  .Select.has-value.Select--single > .Select-control .Select-value .Select-value-label,
+.ptr-ui-select.inverted  .Select.has-value.is-focused.Select--single > .Select-control .Select-value .Select-value-label,
+.ptr-ui-select.inverted  .Select.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value .Select-value-label,
+.ptr-ui-select.inverted  .Select-input > input {
+	color: #ddd;
+}
 /* ================================================================
    === COMPONENTS =================================================
    ================================================================ */

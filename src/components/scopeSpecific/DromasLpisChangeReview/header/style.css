@@ -62,9 +62,37 @@
 }
 
 
+/* ============ review ======================= */
+.ptr-dromasLpisChangeReviewHeader-topBar.review {
+	justify-content: space-between;
+}
+
+.ptr-dromasLpisChangeReviewHeader-topBar.review .ptr-ui-select.inverted .Select  {
+	border-color: rgba(255,255,255,.3);
+}
+.ptr-dromasLpisChangeReviewHeader-topBar.review .ptr-ui-select.inverted .Select .Select-control {
+	background-color: transparent;
+}
+
+.ptr-dromasLpisChangeReviewHeader-topBar.review .ptr-ui-select .Select .Select-control,
+.ptr-dromasLpisChangeReviewHeader-topBar.review .ptr-ui-select .Select .Select-placeholder,
+.ptr-dromasLpisChangeReviewHeader-topBar.review .ptr-ui-select .Select .Select-input {
+	height: 1.6rem;
+	line-height: 1.6rem;
+}
+
+
 /* ============ user actions ================== */
 .ptr-dromasLpisChangeReviewHeader-topBar.userActions {
 	justify-content: space-between;
+}
+
+#dromasLpisChangeReviewHeader-actions .ptr-dromasLpisChangeReviewHeader-content {
+	padding: 0 .5rem .5rem .5rem;
+}
+
+#dromasLpisChangeReviewHeader-actions .ptr-dromasLpisChangeReviewHeader-content > div > div {
+	margin-bottom: .3rem;
 }
 
 
