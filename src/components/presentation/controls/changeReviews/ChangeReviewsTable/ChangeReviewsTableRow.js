@@ -149,7 +149,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 						<h3>Ohlášení územní změny</h3>
 						{data.change_description ? this.renderChangeDescription(data.change_description) : null}
 						{data.change_description_place ? this.renderChangeDescriptionPlace(data.change_description_place) : null}
-						{data.change_description_other ? this.renderChangeDescriptionOther(data.change_description_place) : null}
+						{data.change_description_other ? this.renderChangeDescriptionOther(data.change_description_other) : null}
 					</div>
 					<div>
 						<h3>Výsledek vyhodnocení družicových dat</h3>
