@@ -143,6 +143,12 @@ class ChangeReviewsTableRow extends React.PureComponent {
 						{data.evaluation_used_sources ? this.renderEvaluationUsedSources(data.evaluation_used_sources) : null}
 						{data.evaluation_description_other ? this.renderEvaluationDescriptionOther(data.evaluation_description_other) : null}
 					</div>
+					<div className="ptr-change-reviews-table-details-section other">
+						<h3>Další údaje</h3>
+						{data.code_dpb? this.renderCodeDpb(data.code_dpb) : null}
+						{data.code_ji ? this.renderCodeJi(data.code_ji) : null}
+						{this.renderContact()}
+					</div>
 				</div>
 				<div className="ptr-change-reviews-table-details-changes-info">
 					<div className="ptr-change-reviews-table-details-section align-right">
@@ -214,6 +220,33 @@ class ChangeReviewsTableRow extends React.PureComponent {
 			<div>
 				<h4>Další komentář</h4>
 				<p>{data}</p>
+			</div>
+		);
+	}
+
+	renderCodeDpb(data){
+		return (
+			<div>
+				<h4>Kód DPB</h4>
+				<p>{data}</p>
+			</div>
+		);
+	}
+
+	renderCodeJi(data){
+		return (
+			<div>
+				<h4>Kód JI</h4>
+				<p>{data}</p>
+			</div>
+		);
+	}
+
+	renderContact(){
+		return (
+			<div>
+				<h4>Kontaktní infromace</h4>
+				<p>lpisReview@gisat.cz</p>
 			</div>
 		);
 	}
