@@ -73,17 +73,12 @@ function createNewActiveEditedCase(state, action) {
 }
 
 function editActiveEditedCase(state, action) {
-	// let column = action.column;
-	// let value = action.value;
-	// let file = action.file;
-	// let status = action.status;
-
 	let editedCases = [];
 
 	state.editedCases.forEach((editedCase) => {
 		if (editedCase.key === state.activeNewEditedCaseKey) {
 			let files = {...editedCase.files};
-			if (action.column.toLowerCase().includes(`geometry`) && editedCase.data[action.column] && action.file) {
+			if (action.column && action.column.toLowerCase().includes(`geometry`) && editedCase.data[action.column] && action.file) {
 				let oldGeometryFileIdentifier = editedCase.data[action.column].identifier;
 				delete files[oldGeometryFileIdentifier];
 			}
