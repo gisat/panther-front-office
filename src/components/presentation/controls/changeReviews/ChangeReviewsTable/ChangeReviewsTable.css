@@ -57,7 +57,8 @@
 	width: 100%;
 }
 .ptr-change-reviews-table-details-top-bar > div {
-	min-width: 20%;
+	min-width: 5rem;
+	max-width: 20%;
 	margin-right: 2rem;
 }
 .ptr-change-reviews-table-details-top-bar > div:last-child {

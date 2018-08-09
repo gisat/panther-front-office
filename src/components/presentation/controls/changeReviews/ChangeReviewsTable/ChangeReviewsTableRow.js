@@ -125,6 +125,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 			}
 		);
 
+		let group = this.props.userGroup;
 		let data = this.props.data;
 
 		return (
@@ -136,10 +137,12 @@ class ChangeReviewsTableRow extends React.PureComponent {
 						<h4>Lokalita</h4>
 						<span>České Budějovice</span>
 					</div>
-					<div className={"ptr-change-reviews-table-details-record last-changed"}>
-						<h4>Poslední změna</h4>
-						<span>uživatel</span>
-					</div>
+					{group && group === "gisatAdmins" ? (
+						<div className={"ptr-change-reviews-table-details-record last-changed"}>
+							<h4>Poslední změna</h4>
+							<span>uživatel</span>
+						</div>
+					):null}
 				</div>
 				<div className={"ptr-change-reviews-table-details-descriptions"}>
 					<div>
