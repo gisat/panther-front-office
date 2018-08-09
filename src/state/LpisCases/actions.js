@@ -155,22 +155,18 @@ function _storeResponseContent(content) {
 			let views = content['data']['dataviews'];
 
 			if (views && views.length) {
-				let loadedViews = Select.views.getViews(state);
-				dispatch(Action.views.add(_getMissingRecords(loadedViews, views)));
+				dispatch(Action.views.add(transformIdsToKeys(views)));
 			}
 
 			if (places && places.length) {
-				let loadedPlaces = Select.places.getPlaces(state);
-				dispatch(actionAddLpisCasePlaces(_getMissingRecords(loadedPlaces, places)));
+				dispatch(actionAddLpisCasePlaces(transformIdsToKeys(places)));
 			}
 
 			if (lpisCaseChanges && lpisCaseChanges.length) {
-				let loadedLpisCaseChanges = Select.lpisCases.getChanges(state);
-				dispatch(actionAddLpisCaseChanges(_getMissingRecords(loadedLpisCaseChanges, lpisCaseChanges)));
+				dispatch(actionAddLpisCaseChanges(transformIdsToKeys(lpisCaseChanges)));
 			}
 
 			if (lpisCases && lpisCases.length) {
-				let loadedLpisCases = Select.lpisCases.getCases(state);
 				let editedCases = Select.lpisCases.getEditedCases(state);
 				let keysOkEditedCasesToRemove = _.compact(
 					_.map(editedCases, (editedCase) => {
@@ -179,7 +175,7 @@ function _storeResponseContent(content) {
 						}) ? editedCase.key : null;
 					})
 				);
-				dispatch(actionAddLpisCases(_getMissingRecords(loadedLpisCases, lpisCases)));
+				dispatch(actionAddLpisCases(transformIdsToKeys(lpisCases)));
 				if (keysOkEditedCasesToRemove.length) {
 					dispatch(actionRemoveEditedCasesByKeys(keysOkEditedCasesToRemove));
 				}
@@ -299,19 +295,13 @@ function saveCaseAsClosed() {
 
 // ============ helpers ===========
 
-function _getMissingRecords(existing, toAdd) {
-	let missing = [];
-
-	if (!_.isArray(toAdd)) toAdd = [toAdd];
-	if (!_.isArray(existing)) existing = [existing];
-
-	toAdd.forEach((toAddOne) => {
-		if (!_.find(existing, {key: toAddOne.id})) {
-			missing.push({key: toAddOne.id, data: toAddOne.data});
+function transformIdsToKeys(records) {
+	return _.map(records, (record) => {
+		return {
+			key: record.id,
+			...record
 		}
 	});
-
-	return missing;
 }
 
 // ============ actions ===========
