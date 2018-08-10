@@ -164,16 +164,21 @@ class ChangeReviewForm extends React.PureComponent {
 								onChange={this.onTextInputChange.bind(this, "change_description_other")}
 							/>
 						</InputWrapper>
+						<InputWrapper
+							label="Geometrie před"
+						>
+							<div>
+								<input id="geometry_before" name="geometry_before" type="file" onChange={this.onFormChange}/></div>
+						</InputWrapper>
+						<InputWrapper
+							label="Geometrie po"
+						>
+							<div>
+								<input id="geometry_after" name="geometry_after" type="file" onChange={this.onFormChange}/></div>
+						</InputWrapper>
 					</div>
 
-					<div>
-						<label>geometry_before</label>
-						<input id="geometry_before" name="geometry_before" type="file" onChange={this.onFormChange}/>
-					</div>
-					<div>
-						<label>geometry_after</label>
-						<input id="geometry_after" name="geometry_after" type="file" onChange={this.onFormChange}/>
-					</div>
+
 					<div className="ptr-change-review-form-buttons">
 						<Button
 							primary
