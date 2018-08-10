@@ -4,6 +4,7 @@ import _ from 'lodash';
 import UserGroupSelectors from '../UserGroups/selectors';
 
 import scopeSelectors from '../Scopes/selectors';
+import Select from "../Select";
 
 const getActiveKey = state => state.users.activeKey;
 const getUsers = state => state.users.data;
@@ -32,9 +33,13 @@ const getGroupsForActiveUser = createSelector(
 );
 
 const getGroupKeysForActiveUser = createSelector(
-	[getGroupsForActiveUser],
-	(groups) => {
-		return groups.map(group => group.key)
+	[getGroupsForActiveUser, getActiveUser],
+	(groups, activeUser) => {
+		if (activeUser && activeUser.groups){
+			return activeUser.groups.map(group => {return group.key ? group.key : (group.id ? group.id : group._id) });
+		} else {
+			return groups.map(group => group.key);
+		}
 	}
 );
 

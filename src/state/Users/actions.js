@@ -4,9 +4,14 @@ import config from "../../config";
 import path from "path";
 import fetch from "isomorphic-fetch";
 
+import utils from '../../utils/utils';
+
 import scopeActions from '../Scopes/actions';
+import lpisCasesActions from '../LpisCases/actions';
 import dataViewActions from '../Views/actions';
 import overlaysActions from '../Components/Overlays/actions';
+import userGroupsActions from '../UserGroups/actions';
+
 import User from "../../data/User";
 
 const TTL = 5;
@@ -20,7 +25,9 @@ function reloadData(dispatch) {
     // Reload Dataview
     dispatch(dataViewActions.apiLoadViews());
     // Reload current user
-    dispatch(apiLoadCurrentUser())
+    dispatch(apiLoadCurrentUser());
+	// Reload lpis cases
+	dispatch(lpisCasesActions.load());
 }
 
 // ============ creators ===========
@@ -106,7 +113,6 @@ function apiLoadCurrentUser(ttl) {
                                     isLoggedIn: true,
                                     isAdmin: false
                                 }));
-
                                 dispatch(overlaysActions.closeOverlay('login'));
                             });
                         }
