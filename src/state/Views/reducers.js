@@ -10,17 +10,18 @@ function add(state, action) {
 	return {...state, data: (state.data ? [...state.data, ...action.data] : action.data)};
 }
 
-function addDistinct(state, action){
+function receive(state, action) {
 	let data;
-	if (state.data && state.data.length){
-		let newData = _.reject(action.data, model => {
-			return _.find(state.data, {key: model.key});
+	if (state.data && state.data.length) {
+		// remove old versions of received models
+		let oldData = _.reject(state.data, model => {
+			return _.find(action.data, {key: model.key});
 		});
-		data = [...state.data, ...newData];
+		data = [...oldData, ...action.data];
 	} else {
 		data = [...action.data];
 	}
-	return {...state, data: data};
+	return {...state, loading: false, data: data};
 }
 
 function remove(state, action){
@@ -40,7 +41,7 @@ function setActive(state, action) {
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.VIEWS_ADD:
-			return addDistinct(state, action);
+			return receive(state, action);
 		case ActionTypes.VIEWS_REMOVE:
 			return remove(state, action);
 		case ActionTypes.VIEWS_SET_ACTIVE:
