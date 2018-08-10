@@ -707,14 +707,14 @@ todo merge with overlay
 }
 .ptr-table-row-details {
 	display: none;
-	padding: 0 1.5rem 1.5rem;
+	margin-bottom: 1rem;
 	overflow: hidden;
 }
 .ptr-table-row-details.open {
 	display: flex;
 }
 .ptr-table-row-item {
-	color: rgba(85,89,101,1);
+	color: rgba(65,69,81,1);
 	padding: 0 .5rem;
 	font-size: .875rem;
 	align-items: center;

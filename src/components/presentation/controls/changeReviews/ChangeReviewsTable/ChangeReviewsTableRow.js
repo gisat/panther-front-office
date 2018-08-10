@@ -125,45 +125,65 @@ class ChangeReviewsTableRow extends React.PureComponent {
 			}
 		);
 
+		let group = this.props.userGroup;
 		let data = this.props.data;
 
 		return (
 			data ? (<div className={classes}>
-				<div className="ptr-change-reviews-table-details-descriptions">
-					<div className="ptr-change-reviews-table-details-section change">
+				<div className={"ptr-change-reviews-table-details-top-bar"}>
+					{data.code_dpb ? this.renderCodeDpb(data.code_dpb) : null}
+					{data.code_ji ? this.renderCodeJi(data.code_ji) : null}
+					<div className={"ptr-change-reviews-table-details-record location"}>
+						<h4>Lokalita</h4>
+						<span>České Budějovice</span>
+					</div>
+					{group && group === "gisatAdmins" ? (
+						<div className={"ptr-change-reviews-table-details-record last-changed"}>
+							<h4>Poslední změna</h4>
+							<span>uživatel</span>
+						</div>
+					):null}
+				</div>
+				<div className={"ptr-change-reviews-table-details-descriptions"}>
+					<div>
 						<h3>Ohlášení územní změny</h3>
 						{data.change_description ? this.renderChangeDescription(data.change_description) : null}
 						{data.change_description_place ? this.renderChangeDescriptionPlace(data.change_description_place) : null}
-						{data.change_description_other ? this.renderChangeDescriptionOther(data.change_description_place) : null}
+						{data.change_description_other ? this.renderChangeDescriptionOther(data.change_description_other) : null}
 					</div>
-					<div className="ptr-change-reviews-table-details-section evaluation">
+					<div>
 						<h3>Výsledek vyhodnocení družicových dat</h3>
 						{data.evaluation_result ? this.renderEvaluationResult(data.evaluation_result) : null}
 						{data.evaluation_description ? this.renderEvaluationDescription(data.evaluation_description) : null}
 						{data.evaluation_used_sources ? this.renderEvaluationUsedSources(data.evaluation_used_sources) : null}
 						{data.evaluation_description_other ? this.renderEvaluationDescriptionOther(data.evaluation_description_other) : null}
 					</div>
-					<div className="ptr-change-reviews-table-details-section other">
-						<h3>Další údaje</h3>
-						{data.code_dpb? this.renderCodeDpb(data.code_dpb) : null}
-						{data.code_ji ? this.renderCodeJi(data.code_ji) : null}
-						{this.renderContact()}
-					</div>
-				</div>
-				<div className="ptr-change-reviews-table-details-changes-info">
-					<div className="ptr-change-reviews-table-details-section align-right">
-						<h3>Poslední změna</h3>
-						<div className="ptr-change-reviews-table-details-user">dromas</div>
-						<div className="ptr-change-reviews-table-details-date">20. 12. 2017</div>
-					</div>
 				</div>
 			</div>) : null
 		);
 	}
 
+	renderCodeDpb(data){
+		return (
+			<div className="ptr-change-reviews-table-details-record code-dpb">
+				<h4>Kód DPB</h4>
+				<span>{data}</span>
+			</div>
+		);
+	}
+
+	renderCodeJi(data){
+		return (
+			<div className="ptr-change-reviews-table-details-record code-ji">
+				<h4>Kód JI</h4>
+				<span>{data}</span>
+			</div>
+		);
+	}
+
 	renderChangeDescription(data){
 		return (
-			<div>
+			<div className="ptr-change-reviews-table-details-record">
 				<h4>Popis důvodu pro aktualizaci LPIS</h4>
 				<p>{data}</p>
 			</div>
@@ -172,7 +192,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 
 	renderChangeDescriptionPlace(data){
 		return (
-			<div>
+			<div className="ptr-change-reviews-table-details-record">
 				<h4>Určení místa změny v terénu</h4>
 				<p>{data}</p>
 			</div>
@@ -181,7 +201,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 
 	renderChangeDescriptionOther(data){
 		return (
-			<div>
+			<div className="ptr-change-reviews-table-details-record">
 				<h4>Další informace</h4>
 				<p>{data}</p>
 			</div>
@@ -190,7 +210,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 
 	renderEvaluationResult(data){
 		return (
-			<div>
+			<div className="ptr-change-reviews-table-details-record">
 				<h4>Závěr vyhodnocení</h4>
 				<p>{data}</p>
 			</div>
@@ -199,7 +219,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 
 	renderEvaluationDescription(data){
 		return (
-			<div>
+			<div className="ptr-change-reviews-table-details-record">
 				<h4>Popis výsledků vyhodnocení</h4>
 				<p>{data}</p>
 			</div>
@@ -208,7 +228,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 
 	renderEvaluationUsedSources(data){
 		return (
-			<div>
+			<div className="ptr-change-reviews-table-details-record">
 				<h4>Využitá družicová a další referenční data</h4>
 				<p>{data}</p>
 			</div>
@@ -217,36 +237,9 @@ class ChangeReviewsTableRow extends React.PureComponent {
 
 	renderEvaluationDescriptionOther(data){
 		return (
-			<div>
+			<div className="ptr-change-reviews-table-details-record">
 				<h4>Další komentář</h4>
 				<p>{data}</p>
-			</div>
-		);
-	}
-
-	renderCodeDpb(data){
-		return (
-			<div>
-				<h4>Kód DPB</h4>
-				<p>{data}</p>
-			</div>
-		);
-	}
-
-	renderCodeJi(data){
-		return (
-			<div>
-				<h4>Kód JI</h4>
-				<p>{data}</p>
-			</div>
-		);
-	}
-
-	renderContact(){
-		return (
-			<div>
-				<h4>Kontaktní infromace</h4>
-				<p>lpisReview@gisat.cz</p>
 			</div>
 		);
 	}
