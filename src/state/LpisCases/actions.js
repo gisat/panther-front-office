@@ -177,6 +177,53 @@ function editLpisCaseStatus(caseKey, status) {
 	}
 }
 
+function updateActiveCaseView(update) {
+	return (dispatch, getState) => {
+		let state = getState();
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/dataview');
+		let activeCase = Select.lpisCases.getActiveCase(state);
+
+		if (activeCase) {
+			let activeCaseView = _.find(Select.views.getViews(state), (view) => {
+				return view.key === activeCase.data.view_id;
+			});
+
+			let mapState = Select.maps.getNavigator(state);
+			let mapsOverrides = Select.maps.getMapsOverrides(state);
+			let mapDefaults = Select.maps.getMapDefaults(state);
+
+			let updatedActiveCaseView = {
+				_id: activeCaseView.key,
+				conf: {
+					...activeCaseView.data.conf,
+					// mapsMetadata: mapsOverrides,
+					mapDefaults: mapDefaults,
+					worldWindState: {
+						location: mapState.lookAtLocation,
+						range: mapState.range
+					}
+				}
+			};
+
+			return fetch(url, {
+				method: 'PUT',
+				credentials: 'include',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({data: updatedActiveCaseView})
+			}).then(response => {
+				if (response.status === 200) {
+					return response.json();
+				}
+			}).then((responseContent) => {
+				dispatch(_storeResponseContent(responseContent));
+			});
+		}
+	}
+}
+
 function _storeResponseContent(content) {
 	return (dispatch, getState) => {
 		let state = getState();
@@ -318,6 +365,7 @@ function setCaseAsCreated() {
 
 function saveCaseAsEvaluated() {
 	return (dispatch, getState) => {
+		dispatch(Action.lpisCases.updateActiveCaseView());
 		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.EVALUATION_CREATED.database));
 		dispatch(Action.lpisCases.editLpisCase());
 	}
@@ -453,5 +501,6 @@ export default {
 	saveCaseAsApproved,
 	saveCaseAsClosed,
 	editActiveCaseStatus,
-	editLpisCaseStatus
+	editLpisCaseStatus,
+	updateActiveCaseView
 }
