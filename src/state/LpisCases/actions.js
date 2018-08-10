@@ -299,6 +299,13 @@ function editActiveCaseStatus(status) {
 
 function saveCaseAsCreated() {
 	return (dispatch, getState) => {
+		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.CREATED.database));
+		dispatch(Action.lpisCases.editLpisCase());
+	}
+}
+
+function setCaseAsCreated() {
+	return (dispatch, getState) => {
 		let state = getState();
 		dispatch(
 			Action.lpisCases.editLpisCaseStatus(
@@ -310,6 +317,13 @@ function saveCaseAsCreated() {
 }
 
 function saveCaseAsEvaluated() {
+	return (dispatch, getState) => {
+		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.EVALUATION_CREATED.database));
+		dispatch(Action.lpisCases.editLpisCase());
+	}
+}
+
+function setCaseAsEvaluated() {
 	return (dispatch, getState) => {
 		let state = getState();
 		dispatch(
