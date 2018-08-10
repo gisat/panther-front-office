@@ -15,7 +15,7 @@ class InputText extends React.PureComponent {
 		placeholder: PropTypes.string,
 		transparent: PropTypes.bool,
 		value: PropTypes.string,
-		name: PropTypes.name,
+		name: PropTypes.string,
 		onChange: PropTypes.func
 	};
 
