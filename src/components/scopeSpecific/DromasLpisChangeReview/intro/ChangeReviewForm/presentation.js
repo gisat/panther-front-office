@@ -102,10 +102,19 @@ class ChangeReviewForm extends React.PureComponent {
 				<div className="ptr-change-review-form-body">
 					<div className="ptr-change-review-form-wrapper">
 						<InputWrapper
+							label="Datum podání ohlášení"
+						>
+							<InputText
+								date
+								value={data.submit_date || ""}
+								onChange={this.onTextInputChange.bind(this, "submit_date")}
+							/>
+						</InputWrapper>
+						<InputWrapper
 							label="Kód DPB"
 						>
 							<InputText
-								type="text"
+								text
 								value={data.code_dpb || ""}
 								onChange={this.onTextInputChange.bind(this, "code_dpb")}
 							/>
@@ -114,7 +123,7 @@ class ChangeReviewForm extends React.PureComponent {
 							label="Kód JI"
 						>
 							<InputText
-								type="text"
+								text
 								value={data.code_ji || ""}
 								onChange={this.onTextInputChange.bind(this, "code_ji")}
 							/>
@@ -123,7 +132,7 @@ class ChangeReviewForm extends React.PureComponent {
 							label="Spisová značka řízení"
 						>
 							<InputText
-								type="text"
+								text
 								value={data.case_key || ""}
 								onChange={this.onTextInputChange.bind(this, "case_key")}
 							/>
@@ -132,7 +141,7 @@ class ChangeReviewForm extends React.PureComponent {
 							label="Popis důvodu pro aktualizaci LPIS"
 						>
 							<InputText
-								type="text"
+								text
 								value={data.change_description || ""}
 								onChange={this.onTextInputChange.bind(this, "change_description")}
 							/>
@@ -141,7 +150,7 @@ class ChangeReviewForm extends React.PureComponent {
 							label="Určení místa změny v terénu"
 						>
 							<InputText
-								type="text"
+								text
 								value={data.change_description_place || ""}
 								onChange={this.onTextInputChange.bind(this, "change_description_place")}
 							/>
@@ -150,18 +159,13 @@ class ChangeReviewForm extends React.PureComponent {
 							label="Další informace"
 						>
 							<InputText
-								type="text"
+								text
 								value={data.change_description_other || ""}
 								onChange={this.onTextInputChange.bind(this, "change_description_other")}
 							/>
 						</InputWrapper>
 					</div>
 
-					<div>
-						<label>submit_date</label>
-						<input name="submit_date" type="text" value={data.submit_date || ""}
-							   onChange={this.onFormChange}/>
-					</div>
 					<div>
 						<label>geometry_before</label>
 						<input id="geometry_before" name="geometry_before" type="file" onChange={this.onFormChange}/>
