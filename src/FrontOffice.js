@@ -530,7 +530,7 @@ class FrontOffice {
     setMapsFromDataview(worldWindState){
         this._mapsContainer.setAllMapsPosition(worldWindState.location);
 
-        if(worldWindState.hasOwnProperty('considerElevation')) {
+        if(worldWindState.hasOwnProperty('considerElevation') && worldWindState.considerElevation) {
 			let elevationAtLocation = this._mapsContainer.getElevationAtLocation(worldWindState.location);
 			this._mapsContainer.setAllMapsRange((worldWindState.range + elevationAtLocation) * 1.5);
         } else {
