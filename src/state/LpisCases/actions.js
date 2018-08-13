@@ -196,7 +196,7 @@ function updateActiveCaseView(update) {
 				_id: activeCaseView.key,
 				conf: {
 					...activeCaseView.data.conf,
-					// mapsMetadata: mapsOverrides,
+					mapsMetadata: mapsOverrides,
 					mapDefaults: mapDefaults,
 					worldWindState: {
 						location: mapState.lookAtLocation,
