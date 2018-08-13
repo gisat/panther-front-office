@@ -40,7 +40,6 @@ class ChangeReviewForm extends React.PureComponent {
 
 	onClickSendAndCreateNewOne() {
 		if (this.validateForm()){
-			debugger;
 			this.props.createLpisCase();
 			this.props.createNewActiveEditedCase();
 			this.resetFileInputs();
@@ -49,7 +48,6 @@ class ChangeReviewForm extends React.PureComponent {
 
 	onClickSendAndReturnBack() {
 		if (this.validateForm()){
-			debugger;
 			this.props.createLpisCase();
 			this.props.changeActiveScreen('changeReviewsList');
 			this.resetFileInputs();
