@@ -10,6 +10,7 @@ import Icon from "../../../../presentation/atoms/Icon";
 import InputText from "../../../../presentation/atoms/InputText/InputText";
 import InputWrapper from "../../../../common/atoms/InputWrapper/InputWrapper";
 import utils from "../../../../../utils/utils.js";
+import fields from "../../../../../constants/LpisCaseFields";
 
 import './style.css';
 
@@ -38,15 +39,51 @@ class ChangeReviewForm extends React.PureComponent {
 	}
 
 	onClickSendAndCreateNewOne() {
-		this.props.createLpisCase();
-		this.props.createNewActiveEditedCase();
-		this.resetFileInputs();
+		if (this.validateForm()){
+			debugger;
+			this.props.createLpisCase();
+			this.props.createNewActiveEditedCase();
+			this.resetFileInputs();
+		}
 	}
 
 	onClickSendAndReturnBack() {
-		this.props.createLpisCase();
-		this.props.changeActiveScreen('changeReviewsList');
-		this.resetFileInputs();
+		if (this.validateForm()){
+			debugger;
+			this.props.createLpisCase();
+			this.props.changeActiveScreen('changeReviewsList');
+			this.resetFileInputs();
+		}
+	}
+
+	validateForm() {
+		let data = this.props.activeNewEditedCase.data;
+		let files = this.props.activeNewEditedCase.files;
+		if (!data.submit_date || data.submit_date.length === 0){
+			window.alert(`Vyplňte pole ${fields["submit_date"].appName} !`);
+			return false;
+		}
+		if (!data.code_dpb || data.code_dpb.length === 0){
+			window.alert(`Vyplňte pole ${fields["code_dpb"].appName} !`);
+			return false;
+		}
+		if (!data.code_ji || data.code_ji.length === 0){
+			window.alert(`Vyplňte pole ${fields["code_ji"].appName} !`);
+			return false;
+		}
+		if (!data.case_key || data.case_key.length === 0){
+			window.alert(`Vyplňte pole ${fields["case_key"].appName} !`);
+			return false;
+		}
+		if (!data.change_description || data.change_description.length === 0){
+			window.alert(`Vyplňte pole ${fields["change_description"].appName} !`);
+			return false;
+		}
+		if (!files || !data.geometry_before || !files[data.geometry_before.identifier]){
+			window.alert(`Pole ${fields["change_description"].appName}: Nahrajte archiv, který obsahuje geometrie! Archiv musí být ve formátu ZIP a musí obsahovat soubory ve formátu SHP a PRJ`);
+			return false;
+		}
+		return true;
 	}
 
 	resetFileInputs() {
@@ -102,7 +139,8 @@ class ChangeReviewForm extends React.PureComponent {
 				<div className="ptr-change-review-form-body">
 					<div className="ptr-change-review-form-wrapper">
 						<InputWrapper
-							label="Datum podání ohlášení"
+							label={fields["submit_date"].appName}
+							required="Povinný údaj"
 						>
 							<InputText
 								date
@@ -111,7 +149,8 @@ class ChangeReviewForm extends React.PureComponent {
 							/>
 						</InputWrapper>
 						<InputWrapper
-							label="Kód DPB"
+							required="Povinný údaj"
+							label={fields["code_dpb"].appName}
 						>
 							<InputText
 								text
@@ -120,7 +159,8 @@ class ChangeReviewForm extends React.PureComponent {
 							/>
 						</InputWrapper>
 						<InputWrapper
-							label="Kód JI"
+							required="Povinný údaj"
+							label={fields["code_ji"].appName}
 						>
 							<InputText
 								text
@@ -129,7 +169,8 @@ class ChangeReviewForm extends React.PureComponent {
 							/>
 						</InputWrapper>
 						<InputWrapper
-							label="Spisová značka řízení"
+							required="Povinný údaj"
+							label={fields["case_key"].appName}
 						>
 							<InputText
 								text
@@ -138,7 +179,8 @@ class ChangeReviewForm extends React.PureComponent {
 							/>
 						</InputWrapper>
 						<InputWrapper
-							label="Popis důvodu pro aktualizaci LPIS"
+							required="Povinný údaj"
+							label={fields["change_description"].appName}
 						>
 							<InputText
 								text
@@ -147,7 +189,7 @@ class ChangeReviewForm extends React.PureComponent {
 							/>
 						</InputWrapper>
 						<InputWrapper
-							label="Určení místa změny v terénu"
+							label={fields["change_description_place"].appName}
 						>
 							<InputText
 								text
@@ -156,7 +198,7 @@ class ChangeReviewForm extends React.PureComponent {
 							/>
 						</InputWrapper>
 						<InputWrapper
-							label="Další informace"
+							label={fields["change_description_other"].appName}
 						>
 							<InputText
 								text
@@ -165,16 +207,17 @@ class ChangeReviewForm extends React.PureComponent {
 							/>
 						</InputWrapper>
 						<InputWrapper
-							label="Geometrie před"
+							required="Povinný údaj"
+							label={fields["geometry_before"].appName}
 						>
 							<div>
-								<input id="geometry_before" name="geometry_before" type="file" onChange={this.onFormChange}/></div>
+								<input id="geometry_before" accept=".zip" name="geometry_before" type="file" onChange={this.onFormChange}/></div>
 						</InputWrapper>
 						<InputWrapper
-							label="Geometrie po"
+							label={fields["geometry_after"].appName}
 						>
 							<div>
-								<input id="geometry_after" name="geometry_after" type="file" onChange={this.onFormChange}/></div>
+								<input id="geometry_after" accept=".zip" name="geometry_after" type="file" onChange={this.onFormChange}/></div>
 						</InputWrapper>
 					</div>
 
