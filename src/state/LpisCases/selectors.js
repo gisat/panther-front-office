@@ -24,6 +24,7 @@ const getCasesWithChanges = createSelector(
 				return change.data.date
 			}], ['desc'])[0];
 			if (latestChange) {
+				extendedCase.updatedBy = latestChange.data.changed_by;
 				extendedCase.updated = latestChange.data.date;
 				extendedCase.status = latestChange.data.status;
 				extendedCases.push(extendedCase);

@@ -22,8 +22,16 @@ class ChangeReviewsList extends React.PureComponent {
 		createNewActiveEditedCase: PropTypes.func,
 		activeEditedCaseKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 		showCase: PropTypes.func,
-		userGroup: PropTypes.string
+		userGroup: PropTypes.string,
+		loadUsers: PropTypes.func
 	};
+
+	componentWillReceiveProps(props){
+		if (props.users && (!props.users.length || props.users.length === 1) &&
+			(props.userGroup && (props.userGroup === "gisatAdmins" || props.userGroup === "gisatUsers"))){
+			this.props.loadUsers();
+		}
+	}
 
 	addReview(){
 		this.props.changeActiveScreen('changeReviewForm');
@@ -65,6 +73,7 @@ class ChangeReviewsList extends React.PureComponent {
 						cases={this.props.cases}
 						showCase={this.props.showCase}
 						userGroup={this.props.userGroup}
+						users={this.props.users}
 					/>
 				</div>
 			</div>

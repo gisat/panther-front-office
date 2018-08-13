@@ -19,7 +19,9 @@ class ChangeReviewsTableRow extends React.PureComponent {
 		status: PropTypes.string,
 		updated: PropTypes.string,
 		showCase: PropTypes.func,
-		userGroup: PropTypes.string
+		userGroup: PropTypes.string,
+		users: PropTypes.array,
+		loadUsers: PropTypes.func
 	};
 
 	constructor(props){
@@ -133,15 +135,11 @@ class ChangeReviewsTableRow extends React.PureComponent {
 				<div className={"ptr-change-reviews-table-details-top-bar"}>
 					{data.code_dpb ? this.renderCodeDpb(data.code_dpb) : null}
 					{data.code_ji ? this.renderCodeJi(data.code_ji) : null}
-					<div className={"ptr-change-reviews-table-details-record location"}>
-						<h4>Lokalita</h4>
-						<span>České Budějovice</span>
-					</div>
-					{group && group === "gisatAdmins" ? (
-						<div className={"ptr-change-reviews-table-details-record last-changed"}>
-							<h4>Poslední změna</h4>
-							<span>uživatel</span>
-						</div>
+					{/*<div className={"ptr-change-reviews-table-details-record location"}>*/}
+						{/*<h4>Lokalita</h4>*/}
+						{/*<span>České Budějovice</span>*/}
+					{/*</div>*/}
+					{group && (group === "gisatAdmins" || group === "gisatUsers") ? (this.renderLastChange()
 					):null}
 				</div>
 				<div className={"ptr-change-reviews-table-details-descriptions"}>
@@ -177,6 +175,17 @@ class ChangeReviewsTableRow extends React.PureComponent {
 			<div className="ptr-change-reviews-table-details-record code-ji">
 				<h4>Kód JI</h4>
 				<span>{data}</span>
+			</div>
+		);
+	}
+
+	renderLastChange(){
+		let user = _.find(this.props.users, (user) => user.key === this.props.updatedBy);
+		let userName = user ? user.name : "";
+		return (
+			<div className={"ptr-change-reviews-table-details-record last-changed"}>
+				<h4>Poslední změna</h4>
+				<span>{userName}</span>
 			</div>
 		);
 	}
