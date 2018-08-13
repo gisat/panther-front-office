@@ -135,6 +135,20 @@
 	color: #aaa;
 }
 
+.ptr-dromasLpisChangeReview-toggle-legend {
+	width: 1em;
+	height: 1em;
+	border: 2px solid;
+	margin: 0 .2rem 0 .3rem;
+	transform: skewX(-15deg);
+}
+.ptr-dromasLpisChangeReview-toggle-legend.current {
+	border-color: #f00;
+}
+.ptr-dromasLpisChangeReview-toggle-legend.proposed {
+	border-color: rgb(102,38,178);
+}
+
 .ptr-dromasLpisChangeReviewHeader-status {
 	padding: .2rem .5rem;
 	border-radius: .2rem;

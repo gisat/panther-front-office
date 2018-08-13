@@ -55,6 +55,7 @@ class MapTools extends React.PureComponent {
 								checked={!!(this.props.map && this.props.map.placeGeometryChangeReview && this.props.map.placeGeometryChangeReview.showGeometryBefore)}
 								onChange={this.onToggleGeometry.bind(this, 'before')}
 							/>
+							<span className="ptr-dromasLpisChangeReview-toggle-legend current" />
 							<span className={!geometryBefore ? "disabled" : ""}>Původní hranice DPB</span>
 						</label>
 						<label>
@@ -64,6 +65,7 @@ class MapTools extends React.PureComponent {
 								checked={!!(this.props.map && this.props.map.placeGeometryChangeReview && this.props.map.placeGeometryChangeReview.showGeometryAfter)}
 								onChange={this.onToggleGeometry.bind(this, 'after')}
 							/>
+							<span className="ptr-dromasLpisChangeReview-toggle-legend proposed" />
 							<span className={!geometryAfter ? "disabled" : ""}>Návrh zákresu nové hranice DPB</span>
 						</label>
 					</div>
