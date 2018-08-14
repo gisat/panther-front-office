@@ -214,6 +214,7 @@ class ChangeReviewForm extends React.PureComponent {
 							required="Povinný údaj"
 							label={fields["geometry_before"].appName}
 							divInsteadOfLabel
+							info={<p>Nahrajte archiv ve formátu ZIP, který obsahuje soubory ve formátu SHP a PRJ. Geometrie musí být v souřadnicovém systému EPSG:5514.</p>}
 						>
 							<InputFile
 								accept=".zip"
@@ -232,6 +233,7 @@ class ChangeReviewForm extends React.PureComponent {
 						<InputWrapper
 							label={fields["geometry_after"].appName}
 							divInsteadOfLabel
+							info={<p>Nahrajte archiv ve formátu ZIP, který obsahuje soubory ve formátu SHP a PRJ. Geometrie musí být v souřadnicovém systému EPSG:5514.</p>}
 						>
 							<InputFile
 								accept=".zip"

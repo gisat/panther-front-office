@@ -20,7 +20,7 @@ class InputWrapper extends React.PureComponent {
 			'disabled': this.props.disabled
 		});
 
-		let info = null;
+		let info = this.props.info ? (<div className="ptr-input-wrapper-info">{this.props.info}</div>) : null;
 		let children = React.Children.map(this.props.children, child => {
 			if (typeof child === 'object' && child.type === InputWrapperInfo) {
 				info = child;
@@ -37,8 +37,8 @@ class InputWrapper extends React.PureComponent {
 					{required}
 					<span>{this.props.label}</span>
 					{children}
-					{info}
 				</div>
+				{info}
 			</div>
 		) : (
 			<div className={classes}>
@@ -46,8 +46,8 @@ class InputWrapper extends React.PureComponent {
 					{required}
 					<span>{this.props.label}</span>
 					{children}
-					{info}
 				</label>
+				{info}
 			</div>
 		);
 	}
