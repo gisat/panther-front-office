@@ -37,3 +37,12 @@
 .ptr-change-reviews-list-body {
 	height: calc(100% - 10.5rem);
 }
+.ptr-change-reviews-list-contact {
+	background: rgba(213,215,219,1);
+	height: 1.7rem;
+	padding: 0 .7rem;
+}
+.ptr-change-reviews-list-contact span {
+	line-height: 1.7rem;
+	color: rgba(65,69,81,1);
+}

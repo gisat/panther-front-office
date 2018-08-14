@@ -687,12 +687,12 @@ todo merge with overlay
 .ptr-table-body {
 	background: white;
 	height: calc(100% - 2rem);
-	overflow-y: auto;
+	overflow-y: scroll;
 }
 .ptr-table-row {
 	display: flex;
 	flex-direction: column;
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid #ccc;
 	transition: background .3s ease-in-out;
 }
 .ptr-table-row:hover {
@@ -700,7 +700,7 @@ todo merge with overlay
 }
 .ptr-table-row.active,
 .ptr-table-row.active:hover {
-	background: rgba(234,248,255,1);
+	background: rgba(225,235,241,1);
 	border-bottom: 1px solid #ccc;
 }
 .ptr-table-row-record {

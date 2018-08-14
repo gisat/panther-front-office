@@ -1,11 +1,12 @@
 /* === Change reviews table ==================================== */
 .ptr-table.change-reviews-table {
 	margin-top: -2rem;
-	height: 100%;
+	height: calc(100% - 1.7rem);
 	width: 100%;
 }
 .ptr-table.change-reviews-table .ptr-table-header {
 	padding: 0 .5rem;
+	margin-right: 16px;
 }
 .ptr-table.change-reviews-table .ptr-table-header-item {
 	color: rgba(208,212,220,1);
@@ -51,7 +52,7 @@
 .ptr-table-row-details.ptr-change-reviews-table-details > div {
 	display: flex;
 	padding: 1rem 3rem;
-	border-top: 1px dashed #d5d5d5;
+	border-top: 1px dashed #ccc;
 }
 .ptr-change-reviews-table-details-top-bar {
 	width: 100%;
