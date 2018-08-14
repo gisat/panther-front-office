@@ -113,7 +113,7 @@ const activeMapWatcher = (value, previousValue) => {
 			if (value.hasOwnProperty('placeGeometryChangeReview')) {
 				if (value.placeGeometryChangeReview && value.placeGeometryChangeReview.showGeometryBefore != (previousValue.placeGeometryChangeReview && previousValue.placeGeometryChangeReview && previousValue.placeGeometryChangeReview.showGeometryBefore)) {
 					// show geometry before changed
-					if (state.activeLpisCase.data && state.activeLpisCase.data.geometry_before){
+					if (state.activeLpisCase && state.activeLpisCase.data && state.activeLpisCase.data.geometry_before){
 						if (value.placeGeometryChangeReview.showGeometryBefore) {
 							window.Stores.notify('PLACE_GEOMETRY_ADD', {
 								mapKey: value.key,
@@ -130,7 +130,7 @@ const activeMapWatcher = (value, previousValue) => {
 				}
 				if (value.placeGeometryChangeReview && value.placeGeometryChangeReview.showGeometryAfter != (previousValue.placeGeometryChangeReview && previousValue.placeGeometryChangeReview && previousValue.placeGeometryChangeReview.showGeometryAfter)) {
 					// show geometry after changed
-					if (state.activeLpisCase.data && state.activeLpisCase.data.geometry_before){
+					if (state.activeLpisCase && state.activeLpisCase.data && state.activeLpisCase.data.geometry_before){
 						if (value.placeGeometryChangeReview.showGeometryAfter) {
 							window.Stores.notify('PLACE_GEOMETRY_ADD', {
 								mapKey: value.key,

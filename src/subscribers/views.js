@@ -48,6 +48,19 @@ const setEventListeners = store => {
 
 const addGeometries = function(activeCase, maps){
 	maps.map(map => {
-		debugger;
+		if (map.placeGeometryChangeReview.showGeometryBefore){
+			window.Stores.notify('PLACE_GEOMETRY_ADD', {
+				mapKey: map.key,
+				geometryKey: 'placeGeometryChangeReviewGeometryBefore',
+				geometry: activeCase.data.geometry_before
+			});
+		}
+		if (map.placeGeometryChangeReview.showGeometryAfter){
+			window.Stores.notify('PLACE_GEOMETRY_ADD', {
+				mapKey: map.key,
+				geometryKey: 'placeGeometryChangeReviewGeometryAfter',
+				geometry: activeCase.data.geometry_after
+			});
+		}
 	});
 };
