@@ -151,6 +151,9 @@ body {
 	border: 1px solid rgba(0,0,0,.6);
 	box-shadow: none;
 }
+.ptr-button.ghost .ptr-icon .line {
+	stroke: #222;
+}
 .ptr-button.ghost:hover {
 	background: rgba(0,0,0,.1);
 }

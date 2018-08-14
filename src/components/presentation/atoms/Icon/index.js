@@ -13,6 +13,7 @@ import Plus from './Plus';
 import Pushpin from './Pushpin';
 import Restore from './Restore';
 import Search from './Search';
+import Upload from './Upload';
 
 const icon = (key, props) => {
 	switch(key) {
@@ -45,6 +46,8 @@ const icon = (key, props) => {
 			return <Restore />;
 		case 'search':
 			return <Search />;
+		case 'upload':
+			return <Upload />;
 		default:
 			return null;
 	}

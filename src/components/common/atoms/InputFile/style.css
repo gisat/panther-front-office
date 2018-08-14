@@ -1,0 +1,11 @@
+.ptr-inputFile {
+	margin-top: .3rem;
+}
+.ptr-inputFile-input {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}

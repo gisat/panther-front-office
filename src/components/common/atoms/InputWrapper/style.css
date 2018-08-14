@@ -6,7 +6,8 @@
 	margin-bottom: 1.5rem;
 	box-shadow: 0.05rem 0.05rem 0.2rem 0 rgba(0, 0, 0, .07);
 }
-.ptr-input-wrapper label span {
+.ptr-input-wrapper label span,
+.ptr-input-wrapper div span {
 	color: rgba(33,38,53,1);
 	font-size: .875rem;
 }

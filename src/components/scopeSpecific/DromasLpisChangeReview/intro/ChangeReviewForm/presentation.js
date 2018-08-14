@@ -7,6 +7,7 @@ import _ from 'lodash';
 
 import Button from "../../../../presentation/atoms/Button";
 import Icon from "../../../../presentation/atoms/Icon";
+import InputFile from "../../../../common/atoms/InputFile/InputFile";
 import InputText from "../../../../presentation/atoms/InputText/InputText";
 import InputWrapper from "../../../../common/atoms/InputWrapper/InputWrapper";
 import utils from "../../../../../utils/utils.js";
@@ -124,6 +125,11 @@ class ChangeReviewForm extends React.PureComponent {
 
 	render() {
 		let data = this.props.activeNewEditedCase ? this.props.activeNewEditedCase.data : {};
+		let files = this.props.activeNewEditedCase ? this.props.activeNewEditedCase.files : {};
+
+		let geometryBeforeName = data && data.geometry_before && files && files[data.geometry_before.identifier] ? files[data.geometry_before.identifier].name : "Vyberte soubor...";
+		let geometryAfterName = data && data.geometry_after && files && files[data.geometry_after.identifier] ? files[data.geometry_after.identifier].name : "Vyberte soubor...";
+
 		return (
 			<div className="ptr-change-review-form">
 				<div className="ptr-change-review-form-header">
@@ -207,15 +213,39 @@ class ChangeReviewForm extends React.PureComponent {
 						<InputWrapper
 							required="Povinný údaj"
 							label={fields["geometry_before"].appName}
+							divInsteadOfLabel
 						>
-							<div>
-								<input id="geometry_before" accept=".zip" name="geometry_before" type="file" onChange={this.onFormChange}/></div>
+							<InputFile
+								accept=".zip"
+								inputId="geometry_before"
+								onChange={this.onFormChange}
+								name="geometry_before"
+							>
+								<Button
+									icon="upload"
+									ghost
+								>
+									{geometryBeforeName}
+								</Button>
+							</InputFile>
 						</InputWrapper>
 						<InputWrapper
 							label={fields["geometry_after"].appName}
+							divInsteadOfLabel
 						>
-							<div>
-								<input id="geometry_after" accept=".zip" name="geometry_after" type="file" onChange={this.onFormChange}/></div>
+							<InputFile
+								accept=".zip"
+								inputId="geometry_after"
+								onChange={this.onFormChange}
+								name="geometry_after"
+							>
+								<Button
+									icon="upload"
+									ghost
+								>
+									{geometryAfterName}
+								</Button>
+							</InputFile>
 						</InputWrapper>
 					</div>
 
