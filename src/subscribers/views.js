@@ -34,10 +34,20 @@ const setEventListeners = store => {
 					.dispatch(Action.lpisCases.loadCaseForActiveView())
 					.then(() => {
 						return store.dispatch(Action.lpisCases.setActiveCaseByActiveView());
-					});
-
-				store.dispatch(Action.lpisCases.setActiveCaseByActiveView());
+					}).then(() => {
+						let activeCase = Select.lpisCases.getActiveCase(store.getState());
+						let maps = Select.maps.getMaps(store.getState());
+						if (activeCase && maps && maps.length > 1){
+							addGeometries(activeCase, maps);
+						}
+				});
 				break;
 		}
+	});
+};
+
+const addGeometries = function(activeCase, maps){
+	maps.map(map => {
+		debugger;
 	});
 };
