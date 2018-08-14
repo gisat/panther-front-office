@@ -386,12 +386,9 @@ function setCaseAsEvaluated() {
 function saveCaseAsApproved() {
 	return (dispatch, getState) => {
 		let state = getState();
-		dispatch(
-			Action.lpisCases.editLpisCaseStatus(
-				Select.lpisCases.getActiveCaseKey(state),
-				LpisCaseStatuses.EVALUATION_APPROVED.database
-			)
-		);
+		dispatch(Action.lpisCases.updateActiveCaseView());
+		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.EVALUATION_APPROVED.database));
+		dispatch(Action.lpisCases.editLpisCase());
 	}
 }
 
