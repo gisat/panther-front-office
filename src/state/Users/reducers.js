@@ -12,12 +12,10 @@ function addDistinct(state, action) {
 	let data;
 	if (state.data && state.data.length) {
 		// remove old versions of received models
-		// let oldData = _.reject(state.data, model => {
-		// 	return _.find(action.data, {key: model.key});
-		// });
-		// data = [...oldData, ...action.data];
-		// TODO hot fix for wrong user groups. Remove it when endpoint is fixed
-		data = [...state.data, ...action.data]
+		let oldData = _.reject(state.data, model => {
+			return _.find(action.data, {key: model.key});
+		});
+		data = [...oldData, ...action.data];
 	} else {
 		data = [...action.data];
 	}

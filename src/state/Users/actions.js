@@ -108,7 +108,7 @@ function apiLoad(ttl) {
 					let contentType = response.headers.get('Content-type');
 					if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
 						return response.json().then(data => {
-							Promise.all(JSON.parse(data).data.map(user => {
+							Promise.all(data.data.map(user => {
 								return new User({data: user}).then(user => {
 									user.key = user.id;
 									return user;
