@@ -174,12 +174,12 @@
 }
 .ptr-dromasLpisChangeReviewHeader-expandable-content-control {
 	position: absolute;
-	bottom: 0;
-	right: 0;
+	bottom: .5rem;
+	right: .5rem;
 }
 
-.ptr-dromasLpisChangeReviewHeader-expandable-content > div {
-	padding: 0 .5rem .5rem .5rem;
+.ptr-dromasLpisChangeReviewHeader-expandable-content > div:first-child {
+	padding: 0 .5rem 2.5rem .5rem;
 }
 
 .ptr-dromasLpisChangeReviewHeader-expandable-content .ptr-expand-row-button {
