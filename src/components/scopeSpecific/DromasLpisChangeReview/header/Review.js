@@ -49,7 +49,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 				let conslusion = _.find(evaluationConclusions, {value: this.props.case.data.evaluation_result});
 				if (conslusion) {
 					let style = {
-						'background': conslusion.color
+						'background': conslusion.colour
 					};
 					conclusionInsert = (
 						<span className='ptr-dromasLpisChangeReviewHeader-status' style={style}>{conslusion.label}</span>
