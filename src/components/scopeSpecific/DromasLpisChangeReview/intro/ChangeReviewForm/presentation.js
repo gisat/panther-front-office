@@ -257,13 +257,13 @@ class ChangeReviewForm extends React.PureComponent {
 							primary
 							onClick={this.onClickSendAndCreateNewOne}
 						>
-							Podat a vytvořit další
+							Uložit a vytvořit další
 						</Button>
 						<Button
 							secondary
 							onClick={this.onClickSendAndReturnBack}
 						>
-							Podat a vrátit se na seznam
+							Uložit a vrátit se na seznam
 						</Button>
 					</div>
 				</div>
