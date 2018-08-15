@@ -4,6 +4,8 @@ import Action from "../../../../../state/Action";
 
 import presentation from './presentation';
 
+import LpisCaseStatuses from "../../../../../constants/LpisCaseStatuses";
+
 const mapStateToProps = (state, ownProps) => {
 	return {
 		cases: Select.lpisCases.getSearchResults(state, ownProps),
@@ -30,6 +32,9 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		loadUsers: () => {
 			dispatch(Action.users.apiLoad());
+		},
+		invalidateCase: (caseKey) => {
+			dispatch(Action.lpisCases.editLpisCaseStatus(caseKey, LpisCaseStatuses.INVALID.database))
 		}
 	}
 };

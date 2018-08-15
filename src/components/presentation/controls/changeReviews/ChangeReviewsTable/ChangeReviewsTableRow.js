@@ -20,6 +20,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 		status: PropTypes.string,
 		updated: PropTypes.string,
 		showCase: PropTypes.func,
+		invalidateCase: PropTypes.func,
 		userGroup: PropTypes.string,
 		users: PropTypes.array,
 		loadUsers: PropTypes.func
@@ -34,10 +35,15 @@ class ChangeReviewsTableRow extends React.PureComponent {
 
 		this.onDetailsClick = this.onDetailsClick.bind(this);
 		this.onShowClick = this.onShowClick.bind(this);
+		this.onInvalidateClick = this.onInvalidateClick.bind(this);
 	}
 
 	onShowClick() {
 		this.props.showCase(this.props.caseKey);
+	}
+
+	onInvalidateClick() {
+		this.props.invalidateCase(this.props.caseKey);
 	}
 
 	onDetailsClick(){
@@ -148,7 +154,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 						<div className="ptr-change-reviews-table-details-top-bar-menu">
 							<Button invisible icon="dots">
 								<Menu bottom left>
-									<MenuItem>Zneplatnit záznam řízení</MenuItem>
+									<MenuItem onClick={this.onInvalidateClick}>Zneplatnit záznam řízení</MenuItem>
 								</Menu>
 							</Button>
 						</div>
