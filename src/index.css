@@ -319,7 +319,8 @@ body {
 }
 
 .ptr-ui-select .Select {
-	width: 12rem;
+	min-width: 6rem;
+	width: 100%;
 	border: 1px solid;
 	border-radius: .15rem;
 	font-size: .85rem;
@@ -732,7 +733,10 @@ todo merge with overlay
 	display: flex;
 }
 .ptr-table-row-action {
+	display: flex;
 	flex: 1;
+	justify-content: flex-end;
+	margin-right: .5rem;
 }
 .ptr-table-row-show-details {
 	cursor: pointer;
