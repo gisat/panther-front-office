@@ -8,7 +8,7 @@ import Button from '../../../atoms/Button';
 import ExpandRowButton from '../../../atoms/ExpandRowButton';
 import Icon from '../../../atoms/Icon';
 
-import LpisCaseStatuses, {order as LpisCaseStatusOrder} from '../../../../../constants/LpisCaseStatuses';
+import LpisCaseStatuses, {evaluationConclusions as LpisEvaluation} from '../../../../../constants/LpisCaseStatuses';
 
 class ChangeReviewsTableRow extends React.PureComponent {
 
@@ -218,10 +218,12 @@ class ChangeReviewsTableRow extends React.PureComponent {
 	}
 
 	renderEvaluationResult(data){
+		let evalResult = _.find(LpisEvaluation, (result) => {return result.value === data});
+
 		return (
 			<div className="ptr-change-reviews-table-details-record">
 				<h4>Závěr vyhodnocení</h4>
-				<p>{data}</p>
+				<p>{evalResult ? evalResult.label : ""}</p>
 			</div>
 		);
 	}
