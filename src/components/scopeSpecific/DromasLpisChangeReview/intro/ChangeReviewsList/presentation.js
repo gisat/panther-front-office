@@ -20,7 +20,7 @@ class ChangeReviewsList extends React.PureComponent {
 		onStatusChange: PropTypes.func,
 		screenKey: PropTypes.string,
 		searchString: PropTypes.string,
-		selectedStatus: PropTypes.string,
+		selectedStatuses: PropTypes.array,
 		createNewActiveEditedCase: PropTypes.func,
 		activeEditedCaseKey: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 		invalidateCase: PropTypes.func,
@@ -76,7 +76,7 @@ class ChangeReviewsList extends React.PureComponent {
 						cases={this.props.cases}
 						invalidateCase={this.props.invalidateCase}
 						onStatusChange={this.props.onStatusChange}
-						selectedStatus={this.props.selectedStatus}
+						selectedStatuses={this.props.selectedStatuses}
 						showCase={this.props.showCase}
 						userGroup={this.props.userGroup}
 						users={this.props.users}

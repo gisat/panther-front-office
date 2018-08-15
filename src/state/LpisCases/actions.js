@@ -403,6 +403,13 @@ function saveCaseAsClosed() {
 	}
 }
 
+function changeSelectedStatuses(statuses) {
+	return dispatch => {
+		if (statuses && !_.isArray(statuses)) statuses = [statuses];
+		dispatch(actionChangeSelectedStatuses(statuses));
+	};
+}
+
 // ============ helpers ===========
 
 function transformIdsToKeys(records) {
@@ -444,10 +451,10 @@ function actionChangeSearchString(searchString) {
 	}
 }
 
-function actionChangeStatus(status) {
+function actionChangeSelectedStatuses(statuses) {
 	return {
 		type: ActionTypes.LPIS_CASES_SELECTED_STATUS_CHANGE,
-		selectedStatus: status
+		selectedStatuses: statuses
 	}
 }
 
@@ -498,7 +505,7 @@ export default {
 	load: load,
 	createLpisCase: createLpisCase,
 	changeSearchString: actionChangeSearchString,
-	changeStatus: actionChangeStatus,
+	changeSelectedStatuses: changeSelectedStatuses,
 	createNewActiveEditedCase: actionCreateNewActiveEditedCase,
 	editActiveEditedCase: actionEditActiveEditedCase,
 	editLpisCase: editLpisCase,

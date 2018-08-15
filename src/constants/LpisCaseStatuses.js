@@ -34,20 +34,36 @@ const STATUSES = {
 	}
 };
 
-const getOptionsFromStatuses = function(statuses){
+const getGisatOptionsFromStatuses = function(statuses){
 	let options = [];
 	_.forIn(statuses, (status) => {
 		options.push({
 			value: status.database,
 			label: status.gisatName,
+			keys: [status.database]
 		});
+	});
+	return options;
+};
+
+const getSzifOptionsFromStatuses = function(statuses){
+	let options = [];
+	_.forIn(statuses, (status) => {
+		if (status.database !== 'EVALUATION_CREATED'){
+			options.push({
+				value: status.database,
+				label: status.szifName,
+				keys: status.database === 'CREATED' ? [status.database, 'EVALUATION_CREATED'] : [status.database]
+			});
+		}
 	});
 	return options;
 };
 
 export default STATUSES;
 
-export const statusesOptions = getOptionsFromStatuses(STATUSES);
+export const statusesOptionsGisat = getGisatOptionsFromStatuses(STATUSES);
+export const statusesOptionsSzif = getSzifOptionsFromStatuses(STATUSES);
 
 export const order = {
 	gisatAdmins: [`EVALUATION_CREATED`, `CREATED`, `EVALUATION_APPROVED`, `CLOSED`, `INVALID`],

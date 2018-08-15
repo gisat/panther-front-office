@@ -7,7 +7,7 @@ import LpisCaseStatuses, {order as LpisCaseStatusOrder} from '../../constants/Lp
 const getCases = state => state.lpisCases.cases;
 const getChanges = state => state.lpisCases.changes;
 const getSearchString = state => state.lpisCases.searchString;
-const getSelectedStatus = state => state.lpisCases.selectedStatus;
+const getSelectedStatuses = state => state.lpisCases.selectedStatuses;
 const getEditedCases = state => state.lpisCases.editedCases;
 const getActiveCaseKey = state => state.lpisCases.activeCaseKey;
 const getActiveEditedCaseKey = state => state.lpisCases.activeNewEditedCaseKey;
@@ -65,10 +65,10 @@ const getSortedCasesWithChanges = createSelector(
 );
 
 const getFilteredSortedCasesWithChangesByStatus = createSelector(
-	[getSortedCasesWithChanges, getSelectedStatus],
-	(cases, status) => {
-		if (status){
-			return _.filter(cases, (oneCase) => {return oneCase.status === status});
+	[getSortedCasesWithChanges, getSelectedStatuses],
+	(cases, statuses) => {
+		if (statuses){
+			return _.filter(cases, (oneCase) => {return _.includes(statuses, oneCase.status)});
 		}
 		// Do not show cases with invalid status by default
 		else {
@@ -125,7 +125,7 @@ export default {
 	getCasesWithChanges: getCasesWithChanges,
 	getSearchResults: getSearchResults,
 	getSearchString: getSearchString,
-	getSelectedStatus: getSelectedStatus,
+	getSelectedStatuses: getSelectedStatuses,
 	getActiveEditedCase: getActiveEditedCase,
 	getActiveEditedCaseKey: getActiveEditedCaseKey,
 	getEditedCases: getEditedCases,

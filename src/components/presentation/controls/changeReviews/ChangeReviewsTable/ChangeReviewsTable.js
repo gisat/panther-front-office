@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import Button from '../../../atoms/Button';
 import ChangeReviewsTableRow from './ChangeReviewsTableRow';
-import {statusesOptions} from '../../../../../constants/LpisCaseStatuses';
+import {statusesOptionsGisat, statusesOptionsSzif} from '../../../../../constants/LpisCaseStatuses';
 import Icon from '../../../atoms/Icon';
 import UISelect from "../../../atoms/UISelect/UISelect";
 
@@ -17,7 +17,7 @@ class ChangeReviewsTable extends React.PureComponent {
 		invalidateCase: PropTypes.func,
 		onStatusChange: PropTypes.func,
 		showCase: PropTypes.func,
-		selectedStatus: PropTypes.string,
+		selectedStatuses: PropTypes.array,
 		userGroup: PropTypes.string,
 		users: PropTypes.array
 	};
@@ -28,10 +28,18 @@ class ChangeReviewsTable extends React.PureComponent {
 	}
 
 	onStatusChange(status){
-		this.props.onStatusChange(status ? status.value : null);
+		this.props.onStatusChange(status ? status.keys : null);
 	}
 
 	render() {
+		let status = this.props.selectedStatuses ? this.props.selectedStatuses[0] : null;
+		let statusesOptions = null;
+		if (this.props.userGroup === 'gisatUsers' || this.props.userGroup === 'gisatAdmins') {
+			statusesOptions = statusesOptionsGisat;
+		} else {
+			statusesOptions = statusesOptionsSzif;
+		}
+
 		return (
 			<div className="ptr-table change-reviews-table">
 				<div className="ptr-table-header">
@@ -43,7 +51,7 @@ class ChangeReviewsTable extends React.PureComponent {
 							onChange={this.onStatusChange}
 							options={statusesOptions}
 							placeholder="STAV"
-							value={this.props.selectedStatus}
+							value={status}
 						/>
 					</div>
 					<div className="ptr-table-header-item">Spisová značka</div>
