@@ -152,11 +152,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 					</div>
 					<div>
 						<div className="ptr-change-reviews-table-details-top-bar-menu">
-							<Button invisible icon="dots">
-								<Menu bottom left>
-									<MenuItem onClick={this.onInvalidateClick}>Zneplatnit záznam řízení</MenuItem>
-								</Menu>
-							</Button>
+							{this.renderTopBarMenu()}
 						</div>
 					</div>
 				</div>
@@ -177,6 +173,20 @@ class ChangeReviewsTableRow extends React.PureComponent {
 				</div>
 			</div>) : null
 		);
+	}
+
+	renderTopBarMenu() {
+		if (this.props.userGroup !== 'gisatUsers' && this.props.status !== 'INVALID') {
+			return (
+				<Button invisible icon="dots">
+					<Menu bottom left>
+						<MenuItem onClick={this.onInvalidateClick}>Zneplatnit záznam řízení</MenuItem>
+					</Menu>
+				</Button>
+			);
+		} else {
+			return null;
+		}
 	}
 
 	renderCodeDpb(data){
