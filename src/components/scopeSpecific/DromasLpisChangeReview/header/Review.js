@@ -37,6 +37,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		) {
 			conclusionSelectInsert = (
 				<UISelect
+					clearable={false}
 					inverted
 					options={evaluationConclusions}
 					value={this.props.caseEdited && this.props.caseEdited.data.evaluation_result || this.props.case && this.props.case.data.evaluation_result}

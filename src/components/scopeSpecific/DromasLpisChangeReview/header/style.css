@@ -70,6 +70,7 @@
 
 .ptr-dromasLpisChangeReviewHeader-topBar.review .ptr-ui-select.inverted .Select  {
 	border-color: rgba(255,255,255,.3);
+	min-width: 8rem;
 }
 .ptr-dromasLpisChangeReviewHeader-topBar.review .ptr-ui-select.inverted .Select .Select-control {
 	background-color: transparent;
