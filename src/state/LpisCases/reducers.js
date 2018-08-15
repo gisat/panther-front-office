@@ -111,6 +111,14 @@ function editActiveEditedCase(state, action) {
 	};
 }
 
+function clearEditedCase(state, action) {
+	let editedCase = _.find(state.editedCases, {key: action.key});
+	let editedCases = _.reject(state.editedCases, {key: action.key});
+	editedCase = {...editedCase, data: {}};
+	editedCases = {...editedCases, editedCase};
+	return {...state, editedCases: editedCases};
+}
+
 function removeEditedCasesByKeys(state, action) {
 	let keys = action.keys;
 
@@ -146,8 +154,10 @@ export default (state = INITIAL_STATE, action) => {
 			return createNewActiveEditedCase(state, action);
 		case ActionTypes.LPIS_CASES_REMOVE_EDITED_CASES_BY_KEYS:
 			return removeEditedCasesByKeys(state, action);
-			case ActionTypes.LPIS_CASES_SET_ACTIVE:
+		case ActionTypes.LPIS_CASES_SET_ACTIVE:
 			return setActive(state, action);
+		case ActionTypes.LPIS_CASES_CLEAR_EDITED_CASE:
+			return clearEditedCase(state, action);
 		default:
 			return state;
 	}

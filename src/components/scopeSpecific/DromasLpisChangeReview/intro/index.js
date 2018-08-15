@@ -27,6 +27,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		},
 		editActiveEditedCase: (column, value, file) => {
 			dispatch(Action.lpisCases.editActiveEditedCase(column, value, file));
+		},
+		clearActiveEditedCase: () => {
+			dispatch(Action.lpisCases.clearActiveEditedCase());
 		}
 	}
 };

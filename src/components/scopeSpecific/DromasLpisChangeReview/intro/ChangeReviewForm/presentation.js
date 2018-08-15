@@ -33,6 +33,7 @@ class ChangeReviewForm extends React.PureComponent {
 		this.onFormChange = this.onFormChange.bind(this);
 		this.onClickSendAndCreateNewOne = this.onClickSendAndCreateNewOne.bind(this);
 		this.onClickSendAndReturnBack = this.onClickSendAndReturnBack.bind(this);
+		this.onClickClear = this.onClickClear.bind(this);
 	}
 
 	onClickBack() {
@@ -53,6 +54,10 @@ class ChangeReviewForm extends React.PureComponent {
 			this.props.changeActiveScreen('changeReviewsList');
 			this.resetFileInputs();
 		}
+	}
+
+	onClickClear() {
+		this.props.clearActiveEditedCase();
 	}
 
 	validateForm() {
@@ -264,6 +269,12 @@ class ChangeReviewForm extends React.PureComponent {
 							onClick={this.onClickSendAndReturnBack}
 						>
 							Uložit a vrátit se na seznam
+						</Button>
+						<Button
+							ghost
+							onClick={this.onClickClear}
+						>
+							Vymazat formulář
 						</Button>
 					</div>
 				</div>

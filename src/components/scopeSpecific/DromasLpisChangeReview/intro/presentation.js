@@ -4,23 +4,24 @@ import ScreenAnimator from "../../../presentation/ScreenAnimator/ScreenAnimator"
 import ChangeReviewsList from './ChangeReviewsList';
 import ChangeReviewForm from './ChangeReviewForm';
 
-export default ({changeReviewsActiveScreenKey, activeEditedCase, setChangeReviewsActiveScreen, createLpisCase, editActiveEditedCase, createNewActiveEditedCase, activeUserDromasLpisChangeReviewGroup}) => {
+export default (props) => {
 	return (
 		<ScreenAnimator
-			activeScreenKey={changeReviewsActiveScreenKey}
+			activeScreenKey={props.changeReviewsActiveScreenKey}
 		>
 			<ChangeReviewsList
 				screenKey="changeReviewsList"
-				changeActiveScreen={setChangeReviewsActiveScreen}
-				activeUserDromasLpisChangeReviewGroup={activeUserDromasLpisChangeReviewGroup}
+				changeActiveScreen={props.setChangeReviewsActiveScreen}
+				activeUserDromasLpisChangeReviewGroup={props.activeUserDromasLpisChangeReviewGroup}
 			/>
 			<ChangeReviewForm
 				screenKey="changeReviewForm"
-				changeActiveScreen={setChangeReviewsActiveScreen}
-				createLpisCase={createLpisCase}
-				activeNewEditedCase={activeEditedCase}
-				editActiveEditedCase={editActiveEditedCase}
-				createNewActiveEditedCase={createNewActiveEditedCase}
+				changeActiveScreen={props.setChangeReviewsActiveScreen}
+				createLpisCase={props.createLpisCase}
+				activeNewEditedCase={props.activeEditedCase}
+				editActiveEditedCase={props.editActiveEditedCase}
+				clearActiveEditedCase={props.clearActiveEditedCase}
+				createNewActiveEditedCase={props.createNewActiveEditedCase}
 			/>
 		</ScreenAnimator>
 	);

@@ -344,6 +344,14 @@ function editActiveCaseStatus(status) {
 	}
 }
 
+function clearActiveEditedCase() {
+	return (dispacth, getState) => {
+		let state = getState();
+		let activeEditedCaseKey = Select.lpisCases.getActiveEditedCaseKey(state);
+		dispacth(actionClearEditedCase(activeEditedCaseKey));
+	}
+}
+
 function saveCaseAsCreated() {
 	return (dispatch, getState) => {
 		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.CREATED.database));
@@ -465,6 +473,13 @@ function actionEditActiveEditedCase(column, value, file, status) {
 	}
 }
 
+function actionClearEditedCase(key) {
+	return {
+		type: ActionTypes.LPIS_CASES_CLEAR_EDITED_CASE,
+		key
+	}
+}
+
 function actionRemoveEditedCasesByKeys(keys) {
 	return {
 		type: ActionTypes.LPIS_CASES_REMOVE_EDITED_CASES_BY_KEYS,
@@ -493,6 +508,7 @@ export default {
 	loadCaseForActiveView: loadCaseForActiveView,
 	setActiveCaseByActiveView: setActiveCaseByActiveView,
 	editActiveCase: editActiveCase,
+	clearActiveEditedCase,
 	saveCaseAsCreated,
 	saveCaseAsEvaluated,
 	saveCaseAsApproved,
