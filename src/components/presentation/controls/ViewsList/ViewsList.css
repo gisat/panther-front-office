@@ -32,10 +32,6 @@
 	}
 }
 @media (max-width: 1200px) {
-	.ptr-views-list {
-		margin: 1.5rem 3rem 1.5rem 0;
-		padding: 1rem;
-	}
 	.view-list-title {
 		font-size: 2rem;
 	}
