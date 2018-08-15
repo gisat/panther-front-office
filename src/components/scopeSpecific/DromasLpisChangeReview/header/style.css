@@ -29,7 +29,8 @@
 #dromasLpisChangeReviewHeader-tools {
 	width: 20%;
 	color: #222;
-	background: #f6f3e2;
+	/*background: #f6f3e2;*/
+	background: #fffdf7;
 }
 
 #dromasLpisChangeReviewHeader > div {
