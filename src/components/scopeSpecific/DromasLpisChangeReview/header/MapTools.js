@@ -34,7 +34,7 @@ class MapTools extends React.PureComponent {
 							rows={this.props.mapsContainer.rows}
 							selected={this.props.selectedMapOrder}
 						/>
-						<div className="ptr-dromasLpisChangeReviewHeader-map-name">{this.props.map ? this.props.map.name : ""}</div>
+						<div className="ptr-dromasLpisChangeReviewHeader-map-name">{this.props.map ? ("Mapa " + (this.props.selectedMapOrder + 1)) : ""}</div>
 					</div>
 					<div className="ptr-dromasLpisChangeReviewHeader-map-add">
 						<Button
