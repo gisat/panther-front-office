@@ -11,6 +11,8 @@ const getActivePlaceKey = state => state.places.activeKey;
 const getSpatialRelations = (state) => state.spatialRelations.data;
 const getSpatialDataSources = (state) => state.spatialDataSources.main.data; //todo should use Select? if not circular
 
+const getWmsLayers = (state) => state.wmsLayers.data;
+
 const getMaps = createSelector(
 	[getMapDefaults, getMapsOverrides],
 	(defaults, overrides) => {
@@ -171,6 +173,32 @@ const getVectorLayersForTemplate = createSelector(
 	}
 );
 
+const getUsedSourcesForAllMaps = createSelector(
+	[getMaps, getWmsLayers],
+	(maps, wmsLayers) => {
+		let sources = [];
+		maps.forEach((map) => {
+			if(map.hasOwnProperty('layerPeriods') && map.layerPeriods) {
+				Object.keys(map.layerPeriods).forEach((wmsLayerKey) => {
+					let wmsLayer = _.find(wmsLayers, {key: Number(wmsLayerKey)});
+					if(wmsLayer) {
+						sources.push(`${wmsLayer.name} - ${map.layerPeriods[Number(wmsLayerKey)]}`);
+					}
+				})
+			}
+			if(map.hasOwnProperty('wmsLayers') && map.wmsLayers && map.wmsLayers.length) {
+				map.wmsLayers.forEach((wmsLayerKey) => {
+					let wmsLayer = _.find(wmsLayers, {key: wmsLayerKey});
+					if(wmsLayer) {
+						sources.push(wmsLayer.name);
+					}
+				});
+			}
+		});
+		return sources;
+	}
+);
+
 export default {
 	getActiveBackgroundLayerKey: getActiveBackgroundLayerKey,
 	getActiveMapKey: getActiveMapKey,
@@ -185,5 +213,6 @@ export default {
 	getMapsOverrides: getMapsOverrides,
 	getMapDefaults: getMapDefaults,
 	getNavigator: getNavigator,
-	getPeriodIndependence: getPeriodIndependence
+	getPeriodIndependence: getPeriodIndependence,
+	getUsedSourcesForAllMaps
 };

@@ -114,8 +114,14 @@ function editLpisCase() {
 		let state = getState();
 		let editedCase = Select.lpisCases.getActiveCaseEdited(state);
 		let activeCase = Select.lpisCases.getActiveCase(state);
+		let usedSources = Select.maps.getUsedSourcesForAllMaps(state);
 
 		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata');
+
+		let data = editedCase.data;
+		if(usedSources && usedSources.length) {
+			data['evaluation_used_sources'] = usedSources.join(`, `);
+		}
 
 		return fetch(url, {
 			method: 'PUT',
@@ -129,7 +135,7 @@ function editLpisCase() {
 					lpis_cases: [
 						{
 							id: editedCase.key,
-							data: editedCase.data,
+							data: data,
 							status: editedCase.status || activeCase.status
 						}
 					]
