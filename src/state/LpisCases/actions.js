@@ -114,14 +114,8 @@ function editLpisCase() {
 		let state = getState();
 		let editedCase = Select.lpisCases.getActiveCaseEdited(state);
 		let activeCase = Select.lpisCases.getActiveCase(state);
-		let usedSources = Select.maps.getUsedSourcesForAllMaps(state);
 
 		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata');
-
-		let data = editedCase.data;
-		if(usedSources && usedSources.length) {
-			data['evaluation_used_sources'] = usedSources.join(`, `);
-		}
 
 		return fetch(url, {
 			method: 'PUT',
@@ -135,7 +129,7 @@ function editLpisCase() {
 					lpis_cases: [
 						{
 							id: editedCase.key,
-							data: data,
+							data: editedCase.data,
 							status: editedCase.status || activeCase.status
 						}
 					]
@@ -350,6 +344,21 @@ function editActiveCaseStatus(status) {
 	}
 }
 
+function editActiveCaseMapSources() {
+	return (dispatch, getState) => {
+		let state = getState();
+		let usedSources = Select.maps.getUsedSourcesForAllMaps(state);
+		let activeCaseEdited = Select.lpisCases.getActiveCaseEdited(state);
+		let activeCaseKey = Select.lpisCases.getActiveCaseKey(state);
+
+		if (activeCaseEdited) {
+			return dispatch(Action.lpisCases.editActiveEditedCase('evaluation_used_sources', usedSources.join(`, `)));
+		} else {
+			return dispatch(Action.lpisCases.createNewActiveEditedCase(activeCaseKey, 'evaluation_used_sources', usedSources.join(`, `)));
+		}
+	}
+}
+
 function clearActiveEditedCase() {
 	return (dispacth, getState) => {
 		let state = getState();
@@ -365,42 +374,18 @@ function saveCaseAsCreated() {
 	}
 }
 
-function setCaseAsCreated() {
-	return (dispatch, getState) => {
-		let state = getState();
-		dispatch(
-			Action.lpisCases.editLpisCaseStatus(
-				Select.lpisCases.getActiveCaseKey(state),
-				LpisCaseStatuses.CREATED.database
-			)
-		);
-	}
-}
-
 function saveCaseAsEvaluated() {
 	return (dispatch, getState) => {
 		dispatch(Action.lpisCases.updateActiveCaseView());
 		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.EVALUATION_CREATED.database));
+		dispatch(Action.lpisCases.editActiveCaseMapSources());
 		dispatch(Action.lpisCases.editLpisCase());
-	}
-}
-
-function setCaseAsEvaluated() {
-	return (dispatch, getState) => {
-		let state = getState();
-		dispatch(
-			Action.lpisCases.editLpisCaseStatus(
-				Select.lpisCases.getActiveCaseKey(state),
-				LpisCaseStatuses.EVALUATION_CREATED.database
-			)
-		);
 	}
 }
 
 function saveCaseAsApproved() {
 	return (dispatch, getState) => {
 		let state = getState();
-		dispatch(Action.lpisCases.updateActiveCaseView());
 		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.EVALUATION_APPROVED.database));
 		dispatch(Action.lpisCases.editLpisCase());
 	}
@@ -529,5 +514,6 @@ export default {
 	saveCaseAsClosed,
 	editActiveCaseStatus,
 	editLpisCaseStatus,
-	updateActiveCaseView
+	updateActiveCaseView,
+	editActiveCaseMapSources
 }
