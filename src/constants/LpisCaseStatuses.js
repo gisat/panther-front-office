@@ -23,6 +23,12 @@ export default {
 		gisatName: `Uzavřeno`,
 		szifName: `Uzavřeno`,
 		colour: '#ffffff'
+	},
+	INVALID: {
+		database:  `INVALID`,
+		gisatName: `Neplatné`,
+		szifName: `Neplatné`,
+		colour: '#ff0000'
 	}
 }
 
