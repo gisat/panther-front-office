@@ -19,11 +19,22 @@
 /* select */
 .ptr-table.change-reviews-table .ptr-table-header-item .ptr-ui-select.inverted .Select .Select-control {
 	background-color: transparent;
+	text-transform: none;
+	height: 2.2rem;
 }
 .ptr-table.change-reviews-table .ptr-table-header-item .ptr-ui-select.inverted .Select .Select-placeholder {
 	color: rgba(208,212,220,1);
 	font-size: .9375rem;
-	line-height: 2rem;
+	line-height: 2.2rem;
+}
+.ptr-table.change-reviews-table .ptr-table-header-item .ptr-ui-select.inverted .Select .Select-clear-zone .Select-clear{
+	line-height: 2.2rem;
+}
+.ptr-table.change-reviews-table .ptr-table-header-item .ptr-ui-select.inverted .Select .Select-clear-zone:hover {
+	color: #888;
+}
+.ptr-table.change-reviews-table .ptr-table-header-item .ptr-ui-select.inverted .Select .Select-arrow-zone:hover > .Select-arrow {
+	border-top-color: #888;
 }
 .ptr-table.change-reviews-table .ptr-table-header-item .ptr-ui-select.inverted .Select-menu-outer {
 	text-transform: none;
