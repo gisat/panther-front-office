@@ -4,6 +4,8 @@
 	height: calc(100% - 1.7rem);
 	width: 100%;
 }
+
+/* header */
 .ptr-table.change-reviews-table .ptr-table-header {
 	padding: 0 .5rem;
 	margin-right: 16px;
@@ -11,6 +13,28 @@
 .ptr-table.change-reviews-table .ptr-table-header-item {
 	color: rgba(208,212,220,1);
 }
+.ptr-table.change-reviews-table .ptr-table-header-item:first-child {
+	overflow: unset;
+}
+/* select */
+.ptr-table.change-reviews-table .ptr-table-header-item .ptr-ui-select.inverted .Select .Select-control {
+	background-color: transparent;
+}
+.ptr-table.change-reviews-table .ptr-table-header-item .ptr-ui-select.inverted .Select .Select-placeholder {
+	color: rgba(208,212,220,1);
+	font-size: .9375rem;
+	line-height: 2rem;
+}
+.ptr-table.change-reviews-table .ptr-table-header-item .ptr-ui-select.inverted .Select-menu-outer {
+	text-transform: none;
+	border: 0;
+}
+.ptr-table.change-reviews-table .ptr-table-header-item .ptr-ui-select.inverted .Select-menu-outer .Select-option {
+	line-height: 1.45rem;
+}
+
+
+/* records */
 .ptr-table.change-reviews-table .ptr-table-row {
 	padding: 0 .5rem;
 }

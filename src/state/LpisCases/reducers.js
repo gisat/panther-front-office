@@ -5,6 +5,7 @@ import utils from "../../utils/utils";
 const INITIAL_STATE = {
 	activeCaseKey: null,
 	searchString: null,
+	selectedStatus: null,
 	activeNewEditedCaseKey: null,
 	editedCases: [],
 	cases: [],
@@ -43,6 +44,13 @@ function changeSearchString(state, action) {
 	return {
 		...state,
 		searchString: action.searchString
+	}
+}
+
+function changeSelectedStatus(state, action) {
+	return {
+		...state,
+		selectedStatus: action.selectedStatus
 	}
 }
 
@@ -148,6 +156,8 @@ export default (state = INITIAL_STATE, action) => {
 			return receiveChanges(state, action);
 		case ActionTypes.LPIS_CASES_SEARCH_STRING_CHANGE:
 			return changeSearchString(state, action);
+		case ActionTypes.LPIS_CASES_SELECTED_STATUS_CHANGE:
+			return changeSelectedStatus(state, action);
 		case ActionTypes.LPIS_CASES_EDIT_ACTIVE_EDITED_CASE:
 			return editActiveEditedCase(state, action);
 		case ActionTypes.LPIS_CASES_CREATE_NEW_ACTIVE_EDITED_CASE:

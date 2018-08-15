@@ -1,4 +1,6 @@
-export default {
+import _ from 'lodash';
+
+const STATUSES = {
 	CREATED: {
 		database: `CREATED`,
 		gisatName: `Zadáno`,
@@ -30,13 +32,28 @@ export default {
 		szifName: `Neplatné`,
 		colour: '#ff0000'
 	}
-}
+};
+
+const getOptionsFromStatuses = function(statuses){
+	let options = [];
+	_.forIn(statuses, (status) => {
+		options.push({
+			value: status.database,
+			label: status.gisatName,
+		});
+	});
+	return options;
+};
+
+export default STATUSES;
+
+export const statusesOptions = getOptionsFromStatuses(STATUSES);
 
 export const order = {
-	gisatAdmins: [`EVALUATION_CREATED`, `CREATED`, `EVALUATION_APPROVED`, `CLOSED`],
+	gisatAdmins: [`EVALUATION_CREATED`, `CREATED`, `EVALUATION_APPROVED`, `CLOSED`, `INVALID`],
 	gisatUsers: [`CREATED`],
-	szifAdmins: [`EVALUATION_APPROVED`, [`EVALUATION_CREATED`, `CREATED`], `CLOSED`],
-	szifUsers: [`EVALUATION_APPROVED`, [`EVALUATION_CREATED`, `CREATED`], `CLOSED`]
+	szifAdmins: [`EVALUATION_APPROVED`, [`EVALUATION_CREATED`, `CREATED`], `CLOSED`, `INVALID`],
+	szifUsers: [`EVALUATION_APPROVED`, [`EVALUATION_CREATED`, `CREATED`], `CLOSED`, `INVALID`]
 };
 
 export const evaluationConclusions = [

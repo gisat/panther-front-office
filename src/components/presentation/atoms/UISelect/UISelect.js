@@ -13,6 +13,7 @@ class UISelect extends React.PureComponent {
 
 	static propTypes = {
 		classes: PropTypes.string,
+		clearable: PropTypes.bool,
 		fullWidth: PropTypes.bool,
 		label: PropTypes.string,
 		name: PropTypes.string,
@@ -84,7 +85,7 @@ class UISelect extends React.PureComponent {
 				):(
 					<ReactSelect
 						autosize
-						clearable={false}
+						clearable={this.props.clearable}
 						name={this.props.name}
 						onChange={this.props.onChange}
 						optionClassName={this.props.optionClassName}

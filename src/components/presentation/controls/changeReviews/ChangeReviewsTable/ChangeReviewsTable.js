@@ -4,7 +4,10 @@ import _ from 'lodash';
 
 import Button from '../../../atoms/Button';
 import ChangeReviewsTableRow from './ChangeReviewsTableRow';
+import {statusesOptions} from '../../../../../constants/LpisCaseStatuses';
 import Icon from '../../../atoms/Icon';
+import UISelect from "../../../atoms/UISelect/UISelect";
+
 import './ChangeReviewsTable.css';
 
 class ChangeReviewsTable extends React.PureComponent {
@@ -12,20 +15,37 @@ class ChangeReviewsTable extends React.PureComponent {
 	static propTypes = {
 		cases: PropTypes.array,
 		invalidateCase: PropTypes.func,
+		onStatusChange: PropTypes.func,
 		showCase: PropTypes.func,
+		selectedStatus: PropTypes.string,
 		userGroup: PropTypes.string,
 		users: PropTypes.array
 	};
 
 	constructor(props){
 		super(props);
+		this.onStatusChange = this.onStatusChange.bind(this);
+	}
+
+	onStatusChange(status){
+		this.props.onStatusChange(status ? status.value : null);
 	}
 
 	render() {
 		return (
 			<div className="ptr-table change-reviews-table">
 				<div className="ptr-table-header">
-					<div className="ptr-table-header-item">Stav</div>
+					<div className="ptr-table-header-item">
+						<UISelect
+							clearable
+							inverted
+							key="change-review-state-selector"
+							onChange={this.onStatusChange}
+							options={statusesOptions}
+							placeholder="STAV"
+							value={this.props.selectedStatus}
+						/>
+					</div>
 					<div className="ptr-table-header-item">Spisová značka</div>
 					<div className="ptr-table-header-item">Podáno</div>
 					<div className="ptr-table-header-item">Aktualizováno</div>

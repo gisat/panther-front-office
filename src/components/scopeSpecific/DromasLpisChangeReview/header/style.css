@@ -76,6 +76,7 @@
 }
 
 .ptr-dromasLpisChangeReviewHeader-topBar.review .ptr-ui-select .Select .Select-control,
+.ptr-dromasLpisChangeReviewHeader-topBar.review .ptr-ui-select .Select .Select-control .Select-value,
 .ptr-dromasLpisChangeReviewHeader-topBar.review .ptr-ui-select .Select .Select-placeholder,
 .ptr-dromasLpisChangeReviewHeader-topBar.review .ptr-ui-select .Select .Select-input {
 	height: 1.6rem;

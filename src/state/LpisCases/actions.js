@@ -459,6 +459,13 @@ function actionChangeSearchString(searchString) {
 	}
 }
 
+function actionChangeStatus(status) {
+	return {
+		type: ActionTypes.LPIS_CASES_SELECTED_STATUS_CHANGE,
+		selectedStatus: status
+	}
+}
+
 function actionCreateNewActiveEditedCase(key, column, value, status) {
 	return {
 		type: ActionTypes.LPIS_CASES_CREATE_NEW_ACTIVE_EDITED_CASE,
@@ -506,6 +513,7 @@ export default {
 	load: load,
 	createLpisCase: createLpisCase,
 	changeSearchString: actionChangeSearchString,
+	changeStatus: actionChangeStatus,
 	createNewActiveEditedCase: actionCreateNewActiveEditedCase,
 	editActiveEditedCase: actionEditActiveEditedCase,
 	editLpisCase: editLpisCase,

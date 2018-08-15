@@ -10,6 +10,7 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		cases: Select.lpisCases.getSearchResults(state, ownProps),
 		searchString: Select.lpisCases.getSearchString(state),
+		selectedStatus: Select.lpisCases.getSelectedStatus(state),
 		activeEditedCaseKey: Select.lpisCases.getActiveEditedCaseKey(state),
 		activeEditedCase: Select.lpisCases.getActiveEditedCase(state),
 		userGroup: Select.users.getActiveUserDromasLpisChangeReviewGroup(state),
@@ -24,6 +25,9 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		createNewActiveEditedCase: () => {
 			dispatch(Action.lpisCases.createNewActiveEditedCase())
+		},
+		onStatusChange: (status) => {
+			dispatch(Action.lpisCases.changeStatus(status));
 		},
 		showCase: (caseKey) => {
 			dispatch(Action.lpisCases.setActive(caseKey));
