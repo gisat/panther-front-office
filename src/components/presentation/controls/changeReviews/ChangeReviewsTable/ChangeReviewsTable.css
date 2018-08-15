@@ -55,15 +55,19 @@
 	border-top: 1px dashed #ccc;
 }
 .ptr-change-reviews-table-details-top-bar {
-	width: 100%;
+	display: flex;
+	justify-content: space-between;
 }
-.ptr-change-reviews-table-details-top-bar > div {
-	min-width: 5rem;
-	max-width: 20%;
+.ptr-change-reviews-table-details-top-bar > div:first-child {
+	display: flex;
+}
+.ptr-change-reviews-table-details-top-bar > div:first-child > div {
+	/*min-width: 5rem;*/
+	/*max-width: 20%;*/
 	margin-right: 2rem;
 }
 .ptr-change-reviews-table-details-top-bar > div:last-child {
-	flex: 1;
+	/*flex: 1;*/
 }
 .ptr-change-reviews-table-details-descriptions {
 	display: flex;

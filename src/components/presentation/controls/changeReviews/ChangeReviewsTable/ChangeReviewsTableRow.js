@@ -7,6 +7,7 @@ import moment from 'moment';
 import Button from '../../../atoms/Button';
 import ExpandRowButton from '../../../atoms/ExpandRowButton';
 import Icon from '../../../atoms/Icon';
+import Menu, {MenuItem} from "../../../atoms/Menu";
 
 import LpisCaseStatuses, {order as LpisCaseStatusOrder} from '../../../../../constants/LpisCaseStatuses';
 
@@ -133,14 +134,25 @@ class ChangeReviewsTableRow extends React.PureComponent {
 		return (
 			data ? (<div className={classes}>
 				<div className={"ptr-change-reviews-table-details-top-bar"}>
-					{data.code_dpb ? this.renderCodeDpb(data.code_dpb) : null}
-					{data.code_ji ? this.renderCodeJi(data.code_ji) : null}
-					{/*<div className={"ptr-change-reviews-table-details-record location"}>*/}
-						{/*<h4>Lokalita</h4>*/}
-						{/*<span>České Budějovice</span>*/}
-					{/*</div>*/}
-					{group && (group === "gisatAdmins" || group === "gisatUsers") ? (this.renderLastChange()
-					):null}
+					<div>
+						{data.code_dpb ? this.renderCodeDpb(data.code_dpb) : null}
+						{data.code_ji ? this.renderCodeJi(data.code_ji) : null}
+						{/*<div className={"ptr-change-reviews-table-details-record location"}>*/}
+							{/*<h4>Lokalita</h4>*/}
+							{/*<span>České Budějovice</span>*/}
+						{/*</div>*/}
+						{group && (group === "gisatAdmins" || group === "gisatUsers") ? (this.renderLastChange()
+						):null}
+					</div>
+					<div>
+						<div className="ptr-change-reviews-table-details-top-bar-menu">
+							<Button invisible icon="dots">
+								<Menu bottom left>
+									<MenuItem>Zneplatnit záznam řízení</MenuItem>
+								</Menu>
+							</Button>
+						</div>
+					</div>
 				</div>
 				<div className={"ptr-change-reviews-table-details-descriptions"}>
 					<div>
