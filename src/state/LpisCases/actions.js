@@ -145,39 +145,7 @@ function editLpisCase() {
 	}
 }
 
-function editLpisCaseStatus(caseKey, status) {
-	return (dispatch) => {
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata');
-
-		return fetch(url, {
-			method: 'PUT',
-			credentials: 'include',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				data: {
-					lpis_cases: [
-						{
-							id: caseKey,
-							data: {},
-							status: status
-						}
-					]
-				}
-			})
-		}).then(response => {
-			if (response.status === 200) {
-				return response.json();
-			}
-		}).then((responseContent) => {
-			dispatch(_storeResponseContent(responseContent));
-		});
-	}
-}
-
-function updateActiveCaseView(update) {
+function updateActiveCaseView() {
 	return (dispatch, getState) => {
 		let state = getState();
 		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/dataview');
@@ -316,16 +284,14 @@ function setActiveCaseByActiveView() {
 	}
 }
 
-function editActiveCase(column, value) {
+function editActiveCase(property, value) {
 	return (dispatch, getState) => {
 		let state = getState();
 		let activeCaseEdited = Select.lpisCases.getActiveCaseEdited(state);
 		let activeCaseKey = Select.lpisCases.getActiveCaseKey(state);
 
-		if (activeCaseEdited) {
-			return dispatch(Action.lpisCases.editActiveEditedCase(column, value));
-		} else {
-			return dispatch(Action.lpisCases.createNewActiveEditedCase(activeCaseKey, column, value));
+		if(property) {
+			return dispatch(Action.lpisCases.actionEditActiveCase(property, value));
 		}
 	}
 }
@@ -336,10 +302,8 @@ function editActiveCaseStatus(status) {
 		let activeCaseEdited = Select.lpisCases.getActiveCaseEdited(state);
 		let activeCaseKey = Select.lpisCases.getActiveCaseKey(state);
 
-		if (activeCaseEdited) {
-			return dispatch(Action.lpisCases.editActiveEditedCase(null, null, null, status));
-		} else {
-			return dispatch(Action.lpisCases.createNewActiveEditedCase(activeCaseKey, null, null, status));
+		if(status) {
+			return dispatch(Action.lpisCases.actionEditActiveCaseStatus(status));
 		}
 	}
 }
@@ -348,13 +312,9 @@ function editActiveCaseMapSources() {
 	return (dispatch, getState) => {
 		let state = getState();
 		let usedSources = Select.maps.getUsedSourcesForAllMaps(state);
-		let activeCaseEdited = Select.lpisCases.getActiveCaseEdited(state);
-		let activeCaseKey = Select.lpisCases.getActiveCaseKey(state);
 
-		if (activeCaseEdited) {
-			return dispatch(Action.lpisCases.editActiveEditedCase('evaluation_used_sources', usedSources.join(`, `)));
-		} else {
-			return dispatch(Action.lpisCases.createNewActiveEditedCase(activeCaseKey, 'evaluation_used_sources', usedSources.join(`, `)));
+		if(usedSources && usedSources.length) {
+			return dispatch(Action.lpisCases.actionEditActiveCase('evaluation_used_sources', usedSources.join(`, `)));
 		}
 	}
 }
@@ -367,47 +327,50 @@ function clearActiveEditedCase() {
 	}
 }
 
-function saveCaseAsCreated() {
-	return (dispatch, getState) => {
-		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.CREATED.database));
-		dispatch(Action.lpisCases.editLpisCase());
-	}
-}
-
-function saveCaseAsEvaluated() {
-	return (dispatch, getState) => {
-		dispatch(Action.lpisCases.updateActiveCaseView());
-		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.EVALUATION_CREATED.database));
-		dispatch(Action.lpisCases.editActiveCaseMapSources());
-		dispatch(Action.lpisCases.editLpisCase());
-	}
-}
-
-function saveCaseAsApproved() {
-	return (dispatch, getState) => {
-		let state = getState();
-		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.EVALUATION_APPROVED.database));
-		dispatch(Action.lpisCases.editLpisCase());
-	}
-}
-
-function saveCaseAsClosed() {
-	return (dispatch, getState) => {
-		let state = getState();
-		dispatch(
-			Action.lpisCases.editLpisCaseStatus(
-				Select.lpisCases.getActiveCaseKey(state),
-				LpisCaseStatuses.CLOSED.database
-			)
-		);
-	}
-}
-
 function changeSelectedStatuses(statuses) {
 	return dispatch => {
 		if (statuses && !_.isArray(statuses)) statuses = [statuses];
 		dispatch(actionChangeSelectedStatuses(statuses));
 	};
+}
+
+function userActionSaveEvaluation() {
+	return (dispatch) => {
+		dispatch(Action.lpisCases.editActiveCaseMapSources());
+		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.EVALUATION_CREATED.database));
+		dispatch(Action.lpisCases.updateActiveCaseView());
+		dispatch(Action.lpisCases.editLpisCase());
+	}
+}
+
+function userActionSaveAndApproveEvaluation() {
+	return (dispatch) => {
+		dispatch(Action.lpisCases.editActiveCaseMapSources());
+		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.EVALUATION_APPROVED.database));
+		dispatch(Action.lpisCases.updateActiveCaseView());
+		dispatch(Action.lpisCases.editLpisCase());
+	}
+}
+
+function userActionApproveEvaluation() {
+	return (dispatch) => {
+		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.EVALUATION_APPROVED.database));
+		dispatch(Action.lpisCases.editLpisCase());
+	}
+}
+
+function userActionRejectEvaluation() {
+	return (dispatch) => {
+		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.CREATED.database));
+		dispatch(Action.lpisCases.editLpisCase());
+	}
+}
+
+function userActionCloseEvaluation() {
+	return (dispatch) => {
+		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.CLOSED.database));
+		dispatch(Action.lpisCases.editLpisCase());
+	}
 }
 
 // ============ helpers ===========
@@ -458,23 +421,34 @@ function actionChangeSelectedStatuses(statuses) {
 	}
 }
 
-function actionCreateNewActiveEditedCase(key, column, value, status) {
+function actionCreateNewActiveEditedCase(key) {
 	return {
 		type: ActionTypes.LPIS_CASES_CREATE_NEW_ACTIVE_EDITED_CASE,
-		key: key,
-		column: column,
-		value: value,
-		status: status
+		key: key
 	}
 }
 
-function actionEditActiveEditedCase(column, value, file, status) {
+function actionEditActiveEditedCase(column, value, file) {
 	return {
 		type: ActionTypes.LPIS_CASES_EDIT_ACTIVE_EDITED_CASE,
 		column: column,
 		value: value,
-		file: file,
-		status: status
+		file: file
+	}
+}
+
+function actionEditActiveCase(property, value) {
+	return {
+		type: ActionTypes.LPIS_CASE_EDIT_ACTIVE_CASE,
+		property,
+		value
+	}
+}
+
+function actionEditActiveCaseStatus(status) {
+	return {
+		type: ActionTypes.LPIS_CASE_EDIT_ACTIVE_CASE_STATUS,
+		status
 	}
 }
 
@@ -515,12 +489,14 @@ export default {
 	setActiveCaseByActiveView: setActiveCaseByActiveView,
 	editActiveCase: editActiveCase,
 	clearActiveEditedCase,
-	saveCaseAsCreated,
-	saveCaseAsEvaluated,
-	saveCaseAsApproved,
-	saveCaseAsClosed,
 	editActiveCaseStatus,
-	editLpisCaseStatus,
 	updateActiveCaseView,
-	editActiveCaseMapSources
+	editActiveCaseMapSources,
+	userActionSaveEvaluation,
+	userActionApproveEvaluation,
+	userActionCloseEvaluation,
+	userActionRejectEvaluation,
+	userActionSaveAndApproveEvaluation,
+	actionEditActiveCase,
+	actionEditActiveCaseStatus
 }

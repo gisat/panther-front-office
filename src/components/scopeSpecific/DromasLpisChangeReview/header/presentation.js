@@ -22,10 +22,11 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		editActiveCase: PropTypes.func,
 		activeCaseEdited: PropTypes.object,
 		toggleGeometries: PropTypes.func,
-		saveCaseAsCreated: PropTypes.func,
-		saveCaseAsApproved: PropTypes.func,
-		saveCaseAsClosed: PropTypes.func,
-		saveCaseAsEvaluated: PropTypes.func
+		saveEvaluation: PropTypes.func,
+		saveAndApproveEvaluation: PropTypes.func,
+		approveEvaluation: PropTypes.func,
+		rejectEvaluation: PropTypes.func,
+		closeEvaluation: PropTypes.func
 	};
 
 	render() {
@@ -53,10 +54,11 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 					<UserActions
 						case={this.props.case}
 						userGroup={this.props.userGroup}
-						saveCaseAsCreated={this.props.saveCaseAsCreated}
-						saveCaseAsEvaluated={this.props.saveCaseAsEvaluated}
-						saveCaseAsApproved={this.props.saveCaseAsApproved}
-						saveCaseAsClosed={this.props.saveCaseAsClosed}
+						saveEvaluation={this.props.saveEvaluation}
+						saveAndApproveEvaluation={this.props.saveAndApproveEvaluation}
+						approveEvaluation={this.props.approveEvaluation}
+						rejectEvaluation={this.props.rejectEvaluation}
+						closeEvaluation={this.props.closeEvaluation}
 					/>
 				</div>
 				<div id="dromasLpisChangeReviewHeader-tools"><MapTools

@@ -31,17 +31,20 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 				}
 			}));
 		},
-		saveCaseAsCreated: () => {
-			dispatch(Action.lpisCases.saveCaseAsCreated());
+		saveEvaluation: () => {
+			dispatch(Action.lpisCases.userActionSaveEvaluation());
 		},
-		saveCaseAsEvaluated: () => {
-			dispatch(Action.lpisCases.saveCaseAsEvaluated());
+		saveAndApproveEvaluation: () => {
+			dispatch(Action.lpisCases.userActionSaveAndApproveEvaluation())
 		},
-		saveCaseAsApproved: () => {
-			dispatch(Action.lpisCases.saveCaseAsApproved());
+		approveEvaluation: () => {
+			dispatch(Action.lpisCases.userActionApproveEvaluation())
 		},
-		saveCaseAsClosed: () => {
-			dispatch(Action.lpisCases.saveCaseAsClosed());
+		rejectEvaluation: () => {
+			dispatch(Action.lpisCases.userActionRejectEvaluation())
+		},
+		closeEvaluation: () => {
+			dispatch(Action.lpisCases.userActionCloseEvaluation())
 		},
 		backToList: () => {
 			dispatch(Action.components.overlays.views.selectActiveScope());

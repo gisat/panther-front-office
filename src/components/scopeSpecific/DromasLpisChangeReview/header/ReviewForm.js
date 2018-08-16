@@ -10,7 +10,8 @@ class ReviewForm extends React.PureComponent {
 		onFocusInput: PropTypes.any,
 		onBlurInput: PropTypes.any,
 		caseEdited: PropTypes.object,
-		case: PropTypes.object
+		case: PropTypes.object,
+		editActiveCase: PropTypes.func
 	};
 
 	constructor(props) {
