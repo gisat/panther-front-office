@@ -22,22 +22,28 @@
 }
 #dromasLpisChangeReviewHeader-case {
 	/*width: 30%;*/
+	min-width: 15rem;
 	flex-grow: 1;
+	flex-basis: 15rem;
 	/*background: #906;*/
 }
 #dromasLpisChangeReviewHeader-review {
 	/*width: 30%;*/
+	min-width: 15rem;
 	flex-grow: 1;
+	flex-basis: 15rem;
 	/*background: #6e8;*/
 }
 #dromasLpisChangeReviewHeader-actions {
 	/*width: 20%;*/
 	width: 20rem;
+	flex-shrink: 0;
 	/*background: #f7a;*/
 }
 #dromasLpisChangeReviewHeader-tools {
 	/*width: 20%;*/
 	width: 16rem;
+	flex-shrink: 0;
 	color: #222;
 	/*background: #f6f3e2;*/
 	background: #fffdf7;
