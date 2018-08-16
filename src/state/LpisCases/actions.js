@@ -253,6 +253,21 @@ function redirectToActiveCaseView() {
 	}
 }
 
+function redirectToNextViewFromActiveView() {
+	return (dispatch, getState) => {
+		let state = getState();
+		let activeCaseKey = Select.lpisCases.getActiveCaseKey(state);
+		let activeUserDromasLpisChangeReviewGroup = Select.users.getActiveUserDromasLpisChangeReviewGroup(state);
+		let lpisCases = Select.lpisCases.getSortedCasesWithChanges(state, {activeUserDromasLpisChangeReviewGroup: activeUserDromasLpisChangeReviewGroup});
+
+		let activeCaseIndex = _.findIndex(lpisCases, {key: activeCaseKey});
+		if(lpisCases[activeCaseIndex+1]) {
+			let view = _.find(Select.views.getViews(state), {key: lpisCases[activeCaseIndex+1].data.view_id});
+			dispatch(Action.components.redirectToView({...view.data, key: view.key}));
+		}
+	}
+}
+
 function loadCaseForActiveView() {
 	return (dispatch, getState) => {
 		let state = getState();
@@ -340,6 +355,7 @@ function userActionSaveEvaluation() {
 		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.EVALUATION_CREATED.database));
 		dispatch(Action.lpisCases.updateActiveCaseView());
 		dispatch(Action.lpisCases.editLpisCase());
+		dispatch(redirectToNextViewFromActiveView());
 	}
 }
 
@@ -349,6 +365,7 @@ function userActionSaveAndApproveEvaluation() {
 		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.EVALUATION_APPROVED.database));
 		dispatch(Action.lpisCases.updateActiveCaseView());
 		dispatch(Action.lpisCases.editLpisCase());
+		dispatch(redirectToNextViewFromActiveView());
 	}
 }
 
@@ -356,6 +373,7 @@ function userActionApproveEvaluation() {
 	return (dispatch) => {
 		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.EVALUATION_APPROVED.database));
 		dispatch(Action.lpisCases.editLpisCase());
+		dispatch(redirectToNextViewFromActiveView());
 	}
 }
 
@@ -363,6 +381,7 @@ function userActionRejectEvaluation() {
 	return (dispatch) => {
 		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.CREATED.database));
 		dispatch(Action.lpisCases.editLpisCase());
+		dispatch(redirectToNextViewFromActiveView());
 	}
 }
 
@@ -370,6 +389,7 @@ function userActionCloseEvaluation() {
 	return (dispatch) => {
 		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.CLOSED.database));
 		dispatch(Action.lpisCases.editLpisCase());
+		dispatch(redirectToNextViewFromActiveView());
 	}
 }
 

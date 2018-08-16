@@ -124,6 +124,7 @@ export default {
 	getChanges: getChanges,
 	getCasesWithChanges: getCasesWithChanges,
 	getSearchResults: getSearchResults,
+	getSortedCasesWithChanges,
 	getSearchString: getSearchString,
 	getSelectedStatuses: getSelectedStatuses,
 	getActiveEditedCase: getActiveEditedCase,
