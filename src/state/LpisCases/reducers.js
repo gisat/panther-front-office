@@ -148,6 +148,46 @@ function setActive(state, action) {
 	return {...state, activeCaseKey: action.key};
 }
 
+function editActiveCase(state, action) {
+	let activeCaseKey = state.activeCaseKey;
+	let activeCase = _.find(state.cases, {key: activeCaseKey});
+	let activeCaseEdited = _.find(state.editedCases, {key: activeCaseKey});
+	let oldEditedCases = _.reject(state.editedCases, {key: activeCaseKey});
+	return {
+		...state,
+		editedCases: [
+			...oldEditedCases,
+			{
+				key: activeCaseKey,
+				data: activeCaseEdited ? {
+					...activeCaseEdited.data,
+					[action.property]: action.value
+				} : {
+					[action.property]: action.value
+				}
+			}
+		]
+	};
+}
+
+function editActiveCaseStatus(state, action) {
+	let activeCaseKey = state.activeCaseKey;
+	let activeCase = _.find(state.cases, {key: activeCaseKey});
+	let activeCaseEdited = _.find(state.editedCases, {key: activeCaseKey});
+	let oldEditedCases = _.reject(state.editedCases, {key: activeCaseKey});
+	return {
+		...state,
+		editedCases: [
+			...oldEditedCases,
+			{
+				key: activeCaseKey,
+				data: activeCaseEdited ? activeCaseEdited.data : {},
+				status: action.status
+			}
+		]
+	};
+}
+
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.LPIS_CASES_ADD:
@@ -168,6 +208,10 @@ export default (state = INITIAL_STATE, action) => {
 			return setActive(state, action);
 		case ActionTypes.LPIS_CASES_CLEAR_EDITED_CASE:
 			return clearEditedCase(state, action);
+		case ActionTypes.LPIS_CASE_EDIT_ACTIVE_CASE:
+			return editActiveCase(state, action);
+		case ActionTypes.LPIS_CASE_EDIT_ACTIVE_CASE_STATUS:
+			return editActiveCaseStatus(state, action);
 		default:
 			return state;
 	}
