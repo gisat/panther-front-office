@@ -1,5 +1,8 @@
 .ptr-change-reviews-list {
 	height: 100%;
+	box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
 }
 
 /* Header */
@@ -35,7 +38,7 @@
 
 /* Body */
 .ptr-change-reviews-list-body {
-	height: calc(100% - 10.5rem);
+	height: calc(100% - 8rem);
 }
 .ptr-change-reviews-list-contact {
 	background: rgba(213,215,219,1);
