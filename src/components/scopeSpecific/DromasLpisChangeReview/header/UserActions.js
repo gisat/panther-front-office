@@ -61,7 +61,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		} else if(changeReviewCase.status === LpisCaseStatuses.EVALUATION_CREATED.database) {
 			return (
 				<div key="gisatAdmins-evaluationCreated">
-					<div><Button primary onClick={this.props.saveEvaluation}>Schválit vyhodnocení</Button></div>
+					<div><Button primary onClick={this.props.approveEvaluation}>Schválit vyhodnocení</Button></div>
 					<div><Button inverted onClick={this.props.rejectEvaluation}>Vrátit k vyhodnocení</Button></div>
 				</div>
 			)
