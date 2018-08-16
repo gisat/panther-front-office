@@ -42,6 +42,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		},
 		saveCaseAsClosed: () => {
 			dispatch(Action.lpisCases.saveCaseAsClosed());
+		},
+		backToList: () => {
+			dispatch(Action.components.overlays.views.selectActiveScope());
+			dispatch(Action.components.overlays.openOverlay('views'));
+			dispatch(Action.components.setIntro(true));
 		}
 	};
 };

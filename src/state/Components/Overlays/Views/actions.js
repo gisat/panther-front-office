@@ -30,6 +30,16 @@ function setSelectedScope(key){
 	}
 }
 
+function selectActiveScope(){
+	return (dispatch, getState) => {
+		let state = getState();
+		let key = Select.scopes.getActiveScopeKey(state);
+		let data = Select.components.overlays.getOverlay(state, {key: 'views'});
+		let update = {...data, selectedScope: key};
+		dispatch(Action.components.overlays.actionUpdateOverlay('views', update));
+	}
+}
+
 // ============ actions ===========
 
 // ============ export ===========
@@ -37,5 +47,6 @@ function setSelectedScope(key){
 export default {
 	checkForActiveUser: checkForActiveUser,
 	setChangeReviewsActiveScreen: setChangeReviewsActiveScreen,
-	setSelectedScope: setSelectedScope
+	setSelectedScope: setSelectedScope,
+	selectActiveScope
 }

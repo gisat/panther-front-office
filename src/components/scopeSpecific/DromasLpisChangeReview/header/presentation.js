@@ -33,7 +33,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 			<div id="dromasLpisChangeReviewHeader">
 				<div id="dromasLpisChangeReviewHeader-back">
 					<div>
-						<Button invisible inverted circular icon="back"/>
+						<Button invisible inverted circular icon="back" onClick={this.props.backToList}/>
 					</div>
 				</div>
 				<div id="dromasLpisChangeReviewHeader-case">
