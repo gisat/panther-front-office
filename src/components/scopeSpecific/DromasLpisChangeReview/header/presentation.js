@@ -7,6 +7,7 @@ import Case from './Case';
 import Review from './Review';
 import UserActions from './UserActions';
 import MapTools from './MapTools';
+import Button from "../../../presentation/atoms/Button";
 
 class DromasLpisChangeReviewHeader extends React.PureComponent {
 
@@ -30,6 +31,11 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 	render() {
 		return (
 			<div id="dromasLpisChangeReviewHeader">
+				<div id="dromasLpisChangeReviewHeader-back">
+					<div>
+						<Button invisible inverted circular icon="back"/>
+					</div>
+				</div>
 				<div id="dromasLpisChangeReviewHeader-case">
 					<Case
 						case={this.props.case}

@@ -18,6 +18,7 @@ import Upload from './Upload';
 const icon = (key, props) => {
 	switch(key) {
 		case 'arrow-left':
+		case 'back':
 			return <ArrowLeft />;
 		case 'circle':
 			return <Circle
