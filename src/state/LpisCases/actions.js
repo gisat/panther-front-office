@@ -393,6 +393,13 @@ function userActionCloseEvaluation() {
 	}
 }
 
+function userActionInvalidate() {
+	return (dispatch) => {
+		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.INVALID.database));
+		dispatch(Action.lpisCases.editLpisCase());
+	}
+}
+
 // ============ helpers ===========
 
 function transformIdsToKeys(records) {
@@ -518,5 +525,6 @@ export default {
 	userActionRejectEvaluation,
 	userActionSaveAndApproveEvaluation,
 	actionEditActiveCase,
-	actionEditActiveCaseStatus
+	actionEditActiveCaseStatus,
+	userActionInvalidate
 }
