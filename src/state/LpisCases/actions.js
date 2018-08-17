@@ -226,6 +226,11 @@ function _storeResponseContent(content) {
 				if (keysOkEditedCasesToRemove.length) {
 					dispatch(actionRemoveEditedCasesByKeys(keysOkEditedCasesToRemove));
 				}
+
+				let nextActiveCaseKey = Select.lpisCases.getNextActiveCaseKey(state);
+				if(!nextActiveCaseKey) {
+					dispatch(setNextActiveCaseKey());
+				}
 			}
 		}
 	}
@@ -256,14 +261,29 @@ function redirectToActiveCaseView() {
 function redirectToNextViewFromActiveView() {
 	return (dispatch, getState) => {
 		let state = getState();
-		let activeCaseKey = Select.lpisCases.getActiveCaseKey(state);
-		let activeUserDromasLpisChangeReviewGroup = Select.users.getActiveUserDromasLpisChangeReviewGroup(state);
-		let lpisCases = Select.lpisCases.getSortedCasesWithChanges(state, {activeUserDromasLpisChangeReviewGroup: activeUserDromasLpisChangeReviewGroup});
+		let nextActiveCaseKey = Select.lpisCases.getNextActiveCaseKey(state);
+		let nextLpisCase = _.find(Select.lpisCases.getCases(state), {key: nextActiveCaseKey});
 
-		let activeCaseIndex = _.findIndex(lpisCases, {key: activeCaseKey});
-		if(lpisCases[activeCaseIndex+1]) {
-			let view = _.find(Select.views.getViews(state), {key: lpisCases[activeCaseIndex+1].data.view_id});
+		if(nextLpisCase) {
+			let view = _.find(Select.views.getViews(state), {key: nextLpisCase.data.view_id});
 			dispatch(Action.components.redirectToView({...view.data, key: view.key}));
+		}
+	}
+}
+
+function setNextActiveCaseKey() {
+	return (dispatch, getState) => {
+		let state = getState();
+		let activeCaseKey = Select.lpisCases.getActiveCaseKey(state);
+
+		if(activeCaseKey) {
+			let activeUserDromasLpisChangeReviewGroup = Select.users.getActiveUserDromasLpisChangeReviewGroup(state);
+			let lpisCases = Select.lpisCases.getSortedCasesWithChanges(state, {activeUserDromasLpisChangeReviewGroup: activeUserDromasLpisChangeReviewGroup});
+
+			let activeCaseIndex = _.findIndex(lpisCases, {key: activeCaseKey});
+			if(lpisCases[activeCaseIndex+1]) {
+				dispatch(actionSetNextActiveCaseKey(lpisCases[activeCaseIndex+1].key));
+			}
 		}
 	}
 }
@@ -497,6 +517,13 @@ function actionSetActive(caseKey) {
 	return {
 		type: ActionTypes.LPIS_CASES_SET_ACTIVE,
 		key: caseKey
+	}
+}
+
+function actionSetNextActiveCaseKey(nextActiveCaseKey) {
+	return {
+		type: ActionTypes.LPIS_CASE_SET_NEXT_ACTIVE_CASE_KEY,
+		key: nextActiveCaseKey
 	}
 }
 

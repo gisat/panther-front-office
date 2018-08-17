@@ -66,10 +66,10 @@ export const statusesOptionsGisat = getGisatOptionsFromStatuses(STATUSES);
 export const statusesOptionsSzif = getSzifOptionsFromStatuses(STATUSES);
 
 export const order = {
-	gisatAdmins: [`EVALUATION_CREATED`, `CREATED`, `EVALUATION_APPROVED`, `CLOSED`, `INVALID`],
+	gisatAdmins: [`EVALUATION_CREATED`, `CREATED`, `EVALUATION_APPROVED`, `CLOSED`],
 	gisatUsers: [`CREATED`],
-	szifAdmins: [`EVALUATION_APPROVED`, [`EVALUATION_CREATED`, `CREATED`], `CLOSED`, `INVALID`],
-	szifUsers: [`EVALUATION_APPROVED`, [`EVALUATION_CREATED`, `CREATED`], `CLOSED`, `INVALID`]
+	szifAdmins: [`EVALUATION_APPROVED`, [`EVALUATION_CREATED`, `CREATED`], `CLOSED`],
+	szifUsers: [`EVALUATION_APPROVED`, [`EVALUATION_CREATED`, `CREATED`], `CLOSED`]
 };
 
 export const evaluationConclusions = [

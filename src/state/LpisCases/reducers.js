@@ -4,6 +4,7 @@ import utils from "../../utils/utils";
 
 const INITIAL_STATE = {
 	activeCaseKey: null,
+	nextActiveCaseKey: null,
 	searchString: null,
 	selectedStatuses: null,
 	activeNewEditedCaseKey: null,
@@ -148,6 +149,13 @@ function setActive(state, action) {
 	return {...state, activeCaseKey: action.key};
 }
 
+function setNextActiveCaseKey(state, action) {
+	return {
+		...state,
+		nextActiveCaseKey: action.key
+	}
+}
+
 function editActiveCase(state, action) {
 	let activeCaseKey = state.activeCaseKey;
 	let activeCase = _.find(state.cases, {key: activeCaseKey});
@@ -212,6 +220,8 @@ export default (state = INITIAL_STATE, action) => {
 			return editActiveCase(state, action);
 		case ActionTypes.LPIS_CASE_EDIT_ACTIVE_CASE_STATUS:
 			return editActiveCaseStatus(state, action);
+		case ActionTypes.LPIS_CASE_SET_NEXT_ACTIVE_CASE_KEY:
+			return setNextActiveCaseKey(state, action);
 		default:
 			return state;
 	}

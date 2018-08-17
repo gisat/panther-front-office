@@ -11,6 +11,7 @@ const getSelectedStatuses = state => state.lpisCases.selectedStatuses;
 const getEditedCases = state => state.lpisCases.editedCases;
 const getActiveCaseKey = state => state.lpisCases.activeCaseKey;
 const getActiveEditedCaseKey = state => state.lpisCases.activeNewEditedCaseKey;
+const getNextActiveCaseKey = state => state.lpisCases.nextActiveCaseKey;
 
 const getActiveViewKey = state => state.views.activeKey;
 
@@ -133,5 +134,7 @@ export default {
 	getActiveCaseKey: getActiveCaseKey,
 	getActiveCase: getActiveCase,
 	getActiveCaseEdited: getActiveCaseEdited,
-	getCaseByActiveView: getCaseByActiveView
+	getCaseByActiveView: getCaseByActiveView,
+	getNextActiveCaseKey,
+	getFilteredSortedCasesWithChangesByStatus
 };
