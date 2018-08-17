@@ -1,8 +1,13 @@
 .ptr-change-reviews-list {
 	height: 100%;
-	box-sizing: border-box;
 	display: flex;
 	flex-direction: column;
+}
+
+.ptr-change-reviews-list,
+.ptr-change-reviews-list-body,
+.ptr-change-reviews-list-header {
+	box-sizing: border-box;
 }
 
 /* Header */

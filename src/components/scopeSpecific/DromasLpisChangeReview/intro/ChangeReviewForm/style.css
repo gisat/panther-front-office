@@ -2,6 +2,11 @@
 	width: 100%;
 	height: 100%;
 	background: rgb(229, 229, 229);
+}
+
+.ptr-change-review-form,
+.ptr-change-review-form-body,
+.ptr-change-review-form-header {
 	box-sizing: border-box;
 }
 
