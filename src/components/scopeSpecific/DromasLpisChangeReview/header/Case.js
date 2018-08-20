@@ -11,8 +11,9 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 	render() {
 		return (
 			<div>
-				<div className="ptr-dromasLpisChangeReviewHeader-topBar">
+				<div className="ptr-dromasLpisChangeReviewHeader-topBar case">
 					<span className='ptr-dromasLpisChangeReviewHeader-heading'>Ohlášení územní změny</span>
+					<span className='ptr-dromasLpisChangeReviewHeader-caseKey'>{this.props.case && this.props.case.data.case_key || ''}</span>
 				</div>
 				<div className="ptr-dromasLpisChangeReviewHeader-content">
 					<ExpandableContent>
@@ -26,7 +27,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 	renderCase(changeReviewCase) {
 		if(changeReviewCase) {
 
-			let placeInsert, otherInsert;
+			let placeInsert, otherInsert, dpbInsert, jiInsert;
 
 			if (changeReviewCase.data.change_description_place) {
 				placeInsert = (
@@ -45,11 +46,31 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 					</div>
 				);
 			}
+
+			if (changeReviewCase.data.code_dpb) {
+				dpbInsert = (
+					<div>
+						<div className='ptr-dromasLpisChangeReviewHeader-property'>Kód DPB</div>
+						<p>{changeReviewCase.data.code_dpb}</p>
+					</div>
+				);
+			}
+
+			if (changeReviewCase.data.code_ji) {
+				jiInsert = (
+					<div>
+						<div className='ptr-dromasLpisChangeReviewHeader-property'>Kód JI</div>
+						<p>{changeReviewCase.data.code_ji}</p>
+					</div>
+				);
+			}
 			return (
 				<div>
 					<p>{changeReviewCase.data.change_description}</p>
 					{placeInsert}
 					{otherInsert}
+					{dpbInsert}
+					{jiInsert}
 				</div>
 			)
 		}

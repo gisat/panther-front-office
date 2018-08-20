@@ -75,7 +75,18 @@
 .ptr-dromasLpisChangeReviewHeader-heading {
 	text-transform: uppercase;
 	font-weight: 700;
-	letter-spacing: .02rem;
+	letter-spacing: .02em;
+}
+
+
+/* ============ case ========================= */
+.ptr-dromasLpisChangeReviewHeader-topBar.case {
+	justify-content: space-between;
+}
+.ptr-dromasLpisChangeReviewHeader-caseKey {
+	font-weight: 700;
+	letter-spacing: .02em;
+	color: #ff325a;
 }
 
 
