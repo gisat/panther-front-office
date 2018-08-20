@@ -109,10 +109,10 @@ function createLpisCase() {
 	};
 }
 
-function editLpisCase() {
+function editLpisCase(caseKey) {
 	return (dispatch, getState) => {
 		let state = getState();
-		let editedCase = Select.lpisCases.getActiveCaseEdited(state);
+		let editedCase = caseKey ? _.find(Select.lpisCases.getEditedCases(state), {key: caseKey}) : Select.lpisCases.getActiveCaseEdited(state);
 		let activeCase = Select.lpisCases.getActiveCase(state);
 
 		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata');
@@ -343,6 +343,14 @@ function editActiveCaseStatus(status) {
 	}
 }
 
+function editCaseStatus(caseKey, status) {
+	return (dispatch) => {
+		if(caseKey && status) {
+			return dispatch(actionEditCaseStatus(caseKey, status));
+		}
+	}
+}
+
 function editActiveCaseMapSources() {
 	return (dispatch, getState) => {
 		let state = getState();
@@ -413,10 +421,10 @@ function userActionCloseEvaluation() {
 	}
 }
 
-function userActionInvalidate() {
+function userActionInvalidate(caseKey) {
 	return (dispatch) => {
-		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.INVALID.database));
-		dispatch(Action.lpisCases.editLpisCase());
+		dispatch(editCaseStatus(caseKey, LpisCaseStatuses.INVALID.database));
+		dispatch(editLpisCase(caseKey));
 	}
 }
 
@@ -499,6 +507,14 @@ function actionEditActiveCaseStatus(status) {
 	}
 }
 
+function actionEditCaseStatus(caseKey, status) {
+	return {
+		type: ActionTypes.LPIS_CASE_EDIT_CASE_STATUS,
+		key: caseKey,
+		status
+	}
+}
+
 function actionClearEditedCase(key) {
 	return {
 		type: ActionTypes.LPIS_CASES_CLEAR_EDITED_CASE,
@@ -553,5 +569,6 @@ export default {
 	userActionSaveAndApproveEvaluation,
 	actionEditActiveCase,
 	actionEditActiveCaseStatus,
-	userActionInvalidate
+	userActionInvalidate,
+	editCaseStatus
 }

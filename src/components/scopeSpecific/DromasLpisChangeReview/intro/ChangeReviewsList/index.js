@@ -53,7 +53,7 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(Action.users.apiLoad());
 		},
 		invalidateCase: (caseKey) => {
-			dispatch(Action.lpisCases.userActionInvalidate())
+			dispatch(Action.lpisCases.userActionInvalidate(caseKey))
 		}
 	}
 };
