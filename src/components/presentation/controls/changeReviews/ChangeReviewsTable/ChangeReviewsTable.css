@@ -145,3 +145,8 @@
 	max-width: 35rem;
 	color: rgba(65,69,81,1);
 }
+.ptr-change-reviews-table-details-record p.highlighted > i {
+	background: yellow;
+	font-style: normal;
+	font-weight: bold;
+}

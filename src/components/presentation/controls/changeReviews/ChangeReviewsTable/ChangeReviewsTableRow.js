@@ -17,7 +17,8 @@ class ChangeReviewsTableRow extends React.PureComponent {
 		caseKey: PropTypes.number,
 		changes: PropTypes.array,
 		data: PropTypes.object,
-		highlightedString: PropTypes.string,
+		highlightedCaseKey: PropTypes.string,
+		highlightedChangeDescription: PropTypes.string,
 		status: PropTypes.string,
 		updated: PropTypes.string,
 		showCase: PropTypes.func,
@@ -107,8 +108,8 @@ class ChangeReviewsTableRow extends React.PureComponent {
 	}
 
 	renderCaseKey(){
-		return this.props.highlightedString ? (
-			<div dangerouslySetInnerHTML={{__html: this.props.highlightedString}} className="ptr-table-row-item highlighted"></div>
+		return this.props.highlightedCaseKey ? (
+			<div dangerouslySetInnerHTML={{__html: this.props.highlightedCaseKey}} className="ptr-table-row-item highlighted"></div>
 		) : (
 			<div className="ptr-table-row-item">{this.props.data.case_key}</div>
 		);
@@ -228,7 +229,12 @@ class ChangeReviewsTableRow extends React.PureComponent {
 	}
 
 	renderChangeDescription(data){
-		return (
+		return this.props.highlightedChangeDescription ? (
+			<div className="ptr-change-reviews-table-details-record">
+				<h4>Popis důvodu pro aktualizaci LPIS</h4>
+				<p dangerouslySetInnerHTML={{__html: this.props.highlightedChangeDescription}} className="highlighted"></p>
+			</div>
+		) : (
 			<div className="ptr-change-reviews-table-details-record">
 				<h4>Popis důvodu pro aktualizaci LPIS</h4>
 				<p>{data}</p>

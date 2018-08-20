@@ -1,8 +1,14 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
 import Fuzzy from "fuzzy";
+import fuzzysort from "fuzzysort";
 
 import LpisCaseStatuses, {order as LpisCaseStatusOrder} from '../../constants/LpisCaseStatuses';
+
+const SEARCHABLE_CASE_KEYS = ['case_key', 'change_description'];
+const SEARCHABLE_CASE_KEYS_SOURCES = ['data.case_key', 'data.change_description'];
+const SEARCHING_RESULTS_LIMIT = 20;
+const SEARCHING_SCORE_THRESHOLD = -10000;
 
 const getCases = state => state.lpisCases.cases;
 const getChanges = state => state.lpisCases.changes;
@@ -96,15 +102,7 @@ const getSearchingResultFromCasesWithoutInvalid = createSelector(
 	[getSearchString, getCasesWithChangesWithoutInvalid],
 	(searchString, cases) => {
 		if (searchString && searchString.length > 0) {
-			let options = {
-				pre: '<i>',
-				post: '</i>',
-				extract: function(el) { return el.data.case_key;}
-			};
-			let results = Fuzzy.filter(searchString, cases, options);
-			return results.map(record => {
-				return {...record.original, highlightedString: record.string}
-			});
+			return search(searchString, cases);
 		} else {
 			return [];
 		}
@@ -115,15 +113,7 @@ const  getSearchingResultFromCasesWithSelectedStatuses = createSelector(
 	[getSearchString, getCasesFilteredByStatuses],
 	(searchString, cases) => {
 		if (searchString && searchString.length > 0) {
-			let options = {
-				pre: '<i>',
-				post: '</i>',
-				extract: function(el) { return el.data.case_key; }
-			};
-			let results = Fuzzy.filter(searchString, cases, options);
-			return results.map(record => {
-				return {...record.original, highlightedString: record.string}
-			});
+			return search(searchString, cases);
 		} else {
 			return [];
 		}
@@ -159,6 +149,29 @@ const getCaseByActiveView = createSelector(
 		});
 	}
 );
+
+/* auxiliary functions */
+const search = function(searchString, cases){
+	let results = fuzzysort.go(searchString, cases, {
+		threshold: SEARCHING_SCORE_THRESHOLD,
+		limit: SEARCHING_RESULTS_LIMIT,
+		keys: SEARCHABLE_CASE_KEYS_SOURCES
+	});
+
+	let records = [];
+	results.forEach(result => {
+		let record = {...result.obj};
+		result.forEach((rec, i) => {
+			let highlighted = fuzzysort.highlight(rec, '<i>', '</i>');
+			if (highlighted){
+				record[SEARCHABLE_CASE_KEYS[i] + '_highlighted'] = highlighted;
+			}
+		});
+		records.push(record);
+	});
+
+	return records;
+};
 
 export default {
 	getCases: getCases,
