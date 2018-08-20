@@ -278,7 +278,7 @@ function setNextActiveCaseKey() {
 
 		if(activeCaseKey) {
 			let activeUserDromasLpisChangeReviewGroup = Select.users.getActiveUserDromasLpisChangeReviewGroup(state);
-			let lpisCases = Select.lpisCases.getSortedCasesWithChanges(state, {activeUserDromasLpisChangeReviewGroup: activeUserDromasLpisChangeReviewGroup});
+			let lpisCases = Select.lpisCases.getAllCasesSortedByStatusAndDate(state, {activeUserDromasLpisChangeReviewGroup: activeUserDromasLpisChangeReviewGroup});
 
 			let activeCaseIndex = _.findIndex(lpisCases, {key: activeCaseKey});
 			if(lpisCases[activeCaseIndex+1]) {

@@ -36,13 +36,40 @@ const getCasesWithChanges = createSelector(
 	}
 );
 
-const getSortedCasesWithChanges = createSelector(
-	[
-		getCasesWithChanges,
+const getCasesWithChangesWithoutInvalid = createSelector(
+	[getCasesWithChanges],
+	(cases) => {
+		return _.filter(cases, (oneCase) => {return oneCase.status !== "INVALID"});
+	}
+);
+
+const getCasesFilteredByStatuses = createSelector(
+	[getCasesWithChanges, getSelectedStatuses],
+	(cases, statuses) => {
+		if (statuses){
+			return _.filter(cases, (oneCase) => {return _.includes(statuses, oneCase.status)});
+		} else {
+			return [];
+		}
+	}
+);
+
+const getCasesFilteredByStatusesSortedByDate = createSelector(
+	[getCasesFilteredByStatuses],
+	(cases) => {
+		return _.sortBy(cases, [
+			(oneCase) => {
+				return oneCase.data.submit_date;
+			}
+		])
+	}
+);
+
+const getAllCasesSortedByStatusAndDate = createSelector(
+	[getCasesWithChanges,
 		(state, props) => {
 			return props.activeUserDromasLpisChangeReviewGroup
-		}
-	],
+		}],
 	(cases, activeUserDromasLpisChangeReviewGroup) => {
 		cases = _.filter(cases, (oneCase) => {
 			return _.includes(_.flatten(LpisCaseStatusOrder[activeUserDromasLpisChangeReviewGroup]), oneCase.status);
@@ -61,31 +88,30 @@ const getSortedCasesWithChanges = createSelector(
 			(oneCase) => {
 				return oneCase.data.submit_date;
 			}
-		])
+		]);
 	}
 );
 
-const getFilteredSortedCasesWithChangesByStatus = createSelector(
-	[getSortedCasesWithChanges, getSelectedStatuses],
-	(cases, statuses) => {
-		if (statuses){
-			return _.filter(cases, (oneCase) => {return _.includes(statuses, oneCase.status)});
-		}
-		// Do not show cases with invalid status by default
-		else {
-			return _.filter(cases, (oneCase) => {return oneCase.status !== "INVALID"});
-		}
-	}
-);
-
-const getSearchResults = createSelector(
-	[getSearchString, getFilteredSortedCasesWithChangesByStatus],
-	(searchString, casesWithChanges) => {
+const getSearchingResultFromCasesWithoutInvalid = createSelector(
+	[getSearchString, getCasesWithChangesWithoutInvalid],
+	(searchString, cases) => {
 		if (searchString && searchString.length > 0) {
-			let searcher = new FuzzySearch(casesWithChanges, ['data.case_key', 'data.change_description']);
+			let searcher = new FuzzySearch(cases, ['data.case_key', 'data.change_description'], {sort: true});
 			return searcher.search(searchString);
 		} else {
-			return casesWithChanges;
+			return [];
+		}
+	}
+);
+
+const  getSearchingResultFromCasesWithSelectedStatuses = createSelector(
+	[getSearchString, getCasesFilteredByStatuses],
+	(searchString, cases) => {
+		if (searchString && searchString.length > 0) {
+			let searcher = new FuzzySearch(cases, ['data.case_key', 'data.change_description'], {sort: true});
+			return searcher.search(searchString);
+		} else {
+			return [];
 		}
 	}
 );
@@ -122,10 +148,14 @@ const getCaseByActiveView = createSelector(
 
 export default {
 	getCases: getCases,
-	getChanges: getChanges,
 	getCasesWithChanges: getCasesWithChanges,
-	getSearchResults: getSearchResults,
-	getSortedCasesWithChanges,
+
+	getCasesFilteredByStatusesSortedByDate: getCasesFilteredByStatusesSortedByDate,
+	getSearchingResultFromCasesWithoutInvalid: getSearchingResultFromCasesWithoutInvalid,
+	getSearchingResultFromCasesWithSelectedStatuses: getSearchingResultFromCasesWithSelectedStatuses,
+	getAllCasesSortedByStatusAndDate: getAllCasesSortedByStatusAndDate,
+
+	getChanges: getChanges,
 	getSearchString: getSearchString,
 	getSelectedStatuses: getSelectedStatuses,
 	getActiveEditedCase: getActiveEditedCase,
@@ -135,6 +165,5 @@ export default {
 	getActiveCase: getActiveCase,
 	getActiveCaseEdited: getActiveCaseEdited,
 	getCaseByActiveView: getCaseByActiveView,
-	getNextActiveCaseKey,
-	getFilteredSortedCasesWithChangesByStatus
+	getNextActiveCaseKey
 };

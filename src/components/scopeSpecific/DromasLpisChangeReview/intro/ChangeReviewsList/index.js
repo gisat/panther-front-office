@@ -7,10 +7,25 @@ import presentation from './presentation';
 import LpisCaseStatuses from "../../../../../constants/LpisCaseStatuses";
 
 const mapStateToProps = (state, ownProps) => {
+	let cases = [];
+	let searchString = Select.lpisCases.getSearchString(state);
+	let statuses = Select.lpisCases.getSelectedStatuses(state);
+	let searching = (searchString && searchString.length > 0);
+
+	if (statuses && !searching){
+		cases = Select.lpisCases.getCasesFilteredByStatusesSortedByDate(state, ownProps);
+	} else if (!statuses && searching){
+		cases = Select.lpisCases.getSearchingResultFromCasesWithoutInvalid(state, ownProps);
+	} else if (statuses && searching){
+		cases = Select.lpisCases.getSearchingResultFromCasesWithSelectedStatuses(state, ownProps);
+	} else {
+		cases = Select.lpisCases.getAllCasesSortedByStatusAndDate(state, ownProps);
+	}
+
 	return {
-		cases: Select.lpisCases.getSearchResults(state, ownProps),
-		searchString: Select.lpisCases.getSearchString(state),
-		selectedStatuses: Select.lpisCases.getSelectedStatuses(state),
+		cases: cases,
+		searchString: searchString,
+		selectedStatuses: statuses,
 		activeEditedCaseKey: Select.lpisCases.getActiveEditedCaseKey(state),
 		activeEditedCase: Select.lpisCases.getActiveEditedCase(state),
 		userGroup: Select.users.getActiveUserDromasLpisChangeReviewGroup(state),
