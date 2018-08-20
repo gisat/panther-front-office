@@ -17,6 +17,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 		caseKey: PropTypes.number,
 		changes: PropTypes.array,
 		data: PropTypes.object,
+		highlightedString: PropTypes.string,
 		status: PropTypes.string,
 		updated: PropTypes.string,
 		showCase: PropTypes.func,
@@ -65,7 +66,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 			<div className={classes}>
 				<div className="ptr-table-row-record">
 					{this.renderStatus()}
-					<div className="ptr-table-row-item">{this.props.data.case_key}</div>
+					{this.renderCaseKey()}
 					<div className="ptr-table-row-item">{submitDate}</div>
 					<div className="ptr-table-row-item">{updated}</div>
 					<div className="ptr-table-row-item buttons">
@@ -102,6 +103,14 @@ class ChangeReviewsTableRow extends React.PureComponent {
 				<Icon icon="circle" color={colour} opacity={opacity}/>
 				{caption}
 			</div>
+		);
+	}
+
+	renderCaseKey(){
+		return this.props.highlightedString ? (
+			<div dangerouslySetInnerHTML={{__html: this.props.highlightedString}} className="ptr-table-row-item highlighted"></div>
+		) : (
+			<div className="ptr-table-row-item">{this.props.data.case_key}</div>
 		);
 	}
 

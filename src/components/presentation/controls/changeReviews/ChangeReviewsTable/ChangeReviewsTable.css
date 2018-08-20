@@ -50,6 +50,10 @@
 .ptr-table.change-reviews-table .ptr-table-row {
 	padding: 0 .5rem;
 }
+.ptr-table.change-reviews-table .ptr-table-row-item.highlighted > i {
+	background: yellow;
+	font-style: normal;
+}
 .ptr-table.change-reviews-table .ptr-table-header-item.buttons,
 .ptr-table.change-reviews-table .ptr-table-row-item.buttons {
 	min-width: 7rem;

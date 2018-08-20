@@ -1,6 +1,6 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
-import FuzzySearch from "fuzzy-search";
+import Fuzzy from "fuzzy";
 
 import LpisCaseStatuses, {order as LpisCaseStatusOrder} from '../../constants/LpisCaseStatuses';
 
@@ -96,8 +96,15 @@ const getSearchingResultFromCasesWithoutInvalid = createSelector(
 	[getSearchString, getCasesWithChangesWithoutInvalid],
 	(searchString, cases) => {
 		if (searchString && searchString.length > 0) {
-			let searcher = new FuzzySearch(cases, ['data.case_key', 'data.change_description'], {sort: true});
-			return searcher.search(searchString);
+			let options = {
+				pre: '<i>',
+				post: '</i>',
+				extract: function(el) { return el.data.case_key;}
+			};
+			let results = Fuzzy.filter(searchString, cases, options);
+			return results.map(record => {
+				return {...record.original, highlightedString: record.string}
+			});
 		} else {
 			return [];
 		}
@@ -108,8 +115,15 @@ const  getSearchingResultFromCasesWithSelectedStatuses = createSelector(
 	[getSearchString, getCasesFilteredByStatuses],
 	(searchString, cases) => {
 		if (searchString && searchString.length > 0) {
-			let searcher = new FuzzySearch(cases, ['data.case_key', 'data.change_description'], {sort: true});
-			return searcher.search(searchString);
+			let options = {
+				pre: '<i>',
+				post: '</i>',
+				extract: function(el) { return el.data.case_key; }
+			};
+			let results = Fuzzy.filter(searchString, cases, options);
+			return results.map(record => {
+				return {...record.original, highlightedString: record.string}
+			});
 		} else {
 			return [];
 		}

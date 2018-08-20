@@ -74,6 +74,7 @@ class ChangeReviewsTable extends React.PureComponent {
 				caseKey={reviewCase.key}
 				changes={reviewCase.changes}
 				data={reviewCase.data}
+				highlightedString={reviewCase.highlightedString}
 				key={reviewCase.key}
 				status={reviewCase.status}
 				updated={reviewCase.updated}
