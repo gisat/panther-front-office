@@ -196,6 +196,22 @@ function editActiveCaseStatus(state, action) {
 	};
 }
 
+function editCaseStatus(state, action) {
+	let caseEdited = _.find(state.editedCases, {key: action.key});
+	let oldEditedCases = _.reject(state.editedCases, {key: action.key});
+	return {
+		...state,
+		editedCases: [
+			...oldEditedCases,
+			{
+				key: action.key,
+				data: caseEdited ? caseEdited.data : {},
+				status: action.status
+			}
+		]
+	};
+}
+
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.LPIS_CASES_ADD:
@@ -222,6 +238,8 @@ export default (state = INITIAL_STATE, action) => {
 			return editActiveCaseStatus(state, action);
 		case ActionTypes.LPIS_CASE_SET_NEXT_ACTIVE_CASE_KEY:
 			return setNextActiveCaseKey(state, action);
+		case ActionTypes.LPIS_CASE_EDIT_CASE_STATUS:
+			return editCaseStatus(state, action);
 		default:
 			return state;
 	}
