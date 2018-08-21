@@ -46,6 +46,12 @@ const setEventListeners = store => {
 			case 'map#removed':
 				store.dispatch(Action.maps.remove(options.id));
 				break;
+			case 'analyticalUnits#hide':
+				store.dispatch(Action.maps.setAnalyticalUnitsVisibility(false));
+				break;
+			case 'analyticalUnits#show':
+				store.dispatch(Action.maps.setAnalyticalUnitsVisibility(true));
+				break;
 			case 'periods#change':
 				onPeriodsChanged(store, options);
 				break;

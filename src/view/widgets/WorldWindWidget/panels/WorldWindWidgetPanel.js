@@ -250,22 +250,21 @@ class WorldWindWidgetPanel {
         setTimeout(function(){
             var checkbox = $(event.currentTarget);
             var layerId = checkbox.attr("data-id");
-
-            // check/uncheck layer in 2D
-            var checkbox2d = $("td[data-for=" + layerId + "]").find("input");
-            Stores.notify("checklayer", checkbox2d);
-
-            checkbox2d.trigger("click", ["ctrl"]);
-
-
-
             var control = _.find(self._layersControls, function(control){return control._id === layerId});
 
             if (checkbox.hasClass("checked")){
+                if (layerId === "areaoutlines"){
+					window.Stores.notify("analyticalUnits#show");
+                }
+
                 self._mapStore.getAll().forEach(function(map){
                     map.layers.showLayer(layerId);
                 });
             } else {
+				if (layerId === "areaoutlines"){
+					window.Stores.notify("analyticalUnits#hide");
+				}
+
                 self._mapStore.getAll().forEach(function(map){
                     map.layers.hideLayer(layerId);
                 });

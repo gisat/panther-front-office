@@ -73,33 +73,6 @@ class AuLayersPanel extends ThematicLayersPanel {
         this.redrawLayer(this._layers.selectedAreas, "selectedareas", Stores.selectedAreas);
     };
 
-    /**
-     * Check the list of active layers and switch them on
-     */
-    switchOnLayersFrom2D() {
-        if (Stores.outlines) {
-            this.switchOnOutlines();
-        }
-        if (Stores.selectedOutlines || Stores.selectedAreas) {
-            this.switchOnSelected();
-        }
-    };
-
-    switchOnActiveLayers(groupId, layer){
-        if (layer && layer.layerData && layer.layerData.id === groupId){
-            var checkbox = $(".checkbox-row[data-id=" + layer.layerData.id +"]");
-            checkbox.addClass("checked");
-            this._mapStore.getAll().forEach(function(map){
-                map.layers.showLayer(layer.layerData.id, 0);
-            });
-        }
-    }
-
-    switchOnOutlines() {
-        this.redrawLayer(this._layers.outlines, "areaoutlines", Stores.outlines);
-        this.switchOnActiveLayers("areaoutlines");
-    };
-
     switchOnSelected() {
         this.redrawSelectedLayer(this._layers.selected, "selectedareasfilled", Stores.selectedOutlines);
         this.switchOnActiveLayers("selectedareasfilled");
@@ -128,27 +101,48 @@ class AuLayersPanel extends ThematicLayersPanel {
         }
 
         if (Stores.outlines) {
-            this.rebuildControl(polyglot.t("areaOutlines"), this._layers.outlines, "areaoutlines");
-            this._layers.outlines.additionalData = Stores.outlines.data;
-            this.switchOnOutlines();
+			let active = this.isLayerActive("areaoutlines");
+			this.rebuildControl(polyglot.t("areaOutlines"), this._layers.outlines, "areaoutlines", active);
+			this.rebuildOutlines(this._layers.outlines, "areaoutlines", Stores.outlines, active);
         }
     };
+
+	/**
+	 * @param layer {Object}
+	 * @param id {string} Id of group of layers
+	 * @param data {Object}
+	 * @param active {boolean} true, if layer should be visible
+	 */
+    rebuildOutlines(layer, id, data, active){
+		layer.layerData.layer = data.layerNames;
+		layer.layerData.sldId = data.sldId;
+		layer.layerData.data = data.data;
+
+		this._mapStore.getAll().forEach(function (map) {
+			map.layers.removeAllLayersFromGroup(id);
+			map.layers.addAULayer(layer.layerData, id, active);
+		});
+
+		let toolBox = layer.control.getToolBox();
+		toolBox.clear();
+		toolBox.addOpacity(layer.layerData, this._mapStore.getAll());
+    }
 
     /**
      * Rebuild layer control
      * @param name {string} name of the layer
      * @param layer {Object} layer data
      * @param id {string} id of the group
+     * @param visibility {boolean}
      */
-    rebuildControl(name, layer, id) {
+    rebuildControl(name, layer, id, visibility) {
         let selected = {
             id: id,
             name: name,
             opacity: 70
         };
-
         layer.layerData = selected;
-        layer.control = this.addLayerControl(selected.id, selected.name, this._panelBodySelector, false);
+        layer.control = this.addLayerControl(selected.id, selected.name, this._panelBodySelector, visibility ? visibility : false);
         this._layersControls.push(layer.control);
     };
 
@@ -196,6 +190,20 @@ class AuLayersPanel extends ThematicLayersPanel {
             toolBox.addOpacity(layer.layerData, this._mapStore.getAll());
         }
     };
+
+	/**
+     * Check, if layer is active
+	 * @param layerId {string}
+	 * @returns {boolean}
+	 */
+	isLayerActive(layerId){
+		let state = this._stateStore.current().mapDefaults;
+		if (state && state.analyticalUnitsVisible && layerId === 'areaoutlines'){
+		    return state.analyticalUnitsVisible;
+		} else {
+			return false;
+		}
+    }
 
     /**
      * @param type {string}

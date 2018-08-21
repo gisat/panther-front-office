@@ -226,6 +226,17 @@ function setActiveBackgroundLayer(key){
 	}
 }
 
+function setAnalyticalUnitsVisibility(display){
+	return (dispatch, getState) => {
+		let state = Select.maps.getMapDefaults(getState());
+		if (state){
+			dispatch(updateDefaults({
+				analyticalUnitsVisible: display
+			}));
+		}
+	}
+}
+
 function updateNavigator(navigator){
 	return (dispatch, getState) => {
 		dispatch(updateDefaults(navigator));
@@ -319,6 +330,7 @@ export default {
 	selectWmsLayer: selectWmsLayer,
 	setActive: setActive,
 	setActiveBackgroundLayer: setActiveBackgroundLayer,
+	setAnalyticalUnitsVisibility: setAnalyticalUnitsVisibility,
 	update: update,
 	updateDefaults: updateDefaults,
 	updateNavigator: updateNavigator,
