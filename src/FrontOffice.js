@@ -524,6 +524,8 @@ class FrontOffice {
         }
         if (options.mapDefaults){
             this._mapsContainer.handleMapDefaultsFromDataview(options.mapDefaults);
+        } else {
+			this._dispatcher.notify("analyticalUnits#show");
         }
     }
 

@@ -257,7 +257,7 @@ class MapsContainer {
 				key: defaults.activeBackgroundLayerKey
 			});
 		}
-		if (defaults.analyticalUnitsVisible){
+		if ((defaults.hasOwnProperty("analyticalUnitsVisible") && defaults.analyticalUnitsVisible) || !defaults.hasOwnProperty("analyticalUnitsVisible")){
 			this._dispatcher.notify("analyticalUnits#show");
 		}
 	}
