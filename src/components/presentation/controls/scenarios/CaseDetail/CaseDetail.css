@@ -48,3 +48,7 @@
 .ptr-case-detail-buttons > .ptr-button {
 	margin: 0 .5rem 0 0;
 }
+
+.ptr-case-detail-map-help {
+	font-size: .65rem;
+}
