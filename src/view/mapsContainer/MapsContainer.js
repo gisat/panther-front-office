@@ -257,6 +257,9 @@ class MapsContainer {
 				key: defaults.activeBackgroundLayerKey
 			});
 		}
+		if (defaults.analyticalUnitsVisible){
+			this._dispatcher.notify("analyticalUnits#show");
+		}
 	}
 
 	/**
