@@ -40,3 +40,11 @@
 .ptr-editing-control-panel-buttons > .ptr-button {
 	margin: 0 .5rem 0 0;
 }
+
+.ptr-editing-control-panel-hint {
+	padding: 3rem 1rem;
+	text-align: center;
+	color: #666;
+	font-style: italic;
+	font-size: 1rem;
+}
