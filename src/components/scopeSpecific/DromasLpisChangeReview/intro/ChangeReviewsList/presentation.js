@@ -32,7 +32,7 @@ class ChangeReviewsList extends React.PureComponent {
 	componentWillReceiveProps(props){
 		if (props.users && (!props.users.length || props.users.length === 1) &&
 			(props.userGroup && (props.userGroup === "gisatAdmins" || props.userGroup === "gisatUsers"))){
-			this.props.loadUsers();
+			this.props.loadUsers();	// todo do only once
 		}
 	}
 
