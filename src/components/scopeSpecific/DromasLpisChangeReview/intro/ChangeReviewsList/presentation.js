@@ -62,13 +62,7 @@ class ChangeReviewsList extends React.PureComponent {
 						>
 							<Icon icon="search"/>
 						</InputText>
-						<Button
-							icon="plus"
-							secondary
-							onClick={this.addReview.bind(this)}
-						>
-							{this.props.activeEditedCase && this.props.activeEditedCase.data && Object.keys(this.props.activeEditedCase.data).length ? 'Dokončit rozpracované řízení' : 'Přidat řízení'}
-						</Button>
+						{this.renderAddCaseButton()}
 					</div>
 				</div>
 				<div className="ptr-change-reviews-list-body">
@@ -87,6 +81,18 @@ class ChangeReviewsList extends React.PureComponent {
 				</div>
 			</div>
 		);
+	}
+
+	renderAddCaseButton(){
+		return (this.props.userGroup && (this.props.userGroup === "szifAdmins" || this.props.userGroup === "szifUsers")) ? (
+			<Button
+				icon="plus"
+				secondary
+				onClick={this.addReview.bind(this)}
+			>
+				{this.props.activeEditedCase && this.props.activeEditedCase.data && Object.keys(this.props.activeEditedCase.data).length ? 'Dokončit rozpracované řízení' : 'Přidat řízení'}
+			</Button>
+			) : null;
 	}
 }
 
