@@ -81,9 +81,9 @@ class SelectionController {
 
         // Selection layers.
         let layers = this._dataMining.getAuBaseLayers().map(function (layer) {
-            return 'layers[]=' + layer + '&';
+            return layer
         });
-        let url = Config.url + 'rest/area?latitude=' + latitude + '&longitude=' + longitude + '&' + layers.join('');
+        let url = Config.url + 'rest/area?latitude=' + latitude + '&longitude=' + longitude + '&layers[]=' + layers.join('&layers[]=');
 
         $.get(url, function (data) {
             if (this.ctrl) {
