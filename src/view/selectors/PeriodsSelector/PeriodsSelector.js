@@ -68,7 +68,7 @@ class PeriodsSelector {
      */
     rebuild() {
         let currentState = this._stateStore.current();
-        if (currentState.changes.scope || currentState.changes.period) {
+        if (currentState.changes.scope || currentState.changes.period || currentState.changes.dataview) {
             this.updateSelectedPeriods();
             this.updateDisabledPeriods();
 
