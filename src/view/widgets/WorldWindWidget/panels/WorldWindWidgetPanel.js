@@ -121,10 +121,10 @@ class WorldWindWidgetPanel {
             map.layers.removeAllLayersFromGroup(group);
         });
 
-        if (group === "selectedareasfilled" || group === "areaoutlines") {
+        if (group === "selectedareasfilled") {
             this._panelBodySelector.find(".layer-row[data-id=" + group + "]").removeClass("checked");
         } else {
-            this._panelBodySelector.find(".layer-row").removeClass("checked");
+            this._panelBodySelector.find(".layer-row").not("#au-layers-areaoutlines").removeClass("checked");
         }
     };
 
