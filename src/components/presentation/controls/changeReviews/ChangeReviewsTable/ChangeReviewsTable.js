@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import Button from '../../../atoms/Button';
 import ChangeReviewsTableRow from './ChangeReviewsTableRow';
-import {statusesOptionsGisat, statusesOptionsSzif} from '../../../../../constants/LpisCaseStatuses';
+import {statusesOptionsGisatAdmins, statusesOptionsGisatUsers, statusesOptionsSzif} from '../../../../../constants/LpisCaseStatuses';
 import Icon from '../../../atoms/Icon';
 import UISelect from "../../../atoms/UISelect/UISelect";
 
@@ -34,8 +34,10 @@ class ChangeReviewsTable extends React.PureComponent {
 	render() {
 		let status = this.props.selectedStatuses ? this.props.selectedStatuses[0] : null;
 		let statusesOptions = null;
-		if (this.props.userGroup === 'gisatUsers' || this.props.userGroup === 'gisatAdmins') {
-			statusesOptions = statusesOptionsGisat;
+		if (this.props.userGroup === 'gisatUsers') {
+			statusesOptions = statusesOptionsGisatUsers;
+		} else if (this.props.userGroup === 'gisatAdmins'){
+			statusesOptions = statusesOptionsGisatAdmins;
 		} else {
 			statusesOptions = statusesOptionsSzif;
 		}
