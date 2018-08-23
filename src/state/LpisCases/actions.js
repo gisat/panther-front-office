@@ -274,14 +274,14 @@ function redirectToNextViewFromActiveView() {
 function setNextActiveCaseKey() {
 	return (dispatch, getState) => {
 		let state = getState();
-		let activeCaseKey = Select.lpisCases.getActiveCaseKey(state);
+		let activeCase = Select.lpisCases.getActiveCase(state);
 
-		if(activeCaseKey) {
+		if(activeCase) {
 			let activeUserDromasLpisChangeReviewGroup = Select.users.getActiveUserDromasLpisChangeReviewGroup(state);
 			let lpisCases = Select.lpisCases.getAllCasesSortedByStatusAndDate(state, {activeUserDromasLpisChangeReviewGroup: activeUserDromasLpisChangeReviewGroup});
 
-			let activeCaseIndex = _.findIndex(lpisCases, {key: activeCaseKey});
-			if(lpisCases[activeCaseIndex+1]) {
+			let activeCaseIndex = _.findIndex(lpisCases, {key: activeCase.key});
+			if(lpisCases[activeCaseIndex+1] && lpisCases[activeCaseIndex+1].status === activeCase.status) {
 				dispatch(actionSetNextActiveCaseKey(lpisCases[activeCaseIndex+1].key));
 			}
 		}
