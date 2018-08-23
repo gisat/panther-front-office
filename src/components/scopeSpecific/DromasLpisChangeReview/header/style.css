@@ -190,10 +190,14 @@
 	border-color: rgb(102,38,178);
 }
 
-.ptr-dromasLpisChangeReviewHeader-status {
+.ptr-dromasLpisChangeReviewHeader-status,
+.ptr-dromasLpisChangeReviewHeader-conclusion-status {
 	padding: .2rem .5rem;
 	border-radius: .2rem;
 	color: #222;
+}
+.ptr-dromasLpisChangeReviewHeader-conclusion-status {
+	margin-left: .75rem;
 }
 
 /* ============ expandable content ============ */

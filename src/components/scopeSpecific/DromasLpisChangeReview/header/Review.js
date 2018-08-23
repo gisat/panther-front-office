@@ -53,7 +53,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 						'background': conslusion.colour
 					};
 					conclusionInsert = (
-						<span className='ptr-dromasLpisChangeReviewHeader-status' style={style}>{conslusion.label}</span>
+						<span className='ptr-dromasLpisChangeReviewHeader-conclusion-status' style={style}>{conslusion.label}</span>
 					);
 				}
 			}
