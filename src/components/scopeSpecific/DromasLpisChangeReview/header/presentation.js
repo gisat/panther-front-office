@@ -63,15 +63,18 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 						nextCaseKey={this.props.nextCaseKey}
 					/>
 				</div>
-				<div id="dromasLpisChangeReviewHeader-tools"><MapTools
-					case={this.props.case}
-					map={this.props.activeMap}
-					addMap={this.props.addMap}
-					mapsContainer={this.props.mapsContainer}
-					mapsCount={this.props.mapsCount}
-					selectedMapOrder={this.props.selectedMapOrder}
-					toggleGeometries={this.props.toggleGeometries}
-				/></div>
+				<div id="dromasLpisChangeReviewHeader-tools">
+					<MapTools
+						case={this.props.case}
+						userGroup={this.props.userGroup}
+						map={this.props.activeMap}
+						addMap={this.props.addMap}
+						mapsContainer={this.props.mapsContainer}
+						mapsCount={this.props.mapsCount}
+						selectedMapOrder={this.props.selectedMapOrder}
+						toggleGeometries={this.props.toggleGeometries}
+					/>
+				</div>
 			</div>
 		);
 	}
