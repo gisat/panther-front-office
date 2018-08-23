@@ -50,25 +50,58 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		}
 	}
 
+	renderButtonNextCaseIndicator() {
+		if (this.props.nextCaseKey) {
+			return (
+				<div className="ptr-dromasLpisChangeReviewHeader-button-nextCase">& pokračovat na další řízení</div>
+			);
+		}
+	}
+
 	renderButtonsForGisatAdmins(changeReviewCase) {
 		if(changeReviewCase.status === LpisCaseStatuses.CREATED.database) {
 			return (
 				<div key="gisatAdmins-created">
-					<div><Button inverted onClick={this.props.saveEvaluation}>Uložit vyhodnocení</Button></div>
-					<div><Button inverted onClick={this.props.saveAndApproveEvaluation}>Uložit & schválit vyhodnocení</Button></div>
+					<div>
+						<Button inverted onClick={this.props.saveEvaluation}>
+							Uložit vyhodnocení
+							{this.renderButtonNextCaseIndicator()}
+						</Button>
+					</div>
+					<div>
+						<Button inverted onClick={this.props.saveAndApproveEvaluation}>
+							Uložit a schválit vyhodnocení
+							{this.renderButtonNextCaseIndicator()}
+						</Button>
+					</div>
 				</div>
 			)
 		} else if(changeReviewCase.status === LpisCaseStatuses.EVALUATION_CREATED.database) {
 			return (
 				<div key="gisatAdmins-evaluationCreated">
-					<div><Button primary onClick={this.props.approveEvaluation}>Schválit vyhodnocení</Button></div>
-					<div><Button inverted onClick={this.props.rejectEvaluation}>Vrátit k vyhodnocení</Button></div>
+					<div>
+						<Button primary onClick={this.props.approveEvaluation}>
+							Schválit vyhodnocení
+							{this.renderButtonNextCaseIndicator()}
+						</Button>
+					</div>
+					<div>
+						<Button inverted onClick={this.props.rejectEvaluation}>
+							Vrátit k vyhodnocení
+							{this.renderButtonNextCaseIndicator()}
+						</Button>
+					</div>
 				</div>
 			)
 		} else if(changeReviewCase.status === LpisCaseStatuses.EVALUATION_APPROVED.database) {
 			return (
 				<div key="gisatAdmins-evaluationApproved">
-					<div><Button inverted onClick={this.props.rejectEvaluation}>Vrátit k vyhodnocení</Button></div>
+					<div>
+						<Button inverted onClick={this.props.rejectEvaluation}>
+							Vrátit k vyhodnocení
+							{this.renderButtonNextCaseIndicator()}
+						</Button>
+					</div>
 				</div>
 			)
 		}
@@ -78,7 +111,12 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		if(changeReviewCase.status === LpisCaseStatuses.CREATED.database) {
 			return (
 				<div key="gisatUsers-created">
-					<div><Button primary onClick={this.props.saveEvaluation}>Uložit vyhodnocení</Button></div>
+					<div>
+						<Button primary onClick={this.props.saveEvaluation}>
+							Uložit vyhodnocení
+							{this.renderButtonNextCaseIndicator()}
+						</Button>
+					</div>
 				</div>
 			)
 		}
@@ -88,8 +126,18 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		if(changeReviewCase.status === LpisCaseStatuses.EVALUATION_APPROVED.database) {
 			return (
 				<div key="szif-evaluationApproved">
-					<div><Button primary onClick={this.props.closeEvaluation}>Uzavřít</Button></div>
-					<div><Button inverted onClick={this.props.rejectEvaluation}>Vrátit k vyhodnocení</Button></div>
+					<div>
+						<Button primary onClick={this.props.closeEvaluation}>
+							Uzavřít
+							{this.renderButtonNextCaseIndicator()}
+						</Button>
+					</div>
+					<div>
+						<Button inverted onClick={this.props.rejectEvaluation}>
+							Vrátit k vyhodnocení
+							{this.renderButtonNextCaseIndicator()}
+						</Button>
+					</div>
 				</div>
 			)
 		}

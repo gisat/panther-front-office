@@ -46,6 +46,20 @@ const getGisatOptionsFromStatuses = function(statuses){
 	return options;
 };
 
+const getGisatUsersOptionsFromStatuses = function(statuses){
+	let options = [];
+	_.forIn(statuses, (status) => {
+		if (status.database === 'CREATED'){
+			options.push({
+				value: status.database,
+				label: status.gisatName,
+				keys: [status.database]
+			});
+		}
+	});
+	return options;
+};
+
 const getSzifOptionsFromStatuses = function(statuses){
 	let options = [];
 	_.forIn(statuses, (status) => {
@@ -62,7 +76,8 @@ const getSzifOptionsFromStatuses = function(statuses){
 
 export default STATUSES;
 
-export const statusesOptionsGisat = getGisatOptionsFromStatuses(STATUSES);
+export const statusesOptionsGisatUsers = getGisatUsersOptionsFromStatuses(STATUSES);
+export const statusesOptionsGisatAdmins = getGisatOptionsFromStatuses(STATUSES);
 export const statusesOptionsSzif = getSzifOptionsFromStatuses(STATUSES);
 
 export const order = {

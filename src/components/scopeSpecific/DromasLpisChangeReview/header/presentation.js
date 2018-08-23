@@ -26,7 +26,8 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		saveAndApproveEvaluation: PropTypes.func,
 		approveEvaluation: PropTypes.func,
 		rejectEvaluation: PropTypes.func,
-		closeEvaluation: PropTypes.func
+		closeEvaluation: PropTypes.func,
+		nextCaseKey: PropTypes.number
 	};
 
 	render() {
@@ -59,17 +60,21 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 						approveEvaluation={this.props.approveEvaluation}
 						rejectEvaluation={this.props.rejectEvaluation}
 						closeEvaluation={this.props.closeEvaluation}
+						nextCaseKey={this.props.nextCaseKey}
 					/>
 				</div>
-				<div id="dromasLpisChangeReviewHeader-tools"><MapTools
-					case={this.props.case}
-					map={this.props.activeMap}
-					addMap={this.props.addMap}
-					mapsContainer={this.props.mapsContainer}
-					mapsCount={this.props.mapsCount}
-					selectedMapOrder={this.props.selectedMapOrder}
-					toggleGeometries={this.props.toggleGeometries}
-				/></div>
+				<div id="dromasLpisChangeReviewHeader-tools">
+					<MapTools
+						case={this.props.case}
+						userGroup={this.props.userGroup}
+						map={this.props.activeMap}
+						addMap={this.props.addMap}
+						mapsContainer={this.props.mapsContainer}
+						mapsCount={this.props.mapsCount}
+						selectedMapOrder={this.props.selectedMapOrder}
+						toggleGeometries={this.props.toggleGeometries}
+					/>
+				</div>
 			</div>
 		);
 	}

@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from "../../../presentation/atoms/Button";
 import MapsGridIcon from "../../../presentation/atoms/MapsGridIcon";
+import LpisCaseStatuses from "../../../../constants/LpisCaseStatuses";
 
 class MapTools extends React.PureComponent {
 
@@ -37,13 +38,7 @@ class MapTools extends React.PureComponent {
 						<div className="ptr-dromasLpisChangeReviewHeader-map-name">{this.props.map ? ("Mapa " + (this.props.selectedMapOrder + 1)) : ""}</div>
 					</div>
 					<div className="ptr-dromasLpisChangeReviewHeader-map-add">
-						<Button
-							disabled={this.props.mapsCount > 11}
-							ghost
-							icon="plus"
-							onClick={this.props.addMap}
-							small
-						/>
+						{this.renderMapAddButton()}
 					</div>
 				</div>
 				<div>
@@ -72,6 +67,23 @@ class MapTools extends React.PureComponent {
 				</div>
 			</div>
 		);
+	}
+
+	renderMapAddButton() {
+		if (
+			(this.props.case && this.props.case.status === LpisCaseStatuses.CREATED.database)
+			&& (this.props.userGroup === 'gisatUsers' || this.props.userGroup === 'gisatAdmins')
+		) {
+			return (
+				<Button
+					disabled={this.props.mapsCount > 11}
+					ghost
+					icon="plus"
+					onClick={this.props.addMap}
+					small
+				/>
+			);
+		}
 	}
 
 }
