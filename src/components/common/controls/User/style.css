@@ -1,0 +1,27 @@
+.ptr-user {
+	display: flex;
+	justify-content: flex-end;
+	height: 2rem;
+
+	color: #ccc;
+}
+.ptr-user svg .line {
+	fill: #ccc;
+}
+.ptr-user > div {
+	flex-grow: 0;
+}
+
+.ptr-user-name, .ptr-user-login {
+	height: 2rem;
+	padding: .25rem;
+	white-space: nowrap;
+	overflow: hidden;
+	line-height: 1.5rem;
+	font-size: .9375rem;
+}
+
+.ptr-user-login > a {
+	cursor: pointer;
+}
+

@@ -40,7 +40,6 @@ Ext.define('PumaMain.controller.Store', {
 		this.initAggregatedStores();
 		this.initEvents();
 		this.initLocations();
-		this.getController('Dataview').checkLoading();
 
         Observer.notify('Store#init');
 	},

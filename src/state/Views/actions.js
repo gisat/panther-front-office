@@ -4,6 +4,10 @@ import fetch from "isomorphic-fetch";
 import config from "../../config";
 import path from "path";
 import queryString from 'query-string';
+import Dataview from "../../data/Dataview";
+import Select from "../Select";
+import ScopeActions from "../Scopes/actions";
+import PlaceActions from "../Places/actions";
 
 const TTL = 5;
 
@@ -14,6 +18,15 @@ function add(views) {
 		if (!_.isArray(views)) views = [views];
 		dispatch(actionAdd(views));
 	};
+}
+
+function addMongoView(view) {
+	return (dispatch) => {
+		dispatch(actionAdd([{
+			key: view._id,
+			data: view.conf
+		}]))
+	}
 }
 
 function apiDeleteView(key, ttl) {
@@ -62,6 +75,75 @@ function apiDeleteView(key, ttl) {
 	};
 }
 
+function apiLoadViews(ttl) {
+    if (_.isUndefined(ttl)) ttl = TTL;
+    return dispatch => {
+        dispatch(actionApiLoadViewsRequest());
+
+        let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/dataview');
+
+        return fetch(url, {
+            method: 'GET',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        }).then(
+            response => {
+                console.log('#### load views response', response);
+                let contentType = response.headers.get('Content-type');
+                if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
+                    return response.json().then(data => {
+                        Promise.all(data.data.map(dataView => {
+                            return new Dataview({data: dataView}).then(dataView => {
+                                dataView.key = dataView.id;
+                                return dataView;
+                            });
+                        })).then(dataViews => {
+                            dispatch(actionAdd(dataViews));
+                        });
+                    });
+                } else {
+                	dispatch(actionApiLoadViewsRequestError("views#action load views: It wasn't possible to load Views"));
+                }
+            },
+            error => {
+                console.log('#### load views error', error);
+                if (ttl - 1) {
+                    dispatch(apiLoadViews(ttl - 1));
+                } else {
+                    dispatch(actionApiLoadViewsRequestError("views#action load views: It wasn't possible to load Views "));
+                }
+            }
+        );
+    };
+}
+
+function setActive(key) {
+	return (dispatch, getState) => {
+		let state = getState();
+		let views = Select.views.getViews(state);
+		let view = _.find(views, {key: key});
+
+		if(!view) {
+			throw new Error(`Views#actions#setActive: view not found`);
+		}
+
+		let scopeKey = view.data.dataset;
+		let placeKey = view.data.location;
+
+		if(scopeKey) {
+			dispatch(ScopeActions.setActiveScopeKey(scopeKey));
+		}
+		if(placeKey) {
+			dispatch(PlaceActions.setActive(placeKey));
+		}
+
+		dispatch(actionSetActive(key));
+	}
+}
+
 // ============ actions ===========
 
 function actionAdd(views) {
@@ -92,6 +174,19 @@ function actionApiDeleteViewRequest(key) {
 	}
 }
 
+function actionApiLoadViewsRequest() {
+    return {
+        type: ActionTypes.VIEWS_LOAD_REQUEST
+    }
+}
+
+function actionApiLoadViewsRequestError(error) {
+	return {
+		type: ActionTypes.VIEWS_LOAD_REQUEST_ERROR,
+		error: error
+	};
+}
+
 function actionApiDeleteViewRequestError(error) {
 	return {
 		type: ActionTypes.VIEWS_DELETE_REQUEST_ERROR,
@@ -99,9 +194,19 @@ function actionApiDeleteViewRequestError(error) {
 	}
 }
 
+function actionSetActive(key) {
+	return {
+		type: ActionTypes.VIEWS_SET_ACTIVE,
+		key: key
+	}
+}
+
 // ============ export ===========
 
 export default {
 	add: add,
-	apiDeleteView: apiDeleteView
+    apiLoadViews: apiLoadViews,
+	apiDeleteView: apiDeleteView,
+	addMongoView: addMongoView,
+	setActive: setActive
 }

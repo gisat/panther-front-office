@@ -59,6 +59,11 @@ function loadApp() {
         wmsLayers: new WmsLayers()
     };
 
+    if(!new URL(window.location).searchParams.get('id')) {
+        $('#loading-screen').hide();
+        return;
+    }
+
     $(document).ready(function () {
         function createScript(src, dataMain) {
             return new Promise(function (resolve, reject) {

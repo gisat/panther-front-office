@@ -528,8 +528,15 @@ class FrontOffice {
     }
 
     setMapsFromDataview(worldWindState){
-		this._mapsContainer.setAllMapsPosition(worldWindState.location);
-		this._mapsContainer.setAllMapsRange(worldWindState.range);
+        this._mapsContainer.setAllMapsPosition(worldWindState.location);
+
+        if(worldWindState.hasOwnProperty('considerElevation') && worldWindState.considerElevation) {
+			// let elevationAtLocation = this._mapsContainer.getElevationAtLocation(worldWindState.location);
+			this._mapsContainer.setAllMapsRange((worldWindState.range + 1200) * 1.5);
+        } else {
+			this._mapsContainer.setAllMapsRange(worldWindState.range);
+        }
+
 		if (worldWindState.is2D && this._stateStore.current().isMap3D){
 			this._dispatcher.notify('map#switchProjection');
 		}

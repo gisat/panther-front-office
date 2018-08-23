@@ -1,6 +1,10 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
-import Select from '../Select';
+// import Select from '../Select';
+import UserGroupSelectors from '../UserGroups/selectors';
+
+import scopeSelectors from '../Scopes/selectors';
+import Select from "../Select";
 
 const getActiveKey = state => state.users.activeKey;
 const getUsers = state => state.users.data;
@@ -20,7 +24,7 @@ const getActiveUser = createSelector(
 );
 
 const getGroupsForActiveUser = createSelector(
-	[getActiveKey, (state) => Select.userGroups.getGroups(state)],
+	[getActiveKey, (state) => UserGroupSelectors.getGroups(state)],
 	(activeUserKey, groups) => {
 		return _.filter(groups, (group) => {
 			return _.find(group.users, (user) => {return user === activeUserKey});
@@ -29,9 +33,13 @@ const getGroupsForActiveUser = createSelector(
 );
 
 const getGroupKeysForActiveUser = createSelector(
-	[getGroupsForActiveUser],
-	(groups) => {
-		return groups.map(group => group.key)
+	[getGroupsForActiveUser, getActiveUser],
+	(groups, activeUser) => {
+		if (activeUser && activeUser.groups){
+			return activeUser.groups.map(group => {return group.key ? group.key : (group.id ? group.id : group._id) });
+		} else {
+			return [];
+		}
 	}
 );
 
@@ -100,8 +108,26 @@ const isDromasAdmin = state => {
     return isDromasAdmin || state.users.isAdmin;
 };
 
+const getActiveUserDromasLpisChangeReviewGroup  = createSelector(
+	[getGroupKeysForActiveUser, scopeSelectors.getActiveScopeConfiguration],
+	(activeUserGroupKeys, activeScopeConfiguration) => {
+		if (_.includes(activeUserGroupKeys, activeScopeConfiguration.dromasLpisChangeReview.groups.gisatAdmins)) {
+			return 'gisatAdmins';
+		} else if (_.includes(activeUserGroupKeys, activeScopeConfiguration.dromasLpisChangeReview.groups.szifAdmins)) {
+			return 'szifAdmins';
+		} else if (_.includes(activeUserGroupKeys, activeScopeConfiguration.dromasLpisChangeReview.groups.gisatUsers)){
+			return 'gisatUsers';
+		} else if (_.includes(activeUserGroupKeys, activeScopeConfiguration.dromasLpisChangeReview.groups.szifUsers)) {
+			return 'szifUsers';
+		} else {
+			return null;
+		}
+	}
+);
+
 export default {
 	getActiveKey: getActiveKey,
+	getActiveUser: getActiveUser,
 	getActiveUserPermissionsTowards: getActiveUserPermissionsTowards,
 	getGroupKeysForActiveUser: getGroupKeysForActiveUser,
 	getUsers: getUsers,
@@ -113,4 +139,6 @@ export default {
 	isAdmin: isAdmin,
 	isLoggedIn: isLoggedIn,
 	isDromasAdmin: isDromasAdmin,
+
+	getActiveUserDromasLpisChangeReviewGroup: getActiveUserDromasLpisChangeReviewGroup
 };

@@ -5,6 +5,7 @@ import Attributes from './Attributes/actions';
 import AttributeSets from './AttributeSets/actions';
 import Components from './Components/actions';
 import LayerTemplates from './LayerTemplates/actions';
+import LpisCases from './LpisCases/actions';
 import Maps from './Maps/actions';
 import Periods from './Periods/actions';
 import Places from './Places/actions';
@@ -25,6 +26,7 @@ export default {
 	attributeSets: AttributeSets,
 	components: Components,
 	layerTemplates: LayerTemplates,
+	lpisCases: LpisCases,
 	maps: Maps,
 	periods: Periods,
 	places: Places,

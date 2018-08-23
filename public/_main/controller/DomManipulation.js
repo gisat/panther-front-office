@@ -7,6 +7,7 @@ Ext.define('PumaMain.controller.DomManipulation', {
 			return;
 		}
 		Observer.addListener("resizeMap",this.resizeMap.bind(this));
+		window.Stores.addListener(this.windowStoresListener.bind(this));
 		$("#sidebar-reports-toggle").on("click", $.proxy(this._onReportsSidebarToggleClick, this));
 		$("#sidebar-tools-toggle").on("click", $.proxy(this._onToolsSidebarToggleClick, this));
 		$(window).on("resize", $.proxy(this._onWindowResize, this));
@@ -182,5 +183,11 @@ Ext.define('PumaMain.controller.DomManipulation', {
 	_onWindowResize: function() {
 		this.resizeMap();
 		this.resizeSidebars();
+	},
+
+	windowStoresListener: function(event) {
+		if (event === 'resizeMap') {
+			this.resizeMap();
+		}
 	}
 });

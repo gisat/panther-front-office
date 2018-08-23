@@ -8,6 +8,10 @@ const INITIAL_STATE = {
 	application: {
 		intro: true
 	},
+	mapsContainer: {
+		columns: 1,
+		rows: 1
+	},
 	overlays: {
 		dataUpload: {
 			open: false
@@ -29,7 +33,13 @@ const INITIAL_STATE = {
 				logo: config && config.logo ? {source: config.logo.source} : null
 			},
 			open: true,
-			selectedScope: null
+			selectedScope: null,
+			changeReviews: {
+				activeScreenKey: "changeReviewsList"
+			}
+		},
+		login: {
+			open: false
 		}
 	},
 	windows: {

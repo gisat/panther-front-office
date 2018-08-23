@@ -10,10 +10,20 @@
 	width: 100%;
 }
 
+.ptr-editable-text.inverted {
+	color: #ccc;
+}
+
 textarea.ptr-editable-text:focus,
 textarea.ptr-editable-text.empty,
 textarea.ptr-editable-text.editing {
 	border: 1px dashed rgba(0,0,0,.5);
+}
+
+textarea.ptr-editable-text.inverted:focus,
+textarea.ptr-editable-text.inverted.empty,
+textarea.ptr-editable-text.inverted.editing {
+	border-color: rgba(255,255,255,.5);
 }
 
 textarea.ptr-editable-text.empty.required {
