@@ -1,6 +1,7 @@
 import ArgumentError from '../error/ArgumentError';
 import Actions from '../actions/Actions';
 import Logger from '../util/Logger';
+import _ from 'lodash';
 
 let Ext;
 
@@ -145,17 +146,6 @@ class Customization {
         });
     };
 
-    // TODO: FIXME
-    isDromasAdmin(user) {
-        let isDromasAdmin = false;
-        user.groups.forEach(group => {
-            if(group.name === 'Aktualizace LPIS admin') {
-                isDromasAdmin = true;
-            }
-        });
-        return isDromasAdmin || user.isAdmin;
-    }
-
     /**
      * Handle user restrictions
      * @param options {Object}
@@ -163,10 +153,6 @@ class Customization {
     handleUser(){
         var user = this._stateStore.current().user;
         var scope = this._stateStore.current().scope;
-        var mapsContainerBottomBar = $('#maps-container-bar-bottom');
-        var toolBar = $("#top-toolbar");
-        var mapsContainer = $("#maps-container");
-        var uploadDataBtn = $("#upload-data");
 		var scopeSelectionSwitchBtn = $("#scope-selection-switch");
         var originalScopeSelectionBtn = $("#overlay-switch");
         var self = this;
@@ -179,50 +165,40 @@ class Customization {
 			scopeSelectionSwitchBtn.removeClass("open");
         }
 
-        if(this.isDromasAdmin(user) || user.isAdmin) {
-            uploadDataBtn.addClass("open");
-            uploadDataBtn.off("click").on("click", function(){
-				self._dispatcher.notify("header#uploadDataClick");
-            });
-        } else {
-            uploadDataBtn.removeClass("open");
-        }
-
         this._store.scopes.byId(scope).then(function(scopes){
-            var scope = scopes[0];
-            var signUpBtn = $(".signup");
-            var separator = $(".user .sep");
-
-            // handle logging buttons
-            // todo use the first one
-            if (scope && scope.restrictEditingToAdmins && !self.isDromasAdmin(user) && !signUpBtn.hasClass('logout')){
-                // if (scope && !user.isAdmin && !signUpBtn.hasClass('logout')){
-                signUpBtn.css("display", "none");
-                separator.css("display", "none");
-            } else {
-                signUpBtn.css("display", "inline-block");
-                if (signUpBtn.html()){
-					separator.css("display", "inline-block");
-                }
-            }
-
-            // handle timeline
-            if (scope && scope.restrictEditingToAdmins && !self.isDromasAdmin(user)){
-                mapsContainerBottomBar.removeClass("open");
-                toolBar.addClass("hidden");
-                mapsContainer.addClass("extended");
-
-            } else {
-                if (scope && scope.showTimeline){
-                    mapsContainerBottomBar.addClass("open");
-                }
-                toolBar.removeClass("hidden");
-                mapsContainer.removeClass("extended")
-            }
+            let scope = scopes[0];
+            self.handleTimeline(scope, user);
 
         }).catch(function(err){
             console.log(`#### Customization@handleUser: err`, err);
         });
+    }
+
+    handleTimeline(scope, user){
+		let mapsContainerBottomBar = $('#maps-container-bar-bottom');
+		let mapsContainer = $("#maps-container");
+		let showTimeline = false;
+
+        if (scope && scope.configuration && scope.showTimeline && user && user.groups){
+			let userGroupKeys = user.groups.map(group => group.id);
+			let dromasLpisGroups = scope.configuration.dromasLpisChangeReview ? scope.configuration.dromasLpisChangeReview.groups : null;
+			if (dromasLpisGroups){
+                let isGisatUser = _.find(userGroupKeys, (key) => {return key === dromasLpisGroups.gisatUsers});
+				let isGisatAdmin = _.find(userGroupKeys, (key) => {return key === dromasLpisGroups.gisatAdmins});
+				if (isGisatUser || isGisatAdmin){
+				    showTimeline = true;
+                }
+            }
+
+        }
+
+        if (showTimeline){
+			mapsContainerBottomBar.addClass("open");
+			mapsContainer.removeClass("extended");
+		} else {
+			mapsContainerBottomBar.removeClass("open");
+			mapsContainer.addClass("extended");
+        }
     }
 
     /**
