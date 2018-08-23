@@ -1,3 +1,10 @@
+/*
+	set border box model to everything that counts on it being default one day
+*/
+.ptr-overlay-views-top-bar {
+	box-sizing: border-box;
+}
+
 .ptr-overlay.ptr-overlay-views {
 	padding: 0;
 	/*flex-direction: row;*/
