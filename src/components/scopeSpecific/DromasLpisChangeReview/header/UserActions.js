@@ -22,7 +22,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 			<div>
 				<div className="ptr-dromasLpisChangeReviewHeader-topBar userActions">
 					<div>
-						<span className='ptr-dromasLpisChangeReviewHeader-heading'>Řízení</span>
+						{/*<span className='ptr-dromasLpisChangeReviewHeader-heading'>Řízení</span>*/}
 						{this.renderStatus(this.props.case)}
 					</div>
 					<User />
