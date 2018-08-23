@@ -11,7 +11,8 @@ const mapStateToProps = (state, ownProps) => {
 		case: Select.lpisCases.getActiveCase(state),
 		selectedMapOrder: Select.maps.getActiveMapOrder(state),
 		userGroup: Select.users.getActiveUserDromasLpisChangeReviewGroup(state),
-		activeCaseEdited: Select.lpisCases.getActiveCaseEdited(state)
+		activeCaseEdited: Select.lpisCases.getActiveCaseEdited(state),
+		nextCaseKey: Select.lpisCases.getNextActiveCaseKey(state)
 	};
 };
 

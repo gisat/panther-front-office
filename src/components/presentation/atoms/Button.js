@@ -85,21 +85,23 @@ class Button extends React.PureComponent {
 
 			//if (typeof child === 'object') console.log('####', child.type === Menu, child.type.prototype instanceof Menu);
 
-			if (typeof child === 'string') {
-				hasContent = true;
-				return (
-					<div className="ptr-button-caption">{child}</div>
-				);
-			} else if (typeof child === 'object' && child.type === Menu) {
-				let props = {
-					...child.props,
-					open: !!this.state.menuOpen,
-					className: classNames(child.props.className, 'ptr-button-menu')
-				};
-				return React.cloneElement(child, props, child.props.children);
-			} else {
-				hasContent = true;
-				return child;
+			if (child) {
+				if (typeof child === 'string') {
+					hasContent = true;
+					return (
+						<div className="ptr-button-caption">{child}</div>
+					);
+				} else if (typeof child === 'object' && child.type === Menu) {
+					let props = {
+						...child.props,
+						open: !!this.state.menuOpen,
+						className: classNames(child.props.className, 'ptr-button-menu')
+					};
+					return React.cloneElement(child, props, child.props.children);
+				} else {
+					hasContent = true;
+					return child;
+				}
 			}
 		});
 

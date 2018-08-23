@@ -26,7 +26,8 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		saveAndApproveEvaluation: PropTypes.func,
 		approveEvaluation: PropTypes.func,
 		rejectEvaluation: PropTypes.func,
-		closeEvaluation: PropTypes.func
+		closeEvaluation: PropTypes.func,
+		nextCaseKey: PropTypes.number
 	};
 
 	render() {
@@ -59,6 +60,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 						approveEvaluation={this.props.approveEvaluation}
 						rejectEvaluation={this.props.rejectEvaluation}
 						closeEvaluation={this.props.closeEvaluation}
+						nextCaseKey={this.props.nextCaseKey}
 					/>
 				</div>
 				<div id="dromasLpisChangeReviewHeader-tools"><MapTools
