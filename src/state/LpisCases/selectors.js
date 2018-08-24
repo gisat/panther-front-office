@@ -2,6 +2,7 @@ import {createSelector} from 'reselect';
 import _ from 'lodash';
 import Fuzzy from "fuzzy";
 import fuzzysort from "fuzzysort";
+import UserSelect from '../Users/selectors';
 
 import LpisCaseStatuses, {order as LpisCaseStatusOrder} from '../../constants/LpisCaseStatuses';
 
@@ -43,9 +44,13 @@ const getCasesWithChanges = createSelector(
 );
 
 const getCasesWithChangesWithoutInvalid = createSelector(
-	[getCasesWithChanges],
-	(cases) => {
-		return _.filter(cases, (oneCase) => {return oneCase.status !== "INVALID"});
+	[getCasesWithChanges, (state) => UserSelect.getActiveUserDromasLpisChangeReviewGroup(state)],
+	(cases, userGroup) => {
+		if (userGroup === 'gisatUsers'){
+			return _.filter(cases, (oneCase) => {return oneCase.status === "CREATED"});
+		} else {
+			return _.filter(cases, (oneCase) => {return oneCase.status !== "INVALID"});
+		}
 	}
 );
 
