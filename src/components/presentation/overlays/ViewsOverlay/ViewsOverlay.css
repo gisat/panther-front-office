@@ -13,7 +13,8 @@
 }
 
 .ptr-overlay-views-top-bar {
-	height: 3rem;
+	min-height: 2rem;
+	max-height: 2rem;
 	display: flex;
 	justify-content: space-between;
 	padding: .5rem 1rem;
