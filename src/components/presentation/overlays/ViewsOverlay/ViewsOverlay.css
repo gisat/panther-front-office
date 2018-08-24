@@ -17,6 +17,7 @@
 	display: flex;
 	justify-content: space-between;
 	padding: .5rem 1rem;
+	z-index: 2;
 }
 .ptr-overlay-views-top-bar-user {
 	flex-grow: 0;
