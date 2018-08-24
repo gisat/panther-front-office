@@ -26,7 +26,7 @@ export default {
 
 	VIEWS_DELETE_CONFIRM_MESSAGE: 'Do you really want to delete view?',
 	VIEWS_OVERLAY_INTRO_ITEM_NAME: 'About',
-	VIEWS_NO_VIEW_FOR_SCOPE: 'There is no view for selected scope.',
+	VIEWS_NO_VIEW_FOR_SCOPE: 'There is no view for selected scope. Try to log in.',
 
 	// temporary
 	SCOPE_SWITCH_OVERLAY_CLOSE: 'Original scope selection',
