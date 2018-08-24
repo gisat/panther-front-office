@@ -130,7 +130,8 @@ const activeMapWatcher = (value, previousValue) => {
 						}
 					}
 
-					if (state.activeScope && state.activeScope.featurePlaceChangeReview){
+					// for old lpis scope
+					if (state.activePlace && state.activeScope && state.activeScope.featurePlaceChangeReview){
 						if (value.placeGeometryChangeReview.showGeometryBefore) {
 							window.Stores.notify('PLACE_GEOMETRY_ADD', {
 								mapKey: value.key,
@@ -162,7 +163,8 @@ const activeMapWatcher = (value, previousValue) => {
 						}
 					}
 
-					if (state.activeScope && state.activeScope.featurePlaceChangeReview){
+					// for old lpis scope
+					if (state.activePlace && state.activeScope && state.activeScope.featurePlaceChangeReview){
 						if (value.placeGeometryChangeReview.showGeometryAfter) {
 							window.Stores.notify('PLACE_GEOMETRY_ADD', {
 								mapKey: value.key,

@@ -213,14 +213,15 @@ class Customization {
 			if (scope && scope.restrictEditingToAdmins && !this.isDromasAdmin(user)){
 				mapsContainerBottomBar.removeClass("open");
 				toolBar.addClass("hidden");
-				mapsContainer.addClass("extended");
+				mapsContainer.addClass("extended oldDromasLpisChangeReviewsScope");
 
 			} else {
 				if (scope && scope.showTimeline){
 					mapsContainerBottomBar.addClass("open");
 				}
 				toolBar.removeClass("hidden");
-				mapsContainer.removeClass("extended")
+				mapsContainer.removeClass("extended");
+				mapsContainer.removeClass("extended oldDromasLpisChangeReviewsScope");
 			}
         }
     }

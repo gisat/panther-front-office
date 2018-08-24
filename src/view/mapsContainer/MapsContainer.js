@@ -385,9 +385,13 @@ class MapsContainer {
 		let width = this._containerSelector.width();
 		let height = this._containerSelector.height();
 		let isExtended = false;
+		let oldDromasLpisChangeReviewsScope = false;
 
 		if (this._containerSelector.hasClass('extended')){
 			isExtended = true;
+		}
+		if (this._containerSelector.hasClass('oldDromasLpisChangeReviewsScope')){
+			oldDromasLpisChangeReviewsScope = true;
 		}
 
 		this._containerSelector.attr('class', 'maps-container');
@@ -435,7 +439,10 @@ class MapsContainer {
 			cls += " tools-active"
 		}
 		if (isExtended){
-			cls += " extended"
+			cls += " extended";
+			if (oldDromasLpisChangeReviewsScope){
+				cls += " oldDromasLpisChangeReviewsScope"
+			}
 		}
 		this._containerSelector.addClass(cls);
 		this.sortMaps();
