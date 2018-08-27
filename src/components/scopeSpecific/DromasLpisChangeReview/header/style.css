@@ -215,9 +215,15 @@
 }
 .ptr-dromasLpisChangeReviewHeader-expandable-content.expanded {
 	height: calc(100vh - 2.2rem); /* topBar height */
+	max-height: calc(100vh - 2.2rem);
+	overflow-y: auto;
 }
 .ptr-dromasLpisChangeReviewHeader-expandable-content-control {
-	position: absolute;
+	position: -webkit-sticky;
+	position: sticky;
+	display: flex;
+	justify-content: flex-end;
+	padding-right: .5rem;
 	bottom: .5rem;
 	right: .5rem;
 }
