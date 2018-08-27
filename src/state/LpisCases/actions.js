@@ -11,6 +11,7 @@ import path from 'path';
 import fetch from 'isomorphic-fetch';
 import queryString from 'query-string';
 import utils from '../../utils/utils';
+import LayerPeriods from "../LayerPeriods/actions";
 
 // ============ creators ===========
 
@@ -231,6 +232,16 @@ function _storeResponseContent(content) {
 				if(!nextActiveCaseKey) {
 					dispatch(setNextActiveCaseKey());
 				}
+
+				// let activeKey = Select.lpisCases.getActiveCaseKey(state);
+				// let wasActiveCaseJustLoaded = !!_.find(lpisCases, {_id: activeKey});
+				// if (activeKey && wasActiveCaseJustLoaded) {
+				// 	let lpisCaseLayerPeriods = Select.layerPeriods.getForActiveLpisCase(state);
+				// 	let activeCase = Select.lpisCases.getActiveCase(state);
+				// 	if (!lpisCaseLayerPeriods) {
+				// 		dispatch(LayerPeriods.loadForKey('lpisCase' + activeCase.key, activeCase.data.geometry));
+				// 	}
+				// }
 			}
 		}
 	}
@@ -238,13 +249,15 @@ function _storeResponseContent(content) {
 
 function setActive(caseKey) {
 	return (dispatch, getState) => {
-		let state = getState();
-		let cases = Select.lpisCases.getCases(state);
-		let futureActiveCase = _.find(cases, {key: caseKey});
-		let placeKey = futureActiveCase.data.place_id;
 
 		dispatch(actionSetActive(caseKey));
-		// dispatch(Action.places.setActive(placeKey));
+
+		let state = getState();
+		let cases = Select.lpisCases.getCases(state);
+		let lpisCase = _.find(cases, {key: caseKey});
+		if (lpisCase && lpisCase.data && lpisCase.data.geometry_before) {
+			dispatch(LayerPeriods.loadForKey('lpisCase' + lpisCase.key, lpisCase.data.geometry_before));
+		}
 	}
 }
 

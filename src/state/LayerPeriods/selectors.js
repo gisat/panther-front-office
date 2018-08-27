@@ -2,8 +2,11 @@ import {createSelector} from 'reselect';
 
 const getByAoiKey = state => state.layerPeriods.byAoiKey;
 const getByPlaceKey = state => state.layerPeriods.byPlaceKey;
+const getByKey = state => state.layerPeriods.byKey;
+
 const getActiveAoiKey = state => state.aoi.activeKey;
 const getActivePlaceKey = state => state.places.activeKey;
+const getActiveLpisCaseKey = state => state.lpisCases.activeCaseKey;
 
 const getActiveAoiData = createSelector(
 	[getByAoiKey, getActiveAoiKey],
@@ -19,7 +22,15 @@ const getActivePlaceData = createSelector(
 	}
 );
 
+const getForActiveLpisCase = createSelector(
+	[getByKey, getActiveLpisCaseKey],
+	(byKey, activeLpisCaseKey) => {
+		return byKey['lpisCase' + activeLpisCaseKey];
+	}
+);
+
 export default {
 	getActiveAoiData: getActiveAoiData,
-	getActivePlaceData: getActivePlaceData
+	getActivePlaceData: getActivePlaceData,
+	getForActiveLpisCase
 };
