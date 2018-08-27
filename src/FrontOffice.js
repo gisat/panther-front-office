@@ -490,6 +490,10 @@ class FrontOffice {
                 self._dispatcher.notify('scope#activeScopeChanged', {activeScopeKey: Number(options.scope)});
                 self._previousDataset = options.scope;
                 self._dataviewSettingsUsed = true;
+                if (scope.hideSidebarReports){
+                    $("#sidebar-reports").css("display","none");
+					$("#maps-container").css("width", "100%");
+                }
                 self.applySettingsFromDataview(options);
             }
         });
