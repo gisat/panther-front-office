@@ -5,7 +5,7 @@ import _ from 'lodash';
 import Button from "../../../../presentation/atoms/Button";
 import ChangeReviewsTable from "../../../../presentation/controls/changeReviews/ChangeReviewsTable/ChangeReviewsTable";
 import Icon from "../../../../presentation/atoms/Icon";
-import InputText from "../../../../presentation/atoms/InputText/InputText";
+import InputText from "../../../../presentation/atoms/Input/Input";
 
 import './style.css';
 import Names from "../../../../../constants/Names";

@@ -2,16 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Action from '../../../../../state/Action';
+import fields from "../../../../../constants/LpisCaseFields";
 
 import _ from 'lodash';
+import utils from "../../../../../utils/utils.js";
 
 import Button from "../../../../presentation/atoms/Button";
 import Icon from "../../../../presentation/atoms/Icon";
 import InputFile from "../../../../common/atoms/InputFile/InputFile";
-import InputText from "../../../../presentation/atoms/InputText/InputText";
+import InputText from "../../../../presentation/atoms/Input/Input";
 import InputWrapper from "../../../../common/atoms/InputWrapper/InputWrapper";
-import utils from "../../../../../utils/utils.js";
-import fields from "../../../../../constants/LpisCaseFields";
 
 import './style.css';
 
@@ -148,6 +148,16 @@ class ChangeReviewForm extends React.PureComponent {
 				<div className="ptr-change-review-form-body">
 					<div className="ptr-change-review-form-wrapper">
 						<InputWrapper
+							required="Povinný údaj"
+							label={fields["case_key"].appName}
+						>
+							<InputText
+								text
+								value={data.case_key || ""}
+								onChange={this.onTextInputChange.bind(this, "case_key")}
+							/>
+						</InputWrapper>
+						<InputWrapper
 							label={fields["submit_date"].appName}
 							required="Povinný údaj"
 						>
@@ -179,20 +189,10 @@ class ChangeReviewForm extends React.PureComponent {
 						</InputWrapper>
 						<InputWrapper
 							required="Povinný údaj"
-							label={fields["case_key"].appName}
-						>
-							<InputText
-								text
-								value={data.case_key || ""}
-								onChange={this.onTextInputChange.bind(this, "case_key")}
-							/>
-						</InputWrapper>
-						<InputWrapper
-							required="Povinný údaj"
 							label={fields["change_description"].appName}
 						>
 							<InputText
-								text
+								multiline
 								value={data.change_description || ""}
 								onChange={this.onTextInputChange.bind(this, "change_description")}
 							/>
