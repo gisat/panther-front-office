@@ -172,16 +172,29 @@ class ChangeReviewsTableRow extends React.PureComponent {
 						{data.change_description_place ? this.renderChangeDescriptionPlace(data.change_description_place) : null}
 						{data.change_description_other ? this.renderChangeDescriptionOther(data.change_description_other) : null}
 					</div>
-					<div>
-						<h3>Výsledek vyhodnocení družicových dat</h3>
-						{data.evaluation_result ? this.renderEvaluationResult(data.evaluation_result) : null}
-						{data.evaluation_description ? this.renderEvaluationDescription(data.evaluation_description) : null}
-						{data.evaluation_used_sources ? this.renderEvaluationUsedSources(data.evaluation_used_sources) : null}
-						{data.evaluation_description_other ? this.renderEvaluationDescriptionOther(data.evaluation_description_other) : null}
-					</div>
+					{this.renderEvaluationResults(data)}
 				</div>
 			</div>) : null
 		);
+	}
+
+	renderEvaluationResults(data){
+		if (this.props.status === 'CREATED' || (
+			(this.props.userGroup === 'szifUsers' || this.props.userGroup === 'szifAdmins') && (this.props.status === 'EVALUATION_CREATED')
+			)
+		){
+			return null;
+		} else {
+			return (
+				<div>
+					<h3>Výsledek vyhodnocení družicových dat</h3>
+					{data.evaluation_result ? this.renderEvaluationResult(data.evaluation_result) : null}
+					{data.evaluation_description ? this.renderEvaluationDescription(data.evaluation_description) : null}
+					{data.evaluation_used_sources ? this.renderEvaluationUsedSources(data.evaluation_used_sources) : null}
+					{data.evaluation_description_other ? this.renderEvaluationDescriptionOther(data.evaluation_description_other) : null}
+				</div>
+			);
+		}
 	}
 
 	renderTopBarMenu() {
