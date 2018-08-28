@@ -16,7 +16,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 	static propTypes = {
 		caseKey: PropTypes.number,
 		changes: PropTypes.array,
-		createdBy: PropTypes.string,
+		createdBy: PropTypes.number,
 		data: PropTypes.object,
 		highlightedCaseKey: PropTypes.string,
 		highlightedChangeDescription: PropTypes.string,
