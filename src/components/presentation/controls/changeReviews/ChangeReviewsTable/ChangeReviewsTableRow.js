@@ -16,6 +16,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 	static propTypes = {
 		caseKey: PropTypes.number,
 		changes: PropTypes.array,
+		createdBy: PropTypes.string,
 		data: PropTypes.object,
 		highlightedCaseKey: PropTypes.string,
 		highlightedChangeDescription: PropTypes.string,
@@ -25,6 +26,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 		invalidateCase: PropTypes.func,
 		userGroup: PropTypes.string,
 		users: PropTypes.array,
+		updatedBy: PropTypes.number,
 		loadUsers: PropTypes.func
 	};
 
@@ -153,10 +155,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 					<div>
 						{data.code_dpb ? this.renderCodeDpb(data.code_dpb) : null}
 						{data.code_ji ? this.renderCodeJi(data.code_ji) : null}
-						{/*<div className={"ptr-change-reviews-table-details-record location"}>*/}
-							{/*<h4>Lokalita</h4>*/}
-							{/*<span>České Budějovice</span>*/}
-						{/*</div>*/}
+						{this.renderCreatedBy()}
 						{group && (group === "gisatAdmins" || group === "gisatUsers") ? (this.renderLastChange()
 						):null}
 					</div>
@@ -223,6 +222,17 @@ class ChangeReviewsTableRow extends React.PureComponent {
 		return (
 			<div className={"ptr-change-reviews-table-details-record last-changed"}>
 				<h4>Poslední změna</h4>
+				<span>{userName}</span>
+			</div>
+		);
+	}
+
+	renderCreatedBy(){
+		let user = _.find(this.props.users, (user) => user.key === this.props.createdBy);
+		let userName = user ? user.name : "";
+		return (
+			<div className={"ptr-change-reviews-table-details-record created-by"}>
+				<h4>Zadal</h4>
 				<span>{userName}</span>
 			</div>
 		);
