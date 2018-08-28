@@ -421,6 +421,14 @@ Ext.define('PumaMain.controller.Chart', {
         if (cfg.type=='piechart') {
             //debugger;
         }
+        if (cfg.type=='columnchart'){
+            if (cfg.stackingSettings){
+				chartCmp.queryCfg.stacking = cfg.stackingSettings;
+            }
+			if (cfg.aggregateSettings){
+				chartCmp.queryCfg.aggregate = cfg.aggregateSettings;
+			}
+        }
         var queryCfg = Ext.apply(chartCmp.queryCfg || {},chartCmp.cfg,this.gatherChartCfg(chartCmp,true));
         var areas = {};
         if (cfg.type != 'extentoutline') {
