@@ -132,12 +132,6 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 							{this.renderButtonNextCaseIndicator()}
 						</Button>
 					</div>
-					<div>
-						<Button inverted onClick={this.props.rejectEvaluation}>
-							Vrátit k vyhodnocení
-							{this.renderButtonNextCaseIndicator()}
-						</Button>
-					</div>
 				</div>
 			)
 		}
