@@ -146,6 +146,17 @@ class Customization {
         });
     };
 
+    // TODO: FIXME
+    isDromasAdmin(user) {
+        let isDromasAdmin = false;
+        user.groups.forEach(group => {
+            if(group.name === 'Aktualizace LPIS Gisat admin') {
+                isDromasAdmin = true;
+            }
+        });
+        return isDromasAdmin || user.isAdmin;
+    }
+
     /**
      * Handle user restrictions
      * @param options {Object}
@@ -177,6 +188,7 @@ class Customization {
     handleTimeline(scope, user){
 		let mapsContainerBottomBar = $('#maps-container-bar-bottom');
 		let mapsContainer = $("#maps-container");
+		let toolBar = $("#top-toolbar");
 		let showTimeline = false;
 
         if (scope && scope.configuration && scope.showTimeline && user && user.groups){
@@ -190,14 +202,27 @@ class Customization {
                 }
             }
 
-        }
+			if (showTimeline){
+				mapsContainerBottomBar.addClass("open");
+				mapsContainer.removeClass("extended");
+			} else {
+				mapsContainerBottomBar.removeClass("open");
+				mapsContainer.addClass("extended");
+			}
+        } else {
+			if (scope && scope.restrictEditingToAdmins && !this.isDromasAdmin(user)){
+				mapsContainerBottomBar.removeClass("open");
+				toolBar.addClass("hidden");
+				mapsContainer.addClass("extended oldDromasLpisChangeReviewsScope");
 
-        if (showTimeline){
-			mapsContainerBottomBar.addClass("open");
-			mapsContainer.removeClass("extended");
-		} else {
-			mapsContainerBottomBar.removeClass("open");
-			mapsContainer.addClass("extended");
+			} else {
+				if (scope && scope.showTimeline){
+					mapsContainerBottomBar.addClass("open");
+				}
+				toolBar.removeClass("hidden");
+				mapsContainer.removeClass("extended");
+				mapsContainer.removeClass("extended oldDromasLpisChangeReviewsScope");
+			}
         }
     }
 

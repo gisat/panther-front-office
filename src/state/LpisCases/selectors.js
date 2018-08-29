@@ -2,6 +2,7 @@ import {createSelector} from 'reselect';
 import _ from 'lodash';
 import Fuzzy from "fuzzy";
 import fuzzysort from "fuzzysort";
+import UserSelect from '../Users/selectors';
 
 import LpisCaseStatuses, {order as LpisCaseStatusOrder} from '../../constants/LpisCaseStatuses';
 
@@ -28,10 +29,13 @@ const getCasesWithChanges = createSelector(
 		cases.map(caseItem => {
 			let extendedCase = _.cloneDeep(caseItem);
 			extendedCase.changes = _.filter(changes, change => change.data.lpis_case_id === caseItem.key);
-			let latestChange = _.orderBy(extendedCase.changes, [(change) => {
+			let orderedChanges = _.orderBy(extendedCase.changes, [(change) => {
 				return change.data.date
-			}], ['desc'])[0];
+			}], ['desc']);
+			let firstChange = orderedChanges[orderedChanges.length - 1];
+			let latestChange = orderedChanges[0];
 			if (latestChange) {
+				extendedCase.createdBy = firstChange.data.changed_by;
 				extendedCase.updatedBy = latestChange.data.changed_by;
 				extendedCase.updated = latestChange.data.date;
 				extendedCase.status = latestChange.data.status;
@@ -43,9 +47,13 @@ const getCasesWithChanges = createSelector(
 );
 
 const getCasesWithChangesWithoutInvalid = createSelector(
-	[getCasesWithChanges],
-	(cases) => {
-		return _.filter(cases, (oneCase) => {return oneCase.status !== "INVALID"});
+	[getCasesWithChanges, (state) => UserSelect.getActiveUserDromasLpisChangeReviewGroup(state)],
+	(cases, userGroup) => {
+		if (userGroup === 'gisatUsers'){
+			return _.filter(cases, (oneCase) => {return oneCase.status === "CREATED"});
+		} else {
+			return _.filter(cases, (oneCase) => {return oneCase.status !== "INVALID"});
+		}
 	}
 );
 

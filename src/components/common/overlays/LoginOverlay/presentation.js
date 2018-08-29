@@ -8,7 +8,7 @@ import Names from '../../../../constants/Names'
 import './style.css';
 
 import Button from '../../../presentation/atoms/Button';
-import InputText from '../../../presentation/atoms/InputText/InputText';
+import InputText from '../../../presentation/atoms/Input/Input';
 
 
 class LoginOverlay extends React.PureComponent {

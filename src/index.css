@@ -760,6 +760,9 @@ todo merge with overlay
 .ptr-view-selection-selector.ptr-ui-select .ptr-ui-select-label {
 	color: rgba(168, 172, 180, 1);
 }
+.ptr-view-selection-selector.ptr-ui-select.change-review-place-selector .ptr-ui-select-label {
+	width: 22rem;
+}
 .ptr-view-selection-selector.ptr-ui-select .Select {
 	font-size: .75rem;
 	border: none;

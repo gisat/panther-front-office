@@ -245,6 +245,24 @@ class MapsContainer {
 		}
 	}
 
+	addCloseButtonToAllMaps(){
+		let maps = this._mapStore.getAll();
+		if (maps.length !== 1){
+			maps.forEach(function(map){
+				map.mapWindowTools.addCloseButton();
+			});
+		}
+	}
+
+	removeCloseButtonToAllMaps(){
+		let maps = this._mapStore.getAll();
+		if (maps.length !== 1){
+			maps.forEach(function(map){
+				map.mapWindowTools.removeCloseButton();
+			});
+		}
+	}
+
 	handleMapDefaultsFromDataview(defaults){
 		let state = this._stateStore.current();
 		if (!state.isMapIndependentOfPeriod && defaults.wmsLayers){
@@ -385,9 +403,13 @@ class MapsContainer {
 		let width = this._containerSelector.width();
 		let height = this._containerSelector.height();
 		let isExtended = false;
+		let oldDromasLpisChangeReviewsScope = false;
 
 		if (this._containerSelector.hasClass('extended')){
 			isExtended = true;
+		}
+		if (this._containerSelector.hasClass('oldDromasLpisChangeReviewsScope')){
+			oldDromasLpisChangeReviewsScope = true;
 		}
 
 		this._containerSelector.attr('class', 'maps-container');
@@ -435,7 +457,10 @@ class MapsContainer {
 			cls += " tools-active"
 		}
 		if (isExtended){
-			cls += " extended"
+			cls += " extended";
+			if (oldDromasLpisChangeReviewsScope){
+				cls += " oldDromasLpisChangeReviewsScope"
+			}
 		}
 		this._containerSelector.addClass(cls);
 		this.sortMaps();
@@ -714,6 +739,10 @@ class MapsContainer {
         } else if (type === 'ADD_MAP_BY_SCENARIO'){
 			this.addMap(null, null, options);
 			this.checkMapsCloseButton();
+		} else if (type === 'MAP_CLOSE_BUTTON_ADD'){
+        	this.addCloseButtonToAllMaps();
+		} else if (type === 'MAP_CLOSE_BUTTON_REMOVE'){
+			this.removeCloseButtonToAllMaps();
 		} else if (type === "ZOOM_MAPS_BY_CASE_GEOMETRY"){
         	let allowZooming = this._stateStore.current().allowZoomByScenarioCase;
         	if (allowZooming){

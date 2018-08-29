@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import moment from 'moment';
+import utils from '../../../../../utils/utils';
 
 import Button from '../../../atoms/Button';
 import ExpandRowButton from '../../../atoms/ExpandRowButton';
@@ -16,6 +17,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 	static propTypes = {
 		caseKey: PropTypes.number,
 		changes: PropTypes.array,
+		createdBy: PropTypes.number,
 		data: PropTypes.object,
 		highlightedCaseKey: PropTypes.string,
 		highlightedChangeDescription: PropTypes.string,
@@ -25,6 +27,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 		invalidateCase: PropTypes.func,
 		userGroup: PropTypes.string,
 		users: PropTypes.array,
+		updatedBy: PropTypes.number,
 		loadUsers: PropTypes.func
 	};
 
@@ -153,10 +156,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 					<div>
 						{data.code_dpb ? this.renderCodeDpb(data.code_dpb) : null}
 						{data.code_ji ? this.renderCodeJi(data.code_ji) : null}
-						{/*<div className={"ptr-change-reviews-table-details-record location"}>*/}
-							{/*<h4>Lokalita</h4>*/}
-							{/*<span>České Budějovice</span>*/}
-						{/*</div>*/}
+						{this.renderCreatedBy()}
 						{group && (group === "gisatAdmins" || group === "gisatUsers") ? (this.renderLastChange()
 						):null}
 					</div>
@@ -173,16 +173,29 @@ class ChangeReviewsTableRow extends React.PureComponent {
 						{data.change_description_place ? this.renderChangeDescriptionPlace(data.change_description_place) : null}
 						{data.change_description_other ? this.renderChangeDescriptionOther(data.change_description_other) : null}
 					</div>
-					<div>
-						<h3>Výsledek vyhodnocení družicových dat</h3>
-						{data.evaluation_result ? this.renderEvaluationResult(data.evaluation_result) : null}
-						{data.evaluation_description ? this.renderEvaluationDescription(data.evaluation_description) : null}
-						{data.evaluation_used_sources ? this.renderEvaluationUsedSources(data.evaluation_used_sources) : null}
-						{data.evaluation_description_other ? this.renderEvaluationDescriptionOther(data.evaluation_description_other) : null}
-					</div>
+					{this.renderEvaluationResults(data)}
 				</div>
 			</div>) : null
 		);
+	}
+
+	renderEvaluationResults(data){
+		if (this.props.status === 'CREATED' || (
+			(this.props.userGroup === 'szifUsers' || this.props.userGroup === 'szifAdmins') && (this.props.status === 'EVALUATION_CREATED')
+			)
+		){
+			return null;
+		} else {
+			return (
+				<div>
+					<h3>Výsledek vyhodnocení družicových dat</h3>
+					{data.evaluation_result ? this.renderEvaluationResult(data.evaluation_result) : null}
+					{data.evaluation_description ? this.renderEvaluationDescription(data.evaluation_description) : null}
+					{data.evaluation_used_sources ? this.renderEvaluationUsedSources(data.evaluation_used_sources) : null}
+					{data.evaluation_description_other ? this.renderEvaluationDescriptionOther(data.evaluation_description_other) : null}
+				</div>
+			);
+		}
 	}
 
 	renderTopBarMenu() {
@@ -228,6 +241,17 @@ class ChangeReviewsTableRow extends React.PureComponent {
 		);
 	}
 
+	renderCreatedBy(){
+		let user = _.find(this.props.users, (user) => user.key === this.props.createdBy);
+		let userName = user ? user.name : "";
+		return (
+			<div className={"ptr-change-reviews-table-details-record created-by"}>
+				<h4>Zadal</h4>
+				<span>{userName}</span>
+			</div>
+		);
+	}
+
 	renderChangeDescription(data){
 		return this.props.highlightedChangeDescription ? (
 			<div className="ptr-change-reviews-table-details-record">
@@ -237,7 +261,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 		) : (
 			<div className="ptr-change-reviews-table-details-record">
 				<h4>Popis důvodu pro aktualizaci LPIS</h4>
-				<p>{data}</p>
+				{utils.renderParagraphWithSeparatedLines(data)}
 			</div>
 		);
 	}
@@ -246,7 +270,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 		return (
 			<div className="ptr-change-reviews-table-details-record">
 				<h4>Určení místa změny v terénu</h4>
-				<p>{data}</p>
+				{utils.renderParagraphWithSeparatedLines(data)}
 			</div>
 		);
 	}
@@ -255,7 +279,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 		return (
 			<div className="ptr-change-reviews-table-details-record">
 				<h4>Další informace</h4>
-				<p>{data}</p>
+				{utils.renderParagraphWithSeparatedLines(data)}
 			</div>
 		);
 	}
@@ -275,7 +299,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 		return (
 			<div className="ptr-change-reviews-table-details-record">
 				<h4>Popis výsledků vyhodnocení</h4>
-				<p>{data}</p>
+				{utils.renderParagraphWithSeparatedLines(data)}
 			</div>
 		);
 	}
@@ -284,7 +308,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 		return (
 			<div className="ptr-change-reviews-table-details-record">
 				<h4>Využitá družicová a další referenční data</h4>
-				<p>{data}</p>
+				{utils.renderParagraphWithSeparatedLines(data)}
 			</div>
 		);
 	}
@@ -293,7 +317,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 		return (
 			<div className="ptr-change-reviews-table-details-record">
 				<h4>Další komentář</h4>
-				<p>{data}</p>
+				{utils.renderParagraphWithSeparatedLines(data)}
 			</div>
 		);
 	}

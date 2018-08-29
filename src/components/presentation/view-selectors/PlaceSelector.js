@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import UISelect from '../atoms/UISelect'
+import classNames from 'classnames';
 
 class PlaceSelector extends React.PureComponent {
 
@@ -10,7 +11,8 @@ class PlaceSelector extends React.PureComponent {
 		onChangePlace: PropTypes.func,
 		label: PropTypes.string,
 		homeLink: PropTypes.bool,
-		homeLinkLabel: PropTypes.string
+		homeLinkLabel: PropTypes.string,
+		classes: PropTypes.string
 	};
 
 	static defaultProps = {
@@ -67,10 +69,12 @@ class PlaceSelector extends React.PureComponent {
 				));
 			}
 
+			let classes = classNames("ptr-place-selector ptr-view-selection-selector", this.props.classes);
+
 			content.push((
 				<UISelect
 					key='place-selector'
-					classes='ptr-place-selector ptr-view-selection-selector'
+					classes={classes}
 					label='left'
 					name={this.props.label}
 					onChange={this.onChangePlace}

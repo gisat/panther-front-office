@@ -14,6 +14,9 @@
 .maps-container.extended .map-fields .world-wind-map-box .close-map-button {
 	display: none;
 }
+.maps-container.extended.oldDromasLpisChangeReviewsScope {
+	margin-top: -30px;
+}
 body.mode-3d .maps-container {
 	display: flex;
 	flex-direction: column;

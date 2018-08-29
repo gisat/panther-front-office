@@ -109,6 +109,21 @@ export default {
 		let scroll = elementOffset + elementHeight - containerHeight + 10;
 
 		document.getElementById(containerId).scrollTop = elementOffset;
+	},
+
+	renderParagraphWithSeparatedLines(text) {
+		let splittedText = text.split("\n");
+		return (
+			<p>
+				{splittedText.map((rec, index) => {
+					return (
+						<span>
+							{rec}{index === (splittedText.length - 1) ? null : <br/>}
+						</span>
+					)})
+				}
+			</p>
+		);
 	}
 }
 

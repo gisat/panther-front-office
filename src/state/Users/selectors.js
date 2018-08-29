@@ -99,7 +99,7 @@ const isDromasAdmin = state => {
         const currentUser = state.users.data.filter(user => user.key === state.users.activeKey);
         if (currentUser.length > 0) {
             currentUser[0].groups.forEach(group => {
-                if (group.name === 'Aktualizace LPIS admin') {
+                if (group.name === 'Aktualizace LPIS Gisat admin') {
                     isDromasAdmin = true;
                 }
             })

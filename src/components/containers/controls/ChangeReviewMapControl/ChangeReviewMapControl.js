@@ -13,7 +13,6 @@ class ChangeReviewMapControl extends React.PureComponent {
 	}
 
 	render() {
-		if (!this.props.scope.restrictEditingToAdmins || this.props.isDromasAdmin) {
 			return (
 				<div className='ptr-change-review-map-control'>
 					<div className="ptr-change-review-map-control-toggles">
@@ -36,8 +35,6 @@ class ChangeReviewMapControl extends React.PureComponent {
 					</div>
 				</div>
 			);
-		}
-		return null;
 	}
 
 }

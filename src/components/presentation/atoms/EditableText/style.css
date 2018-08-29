@@ -8,6 +8,8 @@
 	line-height: 1.5rem;
 
 	width: 100%;
+
+	box-sizing: border-box !important; /* without this fix enters infinite loop in resize() */
 }
 
 .ptr-editable-text.inverted {
@@ -40,4 +42,9 @@ textarea.ptr-editable-text.empty.required {
 .ptr-editable-text.large {
 	font-size: 1.075rem;
 	line-height: 1.5;
+}
+
+textarea.ptr-editable-text.invisible,
+textarea.ptr-editable-text.invisible:focus {
+	border: 0;
 }

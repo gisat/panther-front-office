@@ -25,6 +25,8 @@ const setStoreWatchers = store => {
 	createWatcher(store, Select.maps.getActivePlaceActiveLayers, activeLayersWatcher, 'activePlaceActiveLayers');
 
 	createWatcher(store, Select.lpisCases.getActiveCase, ()=>{}, 'activeLpisCase');
+	createWatcher(store, Select.scopes.getActiveScopeData, ()=>{}, 'activeScope');
+	createWatcher(store, Select.places.getActive, ()=>{}, 'activePlace');
 };
 
 const setEventListeners = store => {
@@ -127,6 +129,22 @@ const activeMapWatcher = (value, previousValue) => {
 							});
 						}
 					}
+
+					// for old lpis scope
+					if (state.activePlace && state.activeScope && state.activeScope.featurePlaceChangeReview){
+						if (value.placeGeometryChangeReview.showGeometryBefore) {
+							window.Stores.notify('PLACE_GEOMETRY_ADD', {
+								mapKey: value.key,
+								geometryKey: 'placeGeometryChangeReviewGeometryBefore',
+								geometry: state.activePlace.changeReviewGeometryBefore
+							});
+						} else {
+							window.Stores.notify('PLACE_GEOMETRY_REMOVE', {
+								mapKey: value.key,
+								geometryKey: 'placeGeometryChangeReviewGeometryBefore'
+							});
+						}
+					}
 				}
 				if (value.placeGeometryChangeReview && value.placeGeometryChangeReview.showGeometryAfter != (previousValue.placeGeometryChangeReview && previousValue.placeGeometryChangeReview && previousValue.placeGeometryChangeReview.showGeometryAfter)) {
 					// show geometry after changed
@@ -136,6 +154,22 @@ const activeMapWatcher = (value, previousValue) => {
 								mapKey: value.key,
 								geometryKey: 'placeGeometryChangeReviewGeometryAfter',
 								geometry: state.activeLpisCase.data.geometry_after
+							});
+						} else {
+							window.Stores.notify('PLACE_GEOMETRY_REMOVE', {
+								mapKey: value.key,
+								geometryKey: 'placeGeometryChangeReviewGeometryAfter'
+							});
+						}
+					}
+
+					// for old lpis scope
+					if (state.activePlace && state.activeScope && state.activeScope.featurePlaceChangeReview){
+						if (value.placeGeometryChangeReview.showGeometryAfter) {
+							window.Stores.notify('PLACE_GEOMETRY_ADD', {
+								mapKey: value.key,
+								geometryKey: 'placeGeometryChangeReviewGeometryAfter',
+								geometry: state.activePlace.changeReviewGeometryAfter
 							});
 						} else {
 							window.Stores.notify('PLACE_GEOMETRY_REMOVE', {

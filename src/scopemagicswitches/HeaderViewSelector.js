@@ -13,7 +13,7 @@ const MagicSwitch = ({scope}) => {
 			return <AoiPeriodsSelector />
 		}
 		if (scope.viewSelection === 'placeSelector' && scope.featurePlaceChangeReview) {
-			return <ChangeReviewPlaceSelector label="Ohlášení územní změny" homeLink />
+			return <ChangeReviewPlaceSelector classes="change-review-place-selector" label="Ohlášení územní změny" homeLink />
 		}
 		if (scope.viewSelection === 'placeSelector' && scope.configuration && scope.configuration.pucsLandUseScenarios) { //todo model!!!!
 			return <ScenariosPlaceSelector />

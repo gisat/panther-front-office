@@ -8,7 +8,7 @@ import {filterScopesByUrl} from '../../../utils/models';
 
 const mapStateToProps = (state) => {
 	let scopes = Select.scopes.getScopesForActiveUser(state);
-	let isAdmin = Select.users.isDromasAdmin(state);
+	let isAdmin = Select.users.isAdmin(state);
 	let url = window.location.origin;
 	let hostName = window.location.hostname;
 	let filteredScopes = (isAdmin || hostName === "localhost")  ? scopes : filterScopesByUrl(scopes, url);
