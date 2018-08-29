@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import EditableText from "../../../presentation/atoms/EditableText";
 import LpisCaseStatuses from "../../../../constants/LpisCaseStatuses";
+import utils from '../../../../utils/utils';
 
 class ReviewForm extends React.PureComponent {
 
@@ -79,14 +80,14 @@ class ReviewForm extends React.PureComponent {
 					otherInsert = (
 						<div>
 							<div className='ptr-dromasLpisChangeReviewHeader-property'>Další komentář</div>
-							<p>{this.getValueForProperty(`evaluation_description_other`)}</p>
+							{utils.renderParagraphWithSeparatedLines(this.getValueForProperty(`evaluation_description_other`))}
 						</div>
 					);
 				}
 
 				return (
 					<div>
-						<p>{this.getValueForProperty(`evaluation_description`)}</p>
+						{utils.renderParagraphWithSeparatedLines(this.getValueForProperty(`evaluation_description`))}
 						{otherInsert}
 					</div>
 				);

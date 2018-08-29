@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import moment from 'moment';
+import utils from '../../../../../utils/utils';
 
 import Button from '../../../atoms/Button';
 import ExpandRowButton from '../../../atoms/ExpandRowButton';
@@ -260,7 +261,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 		) : (
 			<div className="ptr-change-reviews-table-details-record">
 				<h4>Popis důvodu pro aktualizaci LPIS</h4>
-				<p>{data}</p>
+				{utils.renderParagraphWithSeparatedLines(data)}
 			</div>
 		);
 	}
@@ -269,7 +270,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 		return (
 			<div className="ptr-change-reviews-table-details-record">
 				<h4>Určení místa změny v terénu</h4>
-				<p>{data}</p>
+				{utils.renderParagraphWithSeparatedLines(data)}
 			</div>
 		);
 	}
@@ -278,7 +279,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 		return (
 			<div className="ptr-change-reviews-table-details-record">
 				<h4>Další informace</h4>
-				<p>{data}</p>
+				{utils.renderParagraphWithSeparatedLines(data)}
 			</div>
 		);
 	}
@@ -298,7 +299,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 		return (
 			<div className="ptr-change-reviews-table-details-record">
 				<h4>Popis výsledků vyhodnocení</h4>
-				<p>{data}</p>
+				{utils.renderParagraphWithSeparatedLines(data)}
 			</div>
 		);
 	}
@@ -307,7 +308,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 		return (
 			<div className="ptr-change-reviews-table-details-record">
 				<h4>Využitá družicová a další referenční data</h4>
-				<p>{data}</p>
+				{utils.renderParagraphWithSeparatedLines(data)}
 			</div>
 		);
 	}
@@ -316,7 +317,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 		return (
 			<div className="ptr-change-reviews-table-details-record">
 				<h4>Další komentář</h4>
-				<p>{data}</p>
+				{utils.renderParagraphWithSeparatedLines(data)}
 			</div>
 		);
 	}
