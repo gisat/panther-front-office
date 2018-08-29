@@ -201,7 +201,7 @@ class ChangeReviewForm extends React.PureComponent {
 							label={fields["change_description_place"].appName}
 						>
 							<InputText
-								text
+								multiline
 								value={data.change_description_place || ""}
 								onChange={this.onTextInputChange.bind(this, "change_description_place")}
 							/>
@@ -210,7 +210,7 @@ class ChangeReviewForm extends React.PureComponent {
 							label={fields["change_description_other"].appName}
 						>
 							<InputText
-								text
+								multiline
 								value={data.change_description_other || ""}
 								onChange={this.onTextInputChange.bind(this, "change_description_other")}
 							/>
