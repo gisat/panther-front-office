@@ -112,6 +112,7 @@ function loadFiltered(filterData, ttl){
 			let filter = {any: null};
 			if (filterData){
 				filter.any = filterData;
+				filter.limit = 5000;
 			}
 
 			dispatch(actionLoadFilteredDataSourcesRequest(filter));
