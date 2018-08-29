@@ -6,6 +6,7 @@ import attributeSetsReducers from './AttributeSets/reducers';
 import componentsReducers from './Components/reducers';
 import layerPeriodsReducers from './LayerPeriods/reducers';
 import layerTemplatesReducers from './LayerTemplates/reducers';
+import lpisCasesReducers from './LpisCases/reducers';
 import mapsReducers from './Maps/reducers';
 import periodsReducers from './Periods/reducers';
 import placesReducers from './Places/reducers';
@@ -31,6 +32,7 @@ const Store = createStore(combineReducers({
 	components: componentsReducers,
 	layerPeriods: layerPeriodsReducers,
 	layerTemplates: layerTemplatesReducers,
+	lpisCases: lpisCasesReducers,
 	maps: mapsReducers,
 	periods: periodsReducers,
 	places: placesReducers,

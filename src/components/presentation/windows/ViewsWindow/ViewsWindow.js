@@ -4,7 +4,7 @@ import utils from '../../../../utils/utils';
 import _ from 'lodash';
 
 import Window from "../../../containers/Window";
-import ScopeIntroSwitch from "../../../containers/controls/ScopeIntroSwitch";
+import ScopeIntroSwitch from "../../../containers/ScopeIntroSwitch";
 
 import "./ViewsWindow.css";
 
@@ -19,6 +19,8 @@ class ViewsWindow extends React.PureComponent {
 			<Window
 				window="views"
 				name="Views"
+				minWidth={600}
+				width={800}
 				elementId="views-window"
 				expandable={true}
 				dockable={true}

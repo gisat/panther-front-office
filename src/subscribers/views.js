@@ -26,6 +26,41 @@ const setEventListeners = store => {
 			case "VIEWS_ADD":
 				store.dispatch(Action.views.add(options));
 				break;
+			case "ActiveViewLoaded":
+				store.dispatch(Action.views.addMongoView(options));
+				store.dispatch(Action.views.setActive(options._id));
+
+				store
+					.dispatch(Action.lpisCases.loadCaseForActiveView())
+					.then(() => {
+						return store.dispatch(Action.lpisCases.setActiveCaseByActiveView());
+					}).then(() => {
+						let activeCase = Select.lpisCases.getActiveCase(store.getState());
+						let maps = Select.maps.getMaps(store.getState());
+						if (activeCase && maps && maps.length > 1){
+							addGeometries(activeCase, maps);
+						}
+				});
+				break;
+		}
+	});
+};
+
+const addGeometries = function(activeCase, maps){
+	maps.map(map => {
+		if (map.placeGeometryChangeReview && map.placeGeometryChangeReview.showGeometryBefore){
+			window.Stores.notify('PLACE_GEOMETRY_ADD', {
+				mapKey: map.key,
+				geometryKey: 'placeGeometryChangeReviewGeometryBefore',
+				geometry: activeCase.data.geometry_before
+			});
+		}
+		if (map.placeGeometryChangeReview && map.placeGeometryChangeReview.showGeometryAfter){
+			window.Stores.notify('PLACE_GEOMETRY_ADD', {
+				mapKey: map.key,
+				geometryKey: 'placeGeometryChangeReviewGeometryAfter',
+				geometry: activeCase.data.geometry_after
+			});
 		}
 	});
 };

@@ -46,7 +46,7 @@ export const replaceIdWithKey = (models) => {
 export const filterScopesByUrl = (scopes, url) => {
 	if (scopes){
 		return _.filter(scopes, (scope) => {
-			return !scope.urls || scope.urls.includes(url);
+			return scope.urls && scope.urls.includes(url);
 		});
 	} else {
 		return [];

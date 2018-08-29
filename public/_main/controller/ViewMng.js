@@ -308,7 +308,8 @@ Ext.define('PumaMain.controller.ViewMng', {
 			options.worldWindState = {
 				location: Config.cfg.worldWindState.location,
 				range: Config.cfg.worldWindState.range,
-				is2D: Config.cfg.worldWindState.is2D
+				is2D: Config.cfg.worldWindState.is2D,
+				considerElevation: Config.cfg.worldWindState.considerElevation
 			}
 		}
 

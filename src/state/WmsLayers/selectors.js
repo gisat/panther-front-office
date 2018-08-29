@@ -59,8 +59,22 @@ const getLayersWithPlacePeriods = createSelector(
 	}
 );
 
+const getLayersWithLpisCasePeriods = createSelector(
+	[getLayers, LayerPeriods.getForActiveLpisCase],
+	(layers, activeLpisCaseLayerPeriods) => {
+		return _.map(layers, layer => {
+			let casePeriods = activeLpisCaseLayerPeriods && activeLpisCaseLayerPeriods.byLayerKey[layer.key];
+			if (casePeriods && casePeriods.data && casePeriods.data.length) {
+				return {...layer, periods: casePeriods};
+			}
+			return layer
+		});
+	}
+);
+
 export default {
 	getLayers: getLayers,
 	getLayersWithAoiPeriods: getLayersWithAoiPeriods,
-	getLayersWithPlacePeriods: getLayersWithPlacePeriods
+	getLayersWithPlacePeriods: getLayersWithPlacePeriods,
+	getLayersWithLpisCasePeriods
 };

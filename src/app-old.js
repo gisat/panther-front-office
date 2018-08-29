@@ -59,6 +59,21 @@ function loadApp() {
         wmsLayers: new WmsLayers()
     };
 
+    if(!new URL(window.location).searchParams.get('id')) {
+        applyProjectStyles();
+        $('#loading-screen').hide();
+        return;
+    }
+
+    function applyProjectStyles(){
+        let url = window.location.origin;
+        let projectSpecificConfig = Config.toggles[url];
+        if (projectSpecificConfig && projectSpecificConfig.classes){
+            let classes = projectSpecificConfig.classes.join(" ");
+            $("html").addClass(classes);
+        }
+    }
+
     $(document).ready(function () {
         function createScript(src, dataMain) {
             return new Promise(function (resolve, reject) {

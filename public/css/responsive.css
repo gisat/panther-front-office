@@ -88,6 +88,16 @@
 	.toggle-useTopToolbar.toggle-useHeader.toggle-hideSelectorToolbar body.application #maps-container {
 		top: 75px;
 	}
+
+	.toggle-customHeader #view-selector {
+		height: 40px;
+	}
+	.toggle-customHeader #top-toolbar {
+		top: 40px;
+	}
+	.toggle-customHeader.toggle-useTopToolbar.toggle-useHeader body.application #maps-container {
+		top: 115px;
+	}
 }
 
 @media screen and (max-width: 1140px) {

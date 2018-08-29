@@ -14,9 +14,27 @@ function checkForActiveUser(){
 	}
 }
 
+function setChangeReviewsActiveScreen(key){
+	return (dispatch, getState) => {
+		let data = Select.components.overlays.getOverlay(getState(), {key: 'views'});
+		let update = {...data, changeReviews: {...data.changeReviews, activeScreenKey: key}};
+		dispatch(Action.components.overlays.actionUpdateOverlay('views', update));
+	}
+}
+
 function setSelectedScope(key){
 	return (dispatch, getState) => {
 		let data = Select.components.overlays.getOverlay(getState(), {key: 'views'});
+		let update = {...data, selectedScope: key};
+		dispatch(Action.components.overlays.actionUpdateOverlay('views', update));
+	}
+}
+
+function selectActiveScope(){
+	return (dispatch, getState) => {
+		let state = getState();
+		let key = Select.scopes.getActiveScopeKey(state);
+		let data = Select.components.overlays.getOverlay(state, {key: 'views'});
 		let update = {...data, selectedScope: key};
 		dispatch(Action.components.overlays.actionUpdateOverlay('views', update));
 	}
@@ -28,5 +46,7 @@ function setSelectedScope(key){
 
 export default {
 	checkForActiveUser: checkForActiveUser,
-	setSelectedScope: setSelectedScope
+	setChangeReviewsActiveScreen: setChangeReviewsActiveScreen,
+	setSelectedScope: setSelectedScope,
+	selectActiveScope
 }

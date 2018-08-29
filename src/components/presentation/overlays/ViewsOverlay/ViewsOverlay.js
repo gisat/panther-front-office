@@ -5,7 +5,8 @@ import _ from 'lodash';
 
 import Names from "../../../../constants/Names";
 
-import ScopeIntroSwitch from '../../../containers/controls/ScopeIntroSwitch';
+import ScopeIntroSwitch from '../../../containers/ScopeIntroSwitch';
+import User from '../../../common/controls/User';
 
 import './ViewsOverlay.css';
 
@@ -50,19 +51,34 @@ class ViewsOverlay extends React.PureComponent {
 		let scopeKey = selectedScope ? selectedScope.key : null;
 		let scopes = this.renderScopes(selectedScope);
 
-		return (
-			this.props.active ? (<div className={classes}>
-				<div className="scopes-list">
-					{about}
-					{scopes}
+		if (this.props.active) {
+			return (
+				<div className={classes}>
+					<div className="ptr-overlay-views-top-bar">
+						<div className="ptr-overlay-views-top-bar-header">
+
+						</div>
+						<div className="ptr-overlay-views-top-bar-user">
+							<User />
+						</div>
+					</div>
+					<div className="ptr-overlay-views-content">
+						<div className="scopes-list">
+							{about}
+							{scopes}
+						</div>
+						<div className="scope-intro-box">
+							<ScopeIntroSwitch
+								scopeKey={scopeKey}
+							/>
+						</div>
+					</div>
 				</div>
-				<div className="scope-intro-box">
-					<ScopeIntroSwitch
-						scopeKey={scopeKey}
-					/>
-				</div>
-			</div>) : null
-		);
+			);
+		} else {
+			return null;
+		}
+
 	}
 
 	renderScopes(selectedScope){

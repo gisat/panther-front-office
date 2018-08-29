@@ -20,7 +20,8 @@ class Button extends React.PureComponent {
 		small: PropTypes.bool,
 		floatingAction: PropTypes.bool,
 		onClick: PropTypes.func,
-		className: PropTypes.string
+		className: PropTypes.string,
+		inverted: PropTypes.bool
 	};
 
 	static defaultProps = {
@@ -84,21 +85,23 @@ class Button extends React.PureComponent {
 
 			//if (typeof child === 'object') console.log('####', child.type === Menu, child.type.prototype instanceof Menu);
 
-			if (typeof child === 'string') {
-				hasContent = true;
-				return (
-					<div className="ptr-button-caption">{child}</div>
-				);
-			} else if (typeof child === 'object' && child.type === Menu) {
-				let props = {
-					...child.props,
-					open: !!this.state.menuOpen,
-					className: classNames(child.props.className, 'ptr-button-menu')
-				};
-				return React.cloneElement(child, props, child.props.children);
-			} else {
-				hasContent = true;
-				return child;
+			if (child) {
+				if (typeof child === 'string') {
+					hasContent = true;
+					return (
+						<div className="ptr-button-caption">{child}</div>
+					);
+				} else if (typeof child === 'object' && child.type === Menu) {
+					let props = {
+						...child.props,
+						open: !!this.state.menuOpen,
+						className: classNames(child.props.className, 'ptr-button-menu')
+					};
+					return React.cloneElement(child, props, child.props.children);
+				} else {
+					hasContent = true;
+					return child;
+				}
 			}
 		});
 
@@ -113,7 +116,9 @@ class Button extends React.PureComponent {
 				//hasIcon: !!this.props.icon,
 				//focused: this.state.focused,
 				disabled: this.props.disabled,
-				icon: !!iconInsert && !hasContent
+				icon: !!iconInsert && !hasContent,
+				small: this.props.small,
+				inverted: !!this.props.inverted
 			},
 			this.props.className
 		);

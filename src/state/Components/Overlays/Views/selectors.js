@@ -5,6 +5,8 @@ import Select from '../../../Select';
 const getIntro = (state) => state.components.overlays.views.intro;
 const getSelectedScope = (state) => state.components.overlays.views.selectedScope;
 
+const getChangeReviewsActiveScreenKey = (state) => state.components.overlays.views.changeReviews.activeScreenKey;
+
 const getIntroTitle = createSelector(
 	[getIntro],
 	(intro) => {
@@ -36,9 +38,12 @@ const getSelectedScopeData = createSelector(
 );
 
 export default {
+	getChangeReviewsActiveScreenKey: getChangeReviewsActiveScreenKey,
+
 	getIntro: getIntro,
 	getIntroLogo: getIntroLogo,
 	getIntroTitle: getIntroTitle,
 	getIntroText: getIntroText,
+
 	getSelectedScopeData: getSelectedScopeData
 };

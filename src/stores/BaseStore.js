@@ -131,7 +131,11 @@ class BaseStore {
      * @returns {Promise} Promise of the array containing one data element.
      */
     byId(id) {
-        return this.filter({id: id});
+        if(id === null || id === undefined || id  === "") {
+            return Promise.reject(new Error(`id is not set - ${this.getPath()}`));
+        } else {
+			return this.filter({id: id});
+        }
     };
 
     /**

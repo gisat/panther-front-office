@@ -4,7 +4,6 @@ import utils from '../../../../../utils/utils';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import InputText from '../../../atoms/InputText/InputText';
 import Button from '../../../atoms/Button';
 import Center from '../../../atoms/Center';
 import Icon from '../../../atoms/Icon';

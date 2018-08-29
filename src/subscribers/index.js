@@ -3,6 +3,7 @@ import attributes from './attributes';
 import attributeSets from './attributeSets';
 import components from './components';
 import layerTemplates from './layerTemplates';
+import lpisCases from './lpisCases';
 import maps from './maps';
 import periods from './periods';
 import places from './places';
@@ -20,6 +21,7 @@ export default store => {
 	attributeSets(store);
 	components(store);
 	layerTemplates(store);
+	lpisCases(store);
 	maps(store);
 	periods(store);
 	places(store);

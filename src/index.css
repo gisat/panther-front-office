@@ -8,6 +8,7 @@
 		Change Review Map Control
 		Overlay
 			Aoi Overlay
+		Table
 		View Selector
 		Windows
 
@@ -15,12 +16,19 @@
 
 */
 
+/*
+	set border box model to everything that counts on it being default one day
+*/
+.ptr-button {
+	box-sizing: border-box;
+}
+
 /* ================================================================
    === BASIC ELEMENTS =============================================
    ================================================================ */
 
 body {
-	font-family: sans-serif;
+	font-family: "Open Sans", sans-serif;
 	margin: 0;
 	padding: 0;
 }
@@ -49,6 +57,9 @@ body {
 	height: 3rem;
 	padding: .75rem;
 }
+.ptr-button.small {
+	height: 1.75rem;
+}
 
 .ptr-button:not(.disabled) {
 	cursor: pointer;
@@ -72,6 +83,10 @@ body {
 	line-height: 1.5rem;
 	margin: 0 .25rem;
 }
+.ptr-button.small .ptr-button-caption {
+	font-size: .875rem;
+	line-height: 1.25rem;
+}
 
 .ptr-button {
 	background: rgba(125,125,125,.3);
@@ -88,6 +103,13 @@ body {
 .ptr-button:hover {
 	background: rgba(125,125,125,.4);
 	color: #111;
+}
+
+.ptr-button.inverted {
+	color: #ccc;
+}
+.ptr-button.inverted svg .line {
+	fill: #ccc;
 }
 .ptr-button.floating-action {
 	background: rgb(200,200,200);
@@ -106,18 +128,34 @@ body {
 }
 
 .ptr-button.secondary {
-	background: rgb(65, 69, 81);
+	background: rgb(48, 53, 68);
 	color: #ddd;
 }
 .ptr-button.secondary:hover {
 	background: rgb(33, 38, 53);
 	color: #eee;
 }
+.ptr-button.secondary .ptr-icon .line,
+.ptr-button.secondary .ptr-icon .polygon {
+	fill: rgba(208,212,220,1);
+	stroke: rgba(208,212,220,1);
+}
 
 .ptr-button.invisible {
 	background: transparent;
 	border-color: transparent;
 	box-shadow: none;
+}
+.ptr-button.ghost {
+	background: transparent;
+	border: 1px solid rgba(0,0,0,.6);
+	box-shadow: none;
+}
+.ptr-button.ghost .ptr-icon .line {
+	stroke: #222;
+}
+.ptr-button.ghost:hover {
+	background: rgba(0,0,0,.1);
 }
 
 .ptr-button > .ptr-icon {
@@ -126,8 +164,20 @@ body {
 	height: 1.25rem;
 	margin: .125rem .25rem;
 }
+.ptr-button.small > .ptr-icon {
+	width: 1rem;
+	height: 1rem;
+	margin: .125rem .15rem;
+}
 .ptr-button.icon > .ptr-icon {
 	margin: .125rem;
+}
+
+.ptr-button.disabled .ptr-icon .line {
+	fill: #888;
+}
+.ptr-button.disabled .ptr-icon .polygon {
+	stroke: #888;
 }
 
 .ptr-button.circular {
@@ -146,6 +196,14 @@ body {
 }
 .ptr-button.circular:focus::after {
 	border-radius: 50%;
+}
+
+
+.ptr-expand-row-button > .ptr-icon {
+	transition: transform .3s ease-in-out;
+}
+.ptr-expand-row-button.expanded > .ptr-icon {
+	transform: rotate(180deg);
 }
 
 /* == Menu ======================================================== */
@@ -261,7 +319,8 @@ body {
 }
 
 .ptr-ui-select .Select {
-	width: 12rem;
+	min-width: 6rem;
+	width: 100%;
 	border: 1px solid;
 	border-radius: .15rem;
 	font-size: .85rem;
@@ -400,6 +459,61 @@ body {
 	color: #333;
 }
 
+
+
+.ptr-ui-select.inverted .Select {
+	border-color: rgba(255,255,255,.4);
+	transition: .3s border ease-in-out;
+}
+.ptr-ui-select.inverted  .Select.is-focused {
+	box-shadow: 0 0 1px 1px rgba(0,134,252,1);
+}
+.ptr-ui-select.inverted  .Select-control,
+.ptr-ui-select.inverted  .Select.is-disabled .Select-control,
+.ptr-ui-select.inverted  .Select.is-open > .Select-control {
+	background-color: rgba(232, 236, 240, 0.05);
+}
+
+.ptr-ui-select.inverted .Select-menu-outer {
+	background-color: #212635;
+	border-color: rgba(255,255,255,.3);
+}
+
+.ptr-ui-select.inverted  .VirtualizedSelectOption,
+.ptr-ui-select.inverted  .Select-option {
+	background-color: transparent;
+	color: #ddd;
+}
+.ptr-ui-select.inverted  .VirtualizedSelectDisabledOption,
+.ptr-ui-select.inverted  .Select-option.is-disabled {
+	background-color: transparent;
+	color: #666;
+}
+.ptr-ui-select.inverted  .VirtualizedSelectSelectedOption,
+.ptr-ui-select.inverted  .VirtualizedSelectSelectedOption.VirtualizedSelectFocusedOption,
+.ptr-ui-select.inverted  .Select-option.is-selected,
+.ptr-ui-select.inverted  .Select-option.is-selected.is-focused {
+	background-color: rgba(153,191,228,.3);
+}
+.ptr-ui-select.inverted  .VirtualizedSelectFocusedOption,
+.ptr-ui-select.inverted  .Select-option.is-focused {
+	background-color: rgba(153,191,228,.5);
+}
+.ptr-ui-select.inverted  .Select:hover,
+.ptr-ui-select.inverted  .Select.is-focused {
+	border-color: rgba(255,255,255,.5);
+}
+.ptr-ui-select.inverted  .Select-control:hover,
+.ptr-ui-select.inverted  .Select.is-focused > .Select-control,
+.ptr-ui-select.inverted  .Select.is-focused:not(.is-open) > .Select-control {
+	background-color: rgba(255,255,255,.1);
+}
+.ptr-ui-select.inverted  .Select.has-value.Select--single > .Select-control .Select-value .Select-value-label,
+.ptr-ui-select.inverted  .Select.has-value.is-focused.Select--single > .Select-control .Select-value .Select-value-label,
+.ptr-ui-select.inverted  .Select.has-value.is-pseudo-focused.Select--single > .Select-control .Select-value .Select-value-label,
+.ptr-ui-select.inverted  .Select-input > input {
+	color: #ddd;
+}
 /* ================================================================
    === COMPONENTS =================================================
    ================================================================ */
@@ -453,6 +567,22 @@ body {
 }
 .ptr-overlay.opaque {
 	background: rgba(255, 255, 255, 1);
+}
+/*
+enable animation
+todo merge with overlay
+*/
+.ptr-overlay.ptr-overlay-fix {
+	display: flex;
+	opacity: 0;
+	pointer-events: none;
+
+	transition:
+		opacity .3s ease-in-out;
+}
+.ptr-overlay.ptr-overlay-fix.open {
+	opacity: 1;
+	pointer-events: all;
 }
 
 .ptr-overlay-header {
@@ -531,6 +661,94 @@ body {
 	font-size: 1rem;
 }
 
+/* == Table ======================================================= */
+.ptr-table {
+
+}
+/* header */
+.ptr-table-header {
+	align-items: center;
+	display: flex;
+	flex-direction: row;
+	height: 2rem;
+	line-height: 2rem;
+	z-index: 1;
+}
+.ptr-table-header-item {
+	color: rgba(33,38,53,1);
+	padding: 0 .5rem;
+	font-size: .9375rem;
+	text-transform: uppercase;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+/* body */
+.ptr-table-body {
+	background: white;
+	height: calc(100% - 2rem);
+	overflow-y: scroll;
+}
+.ptr-table-row {
+	display: flex;
+	flex-direction: column;
+	border-bottom: 1px solid #ccc;
+	transition: background .3s ease-in-out;
+}
+.ptr-table-row:hover {
+	background: rgba(233,235,238,1);
+}
+.ptr-table-row.active,
+.ptr-table-row.active:hover {
+	background: rgba(225,235,241,1);
+	border-bottom: 1px solid #ccc;
+}
+.ptr-table-row-record {
+	display: flex;
+	padding: .3rem 0;
+	align-items: center;
+}
+.ptr-table-row-details {
+	display: none;
+	margin-bottom: 1rem;
+	overflow: hidden;
+}
+.ptr-table-row-details.open {
+	display: flex;
+}
+.ptr-table-row-item {
+	color: rgba(65,69,81,1);
+	padding: 0 .5rem;
+	font-size: .875rem;
+	align-items: center;
+
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.ptr-table-row-item.state,
+.ptr-table-row-item.buttons {
+	display: flex;
+}
+.ptr-table-row-action {
+	display: flex;
+	flex: 1;
+	justify-content: flex-end;
+	margin-right: .5rem;
+}
+.ptr-table-row-show-details {
+	cursor: pointer;
+}
+.ptr-table-row-show-details > svg {
+	padding: 0 .5rem;
+	transform: rotate(90deg);
+}
+.ptr-table-row-show-details > svg .line {
+	fill: rgba(33,38,53,1);
+}
+
 /* == View Selector =============================================== */
 
 .ptr-view-selection-container {
@@ -541,6 +759,9 @@ body {
 
 .ptr-view-selection-selector.ptr-ui-select .ptr-ui-select-label {
 	color: rgba(168, 172, 180, 1);
+}
+.ptr-view-selection-selector.ptr-ui-select.change-review-place-selector .ptr-ui-select-label {
+	width: 22rem;
 }
 .ptr-view-selection-selector.ptr-ui-select .Select {
 	font-size: .75rem;

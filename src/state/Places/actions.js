@@ -2,6 +2,7 @@ import ActionTypes from '../../constants/ActionTypes';
 
 import _ from 'lodash';
 import LayerPeriods from "../LayerPeriods/actions";
+import Select from "../Select";
 
 
 // ============ creators ===========
@@ -14,9 +15,13 @@ function add(places) {
 }
 
 function setActive(key) {
-	return dispatch => {
+	return (dispatch, getState) => {
+		let state = getState();
+		let scopeConfiguration = Select.scopes.getActiveScopeConfiguration(state);
 		dispatch(actionSetActive(key));
-		dispatch(LayerPeriods.loadForPlace(key));
+		if (!scopeConfiguration.dromasLpisChangeReview) { // loading layerPeriods for case, not place
+			dispatch(LayerPeriods.loadForPlace(key));
+		}
 	};
 }
 

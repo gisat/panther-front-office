@@ -80,6 +80,11 @@ class MapsContainer {
 
         this.build();
 
+        let self = this;
+		$(window).resize(function() {
+			self.rebuildContainerLayout();
+		});
+
         this._dispatcher.addListener(this.onEvent.bind(this));
         options.store.periods.addListener(this.onEvent.bind(this));
     };
@@ -240,6 +245,24 @@ class MapsContainer {
 		}
 	}
 
+	addCloseButtonToAllMaps(){
+		let maps = this._mapStore.getAll();
+		if (maps.length !== 1){
+			maps.forEach(function(map){
+				map.mapWindowTools.addCloseButton();
+			});
+		}
+	}
+
+	removeCloseButtonToAllMaps(){
+		let maps = this._mapStore.getAll();
+		if (maps.length !== 1){
+			maps.forEach(function(map){
+				map.mapWindowTools.removeCloseButton();
+			});
+		}
+	}
+
 	handleMapDefaultsFromDataview(defaults){
 		let state = this._stateStore.current();
 		if (!state.isMapIndependentOfPeriod && defaults.wmsLayers){
@@ -383,41 +406,64 @@ class MapsContainer {
 		let width = this._containerSelector.width();
 		let height = this._containerSelector.height();
 		let isExtended = false;
-
-		let a = 'w';
-		let b = 'h';
-		if (height > width){
-			a = 'h';
-			b = 'w';
-		}
+		let oldDromasLpisChangeReviewsScope = false;
 
 		if (this._containerSelector.hasClass('extended')){
 			isExtended = true;
 		}
+		if (this._containerSelector.hasClass('oldDromasLpisChangeReviewsScope')){
+			oldDromasLpisChangeReviewsScope = true;
+		}
 
 		this._containerSelector.attr('class', 'maps-container');
+
 		let cls = '';
+
+		let x = 0;
+		let y = 0;
 		if (this._mapsInContainerCount === 1){
-			cls += a + '1 ' + b + '1';
+			x = 1;
+			y = 1;
 		} else if (this._mapsInContainerCount === 2){
-			cls += a + '2 ' + b + '1';
+			x = 2;
+			y = 1;
 		} else if (this._mapsInContainerCount > 2 && this._mapsInContainerCount <= 4){
-			cls += a + '2 ' + b + '2';
+			x = 2;
+			y = 2;
 		} else if (this._mapsInContainerCount > 4 && this._mapsInContainerCount <= 6){
-			cls += a + '3 ' + b + '2';
+			x = 3;
+			y = 2;
 		} else if (this._mapsInContainerCount > 6 && this._mapsInContainerCount <= 9){
-			cls += a + '3 ' + b + '3';
+			x = 3;
+			y = 3;
 		} else if (this._mapsInContainerCount > 9 && this._mapsInContainerCount <= 12){
-			cls += a + '4 ' + b + '3';
+			x = 4;
+			y = 3;
 		} else if (this._mapsInContainerCount > 12 && this._mapsInContainerCount <= 16){
-			cls += a + '4 ' + b + '4';
+			x = 4;
+			y = 4;
 		}
+
+		let columns = x;
+		let rows = y;
+		if (height > width){
+			columns = y;
+			rows = x;
+		}
+		cls += 'w' + columns + ' ' + 'h' + rows;
+		window.Stores.notify('components#mapsGridChanged', {
+			columns: columns,
+			rows: rows
+		});
 
 		if (this._toolsPinned){
 			cls += " tools-active"
 		}
 		if (isExtended){
-			cls += " extended"
+			cls += " extended";
+			if (oldDromasLpisChangeReviewsScope){
+				cls += " oldDromasLpisChangeReviewsScope"
+			}
 		}
 		this._containerSelector.addClass(cls);
 		this.sortMaps();
@@ -534,6 +580,13 @@ class MapsContainer {
             map.setPeriod(periodId);
         });
     }
+
+	getElevationAtLocation(location) {
+		let maps = this._mapStore.getAll();
+		if(maps.length) {
+			return maps[0].getElevationAtLocation(location.latitude, location.longitude);
+		}
+	}
 
     /**
      * Set projection of all maps
@@ -689,6 +742,10 @@ class MapsContainer {
         } else if (type === 'ADD_MAP_BY_SCENARIO'){
 			this.addMap(null, null, options);
 			this.checkMapsCloseButton();
+		} else if (type === 'MAP_CLOSE_BUTTON_ADD'){
+        	this.addCloseButtonToAllMaps();
+		} else if (type === 'MAP_CLOSE_BUTTON_REMOVE'){
+			this.removeCloseButtonToAllMaps();
 		} else if (type === "ZOOM_MAPS_BY_CASE_GEOMETRY"){
         	let allowZooming = this._stateStore.current().allowZoomByScenarioCase;
         	if (allowZooming){

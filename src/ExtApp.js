@@ -187,6 +187,7 @@ class ExtApp {
             });
 
             Promise.all(promises).then(function (data) {
+                self.dataViewController.onLoadingFinished();
                 self.domManipulationController.renderApp();
                 self.renderController.renderApp();
             }).catch(function (err) {
@@ -194,8 +195,7 @@ class ExtApp {
                 alert(polyglot.t("notPossibleToLoadData"));
             });
         } else {
-            this.domManipulationController.renderIntro();
-            this.renderController.renderIntro();
+            window.Stores.notify("initialLoadingFinished");
         }
     };
 

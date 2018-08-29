@@ -61,11 +61,18 @@ class EditableText extends React.PureComponent {
 		this.setState({
 			focused: true
 		});
+		console.log("#####", this.props.onFocus);
+		if (this.props.onFocus) {
+			this.props.onFocus();
+		}
 	}
 	onBlur(){
 		this.setState({
 			focused: false
 		});
+		if (this.props.onBlur) {
+			this.props.onBlur();
+		}
 	}
 
 	onChange(e){
@@ -87,7 +94,9 @@ class EditableText extends React.PureComponent {
 			empty: !(this.props.value || this.state && this.state.value),
 			large: this.props.large,
 			editing: this.props.editing,
-			required: this.props.required
+			required: this.props.required,
+			inverted: this.props.inverted,
+			invisible: this.props.invisible
 		});
 
 		let style = {

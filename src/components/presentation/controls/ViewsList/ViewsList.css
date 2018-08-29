@@ -2,6 +2,11 @@
 	padding: 1.5rem;
 	overflow-y: auto;
 	height: 100%;
+	width: 100%;
+}
+.ptr-overlay .ptr-views-list {
+	height: calc(100% - 3rem);
+	width: auto;
 }
 
 .no-view-message {
@@ -27,10 +32,6 @@
 	}
 }
 @media (max-width: 1200px) {
-	.ptr-views-list {
-		margin: 1.5rem 3rem 1.5rem 0;
-		padding: 1rem;
-	}
 	.view-list-title {
 		font-size: 2rem;
 	}

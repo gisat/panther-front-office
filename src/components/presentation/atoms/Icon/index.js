@@ -1,20 +1,30 @@
 import React from 'react';
 
 import ArrowLeft from './ArrowLeft';
+import Circle from './Circle';
 import Delete from './Delete';
 import Dots from './Dots';
 import Download from './Download';
 import Edit from './Edit';
 import Expand from './Expand';
+import ExpandRow from './ExpandRow';
 import Opacity from './Opacity';
 import Plus from './Plus';
 import Pushpin from './Pushpin';
 import Restore from './Restore';
+import Search from './Search';
+import Upload from './Upload';
 
-const icon = key => {
+const icon = (key, props) => {
 	switch(key) {
 		case 'arrow-left':
+		case 'back':
 			return <ArrowLeft />;
+		case 'circle':
+			return <Circle
+				color={props.color}
+				opacity={props.opacity}
+			/>;
 		case 'delete':
 			return <Delete />;
 		case 'dots':
@@ -25,6 +35,8 @@ const icon = key => {
 			return <Edit />;
 		case 'expand':
 			return <Expand />;
+		case 'expand-row':
+			return <ExpandRow />;
 		case 'opacity':
 			return <Opacity />;
 		case 'plus':
@@ -33,6 +45,10 @@ const icon = key => {
 			return <Pushpin />;
 		case 'restore':
 			return <Restore />;
+		case 'search':
+			return <Search />;
+		case 'upload':
+			return <Upload />;
 		default:
 			return null;
 	}
@@ -51,6 +67,6 @@ export default props => (
 		xmlSpace="preserve"
 		className="ptr-icon"
 	>
-		{icon(props.icon)}
+		{icon(props.icon, props)}
 	</svg>
 );

@@ -620,6 +620,15 @@ class WorldWindMap {
 		this.redraw();
 	};
 
+	/**
+	 * Return elevation at location
+	 * @param latitude
+	 * @param longitude
+	 * @returns {Number}
+	 */
+	getElevationAtLocation(latitude, longitude) {
+		return this._wwd.globe.elevationAtLocation(latitude, longitude);
+	}
 
     /**
      * Set up Web World Wind

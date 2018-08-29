@@ -68,7 +68,7 @@
 
 /* Responsiveness */
 
-@media (max-width: 1200px) {
+@media (max-width: 90rem) {
 	.view-card-text {
 		padding: .5rem;
 	}
@@ -78,20 +78,13 @@
 	.view-card-description {
 		font-size: .85rem;
 	}
+	.view-card {
+		min-width: 15rem;
+	}
 }
-@media (max-width: 1000px) {
+@media (max-width: 70rem) {
 	.view-card {
 		margin: .3rem;
 		padding-bottom: .3rem;
-	}
-}
-@media (max-width: 850px) {
-	.view-card {
-		width: 20rem;
-	}
-}
-@media (max-height: 650px) {
-	.view-card {
-		width: 20rem;
 	}
 }

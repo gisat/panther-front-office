@@ -13,6 +13,7 @@ class UISelect extends React.PureComponent {
 
 	static propTypes = {
 		classes: PropTypes.string,
+		clearable: PropTypes.bool,
 		fullWidth: PropTypes.bool,
 		label: PropTypes.string,
 		name: PropTypes.string,
@@ -29,7 +30,8 @@ class UISelect extends React.PureComponent {
 		valueRenderer: PropTypes.func,
 		virtualized: PropTypes.bool,
 		resizable: PropTypes.bool,
-		disabled: PropTypes.bool
+		disabled: PropTypes.bool,
+		inverted: PropTypes.bool
 	};
 
 	constructor(props) {
@@ -45,7 +47,8 @@ class UISelect extends React.PureComponent {
 				'label-left': this.props.label === 'left',
 				'label-top': this.props.label === 'top',
 				'full-width': this.props.fullWidth,
-				'resizable': this.props.resizable
+				'resizable': this.props.resizable,
+				'inverted': this.props.inverted
 			}
 		);
 		let label;
@@ -82,7 +85,7 @@ class UISelect extends React.PureComponent {
 				):(
 					<ReactSelect
 						autosize
-						clearable={false}
+						clearable={this.props.clearable}
 						name={this.props.name}
 						onChange={this.props.onChange}
 						optionClassName={this.props.optionClassName}

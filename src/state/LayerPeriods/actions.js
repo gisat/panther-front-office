@@ -20,7 +20,7 @@ function loadForAoiLayer(aoi, wmsLayer, ttl) {
 			aoi = _.find(Select.aoi.getAois(getState()), {key: aoi});
 		}
 		if (!_.isObject(wmsLayer)) {
-			wmsLayer = _.find(getState().wmsLayers.data, {key: aoi});
+			wmsLayer = _.find(getState().wmsLayers.data, {key: wmsLayer});
 		}
 
 		dispatch(actionLoadForAoiRequest(aoi.key, wmsLayer.key));
@@ -69,7 +69,7 @@ function loadForPlaceLayer(place, wmsLayer, ttl) {
 			place = _.find(Select.places.getPlaces(getState()), {key: place});
 		}
 		if (!_.isObject(wmsLayer)) {
-			wmsLayer = _.find(getState().wmsLayers.data, {key: place});
+			wmsLayer = _.find(getState().wmsLayers.data, {key: wmsLayer});
 		}
 
 		dispatch(actionLoadForPlaceRequest(place.key, wmsLayer.key));
@@ -109,6 +109,52 @@ function loadForPlaceLayer(place, wmsLayer, ttl) {
 	};
 }
 
+function loadForKeyLayer(key, geometry, wmsLayer, ttl) {
+	if (_.isUndefined(ttl)) ttl = TTL;
+	return (dispatch, getState) => {
+		let state = getState();
+
+		if (!_.isObject(wmsLayer)) {
+			wmsLayer = _.find(state.wmsLayers.data, {key: wmsLayer});
+		}
+
+		dispatch(actionLoadForKeyLayerRequest(key, geometry, wmsLayer.key));
+
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendAoiLayerPeriodsPath);
+		let body = {
+			data: {
+				geometry: geometry,
+				layerName: wmsLayer.layerName
+			}
+		};
+
+		return fetch(url, {
+			method: 'POST',
+			body: JSON.stringify(body),
+			headers: {
+				'content-type': 'application/json'
+			}
+		}).then(response => {
+			console.log('#### LayerPeriods receive', response);
+			if (response.ok) {
+				response.json().then(data => {
+					if (data) {
+						dispatch(actionLoadForKeyLayerReceive(key, geometry, wmsLayer.key, data.dates));
+					} else {
+						dispatch(actionLoadForKeyLayerError(key, geometry, wmsLayer.key, 'no data returned'));
+					}
+				}).catch(function(err){
+					if (ttl - 1){
+						loadForKeyLayer(key, geometry, wmsLayer, ttl - 1);
+					}
+				});
+			} else {
+				dispatch(actionLoadForKeyLayerError(key, geometry, wmsLayer.key, response))
+			}
+		});
+	};
+}
+
 function loadForAoi(aoiKey) {
 	return (dispatch, getState) => {
 
@@ -130,6 +176,15 @@ function loadForPlace(placeKey) {
 				if (wmsLayer.getDates) dispatch(loadForPlaceLayer(place, wmsLayer));
 			});
 		}
+	};
+}
+
+function loadForKey(key, geometry) {
+	return (dispatch, getState) => {
+		let state = getState();
+		_.each(state.wmsLayers.data, wmsLayer => {
+			if (wmsLayer.getDates) dispatch(loadForKeyLayer(key, geometry, wmsLayer));
+		});
 	};
 }
 
@@ -174,6 +229,14 @@ function actionloadForAoiLayerError(aoiKey, layerKey, error) {
 	}
 }
 
+function actionLoadForPlaceRequest(placeKey, layerKey) {
+	return {
+		type: ActionTypes.LAYER_PERIODS_PLACE_LAYER_REQUEST,
+		placeKey: placeKey,
+		layerKey: layerKey
+	}
+}
+
 function actionLoadForPlaceLayerReceive(placeKey, layerKey, periods) {
 	return {
 		type: ActionTypes.LAYER_PERIODS_PLACE_LAYER_RECEIVE,
@@ -192,11 +255,32 @@ function actionLoadForPlaceLayerError(placeKey, layerKey, error) {
 	}
 }
 
-function actionLoadForPlaceRequest(placeKey, layerKey) {
+function actionLoadForKeyLayerRequest(key, geometry, layerKey) {
 	return {
-		type: ActionTypes.LAYER_PERIODS_PLACE_LAYER_REQUEST,
-		placeKey: placeKey,
+		type: ActionTypes.LAYER_PERIODS_KEY_LAYER_REQUEST,
+		key: key,
+		geometry: geometry,
 		layerKey: layerKey
+	}
+}
+
+function actionLoadForKeyLayerReceive(key, geometry, layerKey, periods) {
+	return {
+		type: ActionTypes.LAYER_PERIODS_KEY_LAYER_RECEIVE,
+		key: key,
+		geometry: geometry,
+		layerKey: layerKey,
+		periods: periods
+	}
+}
+
+function actionLoadForKeyLayerError(key, geometry, layerKey, error) {
+	return {
+		type: ActionTypes.LAYER_PERIODS_KEY_LAYER_REQUEST_ERROR,
+		key: key,
+		geometry: geometry,
+		layerKey: layerKey,
+		error: error
 	}
 }
 
@@ -204,5 +288,6 @@ function actionLoadForPlaceRequest(placeKey, layerKey) {
 
 export default {
 	loadForAoi: loadForAoi,
-	loadForPlace: loadForPlace
+	loadForPlace: loadForPlace,
+	loadForKey
 }
