@@ -223,13 +223,16 @@
 	position: sticky;
 	display: flex;
 	justify-content: flex-end;
-	padding-right: .5rem;
-	bottom: .5rem;
-	right: .5rem;
+	bottom: 0;
+	right: 0;
+	max-height: 52px;
+}
+.ptr-dromasLpisChangeReviewHeader-expandable-content-control > div {
+	margin: .5rem;
 }
 
 .ptr-dromasLpisChangeReviewHeader-expandable-content > div:first-child {
-	padding: 0 .5rem 2.5rem .5rem;
+	padding: 0 .5rem;
 }
 
 .ptr-dromasLpisChangeReviewHeader-expandable-content .ptr-expand-row-button {
