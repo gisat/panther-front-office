@@ -68,9 +68,79 @@ function loadFeaturesForBbox(dataSourceKey, bbox, ttl) {
 	};
 }
 
+function loadFeaturesForPoint(dataSourceKey, point, ttl) {
+	if (_.isUndefined(ttl)) ttl = TTL;
+	return (dispatch, getState) => {
+		let state = getState();
+		let dataSource = _.find(Select.spatialDataSources.getData(state), {key: dataSourceKey});
+		if (dataSource && dataSource.type === "shapefile") {
+			dispatch(actionLoadFeaturesForPointRequest());
+
+			let url = [
+				config.apiGeoserverWFSProtocol,
+				`://`,
+				path.join(config.apiGeoserverWFSHost, config.apiGeoserverWFSPath),
+				`?service=wfs&version=1.1.0`,
+				`&request=GetFeature`,
+				`&typeNames=${dataSource.data.layer_name}`,
+				`&FILTER=<Filter xmlns="http://www.opengis.net/ogc" xmlns:gml="http://www.opengis.net/gml"><Intersects><PropertyName>the_geom</PropertyName><gml:Point srsName="EPSG:4326"><gml:coordinates>${point.longitude},${point.latitude}</gml:coordinates></gml:Point></Intersects></Filter>`,
+				`&outputFormat=application/json`
+			];
+
+			url = url.join(``);
+
+			return fetch(url, {
+				method: 'GET',
+				credentials: 'include',
+				headers: {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json'
+				}
+			}).then(
+				response => {
+					console.log('#### load vector data source features for point response', response);
+					let contentType = response.headers.get('Content-type');
+					if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
+						return response.json().then(data => {
+							if (data.type === 'FeatureCollection' && data.features && data.features.length) {
+								return dispatch(loadFeaturesReceive(dataSourceKey, data.features));
+							} else {
+								dispatch(actionLoadFeaturesForPointRequest('no data returned'));
+							}
+						});
+					} else {
+						dispatch(actionLoadFeaturesForPointError(response));
+						return false;
+					}
+				},
+				error => {
+					console.log('#### load vector data source features for point error', error);
+					if (ttl - 1) {
+						dispatch(loadFeaturesForPoint(dataSourceKey, point, ttl - 1));
+					} else {
+						dispatch(actionLoadFeaturesForPointError("requests failed"));
+					}
+					return false;
+				}
+			);
+		} else {
+			// data source not found or not vector/shapefile
+			return Promise.reject();
+		}
+	};
+}
+
 function loadFeaturesForBboxAndSelect(dataSourceKey, bbox, selectionMode) {
 	return dispatch => {
 		dispatch(loadFeaturesForBbox(dataSourceKey, bbox)).then(({dataSourceKey, models}) => {
+			dispatch(actionSelectFeatures(dataSourceKey, _.map(models, 'key'), selectionMode));
+		});
+	}
+}
+
+function loadFeaturesForPointAndSelect(dataSourceKey, point, selectionMode) {
+	return dispatch => {
+		dispatch(loadFeaturesForPoint(dataSourceKey, point)).then(({dataSourceKey, models}) => {
 			dispatch(actionSelectFeatures(dataSourceKey, _.map(models, 'key'), selectionMode));
 		});
 	}
@@ -211,9 +281,22 @@ function actionLoadFeaturesForBboxRequest() {
 	}
 }
 
+function actionLoadFeaturesForPointRequest() {
+	return {
+		type: ActionTypes.SPATIAL_DATA_SOURCES_VECTOR_FEATURES_POINT_REQUEST
+	}
+}
+
 function actionLoadFeaturesForBboxError(error) {
 	return {
 		type: ActionTypes.SPATIAL_DATA_SOURCES_VECTOR_FEATURES_BBOX_REQUEST_ERROR,
+		error: error
+	}
+}
+
+function actionLoadFeaturesForPointError(error) {
+	return {
+		type: ActionTypes.SPATIAL_DATA_SOURCES_VECTOR_FEATURES_POINT_REQUEST_ERROR,
 		error: error
 	}
 }
@@ -240,5 +323,6 @@ function actionAddEditedFeatures(dataSourceKey, features) {
 export default {
 	loadFeaturesForBbox: loadFeaturesForBbox,
 	loadFeaturesForBboxAndSelect: loadFeaturesForBboxAndSelect,
-	updateSelectedFeatures: updateSelectedFeatures
+	updateSelectedFeatures: updateSelectedFeatures,
+	loadFeaturesForPointAndSelect
 }
