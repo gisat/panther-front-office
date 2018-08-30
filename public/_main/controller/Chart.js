@@ -731,17 +731,56 @@ Ext.define('PumaMain.controller.Chart', {
 
         this.showChart(cmp);
 
+        var isThereTooManyPoints = false, xUnits = null, yUnits = null, zUnits = null, xName = null, yName = null, zName = null, points = [];
         // Make sure that the results are Numbers.
         if(data.series) {
             data.series.forEach(function(serie) {
-               if(serie.data) {
+               if(serie.data && serie.data.length < 1000) {
                    serie.data.forEach(function(dataItem){
+                       xUnits = dataItem.xUnits;
+                       yUnits = dataItem.yUnits;
+                       zUnits = dataItem.zUnits;
+
+                       xName = dataItem.xName;
+                       yName = dataItem.yName;
+                       zName = dataItem.zName;
+
                        if(dataItem.x) {
 						   dataItem.x = Number(dataItem.x);
 					   }
 					   if(dataItem.y) {
 						   dataItem.y = Number(dataItem.y);
 					   }
+                       if(dataItem.z) {
+                           dataItem.z = Number(dataItem.z);
+                       }
+                   })
+               } else {
+                   isThereTooManyPoints = true;
+                   serie.data = serie.data.map(function(dataItem){
+                       points.push(dataItem);
+
+                       xUnits = dataItem.xUnits;
+                       yUnits = dataItem.yUnits;
+                       zUnits = dataItem.zUnits;
+
+                       xName = dataItem.xName;
+                       yName = dataItem.yName;
+                       zName = dataItem.zName;
+
+                       var point = [];
+
+                       if(dataItem.x) {
+                           point.push(Number(dataItem.x));
+                       }
+                       if(dataItem.y) {
+                           point.push(Number(dataItem.y));
+                       }
+                       if(dataItem.z) {
+                           point.push(Number(dataItem.z));
+                       }
+
+                       return point;
                    })
                }
             });
@@ -778,7 +817,7 @@ Ext.define('PumaMain.controller.Chart', {
         data.chart.events = {};
         var me = this;
         data.chart.events.selection = function(evt) {
-            me.onScatterSelected(evt);
+            me.onScatterSelected(evt, points);
         };
         data.chart.events.click = function(evt) {
             if (Config.contextHelp) {
@@ -817,21 +856,21 @@ Ext.define('PumaMain.controller.Chart', {
             else {
                 areaName = obj.key;
                 yearName = obj.series.name;
-                attrConf.push ({
-                    name: obj.point.yName,
+                attrConf.push({
+                    name: yName,
                     val: obj.point.y,
-                    units: obj.point.yUnits
+                    units: yUnits
                 });
-                attrConf.push ({
-                    name: obj.point.xName,
+                attrConf.push({
+                    name: xName,
                     val: obj.point.x,
-                    units: obj.point.xUnits
+                    units: xUnits
                 });
                 if (obj.point.zName) {
                     attrConf.push({
-                        name: obj.point.zName,
+                        name: zName,
                         val: obj.point.z,
-                        units: obj.point.zUnits
+                        units: zUnits
                     });
                 }
             }
@@ -1128,7 +1167,7 @@ Ext.define('PumaMain.controller.Chart', {
         }
         evt.preventDefault();
     },
-    onScatterSelected: function(evt) {
+    onScatterSelected: function(evt, pointsOriginal) {
 //        var zooming = Ext.ComponentQuery.query('#switchzoomingbtn',evt.target.cmp.cnt)[0].pressed
 
         var chart = evt.target.cmp;
@@ -1148,14 +1187,17 @@ Ext.define('PumaMain.controller.Chart', {
         for (var i = 0; i < xAxis.axis.series.length; i++) {
             points = Ext.Array.merge(points, xAxis.axis.series[i].points);
         }
-        var areas = [];
+        var areas = [], pointOriginal;
         for (var i = 0; i < points.length; i++) {
             var point = points[i];
+            if(pointsOriginal.length > 0) {
+                pointOriginal = pointsOriginal[i];
+            }
 
             if (point.x > xMin && point.x < xMax && point.y > yMin && point.y < yMax) {
-                var atGid = point.at + '_' + point.gid + '_' + point.loc;
+                var atGid = pointOriginal.at + '_' + pointOriginal.gid + '_' + pointOriginal.loc;
                 if (!Ext.Array.contains(atGids, atGid)) {
-                    areas.push({at: point.at, gid: point.gid, loc: point.loc});
+                    areas.push({at: pointOriginal.at, gid: pointOriginal.gid, loc: pointOriginal.loc});
                     atGids.push(atGid)
                 }
             }

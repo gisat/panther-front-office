@@ -194,10 +194,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
                 }
 
 
-                if (placeId !== locComboValue && locComboValue !== "All places"){
-					locationCombo.suspendEvents();
+                if (placeId !== locComboValue){
 					locationCombo.setValue(placeId);
-					locationCombo.resumeEvents();
 				}
             }
         }
