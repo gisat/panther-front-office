@@ -12,6 +12,7 @@ import LpisCaseStatuses from "../../../../constants/LpisCaseStatuses";
 class DromasLpisChangeReviewHeader extends React.PureComponent {
 	static propTypes = {
 		case: PropTypes.object,
+		userApprovedEvaluation: PropTypes.object,
 		userGroup: PropTypes.string,
 		editActiveCase: PropTypes.func,
 		activeCaseEdited: PropTypes.object
@@ -76,6 +77,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 							case={this.props.case}
 							caseEdited={this.props.caseEdited}
 							editActiveCase={this.props.editActiveCase}
+							userApprovedEvaluation={this.props.userApprovedEvaluation}
 							userGroup={this.props.userGroup}
 						/>
 					</ExpandableContent>

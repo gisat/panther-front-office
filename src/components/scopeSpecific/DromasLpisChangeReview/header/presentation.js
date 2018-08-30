@@ -18,6 +18,8 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 		mapsContainer: PropTypes.object,
 		mapsCount: PropTypes.number,
 		selectedMapOrder: PropTypes.number,
+		userApprovedEvaluation: PropTypes.object,
+		userCreatedCase: PropTypes.object,
 		userGroup: PropTypes.string,
 		editActiveCase: PropTypes.func,
 		activeCaseEdited: PropTypes.object,
@@ -41,11 +43,13 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 				<div id="dromasLpisChangeReviewHeader-case">
 					<Case
 						case={this.props.case}
+						userCreatedCase={this.props.userCreatedCase}
 					/>
 				</div>
 				<div id="dromasLpisChangeReviewHeader-review">
 					<Review
 						case={this.props.case}
+						userApprovedEvaluation={this.props.userApprovedEvaluation}
 						userGroup={this.props.userGroup}
 						editActiveCase={this.props.editActiveCase}
 						caseEdited={this.props.activeCaseEdited}
