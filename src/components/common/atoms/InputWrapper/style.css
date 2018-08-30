@@ -37,3 +37,9 @@
 	padding: .5rem 1rem;
 	line-height: 1.5;
 }
+.ptr-input-wrapper > div > label {
+	display: block;
+}
+.ptr-input-wrapper > div > label:not(:first-of-type){
+	margin-top: 1rem;
+}

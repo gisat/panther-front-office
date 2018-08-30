@@ -83,8 +83,12 @@ class ChangeReviewForm extends React.PureComponent {
 			window.alert(`Vyplňte pole ${fields["change_description"].appName} !`);
 			return false;
 		}
-		if (!files || !data.geometry_before || !files[data.geometry_before.identifier]){
-			window.alert(`Pole ${fields["change_description"].appName}: Nahrajte archiv, který obsahuje geometrie! Archiv musí být ve formátu ZIP a musí obsahovat soubory ve formátu SHP a PRJ`);
+		if (!files || (!data.geometry_before && !data.geometry_after) || (
+			(data.geometry_before && !files[data.geometry_before.identifier]) ||
+				(data.geometry_after && !files[data.geometry_after.identifier])
+			)
+		){
+			window.alert(`Nahrajte alespoň jeden ze souborů: ${fields["geometry_before"].appName} nebo ${fields["geometry_after"].appName}`);
 			return false;
 		}
 		return true;
@@ -148,7 +152,7 @@ class ChangeReviewForm extends React.PureComponent {
 				<div className="ptr-change-review-form-body">
 					<div className="ptr-change-review-form-wrapper">
 						<InputWrapper
-							required="Povinný údaj"
+							required="Povinné"
 							label={fields["case_key"].appName}
 						>
 							<InputText
@@ -159,7 +163,7 @@ class ChangeReviewForm extends React.PureComponent {
 						</InputWrapper>
 						<InputWrapper
 							label={fields["submit_date"].appName}
-							required="Povinný údaj"
+							required="Povinné"
 						>
 							<InputText
 								date
@@ -168,7 +172,7 @@ class ChangeReviewForm extends React.PureComponent {
 							/>
 						</InputWrapper>
 						<InputWrapper
-							required="Povinný údaj"
+							required="Povinné"
 							label={fields["code_dpb"].appName}
 						>
 							<InputText
@@ -178,7 +182,7 @@ class ChangeReviewForm extends React.PureComponent {
 							/>
 						</InputWrapper>
 						<InputWrapper
-							required="Povinný údaj"
+							required="Povinné"
 							label={fields["code_ji"].appName}
 						>
 							<InputText
@@ -188,7 +192,7 @@ class ChangeReviewForm extends React.PureComponent {
 							/>
 						</InputWrapper>
 						<InputWrapper
-							required="Povinný údaj"
+							required="Povinné"
 							label={fields["change_description"].appName}
 						>
 							<InputText
@@ -216,43 +220,43 @@ class ChangeReviewForm extends React.PureComponent {
 							/>
 						</InputWrapper>
 						<InputWrapper
-							required="Povinný údaj"
-							label={fields["geometry_before"].appName}
+							required="Alespoň 1 soubor povinný"
+							// label={fields["geometry_before"].appName}
 							divInsteadOfLabel
-							info={<p>Nahrajte archiv ve formátu ZIP, který obsahuje soubory ve formátu SHP a PRJ. Geometrie musí být v souřadnicovém systému EPSG:5514.</p>}
+							info={<p>Nahrajte alespoň jeden ze souborů! Soubor musí být ve formátu ZIP. Tento ZIP soubor musí obsahovat geometrie ve formátu shapefile. </p>}
 						>
-							<InputFile
-								accept=".zip"
-								inputId="geometry_before"
-								onChange={this.onFormChange}
-								name="geometry_before"
-							>
-								<Button
-									icon="upload"
-									ghost
+							<label>
+								<span>{fields["geometry_before"].appName}</span>
+								<InputFile
+									accept=".zip"
+									inputId="geometry_before"
+									onChange={this.onFormChange}
+									name="geometry_before"
 								>
-									{geometryBeforeName}
-								</Button>
-							</InputFile>
-						</InputWrapper>
-						<InputWrapper
-							label={fields["geometry_after"].appName}
-							divInsteadOfLabel
-							info={<p>Nahrajte archiv ve formátu ZIP, který obsahuje soubory ve formátu SHP a PRJ. Geometrie musí být v souřadnicovém systému EPSG:5514.</p>}
-						>
-							<InputFile
-								accept=".zip"
-								inputId="geometry_after"
-								onChange={this.onFormChange}
-								name="geometry_after"
-							>
-								<Button
-									icon="upload"
-									ghost
+										<Button
+											icon="upload"
+											ghost
+										>
+											{geometryBeforeName}
+										</Button>
+								</InputFile>
+							</label>
+							<label>
+								<span>{fields["geometry_after"].appName}</span>
+								<InputFile
+									accept=".zip"
+									inputId="geometry_after"
+									onChange={this.onFormChange}
+									name="geometry_after"
 								>
-									{geometryAfterName}
-								</Button>
-							</InputFile>
+										<Button
+											icon="upload"
+											ghost
+										>
+											{geometryAfterName}
+										</Button>
+								</InputFile>
+							</label>
 						</InputWrapper>
 					</div>
 
