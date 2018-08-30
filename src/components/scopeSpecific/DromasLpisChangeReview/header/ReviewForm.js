@@ -7,6 +7,7 @@ import utils from '../../../../utils/utils';
 class ReviewForm extends React.PureComponent {
 
 	static propTypes = {
+		userApprovedEvaluation: PropTypes.object,
 		userGroup: PropTypes.string,
 		onFocusInput: PropTypes.any,
 		onBlurInput: PropTypes.any,
@@ -74,7 +75,7 @@ class ReviewForm extends React.PureComponent {
 				);
 			} else if (this.props.case.status !== LpisCaseStatuses.EVALUATION_CREATED) {
 
-				let otherInsert;
+				let otherInsert, userInsert;
 
 				if (this.getValueForProperty(`evaluation_description_other`)) {
 					otherInsert = (
@@ -85,10 +86,21 @@ class ReviewForm extends React.PureComponent {
 					);
 				}
 
+				if (this.props.userApprovedEvaluation){
+					let user = this.props.userApprovedEvaluation;
+					userInsert = (
+						<div>
+							<div className='ptr-dromasLpisChangeReviewHeader-property'>Vyhodnocení schválil</div>
+							<p>{user.name} ({user.email})</p>
+						</div>
+					);
+				}
+
 				return (
 					<div>
 						{utils.renderParagraphWithSeparatedLines(this.getValueForProperty(`evaluation_description`))}
 						{otherInsert}
+						{userInsert}
 					</div>
 				);
 			}

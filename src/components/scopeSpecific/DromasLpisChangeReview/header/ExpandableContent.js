@@ -69,7 +69,7 @@ class ExpandableContent extends React.PureComponent {
 		let style = {};
 
 		if (this.state.expanded || this.state.focus) {
-			style.height = Math.max(BASE_HEIGHT + (this.state.expanded ? 20 : 0), this.state.contentHeight); // +20 for response to user click
+			style.height = Math.max(BASE_HEIGHT + (this.state.expanded ? 20 : 0), this.state.contentHeight + 68); // +20 for response to user click
 		}
 
 		return (

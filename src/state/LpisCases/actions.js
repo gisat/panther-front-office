@@ -368,9 +368,8 @@ function editActiveCaseMapSources() {
 	return (dispatch, getState) => {
 		let state = getState();
 		let usedSources = Select.maps.getUsedSourcesForAllMaps(state);
-
 		if(usedSources && usedSources.length) {
-			return dispatch(Action.lpisCases.actionEditActiveCase('evaluation_used_sources', usedSources.join(`, `)));
+			return dispatch(Action.lpisCases.actionEditActiveCase('evaluation_used_sources', _.sortBy(usedSources).join(`\n`)));
 		}
 	}
 }

@@ -23,8 +23,8 @@ class MultiPolygon {
         this._key = options.key;
 
         this._shapeAttributes = new WorldWind.ShapeAttributes(null);
-        this._shapeAttributes.outlineColor = new WorldWind.Color(.4, .15, .7, 1);
-        this._shapeAttributes.outlineWidth = 4;
+        this._shapeAttributes.outlineColor = new WorldWind.Color(.95, .8, .1, 1);
+        this._shapeAttributes.outlineWidth = 2;
         this._shapeAttributes.interiorColor = new WorldWind.Color(1, 1, 1, 0);
 
         if (this._key === "placeGeometryChangeReviewGeometryBefore"){
