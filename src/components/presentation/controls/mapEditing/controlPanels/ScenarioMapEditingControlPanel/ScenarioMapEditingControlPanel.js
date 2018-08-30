@@ -149,6 +149,7 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 				value={this.state.luClass}
 				valueRenderer={this.renderUrbanAtlasClassSelectOption.bind(this)}
 				disabled={!!this.props.disabled}
+				clearable={false}
 			/>
 		);
 	}
