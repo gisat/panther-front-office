@@ -117,7 +117,7 @@ export default {
 			<p>
 				{splittedText.map((rec, index) => {
 					return (
-						<span>
+						<span key={index}>
 							{rec}{index === (splittedText.length - 1) ? null : <br/>}
 						</span>
 					)})

@@ -6,7 +6,8 @@ import ExpandableContent from './ExpandableContent';
 
 class DromasLpisChangeReviewHeader extends React.PureComponent {
 	static propTypes = {
-		case: PropTypes.object
+		case: PropTypes.object,
+		userCreatedCase: PropTypes.object
 	};
 
 	render() {
@@ -28,7 +29,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 	renderCase(changeReviewCase) {
 		if(changeReviewCase) {
 
-			let placeInsert, otherInsert, dpbInsert, jiInsert;
+			let placeInsert, otherInsert, dpbInsert, jiInsert, userInsert;
 
 			if (changeReviewCase.data.change_description_place) {
 				placeInsert = (
@@ -65,6 +66,17 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 					</div>
 				);
 			}
+
+			if (this.props.userCreatedCase){
+				let user = this.props.userCreatedCase;
+				userInsert = (
+					<div>
+						<div className='ptr-dromasLpisChangeReviewHeader-property'>Řízení zadal</div>
+						<p>{user.name} ({user.email})</p>
+					</div>
+				);
+			}
+
 			return (
 				<div>
 					{utils.renderParagraphWithSeparatedLines(changeReviewCase.data.change_description)}
@@ -72,6 +84,7 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 					{otherInsert}
 					{dpbInsert}
 					{jiInsert}
+					{userInsert}
 				</div>
 			)
 		}

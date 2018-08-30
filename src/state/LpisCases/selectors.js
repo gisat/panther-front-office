@@ -21,6 +21,7 @@ const getActiveEditedCaseKey = state => state.lpisCases.activeNewEditedCaseKey;
 const getNextActiveCaseKey = state => state.lpisCases.nextActiveCaseKey;
 
 const getActiveViewKey = state => state.views.activeKey;
+const getUsers = state => state.users.data;
 
 const getCasesWithChanges = createSelector(
 	[getCases, getChanges],
@@ -28,10 +29,11 @@ const getCasesWithChanges = createSelector(
 		let extendedCases = [];
 		cases.map(caseItem => {
 			let extendedCase = _.cloneDeep(caseItem);
-			extendedCase.changes = _.filter(changes, change => change.data.lpis_case_id === caseItem.key);
-			let orderedChanges = _.orderBy(extendedCase.changes, [(change) => {
+			let caseChanges = _.filter(changes, change => change.data.lpis_case_id === caseItem.key);
+			let orderedChanges = _.orderBy(caseChanges, [(change) => {
 				return change.data.date
 			}], ['desc']);
+			extendedCase.changes = orderedChanges;
 			let firstChange = orderedChanges[orderedChanges.length - 1];
 			let latestChange = orderedChanges[0];
 			if (latestChange) {
@@ -142,6 +144,26 @@ const getActiveCase = createSelector(
 	}
 );
 
+const getUserApprovedEvaluationOfActiveCase = createSelector(
+	[getActiveCase, getUsers],
+	(activeCase, users) => {
+		let latestApproval = activeCase ? _.find(activeCase.changes, (change) => {
+			return change.data.status === LpisCaseStatuses.EVALUATION_APPROVED.database;
+		}) : null;
+		if (latestApproval){
+			return _.find(users, {key: latestApproval.data.changed_by});
+		}
+		return null;
+	}
+);
+
+const getUserCreatedActiveCase = createSelector(
+	[getActiveCase, getUsers],
+	(activeCase, users) => {
+		return activeCase ? _.find(users, {key: activeCase.createdBy}) : null;
+	}
+);
+
 const getActiveCaseEdited = createSelector(
 	[getActiveCaseKey, getEditedCases],
 	(activeCaseKey, editedCases) => {
@@ -199,6 +221,8 @@ export default {
 	getActiveCaseKey: getActiveCaseKey,
 	getActiveCase: getActiveCase,
 	getActiveCaseEdited: getActiveCaseEdited,
+	getUserApprovedEvaluationOfActiveCase: getUserApprovedEvaluationOfActiveCase,
+	getUserCreatedActiveCase:  getUserCreatedActiveCase,
 	getCaseByActiveView: getCaseByActiveView,
 	getNextActiveCaseKey
 };
