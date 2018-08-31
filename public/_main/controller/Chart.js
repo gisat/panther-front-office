@@ -422,10 +422,10 @@ Ext.define('PumaMain.controller.Chart', {
             //debugger;
         }
         if (cfg.type=='columnchart'){
-            if (cfg.stackingSettings){
+            if (cfg.stackingSettings && chartCmp && chartCmp.queryCfg){
 				chartCmp.queryCfg.stacking = cfg.stackingSettings;
             }
-			if (cfg.aggregateSettings){
+			if (cfg.aggregateSettings && chartCmp && chartCmp.queryCfg){
 				chartCmp.queryCfg.aggregate = cfg.aggregateSettings;
 			}
         }

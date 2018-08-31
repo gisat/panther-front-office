@@ -5929,13 +5929,14 @@ var getStyles = function( elem ) {
 		// Support: IE <=11 only, Firefox <=30 (#15098, #14150)
 		// IE throws on elements created in popups
 		// FF meanwhile throws on frame elements through "defaultView.getComputedStyle"
-		var view = elem.ownerDocument.defaultView;
+		var view = elem.element ? elem.element.ownerDocument.defaultView : elem.ownerDocument.defaultView;
 
 		if ( !view || !view.opener ) {
 			view = window;
 		}
+		let elm = elem.element ? elem.element : elem;
 
-		return view.getComputedStyle( elem );
+		return view.getComputedStyle( elm );
 	};
 
 
@@ -6275,6 +6276,8 @@ jQuery.extend( {
 		if ( !elem || elem.nodeType === 3 || elem.nodeType === 8 || !elem.style ) {
 			return;
 		}
+
+		elem = elem.element ? elem.element : elem;
 
 		// Make sure that we're working with the right name
 		var ret, type, hooks,
