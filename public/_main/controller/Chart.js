@@ -745,6 +745,8 @@ Ext.define('PumaMain.controller.Chart', {
             data.series.forEach(function(serie) {
                if(serie.data && serie.data.length < 1000) {
                    serie.data.forEach(function(dataItem){
+					   points.push(dataItem);
+
                        xUnits = dataItem.xUnits;
                        yUnits = dataItem.yUnits;
                        zUnits = dataItem.zUnits;
@@ -787,7 +789,11 @@ Ext.define('PumaMain.controller.Chart', {
                        if(dataItem.z) {
                            point.push(Number(dataItem.z));
                        }
-
+                        point.push({
+                            at: Number(dataItem.at),
+							loc: Number(dataItem.loc),
+							gid: Number(dataItem.gid)
+                        });
                        return point;
                    })
                }
@@ -1117,10 +1123,26 @@ Ext.define('PumaMain.controller.Chart', {
             gid = serie.options.gid;
         }
         else {
-            var point = evt.point || evt.target;
+			var point = evt.point || evt.target;
             at = point ? point.at : null;
             gid = point ? point.gid : null;
             loc = point ? point.loc : null;
+        }
+		if (!at || !gid || !loc){
+            var target = evt.point || evt.target;
+            if (target && target.series && target.series.options && target.series.options.data){
+                let data = target.series.options.data;
+                data.forEach(function(point){
+                    if (target.options.x === point[0] && target.options.y === point[1]){
+                        let opt = point[3];
+                        if (opt){
+                            at = opt.at;
+                            gid = opt.gid;
+                            loc = opt.loc;
+                        }
+                    }
+                });
+            }
         }
         if (!at || !gid || !loc)
             return;
@@ -1594,6 +1616,19 @@ Ext.define('PumaMain.controller.Chart', {
         var updated = false;
         for (var i = 0; i < points.length; i++) {
             var point = points[i];
+			if (points.length >= 1000){
+				let data = chart.chart.series[0].options.data;
+				data.forEach(function(poi){
+					if (point.options.x === poi[0] && point.options.y === poi[1]){
+						let opt = poi[3];
+						if (opt){
+							point.at = opt.at;
+							point.gid = opt.gid;
+							point.loc = opt.loc;
+						}
+					}
+				});
+			}
             var at = point.at;
             var gid = point.gid;
             var loc = point.loc;
