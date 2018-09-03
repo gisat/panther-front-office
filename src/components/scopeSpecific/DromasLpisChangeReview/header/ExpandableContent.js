@@ -66,10 +66,20 @@ class ExpandableContent extends React.PureComponent {
 			return React.cloneElement(child, {...child.props, onFocusInput: this.onFocusInput, onBlurInput: this.onBlurInput});
 		});
 
-		let style = {};
+		let style = {}, contentStyle = {};
 
 		if (this.state.expanded || this.state.focus) {
-			style.height = Math.max(BASE_HEIGHT + (this.state.expanded ? 20 : 0), this.state.contentHeight + 68); // +20 for response to user click
+			let totalHeight = Math.max(BASE_HEIGHT + (this.state.expanded ? 20 : 0), this.state.contentHeight); // +20 for response to user click
+			let rem = parseFloat(getComputedStyle(document.documentElement).fontSize);
+			let maxHeight = window.innerHeight - 2.2*rem;
+			if (totalHeight > maxHeight) {
+				style.height = maxHeight;
+				contentStyle.height = maxHeight;
+				contentStyle.overflowY = 'auto';
+			} else {
+				style.height = totalHeight;
+			}
+
 		}
 
 		return (
@@ -77,8 +87,13 @@ class ExpandableContent extends React.PureComponent {
 				className={classnames("ptr-dromasLpisChangeReviewHeader-expandable-content", {expanded: this.state.expanded || this.state.focus})}
 				style={style}
 			>
-				<div ref={this.contentRef}>
-					{children}
+				<div
+					className="ptr-dromasLpisChangeReviewHeader-expandable-content-container"
+					style={contentStyle}
+				>
+					<div ref={this.contentRef}>
+						{children}
+					</div>
 				</div>
 				<div className="ptr-dromasLpisChangeReviewHeader-expandable-content-control">
 					<ExpandRowButton

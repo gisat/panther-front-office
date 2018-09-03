@@ -214,25 +214,17 @@
 		height .3s ease-in-out;
 }
 .ptr-dromasLpisChangeReviewHeader-expandable-content.expanded {
-	height: calc(100vh - 2.2rem); /* topBar height */
+	height: calc(100vh - 2.2rem); /* topBar height */ /* normally overriden by JS inline */
 	max-height: calc(100vh - 2.2rem);
-	/*overflow-y: auto;*/
 }
 .ptr-dromasLpisChangeReviewHeader-expandable-content-control {
-	position: -webkit-sticky;
-	position: sticky;
-	display: flex;
-	justify-content: flex-end;
-	bottom: 0;
-	right: 0;
-	max-height: 52px;
-}
-.ptr-dromasLpisChangeReviewHeader-expandable-content-control > div {
-	margin: .5rem;
+	position: absolute;
+	bottom: .5rem;
+	right: .5rem;
 }
 
-.ptr-dromasLpisChangeReviewHeader-expandable-content > div:first-child {
-	padding: 0 .5rem;
+.ptr-dromasLpisChangeReviewHeader-expandable-content-container > div:first-child {
+	padding: 0 .5rem 2.5rem .5rem;
 }
 
 .ptr-dromasLpisChangeReviewHeader-expandable-content .ptr-expand-row-button {
