@@ -216,7 +216,7 @@
 .ptr-dromasLpisChangeReviewHeader-expandable-content.expanded {
 	height: calc(100vh - 2.2rem); /* topBar height */
 	max-height: calc(100vh - 2.2rem);
-	overflow-y: auto;
+	/*overflow-y: auto;*/
 }
 .ptr-dromasLpisChangeReviewHeader-expandable-content-control {
 	position: -webkit-sticky;
