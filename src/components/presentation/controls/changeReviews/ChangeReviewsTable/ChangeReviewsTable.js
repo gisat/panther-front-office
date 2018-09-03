@@ -56,7 +56,7 @@ class ChangeReviewsTable extends React.PureComponent {
 							value={status}
 						/>
 					</div>
-					<div className="ptr-table-header-item">Spisová značka</div>
+					<div className="ptr-table-header-item">Název řízení</div>
 					<div className="ptr-table-header-item">Podáno</div>
 					<div className="ptr-table-header-item">Aktualizováno</div>
 					<div className="ptr-table-header-item buttons"></div>

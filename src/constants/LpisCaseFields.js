@@ -13,7 +13,7 @@ export default {
 	},
 	case_key: {
 		database: `case_key`,
-		appName: `Spisová značka řízení`
+		appName: `Název řízení`
 	},
 	change_description: {
 		database: `change_description`,
