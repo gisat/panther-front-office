@@ -638,7 +638,7 @@ class EvaluationWidget extends Widget {
      */
     addSettingsChangeListener(button) {
         let self = this;
-        button.on("click", function () {
+        button.off("click").on("click", function () {
             self._categories = self._settings.getCategories();
             self.setAttributesState(self._categories);
             self.rebuildInputs(self._categories);
