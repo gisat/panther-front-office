@@ -75,9 +75,6 @@ class ChangeReviewsList extends React.PureComponent {
 						userGroup={this.props.userGroup}
 						users={this.props.users}
 					/>
-					<div className="ptr-change-reviews-list-contact">
-						<span>Kontaktní osoba: Luboš Kučera (lubos.kucera@gisat.cz)</span>
-					</div>
 				</div>
 			</div>
 		);

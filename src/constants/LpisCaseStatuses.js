@@ -103,4 +103,9 @@ export const evaluationConclusions = [
 		label: 'Nejasné',
 		colour: '#d1bd01'
 	},
+	{
+		value: 'INDETERMINABLE',
+		label: 'Nelze rozhodnout',
+		colour: '#a09a94'
+	},
 ];
