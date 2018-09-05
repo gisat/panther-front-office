@@ -348,6 +348,9 @@ Ext.define('PumaMain.controller.ViewMng', {
 		if (Config.cfg.locations){
 			options.locations = Config.cfg.locations;
 		}
+		if (Config.cfg.selMap){
+			options.selMap = Config.cfg.selMap;
+		}
 
 		if (Config.cfg.is3D){
 			Stores.notify('fo#adjustConfigurationFromDataview', options);

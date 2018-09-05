@@ -1,5 +1,6 @@
 
 import _ from 'underscore';
+import lodash from 'lodash';
 
 import Actions from './actions/Actions';
 import ArgumentError from './error/ArgumentError';
@@ -530,6 +531,12 @@ class FrontOffice {
             this._mapsContainer.handleMapDefaultsFromDataview(options.mapDefaults);
         } else {
 			this._dispatcher.notify("analyticalUnits#show");
+        }
+
+        if (options.selMap){
+		    lodash.forIn(options.selMap, (selAreas, selColor) => {
+		        window.Stores.notify("selection#select",{color: selColor, areas: selAreas});
+            });
         }
     }
 

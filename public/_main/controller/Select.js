@@ -284,9 +284,16 @@ Ext.define('PumaMain.controller.Select', {
         return resultMap;
     },
 
-    _onEvent: function(type){
+    _onEvent: function(type, options){
         if (type === "selection#clearAll"){
             this.clearSelectionsAll();
+        } else if (type === "selection#select"){
+			this.actualColor = options.color;
+			var colorpicker = Ext.ComponentQuery.query('#selectcolorpicker')[0];
+            if (colorpicker){
+                colorpicker.select(options.color);
+            }
+			this.select(options.areas);
         }
     }
     
