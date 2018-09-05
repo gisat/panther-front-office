@@ -676,7 +676,14 @@ class WorldWindMap {
      * Update state of the navigator in MapStore. It is used for contolling of multiple maps at the same time.
      */
     updateNavigatorState() {
-        this._dispatcher.notify(Actions.mapControl, this._wwd.navigator);
+    	if (this._updateNavigatorTimeout){
+    		clearTimeout(this._updateNavigatorTimeout);
+		}
+    	var self = this;
+    	this._updateNavigatorTimeout = setTimeout(function(){
+			self._dispatcher.notify(Actions.mapControl, self._wwd.navigator);
+		}, 100);
+		this._stateStore.removeLoadingOperation("DefaultMap");
     };
 
     /**
