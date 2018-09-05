@@ -3,6 +3,10 @@ import _ from 'lodash';
 import Select from '../Select';
 import symbologies from "../../subscribers/symbologies";
 
+import common from "../_common/selectors";
+
+const getSubstate = state => state.scopes;
+
 const getActiveScopeKey = state => state.scopes.activeScopeKey;
 const getScopes = state => state.scopes.data;
 
@@ -108,7 +112,7 @@ const getPucsSourceVectorLandCoverClasses = createSelector(
 export default {
 	getActiveScopeConfiguration: getActiveScopeConfiguration,
 	getActiveScopeData: getActiveScopeData,
-	getActiveScopeKey: getActiveScopeKey,
+	getActiveScopeKey: common.getActiveKey(getSubstate),
 	getScopes: getScopes,
 	getScopesForActiveUser: getScopesForActiveUser,
 	getScopeData: getScopeData,

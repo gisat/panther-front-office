@@ -57,7 +57,31 @@ In Store.js, individiual stores are combined into redux store, using the followi
 
 Store.js also intializes [subscribers](../subscribers/README.md) - connecting new redux state with old code
 
+#### Initial state for metadata
+
+```js
+const INITIAL_STATE = {
+  activeKey: null,
+  activeKeys: null, //Array
+  data: null, //Main data collection
+  editedData: null, //Collection with changes in data or new objects
+  loading: false,
+  loadingKeys: null //Array of keys currently being loaded
+};
+```
+
+If metadata store contains more independent data types it should be split into nested stores.
+
+#### Reducers
+
+Common reducers are in [_common/reducers](./_common/reducers).
+
+Reducers are just atomic operations.
+
 ### Selectors
+Data in stores is accessed by selectors only.
+
+Reselect and re-reselect are used for memoization.
 
 ### Actions
 
