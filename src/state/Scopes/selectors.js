@@ -7,11 +7,11 @@ import common from "../_common/selectors";
 
 const getSubstate = state => state.scopes;
 
-const getActiveScopeKey = state => state.scopes.activeScopeKey;
 const getScopes = state => state.scopes.data;
+const getActiveKey = common.getActiveKey(getSubstate);
 
 const getActiveScopeData = createSelector(
-	[getScopes, getActiveScopeKey],
+	[getScopes, getActiveKey],
 	(scopes, activeKey) => {
 		return _.find(scopes, function(scope){
 			return scope.key === activeKey;
@@ -112,7 +112,7 @@ const getPucsSourceVectorLandCoverClasses = createSelector(
 export default {
 	getActiveScopeConfiguration: getActiveScopeConfiguration,
 	getActiveScopeData: getActiveScopeData,
-	getActiveScopeKey: common.getActiveKey(getSubstate),
+	getActiveScopeKey: getActiveKey,
 	getScopes: getScopes,
 	getScopesForActiveUser: getScopesForActiveUser,
 	getScopeData: getScopeData,
