@@ -1,28 +1,27 @@
 # State
 
+Panther uses redux store to store data. Internally, the state is organized by data type into *"stores"*, each dealing with all logic pertaining to that particular sub-state.
+
+* [Working with state](#working-with-state)
 * [Structure](#structure)
-  * [Root](#root)
-  * [Single store](#single-store)
+  * [State & reducers](#state-&-reducers)
+  * [Selectors](#selectors)
+  * [Actions](#actions)
+* [Stores](#stores)
+  * [Application data](#application-data)
+  * [Metadata](#metadata)
 
 
-## Structure
+## Working with state
 
-The state is organized by data type into *"stores"*, each dealing with all logic pertaining to that particular sub-state.
+The state is accessed using selectors. Selectors are defined in each store and exposed in **Select.js** under the same keys under which the data is stored in state.
 
-### Root
-Stores are combined in root folder files:
-##### Store.js
-Combines reducers into redux store and applies middleware
-- [redux-thunk](https://github.com/reduxjs/redux-thunk#motivation)
-- [redux-logger](https://github.com/evgenyrodionov/redux-logger)
-
-Also intializes [subscribers](../subscribers/README.md) - connecting new redux state with old code
-##### Select.js
-Combines selectors for easy and readable access under the same keys as the corresponding data in redux store.
+The state is modified using action creators. Action creators are  defined in each store and exposed in **Action.js**, again under the same keys under which the data is stored in state.
 
 Usage in container component:
 ```js
 import Select from '../../../../state/Select';
+import Action from '../../../../state/Action';
 
 const mapStateToProps = state => {
   return {
@@ -32,13 +31,6 @@ const mapStateToProps = state => {
     layers: Select.wmsLayers.getLayersWithAoiPeriods(state)
   }
 };
-```
-##### Action.js
-Combines action creators, again under the same keys.
-
-Usage in container component:
-```js
-import Action from '../../../../state/Action';
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -55,10 +47,25 @@ const mapDispatchToProps = dispatch => {
 };
 ```
 
-### Single store
+## Structure
 
-##### reducers.js
+### State & reducers
 
-##### selectors.js
+In Store.js, individiual stores are combined into redux store, using the following middleware:
+- [redux-thunk](https://github.com/reduxjs/redux-thunk#motivation)
+- [redux-logger](https://github.com/evgenyrodionov/redux-logger)
 
-##### actions.js
+Store.js also intializes [subscribers](../subscribers/README.md) - connecting new redux state with old code
+
+### Selectors
+
+### Actions
+
+
+## Stores
+
+### Application data
+
+### Metadata
+
+
