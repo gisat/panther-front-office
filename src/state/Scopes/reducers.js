@@ -4,11 +4,11 @@ import common from '../_common/reducers';
 
 const INITIAL_STATE = {
 	data: [],
-	activeScopeKey: null
+	activeKey: null
 };
 
 function setActiveKey(state, action){
-	return {...state, activeScopeKey: action.activeScopeKey};
+	return {...state, activeKey: action.activeScopeKey};
 }
 
 export default function tasksReducer(state = INITIAL_STATE, action) {
