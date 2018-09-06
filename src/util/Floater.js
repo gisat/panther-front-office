@@ -58,8 +58,8 @@ function setPosition(box, position) {
         bottom: 'auto',
         top: 'auto'
     };
-    let screenWidth = $(window).width();
-    let screenHeight = $(window).height();
+    let screenWidth = window.windowWidth;
+    let screenHeight = window.windowHeight;
 
     if (position.left) {
         location.left = adaptSize(position.left, screenWidth / 2);
