@@ -102,6 +102,20 @@ const hasActiveUserPermissionToCreate = createSelector(
 	}
 );
 
+const hasActiveUserPermissionToDelete = createSelector(
+	[getActiveUser, (state, props) => props],
+	(user, props) => {
+		if (user && user.permissions){
+			let permisson = _.find(user.permissions, (perm) => {
+				let id = perm.resourceId ? Number(perm.resourceId) : null;
+				return id === props.key && perm.resourceType === props.type && perm.permission === "DELETE";
+			});
+			return !!permisson;
+		}
+		return false;
+	}
+);
+
 const isDromasAdmin = state => {
     let isDromasAdmin = false;
     if(state.users && state.users.data && state.users.data.length) {
@@ -144,6 +158,7 @@ export default {
 	groups: groups,
 
 	hasActiveUserPermissionToCreate: hasActiveUserPermissionToCreate,
+	hasActiveUserPermissionToDelete: hasActiveUserPermissionToDelete,
 
 	isAdmin: isAdmin,
 	isAdminGroupMember: isAdminGroupMember,
