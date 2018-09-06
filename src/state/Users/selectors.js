@@ -1,10 +1,8 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
-// import Select from '../Select';
-import UserGroupSelectors from '../UserGroups/selectors';
 
+import UserGroupSelectors from '../UserGroups/selectors';
 import scopeSelectors from '../Scopes/selectors';
-import Select from "../Select";
 
 const getActiveKey = state => state.users.activeKey;
 const getUsers = state => state.users.data;
@@ -20,6 +18,17 @@ const getActiveUser = createSelector(
 		} else {
 			return null;
 		}
+	}
+);
+
+const isAdminGroupMember = createSelector(
+	[getActiveUser],
+	(user) => {
+		if (user){
+			let adminGroup = _.find(user.groups, (group) => {return group._id === 1});
+			return !!adminGroup;
+		}
+		return false;
 	}
 );
 
@@ -137,6 +146,7 @@ export default {
 	hasActiveUserPermissionToCreate: hasActiveUserPermissionToCreate,
 
 	isAdmin: isAdmin,
+	isAdminGroupMember: isAdminGroupMember,
 	isLoggedIn: isLoggedIn,
 	isDromasAdmin: isDromasAdmin,
 
