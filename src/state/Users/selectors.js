@@ -1,4 +1,5 @@
 import {createSelector} from 'reselect';
+import createCachedSelector from 're-reselect';
 import _ from 'lodash';
 
 import UserGroupSelectors from '../UserGroups/selectors';
@@ -102,18 +103,22 @@ const hasActiveUserPermissionToCreate = createSelector(
 	}
 );
 
-const hasActiveUserPermissionToDelete = createSelector(
-	[getActiveUser, (state, props) => props],
-	(user, props) => {
+const hasActiveUserPermissionToDelete = createCachedSelector(
+	getActiveUser,
+	(state, resourceId) => resourceId,
+	(state, resourceId, resourceType) => resourceType,
+	(user, resourceId, resourceType) => {
 		if (user && user.permissions){
 			let permisson = _.find(user.permissions, (perm) => {
 				let id = perm.resourceId ? Number(perm.resourceId) : null;
-				return id === props.key && perm.resourceType === props.type && perm.permission === "DELETE";
+				return id === resourceId && perm.resourceType === resourceType && perm.permission === "DELETE";
 			});
 			return !!permisson;
 		}
 		return false;
 	}
+)(
+	(state, resourceId, resourceType) => `${resourceId}:${resourceType}`
 );
 
 const isDromasAdmin = state => {

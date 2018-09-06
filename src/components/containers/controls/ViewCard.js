@@ -8,7 +8,7 @@ const mapStateToProps = (state, props) => {
 	return {
 		// TODO use permissions
 		editable: Select.users.isAdmin(state) || Select.users.isAdminGroupMember(state),
-		deletable: Select.users.isAdmin(state)  || Select.users.isAdminGroupMember(state) || Select.users.hasActiveUserPermissionToDelete(state, {key: props.viewKey, type: "dataview"})
+		deletable: Select.users.isAdmin(state)  || Select.users.isAdminGroupMember(state) || Select.users.hasActiveUserPermissionToDelete(state,props.viewKey, "dataview")
 	}
 };
 
