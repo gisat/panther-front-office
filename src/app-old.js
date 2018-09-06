@@ -70,9 +70,11 @@ function loadApp() {
         let projectConfig = Config.toggles[url];
 
         if (projectConfig && projectConfig.classes){
+			let html =  $("html");
             projectConfig.classes.map(cls => {
-               let html =  $("html");
-               html.hasClass(cls) ? html.addClass(cls) : null;
+               if (!html.hasClass(cls)){
+				   html.addClass(cls);
+               }
             });
         }
 
