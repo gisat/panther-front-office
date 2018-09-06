@@ -245,7 +245,7 @@ class StateStore {
                 if (item.hasClass("open")){
 					let floater = $("#" + item.attr("data-for"));
 					if (floater.length){
-						widget.floater.position = Floater.getPosition(floater);
+						widget.floater.position = Floater.getPosition(floater[0]);
 						widget.floater.pinned = floater.hasClass("pinned");
 						widgets.open.push(widget);
 					}
