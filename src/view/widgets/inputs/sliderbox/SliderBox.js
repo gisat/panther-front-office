@@ -174,7 +174,7 @@ class SliderBox extends View {
      */
     rebuildPopup() {
         let slider = $("#" + this._id);
-        let sliderWidth = slider.width();
+        let sliderWidth = slider.length ? slider[0].offsetWidth : null;
         slider.siblings(".slider-popup").css("width", sliderWidth);
     };
 

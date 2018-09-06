@@ -88,8 +88,8 @@ class Histogram {
         if (Math.abs(dataMinMax[1] - dataMinMax[0]) < 0.01) {
             widthRatio = 0.05;
         }
-        let containerHeight = this._histogram.height();
-        let containerWidth = this._histogram.parents(".slider-popup").width();
+        let containerHeight = this._histogram[0].offsetHeight;
+        let containerWidth = this._histogram.parents(".slider-popup")[0].offsetWidth;
 
         let width = widthRatio * (containerWidth - 2) / this._numOfClasses;
         let heightRatio = containerHeight / this.getMostFrequented(this._classes);
