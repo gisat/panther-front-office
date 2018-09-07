@@ -104,9 +104,9 @@ class BackgroundLayersPanel extends WorldWindWidgetPanel {
         layers.forEach(function (layer, index) {
             if (layer.id === id) {
                 this._mapStore.getAll().forEach(function (map) {
-                    const layer = map.layers.getLayerById(id);
-                    if(layer) {
-                        map.layers.removeLayer(layer, false);
+                    let mapLayer = map.layers.getLayerById(id);
+                    if (mapLayer){
+						map.layers.removeLayer(mapLayer, false);
                     }
                 });
                 // Remove the control for the layer.

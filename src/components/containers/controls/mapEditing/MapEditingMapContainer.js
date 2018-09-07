@@ -25,6 +25,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		},
 		selectFeatureForBbox: (bbox) => {
 			dispatch(Action.spatialDataSources.vector.loadFeaturesForBboxAndSelect(ownProps.dataSourceKey, bbox, 'replace')); //todo other modes?
+		},
+		selectFeatureForPoint: (point) => {
+			dispatch(Action.spatialDataSources.vector.loadFeaturesForPointAndSelect(ownProps.dataSourceKey, point, 'replace')); //todo other modes?
 		}
 	}
 };

@@ -1,10 +1,9 @@
 import {createSelector} from 'reselect';
+import createCachedSelector from 're-reselect';
 import _ from 'lodash';
-// import Select from '../Select';
-import UserGroupSelectors from '../UserGroups/selectors';
 
+import UserGroupSelectors from '../UserGroups/selectors';
 import scopeSelectors from '../Scopes/selectors';
-import Select from "../Select";
 
 const getActiveKey = state => state.users.activeKey;
 const getUsers = state => state.users.data;
@@ -20,6 +19,17 @@ const getActiveUser = createSelector(
 		} else {
 			return null;
 		}
+	}
+);
+
+const isAdminGroupMember = createSelector(
+	[getActiveUser],
+	(user) => {
+		if (user){
+			let adminGroup = _.find(user.groups, (group) => {return group._id === 1});
+			return !!adminGroup;
+		}
+		return false;
 	}
 );
 
@@ -93,6 +103,24 @@ const hasActiveUserPermissionToCreate = createSelector(
 	}
 );
 
+const hasActiveUserPermissionToDelete = createCachedSelector(
+	getActiveUser,
+	(state, resourceId) => resourceId,
+	(state, resourceId, resourceType) => resourceType,
+	(user, resourceId, resourceType) => {
+		if (user && user.permissions){
+			let permisson = _.find(user.permissions, (perm) => {
+				let id = perm.resourceId ? Number(perm.resourceId) : null;
+				return id === resourceId && perm.resourceType === resourceType && perm.permission === "DELETE";
+			});
+			return !!permisson;
+		}
+		return false;
+	}
+)(
+	(state, resourceId, resourceType) => `${resourceId}:${resourceType}`
+);
+
 const isDromasAdmin = state => {
     let isDromasAdmin = false;
     if(state.users && state.users.data && state.users.data.length) {
@@ -135,8 +163,10 @@ export default {
 	groups: groups,
 
 	hasActiveUserPermissionToCreate: hasActiveUserPermissionToCreate,
+	hasActiveUserPermissionToDelete: hasActiveUserPermissionToDelete,
 
 	isAdmin: isAdmin,
+	isAdminGroupMember: isAdminGroupMember,
 	isLoggedIn: isLoggedIn,
 	isDromasAdmin: isDromasAdmin,
 

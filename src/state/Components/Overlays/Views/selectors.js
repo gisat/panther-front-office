@@ -7,6 +7,13 @@ const getSelectedScope = (state) => state.components.overlays.views.selectedScop
 
 const getChangeReviewsActiveScreenKey = (state) => state.components.overlays.views.changeReviews.activeScreenKey;
 
+const getIntroSections = createSelector(
+	[getIntro],
+	(intro) => {
+		return intro ? intro.sections : null;
+	}
+);
+
 const getIntroTitle = createSelector(
 	[getIntro],
 	(intro) => {
@@ -42,6 +49,7 @@ export default {
 
 	getIntro: getIntro,
 	getIntroLogo: getIntroLogo,
+	getIntroSections: getIntroSections,
 	getIntroTitle: getIntroTitle,
 	getIntroText: getIntroText,
 

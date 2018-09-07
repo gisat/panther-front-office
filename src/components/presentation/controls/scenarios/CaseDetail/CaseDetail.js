@@ -314,6 +314,9 @@ class CaseDetail extends React.PureComponent {
 					zoomToGeometry
 					activeBackgroundLayerKey={this.props.activeBackgroundLayerKey}
 				/>
+				<div className="ptr-case-detail-map-help">
+					Click to set top-left then bottom-right corner.
+				</div>
 			</div>
 		);
 	}

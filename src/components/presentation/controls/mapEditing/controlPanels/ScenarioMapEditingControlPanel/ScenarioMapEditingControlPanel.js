@@ -108,7 +108,11 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 							<h3 className="ptr-editing-control-panel-section-title">Selected feature attributes</h3>
 							{this.renderUrbanAtlasClassSelect()}
 						</div>
-						) : null}
+						) : (
+						<div className="ptr-editing-control-panel-hint">
+							Select a feature in the map
+						</div>
+						)}
 					</div>
 				</div>
 				<div className="ptr-editing-control-panel-controls">
@@ -159,6 +163,7 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 				value={this.state.luClass}
 				valueRenderer={this.renderUrbanAtlasClassSelectOption.bind(this)}
 				disabled={!!this.props.disabled}
+				clearable={false}
 			/>
 		);
 	}

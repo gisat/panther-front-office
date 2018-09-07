@@ -19,7 +19,7 @@ function setActive(key) {
 		let state = getState();
 		let scopeConfiguration = Select.scopes.getActiveScopeConfiguration(state);
 		dispatch(actionSetActive(key));
-		if (!scopeConfiguration.dromasLpisChangeReview) { // loading layerPeriods for case, not place
+		if (scopeConfiguration && !scopeConfiguration.dromasLpisChangeReview) { // loading layerPeriods for case, not place
 			dispatch(LayerPeriods.loadForPlace(key));
 		}
 	};

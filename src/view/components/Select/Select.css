@@ -3,40 +3,40 @@
 }
 
 /* topbar select*/
-.select2 .select-basic-container.top-bar-select {
+.select2-container--default .select-basic-container.top-bar-select {
 	 border-radius: 0.05rem;
 	 background: rgba(255, 255, 255, .15);
 	 border: 0;
 	 height: 26px;
 	transition: background .3s ease-in-out;
 }
-.select-basic-container.top-bar-select:hover {
+.select2-container--default .select-basic-container.top-bar-select:hover {
 	background: rgba(255, 255, 255, .2);
 }
-.select-basic-container.top-bar-select .select2-selection__rendered {
+.select2-container--default .select-basic-container.top-bar-select .select2-selection__rendered {
 	line-height: 26px;
 	color: #ddd;
 	font-weight: 500;
 	font-size: .85rem;
 }
-.select-basic-container.top-bar-select .select2-selection__arrow {
+.select2-container--default .select-basic-container.top-bar-select .select2-selection__arrow {
 	height: 26px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
-.select-basic-container.top-bar-select .select2-selection__arrow:before {
+.select2-container--default .select-basic-container.top-bar-select .select2-selection__arrow:before {
 	content: "\f107";
 	color: rgb(204,207,211);
 	font-family: "FontAwesome";
 	font-size: 1rem;
 }
-.select-basic-container.top-bar-select .select2-selection__arrow > b {
+.select2-container--default .select-basic-container.top-bar-select .select2-selection__arrow > b {
 	border-color: transparent;
 }
-.select2-container--open .select-basic-container.top-bar-select .select2-selection__arrow:before {
+.select2-container--default.select2-container--open .select-basic-container.top-bar-select .select2-selection__arrow:before {
 	content: "\f106";
 }
-.select2-container--open .select-basic-container.top-bar-select .select2-selection__arrow > b {
+.select2-container--default.select2-container--open .select-basic-container.top-bar-select .select2-selection__arrow > b {
 	border-color: transparent;
 }

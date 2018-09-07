@@ -56,7 +56,7 @@ class MyGoToAnimator extends GoToAnimator {
         let self = this;
         let stateStore = this._store.state;
         let currentState = stateStore.current();
-        let places = currentState.locations;
+        let places = currentState.locations ? currentState.locations : currentState.places;
         let dataset = currentState.scope;
 
         if (!dataset) {

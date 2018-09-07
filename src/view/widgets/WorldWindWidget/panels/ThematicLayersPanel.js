@@ -26,10 +26,6 @@ class ThematicLayersPanel extends WorldWindWidgetPanel {
         Stores.listeners.push(this.updateChoropleths.bind(this, "updateChoropleths"));
     };
 
-    switchOnLayersFrom2D() {
-        this.updateChoropleths("updateChoropleths", "updateChoropleths");
-    };
-
     /**
      * Add checkboxes for current configuration
      * @param action {string}

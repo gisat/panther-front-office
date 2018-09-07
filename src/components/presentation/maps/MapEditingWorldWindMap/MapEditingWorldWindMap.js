@@ -21,7 +21,8 @@ class MapEditingWorldWindMap extends React.PureComponent {
         mapContainerClass: PropTypes.string,
         sourceLayer: PropTypes.object,
         polygons: PropTypes.array,
-        editedPolygonsInfo: PropTypes.string
+        editedPolygonsInfo: PropTypes.string,
+		selectFeatureForPoint: PropTypes.func
     };
 
     constructor(props) {
@@ -77,7 +78,8 @@ class MapEditingWorldWindMap extends React.PureComponent {
 
             const bbox = [rightBottom.latitude, topLeft.longitude, topLeft.latitude, rightBottom.longitude]; //minLat, minLon, maxLat, maxLon
 
-            this.props.selectFeatureForBbox(bbox);
+            // this.props.selectFeatureForBbox(bbox);
+            this.props.selectFeatureForPoint(topLeft);
         });
         clickRecognizer.enabled = true;
     }

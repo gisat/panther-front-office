@@ -134,6 +134,13 @@ const getActivePlaceActiveLayers = createSelector(
 	}
 );
 
+const getAnalyticalUnitsVisibility = createSelector(
+	[getMapDefaults],
+	(defaults) => {
+		return (defaults && defaults.hasOwnProperty('analyticalUnitsVisibility') ? defaults.analyticalUnitsVisibility : null);
+	}
+);
+
 /**
  * Specific usage of getVectorLayersForTemplate selector, where layer template key is known from scope configuration
  */
