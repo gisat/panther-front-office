@@ -9,7 +9,8 @@ const mapStateToProps = (state) => {
 	return {
 		logo: Select.components.overlays.views.getIntroLogo(state),
 		title: Select.components.overlays.views.getIntroTitle(state),
-		text: Select.components.overlays.views.getIntroText(state)
+		text: Select.components.overlays.views.getIntroText(state),
+		sections: Select.components.overlays.views.getIntroSections(state)
 	};
 };
 

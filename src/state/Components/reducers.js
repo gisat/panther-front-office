@@ -28,9 +28,11 @@ const INITIAL_STATE = {
 		},
 		views: {
 			intro: {
+				name: config ? config.name : Names.VIEWS_OVERLAY_INTRO_ITEM_NAME,
 				title: config ? config.title : Names.INTRO_DEFAULT_TITLE,
 				text: config ? config.text : "",
-				logo: config && config.logo ? {source: config.logo.source} : null
+				logo: config && config.logo ? {source: config.logo.source} : null,
+				sections: config && config.sections ? config.sections : null
 			},
 			open: true,
 			selectedScope: null,

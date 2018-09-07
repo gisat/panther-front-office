@@ -59,18 +59,27 @@ function loadApp() {
         wmsLayers: new WmsLayers()
     };
 
+	applyProjectSettings();
     if(!new URL(window.location).searchParams.get('id')) {
-        applyProjectStyles();
         $('#loading-screen').hide();
         return;
     }
 
-    function applyProjectStyles(){
+    function applyProjectSettings(){
         let url = window.location.origin;
-        let projectSpecificConfig = Config.toggles[url];
-        if (projectSpecificConfig && projectSpecificConfig.classes){
-            let classes = projectSpecificConfig.classes.join(" ");
-            $("html").addClass(classes);
+        let projectConfig = Config.toggles[url];
+
+        if (projectConfig && projectConfig.classes){
+			let html =  $("html");
+            projectConfig.classes.map(cls => {
+               if (!html.hasClass(cls)){
+				   html.addClass(cls);
+               }
+            });
+        }
+
+        if (projectConfig && projectConfig.intro && projectConfig.intro.title){
+            $("title").html(projectConfig.intro.title);
         }
     }
 
@@ -201,7 +210,6 @@ function loadApp() {
                 state: stateStore
             }
         });
-
         if(Config.toggles.home) {
             $('#home-page').attr('href', Config.toggles.home);
         }

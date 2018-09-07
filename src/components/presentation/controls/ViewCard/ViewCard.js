@@ -16,7 +16,7 @@ class ViewCard extends React.PureComponent {
 		deleteView: PropTypes.func,
 		editable: PropTypes.bool,
 		redirect: PropTypes.func,
-		viewKey: PropTypes.number
+		viewKey: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 	};
 
 	constructor(props){
