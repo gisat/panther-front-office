@@ -27,9 +27,24 @@ function update(component, data) {
 }
 
 function redirectToView(params) {
-	return dispatch => {
-		// TODO need login parameter
-		let url = window.location.origin + window.location.pathname + "?id=" + params.key + "&needLogin=true" + "&lang=" + params.language;
+	return (dispatch, getState) => {
+		let urlParams = [];
+
+		// view id
+		urlParams.push(`id=${params.key}`);
+
+		// language
+		if (params.language){
+			urlParams.push(`lang=${params.language}`);
+		}
+
+		// need login
+		let hasGuestGroupPermission = Select.views.hasGuestGroupGetPermission(getState(), params.key);
+		if (!hasGuestGroupPermission){
+			urlParams.push(`needLogin=true`);
+		}
+
+		let url = `${window.location.origin}${window.location.pathname}?${urlParams.join('&')}`;
 		dispatch(actionRedirectToView(url));
 		window.location = url;
 	}

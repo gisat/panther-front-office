@@ -2,7 +2,7 @@ Ext.define('Puma.model.DataView', {
     extend: 'Ext.data.Model',
     fields: [
 
-    '_id','name','conf'
+    '_id','name','conf', 'permissions'
     ],
     idProperty: '_id',
     proxy: {

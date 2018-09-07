@@ -110,8 +110,8 @@ const hasActiveUserPermissionToDelete = createCachedSelector(
 	(user, resourceId, resourceType) => {
 		if (user && user.permissions){
 			let permisson = _.find(user.permissions, (perm) => {
-				let id = perm.resourceId ? Number(perm.resourceId) : null;
-				return id === resourceId && perm.resourceType === resourceType && perm.permission === "DELETE";
+				let id = perm.resourceId ? Number(perm.resourceId) : (perm.resourceid ? Number(perm.resourceid): null);
+				return id === resourceId && (perm.resourceType === resourceType || perm.resourcetype === resourceType) && perm.permission === "DELETE";
 			});
 			return !!permisson;
 		}

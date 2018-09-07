@@ -17,7 +17,7 @@ class Dataviews extends BaseStore {
     }
 
 	loaded(models) {
-		window.Stores.notify("VIEWS_LOADED", models);
+		// window.Stores.notify("VIEWS_LOADED", models);
 	}
 }
 

@@ -136,7 +136,8 @@ Ext.define('PumaMain.controller.ViewMng', {
 					description: rec.data.conf.description,
 					dataset: rec.data.conf.dataset,
 					language: rec.data.conf.language
-				}
+				},
+				permissions: rec.data.permissions
 			}]);
         }
     },
