@@ -574,7 +574,7 @@ class FrontOffice {
         return Promise.all([
             store.attributes.load(),
             store.attributeSets.load(),
-            // store.dataviews.load(),
+            store.dataviews.load(),
             store.layers.load(),
             store.locations.load(),
             store.periods.load(),

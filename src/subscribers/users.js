@@ -18,7 +18,6 @@ const setEventListeners = store => {
 			case 'user#changed':
 				store.dispatch(Action.users.update(options));
 				store.dispatch(Action.components.overlays.views.checkForActiveUser());
-				store.dispatch(Action.views.apiLoadViews());
 				break;
 			case "USERS_LOADED":
 				let oldModels = Select.users.getUsers(store.getState());
