@@ -10,6 +10,8 @@ import fetch from 'isomorphic-fetch';
 import queryString from 'query-string';
 import utils from '../../utils/utils';
 
+import common from '../_common/actions';
+
 let requestIntervals = {};
 
 const TTL = 5;
@@ -208,68 +210,34 @@ function removeCases(keys){
 	};
 }
 
-function load(caseKey, ttl) {
-	if (_.isUndefined(ttl)) ttl = TTL;
+function load(caseKey) {
 	return (dispatch, getState) => {
-
 		let state = getState();
 		if (state.scenarios.loading) {
 			// already loading, do nothing
 		} else {
 			dispatch(actionLoadRequest(caseKey));
-
-			let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/scenarios');
-			let query = queryString.stringify({
+			let query = {
 				scenario_case_id: caseKey
-			});
-			if (query) {
-				url += '?' + query;
-			}
-
-			return fetch(url, {
-				method: 'GET',
-				credentials: 'include',
-				headers: {
-					'Content-Type': 'application/json',
-					'Accept': 'application/json'
-				}
-			}).then(
-				response => {
-					console.log('#### load scenarios response', response);
-					let contentType = response.headers.get('Content-type');
-					if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
-						return response.json().then(data => {
-							if (data.data && data.data.scenarios && data.data.scenarios) {
-								dispatch(loadReceive(data.data.scenarios)); //todo cancel loading for caseKey?
-								dispatch(scenariosLoadedForActiveCase());
-							} else {
-								dispatch(actionLoadError('no data returned'));
-							}
-						});
-					} else {
-						dispatch(actionLoadError(response))
-					}
-				},
-				error => {
-					console.log('#### load scenarios error', error);
-					if (ttl - 1) {
-						dispatch(load(caseKey, ttl - 1));
-					} else {
-						dispatch(actionLoadError("scenarios#actions load: scenarios weren't loaded!"));
-					}
-				}
-			);
+			};
+			dispatch(common.request('backend/rest/metadata/scenarios', "GET", query, null, loadReceive, actionLoadError));
 		}
-
-	};
+	}
 }
 
 function loadReceive(data) {
+	//todo cancel loading for caseKey?
 	return dispatch => {
-		data = _.map(data, ({id, ...model}) => {
-			return {...model, key: id};
-		});
-		dispatch(actionLoadReceive(data));
+		if (data.scenarios){
+			data = _.map(data.scenarios, ({id, ...model}) => {
+				return {...model, key: id};
+			});
+			dispatch(actionLoadReceive(data));
+			dispatch(scenariosLoadedForActiveCase());
+		} else {
+			console.error("Scenarios actions#loadReceive: No scenarios loaded")
+			// TODO
+		}
 	};
 }
 
