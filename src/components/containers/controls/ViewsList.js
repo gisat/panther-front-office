@@ -6,7 +6,7 @@ import ViewsList from "../../presentation/controls/ViewsList/ViewsList";
 
 const mapStateToProps = (state, props) => {
 	return {
-		views: Select.views.getViewsForScope(state, props.selectedScope),
+		views: Select.views.getViewsForScopeAndActiveUser(state, props.selectedScope),
 	}
 };
 
