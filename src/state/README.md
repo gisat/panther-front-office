@@ -74,7 +74,7 @@ If metadata store contains more independent data types it should be split into n
 
 #### Reducers
 
-Common reducers are in [_common/reducers](./_common/reducers).
+Common reducers are in [_common/reducers.js](./_common/reducers.js).
 
 Reducers are just atomic operations.
 
@@ -83,8 +83,11 @@ Data in stores is accessed by selectors only.
 
 Reselect and re-reselect are used for memoization.
 
+Common selectors are in [_common/selectors.js](./_common/selectors.js).
+
 ### Actions
 
+Common actions are in [_common/actions.js](./_common/actions.js).
 
 ## Stores
 

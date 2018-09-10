@@ -4,7 +4,7 @@ import _ from 'lodash';
 const getActiveKey = state => state.places.activeKey;
 const getActiveKeys = state => state.places.activeKeys;
 const getPlaces = state => state.places.data;
-const getActiveScopeKey = state => state.scopes.activeScopeKey;
+const getActiveScopeKey = state => state.scopes.activeKey;
 
 const getActive = createSelector(
 	[getPlaces, getActiveKey],

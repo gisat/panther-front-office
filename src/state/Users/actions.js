@@ -6,6 +6,8 @@ import fetch from "isomorphic-fetch";
 
 import utils from '../../utils/utils';
 
+import common from '../_common/actions';
+
 import scopeActions from '../Scopes/actions';
 import lpisCasesActions from '../LpisCases/actions';
 import dataViewActions from '../Views/actions';
@@ -32,13 +34,6 @@ function reloadData(dispatch) {
 }
 
 // ============ creators ===========
-
-function add(users){
-	return dispatch => {
-		if (!_.isArray(users)) users = [users];
-		dispatch(actionAdd(users));
-	};
-}
 
 function update(user) {
 	return dispatch => {
@@ -287,7 +282,7 @@ function actionApiLoadCurrentUserRequestError(error) {
 // ============ export ===========
 
 export default {
-	add: add,
+	add: common.add(actionAdd),
 	apiLoad: apiLoad,
     apiLoadCurrentUser: apiLoadCurrentUser,
 	apiLoginUser: apiLoginUser,

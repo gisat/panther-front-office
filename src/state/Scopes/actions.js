@@ -8,18 +8,14 @@ import path from "path";
 import fetch from "isomorphic-fetch";
 import queryString from 'query-string';
 
+import common from '../_common/actions';
+
 import Scope from '../../data/Scope';
 
 const TTL = 5;
 
 // ============ creators ===========
 
-function add(scopes) {
-	return dispatch => {
-		if (!_.isArray(scopes)) scopes = [scopes];
-		dispatch(actionAdd(scopes));
-	};
-}
 function setActiveScopeKey(key) {
 	return dispatch => {
 		dispatch(actionSetActiveScopeKey(key));
@@ -111,7 +107,7 @@ function actionApiLoadScopesRequestError(error) {
 // ============ export ===========
 
 export default {
-	add: add,
+	add: common.add(actionAdd),
 	apiLoadScopes: apiLoadScopes,
 	setActiveScopeKey: setActiveScopeKey
 }

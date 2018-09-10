@@ -37,7 +37,7 @@ const getGroupsForActiveUser = createSelector(
 	[getActiveKey, UserGroupSelectors.getGroups],
 	(activeUserKey, groups) => {
 		return _.filter(groups, (group) => {
-			return _.find(group.users, (user) => {return user === activeUserKey});
+			return (_.find(group.users, (user) => {return user === activeUserKey})) || group.key === 2;
 		});
 	}
 );
