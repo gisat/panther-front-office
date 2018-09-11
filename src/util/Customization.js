@@ -165,6 +165,7 @@ class Customization {
         var user = this._stateStore.current().user;
         var scope = this._stateStore.current().scope;
 		var scopeSelectionSwitchBtn = $("#scope-selection-switch");
+		var sharingButton = $('#top-toolbar-share-view');
         var originalScopeSelectionBtn = $("#overlay-switch");
         var self = this;
 
@@ -174,6 +175,12 @@ class Customization {
         } else {
             originalScopeSelectionBtn.removeClass("open");
 			scopeSelectionSwitchBtn.removeClass("open");
+        }
+
+        if (user && !user.isLoggedIn){
+			sharingButton.css("display", "none");
+        } else {
+			sharingButton.css("display", "inline-block");
         }
 
         this._store.scopes.byId(scope).then(function(scopes){
