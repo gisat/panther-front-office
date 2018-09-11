@@ -327,12 +327,17 @@ class MapStore {
      * @param options {Object} additional options, may be specific per action.
      */
     onEvent(type, options) {
-        let state = this._stateStore.current();
-        let scope = state.scopeFull;
-        let wmsGroup = "wms-layers";
-        if (scope && scope.isMapIndependentOfPeriod) {
-            wmsGroup = "wms-layers-independent";
-        }
+    	let state = null;
+    	let scope = null;
+    	let wmsGroup = "wms-layers";
+    	if (type === "ADD_INFO_LAYERS_BY_SCENARIOS" || type === "REMOVE_INFO_LAYERS_BY_SCENARIOS" || type === "AOI_GEOMETRY_SET" || type === "ADD_WMS_LAYER" || type === "REMOVE_WMS_LAYER"){
+			state = this._stateStore.current();
+			scope = state.scopeFull;
+			if (scope && scope.isMapIndependentOfPeriod) {
+				wmsGroup = "wms-layers-independent";
+			}
+		}
+
 
         if (type === Actions.mapAdd) {
             this.add(options);
