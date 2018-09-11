@@ -33,6 +33,13 @@ const isAdminGroupMember = createSelector(
 	}
 );
 
+const isAdminOrAdminGroupMember = createSelector(
+	[isAdmin, isAdminGroupMember],
+	(isAdmin, isAdminGroupMember) => {
+		return isAdmin || isAdminGroupMember;
+	}
+);
+
 const getGroupsForActiveUser = createSelector(
 	[getActiveKey, UserGroupSelectors.getGroups],
 	(activeUserKey, groups) => {
@@ -103,24 +110,6 @@ const hasActiveUserPermissionToCreate = createSelector(
 	}
 );
 
-const hasActiveUserPermissionToDelete = createCachedSelector(
-	getActiveUser,
-	(state, resourceId) => resourceId,
-	(state, resourceId, resourceType) => resourceType,
-	(user, resourceId, resourceType) => {
-		if (user && user.permissions){
-			let permisson = _.find(user.permissions, (perm) => {
-				let id = perm.resourceId ? Number(perm.resourceId) : (perm.resourceid ? Number(perm.resourceid): null);
-				return id === resourceId && (perm.resourceType === resourceType || perm.resourcetype === resourceType) && perm.permission === "DELETE";
-			});
-			return !!permisson;
-		}
-		return false;
-	}
-)(
-	(state, resourceId, resourceType) => `${resourceId}:${resourceType}`
-);
-
 const isDromasAdmin = state => {
     let isDromasAdmin = false;
     if(state.users && state.users.data && state.users.data.length) {
@@ -153,6 +142,7 @@ const getActiveUserDromasLpisChangeReviewGroup  = createSelector(
 	}
 );
 
+
 export default {
 	getActiveKey: getActiveKey,
 	getActiveUser: getActiveUser,
@@ -164,10 +154,10 @@ export default {
 	groups: groups,
 
 	hasActiveUserPermissionToCreate: hasActiveUserPermissionToCreate,
-	hasActiveUserPermissionToDelete: hasActiveUserPermissionToDelete,
 
 	isAdmin: isAdmin,
 	isAdminGroupMember: isAdminGroupMember,
+	isAdminOrAdminGroupMember: isAdminOrAdminGroupMember,
 	isLoggedIn: isLoggedIn,
 	isDromasAdmin: isDromasAdmin,
 

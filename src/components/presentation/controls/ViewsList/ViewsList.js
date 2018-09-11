@@ -34,6 +34,8 @@ class ViewsList extends React.PureComponent {
 				key={view.key}
 				viewKey={view.key}
 				data={view.data}
+				editable={view.editable}
+				deletable={view.deletable}
 			/>
 		})) : (<div className="no-view-message">{Names.VIEWS_NO_VIEW_FOR_SCOPE}</div>);
 	}
