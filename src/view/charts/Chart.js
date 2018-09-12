@@ -10,7 +10,7 @@ import Uuid from '../../util/Uuid';
 let $ = window.$;
 let Highcharts, Ext, Config, PumaMain;
 class Chart {
-    constructor(options) {
+    constructor(options, selectedAreas) {
         Highcharts = window.Highcharts;
         Ext = window.Ext;
         Config = window.Config;
@@ -26,6 +26,8 @@ class Chart {
         this.rebuild();
 
         this._options.containerComponent.chart = this;
+
+        window.Stores.addListener(this.onEvent.bind(this));
     };
 
     rebuild() {
@@ -33,6 +35,10 @@ class Chart {
     };
 
     destroy() {
+
+    };
+
+    onEvent(){
 
     };
 

@@ -49,6 +49,19 @@ Ext.define('PumaMain.controller.Select', {
         }
         this.task = new Ext.util.DelayedTask();
         this.task.delay(hover ? 100 : 1,this.selectInternal,this,arguments);
+
+
+        if (!window.Charts.selectedAreas){
+			window.Charts.selectedAreas = {};
+        }
+
+		let selectedAreas = areas.map(function(area){return area.gid});
+        if (add && window.Charts.selectedAreas[this.actualColor]){
+			window.Charts.selectedAreas[this.actualColor] = window.Charts.selectedAreas[this.actualColor].concat(selectedAreas);
+        } else {
+			window.Charts.selectedAreas[this.actualColor] = selectedAreas;
+        }
+        window.Stores.notify("selection#selectionChanged");
     },
         
     onToggleHover: function(btn,value) {
@@ -194,7 +207,7 @@ Ext.define('PumaMain.controller.Select', {
             this.fromChart = null;
             this.fromScatterChart = null;
         }
-        this.prevOuterSelect = this.outerSelect
+        this.prevOuterSelect = this.outerSelect;
         this.outerSelect = false;
     },
       
@@ -240,7 +253,7 @@ Ext.define('PumaMain.controller.Select', {
         this.updateCounts();
         this.selectDelayed();
 
-        Stores.notify("selection#activeCleared");
+        Stores.notify("selection#activeCleared", {color: this.actualColor});
         var clearAll = true;
         for (var key in this.selMap){
             if (this.selMap[key].length > 0){

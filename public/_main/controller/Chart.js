@@ -362,7 +362,7 @@ Ext.define('PumaMain.controller.Chart', {
             panel.chart.chart.destroy();
 
             // remove from exchangeParams#Charts
-            Charts = Charts.filter(function (chart) {
+            Charts.data = Charts.data.filter(function (chart) {
                 return chart.chartId !== panel.chart.chart.id;
 			});
         }
@@ -697,11 +697,29 @@ Ext.define('PumaMain.controller.Chart', {
 
 		// D3.js charts:
 		// create new record in exchangeParams
-        Charts.push({
-            chartType: cmp.cfg.type,
-            containerComponent: cmp,
-            backendResponse: response
+
+        let alreadyExists = false;
+        window.Charts.data.forEach(function(chart){
+           if (chart.id === cmp.cfg.chartId){
+               alreadyExists = true;
+           }
         });
+
+        if (!alreadyExists){
+			// remove old chart
+			if (cmp.chart) {
+				cmp.chart.destroy();
+				Ext.Array.erase(Charts.data, Charts.data.findIndex(chart => chart.chartId === cmp.chart.id), 1);
+			}
+            Charts.data.push({
+                chartType: cmp.cfg.type,
+                id: cmp.cfg.chartId,
+                containerComponent: cmp,
+                backendResponse: response
+            });
+
+        }
+
 		// trigger FrontOffice rebuild
         Observer.notify('rebuild');
     },

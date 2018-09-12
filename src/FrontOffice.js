@@ -122,28 +122,26 @@ class FrontOffice {
 
         ThemeYearConfParams.datasetChanged = false;
 
-        window.Charts.forEach(function(exchangeChartData) {
-            let isNew = true;
+        // Require charts to add or remove
+        let toAdd = lodash.differenceWith(window.Charts.data, this._charts, lodash.isEqual);
+		let toRemove = lodash.differenceWith(this._charts, window.Charts.data, lodash.isEqual);
 
-            console.log("this._charts:", self._charts);
+		toAdd.map(chartData => {
+			switch (chartData.chartType) {
+				case "polarchart":
+					chartData.chart = new PolarChart(chartData, window.Charts.selectedAreas);
+					chartData.chartId = chartData.chart.id;
+					this._charts.push(chartData);
+					break;
+				default:
+					console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "FrontOffice", "rebuild", "Unknown chart type (" + chartData.chartType + ")"));
+			}
+        });
 
-            self._charts.forEach(function(chart) {
-                if (exchangeChartData.chartId === chart.chartId) {
-                    isNew = false;
-                }
+		toRemove.map(chartData => {
+            this._charts = lodash.reject(this._charts, (chart) => {
+                return (chart.chartId === chartData.chartId);
             });
-
-            if (isNew) {
-                // TODO here decide which chart
-                switch (exchangeChartData.chartType) {
-                    case "polarchart":
-                        exchangeChartData.chart = new PolarChart(exchangeChartData);
-                        exchangeChartData.chartId = exchangeChartData.chart.id;
-                        break;
-                    default:
-                        console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "FrontOffice", "rebuild", "Unknown chart type (" + exchangeChartData.chartType + ")"));
-                }
-            }
         });
     };
 

@@ -1,4 +1,6 @@
 import {format, select, scaleOrdinal, schemeCategory10, max} from 'd3';
+import _ from "lodash";
+
 import Chart from '../Chart';
 
 var RadarChart = {
@@ -232,34 +234,103 @@ var RadarChart = {
 class PolarChart extends Chart {
     rebuild() {
         var cmp = this._options.containerComponent;
+        this._selectedAreas = _.cloneDeep(window.Charts.selectedAreas);
 
         // get and parse graph data
-        var data = this._options.backendResponse.responseText ? JSON.parse(this._options.backendResponse.responseText).data : null;
+        let data = this.getDataForChart();
+
+        if (data && this._data && _.isEqual(data.categories, this._data.categories)){
+            return;
+        } else {
+            this._data = data;
+			var w = 350,
+				h = 350;
+
+			// var colorscale = d3.scale.category10();
+
+			// Legend titles
+			// var LegendOptions = ['Smartphone','Tablet'];
+
+			// Options for the Radar chart, other than default
+			var chartConfig = {
+				w: w,
+				h: h,
+				// maxValue: 0.6,
+				levels: 10,
+				levelCaptions: false,
+				ExtraWidthX: 210,
+				ExtraWidthY: 32
+			};
 
 
-        var w = 350,
-            h = 350;
-
-        // var colorscale = d3.scale.category10();
-
-        // Legend titles
-        // var LegendOptions = ['Smartphone','Tablet'];
-
-        // Options for the Radar chart, other than default
-        var chartConfig = {
-            w: w,
-            h: h,
-            // maxValue: 0.6,
-            levels: 10,
-            levelCaptions: false,
-            ExtraWidthX: 210,
-            ExtraWidthY: 32
-        };
-
-
-        // Call function to draw the Radar chart
-        RadarChart.draw(cmp.el.dom, data.chartData, chartConfig);
+			// Call function to draw the Radar chart
+            if (data){
+				RadarChart.draw(cmp.el.dom, data.chartData, chartConfig);
+            }
+        }
     };
+
+    getDataForChart(){
+        let allData = this._options.backendResponse.responseText ? JSON.parse(this._options.backendResponse.responseText).data : null;
+        if (!this._selectedAreas || _.isEmpty(this._selectedAreas) || !allData){
+            return allData;
+        } else {
+            let selectedData = {
+                categories: [],
+                chartConfig: allData.chartConfig,
+                chartData: []
+            };
+            allData.categories.map((category, index) => {
+                _.forIn(this._selectedAreas, (areas, color) =>{
+					if (_.includes(areas, category)){
+						selectedData.categories.push(category);
+						selectedData.chartData.push(allData.chartData[index]);
+					}
+                });
+            });
+            return selectedData;
+        }
+    }
+
+    clearAllSelections(){
+		window.Charts.selectedAreas = null;
+		this._selectedAreas = null;
+		this.rebuild();
+    }
+
+	/**
+	 * @param color {String} hex code of a color, which is used as key
+	 */
+	clearSelectionForColor(color){
+		if (window.Charts.selectedAreas){
+		    delete window.Charts.selectedAreas[color];
+        }
+        if (this._selectedAreas){
+			delete this._selectedAreas[color];
+        }
+		this.rebuild();
+	}
+
+    onEvent(type, options){
+        if (type === "selection#everythingCleared"){
+            if (this.isActiveInstance()){
+				this.clearAllSelections();
+            }
+        } else if (type === "selection#activeCleared"){
+			if (this.isActiveInstance()){
+			    this.clearSelectionForColor(options.color);
+			}
+        } else if (type === "selection#selectionChanged"){
+			if (this.isActiveInstance()){
+				this.rebuild();
+			}
+
+        }
+    }
+
+    isActiveInstance(){
+	    return !!_.find(window.Charts.data, (chart) => {return chart.chartId === this.id});
+    }
 }
 
 export default PolarChart;
