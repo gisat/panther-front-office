@@ -235,15 +235,17 @@ Ext.define('PumaMain.controller.Select', {
     },
         
     clearSelectionsAll: function() {
-        this.selMap = {'ff4c39':[]};
-        this.hoverMap = [];
-        this.colorMap = {};
-        this.getController('Area').colourTree(this.colorMap); 
-        this.updateCounts();
-        this.selectDelayed();
+        if (this.hoverMap.length > 0 || !Ext.isEmpty(this.colorMap)){
+			this.selMap = {'ff4c39':[]};
+			this.hoverMap = [];
+			this.colorMap = {};
+			this.getController('Area').colourTree(this.colorMap);
+			this.updateCounts();
+			this.selectDelayed();
 
-        Select.selectedAreasMap = null;
-		Stores.notify("selection#everythingCleared");
+			Select.selectedAreasMap = null;
+			Stores.notify("selection#everythingCleared");
+        }
     },
     clearSelections: function() {
         this.selMap[this.actualColor] = [];

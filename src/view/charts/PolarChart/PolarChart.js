@@ -281,7 +281,9 @@ class PolarChart extends Chart {
                 chartData: []
             };
             allData.categories.map((category, index) => {
+                category = Number(category);
                 _.forIn(this._selectedAreas, (areas, color) =>{
+                    areas = areas.map(area => Number(area));
 					if (_.includes(areas, category)){
 						selectedData.categories.push(category);
 						selectedData.chartData.push(allData.chartData[index]);

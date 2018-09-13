@@ -81,3 +81,6 @@
 #export-xls:before {
     content: "\f1c3";
 }
+#export-shp:before {
+    content: "\f1c6";
+}

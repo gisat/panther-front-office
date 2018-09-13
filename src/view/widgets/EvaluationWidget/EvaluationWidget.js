@@ -135,7 +135,12 @@ class EvaluationWidget extends Widget {
                 if (!options.hasOwnProperty("rebuildFooter") || options.rebuildFooter === true) {
                     self.prepareFooter();
                 }
-                self.rebuildViewAndSettings();
+                if (self._rebuildViewAnSettingsTimeout){
+                    clearTimeout(self._rebuildViewAnSettingsTimeout);
+                }
+                self._rebuildViewAnSettingsTimeout = setTimeout(function(){
+					self.rebuildViewAndSettings();
+                }, 300);
             } else {
                 self.toggleWarning("block", [1, 2]);
                 self.handleLoading("hide");
@@ -236,7 +241,10 @@ class EvaluationWidget extends Widget {
      * @param categories {Object} data about categories
      */
     rebuildInputs(categories) {
-        this._widgetBodySelector.html("");
+		if (this._widgetBodySelector.children()){
+			this._widgetBodySelector.empty();
+		}
+
         this._inputs = {
             checkboxes: [],
             sliders: [],
@@ -372,7 +380,7 @@ class EvaluationWidget extends Widget {
             <div class="widget-button widget-button-export" id="export-xls" disabled="disabled">{{exportToXls}}</div>
         </div>
         <div class="floater-row row-export">
-            <!--<div class="widget-button widget-button-export" id="export-shp" disabled="disabled">{{exportToShp}}</div>-->
+            <div class="widget-button widget-button-export" id="export-shp" disabled="disabled">{{exportToShp}}</div>
             <div class="widget-button widget-button-export" id="export-csv" disabled="disabled">{{exportToCsv}}</div>
         </div>`).template({
             hidden: addCategoryClass,
@@ -432,7 +440,12 @@ class EvaluationWidget extends Widget {
     amount() {
         let self = this;
         this.handleLoading("show");
-        setTimeout(function () {
+
+        if (this._amountTimeout){
+            clearTimeout(this._amountTimeout);
+        }
+
+        this._amountTimeout = setTimeout(function () {
             self._filter.filter(self._categories, "amount").then(function (result) {
                 self.addSelectionConfirmListener(result);
                 self.addCategoryListener();

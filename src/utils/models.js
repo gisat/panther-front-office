@@ -28,8 +28,12 @@ export const replaceIdWithKey = (models) => {
 		return models.map(layer => {
 			let clone = _.cloneDeep(layer);
 			clone.key = clone.key ? clone.key : (clone._id ? clone._id : clone.id);
-			delete clone.id;
-			delete clone._id;
+			if (clone.id){
+				delete clone.id;
+			}
+			if (clone._id){
+				delete clone._id;
+			}
 			return clone;
 		});
 	} else {

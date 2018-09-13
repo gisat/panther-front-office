@@ -721,7 +721,7 @@ Ext.define('PumaMain.controller.Chart', {
         }
 
 		// trigger FrontOffice rebuild
-        Observer.notify('rebuild');
+        window.Stores.notify('chartContainer#rebuild');
     },
 
 	onChartReceived_highcharts: function(response) {

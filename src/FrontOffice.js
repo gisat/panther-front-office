@@ -7,7 +7,6 @@ import ArgumentError from './error/ArgumentError';
 import Logger from './util/Logger';
 import EvaluationWidget from './view/widgets/EvaluationWidget/EvaluationWidget';
 
-import PolarChart from './view/charts/PolarChart/PolarChart';
 import WorldWind from '@nasaworldwind/worldwind';
 
 let Observer = window.Observer;
@@ -42,7 +41,6 @@ class FrontOffice {
         this._tools = options.tools;
         this._widgets = options.widgets;
         this._store = options.store;
-        this._charts = [];
         this._scopesStore = options.store.scopes;
         this._stateStore = options.store.state;
         this._dispatcher = options.dispatcher;
@@ -121,28 +119,6 @@ class FrontOffice {
         }
 
         ThemeYearConfParams.datasetChanged = false;
-
-        // Require charts to add or remove
-        let toAdd = lodash.differenceWith(window.Charts.data, this._charts, lodash.isEqual);
-		let toRemove = lodash.differenceWith(this._charts, window.Charts.data, lodash.isEqual);
-
-		toAdd.map(chartData => {
-			switch (chartData.chartType) {
-				case "polarchart":
-					chartData.chart = new PolarChart(chartData, window.Charts.selectedAreas);
-					chartData.chartId = chartData.chart.id;
-					this._charts.push(chartData);
-					break;
-				default:
-					console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "FrontOffice", "rebuild", "Unknown chart type (" + chartData.chartType + ")"));
-			}
-        });
-
-		toRemove.map(chartData => {
-            this._charts = lodash.reject(this._charts, (chart) => {
-                return (chart.chartId === chartData.chartId);
-            });
-        });
     };
 
     /**
@@ -160,6 +136,8 @@ class FrontOffice {
         this._widgets.forEach(function(widget){
             widget.rebuild(data, self._options);
         });
+
+		window.Stores.notify('chartContainer#rebuild');
     };
 
     rebuildEvaluationWidget() {
