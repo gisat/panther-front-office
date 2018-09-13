@@ -732,6 +732,14 @@ Ext.define('PumaMain.controller.Chart', {
         if (cmp.chart) {
             try {
                 cmp.chart.destroy();
+				let element = cmp.getEl();
+				if (element && element.dom){
+					$("#" + element.dom.id).find("svg").remove();
+				}
+				window.Charts.data = Charts.data.filter(function (chart) {
+					return cmp.chart ? (chart.chartId !== cmp.chart.id) : true;
+				});
+				window.Stores.notify("chartContainer#rebuild");
             } catch (e) {
                 console.warn('Chart#onChartReceived Not possible to destroy chart. Error: ', e);
             }

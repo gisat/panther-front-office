@@ -34,6 +34,16 @@ var RadarChart = {
         }
         cfg.maxValue = Math.max(cfg.maxValue, max(d, function(i){return max(i.map(function(o){return o.value;}))}));
         var allAxis = (d[0].map(function(i, j){return i.axis}));
+
+        /* Set coefficients for normalized chart */
+        var normalizedAxesMaxima = allAxis.map((val, index) => {
+        	if (options.normalized){
+				return cfg.maxValue/max(d, function(i){return i[index].value});
+			} else {
+        		return 1;
+			}
+        });
+
         var total = allAxis.length;
         var radius = cfg.factor*Math.min(cfg.w/2, cfg.h/2);
         var Format = format(cfg.format);
@@ -125,8 +135,8 @@ var RadarChart = {
             g.selectAll(".nodes")
                 .data(y, function(j, i){
                     dataValues.push([
-                        cfg.w/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*cfg.factor*Math.sin(i*cfg.radians/total)),
-                        cfg.h/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*cfg.factor*Math.cos(i*cfg.radians/total))
+                        cfg.w/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*cfg.factor*normalizedAxesMaxima[i]*Math.sin(i*cfg.radians/total)),
+                        cfg.h/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*cfg.factor*normalizedAxesMaxima[i]*Math.cos(i*cfg.radians/total))
                     ]);
                 });
             dataValues.push(dataValues[0]);
@@ -174,13 +184,13 @@ var RadarChart = {
                 .attr("alt", function(j){return Math.max(j.value, 0)})
                 .attr("cx", function(j, i){
                     dataValues.push([
-                        cfg.w/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*cfg.factor*Math.sin(i*cfg.radians/total)),
-                        cfg.h/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*cfg.factor*Math.cos(i*cfg.radians/total))
+                        cfg.w/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*normalizedAxesMaxima[i]*cfg.factor*Math.sin(i*cfg.radians/total)),
+                        cfg.h/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*normalizedAxesMaxima[i]*cfg.factor*Math.cos(i*cfg.radians/total))
                     ]);
-                    return cfg.w/2*(1-(Math.max(j.value, 0)/cfg.maxValue)*cfg.factor*Math.sin(i*cfg.radians/total));
+                    return cfg.w/2*(1-(Math.max(j.value, 0)/cfg.maxValue)*cfg.factor*normalizedAxesMaxima[i]*Math.sin(i*cfg.radians/total));
                 })
                 .attr("cy", function(j, i){
-                    return cfg.h/2*(1-(Math.max(j.value, 0)/cfg.maxValue)*cfg.factor*Math.cos(i*cfg.radians/total));
+                    return cfg.h/2*(1-(Math.max(j.value, 0)/cfg.maxValue)*cfg.factor*normalizedAxesMaxima[i]*Math.cos(i*cfg.radians/total));
                 })
                 .attr("data-id", function(j){return j.axis})
                 .style("fill", cfg.color(series)).style("fill-opacity", .9)
@@ -259,7 +269,8 @@ class PolarChart extends Chart {
 				levels: 10,
 				levelCaptions: false,
 				ExtraWidthX: 210,
-				ExtraWidthY: 32
+				ExtraWidthY: 32,
+				normalized: cmp.cfg.polarAxesNormalizationSettings ? cmp.cfg.polarAxesNormalizationSettings === "yes" : false
 			};
 
 
@@ -290,7 +301,7 @@ class PolarChart extends Chart {
 					}
                 });
             });
-            return selectedData;
+            return selectedData.categories.length ? selectedData : allData;
         }
     }
 
