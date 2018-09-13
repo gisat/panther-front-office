@@ -136,7 +136,7 @@ Ext.define('PumaMain.view.ConfigForm', {
 				store: Ext.StoreMgr.lookup('normalization4polarchart'),
 				fieldLabel: polyglot.t('normalization'),
 				valueField: 'type',
-				value: 'no',
+				value: 'yes',
 				width: 500,
 				name: 'polarAxesNormalizationSettings',
 				itemId: 'polarAxesNormalizationSettings',
