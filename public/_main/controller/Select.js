@@ -57,7 +57,8 @@ Ext.define('PumaMain.controller.Select', {
 
 		let selectedAreas = areas.map(function(area){return area.gid});
         if (add && window.Charts.selectedAreas[this.actualColor]){
-			window.Charts.selectedAreas[this.actualColor] = window.Charts.selectedAreas[this.actualColor].concat(selectedAreas);
+            let oldAreas = window.Charts.selectedAreas[this.actualColor];
+			window.Charts.selectedAreas[this.actualColor] = Ext.Array.difference(Ext.Array.merge(oldAreas, selectedAreas), Ext.Array.intersect(oldAreas, selectedAreas));
         } else {
 			window.Charts.selectedAreas[this.actualColor] = selectedAreas;
         }
