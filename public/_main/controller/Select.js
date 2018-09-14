@@ -55,13 +55,15 @@ Ext.define('PumaMain.controller.Select', {
 			window.Charts.selectedAreas = {};
         }
 
-		let selectedAreas = areas.map(function(area){return area.gid});
+		var selectedAreas = areas.map(function(area){return area.gid});
+
         if (add && window.Charts.selectedAreas[this.actualColor]){
             let oldAreas = window.Charts.selectedAreas[this.actualColor];
 			window.Charts.selectedAreas[this.actualColor] = Ext.Array.difference(Ext.Array.merge(oldAreas, selectedAreas), Ext.Array.intersect(oldAreas, selectedAreas));
         } else {
 			window.Charts.selectedAreas[this.actualColor] = selectedAreas;
         }
+
         window.Stores.notify("selection#selectionChanged");
     },
         
@@ -214,9 +216,9 @@ Ext.define('PumaMain.controller.Select', {
       
     // taken from Ext.Array
     arrDifference: function(arrayA, arrayB) {
-        var clone = Ext.Array.slice(arrayA,0),
-                ln = clone.length,
-                i, j, lnB;
+        var clone = arrayA ? Ext.Array.slice(arrayA,0) : [];
+        var ln = clone.length,
+            i, j, lnB;
         for (i = 0, lnB = arrayB.length; i < lnB; i++) {
             for (j = 0; j < ln; j++) {
                 //if (clone[j] === arrayB[i]) {

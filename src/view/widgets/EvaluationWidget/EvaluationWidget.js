@@ -424,7 +424,7 @@ class EvaluationWidget extends Widget {
                             areasToSelect.push(unit);
                         });
 
-                        Select.select(areasToSelect, true, false);
+                        Select.select(areasToSelect, false, false);
                         Select.colourMap(Select.selectedAreasMap);
                     }
                     $('#evaluation-unselect').attr("disabled", false);

@@ -38,7 +38,8 @@ var RadarChart = {
         /* Set coefficients for normalized chart */
         var normalizedAxesMaxima = allAxis.map((val, index) => {
         	if (options.normalized){
-				return cfg.maxValue/max(d, function(i){return i[index].value});
+        		let maximum = max(d, function(i){return i[index].value});
+				return maximum ? cfg.maxValue/maximum : 0;
 			} else {
         		return 1;
 			}
@@ -242,49 +243,51 @@ var RadarChart = {
 };
 
 class PolarChart extends Chart {
-    rebuild() {
-        var cmp = this._options.containerComponent;
+    rebuild(newData) {
+        var cmp = this.containerComponent;
+
+		// get selected areas
         this._selectedAreas = _.cloneDeep(window.Charts.selectedAreas);
 
         // get and parse graph data
-        let data = this.getDataForChart();
+        let data = this.getDataForChart(newData);
 
-        if (data && this._data && _.isEqual(data.categories, this._data.categories)){
-            return;
-        } else {
-            this._data = data;
-			var w = 350,
-				h = 350;
+		var w = 350,
+			h = 350;
 
-			// var colorscale = d3.scale.category10();
+		// var colorscale = d3.scale.category10();
 
-			// Legend titles
-			// var LegendOptions = ['Smartphone','Tablet'];
+		// Legend titles
+		// var LegendOptions = ['Smartphone','Tablet'];
 
-			// Options for the Radar chart, other than default
-			var chartConfig = {
-				w: w,
-				h: h,
-				// maxValue: 0.6,
-				levels: 10,
-				levelCaptions: false,
-				ExtraWidthX: 210,
-				ExtraWidthY: 32,
-				normalized: cmp.cfg.polarAxesNormalizationSettings ? cmp.cfg.polarAxesNormalizationSettings === "yes" : false
-			};
+		// Options for the Radar chart, other than default
+		var chartConfig = {
+			w: w,
+			h: h,
+			// maxValue: 0.6,
+			levels: 10,
+			levelCaptions: false,
+			ExtraWidthX: 210,
+			ExtraWidthY: 32,
+			normalized: cmp.cfg.polarAxesNormalizationSettings ? cmp.cfg.polarAxesNormalizationSettings === "yes" : false
+		};
 
 
-			// Call function to draw the Radar chart
-            if (data){
-				RadarChart.draw(cmp.el.dom, data.chartData, chartConfig);
-            }
-        }
+		// Call function to draw the Radar chart
+		if (data && cmp.el){
+			RadarChart.draw(cmp.el.dom, data.chartData, chartConfig);
+		} else {
+			console.error("PolarChart#rebuild: No data!")
+		}
     };
 
-    getDataForChart(){
-        let allData = this._options.backendResponse.responseText ? JSON.parse(this._options.backendResponse.responseText).data : null;
+    getDataForChart(newData){
+        let allData = newData ? newData : this._allData;
+        if (allData){
+			this._allData = allData;
+		}
         if (!this._selectedAreas || _.isEmpty(this._selectedAreas) || !allData){
-            return allData;
+            return  allData;
         } else {
             let selectedData = {
                 categories: [],
@@ -292,10 +295,10 @@ class PolarChart extends Chart {
                 chartData: []
             };
             allData.categories.map((category, index) => {
-                category = Number(category);
+                let gid = category.gid.toString();
                 _.forIn(this._selectedAreas, (areas, color) =>{
-                    areas = areas.map(area => Number(area));
-					if (_.includes(areas, category)){
+                    areas = areas.map(area => area.toString());
+					if (_.includes(areas, gid)){
 						selectedData.categories.push(category);
 						selectedData.chartData.push(allData.chartData[index]);
 					}
@@ -326,23 +329,16 @@ class PolarChart extends Chart {
 
     onEvent(type, options){
         if (type === "selection#everythingCleared"){
-            if (this.isActiveInstance()){
-				this.clearAllSelections();
-            }
+        	this.clearAllSelections();
         } else if (type === "selection#activeCleared"){
-			if (this.isActiveInstance()){
-			    this.clearSelectionForColor(options.color);
-			}
+        	this.clearSelectionForColor(options.color);
         } else if (type === "selection#selectionChanged"){
-			if (this.isActiveInstance()){
-				this.rebuild();
+			this.rebuild();
+        } else if (type === "polarChart#rebuildWithData"){
+        	if (this.id === options.id){
+				this.rebuild(options.data);
 			}
-
-        }
-    }
-
-    isActiveInstance(){
-	    return !!_.find(window.Charts.data, (chart) => {return chart.chartId === this.id});
+		}
     }
 }
 

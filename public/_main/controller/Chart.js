@@ -362,9 +362,9 @@ Ext.define('PumaMain.controller.Chart', {
             panel.chart.chart.destroy();
 
             // remove from exchangeParams#Charts
-            Charts.data = Charts.data.filter(function (chart) {
-                return chart.chartId !== panel.chart.chart.id;
-			});
+            if (panel.chart.chart.id){
+                delete window.Charts.polar[panel.chart.chart.id];
+            }
         }
         panel.destroy();
     },
@@ -698,30 +698,35 @@ Ext.define('PumaMain.controller.Chart', {
 		// D3.js charts:
 		// create new record in exchangeParams
 
-        let alreadyExists = false;
-        window.Charts.data.forEach(function(chart){
-           if (chart.id === cmp.cfg.chartId){
-               alreadyExists = true;
-           }
-        });
 
-        if (!alreadyExists){
-			// remove old chart
-			if (cmp.chart) {
-				cmp.chart.destroy();
-				Ext.Array.erase(Charts.data, Charts.data.findIndex(chart => chart.chartId === cmp.chart.id), 1);
+        // todo check if exists, if not -> add
+        // todo if yes -> rebuild with data
+
+        var chartType = cmp && cmp.cfg ? cmp.cfg.type : null;
+
+		if (chartType === "polarchart"){
+		    var chartUuid = cmp.chart ? cmp.chart.id : null;
+		    var alreadyExists = !!window.Charts.polar[chartUuid];
+			var data = response.responseText ? JSON.parse(response.responseText).data : null;
+
+		    if (!alreadyExists){
+		        // destroy another type of chart
+		        if (cmp.chart){
+		            cmp.chart.destroy();
+                }
+				window.Stores.notify("chartContainer#addPolarChart", {
+					containerComponent: cmp
+				});
+            }
+
+			if (data && !data.noData){
+			    // at this point, we have cmp.chart again
+				window.Stores.notify("polarChart#rebuildWithData", {
+				    id: cmp.chart.id,
+				    data: data
+				});
 			}
-            Charts.data.push({
-                chartType: cmp.cfg.type,
-                id: cmp.cfg.chartId,
-                containerComponent: cmp,
-                backendResponse: response
-            });
-
         }
-
-		// trigger FrontOffice rebuild
-        window.Stores.notify('chartContainer#rebuild');
     },
 
 	onChartReceived_highcharts: function(response) {
@@ -732,14 +737,14 @@ Ext.define('PumaMain.controller.Chart', {
         if (cmp.chart) {
             try {
                 cmp.chart.destroy();
-				let element = cmp.getEl();
-				if (element && element.dom){
-					$("#" + element.dom.id).find("svg").remove();
-				}
-				window.Charts.data = Charts.data.filter(function (chart) {
-					return cmp.chart ? (chart.chartId !== cmp.chart.id) : true;
-				});
-				window.Stores.notify("chartContainer#rebuild");
+				if (window.Charts.polar[cmp.chart.id]){
+					let element = cmp.getEl();
+					if (element && element.dom){
+						$("#" + element.dom.id).find("svg").remove();
+					}
+				    cmp.chart = null;
+					delete window.Charts.polar[cmp.chart.id];
+                }
             } catch (e) {
                 console.warn('Chart#onChartReceived Not possible to destroy chart. Error: ', e);
             }

@@ -201,12 +201,13 @@ var Widgets = {
 };
 
 /**
- * This global array contains charts as objects of chartId, containerComponent, backendResponse and ... TODO
- * TODO Change this to a store?
+ * This global array contains charts as objects - intended for D3 charts
  */
 var Charts = {
-	data: [],
-	selectedAreas: {}
+	polar: {},
+	selectedAreas: {},
+
+	data: [], //will be removed
 };
 
 

@@ -136,8 +136,6 @@ class FrontOffice {
         this._widgets.forEach(function(widget){
             widget.rebuild(data, self._options);
         });
-
-		window.Stores.notify('chartContainer#rebuild');
     };
 
     rebuildEvaluationWidget() {

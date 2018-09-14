@@ -10,7 +10,7 @@ import Uuid from '../../util/Uuid';
 let $ = window.$;
 let Highcharts, Ext, Config, PumaMain;
 class Chart {
-    constructor(options, selectedAreas) {
+    constructor(options) {
         Highcharts = window.Highcharts;
         Ext = window.Ext;
         Config = window.Config;
@@ -18,14 +18,10 @@ class Chart {
         if (!options) {
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Chart", "constructor", "missingOptions"));
         }
-        this._options = options;
 
         this.id = new Uuid().generate();
-        this.renderTo = this._options.containerComponent.el.dom;
-
-        this.rebuild();
-
-        this._options.containerComponent.chart = this;
+        this.containerComponent = options.containerComponent;
+        this.renderTo = this.containerComponent.el.dom;
 
         window.Stores.addListener(this.onEvent.bind(this));
     };
