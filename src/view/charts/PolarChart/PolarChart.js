@@ -18,7 +18,7 @@ var RadarChart = {
             radians: 2 * Math.PI,
             opacityArea: 0.5,
             ToRight: 5,
-            TranslateX: 80,
+            TranslateX: 100,
             TranslateY: 30,
             ExtraWidthX: 100,
             ExtraWidthY: 100,
@@ -268,13 +268,20 @@ class PolarChart extends Chart {
 			levels: 10,
 			levelCaptions: false,
 			ExtraWidthX: 210,
-			ExtraWidthY: 32,
+			ExtraWidthY: 0,
 			normalized: cmp.cfg.polarAxesNormalizationSettings ? cmp.cfg.polarAxesNormalizationSettings === "yes" : false
 		};
 
 
 		// Call function to draw the Radar chart
 		if (data && cmp.el){
+
+			// according to the number of columns(axes), set the height of chart
+			var numberOfAxes = data.chartData && data.chartData[0] ? data.chartData[0].length : 0;
+			if (numberOfAxes > 3){
+				chartConfig.ExtraWidthY = 60;
+			}
+
 			RadarChart.draw(cmp.el.dom, data.chartData, chartConfig);
 		} else {
 			console.error("PolarChart#rebuild: No data!")

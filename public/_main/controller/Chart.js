@@ -710,7 +710,7 @@ Ext.define('PumaMain.controller.Chart', {
 			var data = response.responseText ? JSON.parse(response.responseText).data : null;
 
 		    if (!alreadyExists){
-		        // destroy another type of chart
+		        // destroy another type of chart in this panel
 		        if (cmp.chart){
 		            cmp.chart.destroy();
                 }
@@ -725,6 +725,14 @@ Ext.define('PumaMain.controller.Chart', {
 				    id: cmp.chart.id,
 				    data: data
 				});
+
+				// according to the number of columns(axes), set the height of chart panel
+				var numberOfAxes = data.chartData && data.chartData[0] ? data.chartData[0].length : 0;
+				if (numberOfAxes > 3){
+					cmp.ownerCt.setHeight(450);
+				} else {
+					cmp.ownerCt.setHeight(390);
+				}
 			}
         }
     },
@@ -959,6 +967,12 @@ Ext.define('PumaMain.controller.Chart', {
                 }
             }
         }
+
+        if (cmp.cfg.type === 'columnchart'){
+			cmp.ownerCt.setHeight(450);
+		} else {
+			cmp.ownerCt.setHeight(400);
+		}
 
         data.exporting = {
             enabled: false
