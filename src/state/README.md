@@ -57,20 +57,90 @@ In Store.js, individiual stores are combined into redux store, using the followi
 
 Store.js also intializes [subscribers](../subscribers/README.md) - connecting new redux state with old code
 
-#### Initial state for metadata
+#### Basic state structure for data types
+
+If a store deals with more independent data types, it should be split into nested stores.
 
 ```js
-const INITIAL_STATE = {
-  activeKey: null,
-  activeKeys: null, //Array
-  data: null, //Main data collection
-  editedData: null, //Collection with changes in data or new objects
+STATE = {
+  activeKey: 1548,
+  activeKeys: null,
+  byKey: {
+    1548: {
+      key: 1548,
+      data: {
+        name: 'Current name on server',
+        property: 'value',
+        boolean: true
+      },
+      fetchedOn: '2018-09-17T13:45:03'
+    }
+  },
+  count: 59,
+  editedByKey: {
+    1548: {
+      key: 1548,
+      data: {
+        name: 'Unsaved new name'
+      }
+    },
+    a7e0a6d6-3dd5-a6ff-23ca-ef00e5843e22: {
+      key: "a7e0a6d6-3dd5-a6ff-23ca-ef00e5843e22",
+      data: {
+        name: 'Unsaved locally created object',
+        property: 'something',
+        boolean: false
+      }
+    }
+  },
   loading: false,
-  loadingKeys: null //Array of keys currently being loaded
+  loadingKeys: [2563, 2564, 2568, 2980, 6354, 6355, 6358, 6399, 6667, 7008],
+  indexes: [
+    {
+      properties: [['date','descending'], ['name', 'ascending']],
+      index: [2588, 3214, 4587, 1548, 5689, 7412, 7451, 4589, 7411, 1564, null, null, null, null, null, 9874, 7415, 8989, 1532, 2589]
+    }
+  ]
 };
 ```
 
-If metadata store contains more independent data types it should be split into nested stores.
+##### activeKey / activeKeys
+
+If an object is selected application-wide, its key is saved to *activeKey*. If more objects **can** be selected (but not neccessarily are), *activeKeys* is used.
+
+##### byKey
+
+The main data store
+
+##### count
+
+Total number of existing objects (given by server).
+
+##### editedByKey
+
+Unsaved changes (objects with key present in *byKey*) and newly created objects.
+
+##### loading / loadingKeys
+
+Indicators of running fetching process.
+<!-- todo should we use standard 'isFetching'?  -->
+
+##### indexes
+
+```js
+indexes: [
+  {
+    properties: [['date','descending'], ['name', 'ascending']],
+    index: [2588, 3214, 4587, 1548, 5689, 7412, 7451, 4589, 7411, 1564, undefined, undefined, undefined, undefined, undefined, 9874, 7415, 8989, 1532, 2589]
+  }
+]
+```
+
+Indexes for sorting data.
+The ordering is done on server, the local index contains keys where known. Can be seen as object with position as key and object key as value.
+In the example above, pages with 5 objects each were used, and the first, second and fourth page were loaded from server.
+<!-- todo placing local objects in order - in selectors? -->
+<!-- todo do we need more complicated sorting functions? -->
 
 #### Reducers
 
@@ -80,8 +150,9 @@ Reducers are just atomic operations.
 
 ### Selectors
 Data in stores is accessed by selectors only.
-
-Reselect and re-reselect are used for memoization.
+- For accessing part of the store as is, simple arrow functions are used.
+- For most simple transforms, we use [reselect] selectors (single last call memoization).
+- For selectors routinely called with alternating parameters, where there is need for memoization based on the alternating values, [re-reselect] selectors are used.
 
 Common selectors are in [_common/selectors.js](./_common/selectors.js).
 
@@ -91,8 +162,59 @@ Common actions are in [_common/actions.js](./_common/actions.js).
 
 ## Stores
 
-### Application data
+### Application state
 
-### Metadata
+#### Components
+
+#### Maps
+
+#### Messages
+
+### Standard Metadata types
+
+#### Attributes & attribute sets
+
+#### Areas & area selections
+
+#### Layer templates
+
+#### Periods
+
+#### Places
+
+#### Scenarios & scenario cases
+
+#### Scopes
+
+#### Styles
+
+#### Users & groups
+
+#### Views
+
+### Data & relational stores
+
+#### Spatial data sources
+
+#### Spatial relations
+
+#### Attribute data sources
+
+#### Attribute relations
+
+### Special data types
+
+#### LPIS Cases
+
+### Other
+<!--- todo better name -->
+
+#### Layer periods
+
+### Deprecated
+
+#### WMS layers
+
+Until implemented in spatial data sources and converted
 
 
