@@ -14,7 +14,7 @@ let state = {
 		}
 	},
 	scopes: {
-		activeScopeKey: 3971,
+		activeKey: 3971,
 		data: [{
 			key: 3971,
 			configuration: {"pucsLandUseScenarios":{"templates":{"sourceVector":3332,"sourceRaster":4090,"uhi":4091,"hwd":4092}}}
