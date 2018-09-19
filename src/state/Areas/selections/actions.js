@@ -6,6 +6,13 @@ import utils from '../../../utils/utils'
 
 import common from '../../_common/actions';
 
+function update(data) {
+	return (dispatch) => {
+		if (!_.isArray(data)) data = [data];
+		dispatch(actionUpdate(data));
+	}
+}
+
 function updateSelectionByColour(colour, attributeFilter) {
 	return (dispatch, getState) => {
 		let selectionForColour = Select.areas.selections.getSelectionByColour(getState(), colour);
@@ -17,8 +24,7 @@ function updateSelectionByColour(colour, attributeFilter) {
 					}
 				}
 			};
-			// TODO what about this construct?
-			dispatch(common.update(actionUpdate)(updatedSelection));
+			dispatch(update(updatedSelection));
 		} else {
 			let newSelection = {
 				key: utils.guid(),
@@ -29,7 +35,6 @@ function updateSelectionByColour(colour, attributeFilter) {
 					}
 				}
 			};
-			// TODO what about this construct?
 			dispatch(common.add(actionAdd)(newSelection));
 		}
 	};

@@ -59,14 +59,5 @@ export default {
 		}
 	},
 
-	update: (action) => {
-		return (data) => {
-			return (dispatch) => {
-				if (!_.isArray(data)) data = [data];
-				dispatch(action(data));
-			}
-		}
-	},
-
 	request: request
 }
