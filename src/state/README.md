@@ -5,11 +5,17 @@ Panther uses redux store to store data. Internally, the state is organized by da
 * [Working with state](#working-with-state)
 * [Structure](#structure)
   * [State & reducers](#state-&-reducers)
+    * [Basic state structure for data types](#basic-state-structure-for-data-types)
+    * [Reducers](#reducers)
   * [Selectors](#selectors)
   * [Actions](#actions)
 * [Stores](#stores)
-  * [Application data](#application-data)
-  * [Metadata](#metadata)
+  * [Application state](#application-state)
+  * [Standard metadata types](#standard-metadata-types)
+  * [Data & relational stores](#data-&-relational-stores)
+  * [Special data types](#special-data-types)
+  * [Other](#other)
+  * [Deprecated](#deprecated)
 
 
 ## Working with state
@@ -84,7 +90,7 @@ STATE = {
         name: 'Unsaved new name'
       }
     },
-    a7e0a6d6-3dd5-a6ff-23ca-ef00e5843e22: {
+    'a7e0a6d6-3dd5-a6ff-23ca-ef00e5843e22': {
       key: "a7e0a6d6-3dd5-a6ff-23ca-ef00e5843e22",
       data: {
         name: 'Unsaved locally created object',
@@ -98,7 +104,7 @@ STATE = {
   indexes: [
     {
       properties: [['date','descending'], ['name', 'ascending']],
-      index: [2588, 3214, 4587, 1548, 5689, 7412, 7451, 4589, 7411, 1564, null, null, null, null, null, 9874, 7415, 8989, 1532, 2589]
+      index: {1: 2588, 2: 3214, 3: 4587, 4: 1548, 5: 5689, 6: 7412, 7: 7451, 8: 4589, 9: 7411, 10: 1564, 16: 9874, 17: 7415, 18: 8989, 19: 1532, 20: 2589}
     }
   ]
 };
@@ -131,13 +137,31 @@ Indicators of running fetching process.
 indexes: [
   {
     properties: [['date','descending'], ['name', 'ascending']],
-    index: [2588, 3214, 4587, 1548, 5689, 7412, 7451, 4589, 7411, 1564, undefined, undefined, undefined, undefined, undefined, 9874, 7415, 8989, 1532, 2589]
+    index: {
+      1: 2588, 
+      2: 3214, 
+      3: 4587,
+      4: 1548, 
+      5: 5689, 
+      6: 7412, 
+      7: 7451, 
+      8: 4589, 
+      9: 7411, 
+      10: 1564, 
+      16: 9874, 
+      17: 7415, 
+      18: 8989, 
+      19: 1532, 
+      20: 2589
+    }
+    // = index: [undefined, 2588, 3214, 4587, 1548, 5689, 7412, 7451, 4589, 7411, 1564, undefined, undefined, undefined, undefined, undefined, 9874, 7415, 8989, 1532, 2589]
   }
 ]
 ```
 
 Indexes for sorting data.
-The ordering is done on server, the local index contains keys where known. Can be seen as object with position as key and object key as value.
+The ordering is done on server, the local index contains keys for positions that were already loaded. Can be seen as object with position as key and object key as value.
+
 In the example above, pages with 5 objects each were used, and the first, second and fourth page were loaded from server.
 <!-- todo placing local objects in order - in selectors? -->
 <!-- todo do we need more complicated sorting functions? -->
