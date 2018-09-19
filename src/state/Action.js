@@ -1,6 +1,7 @@
 import ActionTypes from '../constants/ActionTypes';
 
 import AOI from './AOI/actions';
+import Areas from './Areas/actions';
 import Attributes from './Attributes/actions';
 import AttributeSets from './AttributeSets/actions';
 import Components from './Components/actions';
@@ -22,6 +23,7 @@ import WmsLayers from './WmsLayers/actions';
 export default {
 
 	aoi: AOI,
+	areas: Areas,
 	attributes: Attributes,
 	attributeSets: AttributeSets,
 	components: Components,

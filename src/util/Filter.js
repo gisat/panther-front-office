@@ -1,5 +1,6 @@
 
 import _ from 'underscore';
+import lodash from 'lodash';
 
 import Actions from '../actions/Actions';
 import ArgumentError from '../error/ArgumentError';
@@ -8,6 +9,7 @@ import Logger from './Logger';
 
 let OneLevelAreas = window.OneLevelAreas;
 let Config = window.Config;
+let Select = window.Select;
 let ThemeYearConfParams = window.ThemeYearConfParams;
 
 /**
@@ -42,6 +44,7 @@ class Filter {
     filter(categories, type) {
         let params = this.prepareParams();
         let attributes = this.getAttributesFromCategories(categories);
+        this._updateReduxState(attributes);
 
         if (OneLevelAreas.hasOneLevel && type === 'filter') {
             let rgbColor = $('.x-color-picker .x-color-picker-selected span').css('background-color');
@@ -156,6 +159,7 @@ class Filter {
                     let attribute = categories[key].attrData;
                     let selector = "#input-as-" + attribute.about.attributeSet + "-attr-" + attribute.about.attribute;
                     let values;
+                    let multioptions = false;
                     if (attribute.about.attributeType === "boolean") {
                         let checkboxEl = $(selector);
                         values = checkboxEl.hasClass("checked");
@@ -164,6 +168,7 @@ class Filter {
                         let selectEl = $(selector);
                         if (categories[key].multioptions) {
                             values = [];
+                            multioptions = true;
                             $(selector + " > label").each(function () {
                                 let label = $(this);
                                 if (label.hasClass("ui-state-active") && label.hasClass("label-multiselect-option")) {
@@ -200,6 +205,9 @@ class Filter {
                         attributeSet: attribute.about.attributeSet,
                         value: values
                     };
+                    if (multioptions){
+                        attr.multioptions = true;
+                    }
                     attributes.push(attr);
                 }
             }
@@ -218,6 +226,31 @@ class Filter {
             return attribute.attributeType === "numeric";
         });
     };
+
+
+	_updateReduxState(attributes){
+		let attributeFilter = attributes.map((attribute) => {
+			let type = attribute.attributeType;
+			let filter = {
+				attribute: attribute.attribute,
+				attributeSet: attribute.attributeSet,
+				attributeType: type
+			};
+			if (type === 'numeric'){
+				filter.intervals = attribute.value;
+			} else if (type === 'text'){
+				filter.values = attribute.value;
+				if (attribute.multioptions){
+				    filter.multioptions = true;
+                }
+			}
+			return filter;
+        });
+		window.Stores.notify("SELECTIONS_FILTER_UPDATE_BY_COLOUR", {
+		    colour: Select.actualColor,
+            attributeFilter: attributeFilter
+        });
+	}
 }
 
 export default Filter;

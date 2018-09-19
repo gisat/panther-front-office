@@ -1,4 +1,5 @@
 import aoi from './aoi';
+import areas from './areas';
 import attributes from './attributes';
 import attributeSets from './attributeSets';
 import components from './components';
@@ -17,6 +18,7 @@ import wmsLayers from './wmsLayers';
 export default store => {
 	console.log('Create subscribers', store);
 	aoi(store);
+	areas(store);
 	attributes(store);
 	attributeSets(store);
 	components(store);

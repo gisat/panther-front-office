@@ -1,4 +1,5 @@
 import Aoi from './AOI/selectors';
+import Areas from './Areas/selectors';
 import Attributes from './Attributes/selectors';
 import AttributeSets from './AttributeSets/selectors';
 import Components from './Components/selectors';
@@ -20,6 +21,7 @@ import WmsLayers from './WmsLayers/selectors';
 
 export default {
 	aoi: Aoi,
+	areas: Areas,
 	attributes: Attributes,
 	attributeSets: AttributeSets,
 	components: Components,
