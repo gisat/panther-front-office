@@ -13,6 +13,34 @@ function update(data) {
 	}
 }
 
+function addActiveKeyByColour(colour) {
+	return (dispatch, getState) => {
+		let selectionForColour = Select.areas.selections.getSelectionByColour(getState(), colour);
+		let activeKeys = Select.areas.selections.getActiveKeys(getState());
+		if (selectionForColour){
+			let keys = activeKeys ? [...activeKeys, selectionForColour.key] : [selectionForColour.key];
+			dispatch(actionSetActiveKeys(keys));
+		}
+	};
+}
+
+function removeActiveKeyByColour(colour) {
+	return (dispatch, getState) => {
+		let selectionForColour = Select.areas.selections.getSelectionByColour(getState(), colour);
+		let activeKeys = Select.areas.selections.getActiveKeys(getState());
+		if (selectionForColour){
+			let newKeys = _.reject(activeKeys, (key) => {return key === selectionForColour.key});
+			dispatch(actionSetActiveKeys(newKeys));
+		}
+	};
+}
+
+function setActiveKeys(keys) {
+	return (dispatch) => {
+		dispatch(actionSetActiveKeys(keys));
+	}
+}
+
 function updateSelectionByColour(colour, attributeFilter) {
 	return (dispatch, getState) => {
 		let selectionForColour = Select.areas.selections.getSelectionByColour(getState(), colour);
@@ -49,6 +77,13 @@ function actionAdd(selections){
 	}
 }
 
+function actionSetActiveKeys(keys){
+	return {
+		type: ActionTypes.AREAS_SELECTIONS_SET_ACTIVE_MULTIPLE,
+		keys: keys
+	}
+}
+
 function actionUpdate(selections){
 	return {
 		type: ActionTypes.AREAS_SELECTIONS_UPDATE,
@@ -60,5 +95,8 @@ function actionUpdate(selections){
 // ============ export ===========
 
 export default {
+	addActiveKeyByColour: addActiveKeyByColour,
+	removeActiveKeyByColour: removeActiveKeyByColour,
+	setActiveKeys: setActiveKeys,
 	updateSelectionByColour: updateSelectionByColour
 }

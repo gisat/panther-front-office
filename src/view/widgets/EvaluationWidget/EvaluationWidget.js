@@ -497,6 +497,7 @@ class EvaluationWidget extends Widget {
                 .on("click.confirm", function () {
                     self.handleLoading("show");
                     self.filter();
+                    window.Stores.notify("SELECTIONS_ADD_ACTIVE_BY_COLOUR", {colour: Select.actualColor});
                     if (!OneLevelAreas.hasOneLevel) {
                         $(this).attr("disabled", true);
                     }

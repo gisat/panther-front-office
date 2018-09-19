@@ -22,6 +22,8 @@ export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.AREAS_SELECTIONS_ADD:
 			return common.addByKey(state, action);
+		case ActionTypes.AREAS_SELECTIONS_SET_ACTIVE_MULTIPLE:
+			return common.setActiveMultiple(state, action);
 		case ActionTypes.AREAS_SELECTIONS_UPDATE:
 			return update(state, action);
 		default:

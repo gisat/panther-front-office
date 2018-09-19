@@ -23,5 +23,9 @@ export default {
 			});
 		}
 		return {...state, byKey: newData}
+	},
+
+	setActiveMultiple: (state, action) => {
+		return {...state, activeKeys: action.keys, activeKey: null};
 	}
 }

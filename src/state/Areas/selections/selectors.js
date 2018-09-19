@@ -5,6 +5,7 @@ import common from "../../_common/selectors";
 
 const getSubstate = state => state.areas.selections;
 const getAll = common.getAll(getSubstate);
+const getActiveKeys = state => state.areas.selections.activeKeys;
 
 const getSelectionByColour = createCachedSelector(
 	getAll,
@@ -27,6 +28,7 @@ const getSelectionByColourAttributeFilter = createSelector(
 );
 
 export default {
+	getActiveKeys,
 	getSelectionByColour,
 	getSelectionByColourAttributeFilter
 };

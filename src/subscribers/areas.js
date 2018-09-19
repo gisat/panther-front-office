@@ -13,6 +13,15 @@ const setEventListeners = store => {
 			case 'SELECTIONS_FILTER_UPDATE_BY_COLOUR':
 				store.dispatch(Action.areas.selections.updateSelectionByColour(options.colour, options.attributeFilter));
 				break;
+			case 'SELECTIONS_ADD_ACTIVE_BY_COLOUR':
+				store.dispatch(Action.areas.selections.addActiveKeyByColour(options.colour));
+				break;
+			case 'selection#activeCleared':
+				store.dispatch(Action.areas.selections.removeActiveKeyByColour(options.color));
+				break;
+			case 'selection#everythingCleared':
+				store.dispatch(Action.areas.selections.setActiveKeys(null));
+				break;
 		}
 	});
 };

@@ -72,8 +72,12 @@ class AuLayersPanel extends ThematicLayersPanel {
      * Clear active selection
      */
     clearActiveSelection() {
-		this.rebuildSelectedAreas(this._layers.selected, "selectedareasfilled", Stores.selectedOutlines, true);
-		this.rebuildSelectedAreas(this._layers.selectedAreas, "selectedareas", Stores.selectedAreas, true);
+    	if (Stores.selectedOutlines){
+			this.rebuildSelectedAreas(this._layers.selected, "selectedareasfilled", Stores.selectedOutlines, true);
+		}
+		if (Stores.selectedAreas){
+			this.rebuildSelectedAreas(this._layers.selectedAreas, "selectedareas", Stores.selectedAreas, true);
+		}
     };
 
     /**
