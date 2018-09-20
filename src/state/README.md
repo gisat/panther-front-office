@@ -79,7 +79,7 @@ STATE = {
         property: 'value',
         boolean: true
       },
-      fetchedOn: '2018-09-17T13:45:03'
+      fetchedOn: '2018-09-17T13:45:03Z'
     }
   },
   count: 59,
@@ -99,11 +99,13 @@ STATE = {
       }
     }
   },
+  lastChangedOn: '2018-09-17T13:45:03Z',
   loading: false,
   loadingKeys: [2563, 2564, 2568, 2980, 6354, 6355, 6358, 6399, 6667, 7008],
   indexes: [
     {
-      properties: [['date','descending'], ['name', 'ascending']],
+      order: [['date','descending'], ['name', 'ascending']], // object?
+      filter: null,
       index: {1: 2588, 2: 3214, 3: 4587, 4: 1548, 5: 5689, 6: 7412, 7: 7451, 8: 4589, 9: 7411, 10: 1564, 16: 9874, 17: 7415, 18: 8989, 19: 1532, 20: 2589}
     }
   ]
@@ -126,6 +128,10 @@ Total number of existing objects (given by server).
 
 Unsaved changes (objects with key present in *byKey*) and newly created objects.
 
+##### lastChangedOn
+
+Timestamp of last change of this data type on server. It is used to invalidate indexes.
+
 ##### loading / loadingKeys
 
 Indicators of running fetching process.
@@ -136,7 +142,8 @@ Indicators of running fetching process.
 ```js
 indexes: [
   {
-    properties: [['date','descending'], ['name', 'ascending']],
+    order: [['date','descending'], ['name', 'ascending']],
+    filter: null,
     index: {
       1: 2588, 
       2: 3214, 
