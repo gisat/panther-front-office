@@ -76,7 +76,7 @@ form.basic-form select:focus {
 
 .widget-button[disabled=disabled] {
     pointer-events: none;
-	color: #bbb;
+	color: #aaa;
 	border: 1px solid rgb(204,207,211);
 }
 

@@ -22,6 +22,11 @@ let Observer = window.Observer;
 let ThemeYearConfParams = window.ThemeYearConfParams;
 let ExchangeParams = window.ExchangeParams;
 
+const AREA = polyglot.t("area");
+const AREAS = polyglot.t("areas");
+const SELECT = polyglot.t("select");
+const NO_AREA_SELECTED = polyglot.t("noAreaSelected");
+
 /**
  * @param options {Object}
  * @param options.elementId {String} ID of widget
@@ -371,7 +376,7 @@ class EvaluationWidget extends Widget {
         }
 
         let html = S(`<div class="floater-row footer-buttons">
-            <div class="widget-button hidden" id="evaluation-confirm"></div>
+            <div class="widget-button" id="evaluation-confirm"></div>
             <div class="widget-button" id="evaluation-unselect" disabled="disabled">{{clearSelection}}</div>
             <div class="widget-button secondary {{hidden}}" id="evaluation-add-category" disabled="disabled">{{addCategory}}</div>
         </div>
@@ -384,14 +389,18 @@ class EvaluationWidget extends Widget {
             <div class="widget-button widget-button-export" id="export-csv" disabled="disabled">{{exportToCsv}}</div>
         </div>`).template({
             hidden: addCategoryClass,
-            clearSelection: polyglot.t("clearSelection"),
+            clearSelection: polyglot.t("clearSelectionAll"),
             addCategory: polyglot.t("addCategory"),
             exportToGeoJson: polyglot.t("exportToGeoJson"),
             exportToXls: polyglot.t("exportToXls"),
             exportToShp: polyglot.t("exportToShp"),
             exportToCsv: polyglot.t("exportToCsv")
         }).toString();
+
         this._widgetSelector.find(".floater-footer").html("").append(html);
+
+        this.addSelectButtonListener();
+        this.addUnselectButtonListener();
     };
 
     /**
@@ -427,7 +436,6 @@ class EvaluationWidget extends Widget {
                         Select.select(areasToSelect, false, false);
                         Select.colourMap(Select.selectedAreasMap);
                     }
-                    $('#evaluation-unselect').attr("disabled", false);
                 }
                 self.handleLoading("hide");
             });
@@ -447,7 +455,12 @@ class EvaluationWidget extends Widget {
 
         this._amountTimeout = setTimeout(function () {
             self._filter.filter(self._categories, "amount").then(function (result) {
-                self.addSelectionConfirmListener(result);
+                if (result && result.hasOwnProperty("amount")){
+                    self.handleButtons({
+                        amount: result.amount,
+						enableUnselect: true
+                    });
+                }
                 self.addCategoryListener();
                 self.rebuildPopups(self._inputs.sliders);
                 self.handleLoading("hide");
@@ -468,49 +481,6 @@ class EvaluationWidget extends Widget {
         });
     };
 
-    /**
-     * It adds listener to confirm button. If there is at least one selected area, do the filter
-     * @param amount {Object} Number of currently filtered areas
-     */
-    addSelectionConfirmListener(amount) {
-        let self = this;
-        let count = 0;
-
-        if (Select.selectedAreasMap && Select.selectedAreasMap[Select.actualColor] && Select.selectedAreasMap[Select.actualColor].length > 0) {
-            count = Select.selectedAreasMap[Select.actualColor].length;
-            if (count > 0) {
-                $('#evaluation-confirm').attr("disabled", true);
-                $('#evaluation-unselect').attr("disabled", false);
-            }
-        } else if (amount && amount.hasOwnProperty("amount")) {
-            count = amount.amount;
-        }
-
-        if (count > 0) {
-            let areasName = polyglot.t("areas");
-            if (count === 1) {
-                areasName = polyglot.t("area");
-            }
-            $('#evaluation-confirm').html(polyglot.t("select") + " " + count + " " + areasName)
-                .removeClass("hidden")
-                .off("click.confirm")
-                .on("click.confirm", function () {
-                    self.handleLoading("show");
-                    self.filter();
-                    window.Stores.notify("SELECTIONS_ADD_ACTIVE_BY_COLOUR", {colour: Select.actualColor});
-                    if (!OneLevelAreas.hasOneLevel) {
-                        $(this).attr("disabled", true);
-                    }
-                });
-        }
-        else {
-            $('#evaluation-confirm').html(polyglot.t("noAreaSelected"))
-                .off("click.confirm");
-        }
-
-        self.addUnselectListener();
-    };
-
     addCategoryListener() {
         let self = this;
 
@@ -525,23 +495,6 @@ class EvaluationWidget extends Widget {
                     self._categorize.addCategory(attributes);
                 }, 50);
             });
-    };
-
-    /**
-     * Add listener to unselect button
-     */
-    addUnselectListener() {
-        let self = this;
-        $('#evaluation-unselect').off("click.unselect").on("click.unselect", function () {
-            SelectedAreasExchange.data.data = [];
-            if (OneLevelAreas.hasOneLevel) {
-                self._map.removeLayers();
-                Observer.notify('selectInternal');
-            } else {
-                self._dispatcher.notify("selection#clearAll");
-            }
-            self.resetButtons();
-        });
     };
 
     /**
@@ -724,12 +677,80 @@ class EvaluationWidget extends Widget {
         $("#export-shp, #export-csv, #export-xls, #export-json").attr("disabled", true);
     };
 
+
+    addSelectButtonListener() {
+        let self = this;
+		$('#evaluation-confirm')
+			.off("click.confirm")
+			.on("click.confirm", function () {
+				self.handleLoading("show");
+				self.filter();
+				window.Stores.notify("SELECTIONS_ADD_ACTIVE_BY_COLOUR", {colour: Select.actualColor});
+			});
+    };
+
+	/**
+	 * Add listener to unselect button
+	 */
+	addUnselectButtonListener() {
+		let self = this;
+		$('#evaluation-unselect').off("click.unselect").on("click.unselect", function () {
+			SelectedAreasExchange.data.data = [];
+			if (OneLevelAreas.hasOneLevel) {
+				self._map.removeLayers();
+				Observer.notify('selectInternal');
+			} else {
+				self._dispatcher.notify("selection#clearAll");
+			}
+			self.resetButtons();
+		});
+	};
+
+	/**
+	 * @param options {Object}
+     * @param [options.amount] {number}
+     * @param [options.activeSelection] {string} colour
+     * @param [options.selectedAreasMap] {object}
+     * @param [options.disableSelect] {boolean}
+     * @param [options.enableUnselect] {boolean}
+	 */
+	handleButtons(options) {
+	    let selectButton = $('#evaluation-confirm');
+		let unselectAllButton = $('#evaluation-unselect');
+	    let selectedAreasMap = options.selectedAreasMap;
+	    let activeSelection = options.activeSelection;
+	    let count = 0;
+
+        if (options.amount > -1){
+            count = options.amount;
+        } else if (selectedAreasMap && selectedAreasMap[activeSelection] && selectedAreasMap[activeSelection].length){
+            count = selectedAreasMap[activeSelection].length;
+        } else {
+            count = this._lastFilteredAreasCount;
+        }
+		this._lastFilteredAreasCount = count;
+
+        let content = count ? `${SELECT} ${count} ${count > 1 ? AREAS : AREA}` : `${NO_AREA_SELECTED}`;
+
+        selectButton
+            .html(content)
+            .attr("disabled", !!options.disableSelect);
+        unselectAllButton
+            .attr("disabled", !options.enableUnselect)
+
+    }
+
     /**
      * @param type {string}
      */
     onEvent(type) {
         if (type === Actions.selectionSelected) {
-            this.addSelectionConfirmListener();
+            this.handleButtons({
+                selectedAreasMap: Select.selectedAreasMap,
+                activeSelection: Select.actualColor,
+                disableSelect: true,
+                enableUnselect: true
+            });
         } else if (type === Actions.selectionEverythingCleared) {
             this.resetWidget();
         } else if (type === Actions.selectionActiveCleared) {
