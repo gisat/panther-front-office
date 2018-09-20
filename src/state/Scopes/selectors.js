@@ -7,34 +7,22 @@ import common from "../_common/selectors";
 
 const getSubstate = state => state.scopes;
 
-const getScopes = state => state.scopes.data;
+const getAll = common.getAll(getSubstate);
 const getActiveKey = common.getActiveKey(getSubstate);
 
-const getActiveScopeData = createSelector(
-	[getScopes, getActiveKey],
-	(scopes, activeKey) => {
-		return _.find(scopes, function(scope){
-			return scope.key === activeKey;
-		});
-	}
-);
+const getActive = common.getActive(getSubstate);
+const getByKey = common.getByKey(getSubstate);
+
 
 const getActiveScopeConfiguration = createSelector(
-	[getActiveScopeData],
+	[getActive],
 	(data) => {
 		return data && data.configuration ? data.configuration : null;
 	}
 );
 
-const getScopeData = createSelector(
-	[getScopes, (state,key) => (key)],
-	(scopes, key) => {
-		return _.find(scopes, (scope) => {return scope.key === key})
-	}
-);
-
 const getScopesForActiveUser = createSelector([
-	getScopes,
+	getAll,
 	],(scopes) => {
 		return scopes;
 	}
@@ -111,11 +99,11 @@ const getPucsSourceVectorLandCoverClasses = createSelector(
 
 export default {
 	getActiveScopeConfiguration: getActiveScopeConfiguration,
-	getActiveScopeData: getActiveScopeData,
+	getActiveScopeData: getActive,
 	getActiveScopeKey: getActiveKey,
-	getScopes: getScopes,
+	getScopes: getAll,
 	getScopesForActiveUser: getScopesForActiveUser,
-	getScopeData: getScopeData,
+	getScopeData: getByKey,
 
 	getPucsSourceVectorLandCoverClasses: getPucsSourceVectorLandCoverClasses,
 	getPucsSourceVectorLayerTemplate: getPucsSourceVectorLayerTemplate,

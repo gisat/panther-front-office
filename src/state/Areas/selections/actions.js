@@ -6,6 +6,8 @@ import utils from '../../../utils/utils'
 
 import common from '../../_common/actions';
 
+const add = common.add(actionAdd);
+
 function update(data) {
 	return (dispatch) => {
 		if (!_.isArray(data)) data = [data];
@@ -63,7 +65,7 @@ function updateSelectionByColour(colour, attributeFilter) {
 					}
 				}
 			};
-			dispatch(common.add(actionAdd)(newSelection));
+			dispatch(add(newSelection));
 		}
 	};
 }

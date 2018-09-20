@@ -1,21 +1,18 @@
 import _ from 'lodash';
 
+export const DEFAULT_INITIAL_STATE = {
+	activeKey: null,
+	byKey: null,
+	count: null,
+	editedByKey: null,
+	indexes: null,
+	lastChangedOn: null,
+	loading: false,
+	loadingKeys: null,
+};
+
 export default {
 	add: (state, action) => {
-		let data;
-		if (state.data && state.data.length) {
-			// remove old versions of received models
-			let oldData = _.reject(state.data, model => {
-				return _.find(action.data, {key: model.key});
-			});
-			data = [...oldData, ...action.data];
-		} else {
-			data = [...action.data];
-		}
-		return {...state, loading: false, data: data};
-	},
-
-	addByKey: (state, action) => {
 		let newData = {...state.byKey};
 		if (action.data && action.data.length) {
 			action.data.forEach(model => {
@@ -23,6 +20,10 @@ export default {
 			});
 		}
 		return {...state, byKey: newData}
+	},
+
+	setActive: (state, action) => {
+		return {...state, activeKey: action.activeKey};
 	},
 
 	setActiveMultiple: (state, action) => {
