@@ -103,6 +103,9 @@ class Histogram {
         let content = "";
         this._classes.forEach(function (bar) {
             let height = (bar.count * heightRatio);
+            if (height < 1 && height > 0){
+            	height = 1;
+			}
             let marginTop = containerHeight - height;
             content += '<div class="histogram-bar selected" style="height: ' + height + 'px ; width: ' + width + 'px ;margin-top: ' + marginTop + 'px"></div>';
         });
