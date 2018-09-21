@@ -376,7 +376,14 @@ class EvaluationWidget extends Widget {
         }
 
         let html = S(`<div class="floater-row footer-buttons">
-            <div class="widget-button" id="evaluation-confirm"></div>
+            <div class="widget-button" id="evaluation-confirm">
+                <div id="evaluation-confirm-icon">
+            
+                </div>
+                <div id="evaluation-confirm-text">
+            
+                </div>
+            </div>
             <div class="widget-button" id="evaluation-unselect" disabled="disabled">{{clearSelection}}</div>
             <div class="widget-button secondary {{hidden}}" id="evaluation-add-category" disabled="disabled">{{addCategory}}</div>
         </div>
@@ -716,9 +723,11 @@ class EvaluationWidget extends Widget {
 	 */
 	handleButtons(options) {
 	    let selectButton = $('#evaluation-confirm');
+		let selectButtonIcon = $('#evaluation-confirm-icon');
+		let selectButtonText = $('#evaluation-confirm-text');
 		let unselectAllButton = $('#evaluation-unselect');
 	    let selectedAreasMap = options.selectedAreasMap;
-	    let activeSelection = options.activeSelection;
+	    let activeSelection = Select.actualColor;
 	    let count = 0;
 
         if (options.amount > -1){
@@ -733,8 +742,12 @@ class EvaluationWidget extends Widget {
         let content = count ? `${SELECT} ${count} ${count > 1 ? AREAS : AREA}` : `${NO_AREA_SELECTED}`;
 
         selectButton
-            .html(content)
-            .attr("disabled", !!options.disableSelect);
+			.attr("disabled", !!options.disableSelect);
+		selectButtonText
+			.html(content);
+		selectButtonIcon
+            .css("background", `#${activeSelection}`)
+            .css("display", count ? "flex" : "none");
         unselectAllButton
             .attr("disabled", !options.enableUnselect)
 
@@ -747,7 +760,6 @@ class EvaluationWidget extends Widget {
         if (type === Actions.selectionSelected) {
             this.handleButtons({
                 selectedAreasMap: Select.selectedAreasMap,
-                activeSelection: Select.actualColor,
                 disableSelect: true,
                 enableUnselect: true
             });

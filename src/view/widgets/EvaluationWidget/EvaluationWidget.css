@@ -71,6 +71,12 @@
     /*background: #e5e5e5;*/
 /*}*/
 
+#evaluation-confirm-icon {
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    margin-right: 10px;
+}
 
 .widget-button-export:before {
     font-family: "FontAwesome";
