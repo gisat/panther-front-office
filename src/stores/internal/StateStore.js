@@ -43,6 +43,7 @@ class StateStore {
             isAdmin: false,
             groups: []
         };
+		this._attributeFilters = {};
 
         this.isMap3D = true;
         this.isMapIndependentOfPeriod = false;
@@ -422,6 +423,10 @@ class StateStore {
         this._dispatcher.notify("navigator#update", options);
     }
 
+    getAttributeFiltersForColor(color){
+        return this._attributeFilters[`#${color}`]
+    }
+
     onEvent(type, options) {
         if (type === "initialLoadingStarted"){
             this.addLoadingOperation("initialLoading");
@@ -466,6 +471,8 @@ class StateStore {
             if (this._changes && !this._changes.dataview){
                 this._dispatcher.notify('map#zoomToLocations', options.extents);
             }
+        } else if (type === 'SELECTIONS_CHANGE_SETTINGS'){
+            this._attributeFilters = options;
         }
     };
 

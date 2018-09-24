@@ -124,8 +124,8 @@ class SliderBox extends View {
             name: this._name,
             labelMin: viewUtils.numberFormat(this._range[0], true, 2),
             labelMax: viewUtils.numberFormat(this._range[1], true, 2),
-            thresholdMin: Math.round(this._range[0] * 100) / 100,
-            thresholdMax: Math.round(this._range[1] * 100) / 100
+            thresholdMin: Math.round(this._values[0] * 100) / 100,
+            thresholdMax: Math.round(this._values[1] * 100) / 100
         }).toString();
 
         this._target.append(html).ready(function () {

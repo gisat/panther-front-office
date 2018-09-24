@@ -1,8 +1,10 @@
 
 
 import Settings from '../../settings/Settings';
+import _ from 'lodash';
 
 let polyglot = window.polyglot;
+let Select = window.Select;
 
 /**
  * It builds the settings window for Evaluation Widget and control all operations in it
@@ -17,6 +19,8 @@ class EvaluationWidgetSettings extends Settings {
      */
     rebuild(attributes) {
         this._attributes = attributes;
+        this._adjustedAttributes = this.adjustAttributes(this._attributes);
+
         this._categories = {};
 
         this.addCategories();
@@ -25,6 +29,39 @@ class EvaluationWidgetSettings extends Settings {
         this.addMultioptionsChangeListener();
         this.reviewCheckboxesState();
     };
+
+    adjustAttributes(attributes) {
+		let actualSelectionColour = Select.actualColor;
+		let storedFilters = this._stateStore.getAttributeFiltersForColor(actualSelectionColour);
+		let adjustedAttributes = [];
+
+        if ((actualSelectionColour !== this._lastSelectionColour) && storedFilters){
+            adjustedAttributes = attributes.map((originalAttribute) => {
+                let storedAttribute = _.find(storedFilters, (filter) => {
+                   return filter.attribute === originalAttribute.about.attribute && filter.attributeSet === originalAttribute.about.attributeSet
+                });
+                if (storedAttribute){
+                    let adjustedAttribute = {
+						about: originalAttribute.about,
+						values: originalAttribute.values,
+                        distribution: originalAttribute.distribution,
+                        active: true
+					};
+                    if (storedAttribute.attributeType === 'numeric'){
+						adjustedAttribute.intervals = storedAttribute.intervals;
+                    } else if (storedAttribute.attributeType === 'text') {
+                        adjustedAttribute.multioptions = !!storedAttribute.multioptions;
+						adjustedAttribute.selectedValues = storedAttribute.values && storedAttribute.values.length && storedAttribute.values[0].length !== 0 ? storedAttribute.values : null;
+                    }
+                    return adjustedAttribute;
+                } else {
+                    return {...originalAttribute, active: false};
+                }
+            });
+        }
+        this._lastSelectionColour = actualSelectionColour;
+        return adjustedAttributes.length ? adjustedAttributes : attributes;
+    }
 
     /**
      * Add the categories for filtering
@@ -37,7 +74,7 @@ class EvaluationWidgetSettings extends Settings {
         let asId = "";
         let asDataId = null;
         let self = this;
-        this._attributes.forEach(function (attribute) {
+        this._adjustedAttributes.forEach(function (attribute) {
             if (attribute.about.attributeSet !== asDataId) {
                 asName = attribute.about.attributeSetName;
                 asDataId = attribute.about.attributeSet;
@@ -49,7 +86,7 @@ class EvaluationWidgetSettings extends Settings {
             let name4Settings = name;
             let attrDataId = attribute.about.attribute;
             let input = "";
-            let active = JSON.parse(attribute.about.active);
+            let active = attribute.hasOwnProperty("active") ? attribute.active : JSON.parse(attribute.about.active);
 
             if (type === "boolean") {
                 input = "checkbox";
@@ -65,7 +102,7 @@ class EvaluationWidgetSettings extends Settings {
                     "<div class='multioptions'>" +
                     "<span>" + polyglot.t("multiOptions") + "</span>" +
                     "<label class='switch'>" +
-                    "<input type='checkbox' class='multioptions-input'>" +
+                    "<input type='checkbox' class='multioptions-input' " + (attribute.multioptions ? 'checked' : null) + ">" +
                     "<div class='slider-toggle'></div>" +
                     "</label>" +
                     "</div>";
@@ -78,8 +115,14 @@ class EvaluationWidgetSettings extends Settings {
                 name: name,
                 input: input,
                 active: active,
-                multioptions: false
+                multioptions: !!attribute.multioptions
             };
+
+            if (type === 'numeric'){
+				self._categories[asAttrDataID].intervals = attribute.intervals ? attribute.intervals : null;
+            } else if (type === 'text'){
+                self._categories[asAttrDataID].selectedValues = attribute.selectedValues ? attribute.selectedValues : null;
+            }
         });
     };
 
