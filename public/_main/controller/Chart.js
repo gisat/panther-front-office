@@ -422,11 +422,11 @@ Ext.define('PumaMain.controller.Chart', {
             //debugger;
         }
         if (cfg.type=='columnchart'){
-            if (cfg.stackingSettings && chartCmp && chartCmp.queryCfg){
-				chartCmp.queryCfg.stacking = cfg.stackingSettings;
+            if (cfg.stackingSettings){
+				cfg.stacking = cfg.stackingSettings;
             }
-			if (cfg.aggregateSettings && chartCmp && chartCmp.queryCfg){
-				chartCmp.queryCfg.aggregate = cfg.aggregateSettings;
+			if (cfg.aggregateSettings){
+				cfg.aggregate = cfg.aggregateSettings;
 			}
         }
         var queryCfg = Ext.apply(chartCmp.queryCfg || {},chartCmp.cfg,this.gatherChartCfg(chartCmp,true));
