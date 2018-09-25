@@ -15,6 +15,22 @@ const add = (action) => {
 	}
 };
 
+const setActiveKey = (action) => {
+	return (key) => {
+		return dispatch => {
+			dispatch(action(key));
+		};
+	}
+};
+
+const setActiveKeys = (action) => {
+	return (keys) => {
+		return dispatch => {
+			dispatch(action(keys));
+		};
+	}
+};
+
 function request(apiPath, method, query, payload, successAction, errorAction, ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
 	return (dispatch) => {
@@ -59,6 +75,8 @@ function request(apiPath, method, query, payload, successAction, errorAction, tt
 }
 
 export default {
-	add: add,
-	request: request
+	add,
+	request,
+	setActiveKey,
+	setActiveKeys
 }

@@ -2,23 +2,13 @@ import ActionTypes from '../../constants/ActionTypes';
 import Select from '../Select';
 
 import _ from 'lodash';
+import common from "../_common/actions";
 
 
 // ============ creators ===========
 
-function add(attributeSets) {
-	return dispatch => {
-		if (!_.isArray(attributeSets)) attributeSets = [attributeSets];
-		dispatch(actionAdd(attributeSets));
-	};
-}
-
-function setActiveKeys(keys) {
-	return (dispatch) => {
-		if (!_.isArray(keys)) keys = [keys];
-		dispatch(actionSetActiveKeys(keys));
-	};
-}
+const add = common.add(actionAdd);
+const setActiveKeys = common.setActiveKeys(actionSetActiveKeys);
 
 function updateActive(keys) {
 	return (dispatch, getState) => {
@@ -49,6 +39,7 @@ function actionSetActiveKeys(attributeSets) {
 // ============ export ===========
 
 export default {
-	add: add,
-	updateActive: updateActive
+	add,
+	setActiveKeys,
+	updateActive
 }

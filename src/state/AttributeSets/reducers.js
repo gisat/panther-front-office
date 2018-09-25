@@ -1,25 +1,20 @@
 import ActionTypes from '../../constants/ActionTypes';
 import _ from 'lodash';
+import common from '../_common/reducers';
+
+import {DEFAULT_INITIAL_STATE} from "../_common/reducers";
 
 const INITIAL_STATE = {
-	activeKeys: null,
-	data: null
+	...DEFAULT_INITIAL_STATE,
+	activeKeys: null
 };
 
-function add(state, action) {
-	return {...state, data: (state.data ? [...state.data, ...action.data] : action.data)};
-}
-
-function setActiveMultiple(state, action){
-	return {...state, activeKeys: action.keys};
-}
-
-export default function tasksReducer(state = INITIAL_STATE, action) {
+export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.ATTRIBUTE_SETS_ADD:
-			return add(state, action);
+			return common.add(state, action);
 		case ActionTypes.ATTRIBUTE_SETS_SET_ACTIVE_MULTI:
-			return setActiveMultiple(state, action);
+			return common.setActiveMultiple(state, action);
 		default:
 			return state;
 	}

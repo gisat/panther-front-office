@@ -1,16 +1,12 @@
-import ActionTypes from '../../constants/ActionTypes';
-
 import _ from 'lodash';
 
+import ActionTypes from '../../constants/ActionTypes';
+import common from '../_common/actions';
 
 // ============ creators ===========
 
-function add(attributes) {
-	return dispatch => {
-		if (!_.isArray(attributes)) attributes = [attributes];
-		dispatch(actionAdd(attributes));
-	};
-}
+const add = common.add(actionAdd);
+
 
 // ============ actions ===========
 
@@ -24,5 +20,5 @@ function actionAdd(attributes) {
 // ============ export ===========
 
 export default {
-	add: add
+	add
 }

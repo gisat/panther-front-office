@@ -29,13 +29,15 @@ let state = {
 			}}
 	},
 	layerTemplates: {
-		data: [{"layerType":"vector","name":"PUCS Urban Atlas","attributeSets":[4497],"symbologies":[4325],"key":3332}]
+		byKey: {
+			3332: {"layerType":"vector","name":"PUCS Urban Atlas","attributeSets":[4497],"symbologies":[4325],"key":3332}
+		}
 	},
 	attributes: {
-		data: [{enumerationValues: "A", key: 4496}]
+		byKey: {4496: {enumerationValues: "A", key: 4496}}
 	},
 	attributeSets: {
-		data: [{"active":false,"name":"Land Use Classes","attributes":[4496],"topic":737,"featureLayers":[3332],"key":4497}]
+		byKey: {4497: {"active":false,"name":"Land Use Classes","attributes":[4496],"topic":737,"featureLayers":[3332],"key":4497}}
 	},
 	symbologies: {
 		data: [{key: 4325, symbologyName: "urbanAtlas"}]

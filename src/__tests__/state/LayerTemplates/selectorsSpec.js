@@ -3,10 +3,13 @@ import {Selector} from 'redux-testkit';
 
 let state = {
 	layerTemplates: {
-		data: [{
-			"name":"Urban Atlas","symbologies":[1,2],"key":3989}, {
+		byKey: {
+			3989: {
+				"name":"Urban Atlas","symbologies":[1,2],"key":3989
+			},
+			3999: {
 			"name":"Symbology 2", "symbologies":[],"key":3999
-		}]
+		}}
 	},
 	symbologies: {
 		data: [{

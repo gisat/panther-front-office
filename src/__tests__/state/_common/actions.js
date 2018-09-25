@@ -37,4 +37,42 @@ describe('Common Actions', () => {
 			expect(store.getActions()).toEqual(expectedActions);
 		});
 	});
+
+	describe('#setActiveKey', () => {
+		it('should dispatch action set active key', () => {
+			const store = mockStore({});
+			const action = (key) => {
+				return {
+					type: ActionTypes.PERIODS_SET_ACTIVE,
+					key: key
+				}
+			};
+			const key = 2;
+			const expectedActions = [{
+				type: ActionTypes.PERIODS_SET_ACTIVE,
+				key: 2
+			}];
+			store.dispatch(commonActions.setActiveKey(action)(key));
+			expect(store.getActions()).toEqual(expectedActions);
+		});
+	});
+
+	describe('#setActiveKeys', () => {
+		it('should dispatch action set active keys', () => {
+			const store = mockStore({});
+			const action = (keys) => {
+				return {
+					type: ActionTypes.ATTRIBUTE_SETS_SET_ACTIVE_MULTI,
+					keys: keys
+				}
+			};
+			const keys = [2, 3];
+			const expectedActions = [{
+				type: ActionTypes.ATTRIBUTE_SETS_SET_ACTIVE_MULTI,
+				keys: [2, 3]
+			}];
+			store.dispatch(commonActions.setActiveKeys(action)(keys));
+			expect(store.getActions()).toEqual(expectedActions);
+		});
+	});
 });

@@ -1,23 +1,18 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
 
-const getActiveKeys = state => state.attributeSets.activeKeys;
-const getAttributeSets = state => state.attributeSets.data;
-const getAttributes = state => state.attributes.data;
+import common from "../_common/selectors";
+import AttributesSelector from "../Attributes/selectors";
 
-const getActive = createSelector(
-	[getAttributeSets, getActiveKeys],
-	(models, keys) => {
-		return _.filter(models, model => {
-			return _.find(keys, key => {
-				return key === model.key;
-			});
-		});
-	}
-);
+
+const getSubstate = state => state.attributeSets;
+
+const getAll = common.getAll(getSubstate);
+const getActiveKeys = common.getActiveKeys(getSubstate);
+const getActive = common.getActive(getSubstate);
 
 const getAttributesDataByActiveAttributeSets = createSelector(
-	[getAttributeSets, getActiveKeys, getAttributes],
+	[getAll, getActiveKeys, AttributesSelector.getAttributes],
 	(models, keys, attributesData) => {
 		let attributeSets = {};
 		_.filter(models, model => {
@@ -41,7 +36,7 @@ const getAttributesDataByActiveAttributeSets = createSelector(
 );
 
 const getAttributeKeysByActiveAttributeSets = createSelector(
-	[getAttributeSets, getActiveKeys],
+	[getAll, getActiveKeys],
 	(models, keys) => {
 		let attributeSets = {};
 		_.filter(models, model => {
@@ -59,11 +54,9 @@ const getAttributeKeysByActiveAttributeSets = createSelector(
 );
 
 export default {
-	getActive: getActive,
-	getActiveKeys: getActiveKeys,
-
-	getAttributeSets: getAttributeSets,
-
-	getAttributeKeysByActiveAttributeSets: getAttributeKeysByActiveAttributeSets,
-	getAttributesDataByActiveAttributeSets: getAttributesDataByActiveAttributeSets
+	getActive,
+	getActiveKeys,
+	getAttributeSets: getAll,
+	getAttributeKeysByActiveAttributeSets,
+	getAttributesDataByActiveAttributeSets
 };

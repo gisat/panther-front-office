@@ -97,8 +97,8 @@ function actionUpdate(selections){
 // ============ export ===========
 
 export default {
-	addActiveKeyByColour: addActiveKeyByColour,
-	removeActiveKeyByColour: removeActiveKeyByColour,
-	setActiveKeys: setActiveKeys,
-	updateSelectionByColour: updateSelectionByColour
+	addActiveKeyByColour,
+	removeActiveKeyByColour,
+	setActiveKeys,
+	updateSelectionByColour
 }

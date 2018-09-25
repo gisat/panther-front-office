@@ -1,19 +1,16 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
 
-const getTemplates = state => state.layerTemplates.data;
+import common from "../_common/selectors";
+import StylesSelector from "../Symbologies/selectors";
 
-const getSymbologies = state => state.symbologies.data;
+const getSubstate = state => state.layerTemplates;
 
-const getTemplate = createSelector(
-	[getTemplates, (state, key) => (key)],
-	(templates, templateKey) => {
-		return templateKey ? _.find(templates, {key: templateKey}) : null;
-	}
-);
+const getAll = common.getAll(getSubstate);
+const getTemplate = common.getByKey(getSubstate);
 
 const getSymbologiesForTemplate = createSelector(
-	[getTemplate, getSymbologies],
+	[getTemplate, StylesSelector.getSymbologies],
 	(template, allSymbologies) => {
 		if (template && template.symbologies){
 			return _.filter(allSymbologies, (symbology) => {
@@ -28,8 +25,7 @@ const getSymbologiesForTemplate = createSelector(
 );
 
 export default {
-	getTemplates: getTemplates,
-
-	getTemplate: getTemplate,
-	getSymbologiesForTemplate: getSymbologiesForTemplate
+	getTemplates: getAll,
+	getTemplate,
+	getSymbologiesForTemplate
 };
