@@ -1,31 +1,19 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
 
-const getActiveKey = state => state.places.activeKey;
-const getActiveKeys = state => state.places.activeKeys;
-const getPlaces = state => state.places.data;
-const getActiveScopeKey = state => state.scopes.activeKey;
+import common from "../_common/selectors";
+import ScopesSelector from "../Scopes/selectors";
 
-const getActive = createSelector(
-	[getPlaces, getActiveKey],
-	(models, activeKey) => {
-		return _.find(models, function(model){
-			return model.key === activeKey;
-		});
-	}
-);
 
-const getActivePlaces = createSelector(
-	[getPlaces, getActiveKeys],
-	(models, activeKeys) => {
-		if (models && activeKeys){
-			return models.filter(model => activeKeys.includes(model.key));
-		}
-	}
-);
+const getSubstate = state => state.places;
+
+const getAll = common.getAll(getSubstate);
+const getActiveKey = common.getActiveKey(getSubstate);
+const getActive = common.getActive(getSubstate);
+const getActivePlaces = common.getActiveModels(getSubstate);
 
 const getPlacesForActiveScope = createSelector(
-	[getPlaces, getActiveScopeKey],
+	[getAll, ScopesSelector.getActiveScopeKey],
 	(models, activeScopeKey) => {
 		return _.filter(models, function(model){
 			return model.scope === activeScopeKey;
@@ -34,9 +22,9 @@ const getPlacesForActiveScope = createSelector(
 );
 
 export default {
-	getPlaces: getPlaces,
-	getActiveKey: getActiveKey,
-	getActive: getActive,
-	getActivePlaces: getActivePlaces,
-	getPlacesForActiveScope: getPlacesForActiveScope
+	getPlaces: getAll,
+	getActiveKey,
+	getActive,
+	getActivePlaces,
+	getPlacesForActiveScope
 };

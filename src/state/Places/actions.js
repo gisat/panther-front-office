@@ -1,18 +1,15 @@
 import ActionTypes from '../../constants/ActionTypes';
-
 import _ from 'lodash';
+
+import common from '../_common/actions';
 import LayerPeriods from "../LayerPeriods/actions";
 import Select from "../Select";
 
 
 // ============ creators ===========
 
-function add(places) {
-	return dispatch => {
-		if (!_.isArray(places)) places = [places];
-		dispatch(actionAdd(places));
-	};
-}
+const add = common.add(actionAdd);
+const setActiveKeys = common.setActiveKeys(actionSetActiveKeys);
 
 function setActive(key) {
 	return (dispatch, getState) => {
@@ -22,13 +19,6 @@ function setActive(key) {
 		if (scopeConfiguration && !scopeConfiguration.dromasLpisChangeReview) { // loading layerPeriods for case, not place
 			dispatch(LayerPeriods.loadForPlace(key));
 		}
-	};
-}
-
-function setActiveKeys(places) {
-	return dispatch => {
-		if (!_.isArray(places)) places = [places];
-		dispatch(actionSetActiveKeys(places));
 	};
 }
 
@@ -58,7 +48,7 @@ function actionSetActiveKeys(places) {
 // ============ export ===========
 
 export default {
-	add: add,
-	setActive: setActive,
-	setActiveKeys: setActiveKeys
+	add,
+	setActive,
+	setActiveKeys
 }

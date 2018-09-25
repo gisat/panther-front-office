@@ -62,6 +62,60 @@ describe('Common selectors', () => {
 		});
 	});
 
+	describe('#getActiveModels', () => {
+		const fullState = {
+			byKey: {
+				1: {
+					key: 1,
+					data: {
+						name: "World"
+					}
+				},
+				2: {
+					key: 2,
+					data: {
+						name: "Europe"
+					}
+				},
+				3: {
+					key: 3,
+					data: {
+						name: "Italy"
+					}
+				}
+			},
+			activeKeys: [1, 3]
+		};
+		const nullState = {...fullState, activeKeys: null};
+		const noModelsState = {...fullState, byKey: null};
+		const emptyModelsState = {...fullState, byKey: {}};
+
+		const expectedOutput = [{
+			key: 1,
+			data: {
+				name: "World"
+			}
+		}, {
+			key: 3,
+			data: {
+				name: "Italy"
+			}
+		}];
+
+		it('should select active models', () => {
+			expect(commonSelectors.getActiveModels(getSubstate)(fullState)).toEqual(expectedOutput);
+		});
+		it('should select undefined, when active keys is null', () => {
+			expect(commonSelectors.getActiveModels(getSubstate)(nullState)).toBeNull();
+		});
+		it('should select null, when byKey do not exist', () => {
+			expect(commonSelectors.getActiveModels(getSubstate)(noModelsState)).toBeNull();
+		});
+		it('should select null, when byKey is empty object', () => {
+			expect(commonSelectors.getActiveModels(getSubstate)(emptyModelsState)).toBeNull();
+		});
+	});
+
 	describe('#getActiveKey', () => {
 		it('should select active key', () => {
 			expect(commonSelectors.getActiveKey(getSubstate)(INITIAL_STATE)).toBe(1);

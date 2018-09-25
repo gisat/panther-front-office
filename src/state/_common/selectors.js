@@ -29,6 +29,25 @@ const getActive = (getSubstate) => {
 	);
 };
 
+const getActiveModels = (getSubstate) => {
+	return createSelector(
+		[getAllAsObject(getSubstate), getActiveKeys(getSubstate)],
+		(models, activeKeys) => {
+			let filteredModels = [];
+			_.forIn(models, (model, modelKey) => {
+				if (activeKeys){
+					activeKeys.map(key => {
+						if (key.toString() === modelKey){
+							filteredModels.push(model);
+						}
+					});
+				}
+			});
+			return filteredModels.length ? filteredModels : null;
+		}
+	)
+};
+
 const getByKey = (getSubstate) => {
 	return (state, key) => {
 		return key && getAllAsObject(getSubstate)(state)[key];
@@ -37,6 +56,7 @@ const getByKey = (getSubstate) => {
 
 export default {
 	getActive,
+	getActiveModels,
 	getActiveKey,
 	getActiveKeys,
 	getAll,
