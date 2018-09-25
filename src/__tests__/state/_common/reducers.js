@@ -1,13 +1,59 @@
 import commonReducers from '../../../state/_common/reducers';
 
 describe('Common Reducers', () => {
-	describe('#setActiveMultiple', () => {
-		let state = {
-			activeKeys: null,
-			activeKey: 3
-		};
+	describe('#setActive', () => {
+		it('should set active key', () => {
+			let state = {
+				activeKeys: [2, 3],
+				activeKey: null
+			};
+			const action = {
+				activeKey: 2
+			};
+			const expectedState = {
+				activeKeys: null,
+				activeKey: 2
+			};
+			expect(commonReducers.setActive(state, action)).toMatchObject(expectedState);
+		});
 
+		it('should set active key to null', () => {
+			let state = {
+				activeKeys: null,
+				activeKey: 2
+			};
+			const action = {
+				activeKey: null
+			};
+			const expectedState = {
+				activeKeys: null,
+				activeKey: null
+			};
+			expect(commonReducers.setActive(state, action)).toMatchObject(expectedState);
+		});
+
+		it('should change active key', () => {
+			let state = {
+				activeKeys: null,
+				activeKey: 2
+			};
+			const action = {
+				activeKey: 3
+			};
+			const expectedState = {
+				activeKeys: null,
+				activeKey: 3
+			};
+			expect(commonReducers.setActive(state, action)).toMatchObject(expectedState);
+		});
+	});
+
+	describe('#setActiveMultiple', () => {
 		it('should set active keys', () => {
+			let state = {
+				activeKeys: null,
+				activeKey: 3
+			};
 			const action = {
 				keys: [1,2]
 			};
@@ -17,14 +63,43 @@ describe('Common Reducers', () => {
 			};
 			expect(commonReducers.setActiveMultiple(state, action)).toMatchObject(expectedState);
 		});
+
+		it('should set active keys to null', () => {
+			let state = {
+				activeKeys: [2, 3],
+				activeKey: null
+			};
+			const action = {
+				keys: null
+			};
+			const expectedState = {
+				activeKeys: null,
+				activeKey: null
+			};
+			expect(commonReducers.setActiveMultiple(state, action)).toMatchObject(expectedState);
+		});
+
+		it('should change active keys', () => {
+			let state = {
+				activeKeys: [2, 3],
+				activeKey: null
+			};
+			const action = {
+				keys: [2, 4]
+			};
+			const expectedState = {
+				activeKeys: [2, 4],
+				activeKey: null
+			};
+			expect(commonReducers.setActiveMultiple(state, action)).toMatchObject(expectedState);
+		});
 	});
 
-	describe('#addByKey', () => {
+	describe('#add', () => {
 		let initialState = {
 			activeKey: null,
 			byKey: null
 		};
-
 		let state = {
 			activeKey: 1,
 			byKey: {
@@ -75,7 +150,7 @@ describe('Common Reducers', () => {
 					}
 				}
 			};
-			expect(commonReducers.addByKey(initialState, action)).toEqual(expectedState);
+			expect(commonReducers.add(initialState, action)).toEqual(expectedState);
 		});
 
 		it('should add new objects to existing data', () => {
@@ -111,7 +186,7 @@ describe('Common Reducers', () => {
 					}
 				}
 			};
-			expect(commonReducers.addByKey(state, action)).toEqual(expectedState);
+			expect(commonReducers.add(state, action)).toEqual(expectedState);
 		});
 
 		it('should change data in existing object', () => {
@@ -129,7 +204,7 @@ describe('Common Reducers', () => {
 					}
 				}
 			};
-			expect(commonReducers.addByKey(state2, action)).toEqual(expectedState);
+			expect(commonReducers.add(state2, action)).toEqual(expectedState);
 		});
 	});
 });
