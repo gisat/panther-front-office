@@ -76,6 +76,24 @@ function apiLoadScopes(ttl) {
     };
 }
 
+function loadAll() {
+	return dispatch => {
+		dispatch(common.loadAll('scopes', loadAllSuccess, loadAllError));
+	}
+}
+
+function loadAllSuccess(result) {
+	return dispatch => {
+		console.log('#####', result);
+	}
+}
+
+function loadAllError(result) {
+	return dispatch => {
+		console.error('#####', result);
+	}
+}
+
 // ============ actions ===========
 
 function actionAdd(scopes) {
@@ -109,5 +127,6 @@ function actionApiLoadScopesRequestError(error) {
 export default {
 	add: common.add(actionAdd),
 	apiLoadScopes: apiLoadScopes,
-	setActiveScopeKey: setActiveScopeKey
+	setActiveScopeKey: setActiveScopeKey,
+	loadAll
 }
