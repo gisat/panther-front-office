@@ -15,10 +15,12 @@ let state = {
 	},
 	scopes: {
 		activeKey: 3971,
-		data: [{
-			key: 3971,
-			configuration: {"pucsLandUseScenarios":{"templates":{"sourceVector":3332,"sourceRaster":4090,"uhi":4091,"hwd":4092}}}
-		}]
+		byKey: {
+			3971: {
+				key: 3971,
+				configuration: {"pucsLandUseScenarios":{"templates":{"sourceVector":3332,"sourceRaster":4090,"uhi":4091,"hwd":4092}}}
+			}
+		}
 	},
 	spatialDataSources: {
 		main: {data: [{"type":"shapefile","data":{"layer_name":"geonode:pucs_514f7a7552564ceebd269a8d334f1324","table_name":"pucs_514f7a7552564ceebd269a8d334f1324"},"key":214},
