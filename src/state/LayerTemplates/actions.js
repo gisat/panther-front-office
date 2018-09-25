@@ -1,14 +1,10 @@
 import ActionTypes from '../../constants/ActionTypes';
 import _ from 'lodash';
+import common from '../_common/actions';
 
 // ============ creators ===========
 
-function add(layerTemplates){
-	return dispatch => {
-		if (!_.isArray(layerTemplates)) layerTemplates = [layerTemplates];
-		dispatch(actionAdd(layerTemplates));
-	};
-}
+const add = common.add(actionAdd);
 
 // ============ actions ===========
 
@@ -22,5 +18,5 @@ function actionAdd(layerTemplates) {
 // ============ export ===========
 
 export default {
-	add: add
+	add
 }

@@ -16,6 +16,22 @@ const add = (action) => {
 	}
 };
 
+const setActiveKey = (action) => {
+	return (key) => {
+		return dispatch => {
+			dispatch(action(key));
+		};
+	}
+};
+
+const setActiveKeys = (action) => {
+	return (keys) => {
+		return dispatch => {
+			dispatch(action(keys));
+		};
+	}
+};
+
 /**
  * Request helper. Creates an request to backend.
  * @param apiPath - path to backend endpoint (hostname taken from config)
@@ -25,7 +41,7 @@ const add = (action) => {
  * @param ttl - (optional) number of tries
  * @returns response or error
  */
-function request(apiPath, method, query, payload, ttl) {
+function request(apiPath, method, query, payload, successAction, errorAction, ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
 	let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, apiPath);
 	if (query) {
@@ -112,7 +128,9 @@ function loadAll(dataType, successAction, errorAction) {
 }
 
 export default {
-	add: add,
+	add,
 	loadAll,
+	setActiveKey,
+	setActiveKeys,
 	request: requestWrapper
 }

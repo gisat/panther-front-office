@@ -16,6 +16,10 @@ const getActiveKey = (getSubstate) => {
 	return (state) => getSubstate(state).activeKey
 };
 
+const getActiveKeys = (getSubstate) => {
+	return (state) => getSubstate(state).activeKeys
+};
+
 const getActive = (getSubstate) => {
 	return createSelector(
 		[getAllAsObject(getSubstate), getActiveKey(getSubstate)],
@@ -34,6 +38,7 @@ const getByKey = (getSubstate) => {
 export default {
 	getActive,
 	getActiveKey,
+	getActiveKeys,
 	getAll,
 	getAllAsObject,
 	getByKey

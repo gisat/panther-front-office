@@ -1,22 +1,11 @@
 import ActionTypes from '../../constants/ActionTypes';
-
 import _ from 'lodash';
-
+import common from '../_common/actions';
 
 // ============ creators ===========
 
-function add(periods) {
-	return dispatch => {
-		if (!_.isArray(periods)) periods = [periods];
-		dispatch(actionAdd(periods));
-	};
-}
-
-function setActiveKey(key) {
-	return dispatch => {
-		dispatch(actionSetActiveKey(key));
-	};
-}
+const add = common.add(actionAdd);
+const setActiveKey = common.setActiveKey(actionSetActiveKey);
 
 // ============ actions ===========
 
@@ -37,6 +26,6 @@ function actionSetActiveKey(key) {
 // ============ export ===========
 
 export default {
-	add: add,
-	setActiveKey: setActiveKey
+	add,
+	setActiveKey
 }

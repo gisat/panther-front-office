@@ -8,7 +8,7 @@ describe('Common Reducers', () => {
 				activeKey: null
 			};
 			const action = {
-				activeKey: 2
+				key: 2
 			};
 			const expectedState = {
 				activeKeys: null,
@@ -23,7 +23,7 @@ describe('Common Reducers', () => {
 				activeKey: 2
 			};
 			const action = {
-				activeKey: null
+				key: null
 			};
 			const expectedState = {
 				activeKeys: null,
@@ -38,7 +38,7 @@ describe('Common Reducers', () => {
 				activeKey: 2
 			};
 			const action = {
-				activeKey: 3
+				key: 3
 			};
 			const expectedState = {
 				activeKeys: null,

@@ -105,7 +105,7 @@ function actionAdd(scopes) {
 function actionSetActiveScopeKey(key) {
 	return {
 		type: ActionTypes.SCOPES_SET_ACTIVE_KEY,
-		activeKey: key
+		key: key
 	}
 }
 

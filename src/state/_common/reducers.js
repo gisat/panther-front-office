@@ -23,7 +23,7 @@ export default {
 	},
 
 	setActive: (state, action) => {
-		return {...state, activeKey: action.activeKey, activeKeys: null};
+		return {...state, activeKey: action.key, activeKeys: null};
 	},
 
 	setActiveMultiple: (state, action) => {
