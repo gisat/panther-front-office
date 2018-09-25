@@ -6,6 +6,15 @@ import fetch from "isomorphic-fetch";
 
 const TTL = 5;
 
+const add = (action) => {
+	return (data) => {
+		return dispatch => {
+			if (!_.isArray(data)) data = [data];
+			dispatch(action(data));
+		};
+	}
+};
+
 function request(apiPath, method, query, payload, successAction, errorAction, ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
 	return (dispatch) => {
@@ -50,14 +59,6 @@ function request(apiPath, method, query, payload, successAction, errorAction, tt
 }
 
 export default {
-	add: (action) => {
-		return (data) => {
-			return dispatch => {
-				if (!_.isArray(data)) data = [data];
-				dispatch(action(data));
-			};
-		}
-	},
-
+	add: add,
 	request: request
 }
