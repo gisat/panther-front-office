@@ -1,13 +1,17 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
+import common from "../_common/selectors";
+
 import LayerPeriods from '../LayerPeriods/selectors';
 import Scope from '../Scopes/selectors';
 import Period from '../Periods/selectors';
 
-const getAllLayers = state => state.wmsLayers.data;
+const getSubstate = state => state.wmsLayers;
+
+const getAll = common.getAll(getSubstate);
 
 const getLayers = createSelector(
-	[getAllLayers, Scope.getActiveScopeKey, Period.getPeriods],
+	[getAll, Scope.getActiveScopeKey, Period.getPeriods],
 	(layers, activeScopeKey, periods) => {
 		layers =  _.filter(layers, layer => {
 			return layer.scope === activeScopeKey;
@@ -73,8 +77,8 @@ const getLayersWithLpisCasePeriods = createSelector(
 );
 
 export default {
-	getLayers: getLayers,
-	getLayersWithAoiPeriods: getLayersWithAoiPeriods,
-	getLayersWithPlacePeriods: getLayersWithPlacePeriods,
+	getLayers,
+	getLayersWithAoiPeriods,
+	getLayersWithPlacePeriods,
 	getLayersWithLpisCasePeriods
 };

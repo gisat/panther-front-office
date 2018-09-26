@@ -1,27 +1,17 @@
 import ActionTypes from '../../constants/ActionTypes';
-import _ from 'lodash';
+
+import common from '../_common/reducers';
+
+import {DEFAULT_INITIAL_STATE} from "../_common/reducers";
 
 const INITIAL_STATE = {
-	data: null,
+	...DEFAULT_INITIAL_STATE
 };
-
-function addDistinct(state, action) {
-	let data;
-	if (state.data && state.data.length){
-		let newData = _.reject(action.data, layer => {
-			return _.find(state.data, {key: layer.key});
-		});
-		data = state.data.concat(newData);
-	} else {
-		data = [...action.data];
-	}
-	return {...state, data: data};
-}
 
 export default function tasksReducer(state = INITIAL_STATE, action) {
 	switch (action.type) {
 		case ActionTypes.WMS_LAYERS_ADD:
-			return addDistinct(state, action);
+			return common.add(state, action);
 		default:
 			return state;
 	}
