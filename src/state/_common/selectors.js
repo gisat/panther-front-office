@@ -33,17 +33,7 @@ const getActiveModels = (getSubstate) => {
 	return createSelector(
 		[getAllAsObject(getSubstate), getActiveKeys(getSubstate)],
 		(models, activeKeys) => {
-			let filteredModels = [];
-			_.forIn(models, (model, modelKey) => {
-				if (activeKeys){
-					activeKeys.map(key => {
-						if (key.toString() === modelKey){
-							filteredModels.push(model);
-						}
-					});
-				}
-			});
-			return filteredModels.length ? filteredModels : null;
+			return (models && !_.isEmpty(models) && activeKeys && !_.isEmpty(activeKeys)) ? activeKeys.map(key => models[key]) : null;
 		}
 	)
 };
