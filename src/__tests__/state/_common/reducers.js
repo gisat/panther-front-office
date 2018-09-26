@@ -207,4 +207,64 @@ describe('Common Reducers', () => {
 			expect(commonReducers.add(state2, action)).toEqual(expectedState);
 		});
 	});
+
+	describe('#remove', () => {
+		const INITIAL_STATE = {
+			byKey: {
+				1: {
+					key: 1,
+					data: {
+						name: "Prague"
+					}
+				},
+				2: {
+					key: 2,
+					data: {
+						name: "Pilsen"
+					}
+				},
+				3: {
+					key: 3,
+					data: {
+						name: "Brno"
+					}
+				}
+			}
+		};
+		it('should remove models', () => {
+			const action = {
+				keys: [2, 3]
+			};
+			const expectedState = {
+				byKey: {
+					1: {
+						key: 1,
+						data: {
+							name: "Prague"
+						}
+					}
+				}
+			};
+			expect(commonReducers.remove(INITIAL_STATE, action)).toEqual(expectedState);
+		});
+		it('should not remove any model', () => {
+			const action = {
+				keys: null
+			};
+			const expectedState = {...INITIAL_STATE};
+			expect(commonReducers.remove(INITIAL_STATE, action)).toEqual(expectedState);
+		});
+		it('should not modify byKey, if it is null', () => {
+			const action = {
+				keys: [1, 2]
+			};
+			const nullState = {
+				byKey: null
+			};
+			const expectedState = {
+				byKey: null
+			};
+			expect(commonReducers.remove(nullState, action)).toEqual(expectedState);
+		});
+	});
 });

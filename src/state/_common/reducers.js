@@ -22,6 +22,11 @@ export default {
 		return {...state, byKey: newData}
 	},
 
+	remove: (state, action) => {
+		let newData = state.byKey ? _.omit({...state.byKey}, action.keys) : null;
+		return {...state, byKey: newData}
+	},
+
 	setActive: (state, action) => {
 		return {...state, activeKey: action.key, activeKeys: null};
 	},
