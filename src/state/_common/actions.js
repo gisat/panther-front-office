@@ -83,13 +83,15 @@ function request(apiPath, method, query, payload, successAction, errorAction, tt
 }
 
 function requestWrapper(apiPath, method, query, payload, successAction, errorAction) {
-	request(apiPath, method, query, payload)
-		.then(result => {
-			successAction(result.data);
-		})
-		.catch(error => {
-			errorAction(error);
-		});
+	return dispatch => {
+		request(apiPath, method, query, payload)
+			.then(result => {
+				dispatch(successAction(result.data));
+			})
+			.catch(error => {
+				dispatch(errorAction(error));
+			});
+	}
 }
 
 function loadAll(dataType, successAction, errorAction) {
