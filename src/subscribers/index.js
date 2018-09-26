@@ -10,7 +10,7 @@ import periods from './periods';
 import places from './places';
 import scenarios from './scenarios';
 import scopes from './scopes';
-import symbologies from './symbologies';
+import styles from './styles';
 import users from './users';
 import views from './views';
 import wmsLayers from './wmsLayers';
@@ -29,7 +29,7 @@ export default store => {
 	places(store);
 	scenarios(store);
 	scopes(store);
-	symbologies(store);
+	styles(store);
 	users(store);
 	views(store);
 	wmsLayers(store);

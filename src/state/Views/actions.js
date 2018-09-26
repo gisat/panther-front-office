@@ -9,16 +9,13 @@ import Select from "../Select";
 import ScopeActions from "../Scopes/actions";
 import PlaceActions from "../Places/actions";
 
+import common from "../_common/actions";
+
 const TTL = 5;
 
 // ============ creators ===========
 
-function add(views) {
-	return dispatch => {
-		if (!_.isArray(views)) views = [views];
-		dispatch(actionAdd(views));
-	};
-}
+const add = common.add(actionAdd);
 
 function addMongoView(view) {
 	return (dispatch, getState) => {
@@ -207,9 +204,9 @@ function actionSetActive(key) {
 // ============ export ===========
 
 export default {
-	add: add,
-    apiLoadViews: apiLoadViews,
-	apiDeleteView: apiDeleteView,
-	addMongoView: addMongoView,
-	setActive: setActive
+	add,
+	addMongoView,
+    apiLoadViews,
+	apiDeleteView,
+	setActive
 }

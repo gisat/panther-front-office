@@ -11,14 +11,14 @@ export default store => {
 const setEventListeners = store => {
 	window.Stores.addListener((event, options) => {
 		switch(event) {
-			case 'SYMBOLOGIES_LOADED':
-				let oldModels = Select.symbologies.getSymbologies(store.getState());
+			case 'STYLES_LOADED':
+				let oldModels = Select.styles.getAll(store.getState());
 
 				// use only vector or raster layer template and remove duplicities
 				let newModels = utils.removeDuplicities(oldModels, options);
 
 				if (newModels && newModels.length){
-					store.dispatch(Action.symbologies.add(newModels));
+					store.dispatch(Action.styles.add(newModels));
 				}
 				break;
 		}

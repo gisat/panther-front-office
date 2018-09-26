@@ -5,17 +5,13 @@ import path from "path";
 import fetch from "isomorphic-fetch";
 import Group from "../../data/Group";
 
+import common from "../_common/actions";
 
 const TTL = 5;
 
 // ============ creators ===========
 
-function add(groups){
-	return dispatch => {
-		if (!_.isArray(groups)) groups = [groups];
-		dispatch(actionAdd(groups));
-	};
-}
+const add = common.add(actionAdd);
 
 function apiLoad(ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
@@ -72,6 +68,6 @@ function actionAdd(groups) {
 // ============ export ===========
 
 export default {
-	add: add,
-	apiLoad: apiLoad
+	add,
+	apiLoad
 }

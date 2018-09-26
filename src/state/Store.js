@@ -1,4 +1,6 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import logger from 'redux-logger';
 
 import aoiReducers from './AOI/reducers';
 import areasReducers from './Areas/reducers';
@@ -15,13 +17,11 @@ import scenariosReducers from './Scenarios/reducers';
 import scopesReducers from './Scopes/reducers';
 import spatialDataSourcesReducers from './SpatialDataSources/reducers';
 import spatialRelationsReducers from './SpatialRelations/reducers';
-import symbologiesReducers from './Symbologies/reducers';
+import stylesReducers from './Styles/reducers';
 import usersReducers from './Users/reducers';
 import userGroupsReducers from './UserGroups/reducers';
 import viewsReducers from './Views/reducers';
 import wmsLayersReducers from './WmsLayers/reducers';
-import thunk from 'redux-thunk';
-import logger from 'redux-logger';
 
 import subscribers from '../subscribers';
 
@@ -42,7 +42,7 @@ const Store = createStore(combineReducers({
 	scopes: scopesReducers,
 	spatialDataSources: spatialDataSourcesReducers,
 	spatialRelations: spatialRelationsReducers,
-	symbologies: symbologiesReducers,
+	styles: stylesReducers,
 	users: usersReducers,
 	userGroups: userGroupsReducers,
 	views: viewsReducers,

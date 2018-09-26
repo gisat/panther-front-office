@@ -1,7 +1,6 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
 import Select from '../Select';
-import symbologies from "../../subscribers/symbologies";
 
 import common from "../_common/selectors";
 
@@ -38,7 +37,7 @@ const getPucsSourceVectorLayerTemplate = createSelector(
 const getSymbologyForPucsSourceVectorLayerTemplate = createSelector(
 	[getPucsSourceVectorLayerTemplate,
 	(state) => Select.layerTemplates.getTemplates(state),
-	(state) => Select.symbologies.getSymbologies(state)],
+	(state) => Select.styles.getAll(state)],
 	(templateKey, templates, symbologies) => {
 		if (templateKey){
 			let templateData = _.find(templates, (tmplt) => {

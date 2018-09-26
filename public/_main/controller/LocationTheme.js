@@ -122,7 +122,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
                     });
                     switch(store.storeId){
                         case 'symbology':
-							window.Stores.notify("SYMBOLOGIES_LOADED", data);
+							window.Stores.notify("STYLES_LOADED", data);
                             break;
                         case 'areatemplate':
 							window.Stores.notify("LAYER_TEMPLATES_LOADED", data);

@@ -1,28 +1,18 @@
 import {createSelector} from 'reselect';
 import createCachedSelector from 're-reselect';
 import _ from 'lodash';
-
+import common from "../_common/selectors";
 import UsersSelectors from '../Users/selectors';
 
-const getViews = state => state.views.data;
-const getActiveKey = state => state.views.activeKey;
 
+const getSubstate = state => state.views;
 
-const getView = createCachedSelector(
-	getViews,
-	(state, viewKey) => viewKey,
-	(views, key) => {
-		if (views) {
-			return _.find(views, {key: key});
-		}
-		return null;
-	}
-)(
-	(state, viewKey) => viewKey
-);
+const getAll = common.getAll(getSubstate);
+const getActiveKey = common.getActiveKey(getSubstate);
+const getByKey = common.getByKey(getSubstate);
 
 const getViewsForActiveUser = createCachedSelector(
-	getViews,
+	getAll,
 	UsersSelectors.getActiveKey,
 	UsersSelectors.getGroupKeysForActiveUser,
 	UsersSelectors.isAdminOrAdminGroupMember,
@@ -99,7 +89,7 @@ const getViewsForScopeAndActiveUser = createCachedSelector(
 
 
 const hasGuestGroupGetPermission = createSelector(
-	getView,
+	getByKey,
 	(view) => {
 		if (view && view.permissions && view.permissions.group) {
 			return !!_.find(view.permissions.group, {'id': 2});
@@ -130,10 +120,10 @@ const hasViewPermissionForActiveUser = function(permissions, userKey, groupKeys,
 };
 
 export default {
-	getViewsForScopeAndActiveUser: getViewsForScopeAndActiveUser,
-	getView: getView,
-	getViews: getViews,
-	getActiveKey: getActiveKey,
+	getViewsForScopeAndActiveUser,
+	getView: getByKey,
+	getViews: getAll,
+	getActiveKey,
 
-	hasGuestGroupGetPermission: hasGuestGroupGetPermission
+	hasGuestGroupGetPermission
 };

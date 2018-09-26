@@ -14,7 +14,7 @@ import Scenarios from './Scenarios/actions';
 import Scopes from './Scopes/actions';
 import SpatialDataSources from './SpatialDataSources/actions';
 import SpatialRelations from './SpatialRelations/actions';
-import Symbologies from './Symbologies/actions';
+import Styles from './Styles/actions';
 import Users from './Users/actions';
 import UserGroups from './UserGroups/actions';
 import Views from './Views/actions';
@@ -36,7 +36,7 @@ export default {
 	scopes: Scopes,
 	spatialDataSources: SpatialDataSources,
 	spatialRelations: SpatialRelations,
-	symbologies: Symbologies,
+	styles: Styles,
 	users: Users,
 	userGroups: UserGroups,
 	views: Views,

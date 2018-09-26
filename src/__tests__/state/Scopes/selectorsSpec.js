@@ -39,14 +39,8 @@ let state = {
 	attributeSets: {
 		byKey: {4497: {"active":false,"name":"Land Use Classes","attributes":[4496],"topic":737,"featureLayers":[3332],"key":4497}}
 	},
-	symbologies: {
-		data: [{key: 4325, symbologyName: "urbanAtlas"}]
-	},
-	users: {
-		data: [{key: 2}, {key: 3}, {key: 4}, {key: 5}]
-	},
-	userGroups: {
-		data: [{key: 4, users: [2, 3]}, {key: 5, users: [2, 4]}]
+	styles: {
+		byKey: {4325: {key: 4325, symbologyName: "urbanAtlas"}}
 	}
 };
 
@@ -79,33 +73,3 @@ describe('Scope basic Selectors', () => {
 		Selector(Select.scopes.getScopeData).expect(state, 3971).toReturn(expectedScopeData);
 	});
 });
-
-// describe('Scope selectors with permissions', () => {
-// 	it ('should select 3 scopes for admin', () => {
-// 		let stateWithAdmin = _.cloneDeep(state);
-// 		stateWithAdmin.users.isAdmin = true;
-// 		let result = Selector(Select.scopes.getScopesForActiveUser).execute(stateWithAdmin);
-// 		expect(result).toHaveLength(3);
-// 	});
-// 	it ('should select scope 3971 for user without permission', () => {
-// 		let stateWithUser5 = _.cloneDeep(state);
-// 		stateWithUser5.users.activeKey = 5;
-// 		let result = Selector(Select.scopes.getScopesForActiveUser).execute(stateWithUser5);
-// 		expect(result).toHaveLength(1);
-// 		expect(result[0].key).toEqual(3971);
-// 	});
-// 	it ('should select scope 3971 if there is no logged in user', () => {
-// 		let result = Selector(Select.scopes.getScopesForActiveUser).execute(state);
-// 		expect(result).toHaveLength(1);
-// 		expect(result[0].key).toEqual(3971);
-// 	});
-// 	it ('should select scope 3971 and 3972 for user 3', () => {
-// 		let stateWithUser2 = _.cloneDeep(state);
-// 		stateWithUser2.users.activeKey = 3;
-// 		let result = Selector(Select.scopes.getScopesForActiveUser).execute(stateWithUser2);
-// 		let keys = result.map(scope => scope.key);
-// 		expect(result).toHaveLength(2);
-// 		expect(keys).toContain(3971);
-// 		expect(keys).toContain(3972);
-// 	});
-// });

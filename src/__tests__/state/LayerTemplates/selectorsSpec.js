@@ -5,16 +5,19 @@ let state = {
 	layerTemplates: {
 		byKey: {
 			3989: {
-				"name":"Urban Atlas","symbologies":[1,2],"key":3989
+				"name": "Urban Atlas", "symbologies": [1, 2], "key": 3989
 			},
 			3999: {
-			"name":"Symbology 2", "symbologies":[],"key":3999
-		}}
+				"name": "Symbology 2", "symbologies": [], "key": 3999
+			}
+		}
 	},
-	symbologies: {
-		data: [{
-			"name":"pucs model output hwd","symbologyName":"pucs_hwd","source":"geoserver","key":1
-		}]
+	styles: {
+		byKey: {
+			1: {
+				"name": "pucs model output hwd", "symbologyName": "pucs_hwd", "source": "geoserver", "key": 1
+			}
+		}
 	}
 };
 

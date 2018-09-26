@@ -2,28 +2,23 @@ import {createSelector} from 'reselect';
 import createCachedSelector from 're-reselect';
 import _ from 'lodash';
 
+import common from "../_common/selectors";
 import UserGroupSelectors from '../UserGroups/selectors';
-import scopeSelectors from '../Scopes/selectors';
+import ScopeSelectors from '../Scopes/selectors';
 
-const getActiveKey = state => state.users.activeKey;
-const getUsers = state => state.users.data;
+
+const getSubstate = state => state.users;
+
+const getAll = common.getAll(getSubstate);
+const getActiveKey = common.getActiveKey(getSubstate);
+const getActive = common.getActive(getSubstate);
+
 const groups = state => state.users.groups;
 const isLoggedIn = state => state.users.isLoggedIn;
 const isAdmin = state => state.users.isAdmin;
 
-const getActiveUser = createSelector(
-	[getUsers, getActiveKey],
-	(models, activeKey) => {
-		if (models && models.length && activeKey){
-			return _.find(models, {'key': activeKey});
-		} else {
-			return null;
-		}
-	}
-);
-
 const isAdminGroupMember = createSelector(
-	[getActiveUser],
+	[getActive],
 	(user) => {
 		if (user){
 			let adminGroup = _.find(user.groups, (group) => {return group._id === 1});
@@ -41,7 +36,7 @@ const isAdminOrAdminGroupMember = createSelector(
 );
 
 const getGroupsForActiveUser = createSelector(
-	[getActiveKey, UserGroupSelectors.getGroups],
+	[getActiveKey, UserGroupSelectors.getAll],
 	(activeUserKey, groups) => {
 		return _.filter(groups, (group) => {
 			return (_.find(group.users, (user) => {return user === activeUserKey})) || group.key === 2;
@@ -50,7 +45,7 @@ const getGroupsForActiveUser = createSelector(
 );
 
 const getGroupKeysForActiveUser = createSelector(
-	[getGroupsForActiveUser, getActiveUser],
+	[getGroupsForActiveUser, getActive],
 	(groups, activeUser) => {
 		if (activeUser && activeUser.groups){
 			return activeUser.groups.map(group => {return group.key ? group.key : (group.id ? group.id : group._id) });
@@ -78,7 +73,7 @@ const getGroupsForActiveUserPermissionsTowards = createSelector(
 );
 
 const getActiveUserPermissionsTowards = createSelector(
-	[getActiveUser],
+	[getActive],
 	(user) => {
 		if (user && user.permissionsTowards){
 			return user.permissionsTowards;
@@ -126,7 +121,7 @@ const isDromasAdmin = state => {
 };
 
 const getActiveUserDromasLpisChangeReviewGroup  = createSelector(
-	[getGroupKeysForActiveUser, scopeSelectors.getActiveScopeConfiguration],
+	[getGroupKeysForActiveUser, ScopeSelectors.getActiveScopeConfiguration],
 	(activeUserGroupKeys, activeScopeConfiguration) => {
 		if (_.includes(activeUserGroupKeys, activeScopeConfiguration.dromasLpisChangeReview.groups.gisatAdmins)) {
 			return 'gisatAdmins';
@@ -145,11 +140,11 @@ const getActiveUserDromasLpisChangeReviewGroup  = createSelector(
 
 export default {
 	getActiveKey: getActiveKey,
-	getActiveUser: getActiveUser,
+	getActiveUser: getActive,
 	getActiveUserPermissionsTowards: getActiveUserPermissionsTowards,
 	getGroupKeysForActiveUser: getGroupKeysForActiveUser,
 	getGroupsForActiveUser: getGroupKeysForActiveUser,
-	getUsers: getUsers,
+	getUsers: getAll,
 
 	groups: groups,
 

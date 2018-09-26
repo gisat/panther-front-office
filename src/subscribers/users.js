@@ -27,7 +27,7 @@ const setEventListeners = store => {
 				}
 				break;
 			case "USER_GROUPS_LOADED":
-				let oldModelsGroups = Select.userGroups.getGroups(store.getState());
+				let oldModelsGroups = Select.userGroups.getAll(store.getState());
 				let newModelsGroups = utils.removeDuplicities(oldModelsGroups, options);
 				if (newModelsGroups && newModelsGroups.length){
 					store.dispatch(Action.userGroups.add(newModelsGroups));
