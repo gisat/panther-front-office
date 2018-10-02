@@ -36,16 +36,22 @@ export default {
 		let newEditedModelData = state.editedByKey && state.editedByKey[action.key] && state.editedByKey[action.key].data ?
 			_.omit(state.editedByKey[action.key].data, action.property) : null;
 
-		return newEditedModelData ? {
-			...state,
-			editedByKey: {
-				...state.editedByKey,
-				[action.key]: {
-					...state.editedByKey[action.key],
-					data: newEditedModelData
+
+		if (newEditedModelData){
+			return {
+				...state,
+				editedByKey: {
+					...state.editedByKey,
+					[action.key]: {
+						...state.editedByKey[action.key],
+						data: newEditedModelData
+					}
 				}
 			}
-		} : state
+		} else {
+			return state;
+		}
+
 	},
 
 	setActive: (state, action) => {
@@ -60,13 +66,17 @@ export default {
 		let newEditedData = {...state.editedByKey};
 		if (action.data && action.data.length) {
 			action.data.forEach(model => {
-				newEditedData[model.key] = newEditedData[model.key] ? {
-					...newEditedData[model.key],
-					data: {
-						...newEditedData[model.key].data,
-						...model.data
+				if (newEditedData[model.key]){
+					newEditedData[model.key] = {
+						...newEditedData[model.key],
+						data: {
+							...newEditedData[model.key].data,
+							...model.data
+						}
 					}
-				} : model;
+				} else {
+					newEditedData[model.key] = model;
+				}
 			});
 		}
 		return {...state, editedByKey: newEditedData};
