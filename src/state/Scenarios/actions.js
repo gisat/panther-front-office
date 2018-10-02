@@ -19,6 +19,7 @@ const TTL = 5;
 // ============ creators ===========
 
 const add = common.add(actionAdd);
+const removeActiveCaseFromEdited = common.removeActiveFromEdited(actionRemoveActiveCaseFromEdited);
 const setActive = common.setActiveKey(actionSetActive);
 const setActiveKeys = common.setActiveKeys(actionSetActiveKeys);
 
@@ -1095,6 +1096,11 @@ function actionUpdateEditedScenarios(data) {
 		data: data
 	}
 }
+function actionRemoveActiveCaseFromEdited() {
+	return {
+		type: ActionTypes.SCENARIOS_CASES_EDITED_REMOVE_ACTIVE,
+	}
+}
 function actionRemoveCases(keys) {
 	return {
 		type: ActionTypes.SCENARIOS_CASES_REMOVE,
@@ -1213,7 +1219,7 @@ export default {
 
 	addEditedScenario: addEditedScenario,
 	removeActiveCaseEditedScenarios: removeActiveCaseEditedScenarios,
-	removeEditedActiveCase: removeEditedActiveCase,
+	removeEditedActiveCase: removeActiveCaseFromEdited,
 
 	removeScenarioFromActiveCase: removeScenarioFromActiveCase,
 	removeScenarioFromActiveCaseEdited: removeScenarioFromActiveCaseEdited,

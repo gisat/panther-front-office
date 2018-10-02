@@ -18,6 +18,8 @@ export default (state = INITIAL_STATE, action) => {
 			return common.updateEdited(state, action);
 		case ActionTypes.SCENARIOS_CASES_EDITED_REMOVE:
 			return common.removeEdited(state, action);
+		case ActionTypes.SCENARIOS_CASES_EDITED_REMOVE_ACTIVE:
+			return common.removeEditedActive(state, action);
 		case ActionTypes.SCENARIOS_CASES_EDITED_REMOVE_PROPERTY:
 			return common.removeEditedProperty(state, action);
 		case ActionTypes.SCENARIOS_CASES_RECEIVE:

@@ -32,6 +32,11 @@ export default {
 		return {...state, editedByKey: newData}
 	},
 
+	removeEditedActive: (state) => {
+		let newData = _.omit(state.editedByKey, state.activeKey);
+		return {...state, editedByKey: newData}
+	},
+
 	removeEditedProperty: (state, action) => {
 		let newEditedModelData = state.editedByKey && state.editedByKey[action.key] && state.editedByKey[action.key].data ?
 			_.omit(state.editedByKey[action.key].data, action.property) : null;
