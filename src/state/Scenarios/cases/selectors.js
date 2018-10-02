@@ -79,7 +79,15 @@ const getActiveCaseScenariosEdited = createSelector(
 	[ScenariosSelectors.getEditedAllAsObject, getActiveCaseScenarioKeys, getActiveCaseEditedScenarioKeys],
 	(scenariosEdited, activeCaseScenarioKeys, activeCaseEditedScenarioKeys) => {
 		if (scenariosEdited && !_.isEmpty(scenariosEdited)){
-			let keys = activeCaseScenarioKeys ? (activeCaseEditedScenarioKeys ? [...activeCaseScenarioKeys, ...activeCaseEditedScenarioKeys]: activeCaseScenarioKeys) : (activeCaseEditedScenarioKeys ? activeCaseEditedScenarioKeys : []);
+			let keys = [];
+			if (activeCaseScenarioKeys && activeCaseEditedScenarioKeys){
+				keys = [...activeCaseScenarioKeys, ...activeCaseEditedScenarioKeys];
+			} else if (activeCaseScenarioKeys && !activeCaseEditedScenarioKeys){
+				keys = activeCaseScenarioKeys;
+			} else if (!activeCaseScenarioKeys && activeCaseEditedScenarioKeys){
+				keys = activeCaseEditedScenarioKeys;
+			}
+
 			let selectedEditedModels = _.pick(scenariosEdited, keys);
 			return selectedEditedModels && !_.isEmpty(selectedEditedModels) ? Object.values(selectedEditedModels) : null;
 		} else {
