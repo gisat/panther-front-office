@@ -16,14 +16,6 @@ const add = (action) => {
 	}
 };
 
-const removeActiveFromEdited = (action) => {
-	return (data) => {
-		return dispatch => {
-			dispatch(action(data));
-		};
-	}
-};
-
 const setActiveKey = (action) => {
 	return (key) => {
 		return dispatch => {
@@ -140,7 +132,6 @@ function loadAll(dataType, successAction, errorAction) {
 export default {
 	add,
 	loadAll,
-	removeActiveFromEdited,
 	setActiveKey,
 	setActiveKeys,
 	request: requestWrapper

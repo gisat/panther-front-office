@@ -19,9 +19,6 @@ const TTL = 5;
 // ============ creators ===========
 
 const add = common.add(actionAdd);
-const removeActiveCaseFromEdited = common.removeActiveFromEdited(actionRemoveActiveCaseFromEdited);
-const setActive = common.setActiveKey(actionSetActive);
-const setActiveKeys = common.setActiveKeys(actionSetActiveKeys);
 
 // Edited data
 function addEditedScenario(key, options){
@@ -165,7 +162,7 @@ function applyDataviewSettings(data){
 		dispatch(setActiveCase(data.cases.activeKey));
 		dispatch(load(data.cases.activeKey));
 
-		dispatch(setActiveKeys(data.scenarios.activeKeys));
+		dispatch(actionSetActiveKeys(data.scenarios.activeKeys));
 		dispatch(setDefaultSituationActive(data.scenarios.defaultSituationActive));
 	}
 }
@@ -1202,7 +1199,8 @@ function actionApiProcessingScenarioFileError(data) {
 
 export default {
 	add: add,
-	setActive: setActive,
+	setActive: actionSetActive,
+	removeEditedActiveCase: actionRemoveActiveCaseFromEdited,
 
 	applyDataviewSettings: applyDataviewSettings,
 	setDefaultSituationActive: setDefaultSituationActive,
@@ -1219,7 +1217,6 @@ export default {
 
 	addEditedScenario: addEditedScenario,
 	removeActiveCaseEditedScenarios: removeActiveCaseEditedScenarios,
-	removeEditedActiveCase: removeActiveCaseFromEdited,
 
 	removeScenarioFromActiveCase: removeScenarioFromActiveCase,
 	removeScenarioFromActiveCaseEdited: removeScenarioFromActiveCaseEdited,
