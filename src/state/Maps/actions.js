@@ -247,7 +247,7 @@ function updateWithScenarios(){
 	return (dispatch, getState) => {
 		let state = getState();
 		let maps = Select.maps.getMapsOverrides(state);
-		let activeScenarios = Select.scenarios.getActiveScenarios(state);
+		let activeScenarios = Select.scenarios.scenarios.getActiveScenarios(state);
 		let updatedMaps = [];
 		maps.map(map => {
 			let scenarioForMap = _.find(activeScenarios, (scenario) => {return scenario.key === map.scenarioKey});

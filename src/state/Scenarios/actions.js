@@ -18,26 +18,15 @@ const TTL = 5;
 
 // ============ creators ===========
 
-function add(scenarios) {
-	return dispatch => {
-		if (!_.isArray(scenarios)) scenarios = [scenarios];
-		dispatch(actionAdd(scenarios));
-	};
-}
-
-function setActive(key) {
-	return (dispatch) => {
-		if (!_.isArray(key)) key = [key];
-		dispatch(actionSetActive(key));
-	};
-}
-
+const add = common.add(actionAdd);
+const setActive = common.setActiveKey(actionSetActive);
+const setActiveKeys = common.setActiveKeys(actionSetActiveKeys);
 
 // Edited data
 function addEditedScenario(key, options){
 	return (dispatch, getState) => {
-		let activeCaseScenarioKeys = Select.scenarios.getActiveCaseScenarioKeys(getState());
-		let activeCaseEditedScenarioKeys = Select.scenarios.getActiveCaseEditedScenarioKeys(getState());
+		let activeCaseScenarioKeys = Select.scenarios.cases.getActiveCaseScenarioKeys(getState());
+		let activeCaseEditedScenarioKeys = Select.scenarios.cases.getActiveCaseEditedScenarioKeys(getState());
 		let updatedScenarioKeys = activeCaseEditedScenarioKeys ? [...activeCaseEditedScenarioKeys, ...[key]] :
 			(activeCaseScenarioKeys ? [...activeCaseScenarioKeys, ...[key]] : [key] );
 		dispatch(actionUpdateEditedScenarios([{key: key, ...options}]));
@@ -47,7 +36,7 @@ function addEditedScenario(key, options){
 
 function removeEditedActiveCase() {
 	return (dispatch, getState) => {
-		let activeCaseKey = Select.scenarios.getActiveCaseKey(getState());
+		let activeCaseKey = Select.scenarios.cases.getActiveKey(getState());
 		dispatch(actionRemoveEditedCases([activeCaseKey]));
 	};
 }
@@ -57,8 +46,8 @@ function removeEditedActiveCase() {
  */
 function removeActiveCaseEditedScenarios() {
 	return (dispatch, getState) => {
-		let activeCaseScenarioKeys = Select.scenarios.getActiveCaseScenarioKeys(getState());
-		let activeCaseEditedScenarioKeys = Select.scenarios.getActiveCaseEditedScenarioKeys(getState());
+		let activeCaseScenarioKeys = Select.scenarios.cases.getActiveCaseScenarioKeys(getState());
+		let activeCaseEditedScenarioKeys = Select.scenarios.cases.getActiveCaseEditedScenarioKeys(getState());
 		let keys = [];
 		if (activeCaseScenarioKeys){
 			keys = [...keys, ...activeCaseScenarioKeys];
@@ -73,8 +62,8 @@ function removeActiveCaseEditedScenarios() {
 function updateEditedActiveCase(key, value) {
 	return (dispatch, getState) => {
 		let state = getState();
-		let activeCaseKey = Select.scenarios.getActiveCaseKey(state);
-		let activeCase = Select.scenarios.getActiveCase(state);
+		let activeCaseKey = Select.scenarios.cases.getActiveKey(state);
+		let activeCase = Select.scenarios.cases.getActive(state);
 		let sameValue = false;
 
 		if (activeCase && activeCase.data){
@@ -97,7 +86,7 @@ function updateEditedActiveCase(key, value) {
 // it just remove scenario from active case (if it isn't last). Todo unlinking and delete scenario
 function removeScenarioFromActiveCase (scenarioKey) {
 	return ((dispatch, getState) => {
-		let activeCase = Select.scenarios.getActiveCase(getState());
+		let activeCase = Select.scenarios.cases.getActive(getState());
 
 		if (activeCase && activeCase.data && activeCase.data.scenarios){
 			let updatedScenarios = _.without(activeCase.data.scenarios, scenarioKey);
@@ -111,7 +100,7 @@ function removeScenarioFromActiveCase (scenarioKey) {
 
 function removeScenarioFromActiveCaseEdited (scenarioKey) {
 	return ((dispatch, getState) => {
-		let activeCaseEdited = Select.scenarios.getActiveCaseEdited(getState());
+		let activeCaseEdited = Select.scenarios.cases.getActiveCaseEdited(getState());
 
 		if (activeCaseEdited && activeCaseEdited.data && activeCaseEdited.data.scenarios){
 			let updatedScenarios = _.without(activeCaseEdited.data.scenarios, scenarioKey);
@@ -122,7 +111,7 @@ function removeScenarioFromActiveCaseEdited (scenarioKey) {
 
 function updateEditedScenario(scenarioKey, key, value) {
 	return (dispatch, getState) => {
-		let scenario = Select.scenarios.getScenario(getState(), scenarioKey);
+		let scenario = Select.scenarios.scenarios.getByKey(getState(), scenarioKey);
 
 		// delete property from edited, if the value in update is the same as in state
 		if (scenario && (value === scenario.data[key] || (!scenario.data[key] && value.length === 0))){
@@ -135,10 +124,10 @@ function updateEditedScenario(scenarioKey, key, value) {
 
 function setActiveCase(key) {
 	return (dispatch, getState) => {
-		let previousCase = Select.scenarios.getActiveCaseKey(getState());
+		let previousCase = Select.scenarios.cases.getActiveKey(getState());
 		dispatch(actionSetActiveCase(key));
 		if (key){
-			let scenarios = Select.scenarios.getActiveCaseScenarioKeys(getState());
+			let scenarios = Select.scenarios.cases.getActiveCaseScenarioKeys(getState());
 			if (key !== previousCase){
 				dispatch(actionSetActiveKeys(scenarios));
 			}
@@ -156,7 +145,7 @@ function setDefaultSituationActive(active) {
 
 function addActiveScenario(key){
 	return (dispatch, getState) => {
-		let activeScenarioKeys = Select.scenarios.getActiveKeys(getState());
+		let activeScenarioKeys = Select.scenarios.scenarios.getActiveKeys(getState());
 		let stateUpdate = _.union(activeScenarioKeys, [key]);
 		dispatch(actionSetActiveKeys(stateUpdate));
 	}
@@ -164,7 +153,7 @@ function addActiveScenario(key){
 
 function removeActiveScenario(key){
 	return (dispatch, getState) => {
-		let activeScenarioKeys = Select.scenarios.getActiveKeys(getState());
+		let activeScenarioKeys = Select.scenarios.scenarios.getActiveKeys(getState());
 		let stateUpdate = _.without(activeScenarioKeys, key);
 		dispatch(actionSetActiveKeys(stateUpdate));
 	}
@@ -173,23 +162,11 @@ function removeActiveScenario(key){
 function applyDataviewSettings(data){
 	return (dispatch, getState) => {
 		dispatch(setActiveCase(data.cases.activeKey));
-
 		dispatch(load(data.cases.activeKey));
 
-		let state = getState();
-		let scenariosState = Select.scenarios.getAll(state);
-		let stateUpdate = {...scenariosState,
-			activeKeys: data.activeKeys,
-			defaultSituationActive: data.defaultSituationActive,
-		};
-		dispatch(actionUpdate(stateUpdate));
+		dispatch(setActiveKeys(data.scenarios.activeKeys));
+		dispatch(setDefaultSituationActive(data.scenarios.defaultSituationActive));
 	}
-}
-
-function update(data){
-	return dispatch => {
-		dispatch(actionUpdate(data));
-	};
 }
 
 function updateCases(data){
@@ -200,13 +177,7 @@ function updateCases(data){
 
 function removeCases(keys){
 	return (dispatch, getState) => {
-		let casesData = Select.scenarios.getCasesAll(getState());
-		if (casesData.data){
-			let updatedData = _.reject(casesData.data, (caseData) => {
-				return _.find(keys, (key) => {return key === caseData.key});
-			});
-			dispatch(actionUpdateCases({...casesData, data: updatedData}));
-		}
+		dispatch(actionRemoveCases(keys));
 	};
 }
 
@@ -243,22 +214,12 @@ function loadReceive(data) {
 
 function scenariosLoadedForActiveCase(){
 	return (dispatch, getState) => {
-		let state = getState();
-		let casesState = Select.scenarios.getCasesAll(state);
-		let casesData = Select.scenarios.getCases(state);
-		let activeCaseKey = Select.scenarios.getActiveCaseKey(state);
-
-		let updatedData = [];
-		_.each(casesData, model => {
-			if (model.key === activeCaseKey) {
-				updatedData.push({...model, scenariosLoaded: true});
-			} else {
-				updatedData.push(model);
-			}
-		});
-		let stateUpdate = {...casesState, data: updatedData};
-		dispatch(updateCases(stateUpdate));
-		dispatch(Action.maps.updateWithScenarios());
+		let activeCase = Select.scenarios.cases.getActive(getState());
+		if (activeCase){
+			let updatedCase = {...activeCase, data: {...activeCase.data, scenariosLoaded: true}};
+			dispatch(updateCases([updatedCase]));
+			dispatch(Action.maps.updateWithScenarios());
+		}
 	};
 }
 
@@ -339,10 +300,10 @@ function loadCasesReceive(models) {
 function saveActiveCase() {
 	return (dispatch, getState) => {
 		let state = getState();
-		let saved = Select.scenarios.getActiveCase(state);
-		let edited = Select.scenarios.getActiveCaseEdited(state);
-		let editedScenarios = _.filter(Select.scenarios.getScenariosEdited(state), scenario => {
-			let keys = edited ? edited.data.scenarios : saved.data.scenarios;
+		let saved = Select.scenarios.cases.getActive(state);
+		let edited = Select.scenarios.cases.getActiveCaseEdited(state);
+		let editedScenarios = _.filter(Select.scenarios.scenarios.getEditedAll(state), scenario => {
+			let keys = edited && edited.data && edited.data.scenarios ? edited.data.scenarios : saved.data.scenarios;
 			return _.includes(keys, scenario.key);
 		});
 		let activePlaceKey = Select.places.getActiveKey(state);
@@ -360,7 +321,7 @@ function saveActiveCase() {
 function deleteActiveCase() {
 	return (dispatch, getState) => {
 		let state = getState();
-		let activeCase = Select.scenarios.getActiveCase(state);
+		let activeCase = Select.scenarios.cases.getActive(state);
 		if (activeCase){
 			dispatch(apiDeleteCases([activeCase]));
 		}
@@ -917,7 +878,7 @@ function apiCreateRelationsForScenarioProcessResults(results) {
 
 function apiProcessingScenarioFileStarted(scenarioKey){
 	return (dispatch, getState) => {
-		let scenario = Select.scenarios.getScenario(getState(), scenarioKey);
+		let scenario = Select.scenarios.scenarios.getByKey(getState(), scenarioKey);
 		if (scenario){
 			let updated = {...scenario, fileProcessing: {started: true}};
 			dispatch(actionApiProcessingScenarioFileStarted(updated));
@@ -943,7 +904,7 @@ function apiProcessingScenarioFilesError(scenarioKeys, message){
 
 function apiProcessingScenarioFileSuccess(scenarioKey){
 	return (dispatch, getState) => {
-		let scenario = Select.scenarios.getScenario(getState(), scenarioKey);
+		let scenario = Select.scenarios.scenarios.getByKey(getState(), scenarioKey);
 		if (scenario){
 			let updated = {...scenario, fileProcessing: {started: true, finished: true}};
 			dispatch(actionApiProcessingScenarioFileSuccess(updated));
@@ -953,7 +914,7 @@ function apiProcessingScenarioFileSuccess(scenarioKey){
 
 function apiProcessingScenarioFileError(scenarioKey, error){
 	return (dispatch, getState) => {
-		let scenario = Select.scenarios.getScenario(getState(), scenarioKey);
+		let scenario = Select.scenarios.scenarios.getByKey(getState(), scenarioKey);
 		if (scenario){
 			let updated = {...scenario, fileProcessing: {started: true, finished: true, error: true, message: error}};
 			dispatch(actionApiProcessingScenarioFileError(updated));
@@ -972,7 +933,7 @@ function apiCreateCasesReceive(data) {
 		dispatch(apiCreateScenariosReceive(scenarios));
 
 		// change active key if of temporary case
-		let activeCaseKey = Select.scenarios.getActiveCaseKey(getState());
+		let activeCaseKey = Select.scenarios.cases.getActiveKey(getState());
 		if (activeCaseKey) {
 			let activeCaseCreated = _.find(cases, {uuid: activeCaseKey});
 			if (activeCaseCreated) {
@@ -993,7 +954,7 @@ function apiUpdateCasesReceive(data) {
 			// remove from editedData
 			dispatch(removeActiveCaseEditedScenarios());
 			// add/update data
-			dispatch(loadReceive(scenarios));
+			dispatch(loadReceive(data));
 		}
 
 		dispatch(loadCasesReceive(cases));
@@ -1008,7 +969,7 @@ function apiCreateScenariosReceive(data) {
 		dispatch(loadReceive(data));
 
 		// change keys in (edited) cases
-		let editedCases = Select.scenarios.getCasesEdited(getState());
+		let editedCases = Select.scenarios.cases.getEditedAll(getState());
 		let updates = [];
 		_.each(editedCases, editedCase => {
 			let scenariosChanged;
@@ -1074,13 +1035,6 @@ function actionSetDefaultSituationActive(active) {
 	}
 }
 
-function actionUpdate(data) {
-	return {
-		type: ActionTypes.SCENARIOS_UPDATE,
-		data: data
-	}
-}
-
 function actionUpdateCases(data) {
 	return {
 		type: ActionTypes.SCENARIOS_CASES_UPDATE,
@@ -1141,6 +1095,12 @@ function actionUpdateEditedScenarios(data) {
 		data: data
 	}
 }
+function actionRemoveCases(keys) {
+	return {
+		type: ActionTypes.SCENARIOS_CASES_REMOVE,
+		keys: keys
+	}
+}
 function actionRemoveEditedCases(keys) {
 	return {
 		type: ActionTypes.SCENARIOS_CASES_EDITED_REMOVE,
@@ -1149,7 +1109,7 @@ function actionRemoveEditedCases(keys) {
 }
 function actionRemovePropertyFromEditedCase(caseKey, property) {
 	return {
-		type: ActionTypes.SCENARIOS_CASE_EDITED_REMOVE_PROPERTY,
+		type: ActionTypes.SCENARIOS_CASES_EDITED_REMOVE_PROPERTY,
 		caseKey: caseKey,
 		property: property
 	}
@@ -1237,8 +1197,6 @@ function actionApiProcessingScenarioFileError(data) {
 export default {
 	add: add,
 	setActive: setActive,
-	update: update,
-	updateCases: updateCases,
 
 	applyDataviewSettings: applyDataviewSettings,
 	setDefaultSituationActive: setDefaultSituationActive,

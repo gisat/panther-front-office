@@ -16,6 +16,20 @@ const INITIAL_STATE = {
 				name: "Europe"
 			}
 		}
+	},
+	editedByKey: {
+		1: {
+			key: 1,
+			data: {
+				name: "Svět"
+			}
+		},
+		2: {
+			key: 2,
+			data: {
+				name: "Evropa"
+			}
+		}
 	}
 };
 
@@ -25,15 +39,22 @@ const NO_ACTIVE_KEY_STATE = {
 		1: {
 			name: "Test"
 		}
+	},
+	editedByKey: {
+		1: {
+			name: "Testík"
+		}
 	}
 };
 
 const NO_DATA_STATE = {
-	byKey: null
+	byKey: null,
+	editedByKey: null
 };
 
 const EMPTY_DATA_STATE = {
-	byKey: {}
+	byKey: {},
+	editedByKey: {}
 };
 
 const getSubstate = state => state;
@@ -51,7 +72,7 @@ describe('Common selectors', () => {
 			}
 		};
 
-		it('should select data about active scope from state', () => {
+		it('should select active data from state', () => {
 			expect(commonSelectors.getActive(getSubstate)(INITIAL_STATE)).toEqual(expectedOutput);
 		});
 		it('should select undefined, when byKey do not exist', () => {
@@ -87,6 +108,7 @@ describe('Common selectors', () => {
 			activeKeys: [1, 3]
 		};
 		const nullState = {...fullState, activeKeys: null};
+		const missingModelState = {...fullState, activeKeys: [1, 3, 5]};
 		const noModelsState = {...fullState, byKey: null};
 		const emptyModelsState = {...fullState, byKey: {}};
 
@@ -104,6 +126,9 @@ describe('Common selectors', () => {
 
 		it('should select active models', () => {
 			expect(commonSelectors.getActiveModels(getSubstate)(fullState)).toEqual(expectedOutput);
+		});
+		it('should select only existing models for active keys', () => {
+			expect(commonSelectors.getActiveModels(getSubstate)(missingModelState)).toEqual(expectedOutput);
 		});
 		it('should select undefined, when active keys is null', () => {
 			expect(commonSelectors.getActiveModels(getSubstate)(nullState)).toBeNull();
@@ -175,7 +200,7 @@ describe('Common selectors', () => {
 		it('selected data should equal expected object', () => {
 			expect(commonSelectors.getAllAsObject(getSubstate)(INITIAL_STATE)).toEqual(expectedOutput);
 		});
-		it('should select undefined, if data does not exist', () => {
+		it('should select null, if data does not exist', () => {
 			expect(commonSelectors.getAllAsObject(getSubstate)(NO_DATA_STATE)).toBeNull();
 		});
 		it('should select empty object, if data data is empty object', () => {
@@ -194,8 +219,104 @@ describe('Common selectors', () => {
 		it('selected data should equal expected object', () => {
 			expect(commonSelectors.getByKey(getSubstate)(INITIAL_STATE, 1)).toEqual(expectedOutput);
 		});
-		it('should select undefined, if data does not exist', () => {
-			expect(commonSelectors.getAllAsObject(getSubstate)(NO_DATA_STATE, 1)).toBeNull();
+		it('should select null, if data does not exist', () => {
+			expect(commonSelectors.getByKey(getSubstate)(NO_DATA_STATE, 1)).toBeNull();
+		});
+	});
+
+	describe('#getEditedActive', () => {
+		const noModelsState = {
+			activeKey: 1,
+			byKey: null,
+			editedByKey: null
+		};
+		const expectedOutput = {
+			key: 1,
+			data: {
+				name: "Svět"
+			}
+		};
+
+		it('should select active edited data from state', () => {
+			expect(commonSelectors.getEditedActive(getSubstate)(INITIAL_STATE)).toEqual(expectedOutput);
+		});
+		it('should select null, when byKey do not exist', () => {
+			expect(commonSelectors.getEditedActive(getSubstate)(noModelsState)).toBeNull();
+		});
+		it('should select undefined, when active key is null', () => {
+			expect(commonSelectors.getEditedActive(getSubstate)(NO_ACTIVE_KEY_STATE)).toBeUndefined();
+		});
+	});
+
+	describe('#getEditedAll', () => {
+		it('selected data shoud be in array, if exists', () => {
+			expect(Array.isArray(commonSelectors.getEditedAll(getSubstate)(INITIAL_STATE))).toBeTruthy();
+			expect(Array.isArray(commonSelectors.getEditedAll(getSubstate)(EMPTY_DATA_STATE))).toBeTruthy();
+		});
+		it('should select all edited data', () => {
+			expect(commonSelectors.getEditedAll(getSubstate)(INITIAL_STATE)).toHaveLength(2);
+		});
+		it('it should select null, if byKey does not exist', () => {
+			expect(commonSelectors.getEditedAll(getSubstate)(NO_DATA_STATE)).toBeNull();
+		});
+		it('it should select empty array, if byKey is empty object', () => {
+			expect(commonSelectors.getEditedAll(getSubstate)(EMPTY_DATA_STATE)).toHaveLength(0);
+		});
+	});
+
+	describe('#getEditedAllAsObject', () => {
+		const expectedOutput = {
+			1: {
+				key: 1,
+				data: {
+					name: "Svět"
+				}
+			},
+			2: {
+				key: 2,
+				data: {
+					name: "Evropa"
+				}
+			}
+		};
+
+		it('selected data should equal expected object', () => {
+			expect(commonSelectors.getEditedAllAsObject(getSubstate)(INITIAL_STATE)).toEqual(expectedOutput);
+		});
+		it('should select null, if data does not exist', () => {
+			expect(commonSelectors.getEditedAllAsObject(getSubstate)(NO_DATA_STATE)).toBeNull();
+		});
+		it('should select empty object, if data data is empty object', () => {
+			let selection = commonSelectors.getEditedAllAsObject(getSubstate)(EMPTY_DATA_STATE);
+			expect(_.isEmpty(selection)).toBeTruthy();
+		});
+	});
+
+	describe('#getEditedByKey', () => {
+		const expectedOutput = {
+			key: 1,
+			data: {
+				name: "Svět"
+			}
+		};
+		it('selected data should equal expected object', () => {
+			expect(commonSelectors.getEditedByKey(getSubstate)(INITIAL_STATE, 1)).toEqual(expectedOutput);
+		});
+		it('should select null, if data does not exist', () => {
+			expect(commonSelectors.getEditedByKey(getSubstate)(NO_DATA_STATE, 1)).toBeNull();
+		});
+	});
+
+	describe('#getEditedKeys', () => {
+		const expectedOutput = [1, 2];
+		it('selected data should equal expected object', () => {
+			expect(commonSelectors.getEditedKeys(getSubstate)(INITIAL_STATE)).toEqual(expectedOutput);
+		});
+		it('should select null, if data does not exist', () => {
+			expect(commonSelectors.getEditedKeys(getSubstate)(NO_DATA_STATE)).toBeNull();
+		});
+		it('should select null, if editedByKey is empty object', () => {
+			expect(commonSelectors.getEditedKeys(getSubstate)(EMPTY_DATA_STATE)).toBeNull();
 		});
 	});
 });

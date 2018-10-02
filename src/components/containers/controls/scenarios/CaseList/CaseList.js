@@ -5,9 +5,9 @@ import CaseList from "../../../../presentation/controls/scenarios/CaseList/CaseL
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		cases: Select.scenarios.getActivePlaceCases(state),
-		casesEdited: Select.scenarios.getCasesEdited(state),
-		scenariosEdited: Select.scenarios.getScenariosEdited(state),
+		cases: Select.scenarios.cases.getActivePlaceCases(state),
+		casesEdited: Select.scenarios.cases.getEditedAll(state),
+		scenariosEdited: Select.scenarios.scenarios.getEditedAll(state),
 
 		// permissions
 		enableCreate: Select.users.isAdmin(state) || Select.users.hasActiveUserPermissionToCreate(state, 'scenario_case')

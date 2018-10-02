@@ -27,11 +27,49 @@ export default {
 		return {...state, byKey: newData}
 	},
 
+	removeEdited: (state, action) => {
+		let newData = state.editedByKey ? _.omit({...state.editedByKey}, action.keys) : null;
+		return {...state, editedByKey: newData}
+	},
+
+	removeEditedProperty: (state, action) => {
+		let newEditedModelData = state.editedByKey && state.editedByKey[action.key] && state.editedByKey[action.key].data ?
+			_.omit({...state.editedByKey[action.key].data}, action.property) : null;
+
+		return newEditedModelData ? {
+			...state,
+			editedByKey: {
+				...state.editedByKey,
+				[action.key]: {
+					...state.editedByKey[action.key],
+					data: newEditedModelData
+				}
+			}
+		} : {...state}
+	},
+
 	setActive: (state, action) => {
-		return {...state, activeKey: action.key, activeKeys: null};
+		return state.activeKeys ? {...state, activeKey: action.key, activeKeys: null} : {...state, activeKey: action.key
+		};
 	},
 
 	setActiveMultiple: (state, action) => {
 		return {...state, activeKeys: action.keys, activeKey: null};
+	},
+
+	updateEdited: (state, action) => {
+		let newEditedData = {...state.editedByKey};
+		if (action.data && action.data.length) {
+			action.data.forEach(model => {
+				newEditedData[model.key] = newEditedData[model.key] ? {
+					...newEditedData[model.key],
+					data: {
+						...newEditedData[model.key].data,
+						...model.data
+					}
+				} : model;
+			});
+		}
+		return {...state, editedByKey: newEditedData};
 	}
 }

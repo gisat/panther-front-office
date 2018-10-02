@@ -1,270 +1,333 @@
 import commonReducers from '../../../state/_common/reducers';
 
+const BASIC_STATE = {
+	activeKey: 1,
+	byKey: {
+		1: {
+			key: 1,
+			data: {
+				name: "Prague",
+				description: null
+			}
+		},
+		2: {
+			key: 2,
+			data: {
+				name: "Pilsen",
+				description: "Soutok čtyř řek."
+			}
+		},
+		3: {
+			key: 3,
+			data: {
+				name: "Brno"
+			}
+		}
+	},
+	editedByKey: {
+		1: {
+			key: 1,
+			data: {
+				description: "Matka měst"
+			}
+		},
+		2: {
+			key: 2,
+			data: {
+				name: "Pilsen",
+				description: "Město piva"
+			}
+		}
+	}
+};
+
 describe('Common Reducers', () => {
-	describe('#setActive', () => {
-		it('should set active key', () => {
-			let state = {
-				activeKeys: [2, 3],
-				activeKey: null
-			};
-			const action = {
-				key: 2
-			};
-			const expectedState = {
-				activeKeys: null,
-				activeKey: 2
-			};
-			expect(commonReducers.setActive(state, action)).toMatchObject(expectedState);
-		});
-
-		it('should set active key to null', () => {
-			let state = {
-				activeKeys: null,
-				activeKey: 2
-			};
-			const action = {
-				key: null
-			};
-			const expectedState = {
-				activeKeys: null,
-				activeKey: null
-			};
-			expect(commonReducers.setActive(state, action)).toMatchObject(expectedState);
-		});
-
-		it('should change active key', () => {
-			let state = {
-				activeKeys: null,
-				activeKey: 2
-			};
-			const action = {
-				key: 3
-			};
-			const expectedState = {
-				activeKeys: null,
-				activeKey: 3
-			};
-			expect(commonReducers.setActive(state, action)).toMatchObject(expectedState);
-		});
-	});
-
-	describe('#setActiveMultiple', () => {
-		it('should set active keys', () => {
-			let state = {
-				activeKeys: null,
-				activeKey: 3
-			};
-			const action = {
-				keys: [1,2]
-			};
-			const expectedState = {
-				activeKeys: [1,2],
-				activeKey: null
-			};
-			expect(commonReducers.setActiveMultiple(state, action)).toMatchObject(expectedState);
-		});
-
-		it('should set active keys to null', () => {
-			let state = {
-				activeKeys: [2, 3],
-				activeKey: null
-			};
-			const action = {
-				keys: null
-			};
-			const expectedState = {
-				activeKeys: null,
-				activeKey: null
-			};
-			expect(commonReducers.setActiveMultiple(state, action)).toMatchObject(expectedState);
-		});
-
-		it('should change active keys', () => {
-			let state = {
-				activeKeys: [2, 3],
-				activeKey: null
-			};
-			const action = {
-				keys: [2, 4]
-			};
-			const expectedState = {
-				activeKeys: [2, 4],
-				activeKey: null
-			};
-			expect(commonReducers.setActiveMultiple(state, action)).toMatchObject(expectedState);
-		});
-	});
-
 	describe('#add', () => {
-		let initialState = {
-			activeKey: null,
-			byKey: null
-		};
-		let state = {
-			activeKey: 1,
-			byKey: {
-				1: {
-					key: 1,
-					data: {
-						name: "Prague"
-					}
-				},
-				2: {
-					key: 2,
-					data: {
-						name: "Pilsen"
-					}
-				}
-			}
-		};
-		let state2 = {
-			activeKey: 1,
-			byKey: {
-				1: {
-					key: 1,
-					data: {
-						name: "Prague"
-					}
-				}
-			}
-		};
-
 		it('should add first set of data', () => {
+			const state = {
+				...BASIC_STATE,
+				byKey: null
+			};
 			const action = {
-				data: [{key: 1, data: {name: "Brno"}}, {key: 2, data: {name: "Liberec"}}]
+				data: [{key: 4, data: {name: "Ostrava"}}, {key: 5, data: {name: "Liberec"}}]
 			};
 			const expectedState = {
-				activeKey: null,
+				...BASIC_STATE,
 				byKey: {
-					1: {
-						key: 1,
-						data: {
-							name: "Brno"
-						}
-					},
-					2: {
-						key: 2,
-						data: {
-							name: "Liberec"
-						}
-					}
-				}
-			};
-			expect(commonReducers.add(initialState, action)).toEqual(expectedState);
-		});
-
-		it('should add new objects to existing data', () => {
-			const action = {
-				data: [{key: 3, data: {name: "Ostrava"}}, {key: 4, data: {name: "Brno"}}]
-			};
-			const expectedState = {
-				activeKey: 1,
-				byKey: {
-					1: {
-						key: 1,
-						data: {
-							name: "Prague"
-						}
-					},
-					2: {
-						key: 2,
-						data: {
-							name: "Pilsen"
-						}
-					},
-					3: {
-						key: 3,
-						data: {
-							name: "Ostrava"
-						}
-					},
-					4: {
-						key: 4,
-						data: {
-							name: "Brno"
-						}
-					}
+					4: {key: 4, data: {name: "Ostrava"}},
+					5: {key: 5, data: {name: "Liberec"}}
 				}
 			};
 			expect(commonReducers.add(state, action)).toEqual(expectedState);
 		});
 
-		it('should change data in existing object', () => {
+		it('should add data to existing object', () => {
 			const action = {
-				data: [{key: 1, data: {name: "Brno"}}]
+				data: [{key: 4, data: {name: "Ostrava"}}, {key: 5, data: {name: "Liberec"}}]
 			};
 			const expectedState = {
-				activeKey: 1,
+				...BASIC_STATE,
 				byKey: {
-					1: {
-						key: 1,
-						data: {
-							name: "Brno"
-						}
-					}
+					...BASIC_STATE.byKey,
+					4: {key: 4, data: {name: "Ostrava"}},
+					5: {key: 5, data: {name: "Liberec"}}
 				}
 			};
-			expect(commonReducers.add(state2, action)).toEqual(expectedState);
+			expect(commonReducers.add(BASIC_STATE, action)).toEqual(expectedState);
+		});
+
+		it('should change data in existing object', () => {
+			const action = {
+				data: [{key: 1, data: {name: "Jablonec"}}]
+			};
+			const expectedState = {
+				...BASIC_STATE,
+				byKey: {
+					...BASIC_STATE.byKey,
+					1: {key: 1, data: {name: "Jablonec"}}
+				}
+			};
+			expect(commonReducers.add(BASIC_STATE, action)).toEqual(expectedState);
 		});
 	});
 
 	describe('#remove', () => {
-		const INITIAL_STATE = {
-			byKey: {
-				1: {
-					key: 1,
-					data: {
-						name: "Prague"
-					}
-				},
-				2: {
-					key: 2,
-					data: {
-						name: "Pilsen"
-					}
-				},
-				3: {
-					key: 3,
-					data: {
-						name: "Brno"
-					}
-				}
-			}
-		};
 		it('should remove models', () => {
 			const action = {
 				keys: [2, 3]
 			};
 			const expectedState = {
+				...BASIC_STATE,
 				byKey: {
-					1: {
-						key: 1,
-						data: {
-							name: "Prague"
-						}
-					}
+					1: {key: 1, data: {name: "Prague", description: null}}
 				}
 			};
-			expect(commonReducers.remove(INITIAL_STATE, action)).toEqual(expectedState);
+			expect(commonReducers.remove(BASIC_STATE, action)).toEqual(expectedState);
 		});
+
 		it('should not remove any model', () => {
 			const action = {
 				keys: null
 			};
-			const expectedState = {...INITIAL_STATE};
-			expect(commonReducers.remove(INITIAL_STATE, action)).toEqual(expectedState);
+			const expectedState = {...BASIC_STATE};
+			expect(commonReducers.remove(BASIC_STATE, action)).toEqual(expectedState);
 		});
+
 		it('should not modify byKey, if it is null', () => {
+			const state = {
+				...BASIC_STATE,
+				byKey: null
+			};
 			const action = {
 				keys: [1, 2]
 			};
-			const nullState = {
+			const expectedState = {
+				...BASIC_STATE,
 				byKey: null
+			};
+			expect(commonReducers.remove(state, action)).toEqual(expectedState);
+		});
+	});
+
+	describe('#removeEdited', () => {
+		it('should remove edited models', () => {
+			const action = {
+				keys: [2]
 			};
 			const expectedState = {
-				byKey: null
+				...BASIC_STATE,
+				editedByKey: {
+					1: {key: 1, data: {description: "Matka měst"}}
+				}
 			};
-			expect(commonReducers.remove(nullState, action)).toEqual(expectedState);
+			expect(commonReducers.removeEdited(BASIC_STATE, action)).toEqual(expectedState);
+		});
+
+		it('should not remove any data from edited', () => {
+			const action = {
+				keys: null
+			};
+			const expectedState = {...BASIC_STATE};
+			expect(commonReducers.removeEdited(BASIC_STATE, action)).toEqual(expectedState);
+		});
+
+		it('should not modify editedByKey, if it is null', () => {
+			const state = {
+				...BASIC_STATE,
+				editedByKey: null
+			};
+			const action = {
+				keys: [1, 2]
+			};
+			const expectedState = {
+				...BASIC_STATE,
+				editedByKey: null
+			};
+			expect(commonReducers.removeEdited(state, action)).toEqual(expectedState);
+		});
+	});
+
+	describe('#removeEditedProperty', () => {
+		it('should remove property from edited model', () => {
+			const action = {
+				key: 2,
+				property: "name"
+			};
+			const expectedState = {
+				...BASIC_STATE,
+				editedByKey: {
+					1: {key: 1, data: {description: "Matka měst"}},
+					2: {key: 2, data: {description: "Město piva"}}
+				}
+			};
+			expect(commonReducers.removeEditedProperty(BASIC_STATE, action)).toEqual(expectedState);
+		});
+
+		it('should not remove anything, if property does not exist', () => {
+			const action = {
+				key: 1,
+				property: "name"
+			};
+			const expectedState = {
+				...BASIC_STATE,
+				editedByKey: {
+					1: {key: 1, data: {description: "Matka měst"}},
+					2: {key: 2, data: {name: "Pilsen", description: "Město piva"}}
+				}
+			};
+			expect(commonReducers.removeEditedProperty(BASIC_STATE, action)).toEqual(expectedState);
+		});
+
+		it('should not remove anything, if edited model does not exist', () => {
+			const action = {
+				key: 3,
+				property: "name"
+			};
+			const expectedState = {
+				...BASIC_STATE,
+				editedByKey: {
+					1: {key: 1, data: {description: "Matka měst"}},
+					2: {key: 2, data: {name: "Pilsen", description: "Město piva"}}
+				}
+			};
+			expect(commonReducers.removeEditedProperty(BASIC_STATE, action)).toEqual(expectedState);
+		});
+	});
+
+	describe('#setActive', () => {
+		it('should set active key', () => {
+			const action = {
+				key: 2
+			};
+			const expectedState = {
+				...BASIC_STATE,
+				activeKey: 2
+			};
+			expect(commonReducers.setActive(BASIC_STATE, action)).toEqual(expectedState);
+		});
+
+		it('should set active key to null', () => {
+			const action = {
+				key: null
+			};
+			const expectedState = {
+				...BASIC_STATE,
+				activeKey: null
+			};
+			expect(commonReducers.setActive(BASIC_STATE, action)).toEqual(expectedState);
+		});
+	});
+
+	describe('#setActiveMultiple', () => {
+		it('should set active keys', () => {
+			const action = {
+				keys: [1,2]
+			};
+			const expectedState = {
+				...BASIC_STATE,
+				activeKey: null,
+				activeKeys: [1,2]
+			};
+			expect(commonReducers.setActiveMultiple(BASIC_STATE, action)).toEqual(expectedState);
+		});
+
+		it('should set active keys to null', () => {
+			let state = {
+				...BASIC_STATE,
+				activeKey: null,
+				activeKeys: [1,2]
+			};
+			const action = {
+				keys: null
+			};
+			const expectedState = {
+				...BASIC_STATE,
+				activeKey: null,
+				activeKeys: null
+			};
+			expect(commonReducers.setActiveMultiple(state, action)).toEqual(expectedState);
+		});
+
+		it('should change active keys', () => {
+			let state = {...BASIC_STATE,
+				activeKey: null,
+				activeKeys: [1, 2]
+			};
+			const action = {
+				keys: [2, 3]
+			};
+			const expectedState = {
+				...BASIC_STATE,
+				activeKey: null,
+				activeKeys: [2, 3]
+			};
+			expect(commonReducers.setActiveMultiple(state, action)).toEqual(expectedState);
+		});
+	});
+
+	describe('#updateEdited', () => {
+		it('should add new model to edited', () => {
+			const action = {
+				data: [{key: 3, data: {name: "Brno"}}]
+			};
+			const expectedState = {
+				...BASIC_STATE,
+				editedByKey: {
+					...BASIC_STATE.editedByKey,
+					3: {key: 3, data: {name: "Brno"}}
+				}
+			};
+			expect(commonReducers.updateEdited(BASIC_STATE, action)).toEqual(expectedState);
+		});
+		it('should update existing models in edited', () => {
+			const action = {
+				data: [{key: 1, data: {name: "Praha"}},{key: 2, data: {name: "Plzeň", description: "Ahoj"}}]
+			};
+			const expectedState = {
+				...BASIC_STATE,
+				editedByKey: {
+					...BASIC_STATE.editedByKey,
+					1: {key: 1, data: {name: "Praha", description: "Matka měst"}},
+					2: {key: 2, data: {name: "Plzeň", description: "Ahoj"}}
+				}
+			};
+			expect(commonReducers.updateEdited(BASIC_STATE, action)).toEqual(expectedState);
+		});
+		it('should add first set of updated data', () => {
+			const state = {
+				...BASIC_STATE,
+				editedByKey: null
+			};
+			const action = {
+				data: [{key: 1, data: {name: "Praha"}}]
+			};
+			const expectedState = {
+				...BASIC_STATE,
+				editedByKey: {
+					1: {key: 1, data: {name: "Praha"}},
+				}
+			};
+			expect(commonReducers.updateEdited(state, action)).toEqual(expectedState);
 		});
 	});
 });

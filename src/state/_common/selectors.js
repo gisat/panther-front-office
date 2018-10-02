@@ -33,15 +33,64 @@ const getActiveModels = (getSubstate) => {
 	return createSelector(
 		[getAllAsObject(getSubstate), getActiveKeys(getSubstate)],
 		(models, activeKeys) => {
-			return (models && !_.isEmpty(models) && activeKeys && !_.isEmpty(activeKeys)) ? activeKeys.map(key => models[key]) : null;
+			let activeModels = [];
+			if (models && !_.isEmpty(models) && activeKeys && !_.isEmpty(activeKeys)){
+				activeKeys.map(key => {
+					let model = models[key];
+					if (model){
+						activeModels.push(model);
+					}
+				});
+			}
+			return activeModels.length ? activeModels : null;
 		}
 	)
 };
 
 const getByKey = (getSubstate) => {
 	return (state, key) => {
-		return key && getAllAsObject(getSubstate)(state)[key];
+		let allData = getAllAsObject(getSubstate)(state);
+		return key && allData && allData[key];
 	}
+};
+
+const getEditedAll = (getSubstate) => {
+	return (state) => {
+		let data = getSubstate(state).editedByKey;
+		return data ? Object.values(data) : null;
+	}
+};
+
+const getEditedAllAsObject = (getSubstate) => {
+	return (state) => getSubstate(state).editedByKey;
+};
+
+const getEditedActive = (getSubstate) => {
+	return createSelector(
+		[getEditedAllAsObject(getSubstate), getActiveKey(getSubstate)],
+		(models, activeKey) => {
+			return models && models[activeKey];
+		}
+	);
+};
+
+const getEditedByKey = (getSubstate) => {
+	return (state, key) => {
+		let allEditedData = getEditedAllAsObject(getSubstate)(state);
+		return key && allEditedData && allEditedData[key];
+	}
+};
+
+const getEditedKeys = (getSubstate) => {
+	return createSelector(
+		[getEditedAll(getSubstate)],
+		(edited) => {
+			if (edited && !_.isEmpty(edited)){
+				return edited.map(model => model.key);
+			}
+			return null;
+		}
+	);
 };
 
 export default {
@@ -51,5 +100,12 @@ export default {
 	getActiveKeys,
 	getAll,
 	getAllAsObject,
-	getByKey
+
+	getByKey,
+
+	getEditedActive,
+	getEditedAll,
+	getEditedAllAsObject,
+	getEditedByKey,
+	getEditedKeys
 }

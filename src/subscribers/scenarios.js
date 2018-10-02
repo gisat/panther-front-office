@@ -12,12 +12,13 @@ export default store => {
 };
 
 const setStoreWatchers = store => {
-	createWatcher(store, Select.scenarios.getAll, scenariosWatcher);
-	createWatcher(store, Select.scenarios.getActiveCase, activeCaseWatcher);
-	createWatcher(store, Select.scenarios.getActiveCaseScenarios, activeCaseScenariosWatcher, 'activeScenarios');
-	createWatcher(store, Select.scenarios.getActiveKeys, activeScenarioKeysWatcher);
-	createWatcher(store, Select.scenarios.isDefaultSituationActive, defaultSituationWatcher);
-	createWatcher(store, Select.scenarios.getCases, casesWatcher);
+	createWatcher(store, Select.scenarios.cases.getSubstate, casesSubstateWatcher, 'cases');
+	createWatcher(store, Select.scenarios.scenarios.getSubstate, scenariosSubstateWatcher, 'scenarios');
+	createWatcher(store, Select.scenarios.cases.getActive, activeCaseWatcher);
+	createWatcher(store, Select.scenarios.cases.getActiveCaseScenarios, activeCaseScenariosWatcher, 'activeScenarios');
+	createWatcher(store, Select.scenarios.scenarios.getActiveKeys, activeScenarioKeysWatcher);
+	createWatcher(store, Select.scenarios.scenarios.isDefaultSituationActive, defaultSituationWatcher);
+	createWatcher(store, Select.scenarios.cases.getAll, casesWatcher);
 };
 
 const setEventListeners = store => {
@@ -30,11 +31,19 @@ const setEventListeners = store => {
 				store.dispatch(Action.scenarios.setDefaultSituationActive(false));
 				break;
 			case 'scenarios#applyFromDataview':
-				let cases = Select.scenarios.getCases(store.getState());
+				let cases = Select.scenarios.cases.getAll(store.getState());
 
 				// apply dataview settings only if cases are loaded. Otherwise use watcher to watch when cases are loaded and then apply dataview settings
 				if (cases && cases.length){
-					store.dispatch(Action.scenarios.applyDataviewSettings(options.scenarios));
+					let viewData = options.scenarios;
+
+					// convert from old data structure
+					let data = {
+						cases: viewData.cases,
+						scenarios: viewData.activeKeys ? _.omit(viewData, "cases") : viewData.scenarios
+					};
+					state.scenariosDataviewSettings = null;
+					store.dispatch(Action.scenarios.applyDataviewSettings(data));
 				} else {
 					state.scenariosDataviewSettings = options;
 				}
@@ -79,7 +88,6 @@ const casesWatcher = (value, previousValue) => {
 	console.log('@@ casesWatcher', previousValue, '->', value);
 	if (value && state.scenariosDataviewSettings){
 		window.Stores.notify("scenarios#applyFromDataview", state.scenariosDataviewSettings);
-		state.scenariosDataviewSettings = null;
 	}
 };
 
@@ -120,15 +128,21 @@ const compareActiveScenarios = (next, prev) => {
 	}
 };
 
-const scenariosWatcher = (data, previousData) => {
-	console.log('@@ scenariosWatcher', data);
+const casesSubstateWatcher = (data, previousData) => {
+	console.log('@@ casesSubstateWatcher', data);
+};
+
+const scenariosSubstateWatcher = (data, previousData) => {
+	console.log('@@ scenariosSubstateWatcher', data);
 	if (data){
 		let dataForView = {
-			activeKeys: data.activeKeys,
 			cases: {
-				activeKey: data.cases ? data.cases.activeKey : null
+				activeKey: state.cases.activeKey
 			},
-			defaultSituationActive: data.defaultSituationActive
+			scenarios: {
+				activeKeys: data.activeKeys,
+				defaultSituationActive: data.defaultSituationActive
+			}
 		};
 		window.Stores.notify('REDUX_STORE_SCENARIOS_CHANGED', dataForView);
 	}

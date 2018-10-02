@@ -6,10 +6,10 @@ import utils from '../../../../utils/utils';
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		scenarioData: Select.scenarios.getScenario(state, ownProps.scenarioKey),
-		scenarioEditedData: Select.scenarios.getScenarioEdited(state, ownProps.scenarioKey),
+		scenarioData: Select.scenarios.scenarios.getByKey(state, ownProps.scenarioKey),
+		scenarioEditedData: Select.scenarios.scenarios.getEditedByKey(state, ownProps.scenarioKey),
 
-		scenarioSpatialDataSource: Select.scenarios.getPucsScenariosVectorSource(state, ownProps.scenarioKey, ownProps.defaultSituation),
+		scenarioSpatialDataSource: Select.scenarios.scenarios.getPucsScenariosVectorSource(state, ownProps.scenarioKey, ownProps.defaultSituation),
 
 		enableDelete: Select.users.isAdmin(state) || Select.users.hasActiveUserPermissionToCreate(state, 'scenario_case'),
 		enableEdit: Select.users.isAdmin(state) || Select.users.hasActiveUserPermissionToCreate(state, 'scenario_case'),
