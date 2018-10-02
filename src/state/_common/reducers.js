@@ -49,8 +49,7 @@ export default {
 	},
 
 	setActive: (state, action) => {
-		return state.activeKeys ? {...state, activeKey: action.key, activeKeys: null} : {...state, activeKey: action.key
-		};
+		return {...state, activeKey: action.key, activeKeys: null};
 	},
 
 	setActiveMultiple: (state, action) => {
