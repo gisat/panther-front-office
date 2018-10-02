@@ -23,18 +23,18 @@ export default {
 	},
 
 	remove: (state, action) => {
-		let newData = state.byKey ? _.omit({...state.byKey}, action.keys) : null;
+		let newData = state.byKey ? _.omit(state.byKey, action.keys) : null;
 		return {...state, byKey: newData}
 	},
 
 	removeEdited: (state, action) => {
-		let newData = state.editedByKey ? _.omit({...state.editedByKey}, action.keys) : null;
+		let newData = state.editedByKey ? _.omit(state.editedByKey, action.keys) : null;
 		return {...state, editedByKey: newData}
 	},
 
 	removeEditedProperty: (state, action) => {
 		let newEditedModelData = state.editedByKey && state.editedByKey[action.key] && state.editedByKey[action.key].data ?
-			_.omit({...state.editedByKey[action.key].data}, action.property) : null;
+			_.omit(state.editedByKey[action.key].data, action.property) : null;
 
 		return newEditedModelData ? {
 			...state,
@@ -45,7 +45,7 @@ export default {
 					data: newEditedModelData
 				}
 			}
-		} : {...state}
+		} : state
 	},
 
 	setActive: (state, action) => {
