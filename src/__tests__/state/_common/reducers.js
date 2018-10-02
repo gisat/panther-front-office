@@ -221,7 +221,8 @@ describe('Common Reducers', () => {
 			};
 			const expectedState = {
 				...BASIC_STATE,
-				activeKey: 2
+				activeKey: 2,
+				activeKeys: null
 			};
 			expect(commonReducers.setActive(BASIC_STATE, action)).toEqual(expectedState);
 		});
@@ -232,7 +233,8 @@ describe('Common Reducers', () => {
 			};
 			const expectedState = {
 				...BASIC_STATE,
-				activeKey: null
+				activeKey: null,
+				activeKeys: null
 			};
 			expect(commonReducers.setActive(BASIC_STATE, action)).toEqual(expectedState);
 		});
