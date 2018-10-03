@@ -73,6 +73,11 @@ export default {
 			s4() + '-' + s4() + s4() + s4();
 	},
 
+	/**
+	 * Promise.all() for objects (instead of arrays)
+	 * @param object of promises
+	 * @returns promise of object of resolved values
+	 */
 	promiseAll(object) {
 
 		let promisedProperties = [];
@@ -124,6 +129,24 @@ export default {
 				}
 			</p>
 		);
+	},
+
+	/**
+	 * Takes deep object and returns it with values containing path to that key in the object (where value isn't a nested object).
+	 * e.g. {a: null, b: {c: null, d: null}} => {a: 'a', b: {c: 'b.c', d: 'b.d'}}
+	 * Used for constants.
+	 * @param object - input object or nested object when called recursively
+	 * @param path - path to nested object when called recursively
+	 * @returns object
+	 */
+	deepKeyMirror(object, path) {
+		if (_.isObjectLike(object)) {
+			return _.mapValues(object, (value, key) => {
+				return this.deepKeyMirror(value, path ? path + '.' + key : key);
+			});
+		} else {
+			return path;
+		}
 	}
 }
 

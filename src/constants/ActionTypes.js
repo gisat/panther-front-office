@@ -1,4 +1,6 @@
-export default {
+import utils from '../utils/utils';
+
+export default utils.deepKeyMirror({
 
 	INITIALIZE: 'INITIALIZE',
 
@@ -156,4 +158,4 @@ export default {
 	LPIS_CASE_EDIT_ACTIVE_CASE_STATUS: 'LPIS_CASE_EDIT_ACTIVE_CASE_STATUS',
 	LPIS_CASE_EDIT_CASE_STATUS: 'LPIS_CASE_EDIT_CASE_STATUS',
 	LPIS_CASE_SET_NEXT_ACTIVE_CASE_KEY: 'LPIS_CASE_SET_NEXT_ACTIVE_CASE_KEY'
-};
+});
