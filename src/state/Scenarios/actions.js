@@ -32,13 +32,6 @@ function addEditedScenario(key, options){
 	};
 }
 
-function removeEditedActiveCase() {
-	return (dispatch, getState) => {
-		let activeCaseKey = Select.scenarios.cases.getActiveKey(getState());
-		dispatch(actionRemoveEditedCases([activeCaseKey]));
-	};
-}
-
 /**
  * It removes edited scenarios for active case
  */
@@ -135,12 +128,6 @@ function setActiveCase(key) {
 	}
 }
 
-function setDefaultSituationActive(active) {
-	return (dispatch, getState) => {
-		dispatch(actionSetDefaultSituationActive(active));
-	};
-}
-
 function addActiveScenario(key){
 	return (dispatch, getState) => {
 		let activeScenarioKeys = Select.scenarios.scenarios.getActiveKeys(getState());
@@ -163,7 +150,7 @@ function applyDataviewSettings(data){
 		dispatch(load(data.cases.activeKey));
 
 		dispatch(actionSetActiveKeys(data.scenarios.activeKeys));
-		dispatch(setDefaultSituationActive(data.scenarios.defaultSituationActive));
+		dispatch(actionSetDefaultSituationActive(data.scenarios.defaultSituationActive));
 	}
 }
 
@@ -956,7 +943,7 @@ function apiUpdateCasesReceive(data) {
 		}
 
 		dispatch(loadCasesReceive(cases));
-		dispatch(removeEditedActiveCase());
+		dispatch(actionRemoveActiveCaseFromEdited());
 	};
 }
 
@@ -1203,7 +1190,7 @@ export default {
 	removeEditedActiveCase: actionRemoveActiveCaseFromEdited,
 
 	applyDataviewSettings: applyDataviewSettings,
-	setDefaultSituationActive: setDefaultSituationActive,
+	setDefaultSituationActive: actionSetDefaultSituationActive,
 
 	addActiveScenario: addActiveScenario,
 	removeActiveScenario: removeActiveScenario,
