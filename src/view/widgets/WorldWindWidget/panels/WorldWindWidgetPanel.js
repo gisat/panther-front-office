@@ -436,7 +436,7 @@ class WorldWindWidgetPanel {
                     }
                     let layer = map.layers.getLayerById(id);
                     if (layer){
-						map.layers.removeLayer(layer);
+						map.layers.removeLayer(layer, true);
                     }
                 }
             });
