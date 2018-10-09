@@ -105,7 +105,7 @@ class LayerOpacity extends LayerTool {
                 let id = layer.id;
                 if (layer.layerTemplateId){
                     id = layer.layerTemplateId;
-					if (self._style) {
+					if (self._style && self._style.path) {
 						id += "-" + self._style.path;
 					}
                 }

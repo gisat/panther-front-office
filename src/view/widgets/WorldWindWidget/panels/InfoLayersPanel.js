@@ -213,13 +213,20 @@ class InfoLayersPanel extends WorldWindWidgetPanel {
 	 * Go through a list of active layers. If at least one layer associated with given control is among active infoLayers,
 	 * the control should be active.
 	 * @param templateId {string} id of template
+     * @param style {object}
 	 * @returns {boolean} true, if control should be active
 	 */
-	isControlActive(templateId){
+	isControlActive(templateId, style){
 		let state = this._stateStore.current().mapDefaults;
 		if (state && state.layerTemplates){
 			return (_.findIndex(state.layerTemplates, function(template){
-			    return template.templateId === templateId
+			    if (style || template.styles){
+			        let savedPath = template.styles ? template.styles[0].path : null;
+			        let requiredPath = style ? style.path : null;
+					return template.templateId === templateId && savedPath === requiredPath;
+                } else {
+			        return template.templateId === templateId;
+                }
 			}) > -1);
 		} else {
 			return false;

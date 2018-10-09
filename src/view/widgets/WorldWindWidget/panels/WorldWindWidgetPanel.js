@@ -307,7 +307,7 @@ class WorldWindWidgetPanel {
 		let checked = false;
 		let control = null;
 		if (this._groupId === "info-layers"){
-			checked = this.isControlActive(layerTemplateId);
+			checked = this.isControlActive(layerTemplateId, style);
 			control = this.buildLayerControl(target, id, name, layers, style, checked, this._groupId);
 		} else {
 			checked = this.isControlActive(id, layers);
@@ -384,9 +384,17 @@ class WorldWindWidgetPanel {
                     self._dispatcher.notify('wmsLayer#add', {layerKey: control.layers[0].id})
                 } else if (self._groupId === "info-layers"){
 					let templates = _.map(control.layers, function(layer){
+						let styles = null;
+						if (control.style && layer.styles){
+							styles = _.filter(layer.styles, (style) => {
+							    return style.path === control.style.path
+                            });
+						}
+
+
 					    return {
 					        templateId: layer.layerTemplateId,
-                            styles: layer.styles
+                            styles: styles
                         }
 					});
 					self._dispatcher.notify('infoLayer#add', {layerTemplates: templates})
@@ -400,7 +408,18 @@ class WorldWindWidgetPanel {
                 if (self._groupId === "wms-layers"){
                     self._dispatcher.notify('wmsLayer#remove', {layerKey: control.layers[0].id})
                 } else if (self._groupId === "info-layers"){
-					let templatesToRemove = _.map(control.layers, function(layer){return layer.layerTemplateId});
+					let templatesToRemove = _.map(control.layers, function(layer){
+						let styles = null;
+						if (control.style && layer.styles){
+							styles = _.filter(layer.styles, (style) => {
+								return style.path === control.style.path
+							});
+						}
+						return {
+							templateId: layer.layerTemplateId,
+							styles: styles
+						}
+					});
 					self._dispatcher.notify('infoLayer#remove', {layerTemplates: templatesToRemove})
 				}
             }
@@ -425,12 +444,9 @@ class WorldWindWidgetPanel {
                         prefix = self._idPrefix + "-";
                     }
                     let id = prefix + layerData.id;
-                    if (control.style){
-                        id = id + "-" + control.style.path;
-                    }
                     if (self._id === 'info-layers'){
 						id = layerData.layerTemplateId;
-						if (control.style){
+						if (control.style && control.style.path){
 							id += "-" + control.style.path;
 						}
                     }
@@ -480,7 +496,9 @@ class WorldWindWidgetPanel {
                             if (control.style.name){
                                 layerName = layerName + " - " + control.style.name;
                             }
-                            layerId = layerId + "-" + stylePaths;
+                            if (stylePaths){
+								layerId = layerId + "-" + stylePaths;
+                            }
                         }
                         if (layerData.custom && layerData.custom !== "undefined"){
                             customParams = JSON.parse(layerData.custom);
