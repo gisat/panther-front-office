@@ -227,9 +227,11 @@ function load(caseKey) {
 
 function loadReceive(data) {
 	//todo cancel loading for caseKey?
+	data = data.scenarios ? data.scenarios : data;
+
 	return dispatch => {
-		if (data.scenarios){
-			data = _.map(data.scenarios, ({id, ...model}) => {
+		if (data){
+			data = _.map(data, ({id, ...model}) => {
 				return {...model, key: id};
 			});
 			dispatch(actionLoadReceive(data));
@@ -827,9 +829,17 @@ function apiCreateRelationsForScenarioProcessResults(results) {
 		let activePlace = Select.places.getActive(getState());
 
 		let activePlaceKey = activePlace ? activePlace.key : null;
-		let inputVectorTemplateId = config.pucsInputVectorTemplateId;
-		let outputRasterHwdTemplateId = config.pucsOutputRasterHwdTemplateId;
-		let outputRasterUhiTemplateId = config.pucsOutputRasterUhiTemplateId;
+
+		let inputVectorTemplateId, outputRasterHwdTemplateId, outputRasterUhiTemplateId;
+		let configuration = Select.scopes.getActiveScopeConfiguration(getState());
+		if (configuration.pucsLandUseScenarios && configuration.pucsLandUseScenarios.templates){
+			let templates = configuration.pucsLandUseScenarios.templates;
+			inputVectorTemplateId = templates.sourceVector;
+			outputRasterHwdTemplateId = templates.hwd;
+			outputRasterUhiTemplateId = templates.uhi;
+		} else {
+			console.error("Scenarios actions#apiCreateRelationsForScenarioProcessResults: pucsLandUseScenarios configuration is missing!")
+		}
 
 		let relations = [];
 		let scenarioKeys = [];
