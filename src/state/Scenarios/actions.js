@@ -790,7 +790,8 @@ function apiExecutePucsMatlabProcessOnUploadedScenarioFiles(uploads) {
 					body: JSON.stringify({
 						data: {
 							uploadKey: upload.uploadKey,
-							placeId: Select.places.getActiveKey(state)
+							placeId: Select.places.getActiveKey(state),
+							scopeId: Select.scopes.getActiveScopeKey(state)
 						}
 					})
 				}).then((response) => {
