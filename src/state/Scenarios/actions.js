@@ -771,8 +771,9 @@ function getBodyForMatlabProcessesRequest(processes) {
 }
 
 function apiExecutePucsMatlabProcessOnUploadedScenarioFiles(uploads) {
-	return (dispatch) => {
+	return (dispatch, getState) => {
 		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/pucs/execute_matlab');
+		let state = getState();
 
 		let scenarioKeys = [];
 		uploads.forEach((upload) => {
@@ -788,7 +789,9 @@ function apiExecutePucsMatlabProcessOnUploadedScenarioFiles(uploads) {
 					},
 					body: JSON.stringify({
 						data: {
-							uploadKey: upload.uploadKey
+							uploadKey: upload.uploadKey,
+							placeId: Select.places.getActiveKey(state),
+							scopeId: Select.scopes.getActiveScopeKey(state)
 						}
 					})
 				}).then((response) => {
