@@ -827,7 +827,7 @@ function apiExecutePucsMatlabProcessOnUploadedScenarioFiles(uploads) {
 
 function apiCreateRelationsForScenarioProcessResults(results) {
 	return (dispatch, getState) => {
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/relations/spatial');
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/relations');
 
 		let activePlace = Select.places.getActive(getState());
 
