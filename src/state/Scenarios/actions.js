@@ -827,7 +827,7 @@ function apiExecutePucsMatlabProcessOnUploadedScenarioFiles(uploads) {
 
 function apiCreateRelationsForScenarioProcessResults(results) {
 	return (dispatch, getState) => {
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/spatial_relations');
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/relations/spatial');
 
 		let activePlace = Select.places.getActive(getState());
 
@@ -900,13 +900,13 @@ function apiCreateRelationsForScenarioProcessResults(results) {
 					'Content-Type': 'application/json',
 					'Accept': 'application/json'
 				},
-				body: JSON.stringify(relations)
+				body: JSON.stringify({"spatial": relations})
 			}).then((relationResults) => relationResults.json())
 				.then((relationResults) => {
-					if (relationResults.data){
+					if (relationResults.data.spatial){
 						// todo why there are data apart of key, while in Action.spatialRelations.load response are not?
 						let dataSourcesIds = [];
-						let data = relationResults.data.map(
+						let data = relationResults.data.spatial.map(
 							relation => {
 								dataSourcesIds.push(relation.data.data_source_id);
 								let rel = {...relation.data, id: relation.id};
