@@ -900,7 +900,7 @@ function apiCreateRelationsForScenarioProcessResults(results) {
 					'Content-Type': 'application/json',
 					'Accept': 'application/json'
 				},
-				body: JSON.stringify({"spatial": relations})
+				body: JSON.stringify({"data": {"spatial": relations}})
 			}).then((relationResults) => relationResults.json())
 				.then((relationResults) => {
 					if (relationResults.data.spatial){
