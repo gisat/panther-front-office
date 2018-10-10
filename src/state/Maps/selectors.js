@@ -155,16 +155,16 @@ const getVectorLayersForTemplate = createSelector(
 	[(state, template) => (template), getSpatialRelations, getSpatialDataSources],
 	(layerTemplate, relations, sources) => {
 		if (layerTemplate && relations.length && sources.length){
-			let relationsForTemplate = _.filter(relations, ['layer_template_id', layerTemplate]);
+			let relationsForTemplate = _.filter(relations, (relation) => { return relation.data['layer_template_id'] === layerTemplate});
 			if (relationsForTemplate){
 				let vectorSources = [];
 				relationsForTemplate.map(relation => {
-					let dataSource = _.find(sources, {'key': relation.data_source_id, 'type': 'shapefile'});
-					let scenario = relation.scenario_id;
+					let dataSource = _.find(sources, {'key': relation.data.data_source_id, 'type': 'shapefile'});
+					let scenarioKey = relation.data.scenario_id;
 					if (dataSource){
 						vectorSources.push({
 							dataSource: dataSource.data.layer_name,	// todo prejmenovat na neco vhodneho
-							scenarioKey: scenario,
+							scenarioKey: scenarioKey,
 							relationKey: relation.key,
 							dataSourceKey: dataSource.key
 						});
