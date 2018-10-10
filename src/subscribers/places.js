@@ -56,7 +56,7 @@ const setEventListeners = store => {
 							dispatchRelationsLoading.then(() => {
 								let dataSourcesIds = Select.spatialRelations.getActivePlaceDataSourceIds(store.getState());
 								if (dataSourcesIds && dataSourcesIds.length){
-									store.dispatch(Action.spatialDataSources.loadFiltered({'key': dataSourcesIds}));
+									store.dispatch(Action.spatialDataSources.loadFiltered({'id': dataSourcesIds}));
 								}
 							});
 						}
