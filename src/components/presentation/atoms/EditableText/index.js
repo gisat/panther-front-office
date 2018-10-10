@@ -49,7 +49,8 @@ class EditableText extends React.PureComponent {
 
 	resize() {
 		if (this.el && typeof this.el.scrollHeight != 'undefined') {
-			if (this.el.scrollHeight !== this.state.height && this.el.scrollHeight > DEFAULT_HEIGHT) {
+			let isHeightDifferent = Math.abs(this.el.scrollHeight - this.state.height) > 2;
+			if (isHeightDifferent && this.el.scrollHeight > DEFAULT_HEIGHT) {
 				this.setState({
 					height: this.el.scrollHeight
 				});
