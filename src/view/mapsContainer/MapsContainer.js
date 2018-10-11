@@ -332,7 +332,7 @@ class MapsContainer {
 				}
 			});
 		}
-		if (selectedMap){
+		if (selectedMap && !state.isMapDependentOnScenario){
 			this.handleMapSelection(null, selectedMap)
 		}
 	}
