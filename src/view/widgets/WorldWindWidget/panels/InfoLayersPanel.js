@@ -221,7 +221,7 @@ class InfoLayersPanel extends WorldWindWidgetPanel {
 		if (state && state.layerTemplates){
 			return (_.findIndex(state.layerTemplates, function(template){
 			    if (style || template.styles){
-			        let savedPath = template.styles ? template.styles[0].path : null;
+			        let savedPath = (template.styles && template.styles.length) ? template.styles[0].path : null;
 			        let requiredPath = style ? style.path : null;
 					return template.templateId === templateId && savedPath === requiredPath;
                 } else {

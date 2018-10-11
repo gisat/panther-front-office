@@ -72,11 +72,12 @@ function removeLayerTemplates(templates) {
 		if (state && state.layerTemplates){
 			let finalTemplates = [];
 			state.layerTemplates.map(layerTemplate => {
-				let stylePath = layerTemplate.styles ? layerTemplate.styles[0].path : null;
+				let stylePath = (layerTemplate.styles && layerTemplate.styles.length) ? layerTemplate.styles[0].path : null;
 				let toRemove = _.find(templates, template => {
 					if (stylePath || template.styles){
+						let requiredPath = template.styles && template.styles.length ? template.styles[0].path : null;
 						return template.templateId === layerTemplate.templateId &&
-							template.styles[0].path === stylePath;
+							requiredPath === stylePath;
 					} else {
 						return template.templateId === layerTemplate.templateId
 					}
