@@ -8,6 +8,20 @@ const getSubstate = state => state.areas.selections;
 const getAll = common.getAll(getSubstate);
 const getActiveKeys = common.getActiveKeys(getSubstate);
 
+const getAllByColour = createSelector(
+	[getAll],
+	(selections) => {
+		if (selections){
+			let selectionsByColour = {};
+			selections.map(selection => {
+				selectionsByColour[selection.data.colour] = selection.data.selection.attributeFilter;
+			});
+			return selectionsByColour;
+		}
+		return selections;
+	}
+);
+
 const getSelectionByColour = createCachedSelector(
 	getAll,
 	(state, colour) => colour,
@@ -30,6 +44,8 @@ const getSelectionByColourAttributeFilter = createSelector(
 
 export default {
 	getActiveKeys,
+	getAll,
+	getAllByColour,
 	getSelectionByColour,
 	getSelectionByColourAttributeFilter
 };

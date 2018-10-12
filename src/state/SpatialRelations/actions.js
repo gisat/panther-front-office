@@ -22,30 +22,24 @@ function load(ttl) {
 			dispatch(actionLoadRelationsRequest());
 
 			let activePlaceKey = Select.places.getActiveKey(state);
-			let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/spatial_relations');
-			let query = queryString.stringify({
-				place_id: activePlaceKey,
-				limit: 5000
-			});
-			if (query) {
-				url += '?' + query;
-			}
+			let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/relations/filtered/spatial');
 
 			return fetch(url, {
-				method: 'GET',
+				method: 'POST',
 				credentials: 'include',
 				headers: {
 					'Content-Type': 'application/json',
 					'Accept': 'application/json'
-				}
+				},
+				body: JSON.stringify({place_id: activePlaceKey, limit: 5000})
 			}).then(
 				response => {
 					console.log('#### load spatial relations response', response);
 					let contentType = response.headers.get('Content-type');
 					if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
 						return response.json().then(data => {
-							if (data.data && data.success) {
-								dispatch(loadRelationsReceive(data.data));
+							if (data.data && data.success && data.data.spatial && data.data.spatial.length) {
+								dispatch(loadRelationsReceive(data.data.spatial));
 							} else {
 								dispatch(actionLoadRelationsError('no data returned'));
 							}
@@ -69,8 +63,8 @@ function load(ttl) {
 
 function loadRelationsReceive(models) {
 	return dispatch => {
-		models = _.map(models, ({id, ...model}) => {
-			return {...model, key: id};
+		models = _.map(models, ({key, ...model}) => {
+			return {...model, key: key};
 		});
 		dispatch(actionLoadRelationsReceive(models));
 	};

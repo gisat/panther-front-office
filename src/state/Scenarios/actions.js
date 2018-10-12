@@ -183,9 +183,11 @@ function load(caseKey) {
 
 function loadReceive(data) {
 	//todo cancel loading for caseKey?
+	data = data.scenarios ? data.scenarios : data;
+
 	return dispatch => {
-		if (data.scenarios){
-			data = _.map(data.scenarios, ({id, ...model}) => {
+		if (data){
+			data = _.map(data, ({id, ...model}) => {
 				return {...model, key: id};
 			});
 			dispatch(actionLoadReceive(data));
@@ -715,8 +717,9 @@ function getBodyForMatlabProcessesRequest(processes) {
 }
 
 function apiExecutePucsMatlabProcessOnUploadedScenarioFiles(uploads) {
-	return (dispatch) => {
+	return (dispatch, getState) => {
 		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/pucs/execute_matlab');
+		let state = getState();
 
 		let scenarioKeys = [];
 		uploads.forEach((upload) => {
@@ -732,7 +735,9 @@ function apiExecutePucsMatlabProcessOnUploadedScenarioFiles(uploads) {
 					},
 					body: JSON.stringify({
 						data: {
-							uploadKey: upload.uploadKey
+							uploadKey: upload.uploadKey,
+							placeId: Select.places.getActiveKey(state),
+							scopeId: Select.scopes.getActiveScopeKey(state)
 						}
 					})
 				}).then((response) => {
@@ -768,14 +773,22 @@ function apiExecutePucsMatlabProcessOnUploadedScenarioFiles(uploads) {
 
 function apiCreateRelationsForScenarioProcessResults(results) {
 	return (dispatch, getState) => {
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/spatial_relations');
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/relations');
 
 		let activePlace = Select.places.getActive(getState());
 
 		let activePlaceKey = activePlace ? activePlace.key : null;
-		let inputVectorTemplateId = config.pucsInputVectorTemplateId;
-		let outputRasterHwdTemplateId = config.pucsOutputRasterHwdTemplateId;
-		let outputRasterUhiTemplateId = config.pucsOutputRasterUhiTemplateId;
+
+		let inputVectorTemplateId, outputRasterHwdTemplateId, outputRasterUhiTemplateId;
+		let configuration = Select.scopes.getActiveScopeConfiguration(getState());
+		if (configuration.pucsLandUseScenarios && configuration.pucsLandUseScenarios.templates){
+			let templates = configuration.pucsLandUseScenarios.templates;
+			inputVectorTemplateId = templates.sourceVector;
+			outputRasterHwdTemplateId = templates.hwd;
+			outputRasterUhiTemplateId = templates.uhi;
+		} else {
+			console.error("Scenarios actions#apiCreateRelationsForScenarioProcessResults: pucsLandUseScenarios configuration is missing!")
+		}
 
 		let relations = [];
 		let scenarioKeys = [];
@@ -833,13 +846,13 @@ function apiCreateRelationsForScenarioProcessResults(results) {
 					'Content-Type': 'application/json',
 					'Accept': 'application/json'
 				},
-				body: JSON.stringify(relations)
+				body: JSON.stringify({"data": {"spatial": relations}})
 			}).then((relationResults) => relationResults.json())
 				.then((relationResults) => {
-					if (relationResults.data){
+					if (relationResults.data.spatial){
 						// todo why there are data apart of key, while in Action.spatialRelations.load response are not?
 						let dataSourcesIds = [];
-						let data = relationResults.data.map(
+						let data = relationResults.data.spatial.map(
 							relation => {
 								dataSourcesIds.push(relation.data.data_source_id);
 								let rel = {...relation.data, id: relation.id};

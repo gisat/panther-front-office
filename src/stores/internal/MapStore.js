@@ -142,14 +142,18 @@ class MapStore {
                             customOptions = JSON.parse(layer.custom);
                         } catch(e){}
 
+                        let alreadyExist = map.layers.getLayerById("wmsLayer-" + layer.id) || map.layers.getLayerById(layer.id);
+
                         // add layer
-                        map.layers.addWmsLayer({
-                            url: layer.url,
-                            layerPaths: layer.layer,
-                            customParams: layerOptions || customOptions,
-                            name: layer.name,
-                            id: layer.id
-                        }, groupId, true);
+						if (!alreadyExist){
+							map.layers.addWmsLayer({
+								url: layer.url,
+								layerPaths: layer.layer,
+								customParams: layerOptions || customOptions,
+								name: layer.name,
+								id: layer.id
+							}, groupId, true);
+						}
 
                         // add map title
                         if (scope.mapLayerInfo && scope.mapLayerInfo === 'simple') {

@@ -422,11 +422,11 @@ Ext.define('PumaMain.controller.Chart', {
             //debugger;
         }
         if (cfg.type=='columnchart'){
-            if (cfg.stackingSettings && chartCmp && chartCmp.queryCfg){
-				chartCmp.queryCfg.stacking = cfg.stackingSettings;
+            if (cfg.stackingSettings){
+				cfg.stacking = cfg.stackingSettings;
             }
-			if (cfg.aggregateSettings && chartCmp && chartCmp.queryCfg){
-				chartCmp.queryCfg.aggregate = cfg.aggregateSettings;
+			if (cfg.aggregateSettings){
+				cfg.aggregate = cfg.aggregateSettings;
 			}
         }
         var queryCfg = Ext.apply(chartCmp.queryCfg || {},chartCmp.cfg,this.gatherChartCfg(chartCmp,true));
@@ -1491,16 +1491,18 @@ Ext.define('PumaMain.controller.Chart', {
     formatVal: function(val) {
         if (typeof val === "string"){
             return val;
+        } else if (typeof val === "number"){
+			val = Number(val);
+			if (this.isInt(val)) return val;
+			var deci = 3;
+			if (val>1) deci = 2;
+			if (val>100) deci = 1;
+			if (val>10000) deci = 0;
+			return val!=null ? val.toFixed(deci) : val;
+        } else if (!val){
+            return polyglot.t('noData');
         }
-
-        val = Number(val);
-        if (this.isInt(val)) return val;
-        var deci = 3;
-        if (val>1) deci = 2;
-        if (val>100) deci = 1;
-        if (val>10000) deci = 0;
-        return val!=null ? val.toFixed(deci) : val;
-    },
+        },
     isInt: function(value) {
         return !isNaN(parseInt(value,10)) && (parseFloat(value,10) == parseInt(value,10));
     },

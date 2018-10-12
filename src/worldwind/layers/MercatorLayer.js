@@ -21,6 +21,9 @@ class MercatorLayer extends MercatorTiledImageLayer {
         if (this.sldId) {
             this.cachePath = options.service + "/" + options.layerNames + "/" + this.sldId;
         }
+		if (options.styleNames){
+			this.cachePath = this.cachePath += "/" + options.styleNames;
+		}
         if (this.customParams) {
             if (this.customParams.time) {
                 this.cachePath = options.service + "/" + options.layerNames + "/" + this.customParams.time;

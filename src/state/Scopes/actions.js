@@ -1,6 +1,7 @@
 import Action from '../Action';
 import ActionTypes from '../../constants/ActionTypes';
 import Select from '../Select';
+import VisualsConfig from '../../constants/VisualsConfig';
 
 import _ from 'lodash';
 import config from "../../config";
@@ -19,15 +20,27 @@ const TTL = 5;
 function setActiveScopeKey(key) {
 	return dispatch => {
 		dispatch(actionSetActiveScopeKey(key));
-		dispatch(loadDataForActiveScope());
+		dispatch(applyScopeConfiguration());
 	};
 }
-function loadDataForActiveScope() {
+function applyScopeConfiguration() {
 	return (dispatch, getState) => {
-		let activeScopeConfiguration = Select.scopes.getActiveScopeConfiguration(getState());
-		if(activeScopeConfiguration && activeScopeConfiguration.hasOwnProperty(`dromasLpisChangeReview`)) {
-			dispatch(Action.lpisCases.load());
+		let scopeConfig = Select.scopes.getActiveScopeConfiguration(getState());
+		let htmlClass = null;
+		let activeKey = null;
+
+		if (scopeConfig){
+			if (scopeConfig.hasOwnProperty(`dromasLpisChangeReview`)){
+				dispatch(Action.lpisCases.load());
+			}
+			if (scopeConfig.style){
+				let styleToUse = VisualsConfig[scopeConfig.style];
+				htmlClass = styleToUse && styleToUse.htmlClass ? styleToUse.htmlClass : null;
+				activeKey = scopeConfig.style;
+			}
 		}
+		dispatch(Action.components.setApplicationStyleActiveKey(activeKey));
+		dispatch(Action.components.setApplicationStyleHtmlClass('forScope', htmlClass));
 	}
 }
 

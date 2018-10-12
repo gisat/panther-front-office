@@ -78,7 +78,7 @@
 .slider-popup {
     display: none;
     position: absolute;
-    margin: -6rem .4rem 0 .4rem;
+    margin: -6rem 6px 0 6px;
     min-width: 14.5rem;
     height: 3.5rem;
     background: white;

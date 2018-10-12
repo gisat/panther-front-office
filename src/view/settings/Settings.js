@@ -25,6 +25,7 @@ class Settings {
 
         this._target = options.target;
         this._id = options.widgetId + '-settings';
+        this._stateStore = options.stateStore;
 
         this.buildContent();
     };

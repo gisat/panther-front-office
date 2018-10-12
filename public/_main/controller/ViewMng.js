@@ -379,7 +379,20 @@ Ext.define('PumaMain.controller.ViewMng', {
 		cfg.visualization = Ext.ComponentQuery.query('#selvisualization')[0].getValue();
 		cfg.location = Ext.ComponentQuery.query('#sellocation')[0].getValue();
 		cfg.expanded = this.getController('Area').getExpandedAndFids().expanded;
-		cfg.selMap = this.getController('Select').selMap;
+		cfg.selMap = {};
+		var selMap = this.getController('Select').selMap;
+
+		// fix for areas selected from areas filter
+		for (var key in selMap){
+			cfg.selMap[key] = selMap[key].map(function(area){
+				return {
+					at: area.at,
+					gid: area.gid.toString(),
+					loc: area.loc
+				}
+			});
+		}
+
 		cfg.choroplethCfg = this.getController('AttributeConfig').layerConfig;
 
 		cfg.pagingUseSelected = Ext.ComponentQuery.query('#areapager #onlySelected')[0].pressed;

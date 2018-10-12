@@ -23,6 +23,9 @@ class MyWmsLayer extends WmsLayer {
         if (this.sldId) {
             cachePath += "/" + this.sldId;
         }
+        if (options.styleNames){
+            cachePath += "/" + options.styleNames;
+        }
         if (this.customParams) {
             if (this.customParams.time) {
                 cachePath += "/" + this.customParams.time;

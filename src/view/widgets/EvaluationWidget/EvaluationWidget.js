@@ -22,6 +22,11 @@ let Observer = window.Observer;
 let ThemeYearConfParams = window.ThemeYearConfParams;
 let ExchangeParams = window.ExchangeParams;
 
+const AREA = polyglot.t("area");
+const AREAS = polyglot.t("areas");
+const SELECT = polyglot.t("select");
+const NO_AREA_SELECTED = polyglot.t("noAreaSelected");
+
 /**
  * @param options {Object}
  * @param options.elementId {String} ID of widget
@@ -210,7 +215,8 @@ class EvaluationWidget extends Widget {
 
         this._settings = new Settings({
             target: this._floaterTarget,
-            widgetId: this._widgetId
+            widgetId: this._widgetId,
+            stateStore: this._stateStore
         });
     };
 
@@ -264,9 +270,10 @@ class EvaluationWidget extends Widget {
                 if (input === "slider") {
                     let min = categories[key].attrData.values[0];
                     let max = categories[key].attrData.values[1];
+                    let intervals = categories[key].intervals;
                     let step = 0.0005;
                     let thresholds = [min, max];
-                    let slider = self.buildSliderInput(id, name, units, thresholds, step, attrId, attrSetId);
+                    let slider = self.buildSliderInput(id, name, units, thresholds, step, attrId, attrSetId, intervals);
                     slider.distribution = categories[key].attrData.distribution;
                     slider.origValues = categories[key].attrData.values;
                     this._inputs.sliders.push(slider);
@@ -279,11 +286,12 @@ class EvaluationWidget extends Widget {
 
                 else if (input === "select") {
                     let options = categories[key].attrData.values;
+                    let selectedValues = categories[key].selectedValues;
                     let select;
                     if (multioptions) {
-                        select = this.buildMultiSelectInput(id, name, options);
+                        select = this.buildMultiSelectInput(id, name, options, selectedValues);
                     } else {
-                        select = this.buildSelectInput(id, name, options);
+                        select = this.buildSelectInput(id, name, options, selectedValues);
                     }
                     this._inputs.selects.push(select);
                 }
@@ -308,12 +316,13 @@ class EvaluationWidget extends Widget {
      * @param options {Array} Select options
      * @returns {SelectBox}
      */
-    buildSelectInput(id, name, options) {
+    buildSelectInput(id, name, options, selectedValues) {
         return new SelectBox({
             id: id,
             name: name,
             target: this._widgetBodySelector,
-            data: options
+            data: options,
+            selectedValues: selectedValues
         });
     };
 
@@ -324,12 +333,13 @@ class EvaluationWidget extends Widget {
      * @param options {Array} Select options
      * @returns {MultiSelectBox}
      */
-    buildMultiSelectInput(id, name, options) {
+    buildMultiSelectInput(id, name, options, selectedValues) {
         return new MultiSelectBox({
             id: id,
             name: name,
             target: this._widgetBodySelector,
-            data: options
+            data: options,
+            selectedValues: selectedValues
         });
     };
 
@@ -341,10 +351,11 @@ class EvaluationWidget extends Widget {
      * @param name {string} Name of the data theme
      * @param units {string} Units
      * @param thresholds {Array} Start and end value of the slider
+     * @param intervals {Array} Current start and end value of the slider
      * @param step {number} step of the slider
      * @returns {SliderBox}
      */
-    buildSliderInput(id, name, units, thresholds, step, attrId, attrSetId) {
+    buildSliderInput(id, name, units, thresholds, step, attrId, attrSetId, intervals) {
         return new SliderBox({
             attrId: attrId,
             attrSetId: attrSetId,
@@ -354,7 +365,7 @@ class EvaluationWidget extends Widget {
             target: this._widgetBodySelector,
             range: thresholds,
             step: step,
-            values: thresholds,
+            values: intervals ? intervals : thresholds,
             isRange: true
         });
     };
@@ -371,7 +382,14 @@ class EvaluationWidget extends Widget {
         }
 
         let html = S(`<div class="floater-row footer-buttons">
-            <div class="widget-button hidden" id="evaluation-confirm"></div>
+            <div class="widget-button" id="evaluation-confirm">
+                <div id="evaluation-confirm-icon">
+            
+                </div>
+                <div id="evaluation-confirm-text">
+            
+                </div>
+            </div>
             <div class="widget-button" id="evaluation-unselect" disabled="disabled">{{clearSelection}}</div>
             <div class="widget-button secondary {{hidden}}" id="evaluation-add-category" disabled="disabled">{{addCategory}}</div>
         </div>
@@ -384,14 +402,18 @@ class EvaluationWidget extends Widget {
             <div class="widget-button widget-button-export" id="export-csv" disabled="disabled">{{exportToCsv}}</div>
         </div>`).template({
             hidden: addCategoryClass,
-            clearSelection: polyglot.t("clearSelection"),
+            clearSelection: polyglot.t("clearSelectionAll"),
             addCategory: polyglot.t("addCategory"),
             exportToGeoJson: polyglot.t("exportToGeoJson"),
             exportToXls: polyglot.t("exportToXls"),
             exportToShp: polyglot.t("exportToShp"),
             exportToCsv: polyglot.t("exportToCsv")
         }).toString();
+
         this._widgetSelector.find(".floater-footer").html("").append(html);
+
+        this.addSelectButtonListener();
+        this.addUnselectButtonListener();
     };
 
     /**
@@ -427,7 +449,6 @@ class EvaluationWidget extends Widget {
                         Select.select(areasToSelect, false, false);
                         Select.colourMap(Select.selectedAreasMap);
                     }
-                    $('#evaluation-unselect').attr("disabled", false);
                 }
                 self.handleLoading("hide");
             });
@@ -447,7 +468,12 @@ class EvaluationWidget extends Widget {
 
         this._amountTimeout = setTimeout(function () {
             self._filter.filter(self._categories, "amount").then(function (result) {
-                self.addSelectionConfirmListener(result);
+                if (result && result.hasOwnProperty("amount")){
+                    self.handleButtons({
+                        amount: result.amount,
+						enableUnselect: true
+                    });
+                }
                 self.addCategoryListener();
                 self.rebuildPopups(self._inputs.sliders);
                 self.handleLoading("hide");
@@ -468,49 +494,6 @@ class EvaluationWidget extends Widget {
         });
     };
 
-    /**
-     * It adds listener to confirm button. If there is at least one selected area, do the filter
-     * @param amount {Object} Number of currently filtered areas
-     */
-    addSelectionConfirmListener(amount) {
-        let self = this;
-        let count = 0;
-
-        if (Select.selectedAreasMap && Select.selectedAreasMap[Select.actualColor] && Select.selectedAreasMap[Select.actualColor].length > 0) {
-            count = Select.selectedAreasMap[Select.actualColor].length;
-            if (count > 0) {
-                $('#evaluation-confirm').attr("disabled", true);
-                $('#evaluation-unselect').attr("disabled", false);
-            }
-        } else if (amount && amount.hasOwnProperty("amount")) {
-            count = amount.amount;
-        }
-
-        if (count > 0) {
-            let areasName = polyglot.t("areas");
-            if (count === 1) {
-                areasName = polyglot.t("area");
-            }
-            $('#evaluation-confirm').html(polyglot.t("select") + " " + count + " " + areasName)
-                .removeClass("hidden")
-                .off("click.confirm")
-                .on("click.confirm", function () {
-                    self.handleLoading("show");
-                    self.filter();
-                    window.Stores.notify("SELECTIONS_ADD_ACTIVE_BY_COLOUR", {colour: Select.actualColor});
-                    if (!OneLevelAreas.hasOneLevel) {
-                        $(this).attr("disabled", true);
-                    }
-                });
-        }
-        else {
-            $('#evaluation-confirm').html(polyglot.t("noAreaSelected"))
-                .off("click.confirm");
-        }
-
-        self.addUnselectListener();
-    };
-
     addCategoryListener() {
         let self = this;
 
@@ -525,23 +508,6 @@ class EvaluationWidget extends Widget {
                     self._categorize.addCategory(attributes);
                 }, 50);
             });
-    };
-
-    /**
-     * Add listener to unselect button
-     */
-    addUnselectListener() {
-        let self = this;
-        $('#evaluation-unselect').off("click.unselect").on("click.unselect", function () {
-            SelectedAreasExchange.data.data = [];
-            if (OneLevelAreas.hasOneLevel) {
-                self._map.removeLayers();
-                Observer.notify('selectInternal');
-            } else {
-                self._dispatcher.notify("selection#clearAll");
-            }
-            self.resetButtons();
-        });
     };
 
     /**
@@ -696,7 +662,7 @@ class EvaluationWidget extends Widget {
      * Reset widget
      */
     resetWidget() {
-        this.rebuildInputs(this._categories);
+        this.amount();
         this.resetButtons();
     };
 
@@ -724,12 +690,85 @@ class EvaluationWidget extends Widget {
         $("#export-shp, #export-csv, #export-xls, #export-json").attr("disabled", true);
     };
 
+
+    addSelectButtonListener() {
+        let self = this;
+		$('#evaluation-confirm')
+			.off("click.confirm")
+			.on("click.confirm", function () {
+				self.handleLoading("show");
+				self.filter();
+				window.Stores.notify("SELECTIONS_ADD_ACTIVE_BY_COLOUR", {colour: Select.actualColor});
+			});
+    };
+
+	/**
+	 * Add listener to unselect button
+	 */
+	addUnselectButtonListener() {
+		let self = this;
+		$('#evaluation-unselect').off("click.unselect").on("click.unselect", function () {
+			SelectedAreasExchange.data.data = [];
+			if (OneLevelAreas.hasOneLevel) {
+				self._map.removeLayers();
+				Observer.notify('selectInternal');
+			} else {
+				self._dispatcher.notify("selection#clearAll");
+			}
+			self.resetButtons();
+		});
+	};
+
+	/**
+	 * @param options {Object}
+     * @param [options.amount] {number}
+     * @param [options.activeSelection] {string} colour
+     * @param [options.selectedAreasMap] {object}
+     * @param [options.disableSelect] {boolean}
+     * @param [options.enableUnselect] {boolean}
+	 */
+	handleButtons(options) {
+	    let selectButton = $('#evaluation-confirm');
+		let selectButtonIcon = $('#evaluation-confirm-icon');
+		let selectButtonText = $('#evaluation-confirm-text');
+		let unselectAllButton = $('#evaluation-unselect');
+	    let selectedAreasMap = options.selectedAreasMap;
+	    let activeSelection = Select.actualColor;
+	    let count = 0;
+
+        if (options.amount > -1){
+            count = options.amount;
+        } else if (selectedAreasMap && selectedAreasMap[activeSelection] && selectedAreasMap[activeSelection].length){
+            count = selectedAreasMap[activeSelection].length;
+        } else {
+            count = this._lastFilteredAreasCount;
+        }
+		this._lastFilteredAreasCount = count;
+
+        let content = count ? `${SELECT} ${count} ${count > 1 ? AREAS : AREA}` : `${NO_AREA_SELECTED}`;
+
+        selectButton
+			.attr("disabled", !!options.disableSelect);
+		selectButtonText
+			.html(content);
+		selectButtonIcon
+            .css("background", `#${activeSelection}`)
+            .css("display", count ? "flex" : "none");
+        unselectAllButton
+            .attr("disabled", !options.enableUnselect)
+
+    }
+
     /**
      * @param type {string}
      */
     onEvent(type) {
         if (type === Actions.selectionSelected) {
-            this.addSelectionConfirmListener();
+            this.handleButtons({
+                selectedAreasMap: Select.selectedAreasMap,
+                disableSelect: true,
+                enableUnselect: true
+            });
         } else if (type === Actions.selectionEverythingCleared) {
             this.resetWidget();
         } else if (type === Actions.selectionActiveCleared) {

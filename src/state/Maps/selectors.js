@@ -97,25 +97,25 @@ const getActivePlaceActiveLayers = createSelector(
 	[getActivePlaceKey, getActiveLayerTemplates, getActiveLayerTemplateIds, getSpatialRelations, getSpatialDataSources],
 	(place, templates, templateIds, relations, sources) => {
 		if (place && templateIds.length && relations.length && sources.length){
-			let relationsForPlace = _.filter(relations, ['place_id', place]);
+			let relationsForPlace = _.filter(relations, (relation) => { return relation.data.place_id === place});
 			if (relationsForPlace){
 				let relationsForTemplates = _.filter(relationsForPlace, model => {
-					return _.find(templateIds, (value) => {return value === model['layer_template_id']});
+					return _.find(templateIds, (value) => {return value === model.data['layer_template_id']});
 				});
 				if (relationsForTemplates){
 					let usedRelations = [];
 					relationsForTemplates.map(relation => {
-						let dataSource = _.find(sources, {'key': relation.data_source_id});
-						let layerTemplate = relation.layer_template_id;
-						let scenario = relation.scenario_id;
-						let template = _.find(templates, {'templateId': relation.layer_template_id});
+						let dataSource = _.find(sources, {'key': relation.data.data_source_id});
+						let layerTemplateKey = relation.data.layer_template_id;
+						let scenarioKey = relation.data.scenario_id;
+						let template = _.find(templates, {'templateId': relation.data.layer_template_id});
 						if (!dataSource){
-							console.warn("Maps.selectors#getActivePlaceActiveLayers Data source with given key doesn't exist. Key: ",relation.data_source_id);
+							console.warn("Maps.selectors#getActivePlaceActiveLayers Data source with given key doesn't exist. Key: ",relation.data.data_source_id);
 						} else {
 							usedRelations.push({
 								dataSource: dataSource.data.layer_name,
-								layerTemplateKey: layerTemplate,
-								scenarioKey: scenario,
+								layerTemplateKey: layerTemplateKey,
+								scenarioKey: scenarioKey,
 								styleSource: template.styles ? template.styles : null,
 								key: relation.key
 							});
@@ -155,16 +155,16 @@ const getVectorLayersForTemplate = createSelector(
 	[(state, template) => (template), getSpatialRelations, getSpatialDataSources],
 	(layerTemplate, relations, sources) => {
 		if (layerTemplate && relations.length && sources.length){
-			let relationsForTemplate = _.filter(relations, ['layer_template_id', layerTemplate]);
+			let relationsForTemplate = _.filter(relations, (relation) => { return relation.data['layer_template_id'] === layerTemplate});
 			if (relationsForTemplate){
 				let vectorSources = [];
 				relationsForTemplate.map(relation => {
-					let dataSource = _.find(sources, {'key': relation.data_source_id, 'type': 'shapefile'});
-					let scenario = relation.scenario_id;
+					let dataSource = _.find(sources, {'key': relation.data.data_source_id, 'type': 'shapefile'});
+					let scenarioKey = relation.data.scenario_id;
 					if (dataSource){
 						vectorSources.push({
 							dataSource: dataSource.data.layer_name,	// todo prejmenovat na neco vhodneho
-							scenarioKey: scenario,
+							scenarioKey: scenarioKey,
 							relationKey: relation.key,
 							dataSourceKey: dataSource.key
 						});

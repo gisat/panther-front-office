@@ -6,7 +6,18 @@ let config = window.Config.toggles.intro;
 
 const INITIAL_STATE = {
 	application: {
-		intro: true
+		intro: true,
+		style: {
+			activeKey: null,
+			configuration: {
+				forScope: {
+					htmlClass: null
+				},
+				forUrl: {
+					htmlClass: null
+				}
+			}
+		}
 	},
 	mapsContainer: {
 		columns: 1,

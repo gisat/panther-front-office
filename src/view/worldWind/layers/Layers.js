@@ -395,7 +395,7 @@ class Layers {
             layerNames: layerData.layerPaths,
             sector: new WorldWind.Sector(-90, 90, -180, 180),
             levelZeroDelta: new WorldWind.Location(45, 45),
-            opacity: layerData.opacity || .7,
+            opacity: layerData.opacity || .9,
             numLevels: 22,
             format: "image/png",
             size: 256,
