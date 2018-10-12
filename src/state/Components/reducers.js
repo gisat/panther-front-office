@@ -9,10 +9,13 @@ const INITIAL_STATE = {
 		intro: true,
 		style: {
 			activeKey: null,
-			htmlClasses: {
-				forUrl: null,
-				forScope: null,
-				forUserGroup: null
+			configuration: {
+				forScope: {
+					htmlClass: null
+				},
+				forUrl: {
+					htmlClass: null
+				}
 			}
 		}
 	},

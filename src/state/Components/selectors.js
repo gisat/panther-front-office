@@ -7,17 +7,21 @@ import {stylePriorityOrder} from '../../constants/VisualsConfig';
 const getComponents = state => state.components;
 const getApplicationStyle = state => state.components.application.style;
 const getApplicationStyleActiveKey = state => state.components.application.style.activeKey;
-const getApplicationStyleHtmlClasses = state => state.components.application.style.htmlClasses;
+const getApplicationStyleConfiguration = state => state.components.application.style.configuration;
 const getMapsContainer = state => state.components.mapsContainer;
 const isAppInIntroMode = state => state.components.application.intro;
 
+/**
+ * Select html class with highest priority
+ */
 const getApplicationStyleHtmlClass = createSelector(
-	[getApplicationStyleHtmlClasses],
-	(classes) => {
+	[getApplicationStyleConfiguration],
+	(configuration) => {
 		let classWithHighestPriority = null;
 		for (let i = 0; i < stylePriorityOrder.length; i++) {
-			if (classes[stylePriorityOrder[i]]) {
-				classWithHighestPriority = classes[stylePriorityOrder[i]];
+			let givenConfig = configuration[stylePriorityOrder[i]];
+			if (givenConfig && givenConfig.htmlClass) {
+				classWithHighestPriority = givenConfig.htmlClass;
 				break;
 			}
 		}

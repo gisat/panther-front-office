@@ -1,4 +1,4 @@
-export const stylePriorityOrder = ["forUserGroup", "forScope", "forUrl"];
+export const stylePriorityOrder = ["forScope", "forUrl"];
 
 export default {
 	"dromas": {

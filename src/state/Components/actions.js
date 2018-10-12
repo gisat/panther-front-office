@@ -13,18 +13,16 @@ function setApplicationStyleActiveKey(key) {
 	};
 }
 
-function setApplicationStyleHtmlClass(htmlClass) {
+function setApplicationStyleHtmlClass(configuration, htmlClass) {
 	return (dispatch, getState) => {
 		let style = Select.components.getApplicationStyle(getState());
-		let updatedClases = null;
-
-		if (htmlClass.hasOwnProperty('forUrl')){
-			updatedClases = {...style.htmlClasses, forUrl: htmlClass.forUrl};
-		} else if (htmlClass.hasOwnProperty('forScope')) {
-			updatedClases = {...style.htmlClasses, forScope: htmlClass.forScope};
-		}
-
-		dispatch(update('application', {style: {...style, htmlClasses: updatedClases}}));
+		let updatedConfiguration = {...style.configuration,
+			[configuration]: {
+				...style.configuration[configuration],
+				htmlClass: htmlClass
+			}
+		};
+		dispatch(update('application', {style: {...style, configuration: updatedConfiguration}}));
 	};
 }
 

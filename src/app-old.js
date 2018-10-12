@@ -70,7 +70,9 @@ function loadApp() {
         let projectConfig = Config.toggles[url];
 
         if (projectConfig && projectConfig.classes && projectConfig.classes.length){
-			window.Stores.notify("application#setHtmlClass", {forUrl: projectConfig.classes[0]});
+			window.Stores.notify("application#setHtmlClass", {
+			    configuration: 'forUrl',
+                htmlClass: projectConfig.classes[0]});
         }
 
         if (projectConfig && projectConfig.intro && projectConfig.intro.title){

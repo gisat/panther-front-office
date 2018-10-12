@@ -22,7 +22,7 @@ const setEventListeners = store => {
 	window.Stores.addListener((event, options) => {
 		switch(event) {
 			case 'application#setHtmlClass':
-				store.dispatch(Action.components.setApplicationStyleHtmlClass(options));
+				store.dispatch(Action.components.setApplicationStyleHtmlClass(options.configuration, options.htmlClass));
 				break;
 			case 'component#scenarioButtonClick':
 				let open = Select.components.windows.isWindowOpen(store.getState(), {key: 'scenarios'});

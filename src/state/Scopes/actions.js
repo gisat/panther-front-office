@@ -40,7 +40,7 @@ function applyScopeConfiguration() {
 			}
 		}
 		dispatch(Action.components.setApplicationStyleActiveKey(activeKey));
-		dispatch(Action.components.setApplicationStyleHtmlClass({forScope: htmlClass}));
+		dispatch(Action.components.setApplicationStyleHtmlClass('forScope', htmlClass));
 	}
 }
 
