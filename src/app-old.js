@@ -69,13 +69,8 @@ function loadApp() {
         let url = window.location.origin;
         let projectConfig = Config.toggles[url];
 
-        if (projectConfig && projectConfig.classes){
-			let html =  $("html");
-            projectConfig.classes.map(cls => {
-               if (!html.hasClass(cls)){
-				   html.addClass(cls);
-               }
-            });
+        if (projectConfig && projectConfig.classes && projectConfig.classes.length){
+			window.Stores.notify("application#setHtmlClass", {forUrl: projectConfig.classes[0]});
         }
 
         if (projectConfig && projectConfig.intro && projectConfig.intro.title){

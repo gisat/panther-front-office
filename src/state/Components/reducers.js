@@ -6,7 +6,15 @@ let config = window.Config.toggles.intro;
 
 const INITIAL_STATE = {
 	application: {
-		intro: true
+		intro: true,
+		style: {
+			activeKey: null,
+			htmlClasses: {
+				forUrl: null,
+				forScope: null,
+				forUserGroup: null
+			}
+		}
 	},
 	mapsContainer: {
 		columns: 1,
