@@ -6,6 +6,28 @@ import Overlays from './Overlays/actions';
 import Windows from './Windows/actions';
 
 // ============ creators ===========
+function setApplicationStyleActiveKey(key) {
+	return (dispatch, getState) => {
+		let style = Select.components.getApplicationStyle(getState());
+		dispatch(update('application', {style: {...style, activeKey: key}}));
+	};
+}
+
+function setApplicationStyleHtmlClass(htmlClass) {
+	return (dispatch, getState) => {
+		let style = Select.components.getApplicationStyle(getState());
+		let updatedClases = null;
+
+		if (htmlClass.hasOwnProperty('forUrl')){
+			updatedClases = {...style.htmlClasses, forUrl: htmlClass.forUrl};
+		} else if (htmlClass.hasOwnProperty('forScope')) {
+			updatedClases = {...style.htmlClasses, forScope: htmlClass.forScope};
+		}
+
+		dispatch(update('application', {style: {...style, htmlClasses: updatedClases}}));
+	};
+}
+
 function setIntro(visibility) {
 	return dispatch => {
 		let updatedData = {
@@ -72,10 +94,12 @@ function actionUpdate(component, data) {
 // ============ export ===========
 
 export default {
-	redirectToView: redirectToView,
-	setIntro: setIntro,
-	update: update,
-	updateMapsContainer: updateMapsContainer,
+	redirectToView,
+	setApplicationStyleActiveKey,
+	setApplicationStyleHtmlClass,
+	setIntro,
+	update,
+	updateMapsContainer,
 
 	windows: Windows,
 	overlays: Overlays
