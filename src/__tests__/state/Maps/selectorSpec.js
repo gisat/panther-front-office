@@ -23,11 +23,11 @@ let state = {
 		}
 	},
 	spatialDataSources: {
-		main: {data: [{"type":"shapefile","data":{"layer_name":"geonode:pucs_514f7a7552564ceebd269a8d334f1324","table_name":"pucs_514f7a7552564ceebd269a8d334f1324"},"key":214},
-			{"type":"shapefile","data":{"layer_name":"geonode:pucs_514f7a7552564ceebd269a8d334f1324","table_name":"pucs_514f7a7552564ceebd269a8d334f1324"},"key":215}]}
+		main: {data: [{"key":214, "type":"shapefile", data: {"layer_name":"geonode:pucs_514f7a7552564ceebd269a8d334f1324","table_name":"pucs_514f7a7552564ceebd269a8d334f1324"}},
+				{"key": 215, "type":"shapefile", data: {"layer_name":"geonode:pucs_514f7a7552564ceebd269a8d334f1324","table_name":"pucs_514f7a7552564ceebd269a8d334f1324"}}]}
 	},
 	spatialRelations: {
-		data: [{"scope_id":null,"period_id":null,"place_id":3975,"data_source_id":214,"layer_template_id":3332,"scenario_id":null,"key":127}]
+		data: [{"key":127, data: {"scope_id":null,"periokd_id":null,"place_id":3975,"data_source_id":214,"layer_template_id":3332,"scenario_id":null}}]
 	}
 };
 
