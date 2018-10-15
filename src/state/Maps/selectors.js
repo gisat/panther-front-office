@@ -70,6 +70,13 @@ const getActiveBackgroundLayerKey = createSelector(
 	}
 );
 
+const getAnalyticalUnitsVisibility = createSelector(
+	[getMapDefaults],
+	defaults => {
+		return !!(defaults && defaults.analyticalUnitsVisible);
+	}
+);
+
 const getActiveLayerTemplates = createSelector(
 	[getMapDefaults],
 	(defaults) => {
@@ -131,13 +138,6 @@ const getActivePlaceActiveLayers = createSelector(
 		} else {
 			return [];
 		}
-	}
-);
-
-const getAnalyticalUnitsVisibility = createSelector(
-	[getMapDefaults],
-	(defaults) => {
-		return (defaults && defaults.hasOwnProperty('analyticalUnitsVisibility') ? defaults.analyticalUnitsVisibility : null);
 	}
 );
 
@@ -212,6 +212,7 @@ export default {
 	getActiveMap: getActiveMap,
 	getActiveMapOrder: getActiveMapOrder,
 	getActivePlaceActiveLayers: getActivePlaceActiveLayers,
+	getAnalyticalUnitsVisibility: getAnalyticalUnitsVisibility,
 	getVectorLayersForTemplate: getVectorLayersForTemplate,
 	getVectorLayersForPuscVectorSourceTemplate: getVectorLayersForPuscVectorSourceTemplate,
 	getMapKeys: getMapKeys,

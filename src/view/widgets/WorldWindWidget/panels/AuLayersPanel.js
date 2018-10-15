@@ -178,6 +178,17 @@ class AuLayersPanel extends ThematicLayersPanel {
 		}
     }
 
+    setOutlinesActive(){
+		let control = _.find(this._layersControls, function (control) {
+			return control._id === "areaoutlines"
+		});
+		if (control && control._checkbox && !control._checkbox._checked){
+			control._checkbox._checkboxSelector.trigger("click");
+		} else {
+			window.Stores.notify("analyticalUnits#show");
+		}
+	}
+
     /**
      * @param type {string}
      */
@@ -195,8 +206,10 @@ class AuLayersPanel extends ThematicLayersPanel {
         } else if (type === Actions.selectionEverythingCleared){
             this.clearAllSelections();
         } else if (type === Actions.selectionActiveCleared){
-            this.clearActiveSelection()
-        }
+            this.clearActiveSelection();
+        } else if (type === "auLayersPanel#setAnalyticalUnitsVisible" && isAvailable){
+			this.setOutlinesActive();
+		}
     };
 }
 

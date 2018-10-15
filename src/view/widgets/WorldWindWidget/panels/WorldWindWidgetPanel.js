@@ -244,7 +244,8 @@ class WorldWindWidgetPanel {
     toggleLayer(event) {
         var self = this;
         setTimeout(function(){
-            var checkbox = $(event.currentTarget);
+            let target = event.target;
+            var checkbox = (target && target.id === 'au-layers-areaoutlines') ?  $(event.target) : $(event.currentTarget);
             var layerId = checkbox.attr("data-id");
             var control = _.find(self._layersControls, function(control){return control._id === layerId});
 
@@ -264,7 +265,9 @@ class WorldWindWidgetPanel {
                 self._mapStore.getAll().forEach(function(map){
                     map.layers.hideLayer(layerId);
                 });
-                control._toolBox.hide();
+				if (control){
+					control._toolBox.hide();
+                }
             }
         },50);
     };

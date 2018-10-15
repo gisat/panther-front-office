@@ -47,7 +47,7 @@ class PanelRow {
         this._target.append(html);
         this._rowSelector = $('#' + this._id + '-panel-row');
 
-        this.addCheckbox(this._groupId + "-" + this._id, this._name, this._rowSelector, this._id, this._active);
+        this._checkbox = this.addCheckbox(this._groupId + "-" + this._id, this._name, this._rowSelector, this._id, this._active);
         this._toolBox = this.addToolBox();
     };
 
