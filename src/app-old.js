@@ -229,19 +229,17 @@ function loadApp() {
         var featureInfoTool = buildFeatureInfoTool(mapStore, stateStore);
         tools.push(featureInfoTool);
 
-        if (Config.toggles.hasPeriodsSelector){
-            new PeriodsSelector({
-                containerSelector: $("#content-application .group-visualization"),
-                dispatcher: window.Stores,
-                maxSelected: 12,
-                store: {
-                    periods: store.periods,
-                    scopes: store.scopes,
-                    state: stateStore
-                }
-            });
-            $("#view-selector .period").addClass("hidden");
-        }
+        new PeriodsSelector({
+            containerSelector: $("#content-application .group-visualization"),
+            dispatcher: window.Stores,
+            maxSelected: 12,
+            store: {
+                periods: store.periods,
+                scopes: store.scopes,
+                state: stateStore
+            }
+        });
+        $("#view-selector .period").addClass("hidden");
 
         if(Config.toggles.useTopToolbar){
             var topToolBar = new TopToolBar({
