@@ -62,7 +62,7 @@
 	color: #444;
 	font-size: 1rem;
 	font-weight: 500;
-	padding-left: .3rem;
+	padding-left: .15rem;
 }
 .newDesign .thematic-maps-settings .x-window-header-text-default {
 	color: rgb(65,69,81);
@@ -130,9 +130,21 @@
 	height: 100%;
 	width: 100%;
 }
+.newDesign .mode-3d .detached-window .x-window-header .x-tool.hide {
+}
+.newDesign .mode-3d .detached-window .x-window-header .x-tool.hide:after {
+	content: "\2716";
+	display: block;
+	position: absolute;
+	left: .25rem;
+	width: 2rem;
+	font-size: 1.05rem;
+	font-weight: 300;
+	line-height: 2rem;
+	color: #eee;
+}
 .newDesign .mode-3d .detached-window .x-window-header .x-tool .x-tool-hide {
-	background-image: url("../img/minimise-icon-rounded.png") !important;
-	background-position-x: 1px;
+	background-image: none !important;
 }
 .newDesign .mode-3d .detached-window .x-window-header .x-tool .x-tool-unselect {
 	background-image: url("../img/unselect.png") !important;
