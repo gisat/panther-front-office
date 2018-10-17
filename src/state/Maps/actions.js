@@ -54,6 +54,30 @@ function handleMapDependencyOnPeriod(independent) {
 }
 
 // specialized
+function addChoropleth(data){
+	return (dispatch, getState) => {
+		let state = getState();
+		let maps = Select.maps.getMaps(state);
+
+		let map = _.find(maps, {period: data.period});
+		if (map){
+			let choropleths = map.choropleths ? map.choropleths : {
+				byKey: {}
+			};
+			let key = `attr_${data.attribute}_as_${data.attributeSet}_period_${data.period}`;
+			choropleths.byKey[key] = {
+				key: key,
+				data: data
+			};
+			let update = {
+				key: map.key,
+				choropleths: choropleths
+			};
+			dispatch(actionUpdate([update]));
+		}
+	};
+}
+
 function addLayerTemplates(templates) {
 	return (dispatch, getState) => {
 		let state = Select.maps.getMapDefaults(getState());
@@ -324,6 +348,7 @@ function actionSetMapIndependentOfPeriod(independent) {
 
 export default {
 	add: add,
+	addChoropleth: addChoropleth,
 	addLayerTemplates: addLayerTemplates,
 	changeDefaultMapName: changeDefaultMapName,
 	clearLayerPeriod: clearLayerPeriod,

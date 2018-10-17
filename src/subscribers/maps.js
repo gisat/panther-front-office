@@ -106,6 +106,9 @@ const setEventListeners = store => {
 					}));
 				},500);
 				break;
+			case 'choropleth#add':
+				store.dispatch(Action.maps.addChoropleth(options));
+				break;
             default:
                 break;
 		}

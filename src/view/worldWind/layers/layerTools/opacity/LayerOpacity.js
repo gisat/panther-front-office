@@ -31,9 +31,6 @@ class LayerOpacity extends LayerTool {
         this._id = options.id;
         this._style = options.style;
 
-        // TODO will there be the same legend for each period?
-        this._defaultLayer = this._layers[0];
-
         this._opacityValue = 90;
         this.build();
     };

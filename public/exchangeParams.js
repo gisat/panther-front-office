@@ -83,7 +83,6 @@ var OlMap = {
  */
 var Stores = {
 	activeLayers: [],
-	choropleths: [],
 	listeners: [],
 	outlines: null,
 	selectedOutlines: null
@@ -109,21 +108,6 @@ Stores.addListener = function(listener, options) {
 	if (options === "initialLoading"){
 		Stores.notify("initialLoadingStarted");
 	}
-};
-
-/**
- * Update choropleth
- * @param attribute {number}
- * @param attributeSet {number}
- * @param data {Object}
- */
-Stores.updateChoropleths = function(attribute, attributeSet, data){
-	Stores.choropleths.forEach(function(choropleth){
-		if (choropleth.as == attributeSet && choropleth.attr == attribute){
-			choropleth.data = data;
-			Stores.notify('updateChoropleths');
-		}
-	});
 };
 
 Stores.updateOutlines = function(data){

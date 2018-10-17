@@ -47,7 +47,9 @@ class LayerLegend extends LayerTool {
         this._iconSelector = this._icon.getElement();
         this._floaterSelector = this._floater.getElement();
 
-        this.addContent();
+        if (this._defaultLayer){
+			this.addContent();
+        }
         this.addEventsListener();
     };
 
