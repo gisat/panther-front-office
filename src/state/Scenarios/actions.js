@@ -905,16 +905,12 @@ function apiCreateRelationsForScenarioProcessResults(results) {
 				.then((relationResults) => {
 					if (relationResults.data.spatial){
 						// todo why there are data apart of key, while in Action.spatialRelations.load response are not?
-						let dataSourcesIds = [];
-						let data = relationResults.data.spatial.map(
-							relation => {
-								dataSourcesIds.push(relation.data.data_source_id);
-								let rel = {...relation.data, id: relation.id};
-								console.log('$$$ Scenarios/action#apiCreateRelationsForScenarioProcessResults relation:', rel);
-								return rel;
-							}
+						let dataSourcesIds = _.compact(
+							_.map(relationResults.data.spatial, (spatialRelation) => {
+								return spatialRelation.data.data_source_id;
+							})
 						);
-						dispatch(Action.spatialRelations.loadRelationsReceive(data));
+						dispatch(Action.spatialRelations.loadRelationsReceive(relationResults.data.spatial));
 						dispatch(Action.spatialDataSources.loadFiltered({'id': dataSourcesIds}));
 
 						dispatch(apiProcessingScenarioFilesSuccess(scenarioKeys));
