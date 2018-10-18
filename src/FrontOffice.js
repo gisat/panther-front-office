@@ -512,6 +512,10 @@ class FrontOffice {
 		        window.Stores.notify("selection#select",{color: selColor, areas: selAreas});
             });
         }
+
+		this._stateStore._changes = {
+			dataview: false
+		};
     }
 
     setMapsFromDataview(worldWindState){
