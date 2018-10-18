@@ -274,11 +274,11 @@ const activeLayersWatcher = (value, previousValue) => {
 	console.log('@@## activeLayersWatcher', previousValue, '->', value);
 	let diffLayers = compareCollections(value, previousValue, 'key');
 	console.log('@@## diffLayers', diffLayers);
-	if (diffLayers.added && diffLayers.added.length){
-		window.Stores.notify('ADD_INFO_LAYERS_BY_SCENARIOS', diffLayers.added);
-	}
 	if (diffLayers.removed && diffLayers.removed.length){
 		window.Stores.notify('REMOVE_INFO_LAYERS_BY_SCENARIOS', diffLayers.removed);
+	}
+	if (diffLayers.added && diffLayers.added.length){
+		window.Stores.notify('ADD_INFO_LAYERS_BY_SCENARIOS', diffLayers.added);
 	}
 };
 
