@@ -36,7 +36,7 @@ class ThematicLayersPanel extends WorldWindWidgetPanel {
 			return;
         } else {
             choropleths.forEach((choropleth => {
-				let id = "choropleth-" + choropleth.as + "-" + choropleth.attr;
+				let id = `choropleth_attr_${choropleth.attr}_as_${choropleth.as}`;
                 let name = choropleth.name;
 				if (name.length === 0) {
 				    name = choropleth.attrName + " - " + choropleth.asName;
@@ -55,9 +55,9 @@ class ThematicLayersPanel extends WorldWindWidgetPanel {
 			let layerId = checkbox.attr("data-id");
 
 			if (checkbox.hasClass("checked")){
-				//
+				window.Stores.notify("choropleths#addActive", {key: layerId});
 			} else {
-				//
+				window.Stores.notify("choropleths#removeActive", {key: layerId});
 			}
 		},50);
     }

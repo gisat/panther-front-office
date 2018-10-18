@@ -179,6 +179,38 @@ class MapStore {
         });
     };
 
+    addChoroplethsToMap(choropleths){
+    	this._maps.forEach((map) => {
+    		if (map._period){
+    			let period = map._period;
+    			_.forIn(choropleths, (choropleth, key) => {
+    				let choroplethData = _.find(choropleth, (data) => {return data.period === period});
+    				map.layers.addChoroplethLayer({
+						id: key,
+						name: "aaa",
+						sldId: choroplethData.sldId,
+						opacity: 70,
+						layer: choroplethData.legendLayer,
+					}, "thematic-layers", true);
+				});
+			}
+		});
+	}
+
+	removeChoroplethsFromMap(choropleths){
+		this._maps.forEach((map) => {
+			if (map._period){
+				let period = map._period;
+				_.forIn(choropleths, (choropleth, key) => {
+					let layer = map.layers.getLayerById(key);
+					if (layer){
+						map.layers.removeLayer(layer, true);
+					}
+				});
+			}
+		});
+	}
+
 	changeMapName(mapId, name){
 		this._maps.forEach(function(map){
 			if (map.id === mapId){
@@ -389,6 +421,10 @@ class MapStore {
 			this.handleScenarioDefaultSituation(options.showDeafaultSituation);
 		} else if (type === "CHANGE_MAP_NAME") {
 			this.changeMapName(options.mapKey, options.name);
+		} else if (type === "ADD_CHOROPLETHS"){
+			this.addChoroplethsToMap(options.choropleths);
+		} else if (type === "REMOVE_CHOROPLETHS"){
+			this.removeChoroplethsFromMap(options.choropleths);
 		}
     };
 }

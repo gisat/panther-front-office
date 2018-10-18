@@ -442,12 +442,12 @@ Ext.define('PumaMain.controller.Layers', {
 						legendLayer: legendLayer,
 						sldId: id
 					};
-					window.Stores.notify("choropleth#add", {
+					window.Stores.notify("choropleths#add", {
 						attribute: attribute,
 						attributeSet: attributeSet,
 						legendLayer: legendLayer,
 						sldId: id,
-						period: period
+						period: period,
 					});
 				} else if (node.data.type == "areaoutlines"){
 					Stores.updateOutlines({

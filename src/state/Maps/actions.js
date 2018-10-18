@@ -61,14 +61,9 @@ function addChoropleth(data){
 
 		let map = _.find(maps, {period: data.period});
 		if (map){
-			let choropleths = map.choropleths ? map.choropleths : {
-				byKey: {}
-			};
-			let key = `attr_${data.attribute}_as_${data.attributeSet}_period_${data.period}`;
-			choropleths.byKey[key] = {
-				key: key,
-				data: data
-			};
+			let choropleths = map.choropleths ? map.choropleths : {};
+			let key = `choropleth_attr_${data.attribute}_as_${data.attributeSet}`;
+			choropleths[key] = {...data, key: key};
 			let update = {
 				key: map.key,
 				choropleths: choropleths
@@ -76,6 +71,31 @@ function addChoropleth(data){
 			dispatch(actionUpdate([update]));
 		}
 	};
+}
+
+function addActiveChoroplethKey(key){
+	return (dispatch, getState) => {
+		let state = getState();
+		let activeChoropleths = Select.maps.getActiveChoroplethsKeys(state);
+		let updatedChoropleths = [];
+		if (activeChoropleths){
+			updatedChoropleths = [...activeChoropleths, ...[key]];
+		} else {
+			updatedChoropleths = [key];
+		}
+		dispatch(updateDefaults({activeChoroplethsKeys: updatedChoropleths}));
+	}
+}
+
+function removeActiveChoroplethKey(key){
+	return (dispatch, getState) => {
+		let state = getState();
+		let activeChoropleths = Select.maps.getActiveChoroplethsKeys(state);
+		if (activeChoropleths){
+			let updatedChoropleths = _.without(activeChoropleths, key);
+			dispatch(updateDefaults({activeChoroplethsKeys: updatedChoropleths}));
+		}
+	}
 }
 
 function addLayerTemplates(templates) {
@@ -349,6 +369,8 @@ function actionSetMapIndependentOfPeriod(independent) {
 export default {
 	add: add,
 	addChoropleth: addChoropleth,
+	addActiveChoroplethKey: addActiveChoroplethKey,
+	removeActiveChoroplethKey: removeActiveChoroplethKey,
 	addLayerTemplates: addLayerTemplates,
 	changeDefaultMapName: changeDefaultMapName,
 	clearLayerPeriod: clearLayerPeriod,

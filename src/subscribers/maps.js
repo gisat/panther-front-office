@@ -21,6 +21,7 @@ const setStoreWatchers = store => {
 	createWatcher(store, Select.maps.getMaps, mapsWatcher, 'data');
 	createWatcher(store, Select.maps.getMapDefaults, mapDefaultsWatcher);
 	createWatcher(store, Select.maps.getPeriodIndependence, periodIndependenceWatcher, 'independentOfPeriod');
+	createWatcher(store, Select.maps.getActiveChoropleths, activeChoroplethsWatcher);
 
 	createWatcher(store, Select.maps.getActivePlaceActiveLayers, activeLayersWatcher, 'activePlaceActiveLayers');
 
@@ -106,8 +107,14 @@ const setEventListeners = store => {
 					}));
 				},500);
 				break;
-			case 'choropleth#add':
+			case 'choropleths#add':
 				store.dispatch(Action.maps.addChoropleth(options));
+				break;
+			case 'choropleths#addActive':
+				store.dispatch(Action.maps.addActiveChoroplethKey(options.key));
+				break;
+			case 'choropleths#removeActive':
+				store.dispatch(Action.maps.removeActiveChoroplethKey(options.key));
 				break;
             default:
                 break;
@@ -293,6 +300,13 @@ const mapKeysWatcher = (value, previousValue) => {
 		let data = state.activePlaceActiveLayers;
 		window.Stores.notify('ADD_INFO_LAYERS_BY_SCENARIOS', data);
 	}
+};
+
+const activeChoroplethsWatcher = (value, previousValue) => {
+	console.log('@@## activeChoroplethsWatcher', previousValue, '->', value);
+	// todo byMapByChoropleth
+		// mapKeyChoroplethKey: {mapKey: , choroplethKey: , choroplethData: }
+	// todo compare and add/remove/change
 };
 
 // ======== event listeners ========
