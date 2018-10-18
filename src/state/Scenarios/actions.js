@@ -726,7 +726,7 @@ function processMatlabProcessRequestResults(results, dispatch) {
 					if (resultData.status === "done" && resultData["spatial_relations"]) {
 						let data = resultData["spatial_relations"].map(relation => {
 								dataSourcesIds.push(relation.data.data_source_id);
-								return {...relation.data, id: relation.id};
+								return {...relation.data, key: relation.key};
 							}
 						);
 						dispatch(Action.spatialRelations.loadRelationsReceive(data));
