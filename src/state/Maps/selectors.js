@@ -1,6 +1,8 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
-import Select from '../Select'
+
+import ScopesSelectors from '../Scopes/selectors';
+import SpatialRelationsSelectors from '../SpatialRelations/selectors';
 
 const getMapDefaults = state => state.maps.defaults;
 const getMapsOverrides = state => state.maps.data;
@@ -8,7 +10,6 @@ const getActiveMapKey = state => state.maps.activeMapKey;
 const getPeriodIndependence = state => state.maps.independentOfPeriod;
 
 const getActivePlaceKey = state => state.places.activeKey;
-const getSpatialRelations = (state) => state.spatialRelations.data;
 const getSpatialDataSources = (state) => state.spatialDataSources.main.data; //todo should use Select? if not circular
 
 const getWmsLayers = (state) => state.wmsLayers.data;
@@ -139,7 +140,7 @@ const getActiveLayerTemplateIds = createSelector(
 );
 
 const getActivePlaceActiveLayers = createSelector(
-	[getActivePlaceKey, getActiveLayerTemplates, getActiveLayerTemplateIds, getSpatialRelations, getSpatialDataSources],
+	[getActivePlaceKey, getActiveLayerTemplates, getActiveLayerTemplateIds, SpatialRelationsSelectors.getData, getSpatialDataSources],
 	(place, templates, templateIds, relations, sources) => {
 		if (place && templateIds.length && relations.length && sources.length){
 			let relationsForPlace = _.filter(relations, (relation) => { return relation.data.place_id === place});
@@ -183,16 +184,16 @@ const getActivePlaceActiveLayers = createSelector(
  * Specific usage of getVectorLayersForTemplate selector, where layer template key is known from scope configuration
  */
 const getVectorLayersForPuscVectorSourceTemplate = createSelector(
-	[(state) => getVectorLayersForTemplate(state, Select.scopes.getPucsSourceVectorLayerTemplate(state))],
+	[(state) => getVectorLayersForTemplate(state, ScopesSelectors.getPucsSourceVectorLayerTemplate(state))],
 	(vectorLayers) => {
 		return vectorLayers;
 	}
 );
 
 const getVectorLayersForTemplate = createSelector(
-	[(state, template) => (template), getSpatialRelations, getSpatialDataSources],
+	[(state, template) => (template), SpatialRelationsSelectors.getActivePlaceData, getSpatialDataSources],
 	(layerTemplate, relations, sources) => {
-		if (layerTemplate && relations.length && sources.length){
+		if (layerTemplate && relations && relations.length && sources && sources.length){
 			let relationsForTemplate = _.filter(relations, (relation) => { return relation.data['layer_template_id'] === layerTemplate});
 			if (relationsForTemplate){
 				let vectorSources = [];
