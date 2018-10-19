@@ -179,36 +179,31 @@ class MapStore {
         });
     };
 
-    addChoroplethsToMap(choropleths){
-    	this._maps.forEach((map) => {
-    		if (map._period){
-    			let period = map._period;
-    			_.forIn(choropleths, (choropleth, key) => {
-    				let choroplethData = _.find(choropleth, (data) => {return data.period === period});
-    				map.layers.addChoroplethLayer({
-						id: key,
-						name: "aaa",
-						sldId: choroplethData.sldId,
-						opacity: 70,
-						layer: choroplethData.legendLayer,
-					}, "thematic-layers", true);
-				});
-			}
+    addChoroplethToMap(mapKey, choroplethKey, data){
+    	let map = _.find(this._maps, (map) => {
+    		return map.id === mapKey;
 		});
+    	if (map){
+			map.layers.addChoroplethLayer({
+				id: choroplethKey,
+				name: "Choropleth",
+				sldId: data.sldId,
+				opacity: 70,
+				layer: data.legendLayer,
+			}, "thematic-layers", true);
+		}
 	}
 
-	removeChoroplethsFromMap(choropleths){
-		this._maps.forEach((map) => {
-			if (map._period){
-				let period = map._period;
-				_.forIn(choropleths, (choropleth, key) => {
-					let layer = map.layers.getLayerById(key);
-					if (layer){
-						map.layers.removeLayer(layer, true);
-					}
-				});
-			}
+	removeChoroplethFromMap(mapKey, choroplethKey){
+		let map = _.find(this._maps, (map) => {
+			return map.id === mapKey;
 		});
+		if (map){
+			let layer = map.layers.getLayerById(choroplethKey);
+			if (layer){
+				map.layers.removeLayer(layer, true);
+			}
+		}
 	}
 
 	changeMapName(mapId, name){
@@ -421,10 +416,13 @@ class MapStore {
 			this.handleScenarioDefaultSituation(options.showDeafaultSituation);
 		} else if (type === "CHANGE_MAP_NAME") {
 			this.changeMapName(options.mapKey, options.name);
-		} else if (type === "ADD_CHOROPLETHS"){
-			this.addChoroplethsToMap(options.choropleths);
-		} else if (type === "REMOVE_CHOROPLETHS"){
-			this.removeChoroplethsFromMap(options.choropleths);
+		} else if (type === "CHOROPLETH_ADD"){
+			this.addChoroplethToMap(options.mapKey, options.choroplethKey, options.choroplethData);
+		} else if (type === "CHOROPLETH_REMOVE"){
+			this.removeChoroplethFromMap(options.mapKey, options.choroplethKey);
+		} else if (type === "CHOROPLETH_CHANGE"){
+			this.removeChoroplethFromMap(options.mapKey, options.choroplethKey);
+			this.addChoroplethToMap(options.mapKey, options.choroplethKey, options.choroplethData);
 		}
     };
 }

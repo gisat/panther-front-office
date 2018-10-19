@@ -295,7 +295,7 @@ const activeLayersWatcher = (value, previousValue) => {
 const mapKeysWatcher = (value, previousValue) => {
 	console.log('@@## mapKeysWatcher', previousValue, '->', value);
 	let diffMapKeys = compareValues(value, previousValue);
-	console.log('@@## diffLayers', diffMapKeys );
+	console.log('@@## diffLayers', diffMapKeys);
 	if (diffMapKeys.added && diffMapKeys.added.length && state.activePlaceActiveLayers  && state.activePlaceActiveLayers.length){
 		let data = state.activePlaceActiveLayers;
 		window.Stores.notify('ADD_INFO_LAYERS_BY_SCENARIOS', data);
@@ -304,9 +304,23 @@ const mapKeysWatcher = (value, previousValue) => {
 
 const activeChoroplethsWatcher = (value, previousValue) => {
 	console.log('@@## activeChoroplethsWatcher', previousValue, '->', value);
-	// todo byMapByChoropleth
-		// mapKeyChoroplethKey: {mapKey: , choroplethKey: , choroplethData: }
-	// todo compare and add/remove/change
+	let diffChoropleths = compareChoropleths(value, previousValue);
+	console.log('@@## diffChoropleths', diffChoropleths);
+	if (diffChoropleths && diffChoropleths.added){
+		_.forIn(diffChoropleths.added, (choropleth) => {
+			window.Stores.notify("CHOROPLETH_ADD", choropleth)
+		});
+	}
+	if (diffChoropleths && diffChoropleths.removed){
+		_.forIn(diffChoropleths.removed, (choropleth) => {
+			window.Stores.notify("CHOROPLETH_REMOVE", choropleth)
+		});
+	}
+	if (diffChoropleths && diffChoropleths.changed){
+		_.forIn(diffChoropleths.changed, (choropleth) => {
+			window.Stores.notify("CHOROPLETH_CHANGE", choropleth)
+		});
+	}
 };
 
 // ======== event listeners ========
@@ -406,6 +420,43 @@ const compare = (next, prev) => {
 		_.each(prev, (value, key) => {
 			if (!next || !next.hasOwnProperty(key)) {
 				ret.removed[key] = value;
+			}
+		});
+		return ret;
+	} else {
+		return {
+			added: next
+		};
+	}
+};
+
+const compareChoropleths = (next, prev) => {
+	if (prev) {
+		let ret = {
+			added: {},
+			removed: {},
+			changed: {}
+		};
+
+		_.forIn(prev, (value, key) => {
+			let nextChoropleth = next ? next[key] : null;
+			if (!nextChoropleth){
+				ret.removed[key] = value;
+			}
+		});
+
+		_.forIn(next, (value, key) => {
+			let previousChoropleth = prev[key];
+			if (!previousChoropleth){
+				ret.added[key] = value;
+			} else {
+				let previousSldId = previousChoropleth.choroplethData ? previousChoropleth.choroplethData.sldId : null;
+				let nextSldId = value.choroplethData ? value.choroplethData.sldId : null;
+				if (!previousSldId){
+					ret.added[key] = value;
+				} else if (previousSldId !== nextSldId){
+					ret.changed[key] = value;
+				}
 			}
 		});
 		return ret;

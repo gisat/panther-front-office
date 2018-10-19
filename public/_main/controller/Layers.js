@@ -411,10 +411,17 @@ Ext.define('PumaMain.controller.Layers', {
 		// hack for second period
 		if (params && params.altYears){
 			let altPeriod = JSON.parse(params.altYears)[0];
-			if (altPeriod && this._altPeriod){
+			if (altPeriod && this._previousPeriod && this._previousPeriod === period){
 				period = altPeriod;
 			}
-			this._altPeriod = altPeriod;
+			this._previousPeriod = period;
+		}
+
+		if (period){
+			params.years = JSON.stringify([period]);
+			if (params.altYears){
+				delete params.altYears;
+			}
 		}
 
 		var me = this;

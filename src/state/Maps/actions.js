@@ -98,6 +98,12 @@ function removeActiveChoroplethKey(key){
 	}
 }
 
+function removeAllActiveChoroplethKeys(){
+	return dispatch => {
+		dispatch(updateDefaults({activeChoroplethsKeys: null}));
+	}
+}
+
 function addLayerTemplates(templates) {
 	return (dispatch, getState) => {
 		let state = Select.maps.getMapDefaults(getState());
@@ -371,6 +377,7 @@ export default {
 	addChoropleth: addChoropleth,
 	addActiveChoroplethKey: addActiveChoroplethKey,
 	removeActiveChoroplethKey: removeActiveChoroplethKey,
+	removeAllActiveChoroplethKeys: removeAllActiveChoroplethKeys,
 	addLayerTemplates: addLayerTemplates,
 	changeDefaultMapName: changeDefaultMapName,
 	clearLayerPeriod: clearLayerPeriod,

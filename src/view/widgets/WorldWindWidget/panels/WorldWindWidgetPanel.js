@@ -312,7 +312,10 @@ class WorldWindWidgetPanel {
 		if (this._groupId === "info-layers"){
 			checked = this.isControlActive(layerTemplateId, style);
 			control = this.buildLayerControl(target, id, name, layers, style, checked, this._groupId);
-		} else {
+		} else if (this._groupId === "thematic-layers") {
+            checked = this.isControlActive(id);
+            control = this.buildLayerControl(target, id, name, layers, style, checked, this._groupId);
+        } else {
 			checked = this.isControlActive(id, layers);
 			control = this.buildLayerControl(target, id, name, layers, style, checked, this._groupId);
 		}
@@ -322,7 +325,7 @@ class WorldWindWidgetPanel {
 		if (this._groupId === "info-layers" || this._groupId === "wms-layers"){
 			control.layerTools.buildLegend();
 		}
-		if (checked){
+		if (checked && this._groupId !== "thematic-layers"){
 			this.addLayer(control);
 		}
     };

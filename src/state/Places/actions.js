@@ -21,10 +21,15 @@ function setActive(key) {
 		let state = getState();
 		let scopeConfiguration = Select.scopes.getActiveScopeConfiguration(state);
 		let activeCaseKey = Select.scenarios.getActiveCaseKey(state);
+		let activeChoroplethsKeys = Select.maps.getActiveChoroplethsKeys(state);
 
 		if (activeCaseKey){
 			dispatch(ScenariosActions.setActiveCase(null));
 			dispatch(Action.components.windows.scenarios.setActiveScreen('caseList'));
+		}
+
+		if (activeChoroplethsKeys){
+			dispatch(Action.maps.removeAllActiveChoroplethKeys());
 		}
 
 		dispatch(actionSetActive(key));
