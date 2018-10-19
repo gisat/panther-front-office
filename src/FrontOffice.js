@@ -512,6 +512,9 @@ class FrontOffice {
 		        window.Stores.notify("selection#select",{color: selColor, areas: selAreas});
             });
         }
+		if (options.activeChoroplethKeys){
+			this._dispatcher.notify("choropleths#addActive", options.activeChoroplethKeys);
+		}
 
 		this._stateStore._changes = {
 			dataview: false
