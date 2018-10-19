@@ -189,7 +189,7 @@ class MapStore {
 				name: "Choropleth",
 				sldId: data.sldId,
 				opacity: 70,
-				layer: data.legendLayer,
+				layer: data.layer,
 			}, "thematic-layers", true);
 		}
 	}
@@ -417,12 +417,12 @@ class MapStore {
 		} else if (type === "CHANGE_MAP_NAME") {
 			this.changeMapName(options.mapKey, options.name);
 		} else if (type === "CHOROPLETH_ADD"){
-			this.addChoroplethToMap(options.mapKey, options.choroplethKey, options.choroplethData);
+			this.addChoroplethToMap(options.mapKey, options.choroplethKey, options.data);
 		} else if (type === "CHOROPLETH_REMOVE"){
 			this.removeChoroplethFromMap(options.mapKey, options.choroplethKey);
 		} else if (type === "CHOROPLETH_CHANGE"){
 			this.removeChoroplethFromMap(options.mapKey, options.choroplethKey);
-			this.addChoroplethToMap(options.mapKey, options.choroplethKey, options.choroplethData);
+			this.addChoroplethToMap(options.mapKey, options.choroplethKey, options.data);
 		}
     };
 }

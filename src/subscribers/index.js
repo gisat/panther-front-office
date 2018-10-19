@@ -2,6 +2,7 @@ import aoi from './aoi';
 import areas from './areas';
 import attributes from './attributes';
 import attributeSets from './attributeSets';
+import choropleths from './choropleths';
 import components from './components';
 import layerTemplates from './layerTemplates';
 import lpisCases from './lpisCases';
@@ -21,6 +22,7 @@ export default store => {
 	areas(store);
 	attributes(store);
 	attributeSets(store);
+	choropleths(store);
 	components(store);
 	layerTemplates(store);
 	lpisCases(store);

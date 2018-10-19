@@ -21,7 +21,7 @@ function setActive(key) {
 		let state = getState();
 		let scopeConfiguration = Select.scopes.getActiveScopeConfiguration(state);
 		let activeCaseKey = Select.scenarios.getActiveCaseKey(state);
-		let activeChoroplethsKeys = Select.maps.getActiveChoroplethsKeys(state);
+		let activeChoroplethsKeys = Select.choropleths.getActiveKeys(state);
 
 		if (activeCaseKey){
 			dispatch(ScenariosActions.setActiveCase(null));
@@ -29,7 +29,7 @@ function setActive(key) {
 		}
 
 		if (activeChoroplethsKeys){
-			dispatch(Action.maps.removeAllActiveChoroplethKeys());
+			dispatch(Action.choropleths.removeAllActiveKeys());
 		}
 
 		dispatch(actionSetActive(key));

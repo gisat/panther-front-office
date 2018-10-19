@@ -56,17 +56,17 @@ class ThematicLayersPanel extends WorldWindWidgetPanel {
 			let layerId = checkbox.attr("data-id");
 
 			if (checkbox.hasClass("checked")){
-				window.Stores.notify("choropleths#addActive", {key: layerId});
+				window.Stores.notify("choropleths#addActive", layerId);
 			} else {
-				window.Stores.notify("choropleths#removeActive", {key: layerId});
+				window.Stores.notify("choropleths#removeActive", layerId);
 			}
 		},50);
     }
 
     isControlActive(id){
-		let state = this._stateStore.current().mapDefaults;
-		if (state && state.activeChoroplethsKeys){
-			return !!_.includes(state.activeChoroplethsKeys, id);
+		let state = this._stateStore.current().activeChoroplethKeys;
+		if (state){
+			return !!_.includes(state, id);
 		} else {
 			return false;
 		}
@@ -81,6 +81,13 @@ class ThematicLayersPanel extends WorldWindWidgetPanel {
 	        this.rebuildControls(options);
         } else if (type === "place#setActivePlace"){
 	    	this.rebuildControls(this._choropleths);
+		} else if (type === "CHOROPLETH_CHECK_ADDED"){
+	    	options.added.forEach(key => {
+	    		let checkboxSelector = $('#checkbox-' + key);
+	    		if (!checkboxSelector.hasClass('checked')){
+	    			checkboxSelector.addClass('checked');
+				}
+			});
 		}
     }
 }

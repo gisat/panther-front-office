@@ -54,56 +54,6 @@ function handleMapDependencyOnPeriod(independent) {
 }
 
 // specialized
-function addChoropleth(data){
-	return (dispatch, getState) => {
-		let state = getState();
-		let maps = Select.maps.getMaps(state);
-
-		let map = _.find(maps, {period: data.period});
-		if (map){
-			let choropleths = map.choropleths ? map.choropleths : {};
-			let key = `choropleth_attr_${data.attribute}_as_${data.attributeSet}`;
-			choropleths[key] = {...data, key: key};
-			let update = {
-				key: map.key,
-				choropleths: choropleths
-			};
-			dispatch(actionUpdate([update]));
-		}
-	};
-}
-
-function addActiveChoroplethKey(key){
-	return (dispatch, getState) => {
-		let state = getState();
-		let activeChoropleths = Select.maps.getActiveChoroplethsKeys(state);
-		let updatedChoropleths = [];
-		if (activeChoropleths){
-			updatedChoropleths = [...activeChoropleths, ...[key]];
-		} else {
-			updatedChoropleths = [key];
-		}
-		dispatch(updateDefaults({activeChoroplethsKeys: updatedChoropleths}));
-	}
-}
-
-function removeActiveChoroplethKey(key){
-	return (dispatch, getState) => {
-		let state = getState();
-		let activeChoropleths = Select.maps.getActiveChoroplethsKeys(state);
-		if (activeChoropleths){
-			let updatedChoropleths = _.without(activeChoropleths, key);
-			dispatch(updateDefaults({activeChoroplethsKeys: updatedChoropleths}));
-		}
-	}
-}
-
-function removeAllActiveChoroplethKeys(){
-	return dispatch => {
-		dispatch(updateDefaults({activeChoroplethsKeys: null}));
-	}
-}
-
 function addLayerTemplates(templates) {
 	return (dispatch, getState) => {
 		let state = Select.maps.getMapDefaults(getState());
@@ -374,10 +324,6 @@ function actionSetMapIndependentOfPeriod(independent) {
 
 export default {
 	add: add,
-	addChoropleth: addChoropleth,
-	addActiveChoroplethKey: addActiveChoroplethKey,
-	removeActiveChoroplethKey: removeActiveChoroplethKey,
-	removeAllActiveChoroplethKeys: removeAllActiveChoroplethKeys,
 	addLayerTemplates: addLayerTemplates,
 	changeDefaultMapName: changeDefaultMapName,
 	clearLayerPeriod: clearLayerPeriod,

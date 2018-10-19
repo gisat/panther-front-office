@@ -21,7 +21,6 @@ const setStoreWatchers = store => {
 	createWatcher(store, Select.maps.getMaps, mapsWatcher, 'data');
 	createWatcher(store, Select.maps.getMapDefaults, mapDefaultsWatcher);
 	createWatcher(store, Select.maps.getPeriodIndependence, periodIndependenceWatcher, 'independentOfPeriod');
-	createWatcher(store, Select.maps.getActiveChoropleths, activeChoroplethsWatcher);
 
 	createWatcher(store, Select.maps.getActivePlaceActiveLayers, activeLayersWatcher, 'activePlaceActiveLayers');
 
@@ -106,15 +105,6 @@ const setEventListeners = store => {
 						}
 					}));
 				},500);
-				break;
-			case 'choropleths#add':
-				store.dispatch(Action.maps.addChoropleth(options));
-				break;
-			case 'choropleths#addActive':
-				store.dispatch(Action.maps.addActiveChoroplethKey(options.key));
-				break;
-			case 'choropleths#removeActive':
-				store.dispatch(Action.maps.removeActiveChoroplethKey(options.key));
 				break;
             default:
                 break;
@@ -299,27 +289,6 @@ const mapKeysWatcher = (value, previousValue) => {
 	if (diffMapKeys.added && diffMapKeys.added.length && state.activePlaceActiveLayers  && state.activePlaceActiveLayers.length){
 		let data = state.activePlaceActiveLayers;
 		window.Stores.notify('ADD_INFO_LAYERS_BY_SCENARIOS', data);
-	}
-};
-
-const activeChoroplethsWatcher = (value, previousValue) => {
-	console.log('@@## activeChoroplethsWatcher', previousValue, '->', value);
-	let diffChoropleths = compareChoropleths(value, previousValue);
-	console.log('@@## diffChoropleths', diffChoropleths);
-	if (diffChoropleths && diffChoropleths.added){
-		_.forIn(diffChoropleths.added, (choropleth) => {
-			window.Stores.notify("CHOROPLETH_ADD", choropleth)
-		});
-	}
-	if (diffChoropleths && diffChoropleths.removed){
-		_.forIn(diffChoropleths.removed, (choropleth) => {
-			window.Stores.notify("CHOROPLETH_REMOVE", choropleth)
-		});
-	}
-	if (diffChoropleths && diffChoropleths.changed){
-		_.forIn(diffChoropleths.changed, (choropleth) => {
-			window.Stores.notify("CHOROPLETH_CHANGE", choropleth)
-		});
 	}
 };
 

@@ -71,44 +71,6 @@ const getActiveBackgroundLayerKey = createSelector(
 	}
 );
 
-const getActiveChoroplethsKeys = createSelector(
-	[getMapDefaults],
-	defaults => {
-		if (defaults && defaults.activeChoroplethsKeys){
-			return defaults.activeChoroplethsKeys
-		} else {
-			return null;
-		}
-	}
-);
-
-const getActiveChoropleths = createSelector(
-	[getActiveChoroplethsKeys, getMaps],
-	(activeKeys, maps) => {
-		if (activeKeys && activeKeys.length && maps && maps.length){
-			let activeChoroplethsByMapKeyByChoroplethKey = {};
-			maps.forEach(map => {
-				if (map.choropleths){
-					activeKeys.forEach(activeKey => {
-						let choropleth = map.choropleths[activeKey];
-						if (choropleth){
-							let key = `${map.key}_${choropleth.key}`;
-							activeChoroplethsByMapKeyByChoroplethKey[key] = {
-								mapKey: map.key,
-								choroplethKey: choropleth.key,
-								choroplethData: choropleth
-							};
-						}
-					});
-				}
-			});
-			return activeChoroplethsByMapKeyByChoroplethKey;
-		} else {
-			return null;
-		}
-	}
-);
-
 const getAnalyticalUnitsVisibility = createSelector(
 	[getMapDefaults],
 	defaults => {
@@ -247,8 +209,6 @@ const getUsedSourcesForAllMaps = createSelector(
 
 export default {
 	getActiveBackgroundLayerKey: getActiveBackgroundLayerKey,
-	getActiveChoropleths: getActiveChoropleths,
-	getActiveChoroplethsKeys: getActiveChoroplethsKeys,
 	getActiveMapKey: getActiveMapKey,
 	getActiveMap: getActiveMap,
 	getActiveMapOrder: getActiveMapOrder,

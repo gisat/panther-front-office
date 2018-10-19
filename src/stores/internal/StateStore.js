@@ -91,6 +91,7 @@ class StateStore {
             isMapIndependentOfPeriod: this.isMapIndependentOfPeriod,
             mapDefaults: this._mapDefaults,
             mapsMetadata: this._mapsMetadata,
+            activeChoroplethKeys: this._activeChoroplethKeys,
             selectedMapId: this._selectedMapId,
 
 			components: this._components,
@@ -473,7 +474,9 @@ class StateStore {
             }
         } else if (type === 'SELECTIONS_CHANGE_SETTINGS'){
             this._attributeFilters = options;
-        }
+        } else if (type === 'CHOROPLETH_ACTIVE_KEYS_CHANGED'){
+			this._activeChoroplethKeys = options;
+		}
     };
 
 
