@@ -283,9 +283,8 @@ class WorldWindWidgetPanel {
 
 		this._layersControls.push(control);
 		control.layerTools.buildOpacity();
-		if (this._groupId === "info-layers" || this._groupId === "wms-layers"){
-			control.layerTools.buildLegend();
-		}
+		control.layerTools.buildLegend();
+
 		if (checked && this._groupId !== "thematic-layers"){
 			this.addLayer(control);
 		}

@@ -2,6 +2,7 @@ import {createSelector} from 'reselect';
 import _ from 'lodash';
 
 import MapsSelector from '../Maps/selectors';
+import PeriodsSelector from '../Periods/selectors';
 
 const getAllByKey = state => state.choropleths.byKey;
 const getActiveKeys = state => state.choropleths.activeKeys;
@@ -32,9 +33,9 @@ const getActiveChoropleths = createSelector(
 
 // specialized
 const getActiveChoroplethsForMaps = createSelector(
-	[getActiveChoropleths, MapsSelector.getMaps],
-	(activeChoropleths, maps) => {
-		if (maps && activeChoropleths){
+	[getActiveChoropleths, MapsSelector.getMaps, PeriodsSelector.getPeriods],
+	(activeChoropleths, maps, periods) => {
+		if (maps && activeChoropleths && periods){
 			let choropleths = {};
 			maps.forEach(map => {
 				if (map.period){
@@ -42,7 +43,10 @@ const getActiveChoroplethsForMaps = createSelector(
 						if (activeChoropleth.byPeriod && activeChoropleth.byPeriod[map.period]){
 							let data = activeChoropleth.byPeriod[map.period];
 							let key = `${map.key}_${activeChoropleth.key}`;
+							let period = map.period ? _.find(periods, period => {return period.key === map.period}) : null;
+
 							choropleths[key] = {
+								mapPeriod: period ? period.name : null,
 								mapKey: map.key,
 								choroplethKey: activeChoropleth.key,
 								data: data

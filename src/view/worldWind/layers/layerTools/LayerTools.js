@@ -94,7 +94,6 @@ class LayerTools {
         let legend = new LayerLegend({
             id: this._id,
             name: this._name,
-            class: this._class,
             target: this._toolsContainer,
             layers: this._layers,
             style: this._style
