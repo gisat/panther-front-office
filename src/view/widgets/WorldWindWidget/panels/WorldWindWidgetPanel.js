@@ -183,27 +183,6 @@ class WorldWindWidgetPanel {
     };
 
     /**
-     * Add checkbox to panel
-     * @param id {string} id of checkbox
-     * @param name {string} label
-     * @param target {JQuery} JQuery selector of target element
-     * @param dataId {string} id of data connected with thischeckbox
-     * @param checked {boolean} true if checkbox should be checked
-     * @returns {Checkbox}
-     */
-    addCheckbox(id, name, target, dataId, checked) {
-        return new Checkbox({
-            id: id,
-            name: name,
-            target: target,
-            containerId: this._id + "-panel-body",
-            dataId: dataId,
-            checked: checked,
-            class: "layer-row"
-        });
-    };
-
-    /**
      * Add radiobox to panel
      * @param id {string} id of radio box
      * @param name {string} label
@@ -270,24 +249,6 @@ class WorldWindWidgetPanel {
                 }
             }
         },50);
-    };
-
-    /**
-     * Go through the list of active layers and turn on all active layers from a group
-     * @param groupId {string} id of the group
-     */
-    switchOnActiveLayers(groupId) {
-        this._activeLayers = Stores.activeLayers;
-        let self = this;
-        this._activeLayers.forEach(function (layer) {
-            if (layer.group === groupId) {
-                let checkbox = $(".checkbox-row[data-id=" + layer.id + "]");
-                checkbox.addClass("checked");
-                self._mapStore.getAll().forEach(function (map) {
-                    map.layers.showLayer(layer.id, layer.order);
-                });
-            }
-        });
     };
 
     // --- Common methods after multiple maps functionality added --- //
