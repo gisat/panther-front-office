@@ -88,8 +88,7 @@ Ext.define('PumaMain.controller.Layers', {
 	},
 
 	reconfigureChoropleths: function(cfg) {
-		Stores.choropleths = cfg.attrs;
-		Stores.notify('choropleths');
+		window.Stores.notify("choropleths#reconfigured", cfg.attrs);
 
 		this.getController('AttributeConfig').layerConfig = cfg.attrs;
 		var root = Ext.StoreMgr.lookup('layers').getRootNode();
@@ -407,6 +406,24 @@ Ext.define('PumaMain.controller.Layers', {
 			var legendSldNode = format.write(legendSldObject);
 			legendSld = xmlFormat.write(legendSldNode);
 		}
+		var period = params && params.years ? JSON.parse(params.years)[0] : null;
+
+		// hack for second period
+		if (params && params.altYears){
+			let altPeriod = JSON.parse(params.altYears)[0];
+			if (altPeriod && this._previousPeriod && this._previousPeriod === period){
+				period = altPeriod;
+			}
+			this._previousPeriod = period;
+		}
+
+		if (period){
+			params.years = JSON.stringify([period]);
+			if (params.altYears){
+				delete params.altYears;
+			}
+		}
+
 		var me = this;
 		Ext.Ajax.request({
 			url: Config.url + 'api/proxy/saveSld',
@@ -432,7 +449,13 @@ Ext.define('PumaMain.controller.Layers', {
 						legendLayer: legendLayer,
 						sldId: id
 					};
-					Stores.updateChoropleths(attribute, attributeSet, data);
+					window.Stores.notify("choropleths#update", {
+						attribute: attribute,
+						attributeSet: attributeSet,
+						layer: legendLayer,
+						sldId: id,
+						period: period,
+					});
 				} else if (node.data.type == "areaoutlines"){
 					Stores.updateOutlines({
 						data: {

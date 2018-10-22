@@ -285,7 +285,7 @@ const activeLayersWatcher = (value, previousValue) => {
 const mapKeysWatcher = (value, previousValue) => {
 	console.log('@@## mapKeysWatcher', previousValue, '->', value);
 	let diffMapKeys = compareValues(value, previousValue);
-	console.log('@@## diffLayers', diffMapKeys );
+	console.log('@@## diffLayers', diffMapKeys);
 	if (diffMapKeys.added && diffMapKeys.added.length && state.activePlaceActiveLayers  && state.activePlaceActiveLayers.length){
 		let data = state.activePlaceActiveLayers;
 		window.Stores.notify('ADD_INFO_LAYERS_BY_SCENARIOS', data);
@@ -389,6 +389,43 @@ const compare = (next, prev) => {
 		_.each(prev, (value, key) => {
 			if (!next || !next.hasOwnProperty(key)) {
 				ret.removed[key] = value;
+			}
+		});
+		return ret;
+	} else {
+		return {
+			added: next
+		};
+	}
+};
+
+const compareChoropleths = (next, prev) => {
+	if (prev) {
+		let ret = {
+			added: {},
+			removed: {},
+			changed: {}
+		};
+
+		_.forIn(prev, (value, key) => {
+			let nextChoropleth = next ? next[key] : null;
+			if (!nextChoropleth){
+				ret.removed[key] = value;
+			}
+		});
+
+		_.forIn(next, (value, key) => {
+			let previousChoropleth = prev[key];
+			if (!previousChoropleth){
+				ret.added[key] = value;
+			} else {
+				let previousSldId = previousChoropleth.choroplethData ? previousChoropleth.choroplethData.sldId : null;
+				let nextSldId = value.choroplethData ? value.choroplethData.sldId : null;
+				if (!previousSldId){
+					ret.added[key] = value;
+				} else if (previousSldId !== nextSldId){
+					ret.changed[key] = value;
+				}
 			}
 		});
 		return ret;

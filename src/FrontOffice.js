@@ -99,9 +99,6 @@ class FrontOffice {
                     });
                 }
 
-                self.toggleSidebars(options);
-                self.toggleWidgets(options);
-                self.toggleCustomLayers(options);
                 self.handlePeriods();
                 self._stateStore.resetChanges();
             }).catch(function(err){
@@ -196,63 +193,6 @@ class FrontOffice {
             updated.push(attribute);
         });
         return updated;
-    };
-
-    /**
-     * Show/hide sidebars according to visualization
-     * @param options {Object}
-     */
-    toggleSidebars(options) {
-        if (options && options.hasOwnProperty('openSidebars')){
-            let sidebars = options.openSidebars;
-            if (sidebars.hasOwnProperty('sidebar-tools') && !sidebars['sidebar-tools']){
-                $('#sidebar-tools').addClass("hidden");
-            }
-            if (sidebars.hasOwnProperty('sidebar-reports') && !sidebars['sidebar-reports']){
-                $('#sidebar-reports').addClass("hidden");
-                Observer.notify("resizeMap");
-            }
-        }
-    };
-
-    /**
-     * Show/hide widgets according to visualization
-     * @param options {Object}
-     */
-    toggleWidgets(options) {
-        if (options && !this._options.changes.period  && !this._options.changes.level){
-            if (options.hasOwnProperty("openWidgets")){
-                let floaters = options.openWidgets;
-                this._widgets.forEach(function(widget){
-                    for (let key in floaters){
-                        if (key === "floater-" + widget._widgetId){
-                            widget.setState(key, floaters[key]);
-                        }
-                    }
-                })
-            }
-        }
-    };
-
-    /**
-     * Show/hide layers according to visualization
-     * @param options {Object}
-     */
-    toggleCustomLayers(options) {
-        let self = this;
-        if (options && !self._options.changes.period  && !self._options.changes.level){
-            if (options.hasOwnProperty("displayCustomLayers")){
-                let layers = options.displayCustomLayers;
-                for (let key in options.displayCustomLayers){
-                    let checkbox = $("#" + key);
-                    if (layers[key]){
-                        checkbox.addClass("checked");
-                    } else {
-                        checkbox.removeClass("checked");
-                    }
-                }
-            }
-        }
     };
 
     /**
@@ -512,6 +452,9 @@ class FrontOffice {
 		        window.Stores.notify("selection#select",{color: selColor, areas: selAreas});
             });
         }
+		if (options.activeChoroplethKeys){
+			this._dispatcher.notify("choropleths#addActive", options.activeChoroplethKeys);
+		}
 
 		this._stateStore._changes = {
 			dataview: false

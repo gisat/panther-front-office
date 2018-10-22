@@ -352,6 +352,9 @@ Ext.define('PumaMain.controller.ViewMng', {
 		if (Config.cfg.selMap){
 			options.selMap = Config.cfg.selMap;
 		}
+		if (Config.cfg.activeChoroplethKeys){
+			options.activeChoroplethKeys = Config.cfg.activeChoroplethKeys;
+		}
 
 		if (Config.cfg.is3D){
 			Stores.notify('fo#adjustConfigurationFromDataview', options);
@@ -503,6 +506,10 @@ Ext.define('PumaMain.controller.ViewMng', {
 			// selected map
 			if (options.state && options.state.selectedMapId){
 				cfg.selectedMapId = options.state.selectedMapId;
+			}
+			// active choropleths
+			if (options.state.activeChoroplethKeys){
+				cfg.activeChoroplethKeys = options.state.activeChoroplethKeys;
 			}
 
 			// sidebar reports settings
