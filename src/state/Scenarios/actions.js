@@ -724,12 +724,10 @@ function processMatlabProcessRequestResults(results, dispatch) {
 				let dataSourcesIds = [];
 				results.data.forEach((resultData) => {
 					if (resultData.status === "done" && resultData["spatial_relations"]) {
-						let data = resultData["spatial_relations"].map(relation => {
-								dataSourcesIds.push(relation.data.data_source_id);
-								return {...relation.data, id: relation.id};
-							}
-						);
-						dispatch(Action.spatialRelations.loadRelationsReceive(data));
+						_.each(resultData['spatial_relations'], (relation) => {
+							dataSourcesIds.push(relation.data.data_source_id);
+						});
+						dispatch(Action.spatialRelations.loadRelationsReceive(resultData['spatial_relations']));
 						dispatch(apiProcessingScenarioFileSuccess(resultData.data.scenario_id));
 					}
 				});

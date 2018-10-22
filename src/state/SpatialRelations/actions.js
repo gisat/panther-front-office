@@ -63,9 +63,6 @@ function load(ttl) {
 
 function loadRelationsReceive(models) {
 	return dispatch => {
-		models = _.map(models, ({key, ...model}) => {
-			return {...model, key: key};
-		});
 		dispatch(actionLoadRelationsReceive(models));
 	};
 }
