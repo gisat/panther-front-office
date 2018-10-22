@@ -25,7 +25,6 @@ class ThematicLayersPanel extends WorldWindWidgetPanel {
 	};
 
     rebuild(event){
-
     }
 
     rebuildControls(choropleths){

@@ -358,10 +358,10 @@ class WorldWindWidgetPanel {
             name: name,
             target: target,
             layers: layers,
-            maps: this._allMaps,
             style: style,
             checked: checked,
-            groupId: groupId
+            groupId: groupId,
+            mapStore: this._mapStore
         });
     };
 
