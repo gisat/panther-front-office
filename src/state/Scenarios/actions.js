@@ -125,8 +125,16 @@ function updateEditedScenario(scenarioKey, key, value) {
 		let state = getState();
 		let scenario = Select.scenarios.getScenario(state, scenarioKey);
 		let activeCaseKey = Select.scenarios.getActiveCaseKey(state);
+		let activeCaseScenarioKeys = Select.scenarios.getActiveCaseScenarioKeys(state);
 		let activeCaseEditedScenarioKeys = Select.scenarios.getActiveCaseEditedScenarioKeys(state);
-		let updatedScenarioKeys = activeCaseEditedScenarioKeys ? _.union(activeCaseEditedScenarioKeys, [scenarioKey]) : [scenarioKey];
+
+		let updatedScenarioKeys = [];
+		if (activeCaseScenarioKeys){
+			updatedScenarioKeys = _.union(updatedScenarioKeys, activeCaseScenarioKeys);
+		}
+		if (activeCaseEditedScenarioKeys){
+			updatedScenarioKeys = _.union(updatedScenarioKeys, activeCaseEditedScenarioKeys);
+		}
 
 		// delete property from edited, if the value in update is the same as in state
 		if (scenario && (value === scenario.data[key] || (!scenario.data[key] && value.length === 0))){
