@@ -1,15 +1,17 @@
 import {createSelector} from "reselect";
 import _ from "lodash";
 
-const getAll = (getSubstate) => {
-	return (state) => {
-		let data = getSubstate(state).byKey;
-		return data ? Object.values(data) : null;
-	}
-};
-
 const getAllAsObject = (getSubstate) => {
 	return (state) => getSubstate(state).byKey;
+};
+
+const getAll = (getSubstate) => {
+	return createSelector(
+		[getAllAsObject(getSubstate)],
+		byKey => {
+			return byKey ? Object.values(byKey) : null;
+		}
+	);
 };
 
 const getActiveKey = (getSubstate) => {
