@@ -60,7 +60,6 @@ let initialize = function() {
 
 if(!id) {
 	// Load Scopes
-	store.dispatch(Action.scopes.apiLoadScopes());
 	store.dispatch(Action.scopes.loadAll());
 	// Load Views
 	store.dispatch(Action.views.apiLoadViews());
