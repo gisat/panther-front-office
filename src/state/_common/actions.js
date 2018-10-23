@@ -64,18 +64,18 @@ function request(apiPath, method, query, payload, ttl) {
 					if (body.data) {
 						return body;
 					} else {
-						return new Error('no data returned');
+						throw new Error('no data returned');
 					}
 				});
 			} else {
-				return new Error('response error'); //todo return or throw errors?
+				throw new Error('response error');
 			}
 		},
 		error => {
 			if (ttl - 1) {
 				request(apiPath, method, query, payload, ttl - 1);
 			} else {
-				return error;
+				throw error;
 			}
 		}
 	);
@@ -102,7 +102,6 @@ function loadAll(dataType, successAction, errorAction) {
 		};
 		request(apiPath, 'POST', null, payload)
 			.then(result => {
-				// todo check result.errors & result.data
 				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
 					dispatch(errorAction(result.errors[dataType] || new Error('no data')));
 				} else {
