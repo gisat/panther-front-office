@@ -92,12 +92,14 @@ function apiLoadScopes(ttl) {
 function loadAll() {
 	return dispatch => {
 		dispatch(common.loadAll('scopes', loadAllSuccess, loadAllError));
+		dispatch({type: ActionTypes.SCOPES.LOAD.REQUEST});
 	}
 }
 
 function loadAllSuccess(result) {
 	return dispatch => {
 		console.log('#####', result);
+		dispatch({type: ActionTypes.SCOPES.ADD, data: result});
 	}
 }
 

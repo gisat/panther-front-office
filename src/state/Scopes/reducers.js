@@ -9,7 +9,7 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case ActionTypes.SCOPES_ADD:
+		case ActionTypes.SCOPES.ADD:
 			return common.add(state, action);
 		case ActionTypes.SCOPES_SET_ACTIVE_KEY:
 			return common.setActive(state, action);
