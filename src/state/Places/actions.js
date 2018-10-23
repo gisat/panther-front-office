@@ -17,7 +17,7 @@ function setActive(key) {
 	return (dispatch, getState) => {
 		let state = getState();
 		let scopeConfiguration = Select.scopes.getActiveScopeConfiguration(state);
-		let activeCaseKey = Select.scenarios.getActiveCaseKey(state);
+		let activeCaseKey = Select.scenarios.cases.getActiveKey(state);
 		let activeChoroplethsKeys = Select.choropleths.getActiveKeys(state);
 
 		if (activeCaseKey){

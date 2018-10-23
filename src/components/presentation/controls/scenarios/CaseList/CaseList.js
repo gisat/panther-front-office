@@ -12,6 +12,7 @@ import Names from '../../../../../constants/Names';
 class CaseList extends React.PureComponent {
 
 	static propTypes = {
+		activeCaseKey: PropTypes.number,
 		changeActiveScreen: PropTypes.func,
 		screenKey: PropTypes.string,
 		switchScreen: PropTypes.func,
@@ -20,7 +21,7 @@ class CaseList extends React.PureComponent {
 	};
 
 	componentWillReceiveProps(nextProps){
-		if (!nextProps.cases || !nextProps.cases.length){
+		if ((!nextProps.cases || !nextProps.cases.length) && this.props.activeCaseKey){
 			this.props.setActiveCase(null);
 		}
 	}

@@ -5,6 +5,7 @@ import CaseList from "../../../../presentation/controls/scenarios/CaseList/CaseL
 
 const mapStateToProps = (state, ownProps) => {
 	return {
+		activeCaseKey: Select.scenarios.cases.getActiveKey(state),
 		cases: Select.scenarios.cases.getActivePlaceCases(state),
 		casesEdited: Select.scenarios.cases.getEditedAll(state),
 		scenariosEdited: Select.scenarios.scenarios.getEditedAll(state),

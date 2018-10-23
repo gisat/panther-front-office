@@ -103,10 +103,10 @@ function removeScenarioFromActiveCaseEdited (scenarioKey) {
 function updateEditedScenario(scenarioKey, key, value) {
 	return (dispatch, getState) => {
 		let state = getState();
-		let scenario = Select.scenarios.getScenario(state, scenarioKey);
-		let activeCaseKey = Select.scenarios.getActiveCaseKey(state);
-		let activeCaseScenarioKeys = Select.scenarios.getActiveCaseScenarioKeys(state);
-		let activeCaseEditedScenarioKeys = Select.scenarios.getActiveCaseEditedScenarioKeys(state);
+		let scenario = Select.scenarios.scenarios.getByKey(state, scenarioKey);
+		let activeCaseKey = Select.scenarios.cases.getActiveKey(state);
+		let activeCaseScenarioKeys = Select.scenarios.cases.getActiveCaseScenarioKeys(state);
+		let activeCaseEditedScenarioKeys = Select.scenarios.cases.getActiveCaseEditedScenarioKeys(state);
 
 		let updatedScenarioKeys = [];
 		if (activeCaseScenarioKeys){
@@ -423,6 +423,9 @@ function apiUpdateCases(updates, editedScenarios, ttl) {
 				scenario_cases: _.map(updates, model => {
 					let caseData = {...model.data, scenario_ids: model.data.scenarios};
 					delete caseData.scenarios;
+					if (caseData.scenariosLoaded){
+						delete caseData.scenariosLoaded;
+					}
 					return {
 						id: model.key,
 						data: caseData
@@ -678,12 +681,10 @@ function processMatlabProcessRequestResults(results, dispatch) {
 				let dataSourcesIds = [];
 				results.data.forEach((resultData) => {
 					if (resultData.status === "done" && resultData["spatial_relations"]) {
-						let data = resultData["spatial_relations"].map(relation => {
-								dataSourcesIds.push(relation.data.data_source_id);
-								return {...relation.data, id: relation.id};
-							}
-						);
-						dispatch(Action.spatialRelations.loadRelationsReceive(data));
+						_.each(resultData['spatial_relations'], (relation) => {
+							dataSourcesIds.push(relation.data.data_source_id);
+						});
+						dispatch(Action.spatialRelations.loadRelationsReceive(resultData['spatial_relations']));
 						dispatch(apiProcessingScenarioFileSuccess(resultData.data.scenario_id));
 					}
 				});
@@ -888,7 +889,7 @@ function apiProcessingScenarioFileStarted(scenarioKey){
 		let scenario = Select.scenarios.scenarios.getByKey(getState(), scenarioKey);
 		if (scenario){
 			let updated = {...scenario, fileProcessing: {started: true}};
-			dispatch(actionApiProcessingScenarioFileStarted(updated));
+			dispatch(actionApiProcessingScenarioFileStarted([updated]));
 		}
 	};
 }
@@ -914,7 +915,7 @@ function apiProcessingScenarioFileSuccess(scenarioKey){
 		let scenario = Select.scenarios.scenarios.getByKey(getState(), scenarioKey);
 		if (scenario){
 			let updated = {...scenario, fileProcessing: {started: true, finished: true}};
-			dispatch(actionApiProcessingScenarioFileSuccess(updated));
+			dispatch(actionApiProcessingScenarioFileSuccess([updated]));
 		}
 	};
 }
@@ -924,7 +925,7 @@ function apiProcessingScenarioFileError(scenarioKey, error){
 		let scenario = Select.scenarios.scenarios.getByKey(getState(), scenarioKey);
 		if (scenario){
 			let updated = {...scenario, fileProcessing: {started: true, finished: true, error: true, message: error}};
-			dispatch(actionApiProcessingScenarioFileError(updated));
+			dispatch(actionApiProcessingScenarioFileError([updated]));
 			console.error('Scenarios/actions#apiProcessingScenarioFileError', error);
 		}
 	};
@@ -961,7 +962,7 @@ function apiUpdateCasesReceive(data) {
 			// remove from editedData
 			dispatch(removeActiveCaseEditedScenarios());
 			// add/update data
-			dispatch(loadReceive(data));
+			dispatch(loadReceive(scenarios));
 		}
 
 		dispatch(loadCasesReceive(cases));
