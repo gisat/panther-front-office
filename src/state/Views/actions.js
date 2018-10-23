@@ -144,6 +144,25 @@ function setActive(key) {
 	}
 }
 
+function loadForScope(scopeKey) {
+	return dispatch => {
+		dispatch(common.loadFiltered('dataviews', {dataset: scopeKey}, loadForScopeSuccess, loadForScopeError));
+	}
+}
+
+function loadForScopeSuccess(data) {
+	return dispatch => {
+		console.log('#### loadForScopeSuccess', data);
+		dispatch(actionAdd(data));
+	}
+}
+
+function loadForScopeError(data) {
+	return dispatch => {
+		console.log('#### loadForScopeError', data);
+	}
+}
+
 // ============ actions ===========
 
 function actionAdd(views) {
@@ -205,6 +224,7 @@ function actionSetActive(key) {
 
 export default {
 	add,
+	loadForScope,
 	addMongoView,
     apiLoadViews,
 	apiDeleteView,
