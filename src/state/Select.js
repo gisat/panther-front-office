@@ -2,6 +2,7 @@ import Aoi from './AOI/selectors';
 import Areas from './Areas/selectors';
 import Attributes from './Attributes/selectors';
 import AttributeSets from './AttributeSets/selectors';
+import Choropleths from './Choropleths/selectors';
 import Components from './Components/selectors';
 import LayerPeriods from './LayerPeriods/selectors';
 import LayerTemplates from './LayerTemplates/selectors';
@@ -24,6 +25,7 @@ export default {
 	areas: Areas,
 	attributes: Attributes,
 	attributeSets: AttributeSets,
+	choropleths: Choropleths,
 	components: Components,
 	layerPeriods: LayerPeriods,
 	layerTemplates: LayerTemplates,

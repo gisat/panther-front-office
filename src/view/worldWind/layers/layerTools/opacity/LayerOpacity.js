@@ -26,13 +26,10 @@ class LayerOpacity extends LayerTool {
         this._class = options.class;
         this._target = options.target;
         this._layers = options.layers;
-        this._maps = options.maps;
+        this._mapStore = options.mapStore;
         this._name = options.name;
         this._id = options.id;
         this._style = options.style;
-
-        // TODO will there be the same legend for each period?
-        this._defaultLayer = this._layers[0];
 
         this._opacityValue = 90;
         this.build();
@@ -100,23 +97,35 @@ class LayerOpacity extends LayerTool {
     setOpacity(opacity) {
         let self = this;
         this._opacityValue = opacity * 100;
+        this._maps = this._mapStore.getAll();
+
         this._maps.forEach(function (map) {
-            self._layers.forEach(function (layer) {
-                let id = layer.id;
-                if (layer.layerTemplateId){
-                    id = layer.layerTemplateId;
-					if (self._style && self._style.path) {
-						id += "-" + self._style.path;
+            if (self._class === "thematic-layers"){
+			    if (map.layers && map.layers._layers){
+			        map.layers._layers.forEach(layer => {
+			           if (layer.metadata && layer.metadata.id === self._id){
+			               layer.opacity = opacity;
+                       }
+                    });
+                }
+            } else {
+				self._layers.forEach(function (layer) {
+					let id = layer.id;
+					if (layer.layerTemplateId){
+						id = layer.layerTemplateId;
+						if (self._style && self._style.path) {
+							id += "-" + self._style.path;
+						}
 					}
-                }
-                if (self._class === "wms-layers") {
-                    id = "wmsLayer-" + id;
-                }
-                let worldWindLayer = map.layers.getLayerById(id);
-                if (worldWindLayer) {
-                    worldWindLayer.opacity = opacity;
-                }
-            });
+					if (self._class === "wms-layers") {
+						id = "wmsLayer-" + id;
+					}
+					let worldWindLayer = map.layers.getLayerById(id);
+					if (worldWindLayer) {
+						worldWindLayer.opacity = opacity;
+					}
+				});
+            }
             map.redraw();
         });
     };

@@ -6,6 +6,7 @@ import aoiReducers from './AOI/reducers';
 import areasReducers from './Areas/reducers';
 import attributesReducers from './Attributes/reducers';
 import attributeSetsReducers from './AttributeSets/reducers';
+import choroplethReducers from './Choropleths/reducers';
 import componentsReducers from './Components/reducers';
 import layerPeriodsReducers from './LayerPeriods/reducers';
 import layerTemplatesReducers from './LayerTemplates/reducers';
@@ -31,6 +32,7 @@ const Store = createStore(combineReducers({
 	areas: areasReducers,
 	attributes: attributesReducers,
 	attributeSets: attributeSetsReducers,
+	choropleths: choroplethReducers,
 	components: componentsReducers,
 	layerPeriods: layerPeriodsReducers,
 	layerTemplates: layerTemplatesReducers,

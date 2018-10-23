@@ -4,6 +4,7 @@ import AOI from './AOI/actions';
 import Areas from './Areas/actions';
 import Attributes from './Attributes/actions';
 import AttributeSets from './AttributeSets/actions';
+import Choropleths from './Choropleths/actions';
 import Components from './Components/actions';
 import LayerTemplates from './LayerTemplates/actions';
 import LpisCases from './LpisCases/actions';
@@ -26,6 +27,7 @@ export default {
 	areas: Areas,
 	attributes: Attributes,
 	attributeSets: AttributeSets,
+	choropleths: Choropleths,
 	components: Components,
 	layerTemplates: LayerTemplates,
 	lpisCases: LpisCases,

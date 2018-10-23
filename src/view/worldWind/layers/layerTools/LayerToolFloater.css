@@ -27,3 +27,17 @@ body.mode-3d .tool-window.layer-tool-floater.open {
 	padding: .3rem;
 	height: calc(100% - 2.5rem);
 }
+.legend-floater .layer-tool-floater-body {
+	display: flex;
+	flex-wrap: wrap;
+}
+.legend-content-item {
+	display: flex;
+	flex-direction: column;
+	margin: 1rem 1rem 0 0;
+}
+.legend-floater .legend-content-item > span {
+	font-weight: 600;
+	font-size: .9rem;
+	padding-left: .3rem;
+}

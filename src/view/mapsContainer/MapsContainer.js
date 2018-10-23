@@ -281,7 +281,7 @@ class MapsContainer {
 			});
 		}
 		if ((defaults.hasOwnProperty("analyticalUnitsVisible") && defaults.analyticalUnitsVisible) || !defaults.hasOwnProperty("analyticalUnitsVisible")){
-			this._dispatcher.notify("analyticalUnits#show");
+			this._dispatcher.notify("auLayersPanel#setAnalyticalUnitsVisible");
 		}
 	}
 

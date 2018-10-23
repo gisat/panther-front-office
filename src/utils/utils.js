@@ -117,18 +117,22 @@ export default {
 	},
 
 	renderParagraphWithSeparatedLines(text) {
-		let splittedText = text.split("\n");
-		return (
-			<p>
-				{splittedText.map((rec, index) => {
-					return (
-						<span key={index}>
+		if (text && typeof text === "string"){
+			let splittedText = text.split("\n");
+			return (
+				<p>
+					{splittedText.map((rec, index) => {
+						return (
+							<span key={index}>
 							{rec}{index === (splittedText.length - 1) ? null : <br/>}
 						</span>
-					)})
-				}
-			</p>
-		);
+						)})
+					}
+				</p>
+			);
+		} else {
+			return null;
+		}
 	},
 
 	/**

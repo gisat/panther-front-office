@@ -14,7 +14,7 @@ import LayerTools from '../../../../worldWind/layers/layerTools/LayerTools';
  * @param options.target {Object} Jquery selector of targete element
  * @param options.id {number} id of layer template
  * @param options.name {string} name of layer
- * @param options.maps {Array} list of current maps
+ * @param options.mapStore {Object}
  * @param options.groupId {string} id of the group
  * @param options.layers {Array} list of layers attached to this control
  * @param [options.style] {Object} Optional parameter. Id of the style
@@ -36,7 +36,7 @@ class LayerControl {
 
         this._id = options.id;
         this._name = options.name;
-        this._maps = options.maps;
+        this._mapStore = options.mapStore;
         this._target = options.target;
         this.layers = options.layers;
         this._groupId = options.groupId;
@@ -58,7 +58,7 @@ class LayerControl {
         this._controlSelector = $('#control-' + this._id);
 
         this.addCheckbox('checkbox-' + this._id, this._name, this._controlSelector, this._id, this.active);
-        this.layerTools = this.addLayerTools(this._id, this._name, this._controlSelector, this._groupId, this.layers, this._maps, this.style);
+        this.layerTools = this.addLayerTools(this._id, this._name, this._controlSelector, this._groupId, this.layers, this.style);
     };
 
     /**
@@ -89,18 +89,17 @@ class LayerControl {
      * @param target {Object} JQuery selector of target element
      * @param cls {string}
      * @param layers {Array} Layers associated with the control
-     * @param maps {Array} list of current maps
      * @param style {Object|null}
      * @returns {LayerTools}
      */
-    addLayerTools(id, name, target, cls, layers, maps, style) {
+    addLayerTools(id, name, target, cls, layers, style) {
         return new LayerTools({
             id: id,
             name: name,
             class: cls,
             target: target,
             layers: layers,
-            maps: maps,
+            mapStore: this._mapStore,
             style: style
         });
     };

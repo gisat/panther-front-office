@@ -6,6 +6,7 @@ import ArgumentError from '../../../../error/ArgumentError';
 import Logger from '../../../../util/Logger';
 
 import ThematicLayersPanel from './ThematicLayersPanel';
+import WorldWindWidgetPanel from "./WorldWindWidgetPanel";
 
 let Stores = window.Stores;
 let polyglot = window.polyglot;
@@ -16,7 +17,7 @@ let polyglot = window.polyglot;
  * @constructor
  */
 let $ = window.$;
-class AuLayersPanel extends ThematicLayersPanel {
+class AuLayersPanel extends WorldWindWidgetPanel {
     constructor(options) {
         super(options);
 
@@ -34,10 +35,8 @@ class AuLayersPanel extends ThematicLayersPanel {
         };
         this._layersControls = [];
         this._stateStore = options.store.state;
-    };
 
-    addListeners() {
-        Stores.addListener(this.onEvent.bind(this));
+		window.Stores.addListener(this.onEvent.bind(this));
     };
 
     /**
@@ -178,6 +177,17 @@ class AuLayersPanel extends ThematicLayersPanel {
 		}
     }
 
+    setOutlinesActive(){
+		let control = _.find(this._layersControls, function (control) {
+			return control._id === "areaoutlines"
+		});
+		if (control && control._checkbox && !control._checkbox._checked){
+			control._checkbox._checkboxSelector.trigger("click");
+		} else {
+			window.Stores.notify("analyticalUnits#show");
+		}
+	}
+
     /**
      * @param type {string}
      */
@@ -195,8 +205,10 @@ class AuLayersPanel extends ThematicLayersPanel {
         } else if (type === Actions.selectionEverythingCleared){
             this.clearAllSelections();
         } else if (type === Actions.selectionActiveCleared){
-            this.clearActiveSelection()
-        }
+            this.clearActiveSelection();
+        } else if (type === "auLayersPanel#setAnalyticalUnitsVisible" && isAvailable){
+			this.setOutlinesActive();
+		}
     };
 }
 

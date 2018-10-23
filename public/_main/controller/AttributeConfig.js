@@ -235,6 +235,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 			cls: 'thematic-maps-settings',
             width: 800,
             height: 600,
+			resizable: true,
             
             title: title,
             items: [{

@@ -102,12 +102,25 @@ function removeScenarioFromActiveCaseEdited (scenarioKey) {
 
 function updateEditedScenario(scenarioKey, key, value) {
 	return (dispatch, getState) => {
-		let scenario = Select.scenarios.scenarios.getByKey(getState(), scenarioKey);
+		let state = getState();
+		let scenario = Select.scenarios.getScenario(state, scenarioKey);
+		let activeCaseKey = Select.scenarios.getActiveCaseKey(state);
+		let activeCaseScenarioKeys = Select.scenarios.getActiveCaseScenarioKeys(state);
+		let activeCaseEditedScenarioKeys = Select.scenarios.getActiveCaseEditedScenarioKeys(state);
+
+		let updatedScenarioKeys = [];
+		if (activeCaseScenarioKeys){
+			updatedScenarioKeys = _.union(updatedScenarioKeys, activeCaseScenarioKeys);
+		}
+		if (activeCaseEditedScenarioKeys){
+			updatedScenarioKeys = _.union(updatedScenarioKeys, activeCaseEditedScenarioKeys);
+		}
 
 		// delete property from edited, if the value in update is the same as in state
 		if (scenario && (value === scenario.data[key] || (!scenario.data[key] && value.length === 0))){
 			dispatch(actionRemovePropertyFromEditedScenario(scenarioKey, key));
 		} else {
+			dispatch(actionUpdateEditedCases([{key: activeCaseKey, data: {scenarios: updatedScenarioKeys}}]));
 			dispatch(actionUpdateEditedScenarios([{key: scenarioKey, data: {[key]: value}}]));
 		}
 	};
@@ -851,16 +864,12 @@ function apiCreateRelationsForScenarioProcessResults(results) {
 				.then((relationResults) => {
 					if (relationResults.data.spatial){
 						// todo why there are data apart of key, while in Action.spatialRelations.load response are not?
-						let dataSourcesIds = [];
-						let data = relationResults.data.spatial.map(
-							relation => {
-								dataSourcesIds.push(relation.data.data_source_id);
-								let rel = {...relation.data, id: relation.id};
-								console.log('$$$ Scenarios/action#apiCreateRelationsForScenarioProcessResults relation:', rel);
-								return rel;
-							}
+						let dataSourcesIds = _.compact(
+							_.map(relationResults.data.spatial, (spatialRelation) => {
+								return spatialRelation.data.data_source_id;
+							})
 						);
-						dispatch(Action.spatialRelations.loadRelationsReceive(data));
+						dispatch(Action.spatialRelations.loadRelationsReceive(relationResults.data.spatial));
 						dispatch(Action.spatialDataSources.loadFiltered({'id': dataSourcesIds}));
 
 						dispatch(apiProcessingScenarioFilesSuccess(scenarioKeys));

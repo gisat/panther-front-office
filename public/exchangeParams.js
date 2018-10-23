@@ -83,7 +83,6 @@ var OlMap = {
  */
 var Stores = {
 	activeLayers: [],
-	choropleths: [],
 	listeners: [],
 	outlines: null,
 	selectedOutlines: null
@@ -95,7 +94,12 @@ var Stores = {
  */
 Stores.notify = function(changed, options) {
 	Stores.listeners.forEach(function(listener){
-		listener(changed, options);
+		if (listener.key){
+			listener.listener(changed, options);
+		} else {
+			listener(changed, options);
+		}
+
 	})
 };
 
@@ -105,25 +109,18 @@ Stores.notify = function(changed, options) {
  * @param [options] {string|object} Optional parametr.
  */
 Stores.addListener = function(listener, options) {
-	Stores.listeners.push(listener);
+	if (options && options.key){
+		let existingListener = Stores.listeners.find(listener => {return listener.key === options.key});
+		if (!existingListener){
+			Stores.listeners.push({key: options.key, listener: listener});
+		}
+	} else {
+		Stores.listeners.push(listener);
+	}
+
 	if (options === "initialLoading"){
 		Stores.notify("initialLoadingStarted");
 	}
-};
-
-/**
- * Update choropleth
- * @param attribute {number}
- * @param attributeSet {number}
- * @param data {Object}
- */
-Stores.updateChoropleths = function(attribute, attributeSet, data){
-	Stores.choropleths.forEach(function(choropleth){
-		if (choropleth.as == attributeSet && choropleth.attr == attribute){
-			choropleth.data = data;
-			Stores.notify('updateChoropleths');
-		}
-	});
 };
 
 Stores.updateOutlines = function(data){

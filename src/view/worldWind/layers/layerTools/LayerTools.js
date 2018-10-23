@@ -39,8 +39,8 @@ class LayerTools {
         this._id = options.id;
         this._name = options.name;
         this._class = options.class;
+        this._mapStore = options.mapStore;
         this._layers = options.layers || null;
-        this._maps = options.maps || null;
         this._style = options.style || null;
 
         this.tools = [];
@@ -53,8 +53,6 @@ class LayerTools {
     build() {
         $(this._target).append('<div id="layer-tool-box-' + this._id + '" class="layer-tools"></div>');
         this._toolsContainer = $('#layer-tool-box-' + this._id);
-
-        this.addMetadataIconOnClickListener();
     };
 
     clear() {
@@ -67,25 +65,6 @@ class LayerTools {
      */
     getContainer() {
         return this._toolsContainer;
-    };
-
-    /**
-     * Build legend for layer
-     * @param maps {Array} List of WorldWindMaps
-     * @param layerMetadata {Object}
-     * @returns {Legend}
-     */
-    addLegend(layerMetadata, maps) {
-        let legend = new Legend({
-            active: false,
-            class: this._class,
-            name: layerMetadata.name,
-            layerMetadata: layerMetadata,
-            target: this._toolsContainer,
-            maps: maps
-        });
-        this.tools.push(legend);
-        return legend;
     };
 
     /**
@@ -115,7 +94,6 @@ class LayerTools {
         let legend = new LayerLegend({
             id: this._id,
             name: this._name,
-            class: this._class,
             target: this._toolsContainer,
             layers: this._layers,
             style: this._style
@@ -135,7 +113,7 @@ class LayerTools {
             class: this._class,
             target: this._toolsContainer,
             layers: this._layers,
-            maps: this._maps,
+            mapStore: this._mapStore,
             style: this._style
         });
         this.tools.push(opacity);
@@ -148,26 +126,6 @@ class LayerTools {
     hide() {
         this.tools.forEach(function (tool) {
             tool.hide();
-        });
-    };
-
-    /**
-     * Add metadata icon to tool box
-     * @param data {Object}
-     */
-    addMetadataIcon(data) {
-        this._toolsContainer.append('<div title="Metadata" class="layer-tool-icon metadata-icon" data-for="' + data.id + '">' +
-            '<img src="img/info.png"/>' +
-            '</div>');
-    };
-
-    /**
-     * Show window with metadata info on Metadata icon click
-     */
-    addMetadataIconOnClickListener() {
-        this._toolsContainer.on("click", ".metadata-icon", function () {
-            let dataId = $(this).attr("data-for");
-            $("#window-layerpanel").find("td[data-for=" + dataId + "] .x-tree-icon-leaf").trigger("click");
         });
     };
 }

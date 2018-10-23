@@ -68,13 +68,14 @@ class Checkbox extends View {
         </div>`;
 
         this._target.append(html);
+        this._checkboxSelector = $("#" + this._id);
 
         if (this._checked) {
-            $("#" + this._id).addClass("checked");
+			this._checkboxSelector.addClass("checked");
         }
 
         if (this._parentCheckbox) {
-            $("#" + this._id).attr("data-parent-checkbox", this._parentCheckbox);
+			this._checkboxSelector.attr("data-parent-checkbox", this._parentCheckbox);
         }
 
         this.addListeners(this._id);
