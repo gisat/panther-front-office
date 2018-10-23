@@ -66,8 +66,6 @@ if(!id) {
 	store.dispatch(Action.views.apiLoadViews());
 	// Load Current User
 	store.dispatch(Action.users.apiLoadCurrentUser());
-	// Load groups
-	store.dispatch(Action.userGroups.apiLoad());
 
 	initialize();
 } else {
