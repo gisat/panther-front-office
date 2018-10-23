@@ -133,9 +133,51 @@ function loadAll(dataType, successAction, errorAction) {
 	};
 }
 
+function loadFiltered(dataType, filter, successAction, errorAction) {
+	return dispatch => {
+		let apiPath = path.join('backend/rest/metadata/filtered', dataType);
+		let payload = {
+			...filter,
+			limit: PAGE_SIZE
+		};
+		request(apiPath, 'POST', null, payload)
+			.then(result => {
+				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
+					dispatch(errorAction(result.errors[dataType] || new Error('no data')));
+				} else {
+					if (result.total <= PAGE_SIZE) {
+						// everything already loaded
+						dispatch(successAction(result.data[dataType]));
+					} else {
+						// load remaining pages
+						let promises = [];
+						let remainingPageCount = Math.ceil((result.total - PAGE_SIZE) / PAGE_SIZE);
+						for (let i = 0; i < remainingPageCount; i++) {
+							let pagePayload = {
+								...filter,
+								offset: (i + 1) * PAGE_SIZE,
+								limit: PAGE_SIZE
+							};
+							promises.push(request(apiPath, 'POST', null, pagePayload)); //todo what if one fails?
+						}
+						Promise.all(promises).then(results => {
+							let remainingData = _.flatten(results.map(res => res.data[dataType]));
+							dispatch(successAction([...result.data[dataType], ...remainingData]));
+						});
+					}
+				}
+
+			})
+			.catch(error => {
+				dispatch(errorAction(error));
+			});
+	};
+}
+
 export default {
 	add,
 	loadAll,
+	loadFiltered,
 	setActiveKey,
 	setActiveKeys,
 	request: requestWrapper
