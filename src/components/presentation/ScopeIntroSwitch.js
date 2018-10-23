@@ -6,8 +6,8 @@ import DromasLpisChangeReviewIntro from '../scopeSpecific/DromasLpisChangeReview
 
 export default ({scope, intro}) => {
 	if (scope){
-		if (scope.configuration && scope.configuration && scope.configuration.introComponent){
-			switch(scope.configuration.introComponent) {
+		if (scope.data.configuration && scope.data.configuration && scope.data.configuration.introComponent){
+			switch(scope.data.configuration.introComponent) {
 				case 'dromasLpisChangeReview':
 					return (
 						<DromasLpisChangeReviewIntro />

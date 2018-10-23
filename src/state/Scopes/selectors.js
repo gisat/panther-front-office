@@ -15,8 +15,8 @@ const getByKey = common.getByKey(getSubstate);
 
 const getActiveScopeConfiguration = createSelector(
 	[getActive],
-	(data) => {
-		return data && data.configuration ? data.configuration : null;
+	(scope) => {
+		return scope.data && scope.data.configuration ? scope.data.configuration : null;
 	}
 );
 
