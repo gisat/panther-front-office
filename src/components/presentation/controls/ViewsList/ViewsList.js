@@ -22,7 +22,7 @@ class ViewsList extends React.PureComponent {
 	render() {
 		return (
 			<div className="ptr-views-list">
-				{this.props.hideTitle ? null : (<h2 className="view-list-title">{this.props.selectedScope ? this.props.selectedScope.name : null}</h2>)}
+				{this.props.hideTitle ? null : (<h2 className="view-list-title">{this.props.selectedScope && this.props.selectedScope.data ? this.props.selectedScope.data.name : null}</h2>)}
 				<div className="view-list-content">{this.renderViews()}</div>
 			</div>
 		);
