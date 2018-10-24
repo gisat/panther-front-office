@@ -31,7 +31,7 @@ class ThematicLayersPanel extends WorldWindWidgetPanel {
     	this._choropleths = choropleths;
         this.clear(this._groupId);
 
-        if (choropleths.length === 0){
+        if (!choropleths || choropleths.length === 0){
 			this.displayPanel("none");
 			return;
         } else {
