@@ -12,7 +12,7 @@ const mapStateToProps = (state, props) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		deleteView: (key) => {
-			dispatch(Action.views.apiDeleteView(key))
+			dispatch(Action.dataviews.apiDeleteView(key))
 		},
 		redirect: (params) => {
 			dispatch(Action.components.redirectToView(params))
