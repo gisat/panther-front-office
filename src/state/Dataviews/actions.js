@@ -19,7 +19,7 @@ const add = common.add(actionAdd);
 
 function addMongoView(view) {
 	return (dispatch, getState) => {
-		let existingView = Select.views.getView(getState(), view._id);
+		let existingView = Select.dataviews.getView(getState(), view._id);
 		if (!existingView){
 			dispatch(actionAdd([{
 				key: view._id,
@@ -123,7 +123,7 @@ function apiLoadViews(ttl) {
 function setActive(key) {
 	return (dispatch, getState) => {
 		let state = getState();
-		let views = Select.views.getViews(state);
+		let views = Select.dataviews.getViews(state);
 		let view = _.find(views, {key: key});
 
 		if(!view) {

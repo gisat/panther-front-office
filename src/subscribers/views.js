@@ -13,7 +13,7 @@ const setEventListeners = store => {
 	window.Stores.addListener((event, options) => {
 		switch(event) {
 			case 'VIEWS_LOADED':
-				let storedViews = Select.views.getViews(store.getState());
+				let storedViews = Select.dataviews.getViews(store.getState());
 				let viewsToAdd = [];
 				options.forEach((option) => {
 					let storedView = _.find(storedViews, {key: option.id});
@@ -21,14 +21,14 @@ const setEventListeners = store => {
 						viewsToAdd.push({key: option.id, ...option});
 					}
 				});
-				store.dispatch(Action.views.add(viewsToAdd));
+				store.dispatch(Action.dataviews.add(viewsToAdd));
 				break;
 			case "VIEWS_ADD":
-				store.dispatch(Action.views.add(options));
+				store.dispatch(Action.dataviews.add(options));
 				break;
 			case "ActiveViewLoaded":
-				store.dispatch(Action.views.addMongoView(options));
-				store.dispatch(Action.views.setActive(options._id));
+				store.dispatch(Action.dataviews.addMongoView(options));
+				store.dispatch(Action.dataviews.setActive(options._id));
 
 				store
 					.dispatch(Action.lpisCases.loadCaseForActiveView())

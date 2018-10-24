@@ -266,7 +266,7 @@ function redirectToActiveCaseView() {
 	return (dispatch, getState) => {
 		let state = getState();
 		let activeCase = Select.lpisCases.getActiveCase(state);
-		let view = _.find(Select.views.getViews(state), {key: activeCase.data.view_id});
+		let view = _.find(Select.dataviews.getViews(state), {key: activeCase.data.view_id});
 
 		dispatch(Action.components.redirectToView({...view.data, key: view.key}));
 	}
@@ -279,7 +279,7 @@ function redirectToNextViewFromActiveView() {
 		let nextLpisCase = _.find(Select.lpisCases.getCases(state), {key: nextActiveCaseKey});
 
 		if(nextLpisCase) {
-			let view = _.find(Select.views.getViews(state), {key: nextLpisCase.data.view_id});
+			let view = _.find(Select.dataviews.getViews(state), {key: nextLpisCase.data.view_id});
 			dispatch(Action.components.redirectToView({...view.data, key: view.key}));
 		}
 	}
@@ -305,7 +305,7 @@ function setNextActiveCaseKey() {
 function loadCaseForActiveView() {
 	return (dispatch, getState) => {
 		let state = getState();
-		let activeViewKey = Select.views.getActiveKey(state);
+		let activeViewKey = Select.dataviews.getActiveKey(state);
 		let activeScope = Select.scopes.getActiveScopeData(state);
 
 		if (!activeScope) {

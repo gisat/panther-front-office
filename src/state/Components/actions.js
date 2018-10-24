@@ -60,7 +60,7 @@ function redirectToView(params) {
 
 		// need login
 		// todo need login in params?
-		let hasGuestGroupPermission = Select.views.hasGuestGroupGetPermission(getState(), params.key);
+		let hasGuestGroupPermission = Select.dataviews.hasGuestGroupGetPermission(getState(), params.key);
 		if (!hasGuestGroupPermission){
 			urlParams.push(`needLogin=true`);
 		}
