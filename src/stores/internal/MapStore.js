@@ -326,7 +326,7 @@ class MapStore {
             if (map.id === mapId) {
                 map._wwd.layers.forEach(function (layer) {
                     if (layer.metadata && layer.metadata.group === group && layer.metadata.id === layerId) {
-                        map.layers.removeLayerFromMap(layer, true);
+                        map.layers.removeLayer(layer, true);
                         map.mapWindowTools.removeLayerInfo();
                     }
                 });
