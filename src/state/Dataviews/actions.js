@@ -105,7 +105,7 @@ function apiLoadViews(ttl) {
                         });
                     });
                 } else {
-                	dispatch(actionApiLoadViewsRequestError("views#action load views: It wasn't possible to load Views"));
+                	dispatch(actionApiLoadViewsRequestError("views#action load views: It wasn't possible to load Dataviews"));
                 }
             },
             error => {
@@ -113,7 +113,7 @@ function apiLoadViews(ttl) {
                 if (ttl - 1) {
                     dispatch(apiLoadViews(ttl - 1));
                 } else {
-                    dispatch(actionApiLoadViewsRequestError("views#action load views: It wasn't possible to load Views "));
+                    dispatch(actionApiLoadViewsRequestError("views#action load views: It wasn't possible to load Dataviews "));
                 }
             }
         );

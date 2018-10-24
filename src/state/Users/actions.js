@@ -10,7 +10,7 @@ import common from '../_common/actions';
 
 import scopeActions from '../Scopes/actions';
 import lpisCasesActions from '../LpisCases/actions';
-import dataViewActions from '../Views/actions';
+import dataViewActions from '../Dataviews/actions';
 import overlaysActions from '../Components/Overlays/actions';
 import userGroupsActions from '../UserGroups/actions';
 

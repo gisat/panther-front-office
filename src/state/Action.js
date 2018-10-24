@@ -6,6 +6,7 @@ import Attributes from './Attributes/actions';
 import AttributeSets from './AttributeSets/actions';
 import Choropleths from './Choropleths/actions';
 import Components from './Components/actions';
+import Dataviews from './Dataviews/actions';
 import LayerTemplates from './LayerTemplates/actions';
 import LpisCases from './LpisCases/actions';
 import Maps from './Maps/actions';
@@ -18,7 +19,6 @@ import SpatialRelations from './SpatialRelations/actions';
 import Styles from './Styles/actions';
 import Users from './Users/actions';
 import UserGroups from './UserGroups/actions';
-import Views from './Views/actions';
 import WmsLayers from './WmsLayers/actions';
 
 export default {
@@ -29,6 +29,7 @@ export default {
 	attributeSets: AttributeSets,
 	choropleths: Choropleths,
 	components: Components,
+	dataviews: Dataviews,
 	layerTemplates: LayerTemplates,
 	lpisCases: LpisCases,
 	maps: Maps,
@@ -41,6 +42,5 @@ export default {
 	styles: Styles,
 	users: Users,
 	userGroups: UserGroups,
-	views: Views,
 	wmsLayers: WmsLayers
 };

@@ -21,7 +21,7 @@ function setActiveScopeKey(key) {
 	return dispatch => {
 		dispatch(actionSetActiveScopeKey(key));
 		dispatch(applyScopeConfiguration());
-		dispatch(Action.views.loadForScope(key));
+		dispatch(Action.dataviews.loadForScope(key));
 	};
 }
 function applyScopeConfiguration() {

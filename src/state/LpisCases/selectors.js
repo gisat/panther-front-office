@@ -20,7 +20,7 @@ const getActiveCaseKey = state => state.lpisCases.activeCaseKey;
 const getActiveEditedCaseKey = state => state.lpisCases.activeNewEditedCaseKey;
 const getNextActiveCaseKey = state => state.lpisCases.nextActiveCaseKey;
 
-const getActiveViewKey = state => state.views.activeKey;
+const getActiveViewKey = state => state.dataviews.activeKey;
 const getUsers = state => state.users.data;
 
 const getCasesWithChanges = createSelector(

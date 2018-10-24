@@ -4,6 +4,7 @@ import Attributes from './Attributes/selectors';
 import AttributeSets from './AttributeSets/selectors';
 import Choropleths from './Choropleths/selectors';
 import Components from './Components/selectors';
+import Dataviews from './Dataviews/selectors';
 import LayerPeriods from './LayerPeriods/selectors';
 import LayerTemplates from './LayerTemplates/selectors';
 import LpisCases from './LpisCases/selectors';
@@ -17,7 +18,6 @@ import SpatialRelations from './SpatialRelations/selectors';
 import Styles from './Styles/selectors';
 import UserGroups from './UserGroups/selectors';
 import Users from './Users/selectors';
-import Views from './Views/selectors';
 import WmsLayers from './WmsLayers/selectors';
 
 export default {
@@ -27,6 +27,7 @@ export default {
 	attributeSets: AttributeSets,
 	choropleths: Choropleths,
 	components: Components,
+	dataviews: Dataviews,
 	layerPeriods: LayerPeriods,
 	layerTemplates: LayerTemplates,
 	lpisCases: LpisCases,
@@ -40,7 +41,6 @@ export default {
 	styles: Styles,
 	userGroups: UserGroups,
 	users: Users,
-	views: Views,
 	wmsLayers: WmsLayers
 
 };

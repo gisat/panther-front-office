@@ -4,8 +4,7 @@ import _ from 'lodash';
 import common from "../_common/selectors";
 import UsersSelectors from '../Users/selectors';
 
-
-const getSubstate = state => state.views;
+const getSubstate = state => state.dataviews;
 
 const getAll = common.getAll(getSubstate);
 const getActiveKey = common.getActiveKey(getSubstate);
@@ -21,14 +20,8 @@ const getViewsForActiveUser = createCachedSelector(
 			return [];
 		}
 
-		// return all views, which have GET permission for guest group (public views)
 		else if (!userKey) {
-			return _.filter(views, (view) => {
-				if (view.permissions && view.permissions.group) {
-					return !!_.find(view.permissions.group, {'id': 2});
-				}
-				return false;
-			});
+			return views;
 		}
 
 		else if (isAdmin) {

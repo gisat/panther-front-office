@@ -203,7 +203,7 @@ function _storeResponseContent(content) {
 			let views = content['data']['dataviews'];
 
 			if (views && views.length) {
-				dispatch(Action.views.add(transformIdsToKeys(views)));
+				dispatch(Action.dataviews.add(transformIdsToKeys(views)));
 			}
 
 			if (places && places.length) {
