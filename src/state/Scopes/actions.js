@@ -45,51 +45,6 @@ function applyScopeConfiguration() {
 	}
 }
 
-function apiLoadScopes(ttl) {
-    if (_.isUndefined(ttl)) ttl = TTL;
-    return dispatch => {
-        dispatch(actionApiLoadScopesRequest());
-
-        let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/dataset');
-
-        return fetch(url, {
-            method: 'GET',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        }).then(
-            response => {
-                console.log('#### load scopes response', response);
-                let contentType = response.headers.get('Content-type');
-                if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
-                    return response.json().then(data => {
-                        Promise.all(data.data.map(scope => {
-                            return new Scope({data: scope}).then(scope => {
-                                scope.key = scope.id;
-                                return scope;
-                            });
-                        })).then(scopes => {
-                            dispatch(actionAdd(scopes));
-                        });
-                    });
-                } else {
-                    dispatch(actionApiLoadScopesRequestError('scopes#action Problem with loading scopes.'));
-                }
-            },
-            error => {
-                console.log('#### load scopes error', error);
-                if (ttl - 1) {
-                    dispatch(apiLoadScopes(ttl - 1));
-                } else {
-                    dispatch(actionApiLoadScopesRequestError('scopes#action Problem with loading scopes.'));
-                }
-            }
-        );
-    };
-}
-
 function loadAll() {
 	return dispatch => {
 		dispatch(common.loadAll('scopes', loadAllSuccess, loadAllError));
@@ -125,24 +80,10 @@ function actionSetActiveScopeKey(key) {
 	}
 }
 
-function actionApiLoadScopesRequest() {
-    return {
-        type: ActionTypes.SCOPES_LOAD_REQUEST
-    }
-}
-
-function actionApiLoadScopesRequestError(error) {
-    return {
-        type: ActionTypes.SCOPES_LOAD_REQUEST_ERROR,
-        error: error
-    }
-}
-
 // ============ export ===========
 
 export default {
 	add: common.add(actionAdd),
-	apiLoadScopes: apiLoadScopes,
 	setActiveScopeKey: setActiveScopeKey,
 	loadAll
 }
