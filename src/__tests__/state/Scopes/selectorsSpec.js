@@ -8,11 +8,22 @@ let state = {
 		byKey: {
 			3971: {
 				key: 3971,
+				data: {
+					configuration: {
+						"pucsLandUseScenarios": {
+							"templates": {
+								"sourceVector": 3332,
+								"sourceRaster": 4090,
+								"uhi": 4091,
+								"hwd": 4092
+							}
+						}
+					}
+				},
 				permissions: {
 					group: [{permission: "GET", id: 2}],
 					user: [{permission: "GET", id: 3}, {permission: "GET", id: 4}]
-				},
-				configuration: {"pucsLandUseScenarios":{"templates":{"sourceVector":3332,"sourceRaster":4090,"uhi":4091,"hwd":4092}}}
+				}
 			},
 			3972: {
 				key: 3972,
@@ -64,11 +75,22 @@ describe('Scope basic Selectors', () => {
 	it ('should select data for given scope', () => {
 		let expectedScopeData = {
 			key: 3971,
+			data: {
+				configuration: {
+					"pucsLandUseScenarios": {
+						"templates": {
+							"sourceVector": 3332,
+							"sourceRaster": 4090,
+							"uhi": 4091,
+							"hwd": 4092
+						}
+					}
+				}
+			},
 			permissions: {
 				group: [{permission: "GET", id: 2}],
 				user: [{permission: "GET", id: 3}, {permission: "GET", id: 4}]
 			},
-			configuration: {"pucsLandUseScenarios":{"templates":{"sourceVector":3332,"sourceRaster":4090,"uhi":4091,"hwd":4092}}}
 		};
 		Selector(Select.scopes.getScopeData).expect(state, 3971).toReturn(expectedScopeData);
 	});

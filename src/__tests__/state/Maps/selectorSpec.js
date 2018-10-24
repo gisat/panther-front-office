@@ -18,7 +18,9 @@ let state = {
 		byKey: {
 			3971: {
 				key: 3971,
-				configuration: {"pucsLandUseScenarios":{"templates":{"sourceVector":3332,"sourceRaster":4090,"uhi":4091,"hwd":4092}}}
+				data: {
+					configuration: {"pucsLandUseScenarios":{"templates":{"sourceVector":3332,"sourceRaster":4090,"uhi":4091,"hwd":4092}}}
+				}
 			}
 		}
 	},
@@ -27,7 +29,10 @@ let state = {
 				{"key": 215, "type":"shapefile", data: {"layer_name":"geonode:pucs_514f7a7552564ceebd269a8d334f1324","table_name":"pucs_514f7a7552564ceebd269a8d334f1324"}}]}
 	},
 	spatialRelations: {
-		data: [{"key":127, data: {"scope_id":null,"periokd_id":null,"place_id":3975,"data_source_id":214,"layer_template_id":3332,"scenario_id":null}}]
+		data: [{"key":127, data: {"scope_id":null,"period_id":null,"place_id":3975,"data_source_id":214,"layer_template_id":3332,"scenario_id":null}}]
+	},
+	places: {
+		activeKey: 3975
 	}
 };
 
