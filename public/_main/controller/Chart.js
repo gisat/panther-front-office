@@ -134,6 +134,7 @@ Ext.define('PumaMain.controller.Chart', {
         window.Stores.notify('SNAPSHOTS_CREATED', {
             name: name,
             type: type,
+			source: "/images/chart.JPG"
         });
     },
     onExportCsv: function(btn) {

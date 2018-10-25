@@ -5,7 +5,7 @@ import ViewsWindow from '../../containers/windows/ViewsWindow/ViewsWindow';
 
 import './WindowsContainer.css'
 import Window from "../../containers/Window";
-import SnapshotsWindow from "../windows/SnapshotsWindow/SnapshotsWindow";
+import SnapshotsWindow from "../../containers/windows/SnapshotsWindow/SnapshotsWindow";
 
 class WindowsContainer extends React.PureComponent {
 	render() {

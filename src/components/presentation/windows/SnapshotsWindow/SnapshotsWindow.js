@@ -2,10 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Window from "../../../containers/Window";
+import './SnapshotsWindow.css';
+import Button from "../../atoms/Button";
+import SnapshotCard from "../../../containers/controls/SnapshotCard";
 
 class SnapshotsWindow extends React.PureComponent {
 
 	static propTypes = {
+		createMapSnapshot: PropTypes.func,
+		snapshots: PropTypes.array
 	};
 
 	render() {
@@ -13,16 +18,38 @@ class SnapshotsWindow extends React.PureComponent {
 			<Window
 				window="snapshots"
 				name="Snapshots"
-				minWidth={200}
-				width={800}
+				minWidth={300}
+				width={850}
 				elementId="snapshots-window"
 				expandable={true}
 				dockable={true}
-				dockedWidth={200}
+				dockedWidth={300}
 			>
-				Snapshots
+				<Button
+					onClick={this.props.createMapSnapshot}
+					icon="plus"
+				>
+					Create map snapshot
+				</Button>
+				<div className="ptr-snapshots-container">
+					{this.renderSnapshots()}
+				</div>
 			</Window>
 		);
+	}
+
+	renderSnapshots(){
+		return this.props.snapshots ? this.props.snapshots.map((snapshot) => {
+			return (
+				<SnapshotCard
+					key={snapshot.key}
+					snapshotKey={snapshot.key}
+					name={snapshot.data.name}
+					type={snapshot.data.type}
+					source={snapshot.data.source}
+				/>
+			);
+		}) : null;
 	}
 
 }
