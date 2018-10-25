@@ -78,7 +78,8 @@ class TopToolBar {
             snapshot: true,
             contextHelp: true,
             osm: false,
-            views: true
+            views: true,
+            snapshots: true,
         };
 
 
@@ -162,6 +163,10 @@ class TopToolBar {
 			if (tools.scenarios){
                 let classesScenarios = this._scenariosWidgetIsOpen ? "item open" : "item";
 				this._target.append('<div class="' + classesScenarios + '" id="top-toolbar-scenarios"><span>'+polyglot.t('scenarios')+'</span></div>');
+			}
+			if (tools.snapshots){
+				let classesSnapshots = this._snapshotsWidgetIsOpen ? "item open" : "item";
+				this._target.append('<div class="' + classesSnapshots + '" id="top-toolbar-snapshots"><span>'+polyglot.t('snapshots')+'</span></div>');
 			}
 			if (tools.views){
 				let classesViews = this._viewsWidgetIsOpen ? "item open" : "item";
@@ -284,6 +289,8 @@ class TopToolBar {
 			Stores.notify("component#scenarioButtonClick");
 		} else if ($(e.currentTarget).attr("id") === 'top-toolbar-views'){
 			Stores.notify("component#viewsButtonClick");
+		} else if ($(e.currentTarget).attr("id") === 'top-toolbar-snapshots'){
+			Stores.notify("component#snapshotsButtonClick");
 		} else {
 			let targetId = e.target.getAttribute('data-for');
 			if (!targetId){
@@ -477,6 +484,11 @@ class TopToolBar {
 		    let isOpen = scenariosItem.hasClass('open');
 			this._scenariosWidgetIsOpen = !isOpen;
 			scenariosItem.toggleClass('open');
+		} else if (type === 'SNAPSHOTS_WINDOW_TOGGLE'){
+			let snapshotsItem = $('#top-toolbar-snapshots');
+			let isOpen = snapshotsItem.hasClass('open');
+			this._snapshotsWidgetIsOpen = !isOpen;
+			snapshotsItem.toggleClass('open');
 		} else if (type === 'VIEWS_WINDOW_TOGGLE'){
 			let viewsItem = $('#top-toolbar-views');
 			let isOpen = viewsItem.hasClass('open');

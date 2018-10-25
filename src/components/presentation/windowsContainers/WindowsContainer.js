@@ -4,6 +4,8 @@ import ScenariosWindow from '../../../scopemagicswitches/ScenariosWindow';
 import ViewsWindow from '../../containers/windows/ViewsWindow/ViewsWindow';
 
 import './WindowsContainer.css'
+import Window from "../../containers/Window";
+import SnapshotsWindow from "../windows/SnapshotsWindow/SnapshotsWindow";
 
 class WindowsContainer extends React.PureComponent {
 	render() {
@@ -11,6 +13,9 @@ class WindowsContainer extends React.PureComponent {
 
 		if (!this.props.scenariosWindowDocked){
 			windows.push(<ScenariosWindow key='scenario-window'/>);
+		}
+		if (!this.props.snapshotsWindowDocked){
+			windows.push(<SnapshotsWindow key='snapshots-window'/>)
 		}
 		if (!this.props.viewsWindowDocked){
 			windows.push(<ViewsWindow key='views-window'/>);

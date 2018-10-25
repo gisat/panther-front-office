@@ -721,7 +721,7 @@ var langCz = {
     snapshot: "Náhled",
     snapshotCreationStarted: "Začala tvorba náhledu",
     snapshotDone: "Náhled vytvořen",
-    snapshots: "Náhledy",
+    snapshots: "Snímky",
     stacking: "Stacking",
     started: "začalo",
     startCreating: "začátek vytváření",
