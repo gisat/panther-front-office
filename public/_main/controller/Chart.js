@@ -47,6 +47,9 @@ Ext.define('PumaMain.controller.Chart', {
             'chartpanel tool[type=help]': {
                 click: this.onToggleLegend
             },
+			'chartpanel tool[type=print]': {
+				click: this.onExportImage
+			},
             'chartpanel': {
                 expand: this.onChartExpand
             },
@@ -121,6 +124,17 @@ Ext.define('PumaMain.controller.Chart', {
         var chart = btn.up('panel').chart;
         $(btn.el.dom).toggleClass('tool-active');
         chart.zooming = chart.zooming ? false : true;
+    },
+    onExportImage: function(btn) {
+		var chart = btn.up('panel').chart;
+		var name = chart.cfg && chart.cfg.title ? chart.cfg.title : null;
+		var type = chart.cfg && chart.cfg.type ? (chart.cfg.type === "grid" ? "table" : "chart") : null;
+
+        // todo add logic
+        window.Stores.notify('SNAPSHOTS_CREATED', {
+            name: name,
+            type: type,
+        });
     },
     onExportCsv: function(btn) {
         var chart = btn.up('panel').chart;

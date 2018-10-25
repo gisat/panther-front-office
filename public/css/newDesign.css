@@ -703,7 +703,8 @@
 	content: "\f15c";
 }
 .newDesign .chart-panel .x-panel-header .tool-chart-export-png:before {
-	content: "\f1c5";
+	content: "\f030";
+	top: 2px;
 }
 .newDesign .chart-panel .x-panel-header .tool-chart-snapshot:before {
 	content: "\f030";
