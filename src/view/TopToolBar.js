@@ -5,7 +5,6 @@ import Floater from '../util/Floater';
 import Logger from '../util/Logger';
 import Uuid from '../util/Uuid';
 
-let Observer = window.Observer;
 let Config = window.Config;
 let polyglot = window.polyglot;
 let Ext;
@@ -52,14 +51,6 @@ class TopToolBar {
         $('#top-toolbar-add-map').on('click.topToolBar', this.handleAddMapClick.bind(this));
         this._map3dSwitchSelector.on("click.topToolBar", this.handle3dMapClick.bind(this));
 
-        Observer.addListener("Tools.hideClick.layerpanel",this.handleHideClick.bind(this, 'window-layerpanel'));
-        Observer.addListener("Tools.hideClick.areatree",this.handleHideClick.bind(this, 'window-areatree'));
-        Observer.addListener("Tools.hideClick.selections",this.handleHideClick.bind(this, 'window-colourSelection'));
-        Observer.addListener("Tools.hideClick.maptools",this.handleHideClick.bind(this, 'window-maptools'));
-        Observer.addListener("Tools.hideClick.legacyAdvancedFilters",this.handleHideClick.bind(this, 'window-legacyAdvancedFilters'));
-        Observer.addListener("Tools.hideClick.customLayers",this.handleHideClick.bind(this, 'window-customLayers'));
-        Observer.addListener("Tools.hideClick.periods",this.handleHideClick.bind(this, 'floater-periods'));
-
         this._dispatcher.addListener(this.onEvent.bind(this));
     };
 
@@ -85,9 +76,6 @@ class TopToolBar {
 
         if (Config.toggles.hasFunctionalUrbanArea){
             tools.functionalFilrer = true;
-        }
-        if (Config.toggles.hasPeriodsWidget){
-            tools.periods = true;
         }
         if (Config.toggles.hasNewEvaluationTool) {
             tools.areasFilterNew = true;
@@ -116,104 +104,54 @@ class TopToolBar {
 
     renderFeatures(tools) {
         this._target.empty();
-        let isWorldWind = $('body').hasClass('mode-3d');
 
-        // tools for WorldWind mode
-        if (isWorldWind){
-            if (tools.layers){
-                let classesLayers3d = $('#floater-world-wind-widget').hasClass('open') ? "item open" : "item";
-                this._target.append('<div class="' + classesLayers3d + '" id="top-toolbar-layers" data-for="floater-world-wind-widget"><span>'+polyglot.t('layers')+'</span></div>');
-            }
-            if (tools.areas){
-                let classesAreas3d = $('#window-areatree').hasClass('open') ? "item open" : "item";
-                this._target.append('<div class="' + classesAreas3d + '" id="top-toolbar-areas" data-for="window-areatree"><span>'+polyglot.t('areas')+'</span></div>');
-            }
-            if (tools.periods){
-                let classesPeriods3d = $('#floater-periods-widget').hasClass('open') ? "item open" : "item";
-                this._target.append('<div class="' + classesPeriods3d + '" id="top-toolbar-periods" data-for="floater-periods-widget"><span>'+polyglot.t('periods')+'</span></div>');
-            }
-            if (tools.osm){
-                let classesOsm3d = $('#floater-osm-widget').hasClass('open') ? "item open" : "item";
-                this._target.append('<div class="' + classesOsm3d + '" id="top-toolbar-osm" data-for="floater-osm-widget"><span>'+polyglot.t('osm')+'</span></div>');
-            }
-            if (tools.selections){
-                let classesSelections3d = $('#window-colourSelection').hasClass('open') ? "item open" : "item";
-                this._target.append('<div class="' + classesSelections3d + '" id="top-toolbar-selections" data-for="window-colourSelection"><span>'+polyglot.t('selections')+'</span></div>');
-            }
-            if (tools.areasFilterNew){
-                let classesAreasFilter3d = $('#floater-evaluation-widget').hasClass('open') ? "item open" : "item";
-                this._target.append('<div class="' + classesAreasFilter3d + '" id="top-toolbar-selection-filter" data-for="floater-evaluation-widget"><span>'+polyglot.t('areasFilter')+'</span></div>');
-            }
-            if (tools.areasFilterOld){
-                let classesLegacyAreasFilter3d = $('#window-legacyAdvancedFilters').hasClass('open') ? "item open" : "item";
-                this._target.append('<div class="' + classesLegacyAreasFilter3d + '" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters"><span>'+polyglot.t('areasFilter')+'</span></div>');
-            }
-            if (tools.mapTools){
-                let classesMapTools3d = $('#floater-map-tools-widget').hasClass('open') ? "item open" : "item";
-                this._target.append('<div class="' + classesMapTools3d + '" id="top-toolbar-map-tools" data-for="floater-map-tools-widget"><span>'+polyglot.t('mapTools')+'</span></div>');
-            }
-            if (tools.customLayers){
-                let classesCustomLayers = $('#floater-custom-integration-layers').hasClass('open') ? "item open" : "item";
-                this._target.append('<div class="' + classesCustomLayers + '" id="top-toolbar-custom-integration-layers" data-for="floater-custom-integration-layers"><span>'+polyglot.t('addLayer')+'</span></div>');
-            }
-            if (tools.snow){
-                let classesSnowWidget3d = $('#floater-snow-widget').hasClass('open') ? "item open" : "item";
-                this._target.append('<div class="' + classesSnowWidget3d + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget"><span>'+polyglot.t('savedConfigurations')+'</span></div>');
-            }
-			if (tools.scenarios){
-                let classesScenarios = this._scenariosWidgetIsOpen ? "item open" : "item";
-				this._target.append('<div class="' + classesScenarios + '" id="top-toolbar-scenarios"><span>'+polyglot.t('scenarios')+'</span></div>');
-			}
-			if (tools.snapshots){
-				let classesSnapshots = this._snapshotsWidgetIsOpen ? "item open" : "item";
-				this._target.append('<div class="' + classesSnapshots + '" id="top-toolbar-snapshots"><span>'+polyglot.t('snapshots')+'</span></div>');
-			}
-			if (tools.views){
-				let classesViews = this._viewsWidgetIsOpen ? "item open" : "item";
-				this._target.append('<div class="' + classesViews + '" id="top-toolbar-views"><span>'+polyglot.t('views')+'</span></div>');
-			}
+        if (tools.layers){
+            let classesLayers3d = $('#floater-world-wind-widget').hasClass('open') ? "item open" : "item";
+            this._target.append('<div class="' + classesLayers3d + '" id="top-toolbar-layers" data-for="floater-world-wind-widget"><span>'+polyglot.t('layers')+'</span></div>');
         }
-
-        // todo obsolete
-        // tools for OpenLayers mode
-        else {
-            if (tools.layers){
-                let classesLayers = $('#window-layerpanel').hasClass('open') ? "item open" : "item";
-                this._target.append('<div class="' + classesLayers + '" id="top-toolbar-layers" data-for="window-layerpanel"><span>'+polyglot.t('layers')+'</span></div>');
-            }
-            if (tools.areas){
-                let classesAreas = $('#window-areatree').hasClass('open') ? "item open" : "item";
-                this._target.append('<div class="' + classesAreas + '" id="top-toolbar-areas" data-for="window-areatree"><span>'+polyglot.t('areas')+'</span></div>');
-            }
-            if (tools.selections){
-                let classesSelections = $('#window-colourSelection').hasClass('open') ? "item open" : "item";
-                this._target.append('<div class="' + classesSelections + '" id="top-toolbar-selections" data-for="window-colourSelection"><span>'+polyglot.t('selections')+'</span></div>');
-            }
-            if (tools.areasFilterNew){
-                let classesAreasFilter = $('#floater-evaluation-widget').hasClass('open') ? "item open" : "item";
-                this._target.append('<div class="' + classesAreasFilter + '" id="top-toolbar-selection-filter" data-for="floater-evaluation-widget"><span>'+polyglot.t('areasFilter')+'</span></div>');
-            }
-            if (tools.areasFilterOld){
-                let classesLegacyAreasFilter = $('#window-legacyAdvancedFilters').hasClass('open') ? "item open" : "item";
-                this._target.append('<div class="' + classesLegacyAreasFilter + '" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters"><span>'+polyglot.t('areasFilter')+'</span></div>');
-            }
-            if (tools.mapTools){
-                let classesMapTools = $('#window-maptools').hasClass('open') ? "item open" : "item";
-                this._target.append('<div class="' + classesMapTools + '" id="top-toolbar-map-tools" data-for="window-maptools"><span>'+polyglot.t('mapTools')+'</span></div>');
-            }
-            if (tools.customLayers){
-                let classesCustomLayers = "item";
-                classesCustomLayers += $('#window-customLayers').hasClass('open') ? " open" : "";
-                this._target.append('<div class="' + classesCustomLayers + '" id="top-toolbar-custom-layers" data-for="window-customLayers"><span>'+polyglot.t('addLayer')+'</span></div>');
-            }
-            if (tools.functionalFilrer){
-                let classesFunctionalFilter = $('#floater-functional-urban-area').hasClass('open') ? "item open" : "item";
-                this._target.append('<div class="' + classesFunctionalFilter + '" id="top-toolbar-functional-urban-area" data-for="floater-functional-urban-area"><span>'+polyglot.t('functionalUrbanArea')+'</span></div>');
-            }
-            if (tools.snow){
-                let classesSnowWidget = $('#floater-snow-widget').hasClass('open') ? "item open" : "item";
-                this._target.append('<div class="' + classesSnowWidget + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget"><span>'+polyglot.t('savedConfigurations')+'</span></div>');
-            }
+        if (tools.areas){
+            let classesAreas3d = $('#window-areatree').hasClass('open') ? "item open" : "item";
+            this._target.append('<div class="' + classesAreas3d + '" id="top-toolbar-areas" data-for="window-areatree"><span>'+polyglot.t('areas')+'</span></div>');
+        }
+        if (tools.osm){
+            let classesOsm3d = $('#floater-osm-widget').hasClass('open') ? "item open" : "item";
+            this._target.append('<div class="' + classesOsm3d + '" id="top-toolbar-osm" data-for="floater-osm-widget"><span>'+polyglot.t('osm')+'</span></div>');
+        }
+        if (tools.selections){
+            let classesSelections3d = $('#window-colourSelection').hasClass('open') ? "item open" : "item";
+            this._target.append('<div class="' + classesSelections3d + '" id="top-toolbar-selections" data-for="window-colourSelection"><span>'+polyglot.t('selections')+'</span></div>');
+        }
+        if (tools.areasFilterNew){
+            let classesAreasFilter3d = $('#floater-evaluation-widget').hasClass('open') ? "item open" : "item";
+            this._target.append('<div class="' + classesAreasFilter3d + '" id="top-toolbar-selection-filter" data-for="floater-evaluation-widget"><span>'+polyglot.t('areasFilter')+'</span></div>');
+        }
+        if (tools.areasFilterOld){
+            let classesLegacyAreasFilter3d = $('#window-legacyAdvancedFilters').hasClass('open') ? "item open" : "item";
+            this._target.append('<div class="' + classesLegacyAreasFilter3d + '" id="top-toolbar-selection-filter" data-for="window-legacyAdvancedFilters"><span>'+polyglot.t('areasFilter')+'</span></div>');
+        }
+        if (tools.mapTools){
+            let classesMapTools3d = $('#floater-map-tools-widget').hasClass('open') ? "item open" : "item";
+            this._target.append('<div class="' + classesMapTools3d + '" id="top-toolbar-map-tools" data-for="floater-map-tools-widget"><span>'+polyglot.t('mapTools')+'</span></div>');
+        }
+        if (tools.customLayers){
+            let classesCustomLayers = $('#floater-custom-integration-layers').hasClass('open') ? "item open" : "item";
+            this._target.append('<div class="' + classesCustomLayers + '" id="top-toolbar-custom-integration-layers" data-for="floater-custom-integration-layers"><span>'+polyglot.t('addLayer')+'</span></div>');
+        }
+        if (tools.snow){
+            let classesSnowWidget3d = $('#floater-snow-widget').hasClass('open') ? "item open" : "item";
+            this._target.append('<div class="' + classesSnowWidget3d + '" id="top-toolbar-snow-configuration" data-for="floater-snow-widget"><span>'+polyglot.t('savedConfigurations')+'</span></div>');
+        }
+        if (tools.scenarios){
+            let classesScenarios = this._scenariosWidgetIsOpen ? "item open" : "item";
+            this._target.append('<div class="' + classesScenarios + '" id="top-toolbar-scenarios"><span>'+polyglot.t('scenarios')+'</span></div>');
+        }
+        if (tools.snapshots){
+            let classesSnapshots = this._snapshotsWidgetIsOpen ? "item open" : "item";
+            this._target.append('<div class="' + classesSnapshots + '" id="top-toolbar-snapshots"><span>'+polyglot.t('snapshots')+'</span></div>');
+        }
+        if (tools.views){
+            let classesViews = this._viewsWidgetIsOpen ? "item open" : "item";
+            this._target.append('<div class="' + classesViews + '" id="top-toolbar-views"><span>'+polyglot.t('views')+'</span></div>');
         }
     };
 
@@ -436,7 +374,7 @@ class TopToolBar {
     /**
      * Handle click on Add map button
      */
-    handleAddMapClick = function(){
+    handleAddMapClick(){
         this._dispatcher.notify('mapsContainer#addMap');
         this._dispatcher.notify('worldWindWidget#rebuild');
     }
@@ -463,8 +401,9 @@ class TopToolBar {
 
     /**
      * @param type {string} type of event
+     * @param options {Object}
      */
-    onEvent(type){
+    onEvent(type, options){
 		if (type === Actions.toolBarEnable3d){
 			this.handle3dMapButtonState(true);
 		} else if (type === Actions.toolBarDisable3d){
@@ -479,7 +418,9 @@ class TopToolBar {
 			this.handleMapButtonActivity(false);
 		} else if (type === Actions.mapsContainerEnableAdding){
 			this.handleMapButtonActivity(true);
-		} else if (type === 'SCENARIOS_WINDOW_TOGGLE'){
+		} else if (type === 'Tools.hideClick'){
+		    this.handleHideClick(options.targetId);
+        } else if (type === 'SCENARIOS_WINDOW_TOGGLE'){
 		    let scenariosItem = $('#top-toolbar-scenarios');
 		    let isOpen = scenariosItem.hasClass('open');
 			this._scenariosWidgetIsOpen = !isOpen;
