@@ -149,6 +149,7 @@ class PantherWindow extends React.PureComponent {
 				dragHandleClassName=".ptr-window-header"
 				size={size}
 				position={position}
+				bounds="body"
 				minHeight={this.props.minHeight}
 				minWidth={this.props.minWidth}
 				maxWidth={'100%'}
