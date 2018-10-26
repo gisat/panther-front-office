@@ -25,8 +25,6 @@ const TTL = 5;
 function reloadData(dispatch) {
     // Reload scope
     dispatch(scopeActions.loadAll());
-    // Reload Dataview
-    dispatch(dataViewActions.apiLoadViews());
     // Reload current user
     dispatch(apiLoadCurrentUser());
 	// Reload lpis cases
