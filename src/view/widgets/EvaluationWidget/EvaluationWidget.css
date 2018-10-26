@@ -29,13 +29,19 @@
 
 /* floater body */
 #floater-evaluation-widget .floater-body > div:nth-child(odd) {
-    padding: .8rem .5rem;
+    padding: .8rem;
+    background: #eee;
 }
 
 #floater-evaluation-widget .floater-body > div:nth-child(even){
-    padding: .8rem .5rem;
-    border-bottom: 1px solid rgb(189,192,197);
-    border-top: 1px solid rgb(189,192,197);
+    padding: .8rem;
+    border-bottom: 1px dashed #aaa;
+    border-top: 1px dashed #aaa;
+}
+
+#floater-evaluation-widget .floater-row .slider-caption,
+#floater-evaluation-widget .floater-row .select-menu-caption {
+    margin-bottom: .2rem;
 }
 
 #floater-evaluation-widget .floater-row.slider-box,
