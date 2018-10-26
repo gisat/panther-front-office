@@ -133,6 +133,15 @@ function loadAll(dataType, successAction, errorAction) {
 	};
 }
 
+function ensure(dataType, filter, successAction, errorAction){
+	return (dispatch, getState) => {
+		let state = getState();
+			// todo substate
+			// todo select.index(filter, order, pagination)
+			// todo determine what you need to load and load it
+	};
+}
+
 function loadFiltered(dataType, filter, successAction, errorAction) {
 	return dispatch => {
 		let apiPath = path.join('backend/rest/metadata/filtered', dataType);
@@ -176,8 +185,8 @@ function loadFiltered(dataType, filter, successAction, errorAction) {
 
 export default {
 	add,
+	ensure,
 	loadAll,
-	loadFiltered,
 	setActiveKey,
 	setActiveKeys,
 	request: requestWrapper
