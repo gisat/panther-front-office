@@ -29,6 +29,7 @@ const mapDispatchToProps = (dispatch) => {
 		selectScope: (key) => {
 			dispatch(Action.components.overlays.views.setSelectedScope(key));
 			dispatch(Action.scopes.setActiveScopeKey(key));
+			dispatch(Action.dataviews.loadForScope(key));
 		}
 	}
 };
