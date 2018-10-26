@@ -1,10 +1,5 @@
-#placeholder-evaluation-widget {
-    display: block;
-}
-
 /* = Evaluation floater = */
 #floater-evaluation-widget {
-    position: absolute;
     left: 16rem;
     top: 10rem;
     min-width: 22rem;
@@ -12,6 +7,13 @@
     height: 32rem;
     min-height: 20rem;
     max-height: 35rem;
+}
+
+#floater-evaluation-widget.pinned {
+    min-width: 350px;
+    max-width: 350px;
+    max-height: none;
+    height: 100%;
 }
 
 #floater-evaluation-widget .floater-body {

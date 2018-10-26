@@ -85,11 +85,6 @@ class EvaluationWidget extends Widget {
             return;
         }
 
-        if (!this._resizeListener) {
-            this._resizeListener = true;
-            this.addOnResizeListener();
-        }
-        this._initializeResize = false;
         this.handleLoading("show");
         this._attrForRequest = attrForRequest;
 
@@ -567,31 +562,6 @@ class EvaluationWidget extends Widget {
         this._widgetSelector.find(".checkbox-row").off("click.inputs")
             .on("click.inputs", self.amount.bind(self))
             .on("click.inputs", self.disableExports.bind(self));
-    };
-
-    /**
-     * Rebuild histograms on floater resize
-     */
-    addOnResizeListener() {
-        let self = this;
-        let id = this._widgetSelector.attr("id");
-        let resizeElement = document.getElementById(id);
-
-        let timeout;
-        window.resize.addResizeListener(resizeElement, function () {
-            clearTimeout(timeout);
-            timeout = setTimeout(function () {
-                if (self._initializeResize) {
-                    if (self._inputs) {
-                        self.rebuildPopups(self._inputs.sliders);
-                    }
-                    self.rebuild(self._attrForRequest, {
-                        rebuildFooter: false
-                    });
-                }
-                self._initializeResize = true;
-            }, 500);
-        });
     };
 
     /**

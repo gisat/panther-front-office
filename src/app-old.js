@@ -460,6 +460,7 @@ function loadApp() {
             placeholderTargetId: 'widget-container',
             aggregatedChart: aggregatedChart,
             isOpen: isOpen,
+			isPinnable: true,
             dispatcher: window.Stores,
             store: {
                 state: stateStore
