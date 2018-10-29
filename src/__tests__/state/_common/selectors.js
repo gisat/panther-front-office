@@ -319,4 +319,69 @@ describe('Common selectors', () => {
 			expect(commonSelectors.getEditedKeys(getSubstate)(EMPTY_DATA_STATE)).toBeNull();
 		});
 	});
+
+	describe('#getIndexPage', () => {
+		const state = {
+			indexes: [
+				{
+					order: [['name', 'ascending']],
+					filter: {
+						scope: 2,
+					},
+					count: 10,
+					index: {1: 1, 2: 2, 3: 3}
+				}, {
+					order: [['name', 'ascending']],
+					filter: {
+						scope: 1,
+					},
+					count: 10,
+					index: {1: 1, 2: 2, 3: 3, 7: 54, 8: 56, 9: 77, 10: 89}
+				}, {
+					order: [['name', 'ascending']],
+					filter: {
+						scope: 1,
+						date: {
+							start: '2018-09-17T13:45:03Z',
+							end: '2018-09-17T13:45:04Z'
+						},
+					},
+					count: 10,
+					index: {1: 1, 2: 2, 3: 3}
+				}
+			]
+		};
+
+		it('should select index', () => {
+			let filter = {scope: 1};
+			let order = [['name', 'ascending']];
+			let start = 3;
+			let length = 2;
+			let expectedResult = {3: 3, 4: null};
+
+			expect(commonSelectors.getIndexPage(getSubstate)(state, filter, order, start, length)).toEqual(expectedResult);
+		});
+
+		it('should select index', () => {
+			let filter = {scope: 1};
+			let order = [['name', 'ascending']];
+			let start = 4;
+			let length = 3;
+
+			let expectedResult = {4: null, 5: null, 6: null};
+
+			expect(commonSelectors.getIndexPage(getSubstate)(state, filter, order, start, length)).toEqual(expectedResult);
+		});
+
+		it('should select index', () => {
+			let filter = {scope: 1};
+			let order = [['name', 'ascending']];
+			let start = 10;
+			let length = 3;
+
+			let expectedResult = {10: 89};
+
+			expect(commonSelectors.getIndexPage(getSubstate)(state, filter, order, start, length)).toEqual(expectedResult);
+		});
+	});
 });

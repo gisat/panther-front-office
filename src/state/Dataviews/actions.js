@@ -144,15 +144,17 @@ function setActive(key) {
 	}
 }
 
-function loadForScope(scopeKey) {
-	return dispatch => {
-		dispatch(common.loadFiltered('dataviews', {dataset: scopeKey}, loadForScopeSuccess, loadForScopeError));
+function ensureForScope(scopeKey, start, length) {
+	return (dispatch) => {
+		let getSubstate = Select.dataviews.getSubstate;
+		dispatch(common.ensure(getSubstate, 'dataviews', {dataset: scopeKey}, null, start, length, loadForScopeSuccess, loadForScopeError));
 	}
 }
 
 function loadForScopeSuccess(data) {
 	return dispatch => {
 		console.log('#### loadForScopeSuccess', data);
+		// todo add indexes
 		dispatch(actionAdd(data));
 	}
 }
@@ -224,7 +226,7 @@ function actionSetActive(key) {
 
 export default {
 	add,
-	loadForScope,
+	ensureForScope,
 	addMongoView,
     apiLoadViews,
 	apiDeleteView,

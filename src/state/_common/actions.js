@@ -4,6 +4,8 @@ import queryString from "query-string";
 import path from "path";
 import fetch from "isomorphic-fetch";
 
+import commonSelectors from './selectors';
+
 const TTL = 5;
 const PAGE_SIZE = 10;
 
@@ -31,6 +33,17 @@ const setActiveKeys = (action) => {
 		};
 	}
 };
+
+function receive(actionAdd, getSubstate) {
+	return (data, filter, order, start, length) => {
+		return dispatch => {
+			// add data to store
+			dispatch(add(actionAdd)(data));
+			// todo check index - create or clear if needed
+			// todo add data to index
+		}
+	};
+}
 
 /**
  * Request helper. Creates an request to backend.
@@ -133,20 +146,63 @@ function loadAll(dataType, successAction, errorAction) {
 	};
 }
 
-function ensure(dataType, filter, successAction, errorAction){
+function ensure(getSubstate, dataType, filter, order, start, length, successAction, errorAction){
 	return (dispatch, getState) => {
 		let state = getState();
-			// todo substate
-			// todo select.index(filter, order, pagination)
-			// todo determine what you need to load and load it
+		let total = commonSelectors.getIndexTotal(getSubstate)(state, filter, order);
+
+		if (total){
+			let indexPage = commonSelectors.getIndexPage(getSubstate)(state, filter, order, start, length);
+			let amount = Object.keys(index).length;
+			for (let i = 0; i < amount; i += PAGE_SIZE){
+				let loadedKeys = [], requestNeeded = false;
+				for (let j = 0; j < PAGE_SIZE; j++){
+					if (indexPage[start + i + j]){
+						loadedKeys.push(indexPage[start + i + j]);
+					} else {
+						requestNeeded = true;
+					}
+				}
+				if (requestNeeded){
+					let completeFilter = loadedKeys ? {...filter, key: {notin: loadedKeys}} : filter;
+					dispatch(loadFilteredPage(dataType, completeFilter, order, start + i, successAction, errorAction));
+				}
+			}
+		} else {
+			// we don't have index
+			dispatch(loadFilteredPage(dataType, filter, order, start, successAction, errorAction)).then(() => {
+				dispatch(ensure(getSubstate, dataType, filter, order, start + PAGE_SIZE, length - PAGE_SIZE, successAction, errorAction));
+			});
+		}
 	};
 }
 
-function loadFiltered(dataType, filter, successAction, errorAction) {
+function loadFilteredPage(dataType, filter, order, start, successAction, errorAction) {
+	return dispatch => {
+		let apiPath = path.join('backend/rest/metadata/filtered', dataType);
+
+		let payload = {
+			...filter,
+			offset: start -1,
+			limit: PAGE_SIZE
+		};
+		return request(apiPath, 'POST', null, payload)
+			.then(result => {
+				dispatch(successAction(result));
+				// todo pass index info
+			})
+			.catch(error => {
+				dispatch(errorAction(error));
+			});
+	};
+}
+
+function loadFiltered(dataType, filter, order, successAction, errorAction) {
 	return dispatch => {
 		let apiPath = path.join('backend/rest/metadata/filtered', dataType);
 		let payload = {
 			...filter,
+			order,
 			limit: PAGE_SIZE
 		};
 		request(apiPath, 'POST', null, payload)
@@ -164,6 +220,7 @@ function loadFiltered(dataType, filter, successAction, errorAction) {
 						for (let i = 0; i < remainingPageCount; i++) {
 							let pagePayload = {
 								...filter,
+								order,
 								offset: (i + 1) * PAGE_SIZE,
 								limit: PAGE_SIZE
 							};

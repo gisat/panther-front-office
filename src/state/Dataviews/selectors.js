@@ -116,6 +116,7 @@ export default {
 	getViewsForScopeAndActiveUser,
 	getView: getByKey,
 	getViews: getAll,
+	getSubstate,
 	getActiveKey,
 
 	hasGuestGroupGetPermission

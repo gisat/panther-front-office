@@ -56,6 +56,10 @@ const getByKey = (getSubstate) => {
 	}
 };
 
+const getCount = (getSubstate) => {
+	return (state) => getSubstate(state).count;
+};
+
 const getEditedAll = (getSubstate) => {
 	return (state) => {
 		let data = getSubstate(state).editedByKey;
@@ -95,6 +99,61 @@ const getEditedKeys = (getSubstate) => {
 	);
 };
 
+const getIndexes = (getSubstate) => {
+	return (state) => getSubstate(state).indexes;
+};
+
+const getIndex = (getSubstate) => {
+	return createSelector([
+		getIndexes(getSubstate),
+		(state, filter) => filter,
+		(state, filter, order) => order],
+		(indexes, filter, order) => {
+			if (indexes){
+				// todo re-reselect?
+				let index = _.find(indexes, (index) => {
+					return _.isEqual(index.filter, filter) && _.isEqual(index.order, order);
+				});
+				return index ? index : null;
+			} else {
+				return null;
+			}
+		}
+	);
+};
+
+const getIndexPage = (getSubstate) => {
+	return createSelector([
+		getIndex(getSubstate),
+		(state, filter, order, start) => (start),
+		(state, filter, order, start, length) => (length)],
+		(index, start, length) => {
+			if (index){
+				let indexed = {};
+				for (let o = start; o < (start + length) && o <= index.count; o++){
+					let key = index.index[o];
+					indexed[o] = key ? key : null;
+				}
+				return indexed;
+			} else {
+				return null;
+			}
+		}
+	);
+};
+
+/**
+ * call with (state, filter, order)
+ */
+const getIndexTotal = (getSubstate) => {
+	return createSelector(
+		[getIndex(getSubstate)],
+		(index) => {
+			return (index && index.count) || null;
+		}
+	);
+};
+
 export default {
 	getActive,
 	getActiveModels,
@@ -109,5 +168,9 @@ export default {
 	getEditedAll,
 	getEditedAllAsObject,
 	getEditedByKey,
-	getEditedKeys
+	getEditedKeys,
+
+	getIndex,
+	getIndexPage,
+	getIndexTotal
 }
