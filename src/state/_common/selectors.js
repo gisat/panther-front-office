@@ -149,7 +149,11 @@ const getIndexTotal = (getSubstate) => {
 	return createSelector(
 		[getIndex(getSubstate)],
 		(index) => {
-			return (index && index.count) || null;
+			if (index && (index.count || index.count === 0)){
+				return index.count;
+			} else {
+				return null;
+			}
 		}
 	);
 };

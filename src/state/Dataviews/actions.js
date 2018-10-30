@@ -147,7 +147,7 @@ function setActive(key) {
 function ensureForScope(scopeKey, start, length) {
 	return (dispatch) => {
 		let getSubstate = Select.dataviews.getSubstate;
-		dispatch(common.ensure(getSubstate, 'dataviews', {dataset: scopeKey}, null, start, length, loadForScopeSuccess, loadForScopeError));
+		dispatch(common.ensure(getSubstate, 'dataviews', {dataset: scopeKey}, null, start, length, actionAdd, actionAddIndex, loadForScopeError));
 	}
 }
 
@@ -219,6 +219,17 @@ function actionSetActive(key) {
 	return {
 		type: ActionTypes.VIEWS_SET_ACTIVE,
 		key: key
+	}
+}
+
+function actionAddIndex(filter, order, count, start, data) {
+	return {
+		type: ActionTypes.VIEWS.INDEX.ADD,
+		filter: filter,
+		order: order,
+		count: count,
+		start: start,
+		data: data
 	}
 }
 

@@ -22,6 +22,41 @@ export default {
 		return {...state, byKey: newData}
 	},
 
+	addIndex: (state, action) => {
+		let indexes = [];
+		let selectedIndex = {};
+
+		if (state.indexes){
+			state.indexes.forEach(index => {
+				if (_.isEqual(index.filter, action.filter) && _.isEqual(index.order, action.order)){
+					selectedIndex = index;
+				} else {
+					indexes.push(index);
+				}
+			});
+		}
+
+		let index;
+		if (action.data.length){
+			index = {...selectedIndex.index};
+			action.data.forEach((model, i) => {
+				index[action.start + i] = model.key;
+			});
+		}
+
+		selectedIndex = {
+			filter: selectedIndex.filter || action.filter,
+			order: selectedIndex.order || action.order,
+			count: action.count,
+			changedOn: action.changedOn,
+			index: index || selectedIndex.index
+		};
+		indexes.push(selectedIndex);
+
+		return {...state, indexes: indexes};
+	},
+
+
 	remove: (state, action) => {
 		let newData = state.byKey ? _.omit(state.byKey, action.keys) : null;
 		return {...state, byKey: newData}

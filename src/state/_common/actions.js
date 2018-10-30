@@ -18,6 +18,14 @@ const add = (action) => {
 	}
 };
 
+const addIndex = (action) => {
+	return (filter, order, count, start, data) => {
+		return dispatch => {
+			dispatch(action(filter, order, count, start, data));
+		};
+	}
+};
+
 const setActiveKey = (action) => {
 	return (key) => {
 		return dispatch => {
@@ -34,11 +42,17 @@ const setActiveKeys = (action) => {
 	}
 };
 
-function receive(actionAdd, getSubstate) {
-	return (data, filter, order, start, length) => {
+function receive(actionAdd, actionAddIndex) {
+	return (data, dataType, filter, order, start) => {
 		return dispatch => {
 			// add data to store
-			dispatch(add(actionAdd)(data));
+			if (data.data[dataType].length){
+				dispatch(add(actionAdd)(data.data[dataType]));
+			}
+
+			// todo check index - create or clear if needed
+			dispatch(addIndex(actionAddIndex)(filter, order, data.total, start, data.data[dataType]));
+
 			// todo check index - create or clear if needed
 			// todo add data to index
 		}
@@ -146,17 +160,17 @@ function loadAll(dataType, successAction, errorAction) {
 	};
 }
 
-function ensure(getSubstate, dataType, filter, order, start, length, successAction, errorAction){
+function ensure(getSubstate, dataType, filter, order, start, length, actionAdd, actionAddIndex, errorAction){
 	return (dispatch, getState) => {
 		let state = getState();
 		let total = commonSelectors.getIndexTotal(getSubstate)(state, filter, order);
 
-		if (total){
+		if (total || total === 0){
 			let indexPage = commonSelectors.getIndexPage(getSubstate)(state, filter, order, start, length);
-			let amount = Object.keys(index).length;
+			let amount = Object.keys(indexPage).length;
 			for (let i = 0; i < amount; i += PAGE_SIZE){
 				let loadedKeys = [], requestNeeded = false;
-				for (let j = 0; j < PAGE_SIZE; j++){
+				for (let j = 0; j < PAGE_SIZE && (start+i+j) <= total; j++){
 					if (indexPage[start + i + j]){
 						loadedKeys.push(indexPage[start + i + j]);
 					} else {
@@ -164,35 +178,46 @@ function ensure(getSubstate, dataType, filter, order, start, length, successActi
 					}
 				}
 				if (requestNeeded){
-					let completeFilter = loadedKeys ? {...filter, key: {notin: loadedKeys}} : filter;
-					dispatch(loadFilteredPage(dataType, completeFilter, order, start + i, successAction, errorAction));
+					let completeFilter = loadedKeys.length ? {...filter, key: {notin: loadedKeys}} : filter;
+					dispatch(loadFilteredPage(dataType, completeFilter, order, start + i, actionAdd, actionAddIndex, errorAction));
 				}
 			}
 		} else {
 			// we don't have index
-			dispatch(loadFilteredPage(dataType, filter, order, start, successAction, errorAction)).then(() => {
-				dispatch(ensure(getSubstate, dataType, filter, order, start + PAGE_SIZE, length - PAGE_SIZE, successAction, errorAction));
+			dispatch(loadFilteredPage(dataType, filter, order, start, actionAdd, actionAddIndex, errorAction)).then((response) => {
+				if (response && response.message){
+					// do nothing
+				} else {
+					dispatch(ensure(getSubstate, dataType, filter, order, start + PAGE_SIZE, length - PAGE_SIZE, actionAdd, actionAddIndex, errorAction));
+				}
+			}).catch((err)=>{
+				throw new Error(`_common/actions#ensure: ${err}`);
 			});
 		}
 	};
 }
 
-function loadFilteredPage(dataType, filter, order, start, successAction, errorAction) {
+function loadFilteredPage(dataType, filter, order, start, actionAdd, actionAddIndex, errorAction) {
 	return dispatch => {
 		let apiPath = path.join('backend/rest/metadata/filtered', dataType);
 
 		let payload = {
-			...filter,
+			filter: {...filter},
 			offset: start -1,
 			limit: PAGE_SIZE
 		};
 		return request(apiPath, 'POST', null, payload)
 			.then(result => {
-				dispatch(successAction(result));
-				// todo pass index info
+				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
+					dispatch(errorAction(result.errors[dataType] || new Error('no data')));
+					throw new Error(result.errors[dataType] || 'no data');
+				} else {
+					dispatch(receive(actionAdd, actionAddIndex)(result, dataType, filter, order, start));
+				}
 			})
 			.catch(error => {
 				dispatch(errorAction(error));
+				return error;
 			});
 	};
 }
@@ -219,7 +244,7 @@ function loadFiltered(dataType, filter, order, successAction, errorAction) {
 						let remainingPageCount = Math.ceil((result.total - PAGE_SIZE) / PAGE_SIZE);
 						for (let i = 0; i < remainingPageCount; i++) {
 							let pagePayload = {
-								...filter,
+								filter: {...filter},
 								order,
 								offset: (i + 1) * PAGE_SIZE,
 								limit: PAGE_SIZE
