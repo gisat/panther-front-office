@@ -75,51 +75,6 @@ function apiDeleteView(key, ttl) {
 	};
 }
 
-function apiLoadViews(ttl) {
-    if (_.isUndefined(ttl)) ttl = TTL;
-    return dispatch => {
-        dispatch(actionApiLoadViewsRequest());
-
-        let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/dataview');
-
-        return fetch(url, {
-            method: 'GET',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        }).then(
-            response => {
-                console.log('#### load views response', response);
-                let contentType = response.headers.get('Content-type');
-                if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
-                    return response.json().then(data => {
-                        Promise.all(data.data.map(dataView => {
-                            return new Dataview({data: dataView}).then(dataView => {
-                                dataView.key = dataView.id;
-                                return dataView;
-                            });
-                        })).then(dataViews => {
-                            dispatch(actionAdd(dataViews));
-                        });
-                    });
-                } else {
-                	dispatch(actionApiLoadViewsRequestError("views#action load views: It wasn't possible to load Dataviews"));
-                }
-            },
-            error => {
-                console.log('#### load views error', error);
-                if (ttl - 1) {
-                    dispatch(apiLoadViews(ttl - 1));
-                } else {
-                    dispatch(actionApiLoadViewsRequestError("views#action load views: It wasn't possible to load Dataviews "));
-                }
-            }
-        );
-    };
-}
-
 function setActive(key) {
 	return (dispatch, getState) => {
 		let state = getState();
@@ -147,19 +102,11 @@ function setActive(key) {
 function ensureForScope(scopeKey, start, length) {
 	return (dispatch) => {
 		let getSubstate = Select.dataviews.getSubstate;
-		dispatch(common.ensure(getSubstate, 'dataviews', {dataset: scopeKey}, null, start, length, actionAdd, actionAddIndex, loadForScopeError));
+		dispatch(common.ensure(getSubstate, 'dataviews', {dataset: scopeKey}, null, start, length, actionAdd, actionAddIndex, ensureForScopeError));
 	}
 }
 
-function loadForScopeSuccess(data) {
-	return dispatch => {
-		console.log('#### loadForScopeSuccess', data);
-		// todo add indexes
-		dispatch(actionAdd(data));
-	}
-}
-
-function loadForScopeError(data) {
+function ensureForScopeError(data) {
 	return dispatch => {
 		console.log('#### loadForScopeError', data);
 	}
@@ -195,19 +142,6 @@ function actionApiDeleteViewRequest(key) {
 	}
 }
 
-function actionApiLoadViewsRequest() {
-    return {
-        type: ActionTypes.VIEWS_LOAD_REQUEST
-    }
-}
-
-function actionApiLoadViewsRequestError(error) {
-	return {
-		type: ActionTypes.VIEWS_LOAD_REQUEST_ERROR,
-		error: error
-	};
-}
-
 function actionApiDeleteViewRequestError(error) {
 	return {
 		type: ActionTypes.VIEWS_DELETE_REQUEST_ERROR,
@@ -239,7 +173,6 @@ export default {
 	add,
 	ensureForScope,
 	addMongoView,
-    apiLoadViews,
 	apiDeleteView,
 	setActive
 }

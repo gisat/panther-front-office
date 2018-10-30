@@ -29,13 +29,13 @@ class ViewsList extends React.PureComponent {
 	}
 
 	renderViews(){
-		return this.props.views.length ? (this.props.views.map(view => {
+		return this.props.views && this.props.views.length ? (this.props.views.map(view => {
 			return <ViewCard
 				key={view.key}
 				viewKey={view.key}
 				data={view.data}
-				editable={view.editable}
-				deletable={view.deletable}
+				editable={view.permissions && view.permissions.update}
+				deletable={view.permissions && view.permissions.delete}
 			/>
 		})) : (<div className="no-view-message">{Names.VIEWS_NO_VIEW_FOR_SCOPE}</div>);
 	}
