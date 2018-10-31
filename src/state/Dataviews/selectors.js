@@ -7,6 +7,7 @@ import UsersSelectors from '../Users/selectors';
 const getSubstate = state => state.dataviews;
 
 const getAll = common.getAll(getSubstate);
+const getActive = common.getActive(getSubstate);
 const getActiveKey = common.getActiveKey(getSubstate);
 const getByKey = common.getByKey(getSubstate);
 
@@ -29,6 +30,7 @@ export default {
 	getSubstate,
 	getView: getByKey,
 	getViews: getAll,
+	getActive,
 	getActiveKey,
 	getViewsForScope
 };

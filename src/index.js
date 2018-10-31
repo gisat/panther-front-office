@@ -66,6 +66,7 @@ if(!id) {
 
 	initialize();
 } else {
+	store.dispatch(Action.dataviews.loadByKey(Number(id)));
     getStore();
 }
 

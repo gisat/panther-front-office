@@ -13,7 +13,7 @@ import scenarios from './scenarios';
 import scopes from './scopes';
 import styles from './styles';
 import users from './users';
-import views from './views';
+import views from './dataviews';
 import wmsLayers from './wmsLayers';
 
 export default store => {

@@ -477,7 +477,7 @@ class TopToolBar {
 		    let isOpen = scenariosItem.hasClass('open');
 			this._scenariosWidgetIsOpen = !isOpen;
 			scenariosItem.toggleClass('open');
-		} else if (type === 'VIEWS_WINDOW_TOGGLE'){
+		} else if (type === 'DATAVIEWS_WINDOW_TOGGLE'){
 			let viewsItem = $('#top-toolbar-views');
 			let isOpen = viewsItem.hasClass('open');
 			this._viewsWidgetIsOpen = !isOpen;

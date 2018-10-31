@@ -184,7 +184,7 @@ function ensure(getSubstate, dataType, filter, order, start, length, actionAdd, 
 			}
 		} else {
 			// we don't have index
-			dispatch(loadFilteredPage(dataType, filter, order, start, actionAdd, actionAddIndex, errorAction)).then((response) => {
+			return dispatch(loadFilteredPage(dataType, filter, order, start, actionAdd, actionAddIndex, errorAction)).then((response) => {
 				if (response && response.message){
 					// do nothing
 				} else {

@@ -10,13 +10,13 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case ActionTypes.VIEWS_ADD:
+		case ActionTypes.DATAVIEWS_ADD:
 			return common.add(state, action);
-		case ActionTypes.VIEWS.INDEX.ADD:
+		case ActionTypes.DATAVIEWS.INDEX.ADD:
 			return common.addIndex(state, action);
-		case ActionTypes.VIEWS_REMOVE:
+		case ActionTypes.DATAVIEWS_REMOVE:
 			return common.remove(state, action);
-		case ActionTypes.VIEWS_SET_ACTIVE:
+		case ActionTypes.DATAVIEWS.SET_ACTIVE:
 			return common.setActive(state, action);
 		default:
 			return state;

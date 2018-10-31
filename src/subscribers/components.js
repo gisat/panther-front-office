@@ -82,7 +82,7 @@ const scenariosWindowWatcher = (value, previousValue) => {
 const viewsWindowWatcher = (value, previousValue) => {
 	console.log('@@ viewsWindowWatcher', previousValue, '->', value);
 	if (previousValue !== value){
-		window.Stores.notify('VIEWS_WINDOW_TOGGLE');
+		window.Stores.notify('DATAVIEWS_WINDOW_TOGGLE');
 	}
 };
 

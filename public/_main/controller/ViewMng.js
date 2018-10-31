@@ -127,7 +127,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 				dataviewId: Number(id),
 				url: url
 			});
-			Stores.notify("VIEWS_ADD", [{
+			Stores.notify("DATAVIEWS_ADD", [{
 				id: rec.data._id,
 				key: rec.data._id,
 				date: new Date(),

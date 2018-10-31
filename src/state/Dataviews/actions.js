@@ -77,25 +77,17 @@ function apiDeleteView(key, ttl) {
 
 function setActive(key) {
 	return (dispatch, getState) => {
-		let state = getState();
-		let views = Select.dataviews.getViews(state);
-		let view = _.find(views, {key: key});
-
-		if(!view) {
-			throw new Error(`Views#actions#setActive: view not found`);
-		}
-
-		let scopeKey = view.data.dataset;
-		let placeKey = view.data.location;
-
-		if(scopeKey) {
-			dispatch(ScopeActions.setActiveScopeKey(scopeKey));
-		}
-		if(placeKey) {
-			dispatch(PlaceActions.setActive(placeKey));
-		}
-
 		dispatch(actionSetActive(key));
+		let activeDataview = Select.dataviews.getActive(getState());
+	}
+}
+
+function loadByKey(key) {
+	return (dispatch) => {
+		let getSubstate = Select.dataviews.getSubstate;
+		dispatch(common.ensure(getSubstate, 'dataviews', {key: key}, null, 1, 1, actionAdd, actionAddIndex, ensureForKeyError)).then(() => {
+			dispatch(setActive(key));
+		});
 	}
 }
 
@@ -106,9 +98,15 @@ function ensureForScope(scopeKey, start, length) {
 	}
 }
 
+function ensureForKeyError(data) {
+	return dispatch => {
+		console.log('#### loadByKeyError', data);
+	}
+}
+
 function ensureForScopeError(data) {
 	return dispatch => {
-		console.log('#### loadForScopeError', data);
+		console.log('#### ensureForScopeError', data);
 	}
 }
 
@@ -116,49 +114,49 @@ function ensureForScopeError(data) {
 
 function actionAdd(views) {
 	return {
-		type: ActionTypes.VIEWS_ADD,
+		type: ActionTypes.DATAVIEWS_ADD,
 		data: views
 	}
 }
 
 function actionRemove(keys) {
 	return {
-		type: ActionTypes.VIEWS_REMOVE,
+		type: ActionTypes.DATAVIEWS_REMOVE,
 		keys: keys
 	}
 }
 
 function actionApiDeleteViewReceive(data) {
 	return {
-		type: ActionTypes.VIEWS_DELETE_RECEIVE,
+		type: ActionTypes.DATAVIEWS_DELETE_RECEIVE,
 		data: data
 	}
 }
 
 function actionApiDeleteViewRequest(key) {
 	return {
-		type: ActionTypes.VIEWS_DELETE_REQUEST,
+		type: ActionTypes.DATAVIEWS_DELETE_REQUEST,
 		key: key
 	}
 }
 
 function actionApiDeleteViewRequestError(error) {
 	return {
-		type: ActionTypes.VIEWS_DELETE_REQUEST_ERROR,
+		type: ActionTypes.DATAVIEWS_DELETE_REQUEST_ERROR,
 		error: error
 	}
 }
 
 function actionSetActive(key) {
 	return {
-		type: ActionTypes.VIEWS_SET_ACTIVE,
+		type: ActionTypes.DATAVIEWS.SET_ACTIVE,
 		key: key
 	}
 }
 
 function actionAddIndex(filter, order, count, start, data) {
 	return {
-		type: ActionTypes.VIEWS.INDEX.ADD,
+		type: ActionTypes.DATAVIEWS.INDEX.ADD,
 		filter: filter,
 		order: order,
 		count: count,
@@ -174,5 +172,6 @@ export default {
 	ensureForScope,
 	addMongoView,
 	apiDeleteView,
+	loadByKey,
 	setActive
 }

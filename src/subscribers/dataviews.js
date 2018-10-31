@@ -12,7 +12,7 @@ export default store => {
 const setEventListeners = store => {
 	window.Stores.addListener((event, options) => {
 		switch(event) {
-			case 'VIEWS_LOADED':
+			case 'DATAVIEWS_LOADED':
 				let storedViews = Select.dataviews.getViews(store.getState());
 				let viewsToAdd = [];
 				options.forEach((option) => {
@@ -23,7 +23,7 @@ const setEventListeners = store => {
 				});
 				store.dispatch(Action.dataviews.add(viewsToAdd));
 				break;
-			case "VIEWS_ADD":
+			case "DATAVIEWS_ADD":
 				store.dispatch(Action.dataviews.add(options));
 				break;
 			case "ActiveViewLoaded":
