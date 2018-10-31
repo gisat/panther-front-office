@@ -15,6 +15,7 @@ class ViewCard extends React.PureComponent {
 		deletable: PropTypes.bool,
 		deleteView: PropTypes.func,
 		editable: PropTypes.bool,
+		public: PropTypes.bool,
 		redirect: PropTypes.func,
 		viewKey: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 	};
@@ -31,7 +32,7 @@ class ViewCard extends React.PureComponent {
 		e.stopPropagation();
 		let name = this.props.data.name;
 		if (window.confirm(Names.VIEWS_DELETE_CONFIRM_MESSAGE + ' ' + (name ? name : 'View ' + this.props.viewKey))) {
-			this.props.deleteView(this.props.viewKey);
+			this.props.deleteView();
 		}
 	}
 
@@ -41,7 +42,7 @@ class ViewCard extends React.PureComponent {
 	}
 
 	onRedirect(){
-		this.props.redirect({...this.props.data, key: this.props.viewKey});
+		this.props.redirect();
 
 	}
 
