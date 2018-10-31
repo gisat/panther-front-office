@@ -402,7 +402,6 @@ class FrontOffice {
              * Apply settings from dataview, if exists
              */
             if (options && !self._dataviewSettingsUsed){
-                self._dispatcher.notify('scope#activeScopeChanged', {activeScopeKey: Number(options.scope)});
                 self._previousDataset = options.scope;
                 self._dataviewSettingsUsed = true;
                 if (scope.hideSidebarReports){
@@ -534,6 +533,7 @@ class FrontOffice {
         if(type === Actions.adjustConfiguration) {
             this.adjustConfiguration();
         } else if (type === Actions.adjustConfigurationFromDataview){
+			window.Stores.notify('scope#activeScopeChanged', {activeScopeKey: Number(options.scope)});
             var self = this;
             this._store.locations.load().then(function(){
                 self.adjustConfiguration(options);
