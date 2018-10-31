@@ -97,14 +97,15 @@ const getPucsSourceVectorLandCoverClasses = createSelector(
 );
 
 export default {
-	getActiveScopeConfiguration: getActiveScopeConfiguration,
+	getActiveScopeConfiguration,
 	getActiveScopeData: getActive,
 	getActiveScopeKey: getActiveKey,
 	getScopes: getAll,
-	getScopesForActiveUser: getScopesForActiveUser,
+	getScopesForActiveUser,
 	getScopeData: getByKey,
+	getSubstate,
 
-	getPucsSourceVectorLandCoverClasses: getPucsSourceVectorLandCoverClasses,
-	getPucsSourceVectorLayerTemplate: getPucsSourceVectorLayerTemplate,
-	getSymbologyForPucsSourceVectorLayerTemplate: getSymbologyForPucsSourceVectorLayerTemplate
+	getPucsSourceVectorLandCoverClasses,
+	getPucsSourceVectorLayerTemplate,
+	getSymbologyForPucsSourceVectorLayerTemplate
 };

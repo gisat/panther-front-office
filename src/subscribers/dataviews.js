@@ -12,24 +12,7 @@ export default store => {
 const setEventListeners = store => {
 	window.Stores.addListener((event, options) => {
 		switch(event) {
-			case 'DATAVIEWS_LOADED':
-				let storedViews = Select.dataviews.getViews(store.getState());
-				let viewsToAdd = [];
-				options.forEach((option) => {
-					let storedView = _.find(storedViews, {key: option.id});
-					if(!storedView) {
-						viewsToAdd.push({key: option.id, ...option});
-					}
-				});
-				store.dispatch(Action.dataviews.add(viewsToAdd));
-				break;
-			case "DATAVIEWS_ADD":
-				store.dispatch(Action.dataviews.add(options));
-				break;
 			case "ActiveViewLoaded":
-				store.dispatch(Action.dataviews.addMongoView(options));
-				store.dispatch(Action.dataviews.setActive(options._id));
-
 				store
 					.dispatch(Action.lpisCases.loadCaseForActiveView())
 					.then(() => {

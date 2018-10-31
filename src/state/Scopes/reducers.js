@@ -3,15 +3,16 @@ import _ from 'lodash';
 import common, {DEFAULT_INITIAL_STATE} from '../_common/reducers';
 
 const INITIAL_STATE = {
-	...DEFAULT_INITIAL_STATE,
-	data: []
+	...DEFAULT_INITIAL_STATE
 };
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.SCOPES.ADD:
 			return common.add(state, action);
-		case ActionTypes.SCOPES_SET_ACTIVE_KEY:
+		case ActionTypes.SCOPES.INDEX.ADD:
+			return common.addIndex(state, action);
+		case ActionTypes.SCOPES.SET_ACTIVE_KEY:
 			return common.setActive(state, action);
 		default:
 			return state;

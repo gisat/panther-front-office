@@ -325,7 +325,7 @@ function loadCaseForActiveView() {
 function setActiveCaseByActiveView() {
 	return (dispatch, getState) => {
 		let state = getState();
-		let activeViewKey = Select.views.getActiveKey(state);
+		let activeViewKey = Select.dataviews.getActiveKey(state);
 		let caseByActiveView = Select.lpisCases.getCaseByActiveView(state);
 		if (caseByActiveView) {
 			dispatch(Action.lpisCases.setActive(caseByActiveView.key));

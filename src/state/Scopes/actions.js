@@ -3,26 +3,26 @@ import ActionTypes from '../../constants/ActionTypes';
 import Select from '../Select';
 import VisualsConfig from '../../constants/VisualsConfig';
 
-import _ from 'lodash';
-import config from "../../config";
-import path from "path";
-import fetch from "isomorphic-fetch";
-import queryString from 'query-string';
-
 import common from '../_common/actions';
-
-import Scope from '../../data/Scope';
-
-const TTL = 5;
 
 // ============ creators ===========
 
-function setActiveScopeKey(key) {
+
+function setActiveKey(key) {
 	return dispatch => {
-		dispatch(actionSetActiveScopeKey(key));
+		dispatch(actionSetActiveKey(key));
+
+		// todo for this action I need to have scope data
 		dispatch(applyScopeConfiguration());
 	};
 }
+
+function ensureForKey(key) {
+	return dispatch => {
+		dispatch(common.ensure(Select.scopes.getSubstate, 'scopes', {key: key}, actionAdd, actionEnsureError));
+	}
+}
+
 function applyScopeConfiguration() {
 	return (dispatch, getState) => {
 		let scopeConfig = Select.scopes.getActiveScopeConfiguration(getState());
@@ -47,20 +47,20 @@ function applyScopeConfiguration() {
 function loadAll() {
 	return dispatch => {
 		dispatch(common.loadAll('scopes', loadAllSuccess, loadAllError));
-		dispatch({type: ActionTypes.SCOPES.LOAD.REQUEST});
+		dispatch(actionLoadRequest());
 	}
 }
 
 function loadAllSuccess(result) {
 	return dispatch => {
-		console.log('#####', result);
-		dispatch({type: ActionTypes.SCOPES.ADD, data: result});
+		dispatch(actionAdd(result));
 	}
 }
 
 function loadAllError(result) {
 	return dispatch => {
-		console.error('#####', result);
+		dispatch(actionLoadError(result));
+		throw new Error(`state/scopes/actions#loadAllError: ${result}`);
 	}
 }
 
@@ -68,13 +68,45 @@ function loadAllError(result) {
 
 function actionAdd(scopes) {
 	return {
-		type: ActionTypes.SCOPES_ADD,
+		type: ActionTypes.SCOPES.ADD,
 		data: scopes
 	}
 }
-function actionSetActiveScopeKey(key) {
+
+function actionAddIndex(filter, order, count, start, data) {
 	return {
-		type: ActionTypes.SCOPES_SET_ACTIVE_KEY,
+		type: ActionTypes.SCOPES.INDEX.ADD,
+		filter: filter,
+		order: order,
+		count: count,
+		start: start,
+		data: data
+	}
+}
+
+function actionEnsureError(err) {
+	return {
+		type: ActionTypes.SCOPES.ENSURE.ERROR,
+		error: err
+	}
+}
+
+function actionLoadError(err) {
+	return {
+		type: ActionTypes.SCOPES.LOAD.ERROR,
+		error: err
+	}
+}
+
+function actionLoadRequest() {
+	return {
+		type: ActionTypes.SCOPES.LOAD.REQUEST,
+	}
+}
+
+function actionSetActiveKey(key) {
+	return {
+		type: ActionTypes.SCOPES.SET_ACTIVE_KEY,
 		key: key
 	}
 }
@@ -83,6 +115,7 @@ function actionSetActiveScopeKey(key) {
 
 export default {
 	add: common.add(actionAdd),
-	setActiveScopeKey: setActiveScopeKey,
-	loadAll
+	setActiveKey,
+	loadAll,
+	ensureForKey
 }

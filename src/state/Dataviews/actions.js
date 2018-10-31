@@ -16,6 +16,7 @@ const TTL = 5;
 // ============ creators ===========
 
 const add = common.add(actionAdd);
+const setActiveKey = common.setActiveKey(actionSetActiveKey);
 
 function addMongoView(view) {
 	return (dispatch, getState) => {
@@ -75,18 +76,19 @@ function apiDeleteView(key, ttl) {
 	};
 }
 
-function setActive(key) {
-	return (dispatch, getState) => {
-		dispatch(actionSetActive(key));
-		let activeDataview = Select.dataviews.getActive(getState());
-	}
-}
-
 function loadByKey(key) {
-	return (dispatch) => {
-		let getSubstate = Select.dataviews.getSubstate;
-		dispatch(common.ensure(getSubstate, 'dataviews', {key: key}, null, 1, 1, actionAdd, actionAddIndex, ensureForKeyError)).then(() => {
-			dispatch(setActive(key));
+	return (dispatch, getState) => {
+		dispatch(common.loadFiltered('dataviews', {key: key}, add, loadByKeyError)).then(() => {
+			dispatch(setActiveKey(key));
+			let activeDataview = Select.dataviews.getActive(getState());
+			let data = activeDataview && activeDataview.data;
+
+			if (data.dataset){
+				dispatch(ScopeActions.setActiveKey(data.dataset));
+				dispatch(ScopeActions.ensureForKey(data.dataset));
+			}
+		}).catch(err => {
+			dispatch(loadByKeyError(err));
 		});
 	}
 }
@@ -94,19 +96,19 @@ function loadByKey(key) {
 function ensureForScope(scopeKey, start, length) {
 	return (dispatch) => {
 		let getSubstate = Select.dataviews.getSubstate;
-		dispatch(common.ensure(getSubstate, 'dataviews', {dataset: scopeKey}, null, start, length, actionAdd, actionAddIndex, ensureForScopeError));
+		dispatch(common.ensureIndex(getSubstate, 'dataviews', {dataset: scopeKey}, null, start, length, actionAdd, actionAddIndex, ensureForScopeError));
 	}
 }
 
-function ensureForKeyError(data) {
+function loadByKeyError(data) {
 	return dispatch => {
-		console.log('#### loadByKeyError', data);
+		throw new Error(`state/dataviews/actions#loadByKeyError: ${data}`);
 	}
 }
 
 function ensureForScopeError(data) {
 	return dispatch => {
-		console.log('#### ensureForScopeError', data);
+		throw new Error(`state/dataviews/actions#ensureForScopeError: ${data}`);
 	}
 }
 
@@ -114,7 +116,7 @@ function ensureForScopeError(data) {
 
 function actionAdd(views) {
 	return {
-		type: ActionTypes.DATAVIEWS_ADD,
+		type: ActionTypes.DATAVIEWS.ADD,
 		data: views
 	}
 }
@@ -147,9 +149,9 @@ function actionApiDeleteViewRequestError(error) {
 	}
 }
 
-function actionSetActive(key) {
+function actionSetActiveKey(key) {
 	return {
-		type: ActionTypes.DATAVIEWS.SET_ACTIVE,
+		type: ActionTypes.DATAVIEWS.SET_ACTIVE_KEY,
 		key: key
 	}
 }
@@ -173,5 +175,5 @@ export default {
 	addMongoView,
 	apiDeleteView,
 	loadByKey,
-	setActive
+	setActiveKey
 }

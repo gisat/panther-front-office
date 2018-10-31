@@ -160,7 +160,19 @@ function loadAll(dataType, successAction, errorAction) {
 	};
 }
 
-function ensure(getSubstate, dataType, filter, order, start, length, actionAdd, actionAddIndex, errorAction){
+function ensure(getSubstate, dataType, filter, actionAdd, errorAction){
+	return (dispatch, getState) => {
+		let state = getState();
+
+		// todo commonSelectors.getFiltered
+		let alreadyLoaded = commonSelectors.getByKey(getSubstate)(state, filter.key);
+		if (!alreadyLoaded){
+			dispatch(loadFiltered(dataType, filter, actionAdd, errorAction));
+		}
+	}
+}
+
+function ensureIndex(getSubstate, dataType, filter, order, start, length, actionAdd, actionAddIndex, errorAction){
 	return (dispatch, getState) => {
 		let state = getState();
 		let total = commonSelectors.getIndexTotal(getSubstate)(state, filter, order);
@@ -182,13 +194,15 @@ function ensure(getSubstate, dataType, filter, order, start, length, actionAdd, 
 					dispatch(loadFilteredPage(dataType, completeFilter, order, start + i, actionAdd, actionAddIndex, errorAction));
 				}
 			}
+
+			return Promise.resolve();
 		} else {
 			// we don't have index
 			return dispatch(loadFilteredPage(dataType, filter, order, start, actionAdd, actionAddIndex, errorAction)).then((response) => {
 				if (response && response.message){
 					// do nothing
 				} else {
-					dispatch(ensure(getSubstate, dataType, filter, order, start + PAGE_SIZE, length - PAGE_SIZE, actionAdd, actionAddIndex, errorAction));
+					dispatch(ensureIndex(getSubstate, dataType, filter, order, start + PAGE_SIZE, length - PAGE_SIZE, actionAdd, actionAddIndex, errorAction));
 				}
 			}).catch((err)=>{
 				throw new Error(`_common/actions#ensure: ${err}`);
@@ -222,22 +236,21 @@ function loadFilteredPage(dataType, filter, order, start, actionAdd, actionAddIn
 	};
 }
 
-function loadFiltered(dataType, filter, order, successAction, errorAction) {
+function loadFiltered(dataType, filter, successAction, errorAction) {
 	return dispatch => {
 		let apiPath = path.join('backend/rest/metadata/filtered', dataType);
 		let payload = {
-			...filter,
-			order,
+			filter: {...filter},
 			limit: PAGE_SIZE
 		};
-		request(apiPath, 'POST', null, payload)
+		return request(apiPath, 'POST', null, payload)
 			.then(result => {
 				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
 					dispatch(errorAction(result.errors[dataType] || new Error('no data')));
 				} else {
 					if (result.total <= PAGE_SIZE) {
 						// everything already loaded
-						dispatch(successAction(result.data[dataType]));
+						return dispatch(successAction(result.data[dataType]));
 					} else {
 						// load remaining pages
 						let promises = [];
@@ -245,13 +258,12 @@ function loadFiltered(dataType, filter, order, successAction, errorAction) {
 						for (let i = 0; i < remainingPageCount; i++) {
 							let pagePayload = {
 								filter: {...filter},
-								order,
 								offset: (i + 1) * PAGE_SIZE,
 								limit: PAGE_SIZE
 							};
 							promises.push(request(apiPath, 'POST', null, pagePayload)); //todo what if one fails?
 						}
-						Promise.all(promises).then(results => {
+						return Promise.all(promises).then(results => {
 							let remainingData = _.flatten(results.map(res => res.data[dataType]));
 							dispatch(successAction([...result.data[dataType], ...remainingData]));
 						});
@@ -268,7 +280,9 @@ function loadFiltered(dataType, filter, order, successAction, errorAction) {
 export default {
 	add,
 	ensure,
+	ensureIndex,
 	loadAll,
+	loadFiltered,
 	setActiveKey,
 	setActiveKeys,
 	request: requestWrapper
