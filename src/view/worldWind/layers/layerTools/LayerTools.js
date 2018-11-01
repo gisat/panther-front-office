@@ -3,6 +3,7 @@
 import ArgumentError from '../../../../error/ArgumentError';
 import Logger from '../../../../util/Logger';
 
+import LayerDownload from './download/LayerDownload';
 import LayerLegend from './legend/LayerLegend';
 import LayerOpacity from './opacity/LayerOpacity';
 import Legend from './legend/Legend';
@@ -118,6 +119,17 @@ class LayerTools {
         });
         this.tools.push(opacity);
         return opacity;
+    };
+
+    buildDownload(){
+		let download = new LayerDownload({
+			id: this._id,
+			name: this._name,
+			target: this._toolsContainer,
+			layers: this._layers,
+		});
+		this.tools.push(download);
+		return download;
     };
 
     /**

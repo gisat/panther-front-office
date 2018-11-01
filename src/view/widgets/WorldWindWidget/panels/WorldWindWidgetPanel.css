@@ -85,7 +85,7 @@
 }
 .panel-body .panel-layer-group-body .layer-row {
 	padding-left: 2.15rem;
-	width: calc(100% - 3rem);
+	width: calc(100% - 4.5rem);
 }
 .panel-body .layer-row a {
 	width: auto;

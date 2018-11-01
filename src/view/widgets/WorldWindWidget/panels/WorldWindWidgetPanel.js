@@ -273,6 +273,7 @@ class WorldWindWidgetPanel {
 		if (this._groupId === "info-layers"){
 			checked = this.isControlActive(layerTemplateId, style);
 			control = this.buildLayerControl(target, id, name, layers, style, checked, this._groupId);
+			control.layerTools.buildDownload();
 		} else if (this._groupId === "thematic-layers") {
             checked = this.isControlActive(id);
             control = this.buildLayerControl(target, id, name, layers, style, checked, this._groupId);
