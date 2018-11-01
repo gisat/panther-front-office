@@ -18,14 +18,12 @@ class Chart {
         if (!options) {
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "Chart", "constructor", "missingOptions"));
         }
-        this._options = options;
 
         this.id = new Uuid().generate();
-        this.renderTo = this._options.containerComponent.el.dom;
+        this.containerComponent = options.containerComponent;
+        this.renderTo = this.containerComponent.el.dom;
 
-        this.rebuild();
-
-        this._options.containerComponent.chart = this;
+        window.Stores.addListener(this.onEvent.bind(this));
     };
 
     rebuild() {
@@ -33,6 +31,10 @@ class Chart {
     };
 
     destroy() {
+
+    };
+
+    onEvent(){
 
     };
 

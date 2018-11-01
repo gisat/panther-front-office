@@ -8,10 +8,12 @@ import {filterScopesByUrl} from '../../../utils/models';
 
 const mapStateToProps = (state) => {
 	let scopes = Select.scopes.getScopesForActiveUser(state);
-	let isAdmin = Select.users.isAdmin(state);
+	let isAdminGroupMember = Select.users.isAdminGroupMember(state);
 	let url = window.location.origin;
 	let hostName = window.location.hostname;
-	let filteredScopes = (isAdmin || hostName === "localhost")  ? scopes : filterScopesByUrl(scopes, url);
+
+	// todo move hostName to configuration
+	let filteredScopes = (isAdminGroupMember || hostName === "localhost" || hostName === "192.168.2.205")  ? scopes : filterScopesByUrl(scopes, url);
 
 	return {
 		active: Select.components.isAppInIntroMode(state),

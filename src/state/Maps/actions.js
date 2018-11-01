@@ -59,7 +59,7 @@ function addLayerTemplates(templates) {
 		let state = Select.maps.getMapDefaults(getState());
 		let layerTemplates;
 		if (state && state.layerTemplates){
-			layerTemplates = _.union(state.layerTemplates, templates);
+			layerTemplates = [...state.layerTemplates, ...templates];
 		} else {
 			layerTemplates = templates;
 		}
@@ -72,7 +72,16 @@ function removeLayerTemplates(templates) {
 		if (state && state.layerTemplates){
 			let finalTemplates = [];
 			state.layerTemplates.map(layerTemplate => {
-				let toRemove = _.find(templates, template => {return template === layerTemplate.templateId});
+				let stylePath = (layerTemplate.styles && layerTemplate.styles.length) ? layerTemplate.styles[0].path : null;
+				let toRemove = _.find(templates, template => {
+					if (stylePath || template.styles){
+						let requiredPath = template.styles && template.styles.length ? template.styles[0].path : null;
+						return template.templateId === layerTemplate.templateId &&
+							requiredPath === stylePath;
+					} else {
+						return template.templateId === layerTemplate.templateId
+					}
+				});
 				if (!toRemove){
 					finalTemplates.push(layerTemplate);
 				}

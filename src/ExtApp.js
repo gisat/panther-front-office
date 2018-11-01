@@ -171,7 +171,7 @@ class ExtApp {
         } else if (id) {
             Config.dataviewId = id;
             // Load stores when only for print or loading the whole application.
-            let stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic', 'dataview'];
+            let stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic'];
             let promises = [];
             let self = this;
             stores.forEach(function (storeName) {
@@ -200,7 +200,7 @@ class ExtApp {
 
     login(loggedIn, id) {
         if (loggedIn) {
-            let stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic', 'dataview'];
+            let stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic'];
 			let self = this;
             stores.forEach(function (store) {
                 let extStore = Ext.StoreMgr.lookup(store);

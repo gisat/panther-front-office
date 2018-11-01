@@ -24,12 +24,12 @@ function getPosition(box) {
         left: null,
         right: null
     };
-    let screenWidth = $(window).width();
-    let screenHeight = $(window).height();
-    let floaterLeft = box.offset().left;
-    let floaterTop = box.offset().top;
-    let floaterWidth = box.width();
-    let floaterHeight = box.height();
+    let screenWidth = window.windowWidth;
+    let screenHeight = window.windowHeight;
+    let floaterLeft = box.offsetLeft;
+    let floaterTop = box.offsetTop;
+    let floaterWidth = box.offsetWidth;
+    let floaterHeight = box.offsetHeight;
 
     if ((floaterLeft > screenWidth / 2)) {
         position.right = (screenWidth - (floaterLeft + floaterWidth));
@@ -58,8 +58,8 @@ function setPosition(box, position) {
         bottom: 'auto',
         top: 'auto'
     };
-    let screenWidth = $(window).width();
-    let screenHeight = $(window).height();
+    let screenWidth = window.windowWidth;
+    let screenHeight = window.windowHeight;
 
     if (position.left) {
         location.left = adaptSize(position.left, screenWidth / 2);

@@ -66,6 +66,8 @@ class Button extends React.PureComponent {
 	onKeyPress(e) {
 		if(e.charCode === 32) {
 			this.onClick(e);
+		} else if (e.charCode === 13){
+			this.onClick(e);
 		}
 	}
 

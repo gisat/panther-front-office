@@ -1,6 +1,8 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
-import Select from '../Select'
+
+import ScopesSelectors from '../Scopes/selectors';
+import SpatialRelationsSelectors from '../SpatialRelations/selectors';
 
 const getMapDefaults = state => state.maps.defaults;
 const getMapsOverrides = state => state.maps.data;
@@ -8,7 +10,6 @@ const getActiveMapKey = state => state.maps.activeMapKey;
 const getPeriodIndependence = state => state.maps.independentOfPeriod;
 
 const getActivePlaceKey = state => state.places.activeKey;
-const getSpatialRelations = (state) => state.spatialRelations.data;
 const getSpatialDataSources = (state) => state.spatialDataSources.main.data; //todo should use Select? if not circular
 
 const getWmsLayers = (state) => state.wmsLayers.data;
@@ -70,6 +71,13 @@ const getActiveBackgroundLayerKey = createSelector(
 	}
 );
 
+const getAnalyticalUnitsVisibility = createSelector(
+	[getMapDefaults],
+	defaults => {
+		return !!(defaults && defaults.analyticalUnitsVisible);
+	}
+);
+
 const getActiveLayerTemplates = createSelector(
 	[getMapDefaults],
 	(defaults) => {
@@ -94,28 +102,28 @@ const getActiveLayerTemplateIds = createSelector(
 );
 
 const getActivePlaceActiveLayers = createSelector(
-	[getActivePlaceKey, getActiveLayerTemplates, getActiveLayerTemplateIds, getSpatialRelations, getSpatialDataSources],
+	[getActivePlaceKey, getActiveLayerTemplates, getActiveLayerTemplateIds, SpatialRelationsSelectors.getData, getSpatialDataSources],
 	(place, templates, templateIds, relations, sources) => {
 		if (place && templateIds.length && relations.length && sources.length){
-			let relationsForPlace = _.filter(relations, ['place_id', place]);
+			let relationsForPlace = _.filter(relations, (relation) => { return relation.data.place_id === place});
 			if (relationsForPlace){
 				let relationsForTemplates = _.filter(relationsForPlace, model => {
-					return _.find(templateIds, (value) => {return value === model['layer_template_id']});
+					return _.find(templateIds, (value) => {return value === model.data['layer_template_id']});
 				});
 				if (relationsForTemplates){
 					let usedRelations = [];
 					relationsForTemplates.map(relation => {
-						let dataSource = _.find(sources, {'key': relation.data_source_id});
-						let layerTemplate = relation.layer_template_id;
-						let scenario = relation.scenario_id;
-						let template = _.find(templates, {'templateId': relation.layer_template_id});
+						let dataSource = _.find(sources, {'key': relation.data.data_source_id});
+						let layerTemplateKey = relation.data.layer_template_id;
+						let scenarioKey = relation.data.scenario_id;
+						let template = _.find(templates, {'templateId': relation.data.layer_template_id});
 						if (!dataSource){
-							console.warn("Maps.selectors#getActivePlaceActiveLayers Data source with given key doesn't exist. Key: ",relation.data_source_id);
+							console.warn("Maps.selectors#getActivePlaceActiveLayers Data source with given key doesn't exist. Key: ",relation.data.data_source_id);
 						} else {
 							usedRelations.push({
 								dataSource: dataSource.data.layer_name,
-								layerTemplateKey: layerTemplate,
-								scenarioKey: scenario,
+								layerTemplateKey: layerTemplateKey,
+								scenarioKey: scenarioKey,
 								styleSource: template.styles ? template.styles : null,
 								key: relation.key
 							});
@@ -134,37 +142,30 @@ const getActivePlaceActiveLayers = createSelector(
 	}
 );
 
-const getAnalyticalUnitsVisibility = createSelector(
-	[getMapDefaults],
-	(defaults) => {
-		return (defaults && defaults.hasOwnProperty('analyticalUnitsVisibility') ? defaults.analyticalUnitsVisibility : null);
-	}
-);
-
 /**
  * Specific usage of getVectorLayersForTemplate selector, where layer template key is known from scope configuration
  */
 const getVectorLayersForPuscVectorSourceTemplate = createSelector(
-	[(state) => getVectorLayersForTemplate(state, Select.scopes.getPucsSourceVectorLayerTemplate(state))],
+	[(state) => getVectorLayersForTemplate(state, ScopesSelectors.getPucsSourceVectorLayerTemplate(state))],
 	(vectorLayers) => {
 		return vectorLayers;
 	}
 );
 
 const getVectorLayersForTemplate = createSelector(
-	[(state, template) => (template), getSpatialRelations, getSpatialDataSources],
+	[(state, template) => (template), SpatialRelationsSelectors.getActivePlaceData, getSpatialDataSources],
 	(layerTemplate, relations, sources) => {
-		if (layerTemplate && relations.length && sources.length){
-			let relationsForTemplate = _.filter(relations, ['layer_template_id', layerTemplate]);
+		if (layerTemplate && relations && relations.length && sources && sources.length){
+			let relationsForTemplate = _.filter(relations, (relation) => { return relation.data['layer_template_id'] === layerTemplate});
 			if (relationsForTemplate){
 				let vectorSources = [];
 				relationsForTemplate.map(relation => {
-					let dataSource = _.find(sources, {'key': relation.data_source_id, 'type': 'shapefile'});
-					let scenario = relation.scenario_id;
+					let dataSource = _.find(sources, {'key': relation.data.data_source_id, 'type': 'shapefile'});
+					let scenarioKey = relation.data.scenario_id;
 					if (dataSource){
 						vectorSources.push({
 							dataSource: dataSource.data.layer_name,	// todo prejmenovat na neco vhodneho
-							scenarioKey: scenario,
+							scenarioKey: scenarioKey,
 							relationKey: relation.key,
 							dataSourceKey: dataSource.key
 						});
@@ -212,6 +213,7 @@ export default {
 	getActiveMap: getActiveMap,
 	getActiveMapOrder: getActiveMapOrder,
 	getActivePlaceActiveLayers: getActivePlaceActiveLayers,
+	getAnalyticalUnitsVisibility: getAnalyticalUnitsVisibility,
 	getVectorLayersForTemplate: getVectorLayersForTemplate,
 	getVectorLayersForPuscVectorSourceTemplate: getVectorLayersForPuscVectorSourceTemplate,
 	getMapKeys: getMapKeys,

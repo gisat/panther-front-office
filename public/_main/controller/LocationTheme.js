@@ -740,47 +740,51 @@ Ext.define('PumaMain.controller.LocationTheme', {
         var datasetId = Ext.ComponentQuery.query('#seldataset')[0].getValue();
         var featureLayers = Ext.StoreMgr.lookup('dataset').getById(datasetId).get('featureLayers');
 
-        var currentId = null;
-        var previousNode = null;
-        var areasToAppend = [];
+        let parentNodes = {};
+		for (var i = 0;i<add.length;i++) {
+			var area = add[i];
+			var loc = area.loc;
+			var at = area.at;
+			var atIndex = Ext.Array.indexOf(featureLayers,at);
+			var prevAtIndex = atIndex>0 ? atIndex-1 : null;
+			var prevAt = featureLayers[prevAtIndex];
+			var parentgid = area.parentgid;
 
-        for (var i = 0;i<add.length;i++) {
-            var area = add[i];
-            var loc = area.loc;
-            var at = area.at;
-            var atIndex = Ext.Array.indexOf(featureLayers,at);
-            var prevAtIndex = atIndex>0 ? atIndex-1 : null;
-            var prevAt = featureLayers[prevAtIndex];
-            var parentgid = area.parentgid;
-            var foundNode = null;
-            root.cascadeBy(function(node) {
-                if (!parentgid && node==root) {
-                    foundNode = node;
-                    return false;
-                }
-                if (node==root) return;
-                if (node.get('loc')==loc && node.get('at')==prevAt && node.get('gid')==parentgid) {
-                    foundNode = node;
-                    return false;
-                }
-            });
-            if (foundNode) {
-                changed = true;
-                area.id = area.at+'_'+area.gid;
-                //foundNode.suspendEvents();
-                // foundNode.appendChild(area);
-                //foundNode.resumeEvents();
+			let nodeId = null;
+			root.cascadeBy(function(node) {
+				if (!parentgid && node==root) {
+					nodeId = node.internalId;
+					if (!parentNodes[nodeId]){
+					    parentNodes[nodeId] = node;
+						if (!parentNodes[nodeId].areasToAdd){
+							parentNodes[nodeId].areasToAdd = [];
+						}
+                    }
+					return false;
+				}
+				if (node==root) return;
+				if (node.get('loc')==loc && node.get('at')==prevAt && node.get('gid')==parentgid) {
+					nodeId = node.internalId;
+					if (!parentNodes[nodeId]){
+						parentNodes[nodeId] = node;
+						if (!parentNodes[nodeId].areasToAdd){
+							parentNodes[nodeId].areasToAdd = [];
+						}
+					}
+					return false;
+				}
+			});
 
-                areasToAppend.push(area);
-                if (foundNode.internalId != currentId && i!=0){
-                    previousNode.appendChild(areasToAppend);
-                    areasToAppend = [];
-                } else if (i ==  (add.length-1)){
-                    foundNode.appendChild(areasToAppend);
-                    areasToAppend = [];
-                }
-                currentId = foundNode.internalId;
-                previousNode = foundNode;
+			if (parentNodes[nodeId]){
+				area.id = area.at+'_'+area.gid;
+				parentNodes[nodeId].areasToAdd.push(area);
+			}
+		}
+		for (var key in parentNodes){
+		    var node = parentNodes[key];
+		    if (node.areasToAdd && node.areasToAdd.length){
+		        changed = true;
+				node.appendChild(node.areasToAdd);
             }
         }
 

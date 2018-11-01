@@ -235,6 +235,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 			cls: 'thematic-maps-settings',
             width: 800,
             height: 600,
+			resizable: true,
             
             title: title,
             items: [{
@@ -760,6 +761,7 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 	onChartTypeChange: function(combo,val) {
         var configForm = combo.up('configform');
         var advanced = Ext.ComponentQuery.query('#advancedfieldset',configForm)[0];
+        var helpInformation = Ext.ComponentQuery.query('#chartTypeHelp', configForm)[0];
 		var periodsSettings = Ext.ComponentQuery.query('#periodsSettings',configForm)[0];
 		var periodsSettingsPolarChart = Ext.ComponentQuery.query('#periodsSettingsPolarChart',configForm)[0];
 		var polarAxesNormalizationSettings = Ext.ComponentQuery.query('#polarAxesNormalizationSettings',configForm)[0];
@@ -796,6 +798,12 @@ Ext.define('PumaMain.controller.AttributeConfig', {
 			periodsSettings.show();
 		} else {
 			periodsSettings.hide();
+		}
+
+		if(val == 'scatterchart'){
+			helpInformation.show();
+		} else {
+			helpInformation.hide();
 		}
 
 		// show/hide periods settings

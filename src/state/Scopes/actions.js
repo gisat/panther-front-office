@@ -1,6 +1,7 @@
 import Action from '../Action';
 import ActionTypes from '../../constants/ActionTypes';
 import Select from '../Select';
+import VisualsConfig from '../../constants/VisualsConfig';
 
 import _ from 'lodash';
 import config from "../../config";
@@ -8,30 +9,38 @@ import path from "path";
 import fetch from "isomorphic-fetch";
 import queryString from 'query-string';
 
+import common from '../_common/actions';
+
 import Scope from '../../data/Scope';
 
 const TTL = 5;
 
 // ============ creators ===========
 
-function add(scopes) {
-	return dispatch => {
-		if (!_.isArray(scopes)) scopes = [scopes];
-		dispatch(actionAdd(scopes));
-	};
-}
 function setActiveScopeKey(key) {
 	return dispatch => {
 		dispatch(actionSetActiveScopeKey(key));
-		dispatch(loadDataForActiveScope());
+		dispatch(applyScopeConfiguration());
 	};
 }
-function loadDataForActiveScope() {
+function applyScopeConfiguration() {
 	return (dispatch, getState) => {
-		let activeScopeConfiguration = Select.scopes.getActiveScopeConfiguration(getState());
-		if(activeScopeConfiguration && activeScopeConfiguration.hasOwnProperty(`dromasLpisChangeReview`)) {
-			dispatch(Action.lpisCases.load());
+		let scopeConfig = Select.scopes.getActiveScopeConfiguration(getState());
+		let htmlClass = null;
+		let activeKey = null;
+
+		if (scopeConfig){
+			if (scopeConfig.hasOwnProperty(`dromasLpisChangeReview`)){
+				dispatch(Action.lpisCases.load());
+			}
+			if (scopeConfig.style){
+				let styleToUse = VisualsConfig[scopeConfig.style];
+				htmlClass = styleToUse && styleToUse.htmlClass ? styleToUse.htmlClass : null;
+				activeKey = scopeConfig.style;
+			}
 		}
+		dispatch(Action.components.setApplicationStyleActiveKey(activeKey));
+		dispatch(Action.components.setApplicationStyleHtmlClass('forScope', htmlClass));
 	}
 }
 
@@ -111,7 +120,7 @@ function actionApiLoadScopesRequestError(error) {
 // ============ export ===========
 
 export default {
-	add: add,
+	add: common.add(actionAdd),
 	apiLoadScopes: apiLoadScopes,
 	setActiveScopeKey: setActiveScopeKey
 }

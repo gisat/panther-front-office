@@ -60,27 +60,22 @@ class Checkbox extends View {
      * Build the checkbox row and add a listener to it
      */
     build() {
-        let html = S(`
-        <div title="{{name}}" class="floater-row checkbox-row {{class}}" id="{{id}}" data-id="{{dataId}}">
+        let name = this._name.replace(/"/g, '&quot;');
+        let html = `<div title="${name}" class="floater-row checkbox-row ${this._class}" id="${this._id}" data-id="${this._dataId}">
             <a href="#">
-                <div class="checkbox-icon"></div><div class="checkbox-label">{{name}}</div>
+                <div class="checkbox-icon"></div><div class="checkbox-label">${name}</div>
             </a>
-        </div>
-        `).template({
-            id: this._id,
-            class: this._class,
-            dataId: this._dataId,
-            name: this._name
-        }).toString();
+        </div>`;
 
         this._target.append(html);
+        this._checkboxSelector = $("#" + this._id);
 
         if (this._checked) {
-            $("#" + this._id).addClass("checked");
+			this._checkboxSelector.addClass("checked");
         }
 
         if (this._parentCheckbox) {
-            $("#" + this._id).attr("data-parent-checkbox", this._parentCheckbox);
+			this._checkboxSelector.attr("data-parent-checkbox", this._parentCheckbox);
         }
 
         this.addListeners(this._id);

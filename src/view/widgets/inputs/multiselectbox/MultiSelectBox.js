@@ -16,6 +16,7 @@ import './MultiSelectBox.css';
  * @param options.name {string} Select box label
  * @param options.target {Object} JQuery selector representing the target element where should be the select box rendered
  * @param options.data {Array} Select options
+ * @param options.selectedValues {Array} Selected options
  * @constructor
  */
 let $ = window.$;
@@ -42,6 +43,7 @@ class MultiSelectBox extends View {
         this._data = _.sortBy(options.data, function (val) {
             return val;
         });
+        this._selectedValues = options.selectedValues;
 
         this.build();
     };
@@ -77,6 +79,15 @@ class MultiSelectBox extends View {
         let content = "";
         let self = this;
 
+		if (this._data.length > 1) {
+		    content += '<div class="multiselect-all-container">';
+			content += self.addOption(self._id + '-option-select-all', "multiselect-select-all", "Select all");
+			content += self.addOption(self._id + '-option-clear-all', "multiselect-clear-all", "Clear all");
+			content += "</div>";
+			this.addSelectAllListener();
+			this.addClearAllListener();
+		}
+
         // options
         this._data.forEach(function (item, index) {
             let id = self._id + '-option-' + index;
@@ -85,13 +96,6 @@ class MultiSelectBox extends View {
             }
         });
 
-        if (this._data.length > 1) {
-            content += "<br>";
-            content += self.addOption(self._id + '-option-select-all', "multiselect-select-all", "Select all");
-            content += self.addOption(self._id + '-option-clear-all', "multiselect-clear-all", "Clear all");
-            this.addSelectAllListener();
-            this.addClearAllListener();
-        }
         return content;
     };
 
@@ -131,9 +135,14 @@ class MultiSelectBox extends View {
      * @returns {string}
      */
     addOption(id, klass, content) {
+        let selected = false;
+        if (this._selectedValues && this._selectedValues.length){
+            selected = !!_.find(this._selectedValues, (value) => {return value === content});
+        }
+
         return S(`
         <label class="label-{{class}}" for="{{id}}">{{item}}</label>
-        <input class="{{class}}" type="checkbox" name="{{id}}" id="{{id}}">
+        <input class="{{class}}" type="checkbox" name="{{id}}" id="{{id}}" ${selected ? 'checked' : null}>
         `).template({
             id: id,
             item: content,

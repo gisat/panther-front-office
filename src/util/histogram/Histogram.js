@@ -16,6 +16,8 @@ import './Histogram.css';
  * @constructor
  */
 let $ = window.$;
+const DEFAULT_HISTOGRAM_HEIGHT = 50;
+
 class Histogram {
     constructor(options) {
         if (!options.id) {
@@ -88,8 +90,11 @@ class Histogram {
         if (Math.abs(dataMinMax[1] - dataMinMax[0]) < 0.01) {
             widthRatio = 0.05;
         }
-        let containerHeight = this._histogram.height();
-        let containerWidth = this._histogram.parents(".slider-popup").width();
+
+        let slider = this._histogram.parents(".slider-box").find(".slider-row")[0];
+
+        let containerHeight = this._histogram[0].offsetHeight || DEFAULT_HISTOGRAM_HEIGHT;
+        let containerWidth = slider.offsetWidth;
 
         let width = widthRatio * (containerWidth - 2) / this._numOfClasses;
         let heightRatio = containerHeight / this.getMostFrequented(this._classes);
@@ -98,6 +103,9 @@ class Histogram {
         let content = "";
         this._classes.forEach(function (bar) {
             let height = (bar.count * heightRatio);
+            if (height < 1 && height > 0){
+            	height = 1;
+			}
             let marginTop = containerHeight - height;
             content += '<div class="histogram-bar selected" style="height: ' + height + 'px ; width: ' + width + 'px ;margin-top: ' + marginTop + 'px"></div>';
         });

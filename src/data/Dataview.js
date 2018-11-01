@@ -17,6 +17,9 @@ class Dataview extends Model {
             },
             date: {
                 serverName: 'changed'
+            },
+            permissions: {
+                serverName: 'permissions'
             }
         };
     };

@@ -6,9 +6,6 @@ import ViewCard from "../../presentation/controls/ViewCard/ViewCard";
 
 const mapStateToProps = (state, props) => {
 	return {
-		// TODO use permissions
-		editable: Select.users.isAdmin(state) || Select.users.isAdminGroupMember(state),
-		deletable: Select.users.isAdmin(state)  || Select.users.isAdminGroupMember(state) || Select.users.hasActiveUserPermissionToDelete(state,props.viewKey, "dataview")
 	}
 };
 

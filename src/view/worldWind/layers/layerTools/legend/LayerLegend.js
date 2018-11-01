@@ -24,7 +24,6 @@ class LayerLegend extends LayerTool {
     constructor(options) {
         super(options);
 
-        this._class = options.class;
         this._target = options.target;
         this._layers = options.layers;
         this._style = options.style;
@@ -32,9 +31,10 @@ class LayerLegend extends LayerTool {
         this._id = options.id;
 
         // TODO will there be the same legend for each period?
-        this._defaultLayer = this._layers[0];
+        this._defaultLayer = this._layers ? this._layers[0] : null;
 
         this.build();
+        window.Stores.addListener(this.onEvent.bind(this), {key: this._id});
     };
 
     /**
@@ -47,7 +47,9 @@ class LayerLegend extends LayerTool {
         this._iconSelector = this._icon.getElement();
         this._floaterSelector = this._floater.getElement();
 
-        this.addContent();
+        if (this._defaultLayer){
+			this.addContent();
+        }
         this.addEventsListener();
     };
 
@@ -55,45 +57,112 @@ class LayerLegend extends LayerTool {
      * Add content to a legend floater
      */
     addContent() {
-        let style = "";
-        let layer = this._defaultLayer.path;
-        let url = Config.url + "api/proxy/wms?";
-        if (this._style) {
-            style = this._style.path;
-        }
-        if (!layer) {
-            layer = this._defaultLayer.layer;
-            url = this._defaultLayer.url + '?';
-        }
+        if (this._defaultLayer){
+			let style = "";
+			let layer = this._defaultLayer.path;
+			let url = Config.url + "api/proxy/wms?";
+			if (this._style) {
+				style = this._style.path;
+			}
+			if (!layer) {
+				layer = this._defaultLayer.layer;
+				url = this._defaultLayer.url + '?';
+			}
 
-        let params = {
-            'LAYER': layer,
-            'REQUEST': 'GetLegendGraphic',
-            'FORMAT': 'image/png',
-            'WIDTH': 50,
-            'STYLE': style
-        };
-        if (this._defaultLayer.hasOwnProperty('sldId')) {
-            params['SLD_ID'] = this._defaultLayer.sldId;
+			let params = {
+				'LAYER': layer,
+				'REQUEST': 'GetLegendGraphic',
+				'FORMAT': 'image/png',
+				'WIDTH': 50,
+				'STYLE': style
+			};
+			if (this._defaultLayer.hasOwnProperty('sldId')) {
+				params['SLD_ID'] = this._defaultLayer.sldId;
+			}
+
+			let imgSrc = url + stringUtils.makeUriComponent(params);
+
+			let self = this;
+			$.get(imgSrc)
+				.done(function (result) {
+					// if result is XML, the legend is not available
+					try {
+						$.parseXML(result);
+						self._floater.addContent('<p>' + polyglot.t('legendNotAvailable') + '<p>');
+					}
+					catch (err) {
+						self._floater.addContent('<img src="' + imgSrc + '">');
+					}
+				}).fail(function () {
+				self._floater.addContent('<p>' + polyglot.t('legendNotAvailable') + '<p>');
+			});
         }
-
-        let imgSrc = url + stringUtils.makeUriComponent(params);
-
-        let self = this;
-        $.get(imgSrc)
-            .done(function (result) {
-                // if result is XML, the legend is not available
-                try {
-                    $.parseXML(result);
-                    self._floater.addContent('<p>' + polyglot.t('legendNotAvailable') + '<p>');
-                }
-                catch (err) {
-                    self._floater.addContent('<img src="' + imgSrc + '">');
-                }
-            }).fail(function () {
-            self._floater.addContent('<p>' + polyglot.t('legendNotAvailable') + '<p>');
-        });
     };
+
+    addContentForChoropleth(mapKey, mapPeriod, data){
+		let url = Config.url + "api/proxy/wms?";
+
+		let params = {
+			'LAYER': data.layer,
+			'REQUEST': 'GetLegendGraphic',
+			'FORMAT': 'image/png',
+			'WIDTH': 50,
+            'SLD_ID': data.sldId
+		};
+		let imgSrc = url + stringUtils.makeUriComponent(params);
+
+		let self = this;
+		$.get(imgSrc)
+			.done(function (result) {
+				// if result is XML, the legend is not available
+				try {
+					$.parseXML(result);
+					self._floater.addContent('<p>' + polyglot.t('legendNotAvailable') + '<p>');
+				}
+				catch (err) {
+					self.addChoroplethLegend(mapKey, mapPeriod, imgSrc);
+				}
+			}).fail(function () {
+			self._floater.addContent('<p>' + polyglot.t('legendNotAvailable') + '<p>');
+		});
+    };
+
+    addChoroplethLegend(mapKey, mapPeriod, imgSrc){
+		let target = $(this._floater._floaterBodySelector);
+		let legend = target.find(`.legend-content-item[data-id="${mapKey}"]`);
+		if (legend){
+		    legend.remove();
+        }
+
+	    target.append(`<div class="legend-content-item" data-id="${mapKey}">
+                <span>${mapPeriod}</span>
+                <img src="${imgSrc}">
+            </div>`);
+    };
+
+	removeChoroplethLegend(mapKey){
+		let target = $(this._floater._floaterBodySelector);
+		let legend = target.find(`.legend-content-item[data-id="${mapKey}"]`);
+		if (legend){
+			legend.remove();
+		}
+	};
+
+    onEvent(type, options){
+	    if (type === "CHOROPLETH_ADD"){
+	    	if (options.choroplethKey === this._id){
+				this.addContentForChoropleth(options.mapKey, options.mapPeriod, options.data);
+			}
+		} else if (type === "CHOROPLETH_REMOVE"){
+			if (options.choroplethKey === this._id) {
+				this.removeChoroplethLegend(options.mapKey);
+			}
+        } else if (type === "CHOROPLETH_CHANGE"){
+			if (options.choroplethKey === this._id){
+				this.addContentForChoropleth(options.mapKey, options.mapPeriod, options.data);
+			}
+		}
+	};
 }
 
 export default LayerLegend

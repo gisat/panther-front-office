@@ -21,6 +21,7 @@
     "proj4": "2.4.4",
     "prop-types": "15.6.1",
     "rc-slider": "8.6.1",
+    "re-reselect": "2.1.0",
     "react": "16.2.0",
     "react-dom": "16.2.0",
     "react-redux": "5.0.7",
@@ -35,7 +36,6 @@
     "redux-thunk": "2.2.0",
     "redux-watch": "1.1.1",
     "reselect": "3.0.1",
-    "re-reselect": "2.1.0",
     "select2": "^4.0.6-rc.1",
     "string": "^3.3.3",
     "tinysort": "^2.3.6",
@@ -46,13 +46,11 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
-    "test:watch": "jest __tests__ --watch",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
     "babel-jest": "23.4.0",
     "babel-preset-env": "1.7.0",
-    "jest": "23.4.0",
     "redux-testkit": "1.0.6"
   }
 }

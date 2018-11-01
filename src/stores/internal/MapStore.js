@@ -142,14 +142,18 @@ class MapStore {
                             customOptions = JSON.parse(layer.custom);
                         } catch(e){}
 
+                        let alreadyExist = map.layers.getLayerById("wmsLayer-" + layer.id) || map.layers.getLayerById(layer.id);
+
                         // add layer
-                        map.layers.addWmsLayer({
-                            url: layer.url,
-                            layerPaths: layer.layer,
-                            customParams: layerOptions || customOptions,
-                            name: layer.name,
-                            id: layer.id
-                        }, groupId, true);
+						if (!alreadyExist){
+							map.layers.addWmsLayer({
+								url: layer.url,
+								layerPaths: layer.layer,
+								customParams: layerOptions || customOptions,
+								name: layer.name,
+								id: layer.id
+							}, groupId, true);
+						}
 
                         // add map title
                         if (scope.mapLayerInfo && scope.mapLayerInfo === 'simple') {
@@ -174,6 +178,33 @@ class MapStore {
             throw new Error(err);
         });
     };
+
+    addChoroplethToMap(mapKey, choroplethKey, data){
+    	let map = _.find(this._maps, (map) => {
+    		return map.id === mapKey;
+		});
+    	if (map){
+			map.layers.addChoroplethLayer({
+				id: choroplethKey,
+				name: "Choropleth",
+				sldId: data.sldId,
+				opacity: 70,
+				layer: data.layer,
+			}, "thematic-layers", true);
+		}
+	}
+
+	removeChoroplethFromMap(mapKey, choroplethKey){
+		let map = _.find(this._maps, (map) => {
+			return map.id === mapKey;
+		});
+		if (map){
+			let layer = map.layers.getLayerById(choroplethKey);
+			if (layer){
+				map.layers.removeLayer(layer, true);
+			}
+		}
+	}
 
 	changeMapName(mapId, name){
 		this._maps.forEach(function(map){
@@ -295,7 +326,7 @@ class MapStore {
             if (map.id === mapId) {
                 map._wwd.layers.forEach(function (layer) {
                     if (layer.metadata && layer.metadata.group === group && layer.metadata.id === layerId) {
-                        map.layers.removeLayerFromMap(layer, true);
+                        map.layers.removeLayer(layer, true);
                         map.mapWindowTools.removeLayerInfo();
                     }
                 });
@@ -327,12 +358,17 @@ class MapStore {
      * @param options {Object} additional options, may be specific per action.
      */
     onEvent(type, options) {
-        let state = this._stateStore.current();
-        let scope = state.scopeFull;
-        let wmsGroup = "wms-layers";
-        if (scope && scope.isMapIndependentOfPeriod) {
-            wmsGroup = "wms-layers-independent";
-        }
+    	let state = null;
+    	let scope = null;
+    	let wmsGroup = "wms-layers";
+    	if (type === "ADD_INFO_LAYERS_BY_SCENARIOS" || type === "REMOVE_INFO_LAYERS_BY_SCENARIOS" || type === "AOI_GEOMETRY_SET" || type === "ADD_WMS_LAYER" || type === "REMOVE_WMS_LAYER"){
+			state = this._stateStore.current();
+			scope = state.scopeFull;
+			if (scope && scope.isMapIndependentOfPeriod) {
+				wmsGroup = "wms-layers-independent";
+			}
+		}
+
 
         if (type === Actions.mapAdd) {
             this.add(options);
@@ -380,6 +416,13 @@ class MapStore {
 			this.handleScenarioDefaultSituation(options.showDeafaultSituation);
 		} else if (type === "CHANGE_MAP_NAME") {
 			this.changeMapName(options.mapKey, options.name);
+		} else if (type === "CHOROPLETH_ADD"){
+			this.addChoroplethToMap(options.mapKey, options.choroplethKey, options.data);
+		} else if (type === "CHOROPLETH_REMOVE"){
+			this.removeChoroplethFromMap(options.mapKey, options.choroplethKey);
+		} else if (type === "CHOROPLETH_CHANGE"){
+			this.removeChoroplethFromMap(options.mapKey, options.choroplethKey);
+			this.addChoroplethToMap(options.mapKey, options.choroplethKey, options.data);
 		}
     };
 }

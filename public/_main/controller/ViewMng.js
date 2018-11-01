@@ -136,7 +136,8 @@ Ext.define('PumaMain.controller.ViewMng', {
 					description: rec.data.conf.description,
 					dataset: rec.data.conf.dataset,
 					language: rec.data.conf.language
-				}
+				},
+				permissions: rec.data.permissions
 			}]);
         }
     },
@@ -348,6 +349,12 @@ Ext.define('PumaMain.controller.ViewMng', {
 		if (Config.cfg.locations){
 			options.locations = Config.cfg.locations;
 		}
+		if (Config.cfg.selMap){
+			options.selMap = Config.cfg.selMap;
+		}
+		if (Config.cfg.activeChoroplethKeys){
+			options.activeChoroplethKeys = Config.cfg.activeChoroplethKeys;
+		}
 
 		if (Config.cfg.is3D){
 			Stores.notify('fo#adjustConfigurationFromDataview', options);
@@ -375,7 +382,20 @@ Ext.define('PumaMain.controller.ViewMng', {
 		cfg.visualization = Ext.ComponentQuery.query('#selvisualization')[0].getValue();
 		cfg.location = Ext.ComponentQuery.query('#sellocation')[0].getValue();
 		cfg.expanded = this.getController('Area').getExpandedAndFids().expanded;
-		cfg.selMap = this.getController('Select').selMap;
+		cfg.selMap = {};
+		var selMap = this.getController('Select').selMap;
+
+		// fix for areas selected from areas filter
+		for (var key in selMap){
+			cfg.selMap[key] = selMap[key].map(function(area){
+				return {
+					at: area.at,
+					gid: area.gid.toString(),
+					loc: area.loc
+				}
+			});
+		}
+
 		cfg.choroplethCfg = this.getController('AttributeConfig').layerConfig;
 
 		cfg.pagingUseSelected = Ext.ComponentQuery.query('#areapager #onlySelected')[0].pressed;
@@ -486,6 +506,10 @@ Ext.define('PumaMain.controller.ViewMng', {
 			// selected map
 			if (options.state && options.state.selectedMapId){
 				cfg.selectedMapId = options.state.selectedMapId;
+			}
+			// active choropleths
+			if (options.state.activeChoroplethKeys){
+				cfg.activeChoroplethKeys = options.state.activeChoroplethKeys;
 			}
 
 			// sidebar reports settings

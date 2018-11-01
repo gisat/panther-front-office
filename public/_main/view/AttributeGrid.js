@@ -20,21 +20,21 @@ Ext.define('PumaMain.view.AttributeGrid', {
 		}, {
 			dataIndex: 'attrName',
 			flex: 2,
-			resizable: false,
+			resizable: true,
 			menuDisabled: true,
 			text: polyglot.t("attribute"),
 			tooltip: polyglot.t("attribute")
 		}, {
 			dataIndex: 'asName',
 			flex: 2,
-			resizable: false,
+			resizable: true,
 			menuDisabled: true,
 			text: polyglot.t("attributeSet"),
 			tooltip: polyglot.t("attributeSet")
 		}, {
 			dataIndex: 'attrType',
 			flex: 1,
-			resizable: false,
+			resizable: true,
 			menuDisabled: true,
 			text: polyglot.t("type"),
 			tooltip: polyglot.t("type"),
@@ -44,7 +44,7 @@ Ext.define('PumaMain.view.AttributeGrid', {
 		}, {
 			dataIndex: 'asName',
 			flex: 2,
-			resizable: false,
+			resizable: true,
 			menuDisabled: true,
 			text: polyglot.t('normalizationBase'),
 			tooltip: polyglot.t('normalizationBase'),
@@ -77,7 +77,7 @@ Ext.define('PumaMain.view.AttributeGrid', {
 		}, {
 			dataIndex: 'normType',
 			flex: 2,
-			resizable: false,
+			resizable: true,
 			menuDisabled: true,
 			formType: this.formType,
 			text: polyglot.t('normalization'),
@@ -90,7 +90,7 @@ Ext.define('PumaMain.view.AttributeGrid', {
 		}, {
 			dataIndex: 'units',
 			flex: 1,
-			resizable: false,
+			resizable: true,
 			menuDisabled: true,
 			formType: this.formType,
 			text: polyglot.t('units'),
@@ -98,7 +98,7 @@ Ext.define('PumaMain.view.AttributeGrid', {
 		}, {
 			dataIndex: 'displayUnits',
 			flex: 1,
-			resizable: false,
+			resizable: true,
 			menuDisabled: true,
 			formType: this.formType,
 			text: polyglot.t('displayedUnits'),
@@ -110,7 +110,7 @@ Ext.define('PumaMain.view.AttributeGrid', {
 			dataIndex: 'classType',
 			flex: 2,
 			hidden: this.formType != 'layers',
-			resizable: false,
+			resizable: true,
 			menuDisabled: true,
 			text: polyglot.t('classification'),
 			tooltip: polyglot.t('classification'),
@@ -124,7 +124,7 @@ Ext.define('PumaMain.view.AttributeGrid', {
 			dataIndex: 'numCategories',
 			flex: 1,
 			hidden: this.formType != 'layers',
-			resizable: false,
+			resizable: true,
 			menuDisabled: true,
 			text: polyglot.t('cat'),
 			tooltip: polyglot.t('cat'),
@@ -136,7 +136,7 @@ Ext.define('PumaMain.view.AttributeGrid', {
 			dataIndex: 'name',
 			flex: 3,
 			hidden: this.formType != 'layers',
-			resizable: false,
+			resizable: true,
 			menuDisabled: true,
 			text: polyglot.t('name'),
 			tooltip: polyglot.t('name'),

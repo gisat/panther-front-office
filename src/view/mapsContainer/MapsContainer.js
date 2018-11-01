@@ -281,7 +281,7 @@ class MapsContainer {
 			});
 		}
 		if ((defaults.hasOwnProperty("analyticalUnitsVisible") && defaults.analyticalUnitsVisible) || !defaults.hasOwnProperty("analyticalUnitsVisible")){
-			this._dispatcher.notify("analyticalUnits#show");
+			this._dispatcher.notify("auLayersPanel#setAnalyticalUnitsVisible");
 		}
 	}
 
@@ -332,7 +332,7 @@ class MapsContainer {
 				}
 			});
 		}
-		if (selectedMap){
+		if (selectedMap && !state.isMapDependentOnScenario){
 			this.handleMapSelection(null, selectedMap)
 		}
 	}
@@ -695,11 +695,15 @@ class MapsContainer {
      * @param options {Object|string}
      */
     onEvent(type, options){
-        let state = this._stateStore.current();
-        let periods = state.periods;
-        let isMapIndependentOfPeriod = state.isMapIndependentOfPeriod;
-		let isMapDependentOnScenario = state.isMapDependentOnScenario;
-        if (type === Actions.mapRemoved){
+    	let state, periods, isMapIndependentOfPeriod, isMapDependentOnScenario = null;
+    	if (type === Actions.mapRemoved || type === Actions.periodsRebuild || type === Actions.periodsDefault || type === "AOI_GEOMETRY_SET"){
+			state = this._stateStore.current();
+			periods = state.periods;
+			isMapIndependentOfPeriod = state.isMapIndependentOfPeriod;
+			isMapDependentOnScenario = state.isMapDependentOnScenario;
+		}
+
+		if (type === Actions.mapRemoved){
             this.removeMapFromContainer(options.id);
             this.checkMapsCloseButton();
             if (isMapIndependentOfPeriod  && !isMapDependentOnScenario){

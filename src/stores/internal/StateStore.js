@@ -43,6 +43,7 @@ class StateStore {
             isAdmin: false,
             groups: []
         };
+		this._attributeFilters = {};
 
         this.isMap3D = true;
         this.isMapIndependentOfPeriod = false;
@@ -90,6 +91,7 @@ class StateStore {
             isMapIndependentOfPeriod: this.isMapIndependentOfPeriod,
             mapDefaults: this._mapDefaults,
             mapsMetadata: this._mapsMetadata,
+            activeChoroplethKeys: this._activeChoroplethKeys,
             selectedMapId: this._selectedMapId,
 
 			components: this._components,
@@ -245,7 +247,7 @@ class StateStore {
                 if (item.hasClass("open")){
 					let floater = $("#" + item.attr("data-for"));
 					if (floater.length){
-						widget.floater.position = Floater.getPosition(floater);
+						widget.floater.position = Floater.getPosition(floater[0]);
 						widget.floater.pinned = floater.hasClass("pinned");
 						widgets.open.push(widget);
 					}
@@ -422,6 +424,10 @@ class StateStore {
         this._dispatcher.notify("navigator#update", options);
     }
 
+    getAttributeFiltersForColor(color){
+        return this._attributeFilters[`#${color}`]
+    }
+
     onEvent(type, options) {
         if (type === "initialLoadingStarted"){
             this.addLoadingOperation("initialLoading");
@@ -466,7 +472,11 @@ class StateStore {
             if (this._changes && !this._changes.dataview){
                 this._dispatcher.notify('map#zoomToLocations', options.extents);
             }
-        }
+        } else if (type === 'SELECTIONS_CHANGE_SETTINGS'){
+            this._attributeFilters = options;
+        } else if (type === 'CHOROPLETH_ACTIVE_KEYS_CHANGED'){
+			this._activeChoroplethKeys = options;
+		}
     };
 
 

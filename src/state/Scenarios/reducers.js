@@ -60,7 +60,11 @@ function receive(state, action) {
 				return model;
 			}
 		});
-		data = [...oldData, ...action.data];
+		// clear updated old cases from new
+		let newData = _.reject(action.data, update => {
+			return _.find(oldData, {key: update.key});
+		});
+		data = [...oldData, ...newData];
 	} else {
 		data = [...action.data];
 	}

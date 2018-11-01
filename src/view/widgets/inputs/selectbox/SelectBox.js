@@ -18,6 +18,7 @@ let polyglot = window.polyglot;
  * @param options.name {string} Select box label
  * @param options.target {Object} JQuery selector representing the target element where should be the select box rendered
  * @param options.data {Array} Select options
+ * @param options.selectedValues {Array} Select data
  * @constructor
  */
 let $ = window.$;
@@ -44,6 +45,7 @@ class SelectBox extends View {
         this._data = _.sortBy(options.data, function (val) {
             return val;
         });
+        this._selectedValue = options.selectedValues ? options.selectedValues[0] : null;
 
         this.build();
     };
@@ -65,7 +67,8 @@ class SelectBox extends View {
 
         this._target.append(html);
         let content = this.getSelectOptions();
-        $('#' + this._id).append(content).selectmenu();
+        let select = $('#' + this._id).append(content);
+        select.selectmenu();
     };
 
     /**
@@ -77,9 +80,10 @@ class SelectBox extends View {
         if (this._data.length > 1) {
             content += '<option value="" class="selectbox-all-options">' + polyglot.t("allOptions") + '</option>';
         }
+        let self = this;
         this._data.forEach(function (item) {
             if (item) {
-                content += '<option value="' + item + '">' + item + '</option>';
+				content += `<option value="${item}" ${self._selectedValue && (self._selectedValue === item) ? 'selected' : null}>${item}</option>`;
             }
         });
 

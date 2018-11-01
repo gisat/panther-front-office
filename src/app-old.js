@@ -69,13 +69,10 @@ function loadApp() {
         let url = window.location.origin;
         let projectConfig = Config.toggles[url];
 
-        if (projectConfig && projectConfig.classes){
-			let html =  $("html");
-            projectConfig.classes.map(cls => {
-               if (!html.hasClass(cls)){
-				   html.addClass(cls);
-               }
-            });
+        if (projectConfig && projectConfig.classes && projectConfig.classes.length){
+			window.Stores.notify("application#setHtmlClass", {
+			    configuration: 'forUrl',
+                htmlClass: projectConfig.classes[0]});
         }
 
         if (projectConfig && projectConfig.intro && projectConfig.intro.title){
@@ -232,19 +229,17 @@ function loadApp() {
         var featureInfoTool = buildFeatureInfoTool(mapStore, stateStore);
         tools.push(featureInfoTool);
 
-        if (Config.toggles.hasPeriodsSelector){
-            new PeriodsSelector({
-                containerSelector: $("#content-application .group-visualization"),
-                dispatcher: window.Stores,
-                maxSelected: 12,
-                store: {
-                    periods: store.periods,
-                    scopes: store.scopes,
-                    state: stateStore
-                }
-            });
-            $("#view-selector .period").addClass("hidden");
-        }
+        new PeriodsSelector({
+            containerSelector: $("#content-application .group-visualization"),
+            dispatcher: window.Stores,
+            maxSelected: 12,
+            store: {
+                periods: store.periods,
+                scopes: store.scopes,
+                state: stateStore
+            }
+        });
+        $("#view-selector .period").addClass("hidden");
 
         if(Config.toggles.useTopToolbar){
             var topToolBar = new TopToolBar({
@@ -465,6 +460,7 @@ function loadApp() {
             placeholderTargetId: 'widget-container',
             aggregatedChart: aggregatedChart,
             isOpen: isOpen,
+			isPinnable: true,
             dispatcher: window.Stores,
             store: {
                 state: stateStore

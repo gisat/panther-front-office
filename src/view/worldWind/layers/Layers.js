@@ -58,11 +58,11 @@ class Layers {
     /**
      * Add layer to the map
      * @param layer {WorldWind.Layer}
-     * @param order {number} order of the layer among other layers
+     * @param predefinedPosition {number} order of the layer among other layers
      */
-    addLayerToMap(layer, order) {
-        let position = this.findLayerZposition(order, layer);
-        console.log(`Layers#addLayerToMap Layer: `, layer, ` Order: `, order, ` Name: `, this.name, ` Position: `, position);
+    addLayerToMap(layer, predefinedPosition) {
+        let position = predefinedPosition ? predefinedPosition : this.findLayerZposition(layer);
+        console.log(`Layers#addLayerToMap Layer: `, layer, ` Name: `, this.name, ` Position: `, position);
         this._wwd.insertLayer(position, layer);
         console.log(`Layers#addLayerToMap `,this._wwd.layers);
         this._wwd.redraw();
@@ -70,32 +70,18 @@ class Layers {
 
     /**
      * TODO: Figure how do you handle the layers from other areas and panels. At the moment, the ordered layers will be on the bottom.
-     * @param order {Number} order in 2D
      * @param currentLayer {WorldWind.Layer} layer being inserted
      * @returns {Number} position in world wind layers
      */
-    findLayerZposition(order, currentLayer) {
+    findLayerZposition(currentLayer) {
         let layers = this._wwd.layers;
-        let position = null;
-
-        layers.forEach(function(layer, index){
-            if(!layer.metadata || !layer.metadata.group) {
-                position = index;
-            }
-        });
-        // Find the first which has metadata.group
-        // If there is no specific place to put the layer add it as last.
-        if (currentLayer.metadata.order !== null && currentLayer.metadata.order < layers.length && !(currentLayer.metadata.group === "areaoutlines") && !(currentLayer.metadata.group === "selectedareasfilled")){
-            position = position += currentLayer.metadata.order;
-        } else {
-            position = layers.length;
-        }
+        let position = layers.length;
 
         // push layer just under AU layer
-        if (!currentLayer.metadata || !currentLayer.metadata.group || !((currentLayer.metadata.group === "areaoutlines") || (currentLayer.metadata.group === "selectedareasfilled"))){
+        if (!currentLayer.metadata || !currentLayer.metadata.group || !((currentLayer.metadata.group === "areaoutlines") || (currentLayer.metadata.group === "selectedareasfilled" || currentLayer.metadata.group === "selectedareas"))){
             if (position > 0){
                 layers.forEach(function(layer){
-                    if (layer.metadata && (layer.metadata.group === "areaoutlines" || layer.metadata.group === "selectedareasfilled")){
+                    if (layer.metadata && (layer.metadata.group === "areaoutlines" || layer.metadata.group === "selectedareasfilled" || layer.metadata.group === "selectedareas" || layer.metadata.group === "thematic-layers")){
                         position--;
                     }
                 });
@@ -178,14 +164,12 @@ class Layers {
     /**
      * Show the layer in map
      * @param id {string} Id of the layer
-     * @param order {number} order of the layer among other layers
      */
-    showLayer(id, order) {
+    showLayer(id) {
         let layer = this.getLayerById(id);
         if (layer){
 			layer.metadata.active = true;
-			layer.metadata.order = order;
-			this.addLayerToMap(layer, order);
+			this.addLayerToMap(layer);
         }
     };
 
@@ -322,8 +306,7 @@ class Layers {
         layer.metadata = {
             active: true,
             id: id,
-            group: group,
-            order: 1
+            group: group
         };
         this.addLayerToPosition(layer, 0);
     };
@@ -353,8 +336,7 @@ class Layers {
                 active: state,
                 name: layerData.name,
                 id: layerData.id,
-                group: group,
-                order: layerData.order
+                group: group
             };
             this.addLayer(layer);
         } else {
@@ -376,8 +358,7 @@ class Layers {
                 active: state,
                 name: layerData.name,
                 id: layerData.id,
-                group: group,
-                order: layerData.order
+                group: group
             };
             this.addLayer(layer);
         }
@@ -395,7 +376,7 @@ class Layers {
             layerNames: layerData.layerPaths,
             sector: new WorldWind.Sector(-90, 90, -180, 180),
             levelZeroDelta: new WorldWind.Location(45, 45),
-            opacity: layerData.opacity || .7,
+            opacity: layerData.opacity || .9,
             numLevels: 22,
             format: "image/png",
             size: 256,

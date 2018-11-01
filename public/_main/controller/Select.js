@@ -49,6 +49,22 @@ Ext.define('PumaMain.controller.Select', {
         }
         this.task = new Ext.util.DelayedTask();
         this.task.delay(hover ? 100 : 1,this.selectInternal,this,arguments);
+
+
+        if (!window.Charts.selectedAreas){
+			window.Charts.selectedAreas = {};
+        }
+
+		var selectedAreas = areas.map(function(area){return area.gid});
+
+        if (add && window.Charts.selectedAreas[this.actualColor]){
+            let oldAreas = window.Charts.selectedAreas[this.actualColor];
+			window.Charts.selectedAreas[this.actualColor] = Ext.Array.difference(Ext.Array.merge(oldAreas, selectedAreas), Ext.Array.intersect(oldAreas, selectedAreas));
+        } else {
+			window.Charts.selectedAreas[this.actualColor] = selectedAreas;
+        }
+
+        window.Stores.notify("selection#selectionChanged");
     },
         
     onToggleHover: function(btn,value) {
@@ -194,15 +210,15 @@ Ext.define('PumaMain.controller.Select', {
             this.fromChart = null;
             this.fromScatterChart = null;
         }
-        this.prevOuterSelect = this.outerSelect
+        this.prevOuterSelect = this.outerSelect;
         this.outerSelect = false;
     },
       
     // taken from Ext.Array
     arrDifference: function(arrayA, arrayB) {
-        var clone = Ext.Array.slice(arrayA,0),
-                ln = clone.length,
-                i, j, lnB;
+        var clone = arrayA ? Ext.Array.slice(arrayA,0) : [];
+        var ln = clone.length,
+            i, j, lnB;
         for (i = 0, lnB = arrayB.length; i < lnB; i++) {
             for (j = 0; j < ln; j++) {
                 //if (clone[j] === arrayB[i]) {
@@ -222,15 +238,17 @@ Ext.define('PumaMain.controller.Select', {
     },
         
     clearSelectionsAll: function() {
-        this.selMap = {'ff4c39':[]};
-        this.hoverMap = [];
-        this.colorMap = {};
-        this.getController('Area').colourTree(this.colorMap); 
-        this.updateCounts();
-        this.selectDelayed();
+        if (this.hoverMap.length > 0 || !Ext.isEmpty(this.colorMap)){
+			this.selMap = {'ff4c39':[]};
+			this.hoverMap = [];
+			this.colorMap = {};
+			this.getController('Area').colourTree(this.colorMap);
+			this.updateCounts();
+			this.selectDelayed();
 
-        Select.selectedAreasMap = null;
-		Stores.notify("selection#everythingCleared");
+			Select.selectedAreasMap = null;
+			Stores.notify("selection#everythingCleared");
+        }
     },
     clearSelections: function() {
         this.selMap[this.actualColor] = [];
@@ -240,7 +258,7 @@ Ext.define('PumaMain.controller.Select', {
         this.updateCounts();
         this.selectDelayed();
 
-        Stores.notify("selection#activeCleared");
+        Stores.notify("selection#activeCleared", {color: this.actualColor});
         var clearAll = true;
         for (var key in this.selMap){
             if (this.selMap[key].length > 0){
@@ -284,9 +302,16 @@ Ext.define('PumaMain.controller.Select', {
         return resultMap;
     },
 
-    _onEvent: function(type){
+    _onEvent: function(type, options){
         if (type === "selection#clearAll"){
             this.clearSelectionsAll();
+        } else if (type === "selection#select"){
+			this.actualColor = options.color;
+			var colorpicker = Ext.ComponentQuery.query('#selectcolorpicker')[0];
+            if (colorpicker){
+                colorpicker.select(options.color);
+            }
+			this.select(options.areas);
         }
     }
     

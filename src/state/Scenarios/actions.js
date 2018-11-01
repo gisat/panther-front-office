@@ -10,6 +10,8 @@ import fetch from 'isomorphic-fetch';
 import queryString from 'query-string';
 import utils from '../../utils/utils';
 
+import common from '../_common/actions';
+
 let requestIntervals = {};
 
 const TTL = 5;
@@ -120,12 +122,25 @@ function removeScenarioFromActiveCaseEdited (scenarioKey) {
 
 function updateEditedScenario(scenarioKey, key, value) {
 	return (dispatch, getState) => {
-		let scenario = Select.scenarios.getScenario(getState(), scenarioKey);
+		let state = getState();
+		let scenario = Select.scenarios.getScenario(state, scenarioKey);
+		let activeCaseKey = Select.scenarios.getActiveCaseKey(state);
+		let activeCaseScenarioKeys = Select.scenarios.getActiveCaseScenarioKeys(state);
+		let activeCaseEditedScenarioKeys = Select.scenarios.getActiveCaseEditedScenarioKeys(state);
+
+		let updatedScenarioKeys = [];
+		if (activeCaseScenarioKeys){
+			updatedScenarioKeys = _.union(updatedScenarioKeys, activeCaseScenarioKeys);
+		}
+		if (activeCaseEditedScenarioKeys){
+			updatedScenarioKeys = _.union(updatedScenarioKeys, activeCaseEditedScenarioKeys);
+		}
 
 		// delete property from edited, if the value in update is the same as in state
 		if (scenario && (value === scenario.data[key] || (!scenario.data[key] && value.length === 0))){
 			dispatch(actionRemovePropertyFromEditedScenario(scenarioKey, key));
 		} else {
+			dispatch(actionUpdateEditedCases([{key: activeCaseKey, data: {scenarios: updatedScenarioKeys}}]));
 			dispatch(actionUpdateEditedScenarios([{key: scenarioKey, data: {[key]: value}}]));
 		}
 	};
@@ -208,68 +223,36 @@ function removeCases(keys){
 	};
 }
 
-function load(caseKey, ttl) {
-	if (_.isUndefined(ttl)) ttl = TTL;
+function load(caseKey) {
 	return (dispatch, getState) => {
-
 		let state = getState();
 		if (state.scenarios.loading) {
 			// already loading, do nothing
 		} else {
 			dispatch(actionLoadRequest(caseKey));
-
-			let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/scenarios');
-			let query = queryString.stringify({
+			let query = {
 				scenario_case_id: caseKey
-			});
-			if (query) {
-				url += '?' + query;
-			}
-
-			return fetch(url, {
-				method: 'GET',
-				credentials: 'include',
-				headers: {
-					'Content-Type': 'application/json',
-					'Accept': 'application/json'
-				}
-			}).then(
-				response => {
-					console.log('#### load scenarios response', response);
-					let contentType = response.headers.get('Content-type');
-					if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
-						return response.json().then(data => {
-							if (data.data && data.data.scenarios && data.data.scenarios) {
-								dispatch(loadReceive(data.data.scenarios)); //todo cancel loading for caseKey?
-								dispatch(scenariosLoadedForActiveCase());
-							} else {
-								dispatch(actionLoadError('no data returned'));
-							}
-						});
-					} else {
-						dispatch(actionLoadError(response))
-					}
-				},
-				error => {
-					console.log('#### load scenarios error', error);
-					if (ttl - 1) {
-						dispatch(load(caseKey, ttl - 1));
-					} else {
-						dispatch(actionLoadError("scenarios#actions load: scenarios weren't loaded!"));
-					}
-				}
-			);
+			};
+			dispatch(common.request('backend/rest/metadata/scenarios', "GET", query, null, loadReceive, actionLoadError));
 		}
-
-	};
+	}
 }
 
 function loadReceive(data) {
+	//todo cancel loading for caseKey?
+	data = data.scenarios ? data.scenarios : data;
+
 	return dispatch => {
-		data = _.map(data, ({id, ...model}) => {
-			return {...model, key: id};
-		});
-		dispatch(actionLoadReceive(data));
+		if (data){
+			data = _.map(data, ({id, ...model}) => {
+				return {...model, key: id};
+			});
+			dispatch(actionLoadReceive(data));
+			dispatch(scenariosLoadedForActiveCase());
+		} else {
+			console.error("Scenarios actions#loadReceive: No scenarios loaded")
+			// TODO
+		}
 	};
 }
 
@@ -749,12 +732,10 @@ function processMatlabProcessRequestResults(results, dispatch) {
 				let dataSourcesIds = [];
 				results.data.forEach((resultData) => {
 					if (resultData.status === "done" && resultData["spatial_relations"]) {
-						let data = resultData["spatial_relations"].map(relation => {
-								dataSourcesIds.push(relation.data.data_source_id);
-								return {...relation.data, id: relation.id};
-							}
-						);
-						dispatch(Action.spatialRelations.loadRelationsReceive(data));
+						_.each(resultData['spatial_relations'], (relation) => {
+							dataSourcesIds.push(relation.data.data_source_id);
+						});
+						dispatch(Action.spatialRelations.loadRelationsReceive(resultData['spatial_relations']));
 						dispatch(apiProcessingScenarioFileSuccess(resultData.data.scenario_id));
 					}
 				});
@@ -801,8 +782,9 @@ function getBodyForMatlabProcessesRequest(processes) {
 }
 
 function apiExecutePucsMatlabProcessOnUploadedScenarioFiles(uploads) {
-	return (dispatch) => {
+	return (dispatch, getState) => {
 		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/pucs/execute_matlab');
+		let state = getState();
 
 		let scenarioKeys = [];
 		uploads.forEach((upload) => {
@@ -818,7 +800,9 @@ function apiExecutePucsMatlabProcessOnUploadedScenarioFiles(uploads) {
 					},
 					body: JSON.stringify({
 						data: {
-							uploadKey: upload.uploadKey
+							uploadKey: upload.uploadKey,
+							placeId: Select.places.getActiveKey(state),
+							scopeId: Select.scopes.getActiveScopeKey(state)
 						}
 					})
 				}).then((response) => {
@@ -854,14 +838,22 @@ function apiExecutePucsMatlabProcessOnUploadedScenarioFiles(uploads) {
 
 function apiCreateRelationsForScenarioProcessResults(results) {
 	return (dispatch, getState) => {
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/spatial_relations');
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/relations');
 
 		let activePlace = Select.places.getActive(getState());
 
 		let activePlaceKey = activePlace ? activePlace.key : null;
-		let inputVectorTemplateId = config.pucsInputVectorTemplateId;
-		let outputRasterHwdTemplateId = config.pucsOutputRasterHwdTemplateId;
-		let outputRasterUhiTemplateId = config.pucsOutputRasterUhiTemplateId;
+
+		let inputVectorTemplateId, outputRasterHwdTemplateId, outputRasterUhiTemplateId;
+		let configuration = Select.scopes.getActiveScopeConfiguration(getState());
+		if (configuration.pucsLandUseScenarios && configuration.pucsLandUseScenarios.templates){
+			let templates = configuration.pucsLandUseScenarios.templates;
+			inputVectorTemplateId = templates.sourceVector;
+			outputRasterHwdTemplateId = templates.hwd;
+			outputRasterUhiTemplateId = templates.uhi;
+		} else {
+			console.error("Scenarios actions#apiCreateRelationsForScenarioProcessResults: pucsLandUseScenarios configuration is missing!")
+		}
 
 		let relations = [];
 		let scenarioKeys = [];
@@ -919,21 +911,17 @@ function apiCreateRelationsForScenarioProcessResults(results) {
 					'Content-Type': 'application/json',
 					'Accept': 'application/json'
 				},
-				body: JSON.stringify(relations)
+				body: JSON.stringify({"data": {"spatial": relations}})
 			}).then((relationResults) => relationResults.json())
 				.then((relationResults) => {
-					if (relationResults.data){
+					if (relationResults.data.spatial){
 						// todo why there are data apart of key, while in Action.spatialRelations.load response are not?
-						let dataSourcesIds = [];
-						let data = relationResults.data.map(
-							relation => {
-								dataSourcesIds.push(relation.data.data_source_id);
-								let rel = {...relation.data, id: relation.id};
-								console.log('$$$ Scenarios/action#apiCreateRelationsForScenarioProcessResults relation:', rel);
-								return rel;
-							}
+						let dataSourcesIds = _.compact(
+							_.map(relationResults.data.spatial, (spatialRelation) => {
+								return spatialRelation.data.data_source_id;
+							})
 						);
-						dispatch(Action.spatialRelations.loadRelationsReceive(data));
+						dispatch(Action.spatialRelations.loadRelationsReceive(relationResults.data.spatial));
 						dispatch(Action.spatialDataSources.loadFiltered({'id': dataSourcesIds}));
 
 						dispatch(apiProcessingScenarioFilesSuccess(scenarioKeys));

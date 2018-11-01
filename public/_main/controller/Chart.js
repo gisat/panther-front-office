@@ -362,9 +362,9 @@ Ext.define('PumaMain.controller.Chart', {
             panel.chart.chart.destroy();
 
             // remove from exchangeParams#Charts
-            Charts = Charts.filter(function (chart) {
-                return chart.chartId !== panel.chart.chart.id;
-			});
+            if (panel.chart.chart.id){
+                delete window.Charts.polar[panel.chart.chart.id];
+            }
         }
         panel.destroy();
     },
@@ -422,11 +422,11 @@ Ext.define('PumaMain.controller.Chart', {
             //debugger;
         }
         if (cfg.type=='columnchart'){
-            if (cfg.stackingSettings && chartCmp && chartCmp.queryCfg){
-				chartCmp.queryCfg.stacking = cfg.stackingSettings;
+            if (cfg.stackingSettings){
+				cfg.stacking = cfg.stackingSettings;
             }
-			if (cfg.aggregateSettings && chartCmp && chartCmp.queryCfg){
-				chartCmp.queryCfg.aggregate = cfg.aggregateSettings;
+			if (cfg.aggregateSettings){
+				cfg.aggregate = cfg.aggregateSettings;
 			}
         }
         var queryCfg = Ext.apply(chartCmp.queryCfg || {},chartCmp.cfg,this.gatherChartCfg(chartCmp,true));
@@ -697,13 +697,44 @@ Ext.define('PumaMain.controller.Chart', {
 
 		// D3.js charts:
 		// create new record in exchangeParams
-        Charts.push({
-            chartType: cmp.cfg.type,
-            containerComponent: cmp,
-            backendResponse: response
-        });
-		// trigger FrontOffice rebuild
-        Observer.notify('rebuild');
+
+
+        // todo check if exists, if not -> add
+        // todo if yes -> rebuild with data
+
+        var chartType = cmp && cmp.cfg ? cmp.cfg.type : null;
+
+		if (chartType === "polarchart"){
+		    var chartUuid = cmp.chart ? cmp.chart.id : null;
+		    var alreadyExists = !!window.Charts.polar[chartUuid];
+			var data = response.responseText ? JSON.parse(response.responseText).data : null;
+
+		    if (!alreadyExists){
+		        // destroy another type of chart in this panel
+		        if (cmp.chart){
+		            cmp.chart.destroy();
+                }
+				window.Stores.notify("chartContainer#addPolarChart", {
+					containerComponent: cmp
+				});
+            }
+
+			if (data && !data.noData){
+			    // at this point, we have cmp.chart again
+				window.Stores.notify("polarChart#rebuildWithData", {
+				    id: cmp.chart.id,
+				    data: data
+				});
+
+				// according to the number of columns(axes), set the height of chart panel
+				var numberOfAxes = data.chartData && data.chartData[0] ? data.chartData[0].length : 0;
+				if (numberOfAxes > 3){
+					cmp.ownerCt.setHeight(450);
+				} else {
+					cmp.ownerCt.setHeight(390);
+				}
+			}
+        }
     },
 
 	onChartReceived_highcharts: function(response) {
@@ -714,6 +745,14 @@ Ext.define('PumaMain.controller.Chart', {
         if (cmp.chart) {
             try {
                 cmp.chart.destroy();
+				if (window.Charts.polar[cmp.chart.id]){
+					let element = cmp.getEl();
+					if (element && element.dom){
+						$("#" + element.dom.id).find("svg").remove();
+					}
+				    cmp.chart = null;
+					delete window.Charts.polar[cmp.chart.id];
+                }
             } catch (e) {
                 console.warn('Chart#onChartReceived Not possible to destroy chart. Error: ', e);
             }
@@ -928,6 +967,12 @@ Ext.define('PumaMain.controller.Chart', {
                 }
             }
         }
+
+        if (cmp.cfg.type === 'columnchart'){
+			cmp.ownerCt.setHeight(450);
+		} else {
+			cmp.ownerCt.setHeight(400);
+		}
 
         data.exporting = {
             enabled: false
@@ -1446,16 +1491,18 @@ Ext.define('PumaMain.controller.Chart', {
     formatVal: function(val) {
         if (typeof val === "string"){
             return val;
+        } else if (typeof val === "number"){
+			val = Number(val);
+			if (this.isInt(val)) return val;
+			var deci = 3;
+			if (val>1) deci = 2;
+			if (val>100) deci = 1;
+			if (val>10000) deci = 0;
+			return val!=null ? val.toFixed(deci) : val;
+        } else if (!val){
+            return polyglot.t('noData');
         }
-
-        val = Number(val);
-        if (this.isInt(val)) return val;
-        var deci = 3;
-        if (val>1) deci = 2;
-        if (val>100) deci = 1;
-        if (val>10000) deci = 0;
-        return val!=null ? val.toFixed(deci) : val;
-    },
+        },
     isInt: function(value) {
         return !isNaN(parseInt(value,10)) && (parseFloat(value,10) == parseInt(value,10));
     },

@@ -6,6 +6,26 @@ import Overlays from './Overlays/actions';
 import Windows from './Windows/actions';
 
 // ============ creators ===========
+function setApplicationStyleActiveKey(key) {
+	return (dispatch, getState) => {
+		let style = Select.components.getApplicationStyle(getState());
+		dispatch(update('application', {style: {...style, activeKey: key}}));
+	};
+}
+
+function setApplicationStyleHtmlClass(configuration, htmlClass) {
+	return (dispatch, getState) => {
+		let style = Select.components.getApplicationStyle(getState());
+		let updatedConfiguration = {...style.configuration,
+			[configuration]: {
+				...style.configuration[configuration],
+				htmlClass: htmlClass
+			}
+		};
+		dispatch(update('application', {style: {...style, configuration: updatedConfiguration}}));
+	};
+}
+
 function setIntro(visibility) {
 	return dispatch => {
 		let updatedData = {
@@ -27,9 +47,25 @@ function update(component, data) {
 }
 
 function redirectToView(params) {
-	return dispatch => {
-		// TODO need login parameter
-		let url = window.location.origin + window.location.pathname + "?id=" + params.key + "&needLogin=true" + "&lang=" + params.language;
+	return (dispatch, getState) => {
+		let urlParams = [];
+
+		// view id
+		urlParams.push(`id=${params.key}`);
+
+		// language
+		if (params.language){
+			urlParams.push(`lang=${params.language}`);
+		}
+
+		// need login
+		// todo need login in params?
+		let hasGuestGroupPermission = Select.views.hasGuestGroupGetPermission(getState(), params.key);
+		if (!hasGuestGroupPermission){
+			urlParams.push(`needLogin=true`);
+		}
+
+		let url = `${window.location.origin}${window.location.pathname}?${urlParams.join('&')}`;
 		dispatch(actionRedirectToView(url));
 		window.location = url;
 	}
@@ -56,10 +92,12 @@ function actionUpdate(component, data) {
 // ============ export ===========
 
 export default {
-	redirectToView: redirectToView,
-	setIntro: setIntro,
-	update: update,
-	updateMapsContainer: updateMapsContainer,
+	redirectToView,
+	setApplicationStyleActiveKey,
+	setApplicationStyleHtmlClass,
+	setIntro,
+	update,
+	updateMapsContainer,
 
 	windows: Windows,
 	overlays: Overlays

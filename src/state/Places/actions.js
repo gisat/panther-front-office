@@ -2,7 +2,9 @@ import ActionTypes from '../../constants/ActionTypes';
 
 import _ from 'lodash';
 import LayerPeriods from "../LayerPeriods/actions";
+import ScenariosActions from "../Scenarios/actions";
 import Select from "../Select";
+import Action from "../Action";
 
 
 // ============ creators ===========
@@ -18,6 +20,18 @@ function setActive(key) {
 	return (dispatch, getState) => {
 		let state = getState();
 		let scopeConfiguration = Select.scopes.getActiveScopeConfiguration(state);
+		let activeCaseKey = Select.scenarios.getActiveCaseKey(state);
+		let activeChoroplethsKeys = Select.choropleths.getActiveKeys(state);
+
+		if (activeCaseKey){
+			dispatch(ScenariosActions.setActiveCase(null));
+			dispatch(Action.components.windows.scenarios.setActiveScreen('caseList'));
+		}
+
+		if (activeChoroplethsKeys){
+			dispatch(Action.choropleths.removeAllActiveKeys());
+		}
+
 		dispatch(actionSetActive(key));
 		if (scopeConfiguration && !scopeConfiguration.dromasLpisChangeReview) { // loading layerPeriods for case, not place
 			dispatch(LayerPeriods.loadForPlace(key));

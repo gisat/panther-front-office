@@ -216,14 +216,25 @@ function _storeResponseContent(content) {
 
 			if (lpisCases && lpisCases.length) {
 				let editedCases = Select.lpisCases.getEditedCases(state);
+
+				let clearedLpisCases = _.filter(lpisCases, (lpisCase) => {
+					if (lpisCase.status === "error"){
+						console.warn("LpisCases#actions#_storeResponseContent: Case wasn't created!");
+					}
+					return lpisCase.status !== "error";
+				});
+
 				let keysOkEditedCasesToRemove = _.compact(
 					_.map(editedCases, (editedCase) => {
-						return _.find(lpisCases, (lpisCase) => {
+						return _.find(clearedLpisCases, (lpisCase) => {
 							return (lpisCase.id === editedCase.key || lpisCase.uuid === editedCase.key) && lpisCase.status !== "error";
 						}) ? editedCase.key : null;
 					})
 				);
-				dispatch(actionAddLpisCases(transformIdsToKeys(lpisCases)));
+
+				if (clearedLpisCases.length){
+					dispatch(actionAddLpisCases(transformIdsToKeys(clearedLpisCases)));
+				}
 				if (keysOkEditedCasesToRemove.length) {
 					dispatch(actionRemoveEditedCasesByKeys(keysOkEditedCasesToRemove));
 				}
@@ -232,16 +243,6 @@ function _storeResponseContent(content) {
 				if(!nextActiveCaseKey) {
 					dispatch(setNextActiveCaseKey());
 				}
-
-				// let activeKey = Select.lpisCases.getActiveCaseKey(state);
-				// let wasActiveCaseJustLoaded = !!_.find(lpisCases, {_id: activeKey});
-				// if (activeKey && wasActiveCaseJustLoaded) {
-				// 	let lpisCaseLayerPeriods = Select.layerPeriods.getForActiveLpisCase(state);
-				// 	let activeCase = Select.lpisCases.getActiveCase(state);
-				// 	if (!lpisCaseLayerPeriods) {
-				// 		dispatch(LayerPeriods.loadForKey('lpisCase' + activeCase.key, activeCase.data.geometry));
-				// 	}
-				// }
 			}
 		}
 	}

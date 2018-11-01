@@ -21,11 +21,14 @@ function add(views) {
 }
 
 function addMongoView(view) {
-	return (dispatch) => {
-		dispatch(actionAdd([{
-			key: view._id,
-			data: view.conf
-		}]))
+	return (dispatch, getState) => {
+		let existingView = Select.views.getView(getState(), view._id);
+		if (!existingView){
+			dispatch(actionAdd([{
+				key: view._id,
+				data: view.conf
+			}]))
+		}
 	}
 }
 

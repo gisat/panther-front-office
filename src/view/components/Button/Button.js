@@ -111,7 +111,7 @@ class Button {
     };
 
     addOnClickListener() {
-        this._buttonSelector.on("click", this.onClick.bind(this));
+        this._buttonSelector.off("click").on("click", this.onClick.bind(this));
     };
 
 }

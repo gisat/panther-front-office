@@ -757,6 +757,10 @@ todo merge with overlay
 	height: 100%;
 }
 
+.ptr-place-selector {
+	min-width: 20rem;
+}
+
 .ptr-view-selection-selector.ptr-ui-select .ptr-ui-select-label {
 	color: rgba(168, 172, 180, 1);
 }

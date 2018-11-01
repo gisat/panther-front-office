@@ -1,7 +1,11 @@
 import _ from 'underscore';
+import lodash from 'lodash';
 
 import Actions from '../../actions/Actions';
 import ChartDescription from './ChartDescription/ChartDescription';
+import Logger from '../../util/Logger';
+
+import PolarChart from '../../view/charts/PolarChart/PolarChart';
 
 /**
  * Class representing container for all charts. At the moment, it is used as container for hanling with chart descriptions only.
@@ -13,6 +17,7 @@ class ChartContainer {
     constructor(options) {
         this._dispatcher = options.dispatcher;
 
+        // this._charts = [];
         this._chartDescriptions = [];
         this._dispatcher.addListener(this.onEvent.bind(this));
     };
@@ -47,6 +52,18 @@ class ChartContainer {
         }
     };
 
+    addPolarChart(options){
+    	let chart = new PolarChart({
+			containerComponent: options.containerComponent
+    	});
+
+    	options.containerComponent.chart = chart;
+
+		window.Charts.polar[chart.id] = {
+			chart: chart
+		};
+	}
+
     /**
      * @param type {string} type of an action
      * @param options {Object} data passed with this action
@@ -55,6 +72,10 @@ class ChartContainer {
         if (type === Actions.chartToggleDescription) {
             this.onChartDescriptionToggle(options);
         }
+
+        else if (type === "chartContainer#addPolarChart"){
+        	this.addPolarChart(options);
+		}
     };
 }
 

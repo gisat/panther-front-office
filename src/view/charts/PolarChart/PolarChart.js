@@ -1,4 +1,6 @@
 import {format, select, scaleOrdinal, schemeCategory10, max} from 'd3';
+import _ from "lodash";
+
 import Chart from '../Chart';
 
 var RadarChart = {
@@ -16,7 +18,7 @@ var RadarChart = {
             radians: 2 * Math.PI,
             opacityArea: 0.5,
             ToRight: 5,
-            TranslateX: 80,
+            TranslateX: 100,
             TranslateY: 30,
             ExtraWidthX: 100,
             ExtraWidthY: 100,
@@ -32,6 +34,17 @@ var RadarChart = {
         }
         cfg.maxValue = Math.max(cfg.maxValue, max(d, function(i){return max(i.map(function(o){return o.value;}))}));
         var allAxis = (d[0].map(function(i, j){return i.axis}));
+
+        /* Set coefficients for normalized chart */
+        var normalizedAxesMaxima = allAxis.map((val, index) => {
+        	if (options.normalized){
+        		let maximum = max(d, function(i){return i[index].value});
+				return maximum ? cfg.maxValue/maximum : 0;
+			} else {
+        		return 1;
+			}
+        });
+
         var total = allAxis.length;
         var radius = cfg.factor*Math.min(cfg.w/2, cfg.h/2);
         var Format = format(cfg.format);
@@ -123,8 +136,8 @@ var RadarChart = {
             g.selectAll(".nodes")
                 .data(y, function(j, i){
                     dataValues.push([
-                        cfg.w/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*cfg.factor*Math.sin(i*cfg.radians/total)),
-                        cfg.h/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*cfg.factor*Math.cos(i*cfg.radians/total))
+                        cfg.w/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*cfg.factor*normalizedAxesMaxima[i]*Math.sin(i*cfg.radians/total)),
+                        cfg.h/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*cfg.factor*normalizedAxesMaxima[i]*Math.cos(i*cfg.radians/total))
                     ]);
                 });
             dataValues.push(dataValues[0]);
@@ -172,13 +185,13 @@ var RadarChart = {
                 .attr("alt", function(j){return Math.max(j.value, 0)})
                 .attr("cx", function(j, i){
                     dataValues.push([
-                        cfg.w/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*cfg.factor*Math.sin(i*cfg.radians/total)),
-                        cfg.h/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*cfg.factor*Math.cos(i*cfg.radians/total))
+                        cfg.w/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*normalizedAxesMaxima[i]*cfg.factor*Math.sin(i*cfg.radians/total)),
+                        cfg.h/2*(1-(parseFloat(Math.max(j.value, 0))/cfg.maxValue)*normalizedAxesMaxima[i]*cfg.factor*Math.cos(i*cfg.radians/total))
                     ]);
-                    return cfg.w/2*(1-(Math.max(j.value, 0)/cfg.maxValue)*cfg.factor*Math.sin(i*cfg.radians/total));
+                    return cfg.w/2*(1-(Math.max(j.value, 0)/cfg.maxValue)*cfg.factor*normalizedAxesMaxima[i]*Math.sin(i*cfg.radians/total));
                 })
                 .attr("cy", function(j, i){
-                    return cfg.h/2*(1-(Math.max(j.value, 0)/cfg.maxValue)*cfg.factor*Math.cos(i*cfg.radians/total));
+                    return cfg.h/2*(1-(Math.max(j.value, 0)/cfg.maxValue)*cfg.factor*normalizedAxesMaxima[i]*Math.cos(i*cfg.radians/total));
                 })
                 .attr("data-id", function(j){return j.axis})
                 .style("fill", cfg.color(series)).style("fill-opacity", .9)
@@ -230,36 +243,110 @@ var RadarChart = {
 };
 
 class PolarChart extends Chart {
-    rebuild() {
-        var cmp = this._options.containerComponent;
+    rebuild(newData) {
+        var cmp = this.containerComponent;
+
+		// get selected areas
+        this._selectedAreas = _.cloneDeep(window.Charts.selectedAreas);
 
         // get and parse graph data
-        var data = this._options.backendResponse.responseText ? JSON.parse(this._options.backendResponse.responseText).data : null;
+        let data = this.getDataForChart(newData);
+
+		var w = 350,
+			h = 350;
+
+		// var colorscale = d3.scale.category10();
+
+		// Legend titles
+		// var LegendOptions = ['Smartphone','Tablet'];
+
+		// Options for the Radar chart, other than default
+		var chartConfig = {
+			w: w,
+			h: h,
+			// maxValue: 0.6,
+			levels: 10,
+			levelCaptions: false,
+			ExtraWidthX: 210,
+			ExtraWidthY: 0,
+			normalized: cmp.cfg.polarAxesNormalizationSettings ? cmp.cfg.polarAxesNormalizationSettings === "yes" : false
+		};
 
 
-        var w = 350,
-            h = 350;
+		// Call function to draw the Radar chart
+		if (data && cmp.el){
 
-        // var colorscale = d3.scale.category10();
+			// according to the number of columns(axes), set the height of chart
+			var numberOfAxes = data.chartData && data.chartData[0] ? data.chartData[0].length : 0;
+			if (numberOfAxes > 3){
+				chartConfig.ExtraWidthY = 60;
+			}
 
-        // Legend titles
-        // var LegendOptions = ['Smartphone','Tablet'];
-
-        // Options for the Radar chart, other than default
-        var chartConfig = {
-            w: w,
-            h: h,
-            // maxValue: 0.6,
-            levels: 10,
-            levelCaptions: false,
-            ExtraWidthX: 210,
-            ExtraWidthY: 32
-        };
-
-
-        // Call function to draw the Radar chart
-        RadarChart.draw(cmp.el.dom, data.chartData, chartConfig);
+			RadarChart.draw(cmp.el.dom, data.chartData, chartConfig);
+		} else {
+			console.error("PolarChart#rebuild: No data!")
+		}
     };
+
+    getDataForChart(newData){
+        let allData = newData ? newData : this._allData;
+        if (allData){
+			this._allData = allData;
+		}
+        if (!this._selectedAreas || _.isEmpty(this._selectedAreas) || !allData){
+            return  allData;
+        } else {
+            let selectedData = {
+                categories: [],
+                chartConfig: allData.chartConfig,
+                chartData: []
+            };
+            allData.categories.map((category, index) => {
+                let gid = category.gid.toString();
+                _.forIn(this._selectedAreas, (areas, color) =>{
+                    areas = areas.map(area => area.toString());
+					if (_.includes(areas, gid)){
+						selectedData.categories.push(category);
+						selectedData.chartData.push(allData.chartData[index]);
+					}
+                });
+            });
+            return selectedData.categories.length ? selectedData : allData;
+        }
+    }
+
+    clearAllSelections(){
+		window.Charts.selectedAreas = null;
+		this._selectedAreas = null;
+		this.rebuild();
+    }
+
+	/**
+	 * @param color {String} hex code of a color, which is used as key
+	 */
+	clearSelectionForColor(color){
+		if (window.Charts.selectedAreas){
+		    delete window.Charts.selectedAreas[color];
+        }
+        if (this._selectedAreas){
+			delete this._selectedAreas[color];
+        }
+		this.rebuild();
+	}
+
+    onEvent(type, options){
+        if (type === "selection#everythingCleared"){
+        	this.clearAllSelections();
+        } else if (type === "selection#activeCleared"){
+        	this.clearSelectionForColor(options.color);
+        } else if (type === "selection#selectionChanged"){
+			this.rebuild();
+        } else if (type === "polarChart#rebuildWithData"){
+        	if (this.id === options.id){
+				this.rebuild(options.data);
+			}
+		}
+    }
 }
 
 export default PolarChart;

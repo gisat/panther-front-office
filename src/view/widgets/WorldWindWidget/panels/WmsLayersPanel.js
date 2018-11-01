@@ -77,7 +77,7 @@ class WmsLayersPanel extends WorldWindWidgetPanel {
                         layer.order = index;
                     });
                 }
-                self.buildLayerControlRow(self._panelBodySelector, layer.id, layer.name, layer.layers, null);
+                self.buildLayerControlRow(self._panelBodySelector, layer.id, layer.name, layer.layers, null, null);
             });
             this.displayPanel("block");
         } else {
