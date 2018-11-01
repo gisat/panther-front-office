@@ -14,7 +14,7 @@ describe('Common Actions', () => {
 			const store = mockStore({scopes: {}});
 			const action = (data) => {
 				return {
-					type: ActionTypes.SCOPES_ADD,
+					type: ActionTypes.SCOPES.ADD,
 					data: data
 				}
 			};
@@ -25,7 +25,7 @@ describe('Common Actions', () => {
 				}
 			};
 			const expectedActions = [{
-				type: ActionTypes.SCOPES_ADD,
+				type: ActionTypes.SCOPES.ADD,
 				data: [{
 					key: 1,
 					data: {
