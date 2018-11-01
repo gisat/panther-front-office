@@ -30,7 +30,35 @@ const INITIAL_STATE = {
 				name: "Evropa"
 			}
 		}
-	}
+	},
+	indexes: [
+		{
+			order: null,
+			filter: {
+				scope: 2,
+			},
+			count: 10,
+			index: {1: 1, 2: 2, 3: 3}
+		}, {
+			order: [['name', 'ascending']],
+			filter: {
+				scope: 1,
+			},
+			count: 10,
+			index: {1: 1, 2: 2, 3: 3, 7: 54, 8: 56, 9: 77, 10: 89}
+		}, {
+			order: null,
+			filter: {
+				scope: 1,
+				date: {
+					start: '2018-09-17T13:45:03Z',
+					end: '2018-09-17T13:45:04Z'
+				},
+			},
+			count: 10,
+			index: {1: 1, 2: 2, 3: 3}
+		}
+	]
 };
 
 const NO_ACTIVE_KEY_STATE = {
@@ -320,38 +348,29 @@ describe('Common selectors', () => {
 		});
 	});
 
-	describe('#getIndexPage', () => {
-		const state = {
-			indexes: [
-				{
-					order: [['name', 'ascending']],
-					filter: {
-						scope: 2,
-					},
-					count: 10,
-					index: {1: 1, 2: 2, 3: 3}
-				}, {
-					order: [['name', 'ascending']],
-					filter: {
-						scope: 1,
-					},
-					count: 10,
-					index: {1: 1, 2: 2, 3: 3, 7: 54, 8: 56, 9: 77, 10: 89}
-				}, {
-					order: [['name', 'ascending']],
-					filter: {
-						scope: 1,
-						date: {
-							start: '2018-09-17T13:45:03Z',
-							end: '2018-09-17T13:45:04Z'
-						},
-					},
-					count: 10,
-					index: {1: 1, 2: 2, 3: 3}
-				}
-			]
-		};
+	describe('#getIndex', () => {
+		it('should select index', () => {
+			let filter = {scope: 1};
+			let order = [['name', 'ascending']];
+			let expectedResult = {
+				order: [['name', 'ascending']],
+				filter: {
+					scope: 1,
+				},
+				count: 10,
+				index: {1: 1, 2: 2, 3: 3, 7: 54, 8: 56, 9: 77, 10: 89}
+			};
+			expect(commonSelectors.getIndex(getSubstate)(INITIAL_STATE, filter, order)).toEqual(expectedResult);
+		});
 
+		it('should select 10 as index total', () => {
+			let filter = null;
+			let order = null;
+			expect(commonSelectors.getIndex(getSubstate)(INITIAL_STATE, filter, order)).toBeNull();
+		});
+	});
+
+	describe('#getIndexPage', () => {
 		it('should select index', () => {
 			let filter = {scope: 1};
 			let order = [['name', 'ascending']];
@@ -359,7 +378,7 @@ describe('Common selectors', () => {
 			let length = 2;
 			let expectedResult = {3: 3, 4: null};
 
-			expect(commonSelectors.getIndexPage(getSubstate)(state, filter, order, start, length)).toEqual(expectedResult);
+			expect(commonSelectors.getIndexPage(getSubstate)(INITIAL_STATE, filter, order, start, length)).toEqual(expectedResult);
 		});
 
 		it('should select index', () => {
@@ -370,7 +389,7 @@ describe('Common selectors', () => {
 
 			let expectedResult = {4: null, 5: null, 6: null};
 
-			expect(commonSelectors.getIndexPage(getSubstate)(state, filter, order, start, length)).toEqual(expectedResult);
+			expect(commonSelectors.getIndexPage(getSubstate)(INITIAL_STATE, filter, order, start, length)).toEqual(expectedResult);
 		});
 
 		it('should select index', () => {
@@ -381,7 +400,55 @@ describe('Common selectors', () => {
 
 			let expectedResult = {10: 89};
 
-			expect(commonSelectors.getIndexPage(getSubstate)(state, filter, order, start, length)).toEqual(expectedResult);
+			expect(commonSelectors.getIndexPage(getSubstate)(INITIAL_STATE, filter, order, start, length)).toEqual(expectedResult);
+		});
+	});
+
+	describe('#getIndexTotal', () => {
+		it('should select 10 as index total', () => {
+			let filter = {scope: 1};
+			let order = [['name', 'ascending']];
+			expect(commonSelectors.getIndexTotal(getSubstate)(INITIAL_STATE, filter, order)).toBe(10);
+		});
+
+		it('should select 10 as index total', () => {
+			let filter = {scope: 2};
+			let order = null;
+			expect(commonSelectors.getIndexTotal(getSubstate)(INITIAL_STATE, filter, order)).toBe(10);
+		});
+
+		it('should select 10 as index total', () => {
+			let filter = null;
+			let order = null;
+			expect(commonSelectors.getIndexTotal(getSubstate)(INITIAL_STATE, filter, order)).toBeNull();
+		});
+	});
+
+	describe('#getKeysToLoad', () => {
+		it('should select null if keys is null', () => {
+			let keys = null;
+			expect(commonSelectors.getKeysToLoad(getSubstate)(INITIAL_STATE, keys)).toEqual(null);
+		});
+
+		it('should select null if keys are empty array', () => {
+			let keys = [];
+			expect(commonSelectors.getKeysToLoad(getSubstate)(INITIAL_STATE, keys)).toEqual(null);
+		});
+
+		it('should select null if all keys are already loaded', () => {
+			let keys = [1,2];
+			expect(commonSelectors.getKeysToLoad(getSubstate)(INITIAL_STATE, keys)).toEqual(null);
+		});
+
+		it('should select all keys if there are no models loaded already', () => {
+			let keys = [1,2];
+			let state = {...INITIAL_STATE, byKey: null};
+			expect(commonSelectors.getKeysToLoad(getSubstate)(state, keys)).toEqual([1,2]);
+		});
+
+		it('should select only unloaded keys', () => {
+			let keys = [1,2,3,44];
+			expect(commonSelectors.getKeysToLoad(getSubstate)(INITIAL_STATE, keys)).toEqual([3,44]);
 		});
 	});
 });
