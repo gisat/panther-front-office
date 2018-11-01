@@ -158,6 +158,33 @@ const getIndexTotal = (getSubstate) => {
 	);
 };
 
+/**
+ * Compare keys with loaded models and return which keys need to be loaded
+ */
+const getKeysToLoad = (getSubstate) => {
+	return createSelector(
+		[getAllAsObject(getSubstate),
+			(state, keys) => (keys)],
+		(models, keys) => {
+			if (keys && keys.length){
+				if (!models){
+					return keys;
+				} else {
+					let toLoad = [];
+					keys.forEach(key => {
+						if (!models[key]){
+							toLoad.push(key);
+						}
+					});
+					return toLoad.length ? toLoad : null;
+				}
+			} else {
+				return null;
+			}
+		}
+	);
+};
+
 export default {
 	getActive,
 	getActiveModels,
@@ -176,5 +203,7 @@ export default {
 
 	getIndex,
 	getIndexPage,
-	getIndexTotal
+	getIndexTotal,
+
+	getKeysToLoad
 }

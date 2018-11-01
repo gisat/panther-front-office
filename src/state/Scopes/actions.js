@@ -17,9 +17,9 @@ function setActiveKey(key) {
 	};
 }
 
-function ensureForKey(key) {
+function ensure(keys) {
 	return dispatch => {
-		dispatch(common.ensure(Select.scopes.getSubstate, 'scopes', {key: key}, actionAdd, actionEnsureError));
+		dispatch(common.ensure(Select.scopes.getSubstate, 'scopes', keys, actionAdd, actionEnsureError));
 	}
 }
 
@@ -115,7 +115,7 @@ function actionSetActiveKey(key) {
 
 export default {
 	add: common.add(actionAdd),
+	ensure: common.ensure.bind(this, Select.scopes.getSubstate, 'scopes', actionAdd, actionEnsureError),
 	setActiveKey,
 	loadAll,
-	ensureForKey
 }

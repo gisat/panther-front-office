@@ -160,14 +160,13 @@ function loadAll(dataType, successAction, errorAction) {
 	};
 }
 
-function ensure(getSubstate, dataType, filter, actionAdd, errorAction){
+function ensure(getSubstate, dataType, actionAdd, errorAction, keys){
 	return (dispatch, getState) => {
 		let state = getState();
 
-		// todo commonSelectors.getFiltered
-		let alreadyLoaded = commonSelectors.getByKey(getSubstate)(state, filter.key);
-		if (!alreadyLoaded){
-			dispatch(loadFiltered(dataType, filter, actionAdd, errorAction));
+		let keysToLoad = commonSelectors.getKeysToLoad(getSubstate)(state, keys);
+		if (keysToLoad){
+			dispatch(loadFiltered(dataType, keysToLoad, actionAdd, errorAction));
 		}
 	}
 }
@@ -236,11 +235,15 @@ function loadFilteredPage(dataType, filter, order, start, actionAdd, actionAddIn
 	};
 }
 
-function loadFiltered(dataType, filter, successAction, errorAction) {
+function loadFiltered(dataType, keys, successAction, errorAction) {
 	return dispatch => {
 		let apiPath = path.join('backend/rest/metadata/filtered', dataType);
 		let payload = {
-			filter: {...filter},
+			filter: {
+				key: {
+					in: keys
+				}
+			},
 			limit: PAGE_SIZE
 		};
 		return request(apiPath, 'POST', null, payload)
@@ -257,7 +260,11 @@ function loadFiltered(dataType, filter, successAction, errorAction) {
 						let remainingPageCount = Math.ceil((result.total - PAGE_SIZE) / PAGE_SIZE);
 						for (let i = 0; i < remainingPageCount; i++) {
 							let pagePayload = {
-								filter: {...filter},
+								filter: {
+									key: {
+										in: keys
+									}
+								},
 								offset: (i + 1) * PAGE_SIZE,
 								limit: PAGE_SIZE
 							};

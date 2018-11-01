@@ -78,14 +78,14 @@ function apiDeleteView(key, ttl) {
 
 function loadByKey(key) {
 	return (dispatch, getState) => {
-		dispatch(common.loadFiltered('dataviews', {key: key}, add, loadByKeyError)).then(() => {
+		dispatch(common.loadFiltered('dataviews', [key], add, loadByKeyError)).then(() => {
 			dispatch(setActiveKey(key));
 			let activeDataview = Select.dataviews.getActive(getState());
 			let data = activeDataview && activeDataview.data;
 
 			if (data.dataset){
 				dispatch(ScopeActions.setActiveKey(data.dataset));
-				dispatch(ScopeActions.ensureForKey(data.dataset));
+				dispatch(ScopeActions.ensure([data.dataset]));
 			}
 		}).catch(err => {
 			dispatch(loadByKeyError(err));
