@@ -56,10 +56,6 @@ const getByKey = (getSubstate) => {
 	}
 };
 
-const getCount = (getSubstate) => {
-	return (state) => getSubstate(state).count;
-};
-
 const getEditedAll = (getSubstate) => {
 	return (state) => {
 		let data = getSubstate(state).editedByKey;
