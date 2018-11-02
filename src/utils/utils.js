@@ -186,11 +186,11 @@ export default {
 		let lightnessRange = options.lightness[1] - options.lightness[0];
 		for (let i = 0; i < (count || 1); i++) {
 			h = hash % hueRange + options.hue[0];
-			hash >>>= 2;
+			hash = (hash ^ hash >>> 17) >>> 0;
 			s = hash % saturationRange + options.saturation[0];
-			hash >>>= 2;
+			hash = (hash ^ hash >>> 17) >>> 0;
 			l = hash % lightnessRange + options.lightness[0];
-			hash >>>= 2;
+			hash = (hash ^ hash >>> 17) >>> 0;
 			colours.push('hsl(' + h + ',' + s + '%,' + l + '%)');
 		}
 		return colours;

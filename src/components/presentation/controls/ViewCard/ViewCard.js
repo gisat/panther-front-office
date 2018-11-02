@@ -51,7 +51,7 @@ class ViewCard extends React.PureComponent {
 		let name = this.props.data.name ? this.props.data.name : "Dataview " + this.props.viewKey;
 		let description = this.props.data.description ? this.props.data.description : "Dataview " + this.props.viewKey;
 
-		let gradient = utils.stringToColours(this.props.viewKey, 2);
+		let gradient = utils.stringToColours(this.props.viewKey, 2, {saturation: [30,45], lightness: [55,70]});
 		let previewStyle = {
 			backgroundImage: 'linear-gradient(135deg, ' + gradient[0] + ' 0%, ' + gradient[1] + ' 100%)'
 		};
