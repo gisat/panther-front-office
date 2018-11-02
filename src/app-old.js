@@ -124,18 +124,21 @@ function loadApp() {
         }).then(function(){
             return createScript('extjs-4.1.3/ext-all.js');
         }).then(function(){
+            store.scopes.byId(432).then((res) => {
+                debugger;
+            });
             var urlLang = new URL(window.location).searchParams.get('lang');
             if(urlLang === "cz") {
                 return createScript('extjs-4.1.3/locale/ext-lang-cs.js');
             }
         }).then(() => {
-            ext = new ExtApp();
-            return ext.setUp();
+            // ext = new ExtApp();
+            // return ext.setUp();
         }).then(function () {
-            return ext.afterLoad();
+            // return ext.afterLoad();
         }).then(function () {
-            setUpNewApp();
-            window.Stores.notify('extLoaded');
+            // setUpNewApp();
+            // window.Stores.notify('extLoaded');
         }).catch(err => {
             console.error('Loading#', err);
         });

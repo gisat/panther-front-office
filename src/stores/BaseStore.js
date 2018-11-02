@@ -19,6 +19,8 @@ class BaseStore {
         options = options || {};
         this._models = options.models || null;
         this._listeners = [];
+
+        window.Stores.addListener(this.onEvent.bind(this));
     };
 
     /**
@@ -201,6 +203,25 @@ class BaseStore {
         });
     };
 
+    addFromRedux(data){
+        let models = [];
+		let self = this;
+        data.forEach(function (model) {
+            let adjustedModel = {
+                ...model.data,
+                _id: model.key
+            };
+            models.push(self.getInstance(adjustedModel));
+        });
+        this._models = models;
+    }
+
+	/**
+	 * Hook for descendants
+	 */
+    onEvent(){
+
+    }
 }
 
 export default BaseStore;

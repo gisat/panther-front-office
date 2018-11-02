@@ -41,33 +41,33 @@ Ext.define('PumaMain.controller.Dataview', {
 
     onLoadingFinished: function() {
         var me = this;
-        if (Config.dataviewId) {
-            Ext.Ajax.request({
-                url: Config.url + 'rest/dataview/'+Config.dataviewId,
-                scope: this,
-                method: 'GET',
-                success: function(response) {
-					var respText = response.responseText
-                    for (var oldColor in this.colorBackComp) {
-                        respText = respText.replace(oldColor,this.colorBackComp[oldColor]);
-                    }
-                    
-                    
-                    var cfg = JSON.parse(respText).data;
-                    if (!cfg.length) {
-                        alert(polyglot.t('noSuchDataview'));
-                        return;
-                    }
-                    Config.cfg = cfg[0].conf;
-                    console.log(`#### cfg[0]`, cfg[0]);
-					me.getController('ViewMng').onDataviewLoad();
-                    window.Stores.notify(`ActiveViewLoaded`, cfg[0]);
-				},
-                failure: function(response) {
-					$("#loading-screen").css("display", "none");
-				}
-            })
-        }
+        // if (Config.dataviewId) {
+        //     Ext.Ajax.request({
+        //         url: Config.url + 'rest/dataview/'+Config.dataviewId,
+        //         scope: this,
+        //         method: 'GET',
+        //         success: function(response) {
+		// 			var respText = response.responseText
+        //             for (var oldColor in this.colorBackComp) {
+        //                 respText = respText.replace(oldColor,this.colorBackComp[oldColor]);
+        //             }
+        //
+        //
+        //             var cfg = JSON.parse(respText).data;
+        //             if (!cfg.length) {
+        //                 alert(polyglot.t('noSuchDataview'));
+        //                 return;
+        //             }
+        //             Config.cfg = cfg[0].conf;
+        //             console.log(`#### cfg[0]`, cfg[0]);
+		// 			me.getController('ViewMng').onDataviewLoad();
+        //             window.Stores.notify(`ActiveViewLoaded`, cfg[0]);
+		// 		},
+        //         failure: function(response) {
+		// 			$("#loading-screen").css("display", "none");
+		// 		}
+        //     })
+        // }
     },
     
     

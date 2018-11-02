@@ -71,5 +71,4 @@ if(!id) {
 }
 
 unregister();
-
 loadApp();

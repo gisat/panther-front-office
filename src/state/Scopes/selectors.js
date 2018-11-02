@@ -7,6 +7,7 @@ import common from "../_common/selectors";
 const getSubstate = state => state.scopes;
 
 const getAll = common.getAll(getSubstate);
+const getAllAsObject = common.getAllAsObject(getSubstate);
 const getActiveKey = common.getActiveKey(getSubstate);
 
 const getActive = common.getActive(getSubstate);
@@ -103,6 +104,8 @@ export default {
 	getScopes: getAll,
 	getScopesForActiveUser,
 	getScopeData: getByKey,
+
+	getAllAsObject,
 	getSubstate,
 
 	getPucsSourceVectorLandCoverClasses,
