@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import utils from '../../../../utils/utils';
 
 import './ViewCard.css';
 
@@ -50,8 +51,9 @@ class ViewCard extends React.PureComponent {
 		let name = this.props.data.name ? this.props.data.name : "Dataview " + this.props.viewKey;
 		let description = this.props.data.description ? this.props.data.description : "Dataview " + this.props.viewKey;
 
+		let gradient = utils.stringToColours(this.props.viewKey, 2);
 		let previewStyle = {
-			backgroundImage: 'linear-gradient(135deg, ' + viewUtils.getPseudorandomColor() + ' 0%, ' + viewUtils.getPseudorandomColor() + ' 100%)'
+			backgroundImage: 'linear-gradient(135deg, ' + gradient[0] + ' 0%, ' + gradient[1] + ' 100%)'
 		};
 
 		return (

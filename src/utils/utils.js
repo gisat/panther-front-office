@@ -151,6 +151,49 @@ export default {
 		} else {
 			return path;
 		}
+	},
+
+
+	stringToNumHash(string) {
+		string = '' + string;
+		if (typeof string !== 'string') throw new Error('stringToNumHash: argument must be a string');
+		let hash = 1;
+		for (let i = 0; i < string.length; i++) {
+			hash = Math.imul(hash + string.charCodeAt(i) | 0, 265443576107);
+		}
+		return (hash ^ hash >>> 17) >>> 0;
+	},
+
+	/**
+	 * Deterministic colour set based on input string.
+	 * @param string - input string
+	 * @param count - number of colours
+	 * @param options - hue, saturation and lightness ranges
+	 * @returns {Array} css hsl codes
+	 */
+	stringToColours(string, count, options) {
+		let hash = this.stringToNumHash(string);
+		let colours = [];
+		let defaults = {
+			hue: [0,360],
+			saturation: [35,65],
+			lightness: [40,60]
+		};
+		options = {...defaults, ...options};
+		let h, s, l;
+		let hueRange = options.hue[1] - options.hue[0];
+		let saturationRange = options.saturation[1] - options.saturation[0];
+		let lightnessRange = options.lightness[1] - options.lightness[0];
+		for (let i = 0; i < (count || 1); i++) {
+			h = hash % hueRange + options.hue[0];
+			hash >>>= 2;
+			s = hash % saturationRange + options.saturation[0];
+			hash >>>= 2;
+			l = hash % lightnessRange + options.lightness[0];
+			hash >>>= 2;
+			colours.push('hsl(' + h + ',' + s + '%,' + l + '%)');
+		}
+		return colours;
 	}
 }
 
