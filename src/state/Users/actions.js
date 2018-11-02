@@ -176,38 +176,39 @@ function apiLoadCurrentUser(ttl) {
 }
 
 function apiLogoutUser(ttl) {
-    if (_.isUndefined(ttl)) ttl = TTL;
-    return dispatch => {
-        dispatch(actionApiLogoutRequest());
+	if (_.isUndefined(ttl)) ttl = TTL;
+	return dispatch => {
+		dispatch(actionApiLogoutRequest());
 
-        let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/api/login/logout');
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/api/login/logout');
 
-        return fetch(url, {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-        }).then(
-            response => {
-                console.log('#### logout user response', response);
-                if (response.ok) {
-                    window.location.reload();
-                } else {
-                    dispatch(actionApiLogoutRequestError('user#action logout Problem with logging out the User, please try later.'));
-                }
-            },
-            error => {
-                console.log('#### logout user error', error);
-                if (ttl - 1) {
-                    dispatch(apiLogoutUser(ttl - 1));
-                } else {
-                    dispatch(actionApiLogoutRequestError('user#action logout Problem with logging out the User, please try later.'));
-                }
-            }
-        );
-    };
+		return fetch(url, {
+			method: 'POST',
+			credentials: 'include',
+			headers: {
+				'Content-Type': 'application/json',
+				'Accept': 'application/json'
+			}
+		}).then(
+			response => {
+				console.log('#### logout user response', response);
+				if (response.ok) {
+					// window.location.reload();
+					dispatch(actionLogout());
+				} else {
+					dispatch(actionApiLogoutRequestError('user#action logout Problem with logging out the User, please try later.'));
+				}
+			},
+			error => {
+				console.log('#### logout user error', error);
+				if (ttl - 1) {
+					dispatch(apiLogoutUser(ttl - 1));
+				} else {
+					dispatch(actionApiLogoutRequestError('user#action logout Problem with logging out the User, please try later.'));
+				}
+			}
+		);
+	};
 }
 
 // ============ actions ===========
@@ -275,6 +276,12 @@ function actionApiLoadCurrentUserRequestError(error) {
         type: ActionTypes.USERS_LOAD_CURRENT_REQUEST_ERROR,
         error: error
     }
+}
+
+function actionLogout() {
+	return {
+		type: ActionTypes.USERS.LOGOUT
+	}
 }
 
 // ============ export ===========
