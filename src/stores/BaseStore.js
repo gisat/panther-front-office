@@ -18,6 +18,7 @@ class BaseStore {
     constructor(options) {
         options = options || {};
         this._models = options.models || null;
+        this._modelsPromises = null;
         this._listeners = [];
 
         window.Stores.addListener(this.onEvent.bind(this));
@@ -145,9 +146,6 @@ class BaseStore {
      * @returns {Promise} Promise of all elements available under the directory.
      */
     all() {
-        if (!this._models) {
-            this._models = this.load();
-        }
         return this._models;
     };
 
@@ -213,7 +211,16 @@ class BaseStore {
             };
             models.push(self.getInstance(adjustedModel));
         });
-        this._models = models;
+
+        if (this._modelsPromises){
+            this._modelsPromises = this._modelsPromises.concat(models);
+        } else {
+			this._modelsPromises = models;
+        }
+
+        this._models = Promise.all(this._modelsPromises).then(models => {
+			return models;
+		});
     }
 
 	/**
