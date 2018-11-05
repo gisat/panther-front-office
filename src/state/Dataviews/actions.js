@@ -6,8 +6,11 @@ import path from "path";
 import queryString from 'query-string';
 import Dataview from "../../data/Dataview";
 import Select from "../Select";
-import ScopeActions from "../Scopes/actions";
-import PlaceActions from "../Places/actions";
+
+import ScopesActions from "../Scopes/actions";
+import PeriodsActions from "../Periods/actions";
+import PlacesActions from "../Places/actions";
+import ThemesActions from "../_Themes/actions";
 
 import common from "../_common/actions";
 
@@ -84,8 +87,32 @@ function loadByKey(key) {
 			let data = activeDataview && activeDataview.data;
 
 			if (data.dataset){
-				dispatch(ScopeActions.setActiveKey(data.dataset));
-				dispatch(ScopeActions.ensure([data.dataset]));
+				dispatch(ScopesActions.setActiveKey(data.dataset));
+				dispatch(ScopesActions.ensure([data.dataset]));
+			}
+
+			if (data.locations || data.location){
+				if (data.locations && data.locations.length > 1){
+					dispatch(PlacesActions.setActiveKeys(data.locations));
+					dispatch(PlacesActions.ensure(data.locations));
+				} else {
+					dispatch(PlacesActions.setActiveKey(data.location));
+					dispatch(PlacesActions.ensure([data.location]));
+				}
+			}
+
+			if (data.years){
+				if (data.years && data.years.length === 1){
+					dispatch(PeriodsActions.setActiveKey(data.years[0]));
+				} else {
+					dispatch(PeriodsActions.setActiveKeys(data.years));
+				}
+				dispatch(PeriodsActions.ensure(data.years));
+			}
+
+			if (data.theme){
+				dispatch(ThemesActions.setActiveKey(data.theme));
+				dispatch(ThemesActions.ensure([data.theme]));
 			}
 		}).catch(err => {
 			dispatch(loadByKeyError(err));

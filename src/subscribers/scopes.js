@@ -14,7 +14,7 @@ export default store => {
 };
 
 const setStoreWatchers = store => {
-	common.createWatcher(store, Select.scopes.getAllAsObject, byKeyWatcher, 'byKey');
+	common.createWatcher(store, Select.scopes.getAllForDataviewAsObject, byKeyWatcher, 'byKeyForDataview');
 
 	createWatcher(store, Select.scopes.getActiveScopeKey, activeScopeKeyWatcher);
 	createWatcher(store, Select.scopes.getActiveScopeData, activeScopeWatcher, 'scope');
@@ -33,7 +33,7 @@ const setEventListeners = store => {
 
 // ======== state watchers ========
 const byKeyWatcher = (value, previousValue, stateKey) => {
-	console.log('@@@@@ subscribers#scopes byKeyWatcher', previousValue, '->', value);
+	console.log('@@@@@ subscribers/scopes#byKeyWatcher', previousValue, '->', value);
 	if (stateKey) state[stateKey] = value;
 	let diff = common.compareByKey(value, previousValue);
 

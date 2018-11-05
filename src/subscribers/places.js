@@ -5,6 +5,7 @@ import {geoBounds} from 'd3-geo';
 import Action from '../state/Action';
 import utils from '../utils/utils';
 import Select from "../state/Select";
+import common from "./_common";
 
 let state = {};
 
@@ -14,6 +15,8 @@ export default store => {
 };
 
 const setStoreWatchers = store => {
+	common.createWatcher(store, Select.places.getAllForDataviewAsObject, byKeyWatcher, 'byKeyForDataview');
+
 	createWatcher(store, Select.places.getActive, activePlaceWatcher);
 	createWatcher(store, Select.places.getActivePlaces, activePlacesWatcher);
 };
@@ -112,6 +115,18 @@ const transform = model => {
 	newModel.key = model.id;
 	newModel.scope = model.dataset;
 	return newModel;
+};
+
+// ======== state watchers ========
+const byKeyWatcher = (value, previousValue, stateKey) => {
+	console.log('@@@@@ subscribers/places#byKeyWatcher', previousValue, '->', value);
+	if (stateKey) state[stateKey] = value;
+	let diff = common.compareByKey(value, previousValue);
+
+	// todo changed and removed?
+	if (diff.added && diff.added.length){
+		window.Stores.notify("REDUX_PLACES_ADD", diff.added);
+	}
 };
 
 /////// logic todo move to common location

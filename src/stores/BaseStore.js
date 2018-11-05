@@ -21,6 +21,9 @@ class BaseStore {
         this._modelsPromises = null;
         this._listeners = [];
 
+        if (options && options.length){
+			this.addFromRedux(options);
+        }
         window.Stores.addListener(this.onEvent.bind(this));
     };
 
@@ -202,25 +205,25 @@ class BaseStore {
     };
 
     addFromRedux(data){
-        let models = [];
-		let self = this;
-        data.forEach(function (model) {
-            let adjustedModel = {
-                ...model.data,
-                _id: model.key
-            };
-            models.push(self.getInstance(adjustedModel));
-        });
-
         if (this._modelsPromises){
-            this._modelsPromises = this._modelsPromises.concat(models);
+            this._modelsPromises = this._modelsPromises.concat(data);
         } else {
-			this._modelsPromises = models;
+			this._modelsPromises = data;
         }
 
-        this._models = Promise.all(this._modelsPromises).then(models => {
-			return models;
-		});
+        let self = this;
+        this._models = Promise.all(this._modelsPromises)
+            .then(models => {
+                let promises = [];
+                models.forEach(model => {
+                   promises.push(self.getInstance(model));
+                });
+                return promises;
+            }).then(promises => {
+                return Promise.all(promises);
+            }).catch(err => {
+                throw new Error(err);
+            });
     }
 
 	/**

@@ -11,6 +11,7 @@ import Action from "../Action";
 // ============ creators ===========
 
 const add = common.add(actionAdd);
+const setActiveKey = common.setActiveKey(actionSetActive);
 const setActiveKeys = common.setActiveKeys(actionSetActiveKeys);
 
 function setActive(key) {
@@ -45,6 +46,13 @@ function actionAdd(places) {
 	}
 }
 
+function actionEnsureError(err) {
+	return {
+		type: ActionTypes.PLACES.ENSURE.ERROR,
+		error: err
+	}
+}
+
 function actionSetActive(key) {
 	return {
 		type: ActionTypes.PLACES_SET_ACTIVE,
@@ -63,6 +71,8 @@ function actionSetActiveKeys(places) {
 
 export default {
 	add,
+	ensure: common.ensure.bind(this, Select.places.getSubstate, 'places', actionAdd, actionEnsureError),
 	setActive,
+	setActiveKey,
 	setActiveKeys
 }

@@ -5,11 +5,11 @@ Ext.define('PumaMain.controller.Login',{
   
     init: function() {
         var me = this;
-        this.getApplication().on('login',function() {
-            me.onLogin();
-        })
-
-        Observer.notify('Login#init');
+        // this.getApplication().on('login',function() {
+        //     me.onLogin();
+        // })
+        //
+        // Observer.notify('Login#init');
     },
         
     onLogin: function() {

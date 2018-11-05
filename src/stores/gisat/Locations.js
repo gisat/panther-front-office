@@ -19,6 +19,14 @@ class Locations extends BaseStore {
     loaded(models) {
         window.Stores.notify("PLACES_LOADED", models);
     }
+
+	onEvent(type, data){
+		if (type === "REDUX_PLACES_ADD"){
+			if (data.length){
+				this.addFromRedux(data);
+			}
+		}
+	}
 }
 
 export default Locations;

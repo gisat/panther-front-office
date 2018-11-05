@@ -17,6 +17,7 @@ import Scopes from './Scopes/actions';
 import SpatialDataSources from './SpatialDataSources/actions';
 import SpatialRelations from './SpatialRelations/actions';
 import Styles from './Styles/actions';
+import Themes from './_Themes/actions';
 import Users from './Users/actions';
 import UserGroups from './UserGroups/actions';
 import WmsLayers from './WmsLayers/actions';
@@ -40,6 +41,7 @@ export default {
 	spatialDataSources: SpatialDataSources,
 	spatialRelations: SpatialRelations,
 	styles: Styles,
+	themes: Themes,
 	users: Users,
 	userGroups: UserGroups,
 	wmsLayers: WmsLayers

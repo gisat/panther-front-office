@@ -14,6 +14,35 @@ const getAll = (getSubstate) => {
 	);
 };
 
+const getAllForDataviewAsObject = (getSubstate) => {
+	return createSelector(
+		[getAllAsObject(getSubstate)],
+		byKey => {
+			if (byKey){
+				let data = {};
+				_.forIn(byKey, (value, key) => {
+					data[key] = {
+						...value.data,
+						_id: key
+					}
+				});
+				return data;
+			} else {
+				return null;
+			}
+		}
+	);
+};
+
+const getAllForDataview = (getSubstate) => {
+	return createSelector(
+		[getAllForDataviewAsObject(getSubstate)],
+		byKey => {
+			return byKey ? Object.values(byKey) : null;
+		}
+	);
+};
+
 const getActiveKey = (getSubstate) => {
 	return (state) => getSubstate(state).activeKey
 };
@@ -188,6 +217,8 @@ export default {
 	getActiveKeys,
 	getAll,
 	getAllAsObject,
+	getAllForDataview,
+	getAllForDataviewAsObject,
 
 	getByKey,
 

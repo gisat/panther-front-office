@@ -2,6 +2,11 @@ import {createSelector} from 'reselect';
 import createCachedSelector from 're-reselect';
 import _ from 'lodash';
 import common from "../_common/selectors";
+
+import PeriodsSelectors from '../Periods/selectors';
+import PlacesSelectors from '../Places/selectors';
+import ScopesSelectors from '../Scopes/selectors';
+import ThemesSelectors from '../_Themes/selectors';
 import UsersSelectors from '../Users/selectors';
 
 const getSubstate = state => state.dataviews;
@@ -26,7 +31,23 @@ const getViewsForScope = createSelector(
 	}
 );
 
+const getDataForInitialLoad = createSelector(
+	[PeriodsSelectors.getAllForDataview,
+		PlacesSelectors.getAllForDataview,
+		ScopesSelectors.getAllForDataview,
+		ThemesSelectors.getAllForDataview],
+	(periods, places, scopes, themes) => {
+		return {
+			periods: periods,
+			places: places,
+			scopes: scopes,
+			themes: themes
+		}
+	}
+);
+
 export default {
+	getDataForInitialLoad,
 	getSubstate,
 	getView: getByKey,
 	getViews: getAll,

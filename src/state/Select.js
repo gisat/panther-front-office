@@ -16,6 +16,7 @@ import Scopes from './Scopes/selectors';
 import SpatialDataSources from './SpatialDataSources/selectors';
 import SpatialRelations from './SpatialRelations/selectors';
 import Styles from './Styles/selectors';
+import Themes from './_Themes/selectors';
 import UserGroups from './UserGroups/selectors';
 import Users from './Users/selectors';
 import WmsLayers from './WmsLayers/selectors';
@@ -39,6 +40,7 @@ export default {
 	spatialDataSources: SpatialDataSources,
 	spatialRelations: SpatialRelations,
 	styles: Styles,
+	themes: Themes,
 	userGroups: UserGroups,
 	users: Users,
 	wmsLayers: WmsLayers

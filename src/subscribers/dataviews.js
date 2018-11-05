@@ -1,12 +1,19 @@
-import Action from '../state/Action';
-import utils from '../utils/utils';
-import Select from "../state/Select";
-import watch from "redux-watch";
-
 import _ from 'lodash';
+import common from "./_common";
+import Action from '../state/Action';
+import Select from "../state/Select";
+
+import loadApp from '../app-old';
+
+let legacyCodeInitialized = false;
 
 export default store => {
 	setEventListeners(store);
+	setStoreWatchers(store);
+};
+
+const setStoreWatchers = store => {
+	common.createWatcher(store, Select.dataviews.getDataForInitialLoad, dataForInitialLoadWatcher);
 };
 
 const setEventListeners = store => {
@@ -46,4 +53,23 @@ const addGeometries = function(activeCase, maps){
 			});
 		}
 	});
+};
+
+// ======== state watchers ========
+const dataForInitialLoadWatcher = (value) => {
+	console.log('@@@@@ subscribers/scopes#getDataForInitialLoad', value);
+	if (value && !legacyCodeInitialized){
+		let allStoresLoaded = true;
+		_.forIn(value, (models) => {
+			if (!models){
+				allStoresLoaded = false;
+			}
+		});
+		if (allStoresLoaded){
+			console.log('@@@@@ subscribers/scopes#getDataForInitialLoad: Start legacy code initial load!');
+			loadApp(value);
+
+			legacyCodeInitialized = true;
+		}
+	}
 };

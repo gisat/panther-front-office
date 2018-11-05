@@ -20,6 +20,7 @@ import scopesReducers from './Scopes/reducers';
 import spatialDataSourcesReducers from './SpatialDataSources/reducers';
 import spatialRelationsReducers from './SpatialRelations/reducers';
 import stylesReducers from './Styles/reducers';
+import themesReducers from './_Themes/reducers';
 import usersReducers from './Users/reducers';
 import userGroupsReducers from './UserGroups/reducers';
 import wmsLayersReducers from './WmsLayers/reducers';
@@ -46,6 +47,7 @@ const Store = createStore(combineReducers({
 	spatialDataSources: spatialDataSourcesReducers,
 	spatialRelations: spatialRelationsReducers,
 	styles: stylesReducers,
+	themes: themesReducers,
 	users: usersReducers,
 	userGroups: userGroupsReducers,
 	wmsLayers: wmsLayersReducers

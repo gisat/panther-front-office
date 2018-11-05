@@ -8,7 +8,6 @@ import Action from './state/Action';
 import './index.css';
 import './projects.css';
 import { unregister } from './registerServiceWorker';
-import loadApp from './app-old';
 
 import AppOverlays from './components/presentation/overlays/AppOverlays';
 import MapsTimeline from './scopemagicswitches/MapsTimeline';
@@ -71,4 +70,3 @@ if(!id) {
 }
 
 unregister();
-loadApp();

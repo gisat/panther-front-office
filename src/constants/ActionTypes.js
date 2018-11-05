@@ -65,12 +65,41 @@ export default utils.deepKeyMirror({
 	MAPS_SET_ACTIVE: 'MAPS_SET_ACTIVE',
 	MAPS_SET_INDEPENDENT_OF_PERIOD: 'MAPS_SET_INDEPENDENT_OF_PERIOD',
 
-	PERIODS_ADD: 'PERIODS_ADD',
-	PERIODS_SET_ACTIVE: 'PERIODS_SET_ACTIVE',
+	PERIODS: {
+		ADD: null,
+		ENSURE: {
+			ERROR: null
+		},
+		INDEX: {
+			ADD: null
+		},
+		LOAD: {
+			ERROR: null,
+			REQUEST: null
+		},
+		SET_ACTIVE_KEY: null,
+		SET_ACTIVE_KEYS: null
+	},
 
 	PLACES_ADD: 'PLACES_ADD',
 	PLACES_SET_ACTIVE: 'PLACES_SET_ACTIVE',
 	PLACES_SET_ACTIVE_MULTI: 'PLACES_SET_ACTIVE_MULTI',
+
+	PLACES: {
+		ADD: null,
+		ENSURE: {
+			ERROR: null
+		},
+		INDEX: {
+			ADD: null
+		},
+		LOAD: {
+			ERROR: null,
+			REQUEST: null
+		},
+		SET_ACTIVE_KEY: null,
+		SET_ACTIVE_KEYS: null
+	},
 
 	REDIRECT_TO_VIEW: 'REDIRECT_TO_VIEW',
 
@@ -147,6 +176,22 @@ export default utils.deepKeyMirror({
 	SPATIAL_DATA_SOURCES_VECTOR_FEATURES_EDITED_ADD: 'SPATIAL_DATA_SOURCES_VECTOR_FEATURES_EDITED_ADD',
 
 	STYLES_ADD: 'STYLES_ADD',
+
+	THEMES: {
+		ADD: null,
+		ENSURE: {
+			ERROR: null
+		},
+		INDEX: {
+			ADD: null
+		},
+		LOAD: {
+			ERROR: null,
+			REQUEST: null
+		},
+		SET_ACTIVE_KEY: null,
+		SET_ACTIVE_KEYS: null
+	},
 
 	USERS: {
 		LOGOUT: null

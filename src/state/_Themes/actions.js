@@ -7,35 +7,27 @@ import Select from "../Select";
 
 const add = common.add(actionAdd);
 const setActiveKey = common.setActiveKey(actionSetActiveKey);
-const setActiveKeys = common.setActiveKeys(actionSetActiveKeys);
 
 // ============ actions ===========
 
 function actionAdd(periods) {
 	return {
-		type: ActionTypes.PERIODS.ADD,
+		type: ActionTypes.THEMES.ADD,
 		data: periods
 	}
 }
 
 function actionEnsureError(error) {
 	return {
-		type: ActionTypes.PERIODS.ENSURE.ERROR,
+		type: ActionTypes.THEMES.ENSURE.ERROR,
 		error: error
 	}
 }
 
 function actionSetActiveKey(key) {
 	return {
-		type: ActionTypes.PERIODS.SET_ACTIVE_KEY,
+		type: ActionTypes.THEMES.SET_ACTIVE_KEY,
 		key: key
-	}
-}
-
-function actionSetActiveKeys(keys) {
-	return {
-		type: ActionTypes.PERIODS.SET_ACTIVE_KEYS,
-		keys: keys
 	}
 }
 
@@ -43,7 +35,6 @@ function actionSetActiveKeys(keys) {
 
 export default {
 	add,
-	ensure: common.ensure.bind(this, Select.periods.getSubstate, 'periods', actionAdd, actionEnsureError),
+	ensure: common.ensure.bind(this, Select.themes.getSubstate, 'themes', actionAdd, actionEnsureError),
 	setActiveKey,
-	setActiveKeys
 }

@@ -19,6 +19,14 @@ class Periods extends BaseStore {
     loaded(models) {
         window.Stores.notify("PERIODS_LOADED", models);
     }
+
+	onEvent(type, data){
+		if (type === "REDUX_PERIODS_ADD"){
+			if (data.length){
+				this.addFromRedux(data);
+			}
+		}
+	}
 }
 
 export default Periods;

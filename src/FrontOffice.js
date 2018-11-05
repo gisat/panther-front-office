@@ -491,18 +491,18 @@ class FrontOffice {
      * Load metadata from server
      */
     loadData(store) {
-        return Promise.all([
-            store.attributes.load(),
-            store.attributeSets.load(),
-            store.dataviews.load(),
-            store.layers.load(),
-            store.locations.load(),
-            store.periods.load(),
-            store.scopes.load(),
-            store.themes.load(),
-            store.visualizations.load(),
-            store.wmsLayers.load()
-        ]);
+        // return Promise.all([
+        //     store.attributes.load(),
+        //     store.attributeSets.load(),
+        //     store.dataviews.load(),
+        //     store.layers.load(),
+        //     store.locations.load(),
+        //     store.periods.load(),
+        //     store.scopes.load(),
+        //     store.themes.load(),
+        //     store.visualizations.load(),
+        //     store.wmsLayers.load()
+        // ]);
     };
 
     /**

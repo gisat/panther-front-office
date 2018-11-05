@@ -43,17 +43,18 @@ let polyglot = window.polyglot;
 let Widgets = window.Widgets;
 
 let $ = window.$;
-function loadApp() {
+
+function loadApp(initialData) {
     let store = {
         attributes: new AttributesStore(),
         attributeSets: new AttributeSets(),
         dataviews: new Dataviews(),
         groups: new Groups(),
         layers: new Layers(),
-        locations: new Locations(),
-        periods: new Periods(),
-        scopes: new Scopes(),
-        themes: new Themes(),
+        locations: new Locations(initialData.places),
+        periods: new Periods(initialData.periods),
+        scopes: new Scopes(initialData.scopes),
+        themes: new Themes(initialData.themes),
         users: new Users(),
         visualizations: new Visualizations(),
         wmsLayers: new WmsLayers()
@@ -129,13 +130,15 @@ function loadApp() {
                 return createScript('extjs-4.1.3/locale/ext-lang-cs.js');
             }
         }).then(() => {
-            // ext = new ExtApp();
-            // return ext.setUp();
+            ext = new ExtApp();
+            return ext.setUp();
         }).then(function () {
-            // return ext.afterLoad();
+			return ext.initialLoad(initialData);
+		}).then(function () {
+            return ext.afterLoad();
         }).then(function () {
-            // setUpNewApp();
-            // window.Stores.notify('extLoaded');
+            setUpNewApp();
+            window.Stores.notify('extLoaded');
         }).catch(err => {
             console.error('Loading#', err);
         });

@@ -63,6 +63,27 @@ class ExtApp {
         })
     };
 
+    initialLoad(data){
+		let scopesStore = Ext.StoreMgr.lookup('dataset');
+		let placesStore = Ext.StoreMgr.lookup('location');
+		let themesStore = Ext.StoreMgr.lookup('theme');
+		let yearsStore = Ext.StoreMgr.lookup('year');
+
+		if (data.scopes){
+		    scopesStore.add(data.scopes);
+        }
+		if (data.places){
+			placesStore.add(data.places);
+		}
+		if (data.themes){
+			themesStore.add(data.themes);
+		}
+		if (data.periods){
+			yearsStore.add(data.periods);
+		}
+        debugger;
+    };
+
     afterLoad() {
         // set Home link in header // todo Move this somewhere else?
         $("#home-link").attr("href", Config.projectHome);
@@ -169,30 +190,30 @@ class ExtApp {
                 self.login(loggedIn, id);
             });
         } else if (id) {
-            Config.dataviewId = id;
-            // Load stores when only for print or loading the whole application.
-            let stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic'];
-            let promises = [];
-            let self = this;
-            stores.forEach(function (storeName) {
-                promises.push(new Promise(function (resolve, reject) {
-                    let store = Ext.StoreMgr.lookup(storeName);
-                    store.on('datachanged', function (data) {
-                        resolve(data);
-                    });
-					store.on('load', self.afterStoreLoad.bind(self));
-                    store.load();
-                }));
-            });
-
-            Promise.all(promises).then(function (data) {
-                self.dataViewController.onLoadingFinished();
-                self.domManipulationController.renderApp();
-                self.renderController.renderApp();
-            }).catch(function (err) {
-                Logger.logMessage(Logger.LEVEL_SEVERE, 'Ext', 'afterLoad', err);
-                alert(polyglot.t("notPossibleToLoadData"));
-            });
+            // Config.dataviewId = id;
+            // // Load stores when only for print or loading the whole application.
+            // let stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic'];
+            // let promises = [];
+            // let self = this;
+            // stores.forEach(function (storeName) {
+            //     promises.push(new Promise(function (resolve, reject) {
+            //         let store = Ext.StoreMgr.lookup(storeName);
+            //         store.on('datachanged', function (data) {
+            //             resolve(data);
+            //         });
+			// 		store.on('load', self.afterStoreLoad.bind(self));
+            //         store.load();
+            //     }));
+            // });
+            //
+            // Promise.all(promises).then(function (data) {
+            //     self.dataViewController.onLoadingFinished();
+            //     self.domManipulationController.renderApp();
+            //     self.renderController.renderApp();
+            // }).catch(function (err) {
+            //     Logger.logMessage(Logger.LEVEL_SEVERE, 'Ext', 'afterLoad', err);
+            //     alert(polyglot.t("notPossibleToLoadData"));
+            // });
         } else {
             window.Stores.notify("initialLoadingFinished");
         }
@@ -202,11 +223,11 @@ class ExtApp {
         if (loggedIn) {
             let stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic'];
 			let self = this;
-            stores.forEach(function (store) {
-                let extStore = Ext.StoreMgr.lookup(store);
-				extStore.on('load', self.afterStoreLoad.bind(self));
-				extStore.load();
-            });
+            // stores.forEach(function (store) {
+            //     let extStore = Ext.StoreMgr.lookup(store);
+			// 	extStore.on('load', self.afterStoreLoad.bind(self));
+			// 	extStore.load();
+            // });
 
             this.dataViewController.onLoadingFinished();
 

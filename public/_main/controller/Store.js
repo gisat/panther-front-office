@@ -39,9 +39,9 @@ Ext.define('PumaMain.controller.Store', {
 		this.initLocalStores();
 		this.initAggregatedStores();
 		this.initEvents();
-		this.initLocations();
+		// this.initLocations();
 
-        Observer.notify('Store#init');
+		window.Stores.addListener(this.onEvent.bind(this));
 	},
 
 	initLocations: function () {
@@ -680,6 +680,12 @@ Ext.define('PumaMain.controller.Store', {
 			data: []
 		});
 
+	},
+
+	onEvent: function (type, options) {
+		if (type === "REDUX_SCOPES_ADD"){
+			debugger;
+		}
 	}
 
 });

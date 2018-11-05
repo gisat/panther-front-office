@@ -12,6 +12,7 @@ import places from './places';
 import scenarios from './scenarios';
 import scopes from './scopes';
 import styles from './styles';
+import themes from './themes';
 import users from './users';
 import views from './dataviews';
 import wmsLayers from './wmsLayers';
@@ -32,6 +33,7 @@ export default store => {
 	scenarios(store);
 	scopes(store);
 	styles(store);
+	themes(store);
 	users(store);
 	views(store);
 	wmsLayers(store);
