@@ -175,9 +175,12 @@ class InfoLayersPanel extends WorldWindWidgetPanel {
         let scope = configuration.scope;
         let theme = configuration.theme;
         let periods = configuration.periods;
+
         let place = "";
         if (configuration.place.length > 0) {
             place = [configuration.place];
+        } else if (configuration.allPlaces.length > 0){
+            place = configuration.allPlaces;
         }
 
         let self = this;
