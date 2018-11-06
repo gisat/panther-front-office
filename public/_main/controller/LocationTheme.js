@@ -1392,7 +1392,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 					attrStore.data.each(function(attribute){ // iterate attributes (objects)
 						if( Ext.Array.contains(attrSetAttributes, attribute.get('_id')) && (attribute.data.type === "numeric" || attribute.data.type === "text")){
 					        var attr = $.extend({}, attribute.data);
-							attr.attributeSet = attrSet.internalId;
+							attr.attributeSet = attrSet.data._id;
 							attr.attribute = attribute.data._id;
 						    attributes.push(attr);
 						}
