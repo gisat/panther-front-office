@@ -282,9 +282,10 @@ Ext.define('PumaMain.controller.ViewMng', {
 
 		var locStore = Ext.StoreMgr.lookup('location4init');
 		var locationsData = locStore.query('dataset',cfg.dataset);
+
 		ThemeYearConfParams.allPlaces = [];
 		locationsData.items.forEach(function(item){
-			ThemeYearConfParams.allPlaces.push(item.raw.id);
+			ThemeYearConfParams.allPlaces.push(item.raw._id || item.raw.id);
 		});
         this.getController('LocationTheme').reloadWmsLayers();
 
