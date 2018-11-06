@@ -16,9 +16,13 @@ class Attributes extends BaseStore {
         return "rest/attribute";
     }
 
-    loaded(models) {
-        window.Stores.notify("ATTRIBUTES_LOADED", models);
-    }
+	onEvent(type, data){
+		if (type === "REDUX_ATTRIBUTES_ADD"){
+			if (data.length){
+				this.addFromRedux(data);
+			}
+		}
+	}
 }
 
 export default Attributes;

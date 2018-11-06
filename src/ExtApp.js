@@ -68,20 +68,40 @@ class ExtApp {
 		let placesStore = Ext.StoreMgr.lookup('location');
 		let themesStore = Ext.StoreMgr.lookup('theme');
 		let yearsStore = Ext.StoreMgr.lookup('year');
+		let attributeSetsStore = Ext.StoreMgr.lookup('attributeset');
+		let attributesStore = Ext.StoreMgr.lookup('attribute');
+
+		let locationStore = Ext.StoreMgr.lookup('location4init');
+		let themeStore = Ext.StoreMgr.lookup('theme4sel');
+		let yearStore = Ext.StoreMgr.lookup('year4sel');
 
 		if (data.scopes){
 		    scopesStore.add(data.scopes);
         }
 		if (data.places){
 			placesStore.add(data.places);
+			locationStore.add(data.places);
 		}
 		if (data.themes){
 			themesStore.add(data.themes);
+			themeStore.add(data.themes);
 		}
 		if (data.periods){
 			yearsStore.add(data.periods);
+			yearStore.add(data.periods);
 		}
-        debugger;
+
+		if (data.attributeSets){
+			attributeSetsStore.add(data.attributeSets);
+		}
+
+		if (data.attributes){
+			attributesStore.add(data.attributes);
+		}
+
+		this.domManipulationController.renderApp();
+		this.renderController.renderApp();
+		this.dataViewController.onLoadingFinished(data.dataview);
     };
 
     afterLoad() {
@@ -223,18 +243,19 @@ class ExtApp {
         if (loggedIn) {
             let stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic'];
 			let self = this;
-            // stores.forEach(function (store) {
-            //     let extStore = Ext.StoreMgr.lookup(store);
-			// 	extStore.on('load', self.afterStoreLoad.bind(self));
-			// 	extStore.load();
-            // });
+            stores.forEach(function (store) {
+                let extStore = Ext.StoreMgr.lookup(store);
+				extStore.on('load', self.afterStoreLoad.bind(self));
+				// extStore.load();
+            });
 
-            this.dataViewController.onLoadingFinished();
+            // this.dataViewController.onLoadingFinished();
 
-            if (this._dataviewId !== Config.dataviewId) {
-                this.domManipulationController.renderApp();
-                this.renderController.renderApp();
-            }
+            // if (this._dataviewId !== Config.dataviewId) {
+            // 	debugger;
+            //     this.domManipulationController.renderApp();
+            //     this.renderController.renderApp();
+            // }
 
             this._dataviewId = Config.dataviewId;
         } else {

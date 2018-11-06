@@ -77,11 +77,11 @@ const setEventListeners = store => {
 const activePlaceWatcher = (value, previousValue) => {
 	console.log('@@ activePlaceWatcher', previousValue, '->', value);
 	let extent;
-	if (value){
-		if (value.bbox && value.bbox.length){
-			extent = value.bbox.split(',');
-		} else if (value.geometry){
-			extent = geoBounds(value.geometry);
+	if (value && value.data){
+		if (value.data.bbox && value.data.bbox.length){
+			extent = value.data.bbox.split(',');
+		} else if (value.data.geometry){
+			extent = geoBounds(value.data.geometry);
 		}
 		if (!previousValue || (previousValue && (previousValue.key !== value.key))){
 			window.Stores.notify('REDUX_SET_ACTIVE_PLACES', {keys: value.key, extents: extent});
@@ -96,10 +96,10 @@ const activePlacesWatcher = (value, previousValue) => {
 	if (value){
 		value.map(place => {
 			let extent;
-			if (place.bbox && place.bbox.length){
-				extent = place.bbox.split(',');
-			} else if (place.geometry){
-				extent = geoBounds(place.geometry);
+			if (place.data.bbox && place.data.bbox.length){
+				extent = place.data.bbox.split(',');
+			} else if (place.data.geometry){
+				extent = geoBounds(place.data.geometry);
 			}
 			extents.push(extent);
 			keys.push(place.key);

@@ -211,7 +211,7 @@ Ext.define('PumaMain.controller.ViewMng', {
         locationCombo.suspendEvents();
 
         datasetCombo.setValue(cfg.dataset);
-        
+
         var locStore = Ext.StoreMgr.lookup('location4init');
         locStore.clearFilter(true);
         locStore.filter([
@@ -247,7 +247,6 @@ Ext.define('PumaMain.controller.ViewMng', {
         themeCombo.setValue(cfg.theme);
 
         locationCombo.setValue(cfg.location);
-
 
         yearCombo.resumeEvents();
         datasetCombo.resumeEvents();
@@ -357,7 +356,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 		}
 
 		if (Config.cfg.is3D){
-			Stores.notify('fo#adjustConfigurationFromDataview', options);
+			window.Stores.notify('fo#adjustConfigurationFromDataview', options);
 
         	// show right panel
         	if (Config.cfg.sidebarReportsOpen){

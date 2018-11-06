@@ -10,6 +10,9 @@ const getSubstate = state => state.attributeSets;
 const getAll = common.getAll(getSubstate);
 const getActiveKeys = common.getActiveKeys(getSubstate);
 const getActive = common.getActive(getSubstate);
+const getActiveModels = common.getActiveModels(getSubstate);
+const getAllForDataview = common.getAllForDataview(getSubstate);
+const getAllForDataviewAsObject = common.getAllForDataviewAsObject(getSubstate);
 
 const getAttributesDataByActiveAttributeSets = createSelector(
 	[getAll, getActiveKeys, AttributesSelector.getAttributes],
@@ -21,7 +24,7 @@ const getAttributesDataByActiveAttributeSets = createSelector(
 			});
 			if (attributeSetKey){
 				let attributes = [];
-				model.attributes.map(attributeKey => {
+				model.data.attributes.map(attributeKey => {
 					attributes.push(_.find(attributesData, attributeModel => {
 						return attributeModel.key = attributeKey;
 					}));
@@ -45,7 +48,7 @@ const getAttributeKeysByActiveAttributeSets = createSelector(
 			});
 			if (attributeSetKey){
 				attributeSets[attributeSetKey] = {
-					attributes: model.attributes
+					attributes: model.data.attributes
 				}
 			}
 		});
@@ -53,10 +56,29 @@ const getAttributeKeysByActiveAttributeSets = createSelector(
 	}
 );
 
+const getAttributeKeysForActive =createSelector(
+	[getActiveModels],
+	(models) => {
+		let attributeKeys = [];
+		models.forEach(model => {
+			let attributes = model.data.attributes;
+			if (attributes){
+				attributeKeys = attributeKeys.concat(attributes);
+			}
+		});
+		return attributeKeys.length ? attributeKeys : null;
+	}
+);
+
 export default {
 	getActive,
 	getActiveKeys,
 	getAttributeSets: getAll,
+
+	getAllForDataview,
+	getAllForDataviewAsObject,
+
+	getAttributeKeysForActive,
 	getAttributeKeysByActiveAttributeSets,
-	getAttributesDataByActiveAttributeSets
+	getAttributesDataByActiveAttributeSets,
 };

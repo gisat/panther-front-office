@@ -6,7 +6,13 @@ import common from '../_common/selectors';
 const getSubstate = state => state.attributes;
 
 const getAttributes =  common.getAll(getSubstate);
+const getAllForDataview = common.getAllForDataview(getSubstate);
+const getAllForDataviewAsObject = common.getAllForDataviewAsObject(getSubstate);
 
 export default {
-	getAttributes
+	getAttributes,
+
+	getAllForDataview,
+	getAllForDataviewAsObject,
+	getSubstate
 };

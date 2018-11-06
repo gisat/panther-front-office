@@ -166,7 +166,12 @@ function ensure(getSubstate, dataType, actionAdd, errorAction, keys){
 
 		let keysToLoad = commonSelectors.getKeysToLoad(getSubstate)(state, keys);
 		if (keysToLoad){
-			dispatch(loadFiltered(dataType, keysToLoad, actionAdd, errorAction));
+			let filter = {
+				key: {
+					in: keysToLoad
+				}
+			};
+			return dispatch(loadFiltered(dataType, filter, actionAdd, errorAction));
 		}
 	}
 }
@@ -235,15 +240,11 @@ function loadFilteredPage(dataType, filter, order, start, actionAdd, actionAddIn
 	};
 }
 
-function loadFiltered(dataType, keys, successAction, errorAction) {
+function loadFiltered(dataType, filter, successAction, errorAction) {
 	return dispatch => {
 		let apiPath = path.join('backend/rest/metadata/filtered', dataType);
 		let payload = {
-			filter: {
-				key: {
-					in: keys
-				}
-			},
+			filter: filter,
 			limit: PAGE_SIZE
 		};
 		return request(apiPath, 'POST', null, payload)
@@ -260,11 +261,7 @@ function loadFiltered(dataType, keys, successAction, errorAction) {
 						let remainingPageCount = Math.ceil((result.total - PAGE_SIZE) / PAGE_SIZE);
 						for (let i = 0; i < remainingPageCount; i++) {
 							let pagePayload = {
-								filter: {
-									key: {
-										in: keys
-									}
-								},
+								filter: filter,
 								offset: (i + 1) * PAGE_SIZE,
 								limit: PAGE_SIZE
 							};

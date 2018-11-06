@@ -47,7 +47,7 @@ let $ = window.$;
 function loadApp(initialData) {
     let store = {
         attributes: new AttributesStore(),
-        attributeSets: new AttributeSets(),
+        attributeSets: new AttributeSets(initialData.attributeSets),
         dataviews: new Dataviews(),
         groups: new Groups(),
         layers: new Layers(),
@@ -137,7 +137,7 @@ function loadApp(initialData) {
 		}).then(function () {
             return ext.afterLoad();
         }).then(function () {
-            setUpNewApp();
+			setUpNewApp();
             window.Stores.notify('extLoaded');
         }).catch(err => {
             console.error('Loading#', err);
@@ -283,7 +283,7 @@ function loadApp(initialData) {
             snowViewChanges();
         }
 
-        widgets.push(buildSharingWidget(stateStore));
+        // widgets.push(buildSharingWidget(stateStore));
         widgets.push(buildIntegrateCustomLayersWidget());
 
         // build app, map is class for OpenLayers map

@@ -23,7 +23,7 @@ const getAllForDataviewAsObject = (getSubstate) => {
 				_.forIn(byKey, (value, key) => {
 					data[key] = {
 						...value.data,
-						_id: key
+						_id: Number(key)
 					}
 				});
 				return data;

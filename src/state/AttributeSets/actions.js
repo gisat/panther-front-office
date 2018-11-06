@@ -10,6 +10,27 @@ import common from "../_common/actions";
 const add = common.add(actionAdd);
 const setActiveKeys = common.setActiveKeys(actionSetActiveKeys);
 
+function addAndSetActive(data){
+	return (dispatch) => {
+		if (data && data.length){
+			dispatch(add(data));
+			let keys = _.map(data, 'key');
+			dispatch(setActiveKeys(keys));
+		}
+	}
+}
+
+function loadForTopics(topics) {
+	return (dispatch) => {
+		let filter = {
+			topic: {
+				in: topics
+			}
+		};
+		return dispatch(common.loadFiltered('attributesets', filter, addAndSetActive, actionLoadError));
+	}
+}
+
 function updateActive(keys) {
 	return (dispatch, getState) => {
 		let activeKeys = Select.attributeSets.getActiveKeys(getState());
@@ -24,15 +45,22 @@ function updateActive(keys) {
 
 function actionAdd(attributeSets) {
 	return {
-		type: ActionTypes.ATTRIBUTE_SETS_ADD,
+		type: ActionTypes.ATTRIBUTE_SETS.ADD,
 		data: attributeSets
 	}
 }
 
 function actionSetActiveKeys(attributeSets) {
 	return {
-		type: ActionTypes.ATTRIBUTE_SETS_SET_ACTIVE_MULTI,
+		type: ActionTypes.ATTRIBUTE_SETS.SET_ACTIVE_KEYS,
 		keys: attributeSets
+	}
+}
+
+function actionLoadError(error) {
+	return {
+		type: ActionTypes.ATTRIBUTE_SETS.LOAD.ERROR,
+		error: error
 	}
 }
 
@@ -41,5 +69,6 @@ function actionSetActiveKeys(attributeSets) {
 export default {
 	add,
 	setActiveKeys,
+	loadForTopics,
 	updateActive
 }

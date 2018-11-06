@@ -7,6 +7,8 @@ import queryString from 'query-string';
 import Dataview from "../../data/Dataview";
 import Select from "../Select";
 
+import AttributesActions from "../Attributes/actions";
+import AttributeSetsActions from "../AttributeSets/actions";
 import ScopesActions from "../Scopes/actions";
 import PeriodsActions from "../Periods/actions";
 import PlacesActions from "../Places/actions";
@@ -81,7 +83,8 @@ function apiDeleteView(key, ttl) {
 
 function loadByKey(key) {
 	return (dispatch, getState) => {
-		dispatch(common.loadFiltered('dataviews', [key], add, loadByKeyError)).then(() => {
+		let filter = {key: key};
+		dispatch(common.loadFiltered('dataviews', filter, add, loadByKeyError)).then(() => {
 			dispatch(setActiveKey(key));
 			let activeDataview = Select.dataviews.getActive(getState());
 			let data = activeDataview && activeDataview.data;
@@ -112,7 +115,24 @@ function loadByKey(key) {
 
 			if (data.theme){
 				dispatch(ThemesActions.setActiveKey(data.theme));
-				dispatch(ThemesActions.ensure([data.theme]));
+				dispatch(ThemesActions.ensure([data.theme]))
+					.then(() => {
+						let activeTheme = Select.themes.getActive(getState());
+						if (activeTheme && activeTheme.data && activeTheme.data.topics) {
+							return dispatch(AttributeSetsActions.loadForTopics(activeTheme.data.topics));
+						} else {
+							throw new Error(`state/dataviews/actions#loadByKey No topics for active theme!`);
+						}
+					})
+					.then(() => {
+						let attributeKeys = Select.attributeSets.getAttributeKeysForActive(getState());
+						if (attributeKeys){
+							dispatch(AttributesActions.ensure(attributeKeys));
+						}
+					})
+					.catch(err => {
+						throw new Error(err);
+					});
 			}
 		}).catch(err => {
 			dispatch(loadByKeyError(err));

@@ -3,6 +3,8 @@ import createCachedSelector from 're-reselect';
 import _ from 'lodash';
 import common from "../_common/selectors";
 
+import AttributesSelectors from '../Attributes/selectors';
+import AttributeSetsSelectors from '../AttributeSets/selectors';
 import PeriodsSelectors from '../Periods/selectors';
 import PlacesSelectors from '../Places/selectors';
 import ScopesSelectors from '../Scopes/selectors';
@@ -32,16 +34,22 @@ const getViewsForScope = createSelector(
 );
 
 const getDataForInitialLoad = createSelector(
-	[PeriodsSelectors.getAllForDataview,
+	[getActive,
+		AttributesSelectors.getAllForDataview,
+		AttributeSetsSelectors.getAllForDataview,
+		PeriodsSelectors.getAllForDataview,
 		PlacesSelectors.getAllForDataview,
 		ScopesSelectors.getAllForDataview,
 		ThemesSelectors.getAllForDataview],
-	(periods, places, scopes, themes) => {
+	(dataview, attributes, attributeSets, periods, places, scopes, themes) => {
 		return {
-			periods: periods,
-			places: places,
-			scopes: scopes,
-			themes: themes
+			attributes,
+			attributeSets,
+			dataview,
+			periods,
+			places,
+			scopes,
+			themes
 		}
 	}
 );

@@ -1199,7 +1199,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         }
         if (true) {
             this.removeLayers();
-            this.appendLayers(conf.layerNodes);
+            // this.appendLayers(conf.layerNodes);
             Ext.StoreMgr.lookup('layers4outline').load();
         }
         if (conf.layerRefMap) {
