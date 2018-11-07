@@ -210,6 +210,10 @@ const getKeysToLoad = (getSubstate) => {
 	);
 };
 
+const isInitializedForExt = (getSubstate) => {
+	return (state) => getSubstate(state).initializedForExt;
+};
+
 export default {
 	getActive,
 	getActiveModels,
@@ -232,5 +236,7 @@ export default {
 	getIndexPage,
 	getIndexTotal,
 
-	getKeysToLoad
+	getKeysToLoad,
+
+	isInitializedForExt // TODO It will be removed along with Ext
 }

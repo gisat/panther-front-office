@@ -1,5 +1,6 @@
 import ActionTypes from '../../constants/ActionTypes';
 import Select from '../Select';
+import AttributesActions from '../Attributes/actions';
 
 import _ from 'lodash';
 import common from "../_common/actions";
@@ -17,6 +18,7 @@ function addAndSetActive(data){
 			let keys = _.map(data, 'key');
 			dispatch(setActiveKeys(keys));
 		}
+		dispatch(actionInitializeForExt());
 	}
 }
 
@@ -61,6 +63,13 @@ function actionLoadError(error) {
 	return {
 		type: ActionTypes.ATTRIBUTE_SETS.LOAD.ERROR,
 		error: error
+	}
+}
+
+// TODO It will be removed along with Ext
+function actionInitializeForExt() {
+	return {
+		type: ActionTypes.ATTRIBUTE_SETS.INITIALIZE_FOR_EXT,
 	}
 }
 

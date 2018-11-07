@@ -14,6 +14,8 @@ const getActiveModels = common.getActiveModels(getSubstate);
 const getAllForDataview = common.getAllForDataview(getSubstate);
 const getAllForDataviewAsObject = common.getAllForDataviewAsObject(getSubstate);
 
+const isInitializedForExt = common.isInitializedForExt(getSubstate);
+
 const getAttributesDataByActiveAttributeSets = createSelector(
 	[getAll, getActiveKeys, AttributesSelector.getAttributes],
 	(models, keys, attributesData) => {
@@ -60,12 +62,14 @@ const getAttributeKeysForActive =createSelector(
 	[getActiveModels],
 	(models) => {
 		let attributeKeys = [];
-		models.forEach(model => {
-			let attributes = model.data.attributes;
-			if (attributes){
-				attributeKeys = attributeKeys.concat(attributes);
-			}
-		});
+		if (models){
+			models.forEach(model => {
+				let attributes = model.data.attributes;
+				if (attributes){
+					attributeKeys = attributeKeys.concat(attributes);
+				}
+			});
+		}
 		return attributeKeys.length ? attributeKeys : null;
 	}
 );
@@ -81,4 +85,6 @@ export default {
 	getAttributeKeysForActive,
 	getAttributeKeysByActiveAttributeSets,
 	getAttributesDataByActiveAttributeSets,
+
+	isInitializedForExt
 };
