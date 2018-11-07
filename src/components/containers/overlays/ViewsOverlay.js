@@ -7,7 +7,7 @@ import ViewsOverlay from "../../presentation/overlays/ViewsOverlay/ViewsOverlay"
 import utils from '../../../utils/utils';
 import {filterScopesByUrl} from '../../../utils/models';
 
-const componentId = utils.guid();
+const componentId = 'ViewsOverlay_' + utils.randomString(6);
 
 const mapStateToProps = (state) => {
 	let scopes = Select.scopes.getScopesForActiveUser(state);
