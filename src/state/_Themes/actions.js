@@ -8,6 +8,17 @@ import Select from "../Select";
 const add = common.add(actionAdd);
 const setActiveKey = common.setActiveKey(actionSetActiveKey);
 
+function loadByKeys(keys){
+	return dispatch => {
+		let filter = {
+			key: {
+				in: keys
+			}
+		};
+		return dispatch(common.loadFiltered('themes', filter, actionAdd, actionLoadError));
+	}
+}
+
 // ============ actions ===========
 
 function actionAdd(periods) {
@@ -17,9 +28,9 @@ function actionAdd(periods) {
 	}
 }
 
-function actionEnsureError(error) {
+function actionLoadError(error) {
 	return {
-		type: ActionTypes.THEMES.ENSURE.ERROR,
+		type: ActionTypes.THEMES.LOAD.ERROR,
 		error: error
 	}
 }
@@ -35,6 +46,6 @@ function actionSetActiveKey(key) {
 
 export default {
 	add,
-	ensure: common.ensure.bind(this, Select.themes.getSubstate, 'themes', actionAdd, actionEnsureError),
+	loadByKeys,
 	setActiveKey,
 }

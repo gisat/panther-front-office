@@ -115,7 +115,7 @@ function loadByKey(key) {
 
 			if (data.theme){
 				dispatch(ThemesActions.setActiveKey(data.theme));
-				dispatch(ThemesActions.ensure([data.theme]))
+				dispatch(ThemesActions.loadByKeys([data.theme]))
 					.then(() => {
 						let activeTheme = Select.themes.getActive(getState());
 						if (activeTheme && activeTheme.data && activeTheme.data.topics) {
