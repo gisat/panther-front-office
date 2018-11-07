@@ -74,6 +74,13 @@ export default {
 	},
 
 	/**
+	 * Generates random string of specified length.
+	 * @param length
+	 * @returns {string}
+	 */
+	randomString: length => ((Math.random() * Math.pow(36, length) >> 0).toString(36)),
+
+	/**
 	 * Promise.all() for objects (instead of arrays)
 	 * @param object of promises
 	 * @returns promise of object of resolved values
