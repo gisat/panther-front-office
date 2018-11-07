@@ -49,11 +49,74 @@ export default {
 			order: selectedIndex.order || action.order,
 			count: action.count,
 			changedOn: action.changedOn,
-			index: index || selectedIndex.index
+			index: index || selectedIndex.index,
+			inUse: selectedIndex.inUse
 		};
 		indexes.push(selectedIndex);
 
 		return {...state, indexes: indexes};
+	},
+
+	registerUseIndexed: (state, action) => {
+		let indexes = [];
+		let selectedIndex = {};
+
+		if (state.indexes){
+			state.indexes.forEach(index => {
+				if (_.isEqual(index.filter, action.filter) && _.isEqual(index.order, action.order)){
+					selectedIndex = index;
+				} else {
+					indexes.push(index);
+				}
+			});
+		}
+
+		let inUse;
+		// replace use - todo option to add to use?
+		let newUse = {
+			start: action.start,
+			length: action.length
+		};
+		inUse = {...selectedIndex.inUse, [action.componentId]: newUse};
+
+		// ensure index base (filter, order) exists, but use original values if present
+		let indexBase = {
+			filter: action.filter,
+			order: action.order
+		};
+		selectedIndex = {...indexBase, ...selectedIndex};
+
+		// update inUse
+		selectedIndex = {...selectedIndex, inUse};
+
+		indexes.push(selectedIndex);
+		return {...state, indexes: indexes};
+	},
+
+	useIndexedClear: (state, action) => {
+		let indexes = [];
+		let found = false;
+
+		if (state.indexes){
+			state.indexes.forEach(index => {
+				if (index.inUse && index.inUse.hasOwnProperty(action.componentId)) {
+					found = true;
+					let inUse = index.inUse;
+					delete inUse[action.componentId];
+					index = {...index, inUse};
+				}
+
+				indexes.push(index);
+			});
+		}
+
+		if (found) {
+			return {...state, indexes: indexes};
+		} else {
+			// do not mutate if no index was changed
+			return state;
+		}
+
 	},
 
 

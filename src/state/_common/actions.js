@@ -42,6 +42,28 @@ const setActiveKeys = (action) => {
 	}
 };
 
+const useKeys = (getSubstate, dataType, actionAdd, errorAction, registerUseKeys) => {
+	return (keys, componentId) => {
+		return dispatch => {
+			dispatch(registerUseKeys(componentId, keys));
+			dispatch(ensure(getSubstate, dataType, actionAdd, errorAction, keys));
+		};
+	}
+};
+
+const useIndexed = (getSubstate, dataType, actionAdd, actionAddIndex, errorAction, registerUseIndexed) => {
+	return (filter, order, start, length, componentId) => {
+		return dispatch => {
+			console.log('##### useIndexed', componentId);
+			dispatch(registerUseIndexed(componentId, filter, order, start, length));
+			dispatch(ensureIndex(getSubstate, dataType, filter, order, start, length, actionAdd, actionAddIndex, errorAction));
+		};
+	}
+};
+
+
+
+
 function receive(actionAdd, actionAddIndex) {
 	return (data, dataType, filter, order, start) => {
 		return dispatch => {
@@ -289,5 +311,7 @@ export default {
 	loadFiltered,
 	setActiveKey,
 	setActiveKeys,
-	request: requestWrapper
+	request: requestWrapper,
+	useKeys,
+	useIndexed
 }

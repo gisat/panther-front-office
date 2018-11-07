@@ -70,7 +70,13 @@ export default utils.deepKeyMirror({
 		INDEX: {
 			ADD: null
 		},
-		SET_ACTIVE_KEY: null
+		SET_ACTIVE_KEY: null,
+		USE: {
+			INDEXED: {
+				CLEAR: null,
+				REGISTER: null
+			}
+		}
 	},
 
 	LAYER_PERIODS_AOI_LAYER_REQUEST: 'LAYER_PERIODS_AOI_LAYER_REQUEST',

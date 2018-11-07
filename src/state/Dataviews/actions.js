@@ -22,6 +22,7 @@ const TTL = 5;
 
 const add = common.add(actionAdd);
 const setActiveKey = common.setActiveKey(actionSetActiveKey);
+const useIndexed = common.useIndexed(Select.dataviews.getSubstate, 'dataviews', actionAdd, actionAddIndex, ensureForScopeError, registerUseIndexed);
 
 function addMongoView(view) {
 	return (dispatch, getState) => {
@@ -140,10 +141,10 @@ function loadByKey(key) {
 	}
 }
 
-function ensureForScope(scopeKey, start, length) {
+function ensureForScope(scopeKey, start, length, componentId) {
 	return (dispatch) => {
 		let getSubstate = Select.dataviews.getSubstate;
-		dispatch(common.ensureIndex(getSubstate, 'dataviews', {dataset: scopeKey}, null, start, length, actionAdd, actionAddIndex, ensureForScopeError));
+		dispatch(common.ensureIndex(getSubstate, 'dataviews', {dataset: scopeKey}, null, start, length, actionAdd, actionAddIndex, ensureForScopeError, componentId));
 	}
 }
 
@@ -214,6 +215,24 @@ function actionAddIndex(filter, order, count, start, data) {
 	}
 }
 
+function registerUseIndexed(componentId, filter, order, start, length) {
+	return {
+		type: ActionTypes.DATAVIEWS.USE.INDEXED.REGISTER,
+		componentId,
+		filter,
+		order,
+		start,
+		length
+	}
+}
+
+function actionClearUseindexed(componentId) {
+	return {
+		type: ActionTypes.DATAVIEWS.USE.INDEXED.CLEAR,
+		componentId
+	}
+}
+
 // ============ export ===========
 
 export default {
@@ -222,5 +241,7 @@ export default {
 	addMongoView,
 	apiDeleteView,
 	loadByKey,
-	setActiveKey
+	setActiveKey,
+	useIndexed,
+	useIndexedClear: actionClearUseindexed
 }

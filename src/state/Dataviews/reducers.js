@@ -18,6 +18,10 @@ export default (state = INITIAL_STATE, action) => {
 			return common.remove(state, action);
 		case ActionTypes.DATAVIEWS.SET_ACTIVE_KEY:
 			return common.setActive(state, action);
+		case ActionTypes.DATAVIEWS.USE.INDEXED.REGISTER:
+			return common.registerUseIndexed(state, action);
+		case ActionTypes.DATAVIEWS.USE.INDEXED.CLEAR:
+			return common.useIndexedClear(state, action);
 		default:
 			return state;
 	}

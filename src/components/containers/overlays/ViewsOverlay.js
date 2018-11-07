@@ -4,7 +4,10 @@ import Action from '../../../state/Action';
 import Select from '../../../state/Select';
 import ViewsOverlay from "../../presentation/overlays/ViewsOverlay/ViewsOverlay";
 
+import utils from '../../../utils/utils';
 import {filterScopesByUrl} from '../../../utils/models';
+
+const componentId = utils.guid();
 
 const mapStateToProps = (state) => {
 	let scopes = Select.scopes.getScopesForActiveUser(state);
@@ -29,7 +32,9 @@ const mapDispatchToProps = (dispatch) => {
 		selectScope: (key) => {
 			dispatch(Action.components.overlays.views.setSelectedScope(key));
 			dispatch(Action.scopes.setActiveKey(key));
-			dispatch(Action.dataviews.ensureForScope(key, 1, 1000));
+			// dispatch(Action.dataviews.ensureForScope(key, 1, 1000));
+			dispatch(Action.dataviews.useIndexedClear(componentId));
+			dispatch(Action.dataviews.useIndexed({dataset: key}, null, 1, 1000, componentId));
 		}
 	}
 };
