@@ -356,21 +356,16 @@ Ext.define('PumaMain.controller.ViewMng', {
 			options.activeChoroplethKeys = Config.cfg.activeChoroplethKeys;
 		}
 
-		if (Config.cfg.is3D){
-			window.Stores.notify('fo#adjustConfigurationFromDataview', options);
 
-        	// show right panel
-        	if (Config.cfg.sidebarReportsOpen){
-				$('#sidebar-reports').show();
-			}
-			Observer.notify('scopeChange');
-			Observer.notify("resizeMap");
-		} else {
-			var map = Ext.ComponentQuery.query('#map')[0].map;
-			if (Config.cfg) {
-				map.setCenter([Config.cfg.mapCfg.center.lon,Config.cfg.mapCfg.center.lat],Config.cfg.mapCfg.zoom);
-			}
+		window.Stores.notify('fo#adjustConfigurationFromDataview', options);
+
+		// show right panel
+		if (Config.cfg.sidebarReportsOpen){
+			$('#sidebar-reports').show();
 		}
+
+		Observer.notify('scopeChange');
+		Observer.notify("resizeMap");
     },
 
 	gatherViewConfig: function (options) {

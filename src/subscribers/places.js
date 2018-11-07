@@ -25,13 +25,6 @@ const setStoreWatchers = store => {
 const setEventListeners = store => {
 	window.Stores.addListener((event, options) => {
 		switch(event) {
-			case 'PLACES_LOADED':
-				let oldModels = Select.places.getPlaces(store.getState());
-				let newModels = utils.removeDuplicities(oldModels, _.map(options, transform));
-				if (newModels && newModels.length){
-					store.dispatch(Action.places.add(newModels));
-				}
-				break;
 			case 'place#setActivePlace':
 				let scope = Select.scopes.getActiveScopeData(store.getState());
 				let place = null;
@@ -50,7 +43,7 @@ const setEventListeners = store => {
 					store.dispatch(Action.places.setActive(place));
 
 					// if scope has scenario property: load scenario cases, spatial relations and then spatial data sources
-					if (scope.scenarios){
+					if (scope.data && scope.data.scenarios){
 						store.dispatch(Action.scenarios.loadCases());
 						let dispatchRelationsLoading = store.dispatch(Action.spatialRelations.load());
 

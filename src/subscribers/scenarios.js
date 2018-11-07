@@ -40,7 +40,7 @@ const setEventListeners = store => {
 					// convert from old data structure
 					let data = {
 						cases: viewData.cases,
-						scenarios: viewData.activeKeys ? _.omit(viewData, "cases") : viewData.scenarios
+						scenarios: viewData.hasOwnProperty("activeKeys") ? _.omit(viewData, "cases") : viewData.scenarios
 					};
 					state.scenariosDataviewSettings = null;
 					store.dispatch(Action.scenarios.applyDataviewSettings(data));

@@ -101,8 +101,11 @@ class ExtApp {
 
 		this.domManipulationController.renderApp();
 		this.renderController.renderApp();
-		this.dataViewController.onLoadingFinished(data.dataview);
     };
+
+    applyDataview(data){
+		this.dataViewController.onLoadingFinished(data.dataview);
+	};
 
     afterLoad() {
         // set Home link in header // todo Move this somewhere else?

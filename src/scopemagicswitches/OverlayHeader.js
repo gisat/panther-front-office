@@ -5,8 +5,8 @@ import Select from '../state/Select';
 import DromasLpisChangeReviewHeader from '../components/scopeSpecific/DromasLpisChangeReview/header';
 
 const MagicSwitch = ({scope}) => {
-	if (scope) {
-		if (scope.configuration && scope.configuration.headerComponent === "dromasLpisChangeReview") {
+	if (scope && scope.data) {
+		if (scope.data.configuration && scope.data.configuration.headerComponent === "dromasLpisChangeReview") {
 			return <DromasLpisChangeReviewHeader />
 		}
 	}

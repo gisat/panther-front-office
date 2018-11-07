@@ -9,21 +9,21 @@ import AuAttributeFrequencyGraph from '../components/containers/controls/MapsTim
 
 
 const MagicSwitch = ({scope}) => {
-	if (scope) {
-		if (scope.showTimeline && scope.aoiLayer) {
+	if (scope && scope.data) {
+		if (scope.data.showTimeline && scope.data.aoiLayer) {
 			return <AoiWmsMapsTimeline />
 		}
-		if (scope.configuration && scope.configuration.dromasLpisChangeReview) {
+		if (scope.data.configuration && scope.data.configuration.dromasLpisChangeReview) {
 			return <DromasLpisChangeReviewMapsTimeline />
 		}
 		// todo indication on scope
-		if (scope.showTimeline && scope.viewSelection === 'placeSelector') {
+		if (scope.data.showTimeline && scope.data.viewSelection === 'placeSelector') {
 			return <PlaceWmsMapsTimeline />
 		}
-		if (scope.showTimeline && scope.timelineContent === "auAttributeFrequencyGraph") {
+		if (scope.data.showTimeline && scope.data.timelineContent === "auAttributeFrequencyGraph") {
 			return <MapsTimeline content={AuAttributeFrequencyGraph} />
 		}
-		if (scope.showTimeline) {
+		if (scope.data.showTimeline) {
 			return <MapsTimeline />
 		}
 	}

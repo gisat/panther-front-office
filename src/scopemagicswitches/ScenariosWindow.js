@@ -4,8 +4,8 @@ import Select from '../state/Select';
 import ScenariosWindow from '../components/containers/windows/ScenariosWindow/ScenariosWindow';
 
 const MagicSwitch = ({scope}) => {
-	if (scope){
-		if (scope.scenarios){
+	if (scope && scope.data){
+		if (scope.data.scenarios){
 			return <ScenariosWindow />;
 		}
 	}

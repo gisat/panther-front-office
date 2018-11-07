@@ -19,7 +19,7 @@ const getPlacesForActiveScope = createSelector(
 	[getAll, ScopesSelector.getActiveScopeKey],
 	(models, activeScopeKey) => {
 		return _.filter(models, function(model){
-			return model.scope === activeScopeKey;
+			return model.data && (model.data.dataset === activeScopeKey);
 		});
 	}
 );

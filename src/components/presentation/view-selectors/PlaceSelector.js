@@ -36,9 +36,9 @@ class PlaceSelector extends React.PureComponent {
 
 		if (this.props.disabledHard){
 
-			if (this.props.activePlace) {
+			if (this.props.activePlace && this.props.activePlace.data) {
 				content = (
-					<div className="ptr-aoi-selected"><span>{this.props.label}:</span>{this.props.activePlace.name}</div>
+					<div className="ptr-aoi-selected"><span>{this.props.label}:</span>{this.props.activePlace.data.name}</div>
 				);
 			} // else keep null
 
@@ -52,7 +52,7 @@ class PlaceSelector extends React.PureComponent {
 					options.push({
 						key: place.key,
 						value: place.key,
-						label: place.name
+						label: place.data && place.data.name
 					})
 				});
 

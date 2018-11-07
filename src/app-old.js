@@ -138,7 +138,7 @@ function loadApp(initialData) {
             return ext.afterLoad();
         }).then(function () {
 			setUpNewApp();
-            window.Stores.notify('extLoaded');
+			ext.applyDataview(initialData);
         }).catch(err => {
             console.error('Loading#', err);
         });

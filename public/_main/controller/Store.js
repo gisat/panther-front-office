@@ -671,7 +671,7 @@ Ext.define('PumaMain.controller.Store', {
 				property: 'name',
 				direction: 'ASC'
 			}],
-			fields: ['name', 'locGid', 'location', 'dataset', 'at', 'bbox'],
+			fields: ['name', 'locGid', 'location', 'dataset', 'at', 'bbox', '_id'],
 			filters: [function (rec) {
 				return false;
 			}],
