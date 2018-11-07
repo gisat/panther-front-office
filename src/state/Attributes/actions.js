@@ -6,7 +6,25 @@ import Select from "../Select";
 
 // ============ creators ===========
 
-const add = common.add(actionAdd);
+function add(data) {
+	return (dispatch) => {
+		if (data && data.length){
+			dispatch(common.add(actionAdd)(data));
+		}
+		dispatch(actionInitializeForExt());
+	}
+}
+
+function loadForKeys(keys) {
+	return (dispatch) => {
+		let filter = {
+			key: {
+				in: keys
+			}
+		};
+		return dispatch(common.loadFiltered('attributes', filter, add, actionLoadError));
+	}
+}
 
 
 // ============ actions ===========
@@ -18,10 +36,17 @@ function actionAdd(attributes) {
 	}
 }
 
-function actionEnsureError(err) {
+function actionLoadError(err) {
 	return {
-		type: ActionTypes.ATTRIBUTES.ENSURE.ERROR,
+		type: ActionTypes.ATTRIBUTES.LOAD.ERROR,
 		error: err
+	}
+}
+
+// TODO It will be removed along with Ext
+function actionInitializeForExt() {
+	return {
+		type: ActionTypes.ATTRIBUTES.INITIALIZE_FOR_EXT,
 	}
 }
 
@@ -30,5 +55,6 @@ function actionEnsureError(err) {
 
 export default {
 	add,
-	ensure: common.ensure.bind(this, Select.attributes.getSubstate, 'attributes', actionAdd, actionEnsureError),
+	initializeForExt: actionInitializeForExt,
+	loadForKeys
 }

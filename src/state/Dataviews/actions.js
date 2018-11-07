@@ -128,7 +128,9 @@ function loadByKey(key) {
 					.then(() => {
 						let attributeKeys = Select.attributeSets.getAttributeKeysForActive(getState());
 						if (attributeKeys){
-							dispatch(AttributesActions.ensure(attributeKeys));
+							dispatch(AttributesActions.loadForKeys(attributeKeys));
+						} else {
+							dispatch(AttributesActions.initializeForExt());
 						}
 					})
 					.catch(err => {

@@ -57,6 +57,11 @@ export default {
 		return {...state, indexes: indexes};
 	},
 
+	// TODO It will be removed along with Ext
+	initializeForExt: (state) => {
+		return {...state, initializedForExt: true}
+	},
+
 	registerUseIndexed: (state, action) => {
 		let indexes = [];
 		let selectedIndex = {};

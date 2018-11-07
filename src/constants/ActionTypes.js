@@ -28,6 +28,7 @@ export default utils.deepKeyMirror({
 			ERROR: null,
 			REQUEST: null
 		},
+		INITIALIZE_FOR_EXT: null, // TODO It will be removed along with Ext
 		SET_ACTIVE_KEY: null,
 		SET_ACTIVE_KEYS: null
 	},
@@ -44,6 +45,7 @@ export default utils.deepKeyMirror({
 			ERROR: null,
 			REQUEST: null
 		},
+		INITIALIZE_FOR_EXT: null, // TODO It will be removed along with Ext
 		SET_ACTIVE_KEY: null,
 		SET_ACTIVE_KEYS: null
 	},
