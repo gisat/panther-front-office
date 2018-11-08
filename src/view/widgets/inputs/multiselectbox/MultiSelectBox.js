@@ -79,6 +79,15 @@ class MultiSelectBox extends View {
         let content = "";
         let self = this;
 
+		if (this._data.length > 1) {
+		    content += '<div class="multiselect-all-container">';
+			content += self.addOption(self._id + '-option-select-all', "multiselect-select-all", "Select all");
+			content += self.addOption(self._id + '-option-clear-all', "multiselect-clear-all", "Clear all");
+			content += "</div>";
+			this.addSelectAllListener();
+			this.addClearAllListener();
+		}
+
         // options
         this._data.forEach(function (item, index) {
             let id = self._id + '-option-' + index;
@@ -87,13 +96,6 @@ class MultiSelectBox extends View {
             }
         });
 
-        if (this._data.length > 1) {
-            content += "<br>";
-            content += self.addOption(self._id + '-option-select-all', "multiselect-select-all", "Select all");
-            content += self.addOption(self._id + '-option-clear-all', "multiselect-clear-all", "Clear all");
-            this.addSelectAllListener();
-            this.addClearAllListener();
-        }
         return content;
     };
 

@@ -29,11 +29,10 @@ label.select-menu-caption {
     line-height: 1rem;
 }
 
-.select-menu-box .ui-selectmenu-icon, .select-menu-box .ui-selectmenu-button-open .ui-selectmenu-icon,
-.select-menu-box .ui-selectmenu-button-closed .ui-selectmenu-icon {
-    background: url('/../../../../img/arrow-down.png');
-}
-
 .select-menu-box .ui-corner-all {
     border-radius: .1rem;
+}
+
+.ui-selectmenu-menu .ui-menu {
+    max-height: 300px;
 }
