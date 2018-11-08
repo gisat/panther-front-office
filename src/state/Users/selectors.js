@@ -35,23 +35,22 @@ const isAdminOrAdminGroupMember = createSelector(
 );
 
 const getGroupsForActiveUser = createSelector(
-	[getActiveKey, UserGroupSelectors.getAll],
-	(activeUserKey, groups) => {
-		return _.filter(groups, (group) => {
-			return (_.find(group.users, (user) => {
-				return user === activeUserKey
-			})) || group.key === 2;
-		});
+	[getActive, groups],
+	(user, groups) => {
+		if (user && user.groups && groups){
+			let groupData = _.pick(groups, user.groups);
+			return groupData ? Object.values(groupData) : null;
+		} else {
+			return null;
+		}
 	}
 );
 
 const getGroupKeysForActiveUser = createSelector(
-	[getGroupsForActiveUser, getActive],
-	(groups, activeUser) => {
+	[getActive],
+	(activeUser) => {
 		if (activeUser && activeUser.groups) {
-			return activeUser.groups.map(group => {
-				return group.key ? group.key : (group.id ? group.id : group._id)
-			});
+			return activeUser.groups;
 		} else {
 			return [];
 		}
