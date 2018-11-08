@@ -20,8 +20,10 @@ const isAdmin = state => state.users.isAdmin;
 const isAdminGroupMember = createSelector(
 	[getActive],
 	(user) => {
-		if (user){
-			let adminGroup = _.find(user.groups, (group) => {return group._id === 1});
+		if (user) {
+			let adminGroup = _.find(user.groups, (group) => {
+				return group._id === 1
+			});
 			return !!adminGroup;
 		}
 		return false;
@@ -39,7 +41,9 @@ const getGroupsForActiveUser = createSelector(
 	[getActiveKey, UserGroupSelectors.getAll],
 	(activeUserKey, groups) => {
 		return _.filter(groups, (group) => {
-			return (_.find(group.users, (user) => {return user === activeUserKey})) || group.key === 2;
+			return (_.find(group.users, (user) => {
+				return user === activeUserKey
+			})) || group.key === 2;
 		});
 	}
 );
@@ -47,8 +51,10 @@ const getGroupsForActiveUser = createSelector(
 const getGroupKeysForActiveUser = createSelector(
 	[getGroupsForActiveUser, getActive],
 	(groups, activeUser) => {
-		if (activeUser && activeUser.groups){
-			return activeUser.groups.map(group => {return group.key ? group.key : (group.id ? group.id : group._id) });
+		if (activeUser && activeUser.groups) {
+			return activeUser.groups.map(group => {
+				return group.key ? group.key : (group.id ? group.id : group._id)
+			});
 		} else {
 			return [];
 		}
@@ -58,10 +64,10 @@ const getGroupKeysForActiveUser = createSelector(
 const getGroupsForActiveUserPermissionsTowards = createSelector(
 	[getGroupsForActiveUser],
 	(groups) => {
-		if (groups && groups.length){
+		if (groups && groups.length) {
 			let permissions = [];
 			groups.map(group => {
-				if (group.permissionsTowards){
+				if (group.permissionsTowards) {
 					permissions = [...permissions, ...group.permissionsTowards];
 				}
 			});
@@ -75,7 +81,7 @@ const getGroupsForActiveUserPermissionsTowards = createSelector(
 const getActiveUserPermissionsTowards = createSelector(
 	[getActive],
 	(user) => {
-		if (user && user.permissionsTowards){
+		if (user && user.permissionsTowards) {
 			return user.permissionsTowards;
 		} else {
 			return [];
@@ -96,38 +102,40 @@ const getActiveUserPermissionsTowardsCombined = createSelector(
 const hasActiveUserPermissionToCreate = createSelector(
 	[getActiveUserPermissionsTowardsCombined, (state, type) => type],
 	(permissionsTowards, type) => {
-		if (!permissionsTowards || !permissionsTowards.length){
+		if (!permissionsTowards || !permissionsTowards.length) {
 			return false;
 		} else {
-			let permission = _.find(permissionsTowards, (per) => {return per.resourceType === type});
+			let permission = _.find(permissionsTowards, (per) => {
+				return per.resourceType === type
+			});
 			return !!(permission && permission.permission === "POST");
 		}
 	}
 );
 
 const isDromasAdmin = state => {
-    let isDromasAdmin = false;
-    if(state.users && state.users.data && state.users.data.length) {
-        const currentUser = state.users.data.filter(user => user.key === state.users.activeKey);
-        if (currentUser.length > 0) {
-            currentUser[0].groups.forEach(group => {
-                if (group.name === 'Aktualizace LPIS Gisat admin') {
-                    isDromasAdmin = true;
-                }
-            })
-        }
-    }
-    return isDromasAdmin || state.users.isAdmin;
+	let isDromasAdmin = false;
+	if (state.users && state.users.data && state.users.data.length) {
+		const currentUser = state.users.data.filter(user => user.key === state.users.activeKey);
+		if (currentUser.length > 0) {
+			currentUser[0].groups.forEach(group => {
+				if (group.name === 'Aktualizace LPIS Gisat admin') {
+					isDromasAdmin = true;
+				}
+			})
+		}
+	}
+	return isDromasAdmin || state.users.isAdmin;
 };
 
-const getActiveUserDromasLpisChangeReviewGroup  = createSelector(
+const getActiveUserDromasLpisChangeReviewGroup = createSelector(
 	[getGroupKeysForActiveUser, ScopeSelectors.getActiveScopeConfiguration],
 	(activeUserGroupKeys, activeScopeConfiguration) => {
 		if (_.includes(activeUserGroupKeys, activeScopeConfiguration.dromasLpisChangeReview.groups.gisatAdmins)) {
 			return 'gisatAdmins';
 		} else if (_.includes(activeUserGroupKeys, activeScopeConfiguration.dromasLpisChangeReview.groups.szifAdmins)) {
 			return 'szifAdmins';
-		} else if (_.includes(activeUserGroupKeys, activeScopeConfiguration.dromasLpisChangeReview.groups.gisatUsers)){
+		} else if (_.includes(activeUserGroupKeys, activeScopeConfiguration.dromasLpisChangeReview.groups.gisatUsers)) {
 			return 'gisatUsers';
 		} else if (_.includes(activeUserGroupKeys, activeScopeConfiguration.dromasLpisChangeReview.groups.szifUsers)) {
 			return 'szifUsers';
