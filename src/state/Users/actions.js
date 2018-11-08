@@ -78,54 +78,6 @@ function apiLoginUser(email, password, ttl) {
     };
 }
 
-function apiLoad(ttl) {
-	if (_.isUndefined(ttl)) ttl = TTL;
-	return (dispatch, getState) => {
-		let state = getState();
-		if (state.users.loading) {
-			// already loading, do nothing
-		} else {
-			dispatch(actionApiLoadRequest());
-
-			let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/user');
-
-			return fetch(url, {
-				method: 'GET',
-				credentials: 'include',
-				headers: {
-					'Content-Type': 'application/json',
-					'Accept': 'application/json'
-				}
-			}).then(
-				response => {
-					let contentType = response.headers.get('Content-type');
-					if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
-						return response.json().then(data => {
-							Promise.all(data.data.map(user => {
-								return new User({data: user}).then(user => {
-									user.key = user.id;
-									return user;
-								});
-							})).then(users => {
-								dispatch(actionAdd(users));
-							});
-						});
-					} else {
-						dispatch(actionApiLoadRequestError('scopes#action Problem with loading scopes.'));
-					}
-				},
-				error => {
-					if (ttl - 1) {
-						dispatch(apiLoad(ttl - 1));
-					} else {
-						dispatch(actionApiLoadRequestError('scopes#action Problem with loading scopes.'));
-					}
-				}
-			);
-		}
-	};
-}
-
 function apiLoadCurrentUser(ttl) {
     if (_.isUndefined(ttl)) ttl = TTL;
     return dispatch => {
@@ -288,7 +240,6 @@ function actionLogout() {
 
 export default {
 	add: common.add(actionAdd),
-	apiLoad: apiLoad,
     apiLoadCurrentUser: apiLoadCurrentUser,
 	apiLoginUser: apiLoginUser,
 	apiLogoutUser: apiLogoutUser,
