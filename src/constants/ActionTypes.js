@@ -230,7 +230,12 @@ export default utils.deepKeyMirror({
 	},
 
 	USERS: {
-		LOGOUT: null
+		ADD: null,
+		GROUPS: {
+			ADD: null
+		},
+		LOGOUT: null,
+		SET_ACTIVE_KEY: null
 	},
 
 	USERS_ADD: 'USERS_ADD',
