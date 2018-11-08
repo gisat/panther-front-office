@@ -62,13 +62,13 @@ describe('Common Actions', () => {
 			const store = mockStore({});
 			const action = (keys) => {
 				return {
-					type: ActionTypes.ATTRIBUTE_SETS_SET_ACTIVE_MULTI,
+					type: ActionTypes.ATTRIBUTE_SETS.SET_ACTIVE_KEYS,
 					keys: keys
 				}
 			};
 			const keys = [2, 3];
 			const expectedActions = [{
-				type: ActionTypes.ATTRIBUTE_SETS_SET_ACTIVE_MULTI,
+				type: ActionTypes.ATTRIBUTE_SETS.SET_ACTIVE_KEYS,
 				keys: [2, 3]
 			}];
 			store.dispatch(commonActions.setActiveKeys(action)(keys));
