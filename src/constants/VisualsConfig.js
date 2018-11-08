@@ -7,6 +7,9 @@ export default {
 	"invaze": {
 		htmlClass: "invaze"
 	},
+	"eo4sd": {
+		htmlClass: "eo4sd"
+	},
 	"test": {
 		htmlClass: "dromas"
 	}

@@ -6,6 +6,9 @@
 	DROMAS......................adjustments for Dromas
 	  Intro overlay
 
+	EO4SD...................adjustments for EO4SD
+	  Header
+
 	INVAZE......................adjustments for Invaze
 	  Intro overlay
 
@@ -16,6 +19,13 @@
 	  Top toolbar inputs
 
 */
+
+@font-face {
+	font-family: 'NotesEsa';
+	font-style: normal;
+	font-weight: normal;
+	src: local('Tangerine'), url('../fonts/NotesEsaReg.otf') format('opentype');
+}
 
 /* Intro Overlay */
 .about-window-header {
@@ -42,6 +52,42 @@ html.dromas .about-window-header {
 }
 html.dromas .about-window-header-title {
 	background: rgba(172,98,33,.7);
+}
+
+/* ===================================================
+   === EO4SD =========================================
+   =================================================== */
+
+/* header */
+.eo4sd #header, .eo4sd #view-selector, .eo4sd #content-intro, .eo4sd #content-intro-guide {
+	background-color: black;
+	font-family: "NotesEsa", sans-serif;
+}
+
+.eo4sd.newDesign #content-intro table:hover .x-form-text,
+.eo4sd.newDesign #content-intro table:hover .x-form-trigger,
+.eo4sd.newDesign #content-intro .x-form-trigger,
+.eo4sd.newDesign #content-intro .custom-combo .x-form-text,
+.eo4sd .app-legacy-view-selector-help .help-btn .x-btn:hover,
+.eo4sd.x-border-box .x-form-trigger.x-form-refresh-trigger,
+.eo4sd.x-border-box .custom-combo .x-form-text,
+.eo4sd.x-border-box .custom-combo .x-form-trigger,
+.eo4sd .x-btn.custom-button.x-btn-default-small,
+.eo4sd .select-multi-container.top-bar-multiselect,
+.eo4sd .component-button.compare-button:hover,
+.eo4sd .select-basic-container.top-bar-select {
+	background: rgba(255, 255, 255, .25);
+}
+.eo4sd.x-border-box .custom-combo:hover .x-form-text,
+.eo4sd.x-border-box .custom-combo:hover .x-form-trigger,
+.eo4sd.x-border-box .custom-combo:hover .x-form-trigger.x-form-refresh-trigger,
+.eo4sd .x-btn.custom-button.x-btn-default-small:hover {
+	background-color: rgba(255, 255, 255, .3) !important;
+}
+.eo4sd .select-multi-container.top-bar-multiselect:hover,
+.eo4sd .select-basic-container.top-bar-select:hover,
+.eo4sd .component-button.compare-button {
+	background: rgba(255, 255, 255, .3);
 }
 
 /* ===================================================
