@@ -46,7 +46,7 @@ let $ = window.$;
 
 function loadApp(initialData) {
     let store = {
-        attributes: new AttributesStore(),
+        attributes: new AttributesStore(initialData.attributes),
         attributeSets: new AttributeSets(initialData.attributeSets),
         dataviews: new Dataviews(),
         groups: new Groups(),

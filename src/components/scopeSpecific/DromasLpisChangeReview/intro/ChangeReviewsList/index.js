@@ -49,9 +49,6 @@ const mapDispatchToProps = (dispatch) => {
 			// dispatch(Action.components.setIntro(false));
 			dispatch(Action.lpisCases.redirectToActiveCaseView());
 		},
-		loadUsers: () => {
-			dispatch(Action.users.apiLoad());
-		},
 		invalidateCase: (caseKey) => {
 			dispatch(Action.lpisCases.userActionInvalidate(caseKey))
 		}
