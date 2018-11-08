@@ -133,7 +133,8 @@ export default utils.deepKeyMirror({
 			REQUEST: null
 		},
 		SET_ACTIVE_KEY: null,
-		SET_ACTIVE_KEYS: null
+		SET_ACTIVE_KEYS: null,
+		INITIALIZE_FOR_EXT: null, // TODO It will be removed along with Ext
 	},
 
 	REDIRECT_TO_VIEW: 'REDIRECT_TO_VIEW',

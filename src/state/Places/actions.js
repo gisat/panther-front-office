@@ -67,6 +67,13 @@ function actionSetActiveKeys(places) {
 	}
 }
 
+// TODO It will be removed along with Ext
+function actionInitializeForExt() {
+	return {
+		type: ActionTypes.PLACES.INITIALIZE_FOR_EXT,
+	}
+}
+
 // ============ export ===========
 
 export default {
@@ -74,5 +81,7 @@ export default {
 	ensure: common.ensure.bind(this, Select.places.getSubstate, 'places', actionAdd, actionEnsureError),
 	setActive,
 	setActiveKey,
-	setActiveKeys
+	setActiveKeys,
+
+	initializeForExt: actionInitializeForExt
 }

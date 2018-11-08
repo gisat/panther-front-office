@@ -1,10 +1,5 @@
-#placeholder-evaluation-widget {
-    display: block;
-}
-
 /* = Evaluation floater = */
 #floater-evaluation-widget {
-    position: absolute;
     left: 16rem;
     top: 10rem;
     min-width: 22rem;
@@ -12,6 +7,13 @@
     height: 32rem;
     min-height: 20rem;
     max-height: 35rem;
+}
+
+#floater-evaluation-widget.pinned {
+    min-width: 350px;
+    max-width: 350px;
+    max-height: none;
+    height: 100%;
 }
 
 #floater-evaluation-widget .floater-body {
@@ -27,13 +29,19 @@
 
 /* floater body */
 #floater-evaluation-widget .floater-body > div:nth-child(odd) {
-    padding: .8rem .5rem;
+    padding: .8rem;
+    background: #eee;
 }
 
 #floater-evaluation-widget .floater-body > div:nth-child(even){
-    padding: .8rem .5rem;
-    border-bottom: 1px solid rgb(189,192,197);
-    border-top: 1px solid rgb(189,192,197);
+    padding: .8rem;
+    border-bottom: 1px dashed #aaa;
+    border-top: 1px dashed #aaa;
+}
+
+#floater-evaluation-widget .floater-row .slider-caption,
+#floater-evaluation-widget .floater-row .select-menu-caption {
+    margin-bottom: .2rem;
 }
 
 #floater-evaluation-widget .floater-row.slider-box,

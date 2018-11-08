@@ -46,7 +46,7 @@ let $ = window.$;
 
 function loadApp(initialData) {
     let store = {
-        attributes: new AttributesStore(),
+        attributes: new AttributesStore(initialData.attributes),
         attributeSets: new AttributeSets(initialData.attributeSets),
         dataviews: new Dataviews(),
         groups: new Groups(),
@@ -463,6 +463,7 @@ function loadApp(initialData) {
             placeholderTargetId: 'widget-container',
             aggregatedChart: aggregatedChart,
             isOpen: isOpen,
+			isPinnable: true,
             dispatcher: window.Stores,
             store: {
                 state: stateStore

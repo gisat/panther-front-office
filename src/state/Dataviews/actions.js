@@ -95,7 +95,7 @@ function loadByKey(key) {
 				dispatch(ScopesActions.ensure([data.dataset]));
 			}
 
-			if (data.locations || data.location){
+			if ((data.locations && data.locations.length) || (data.location && data.locations.length)){
 				if (data.locations && data.locations.length > 1){
 					dispatch(PlacesActions.setActiveKeys(data.locations));
 					dispatch(PlacesActions.ensure(data.locations));
@@ -103,6 +103,8 @@ function loadByKey(key) {
 					dispatch(PlacesActions.setActiveKey(data.location));
 					dispatch(PlacesActions.ensure([data.location]));
 				}
+			} else {
+				dispatch(PlacesActions.initializeForExt());
 			}
 
 			if (data.years){

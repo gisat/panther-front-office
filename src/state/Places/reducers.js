@@ -17,6 +17,8 @@ export default (state = INITIAL_STATE, action) => {
 			return common.setActive(state, action);
 		case ActionTypes.PLACES_SET_ACTIVE_MULTI:
 			return common.setActiveMultiple(state, action);
+		case ActionTypes.PLACES.INITIALIZE_FOR_EXT:
+			return common.initializeForExt(state, action);
 		default:
 			return state;
 	}
