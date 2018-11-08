@@ -57,11 +57,12 @@ let initialize = function() {
 	}
 };
 
+// Load Current User
+store.dispatch(Action.users.apiLoadCurrentUser());
+
 if(!id) {
 	// Load Scopes
 	store.dispatch(Action.scopes.loadAll());
-	// Load Current User
-	store.dispatch(Action.users.apiLoadCurrentUser());
 
 	initialize();
 } else {
