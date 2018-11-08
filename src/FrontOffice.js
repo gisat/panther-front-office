@@ -534,15 +534,10 @@ class FrontOffice {
             this.adjustConfiguration();
         } else if (type === Actions.adjustConfigurationFromDataview){
 			window.Stores.notify('scope#activeScopeChanged', {activeScopeKey: Number(options.scope)});
-            var self = this;
-            this._store.locations.load().then(function(){
-                self.adjustConfiguration(options);
-            });
+            this.adjustConfiguration(options);
         } else if (type === "dataview#setMapsFromDataview"){
         	this.setMapsFromDataview(options);
-		} else if (type === Actions.userChanged){
-			this._store.scopes.load();
-        }
+		}
     }
 }
 
