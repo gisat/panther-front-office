@@ -18,9 +18,12 @@ const TTL = 5;
 // ============ creators ===========
 
 function setActiveScopeKey(key) {
-	return dispatch => {
+	return (dispatch, getState) => {
 		dispatch(actionSetActiveScopeKey(key));
-		dispatch(applyScopeConfiguration());
+		let isIntro = Select.components.isAppInIntroMode(getState());
+		if (!isIntro){
+			dispatch(applyScopeConfiguration());
+		}
 	};
 }
 function applyScopeConfiguration() {
