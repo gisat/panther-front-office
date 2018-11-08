@@ -21,10 +21,7 @@ const isAdminGroupMember = createSelector(
 	[getActive],
 	(user) => {
 		if (user) {
-			let adminGroup = _.find(user.groups, (group) => {
-				return group._id === 1
-			});
-			return !!adminGroup;
+			return _.includes(user.groups, 1);
 		}
 		return false;
 	}

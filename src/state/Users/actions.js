@@ -33,6 +33,9 @@ function reloadData(dispatch) {
 
 // ============ creators ===========
 
+const add = common.add(actionAdd);
+const setActiveKey = common.setActiveKey(actionSetActiveKey);
+
 function update(user) {
 	return dispatch => {
 		dispatch(actionUpdate(user));
@@ -144,20 +147,35 @@ function apiLoadCurrentUser(ttl) {
 			response => {
 				console.log('#### load current user response', response);
 				if (response.ok) {
-					return response.json().then(data => {
-						if (data._id != 0) {
-							new User({data: data}).then(user => {
-								user.key = user.id;
-								dispatch(actionAdd([user]));
+					return response.json().then(body => {
 
-								dispatch(actionUpdate({
-									userId: data._id,
-									isLoggedIn: true,
-									isAdmin: false
-								}));
-								dispatch(overlaysActions.closeOverlay('login'));
-							});
+						if (body._id === 0) {
+							// no logged in user = guest
+							dispatch(actionAddGroups(transformGroups(body.groups)));
+						} else if (body._id) {
+							// logged in user
+							dispatch(setActiveKey(body._id));
+							dispatch(add(transformUser(body)));
+							dispatch(actionAddGroups(transformGroups(body.groups)));
+
+							// todo some better solution than always trying to close overlay
+							dispatch(overlaysActions.closeOverlay('login'));
 						}
+
+
+						// if (body._id != 0) {
+						// 	new User({data: body}).then(user => {
+						// 		user.key = user.id;
+						// 		dispatch(actionAdd([user]));
+						//
+						// 		dispatch(actionUpdate({
+						// 			userId: body._id,
+						// 			isLoggedIn: true,
+						// 			isAdmin: false
+						// 		}));
+						// 		dispatch(overlaysActions.closeOverlay('login'));
+						// 	});
+						// }
 					});
 				} else {
 					dispatch(actionApiLoadCurrentUserRequestError('user#action loadCurrent Problem with loading current User, please try later.'));
@@ -211,12 +229,51 @@ function apiLogoutUser(ttl) {
 	};
 }
 
+// ============ helpers ===========
+
+function transformUser(body) {
+	return {
+		key: body._id,
+		data: {
+			email: body.email,
+			name: body.name,
+			phone: body.phone
+		},
+		groups: _.map(body.groups, '_id')
+	}
+}
+
+function transformGroups(groups) {
+	return _.map(groups, group => {
+		return {
+			key: group._id,
+			data: {
+				name: group.name
+			}
+		}
+	});
+}
+
 // ============ actions ===========
 
 function actionAdd(users) {
 	return {
-		type: ActionTypes.USERS_ADD,
+		type: ActionTypes.USERS.ADD,
 		data: users
+	}
+}
+
+function actionAddGroups(groups) {
+	return {
+		type: ActionTypes.USERS.GROUPS.ADD,
+		data: groups
+	}
+}
+
+function actionSetActiveKey(key) {
+	return {
+		type: ActionTypes.USERS.SET_ACTIVE_KEY,
+		key
 	}
 }
 
