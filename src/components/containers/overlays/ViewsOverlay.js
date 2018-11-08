@@ -7,8 +7,6 @@ import ViewsOverlay from "../../presentation/overlays/ViewsOverlay/ViewsOverlay"
 import utils from '../../../utils/utils';
 import {filterScopesByUrl} from '../../../utils/models';
 
-const componentId = 'ViewsOverlay_' + utils.randomString(6);
-
 const mapStateToProps = (state) => {
 	let scopes = Select.scopes.getScopesForActiveUser(state);
 	let isAdminGroupMember = Select.users.isAdminGroupMember(state);
@@ -27,16 +25,21 @@ const mapStateToProps = (state) => {
 	}
 };
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		selectScope: (key) => {
-			dispatch(Action.components.overlays.views.setSelectedScope(key));
-			dispatch(Action.scopes.setActiveKey(key));
-			// dispatch(Action.dataviews.ensureForScope(key, 1, 1000));
-			dispatch(Action.dataviews.useIndexedClear(componentId));
-			dispatch(Action.dataviews.useIndexed({dataset: key}, null, 1, 1000, componentId));
+const mapDispatchToPropsFactory = () => {
+
+	const componentId = 'ViewsOverlay_' + utils.randomString(6);
+
+	return (dispatch) => {
+		return {
+			selectScope: (key) => {
+				dispatch(Action.components.overlays.views.setSelectedScope(key));
+				dispatch(Action.scopes.setActiveKey(key));
+				// dispatch(Action.dataviews.ensureForScope(key, 1, 1000));
+				dispatch(Action.dataviews.useIndexedClear(componentId));
+				dispatch(Action.dataviews.useIndexed({dataset: key}, null, 1, 1000, componentId));
+			}
 		}
 	}
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ViewsOverlay);
+export default connect(mapStateToProps, mapDispatchToPropsFactory)(ViewsOverlay);
