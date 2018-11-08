@@ -237,6 +237,46 @@ describe('Common selectors', () => {
 		});
 	});
 
+	describe('#getAllForDataview', () => {
+		it('selected data shoud be in array, if exists', () => {
+			expect(Array.isArray(commonSelectors.getAllForDataview(getSubstate)(INITIAL_STATE))).toBeTruthy();
+			expect(Array.isArray(commonSelectors.getAllForDataview(getSubstate)(EMPTY_DATA_STATE))).toBeTruthy();
+		});
+		it('should select all models', () => {
+			expect(commonSelectors.getAllForDataview(getSubstate)(INITIAL_STATE)).toHaveLength(2);
+		});
+		it('it should select null, if byKey does not exist', () => {
+			expect(commonSelectors.getAllForDataview(getSubstate)(NO_DATA_STATE)).toBeNull();
+		});
+		it('it should select empty array, if byKey is empty object', () => {
+			expect(commonSelectors.getAllForDataview(getSubstate)(EMPTY_DATA_STATE)).toHaveLength(0);
+		});
+	});
+
+	describe('#getAllForDataviewAsObject', () => {
+		const expectedOutput = {
+			1: {
+				name: "World",
+				_id: 1
+			},
+			2: {
+				name: "Europe",
+				_id: 2
+			}
+		};
+
+		it('selected data should equal expected object', () => {
+			expect(commonSelectors.getAllForDataviewAsObject(getSubstate)(INITIAL_STATE)).toEqual(expectedOutput);
+		});
+		it('should select null, if data does not exist', () => {
+			expect(commonSelectors.getAllForDataviewAsObject(getSubstate)(NO_DATA_STATE)).toBeNull();
+		});
+		it('should select empty object, if data data is empty object', () => {
+			let selection = commonSelectors.getAllForDataviewAsObject(getSubstate)(EMPTY_DATA_STATE);
+			expect(_.isEmpty(selection)).toBeTruthy();
+		});
+	});
+
 	describe('#getByKey', () => {
 		const expectedOutput = {
 				key: 1,
