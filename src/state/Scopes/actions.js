@@ -11,8 +11,6 @@ import common from '../_common/actions';
 function setActiveKey(key) {
 	return dispatch => {
 		dispatch(actionSetActiveKey(key));
-
-		// todo for this action I need to have scope data
 		dispatch(applyScopeConfiguration());
 	};
 }
@@ -61,6 +59,17 @@ function loadAllError(result) {
 	return dispatch => {
 		dispatch(actionLoadError(result));
 		throw new Error(`state/scopes/actions#loadAllError: ${result}`);
+	}
+}
+
+function loadForKeys(keys){
+	return (dispatch) => {
+		let filter = {
+			key: {
+				in: keys
+			}
+		};
+		return dispatch(common.loadFiltered('scopes', filter, actionAdd, actionLoadError));
 	}
 }
 
@@ -115,7 +124,7 @@ function actionSetActiveKey(key) {
 
 export default {
 	add: common.add(actionAdd),
-	ensure: common.ensure.bind(this, Select.scopes.getSubstate, 'scopes', actionAdd, actionEnsureError),
 	setActiveKey,
+	loadForKeys,
 	loadAll,
 }

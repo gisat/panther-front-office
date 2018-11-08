@@ -315,7 +315,7 @@ function loadCaseForActiveView() {
 		return Promise
 			.resolve()
 			.then(() => {
-				if (activeScope.configuration && activeScope.configuration.dromasLpisChangeReview) {
+				if (activeScope.data.configuration && activeScope.data.configuration.dromasLpisChangeReview) {
 					return dispatch(loadFiltered({view_id: Number(activeViewKey)}));
 				}
 			});

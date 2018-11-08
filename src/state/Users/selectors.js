@@ -139,6 +139,8 @@ const getActiveUserDromasLpisChangeReviewGroup  = createSelector(
 
 
 export default {
+	getAll,
+
 	getActiveKey: getActiveKey,
 	getActiveUser: getActive,
 	getActiveUserPermissionsTowards: getActiveUserPermissionsTowards,

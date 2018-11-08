@@ -2,7 +2,7 @@ import {createSelector} from 'reselect';
 import _ from 'lodash';
 import Fuzzy from "fuzzy";
 import fuzzysort from "fuzzysort";
-import UserSelect from '../Users/selectors';
+import UsersSelectors from '../Users/selectors';
 
 import LpisCaseStatuses, {order as LpisCaseStatusOrder} from '../../constants/LpisCaseStatuses';
 
@@ -21,7 +21,6 @@ const getActiveEditedCaseKey = state => state.lpisCases.activeNewEditedCaseKey;
 const getNextActiveCaseKey = state => state.lpisCases.nextActiveCaseKey;
 
 const getActiveViewKey = state => state.dataviews.activeKey;
-const getUsers = state => state.users.data;
 
 const getCasesWithChanges = createSelector(
 	[getCases, getChanges],
@@ -49,7 +48,7 @@ const getCasesWithChanges = createSelector(
 );
 
 const getCasesWithChangesWithoutInvalid = createSelector(
-	[getCasesWithChanges, (state) => UserSelect.getActiveUserDromasLpisChangeReviewGroup(state)],
+	[getCasesWithChanges, (state) => UsersSelectors.getActiveUserDromasLpisChangeReviewGroup(state)],
 	(cases, userGroup) => {
 		if (userGroup === 'gisatUsers'){
 			return _.filter(cases, (oneCase) => {return oneCase.status === "CREATED"});
@@ -145,7 +144,7 @@ const getActiveCase = createSelector(
 );
 
 const getUserApprovedEvaluationOfActiveCase = createSelector(
-	[getActiveCase, getUsers],
+	[getActiveCase, UsersSelectors.getAll],
 	(activeCase, users) => {
 		let latestApproval = activeCase ? _.find(activeCase.changes, (change) => {
 			return change.data.status === LpisCaseStatuses.EVALUATION_APPROVED.database;
@@ -158,7 +157,7 @@ const getUserApprovedEvaluationOfActiveCase = createSelector(
 );
 
 const getUserCreatedActiveCase = createSelector(
-	[getActiveCase, getUsers],
+	[getActiveCase, UsersSelectors.getAll],
 	(activeCase, users) => {
 		return activeCase ? _.find(users, {key: activeCase.createdBy}) : null;
 	}

@@ -111,6 +111,7 @@ export default {
 	getAllAsObject,
 	getAllForDataview,
 	getAllForDataviewAsObject,
+	getActive,
 	getSubstate,
 
 	getPucsSourceVectorLandCoverClasses,

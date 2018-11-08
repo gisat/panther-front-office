@@ -45,7 +45,6 @@ Ext.define('PumaMain.controller.Dataview', {
             Config.cfg = data.data;
 			Config.dataviewId = data.key;
 			this.getController('ViewMng').onDataviewLoad();
-			// window.Stores.notify(`ActiveViewLoaded`);
         }
     },
 });

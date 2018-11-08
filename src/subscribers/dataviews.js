@@ -20,17 +20,20 @@ const setEventListeners = store => {
 	window.Stores.addListener((event, options) => {
 		switch(event) {
 			case "ActiveViewLoaded":
-				store
-					.dispatch(Action.lpisCases.loadCaseForActiveView())
-					.then(() => {
-						return store.dispatch(Action.lpisCases.setActiveCaseByActiveView());
-					}).then(() => {
-						let activeCase = Select.lpisCases.getActiveCase(store.getState());
-						let maps = Select.maps.getMaps(store.getState());
-						if (activeCase && maps && maps.length > 1){
-							addGeometries(activeCase, maps);
-						}
-				});
+				// TODO subscriber
+				// store
+				// 	.dispatch(Action.lpisCases.loadCaseForActiveView())
+				// 	.then(() => {
+				// 		return store.dispatch(Action.lpisCases.setActiveCaseByActiveView());
+				// 	}).then(() => {
+				// 		let activeCase = Select.lpisCases.getActiveCase(store.getState());
+				// 		let maps = Select.maps.getMaps(store.getState());
+				// 		if (activeCase && maps && maps.length > 1){
+				// 			addGeometries(activeCase, maps);
+				// 		}
+				// });
+				break;
+			default:
 				break;
 		}
 	});

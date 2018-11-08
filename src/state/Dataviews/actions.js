@@ -9,12 +9,14 @@ import Select from "../Select";
 
 import AttributesActions from "../Attributes/actions";
 import AttributeSetsActions from "../AttributeSets/actions";
+import LpisCasesActions from "../LpisCases/actions";
 import ScopesActions from "../Scopes/actions";
 import PeriodsActions from "../Periods/actions";
 import PlacesActions from "../Places/actions";
 import ThemesActions from "../_Themes/actions";
 
 import common from "../_common/actions";
+import Action from "../Action";
 
 const TTL = 5;
 
@@ -91,8 +93,19 @@ function loadByKey(key) {
 			let data = activeDataview && activeDataview.data;
 
 			if (data.dataset){
-				dispatch(ScopesActions.setActiveKey(data.dataset));
-				dispatch(ScopesActions.ensure([data.dataset]));
+				dispatch(ScopesActions.loadForKeys([data.dataset]))
+					.then(() => {
+						dispatch(ScopesActions.setActiveKey(data.dataset));
+						let activeScopeConfig = Select.scopes.getActiveScopeConfiguration(getState());
+						if (activeScopeConfig && activeScopeConfig.hasOwnProperty(`dromasLpisChangeReview`)){
+							dispatch(LpisCasesActions.loadCaseForActiveView()).then(() => {
+								dispatch(LpisCasesActions.setActiveCaseByActiveView());
+							});
+						}
+					})
+					.catch(error => {
+					throw new Error(error);
+				});
 			}
 
 			if ((data.locations && data.locations.length) || (data.location && data.locations.length)){
