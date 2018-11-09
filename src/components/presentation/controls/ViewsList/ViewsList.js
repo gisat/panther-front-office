@@ -10,6 +10,7 @@ class ViewsList extends React.PureComponent {
 
 	static propTypes = {
 		hideTitle: PropTypes.bool,
+		isIntro: PropTypes.bool,
 		selectedScope: PropTypes.object,
 		views: PropTypes.array,
 	};
@@ -22,7 +23,7 @@ class ViewsList extends React.PureComponent {
 	render() {
 		return (
 			<div className="ptr-views-list">
-				{this.props.hideTitle ? null : (<h2 className="view-list-title">{this.props.selectedScope ? this.props.selectedScope.name : null}</h2>)}
+				{(this.props.hideTitle || !this.props.isIntro) ? null : (<h2 className="view-list-title">{this.props.selectedScope ? this.props.selectedScope.name : null}</h2>)}
 				<div className="view-list-content">{this.renderViews()}</div>
 			</div>
 		);
