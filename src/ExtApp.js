@@ -23,6 +23,8 @@ class ExtApp {
         Ext.Loader.setPath('Puma.patch', 'patch');
         Ext.Loader.setPath('Puma', '_common');
         Ext.Loader.setPath('Puma', '_common');
+
+        window.Stores.addListener(this.onEvent.bind(this));
     }
 
     setUp() {
@@ -237,6 +239,13 @@ class ExtApp {
 					break;
 			}
 		}
+    }
+
+    onEvent(type, options){
+        if (type === "SHOW_HEADER_LOGO"){
+			$('#content-intro > .label').html("");
+			$('#home-page').html('<img src="' + options + '" />');
+        }
     }
 }
 

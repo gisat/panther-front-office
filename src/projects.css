@@ -109,9 +109,28 @@ html.urban-tep .intro-screen-title {
 	background-color: black;
 }
 
+.eo4sd.newDesign #header {
+	padding-left: 10px;
+}
+
+.eo4sd.newDesign #header .menu {
+	padding-left: 20px;
+}
+.eo4sd.newDesign #header .menu li:first-child:before {
+	width: 0;
+}
+
+.eo4sd.newDesign #home-page {
+	padding: 8px;
+}
+
+.eo4sd.newDesign #view-selector {
+	padding-left: 190px;
+}
+
 .eo4sd.newDesign #header .menu li a,
 .eo4sd.newDesign #header .user a {
-	font-size: .9375rem;
+	font-size: .875rem;
 }
 
 .eo4sd.newDesign #content-intro table:hover .x-form-text,
