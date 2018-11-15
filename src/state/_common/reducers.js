@@ -68,7 +68,7 @@ export default {
 
 		if (state.indexes){
 			state.indexes.forEach(index => {
-				if (_.isEqual(index.filter, action.filter) && _.isEqual(index.order, action.order)){
+				if (_.isEqual(index.filter, action.filter) && _.isEqual(index.order, action.order)){	// todo there is a chance that isEqual may not work if order of keys is not same
 					selectedIndex = index;
 				} else {
 					indexes.push(index);
