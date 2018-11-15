@@ -36,6 +36,11 @@ class ViewsOverlay extends React.PureComponent {
 		}
 	}
 
+	componentWillUnmount() {
+		this.props.onUnmount();
+	}
+
+
 	selectScope(key){
 		this.props.selectScope(key);
 	}

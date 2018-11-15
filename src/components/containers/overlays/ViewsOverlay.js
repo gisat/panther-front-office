@@ -37,6 +37,10 @@ const mapDispatchToPropsFactory = () => {
 				// dispatch(Action.dataviews.ensureForScope(key, 1, 1000));
 				dispatch(Action.dataviews.useIndexedClear(componentId));
 				dispatch(Action.dataviews.useIndexed({dataset: key}, null, 1, 1000, componentId));
+			},
+
+			onUnmount: () => {
+				dispatch(Action.dataviews.useIndexedClear(componentId));
 			}
 		}
 	}
