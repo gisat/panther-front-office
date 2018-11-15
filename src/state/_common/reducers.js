@@ -124,6 +124,25 @@ export default {
 
 	},
 
+	useKeysRegister: (state, action) => {
+		return {
+			...state,
+			inUse: {
+				...state.inUse,
+				[action.componentId]: action.keys
+			}
+		}
+	},
+
+	useKeysClear: (state, action) => {
+		let inUse = {...state.inUse};
+		delete inUse[action.componentId];
+
+		return {
+			...state,
+			inUse
+		}
+	},
 
 	remove: (state, action) => {
 		let newData = state.byKey ? _.omit(state.byKey, action.keys) : null;

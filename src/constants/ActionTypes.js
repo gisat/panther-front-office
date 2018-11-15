@@ -77,6 +77,10 @@ export default utils.deepKeyMirror({
 			INDEXED: {
 				CLEAR: null,
 				REGISTER: null
+			},
+			KEYS: {
+				CLEAR: null,
+				REGISTER: null
 			}
 		}
 	},

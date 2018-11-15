@@ -22,6 +22,10 @@ export default (state = INITIAL_STATE, action) => {
 			return common.registerUseIndexed(state, action);
 		case ActionTypes.DATAVIEWS.USE.INDEXED.CLEAR:
 			return common.useIndexedClear(state, action);
+		case ActionTypes.DATAVIEWS.USE.KEYS.REGISTER:
+			return common.useKeysRegister(state, action);
+		case ActionTypes.DATAVIEWS.USE.KEYS.CLEAR:
+			return common.useKeysClear(state, action);
 		default:
 			return state;
 	}
