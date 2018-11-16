@@ -221,12 +221,27 @@ export default {
 		}
 	},
 
-	dataSetOutdated: (state, actions) => {
+	dataSetOutdated: (state, action) => {
 		let byKey = {};
 		_.each(state.byKey, (model, key) => {
 			byKey[key] = {
 				...model,
 				outdated: true
+			}
+		});
+		return {...state, byKey};
+	},
+
+	cleanupOnLogout: (state, action) => {
+		let byKey = {};
+		_.each(state.byKey, (model, key) => {
+			if(model.permissions.guest.get) {
+				byKey[key] = {
+					...model,
+					permissions: {
+						guest: model.permissions.guest
+					}
+				}
 			}
 		});
 		return {...state, byKey};
