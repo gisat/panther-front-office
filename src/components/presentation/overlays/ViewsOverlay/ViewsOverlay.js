@@ -17,12 +17,18 @@ class ViewsOverlay extends React.PureComponent {
 		open: PropTypes.bool,
 		intro: PropTypes.object,
 		selectScope: PropTypes.func,
-		selectedScope: PropTypes.object
+		selectedScope: PropTypes.object,
+		onMount: PropTypes.func,
+		onUnmount: PropTypes.func
 	};
 
 	constructor(props){
 		super(props);
 		this.selectScope = this.selectScope.bind(this);
+	}
+
+	componentDidMount() {
+		this.props.onMount();
 	}
 
 	componentWillReceiveProps(nextProps){

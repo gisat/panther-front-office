@@ -61,9 +61,6 @@ let initialize = function() {
 store.dispatch(Action.users.apiLoadCurrentUser());
 
 if(!id) {
-	// Load Scopes
-	store.dispatch(Action.scopes.loadAll());
-
 	initialize();
 } else {
 	store.dispatch(Action.dataviews.loadByKey(Number(id)));

@@ -31,6 +31,10 @@ const mapDispatchToPropsFactory = () => {
 
 	return (dispatch) => {
 		return {
+			onMount: () => {
+				dispatch(Action.scopes.useIndexed(null, null, 1, 1000, componentId));
+			},
+
 			selectScope: (key) => {
 				dispatch(Action.components.overlays.views.setSelectedScope(key));
 				dispatch(Action.scopes.setActiveKey(key));

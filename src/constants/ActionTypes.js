@@ -70,7 +70,8 @@ export default utils.deepKeyMirror({
 	DATAVIEWS: {
 		ADD: null,
 		INDEX: {
-			ADD: null
+			ADD: null,
+			CLEAR_ALL: null
 		},
 		SET_ACTIVE_KEY: null,
 		USE: {
@@ -186,13 +187,24 @@ export default utils.deepKeyMirror({
 			ERROR: null
 		},
 		INDEX: {
-			ADD: null
+			ADD: null,
+			CLEAR_ALL: null
 		},
 		LOAD: {
 			ERROR: null,
 			REQUEST: null
 		},
-		SET_ACTIVE_KEY: null
+		SET_ACTIVE_KEY: null,
+		USE: {
+			INDEXED: {
+				CLEAR: null,
+				REGISTER: null
+			},
+			KEYS: {
+				CLEAR: null,
+				REGISTER: null
+			}
+		}
 	},
 
 	SPATIAL_RELATIONS_RECEIVE: 'SPATIAL_RELATIONS_RECEIVE',

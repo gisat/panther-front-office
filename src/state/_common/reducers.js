@@ -6,6 +6,7 @@ export const DEFAULT_INITIAL_STATE = {
 	count: null,
 	editedByKey: null,
 	indexes: null,
+	inUse: null,
 	lastChangedOn: null,
 	loading: false,
 	loadingKeys: null,
@@ -207,5 +208,15 @@ export default {
 			});
 		}
 		return {...state, editedByKey: newEditedData};
+	},
+
+	clearIndexes: (state, action) => {
+		let indexes = _.map(state.indexes, index => {
+			return {...index, index: null, count: null}
+		});
+
+		return {
+			...state, indexes
+		}
 	}
 }

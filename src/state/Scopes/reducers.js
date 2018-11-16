@@ -14,6 +14,12 @@ export default (state = INITIAL_STATE, action) => {
 			return common.addIndex(state, action);
 		case ActionTypes.SCOPES.SET_ACTIVE_KEY:
 			return common.setActive(state, action);
+		case ActionTypes.SCOPES.USE.INDEXED.REGISTER:
+			return common.registerUseIndexed(state, action);
+		case ActionTypes.SCOPES.USE.INDEXED.CLEAR:
+			return common.useIndexedClear(state, action);
+		case ActionTypes.SCOPES.INDEX.CLEAR_ALL:
+			return common.clearIndexes(state, action);
 		default:
 			return state;
 	}

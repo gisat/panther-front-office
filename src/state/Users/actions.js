@@ -14,6 +14,8 @@ import dataViewActions from '../Dataviews/actions';
 import overlaysActions from '../Components/Overlays/actions';
 import userGroupsActions from '../UserGroups/actions';
 
+import Action from '../Action';
+
 import User from "../../data/User";
 import Group from "../../data/Group";
 
@@ -35,6 +37,19 @@ function reloadData(dispatch) {
 
 const add = common.add(actionAdd);
 const setActiveKey = common.setActiveKey(actionSetActiveKey);
+
+function onLogin() {
+	return (dispatch) => {
+		dispatch(Action.dataviews.onLogin());
+		dispatch(Action.scopes.onLogin());
+	}
+}
+
+function onLogout() {
+	return (dispatch) => {
+		dispatch(actionLogout());
+	}
+}
 
 function update(user) {
 	return dispatch => {
@@ -64,7 +79,10 @@ function apiLoginUser(email, password, ttl) {
 			response => {
 				console.log('#### login user response', response);
 				if (response.ok) {
-					reloadData(dispatch);
+					dispatch(apiLoadCurrentUser())
+						.then(() => {
+							dispatch(onLogin());
+						});
 				} else {
 					dispatch(actionApiLoginRequestError('user#action login Problem with logging in the User, please try later.'));
 				}
@@ -212,7 +230,7 @@ function apiLogoutUser(ttl) {
 				console.log('#### logout user response', response);
 				if (response.ok) {
 					// window.location.reload();
-					dispatch(actionLogout());
+					dispatch(onLogout());
 				} else {
 					dispatch(actionApiLogoutRequestError('user#action logout Problem with logging out the User, please try later.'));
 				}

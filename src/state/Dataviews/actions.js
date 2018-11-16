@@ -26,6 +26,7 @@ const add = common.add(actionAdd);
 const setActiveKey = common.setActiveKey(actionSetActiveKey);
 const useIndexed = common.useIndexed(Select.dataviews.getSubstate, 'dataviews', actionAdd, actionAddIndex, ensureForScopeError, registerUseIndexed);
 const useKeys = common.useKeys(Select.dataviews.getSubstate, `dataviews`, actionAdd, () => {}, actionUseKeysRegister);
+const onLogin = common.onLogin(Select.dataviews.getSubstate, `dataviews`, actionAdd, actionAddIndex, actionClearIndexes, () => {});
 
 function addMongoView(view) {
 	return (dispatch, getState) => {
@@ -266,6 +267,12 @@ function actionUseKeysClear(componentId) {
 	}
 }
 
+function actionClearIndexes() {
+	return {
+		type: ActionTypes.DATAVIEWS.INDEX.CLEAR_ALL,
+	}
+}
+
 // ============ export ===========
 
 export default {
@@ -278,5 +285,6 @@ export default {
 	useIndexed,
 	useIndexedClear: actionClearUseindexed,
 	useKeys,
-	useKeysClear: actionUseKeysClear
+	useKeysClear: actionUseKeysClear,
+	onLogin
 }

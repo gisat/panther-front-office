@@ -153,7 +153,7 @@ const getIndexPage = (getSubstate) => {
 		(state, filter, order, start) => (start),
 		(state, filter, order, start, length) => (length)],
 		(index, start, length) => {
-			if (index){
+			if (index && index.index){
 				let indexed = {};
 				for (let o = start; o < (start + length) && o <= index.count; o++){
 					let key = index.index[o];
@@ -214,6 +214,57 @@ const isInitializedForExt = (getSubstate) => {
 	return (state) => getSubstate(state).initializedForExt;
 };
 
+const getUsedKeys = (getSubstate) => {
+	return (state) => {
+		let inUse = getSubstate(state).inUse;
+		return inUse && _.uniq(_.flatten(Object.values(inUse)));
+	}
+};
+
+const getUsedIndexPages = (getSubstate) => {
+	return (state) => {
+		let indexes = getSubstate(state).indexes;
+		let usedIndexes = [];
+		_.each(indexes, index => {
+			if (index.inUse && Object.keys(index.inUse).length) {
+				usedIndexes.push({
+					filter: index.filter,
+					order: index.order,
+					uses: _mergeIntervals(Object.values(index.inUse))
+				});
+			}
+		});
+		return usedIndexes;
+	};
+};
+
+const _mergeIntervals = (intervals) => {	// todo make it better
+	let sortedIntervals = _.sortBy(intervals, ['start']);
+
+
+	let start, end, mergedIntervals = [];
+
+	_.each(sortedIntervals, (interval) => {
+		let intervalEnd = interval.start + interval.length - 1;
+
+		if(!start && !end) {
+			start = interval.start;
+			end = intervalEnd;
+		}
+		if(end > interval.start) {
+			end = intervalEnd;
+		} else {
+			mergedIntervals.push({start, length: end - start + 1});
+			start = interval.start;
+			end = intervalEnd;
+		}
+	});
+
+	mergedIntervals.push({start, length: end - start + 1});
+
+	return mergedIntervals;
+};
+
 export default {
 	getActive,
 	getActiveModels,
@@ -237,6 +288,9 @@ export default {
 	getIndexTotal,
 
 	getKeysToLoad,
+
+	getUsedIndexPages,
+	getUsedKeys,
 
 	isInitializedForExt // TODO It will be removed along with Ext
 }

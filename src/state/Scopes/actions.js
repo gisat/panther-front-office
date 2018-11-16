@@ -7,6 +7,8 @@ import common from '../_common/actions';
 
 // ============ creators ===========
 
+const useIndexed = common.useIndexed(Select.scopes.getSubstate, 'scopes', actionAdd, actionAddIndex, () => {}, actionUseIndexedRegister);
+const onLogin = common.onLogin(Select.scopes.getSubstate, `scopes`, actionAdd, actionAddIndex, actionClearIndexes, () => {});
 
 function setActiveKey(key) {
 	return dispatch => {
@@ -120,6 +122,23 @@ function actionSetActiveKey(key) {
 	}
 }
 
+function actionClearIndexes() {
+	return {
+		type: ActionTypes.SCOPES.INDEX.CLEAR_ALL,
+	}
+}
+
+function actionUseIndexedRegister(componentId, filter, order, start, length) {
+	return {
+		type: ActionTypes.SCOPES.USE.INDEXED.REGISTER,
+		componentId,
+		filter,
+		order,
+		start,
+		length
+	}
+}
+
 // ============ export ===========
 
 export default {
@@ -127,4 +146,6 @@ export default {
 	setActiveKey,
 	loadForKeys,
 	loadAll,
+	onLogin,
+	useIndexed
 }

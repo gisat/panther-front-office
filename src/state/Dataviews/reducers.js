@@ -26,6 +26,8 @@ export default (state = INITIAL_STATE, action) => {
 			return common.useKeysRegister(state, action);
 		case ActionTypes.DATAVIEWS.USE.KEYS.CLEAR:
 			return common.useKeysClear(state, action);
+		case ActionTypes.DATAVIEWS.INDEX.CLEAR_ALL:
+			return common.clearIndexes(state, action);
 		default:
 			return state;
 	}

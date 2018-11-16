@@ -5,6 +5,7 @@ import path from "path";
 import fetch from "isomorphic-fetch";
 
 import commonSelectors from './selectors';
+import Select from "../Select";
 
 const TTL = 5;
 const PAGE_SIZE = 10;
@@ -303,6 +304,27 @@ function loadFiltered(dataType, filter, successAction, errorAction) {
 	};
 }
 
+function onLogin(getSubstate, dataType, actionAdd, actionAddIndex, actionClearIndexes, errorAction) {
+	return () => {
+		return(dispatch, getState) => {
+			dispatch(actionClearIndexes());
+
+			let state = getState();
+
+			let usedKeys = commonSelectors.getUsedKeys(getSubstate)(state);
+			dispatch(ensure(getSubstate, dataType, actionAdd, errorAction, usedKeys));
+
+			let usedIndexPages = commonSelectors.getUsedIndexPages(getSubstate)(state);
+
+			_.each(usedIndexPages, (usedIndexPage) => {
+				_.each(usedIndexPage.uses, (use) => {
+					dispatch(ensureIndex(getSubstate, dataType, usedIndexPage.filter, usedIndexPage.order, use.start, use.length, actionAdd, actionAddIndex, errorAction))
+				});
+			})
+		}
+	}
+}
+
 export default {
 	add,
 	ensure,
@@ -313,5 +335,6 @@ export default {
 	setActiveKeys,
 	request: requestWrapper,
 	useKeys,
-	useIndexed
+	useIndexed,
+	onLogin
 }
