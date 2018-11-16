@@ -40,6 +40,7 @@ const setActiveKey = common.setActiveKey(actionSetActiveKey);
 
 function onLogin() {
 	return (dispatch) => {
+		dispatch(common.actionDataSetOutdated());
 		dispatch(Action.dataviews.onLogin());
 		dispatch(Action.scopes.onLogin());
 	}

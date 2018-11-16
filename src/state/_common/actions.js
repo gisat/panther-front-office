@@ -6,9 +6,12 @@ import fetch from "isomorphic-fetch";
 
 import commonSelectors from './selectors';
 import Select from "../Select";
+import ActionTypes from "../../constants/ActionTypes";
 
 const TTL = 5;
 const PAGE_SIZE = 10;
+
+// ============ factories ===========
 
 const add = (action) => {
 	return (data) => {
@@ -325,6 +328,16 @@ function onLogin(getSubstate, dataType, actionAdd, actionAddIndex, actionClearIn
 	}
 }
 
+// ============ actions ===========
+
+function actionDataSetOutdated() {
+	return {
+		type: ActionTypes.COMMON.DATA.SET_OUTDATED
+	}
+}
+
+// ============ export ===========
+
 export default {
 	add,
 	ensure,
@@ -336,5 +349,6 @@ export default {
 	request: requestWrapper,
 	useKeys,
 	useIndexed,
-	onLogin
+	onLogin,
+	actionDataSetOutdated
 }

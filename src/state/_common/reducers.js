@@ -18,6 +18,7 @@ export default {
 		if (action.data && action.data.length) {
 			action.data.forEach(model => {
 				newData[model.key] = {...newData[model.key], ...model};
+				delete newData[model.key].outdated;
 			});
 		}
 		return {...state, byKey: newData}
@@ -218,5 +219,16 @@ export default {
 		return {
 			...state, indexes
 		}
+	},
+
+	dataSetOutdated: (state, actions) => {
+		let byKey = {};
+		_.each(state.byKey, (model, key) => {
+			byKey[key] = {
+				...model,
+				outdated: true
+			}
+		});
+		return {...state, byKey};
 	}
 }

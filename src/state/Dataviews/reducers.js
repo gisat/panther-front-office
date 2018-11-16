@@ -28,6 +28,8 @@ export default (state = INITIAL_STATE, action) => {
 			return common.useKeysClear(state, action);
 		case ActionTypes.DATAVIEWS.INDEX.CLEAR_ALL:
 			return common.clearIndexes(state, action);
+		case ActionTypes.COMMON.DATA.SET_OUTDATED:
+			return common.dataSetOutdated(state, action);
 		default:
 			return state;
 	}

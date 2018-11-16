@@ -197,7 +197,7 @@ const getKeysToLoad = (getSubstate) => {
 				} else {
 					let toLoad = [];
 					keys.forEach(key => {
-						if (!models[key]){
+						if (!models[key] || models[key].outdated){
 							toLoad.push(key);
 						}
 					});
