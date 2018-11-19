@@ -114,9 +114,20 @@ html.urban-tep .intro-screen-title {
 .eo4sd .tool-window-title,
 
 .eo4sd .ptr-window-title,
-.eo4sd .view-list-title,
-.eo4sd .view-card-title {
+.eo4sd .ptr-views-list-title,
+.eo4sd .ptr-views-list-description,
+.eo4sd .view-card-title,
+.eo4sd .view-card-description {
 	font-family: "NotesEsa", sans-serif;
+}
+
+/* intro */
+.eo4sd .ptr-views-list-description p,
+.eo4sd .ptr-views-list-description a {
+	font-size: 1rem;
+}
+.eo4sd .ptr-views-list-description p {
+	color: rgb(85,89,101);
 }
 
 /* header */

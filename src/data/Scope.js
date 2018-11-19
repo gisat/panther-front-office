@@ -80,6 +80,9 @@ class Scope extends Model {
 			},
             permissions: {
                 serverName: 'permissions'
+            },
+            description: {
+                serverName: 'description'
             }
         };
     };

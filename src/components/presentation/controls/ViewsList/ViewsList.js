@@ -5,6 +5,7 @@ import _ from 'lodash';
 import './ViewsList.css';
 import ViewCard from "../../../containers/controls/ViewCard";
 import Names from "../../../../constants/Names";
+import VisualConfig from "../../../../constants/VisualsConfig";
 
 class ViewsList extends React.PureComponent {
 
@@ -23,8 +24,30 @@ class ViewsList extends React.PureComponent {
 	render() {
 		return (
 			<div className="ptr-views-list">
-				{(this.props.hideTitle || !this.props.isIntro) ? null : (<h2 className="view-list-title">{this.props.selectedScope ? this.props.selectedScope.name : null}</h2>)}
-				<div className="view-list-content">{this.renderViews()}</div>
+				{(this.props.hideTitle || !this.props.isIntro) ? null : this.renderTitle()}
+				{this.props.selectedScope && this.props.selectedScope.description ? this.renderDescription() : null}
+				<div className="ptr-views-list-content">{this.renderViews()}</div>
+			</div>
+		);
+	}
+
+	renderTitle(){
+		let style = this.props.selectedScope && this.props.selectedScope.configuration && this.props.selectedScope.configuration.style;
+		if (style && VisualConfig[style] && VisualConfig[style].introLogoSrc){
+			return (
+				<div className="ptr-views-list-tilte-container">
+					<h2 className="ptr-views-list-title">{this.props.selectedScope ? this.props.selectedScope.name : null}</h2>
+					<img className="ptr-views-list-logo" src={VisualConfig[style].introLogoSrc}/>
+				</div>
+				);
+		} else {
+			return (<h2 className="ptr-views-list-title">{this.props.selectedScope ? this.props.selectedScope.name : null}</h2>);
+		}
+	}
+
+	renderDescription() {
+		return (
+			<div className="ptr-views-list-description" dangerouslySetInnerHTML={{__html: this.props.selectedScope.description}}>
 			</div>
 		);
 	}
