@@ -33,12 +33,11 @@ class LayerDownload extends LayerTool {
 	};
 
 	addEventsListener(){
-		let self = this;
-		this._iconSelector.off("click").on("click", self.download);
+		this._iconSelector.off("click").on("click", this.download.bind(this));
 	};
 
 	download(){
-		// todo to download layers are in this._layers
+		window.open(this._layers[0].source_url, '_blank');
 	}
 }
 
