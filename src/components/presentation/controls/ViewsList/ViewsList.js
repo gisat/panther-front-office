@@ -60,6 +60,7 @@ class ViewsList extends React.PureComponent {
 				data={view.data}
 				editable={view.permissions && view.permissions.activeUser && view.permissions.activeUser.update}
 				deletable={view.permissions && view.permissions.activeUser && view.permissions.activeUser.delete}
+				public={view.permissions && view.permissions.guest && view.permissions.guest.get}
 			/>
 		})) : (<div className="no-view-message">{Names.VIEWS_NO_VIEW_FOR_SCOPE}</div>);
 	}
