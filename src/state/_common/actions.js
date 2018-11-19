@@ -209,7 +209,7 @@ function ensureIndex(getSubstate, dataType, filter, order, start, length, action
 
 		if (total || total === 0){
 			let indexPage = commonSelectors.getIndexPage(getSubstate)(state, filter, order, start, length);
-			let amount = Object.keys(indexPage).length;
+			let amount = indexPage ? Object.keys(indexPage).length : 0;
 			for (let i = 0; i < amount; i += PAGE_SIZE){
 				let loadedKeys = [], requestNeeded = false;
 				for (let j = 0; j < PAGE_SIZE && (start+i+j) <= total; j++){
