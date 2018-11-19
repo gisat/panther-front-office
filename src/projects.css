@@ -5,7 +5,20 @@
 	DROMAS
 	INVAZE
 	URBAN TEP
+	EO4SD
+		specific font family
+		header
+		top toolbar
+		windows
+		charts
 */
+
+@font-face {
+	font-family: 'NotesEsa';
+	font-style: normal;
+	font-weight: normal;
+	src: local('Tangerine'), url('fonts/NotesEsaReg.otf') format('opentype');
+}
 
 /* === DROMAS ======================================== */
 html.dromas .ptr-overlay.ptr-overlay-views {
@@ -64,4 +77,162 @@ html.urban-tep .intro-screen-header:before {
 }
 html.urban-tep .intro-screen-title {
 	background: rgba(153,55,64,.9);
+}
+
+/* === EO4SD ===================================== */
+/* specific font-family */
+.eo4sd.newDesign body,
+.eo4sd.newDesign .component-button,
+
+.eo4sd.newDesign #header,
+.eo4sd.newDesign #header h1,
+.eo4sd.newDesign #header a,
+.eo4sd.newDesign #view-selector,
+.eo4sd.newDesign #content-intro,
+.eo4sd.newDesign #content-intro-guide,
+.eo4sd.newDesign #view-selector .field .label,
+.eo4sd.newDesign.x-border-box .custom-combo .x-form-text,
+.eo4sd.newDesign.x-border-box .x-form-text,
+.eo4sd.newDesign #app-view-selector-visualization-save .x-btn.custom-button.x-btn-default-small .x-btn-inner,
+.eo4sd.newDesign .thematic-maps-settings .x-window-header-text-default,
+.eo4sd.newDesign .chart-panel .x-panel-header-text,
+.eo4sd.newDesign .x-boundlist .x-boundlist-item,
+.eo4sd.newDesign .paging-toolbar .x-toolbar-text,
+.eo4sd.newDesign .paging-toolbar .x-form-text,
+.eo4sd.newDesign .tools-filters-list .x-form-display-field,
+.eo4sd.newDesign .x-column-header,
+.eo4sd.newDesign .x-grid-row .x-grid-cell,
+.eo4sd.newDesign .x-btn .x-btn-inner,
+.eo4sd.newDesign .x-panel-header-text-default,
+.eo4sd.newDesign .x-panel-header-text-default-framed,
+.eo4sd.newDesign .x-form-item,
+.eo4sd.newDesign .x-fieldset-header,
+
+.eo4sd #top-toolbar .item,
+.eo4sd .floater-header-title,
+.eo4sd.newDesign .mode-3d .detached-window .x-window-header-text-default,
+.eo4sd .tool-window-title,
+
+.eo4sd .ptr-window-title,
+.eo4sd .ptr-views-list-title,
+.eo4sd .ptr-views-list-description,
+.eo4sd .view-card-title,
+.eo4sd .view-card-description {
+	font-family: "NotesEsa", sans-serif;
+}
+
+/* intro */
+.eo4sd .ptr-views-list-description p,
+.eo4sd .ptr-views-list-description a {
+	font-size: 1rem;
+}
+.eo4sd .ptr-views-list-description p {
+	color: rgb(85,89,101);
+}
+
+/* header */
+.eo4sd.newDesign #header, .eo4sd.newDesign #view-selector, .eo4sd.newDesign #content-intro, .eo4sd.newDesign #content-intro-guide {
+	background-color: black;
+}
+
+.eo4sd.newDesign #header {
+	padding-left: 10px;
+}
+
+.eo4sd.newDesign #header .menu {
+	padding-left: 20px;
+}
+.eo4sd.newDesign #header .menu li:first-child:before {
+	width: 0;
+}
+
+.eo4sd.newDesign #home-page {
+	padding: 8px;
+}
+
+.eo4sd.newDesign #view-selector {
+	padding-left: 190px;
+}
+
+.eo4sd.newDesign #header .menu li a,
+.eo4sd.newDesign #header .user a {
+	font-size: .875rem;
+}
+
+.eo4sd.newDesign #content-intro table:hover .x-form-text,
+.eo4sd.newDesign #content-intro table:hover .x-form-trigger,
+.eo4sd.newDesign #content-intro .x-form-trigger,
+.eo4sd.newDesign #content-intro .custom-combo .x-form-text,
+.eo4sd.newDesign .app-legacy-view-selector-help .help-btn .x-btn:hover,
+.eo4sd.newDesign.x-border-box .x-form-trigger.x-form-refresh-trigger,
+.eo4sd.newDesign.x-border-box .custom-combo .x-form-text,
+.eo4sd.newDesign.x-border-box .custom-combo .x-form-trigger,
+.eo4sd.newDesign .x-btn.custom-button.x-btn-default-small,
+.eo4sd.newDesign .select-multi-container.top-bar-multiselect,
+.eo4sd.newDesign .select-basic-container.top-bar-select,
+.eo4sd.newDesign .component-button.compare-button {
+	background: rgba(255, 255, 255, .3);
+}
+.eo4sd.newDesign.x-border-box .custom-combo:hover .x-form-text,
+.eo4sd.newDesign.x-border-box .custom-combo:hover .x-form-trigger,
+.eo4sd.newDesign.x-border-box .custom-combo:hover .x-form-trigger.x-form-refresh-trigger,
+.eo4sd.newDesign .x-btn.custom-button.x-btn-default-small:hover {
+	background-color: rgba(255, 255, 255, .4) !important;
+}
+.eo4sd.newDesign .select-multi-container.top-bar-multiselect:hover,
+.eo4sd.newDesign .select-basic-container.top-bar-select:hover,
+.eo4sd.newDesign .component-button.compare-button:hover {
+	background: rgba(255, 255, 255, .4);
+}
+
+/* Top toolbar */
+.eo4sd #top-toolbar .item {
+	font-size: .9375rem;
+}
+
+/* Windows */
+.eo4sd .floater-header-title,
+.eo4sd.newDesign .mode-3d .detached-window .x-window-header-text-default,
+.eo4sd .ptr-window-title {
+	font-size: 1.0625rem;
+}
+
+.eo4sd.newDesign .thematic-maps-settings .x-window-header-text-default {
+	font-size: 1.125rem;
+}
+
+/* charts */
+.eo4sd.newDesign .chart-panel .x-panel-header-text {
+	font-size: .9375rem;
+}
+.eo4sd.newDesign .chart-panel .x-panel-header {
+	background: rgba(153,54,75, .95) !important;
+}
+.eo4sd.newDesign .chart-panel .x-panel-header:hover {
+	background: rgba(153,54,75, 1) !important;
+}
+.eo4sd.newDesign .chart-panel .x-panel-header-text {
+	color: rgba(218,222,228,1);
+	font-weight: 300;
+}
+
+.eo4sd.newDesign .chart-panel .x-panel-header .tool-icon:before,
+.eo4sd.newDesign .chart-panel.panel-snapshots .x-panel-header .x-tool:before {
+	color: #ccc;
+}
+.eo4sd.newDesign .chart-panel .x-panel-header .tool-icon:hover:before,
+.eo4sd.newDesign .chart-panel.panel-snapshots .x-panel-header .x-tool:hover:before,
+.eo4sd.newDesign .chart-panel .x-panel-header .tool-icon.tool-active:before {
+	color: white;
+}
+
+/* Area tree */
+.eo4sd.newDesign .x-grid-row .x-grid-cell {
+	font-size: .75rem;
+	color: #444;
+}
+
+/* Button */
+.eo4sd.newDesign .x-btn-default-small .x-btn-inner {
+	line-height: 1.8;
 }
