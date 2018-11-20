@@ -41,6 +41,9 @@ class WorldWindWidget extends Widget {
         if (!options.store.map){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidget", "constructor", "missingMapStore"));
         }
+        if (!options.store.periods){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidget", "constructor", "missingPeriodstore"));
+        }
         if (!options.store.wmsLayers){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, "WorldWindWidget", "constructor", "missingWmsLayersStore"));
         }
@@ -123,7 +126,8 @@ class WorldWindWidget extends Widget {
             store: {
                 state: this._stateStore,
                 map: this._mapStore,
-                wmsLayers: this._store.wmsLayers
+                wmsLayers: this._store.wmsLayers,
+                periods: this._store.periods
             },
             dispatcher: this._dispatcher
         });

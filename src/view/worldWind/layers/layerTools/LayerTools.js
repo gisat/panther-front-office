@@ -5,6 +5,7 @@ import Logger from '../../../../util/Logger';
 
 import LayerLegend from './legend/LayerLegend';
 import LayerOpacity from './opacity/LayerOpacity';
+import LayerMetadata from './metadata/LayerMetadata';
 import Legend from './legend/Legend';
 import Opacity from './opacity/Opacity';
 
@@ -100,6 +101,23 @@ class LayerTools {
         });
         this.tools.push(legend);
         return legend;
+    };
+
+	/**
+     * Build metadata for layers
+     * @returns {LayerMetadata}
+     */
+    buildMetadata(layers) {
+        let metadata = new LayerMetadata({
+            id: this._id,
+            name: 'Metadata',
+            class: this._class,
+            target: this._toolsContainer,
+            layers: layers,
+            style: this._style
+        });
+        this.tools.push(metadata);
+        return metadata;
     };
 
     /**
