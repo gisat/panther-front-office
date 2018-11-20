@@ -78,6 +78,23 @@ const getActiveModels = (getSubstate) => {
 	)
 };
 
+const getAllForIndexInUseByComponentId = (getSubstate) => {
+	return createSelector(
+		[getAllAsObject(getSubstate), getIndexInUseByComponentId(getSubstate)],
+		(models, index) => {
+			if (models && index){
+				let selectedModels = [];
+				_.forIn(index, (modelKey) => {
+					selectedModels.push(models[modelKey]);
+				});
+				return selectedModels.length ? selectedModels : null;
+			} else {
+				return null;
+			}
+		}
+	);
+};
+
 const getByKey = (getSubstate) => {
 	return (state, key) => {
 		let allData = getAllAsObject(getSubstate)(state);
@@ -140,6 +157,21 @@ const getIndex = (getSubstate) => {
 					return _.isEqual(index.filter, filter) && _.isEqual(index.order, order);
 				});
 				return index ? index : null;
+			} else {
+				return null;
+			}
+		}
+	);
+};
+
+const getIndexInUseByComponentId = (getSubstate) => {
+	return createSelector([
+		getIndexes(getSubstate),
+		(state, componentId) => (componentId)],
+		(indexes, componentId) => {
+			if (indexes && indexes.length && componentId){
+				let index = _.find(indexes, (index) => {return index.inUse[componentId]});
+				return (index && index.index) || null;
 			} else {
 				return null;
 			}
@@ -274,6 +306,7 @@ export default {
 	getAllAsObject,
 	getAllForDataview,
 	getAllForDataviewAsObject,
+	getAllForIndexInUseByComponentId,
 
 	getByKey,
 

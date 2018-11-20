@@ -63,6 +63,7 @@ store.dispatch(Action.users.apiLoadCurrentUser());
 if(!id) {
 	initialize();
 } else {
+	store.dispatch(Action.components.setIntro(false));
 	store.dispatch(Action.dataviews.loadByKey(Number(id)));
     getStore();
 }

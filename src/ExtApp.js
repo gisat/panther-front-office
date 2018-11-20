@@ -110,6 +110,8 @@ class ExtApp {
 	};
 
     afterLoad() {
+		$('#view-selector > .group').hide();
+
         // set Home link in header // todo Move this somewhere else?
         $("#home-link").attr("href", Config.projectHome);
         $("#legacy-view-selector > .label").html(Config.basicTexts.appName);

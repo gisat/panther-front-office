@@ -758,7 +758,7 @@ todo merge with overlay
 }
 
 .ptr-place-selector {
-	min-width: 20rem;
+
 }
 
 .ptr-view-selection-selector.ptr-ui-select .ptr-ui-select-label {
@@ -768,6 +768,7 @@ todo merge with overlay
 	width: 22rem;
 }
 .ptr-view-selection-selector.ptr-ui-select .Select {
+	min-width: 10rem;
 	font-size: .75rem;
 	border: none;
 }

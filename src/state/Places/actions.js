@@ -13,6 +13,7 @@ import Action from "../Action";
 const add = common.add(actionAdd);
 const setActiveKey = common.setActiveKey(actionSetActive);
 const setActiveKeys = common.setActiveKeys(actionSetActiveKeys);
+const useIndexed = common.useIndexed(Select.places.getSubstate, 'places', actionAdd, actionAddIndex, ensureForScopeError, actionRegisterUseIndexed);
 
 function setActive(key) {
 	return (dispatch, getState) => {
@@ -37,12 +38,29 @@ function setActive(key) {
 	};
 }
 
+function ensureForScopeError(data) {
+	return dispatch => {
+		throw new Error(`state/dataviews/actions#ensureForScopeError: ${data}`);
+	}
+}
+
 // ============ actions ===========
 
 function actionAdd(places) {
 	return {
 		type: ActionTypes.PLACES_ADD,
 		data: places
+	}
+}
+
+function actionAddIndex(filter, order, count, start, data) {
+	return {
+		type: ActionTypes.PLACES.INDEX.ADD,
+		filter: filter,
+		order: order,
+		count: count,
+		start: start,
+		data: data
 	}
 }
 
@@ -67,6 +85,17 @@ function actionSetActiveKeys(places) {
 	}
 }
 
+function actionRegisterUseIndexed(componentId, filter, order, start, length) {
+	return {
+		type: ActionTypes.PLACES.USE.INDEXED.REGISTER,
+		componentId,
+		filter,
+		order,
+		start,
+		length
+	}
+}
+
 // TODO It will be removed along with Ext
 function actionInitializeForExt() {
 	return {
@@ -82,6 +111,7 @@ export default {
 	setActive,
 	setActiveKey,
 	setActiveKeys,
+	useIndexed,
 
 	initializeForExt: actionInitializeForExt
 }

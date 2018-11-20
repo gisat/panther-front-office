@@ -248,6 +248,7 @@ function loadFilteredPage(dataType, filter, order, start, actionAdd, actionAddIn
 		let payload = {
 			filter: {...filter},
 			offset: start -1,
+			order: order,
 			limit: PAGE_SIZE
 		};
 		return request(apiPath, 'POST', null, payload)

@@ -35,9 +35,6 @@ const setEventListeners = store => {
 			case 'components#applyFromDataview':
 				store.dispatch(Action.components.update("windows", options.windows));
 				break;
-			case 'components#applicationMode':
-				store.dispatch(Action.components.setIntro(false));
-				break;
 			case 'components#mapsGridChanged':
 				let state = Select.components.getMapsContainer(store.getState());
 				if (state.columns !== options.columns || state.rows !== options.rows){

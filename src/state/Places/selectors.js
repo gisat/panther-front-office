@@ -11,6 +11,7 @@ const getAll = common.getAll(getSubstate);
 const getAllAsObject = common.getAllAsObject(getSubstate);
 const getAllForDataview = common.getAllForDataview(getSubstate);
 const getAllForDataviewAsObject = common.getAllForDataviewAsObject(getSubstate);
+const getAllForIndexInUseByComponentId = common.getAllForIndexInUseByComponentId(getSubstate);
 const getActiveKey = common.getActiveKey(getSubstate);
 const getActive = common.getActive(getSubstate);
 const getActivePlaces = common.getActiveModels(getSubstate);
@@ -32,6 +33,7 @@ export default {
 	getAllAsObject,
 	getAllForDataview,
 	getAllForDataviewAsObject,
+	getAllForIndexInUseByComponentId,
 	getActiveKey,
 	getActive,
 	getActivePlaces,

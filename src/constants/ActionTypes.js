@@ -145,6 +145,16 @@ export default utils.deepKeyMirror({
 		},
 		SET_ACTIVE_KEY: null,
 		SET_ACTIVE_KEYS: null,
+		USE: {
+			INDEXED: {
+				CLEAR: null,
+				REGISTER: null
+			},
+			KEYS: {
+				CLEAR: null,
+				REGISTER: null
+			}
+		},
 		INITIALIZE_FOR_EXT: null, // TODO It will be removed along with Ext
 	},
 

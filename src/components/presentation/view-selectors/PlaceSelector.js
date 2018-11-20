@@ -7,12 +7,14 @@ class PlaceSelector extends React.PureComponent {
 
 	static propTypes = {
 		activePlace: PropTypes.object,
+		isInIntroMode: PropTypes.bool,
 		places: PropTypes.array,
 		onChangePlace: PropTypes.func,
 		label: PropTypes.string,
 		homeLink: PropTypes.bool,
 		homeLinkLabel: PropTypes.string,
-		classes: PropTypes.string
+		classes: PropTypes.string,
+		scopeKey: PropTypes.number
 	};
 
 	static defaultProps = {
@@ -25,6 +27,18 @@ class PlaceSelector extends React.PureComponent {
 		super(props);
 
 		this.onChangePlace = this.onChangePlace.bind(this);
+	}
+
+	componentDidMount(){
+		if (this.props.scopeKey && !this.props.isInIntroMode){ //TODO remove dependency on mode
+			this.props.onScopeChange(this.props.scopeKey, this.props.componentId);
+		}
+	}
+
+	componentWillReceiveProps(nextProps){
+		if ((this.props.scopeKey !== nextProps.scopeKey) && !this.props.isInIntroMode){ //TODO remove dependency on mode
+			this.props.onScopeChange(nextProps.scopeKey, this.props.componentId);
+		}
 	}
 
 	onChangePlace(object){
@@ -74,6 +88,7 @@ class PlaceSelector extends React.PureComponent {
 			content.push((
 				<UISelect
 					key='place-selector'
+					clearable={false}
 					classes={classes}
 					label='left'
 					name={this.props.label}
@@ -81,7 +96,6 @@ class PlaceSelector extends React.PureComponent {
 					options={options}
 					placeholder=''
 					value={selected}
-					virtualized
 					disabled={!!this.props.disabled}
 				/>
 			));
