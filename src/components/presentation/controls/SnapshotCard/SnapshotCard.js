@@ -18,15 +18,10 @@ class SnapshotCard extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.delete = this.delete.bind(this);
-		this.download = this.download.bind(this);
 	}
 
 	delete(){
 		this.props.onDelete();
-	}
-
-	download(){
-		// TODO add logic
 	}
 
 	render() {
@@ -44,8 +39,8 @@ class SnapshotCard extends React.PureComponent {
 						<div className="ptr-snapshot-cart-tool" onClick={this.delete}>
 							<Icon icon="delete" />
 						</div>
-						<div className="ptr-snapshot-cart-tool" onClick={this.download}>
-							<Icon icon="download" />
+						<div className="ptr-snapshot-cart-tool">
+							<a href={this.props.source} download><Icon icon="download" /></a>
 						</div>
 					</div>
 				</div>

@@ -276,45 +276,6 @@ class TopToolBar {
     handleContextHelpClick(e) {
     };
 
-    handleSnapshotClick() {
-        if($('.panel-snapshots-new').length === 0) {
-            $('#sidebar-reports').prepend('<div class="panel-snapshots-new" height="200px" width="100%"></div>')
-        }
-
-        $('.panel-snapshots-new').append('<div style="margin: 10px;height: 100px;" class="snapshot-loading">' +
-            '<div id="loading-screen-content-wrap">' +
-            '  <div id="loading-screen-content">' +
-            '    <div class="a-loader-container small blackandwhite">' +
-            '      <i class="i1"></i>' +
-            '      <i class="i2"></i>' +
-            '      <i class="i3"></i>' +
-            '      <i class="i4"></i>' +
-            '    </div>' +
-            '  </div>' +
-            '</div>' +
-            '</div>');
-
-        this._mapStores.getAll().forEach(function(map){
-            let promises = []
-            map.snapshot().then(function(snapshotUrl){
-                let uuid = new Uuid().generate();
-                promises.push($.post(Config.url + '/print/snapshot/' + uuid, {
-                    url: snapshotUrl
-                }).then(function () {
-                    $('.panel-snapshots-new').append('<div style="margin: 10px;">' +
-                        '	<a download="' + uuid + '.png" href="' + Config.url + '/print/download/' + uuid + '">' +
-                        '   	<img width="128" height="128" src="' + Config.url + '/print/download/' + uuid + '" />' +
-                        '	</a>' +
-                        '</div>');
-                }));
-
-                Promise.all(promises).then(function(){
-                    $('.snapshot-loading').remove();
-                })
-            })
-        });
-    };
-
     handleShareViewClick(e) {
         let item = $(this);
         let floater = $("#floater-sharing");

@@ -21,16 +21,18 @@ const remove = (keys) => {
 
 const createMapSnapshot = () => {
 	return (dispatch) => {
-		// TODO add logic - create snapshot, then add
-		let mockData = {
-			key: utils.guid(),
-			data: {
-				name: "Map snapshot",
-				type: "map",
-				source: "/images/map.JPG"
-			}
-		};
-		dispatch(add(mockData));
+		window.Stores.generateSnapshot().then(snapshots => {
+			snapshots.forEach(snapshot => {
+                dispatch(add({
+					key: snapshot.uuid,
+					data: {
+						name: snapshot.name,
+						type: "map",
+						source: snapshot.source
+					}
+				}));
+			});
+		});
 	}
 };
 
