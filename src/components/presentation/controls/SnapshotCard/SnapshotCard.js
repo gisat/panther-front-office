@@ -40,7 +40,7 @@ class SnapshotCard extends React.PureComponent {
 							<Icon icon="delete" />
 						</div>
 						<div className="ptr-snapshot-cart-tool">
-							<a href={this.props.source} download><Icon icon="download" /></a>
+							<a href={this.props.source} download={this.props.name+'.png'}><Icon icon="download" /></a>
 						</div>
 					</div>
 				</div>

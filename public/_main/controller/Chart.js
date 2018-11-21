@@ -127,15 +127,116 @@ Ext.define('PumaMain.controller.Chart', {
     },
     onExportImage: function(btn) {
 		var chart = btn.up('panel').chart;
+		var chartContainer = $(chart.container.dom);
 		var name = chart.cfg && chart.cfg.title ? chart.cfg.title : null;
 		var type = chart.cfg && chart.cfg.type ? (chart.cfg.type === "grid" ? "table" : "chart") : null;
 
-        // todo add logic
-        window.Stores.notify('SNAPSHOTS_CREATED', {
-            name: name,
-            type: type,
-			source: "/images/chart.JPG"
-        });
+        var width = chartContainer.width();
+        var height = chartContainer.height();
+
+        var svg;
+        // SVG for the Table
+        if(type === 'table'){
+            var htmlToProcess = chartContainer.clone();
+            htmlToProcess.find('[data-qtip]').removeAttr('data-qtip');
+            htmlToProcess.find('[class]').removeAttr('class');
+            htmlToProcess.find('[style]').removeAttr('style');
+
+            var spans = htmlToProcess.find('span');
+            var spansWithText = spans.map(function(index, column){
+                return '<th>'+column.textContent+'</th>';
+            }).toArray().join(' ');
+
+            htmlToProcess = htmlToProcess.find('table');
+
+            svg = '' +
+                '<svg xmlns="http://www.w3.org/2000/svg" width="'+width+'" height="'+height+'">' +
+                '   <style>' +
+                '       table {' +
+                '           border-collapse: collapse;' +
+                '       }' +
+                '       ' +
+                '       tbody tr:nth-child(odd) {' +
+                '           background: #fafafa;' +
+                '       }' +
+                '' +
+                '       td {' +
+                '           width: '+ Math.floor((width / spans.length)) +'px' +
+                '       }' +
+                '' +
+                '       thead{' +
+                '           background-color: #fcfcfa;' +
+                '           font-weight: normal;' +
+                '       }' +
+                '       ' +
+                '       thead th {' +
+                '           border: #dcdcdc 1px solid;' +
+                '           background-color: #fcfcfa;' +
+                '           margin: 0;' +
+                '       }' +
+                '   </style>' +
+                '   <rect width="100%" height="100%" fill="white"/>' +
+                '   <foreignObject x="0" y="0" width="'+width+'" height="'+height+'">' +
+                '       <div xmlns="http://www.w3.org/1999/xhtml">' +
+                '           <table>' +
+                '               <thead>' +
+                '                   <tr>' +
+                                    spansWithText +
+                '                   </tr>' +
+                '               </thead>' + 
+                                htmlToProcess.html() + 
+                '           </table>' +
+                '       </div>' +
+                '   </foreignObject>' +
+                '</svg>';
+        } else if(chart.cfg.type === "scatterchart") {
+            var texts = chartContainer.find('span');
+            var xText = '', yText = '';
+            if(texts.length > 1) {
+                yText = texts[1].textContent
+            }
+            if(texts.length > 0) {
+                xText = texts[0].textContent
+            }
+
+            svg = '' +
+                '<svg xmlns="http://www.w3.org/2000/svg" width="'+width+'" height="'+height+'">' +
+                    chartContainer.find('svg').html() +
+                '   <text x="60" y="'+(height - 5)+'" fill="black">'+xText+'</text>' +
+                '   <text x="10" y="-10" fill="black" transform="rotate(90)">'+yText+'</text>' +
+                '</svg>';
+        } else if(chart.cfg.type === 'polarchart') {
+            name = chart.cnt.title;
+
+            svg = '' +
+                '<svg xmlns="http://www.w3.org/2000/svg" width="'+width+'" height="'+height+'">' +
+                '   <rect width="100%" height="100%" fill="white"/>' +
+                    chartContainer.find('svg').html() +
+                '</svg>';
+        } else {
+            svg = '' +
+                '<svg xmlns="http://www.w3.org/2000/svg" width="'+width+'" height="'+height+'">' +
+                chartContainer.find('svg').html() +
+                '</svg>';
+        }
+
+        var data = encodeURIComponent(svg);
+
+        var img = new Image();
+
+        img.onload = function() {
+            var canvas = $('<canvas width="'+Number(width)+'" height="'+Number(height)+'"></canvas>')[0];
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0);
+
+            window.Stores.notify('SNAPSHOTS_CREATED', {
+                name: name,
+                type: type,
+                source: canvas.toDataURL()
+            });
+        };
+
+        img.src = "data:image/svg+xml;utf8," + data;
     },
     onExportCsv: function(btn) {
         var chart = btn.up('panel').chart;
@@ -1085,49 +1186,6 @@ Ext.define('PumaMain.controller.Chart', {
                 }
             }
         });
-    },
-
-    onUrlClick: function(btn) {
-        // Get the URL and then use the standard.
-        var chart = $($('#'+btn.container.id).closest('.chart-panel').find('.highcharts-container')[0]);
-        var name = $('#'+btn.container.id).closest('.chart-panel').find('.x-panel-header-text').html();
-
-        var width = chart.width();
-        var height = chart.height();
-
-        var svg = '' +
-            '<svg xmlns="http://www.w3.org/2000/svg" width="'+width+'" height="'+height+'">' +
-            '<foreignObject width="100%" height="100%"><div>'+name+'</div>' + chart.html() + '' +
-            '</foreignObject>' +
-            '</svg>';
-        var data = encodeURIComponent(svg);
-
-        var canvas = $('<canvas width="'+Number(Number(width) + 50) +'" height="'+Number(Number(height) + 50)+'"></canvas>')[0];
-        var ctx = canvas.getContext('2d');
-
-        var img = new Image();
-
-        var self = this;
-        img.onload = function() {
-            ctx.drawImage(img, 0, 0);
-            var uuid = self.uuid();
-            $.post(Config.url + '/print/snapshot/' + uuid, {
-                url: canvas.toDataURL()
-            }).then(function () {
-				if($('.panel-snapshots-new').length === 0) {
-					$('#sidebar-reports').prepend('<div class="panel-snapshots-new" height="200px" width="100%"></div>')
-				}
-
-                $('.panel-snapshots-new').append('<div style="margin: 10px;">' +
-                    '	<a download="' + uuid + '.png" href="' + Config.url + '/print/download/' + uuid + '">' +
-                    '   	<img width="128" height="128" src="' + Config.url + '/print/download/' + uuid + '" />' +
-                    '	</a>' +
-                    '</div>');
-            })
-        };
-
-        img.src = "data:image/svg+xml;utf8," + data
-
     },
 
     uuid: function() {
