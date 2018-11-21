@@ -7,6 +7,7 @@ import ViewsList from "../../presentation/controls/ViewsList/ViewsList";
 const mapStateToProps = (state, props) => {
 	return {
 		views: Select.views.getViewsForScopeAndActiveUser(state, props.selectedScope),
+		isIntro: Select.components.isAppInIntroMode(state)
 	}
 };
 

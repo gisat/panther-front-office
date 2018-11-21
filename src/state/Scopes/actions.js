@@ -18,7 +18,7 @@ const TTL = 5;
 // ============ creators ===========
 
 function setActiveScopeKey(key) {
-	return dispatch => {
+	return (dispatch, getState) => {
 		dispatch(actionSetActiveScopeKey(key));
 		dispatch(applyScopeConfiguration());
 	};

@@ -57,8 +57,8 @@ const applicationStyleActiveKeyWatcher = (value, previousValue) => {
 	console.log('@@ applicationStyleActiveKeyWatcher', previousValue, '->', value);
 	if (previousValue !== value){
 		let configuration = VisualConfig[value];
-		if (configuration){
-			// todo apply configuration for old code
+		if (configuration && configuration.logoSrc){
+			window.Stores.notify("SHOW_HEADER_LOGO", configuration.logoSrc);
 		}
 	}
 };
@@ -67,11 +67,11 @@ const applicationStyleHtmlClassWatcher = (value, previousValue) => {
 	console.log('@@ applicationStyleHtmlClassWatcher', previousValue, '->', value);
 	if (previousValue !== value){
 		if (previousValue){
-			// add class to html element
+			// remove class from html element
 			document.documentElement.classList.remove(previousValue);
 		}
 		if (value) {
-			// add class from html element
+			// add class to html element
 			document.documentElement.classList.add(value);
 		}
 	}
