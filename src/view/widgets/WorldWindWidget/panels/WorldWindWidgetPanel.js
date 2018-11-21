@@ -264,7 +264,7 @@ class WorldWindWidgetPanel {
 
     /**
      * @param periods {Array}
-     * @param layers {Array} 
+     * @param layers {Array}
      * @return {Array} array of layers
      */
     getLayersForActivePeriods(periods, layers) {
@@ -308,9 +308,12 @@ class WorldWindWidgetPanel {
             if (periodsLayersContainsMetadata) {
                 const periodsRequests = periodsLayers.map(layer => this._periodsStore.byId(layer.period));
                 this.fillPeriodsLayers(periodsRequests, periodsLayers).then((periodsLayers) => {
-                    control.layerTools.buildMetadata(periodsLayers);   
+                    control.layerTools.buildMetadata(periodsLayers);
                 })
             }
+			if(layers && layers.length && layers[0].source_url) {
+				control.layerTools.buildDownload();
+			}
 		} else if (this._groupId === "thematic-layers") {
             checked = this.isControlActive(id);
             control = this.buildLayerControl(target, id, name, layers, style, checked, this._groupId);
