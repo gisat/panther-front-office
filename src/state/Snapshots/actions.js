@@ -3,6 +3,10 @@ import Select from '../Select';
 import _ from 'lodash';
 import utils from "../../utils/utils";
 
+import config from "../../config";
+import path from "path";
+import fetch from "isomorphic-fetch";
+
 // ============ creators ===========
 const add = (data) => {
 	return (dispatch) => {
@@ -14,7 +18,19 @@ const add = (data) => {
 const remove = (keys) => {
 	return (dispatch) => {
 		if (!_.isArray(keys)) keys = [keys];
-		// TODO add logic for snapshots removing from disk
+
+        let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, '/backend/print/snapshot/');
+		keys.map(key => {
+			return fetch(url + key, {
+                method: 'DELETE',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            })
+		});
+
 		dispatch(actionRemove(keys));
 	}
 };
