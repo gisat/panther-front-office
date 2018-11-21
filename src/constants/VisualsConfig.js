@@ -9,7 +9,8 @@ export default {
 	},
 	"eo4sd": {
 		htmlClass: "eo4sd",
-		logoSrc: "img/eo4sd/eo4sd-light.png"
+		logoSrc: "img/eo4sd/eo4sd-light.png",
+		introLogoSrc: "img/eo4sd/eo4sd.png"
 	},
 	"test": {
 		htmlClass: "dromas"
