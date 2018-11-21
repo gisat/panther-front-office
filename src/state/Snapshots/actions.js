@@ -19,18 +19,6 @@ const remove = (keys) => {
 	return (dispatch) => {
 		if (!_.isArray(keys)) keys = [keys];
 
-        let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, '/backend/print/snapshot/');
-		keys.map(key => {
-			return fetch(url + key, {
-                method: 'DELETE',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                }
-            })
-		});
-
 		dispatch(actionRemove(keys));
 	}
 };

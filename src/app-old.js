@@ -193,15 +193,11 @@ function loadApp() {
             mapStore.getAll().forEach(function(map){
                 promises.push(map.snapshot().then(function(snapshotUrl){
                     let uuid = new Uuid().generate();
-                    return $.post(Config.url + 'print/snapshot/' + uuid, {
-                        url: snapshotUrl
-                    }).then(function () {
-                        return {
-                            uuid: uuid,
-                            name: 'Random name ' + uuid,
-                            source: Config.url + 'print/download/' + uuid
-                        }
-                    })
+                    return {
+                        uuid: uuid,
+                        name: 'Map ' + uuid,
+                        source: snapshotUrl
+                    }
                 }))
             });
 
