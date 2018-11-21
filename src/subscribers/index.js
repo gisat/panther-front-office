@@ -11,6 +11,7 @@ import periods from './periods';
 import places from './places';
 import scenarios from './scenarios';
 import scopes from './scopes';
+import snapshots from './snapshots';
 import symbologies from './symbologies';
 import users from './users';
 import views from './views';
@@ -31,6 +32,7 @@ export default store => {
 	places(store);
 	scenarios(store);
 	scopes(store);
+	snapshots(store);
 	symbologies(store);
 	users(store);
 	views(store);

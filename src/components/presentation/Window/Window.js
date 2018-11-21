@@ -42,6 +42,7 @@ class PantherWindow extends React.PureComponent {
 
 		dockable: PropTypes.bool,
 		docked: PropTypes.bool,
+		dockedWidth: PropTypes.number,
 		expandable: PropTypes.bool,
 		expanded: PropTypes.bool,
 		floatable: PropTypes.bool,
@@ -137,7 +138,7 @@ class PantherWindow extends React.PureComponent {
 		let header = this.renderHeader();
 		let content = this.renderContent();
 
-		let size = this.state.docked ? {width: '300px', height: '100%'} :
+		let size = this.state.docked ? {width: (this.props.dockedWidth ? `${this.props.dockedWidth}px` : '300px'), height: '100%'} :
 			(this.state.expanded ? {width: '100%', height: '100%'} : { width: this.state.width,  height: this.state.height });
 		let position = (this.state.docked || this.state.expanded) ? {x: 0, y: 0} : { x: this.state.positionX, y: this.state.positionY };
 
@@ -148,6 +149,7 @@ class PantherWindow extends React.PureComponent {
 				dragHandleClassName=".ptr-window-header"
 				size={size}
 				position={position}
+				bounds="body"
 				minHeight={this.props.minHeight}
 				minWidth={this.props.minWidth}
 				maxWidth={'100%'}

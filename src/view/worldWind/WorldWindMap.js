@@ -314,6 +314,25 @@ class WorldWindMap {
 		}
 	}
 
+    /**
+     * Add callback for snapshots
+     */
+    snapshot(){
+        const wwd = this._wwd;
+    	return new Promise((resolve) => {
+            const snapshot = (worldWindow, stage) => {
+                if(stage === 'afterRedraw') {
+                    wwd.redrawCallbacks.shift();
+
+                    resolve(document.getElementById(this._id + '-canvas').toDataURL());
+                }
+            };
+
+            // Get the snapshot from the current map.
+            wwd.redrawCallbacks.push(snapshot);
+            wwd.redraw();
+		});
+    };
 
     /**
      * It builds Web World Wind

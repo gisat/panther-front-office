@@ -61,6 +61,9 @@ const INITIAL_STATE = {
 			open: false,
 			activeScreenKey: "caseList"
 		},
+		snapshots: {
+			open: false,
+		},
 		views: {
 			open: false
 		}
