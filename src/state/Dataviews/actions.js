@@ -99,27 +99,28 @@ function loadByKey(key) {
 					.then(() => {
 						dispatch(ScopesActions.setActiveKey(data.dataset));
 						let activeScopeConfig = Select.scopes.getActiveScopeConfiguration(getState());
+
 						if (activeScopeConfig && activeScopeConfig.hasOwnProperty(`dromasLpisChangeReview`)){
 							dispatch(LpisCasesActions.loadCaseForActiveView()).then(() => {
 								dispatch(LpisCasesActions.setActiveCaseByActiveView());
 							});
 						}
+
+						if ((data.locations && data.locations.length) || (data.location)){
+							if (data.locations && data.locations.length > 1){
+								dispatch(PlacesActions.setActive(data.locations));
+								dispatch(PlacesActions.ensure(data.locations));
+							} else {
+								dispatch(PlacesActions.setActive(data.location));
+								dispatch(PlacesActions.ensure([data.location]));
+							}
+						} else {
+							dispatch(PlacesActions.initializeForExt());
+						}
 					})
 					.catch(error => {
 					throw new Error(error);
 				});
-			}
-
-			if ((data.locations && data.locations.length) || (data.location && data.locations.length)){
-				if (data.locations && data.locations.length > 1){
-					dispatch(PlacesActions.setActiveKeys(data.locations));
-					dispatch(PlacesActions.ensure(data.locations));
-				} else {
-					dispatch(PlacesActions.setActiveKey(data.location));
-					dispatch(PlacesActions.ensure([data.location]));
-				}
-			} else {
-				dispatch(PlacesActions.initializeForExt());
 			}
 
 			if (data.years){

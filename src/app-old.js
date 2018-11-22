@@ -37,6 +37,7 @@ import Users from './stores/gisat/Users';
 import Visualizations from './stores/gisat/Visualizations';
 import WmsLayers from './stores/gisat/WmsLayers';
 import WorldWindWidget from './view/widgets/WorldWindWidget/WorldWindWidget';
+import places from "./subscribers/places";
 
 let Config = window.Config;
 let polyglot = window.polyglot;
@@ -176,7 +177,8 @@ function loadApp(initialData) {
 
         var stateStore = new StateStore({
             dispatcher: window.Stores,
-            store: {}
+            store: {},
+            activeKeys: initialData.activeKeys
         });
         var mapStore = new MapStore({
             dispatcher: window.Stores,

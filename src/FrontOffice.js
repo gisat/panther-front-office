@@ -200,43 +200,10 @@ class FrontOffice {
      */
     checkConfiguration() {
         let self = this;
-        let state = this._stateStore.current();
         ThemeYearConfParams.actions.forEach(function(action){
             self.mapActions(action);
         });
         ThemeYearConfParams.actions = [];
-
-        // warning if scope wasn't selected properly
-        if (this._options.changes.scope && !this._options.changes.dataview){
-            if (this._dataset === ThemeYearConfParams.dataset){
-                console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "FrontOffice", "checkConfiguration", "missingDataset"));
-            }
-        }
-
-        // handle active dataset
-        if (this._options.changes.dataview){
-            this._dataset = this._options.config.dataset;
-        } else {
-            this._dataset = ThemeYearConfParams.dataset;
-        }
-
-        if (this._previousDataset !== this._dataset && !this._options.changes.dataview){
-            this._dispatcher.notify('scope#activeScopeChanged', {activeScopeKey: Number(self._dataset)});
-            this._previousDataset = Number(this._dataset);
-        }
-
-		// handle active places
-		if (!this._options.changes.dataview){
-			let places;
-			if (state.place && state.place !== "All places" && typeof state.place === "string"){
-				places = [(Number(state.place))];
-			} else if (state.locations){
-				places = state.locations;
-			} else {
-				places = state.allPlaces;
-			}
-			this._dispatcher.notify('place#setActivePlace', {data: places});
-		}
     };
 
     /**

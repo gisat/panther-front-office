@@ -55,9 +55,14 @@ Ext.define('PumaMain.controller.Area', {
 		
 	getLocationObj: function() {
 		var locObjId =  Ext.ComponentQuery.query('#sellocation')[0].getValue();
-		var rec = Ext.StoreMgr.lookup('location4init').getById(locObjId);
+		var store = Ext.StoreMgr.lookup('location4init');
+		var rec = store.getById(locObjId);
+		var location =  rec ? rec.get('location') : null;
+		if (!location || location.length === 0){
+			location = rec ? rec.get('id') : null;
+		}
 		return {
-			location: rec ? rec.get('location') : null,
+			location: location,
 			locGid: rec ? rec.get('locGid') : null,
 			at: rec ? rec.get('at') : null,
 			bbox: rec ? rec.get('bbox') : null,

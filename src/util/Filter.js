@@ -132,16 +132,11 @@ class Filter {
      * @returns {{areaTemplate: string, locations: [], periods: []}}
      */
     prepareParams() {
-        let locations;
-        if (ThemeYearConfParams.place.length > 0) {
-            locations = [Number(ThemeYearConfParams.place)];
-        } else {
-            locations = ThemeYearConfParams.allPlaces;
-        }
+		let state = this._store.state.current();
         return {
-            areaTemplate: ThemeYearConfParams.auCurrentAt,
-            locations: locations,
-            periods: JSON.parse(ThemeYearConfParams.years)
+            areaTemplate: state.currentAuAreaTemplate,
+            locations: state.locations,
+            periods: state.periods
         }
     };
 

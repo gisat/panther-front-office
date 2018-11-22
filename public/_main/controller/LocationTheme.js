@@ -916,36 +916,36 @@ Ext.define('PumaMain.controller.LocationTheme', {
 //                }
         }
         var layerGroupStore = Ext.StoreMgr.lookup('layergroup');
-        for (var i = 0; i < nodesToAdd.length; i++) {
-            var nodeToAdd = nodesToAdd[i];
-            var layerGroupId = nodeToAdd.layerGroup;
-            if (!layerGroupId) continue;
-            var layerGroupNode = root.findChild('layerGroup', layerGroupId);
-            if (!layerGroupNode) {
-                var count = root.childNodes.length;
-                var layerGroupRec = layerGroupStore.getById(layerGroupId);
-
-                var priorities = Ext.Array.map(root.childNodes,function(chNode) {
-                    return chNode.get('priority')
-                })
-                priorities = Ext.Array.clean(priorities);
-                var priority = layerGroupRec.get('priority')
-                priorities.push(priority);
-                // from highest priority to lowest
-                priorities.sort();//.reverse();
-                var idx = Ext.Array.indexOf(priorities,priority);
-
-                layerGroupNode = root.insertChild(2+idx,{
-                    name: layerGroupRec.get('name'),
-                    layerGroup: layerGroupId,
-                    type: 'thematicgroup',
-                    priority: layerGroupRec.get('priority'),
-                    expanded: true,
-                    checked: null
-                })
-            }
-            layerGroupNode.appendChild(nodeToAdd)
-        }
+        // for (var i = 0; i < nodesToAdd.length; i++) {
+        //     var nodeToAdd = nodesToAdd[i];
+        //     var layerGroupId = nodeToAdd.layerGroup;
+        //     if (!layerGroupId) continue;
+        //     var layerGroupNode = root.findChild('layerGroup', layerGroupId);
+        //     if (!layerGroupNode) {
+        //         var count = root.childNodes.length;
+        //         var layerGroupRec = layerGroupStore.getById(layerGroupId);
+        //
+        //         var priorities = Ext.Array.map(root.childNodes,function(chNode) {
+        //             return chNode.get('priority')
+        //         })
+        //         priorities = Ext.Array.clean(priorities);
+        //         var priority = layerGroupRec.get('priority')
+        //         priorities.push(priority);
+        //         // from highest priority to lowest
+        //         priorities.sort();//.reverse();
+        //         var idx = Ext.Array.indexOf(priorities,priority);
+        //
+        //         layerGroupNode = root.insertChild(2+idx,{
+        //             name: layerGroupRec.get('name'),
+        //             layerGroup: layerGroupId,
+        //             type: 'thematicgroup',
+        //             priority: layerGroupRec.get('priority'),
+        //             expanded: true,
+        //             checked: null
+        //         })
+        //     }
+        //     layerGroupNode.appendChild(nodeToAdd)
+        // }
 
 
         if (!systemNode.childNodes.length) {
@@ -1199,7 +1199,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
         }
         if (true) {
             this.removeLayers();
-            // this.appendLayers(conf.layerNodes);
+            this.appendLayers(conf.layerNodes);
             Ext.StoreMgr.lookup('layers4outline').load();
         }
         if (conf.layerRefMap) {

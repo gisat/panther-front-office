@@ -4,6 +4,8 @@ import _ from 'lodash';
 import common from '../_common/actions';
 import LayerPeriods from "../LayerPeriods/actions";
 import ScenariosActions from "../Scenarios/actions";
+import SpatialRelationsActions from "../SpatialRelations/actions";
+import SpatialDataSourcesActions from "../SpatialDataSources/actions";
 import Select from "../Select";
 import Action from "../Action";
 
@@ -15,9 +17,11 @@ const setActiveKey = common.setActiveKey(actionSetActive);
 const setActiveKeys = common.setActiveKeys(actionSetActiveKeys);
 const useIndexed = common.useIndexed(Select.places.getSubstate, 'places', actionAdd, actionAddIndex, ensureForScopeError, actionRegisterUseIndexed);
 
-function setActive(key) {
+function setActive(keys) {
 	return (dispatch, getState) => {
 		let state = getState();
+
+		let scope = Select.scopes.getActive(state);
 		let scopeConfiguration = Select.scopes.getActiveScopeConfiguration(state);
 		let activeCaseKey = Select.scenarios.cases.getActiveKey(state);
 		let activeChoroplethsKeys = Select.choropleths.getActiveKeys(state);
@@ -31,9 +35,29 @@ function setActive(key) {
 			dispatch(Action.choropleths.removeAllActiveKeys());
 		}
 
-		dispatch(actionSetActive(key));
+		if (_.isArray(keys)){
+			dispatch(setActiveKeys(keys));
+		} else {
+			dispatch(setActiveKey(keys));
+		}
+
 		if (scopeConfiguration && !scopeConfiguration.dromasLpisChangeReview) { // loading layerPeriods for case, not place
-			dispatch(LayerPeriods.loadForPlace(key));
+			dispatch(LayerPeriods.loadForPlace(keys)); // TODO what if keys is array?
+		}
+
+		if (scope && scope.data && scope.data.scenarios){
+			dispatch(ScenariosActions.loadCases());
+			let dispatchRelationsLoading = dispatch(SpatialRelationsActions.load());
+
+			// fix: sometimes dispatchRelationsLoading is undfined and I don't know why
+			if (dispatchRelationsLoading){
+				dispatchRelationsLoading.then(() => {
+					let dataSourcesIds = Select.spatialRelations.getActivePlaceDataSourceIds(getState());
+					if (dataSourcesIds && dataSourcesIds.length){
+						dispatch(SpatialDataSourcesActions.loadFiltered({'id': dataSourcesIds}));
+					}
+				});
+			}
 		}
 	};
 }

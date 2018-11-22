@@ -51,6 +51,13 @@ class StateStore {
 
 		this.allowZoomByScenarioCase = true;
 
+		if (options.activeKeys) {
+		    let keys = options.activeKeys;
+		    if (keys.places){
+		        this._locations = keys.places
+            }
+        }
+
         window.Stores.addListener(this.onEvent.bind(this), "initialLoading");
         window.Stores.hasStateStore = true;
         window.Stores.state = this;

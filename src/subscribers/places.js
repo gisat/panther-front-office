@@ -25,42 +25,42 @@ const setStoreWatchers = store => {
 const setEventListeners = store => {
 	window.Stores.addListener((event, options) => {
 		switch(event) {
-			case 'place#setActivePlace':
-				let scope = Select.scopes.getActiveScopeData(store.getState());
-				let place = null;
-				let places = null;
-
-				if (typeof options.data === "number"){
-					place = options.data;
-				} else if (options.data.length && options.data.length === 1){
-					place = options.data[0];
-				} else if (options.data.length && options.data.length > 1){
-					places = options.data;
-				}
-
-				if (place && (!state.previousPlace || state.previousPlace !== place)){
-					state.previousPlace = place;
-					store.dispatch(Action.places.setActive(place));
-
-					// if scope has scenario property: load scenario cases, spatial relations and then spatial data sources
-					if (scope.data && scope.data.scenarios){
-						store.dispatch(Action.scenarios.loadCases());
-						let dispatchRelationsLoading = store.dispatch(Action.spatialRelations.load());
-
-						// fix: sometimes dispatchRelationsLoading is undfined and I don't know why
-						if (dispatchRelationsLoading){
-							dispatchRelationsLoading.then(() => {
-								let dataSourcesIds = Select.spatialRelations.getActivePlaceDataSourceIds(store.getState());
-								if (dataSourcesIds && dataSourcesIds.length){
-									store.dispatch(Action.spatialDataSources.loadFiltered({'id': dataSourcesIds}));
-								}
-							});
-						}
-					}
-				} else if (places){
-					store.dispatch(Action.places.setActiveKeys(places));
-				}
-				break;
+			// case 'place#setActivePlace':
+			// 	let scope = Select.scopes.getActiveScopeData(store.getState());
+			// 	let place = null;
+			// 	let places = null;
+			//
+			// 	if (typeof options.data === "number"){
+			// 		place = options.data;
+			// 	} else if (options.data.length && options.data.length === 1){
+			// 		place = options.data[0];
+			// 	} else if (options.data.length && options.data.length > 1){
+			// 		places = options.data;
+			// 	}
+			//
+			// 	if (place && (!state.previousPlace || state.previousPlace !== place)){
+			// 		state.previousPlace = place;
+			// 		store.dispatch(Action.places.setActive(place));
+			//
+			// 		// if scope has scenario property: load scenario cases, spatial relations and then spatial data sources
+			// 		if (scope.data && scope.data.scenarios){
+			// 			store.dispatch(Action.scenarios.loadCases());
+			// 			let dispatchRelationsLoading = store.dispatch(Action.spatialRelations.load());
+			//
+			// 			// fix: sometimes dispatchRelationsLoading is undfined and I don't know why
+			// 			if (dispatchRelationsLoading){
+			// 				dispatchRelationsLoading.then(() => {
+			// 					let dataSourcesIds = Select.spatialRelations.getActivePlaceDataSourceIds(store.getState());
+			// 					if (dataSourcesIds && dataSourcesIds.length){
+			// 						store.dispatch(Action.spatialDataSources.loadFiltered({'id': dataSourcesIds}));
+			// 					}
+			// 				});
+			// 			}
+			// 		}
+			// 	} else if (places){
+			// 		store.dispatch(Action.places.setActiveKeys(places));
+			// 	}
+			// 	break;
 			default:
 				break;
 		}
@@ -101,13 +101,6 @@ const activePlacesWatcher = (value, previousValue) => {
 			window.Stores.notify('REDUX_SET_ACTIVE_PLACES', {keys: keys, extents: extents});
 		}
 	}
-};
-
-const transform = model => {
-	let {dataset, id, ...newModel} = model;
-	newModel.key = model.id;
-	newModel.scope = model.dataset;
-	return newModel;
 };
 
 // ======== state watchers ========

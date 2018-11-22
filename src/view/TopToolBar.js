@@ -324,7 +324,9 @@ class TopToolBar {
     initCustomLayersWindow() {
         let component = $('#custom-layers-container');
         if (!component.length) {
-            new CustomLayers();
+            new CustomLayers({
+                stateStore: this._stateStore
+            });
         }
     };
 

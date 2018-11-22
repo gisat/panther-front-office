@@ -42,9 +42,10 @@ const getDataForInitialLoad = createSelector(
 		PeriodsSelectors.getAllForDataview,
 		PlacesSelectors.getAllForDataview,
 		PlacesSelectors.isInitializedForExt,
+		PlacesSelectors.getActiveKey,
 		ScopesSelectors.getAllForDataview,
 		ThemesSelectors.getAllForDataview],
-	(dataview, attributes, attributesInitialized, attributeSets, attributeSetsInitialized, periods, places, placesInitialized, scopes, themes) => {
+	(dataview, attributes, attributesInitialized, attributeSets, attributeSetsInitialized, periods, places, placesInitialized, placesActiveKey, scopes, themes) => {
 		let attrs = null, attrSets = null, plcs = null;
 
 		if (attributes){
@@ -66,6 +67,9 @@ const getDataForInitialLoad = createSelector(
 		}
 
 		return {
+			activeKeys: {
+				places: [placesActiveKey]
+			},
 			attributes: attrs,
 			attributeSets: attrSets,
 			dataview,
