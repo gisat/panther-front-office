@@ -11,6 +11,7 @@ export default store => {
 
 const setStoreWatchers = store => {
 	common.createWatcher(store, Select.themes.getAllForDataviewAsObject, byKeyWatcher, 'byKeyForDataview');
+	common.createWatcher(store, Select.themes.getActiveKey, activeKeyWatcher);
 };
 
 const setEventListeners = store => {
@@ -23,6 +24,13 @@ const setEventListeners = store => {
 };
 
 // ======== state watchers ========
+const activeKeyWatcher = (value, previousValue) => {
+	console.log('@@ activeThemeWatcher', previousValue, '->', value);
+	if (!previousValue || (previousValue && (previousValue !== value))){
+		window.Stores.notify('REDUX_SET_ACTIVE_THEME', {key: value});
+	}
+};
+
 const byKeyWatcher = (value, previousValue, stateKey) => {
 	console.log('@@@@@ subscribers/themes#byKeyWatcher', previousValue, '->', value);
 	if (stateKey) state[stateKey] = value;

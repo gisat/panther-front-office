@@ -33,16 +33,6 @@ function loadForTopics(topics) {
 	}
 }
 
-function updateActive(keys) {
-	return (dispatch, getState) => {
-		let activeKeys = Select.attributeSets.getActiveKeys(getState());
-		let diff = _.difference(activeKeys, keys);
-		if (diff.length || !activeKeys){
-			dispatch(setActiveKeys(keys));
-		}
-	};
-}
-
 // ============ actions ===========
 
 function actionAdd(attributeSets) {
@@ -78,6 +68,5 @@ function actionInitializeForExt() {
 export default {
 	add,
 	setActiveKeys,
-	loadForTopics,
-	updateActive
+	loadForTopics
 }

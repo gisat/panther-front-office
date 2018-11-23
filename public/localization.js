@@ -295,7 +295,7 @@ var langEn = {
     selectedLayers: "Selected layers",
     selectEnd: "Select end",
     selectInMap: "Select in map",
-    selectionGuide: "<h2>Selection guide</h2><h3>Scope</h3><p>Different data address different scope level of analysis. Please choose your scope of interest.</p><h3>Place</h3><p>Data for different analysis scopes can be available for different places. Please select place covered / prepared for exploration and analysis according to region, country or city of your interest.</p><h3>Theme</h3><p>Standard views on data are focused on different thematic information. Please select theme according your thematic interests.</p>",
+    selectionGuide: "<h2>Selection guide</h2><h3>Scope</h3><p>Different data address different scope level of analysis. Please choose your scope of interest.</p><h3>Place</h3><p>Data for different analysis scopes can be available for different places. Please select place covered / prepared for exploration and analysis according to region, country or city of your interest.</p><h3>ThemeSelector</h3><p>Standard views on data are focused on different thematic information. Please select theme according your thematic interests.</p>",
     selections: "Selections",
     selectPeriod: "Select period",
     selectPeriodsToCompare: "Select periods to compare",

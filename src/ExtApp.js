@@ -70,8 +70,6 @@ class ExtApp {
 		let placesStore = Ext.StoreMgr.lookup('location');
 		let themesStore = Ext.StoreMgr.lookup('theme');
 		let yearsStore = Ext.StoreMgr.lookup('year');
-		let attributeSetsStore = Ext.StoreMgr.lookup('attributeset');
-		let attributesStore = Ext.StoreMgr.lookup('attribute');
 
 		let locationStore = Ext.StoreMgr.lookup('location4init');
 		let themeStore = Ext.StoreMgr.lookup('theme4sel');
@@ -94,16 +92,24 @@ class ExtApp {
 		}
 
 		if (data.attributeSets){
-			attributeSetsStore.add(data.attributeSets);
+			this.addAttributeSetsToStore(data.attributeSets);
 		}
 
 		if (data.attributes){
-			attributesStore.add(data.attributes);
+			this.addAttributesToStore(data.attributes);
 		}
 
 		this.domManipulationController.renderApp();
 		this.renderController.renderApp();
     };
+
+	addAttributesToStore(data){
+		Ext.StoreMgr.lookup('attribute').add(data);
+	}
+
+    addAttributeSetsToStore(data){
+		Ext.StoreMgr.lookup('attributeset').add(data);
+	}
 
     applyDataview(data){
 		this.dataViewController.onLoadingFinished(data.dataview);
@@ -292,7 +298,15 @@ class ExtApp {
         if (type === "SHOW_HEADER_LOGO"){
 			$('#content-intro > .label').html("");
 			$('#home-page').html('<img src="' + options + '" />');
-        }
+        } else if (type === "REDUX_ATTRIBUTE_SETS_ADD"){
+			if (options.length){
+				this.addAttributeSetsToStore(options);
+			}
+		} else if (type === "REDUX_ATTRIBUTES_ADD"){
+			if (options.length){
+				this.addAttributesToStore(options);
+			}
+		}
     }
 }
 

@@ -191,7 +191,7 @@ class InfoLayersPanel extends WorldWindWidgetPanel {
      * @param scope {string|number} Scope id
      * @param place {string|array} Place id. Empty strin means all places.
      * @param period {string|number} Period id.
-     * @param theme {string|number} Theme id.
+     * @param theme {string|number} ThemeSelector id.
      * @returns {Promise}
      */
     getLayersFromAPI(scope, place, period, theme) {

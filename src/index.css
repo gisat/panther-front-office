@@ -315,7 +315,7 @@ body {
 	color: rgba(168, 172, 180, 1);
 	font-size: .85rem;
 	font-weight: 600;
-	padding: 0 1rem 0 0;
+	padding: 0 .7rem 0 0;
 }
 
 .ptr-ui-select .Select {
@@ -750,11 +750,15 @@ todo merge with overlay
 }
 
 /* == View Selector =============================================== */
-
+.ptr-view-selection-wrapper {
+	align-items: center;
+	display: flex;
+}
 .ptr-view-selection-container {
 	align-items: center;
 	display: flex;
 	height: 100%;
+	margin-right: 1rem;
 }
 
 .ptr-place-selector {

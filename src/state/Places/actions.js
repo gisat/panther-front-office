@@ -64,7 +64,7 @@ function setActive(keys) {
 
 function ensureForScopeError(data) {
 	return dispatch => {
-		throw new Error(`state/dataviews/actions#ensureForScopeError: ${data}`);
+		throw new Error(`state/places/actions#ensureForScopeError: ${data}`);
 	}
 }
 

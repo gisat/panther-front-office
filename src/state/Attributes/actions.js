@@ -15,18 +15,6 @@ function add(data) {
 	}
 }
 
-function loadForKeys(keys) {
-	return (dispatch) => {
-		let filter = {
-			key: {
-				in: keys
-			}
-		};
-		return dispatch(common.loadFiltered('attributes', filter, add, actionLoadError));
-	}
-}
-
-
 // ============ actions ===========
 
 function actionAdd(attributes) {
@@ -36,9 +24,9 @@ function actionAdd(attributes) {
 	}
 }
 
-function actionLoadError(err) {
+function actionEnsureError(err) {
 	return {
-		type: ActionTypes.ATTRIBUTES.LOAD.ERROR,
+		type: ActionTypes.ATTRIBUTES.ENSURE.ERROR,
 		error: err
 	}
 }
@@ -56,5 +44,5 @@ function actionInitializeForExt() {
 export default {
 	add,
 	initializeForExt: actionInitializeForExt,
-	loadForKeys
+	ensure: common.ensure.bind(this, Select.attributes.getSubstate, 'attributes', add, actionEnsureError),
 }

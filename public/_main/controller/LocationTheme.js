@@ -5,9 +5,12 @@ Ext.define('PumaMain.controller.LocationTheme', {
     init: function() {
 
 		Observer.addListener("PumaMain.controller.LocationTheme.reloadWmsLayers",this.reloadWmsLayers.bind(this));
+
 		Stores.addListener(this.areaTemplateChange.bind(this));
 		Stores.addListener(this.triggerConfirm.bind(this));
+
 		Stores.addListener(this.setLocationFromRedux.bind(this));
+		Stores.addListener(this.setThemeFromRedux.bind(this));
 
         this.control({
             '#initialdataset':{
@@ -47,6 +50,39 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
         Observer.notify('LocationTheme#init');
     },
+
+	setLocationFromRedux: function(type, options){
+		if (type === 'REDUX_SET_ACTIVE_PLACES'){
+			if (options && options.keys){
+				let locationCombo = Ext.ComponentQuery.query('#sellocation')[0];
+				let locComboValue = locationCombo.value;
+				let placeId = options.keys;
+
+				if (placeId.length){
+					placeId = placeId[0];
+				}
+
+
+				if (placeId !== locComboValue){
+					locationCombo.setValue(placeId);
+				}
+			}
+		}
+	},
+
+	setThemeFromRedux: function(type, options){
+		if (type === 'REDUX_SET_ACTIVE_THEME'){
+			if (options && options.key){
+				let themeCombo = Ext.ComponentQuery.query('#seltheme')[0];
+				let themeComboValue = themeCombo.value;
+				let activeThemeKey = options.key;
+				if (activeThemeKey !== themeComboValue){
+					themeCombo.setValue(activeThemeKey);
+				}
+			}
+		}
+	},
+
     triggerConfirm: function(action){
         if (action === "confirmInitialSelection"){
             this.onConfirm();
@@ -180,25 +216,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
         themeComboAlt.resumeEvents();
 
         Observer.notify('scopeChange');
-    },
-
-    setLocationFromRedux: function(type, options){
-        if (type === 'REDUX_SET_ACTIVE_PLACES'){
-            if (options && options.keys){
-				let locationCombo = Ext.ComponentQuery.query('#sellocation')[0];
-				let locComboValue = locationCombo.value;
-                let placeId = options.keys;
-
-                if (placeId.length){
-                    placeId = placeId[0];
-                }
-
-
-                if (placeId !== locComboValue){
-					locationCombo.setValue(placeId);
-				}
-            }
-        }
     },
 
     onLocationChange: function(cnt,val) {
