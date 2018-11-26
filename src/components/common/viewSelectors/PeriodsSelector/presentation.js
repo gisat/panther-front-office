@@ -45,7 +45,7 @@ class PeriodsSelector extends React.PureComponent {
 			let values = selected.map(item => item.value);
 			this.props.onChangePeriods(values);
 		} else {
-			this.props.onChangePeriods([selected.value]);
+			this.props.onChangePeriods([selected.key]);
 		}
 	}
 
@@ -57,6 +57,7 @@ class PeriodsSelector extends React.PureComponent {
 		if (this.props.activeKeys){
 			selected = this.props.activeKeys;
 			if (selected && selected.length === 1){
+				selected = selected[0];
 				clearableValue = false;
 			}
 		}
