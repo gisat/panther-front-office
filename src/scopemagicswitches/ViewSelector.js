@@ -4,6 +4,7 @@ import Select from '../state/Select';
 import ChangeReviewMapControl from '../components/containers/controls/ChangeReviewMapControl';
 import PlaceSelector from '../components/containers/view-selectors/PlaceSelector';
 import ThemeSelector from '../components/common/viewSelectors/ThemeSelector';
+import PeriodsSelector from "../components/common/viewSelectors/PeriodsSelector";
 
 const MagicSwitch = ({scope}) => {
 	if (scope && scope.data) {
@@ -14,6 +15,7 @@ const MagicSwitch = ({scope}) => {
 				<div className="ptr-view-selection-wrapper">
 					<PlaceSelector/>
 					<ThemeSelector/>
+					<PeriodsSelector/>
 				</div>
 			);
 		}

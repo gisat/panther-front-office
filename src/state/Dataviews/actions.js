@@ -124,11 +124,7 @@ function loadByKey(key) {
 			}
 
 			if (data.years){
-				if (data.years && data.years.length === 1){
-					dispatch(PeriodsActions.setActiveKey(data.years[0]));
-				} else {
-					dispatch(PeriodsActions.setActiveKeys(data.years));
-				}
+				dispatch(PeriodsActions.setActiveKeys(data.years));
 				dispatch(PeriodsActions.ensure(data.years));
 			}
 

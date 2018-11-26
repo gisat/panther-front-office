@@ -8,6 +8,7 @@ import Select from "../Select";
 const add = common.add(actionAdd);
 const setActiveKey = common.setActiveKey(actionSetActiveKey);
 const setActiveKeys = common.setActiveKeys(actionSetActiveKeys);
+const useIndexed = common.useIndexed(Select.periods.getSubstate, 'periods', actionAdd, actionAddIndex, actionEnsureError, actionRegisterUseIndexed);
 
 // ============ actions ===========
 
@@ -22,6 +23,28 @@ function actionEnsureError(error) {
 	return {
 		type: ActionTypes.PERIODS.ENSURE.ERROR,
 		error: error
+	}
+}
+
+function actionAddIndex(filter, order, count, start, data) {
+	return {
+		type: ActionTypes.PERIODS.INDEX.ADD,
+		filter: filter,
+		order: order,
+		count: count,
+		start: start,
+		data: data
+	}
+}
+
+function actionRegisterUseIndexed(componentId, filter, order, start, length) {
+	return {
+		type: ActionTypes.PERIODS.USE.INDEXED.REGISTER,
+		componentId,
+		filter,
+		order,
+		start,
+		length
 	}
 }
 
@@ -45,5 +68,6 @@ export default {
 	add,
 	ensure: common.ensure.bind(this, Select.periods.getSubstate, 'periods', actionAdd, actionEnsureError),
 	setActiveKey,
-	setActiveKeys
+	setActiveKeys,
+	useIndexed
 }

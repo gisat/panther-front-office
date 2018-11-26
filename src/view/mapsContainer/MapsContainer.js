@@ -95,7 +95,10 @@ class MapsContainer {
 	addCloseButtonOnClickListener() {
 		let self = this;
 		this._containerSelector.on("click", ".close-map-button", function () {
-			let mapId = $(this).attr("data-id");
+			let mapId = $(this).attr("id");
+			if (!mapId){
+				 mapId = $(this).parents(".world-wind-map-box").find(".world-wind-map").attr("id");
+			}
 			let mapPeriod = self._mapStore.getMapById(mapId).period;
 			let periods = _.reject(self._stateStore.current().periods, function (period) {
 				return period === mapPeriod;

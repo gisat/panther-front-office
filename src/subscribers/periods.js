@@ -1,7 +1,7 @@
 import Action from '../state/Action';
-import utils from '../utils/utils';
 import Select from "../state/Select";
 import common from "./_common";
+import _ from "lodash";
 
 let state = {};
 export default store => {
@@ -11,21 +11,16 @@ export default store => {
 
 const setStoreWatchers = store => {
 	common.createWatcher(store, Select.periods.getAllForDataviewAsObject, byKeyWatcher, 'byKeyForDataview');
+	common.createWatcher(store, Select.periods.getActiveKeys, activeKeysWatcher);
 };
 
 const setEventListeners = store => {
 	window.Stores.addListener((event, options) => {
 		switch(event) {
-			case 'PERIODS_LOADED':
-				let oldModels = Select.periods.getPeriods(store.getState());
-				let newModels = utils.removeDuplicities(oldModels, options);
-				if (newModels && newModels.length){
-					store.dispatch(Action.periods.add(newModels));
-				}
-				break;
-			case 'periods#change':
-			case 'periods#initial':
-				onPeriodsChanged(store, options);
+			case "periods#change":
+				let periods = options;
+				if (!_.isArray(periods)) periods = [periods];
+				store.dispatch(Action.periods.setActiveKeys(periods));
 				break;
 			default:
 				break;
@@ -34,6 +29,13 @@ const setEventListeners = store => {
 };
 
 // ======== state watchers ========
+const activeKeysWatcher = (value, previousValue) => {
+	console.log('@@ activePeriodsWatcher', previousValue, '->', value);
+	if (!previousValue || (previousValue && (previousValue !== value))){
+		window.Stores.notify('REDUX_SET_ACTIVE_PERIODS', {keys: value});
+	}
+};
+
 const byKeyWatcher = (value, previousValue, stateKey) => {
 	console.log('@@@@@ subscribers/periods#byKeyWatcher', previousValue, '->', value);
 	if (stateKey) state[stateKey] = value;
@@ -42,11 +44,5 @@ const byKeyWatcher = (value, previousValue, stateKey) => {
 	// todo changed and removed?
 	if (diff.added && diff.added.length){
 		window.Stores.notify("REDUX_PERIODS_ADD", diff.added);
-	}
-};
-
-const onPeriodsChanged = (store, options, initial) => {
-	if (options.length === 1){
-		store.dispatch(Action.periods.setActiveKey(options[0]));
 	}
 };

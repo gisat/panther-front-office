@@ -11,6 +11,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
 		Stores.addListener(this.setLocationFromRedux.bind(this));
 		Stores.addListener(this.setThemeFromRedux.bind(this));
+		Stores.addListener(this.setPeriodsFromRedux.bind(this));
 
         this.control({
             '#initialdataset':{
@@ -78,6 +79,19 @@ Ext.define('PumaMain.controller.LocationTheme', {
 				let activeThemeKey = options.key;
 				if (activeThemeKey !== themeComboValue){
 					themeCombo.setValue(activeThemeKey);
+				}
+			}
+		}
+	},
+
+	setPeriodsFromRedux: function(type, options){
+		if (type === 'REDUX_SET_ACTIVE_PERIODS'){
+			if (options && options.keys){
+				let periodsCombo = Ext.ComponentQuery.query('#selyear')[0];
+				let periodsComboValue = periodsCombo.value;
+				let activePeriodsKey = options.keys;
+				if (activePeriodsKey !== periodsComboValue){
+					periodsCombo.setValue(activePeriodsKey);
 				}
 			}
 		}

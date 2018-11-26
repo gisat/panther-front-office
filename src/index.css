@@ -773,6 +773,7 @@ todo merge with overlay
 }
 .ptr-view-selection-selector.ptr-ui-select .Select {
 	min-width: 10rem;
+	max-width: 15rem;
 	font-size: .75rem;
 	border: none;
 }
@@ -826,6 +827,14 @@ todo merge with overlay
 .ptr-view-selection-selector.ptr-ui-select .Select-control .Select-value {
 	line-height: 1.8rem;
 	padding-right: 25px;
+}
+.ptr-view-selection-selector.ptr-ui-select .Select--multi .Select-control .Select-value {
+	color: rgb(204, 207, 211);
+	margin: .25rem .25rem 0 0;
+	line-height: 1rem;
+}
+.ptr-view-selection-selector.ptr-ui-select .Select--multi .Select-control .Select-value-icon:hover {
+	color: white;
 }
 
 .ptr-view-selection-selector.ptr-ui-select .Select-input {

@@ -54,7 +54,7 @@ class ThemeSelector extends React.PureComponent {
 			});
 
 			if (this.props.activeTheme){
-				selected = this.props.activeTheme.key
+				selected = this.props.activeTheme.key;
 			}
 		}
 
