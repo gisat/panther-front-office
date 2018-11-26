@@ -201,7 +201,9 @@ class Customization {
         if (scope && scope.configuration && scope.showTimeline && user && user.groups){
 			let userGroupKeys = user.groups.map(group => group.id);
 			let dromasLpisGroups = scope.configuration.dromasLpisChangeReview ? scope.configuration.dromasLpisChangeReview.groups : null;
-			if (dromasLpisGroups){
+            //FIXME - How identify showTimeline
+            let sentinelViewer = scope.configuration.headerComponent === "sentinelPreview";
+			if (dromasLpisGroups || sentinelViewer){
                 let isGisatUser = _.find(userGroupKeys, (key) => {return key === dromasLpisGroups.gisatUsers});
 				let isGisatAdmin = _.find(userGroupKeys, (key) => {return key === dromasLpisGroups.gisatAdmins});
 				if (isGisatUser || isGisatAdmin){

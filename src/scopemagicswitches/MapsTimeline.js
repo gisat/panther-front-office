@@ -5,6 +5,7 @@ import AoiWmsMapsTimeline from '../components/containers/controls/AoiWmsMapsTime
 import MapsTimeline from '../components/containers/controls/MapsTimeline';
 import PlaceWmsMapsTimeline from '../components/containers/controls/PlaceWmsMapsTimeline';
 import DromasLpisChangeReviewMapsTimeline from '../components/scopeSpecific/DromasLpisChangeReview/mapsTimeline';
+import SentinelChangeReviewMapsTimeline from '../components/scopeSpecific/SentinelViewer/mapsTimeline';
 import AuAttributeFrequencyGraph from '../components/containers/controls/MapsTimeline/content/AuAttributeFrequencyGraph';
 
 
@@ -23,6 +24,12 @@ const MagicSwitch = ({scope}) => {
 		if (scope.showTimeline && scope.timelineContent === "auAttributeFrequencyGraph") {
 			return <MapsTimeline content={AuAttributeFrequencyGraph} />
 		}
+		
+		//FIXME - How identify showTimeline
+		if (scope.showTimeline && scope.configuration.headerComponent === "sentinelPreview") {
+			return <SentinelChangeReviewMapsTimeline />
+		}
+		
 		if (scope.showTimeline) {
 			return <MapsTimeline />
 		}
