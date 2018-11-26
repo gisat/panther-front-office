@@ -107,6 +107,7 @@ export default {
 	getScopesForActiveUser,
 	getScopeData: getByKey,
 
+	getActiveKey,
 	getAll,
 	getAllAsObject,
 	getAllForDataview,

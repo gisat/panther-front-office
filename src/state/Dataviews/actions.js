@@ -231,10 +231,11 @@ function actionAddIndex(filter, order, count, start, data) {
 	}
 }
 
-function registerUseIndexed(componentId, filter, order, start, length) {
+function registerUseIndexed(componentId, filterByActive, filter, order, start, length) {
 	return {
 		type: ActionTypes.DATAVIEWS.USE.INDEXED.REGISTER,
 		componentId,
+		filterByActive,
 		filter,
 		order,
 		start,

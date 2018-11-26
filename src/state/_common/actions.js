@@ -56,11 +56,56 @@ const useKeys = (getSubstate, dataType, actionAdd, errorAction, registerUseKeys)
 };
 
 const useIndexed = (getSubstate, dataType, actionAdd, actionAddIndex, errorAction, registerUseIndexed) => {
-	return (filter, order, start, length, componentId) => {
-		return dispatch => {
-			console.log('##### useIndexed', componentId);
-			dispatch(registerUseIndexed(componentId, filter, order, start, length));
-			dispatch(ensureIndex(getSubstate, dataType, filter, order, start, length, actionAdd, actionAddIndex, errorAction));
+	return (filterByActive, filter, order, start, length, componentId) => {
+		return (dispatch, getState) => {
+			dispatch(registerUseIndexed(componentId, filterByActive, filter, order, start, length));
+			let ensure = true;
+			let fullFilter = {...filter};
+			if (filterByActive) {
+				let state = getState();
+				if (filterByActive.scope){
+					let activeScopeKey = Select.scopes.getActiveKey(state);
+					if (activeScopeKey){
+						fullFilter.scope = activeScopeKey;
+					} else {
+						ensure = false;
+					}
+				}
+				// TODO remove theme, add case, scenario, ...
+				if (filterByActive.theme){
+					let activeThemeKey = Select.themes.getActiveKey(state);
+					if (activeThemeKey){
+						fullFilter.theme = activeThemeKey;
+					} else {
+						ensure = false;
+					}
+				}
+				if (filterByActive.place){
+					let activePlaceKey = Select.places.getActiveKey(state);
+					let activePlaceKeys = Select.places.getActiveKeys(state);
+					if (activePlaceKey){
+						fullFilter.place = activePlaceKey;
+					} else if (activePlaceKeys){
+						fullFilter.place = {in: activePlaceKeys};
+					} else {
+						ensure = false;
+					}
+				}
+				if (filterByActive.periods){
+					let activePeriodKey = Select.periods.getActiveKey(state);
+					let activePeriodsKeys = Select.periods.getActiveKeys(state);
+					if (activePeriodKey){
+						fullFilter.periods = activePeriodKey;
+					} else if (activePeriodsKeys){
+						fullFilter.periods = {in: activePeriodsKeys};
+					} else {
+						ensure = false;
+					}
+				}
+			}
+			if (ensure){
+				dispatch(ensureIndex(getSubstate, dataType, fullFilter, order, start, length, actionAdd, actionAddIndex, errorAction));
+			}
 		};
 	}
 };

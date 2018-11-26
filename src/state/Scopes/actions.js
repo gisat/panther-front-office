@@ -128,10 +128,11 @@ function actionClearIndexes() {
 	}
 }
 
-function actionUseIndexedRegister(componentId, filter, order, start, length) {
+function actionUseIndexedRegister(componentId, filterByActive, filter, order, start, length) {
 	return {
 		type: ActionTypes.SCOPES.USE.INDEXED.REGISTER,
 		componentId,
+		filterByActive,
 		filter,
 		order,
 		start,

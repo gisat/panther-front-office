@@ -6,7 +6,10 @@ export const DEFAULT_INITIAL_STATE = {
 	count: null,
 	editedByKey: null,
 	indexes: null,
-	inUse: null,
+	inUse: {
+		indexes: null,
+		keys: null
+	},
 	lastChangedOn: null,
 	loading: false,
 	loadingKeys: null,
@@ -51,8 +54,7 @@ export default {
 			order: selectedIndex.order || action.order,
 			count: action.count,
 			changedOn: action.changedOn,
-			index: index || selectedIndex.index,
-			inUse: selectedIndex.inUse
+			index: index || selectedIndex.index
 		};
 		indexes.push(selectedIndex);
 
@@ -68,81 +70,52 @@ export default {
 		let indexes = [];
 		let selectedIndex = {};
 
-		if (state.indexes){
-			state.indexes.forEach(index => {
-				if (_.isEqual(index.filter, action.filter) && _.isEqual(index.order, action.order)){	// todo there is a chance that isEqual may not work if order of keys is not same
-					selectedIndex = index;
-				} else {
-					indexes.push(index);
-				}
-			});
-		}
-
-		let inUse;
+		// TODO save link to index?
 		// replace use - todo option to add to use?
 		let newUse = {
+			filterByActive: action.filterByActive,
+			filter: action.filter,
+			order: action.order,
 			start: action.start,
 			length: action.length
 		};
-		inUse = {...selectedIndex.inUse, [action.componentId]: newUse};
-
-		// ensure index base (filter, order) exists, but use original values if present
-		let indexBase = {
-			filter: action.filter,
-			order: action.order
-		};
-		selectedIndex = {...indexBase, ...selectedIndex};
-
-		// update inUse
-		selectedIndex = {...selectedIndex, inUse};
-
-		indexes.push(selectedIndex);
-		return {...state, indexes: indexes};
+		return {...state, inUse: {...state.inUse, indexes: {...state.inUse.indexes, [action.componentId]: newUse}}};
 	},
 
 	useIndexedClear: (state, action) => {
-		let indexes = [];
-		let found = false;
-
-		if (state.indexes){
-			state.indexes.forEach(index => {
-				if (index.inUse && index.inUse.hasOwnProperty(action.componentId)) {
-					found = true;
-					let inUse = index.inUse;
-					delete inUse[action.componentId];
-					index = {...index, inUse};
-				}
-
-				indexes.push(index);
-			});
-		}
-
-		if (found) {
-			return {...state, indexes: indexes};
+		if (state.inUse && state.inUse.indexes && state.inUse.indexes.hasOwnProperty(action.componentId)) {
+			let indexes = {...state.inUse.indexes};
+			delete indexes[action.componentId];
+			return {...state, inUse: {...state.inUse, indexes: indexes}};
 		} else {
 			// do not mutate if no index was changed
 			return state;
 		}
-
 	},
 
 	useKeysRegister: (state, action) => {
 		return {
 			...state,
 			inUse: {
-				...state.inUse,
-				[action.componentId]: action.keys
+				...state.inUse.indexes,
+				keys: {
+					...state.inUse.keys,
+					[action.componentId]: action.keys
+				}
 			}
 		}
 	},
 
 	useKeysClear: (state, action) => {
-		let inUse = {...state.inUse};
-		delete inUse[action.componentId];
+		let keys = {...state.inUse.keys};
+		delete keys[action.componentId];
 
 		return {
 			...state,
-			inUse
+			inUse: {
+				...state.inUse.indexes,
+				keys
+			}
 		}
 	},
 
