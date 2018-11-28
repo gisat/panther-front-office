@@ -3,6 +3,7 @@ import _ from 'underscore';
 import WorldWind from '@nasaworldwind/worldwind';
 
 import ArgumentError from '../../../error/ArgumentError';
+import ColoredLayer from '../../../worldwind/layers/ColoredLayer';
 import Logger from '../../../util/Logger';
 import MyOsmLayer from '../../../worldwind/layers/MyOsmLayer';
 import MyOsmCartoLayer from '../../../worldwind/layers/MyOsmCartoLayer';
@@ -273,6 +274,12 @@ class Layers {
                     size: 256,
                     version: "1.3.0"
                 });
+                break;
+            case "white":
+                layer = new ColoredLayer("white");
+                break;
+            case "black":
+                layer = new ColoredLayer("black");
                 break;
             case "lpisOrto":
                 layer = new MyWmsLayer({

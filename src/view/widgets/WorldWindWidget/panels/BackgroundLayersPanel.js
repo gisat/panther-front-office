@@ -63,20 +63,30 @@ class BackgroundLayersPanel extends WorldWindWidgetPanel {
         if (scope && scope['extraBackgroundLayers']) {
             let extraLayers = scope['extraBackgroundLayers'];
             for (let layer in extraLayers) {
-                if (extraLayers[layer] && layer === 'cuzkOrto') {
+                if (extraLayers[layer] && extraLayers[layer] === 'cuzkOrto') {
                     this.toggleLayerWithControl('cuzkOrto', 'cuzkOrto', disabledLayers, activeBackgroundMap);
                     if (!this._defaultMap.layers.getLayerById('cuzkOrto')) {
                         this._defaultMap.layers.addBackgroundLayer('cuzkOrto', this._id);
                     }
-                } else if (extraLayers[layer] && layer === 'lpisOrto') {
+                } else if (extraLayers[layer] && extraLayers[layer] === 'lpisOrto') {
                     this.toggleLayerWithControl('lpisOrto', 'lpisOrto', disabledLayers, activeBackgroundMap);
                     if (!this._defaultMap.layers.getLayerById('lpisOrto')) {
                         this._defaultMap.layers.addBackgroundLayer('lpisOrto', this._id);
                     }
-                } else if (extraLayers[layer] && layer === 'landsat') {
+                } else if (extraLayers[layer] && extraLayers[layer] === 'landsat') {
                     this.toggleLayerWithControl('landsat', 'blueMarble', disabledLayers, activeBackgroundMap);
                     if (!this._defaultMap.layers.getLayerById('landsat')) {
                         this._defaultMap.layers.addBackgroundLayer('landsat', this._id);
+                    }
+                } else if (extraLayers[layer] && extraLayers[layer] === 'white') {
+                    this.toggleLayerWithControl('white', 'whiteLayer', disabledLayers, activeBackgroundMap);
+                    if (!this._defaultMap.layers.getLayerById('white')) {
+                        this._defaultMap.layers.addBackgroundLayer('white', this._id);
+                    }
+                } else if (extraLayers[layer] && extraLayers[layer] === 'black') {
+                    this.toggleLayerWithControl('black', 'blackLayer', disabledLayers, activeBackgroundMap);
+                    if (!this._defaultMap.layers.getLayerById('black')) {
+                        this._defaultMap.layers.addBackgroundLayer('black', this._id);
                     }
                 }
             }
