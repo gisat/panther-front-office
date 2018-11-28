@@ -4,34 +4,31 @@ import Select from '../../../state/Select';
 import PlaceSelector from '../../presentation/view-selectors/PlaceSelector';
 import utils from "../../../utils/utils";
 
+const order = [['name', 'ascending']];
 
-// TODO is this correct approach?
-
-const mapStateToPropsFactory = () => {
-	const componentId = 'PlaceSelector_' + utils.randomString(6);
-
+const mapStateToProps = () => {
 	return state => {
 		return {
-			componentId: componentId,
 			isInIntroMode: Select.components.isAppInIntroMode(state),
 			activePlace: Select.places.getActive(state),
-			places: Select.places.getAllForIndexInUseByComponentId(state, componentId),
-			scopeKey: Select.scopes.getActiveScopeKey(state)
+			places: Select.places.getAllForActiveScope(state, order)
 		}
 	}
 };
 
 const mapDispatchToPropsFactory = () => {
+	const componentId = 'PlaceSelector_' + utils.randomString(6);
+
 	return (dispatch) => {
 		return {
 			onChangePlace: (key) => {
 				dispatch(Action.places.setActive(key));
 			},
-			onScopeChange: (key, componentId) => {
-				dispatch(Action.places.useIndexed({dataset: key}, [['name', 'ascending']], 1, 1000, componentId));
+			onMount: () => {
+				dispatch(Action.places.useIndexed({scope: true}, null, order, 1, 1000, componentId));
 			}
 		}
 	}
 };
 
-export default connect(mapStateToPropsFactory, mapDispatchToPropsFactory)(PlaceSelector);
+export default connect(mapStateToProps, mapDispatchToPropsFactory)(PlaceSelector);

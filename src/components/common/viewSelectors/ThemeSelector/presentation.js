@@ -9,9 +9,8 @@ class ThemeSelector extends React.PureComponent {
 		activeTheme: PropTypes.object,
 		isInIntroMode: PropTypes.bool,
 		themes: PropTypes.array,
-		onChangePlace: PropTypes.func,
-		onScopeChange: PropTypes.func,
-		scopeKey: PropTypes.number
+		onChangeTheme: PropTypes.func,
+		onMount: PropTypes.func,
 	};
 
 	static defaultProps = {
@@ -25,14 +24,8 @@ class ThemeSelector extends React.PureComponent {
 	}
 
 	componentDidMount(){
-		if (this.props.scopeKey && !this.props.isInIntroMode){ //TODO remove dependency on mode
-			this.props.onScopeChange(this.props.scopeKey, this.props.componentId);
-		}
-	}
-
-	componentWillReceiveProps(nextProps){
-		if ((this.props.scopeKey !== nextProps.scopeKey) && !this.props.isInIntroMode){ //TODO remove dependency on mode
-			this.props.onScopeChange(nextProps.scopeKey, this.props.componentId);
+		if (!this.props.isInIntroMode){ //TODO remove dependency on mode
+			this.props.onMount();
 		}
 	}
 

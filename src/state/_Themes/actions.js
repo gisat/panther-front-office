@@ -72,10 +72,11 @@ function actionAddIndex(filter, order, count, start, data) {
 	}
 }
 
-function actionRegisterUseIndexed(componentId, filter, order, start, length) {
+function actionRegisterUseIndexed(componentId, filterByActive, filter, order, start, length) {
 	return {
 		type: ActionTypes.THEMES.USE.INDEXED.REGISTER,
 		componentId,
+		filterByActive,
 		filter,
 		order,
 		start,

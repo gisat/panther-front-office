@@ -5,34 +5,29 @@ import utils from "../../../../utils/utils";
 
 import presentation from "./presentation";
 
+const order = [['name', 'ascending']];
 
-// TODO is this correct approach?
-
-const mapStateToPropsFactory = () => {
-	const componentId = 'ThemeSelector_' + utils.randomString(6);
-
-	return state => {
-		return {
-			componentId: componentId,
-			isInIntroMode: Select.components.isAppInIntroMode(state),
-			activeTheme: Select.themes.getActive(state),
-			themes: Select.themes.getAllForIndexInUseByComponentId(state, componentId),
-			scopeKey: Select.scopes.getActiveScopeKey(state)
-		}
+const mapStateToProps = (state) => {
+	return {
+		isInIntroMode: Select.components.isAppInIntroMode(state),
+		activeTheme: Select.themes.getActive(state),
+		themes: Select.themes.getAllForActiveScope(state, order)
 	}
 };
 
 const mapDispatchToPropsFactory = () => {
+	const componentId = 'ThemeSelector_' + utils.randomString(6);
+
 	return (dispatch) => {
 		return {
 			onChangeTheme: (key) => {
 				dispatch(Action.themes.setActive(key));
 			},
-			onScopeChange: (key, componentId) => {
-				dispatch(Action.themes.useIndexed({dataset: key}, [['name', 'ascending']], 1, 1000, componentId));
+			onMount: () => {
+				dispatch(Action.themes.useIndexed({scope: true}, null, order, 1, 1000, componentId));
 			}
 		}
 	}
 };
 
-export default connect(mapStateToPropsFactory, mapDispatchToPropsFactory)(presentation);
+export default connect(mapStateToProps, mapDispatchToPropsFactory)(presentation);

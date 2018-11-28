@@ -1,5 +1,6 @@
 import {createSelector} from "reselect";
 import _ from "lodash";
+import commonHelpers from './helpers';
 
 const getAllAsObject = (getSubstate) => {
 	return (state) => getSubstate(state).byKey;
@@ -10,6 +11,42 @@ const getAll = (getSubstate) => {
 		[getAllAsObject(getSubstate)],
 		byKey => {
 			return byKey ? Object.values(byKey) : null;
+		}
+	);
+};
+
+const getAllForActiveScope = (getSubstate, activeScopeKey) => {
+	return createSelector(
+		[getAllAsObject(getSubstate), getIndexes(getSubstate), activeScopeKey, (state, order) => order],
+		(models, indexes, activeScopeKey, order) => {
+			if (models && indexes && activeScopeKey) {
+				// TODO change dataset to scope
+				let filter = {
+					dataset: activeScopeKey
+				};
+				let index = commonHelpers.getIndex(indexes, filter, order);
+				if (index) {
+					let selectedModels = [];
+					if (index.index) {
+						_.each(index.index, (value) => {
+							let model = models[value];
+							if (model) {
+								selectedModels.push(model);
+							}
+						});
+					}
+
+					if (selectedModels.length) {
+						return selectedModels;
+					} else {
+						return null;
+					}
+				} else {
+					return null;
+				}
+			} else {
+				return null;
+			}
 		}
 	);
 };
@@ -79,23 +116,6 @@ const getActiveModels = (getSubstate) => {
 	)
 };
 
-const getAllForIndexInUseByComponentId = (getSubstate) => {
-	return createSelector(
-		[getAllAsObject(getSubstate), getIndexInUseByComponentId(getSubstate)],
-		(models, index) => {
-			if (models && index){
-				let selectedModels = [];
-				_.forIn(index, (modelKey) => {
-					selectedModels.push(models[modelKey]);
-				});
-				return selectedModels.length ? selectedModels : null;
-			} else {
-				return null;
-			}
-		}
-	);
-};
-
 const getByKey = (getSubstate) => {
 	return (state, key) => {
 		let allData = getAllAsObject(getSubstate)(state);
@@ -152,30 +172,7 @@ const getIndex = (getSubstate) => {
 		(state, filter) => filter,
 		(state, filter, order) => order],
 		(indexes, filter, order) => {
-			if (indexes){
-				// todo re-reselect?
-				let index = _.find(indexes, (index) => {
-					return _.isEqual(index.filter, filter) && _.isEqual(index.order, order);
-				});
-				return index ? index : null;
-			} else {
-				return null;
-			}
-		}
-	);
-};
-
-const getIndexInUseByComponentId = (getSubstate) => {
-	return createSelector([
-		getIndexes(getSubstate),
-		(state, componentId) => (componentId)],
-		(indexes, componentId) => {
-			if (indexes && indexes.length && componentId){
-				let index = _.find(indexes, (index) => {return index.inUse[componentId]});
-				return (index && index.index) || null;
-			} else {
-				return null;
-			}
+			return commonHelpers.getIndex(indexes, filter, order);
 		}
 	);
 };
@@ -249,16 +246,41 @@ const isInitializedForExt = (getSubstate) => {
 
 const getUsedKeys = (getSubstate) => {
 	return (state) => {
-		let inUse = getSubstate(state).inUse;
+		let inUse = getSubstate(state).inUse.keys;
 		return inUse && _.uniq(_.flatten(Object.values(inUse)));
 	}
 };
 
 const getUsedIndexPages = (getSubstate) => {
 	return (state) => {
-		let indexes = getSubstate(state).indexes;
+		let indexedUses = getSubstate(state).inUse.indexes;
+		let groupedUses = [];
 		let usedIndexes = [];
-		_.each(indexes, index => {
+		_.each(indexedUses, (usedIndex) => {
+			let mergedFilter = commonHelpers.mergeFilters(state, usedIndex.filterByActive, usedIndex.filter);
+			if (mergedFilter){
+				let existingIndex = _.find(groupedUses, (use) => {
+					return _.isEqual(use.filter, mergedFilter) && _.isEqual(use.order, usedIndex.order) ;
+				});
+				if (existingIndex){
+					existingIndex.inUse.push({
+						start: usedIndex.start,
+						length: usedIndex.length
+					});
+				} else {
+					groupedUses.push({
+						filter: mergedFilter,
+						order: usedIndex.order,
+						inUse: [{
+							start: usedIndex.start,
+							length: usedIndex.length
+						}]
+					});
+				}
+			}
+		});
+
+		_.each(groupedUses, index => {
 			if (index.inUse && Object.keys(index.inUse).length) {
 				usedIndexes.push({
 					filter: index.filter,
@@ -305,9 +327,9 @@ export default {
 	getActiveKeys,
 	getAll,
 	getAllAsObject,
+	getAllForActiveScope,
 	getAllForDataview,
 	getAllForDataviewAsObject,
-	getAllForIndexInUseByComponentId,
 
 	getByKey,
 
@@ -318,6 +340,7 @@ export default {
 	getEditedKeys,
 
 	getIndex,
+	getIndexes,
 	getIndexPage,
 	getIndexTotal,
 

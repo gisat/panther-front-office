@@ -9,9 +9,9 @@ const getActive = common.getActive(getSubstate);
 const getActiveKey = common.getActiveKey(getSubstate);
 const getAll = common.getAll(getSubstate);
 const getAllAsObject = common.getAllAsObject(getSubstate);
+const getAllForActiveScope = common.getAllForActiveScope(getSubstate, state => state.scopes.activeKey);
 const getAllForDataview = common.getAllForDataview(getSubstate);
 const getAllForDataviewAsObject = common.getAllForDataviewAsObject(getSubstate);
-const getAllForIndexInUseByComponentId = common.getAllForIndexInUseByComponentId(getSubstate);
 const getByKey = common.getByKey(getSubstate);
 
 export default {
@@ -19,9 +19,9 @@ export default {
 	getActiveKey,
 	getAll,
 	getAllAsObject,
+	getAllForActiveScope,
 	getAllForDataview,
 	getAllForDataviewAsObject,
-	getAllForIndexInUseByComponentId,
 	getByKey,
 	getSubstate
 };

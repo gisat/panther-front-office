@@ -5,34 +5,32 @@ import utils from "../../../../utils/utils";
 
 import presentation from "./presentation";
 
+const order = [['name', 'descending']];
 
-// TODO is this correct approach?
-
-const mapStateToPropsFactory = () => {
-	const componentId = 'PeriodsSelector_' + utils.randomString(6);
-
+const mapStateToProps = () => {
 	return state => {
 		return {
 			activeKeys: Select.periods.getActiveKeys(state),
 			activeScope: Select.scopes.getActive(state),
-			componentId: componentId,
 			isInIntroMode: Select.components.isAppInIntroMode(state),
-			periods: Select.periods.getAllForIndexInUseByComponentId(state, componentId)
+			periods: Select.periods.getAllForActiveScope(state, order)
 		}
 	}
 };
 
 const mapDispatchToPropsFactory = () => {
+	const componentId = 'PeriodsSelector_' + utils.randomString(6);
+
 	return (dispatch) => {
 		return {
 			onChangePeriods: (keys) => {
 				dispatch(Action.periods.setActiveKeys(keys));
 			},
-			onScopeChange: (periods, componentId) => {
-				dispatch(Action.periods.useIndexed({key: {in: periods}}, [['name', 'descending']], 1, 1000, componentId));
+			onScopeChange: (periods) => {
+				dispatch(Action.periods.useIndexed(null, {key: {in: periods}}, order, 1, 1000, componentId));
 			}
 		}
 	}
 };
 
-export default connect(mapStateToPropsFactory, mapDispatchToPropsFactory)(presentation);
+export default connect(mapStateToProps, mapDispatchToPropsFactory)(presentation);

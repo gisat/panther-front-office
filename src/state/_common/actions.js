@@ -4,12 +4,64 @@ import queryString from "query-string";
 import path from "path";
 import fetch from "isomorphic-fetch";
 
+import commonHelpers from './helpers';
 import commonSelectors from './selectors';
 import Select from "../Select";
 import ActionTypes from "../../constants/ActionTypes";
 
 const TTL = 5;
 const PAGE_SIZE = 10;
+
+// ============ helpers =============
+/**
+ * Request helper. Creates an request to backend.
+ * @param apiPath - path to backend endpoint (hostname taken from config)
+ * @param method - HTTP method
+ * @param query - url query as object
+ * @param payload - payload as object
+ * @param ttl - (optional) number of tries
+ * @returns response or error
+ */
+function request(apiPath, method, query, payload, ttl) {
+	if (_.isUndefined(ttl)) ttl = TTL;
+	let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, apiPath);
+	if (query) {
+		url += '?' + queryString.stringify(query);
+	}
+
+	return fetch(url, {
+		method: method,
+		credentials: 'include',
+		headers: {
+			'Content-Type': 'application/json',
+			'Accept': 'application/json'
+		},
+		body: payload ? JSON.stringify(payload) : null
+	}).then(
+		response => {
+			let contentType = response.headers.get('Content-type');
+			if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
+				return response.json().then(body => {
+					if (body.data) {
+						return body;
+					} else {
+						throw new Error('no data returned');
+					}
+				});
+			} else {
+				throw new Error('response error');
+			}
+		},
+		error => {
+			if (ttl - 1) {
+				request(apiPath, method, query, payload, ttl - 1);
+			} else {
+				throw error;
+			}
+		}
+	);
+
+}
 
 // ============ factories ===========
 
@@ -59,51 +111,9 @@ const useIndexed = (getSubstate, dataType, actionAdd, actionAddIndex, errorActio
 	return (filterByActive, filter, order, start, length, componentId) => {
 		return (dispatch, getState) => {
 			dispatch(registerUseIndexed(componentId, filterByActive, filter, order, start, length));
-			let ensure = true;
-			let fullFilter = {...filter};
-			if (filterByActive) {
-				let state = getState();
-				if (filterByActive.scope){
-					let activeScopeKey = Select.scopes.getActiveKey(state);
-					if (activeScopeKey){
-						fullFilter.scope = activeScopeKey;
-					} else {
-						ensure = false;
-					}
-				}
-				// TODO remove theme, add case, scenario, ...
-				if (filterByActive.theme){
-					let activeThemeKey = Select.themes.getActiveKey(state);
-					if (activeThemeKey){
-						fullFilter.theme = activeThemeKey;
-					} else {
-						ensure = false;
-					}
-				}
-				if (filterByActive.place){
-					let activePlaceKey = Select.places.getActiveKey(state);
-					let activePlaceKeys = Select.places.getActiveKeys(state);
-					if (activePlaceKey){
-						fullFilter.place = activePlaceKey;
-					} else if (activePlaceKeys){
-						fullFilter.place = {in: activePlaceKeys};
-					} else {
-						ensure = false;
-					}
-				}
-				if (filterByActive.periods){
-					let activePeriodKey = Select.periods.getActiveKey(state);
-					let activePeriodsKeys = Select.periods.getActiveKeys(state);
-					if (activePeriodKey){
-						fullFilter.periods = activePeriodKey;
-					} else if (activePeriodsKeys){
-						fullFilter.periods = {in: activePeriodsKeys};
-					} else {
-						ensure = false;
-					}
-				}
-			}
-			if (ensure){
+			let state = getState();
+			let fullFilter = commonHelpers.mergeFilters(state, filterByActive, filter);
+			if (fullFilter){
 				dispatch(ensureIndex(getSubstate, dataType, fullFilter, order, start, length, actionAdd, actionAddIndex, errorAction));
 			}
 		};
@@ -128,56 +138,6 @@ function receive(actionAdd, actionAddIndex) {
 			// todo add data to index
 		}
 	};
-}
-
-/**
- * Request helper. Creates an request to backend.
- * @param apiPath - path to backend endpoint (hostname taken from config)
- * @param method - HTTP method
- * @param query - url query as object
- * @param payload - payload as object
- * @param ttl - (optional) number of tries
- * @returns response or error
- */
-function request(apiPath, method, query, payload, ttl) {
-	if (_.isUndefined(ttl)) ttl = TTL;
-	let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, apiPath);
-	if (query) {
-		url += '?' + queryString.stringify(query);
-	}
-
-	return fetch(url, {
-		method: method,
-		credentials: 'include',
-		headers: {
-			'Content-Type': 'application/json',
-			'Accept': 'application/json'
-		},
-		body: payload ? JSON.stringify(payload) : null
-	}).then(
-		response => {
-			let contentType = response.headers.get('Content-type');
-			if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
-				return response.json().then(body => {
-					if (body.data) {
-						return body;
-					} else {
-						throw new Error('no data returned');
-					}
-				});
-			} else {
-				throw new Error('response error');
-			}
-		},
-		error => {
-			if (ttl - 1) {
-				request(apiPath, method, query, payload, ttl - 1);
-			} else {
-				throw error;
-			}
-		}
-	);
-
 }
 
 function requestWrapper(apiPath, method, query, payload, successAction, errorAction) {

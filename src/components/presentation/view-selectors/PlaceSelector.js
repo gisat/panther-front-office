@@ -10,11 +10,11 @@ class PlaceSelector extends React.PureComponent {
 		isInIntroMode: PropTypes.bool,
 		places: PropTypes.array,
 		onChangePlace: PropTypes.func,
+		onMount: PropTypes.func,
 		label: PropTypes.string,
 		homeLink: PropTypes.bool,
 		homeLinkLabel: PropTypes.string,
-		classes: PropTypes.string,
-		scopeKey: PropTypes.number
+		classes: PropTypes.string
 	};
 
 	static defaultProps = {
@@ -30,14 +30,8 @@ class PlaceSelector extends React.PureComponent {
 	}
 
 	componentDidMount(){
-		if (this.props.scopeKey && !this.props.isInIntroMode){ //TODO remove dependency on mode
-			this.props.onScopeChange(this.props.scopeKey, this.props.componentId);
-		}
-	}
-
-	componentWillReceiveProps(nextProps){
-		if ((this.props.scopeKey !== nextProps.scopeKey) && !this.props.isInIntroMode){ //TODO remove dependency on mode
-			this.props.onScopeChange(nextProps.scopeKey, this.props.componentId);
+		if (!this.props.isInIntroMode){ //TODO remove dependency on mode
+			this.props.onMount();
 		}
 	}
 
