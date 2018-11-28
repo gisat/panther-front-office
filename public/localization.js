@@ -46,6 +46,7 @@ var langEn = {
 	average4allPeriods: "Average for all periods",
 
     back: "Back",
+    blackLayer: "Black Layer",
     backgroundLayers: "Background layers",
     badCredentials: "Bad credentials",
     bingAerial: "Bing Aerial",
@@ -372,6 +373,7 @@ var langEn = {
 
     warning: "Warning",
     wasReset: " was reset",
+    whiteLayer: "White Layer",
 	withMaxValue: "With maximal value",
 	withMinAverageMaxValue: "With minimal, average and maximal value",
 	withMinMaxValue: "With minimal and maximal value",
@@ -440,6 +442,7 @@ var langCz = {
     back: "Zpět",
     backgroundLayers: "Podkladové vrstvy",
     badCredentials: "Chybné přihlašovací údaje",
+    blackLayer: "Černá vrstva",
     bingAerial: "Bing letecký pohled",
     blueMarble: "Blue Marble",
     bulkEditConfiguration: "Hromadně je možné upravovat konfiguraci pouze pro atributy se stejnými původními jednotkami, stejnou normalizací, stejným typem úpravy jednotek, stejným faktorem pro úpravu a v případě normalizace přes skupinu atributů také stejný atribut/ skupina atributů.",
@@ -764,6 +767,7 @@ var langCz = {
 
     warning: "Varování",
     wasReset: " byl vyčistěn",
+    whiteLayer: "Bílá vrstva",
 	withMaxValue: "S maximální hodnotou",
 	withMinMaxValue: "S minimální a maximální hodnotou",
 	withMinAverageMaxValue: "S minimální, průměrnou a maximální hodnotou",
