@@ -40,6 +40,7 @@ class LayerTools {
         this._name = options.name;
         this._class = options.class;
         this._mapStore = options.mapStore;
+        this._stateStore = options.stateStore;
         this._layers = options.layers || null;
         this._style = options.style || null;
 
@@ -96,7 +97,8 @@ class LayerTools {
             name: this._name,
             target: this._toolsContainer,
             layers: this._layers,
-            style: this._style
+            style: this._style,
+            stateStore: this._stateStore
         });
         this.tools.push(legend);
         return legend;

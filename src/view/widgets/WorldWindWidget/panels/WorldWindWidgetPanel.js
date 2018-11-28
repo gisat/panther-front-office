@@ -321,7 +321,8 @@ class WorldWindWidgetPanel {
             style: style,
             checked: checked,
             groupId: groupId,
-            mapStore: this._mapStore
+            mapStore: this._mapStore,
+            stateStore: this._stateStore
         });
     };
 

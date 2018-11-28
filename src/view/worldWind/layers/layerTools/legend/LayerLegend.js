@@ -29,6 +29,7 @@ class LayerLegend extends LayerTool {
         this._style = options.style;
         this._name = options.name;
         this._id = options.id;
+        this._stateStore = options.stateStore;
 
         // TODO will there be the same legend for each period?
         this._defaultLayer = this._layers ? this._layers[0] : null;
@@ -67,6 +68,23 @@ class LayerLegend extends LayerTool {
 			if (!layer) {
 				layer = this._defaultLayer.layer;
 				url = this._defaultLayer.url + '?';
+			}
+
+			// TODO Remove this ugly hack for PUCS
+			if (this._defaultLayer.layerTemplateId === 75291){
+				let currentPlaces = this._stateStore.current().locations;
+				if (currentPlaces && currentPlaces[0] && currentPlaces[0] === 75379){
+					style = "pucs_UHI_Ostrava";
+				} else if (currentPlaces && currentPlaces[0] && currentPlaces[0] === 75281){
+					style = "PUCS_UHI_Praha";
+				}
+			} else if (this._defaultLayer.layerTemplateId === 75292){
+				let currentPlaces = this._stateStore.current().locations;
+				if (currentPlaces && currentPlaces[0] && currentPlaces[0] === 75379){
+					style = "PUCS_HWD_Ostrava";
+				} else if (currentPlaces && currentPlaces[0] && currentPlaces[0] === 75281){
+					style = "PUCS_HWD_Praha";
+				}
 			}
 
 			let params = {
