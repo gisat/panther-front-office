@@ -358,7 +358,10 @@ class WorldWindWidgetPanel {
                             });
 						}
 
-
+                        // TODO Remove this ugly hack for PUCS
+						if (layer.layerTemplateId === 75291 || layer.layerTemplateId === 75292){
+							styles = null;
+						}
 					    return {
 					        templateId: layer.layerTemplateId,
                             styles: styles
@@ -381,6 +384,11 @@ class WorldWindWidgetPanel {
 							styles = _.filter(layer.styles, (style) => {
 								return style.path === control.style.path
 							});
+						}
+
+						// TODO Remove this ugly hack for PUCS
+						if (layer.layerTemplateId === 75291 || layer.layerTemplateId === 75292){
+							styles = null;
 						}
 						return {
 							templateId: layer.layerTemplateId,
