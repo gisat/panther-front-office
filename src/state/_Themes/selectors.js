@@ -9,7 +9,7 @@ const getActive = common.getActive(getSubstate);
 const getActiveKey = common.getActiveKey(getSubstate);
 const getAll = common.getAll(getSubstate);
 const getAllAsObject = common.getAllAsObject(getSubstate);
-const getAllForActiveScope = common.getAllForActiveScope(getSubstate, state => state.scopes.activeKey);
+const getAllForActiveScope = common.getAllForActiveScope(getSubstate);
 const getAllForDataview = common.getAllForDataview(getSubstate);
 const getAllForDataviewAsObject = common.getAllForDataviewAsObject(getSubstate);
 const getByKey = common.getByKey(getSubstate);

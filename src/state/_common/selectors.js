@@ -2,6 +2,8 @@ import {createSelector} from "reselect";
 import _ from "lodash";
 import commonHelpers from './helpers';
 
+const activeScopeKey = state => state.scopes.activeKey;
+
 const getAllAsObject = (getSubstate) => {
 	return (state) => getSubstate(state).byKey;
 };
@@ -15,7 +17,7 @@ const getAll = (getSubstate) => {
 	);
 };
 
-const getAllForActiveScope = (getSubstate, activeScopeKey) => {
+const getAllForActiveScope = (getSubstate) => {
 	return createSelector(
 		[getAllAsObject(getSubstate), getIndexes(getSubstate), activeScopeKey, (state, order) => order],
 		(models, indexes, activeScopeKey, order) => {
