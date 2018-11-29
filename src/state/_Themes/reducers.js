@@ -16,6 +16,8 @@ export default (state = INITIAL_STATE, action) => {
 			return common.addIndex(state, action);
 		case ActionTypes.THEMES.SET_ACTIVE_KEY:
 			return common.setActive(state, action);
+		case ActionTypes.THEMES.USE.INDEXED.CLEAR:
+			return common.useIndexedClear(state, action);
 		case ActionTypes.THEMES.USE.INDEXED.REGISTER:
 			return common.registerUseIndexed(state, action);
 		default:

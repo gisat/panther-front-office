@@ -40,6 +40,10 @@ class PeriodsSelector extends React.PureComponent {
 		}
 	}
 
+	componentWillUnmount() {
+		this.props.onUnmount();
+	}
+
 	onChangePeriods(selected){
 		if (_.isArray(selected)){
 			let values = selected.map(item => item.value);

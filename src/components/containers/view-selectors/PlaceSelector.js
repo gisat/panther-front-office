@@ -26,6 +26,9 @@ const mapDispatchToPropsFactory = () => {
 			},
 			onMount: () => {
 				dispatch(Action.places.useIndexed({scope: true}, null, order, 1, 1000, componentId));
+			},
+			onUnmount: () => {
+				dispatch(Action.places.useIndexedClear(componentId));
 			}
 		}
 	}

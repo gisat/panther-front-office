@@ -29,6 +29,10 @@ class ThemeSelector extends React.PureComponent {
 		}
 	}
 
+	componentWillUnmount() {
+		this.props.onUnmount();
+	}
+
 	onChangeTheme(object){
 		this.props.onChangeTheme(object.value);
 	}

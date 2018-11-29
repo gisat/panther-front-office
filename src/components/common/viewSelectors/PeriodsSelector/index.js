@@ -28,6 +28,9 @@ const mapDispatchToPropsFactory = () => {
 			},
 			onScopeChange: (periods) => {
 				dispatch(Action.periods.useIndexed(null, {key: {in: periods}}, order, 1, 1000, componentId));
+			},
+			onUnmount: () => {
+				dispatch(Action.periods.useIndexedClear(componentId));
 			}
 		}
 	}

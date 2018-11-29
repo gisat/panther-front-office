@@ -72,6 +72,13 @@ function actionAddIndex(filter, order, count, start, data) {
 	}
 }
 
+function actionClearUseIndexed(componentId) {
+	return {
+		type: ActionTypes.THEMES.USE.INDEXED.CLEAR,
+		componentId
+	}
+}
+
 function actionRegisterUseIndexed(componentId, filterByActive, filter, order, start, length) {
 	return {
 		type: ActionTypes.THEMES.USE.INDEXED.REGISTER,
@@ -105,5 +112,6 @@ export default {
 	loadByKeys,
 	setActive,
 	setActiveKey,
-	useIndexed
+	useIndexed,
+	useIndexedClear: actionClearUseIndexed
 }

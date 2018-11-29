@@ -35,6 +35,10 @@ class PlaceSelector extends React.PureComponent {
 		}
 	}
 
+	componentWillUnmount() {
+		this.props.onUnmount();
+	}
+
 	onChangePlace(object){
 		this.props.onChangePlace(object.value);
 	}

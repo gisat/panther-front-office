@@ -37,6 +37,13 @@ function actionAddIndex(filter, order, count, start, data) {
 	}
 }
 
+function actionClearUseIndexed(componentId) {
+	return {
+		type: ActionTypes.PERIODS.USE.INDEXED.CLEAR,
+		componentId
+	}
+}
+
 function actionRegisterUseIndexed(componentId, filterByActive, filter, order, start, length) {
 	return {
 		type: ActionTypes.PERIODS.USE.INDEXED.REGISTER,
@@ -70,5 +77,6 @@ export default {
 	ensure: common.ensure.bind(this, Select.periods.getSubstate, 'periods', actionAdd, actionEnsureError),
 	setActiveKey,
 	setActiveKeys,
-	useIndexed
+	useIndexed,
+	useIndexedClear: actionClearUseIndexed
 }

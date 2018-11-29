@@ -109,6 +109,13 @@ function actionSetActiveKeys(places) {
 	}
 }
 
+function actionClearUseIndexed(componentId) {
+	return {
+		type: ActionTypes.PLACES.USE.INDEXED.CLEAR,
+		componentId
+	}
+}
+
 function actionRegisterUseIndexed(componentId, filterByActive, filter, order, start, length) {
 	return {
 		type: ActionTypes.PLACES.USE.INDEXED.REGISTER,
@@ -137,6 +144,7 @@ export default {
 	setActiveKey,
 	setActiveKeys,
 	useIndexed,
+	useIndexedClear: actionClearUseIndexed,
 
 	initializeForExt: actionInitializeForExt
 }
