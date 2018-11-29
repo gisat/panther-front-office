@@ -27,22 +27,22 @@ const getAllForActiveScope = (getSubstate) => {
 					dataset: activeScopeKey
 				};
 				let index = commonHelpers.getIndex(indexes, filter, order);
-				if (index) {
-					let selectedModels = [];
-					if (index.index) {
-						_.each(index.index, (value) => {
-							let model = models[value];
-							if (model) {
-								selectedModels.push(model);
+				if (index && index.index) {
+					let indexedModels = [];
+					for (let i = 1; i <= index.count; i++){
+						let modelKey = index.index[i];
+						if (modelKey){
+							let indexedModel = models[modelKey];
+							if (indexedModel){
+								indexedModels.push(indexedModel);
+							} else {
+								indexedModels.push({key: modelKey});
 							}
-						});
+						} else {
+							indexedModels.push(null);
+						}
 					}
-
-					if (selectedModels.length) {
-						return selectedModels;
-					} else {
-						return null;
-					}
+					return indexedModels.length ? indexedModels : null;
 				} else {
 					return null;
 				}
