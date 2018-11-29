@@ -73,6 +73,7 @@ class MapStore {
 			if (map){
 				let id = item.layerTemplateKey;
 				let style = null;
+
 				if (item.styleSource && item.styleSource[0]){
 					id += "-" + item.styleSource[0].path;
 					style = item.styleSource[0].path
@@ -80,6 +81,23 @@ class MapStore {
 
 				let alreadyAdded = map.layers.getLayerById(id);
 				if (!alreadyAdded){
+					// TODO Remove this ugly hack for PUCS
+					if (item.layerTemplateKey === 75291){
+						let currentPlaces = this._stateStore.current().locations;
+						if (currentPlaces && currentPlaces[0] && currentPlaces[0] === 75379){
+							style = "pucs_UHI_Ostrava";
+						} else if (currentPlaces && currentPlaces[0] && currentPlaces[0] === 75281){
+							style = "PUCS_UHI_Praha";
+						}
+					} else if (item.layerTemplateKey === 75292){
+						let currentPlaces = this._stateStore.current().locations;
+						if (currentPlaces && currentPlaces[0] && currentPlaces[0] === 75379){
+							style = "PUCS_HWD_Ostrava";
+						} else if (currentPlaces && currentPlaces[0] && currentPlaces[0] === 75281){
+							style = "PUCS_HWD_Praha";
+						}
+					}
+
 					map.layers.addInfoLayer({
 						layerPaths: item.dataSource,
 						stylePaths: style,

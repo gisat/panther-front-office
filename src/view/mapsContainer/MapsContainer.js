@@ -271,6 +271,26 @@ class MapsContainer {
 			});
 		}
 		if (defaults.layerTemplates){
+
+			// TODO Remove this ugly hack for PUCS
+			defaults.layerTemplates.map((layerTemplate) => {
+				if (layerTemplate.templateId === 75291){
+					let currentPlaces = this._stateStore.current().locations;
+					if (currentPlaces && currentPlaces[0] && currentPlaces[0] === 75379){
+						layerTemplate.styles[0].path = "pucs_UHI_Ostrava";
+					} else if (currentPlaces && currentPlaces[0] && currentPlaces[0] === 75281){
+						layerTemplate.styles[0].path = "PUCS_UHI_Praha";
+					}
+				} else if (layerTemplate.templateId === 75292){
+					let currentPlaces = this._stateStore.current().locations;
+					if (currentPlaces && currentPlaces[0] && currentPlaces[0] === 75379){
+						layerTemplate.styles[0].path  = "PUCS_HWD_Ostrava";
+					} else if (currentPlaces && currentPlaces[0] && currentPlaces[0] === 75281){
+						layerTemplate.styles[0].path  = "PUCS_HWD_Praha";
+					}
+				}
+			});
+
 			this._dispatcher.notify("infoLayer#add", {
 				layerTemplates: defaults.layerTemplates
 			});
