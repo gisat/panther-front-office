@@ -23,3 +23,9 @@
 .layer-tool-icon.legend-icon:before {
 	content: "\f022";
 }
+.layer-tool-icon.download-icon:before {
+	content: "\f019";
+}
+.layer-tool-icon.metadata-icon:before {
+	content: "\f05a";
+}

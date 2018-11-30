@@ -535,6 +535,7 @@ function loadApp() {
             topToolBar: topToolBar,
             dispatcher: window.Stores,
             store: {
+                periods: store.periods,
                 state: stateStore,
                 map: mapStore,
                 wmsLayers: store.wmsLayers

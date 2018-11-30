@@ -46,6 +46,9 @@ class WorldWindWidgetPanel {
         if(!options.store.state){
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindWidgetPanel', 'constructor', 'Store state must be provided'));
         }
+        if(!options.store.periods){
+            throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'WorldWindWidgetPanel', 'constructor', 'Store periods must be provided'));
+        }
 
         this._id = options.id;
         this._name = options.name;
@@ -58,6 +61,7 @@ class WorldWindWidgetPanel {
         }
         this._mapStore = options.store.map;
         this._stateStore = options.store.state;
+        this._periodsStore = options.store.periods;
         this.build();
     };
 
@@ -259,6 +263,32 @@ class WorldWindWidgetPanel {
     }
 
     /**
+     * @param periods {Array}
+     * @param layers {Array}
+     * @return {Array} array of layers
+     */
+    getLayersForActivePeriods(periods, layers) {
+        return layers.filter(layer => periods.includes(layer.period));
+    };
+
+    /**
+     * Replace period ID in layer definition by period definition
+     * @param requests {Array.<Promise>}
+     * @param layers {Array}
+     * @return {Promise}
+     */
+    fillPeriodsLayers(requests, layers) {
+        return Promise.all(requests).then(response => {
+            return layers.map((pl) =>
+                ({
+                    ...pl,
+                    period: response.find(p => p[0].id === pl.period)[0]
+                })
+            )
+        })
+    }
+
+    /**
      * Build layer control and add tools
      * @param target {Object} JQuery selector of target element
      * @param id {string} id of contol row
@@ -272,7 +302,18 @@ class WorldWindWidgetPanel {
 		let control = null;
 		if (this._groupId === "info-layers"){
 			checked = this.isControlActive(layerTemplateId, style);
-			control = this.buildLayerControl(target, id, name, layers, style, checked, this._groupId);
+            control = this.buildLayerControl(target, id, name, layers, style, checked, this._groupId);
+            let periodsLayers = this.getLayersForActivePeriods(this._stateStore.current().periods, layers);
+            let periodsLayersContainsMetadata = periodsLayers.some(l => l.metadata);
+            if (periodsLayersContainsMetadata) {
+                const periodsRequests = periodsLayers.map(layer => this._periodsStore.byId(layer.period));
+                this.fillPeriodsLayers(periodsRequests, periodsLayers).then((periodsLayers) => {
+                    control.layerTools.buildMetadata(periodsLayers);
+                })
+            }
+			if(layers && layers.length && layers[0].source_url) {
+				control.layerTools.buildDownload();
+			}
 		} else if (this._groupId === "thematic-layers") {
             checked = this.isControlActive(id);
             control = this.buildLayerControl(target, id, name, layers, style, checked, this._groupId);
@@ -283,7 +324,7 @@ class WorldWindWidgetPanel {
 
 		this._layersControls.push(control);
 		control.layerTools.buildOpacity();
-		control.layerTools.buildLegend();
+        control.layerTools.buildLegend();
 
 		if (checked && this._groupId !== "thematic-layers"){
 			this.addLayer(control);
