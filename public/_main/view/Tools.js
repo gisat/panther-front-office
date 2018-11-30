@@ -76,7 +76,7 @@ var widgets = {
 			listeners: {
 				click: {
 					fn: function() {
-						Observer.notify("Tools.hideClick.areatree");
+						window.Stores.notify("Tools.hideClick", {targetId: 'window-areatree'});
 					}
 				}
 			}
@@ -119,7 +119,7 @@ var widgets = {
 			listeners: {
 				click: {
 					fn: function() {
-						Observer.notify("Tools.hideClick.selections");
+						window.Stores.notify("Tools.hideClick", {targetId: 'window-colourSelection'});
 					}
 				}
 			}
@@ -247,7 +247,7 @@ var widgets = {
 			listeners: {
 				click: {
 					fn: function() {
-						Observer.notify("Tools.hideClick.customLayers");
+						window.Stores.notify("Tools.hideClick", {targetId: 'window-customLayers'});
 					}
 				}
 			}

@@ -38,6 +38,12 @@ Ext.define('PumaMain.view.ChartPanel', {
 				cls: 'tool-icon tool-chart-export-csv',
                 tooltip: polyglot.t('exportCsv')
             },
+			print: {
+				type: 'print',
+				helpId: 'Exportingchartsasgraphics',
+				tooltip: polyglot.t('snapshot'),
+				cls: 'tool-icon tool-chart-export-png'
+			},
             search: {
                 type: 'search',
                 tooltip: polyglot.t('switchZooming'),
@@ -48,7 +54,7 @@ Ext.define('PumaMain.view.ChartPanel', {
         }
         this.tools = [];
         
-        var toolNames = ['description','gear','help','collapse','search','close'];
+        var toolNames = ['description','gear','help','collapse','search','print','close'];
         for (var i=0;i<toolNames.length;i++) {
             this.tools.push(this.toolMap[toolNames[i]]);
         }
@@ -61,15 +67,15 @@ Ext.define('PumaMain.view.ChartPanel', {
         switch (this.cfgType) {
             case 'polarchart': // TODO do we want also 'help'?
             case 'grid':
-                toolNames = ['description','gear','collapse','close']; break;
+                toolNames = ['description','gear','collapse','print','close']; break;
             case 'piechart':
-                toolNames = ['description','gear','help','collapse','close']; break;
+                toolNames = ['description','gear','help','collapse','print','close']; break;
             case 'columnchart':
-                toolNames = ['description','gear','help','collapse','close']; break;
+                toolNames = ['description','gear','help','collapse','print','close']; break;
             case 'scatterchart':
-                toolNames = ['description','gear','help','collapse','search','close']; break;
+                toolNames = ['description','gear','help','collapse','search','print','close']; break;
             case 'extentoutline':
-                toolNames = ['description','gear','close']; break;
+                toolNames = ['description','gear','print','close']; break;
             case 'filter':
                 toolNames = ['close']; break;
         }

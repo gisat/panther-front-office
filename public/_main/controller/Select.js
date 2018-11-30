@@ -289,12 +289,6 @@ Ext.define('PumaMain.controller.Select', {
         }
         this.colorMap = resultMap;
 
-		if (area && window.location.origin === 'http://dromas.gisat.cz' && actual.length === 1 && area.index > 0){
-        // if (area && actual.length === 1 && area.index > 0){
-			var gid = area.gid;
-			Stores.notify("map#selectFromAreas", gid);
-        }
-
         setTimeout(function(){
 			Stores.notify('selection#selected');
         },1000);
