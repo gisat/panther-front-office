@@ -3,8 +3,9 @@
 	z-index: 99999;
 }
 .selector {
-	display: none;
 	height: 1.9rem;
+	display: inline-block;
+	vertical-align: top;
 }
 .selector-label {
 	line-height: 30px;
@@ -15,8 +16,4 @@
 	font-weight: 500;
 	display: inline-block;
 	vertical-align: middle;
-}
-body.mode-3d .selector {
-	display: inline-block;
-	vertical-align: top;
 }
