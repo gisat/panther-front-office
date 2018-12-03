@@ -248,6 +248,7 @@ class Layers {
             case "cartoDb":
                 layer = new MyOsmCartoLayer({
 				    attribution: "\u00A9 Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL",
+                    detailControl: 1.3,
 				    sourceObject: {
 				        protocol: "https",
 					    host: "global.ssl.fastly.net",
@@ -259,6 +260,32 @@ class Layers {
 				    }
 				});
                 break;
+			case "stamenLite":
+				layer = new MyOsmCartoLayer({
+					attribution: "\u00A9 Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL",
+					sourceObject: {
+						protocol: "http",
+						host: "tile.stamen.com",
+						path: "toner-lite",
+						prefixes: {
+							data: ["a", "b", "c", "d"]
+						}
+					}
+				});
+				break;
+			case "stamenTerrain":
+				layer = new MyOsmCartoLayer({
+					attribution: "\u00A9 Map tiles by Stamen Design, under CC BY 3.0. Data by OpenStreetMap, under ODbL",
+					sourceObject: {
+						protocol: "http",
+						host: "tile.stamen.com",
+						path: "terrain",
+						prefixes: {
+							data: ["a", "b", "c", "d"]
+						}
+					}
+				});
+				break;
             case "landsat":
                 layer = new WorldWind.BMNGLandsatLayer();
                 break;
