@@ -33,6 +33,10 @@ class AuLayersPanel extends WorldWindWidgetPanel {
             selected: {},
             selectedAreas: {}
         };
+
+        this._selectedAreasOutlinesActive = true;
+        this._selectedAreasFilledActive = false;
+
         this._layersControls = [];
         this._stateStore = options.store.state;
 
@@ -87,13 +91,13 @@ class AuLayersPanel extends WorldWindWidgetPanel {
         this._layersControls = [];
 
         if (Stores.selectedOutlines) {
-            this.rebuildControl(polyglot.t("selectedAreasFilled"), this._layers.selected, "selectedareasfilled", false);
-			this.rebuildSelectedAreas(this._layers.selected, "selectedareasfilled", Stores.selectedOutlines, false);
+            this.rebuildControl(polyglot.t("selectedAreasFilled"), this._layers.selected, "selectedareasfilled", this._selectedAreasFilledActive);
+			this.rebuildSelectedAreas(this._layers.selected, "selectedareasfilled", Stores.selectedOutlines, this._selectedAreasFilledActive);
         }
 
 		if (Stores.selectedAreas) {
-			this.rebuildControl(polyglot.t("selectedAreas"), this._layers.selectedAreas, "selectedareas", true);
-			this.rebuildSelectedAreas(this._layers.selectedAreas, "selectedareas", Stores.selectedAreas, true);
+			this.rebuildControl(polyglot.t("selectedAreas"), this._layers.selectedAreas, "selectedareas", this._selectedAreasOutlinesActive);
+			this.rebuildSelectedAreas(this._layers.selectedAreas, "selectedareas", Stores.selectedAreas, this._selectedAreasOutlinesActive);
 		}
 
         if (Stores.outlines) {
