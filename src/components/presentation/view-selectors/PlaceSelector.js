@@ -30,13 +30,15 @@ class PlaceSelector extends React.PureComponent {
 	}
 
 	componentDidMount(){
-		if (!this.props.isInIntroMode){ //TODO remove dependency on mode
+		if (!this.props.isInIntroMode && this.props.onMount){ //TODO remove dependency on mode
 			this.props.onMount();
 		}
 	}
 
 	componentWillUnmount() {
-		this.props.onUnmount();
+		if (this.props.onUnmount){
+			this.props.onUnmount();
+		}
 	}
 
 	onChangePlace(object){
