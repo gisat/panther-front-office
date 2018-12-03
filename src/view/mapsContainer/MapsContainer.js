@@ -339,9 +339,10 @@ class MapsContainer {
 					});
 				}
 			});
-		}
-		if (selectedMap && !state.isMapDependentOnScenario){
-			this.handleMapSelection(null, selectedMap)
+
+			if (selectedMap){
+				this.handleMapSelection(null, selectedMap);
+			}
 		}
 	}
 
