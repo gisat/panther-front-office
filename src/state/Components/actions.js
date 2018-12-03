@@ -71,6 +71,11 @@ function redirectToView(params) {
 	}
 }
 
+function setShareSaveState(toSave) {
+	return dispatch => {
+		dispatch(actionSetShareSaveState(toSave));
+	};
+}
 
 // ============ actions ===========
 function actionRedirectToView(url) {
@@ -88,6 +93,14 @@ function actionUpdate(component, data) {
 	}
 }
 
+function actionSetShareSaveState(toSave) {
+	return {
+		type: ActionTypes.COMPONENTS_SHARE_SAVE_STATE,
+		toSave,
+	}
+}
+
+
 
 // ============ export ===========
 
@@ -96,6 +109,7 @@ export default {
 	setApplicationStyleActiveKey,
 	setApplicationStyleHtmlClass,
 	setIntro,
+	setShareSaveState,
 	update,
 	updateMapsContainer,
 

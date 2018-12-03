@@ -111,9 +111,24 @@ Ext.define('PumaMain.controller.ViewMng', {
         
     },
     onShare: function(options) {
-        var view = Ext.create('Puma.model.DataView',this.gatherViewConfig(options));
+		const store = window.store;
+		options.state = window.stateStore.current();
+		
+		const onSave = (rec,operation) => {
+			Promise.all([
+				store.groups.share(options.group, options.state.scope, options.state.places, options.dataviewId),
+				store.users.share(options.user, options.state.scope, options.state.places, options.dataviewId)
+			]).then(() => {
+				window.Stores.notify('components#shareSetVisible', false);
+				this.onSaveFinish(rec,operation);
+				//FIXME - clear content
+			})
+		}
+
+		var view = Ext.create('Puma.model.DataView',this.gatherViewConfig(options));
+		
         view.save({
-            callback: this.onSaveFinish
+            callback: onSave
         });  
     },
     onSaveFinish: function(rec,operation) {

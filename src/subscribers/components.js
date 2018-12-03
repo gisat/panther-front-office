@@ -4,6 +4,8 @@ import Select from '../state/Select';
 import VisualConfig from '../constants/VisualsConfig';
 import _ from 'lodash';
 
+let Observer = window.Observer;
+
 let state = {};
 export default store => {
 	setEventListeners(store);
@@ -16,6 +18,7 @@ const setStoreWatchers = store => {
 	createWatcher(store, Select.components.getComponents, componentsWatcher);
 	createWatcher(store, Select.components.getApplicationStyleActiveKey, applicationStyleActiveKeyWatcher);
 	createWatcher(store, Select.components.getApplicationStyleHtmlClass, applicationStyleHtmlClassWatcher);
+	createWatcher(store, Select.components.getShare, shareWatcher);
 };
 
 const setEventListeners = store => {
@@ -44,6 +47,9 @@ const setEventListeners = store => {
 					store.dispatch(Action.components.updateMapsContainer(options));
 				}
 				break;
+			case 'components#shareSetVisible':
+				store.dispatch(Action.components.windows.handleWindowVisibility('share', options));
+				break;
 		}
 	});
 };
@@ -68,6 +74,24 @@ const applicationStyleHtmlClassWatcher = (value, previousValue) => {
 		if (value) {
 			// add class to html element
 			document.documentElement.classList.add(value);
+		}
+	}
+};
+
+const shareWatcher = (value, previousValue) => {
+	console.log('@@ shareWatcher', previousValue, '->', value);
+	if (previousValue !== value){
+
+		if (!previousValue.toSave && value.toSave) {
+			Observer.notify("PumaMain.controller.ViewMng.onShare", {
+				state: state,
+				name: value.toSave.name.value,
+				language: value.toSave.langSelect.value,
+				description: value.toSave.description.value,
+				group: value.toSave.groupsSelect.value,
+				user: value.toSave.usersSelect.value,
+			});
+	
 		}
 	}
 };

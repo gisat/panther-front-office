@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import './style.css';
 
+import ShareButton from '../../../common/controls/Share/Button';
 import MapTools from './MapTools';
 import User from '../../../common/controls/User';
 import UISelect from "../../../presentation/atoms/UISelect/UISelect";
@@ -38,6 +39,8 @@ class DromasLpisChangeReviewHeader extends React.PureComponent {
 				<div className="containter">
 					<div>
 						<User />
+						<ShareButton>
+						</ShareButton>
 					</div>
 					<div id="sentinelViewerHeader-tools">
 						<MapTools

@@ -59,6 +59,8 @@ function loadApp() {
         wmsLayers: new WmsLayers()
     };
 
+    window.store = store;
+
 	applyProjectSettings();
     if(!new URL(window.location).searchParams.get('id')) {
         $('#loading-screen').hide();
@@ -175,6 +177,8 @@ function loadApp() {
             dispatcher: window.Stores,
             store: {}
         });
+        window.stateStore = stateStore;
+
         var mapStore = new MapStore({
             dispatcher: window.Stores,
             store: {
