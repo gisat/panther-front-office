@@ -632,7 +632,7 @@ class EvaluationWidget extends Widget {
      * Reset widget
      */
     resetWidget() {
-        this.amount();
+        this.rebuildInputs(this._categories);
         this.resetButtons();
     };
 
