@@ -82,12 +82,14 @@ class ShareForm extends React.PureComponent {
     handleInputChange(event) {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
+        const title = target.type.includes('select') ? event.target.options[event.target.selectedIndex].text : null;
         const name = target.name;
     
         this.setState({
             [name]: {
               ...this.state[name], 
-              value: value
+              value: value,
+              title: title,
             }
         });
     }

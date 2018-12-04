@@ -86,10 +86,10 @@ const shareWatcher = (value, previousValue) => {
 			Observer.notify("PumaMain.controller.ViewMng.onShare", {
 				state: state,
 				name: value.toSave.name.value,
-				language: value.toSave.langSelect.value,
+				language: value.toSave.langSelect,
 				description: value.toSave.description.value,
-				group: value.toSave.groupsSelect.value,
-				user: value.toSave.usersSelect.value,
+				group: value.toSave.groupsSelect,
+				user: value.toSave.usersSelect,
 			});
 	
 		}
