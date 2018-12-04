@@ -999,8 +999,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
                         layerParams.removeBackBufferDelay = 0;
                         layerParams.transitionEffect = null;
                     }
-                    var layer1 = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', Ext.clone(params), Ext.clone(layerParams));
-                    var layer2 = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', Ext.clone(params), Ext.clone(layerParams));
+                    var layer1 = new OpenLayers.Layer.WMS('WMS', Config.url + 'geoserver/wms', Ext.clone(params), Ext.clone(layerParams));
+                    var layer2 = new OpenLayers.Layer.WMS('WMS', Config.url + 'geoserver/wms', Ext.clone(params), Ext.clone(layerParams));
                     if (node.get('type') == 'thematicgroup') {
                         layer1.events.register('visibilitychanged',{layer:layer1,me:this},function(a,b,c) {
                             this.me.getController('Layers').onLayerLegend(null,this.layer.nodeRec,this.layer.visibility);

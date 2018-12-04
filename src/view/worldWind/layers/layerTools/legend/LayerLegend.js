@@ -61,7 +61,7 @@ class LayerLegend extends LayerTool {
         if (this._defaultLayer){
 			let style = "";
 			let layer = this._defaultLayer.path;
-			let url = Config.url + "api/proxy/wms?";
+			let url = Config.url + "geoserver/wms?";
 			if (this._style) {
 				style = this._style.path;
 			}
@@ -118,7 +118,7 @@ class LayerLegend extends LayerTool {
     };
 
     addContentForChoropleth(mapKey, mapPeriod, data){
-		let url = Config.url + "api/proxy/wms?";
+		let url = Config.url + "geoserver/wms?";
 
 		let params = {
 			'LAYER': data.layer,

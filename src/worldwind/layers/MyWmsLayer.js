@@ -57,7 +57,7 @@ class MyWmsLayer extends WmsLayer {
         let bbox = bottomLeft + "," + topRight;
 
         return new RemoteJQ({
-            url: "api/proxy/wms",
+            url: "geoserver/wms",
             params: {
                 "SERVICE": "WMS",
                 "VERSION": this.urlBuilder.wmsVersion,
