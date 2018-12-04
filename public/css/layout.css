@@ -794,7 +794,7 @@ body.mode-3d #top-toolbar-3dmap.disabled:not(.world-wind-2d) span {
 	background: url('../images/icons/layers-add.svg') center center no-repeat;
 }
 
-#top-toolbar .item#top-toolbar-snapshot::before {
+#top-toolbar .item#top-toolbar-snapshots::before {
 	content: '\f030';
 	font-size: 16px;
 }
@@ -818,7 +818,7 @@ body.mode-3d #top-toolbar-3dmap.disabled:not(.world-wind-2d) span {
 	background: url('../images/icons/scenarios.svg') center center no-repeat;
 }
 #top-toolbar .item#top-toolbar-views::before {
-	content: '\f06e';
+	 content: '\f06e';
 }
 
 

@@ -38,6 +38,7 @@ import Visualizations from './stores/gisat/Visualizations';
 import WmsLayers from './stores/gisat/WmsLayers';
 import WorldWindWidget from './view/widgets/WorldWindWidget/WorldWindWidget';
 import places from "./subscribers/places";
+import Uuid from "./util/Uuid";
 
 let Config = window.Config;
 let polyglot = window.polyglot;
@@ -187,6 +188,26 @@ function loadApp(initialData) {
                 wms: store.wmsLayers
             }
         });
+
+        /**
+         * Temporary solution for generating snapshots.
+         */
+        window.Stores.generateSnapshot = function() {
+            var promises = [];
+
+            mapStore.getAll().forEach(function(map){
+                promises.push(map.snapshot().then(function(snapshotUrl){
+                    let uuid = new Uuid().generate();
+                    return {
+                        uuid: uuid,
+                        name: 'Map ' + uuid,
+                        source: snapshotUrl
+                    }
+                }))
+            });
+
+            return Promise.all(promises);
+        };
 
         window.selectionStore = new SelectionStore({
             dispatcher: window.Stores,
@@ -519,6 +540,7 @@ function loadApp(initialData) {
             topToolBar: topToolBar,
             dispatcher: window.Stores,
             store: {
+                periods: store.periods,
                 state: stateStore,
                 map: mapStore,
                 wmsLayers: store.wmsLayers

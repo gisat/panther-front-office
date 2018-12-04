@@ -14,6 +14,7 @@ import Periods from './Periods/actions';
 import Places from './Places/actions';
 import Scenarios from './Scenarios/actions';
 import Scopes from './Scopes/actions';
+import Snapshots from './Snapshots/actions';
 import SpatialDataSources from './SpatialDataSources/actions';
 import SpatialRelations from './SpatialRelations/actions';
 import Styles from './Styles/actions';
@@ -38,6 +39,7 @@ export default {
 	places: Places,
 	scenarios: Scenarios,
 	scopes: Scopes,
+	snapshots: Snapshots,
 	spatialDataSources: SpatialDataSources,
 	spatialRelations: SpatialRelations,
 	styles: Styles,

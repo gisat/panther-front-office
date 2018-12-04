@@ -55,7 +55,6 @@ class BackgroundLayersPanel extends WorldWindWidgetPanel {
         let activeBackgroundMap = (scope && scope['activeBackgroundMap']) || this.getValidBackground(disabledLayers);
 
 		this.toggleLayerWithControl('cartoDb', 'cartoDbBasemap', disabledLayers, activeBackgroundMap);
-        this.toggleLayerWithControl('osm', 'openStreetMap', disabledLayers, activeBackgroundMap);
 		this.toggleLayerWithControl('wikimedia', 'Wikimedia', disabledLayers, activeBackgroundMap);
         this.toggleLayerWithControl('bingAerial', 'bingAerial', disabledLayers, activeBackgroundMap);
         this.toggleLayerWithControl('sentinel2', 'sentinel2', disabledLayers, activeBackgroundMap);
@@ -63,23 +62,48 @@ class BackgroundLayersPanel extends WorldWindWidgetPanel {
         if (scope && scope['extraBackgroundLayers']) {
             let extraLayers = scope['extraBackgroundLayers'];
             for (let layer in extraLayers) {
-                if (extraLayers[layer] && layer === 'cuzkOrto') {
+                if (extraLayers[layer] && extraLayers[layer] === 'cuzkOrto') {
                     this.toggleLayerWithControl('cuzkOrto', 'cuzkOrto', disabledLayers, activeBackgroundMap);
                     if (!this._defaultMap.layers.getLayerById('cuzkOrto')) {
                         this._defaultMap.layers.addBackgroundLayer('cuzkOrto', this._id);
                     }
-                } else if (extraLayers[layer] && layer === 'lpisOrto') {
+                } else if (extraLayers[layer] && extraLayers[layer] === 'lpisOrto') {
                     this.toggleLayerWithControl('lpisOrto', 'lpisOrto', disabledLayers, activeBackgroundMap);
                     if (!this._defaultMap.layers.getLayerById('lpisOrto')) {
                         this._defaultMap.layers.addBackgroundLayer('lpisOrto', this._id);
                     }
-                } else if (extraLayers[layer] && layer === 'landsat') {
+                } else if (extraLayers[layer] && extraLayers[layer] === 'landsat') {
                     this.toggleLayerWithControl('landsat', 'blueMarble', disabledLayers, activeBackgroundMap);
                     if (!this._defaultMap.layers.getLayerById('landsat')) {
                         this._defaultMap.layers.addBackgroundLayer('landsat', this._id);
                     }
-                }
-            }
+                } else if (extraLayers[layer] && extraLayers[layer] === 'white') {
+                    this.toggleLayerWithControl('white', 'whiteLayer', disabledLayers, activeBackgroundMap);
+                    if (!this._defaultMap.layers.getLayerById('white')) {
+                        this._defaultMap.layers.addBackgroundLayer('white', this._id);
+                    }
+                } else if (extraLayers[layer] && extraLayers[layer] === 'black') {
+                    this.toggleLayerWithControl('black', 'blackLayer', disabledLayers, activeBackgroundMap);
+                    if (!this._defaultMap.layers.getLayerById('black')) {
+                        this._defaultMap.layers.addBackgroundLayer('black', this._id);
+                    }
+                } else if (extraLayers[layer] && extraLayers[layer] === 'stamenLite') {
+					this.toggleLayerWithControl('stamenLite', 'stamenLite', disabledLayers, activeBackgroundMap);
+					if (!this._defaultMap.layers.getLayerById('stamenLite')) {
+						this._defaultMap.layers.addBackgroundLayer('stamenLite', this._id);
+					}
+				} else if (extraLayers[layer] && extraLayers[layer] === 'stamenTerrain') {
+					this.toggleLayerWithControl('stamenTerrain', 'stamenTerrain', disabledLayers, activeBackgroundMap);
+					if (!this._defaultMap.layers.getLayerById('stamenTerrain')) {
+						this._defaultMap.layers.addBackgroundLayer('stamenTerrain', this._id);
+					}
+				} else if (extraLayers[layer] && extraLayers[layer] === 'osm') {
+					this.toggleLayerWithControl('osm', 'osm', disabledLayers, activeBackgroundMap);
+					if (!this._defaultMap.layers.getLayerById('osm')) {
+						this._defaultMap.layers.addBackgroundLayer('osm', this._id);
+					}
+				}
+			}
         }
     };
 
@@ -117,7 +141,7 @@ class BackgroundLayersPanel extends WorldWindWidgetPanel {
     };
 
     getValidBackground(disabledLayers) {
-        let activeBackgroundMapPriorities = ['cartoDb', 'wikimedia', 'osm', 'bingAerial', 'landsat'];
+        let activeBackgroundMapPriorities = ['cartoDb', 'wikimedia', 'bingAerial', 'landsat'];
         let result = null;
 
         activeBackgroundMapPriorities.forEach(function (id) {

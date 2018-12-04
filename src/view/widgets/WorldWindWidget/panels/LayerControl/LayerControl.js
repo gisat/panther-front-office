@@ -37,6 +37,7 @@ class LayerControl {
         this._id = options.id;
         this._name = options.name;
         this._mapStore = options.mapStore;
+        this._stateStore = options.stateStore;
         this._target = options.target;
         this.layers = options.layers;
         this._groupId = options.groupId;
@@ -100,6 +101,7 @@ class LayerControl {
             target: target,
             layers: layers,
             mapStore: this._mapStore,
+            stateStore: this._stateStore,
             style: style
         });
     };

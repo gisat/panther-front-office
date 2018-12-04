@@ -12,6 +12,7 @@ export default store => {
 
 const setStoreWatchers = store => {
 	createWatcher(store, Select.components.windows.isWindowOpen, scenariosWindowWatcher, null, {key: 'scenarios'});
+	createWatcher(store, Select.components.windows.isWindowOpen, snapshotsWindowWatcher, null, {key: 'snapshots'});
 	createWatcher(store, Select.components.windows.isWindowOpen, viewsWindowWatcher, null, {key: 'views'});
 	createWatcher(store, Select.components.getComponents, componentsWatcher);
 	createWatcher(store, Select.components.getApplicationStyleActiveKey, applicationStyleActiveKeyWatcher);
@@ -27,6 +28,10 @@ const setEventListeners = store => {
 			case 'component#scenarioButtonClick':
 				let open = Select.components.windows.isWindowOpen(store.getState(), {key: 'scenarios'});
 				store.dispatch(Action.components.windows.handleWindowVisibility('scenarios', !open));
+				break;
+			case 'component#snapshotsButtonClick':
+				let snapshotsOpen = Select.components.windows.isWindowOpen(store.getState(), {key: 'snapshots'});
+				store.dispatch(Action.components.windows.handleWindowVisibility('snapshots', !snapshotsOpen));
 				break;
 			case 'component#viewsButtonClick':
 				let viewsOpen = Select.components.windows.isWindowOpen(store.getState(), {key: 'views'});
@@ -73,6 +78,13 @@ const scenariosWindowWatcher = (value, previousValue) => {
 	console.log('@@ scenariosWindowWatcher', previousValue, '->', value);
 	if (previousValue !== value){
 		window.Stores.notify('SCENARIOS_WINDOW_TOGGLE');
+	}
+};
+
+const snapshotsWindowWatcher = (value, previousValue) => {
+	console.log('@@ snapshotsWindowWatcher', previousValue, '->', value);
+	if (previousValue !== value){
+		window.Stores.notify('SNAPSHOTS_WINDOW_TOGGLE');
 	}
 };
 

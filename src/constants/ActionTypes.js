@@ -1,5 +1,3 @@
-import utils from '../utils/utils';
-
 export default utils.deepKeyMirror({
 
 	INITIALIZE: 'INITIALIZE',
@@ -254,6 +252,11 @@ export default utils.deepKeyMirror({
 	SPATIAL_DATA_SOURCES_VECTOR_FEATURES_EDITED_ADD: 'SPATIAL_DATA_SOURCES_VECTOR_FEATURES_EDITED_ADD',
 
 	STYLES_ADD: 'STYLES_ADD',
+
+	SNAPSHOTS_ADD: 'SNAPSHOTS_ADD',
+	SNAPSHOTS_REMOVE: 'SNAPSHOTS_REMOVE',
+
+	SYMBOLOGIES_ADD: 'SYMBOLOGIES_ADD',
 
 	THEMES: {
 		ADD: null,

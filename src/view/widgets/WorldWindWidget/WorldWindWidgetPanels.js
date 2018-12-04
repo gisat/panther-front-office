@@ -107,7 +107,8 @@ class WorldWindWidgetPanels {
             isOpen: true,
             store: {
                 map: this._store.map,
-                state: this._store.state
+                state: this._store.state,
+                periods: this._store.periods
             },
             dispatcher: this._dispatcher
         });
@@ -124,7 +125,8 @@ class WorldWindWidgetPanels {
             isOpen: true,
             store: {
                 map: this._store.map,
-                state: this._store.state
+                state: this._store.state,
+                periods: this._store.periods
             }
         });
     };
@@ -140,7 +142,8 @@ class WorldWindWidgetPanels {
             isOpen: true,
             store: {
                 map: this._store.map,
-                state: this._store.state
+                state: this._store.state,
+                periods: this._store.periods
             }
         });
     };
@@ -156,7 +159,8 @@ class WorldWindWidgetPanels {
             isOpen: true,
             store: {
                 map: this._store.map,
-                state: this._store.state
+                state: this._store.state,
+                periods: this._store.periods
             },
 			dispatcher: this._dispatcher
         });
@@ -174,7 +178,8 @@ class WorldWindWidgetPanels {
             store: {
                 map: this._store.map,
                 state: this._store.state,
-                wmsLayers: this._store.wmsLayers
+                wmsLayers: this._store.wmsLayers,
+                periods: this._store.periods
             },
             dispatcher: this._dispatcher
         });

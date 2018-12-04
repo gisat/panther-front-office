@@ -11,6 +11,8 @@ import periods from './periods';
 import places from './places';
 import scenarios from './scenarios';
 import scopes from './scopes';
+import snapshots from './snapshots';
+import symbologies from './symbologies';
 import styles from './styles';
 import themes from './themes';
 import users from './users';
@@ -32,6 +34,8 @@ export default store => {
 	places(store);
 	scenarios(store);
 	scopes(store);
+	snapshots(store);
+	symbologies(store);
 	styles(store);
 	themes(store);
 	users(store);
