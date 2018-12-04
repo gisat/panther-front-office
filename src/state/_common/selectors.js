@@ -1,6 +1,8 @@
 import {createSelector} from "reselect";
+import {createCachedSelector} from "re-reselect";
 import _ from "lodash";
 import commonHelpers from './helpers';
+import Select from "../Select";
 
 const activeScopeKey = state => state.scopes.activeKey;
 
@@ -179,6 +181,19 @@ const getIndex = (getSubstate) => {
 	);
 };
 
+const getIndexChangedOn = (getSubstate) => {
+	return createSelector(
+		[getIndex(getSubstate)],
+		(index) => {
+			if (index && index.changedOn){
+				return index.changedOn;
+			} else {
+				return null;
+			}
+		}
+	);
+};
+
 const getIndexPage = (getSubstate) => {
 	return createSelector([
 		getIndex(getSubstate),
@@ -253,46 +268,85 @@ const getUsedKeys = (getSubstate) => {
 	}
 };
 
+const getIndexedDataUses = (getSubstate) => {
+	return (state) => getSubstate(state).inUse.indexes;
+};
+
 const getUsedIndexPages = (getSubstate) => {
-	return (state) => {
-		let indexedUses = getSubstate(state).inUse.indexes;
-		let groupedUses = [];
-		let usedIndexes = [];
-		_.each(indexedUses, (usedIndex) => {
-			let mergedFilter = commonHelpers.mergeFilters(state, usedIndex.filterByActive, usedIndex.filter);
-			if (mergedFilter){
-				let existingIndex = _.find(groupedUses, (use) => {
-					return _.isEqual(use.filter, mergedFilter) && _.isEqual(use.order, usedIndex.order) ;
-				});
-				if (existingIndex){
-					existingIndex.inUse.push({
-						start: usedIndex.start,
-						length: usedIndex.length
+	createSelector([
+			getIndexedDataUses(getSubstate),
+			Select.scopes.getActiveKey,
+			Select.themes.getActiveKey,
+			Select.places.getActiveKey,
+			Select.places.getActiveKeys,
+			Select.periods.getActiveKey,
+			Select.periods.getActiveKeys
+		],
+		(indexedDataUses, activeScopeKey, activeThemeKey, activePlaceKey, activePlaceKeys, activePeriodKey, activePeriodKeys) => {
+			let groupedUses = [];
+			let usedIndexes = [];
+			_.each(indexedDataUses, (usedIndex) => {
+				let mergedFilter = commonHelpers.mergeFilters({
+					activeScopeKey,
+					activeThemeKey,
+					activePlaceKey,
+					activePlaceKeys,
+					activePeriodKey,
+					activePeriodKeys
+				}, usedIndex.filterByActive, usedIndex.filter);
+				if (mergedFilter){
+					let existingIndex = _.find(groupedUses, (use) => {
+						return _.isEqual(use.filter, mergedFilter) && _.isEqual(use.order, usedIndex.order) ;
 					});
-				} else {
-					groupedUses.push({
-						filter: mergedFilter,
-						order: usedIndex.order,
-						inUse: [{
+					if (existingIndex){
+						existingIndex.inUse.push({
 							start: usedIndex.start,
 							length: usedIndex.length
-						}]
+						});
+					} else {
+						groupedUses.push({
+							filter: mergedFilter,
+							order: usedIndex.order,
+							inUse: [{
+								start: usedIndex.start,
+								length: usedIndex.length
+							}]
+						});
+					}
+				}
+			});
+
+			_.each(groupedUses, index => {
+				if (index.inUse && Object.keys(index.inUse).length) {
+					usedIndexes.push({
+						filter: index.filter,
+						order: index.order,
+						uses: _mergeIntervals(Object.values(index.inUse))
 					});
 				}
-			}
-		});
+			});
+			return usedIndexes;
+		}
+	);
+};
 
-		_.each(groupedUses, index => {
-			if (index.inUse && Object.keys(index.inUse).length) {
-				usedIndexes.push({
-					filter: index.filter,
-					order: index.order,
-					uses: _mergeIntervals(Object.values(index.inUse))
-				});
-			}
-		});
-		return usedIndexes;
-	};
+const getUsesForIndex = (getSubstate) => {
+	createCachedSelector(
+		getIndexedDataUses(getSubstate),
+		(state, filter) => filter,
+		(state, filter, order) => order,
+		(indexedDataUses, filter, order) => {
+
+		}
+	)(
+		(state, filter, order) => {
+			let stringOrder = JSON.stringify(order);
+			let stringFilter = JSON.stringify(_.map(filter, (value, key) => {
+				return `${key}:${value}`;
+			}).sort());
+			return `${stringOrder}:${stringFilter}`;
+		}
+	);
 };
 
 const _mergeIntervals = (intervals) => {	// todo make it better
@@ -343,11 +397,13 @@ export default {
 
 	getIndex,
 	getIndexes,
+	getIndexChangedOn,
 	getIndexPage,
 	getIndexTotal,
 
 	getKeysToLoad,
 
+	getUsesForIndex,
 	getUsedIndexPages,
 	getUsedKeys,
 

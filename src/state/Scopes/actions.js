@@ -84,14 +84,15 @@ function actionAdd(scopes) {
 	}
 }
 
-function actionAddIndex(filter, order, count, start, data) {
+function actionAddIndex(filter, order, count, start, data, changedOn) {
 	return {
 		type: ActionTypes.SCOPES.INDEX.ADD,
 		filter: filter,
 		order: order,
 		count: count,
 		start: start,
-		data: data
+		data: data,
+		changedOn
 	}
 }
 

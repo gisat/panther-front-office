@@ -13,45 +13,39 @@ function getIndex(indexes, filter, order) {
 	}
 }
 
-function mergeFilters(state, filterByActive, filter) {
+function mergeFilters(activeKeys, filterByActive, filter) {
 	let fullFilter = {...filter};
 	if (filterByActive) {
 		if (filterByActive.scope){
-			let activeScopeKey = Select.scopes.getActiveKey(state);
-			if (activeScopeKey){
+			if (activeKeys.activeScopeKey){
 				// TODO change dataset to scope
-				fullFilter.dataset = activeScopeKey;
+				fullFilter.dataset = activeKeys.activeScopeKey;
 			} else {
 				return null;
 			}
 		}
 		// TODO remove theme, add case, scenario, ...
 		if (filterByActive.theme){
-			let activeThemeKey = Select.themes.getActiveKey(state);
-			if (activeThemeKey){
-				fullFilter.theme = activeThemeKey;
+			if (activeKeys.activeThemeKey){
+				fullFilter.theme = activeKeys.activeThemeKey;
 			} else {
 				return null;
 			}
 		}
 		if (filterByActive.place){
-			let activePlaceKey = Select.places.getActiveKey(state);
-			let activePlaceKeys = Select.places.getActiveKeys(state);
-			if (activePlaceKey){
-				fullFilter.place = activePlaceKey;
-			} else if (activePlaceKeys){
-				fullFilter.place = {in: activePlaceKeys};
+			if (activeKeys.activePlaceKey){
+				fullFilter.place = activeKeys.activePlaceKey;
+			} else if (activeKeys.activePlaceKeys){
+				fullFilter.place = {in: activeKeys.activePlaceKeys};
 			} else {
 				return null;
 			}
 		}
 		if (filterByActive.periods){
-			let activePeriodKey = Select.periods.getActiveKey(state);
-			let activePeriodsKeys = Select.periods.getActiveKeys(state);
-			if (activePeriodKey){
-				fullFilter.periods = activePeriodKey;
-			} else if (activePeriodsKeys){
-				fullFilter.periods = {in: activePeriodsKeys};
+			if (activeKeys.activePeriodKey){
+				fullFilter.periods = activeKeys.activePeriodKey;
+			} else if (activeKeys.activePeriodKeys){
+				fullFilter.periods = {in: activeKeys.activePeriodKeys};
 			} else {
 				return null;
 			}

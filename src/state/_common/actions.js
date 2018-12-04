@@ -3,6 +3,7 @@ import config from "../../config";
 import queryString from "query-string";
 import path from "path";
 import fetch from "isomorphic-fetch";
+import moment from 'moment';
 
 import commonHelpers from './helpers';
 import commonSelectors from './selectors';
@@ -75,9 +76,9 @@ const add = (action) => {
 };
 
 const addIndex = (action) => {
-	return (filter, order, count, start, data) => {
+	return (filter, order, count, start, data, changedOn) => {
 		return dispatch => {
-			dispatch(action(filter, order, count, start, data));
+			dispatch(action(filter, order, count, start, data, changedOn));
 		};
 	}
 };
@@ -112,7 +113,14 @@ const useIndexed = (getSubstate, dataType, actionAdd, actionAddIndex, errorActio
 		return (dispatch, getState) => {
 			dispatch(registerUseIndexed(componentId, filterByActive, filter, order, start, length));
 			let state = getState();
-			let fullFilter = commonHelpers.mergeFilters(state, filterByActive, filter);
+			let fullFilter = commonHelpers.mergeFilters({
+				activeScopeKey: commonSelectors.getActiveKey(state => state.scopes)(state),
+				activeThemeKey: commonSelectors.getActiveKey(state => state.themes)(state),
+				activePeriodKey: commonSelectors.getActiveKey(state => state.periods)(state),
+				activePeriodKeys: commonSelectors.getActiveKey(state => state.periods)(state),
+				activePlaceKey: commonSelectors.getActiveKey(state => state.places)(state),
+				activePlaceKeys: commonSelectors.getActiveKey(state => state.places)(state),
+			}, filterByActive, filter);
 			if (fullFilter){
 				dispatch(ensureIndex(getSubstate, dataType, fullFilter, order, start, length, actionAdd, actionAddIndex, errorAction));
 			}
@@ -120,19 +128,22 @@ const useIndexed = (getSubstate, dataType, actionAdd, actionAddIndex, errorActio
 	}
 };
 
+function refreshIndex(getSubstate, dataType, filter, order) {
+	return (dispatch, getState) => {
 
-
+	}
+}
 
 function receive(actionAdd, actionAddIndex) {
-	return (data, dataType, filter, order, start) => {
+	return (result, dataType, filter, order, start) => {
 		return dispatch => {
 			// add data to store
-			if (data.data[dataType].length){
-				dispatch(add(actionAdd)(data.data[dataType]));
+			if (result.data[dataType].length){
+				dispatch(add(actionAdd)(result.data[dataType]));
 			}
 
 			// todo check index - create or clear if needed
-			dispatch(addIndex(actionAddIndex)(filter, order, data.total, start, data.data[dataType]));
+			dispatch(addIndex(actionAddIndex)(filter, order, result.total, start, result.data[dataType], result.changes[dataType]));
 
 			// todo check index - create or clear if needed
 			// todo add data to index
@@ -211,6 +222,7 @@ function ensureIndex(getSubstate, dataType, filter, order, start, length, action
 	return (dispatch, getState) => {
 		let state = getState();
 		let total = commonSelectors.getIndexTotal(getSubstate)(state, filter, order);
+		let changedOn = commonSelectors.getIndexChangedOn(getSubstate)(state, filter, order);
 
 		if (total || total === 0){
 			let indexPage = commonSelectors.getIndexPage(getSubstate)(state, filter, order, start, length);
@@ -226,27 +238,36 @@ function ensureIndex(getSubstate, dataType, filter, order, start, length, action
 				}
 				if (requestNeeded){
 					let completeFilter = loadedKeys.length ? {...filter, key: {notin: loadedKeys}} : filter;
-					dispatch(loadFilteredPage(dataType, completeFilter, order, start + i, actionAdd, actionAddIndex, errorAction));
+					dispatch(loadFilteredPage(dataType, completeFilter, order, start + i, changedOn, actionAdd, actionAddIndex, errorAction))
+						.catch((err) => {
+							if (err.message === 'Index outdated'){
+								dispatch(refreshIndex(getSubstate, dataType, filter, order));
+							}
+						});
 				}
 			}
 
 			return Promise.resolve();
 		} else {
 			// we don't have index
-			return dispatch(loadFilteredPage(dataType, filter, order, start, actionAdd, actionAddIndex, errorAction)).then((response) => {
+			return dispatch(loadFilteredPage(dataType, filter, order, start, changedOn, actionAdd, actionAddIndex, errorAction)).then((response) => {
 				if (response && response.message){
 					// do nothing
 				} else {
 					dispatch(ensureIndex(getSubstate, dataType, filter, order, start + PAGE_SIZE, length - PAGE_SIZE, actionAdd, actionAddIndex, errorAction));
 				}
 			}).catch((err)=>{
-				throw new Error(`_common/actions#ensure: ${err}`);
+				if (err.message === 'Index outdated'){
+					dispatch(refreshIndex(getSubstate, dataType, filter, order));
+				} else {
+					throw new Error(`_common/actions#ensure: ${err}`);
+				}
 			});
 		}
 	};
 }
 
-function loadFilteredPage(dataType, filter, order, start, actionAdd, actionAddIndex, errorAction) {
+function loadFilteredPage(dataType, filter, order, start, changedOn, actionAdd, actionAddIndex, errorAction) {
 	return dispatch => {
 		let apiPath = path.join('backend/rest/metadata/filtered', dataType);
 
@@ -261,6 +282,8 @@ function loadFilteredPage(dataType, filter, order, start, actionAdd, actionAddIn
 				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
 					dispatch(errorAction(result.errors[dataType] || new Error('no data')));
 					throw new Error(result.errors[dataType] || 'no data');
+				} else if (result.changes && result.changes[dataType] && moment(result.changes[dataType]).isAfter(changedOn)) {
+					throw new Error('Index outdated');
 				} else {
 					dispatch(receive(actionAdd, actionAddIndex)(result, dataType, filter, order, start));
 				}

@@ -26,14 +26,15 @@ function actionEnsureError(error) {
 	}
 }
 
-function actionAddIndex(filter, order, count, start, data) {
+function actionAddIndex(filter, order, count, start, data, changedOn) {
 	return {
 		type: ActionTypes.PERIODS.INDEX.ADD,
 		filter: filter,
 		order: order,
 		count: count,
 		start: start,
-		data: data
+		data: data,
+		changedOn
 	}
 }
 
