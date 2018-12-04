@@ -13,6 +13,7 @@ const getAllForActiveScope = common.getAllForActiveScope(getSubstate);
 const getAllForDataview = common.getAllForDataview(getSubstate);
 const getAllForDataviewAsObject = common.getAllForDataviewAsObject(getSubstate);
 const getActiveKey = common.getActiveKey(getSubstate);
+const getActiveKeys = common.getActiveKeys(getSubstate);
 const getActive = common.getActive(getSubstate);
 const getActivePlaces = common.getActiveModels(getSubstate);
 
@@ -35,6 +36,7 @@ export default {
 	getAllForDataview,
 	getAllForDataviewAsObject,
 	getActiveKey,
+	getActiveKeys,
 	getActive,
 	getActivePlaces,
 	getPlacesForActiveScope,

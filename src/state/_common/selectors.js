@@ -273,7 +273,7 @@ const getIndexedDataUses = (getSubstate) => {
 };
 
 const getUsedIndexPages = (getSubstate) => {
-	createSelector([
+	return createSelector([
 			getIndexedDataUses(getSubstate),
 			Select.scopes.getActiveKey,
 			Select.themes.getActiveKey,

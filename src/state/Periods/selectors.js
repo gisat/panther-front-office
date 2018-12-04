@@ -12,6 +12,7 @@ const getAllAsObject = common.getAllAsObject(getSubstate);
 const getAllForDataview = common.getAllForDataview(getSubstate);
 const getAllForDataviewAsObject = common.getAllForDataviewAsObject(getSubstate);
 const getActive = common.getActive(getSubstate);
+const getActiveKey = common.getActiveKey(getSubstate);
 const getActiveKeys = common.getActiveKeys(getSubstate);
 const getActiveModels = common.getActiveModels(getSubstate);
 
@@ -58,6 +59,7 @@ const getAllForActiveScope = createSelector([
 export default {
 	getActivePeriod: getActive,
 	getPeriods: getAll,
+	getActiveKey,
 	getActiveKeys,
 	getActiveModels,
 	getAll,
