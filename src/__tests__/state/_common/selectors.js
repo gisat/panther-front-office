@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import Select from '../../../state/Select';
 import commonSelectors from '../../../state/_common/selectors';
 
 const INITIAL_STATE = {
@@ -257,10 +258,12 @@ describe('Common selectors', () => {
 		const expectedOutput = {
 			1: {
 				name: "World",
+				id: 1,
 				_id: 1
 			},
 			2: {
 				name: "Europe",
+				id: 2,
 				_id: 2
 			}
 		};
