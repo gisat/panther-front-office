@@ -363,12 +363,33 @@ function refreshAllIndexes(getSubstate, dataType, actionAdd, actionAddIndex, act
 	}
 }
 
-// ============ actions ===========
+// ============ common namespace actions ===========
 
 function actionDataSetOutdated() {
 	return {
 		type: ActionTypes.COMMON.DATA.SET_OUTDATED
 	}
+}
+
+// ============ specific store namespace actions ===========
+
+function action(actionTypes, type, payload) {
+	type = type.split('.');
+	_.each(type, pathSegment => {
+		if (!actionTypes.hasOwnProperty(pathSegment)) throw new Error('common/actions#action: Action not in namespace');
+		actionTypes = actionTypes[pathSegment];
+	});
+	if (typeof actionTypes !== 'string') throw new Error('common/actions#action: Action type not string');
+	return {...payload, type: actionTypes};
+}
+
+function actionAdd(actionTypes, data) {
+	if (!_.isArray(data)) data = [data];
+	return action(actionTypes, 'ADD', {data});
+}
+
+function actionAddIndex(actionTypes, filter, order, count, start, data, changedOn) {
+	return action(actionTypes, 'INDEX.ADD', {filter, order, count, start, data, changedOn});
 }
 
 // ============ export ===========
