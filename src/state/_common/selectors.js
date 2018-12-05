@@ -1,5 +1,5 @@
 import {createSelector} from "reselect";
-import {createCachedSelector} from "re-reselect";
+import createCachedSelector from "re-reselect";
 import _ from "lodash";
 import commonHelpers from './helpers';
 import Select from "../Select";
@@ -331,12 +331,41 @@ const getUsedIndexPages = (getSubstate) => {
 };
 
 const getUsesForIndex = (getSubstate) => {
-	createCachedSelector(
+	return createCachedSelector(
 		getIndexedDataUses(getSubstate),
 		(state, filter) => filter,
 		(state, filter, order) => order,
 		(indexedDataUses, filter, order) => {
+			let index = null;
+			_.each(indexedDataUses, (usedIndex) => {
+				if (_.isEqual(filter, usedIndex.filter) && _.isEqual(order, usedIndex.order)){
+					if (index){
+						index.inUse.push({
+							start: usedIndex.start,
+							length: usedIndex.length
+						});
+					} else {
+						index = {
+							filter: usedIndex.filter,
+							order: usedIndex.order,
+							inUse: [{
+								start: usedIndex.start,
+								length: usedIndex.length
+							}]
+						};
+					}
+				}
+			});
 
+			if (index){
+				return {
+					filter: index.filter,
+					order: index.order,
+					uses: _mergeIntervals(Object.values(index.inUse))
+				}
+			} else {
+				return null;
+			}
 		}
 	)(
 		(state, filter, order) => {

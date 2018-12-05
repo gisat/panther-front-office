@@ -128,9 +128,15 @@ const useIndexed = (getSubstate, dataType, actionAdd, actionAddIndex, errorActio
 	}
 };
 
-function refreshIndex(getSubstate, dataType, filter, order) {
+function refreshIndex(getSubstate, dataType, filter, order, actionAdd, actionAddIndex, errorAction) {
 	return (dispatch, getState) => {
-
+		let state = getState();
+		let usesForIndex = commonSelectors.getUsesForIndex(getSubstate)(state, filter, order);
+		if (usesForIndex){
+			_.each(usesForIndex.uses, (use) => {
+				dispatch(ensureIndex(getSubstate, dataType, usesForIndex.filter, usesForIndex.order, use.start, use.length, actionAdd, actionAddIndex, errorAction))
+			});
+		}
 	}
 }
 
@@ -241,7 +247,7 @@ function ensureIndex(getSubstate, dataType, filter, order, start, length, action
 					dispatch(loadFilteredPage(dataType, completeFilter, order, start + i, changedOn, actionAdd, actionAddIndex, errorAction))
 						.catch((err) => {
 							if (err.message === 'Index outdated'){
-								dispatch(refreshIndex(getSubstate, dataType, filter, order));
+								dispatch(refreshIndex(getSubstate, dataType, filter, order, actionAdd, actionAddIndex, errorAction));
 							}
 						});
 				}
@@ -258,7 +264,7 @@ function ensureIndex(getSubstate, dataType, filter, order, start, length, action
 				}
 			}).catch((err)=>{
 				if (err.message === 'Index outdated'){
-					dispatch(refreshIndex(getSubstate, dataType, filter, order));
+					dispatch(refreshIndex(getSubstate, dataType, filter, order, actionAdd, actionAddIndex, errorAction));
 				} else {
 					throw new Error(`_common/actions#ensure: ${err}`);
 				}
