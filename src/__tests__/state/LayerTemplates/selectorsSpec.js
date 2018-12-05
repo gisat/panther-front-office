@@ -41,7 +41,7 @@ describe('Layer Templates Selectors', () => {
 		Selector(Select.layerTemplates.getTemplate).expect(state, templateWithSymbologies).toReturn(expectedTemplate);
 
 		let nonExisting = Selector(Select.layerTemplates.getTemplate).execute(state, nonExistingTemplate);
-		expect(nonExisting).toBeUndefined();
+		expect(nonExisting).toBeNull();
 	});
 
 	it('should select sybombologies data for given layer template', () => {

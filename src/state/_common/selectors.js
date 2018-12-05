@@ -97,7 +97,11 @@ const getActive = (getSubstate) => {
 	return createSelector(
 		[getAllAsObject(getSubstate), getActiveKey(getSubstate)],
 		(models, activeKey) => {
-			return models && models[activeKey];
+			if (models && models[activeKey]){
+				return models[activeKey];
+			} else {
+				return null;
+			}
 		}
 	);
 };
@@ -123,7 +127,11 @@ const getActiveModels = (getSubstate) => {
 const getByKey = (getSubstate) => {
 	return (state, key) => {
 		let allData = getAllAsObject(getSubstate)(state);
-		return key && allData && allData[key];
+		if (key && allData && !_.isEmpty(allData) && allData[key]) {
+			return allData[key];
+		} else {
+			return null;
+		}
 	}
 };
 
@@ -142,7 +150,11 @@ const getEditedActive = (getSubstate) => {
 	return createSelector(
 		[getEditedAllAsObject(getSubstate), getActiveKey(getSubstate)],
 		(models, activeKey) => {
-			return models && models[activeKey];
+			if (models && models[activeKey]){
+				return models[activeKey];
+			} else {
+				return null;
+			}
 		}
 	);
 };
