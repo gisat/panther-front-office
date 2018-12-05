@@ -55,6 +55,7 @@ export default utils.deepKeyMirror({
 
 	COMMON: {
 		DATA: {
+			CLEANUP_ON_LOGOUT: null,
 			SET_OUTDATED: null
 		}
 	},
@@ -291,7 +292,6 @@ export default utils.deepKeyMirror({
 		GROUPS: {
 			ADD: null
 		},
-		LOGOUT: null,
 		SET_ACTIVE_KEY: null
 	},
 

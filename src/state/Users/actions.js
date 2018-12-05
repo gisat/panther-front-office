@@ -357,7 +357,7 @@ function actionApiLoadCurrentUserRequestError(error) {
 
 function actionLogout() {
 	return {
-		type: ActionTypes.USERS.LOGOUT
+		type: ActionTypes.COMMON.DATA.CLEANUP_ON_LOGOUT
 	}
 }
 
