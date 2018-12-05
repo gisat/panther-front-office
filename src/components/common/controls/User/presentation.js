@@ -18,13 +18,15 @@ class User extends React.PureComponent {
 	};
 
 	render() {
+		let user = this.props.user;
 
-		if (this.props.user) {
+		if (user) {
+			let name = user.data.name || user.data.email;
 
 			return (
 				<div className="ptr-user">
 					<div className="ptr-user-image"></div>
-					<div className="ptr-user-name">{this.props.user.name}</div>
+					<div className="ptr-user-name">{name}</div>
 					<div className="ptr-user-options">
 						<Button icon="dots" invisible>
 							<Menu bottom left>

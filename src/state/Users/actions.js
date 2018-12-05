@@ -21,18 +21,6 @@ import Group from "../../data/Group";
 
 const TTL = 5;
 
-// ============= Common logic ===========
-// TODO: Move Elsewhere.
-
-function reloadData(dispatch) {
-	// Reload scope
-	dispatch(scopeActions.loadAll());
-	// Reload current user
-	dispatch(apiLoadCurrentUser());
-	// Reload lpis cases
-	dispatch(lpisCasesActions.load());
-}
-
 // ============ creators ===========
 
 const add = common.add(actionAdd);
@@ -41,6 +29,8 @@ const setActiveKey = common.setActiveKey(actionSetActiveKey);
 function onLogin() {
 	return (dispatch) => {
 		dispatch(common.actionDataSetOutdated());
+		dispatch(apiLoadCurrentUser());
+
 		dispatch(Action.dataviews.refreshAllIndexes());
 		dispatch(Action.scopes.refreshAllIndexes());
 		dispatch(Action.places.refreshAllIndexes());
@@ -52,6 +42,7 @@ function onLogin() {
 function onLogout() {
 	return (dispatch) => {
 		dispatch(actionLogout());
+		dispatch(setActiveKey(null));
 		dispatch(Action.dataviews.refreshAllIndexes());
 		dispatch(Action.scopes.refreshAllIndexes());
 		dispatch(Action.places.refreshAllIndexes());
