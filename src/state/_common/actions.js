@@ -342,7 +342,7 @@ function loadFiltered(dataType, filter, successAction, errorAction) {
 	};
 }
 
-function onLogin(getSubstate, dataType, actionAdd, actionAddIndex, actionClearIndexes, errorAction) {
+function refreshAllIndexes(getSubstate, dataType, actionAdd, actionAddIndex, actionClearIndexes, errorAction) {
 	return () => {
 		return(dispatch, getState) => {
 			dispatch(actionClearIndexes());
@@ -381,9 +381,9 @@ export default {
 	loadFiltered,
 	setActiveKey,
 	setActiveKeys,
+	refreshAllIndexes,
 	request: requestWrapper,
 	useKeys,
 	useIndexed,
-	onLogin,
 	actionDataSetOutdated
 }

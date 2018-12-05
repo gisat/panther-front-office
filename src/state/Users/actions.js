@@ -41,14 +41,16 @@ const setActiveKey = common.setActiveKey(actionSetActiveKey);
 function onLogin() {
 	return (dispatch) => {
 		dispatch(common.actionDataSetOutdated());
-		dispatch(Action.dataviews.onLogin());
-		dispatch(Action.scopes.onLogin());
+		dispatch(Action.dataviews.refreshAllIndexes());
+		dispatch(Action.scopes.refreshAllIndexes());
 	}
 }
 
 function onLogout() {
 	return (dispatch) => {
 		dispatch(actionLogout());
+		dispatch(Action.dataviews.refreshAllIndexes());
+		dispatch(Action.scopes.refreshAllIndexes());
 	}
 }
 

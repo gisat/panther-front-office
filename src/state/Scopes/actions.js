@@ -8,7 +8,7 @@ import common from '../_common/actions';
 // ============ creators ===========
 
 const useIndexed = common.useIndexed(Select.scopes.getSubstate, 'scopes', actionAdd, actionAddIndex, () => {}, actionUseIndexedRegister);
-const onLogin = common.onLogin(Select.scopes.getSubstate, `scopes`, actionAdd, actionAddIndex, actionClearIndexes, () => {});
+const refreshAllIndexes = common.refreshAllIndexes(Select.scopes.getSubstate, `scopes`, actionAdd, actionAddIndex, actionClearIndexes, () => {});
 
 function setActiveKey(key) {
 	return dispatch => {
@@ -148,6 +148,6 @@ export default {
 	setActiveKey,
 	loadForKeys,
 	loadAll,
-	onLogin,
+	refreshAllIndexes,
 	useIndexed
 }
