@@ -43,6 +43,9 @@ function onLogin() {
 		dispatch(common.actionDataSetOutdated());
 		dispatch(Action.dataviews.refreshAllIndexes());
 		dispatch(Action.scopes.refreshAllIndexes());
+		dispatch(Action.places.refreshAllIndexes());
+		dispatch(Action.periods.refreshAllIndexes());
+		dispatch(Action.themes.refreshAllIndexes());
 	}
 }
 
@@ -51,6 +54,9 @@ function onLogout() {
 		dispatch(actionLogout());
 		dispatch(Action.dataviews.refreshAllIndexes());
 		dispatch(Action.scopes.refreshAllIndexes());
+		dispatch(Action.places.refreshAllIndexes());
+		dispatch(Action.periods.refreshAllIndexes());
+		dispatch(Action.themes.refreshAllIndexes());
 	}
 }
 

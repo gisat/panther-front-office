@@ -16,6 +16,7 @@ const add = common.add(actionAdd);
 const setActiveKey = common.setActiveKey(actionSetActive);
 const setActiveKeys = common.setActiveKeys(actionSetActiveKeys);
 const useIndexed = common.useIndexed(Select.places.getSubstate, 'places', actionAdd, actionAddIndex, ensureForScopeError, actionRegisterUseIndexed);
+const refreshAllIndexes = common.refreshAllIndexes(Select.places.getSubstate, `places`, actionAdd, actionAddIndex, actionClearIndexes, () => {});
 
 function setActive(keys) {
 	return (dispatch, getState) => {
@@ -89,6 +90,12 @@ function actionAddIndex(filter, order, count, start, data, changedOn) {
 	}
 }
 
+function actionClearIndexes() {
+	return {
+		type: ActionTypes.PLACES.INDEX.CLEAR_ALL,
+	}
+}
+
 function actionEnsureError(err) {
 	return {
 		type: ActionTypes.PLACES.ENSURE.ERROR,
@@ -141,6 +148,7 @@ function actionInitializeForExt() {
 export default {
 	add,
 	ensure: common.ensure.bind(this, Select.places.getSubstate, 'places', actionAdd, actionEnsureError),
+	refreshAllIndexes,
 	setActive,
 	setActiveKey,
 	setActiveKeys,
