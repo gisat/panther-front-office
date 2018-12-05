@@ -118,7 +118,8 @@ export default utils.deepKeyMirror({
 			ERROR: null
 		},
 		INDEX: {
-			ADD: null
+			ADD: null,
+			CLEAR_ALL: null
 		},
 		LOAD: {
 			ERROR: null,
@@ -148,7 +149,8 @@ export default utils.deepKeyMirror({
 			ERROR: null
 		},
 		INDEX: {
-			ADD: null
+			ADD: null,
+			CLEAR_ALL: null
 		},
 		LOAD: {
 			ERROR: null,
@@ -267,7 +269,8 @@ export default utils.deepKeyMirror({
 			ERROR: null
 		},
 		INDEX: {
-			ADD: null
+			ADD: null,
+			CLEAR_ALL: null
 		},
 		LOAD: {
 			ERROR: null,

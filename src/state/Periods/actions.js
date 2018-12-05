@@ -9,6 +9,7 @@ const add = common.add(actionAdd);
 const setActiveKey = common.setActiveKey(actionSetActiveKey);
 const setActiveKeys = common.setActiveKeys(actionSetActiveKeys);
 const useIndexed = common.useIndexed(Select.periods.getSubstate, 'periods', actionAdd, actionAddIndex, actionEnsureError, actionRegisterUseIndexed);
+const refreshAllIndexes = common.refreshAllIndexes(Select.periods.getSubstate, `periods`, actionAdd, actionAddIndex, actionClearIndexes, () => {});
 
 // ============ actions ===========
 
@@ -35,6 +36,12 @@ function actionAddIndex(filter, order, count, start, data, changedOn) {
 		start: start,
 		data: data,
 		changedOn
+	}
+}
+
+function actionClearIndexes() {
+	return {
+		type: ActionTypes.PERIODS.INDEX.CLEAR_ALL,
 	}
 }
 
@@ -76,6 +83,7 @@ function actionSetActiveKeys(keys) {
 export default {
 	add,
 	ensure: common.ensure.bind(this, Select.periods.getSubstate, 'periods', actionAdd, actionEnsureError),
+	refreshAllIndexes,
 	setActiveKey,
 	setActiveKeys,
 	useIndexed,

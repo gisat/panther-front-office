@@ -10,6 +10,7 @@ import AttributesActions from "../Attributes/actions";
 const add = common.add(actionAdd);
 const setActiveKey = common.setActiveKey(actionSetActiveKey);
 const useIndexed = common.useIndexed(Select.themes.getSubstate, 'themes', actionAdd, actionAddIndex, ensureForScopeError, actionRegisterUseIndexed);
+const refreshAllIndexes = common.refreshAllIndexes(Select.themes.getSubstate, `themes`, actionAdd, actionAddIndex, actionClearIndexes, () => {});
 
 function setActive(key){
 	return (dispatch, getState) => {
@@ -72,6 +73,12 @@ function actionAddIndex(filter, order, count, start, data) {
 	}
 }
 
+function actionClearIndexes() {
+	return {
+		type: ActionTypes.THEMES.INDEX.CLEAR_ALL,
+	}
+}
+
 function actionClearUseIndexed(componentId) {
 	return {
 		type: ActionTypes.THEMES.USE.INDEXED.CLEAR,
@@ -110,6 +117,7 @@ function actionSetActiveKey(key) {
 export default {
 	add,
 	loadByKeys,
+	refreshAllIndexes,
 	setActive,
 	setActiveKey,
 	useIndexed,
