@@ -14,6 +14,8 @@ export default store => {
 };
 
 const setStoreWatchers = store => {
+	createWatcher(store, Select.scopes.getActiveScopeData, ()=>{}, 'activeScope');
+	createWatcher(store, Select.places.getActive, ()=>{}, 'activePlace');
 
 	createWatcher(store, Select.maps.getActiveMap, activeMapWatcher);
 	createWatcher(store, Select.maps.getActiveMapKey, activeMapKeyWatcher);
@@ -25,8 +27,6 @@ const setStoreWatchers = store => {
 	createWatcher(store, Select.maps.getActivePlaceActiveLayers, activeLayersWatcher, 'activePlaceActiveLayers');
 
 	createWatcher(store, Select.lpisCases.getActiveCase, ()=>{}, 'activeLpisCase');
-	createWatcher(store, Select.scopes.getActiveScopeData, ()=>{}, 'activeScope');
-	createWatcher(store, Select.places.getActive, ()=>{}, 'activePlace');
 };
 
 const setEventListeners = store => {
@@ -278,7 +278,10 @@ const activeLayersWatcher = (value, previousValue) => {
 		window.Stores.notify('REMOVE_INFO_LAYERS_BY_SCENARIOS', diffLayers.removed);
 	}
 	if (diffLayers.added && diffLayers.added.length){
-		window.Stores.notify('ADD_INFO_LAYERS_BY_SCENARIOS', diffLayers.added);
+		window.Stores.notify('ADD_INFO_LAYERS_BY_SCENARIOS', {
+			added: diffLayers.added,
+			activePlaceKey: state.activePlace.key
+		});
 	}
 };
 
@@ -288,7 +291,10 @@ const mapKeysWatcher = (value, previousValue) => {
 	console.log('@@## diffLayers', diffMapKeys);
 	if (diffMapKeys.added && diffMapKeys.added.length && state.activePlaceActiveLayers  && state.activePlaceActiveLayers.length){
 		let data = state.activePlaceActiveLayers;
-		window.Stores.notify('ADD_INFO_LAYERS_BY_SCENARIOS', data);
+		window.Stores.notify('ADD_INFO_LAYERS_BY_SCENARIOS', {
+			added: data,
+			activePlaceKey: state.activePlace.key
+		});
 	}
 };
 

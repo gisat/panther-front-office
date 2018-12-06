@@ -6,9 +6,8 @@ import WindowsContainer from "../../presentation/windowsContainers/WindowsContai
 const mapStateToProps = (state, ownProps) => {
 	return {
 		scenariosWindowDocked: Select.components.windows.isWindowDocked(state, {key: 'scenarios'}),
-		viewsWindowDocked: Select.components.windows.isWindowDocked(state, {key: 'views'}),
-		shareWindowDocked: Select.components.windows.isWindowDocked(state, {key: 'share'}),
-		shareWindowVisible: Select.components.windows.isWindowOpen(state, {key: 'share'}),
+		snapshotsWindowDocked: Select.components.windows.isWindowDocked(state, {key: 'snapshots'}),
+		viewsWindowDocked: Select.components.windows.isWindowDocked(state, {key: 'views'})
 	}
 };
 

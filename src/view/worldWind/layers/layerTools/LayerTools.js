@@ -3,8 +3,10 @@
 import ArgumentError from '../../../../error/ArgumentError';
 import Logger from '../../../../util/Logger';
 
+import LayerDownload from './download/LayerDownload';
 import LayerLegend from './legend/LayerLegend';
 import LayerOpacity from './opacity/LayerOpacity';
+import LayerMetadata from './metadata/LayerMetadata';
 import Legend from './legend/Legend';
 import Opacity from './opacity/Opacity';
 
@@ -40,6 +42,7 @@ class LayerTools {
         this._name = options.name;
         this._class = options.class;
         this._mapStore = options.mapStore;
+        this._stateStore = options.stateStore;
         this._layers = options.layers || null;
         this._style = options.style || null;
 
@@ -96,10 +99,28 @@ class LayerTools {
             name: this._name,
             target: this._toolsContainer,
             layers: this._layers,
-            style: this._style
+            style: this._style,
+            stateStore: this._stateStore
         });
         this.tools.push(legend);
         return legend;
+    };
+
+	/**
+     * Build metadata for layers
+     * @returns {LayerMetadata}
+     */
+    buildMetadata(layers) {
+        let metadata = new LayerMetadata({
+            id: this._id,
+            name: 'Metadata',
+            class: this._class,
+            target: this._toolsContainer,
+            layers: layers,
+            style: this._style
+        });
+        this.tools.push(metadata);
+        return metadata;
     };
 
     /**
@@ -118,6 +139,17 @@ class LayerTools {
         });
         this.tools.push(opacity);
         return opacity;
+    };
+
+    buildDownload(){
+		let download = new LayerDownload({
+			id: this._id,
+			name: this._name,
+			target: this._toolsContainer,
+			layers: this._layers,
+		});
+		this.tools.push(download);
+		return download;
     };
 
     /**

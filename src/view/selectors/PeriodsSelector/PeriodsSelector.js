@@ -68,16 +68,17 @@ class PeriodsSelector {
      */
     rebuild() {
         let currentState = this._stateStore.current();
-        if (currentState.changes.scope || currentState.changes.period || currentState.changes.dataview) {
-            this.updateSelectedPeriods();
-            this.updateDisabledPeriods();
+        this.updateSelectedPeriods();
+        this.updateDisabledPeriods();
 
-            let self = this;
-            this._scopeStore.byId(currentState.scope).then(function (datasets) {
-                let periods = datasets[0].periods;
-                return self._periodStore.filter({id: periods});
-            }).then(self.render.bind(self));
-        }
+        let self = this;
+        this._scopeStore.byId(currentState.scope).then(function (datasets) {
+            console.log('************** Datasets', datasets);
+            let periods = datasets[0].periods;
+            return self._periodStore.filter({id: periods});
+        }).then(self.render.bind(self)).catch(err => {
+            throw new Error(err);
+        });
     };
 
     /**

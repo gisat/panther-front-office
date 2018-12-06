@@ -14,6 +14,7 @@ import periodsReducers from './Periods/reducers';
 import placesReducers from './Places/reducers';
 import scenariosReducers from './Scenarios/reducers';
 import scopesReducers from './Scopes/reducers';
+import snapshotsReducers from './Snapshots/reducers';
 import spatialDataSourcesReducers from './SpatialDataSources/reducers';
 import spatialRelationsReducers from './SpatialRelations/reducers';
 import symbologiesReducers from './Symbologies/reducers';
@@ -42,6 +43,7 @@ const Store = createStore(combineReducers({
 	places: placesReducers,
 	scenarios: scenariosReducers,
 	scopes: scopesReducers,
+	snapshots: snapshotsReducers,
 	spatialDataSources: spatialDataSourcesReducers,
 	spatialRelations: spatialRelationsReducers,
 	symbologies: symbologiesReducers,

@@ -271,6 +271,14 @@ class MapsContainer {
 			});
 		}
 		if (defaults.layerTemplates){
+
+			// TODO Remove this ugly hack for PUCS
+			defaults.layerTemplates.map((layerTemplate) => {
+				if (layerTemplate.templateId === 75291 || layerTemplate.templateId === 75292){
+					layerTemplate.styles = null;
+				}
+			});
+
 			this._dispatcher.notify("infoLayer#add", {
 				layerTemplates: defaults.layerTemplates
 			});
@@ -331,9 +339,10 @@ class MapsContainer {
 					});
 				}
 			});
-		}
-		if (selectedMap && !state.isMapDependentOnScenario){
-			this.handleMapSelection(null, selectedMap)
+
+			if (selectedMap){
+				this.handleMapSelection(null, selectedMap);
+			}
 		}
 	}
 
