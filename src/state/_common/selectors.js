@@ -391,30 +391,31 @@ const getUsesForIndex = (getSubstate) => {
 };
 
 const _mergeIntervals = (intervals) => {	// todo make it better
+	//sort intervals
 	let sortedIntervals = _.sortBy(intervals, ['start', 'length']);
-
-
-	let start, end, mergedIntervals = [];
-
-	_.each(sortedIntervals, (interval) => {
-		let intervalEnd = interval.start + interval.length - 1;
-
-		if(!start && !end) {
-			start = interval.start;
-			end = intervalEnd;
-		}
-		if(end > interval.start) {
-			end = intervalEnd;
+	//merge intervals
+	return sortedIntervals.reduce((mergedIntervals, interval) => {
+		if (!interval || !interval.start || !interval.length) {
+			// invalid interval
+			return mergedIntervals;
+		} else if (!mergedIntervals) {
+			//first pass, just return first interval
+			return [interval];
 		} else {
-			mergedIntervals.push({start, length: end - start + 1});
-			start = interval.start;
-			end = intervalEnd;
+			let last = mergedIntervals.pop();
+			if (interval.start <= (last.start + last.length)) {
+				//merge last & current
+				let end = Math.max((last.start + last.length), (interval.start + interval.length));
+				return [...mergedIntervals, {
+					start: last.start,
+					length: (end - last.start)
+				}];
+			} else {
+				//add both
+				return [...mergedIntervals, last, interval];
+			}
 		}
-	});
-
-	mergedIntervals.push({start, length: end - start + 1});
-
-	return mergedIntervals;
+	}, null);
 };
 
 export default {
@@ -448,5 +449,7 @@ export default {
 	getUsedIndexPages,
 	getUsedKeys,
 
-	isInitializedForExt // TODO It will be removed along with Ext
+	isInitializedForExt, // TODO It will be removed along with Ext
+
+	_mergeIntervals
 }
