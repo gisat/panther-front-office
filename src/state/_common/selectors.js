@@ -337,7 +337,7 @@ const getUsedIndexPages = (getSubstate) => {
 					});
 				}
 			});
-			return usedIndexes;
+			return usedIndexes.length ? usedIndexes : null;
 		}
 	);
 };
@@ -391,7 +391,7 @@ const getUsesForIndex = (getSubstate) => {
 };
 
 const _mergeIntervals = (intervals) => {	// todo make it better
-	let sortedIntervals = _.sortBy(intervals, ['start']);
+	let sortedIntervals = _.sortBy(intervals, ['start', 'length']);
 
 
 	let start, end, mergedIntervals = [];

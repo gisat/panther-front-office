@@ -126,6 +126,38 @@ export const BASIC_STATE = {
 				}
 			}
 		},
+		inUse: {
+			indexes: {
+				Component_a: {
+					filter: null,
+					filterByActive: {scope: true},
+					order: null,
+					start: 1,
+					length: 10
+				},
+				Component_b: {
+					filter: null,
+					filterByActive: {scope: true},
+					order: null,
+					start: 1,
+					length: 5
+				},
+				Component_c: {
+					filter: null,
+					filterByActive: null,
+					order: [['name', 'ascending']],
+					start: 1,
+					length: 5
+				},
+				Component_d: {
+					filter: null,
+					filterByActive: null,
+					order: [['name', 'ascending']],
+					start: 3,
+					length: 5
+				}
+			}
+		},
 		indexes: [
 			{
 				changedOn: "2018-12-03T15:25:12.745Z",
@@ -144,7 +176,10 @@ export const BASIC_STATE = {
 	},
 	scopes: {
 		activeKey: 666
-	}
+	},
+	themes: {},
+	places: {},
+	periods: {}
 };
 
 export const ACTIVE_KEYS_STATE = {...BASIC_STATE, sample: {...BASIC_STATE.sample, activeKey: null, activeKeys: [1, 2]}};
@@ -155,6 +190,9 @@ export const NO_MODELS_STATE = {...BASIC_STATE, sample: {...BASIC_STATE.sample, 
 
 export const EMPTY_INDEXES_STATE = {...BASIC_STATE, sample: {...BASIC_STATE.sample, indexes: []}};
 export const NO_INDEXES_STATE = {...BASIC_STATE, sample: {...BASIC_STATE.sample, indexes: null}};
+
+export const EMPTY_IN_USE_INDEXES_STATE = {...BASIC_STATE, sample: {...BASIC_STATE.sample, inUse: {...BASIC_STATE.sample.inUse, indexes: {}}}};
+export const NO_IN_USE_INDEXES_STATE = {...BASIC_STATE, sample: {...BASIC_STATE.sample, inUse: {...BASIC_STATE.sample.inUse, indexes: null}}};
 
 export const EMPTY_EDITED_MODELS_STATE = {...BASIC_STATE, sample: {...BASIC_STATE.sample, editedByKey: {}}};
 export const NO_EDITED_MODELS_STATE = {...BASIC_STATE, sample: {...BASIC_STATE.sample, editedByKey: null}};
