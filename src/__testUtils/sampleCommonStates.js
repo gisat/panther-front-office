@@ -129,17 +129,17 @@ export const BASIC_STATE = {
 		inUse: {
 			indexes: {
 				Component_a: {
-					filter: null,
-					filterByActive: {scope: true},
+					filter: {dataset: 666},
+					filterByActive: null,
 					order: null,
 					start: 1,
-					length: 10
+					length: 5
 				},
 				Component_b: {
 					filter: null,
 					filterByActive: {scope: true},
 					order: null,
-					start: 1,
+					start: 6,
 					length: 5
 				},
 				Component_c: {

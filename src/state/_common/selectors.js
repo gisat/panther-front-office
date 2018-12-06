@@ -347,10 +347,25 @@ const getUsesForIndex = (getSubstate) => {
 		getIndexedDataUses(getSubstate),
 		(state, filter) => filter,
 		(state, filter, order) => order,
-		(indexedDataUses, filter, order) => {
+		Select.scopes.getActiveKey,
+		Select.themes.getActiveKey,
+		Select.places.getActiveKey,
+		Select.places.getActiveKeys,
+		Select.periods.getActiveKey,
+		Select.periods.getActiveKeys,
+		(indexedDataUses, filter, order, activeScopeKey, activeThemeKey, activePlaceKey, activePlaceKeys, activePeriodKey, activePeriodKeys) => {
 			let index = null;
 			_.each(indexedDataUses, (usedIndex) => {
-				if (_.isEqual(filter, usedIndex.filter) && _.isEqual(order, usedIndex.order)){
+				let mergedFilter = commonHelpers.mergeFilters({
+					activeScopeKey,
+					activeThemeKey,
+					activePlaceKey,
+					activePlaceKeys,
+					activePeriodKey,
+					activePeriodKeys
+				}, usedIndex.filterByActive, usedIndex.filter);
+
+				if (_.isEqual(filter, mergedFilter) && _.isEqual(order, usedIndex.order)){
 					if (index){
 						index.inUse.push({
 							start: usedIndex.start,
@@ -358,7 +373,7 @@ const getUsesForIndex = (getSubstate) => {
 						});
 					} else {
 						index = {
-							filter: usedIndex.filter,
+							filter: filter,
 							order: usedIndex.order,
 							inUse: [{
 								start: usedIndex.start,

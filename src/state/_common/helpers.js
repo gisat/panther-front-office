@@ -14,8 +14,8 @@ function getIndex(indexes, filter, order) {
 }
 
 function mergeFilters(activeKeys, filterByActive, filter) {
-	let fullFilter = {...filter};
 	if (filterByActive) {
+		let fullFilter = {...filter};
 		if (filterByActive.scope){
 			if (activeKeys.activeScopeKey){
 				// TODO change dataset to scope
@@ -50,8 +50,10 @@ function mergeFilters(activeKeys, filterByActive, filter) {
 				return null;
 			}
 		}
+		return fullFilter;
+	} else {
+		return filter;
 	}
-	return fullFilter;
 }
 
 export default {
