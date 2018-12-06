@@ -404,7 +404,7 @@ const getUsesForIndex = (getSubstate) => {
 	);
 };
 
-const _mergeIntervals = (intervals) => {	// todo make it better
+const _mergeIntervals = (intervals) => {
 	//sort intervals
 	let sortedIntervals = _.sortBy(intervals, ['start', 'length']);
 	//merge intervals
