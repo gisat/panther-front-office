@@ -121,9 +121,7 @@ const useIndexed = (getSubstate, dataType, actionAdd, actionAddIndex, errorActio
 				activePlaceKey: commonSelectors.getActiveKey(state => state.places)(state),
 				activePlaceKeys: commonSelectors.getActiveKey(state => state.places)(state),
 			}, filterByActive, filter);
-			if (fullFilter){
-				dispatch(ensureIndex(getSubstate, dataType, fullFilter, order, start, length, actionAdd, actionAddIndex, errorAction));
-			}
+			dispatch(ensureIndex(getSubstate, dataType, fullFilter, order, start, length, actionAdd, actionAddIndex, errorAction));
 		};
 	}
 };
