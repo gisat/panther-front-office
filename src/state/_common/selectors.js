@@ -306,25 +306,24 @@ const getUsedIndexPages = (getSubstate) => {
 					activePeriodKey,
 					activePeriodKeys
 				}, usedIndex.filterByActive, usedIndex.filter);
-				if (mergedFilter){
-					let existingIndex = _.find(groupedUses, (use) => {
-						return _.isEqual(use.filter, mergedFilter) && _.isEqual(use.order, usedIndex.order) ;
+
+				let existingIndex = _.find(groupedUses, (use) => {
+					return _.isEqual(use.filter, mergedFilter) && _.isEqual(use.order, usedIndex.order) ;
+				});
+				if (existingIndex){
+					existingIndex.inUse.push({
+						start: usedIndex.start,
+						length: usedIndex.length
 					});
-					if (existingIndex){
-						existingIndex.inUse.push({
+				} else {
+					groupedUses.push({
+						filter: mergedFilter,
+						order: usedIndex.order,
+						inUse: [{
 							start: usedIndex.start,
 							length: usedIndex.length
-						});
-					} else {
-						groupedUses.push({
-							filter: mergedFilter,
-							order: usedIndex.order,
-							inUse: [{
-								start: usedIndex.start,
-								length: usedIndex.length
-							}]
-						});
-					}
+						}]
+					});
 				}
 			});
 
