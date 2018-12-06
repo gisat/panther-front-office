@@ -15,6 +15,7 @@ export default store => {
 const setStoreWatchers = store => {
 	createWatcher(store, Select.components.windows.isWindowOpen, scenariosWindowWatcher, null, {key: 'scenarios'});
 	createWatcher(store, Select.components.windows.isWindowOpen, viewsWindowWatcher, null, {key: 'views'});
+	createWatcher(store, Select.components.windows.isWindowOpen, shareWindowWatcher, null, {key: 'share'});
 	createWatcher(store, Select.components.getComponents, componentsWatcher);
 	createWatcher(store, Select.components.getApplicationStyleActiveKey, applicationStyleActiveKeyWatcher);
 	createWatcher(store, Select.components.getApplicationStyleHtmlClass, applicationStyleHtmlClassWatcher);
@@ -90,6 +91,7 @@ const shareWatcher = (value, previousValue) => {
 				description: value.toSave.description.value,
 				group: value.toSave.groupsSelect,
 				user: value.toSave.usersSelect,
+				dataviewId: value.toSave.dataviewId,
 			});
 	
 		}
@@ -107,6 +109,13 @@ const viewsWindowWatcher = (value, previousValue) => {
 	console.log('@@ viewsWindowWatcher', previousValue, '->', value);
 	if (previousValue !== value){
 		window.Stores.notify('VIEWS_WINDOW_TOGGLE');
+	}
+};
+
+const shareWindowWatcher = (value, previousValue) => {
+	console.log('@@ shareWindowWatcher', previousValue, '->', value);
+	if (previousValue !== value){
+		window.Stores.notify('SHARE_WINDOW_TOGGLE', value);
 	}
 };
 

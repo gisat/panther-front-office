@@ -6,7 +6,8 @@ import ShareForm from "../../../presentation/controls/share/ShareForm";
 const mapStateToProps = (state, ownProps) => {
 	return {
         users: Select.users.getUsers(state),
-        groups: Select.userGroups.getGroups(state),
+		groups: Select.userGroups.getGroups(state),
+		dataviewId: Select.views.getActiveKey(state),
 	}
 };
 

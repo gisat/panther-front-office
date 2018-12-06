@@ -48,7 +48,7 @@ class TopToolBar {
         this._map3dSwitchSelector = $('#top-toolbar-3dmap');
 
         $('#top-toolbar-context-help').on('click.topToolBar', this.handleContextHelpClick);
-        $('#top-toolbar-share-view').on('click.topToolBar', this.handleShareViewClick);
+        $('#top-toolbar-share-view').on('click.topToolBar', this.handleShareViewClick.bind(this));
         $('#top-toolbar-add-map').on('click.topToolBar', this.handleAddMapClick.bind(this));
         this._map3dSwitchSelector.on("click.topToolBar", this.handle3dMapClick.bind(this));
 
@@ -371,20 +371,9 @@ class TopToolBar {
     };
 
     handleShareViewClick(e) {
-        let item = $(this);
-        let floater = $("#floater-sharing");
-
-        if (item.hasClass("open")){
-            item.removeClass("open");
-            floater.removeClass("open");
-        } else {
-            item.addClass("open");
-            floater.addClass("open");
-            window.Stores.notify('floaters#sort', {
-                fromExt: false,
-                floaterJQuerySelector: floater
-            });
-        }
+        let shareItem = $('#top-toolbar-share-view');
+        const isOpen = shareItem.hasClass('open');
+        this._dispatcher.notify("components#shareSetVisible", !isOpen);
     };
 
     handle3dMapClick(e) {
@@ -457,7 +446,7 @@ class TopToolBar {
     /**
      * @param type {string} type of event
      */
-    onEvent(type){
+    onEvent(type, options){
 		if (type === Actions.toolBarEnable3d){
 			this.handle3dMapButtonState(true);
 		} else if (type === Actions.toolBarDisable3d){
@@ -482,6 +471,13 @@ class TopToolBar {
 			let isOpen = viewsItem.hasClass('open');
 			this._viewsWidgetIsOpen = !isOpen;
 			viewsItem.toggleClass('open');
+		} else if (type === 'SHARE_WINDOW_TOGGLE'){
+			let shareItem = $('#top-toolbar-share-view');
+            shareItem.removeClass('open');
+            //{bool} options - open or closed
+            if(options) {
+                shareItem.addClass('open');
+            }
 		}
     }
 }

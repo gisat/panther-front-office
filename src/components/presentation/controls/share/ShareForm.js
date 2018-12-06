@@ -40,6 +40,7 @@ const BASE_STATE = {
         value: '',
         required: true,
     },
+    dataviewId: null,
 };
 
 class ShareForm extends React.PureComponent {
@@ -49,11 +50,12 @@ class ShareForm extends React.PureComponent {
         groups: PropTypes.array,
         onSubmit: PropTypes.func,
         handleClearForm: PropTypes.func,
+        dataviewId: PropTypes.number,
     };
     
     constructor(props) {
         super(props);
-        this.state = {...BASE_STATE};
+        this.state = {...BASE_STATE, dataviewId: props.dataviewId};
         
         this.handleClearForm = this.handleClearForm.bind(this);
     

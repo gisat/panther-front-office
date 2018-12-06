@@ -99,8 +99,8 @@ Ext.define('PumaMain.controller.ViewMng', {
     onShare: function(options) {
 		const onSave = (rec,operation) => {
 			Promise.all([
-				store.groups.share(options.group.value, options.state.scope, options.state.places, options.dataviewId),
-				store.users.share(options.user.value, options.state.scope, options.state.places, options.dataviewId)
+				store.groups.share(options.group.value, options.state.scope, options.state.places, rec.data._id),
+				store.users.share(options.user.value, options.state.scope, options.state.places, rec.data._id)
 			]).then(() => {
 				this.onSaveFinish(rec, operation, options.group, options.user, options.language);
 				window.Stores.notify('components#shareSetVisible', false);
@@ -480,7 +480,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 			// dataview metadata
 			cfg.name = options.name;
 			cfg.description = options.description;
-			cfg.language = options.language || "en";
+			cfg.language = options.language.value || "en";
 
 			// world wind map settings
 			if (options.state && options.state.worldWindNavigator){
