@@ -24,7 +24,7 @@ const TTL = 5;
 // ============ creators ===========
 
 const add = common.add(actionAdd);
-const setActiveKey = common.setActiveKey(actionSetActiveKey);
+const setActiveKey = common.setActiveKey(ActionTypes.USERS);
 
 function onLogin() {
 	return (dispatch) => {
@@ -285,13 +285,6 @@ function actionAddGroups(groups) {
 	return {
 		type: ActionTypes.USERS.GROUPS.ADD,
 		data: groups
-	}
-}
-
-function actionSetActiveKey(key) {
-	return {
-		type: ActionTypes.USERS.SET_ACTIVE_KEY,
-		key
 	}
 }
 

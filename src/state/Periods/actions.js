@@ -6,7 +6,7 @@ import Select from "../Select";
 // ============ creators ===========
 
 const add = common.add(actionAdd);
-const setActiveKey = common.setActiveKey(actionSetActiveKey);
+const setActiveKey = common.setActiveKey(ActionTypes.PERIODS);
 const setActiveKeys = common.setActiveKeys(actionSetActiveKeys);
 const useIndexed = common.useIndexed(Select.periods.getSubstate, 'periods', actionAdd, actionAddIndex, actionEnsureError, actionRegisterUseIndexed);
 const refreshAllIndexes = common.refreshAllIndexes(Select.periods.getSubstate, `periods`, actionAdd, actionAddIndex, actionClearIndexes, () => {});
@@ -61,13 +61,6 @@ function actionRegisterUseIndexed(componentId, filterByActive, filter, order, st
 		order,
 		start,
 		length
-	}
-}
-
-function actionSetActiveKey(key) {
-	return {
-		type: ActionTypes.PERIODS.SET_ACTIVE_KEY,
-		key: key
 	}
 }
 

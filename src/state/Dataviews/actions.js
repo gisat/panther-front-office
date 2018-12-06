@@ -23,7 +23,7 @@ const TTL = 5;
 // ============ creators ===========
 
 const add = common.add(actionAdd);
-const setActiveKey = common.setActiveKey(actionSetActiveKey);
+const setActiveKey = common.setActiveKey(ActionTypes.DATAVIEWS);
 const useIndexed = common.useIndexed(Select.dataviews.getSubstate, 'dataviews', actionAdd, actionAddIndex, ensureForScopeError, registerUseIndexed);
 const useKeys = common.useKeys(Select.dataviews.getSubstate, `dataviews`, actionAdd, () => {}, actionUseKeysRegister);
 const refreshAllIndexes = common.refreshAllIndexes(Select.dataviews.getSubstate, `dataviews`, actionAdd, actionAddIndex, actionClearIndexes, () => {});
@@ -210,13 +210,6 @@ function actionApiDeleteViewRequestError(error) {
 	return {
 		type: ActionTypes.DATAVIEWS_DELETE_REQUEST_ERROR,
 		error: error
-	}
-}
-
-function actionSetActiveKey(key) {
-	return {
-		type: ActionTypes.DATAVIEWS.SET_ACTIVE_KEY,
-		key: key
 	}
 }
 

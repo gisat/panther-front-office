@@ -8,7 +8,7 @@ import AttributesActions from "../Attributes/actions";
 // ============ creators ===========
 
 const add = common.add(actionAdd);
-const setActiveKey = common.setActiveKey(actionSetActiveKey);
+const setActiveKey = common.setActiveKey(ActionTypes.THEMES);
 const useIndexed = common.useIndexed(Select.themes.getSubstate, 'themes', actionAdd, actionAddIndex, ensureForScopeError, actionRegisterUseIndexed);
 const refreshAllIndexes = common.refreshAllIndexes(Select.themes.getSubstate, `themes`, actionAdd, actionAddIndex, actionClearIndexes, () => {});
 

@@ -13,7 +13,7 @@ import Action from "../Action";
 // ============ creators ===========
 
 const add = common.add(actionAdd);
-const setActiveKey = common.setActiveKey(actionSetActive);
+const setActiveKey = common.setActiveKey(ActionTypes.PLACES);
 const setActiveKeys = common.setActiveKeys(actionSetActiveKeys);
 const useIndexed = common.useIndexed(Select.places.getSubstate, 'places', actionAdd, actionAddIndex, ensureForScopeError, actionRegisterUseIndexed);
 const refreshAllIndexes = common.refreshAllIndexes(Select.places.getSubstate, `places`, actionAdd, actionAddIndex, actionClearIndexes, () => {});
@@ -100,13 +100,6 @@ function actionEnsureError(err) {
 	return {
 		type: ActionTypes.PLACES.ENSURE.ERROR,
 		error: err
-	}
-}
-
-function actionSetActive(key) {
-	return {
-		type: ActionTypes.PLACES_SET_ACTIVE,
-		key: key
 	}
 }
 

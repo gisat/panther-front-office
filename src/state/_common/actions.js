@@ -83,14 +83,6 @@ const addIndex = (action) => {
 	}
 };
 
-const setActiveKey = (action) => {
-	return (key) => {
-		return dispatch => {
-			dispatch(action(key));
-		};
-	}
-};
-
 const setActiveKeys = (action) => {
 	return (keys) => {
 		return dispatch => {
@@ -371,6 +363,16 @@ function actionDataSetOutdated() {
 
 // ============ specific store namespace actions ===========
 
+const creator = (action) => {
+	return (actionTypes) => {
+		return (...args) => {
+			return dispatch => {
+				dispatch(action(actionTypes, ...args));
+			};
+		};
+	};
+};
+
 function action(actionTypes, type, payload) {
 	type = type.split('.');
 	_.each(type, pathSegment => {
@@ -390,6 +392,10 @@ function actionAddIndex(actionTypes, filter, order, count, start, data, changedO
 	return action(actionTypes, 'INDEX.ADD', {filter, order, count, start, data, changedOn});
 }
 
+function actionSetActiveKey(actionTypes, key) {
+	return action(actionTypes, 'SET_ACTIVE_KEY', {key});
+}
+
 // ============ export ===========
 
 export default {
@@ -398,11 +404,13 @@ export default {
 	ensureIndex,
 	loadAll,
 	loadFiltered,
-	setActiveKey,
+	setActiveKey: creator(actionSetActiveKey),
 	setActiveKeys,
 	refreshAllIndexes,
 	request: requestWrapper,
 	useKeys,
 	useIndexed,
-	actionDataSetOutdated
+
+	actionDataSetOutdated,
+	actionSetActiveKey
 }
