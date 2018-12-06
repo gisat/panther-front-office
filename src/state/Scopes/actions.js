@@ -7,8 +7,9 @@ import common from '../_common/actions';
 
 // ============ creators ===========
 
-const useIndexed = common.useIndexed(Select.scopes.getSubstate, 'scopes', actionAdd, actionAddIndex, () => {}, actionUseIndexedRegister);
-const refreshAllIndexes = common.refreshAllIndexes(Select.scopes.getSubstate, `scopes`, actionAdd, actionAddIndex, actionClearIndexes, () => {});
+const add = common.add(ActionTypes.SCOPES);
+const useIndexed = common.useIndexed(Select.scopes.getSubstate, 'scopes', add, actionAddIndex, () => {}, actionUseIndexedRegister);
+const refreshAllIndexes = common.refreshAllIndexes(Select.scopes.getSubstate, `scopes`, add, actionAddIndex, actionClearIndexes, () => {});
 
 function setActiveKey(key) {
 	return dispatch => {
@@ -19,7 +20,7 @@ function setActiveKey(key) {
 
 function ensure(keys) {
 	return dispatch => {
-		dispatch(common.ensure(Select.scopes.getSubstate, 'scopes', keys, actionAdd, actionEnsureError));
+		dispatch(common.ensure(Select.scopes.getSubstate, 'scopes', keys, add, actionEnsureError));
 	}
 }
 
@@ -53,7 +54,7 @@ function loadAll() {
 
 function loadAllSuccess(result) {
 	return dispatch => {
-		dispatch(actionAdd(result));
+		dispatch(add(result));
 	}
 }
 
@@ -71,18 +72,11 @@ function loadForKeys(keys){
 				in: keys
 			}
 		};
-		return dispatch(common.loadFiltered('scopes', filter, actionAdd, actionLoadError));
+		return dispatch(common.loadFiltered('scopes', filter, add, actionLoadError));
 	}
 }
 
 // ============ actions ===========
-
-function actionAdd(scopes) {
-	return {
-		type: ActionTypes.SCOPES.ADD,
-		data: scopes
-	}
-}
 
 function actionAddIndex(filter, order, count, start, data, changedOn) {
 	return {
@@ -144,7 +138,7 @@ function actionUseIndexedRegister(componentId, filterByActive, filter, order, st
 // ============ export ===========
 
 export default {
-	add: common.add(actionAdd),
+	add,
 	setActiveKey,
 	loadForKeys,
 	loadAll,

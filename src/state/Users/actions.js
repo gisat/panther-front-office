@@ -23,7 +23,7 @@ const TTL = 5;
 
 // ============ creators ===========
 
-const add = common.add(actionAdd);
+const add = common.add(ActionTypes.USERS);
 const setActiveKey = common.setActiveKey(ActionTypes.USERS);
 
 function onLogin() {
@@ -356,7 +356,7 @@ function actionLogout() {
 // ============ export ===========
 
 export default {
-	add: common.add(actionAdd),
+	add,
 	apiLoad: apiLoad,
 	apiLoadCurrentUser: apiLoadCurrentUser,
 	apiLoginUser: apiLoginUser,

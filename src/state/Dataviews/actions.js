@@ -22,17 +22,17 @@ const TTL = 5;
 
 // ============ creators ===========
 
-const add = common.add(actionAdd);
+const add = common.add(ActionTypes.DATAVIEWS);
 const setActiveKey = common.setActiveKey(ActionTypes.DATAVIEWS);
-const useIndexed = common.useIndexed(Select.dataviews.getSubstate, 'dataviews', actionAdd, actionAddIndex, ensureForScopeError, registerUseIndexed);
-const useKeys = common.useKeys(Select.dataviews.getSubstate, `dataviews`, actionAdd, () => {}, actionUseKeysRegister);
-const refreshAllIndexes = common.refreshAllIndexes(Select.dataviews.getSubstate, `dataviews`, actionAdd, actionAddIndex, actionClearIndexes, () => {});
+const useIndexed = common.useIndexed(Select.dataviews.getSubstate, 'dataviews', add, actionAddIndex, ensureForScopeError, registerUseIndexed);
+const useKeys = common.useKeys(Select.dataviews.getSubstate, `dataviews`, add, () => {}, actionUseKeysRegister);
+const refreshAllIndexes = common.refreshAllIndexes(Select.dataviews.getSubstate, `dataviews`, add, actionAddIndex, actionClearIndexes, () => {});
 
 function addMongoView(view) {
 	return (dispatch, getState) => {
 		let existingView = Select.dataviews.getView(getState(), view._id);
 		if (!existingView){
-			dispatch(actionAdd([{
+			dispatch(add([{
 				key: view._id,
 				data: view.conf
 			}]))
@@ -160,7 +160,7 @@ function loadByKey(key) {
 function ensureForScope(scopeKey, start, length, componentId) {
 	return (dispatch) => {
 		let getSubstate = Select.dataviews.getSubstate;
-		dispatch(common.ensureIndex(getSubstate, 'dataviews', {dataset: scopeKey}, null, start, length, actionAdd, actionAddIndex, ensureForScopeError, componentId));
+		dispatch(common.ensureIndex(getSubstate, 'dataviews', {dataset: scopeKey}, null, start, length, add, actionAddIndex, ensureForScopeError, componentId));
 	}
 }
 
@@ -177,13 +177,6 @@ function ensureForScopeError(data) {
 }
 
 // ============ actions ===========
-
-function actionAdd(views) {
-	return {
-		type: ActionTypes.DATAVIEWS.ADD,
-		data: views
-	}
-}
 
 function actionRemove(keys) {
 	return {

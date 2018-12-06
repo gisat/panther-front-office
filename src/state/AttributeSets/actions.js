@@ -8,8 +8,8 @@ import common from "../_common/actions";
 
 // ============ creators ===========
 
-const add = common.add(actionAdd);
-const setActiveKeys = common.setActiveKeys(actionSetActiveKeys);
+const add = common.add(ActionTypes.ATTRIBUTE_SETS);
+const setActiveKeys = common.setActiveKeys(ActionTypes.ATTRIBUTE_SETS);
 
 function addAndSetActive(data){
 	return (dispatch) => {
@@ -34,20 +34,6 @@ function loadForTopics(topics) {
 }
 
 // ============ actions ===========
-
-function actionAdd(attributeSets) {
-	return {
-		type: ActionTypes.ATTRIBUTE_SETS.ADD,
-		data: attributeSets
-	}
-}
-
-function actionSetActiveKeys(attributeSets) {
-	return {
-		type: ActionTypes.ATTRIBUTE_SETS.SET_ACTIVE_KEYS,
-		keys: attributeSets
-	}
-}
 
 function actionLoadError(error) {
 	return {

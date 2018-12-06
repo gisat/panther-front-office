@@ -83,14 +83,6 @@ const addIndex = (action) => {
 	}
 };
 
-const setActiveKeys = (action) => {
-	return (keys) => {
-		return dispatch => {
-			dispatch(action(keys));
-		};
-	}
-};
-
 const useKeys = (getSubstate, dataType, actionAdd, errorAction, registerUseKeys) => {
 	return (keys, componentId) => {
 		return dispatch => {
@@ -396,16 +388,20 @@ function actionSetActiveKey(actionTypes, key) {
 	return action(actionTypes, 'SET_ACTIVE_KEY', {key});
 }
 
+function actionSetActiveKeys(actionTypes, keys) {
+	return action(actionTypes, 'SET_ACTIVE_KEYS', {keys});
+}
+
 // ============ export ===========
 
 export default {
-	add,
+	add: creator(actionAdd),
 	ensure,
 	ensureIndex,
 	loadAll,
 	loadFiltered,
 	setActiveKey: creator(actionSetActiveKey),
-	setActiveKeys,
+	setActiveKeys: creator(actionSetActiveKeys),
 	refreshAllIndexes,
 	request: requestWrapper,
 	useKeys,

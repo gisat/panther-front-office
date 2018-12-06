@@ -7,16 +7,7 @@ import common from "../_common/actions";
 
 // ============ creators ===========
 
-const add = common.add(actionAdd);
-
-// ============ actions ===========
-
-function actionAdd(layers) {
-	return {
-		type: ActionTypes.WMS_LAYERS_ADD,
-		data: layers
-	}
-}
+const add = common.add(ActionTypes.WMS_LAYERS);
 
 // ============ export ===========
 

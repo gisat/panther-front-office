@@ -24,7 +24,7 @@ const setDefaultSituationActive = (state, action) => {
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case ActionTypes.SCENARIOS_ADD:
+		case ActionTypes.SCENARIOS.ADD:
 			return common.add(state, action);
 		case ActionTypes.SCENARIOS_EDITED_UPDATE:
 			return common.updateEdited(state, action);

@@ -4,16 +4,7 @@ import common from '../_common/actions';
 
 // ============ creators ===========
 
-const add = common.add(actionAdd);
-
-// ============ actions ===========
-
-function actionAdd(layerTemplates) {
-	return {
-		type: ActionTypes.LAYER_TEMPLATES_ADD,
-		data: layerTemplates
-	}
-}
+const add = common.add(ActionTypes.LAYER_TEMPLATES);
 
 // ============ export ===========
 

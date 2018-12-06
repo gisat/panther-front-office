@@ -11,7 +11,7 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case ActionTypes.STYLES_ADD:
+		case ActionTypes.STYLES.ADD:
 			return common.add(state, action);
 		default:
 			return state;

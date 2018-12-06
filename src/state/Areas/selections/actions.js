@@ -6,7 +6,7 @@ import utils from '../../../utils/utils'
 
 import common from '../../_common/actions';
 
-const add = common.add(actionAdd);
+const add = common.add(ActionTypes.AREAS.SELECTIONS);
 
 function update(data) {
 	return (dispatch) => {
@@ -72,12 +72,6 @@ function updateSelectionByColour(colour, attributeFilter) {
 
 
 // ============ actions ===========
-function actionAdd(selections){
-	return {
-		type: ActionTypes.AREAS_SELECTIONS_ADD,
-		data: selections
-	}
-}
 
 function actionSetActiveKeys(keys){
 	return {

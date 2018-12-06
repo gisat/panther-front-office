@@ -10,7 +10,7 @@ const INITIAL_STATE = {
 
 export default function tasksReducer(state = INITIAL_STATE, action) {
 	switch (action.type) {
-		case ActionTypes.WMS_LAYERS_ADD:
+		case ActionTypes.WMS_LAYERS.ADD:
 			return common.add(state, action);
 		default:
 			return state;

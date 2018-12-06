@@ -7,10 +7,10 @@ import AttributesActions from "../Attributes/actions";
 
 // ============ creators ===========
 
-const add = common.add(actionAdd);
+const add = common.add(ActionTypes.THEMES);
 const setActiveKey = common.setActiveKey(ActionTypes.THEMES);
-const useIndexed = common.useIndexed(Select.themes.getSubstate, 'themes', actionAdd, actionAddIndex, ensureForScopeError, actionRegisterUseIndexed);
-const refreshAllIndexes = common.refreshAllIndexes(Select.themes.getSubstate, `themes`, actionAdd, actionAddIndex, actionClearIndexes, () => {});
+const useIndexed = common.useIndexed(Select.themes.getSubstate, 'themes', add, actionAddIndex, ensureForScopeError, actionRegisterUseIndexed);
+const refreshAllIndexes = common.refreshAllIndexes(Select.themes.getSubstate, `themes`, add, actionAddIndex, actionClearIndexes, () => {});
 
 function setActive(key){
 	return (dispatch, getState) => {
@@ -43,7 +43,7 @@ function loadByKeys(keys){
 				in: keys
 			}
 		};
-		return dispatch(common.loadFiltered('themes', filter, actionAdd, actionLoadError));
+		return dispatch(common.loadFiltered('themes', filter, add, actionLoadError));
 	}
 }
 
@@ -54,13 +54,6 @@ function ensureForScopeError(data) {
 }
 
 // ============ actions ===========
-
-function actionAdd(periods) {
-	return {
-		type: ActionTypes.THEMES.ADD,
-		data: periods
-	}
-}
 
 function actionAddIndex(filter, order, count, start, data) {
 	return {

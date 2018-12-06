@@ -11,7 +11,7 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case ActionTypes.LAYER_TEMPLATES_ADD:
+		case ActionTypes.LAYER_TEMPLATES.ADD:
 			return common.add(state, action);
 		default:
 			return state;

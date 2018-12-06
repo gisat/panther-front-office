@@ -9,20 +9,13 @@ import Select from "../Select";
 function add(data) {
 	return (dispatch) => {
 		if (data && data.length){
-			dispatch(common.add(actionAdd)(data));
+			dispatch(common.add(ActionTypes.ATTRIBUTES)(data));
 		}
 		dispatch(actionInitializeForExt());
 	}
 }
 
 // ============ actions ===========
-
-function actionAdd(attributes) {
-	return {
-		type: ActionTypes.ATTRIBUTES.ADD,
-		data: attributes
-	}
-}
 
 function actionEnsureError(err) {
 	return {

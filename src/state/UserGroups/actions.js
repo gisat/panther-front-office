@@ -11,7 +11,7 @@ const TTL = 5;
 
 // ============ creators ===========
 
-const add = common.add(actionAdd);
+const add = common.add(ActionTypes.USER_GROUPS);
 
 function apiLoad(ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
@@ -38,7 +38,7 @@ function apiLoad(ttl) {
 								return group;
 							});
 						})).then(groups => {
-							dispatch(actionAdd(groups));
+							dispatch(add(groups));
 						});
 					});
 				} else {
@@ -54,15 +54,6 @@ function apiLoad(ttl) {
 			}
 		);
 	};
-}
-
-// ============ actions ===========
-
-function actionAdd(groups) {
-	return {
-		type: ActionTypes.USER_GROUPS_ADD,
-		data: groups
-	}
 }
 
 // ============ export ===========

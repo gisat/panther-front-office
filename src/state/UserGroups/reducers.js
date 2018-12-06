@@ -10,7 +10,7 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case ActionTypes.USER_GROUPS_ADD:
+		case ActionTypes.USER_GROUPS.ADD:
 			return common.add(state, action);
 		default:
 			return state;

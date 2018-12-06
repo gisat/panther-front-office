@@ -12,11 +12,11 @@ import Action from "../Action";
 
 // ============ creators ===========
 
-const add = common.add(actionAdd);
+const add = common.add(ActionTypes.PLACES);
 const setActiveKey = common.setActiveKey(ActionTypes.PLACES);
-const setActiveKeys = common.setActiveKeys(actionSetActiveKeys);
-const useIndexed = common.useIndexed(Select.places.getSubstate, 'places', actionAdd, actionAddIndex, ensureForScopeError, actionRegisterUseIndexed);
-const refreshAllIndexes = common.refreshAllIndexes(Select.places.getSubstate, `places`, actionAdd, actionAddIndex, actionClearIndexes, () => {});
+const setActiveKeys = common.setActiveKeys(ActionTypes.PLACES);
+const useIndexed = common.useIndexed(Select.places.getSubstate, 'places', add, actionAddIndex, ensureForScopeError, actionRegisterUseIndexed);
+const refreshAllIndexes = common.refreshAllIndexes(Select.places.getSubstate, `places`, add, actionAddIndex, actionClearIndexes, () => {});
 
 function setActive(keys) {
 	return (dispatch, getState) => {
@@ -71,13 +71,6 @@ function ensureForScopeError(data) {
 
 // ============ actions ===========
 
-function actionAdd(places) {
-	return {
-		type: ActionTypes.PLACES_ADD,
-		data: places
-	}
-}
-
 function actionAddIndex(filter, order, count, start, data, changedOn) {
 	return {
 		type: ActionTypes.PLACES.INDEX.ADD,
@@ -100,13 +93,6 @@ function actionEnsureError(err) {
 	return {
 		type: ActionTypes.PLACES.ENSURE.ERROR,
 		error: err
-	}
-}
-
-function actionSetActiveKeys(places) {
-	return {
-		type: ActionTypes.PLACES_SET_ACTIVE_MULTI,
-		keys: places
 	}
 }
 
@@ -140,7 +126,7 @@ function actionInitializeForExt() {
 
 export default {
 	add,
-	ensure: common.ensure.bind(this, Select.places.getSubstate, 'places', actionAdd, actionEnsureError),
+	ensure: common.ensure.bind(this, Select.places.getSubstate, 'places', add, actionEnsureError),
 	refreshAllIndexes,
 	setActive,
 	setActiveKey,

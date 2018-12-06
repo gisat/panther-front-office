@@ -18,7 +18,7 @@ const TTL = 5;
 
 // ============ creators ===========
 
-const add = common.add(actionAdd);
+const add = common.add(ActionTypes.SCENARIOS);
 
 // Edited data
 function addEditedScenario(key, options){
@@ -1007,13 +1007,6 @@ function apiCreateScenariosReceive(data) {
 }
 
 // ============ actions ===========
-
-function actionAdd(scenarios) {
-	return {
-		type: ActionTypes.SCENARIOS_ADD,
-		data: scenarios
-	}
-}
 
 function actionSetActive(scenario) {
 	return {

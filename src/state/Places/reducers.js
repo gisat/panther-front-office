@@ -11,7 +11,7 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case ActionTypes.PLACES_ADD:
+		case ActionTypes.PLACES.ADD:
 			return common.add(state, action);
 		case ActionTypes.PLACES.INDEX.ADD:
 			return common.addIndex(state, action);
