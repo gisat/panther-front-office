@@ -7,7 +7,10 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		scenariosWindowDocked: Select.components.windows.isWindowDocked(state, {key: 'scenarios'}),
 		snapshotsWindowDocked: Select.components.windows.isWindowDocked(state, {key: 'snapshots'}),
-		viewsWindowDocked: Select.components.windows.isWindowDocked(state, {key: 'views'})
+		viewsWindowDocked: Select.components.windows.isWindowDocked(state, {key: 'views'}),
+		shareWindowDocked: Select.components.windows.isWindowDocked(state, {key: 'share'}),
+		shareWindowVisible: Select.components.windows.isWindowOpen(state, {key: 'share'}),
+
 	}
 };
 
