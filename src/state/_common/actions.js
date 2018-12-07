@@ -83,19 +83,19 @@ const addIndex = (action) => {
 	}
 };
 
-const useKeys = (getSubstate, dataType, actionAdd, errorAction, registerUseKeys) => {
+const useKeys = (getSubstate, dataType, actionTypes) => {
 	return (keys, componentId) => {
 		return dispatch => {
-			dispatch(registerUseKeys(componentId, keys));
-			dispatch(ensure(getSubstate, dataType, actionAdd, errorAction, keys));
+			dispatch(actionUseKeysRegister(actionTypes, componentId, keys));
+			dispatch(ensure(getSubstate, dataType, actionTypes, keys));
 		};
 	}
 };
 
-const useIndexed = (getSubstate, dataType, actionAdd, actionAddIndex, errorAction, registerUseIndexed) => {
+const useIndexed = (getSubstate, dataType, actionTypes) => {
 	return (filterByActive, filter, order, start, length, componentId) => {
 		return (dispatch, getState) => {
-			dispatch(registerUseIndexed(componentId, filterByActive, filter, order, start, length));
+			dispatch(actionUseIndexedRegister(actionTypes, componentId, filterByActive, filter, order, start, length));
 			let state = getState();
 			let fullFilter = commonHelpers.mergeFilters({
 				activeScopeKey: commonSelectors.getActiveKey(state => state.scopes)(state),
@@ -105,38 +105,37 @@ const useIndexed = (getSubstate, dataType, actionAdd, actionAddIndex, errorActio
 				activePlaceKey: commonSelectors.getActiveKey(state => state.places)(state),
 				activePlaceKeys: commonSelectors.getActiveKey(state => state.places)(state),
 			}, filterByActive, filter);
-			dispatch(ensureIndex(getSubstate, dataType, fullFilter, order, start, length, actionAdd, actionAddIndex, errorAction));
+			dispatch(ensureIndex(getSubstate, dataType, fullFilter, order, start, length, actionTypes));
 		};
 	}
 };
 
-function refreshIndex(getSubstate, dataType, filter, order, actionAdd, actionAddIndex, errorAction) {
+function refreshIndex(getSubstate, dataType, filter, order, actionTypes) {
 	return (dispatch, getState) => {
 		let state = getState();
 		let usesForIndex = commonSelectors.getUsesForIndex(getSubstate)(state, filter, order);
 		if (usesForIndex){
 			_.each(usesForIndex.uses, (use) => {
-				dispatch(ensureIndex(getSubstate, dataType, usesForIndex.filter, usesForIndex.order, use.start, use.length, actionAdd, actionAddIndex, errorAction))
+				dispatch(ensureIndex(getSubstate, dataType, usesForIndex.filter, usesForIndex.order, use.start, use.length, actionTypes))
 			});
 		}
 	}
 }
 
-function receive(actionAdd, actionAddIndex) {
-	return (result, dataType, filter, order, start) => {
+function receive(actionTypes, result, dataType, filter, order, start) {
 		return dispatch => {
 			// add data to store
 			if (result.data[dataType].length){
-				dispatch(add(actionAdd)(result.data[dataType]));
+				// dispatch(add(actionAdd)(result.data[dataType]));
+				dispatch(actionAdd(actionTypes, result.data[dataType]));
 			}
 
 			// todo check index - create or clear if needed
-			dispatch(addIndex(actionAddIndex)(filter, order, result.total, start, result.data[dataType], result.changes[dataType]));
+			dispatch(actionAddIndex(actionTypes, filter, order, result.total, start, result.data[dataType], result.changes[dataType]));
 
 			// todo check index - create or clear if needed
 			// todo add data to index
 		}
-	};
 }
 
 function requestWrapper(apiPath, method, query, payload, successAction, errorAction) {
@@ -151,7 +150,7 @@ function requestWrapper(apiPath, method, query, payload, successAction, errorAct
 	}
 }
 
-function loadAll(dataType, successAction, errorAction) {
+function loadAll(dataType, actionTypes) {
 	return dispatch => {
 		let apiPath = path.join('backend/rest/metadata/filtered', dataType);
 		let payload = {
@@ -160,11 +159,11 @@ function loadAll(dataType, successAction, errorAction) {
 		request(apiPath, 'POST', null, payload)
 			.then(result => {
 				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
-					dispatch(errorAction(result.errors[dataType] || new Error('no data')));
+					dispatch(actionGeneralError(result.errors[dataType] || new Error('no data')));
 				} else {
 					if (result.total <= PAGE_SIZE) {
 						// everything already loaded
-						dispatch(successAction(result.data[dataType]));
+						dispatch(actionAdd(actionTypes, result.data[dataType]));
 					} else {
 						// load remaining pages
 						let promises = [];
@@ -178,19 +177,19 @@ function loadAll(dataType, successAction, errorAction) {
 						}
 						Promise.all(promises).then(results => {
 							let remainingData = _.flatten(results.map(res => res.data[dataType]));
-							dispatch(successAction([...result.data[dataType], ...remainingData]));
+							dispatch(actionAdd(actionTypes, [...result.data[dataType], ...remainingData]));
 						});
 					}
 				}
 
 			})
 			.catch(error => {
-				dispatch(errorAction(error));
+				dispatch(actionGeneralError(error));
 			});
 	};
 }
 
-function ensure(getSubstate, dataType, actionAdd, errorAction, keys){
+function ensure(getSubstate, dataType, actionTypes, keys){
 	return (dispatch, getState) => {
 		let state = getState();
 
@@ -201,12 +200,12 @@ function ensure(getSubstate, dataType, actionAdd, errorAction, keys){
 					in: keysToLoad
 				}
 			};
-			return dispatch(loadFiltered(dataType, filter, actionAdd, errorAction));
+			return dispatch(loadFiltered(dataType, actionTypes, filter));
 		}
 	}
 }
 
-function ensureIndex(getSubstate, dataType, filter, order, start, length, actionAdd, actionAddIndex, errorAction){
+function ensureIndex(getSubstate, dataType, filter, order, start, length, actionTypes){
 	return (dispatch, getState) => {
 		let state = getState();
 		let total = commonSelectors.getIndexTotal(getSubstate)(state, filter, order);
@@ -226,10 +225,10 @@ function ensureIndex(getSubstate, dataType, filter, order, start, length, action
 				}
 				if (requestNeeded){
 					let completeFilter = loadedKeys.length ? {...filter, key: {notin: loadedKeys}} : filter;
-					dispatch(loadFilteredPage(dataType, completeFilter, order, start + i, changedOn, actionAdd, actionAddIndex, errorAction))
+					dispatch(loadFilteredPage(dataType, completeFilter, order, start + i, changedOn, actionTypes))
 						.catch((err) => {
 							if (err.message === 'Index outdated'){
-								dispatch(refreshIndex(getSubstate, dataType, filter, order, actionAdd, actionAddIndex, errorAction));
+								dispatch(refreshIndex(getSubstate, dataType, filter, order, actionTypes));
 							}
 						});
 				}
@@ -238,15 +237,15 @@ function ensureIndex(getSubstate, dataType, filter, order, start, length, action
 			return Promise.resolve();
 		} else {
 			// we don't have index
-			return dispatch(loadFilteredPage(dataType, filter, order, start, changedOn, actionAdd, actionAddIndex, errorAction)).then((response) => {
+			return dispatch(loadFilteredPage(dataType, filter, order, start, changedOn, actionTypes)).then((response) => {
 				if (response && response.message){
 					// do nothing
 				} else {
-					dispatch(ensureIndex(getSubstate, dataType, filter, order, start + PAGE_SIZE, length - PAGE_SIZE, actionAdd, actionAddIndex, errorAction));
+					dispatch(ensureIndex(getSubstate, dataType, filter, order, start + PAGE_SIZE, length - PAGE_SIZE, actionTypes));
 				}
 			}).catch((err)=>{
 				if (err.message === 'Index outdated'){
-					dispatch(refreshIndex(getSubstate, dataType, filter, order, actionAdd, actionAddIndex, errorAction));
+					dispatch(refreshIndex(getSubstate, dataType, filter, order, actionTypes));
 				} else {
 					throw new Error(`_common/actions#ensure: ${err}`);
 				}
@@ -255,7 +254,7 @@ function ensureIndex(getSubstate, dataType, filter, order, start, length, action
 	};
 }
 
-function loadFilteredPage(dataType, filter, order, start, changedOn, actionAdd, actionAddIndex, errorAction) {
+function loadFilteredPage(dataType, filter, order, start, changedOn, actionTypes) {
 	return dispatch => {
 		let apiPath = path.join('backend/rest/metadata/filtered', dataType);
 
@@ -268,22 +267,22 @@ function loadFilteredPage(dataType, filter, order, start, changedOn, actionAdd, 
 		return request(apiPath, 'POST', null, payload)
 			.then(result => {
 				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
-					dispatch(errorAction(result.errors[dataType] || new Error('no data')));
+					dispatch(actionGeneralError(result.errors[dataType] || new Error('no data')));
 					throw new Error(result.errors[dataType] || 'no data');
 				} else if (result.changes && result.changes[dataType] && moment(result.changes[dataType]).isAfter(changedOn)) {
 					throw new Error('Index outdated');
 				} else {
-					dispatch(receive(actionAdd, actionAddIndex)(result, dataType, filter, order, start));
+					dispatch(receive(actionTypes, result, dataType, filter, order, start));
 				}
 			})
 			.catch(error => {
-				dispatch(errorAction(error));
+				dispatch(actionGeneralError(error));
 				return error;
 			});
 	};
 }
 
-function loadFiltered(dataType, filter, successAction, errorAction) {
+function loadFiltered(dataType, actionTypes, filter) {
 	return dispatch => {
 		let apiPath = path.join('backend/rest/metadata/filtered', dataType);
 		let payload = {
@@ -293,11 +292,11 @@ function loadFiltered(dataType, filter, successAction, errorAction) {
 		return request(apiPath, 'POST', null, payload)
 			.then(result => {
 				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
-					dispatch(errorAction(result.errors[dataType] || new Error('no data')));
+					dispatch(actionGeneralError(result.errors[dataType] || new Error('no data')));
 				} else {
 					if (result.total <= PAGE_SIZE) {
 						// everything already loaded
-						return dispatch(successAction(result.data[dataType]));
+						return dispatch(actionAdd(actionTypes, result.data[dataType]));
 					} else {
 						// load remaining pages
 						let promises = [];
@@ -312,19 +311,19 @@ function loadFiltered(dataType, filter, successAction, errorAction) {
 						}
 						return Promise.all(promises).then(results => {
 							let remainingData = _.flatten(results.map(res => res.data[dataType]));
-							dispatch(successAction([...result.data[dataType], ...remainingData]));
+							dispatch(actionAdd(actionTypes, [...result.data[dataType], ...remainingData]));
 						});
 					}
 				}
 
 			})
 			.catch(error => {
-				dispatch(errorAction(error));
+				dispatch(actionGeneralError(error));
 			});
 	};
 }
 
-function refreshAllIndexes(getSubstate, dataType, actionAdd, actionAddIndex, actionClearIndexes, errorAction) {
+function refreshAllIndexes(getSubstate, dataType, actionTypes) {
 	return () => {
 		return(dispatch, getState) => {
 			dispatch(actionClearIndexes());
@@ -332,13 +331,13 @@ function refreshAllIndexes(getSubstate, dataType, actionAdd, actionAddIndex, act
 			let state = getState();
 
 			let usedKeys = commonSelectors.getUsedKeys(getSubstate)(state);
-			dispatch(ensure(getSubstate, dataType, actionAdd, errorAction, usedKeys));
+			dispatch(ensure(getSubstate, dataType, actionAdd, usedKeys));
 
 			let usedIndexPages = commonSelectors.getUsedIndexPages(getSubstate)(state);
 
 			_.each(usedIndexPages, (usedIndexPage) => {
 				_.each(usedIndexPage.uses, (use) => {
-					dispatch(ensureIndex(getSubstate, dataType, usedIndexPage.filter, usedIndexPage.order, use.start, use.length, actionAdd, actionAddIndex, errorAction))
+					dispatch(ensureIndex(getSubstate, dataType, usedIndexPage.filter, usedIndexPage.order, use.start, use.length, actionTypes))
 				});
 			})
 		}
@@ -351,6 +350,11 @@ function actionDataSetOutdated() {
 	return {
 		type: ActionTypes.COMMON.DATA.SET_OUTDATED
 	}
+}
+
+function actionGeneralError(e) {
+	console.error('common/actions error', e);
+	return {type: 'ERROR'};
 }
 
 // ============ specific store namespace actions ===========
@@ -368,7 +372,10 @@ const creator = (action) => {
 function action(actionTypes, type, payload) {
 	type = type.split('.');
 	_.each(type, pathSegment => {
-		if (!actionTypes.hasOwnProperty(pathSegment)) throw new Error('common/actions#action: Action not in namespace');
+		if (!actionTypes.hasOwnProperty(pathSegment)) {
+			console.error('common/actions#action: Action not in namespace', type, payload);
+			throw new Error('common/actions#action: Action not in namespace');
+		}
 		actionTypes = actionTypes[pathSegment];
 	});
 	if (typeof actionTypes !== 'string') throw new Error('common/actions#action: Action type not string');
@@ -384,12 +391,24 @@ function actionAddIndex(actionTypes, filter, order, count, start, data, changedO
 	return action(actionTypes, 'INDEX.ADD', {filter, order, count, start, data, changedOn});
 }
 
+function actionClearIndexes(actionTypes) {
+	return action(actionTypes, 'INDEX.CLEAR_ALL');
+}
+
 function actionSetActiveKey(actionTypes, key) {
 	return action(actionTypes, 'SET_ACTIVE_KEY', {key});
 }
 
 function actionSetActiveKeys(actionTypes, keys) {
 	return action(actionTypes, 'SET_ACTIVE_KEYS', {keys});
+}
+
+function actionUseIndexedRegister(actionTypes, componentId, filterByActive, filter, order, start, length) {
+	return action(actionTypes, 'USE.INDEXED.REGISTER', {componentId, filterByActive, filter, order, start, length});
+}
+
+function actionUseKeysRegister(actionTypes, componentId, keys) {
+	return action(actionTypes, 'USE.KEYS.REGISTER', {componentId, keys});
 }
 
 // ============ export ===========

@@ -7,21 +7,14 @@ import common from '../_common/actions';
 
 // ============ creators ===========
 
-const add = common.add(ActionTypes.SCOPES);
-const useIndexed = common.useIndexed(Select.scopes.getSubstate, 'scopes', add, actionAddIndex, () => {}, actionUseIndexedRegister);
-const refreshAllIndexes = common.refreshAllIndexes(Select.scopes.getSubstate, `scopes`, add, actionAddIndex, actionClearIndexes, () => {});
+const useIndexed = common.useIndexed(Select.scopes.getSubstate, 'scopes', ActionTypes.SCOPES);
+const refreshAllIndexes = common.refreshAllIndexes(Select.scopes.getSubstate, `scopes`, ActionTypes.SCOPES);
 
 function setActiveKey(key) {
 	return dispatch => {
 		dispatch(actionSetActiveKey(key));
 		dispatch(applyScopeConfiguration());
 	};
-}
-
-function ensure(keys) {
-	return dispatch => {
-		dispatch(common.ensure(Select.scopes.getSubstate, 'scopes', keys, add, actionEnsureError));
-	}
 }
 
 function applyScopeConfiguration() {
@@ -47,21 +40,8 @@ function applyScopeConfiguration() {
 
 function loadAll() {
 	return dispatch => {
-		dispatch(common.loadAll('scopes', loadAllSuccess, loadAllError));
+		dispatch(common.loadAll('scopes', ActionTypes.SCOPES));
 		dispatch(actionLoadRequest());
-	}
-}
-
-function loadAllSuccess(result) {
-	return dispatch => {
-		dispatch(add(result));
-	}
-}
-
-function loadAllError(result) {
-	return dispatch => {
-		dispatch(actionLoadError(result));
-		throw new Error(`state/scopes/actions#loadAllError: ${result}`);
 	}
 }
 
@@ -72,37 +52,11 @@ function loadForKeys(keys){
 				in: keys
 			}
 		};
-		return dispatch(common.loadFiltered('scopes', filter, add, actionLoadError));
+		return dispatch(common.loadFiltered('scopes', ActionTypes.SCOPES, filter));
 	}
 }
 
 // ============ actions ===========
-
-function actionAddIndex(filter, order, count, start, data, changedOn) {
-	return {
-		type: ActionTypes.SCOPES.INDEX.ADD,
-		filter: filter,
-		order: order,
-		count: count,
-		start: start,
-		data: data,
-		changedOn
-	}
-}
-
-function actionEnsureError(err) {
-	return {
-		type: ActionTypes.SCOPES.ENSURE.ERROR,
-		error: err
-	}
-}
-
-function actionLoadError(err) {
-	return {
-		type: ActionTypes.SCOPES.LOAD.ERROR,
-		error: err
-	}
-}
 
 function actionLoadRequest() {
 	return {
@@ -117,31 +71,11 @@ function actionSetActiveKey(key) {
 	}
 }
 
-function actionClearIndexes() {
-	return {
-		type: ActionTypes.SCOPES.INDEX.CLEAR_ALL,
-	}
-}
-
-function actionUseIndexedRegister(componentId, filterByActive, filter, order, start, length) {
-	return {
-		type: ActionTypes.SCOPES.USE.INDEXED.REGISTER,
-		componentId,
-		filterByActive,
-		filter,
-		order,
-		start,
-		length
-	}
-}
-
 // ============ export ===========
 
 export default {
-	add,
 	setActiveKey,
 	loadForKeys,
-	loadAll,
 	refreshAllIndexes,
 	useIndexed
 }

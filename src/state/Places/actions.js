@@ -12,11 +12,10 @@ import Action from "../Action";
 
 // ============ creators ===========
 
-const add = common.add(ActionTypes.PLACES);
 const setActiveKey = common.setActiveKey(ActionTypes.PLACES);
 const setActiveKeys = common.setActiveKeys(ActionTypes.PLACES);
-const useIndexed = common.useIndexed(Select.places.getSubstate, 'places', add, actionAddIndex, ensureForScopeError, actionRegisterUseIndexed);
-const refreshAllIndexes = common.refreshAllIndexes(Select.places.getSubstate, `places`, add, actionAddIndex, actionClearIndexes, () => {});
+const useIndexed = common.useIndexed(Select.places.getSubstate, 'places', ActionTypes.PLACES);
+const refreshAllIndexes = common.refreshAllIndexes(Select.places.getSubstate, `places`, ActionTypes.PLACES);
 
 function setActive(keys) {
 	return (dispatch, getState) => {
@@ -63,55 +62,12 @@ function setActive(keys) {
 	};
 }
 
-function ensureForScopeError(data) {
-	return dispatch => {
-		throw new Error(`state/places/actions#ensureForScopeError: ${data}`);
-	}
-}
-
 // ============ actions ===========
-
-function actionAddIndex(filter, order, count, start, data, changedOn) {
-	return {
-		type: ActionTypes.PLACES.INDEX.ADD,
-		filter: filter,
-		order: order,
-		count: count,
-		start: start,
-		data: data,
-		changedOn
-	}
-}
-
-function actionClearIndexes() {
-	return {
-		type: ActionTypes.PLACES.INDEX.CLEAR_ALL,
-	}
-}
-
-function actionEnsureError(err) {
-	return {
-		type: ActionTypes.PLACES.ENSURE.ERROR,
-		error: err
-	}
-}
 
 function actionClearUseIndexed(componentId) {
 	return {
 		type: ActionTypes.PLACES.USE.INDEXED.CLEAR,
 		componentId
-	}
-}
-
-function actionRegisterUseIndexed(componentId, filterByActive, filter, order, start, length) {
-	return {
-		type: ActionTypes.PLACES.USE.INDEXED.REGISTER,
-		componentId,
-		filterByActive,
-		filter,
-		order,
-		start,
-		length
 	}
 }
 
@@ -125,8 +81,7 @@ function actionInitializeForExt() {
 // ============ export ===========
 
 export default {
-	add,
-	ensure: common.ensure.bind(this, Select.places.getSubstate, 'places', add, actionEnsureError),
+	ensure: common.ensure.bind(this, Select.places.getSubstate, 'places', ActionTypes.PLACES),
 	refreshAllIndexes,
 	setActive,
 	setActiveKey,

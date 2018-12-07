@@ -16,7 +16,7 @@ import PlacesActions from "../Places/actions";
 import ThemesActions from "../_Themes/actions";
 
 import common from "../_common/actions";
-import Action from "../Action";
+import Action from "../Action"; //todo this hsould be enough for actions
 
 const TTL = 5;
 
@@ -24,9 +24,9 @@ const TTL = 5;
 
 const add = common.add(ActionTypes.DATAVIEWS);
 const setActiveKey = common.setActiveKey(ActionTypes.DATAVIEWS);
-const useIndexed = common.useIndexed(Select.dataviews.getSubstate, 'dataviews', add, actionAddIndex, ensureForScopeError, registerUseIndexed);
-const useKeys = common.useKeys(Select.dataviews.getSubstate, `dataviews`, add, () => {}, actionUseKeysRegister);
-const refreshAllIndexes = common.refreshAllIndexes(Select.dataviews.getSubstate, `dataviews`, add, actionAddIndex, actionClearIndexes, () => {});
+const useIndexed = common.useIndexed(Select.dataviews.getSubstate, 'dataviews', ActionTypes.DATAVIEWS);
+const useKeys = common.useKeys(Select.dataviews.getSubstate, `dataviews`, ActionTypes.DATAVIEWS);
+const refreshAllIndexes = common.refreshAllIndexes(Select.dataviews.getSubstate, `dataviews`, ActionTypes.DATAVIEWS);
 
 function addMongoView(view) {
 	return (dispatch, getState) => {
@@ -89,7 +89,7 @@ function apiDeleteView(key, ttl) {
 function loadByKey(key) {
 	return (dispatch, getState) => {
 		let filter = {key: key};
-		dispatch(common.loadFiltered('dataviews', filter, add, loadByKeyError)).then(() => {
+		dispatch(common.loadFiltered('dataviews', ActionTypes.DATAVIEWS, filter)).then(() => {
 			dispatch(setActiveKey(key));
 			let activeDataview = Select.dataviews.getActive(getState());
 			let data = activeDataview && activeDataview.data;
@@ -109,7 +109,7 @@ function loadByKey(key) {
 						if ((data.locations && data.locations.length) || (data.location)){
 							if (data.locations && data.locations.length > 1){
 								dispatch(PlacesActions.setActive(data.locations));
-								dispatch(PlacesActions.ensure(data.locations));
+								dispatch(PlacesActions.ensure(data.locations)); //todo use useKeys everywhere (componentId = 'activeview' or something)
 							} else {
 								dispatch(PlacesActions.setActive(data.location));
 								dispatch(PlacesActions.ensure([data.location]));
@@ -145,6 +145,7 @@ function loadByKey(key) {
 						}
 					})
 					.then(() => {
+						// todo selector attribute sets by topic -> load attributes
 						let attributeKeys = Select.attributeSets.getAttributeKeysForActive(getState());
 						if (attributeKeys){
 							dispatch(AttributesActions.ensure(attributeKeys));
@@ -162,22 +163,9 @@ function loadByKey(key) {
 	}
 }
 
-function ensureForScope(scopeKey, start, length, componentId) {
-	return (dispatch) => {
-		let getSubstate = Select.dataviews.getSubstate;
-		dispatch(common.ensureIndex(getSubstate, 'dataviews', {dataset: scopeKey}, null, start, length, add, actionAddIndex, ensureForScopeError, componentId));
-	}
-}
-
 function loadByKeyError(data) {
 	return dispatch => {
 		throw new Error(`state/dataviews/actions#loadByKeyError: ${data}`);
-	}
-}
-
-function ensureForScopeError(data) {
-	return dispatch => {
-		throw new Error(`state/dataviews/actions#ensureForScopeError: ${data}`);
 	}
 }
 
@@ -211,38 +199,6 @@ function actionApiDeleteViewRequestError(error) {
 	}
 }
 
-function actionAddIndex(filter, order, count, start, data, changedOn) {
-	return {
-		type: ActionTypes.DATAVIEWS.INDEX.ADD,
-		filter: filter,
-		order: order,
-		count: count,
-		start: start,
-		data: data,
-		changedOn
-	}
-}
-
-function registerUseIndexed(componentId, filterByActive, filter, order, start, length) {
-	return {
-		type: ActionTypes.DATAVIEWS.USE.INDEXED.REGISTER,
-		componentId,
-		filterByActive,
-		filter,
-		order,
-		start,
-		length
-	}
-}
-
-function actionUseKeysRegister(componentId, keys) {
-	return {
-		type: ActionTypes.DATAVIEWS.USE.KEYS.REGISTER,
-		componentId,
-		keys
-	}
-}
-
 function actionClearUseindexed(componentId) {
 	return {
 		type: ActionTypes.DATAVIEWS.USE.INDEXED.CLEAR,
@@ -257,17 +213,10 @@ function actionUseKeysClear(componentId) {
 	}
 }
 
-function actionClearIndexes() {
-	return {
-		type: ActionTypes.DATAVIEWS.INDEX.CLEAR_ALL,
-	}
-}
-
 // ============ export ===========
 
 export default {
 	add,
-	ensureForScope,
 	addMongoView,
 	apiDeleteView,
 	loadByKey,

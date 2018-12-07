@@ -17,13 +17,6 @@ function add(data) {
 
 // ============ actions ===========
 
-function actionEnsureError(err) {
-	return {
-		type: ActionTypes.ATTRIBUTES.ENSURE.ERROR,
-		error: err
-	}
-}
-
 // TODO It will be removed along with Ext
 function actionInitializeForExt() {
 	return {
@@ -37,5 +30,5 @@ function actionInitializeForExt() {
 export default {
 	add,
 	initializeForExt: actionInitializeForExt,
-	ensure: common.ensure.bind(this, Select.attributes.getSubstate, 'attributes', add, actionEnsureError),
+	ensure: common.ensure.bind(this, Select.attributes.getSubstate, 'attributes', ActionTypes.ATTRIBUTES),
 }
