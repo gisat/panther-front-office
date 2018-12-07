@@ -48,48 +48,6 @@ const getUniqueAttributeKeysForActiveTheme = createSelector(
 	}
 );
 
-const getAttributesDataByActiveAttributeSets = createSelector(
-	[getAll, getActiveKeys, AttributesSelector.getAttributes],
-	(models, keys, attributesData) => {
-		let attributeSets = {};
-		_.filter(models, model => {
-			let attributeSetKey = _.find(keys, key => {
-				return key === model.key;
-			});
-			if (attributeSetKey){
-				let attributes = [];
-				model.data.attributes.map(attributeKey => {
-					attributes.push(_.find(attributesData, attributeModel => {
-						return attributeModel.key = attributeKey;
-					}));
-				});
-				attributeSets[attributeSetKey] = {
-					attributes: attributes
-				}
-			}
-		});
-		return attributeSets;
-	}
-);
-
-const getAttributeKeysByActiveAttributeSets = createSelector(
-	[getAll, getActiveKeys],
-	(models, keys) => {
-		let attributeSets = {};
-		_.filter(models, model => {
-			let attributeSetKey = _.find(keys, key => {
-				return key === model.key;
-			});
-			if (attributeSetKey){
-				attributeSets[attributeSetKey] = {
-					attributes: model.data.attributes
-				}
-			}
-		});
-		return attributeSets;
-	}
-);
-
 const getAttributeKeysForActive =createSelector(
 	[getActiveModels],
 	(models) => {
@@ -115,8 +73,6 @@ export default {
 	getAllForDataviewAsObject,
 
 	getAttributeKeysForActive,
-	getAttributeKeysByActiveAttributeSets,
-	getAttributesDataByActiveAttributeSets,
 
 	getUniqueAttributeKeysForActiveTheme,
 
