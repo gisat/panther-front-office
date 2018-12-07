@@ -12,6 +12,7 @@ export default store => {
 const setStoreWatchers = store => {
 	common.createWatcher(store, Select.periods.getAllForDataviewAsObject, byKeyWatcher, 'byKeyForDataview');
 	common.createWatcher(store, Select.periods.getActiveKeys, activeKeysWatcher);
+	common.createWatcher(store, Select.periods.getActiveKey, activeKeyWatcher);
 };
 
 const setEventListeners = store => {
@@ -19,8 +20,15 @@ const setEventListeners = store => {
 		switch(event) {
 			case "periods#change":
 				let periods = options;
-				if (!_.isArray(periods)) periods = [periods];
-				store.dispatch(Action.periods.setActiveKeys(periods));
+				if (_.isArray(periods)){
+					if (periods.length > 1){
+						store.dispatch(Action.periods.setActiveKeys(periods));
+					} else {
+						store.dispatch(Action.periods.setActiveKey(periods[0]));
+					}
+				} else {
+					store.dispatch(Action.periods.setActiveKey(periods));
+				}
 				break;
 			default:
 				break;
@@ -31,8 +39,15 @@ const setEventListeners = store => {
 // ======== state watchers ========
 const activeKeysWatcher = (value, previousValue) => {
 	console.log('@@ activePeriodsWatcher', previousValue, '->', value);
-	if (!previousValue || (previousValue && (previousValue !== value))){
+	if (value && (!previousValue || (previousValue && (previousValue !== value)))){
 		window.Stores.notify('REDUX_SET_ACTIVE_PERIODS', {keys: value});
+	}
+};
+
+const activeKeyWatcher = (value, previousValue) => {
+	console.log('@@ activePeriodsWatcher', previousValue, '->', value);
+	if (value && (!previousValue || (previousValue && (previousValue !== value)))){
+		window.Stores.notify('REDUX_SET_ACTIVE_PERIODS', {keys: [value]});
 	}
 };
 

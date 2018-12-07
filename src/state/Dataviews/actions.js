@@ -124,7 +124,12 @@ function loadByKey(key) {
 			}
 
 			if (data.years){
-				dispatch(PeriodsActions.setActiveKeys(data.years));
+				if (data.years.length > 1){
+					dispatch(PeriodsActions.setActiveKeys(data.years));
+				} else {
+					let year = _.isArray(data.years) ? data.years[0] : data.years;
+					dispatch(PeriodsActions.setActiveKey(year));
+				}
 				dispatch(PeriodsActions.ensure(data.years));
 			}
 
