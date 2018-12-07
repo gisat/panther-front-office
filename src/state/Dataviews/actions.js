@@ -145,8 +145,7 @@ function loadByKey(key) {
 						}
 					})
 					.then(() => {
-						// todo selector attribute sets by topic -> load attributes
-						let attributeKeys = Select.attributeSets.getAttributeKeysForActive(getState());
+						let attributeKeys = Select.attributeSets.getUniqueAttributeKeysForActiveTheme(getState());
 						if (attributeKeys){
 							dispatch(AttributesActions.ensure(attributeKeys));
 						} else {

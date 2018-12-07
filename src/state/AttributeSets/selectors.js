@@ -3,6 +3,7 @@ import _ from 'lodash';
 
 import common from "../_common/selectors";
 import AttributesSelector from "../Attributes/selectors";
+import ThemesSelectors from "../_Themes/selectors";
 
 
 const getSubstate = state => state.attributeSets;
@@ -15,6 +16,37 @@ const getAllForDataview = common.getAllForDataview(getSubstate);
 const getAllForDataviewAsObject = common.getAllForDataviewAsObject(getSubstate);
 
 const isInitializedForExt = common.isInitializedForExt(getSubstate);
+
+// TODO create tests
+const getByActiveThemeTopics = createSelector(
+	[getAll, ThemesSelectors.getActive],
+	(attributeSets, activeTheme) => {
+		if (attributeSets && activeTheme){
+			return _.filter(attributeSets, (attributeSet) => {
+				return _.includes(activeTheme.data.topics, attributeSet.data.topic);
+			});
+		} else {
+			return null;
+		}
+	}
+);
+
+// TODO create tests
+const getUniqueAttributeKeysForActiveTheme = createSelector(
+	[getByActiveThemeTopics],
+	(attributeSets) => {
+		if (attributeSets && attributeSets.length){
+			let allAttributeKeys = attributeSets.map((attributeSet) => {
+				return attributeSet.data.attributes;
+			});
+			let uniqueAttributeKeys = _.uniq(_.flatten(allAttributeKeys));
+			return uniqueAttributeKeys.length ? uniqueAttributeKeys : null;
+
+		} else {
+			return null;
+		}
+	}
+);
 
 const getAttributesDataByActiveAttributeSets = createSelector(
 	[getAll, getActiveKeys, AttributesSelector.getAttributes],
@@ -85,6 +117,8 @@ export default {
 	getAttributeKeysForActive,
 	getAttributeKeysByActiveAttributeSets,
 	getAttributesDataByActiveAttributeSets,
+
+	getUniqueAttributeKeysForActiveTheme,
 
 	isInitializedForExt
 };
