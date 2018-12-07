@@ -97,7 +97,7 @@ export default {
 		return {
 			...state,
 			inUse: {
-				...state.inUse.indexes,
+				...state.inUse,
 				keys: {
 					...state.inUse.keys,
 					[action.componentId]: action.keys
