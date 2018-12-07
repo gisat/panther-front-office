@@ -21,7 +21,7 @@ const mapDispatchToPropsFactory = () => {
 	return (dispatch) => {
 		return {
 			onChangeTheme: (key) => {
-				dispatch(Action.themes.setActive(key));
+				dispatch(Action.themes.setActive(key, componentId));
 			},
 			onMount: () => {
 				dispatch(Action.themes.useIndexed({scope: true}, null, order, 1, 1000, componentId));

@@ -35,7 +35,17 @@ export default utils.deepKeyMirror({
 		},
 		INITIALIZE_FOR_EXT: null, // TODO It will be removed along with Ext
 		SET_ACTIVE_KEY: null,
-		SET_ACTIVE_KEYS: null
+		SET_ACTIVE_KEYS: null,
+		USE: {
+			INDEXED: {
+				CLEAR: null,
+				REGISTER: null
+			},
+			KEYS: {
+				CLEAR: null,
+				REGISTER: null
+			}
+		}
 	},
 
 	ATTRIBUTE_SETS: {
@@ -52,7 +62,17 @@ export default utils.deepKeyMirror({
 		},
 		INITIALIZE_FOR_EXT: null, // TODO It will be removed along with Ext
 		SET_ACTIVE_KEY: null,
-		SET_ACTIVE_KEYS: null
+		SET_ACTIVE_KEYS: null,
+		USE: {
+			INDEXED: {
+				CLEAR: null,
+				REGISTER: null
+			},
+			KEYS: {
+				CLEAR: null,
+				REGISTER: null
+			}
+		}
 	},
 
 	CHOROPLETHS_SET_ACTIVE_KEYS: 'CHOROPLETHS_SET_ACTIVE_KEYS',

@@ -1,9 +1,8 @@
+import Action from '../Action';
 import ActionTypes from '../../constants/ActionTypes';
 import _ from 'lodash';
 import common from '../_common/actions';
 import Select from "../Select";
-import AttributeSetsActions from "../AttributeSets/actions";
-import AttributesActions from "../Attributes/actions";
 
 // ============ creators ===========
 
@@ -11,16 +10,16 @@ const setActiveKey = common.setActiveKey(ActionTypes.THEMES);
 const useIndexed = common.useIndexed(Select.themes.getSubstate, 'themes', ActionTypes.THEMES);
 const refreshAllIndexes = common.refreshAllIndexes(Select.themes.getSubstate, `themes`, ActionTypes.THEMES);
 
-function setActive(key){
+function setActive(key, componentId){
 	return (dispatch, getState) => {
 		let data = Select.themes.getByKey(getState(), key);
 		if (data.data && data.data.topics) {
 			// TODO redundant request if attribute sets for these topics were already loaded
-			dispatch(AttributeSetsActions.loadForTopics(data.data.topics))
+			dispatch(Action.attributeSets.loadForTopics(data.data.topics))
 				.then(() => {
-					let attributeKeys = Select.attributeSets.getAttributeKeysForActive(getState());
+					let attributeKeys = Select.attributeSets.getUniqueAttributeKeysForTopics(getState(), data.data.topics);
 					if (attributeKeys) {
-						return dispatch(AttributesActions.ensure(attributeKeys));
+						return dispatch(Action.attributes.useKeys(attributeKeys, componentId));
 					} else {
 						throw new Error(`state/_Themes/actions#setActive No attributes for active attribute sets!`);
 					}

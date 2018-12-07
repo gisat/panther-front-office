@@ -15,6 +15,7 @@ import Action from "../Action";
 const setActiveKey = common.setActiveKey(ActionTypes.PLACES);
 const setActiveKeys = common.setActiveKeys(ActionTypes.PLACES);
 const useIndexed = common.useIndexed(Select.places.getSubstate, 'places', ActionTypes.PLACES);
+const useKeys = common.useKeys(Select.places.getSubstate, 'places', ActionTypes.PLACES);
 const refreshAllIndexes = common.refreshAllIndexes(Select.places.getSubstate, `places`, ActionTypes.PLACES);
 
 function setActive(keys) {
@@ -88,6 +89,7 @@ export default {
 	setActiveKeys,
 	useIndexed,
 	useIndexedClear: actionClearUseIndexed,
+	useKeys,
 
 	initializeForExt: actionInitializeForExt
 }

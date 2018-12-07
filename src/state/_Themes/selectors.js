@@ -14,6 +14,17 @@ const getAllForDataview = common.getAllForDataview(getSubstate);
 const getAllForDataviewAsObject = common.getAllForDataviewAsObject(getSubstate);
 const getByKey = common.getByKey(getSubstate);
 
+const getTopicsForActive = createSelector(
+	[getActive],
+	(theme) => {
+		if (theme && theme.data && theme.data.topics){
+			return theme.data.topics;
+		} else {
+			return null;
+		}
+	}
+);
+
 export default {
 	getActive,
 	getActiveKey,
@@ -23,5 +34,6 @@ export default {
 	getAllForDataview,
 	getAllForDataviewAsObject,
 	getByKey,
-	getSubstate
+	getSubstate,
+	getTopicsForActive
 };

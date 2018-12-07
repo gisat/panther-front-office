@@ -15,6 +15,10 @@ export default (state = INITIAL_STATE, action) => {
 			return common.add(state, action);
 		case ActionTypes.ATTRIBUTES.INITIALIZE_FOR_EXT:
 			return common.initializeForExt(state, action);
+		case ActionTypes.ATTRIBUTES.USE.KEYS.REGISTER:
+			return common.useKeysRegister(state, action);
+		case ActionTypes.ATTRIBUTES.USE.KEYS.CLEAR:
+			return common.useKeysClear(state, action);
 		default:
 			return state;
 	}

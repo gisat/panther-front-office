@@ -25,6 +25,10 @@ export default (state = INITIAL_STATE, action) => {
 			return common.useIndexedClear(state, action);
 		case ActionTypes.PLACES.USE.INDEXED.REGISTER:
 			return common.registerUseIndexed(state, action);
+		case ActionTypes.PLACES.USE.KEYS.REGISTER:
+			return common.useKeysRegister(state, action);
+		case ActionTypes.PLACES.USE.KEYS.CLEAR:
+			return common.useKeysClear(state, action);
 		case ActionTypes.COMMON.DATA.SET_OUTDATED:
 			return common.dataSetOutdated(state, action);
 		case ActionTypes.COMMON.DATA.CLEANUP_ON_LOGOUT:

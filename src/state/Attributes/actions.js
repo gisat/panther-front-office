@@ -6,14 +6,7 @@ import Select from "../Select";
 
 // ============ creators ===========
 
-function add(data) {
-	return (dispatch) => {
-		if (data && data.length){
-			dispatch(common.add(ActionTypes.ATTRIBUTES)(data));
-		}
-		dispatch(actionInitializeForExt());
-	}
-}
+const useKeys = common.useKeys(Select.attributes.getSubstate, 'attributes', ActionTypes.ATTRIBUTES);
 
 // ============ actions ===========
 
@@ -28,7 +21,6 @@ function actionInitializeForExt() {
 // ============ export ===========
 
 export default {
-	add,
 	initializeForExt: actionInitializeForExt,
-	ensure: common.ensure.bind(this, Select.attributes.getSubstate, 'attributes', ActionTypes.ATTRIBUTES),
+	useKeys
 }

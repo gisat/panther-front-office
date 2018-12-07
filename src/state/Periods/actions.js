@@ -7,6 +7,7 @@ import Select from "../Select";
 
 const setActiveKey = common.setActiveKey(ActionTypes.PERIODS);
 const setActiveKeys = common.setActiveKeys(ActionTypes.PERIODS);
+const useKeys = common.useKeys(Select.periods.getSubstate, 'periods', ActionTypes.PERIODS);
 const useIndexed = common.useIndexed(Select.periods.getSubstate, 'periods', ActionTypes.PERIODS);
 const refreshAllIndexes = common.refreshAllIndexes(Select.periods.getSubstate, `periods`, ActionTypes.PERIODS);
 
@@ -27,5 +28,6 @@ export default {
 	setActiveKey,
 	setActiveKeys,
 	useIndexed,
-	useIndexedClear: actionClearUseIndexed
+	useIndexedClear: actionClearUseIndexed,
+	useKeys
 }

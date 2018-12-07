@@ -7,16 +7,8 @@ import queryString from 'query-string';
 import Dataview from "../../data/Dataview";
 import Select from "../Select";
 
-import AttributesActions from "../Attributes/actions";
-import AttributeSetsActions from "../AttributeSets/actions";
-import LpisCasesActions from "../LpisCases/actions";
-import ScopesActions from "../Scopes/actions";
-import PeriodsActions from "../Periods/actions";
-import PlacesActions from "../Places/actions";
-import ThemesActions from "../_Themes/actions";
-
 import common from "../_common/actions";
-import Action from "../Action"; //todo this hsould be enough for actions
+import Action from "../Action";
 
 const TTL = 5;
 
@@ -95,27 +87,27 @@ function loadByKey(key) {
 			let data = activeDataview && activeDataview.data;
 
 			if (data.dataset){
-				dispatch(ScopesActions.loadForKeys([data.dataset]))
+				dispatch(Action.scopes.loadForKeys([data.dataset]))
 					.then(() => {
-						dispatch(ScopesActions.setActiveKey(data.dataset));
+						dispatch(Action.scopes.setActiveKey(data.dataset));
 						let activeScopeConfig = Select.scopes.getActiveScopeConfiguration(getState());
 
 						if (activeScopeConfig && activeScopeConfig.hasOwnProperty(`dromasLpisChangeReview`)){
-							dispatch(LpisCasesActions.loadCaseForActiveView()).then(() => {
-								dispatch(LpisCasesActions.setActiveCaseByActiveView());
+							dispatch(Action.lpisCases.loadCaseForActiveView()).then(() => {
+								dispatch(Action.lpisCases.setActiveCaseByActiveView());
 							});
 						}
 
 						if ((data.locations && data.locations.length) || (data.location)){
 							if (data.locations && data.locations.length > 1){
-								dispatch(PlacesActions.setActive(data.locations));
-								dispatch(PlacesActions.ensure(data.locations)); //todo use useKeys everywhere (componentId = 'activeview' or something)
+								dispatch(Action.places.setActive(data.locations));
+								dispatch(Action.places.useKeys(data.locations, 'ActiveView'));
 							} else {
-								dispatch(PlacesActions.setActive(data.location));
-								dispatch(PlacesActions.ensure([data.location]));
+								dispatch(Action.places.setActive(data.location));
+								dispatch(Action.places.useKeys([data.location], 'ActiveView'));
 							}
 						} else {
-							dispatch(PlacesActions.initializeForExt());
+							dispatch(Action.places.initializeForExt());
 						}
 					})
 					.catch(error => {
@@ -125,31 +117,32 @@ function loadByKey(key) {
 
 			if (data.years){
 				if (data.years.length > 1){
-					dispatch(PeriodsActions.setActiveKeys(data.years));
+					dispatch(Action.periods.setActiveKeys(data.years));
 				} else {
 					let year = _.isArray(data.years) ? data.years[0] : data.years;
-					dispatch(PeriodsActions.setActiveKey(year));
+					dispatch(Action.periods.setActiveKey(year));
 				}
-				dispatch(PeriodsActions.ensure(data.years));
+				dispatch(Action.periods.useKeys(data.years, 'ActiveView'));
 			}
 
 			if (data.theme){
-				dispatch(ThemesActions.setActiveKey(data.theme));
-				dispatch(ThemesActions.loadByKeys([data.theme]))
+				dispatch(Action.themes.setActiveKey(data.theme));
+				dispatch(Action.themes.loadByKeys([data.theme]))
 					.then(() => {
 						let activeTheme = Select.themes.getActive(getState());
 						if (activeTheme && activeTheme.data && activeTheme.data.topics) {
-							return dispatch(AttributeSetsActions.loadForTopics(activeTheme.data.topics));
+							return dispatch(Action.attributeSets.loadForTopics(activeTheme.data.topics));
 						} else {
 							throw new Error(`state/dataviews/actions#loadByKey No topics for active theme!`);
 						}
 					})
 					.then(() => {
-						let attributeKeys = Select.attributeSets.getUniqueAttributeKeysForActiveTheme(getState());
+						let topics = Select.themes.getTopicsForActive(getState());
+						let attributeKeys = Select.attributeSets.getUniqueAttributeKeysForTopics(getState(), topics);
 						if (attributeKeys){
-							dispatch(AttributesActions.ensure(attributeKeys));
+							dispatch(Action.attributes.useKeys(attributeKeys, 'ActiveView'));
 						} else {
-							dispatch(AttributesActions.initializeForExt());
+							dispatch(Action.attributes.initializeForExt());
 						}
 					})
 					.catch(err => {
