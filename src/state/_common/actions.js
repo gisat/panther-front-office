@@ -326,7 +326,7 @@ function loadFiltered(dataType, actionTypes, filter) {
 function refreshAllIndexes(getSubstate, dataType, actionTypes) {
 	return () => {
 		return(dispatch, getState) => {
-			dispatch(actionClearIndexes());
+			dispatch(actionClearIndexes(actionTypes));
 
 			let state = getState();
 
