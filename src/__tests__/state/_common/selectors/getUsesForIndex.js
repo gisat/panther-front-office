@@ -5,7 +5,7 @@ import {
 	BASIC_STATE,
 	EMPTY_IN_USE_INDEXES_STATE,
 	NO_IN_USE_INDEXES_STATE
-} from "../../../../__testUtils/sampleCommonStates";
+} from "../../../../__testUtils/sampleStates/_common";
 
 describe('#getUsesForIndex', () => {
 	it('should select used index for given filter and order with merged uses', () => {

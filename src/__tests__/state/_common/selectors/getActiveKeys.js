@@ -1,6 +1,6 @@
 import Select from "../../../../state/Select";
 import commonSelectors from "../../../../state/_common/selectors";
-import {getSubstate, NO_ACTIVE_KEY_STATE, ACTIVE_KEYS_STATE} from "../../../../__testUtils/sampleCommonStates";
+import {getSubstate, NO_ACTIVE_KEY_STATE, ACTIVE_KEYS_STATE} from "../../../../__testUtils/sampleStates/_common";
 
 describe('#getActiveKeys', () => {
 	it('should select active keys', () => {

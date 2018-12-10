@@ -5,7 +5,7 @@ import {
 	BASIC_STATE,
 	NO_INDEXES_STATE,
 	EMPTY_INDEXES_STATE
-} from "../../../../__testUtils/sampleCommonStates";
+} from "../../../../__testUtils/sampleStates/_common";
 
 describe('#getIndexPage', () => {
 	it('should select index', () => {

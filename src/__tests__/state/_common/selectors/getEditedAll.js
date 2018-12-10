@@ -1,6 +1,6 @@
 import Select from "../../../../state/Select";
 import commonSelectors from "../../../../state/_common/selectors";
-import {getSubstate, BASIC_STATE, NO_ACTIVE_KEY_STATE, NO_EDITED_MODELS_STATE, EMPTY_EDITED_MODELS_STATE} from "../../../../__testUtils/sampleCommonStates";
+import {getSubstate, BASIC_STATE, NO_ACTIVE_KEY_STATE, NO_EDITED_MODELS_STATE, EMPTY_EDITED_MODELS_STATE} from "../../../../__testUtils/sampleStates/_common";
 
 describe('#getEditedAll', () => {
 	it('selected data shoud be in array, if exists', () => {

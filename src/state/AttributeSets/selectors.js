@@ -17,16 +17,17 @@ const getByTopics = createSelector(
 	[getAll, (state, topics) => topics],
 	(attributeSets, topics) => {
 		if (attributeSets && topics){
-			return _.filter(attributeSets, (attributeSet) => {
+			if (!_.isArray(topics)) topics = [topics];
+			let filtered = _.filter(attributeSets, (attributeSet) => {
 				return _.includes(topics, attributeSet.data.topic);
 			});
+			return filtered.length ? filtered : null;
 		} else {
 			return null;
 		}
 	}
 );
 
-// TODO create tests
 const getUniqueAttributeKeysForTopics = createSelector(
 	[getByTopics],
 	(attributeSets) => {
@@ -34,7 +35,7 @@ const getUniqueAttributeKeysForTopics = createSelector(
 			let allAttributeKeys = attributeSets.map((attributeSet) => {
 				return attributeSet.data.attributes;
 			});
-			let uniqueAttributeKeys = _.uniq(_.flatten(allAttributeKeys));
+			let uniqueAttributeKeys = _.compact(_.uniq(_.flatten(allAttributeKeys)));
 			return uniqueAttributeKeys.length ? uniqueAttributeKeys : null;
 
 		} else {
@@ -51,6 +52,7 @@ export default {
 	getAllForDataview,
 	getAllForDataviewAsObject,
 
+	getByTopics,
 	getUniqueAttributeKeysForTopics,
 
 	isInitializedForExt

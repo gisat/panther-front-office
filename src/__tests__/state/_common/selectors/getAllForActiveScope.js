@@ -1,6 +1,6 @@
 import Select from "../../../../state/Select";
 import commonSelectors from "../../../../state/_common/selectors";
-import {getSubstate, BASIC_STATE, NO_MODELS_STATE, EMPTY_MODELS_STATE, NO_INDEXES_STATE, EMPTY_INDEXES_STATE} from "../../../../__testUtils/sampleCommonStates";
+import {getSubstate, BASIC_STATE, NO_MODELS_STATE, EMPTY_MODELS_STATE, NO_INDEXES_STATE, EMPTY_INDEXES_STATE} from "../../../../__testUtils/sampleStates/_common";
 
 describe('#getAllForActiveScope', () => {
 	const order = null;

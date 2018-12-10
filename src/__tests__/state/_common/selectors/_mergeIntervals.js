@@ -1,6 +1,6 @@
 import Select from "../../../../state/Select";
 import commonSelectors from "../../../../state/_common/selectors";
-import {BASIC_STATE, getSubstate} from "../../../../__testUtils/sampleCommonStates";
+import {BASIC_STATE, getSubstate} from "../../../../__testUtils/sampleStates/_common";
 
 describe('#_mergeIntervals', () => {
 	it('should return null', () => {

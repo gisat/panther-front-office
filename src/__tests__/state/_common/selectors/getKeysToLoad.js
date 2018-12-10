@@ -5,7 +5,7 @@ import {
 	BASIC_STATE,
 	NO_MODELS_STATE,
 	EMPTY_MODELS_STATE
-} from "../../../../__testUtils/sampleCommonStates";
+} from "../../../../__testUtils/sampleStates/_common";
 
 describe('#getKeysToLoad', () => {
 	it('should select null if keys is null', () => {
