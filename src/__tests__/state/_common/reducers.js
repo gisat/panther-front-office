@@ -42,55 +42,6 @@ const BASIC_STATE = {
 };
 
 describe('Common Reducers', () => {
-	describe('#add', () => {
-		it('should add first set of data', () => {
-			const state = {
-				...BASIC_STATE,
-				byKey: null
-			};
-			const action = {
-				data: [{key: 4, data: {name: "Ostrava"}}, {key: 5, data: {name: "Liberec"}}]
-			};
-			const expectedState = {
-				...BASIC_STATE,
-				byKey: {
-					4: {key: 4, data: {name: "Ostrava"}},
-					5: {key: 5, data: {name: "Liberec"}}
-				}
-			};
-			expect(commonReducers.add(state, action)).toEqual(expectedState);
-		});
-
-		it('should add data to existing object', () => {
-			const action = {
-				data: [{key: 4, data: {name: "Ostrava"}}, {key: 5, data: {name: "Liberec"}}]
-			};
-			const expectedState = {
-				...BASIC_STATE,
-				byKey: {
-					...BASIC_STATE.byKey,
-					4: {key: 4, data: {name: "Ostrava"}},
-					5: {key: 5, data: {name: "Liberec"}}
-				}
-			};
-			expect(commonReducers.add(BASIC_STATE, action)).toEqual(expectedState);
-		});
-
-		it('should change data in existing object', () => {
-			const action = {
-				data: [{key: 1, data: {name: "Jablonec"}}]
-			};
-			const expectedState = {
-				...BASIC_STATE,
-				byKey: {
-					...BASIC_STATE.byKey,
-					1: {key: 1, data: {name: "Jablonec"}}
-				}
-			};
-			expect(commonReducers.add(BASIC_STATE, action)).toEqual(expectedState);
-		});
-	});
-
 	describe('#remove', () => {
 		it('should remove models', () => {
 			const action = {

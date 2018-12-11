@@ -67,9 +67,6 @@ export default {
 	},
 
 	registerUseIndexed: (state, action) => {
-		let indexes = [];
-		let selectedIndex = {};
-
 		// TODO save link to index?
 		// replace use - todo option to add to use?
 		let newUse = {
@@ -86,7 +83,7 @@ export default {
 		if (state.inUse && state.inUse.indexes && state.inUse.indexes.hasOwnProperty(action.componentId)) {
 			let indexes = {...state.inUse.indexes};
 			delete indexes[action.componentId];
-			return {...state, inUse: {...state.inUse, indexes: indexes}};
+			return {...state, inUse: {...state.inUse, indexes: _.isEmpty(indexes) ? null : indexes}};
 		} else {
 			// do not mutate if no index was changed
 			return state;
@@ -114,7 +111,7 @@ export default {
 			...state,
 			inUse: {
 				...state.inUse.indexes,
-				keys
+				keys: _.isEmpty(keys) ? null : keys
 			}
 		}
 	},

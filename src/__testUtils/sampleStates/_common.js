@@ -156,6 +156,10 @@ export const BASIC_STATE = {
 					start: 3,
 					length: 5
 				}
+			},
+			keys: {
+				Component_w: [1, 2, 3],
+				Component_x: [3, 4]
 			}
 		},
 		indexes: [
@@ -193,6 +197,9 @@ export const NO_INDEXES_STATE = {...BASIC_STATE, sample: {...BASIC_STATE.sample,
 
 export const EMPTY_IN_USE_INDEXES_STATE = {...BASIC_STATE, sample: {...BASIC_STATE.sample, inUse: {...BASIC_STATE.sample.inUse, indexes: {}}}};
 export const NO_IN_USE_INDEXES_STATE = {...BASIC_STATE, sample: {...BASIC_STATE.sample, inUse: {...BASIC_STATE.sample.inUse, indexes: null}}};
+
+export const EMPTY_IN_USE_KEYS_STATE = {...BASIC_STATE, sample: {...BASIC_STATE.sample, inUse: {...BASIC_STATE.sample.inUse, keys: {}}}};
+export const NO_IN_USE_KEYS_STATE = {...BASIC_STATE, sample: {...BASIC_STATE.sample, inUse: {...BASIC_STATE.sample.inUse, keys: null}}};
 
 export const EMPTY_EDITED_MODELS_STATE = {...BASIC_STATE, sample: {...BASIC_STATE.sample, editedByKey: {}}};
 export const NO_EDITED_MODELS_STATE = {...BASIC_STATE, sample: {...BASIC_STATE.sample, editedByKey: null}};
