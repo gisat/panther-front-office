@@ -17,7 +17,7 @@ describe('#getUsedIndexPages', () => {
 				start: 1
 			}]
 		}, {
-			filter: {},
+			filter: null,
 			order: [['name', 'ascending']],
 			uses: [{
 				length: 7,
