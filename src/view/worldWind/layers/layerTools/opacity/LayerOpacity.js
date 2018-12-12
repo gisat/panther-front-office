@@ -116,6 +116,11 @@ class LayerOpacity extends LayerTool {
 						if (self._style && self._style.path) {
 							id += "-" + self._style.path;
 						}
+
+						// todo remove this hack for PUCS
+						if (layer.layerTemplateId === 75291 || layer.layerTemplateId === 75292){
+							id = layer.layerTemplateId;
+						}
 					}
 					if (self._class === "wms-layers") {
 						id = "wmsLayer-" + id;
