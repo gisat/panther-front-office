@@ -6,7 +6,8 @@ describe('#getEditedByKey', () => {
 	const expectedBasicStateOutput = {
 		key: 1,
 		data: {
-			name: "Svět"
+			name: "Svět",
+			description: "..."
 		}
 	};
 

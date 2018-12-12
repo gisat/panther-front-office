@@ -6,7 +6,8 @@ describe('#getEditedActive', () => {
 	const expectedBasicStateOutput = {
 		key: 1,
 		data: {
-			name: "Svět"
+			name: "Svět",
+			description: "..."
 		}
 	};
 

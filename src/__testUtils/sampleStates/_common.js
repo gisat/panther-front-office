@@ -110,7 +110,8 @@ export const BASIC_STATE = {
 			1: {
 				key: 1,
 				data: {
-					name: "Svět"
+					name: "Svět",
+					description: "..."
 				}
 			},
 			4: {
