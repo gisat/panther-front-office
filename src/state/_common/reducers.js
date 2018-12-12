@@ -110,7 +110,7 @@ export default {
 		return {
 			...state,
 			inUse: {
-				...state.inUse.indexes,
+				...state.inUse,
 				keys: _.isEmpty(keys) ? null : keys
 			}
 		}
