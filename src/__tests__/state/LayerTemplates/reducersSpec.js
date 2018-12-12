@@ -9,11 +9,11 @@ let state = {
 describe('Layer Templates Reducers', () => {
 	it('should add data to state', () => {
 		const action = {
-			type: ActionTypes.LAYER_TEMPLATES_ADD,
+			type: ActionTypes.LAYER_TEMPLATES.ADD,
 			data: [{"name":"Urban Atlas","key": 1}]
 		};
 		const action2 = {
-			type: ActionTypes.LAYER_TEMPLATES_ADD,
+			type: ActionTypes.LAYER_TEMPLATES.ADD,
 			data: [{"name":"Urban Atlas","key": 2}]
 		};
 		const expectedResult = {
