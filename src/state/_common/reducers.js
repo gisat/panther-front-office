@@ -190,33 +190,45 @@ export default {
 		});
 
 		return {
-			...state, indexes
+			...state,
+			indexes: indexes.length ? indexes : null
 		}
 	},
 
 	dataSetOutdated: (state, action) => {
-		let byKey = {};
-		_.each(state.byKey, (model, key) => {
-			byKey[key] = {
-				...model,
-				outdated: true
-			}
-		});
-		return {...state, byKey};
+		if (state.byKey){
+			let byKey = {};
+			_.each(state.byKey, (model, key) => {
+				byKey[key] = {
+					...model,
+					outdated: true
+				}
+			});
+			return {
+				...state,
+				byKey
+			};
+		} else {
+			return state;
+		}
 	},
 
 	cleanupOnLogout: (state, action) => {
-		let byKey = {};
-		_.each(state.byKey, (model, key) => {
-			if(model.permissions.guest.get) {
-				byKey[key] = {
-					...model,
-					permissions: {
-						guest: model.permissions.guest
+		if (state.byKey){
+			let byKey = {};
+			_.each(state.byKey, (model, key) => {
+				if(model.permissions.guest.get) {
+					byKey[key] = {
+						...model,
+						permissions: {
+							guest: model.permissions.guest
+						}
 					}
 				}
-			}
-		});
-		return {...state, byKey};
+			});
+			return {...state, byKey};
+		} else {
+			return state
+		}
 	}
 }
