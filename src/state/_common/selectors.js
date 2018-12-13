@@ -284,28 +284,27 @@ const getIndexedDataUses = (getSubstate) => {
 	return (state) => getSubstate(state).inUse.indexes;
 };
 
+const getAllActiveKeys = state => {
+	return {
+		activeScopeKey: state.scopes.activeKey,
+		activeThemeKey: state.themes.activeKey,
+		activePlaceKey: state.places.activeKey,
+		activePlaceKeys: state.places.activeKeys,
+		activePeriodKey: state.periods.activeKey,
+		activePeriodKeys: state.periods.activeKeys
+	};
+};
+
 const getUsedIndexPages = (getSubstate) => {
 	return createSelector([
 			getIndexedDataUses(getSubstate),
-			Select.scopes.getActiveKey,
-			Select.themes.getActiveKey,
-			Select.places.getActiveKey,
-			Select.places.getActiveKeys,
-			Select.periods.getActiveKey,
-			Select.periods.getActiveKeys
+			getAllActiveKeys
 		],
-		(indexedDataUses, activeScopeKey, activeThemeKey, activePlaceKey, activePlaceKeys, activePeriodKey, activePeriodKeys) => {
+		(indexedDataUses, activeKeys) => {
 			let groupedUses = [];
 			let usedIndexes = [];
 			_.each(indexedDataUses, (usedIndex) => {
-				let mergedFilter = commonHelpers.mergeFilters({
-					activeScopeKey,
-					activeThemeKey,
-					activePlaceKey,
-					activePlaceKeys,
-					activePeriodKey,
-					activePeriodKeys
-				}, usedIndex.filterByActive, usedIndex.filter);
+				let mergedFilter = commonHelpers.mergeFilters(activeKeys, usedIndex.filterByActive, usedIndex.filter);
 
 				let existingIndex = _.find(groupedUses, (use) => {
 					return _.isEqual(use.filter, mergedFilter) && _.isEqual(use.order, usedIndex.order) ;
@@ -346,23 +345,11 @@ const getUsesForIndex = (getSubstate) => {
 		getIndexedDataUses(getSubstate),
 		(state, filter) => filter,
 		(state, filter, order) => order,
-		Select.scopes.getActiveKey,
-		Select.themes.getActiveKey,
-		Select.places.getActiveKey,
-		Select.places.getActiveKeys,
-		Select.periods.getActiveKey,
-		Select.periods.getActiveKeys,
-		(indexedDataUses, filter, order, activeScopeKey, activeThemeKey, activePlaceKey, activePlaceKeys, activePeriodKey, activePeriodKeys) => {
+		getAllActiveKeys,
+		(indexedDataUses, filter, order, activeKeys) => {
 			let index = null;
 			_.each(indexedDataUses, (usedIndex) => {
-				let mergedFilter = commonHelpers.mergeFilters({
-					activeScopeKey,
-					activeThemeKey,
-					activePlaceKey,
-					activePlaceKeys,
-					activePeriodKey,
-					activePeriodKeys
-				}, usedIndex.filterByActive, usedIndex.filter);
+				let mergedFilter = commonHelpers.mergeFilters(activeKeys, usedIndex.filterByActive, usedIndex.filter);
 
 				if (_.isEqual(filter, mergedFilter) && _.isEqual(order, usedIndex.order)){
 					if (index){
