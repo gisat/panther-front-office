@@ -18,6 +18,7 @@ import ViewSelector from './scopemagicswitches/ViewSelector';
 import DockedWindowsContainer from './components/containers/windowsContainers/DockedWindowsContainer';
 import WindowsContainer from './components/containers/windowsContainers/WindowsContainer';
 import ScopePlaceThemeSelectionSwitch from "./components/containers/temporary/ScopePlaceThemeSelectionSwitch";
+import User from "./components/common/controls/User";
 
 let url = new URL(window.location);
 let id = url.searchParams.get('id');
@@ -36,6 +37,7 @@ let initialize = function() {
 	ReactDOM.render(<Provider store={store}><HeaderViewSelector /></Provider>, document.getElementById('header-view-selection'));
 	ReactDOM.render(<Provider store={store}><ViewSelectorOverlay	/></Provider>, document.getElementById('root'));
 	ReactDOM.render(<Provider store={store}><ViewSelector	/></Provider>, document.getElementById('view-selector-placeholder'));
+	ReactDOM.render(<Provider store={store}><User/></Provider>, document.getElementById('user-container'));
 
 
 	ReactDOM.render(<Provider store={store}>

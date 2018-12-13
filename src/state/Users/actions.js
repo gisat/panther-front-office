@@ -79,10 +79,7 @@ function apiLoginUser(email, password, ttl) {
 			response => {
 				console.log('#### login user response', response);
 				if (response.ok) {
-					dispatch(apiLoadCurrentUser())
-						.then(() => {
-							dispatch(onLogin());
-						});
+					dispatch(onLogin());
 				} else {
 					dispatch(actionApiLoginRequestError('user#action login Problem with logging in the User, please try later.'));
 				}

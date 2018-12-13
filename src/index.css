@@ -901,6 +901,14 @@ todo merge with overlay
 	fill: rgba(125, 125, 125, .2);
 }
 
+/* == User Container ============================ */
+#user-container {
+	text-transform: none;
+	font-weight: normal;
+	display: flex;
+	align-items: center;
+}
+
 /* == Windows =================================== */
 .ptr-window-container {
 	height: 100%;
