@@ -291,7 +291,7 @@ function loadCases(ttl) {
 
 			if (activePlaceKey) {
 
-				let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/scenario_cases');
+				let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/metadata/scenario_cases');
 				let query = queryString.stringify({
 					place_id: activePlaceKey
 				});
@@ -387,7 +387,7 @@ function apiCreateCases(cases, scenarios, placeKey, ttl) {
 	return dispatch => {
 		dispatch(actionApiCreateCasesRequest(_.map(cases, 'key')));
 
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata');
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/metadata');
 
 		let payload = {
 			data: {
@@ -470,7 +470,7 @@ function apiUpdateCases(updates, editedScenarios, ttl) {
 
 		let state = getState();
 
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata');
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/metadata');
 
 		let payload = {
 			data: {
@@ -577,7 +577,7 @@ function apiDeleteCases(cases, ttl) {
 	return dispatch => {
 		dispatch(actionApiDeleteCasesRequest(_.map(cases, 'key')));
 
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata');
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/metadata');
 
 		let payload = {
 			data: {
@@ -640,7 +640,7 @@ function apiDeleteCasesError(message){
 
 function apiUploadScenarioFiles(scenarios) {
 	return (dispatch) => {
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/importer/upload');
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/importer/upload');
 
 		let promises = [];
 		let scenarioKeys = [];
@@ -748,7 +748,7 @@ function processMatlabProcessRequestResults(results, dispatch) {
 
 function executeMatlabProcessRequest(body) {
 	return fetch(
-		config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/pucs/publish'),
+		config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/pucs/publish'),
 		{
 			method: "POST",
 			credentials: 'include',
@@ -783,7 +783,7 @@ function getBodyForMatlabProcessesRequest(processes) {
 
 function apiExecutePucsMatlabProcessOnUploadedScenarioFiles(uploads) {
 	return (dispatch, getState) => {
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/pucs/execute_matlab');
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/pucs/execute_matlab');
 		let state = getState();
 
 		let scenarioKeys = [];
@@ -838,7 +838,7 @@ function apiExecutePucsMatlabProcessOnUploadedScenarioFiles(uploads) {
 
 function apiCreateRelationsForScenarioProcessResults(results) {
 	return (dispatch, getState) => {
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/relations');
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/relations');
 
 		let activePlace = Select.places.getActive(getState());
 

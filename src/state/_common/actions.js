@@ -9,7 +9,7 @@ const TTL = 5;
 function request(apiPath, method, query, payload, successAction, errorAction, ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
 	return (dispatch) => {
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, apiPath);
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, apiPath);
 		if (query) {
 			url += '?' + queryString.stringify(query);
 		}
