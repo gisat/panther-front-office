@@ -37,7 +37,7 @@ function apiDeleteView(key, ttl) {
 	return dispatch => {
 		dispatch(actionApiDeleteViewRequest(key));
 
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/customview/delete');
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/customview/delete');
 
 		let query = queryString.stringify({id: key});
 		url += '?' + query;
@@ -83,7 +83,7 @@ function apiLoadViews(ttl) {
     return dispatch => {
         dispatch(actionApiLoadViewsRequest());
 
-        let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/dataview');
+        let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/dataview');
 
         return fetch(url, {
             method: 'GET',

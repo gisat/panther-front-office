@@ -46,7 +46,7 @@ function apiLoginUser(email, password, ttl) {
     return dispatch => {
         dispatch(actionApiLoginRequest());
 
-        let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/api/login/login');
+        let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/api/login/login');
 
         return fetch(url, {
             method: 'POST',
@@ -89,7 +89,7 @@ function apiLoad(ttl) {
 		} else {
 			dispatch(actionApiLoadRequest());
 
-			let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/user');
+			let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/user');
 
 			return fetch(url, {
 				method: 'GET',
@@ -133,7 +133,7 @@ function apiLoadCurrentUser(ttl) {
     return dispatch => {
         dispatch(actionApiLoadCurrentUserRequest());
 
-        let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/logged');
+        let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/logged');
 
         return fetch(url, {
             method: 'GET',
@@ -182,7 +182,7 @@ function apiLogoutUser(ttl) {
     return dispatch => {
         dispatch(actionApiLogoutRequest());
 
-        let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/api/login/logout');
+        let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/api/login/logout');
 
         return fetch(url, {
             method: 'POST',
