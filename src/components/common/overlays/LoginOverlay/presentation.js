@@ -14,7 +14,7 @@ import InputText from '../../../presentation/atoms/Input/Input';
 class LoginOverlay extends React.PureComponent {
 
 	static propTypes = {
-
+		loginRequired: PropTypes.bool
 	};
 
 	constructor() {
@@ -43,7 +43,11 @@ class LoginOverlay extends React.PureComponent {
 	}
 
 	login(){
-        this.props.login(this.state.email, this.state.password);
+		if (this.props.loginRequired){
+			this.props.loginAndReload(this.state.email, this.state.password);
+		} else {
+			this.props.login(this.state.email, this.state.password);
+		}
 	}
 
 	render() {
@@ -76,13 +80,15 @@ class LoginOverlay extends React.PureComponent {
 						>
 							Log in
 						</Button>
-						<Button
-							invisible
-							inverted
-							onClick={this.props.close}
-						>
-							Cancel
-						</Button>
+						{this.props.loginRequired ? null : (
+							<Button
+								invisible
+								inverted
+								onClick={this.props.close}
+							>
+								Cancel
+							</Button>
+						)}
 					</div>
 				</div>
 			</div>

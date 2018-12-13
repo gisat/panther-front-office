@@ -30,6 +30,7 @@ function onLogin() {
 	return (dispatch) => {
 		dispatch(common.actionDataSetOutdated());
 		dispatch(apiLoadCurrentUser());
+		dispatch(overlaysActions.closeLoginOverlay());
 
 		dispatch(Action.dataviews.refreshAllIndexes());
 		dispatch(Action.scopes.refreshAllIndexes());
@@ -172,9 +173,6 @@ function apiLoadCurrentUser(ttl) {
 							dispatch(setActiveKey(body._id));
 							dispatch(add(transformUser(body)));
 							dispatch(actionAddGroups(transformGroups(body.groups)));
-
-							// todo some better solution than always trying to close overlay
-							dispatch(overlaysActions.closeOverlay('login'));
 						}
 
 

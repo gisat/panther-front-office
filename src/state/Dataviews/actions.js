@@ -78,80 +78,94 @@ function apiDeleteView(key, ttl) {
 	};
 }
 
-function loadByKey(key) {
+function loadActive() {
 	return (dispatch, getState) => {
+		let key = Select.dataviews.getActiveKey(getState());
 		let filter = {key: key};
 		dispatch(common.loadFiltered('dataviews', ActionTypes.DATAVIEWS, filter)).then(() => {
-			dispatch(setActiveKey(key));
+
 			let activeDataview = Select.dataviews.getActive(getState());
-			let data = activeDataview && activeDataview.data;
+			let permission = (activeDataview.permissions.guest && activeDataview.permissions.guest.get) ||(activeDataview.permissions.activeUser && activeDataview.permissions.activeUser.get);
 
-			if (data.dataset){
-				dispatch(Action.scopes.loadForKeys([data.dataset]))
-					.then(() => {
-						dispatch(Action.scopes.setActiveKey(data.dataset));
-						let activeScopeConfig = Select.scopes.getActiveScopeConfiguration(getState());
-
-						if (activeScopeConfig && activeScopeConfig.hasOwnProperty(`dromasLpisChangeReview`)){
-							dispatch(Action.lpisCases.loadCaseForActiveView()).then(() => {
-								dispatch(Action.lpisCases.setActiveCaseByActiveView());
-							});
-						}
-
-						if ((data.locations && data.locations.length) || (data.location)){
-							if (data.locations && data.locations.length > 1){
-								dispatch(Action.places.setActive(data.locations));
-								dispatch(Action.places.useKeys(data.locations, 'ActiveView'));
-							} else {
-								dispatch(Action.places.setActive(data.location));
-								dispatch(Action.places.useKeys([data.location], 'ActiveView'));
-							}
-						} else {
-							dispatch(Action.places.initializeForExt());
-						}
-					})
-					.catch(error => {
-					throw new Error(error);
-				});
-			}
-
-			if (data.years){
-				if (data.years.length > 1){
-					dispatch(Action.periods.setActiveKeys(data.years));
-				} else {
-					let year = _.isArray(data.years) ? data.years[0] : data.years;
-					dispatch(Action.periods.setActiveKey(year));
-				}
-				dispatch(Action.periods.useKeys(data.years, 'ActiveView'));
-			}
-
-			if (data.theme){
-				dispatch(Action.themes.setActiveKey(data.theme));
-				dispatch(Action.themes.loadByKeys([data.theme]))
-					.then(() => {
-						let activeTheme = Select.themes.getActive(getState());
-						if (activeTheme && activeTheme.data && activeTheme.data.topics) {
-							return dispatch(Action.attributeSets.loadForTopics(activeTheme.data.topics));
-						} else {
-							throw new Error(`state/dataviews/actions#loadByKey No topics for active theme!`);
-						}
-					})
-					.then(() => {
-						let topics = Select.themes.getTopicsForActive(getState());
-						let attributeKeys = Select.attributeSets.getUniqueAttributeKeysForTopics(getState(), topics);
-						if (attributeKeys){
-							dispatch(Action.attributes.useKeys(attributeKeys, 'ActiveView'));
-						} else {
-							dispatch(Action.attributes.initializeForExt());
-						}
-					})
-					.catch(err => {
-						throw new Error(err);
-					});
+			if (permission){
+				dispatch(initialMetadataLoad());
+			} else {
+				dispatch(Action.components.overlays.requireLogin());
 			}
 		}).catch(err => {
 			dispatch(loadByKeyError(err));
 		});
+	}
+}
+
+function initialMetadataLoad (){
+	return (dispatch, getState) => {
+		let activeDataview = Select.dataviews.getActive(getState());
+		let data = activeDataview && activeDataview.data;
+
+		if (data.dataset){
+			dispatch(Action.scopes.loadForKeys([data.dataset]))
+				.then(() => {
+					dispatch(Action.scopes.setActiveKey(data.dataset));
+					let activeScopeConfig = Select.scopes.getActiveScopeConfiguration(getState());
+
+					if (activeScopeConfig && activeScopeConfig.hasOwnProperty(`dromasLpisChangeReview`)){
+						dispatch(Action.lpisCases.loadCaseForActiveView()).then(() => {
+							dispatch(Action.lpisCases.setActiveCaseByActiveView());
+						});
+					}
+
+					if ((data.locations && data.locations.length) || (data.location)){
+						if (data.locations && data.locations.length > 1){
+							dispatch(Action.places.setActive(data.locations));
+							dispatch(Action.places.useKeys(data.locations, 'ActiveView'));
+						} else {
+							dispatch(Action.places.setActive(data.location));
+							dispatch(Action.places.useKeys([data.location], 'ActiveView'));
+						}
+					} else {
+						dispatch(Action.places.initializeForExt());
+					}
+				})
+				.catch(error => {
+					throw new Error(error);
+				});
+		}
+
+		if (data.years){
+			if (data.years.length > 1){
+				dispatch(Action.periods.setActiveKeys(data.years));
+			} else {
+				let year = _.isArray(data.years) ? data.years[0] : data.years;
+				dispatch(Action.periods.setActiveKey(year));
+			}
+			dispatch(Action.periods.useKeys(data.years, 'ActiveView'));
+		}
+
+		if (data.theme){
+			dispatch(Action.themes.setActiveKey(data.theme));
+			dispatch(Action.themes.loadByKeys([data.theme]))
+				.then(() => {
+					let activeTheme = Select.themes.getActive(getState());
+					if (activeTheme && activeTheme.data && activeTheme.data.topics) {
+						return dispatch(Action.attributeSets.loadForTopics(activeTheme.data.topics));
+					} else {
+						throw new Error(`state/dataviews/actions#loadByKey No topics for active theme!`);
+					}
+				})
+				.then(() => {
+					let topics = Select.themes.getTopicsForActive(getState());
+					let attributeKeys = Select.attributeSets.getUniqueAttributeKeysForTopics(getState(), topics);
+					if (attributeKeys){
+						dispatch(Action.attributes.useKeys(attributeKeys, 'ActiveView'));
+					} else {
+						dispatch(Action.attributes.initializeForExt());
+					}
+				})
+				.catch(err => {
+					throw new Error(err);
+				});
+		}
 	}
 }
 
@@ -211,7 +225,7 @@ export default {
 	add,
 	addMongoView,
 	apiDeleteView,
-	loadByKey,
+	loadActive,
 	refreshAllIndexes,
 	setActiveKey,
 	useIndexed,

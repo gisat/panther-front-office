@@ -5,6 +5,7 @@ import Views from './Views/selectors';
 
 const getOverlay = (state, props) => state.components.overlays[props.key];
 const getOverlays = (state) => state.components.overlays;
+const isLoginRequired = (state) => state.components.overlays.login.loginRequired;
 
 const getScenarioMapEditingDataSourceKey = (state) => state.components.overlays.scenarioMapEditing.map.dataSourceKey;
 
@@ -29,6 +30,7 @@ const getEditedPolygonInfo = (state) => {
 export default {
 	getOverlay: getOverlay,
 	isOverlayOpen: isOverlayOpen,
+	isLoginRequired,
 
 	getScenarioMapEditingMapData: getScenarioMapEditingMapData,
 	getScenarioMapEditingDataSourceKey: getScenarioMapEditingDataSourceKey,

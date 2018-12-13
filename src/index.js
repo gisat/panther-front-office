@@ -66,7 +66,8 @@ if(!id) {
 	initialize();
 } else {
 	store.dispatch(Action.components.setIntro(false));
-	store.dispatch(Action.dataviews.loadByKey(Number(id)));
+	store.dispatch(Action.dataviews.setActiveKey(Number(id)));
+	store.dispatch(Action.dataviews.loadActive());
     getStore();
 }
 
