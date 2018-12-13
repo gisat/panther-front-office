@@ -391,6 +391,56 @@ const getUsesForIndex = (getSubstate) => {
 	);
 };
 
+const getUsesWithActiveDependency = (getSubstate) => {
+	return createSelector([
+			getIndexedDataUses(getSubstate),
+			getAllActiveKeys,
+			(state, filterByActive) => filterByActive
+		],
+		(indexedDataUses, activeKeys, filterByActive) => {
+			let groupedUses = [];
+			let usedIndexes = [];
+			_.each(indexedDataUses, (usedIndex) => {
+				if (_.reduce(filterByActive, (accumulator, value, index) => accumulator && value && usedIndex.filterByActive[index], true)) {
+					// if usedIndex.filterByActive has all the properties of filterByActive
+
+					let mergedFilter = commonHelpers.mergeFilters(activeKeys, usedIndex.filterByActive, usedIndex.filter);
+
+					let existingIndex = _.find(groupedUses, (use) => {
+						return _.isEqual(use.filter, mergedFilter) && _.isEqual(use.order, usedIndex.order) ;
+					});
+					if (existingIndex){
+						existingIndex.inUse.push({
+							start: usedIndex.start,
+							length: usedIndex.length
+						});
+					} else {
+						groupedUses.push({
+							filter: mergedFilter,
+							order: usedIndex.order,
+							inUse: [{
+								start: usedIndex.start,
+								length: usedIndex.length
+							}]
+						});
+					}
+				}
+			});
+
+			_.each(groupedUses, index => {
+				if (index.inUse && Object.keys(index.inUse).length) {
+					usedIndexes.push({
+						filter: index.filter,
+						order: index.order,
+						uses: _mergeIntervals(Object.values(index.inUse))
+					});
+				}
+			});
+			return usedIndexes.length ? usedIndexes : null;
+		}
+	);
+};
+
 const _mergeIntervals = (intervals) => {
 	//sort intervals
 	let sortedIntervals = _.sortBy(intervals, ['start', 'length']);
@@ -449,6 +499,7 @@ export default {
 	getUsesForIndex,
 	getUsedIndexPages,
 	getUsedKeys,
+	getUsesWithActiveDependency,
 
 	isInitializedForExt, // TODO It will be removed along with Ext
 

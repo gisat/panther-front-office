@@ -110,6 +110,15 @@ const useIndexed = (getSubstate, dataType, actionTypes) => {
 	}
 };
 
+const setActiveKeyAndEnsureDependencies = (actionTypes, filterKey) => {
+	return key => {
+		return dispatch => {
+			dispatch(actionSetActiveKey(actionTypes, key));
+			dispatch(ensureIndexesWithActiveKey(filterKey));
+		};
+	};
+};
+
 function refreshIndex(getSubstate, dataType, filter, order, actionTypes) {
 	return (dispatch, getState) => {
 		let state = getState();
@@ -344,6 +353,40 @@ function refreshAllIndexes(getSubstate, dataType, actionTypes) {
 	}
 }
 
+function ensureIndexesWithFilterByActive(getSubstate, dataType, actionTypes) {
+	return filterByActive => {
+		return (dispatch, getState) => {
+
+			let state = getState();
+			let usedIndexes = commonSelectors.getUsesWithActiveDependency(getSubstate)(state, filterByActive);
+
+			_.each(usedIndexes, (usedIndex) => {
+				_.each(usedIndex.uses, (use) => {
+					dispatch(ensureIndex(getSubstate, dataType, usedIndex.filter, usedIndex.order, use.start, use.length, actionTypes))
+				});
+			})
+
+		}
+	}
+}
+
+function ensureIndexesWithActiveKey(filterKey) {
+		return dispatch => {
+
+			let filterByActive = {
+				[filterKey]: true
+			};
+
+			let actions = [
+				ensureIndexesWithFilterByActive(Select.places.getSubstate, 'places', ActionTypes.PLACES),
+				ensureIndexesWithFilterByActive(Select.periods.getSubstate, 'periods', ActionTypes.PERIODS),
+			];
+
+			_.each(actions, action => dispatch(action(filterByActive)));
+
+		};
+}
+
 // ============ common namespace actions ===========
 
 function actionDataSetOutdated() {
@@ -420,6 +463,7 @@ export default {
 	loadAll,
 	loadFiltered,
 	setActiveKey: creator(actionSetActiveKey),
+	setActiveKeyAndEnsureDependencies,
 	setActiveKeys: creator(actionSetActiveKeys),
 	refreshAllIndexes,
 	request: requestWrapper,
