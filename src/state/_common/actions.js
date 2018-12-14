@@ -131,19 +131,15 @@ function refreshIndex(getSubstate, dataType, filter, order, actionTypes) {
 	}
 }
 
-function receive(actionTypes, result, dataType, filter, order, start) {
+function receiveIndexed(actionTypes, result, dataType, filter, order, start) {
 		return dispatch => {
 			// add data to store
 			if (result.data[dataType].length){
-				// dispatch(add(actionAdd)(result.data[dataType]));
 				dispatch(actionAdd(actionTypes, result.data[dataType]));
 			}
 
-			// todo check index - create or clear if needed
+			// add to index
 			dispatch(actionAddIndex(actionTypes, filter, order, result.total, start, result.data[dataType], result.changes[dataType]));
-
-			// todo check index - create or clear if needed
-			// todo add data to index
 		}
 }
 
@@ -281,7 +277,7 @@ function loadIndexedPage(dataType, filter, order, start, changedOn, actionTypes)
 				} else if (result.changes && result.changes[dataType] && moment(result.changes[dataType]).isAfter(changedOn)) {
 					throw new Error('Index outdated');
 				} else {
-					dispatch(receive(actionTypes, result, dataType, filter, order, start));
+					dispatch(receiveIndexed(actionTypes, result, dataType, filter, order, start));
 				}
 			})
 			.catch(error => {
