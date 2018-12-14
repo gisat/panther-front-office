@@ -505,6 +505,7 @@ export default {
 	ensureIndex: ensureIndexed,
 	loadAll,
 	loadFiltered,
+	loadKeysPage,
 	setActiveKey: creator(actionSetActiveKey),
 	setActiveKeyAndEnsureDependencies,
 	setActiveKeys: creator(actionSetActiveKeys),
