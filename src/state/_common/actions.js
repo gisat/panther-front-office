@@ -378,7 +378,7 @@ function refreshAllIndexes(getSubstate, dataType, actionTypes) {
 			let state = getState();
 
 			let usedKeys = commonSelectors.getUsedKeys(getSubstate)(state);
-			dispatch(ensureKeys(getSubstate, dataType, actionAdd, usedKeys));
+			dispatch(ensureKeys(getSubstate, dataType, actionTypes, usedKeys));
 
 			let usedIndexPages = commonSelectors.getUsedIndexPages(getSubstate)(state);
 
