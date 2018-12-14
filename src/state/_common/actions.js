@@ -105,7 +105,7 @@ const useIndexed = (getSubstate, dataType, actionTypes) => {
 				activePlaceKey: commonSelectors.getActiveKey(state => state.places)(state),
 				activePlaceKeys: commonSelectors.getActiveKey(state => state.places)(state),
 			}, filterByActive, filter);
-			dispatch(ensureIndex(getSubstate, dataType, fullFilter, order, start, length, actionTypes));
+			dispatch(ensureIndexed(getSubstate, dataType, fullFilter, order, start, length, actionTypes));
 		};
 	}
 };
@@ -125,7 +125,7 @@ function refreshIndex(getSubstate, dataType, filter, order, actionTypes) {
 		let usesForIndex = commonSelectors.getUsesForIndex(getSubstate)(state, filter, order);
 		if (usesForIndex){
 			_.each(usesForIndex.uses, (use) => {
-				dispatch(ensureIndex(getSubstate, dataType, usesForIndex.filter, usesForIndex.order, use.start, use.length, actionTypes))
+				dispatch(ensureIndexed(getSubstate, dataType, usesForIndex.filter, usesForIndex.order, use.start, use.length, actionTypes))
 			});
 		}
 	}
@@ -214,7 +214,7 @@ function ensure(getSubstate, dataType, actionTypes, keys){
 	}
 }
 
-function ensureIndex(getSubstate, dataType, filter, order, start, length, actionTypes){
+function ensureIndexed(getSubstate, dataType, filter, order, start, length, actionTypes){
 	return (dispatch, getState) => {
 		let state = getState();
 		let total = commonSelectors.getIndexTotal(getSubstate)(state, filter, order);
@@ -234,7 +234,7 @@ function ensureIndex(getSubstate, dataType, filter, order, start, length, action
 				}
 				if (requestNeeded){
 					let completeFilter = loadedKeys.length ? {...filter, key: {notin: loadedKeys}} : filter;
-					dispatch(loadFilteredPage(dataType, completeFilter, order, start + i, changedOn, actionTypes))
+					dispatch(loadIndexedPage(dataType, completeFilter, order, start + i, changedOn, actionTypes))
 						.catch((err) => {
 							if (err.message === 'Index outdated'){
 								dispatch(refreshIndex(getSubstate, dataType, filter, order, actionTypes));
@@ -246,11 +246,11 @@ function ensureIndex(getSubstate, dataType, filter, order, start, length, action
 			return Promise.resolve();
 		} else {
 			// we don't have index
-			return dispatch(loadFilteredPage(dataType, filter, order, start, changedOn, actionTypes)).then((response) => {
+			return dispatch(loadIndexedPage(dataType, filter, order, start, changedOn, actionTypes)).then((response) => {
 				if (response && response.message){
 					// do nothing
 				} else {
-					dispatch(ensureIndex(getSubstate, dataType, filter, order, start + PAGE_SIZE, length - PAGE_SIZE, actionTypes));
+					dispatch(ensureIndexed(getSubstate, dataType, filter, order, start + PAGE_SIZE, length - PAGE_SIZE, actionTypes));
 				}
 			}).catch((err)=>{
 				if (err.message === 'Index outdated'){
@@ -263,7 +263,7 @@ function ensureIndex(getSubstate, dataType, filter, order, start, length, action
 	};
 }
 
-function loadFilteredPage(dataType, filter, order, start, changedOn, actionTypes) {
+function loadIndexedPage(dataType, filter, order, start, changedOn, actionTypes) {
 	return dispatch => {
 		let apiPath = path.join('backend/rest/metadata/filtered', dataType);
 
@@ -346,7 +346,7 @@ function refreshAllIndexes(getSubstate, dataType, actionTypes) {
 
 			_.each(usedIndexPages, (usedIndexPage) => {
 				_.each(usedIndexPage.uses, (use) => {
-					dispatch(ensureIndex(getSubstate, dataType, usedIndexPage.filter, usedIndexPage.order, use.start, use.length, actionTypes))
+					dispatch(ensureIndexed(getSubstate, dataType, usedIndexPage.filter, usedIndexPage.order, use.start, use.length, actionTypes))
 				});
 			})
 		}
@@ -362,7 +362,7 @@ function ensureIndexesWithFilterByActive(getSubstate, dataType, actionTypes) {
 
 			_.each(usedIndexes, (usedIndex) => {
 				_.each(usedIndex.uses, (use) => {
-					dispatch(ensureIndex(getSubstate, dataType, usedIndex.filter, usedIndex.order, use.start, use.length, actionTypes))
+					dispatch(ensureIndexed(getSubstate, dataType, usedIndex.filter, usedIndex.order, use.start, use.length, actionTypes))
 				});
 			})
 
@@ -459,7 +459,7 @@ function actionUseKeysRegister(actionTypes, componentId, keys) {
 export default {
 	add: creator(actionAdd),
 	ensure,
-	ensureIndex,
+	ensureIndex: ensureIndexed,
 	loadAll,
 	loadFiltered,
 	setActiveKey: creator(actionSetActiveKey),
