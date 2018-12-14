@@ -6,7 +6,7 @@ import presentation from './presentation';
 
 const mapStateToProps = (state, props) => {
 	return {
-		loginRequired: Select.components.overlays.isLoginRequired(state),
+		loginRequired: Select.dataviews.isActiveNonReturned(state),
 		open: Select.components.overlays.isOverlayOpen(state, {key: 'login'})
 	}
 };
@@ -16,10 +16,8 @@ const mapDispatchToProps = (dispatch) => {
 		login: (email, password) => {
 			dispatch(Action.users.apiLoginUser(email, password));
 		},
-		loginAndReload: (email, password) => {
-			dispatch(Action.users.apiLoginUser(email, password)).then(() => {
-				dispatch(Action.dataviews.loadActive());
-			});
+		openOverlay: () => {
+			dispatch(Action.components.overlays.openOverlay('login'));
 		},
 		close: () => {
 			dispatch(Action.components.overlays.closeOverlay('login'));
