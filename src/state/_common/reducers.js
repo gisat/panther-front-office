@@ -22,6 +22,7 @@ export default {
 			action.data.forEach(model => {
 				newData[model.key] = {...newData[model.key], ...model};
 				delete newData[model.key].outdated;
+				delete newData[model.key].unreceived;
 			});
 		}
 		return {...state, byKey: newData}

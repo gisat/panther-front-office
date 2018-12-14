@@ -81,14 +81,16 @@ function apiDeleteView(key, ttl) {
 function loadActive() {
 	return (dispatch, getState) => {
 		let key = Select.dataviews.getActiveKey(getState());
-		dispatch(common.loadKeysPage('dataviews', ActionTypes.DATAVIEWS, [key])).then(() => {
-			let activeDataview = Select.dataviews.getActive(getState());
-			if (activeDataview && activeDataview.data){
-				dispatch(initialMetadataLoad());
-			}
-		}).catch(err => {
-			dispatch(loadByKeyError(err));
-		});
+		if (key){
+			dispatch(common.loadKeysPage('dataviews', ActionTypes.DATAVIEWS, [key])).then(() => {
+				let activeDataview = Select.dataviews.getActive(getState());
+				if (activeDataview && activeDataview.data){
+					dispatch(initialMetadataLoad());
+				}
+			}).catch(err => {
+				dispatch(loadByKeyError(err));
+			});
+		}
 	}
 }
 

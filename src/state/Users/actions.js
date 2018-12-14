@@ -32,6 +32,8 @@ function onLogin() {
 		dispatch(apiLoadCurrentUser());
 		dispatch(overlaysActions.closeOverlay('login'));
 
+		dispatch(Action.dataviews.loadActive());
+
 		dispatch(Action.dataviews.refreshAllIndexes());
 		dispatch(Action.scopes.refreshAllIndexes());
 		dispatch(Action.places.refreshAllIndexes());
@@ -44,6 +46,9 @@ function onLogout() {
 	return (dispatch) => {
 		dispatch(actionLogout());
 		dispatch(setActiveKey(null));
+
+		dispatch(Action.dataviews.loadActive());
+
 		dispatch(Action.dataviews.refreshAllIndexes());
 		dispatch(Action.scopes.refreshAllIndexes());
 		dispatch(Action.places.refreshAllIndexes());

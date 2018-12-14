@@ -27,7 +27,7 @@ const getViewsForScope = createSelector(
 			return null;
 		} else {
 			return _.filter(views, (view) => {
-				return view.data.dataset === scope.key
+				return (view.data && view.data.dataset) === scope.key
 			});
 		}
 	}
