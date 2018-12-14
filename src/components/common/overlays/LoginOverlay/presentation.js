@@ -14,7 +14,8 @@ import InputText from '../../../presentation/atoms/Input/Input';
 class LoginOverlay extends React.PureComponent {
 
 	static propTypes = {
-		loginRequired: PropTypes.object
+		forceOpen: PropTypes.bool,
+		loginRequired: PropTypes.bool
 	};
 
 	constructor() {
@@ -28,12 +29,6 @@ class LoginOverlay extends React.PureComponent {
 		this.onChangeEmail = this.onChangeEmail.bind(this);
 		this.onChangePassword = this.onChangePassword.bind(this);
 		this.login = this.login.bind(this);
-	}
-
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.loginRequired){
-			this.props.openOverlay();
-		}
 	}
 
 	onChangeEmail(value){
@@ -55,7 +50,7 @@ class LoginOverlay extends React.PureComponent {
 	render() {
 
 		return (
-			<div className={classNames("ptr-login-overlay", "ptr-overlay", "ptr-overlay-fix", {open: this.props.open})}>
+			<div className={classNames("ptr-login-overlay", "ptr-overlay", "ptr-overlay-fix", {open: this.props.forceOpen || this.props.loginRequired})}>
 				<div className="ptr-login">
 					<div>
 						<InputText
