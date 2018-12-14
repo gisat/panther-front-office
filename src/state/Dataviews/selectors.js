@@ -81,6 +81,13 @@ const getDataForInitialLoad = createSelector(
 	}
 );
 
+const isActiveNonReturned = createSelector(
+	[getActive],
+	(active) => {
+		return active && active.nonReturned;
+	}
+);
+
 export default {
 	getDataForInitialLoad,
 	getSubstate,
@@ -88,5 +95,6 @@ export default {
 	getViews: getAll,
 	getActive,
 	getActiveKey,
-	getViewsForScope
+	getViewsForScope,
+	isActiveNonReturned
 };

@@ -29,22 +29,6 @@ function openOverlay(overlayKey){
 	}
 }
 
-function requireLogin() {
-	return (dispatch, getState) => {
-		let overlay = Select.components.overlays.getOverlay(getState(), {key: 'login'});
-		let updatedData = overlay ? {...overlay, open: true, loginRequired: true} : {open: true, loginRequired: true};
-		dispatch(actionUpdateOverlay('login', updatedData));
-	}
-}
-
-function closeLoginOverlay() {
-	return (dispatch, getState) => {
-		let overlay = Select.components.overlays.getOverlay(getState(), {key: 'login'});
-		let updatedData = overlay ? {...overlay, open: false, loginRequired: false} : {open: false, loginRequired: false};
-		dispatch(actionUpdateOverlay('login', updatedData));
-	}
-}
-
 /* Specific for scenario map editing overlay */
 function setScenarioMapEditingLayerOpacity(value) {
 	return (dispatch, getState) => {
@@ -198,7 +182,6 @@ function actionApiCreateLayerCopyRequestError(data) {
 // ============ export ===========
 
 export default {
-	closeLoginOverlay,
 	closeOverlay: closeOverlay,
 	openOverlay: openOverlay,
 
@@ -207,7 +190,6 @@ export default {
 
 	actionUpdateOverlay: actionUpdateOverlay,
 
-	requireLogin,
 
 	views: Views
 }

@@ -682,7 +682,7 @@ Ext.define('PumaMain.controller.Store', {
 
 	onEvent: function (type, options) {
 		if (type === "REDUX_SCOPES_ADD"){
-			debugger;
+
 		}
 	}
 

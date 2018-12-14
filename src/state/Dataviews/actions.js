@@ -83,14 +83,9 @@ function loadActive() {
 		let key = Select.dataviews.getActiveKey(getState());
 		let filter = {key: key};
 		dispatch(common.loadFiltered('dataviews', ActionTypes.DATAVIEWS, filter)).then(() => {
-
 			let activeDataview = Select.dataviews.getActive(getState());
-			let permission = (activeDataview.permissions.guest && activeDataview.permissions.guest.get) ||(activeDataview.permissions.activeUser && activeDataview.permissions.activeUser.get);
-
-			if (permission){
+			if (activeDataview && activeDataview.data){
 				dispatch(initialMetadataLoad());
-			} else {
-				dispatch(Action.components.overlays.requireLogin());
 			}
 		}).catch(err => {
 			dispatch(loadByKeyError(err));

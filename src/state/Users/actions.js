@@ -30,7 +30,7 @@ function onLogin() {
 	return (dispatch) => {
 		dispatch(common.actionDataSetOutdated());
 		dispatch(apiLoadCurrentUser());
-		dispatch(overlaysActions.closeLoginOverlay());
+		dispatch(overlaysActions.closeOverlay('login'));
 
 		dispatch(Action.dataviews.refreshAllIndexes());
 		dispatch(Action.scopes.refreshAllIndexes());
