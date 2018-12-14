@@ -9,10 +9,11 @@ import common from '../_common/actions';
 
 const useIndexed = common.useIndexed(Select.scopes.getSubstate, 'scopes', ActionTypes.SCOPES);
 const refreshAllIndexes = common.refreshAllIndexes(Select.scopes.getSubstate, `scopes`, ActionTypes.SCOPES);
+const setActiveKeyAndEnsureDependencies = common.setActiveKeyAndEnsureDependencies(ActionTypes.SCOPES, 'scope');
 
 function setActiveKey(key) {
 	return dispatch => {
-		dispatch(actionSetActiveKey(key));
+		dispatch(setActiveKeyAndEnsureDependencies(key));
 		dispatch(applyScopeConfiguration());
 	};
 }

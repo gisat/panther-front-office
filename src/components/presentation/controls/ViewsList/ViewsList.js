@@ -11,20 +11,29 @@ class ViewsList extends React.PureComponent {
 
 	static propTypes = {
 		hideTitle: PropTypes.bool,
-		isIntro: PropTypes.bool,
+		onMount: PropTypes.func,
+		onUnmount: PropTypes.func,
 		selectedScope: PropTypes.object,
 		views: PropTypes.array,
 	};
 
-	constructor(props){
+	constructor(props) {
 		super(props);
 
+	}
+
+	componentDidMount() {
+		this.props.onMount();
+	}
+
+	componentWillUnmount() {
+		this.props.onUnmount();
 	}
 
 	render() {
 		return (
 			<div className="ptr-views-list">
-				{(this.props.hideTitle || !this.props.isIntro) ? null : this.renderTitle()}
+				{this.props.hideTitle ? null : this.renderTitle()}
 				{this.props.selectedScope && this.props.selectedScope.data &&  this.props.selectedScope.data.description ? this.renderDescription() : null}
 				<div className="ptr-views-list-content">{this.renderViews()}</div>
 			</div>
@@ -54,14 +63,14 @@ class ViewsList extends React.PureComponent {
 
 	renderViews(){
 		return this.props.views && this.props.views.length ? (this.props.views.map(view => {
-			return <ViewCard
+			return (view && view.data) ? (<ViewCard
 				key={view.key}
 				viewKey={view.key}
 				data={view.data}
 				editable={view.permissions && view.permissions.activeUser && view.permissions.activeUser.update}
 				deletable={view.permissions && view.permissions.activeUser && view.permissions.activeUser.delete}
 				public={view.permissions && view.permissions.guest && view.permissions.guest.get}
-			/>
+			/>) : null
 		})) : (<div className="no-view-message">{Names.VIEWS_NO_VIEW_FOR_SCOPE}</div>);
 	}
 }

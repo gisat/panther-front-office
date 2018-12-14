@@ -14,6 +14,7 @@ import UsersSelectors from '../Users/selectors';
 const getSubstate = state => state.dataviews;
 
 const getAll = common.getAll(getSubstate);
+const getAllForActiveScope = common.getAllForActiveScope(getSubstate);
 const getActive = common.getActive(getSubstate);
 const getActiveKey = common.getActiveKey(getSubstate);
 const getByKey = common.getByKey(getSubstate);
@@ -95,6 +96,7 @@ export default {
 	getViews: getAll,
 	getActive,
 	getActiveKey,
+	getAllForActiveScope,
 	getViewsForScope,
 	isActiveUnreceived
 };

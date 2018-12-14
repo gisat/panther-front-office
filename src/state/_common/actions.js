@@ -416,6 +416,7 @@ function ensureIndexesWithActiveKey(filterKey) {
 			};
 
 			let actions = [
+				ensureIndexesWithFilterByActive(Select.dataviews.getSubstate, 'dataviews', ActionTypes.DATAVIEWS),
 				ensureIndexesWithFilterByActive(Select.places.getSubstate, 'places', ActionTypes.PLACES),
 				ensureIndexesWithFilterByActive(Select.periods.getSubstate, 'periods', ActionTypes.PERIODS),
 			];

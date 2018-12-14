@@ -39,12 +39,12 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.components.overlays.views.setSelectedScope(key));
 				dispatch(Action.scopes.setActiveKey(key));
 				// dispatch(Action.dataviews.ensureForScope(key, 1, 1000));
-				dispatch(Action.dataviews.useIndexedClear(componentId));
-				dispatch(Action.dataviews.useIndexed(null, {dataset: key}, null, 1, 1000, componentId));
+				// dispatch(Action.dataviews.useIndexedClear(componentId));
+				// dispatch(Action.dataviews.useIndexed(null, {dataset: key}, null, 1, 1000, componentId));
 			},
 
 			onUnmount: () => {
-				dispatch(Action.dataviews.useIndexedClear(componentId));
+				// dispatch(Action.dataviews.useIndexedClear(componentId));
 			}
 		}
 	}

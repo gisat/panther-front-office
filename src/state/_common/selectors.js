@@ -401,7 +401,7 @@ const getUsesWithActiveDependency = (getSubstate) => {
 			let groupedUses = [];
 			let usedIndexes = [];
 			_.each(indexedDataUses, (usedIndex) => {
-				if (_.reduce(filterByActive, (accumulator, value, index) => accumulator && value && usedIndex.filterByActive[index], true)) {
+				if (_.reduce(filterByActive, (accumulator, value, index) => accumulator && value && usedIndex.filterByActive && usedIndex.filterByActive[index], true)) {
 					// if usedIndex.filterByActive has all the properties of filterByActive
 
 					let mergedFilter = commonHelpers.mergeFilters(activeKeys, usedIndex.filterByActive, usedIndex.filter);
