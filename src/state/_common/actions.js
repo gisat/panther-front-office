@@ -87,7 +87,7 @@ const useKeys = (getSubstate, dataType, actionTypes) => {
 	return (keys, componentId) => {
 		return dispatch => {
 			dispatch(actionUseKeysRegister(actionTypes, componentId, keys));
-			dispatch(ensure(getSubstate, dataType, actionTypes, keys));
+			dispatch(ensureKeys(getSubstate, dataType, actionTypes, keys));
 		};
 	}
 };
@@ -194,18 +194,16 @@ function loadAll(dataType, actionTypes) {
 	};
 }
 
-function ensure(getSubstate, dataType, actionTypes, keys){
+function ensureKeys(getSubstate, dataType, actionTypes, keys){
 	return (dispatch, getState) => {
 		let state = getState();
 
 		let keysToLoad = commonSelectors.getKeysToLoad(getSubstate)(state, keys);
 		if (keysToLoad){
-			let filter = {
-				key: {
-					in: keysToLoad
-				}
-			};
-			return dispatch(loadFiltered(dataType, actionTypes, filter));
+			keysToLoad = _.chunk(keysToLoad, PAGE_SIZE);
+			_.each(keysToLoad, keysToLoadPage => {
+				dispatch(loadKeysPage(dataType, actionTypes, keysToLoadPage));
+			});
 		}
 	}
 }
@@ -257,6 +255,33 @@ function ensureIndexed(getSubstate, dataType, filter, order, start, length, acti
 			});
 		}
 	};
+}
+
+function loadKeysPage(dataType, actionTypes, keys) {
+	return dispatch => {
+		let apiPath = path.join('backend/rest/metadata/filtered', dataType);
+
+		let payload = {
+			filter: {
+				key: {
+					in: keys
+				}
+			}
+		};
+		return request(apiPath, 'POST', null, payload)
+			.then(result => {
+				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
+					dispatch(actionGeneralError(result.errors[dataType] || new Error('no data')));
+					throw new Error(result.errors[dataType] || 'no data');
+				} else {
+					dispatch(receiveKeys(actionTypes, result, dataType, keys));
+				}
+			})
+			.catch(error => {
+				dispatch(actionGeneralError(error));
+				return error;
+			});
+	}
 }
 
 function loadIndexedPage(dataType, filter, order, start, changedOn, actionTypes) {
@@ -328,6 +353,23 @@ function loadFiltered(dataType, actionTypes, filter) {
 	};
 }
 
+function receiveKeys(actionTypes, result, dataType, keys) {
+	return dispatch => {
+		// add data to store
+		if (result.data[dataType].length){
+			dispatch(actionAdd(actionTypes, result.data[dataType]));
+		}
+
+		// add unreceived keys
+		_.remove(keys, key => {
+			return _.find(result.data[dataType], {key});
+		});
+		if (keys.length) {
+			dispatch(actionAddUnreceivedKeys(actionTypes, keys));
+		}
+	}
+}
+
 function refreshAllIndexes(getSubstate, dataType, actionTypes) {
 	return () => {
 		return(dispatch, getState) => {
@@ -336,7 +378,7 @@ function refreshAllIndexes(getSubstate, dataType, actionTypes) {
 			let state = getState();
 
 			let usedKeys = commonSelectors.getUsedKeys(getSubstate)(state);
-			dispatch(ensure(getSubstate, dataType, actionAdd, usedKeys));
+			dispatch(ensureKeys(getSubstate, dataType, actionAdd, usedKeys));
 
 			let usedIndexPages = commonSelectors.getUsedIndexPages(getSubstate)(state);
 
@@ -426,6 +468,11 @@ function actionAdd(actionTypes, data) {
 	return action(actionTypes, 'ADD', {data});
 }
 
+function actionAddUnreceivedKeys(actionTypes, keys) {
+	if (!_.isArray(keys)) keys = [keys];
+	return action(actionTypes, 'ADD_UNRECEIVED', {keys});
+}
+
 function actionAddIndex(actionTypes, filter, order, count, start, data, changedOn) {
 	return action(actionTypes, 'INDEX.ADD', {filter, order, count, start, data, changedOn});
 }
@@ -454,7 +501,7 @@ function actionUseKeysRegister(actionTypes, componentId, keys) {
 
 export default {
 	add: creator(actionAdd),
-	ensure,
+	ensure: ensureKeys,
 	ensureIndex: ensureIndexed,
 	loadAll,
 	loadFiltered,
