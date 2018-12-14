@@ -26,6 +26,8 @@ export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.SCENARIOS.ADD:
 			return common.add(state, action);
+		case ActionTypes.SCENARIOS.ADD_UNRECEIVED:
+			return common.addUnreceivedKeys(state, action);
 		case ActionTypes.SCENARIOS_EDITED_UPDATE:
 			return common.updateEdited(state, action);
 		case ActionTypes.SCENARIOS_EDITED_REMOVE:

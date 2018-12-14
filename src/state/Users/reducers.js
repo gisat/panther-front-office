@@ -17,6 +17,11 @@ function addGroups(state, action) {
 	return {...state, groups}
 }
 
+function addUnreceivedGroups(state, action) {
+	let groups = common.addUnreceivedKeys(state.groups, action);
+	return {...state, groups}
+}
+
 function update(state, action) {
 	let {userId, ...data} = action.data;
 	data.activeKey = action.data.userId;
@@ -35,10 +40,14 @@ export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.USERS.ADD:
 			return common.add(state, action);
+		case ActionTypes.USERS.ADD_UNRECEIVED:
+			return common.addUnreceivedKeys(state, action);
 		case ActionTypes.USERS.SET_ACTIVE_KEY:
 			return common.setActive(state, action);
 		case ActionTypes.USERS.GROUPS.ADD:
 			return addGroups(state, action);
+		case ActionTypes.USERS.GROUPS.ADD_UNRECEIVED:
+			return addUnreceivedGroups(state, action);
 		case ActionTypes.USERS_LOAD_REQUEST:
 			return loadRequest(state, action);
 		case ActionTypes.USERS_LOAD_REQUEST_ERROR:

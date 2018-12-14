@@ -13,6 +13,8 @@ export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.PLACES.ADD:
 			return common.add(state, action);
+		case ActionTypes.PLACES.ADD_UNRECEIVED:
+			return common.addUnreceivedKeys(state, action);
 		case ActionTypes.PLACES.INDEX.ADD:
 			return common.addIndex(state, action);
 		case ActionTypes.PLACES.SET_ACTIVE_KEY:

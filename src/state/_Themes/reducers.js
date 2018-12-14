@@ -12,6 +12,8 @@ export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.THEMES.ADD:
 			return common.add(state, action);
+		case ActionTypes.THEMES.ADD_UNRECEIVED:
+			return common.addUnreceivedKeys(state, action);
 		case ActionTypes.THEMES.INDEX.ADD:
 			return common.addIndex(state, action);
 		case ActionTypes.THEMES.SET_ACTIVE_KEY:

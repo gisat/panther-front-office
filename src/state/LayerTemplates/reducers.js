@@ -13,6 +13,8 @@ export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.LAYER_TEMPLATES.ADD:
 			return common.add(state, action);
+		case ActionTypes.LAYER_TEMPLATES.ADD_UNRECEIVED:
+			return common.addUnreceivedKeys(state, action);
 		default:
 			return state;
 	}

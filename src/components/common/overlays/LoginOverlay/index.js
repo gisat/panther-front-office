@@ -6,7 +6,7 @@ import presentation from './presentation';
 
 const mapStateToProps = (state, props) => {
 	let forceOpen = Select.components.overlays.isOverlayOpen(state, {key: 'login'});
-	let isActiveDataviewUnreceived = Select.dataviews.isActiveNonReturned(state);
+	let isActiveDataviewUnreceived = Select.dataviews.isActiveUnreceived(state);
 
 	return {
 		loginRequired: isActiveDataviewUnreceived,

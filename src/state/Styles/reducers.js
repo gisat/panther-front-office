@@ -13,6 +13,8 @@ export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.STYLES.ADD:
 			return common.add(state, action);
+		case ActionTypes.STYLES.ADD_UNRECEIVED:
+			return common.addUnreceivedKeys(state, action);
 		default:
 			return state;
 	}

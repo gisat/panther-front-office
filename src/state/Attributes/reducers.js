@@ -13,6 +13,8 @@ export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.ATTRIBUTES.ADD:
 			return common.add(state, action);
+		case ActionTypes.ATTRIBUTES.ADD_UNRECEIVED:
+			return common.addUnreceivedKeys(state, action);
 		case ActionTypes.ATTRIBUTES.INITIALIZE_FOR_EXT:
 			return common.initializeForExt(state, action);
 		case ActionTypes.ATTRIBUTES.USE.KEYS.REGISTER:

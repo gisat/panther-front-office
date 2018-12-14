@@ -12,6 +12,8 @@ export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.USER_GROUPS.ADD:
 			return common.add(state, action);
+		case ActionTypes.USER_GROUPS.ADD_UNRECEIVED:
+			return common.addUnreceivedKeys(state, action);
 		default:
 			return state;
 	}

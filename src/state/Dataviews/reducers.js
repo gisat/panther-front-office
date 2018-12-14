@@ -12,6 +12,8 @@ export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.DATAVIEWS.ADD:
 			return common.add(state, action);
+		case ActionTypes.DATAVIEWS.ADD_UNRECEIVED:
+			return common.addUnreceivedKeys(state, action);
 		case ActionTypes.DATAVIEWS.INDEX.ADD:
 			return common.addIndex(state, action);
 		case ActionTypes.DATAVIEWS_REMOVE:

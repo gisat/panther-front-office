@@ -27,6 +27,16 @@ export default {
 		return {...state, byKey: newData}
 	},
 
+	addUnreceivedKeys: (state, action) => {
+		let newData = {...state.byKey};
+		if (action.keys && action.keys.length) {
+			action.keys.forEach(key => {
+				newData[key] = {key, unreceived: true};
+			});
+		}
+		return {...state, byKey: newData}
+	},
+
 	addIndex: (state, action) => {
 		let indexes = [];
 		let selectedIndex = {};

@@ -81,10 +81,10 @@ const getDataForInitialLoad = createSelector(
 	}
 );
 
-const isActiveNonReturned = createSelector(
+const isActiveUnreceived = createSelector(
 	[getActive],
 	(active) => {
-		return active && active.nonReturned;
+		return active && active.unreceived;
 	}
 );
 
@@ -96,5 +96,5 @@ export default {
 	getActive,
 	getActiveKey,
 	getViewsForScope,
-	isActiveNonReturned
+	isActiveUnreceived
 };

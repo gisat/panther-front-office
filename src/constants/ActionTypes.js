@@ -23,6 +23,7 @@ export default utils.deepKeyMirror({
 
 	ATTRIBUTES: {
 		ADD: null,
+		ADD_UNRECEIVED: null,
 		ENSURE: {
 			ERROR: null
 		},
@@ -50,6 +51,7 @@ export default utils.deepKeyMirror({
 
 	ATTRIBUTE_SETS: {
 		ADD: null,
+		ADD_UNRECEIVED: null,
 		ENSURE: {
 			ERROR: null
 		},
@@ -101,6 +103,7 @@ export default utils.deepKeyMirror({
 
 	DATAVIEWS: {
 		ADD: null,
+		ADD_UNRECEIVED: null,
 		INDEX: {
 			ADD: null,
 			CLEAR_ALL: null
@@ -129,7 +132,8 @@ export default utils.deepKeyMirror({
 	LAYER_PERIODS_KEY_LAYER_RECEIVE: 'LAYER_PERIODS_KEY_LAYER_RECEIVE',
 
 	LAYER_TEMPLATES: {
-		ADD: null
+		ADD: null,
+		ADD_UNRECEIVED: null
 	},
 
 	MAPS_ADD: 'MAPS_ADD',
@@ -141,6 +145,7 @@ export default utils.deepKeyMirror({
 
 	PERIODS: {
 		ADD: null,
+		ADD_UNRECEIVED: null,
 		ENSURE: {
 			ERROR: null
 		},
@@ -171,6 +176,7 @@ export default utils.deepKeyMirror({
 
 	PLACES: {
 		ADD: null,
+		ADD_UNRECEIVED: null,
 		ENSURE: {
 			ERROR: null
 		},
@@ -200,7 +206,8 @@ export default utils.deepKeyMirror({
 	REDIRECT_TO_VIEW: 'REDIRECT_TO_VIEW',
 
 	SCENARIOS: {
-		ADD: null
+		ADD: null,
+		ADD_UNRECEIVED: null
 	},
 
 	SCENARIOS_ADD: 'SCENARIOS_ADD',
@@ -242,6 +249,7 @@ export default utils.deepKeyMirror({
 
 	SCOPES: {
 		ADD: null,
+		ADD_UNRECEIVED: null,
 		ENSURE: {
 			ERROR: null
 		},
@@ -287,7 +295,8 @@ export default utils.deepKeyMirror({
 	SPATIAL_DATA_SOURCES_VECTOR_FEATURES_EDITED_ADD: 'SPATIAL_DATA_SOURCES_VECTOR_FEATURES_EDITED_ADD',
 
 	STYLES: {
-		ADD: null
+		ADD: null,
+		ADD_UNRECEIVED: null
 	},
 
 	SNAPSHOTS_ADD: 'SNAPSHOTS_ADD',
@@ -295,6 +304,7 @@ export default utils.deepKeyMirror({
 
 	THEMES: {
 		ADD: null,
+		ADD_UNRECEIVED: null,
 		ENSURE: {
 			ERROR: null
 		},
@@ -322,14 +332,18 @@ export default utils.deepKeyMirror({
 
 	USERS: {
 		ADD: null,
+		ADD_UNRECEIVED: null,
 		GROUPS: {
-			ADD: null
+			ADD: null,
+			ADD_UNRECEIVED: null
 		},
 		SET_ACTIVE_KEY: null
 	},
 
+	//todo which is it? USER_GROUPS or USERS.GROUPS?
 	USER_GROUPS: {
-		ADD: null
+		ADD: null,
+		ADD_UNRECEIVED: null
 	},
 
 	USERS_ADD: 'USERS_ADD',
