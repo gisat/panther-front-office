@@ -11,6 +11,7 @@
 		top toolbar
 		windows
 		charts
+	PUCS
 */
 
 @font-face {
@@ -235,4 +236,77 @@ html.urban-tep .intro-screen-title {
 /* Button */
 .eo4sd.newDesign .x-btn-default-small .x-btn-inner {
 	line-height: 1.8;
+}
+
+/* === PUCS ===================================== */
+
+/* header */
+.pucs.newDesign #header {
+	padding-left: 10px;
+}
+.pucs.newDesign #home-page {
+	padding: 10px 8px;
+}
+.pucs.newDesign #header-view-selection {
+	padding-left: 35px;
+}
+
+.pucs.newDesign .ptr-view-selection-container {
+	align-items: flex-end;
+}
+
+/* top-tool-bar */
+.pucs.newDesign #top-toolbar .item.open {
+	color: rgba(212,90,58,1);
+}
+
+/* floaters */
+.pucs.newDesign .floater-header,
+.pucs.newDesign .ptr-window-header{
+	background: rgba(212,90,58,.9);
+}
+.pucs.newDesign .floater.pinned .floater-header,
+.pucs.newDesign .ptr-window.docked .ptr-window-header {
+	background: rgba(212,90,58,1);
+}
+
+/* mapTools widget */
+.pucs.newDesign .map-tools-container > h4 {
+	color: rgba(212,90,58,1);
+}
+.pucs.newDesign .toggle-icon.active:before {
+	color: rgba(212,90,58,1);
+}
+
+/* scenarios */
+.pucs.newDesign .case-list-item.unsaved-editing {
+	border-color: rgba(212,90,58,.7);
+}
+.pucs.newDesign .case-list-item.unsaved-editing .case-list-item-footer-editing {
+	color: rgba(212,90,58,1);
+}
+.pucs.newDesign .case-detail-controls {
+	background: rgba(212,90,58,.3);
+}
+
+/* buttons */
+.pucs.newDesign .ptr-button.primary {
+	background: rgba(212,90,58,.85);
+}
+.pucs.newDesign .ptr-button.primary:hover {
+	background: rgba(212,90,58,1);
+}
+
+/* sliders and checkboxes */
+.pucs.newDesign .slider-row.ui-slider-horizontal .ui-slider-handle {
+	border-color: rgba(212,90,58,1);
+}
+.pucs.newDesign .slider-row.ui-slider-horizontal .ui-slider-handle:hover,
+.pucs.newDesign .slider-row.ui-slider-horizontal .ui-slider-handle.ui-state-focus {
+	background:rgba(212,90,58,1);
+}
+
+.pucs.newDesign .checkbox-row.checked .checkbox-icon:before,
+.pucs.newDesign .radiobox-row.checked .radiobox-icon:before {
+	color: rgba(212,90,58,1);
 }
