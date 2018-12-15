@@ -15,7 +15,8 @@ export default {
 	"pucs": {
 		htmlClass: "pucs",
 		logoSrc: "img/pucs/pucs-logo-white.png",
-		introLogoSrc: "img/pucs/pucs-logo-extended.png"
+		introHeaderBackgroundSrc: "img/pucs/intro-header-background.jpg",
+		introLogoSrc: "img/pucs/pucs-logo-white-big.png"
 	},
 	"test": {
 		htmlClass: "dromas"
