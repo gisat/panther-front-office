@@ -240,6 +240,48 @@ html.urban-tep .intro-screen-title {
 
 /* === PUCS ===================================== */
 
+/* specific font-family */
+.pucs.newDesign body,
+.pucs.newDesign .component-button,
+
+.pucs.newDesign #header,
+.pucs.newDesign #header h1,
+.pucs.newDesign #header a,
+.pucs.newDesign #view-selector,
+.pucs.newDesign #content-intro,
+.pucs.newDesign #content-intro-guide,
+.pucs.newDesign #view-selector .field .label,
+.pucs.newDesign.x-border-box .custom-combo .x-form-text,
+.pucs.newDesign.x-border-box .x-form-text,
+.pucs.newDesign #app-view-selector-visualization-save .x-btn.custom-button.x-btn-default-small .x-btn-inner,
+.pucs.newDesign .thematic-maps-settings .x-window-header-text-default,
+.pucs.newDesign .chart-panel .x-panel-header-text,
+.pucs.newDesign .x-boundlist .x-boundlist-item,
+.pucs.newDesign .paging-toolbar .x-toolbar-text,
+.pucs.newDesign .paging-toolbar .x-form-text,
+.pucs.newDesign .tools-filters-list .x-form-display-field,
+.pucs.newDesign .x-column-header,
+.pucs.newDesign .x-grid-row .x-grid-cell,
+.pucs.newDesign .x-btn .x-btn-inner,
+.pucs.newDesign .x-panel-header-text-default,
+.pucs.newDesign .x-panel-header-text-default-framed,
+.pucs.newDesign .x-form-item,
+.pucs.newDesign .x-fieldset-header,
+
+.pucs #top-toolbar .item,
+.pucs .floater-header-title,
+.pucs.newDesign .mode-3d .detached-window .x-window-header-text-default,
+.pucs .tool-window-title,
+
+.pucs .ptr-window-title,
+.pucs .ptr-views-list-title,
+.pucs .ptr-views-list-description,
+.pucs .view-card-title,
+.pucs .view-card-description {
+	font-family: "Montserrat", "Open Sans", sans-serif;
+}
+
+
 /* header */
 .pucs.newDesign #header {
 	padding-left: 10px;
