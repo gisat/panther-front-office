@@ -420,6 +420,7 @@ class Layers {
         layer.metadata = {
             active: state,
             id: layerData.id,
+            templateId: layerData.templateId,
             name: layerData.name,
             group: group,
             style: layerData.stylePaths

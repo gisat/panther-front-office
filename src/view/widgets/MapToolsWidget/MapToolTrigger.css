@@ -51,3 +51,8 @@
 .map-tool-trigger-icons {
 
 }
+
+/* specific triggers */
+#pucs-feature-info-trigger {
+	padding-top: .25rem;
+}
