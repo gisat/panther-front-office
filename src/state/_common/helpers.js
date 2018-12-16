@@ -14,7 +14,7 @@ function getIndex(indexes, filter, order) {
 }
 
 function mergeFilters(activeKeys, filterByActive, filter) {
-	if (filterByActive) {
+	if (activeKeys && filterByActive) {
 		let fullFilter = {...filter};
 		if (filterByActive.scope){
 			if (activeKeys.activeScopeKey){
@@ -36,7 +36,7 @@ function mergeFilters(activeKeys, filterByActive, filter) {
 			if (activeKeys.activePlaceKey){
 				fullFilter.place = activeKeys.activePlaceKey;
 			} else if (activeKeys.activePlaceKeys){
-				fullFilter.place = {in: activeKeys.activePlaceKeys};
+				fullFilter.place = {key: {in: activeKeys.activePlaceKeys}};
 			} else {
 				return null;
 			}
@@ -45,7 +45,7 @@ function mergeFilters(activeKeys, filterByActive, filter) {
 			if (activeKeys.activePeriodKey){
 				fullFilter.periods = activeKeys.activePeriodKey;
 			} else if (activeKeys.activePeriodKeys){
-				fullFilter.periods = {in: activeKeys.activePeriodKeys};
+				fullFilter.periods = {key: {in: activeKeys.activePeriodKeys}};
 			} else {
 				return null;
 			}
