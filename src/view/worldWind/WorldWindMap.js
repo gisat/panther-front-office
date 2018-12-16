@@ -769,7 +769,7 @@ class WorldWindMap {
                 layer.metadata.group === 'place-layer') {
                 return;
             }
-            let serviceAddress = layer.urlBuilder.serviceAddress;
+
             let layerNames = layer.urlBuilder.layerNames;
             let crs = layer.urlBuilder.crs;
             let name = layerNames;
@@ -783,7 +783,7 @@ class WorldWindMap {
 
             return new WmsFeatureInfo({
                 customParameters: customParams,
-                serviceAddress: serviceAddress,
+                serviceAddress: window.Config.geoServerUrl,
                 layers: layerNames,
                 position: position,
                 srs: crs,

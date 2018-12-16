@@ -4,6 +4,7 @@ import Logger from '../../../util/Logger';
 
 import Button from '../../components/Button/Button';
 import LayerInfoTool from '../../tools/FeatureInfoTool/LayerInfoTool';
+import PucsFeatureInfoTool from '../../tools/FeatureInfoTool/PucsFeatureInfoTool';
 import SelectInMap from '../../tools/SelectInMap';
 import MapToolTrigger from './MapToolTrigger';
 import Widget from '../Widget';
@@ -107,11 +108,23 @@ class MapToolsWidget extends Widget {
      */
     rebuild() {
         var scope = this._stateStore.current().scopeFull;
-        if (scope.featurePlaceChangeReview){
+
+        // TODO it is still used in any scope?
+        if (scope &&  scope.featurePlaceChangeReview){
             this.hideTools({
                 sections: ['selections'],
                 tools: ['zoom-selected', 'area-info']
-            })
+            });
+        } else if (scope && scope.configuration && scope.configuration.pucsFeatureInfo){
+			this.hideTools({
+				sections: ['selections', 'zooming', 'info']
+			});
+
+			if (!this._pucsFeatureInfo && !this._pucsFeatureInfoTrigger){
+				this._pucsFeatureInfo = this.buildPucsFeatureInfoTool();
+				this._pucsFeatureInfoTrigger = this.buildPucsFeatureInfoTrigger();
+				this._triggers.push(this._pucsFeatureInfoTrigger);
+            }
         }
 
         this._triggers.forEach(function(trigger){
@@ -145,6 +158,21 @@ class MapToolsWidget extends Widget {
             }
         })
     };
+
+	/**
+	 * Build specific tool for pucs
+	 * @returns {PucsFeatureInfoTool}
+	 */
+	buildPucsFeatureInfoTool() {
+		return new PucsFeatureInfoTool({
+			id: 'pucs-feature-info',
+			dispatcher: this._dispatcher,
+			store: {
+				map: this._store.map,
+				state: this._store.state
+			}
+		})
+	};
 
     /**
      * Build select in map tool trigger
@@ -196,6 +224,23 @@ class MapToolsWidget extends Widget {
             onActivate: this._layerInfo.activate.bind(this._layerInfo)
         });
     };
+
+	/**
+	 * Build specific info tool trigger for PUCS
+	 * @returns {MapToolTrigger}
+	 */
+	buildPucsFeatureInfoTrigger() {
+		return new MapToolTrigger({
+			id: 'pucs-feature-info-trigger',
+			label: polyglot.t("featureInfo"),
+			hasSvgIcon: true,
+			iconPath: 'images/icons/feature-info.svg',
+			dispatcher: this._dispatcher,
+			target: this._widgetBodySelector,
+			onDeactivate: this._pucsFeatureInfo.deactivate.bind(this._pucsFeatureInfo),
+			onActivate: this._pucsFeatureInfo.activate.bind(this._pucsFeatureInfo)
+		});
+	};
 
     /**
      * Build button for selection clearing
