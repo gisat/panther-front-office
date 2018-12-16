@@ -502,6 +502,9 @@ function actionUseKeysRegister(actionTypes, componentId, keys) {
 
 export default {
 	add: creator(actionAdd),
+	action,
+	actionAdd,
+	creator,
 	ensure: ensureKeys,
 	ensureIndex: ensureIndexed,
 	loadAll,
