@@ -1,5 +1,4 @@
 .ptr-views-list {
-	padding: 1.5rem;
 	overflow-y: auto;
 	height: 100%;
 	width: 100%;
@@ -11,6 +10,12 @@
 
 .no-view-message {
 	font-size: .9rem;
+}
+
+.ptr-views-list-header {
+	display: flex;
+	flex-direction: column;
+	padding: 1.5rem 1.5rem 0;
 }
 
 .ptr-views-list-tilte-container {
@@ -39,7 +44,7 @@
 }
 
 .ptr-views-list-description {
-	margin: 0 0 1.5rem;
+	margin: 0 0 0.5rem;
 }
 
 .ptr-views-list-description p {
@@ -58,6 +63,7 @@
 .ptr-views-list-content {
 	display: flex;
 	flex-wrap: wrap;
+	padding: 1.5rem;
 }
 
 @media (max-width: 1600px) {
