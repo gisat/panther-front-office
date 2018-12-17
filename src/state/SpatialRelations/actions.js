@@ -22,7 +22,7 @@ function load(ttl) {
 			dispatch(actionLoadRelationsRequest());
 
 			let activePlaceKey = Select.places.getActiveKey(state);
-			let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/relations/filtered/spatial');
+			let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/relations/filtered/spatial');
 
 			return fetch(url, {
 				method: 'POST',

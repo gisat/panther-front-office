@@ -17,7 +17,7 @@ import LayerPeriods from "../LayerPeriods/actions";
 
 function load() {
 	return (dispatch) => {
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/lpis_cases');
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/metadata/lpis_cases');
 
 		return fetch(url, {
 			method: 'GET',
@@ -38,7 +38,7 @@ function load() {
 
 function loadFiltered(filter) {
 	return (dispatch) => {
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/filtered/lpis_cases');
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/metadata/filtered/lpis_cases');
 
 		return fetch(url, {
 			method: 'POST',
@@ -61,7 +61,7 @@ function loadFiltered(filter) {
 function createLpisCase() {
 	return (dispatch, getState) => {
 		let state = getState();
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata');
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/metadata');
 		let activeNewEditedCase = Select.lpisCases.getActiveEditedCase(state);
 
 		let formData = new FormData();
@@ -116,7 +116,7 @@ function editLpisCase(caseKey) {
 		let editedCase = caseKey ? _.find(Select.lpisCases.getEditedCases(state), {key: caseKey}) : Select.lpisCases.getActiveCaseEdited(state);
 		let activeCase = Select.lpisCases.getActiveCase(state);
 
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata');
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/metadata');
 
 		return fetch(url, {
 			method: 'PUT',
@@ -149,7 +149,7 @@ function editLpisCase(caseKey) {
 function updateActiveCaseView() {
 	return (dispatch, getState) => {
 		let state = getState();
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/dataview');
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/dataview');
 		let activeCase = Select.lpisCases.getActiveCase(state);
 
 		if (activeCase) {

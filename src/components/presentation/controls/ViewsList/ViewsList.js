@@ -6,6 +6,7 @@ import './ViewsList.css';
 import ViewCard from "../../../containers/controls/ViewCard";
 import Names from "../../../../constants/Names";
 import VisualConfig from "../../../../constants/VisualsConfig";
+import PucsClimateFitIntroHeader from "../../../scopeSpecific/PucsClimateFit/introHeader/presentation";
 
 class ViewsList extends React.PureComponent {
 
@@ -22,37 +23,52 @@ class ViewsList extends React.PureComponent {
 	}
 
 	render() {
+		let withoutHeader = (this.props.hideTitle || !this.props.isIntro);
+
 		return (
 			<div className="ptr-views-list">
-				{(this.props.hideTitle || !this.props.isIntro) ? null : this.renderTitle()}
-				{this.props.selectedScope && this.props.selectedScope.description ? this.renderDescription() : null}
-				<div className="ptr-views-list-content">{this.renderViews()}</div>
+				{withoutHeader ? null : this.renderViewsHeader()}
+				<div className="ptr-views-list-content">{this.renderViewsContent()}</div>
 			</div>
 		);
 	}
 
-	renderTitle(){
-		let style = this.props.selectedScope && this.props.selectedScope.configuration && this.props.selectedScope.configuration.style;
-		if (style && VisualConfig[style] && VisualConfig[style].introLogoSrc){
+	renderViewsHeader(){
+		let scopeStyle = this.props.selectedScope && this.props.selectedScope.configuration && this.props.selectedScope.configuration.style;
+
+		if (scopeStyle === "pucs"){
 			return (
-				<div className="ptr-views-list-tilte-container">
-					<h2 className="ptr-views-list-title">{this.props.selectedScope ? this.props.selectedScope.name : null}</h2>
-					<img className="ptr-views-list-logo" src={VisualConfig[style].introLogoSrc}/>
-				</div>
-				);
+				<PucsClimateFitIntroHeader
+					title={this.props.selectedScope.name}
+					description={this.props.selectedScope.description}
+					backgroundSource={scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introHeaderBackgroundSrc}
+					logoSource={scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introLogoSrc}
+				/>
+			);
 		} else {
-			return (<h2 className="ptr-views-list-title">{this.props.selectedScope ? this.props.selectedScope.name : null}</h2>);
+			let headerLogo = scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introLogoSrc;
+			let description = this.props.selectedScope && this.props.selectedScope.description;
+
+
+			return (
+				<div className="ptr-views-list-header">
+					<div className="ptr-views-list-tilte-container">
+						<h2 className="ptr-views-list-title">{this.props.selectedScope ? this.props.selectedScope.name : null}</h2>
+						{headerLogo ? (<img className="ptr-views-list-logo" src={headerLogo}/>) : null}
+					</div>
+					{description ? (
+						<div
+							className="ptr-views-list-description"
+							dangerouslySetInnerHTML={{__html: description}}
+						>
+						</div>
+					) : null}
+				</div>
+			);
 		}
 	}
 
-	renderDescription() {
-		return (
-			<div className="ptr-views-list-description" dangerouslySetInnerHTML={{__html: this.props.selectedScope.description}}>
-			</div>
-		);
-	}
-
-	renderViews(){
+	renderViewsContent(){
 		return this.props.views.length ? (this.props.views.map(view => {
 			return <ViewCard
 				key={view.key}

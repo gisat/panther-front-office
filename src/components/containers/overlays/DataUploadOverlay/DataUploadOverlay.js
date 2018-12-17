@@ -56,7 +56,7 @@ class DataUploadOverlay extends React.PureComponent {
 		data.append('scopeId', this.props.scopeId);
 		data.append('changeReviewFileBefore', this.fileInputBefore.files[0]);
 		data.append('changeReviewFileAfter', this.fileInputAfter.files[0]);
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendSzifPath);
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, config.apiBackendSzifPath);
 
 		fetch(url, {
 			method: 'POST',

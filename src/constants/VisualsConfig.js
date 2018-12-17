@@ -12,6 +12,12 @@ export default {
 		logoSrc: "img/eo4sd/eo4sd-light.png",
 		introLogoSrc: "img/eo4sd/eo4sd.png"
 	},
+	"pucs": {
+		htmlClass: "pucs",
+		logoSrc: "img/pucs/pucs-logo-white.png",
+		introHeaderBackgroundSrc: "img/pucs/intro-header-background.jpg",
+		introLogoSrc: "img/pucs/pucs-logo-white-big.png"
+	},
 	"test": {
 		htmlClass: "dromas"
 	}

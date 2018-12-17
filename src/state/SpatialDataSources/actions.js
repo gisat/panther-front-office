@@ -63,7 +63,7 @@ function load(ttl) {
 		} else {
 			dispatch(actionLoadDataSourcesRequest());
 
-			let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/spatial_data_sources');
+			let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/metadata/spatial_data_sources');
 
 			return fetch(url, {
 				method: 'GET',
@@ -108,7 +108,7 @@ function loadFiltered(filterData, ttl){
 		if (state.spatialDataSources.loading) {
 			// already loading, do nothing
 		} else {
-			let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/metadata/spatial_data_sources/filtered');
+			let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/metadata/spatial_data_sources/filtered');
 			let filter = {any: null};
 			if (filterData){
 				filter.any = filterData;

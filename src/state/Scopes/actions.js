@@ -49,7 +49,7 @@ function apiLoadScopes(ttl) {
     return dispatch => {
         dispatch(actionApiLoadScopesRequest());
 
-        let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/dataset');
+        let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/dataset');
 
         return fetch(url, {
             method: 'GET',

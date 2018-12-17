@@ -235,6 +235,10 @@ class WorldWindWidgetPanel {
             if (checkbox.hasClass("checked")){
                 if (layerId === "areaoutlines"){
 					window.Stores.notify("analyticalUnits#show");
+                } else if (layerId === "selectedareas"){
+                    self._selectedAreasOutlinesActive = true;
+                } else if (layerId === "selectedareasfilled"){
+					self._selectedAreasFilledActive = true;
                 }
 
                 self._mapStore.getAll().forEach(function(map){
@@ -243,6 +247,10 @@ class WorldWindWidgetPanel {
             } else {
 				if (layerId === "areaoutlines"){
 					window.Stores.notify("analyticalUnits#hide");
+				} else if (layerId === "selectedareas"){
+					self._selectedAreasOutlinesActive = false;
+				} else if (layerId === "selectedareasfilled"){
+					self._selectedAreasFilledActive = false;
 				}
 
                 self._mapStore.getAll().forEach(function(map){
