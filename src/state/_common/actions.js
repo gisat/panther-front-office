@@ -513,6 +513,8 @@ export default {
 	setActiveKey: creator(actionSetActiveKey),
 	setActiveKeyAndEnsureDependencies,
 	setActiveKeys: creator(actionSetActiveKeys),
+	receiveIndexed,
+	receiveKeys,
 	refreshAllIndexes,
 	request: requestWrapper,
 	useKeys,

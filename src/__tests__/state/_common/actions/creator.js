@@ -10,11 +10,11 @@ describe('#creator', () => {
 	it('should dispatch expected action', () => {
 		const store = mockStore({scopes: {}});
 		const actionAdd = commonActions.actionAdd;
-		const payload = [{key: 1, data: [{name: 'London'}]}, {key: 2, data: [{name: 'Prague'}]}];
+		const payload = [{key: 1, data: {name: 'London'}}, {key: 2, data: {name: 'Prague'}}];
 
 		const expectedActions = [{
 			type: ActionTypes.SCOPES.ADD,
-			data: [{key: 1, data: [{name: 'London'}]}, {key: 2, data: [{name: 'Prague'}]}]
+			data: [{key: 1, data: {name: 'London'}}, {key: 2, data: {name: 'Prague'}}]
 		}];
 
 		store.dispatch(commonActions.creator(actionAdd)(ActionTypes.SCOPES)(payload));
