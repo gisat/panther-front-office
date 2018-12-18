@@ -15,7 +15,7 @@ const TTL = 5;
  * @param ttl - (optional) number of tries
  * @returns response or error
  */
-export const request = function(apiPath, method, query, payload, ttl) {
+export default function request (apiPath, method, query, payload, ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
 	let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, apiPath);
 	if (query) {

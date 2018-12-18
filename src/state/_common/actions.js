@@ -2,7 +2,7 @@ import _ from "lodash";
 import path from "path";
 import moment from 'moment';
 
-import {request} from './request';
+import request from './request';
 import commonHelpers from './helpers';
 import commonSelectors from './selectors';
 import Select from "../Select";
