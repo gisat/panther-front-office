@@ -217,7 +217,6 @@ function loadKeysPage(dataType, actionTypes, keys) {
 		return request(apiPath, 'POST', null, payload)
 			.then(result => {
 				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
-					dispatch(actionGeneralError(result.errors[dataType] || new Error('no data')));
 					throw new Error(result.errors[dataType] || 'no data');
 				} else {
 					dispatch(receiveKeys(actionTypes, result, dataType, keys));
