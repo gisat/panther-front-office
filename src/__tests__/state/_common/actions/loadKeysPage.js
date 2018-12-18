@@ -49,6 +49,8 @@ describe('#loadKeysPage', () => {
 			expect(actionAddUnreceived).toBeDefined();
 			expect(actionAddUnreceived.keys).toHaveLength(1);
 			expect(actionAddUnreceived.keys[0]).toBe(2);
+		}).catch((err) => {
+			fail(err);
 		});
 	});
 
@@ -88,6 +90,8 @@ describe('#loadKeysPage', () => {
 			expect(actions).toHaveLength(1);
 			expect(actionAdd).toBeDefined();
 			expect(actionAdd.data).toHaveLength(2);
+		}).catch((err) => {
+			fail(err);
 		});
 	});
 
@@ -117,6 +121,8 @@ describe('#loadKeysPage', () => {
 			expect(actions).toHaveLength(1);
 			expect(actionAddUnreceived).toBeDefined();
 			expect(actionAddUnreceived.keys).toHaveLength(3);
+		}).catch((err) => {
+			fail(err);
 		});
 	});
 
@@ -145,6 +151,8 @@ describe('#loadKeysPage', () => {
 
 			expect(actions).toHaveLength(1);
 			expect(actionError).toBeDefined();
+		}).catch((err) => {
+			fail(err);
 		});
 	});
 
@@ -181,6 +189,8 @@ describe('#loadKeysPage', () => {
 
 			expect(actions).toHaveLength(1);
 			expect(actionError).toBeDefined();
+		}).catch((err) => {
+			fail(err);
 		});
 	});
 
@@ -203,8 +213,10 @@ describe('#loadKeysPage', () => {
 			let actions = store.getActions();
 			let actionError = _.find(actions, (action) => action.type === "ERROR");
 
-			expect(actions).toHaveLength(1);
+			expect(actions).toHaveLength(2);
 			expect(actionError).toBeDefined();
+		}).catch((err) => {
+			fail(err);
 		});
 	});
 });
