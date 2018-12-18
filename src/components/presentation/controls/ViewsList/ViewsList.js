@@ -7,6 +7,7 @@ import ViewCard from "../../../containers/controls/ViewCard";
 import Names from "../../../../constants/Names";
 import VisualConfig from "../../../../constants/VisualsConfig";
 import PucsClimateFitIntroHeader from "../../../scopeSpecific/PucsClimateFit/introHeader/presentation";
+import PucsClimateFitIntroFooter from "../../../scopeSpecific/PucsClimateFit/introFooter/presentation";
 
 class ViewsList extends React.PureComponent {
 
@@ -23,19 +24,21 @@ class ViewsList extends React.PureComponent {
 	}
 
 	render() {
+		let scopeStyle = this.props.selectedScope && this.props.selectedScope.configuration && this.props.selectedScope.configuration.style;
 		let withoutHeader = (this.props.hideTitle || !this.props.isIntro);
 
 		return (
 			<div className="ptr-views-list">
-				{withoutHeader ? null : this.renderViewsHeader()}
-				<div className="ptr-views-list-content">{this.renderViewsContent()}</div>
+				{withoutHeader ? null : this.renderHeader(scopeStyle)}
+				<div className="ptr-views-list-content">
+					<div>{this.renderContent()}</div>
+				</div>
+				{this.renderFooter(scopeStyle)}
 			</div>
 		);
 	}
 
-	renderViewsHeader(){
-		let scopeStyle = this.props.selectedScope && this.props.selectedScope.configuration && this.props.selectedScope.configuration.style;
-
+	renderHeader(scopeStyle){
 		if (scopeStyle === "pucs"){
 			return (
 				<PucsClimateFitIntroHeader
@@ -68,7 +71,7 @@ class ViewsList extends React.PureComponent {
 		}
 	}
 
-	renderViewsContent(){
+	renderContent(){
 		return this.props.views.length ? (this.props.views.map(view => {
 			return <ViewCard
 				key={view.key}
@@ -78,6 +81,14 @@ class ViewsList extends React.PureComponent {
 				deletable={view.deletable}
 			/>
 		})) : (<div className="no-view-message">{Names.VIEWS_NO_VIEW_FOR_SCOPE}</div>);
+	}
+
+	renderFooter(scopeStyle){
+		if (scopeStyle && scopeStyle === "pucs"){
+			return <PucsClimateFitIntroFooter/>;
+		} else {
+			return null;
+		}
 	}
 }
 

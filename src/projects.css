@@ -277,7 +277,8 @@ html.urban-tep .intro-screen-title {
 .pucs .ptr-views-list-title,
 .pucs .ptr-views-list-description,
 .pucs .view-card-title,
-.pucs .view-card-description {
+.pucs .view-card-description,
+.pucs .ptr-views-list {
 	font-family: "Montserrat", "Open Sans", sans-serif;
 }
 
