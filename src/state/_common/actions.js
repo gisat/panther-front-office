@@ -242,7 +242,6 @@ function loadIndexedPage(dataType, filter, order, start, changedOn, actionTypes)
 		return request(apiPath, 'POST', null, payload)
 			.then(result => {
 				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
-					dispatch(actionGeneralError(result.errors[dataType] || new Error('no data')));
 					throw new Error(result.errors[dataType] || 'no data');
 				} else if (result.changes && result.changes[dataType] && moment(result.changes[dataType]).isAfter(changedOn)) {
 					throw new Error('Index outdated');
@@ -454,6 +453,7 @@ export default {
 	ensureIndex: ensureIndexed,
 	loadAll,
 	loadFiltered,
+	loadIndexedPage,
 	loadKeysPage,
 	setActiveKey: creator(actionSetActiveKey),
 	setActiveKeyAndEnsureDependencies,
