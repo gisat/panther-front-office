@@ -52,7 +52,7 @@ class Legend extends LayerTool {
             params['SLD_ID'] = this._layerMetadata.sldId;
         }
 
-        let imgSrc = Config.url + "api/proxy/wms?" + stringUtils.makeUriComponent(params);
+        let imgSrc = Config.url + "geoserver/wms?" + stringUtils.makeUriComponent(params);
         this._floater.addContent('<img src="' + imgSrc + '">');
     };
 }
