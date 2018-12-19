@@ -15,7 +15,7 @@ export default ({scope, intro}) => {
 			}
 		} else {
 			return <ViewsList
-				selectedScope={scope}
+				selectedScopeData={scope && scope.data}
 			/>
 		}
 	} else if (!scope && intro){

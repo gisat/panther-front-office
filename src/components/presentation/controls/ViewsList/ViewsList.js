@@ -15,7 +15,7 @@ class ViewsList extends React.PureComponent {
 		hideTitle: PropTypes.bool,
 		onMount: PropTypes.func,
 		onUnmount: PropTypes.func,
-		selectedScope: PropTypes.object,
+		selectedScopeData: PropTypes.object,
 		views: PropTypes.array,
 	};
 
@@ -33,12 +33,11 @@ class ViewsList extends React.PureComponent {
 	}
 
 	render() {
-		let scopeStyle = this.props.selectedScope && this.props.selectedScope.configuration && this.props.selectedScope.configuration.style;
-		let withoutHeader = (this.props.hideTitle || !this.props.isIntro);
+		let scopeStyle = this.props.selectedScopeData && this.props.selectedScopeData.configuration && this.props.selectedScopeData.configuration.style;
 
 		return (
 			<div className="ptr-views-list">
-				{withoutHeader ? null : this.renderHeader(scopeStyle)}
+				{this.props.hideTitle ? null : this.renderHeader(scopeStyle)}
 				<div className="ptr-views-list-content">
 					<div>{this.renderContent()}</div>
 				</div>
@@ -51,21 +50,21 @@ class ViewsList extends React.PureComponent {
 		if (scopeStyle === "pucs"){
 			return (
 				<PucsClimateFitIntroHeader
-					title={this.props.selectedScope.name}
-					description={this.props.selectedScope.description}
+					title={this.props.selectedScopeData && this.props.selectedScopeData.name}
+					description={this.props.selectedScopeData && this.props.selectedScopeData.description}
 					backgroundSource={scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introHeaderBackgroundSrc}
 					logoSource={scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introLogoSrc}
 				/>
 			);
 		} else {
 			let headerLogo = scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introLogoSrc;
-			let description = this.props.selectedScope && this.props.selectedScope.description;
+			let description = this.props.selectedScopeData && this.props.selectedScopeData.description;
 
 
 			return (
 				<div className="ptr-views-list-header">
 					<div className="ptr-views-list-tilte-container">
-						<h2 className="ptr-views-list-title">{this.props.selectedScope ? this.props.selectedScope.name : null}</h2>
+						<h2 className="ptr-views-list-title">{this.props.selectedScopeData ? this.props.selectedScopeData.name : null}</h2>
 						{headerLogo ? (<img className="ptr-views-list-logo" src={headerLogo}/>) : null}
 					</div>
 					{description ? (
