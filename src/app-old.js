@@ -141,6 +141,10 @@ function loadApp(initialData) {
         }).then(function () {
 			setUpNewApp();
 			ext.applyDataview(initialData);
+
+			if (initialData.activeScopeStyle){
+				applyScopeStyle(initialData.activeScopeStyle);
+            }
         }).catch(err => {
             console.error('Loading#', err);
         });
@@ -161,6 +165,12 @@ function loadApp(initialData) {
             createLink("styles/projects.css");
         }
     });
+
+    function applyScopeStyle(style) {
+        if (style.logoSrc){
+			window.Stores.notify("SHOW_HEADER_LOGO", initialData.activeScopeStyle.logoSrc);
+        }
+	}
 
     function setUpNewApp() {
         function stop(event){
