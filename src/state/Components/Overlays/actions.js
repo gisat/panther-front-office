@@ -57,7 +57,7 @@ function apiCreateLayerCopyRequest(dataSource, dataSourceCloneKey, ttl) {
 			dataSourceKey: null
 		}));
 
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/importer/duplicate');
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/importer/duplicate');
 		let payload = {
 			data: [{
 				uuid: uuid,

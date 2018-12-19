@@ -25,7 +25,7 @@ function loadForAoiLayer(aoi, wmsLayer, ttl) {
 
 		dispatch(actionLoadForAoiRequest(aoi.key, wmsLayer.key));
 
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendAoiLayerPeriodsPath);
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, config.apiBackendAoiLayerPeriodsPath);
 		let body = {
 			data: {
 				geometry: aoi.geometry,
@@ -74,7 +74,7 @@ function loadForPlaceLayer(place, wmsLayer, ttl) {
 
 		dispatch(actionLoadForPlaceRequest(place.key, wmsLayer.key));
 
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendAoiLayerPeriodsPath);
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, config.apiBackendAoiLayerPeriodsPath);
 		let body = {
 			data: {
 				geometry: place.geometry,
@@ -120,7 +120,7 @@ function loadForKeyLayer(key, geometry, wmsLayer, ttl) {
 
 		dispatch(actionLoadForKeyLayerRequest(key, geometry, wmsLayer.key));
 
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendAoiLayerPeriodsPath);
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, config.apiBackendAoiLayerPeriodsPath);
 		let body = {
 			data: {
 				geometry: geometry,

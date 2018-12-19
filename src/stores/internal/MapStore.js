@@ -100,6 +100,7 @@ class MapStore {
 						layerPaths: item.dataSource,
 						stylePaths: style,
 						id: id,
+						templateId: item.layerTemplateKey
 					}, 'info-layers', true);
 				}
 			}

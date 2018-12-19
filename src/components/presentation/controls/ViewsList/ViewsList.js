@@ -6,6 +6,8 @@ import './ViewsList.css';
 import ViewCard from "../../../containers/controls/ViewCard";
 import Names from "../../../../constants/Names";
 import VisualConfig from "../../../../constants/VisualsConfig";
+import PucsClimateFitIntroHeader from "../../../scopeSpecific/PucsClimateFit/introHeader/presentation";
+import PucsClimateFitIntroFooter from "../../../scopeSpecific/PucsClimateFit/introFooter/presentation";
 
 class ViewsList extends React.PureComponent {
 
@@ -31,37 +33,54 @@ class ViewsList extends React.PureComponent {
 	}
 
 	render() {
+		let scopeStyle = this.props.selectedScope && this.props.selectedScope.configuration && this.props.selectedScope.configuration.style;
+		let withoutHeader = (this.props.hideTitle || !this.props.isIntro);
+
 		return (
 			<div className="ptr-views-list">
-				{this.props.hideTitle ? null : this.renderTitle()}
-				{this.props.selectedScope && this.props.selectedScope.data &&  this.props.selectedScope.data.description ? this.renderDescription() : null}
-				<div className="ptr-views-list-content">{this.renderViews()}</div>
+				{withoutHeader ? null : this.renderHeader(scopeStyle)}
+				<div className="ptr-views-list-content">
+					<div>{this.renderContent()}</div>
+				</div>
+				{this.renderFooter(scopeStyle)}
 			</div>
 		);
 	}
 
-	renderTitle(){
-		let style = this.props.selectedScope && this.props.selectedScope.data && this.props.selectedScope.data.configuration && this.props.selectedScope.data.configuration.style;
-		if (style && VisualConfig[style] && VisualConfig[style].introLogoSrc){
+	renderHeader(scopeStyle){
+		if (scopeStyle === "pucs"){
 			return (
-				<div className="ptr-views-list-tilte-container">
-					<h2 className="ptr-views-list-title">{this.props.selectedScope && this.props.selectedScope.data ? this.props.selectedScope.data.name : null}</h2>
-					<img className="ptr-views-list-logo" src={VisualConfig[style].introLogoSrc}/>
-				</div>
-				);
+				<PucsClimateFitIntroHeader
+					title={this.props.selectedScope.name}
+					description={this.props.selectedScope.description}
+					backgroundSource={scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introHeaderBackgroundSrc}
+					logoSource={scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introLogoSrc}
+				/>
+			);
 		} else {
-			return (<h2 className="ptr-views-list-title">{this.props.selectedScope  && this.props.selectedScope.data ? this.props.selectedScope.data.name : null}</h2>);
+			let headerLogo = scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introLogoSrc;
+			let description = this.props.selectedScope && this.props.selectedScope.description;
+
+
+			return (
+				<div className="ptr-views-list-header">
+					<div className="ptr-views-list-tilte-container">
+						<h2 className="ptr-views-list-title">{this.props.selectedScope ? this.props.selectedScope.name : null}</h2>
+						{headerLogo ? (<img className="ptr-views-list-logo" src={headerLogo}/>) : null}
+					</div>
+					{description ? (
+						<div
+							className="ptr-views-list-description"
+							dangerouslySetInnerHTML={{__html: description}}
+						>
+						</div>
+					) : null}
+				</div>
+			);
 		}
 	}
 
-	renderDescription() {
-		return (
-			<div className="ptr-views-list-description" dangerouslySetInnerHTML={{__html: this.props.selectedScope.data.description}}>
-			</div>
-		);
-	}
-
-	renderViews(){
+	renderContent(){
 		return this.props.views && this.props.views.length ? (this.props.views.map(view => {
 			return (view && view.data) ? (<ViewCard
 				key={view.key}
@@ -71,7 +90,14 @@ class ViewsList extends React.PureComponent {
 				deletable={view.permissions && view.permissions.activeUser && view.permissions.activeUser.delete}
 				public={view.permissions && view.permissions.guest && view.permissions.guest.get}
 			/>) : null
-		})) : (<div className="no-view-message">{Names.VIEWS_NO_VIEW_FOR_SCOPE}</div>);
+		})) : (<div className="no-view-message">{Names.VIEWS_NO_VIEW_FOR_SCOPE}</div>);}
+
+	renderFooter(scopeStyle){
+		if (scopeStyle && scopeStyle === "pucs"){
+			return <PucsClimateFitIntroFooter/>;
+		} else {
+			return null;
+		}
 	}
 }
 

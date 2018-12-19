@@ -48,14 +48,8 @@ class WmsFeatureInfoUrlBuilder {
             position = this.transform(position);
         }
 
-        let bbox = position.latitude + ',' + position.longitude + ',' + (Number(position.latitude) + 0.000001) +
-            ',' + (Number(position.longitude) + 0.000001);
-
-        // todo hotfix for sentinel hub, where the bbox has switched longitude and latitude
-        if (!_.isEmpty(this.customParameters)) {
-            bbox = position.longitude + ',' + position.latitude + ',' + (Number(position.longitude) + 0.000001) +
-                ',' + (Number(position.latitude) + 0.000001);
-        }
+        let bbox = position.longitude + ',' + position.latitude + ',' + (Number(position.longitude) + 0.000001) +
+			',' + (Number(position.latitude) + 0.000001);
 
         let customParameters = '';
         Object.keys(this.customParameters).forEach(function (key) {

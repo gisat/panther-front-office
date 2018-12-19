@@ -18,7 +18,7 @@ function apiLoad(ttl) {
 	return dispatch => {
 		// dispatch(actionApiLoadScopesRequest());
 
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/group');
+		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/group');
 
 		return fetch(url, {
 			method: 'GET',

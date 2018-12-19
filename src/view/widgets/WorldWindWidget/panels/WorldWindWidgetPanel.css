@@ -81,7 +81,7 @@
 .panel-body .layer-row {
 	display: inline-block;
 	vertical-align: middle;
-	flex: 1;
+	flex: 1 auto;
 }
 .panel-body .panel-layer-group-body .layer-row {
 	padding-left: 2.15rem;
