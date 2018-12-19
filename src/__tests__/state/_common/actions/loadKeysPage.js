@@ -213,7 +213,7 @@ describe('#loadKeysPage', () => {
 			let actions = store.getActions();
 			let actionError = _.find(actions, (action) => action.type === "ERROR");
 
-			expect(actions).toHaveLength(2);
+			expect(actions).toHaveLength(1);
 			expect(actionError).toBeDefined();
 		}).catch((err) => {
 			fail(err);
