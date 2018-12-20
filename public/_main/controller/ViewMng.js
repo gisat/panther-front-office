@@ -17,9 +17,6 @@ Ext.define('PumaMain.controller.ViewMng', {
                         recdeleted: this.onDelete,
                         urlopen: this.onUrlOpen
                     },
-                    'commonsaveform #save' : {
-                        click: this.onSave
-                    },
                     '#savevisualization': {
                         click: this.onVisSave
                     },
@@ -98,25 +95,32 @@ Ext.define('PumaMain.controller.ViewMng', {
     },
     onDelete: function(grid,rec) {
         rec.destroy();
-    },
-    onSave: function(btn) {
-        var form = btn.up('form');
-        var name = form.getComponent('name').getValue();
-        var rec = form.rec;
-        rec.set('name',name);
-        rec.save({
-            callback: this.onSaveFinish
-        });
-        btn.up('window').close();
-        
-    },
+	},
     onShare: function(options) {
-        var view = Ext.create('Puma.model.DataView',this.gatherViewConfig(options));
-        view.save({
-            callback: this.onSaveFinish
-        });  
-    },
-    onSaveFinish: function(rec,operation) {
+		const onSave = (rec,operation) => {
+			Promise.all([
+				store.groups.share(options.group.value, options.state.scope, options.state.places, rec.data._id),
+				store.users.share(options.user.value, options.state.scope, options.state.places, rec.data._id)
+			]).then(() => {
+				this.onSaveFinish(rec, operation, options.group, options.user, options.language);
+				window.Stores.notify('components#shareSetVisible', false);
+			})
+		}
+
+		const store = window.store;
+		options.state = window.stateStore.current();
+		var view = Ext.create('Puma.model.DataView',this.gatherViewConfig(options));
+
+		//Clear view options from share window
+		view.data.conf.components.share = null;
+		view.data.conf.components.windows.share = {open:false};
+
+		view.save({
+			callback: onSave
+		});
+	},
+
+    onSaveFinish: function(rec, operation, group, user, language) {
         var isView = rec.modelName == 'Puma.model.DataView';
         var store = Ext.StoreMgr.lookup(isView ? 'dataview' : 'visualization');
         store.addWithSlaves(rec);
@@ -140,6 +144,20 @@ Ext.define('PumaMain.controller.ViewMng', {
 				permissions: rec.data.permissions
 			}]);
         }
+	},
+
+	showUrl: function(baseUrl, selectedGroup, selectedUser, language){
+		let auth = "&needLogin=true";
+		if (Config.auth && selectedGroup.value === '2'){
+			auth = "";
+		}
+		let url = baseUrl + auth +'&lang=' + language.value;
+		if(Config.toggles.isUrbanTep && selectedGroup) {
+			if(selectedGroup.value !== '1' && selectedGroup.value !== '2' && selectedGroup.value !== '3') {
+				UrbanTepPortalStore.share(url, selectedUser.value, selectedGroup.title);
+			}
+		}
+		alert(polyglot.t('theStateWasCorrectlyShared') + url);
     },
         
     onVisOrViewManage: function(btn) {
@@ -460,7 +478,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 			// dataview metadata
 			cfg.name = options.name;
 			cfg.description = options.description;
-			cfg.language = options.language || "en";
+			cfg.language = options.language.value || "en";
 
 			// world wind map settings
 			if (options.state && options.state.worldWindNavigator){

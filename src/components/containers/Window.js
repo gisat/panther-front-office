@@ -11,6 +11,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		onClose: () => {
 			dispatch(Action.components.windows.handleWindowVisibility(ownProps.window, false));
+			if(ownProps.onClose) {
+				ownProps.onClose();
+			}
 		},
 		onDock: () => {
 			dispatch(Action.components.windows.dockWindow(ownProps.window));

@@ -83,6 +83,12 @@ function handleWindowVisibility(window, open){
 	};
 }
 
+function handleShareClearContent(){
+	return (dispatch) => {
+		dispatch(Action.components.setShareSaveState(null));
+	};
+}
+
 function floatWindow(window){
 	return (dispatch, getState) => {
 		let state = getState();
@@ -123,6 +129,7 @@ export default {
 	expandWindow: expandWindow,
 	floatWindow: floatWindow,
 	handleWindowVisibility: handleWindowVisibility,
+	handleShareClearContent: handleShareClearContent,
 	updateWindow: updateWindow,
 
 	scenarios: Scenarios

@@ -12,6 +12,7 @@ import dataviewsReducers from './Dataviews/reducers';
 import layerPeriodsReducers from './LayerPeriods/reducers';
 import layerTemplatesReducers from './LayerTemplates/reducers';
 import lpisCasesReducers from './LpisCases/reducers';
+import lpisCheckCasesReducers from './LpisCheckCases/reducers';
 import mapsReducers from './Maps/reducers';
 import periodsReducers from './Periods/reducers';
 import placesReducers from './Places/reducers';
@@ -40,6 +41,7 @@ const Store = createStore(combineReducers({
 	layerPeriods: layerPeriodsReducers,
 	layerTemplates: layerTemplatesReducers,
 	lpisCases: lpisCasesReducers,
+	lpisCheckCases: lpisCheckCasesReducers,
 	maps: mapsReducers,
 	periods: periodsReducers,
 	places: placesReducers,

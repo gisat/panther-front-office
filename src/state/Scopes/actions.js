@@ -27,6 +27,9 @@ function applyScopeConfiguration() {
 		if (scopeConfig){
 			if (scopeConfig.hasOwnProperty(`dromasLpisChangeReview`)){
 				dispatch(Action.lpisCases.load());
+            }
+			if (scopeConfig.hasOwnProperty('lpisCheckReview')){
+				dispatch(Action.lpisCheck.load());
 			}
 			if (scopeConfig.style){
 				let styleToUse = VisualsConfig[scopeConfig.style];

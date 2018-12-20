@@ -9,6 +9,7 @@ import Components from './Components/actions';
 import Dataviews from './Dataviews/actions';
 import LayerTemplates from './LayerTemplates/actions';
 import LpisCases from './LpisCases/actions';
+import LpisCheck from './LpisCheckCases/actions';
 import Maps from './Maps/actions';
 import Periods from './Periods/actions';
 import Places from './Places/actions';
@@ -34,6 +35,7 @@ export default {
 	dataviews: Dataviews,
 	layerTemplates: LayerTemplates,
 	lpisCases: LpisCases,
+	lpisCheck: LpisCheck,
 	maps: Maps,
 	periods: Periods,
 	places: Places,

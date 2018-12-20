@@ -26,7 +26,6 @@ import PanelIFrame from './view/PanelIFrame/PanelIFrame';
 import Periods from './stores/gisat/Periods';
 import PeriodsSelector from './view/selectors/PeriodsSelector/PeriodsSelector';
 import Scopes from './stores/gisat/Scopes';
-import SharingWidget from './view/widgets/SharingWidget/SharingWidget';
 import SelectionStore from './stores/internal/SelectionStore';
 import SnowMapController from './view/SnowMapController';
 import SnowWidget from './view/widgets/SnowWidget/SnowWidget';
@@ -191,6 +190,8 @@ function loadApp(initialData) {
             store: {},
             activeKeys: initialData.activeKeys
         });
+        window.stateStore = stateStore;
+
         var mapStore = new MapStore({
             dispatcher: window.Stores,
             store: {
@@ -316,7 +317,6 @@ function loadApp(initialData) {
             snowViewChanges();
         }
 
-        // widgets.push(buildSharingWidget(stateStore));
         widgets.push(buildIntegrateCustomLayersWidget());
 
         // build app, map is class for OpenLayers map
@@ -400,7 +400,6 @@ function loadApp(initialData) {
         $('#content #content-application .period .label').text(polyglot.t('year'));
         $('#content #content-application .visualization .label').text(polyglot.t('visualization'));
         $('#content #content-application #top-toolbar #top-toolbar-tools #top-toolbar-snapshot').attr('title', polyglot.t('takeMapSnapshot'));
-        $('#content #content-application #top-toolbar #top-toolbar-tools #top-toolbar-share-view').attr('title', polyglot.t('shareView'));
         $('#content #content-application #top-toolbar #top-toolbar-tools #top-toolbar-context-help').attr('title', polyglot.t('contextHelp'));
         $('#content #content-application #sidebar-tools #sidebar-tools-toggle').attr('title', polyglot.t('tools'));
         $('#content #content-application #sidebar-reports #sidebar-reports-toggle').attr('title', polyglot.t('reports'));
@@ -575,26 +574,6 @@ function loadApp(initialData) {
                 state: stateStore
             }
         });
-    }
-
-    /**
-     * It builds widget for sharing.
-     * @returns {*}
-     */
-    function buildSharingWidget(stateStore) {
-        Widgets.sharing = new SharingWidget({
-            elementId: 'sharing',
-            name: polyglot.t('share'),
-            placeholderTargetId: 'widget-container',
-            dispatcher: window.Stores,
-            store: {
-                users: store.users,
-                groups: store.groups,
-                state: stateStore
-            }
-        });
-
-        return Widgets.sharing;
     }
 
     function buildIntegrateCustomLayersWidget() {

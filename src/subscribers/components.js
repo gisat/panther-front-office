@@ -4,6 +4,8 @@ import Select from '../state/Select';
 import VisualConfig from '../constants/VisualsConfig';
 import _ from 'lodash';
 
+let Observer = window.Observer;
+
 let state = {};
 export default store => {
 	setEventListeners(store);
@@ -14,9 +16,11 @@ const setStoreWatchers = store => {
 	createWatcher(store, Select.components.windows.isWindowOpen, scenariosWindowWatcher, null, {key: 'scenarios'});
 	createWatcher(store, Select.components.windows.isWindowOpen, snapshotsWindowWatcher, null, {key: 'snapshots'});
 	createWatcher(store, Select.components.windows.isWindowOpen, viewsWindowWatcher, null, {key: 'views'});
+	createWatcher(store, Select.components.windows.isWindowOpen, shareWindowWatcher, null, {key: 'share'});
 	createWatcher(store, Select.components.getComponents, componentsWatcher);
 	createWatcher(store, Select.components.getApplicationStyleActiveKey, applicationStyleActiveKeyWatcher);
 	createWatcher(store, Select.components.getApplicationStyleHtmlClass, applicationStyleHtmlClassWatcher);
+	createWatcher(store, Select.components.getShare, shareWatcher);
 };
 
 const setEventListeners = store => {
@@ -46,6 +50,9 @@ const setEventListeners = store => {
 					store.dispatch(Action.components.updateMapsContainer(options));
 				}
 				break;
+			case 'components#shareSetVisible':
+				store.dispatch(Action.components.windows.handleWindowVisibility('share', options));
+				break;
 		}
 	});
 };
@@ -74,6 +81,25 @@ const applicationStyleHtmlClassWatcher = (value, previousValue) => {
 	}
 };
 
+const shareWatcher = (value, previousValue) => {
+	console.log('@@ shareWatcher', previousValue, '->', value);
+	if (previousValue !== value){
+
+		if (!previousValue.toSave && value.toSave) {
+			Observer.notify("PumaMain.controller.ViewMng.onShare", {
+				state: state,
+				name: value.toSave.name.value,
+				language: value.toSave.langSelect,
+				description: value.toSave.description.value,
+				group: value.toSave.groupsSelect,
+				user: value.toSave.usersSelect,
+				dataviewId: value.toSave.dataviewId,
+			});
+	
+		}
+	}
+};
+
 const scenariosWindowWatcher = (value, previousValue) => {
 	console.log('@@ scenariosWindowWatcher', previousValue, '->', value);
 	if (previousValue !== value){
@@ -92,6 +118,13 @@ const viewsWindowWatcher = (value, previousValue) => {
 	console.log('@@ viewsWindowWatcher', previousValue, '->', value);
 	if (previousValue !== value){
 		window.Stores.notify('DATAVIEWS_WINDOW_TOGGLE');
+	}
+};
+
+const shareWindowWatcher = (value, previousValue) => {
+	console.log('@@ shareWindowWatcher', previousValue, '->', value);
+	if (previousValue !== value){
+		window.Stores.notify('SHARE_WINDOW_TOGGLE', value);
 	}
 };
 

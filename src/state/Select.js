@@ -8,6 +8,7 @@ import Dataviews from './Dataviews/selectors';
 import LayerPeriods from './LayerPeriods/selectors';
 import LayerTemplates from './LayerTemplates/selectors';
 import LpisCases from './LpisCases/selectors';
+import LpisCheckCases from './LpisCheckCases/selectors';
 import Maps from './Maps/selectors';
 import Periods from './Periods/selectors';
 import Places from './Places/selectors';
@@ -33,6 +34,7 @@ export default {
 	layerPeriods: LayerPeriods,
 	layerTemplates: LayerTemplates,
 	lpisCases: LpisCases,
+	lpisCheckCases: LpisCheckCases,
 	maps: Maps,
 	periods: Periods,
 	places: Places,
