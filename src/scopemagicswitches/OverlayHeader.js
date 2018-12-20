@@ -4,14 +4,16 @@ import Select from '../state/Select';
 
 import DromasLpisChangeReviewHeader from '../components/scopeSpecific/DromasLpisChangeReview/header';
 import SentinelViewer from '../components/scopeSpecific/SentinelViewer/header';
+import LPISCheck from '../components/scopeSpecific/LPISCheck/header';
 
-const MagicSwitch = ({scope}) => {
+const MagicSwitch = ({scope, activeLpisCheckCase}) => {
 	if (scope) {
 		if (scope.configuration && scope.configuration.headerComponent === "dromasLpisChangeReview") {
 			return <DromasLpisChangeReviewHeader />
-		//FIXME - How identify showTimeline
-		} else if (scope.configuration && scope.configuration.headerComponent === "sentinelPreview") {
+		} else if (scope.configuration && scope.configuration.sentinelViewer) {
 			return <SentinelViewer />
+		} else if (scope.configuration && scope.configuration.lpisCheckReview && activeLpisCheckCase) {
+			return <LPISCheck />
 		}
 	}
 	return null;
@@ -20,7 +22,8 @@ const MagicSwitch = ({scope}) => {
 
 const mapStateToProps = state => {
 	return {
-		scope: Select.scopes.getActiveScopeData(state)
+		scope: Select.scopes.getActiveScopeData(state),
+		activeLpisCheckCase: Select.lpisCheckCases.getActiveCase(state),
 	};
 };
 

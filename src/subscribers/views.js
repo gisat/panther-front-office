@@ -41,6 +41,19 @@ const setEventListeners = store => {
 							addGeometries(activeCase, maps);
 						}
 				});
+
+				//FIXME - to je moc natvrdo. Přidat if?
+				store
+					.dispatch(Action.lpisCheck.loadCaseForActiveView())
+					.then(() => {
+						return store.dispatch(Action.lpisCheck.setActiveCaseByActiveView());
+					}).then(() => {
+						let activeCase = Select.lpisCheckCases.getActiveCase(store.getState());
+						let maps = Select.maps.getMaps(store.getState());
+						if (activeCase && maps && maps.length > 1){
+							addGeometries(activeCase, maps);
+						}
+				});
 				break;
 		}
 	});
@@ -60,6 +73,13 @@ const addGeometries = function(activeCase, maps){
 				mapKey: map.key,
 				geometryKey: 'placeGeometryChangeReviewGeometryAfter',
 				geometry: activeCase.data.geometry_after
+			});
+		}
+		if (map.placeGeometryLPISCheck && map.placeGeometryLPISCheck.geometry){
+			window.Stores.notify('PLACE_GEOMETRY_ADD', {
+				mapKey: map.key,
+				geometryKey: 'placeGeometryLPISCheckGeometry',
+				geometry: activeCase.data.geometry
 			});
 		}
 	});

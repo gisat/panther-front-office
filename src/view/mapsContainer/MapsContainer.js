@@ -338,6 +338,17 @@ class MapsContainer {
 						showAfter: showAfter
 					});
 				}
+				if (map.placeGeometryLPISCheck){
+					var geometry = false;
+					if (map.placeGeometryLPISCheck.geometry){
+						geometry = true;
+					}
+					
+					self._dispatcher.notify("placeGeometryLPISCheck#showGeometry", {
+						mapKey: map.key,
+						geometry: geometry,
+					});
+				}
 			});
 
 			if (selectedMap){
