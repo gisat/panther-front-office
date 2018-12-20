@@ -41,11 +41,15 @@ const isAdminOrAdminGroupMember = createSelector(
 );
 
 const getGroupsForActiveUser = createSelector(
-	[getActiveKey, UserGroupSelectors.getGroups],
-	(activeUserKey, groups) => {
-		return _.filter(groups, (group) => {
-			return (_.find(group.users, (user) => {return user === activeUserKey})) || group.key === 2;
-		});
+	[getActiveUser, UserGroupSelectors.getGroups],
+	(activeUser, groups) => {
+		if (activeUser && activeUser.groups && activeUser.groups.length){
+			return activeUser.groups;
+		} else {
+			return _.filter(groups, (group) => {
+				return (_.find(group.users, (user) => {return user === (activeUser && activeUser.key)})) || group.key === 2;
+			});
+		}
 	}
 );
 
@@ -68,6 +72,8 @@ const getGroupsForActiveUserPermissionsTowards = createSelector(
 			groups.map(group => {
 				if (group.permissionsTowards){
 					permissions = [...permissions, ...group.permissionsTowards];
+				} else if (group.permissions) {
+					permissions = [...permissions, ...group.permissions];
 				}
 			});
 			return permissions;
@@ -104,7 +110,7 @@ const hasActiveUserPermissionToCreate = createSelector(
 		if (!permissionsTowards || !permissionsTowards.length){
 			return false;
 		} else {
-			let permission = _.find(permissionsTowards, (per) => {return per.resourceType === type});
+			let permission = _.find(permissionsTowards, (per) => {return (per.resourceType === type) || (per.resourcetype === type)});
 			return !!(permission && permission.permission === "POST");
 		}
 	}
