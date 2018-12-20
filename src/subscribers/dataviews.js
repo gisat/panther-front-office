@@ -30,8 +30,8 @@ const dataForInitialLoadWatcher = (value) => {
 	console.log('@@@@@ subscribers/scopes#getDataForInitialLoad', value);
 	if (value && !legacyCodeInitialized){
 		let allStoresLoaded = true;
-		_.forIn(value, (key) => {
-			if (!key && key !== "activeScopeStyle"){
+		_.forIn(value, (val, key) => {
+			if (!val && key !== "activeScopeStyle"){
 				allStoresLoaded = false;
 			}
 		});
