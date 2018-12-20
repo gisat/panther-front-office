@@ -14,7 +14,7 @@ const getFilterSearch = state => state.lpisCheckCases.searchString;
 const getChanges = state => state.lpisCheckCases.changes;
 const getSearchString = state => state.lpisCheckCases.searchString;
 const getActiveCaseKey = state => state.lpisCheckCases.activeCaseKey;
-const getActiveViewKey = state => state.views.activeKey;
+const getActiveViewKey = state => state.dataviews.activeKey;
 
 const getFilterParams = state => ({
 	filterVisited: getFilterVisited(state),

@@ -164,7 +164,7 @@ function redirectToActiveCaseView() {
 function loadCaseForActiveView() {
 	return (dispatch, getState) => {
 		let state = getState();
-		let activeViewKey = Select.views.getActiveKey(state);
+		let activeViewKey = Select.dataviews.getActiveKey(state);
 		let activeScope = Select.scopes.getActiveScopeData(state);
 
 		if (!activeScope) {
@@ -187,7 +187,7 @@ function loadCaseForActiveView() {
 function setActiveCaseByActiveView() {
 	return (dispatch, getState) => {
 		let state = getState();
-		let activeViewKey = Select.views.getActiveKey(state);
+		let activeViewKey = Select.dataviews.getActiveKey(state);
 		let caseByActiveView = Select.lpisCheckCases.getCaseByActiveView(state);
 		if (caseByActiveView) {
 			dispatch(Action.lpisCheck.setActive(caseByActiveView.key));
