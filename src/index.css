@@ -358,6 +358,19 @@ body {
 	text-transform: none;
 }
 
+/* multiselect */
+.ptr-ui-select .Select--multi .Select-multi-value-wrapper {
+	display: flex;
+	overflow: hidden;
+	margin-right: .5rem;
+}
+.ptr-ui-select .Select--multi .Select-value {
+	display: flex;
+}
+
+
+/* virtualized */
+
 .ptr-ui-select .VirtualizedSelectOption {
 	display: -webkit-box;
 	display: -ms-flexbox;
@@ -828,6 +841,11 @@ todo merge with overlay
 	line-height: 1.8rem;
 	padding-right: 25px;
 }
+
+.ptr-view-selection-selector.ptr-ui-select .Select--multi .Select-multi-value-wrapper {
+	max-width: 15rem;
+}
+
 .ptr-view-selection-selector.ptr-ui-select .Select--multi .Select-control .Select-value {
 	color: rgb(204, 207, 211);
 	margin: .25rem .25rem 0 0;

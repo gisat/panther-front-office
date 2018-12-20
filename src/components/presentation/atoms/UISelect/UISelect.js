@@ -89,6 +89,7 @@ class UISelect extends React.PureComponent {
 						autosize
 						multi={this.props.multi}
 						clearable={this.props.clearable}
+						closeOnSelect={!this.props.multi}
 						name={this.props.name}
 						onChange={this.props.onChange}
 						optionClassName={this.props.optionClassName}
@@ -99,6 +100,7 @@ class UISelect extends React.PureComponent {
 						value={this.props.value}
 						valueRenderer={this.props.valueRenderer}
 						disabled={this.props.disabled}
+						removeSelected={false}
 					/>
 				)}
 

@@ -501,6 +501,7 @@ body.intro #content-intro-terms {
 	padding-left: 26px;
 	display: flex;
 	align-items: center;
+	z-index: 9;
 }
 
 #view-selector > .group {
