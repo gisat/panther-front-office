@@ -47,7 +47,7 @@ const getGroupsForActiveUser = createSelector(
 			return activeUser.groups;
 		} else {
 			return _.filter(groups, (group) => {
-				return (_.find(group.users, (user) => {return user === activeUser.key})) || group.key === 2;
+				return (_.find(group.users, (user) => {return user === (activeUser && activeUser.key)})) || group.key === 2;
 			});
 		}
 	}
