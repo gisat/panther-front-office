@@ -12,12 +12,19 @@ const refreshAllIndexes = common.refreshAllIndexes(Select.visualizations.getSubs
 
 // ============ actions ===========
 
+function actionClearUseIndexed(componentId) {
+	return {
+		type: ActionTypes.VISUALIZATIONS.USE.INDEXED.CLEAR,
+		componentId
+	}
+}
 
 // ============ export ===========
 
 export default {
 	refreshAllIndexes,
 	useIndexed,
+	useIndexedClear: actionClearUseIndexed,
 	useKeys,
 	setActiveKey
 }
