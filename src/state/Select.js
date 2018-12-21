@@ -20,6 +20,7 @@ import Styles from './Styles/selectors';
 import Themes from './_Themes/selectors';
 import UserGroups from './UserGroups/selectors';
 import Users from './Users/selectors';
+import Visualizations from './_Visualizations/selectors';
 import WmsLayers from './WmsLayers/selectors';
 
 export default {
@@ -45,6 +46,7 @@ export default {
 	themes: Themes,
 	userGroups: UserGroups,
 	users: Users,
+	visualizations: Visualizations,
 	wmsLayers: WmsLayers
 
 };

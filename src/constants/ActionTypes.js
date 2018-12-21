@@ -357,6 +357,26 @@ export default utils.deepKeyMirror({
     USERS_LOGOUT_REQUEST_ERROR: 'USERS_LOGOUT_REQUEST_ERROR',
 	USERS_UPDATE: 'USERS_UPDATE',
 
+	VISUALIZATIONS: {
+		ADD: null,
+		ADD_UNRECEIVED: null,
+		INDEX: {
+			ADD: null,
+			CLEAR_ALL: null
+		},
+		SET_ACTIVE_KEY: null,
+		USE: {
+			INDEXED: {
+				CLEAR: null,
+				REGISTER: null
+			},
+			KEYS: {
+				CLEAR: null,
+				REGISTER: null
+			}
+		}
+	},
+
 	WMS_LAYERS: {
 		ADD: null
 	},

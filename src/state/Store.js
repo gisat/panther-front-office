@@ -24,6 +24,7 @@ import stylesReducers from './Styles/reducers';
 import themesReducers from './_Themes/reducers';
 import usersReducers from './Users/reducers';
 import userGroupsReducers from './UserGroups/reducers';
+import visualizationsReducers from './_Visualizations/reducers';
 import wmsLayersReducers from './WmsLayers/reducers';
 
 import subscribers from '../subscribers';
@@ -52,6 +53,7 @@ const Store = createStore(combineReducers({
 	themes: themesReducers,
 	users: usersReducers,
 	userGroups: userGroupsReducers,
+	visualizations: visualizationsReducers,
 	wmsLayers: wmsLayersReducers
 }), applyMiddleware(thunk, logger));
 

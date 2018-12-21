@@ -138,6 +138,11 @@ function initialMetadataLoad (){
 			dispatch(Action.periods.useKeys(data.years, 'ActiveView'));
 		}
 
+		if (data.visualization){
+			dispatch(Action.visualizations.setActiveKey(data.visualization));
+			dispatch(Action.visualizations.useKeys([data.visualization], 'ActiveView'));
+		}
+
 		if (data.theme){
 			dispatch(Action.themes.setActiveKey(data.theme));
 			dispatch(Action.themes.loadByKeys([data.theme]))

@@ -10,6 +10,7 @@ import PlacesSelectors from '../Places/selectors';
 import ScopesSelectors from '../Scopes/selectors';
 import ThemesSelectors from '../_Themes/selectors';
 import UsersSelectors from '../Users/selectors';
+import VisualizationSelectors from '../_Visualizations/selectors';
 import VisualsConfig from "../../constants/VisualsConfig";
 
 const getSubstate = state => state.dataviews;
@@ -47,9 +48,13 @@ const getDataForInitialLoad = createSelector(
 		PlacesSelectors.getActiveKey,
 		ScopesSelectors.getAllForDataview,
 		ScopesSelectors.getActiveScopeConfiguration,
-		ThemesSelectors.getAllForDataview],
-	(dataview, attributes, attributesInitialized, attributeSets, attributeSetsInitialized, periods, places, placesInitialized, placesActiveKey, scopes, activeScopeConfig, themes) => {
-		let attrs = null, attrSets = null, plcs = null, activeScopeStyle = null;
+		ThemesSelectors.getAllForDataview,
+		VisualizationSelectors.getAllForDataview,
+		VisualizationSelectors.isInitializedForExt,
+		AttributeSetsSelectors.isInitializedForExt,
+	],
+	(dataview, attributes, attributesInitialized, attributeSets, attributeSetsInitialized, periods, places, placesInitialized, placesActiveKey, scopes, activeScopeConfig, themes, visualizations, visualizationsInitialized) => {
+		let attrs = null, attrSets = null, plcs = null, visual = null, activeScopeStyle = null;
 
 		if (attributes){
 			attrs = attributes;
@@ -69,6 +74,12 @@ const getDataForInitialLoad = createSelector(
 			plcs = [];
 		}
 
+		if (visualizations){
+			visual = visualizations;
+		} else if (visualizationsInitialized){
+			visual = [];
+		}
+
 		if (activeScopeConfig && activeScopeConfig.style && VisualsConfig[activeScopeConfig.style]){
 			activeScopeStyle = VisualsConfig[activeScopeConfig.style];
 		}
@@ -84,7 +95,8 @@ const getDataForInitialLoad = createSelector(
 			periods,
 			places: plcs,
 			scopes,
-			themes
+			themes,
+			visualizations: visual
 		}
 	}
 );

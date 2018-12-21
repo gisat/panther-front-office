@@ -21,6 +21,7 @@ import Styles from './Styles/actions';
 import Themes from './_Themes/actions';
 import Users from './Users/actions';
 import UserGroups from './UserGroups/actions';
+import Visualizations from './_Visualizations/actions';
 import WmsLayers from './WmsLayers/actions';
 
 export default {
@@ -46,5 +47,6 @@ export default {
 	themes: Themes,
 	users: Users,
 	userGroups: UserGroups,
+	visualizations: Visualizations,
 	wmsLayers: WmsLayers
 };
