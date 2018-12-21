@@ -19,6 +19,13 @@ function actionClearUseIndexed(componentId) {
 	}
 }
 
+// TODO It will be removed along with Ext
+function actionInitializeForExt() {
+	return {
+		type: ActionTypes.VISUALIZATIONS.INITIALIZE_FOR_EXT,
+	}
+}
+
 // ============ export ===========
 
 export default {
@@ -26,5 +33,7 @@ export default {
 	useIndexed,
 	useIndexedClear: actionClearUseIndexed,
 	useKeys,
-	setActiveKey
+	setActiveKey,
+
+	initializeForExt: actionInitializeForExt
 }

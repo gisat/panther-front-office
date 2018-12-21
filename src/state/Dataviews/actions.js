@@ -141,6 +141,8 @@ function initialMetadataLoad (){
 		if (data.visualization){
 			dispatch(Action.visualizations.setActiveKey(data.visualization));
 			dispatch(Action.visualizations.useKeys([data.visualization], 'ActiveView'));
+		} else {
+			dispatch(Action.visualizations.initializeForExt());
 		}
 
 		if (data.theme){

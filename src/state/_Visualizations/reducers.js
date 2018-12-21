@@ -18,6 +18,8 @@ export default (state = INITIAL_STATE, action) => {
 			return common.addIndex(state, action);
 		case ActionTypes.VISUALIZATIONS.SET_ACTIVE_KEY:
 			return common.setActive(state, action);
+		case ActionTypes.VISUALIZATIONS.INITIALIZE_FOR_EXT:
+			return common.initializeForExt(state, action);
 		case ActionTypes.VISUALIZATIONS.USE.INDEXED.CLEAR:
 			return common.useIndexedClear(state, action);
 		case ActionTypes.VISUALIZATIONS.USE.INDEXED.REGISTER:
