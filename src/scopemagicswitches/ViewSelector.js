@@ -5,6 +5,7 @@ import ChangeReviewMapControl from '../components/containers/controls/ChangeRevi
 import PlaceSelector from '../components/containers/view-selectors/PlaceSelector';
 import ThemeSelector from '../components/common/viewSelectors/ThemeSelector';
 import PeriodsSelector from "../components/common/viewSelectors/PeriodsSelector";
+import VisualizationSelector from "../components/common/viewSelectors/VisualizationSelector";
 
 const MagicSwitch = ({scope}) => {
 	if (scope && scope.data) {
@@ -16,6 +17,7 @@ const MagicSwitch = ({scope}) => {
 					<PlaceSelector/>
 					<ThemeSelector/>
 					<PeriodsSelector/>
+					<VisualizationSelector/>
 				</div>
 			);
 		}

@@ -16,6 +16,7 @@ import styles from './styles';
 import themes from './themes';
 import users from './users';
 import views from './dataviews';
+import visualizations from './visualizations';
 import wmsLayers from './wmsLayers';
 
 export default store => {
@@ -38,5 +39,6 @@ export default store => {
 	themes(store);
 	users(store);
 	views(store);
+	visualizations(store);
 	wmsLayers(store);
 };

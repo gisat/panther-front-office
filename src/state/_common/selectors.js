@@ -5,6 +5,7 @@ import commonHelpers from './helpers';
 import Select from "../Select";
 
 const activeScopeKey = state => state.scopes.activeKey;
+const activeThemeKey = state => state.themes.activeKey;
 
 const getAllAsObject = (getSubstate) => {
 	return (state) => getSubstate(state).byKey;
@@ -27,6 +28,42 @@ const getAllForActiveScope = (getSubstate) => {
 				// TODO change dataset to scope
 				let filter = {
 					dataset: activeScopeKey
+				};
+				let index = commonHelpers.getIndex(indexes, filter, order);
+				if (index && index.index) {
+					let indexedModels = [];
+					for (let i = 1; i <= index.count; i++){
+						let modelKey = index.index[i];
+						if (modelKey){
+							let indexedModel = models[modelKey];
+							if (indexedModel){
+								indexedModels.push(indexedModel);
+							} else {
+								indexedModels.push({key: modelKey});
+							}
+						} else {
+							indexedModels.push(null);
+						}
+					}
+					return indexedModels.length ? indexedModels : null;
+				} else {
+					return null;
+				}
+			} else {
+				return null;
+			}
+		}
+	);
+};
+
+const getAllForActiveTheme = (getSubstate) => {
+	return createSelector(
+		[getAllAsObject(getSubstate), getIndexes(getSubstate), activeThemeKey, (state, order) => order],
+		(models, indexes, activeThemeKey, order) => {
+			if (models && indexes && activeThemeKey) {
+				// TODO change dataset to scope
+				let filter = {
+					theme: activeThemeKey
 				};
 				let index = commonHelpers.getIndex(indexes, filter, order);
 				if (index && index.index) {
@@ -477,6 +514,7 @@ export default {
 	getAll,
 	getAllAsObject,
 	getAllForActiveScope,
+	getAllForActiveTheme,
 	getAllForDataview,
 	getAllForDataviewAsObject,
 
