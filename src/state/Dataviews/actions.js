@@ -107,8 +107,8 @@ function initialMetadataLoad (){
 					let activeScopeConfig = Select.scopes.getActiveScopeConfiguration(getState());
 
 					if (activeScopeConfig && activeScopeConfig.hasOwnProperty(`dromasLpisChangeReview`)){
-						dispatch(Action.lpisCases.loadCaseForActiveView()).then(() => {
-							dispatch(Action.lpisCases.setActiveCaseByActiveView());
+						dispatch(Action.specific.lpisChangeReviewCases.loadCaseForActiveView()).then(() => {
+							dispatch(Action.specific.lpisChangeReviewCases.setActiveCaseByActiveView());
 						});
 					}
 

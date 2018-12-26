@@ -1,5 +1,6 @@
 import ActionTypes from '../constants/ActionTypes';
 
+// base types
 import AOI from './AOI/actions';
 import Areas from './Areas/actions';
 import Attributes from './Attributes/actions';
@@ -8,7 +9,6 @@ import Choropleths from './Choropleths/actions';
 import Components from './Components/actions';
 import Dataviews from './Dataviews/actions';
 import LayerTemplates from './LayerTemplates/actions';
-import LpisCases from './LpisCases/actions';
 import Maps from './Maps/actions';
 import Periods from './Periods/actions';
 import Places from './Places/actions';
@@ -24,6 +24,9 @@ import UserGroups from './UserGroups/actions';
 import Visualizations from './_Visualizations/actions';
 import WmsLayers from './WmsLayers/actions';
 
+// specific types
+import LpisChangeReviewCases from './_specific/LpisChangeReviewCases/actions';
+
 export default {
 
 	aoi: AOI,
@@ -34,7 +37,6 @@ export default {
 	components: Components,
 	dataviews: Dataviews,
 	layerTemplates: LayerTemplates,
-	lpisCases: LpisCases,
 	maps: Maps,
 	periods: Periods,
 	places: Places,
@@ -48,5 +50,8 @@ export default {
 	users: Users,
 	userGroups: UserGroups,
 	visualizations: Visualizations,
-	wmsLayers: WmsLayers
+	wmsLayers: WmsLayers,
+	specific: {
+		lpisChangeReviewCases: LpisChangeReviewCases
+	}
 };

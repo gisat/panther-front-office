@@ -2,6 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 
+// base types
 import aoiReducers from './AOI/reducers';
 import areasReducers from './Areas/reducers';
 import attributesReducers from './Attributes/reducers';
@@ -11,7 +12,6 @@ import componentsReducers from './Components/reducers';
 import dataviewsReducers from './Dataviews/reducers';
 import layerPeriodsReducers from './LayerPeriods/reducers';
 import layerTemplatesReducers from './LayerTemplates/reducers';
-import lpisCasesReducers from './LpisCases/reducers';
 import mapsReducers from './Maps/reducers';
 import periodsReducers from './Periods/reducers';
 import placesReducers from './Places/reducers';
@@ -27,6 +27,9 @@ import userGroupsReducers from './UserGroups/reducers';
 import visualizationsReducers from './_Visualizations/reducers';
 import wmsLayersReducers from './WmsLayers/reducers';
 
+// specific types
+import lpisChangeReviewCasesReducers from './_specific/LpisChangeReviewCases/reducers';
+
 import subscribers from '../subscribers';
 
 // Redux store
@@ -40,7 +43,6 @@ const Store = createStore(combineReducers({
 	dataviews: dataviewsReducers,
 	layerPeriods: layerPeriodsReducers,
 	layerTemplates: layerTemplatesReducers,
-	lpisCases: lpisCasesReducers,
 	maps: mapsReducers,
 	periods: periodsReducers,
 	places: placesReducers,
@@ -54,7 +56,10 @@ const Store = createStore(combineReducers({
 	users: usersReducers,
 	userGroups: userGroupsReducers,
 	visualizations: visualizationsReducers,
-	wmsLayers: wmsLayersReducers
+	wmsLayers: wmsLayersReducers,
+	specific: combineReducers({
+		lpisChangeReviewCases: lpisChangeReviewCasesReducers
+	})
 }), applyMiddleware(thunk, logger));
 
 subscribers(Store);

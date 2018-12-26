@@ -8,19 +8,19 @@ const mapStateToProps = (state, ownProps) => {
 		activeMap: Select.maps.getActiveMap(state),
 		mapsContainer: Select.components.getMapsContainer(state),
 		mapsCount: Select.maps.getMapsCount(state),
-		case: Select.lpisCases.getActiveCase(state),
+		case: Select.specific.lpisChangeReviewCases.getActiveCase(state),
 		selectedMapOrder: Select.maps.getActiveMapOrder(state),
-		userApprovedEvaluation: Select.lpisCases.getUserApprovedEvaluationOfActiveCase(state),
-		userCreatedCase: Select.lpisCases.getUserCreatedActiveCase(state),
+		userApprovedEvaluation: Select.specific.lpisChangeReviewCases.getUserApprovedEvaluationOfActiveCase(state),
+		userCreatedCase: Select.specific.lpisChangeReviewCases.getUserCreatedActiveCase(state),
 		userGroup: Select.users.getActiveUserDromasLpisChangeReviewGroup(state),
-		activeCaseEdited: Select.lpisCases.getActiveCaseEdited(state),
-		nextCaseKey: Select.lpisCases.getNextActiveCaseKey(state)
+		activeCaseEdited: Select.specific.lpisChangeReviewCases.getActiveCaseEdited(state),
+		nextCaseKey: Select.specific.lpisChangeReviewCases.getNextActiveCaseKey(state)
 	};
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-		editActiveCase: (property, value) => {dispatch(Action.lpisCases.editActiveCase(property, value))},
+		editActiveCase: (property, value) => {dispatch(Action.specific.lpisChangeReviewCases.editActiveCase(property, value))},
 		// todo old code actions
 		addMap: ()=>{
 			window.Stores.notify('mapsContainer#addMap');
@@ -35,19 +35,19 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 			}));
 		},
 		saveEvaluation: () => {
-			dispatch(Action.lpisCases.userActionSaveEvaluation());
+			dispatch(Action.specific.lpisChangeReviewCases.userActionSaveEvaluation());
 		},
 		saveAndApproveEvaluation: () => {
-			dispatch(Action.lpisCases.userActionSaveAndApproveEvaluation())
+			dispatch(Action.specific.lpisChangeReviewCases.userActionSaveAndApproveEvaluation())
 		},
 		approveEvaluation: () => {
-			dispatch(Action.lpisCases.userActionApproveEvaluation())
+			dispatch(Action.specific.lpisChangeReviewCases.userActionApproveEvaluation())
 		},
 		rejectEvaluation: () => {
-			dispatch(Action.lpisCases.userActionRejectEvaluation())
+			dispatch(Action.specific.lpisChangeReviewCases.userActionRejectEvaluation())
 		},
 		closeEvaluation: () => {
-			dispatch(Action.lpisCases.userActionCloseEvaluation())
+			dispatch(Action.specific.lpisChangeReviewCases.userActionCloseEvaluation())
 		},
 		backToList: () => {
 			dispatch(Action.components.overlays.views.selectActiveScope());

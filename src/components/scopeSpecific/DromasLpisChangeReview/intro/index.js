@@ -9,7 +9,7 @@ import Presentation from "./presentation";
 const mapStateToProps = (state) => {
 	return {
 		changeReviewsActiveScreenKey: Select.components.overlays.views.getChangeReviewsActiveScreenKey(state),
-		activeEditedCase: Select.lpisCases.getActiveEditedCase(state),
+		activeEditedCase: Select.specific.lpisChangeReviewCases.getActiveEditedCase(state),
 		activeUserDromasLpisChangeReviewGroup: Select.users.getActiveUserDromasLpisChangeReviewGroup(state)
 	};
 };
@@ -20,16 +20,16 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 			dispatch(Action.components.overlays.views.setChangeReviewsActiveScreen(screenKey));
 		},
 		createLpisCase: () => {
-			dispatch(Action.lpisCases.createLpisCase());
+			dispatch(Action.specific.lpisChangeReviewCases.createLpisCase());
 		},
 		createNewActiveEditedCase: () => {
-			dispatch(Action.lpisCases.createNewActiveEditedCase());
+			dispatch(Action.specific.lpisChangeReviewCases.createNewActiveEditedCase());
 		},
 		editActiveEditedCase: (column, value, file) => {
-			dispatch(Action.lpisCases.editActiveEditedCase(column, value, file));
+			dispatch(Action.specific.lpisChangeReviewCases.editActiveEditedCase(column, value, file));
 		},
 		clearActiveEditedCase: () => {
-			dispatch(Action.lpisCases.clearActiveEditedCase());
+			dispatch(Action.specific.lpisChangeReviewCases.clearActiveEditedCase());
 		}
 	}
 };

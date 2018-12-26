@@ -26,7 +26,7 @@ const setStoreWatchers = store => {
 
 	createWatcher(store, Select.maps.getActivePlaceActiveLayers, activeLayersWatcher, 'activePlaceActiveLayers');
 
-	createWatcher(store, Select.lpisCases.getActiveCase, ()=>{}, 'activeLpisCase');
+	createWatcher(store, Select.specific.lpisChangeReviewCases.getActiveCase, ()=>{}, 'activeLpisCase');
 };
 
 const setEventListeners = store => {
