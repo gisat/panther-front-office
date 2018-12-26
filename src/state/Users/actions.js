@@ -36,11 +36,11 @@ function onLogin() {
 
 		dispatch(Action.dataviews.loadActive());
 
-		dispatch(Action.dataviews.refreshAllIndexes());
-		dispatch(Action.scopes.refreshAllIndexes());
-		dispatch(Action.places.refreshAllIndexes());
-		dispatch(Action.periods.refreshAllIndexes());
-		dispatch(Action.themes.refreshAllIndexes());
+		dispatch(Action.dataviews.refreshUses());
+		dispatch(Action.scopes.refreshUses());
+		dispatch(Action.places.refreshUses());
+		dispatch(Action.periods.refreshUses());
+		dispatch(Action.themes.refreshUses());
 	}
 }
 
@@ -51,11 +51,11 @@ function onLogout() {
 
 		dispatch(Action.dataviews.loadActive());
 
-		dispatch(Action.dataviews.refreshAllIndexes());
-		dispatch(Action.scopes.refreshAllIndexes());
-		dispatch(Action.places.refreshAllIndexes());
-		dispatch(Action.periods.refreshAllIndexes());
-		dispatch(Action.themes.refreshAllIndexes());
+		dispatch(Action.dataviews.refreshUses());
+		dispatch(Action.scopes.refreshUses());
+		dispatch(Action.places.refreshUses());
+		dispatch(Action.periods.refreshUses());
+		dispatch(Action.themes.refreshUses());
 	}
 }
 

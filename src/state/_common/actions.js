@@ -314,7 +314,7 @@ function receiveKeys(actionTypes, result, dataType, keys) {
 	}
 }
 
-function refreshAllIndexes(getSubstate, dataType, actionTypes) {
+function refreshUses(getSubstate, dataType, actionTypes) {
 	return () => {
 		return(dispatch, getState) => {
 			dispatch(actionClearIndexes(actionTypes));
@@ -461,7 +461,7 @@ export default {
 	setActiveKeys: creator(actionSetActiveKeys),
 	receiveIndexed,
 	receiveKeys,
-	refreshAllIndexes,
+	refreshUses,
 	request: requestWrapper,
 	useKeys,
 	useIndexed,

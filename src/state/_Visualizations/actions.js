@@ -8,7 +8,7 @@ import Select from "../Select";
 const setActiveKey = common.setActiveKey(ActionTypes.VISUALIZATIONS);
 const useKeys = common.useKeys(Select.visualizations.getSubstate, 'visualizations', ActionTypes.VISUALIZATIONS);
 const useIndexed = common.useIndexed(Select.visualizations.getSubstate, 'visualizations', ActionTypes.VISUALIZATIONS);
-const refreshAllIndexes = common.refreshAllIndexes(Select.visualizations.getSubstate, 'visualizations', ActionTypes.VISUALIZATIONS);
+const refreshUses = common.refreshUses(Select.visualizations.getSubstate, 'visualizations', ActionTypes.VISUALIZATIONS);
 
 // ============ actions ===========
 
@@ -29,7 +29,7 @@ function actionInitializeForExt() {
 // ============ export ===========
 
 export default {
-	refreshAllIndexes,
+	refreshUses,
 	useIndexed,
 	useIndexedClear: actionClearUseIndexed,
 	useKeys,

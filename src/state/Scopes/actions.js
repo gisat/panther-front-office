@@ -8,7 +8,7 @@ import common from '../_common/actions';
 // ============ creators ===========
 
 const useIndexed = common.useIndexed(Select.scopes.getSubstate, 'scopes', ActionTypes.SCOPES);
-const refreshAllIndexes = common.refreshAllIndexes(Select.scopes.getSubstate, `scopes`, ActionTypes.SCOPES);
+const refreshUses = common.refreshUses(Select.scopes.getSubstate, `scopes`, ActionTypes.SCOPES);
 const setActiveKeyAndEnsureDependencies = common.setActiveKeyAndEnsureDependencies(ActionTypes.SCOPES, 'scope');
 
 function setActiveKey(key) {
@@ -77,6 +77,6 @@ function actionSetActiveKey(key) {
 export default {
 	setActiveKey,
 	loadForKeys,
-	refreshAllIndexes,
+	refreshUses,
 	useIndexed
 }

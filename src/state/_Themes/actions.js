@@ -8,7 +8,7 @@ import Select from "../Select";
 
 const setActiveKey = common.setActiveKey(ActionTypes.THEMES);
 const useIndexed = common.useIndexed(Select.themes.getSubstate, 'themes', ActionTypes.THEMES);
-const refreshAllIndexes = common.refreshAllIndexes(Select.themes.getSubstate, `themes`, ActionTypes.THEMES);
+const refreshUses = common.refreshUses(Select.themes.getSubstate, `themes`, ActionTypes.THEMES);
 
 function setActive(key, componentId){
 	return (dispatch, getState) => {
@@ -58,7 +58,7 @@ function actionClearUseIndexed(componentId) {
 
 export default {
 	loadByKeys,
-	refreshAllIndexes,
+	refreshUses,
 	setActive,
 	setActiveKey,
 	useIndexed,

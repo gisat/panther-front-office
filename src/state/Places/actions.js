@@ -16,7 +16,7 @@ const setActiveKey = common.setActiveKey(ActionTypes.PLACES);
 const setActiveKeys = common.setActiveKeys(ActionTypes.PLACES);
 const useIndexed = common.useIndexed(Select.places.getSubstate, 'places', ActionTypes.PLACES);
 const useKeys = common.useKeys(Select.places.getSubstate, 'places', ActionTypes.PLACES);
-const refreshAllIndexes = common.refreshAllIndexes(Select.places.getSubstate, `places`, ActionTypes.PLACES);
+const refreshUses = common.refreshUses(Select.places.getSubstate, `places`, ActionTypes.PLACES);
 
 function setActive(keys) {
 	return (dispatch, getState) => {
@@ -83,7 +83,7 @@ function actionInitializeForExt() {
 
 export default {
 	ensure: common.ensure.bind(this, Select.places.getSubstate, 'places', ActionTypes.PLACES),
-	refreshAllIndexes,
+	refreshUses,
 	setActive,
 	setActiveKey,
 	setActiveKeys,
