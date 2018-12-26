@@ -4,6 +4,8 @@ import config from "../../config";
 import path from "path";
 import fetch from "isomorphic-fetch";
 
+import request from "../_common/request";
+
 import utils from '../../utils/utils';
 
 import common from '../_common/actions';
@@ -57,157 +59,101 @@ function onLogout() {
 	}
 }
 
-function update(user) {
-	return dispatch => {
-		dispatch(actionUpdate(user));
-	};
-}
-
-function apiLoginUser(email, password, ttl) {
-	if (_.isUndefined(ttl)) ttl = TTL;
+function apiLoginUser(email, password) {
 	return dispatch => {
 		dispatch(actionApiLoginRequest());
 
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/api/login/login');
+		let payload = {
+			username: email,
+			password: password
+		};
 
-		return fetch(url, {
-			method: 'POST',
-			credentials: 'include',
-			headers: {
-				'Content-Type': 'application/json',
-				'Accept': 'application/json'
-			},
-			body: JSON.stringify({
-				username: email,
-				password: password
-			})
-		}).then(
-			response => {
-				console.log('#### login user response', response);
-				if (response.ok) {
+		return request('backend/api/login/login', 'POST', null, payload)
+			.then(result => {
+				if (result.data.status === "ok") {
 					dispatch(onLogin());
-				} else {
-					dispatch(actionApiLoginRequestError('user#action login Problem with logging in the User, please try later.'));
 				}
-			},
-			error => {
-				console.log('#### login user error', error);
-				if (ttl - 1) {
-					dispatch(apiLoginUser(ttl - 1));
-				} else {
-					dispatch(actionApiLoginRequestError('user#action login Problem with logging in the User, please try later.'));
-				}
-			}
-		);
+			})
+			.catch(error => {
+				dispatch(common.actionGeneralError(error));
+				return error;
+			});
 	};
 }
 
-function apiLoad(ttl) {
-	if (_.isUndefined(ttl)) ttl = TTL;
-	return (dispatch, getState) => {
-		let state = getState();
-		if (state.users.loading) {
-			// already loading, do nothing
-		} else {
-			dispatch(actionApiLoadRequest());
+// function apiLoad(ttl) {
+// 	if (_.isUndefined(ttl)) ttl = TTL;
+// 	return (dispatch, getState) => {
+// 		let state = getState();
+// 		if (state.users.loading) {
+// 			// already loading, do nothing
+// 		} else {
+// 			dispatch(actionApiLoadRequest());
+//
+// 			let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/user');
+//
+// 			return fetch(url, {
+// 				method: 'GET',
+// 				credentials: 'include',
+// 				headers: {
+// 					'Content-Type': 'application/json',
+// 					'Accept': 'application/json'
+// 				}
+// 			}).then(
+// 				response => {
+// 					let contentType = response.headers.get('Content-type');
+// 					if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
+// 						return response.json().then(data => {
+// 							Promise.all(data.data.map(user => {
+// 								return new User({data: user}).then(user => {
+// 									user.key = user.id;
+// 									return user;
+// 								});
+// 							})).then(users => {
+// 								dispatch(actionAdd(users));
+// 							});
+// 						});
+// 					} else {
+// 						dispatch(actionApiLoadRequestError('scopes#action Problem with loading scopes.'));
+// 					}
+// 				},
+// 				error => {
+// 					if (ttl - 1) {
+// 						dispatch(apiLoad(ttl - 1));
+// 					} else {
+// 						dispatch(actionApiLoadRequestError('scopes#action Problem with loading scopes.'));
+// 					}
+// 				}
+// 			);
+// 		}
+// 	};
+// }
 
-			let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/user');
-
-			return fetch(url, {
-				method: 'GET',
-				credentials: 'include',
-				headers: {
-					'Content-Type': 'application/json',
-					'Accept': 'application/json'
-				}
-			}).then(
-				response => {
-					let contentType = response.headers.get('Content-type');
-					if (response.ok && contentType && (contentType.indexOf('application/json') !== -1)) {
-						return response.json().then(data => {
-							Promise.all(data.data.map(user => {
-								return new User({data: user}).then(user => {
-									user.key = user.id;
-									return user;
-								});
-							})).then(users => {
-								dispatch(actionAdd(users));
-							});
-						});
-					} else {
-						dispatch(actionApiLoadRequestError('scopes#action Problem with loading scopes.'));
-					}
-				},
-				error => {
-					if (ttl - 1) {
-						dispatch(apiLoad(ttl - 1));
-					} else {
-						dispatch(actionApiLoadRequestError('scopes#action Problem with loading scopes.'));
-					}
-				}
-			);
-		}
-	};
-}
-
-function apiLoadCurrentUser(ttl) {
-	if (_.isUndefined(ttl)) ttl = TTL;
+function apiLoadCurrentUser() {
 	return dispatch => {
 		dispatch(actionApiLoadCurrentUserRequest());
 
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, 'backend/rest/logged');
-
-		return fetch(url, {
-			method: 'GET',
-			credentials: 'include',
-			headers: {
-				'Content-Type': 'application/json',
-				'Accept': 'application/json'
-			}
-		}).then(
-			response => {
-				console.log('#### load current user response', response);
-				if (response.ok) {
-					return response.json().then(body => {
-
-						if (body._id === 0) {
-							// no logged in user = guest
-							dispatch(actionAddGroups(transformGroups(body.groups)));
-						} else if (body._id) {
-							// logged in user
-							dispatch(setActiveKey(body._id));
-							dispatch(add(transformUser(body)));
-							dispatch(actionAddGroups(transformGroups(body.groups)));
-						}
-
-
-						// if (body._id != 0) {
-						// 	new User({data: body}).then(user => {
-						// 		user.key = user.id;
-						// 		dispatch(actionAdd([user]));
-						//
-						// 		dispatch(actionUpdate({
-						// 			userId: body._id,
-						// 			isLoggedIn: true,
-						// 			isAdmin: false
-						// 		}));
-						// 		dispatch(overlaysActions.closeOverlay('login'));
-						// 	});
-						// }
-					});
+		return request('backend/rest/user/current', 'GET', null, null)
+			.then(result => {
+				if (result.errors) { //todo how do we return errors here?
+					throw new Error(result.errors);
 				} else {
-					dispatch(actionApiLoadCurrentUserRequestError('user#action loadCurrent Problem with loading current User, please try later.'));
+					if (result.data.key === 0) {
+						// no logged in user = guest
+						dispatch(actionAddGroups(result.data.groups));
+					} else if (result.data.key) {
+						// logged in user
+						dispatch(setActiveKey(result.data.key));
+						dispatch(add(transformUser(result.data)));
+						dispatch(actionAddGroups(result.data.groups));
+					}
 				}
-			},
-			error => {
-				console.log('#### load current users error', error);
-				if (ttl - 1) {
-					dispatch(apiLoadCurrentUser(ttl - 1));
-				} else {
-					dispatch(actionApiLoadCurrentUserRequestError('user#action loadCurrent Problem with loading current User, please try later.'));
-				}
-			}
-		);
+			})
+			.catch(error => {
+				dispatch(common.actionGeneralError(error));
+				return error;
+			});
+
 	};
 }
 
@@ -249,49 +195,19 @@ function apiLogoutUser(ttl) {
 
 // ============ helpers ===========
 
-function transformUser(body) {
+function transformUser(user) {
 	return {
-		key: body._id,
-		data: {
-			email: body.email,
-			name: body.name,
-			phone: body.phone
-		},
-		groups: _.map(body.groups, '_id')
+		...user,
+		groups: _.map(user.groups, 'key')
 	}
-}
-
-function transformGroups(groups) {
-	return _.map(groups, group => {
-		return {
-			key: group._id,
-			data: {
-				name: group.name
-			}
-		}
-	});
 }
 
 // ============ actions ===========
-
-function actionAdd(users) {
-	return {
-		type: ActionTypes.USERS.ADD,
-		data: users
-	}
-}
 
 function actionAddGroups(groups) {
 	return {
 		type: ActionTypes.USERS.GROUPS.ADD,
 		data: groups
-	}
-}
-
-function actionUpdate(user) {
-	return {
-		type: ActionTypes.USERS_UPDATE,
-		data: user
 	}
 }
 
@@ -323,27 +239,13 @@ function actionApiLoadRequestError(error) {
 
 function actionApiLoginRequest() {
 	return {
-		type: ActionTypes.USERS_LOGIN_REQUEST
-	}
-}
-
-function actionApiLoginRequestError(error) {
-	return {
-		type: ActionTypes.USERS_LOGIN_REQUEST_ERROR,
-		error: error
+		type: ActionTypes.USERS.LOGIN.REQUEST
 	}
 }
 
 function actionApiLoadCurrentUserRequest() {
 	return {
-		type: ActionTypes.USERS_LOAD_CURRENT_REQUEST
-	}
-}
-
-function actionApiLoadCurrentUserRequestError(error) {
-	return {
-		type: ActionTypes.USERS_LOAD_CURRENT_REQUEST_ERROR,
-		error: error
+		type: ActionTypes.USERS.CURRENT.REQUEST
 	}
 }
 
@@ -357,9 +259,9 @@ function actionLogout() {
 
 export default {
 	add,
-	apiLoad: apiLoad,
+	// apiLoad: apiLoad,
 	apiLoadCurrentUser: apiLoadCurrentUser,
 	apiLoginUser: apiLoginUser,
 	apiLogoutUser: apiLogoutUser,
-	update: update
+	// update: update
 }

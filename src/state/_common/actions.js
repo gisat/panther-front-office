@@ -448,6 +448,7 @@ export default {
 	add: creator(actionAdd),
 	action,
 	actionAdd,
+	actionGeneralError,
 	creator,
 	ensure: ensureKeys,
 	ensureIndex: ensureIndexed,

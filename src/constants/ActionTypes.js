@@ -337,7 +337,13 @@ export default utils.deepKeyMirror({
 			ADD: null,
 			ADD_UNRECEIVED: null
 		},
-		SET_ACTIVE_KEY: null
+		SET_ACTIVE_KEY: null,
+		CURRENT: {
+			REQUEST: null
+		},
+		LOGIN: {
+			REQUEST: null
+		}
 	},
 
 	//todo which is it? USER_GROUPS or USERS.GROUPS?
