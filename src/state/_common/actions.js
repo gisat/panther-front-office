@@ -8,6 +8,8 @@ import commonSelectors from './selectors';
 import Select from "../Select";
 import ActionTypes from "../../constants/ActionTypes";
 
+import Action from '../Action';
+
 const PAGE_SIZE = 10;
 
 // ============ factories ===========
@@ -359,13 +361,12 @@ function ensureIndexesWithActiveKey(filterKey) {
 				[filterKey]: true
 			};
 
-			let actions = [
-				ensureIndexesWithFilterByActive(Select.dataviews.getSubstate, 'dataviews', ActionTypes.DATAVIEWS),
-				ensureIndexesWithFilterByActive(Select.places.getSubstate, 'places', ActionTypes.PLACES),
-				ensureIndexesWithFilterByActive(Select.periods.getSubstate, 'periods', ActionTypes.PERIODS),
-			];
-
-			_.each(actions, action => dispatch(action(filterByActive)));
+			// dispatch ensureIndexesWithFilterByActive on all stores implementing it
+			_.each(Action, actions => {
+				if (actions.hasOwnProperty('ensureIndexesWithFilterByActive')) {
+					dispatch(actions.ensureIndexesWithFilterByActive(filterByActive))
+				}
+			});
 
 		};
 }
@@ -452,6 +453,7 @@ export default {
 	creator,
 	ensure: ensureKeys,
 	ensureIndex: ensureIndexed,
+	ensureIndexesWithFilterByActive,
 	loadAll,
 	loadFiltered,
 	loadIndexedPage,
