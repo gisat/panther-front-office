@@ -199,7 +199,7 @@ class Customization {
 		let showTimeline = false;
 
         if (scope && scope.configuration && scope.showTimeline && user && user.groups){
-			let userGroupKeys = user.groups.map(group => group.id);
+			let userGroupKeys = user.groups.map(group => group.key);
 			let dromasLpisGroups = scope.configuration.dromasLpisChangeReview ? scope.configuration.dromasLpisChangeReview.groups : null;
             const sentinelViewer = scope.configuration.sentinelViewer;
             const LPISCheckViewer = scope.configuration.lpisCheckReview;
