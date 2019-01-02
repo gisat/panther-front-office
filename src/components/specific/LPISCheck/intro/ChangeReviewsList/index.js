@@ -21,12 +21,12 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		changeSearch: (searchParams) => {
-			dispatch(Action.specific.lpisCheck.changeSearch(searchParams))
+			dispatch(Action.specific.lpisCheckCases.changeSearch(searchParams))
 		},
 		showCase: (caseKey) => {
-			dispatch(Action.specific.lpisCheck.setActive(caseKey));
+			dispatch(Action.specific.lpisCheckCases.setActive(caseKey));
 			// dispatch(Action.components.setIntro(false));
-			dispatch(Action.specific.lpisCheck.redirectToActiveCaseView());
+			dispatch(Action.specific.lpisCheckCases.redirectToActiveCaseView());
 		},
 	}
 };

@@ -8,12 +8,14 @@ import ScopeSelectors from '../Scopes/selectors';
 
 
 const getSubstate = state => state.users;
+const getGroupsSubstate = state => state.users.groups;
 
 const getAll = common.getAll(getSubstate);
+const getGroups = common.getAll(getGroupsSubstate);
+const getGroupsAsObject = common.getAllAsObject(getGroupsSubstate);
 const getActiveKey = common.getActiveKey(getSubstate);
 const getActive = common.getActive(getSubstate);
 
-const groups = state => state.users.groups;
 const isLoggedIn = state => state.users.isLoggedIn;
 const isAdmin = state => state.users.isAdmin;
 
@@ -35,7 +37,7 @@ const isAdminOrAdminGroupMember = createSelector(
 );
 
 const getGroupsForActiveUser = createSelector(
-	[getActive, groups],
+	[getActive, getGroupsAsObject],
 	(user, groups) => {
 		if (user && user.groups && groups){
 			let groupData = _.pick(groups, user.groups);
@@ -151,8 +153,7 @@ export default {
 	getGroupKeysForActiveUser: getGroupKeysForActiveUser,
 	getGroupsForActiveUser: getGroupKeysForActiveUser,
 	getUsers: getAll,
-
-	groups: groups,
+	getGroups: getGroups,
 
 	hasActiveUserPermissionToCreate: hasActiveUserPermissionToCreate,
 

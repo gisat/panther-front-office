@@ -190,7 +190,7 @@ function setActiveCaseByActiveView() {
 		let activeViewKey = Select.dataviews.getActiveKey(state);
 		let caseByActiveView = Select.specific.lpisCheckCases.getCaseByActiveView(state);
 		if (caseByActiveView) {
-			dispatch(Action.specific.lpisCheck.setActive(caseByActiveView.key));
+			dispatch(Action.specific.lpisCheckCases.setActive(caseByActiveView.key));
 		}
 	}
 }

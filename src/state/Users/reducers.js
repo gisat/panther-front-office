@@ -6,21 +6,9 @@ import common from '../_common/reducers';
 import {DEFAULT_INITIAL_STATE} from "../_common/reducers";
 
 const INITIAL_STATE = {
-	...DEFAULT_INITIAL_STATE
+	...DEFAULT_INITIAL_STATE,
+	groups: {...DEFAULT_INITIAL_STATE}
 };
-
-function addGroups(state, action) {
-	let groups = {...state.groups};
-	_.each(action.data, group => {
-		groups[group.key] = group;
-	});
-	return {...state, groups}
-}
-
-function addUnreceivedGroups(state, action) {
-	let groups = common.addUnreceivedKeys(state.groups, action);
-	return {...state, groups}
-}
 
 function update(state, action) {
 	let {userId, ...data} = action.data;
@@ -45,9 +33,9 @@ export default (state = INITIAL_STATE, action) => {
 		case ActionTypes.USERS.SET_ACTIVE_KEY:
 			return common.setActive(state, action);
 		case ActionTypes.USERS.GROUPS.ADD:
-			return addGroups(state, action);
+			return {...state, groups: common.add(state.groups, action)}
 		case ActionTypes.USERS.GROUPS.ADD_UNRECEIVED:
-			return addUnreceivedGroups(state, action);
+			return {...state, groups: common.addUnreceivedKeys(state.groups, action)}
 		case ActionTypes.USERS_LOAD_REQUEST:
 			return loadRequest(state, action);
 		case ActionTypes.USERS_LOAD_REQUEST_ERROR:

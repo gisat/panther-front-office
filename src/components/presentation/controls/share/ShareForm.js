@@ -9,7 +9,7 @@ const LANGUAGES = [
 
 const getSelect = (items, selected, name, onChange, defaultEmpty = false) => {
     const options = items.map((item) => {
-        return <option value={item.key} key={item.key}>{item.name}</option>;
+        return <option value={item.key} key={item.key}>{item.name || item.data.name}</option>;
     });
 
     if (defaultEmpty) {

@@ -7,7 +7,7 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		activePlace: Select.places.getActive(state),
 		activeMap: Select.maps.getActiveMap(state),
-		case: Select.lpisCases.getActiveCase(state),
+		case: Select.specific.lpisCheckCases.getActiveCase(state),
 		mapsContainer: Select.components.getMapsContainer(state),
 		mapsCount: Select.maps.getMapsCount(state),
 		places: Select.places.getPlacesForActiveScope(state),

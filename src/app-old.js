@@ -60,6 +60,7 @@ function loadApp(initialData) {
         visualizations: new Visualizations(initialData.visualizations),
         wmsLayers: new WmsLayers()
     };
+    window.store = store;
 
 	applyProjectSettings();
     if(!new URL(window.location).searchParams.get('id')) {

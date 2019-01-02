@@ -14,15 +14,15 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-		caseVisited: (caseKey, visited) => {dispatch(Action.specific.lpisCheck.setCaseVisited(caseKey, visited))},
-		caseConfirmed: (caseKey, confirmed) => {dispatch(Action.specific.lpisCheck.setCaseConfirmed(caseKey, confirmed))},
+		caseVisited: (caseKey, visited) => {dispatch(Action.specific.lpisCheckCases.setCaseVisited(caseKey, visited))},
+		caseConfirmed: (caseKey, confirmed) => {dispatch(Action.specific.lpisCheckCases.setCaseConfirmed(caseKey, confirmed))},
 		setActivePlace: (value) => {dispatch(Action.places.setActive(value))},
 		addMap: ()=>{
 			window.Stores.notify('mapsContainer#addMap');
 		},
 		showCase: (caseKey) => {
-			dispatch(Action.specific.lpisCheck.setActive(caseKey));
-			dispatch(Action.specific.lpisCheck.redirectToActiveCaseView());
+			dispatch(Action.specific.lpisCheckCases.setActive(caseKey));
+			dispatch(Action.specific.lpisCheckCases.redirectToActiveCaseView());
 		},
 	};
 };
