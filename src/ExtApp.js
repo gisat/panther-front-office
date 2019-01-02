@@ -69,10 +69,12 @@ class ExtApp {
 		let placesStore = Ext.StoreMgr.lookup('location');
 		let themesStore = Ext.StoreMgr.lookup('theme');
 		let yearsStore = Ext.StoreMgr.lookup('year');
+		let visualizationsStore = Ext.StoreMgr.lookup('visualization');
 
 		let locationStore = Ext.StoreMgr.lookup('location4init');
 		let themeStore = Ext.StoreMgr.lookup('theme4sel');
 		let yearStore = Ext.StoreMgr.lookup('year4sel');
+		let visStore = Ext.StoreMgr.lookup('visualization4sel');
 
 		if (data.scopes){
 		    scopesStore.add(data.scopes);
@@ -88,6 +90,11 @@ class ExtApp {
 		if (data.periods){
 			yearsStore.add(data.periods);
 			yearStore.add(data.periods);
+		}
+
+		if (data.visualizations){
+			visualizationsStore.add(data.visualizations);
+			visStore.add(data.visualizations);
 		}
 
 		if (data.attributeSets){

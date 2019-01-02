@@ -7,14 +7,14 @@ const SEARCHABLE_CASE_KEYS_SOURCES = ['data.poznamka', 'data.nkod_dpb'];
 const SEARCHING_RESULTS_LIMIT = 20;
 const SEARCHING_SCORE_THRESHOLD = -10000;
 
-const getCases = state => state.lpisCheckCases.cases;
-const getFilterVisited = state => state.lpisCheckCases.filterVisited;
-const getFilterConfirmed = state => state.lpisCheckCases.filterConfirmed;
-const getFilterSearch = state => state.lpisCheckCases.searchString;
-const getChanges = state => state.lpisCheckCases.changes;
-const getSearchString = state => state.lpisCheckCases.searchString;
-const getActiveCaseKey = state => state.lpisCheckCases.activeCaseKey;
-const getActiveViewKey = state => state.dataviews.activeKey;
+const getCases = state => state.specific.lpisCheckCases.cases;
+const getFilterVisited = state => state.specific.lpisCheckCases.filterVisited;
+const getFilterConfirmed = state => state.specific.lpisCheckCases.filterConfirmed;
+const getFilterSearch = state => state.specific.lpisCheckCases.searchString;
+const getChanges = state => state.specific.lpisCheckCases.changes;
+const getSearchString = state => state.specific.lpisCheckCases.searchString;
+const getActiveCaseKey = state => state.specific.lpisCheckCases.activeCaseKey;
+const getActiveViewKey = state => state.specific.dataviews.activeKey;
 
 const getFilterParams = state => ({
 	filterVisited: getFilterVisited(state),

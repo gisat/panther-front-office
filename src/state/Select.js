@@ -1,3 +1,4 @@
+// base types
 import Aoi from './AOI/selectors';
 import Areas from './Areas/selectors';
 import Attributes from './Attributes/selectors';
@@ -7,8 +8,6 @@ import Components from './Components/selectors';
 import Dataviews from './Dataviews/selectors';
 import LayerPeriods from './LayerPeriods/selectors';
 import LayerTemplates from './LayerTemplates/selectors';
-import LpisCases from './LpisCases/selectors';
-import LpisCheckCases from './LpisCheckCases/selectors';
 import Maps from './Maps/selectors';
 import Periods from './Periods/selectors';
 import Places from './Places/selectors';
@@ -21,7 +20,12 @@ import Styles from './Styles/selectors';
 import Themes from './_Themes/selectors';
 import UserGroups from './UserGroups/selectors';
 import Users from './Users/selectors';
+import Visualizations from './_Visualizations/selectors';
 import WmsLayers from './WmsLayers/selectors';
+
+// specific types
+import LpisChangeReviewCases from "./_specific/LpisChangeReviewCases/selectors";
+import LpisCheckCases from './_specific/LpisCheckCases/selectors';
 
 export default {
 	aoi: Aoi,
@@ -33,8 +37,6 @@ export default {
 	dataviews: Dataviews,
 	layerPeriods: LayerPeriods,
 	layerTemplates: LayerTemplates,
-	lpisCases: LpisCases,
-	lpisCheckCases: LpisCheckCases,
 	maps: Maps,
 	periods: Periods,
 	places: Places,
@@ -47,6 +49,10 @@ export default {
 	themes: Themes,
 	userGroups: UserGroups,
 	users: Users,
-	wmsLayers: WmsLayers
-
+	visualizations: Visualizations,
+	wmsLayers: WmsLayers,
+	specific: {
+		lpisChangeReviewCases: LpisChangeReviewCases,
+		lpisCheckCases: LpisCheckCases
+	}
 };

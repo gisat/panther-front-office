@@ -6,23 +6,23 @@ import presentation from "./presentation";
 const mapStateToProps = (state, ownProps) => {
 	
 	return {
-		case: Select.lpisCheckCases.getActiveCase(state),
-		nextCaseKey: Select.lpisCheckCases.getNextCaseKey(state),
-		previousCaseKey: Select.lpisCheckCases.getPreviousCaseKey(state),
+		case: Select.specific.lpisCheckCases.getActiveCase(state),
+		nextCaseKey: Select.specific.lpisCheckCases.getNextCaseKey(state),
+		previousCaseKey: Select.specific.lpisCheckCases.getPreviousCaseKey(state),
 	};
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-		caseVisited: (caseKey, visited) => {dispatch(Action.lpisCheck.setCaseVisited(caseKey, visited))},
-		caseConfirmed: (caseKey, confirmed) => {dispatch(Action.lpisCheck.setCaseConfirmed(caseKey, confirmed))},
+		caseVisited: (caseKey, visited) => {dispatch(Action.specific.lpisCheck.setCaseVisited(caseKey, visited))},
+		caseConfirmed: (caseKey, confirmed) => {dispatch(Action.specific.lpisCheck.setCaseConfirmed(caseKey, confirmed))},
 		setActivePlace: (value) => {dispatch(Action.places.setActive(value))},
 		addMap: ()=>{
 			window.Stores.notify('mapsContainer#addMap');
 		},
 		showCase: (caseKey) => {
-			dispatch(Action.lpisCheck.setActive(caseKey));
-			dispatch(Action.lpisCheck.redirectToActiveCaseView());
+			dispatch(Action.specific.lpisCheck.setActive(caseKey));
+			dispatch(Action.specific.lpisCheck.redirectToActiveCaseView());
 		},
 	};
 };

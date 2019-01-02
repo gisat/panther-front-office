@@ -1,17 +1,17 @@
-import Action from '../Action';
-import ActionTypes from '../../constants/ActionTypes';
-import Select from '../Select';
+import Action from '../../Action';
+import ActionTypes from '../../../constants/ActionTypes';
+import Select from '../../Select';
 
-import config from '../../config';
+import config from '../../../config/index';
 
-import LpisCaseStatuses, {order as LpisCaseStatusOrder} from '../../constants/LpisCaseStatuses';
+import LpisCaseStatuses, {order as LpisCaseStatusOrder} from '../../../constants/LpisCaseStatuses';
 
 import _ from 'lodash';
 import path from 'path';
 import fetch from 'isomorphic-fetch';
 import queryString from 'query-string';
-import utils from '../../utils/utils';
-import LayerPeriods from "../LayerPeriods/actions";
+import utils from '../../../utils/utils';
+import LayerPeriods from "../../LayerPeriods/actions";
 
 // ============ creators ===========
 
@@ -62,7 +62,7 @@ function createLpisCase() {
 	return (dispatch, getState) => {
 		let state = getState();
 		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/metadata');
-		let activeNewEditedCase = Select.lpisCases.getActiveEditedCase(state);
+		let activeNewEditedCase = Select.specific.lpisChangeReviewCases.getActiveEditedCase(state);
 
 		let formData = new FormData();
 		formData.append(
@@ -113,8 +113,8 @@ function createLpisCase() {
 function editLpisCase(caseKey) {
 	return (dispatch, getState) => {
 		let state = getState();
-		let editedCase = caseKey ? _.find(Select.lpisCases.getEditedCases(state), {key: caseKey}) : Select.lpisCases.getActiveCaseEdited(state);
-		let activeCase = Select.lpisCases.getActiveCase(state);
+		let editedCase = caseKey ? _.find(Select.specific.lpisChangeReviewCases.getEditedCases(state), {key: caseKey}) : Select.specific.lpisChangeReviewCases.getActiveCaseEdited(state);
+		let activeCase = Select.specific.lpisChangeReviewCases.getActiveCase(state);
 
 		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/metadata');
 
@@ -150,7 +150,7 @@ function updateActiveCaseView() {
 	return (dispatch, getState) => {
 		let state = getState();
 		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, config.apiBackendPath, 'backend/rest/dataview');
-		let activeCase = Select.lpisCases.getActiveCase(state);
+		let activeCase = Select.specific.lpisChangeReviewCases.getActiveCase(state);
 
 		if (activeCase) {
 			let activeCaseView = _.find(Select.dataviews.getViews(state), (view) => {
@@ -215,11 +215,11 @@ function _storeResponseContent(content) {
 			}
 
 			if (lpisCases && lpisCases.length) {
-				let editedCases = Select.lpisCases.getEditedCases(state);
+				let editedCases = Select.specific.lpisChangeReviewCases.getEditedCases(state);
 
 				let clearedLpisCases = _.filter(lpisCases, (lpisCase) => {
 					if (lpisCase.status === "error"){
-						console.warn("LpisCases#actions#_storeResponseContent: Case wasn't created!");
+						console.warn("LpisChangeReviewCases#actions#_storeResponseContent: Case wasn't created!");
 					}
 					return lpisCase.status !== "error";
 				});
@@ -239,7 +239,7 @@ function _storeResponseContent(content) {
 					dispatch(actionRemoveEditedCasesByKeys(keysOkEditedCasesToRemove));
 				}
 
-				let nextActiveCaseKey = Select.lpisCases.getNextActiveCaseKey(state);
+				let nextActiveCaseKey = Select.specific.lpisChangeReviewCases.getNextActiveCaseKey(state);
 				if(!nextActiveCaseKey) {
 					dispatch(setNextActiveCaseKey());
 				}
@@ -254,7 +254,7 @@ function setActive(caseKey) {
 		dispatch(actionSetActive(caseKey));
 
 		let state = getState();
-		let cases = Select.lpisCases.getCases(state);
+		let cases = Select.specific.lpisChangeReviewCases.getCases(state);
 		let lpisCase = _.find(cases, {key: caseKey});
 		if (lpisCase && lpisCase.data && lpisCase.data.geometry_before) {
 			dispatch(LayerPeriods.loadForKey('lpisCase' + lpisCase.key, lpisCase.data.geometry_before));
@@ -265,7 +265,7 @@ function setActive(caseKey) {
 function redirectToActiveCaseView() {
 	return (dispatch, getState) => {
 		let state = getState();
-		let activeCase = Select.lpisCases.getActiveCase(state);
+		let activeCase = Select.specific.lpisChangeReviewCases.getActiveCase(state);
 		let view = _.find(Select.dataviews.getViews(state), {key: activeCase.data.view_id});
 
 		dispatch(Action.components.redirectToView({...view.data, key: view.key}));
@@ -275,8 +275,8 @@ function redirectToActiveCaseView() {
 function redirectToNextViewFromActiveView() {
 	return (dispatch, getState) => {
 		let state = getState();
-		let nextActiveCaseKey = Select.lpisCases.getNextActiveCaseKey(state);
-		let nextLpisCase = _.find(Select.lpisCases.getCases(state), {key: nextActiveCaseKey});
+		let nextActiveCaseKey = Select.specific.lpisChangeReviewCases.getNextActiveCaseKey(state);
+		let nextLpisCase = _.find(Select.specific.lpisChangeReviewCases.getCases(state), {key: nextActiveCaseKey});
 
 		if(nextLpisCase) {
 			let view = _.find(Select.dataviews.getViews(state), {key: nextLpisCase.data.view_id});
@@ -288,11 +288,11 @@ function redirectToNextViewFromActiveView() {
 function setNextActiveCaseKey() {
 	return (dispatch, getState) => {
 		let state = getState();
-		let activeCase = Select.lpisCases.getActiveCase(state);
+		let activeCase = Select.specific.lpisChangeReviewCases.getActiveCase(state);
 
 		if(activeCase) {
 			let activeUserDromasLpisChangeReviewGroup = Select.users.getActiveUserDromasLpisChangeReviewGroup(state);
-			let lpisCases = Select.lpisCases.getAllCasesSortedByStatusAndDate(state, {activeUserDromasLpisChangeReviewGroup: activeUserDromasLpisChangeReviewGroup});
+			let lpisCases = Select.specific.lpisChangeReviewCases.getAllCasesSortedByStatusAndDate(state, {activeUserDromasLpisChangeReviewGroup: activeUserDromasLpisChangeReviewGroup});
 
 			let activeCaseIndex = _.findIndex(lpisCases, {key: activeCase.key});
 			if(lpisCases[activeCaseIndex+1] && lpisCases[activeCaseIndex+1].status === activeCase.status) {
@@ -309,7 +309,7 @@ function loadCaseForActiveView() {
 		let activeScope = Select.scopes.getActiveScopeData(state);
 
 		if (!activeScope) {
-			throw new Error(`LpisCases#actions#loadCaseForActiveView: active scope was not found`);
+			throw new Error(`LpisChangeReviewCases#actions#loadCaseForActiveView: active scope was not found`);
 		}
 
 		return Promise
@@ -326,9 +326,9 @@ function setActiveCaseByActiveView() {
 	return (dispatch, getState) => {
 		let state = getState();
 		let activeViewKey = Select.dataviews.getActiveKey(state);
-		let caseByActiveView = Select.lpisCases.getCaseByActiveView(state);
+		let caseByActiveView = Select.specific.lpisChangeReviewCases.getCaseByActiveView(state);
 		if (caseByActiveView) {
-			dispatch(Action.lpisCases.setActive(caseByActiveView.key));
+			dispatch(Action.specific.lpisChangeReviewCases.setActive(caseByActiveView.key));
 		}
 	}
 }
@@ -336,11 +336,11 @@ function setActiveCaseByActiveView() {
 function editActiveCase(property, value) {
 	return (dispatch, getState) => {
 		let state = getState();
-		let activeCaseEdited = Select.lpisCases.getActiveCaseEdited(state);
-		let activeCaseKey = Select.lpisCases.getActiveCaseKey(state);
+		let activeCaseEdited = Select.specific.lpisChangeReviewCases.getActiveCaseEdited(state);
+		let activeCaseKey = Select.specific.lpisChangeReviewCases.getActiveCaseKey(state);
 
 		if(property) {
-			return dispatch(Action.lpisCases.actionEditActiveCase(property, value));
+			return dispatch(Action.specific.lpisChangeReviewCases.actionEditActiveCase(property, value));
 		}
 	}
 }
@@ -348,11 +348,11 @@ function editActiveCase(property, value) {
 function editActiveCaseStatus(status) {
 	return (dispatch, getState) => {
 		let state = getState();
-		let activeCaseEdited = Select.lpisCases.getActiveCaseEdited(state);
-		let activeCaseKey = Select.lpisCases.getActiveCaseKey(state);
+		let activeCaseEdited = Select.specific.lpisChangeReviewCases.getActiveCaseEdited(state);
+		let activeCaseKey = Select.specific.lpisChangeReviewCases.getActiveCaseKey(state);
 
 		if(status) {
-			return dispatch(Action.lpisCases.actionEditActiveCaseStatus(status));
+			return dispatch(Action.specific.lpisChangeReviewCases.actionEditActiveCaseStatus(status));
 		}
 	}
 }
@@ -370,7 +370,7 @@ function editActiveCaseMapSources() {
 		let state = getState();
 		let usedSources = Select.maps.getUsedSourcesForAllMaps(state);
 		if(usedSources && usedSources.length) {
-			return dispatch(Action.lpisCases.actionEditActiveCase('evaluation_used_sources', _.sortBy(usedSources).join(`\n`)));
+			return dispatch(Action.specific.lpisChangeReviewCases.actionEditActiveCase('evaluation_used_sources', _.sortBy(usedSources).join(`\n`)));
 		}
 	}
 }
@@ -378,7 +378,7 @@ function editActiveCaseMapSources() {
 function clearActiveEditedCase() {
 	return (dispacth, getState) => {
 		let state = getState();
-		let activeEditedCaseKey = Select.lpisCases.getActiveEditedCaseKey(state);
+		let activeEditedCaseKey = Select.specific.lpisChangeReviewCases.getActiveEditedCaseKey(state);
 		dispacth(actionClearEditedCase(activeEditedCaseKey));
 	}
 }
@@ -392,44 +392,44 @@ function changeSelectedStatuses(statuses) {
 
 function userActionSaveEvaluation() {
 	return (dispatch) => {
-		dispatch(Action.lpisCases.editActiveCaseMapSources());
-		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.EVALUATION_CREATED.database));
-		dispatch(Action.lpisCases.updateActiveCaseView());
-		dispatch(Action.lpisCases.editLpisCase());
+		dispatch(Action.specific.lpisChangeReviewCases.editActiveCaseMapSources());
+		dispatch(Action.specific.lpisChangeReviewCases.editActiveCaseStatus(LpisCaseStatuses.EVALUATION_CREATED.database));
+		dispatch(Action.specific.lpisChangeReviewCases.updateActiveCaseView());
+		dispatch(Action.specific.lpisChangeReviewCases.editLpisCase());
 		dispatch(redirectToNextViewFromActiveView());
 	}
 }
 
 function userActionSaveAndApproveEvaluation() {
 	return (dispatch) => {
-		dispatch(Action.lpisCases.editActiveCaseMapSources());
-		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.EVALUATION_APPROVED.database));
-		dispatch(Action.lpisCases.updateActiveCaseView());
-		dispatch(Action.lpisCases.editLpisCase());
+		dispatch(Action.specific.lpisChangeReviewCases.editActiveCaseMapSources());
+		dispatch(Action.specific.lpisChangeReviewCases.editActiveCaseStatus(LpisCaseStatuses.EVALUATION_APPROVED.database));
+		dispatch(Action.specific.lpisChangeReviewCases.updateActiveCaseView());
+		dispatch(Action.specific.lpisChangeReviewCases.editLpisCase());
 		dispatch(redirectToNextViewFromActiveView());
 	}
 }
 
 function userActionApproveEvaluation() {
 	return (dispatch) => {
-		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.EVALUATION_APPROVED.database));
-		dispatch(Action.lpisCases.editLpisCase());
+		dispatch(Action.specific.lpisChangeReviewCases.editActiveCaseStatus(LpisCaseStatuses.EVALUATION_APPROVED.database));
+		dispatch(Action.specific.lpisChangeReviewCases.editLpisCase());
 		dispatch(redirectToNextViewFromActiveView());
 	}
 }
 
 function userActionRejectEvaluation() {
 	return (dispatch) => {
-		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.CREATED.database));
-		dispatch(Action.lpisCases.editLpisCase());
+		dispatch(Action.specific.lpisChangeReviewCases.editActiveCaseStatus(LpisCaseStatuses.CREATED.database));
+		dispatch(Action.specific.lpisChangeReviewCases.editLpisCase());
 		dispatch(redirectToNextViewFromActiveView());
 	}
 }
 
 function userActionCloseEvaluation() {
 	return (dispatch) => {
-		dispatch(Action.lpisCases.editActiveCaseStatus(LpisCaseStatuses.CLOSED.database));
-		dispatch(Action.lpisCases.editLpisCase());
+		dispatch(Action.specific.lpisChangeReviewCases.editActiveCaseStatus(LpisCaseStatuses.CLOSED.database));
+		dispatch(Action.specific.lpisChangeReviewCases.editLpisCase());
 		dispatch(redirectToNextViewFromActiveView());
 	}
 }

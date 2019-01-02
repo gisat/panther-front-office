@@ -8,7 +8,7 @@ import common from '../_common/actions';
 // ============ creators ===========
 
 const useIndexed = common.useIndexed(Select.scopes.getSubstate, 'scopes', ActionTypes.SCOPES);
-const refreshAllIndexes = common.refreshAllIndexes(Select.scopes.getSubstate, `scopes`, ActionTypes.SCOPES);
+const refreshUses = common.refreshUses(Select.scopes.getSubstate, `scopes`, ActionTypes.SCOPES);
 const setActiveKeyAndEnsureDependencies = common.setActiveKeyAndEnsureDependencies(ActionTypes.SCOPES, 'scope');
 
 function setActiveKey(key) {
@@ -25,11 +25,12 @@ function applyScopeConfiguration() {
 		let activeKey = null;
 
 		if (scopeConfig){
-			if (scopeConfig.hasOwnProperty(`dromasLpisChangeReview`)){
-				dispatch(Action.lpisCases.load());
-            }
-			if (scopeConfig.hasOwnProperty('lpisCheckReview')){
-				dispatch(Action.lpisCheck.load());
+			if (scopeConfig.hasOwnProperty(`dromasLpisChangeReview`)) {
+				dispatch(Action.specific.lpisChangeReviewCases.load());
+			}
+
+			if (scopeConfig.hasOwnProperty('lpisCheckReview')) {
+				dispatch(Action.specific.lpisCheckCases.load());
 			}
 			if (scopeConfig.style){
 				let styleToUse = VisualsConfig[scopeConfig.style];
@@ -80,6 +81,6 @@ function actionSetActiveKey(key) {
 export default {
 	setActiveKey,
 	loadForKeys,
-	refreshAllIndexes,
+	refreshUses,
 	useIndexed
 }

@@ -57,7 +57,7 @@ function loadApp(initialData) {
         scopes: new Scopes(initialData.scopes),
         themes: new Themes(initialData.themes),
         users: new Users(),
-        visualizations: new Visualizations(),
+        visualizations: new Visualizations(initialData.visualizations),
         wmsLayers: new WmsLayers()
     };
 

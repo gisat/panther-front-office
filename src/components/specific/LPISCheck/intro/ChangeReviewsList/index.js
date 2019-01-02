@@ -5,10 +5,10 @@ import Action from "../../../../../state/Action";
 import presentation from './presentation';
 
 const mapStateToProps = (state, ownProps) => {
-	let cases = Select.lpisCheckCases.getFilteredCases(state, {searchString, filterVisited, filterConfirmed});
-	const searchString = Select.lpisCheckCases.getFilterSearch(state);
-	const filterVisited = Select.lpisCheckCases.getFilterVisited(state);
-	const filterConfirmed = Select.lpisCheckCases.getFilterConfirmed(state);
+	let cases = Select.specific.lpisCheckCases.getFilteredCases(state, {searchString, filterVisited, filterConfirmed});
+	const searchString = Select.specific.lpisCheckCases.getFilterSearch(state);
+	const filterVisited = Select.specific.lpisCheckCases.getFilterVisited(state);
+	const filterConfirmed = Select.specific.lpisCheckCases.getFilterConfirmed(state);
 
 	return {
 		cases: cases,
@@ -21,12 +21,12 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		changeSearch: (searchParams) => {
-			dispatch(Action.lpisCheck.changeSearch(searchParams))
+			dispatch(Action.specific.lpisCheck.changeSearch(searchParams))
 		},
 		showCase: (caseKey) => {
-			dispatch(Action.lpisCheck.setActive(caseKey));
+			dispatch(Action.specific.lpisCheck.setActive(caseKey));
 			// dispatch(Action.components.setIntro(false));
-			dispatch(Action.lpisCheck.redirectToActiveCaseView());
+			dispatch(Action.specific.lpisCheck.redirectToActiveCaseView());
 		},
 	}
 };

@@ -10,7 +10,7 @@ export default store => {
 };
 
 const setStoreWatchers = store => {
-	createWatcher(store, Select.lpisCases.getActiveCase, activeLpisCaseWatcher);
+	createWatcher(store, Select.specific.lpisChangeReviewCases.getActiveCase, activeLpisCaseWatcher);
 };
 
 // ======== state watchers ========

@@ -2,8 +2,8 @@ import React from 'react';
 
 import ViewsList from "../containers/controls/ViewsList";
 import Intro from "../containers/Intro";
-import DromasLpisChangeReviewIntro from '../scopeSpecific/DromasLpisChangeReview/intro';
-import LpisCheckIntro from '../scopeSpecific/LPISCheck/intro';
+import LpisCheckIntro from '../specific/LPISCheck/intro';
+import DromasLpisChangeReviewIntro from '../specific/DromasLpisChangeReview/intro';
 
 export default ({scope, intro}) => {
 	if (scope){

@@ -6,8 +6,8 @@ import './ViewsList.css';
 import ViewCard from "../../../containers/controls/ViewCard";
 import Names from "../../../../constants/Names";
 import VisualConfig from "../../../../constants/VisualsConfig";
-import PucsClimateFitIntroHeader from "../../../scopeSpecific/PucsClimateFit/introHeader/presentation";
-import PucsClimateFitIntroFooter from "../../../scopeSpecific/PucsClimateFit/introFooter/presentation";
+import PucsClimateFitIntroHeader from "../../../specific/PucsClimateFit/introHeader/presentation";
+import PucsClimateFitIntroFooter from "../../../specific/PucsClimateFit/introFooter/presentation";
 
 class ViewsList extends React.PureComponent {
 

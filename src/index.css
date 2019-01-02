@@ -766,12 +766,13 @@ todo merge with overlay
 .ptr-view-selection-wrapper {
 	align-items: center;
 	display: flex;
+	flex-wrap: wrap;
 }
 .ptr-view-selection-container {
 	align-items: center;
 	display: flex;
 	height: 100%;
-	margin-right: 1rem;
+	margin: .15rem 1rem .15rem 0;
 }
 
 .ptr-place-selector {

@@ -339,7 +339,13 @@ export default utils.deepKeyMirror({
 			ADD: null,
 			ADD_UNRECEIVED: null
 		},
-		SET_ACTIVE_KEY: null
+		SET_ACTIVE_KEY: null,
+		CURRENT: {
+			REQUEST: null
+		},
+		LOGIN: {
+			REQUEST: null
+		}
 	},
 
 	//todo which is it? USER_GROUPS or USERS.GROUPS?
@@ -358,6 +364,27 @@ export default utils.deepKeyMirror({
     USERS_LOGOUT_REQUEST: 'USERS_LOGOUT_REQUEST',
     USERS_LOGOUT_REQUEST_ERROR: 'USERS_LOGOUT_REQUEST_ERROR',
 	USERS_UPDATE: 'USERS_UPDATE',
+
+	VISUALIZATIONS: {
+		ADD: null,
+		ADD_UNRECEIVED: null,
+		INDEX: {
+			ADD: null,
+			CLEAR_ALL: null
+		},
+		SET_ACTIVE_KEY: null,
+		INITIALIZE_FOR_EXT: null, // TODO It will be removed along with Ext
+		USE: {
+			INDEXED: {
+				CLEAR: null,
+				REGISTER: null
+			},
+			KEYS: {
+				CLEAR: null,
+				REGISTER: null
+			}
+		}
+	},
 
 	WMS_LAYERS: {
 		ADD: null

@@ -1,6 +1,6 @@
-import ActionTypes from '../../constants/ActionTypes';
+import ActionTypes from '../../../constants/ActionTypes';
 import _ from 'lodash';
-import utils from "../../utils/utils";
+import utils from "../../../utils/utils";
 
 const INITIAL_STATE = {
 	activeCaseKey: null,

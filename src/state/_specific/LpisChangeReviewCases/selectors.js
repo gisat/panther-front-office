@@ -2,23 +2,23 @@ import {createSelector} from 'reselect';
 import _ from 'lodash';
 import Fuzzy from "fuzzy";
 import fuzzysort from "fuzzysort";
-import UsersSelectors from '../Users/selectors';
+import UsersSelectors from '../../Users/selectors';
 
-import LpisCaseStatuses, {order as LpisCaseStatusOrder} from '../../constants/LpisCaseStatuses';
+import LpisCaseStatuses, {order as LpisCaseStatusOrder} from '../../../constants/LpisCaseStatuses';
 
 const SEARCHABLE_CASE_KEYS = ['case_key', 'change_description'];
 const SEARCHABLE_CASE_KEYS_SOURCES = ['data.case_key', 'data.change_description'];
 const SEARCHING_RESULTS_LIMIT = 20;
 const SEARCHING_SCORE_THRESHOLD = -10000;
 
-const getCases = state => state.lpisCases.cases;
-const getChanges = state => state.lpisCases.changes;
-const getSearchString = state => state.lpisCases.searchString;
-const getSelectedStatuses = state => state.lpisCases.selectedStatuses;
-const getEditedCases = state => state.lpisCases.editedCases;
-const getActiveCaseKey = state => state.lpisCases.activeCaseKey;
-const getActiveEditedCaseKey = state => state.lpisCases.activeNewEditedCaseKey;
-const getNextActiveCaseKey = state => state.lpisCases.nextActiveCaseKey;
+const getCases = state => state.specific.lpisChangeReviewCases.cases;
+const getChanges = state => state.specific.lpisChangeReviewCases.changes;
+const getSearchString = state => state.specific.lpisChangeReviewCases.searchString;
+const getSelectedStatuses = state => state.specific.lpisChangeReviewCases.selectedStatuses;
+const getEditedCases = state => state.specific.lpisChangeReviewCases.editedCases;
+const getActiveCaseKey = state => state.specific.lpisChangeReviewCases.activeCaseKey;
+const getActiveEditedCaseKey = state => state.specific.lpisChangeReviewCases.activeNewEditedCaseKey;
+const getNextActiveCaseKey = state => state.specific.lpisChangeReviewCases.nextActiveCaseKey;
 
 const getActiveViewKey = state => state.dataviews.activeKey;
 

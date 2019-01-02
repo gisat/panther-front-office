@@ -18,7 +18,8 @@ const add = common.add(ActionTypes.DATAVIEWS);
 const setActiveKey = common.setActiveKey(ActionTypes.DATAVIEWS);
 const useIndexed = common.useIndexed(Select.dataviews.getSubstate, 'dataviews', ActionTypes.DATAVIEWS);
 const useKeys = common.useKeys(Select.dataviews.getSubstate, `dataviews`, ActionTypes.DATAVIEWS);
-const refreshAllIndexes = common.refreshAllIndexes(Select.dataviews.getSubstate, `dataviews`, ActionTypes.DATAVIEWS);
+const refreshUses = common.refreshUses(Select.dataviews.getSubstate, `dataviews`, ActionTypes.DATAVIEWS);
+const ensureIndexesWithFilterByActive = common.ensureIndexesWithFilterByActive(Select.dataviews.getSubstate, 'dataviews', ActionTypes.DATAVIEWS);
 
 function addMongoView(view) {
 	return (dispatch, getState) => {
@@ -106,8 +107,8 @@ function initialMetadataLoad (){
 					let activeScopeConfig = Select.scopes.getActiveScopeConfiguration(getState());
 
 					if (activeScopeConfig && activeScopeConfig.hasOwnProperty(`dromasLpisChangeReview`)){
-						dispatch(Action.lpisCases.loadCaseForActiveView()).then(() => {
-							dispatch(Action.lpisCases.setActiveCaseByActiveView());
+						dispatch(Action.specific.lpisChangeReviewCases.loadCaseForActiveView()).then(() => {
+							dispatch(Action.specific.lpisChangeReviewCases.setActiveCaseByActiveView());
 						});
 					}
 
@@ -136,6 +137,13 @@ function initialMetadataLoad (){
 				dispatch(Action.periods.setActiveKey(year));
 			}
 			dispatch(Action.periods.useKeys(data.years, 'ActiveView'));
+		}
+
+		if (data.visualization){
+			dispatch(Action.visualizations.setActiveKey(data.visualization));
+			dispatch(Action.visualizations.useKeys([data.visualization], 'ActiveView'));
+		} else {
+			dispatch(Action.visualizations.initializeForExt());
 		}
 
 		if (data.theme){
@@ -221,8 +229,9 @@ export default {
 	add,
 	addMongoView,
 	apiDeleteView,
+	ensureIndexesWithFilterByActive,
 	loadActive,
-	refreshAllIndexes,
+	refreshUses,
 	setActiveKey,
 	useIndexed,
 	useIndexedClear: actionClearUseindexed,

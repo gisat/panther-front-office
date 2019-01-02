@@ -1,10 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Select from '../state/Select';
-
-import DromasLpisChangeReviewHeader from '../components/scopeSpecific/DromasLpisChangeReview/header';
-import SentinelViewer from '../components/scopeSpecific/SentinelViewer/header';
-import LPISCheck from '../components/scopeSpecific/LPISCheck/header';
+import DromasLpisChangeReviewHeader from '../components/specific/DromasLpisChangeReview/header';
+import SentinelViewer from '../components/specific/SentinelViewer/header';
+import LPISCheck from '../components/specific/LPISCheck/header';
 
 const MagicSwitch = ({scope, activeLpisCheckCase}) => {
 	if (scope && scope.data) {
@@ -23,7 +22,7 @@ const MagicSwitch = ({scope, activeLpisCheckCase}) => {
 const mapStateToProps = state => {
 	return {
 		scope: Select.scopes.getActiveScopeData(state),
-		activeLpisCheckCase: Select.lpisCheckCases.getActiveCase(state),
+		activeLpisCheckCase: Select.specific.lpisCheckCases.getActiveCase(state),
 	};
 };
 

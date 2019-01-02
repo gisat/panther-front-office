@@ -1,8 +1,8 @@
-import Action from '../Action';
-import ActionTypes from '../../constants/ActionTypes';
-import Select from '../Select';
+import Action from '../../Action';
+import ActionTypes from '../../../constants/ActionTypes';
+import Select from '../../Select';
 
-import config from '../../config';
+import config from '../../../config';
 
 import _ from 'lodash';
 import path from 'path';
@@ -79,7 +79,7 @@ function setCaseConfirmed(caseKey, confirmed) {
 	return (dispatch, getState) => {
 
 		let state = getState();
-		let cases = Select.lpisCheckCases.getCases(state);
+		let cases = Select.specific.lpisCheckCases.getCases(state);
 		let lpisCase = cases.find((c) => c.key === caseKey);
 		if (lpisCase && lpisCase.data) {
 
@@ -107,7 +107,7 @@ function setCaseVisited(caseKey, visited) {
 	return (dispatch, getState) => {
 
 		let state = getState();
-		let cases = Select.lpisCheckCases.getCases(state);
+		let cases = Select.specific.lpisCheckCases.getCases(state);
 		let lpisCase = cases.find((c) => c.key === caseKey);
 		if (lpisCase && lpisCase.data) {
 
@@ -151,7 +151,7 @@ function _updateCase(data) {
 function redirectToActiveCaseView() {
 	return (dispatch, getState) => {
 		let state = getState();
-		let activeCase = Select.lpisCheckCases.getActiveCase(state);
+		let activeCase = Select.specific.lpisCheckCases.getActiveCase(state);
 		// let view = _.find(Select.views.getViews(state), {key: activeCase.data.view_id});
 
 		// FIXME 
@@ -188,9 +188,9 @@ function setActiveCaseByActiveView() {
 	return (dispatch, getState) => {
 		let state = getState();
 		let activeViewKey = Select.dataviews.getActiveKey(state);
-		let caseByActiveView = Select.lpisCheckCases.getCaseByActiveView(state);
+		let caseByActiveView = Select.specific.lpisCheckCases.getCaseByActiveView(state);
 		if (caseByActiveView) {
-			dispatch(Action.lpisCheck.setActive(caseByActiveView.key));
+			dispatch(Action.specific.lpisCheck.setActive(caseByActiveView.key));
 		}
 	}
 }

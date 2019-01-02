@@ -5,8 +5,8 @@ class Visualizations extends BaseStore {
     /**
      * @inheritDoc
      */
-    getInstance(themeData) {
-        return new Visualization({data: themeData});
+    getInstance(visualizationsData) {
+        return new Visualization({data: visualizationsData});
     }
 
     /**

@@ -4,9 +4,9 @@ import Select from '../state/Select';
 import AoiWmsMapsTimeline from '../components/containers/controls/AoiWmsMapsTimeline';
 import MapsTimeline from '../components/containers/controls/MapsTimeline';
 import PlaceWmsMapsTimeline from '../components/containers/controls/PlaceWmsMapsTimeline';
-import DromasLpisChangeReviewMapsTimeline from '../components/scopeSpecific/DromasLpisChangeReview/mapsTimeline';
-import SentinelChangeReviewMapsTimeline from '../components/scopeSpecific/SentinelViewer/mapsTimeline';
-import LPISCheckTimeline from '../components/scopeSpecific/LPISCheck/mapsTimeline';
+import DromasLpisChangeReviewMapsTimeline from '../components/specific/DromasLpisChangeReview/mapsTimeline';
+import SentinelChangeReviewMapsTimeline from '../components/specific/SentinelViewer/mapsTimeline';
+import LPISCheckTimeline from '../components/specific/LPISCheck/mapsTimeline';
 import AuAttributeFrequencyGraph from '../components/containers/controls/MapsTimeline/content/AuAttributeFrequencyGraph';
 
 
