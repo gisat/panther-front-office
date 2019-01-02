@@ -138,14 +138,14 @@ function apiLoadCurrentUser() {
 				if (result.errors) { //todo how do we return errors here?
 					throw new Error(result.errors);
 				} else {
-					if (result.data.key === 0) {
+					if (result.key === 0) {
 						// no logged in user = guest
-						dispatch(actionAddGroups(result.data.groups));
-					} else if (result.data.key) {
+						dispatch(actionAddGroups(result.groups));
+					} else if (result.key) {
 						// logged in user
-						dispatch(setActiveKey(result.data.key));
-						dispatch(add(transformUser(result.data)));
-						dispatch(actionAddGroups(result.data.groups));
+						dispatch(setActiveKey(result.key));
+						dispatch(add(result));
+						dispatch(actionAddGroups(result.groups));
 					}
 				}
 			})
@@ -191,15 +191,6 @@ function apiLogoutUser(ttl) {
 			}
 		);
 	};
-}
-
-// ============ helpers ===========
-
-function transformUser(user) {
-	return {
-		...user,
-		groups: _.map(user.groups, 'key')
-	}
 }
 
 // ============ actions ===========
