@@ -8,8 +8,6 @@ import commonSelectors from './selectors';
 import Select from "../Select";
 import ActionTypes from "../../constants/ActionTypes";
 
-import Action from '../Action';
-
 const PAGE_SIZE = 10;
 
 // ============ factories ===========
