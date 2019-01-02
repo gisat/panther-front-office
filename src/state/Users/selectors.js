@@ -50,7 +50,7 @@ const getGroupKeysForActiveUser = createSelector(
 	[getActive],
 	(activeUser) => {
 		if (activeUser && activeUser.groups) {
-			return activeUser.groups.map((group) => {return group.key});
+			return activeUser.groups;
 		} else {
 			return [];
 		}

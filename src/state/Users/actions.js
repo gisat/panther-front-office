@@ -144,7 +144,7 @@ function apiLoadCurrentUser() {
 					} else if (result.key) {
 						// logged in user
 						dispatch(setActiveKey(result.key));
-						dispatch(add(result));
+						dispatch(add(transformUser(result)));
 						dispatch(actionAddGroups(result.groups));
 					}
 				}
@@ -191,6 +191,15 @@ function apiLogoutUser(ttl) {
 			}
 		);
 	};
+}
+
+// ============ helpers ===========
+
+function transformUser(user) {
+	return {
+		...user,
+		groups: _.map(user.groups, 'key')
+	}
 }
 
 // ============ actions ===========
