@@ -12,7 +12,6 @@ const getGroupsSubstate = state => state.users.groups;
 
 const getAll = common.getAll(getSubstate);
 const getGroups = common.getAll(getGroupsSubstate);
-const getGroupsAsObject = common.getAllAsObject(getGroupsSubstate);
 const getActiveKey = common.getActiveKey(getSubstate);
 const getActive = common.getActive(getSubstate);
 
@@ -47,18 +46,6 @@ const isAdminOrAdminGroupMember = createSelector(
 	}
 );
 
-const getGroupsForActiveUser = createSelector(
-	[getActive, getGroupsAsObject],
-	(user, groups) => {
-		if (user && user.groups && groups){
-			let groupData = _.pick(groups, user.groups);
-			return groupData ? Object.values(groupData) : null;
-		} else {
-			return null;
-		}
-	}
-);
-
 const getGroupKeysForActiveUser = createSelector(
 	[getActive],
 	(activeUser) => {
@@ -67,44 +54,6 @@ const getGroupKeysForActiveUser = createSelector(
 		} else {
 			return [];
 		}
-	}
-);
-
-const getGroupsForActiveUserPermissionsTowards = createSelector(
-	[getGroupsForActiveUser],
-	(groups) => {
-		if (groups && groups.length) {
-			let permissions = [];
-			groups.map(group => {
-				if (group.permissionsTowards) {
-					permissions = [...permissions, ...group.permissionsTowards];
-				}
-			});
-			return permissions;
-		} else {
-			return [];
-		}
-	}
-);
-
-const getActiveUserPermissionsTowards = createSelector(
-	[getActive],
-	(user) => {
-		if (user && user.permissionsTowards) {
-			return user.permissionsTowards;
-		} else {
-			return [];
-		}
-	}
-);
-
-/**
- * This selector puts together permissionsTowards of acitve user and groups, where active user belongs
- */
-const getActiveUserPermissionsTowardsCombined = createSelector(
-	[getActiveUserPermissionsTowards, getGroupsForActiveUserPermissionsTowards],
-	(userPermissions, groupsPermissions) => {
-		return [...userPermissions, ...groupsPermissions];
 	}
 );
 
@@ -154,7 +103,6 @@ export default {
 	getActive,
 	getActiveKey: getActiveKey,
 	getActiveUser: getActive,
-	getActiveUserPermissionsTowards: getActiveUserPermissionsTowards,
 	getGroupKeysForActiveUser: getGroupKeysForActiveUser,
 	getGroupsForActiveUser: getGroupKeysForActiveUser,
 	getUsers: getAll,
