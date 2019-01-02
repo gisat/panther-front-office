@@ -29,6 +29,17 @@ const isAdminGroupMember = createSelector(
 	}
 );
 
+const getActiveUserPermissions = createSelector(
+	[getActive],
+	(user) => {
+		if (user && user.permissions){
+			return user.permissions;
+		} else {
+			return null;
+		}
+	}
+);
+
 const isAdminOrAdminGroupMember = createSelector(
 	[isAdmin, isAdminGroupMember],
 	(isAdmin, isAdminGroupMember) => {
@@ -98,16 +109,9 @@ const getActiveUserPermissionsTowardsCombined = createSelector(
 );
 
 const hasActiveUserPermissionToCreate = createSelector(
-	[getActiveUserPermissionsTowardsCombined, (state, type) => type],
-	(permissionsTowards, type) => {
-		if (!permissionsTowards || !permissionsTowards.length) {
-			return false;
-		} else {
-			let permission = _.find(permissionsTowards, (per) => {
-				return per.resourceType === type
-			});
-			return !!(permission && permission.permission === "POST");
-		}
+	[getActiveUserPermissions, (state, type) => type],
+	(permissions, type) => {
+		return (type && permissions && permissions.metadata && permissions.metadata[type] && permissions.metadata[type].create);
 	}
 );
 
@@ -156,7 +160,7 @@ export default {
 	getUsers: getAll,
 	getGroups: getGroups,
 
-	hasActiveUserPermissionToCreate: hasActiveUserPermissionToCreate,
+	hasActiveUserPermissionToCreate,
 
 	isAdmin: isAdmin,
 	isAdminGroupMember: isAdminGroupMember,

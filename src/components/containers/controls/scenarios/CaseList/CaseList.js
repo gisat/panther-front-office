@@ -11,7 +11,7 @@ const mapStateToProps = (state, ownProps) => {
 		scenariosEdited: Select.scenarios.scenarios.getEditedAll(state),
 
 		// permissions
-		enableCreate: Select.users.isAdmin(state) || Select.users.hasActiveUserPermissionToCreate(state, 'scenario_case')
+		enableCreate: Select.users.hasActiveUserPermissionToCreate(state, 'scenario_cases')
 	}
 };
 
