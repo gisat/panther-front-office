@@ -1,6 +1,5 @@
 import ActionTypes from '../constants/ActionTypes';
 
-// base types
 import AOI from './AOI/actions';
 import Areas from './Areas/actions';
 import Attributes from './Attributes/actions';
@@ -26,6 +25,7 @@ import WmsLayers from './WmsLayers/actions';
 
 // specific types
 import LpisChangeReviewCases from './_specific/LpisChangeReviewCases/actions';
+import LpisCheckCases from './_specific/LpisCheckCases/actions';
 
 export default {
 
@@ -52,6 +52,7 @@ export default {
 	visualizations: Visualizations,
 	wmsLayers: WmsLayers,
 	specific: {
-		lpisChangeReviewCases: LpisChangeReviewCases
+		lpisChangeReviewCases: LpisChangeReviewCases,
+		lpisCheckCases: LpisCheckCases,
 	}
 };

@@ -29,6 +29,7 @@ import wmsLayersReducers from './WmsLayers/reducers';
 
 // specific types
 import lpisChangeReviewCasesReducers from './_specific/LpisChangeReviewCases/reducers';
+import lpisCheckCasesReducers from './_specific/LpisCheckCases/reducers';
 
 import subscribers from '../subscribers';
 
@@ -58,7 +59,8 @@ const Store = createStore(combineReducers({
 	visualizations: visualizationsReducers,
 	wmsLayers: wmsLayersReducers,
 	specific: combineReducers({
-		lpisChangeReviewCases: lpisChangeReviewCasesReducers
+		lpisChangeReviewCases: lpisChangeReviewCasesReducers,
+		lpisCheckCases: lpisCheckCasesReducers,
 	})
 }), applyMiddleware(thunk, logger));
 

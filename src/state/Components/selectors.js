@@ -10,7 +10,7 @@ const getApplicationStyleActiveKey = state => state.components.application.style
 const getApplicationStyleConfiguration = state => state.components.application.style.configuration;
 const getMapsContainer = state => state.components.mapsContainer;
 const isAppInIntroMode = state => state.components.application.intro;
-
+const getShare = (state) => state.components.share;
 /**
  * Select html class with highest priority
  */
@@ -35,6 +35,7 @@ export default {
 	getApplicationStyleActiveKey,
 	getApplicationStyleHtmlClass,
 	getComponents,
+	getShare,
 	getMapsContainer,
 	overlays: Overlays,
 	windows: Windows

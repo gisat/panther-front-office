@@ -55,6 +55,9 @@ const INITIAL_STATE = {
 			open: false
 		}
 	},
+	share: {
+		toSave: null,
+	},
 	windows: {
 		// TODO windows z-order
 		scenarios: {
@@ -65,6 +68,9 @@ const INITIAL_STATE = {
 			open: false,
 		},
 		views: {
+			open: false
+		},
+		share: {
 			open: false
 		}
 	}
@@ -87,6 +93,9 @@ function updateScenarioMapEditingMapData(state, action){
 	return {...state, overlays: {...state.overlays, scenarioMapEditing: {...state.overlays.scenarioMapEditing, map: {...state.overlays.scenarioMapEditing.map, ...action.data}}}}
 }
 
+function setShareSaveState(state, action) {
+	return {...state, share: {...state.share, toSave: action.toSave}};
+}
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
@@ -104,6 +113,8 @@ export default (state = INITIAL_STATE, action) => {
 			return updateScenarioMapEditingMapData(state, action);
 		case ActionTypes.COMPONENTS_OVERLAY_MAP_EDITING_COPY_REQUEST_ERROR:
 			return updateScenarioMapEditingMapData(state, action);
+		case ActionTypes.COMPONENTS_SHARE_SAVE_STATE:
+			return setShareSaveState(state, action);
 		default:
 			return state;
 	}

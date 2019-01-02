@@ -110,3 +110,8 @@
 .component-button.compare-button:hover {
 	background: rgba(255, 255, 255, .25);
 }
+
+.component-button[disabled] {
+	background: rgb(214, 214, 214);
+	cursor: not-allowed;
+}

@@ -25,8 +25,12 @@ function applyScopeConfiguration() {
 		let activeKey = null;
 
 		if (scopeConfig){
-			if (scopeConfig.hasOwnProperty(`dromasLpisChangeReview`)){
+			if (scopeConfig.hasOwnProperty(`dromasLpisChangeReview`)) {
 				dispatch(Action.specific.lpisChangeReviewCases.load());
+			}
+
+			if (scopeConfig.hasOwnProperty('lpisCheckReview')) {
+				dispatch(Action.specific.lpisCheckCases.load());
 			}
 			if (scopeConfig.style){
 				let styleToUse = VisualsConfig[scopeConfig.style];

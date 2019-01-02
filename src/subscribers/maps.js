@@ -93,6 +93,14 @@ const setEventListeners = store => {
 					}
 				}));
 				break;
+			case 'placeGeometryLPISCheck#showGeometry':
+				store.dispatch(Action.maps.update({
+					key: options.mapKey,
+					placeGeometryLPISCheck: {
+						geometry: options.geometry,
+					}
+				}));
+				break;
 			case 'navigator#update':
 				if (navigatorTimeout){
 					clearTimeout(navigatorTimeout);

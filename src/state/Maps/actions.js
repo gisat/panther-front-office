@@ -158,6 +158,14 @@ function clearPlaceGeometryChangeReviewOfAllMaps(){
 	}
 }
 
+function clearPlaceLPISCheckGeometryOfAllMaps() {
+	return (dispatch, getState) => {
+		let state = Select.maps.getMaps(getState());
+		let updates = state.map(map => {return {key: map.key, placeGeometryLPISCheck: null}});
+		dispatch(update(updates));
+	}
+}
+
 function selectWmsLayer(layerKey, mapKey) {
 	return (dispatch, getState) => {
 		let appState = getState();
@@ -331,6 +339,7 @@ export default {
 	clearWmsLayer: clearWmsLayer,
 	clearWmsLayersOfAllMaps: clearWmsLayersOfAllMaps,
 	clearPlaceGeometryChangeReviewOfAllMaps: clearPlaceGeometryChangeReviewOfAllMaps,
+	clearPlaceLPISCheckGeometryOfAllMaps: clearPlaceLPISCheckGeometryOfAllMaps,
 	handleMapDependencyOnPeriod: handleMapDependencyOnPeriod,
 	initialize: initialize,
 	remove: remove,

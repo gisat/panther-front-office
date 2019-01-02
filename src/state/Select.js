@@ -25,6 +25,7 @@ import WmsLayers from './WmsLayers/selectors';
 
 // specific types
 import LpisChangeReviewCases from "./_specific/LpisChangeReviewCases/selectors";
+import LpisCheckCases from './_specific/LpisCheckCases/selectors';
 
 export default {
 	aoi: Aoi,
@@ -51,6 +52,7 @@ export default {
 	visualizations: Visualizations,
 	wmsLayers: WmsLayers,
 	specific: {
-		lpisChangeReviewCases: LpisChangeReviewCases
+		lpisChangeReviewCases: LpisChangeReviewCases,
+		lpisCheckCases: LpisCheckCases
 	}
 };

@@ -153,7 +153,7 @@ function updateActiveCaseView() {
 		let activeCase = Select.specific.lpisChangeReviewCases.getActiveCase(state);
 
 		if (activeCase) {
-			let activeCaseView = _.find(Select.views.getViews(state), (view) => {
+			let activeCaseView = _.find(Select.dataviews.getViews(state), (view) => {
 				return view.key === activeCase.data.view_id;
 			});
 

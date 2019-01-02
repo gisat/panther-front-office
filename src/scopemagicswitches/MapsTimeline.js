@@ -5,6 +5,8 @@ import AoiWmsMapsTimeline from '../components/containers/controls/AoiWmsMapsTime
 import MapsTimeline from '../components/containers/controls/MapsTimeline';
 import PlaceWmsMapsTimeline from '../components/containers/controls/PlaceWmsMapsTimeline';
 import DromasLpisChangeReviewMapsTimeline from '../components/specific/DromasLpisChangeReview/mapsTimeline';
+import SentinelChangeReviewMapsTimeline from '../components/specific/SentinelViewer/mapsTimeline';
+import LPISCheckTimeline from '../components/specific/LPISCheck/mapsTimeline';
 import AuAttributeFrequencyGraph from '../components/containers/controls/MapsTimeline/content/AuAttributeFrequencyGraph';
 
 
@@ -24,7 +26,13 @@ const MagicSwitch = ({scope}) => {
 			return <MapsTimeline content={AuAttributeFrequencyGraph} />
 		}
 		if (scope.data.showTimeline) {
-			return <MapsTimeline />
+			if (scope.configuration && scope.configuration.sentinelViewer) {
+				return <SentinelChangeReviewMapsTimeline />
+			} else if (scope.configuration && scope.configuration.lpisCheckReview) {
+				return <LPISCheckTimeline />
+			} else  {
+				return <MapsTimeline />
+			}
 		}
 	}
 	return null;
