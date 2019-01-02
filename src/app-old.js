@@ -38,6 +38,7 @@ import WmsLayers from './stores/gisat/WmsLayers';
 import WorldWindWidget from './view/widgets/WorldWindWidget/WorldWindWidget';
 import places from "./subscribers/places";
 import Uuid from "./util/Uuid";
+import _ from "lodash";
 
 let Config = window.Config;
 let polyglot = window.polyglot;
@@ -145,6 +146,10 @@ function loadApp(initialData) {
 			if (initialData.activeScopeStyle){
 				applyScopeStyle(initialData.activeScopeStyle);
             }
+            if (initialData.activeUser){
+                applyActiveUser(initialData.activeUser);
+            }
+
         }).catch(err => {
             console.error('Loading#', err);
         });
@@ -170,6 +175,14 @@ function loadApp(initialData) {
         if (style.logoSrc){
 			window.Stores.notify("SHOW_HEADER_LOGO", initialData.activeScopeStyle.logoSrc);
         }
+	}
+
+	function applyActiveUser(user) {
+		window.Stores.notify('customization#userChanged', {
+			isLoggedIn: user.key && user.key > 0,
+			isAdmin: !!(_.find(user.groups, {key: 1})),
+			groups: user.groups
+		});
 	}
 
     function setUpNewApp() {

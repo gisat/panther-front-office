@@ -38,6 +38,7 @@ const getViewsForScope = createSelector(
 
 const getDataForInitialLoad = createSelector(
 	[getActive,
+		UsersSelectors.getActive,
 		AttributesSelectors.getAllForDataview,
 		AttributesSelectors.isInitializedForExt,
 		AttributeSetsSelectors.getAllForDataview,
@@ -53,7 +54,7 @@ const getDataForInitialLoad = createSelector(
 		VisualizationSelectors.isInitializedForExt,
 		AttributeSetsSelectors.isInitializedForExt,
 	],
-	(dataview, attributes, attributesInitialized, attributeSets, attributeSetsInitialized, periods, places, placesInitialized, placesActiveKey, scopes, activeScopeConfig, themes, visualizations, visualizationsInitialized) => {
+	(dataview, activeUser, attributes, attributesInitialized, attributeSets, attributeSetsInitialized, periods, places, placesInitialized, placesActiveKey, scopes, activeScopeConfig, themes, visualizations, visualizationsInitialized) => {
 		let attrs = null, attrSets = null, plcs = null, visual = null, activeScopeStyle = null;
 
 		if (attributes){
@@ -88,6 +89,7 @@ const getDataForInitialLoad = createSelector(
 			activeKeys: {
 				places: [placesActiveKey]
 			},
+			activeUser,
 			activeScopeStyle,
 			attributes: attrs,
 			attributeSets: attrSets,
