@@ -22,7 +22,7 @@ const getLayers = createSelector(
 					if (_.isNumber(layerPeriod) && periods && periods.length) {
 						// metadata period key
 						let period = _.find(periods, {key: layerPeriod});
-						return period ? period.period : null;
+						return period ? period.data.period : null;
 					} else {
 						// period string
 						return layerPeriod;

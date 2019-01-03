@@ -161,8 +161,11 @@ class Customization {
      * Handle user restrictions
      * @param options {Object}
      */
-    handleUser(){
+    handleUser(options){
         var user = this._stateStore.current().user;
+        if (options.hasOwnProperty("isAdmin")){
+            user = options;
+        }
         var scope = this._stateStore.current().scope;
 		var scopeSelectionSwitchBtn = $("#scope-selection-switch");
 		var sharingButton = $('#top-toolbar-share-view');
@@ -199,13 +202,12 @@ class Customization {
 		let showTimeline = false;
 
         if (scope && scope.configuration && scope.showTimeline && user && user.groups){
-			let userGroupKeys = user.groups.map(group => group.key);
 			let dromasLpisGroups = scope.configuration.dromasLpisChangeReview ? scope.configuration.dromasLpisChangeReview.groups : null;
             const sentinelViewer = scope.configuration.sentinelViewer;
             const LPISCheckViewer = scope.configuration.lpisCheckReview;
 			if (dromasLpisGroups || sentinelViewer || LPISCheckViewer){
-                let isGisatUser = _.find(userGroupKeys, (key) => {return key === dromasLpisGroups.gisatUsers});
-				let isGisatAdmin = _.find(userGroupKeys, (key) => {return key === dromasLpisGroups.gisatAdmins});
+                let isGisatUser = _.find(user.groups, (key) => {return key === dromasLpisGroups.gisatUsers});
+				let isGisatAdmin = _.find(user.groups, (key) => {return key === dromasLpisGroups.gisatAdmins});
 				if (isGisatUser || isGisatAdmin){
 				    showTimeline = true;
                 }

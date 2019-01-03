@@ -64,8 +64,8 @@ class DromasLpisChangeReviewMapsTimeline extends React.PureComponent {
 
 			let {scope, period, ...props} = this.props;
 			timeline =  React.createElement(MapsTimeline, {...props,
-				period:  utils.period(period.period),
-				initialPeriod: utils.period(period.period),
+				period:  utils.period(period.data.period),
+				initialPeriod: utils.period(period.data.period),
 				onLayerPeriodClick: this.onLayerPeriodClick,
 				containerWidth: this.state.width
 			});
