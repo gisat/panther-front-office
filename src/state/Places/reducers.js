@@ -17,6 +17,8 @@ export default (state = INITIAL_STATE, action) => {
 			return common.addUnreceivedKeys(state, action);
 		case ActionTypes.PLACES.INDEX.ADD:
 			return common.addIndex(state, action);
+		case ActionTypes.PLACES.INDEX.CLEAR_ALL:
+			return common.clearIndexes(state, action);
 		case ActionTypes.PLACES.SET_ACTIVE_KEY:
 			return common.setActive(state, action);
 		case ActionTypes.PLACES_SET_ACTIVE_MULTI:
