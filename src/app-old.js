@@ -174,7 +174,9 @@ function loadApp(initialData) {
     function applyScopeStyle(style) {
         if (style.logoSrc){
 			window.Stores.notify("SHOW_HEADER_LOGO", initialData.activeScopeStyle.logoSrc);
-        }
+        } else if (style.headerTitle){
+			window.Stores.notify("SHOW_HEADER_TITLE", initialData.activeScopeStyle.headerTitle);
+		}
 	}
 
 	function applyActiveUser(user) {

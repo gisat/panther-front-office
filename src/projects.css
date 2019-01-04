@@ -12,6 +12,8 @@
 		windows
 		charts
 	PUCS
+	GEOINVAZE
+
 */
 
 @font-face {
@@ -355,4 +357,177 @@ html.urban-tep .intro-screen-title {
 .pucs.newDesign .checkbox-row.checked .checkbox-icon:before,
 .pucs.newDesign .radiobox-row.checked .radiobox-icon:before {
 	color: rgba(212,90,58,1);
+}
+
+/* === GEOINVAZE ===================================== */
+
+/* intro */
+html.geoinvaze .ptr-overlay.ptr-overlay-views {
+	background: #222;
+}
+html.geoinvaze .scopes-list-item:hover {
+	background: rgba(0, 82, 30, .5);
+}
+html.geoinvaze .scopes-list-item.active {
+	background: rgba(0, 82, 30, 1);
+}
+
+/* specific font-family */
+.geoinvaze.newDesign body,
+.geoinvaze.newDesign .component-button,
+
+.geoinvaze.newDesign #header,
+.geoinvaze.newDesign #header h1,
+.geoinvaze.newDesign #header a,
+.geoinvaze.newDesign #view-selector,
+.geoinvaze.newDesign #content-intro,
+.geoinvaze.newDesign #content-intro-guide,
+.geoinvaze.newDesign #view-selector .field .label,
+.geoinvaze.newDesign.x-border-box .custom-combo .x-form-text,
+.geoinvaze.newDesign.x-border-box .x-form-text,
+.geoinvaze.newDesign #app-view-selector-visualization-save .x-btn.custom-button.x-btn-default-small .x-btn-inner,
+.geoinvaze.newDesign .thematic-maps-settings .x-window-header-text-default,
+.geoinvaze.newDesign .chart-panel .x-panel-header-text,
+.geoinvaze.newDesign .x-boundlist .x-boundlist-item,
+.geoinvaze.newDesign .paging-toolbar .x-toolbar-text,
+.geoinvaze.newDesign .paging-toolbar .x-form-text,
+.geoinvaze.newDesign .tools-filters-list .x-form-display-field,
+.geoinvaze.newDesign .x-column-header,
+.geoinvaze.newDesign .x-grid-row .x-grid-cell,
+.geoinvaze.newDesign .x-btn .x-btn-inner,
+.geoinvaze.newDesign .x-panel-header-text-default,
+.geoinvaze.newDesign .x-panel-header-text-default-framed,
+.geoinvaze.newDesign .x-form-item,
+.geoinvaze.newDesign .x-fieldset-header,
+
+.geoinvaze #top-toolbar .item,
+.geoinvaze .floater-header-title,
+.geoinvaze.newDesign .mode-3d .detached-window .x-window-header-text-default,
+.geoinvaze .tool-window-title,
+
+.geoinvaze .ptr-window-title,
+.geoinvaze .ptr-views-list-title,
+.geoinvaze .ptr-views-list-description,
+.geoinvaze .view-card-title,
+.geoinvaze .view-card-description,
+.geoinvaze .ptr-views-list {
+	font-family: "Montserrat", "Open Sans", sans-serif;
+}
+
+
+/* header */
+.geoinvaze.newDesign #header, .geoinvaze.newDesign #view-selector, .geoinvaze.newDesign #content-intro, .geoinvaze.newDesign #content-intro-guide {
+	background-color: #222;
+}
+
+.geoinvaze.newDesign #view-selector .ptr-ui-select-label {
+	font-weight: 400;
+}
+
+/* top-tool-bar */
+.geoinvaze.newDesign #top-toolbar .item {
+	font-weight: 500;
+}
+.geoinvaze.newDesign #top-toolbar .item:hover {
+	background: rgba(33, 33, 33, .2);
+}
+.geoinvaze.newDesign #top-toolbar .item.open {
+	color: rgba(0, 112, 30, 1);
+}
+
+/* floaters */
+.geoinvaze.newDesign .floater-header,
+.geoinvaze.newDesign .ptr-window-header{
+	background: rgba(0, 82, 30, .9);
+}
+.geoinvaze.newDesign .floater.pinned .floater-header,
+.geoinvaze.newDesign .ptr-window.docked .ptr-window-header,
+.geoinvaze.newDesign .mode-3d .detached-window .x-window-header {
+	background: rgba(0, 82, 30, 1) !important;
+}
+.geoinvaze.newDesign .mode-3d .detached-window .x-window-header .x-window-header-body,
+.geoinvaze.newDesign .mode-3d .detached-window .x-window-header .x-window-header-body .x-box-inner {
+	line-height: 3;
+}
+.geoinvaze.newDesign .x-window-header-text-default {
+	font-weight: 400;
+}
+
+/* mapTools widget */
+.geoinvaze.newDesign .map-tools-container > h4 {
+	color: rgba(0, 82, 30, 1);
+}
+.geoinvaze.newDesign .toggle-icon.active:before {
+	color: rgba(0, 82, 30, 1);
+}
+.geoinvaze.newDesign #floater-map-tools-widget.pinned .map-tool-trigger.active .component-button .fa,
+.geoinvaze.newDesign #floater-map-tools-widget.pinned .map-tool-trigger.active .map-tool-icon .fa {
+	color: rgba(0, 112, 30, 1);
+}
+.geoinvaze.newDesign #floater-map-tools-widget.pinned .map-tool-trigger.active .map-tool-icon-svg path {
+	fill: rgba(0, 112, 30, 1);
+}
+
+	/* scenarios */
+.geoinvaze.newDesign .case-list-item.unsaved-editing {
+	border-color: rgba(0, 82, 30, .7);
+}
+.geoinvaze.newDesign .case-list-item.unsaved-editing .case-list-item-footer-editing {
+	color: rgba(0, 82, 30, 1);
+}
+.geoinvaze.newDesign .case-detail-controls {
+	background: rgba(0, 82, 30, .3);
+}
+
+/* buttons */
+.geoinvaze.newDesign .ptr-button.primary {
+	background: rgba(0, 82, 30, .85);
+}
+.geoinvaze.newDesign .ptr-button.primary:hover {
+	background: rgba(0, 82, 30, 1);
+}
+.geoinvaze.newDesign .widget-button-export {
+	color: rgba(0, 82, 30, 1);
+}
+.geoinvaze.newDesign .widget-button-export:hover,
+.geoinvaze.newDesign #export-feature-info-csv:hover,
+.geoinvaze.newDesign #export-layers-info-csv:hover {
+	background: rgba(0, 82, 30, .2);
+}
+
+/* sliders and checkboxes */
+.geoinvaze.newDesign .slider-row.ui-slider-horizontal .ui-slider-handle {
+	border-color: rgba(0, 82, 30, 1);
+}
+.geoinvaze.newDesign .slider-row.ui-slider-horizontal .ui-slider-handle:hover,
+.geoinvaze.newDesign .slider-row.ui-slider-horizontal .ui-slider-handle.ui-state-focus,
+.geoinvaze.newDesign .slider-row .ui-widget-header {
+	background: rgba(0, 82, 30, 1);
+}
+
+.geoinvaze.newDesign .checkbox-row.checked .checkbox-icon:before,
+.geoinvaze.newDesign .radiobox-row.checked .radiobox-icon:before,
+.geoinvaze.newDesign .x-tree-checked .tree-column-label:before, .geoinvaze.newDesign .x-grid-checkheader-checked:before {
+	color: rgba(0, 82, 30, 1);
+}
+
+.geoinvaze.newDesign .layer-tool-icon:hover:before {
+	color: rgba(0, 82, 30, 1);
+}
+
+/* snapshots */
+.geoinvaze.newDesign .ptr-snapshot-card-content {
+	background: rgba(33, 33, 33, .85);
+}
+
+/* thematics maps settings */
+.geoinvaze.newDesign .thematic-maps-settings .x-window-header-text-default {
+	font-weight: 500;
+}
+
+/* map */
+.geoinvaze.newDesign .close-map-button,
+.geoinvaze.newDesign .map-name-label,
+.geoinvaze.newDesign .layer-info-label {
+	background: #333;
 }
