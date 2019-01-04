@@ -154,6 +154,8 @@ export default {
 	getGroupsForActiveUser: getGroupKeysForActiveUser,
 	getUsers: getAll,
 	getGroups: getGroups,
+	getSubstate: getSubstate,
+	getGroupsSubstate,
 
 	hasActiveUserPermissionToCreate: hasActiveUserPermissionToCreate,
 

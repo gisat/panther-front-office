@@ -337,7 +337,21 @@ export default utils.deepKeyMirror({
 		ADD_UNRECEIVED: null,
 		GROUPS: {
 			ADD: null,
-			ADD_UNRECEIVED: null
+			ADD_UNRECEIVED: null,
+			INDEX: {
+				ADD: null,
+				CLEAR_ALL: null
+			},
+			USE: {
+				INDEXED: {
+					CLEAR: null,
+					REGISTER: null
+				},
+				KEYS: {
+					CLEAR: null,
+					REGISTER: null
+				}
+			}
 		},
 		SET_ACTIVE_KEY: null,
 		CURRENT: {
@@ -345,6 +359,20 @@ export default utils.deepKeyMirror({
 		},
 		LOGIN: {
 			REQUEST: null
+		},
+		INDEX: {
+			ADD: null,
+			CLEAR_ALL: null
+		},
+		USE: {
+			INDEXED: {
+				CLEAR: null,
+				REGISTER: null
+			},
+			KEYS: {
+				CLEAR: null,
+				REGISTER: null
+			}
 		}
 	},
 

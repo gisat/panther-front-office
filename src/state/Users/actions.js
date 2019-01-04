@@ -6,9 +6,8 @@ import fetch from "isomorphic-fetch";
 
 import request from "../_common/request";
 
-import utils from '../../utils/utils';
-
 import common from '../_common/actions';
+import Select from "../Select";
 
 import scopeActions from '../Scopes/actions';
 import lpisCasesActions from '../_specific/LpisChangeReviewCases/actions';
@@ -27,6 +26,15 @@ const TTL = 5;
 
 const add = common.add(ActionTypes.USERS);
 const setActiveKey = common.setActiveKey(ActionTypes.USERS);
+
+const loadAllUsers = (componentId, order, filter) => {
+	const loader = common.useIndexed(Select.users.getSubstate, 'users', ActionTypes.USERS, 'user');
+	return loader(null, filter, order, 1, 1000, componentId);
+};
+const loadAllGroups = (componentId, order, filter) => {
+	const loader = common.useIndexed(Select.users.getGroupsSubstate, 'groups', ActionTypes.USERS.GROUPS, 'user');
+	return loader(null, filter, order, 1, 1000, componentId);
+};
 
 function onLogin() {
 	return (dispatch) => {
@@ -204,6 +212,20 @@ function transformUser(user) {
 
 // ============ actions ===========
 
+function actionClearUsersUseIndexed(componentId) {
+	return {
+		type: ActionTypes.USERS.USE.INDEXED.CLEAR,
+		componentId
+	}
+}
+
+function actionClearGroupsUseIndexed(componentId) {
+	return {
+		type: ActionTypes.USERS.GROUPS.USE.INDEXED.CLEAR,
+		componentId
+	}
+}
+
 function actionAddGroups(groups) {
 	return {
 		type: ActionTypes.USERS.GROUPS.ADD,
@@ -263,5 +285,9 @@ export default {
 	apiLoadCurrentUser: apiLoadCurrentUser,
 	apiLoginUser: apiLoginUser,
 	apiLogoutUser: apiLogoutUser,
+	loadAllUsers,
+	loadAllGroups,
+	useIndexedUsersClear: actionClearUsersUseIndexed,
+	useIndexedGroupsClear: actionClearGroupsUseIndexed,
 	// update: update
 }

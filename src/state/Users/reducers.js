@@ -28,20 +28,24 @@ export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
 		case ActionTypes.USERS.ADD:
 			return common.add(state, action);
+		case ActionTypes.USERS.INDEX.ADD:
+			return common.addIndex(state, action);
 		case ActionTypes.USERS.ADD_UNRECEIVED:
 			return common.addUnreceivedKeys(state, action);
 		case ActionTypes.USERS.SET_ACTIVE_KEY:
 			return common.setActive(state, action);
-		case ActionTypes.USERS.GROUPS.ADD:
-			return {...state, groups: common.add(state.groups, action)}
-		case ActionTypes.USERS.GROUPS.ADD_UNRECEIVED:
-			return {...state, groups: common.addUnreceivedKeys(state.groups, action)}
 		case ActionTypes.USERS_LOAD_REQUEST:
 			return loadRequest(state, action);
 		case ActionTypes.USERS_LOAD_REQUEST_ERROR:
 			return loadRequestError(state, action);
 		case ActionTypes.USERS_UPDATE:
 			return update(state, action);
+		case ActionTypes.USERS.GROUPS.ADD:
+			return {...state, groups: common.add(state.groups, action)}
+		case ActionTypes.USERS.GROUPS.INDEX.ADD:
+			return {...state, groups: common.addIndex(state.groups, action)}
+		case ActionTypes.USERS.GROUPS.ADD_UNRECEIVED:
+			return {...state, groups: common.addUnreceivedKeys(state.groups, action)}
 		default:
 			return state;
 	}

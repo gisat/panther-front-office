@@ -11,6 +11,8 @@ import ActionTypes from "../../constants/ActionTypes";
 import Action from '../Action';
 
 const PAGE_SIZE = 10;
+const DEFAULT_CATEGORY_PATH = 'metadata';
+
 
 // ============ factories ===========
 
@@ -31,16 +33,16 @@ const addIndex = (action) => {
 	}
 };
 
-const useKeys = (getSubstate, dataType, actionTypes) => {
+const useKeys = (getSubstate, dataType, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) => {
 	return (keys, componentId) => {
 		return dispatch => {
 			dispatch(actionUseKeysRegister(actionTypes, componentId, keys));
-			dispatch(ensureKeys(getSubstate, dataType, actionTypes, keys));
+			dispatch(ensureKeys(getSubstate, dataType, actionTypes, keys, categoryPath));
 		};
 	}
 };
 
-const useIndexed = (getSubstate, dataType, actionTypes) => {
+const useIndexed = (getSubstate, dataType, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) => {
 	return (filterByActive, filter, order, start, length, componentId) => {
 		return (dispatch, getState) => {
 			dispatch(actionUseIndexedRegister(actionTypes, componentId, filterByActive, filter, order, start, length));
@@ -53,7 +55,7 @@ const useIndexed = (getSubstate, dataType, actionTypes) => {
 				activePlaceKey: commonSelectors.getActiveKey(state => state.places)(state),
 				activePlaceKeys: commonSelectors.getActiveKey(state => state.places)(state),
 			}, filterByActive, filter);
-			dispatch(ensureIndexed(getSubstate, dataType, fullFilter, order, start, length, actionTypes));
+			dispatch(ensureIndexed(getSubstate, dataType, fullFilter, order, start, length, actionTypes, categoryPath));
 		};
 	}
 };
@@ -67,13 +69,13 @@ const setActiveKeyAndEnsureDependencies = (actionTypes, filterKey) => {
 	};
 };
 
-function refreshIndex(getSubstate, dataType, filter, order, actionTypes) {
+function refreshIndex(getSubstate, dataType, filter, order, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) {
 	return (dispatch, getState) => {
 		let state = getState();
 		let usesForIndex = commonSelectors.getUsesForIndex(getSubstate)(state, filter, order);
 		if (usesForIndex){
 			_.each(usesForIndex.uses, (use) => {
-				dispatch(ensureIndexed(getSubstate, dataType, usesForIndex.filter, usesForIndex.order, use.start, use.length, actionTypes))
+				dispatch(ensureIndexed(getSubstate, dataType, usesForIndex.filter, usesForIndex.order, use.start, use.length, actionTypes, categoryPath))
 			});
 		}
 	}
@@ -103,9 +105,9 @@ function requestWrapper(apiPath, method, query, payload, successAction, errorAct
 	}
 }
 
-function loadAll(dataType, actionTypes) {
+function loadAll(dataType, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) {
 	return dispatch => {
-		let apiPath = path.join('backend/rest/metadata/filtered', dataType);
+		const apiPath = getAPIPath(categoryPath, dataType);
 		let payload = {
 			limit: PAGE_SIZE
 		};
@@ -142,7 +144,7 @@ function loadAll(dataType, actionTypes) {
 	};
 }
 
-function ensureKeys(getSubstate, dataType, actionTypes, keys){
+function ensureKeys(getSubstate, dataType, actionTypes, keys, categoryPath = DEFAULT_CATEGORY_PATH){
 	return (dispatch, getState) => {
 		let state = getState();
 
@@ -150,13 +152,13 @@ function ensureKeys(getSubstate, dataType, actionTypes, keys){
 		if (keysToLoad){
 			keysToLoad = _.chunk(keysToLoad, PAGE_SIZE);
 			_.each(keysToLoad, keysToLoadPage => {
-				dispatch(loadKeysPage(dataType, actionTypes, keysToLoadPage));
+				dispatch(loadKeysPage(dataType, actionTypes, keysToLoadPage, categoryPath));
 			});
 		}
 	}
 }
 
-function ensureIndexed(getSubstate, dataType, filter, order, start, length, actionTypes){
+function ensureIndexed(getSubstate, dataType, filter, order, start, length, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH){
 	return (dispatch, getState) => {
 		let state = getState();
 		let total = commonSelectors.getIndexTotal(getSubstate)(state, filter, order);
@@ -176,10 +178,10 @@ function ensureIndexed(getSubstate, dataType, filter, order, start, length, acti
 				}
 				if (requestNeeded){
 					let completeFilter = loadedKeys.length ? {...filter, key: {notin: loadedKeys}} : filter;
-					dispatch(loadIndexedPage(dataType, completeFilter, order, start + i, changedOn, actionTypes))
+					dispatch(loadIndexedPage(dataType, completeFilter, order, start + i, changedOn, actionTypes, categoryPath))
 						.catch((err) => {
 							if (err.message === 'Index outdated'){
-								dispatch(refreshIndex(getSubstate, dataType, filter, order, actionTypes));
+								dispatch(refreshIndex(getSubstate, dataType, filter, order, actionTypes, categoryPath));
 							}
 						});
 				}
@@ -188,15 +190,15 @@ function ensureIndexed(getSubstate, dataType, filter, order, start, length, acti
 			return Promise.resolve();
 		} else {
 			// we don't have index
-			return dispatch(loadIndexedPage(dataType, filter, order, start, changedOn, actionTypes)).then((response) => {
+			return dispatch(loadIndexedPage(dataType, filter, order, start, changedOn, actionTypes, categoryPath)).then((response) => {
 				if (response && response.message){
 					// do nothing
 				} else {
-					dispatch(ensureIndexed(getSubstate, dataType, filter, order, start + PAGE_SIZE, length - PAGE_SIZE, actionTypes));
+					dispatch(ensureIndexed(getSubstate, dataType, filter, order, start + PAGE_SIZE, length - PAGE_SIZE, actionTypes, categoryPath));
 				}
 			}).catch((err)=>{
 				if (err.message === 'Index outdated'){
-					dispatch(refreshIndex(getSubstate, dataType, filter, order, actionTypes));
+					dispatch(refreshIndex(getSubstate, dataType, filter, order, actionTypes, categoryPath));
 				} else {
 					throw new Error(`_common/actions#ensure: ${err}`);
 				}
@@ -205,9 +207,9 @@ function ensureIndexed(getSubstate, dataType, filter, order, start, length, acti
 	};
 }
 
-function loadKeysPage(dataType, actionTypes, keys) {
+function loadKeysPage(dataType, actionTypes, keys, categoryPath = DEFAULT_CATEGORY_PATH) {
 	return dispatch => {
-		let apiPath = path.join('backend/rest/metadata/filtered', dataType);
+		const apiPath = getAPIPath(categoryPath, dataType);
 
 		let payload = {
 			filter: {
@@ -231,9 +233,9 @@ function loadKeysPage(dataType, actionTypes, keys) {
 	}
 }
 
-function loadIndexedPage(dataType, filter, order, start, changedOn, actionTypes) {
+function loadIndexedPage(dataType, filter, order, start, changedOn, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) {
 	return dispatch => {
-		let apiPath = path.join('backend/rest/metadata/filtered', dataType);
+		const apiPath = getAPIPath(categoryPath, dataType);
 
 		let payload = {
 			filter: {...filter},
@@ -258,10 +260,10 @@ function loadIndexedPage(dataType, filter, order, start, changedOn, actionTypes)
 	};
 }
 
-function loadFiltered(dataType, actionTypes, filter) {
+function loadFiltered(dataType, actionTypes, filter, categoryPath = DEFAULT_CATEGORY_PATH) {
 	return dispatch => {
-		let apiPath = path.join('backend/rest/metadata/filtered', dataType);
-		let payload = {
+		const apiPath = getAPIPath(categoryPath, dataType)
+		const payload = {
 			filter: filter,
 			limit: PAGE_SIZE
 		};
@@ -316,7 +318,7 @@ function receiveKeys(actionTypes, result, dataType, keys) {
 	}
 }
 
-function refreshUses(getSubstate, dataType, actionTypes) {
+function refreshUses(getSubstate, dataType, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) {
 	return () => {
 		return(dispatch, getState) => {
 			dispatch(actionClearIndexes(actionTypes));
@@ -324,20 +326,20 @@ function refreshUses(getSubstate, dataType, actionTypes) {
 			let state = getState();
 
 			let usedKeys = commonSelectors.getUsedKeys(getSubstate)(state);
-			dispatch(ensureKeys(getSubstate, dataType, actionTypes, usedKeys));
+			dispatch(ensureKeys(getSubstate, dataType, actionTypes, usedKeys, categoryPath));
 
 			let usedIndexPages = commonSelectors.getUsedIndexPages(getSubstate)(state);
 
 			_.each(usedIndexPages, (usedIndexPage) => {
 				_.each(usedIndexPage.uses, (use) => {
-					dispatch(ensureIndexed(getSubstate, dataType, usedIndexPage.filter, usedIndexPage.order, use.start, use.length, actionTypes))
+					dispatch(ensureIndexed(getSubstate, dataType, usedIndexPage.filter, usedIndexPage.order, use.start, use.length, actionTypes, categoryPath))
 				});
 			})
 		}
 	}
 }
 
-function ensureIndexesWithFilterByActive(getSubstate, dataType, actionTypes) {
+function ensureIndexesWithFilterByActive(getSubstate, dataType, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) {
 	return filterByActive => {
 		return (dispatch, getState) => {
 
@@ -346,7 +348,7 @@ function ensureIndexesWithFilterByActive(getSubstate, dataType, actionTypes) {
 
 			_.each(usedIndexes, (usedIndex) => {
 				_.each(usedIndex.uses, (use) => {
-					dispatch(ensureIndexed(getSubstate, dataType, usedIndex.filter, usedIndex.order, use.start, use.length, actionTypes))
+					dispatch(ensureIndexed(getSubstate, dataType, usedIndex.filter, usedIndex.order, use.start, use.length, actionTypes, categoryPath))
 				});
 			})
 
@@ -354,7 +356,7 @@ function ensureIndexesWithFilterByActive(getSubstate, dataType, actionTypes) {
 	}
 }
 
-function ensureIndexesWithActiveKey(filterKey) {
+function ensureIndexesWithActiveKey(filterKey, categoryPath = DEFAULT_CATEGORY_PATH) {
 		return dispatch => {
 
 			let filterByActive = {
@@ -364,7 +366,7 @@ function ensureIndexesWithActiveKey(filterKey) {
 			// dispatch ensureIndexesWithFilterByActive on all stores implementing it
 			_.each(Action, actions => {
 				if (actions.hasOwnProperty('ensureIndexesWithFilterByActive')) {
-					dispatch(actions.ensureIndexesWithFilterByActive(filterByActive))
+					dispatch(actions.ensureIndexesWithFilterByActive(filterByActive, categoryPath))
 				}
 			});
 
@@ -442,6 +444,12 @@ function actionUseIndexedRegister(actionTypes, componentId, filterByActive, filt
 function actionUseKeysRegister(actionTypes, componentId, keys) {
 	return action(actionTypes, 'USE.KEYS.REGISTER', {componentId, keys});
 }
+
+// ============ utilities ===========
+const getAPIPath = (categoryPath = DEFAULT_CATEGORY_PATH, dataType) => {
+	return path.join('backend/rest', categoryPath ,'filtered', dataType);
+}
+
 
 // ============ export ===========
 

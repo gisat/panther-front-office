@@ -6,6 +6,7 @@ import PlaceSelector from '../components/containers/view-selectors/PlaceSelector
 import ThemeSelector from '../components/common/viewSelectors/ThemeSelector';
 import PeriodsSelector from "../components/common/viewSelectors/PeriodsSelector";
 import VisualizationSelector from "../components/common/viewSelectors/VisualizationSelector";
+import ShareButton from '../components/common/controls/Share/Button';
 
 const MagicSwitch = ({scope}) => {
 	if (scope && scope.data) {
@@ -18,6 +19,7 @@ const MagicSwitch = ({scope}) => {
 					<ThemeSelector/>
 					<PeriodsSelector/>
 					<VisualizationSelector/>
+					<ShareButton/>
 				</div>
 			);
 		}

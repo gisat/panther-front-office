@@ -47,7 +47,6 @@ class TopToolBar {
         this._map3dSwitchSelector = $('#top-toolbar-3dmap');
 
         $('#top-toolbar-context-help').on('click.topToolBar', this.handleContextHelpClick);
-        $('#top-toolbar-share-view').on('click.topToolBar', this.handleShareViewClick.bind(this));
         $('#top-toolbar-add-map').on('click.topToolBar', this.handleAddMapClick.bind(this));
         this._map3dSwitchSelector.on("click.topToolBar", this.handle3dMapClick.bind(this));
 
@@ -94,9 +93,6 @@ class TopToolBar {
     };
 
     hideTools(tools) {
-        if (!tools.share){
-            $('#top-toolbar-share-view').css("display", "none")
-        }
         if (!tools.contextHelp){
             $('#top-toolbar-context-help').css("display", "none")
         }
@@ -278,12 +274,6 @@ class TopToolBar {
     handleContextHelpClick(e) {
     };
 
-    handleShareViewClick(e) {
-        let shareItem = $('#top-toolbar-share-view');
-        const isOpen = shareItem.hasClass('open');
-        this._dispatcher.notify("components#shareSetVisible", !isOpen);
-    };
-
     handle3dMapClick(e) {
         this._dispatcher.notify("map#switchProjection");
         $('#top-toolbar-3dmap span').toggleClass('world-wind-2d');
@@ -387,13 +377,6 @@ class TopToolBar {
 			let isOpen = viewsItem.hasClass('open');
 			this._viewsWidgetIsOpen = !isOpen;
 			viewsItem.toggleClass('open');
-		} else if (type === 'SHARE_WINDOW_TOGGLE'){
-			let shareItem = $('#top-toolbar-share-view');
-            shareItem.removeClass('open');
-            //{bool} options - open or closed
-            if(options) {
-                shareItem.addClass('open');
-            }
 		}
     }
 }

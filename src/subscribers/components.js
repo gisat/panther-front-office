@@ -16,7 +16,6 @@ const setStoreWatchers = store => {
 	createWatcher(store, Select.components.windows.isWindowOpen, scenariosWindowWatcher, null, {key: 'scenarios'});
 	createWatcher(store, Select.components.windows.isWindowOpen, snapshotsWindowWatcher, null, {key: 'snapshots'});
 	createWatcher(store, Select.components.windows.isWindowOpen, viewsWindowWatcher, null, {key: 'views'});
-	createWatcher(store, Select.components.windows.isWindowOpen, shareWindowWatcher, null, {key: 'share'});
 	createWatcher(store, Select.components.getComponents, componentsWatcher);
 	createWatcher(store, Select.components.getApplicationStyleActiveKey, applicationStyleActiveKeyWatcher);
 	createWatcher(store, Select.components.getApplicationStyleHtmlClass, applicationStyleHtmlClassWatcher);
@@ -49,9 +48,6 @@ const setEventListeners = store => {
 				if (state.columns !== options.columns || state.rows !== options.rows){
 					store.dispatch(Action.components.updateMapsContainer(options));
 				}
-				break;
-			case 'components#shareSetVisible':
-				store.dispatch(Action.components.windows.handleWindowVisibility('share', options));
 				break;
 		}
 	});
@@ -121,12 +117,6 @@ const viewsWindowWatcher = (value, previousValue) => {
 	}
 };
 
-const shareWindowWatcher = (value, previousValue) => {
-	console.log('@@ shareWindowWatcher', previousValue, '->', value);
-	if (previousValue !== value){
-		window.Stores.notify('SHARE_WINDOW_TOGGLE', value);
-	}
-};
 
 const componentsWatcher = (value, previousValue) => {
 	console.log('@@ componentsWatcher', value);
