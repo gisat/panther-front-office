@@ -135,7 +135,29 @@ export default utils.deepKeyMirror({
 
 	LAYER_TEMPLATES: {
 		ADD: null,
-		ADD_UNRECEIVED: null
+		ADD_UNRECEIVED: null,
+		ENSURE: {
+			ERROR: null
+		},
+		INDEX: {
+			ADD: null
+		},
+		LOAD: {
+			ERROR: null,
+			REQUEST: null
+		},
+		SET_ACTIVE_KEY: null,
+		SET_ACTIVE_KEYS: null,
+		USE: {
+			INDEXED: {
+				CLEAR: null,
+				REGISTER: null
+			},
+			KEYS: {
+				CLEAR: null,
+				REGISTER: null
+			}
+		}
 	},
 
 	MAPS_ADD: 'MAPS_ADD',

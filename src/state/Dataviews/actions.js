@@ -115,6 +115,12 @@ function initialMetadataLoad (){
 						});
 					}
 
+					// TODO move somewhere else?
+					if (activeScopeConfig && activeScopeConfig.pucsLandUseScenarios){
+						let templateKeys = Object.values(activeScopeConfig.pucsLandUseScenarios.templates);
+						dispatch(Action.layerTemplates.useKeys(templateKeys, 'ActiveView'));
+					}
+
 					if ((data.locations && data.locations.length) || (data.location)){
 						if (data.locations && data.locations.length > 1){
 							dispatch(Action.places.setActive(data.locations));
