@@ -75,16 +75,16 @@ const getPucsSourceVectorLandCoverClasses = createSelector(
 		let template = _.find(templates, (tmplt) => {
 			return tmplt.key === templateKey;
 		});
-		if (template && template.attributeSets && template.attributeSets.length){
+		if (template && template.data && template.data.attributeSets && template.data.attributeSets.length && attributes && attributeSets){
 			let attributeSet = _.find(attributeSets, (as) => {
-				return as.key === template.attributeSets[0];
+				return as.key === template.data.attributeSets[0];
 			});
 			if (attributeSet){
 				let attribute = _.find(attributes, (attr) => {
-					return attr.key === attributeSet.attributes[0];
+					return attr.key === attributeSet.data.attributes[0];
 				});
-				if (attribute && attribute.enumerationValues){
-					return attribute.enumerationValues;
+				if (attribute && attribute.data && attribute.data.enumerationValues){
+					return attribute.data.enumerationValues;
 				} else {
 					console.warn('Scope selectors#getPucsSourceVectorLandCoverClasses: Attibute set ' + attributeSet.key + ' does not contain attributes or first attribute does not have enumeration values parameter!');
 					return null;

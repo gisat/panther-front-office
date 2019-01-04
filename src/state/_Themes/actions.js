@@ -6,9 +6,10 @@ import Select from "../Select";
 
 // ============ creators ===========
 
-const setActiveKey = common.setActiveKey(ActionTypes.THEMES);
 const useIndexed = common.useIndexed(Select.themes.getSubstate, 'themes', ActionTypes.THEMES);
 const refreshUses = common.refreshUses(Select.themes.getSubstate, `themes`, ActionTypes.THEMES);
+
+const setActiveKeyAndEnsureDependencies = common.setActiveKeyAndEnsureDependencies(ActionTypes.THEMES, 'theme');
 
 function setActive(key, componentId){
 	return (dispatch, getState) => {
@@ -25,7 +26,7 @@ function setActive(key, componentId){
 					}
 				})
 				.then(() => {
-					dispatch(setActiveKey(key));
+					dispatch(setActiveKeyAndEnsureDependencies(key));
 				})
 				.catch((err) => {
 					throw new Error(err);
@@ -60,7 +61,7 @@ export default {
 	loadByKeys,
 	refreshUses,
 	setActive,
-	setActiveKey,
+	setActiveKey: setActiveKeyAndEnsureDependencies,
 	useIndexed,
 	useIndexedClear: actionClearUseIndexed
 }

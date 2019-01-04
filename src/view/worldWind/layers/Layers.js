@@ -436,7 +436,7 @@ class Layers {
      */
     addChoroplethLayer(layerData, group, state) {
         let layer = new MyWmsLayer({
-            service: Config.url + "geoserver/wms",
+            service: Config.url + "api/proxy/wms",
             sector: new WorldWind.Sector(-90, 90, -180, 180),
             layerNames: layerData.layer,
             levelZeroDelta: new WorldWind.Location(45, 45),

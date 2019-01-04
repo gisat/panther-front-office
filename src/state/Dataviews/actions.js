@@ -100,6 +100,9 @@ function initialMetadataLoad (){
 		let activeDataview = Select.dataviews.getActive(getState());
 		let data = activeDataview && activeDataview.data;
 
+		// TODO fix for timeline usage
+		dispatch(Action.periods.useIndexed(null, null, null, 1, 1000, 'ActiveView'));
+
 		if (data.dataset){
 			dispatch(Action.scopes.loadForKeys([data.dataset]))
 				.then(() => {
@@ -110,6 +113,12 @@ function initialMetadataLoad (){
 						dispatch(Action.specific.lpisChangeReviewCases.loadCaseForActiveView()).then(() => {
 							dispatch(Action.specific.lpisChangeReviewCases.setActiveCaseByActiveView());
 						});
+					}
+
+					// TODO move somewhere else?
+					if (activeScopeConfig && activeScopeConfig.pucsLandUseScenarios){
+						let templateKeys = Object.values(activeScopeConfig.pucsLandUseScenarios.templates);
+						dispatch(Action.layerTemplates.useKeys(templateKeys, 'ActiveView'));
 					}
 
 					if ((data.locations && data.locations.length) || (data.location)){
@@ -136,7 +145,6 @@ function initialMetadataLoad (){
 				let year = _.isArray(data.years) ? data.years[0] : data.years;
 				dispatch(Action.periods.setActiveKey(year));
 			}
-			dispatch(Action.periods.useKeys(data.years, 'ActiveView'));
 		}
 
 		if (data.visualization){

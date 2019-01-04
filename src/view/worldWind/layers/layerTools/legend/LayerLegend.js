@@ -118,7 +118,7 @@ class LayerLegend extends LayerTool {
     };
 
     addContentForChoropleth(mapKey, mapPeriod, data){
-		let url = Config.url + "geoserver/wms?";
+		let url = Config.url + "api/proxy/wms?";
 
 		let params = {
 			'LAYER': data.layer,
@@ -153,7 +153,7 @@ class LayerLegend extends LayerTool {
         }
 
 	    target.append(`<div class="legend-content-item" data-id="${mapKey}">
-                <span>${mapPeriod}</span>
+                <span>${mapPeriod ? mapPeriod : ""}</span>
                 <img src="${imgSrc}">
             </div>`);
     };

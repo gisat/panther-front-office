@@ -18,10 +18,11 @@ const mapStateToProps = (state, ownProps) => {
 		editingActive: Select.components.windows.scenarios.isEditingActive(state),
 
 		// permissions
-		enableCreate: Select.users.isAdmin(state) || Select.users.hasActiveUserPermissionToCreate(state, 'scenario_case'),
-		// todo permissions for update/delete
-		enableDelete: Select.users.isAdmin(state) || Select.users.hasActiveUserPermissionToCreate(state, 'scenario_case'),
-		enableEdit: Select.users.isAdmin(state) || Select.users.hasActiveUserPermissionToCreate(state, 'scenario_case')
+		enableCreate: Select.users.hasActiveUserPermissionToCreate(state, 'scenario_cases'),
+
+		// TODO get permissions from model
+		enableDelete: Select.users.hasActiveUserPermissionToCreate(state, 'scenario_cases'),
+		enableEdit: Select.users.hasActiveUserPermissionToCreate(state, 'scenario_cases')
 	}
 };
 

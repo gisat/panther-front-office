@@ -27,5 +27,6 @@ const getSymbologiesForTemplate = createSelector(
 export default {
 	getTemplates: getAll,
 	getTemplate,
-	getSymbologiesForTemplate
+	getSymbologiesForTemplate,
+	getSubstate
 };

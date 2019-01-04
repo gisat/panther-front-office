@@ -31,7 +31,7 @@ const dataForInitialLoadWatcher = (value) => {
 	if (value && !legacyCodeInitialized){
 		let allStoresLoaded = true;
 		_.forIn(value, (val, key) => {
-			if (!val && key !== "activeScopeStyle"){
+			if (!val && !(key === "activeScopeStyle" || key === "activeUser")){
 				allStoresLoaded = false;
 			}
 		});

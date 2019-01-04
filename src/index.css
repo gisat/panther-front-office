@@ -787,7 +787,7 @@ todo merge with overlay
 }
 .ptr-view-selection-selector.ptr-ui-select .Select {
 	min-width: 10rem;
-	max-width: 15rem;
+	max-width: 20rem;
 	font-size: .75rem;
 	border: none;
 }

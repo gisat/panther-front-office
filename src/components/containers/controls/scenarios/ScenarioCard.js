@@ -11,9 +11,10 @@ const mapStateToProps = (state, ownProps) => {
 
 		scenarioSpatialDataSource: Select.scenarios.scenarios.getPucsScenariosVectorSource(state, ownProps.scenarioKey, ownProps.defaultSituation),
 
-		enableDelete: Select.users.isAdmin(state) || Select.users.hasActiveUserPermissionToCreate(state, 'scenario_case'),
-		enableEdit: Select.users.isAdmin(state) || Select.users.hasActiveUserPermissionToCreate(state, 'scenario_case'),
-		enableModify: (Select.users.isAdmin(state) || Select.users.hasActiveUserPermissionToCreate(state, 'scenario_case')) &&
+		// TODO get permissions from model
+		enableDelete: Select.users.hasActiveUserPermissionToCreate(state, 'scenario_cases'),
+		enableEdit: Select.users.hasActiveUserPermissionToCreate(state, 'scenario_cases'),
+		enableModify: Select.users.hasActiveUserPermissionToCreate(state, 'scenario_cases') &&
 			!ownProps.editing
 	}
 };

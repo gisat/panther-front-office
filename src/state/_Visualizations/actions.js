@@ -10,6 +10,8 @@ const useKeys = common.useKeys(Select.visualizations.getSubstate, 'visualization
 const useIndexed = common.useIndexed(Select.visualizations.getSubstate, 'visualizations', ActionTypes.VISUALIZATIONS);
 const refreshUses = common.refreshUses(Select.visualizations.getSubstate, 'visualizations', ActionTypes.VISUALIZATIONS);
 
+const ensureIndexesWithFilterByActive = common.ensureIndexesWithFilterByActive(Select.visualizations.getSubstate, 'visualizations', ActionTypes.VISUALIZATIONS);
+
 // ============ actions ===========
 
 function actionClearUseIndexed(componentId) {
@@ -29,6 +31,7 @@ function actionInitializeForExt() {
 // ============ export ===========
 
 export default {
+	ensureIndexesWithFilterByActive,
 	refreshUses,
 	useIndexed,
 	useIndexedClear: actionClearUseIndexed,

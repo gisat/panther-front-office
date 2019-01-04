@@ -12,7 +12,6 @@ const getGroupsSubstate = state => state.users.groups;
 
 const getAll = common.getAll(getSubstate);
 const getGroups = common.getAll(getGroupsSubstate);
-const getGroupsAsObject = common.getAllAsObject(getGroupsSubstate);
 const getActiveKey = common.getActiveKey(getSubstate);
 const getActive = common.getActive(getSubstate);
 
@@ -29,22 +28,21 @@ const isAdminGroupMember = createSelector(
 	}
 );
 
+const getActiveUserPermissions = createSelector(
+	[getActive],
+	(user) => {
+		if (user && user.permissions){
+			return user.permissions;
+		} else {
+			return null;
+		}
+	}
+);
+
 const isAdminOrAdminGroupMember = createSelector(
 	[isAdmin, isAdminGroupMember],
 	(isAdmin, isAdminGroupMember) => {
 		return isAdmin || isAdminGroupMember;
-	}
-);
-
-const getGroupsForActiveUser = createSelector(
-	[getActive, getGroupsAsObject],
-	(user, groups) => {
-		if (user && user.groups && groups){
-			let groupData = _.pick(groups, user.groups);
-			return groupData ? Object.values(groupData) : null;
-		} else {
-			return null;
-		}
 	}
 );
 
@@ -59,55 +57,10 @@ const getGroupKeysForActiveUser = createSelector(
 	}
 );
 
-const getGroupsForActiveUserPermissionsTowards = createSelector(
-	[getGroupsForActiveUser],
-	(groups) => {
-		if (groups && groups.length) {
-			let permissions = [];
-			groups.map(group => {
-				if (group.permissionsTowards) {
-					permissions = [...permissions, ...group.permissionsTowards];
-				}
-			});
-			return permissions;
-		} else {
-			return [];
-		}
-	}
-);
-
-const getActiveUserPermissionsTowards = createSelector(
-	[getActive],
-	(user) => {
-		if (user && user.permissionsTowards) {
-			return user.permissionsTowards;
-		} else {
-			return [];
-		}
-	}
-);
-
-/**
- * This selector puts together permissionsTowards of acitve user and groups, where active user belongs
- */
-const getActiveUserPermissionsTowardsCombined = createSelector(
-	[getActiveUserPermissionsTowards, getGroupsForActiveUserPermissionsTowards],
-	(userPermissions, groupsPermissions) => {
-		return [...userPermissions, ...groupsPermissions];
-	}
-);
-
 const hasActiveUserPermissionToCreate = createSelector(
-	[getActiveUserPermissionsTowardsCombined, (state, type) => type],
-	(permissionsTowards, type) => {
-		if (!permissionsTowards || !permissionsTowards.length) {
-			return false;
-		} else {
-			let permission = _.find(permissionsTowards, (per) => {
-				return per.resourceType === type
-			});
-			return !!(permission && permission.permission === "POST");
-		}
+	[getActiveUserPermissions, (state, type) => type],
+	(permissions, type) => {
+		return (type && permissions && permissions.metadata && permissions.metadata[type] && permissions.metadata[type].create);
 	}
 );
 
@@ -147,9 +100,9 @@ const getActiveUserDromasLpisChangeReviewGroup = createSelector(
 export default {
 	getAll,
 
+	getActive,
 	getActiveKey: getActiveKey,
 	getActiveUser: getActive,
-	getActiveUserPermissionsTowards: getActiveUserPermissionsTowards,
 	getGroupKeysForActiveUser: getGroupKeysForActiveUser,
 	getGroupsForActiveUser: getGroupKeysForActiveUser,
 	getUsers: getAll,
@@ -157,7 +110,7 @@ export default {
 	getSubstate: getSubstate,
 	getGroupsSubstate,
 
-	hasActiveUserPermissionToCreate: hasActiveUserPermissionToCreate,
+	hasActiveUserPermissionToCreate,
 
 	isAdmin: isAdmin,
 	isAdminGroupMember: isAdminGroupMember,

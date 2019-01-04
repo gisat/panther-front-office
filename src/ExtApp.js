@@ -117,6 +117,11 @@ class ExtApp {
 		Ext.StoreMgr.lookup('attributeset').add(data);
 	}
 
+	addVisualizationsToStore(data){
+		Ext.StoreMgr.lookup('visualization').add(data);
+		Ext.StoreMgr.lookup('visualization4sel').add(data);
+	}
+
     applyDataview(data){
 		this.dataViewController.onLoadingFinished(data.dataview);
 	};
@@ -230,6 +235,10 @@ class ExtApp {
 		} else if (type === "REDUX_ATTRIBUTES_ADD"){
 			if (options.length){
 				this.addAttributesToStore(options);
+			}
+		} else if (type === "REDUX_VISUALIZATIONS_ADD"){
+			if (options.length){
+				this.addVisualizationsToStore(options);
 			}
 		}
     }
