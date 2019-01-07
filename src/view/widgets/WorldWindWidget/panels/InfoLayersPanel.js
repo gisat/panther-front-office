@@ -83,7 +83,7 @@ class InfoLayersPanel extends WorldWindWidgetPanel {
     addPanelContent(layerGroups) {
         let self = this;
         layerGroups.forEach(function (group) {
-            let layerGroupBodySelector = self.addLayerGroup(group.name.replace(/ /g, '_'), group.name);
+            let layerGroupBodySelector = self.addLayerGroup(group.name.replace(/ |&/g, '_'), group.name);
             group.layers.forEach(function (layerTemplate) {
                 if (layerTemplate.styles.length > 0) {
                     layerTemplate.styles.forEach(function (style) {
