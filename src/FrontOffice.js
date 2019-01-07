@@ -390,7 +390,6 @@ class FrontOffice {
         };
 		if (options.worldWindState){
 			this.setMapsFromDataview(options.worldWindState);
-			this._stateStore.setAllowZoomByCase(false);
 		}
         if (options.widgets){
             this._topToolBar.handleDataview(options.widgets);
