@@ -228,7 +228,9 @@ class ExtApp {
         if (type === "SHOW_HEADER_LOGO"){
 			$('#content-intro > .label').html("");
 			$('#home-page').html('<img src="' + options + '" />');
-        } else if (type === "REDUX_ATTRIBUTE_SETS_ADD"){
+        } else if (type === "SHOW_HEADER_TITLE"){
+			$('#home-page').find("h1").text(options);
+		} else if (type === "REDUX_ATTRIBUTE_SETS_ADD"){
 			if (options.length){
 				this.addAttributeSetsToStore(options);
 			}

@@ -296,11 +296,11 @@ class CaseDetail extends React.PureComponent {
 
 		if (!caseGeometry){
 			let place = this.props.place;
-			if (place && place.geometry){
-				caseGeometry = place.geometry;
+			if (place && place.data && place.data.geometry){
+				caseGeometry = place.data.geometry;
 			}
-			if (place && place.bbox){
-				caseBbox = place.bbox;
+			if (place && place.data && place.data.bbox){
+				caseBbox = place.data.bbox;
 			}
 		}
 

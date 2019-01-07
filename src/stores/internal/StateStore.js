@@ -50,8 +50,6 @@ class StateStore {
         this.isMapIndependentOfPeriod = false;
 		this.isMapDependentOnScenario = false;
 
-		this.allowZoomByScenarioCase = true;
-
 		if (options.activeKeys) {
 		    let keys = options.activeKeys;
 		    if (keys.places){
@@ -103,7 +101,6 @@ class StateStore {
             selectedMapId: this._selectedMapId,
 
 			components: this._components,
-            allowZoomByScenarioCase: this.allowZoomByScenarioCase,
 			scenarios: this._scenarios,
 
             user: this._user,
@@ -376,13 +373,6 @@ class StateStore {
         this.isMap3D = true;
         $("#top-toolbar-3dmap").addClass("open");
         this._dispatcher.notify('map#switchTo3D');
-    }
-
-	/**
-	 * @param value {boolean} true, if zooming by case should be allowed
-	 */
-	setAllowZoomByCase(value){
-        this.allowZoomByScenarioCase = value;
     }
 
 	/**

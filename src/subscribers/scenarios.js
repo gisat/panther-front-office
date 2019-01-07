@@ -104,6 +104,7 @@ const activeCaseWatcher = (value, previousValue) => {
 			let currentGeomString = JSON.stringify(value.data.geometry);
 			let previousGeomString = previousValue && previousValue.data && previousValue.data.geometry ? JSON.stringify(previousValue.data.geometry) : "";
 
+			// todo
 			if (currentGeomString !== previousGeomString){
 				window.Stores.notify('ZOOM_MAPS_BY_CASE_GEOMETRY', options);
 			}

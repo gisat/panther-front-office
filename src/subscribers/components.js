@@ -59,6 +59,8 @@ const applicationStyleActiveKeyWatcher = (value, previousValue) => {
 		let configuration = VisualConfig[value];
 		if (configuration && configuration.logoSrc){
 			window.Stores.notify("SHOW_HEADER_LOGO", configuration.logoSrc);
+		} else if (configuration && configuration.headerTitle){
+			window.Stores.notify("SHOW_HEADER_TITLE", configuration.headerTitle);
 		}
 	}
 };
