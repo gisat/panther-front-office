@@ -34,8 +34,6 @@ class FrontOffice {
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'FrontOffice', 'constructor', 'Dispatcher must be provided'));
         }
 
-        this.loadData(options.store);
-
         this._attributesMetadata = options.attributesMetadata;
         this._options = options.widgetOptions;
         this._tools = options.tools;
@@ -53,7 +51,6 @@ class FrontOffice {
         this._previousDataset = null;
 
         Observer.addListener("rebuild", this.rebuild.bind(this));
-        Observer.addListener('user#onLogin', this.loadData.bind(this, options.store));
         Observer.addListener('Select#onChangeColor', this.rebuildEvaluationWidget.bind(this));
 
         this._dispatcher.addListener(this.onEvent.bind(this));
@@ -454,24 +451,6 @@ class FrontOffice {
     }
 
     /**
-     * Load metadata from server
-     */
-    loadData(store) {
-        // return Promise.all([
-        //     store.attributes.load(),
-        //     store.attributeSets.load(),
-        //     store.dataviews.load(),
-        //     store.layers.load(),
-        //     store.locations.load(),
-        //     store.periods.load(),
-        //     store.scopes.load(),
-        //     store.themes.load(),
-        //     store.visualizations.load(),
-        //     store.wmsLayers.load()
-        // ]);
-    };
-
-    /**
      * Show/hide components
      * @param action {string} css display value
      */
@@ -499,7 +478,6 @@ class FrontOffice {
         if(type === Actions.adjustConfiguration) {
             this.adjustConfiguration();
         } else if (type === Actions.adjustConfigurationFromDataview){
-			window.Stores.notify('scope#activeScopeChanged', {activeScopeKey: Number(options.scope)});
             this.adjustConfiguration(options);
         } else if (type === "dataview#setMapsFromDataview"){
         	this.setMapsFromDataview(options);

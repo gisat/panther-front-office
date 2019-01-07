@@ -22,13 +22,6 @@ const setStoreWatchers = store => {
 };
 
 const setEventListeners = store => {
-	window.Stores.addListener((event, options) => {
-		switch(event) {
-			case 'scope#activeScopeChanged':
-				// store.dispatch(Action.scopes.setActiveKey(options.activeScopeKey));
-				break;
-		}
-	});
 };
 
 // ======== state watchers ========

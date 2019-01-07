@@ -15,10 +15,6 @@ class Dataviews extends BaseStore {
     getPath() {
         return "rest/views";
     }
-
-	loaded(models) {
-		window.Stores.notify("DATAVIEWS_LOADED", models);
-	}
 }
 
 export default Dataviews;

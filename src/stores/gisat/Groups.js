@@ -46,10 +46,6 @@ class Groups extends BaseStore {
             places: places
         });
     }
-
-	loaded(models) {
-		window.Stores.notify("USER_GROUPS_LOADED", models);
-	}
 }
 
 export default Groups;
