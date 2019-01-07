@@ -15,7 +15,7 @@ const getGroups = common.getAll(getGroupsSubstate);
 const getActiveKey = common.getActiveKey(getSubstate);
 const getActive = common.getActive(getSubstate);
 
-const isLoggedIn = state => state.users.isLoggedIn;
+const isLoggedIn = state => !!state.users.activeKey;
 const isAdmin = state => state.users.isAdmin;
 
 const isAdminGroupMember = createSelector(

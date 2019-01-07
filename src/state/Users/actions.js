@@ -26,6 +26,10 @@ const TTL = 5;
 
 const add = common.add(ActionTypes.USERS);
 const setActiveKey = common.setActiveKey(ActionTypes.USERS);
+const refreshUses = () => (dispatch) => {
+	dispatch(common.refreshUses(Select.users.getSubstate, 'users', ActionTypes.USERS, 'user')());
+	dispatch(common.refreshUses(Select.users.getGroupsSubstate, 'groups', ActionTypes.USERS.GROUPS, 'user')());
+}
 
 const loadAllUsers = (componentId, order, filter) => {
 	const loader = common.useIndexed(Select.users.getSubstate, 'users', ActionTypes.USERS, 'user');
@@ -49,6 +53,7 @@ function onLogin() {
 		dispatch(Action.places.refreshUses());
 		dispatch(Action.periods.refreshUses());
 		dispatch(Action.themes.refreshUses());
+		dispatch(refreshUses());
 	}
 }
 
@@ -64,6 +69,7 @@ function onLogout() {
 		dispatch(Action.places.refreshUses());
 		dispatch(Action.periods.refreshUses());
 		dispatch(Action.themes.refreshUses());
+		dispatch(refreshUses());
 	}
 }
 
@@ -148,12 +154,12 @@ function apiLoadCurrentUser() {
 				} else {
 					if (result.key === 0) {
 						// no logged in user = guest
-						dispatch(actionAddGroups(result.groups));
+						dispatch(actionAddGroups(transformGroups(result.groups)));
 					} else if (result.key) {
 						// logged in user
 						dispatch(setActiveKey(result.key));
 						dispatch(add(transformUser(result)));
-						dispatch(actionAddGroups(result.groups));
+						dispatch(actionAddGroups(transformGroups(result.groups)));
 					}
 				}
 			})
@@ -206,8 +212,15 @@ function apiLogoutUser(ttl) {
 function transformUser(user) {
 	return {
 		...user,
-		groups: _.map(user.groups, 'key')
+		//TODO remove -> workaround with permissions.guest.get
+		permissions: {...user.permissions, guest: {get: false}},
+		groups: _.map(user.groups, 'key'),
+
 	}
+}
+//TODO remove -> workaround with permissions.guest.get
+function transformGroups(groups) {
+	return groups.map(group => ({...group, permissions: {guest: {get: false}}}))
 }
 
 // ============ actions ===========
@@ -287,6 +300,7 @@ export default {
 	apiLogoutUser: apiLogoutUser,
 	loadAllUsers,
 	loadAllGroups,
+	refreshUses,
 	useIndexedUsersClear: actionClearUsersUseIndexed,
 	useIndexedGroupsClear: actionClearGroupsUseIndexed,
 	// update: update

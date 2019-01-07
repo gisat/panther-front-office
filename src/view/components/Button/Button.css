@@ -115,3 +115,11 @@
 	background: rgb(214, 214, 214);
 	cursor: not-allowed;
 }
+
+.ptr-button.header-button {
+	height: 29px;
+	align-items: center;
+	vertical-align: middle;
+	display: flex;
+	color: rgb(153, 153, 153);
+}
