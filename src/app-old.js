@@ -227,7 +227,7 @@ function loadApp(initialData) {
                     let uuid = new Uuid().generate();
                     return {
                         uuid: uuid,
-                        name: 'Map ' + uuid,
+                        name: 'Map: ' + (map.name ? map.name : map.id),
                         source: snapshotUrl
                     }
                 }))
