@@ -478,6 +478,7 @@ class FrontOffice {
         if(type === Actions.adjustConfiguration) {
             this.adjustConfiguration();
         } else if (type === Actions.adjustConfigurationFromDataview){
+			window.Stores.notify('scope#activeScopeChanged', {activeScopeKey: Number(options.scope)});
             this.adjustConfiguration(options);
         } else if (type === "dataview#setMapsFromDataview"){
         	this.setMapsFromDataview(options);

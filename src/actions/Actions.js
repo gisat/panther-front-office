@@ -54,6 +54,7 @@ export default {
 
 		scenarioAddDefaultSituationMap: "scenario#addDefaultSituationMap",
 
+		scopeActiveChanged: 'scope#activeScopeChanged',
 		scopeAoiLayer: 'scope#aoiLayer',
 		scopeAoiLayerUpdate: 'scope#aoiLayerUpdate',
 
