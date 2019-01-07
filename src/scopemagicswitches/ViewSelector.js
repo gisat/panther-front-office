@@ -19,7 +19,7 @@ const MagicSwitch = ({scope, isLoggedIn}) => {
 					<ThemeSelector/>
 					<PeriodsSelector/>
 					<VisualizationSelector/>
-					{isLoggedIn ? <div class="ptr-view-selection-container"><ShareButton/></div> : null}
+					{isLoggedIn ? <div className="ptr-view-selection-container"><ShareButton/></div> : null}
 				</div>
 			);
 		}
