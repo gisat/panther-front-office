@@ -12,7 +12,10 @@ import Names from '../../../../../constants/Names';
 class CaseList extends React.PureComponent {
 
 	static propTypes = {
-		activeCaseKey: PropTypes.number,
+		activeCaseKey: PropTypes.oneOfType([
+			PropTypes.number,
+			PropTypes.string
+		]),
 		changeActiveScreen: PropTypes.func,
 		screenKey: PropTypes.string,
 		switchScreen: PropTypes.func,
