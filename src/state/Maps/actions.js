@@ -100,7 +100,7 @@ function selectLayerPeriod(layerKey, period, mapKey) {
 			let scope = Select.scopes.getActiveScopeData(appState);
 
 			let stateUpdate;
-			if (scope.oneLayerPerMap){
+			if (scope && scope.data && scope.data.oneLayerPerMap){
 				stateUpdate = {
 					key: mapKey,
 					wmsLayers: null,
@@ -174,7 +174,7 @@ function selectWmsLayer(layerKey, mapKey) {
 			let scope = Select.scopes.getActiveScopeData(appState);
 
 			let stateUpdate;
-			if (scope.oneLayerPerMap){
+			if (scope && scope.data && scope.data.oneLayerPerMap){
 				stateUpdate = {
 					key: mapKey,
 					wmsLayers: [layerKey],
