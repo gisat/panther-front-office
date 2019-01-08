@@ -142,11 +142,12 @@ function initialMetadataLoad (){
 		}
 
 		if (data.years){
-			if (data.years.length > 1){
+			if (_.isArray(data.years) && data.years.length > 1){
 				dispatch(Action.periods.setActiveKeys(data.years));
+			} else if (_.isArray(data.years) && data.years.length === 0){
+				dispatch(Action.periods.setActiveKey(Number(data.years[0])));
 			} else {
-				let year = _.isArray(data.years) ? data.years[0] : data.years;
-				dispatch(Action.periods.setActiveKey(year));
+				dispatch(Action.periods.setActiveKey(Number(data.years)));
 			}
 		}
 
