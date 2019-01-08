@@ -22,11 +22,11 @@ const getSelect = (items, selected, name, onChange, defaultEmpty = false) => {
 const BASE_STATE = {
     usersSelect: {
         value: 'null',
-        required: true,
+        required: false,
     },
     groupsSelect: {
         value: 'null',
-        required: true,
+        required: false,
     },
     langSelect: {
         value: LANGUAGES[0].key,
@@ -34,7 +34,7 @@ const BASE_STATE = {
     },
     description: {
         value: '',
-        required: true,
+        required: false,
     },
     name: {
         value: '',
@@ -42,6 +42,8 @@ const BASE_STATE = {
     },
     dataviewId: null,
 };
+
+const valueFilled = value => value && value !== 'null' && value !== ''
 
 class ShareForm extends React.PureComponent {
 
@@ -104,7 +106,11 @@ class ShareForm extends React.PureComponent {
     }
 
     isDisabled() {
-        return !Object.entries(this.state).filter(i => i[1].required).every(i => i[1].value && i[1].value !== 'null' && i[1].value !== '')
+        const fieldsFilled = Object.entries(this.state).filter(i => i[1].required).every(i => i[1].value && i[1].value !== 'null' && i[1].value !== '');
+        Object.entries(this.state).filter(i => i[1].required).every(i => valueFilled(i[1].value));
+        const userGroups = ['usersSelect', 'groupsSelect'];
+        const userGroupsFilled = userGroups.some((select) => valueFilled(this.state[select].value));
+        return !(fieldsFilled && userGroupsFilled);
     }
 
     render() {
