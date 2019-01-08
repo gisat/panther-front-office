@@ -26,9 +26,9 @@ const MagicSwitch = ({scope}) => {
 			return <MapsTimeline content={AuAttributeFrequencyGraph} />
 		}
 		if (scope.data.showTimeline) {
-			if (scope.configuration && scope.configuration.sentinelViewer) {
+			if (scope.data.configuration && scope.data.configuration.sentinelViewer) {
 				return <SentinelChangeReviewMapsTimeline />
-			} else if (scope.configuration && scope.configuration.lpisCheckReview) {
+			} else if (scope.data.configuration && scope.data.configuration.lpisCheckReview) {
 				return <LPISCheckTimeline />
 			} else  {
 				return <MapsTimeline />

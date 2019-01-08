@@ -198,12 +198,15 @@ class Customization {
 			let dromasLpisGroups = scope.configuration.dromasLpisChangeReview ? scope.configuration.dromasLpisChangeReview.groups : null;
             const sentinelViewer = scope.configuration.sentinelViewer;
             const LPISCheckViewer = scope.configuration.lpisCheckReview;
-			if (dromasLpisGroups || sentinelViewer || LPISCheckViewer){
+
+			if (dromasLpisGroups){
                 let isGisatUser = _.find(user.groups, (key) => {return key === dromasLpisGroups.gisatUsers});
 				let isGisatAdmin = _.find(user.groups, (key) => {return key === dromasLpisGroups.gisatAdmins});
 				if (isGisatUser || isGisatAdmin){
 				    showTimeline = true;
                 }
+            } else if (sentinelViewer || LPISCheckViewer){
+			    showTimeline = true;
             }
 
 			if (showTimeline){
