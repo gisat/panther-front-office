@@ -25,8 +25,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		},
 		onMount: () => {
 			//load users and groups
-			dispatch(Action.users.loadAllGroups(componentId, order, filter));
-			dispatch(Action.users.loadAllUsers(componentId, order, filter));
+			dispatch(Action.users.useIndexedUsers(null, filter, order, 1, 1000, componentId));
+			dispatch(Action.users.useIndexedGroups(null, filter, order, 1, 1000, componentId));
 		},
 		onUnmount: () => {
 			//set users and groups indexes as unuses

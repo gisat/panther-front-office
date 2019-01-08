@@ -31,14 +31,8 @@ const refreshUses = () => (dispatch) => {
 	dispatch(common.refreshUses(Select.users.getGroupsSubstate, 'groups', ActionTypes.USERS.GROUPS, 'user')());
 }
 
-const loadAllUsers = (componentId, order, filter) => {
-	const loader = common.useIndexed(Select.users.getSubstate, 'users', ActionTypes.USERS, 'user');
-	return loader(null, filter, order, 1, 1000, componentId);
-};
-const loadAllGroups = (componentId, order, filter) => {
-	const loader = common.useIndexed(Select.users.getGroupsSubstate, 'groups', ActionTypes.USERS.GROUPS, 'user');
-	return loader(null, filter, order, 1, 1000, componentId);
-};
+const useIndexedUsers = common.useIndexed(Select.users.getSubstate, 'users', ActionTypes.USERS, 'user');
+const useIndexedGroups = common.useIndexed(Select.users.getGroupsSubstate, 'groups', ActionTypes.USERS.GROUPS, 'user');
 
 function onLogin() {
 	return (dispatch) => {
@@ -298,9 +292,9 @@ export default {
 	apiLoadCurrentUser: apiLoadCurrentUser,
 	apiLoginUser: apiLoginUser,
 	apiLogoutUser: apiLogoutUser,
-	loadAllUsers,
-	loadAllGroups,
 	refreshUses,
+	useIndexedUsers,
+	useIndexedGroups,
 	useIndexedUsersClear: actionClearUsersUseIndexed,
 	useIndexedGroupsClear: actionClearGroupsUseIndexed,
 	// update: update
