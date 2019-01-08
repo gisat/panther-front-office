@@ -98,10 +98,15 @@ Ext.define('PumaMain.controller.ViewMng', {
 	},
     onShare: function(options) {
 		const onSave = (rec,operation) => {
-			Promise.all([
-				store.groups.share(options.group.value, options.state.scope, options.state.places, rec.data._id),
-				store.users.share(options.user.value, options.state.scope, options.state.places, rec.data._id)
-			]).then(() => {
+
+			const promises = []
+			if(options.group.value && options.group.value !== 'null') {
+				promises.push(store.users.share(options.group.value, options.state.scope, options.state.places, rec.data._id));
+			}
+			if(options.user.value && options.user.value !== 'null') {
+				promises.push(store.users.share(options.user.value, options.state.scope, options.state.places, rec.data._id));
+			}
+			Promise.all(promises).then(() => {
 				this.onSaveFinish(rec, operation, options.group, options.user, options.language);
 				window.Stores.notify('components#shareSetVisible', false);
 			})
@@ -136,12 +141,13 @@ Ext.define('PumaMain.controller.ViewMng', {
 				id: rec.data._id,
 				key: rec.data._id,
 				date: new Date(),
-				data: {
-					name: rec.data.conf.name,
-					description: rec.data.conf.description,
-					dataset: rec.data.conf.dataset,
-					language: rec.data.conf.language
-				},
+				// data: {
+				// 	name: rec.data.conf.name,
+				// 	description: rec.data.conf.description,
+				// 	dataset: rec.data.conf.dataset,
+				// 	language: rec.data.conf.language
+				// },
+				data: rec.data.conf,
 				permissions: rec.data.permissions
 			}]);
         }

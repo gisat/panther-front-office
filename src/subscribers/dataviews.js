@@ -19,6 +19,24 @@ const setStoreWatchers = store => {
 const setEventListeners = store => {
 	window.Stores.addListener((event, options) => {
 		switch(event) {
+			case('DATAVIEWS_ADD'):
+				const dataviews = Select.dataviews.getViews(store.getState());
+				const activeScopeKey = Select.scopes.getActiveKey(store.getState());
+				const newIndex = dataviews.length + 1;
+
+				const result = {
+					'total': newIndex,
+					'data': {
+						'dataviews': options
+					},
+					'changes': {
+						'dataviews': options.date
+					}
+				};
+				const filter = {"dataset": activeScopeKey};
+				const order = [["key", "ascending"]];
+				const start = newIndex;
+				store.dispatch(Action.dataviews.receiveIndexed(result, filter, order, start));
 			default:
 				break;
 		}
