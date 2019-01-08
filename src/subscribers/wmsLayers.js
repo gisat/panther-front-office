@@ -6,11 +6,4 @@ export default store => {
 };
 
 const setEventListeners = store => {
-	window.Stores.addListener((event, options) => {
-		switch(event) {
-			case 'WMS_LAYERS_LOADED':
-				store.dispatch(Action.wmsLayers.add(utils.replaceIdWithKey(options)));
-				break;
-		}
-	});
 };

@@ -437,7 +437,23 @@ export default utils.deepKeyMirror({
 	},
 
 	WMS_LAYERS: {
-		ADD: null
+		ADD: null,
+		ADD_UNRECEIVED: null,
+		INDEX: {
+			ADD: null,
+			CLEAR_ALL: null
+		},
+		SET_ACTIVE_KEY: null,
+		USE: {
+			INDEXED: {
+				CLEAR: null,
+				REGISTER: null
+			},
+			KEYS: {
+				CLEAR: null,
+				REGISTER: null
+			}
+		}
 	},
 
 	LPIS_CASES_ADD: 'LPIS_CASES_ADD',

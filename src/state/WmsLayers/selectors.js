@@ -14,11 +14,11 @@ const getLayers = createSelector(
 	[getAll, Scope.getActiveScopeKey, Period.getPeriods],
 	(layers, activeScopeKey, periods) => {
 		layers =  _.filter(layers, layer => {
-			return layer.scope === activeScopeKey;
+			return layer.data.scope === activeScopeKey;
 		});
 		return _.map(layers, layer => {
-			if (layer.periods && layer.periods.length) {
-				let layerPeriods = _.map(layer.periods, layerPeriod => {
+			if (layer.data.periods && layer.data.periods.length) {
+				let layerPeriods = _.map(layer.data.periods, layerPeriod => {
 					if (_.isNumber(layerPeriod) && periods && periods.length) {
 						// metadata period key
 						let period = _.find(periods, {key: layerPeriod});
@@ -34,6 +34,20 @@ const getLayers = createSelector(
 			}
 			return layer;
 		});
+	}
+);
+
+const getLayersWithGetDate = createSelector(
+	[getAll],
+	(layers) => {
+		if (layers && layers.length){
+			let filteredLayers = _.filter(layers, (layer) => {
+				return !!layer.data.get_date;
+			});
+			return filteredLayers.length ? filteredLayers : null;
+		} else {
+			return null;
+		}
 	}
 );
 
@@ -80,5 +94,8 @@ export default {
 	getLayers,
 	getLayersWithAoiPeriods,
 	getLayersWithPlacePeriods,
-	getLayersWithLpisCasePeriods
+	getLayersWithLpisCasePeriods,
+
+	getLayersWithGetDate,
+	getSubstate
 };

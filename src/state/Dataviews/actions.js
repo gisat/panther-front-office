@@ -132,6 +132,8 @@ function initialMetadataLoad (){
 					} else {
 						dispatch(Action.places.initializeForExt());
 					}
+
+					dispatch(Action.wmsLayers.loadFilteredFromOldEndpoint({scope: data.dataset}));
 				})
 				.catch(error => {
 					throw new Error(error);
