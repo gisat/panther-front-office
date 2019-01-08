@@ -126,7 +126,8 @@ Ext.define('PumaMain.controller.ViewMng', {
         store.addWithSlaves(rec);
         if (isView) {
         	var id = rec.get('_id');
-            var url = window.location.origin+window.location.pathname+'?id='+id;
+			var url = window.location.origin+window.location.pathname+'?id='+id;
+			this.showUrl(url, group, user, language);
 			Stores.notify('sharing#urlReceived', {
 				dataviewId: Number(id),
 				url: url
@@ -148,7 +149,8 @@ Ext.define('PumaMain.controller.ViewMng', {
 
 	showUrl: function(baseUrl, selectedGroup, selectedUser, language){
 		let auth = "&needLogin=true";
-		if (Config.auth && selectedGroup.value === '2'){
+		const isLoggedIn = stateStore.current().user.isLoggedIn;
+		if (isLoggedIn && selectedGroup.value === '2'){
 			auth = "";
 		}
 		let url = baseUrl + auth +'&lang=' + language.value;
