@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Select from '../../../../state/Select';
 import Action from "../../../../state/Action";
 import { connect } from 'react-redux';
-
+import classNames from 'classnames';
 
 import Button from '../../../presentation/atoms/Button';
 
@@ -11,7 +11,7 @@ import Button from '../../../presentation/atoms/Button';
 const mapStateToProps = (state, props) => {
     
     return {
-        floaterVisible: Select.components.windows.isWindowOpen(state, {key: 'share'})
+        floaterVisible: Select.components.windows.isWindowOpen(state, {key: 'share'}),
 	}
 };
 
@@ -40,10 +40,13 @@ class ShareButton extends React.PureComponent{
     }
 
     render () {
+        const classes = classNames('header-button', {'secondary': this.props.floaterVisible});
         return (
-            <Button onClick={this.onButtonClick}>
-                <i className={'fa fa-share-alt'}>
-                </i>
+            <Button onClick={this.onButtonClick} className={classes}>
+                <span>
+                    <i className={'fa fa-share-alt'}>
+                    </i>
+                </span>
             </Button>
         )
     }

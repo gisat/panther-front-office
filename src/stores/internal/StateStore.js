@@ -451,7 +451,7 @@ class StateStore {
             this._selectedMapId = options.id;
         } else if (type === Actions.userChanged){
             this.updateUser(options);
-            this._dispatcher.notify('customization#userChanged');
+            this._dispatcher.notify('customization#userChanged', options);
         } else if (type === Actions.dataviewWithoutAoi){
             this._withoutAoi = options.status;
         }
