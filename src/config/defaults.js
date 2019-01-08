@@ -18,7 +18,7 @@ export default {
 	apiGeoserverWMSHost: 'localhost',
 	apiGeoserverWMSPath: 'geoserver/wms',
 
-	apiGeoserverOWSPath: 'geoserver/geonode/ows',
+	apiGeoserverOWSPath: 'backend/geoserver/ows',
 
 	apiBackendProtocol: 'http',
 	apiBackendHost: 'localhost',
