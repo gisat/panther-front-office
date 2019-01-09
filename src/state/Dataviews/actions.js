@@ -108,11 +108,19 @@ function initialMetadataLoad (){
 			dispatch(Action.scopes.loadForKeys([data.dataset]))
 				.then(() => {
 					dispatch(Action.scopes.setActiveKey(data.dataset));
+					dispatch(Action.wmsLayers.loadFilteredFromOldEndpoint({scope: data.dataset}));
+
 					let activeScopeConfig = Select.scopes.getActiveScopeConfiguration(getState());
 
 					if (activeScopeConfig && activeScopeConfig.hasOwnProperty(`dromasLpisChangeReview`)){
 						dispatch(Action.specific.lpisChangeReviewCases.loadCaseForActiveView()).then(() => {
 							dispatch(Action.specific.lpisChangeReviewCases.setActiveCaseByActiveView());
+						});
+					}
+
+					if (activeScopeConfig && activeScopeConfig.hasOwnProperty(`lpisCheckReview`)){
+						dispatch(Action.specific.lpisCheckCases.loadCaseForActiveView()).then(() => {
+							dispatch(Action.specific.lpisCheckCases.setActiveCaseByActiveView());
 						});
 					}
 
@@ -133,8 +141,6 @@ function initialMetadataLoad (){
 					} else {
 						dispatch(Action.places.initializeForExt());
 					}
-
-					dispatch(Action.wmsLayers.loadFilteredFromOldEndpoint({scope: data.dataset}));
 				})
 				.catch(error => {
 					throw new Error(error);

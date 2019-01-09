@@ -7,6 +7,7 @@ import config from '../../../config';
 import _ from 'lodash';
 import path from 'path';
 import fetch from 'isomorphic-fetch';
+import LayerPeriods from "../../LayerPeriods/actions";
 
 // ============ creators ===========
 
@@ -72,6 +73,13 @@ function _storeResponseContent(content) {
 function setActive(caseKey) {
 	return (dispatch, getState) => {
 		dispatch(actionSetActive(caseKey));
+
+		let state = getState();
+		let cases = Select.specific.lpisCheckCases.getCases(state);
+		let lpisCase = _.find(cases, {key: caseKey});
+		if (lpisCase && lpisCase.data && lpisCase.data.geometry) {
+			dispatch(LayerPeriods.loadForKey('lpisCase' + lpisCase.key, lpisCase.data.geometry));
+		}
 	}
 }
 
@@ -172,11 +180,11 @@ function loadCaseForActiveView() {
 		return Promise
 			.resolve()
 			.then(() => {
-				if (activeScope.configuration && activeScope.configuration.dromasLpisChangeReview) {
-					return dispatch(loadFiltered({view_id: Number(activeViewKey)}));
+				if (activeScope.data.configuration && activeScope.data.configuration.lpisCheckReview) {
+					return dispatch(loadFiltered({dataview_key: Number(activeViewKey)}));
 				}
-				if (activeScope.configuration && activeScope.configuration.headerComponent === 'LPISCheck') {
-					return dispatch(loadFiltered({view_id: Number(activeViewKey)}));
+				if (activeScope.data.configuration && activeScope.data.configuration.headerComponent === 'LPISCheck') {
+					return dispatch(loadFiltered({dataview_key: Number(activeViewKey)}));
 				}
 			});
 	}
@@ -185,7 +193,6 @@ function loadCaseForActiveView() {
 function setActiveCaseByActiveView() {
 	return (dispatch, getState) => {
 		let state = getState();
-		let activeViewKey = Select.dataviews.getActiveKey(state);
 		let caseByActiveView = Select.specific.lpisCheckCases.getCaseByActiveView(state);
 		if (caseByActiveView) {
 			dispatch(Action.specific.lpisCheckCases.setActive(caseByActiveView.key));
