@@ -101,10 +101,10 @@ Ext.define('PumaMain.controller.ViewMng', {
 
 			const promises = []
 			if(options.group.value && options.group.value !== 'null') {
-				promises.push(store.users.share(options.group.value, options.state.scope, options.state.places, rec.data._id));
+				promises.push(store.groups.share(options.group.value, options.state.scope, options.state.places, rec.data._id));
 			}
 			if(options.user.value && options.user.value !== 'null') {
-				promises.push(store.users.share(options.user.value, options.state.scope, options.state.places, rec.data._id));
+				promises.push(store.user.share(options.user.value, options.state.scope, options.state.places, rec.data._id));
 			}
 			Promise.all(promises).then(() => {
 				this.onSaveFinish(rec, operation, options.group, options.user, options.language);
