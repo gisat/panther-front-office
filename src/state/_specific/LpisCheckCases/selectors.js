@@ -14,7 +14,8 @@ const getFilterSearch = state => state.specific.lpisCheckCases.searchString;
 const getChanges = state => state.specific.lpisCheckCases.changes;
 const getSearchString = state => state.specific.lpisCheckCases.searchString;
 const getActiveCaseKey = state => state.specific.lpisCheckCases.activeCaseKey;
-const getActiveViewKey = state => state.specific.dataviews.activeKey;
+const getActiveViewKey = state => state.dataviews.activeKey;
+const getSubstate = state => state.specific.lpisCheckCases;
 
 const getFilterParams = state => ({
 	filterVisited: getFilterVisited(state),
@@ -138,12 +139,7 @@ const getNextCaseKey = createSelector(
 const getCaseByActiveView = createSelector(
 	[getActiveViewKey, getCases],
 	(activeViewKey, cases) => {
-		//FIXME
-		return cases[0]
-		return _.find(cases, (oneCase) => {
-			//FIXME - data musí toto obsahovat!!
-			return oneCase.data.view_id === activeViewKey;
-		})
+		return cases.find(oneCase => parseInt(oneCase.data.dataview_key) === parseInt(activeViewKey));
 	}
 );
 
@@ -183,6 +179,7 @@ const filterByConditions = (items, conditions, filter) => {
 
 export default {
 	getCases: getCases,
+	getSubstate,
 	getFilterVisited,
 	getFilterConfirmed,
 	getFilterSearch,
