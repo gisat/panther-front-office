@@ -293,11 +293,16 @@ html.urban-tep .intro-screen-title {
 	padding: 10px 8px;
 }
 .pucs.newDesign #header-view-selection {
-	padding-left: 35px;
+	padding: 7px 0 0 35px;
 }
-
+.pucs.newDesign #header-view-selection > div {
+	display: flex;
+}
 .pucs.newDesign .ptr-view-selection-container {
 	align-items: flex-end;
+}
+.pucs.newDesign .ptr-view-selection-container:first-child {
+	flex: 1;
 }
 
 /* top-tool-bar */
