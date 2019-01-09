@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ScreenAnimator from "../../ScreenAnimator/ScreenAnimator";
 import Window from "../../../containers/Window";
-import ShareForm from "../../../containers/controls/share/ShareForm"
+import ShareForm from "../../../containers/controls/share/ShareForm";
+
+import './style.css';
 
 let polyglot = window.polyglot;
 class ShareWindow extends React.PureComponent{
