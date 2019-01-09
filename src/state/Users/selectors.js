@@ -14,6 +14,7 @@ const getAll = common.getAll(getSubstate);
 const getGroups = common.getAll(getGroupsSubstate);
 const getActiveKey = common.getActiveKey(getSubstate);
 const getActive = common.getActive(getSubstate);
+const getByKey = common.getByKey(getSubstate);
 
 const isLoggedIn = state => !!state.users.activeKey;
 const isAdmin = state => state.users.isAdmin;
@@ -101,6 +102,8 @@ export default {
 	getAll,
 
 	getActive,
+	getByKey,
+
 	getActiveKey: getActiveKey,
 	getActiveUser: getActive,
 	getGroupKeysForActiveUser: getGroupKeysForActiveUser,

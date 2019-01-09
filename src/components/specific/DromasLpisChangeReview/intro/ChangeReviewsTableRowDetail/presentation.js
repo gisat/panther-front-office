@@ -5,153 +5,45 @@ import _ from 'lodash';
 import moment from 'moment';
 import utils from '../../../../../utils/utils';
 
-import Button from '../../../atoms/Button';
-import ExpandRowButton from '../../../atoms/ExpandRowButton';
-import Icon from '../../../atoms/Icon';
-import Menu, {MenuItem} from "../../../atoms/Menu";
+import Button from '../../../../presentation/atoms/Button';
+import ExpandRowButton from '../../../../presentation/atoms/ExpandRowButton';
+import Icon from '../../../../presentation/atoms/Icon/index';
+import Menu, {MenuItem} from "../../../../presentation/atoms/Menu";
 
 import LpisCaseStatuses, {evaluationConclusions as LpisEvaluation} from '../../../../../constants/LpisCaseStatuses';
 
-class ChangeReviewsTableRow extends React.PureComponent {
+class ChangeReviewsTableRowDetail extends React.PureComponent {
 
 	static propTypes = {
-		caseKey: PropTypes.number,
-		changes: PropTypes.array,
-		createdBy: PropTypes.number,
+		createdByData: PropTypes.object,
+		updatedByData: PropTypes.object,
 		data: PropTypes.object,
-		highlightedCaseKey: PropTypes.string,
 		highlightedChangeDescription: PropTypes.string,
+		onInvalidateClick: PropTypes.func,
+		onMount: PropTypes.func,
+		onUnmount: PropTypes.func,
 		status: PropTypes.string,
-		updated: PropTypes.string,
-		showCase: PropTypes.func,
-		invalidateCase: PropTypes.func,
-		userGroup: PropTypes.string,
-		users: PropTypes.array,
-		updatedBy: PropTypes.number,
-		loadUsers: PropTypes.func
+		userGroup: PropTypes.string
 	};
 
 	constructor(props){
 		super(props);
-
-		this.state = {
-			detailsOpen: false
-		};
-
-		this.onDetailsClick = this.onDetailsClick.bind(this);
-		this.onShowClick = this.onShowClick.bind(this);
-		this.onInvalidateClick = this.onInvalidateClick.bind(this);
 	}
 
-	onShowClick() {
-		this.props.showCase(this.props.caseKey);
+	componentDidMount(){
+		this.props.onMount();
 	}
 
-	onInvalidateClick() {
-		this.props.invalidateCase(this.props.caseKey);
-	}
-
-	onDetailsClick(){
-		this.setState({
-			detailsOpen: !this.state.detailsOpen
-		});
+	componentWillUnmount(){
+		this.props.onUnmount();
 	}
 
 	render(){
-		let classes = classNames("ptr-table-row", {
-			active: this.state.detailsOpen
-		});
-
-		let submitDate = moment(this.props.data.submit_date).format("D. M. YYYY");
-		let updated = moment(this.props.updated).format("D. M. YYYY");
-		let showMapButton = this.renderShowMapButton();
-
-		return (
-			<div className={classes}>
-				<div className="ptr-table-row-record">
-					{this.renderStatus()}
-					{this.renderCaseKey()}
-					<div className="ptr-table-row-item">{submitDate}</div>
-					<div className="ptr-table-row-item">{updated}</div>
-					<div className="ptr-table-row-item buttons">
-						<div className="ptr-table-row-action">
-							{showMapButton}
-						</div>
-						<ExpandRowButton
-							invisible
-							expanded={this.state.detailsOpen}
-							onClick={this.onDetailsClick}
-						/>
-					</div>
-				</div>
-				{this.renderDetails()}
-			</div>
-		);
-	}
-
-	renderStatus(){
-		let status = LpisCaseStatuses[this.props.status];
-		let caption = null;
-		let colour = null;
-		let opacity = status.database === 'CLOSED' ? 0 : null;
-		if (this.props.userGroup === 'gisatUsers' || this.props.userGroup === 'gisatAdmins') {
-			caption = status.gisatName;
-			colour = status.gisatColour || status.colour;
-		} else {
-			caption = status.szifName;
-			colour = status.colour;
-		}
-
-		return (
-			<div className="ptr-table-row-item state">
-				<Icon icon="circle" color={colour} opacity={opacity}/>
-				{caption}
-			</div>
-		);
-	}
-
-	renderCaseKey(){
-		return this.props.highlightedCaseKey ? (
-			<div dangerouslySetInnerHTML={{__html: this.props.highlightedCaseKey}} className="ptr-table-row-item highlighted"></div>
-		) : (
-			<div className="ptr-table-row-item">{this.props.data.case_key}</div>
-		);
-	}
-
-	renderShowMapButton(){
-		let status = LpisCaseStatuses[this.props.status];
-		let group = this.props.userGroup;
-
-		let renderButton = group && (
-			(group === "gisatAdmins" || group === "gisatUsers") || (
-				(group === "szifAdmins" || group === "szifUsers") &&
-				status &&
-				(status.database === "EVALUATION_APPROVED" || status.database === "CLOSED")
-			)
-		);
-
-		return renderButton ? (
-			<Button
-				small
-				onClick={this.onShowClick}
-			>
-				Zobrazit
-			</Button>
-		) : null;
-	}
-
-	renderDetails(){
-		let classes = classNames(
-			"ptr-table-row-details ptr-change-reviews-table-details", {
-				open: this.state.detailsOpen
-			}
-		);
-
 		let group = this.props.userGroup;
 		let data = this.props.data;
 
 		return (
-			data ? (<div className={classes}>
+			data ? (<div className="ptr-table-row-details ptr-change-reviews-table-details open">
 				<div className={"ptr-change-reviews-table-details-top-bar"}>
 					<div>
 						{data.code_dpb ? this.renderCodeDpb(data.code_dpb) : null}
@@ -182,7 +74,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 	renderEvaluationResults(data){
 		if (this.props.status === 'CREATED' || (
 			(this.props.userGroup === 'szifUsers' || this.props.userGroup === 'szifAdmins') && (this.props.status === 'EVALUATION_CREATED')
-			)
+		)
 		){
 			return null;
 		} else {
@@ -203,7 +95,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 			return (
 				<Button invisible icon="dots">
 					<Menu bottom left>
-						<MenuItem onClick={this.onInvalidateClick}>Zneplatnit záznam řízení</MenuItem>
+						<MenuItem onClick={this.props.onInvalidateClick}>Zneplatnit záznam řízení</MenuItem>
 					</Menu>
 				</Button>
 			);
@@ -231,8 +123,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 	}
 
 	renderLastChange(){
-		let user = _.find(this.props.users, (user) => user.key === this.props.updatedBy);
-		let userName = user ? user.name : "";
+		let userName = this.props.updatedByData ? this.props.updatedByData.data.name : null;
 		return (
 			<div className={"ptr-change-reviews-table-details-record last-changed"}>
 				<h4>Poslední změna</h4>
@@ -242,8 +133,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 	}
 
 	renderCreatedBy(){
-		let user = _.find(this.props.users, (user) => user.key === this.props.createdBy);
-		let userName = user ? user.name : "";
+		let userName = this.props.createdByData ? this.props.createdByData.data.name : null;
 		return (
 			<div className={"ptr-change-reviews-table-details-record created-by"}>
 				<h4>Zadal</h4>
@@ -323,4 +213,4 @@ class ChangeReviewsTableRow extends React.PureComponent {
 	}
 }
 
-export default ChangeReviewsTableRow;
+export default ChangeReviewsTableRowDetail;

@@ -2,11 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import Button from '../../../atoms/Button';
+import Button from '../../../../presentation/atoms/Button';
 import ChangeReviewsTableRow from './ChangeReviewsTableRow';
 import {statusesOptionsGisatAdmins, statusesOptionsGisatUsers, statusesOptionsSzif} from '../../../../../constants/LpisCaseStatuses';
-import Icon from '../../../atoms/Icon';
-import UISelect from "../../../atoms/UISelect/UISelect";
+import Icon from '../../../../presentation/atoms/Icon/index';
+import UISelect from "../../../../presentation/atoms/UISelect/UISelect";
 
 import './ChangeReviewsTable.css';
 

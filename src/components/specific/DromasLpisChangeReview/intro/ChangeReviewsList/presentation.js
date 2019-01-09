@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 
 import Button from "../../../../presentation/atoms/Button";
-import ChangeReviewsTable from "../../../../presentation/controls/changeReviews/ChangeReviewsTable/ChangeReviewsTable";
+import ChangeReviewsTable from "../ChangeReviewsTable/ChangeReviewsTable";
 import Icon from "../../../../presentation/atoms/Icon";
 import InputText from "../../../../presentation/atoms/Input/Input";
 

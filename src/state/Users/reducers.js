@@ -42,6 +42,8 @@ export default (state = INITIAL_STATE, action) => {
 			return common.setActive(state, action);
 		case ActionTypes.USERS.USE.KEYS.CLEAR:
 			return common.useKeysClear(state, action);
+		case ActionTypes.USERS.USE.KEYS.REGISTER:
+			return common.useKeysRegister(state, action);
 		case ActionTypes.COMMON.DATA.SET_OUTDATED:
 			//set outdated for users and users.groups
 			return {...common.dataSetOutdated(state, action), groups: common.dataSetOutdated(state.groups, action)};
