@@ -228,7 +228,7 @@ export default {
 		if (state.byKey){
 			let byKey = {};
 			_.each(state.byKey, (model, key) => {
-				if(model.permissions.guest.get) {
+				if(model.permissions && model.permissions.guest.get) {
 					byKey[key] = {
 						...model,
 						permissions: {
