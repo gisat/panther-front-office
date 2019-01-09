@@ -152,11 +152,9 @@ function redirectToActiveCaseView() {
 	return (dispatch, getState) => {
 		let state = getState();
 		let activeCase = Select.specific.lpisCheckCases.getActiveCase(state);
-		// let view = _.find(Select.views.getViews(state), {key: activeCase.data.view_id});
+		let views = Select.dataviews.getViews(state);
+		const view = views.find(view => view.key === parseInt(activeCase.data.dataview_key));
 
-		// FIXME 
-		let view = _.find(Select.views.getViews(state), {key: 5501});
-		
 		dispatch(Action.components.redirectToView({...view.data, key: view.key}));
 	}
 }
