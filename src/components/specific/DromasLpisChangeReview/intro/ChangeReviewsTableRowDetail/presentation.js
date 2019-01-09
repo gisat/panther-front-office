@@ -48,8 +48,8 @@ class ChangeReviewsTableRowDetail extends React.PureComponent {
 					<div>
 						{data.code_dpb ? this.renderCodeDpb(data.code_dpb) : null}
 						{data.code_ji ? this.renderCodeJi(data.code_ji) : null}
-						{this.renderCreatedBy()}
-						{group && (group === "gisatAdmins" || group === "gisatUsers") ? (this.renderLastChange()
+						{this.props.createdByData ? this.renderCreatedBy(this.props.createdByData.data.name) : null}
+						{group && (group === "gisatAdmins" || group === "gisatUsers") && this.props.updatedByData ? (this.renderLastChange(this.props.updatedByData.data.name)
 						):null}
 					</div>
 					<div>
@@ -122,8 +122,7 @@ class ChangeReviewsTableRowDetail extends React.PureComponent {
 		);
 	}
 
-	renderLastChange(){
-		let userName = this.props.updatedByData ? this.props.updatedByData.data.name : null;
+	renderLastChange(userName){
 		return (
 			<div className={"ptr-change-reviews-table-details-record last-changed"}>
 				<h4>Poslední změna</h4>
@@ -132,8 +131,7 @@ class ChangeReviewsTableRowDetail extends React.PureComponent {
 		);
 	}
 
-	renderCreatedBy(){
-		let userName = this.props.createdByData ? this.props.createdByData.data.name : null;
+	renderCreatedBy(userName){
 		return (
 			<div className={"ptr-change-reviews-table-details-record created-by"}>
 				<h4>Zadal</h4>
