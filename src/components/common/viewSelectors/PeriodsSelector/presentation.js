@@ -4,6 +4,8 @@ import UISelect from '../../../presentation/atoms/UISelect'
 import classNames from 'classnames';
 import _ from 'lodash';
 
+let polyglot = window.polyglot;
+
 class PeriodsSelector extends React.PureComponent {
 
 	static propTypes = {
@@ -17,8 +19,7 @@ class PeriodsSelector extends React.PureComponent {
 	};
 
 	static defaultProps = {
-		places: null,
-		label: "Periods",
+		places: null
 	};
 
 	constructor(props) {
@@ -88,7 +89,7 @@ class PeriodsSelector extends React.PureComponent {
 				clearable={false}
 				classes={classes}
 				label='left'
-				name={this.props.label}
+				name={polyglot.t('theme')}
 				onChange={this.onChangePeriods}
 				options={options}
 				placeholder=''

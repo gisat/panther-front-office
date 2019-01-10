@@ -15,6 +15,8 @@ import CaseDetailWorldWindMap from '../../../../presentation/maps/CaseDetailWorl
 import './CaseDetail.css';
 import Names from "../../../../../constants/Names";
 
+let polyglot = window.polyglot;
+
 class CaseDetail extends React.PureComponent {
 
 	static propTypes = {
@@ -231,8 +233,8 @@ class CaseDetail extends React.PureComponent {
 					<div>
 						<Button icon="dots" invisible>
 							<Menu bottom left>
-								<MenuItem disabled={!this.props.enableEdit} onClick={this.activateCaseEditing}><Icon icon="edit"/> Edit</MenuItem>
-								{this.props.enableDelete ? <MenuItem onClick={this.deleteCase.bind(this,name)}><Icon icon="delete" /> Delete</MenuItem> : null}
+								<MenuItem disabled={!this.props.enableEdit} onClick={this.activateCaseEditing}><Icon icon="edit"/> {polyglot.t('edit')}</MenuItem>
+								{this.props.enableDelete ? <MenuItem onClick={this.deleteCase.bind(this,name)}><Icon icon="delete" /> {polyglot.t('delete')}</MenuItem> : null}
 							</Menu>
 						</Button>
 					</div>
@@ -242,7 +244,7 @@ class CaseDetail extends React.PureComponent {
 						disabled={!this.state.caseEditingActive || this.state.disableCaseEditing}
 						large
 						value={name}
-						placeholder="Case title"
+						placeholder={polyglot.t('caseTitle')}
 						onChange={this.onChangeName}
 						editing={this.state.caseEditingActive}
 					/>
@@ -251,7 +253,7 @@ class CaseDetail extends React.PureComponent {
 					<EditableText
 						disabled={!this.state.caseEditingActive  || this.state.disableCaseEditing}
 						value={description}
-						placeholder="Description"
+						placeholder={polyglot.t('description')}
 						onChange={this.onChangeDescription}
 						editing={this.state.caseEditingActive}
 					/>
@@ -264,7 +266,7 @@ class CaseDetail extends React.PureComponent {
 			<div className="case-detail-body">
 				{defaultState}
 				{scenarios}
-				{this.props.enableCreate ? (<Center horizontally><Button id="add-scenario-button" ref={(btn) => {this.AddScenario = btn }} icon="plus" onClick={this.addScenario}>{Names.SCENARIOS_ADD_SCENARIO_BUTTON_TEXT}</Button></Center>) : null}
+				{this.props.enableCreate ? (<Center horizontally><Button id="add-scenario-button" ref={(btn) => {this.AddScenario = btn }} icon="plus" onClick={this.addScenario}>{polyglot.t('addScenario')}</Button></Center>) : null}
 			</div>
 		);
 
@@ -306,7 +308,7 @@ class CaseDetail extends React.PureComponent {
 
 		return (
 			<div className="ptr-case-detail-map">
-				<div>Extent:</div>
+				<div>{polyglot.t('extent')}</div>
 				<CaseDetailWorldWindMap
 					bbox={caseBbox}
 					caseGeometry={caseGeometry}
@@ -315,7 +317,7 @@ class CaseDetail extends React.PureComponent {
 					activeBackgroundLayerKey={this.props.activeBackgroundLayerKey}
 				/>
 				<div className="ptr-case-detail-map-help">
-					Click to set top-left then bottom-right corner.
+					{polyglot.t('caseMapExtentInfo')}
 				</div>
 			</div>
 		);
@@ -341,16 +343,16 @@ class CaseDetail extends React.PureComponent {
 		return (
 			<div className="ptr-case-detail-buttons">
 				{saveButton ? (
-					<Button key="save" onClick={this.save} primary>Save</Button>
+					<Button key="save" onClick={this.save} primary>{polyglot.t('save')}</Button>
 				) : null}
 				{revertButton ? (
-					<Button key="revert" onClick={this.revertEditing}>Revert</Button>
+					<Button key="revert" onClick={this.revertEditing}>{polyglot.t('revert')}</Button>
 				) : null}
 				{discardButton ? (
-					<Button key="discard" onClick={this.discard}>Discard</Button>
+					<Button key="discard" onClick={this.discard}>{polyglot.t('discard')}</Button>
 				) : null}
 				{cancelButton ? (
-					<Button key="cancel" onClick={this.cancel}>Cancel</Button>
+					<Button key="cancel" onClick={this.cancel}>{polyglot.t('cancel')}</Button>
 				) : null}
 			</div>
 		);

@@ -8,6 +8,8 @@ import Icon from '../atoms/Icon';
 
 import './Window.css';
 
+let polyglot = window.polyglot;
+
 const DEFAULT_FLOATER_WIDTH = 500;
 const DEFAULT_FLOATER_HEIGHT = 600;
 const DEFAULT_FLOATER_X = 100;
@@ -184,21 +186,21 @@ class PantherWindow extends React.PureComponent {
 		if (this.props.expandable && !this.state.expanded){
 			expandedSwitch = (<div
 				className="ptr-window-tool window-expand"
-				title="Maximize"
+				title={polyglot.t('maximise')}
 				onClick={this.onExpand.bind(this)}
 			><Icon icon="expand"/></div>);
 		}
 		if (this.props.floatable && !this.state.floating){
 			floatingSwitch = (<div
 				className="ptr-window-tool window-shrink"
-				title="Float"
+				title={polyglot.t('float')}
 				onClick={this.onFloat.bind(this)}
 			><Icon icon="restore"/></div>);
 		}
 		if (this.props.dockable && !this.state.docked){
 			dockingSwitch = (<div
 				className="ptr-window-tool window-dock"
-				title="Dock"
+				title={polyglot.t('dock')}
 				onClick={this.onDock.bind(this)}
 			><Icon icon="pushpin"/></div>);
 		}
@@ -214,7 +216,7 @@ class PantherWindow extends React.PureComponent {
 					{expandedSwitch}
 					<div
 						className="ptr-window-tool window-close"
-						title="Close"
+						title={polyglot.t('close')}
 						onClick={this.props.onClose}
 					>{'\u2716'}</div>
 				</div>

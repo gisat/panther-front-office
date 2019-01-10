@@ -1,17 +1,10 @@
 export default {
-	EDITABLE_TEXT_REQUIRED_FIELD_MESSAGE: 'This field is required!',
-
 	INTRO_DEFAULT_TITLE: 'Panther Data Exploration',
 
 	SCENARIO_CASES_SAVE_CONFIRM_MESSAGE: 'Do you really want to save all changes?',
 	SCENARIO_CASES_SAVE_MISSING_METADATA_ALERT_MESAGE: 'Fill out a name of every edited scenario!',
 	SCENARIO_CASES_DELETE_CONFIRM_MESSAGE: 'Do you really want to delete case?',
 	SCENARIO_CASES_DELETE_ERROR_MESSAGE: 'Case was not deleted!',
-
-	SCENARIOS_ADD_CASE_BUTTON_TEXT: 'Create case',
-	SCENARIOS_ADD_SCENARIO_BUTTON_TEXT: 'Add scenario',
-
-	SCENARIOS_DEFAULT_SITUATION_NAME: 'Default state',
 
 	SCENARIOS_DELETE_CONFIRM_MESSAGE: 'Do you really want to delete scenario?',
 
@@ -25,7 +18,6 @@ export default {
 	SCENARIOS_PROCESSING_FILE_SUCCESS_MESSAGE: 'File was processed successfully!',
 
 	VIEWS_DELETE_CONFIRM_MESSAGE: 'Do you really want to delete view?',
-	VIEWS_OVERLAY_INTRO_ITEM_NAME: 'About',
 	VIEWS_NO_VIEW_FOR_SCOPE: 'There is no view for selected scope. Try to log in.',
 
 	// temporary

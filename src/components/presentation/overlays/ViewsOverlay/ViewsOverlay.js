@@ -3,12 +3,11 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 
-import Names from "../../../../constants/Names";
-
 import ScopeIntroSwitch from '../../../containers/ScopeIntroSwitch';
 import User from '../../../common/controls/User';
 
 import './ViewsOverlay.css';
+let polyglot = window.polyglot;
 
 class ViewsOverlay extends React.PureComponent {
 
@@ -102,10 +101,11 @@ class ViewsOverlay extends React.PureComponent {
 	}
 
 	renderAboutItem(){
+		const introName = polyglot.t('aboutPlatform');
 		let classes = classNames("scopes-list-item", {
 			"active": !this.props.selectedScope
 		});
-		return <div className={classes} onClick={this.selectScope.bind(this, null)}>{this.props.intro.name}</div>
+		return <div className={classes} onClick={this.selectScope.bind(this, null)}>{this.props.intro.name ? this.props.into.name : introName}</div>
 	}
 }
 

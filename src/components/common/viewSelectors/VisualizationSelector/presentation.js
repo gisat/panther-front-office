@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import UISelect from '../../../presentation/atoms/UISelect'
 import classNames from 'classnames';
+let polyglot = window.polyglot;
 
 class VisualizationSelector extends React.PureComponent {
 
@@ -14,8 +15,7 @@ class VisualizationSelector extends React.PureComponent {
 	};
 
 	static defaultProps = {
-		places: null,
-		label: "Visualization",
+		places: null
 	};
 
 	constructor(props) {
@@ -64,7 +64,7 @@ class VisualizationSelector extends React.PureComponent {
 					clearable={false}
 					classes={classes}
 					label='left'
-					name={this.props.label}
+					name={polyglot.t('visualization')}
 					onChange={this.onChangeVisualization}
 					options={options}
 					placeholder=''

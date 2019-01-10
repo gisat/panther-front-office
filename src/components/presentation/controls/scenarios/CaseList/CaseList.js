@@ -9,6 +9,8 @@ import './CaseList.css'
 import Button from '../../../atoms/Button';
 import Names from '../../../../../constants/Names';
 
+let polyglot = window.polyglot;
+
 class CaseList extends React.PureComponent {
 
 	static propTypes = {
@@ -51,7 +53,7 @@ class CaseList extends React.PureComponent {
 			});
 			let editedScenario = false;
 			let scenariosCount = 0;
-			let scenariosText = "scenario";
+			let scenariosText = polyglot.t('scenario');
 
 			if (caseData.data && caseData.data.scenarios){
 				caseData.data.scenarios.map(caseScenario => {
@@ -65,7 +67,7 @@ class CaseList extends React.PureComponent {
 				});
 				scenariosCount = caseData.data.scenarios.length;
 				if (scenariosCount > 1){
-					scenariosText = "scenarios";
+					scenariosText = polyglot.t('scenarios');
 				}
 			}
 
@@ -79,7 +81,7 @@ class CaseList extends React.PureComponent {
 					<h4>{caseData.data.name}</h4>
 					<div className='case-list-item-footer'>
 						<span className='case-list-item-footer-scenarios'>{scenariosCount} {scenariosText}</span>
-						<span className='case-list-item-footer-editing'>Unsaved editing</span>
+						<span className='case-list-item-footer-editing'>{polyglot.t('unsavedEditing')}</span>
 					</div>
 				</div>);
 		});
@@ -93,7 +95,7 @@ class CaseList extends React.PureComponent {
 					icon="plus"
 					onClick={this.showDetail.bind(this, null)}
 					id="ptr-case-list-add-case-button"
-				>{Names.SCENARIOS_ADD_CASE_BUTTON_TEXT}</Button>
+				>{polyglot.t('createCase')}</Button>
 			);
 		}
 

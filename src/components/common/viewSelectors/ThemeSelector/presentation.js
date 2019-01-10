@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import UISelect from '../../../presentation/atoms/UISelect'
 import classNames from 'classnames';
 
+let polyglot = window.polyglot;
+
 class ThemeSelector extends React.PureComponent {
 
 	static propTypes = {
@@ -15,7 +17,6 @@ class ThemeSelector extends React.PureComponent {
 
 	static defaultProps = {
 		places: null,
-		label: "Theme",
 	};
 
 	constructor(props) {
@@ -62,7 +63,7 @@ class ThemeSelector extends React.PureComponent {
 				clearable={false}
 				classes={classes}
 				label='left'
-				name={this.props.label}
+				name={polyglot.t('theme')}
 				onChange={this.onChangeTheme}
 				options={options}
 				placeholder=''

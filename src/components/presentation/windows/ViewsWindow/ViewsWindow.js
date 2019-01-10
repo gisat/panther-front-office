@@ -8,6 +8,8 @@ import ScopeIntroSwitch from "../../../containers/ScopeIntroSwitch";
 
 import "./ViewsWindow.css";
 
+let polyglot = window.polyglot;
+
 class ViewsWindow extends React.PureComponent {
 
 	static propTypes = {
@@ -18,7 +20,7 @@ class ViewsWindow extends React.PureComponent {
 		return (
 			<Window
 				window="views"
-				name="Views"
+				name={polyglot.t('views')}
 				minWidth={600}
 				width={800}
 				elementId="views-window"

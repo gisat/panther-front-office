@@ -39,7 +39,7 @@ const INITIAL_STATE = {
 		},
 		views: {
 			intro: {
-				name: config && config.name ? config.name : Names.VIEWS_OVERLAY_INTRO_ITEM_NAME,
+				name: config && config.name ? config.name : null,
 				title: config && config.title ? config.title : Names.INTRO_DEFAULT_TITLE,
 				text: config && config.text ? config.text : "",
 				logo: config && config.logo ? {source: config.logo.source} : null,

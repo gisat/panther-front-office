@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import UISelect from '../atoms/UISelect'
 import classNames from 'classnames';
 
+let polyglot = window.polyglot;
+
 class PlaceSelector extends React.PureComponent {
 
 	static propTypes = {
@@ -13,13 +15,11 @@ class PlaceSelector extends React.PureComponent {
 		onMount: PropTypes.func,
 		label: PropTypes.string,
 		homeLink: PropTypes.bool,
-		homeLinkLabel: PropTypes.string,
 		classes: PropTypes.string
 	};
 
 	static defaultProps = {
 		places: null,
-		label: "Place",
 		homeLinkLabel: "Home"
 	};
 
@@ -46,13 +46,14 @@ class PlaceSelector extends React.PureComponent {
 	}
 
 	render() {
+		const place = polyglot.t('place');
 		let content = null;
 
 		if (this.props.disabledHard){
 
 			if (this.props.activePlace && this.props.activePlace.data) {
 				content = (
-					<div className="ptr-aoi-selected"><span>{this.props.label}:</span>{this.props.activePlace.data.name}</div>
+					<div className="ptr-aoi-selected"><span>{place}:</span>{this.props.activePlace.data.name}</div>
 				);
 			} // else keep null
 
@@ -91,7 +92,7 @@ class PlaceSelector extends React.PureComponent {
 					clearable={false}
 					classes={classes}
 					label='left'
-					name={this.props.label}
+					name={place}
 					onChange={this.onChangePlace}
 					options={options}
 					placeholder=''

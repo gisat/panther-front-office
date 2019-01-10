@@ -8,7 +8,9 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
 import Icon from '../../../atoms/Icon';
-import './MapEditingTools.css'
+import './MapEditingTools.css';
+
+let polyglot = window.polyglot;
 
 class MapEditingTools extends React.PureComponent {
 
@@ -56,7 +58,7 @@ class MapEditingTools extends React.PureComponent {
 				</div>
 				<div className="map-editing-tools-content" style={contentStyle}>
 					<div className="map-editing-tool">
-						<div className="map-editing-tool-header">Opacity</div>
+						<div className="map-editing-tool-header">{polyglot.t('opacity')}</div>
 						<div className="map-editing-tool-body">
 							<Slider
 								className="map-editing-slider"

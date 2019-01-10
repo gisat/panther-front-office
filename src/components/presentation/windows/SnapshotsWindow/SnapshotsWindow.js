@@ -6,6 +6,8 @@ import './SnapshotsWindow.css';
 import Button from "../../atoms/Button";
 import SnapshotCard from "../../../containers/controls/SnapshotCard";
 
+let polyglot = window.polyglot;
+
 class SnapshotsWindow extends React.PureComponent {
 
 	static propTypes = {
@@ -17,7 +19,7 @@ class SnapshotsWindow extends React.PureComponent {
 		return (
 			<Window
 				window="snapshots"
-				name="Snapshots"
+				name={polyglot.t('snapshots')}
 				minWidth={300}
 				width={850}
 				elementId="snapshots-window"
@@ -29,7 +31,7 @@ class SnapshotsWindow extends React.PureComponent {
 					onClick={this.props.createMapSnapshot}
 					icon="plus"
 				>
-					Create map snapshot
+					{polyglot.t('createMapSnapshot')}
 				</Button>
 				<div className="ptr-snapshots-container">
 					{this.renderSnapshots()}
