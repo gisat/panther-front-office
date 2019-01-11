@@ -1,6 +1,5 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
-import Fuzzy from "fuzzy";
 import fuzzysort from "fuzzysort";
 import UsersSelectors from '../../Users/selectors';
 
