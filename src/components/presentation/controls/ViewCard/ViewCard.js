@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import utils from '../../../../utils/utils';
 
 import './ViewCard.css';
 
@@ -15,6 +16,7 @@ class ViewCard extends React.PureComponent {
 		deletable: PropTypes.bool,
 		deleteView: PropTypes.func,
 		editable: PropTypes.bool,
+		public: PropTypes.bool,
 		redirect: PropTypes.func,
 		viewKey: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
 	};
@@ -31,7 +33,7 @@ class ViewCard extends React.PureComponent {
 		e.stopPropagation();
 		let name = this.props.data.name;
 		if (window.confirm(Names.VIEWS_DELETE_CONFIRM_MESSAGE + ' ' + (name ? name : 'View ' + this.props.viewKey))) {
-			this.props.deleteView(this.props.viewKey);
+			this.props.deleteView();
 		}
 	}
 
@@ -41,7 +43,7 @@ class ViewCard extends React.PureComponent {
 	}
 
 	onRedirect(){
-		this.props.redirect({...this.props.data, key: this.props.viewKey});
+		this.props.redirect();
 
 	}
 
@@ -49,8 +51,9 @@ class ViewCard extends React.PureComponent {
 		let name = this.props.data.name ? this.props.data.name : "Dataview " + this.props.viewKey;
 		let description = this.props.data.description ? this.props.data.description : "Dataview " + this.props.viewKey;
 
+		let gradient = utils.stringToColours(this.props.viewKey, 2, {saturation: [30,45], lightness: [55,70]});
 		let previewStyle = {
-			backgroundImage: 'linear-gradient(135deg, ' + viewUtils.getPseudorandomColor() + ' 0%, ' + viewUtils.getPseudorandomColor() + ' 100%)'
+			backgroundImage: 'linear-gradient(135deg, ' + gradient[0] + ' 0%, ' + gradient[1] + ' 100%)'
 		};
 
 		return (

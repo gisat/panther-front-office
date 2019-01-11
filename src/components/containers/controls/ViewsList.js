@@ -1,19 +1,33 @@
 import { connect } from 'react-redux';
 
-import Action from '../../../state/Action';
 import Select from '../../../state/Select';
 import ViewsList from "../../presentation/controls/ViewsList/ViewsList";
+import utils from "../../../utils/utils";
+import Action from "../../../state/Action";
 
-const mapStateToProps = (state, props) => {
+const order = [['key', 'ascending']];
+
+const mapStateToProps = (state) => {
 	return {
-		views: Select.views.getViewsForScopeAndActiveUser(state, props.selectedScope),
-		isIntro: Select.components.isAppInIntroMode(state)
+		views: Select.dataviews.getAllForActiveScope(state, order),
+		hideTitle: !Select.components.isAppInIntroMode(state)
 	}
 };
 
-const mapDispatchToProps = (dispatch) => {
-	return {
+const mapDispatchToPropsFactory = () => {
+
+	const componentId = 'ViewsList_' + utils.randomString(6);
+
+	return (dispatch) => {
+		return {
+			onMount: () => {
+				dispatch(Action.dataviews.useIndexed({scope: true}, null, order, 1, 1000, componentId));
+			},
+			onUnmount: () => {
+				dispatch(Action.dataviews.useIndexedClear(componentId));
+			}
+		}
 	}
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ViewsList);
+export default connect(mapStateToProps, mapDispatchToPropsFactory)(ViewsList);

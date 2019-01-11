@@ -11,6 +11,8 @@ import Names from "../../../../../../constants/Names";
 import CustomOption from "../../../../atoms/UISelect/CustomOption/CustomOption";
 import UISelect from "../../../../atoms/UISelect";
 
+let polyglot = window.polyglot;
+
 class ScenarioMapEditingControlPanel extends React.PureComponent {
 
 	static propTypes = {
@@ -83,21 +85,21 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 
 		return (
 			<MapEditingControlPanel
-				title="Scenario editing"
+				title={polyglot.t('scenarioEditing')}
 			>
 				<div className="ptr-editing-control-panel-content">
 					<div className="ptr-editing-control-panel-content-header">
 						<EditableText
 							large
 							value={name}
-							placeholder="Edited scenario name"
+							placeholder={polyglot.t('editedScenarioName')}
 							editing={true}
 							required
 							onChange={this.onChangeName}
 						/>
 						<EditableText
 							value={description}
-							placeholder="Description"
+							placeholder={polyglot.t('description')}
 							editing={true}
 							onChange={this.onChangeDescription}
 						/>
@@ -105,12 +107,12 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 					<div className="ptr-editing-control-panel-content-body">
 						{this.props.selectedFeatures && this.props.selectedFeatures.length ? (
 						<div>
-							<h3 className="ptr-editing-control-panel-section-title">Selected feature attributes</h3>
+							<h3 className="ptr-editing-control-panel-section-title">{polyglot.t('selectedFeatureAttributes')}</h3>
 							{this.renderUrbanAtlasClassSelect()}
 						</div>
 						) : (
 						<div className="ptr-editing-control-panel-hint">
-							Select a feature in the map
+							{polyglot.t('selectFeatureInMap')}
 						</div>
 						)}
 					</div>
@@ -129,10 +131,10 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 		return (
 			<div className="ptr-editing-control-panel-buttons">
 				{saveButton ? (
-					<Button key="save" onClick={this.onSave} primary>Save</Button>
+					<Button key="save" onClick={this.onSave} primary>{polyglot.t('save')}</Button>
 				) : null}
 				{discardButton ? (
-					<Button key="discard" onClick={this.onDiscard}>Discard</Button>
+					<Button key="discard" onClick={this.onDiscard}>{polyglot.t('discard')}</Button>
 				) : null}
 			</div>
 		);
@@ -152,7 +154,7 @@ class ScenarioMapEditingControlPanel extends React.PureComponent {
 			<UISelect
 				key='land-use-class-selector'
 				label='left'
-				name='LU/LC class'
+				name={polyglot.t('luLcClass')}
 				fullWidth
 				onChange={this.onChangeLuClass}
 				options={options}

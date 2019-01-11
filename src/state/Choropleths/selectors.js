@@ -46,7 +46,7 @@ const getActiveChoroplethsForMaps = createSelector(
 							let period = map.period ? _.find(periods, period => {return period.key === map.period}) : null;
 
 							choropleths[key] = {
-								mapPeriod: period ? period.name : null,
+								mapPeriod: period ? period.data.name : null,
 								mapKey: map.key,
 								choroplethKey: activeChoropleth.key,
 								data: data

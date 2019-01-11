@@ -4,6 +4,7 @@ import Action from '../../../state/Action';
 import Select from '../../../state/Select';
 import ViewsOverlay from "../../presentation/overlays/ViewsOverlay/ViewsOverlay";
 
+import utils from '../../../utils/utils';
 import {filterScopesByUrl} from '../../../utils/models';
 
 const mapStateToProps = (state) => {
@@ -24,13 +25,29 @@ const mapStateToProps = (state) => {
 	}
 };
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		selectScope: (key) => {
-			dispatch(Action.components.overlays.views.setSelectedScope(key));
-			dispatch(Action.scopes.setActiveScopeKey(key));
+const mapDispatchToPropsFactory = () => {
+
+	const componentId = 'ViewsOverlay_' + utils.randomString(6);
+
+	return (dispatch) => {
+		return {
+			onMount: () => {
+				dispatch(Action.scopes.useIndexed(null, null, null, 1, 1000, componentId));
+			},
+
+			selectScope: (key) => {
+				dispatch(Action.components.overlays.views.setSelectedScope(key));
+				dispatch(Action.scopes.setActiveKey(key));
+				// dispatch(Action.dataviews.ensureForScope(key, 1, 1000));
+				// dispatch(Action.dataviews.useIndexedClear(componentId));
+				// dispatch(Action.dataviews.useIndexed(null, {dataset: key}, null, 1, 1000, componentId));
+			},
+
+			onUnmount: () => {
+				// dispatch(Action.dataviews.useIndexedClear(componentId));
+			}
 		}
 	}
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ViewsOverlay);
+export default connect(mapStateToProps, mapDispatchToPropsFactory)(ViewsOverlay);

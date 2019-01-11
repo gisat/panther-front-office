@@ -1,42 +1,46 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
 
-const getActiveKey = state => state.places.activeKey;
-const getActiveKeys = state => state.places.activeKeys;
-const getPlaces = state => state.places.data;
-const getActiveScopeKey = state => state.scopes.activeKey;
+import common from "../_common/selectors";
+import ScopesSelectors from "../Scopes/selectors";
 
-const getActive = createSelector(
-	[getPlaces, getActiveKey],
-	(models, activeKey) => {
-		return _.find(models, function(model){
-			return model.key === activeKey;
-		});
-	}
-);
 
-const getActivePlaces = createSelector(
-	[getPlaces, getActiveKeys],
-	(models, activeKeys) => {
-		if (models && activeKeys){
-			return models.filter(model => activeKeys.includes(model.key));
-		}
-	}
-);
+const getSubstate = state => state.places;
+
+const getAll = common.getAll(getSubstate);
+const getAllAsObject = common.getAllAsObject(getSubstate);
+const getAllForActiveScope = common.getAllForActiveScope(getSubstate);
+const getAllForDataview = common.getAllForDataview(getSubstate);
+const getAllForDataviewAsObject = common.getAllForDataviewAsObject(getSubstate);
+const getActiveKey = common.getActiveKey(getSubstate);
+const getActiveKeys = common.getActiveKeys(getSubstate);
+const getActive = common.getActive(getSubstate);
+const getActivePlaces = common.getActiveModels(getSubstate);
+
+const isInitializedForExt = common.isInitializedForExt(getSubstate);
 
 const getPlacesForActiveScope = createSelector(
-	[getPlaces, getActiveScopeKey],
+	[getAll, ScopesSelectors.getActiveScopeKey],
 	(models, activeScopeKey) => {
 		return _.filter(models, function(model){
-			return model.scope === activeScopeKey;
+			return model.data && (model.data.dataset === activeScopeKey);
 		});
 	}
 );
 
 export default {
-	getPlaces: getPlaces,
-	getActiveKey: getActiveKey,
-	getActive: getActive,
-	getActivePlaces: getActivePlaces,
-	getPlacesForActiveScope: getPlacesForActiveScope
+	getPlaces: getAll,
+	getAll,
+	getAllAsObject,
+	getAllForActiveScope,
+	getAllForDataview,
+	getAllForDataviewAsObject,
+	getActiveKey,
+	getActiveKeys,
+	getActive,
+	getActivePlaces,
+	getPlacesForActiveScope,
+	getSubstate,
+
+	isInitializedForExt
 };

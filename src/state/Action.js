@@ -6,8 +6,8 @@ import Attributes from './Attributes/actions';
 import AttributeSets from './AttributeSets/actions';
 import Choropleths from './Choropleths/actions';
 import Components from './Components/actions';
+import Dataviews from './Dataviews/actions';
 import LayerTemplates from './LayerTemplates/actions';
-import LpisCases from './LpisCases/actions';
 import Maps from './Maps/actions';
 import Periods from './Periods/actions';
 import Places from './Places/actions';
@@ -16,11 +16,16 @@ import Scopes from './Scopes/actions';
 import Snapshots from './Snapshots/actions';
 import SpatialDataSources from './SpatialDataSources/actions';
 import SpatialRelations from './SpatialRelations/actions';
-import Symbologies from './Symbologies/actions';
+import Styles from './Styles/actions';
+import Themes from './_Themes/actions';
 import Users from './Users/actions';
 import UserGroups from './UserGroups/actions';
-import Views from './Views/actions';
+import Visualizations from './_Visualizations/actions';
 import WmsLayers from './WmsLayers/actions';
+
+// specific types
+import LpisChangeReviewCases from './_specific/LpisChangeReviewCases/actions';
+import LpisCheckCases from './_specific/LpisCheckCases/actions';
 
 export default {
 
@@ -30,8 +35,8 @@ export default {
 	attributeSets: AttributeSets,
 	choropleths: Choropleths,
 	components: Components,
+	dataviews: Dataviews,
 	layerTemplates: LayerTemplates,
-	lpisCases: LpisCases,
 	maps: Maps,
 	periods: Periods,
 	places: Places,
@@ -40,9 +45,14 @@ export default {
 	snapshots: Snapshots,
 	spatialDataSources: SpatialDataSources,
 	spatialRelations: SpatialRelations,
-	symbologies: Symbologies,
+	styles: Styles,
+	themes: Themes,
 	users: Users,
 	userGroups: UserGroups,
-	views: Views,
-	wmsLayers: WmsLayers
+	visualizations: Visualizations,
+	wmsLayers: WmsLayers,
+	specific: {
+		lpisChangeReviewCases: LpisChangeReviewCases,
+		lpisCheckCases: LpisCheckCases,
+	}
 };

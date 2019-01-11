@@ -26,7 +26,7 @@ const setStoreWatchers = store => {
 
 	createWatcher(store, Select.maps.getActivePlaceActiveLayers, activeLayersWatcher, 'activePlaceActiveLayers');
 
-	createWatcher(store, Select.lpisCases.getActiveCase, ()=>{}, 'activeLpisCase');
+	createWatcher(store, Select.specific.lpisChangeReviewCases.getActiveCase, ()=>{}, 'activeLpisCase');
 };
 
 const setEventListeners = store => {
@@ -90,6 +90,14 @@ const setEventListeners = store => {
 					placeGeometryChangeReview: {
 						showGeometryBefore: options.showBefore,
 						showGeometryAfter: options.showAfter
+					}
+				}));
+				break;
+			case 'placeGeometryLPISCheck#showGeometry':
+				store.dispatch(Action.maps.update({
+					key: options.mapKey,
+					placeGeometryLPISCheck: {
+						geometry: options.geometry,
 					}
 				}));
 				break;

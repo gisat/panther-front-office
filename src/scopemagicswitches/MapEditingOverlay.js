@@ -4,8 +4,8 @@ import Select from '../state/Select';
 import ScenarioMapEditingOverlay from '../components/containers/overlays/ScenarioMapEditingOverlay';
 
 const MagicSwitch = ({scope}) => {
-	if (scope) {
-		if (scope.scenarios) {
+	if (scope && scope.data) {
+		if (scope.data.scenarios) {
 			return <ScenarioMapEditingOverlay />
 		}
 	}

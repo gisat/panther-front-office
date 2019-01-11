@@ -5,6 +5,7 @@ import {geoBounds} from 'd3-geo';
 import Action from '../state/Action';
 import utils from '../utils/utils';
 import Select from "../state/Select";
+import common from "./_common";
 
 let state = {};
 
@@ -14,57 +15,15 @@ export default store => {
 };
 
 const setStoreWatchers = store => {
-	createWatcher(store, Select.places.getActive, activePlaceWatcher);
-	createWatcher(store, Select.places.getActivePlaces, activePlacesWatcher);
+	common.createWatcher(store, Select.places.getAllForDataviewAsObject, byKeyWatcher, 'byKeyForDataview');
+	common.createWatcher(store, Select.places.getActive, activePlaceWatcher);
+	common.createWatcher(store, Select.places.getActivePlaces, activePlacesWatcher);
 };
 
 
 const setEventListeners = store => {
 	window.Stores.addListener((event, options) => {
 		switch(event) {
-			case 'PLACES_LOADED':
-				let oldModels = Select.places.getPlaces(store.getState());
-				let newModels = utils.removeDuplicities(oldModels, _.map(options, transform));
-				if (newModels && newModels.length){
-					store.dispatch(Action.places.add(newModels));
-				}
-				break;
-			case 'place#setActivePlace':
-				let scope = Select.scopes.getActiveScopeData(store.getState());
-				let place = null;
-				let places = null;
-
-				if (typeof options.data === "number"){
-					place = options.data;
-				} else if (options.data.length && options.data.length === 1){
-					place = options.data[0];
-				} else if (options.data.length && options.data.length > 1){
-					places = options.data;
-				}
-
-				if (place && (!state.previousPlace || state.previousPlace !== place)){
-					state.previousPlace = place;
-					store.dispatch(Action.places.setActive(place));
-
-					// if scope has scenario property: load scenario cases, spatial relations and then spatial data sources
-					if (scope.scenarios){
-						store.dispatch(Action.scenarios.loadCases());
-						let dispatchRelationsLoading = store.dispatch(Action.spatialRelations.load());
-
-						// fix: sometimes dispatchRelationsLoading is undfined and I don't know why
-						if (dispatchRelationsLoading){
-							dispatchRelationsLoading.then(() => {
-								let dataSourcesIds = Select.spatialRelations.getActivePlaceDataSourceIds(store.getState());
-								if (dataSourcesIds && dataSourcesIds.length){
-									store.dispatch(Action.spatialDataSources.loadFiltered({'id': dataSourcesIds}));
-								}
-							});
-						}
-					}
-				} else if (places){
-					store.dispatch(Action.places.setActiveKeys(places));
-				}
-				break;
 			default:
 				break;
 		}
@@ -74,11 +33,11 @@ const setEventListeners = store => {
 const activePlaceWatcher = (value, previousValue) => {
 	console.log('@@ activePlaceWatcher', previousValue, '->', value);
 	let extent;
-	if (value){
-		if (value.bbox && value.bbox.length){
-			extent = value.bbox.split(',');
-		} else if (value.geometry){
-			extent = geoBounds(value.geometry);
+	if (value && value.data){
+		if (value.data.bbox && value.data.bbox.length){
+			extent = value.data.bbox.split(',');
+		} else if (value.data.geometry){
+			extent = geoBounds(value.data.geometry);
 		}
 		if (!previousValue || (previousValue && (previousValue.key !== value.key))){
 			window.Stores.notify('REDUX_SET_ACTIVE_PLACES', {keys: value.key, extents: extent});
@@ -93,10 +52,10 @@ const activePlacesWatcher = (value, previousValue) => {
 	if (value){
 		value.map(place => {
 			let extent;
-			if (place.bbox && place.bbox.length){
-				extent = place.bbox.split(',');
-			} else if (place.geometry){
-				extent = geoBounds(place.geometry);
+			if (place.data.bbox && place.data.bbox.length){
+				extent = place.data.bbox.split(',');
+			} else if (place.data.geometry){
+				extent = geoBounds(place.data.geometry);
 			}
 			extents.push(extent);
 			keys.push(place.key);
@@ -107,23 +66,14 @@ const activePlacesWatcher = (value, previousValue) => {
 	}
 };
 
-const transform = model => {
-	let {dataset, id, ...newModel} = model;
-	newModel.key = model.id;
-	newModel.scope = model.dataset;
-	return newModel;
-};
+// ======== state watchers ========
+const byKeyWatcher = (value, previousValue, stateKey) => {
+	console.log('@@@@@ subscribers/places#byKeyWatcher', previousValue, '->', value);
+	if (stateKey) state[stateKey] = value;
+	let diff = common.compareByKey(value, previousValue);
 
-/////// logic todo move to common location
-
-const createWatcher = (store, selector, watcher, stateKey) => {
-	if (stateKey) {
-		state[stateKey] = selector(store.getState());
-		store.subscribe(watch(() => selector(store.getState()))((value, previousValue) => {
-			state[stateKey] = value;
-			watcher(value, previousValue);
-		}));
-	} else {
-		store.subscribe(watch(() => selector(store.getState()))(watcher));
+	// todo changed and removed?
+	if (diff.added && diff.added.length){
+		window.Stores.notify("REDUX_PLACES_ADD", diff.added);
 	}
 };

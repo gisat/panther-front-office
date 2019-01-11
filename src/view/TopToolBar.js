@@ -47,7 +47,6 @@ class TopToolBar {
         this._map3dSwitchSelector = $('#top-toolbar-3dmap');
 
         $('#top-toolbar-context-help').on('click.topToolBar', this.handleContextHelpClick);
-        $('#top-toolbar-share-view').on('click.topToolBar', this.handleShareViewClick);
         $('#top-toolbar-add-map').on('click.topToolBar', this.handleAddMapClick.bind(this));
         this._map3dSwitchSelector.on("click.topToolBar", this.handle3dMapClick.bind(this));
 
@@ -94,9 +93,6 @@ class TopToolBar {
     };
 
     hideTools(tools) {
-        if (!tools.share){
-            $('#top-toolbar-share-view').css("display", "none")
-        }
         if (!tools.contextHelp){
             $('#top-toolbar-context-help').css("display", "none")
         }
@@ -269,28 +265,13 @@ class TopToolBar {
     initCustomLayersWindow() {
         let component = $('#custom-layers-container');
         if (!component.length) {
-            new CustomLayers();
+            new CustomLayers({
+                stateStore: this._stateStore
+            });
         }
     };
 
     handleContextHelpClick(e) {
-    };
-
-    handleShareViewClick(e) {
-        let item = $(this);
-        let floater = $("#floater-sharing");
-
-        if (item.hasClass("open")){
-            item.removeClass("open");
-            floater.removeClass("open");
-        } else {
-            item.addClass("open");
-            floater.addClass("open");
-            window.Stores.notify('floaters#sort', {
-                fromExt: false,
-                floaterJQuerySelector: floater
-            });
-        }
     };
 
     handle3dMapClick(e) {
@@ -391,7 +372,7 @@ class TopToolBar {
 			let isOpen = snapshotsItem.hasClass('open');
 			this._snapshotsWidgetIsOpen = !isOpen;
 			snapshotsItem.toggleClass('open');
-		} else if (type === 'VIEWS_WINDOW_TOGGLE'){
+		} else if (type === 'DATAVIEWS_WINDOW_TOGGLE'){
 			let viewsItem = $('#top-toolbar-views');
 			let isOpen = viewsItem.hasClass('open');
 			this._viewsWidgetIsOpen = !isOpen;

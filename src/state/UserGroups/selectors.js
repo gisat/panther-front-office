@@ -1,8 +1,12 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
 
-const getGroups = state => state.userGroups.data;
+import common from "../_common/selectors";
+
+const getSubstate = state => state.userGroups;
+
+const getAll = common.getAll(getSubstate);
 
 export default {
-	getGroups: getGroups
+	getAll
 };

@@ -9,12 +9,13 @@ const mapStateToProps = (state, props) => {
 	}
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-		deleteView: (key) => {
-			dispatch(Action.views.apiDeleteView(key))
+		deleteView: () => {
+			dispatch(Action.dataviews.apiDeleteView(ownProps.viewKey))
 		},
-		redirect: (params) => {
+		redirect: () => {
+			let params = {...ownProps.data, key: ownProps.viewKey, public: ownProps.public};
 			dispatch(Action.components.redirectToView(params))
 		}
 	}

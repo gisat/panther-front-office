@@ -95,7 +95,10 @@ class MapsContainer {
 	addCloseButtonOnClickListener() {
 		let self = this;
 		this._containerSelector.on("click", ".close-map-button", function () {
-			let mapId = $(this).attr("data-id");
+			let mapId = $(this).attr("id");
+			if (!mapId){
+				 mapId = $(this).parents(".world-wind-map-box").find(".world-wind-map").attr("id");
+			}
 			let mapPeriod = self._mapStore.getMapById(mapId).period;
 			let periods = _.reject(self._stateStore.current().periods, function (period) {
 				return period === mapPeriod;
@@ -336,6 +339,17 @@ class MapsContainer {
 						mapKey: map.key,
 						showBefore: showBefore,
 						showAfter: showAfter
+					});
+				}
+				if (map.placeGeometryLPISCheck){
+					var geometry = false;
+					if (map.placeGeometryLPISCheck.geometry){
+						geometry = true;
+					}
+					
+					self._dispatcher.notify("placeGeometryLPISCheck#showGeometry", {
+						mapKey: map.key,
+						geometry: geometry,
 					});
 				}
 			});
@@ -760,21 +774,16 @@ class MapsContainer {
 		} else if (type === 'MAP_CLOSE_BUTTON_REMOVE'){
 			this.removeCloseButtonToAllMaps();
 		} else if (type === "ZOOM_MAPS_BY_CASE_GEOMETRY"){
-        	let allowZooming = this._stateStore.current().allowZoomByScenarioCase;
-        	if (allowZooming){
-				this._stateStore.addLoadingOperation("scenariosCaseChange");
-				let self = this;
-				setTimeout(function(){
-					if (options && options.bbox){
-						self.zoomToArea(options.bbox);
-					} else {
-						self.zoomToExtent();
-					}
-					self._stateStore.removeLoadingOperation("scenariosCaseChange", true);
-				},50);
-			} else {
-        		this._stateStore.setAllowZoomByCase(true);
-			}
+			this._stateStore.addLoadingOperation("scenariosCaseChange");
+			let self = this;
+			setTimeout(function(){
+				if (options && options.bbox){
+					self.zoomToArea(options.bbox);
+				} else {
+					self.zoomToExtent();
+				}
+				self._stateStore.removeLoadingOperation("scenariosCaseChange", true);
+			},50);
 		}
 
         // TODO temporary for Dromas. It should be removed in a version with new areas widget

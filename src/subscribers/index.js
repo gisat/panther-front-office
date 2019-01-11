@@ -12,9 +12,11 @@ import places from './places';
 import scenarios from './scenarios';
 import scopes from './scopes';
 import snapshots from './snapshots';
-import symbologies from './symbologies';
+import styles from './styles';
+import themes from './themes';
 import users from './users';
-import views from './views';
+import views from './dataviews';
+import visualizations from './visualizations';
 import wmsLayers from './wmsLayers';
 
 export default store => {
@@ -33,8 +35,10 @@ export default store => {
 	scenarios(store);
 	scopes(store);
 	snapshots(store);
-	symbologies(store);
+	styles(store);
+	themes(store);
 	users(store);
 	views(store);
+	visualizations(store);
 	wmsLayers(store);
 };

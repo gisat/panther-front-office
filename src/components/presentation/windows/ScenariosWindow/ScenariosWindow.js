@@ -7,12 +7,14 @@ import ScreenAnimator from "../../ScreenAnimator/ScreenAnimator";
 import CaseDetail from "../../../containers/controls/scenarios/CaseDetail/CaseDetail";
 import CaseList from "../../../containers/controls/scenarios/CaseList/CaseList";
 
+let polyglot = window.polyglot;
+
 class ScenariosWindow extends React.PureComponent {
 	render() {
 		return (
 			<Window
 				window="scenarios"
-				name="Scenarios"
+				name={polyglot.t('scenarios')}
 				elementId="scenarios-window"
 				expandable={true}
 				dockable={true}

@@ -315,7 +315,7 @@ body {
 	color: rgba(168, 172, 180, 1);
 	font-size: .85rem;
 	font-weight: 600;
-	padding: 0 1rem 0 0;
+	padding: 0 .7rem 0 0;
 }
 
 .ptr-ui-select .Select {
@@ -357,6 +357,19 @@ body {
 	line-height: 1.8rem;
 	text-transform: none;
 }
+
+/* multiselect */
+.ptr-ui-select .Select--multi .Select-multi-value-wrapper {
+	display: flex;
+	overflow: hidden;
+	margin-right: .5rem;
+}
+.ptr-ui-select .Select--multi .Select-value {
+	display: flex;
+}
+
+
+/* virtualized */
 
 .ptr-ui-select .VirtualizedSelectOption {
 	display: -webkit-box;
@@ -750,15 +763,20 @@ todo merge with overlay
 }
 
 /* == View Selector =============================================== */
-
+.ptr-view-selection-wrapper {
+	align-items: center;
+	display: flex;
+	flex-wrap: wrap;
+}
 .ptr-view-selection-container {
 	align-items: center;
 	display: flex;
 	height: 100%;
+	margin: .15rem 1rem .15rem 0;
 }
 
 .ptr-place-selector {
-	min-width: 20rem;
+
 }
 
 .ptr-view-selection-selector.ptr-ui-select .ptr-ui-select-label {
@@ -768,6 +786,8 @@ todo merge with overlay
 	width: 22rem;
 }
 .ptr-view-selection-selector.ptr-ui-select .Select {
+	min-width: 10rem;
+	max-width: 20rem;
 	font-size: .75rem;
 	border: none;
 }
@@ -821,6 +841,19 @@ todo merge with overlay
 .ptr-view-selection-selector.ptr-ui-select .Select-control .Select-value {
 	line-height: 1.8rem;
 	padding-right: 25px;
+}
+
+.ptr-view-selection-selector.ptr-ui-select .Select--multi .Select-multi-value-wrapper {
+	max-width: 15rem;
+}
+
+.ptr-view-selection-selector.ptr-ui-select .Select--multi .Select-control .Select-value {
+	color: rgb(204, 207, 211);
+	margin: .25rem .25rem 0 0;
+	line-height: 1rem;
+}
+.ptr-view-selection-selector.ptr-ui-select .Select--multi .Select-control .Select-value-icon:hover {
+	color: white;
 }
 
 .ptr-view-selection-selector.ptr-ui-select .Select-input {
@@ -885,6 +918,14 @@ todo merge with overlay
 
 .ptr-timeline-out-of-scope-overlay {
 	fill: rgba(125, 125, 125, .2);
+}
+
+/* == User Container ============================ */
+#user-container {
+	text-transform: none;
+	font-weight: normal;
+	display: flex;
+	align-items: center;
 }
 
 /* == Windows =================================== */

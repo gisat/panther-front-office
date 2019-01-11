@@ -1,24 +1,28 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
+import common from "../_common/selectors";
+
 import LayerPeriods from '../LayerPeriods/selectors';
 import Scope from '../Scopes/selectors';
 import Period from '../Periods/selectors';
 
-const getAllLayers = state => state.wmsLayers.data;
+const getSubstate = state => state.wmsLayers;
+
+const getAll = common.getAll(getSubstate);
 
 const getLayers = createSelector(
-	[getAllLayers, Scope.getActiveScopeKey, Period.getPeriods],
+	[getAll, Scope.getActiveScopeKey, Period.getPeriods],
 	(layers, activeScopeKey, periods) => {
 		layers =  _.filter(layers, layer => {
-			return layer.scope === activeScopeKey;
+			return layer.data.scope === activeScopeKey;
 		});
 		return _.map(layers, layer => {
-			if (layer.periods && layer.periods.length) {
-				let layerPeriods = _.map(layer.periods, layerPeriod => {
+			if (layer.data.periods && layer.data.periods.length) {
+				let layerPeriods = _.map(layer.data.periods, layerPeriod => {
 					if (_.isNumber(layerPeriod) && periods && periods.length) {
 						// metadata period key
 						let period = _.find(periods, {key: layerPeriod});
-						return period ? period.period : null;
+						return period ? period.data.period : null;
 					} else {
 						// period string
 						return layerPeriod;
@@ -30,6 +34,20 @@ const getLayers = createSelector(
 			}
 			return layer;
 		});
+	}
+);
+
+const getLayersWithGetDate = createSelector(
+	[getAll],
+	(layers) => {
+		if (layers && layers.length){
+			let filteredLayers = _.filter(layers, (layer) => {
+				return !!layer.data.get_date;
+			});
+			return filteredLayers.length ? filteredLayers : null;
+		} else {
+			return null;
+		}
 	}
 );
 
@@ -73,8 +91,11 @@ const getLayersWithLpisCasePeriods = createSelector(
 );
 
 export default {
-	getLayers: getLayers,
-	getLayersWithAoiPeriods: getLayersWithAoiPeriods,
-	getLayersWithPlacePeriods: getLayersWithPlacePeriods,
-	getLayersWithLpisCasePeriods
+	getLayers,
+	getLayersWithAoiPeriods,
+	getLayersWithPlacePeriods,
+	getLayersWithLpisCasePeriods,
+
+	getLayersWithGetDate,
+	getSubstate
 };

@@ -7,6 +7,10 @@ export default {
 	"invaze": {
 		htmlClass: "invaze"
 	},
+	"geoinvaze": {
+		htmlClass: "geoinvaze",
+		headerTitle: "Geoinvaze"
+	},
 	"eo4sd": {
 		htmlClass: "eo4sd",
 		logoSrc: "img/eo4sd/eo4sd-light.png",

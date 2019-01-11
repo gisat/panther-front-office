@@ -406,7 +406,7 @@ class Layers {
      */
     addInfoLayer(layerData, group, state) {
         let layer = new MyWmsLayer({
-            service: Config.url + "api/proxy/wms",
+            service: Config.url + "geoserver/wms",
             layerNames: layerData.layerPaths,
             sector: new WorldWind.Sector(-90, 90, -180, 180),
             levelZeroDelta: new WorldWind.Location(45, 45),

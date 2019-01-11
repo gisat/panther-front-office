@@ -5,8 +5,8 @@ import AoiPeriodsSelectorOverlay from '../components/containers/view-selectors/A
 
 
 const MagicSwitch = ({scope}) => {
-	if (scope) {
-		if (scope.viewSelection === 'aoiPeriodsSelector' && scope.aoiLayer) {
+	if (scope && scope.data) {
+		if (scope.data.viewSelection === 'aoiPeriodsSelector' && scope.data.aoiLayer) {
 			return <AoiPeriodsSelectorOverlay />
 		}
 	}

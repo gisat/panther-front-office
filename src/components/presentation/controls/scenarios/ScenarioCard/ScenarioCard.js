@@ -15,6 +15,8 @@ import './ScenarioCard.css';
 import Action from "../../../../../state/Action";
 import utils from "../../../../../utils/utils";
 
+let polyglot = window.polyglot;
+
 class ScenarioCard extends React.PureComponent {
 
 	static propTypes = {
@@ -150,7 +152,7 @@ class ScenarioCard extends React.PureComponent {
 		let showFileInput = this.props.editing && !this.props.scenarioSpatialDataSource;
 
 		if (this.props.defaultSituation){
-			name = Names.SCENARIOS_DEFAULT_SITUATION_NAME;
+			name = polyglot.t('defaultState');
 		}
 
 		let header = (
@@ -169,7 +171,7 @@ class ScenarioCard extends React.PureComponent {
 							large
 							disabled={!this.props.editing || this.props.disableEditing}
 							value={name}
-							placeholder="Scenario name"
+							placeholder={polyglot.t('scenarioName')}
 							onChange={this.onChangeName}
 							editing={this.props.editing}
 						/>
@@ -179,9 +181,9 @@ class ScenarioCard extends React.PureComponent {
 					{this.props.scenarioKey || this.props.defaultSituation ? (
 						<Button icon="dots" invisible>
 							<Menu bottom left>
-								<MenuItem onClick={this.onDownloadClick} disabled={disableDownload}><Icon icon="download" /> Download</MenuItem>
-								{this.props.enableEdit ? <MenuItem onClick={this.onStartMapEditing} disabled={disableModify}><Icon icon="edit" /> Copy & modify…</MenuItem> : null}
-								{!this.props.defaultSituation && this.props.enableDelete ? <MenuItem onClick={this.onDelete.bind(this, name)}><Icon icon="delete" /> Delete</MenuItem> : null}
+								<MenuItem onClick={this.onDownloadClick} disabled={disableDownload}><Icon icon="download" />{polyglot.t('download')}</MenuItem>
+								{this.props.enableEdit ? <MenuItem onClick={this.onStartMapEditing} disabled={disableModify}><Icon icon="edit" />{polyglot.t('copyAndModify')}</MenuItem> : null}
+								{!this.props.defaultSituation && this.props.enableDelete ? <MenuItem onClick={this.onDelete.bind(this, name)}><Icon icon="delete" />{polyglot.t('delete')}</MenuItem> : null}
 							</Menu>
 						</Button>
 					): null}
@@ -194,7 +196,7 @@ class ScenarioCard extends React.PureComponent {
 				<EditableText
 					disabled={!this.props.editing || this.props.disableEditing}
 					value={description}
-					placeholder="Description"
+					placeholder={polyglot.t('description')}
 					onChange={this.onChangeDescription}
 					editing={this.props.editing}
 				/>
@@ -202,7 +204,7 @@ class ScenarioCard extends React.PureComponent {
 				<InputFile
 					disabled={!this.props.editing || this.props.disableEditing}
 					value={file}
-					placeholder="File"
+					placeholder={polyglot.t('file')}
 					accept=".zip"
 					onChange={this.onChangeFile}
 				/>

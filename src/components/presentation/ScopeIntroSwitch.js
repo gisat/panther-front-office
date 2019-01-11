@@ -2,20 +2,25 @@ import React from 'react';
 
 import ViewsList from "../containers/controls/ViewsList";
 import Intro from "../containers/Intro";
-import DromasLpisChangeReviewIntro from '../scopeSpecific/DromasLpisChangeReview/intro';
+import LpisCheckIntro from '../specific/LPISCheck/intro';
+import DromasLpisChangeReviewIntro from '../specific/DromasLpisChangeReview/intro';
 
 export default ({scope, intro}) => {
 	if (scope){
-		if (scope.configuration && scope.configuration && scope.configuration.introComponent){
-			switch(scope.configuration.introComponent) {
+		if (scope.data.configuration && scope.data.configuration && scope.data.configuration.introComponent){
+			switch(scope.data.configuration.introComponent) {
 				case 'dromasLpisChangeReview':
 					return (
 						<DromasLpisChangeReviewIntro />
 					);
+				case 'LPISCheck':
+					return (
+						<LpisCheckIntro />
+					);
 			}
 		} else {
 			return <ViewsList
-				selectedScope={scope}
+				selectedScopeData={scope && scope.data}
 			/>
 		}
 	} else if (!scope && intro){

@@ -6,7 +6,7 @@ const getByKey = state => state.layerPeriods.byKey;
 
 const getActiveAoiKey = state => state.aoi.activeKey;
 const getActivePlaceKey = state => state.places.activeKey;
-const getActiveLpisCaseKey = state => state.lpisCases.activeCaseKey;
+const getActiveLpisCaseKey = state => state.specific.lpisChangeReviewCases.activeCaseKey;
 
 const getActiveAoiData = createSelector(
 	[getByAoiKey, getActiveAoiKey],

@@ -5,9 +5,14 @@ Ext.define('PumaMain.controller.LocationTheme', {
     init: function() {
 
 		Observer.addListener("PumaMain.controller.LocationTheme.reloadWmsLayers",this.reloadWmsLayers.bind(this));
+
 		Stores.addListener(this.areaTemplateChange.bind(this));
 		Stores.addListener(this.triggerConfirm.bind(this));
+
 		Stores.addListener(this.setLocationFromRedux.bind(this));
+		Stores.addListener(this.setThemeFromRedux.bind(this));
+		Stores.addListener(this.setPeriodsFromRedux.bind(this));
+		Stores.addListener(this.setVisualizationFromRedux.bind(this));
 
         this.control({
             '#initialdataset':{
@@ -47,6 +52,65 @@ Ext.define('PumaMain.controller.LocationTheme', {
 
         Observer.notify('LocationTheme#init');
     },
+
+	setLocationFromRedux: function(type, options){
+		if (type === 'REDUX_SET_ACTIVE_PLACES'){
+			if (options && options.keys){
+				let locationCombo = Ext.ComponentQuery.query('#sellocation')[0];
+				let locComboValue = locationCombo.value;
+				let placeId = options.keys;
+
+				if (placeId.length){
+					placeId = placeId[0];
+				}
+
+
+				if (placeId !== locComboValue){
+					locationCombo.setValue(placeId);
+				}
+			}
+		}
+	},
+
+	setThemeFromRedux: function(type, options){
+		if (type === 'REDUX_SET_ACTIVE_THEME'){
+			if (options && options.key){
+				let themeCombo = Ext.ComponentQuery.query('#seltheme')[0];
+				let themeComboValue = themeCombo.value;
+				let activeThemeKey = options.key;
+				if (activeThemeKey !== themeComboValue){
+					themeCombo.setValue(activeThemeKey);
+				}
+			}
+		}
+	},
+
+	setPeriodsFromRedux: function(type, options){
+		if (type === 'REDUX_SET_ACTIVE_PERIODS'){
+			if (options && options.keys){
+				let periodsCombo = Ext.ComponentQuery.query('#selyear')[0];
+				let periodsComboValue = periodsCombo.value;
+				let activePeriodsKey = options.keys;
+				if (activePeriodsKey !== periodsComboValue){
+					periodsCombo.setValue(activePeriodsKey);
+				}
+			}
+		}
+	},
+
+	setVisualizationFromRedux: function(type, options){
+		if (type === 'REDUX_SET_ACTIVE_VISUALIZATION'){
+			if (options && options.key){
+				let visualizationCombo = Ext.ComponentQuery.query('#selvisualization')[0];
+				let visualizationComboValue = visualizationCombo.value;
+				let activeVisKey = options.key;
+				if (activeVisKey !== visualizationComboValue){
+					visualizationCombo.setValue(activeVisKey);
+				}
+			}
+		}
+	},
+
     triggerConfirm: function(action){
         if (action === "confirmInitialSelection"){
             this.onConfirm();
@@ -113,23 +177,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
         stores.forEach(function(store){
             var extStore = Ext.StoreMgr.lookup(store);
             extStore.proxy.extraParams = { scope: val };
-
-			extStore.on('load', function(store, records) {
-				if ((store.storeId === 'symbology' || store.storeId === 'areatemplate') && records){
-                    let data = [];
-                    records.forEach(function(record){
-                        data.push(record.raw);
-                    });
-                    switch(store.storeId){
-                        case 'symbology':
-							window.Stores.notify("SYMBOLOGIES_LOADED", data);
-                            break;
-                        case 'areatemplate':
-							window.Stores.notify("LAYER_TEMPLATES_LOADED", data);
-                            break;
-                    }
-                }
-			});
             extStore.load();
         });
 
@@ -180,25 +227,6 @@ Ext.define('PumaMain.controller.LocationTheme', {
         themeComboAlt.resumeEvents();
 
         Observer.notify('scopeChange');
-    },
-
-    setLocationFromRedux: function(type, options){
-        if (type === 'REDUX_SET_ACTIVE_PLACES'){
-            if (options && options.keys){
-				let locationCombo = Ext.ComponentQuery.query('#sellocation')[0];
-				let locComboValue = locationCombo.value;
-                let placeId = options.keys;
-
-                if (placeId.length){
-                    placeId = placeId[0];
-                }
-
-
-                if (placeId !== locComboValue){
-					locationCombo.setValue(placeId);
-				}
-            }
-        }
     },
 
     onLocationChange: function(cnt,val) {
@@ -916,36 +944,36 @@ Ext.define('PumaMain.controller.LocationTheme', {
 //                }
         }
         var layerGroupStore = Ext.StoreMgr.lookup('layergroup');
-        for (var i = 0; i < nodesToAdd.length; i++) {
-            var nodeToAdd = nodesToAdd[i];
-            var layerGroupId = nodeToAdd.layerGroup;
-            if (!layerGroupId) continue;
-            var layerGroupNode = root.findChild('layerGroup', layerGroupId);
-            if (!layerGroupNode) {
-                var count = root.childNodes.length;
-                var layerGroupRec = layerGroupStore.getById(layerGroupId);
-
-                var priorities = Ext.Array.map(root.childNodes,function(chNode) {
-                    return chNode.get('priority')
-                })
-                priorities = Ext.Array.clean(priorities);
-                var priority = layerGroupRec.get('priority')
-                priorities.push(priority);
-                // from highest priority to lowest
-                priorities.sort();//.reverse();
-                var idx = Ext.Array.indexOf(priorities,priority);
-
-                layerGroupNode = root.insertChild(2+idx,{
-                    name: layerGroupRec.get('name'),
-                    layerGroup: layerGroupId,
-                    type: 'thematicgroup',
-                    priority: layerGroupRec.get('priority'),
-                    expanded: true,
-                    checked: null
-                })
-            }
-            layerGroupNode.appendChild(nodeToAdd)
-        }
+        // for (var i = 0; i < nodesToAdd.length; i++) {
+        //     var nodeToAdd = nodesToAdd[i];
+        //     var layerGroupId = nodeToAdd.layerGroup;
+        //     if (!layerGroupId) continue;
+        //     var layerGroupNode = root.findChild('layerGroup', layerGroupId);
+        //     if (!layerGroupNode) {
+        //         var count = root.childNodes.length;
+        //         var layerGroupRec = layerGroupStore.getById(layerGroupId);
+        //
+        //         var priorities = Ext.Array.map(root.childNodes,function(chNode) {
+        //             return chNode.get('priority')
+        //         })
+        //         priorities = Ext.Array.clean(priorities);
+        //         var priority = layerGroupRec.get('priority')
+        //         priorities.push(priority);
+        //         // from highest priority to lowest
+        //         priorities.sort();//.reverse();
+        //         var idx = Ext.Array.indexOf(priorities,priority);
+        //
+        //         layerGroupNode = root.insertChild(2+idx,{
+        //             name: layerGroupRec.get('name'),
+        //             layerGroup: layerGroupId,
+        //             type: 'thematicgroup',
+        //             priority: layerGroupRec.get('priority'),
+        //             expanded: true,
+        //             checked: null
+        //         })
+        //     }
+        //     layerGroupNode.appendChild(nodeToAdd)
+        // }
 
 
         if (!systemNode.childNodes.length) {
@@ -999,8 +1027,8 @@ Ext.define('PumaMain.controller.LocationTheme', {
                         layerParams.removeBackBufferDelay = 0;
                         layerParams.transitionEffect = null;
                     }
-                    var layer1 = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', Ext.clone(params), Ext.clone(layerParams));
-                    var layer2 = new OpenLayers.Layer.WMS('WMS', Config.url + 'api/proxy/wms', Ext.clone(params), Ext.clone(layerParams));
+                    var layer1 = new OpenLayers.Layer.WMS('WMS', Config.url + 'geoserver/wms', Ext.clone(params), Ext.clone(layerParams));
+                    var layer2 = new OpenLayers.Layer.WMS('WMS', Config.url + 'geoserver/wms', Ext.clone(params), Ext.clone(layerParams));
                     if (node.get('type') == 'thematicgroup') {
                         layer1.events.register('visibilitychanged',{layer:layer1,me:this},function(a,b,c) {
                             this.me.getController('Layers').onLayerLegend(null,this.layer.nodeRec,this.layer.visibility);
@@ -1392,7 +1420,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 					attrStore.data.each(function(attribute){ // iterate attributes (objects)
 						if( Ext.Array.contains(attrSetAttributes, attribute.get('_id')) && (attribute.data.type === "numeric" || attribute.data.type === "text")){
 					        var attr = $.extend({}, attribute.data);
-							attr.attributeSet = attrSet.internalId;
+							attr.attributeSet = attrSet.data._id;
 							attr.attribute = attribute.data._id;
 						    attributes.push(attr);
 						}

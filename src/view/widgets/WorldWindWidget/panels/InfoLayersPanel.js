@@ -83,7 +83,7 @@ class InfoLayersPanel extends WorldWindWidgetPanel {
     addPanelContent(layerGroups) {
         let self = this;
         layerGroups.forEach(function (group) {
-            let layerGroupBodySelector = self.addLayerGroup(group.name.replace(/ /g, '_'), group.name);
+            let layerGroupBodySelector = self.addLayerGroup(group.name.replace(/ |&/g, '_'), group.name);
             group.layers.forEach(function (layerTemplate) {
                 if (layerTemplate.styles.length > 0) {
                     layerTemplate.styles.forEach(function (style) {
@@ -175,10 +175,7 @@ class InfoLayersPanel extends WorldWindWidgetPanel {
         let scope = configuration.scope;
         let theme = configuration.theme;
         let periods = configuration.periods;
-        let place = "";
-        if (configuration.place.length > 0) {
-            place = [configuration.place];
-        }
+        let place = configuration.locations;
 
         let self = this;
         let promises = [];
@@ -194,7 +191,7 @@ class InfoLayersPanel extends WorldWindWidgetPanel {
      * @param scope {string|number} Scope id
      * @param place {string|array} Place id. Empty strin means all places.
      * @param period {string|number} Period id.
-     * @param theme {string|number} Theme id.
+     * @param theme {string|number} ThemeSelector id.
      * @returns {Promise}
      */
     getLayersFromAPI(scope, place, period, theme) {

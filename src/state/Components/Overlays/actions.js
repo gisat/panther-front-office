@@ -190,5 +190,6 @@ export default {
 
 	actionUpdateOverlay: actionUpdateOverlay,
 
+
 	views: Views
 }

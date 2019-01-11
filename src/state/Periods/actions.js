@@ -1,42 +1,35 @@
 import ActionTypes from '../../constants/ActionTypes';
-
 import _ from 'lodash';
-
+import common from '../_common/actions';
+import Select from "../Select";
 
 // ============ creators ===========
 
-function add(periods) {
-	return dispatch => {
-		if (!_.isArray(periods)) periods = [periods];
-		dispatch(actionAdd(periods));
-	};
-}
-
-function setActiveKey(key) {
-	return dispatch => {
-		dispatch(actionSetActiveKey(key));
-	};
-}
+const setActiveKey = common.setActiveKey(ActionTypes.PERIODS);
+const setActiveKeys = common.setActiveKeys(ActionTypes.PERIODS);
+const useKeys = common.useKeys(Select.periods.getSubstate, 'periods', ActionTypes.PERIODS);
+const useIndexed = common.useIndexed(Select.periods.getSubstate, 'periods', ActionTypes.PERIODS);
+const refreshUses = common.refreshUses(Select.periods.getSubstate, `periods`, ActionTypes.PERIODS);
+const ensureIndexesWithFilterByActive = common.ensureIndexesWithFilterByActive(Select.periods.getSubstate, 'periods', ActionTypes.PERIODS);
 
 // ============ actions ===========
 
-function actionAdd(periods) {
+function actionClearUseIndexed(componentId) {
 	return {
-		type: ActionTypes.PERIODS_ADD,
-		data: periods
-	}
-}
-
-function actionSetActiveKey(key) {
-	return {
-		type: ActionTypes.PERIODS_SET_ACTIVE,
-		key: key
+		type: ActionTypes.PERIODS.USE.INDEXED.CLEAR,
+		componentId
 	}
 }
 
 // ============ export ===========
 
 export default {
-	add: add,
-	setActiveKey: setActiveKey
+	ensure: common.ensure.bind(this, Select.periods.getSubstate, 'periods', ActionTypes.PERIODS),
+	ensureIndexesWithFilterByActive,
+	refreshUses,
+	setActiveKey,
+	setActiveKeys,
+	useIndexed,
+	useIndexedClear: actionClearUseIndexed,
+	useKeys
 }

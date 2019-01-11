@@ -2,14 +2,14 @@
 
 let polyglot = window.polyglot;
 let Config = window.Config;
-let ThemeYearConfParams = window.ThemeYearConfParams;
 let Observer = window.Observer;
 
 let $ = window.$;
 class CustomLayers {
-    constructor() {
+    constructor(options) {
         this._target = $('#custom-layers');
         this._target.on('click.customLayers', '.ptr-btn', this.handleClick.bind(this));
+        this._stateStore = options.stateStore;
         this.build();
     };
 
@@ -128,6 +128,7 @@ class CustomLayers {
 
 
     loadFile(relativeUrl) {
+        let state = this._stateStore.current();
         let fileInput = this._container.find('#custom-layers-file-file')[0];
         let file = fileInput.files[0];
         let name = this._container.find('#custom-layers-file-name')[0].value;
@@ -135,8 +136,8 @@ class CustomLayers {
         //let url = 'http://192.168.2.112/backend/' + 'rest/layerImporter/import';
         let payload = new FormData();
         payload.append('file', file);
-        payload.append('scope', ThemeYearConfParams.dataset);
-        payload.append('theme', ThemeYearConfParams.theme);
+        payload.append('scope', state.scope);
+        payload.append('theme', state.theme);
         payload.append('name', name);
         let self = this;
         this.buildFileImport();
@@ -216,6 +217,7 @@ class CustomLayers {
 
 
     addWMS() {
+        let state = this._stateStore.current();
         let wmsAddress = this._container.find('#custom-layers-wms-address')[0].value;
         let wmsLayer = this._container.find('#custom-layers-wms-layer')[0].value;
         let name = this._container.find('#custom-layers-wms-name')[0].value;
@@ -260,9 +262,9 @@ class CustomLayers {
         let payload = {
             'url': wmsAddress,
             'layer': wmsLayer,
-            'scope': ThemeYearConfParams.dataset,
-            'periods': ThemeYearConfParams.allYears,
-            'places': ThemeYearConfParams.allPlaces,
+            'scope': state.scope,
+            'periods': state.periods,
+            'places': state.locations,
             'name': name
         };
         let self = this;

@@ -17,9 +17,6 @@ Ext.define('PumaMain.controller.ViewMng', {
                         recdeleted: this.onDelete,
                         urlopen: this.onUrlOpen
                     },
-                    'commonsaveform #save' : {
-                        click: this.onSave
-                    },
                     '#savevisualization': {
                         click: this.onVisSave
                     },
@@ -98,48 +95,77 @@ Ext.define('PumaMain.controller.ViewMng', {
     },
     onDelete: function(grid,rec) {
         rec.destroy();
-    },
-    onSave: function(btn) {
-        var form = btn.up('form');
-        var name = form.getComponent('name').getValue();
-        var rec = form.rec;
-        rec.set('name',name);
-        rec.save({
-            callback: this.onSaveFinish
-        });
-        btn.up('window').close();
-        
-    },
+	},
     onShare: function(options) {
-        var view = Ext.create('Puma.model.DataView',this.gatherViewConfig(options));
-        view.save({
-            callback: this.onSaveFinish
-        });  
-    },
-    onSaveFinish: function(rec,operation) {
+		const onSave = (rec,operation) => {
+
+			const promises = []
+			if(options.group.value && options.group.value !== 'null') {
+				promises.push(store.groups.share(options.group.value, options.state.scope, options.state.places, rec.data._id));
+			}
+			if(options.user.value && options.user.value !== 'null') {
+				promises.push(store.user.share(options.user.value, options.state.scope, options.state.places, rec.data._id));
+			}
+			Promise.all(promises).then(() => {
+				this.onSaveFinish(rec, operation, options.group, options.user, options.language);
+				window.Stores.notify('components#shareSetVisible', false);
+			})
+		}
+
+		const store = window.store;
+		options.state = window.stateStore.current();
+		var view = Ext.create('Puma.model.DataView',this.gatherViewConfig(options));
+
+		//Clear view options from share window
+		view.data.conf.components.share = null;
+		view.data.conf.components.windows.share = {open:false};
+
+		view.save({
+			callback: onSave
+		});
+	},
+
+    onSaveFinish: function(rec, operation, group, user, language) {
         var isView = rec.modelName == 'Puma.model.DataView';
         var store = Ext.StoreMgr.lookup(isView ? 'dataview' : 'visualization');
         store.addWithSlaves(rec);
         if (isView) {
         	var id = rec.get('_id');
-            var url = window.location.origin+window.location.pathname+'?id='+id;
+			var url = window.location.origin+window.location.pathname+'?id='+id;
+			this.showUrl(url, group, user, language);
 			Stores.notify('sharing#urlReceived', {
 				dataviewId: Number(id),
 				url: url
 			});
-			Stores.notify("VIEWS_ADD", [{
+			Stores.notify("DATAVIEWS_ADD", [{
 				id: rec.data._id,
 				key: rec.data._id,
 				date: new Date(),
-				data: {
-					name: rec.data.conf.name,
-					description: rec.data.conf.description,
-					dataset: rec.data.conf.dataset,
-					language: rec.data.conf.language
-				},
+				// data: {
+				// 	name: rec.data.conf.name,
+				// 	description: rec.data.conf.description,
+				// 	dataset: rec.data.conf.dataset,
+				// 	language: rec.data.conf.language
+				// },
+				data: rec.data.conf,
 				permissions: rec.data.permissions
 			}]);
         }
+	},
+
+	showUrl: function(baseUrl, selectedGroup, selectedUser, language){
+		let auth = "&needLogin=true";
+		const isLoggedIn = stateStore.current().user.isLoggedIn;
+		if (isLoggedIn && selectedGroup.value === '2'){
+			auth = "";
+		}
+		let url = baseUrl + auth +'&lang=' + language.value;
+		if(Config.toggles.isUrbanTep && selectedGroup) {
+			if(selectedGroup.value !== '1' && selectedGroup.value !== '2' && selectedGroup.value !== '3') {
+				UrbanTepPortalStore.share(url, selectedUser.value, selectedGroup.title);
+			}
+		}
+		alert(polyglot.t('theStateWasCorrectlyShared') + url);
     },
         
     onVisOrViewManage: function(btn) {
@@ -211,7 +237,7 @@ Ext.define('PumaMain.controller.ViewMng', {
         locationCombo.suspendEvents();
 
         datasetCombo.setValue(cfg.dataset);
-        
+
         var locStore = Ext.StoreMgr.lookup('location4init');
         locStore.clearFilter(true);
         locStore.filter([
@@ -248,7 +274,6 @@ Ext.define('PumaMain.controller.ViewMng', {
 
         locationCombo.setValue(cfg.location);
 
-
         yearCombo.resumeEvents();
         datasetCombo.resumeEvents();
         themeCombo.resumeEvents();
@@ -283,9 +308,10 @@ Ext.define('PumaMain.controller.ViewMng', {
 
 		var locStore = Ext.StoreMgr.lookup('location4init');
 		var locationsData = locStore.query('dataset',cfg.dataset);
+
 		ThemeYearConfParams.allPlaces = [];
 		locationsData.items.forEach(function(item){
-			ThemeYearConfParams.allPlaces.push(item.raw.id);
+			ThemeYearConfParams.allPlaces.push(item.raw._id || item.raw.id);
 		});
         this.getController('LocationTheme').reloadWmsLayers();
 
@@ -356,21 +382,16 @@ Ext.define('PumaMain.controller.ViewMng', {
 			options.activeChoroplethKeys = Config.cfg.activeChoroplethKeys;
 		}
 
-		if (Config.cfg.is3D){
-			Stores.notify('fo#adjustConfigurationFromDataview', options);
 
-        	// show right panel
-        	if (Config.cfg.sidebarReportsOpen){
-				$('#sidebar-reports').show();
-			}
-			Observer.notify('scopeChange');
-			Observer.notify("resizeMap");
-		} else {
-			var map = Ext.ComponentQuery.query('#map')[0].map;
-			if (Config.cfg) {
-				map.setCenter([Config.cfg.mapCfg.center.lon,Config.cfg.mapCfg.center.lat],Config.cfg.mapCfg.zoom);
-			}
+		window.Stores.notify('fo#adjustConfigurationFromDataview', options);
+
+		// show right panel
+		if (Config.cfg.sidebarReportsOpen){
+			$('#sidebar-reports').show();
 		}
+
+		Observer.notify('scopeChange');
+		Observer.notify("resizeMap");
     },
 
 	gatherViewConfig: function (options) {
@@ -465,7 +486,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 			// dataview metadata
 			cfg.name = options.name;
 			cfg.description = options.description;
-			cfg.language = options.language || "en";
+			cfg.language = options.language.value || "en";
 
 			// world wind map settings
 			if (options.state && options.state.worldWindNavigator){

@@ -2,6 +2,9 @@ import Action from '../state/Action';
 import utils from '../utils/utils';
 import Select from "../state/Select";
 import watch from "redux-watch";
+import _ from "lodash";
+
+import common from "./_common";
 
 let state = {};
 
@@ -11,6 +14,7 @@ export default store => {
 };
 
 const setStoreWatchers = store => {
+	common.createWatcher(store, Select.scopes.getAllForDataviewAsObject, byKeyWatcher, 'byKeyForDataview');
 
 	createWatcher(store, Select.scopes.getActiveScopeKey, activeScopeKeyWatcher);
 	createWatcher(store, Select.scopes.getActiveScopeData, activeScopeWatcher, 'scope');
@@ -18,23 +22,21 @@ const setStoreWatchers = store => {
 };
 
 const setEventListeners = store => {
-	window.Stores.addListener((event, options) => {
-		switch(event) {
-			case 'SCOPES_LOADED':
-				let oldModels = Select.scopes.getScopes(store.getState());
-				let newModels = utils.removeDuplicities(oldModels, options);
-				if (newModels && newModels.length){
-					store.dispatch(Action.scopes.add(newModels));
-				}
-				break;
-			case 'scope#activeScopeChanged':
-				store.dispatch(Action.scopes.setActiveScopeKey(options.activeScopeKey));
-				break;
-		}
-	});
 };
 
 // ======== state watchers ========
+const byKeyWatcher = (value, previousValue, stateKey) => {
+	console.log('@@@@@ subscribers/scopes#byKeyWatcher', previousValue, '->', value);
+	if (stateKey) state[stateKey] = value;
+	let diff = common.compareByKey(value, previousValue);
+
+	// todo changed and removed?
+	if (diff.added && diff.added.length){
+		window.Stores.notify("REDUX_SCOPES_ADD", diff.added);
+	}
+};
+
+
 
 const activeScopeKeyWatcher = (value, previousValue) => {
 	console.log('@@ activeScopeKeyWatcher', previousValue, '->', value);

@@ -4,6 +4,8 @@ import Select from '../state/Select';
 import VisualConfig from '../constants/VisualsConfig';
 import _ from 'lodash';
 
+let Observer = window.Observer;
+
 let state = {};
 export default store => {
 	setEventListeners(store);
@@ -17,6 +19,7 @@ const setStoreWatchers = store => {
 	createWatcher(store, Select.components.getComponents, componentsWatcher);
 	createWatcher(store, Select.components.getApplicationStyleActiveKey, applicationStyleActiveKeyWatcher);
 	createWatcher(store, Select.components.getApplicationStyleHtmlClass, applicationStyleHtmlClassWatcher);
+	createWatcher(store, Select.components.getShare, shareWatcher);
 };
 
 const setEventListeners = store => {
@@ -40,9 +43,6 @@ const setEventListeners = store => {
 			case 'components#applyFromDataview':
 				store.dispatch(Action.components.update("windows", options.windows));
 				break;
-			case 'components#applicationMode':
-				store.dispatch(Action.components.setIntro(false));
-				break;
 			case 'components#mapsGridChanged':
 				let state = Select.components.getMapsContainer(store.getState());
 				if (state.columns !== options.columns || state.rows !== options.rows){
@@ -59,6 +59,8 @@ const applicationStyleActiveKeyWatcher = (value, previousValue) => {
 		let configuration = VisualConfig[value];
 		if (configuration && configuration.logoSrc){
 			window.Stores.notify("SHOW_HEADER_LOGO", configuration.logoSrc);
+		} else if (configuration && configuration.headerTitle){
+			window.Stores.notify("SHOW_HEADER_TITLE", configuration.headerTitle);
 		}
 	}
 };
@@ -73,6 +75,25 @@ const applicationStyleHtmlClassWatcher = (value, previousValue) => {
 		if (value) {
 			// add class to html element
 			document.documentElement.classList.add(value);
+		}
+	}
+};
+
+const shareWatcher = (value, previousValue) => {
+	console.log('@@ shareWatcher', previousValue, '->', value);
+	if (previousValue !== value){
+
+		if (!previousValue.toSave && value.toSave) {
+			Observer.notify("PumaMain.controller.ViewMng.onShare", {
+				state: state,
+				name: value.toSave.name.value,
+				language: value.toSave.langSelect,
+				description: value.toSave.description.value,
+				group: value.toSave.groupsSelect,
+				user: value.toSave.usersSelect,
+				dataviewId: value.toSave.dataviewId,
+			});
+	
 		}
 	}
 };
@@ -94,9 +115,10 @@ const snapshotsWindowWatcher = (value, previousValue) => {
 const viewsWindowWatcher = (value, previousValue) => {
 	console.log('@@ viewsWindowWatcher', previousValue, '->', value);
 	if (previousValue !== value){
-		window.Stores.notify('VIEWS_WINDOW_TOGGLE');
+		window.Stores.notify('DATAVIEWS_WINDOW_TOGGLE');
 	}
 };
+
 
 const componentsWatcher = (value, previousValue) => {
 	console.log('@@ componentsWatcher', value);

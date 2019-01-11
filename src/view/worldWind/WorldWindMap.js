@@ -19,6 +19,8 @@ import WmsFeatureInfo from '../../worldwind/WmsFeatureInfo';
 
 import './WorldWindMap.css';
 
+let polyglot = window.polyglot;
+
 /**
  * Class World Wind Map
  * @param options {Object}
@@ -95,7 +97,7 @@ class WorldWindMap {
 			}
 			if (m.isDefaultScenarioSituation){
 				this.isDefaultScenarioSituation = m.isDefaultScenarioSituation;
-				this._name = "Default state";
+				this._name = polyglot.t('defaultState');
 			}
 		}
 
@@ -531,7 +533,7 @@ class WorldWindMap {
 		 */
 		if (this._id === "default-map" || maps.length === 1){
 			if (state.isMapDependentOnScenario){
-				this.mapWindowTools.addMapLabelWithName("Default state");
+				this.mapWindowTools.addMapLabelWithName(polyglot.t('defaultState'));
 			} else {
 				this.mapWindowTools.addMapLabel(this._period);
 			}

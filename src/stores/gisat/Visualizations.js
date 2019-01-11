@@ -5,8 +5,8 @@ class Visualizations extends BaseStore {
     /**
      * @inheritDoc
      */
-    getInstance(themeData) {
-        return new Visualization({data: themeData});
+    getInstance(visualizationsData) {
+        return new Visualization({data: visualizationsData});
     }
 
     /**
@@ -15,6 +15,14 @@ class Visualizations extends BaseStore {
     getPath() {
         return "rest/visualization";
     }
+
+	onEvent(type, data){
+		if (type === "REDUX_VISUALIZATIONS_ADD"){
+			if (data.length){
+				this.addFromRedux(data);
+			}
+		}
+	}
 }
 
 export default Visualizations;

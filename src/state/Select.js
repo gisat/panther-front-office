@@ -1,12 +1,13 @@
+// base types
 import Aoi from './AOI/selectors';
 import Areas from './Areas/selectors';
 import Attributes from './Attributes/selectors';
 import AttributeSets from './AttributeSets/selectors';
 import Choropleths from './Choropleths/selectors';
 import Components from './Components/selectors';
+import Dataviews from './Dataviews/selectors';
 import LayerPeriods from './LayerPeriods/selectors';
 import LayerTemplates from './LayerTemplates/selectors';
-import LpisCases from './LpisCases/selectors';
 import Maps from './Maps/selectors';
 import Periods from './Periods/selectors';
 import Places from './Places/selectors';
@@ -15,11 +16,16 @@ import Scopes from './Scopes/selectors';
 import Snapshots from './Snapshots/selectors';
 import SpatialDataSources from './SpatialDataSources/selectors';
 import SpatialRelations from './SpatialRelations/selectors';
-import Symbologies from './Symbologies/selectors';
+import Styles from './Styles/selectors';
+import Themes from './_Themes/selectors';
 import UserGroups from './UserGroups/selectors';
 import Users from './Users/selectors';
-import Views from './Views/selectors';
+import Visualizations from './_Visualizations/selectors';
 import WmsLayers from './WmsLayers/selectors';
+
+// specific types
+import LpisChangeReviewCases from "./_specific/LpisChangeReviewCases/selectors";
+import LpisCheckCases from './_specific/LpisCheckCases/selectors';
 
 export default {
 	aoi: Aoi,
@@ -28,9 +34,9 @@ export default {
 	attributeSets: AttributeSets,
 	choropleths: Choropleths,
 	components: Components,
+	dataviews: Dataviews,
 	layerPeriods: LayerPeriods,
 	layerTemplates: LayerTemplates,
-	lpisCases: LpisCases,
 	maps: Maps,
 	periods: Periods,
 	places: Places,
@@ -39,10 +45,14 @@ export default {
 	snapshots: Snapshots,
 	spatialDataSources: SpatialDataSources,
 	spatialRelations: SpatialRelations,
-	symbologies: Symbologies,
+	styles: Styles,
+	themes: Themes,
 	userGroups: UserGroups,
 	users: Users,
-	views: Views,
-	wmsLayers: WmsLayers
-
+	visualizations: Visualizations,
+	wmsLayers: WmsLayers,
+	specific: {
+		lpisChangeReviewCases: LpisChangeReviewCases,
+		lpisCheckCases: LpisCheckCases
+	}
 };

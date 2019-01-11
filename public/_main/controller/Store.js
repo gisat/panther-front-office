@@ -39,9 +39,9 @@ Ext.define('PumaMain.controller.Store', {
 		this.initLocalStores();
 		this.initAggregatedStores();
 		this.initEvents();
-		this.initLocations();
+		// this.initLocations();
 
-        Observer.notify('Store#init');
+		window.Stores.addListener(this.onEvent.bind(this));
 	},
 
 	initLocations: function () {
@@ -55,8 +55,6 @@ Ext.define('PumaMain.controller.Store', {
 				var data = JSON.parse(response.responseText).data;
 				store.loadData(data);
 				store.loading = false;
-
-                Observer.notify('Area#initLocations Success');
 			},
 			failure: function (response, opts) {
 				console.log('Store.initLocations AJAX request failed. Status: ' + response.status, "Response:", response);
@@ -673,13 +671,19 @@ Ext.define('PumaMain.controller.Store', {
 				property: 'name',
 				direction: 'ASC'
 			}],
-			fields: ['name', 'locGid', 'location', 'dataset', 'at', 'bbox'],
+			fields: ['name', 'locGid', 'location', 'dataset', 'at', 'bbox', '_id'],
 			filters: [function (rec) {
 				return false;
 			}],
 			data: []
 		});
 
+	},
+
+	onEvent: function (type, options) {
+		if (type === "REDUX_SCOPES_ADD"){
+
+		}
 	}
 
 });

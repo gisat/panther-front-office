@@ -15,18 +15,6 @@ Ext.define('Gisatlib.slider.DiscreteTimeline', {
         if (this.store) {
             this.bindStore(this.store);
         }
-        Stores.addListener(this.changePeriod.bind(this));
-    },
-
-	/**
-     * Change period
-	 * @param event {string} type of event
-	 * @param periods {Array} List of periods
-	 */
-	changePeriod: function(event, periods){
-        if (event === "periods#change"){
-            this.setValue(periods);
-        }
     },
     
     getStoreListeners: function() {

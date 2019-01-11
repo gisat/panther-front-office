@@ -5,17 +5,13 @@ import path from "path";
 import fetch from "isomorphic-fetch";
 import Group from "../../data/Group";
 
+import common from "../_common/actions";
 
 const TTL = 5;
 
 // ============ creators ===========
 
-function add(groups){
-	return dispatch => {
-		if (!_.isArray(groups)) groups = [groups];
-		dispatch(actionAdd(groups));
-	};
-}
+const add = common.add(ActionTypes.USER_GROUPS);
 
 function apiLoad(ttl) {
 	if (_.isUndefined(ttl)) ttl = TTL;
@@ -42,7 +38,7 @@ function apiLoad(ttl) {
 								return group;
 							});
 						})).then(groups => {
-							dispatch(actionAdd(groups));
+							dispatch(add(groups));
 						});
 					});
 				} else {
@@ -60,18 +56,9 @@ function apiLoad(ttl) {
 	};
 }
 
-// ============ actions ===========
-
-function actionAdd(groups) {
-	return {
-		type: ActionTypes.USER_GROUPS_ADD,
-		data: groups
-	}
-}
-
 // ============ export ===========
 
 export default {
-	add: add,
-	apiLoad: apiLoad
+	add,
+	apiLoad
 }

@@ -1,28 +1,26 @@
-import ActionTypes from '../../constants/ActionTypes';
-
 import _ from 'lodash';
 
+import ActionTypes from '../../constants/ActionTypes';
+import common from '../_common/actions';
+import Select from "../Select";
 
 // ============ creators ===========
 
-function add(attributes) {
-	return dispatch => {
-		if (!_.isArray(attributes)) attributes = [attributes];
-		dispatch(actionAdd(attributes));
-	};
-}
+const useKeys = common.useKeys(Select.attributes.getSubstate, 'attributes', ActionTypes.ATTRIBUTES);
 
 // ============ actions ===========
 
-function actionAdd(attributes) {
+// TODO It will be removed along with Ext
+function actionInitializeForExt() {
 	return {
-		type: ActionTypes.ATTRIBUTES_ADD,
-		data: attributes
+		type: ActionTypes.ATTRIBUTES.INITIALIZE_FOR_EXT,
 	}
 }
+
 
 // ============ export ===========
 
 export default {
-	add: add
+	initializeForExt: actionInitializeForExt,
+	useKeys
 }

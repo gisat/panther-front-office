@@ -1,69 +1,59 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
 
-const getActiveKeys = state => state.attributeSets.activeKeys;
-const getAttributeSets = state => state.attributeSets.data;
-const getAttributes = state => state.attributes.data;
+import common from "../_common/selectors";
 
-const getActive = createSelector(
-	[getAttributeSets, getActiveKeys],
-	(models, keys) => {
-		return _.filter(models, model => {
-			return _.find(keys, key => {
-				return key === model.key;
+const getSubstate = state => state.attributeSets;
+
+const getAll = common.getAll(getSubstate);
+const getActiveKeys = common.getActiveKeys(getSubstate);
+const getActive = common.getActive(getSubstate);
+const getAllForDataview = common.getAllForDataview(getSubstate);
+const getAllForDataviewAsObject = common.getAllForDataviewAsObject(getSubstate);
+
+const isInitializedForExt = common.isInitializedForExt(getSubstate);
+
+const getByTopics = createSelector(
+	[getAll, (state, topics) => topics],
+	(attributeSets, topics) => {
+		if (attributeSets && topics){
+			if (!_.isArray(topics)) topics = [topics];
+			let filtered = _.filter(attributeSets, (attributeSet) => {
+				return _.includes(topics, attributeSet.data.topic);
 			});
-		});
+			return filtered.length ? filtered : null;
+		} else {
+			return null;
+		}
 	}
 );
 
-const getAttributesDataByActiveAttributeSets = createSelector(
-	[getAttributeSets, getActiveKeys, getAttributes],
-	(models, keys, attributesData) => {
-		let attributeSets = {};
-		_.filter(models, model => {
-			let attributeSetKey = _.find(keys, key => {
-				return key === model.key;
+const getUniqueAttributeKeysForTopics = createSelector(
+	[getByTopics],
+	(attributeSets) => {
+		if (attributeSets && attributeSets.length){
+			let allAttributeKeys = attributeSets.map((attributeSet) => {
+				return attributeSet.data.attributes;
 			});
-			if (attributeSetKey){
-				let attributes = [];
-				model.attributes.map(attributeKey => {
-					attributes.push(_.find(attributesData, attributeModel => {
-						return attributeModel.key = attributeKey;
-					}));
-				});
-				attributeSets[attributeSetKey] = {
-					attributes: attributes
-				}
-			}
-		});
-		return attributeSets;
-	}
-);
+			let uniqueAttributeKeys = _.compact(_.uniq(_.flatten(allAttributeKeys)));
+			return uniqueAttributeKeys.length ? uniqueAttributeKeys : null;
 
-const getAttributeKeysByActiveAttributeSets = createSelector(
-	[getAttributeSets, getActiveKeys],
-	(models, keys) => {
-		let attributeSets = {};
-		_.filter(models, model => {
-			let attributeSetKey = _.find(keys, key => {
-				return key === model.key;
-			});
-			if (attributeSetKey){
-				attributeSets[attributeSetKey] = {
-					attributes: model.attributes
-				}
-			}
-		});
-		return attributeSets;
+		} else {
+			return null;
+		}
 	}
 );
 
 export default {
-	getActive: getActive,
-	getActiveKeys: getActiveKeys,
+	getActive,
+	getActiveKeys,
+	getAttributeSets: getAll,
 
-	getAttributeSets: getAttributeSets,
+	getAllForDataview,
+	getAllForDataviewAsObject,
 
-	getAttributeKeysByActiveAttributeSets: getAttributeKeysByActiveAttributeSets,
-	getAttributesDataByActiveAttributeSets: getAttributesDataByActiveAttributeSets
+	getByTopics,
+	getUniqueAttributeKeysForTopics,
+
+	isInitializedForExt
 };

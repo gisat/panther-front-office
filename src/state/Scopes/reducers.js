@@ -1,22 +1,31 @@
 import ActionTypes from '../../constants/ActionTypes';
 import _ from 'lodash';
-import common from '../_common/reducers';
+import common, {DEFAULT_INITIAL_STATE} from '../_common/reducers';
 
 const INITIAL_STATE = {
-	data: [],
-	activeKey: null
+	...DEFAULT_INITIAL_STATE
 };
 
-function setActiveKey(state, action){
-	return {...state, activeKey: action.activeScopeKey};
-}
-
-export default function tasksReducer(state = INITIAL_STATE, action) {
+export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case ActionTypes.SCOPES_ADD:
+		case ActionTypes.SCOPES.ADD:
 			return common.add(state, action);
-		case ActionTypes.SCOPES_SET_ACTIVE_KEY:
-			return setActiveKey(state, action);
+		case ActionTypes.SCOPES.ADD_UNRECEIVED:
+			return common.addUnreceivedKeys(state, action);
+		case ActionTypes.SCOPES.INDEX.ADD:
+			return common.addIndex(state, action);
+		case ActionTypes.SCOPES.SET_ACTIVE_KEY:
+			return common.setActive(state, action);
+		case ActionTypes.SCOPES.USE.INDEXED.REGISTER:
+			return common.registerUseIndexed(state, action);
+		case ActionTypes.SCOPES.USE.INDEXED.CLEAR:
+			return common.useIndexedClear(state, action);
+		case ActionTypes.SCOPES.INDEX.CLEAR_ALL:
+			return common.clearIndexes(state, action);
+		case ActionTypes.COMMON.DATA.SET_OUTDATED:
+			return common.dataSetOutdated(state, action);
+		case ActionTypes.COMMON.DATA.CLEANUP_ON_LOGOUT:
+			return common.cleanupOnLogout(state, action);
 		default:
 			return state;
 	}

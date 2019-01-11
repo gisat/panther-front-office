@@ -81,8 +81,12 @@ class LayerTool {
      * Hide floater and switch icon
      */
     hide() {
-        this._iconSelector.removeClass("open");
-        this._floaterSelector.removeClass("open");
+        if (this._iconSelector){
+			this._iconSelector.removeClass("open");
+        }
+        if (this._floaterSelector){
+			this._floaterSelector.removeClass("open");
+        }
     };
 
     /**

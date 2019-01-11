@@ -1,26 +1,16 @@
 import ActionTypes from '../../constants/ActionTypes';
 import _ from 'lodash';
+import common from '../_common/actions';
+import Select from "../Select";
 
 // ============ creators ===========
 
-function add(layerTemplates){
-	return dispatch => {
-		if (!_.isArray(layerTemplates)) layerTemplates = [layerTemplates];
-		dispatch(actionAdd(layerTemplates));
-	};
-}
-
-// ============ actions ===========
-
-function actionAdd(layerTemplates) {
-	return {
-		type: ActionTypes.LAYER_TEMPLATES_ADD,
-		data: layerTemplates
-	}
-}
+const add = common.add(ActionTypes.LAYER_TEMPLATES);
+const useKeys = common.useKeys(Select.layerTemplates.getSubstate, 'layertemplates', ActionTypes.LAYER_TEMPLATES);
 
 // ============ export ===========
 
 export default {
-	add: add
+	add,
+	useKeys
 }

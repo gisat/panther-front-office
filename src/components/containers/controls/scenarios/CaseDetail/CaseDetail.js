@@ -6,22 +6,23 @@ import CaseDetail from "../../../../presentation/controls/scenarios/CaseDetail/C
 const mapStateToProps = (state, ownProps) => {
 	return {
 		activeBackgroundLayerKey: Select.maps.getActiveBackgroundLayerKey(state),
-		case: Select.scenarios.getActiveCase(state),
-		caseEdited: Select.scenarios.getActiveCaseEdited(state),
+		case: Select.scenarios.cases.getActive(state),
+		caseEdited: Select.scenarios.cases.getActiveCaseEdited(state),
 		place: Select.places.getActive(state),
-		activeCaseScenarioKeys: Select.scenarios.getActiveCaseScenarioKeys(state),
-		activeCaseEditedScenarioKeys: Select.scenarios.getActiveCaseEditedScenarioKeys(state),
-		activeScenarioKeys: Select.scenarios.getActiveKeys(state),
-		isDefaultSituationActive: Select.scenarios.isDefaultSituationActive(state),
-		editedScenariosKeys: Select.scenarios.getActiveCaseScenariosEditedKeys(state),
-		editedScenarios: Select.scenarios.getActiveCaseScenariosEdited(state),
+		activeCaseScenarioKeys: Select.scenarios.cases.getActiveCaseScenarioKeys(state),
+		activeCaseEditedScenarioKeys: Select.scenarios.cases.getActiveCaseEditedScenarioKeys(state),
+		activeScenarioKeys: Select.scenarios.scenarios.getActiveKeys(state),
+		isDefaultSituationActive: Select.scenarios.scenarios.isDefaultSituationActive(state),
+		editedScenariosKeys: Select.scenarios.cases.getActiveCaseScenariosEditedKeys(state),
+		editedScenarios: Select.scenarios.cases.getActiveCaseScenariosEdited(state),
 		editingActive: Select.components.windows.scenarios.isEditingActive(state),
 
 		// permissions
-		enableCreate: Select.users.isAdmin(state) || Select.users.hasActiveUserPermissionToCreate(state, 'scenario_case'),
-		// todo permissions for update/delete
-		enableDelete: Select.users.isAdmin(state) || Select.users.hasActiveUserPermissionToCreate(state, 'scenario_case'),
-		enableEdit: Select.users.isAdmin(state) || Select.users.hasActiveUserPermissionToCreate(state, 'scenario_case')
+		enableCreate: Select.users.hasActiveUserPermissionToCreate(state, 'scenario_cases'),
+
+		// TODO get permissions from model
+		enableDelete: Select.users.hasActiveUserPermissionToCreate(state, 'scenario_cases'),
+		enableEdit: Select.users.hasActiveUserPermissionToCreate(state, 'scenario_cases')
 	}
 };
 

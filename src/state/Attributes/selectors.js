@@ -1,8 +1,22 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
+import common from '../_common/selectors';
 
-const getAttributes = state => state.attributes.data;
+
+const getSubstate = state => state.attributes;
+
+const getAttributes =  common.getAll(getSubstate);
+const getAllForDataview = common.getAllForDataview(getSubstate);
+const getAllForDataviewAsObject = common.getAllForDataviewAsObject(getSubstate);
+
+const isInitializedForExt = common.isInitializedForExt(getSubstate);
 
 export default {
-	getAttributes: getAttributes
+	getAttributes,
+
+	getAllForDataview,
+	getAllForDataviewAsObject,
+	getSubstate,
+
+	isInitializedForExt
 };

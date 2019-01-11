@@ -16,8 +16,12 @@ class Scopes extends BaseStore {
         return "rest/dataset";
     }
 
-    loaded(models) {
-        window.Stores.notify("SCOPES_LOADED", models);
+    onEvent(type, data){
+        if (type === "REDUX_SCOPES_ADD"){
+            if (data.length){
+                this.addFromRedux(data);
+            }
+        }
     }
 }
 

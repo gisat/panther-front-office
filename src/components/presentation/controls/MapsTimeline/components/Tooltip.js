@@ -76,7 +76,7 @@ class Tooltip extends React.PureComponent {
 							key={layer.key}
 						>
 							<div></div>
-							<div>{layer.name}</div>
+							<div>{layer.data.name}</div>
 							<div className="ptr-timeline-tooltip-layer-periods">{periods}</div>
 						</div>
 					);

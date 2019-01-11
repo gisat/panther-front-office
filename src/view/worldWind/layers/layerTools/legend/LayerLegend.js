@@ -61,7 +61,7 @@ class LayerLegend extends LayerTool {
         if (this._defaultLayer){
 			let style = "";
 			let layer = this._defaultLayer.path;
-			let url = Config.url + "api/proxy/wms?";
+			let url = Config.url + "geoserver/wms?";
 			if (this._style) {
 				style = this._style.path;
 			}
@@ -153,7 +153,7 @@ class LayerLegend extends LayerTool {
         }
 
 	    target.append(`<div class="legend-content-item" data-id="${mapKey}">
-                <span>${mapPeriod}</span>
+                <span>${mapPeriod ? mapPeriod : ""}</span>
                 <img src="${imgSrc}">
             </div>`);
     };

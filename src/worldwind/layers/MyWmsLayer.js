@@ -52,12 +52,12 @@ class MyWmsLayer extends WmsLayer {
      * @param layers {string}
      */
     getFeatureInfo(property, coordinates, layers) {
-        let bottomLeft = (coordinates.lat - 0.01) + "," + (coordinates.lon - 0.01);
-        let topRight = (coordinates.lat + 0.01) + "," + (coordinates.lon + 0.01);
+        let bottomLeft = (coordinates.lon - 0.01) + "," + (coordinates.lat - 0.01);
+        let topRight = (coordinates.lon + 0.01) + "," + (coordinates.lat + 0.01);
         let bbox = bottomLeft + "," + topRight;
 
         return new RemoteJQ({
-            url: "api/proxy/wms",
+            url: "geoserver/wms",
             params: {
                 "SERVICE": "WMS",
                 "VERSION": this.urlBuilder.wmsVersion,
@@ -71,7 +71,7 @@ class MyWmsLayer extends WmsLayer {
                 "X": 1000,
                 "Y": 1000,
                 "PROPERTYNAME": property,
-                "EXPECTJSON": true
+				"INFO_FORMAT": "application/json"
             }
         }).get().then(function (results) {
             let feature = null;

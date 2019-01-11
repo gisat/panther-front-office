@@ -18,7 +18,13 @@ class BaseStore {
     constructor(options) {
         options = options || {};
         this._models = options.models || null;
+        this._modelsPromises = null;
         this._listeners = [];
+
+        if (options && options.length){
+			this.addFromRedux(options);
+        }
+        window.Stores.addListener(this.onEvent.bind(this));
     };
 
     /**
@@ -143,9 +149,6 @@ class BaseStore {
      * @returns {Promise} Promise of all elements available under the directory.
      */
     all() {
-        if (!this._models) {
-            this._models = this.load();
-        }
         return this._models;
     };
 
@@ -201,6 +204,34 @@ class BaseStore {
         });
     };
 
+    addFromRedux(data){
+        if (this._modelsPromises){
+            this._modelsPromises = this._modelsPromises.concat(data);
+        } else {
+			this._modelsPromises = data;
+        }
+
+        let self = this;
+        this._models = Promise.all(this._modelsPromises)
+            .then(models => {
+                let promises = [];
+                models.forEach(model => {
+                   promises.push(self.getInstance(model));
+                });
+                return promises;
+            }).then(promises => {
+                return Promise.all(promises);
+            }).catch(err => {
+                throw new Error(err);
+            });
+    }
+
+	/**
+	 * Hook for descendants
+	 */
+    onEvent(){
+
+    }
 }
 
 export default BaseStore;

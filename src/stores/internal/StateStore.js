@@ -38,6 +38,7 @@ class StateStore {
         this._activeAoi = null;
         this._previousAoi = null;
         this._selectedMapId = null;
+        this._theme = null;
         this._user = {
             isLoggedIn: false,
             isAdmin: false,
@@ -49,7 +50,12 @@ class StateStore {
         this.isMapIndependentOfPeriod = false;
 		this.isMapDependentOnScenario = false;
 
-		this.allowZoomByScenarioCase = true;
+		if (options.activeKeys) {
+		    let keys = options.activeKeys;
+		    if (keys.places){
+		        this._locations = keys.places
+            }
+        }
 
         window.Stores.addListener(this.onEvent.bind(this), "initialLoading");
         window.Stores.hasStateStore = true;
@@ -65,7 +71,7 @@ class StateStore {
         return {
             scope: this.scope(),
             scopeFull: this.scopeFull(),
-            theme: ThemeYearConfParams.theme,
+            theme: this._theme,
             places: this.places(),
             place: ThemeYearConfParams.place,
             allPlaces: ThemeYearConfParams.allPlaces,
@@ -95,7 +101,6 @@ class StateStore {
             selectedMapId: this._selectedMapId,
 
 			components: this._components,
-            allowZoomByScenarioCase: this.allowZoomByScenarioCase,
 			scenarios: this._scenarios,
 
             user: this._user,
@@ -371,13 +376,6 @@ class StateStore {
     }
 
 	/**
-	 * @param value {boolean} true, if zooming by case should be allowed
-	 */
-	setAllowZoomByCase(value){
-        this.allowZoomByScenarioCase = value;
-    }
-
-	/**
 	 * Store components from Redux store for view sharing purposes
 	 * @param components {Object}
 	 */
@@ -453,7 +451,7 @@ class StateStore {
             this._selectedMapId = options.id;
         } else if (type === Actions.userChanged){
             this.updateUser(options);
-            this._dispatcher.notify('customization#userChanged');
+            this._dispatcher.notify('customization#userChanged', options);
         } else if (type === Actions.dataviewWithoutAoi){
             this._withoutAoi = options.status;
         }
@@ -476,7 +474,9 @@ class StateStore {
             this._attributeFilters = options;
         } else if (type === 'CHOROPLETH_ACTIVE_KEYS_CHANGED'){
 			this._activeChoroplethKeys = options;
-		}
+		} else if (type === 'REDUX_SET_ACTIVE_THEME'){
+            this._theme = options.keys;
+        }
     };
 
 

@@ -35,7 +35,7 @@ class ExtApp {
                 appFolder: '_main',
                 controllers: [
                     'DomManipulation', 'Render', 'Store', 'LocationTheme', 'Area', 'Layers',
-                    'AttributeConfig', 'ViewMng', 'Login', 'Select', 'Chart'
+                    'AttributeConfig', 'ViewMng', 'Select', 'Chart'
                 ],
                 enableQuickTips: true,
                 requires: [
@@ -54,7 +54,6 @@ class ExtApp {
                 ],
 
                 launch: function () {
-                    self.loginController = this.getController("Puma.controller.Login");
                     self.domManipulationController = this.getController('DomManipulation');
                     self.renderController = this.getController('Render');
                     self.dataViewController = this.getController('Dataview');
@@ -65,7 +64,71 @@ class ExtApp {
         })
     };
 
+    initialLoad(data){
+		let scopesStore = Ext.StoreMgr.lookup('dataset');
+		let placesStore = Ext.StoreMgr.lookup('location');
+		let themesStore = Ext.StoreMgr.lookup('theme');
+		let yearsStore = Ext.StoreMgr.lookup('year');
+		let visualizationsStore = Ext.StoreMgr.lookup('visualization');
+
+		let locationStore = Ext.StoreMgr.lookup('location4init');
+		let themeStore = Ext.StoreMgr.lookup('theme4sel');
+		let yearStore = Ext.StoreMgr.lookup('year4sel');
+		let visStore = Ext.StoreMgr.lookup('visualization4sel');
+
+		if (data.scopes){
+		    scopesStore.add(data.scopes);
+        }
+		if (data.places){
+			placesStore.add(data.places);
+			locationStore.add(data.places);
+		}
+		if (data.themes){
+			themesStore.add(data.themes);
+			themeStore.add(data.themes);
+		}
+		if (data.periods){
+			yearsStore.add(data.periods);
+			yearStore.add(data.periods);
+		}
+
+		if (data.visualizations){
+			visualizationsStore.add(data.visualizations);
+			visStore.add(data.visualizations);
+		}
+
+		if (data.attributeSets){
+			this.addAttributeSetsToStore(data.attributeSets);
+		}
+
+		if (data.attributes){
+			this.addAttributesToStore(data.attributes);
+		}
+
+		this.domManipulationController.renderApp();
+		this.renderController.renderApp();
+    };
+
+	addAttributesToStore(data){
+		Ext.StoreMgr.lookup('attribute').add(data);
+	}
+
+    addAttributeSetsToStore(data){
+		Ext.StoreMgr.lookup('attributeset').add(data);
+	}
+
+	addVisualizationsToStore(data){
+		Ext.StoreMgr.lookup('visualization').add(data);
+		Ext.StoreMgr.lookup('visualization4sel').add(data);
+	}
+
+    applyDataview(data){
+		this.dataViewController.onLoadingFinished(data.dataview);
+	};
+
     afterLoad() {
+		$('#view-selector > .group').hide();
+
         // set Home link in header // todo Move this somewhere else?
         $("#home-link").attr("href", Config.projectHome);
         $("#legacy-view-selector > .label").html(Config.basicTexts.appName);
@@ -158,94 +221,28 @@ class ExtApp {
         });
         Ext.window.Window.prototype.resizable = false;
 
-        let url = new URL(window.location);
-        let id = url.searchParams.get('id');
-
-        let self = this;
-        if (url.searchParams.get('needLogin')) {
-            $('#hideAllExceptLogin').show();
-
-            this.loginController.getApplication().on('login',function(loggedIn) {
-                Config.dataviewId = id;
-                $('#hideAllExceptLogin').hide();
-                self.login(loggedIn, id);
-            });
-        } else if (id) {
-            Config.dataviewId = id;
-            // Load stores when only for print or loading the whole application.
-            let stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic'];
-            let promises = [];
-            let self = this;
-            stores.forEach(function (storeName) {
-                promises.push(new Promise(function (resolve, reject) {
-                    let store = Ext.StoreMgr.lookup(storeName);
-                    store.on('datachanged', function (data) {
-                        resolve(data);
-                    });
-					store.on('load', self.afterStoreLoad.bind(self));
-                    store.load();
-                }));
-            });
-
-            Promise.all(promises).then(function (data) {
-                self.dataViewController.onLoadingFinished();
-                self.domManipulationController.renderApp();
-                self.renderController.renderApp();
-            }).catch(function (err) {
-                Logger.logMessage(Logger.LEVEL_SEVERE, 'Ext', 'afterLoad', err);
-                alert(polyglot.t("notPossibleToLoadData"));
-            });
-        } else {
-            window.Stores.notify("initialLoadingFinished");
-        }
+		window.Stores.notify("initialLoadingFinished");
     };
-
-    login(loggedIn, id) {
-        if (loggedIn) {
-            let stores = ['location', 'theme', 'layergroup', 'attributeset', 'attribute', 'visualization', 'year', 'areatemplate', 'symbology', 'dataset', 'topic'];
-			let self = this;
-            stores.forEach(function (store) {
-                let extStore = Ext.StoreMgr.lookup(store);
-				extStore.on('load', self.afterStoreLoad.bind(self));
-				extStore.load();
-            });
-
-            this.dataViewController.onLoadingFinished();
-
-            if (this._dataviewId !== Config.dataviewId) {
-                this.domManipulationController.renderApp();
-                this.renderController.renderApp();
-            }
-
-            this._dataviewId = Config.dataviewId;
-        } else {
-            window.Stores.notify("initialLoadingFinished");
-            this.loginController.onLoginClicked(null, true);
-        }
-    };
-
-    afterStoreLoad(store, records){
-		if ((store.storeId === 'symbology' || store.storeId === 'areatemplate') && records){
-			let data = [];
-			records.forEach(function(record){
-				data.push(record.raw);
-			});
-			switch(store.storeId){
-				case 'symbology':
-					window.Stores.notify("SYMBOLOGIES_LOADED", data);
-					break;
-				case 'areatemplate':
-					window.Stores.notify("LAYER_TEMPLATES_LOADED", data);
-					break;
-			}
-		}
-    }
 
     onEvent(type, options){
         if (type === "SHOW_HEADER_LOGO"){
 			$('#content-intro > .label').html("");
 			$('#home-page').html('<img src="' + options + '" />');
-        }
+        } else if (type === "SHOW_HEADER_TITLE"){
+			$('#home-page').find("h1").text(options);
+		} else if (type === "REDUX_ATTRIBUTE_SETS_ADD"){
+			if (options.length){
+				this.addAttributeSetsToStore(options);
+			}
+		} else if (type === "REDUX_ATTRIBUTES_ADD"){
+			if (options.length){
+				this.addAttributesToStore(options);
+			}
+		} else if (type === "REDUX_VISUALIZATIONS_ADD"){
+			if (options.length){
+				this.addVisualizationsToStore(options);
+			}
+		}
     }
 }
 

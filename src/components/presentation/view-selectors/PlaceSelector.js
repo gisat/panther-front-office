@@ -3,21 +3,23 @@ import PropTypes from 'prop-types';
 import UISelect from '../atoms/UISelect'
 import classNames from 'classnames';
 
+let polyglot = window.polyglot;
+
 class PlaceSelector extends React.PureComponent {
 
 	static propTypes = {
 		activePlace: PropTypes.object,
+		isInIntroMode: PropTypes.bool,
 		places: PropTypes.array,
 		onChangePlace: PropTypes.func,
+		onMount: PropTypes.func,
 		label: PropTypes.string,
 		homeLink: PropTypes.bool,
-		homeLinkLabel: PropTypes.string,
 		classes: PropTypes.string
 	};
 
 	static defaultProps = {
 		places: null,
-		label: "Place",
 		homeLinkLabel: "Home"
 	};
 
@@ -27,18 +29,31 @@ class PlaceSelector extends React.PureComponent {
 		this.onChangePlace = this.onChangePlace.bind(this);
 	}
 
+	componentDidMount(){
+		if (!this.props.isInIntroMode && this.props.onMount){ //TODO remove dependency on mode
+			this.props.onMount();
+		}
+	}
+
+	componentWillUnmount() {
+		if (this.props.onUnmount){
+			this.props.onUnmount();
+		}
+	}
+
 	onChangePlace(object){
 		this.props.onChangePlace(object.value);
 	}
 
 	render() {
+		const place = polyglot.t('place');
 		let content = null;
 
 		if (this.props.disabledHard){
 
-			if (this.props.activePlace) {
+			if (this.props.activePlace && this.props.activePlace.data) {
 				content = (
-					<div className="ptr-aoi-selected"><span>{this.props.label}:</span>{this.props.activePlace.name}</div>
+					<div className="ptr-aoi-selected"><span>{place}:</span>{this.props.activePlace.data.name}</div>
 				);
 			} // else keep null
 
@@ -52,7 +67,7 @@ class PlaceSelector extends React.PureComponent {
 					options.push({
 						key: place.key,
 						value: place.key,
-						label: place.name
+						label: place.data && place.data.name
 					})
 				});
 
@@ -74,14 +89,14 @@ class PlaceSelector extends React.PureComponent {
 			content.push((
 				<UISelect
 					key='place-selector'
+					clearable={false}
 					classes={classes}
 					label='left'
-					name={this.props.label}
+					name={place}
 					onChange={this.onChangePlace}
 					options={options}
 					placeholder=''
 					value={selected}
-					virtualized
 					disabled={!!this.props.disabled}
 				/>
 			));

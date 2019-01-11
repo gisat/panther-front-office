@@ -7,6 +7,8 @@ import Names from '../../../../constants/Names'
 
 import './style.css';
 
+let polyglot = window.polyglot;
+
 const DEFAULT_HEIGHT = 36;
 
 class EditableText extends React.PureComponent {
@@ -133,10 +135,8 @@ class EditableText extends React.PureComponent {
 	}
 
 	renderMessage(){
-		let message = Names.EDITABLE_TEXT_REQUIRED_FIELD_MESSAGE ? Names.EDITABLE_TEXT_REQUIRED_FIELD_MESSAGE : "This field is required";
-
 		return ((this.props.required && !(this.props.value || this.state && this.state.value)) ?
-			(<div className="ptr-editable-text-message">{message}</div>): null);
+			(<div className="ptr-editable-text-message">{polyglot.t('requiredField')}</div>): null);
 	}
 }
 

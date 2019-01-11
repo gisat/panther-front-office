@@ -26,7 +26,6 @@ import PanelIFrame from './view/PanelIFrame/PanelIFrame';
 import Periods from './stores/gisat/Periods';
 import PeriodsSelector from './view/selectors/PeriodsSelector/PeriodsSelector';
 import Scopes from './stores/gisat/Scopes';
-import SharingWidget from './view/widgets/SharingWidget/SharingWidget';
 import SelectionStore from './stores/internal/SelectionStore';
 import SnowMapController from './view/SnowMapController';
 import SnowWidget from './view/widgets/SnowWidget/SnowWidget';
@@ -37,28 +36,32 @@ import Users from './stores/gisat/Users';
 import Visualizations from './stores/gisat/Visualizations';
 import WmsLayers from './stores/gisat/WmsLayers';
 import WorldWindWidget from './view/widgets/WorldWindWidget/WorldWindWidget';
+import places from "./subscribers/places";
 import Uuid from "./util/Uuid";
+import _ from "lodash";
 
 let Config = window.Config;
 let polyglot = window.polyglot;
 let Widgets = window.Widgets;
 
 let $ = window.$;
-function loadApp() {
+
+function loadApp(initialData) {
     let store = {
-        attributes: new AttributesStore(),
-        attributeSets: new AttributeSets(),
+        attributes: new AttributesStore(initialData.attributes),
+        attributeSets: new AttributeSets(initialData.attributeSets),
         dataviews: new Dataviews(),
         groups: new Groups(),
         layers: new Layers(),
-        locations: new Locations(),
-        periods: new Periods(),
-        scopes: new Scopes(),
-        themes: new Themes(),
+        locations: new Locations(initialData.places),
+        periods: new Periods(initialData.periods),
+        scopes: new Scopes(initialData.scopes),
+        themes: new Themes(initialData.themes),
         users: new Users(),
-        visualizations: new Visualizations(),
+        visualizations: new Visualizations(initialData.visualizations),
         wmsLayers: new WmsLayers()
     };
+    window.store = store;
 
 	applyProjectSettings();
     if(!new URL(window.location).searchParams.get('id')) {
@@ -133,10 +136,20 @@ function loadApp() {
             ext = new ExtApp();
             return ext.setUp();
         }).then(function () {
+			return ext.initialLoad(initialData);
+		}).then(function () {
             return ext.afterLoad();
         }).then(function () {
-            setUpNewApp();
-            window.Stores.notify('extLoaded');
+			setUpNewApp();
+			ext.applyDataview(initialData);
+
+			if (initialData.activeScopeStyle){
+				applyScopeStyle(initialData.activeScopeStyle);
+            }
+            if (initialData.activeUser){
+                applyActiveUser(initialData.activeUser);
+            }
+
         }).catch(err => {
             console.error('Loading#', err);
         });
@@ -158,6 +171,22 @@ function loadApp() {
         }
     });
 
+    function applyScopeStyle(style) {
+        if (style.logoSrc){
+			window.Stores.notify("SHOW_HEADER_LOGO", initialData.activeScopeStyle.logoSrc);
+        } else if (style.headerTitle){
+			window.Stores.notify("SHOW_HEADER_TITLE", initialData.activeScopeStyle.headerTitle);
+		}
+	}
+
+	function applyActiveUser(user) {
+		window.Stores.notify('customization#userChanged', {
+			isLoggedIn: user.key && user.key > 0,
+			isAdmin: !!(_.find(user.groups, {key: 1})),
+			groups: user.groups
+		});
+	}
+
     function setUpNewApp() {
         function stop(event){
             event.preventDefault();
@@ -174,8 +203,11 @@ function loadApp() {
 
         var stateStore = new StateStore({
             dispatcher: window.Stores,
-            store: {}
+            store: {},
+            activeKeys: initialData.activeKeys
         });
+        window.stateStore = stateStore;
+
         var mapStore = new MapStore({
             dispatcher: window.Stores,
             store: {
@@ -195,7 +227,7 @@ function loadApp() {
                     let uuid = new Uuid().generate();
                     return {
                         uuid: uuid,
-                        name: 'Map ' + uuid,
+                        name: 'Map: ' + (map.name ? map.name : map.id),
                         source: snapshotUrl
                     }
                 }))
@@ -301,7 +333,6 @@ function loadApp() {
             snowViewChanges();
         }
 
-        widgets.push(buildSharingWidget(stateStore));
         widgets.push(buildIntegrateCustomLayersWidget());
 
         // build app, map is class for OpenLayers map
@@ -385,7 +416,6 @@ function loadApp() {
         $('#content #content-application .period .label').text(polyglot.t('year'));
         $('#content #content-application .visualization .label').text(polyglot.t('visualization'));
         $('#content #content-application #top-toolbar #top-toolbar-tools #top-toolbar-snapshot').attr('title', polyglot.t('takeMapSnapshot'));
-        $('#content #content-application #top-toolbar #top-toolbar-tools #top-toolbar-share-view').attr('title', polyglot.t('shareView'));
         $('#content #content-application #top-toolbar #top-toolbar-tools #top-toolbar-context-help').attr('title', polyglot.t('contextHelp'));
         $('#content #content-application #sidebar-tools #sidebar-tools-toggle').attr('title', polyglot.t('tools'));
         $('#content #content-application #sidebar-reports #sidebar-reports-toggle').attr('title', polyglot.t('reports'));
@@ -560,26 +590,6 @@ function loadApp() {
                 state: stateStore
             }
         });
-    }
-
-    /**
-     * It builds widget for sharing.
-     * @returns {*}
-     */
-    function buildSharingWidget(stateStore) {
-        Widgets.sharing = new SharingWidget({
-            elementId: 'sharing',
-            name: polyglot.t('share'),
-            placeholderTargetId: 'widget-container',
-            dispatcher: window.Stores,
-            store: {
-                users: store.users,
-                groups: store.groups,
-                state: stateStore
-            }
-        });
-
-        return Widgets.sharing;
     }
 
     function buildIntegrateCustomLayersWidget() {

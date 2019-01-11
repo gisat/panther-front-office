@@ -17,6 +17,7 @@ class UISelect extends React.PureComponent {
 		fullWidth: PropTypes.bool,
 		label: PropTypes.string,
 		name: PropTypes.string,
+		multi: PropTypes.bool,
 		onChange: PropTypes.func,
 		options: PropTypes.array,
 		optionClassName: PropTypes.string,
@@ -25,7 +26,8 @@ class UISelect extends React.PureComponent {
 		placeholder: PropTypes.string,
 		value: PropTypes.oneOfType([
 			PropTypes.string,
-			PropTypes.number
+			PropTypes.number,
+			PropTypes.array
 		]),
 		valueRenderer: PropTypes.func,
 		virtualized: PropTypes.bool,
@@ -85,7 +87,9 @@ class UISelect extends React.PureComponent {
 				):(
 					<ReactSelect
 						autosize
+						multi={this.props.multi}
 						clearable={this.props.clearable}
+						closeOnSelect={!this.props.multi}
 						name={this.props.name}
 						onChange={this.props.onChange}
 						optionClassName={this.props.optionClassName}
@@ -96,6 +100,7 @@ class UISelect extends React.PureComponent {
 						value={this.props.value}
 						valueRenderer={this.props.valueRenderer}
 						disabled={this.props.disabled}
+						removeSelected={false}
 					/>
 				)}
 

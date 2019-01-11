@@ -182,8 +182,9 @@ function loadForPlace(placeKey) {
 function loadForKey(key, geometry) {
 	return (dispatch, getState) => {
 		let state = getState();
-		_.each(state.wmsLayers.data, wmsLayer => {
-			if (wmsLayer.getDates) dispatch(loadForKeyLayer(key, geometry, wmsLayer));
+		let layers = Select.wmsLayers.getLayersWithGetDate(state);
+		_.each(layers, wmsLayer => {
+			dispatch(loadForKeyLayer(key, geometry, wmsLayer));
 		});
 	};
 }

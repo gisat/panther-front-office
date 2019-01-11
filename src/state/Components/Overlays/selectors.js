@@ -29,7 +29,6 @@ const getEditedPolygonInfo = (state) => {
 export default {
 	getOverlay: getOverlay,
 	isOverlayOpen: isOverlayOpen,
-
 	getScenarioMapEditingMapData: getScenarioMapEditingMapData,
 	getScenarioMapEditingDataSourceKey: getScenarioMapEditingDataSourceKey,
 	getEditedPolygonInfo: getEditedPolygonInfo,

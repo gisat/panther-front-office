@@ -16,9 +16,13 @@ class AttributeSets extends BaseStore {
         return "rest/attributeset";
     }
 
-    loaded(models) {
-        window.Stores.notify("ATTRIBUTE_SETS_LOADED", models);
-    }
+	onEvent(type, data){
+		if (type === "REDUX_ATTRIBUTE_SETS_ADD"){
+			if (data.length){
+				this.addFromRedux(data);
+			}
+		}
+	}
 }
 
 export default AttributeSets;

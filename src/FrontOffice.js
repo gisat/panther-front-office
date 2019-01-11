@@ -34,8 +34,6 @@ class FrontOffice {
             throw new ArgumentError(Logger.logMessage(Logger.LEVEL_SEVERE, 'FrontOffice', 'constructor', 'Dispatcher must be provided'));
         }
 
-        this.loadData(options.store);
-
         this._attributesMetadata = options.attributesMetadata;
         this._options = options.widgetOptions;
         this._tools = options.tools;
@@ -53,7 +51,6 @@ class FrontOffice {
         this._previousDataset = null;
 
         Observer.addListener("rebuild", this.rebuild.bind(this));
-        Observer.addListener('user#onLogin', this.loadData.bind(this, options.store));
         Observer.addListener('Select#onChangeColor', this.rebuildEvaluationWidget.bind(this));
 
         this._dispatcher.addListener(this.onEvent.bind(this));
@@ -200,43 +197,10 @@ class FrontOffice {
      */
     checkConfiguration() {
         let self = this;
-        let state = this._stateStore.current();
         ThemeYearConfParams.actions.forEach(function(action){
             self.mapActions(action);
         });
         ThemeYearConfParams.actions = [];
-
-        // warning if scope wasn't selected properly
-        if (this._options.changes.scope && !this._options.changes.dataview){
-            if (this._dataset === ThemeYearConfParams.dataset){
-                console.warn(Logger.logMessage(Logger.LEVEL_WARNING, "FrontOffice", "checkConfiguration", "missingDataset"));
-            }
-        }
-
-        // handle active dataset
-        if (this._options.changes.dataview){
-            this._dataset = this._options.config.dataset;
-        } else {
-            this._dataset = ThemeYearConfParams.dataset;
-        }
-
-        if (this._previousDataset !== this._dataset && !this._options.changes.dataview){
-            this._dispatcher.notify('scope#activeScopeChanged', {activeScopeKey: Number(self._dataset)});
-            this._previousDataset = Number(this._dataset);
-        }
-
-		// handle active places
-		if (!this._options.changes.dataview){
-			let places;
-			if (state.place && state.place !== "All places" && typeof state.place === "string"){
-				places = [(Number(state.place))];
-			} else if (state.locations){
-				places = state.locations;
-			} else {
-				places = state.allPlaces;
-			}
-			this._dispatcher.notify('place#setActivePlace', {data: places});
-		}
     };
 
     /**
@@ -402,7 +366,6 @@ class FrontOffice {
              * Apply settings from dataview, if exists
              */
             if (options && !self._dataviewSettingsUsed){
-                self._dispatcher.notify('scope#activeScopeChanged', {activeScopeKey: Number(options.scope)});
                 self._previousDataset = options.scope;
                 self._dataviewSettingsUsed = true;
                 if (scope.hideSidebarReports){
@@ -424,7 +387,6 @@ class FrontOffice {
         };
 		if (options.worldWindState){
 			this.setMapsFromDataview(options.worldWindState);
-			this._stateStore.setAllowZoomByCase(false);
 		}
         if (options.widgets){
             this._topToolBar.handleDataview(options.widgets);
@@ -489,24 +451,6 @@ class FrontOffice {
     }
 
     /**
-     * Load metadata from server
-     */
-    loadData(store) {
-        return Promise.all([
-            store.attributes.load(),
-            store.attributeSets.load(),
-            store.dataviews.load(),
-            store.layers.load(),
-            store.locations.load(),
-            store.periods.load(),
-            store.scopes.load(),
-            store.themes.load(),
-            store.visualizations.load(),
-            store.wmsLayers.load()
-        ]);
-    };
-
-    /**
      * Show/hide components
      * @param action {string} css display value
      */
@@ -534,15 +478,11 @@ class FrontOffice {
         if(type === Actions.adjustConfiguration) {
             this.adjustConfiguration();
         } else if (type === Actions.adjustConfigurationFromDataview){
-            var self = this;
-            this._store.locations.load().then(function(){
-                self.adjustConfiguration(options);
-            });
+			window.Stores.notify('scope#activeScopeChanged', {activeScopeKey: Number(options.scope)});
+            this.adjustConfiguration(options);
         } else if (type === "dataview#setMapsFromDataview"){
         	this.setMapsFromDataview(options);
-		} else if (type === Actions.userChanged){
-			this._store.scopes.load();
-        }
+		}
     }
 }
 

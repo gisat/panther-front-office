@@ -10,11 +10,13 @@ import './style.css';
 import Button from '../../../presentation/atoms/Button';
 import InputText from '../../../presentation/atoms/Input/Input';
 
+let polyglot = window.polyglot;
 
 class LoginOverlay extends React.PureComponent {
 
 	static propTypes = {
-
+		open: PropTypes.bool,
+		loginRequired: PropTypes.bool
 	};
 
 	constructor() {
@@ -43,7 +45,7 @@ class LoginOverlay extends React.PureComponent {
 	}
 
 	login(){
-        this.props.login(this.state.email, this.state.password);
+		this.props.login(this.state.email, this.state.password);
 	}
 
 	render() {
@@ -64,7 +66,7 @@ class LoginOverlay extends React.PureComponent {
 						<InputText
 							password
 							transparent
-							placeholder="passphrase"
+							placeholder={polyglot.t('passphrase')}
 							onChange={this.onChangePassword}
 							value={this.state.password}
 						/>
@@ -74,15 +76,17 @@ class LoginOverlay extends React.PureComponent {
 							primary
 							onClick={this.login}
 						>
-							Log in
+							{polyglot.t('logIn')}
 						</Button>
-						<Button
-							invisible
-							inverted
-							onClick={this.props.close}
-						>
-							Cancel
-						</Button>
+						{!this.props.loginRequired ? (
+							<Button
+								invisible
+								inverted
+								onClick={this.props.close}
+							>
+								{polyglot.t('cancel')}
+							</Button>
+						) : null}
 					</div>
 				</div>
 			</div>

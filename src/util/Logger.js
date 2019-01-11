@@ -108,7 +108,7 @@ let Logger = {
         missingSliderValues: "Slider default values parameter is null, undefined or empty!",
         missingTargetElementId: "Required target element ID is null or undefined!",
         missingTarget: "Target is null or undefined!",
-        missingTheme: "Theme is null or undefined!",
+        missingTheme: "ThemeSelector is null or undefined!",
         missingText: "Text is null or undefined!",
         missingWidgetId: "Widget Id is null or undefined!",
         missingWidgetName: "Widget Name is null or undefined!",

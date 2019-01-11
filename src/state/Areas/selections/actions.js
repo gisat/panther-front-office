@@ -6,6 +6,8 @@ import utils from '../../../utils/utils'
 
 import common from '../../_common/actions';
 
+const add = common.add(ActionTypes.AREAS.SELECTIONS);
+
 function update(data) {
 	return (dispatch) => {
 		if (!_.isArray(data)) data = [data];
@@ -63,19 +65,13 @@ function updateSelectionByColour(colour, attributeFilter) {
 					}
 				}
 			};
-			dispatch(common.add(actionAdd)(newSelection));
+			dispatch(add(newSelection));
 		}
 	};
 }
 
 
 // ============ actions ===========
-function actionAdd(selections){
-	return {
-		type: ActionTypes.AREAS_SELECTIONS_ADD,
-		data: selections
-	}
-}
 
 function actionSetActiveKeys(keys){
 	return {
@@ -95,8 +91,8 @@ function actionUpdate(selections){
 // ============ export ===========
 
 export default {
-	addActiveKeyByColour: addActiveKeyByColour,
-	removeActiveKeyByColour: removeActiveKeyByColour,
-	setActiveKeys: setActiveKeys,
-	updateSelectionByColour: updateSelectionByColour
+	addActiveKeyByColour,
+	removeActiveKeyByColour,
+	setActiveKeys,
+	updateSelectionByColour
 }

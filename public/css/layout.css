@@ -498,7 +498,10 @@ body.intro #content-intro-terms {
 	position: absolute;
 	top: 0;
 	left: 0;
-	padding-left: 15px;
+	padding-left: 26px;
+	display: flex;
+	align-items: center;
+	z-index: 9;
 }
 
 #view-selector > .group {

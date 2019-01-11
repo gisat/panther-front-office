@@ -3,15 +3,21 @@ import {Selector} from 'redux-testkit';
 
 let state = {
 	layerTemplates: {
-		data: [{
-			"name":"Urban Atlas","symbologies":[1,2],"key":3989}, {
-			"name":"Symbology 2", "symbologies":[],"key":3999
-		}]
+		byKey: {
+			3989: {
+				"name": "Urban Atlas", "symbologies": [1, 2], "key": 3989
+			},
+			3999: {
+				"name": "Symbology 2", "symbologies": [], "key": 3999
+			}
+		}
 	},
-	symbologies: {
-		data: [{
-			"name":"pucs model output hwd","symbologyName":"pucs_hwd","source":"geoserver","key":1
-		}]
+	styles: {
+		byKey: {
+			1: {
+				"name": "pucs model output hwd", "symbologyName": "pucs_hwd", "source": "geoserver", "key": 1
+			}
+		}
 	}
 };
 
@@ -35,7 +41,7 @@ describe('Layer Templates Selectors', () => {
 		Selector(Select.layerTemplates.getTemplate).expect(state, templateWithSymbologies).toReturn(expectedTemplate);
 
 		let nonExisting = Selector(Select.layerTemplates.getTemplate).execute(state, nonExistingTemplate);
-		expect(nonExisting).toBeUndefined();
+		expect(nonExisting).toBeNull();
 	});
 
 	it('should select sybombologies data for given layer template', () => {

@@ -100,7 +100,7 @@ function selectLayerPeriod(layerKey, period, mapKey) {
 			let scope = Select.scopes.getActiveScopeData(appState);
 
 			let stateUpdate;
-			if (scope.oneLayerPerMap){
+			if (scope && scope.data && scope.data.oneLayerPerMap){
 				stateUpdate = {
 					key: mapKey,
 					wmsLayers: null,
@@ -158,6 +158,14 @@ function clearPlaceGeometryChangeReviewOfAllMaps(){
 	}
 }
 
+function clearPlaceLPISCheckGeometryOfAllMaps() {
+	return (dispatch, getState) => {
+		let state = Select.maps.getMaps(getState());
+		let updates = state.map(map => {return {key: map.key, placeGeometryLPISCheck: null}});
+		dispatch(update(updates));
+	}
+}
+
 function selectWmsLayer(layerKey, mapKey) {
 	return (dispatch, getState) => {
 		let appState = getState();
@@ -166,7 +174,7 @@ function selectWmsLayer(layerKey, mapKey) {
 			let scope = Select.scopes.getActiveScopeData(appState);
 
 			let stateUpdate;
-			if (scope.oneLayerPerMap){
+			if (scope && scope.data && scope.data.oneLayerPerMap){
 				stateUpdate = {
 					key: mapKey,
 					wmsLayers: [layerKey],
@@ -256,7 +264,7 @@ function updateWithScenarios(){
 	return (dispatch, getState) => {
 		let state = getState();
 		let maps = Select.maps.getMapsOverrides(state);
-		let activeScenarios = Select.scenarios.getActiveScenarios(state);
+		let activeScenarios = Select.scenarios.scenarios.getActiveScenarios(state);
 		let updatedMaps = [];
 		maps.map(map => {
 			let scenarioForMap = _.find(activeScenarios, (scenario) => {return scenario.key === map.scenarioKey});
@@ -331,6 +339,7 @@ export default {
 	clearWmsLayer: clearWmsLayer,
 	clearWmsLayersOfAllMaps: clearWmsLayersOfAllMaps,
 	clearPlaceGeometryChangeReviewOfAllMaps: clearPlaceGeometryChangeReviewOfAllMaps,
+	clearPlaceLPISCheckGeometryOfAllMaps: clearPlaceLPISCheckGeometryOfAllMaps,
 	handleMapDependencyOnPeriod: handleMapDependencyOnPeriod,
 	initialize: initialize,
 	remove: remove,

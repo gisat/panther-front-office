@@ -1,40 +1,30 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
 import Select from '../Select';
-import symbologies from "../../subscribers/symbologies";
 
 import common from "../_common/selectors";
 
 const getSubstate = state => state.scopes;
 
-const getScopes = state => state.scopes.data;
+const getAll = common.getAll(getSubstate);
+const getAllAsObject = common.getAllAsObject(getSubstate);
+const getAllForDataview = common.getAllForDataview(getSubstate);
+const getAllForDataviewAsObject = common.getAllForDataviewAsObject(getSubstate);
 const getActiveKey = common.getActiveKey(getSubstate);
 
-const getActiveScopeData = createSelector(
-	[getScopes, getActiveKey],
-	(scopes, activeKey) => {
-		return _.find(scopes, function(scope){
-			return scope.key === activeKey;
-		});
-	}
-);
+const getActive = common.getActive(getSubstate);
+const getByKey = common.getByKey(getSubstate);
+
 
 const getActiveScopeConfiguration = createSelector(
-	[getActiveScopeData],
-	(data) => {
-		return data && data.configuration ? data.configuration : null;
-	}
-);
-
-const getScopeData = createSelector(
-	[getScopes, (state,key) => (key)],
-	(scopes, key) => {
-		return _.find(scopes, (scope) => {return scope.key === key})
+	[getActive],
+	(scope) => {
+		return scope && scope.data && scope.data.configuration ? scope.data.configuration : null;
 	}
 );
 
 const getScopesForActiveUser = createSelector([
-	getScopes,
+	getAll,
 	],(scopes) => {
 		return scopes;
 	}
@@ -50,7 +40,7 @@ const getPucsSourceVectorLayerTemplate = createSelector(
 const getSymbologyForPucsSourceVectorLayerTemplate = createSelector(
 	[getPucsSourceVectorLayerTemplate,
 	(state) => Select.layerTemplates.getTemplates(state),
-	(state) => Select.symbologies.getSymbologies(state)],
+	(state) => Select.styles.getAll(state)],
 	(templateKey, templates, symbologies) => {
 		if (templateKey){
 			let templateData = _.find(templates, (tmplt) => {
@@ -85,16 +75,16 @@ const getPucsSourceVectorLandCoverClasses = createSelector(
 		let template = _.find(templates, (tmplt) => {
 			return tmplt.key === templateKey;
 		});
-		if (template && template.attributeSets && template.attributeSets.length){
+		if (template && template.data && template.data.attributeSets && template.data.attributeSets.length && attributes && attributeSets){
 			let attributeSet = _.find(attributeSets, (as) => {
-				return as.key === template.attributeSets[0];
+				return as.key === template.data.attributeSets[0];
 			});
 			if (attributeSet){
 				let attribute = _.find(attributes, (attr) => {
-					return attr.key === attributeSet.attributes[0];
+					return attr.key === attributeSet.data.attributes[0];
 				});
-				if (attribute && attribute.enumerationValues){
-					return attribute.enumerationValues;
+				if (attribute && attribute.data && attribute.data.enumerationValues){
+					return attribute.data.enumerationValues;
 				} else {
 					console.warn('Scope selectors#getPucsSourceVectorLandCoverClasses: Attibute set ' + attributeSet.key + ' does not contain attributes or first attribute does not have enumeration values parameter!');
 					return null;
@@ -110,14 +100,22 @@ const getPucsSourceVectorLandCoverClasses = createSelector(
 );
 
 export default {
-	getActiveScopeConfiguration: getActiveScopeConfiguration,
-	getActiveScopeData: getActiveScopeData,
+	getActiveScopeConfiguration,
+	getActiveScopeData: getActive,
 	getActiveScopeKey: getActiveKey,
-	getScopes: getScopes,
-	getScopesForActiveUser: getScopesForActiveUser,
-	getScopeData: getScopeData,
+	getScopes: getAll,
+	getScopesForActiveUser,
+	getScopeData: getByKey,
 
-	getPucsSourceVectorLandCoverClasses: getPucsSourceVectorLandCoverClasses,
-	getPucsSourceVectorLayerTemplate: getPucsSourceVectorLayerTemplate,
-	getSymbologyForPucsSourceVectorLayerTemplate: getSymbologyForPucsSourceVectorLayerTemplate
+	getActiveKey,
+	getAll,
+	getAllAsObject,
+	getAllForDataview,
+	getAllForDataviewAsObject,
+	getActive,
+	getSubstate,
+
+	getPucsSourceVectorLandCoverClasses,
+	getPucsSourceVectorLayerTemplate,
+	getSymbologyForPucsSourceVectorLayerTemplate
 };
