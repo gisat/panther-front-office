@@ -2,8 +2,6 @@ import ActionTypes from '../../constants/ActionTypes';
 import _ from 'lodash';
 import Names from '../../constants/Names';
 
-let config = window.Config.toggles.intro;
-
 const INITIAL_STATE = {
 	application: {
 		intro: true,
@@ -39,11 +37,11 @@ const INITIAL_STATE = {
 		},
 		views: {
 			intro: {
-				name: config && config.name ? config.name : null,
-				title: config && config.title ? config.title : Names.INTRO_DEFAULT_TITLE,
-				text: config && config.text ? config.text : "",
-				logo: config && config.logo ? {source: config.logo.source} : null,
-				sections: config && config.sections ? config.sections : null
+				name: null,
+				title: null,
+				text: null,
+				logo: null,
+				sections: null
 			},
 			open: true,
 			selectedScope: null,

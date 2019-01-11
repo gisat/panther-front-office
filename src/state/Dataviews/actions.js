@@ -4,7 +4,6 @@ import fetch from "isomorphic-fetch";
 import config from "../../config";
 import path from "path";
 import queryString from 'query-string';
-import Dataview from "../../data/Dataview";
 import Select from "../Select";
 
 import common from "../_common/actions";

@@ -3,7 +3,6 @@ import createCachedSelector from 're-reselect';
 import _ from 'lodash';
 
 import common from "../_common/selectors";
-import UserGroupSelectors from '../UserGroups/selectors';
 import ScopeSelectors from '../Scopes/selectors';
 
 

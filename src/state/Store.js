@@ -23,7 +23,6 @@ import spatialRelationsReducers from './SpatialRelations/reducers';
 import stylesReducers from './Styles/reducers';
 import themesReducers from './_Themes/reducers';
 import usersReducers from './Users/reducers';
-import userGroupsReducers from './UserGroups/reducers';
 import visualizationsReducers from './_Visualizations/reducers';
 import wmsLayersReducers from './WmsLayers/reducers';
 
@@ -31,7 +30,6 @@ import wmsLayersReducers from './WmsLayers/reducers';
 import lpisChangeReviewCasesReducers from './_specific/LpisChangeReviewCases/reducers';
 import lpisCheckCasesReducers from './_specific/LpisCheckCases/reducers';
 
-import subscribers from '../subscribers';
 
 // Redux store
 const Store = createStore(combineReducers({
@@ -55,7 +53,6 @@ const Store = createStore(combineReducers({
 	styles: stylesReducers,
 	themes: themesReducers,
 	users: usersReducers,
-	userGroups: userGroupsReducers,
 	visualizations: visualizationsReducers,
 	wmsLayers: wmsLayersReducers,
 	specific: combineReducers({

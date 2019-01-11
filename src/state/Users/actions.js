@@ -13,12 +13,8 @@ import scopeActions from '../Scopes/actions';
 import lpisCasesActions from '../_specific/LpisChangeReviewCases/actions';
 import dataViewActions from '../Dataviews/actions';
 import overlaysActions from '../Components/Overlays/actions';
-import userGroupsActions from '../UserGroups/actions';
 
 import Action from '../Action';
-
-import User from "../../data/User";
-import Group from "../../data/Group";
 
 const TTL = 5;
 
