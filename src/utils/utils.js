@@ -9,8 +9,6 @@ export default {
 
 	period: period,
 	periodToString: periodToString,
-	replaceIdWithKey: replaceIdWithKey,
-	removeDuplicities: removeDuplicities,
 
 	deepClone: function (data) {
 		var clone = data;

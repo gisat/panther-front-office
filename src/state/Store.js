@@ -64,6 +64,5 @@ const Store = createStore(combineReducers({
 	})
 }), applyMiddleware(thunk, logger));
 
-subscribers(Store);
 
 export default Store;
