@@ -845,9 +845,9 @@ var langCz = {
 var polyglot = new Polyglot();
 
 var urlLang = new URL(window.location).searchParams.get('lang');
-if ((!Config.language && !urlLang) || Config.language == "en" || urlLang == "en") {
+if (!urlLang || urlLang == "en") {
     polyglot.extend(langEn);
-} else if (Config.language == "cz" || urlLang == 'cz') {
+} else if (urlLang == 'cz') {
     polyglot.extend(langCz);
 }
 
