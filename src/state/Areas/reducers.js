@@ -3,7 +3,6 @@ import Action from '../Action';
 import _ from 'lodash';
 
 import { combineReducers } from 'redux';
-import selectionsReducers from './selections/reducers';
 
 const INITIAL_STATE = {
 	activeKey: null,
@@ -21,6 +20,5 @@ const reducers = (state = INITIAL_STATE, action) => {
 };
 
 export default combineReducers({
-	areas: reducers,
-	selections: selectionsReducers
+	areas: reducers
 });

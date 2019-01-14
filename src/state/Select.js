@@ -1,9 +1,7 @@
 // base types
-import Aoi from './AOI/selectors';
 import Areas from './Areas/selectors';
 import Attributes from './Attributes/selectors';
 import AttributeSets from './AttributeSets/selectors';
-import Choropleths from './Choropleths/selectors';
 import Components from './Components/selectors';
 import Dataviews from './Dataviews/selectors';
 import LayerPeriods from './LayerPeriods/selectors';
@@ -17,21 +15,16 @@ import Snapshots from './Snapshots/selectors';
 import SpatialDataSources from './SpatialDataSources/selectors';
 import SpatialRelations from './SpatialRelations/selectors';
 import Styles from './Styles/selectors';
-import Themes from './_Themes/selectors';
 import Users from './Users/selectors';
-import Visualizations from './_Visualizations/selectors';
-import WmsLayers from './WmsLayers/selectors';
 
 // specific types
 import LpisChangeReviewCases from "./_specific/LpisChangeReviewCases/selectors";
 import LpisCheckCases from './_specific/LpisCheckCases/selectors';
 
 export default {
-	aoi: Aoi,
 	areas: Areas,
 	attributes: Attributes,
 	attributeSets: AttributeSets,
-	choropleths: Choropleths,
 	components: Components,
 	dataviews: Dataviews,
 	layerPeriods: LayerPeriods,
@@ -45,10 +38,7 @@ export default {
 	spatialDataSources: SpatialDataSources,
 	spatialRelations: SpatialRelations,
 	styles: Styles,
-	themes: Themes,
 	users: Users,
-	visualizations: Visualizations,
-	wmsLayers: WmsLayers,
 	specific: {
 		lpisChangeReviewCases: LpisChangeReviewCases,
 		lpisCheckCases: LpisCheckCases

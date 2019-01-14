@@ -13,7 +13,6 @@ import logger from 'redux-logger';
 import areasReducers from '../../state/Areas/reducers';
 import attributesReducers from '../../state/Attributes/reducers';
 import attributeSetsReducers from '../../state/AttributeSets/reducers';
-import choroplethReducers from '../../state/Choropleths/reducers';
 import componentsReducers from '../../state/Components/reducers';
 import dataviewsReducers from '../../state/Dataviews/reducers';
 import layerPeriodsReducers from '../../state/LayerPeriods/reducers';
@@ -27,17 +26,13 @@ import snapshotsReducers from '../../state/Snapshots/reducers';
 import spatialDataSourcesReducers from '../../state/SpatialDataSources/reducers';
 import spatialRelationsReducers from '../../state/SpatialRelations/reducers';
 import stylesReducers from '../../state/Styles/reducers';
-import themesReducers from '../../state/_Themes/reducers';
 import usersReducers from '../../state/Users/reducers';
-import visualizationsReducers from '../../state/_Visualizations/reducers';
-import wmsLayersReducers from '../../state/WmsLayers/reducers';
 
 // Redux store
 const Store = createStore(combineReducers({
 	areas: areasReducers,
 	attributes: attributesReducers,
 	attributeSets: attributeSetsReducers,
-	choropleths: choroplethReducers,
 	components: componentsReducers,
 	dataviews: dataviewsReducers,
 	layerPeriods: layerPeriodsReducers,
@@ -51,10 +46,7 @@ const Store = createStore(combineReducers({
 	spatialDataSources: spatialDataSourcesReducers,
 	spatialRelations: spatialRelationsReducers,
 	styles: stylesReducers,
-	themes: themesReducers,
 	users: usersReducers,
-	visualizations: visualizationsReducers,
-	wmsLayers: wmsLayersReducers
 }), applyMiddleware(thunk, logger));
 
 export default () => {
