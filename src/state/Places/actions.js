@@ -73,13 +73,6 @@ function actionClearUseIndexed(componentId) {
 	}
 }
 
-// TODO It will be removed along with Ext
-function actionInitializeForExt() {
-	return {
-		type: ActionTypes.PLACES.INITIALIZE_FOR_EXT,
-	}
-}
-
 // ============ export ===========
 
 export default {
@@ -91,7 +84,5 @@ export default {
 	setActiveKeys,
 	useIndexed,
 	useIndexedClear: actionClearUseIndexed,
-	useKeys,
-
-	initializeForExt: actionInitializeForExt
+	useKeys
 }

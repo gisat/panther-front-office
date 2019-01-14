@@ -17,8 +17,6 @@ const getActiveKeys = common.getActiveKeys(getSubstate);
 const getActive = common.getActive(getSubstate);
 const getActivePlaces = common.getActiveModels(getSubstate);
 
-const isInitializedForExt = common.isInitializedForExt(getSubstate);
-
 const getPlacesForActiveScope = createSelector(
 	[getAll, ScopesSelectors.getActiveScopeKey],
 	(models, activeScopeKey) => {
@@ -40,7 +38,5 @@ export default {
 	getActive,
 	getActivePlaces,
 	getPlacesForActiveScope,
-	getSubstate,
-
-	isInitializedForExt
+	getSubstate
 };

@@ -9,14 +9,10 @@ const getAttributes =  common.getAll(getSubstate);
 const getAllForDataview = common.getAllForDataview(getSubstate);
 const getAllForDataviewAsObject = common.getAllForDataviewAsObject(getSubstate);
 
-const isInitializedForExt = common.isInitializedForExt(getSubstate);
-
 export default {
 	getAttributes,
 
 	getAllForDataview,
 	getAllForDataviewAsObject,
-	getSubstate,
-
-	isInitializedForExt
+	getSubstate
 };

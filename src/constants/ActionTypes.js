@@ -83,7 +83,6 @@ export default utils.deepKeyMirror({
 			ERROR: null,
 			REQUEST: null
 		},
-		INITIALIZE_FOR_EXT: null, // TODO It will be removed along with Ext
 		SET_ACTIVE_KEY: null,
 		SET_ACTIVE_KEYS: null,
 		USE: {
@@ -111,7 +110,6 @@ export default utils.deepKeyMirror({
 			ERROR: null,
 			REQUEST: null
 		},
-		INITIALIZE_FOR_EXT: null, // TODO It will be removed along with Ext
 		SET_ACTIVE_KEY: null,
 		SET_ACTIVE_KEYS: null,
 		USE: {
@@ -272,8 +270,7 @@ export default utils.deepKeyMirror({
 				CLEAR: null,
 				REGISTER: null
 			}
-		},
-		INITIALIZE_FOR_EXT: null, // TODO It will be removed along with Ext
+		}
 	},
 
 	REDIRECT_TO_VIEW: 'REDIRECT_TO_VIEW',
@@ -472,7 +469,6 @@ export default utils.deepKeyMirror({
 			CLEAR_ALL: null
 		},
 		SET_ACTIVE_KEY: null,
-		INITIALIZE_FOR_EXT: null, // TODO It will be removed along with Ext
 		USE: {
 			INDEXED: {
 				CLEAR: null,

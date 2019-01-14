@@ -8,19 +8,8 @@ import Select from "../Select";
 
 const useKeys = common.useKeys(Select.attributes.getSubstate, 'attributes', ActionTypes.ATTRIBUTES);
 
-// ============ actions ===========
-
-// TODO It will be removed along with Ext
-function actionInitializeForExt() {
-	return {
-		type: ActionTypes.ATTRIBUTES.INITIALIZE_FOR_EXT,
-	}
-}
-
-
 // ============ export ===========
 
 export default {
-	initializeForExt: actionInitializeForExt,
 	useKeys
 }

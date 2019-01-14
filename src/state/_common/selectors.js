@@ -306,10 +306,6 @@ const getKeysToLoad = (getSubstate) => {
 	);
 };
 
-const isInitializedForExt = (getSubstate) => {
-	return (state) => getSubstate(state).initializedForExt;
-};
-
 const getUsedKeys = (getSubstate) => {
 	return (state) => {
 		let inUse = getSubstate(state).inUse.keys;
@@ -538,8 +534,6 @@ export default {
 	getUsedIndexPages,
 	getUsedKeys,
 	getUsesWithActiveDependency,
-
-	isInitializedForExt, // TODO It will be removed along with Ext
 
 	_mergeIntervals
 }

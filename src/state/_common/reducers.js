@@ -72,11 +72,6 @@ export default {
 		return {...state, indexes: indexes};
 	},
 
-	// TODO It will be removed along with Ext
-	initializeForExt: (state) => {
-		return {...state, initializedForExt: true}
-	},
-
 	registerUseIndexed: (state, action) => {
 		// TODO save link to index?
 		// replace use - todo option to add to use?

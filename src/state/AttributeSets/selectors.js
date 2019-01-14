@@ -11,8 +11,6 @@ const getActive = common.getActive(getSubstate);
 const getAllForDataview = common.getAllForDataview(getSubstate);
 const getAllForDataviewAsObject = common.getAllForDataviewAsObject(getSubstate);
 
-const isInitializedForExt = common.isInitializedForExt(getSubstate);
-
 const getByTopics = createSelector(
 	[getAll, (state, topics) => topics],
 	(attributeSets, topics) => {
@@ -53,7 +51,5 @@ export default {
 	getAllForDataviewAsObject,
 
 	getByTopics,
-	getUniqueAttributeKeysForTopics,
-
-	isInitializedForExt
+	getUniqueAttributeKeysForTopics
 };

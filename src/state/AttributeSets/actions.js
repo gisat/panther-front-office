@@ -10,29 +10,8 @@ import common from "../_common/actions";
 
 const setActiveKeys = common.setActiveKeys(ActionTypes.ATTRIBUTE_SETS);
 
-function loadForTopics(topics) {
-	return (dispatch) => {
-		let filter = {
-			topic: {
-				in: topics
-			}
-		};
-		return dispatch(common.loadFiltered('attributesets', ActionTypes.ATTRIBUTE_SETS, filter));
-	}
-}
-
-// ============ actions ===========
-
-// TODO It will be removed along with Ext
-function actionInitializeForExt() {
-	return {
-		type: ActionTypes.ATTRIBUTE_SETS.INITIALIZE_FOR_EXT,
-	}
-}
-
 // ============ export ===========
 
 export default {
-	setActiveKeys,
-	loadForTopics
+	setActiveKeys
 }
