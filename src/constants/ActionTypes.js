@@ -13,8 +13,57 @@ export default utils.deepKeyMirror({
 	AOI_GEOMETRY_REQUEST_ERROR: 'AOI_GEOMETRY_REQUEST_ERROR',
 
 	AREAS: {
-		SELECTIONS: {
-			ADD: null
+		AREA_TREE_LEVELS: {
+			ADD: null,
+			ADD_UNRECEIVED: null,
+			ENSURE: {
+				ERROR: null
+			},
+			INDEX: {
+				ADD: null,
+				CLEAR_ALL: null
+			},
+			LOAD: {
+				ERROR: null,
+				REQUEST: null
+			},
+			SET_ACTIVE_KEY: null,
+			USE: {
+				INDEXED: {
+					CLEAR: null,
+					REGISTER: null
+				},
+				KEYS: {
+					CLEAR: null,
+					REGISTER: null
+				}
+			}
+		},
+		AREA_TREES: {
+			ADD: null,
+			ADD_UNRECEIVED: null,
+			ENSURE: {
+				ERROR: null
+			},
+			INDEX: {
+				ADD: null,
+				CLEAR_ALL: null
+			},
+			LOAD: {
+				ERROR: null,
+				REQUEST: null
+			},
+			SET_ACTIVE_KEY: null,
+			USE: {
+				INDEXED: {
+					CLEAR: null,
+					REGISTER: null
+				},
+				KEYS: {
+					CLEAR: null,
+					REGISTER: null
+				}
+			}
 		}
 	},
 

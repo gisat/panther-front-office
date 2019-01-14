@@ -1,15 +1,7 @@
-import ActionTypes from '../../constants/ActionTypes';
-import Select from '../Select';
-import _ from 'lodash';
-
-
-// ============ creators ===========
-
-
-// ============ actions ===========
-
-
-// ============ export ===========
+import areaTreeLevels from './AreaTreeLevels/actions';
+import areaTrees from './AreaTrees/actions';
 
 export default {
+	areaTreeLevels,
+	areaTrees
 }
