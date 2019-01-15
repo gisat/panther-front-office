@@ -1,16 +1,16 @@
 import i18n from "i18next";
 import { reactI18nextModule } from "react-i18next";
 
-import translationCZ from './locales/cz/translation.json';
-import translationEN from './locales/en/translation.json';
+import commonCz from './locales/cz/common.json';
+import commonEn from './locales/en/common.json';
 
 // the translations
 const resources = {
 	cz: {
-		translation: translationCZ
+		common: commonCz
 	},
 	en: {
-		translation: translationEN
+		common: commonEn
 	}
 };
 
@@ -22,7 +22,8 @@ i18n.use(reactI18nextModule)
 		keySeparator: ".",
 		interpolation: {
 			escapeValue: false
-		}
+		},
+		defaultNS: "common"
 	});
 
 export default i18n;

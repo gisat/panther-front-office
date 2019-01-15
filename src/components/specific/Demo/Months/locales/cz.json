@@ -1,5 +1,7 @@
 {
-  "january": "Leden 1",
-  "february": "Leden 2",
-  "march": "Leden 3"
+  "months": {
+    "january": "Leden (komp. Months)",
+    "february": "Únor (komp. Months)",
+    "march": "Březen (komp. Months)"
+  }
 }

@@ -10,7 +10,7 @@ import Demo from './Demo';
 
 export default () => {
 	// Set language
-	i18n.changeLanguage("en");
+	i18n.changeLanguage("cz");
 
 	// Load Current User
 	Store.dispatch(Action.users.apiLoadCurrentUser());

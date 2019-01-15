@@ -1,18 +1,26 @@
 import React from 'react';
+import {withNamespaces} from "react-i18next";
+import utils from '../../utils/utils';
+
 import Days from "../../components/specific/Demo/Days";
 import Months from "../../components/specific/Demo/Months";
-// import './style.css';
+
+import cz from "./locales/cz/common";
+import en from "./locales/en/common";
+
+// override and extend locales in namespaces
+utils.addI18nResources(['common'], {cz, en});
 
 class Demo extends React.PureComponent {
 	render() {
 		return (
 			<div id="demo">
-				<Days/>
-				<br/>
 				<Months/>
+				<br/>
+				<Days/>
 			</div>
 		);
 	}
 }
 
-export default Demo;
+export default withNamespaces()(Demo);

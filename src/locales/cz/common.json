@@ -1,0 +1,11 @@
+{
+  "days": {
+	"monday": "Pondělí",
+	"wednesday": "Středa"
+  },
+  "months": {
+	"january": "Leden",
+	"february": "Únor",
+	"march": "Březen"
+  }
+}

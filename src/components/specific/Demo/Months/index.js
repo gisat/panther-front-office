@@ -1,28 +1,28 @@
 import React from 'react';
 import { withNamespaces } from 'react-i18next';
 
+import utils from "../../../../utils/utils";
 import cz from './locales/cz.json';
 import en from './locales/en.json';
 
+// add locales to component namespace
+utils.addI18nResources('Months', {cz, en});
+
 class Months extends React.PureComponent {
-	constructor(props){
-		super(props);
-
-		// keep existing and add ones
-		this.props.i18n.addResourceBundle('cz', 'translation', {months: cz}, true, false);
-		this.props.i18n.addResourceBundle('en', 'translation', {months: en}, true, false);
-	}
-
 	render() {
 		const t = this.props.t;
 		return (
 			<div>
-				{t("months.january")} <br/>
-				{t("months.february")} <br/>
-				{t("months.march")} <br/>
+				From common namespace (overriden by project): {t("common:months.january")} <br/>
+				From component namespace: {t("months.january")} <br/>
+				From common namespace (overriden by project): {t("common:months.february")} <br/>
+				From component namespace: {t("months.february")} <br/>
+
+				From common namespace: {t("common:months.march")} <br/>
+				From common namespace (overriden by project): {t("common:months.april")} <br/>
 			</div>
 		);
 	}
 }
 
-export default withNamespaces()(Months);
+export default withNamespaces(['Months', 'common'])(Months);

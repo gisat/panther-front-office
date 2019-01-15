@@ -1,14 +1,26 @@
 import React from 'react';
+import i18n from 'i18next';
 
 import _ from 'lodash';
 
 import period, {toString as periodToString} from './period';
 import {replaceIdWithKey, removeDuplicities} from './models';
 
+
 export default {
 
 	period: period,
 	periodToString: periodToString,
+
+	addI18nResources: function(namespaces, resources){
+		_.forIn(resources, (resource, language) => {
+			if (!_.isArray(namespaces)) namespaces = [namespaces];
+
+			namespaces.forEach(namespace => {
+				i18n.addResourceBundle(language, namespace, resource, true, true);
+			});
+		});
+	},
 
 	deepClone: function (data) {
 		var clone = data;
