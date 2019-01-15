@@ -12,13 +12,9 @@ export default {
 	period: period,
 	periodToString: periodToString,
 
-	addI18nResources: function(namespaces, resources){
+	addI18nResources: function(namespace, resources){
 		_.forIn(resources, (resource, language) => {
-			if (!_.isArray(namespaces)) namespaces = [namespaces];
-
-			namespaces.forEach(namespace => {
-				i18n.addResourceBundle(language, namespace, resource, true, true);
-			});
+			i18n.addResourceBundle(language, namespace, resource, true, true);
 		});
 	},
 

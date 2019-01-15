@@ -9,7 +9,7 @@ import cz from "./locales/cz/common";
 import en from "./locales/en/common";
 
 // override and extend locales in namespaces
-utils.addI18nResources(['common'], {cz, en});
+utils.addI18nResources('common', {cz, en});
 
 class Demo extends React.PureComponent {
 	render() {
