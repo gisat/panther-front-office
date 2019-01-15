@@ -1,12 +1,14 @@
 import { unregister } from './registerServiceWorker';
 import _ from 'lodash';
+
+import config from './config';
 import demo from './apps/demo';
 
 const apps = [
 	{
 		hostname: 'panther.gisat.cz',
 		path: null,
-		localpath: '/demo',
+		devPath: '/demo',
 		app: demo
 	}
 ];
@@ -16,7 +18,7 @@ function start() {
 		if (
 			url.hostname === app.hostname
 			&& (!app.path || url.pathname.startsWith(app.path))
-			|| (url.hostname === 'localhost' && url.pathname.startsWith(app.localpath))
+			|| ((url.hostname === 'localhost' || _.includes(config.devHostnames, url.hostname)) && url.pathname.startsWith(app.devPath))
 		) {
 			return app.app();
 		}

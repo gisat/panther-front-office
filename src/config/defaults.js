@@ -29,6 +29,8 @@ export default {
 	geoServerUrl: 'http://localhost/geoserver/',
 	serverUrl: 'http://localhost/backend/',
 
+	devHostnames: [],
+
 	pucsInputVectorTemplateId: 3332,
 	pucsOutputRasterHwdTemplateId: 4092,
 	pucsOutputRasterUhiTemplateId: 4091
