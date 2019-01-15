@@ -96,6 +96,12 @@ function loadActive() {
 	}
 }
 
+function loadFiltered(filter){
+	return (dispatch) => {
+		return dispatch(common.loadFiltered('dataviews', ActionTypes.DATAVIEWS, filter));
+	}
+}
+
 function initialMetadataLoad (){
 	return (dispatch, getState) => {
 		let activeDataview = Select.dataviews.getActive(getState());
@@ -249,6 +255,7 @@ export default {
 	apiDeleteView,
 	ensureIndexesWithFilterByActive,
 	loadActive,
+	loadFiltered,
 	receiveIndexed,
 	refreshUses,
 	setActiveKey,
