@@ -26,8 +26,8 @@ export default {
 	apiBackendAoiLayerPeriodsPath: 'backend/rest/imagemosaic/getDates',
 	apiBackendSzifPath: 'backend/rest/szif/case',
 
-    geoServerUrl: 'http://192.168.2.205/geoserver/',
-    serverUrl: 'http://192.168.2.205/backend/',
+	geoServerUrl: 'http://localhost/geoserver/',
+	serverUrl: 'http://localhost/backend/',
 
 	pucsInputVectorTemplateId: 3332,
 	pucsOutputRasterHwdTemplateId: 4092,
