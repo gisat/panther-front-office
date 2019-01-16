@@ -6,7 +6,7 @@ import cz from './locales/cz.json';
 import en from './locales/en.json';
 
 // add locales to component namespace
-utils.addI18nResources('Months', {cz, en});
+utils.addI18nResources('Demo#Months', {cz, en});
 
 class Months extends React.PureComponent {
 	render() {
@@ -25,4 +25,4 @@ class Months extends React.PureComponent {
 	}
 }
 
-export default withNamespaces(['Months', 'common'])(Months);
+export default withNamespaces(['Demo#Months', 'common'])(Months);
