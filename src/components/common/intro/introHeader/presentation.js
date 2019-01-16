@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
+import classnames from 'classnames';
 
 import './style.css';
 
@@ -19,8 +20,12 @@ class IntroHeader extends React.PureComponent {
 			backgroundImage: (this.props.backgroundSource ? `url(${this.props.backgroundSource})` : `none`)
 		};
 
+		let classes = classnames("ptr-intro-header", {
+			small: !this.props.logoSource
+		});
+
 		return (
-			<div style={style} className="ptr-intro-header">
+			<div style={style} className={classes}>
 				{this.props.withBackgroundOverlay ? (<div className="ptr-intro-header-overlay"></div>) : null}
 				{this.props.logoSource ? (
 					<div className="ptr-intro-header-logo">

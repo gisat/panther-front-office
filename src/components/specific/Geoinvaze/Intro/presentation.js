@@ -4,12 +4,8 @@ import VisualsConfig from "../../../../constants/VisualsConfig";
 import PropTypes from "prop-types";
 
 class GeoinvIntro extends React.PureComponent{
-	static propTypes = {
-		style: PropTypes.string
-	};
-
 	render() {
-		let data = VisualsConfig[this.props.style];
+		let data = VisualsConfig["geoinvaze"];
 
 		return (
 			<div>

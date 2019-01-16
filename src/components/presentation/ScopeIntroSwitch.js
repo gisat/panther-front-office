@@ -26,9 +26,7 @@ export default ({scope, intro, styleClass}) => {
 		}
 	} else if (!scope && intro){
 		if (styleClass && styleClass === "geoinvaze"){
-			return <GeoinvIntro
-				style={styleClass}
-			/>
+			return <GeoinvIntro/>
 		} else {
 			return <Intro
 				plainContent

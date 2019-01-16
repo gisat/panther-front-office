@@ -56,6 +56,18 @@ class ViewsList extends React.PureComponent {
 					logoSource={scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introLogoSrc}
 				/>
 			);
+		} else if (scopeStyle === "geoinvaze") {
+			let backgroundStyle = this.props.selectedScopeData && this.props.selectedScopeData.configuration && this.props.selectedScopeData.configuration.introBackgroundStyle;
+			if (backgroundStyle){
+				return (
+					<IntroHeader
+						title={this.props.selectedScopeData && this.props.selectedScopeData.name}
+						backgroundSource={scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introScopeHeaderBackgroundSrc && VisualConfig[scopeStyle].introScopeHeaderBackgroundSrc[backgroundStyle]}
+						withBackgroundOverlay
+					/>
+				);
+			}
+
 		} else {
 			let headerLogo = scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introLogoSrc;
 			let description = this.props.selectedScopeData && this.props.selectedScopeData.description;

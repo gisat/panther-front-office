@@ -535,6 +535,17 @@ html.geoinvaze .ptr-intro-header {
 	background: rgba(82, 116, 14, .3);
 }
 
+/* views */
+.geoinvaze .view-card {
+	border-top: 7px solid rgba(26, 40, 0, .8);
+}
+.geoinvaze .view-card:hover {
+	border-top: 7px solid rgba(26, 40, 0, .6);
+}
+.geoinvaze .view-card-preview {
+	display: none;
+}
+
 /* buttons */
 .geoinvaze.newDesign .ptr-button.primary {
 	background: rgba(82, 116, 14, .85);
