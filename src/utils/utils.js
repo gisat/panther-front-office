@@ -68,6 +68,21 @@ export default {
 		return clone;
 	},
 
+	/**
+	 * Generates v4 compliant UUID
+	 * @returns {string|*|void}
+	 */
+	uuid() {
+		return ([1e7] + -1e3 + -4e3 + -8e3 + -1e11).replace(/[018]/g, c =>
+			(c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+		)
+	},
+
+	/**
+	 * DEPRECATED!
+	 * Generates pseudo-uuid string
+	 * @returns {string}
+	 */
 	guid() {
 		function s4() {
 			return Math.floor((1 + Math.random()) * 0x10000)
