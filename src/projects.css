@@ -384,6 +384,13 @@ html.geoinvaze .scopes-list-item.active {
 	background: rgba(26, 40, 0, 1);
 }
 
+html.geoinvaze .ptr-views-list-title {
+	font-weight: 500;
+}
+html.geoinvaze .ptr-intro-header {
+	border: 0;
+}
+
 /* specific font-family */
 .geoinvaze.newDesign body,
 .geoinvaze.newDesign .component-button,

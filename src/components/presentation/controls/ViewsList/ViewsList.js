@@ -6,7 +6,7 @@ import './ViewsList.css';
 import ViewCard from "../../../containers/controls/ViewCard";
 import Names from "../../../../constants/Names";
 import VisualConfig from "../../../../constants/VisualsConfig";
-import PucsClimateFitIntroHeader from "../../../specific/PucsClimateFit/introHeader/presentation";
+import IntroHeader from "../../../common/intro/introHeader/presentation";
 import PucsClimateFitIntroFooter from "../../../specific/PucsClimateFit/introFooter/presentation";
 
 class ViewsList extends React.PureComponent {
@@ -49,7 +49,7 @@ class ViewsList extends React.PureComponent {
 	renderHeader(scopeStyle){
 		if (scopeStyle === "pucs"){
 			return (
-				<PucsClimateFitIntroHeader
+				<IntroHeader
 					title={this.props.selectedScopeData && this.props.selectedScopeData.name}
 					description={this.props.selectedScopeData && this.props.selectedScopeData.description}
 					backgroundSource={scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introHeaderBackgroundSrc}

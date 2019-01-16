@@ -1,0 +1,41 @@
+.ptr-intro-header {
+	position: relative;
+	background-size: cover;
+	background-position-y: center;
+	border: 1px solid #888;
+	min-height: 12rem;
+	padding: 2rem 2rem 1.5rem;
+	display: flex;
+	flex-direction: column;
+}
+
+.ptr-intro-header-overlay {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	top: 0;
+	background: rgba(26, 40, 0, .8);
+}
+
+.ptr-intro-header-logo {
+	display: flex;
+	justify-content: flex-end;
+	z-index: 1;
+}
+.ptr-intro-header-text {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	justify-content: flex-end;
+	z-index: 1;
+}
+.ptr-intro-header .ptr-views-list-title {
+	color: rgba(255,255,255,.8);
+	margin-bottom: .5rem;
+}
+.ptr-intro-header .ptr-views-list-description,
+.ptr-intro-header .ptr-views-list-description p {
+	color: rgba(255,255,255,.6);
+	font-size: .9375rem;
+}
