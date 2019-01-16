@@ -157,9 +157,11 @@ function loadApp(initialData) {
     });
 
     function applyScopeStyle(style) {
-        if (style.logoSrc){
+        if (style.logoSrc && style.headerTitle) {
+			window.Stores.notify("SHOW_HEADER_LOGO_AND_TITLE", {logo: style.logoSrc, title: style.headerTitle});
+		} else if (style.logoSrc && !style.headerTitle){
 			window.Stores.notify("SHOW_HEADER_LOGO", initialData.activeScopeStyle.logoSrc);
-        } else if (style.headerTitle){
+        } else if (style.headerTitle && !style.logoSrc){
 			window.Stores.notify("SHOW_HEADER_TITLE", initialData.activeScopeStyle.headerTitle);
 		}
 	}

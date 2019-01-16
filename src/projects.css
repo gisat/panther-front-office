@@ -428,6 +428,15 @@ html.geoinvaze .scopes-list-item.active {
 
 
 /* header */
+.geoinvaze.newDesign #header {
+	padding-left: 100px;
+	padding-top: 2px;
+}
+
+.geoinvaze.newDesign #view-selector {
+	padding-left: 110px;
+}
+
 .geoinvaze.newDesign #header, .geoinvaze.newDesign #view-selector, .geoinvaze.newDesign #content-intro, .geoinvaze.newDesign #content-intro-guide {
 	background-color: rgba(82, 116, 14, 1);
 }
@@ -442,7 +451,8 @@ html.geoinvaze .scopes-list-item.active {
 	background: rgba(26, 40, 0, .5);
 }
 .geoinvaze .ptr-view-selection-selector.ptr-ui-select .Select-control:hover,
-.geoinvaze .ptr-view-selection-selector.ptr-ui-select .Select.is-disabled .Select-control:hover {
+.geoinvaze .ptr-view-selection-selector.ptr-ui-select .Select.is-disabled .Select-control:hover,
+.geoinvaze .ptr-view-selection-selector.ptr-ui-select .Select.is-focused .Select-control {
 	background: rgba(26, 40, 0, .7);
 }
 
@@ -452,6 +462,9 @@ html.geoinvaze .scopes-list-item.active {
 
 .geoinvaze.newDesign #header a {
 	color: #ddd;
+}
+.geoinvaze.newDesign #header #home-page {
+	text-decoration: none;
 }
 
 .geoinvaze.newDesign #header h1 {

@@ -57,9 +57,11 @@ const applicationStyleActiveKeyWatcher = (value, previousValue) => {
 	console.log('@@ applicationStyleActiveKeyWatcher', previousValue, '->', value);
 	if (previousValue !== value){
 		let configuration = VisualConfig[value];
-		if (configuration && configuration.logoSrc){
+		if (configuration && configuration.logoSrc && configuration.headerTitle){
+			window.Stores.notify("SHOW_HEADER_LOGO_AND_TITLE", {logo: configuration.logoSrc, title: configuration.headerTitle});
+		} else if (configuration && configuration.logoSrc && !configuration.headerTitle){
 			window.Stores.notify("SHOW_HEADER_LOGO", configuration.logoSrc);
-		} else if (configuration && configuration.headerTitle){
+		} else if (configuration && configuration.headerTitle && !configuration.logoSrc){
 			window.Stores.notify("SHOW_HEADER_TITLE", configuration.headerTitle);
 		}
 	}

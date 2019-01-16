@@ -9,7 +9,8 @@ export default {
 	},
 	"geoinvaze": {
 		htmlClass: "geoinvaze",
-		headerTitle: "Geoinformační portál biologických invazí"
+		headerTitle: "Geoinformační portál biologických invazí",
+		logoSrc: "img/geoinvaze/logo-white.png"
 	},
 	"eo4sd": {
 		htmlClass: "eo4sd",
