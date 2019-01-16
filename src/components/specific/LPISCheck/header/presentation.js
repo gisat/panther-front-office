@@ -109,10 +109,6 @@ class LpisCheckHeader extends React.PureComponent {
 					</div>
 					<div className="container flex" style={{maxWidth: '200px', justifyContent: 'flex-end'}}>
 						<div style={loginContainerStyle}>
-							<ShareButton>
-							</ShareButton>
-						</div>
-						<div style={loginContainerStyle}>
 							<User />
 						</div>
 					</div>
