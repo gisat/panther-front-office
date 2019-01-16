@@ -69,21 +69,6 @@ function loadApp(initialData) {
         return;
     }
 
-    function applyProjectSettings(){
-        let url = window.location.origin;
-        let projectConfig = Config.toggles[url];
-
-        if (projectConfig && projectConfig.classes && projectConfig.classes.length){
-			window.Stores.notify("application#setHtmlClass", {
-			    configuration: 'forUrl',
-                htmlClass: projectConfig.classes[0]});
-        }
-
-        if (projectConfig && projectConfig.intro && projectConfig.intro.title){
-            $("title").html(projectConfig.intro.title);
-        }
-    }
-
     $(document).ready(function () {
         function createScript(src, dataMain) {
             return new Promise(function (resolve, reject) {
@@ -680,6 +665,21 @@ function loadApp(initialData) {
         let topToolbarTools = $("#top-toolbar-tools");
         topToolbarTools.remove();
     }
+}
+
+export function applyProjectSettings(){
+	let url = window.location.origin;
+	let projectConfig = Config.toggles[url];
+
+	if (projectConfig && projectConfig.classes && projectConfig.classes.length){
+		window.Stores.notify("application#setHtmlClass", {
+			configuration: 'forUrl',
+			htmlClass: projectConfig.classes[0]});
+	}
+
+	if (projectConfig && projectConfig.intro && projectConfig.intro.title){
+		$("title").html(projectConfig.intro.title);
+	}
 }
 
 export default loadApp;
