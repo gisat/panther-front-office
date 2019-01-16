@@ -23,7 +23,8 @@ i18n.use(reactI18nextModule)
 		interpolation: {
 			escapeValue: false
 		},
-		defaultNS: "common"
+		defaultNS: "common",
+		fallbackNS: "common"
 	});
 
 export default i18n;
