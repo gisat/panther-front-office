@@ -40,7 +40,7 @@ class ShareButton extends React.PureComponent{
     }
 
     render () {
-        const classes = classNames('header-button', {'secondary': this.props.floaterVisible});
+        const classes = classNames('header-button share-button', {'secondary': this.props.floaterVisible});
         return (
             <Button onClick={this.onButtonClick} className={classes}>
                 <span>

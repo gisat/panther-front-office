@@ -9,7 +9,7 @@ export default {
 	},
 	"geoinvaze": {
 		htmlClass: "geoinvaze",
-		headerTitle: "Geoinvaze"
+		headerTitle: "Geoinformační portál biologických invazí"
 	},
 	"eo4sd": {
 		htmlClass: "eo4sd",
