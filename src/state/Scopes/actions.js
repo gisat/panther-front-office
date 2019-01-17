@@ -10,10 +10,12 @@ import common from '../_common/actions';
 const useIndexed = common.useIndexed(Select.scopes.getSubstate, 'scopes', ActionTypes.SCOPES);
 const refreshUses = common.refreshUses(Select.scopes.getSubstate, `scopes`, ActionTypes.SCOPES);
 const setActiveKeyAndEnsureDependencies = common.setActiveKeyAndEnsureDependencies(ActionTypes.SCOPES, 'scope');
+const setScopeActiveKey = common.setActiveKey(ActionTypes.SCOPES, 'scope');
 
 function setActiveKey(key) {
 	return dispatch => {
 		dispatch(setActiveKeyAndEnsureDependencies(key));
+		dispatch(setScopeActiveKey(key));
 		dispatch(applyScopeConfiguration());
 	};
 }
@@ -30,6 +32,7 @@ function applyScopeConfiguration() {
 			}
 
 			if (scopeConfig.hasOwnProperty('lpisCheckReview')) {
+				//TODO - only if intro mode is active
 				dispatch(Action.specific.lpisCheckCases.load());
 			}
 			if (scopeConfig.style){

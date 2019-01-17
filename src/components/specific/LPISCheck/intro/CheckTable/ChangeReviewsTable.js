@@ -86,7 +86,7 @@ class ChangeReviewsTable extends React.PureComponent {
 				<div className="ptr-table-header">
 					<div className="ptr-table-header-item">
 						<label>
-                            <span>Prohlídnuto</span>
+                            <span>Prohlédnuto</span>
                             {VisitedSelect}
                         </label>
 					</div>

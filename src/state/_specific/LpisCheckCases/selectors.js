@@ -16,6 +16,7 @@ const getSearchString = state => state.specific.lpisCheckCases.searchString;
 const getActiveCaseKey = state => state.specific.lpisCheckCases.activeCaseKey;
 const getActiveViewKey = state => state.dataviews.activeKey;
 const getSubstate = state => state.specific.lpisCheckCases;
+const getChangingCase = state => state.specific.lpisCheckCases.changingActive;
 
 const getFilterParams = state => ({
 	filterVisited: getFilterVisited(state),
@@ -178,16 +179,17 @@ const filterByConditions = (items, conditions, filter) => {
 }
 
 export default {
-	getCases: getCases,
+	getCases,
+	getChangingCase,
 	getSubstate,
 	getFilterVisited,
 	getFilterConfirmed,
 	getFilterSearch,
 	getFilteredCases,
-	getCasesWithChanges: getCasesWithChanges,
+	getCasesWithChanges,
 	getActiveCaseKey,
 	getActiveCase,
 	getNextCaseKey,
 	getPreviousCaseKey,
-	getCaseByActiveView: getCaseByActiveView,
+	getCaseByActiveView,
 };

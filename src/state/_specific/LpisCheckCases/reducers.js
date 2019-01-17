@@ -7,6 +7,7 @@ const INITIAL_STATE = {
 	searchString: '',
 	filterVisited: 'all',
 	filterConfirmed: 'all',
+	changingActive: false,
 };
 
 function receiveCases(state, action) {
@@ -27,6 +28,13 @@ function changeSearch(state, action) {
 	return {
 		...state,
 		[action.searchParam.name]: action.searchParam.value
+	}
+}
+
+function setChangingActive(state, action) {
+	return {
+		...state,
+		changingActive: action.value
 	}
 }
 
@@ -60,6 +68,8 @@ export default (state = INITIAL_STATE, action) => {
 			return setActiveCase(state, action);
 		case ActionTypes.LPIS_CHECK_CASES_SEARCH_PARAM_CHANGE:
 			return changeSearch(state, action);
+		case ActionTypes.LPIS_CHECK_CASES_SET_CHANGING_ACTIVE:
+			return setChangingActive(state, action);
 		default:
 			return state;
 	}

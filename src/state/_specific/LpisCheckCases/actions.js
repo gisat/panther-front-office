@@ -1,6 +1,7 @@
 import Action from '../../Action';
 import ActionTypes from '../../../constants/ActionTypes';
 import Select from '../../Select';
+import common from '../../_common/actions';
 
 import config from '../../../config';
 
@@ -158,12 +159,15 @@ function _updateCase(data) {
 
 function redirectToActiveCaseView() {
 	return (dispatch, getState) => {
-		let state = getState();
-		let activeCase = Select.specific.lpisCheckCases.getActiveCase(state);
-		let views = Select.dataviews.getViews(state);
-		const view = views.find(view => view.key === parseInt(activeCase.data.dataview_key));
-
-		dispatch(Action.components.redirectToView({...view.data, key: view.key}));
+		const state = getState();
+		const activeCase = Select.specific.lpisCheckCases.getActiveCase(state);
+		
+		return dispatch(Action.dataviews.loadFiltered({key: {in: [parseInt(activeCase.data.dataview_key)]}}))
+		.then(() => {
+			const state = getState();
+			const view = Select.dataviews.getView(state, activeCase.data.dataview_key); //by key
+			dispatch(Action.components.redirectToView({...view.data, key: view.key}));
+		})
 	}
 }
 
@@ -232,6 +236,13 @@ function actionUpdateCase(caseKey, lpisCase) {
 	}
 }
 
+function setChanging(changing) {
+	return {
+		type: ActionTypes.LPIS_CHECK_CASES_SET_CHANGING_ACTIVE,
+		value: changing,
+	}
+}
+
 // ============ export ===========
 
 export default {
@@ -240,6 +251,7 @@ export default {
 	setActive,
 	setCaseVisited,
 	setCaseConfirmed,
+	setChanging,
 	redirectToActiveCaseView,
 	loadCaseForActiveView,
 	setActiveCaseByActiveView,
