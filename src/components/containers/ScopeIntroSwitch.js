@@ -8,7 +8,8 @@ import ScopeIntroSwitch from "../presentation/ScopeIntroSwitch";
 const mapStateToProps = (state, ownProps) => {
 	return {
 		scope: Select.scopes.getScopeData(state, ownProps.scopeKey),
-		intro: Select.components.overlays.views.getIntro(state)
+		intro: Select.components.overlays.views.getIntro(state),
+		styleClass: Select.components.getApplicationStyleHtmlClass(state)
 	};
 };
 

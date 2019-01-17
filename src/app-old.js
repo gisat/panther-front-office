@@ -69,21 +69,6 @@ function loadApp(initialData) {
         return;
     }
 
-    function applyProjectSettings(){
-        let url = window.location.origin;
-        let projectConfig = Config.toggles[url];
-
-        if (projectConfig && projectConfig.classes && projectConfig.classes.length){
-			window.Stores.notify("application#setHtmlClass", {
-			    configuration: 'forUrl',
-                htmlClass: projectConfig.classes[0]});
-        }
-
-        if (projectConfig && projectConfig.intro && projectConfig.intro.title){
-            $("title").html(projectConfig.intro.title);
-        }
-    }
-
     $(document).ready(function () {
         function createScript(src, dataMain) {
             return new Promise(function (resolve, reject) {
@@ -172,9 +157,11 @@ function loadApp(initialData) {
     });
 
     function applyScopeStyle(style) {
-        if (style.logoSrc){
+        if (style.logoSrc && style.headerTitle) {
+			window.Stores.notify("SHOW_HEADER_LOGO_AND_TITLE", {logo: style.logoSrc, title: style.headerTitle});
+		} else if (style.logoSrc && !style.headerTitle){
 			window.Stores.notify("SHOW_HEADER_LOGO", initialData.activeScopeStyle.logoSrc);
-        } else if (style.headerTitle){
+        } else if (style.headerTitle && !style.logoSrc){
 			window.Stores.notify("SHOW_HEADER_TITLE", initialData.activeScopeStyle.headerTitle);
 		}
 	}
@@ -680,6 +667,21 @@ function loadApp(initialData) {
         let topToolbarTools = $("#top-toolbar-tools");
         topToolbarTools.remove();
     }
+}
+
+export function applyProjectSettings(){
+	let url = window.location.origin;
+	let projectConfig = Config.toggles[url];
+
+	if (projectConfig && projectConfig.classes && projectConfig.classes.length){
+		window.Stores.notify("application#setHtmlClass", {
+			configuration: 'forUrl',
+			htmlClass: projectConfig.classes[0]});
+	}
+
+	if (projectConfig && projectConfig.intro && projectConfig.intro.title){
+		$("title").html(projectConfig.intro.title);
+	}
 }
 
 export default loadApp;

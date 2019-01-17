@@ -89,7 +89,7 @@ class PeriodsSelector extends React.PureComponent {
 				clearable={false}
 				classes={classes}
 				label='left'
-				name={polyglot.t('theme')}
+				name={polyglot.t('periods')}
 				onChange={this.onChangePeriods}
 				options={options}
 				placeholder=''

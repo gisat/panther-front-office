@@ -368,13 +368,31 @@ html.urban-tep .intro-screen-title {
 
 /* intro */
 html.geoinvaze .ptr-overlay.ptr-overlay-views {
-	background: #222;
+	background: rgba(82, 116, 14, 1);
+}
+html.geoinvaze .scope-intro-box {
+	box-shadow: none;
+	overflow-y: auto;
+}
+html.geoinvaze .scopes-list-item,
+html.geoinvaze .ptr-user {
+	color: #eee;
+}
+html.geoinvaze .ptr-user svg .line {
+	fill: #eee;
 }
 html.geoinvaze .scopes-list-item:hover {
-	background: rgba(0, 82, 30, .5);
+	background: rgba(26, 40, 0, .7);
 }
 html.geoinvaze .scopes-list-item.active {
-	background: rgba(0, 82, 30, 1);
+	background: rgba(26, 40, 0, 1);
+}
+
+html.geoinvaze .ptr-views-list-title {
+	font-weight: 500;
+}
+html.geoinvaze .ptr-intro-header {
+	border: 0;
 }
 
 /* specific font-family */
@@ -416,39 +434,76 @@ html.geoinvaze .scopes-list-item.active {
 .geoinvaze .view-card-title,
 .geoinvaze .view-card-description,
 .geoinvaze .ptr-views-list {
-	font-family: "Montserrat", "Open Sans", sans-serif;
+	font-family: "Open Sans", sans-serif;
 }
 
 
 /* header */
+.geoinvaze.newDesign #header {
+	padding-left: 100px;
+	padding-top: 2px;
+}
+
+.geoinvaze.newDesign #view-selector {
+	padding-left: 110px;
+}
+
 .geoinvaze.newDesign #header, .geoinvaze.newDesign #view-selector, .geoinvaze.newDesign #content-intro, .geoinvaze.newDesign #content-intro-guide {
-	background-color: #222;
+	background-color: rgba(82, 116, 14, 1);
 }
 
 .geoinvaze.newDesign #view-selector .ptr-ui-select-label {
 	font-weight: 400;
+	color: #ddd
+}
+
+.geoinvaze .ptr-view-selection-selector.ptr-ui-select .Select-control,
+.geoinvaze .ptr-view-selection-selector.ptr-ui-select .Select.is-disabled .Select-control {
+	background: rgba(26, 40, 0, .5);
+}
+.geoinvaze .ptr-view-selection-selector.ptr-ui-select .Select-control:hover,
+.geoinvaze .ptr-view-selection-selector.ptr-ui-select .Select.is-disabled .Select-control:hover,
+.geoinvaze .ptr-view-selection-selector.ptr-ui-select .Select.is-focused .Select-control {
+	background: rgba(26, 40, 0, .7);
+}
+
+.geoinvaze .ptr-view-selection-container .ptr-button.share-button {
+	background: rgba(26, 40, 0, .5);
+}
+
+.geoinvaze.newDesign #header a {
+	color: #ddd;
+}
+.geoinvaze.newDesign #header #home-page {
+	text-decoration: none;
+}
+
+.geoinvaze.newDesign #header h1 {
+	line-height: 47px;
 }
 
 /* top-tool-bar */
 .geoinvaze.newDesign #top-toolbar .item {
-	font-weight: 500;
+	font-weight: 600;
 }
-.geoinvaze.newDesign #top-toolbar .item:hover {
+.geoinvaze.newDesign #top-toolbar .item:hover,
+.geoinvaze.newDesign #top-toolbar .item.open:hover {
 	background: rgba(33, 33, 33, .2);
 }
 .geoinvaze.newDesign #top-toolbar .item.open {
-	color: rgba(0, 112, 30, 1);
+	background: rgba(33, 33, 33, .1);
+	color: rgba(82, 116, 14, 1);
 }
 
 /* floaters */
 .geoinvaze.newDesign .floater-header,
 .geoinvaze.newDesign .ptr-window-header{
-	background: rgba(0, 82, 30, .9);
+	background: rgba(82, 116, 14, .9);
 }
 .geoinvaze.newDesign .floater.pinned .floater-header,
 .geoinvaze.newDesign .ptr-window.docked .ptr-window-header,
 .geoinvaze.newDesign .mode-3d .detached-window .x-window-header {
-	background: rgba(0, 82, 30, 1) !important;
+	background: rgba(82, 116, 14, 1) !important;
 }
 .geoinvaze.newDesign .mode-3d .detached-window .x-window-header .x-window-header-body,
 .geoinvaze.newDesign .mode-3d .detached-window .x-window-header .x-window-header-body .x-box-inner {
@@ -460,64 +515,75 @@ html.geoinvaze .scopes-list-item.active {
 
 /* mapTools widget */
 .geoinvaze.newDesign .map-tools-container > h4 {
-	color: rgba(0, 82, 30, 1);
+	color: rgba(82, 116, 14, 1);
 }
 .geoinvaze.newDesign .toggle-icon.active:before {
-	color: rgba(0, 82, 30, 1);
+	color: rgba(82, 116, 14, 1);
 }
 .geoinvaze.newDesign #floater-map-tools-widget.pinned .map-tool-trigger.active .component-button .fa,
 .geoinvaze.newDesign #floater-map-tools-widget.pinned .map-tool-trigger.active .map-tool-icon .fa {
-	color: rgba(0, 112, 30, 1);
+	color: rgba(82, 116, 14, 1);
 }
 .geoinvaze.newDesign #floater-map-tools-widget.pinned .map-tool-trigger.active .map-tool-icon-svg path {
-	fill: rgba(0, 112, 30, 1);
+	fill: rgba(82, 116, 14, 1);
 }
 
 	/* scenarios */
 .geoinvaze.newDesign .case-list-item.unsaved-editing {
-	border-color: rgba(0, 82, 30, .7);
+	border-color: rgba(82, 116, 14, .7);
 }
 .geoinvaze.newDesign .case-list-item.unsaved-editing .case-list-item-footer-editing {
-	color: rgba(0, 82, 30, 1);
+	color: rgba(82, 116, 14, 1);
 }
 .geoinvaze.newDesign .case-detail-controls {
-	background: rgba(0, 82, 30, .3);
+	background: rgba(82, 116, 14, .3);
+}
+
+/* views */
+.geoinvaze .view-card {
+	border-top: 7px solid rgba(26, 40, 0, .8);
+}
+.geoinvaze .view-card:hover {
+	border-top: 7px solid rgba(26, 40, 0, .6);
+}
+.geoinvaze .view-card-preview {
+	display: none;
 }
 
 /* buttons */
 .geoinvaze.newDesign .ptr-button.primary {
-	background: rgba(0, 82, 30, .85);
+	background: rgba(82, 116, 14, .85);
 }
 .geoinvaze.newDesign .ptr-button.primary:hover {
-	background: rgba(0, 82, 30, 1);
+	background: rgba(82, 116, 14, 1);
 }
 .geoinvaze.newDesign .widget-button-export {
-	color: rgba(0, 82, 30, 1);
+	color: rgba(82, 116, 14, 1);
 }
 .geoinvaze.newDesign .widget-button-export:hover,
 .geoinvaze.newDesign #export-feature-info-csv:hover,
 .geoinvaze.newDesign #export-layers-info-csv:hover {
-	background: rgba(0, 82, 30, .2);
+	background: rgba(82, 116, 14, .2);
 }
 
 /* sliders and checkboxes */
 .geoinvaze.newDesign .slider-row.ui-slider-horizontal .ui-slider-handle {
-	border-color: rgba(0, 82, 30, 1);
+	border-color: rgba(82, 116, 14, 1);
 }
 .geoinvaze.newDesign .slider-row.ui-slider-horizontal .ui-slider-handle:hover,
 .geoinvaze.newDesign .slider-row.ui-slider-horizontal .ui-slider-handle.ui-state-focus,
 .geoinvaze.newDesign .slider-row .ui-widget-header {
-	background: rgba(0, 82, 30, 1);
+	background: rgba(82, 116, 14, 1);
 }
 
 .geoinvaze.newDesign .checkbox-row.checked .checkbox-icon:before,
 .geoinvaze.newDesign .radiobox-row.checked .radiobox-icon:before,
 .geoinvaze.newDesign .x-tree-checked .tree-column-label:before, .geoinvaze.newDesign .x-grid-checkheader-checked:before {
-	color: rgba(0, 82, 30, 1);
+	color: rgba(82, 116, 14, 1);
 }
 
 .geoinvaze.newDesign .layer-tool-icon:hover:before {
-	color: rgba(0, 82, 30, 1);
+	color: rgba(82, 116, 14, 1);
 }
 
 /* snapshots */

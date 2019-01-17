@@ -105,7 +105,7 @@ class ViewsOverlay extends React.PureComponent {
 		let classes = classNames("scopes-list-item", {
 			"active": !this.props.selectedScope
 		});
-		return <div className={classes} onClick={this.selectScope.bind(this, null)}>{this.props.intro.name ? this.props.into.name : introName}</div>
+		return <div className={classes} onClick={this.selectScope.bind(this, null)}>{this.props.intro.name ? this.props.intro.name : introName}</div>
 	}
 }
 

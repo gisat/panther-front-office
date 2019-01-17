@@ -9,6 +9,8 @@ import './index.css';
 import './projects.css';
 import { unregister } from './registerServiceWorker';
 
+import {applyProjectSettings} from "./app-old";
+
 import AppOverlays from './components/presentation/overlays/AppOverlays';
 import MapsTimeline from './scopemagicswitches/MapsTimeline';
 import HeaderViewSelector from './scopemagicswitches/HeaderViewSelector';
@@ -64,6 +66,7 @@ store.dispatch(Action.users.apiLoadCurrentUser());
 
 if(!id) {
 	initialize();
+	applyProjectSettings();
 } else {
 	store.dispatch(Action.components.setIntro(false));
 	store.dispatch(Action.dataviews.setActiveKey(Number(id)));

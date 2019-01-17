@@ -20,7 +20,7 @@
     "path": "0.12.7",
     "proj4": "2.4.4",
     "prop-types": "15.6.1",
-    "query-string": "^6.2.0",
+    "query-string": "6.2.0",
     "rc-slider": "8.6.1",
     "re-reselect": "2.1.0",
     "react": "16.2.0",
