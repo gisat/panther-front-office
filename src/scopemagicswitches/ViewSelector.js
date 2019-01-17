@@ -12,6 +12,14 @@ const MagicSwitch = ({scope, isLoggedIn}) => {
 	if (scope && scope.data) {
 		if (scope.data.featurePlaceChangeReview) {
 			return <ChangeReviewMapControl />
+		} else if (scope.data.configuration && scope.data.configuration.viewSelection === "geoinvaze"){
+			return (
+				<div className="ptr-view-selection-wrapper">
+					<PlaceSelector/>
+					<ThemeSelector/>
+					{isLoggedIn ? <div className="ptr-view-selection-container"><ShareButton/></div> : null}
+				</div>
+			);
 		} else if (!scope.data.viewSelection) {
 			return (
 				<div className="ptr-view-selection-wrapper">
