@@ -38,6 +38,7 @@ class ViewsList extends React.PureComponent {
 		return (
 			<div className="ptr-views-list">
 				{this.props.hideTitle ? null : this.renderHeader(scopeStyle)}
+				{scopeStyle === "geoinvaze" ? this.renderDescription(this.props.selectedScopeData  && this.props.selectedScopeData.description) : null}
 				<div className="ptr-views-list-content">
 					<div>{this.renderContent()}</div>
 				</div>
@@ -89,6 +90,16 @@ class ViewsList extends React.PureComponent {
 				</div>
 			);
 		}
+	}
+
+	renderDescription(description){
+		return (
+			<div
+				className="ptr-views-list-description outside-header"
+				dangerouslySetInnerHTML={{__html: description}}
+			>
+			</div>
+		);
 	}
 
 	renderContent(){
