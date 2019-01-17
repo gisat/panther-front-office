@@ -96,6 +96,12 @@ function loadActive() {
 	}
 }
 
+function loadFiltered(filter){
+	return (dispatch) => {
+		return dispatch(common.loadFiltered('dataviews', ActionTypes.DATAVIEWS, filter));
+	}
+}
+
 function initialMetadataLoad (){
 	return (dispatch, getState) => {
 		let activeDataview = Select.dataviews.getActive(getState());
@@ -119,6 +125,11 @@ function initialMetadataLoad (){
 					}
 
 					if (activeScopeConfig && activeScopeConfig.hasOwnProperty(`lpisCheckReview`)){
+						dispatch(Action.specific.lpisCheckCases.loadCaseForActiveView()).then(() => {
+							dispatch(Action.specific.lpisCheckCases.setActiveCaseByActiveView());
+						});
+					}
+					if (activeScopeConfig && activeScopeConfig.hasOwnProperty(`lpisCheckCases`)){
 						dispatch(Action.specific.lpisCheckCases.loadCaseForActiveView()).then(() => {
 							dispatch(Action.specific.lpisCheckCases.setActiveCaseByActiveView());
 						});
@@ -249,6 +260,7 @@ export default {
 	apiDeleteView,
 	ensureIndexesWithFilterByActive,
 	loadActive,
+	loadFiltered,
 	receiveIndexed,
 	refreshUses,
 	setActiveKey,

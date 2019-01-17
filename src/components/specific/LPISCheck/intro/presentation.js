@@ -5,9 +5,6 @@ import ChangeReviewsList from './ChangeReviewsList';
 
 
 class intro extends React.Component{
-	componentDidMount() {
-		this.props.onMount(this.props.activeViewKey);
-	}
 	render() {
 		return (
 			<ScreenAnimator>

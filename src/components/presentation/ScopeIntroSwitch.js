@@ -2,8 +2,8 @@ import React from 'react';
 
 import ViewsList from "../containers/controls/ViewsList";
 import Intro from "../containers/Intro";
+import LpisCheckIntro from '../specific/LPISCheck/intro/presentation';
 import GeoinvIntro from '../specific/Geoinvaze/Intro';
-import LpisCheckIntro from '../specific/LPISCheck/intro';
 import DromasLpisChangeReviewIntro from '../specific/DromasLpisChangeReview/intro';
 
 export default ({scope, intro, styleClass}) => {

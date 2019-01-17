@@ -27,6 +27,7 @@ const setStoreWatchers = store => {
 	createWatcher(store, Select.maps.getActivePlaceActiveLayers, activeLayersWatcher, 'activePlaceActiveLayers');
 
 	createWatcher(store, Select.specific.lpisChangeReviewCases.getActiveCase, ()=>{}, 'activeLpisCase');
+	createWatcher(store, Select.specific.lpisCheckCases.getActiveCase, ()=>{}, 'activeLpisCase');
 };
 
 const setEventListeners = store => {
@@ -175,6 +176,16 @@ const activeMapWatcher = (value, previousValue) => {
 								geometryKey: 'placeGeometryChangeReviewGeometryAfter'
 							});
 						}
+					}
+
+					//For lpis check
+					if (state.activeLpisCase && state.activeLpisCase.data && state.activeLpisCase.data.geometry){
+						window.Stores.notify('PLACE_GEOMETRY_ADD', {
+							mapKey: value.key,
+							geometryKey: 'placeGeometryChangeReviewGeometryAfter',
+							geometry: state.activeLpisCase.data.geometry
+						});
+
 					}
 
 					// for old lpis scope
