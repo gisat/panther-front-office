@@ -370,6 +370,9 @@ html.urban-tep .intro-screen-title {
 html.geoinvaze .ptr-overlay.ptr-overlay-views {
 	background: rgba(82, 116, 14, 1);
 }
+html.geoinvaze .scope-intro-box {
+	box-shadow: none;
+}
 html.geoinvaze .scopes-list-item,
 html.geoinvaze .ptr-user {
 	color: #eee;
