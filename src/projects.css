@@ -372,6 +372,7 @@ html.geoinvaze .ptr-overlay.ptr-overlay-views {
 }
 html.geoinvaze .scope-intro-box {
 	box-shadow: none;
+	overflow-y: auto;
 }
 html.geoinvaze .scopes-list-item,
 html.geoinvaze .ptr-user {
