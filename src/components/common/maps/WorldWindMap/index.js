@@ -6,15 +6,32 @@ import presentation from './presentation';
 
 const mapStateToProps = (state, props) => {
 	return {
+		// backgroundLayer: {
+		// 	key: "stamen-uuid",
+		// 	data: {
+		// 		name: "Stamen terrain",
+		// 		type: "wmts",
+		// 		url: "http://tile.stamen.com/terrain",
+
+		// 		attribution: null,
+		// 		numLevels: null,
+		//      opacity: null
+		// 		prefixes: ["a", "b", "c"]
+		// 	}
+		// },
 		backgroundLayer: {
-			key: "stamen-uuid",
+			key: "ortofoto-uuid",
 			data: {
-				name: "Stamen terrain",
-				type: "wmts",
-				url: "http://tile.stamen.com/terrain",
+				name: "ČÚZK Ortofoto",
+				type: "wms",
+				url: "http://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/WMService.aspx?",
+				layerNames: "GR_ORTFOTORGB",
+
 				attribution: null,
-				numLevels: null,
-				prefixes: ["a", "b", "c"]
+				numLevels: 14,
+				opacity: 1,
+				version: "1.3.0",
+				customParams: null
 			}
 		},
 		layers: [],

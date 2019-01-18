@@ -5,10 +5,11 @@ import utils from '../../../../utils/utils';
 import _ from 'lodash';
 import WorldWind from '@nasaworldwind/worldwind';
 import ExtendedOsmLayer from './layers/ExtendedOsmLayer';
+import ExtendedWmsLayer from './layers/ExtendedWmsLayer';
 
 import './style.css'
 
-const {WorldWindow} = WorldWind;
+const {Location, Sector, WorldWindow} = WorldWind;
 
 class WorldWindMap extends React.PureComponent {
 
@@ -31,7 +32,6 @@ class WorldWindMap extends React.PureComponent {
 		}
 	}
 
-
 	componentDidUpdate(prevProps) {
 		if (prevProps){
 			// this.comapreBackgroundLayers(prevProps.backgroundLayer, this.props.backgroundLayer);
@@ -45,11 +45,26 @@ class WorldWindMap extends React.PureComponent {
 	addBackgroundLayer(layer) {
 		if (layer.data && layer.data.type){
 			switch (layer.data.type){
+				case "wms":
+					this.addWmsLayer(layer);
+					break;
 				case "wmts":
 					this.addWmtsLayer(layer);
 					break;
 			}
 		}
+	}
+
+	addWmsLayer(layer){
+		this.wwd.insertLayer(0, new ExtendedWmsLayer({
+				...layer.data,
+				service: layer.data.url,
+				sector: new Sector(-90, 90, -180, 180),
+				levelZeroDelta: new Location(45, 45),
+				format: "image/png",
+				size: 256,
+				version: "1.3.0",
+			}, null));
 	}
 
 	addWmtsLayer(layer) {
