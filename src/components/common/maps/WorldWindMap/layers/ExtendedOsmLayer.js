@@ -9,6 +9,7 @@ const {OpenStreetMapImageLayer} = WorldWind;
  * @param options.imageType {string} Type of image which will be used for tiles
  * @param options.numLevels {number} number of tiles levels
  * @param options.opacity {number}
+ * @param options.key {String}
  * @param options.url {string} resource URL
  * @augments WorldWind.OpenStreetMapImageLayer
  * @constructor
@@ -17,6 +18,7 @@ class ExtendedOsmLayer extends OpenStreetMapImageLayer {
 	constructor(options) {
 		super(options);
 
+		this.key = options.key;
 		this.opacity = options.opacity ? options.opacity : this.opacity;
 		this.levels.numLevels = options.levels ? options.levels : this.levels.numLevels;
 		this.detailControl = options.detailControl ? options.detailControl : 1;

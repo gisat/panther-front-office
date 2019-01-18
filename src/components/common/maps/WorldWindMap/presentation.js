@@ -22,6 +22,22 @@ class WorldWindMap extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.canvasId = utils.uuid();
+
+
+		setTimeout(this.compareBackgroundLayers.bind(this, this.props.backgroundLayer, {
+				key: "stamen-uuid",
+				data: {
+					key: "stamen-uuid",
+					name: "Stamen terrain",
+					type: "wmts",
+					url: "http://tile.stamen.com/terrain",
+
+					attribution: null,
+					numLevels: null,
+			     	opacity: null,
+					prefixes: ["a", "b", "c"]
+				}
+			}), 5000);
 	}
 
 	componentDidMount() {
@@ -38,28 +54,28 @@ class WorldWindMap extends React.PureComponent {
 
 	componentDidUpdate(prevProps) {
 		if (prevProps){
-			// this.comapreBackgroundLayers(prevProps.backgroundLayer, this.props.backgroundLayer);
+			this.compareBackgroundLayers(prevProps.backgroundLayer, this.props.backgroundLayer);
 			this.updateNavigator();
 		}
 	}
 
-	addBackgroundLayer(layer) {
-		if (layer.data && layer.data.type){
-			switch (layer.data.type){
+	addBackgroundLayer(layerData) {
+		if (layerData.data && layerData.data.type){
+			switch (layerData.data.type){
 				case "wms":
-					this.addWmsLayer(layer);
+					this.addWmsLayer(layerData);
 					break;
 				case "wmts":
-					this.addWmtsLayer(layer);
+					this.addWmtsLayer(layerData);
 					break;
 			}
 		}
 	}
 
-	addWmsLayer(layer){
+	addWmsLayer(layerData){
 		this.wwd.insertLayer(0, new ExtendedWmsLayer({
-				...layer.data,
-				service: layer.data.url,
+				...layerData.data,
+				service: layerData.data.url,
 				sector: new Sector(-90, 90, -180, 180),
 				levelZeroDelta: new Location(45, 45),
 				format: "image/png",
@@ -68,15 +84,25 @@ class WorldWindMap extends React.PureComponent {
 			}, null));
 	}
 
-	addWmtsLayer(layer) {
+	addWmtsLayer(layerData) {
 		this.wwd.insertLayer(0, new ExtendedOsmLayer(
-			layer.data,
+			layerData.data,
 			null
 		));
 	}
 
-	compareBackgroundLayers(prevLayer, nextLayer) {
+	compareBackgroundLayers(prevLayerData, nextLayerData) {
+		if (nextLayerData && prevLayerData.key !== nextLayerData.key){
+			this.addBackgroundLayer(nextLayerData);
+			this.removeLayer(prevLayerData.key);
+		}
+	}
 
+	removeLayer(layerKey) {
+		let layer = _.find(this.wwd.layers, {key: layerKey});
+		if (layer){
+			this.wwd.removeLayer(layer);
+		}
 	}
 
 	updateNavigator(){

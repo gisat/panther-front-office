@@ -6,22 +6,10 @@ import presentation from './presentation';
 
 const mapStateToProps = (state, props) => {
 	return {
-		// backgroundLayer: {
-		// 	key: "stamen-uuid",
-		// 	data: {
-		// 		name: "Stamen terrain",
-		// 		type: "wmts",
-		// 		url: "http://tile.stamen.com/terrain",
-		//
-		// 		attribution: null,
-		// 		numLevels: null,
-		//      	opacity: null,
-		// 		prefixes: ["a", "b", "c"]
-		// 	}
-		// },
 		backgroundLayer: {
 			key: "ortofoto-uuid",
 			data: {
+				key: "ortofoto-uuid",
 				name: "ČÚZK Ortofoto",
 				type: "wms",
 				url: "http://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/WMService.aspx?",

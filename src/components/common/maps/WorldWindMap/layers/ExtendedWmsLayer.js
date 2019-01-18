@@ -7,6 +7,7 @@ const {WmsLayer} = WorldWind;
  * @param options {Object}
  * @param options.customParams {Object}
  * @param options.format {string} image formate
+ * @param options.key {String}
  * @param options.layerNames {String}
  * @param options.levelZeroDelta {WorldWind.Location}
  * @param options.numLevels {number}
@@ -22,6 +23,7 @@ const {WmsLayer} = WorldWind;
 class ExtendedWmsLayer extends WmsLayer {
 	constructor(options) {
 		super(options);
+		this.key = options.key;
 		this.layerNames = options.layerNames;
 		this.service = options.url;
 		this.styleNames = options.styleNames ? options.styleNames : "";
