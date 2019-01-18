@@ -30,16 +30,17 @@ class WorldWindMap extends React.PureComponent {
 		if (this.props.backgroundLayer) {
 			this.addBackgroundLayer(this.props.backgroundLayer);
 		}
+
+		if (this.props.navigator){
+			this.updateNavigator();
+		}
 	}
 
 	componentDidUpdate(prevProps) {
 		if (prevProps){
 			// this.comapreBackgroundLayers(prevProps.backgroundLayer, this.props.backgroundLayer);
+			this.updateNavigator();
 		}
-	}
-
-	compareBackgroundLayers(prevLayer, nextLayer) {
-
 	}
 
 	addBackgroundLayer(layer) {
@@ -68,7 +69,43 @@ class WorldWindMap extends React.PureComponent {
 	}
 
 	addWmtsLayer(layer) {
-		this.wwd.insertLayer(0, new ExtendedOsmLayer(layer.data, null));
+		this.wwd.insertLayer(0, new ExtendedOsmLayer(
+			layer.data,
+			null
+		));
+	}
+
+	compareBackgroundLayers(prevLayer, nextLayer) {
+
+	}
+
+	updateNavigator(){
+		let state = this.wwd.navigator;
+		let update = this.props.navigator;
+		
+		if (state.range !== update.range){
+			state.range = update.range;
+		}
+
+		if (state.tilt !== update.tilt){
+			state.tilt = update.tilt;
+		}
+
+		if (state.roll !== update.roll){
+			state.roll = update.roll;
+		}
+
+		if (state.heading !== update.heading){
+			state.heading = update.heading;
+		}
+
+		if (state.lookAtLocation.latitude !== update.lookAtLocation.latitude){
+			state.lookAtLocation.latitude = update.lookAtLocation.latitude;
+		}
+
+		if (state.lookAtLocation.longitude !== update.lookAtLocation.longitude){
+			state.lookAtLocation.longitude = update.lookAtLocation.longitude;
+		}
 	}
 
 	render() {

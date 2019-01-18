@@ -12,10 +12,10 @@ const mapStateToProps = (state, props) => {
 		// 		name: "Stamen terrain",
 		// 		type: "wmts",
 		// 		url: "http://tile.stamen.com/terrain",
-
+		//
 		// 		attribution: null,
 		// 		numLevels: null,
-		//      opacity: null
+		//      	opacity: null,
 		// 		prefixes: ["a", "b", "c"]
 		// 	}
 		// },
@@ -35,7 +35,16 @@ const mapStateToProps = (state, props) => {
 			}
 		},
 		layers: [],
-		navigator: null
+		navigator: {
+			lookAtLocation: {
+				latitude: 50,
+				longitude: 14
+			},
+			range: 1000000,
+			tilt: 40,
+			heading: 0,
+			roll: 0
+		}
 	}
 };
 
