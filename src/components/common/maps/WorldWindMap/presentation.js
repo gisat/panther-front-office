@@ -53,9 +53,7 @@ class WorldWindMap extends React.PureComponent {
 	}
 
 	addWmtsLayer(layer) {
-		this.wwd.insertLayer(0, new ExtendedOsmLayer({
-			url: layer.data.url
-		}, null));
+		this.wwd.insertLayer(0, new ExtendedOsmLayer(layer.data, null));
 	}
 
 	render() {

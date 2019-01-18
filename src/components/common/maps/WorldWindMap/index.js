@@ -12,9 +12,9 @@ const mapStateToProps = (state, props) => {
 				name: "Stamen terrain",
 				type: "wmts",
 				url: "http://tile.stamen.com/terrain",
-				options: {
-					attribution: null
-				}
+				attribution: null,
+				numLevels: null,
+				prefixes: ["a", "b", "c"]
 			}
 		},
 		layers: [],
@@ -23,6 +23,9 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
+	return {
+
+	}
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(presentation);

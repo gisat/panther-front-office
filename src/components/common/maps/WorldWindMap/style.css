@@ -1,10 +1,11 @@
 .ptr-world-wind-map {
-	background: red;
+	background: #ddd;
 	height: 100%;
 	width: 100%;
 }
 
 .ptr-world-wind-map-canvas {
+	display: block;
 	height: 100%;
 	width: 100%;
 }
