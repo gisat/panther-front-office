@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import utils from '../../../../utils/utils';
 import _ from 'lodash';
+
 import WorldWind from '@nasaworldwind/worldwind';
 import ExtendedOsmLayer from './layers/ExtendedOsmLayer';
 import ExtendedWmsLayer from './layers/ExtendedWmsLayer';
@@ -95,6 +96,7 @@ class WorldWindMap extends React.PureComponent {
 		if (nextLayerData && prevLayerData.key !== nextLayerData.key){
 			this.addBackgroundLayer(nextLayerData);
 			this.removeLayer(prevLayerData.key);
+			this.wwd.redraw();
 		}
 	}
 
