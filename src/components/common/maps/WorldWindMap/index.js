@@ -15,7 +15,7 @@ const mapStateToProps = (state, props) => {
 				url: "http://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/WMService.aspx?",
 				layerNames: "GR_ORTFOTORGB",
 
-				attribution: null,
+				attributions: ["Second line", "© ČÚZK"],
 				numLevels: 14,
 				opacity: 1,
 				version: "1.3.0",
@@ -28,7 +28,7 @@ const mapStateToProps = (state, props) => {
 				latitude: 50,
 				longitude: 14
 			},
-			range: 1000000,
+			range: 100000,
 			tilt: 40,
 			heading: 0,
 			roll: 0

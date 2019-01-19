@@ -1,10 +1,12 @@
 import WorldWind from '@nasaworldwind/worldwind';
+import helpers from "./helpers";
 
 const {OpenStreetMapImageLayer} = WorldWind;
 
 /**
  * Class extending WorldWind.OpenStreetMapImageLayer.
  * @param options {Object}
+ * @param options.attributions {Array} list of attributions. Each attribution will be rendered on separate line.
  * @param options.detailControl {number}
  * @param options.imageType {string} Type of image which will be used for tiles
  * @param options.numLevels {number} number of tiles levels
@@ -18,6 +20,7 @@ class ExtendedOsmLayer extends OpenStreetMapImageLayer {
 	constructor(options) {
 		super(options);
 
+		this.attributions = options.attributions;
 		this.key = options.key;
 		this.opacity = options.opacity ? options.opacity : this.opacity;
 		this.levels.numLevels = options.levels ? options.levels : this.levels.numLevels;
@@ -46,6 +49,13 @@ class ExtendedOsmLayer extends OpenStreetMapImageLayer {
 			let prefix = prefixes[index];
 			let splittedUrl = url.split('://');
 			return `${splittedUrl[0]}://${prefix}.${splittedUrl[1]}`
+		}
+	}
+
+	doRender(dc) {
+		OpenStreetMapImageLayer.prototype.doRender.call(this, dc);
+		if (this.inCurrentFrame && this.attributions) {
+			helpers.addAttributions(dc, this.attributions);
 		}
 	}
 }

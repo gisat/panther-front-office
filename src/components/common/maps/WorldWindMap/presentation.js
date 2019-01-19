@@ -35,7 +35,7 @@ class WorldWindMap extends React.PureComponent {
 					type: "wmts-osm-based",
 					url: "http://tile.stamen.com/terrain",
 
-					attribution: null,
+					attributions: ["Data © OpenStreetMap contributors", "Map tiles by Stamen design, under CC BY 3.0"],
 					numLevels: null,
 			     	opacity: null,
 					prefixes: ["a", "b", "c"]

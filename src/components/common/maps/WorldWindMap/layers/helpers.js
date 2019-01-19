@@ -3,7 +3,21 @@ import ExtendedWmsLayer from "./ExtendedWmsLayer";
 import ExtendedOsmLayer from "./ExtendedOsmLayer";
 import _ from "lodash";
 
-const {Location, Sector} = WorldWind;
+const {Color, Location, Offset, Sector} = WorldWind;
+
+/**
+ * Add attributions to bottom right corner of map.
+ * @param dc {DrawContext}
+ * @param attributions {Array} List of strings. Each attribution will be rendered on separate line.
+ */
+function addAttributions(dc, attributions) {
+	dc.screenCreditController.opacity = 1;
+	dc.screenCreditController.creditFont._size = 12;
+	dc.screenCreditController.clear();
+	attributions.forEach(attribution => {
+		dc.screenCreditController.addStringCredit(attribution, Color.MEDIUM_GRAY);
+	});
+}
 
 /**
  * @param layerData {Object}
@@ -44,6 +58,7 @@ function removeLayer(wwd, layerKey) {
 }
 
 export default {
+	addAttributions,
 	getWmsLayer,
 	getWmtsOsmBasedLayer,
 	removeLayer
