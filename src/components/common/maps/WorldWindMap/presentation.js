@@ -5,12 +5,13 @@ import utils from '../../../../utils/utils';
 import _ from 'lodash';
 
 import WorldWind from '@nasaworldwind/worldwind';
-import ExtendedOsmLayer from './layers/ExtendedOsmLayer';
-import ExtendedWmsLayer from './layers/ExtendedWmsLayer';
+
+import layers from './layers/helpers';
+import navigator from './navigator/helpers';
 
 import './style.css'
 
-const {Location, Sector, WorldWindow} = WorldWind;
+const {WorldWindow} = WorldWind;
 
 class WorldWindMap extends React.PureComponent {
 
@@ -24,13 +25,13 @@ class WorldWindMap extends React.PureComponent {
 		super(props);
 		this.canvasId = utils.uuid();
 
-
+		// TODO only for testing
 		setTimeout(this.compareBackgroundLayers.bind(this, this.props.backgroundLayer, {
 				key: "stamen-uuid",
 				data: {
 					key: "stamen-uuid",
 					name: "Stamen terrain",
-					type: "wmts",
+					type: "wmts-osm-based",
 					url: "http://tile.stamen.com/terrain",
 
 					attribution: null,
@@ -49,14 +50,14 @@ class WorldWindMap extends React.PureComponent {
 		}
 
 		if (this.props.navigator){
-			this.updateNavigator();
+			navigator.update(this.wwd, this.props.navigator);
 		}
 	}
 
 	componentDidUpdate(prevProps) {
 		if (prevProps){
 			this.compareBackgroundLayers(prevProps.backgroundLayer, this.props.backgroundLayer);
-			this.updateNavigator();
+			navigator.update(this.wwd, this.props.navigator);
 		}
 	}
 
@@ -64,75 +65,20 @@ class WorldWindMap extends React.PureComponent {
 		if (layerData.data && layerData.data.type){
 			switch (layerData.data.type){
 				case "wms":
-					this.addWmsLayer(layerData);
+					this.wwd.insertLayer(0, layers.getWmsLayer(layerData.data));
 					break;
-				case "wmts":
-					this.addWmtsLayer(layerData);
+				case "wmts-osm-based":
+					this.wwd.insertLayer(0, layers.getWmtsOsmBasedLayer(layerData.data));
 					break;
 			}
 		}
 	}
 
-	addWmsLayer(layerData){
-		this.wwd.insertLayer(0, new ExtendedWmsLayer({
-				...layerData.data,
-				service: layerData.data.url,
-				sector: new Sector(-90, 90, -180, 180),
-				levelZeroDelta: new Location(45, 45),
-				format: "image/png",
-				size: 256,
-				version: "1.3.0",
-			}, null));
-	}
-
-	addWmtsLayer(layerData) {
-		this.wwd.insertLayer(0, new ExtendedOsmLayer(
-			layerData.data,
-			null
-		));
-	}
-
 	compareBackgroundLayers(prevLayerData, nextLayerData) {
 		if (nextLayerData && prevLayerData.key !== nextLayerData.key){
 			this.addBackgroundLayer(nextLayerData);
-			this.removeLayer(prevLayerData.key);
+			layers.removeLayer(this.wwd, prevLayerData.key);
 			this.wwd.redraw();
-		}
-	}
-
-	removeLayer(layerKey) {
-		let layer = _.find(this.wwd.layers, {key: layerKey});
-		if (layer){
-			this.wwd.removeLayer(layer);
-		}
-	}
-
-	updateNavigator(){
-		let state = this.wwd.navigator;
-		let update = this.props.navigator;
-		
-		if (state.range !== update.range){
-			state.range = update.range;
-		}
-
-		if (state.tilt !== update.tilt){
-			state.tilt = update.tilt;
-		}
-
-		if (state.roll !== update.roll){
-			state.roll = update.roll;
-		}
-
-		if (state.heading !== update.heading){
-			state.heading = update.heading;
-		}
-
-		if (state.lookAtLocation.latitude !== update.lookAtLocation.latitude){
-			state.lookAtLocation.latitude = update.lookAtLocation.latitude;
-		}
-
-		if (state.lookAtLocation.longitude !== update.lookAtLocation.longitude){
-			state.lookAtLocation.longitude = update.lookAtLocation.longitude;
 		}
 	}
 
