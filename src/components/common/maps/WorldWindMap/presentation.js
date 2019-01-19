@@ -11,12 +11,13 @@ import navigator from './navigator/helpers';
 
 import './style.css'
 
-const {WorldWindow} = WorldWind;
+const {WorldWindow, ZeroElevationModel} = WorldWind;
 
 class WorldWindMap extends React.PureComponent {
 
 	static propTypes = {
 		backgroundLayer: PropTypes.object,
+		elevationModel: PropTypes.string,
 		layers: PropTypes.array,
 		navigator: PropTypes.object,
 	};
@@ -43,7 +44,7 @@ class WorldWindMap extends React.PureComponent {
 	}
 
 	componentDidMount() {
-		this.wwd = new WorldWindow(this.canvasId);
+		this.wwd = new WorldWindow(this.canvasId, this.getElevationModel());
 
 		if (this.props.backgroundLayer) {
 			this.addBackgroundLayer(this.props.backgroundLayer);
@@ -79,6 +80,18 @@ class WorldWindMap extends React.PureComponent {
 			this.addBackgroundLayer(nextLayerData);
 			layers.removeLayer(this.wwd, prevLayerData.key);
 			this.wwd.redraw();
+		}
+	}
+
+	/**
+	 * @returns {null | ZeroElevationModel}
+	 */
+	getElevationModel() {
+		switch (this.props.elevationModel) {
+			case "default":
+				return null;
+			case null:
+				return new ZeroElevationModel();
 		}
 	}
 

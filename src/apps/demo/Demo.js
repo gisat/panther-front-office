@@ -16,7 +16,9 @@ class Demo extends React.PureComponent {
 	render() {
 		return (
 			<div id="demo">
-				<WorldWindMap/>
+				<WorldWindMap
+					elevationModel={null} /* null or default accepted */
+				/>
 			</div>
 		);
 	}
