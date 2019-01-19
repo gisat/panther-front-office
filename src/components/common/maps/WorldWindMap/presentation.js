@@ -79,7 +79,6 @@ class WorldWindMap extends React.PureComponent {
 		if (nextLayerData && prevLayerData.key !== nextLayerData.key){
 			this.addBackgroundLayer(nextLayerData);
 			layers.removeLayer(this.wwd, prevLayerData.key);
-			this.wwd.redraw();
 		}
 	}
 

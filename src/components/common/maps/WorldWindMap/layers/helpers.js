@@ -39,6 +39,7 @@ function removeLayer(wwd, layerKey) {
 	let layer = _.find(wwd.layers, {key: layerKey});
 	if (layer){
 		wwd.removeLayer(layer);
+		wwd.redraw();
 	}
 }
 
