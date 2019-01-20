@@ -15,7 +15,7 @@ const mapStateToProps = (state, props) => {
 				url: "http://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/WMService.aspx?",
 				layerNames: "GR_ORTFOTORGB",
 
-				attributions: ["Second line", "© ČÚZK"],
+				attribution: "<a href='https://cuzk.cz'>@ČÚZK</a>",
 				numLevels: 14,
 				opacity: 1,
 				version: "1.3.0",

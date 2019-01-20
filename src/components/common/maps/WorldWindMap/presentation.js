@@ -9,6 +9,8 @@ import WorldWind from '@nasaworldwind/worldwind';
 import layers from './layers/helpers';
 import navigator from './navigator/helpers';
 
+import Attribution from './Attribution/Attribution';
+
 import './style.css'
 
 const {WorldWindow, ZeroElevationModel} = WorldWind;
@@ -27,7 +29,8 @@ class WorldWindMap extends React.PureComponent {
 		this.canvasId = utils.uuid();
 
 		// TODO only for testing
-		setTimeout(this.compareBackgroundLayers.bind(this, this.props.backgroundLayer, {
+		setTimeout(() => {
+			this.compareBackgroundLayers(this.props.backgroundLayer, {
 				key: "stamen-uuid",
 				data: {
 					key: "stamen-uuid",
@@ -35,12 +38,15 @@ class WorldWindMap extends React.PureComponent {
 					type: "wmts-osm-based",
 					url: "http://tile.stamen.com/terrain",
 
-					attributions: ["Data © OpenStreetMap contributors", "Map tiles by Stamen design, under CC BY 3.0"],
+					attribution: "Data © <a href='https://osm.org'>OpenStreetMap contributors</a> | Map tiles by <a href='https://stamen.com/'>Stamen design</a>, under <a href='https://creativecommons.org/licenses/by/3.0/'>CC BY 3.0</a>",
 					numLevels: null,
-			     	opacity: null,
+					opacity: null,
 					prefixes: ["a", "b", "c"]
 				}
-			}), 5000);
+			});
+			this.props.backgroundLayer.data.attribution = "Data © <a href='https://osm.org'>OpenStreetMap contributors</a> | Map tiles by <a href='https://stamen.com/'>Stamen design</a>, under <a href='https://creativecommons.org/licenses/by/3.0/'>CC BY 3.0</a>";
+			this.forceUpdate();
+		}, 5000);
 	}
 
 	componentDidMount() {
@@ -95,11 +101,16 @@ class WorldWindMap extends React.PureComponent {
 	}
 
 	render() {
+		/* TODO handle attributions for more layers altogerter */
 		return (
 			<div className="ptr-world-wind-map">
 				<canvas className="ptr-world-wind-map-canvas" id={this.canvasId}>
 					Your browser does not support HTML5 Canvas.
 				</canvas>
+				{this.props.backgroundLayer && this.props.backgroundLayer.data.attribution ?
+					<Attribution
+						data={this.props.backgroundLayer.data.attribution}
+					/> : null}
 			</div>
 		);
 

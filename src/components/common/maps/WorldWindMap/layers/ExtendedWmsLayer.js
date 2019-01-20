@@ -1,5 +1,4 @@
 import WorldWind from '@nasaworldwind/worldwind';
-import helpers from './helpers';
 
 const {WmsLayer} = WorldWind;
 
@@ -41,9 +40,7 @@ class ExtendedWmsLayer extends WmsLayer {
 
 	doRender(dc) {
 		WmsLayer.prototype.doRender.call(this, dc);
-		if (this.inCurrentFrame && this.attributions) {
-			helpers.addAttributions(dc, this.attributions);
-		}
+		dc.screenCreditController.clear();
 	}
 }
 
