@@ -31,13 +31,13 @@ class WorldWindMap extends React.PureComponent {
 
 		// TODO only for testing
 		setTimeout(() => {
-			this.handleLayers(layersChange1);
-		}, 5000);
-
-		setTimeout(() => {
 			this.handleBackgroundLayers(this.props.backgroundLayer, backgroundStamen);
 			this.props.backgroundLayer.data.attribution = backgroundStamen.data.attribution;
 			this.forceUpdate();
+		}, 5000);
+
+		setTimeout(() => {
+			this.handleLayers(layersChange1);
 		}, 10000);
 
 		setTimeout(() => {
@@ -67,14 +67,15 @@ class WorldWindMap extends React.PureComponent {
 
 	componentDidUpdate(prevProps) {
 		if (prevProps){
-			this.handleBackgroundLayers(prevProps.backgroundLayer, this.props.backgroundLayer);
 			navigator.update(this.wwd, this.props.navigator);
+			this.handleBackgroundLayers(prevProps.backgroundLayer, this.props.backgroundLayer);
+			this.handleLayers(this.props.layers);
 		}
 	}
 
 	handleBackgroundLayers(prevLayerData, nextLayerData) {
 		if (nextLayerData && prevLayerData.key !== nextLayerData.key){
-			layers.addLayer(this.wwd, nextLayerData, 0);
+			layers.addLayer(this.wwd, nextLayerData.data, 0);
 			layers.removeLayer(this.wwd, prevLayerData.key);
 		}
 	}

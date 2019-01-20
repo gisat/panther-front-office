@@ -13,10 +13,10 @@ const {Location, Sector} = WorldWind;
  */
 function addLayer(wwd, layerData, position) {
 	if (layerData){
-		if (position){
-			wwd.insertLayer(position, getLayerByType(layerData.data));
+		if (position || position === 0){
+			wwd.insertLayer(position, getLayerByType(layerData));
 		} else {
-			wwd.addLayer(getLayerByType(layerData.data));
+			wwd.addLayer(getLayerByType(layerData));
 		}
 		wwd.redraw();
 	} else {
