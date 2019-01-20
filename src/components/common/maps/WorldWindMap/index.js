@@ -3,30 +3,16 @@ import Select from '../../../../state/Select';
 import Action from "../../../../state/Action";
 
 import presentation from './presentation';
+import {backgroundCuzk, layersInitial} from './mockData';
 
 const mapStateToProps = (state, props) => {
 	return {
-		backgroundLayer: {
-			key: "ortofoto-uuid",
-			data: {
-				key: "ortofoto-uuid",
-				name: "ČÚZK Ortofoto",
-				type: "wms",
-				url: "http://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/WMService.aspx?",
-				layerNames: "GR_ORTFOTORGB",
-
-				attribution: "<a href='https://cuzk.cz'>@ČÚZK</a>",
-				numLevels: 14,
-				opacity: 1,
-				version: "1.3.0",
-				customParams: null
-			}
-		},
-		layers: [],
+		backgroundLayer: backgroundCuzk,
+		layers: layersInitial,
 		navigator: {
 			lookAtLocation: {
-				latitude: 50,
-				longitude: 14
+				latitude: 50.1,
+				longitude: 14.5
 			},
 			range: 100000,
 			tilt: 40,

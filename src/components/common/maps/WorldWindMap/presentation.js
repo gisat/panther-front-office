@@ -8,6 +8,7 @@ import WorldWind from '@nasaworldwind/worldwind';
 
 import layers from './layers/helpers';
 import navigator from './navigator/helpers';
+import {backgroundStamen, layersChange1, layersChange2, layersChange3} from './mockData';
 
 import Attribution from './Attribution/Attribution';
 
@@ -30,62 +31,74 @@ class WorldWindMap extends React.PureComponent {
 
 		// TODO only for testing
 		setTimeout(() => {
-			this.compareBackgroundLayers(this.props.backgroundLayer, {
-				key: "stamen-uuid",
-				data: {
-					key: "stamen-uuid",
-					name: "Stamen terrain",
-					type: "wmts-osm-based",
-					url: "http://tile.stamen.com/terrain",
-
-					attribution: "Data © <a href='https://osm.org'>OpenStreetMap contributors</a> | Map tiles by <a href='https://stamen.com/'>Stamen design</a>, under <a href='https://creativecommons.org/licenses/by/3.0/'>CC BY 3.0</a>",
-					numLevels: null,
-					opacity: null,
-					prefixes: ["a", "b", "c"]
-				}
-			});
-			this.props.backgroundLayer.data.attribution = "Data © <a href='https://osm.org'>OpenStreetMap contributors</a> | Map tiles by <a href='https://stamen.com/'>Stamen design</a>, under <a href='https://creativecommons.org/licenses/by/3.0/'>CC BY 3.0</a>";
-			this.forceUpdate();
+			this.handleLayers(layersChange1);
 		}, 5000);
+
+		setTimeout(() => {
+			this.handleBackgroundLayers(this.props.backgroundLayer, backgroundStamen);
+			this.props.backgroundLayer.data.attribution = backgroundStamen.data.attribution;
+			this.forceUpdate();
+		}, 10000);
+
+		setTimeout(() => {
+			this.handleLayers(layersChange2);
+		}, 15000);
+
+		setTimeout(() => {
+			this.handleLayers(layersChange3);
+		}, 20000);
 	}
 
 	componentDidMount() {
 		this.wwd = new WorldWindow(this.canvasId, this.getElevationModel());
 
-		if (this.props.backgroundLayer) {
-			this.addBackgroundLayer(this.props.backgroundLayer);
-		}
-
 		if (this.props.navigator){
 			navigator.update(this.wwd, this.props.navigator);
+		}
+
+		if (this.props.backgroundLayer) {
+			layers.addLayer(this.wwd, this.props.backgroundLayer.data, 0);
+		}
+
+		if (this.props.layers){
+			this.handleLayers(this.props.layers);
 		}
 	}
 
 	componentDidUpdate(prevProps) {
 		if (prevProps){
-			this.compareBackgroundLayers(prevProps.backgroundLayer, this.props.backgroundLayer);
+			this.handleBackgroundLayers(prevProps.backgroundLayer, this.props.backgroundLayer);
 			navigator.update(this.wwd, this.props.navigator);
 		}
 	}
 
-	addBackgroundLayer(layerData) {
-		if (layerData.data && layerData.data.type){
-			switch (layerData.data.type){
-				case "wms":
-					this.wwd.insertLayer(0, layers.getWmsLayer(layerData.data));
-					break;
-				case "wmts-osm-based":
-					this.wwd.insertLayer(0, layers.getWmtsOsmBasedLayer(layerData.data));
-					break;
-			}
+	handleBackgroundLayers(prevLayerData, nextLayerData) {
+		if (nextLayerData && prevLayerData.key !== nextLayerData.key){
+			layers.addLayer(this.wwd, nextLayerData, 0);
+			layers.removeLayer(this.wwd, prevLayerData.key);
 		}
 	}
 
-	compareBackgroundLayers(prevLayerData, nextLayerData) {
-		if (nextLayerData && prevLayerData.key !== nextLayerData.key){
-			this.addBackgroundLayer(nextLayerData);
-			layers.removeLayer(this.wwd, prevLayerData.key);
-		}
+	handleLayers(nextLayersData) {
+		let nextLayers = [];
+		nextLayersData.forEach(layerData => {
+			let existingLayer = layers.findLayerByKey(this.wwd, layerData.key);
+			if (existingLayer){
+				nextLayers.push(existingLayer);
+			} else {
+				let layer = layers.getLayerByType(layerData.data);
+				if (layer){
+					nextLayers.push(layer);
+				}
+			}
+		});
+
+		// TODO solve merge with other layer types (choropleths, AUs, ...)
+		// add background layer
+		nextLayers.unshift(this.wwd.layers[0]);
+
+		this.wwd.layers = nextLayers;
+		this.wwd.redraw();
 	}
 
 	/**
