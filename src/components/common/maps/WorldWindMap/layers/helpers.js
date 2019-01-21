@@ -70,39 +70,31 @@ function getLayerByType(layerData){
  * @returns {ExtendedWmsLayer}
  */
 function getWmsLayer(layerData) {
-	let format = "image/png";
+	let imageFormat, version, params;
 	let numLevels = 18;
-	let version = "1.3.0";
-	let params = null;
 
 	if (layerData.configuration) {
 		if (layerData.configuration.params) {
-			if (layerData.configuration.params.format) {
-				format = layerData.configuration.params.format;
-			}
-			if (layerData.configuration.params.version) {
-				version = layerData.configuration.params.version;
-			}
+			({imageFormat, version, ...params} = layerData.configuration.params);
 		}
 		if (layerData.configuration.numLevels) {
 			numLevels = layerData.configuration.numLevels;
 		}
-		params = layerData.configuration.params;
 	}
 
 	return new ExtendedWmsLayer({
-		format,
+		format: imageFormat ? imageFormat : "image/png",
 		layerNames: layerData.layers,
 		levelZeroDelta: new Location(45, 45),
 		name: layerData.name,
 		numLevels,
 		opacity: layerData.opacity,
-		params,
+		params: _.isEmpty(params) ? null : params,
 		sector: new Sector(-90, 90, -180, 180),
 		service: layerData.url,
 		size: 256,
 		styleNames: layerData.styles,
-		version,
+		version: version ? version : "1.3.0",
 	}, null);
 }
 

@@ -6,7 +6,7 @@ const {WmsLayer} = WorldWind;
  * Class extending WorldWind.WmsLayer.
  * @param options {Object}
  * @param options.attributions {Array} list of attributions. Each attribution will be rendered on separate line.
- * @param options.customParams {Object}
+ * @param options.params {Object} optional paremeters
  * @param options.format {string} image formate
  * @param options.key {String}
  * @param options.layerNames {String}
@@ -33,9 +33,17 @@ class ExtendedWmsLayer extends WmsLayer {
 		this.customParams = options.customParams;
 		this.numLevels = options.numLevels ? options.numLevels : this.numLevels;
 
-		this.cachePath = `${this.service}/${this.layerNames}/${this.styleNames}`;
+		this.cachePath = `${this.service}/${this.layerNames}`;
+		if (this.styleNames) {
+			this.cachePath += `/${this.styleNames}`;
+		}
+		if (this.customParams && this.customParams.time) {
+			this.cachePath += `/${this.customParams.time}`;
+		}
 
 		this.opacity = options.opacity ? options.opacity : 1;
+
+		// TODO extend url builder to accept custom params
 	};
 
 	doRender(dc) {
