@@ -65,9 +65,15 @@ class WorldWindMap extends React.PureComponent {
 
 	componentDidUpdate(prevProps) {
 		if (prevProps){
-			navigator.update(this.wwd, this.props.navigator);
-			this.handleBackgroundLayers(prevProps.backgroundLayer, this.props.backgroundLayer);
-			this.handleLayers(this.props.layers);
+			if (this.props.navigator) {
+				navigator.update(this.wwd, this.props.navigator);
+			}
+			if (this.props.backgroundLayer) {
+				this.handleBackgroundLayers(prevProps.backgroundLayer, this.props.backgroundLayer);
+			}
+			if (this.props.layers) {
+				this.handleLayers(this.props.layers);
+			}
 		}
 	}
 

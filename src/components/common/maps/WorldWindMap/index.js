@@ -3,7 +3,7 @@ import Select from '../../../../state/Select';
 import Action from "../../../../state/Action";
 
 import presentation from './presentation';
-import {backgroundCuzk, layersInitial} from './mockData';
+import {backgroundCuzk, backgroundStamen, layersInitial} from './mockData';
 
 const mapStateToProps = (state, props) => {
 	return {
