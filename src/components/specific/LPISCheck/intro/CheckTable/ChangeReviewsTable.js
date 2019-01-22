@@ -13,11 +13,11 @@ const VISITED_VALUES = [
 	},
 	{
 		key: 'unvisited',
-		name: 'Neprohlídnuto',
+		name: 'Neprohlédnuto',
 	},
 	{
 		key: 'visited',
-		name: 'Prohlídnuto',
+		name: 'Prohlédnuto',
 	},
 ]
 

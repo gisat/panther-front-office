@@ -47,7 +47,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 	renderVisibleStatus(){
 		const visible = this.props.data.visited === true;
 		const color = visible ? 'green' : 'red';
-		const status = visible ? 'Prohlídnuto' : 'Neprohlídnuto';
+		const status = visible ? 'Prohlédnuto' : 'Neprohlédnuto';
 		return (
 			<div className="ptr-table-row-item state">
 				<Icon icon="circle" color={color} opacity={50}/>
