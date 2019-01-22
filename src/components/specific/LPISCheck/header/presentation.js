@@ -86,7 +86,7 @@ class LpisCheckHeader extends React.PureComponent {
 								</div>
 							</div>
 							<div className="container flex center">
-								<CheckButton title='Prohlídnuto' onClick={(e)=>{
+								<CheckButton title='Prohlédnuto' onClick={(e)=>{
 									e.preventDefault();
 									this.props.caseVisited(this.props.case.key, !visited);
 								}} checked={visited}/>
