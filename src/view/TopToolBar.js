@@ -190,6 +190,12 @@ class TopToolBar {
                         if (tool === 'contextHelp'){
                             tools.contextHelp = false;
                         }
+                        if (tool === 'views'){
+                        	tools.views = false;
+						}
+						if (tool === 'snapshots'){
+							tools.snapshots = false;
+						}
                     });
                 }
 

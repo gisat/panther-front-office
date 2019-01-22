@@ -328,7 +328,12 @@ class FrontOffice {
 				self._dispatcher.notify("fo#mapIsDependentOnScenario");
 				self._dispatcher.notify("fo#mapIsIndependentOfPeriod");
 			} else if (scope && scope.isMapIndependentOfPeriod && !scope.isMapDependentOnScenario){
-				self._dispatcher.notify("fo#allowMapAdding");
+			    if (scope.configuration && scope.configuration.lpisCheckReview){
+
+                } else {
+                    self._dispatcher.notify("fo#allowMapAdding");
+                }
+
 				self._dispatcher.notify("fo#mapIsIndependentOfPeriod");
 			} else if (scope && !scope.isMapIndependentOfPeriod && scope.isMapDependentOnScenario){
 				self._dispatcher.notify("fo#mapIsDependentOnScenario");
