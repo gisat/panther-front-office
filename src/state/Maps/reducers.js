@@ -229,49 +229,49 @@ export default function tasksReducer(state = INITIAL_STATE, action) {
 	switch (action.type) {
 		case ActionTypes.MAPS.SET_ACTIVE_MAP_KEY:
 			return setActiveMapKey(state, action.mapKey);
-		case ActionTypes.MAPS.ADD_SET:
+		case ActionTypes.MAPS.SET.ADD:
 			return addSet(state, action.set);
-		case ActionTypes.MAPS.REMOVE_SET:
+		case ActionTypes.MAPS.SET.REMOVE:
 			return removeSet(state, action.setKey);
-		case ActionTypes.MAPS.ADD_MAP_TO_SET:
+		case ActionTypes.MAPS.SET.ADD_MAP:
 			return addMapKeyToSet(state, action.setKey, action.mapKey);
-		case ActionTypes.MAPS.REMOVE_MAP_KEY_FROM_SET:
+		case ActionTypes.MAPS.SET.REMOVE_MAP:
 			return removeMapKeyFromSet(state, action.setKey, action.mapKey);
-		case ActionTypes.MAPS.SET_SET_WORLD_WIND_NAVIGATOR_SYNC:
+		case ActionTypes.MAPS.SET.SET_WORLD_WIND_NAVIGATOR_SYNC:
 			return setSetWorldWindNavigatorSync(state, action.setKey, action.worldWindNavigator);
-		case ActionTypes.MAPS.ADD_MAP:
+		case ActionTypes.MAPS.MAP.ADD:
 			return addMap(state, action.map);
-		case ActionTypes.MAPS.REMOVE_MAP:
+		case ActionTypes.MAPS.MAP.REMOVE:
 			return removeMap(state, action.mapKey);
-		case ActionTypes.MAPS.SET_MAP_NAME:
+		case ActionTypes.MAPS.MAP.SET_NAME:
 			return setMapName(state, action.mapKey, action.name);
-		case ActionTypes.MAPS.SET_MAP_DATA:
+		case ActionTypes.MAPS.MAP.SET_DATA:
 			return setMapData(state, action.map);
-		case ActionTypes.MAPS.SET_MAP_WORLD_WIND_NAVIGATOR:
+		case ActionTypes.MAPS.MAP.SET_WORLD_WIND_NAVIGATOR:
 			return setMapWorldWindNavigator(state, action.mapKey, action.worldWindNavigator);
-		case ActionTypes.MAPS.ADD_LAYER:
+		case ActionTypes.MAPS.LAYERS.ADD_LAYER:
 			return addLayer(state, action.mapKey, action.layer);
-		case ActionTypes.MAPS.ADD_LAYERS:
+		case ActionTypes.MAPS.LAYERS.ADD_LAYERS:
 			return addLayers(state, action.mapKey, action.layers);
-		case ActionTypes.MAPS.REMOVE_LAYER:
+		case ActionTypes.MAPS.LAYERS.REMOVE_LAYER:
 			return removeLayer(state, action.mapKey, action.layerKey);
-		case ActionTypes.MAPS.REMOVE_LAYERS:
+		case ActionTypes.MAPS.LAYERS.REMOVE_LAYERS:
 			return removeLayers(state, action.mapKey, action.layersKeys);
-		case ActionTypes.MAPS.SET_LAYER_INDEX:
+		case ActionTypes.MAPS.LAYERS.SET_LAYER_INDEX:
 			return setLayerIndex(state, action.mapKey, action.layerKey, action.index);
-		case ActionTypes.MAPS.UPDATE_MAP_LAYER:
+		case ActionTypes.MAPS.LAYERS.UPDATE_MAP_LAYER:
 			return updateMapLayer(state, action.mapKey, action.layer);
-		case ActionTypes.MAPS.SET_MAP_SCOPE:
+		case ActionTypes.MAPS.SET_SCOPE:
 			return setMapScope(state, action.mapKey, action.scope);
-		case ActionTypes.MAPS.SET_MAP_SCENARIO:
+		case ActionTypes.MAPS.SET_SCENARIO:
 			return setMapScenario(state, action.mapKey, action.scenario);
-		case ActionTypes.MAPS.SET_MAP_PERIOD:
+		case ActionTypes.MAPS.SET_PERIOD:
 			return setMapPeriod(state, action.mapKey, action.period);
-		case ActionTypes.MAPS.SET_MAP_PLACE:
+		case ActionTypes.MAPS.SET_PLACE:
 			return setMapPlace(state, action.mapKey, action.place);
-		case ActionTypes.MAPS.SET_MAP_CASE:
+		case ActionTypes.MAPS.SET_CASE:
 			return setMapCase(state, action.mapKey, action.case);
-		case ActionTypes.MAPS.SET_MAP_BACKGROUND_LAYER:
+		case ActionTypes.MAPS.SET_BACKGROUND_LAYER:
 			return setMapBackgroundLayer(state, action.mapKey, action.backgroundLayer);
 		default:
 			return state;

@@ -91,7 +91,7 @@ describe('Maps Reducers', () => {
 	
 	it('Add empty set', () => {
 		const action = {
-			type: ActionTypes.MAPS.ADD_SET,
+			type: ActionTypes.MAPS.SET.ADD,
 			set: null
 		};
 		Reducer(mapsReducer).withState(DEFAULT_STATE).expect(action).toReturnState({...DEFAULT_STATE, sets: {null: INITIAL_SET_STATE}});
@@ -110,7 +110,7 @@ describe('Maps Reducers', () => {
 			}
 		};
 		const action = {
-			type: ActionTypes.MAPS.ADD_SET,
+			type: ActionTypes.MAPS.SET.ADD,
 			set: {
 				key: 'set1'
 			}
@@ -137,7 +137,7 @@ describe('Maps Reducers', () => {
 			}
 		};
 		const action = {
-			type: ActionTypes.MAPS.ADD_SET,
+			type: ActionTypes.MAPS.SET.ADD,
 			set: {
 				key: 'set1',
 				sync: {
@@ -167,7 +167,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.ADD_SET,
+			type: ActionTypes.MAPS.SET.ADD,
 			set: {
 				key: 'set3',
 				sync: {}
@@ -196,7 +196,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.REMOVE_SET,
+			type: ActionTypes.MAPS.SET.REMOVE,
 			setKey: 'set2',
 		};
 		Reducer(mapsReducer).withState(defaultState).expect(action).toReturnState(expectedResult);
@@ -216,7 +216,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.REMOVE_SET,
+			type: ActionTypes.MAPS.SET.REMOVE,
 			setKey: 'set3',
 		};
 		Reducer(mapsReducer).withState(defaultState).expect(action).toReturnState(expectedResult);
@@ -233,7 +233,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.REMOVE_SET,
+			type: ActionTypes.MAPS.SET.REMOVE,
 			setKey: 'set1',
 		};
 		Reducer(mapsReducer).withState(defaultState).expect(action).toReturnState(expectedResult);
@@ -258,7 +258,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.ADD_MAP_TO_SET,
+			type: ActionTypes.MAPS.SET.ADD_MAP,
 			setKey: 'set1',
 			mapKey: 'map1',
 		};
@@ -289,7 +289,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.ADD_MAP_TO_SET,
+			type: ActionTypes.MAPS.SET.ADD_MAP,
 			setKey: 'set1',
 			mapKey: 'map3',
 		};
@@ -320,7 +320,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.REMOVE_MAP_KEY_FROM_SET,
+			type: ActionTypes.MAPS.SET.REMOVE_MAP,
 			setKey: 'set1',
 			mapKey: 'map1',
 		};
@@ -351,7 +351,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.REMOVE_MAP_KEY_FROM_SET,
+			type: ActionTypes.MAPS.SET.REMOVE_MAP,
 			setKey: 'set1',
 			mapKey: 'map2',
 		};
@@ -379,7 +379,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.SET_SET_WORLD_WIND_NAVIGATOR_SYNC,
+			type: ActionTypes.MAPS.SET.SET_WORLD_WIND_NAVIGATOR_SYNC,
 			setKey: 'set1',
 			worldWindNavigator: null,
 		};
@@ -417,7 +417,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.SET_SET_WORLD_WIND_NAVIGATOR_SYNC,
+			type: ActionTypes.MAPS.SET.SET_WORLD_WIND_NAVIGATOR_SYNC,
 			setKey: 'set1',
 			worldWindNavigator: {
 				lookAtLocation: {
@@ -446,7 +446,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.ADD_MAP,
+			type: ActionTypes.MAPS.MAP.ADD,
 			map: null
 		};
 		Reducer(mapsReducer).withState(defaultState).expect(action).toReturnState(expectedResult);
@@ -478,7 +478,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.ADD_MAP,
+			type: ActionTypes.MAPS.MAP.ADD,
 			map: {key: 'map1', name: 'mapa 1'}
 		};
 		Reducer(mapsReducer).withState(defaultState).expect(action).toReturnState(expectedResult);
@@ -527,7 +527,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.ADD_MAP,
+			type: ActionTypes.MAPS.MAP.ADD,
 			map: {key: 'map1', name: 'map first'}
 		};
 		Reducer(mapsReducer).withState(defaultState).expect(action).toReturnState(expectedResult);
@@ -590,7 +590,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.REMOVE_MAP,
+			type: ActionTypes.MAPS.MAP.REMOVE,
 			mapKey: 'map1'
 		};
 		Reducer(mapsReducer).withState(defaultState).expect(action).toReturnState(expectedResult);
@@ -637,7 +637,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.REMOVE_MAP,
+			type: ActionTypes.MAPS.MAP.REMOVE,
 			mapKey: 'map1'
 		};
 		Reducer(mapsReducer).withState(defaultState).expect(action).toReturnState(expectedResult);
@@ -668,7 +668,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.SET_MAP_NAME,
+			type: ActionTypes.MAPS.MAP.SET_NAME,
 			mapKey: 'map1',
 			name: 'first map'
 		};
@@ -702,7 +702,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.SET_MAP_WORLD_WIND_NAVIGATOR,
+			type: ActionTypes.MAPS.MAP.SET_WORLD_WIND_NAVIGATOR,
 			mapKey: 'map1',
 			worldWindNavigator: {
 				location: [100, 100]
@@ -742,7 +742,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.ADD_LAYER,
+			type: ActionTypes.MAPS.LAYERS.ADD_LAYER,
 			mapKey: 'map1',
 			layer: {
 				key: 'layer1'
@@ -793,7 +793,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.ADD_LAYER,
+			type: ActionTypes.MAPS.LAYERS.ADD_LAYER,
 			mapKey: 'map1',
 			layer: {
 				key: 'layer2'
@@ -836,7 +836,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.ADD_LAYERS,
+			type: ActionTypes.MAPS.LAYERS.ADD_LAYERS,
 			mapKey: 'map1',
 			layers: [
 				{
@@ -892,7 +892,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.REMOVE_LAYER,
+			type: ActionTypes.MAPS.LAYERS.REMOVE_LAYER,
 			mapKey: 'map1',
 			layerKey: 'layer1'
 		};
@@ -934,7 +934,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.REMOVE_LAYER,
+			type: ActionTypes.MAPS.LAYERS.REMOVE_LAYER,
 			mapKey: 'map1',
 			layerKey: 'layer1'
 		};
@@ -982,7 +982,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.REMOVE_LAYERS,
+			type: ActionTypes.MAPS.LAYERS.REMOVE_LAYERS,
 			mapKey: 'map1',
 			layersKeys: ['layer1', 'layer2', 'layer3']
 		};
@@ -1040,7 +1040,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.SET_LAYER_INDEX,
+			type: ActionTypes.MAPS.LAYERS.SET_LAYER_INDEX,
 			mapKey: 'map1',
 			layerKey: 'layer3',
 			index: 0,
@@ -1099,7 +1099,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.SET_LAYER_INDEX,
+			type: ActionTypes.MAPS.LAYERS.SET_LAYER_INDEX,
 			mapKey: 'map1',
 			layerKey: 'layer1',
 			index: 2,
@@ -1157,7 +1157,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.UPDATE_MAP_LAYER,
+			type: ActionTypes.MAPS.LAYERS.UPDATE_MAP_LAYER,
 			mapKey: 'map1',
 			layer: {
 				key: 'layer1',
@@ -1191,7 +1191,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.SET_MAP_SCOPE,
+			type: ActionTypes.MAPS.SET_SCOPE,
 			mapKey: 'map1',
 			scope: 1111
 		};
@@ -1223,7 +1223,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.SET_MAP_SCOPE,
+			type: ActionTypes.MAPS.SET_SCOPE,
 			mapKey: 'map1',
 			scope: 1111
 		};
@@ -1254,7 +1254,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.SET_MAP_SCENARIO,
+			type: ActionTypes.MAPS.SET_SCENARIO,
 			mapKey: 'map1',
 			scenario: 1111
 		};
@@ -1285,7 +1285,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.SET_MAP_PERIOD,
+			type: ActionTypes.MAPS.SET_PERIOD,
 			mapKey: 'map1',
 			period: 1111
 		};
@@ -1316,7 +1316,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.SET_MAP_PLACE,
+			type: ActionTypes.MAPS.SET_PLACE,
 			mapKey: 'map1',
 			place: 1111
 		};
@@ -1347,7 +1347,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.SET_MAP_CASE,
+			type: ActionTypes.MAPS.SET_CASE,
 			mapKey: 'map1',
 			case: 1111
 		};
@@ -1378,7 +1378,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.SET_MAP_BACKGROUND_LAYER,
+			type: ActionTypes.MAPS.SET_BACKGROUND_LAYER,
 			mapKey: 'map1',
 			backgroundLayer: 1111
 		};
