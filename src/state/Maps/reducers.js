@@ -61,7 +61,7 @@ const setActiveMapKey = (state, mapKey) => {
 };
 
 const addSet = (state, setState) => {
-	const mergedSetState = _.merge({...INITIAL_SET_STATE}, setState); //FIXME - může být?
+	const mergedSetState = _.merge(_.cloneDeep(INITIAL_SET_STATE), setState); //FIXME - může být?
 	
 	const newSets = {...state.sets};
 	newSets[mergedSetState.key] = mergedSetState;
@@ -70,7 +70,6 @@ const addSet = (state, setState) => {
 
 const removeSet = (state, setKey) => {
 	const withoutSetKey = removeItemByKey(state.sets, setKey);
-	console.log('withoutSetKey', withoutSetKey);
 	
 	return {...state, sets: withoutSetKey};
 }
@@ -88,34 +87,39 @@ const getMapByKey = (state, mapKey) => state.maps[mapKey];
 
 
 const addMapKeyToSet = (state, setKey, mapKey) => {
-	const setToUpdate = getSetByKey(setKey);
-	return {...state, sets: {...state.sets, [setKey]: {maps: [...setToUpdate.maps, mapKey]}}};
+	const setToUpdate = getSetByKey(state, setKey);
+	return {...state, sets: {...state.sets, [setKey]: {...setToUpdate, maps: [...setToUpdate.maps, mapKey]}}};
 }
 
 const removeMapKeyFromSet = (state, setKey, mapKey) => {
-	const setToUpdate = getSetByKey(setKey);
+	
+	const setToUpdate = getSetByKey(state, setKey);
 	const mapIndex = setToUpdate.maps.indexOf(mapKey);
-	return {...state, sets: {...state.sets, [setKey]: {maps: removeItemByIndex(setToUpdate.maps, mapIndex)}}};
+	return {...state, sets: {...state.sets, [setKey]: {...setToUpdate,maps: removeItemByIndex(setToUpdate.maps, mapIndex)}}};
 }
 
 const setSetWorldWindNavigatorSync = (state, setKey, worldWindNavigator = INITIAL_WORLDWINDNAVIGATOR) => {
-	worldWindNavigator = {...INITIAL_WORLDWINDNAVIGATOR, ...worldWindNavigator};
-	const setToUpdate = getSetByKey(setKey);
-	return {...state, sets: {...state.sets, [setKey]: {...setToUpdate, sync: worldWindNavigator}}};
+	const mergedWorldWindNavigator = _.merge(_.cloneDeep(INITIAL_WORLDWINDNAVIGATOR), worldWindNavigator); //FIXME - může být?
+	const setToUpdate = getSetByKey(state, setKey);
+	return {...state, sets: {...state.sets, [setKey]: {...setToUpdate, sync: mergedWorldWindNavigator}}};
 };
 
-const addMap = (state, mapState) => {
-	return {...state, maps: {...state.maps, [mapState.key]: mapState}};
+/**
+ * Add new map state. Rewrite map state if exist.
+ * FIXME - should merge with existing?
+ * */
+const addMap = (state, mapState = INITIAL_MAP_STATE) => {
+	const mergedMapState = _.merge(_.cloneDeep(INITIAL_MAP_STATE), mapState); //FIXME - může být?
+	return {...state, maps: {...state.maps, [mergedMapState.key]: mergedMapState}};
 }
 
 const removeMap = (state, mapKey) => {
 	const newMaps = removeItemByKey(state.maps, mapKey);
 	let newMapsState = {...state, maps: newMaps};
-
 	//If mapKey is in sets, then remove it from each
 	for (const [key, value] of Object.entries(state.sets)) {
 		if(value.maps.includes(mapKey)) {
-			newMapsState = {...newMapsState, ...removeMapKeyFromSet(state, value.key, mapKey)}
+			newMapsState = {...removeMapKeyFromSet(newMapsState, value.key, mapKey)}
 		}
 	}
 	return newMapsState;
@@ -127,59 +131,68 @@ const setMapName = (state, mapKey, name) => {
 }
 
 const setMapData = (state, mapState = INITIAL_MAP_STATE) => {
-	mapState = {...mapState, ...INITIAL_MAP_STATE};
-	return {...state, maps: {...state.maps, [mapState.key]: {...mapState}}};
+	const mergedMapState = _.merge(_.cloneDeep(INITIAL_MAP_STATE), mapState); //FIXME - může být?
+	return {...state, maps: {...state.maps, [mergedMapState.key]: {...mergedMapState}}};
 }
 
 const setMapWorldWindNavigator = (state, mapKey, worldWindNavigator = INITIAL_WORLDWINDNAVIGATOR) => {
-	worldWindNavigator = {...INITIAL_WORLDWINDNAVIGATOR, ...worldWindNavigator};
+	const mergedWorldWindNavigator = _.merge(_.cloneDeep(INITIAL_WORLDWINDNAVIGATOR), worldWindNavigator); //FIXME - může být?
 	const mapState = getMapByKey(state, mapKey);
-	return setMapData(state, {...mapState, worldWindNavigator: worldWindNavigator})
+	return setMapData(state, {...mapState, worldWindNavigator: mergedWorldWindNavigator})
 };
 
 
 //FIXME - optional parametr index?
+//FIXME - define layer state
+//FIXME - unique layer by KEY check?
 const addLayer = (state, mapKey, layerState) => {
 	const mapState = getMapByKey(state, mapKey);
-	return setMapData(state, {...mapState, layers: [...mapState.layers, layerState]})
+	return setMapData(state, {...mapState, data: {...mapState.data, layers: [...mapState.data.layers, layerState]}})
 };
 
 const addLayers = (state, mapKey, layersState = []) => {
 	let newState = {...state};
 	for (const layerState of layersState) {
-		newState = {...newState, ...addLayer(state, mapKey, layerState)};
+		newState = {...newState, ...addLayer(newState, mapKey, layerState)};
 	};
 	return newState;
 };
 
 const removeLayer = (state, mapKey, layerKey) => {
 	const mapState = getMapByKey(state, mapKey);
-	return setMapData(state, {...mapState, layers: removeItemByIndex(mapState.layers, layerKey)});
+	const layerIndex = mapState.data.layers.findIndex(l => l.key ===layerKey);
+	return setMapData(state, {...mapState, data: {layers: removeItemByIndex(mapState.data.layers, layerIndex)}});
 };
 
 const removeLayers = (state, mapKey, layersKeys = [])=> {
 	let newState = {...state};
 	for (const layerKey of layersKeys) {
-		newState = {...newState, ...removeLayer(state, mapKey, layerKey)};
+		const withoutLayer = removeLayer(newState, mapKey, layerKey);
+		newState = {...newState, maps: {...newState.maps, [mapKey]: {...newState.maps[mapKey], data: {...newState.maps[mapKey].data, layers: [...withoutLayer.maps[mapKey].data.layers]}}}}
 	}
 	return newState;
 };
 
 const setLayerIndex = (state, mapKey, layerKey, index) => {
 	const mapState = getMapByKey(state, mapKey);
-	const layerIndex = mapState.layers.findIndex(l => l.key ===layerKey);
-	const layerState = {...mapState.layers[layerIndex]};
-	const withoutLayer = removeItemByIndex(mapState.layers, layerIndex);
+	const layerIndex = mapState.data.layers.findIndex(l => l.key ===layerKey);
+	const layerState = {...mapState.data.layers[layerIndex]};
+	const withoutLayer = removeItemByIndex(mapState.data.layers, layerIndex);
 	const onPosition = addItemToIndex(withoutLayer, index, layerState);
-	return setMapData(state, {...mapState, layers: onPosition});
+	return setMapData(state, {...mapState, data: {...mapState.data, layers: onPosition}});
 };
 
 const updateMapLayer = (state, mapKey, layerState = INITIAL_LAYER_STATE) => {
-	layerState = {...layerState, ...INITIAL_LAYER_STATE};
+	const mergedLayerState = _.merge(_.cloneDeep(INITIAL_LAYER_STATE), layerState); //FIXME - může být?
 	const mapState = getMapByKey(state, mapKey);
-	const layerIndex = mapState.layers.findIndex(l => l.key === layerState.key);
-	const updatedLayers = replaceItemOnIndex(mapState.layers, layerIndex, layerState)
-	return setMapData(state, {...mapState, layers: updatedLayers});
+	const layerIndex = mapState.data.layers.findIndex(l => l.key === mergedLayerState.key);
+	if(layerIndex > -1) {
+		const updatedLayers = replaceItemOnIndex(mapState.data.layers, layerIndex, mergedLayerState)
+		return setMapData(state, {...mapState, data: {...mapState.data, layers: updatedLayers}});
+	} else {
+		//error - layer not found
+		return state;
+	}
 }
 
 const setMapScope = (state, mapKey, scope) => {
@@ -199,7 +212,7 @@ const setMapScenario = (state, mapKey, scenario) => {
 
 const setMapCase = (state, mapKey, caseKey) => {
 	const mapState = getMapByKey(state, mapKey);
-	return setMapData(state, {...mapState, place});
+	return setMapData(state, {...mapState, case: caseKey});
 };
 
 const setMapPeriod = (state, mapKey, period) => {
