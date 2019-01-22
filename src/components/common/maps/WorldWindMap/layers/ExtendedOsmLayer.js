@@ -1,4 +1,5 @@
 import WorldWind from '@nasaworldwind/worldwind';
+import uriTemplates from 'uri-templates';
 
 const {OpenStreetMapImageLayer} = WorldWind;
 
@@ -23,27 +24,33 @@ class ExtendedOsmLayer extends OpenStreetMapImageLayer {
 		this.key = options.key;
 		this.opacity = options.opacity ? options.opacity : this.opacity;
 		this.detailControl = options.detailControl ? options.detailControl : 1;
-
-		let self = this;
-		this.urlBuilder = {
-			urlForTile: function (tile) {
-				let sourceUrl = self.buildSourceUrl(options.urls);
-				return `${sourceUrl}/${tile.level.levelNumber + 1}/${tile.column}/${tile.row}.png`;
-			}
-		};
+		this.urlBuilder = {...this.urlBuilder, urlForTile: this.urlForTile.bind(this, options.urls)};
 	};
 
 	/**
-	 * @param urls {string}
-	 * @returns {string} Final resource url
+	 * @param urls {Array} list of URLs. It accepts url templates
+	 * @param tile {Tile}
+	 * @param imageFormat {string}
+	 * @returns {string} Final url for request
 	 */
-	buildSourceUrl(urls) {
-		if (urls.length === 1){
-			return urls[0];
+	urlForTile(urls, tile, imageFormat) {
+		let url = this.getRandom(urls);
+		let template = uriTemplates(url);
+		if (template && template.varNames && template.varNames.length){
+			return template.fill({z: (tile.level.levelNumber + 1), x: tile.column, y: tile.row});
 		} else {
-			let index = Math.floor((Math.random() * urls.length));
-			return urls[index];
+			return `${url}/${tile.level.levelNumber + 1}/${tile.column}/${tile.row}.png`;
 		}
+	}
+
+	/**
+	 * Get random item from array
+	 * @param urls {Array}
+	 * @returns {string}
+	 */
+	getRandom(urls) {
+		let index = Math.floor((Math.random() * urls.length));
+		return urls[index];
 	}
 
 	doRender(dc) {
