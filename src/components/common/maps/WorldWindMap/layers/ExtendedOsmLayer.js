@@ -1,7 +1,7 @@
 import WorldWind from '@nasaworldwind/worldwind';
 import uriTemplates from 'uri-templates';
 
-const {OpenStreetMapImageLayer} = WorldWind;
+const {OpenStreetMapImageLayer, WWUtil} = WorldWind;
 
 /**
  * Class extending WorldWind.OpenStreetMapImageLayer.
@@ -39,7 +39,7 @@ class ExtendedOsmLayer extends OpenStreetMapImageLayer {
 		if (template && template.varNames && template.varNames.length){
 			return template.fill({z: (tile.level.levelNumber + 1), x: tile.column, y: tile.row});
 		} else {
-			return `${url}/${tile.level.levelNumber + 1}/${tile.column}/${tile.row}.png`;
+			return `${url}/${tile.level.levelNumber + 1}/${tile.column}/${tile.row}.${WWUtil.suffixForMimeType(imageFormat)}`;
 		}
 	}
 
