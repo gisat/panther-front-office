@@ -6,7 +6,7 @@ import './ViewsList.css';
 import ViewCard from "../../../containers/controls/ViewCard";
 import Names from "../../../../constants/Names";
 import VisualConfig from "../../../../constants/VisualsConfig";
-import PucsClimateFitIntroHeader from "../../../specific/PucsClimateFit/introHeader/presentation";
+import IntroHeader from "../../../common/intro/introHeader/presentation";
 import PucsClimateFitIntroFooter from "../../../specific/PucsClimateFit/introFooter/presentation";
 
 class ViewsList extends React.PureComponent {
@@ -38,6 +38,7 @@ class ViewsList extends React.PureComponent {
 		return (
 			<div className="ptr-views-list">
 				{this.props.hideTitle ? null : this.renderHeader(scopeStyle)}
+				{scopeStyle === "geoinvaze" ? this.renderDescription(this.props.selectedScopeData  && this.props.selectedScopeData.description) : null}
 				<div className="ptr-views-list-content">
 					<div>{this.renderContent()}</div>
 				</div>
@@ -49,13 +50,25 @@ class ViewsList extends React.PureComponent {
 	renderHeader(scopeStyle){
 		if (scopeStyle === "pucs"){
 			return (
-				<PucsClimateFitIntroHeader
+				<IntroHeader
 					title={this.props.selectedScopeData && this.props.selectedScopeData.name}
 					description={this.props.selectedScopeData && this.props.selectedScopeData.description}
 					backgroundSource={scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introHeaderBackgroundSrc}
 					logoSource={scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introLogoSrc}
 				/>
 			);
+		} else if (scopeStyle === "geoinvaze") {
+			let backgroundStyle = this.props.selectedScopeData && this.props.selectedScopeData.configuration && this.props.selectedScopeData.configuration.introBackgroundStyle;
+			if (backgroundStyle){
+				return (
+					<IntroHeader
+						title={this.props.selectedScopeData && this.props.selectedScopeData.name}
+						backgroundSource={scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introScopeHeaderBackgroundSrc && VisualConfig[scopeStyle].introScopeHeaderBackgroundSrc[backgroundStyle]}
+						withBackgroundOverlay
+					/>
+				);
+			}
+
 		} else {
 			let headerLogo = scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introLogoSrc;
 			let description = this.props.selectedScopeData && this.props.selectedScopeData.description;
@@ -77,6 +90,16 @@ class ViewsList extends React.PureComponent {
 				</div>
 			);
 		}
+	}
+
+	renderDescription(description){
+		return (
+			<div
+				className="ptr-views-list-description outside-header"
+				dangerouslySetInnerHTML={{__html: description}}
+			>
+			</div>
+		);
 	}
 
 	renderContent(){

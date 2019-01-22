@@ -162,6 +162,15 @@ body.intro #header h1 {
 	display: none;
 }
 
+#home-page.logo-with-title {
+	display: flex;
+}
+#home-page.logo-with-title > img {
+	position: absolute;
+	left: 20px;
+	top: 10px;
+}
+
 #header a {
 	padding: 0 10px;
 	display: inline-block;

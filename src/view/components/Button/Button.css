@@ -116,6 +116,9 @@
 	cursor: not-allowed;
 }
 
+.ptr-button.header-button .fa{
+	color: rgb(153, 153, 153);
+}
 .ptr-button.header-button {
 	height: 29px;
 	align-items: center;

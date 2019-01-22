@@ -178,7 +178,7 @@ class TopToolBar {
                         if (tool === 'mapTools'){
                             tools.mapTools = false;
                         }
-                        if (tool === 'customLayers'){
+                        if (tool === 'customLayers' || tool === 'add-layer'){
                             tools.customLayers = false;
                         }
                         if (tool === 'share'){
