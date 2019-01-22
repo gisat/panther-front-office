@@ -32,8 +32,6 @@ class WorldWindMap extends React.PureComponent {
 		// TODO only for testing
 		setTimeout(() => {
 			this.handleBackgroundLayers(this.props.backgroundLayer, backgroundStamen);
-			this.props.backgroundLayer.data.attribution = backgroundStamen.data.attribution;
-			this.forceUpdate();
 		}, 5000);
 
 		setTimeout(() => {
@@ -67,9 +65,15 @@ class WorldWindMap extends React.PureComponent {
 
 	componentDidUpdate(prevProps) {
 		if (prevProps){
-			navigator.update(this.wwd, this.props.navigator);
-			this.handleBackgroundLayers(prevProps.backgroundLayer, this.props.backgroundLayer);
-			this.handleLayers(this.props.layers);
+			if (this.props.navigator) {
+				navigator.update(this.wwd, this.props.navigator);
+			}
+			if (this.props.backgroundLayer) {
+				this.handleBackgroundLayers(prevProps.backgroundLayer, this.props.backgroundLayer);
+			}
+			if (this.props.layers) {
+				this.handleLayers(this.props.layers);
+			}
 		}
 	}
 
@@ -103,6 +107,28 @@ class WorldWindMap extends React.PureComponent {
 	}
 
 	/**
+	 * Get attributions of all layers present in the map
+	 * @returns {Array}
+	 */
+	getAttributions() {
+		let attributions = [];
+
+		if (this.props.backgroundLayer && this.props.backgroundLayer.data && this.props.backgroundLayer.data.attribution){
+			attributions.push(this.props.backgroundLayer.data.attribution);
+		}
+
+		if (this.props.layers){
+			this.props.layers.forEach(layer => {
+				if (layer.data && layer.data.attribution){
+					attributions.unshift(layer.data.attribution);
+				}
+			});
+		}
+
+		return attributions.length ? attributions : null;
+	}
+
+	/**
 	 * @returns {null | ZeroElevationModel}
 	 */
 	getElevationModel() {
@@ -115,16 +141,14 @@ class WorldWindMap extends React.PureComponent {
 	}
 
 	render() {
-		/* TODO handle attributions for more layers altogerter */
+		let attributions = this.getAttributions();
+
 		return (
 			<div className="ptr-world-wind-map">
 				<canvas className="ptr-world-wind-map-canvas" id={this.canvasId}>
 					Your browser does not support HTML5 Canvas.
 				</canvas>
-				{this.props.backgroundLayer && this.props.backgroundLayer.data.attribution ?
-					<Attribution
-						data={this.props.backgroundLayer.data.attribution}
-					/> : null}
+				{attributions ? <Attribution data={attributions}/> : null}
 			</div>
 		);
 

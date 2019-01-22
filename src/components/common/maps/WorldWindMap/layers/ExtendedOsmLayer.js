@@ -7,11 +7,10 @@ const {OpenStreetMapImageLayer} = WorldWind;
  * @param options {Object}
  * @param options.attributions {Array} list of attributions. Each attribution will be rendered on separate line.
  * @param options.detailControl {number}
- * @param options.imageType {string} Type of image which will be used for tiles
- * @param options.numLevels {number} number of tiles levels
+ * @param options.name {String}
  * @param options.opacity {number}
  * @param options.key {String}
- * @param options.url {string} resource URL
+ * @param options.urls {Array} resource URLs
  * @augments WorldWind.OpenStreetMapImageLayer
  * @constructor
  */
@@ -20,34 +19,30 @@ class ExtendedOsmLayer extends OpenStreetMapImageLayer {
 		super(options);
 
 		this.attributions = options.attributions;
+		this.name = options.name;
 		this.key = options.key;
 		this.opacity = options.opacity ? options.opacity : this.opacity;
-		this.levels.numLevels = options.levels ? options.levels : this.levels.numLevels;
 		this.detailControl = options.detailControl ? options.detailControl : 1;
-		this.imageType = options.imageType ? options.imageType : "png";
 
 		let self = this;
 		this.urlBuilder = {
 			urlForTile: function (tile) {
-				let sourceUrl = self.buildSourceUrl(options.url, options.prefixes);
-				return `${sourceUrl}/${tile.level.levelNumber + 1}/${tile.column}/${tile.row}.${self.imageType}`;
+				let sourceUrl = self.buildSourceUrl(options.urls);
+				return `${sourceUrl}/${tile.level.levelNumber + 1}/${tile.column}/${tile.row}.png`;
 			}
 		};
 	};
 
 	/**
-	 * @param url {string}
-	 * @param prefixes {Array}
+	 * @param urls {string}
 	 * @returns {string} Final resource url
 	 */
-	buildSourceUrl(url, prefixes) {
-		if (!prefixes){
-			return url;
+	buildSourceUrl(urls) {
+		if (urls.length === 1){
+			return urls[0];
 		} else {
-			let index = Math.floor((Math.random() * prefixes.length));
-			let prefix = prefixes[index];
-			let splittedUrl = url.split('://');
-			return `${splittedUrl[0]}://${prefix}.${splittedUrl[1]}`
+			let index = Math.floor((Math.random() * urls.length));
+			return urls[index];
 		}
 	}
 

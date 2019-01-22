@@ -46,7 +46,7 @@ function getLayerByType(layerData){
 		switch (layerData.type){
 			case "wms":
 				return getWmsLayer(layerData);
-			case "wmts-osm-based":
+			case "wmts":
 				return getWmtsOsmBasedLayer(layerData);
 			default:
 				throw new Error("WorldWindMap/layers/helpers#getLayerByType: Unknown type of layer: " + layerData.type)
@@ -58,19 +58,43 @@ function getLayerByType(layerData){
 
 /**
  * @param layerData {Object}
+ * @param layerData.configuration {Object}
+ * @param layerData.configuration.numLevels {number}
+ * @param layerData.configuration.params {Object}
+ * @param layerData.configuration.version {string}
+ * @param layerData.layers {string}
+ * @param layerData.name {string}
+ * @param layerData.opacity {number}
+ * @param layerData.styles {string}
  * @param layerData.url {string} Service url
  * @returns {ExtendedWmsLayer}
  */
 function getWmsLayer(layerData) {
+	let imageFormat, version, params;
+	let numLevels = 18;
+
+	if (layerData.configuration) {
+		if (layerData.configuration.params) {
+			({imageFormat, version, ...params} = layerData.configuration.params);
+		}
+		if (layerData.configuration.numLevels) {
+			numLevels = layerData.configuration.numLevels;
+		}
+	}
+
 	return new ExtendedWmsLayer({
-		...layerData,
-		service: layerData.url,
-		sector: new Sector(-90, 90, -180, 180),
+		format: imageFormat ? imageFormat : "image/png",
+		layerNames: layerData.layers,
 		levelZeroDelta: new Location(45, 45),
-		numLevels: layerData.numLevels ? layerData.numLevels : 18,
-		format: "image/png",
+		name: layerData.name,
+		numLevels,
+		opacity: layerData.opacity,
+		params: _.isEmpty(params) ? null : params,
+		sector: new Sector(-90, 90, -180, 180),
+		service: layerData.url,
 		size: 256,
-		version: "1.3.0",
+		styleNames: layerData.styles,
+		version: version ? version : "1.3.0",
 	}, null);
 }
 
