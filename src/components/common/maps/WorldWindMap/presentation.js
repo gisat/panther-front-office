@@ -23,6 +23,7 @@ class WorldWindMap extends React.PureComponent {
 		elevationModel: PropTypes.string,
 		layers: PropTypes.array,
 		navigator: PropTypes.object,
+		mapKey: PropTypes.string,
 	};
 
 	constructor(props) {

@@ -1,13 +1,14 @@
 .ptr-world-wind-map {
 	background: #ddd;
 	font-family: "Roboto", sans-serif;
+	position: relative;
 	height: 100%;
 	width: 100%;
-	position: relative;
 }
 
 .ptr-world-wind-map-canvas {
 	display: block;
 	height: 100%;
 	width: 100%;
+	position: absolute;
 }
