@@ -39,21 +39,26 @@ const getMapSetMapKeys = createSelector(
 	}
 );
 
-const getMapInSetNavigator = createSelector(
+const getMapNavigator = createSelector(
 	[getMapByKey,
 	getMapSetsAsObject,
 	(state, mapKey, setKey) => setKey],
 	(map, sets, setKey) => {
-		let mapSet = sets[setKey];
-		if (map && mapSet){
-			if (mapSet.maps && _.includes(mapSet.maps, map.key)) {
-				let mapNavigator = map.data && map.data.worldWindNavigator;
-				let mapSetNavigator = mapSet.data && mapSet.data.worldWindNavigator;
-				let navigator = {...mapSetNavigator, ...mapNavigator};
-				return !_.isEmpty(navigator) ? navigator : null;
+		if (map) {
+			if (sets && setKey && sets[setKey]) {
+				let mapSet = sets[setKey];
+				if (mapSet.maps && _.includes(mapSet.maps, map.key)) {
+					let mapNavigator = map.data && map.data.worldWindNavigator;
+					let mapSetNavigator = mapSet.data && mapSet.data.worldWindNavigator;
+					let navigator = {...mapSetNavigator, ...mapNavigator};
+					return !_.isEmpty(navigator) ? navigator : null;
+				} else {
+					console.warn(`"state/Maps/selectors#getMapInSet: Map set ${map.setKey} does not contain map ${map.key}"`);
+					return null;
+				}
 			} else {
-				console.warn(`"state/Maps/selectors#getMapInSet: Map set ${map.setKey} does not contain map ${map.key}"`);
-				return null;
+				let navigator = map.data && map.data.worldWindNavigator;
+				return navigator && !_.isEmpty(navigator) ? navigator : null;
 			}
 		} else {
 			return null;
@@ -62,8 +67,11 @@ const getMapInSetNavigator = createSelector(
 );
 
 export default {
-	getMapInSetNavigator,
+	getMapByKey,
+	getMapNavigator,
 	getMapSetByKey,
 	getMapSetMapKeys,
+
+	getMapsAsObject,
 	getMapSetsAsObject
 };

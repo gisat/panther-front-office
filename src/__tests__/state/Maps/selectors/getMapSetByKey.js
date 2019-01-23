@@ -9,7 +9,18 @@ describe('#getMapSetByKey', () => {
 		const expectedOutput = {
 			key: 'MapSet1',
 			maps: ['Map1, Map2'],
-			data: {},
+			data: {
+				worldWindNavigator: {
+					lookAtLocation: {
+						longitude: 10,
+						latitude: 60
+					},
+					range: 10000,
+					tilt: 0,
+					heading: 10,
+					roll: 0
+				}
+			},
 			sync: {}
 		};
 		Selector(Select.maps.getMapSetByKey).expect(BASIC_STATE, setKey).toReturn(expectedOutput);

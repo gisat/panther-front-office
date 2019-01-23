@@ -5,15 +5,7 @@ import {getSubstate, BASIC_STATE, EMPTY_SETS_STATE} from "../../../../__testUtil
 
 describe('#getMapSetsAsObject', () => {
 	it('should select all sets as object', () => {
-		const expectedOutput = {
-			MapSet1: {
-				key: 'MapSet1',
-				maps: ['Map1, Map2'],
-				data: {},
-				sync: {}
-			}
-		};
-
+		const expectedOutput = BASIC_STATE.maps.sets;
 		Selector(Select.maps.getMapSetsAsObject).expect(BASIC_STATE).toReturn(expectedOutput);
 	});
 

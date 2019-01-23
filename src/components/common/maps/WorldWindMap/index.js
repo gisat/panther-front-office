@@ -9,7 +9,7 @@ const mapStateToProps = (state, props) => {
 	return {
 		backgroundLayer: backgroundCuzk,
 		layers: layersInitial,
-		navigator: Select.maps.getMapInSetNavigator(state, props.mapKey, props.mapSetKey)
+		navigator: Select.maps.getMapNavigator(state, props.mapKey, props.mapSetKey)
 	}
 };
 
