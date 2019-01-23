@@ -149,28 +149,28 @@ const setMapBackgroundLayer = (mapKey, backgroundLayer) => {
 
 const actionSetActiveMapKey = (mapKey) => {
 	return {
-		type: ActionTypes.MAP.SET_ACTIVE_MAP_KEY,
+		type: ActionTypes.MAPS.SET_ACTIVE_MAP_KEY,
 		mapKey
 	}
 };
 
 const actionAddSet = (set) => {
 	return {
-		type: ActionTypes.MAP.SET.ADD,
+		type: ActionTypes.MAPS.SET.ADD,
 		set
 	}
 };
 
 const actionRemoveSet = (setKey) => {
 	return {
-		type: ActionTypes.MAP.SET.REMOVE,
+		type: ActionTypes.MAPS.SET.REMOVE,
 		setKey
 	}
 };
 
 const actionAddMapToSet = (setKey, mapKey) => {
 	return {
-		type: ActionTypes.MAP.SET.ADD_MAP,
+		type: ActionTypes.MAPS.SET.ADD_MAP,
 		setKey,
 		mapKey,
 	}
@@ -178,7 +178,7 @@ const actionAddMapToSet = (setKey, mapKey) => {
 
 const actionRemoveMapKeyFromSet = (setKey, mapKey) => {
 	return {
-		type: ActionTypes.MAP.SET.REMOVE_MAP,
+		type: ActionTypes.MAPS.SET.REMOVE_MAP,
 		setKey,
 		mapKey,
 	}
@@ -186,7 +186,7 @@ const actionRemoveMapKeyFromSet = (setKey, mapKey) => {
 
 const actionSetSetWorldWindNavigatorSync = (setKey, worldWindNavigator) => {
 	return {
-		type: ActionTypes.MAP.SET.SET_WORLD_WIND_NAVIGATOR_SYNC,
+		type: ActionTypes.MAPS.SET.SET_WORLD_WIND_NAVIGATOR_SYNC,
 		setKey,
 		worldWindNavigator,
 	}
@@ -194,21 +194,21 @@ const actionSetSetWorldWindNavigatorSync = (setKey, worldWindNavigator) => {
 
 const actionAddMap = (map) => {
 	return {
-		type: ActionTypes.MAP.MAP.ADD,
+		type: ActionTypes.MAPS.MAP.ADD,
 		map,
 	}
 };
 
 const actionRemoveMap = (mapKey) => {
 	return {
-		type: ActionTypes.MAP.MAP.REMOVE,
+		type: ActionTypes.MAPS.MAP.REMOVE,
 		mapKey,
 	}
 };
 
 const actionSetMapName = (mapKey, name) => {
 	return {
-		type: ActionTypes.MAP.MAP.SET_NAME,
+		type: ActionTypes.MAPS.MAP.SET_NAME,
 		mapKey,
 		name,
 	}
@@ -216,14 +216,14 @@ const actionSetMapName = (mapKey, name) => {
 
 const actionSetMapData = (map) => {
 	return {
-		type: ActionTypes.MAP.MAP.SET_DATA,
+		type: ActionTypes.MAPS.MAP.SET_DATA,
 		map,
 	}
 };
 
 const actionSetMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
 	return {
-		type: ActionTypes.MAP.MAP.SET_WORLD_WIND_NAVIGATOR,
+		type: ActionTypes.MAPS.MAP.SET_WORLD_WIND_NAVIGATOR,
 		mapKey,
 		worldWindNavigator,
 	}
@@ -231,7 +231,7 @@ const actionSetMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
 
 const actionAddLayer = (mapKey, layer) => {
 	return {
-		type: ActionTypes.MAP.LAYERS.ADD_LAYER,
+		type: ActionTypes.MAPS.LAYERS.ADD_LAYER,
 		mapKey,
 		layer,
 	}
@@ -239,7 +239,7 @@ const actionAddLayer = (mapKey, layer) => {
 
 const actionAddLayers = (mapKey, layers) => {
 	return {
-		type: ActionTypes.MAP.LAYERS.ADD_LAYERS,
+		type: ActionTypes.MAPS.LAYERS.ADD_LAYERS,
 		mapKey,
 		layers,
 	}
@@ -247,7 +247,7 @@ const actionAddLayers = (mapKey, layers) => {
 
 const actionRemoveLayer = (mapKey, layerKey) => {
 	return {
-		type: ActionTypes.MAP.LAYERS.REMOVE_LAYER,
+		type: ActionTypes.MAPS.LAYERS.REMOVE_LAYER,
 		mapKey,
 		layerKey,
 	}
@@ -255,7 +255,7 @@ const actionRemoveLayer = (mapKey, layerKey) => {
 
 const actionRemoveLayers = (mapKey, layersKeys) => {
 	return {
-		type: ActionTypes.MAP.LAYERS.REMOVE_LAYERS,
+		type: ActionTypes.MAPS.LAYERS.REMOVE_LAYERS,
 		mapKey,
 		layersKeys,
 	}
@@ -263,7 +263,7 @@ const actionRemoveLayers = (mapKey, layersKeys) => {
 
 const actionSetLayerIndex = (mapKey, layerKey, index) => {
 	return {
-		type: ActionTypes.MAP.LAYERS.SET_LAYER_INDEX,
+		type: ActionTypes.MAPS.LAYERS.SET_LAYER_INDEX,
 		mapKey,
 		layerKey,
 		index,
@@ -272,7 +272,7 @@ const actionSetLayerIndex = (mapKey, layerKey, index) => {
 
 const actionUpdateMapLayer = (mapKey, layerKey, layer) => {
 	return {
-		type: ActionTypes.MAP.LAYERS.UPDATE_MAP_LAYER,
+		type: ActionTypes.MAPS.LAYERS.UPDATE_MAP_LAYER,
 		mapKey,
 		layerKey,
 		layer,
@@ -281,7 +281,7 @@ const actionUpdateMapLayer = (mapKey, layerKey, layer) => {
 
 const actionSetMapBackgroundLayer = (mapKey, backgroundLayer) => {
 	return {
-		type: ActionTypes.MAP.SET_BACKGROUND_LAYER,
+		type: ActionTypes.MAPS.SET_BACKGROUND_LAYER,
 		mapKey,
 		backgroundLayer,
 	}
@@ -289,7 +289,7 @@ const actionSetMapBackgroundLayer = (mapKey, backgroundLayer) => {
 
 const actionSetMapCase = (mapKey, caseKey) => {
 	return {
-		type: ActionTypes.MAP.SET_CASE,
+		type: ActionTypes.MAPS.SET_CASE,
 		mapKey,
 		case: caseKey,
 	}
@@ -297,7 +297,7 @@ const actionSetMapCase = (mapKey, caseKey) => {
 
 const actionSetMapScope = (mapKey, scope) => {
 	return {
-		type: ActionTypes.MAP.SET_SCOPE,
+		type: ActionTypes.MAPS.SET_SCOPE,
 		mapKey,
 		scope,
 	}
@@ -305,7 +305,7 @@ const actionSetMapScope = (mapKey, scope) => {
 
 const actionSetMapScenario = (mapKey, scenario) => {
 	return {
-		type: ActionTypes.MAP.SET_SCENARIO,
+		type: ActionTypes.MAPS.SET_SCENARIO,
 		mapKey,
 		scenario,
 	}
@@ -313,7 +313,7 @@ const actionSetMapScenario = (mapKey, scenario) => {
 
 const actionSetMapPlace = (mapKey, place) => {
 	return {
-		type: ActionTypes.MAP.SET_PLACE,
+		type: ActionTypes.MAPS.SET_PLACE,
 		mapKey,
 		place,
 	}
@@ -321,7 +321,7 @@ const actionSetMapPlace = (mapKey, place) => {
 
 const actionSetMapPeriod = (mapKey, period) => {
 	return {
-		type: ActionTypes.MAP.SET_PERIOD,
+		type: ActionTypes.MAPS.SET_PERIOD,
 		mapKey,
 		period,
 	}
