@@ -35,8 +35,7 @@
     "redux-thunk": "2.3.0",
     "reselect": "4.0.0",
     "uri-templates": "0.2.0",
-    "regenerator-runtime": "^0.13.1",
-    "reselect": "4.0.0"
+    "regenerator-runtime": "0.13.1"
   },
   "scripts": {
     "start": "react-scripts start",
