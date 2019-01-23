@@ -16,7 +16,7 @@ const INITIAL_WORLDWINDNAVIGATOR = {
 	tilt: 0,
 	heading: 0,
 	elevation: 0
-}
+};
 
 const INITIAL_LAYER_STATE = {
 	key: null,
@@ -24,7 +24,7 @@ const INITIAL_LAYER_STATE = {
 	style: null,
 	period: null,
 	opacity: 100
-}
+};
 
 const INITIAL_MAP_STATE = {
 	key: '',
@@ -39,7 +39,7 @@ const INITIAL_MAP_STATE = {
 		// layers: [],
 		// worldWindNavigator: null, // instance of INITIAL_WORLDWINDNAVIGATOR
 	}
-}
+};
 
 const INITIAL_SET_STATE = {
 	key: null,
@@ -63,7 +63,7 @@ const INITIAL_SET_STATE = {
 		// layers: [],
 		// worldWindNavigator: null, //instance of INITIAL_WORLDWINDNAVIGATOR
 	}
-}
+};
 
 const INITIAL_STATE = {
 	activeSetKey: null,
@@ -88,7 +88,7 @@ const removeSet = (state, setKey) => {
 	const withoutSetKey = removeItemByKey(state.sets, setKey);
 	
 	return {...state, sets: withoutSetKey};
-}
+};
 
 //helpers
 const getSetByKey = (state, setKey) => state.sets[setKey];
@@ -98,21 +98,21 @@ const replaceItemOnIndex = (array, index, item) => [...array.slice(0, index), it
 const removeItemByKey = (object, key) => {
 	const {[key]: value, ...withoutKey} = object;
 	return withoutKey;
-}
+};
 const getMapByKey = (state, mapKey) => state.maps[mapKey];
 
 
 const addMapKeyToSet = (state, setKey, mapKey) => {
 	const setToUpdate = getSetByKey(state, setKey);
 	return {...state, sets: {...state.sets, [setKey]: {...setToUpdate, maps: [...setToUpdate.maps, mapKey]}}};
-}
+};
 
 const removeMapKeyFromSet = (state, setKey, mapKey) => {
 	
 	const setToUpdate = getSetByKey(state, setKey);
 	const mapIndex = setToUpdate.maps.indexOf(mapKey);
 	return {...state, sets: {...state.sets, [setKey]: {...setToUpdate,maps: removeItemByIndex(setToUpdate.maps, mapIndex)}}};
-}
+};
 
 const setSetWorldWindNavigatorSync = (state, setKey, worldWindNavigator = INITIAL_WORLDWINDNAVIGATOR) => {
 	const mergedWorldWindNavigator = _.merge(_.cloneDeep(INITIAL_WORLDWINDNAVIGATOR), worldWindNavigator); //FIXME - může být?
@@ -126,7 +126,7 @@ const setSetWorldWindNavigatorSync = (state, setKey, worldWindNavigator = INITIA
 const addMap = (state, mapState = INITIAL_MAP_STATE) => {
 	const mergedMapState = _.merge(_.cloneDeep(INITIAL_MAP_STATE), mapState); //FIXME - může být?
 	return {...state, maps: {...state.maps, [mergedMapState.key]: mergedMapState}};
-}
+};
 
 const removeMap = (state, mapKey) => {
 	const newMaps = removeItemByKey(state.maps, mapKey);
@@ -138,17 +138,17 @@ const removeMap = (state, mapKey) => {
 		}
 	}
 	return newMapsState;
-}
+};
 
 const setMapName = (state, mapKey, name) => {
 	const mapState = getMapByKey(state, mapKey);
 	return {...state, maps: {[mapKey]: {...mapState, name: name}}}
-}
+};
 
 const setMapData = (state, mapState = INITIAL_MAP_STATE) => {
 	const mergedMapState = _.merge(_.cloneDeep(INITIAL_MAP_STATE), mapState); //FIXME - může být?
 	return {...state, maps: {...state.maps, [mergedMapState.key]: {...mergedMapState}}};
-}
+};
 
 const setMapWorldWindNavigator = (state, mapKey, worldWindNavigator = INITIAL_WORLDWINDNAVIGATOR) => {
 	const mergedWorldWindNavigator = _.merge(_.cloneDeep(INITIAL_WORLDWINDNAVIGATOR), worldWindNavigator); //FIXME - může být?
@@ -169,7 +169,7 @@ const addLayers = (state, mapKey, layersState = []) => {
 	let newState = {...state};
 	for (const layerState of layersState) {
 		newState = {...newState, ...addLayer(newState, mapKey, layerState)};
-	};
+	}
 	return newState;
 };
 
@@ -208,7 +208,7 @@ const updateMapLayer = (state, mapKey, layerState = INITIAL_LAYER_STATE) => {
 		//error - layer not found
 		return state;
 	}
-}
+};
 
 const setMapScope = (state, mapKey, scope) => {
 	const mapState = getMapByKey(state, mapKey);
