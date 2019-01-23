@@ -298,6 +298,10 @@ html.urban-tep .intro-screen-title {
 	align-items: flex-end;
 }
 
+.pucs.newDesign #view-selector {
+	padding-left: 170px;
+}
+
 /* top-tool-bar */
 .pucs.newDesign #top-toolbar .item {
 	font-weight: 500;
