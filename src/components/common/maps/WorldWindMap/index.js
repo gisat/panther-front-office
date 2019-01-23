@@ -9,16 +9,7 @@ const mapStateToProps = (state, props) => {
 	return {
 		backgroundLayer: backgroundCuzk,
 		layers: layersInitial,
-		navigator: {
-			lookAtLocation: {
-				latitude: 50.1,
-				longitude: 14.5
-			},
-			range: 100000,
-			tilt: 40,
-			heading: 0,
-			roll: 0
-		}
+		navigator: Select.maps.getMapInSetNavigator(state, props.mapKey, props.mapSetKey)
 	}
 };
 

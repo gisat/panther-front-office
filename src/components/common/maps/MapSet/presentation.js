@@ -27,6 +27,7 @@ class MapSet extends React.PureComponent {
 				return <WorldWindMap
 					key={mapKey}
 					mapKey={mapKey}
+					mapSetKey={this.props.mapSetKey}
 					elevationModel={null}
 				/>
 			});

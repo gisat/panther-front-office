@@ -15,10 +15,14 @@ export default () => {
 	// Load Current User
 	Store.dispatch(Action.users.apiLoadCurrentUser());
 
-	Store.dispatch(Action.maps.addSet({
-		key: 'MapSet1',
-		maps: ['Map1', 'Map2']
-	}));
+	// TODO only for testing
+	Store.dispatch(Action.maps.addMap({key: 'Map1'}));
+	Store.dispatch(Action.maps.setMapWorldWindNavigator('Map1'));
+	Store.dispatch(Action.maps.addMap({key: 'Map2'}));
+	Store.dispatch(Action.maps.setMapWorldWindNavigator('Map2'));
+	Store.dispatch(Action.maps.addSet({key: 'MapSet1'}));
+	Store.dispatch(Action.maps.addMapToSet('MapSet1', 'Map1'));
+	Store.dispatch(Action.maps.addMapToSet('MapSet1', 'Map2'));
 
 	ReactDOM.render(<Provider store={Store}><Demo/></Provider>,document.getElementById('ptr'));
 }

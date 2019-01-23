@@ -24,6 +24,7 @@ class WorldWindMap extends React.PureComponent {
 		layers: PropTypes.array,
 		navigator: PropTypes.object,
 		mapKey: PropTypes.string,
+		mapSetKey: PropTypes.string
 	};
 
 	constructor(props) {

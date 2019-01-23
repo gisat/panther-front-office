@@ -158,7 +158,7 @@ const setMapData = (state, mapState = INITIAL_MAP_STATE) => {
 const setMapWorldWindNavigator = (state, mapKey, worldWindNavigator = INITIAL_WORLDWINDNAVIGATOR) => {
 	const mergedWorldWindNavigator = _.merge(_.cloneDeep(INITIAL_WORLDWINDNAVIGATOR), worldWindNavigator); //FIXME - může být?
 	const mapState = getMapByKey(state, mapKey);
-	return setMapData(state, {...mapState, worldWindNavigator: mergedWorldWindNavigator})
+	return setMapData(state, {...mapState, data: {...mapState.data, worldWindNavigator: mergedWorldWindNavigator}})
 };
 
 
