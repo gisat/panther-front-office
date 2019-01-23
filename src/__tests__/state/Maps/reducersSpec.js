@@ -22,10 +22,12 @@ const INITIAL_SET_STATE = {
 	key: null,
 	maps: [],
 	sync: {
-		location: null,
-		range: null,
-		tilt: null,
-		heading: null
+		location: false,
+		roll: false,
+		range: false,
+		tilt: false,
+		heading: false,
+		elevation: false,
 	},
 	data: {}
 }
@@ -35,6 +37,7 @@ const INITIAL_WORLDWINDNAVIGATOR = {
 		latitude: 50,
 		longitude: 14
 	},
+	roll: 0,
 	range: 11000,
 	tilt: 0,
 	heading: 0,
@@ -42,7 +45,7 @@ const INITIAL_WORLDWINDNAVIGATOR = {
 }
 
 const INITIAL_MAP_STATE = {
-	key: null,
+	key: '',
 	name: null,
 	data: {
 		// scope: null,
@@ -127,10 +130,12 @@ describe('Maps Reducers', () => {
 					...{
 						key: 'set1',
 						sync: {
-							location: [111,222],
-							range: null,
-							tilt: null,
-							heading: null
+							location: true,
+							roll: false,
+							range: false,
+							tilt: false,
+							heading: false,
+							elevation: false,
 						}
 					}
 				}
@@ -141,7 +146,7 @@ describe('Maps Reducers', () => {
 			set: {
 				key: 'set1',
 				sync: {
-					location: [111,222]
+					location: true
 				}
 			}
 		};
@@ -373,13 +378,15 @@ describe('Maps Reducers', () => {
 			sets: {
 				'set1': {
 					...INITIAL_SET_STATE,
-					sync: INITIAL_WORLDWINDNAVIGATOR
+					data: {
+						worldWindNavigator: INITIAL_WORLDWINDNAVIGATOR
+					}
 				},
 			}
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.SET.SET_WORLD_WIND_NAVIGATOR_SYNC,
+			type: ActionTypes.MAPS.SET.SET_WORLD_WIND_NAVIGATOR,
 			setKey: 'set1',
 			worldWindNavigator: null,
 		};
@@ -392,7 +399,59 @@ describe('Maps Reducers', () => {
 			sets: {
 				'set1': {
 					...INITIAL_SET_STATE,
-					sync: INITIAL_WORLDWINDNAVIGATOR
+					data: {
+						worldWindNavigator: INITIAL_WORLDWINDNAVIGATOR
+					}
+				},
+			}
+		}
+
+		const expectedResult = {
+			...DEFAULT_STATE,
+			sets: {
+				'set1': {
+					...INITIAL_SET_STATE,
+					data: {
+						worldWindNavigator: {
+							lookAtLocation: {
+								latitude: 51.123,
+								longitude: 14.321
+							},
+							roll: 12,
+							range: 12,
+							tilt: 12,
+							heading: 12,
+							elevation: 12
+						}
+					}
+				},
+			}
+		};
+
+		const action = {
+			type: ActionTypes.MAPS.SET.SET_WORLD_WIND_NAVIGATOR,
+			setKey: 'set1',
+			worldWindNavigator: {
+				lookAtLocation: {
+					latitude: 51.123,
+					longitude: 14.321
+				},
+				roll: 12,
+				range: 12,
+				tilt: 12,
+				heading: 12,
+				elevation: 12
+			}
+		};
+		Reducer(mapsReducer).withState(defaultState).expect(action).toReturnState(expectedResult);
+	});
+	
+	it('Set set sync', () => {
+		const defaultState = {
+			...DEFAULT_STATE,
+			sets: {
+				'set1': {
+					...INITIAL_SET_STATE,
 				},
 			}
 		}
@@ -403,31 +462,18 @@ describe('Maps Reducers', () => {
 				'set1': {
 					...INITIAL_SET_STATE,
 					sync: {
-						lookAtLocation: {
-							latitude: 51.123,
-							longitude: 14.321
-						},
-						range: 12,
-						tilt: 12,
-						heading: 12,
-						elevation: 12
+						...INITIAL_SET_STATE.sync,
+						location: true,
 					}
 				},
 			}
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.SET.SET_WORLD_WIND_NAVIGATOR_SYNC,
+			type: ActionTypes.MAPS.SET.SET_SYNC,
 			setKey: 'set1',
-			worldWindNavigator: {
-				lookAtLocation: {
-					latitude: 51.123,
-					longitude: 14.321
-				},
-				range: 12,
-				tilt: 12,
-				heading: 12,
-				elevation: 12
+			sync: {
+				location:true,
 			}
 		};
 		Reducer(mapsReducer).withState(defaultState).expect(action).toReturnState(expectedResult);
@@ -441,7 +487,7 @@ describe('Maps Reducers', () => {
 		const expectedResult = {
 			...DEFAULT_STATE,
 			maps: {
-				null: INITIAL_MAP_STATE,
+				'': INITIAL_MAP_STATE,
 			}
 		};
 
@@ -463,16 +509,7 @@ describe('Maps Reducers', () => {
 				map1: {
 					key: 'map1',
 					name: 'mapa 1',
-					data: {
-						scope: null,
-						place: null,
-						scenario: null,
-						case: null,
-						period: null,
-						backgroundLayer: null,
-						layers: [],
-						worldWindNavigator: null,
-					}
+					data: {}
 				},
 			}
 		};
@@ -484,7 +521,7 @@ describe('Maps Reducers', () => {
 		Reducer(mapsReducer).withState(defaultState).expect(action).toReturnState(expectedResult);
 	});
 	
-	it('Add/Set map state', () => {
+	it('Add/Set map state - rewrite current map state by new one', () => {
 
 		const defaultState = {
 			...DEFAULT_STATE,
@@ -512,16 +549,7 @@ describe('Maps Reducers', () => {
 				map1: {
 					key: 'map1',
 					name: 'map first',
-					data: {
-						scope: null,
-						place: null,
-						scenario: null,
-						case: null,
-						period: null,
-						backgroundLayer: null,
-						layers: [],
-						worldWindNavigator: null,
-					}
+					data: {}
 				},
 			}
 		};

@@ -227,7 +227,8 @@ export default utils.deepKeyMirror({
 			REMOVE: null,
 			ADD_MAP: null,
 			REMOVE_MAP: null,
-			SET_WORLD_WIND_NAVIGATOR_SYNC: null,
+			SET_WORLD_WIND_NAVIGATOR: null,
+			SET_SYNC: null,
 		},
 		MAP: {
 			ADD: null,

@@ -45,7 +45,7 @@ const INITIAL_SET_STATE = {
 	key: null,
 	maps: [],
 	sync: {
-		loaction: false,
+		location: false,
 		roll: false,
 		range: false,
 		tilt: false,
@@ -90,6 +90,11 @@ const removeSet = (state, setKey) => {
 	return {...state, sets: withoutSetKey};
 };
 
+const setSetSync = (state, setKey, syncData) => {
+	const setToUpdate = getSetByKey(state, setKey);
+	return {...state, sets: {...state.sets, [setKey]: {...setToUpdate, sync: {...setToUpdate.sync, ...syncData}}}};
+}
+
 //helpers
 const getSetByKey = (state, setKey) => state.sets[setKey];
 const removeItemByIndex = (array, index) => [...array.slice(0, index), ...array.slice(index + 1)];
@@ -114,10 +119,10 @@ const removeMapKeyFromSet = (state, setKey, mapKey) => {
 	return {...state, sets: {...state.sets, [setKey]: {...setToUpdate,maps: removeItemByIndex(setToUpdate.maps, mapIndex)}}};
 };
 
-const setSetWorldWindNavigatorSync = (state, setKey, worldWindNavigator = INITIAL_WORLDWINDNAVIGATOR) => {
+const setSetWorldWindNavigator = (state, setKey, worldWindNavigator = INITIAL_WORLDWINDNAVIGATOR) => {
 	const mergedWorldWindNavigator = _.merge(_.cloneDeep(INITIAL_WORLDWINDNAVIGATOR), worldWindNavigator); //FIXME - může být?
 	const setToUpdate = getSetByKey(state, setKey);
-	return {...state, sets: {...state.sets, [setKey]: {...setToUpdate, sync: mergedWorldWindNavigator}}};
+	return {...state, sets: {...state.sets, [setKey]: {...setToUpdate, data: {...setToUpdate.data, worldWindNavigator: mergedWorldWindNavigator}}}};
 };
 
 /**
@@ -161,7 +166,11 @@ const setMapWorldWindNavigator = (state, mapKey, worldWindNavigator = INITIAL_WO
 //FIXME - define layer state
 //FIXME - unique layer by KEY check?
 const addLayer = (state, mapKey, layerState) => {
-	const mapState = getMapByKey(state, mapKey);
+	let mapState = getMapByKey(state, mapKey);
+	//ensure that data.layers exists
+	if (!mapState.data.layers) {
+		mapState = {...mapState, data: {...mapState.data, layers: []}}
+	}
 	return setMapData(state, {...mapState, data: {...mapState.data, layers: [...mapState.data.layers, layerState]}})
 };
 
@@ -252,8 +261,10 @@ export default function tasksReducer(state = INITIAL_STATE, action) {
 			return addMapKeyToSet(state, action.setKey, action.mapKey);
 		case ActionTypes.MAPS.SET.REMOVE_MAP:
 			return removeMapKeyFromSet(state, action.setKey, action.mapKey);
-		case ActionTypes.MAPS.SET.SET_WORLD_WIND_NAVIGATOR_SYNC:
-			return setSetWorldWindNavigatorSync(state, action.setKey, action.worldWindNavigator);
+		case ActionTypes.MAPS.SET.SET_WORLD_WIND_NAVIGATOR:
+			return setSetWorldWindNavigator(state, action.setKey, action.worldWindNavigator);
+		case ActionTypes.MAPS.SET.SET_SYNC:
+			return setSetSync(state, action.setKey, action.sync);
 		case ActionTypes.MAPS.MAP.ADD:
 			return addMap(state, action.map);
 		case ActionTypes.MAPS.MAP.REMOVE:
