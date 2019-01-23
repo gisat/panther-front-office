@@ -214,6 +214,38 @@ export default utils.deepKeyMirror({
 	MAPS_SET_ACTIVE: 'MAPS_SET_ACTIVE',
 	MAPS_SET_INDEPENDENT_OF_PERIOD: 'MAPS_SET_INDEPENDENT_OF_PERIOD',
 
+	MAPS: {
+		SET_ACTIVE_MAP_KEY: null,
+		SET_SCOPE: null,
+		SET_SCENARIO: null,
+		SET_PERIOD: null,
+		SET_PLACE: null,
+		SET_CASE: null,
+		SET_BACKGROUND_LAYER: null,
+		SET: {
+			ADD: null,
+			REMOVE: null,
+			ADD_MAP: null,
+			REMOVE_MAP: null,
+			SET_WORLD_WIND_NAVIGATOR_SYNC: null,
+		},
+		MAP: {
+			ADD: null,
+			REMOVE: null,
+			SET_NAME: null,
+			SET_DATA: null,
+			SET_WORLD_WIND_NAVIGATOR: null,
+		},
+		LAYERS: {
+			ADD_LAYER: null,
+			ADD_LAYERS: null,
+			REMOVE_LAYER: null,
+			REMOVE_LAYERS: null,
+			SET_LAYER_INDEX: null,
+			UPDATE_MAP_LAYER: null,
+		},
+	},
+
 	PERIODS: {
 		ADD: null,
 		ADD_UNRECEIVED: null,

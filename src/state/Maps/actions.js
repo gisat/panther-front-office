@@ -1,356 +1,358 @@
-import config from '../../config';
 import ActionTypes from '../../constants/ActionTypes';
 
-import _ from 'lodash';
-
-import Select from '../Select';
-
-
 // ============ creators ===========
-
-function add(maps) {
+const setActiveMapKey = (mapKey) => {
 	return dispatch => {
-		if (!_.isArray(maps)) maps = [maps];
-		dispatch(actionAdd(maps));
+		dispatch(actionSetActiveMapKey(mapKey));
 	};
 }
 
-function initialize() {
+const addSet = (set) => {
 	return dispatch => {
-		dispatch(actionInitialize());
+		dispatch(actionAddSet(set));
 	};
 }
 
-function remove(mapKeys) {
+const removeSet = (setKey) => {
 	return dispatch => {
-		if (!_.isArray(mapKeys)) mapKeys = [mapKeys];
-		dispatch(actionRemove(mapKeys));
+		dispatch(actionRemoveSet(setKey));
 	};
 }
 
-function update(maps) {
+const addMapToSet = (setKey, mapKey) => {
 	return dispatch => {
-		if (!_.isArray(maps)) maps = [maps];
-		dispatch(actionUpdate(maps));
+		dispatch(actionAddMapToSet(setKey, mapKey));
 	};
 }
 
-function updateDefaults(defaults) {
+const removeMapKeyFromSet = (setKey, mapKey) => {
 	return dispatch => {
-		dispatch(actionUpdateDefaults(defaults));
+		dispatch(actionRemoveMapKeyFromSet(setKey, mapKey));
 	};
 }
 
-function setActive(key) {
+const setSetWorldWindNavigatorSync = (setKey, worldWindNavigator) => {
 	return dispatch => {
-		dispatch(actionSetActive(key));
+		dispatch(actionSetSetWorldWindNavigatorSync(setKey, worldWindNavigator));
 	};
 }
 
-function handleMapDependencyOnPeriod(independent) {
+const addMap = (map) => {
 	return dispatch => {
-		dispatch(actionSetMapIndependentOfPeriod(independent));
+		dispatch(actionAddMap(map));
 	};
 }
+
+const removeMap = (mapKey) => {
+	return dispatch => {
+		dispatch(actionRemoveMap(mapKey));
+	};
+}
+
+const setMapName = (mapKey,name) => {
+	return dispatch => {
+		dispatch(actionSetMapName(mapKey, name));
+	};
+}
+
+const setMapData = (map) => {
+	return dispatch => {
+		dispatch(actionSetMapData(map));
+	};
+}
+
+const setMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
+	return dispatch => {
+		dispatch(actionSetMapWorldWindNavigator(mapKey, worldWindNavigator));
+	};
+}
+
+const addLayer = (mapKey, layer) => {
+	return dispatch => {
+		dispatch(actionAddLayer(mapKey, layer));
+	};
+}
+
+const addLayers = (mapKey, layers) => {
+	return dispatch => {
+		dispatch(actionAddLayers(mapKey, layers));
+	};
+}
+
+const removeLayer = (mapKey, layerKey) => {
+	return dispatch => {
+		dispatch(actionRemoveLayer(mapKey, layerKey));
+	};
+}
+
+const removeLayers = (mapKey, layersKeys) => {
+	return dispatch => {
+		dispatch(actionRemoveLayers(mapKey, layersKeys));
+	};
+}
+
+const setLayerIndex = (mapKey, layerKey, index) => {
+	return dispatch => {
+		dispatch(actionSetLayerIndex(mapKey, layerKey, index));
+	};
+}
+
+const updateMapLayer = (mapKey, layerKey, layer) => {
+	return dispatch => {
+		dispatch(actionUpdateMapLayer(mapKey, layerKey, layer));
+	};
+}
+
+const setMapScope = (mapKey, scope) => {
+	return dispatch => {
+		dispatch(actionSetMapScope(mapKey, scope));
+	};
+}
+
+const setMapScenario = (mapKey, scenario) => {
+	return dispatch => {
+		dispatch(actionSetMapScenario(mapKey, scenario));
+	};
+}
+
+const setMapPeriod = (mapKey, period) => {
+	return dispatch => {
+		dispatch(actionSetMapPeriod(mapKey, period));
+	};
+}
+
+const setMapPlace = (mapKey, place) => {
+	return dispatch => {
+		dispatch(actionSetMapPlace(mapKey, place));
+	};
+}
+
+const setMapCase = (mapKey, caseKey) => {
+	return dispatch => {
+		dispatch(actionSetMapCase(mapKey, caseKey));
+	};
+}
+
+const setMapBackgroundLayer = (mapKey, backgroundLayer) => {
+	return dispatch => {
+		dispatch(actionSetMapBackgroundLayer(mapKey, backgroundLayer));
+	};
+}
+
+
+
 
 // specialized
-function addLayerTemplates(templates) {
-	return (dispatch, getState) => {
-		let state = Select.maps.getMapDefaults(getState());
-		let layerTemplates;
-		if (state && state.layerTemplates){
-			layerTemplates = [...state.layerTemplates, ...templates];
-		} else {
-			layerTemplates = templates;
-		}
-		dispatch(updateDefaults({layerTemplates: layerTemplates}));
-	};
-}
-function removeLayerTemplates(templates) {
-	return (dispatch, getState) => {
-		let state = Select.maps.getMapDefaults(getState());
-		if (state && state.layerTemplates){
-			let finalTemplates = [];
-			state.layerTemplates.map(layerTemplate => {
-				let stylePath = (layerTemplate.styles && layerTemplate.styles.length) ? layerTemplate.styles[0].path : null;
-				let toRemove = _.find(templates, template => {
-					if (stylePath || template.styles){
-						let requiredPath = template.styles && template.styles.length ? template.styles[0].path : null;
-						return template.templateId === layerTemplate.templateId &&
-							requiredPath === stylePath;
-					} else {
-						return template.templateId === layerTemplate.templateId
-					}
-				});
-				if (!toRemove){
-					finalTemplates.push(layerTemplate);
-				}
-			});
-			dispatch(updateDefaults({layerTemplates: finalTemplates}));
-		}
-	};
-}
 
-
-function selectLayerPeriod(layerKey, period, mapKey) {
-	return (dispatch, getState) => {
-		let appState = getState();
-		if (mapKey) {
-			let state = _.find(Select.maps.getMaps(appState), {key: mapKey});
-			let scope = Select.scopes.getActiveScopeData(appState);
-
-			let stateUpdate;
-			if (scope && scope.data && scope.data.oneLayerPerMap){
-				stateUpdate = {
-					key: mapKey,
-					wmsLayers: null,
-					layerPeriods: {[layerKey]: period}
-				};
-			} else {
-				stateUpdate = {
-					key: mapKey,
-					layerPeriods: {...state.layerPeriods, [layerKey]: period}
-				};
-			}
-			dispatch(update(stateUpdate));
-
-		} else {
-			let state = Select.maps.getMapDefaults(appState);
-			let stateUpdate = {layerPeriods: {...state.layerPeriods, [layerKey]: period}};
-			dispatch(updateDefaults(stateUpdate));
-		}
-	};
-}
-
-function changeDefaultMapName(name){
-	return (dispatch, getState) => {
-		dispatch(update({
-			key: "default-map",
-			name: name
-		}));
-	}
-}
-
-function clearLayerPeriod(layerKey, mapKey){
-	return (dispatch, getState) => {
-		let state = _.find(Select.maps.getMaps(getState()), {key: mapKey});
-		let stateUpdate = {
-			key: mapKey,
-			layerPeriods: {...state.layerPeriods, [layerKey]: null}
-		};
-		dispatch(update(stateUpdate));
-	}
-}
-
-function clearLayerPeriodsOfAllMaps(){
-	return (dispatch, getState) => {
-		let state = Select.maps.getMaps(getState());
-		let updates = state.map(map => {return {key: map.key, layerPeriods: null}});
-		dispatch(update(updates));
-	}
-}
-
-function clearPlaceGeometryChangeReviewOfAllMaps(){
-	return (dispatch, getState) => {
-		let state = Select.maps.getMaps(getState());
-		let updates = state.map(map => {return {key: map.key, placeGeometryChangeReview: null}});
-		dispatch(update(updates));
-	}
-}
-
-function clearPlaceLPISCheckGeometryOfAllMaps() {
-	return (dispatch, getState) => {
-		let state = Select.maps.getMaps(getState());
-		let updates = state.map(map => {return {key: map.key, placeGeometryLPISCheck: null}});
-		dispatch(update(updates));
-	}
-}
-
-function selectWmsLayer(layerKey, mapKey) {
-	return (dispatch, getState) => {
-		let appState = getState();
-		if (mapKey) {
-			let state = _.find(Select.maps.getMaps(appState), {key: mapKey});
-			let scope = Select.scopes.getActiveScopeData(appState);
-
-			let stateUpdate;
-			if (scope && scope.data && scope.data.oneLayerPerMap){
-				stateUpdate = {
-					key: mapKey,
-					wmsLayers: [layerKey],
-					layerPeriods: null
-				};
-			} else {
-				stateUpdate = {
-					key: mapKey,
-					wmsLayers: state.wmsLayers ? [...state.wmsLayers, layerKey] : [layerKey]
-				};
-			}
-			dispatch(update(stateUpdate));
-
-		} else {
-			let state = Select.maps.getMapDefaults(appState);
-			let layerKeys = layerKey;
-			if (!_.isArray(layerKeys)) layerKeys = [layerKeys];
-			let wmsLayers;
-			if (state && state.wmsLayers){
-				wmsLayers = _.union(state.wmsLayers, layerKeys);
-			} else {
-				wmsLayers = layerKeys;
-			}
-			let stateUpdate = {wmsLayers: wmsLayers};
-			dispatch(updateDefaults(stateUpdate));
-		}
-	};
-}
-
-function clearWmsLayer(layerKey, mapKey){
-	return (dispatch, getState) => {
-		let appState = getState();
-		if (mapKey){
-			let state = _.find(Select.maps.getMaps(appState), {key: mapKey});
-			let stateUpdate = {
-				key: mapKey,
-				wmsLayers: _.without(state.wmsLayers, layerKey)
-			};
-			dispatch(update(stateUpdate));
-		} else {
-			let state = Select.maps.getMapDefaults(appState);
-			let stateUpdate = {
-				wmsLayers: _.without(state.wmsLayers, layerKey)
-			};
-			dispatch(updateDefaults(stateUpdate));
-		}
-	}
-}
-
-function clearWmsLayersOfAllMaps(){
-	return (dispatch, getState) => {
-		let state = Select.maps.getMaps(getState());
-		let updates = state.map(map => {return {key: map.key, wmsLayers: null}});
-		dispatch(update(updates));
-	}
-}
-
-function setActiveBackgroundLayer(key){
-	return (dispatch, getState) => {
-		let state = Select.maps.getMapDefaults(getState());
-		if (state && state.activeBackgroundLayerKey !== key){
-			dispatch(updateDefaults({
-				activeBackgroundLayerKey: key
-			}));
-		}
-	}
-}
-
-function setAnalyticalUnitsVisibility(display){
-	return (dispatch, getState) => {
-		let state = Select.maps.getMapDefaults(getState());
-		if (state){
-			dispatch(updateDefaults({
-				analyticalUnitsVisible: display
-			}));
-		}
-	}
-}
-
-function updateNavigator(navigator){
-	return (dispatch, getState) => {
-		dispatch(updateDefaults(navigator));
-	}
-}
-
-function updateWithScenarios(){
-	return (dispatch, getState) => {
-		let state = getState();
-		let maps = Select.maps.getMapsOverrides(state);
-		let activeScenarios = Select.scenarios.scenarios.getActiveScenarios(state);
-		let updatedMaps = [];
-		maps.map(map => {
-			let scenarioForMap = _.find(activeScenarios, (scenario) => {return scenario.key === map.scenarioKey});
-			if (scenarioForMap){
-				updatedMaps.push({...map, name: scenarioForMap.data.name, dataLoading: false});
-			} else {
-				updatedMaps.push(map);
-			}
-		});
-		dispatch(update(updatedMaps));
-	}
-}
 
 // ============ actions ===========
 
-function actionAdd(maps) {
+const actionSetActiveMapKey = (mapKey) => {
 	return {
-		type: ActionTypes.MAPS_ADD,
-		data: maps
+		type: ActionTypes.MAP.SET_ACTIVE_MAP_KEY,
+		mapKey
 	}
 }
 
-function actionRemove(mapKeys) {
+const actionAddSet = (set) => {
 	return {
-		type: ActionTypes.MAPS_REMOVE,
-		keys: mapKeys
+		type: ActionTypes.MAP.SET.ADD,
+		set
 	}
 }
 
-function actionUpdate(maps) {
+const actionRemoveSet = (setKey) => {
 	return {
-		type: ActionTypes.MAPS_UPDATE,
-		data: maps
+		type: ActionTypes.MAP.SET.REMOVE,
+		setKey
 	}
 }
 
-function actionUpdateDefaults(defaults) {
+const actionAddMapToSet = (setKey, mapKey) => {
 	return {
-		type: ActionTypes.MAPS_UPDATE_DEFAULTS,
-		defaults: defaults
+		type: ActionTypes.MAP.SET.ADD_MAP,
+		setKey,
+		mapKey,
 	}
 }
 
-function actionSetActive(key) {
+const actionRemoveMapKeyFromSet = (setKey, mapKey) => {
 	return {
-		type: ActionTypes.MAPS_SET_ACTIVE,
-		key: key
+		type: ActionTypes.MAP.SET.REMOVE_MAP,
+		setKey,
+		mapKey,
 	}
 }
 
-function actionInitialize() {
+const actionSetSetWorldWindNavigatorSync = (setKey, worldWindNavigator) => {
 	return {
-		type: ActionTypes.INITIALIZE
+		type: ActionTypes.MAP.SET.SET_WORLD_WIND_NAVIGATOR_SYNC,
+		setKey,
+		worldWindNavigator,
 	}
 }
 
-function actionSetMapIndependentOfPeriod(independent) {
+const actionAddMap = (map) => {
 	return {
-		type: ActionTypes.MAPS_SET_INDEPENDENT_OF_PERIOD,
-		independent: independent
+		type: ActionTypes.MAP.MAP.ADD,
+		map,
+	}
+}
+
+const actionRemoveMap = (mapKey) => {
+	return {
+		type: ActionTypes.MAP.MAP.REMOVE,
+		mapKey,
+	}
+}
+
+const actionSetMapName = (mapKey, name) => {
+	return {
+		type: ActionTypes.MAP.MAP.SET_NAME,
+		mapKey,
+		name,
+	}
+}
+
+const actionSetMapData = (map) => {
+	return {
+		type: ActionTypes.MAP.MAP.SET_DATA,
+		map,
+	}
+}
+
+const actionSetMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
+	return {
+		type: ActionTypes.MAP.MAP.SET_WORLD_WIND_NAVIGATOR,
+		mapKey,
+		worldWindNavigator,
+	}
+}
+
+const actionAddLayer = (mapKey, layer) => {
+	return {
+		type: ActionTypes.MAP.LAYERS.ADD_LAYER,
+		mapKey,
+		layer,
+	}
+}
+
+const actionAddLayers = (mapKey, layers) => {
+	return {
+		type: ActionTypes.MAP.LAYERS.ADD_LAYERS,
+		mapKey,
+		layers,
+	}
+}
+
+const actionRemoveLayer = (mapKey, layerKey) => {
+	return {
+		type: ActionTypes.MAP.LAYERS.REMOVE_LAYER,
+		mapKey,
+		layerKey,
+	}
+}
+
+const actionRemoveLayers = (mapKey, layersKeys) => {
+	return {
+		type: ActionTypes.MAP.LAYERS.REMOVE_LAYERS,
+		mapKey,
+		layersKeys,
+	}
+}
+
+const actionSetLayerIndex = (mapKey, layerKey, index) => {
+	return {
+		type: ActionTypes.MAP.LAYERS.SET_LAYER_INDEX,
+		mapKey,
+		layerKey,
+		index,
+	}
+}
+
+const actionUpdateMapLayer = (mapKey, layerKey, layer) => {
+	return {
+		type: ActionTypes.MAP.LAYERS.UPDATE_MAP_LAYER,
+		mapKey,
+		layerKey,
+		layer,
+	}
+}
+
+const actionSetMapBackgroundLayer = (mapKey, backgroundLayer) => {
+	return {
+		type: ActionTypes.MAP.SET_BACKGROUND_LAYER,
+		mapKey,
+		backgroundLayer,
+	}
+}
+
+const actionSetMapCase = (mapKey, caseKey) => {
+	return {
+		type: ActionTypes.MAP.SET_CASE,
+		mapKey,
+		case: caseKey,
+	}
+}
+
+const actionSetMapScope = (mapKey, scope) => {
+	return {
+		type: ActionTypes.MAP.SET_SCOPE,
+		mapKey,
+		scope,
+	}
+}
+
+const actionSetMapScenario = (mapKey, scenario) => {
+	return {
+		type: ActionTypes.MAP.SET_SCENARIO,
+		mapKey,
+		scenario,
+	}
+}
+
+const actionSetMapPlace = (mapKey, place) => {
+	return {
+		type: ActionTypes.MAP.SET_PLACE,
+		mapKey,
+		place,
+	}
+}
+
+const actionSetMapPeriod = (mapKey, period) => {
+	return {
+		type: ActionTypes.MAP.SET_PERIOD,
+		mapKey,
+		period,
 	}
 }
 
 // ============ export ===========
 
 export default {
-	add: add,
-	addLayerTemplates: addLayerTemplates,
-	changeDefaultMapName: changeDefaultMapName,
-	clearLayerPeriod: clearLayerPeriod,
-	clearLayerPeriodsOfAllMaps: clearLayerPeriodsOfAllMaps,
-	clearWmsLayer: clearWmsLayer,
-	clearWmsLayersOfAllMaps: clearWmsLayersOfAllMaps,
-	clearPlaceGeometryChangeReviewOfAllMaps: clearPlaceGeometryChangeReviewOfAllMaps,
-	clearPlaceLPISCheckGeometryOfAllMaps: clearPlaceLPISCheckGeometryOfAllMaps,
-	handleMapDependencyOnPeriod: handleMapDependencyOnPeriod,
-	initialize: initialize,
-	remove: remove,
-	removeLayerTemplates: removeLayerTemplates,
-	selectLayerPeriod: selectLayerPeriod,
-	selectWmsLayer: selectWmsLayer,
-	setActive: setActive,
-	setActiveBackgroundLayer: setActiveBackgroundLayer,
-	setAnalyticalUnitsVisibility: setAnalyticalUnitsVisibility,
-	update: update,
-	updateDefaults: updateDefaults,
-	updateNavigator: updateNavigator,
-	updateWithScenarios: updateWithScenarios
+	setActiveMapKey,
+	addSet,
+	removeSet,
+	addMapToSet,
+	removeMapKeyFromSet,
+	setSetWorldWindNavigatorSync,
+	addMap,
+	removeMap,
+	setMapName,
+	setMapData,
+	setMapWorldWindNavigator,
+	addLayer,
+	addLayers,
+	removeLayer,
+	removeLayers,
+	setLayerIndex,
+	updateMapLayer,
+	setMapBackgroundLayer,
+	setMapCase,
+	setMapPeriod,
+	setMapPlace,
+	setMapScenario,
+	setMapScope
+
+
 }

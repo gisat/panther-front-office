@@ -3,7 +3,9 @@
   "version": "3.0.0-pre-alpha",
   "private": true,
   "dependencies": {
+    "@babel/core": "^7.2.2",
     "@nasaworldwind/worldwind": "0.9.0",
+    "babel-core": "^7.0.0-bridge.0",
     "babel-preset-env": "1.7.0",
     "classnames": "2.2.6",
     "d3": "5.7.0",
@@ -32,19 +34,22 @@
     "redux-mock-store": "1.5.3",
     "redux-thunk": "2.3.0",
     "reselect": "4.0.0",
-    "uri-templates": "0.2.0"
+    "uri-templates": "0.2.0",
+    "regenerator-runtime": "^0.13.1",
+    "reselect": "4.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest",
+    "test": "react-scripts test --env=jsdom --modulePaths=src",
+    "test:debug": "react-scripts --inspect-brk test --runInBand",
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "jest": "23.6.0",
-    "babel-jest": "23.6.0",
-    "babel-preset-env": "1.7.0",
+    "babel-jest": "^23.6.0",
     "babel-plugin-jest-hoist": "23.2.0",
+    "babel-preset-env": "1.7.0",
+    "jest": "23.6.0",
     "redux-testkit": "1.0.6"
   },
   "browserslist": [
