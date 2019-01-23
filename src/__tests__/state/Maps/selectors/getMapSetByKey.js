@@ -8,7 +8,7 @@ describe('#getMapSetByKey', () => {
 		const setKey = 'MapSet1';
 		const expectedOutput = {
 			key: 'MapSet1',
-			maps: ['Map1, Map2'],
+			maps: ['Map1', 'Map2','Map3'],
 			data: {
 				worldWindNavigator: {
 					lookAtLocation: {

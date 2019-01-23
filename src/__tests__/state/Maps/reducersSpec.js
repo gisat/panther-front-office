@@ -34,11 +34,11 @@ const INITIAL_SET_STATE = {
 
 const INITIAL_WORLDWINDNAVIGATOR = {
 	lookAtLocation: {
-		latitude: 50,
-		longitude: 14
+		latitude: 50.1,
+		longitude: 14.5
 	},
 	roll: 0,
-	range: 11000,
+	range: 100000,
 	tilt: 0,
 	heading: 0,
 	elevation: 0
@@ -371,7 +371,7 @@ describe('Maps Reducers', () => {
 					...INITIAL_SET_STATE,
 				},
 			}
-		}
+		};
 
 		const expectedResult = {
 			...DEFAULT_STATE,
@@ -721,9 +721,11 @@ describe('Maps Reducers', () => {
 				map1: {
 					...INITIAL_MAP_STATE,
 					key: 'map1',
-					worldWindNavigator: {
-						...INITIAL_WORLDWINDNAVIGATOR,
-						location: [100, 100]
+					data: {
+						worldWindNavigator: {
+							...INITIAL_WORLDWINDNAVIGATOR,
+							location: [100, 100]
+						}
 					}
 				},
 			},

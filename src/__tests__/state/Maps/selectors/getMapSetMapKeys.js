@@ -6,7 +6,7 @@ import {getSubstate, BASIC_STATE, EMPTY_SETS_STATE} from "../../../../__testUtil
 describe('#getMapSetMapKeys', () => {
 	it('should select map keys for given map set', () => {
 		const setKey = 'MapSet1';
-		const expectedOutput = ['Map1, Map2'];
+		const expectedOutput = ['Map1', 'Map2', 'Map3'];
 		Selector(Select.maps.getMapSetMapKeys).expect(BASIC_STATE, setKey).toReturn(expectedOutput);
 	});
 
