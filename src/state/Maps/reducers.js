@@ -8,11 +8,11 @@ import _ from 'lodash';
 
 const INITIAL_WORLDWINDNAVIGATOR = {
 	lookAtLocation: {
-		latitude: 50,
-		longitude: 14
+		latitude: 50.1,
+		longitude: 14.5
 	},
+	range: 100000,
 	roll: 0,
-	range: 11000,
 	tilt: 0,
 	heading: 0,
 	elevation: 0

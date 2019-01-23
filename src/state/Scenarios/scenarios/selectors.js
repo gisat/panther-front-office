@@ -28,8 +28,7 @@ const getEditedKeys = common.getEditedKeys(getSubstate);
  */
 const getPucsScenariosVectorSource = createSelector(
 	[
-		(state, scenarioKey, defaultSituation) => {return {scenarioKey: scenarioKey, defaultSituation: defaultSituation}},
-		MapsSelectors.getVectorLayersForPuscVectorSourceTemplate
+		(state, scenarioKey, defaultSituation) => {return {scenarioKey: scenarioKey, defaultSituation: defaultSituation}}
 	],
 	(scenarioData, vectorLayers) => {
 		let source = null;

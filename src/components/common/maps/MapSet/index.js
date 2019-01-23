@@ -6,7 +6,7 @@ import presentation from './presentation';
 
 const mapStateToProps = (state, props) => {
 	return {
-		maps: ['map-1', 'map-2'] // todo get maps from state
+		maps: Select.maps.getMapSetMapKeys(state, props.mapSetKey)
 	}
 };
 

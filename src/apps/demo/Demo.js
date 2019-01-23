@@ -16,7 +16,9 @@ class Demo extends React.PureComponent {
 	render() {
 		return (
 			<div id="demo">
-				<MapSet/>
+				<MapSet
+					mapSetKey="MapSet1"
+				/>
 			</div>
 		);
 	}

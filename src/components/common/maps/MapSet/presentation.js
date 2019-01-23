@@ -9,6 +9,7 @@ import './style.css';
 class MapSet extends React.PureComponent {
 
 	static propTypes = {
+		mapSetKey: PropTypes.string,
 		maps: PropTypes.array
 	};
 

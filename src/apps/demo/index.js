@@ -15,5 +15,10 @@ export default () => {
 	// Load Current User
 	Store.dispatch(Action.users.apiLoadCurrentUser());
 
+	Store.dispatch(Action.maps.addSet({
+		key: 'MapSet1',
+		maps: ['Map1', 'Map2']
+	}));
+
 	ReactDOM.render(<Provider store={Store}><Demo/></Provider>,document.getElementById('ptr'));
 }
