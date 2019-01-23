@@ -12,7 +12,7 @@ const INITIAL_LAYER_STATE = {
 
 
 const DEFAULT_STATE = {
-	activeKey: null,
+	activeSetKey: null,
 	activeMapKey: null,
 	maps: {},
 	sets: {}
@@ -45,14 +45,14 @@ const INITIAL_MAP_STATE = {
 	key: null,
 	name: null,
 	data: {
-		scope: null,
-		place: null,
-		scenario: null,
-		case: null,
-		period: null,
-		backgroundLayer: null,
-		layers: [],
-		worldWindNavigator: null,
+		// scope: null,
+		// place: null,
+		// scenario: null,
+		// case: null,
+		// period: null,
+		// backgroundLayer: null,
+		// layers: [],
+		// worldWindNavigator: null,
 	}
 }
 

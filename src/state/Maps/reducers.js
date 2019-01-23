@@ -1,13 +1,17 @@
 import ActionTypes from '../../constants/ActionTypes';
 import Action from '../Action';
 import _ from 'lodash';
-import { removeListener } from 'cluster';
+// import { removeListener } from 'cluster';
+// import { getPackedSettings } from 'http2';
+
+//pridat praci s layers i na set
 
 const INITIAL_WORLDWINDNAVIGATOR = {
 	lookAtLocation: {
 		latitude: 50,
 		longitude: 14
 	},
+	roll: 0,
 	range: 11000,
 	tilt: 0,
 	heading: 0,
@@ -15,7 +19,7 @@ const INITIAL_WORLDWINDNAVIGATOR = {
 }
 
 const INITIAL_LAYER_STATE = {
-	key: null, //FIXME - add?
+	key: null,
 	layerTemplate: null,
 	style: null,
 	period: null,
@@ -23,17 +27,17 @@ const INITIAL_LAYER_STATE = {
 }
 
 const INITIAL_MAP_STATE = {
-	key: null,
+	key: '',
 	name: null,
 	data: {
-		scope: null,
-		place: null,
-		scenario: null,
-		case: null,
-		period: null,
-		backgroundLayer: null,
-		layers: [],
-		worldWindNavigator: null,
+		// scope: null,
+		// place: null,
+		// scenario: null,
+		// case: null,
+		// period: null,
+		// backgroundLayer: null,
+		// layers: [],
+		// worldWindNavigator: null, // instance of INITIAL_WORLDWINDNAVIGATOR
 	}
 }
 
@@ -41,16 +45,28 @@ const INITIAL_SET_STATE = {
 	key: null,
 	maps: [],
 	sync: {
-		location: null,
-		range: null,
-		tilt: null,
-		heading: null
+		loaction: false,
+		roll: false,
+		range: false,
+		tilt: false,
+		heading: false,
+		elevation: false,
+
 	},
-	data: {}
+	data: {
+		// scope: null,
+		// place: null,
+		// scenario: null,
+		// case: null,
+		// period: null,
+		// backgroundLayer: null,
+		// layers: [],
+		// worldWindNavigator: null, //instance of INITIAL_WORLDWINDNAVIGATOR
+	}
 }
 
 const INITIAL_STATE = {
-	activeKey: null,
+	activeSetKey: null,
 	activeMapKey: null,
 	maps: {},
 	sets: {}
@@ -106,7 +122,6 @@ const setSetWorldWindNavigatorSync = (state, setKey, worldWindNavigator = INITIA
 
 /**
  * Add new map state. Rewrite map state if exist.
- * FIXME - should merge with existing?
  * */
 const addMap = (state, mapState = INITIAL_MAP_STATE) => {
 	const mergedMapState = _.merge(_.cloneDeep(INITIAL_MAP_STATE), mapState); //FIXME - může být?
