@@ -34,7 +34,7 @@ class ExtendedOsmLayer extends OpenStreetMapImageLayer {
 	 * @returns {string} Final url for request
 	 */
 	urlForTile(urls, tile, imageFormat) {
-		let url = this.getRandom(urls);
+		let url = this.getUrlBasedOnTileRow(urls, tile.row);
 		let template = uriTemplates(url);
 		if (template && template.varNames && template.varNames.length){
 			return template.fill({z: (tile.level.levelNumber + 1), x: tile.column, y: tile.row});
@@ -44,12 +44,14 @@ class ExtendedOsmLayer extends OpenStreetMapImageLayer {
 	}
 
 	/**
-	 * Get random item from array
+	 * Get url from list based on tile row. It is based on row due to caching.
 	 * @param urls {Array}
-	 * @returns {string}
+	 * @param row {number}
+	 * @returns {string} Selected url
 	 */
-	getRandom(urls) {
-		let index = Math.floor((Math.random() * urls.length));
+	getUrlBasedOnTileRow (urls, row) {
+		let numberOfUrls = urls.length;
+		let index = row % numberOfUrls;
 		return urls[index];
 	}
 
