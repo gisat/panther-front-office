@@ -125,6 +125,23 @@ const setSetWorldWindNavigator = (state, setKey, worldWindNavigator = INITIAL_WO
 	return {...state, sets: {...state.sets, [setKey]: {...setToUpdate, data: {...setToUpdate.data, worldWindNavigator: mergedWorldWindNavigator}}}};
 };
 
+const updateSetWorldWindNavigator = (state, setKey, updates) => {
+	return {
+		...state,
+		sets: {
+			...state.sets,
+			[setKey]: {
+				...state.sets[setKey],
+				data: {
+					...state.sets[setKey].data,
+					worldWindNavigator: state.sets[setKey].data.worldWindNavigator ?
+						{...state.sets[setKey].data.worldWindNavigator, ...updates} : updates
+				}
+			}
+		}
+	};
+};
+
 /**
  * Add new map state. Rewrite map state if exist.
  * */
@@ -163,6 +180,18 @@ const setMapWorldWindNavigator = (state, mapKey, worldWindNavigator = INITIAL_WO
 	const mergedWorldWindNavigator = _.merge(_.cloneDeep(INITIAL_WORLDWINDNAVIGATOR), worldWindNavigator); //FIXME - může být?
 	const mapState = getMapByKey(state, mapKey);
 	return setMap(state, {...mapState, data: {...mapState.data, worldWindNavigator: mergedWorldWindNavigator}})
+};
+
+const updateMapWorldWindNavigator = (state, mapKey, updates) => {
+	const mapState = getMapByKey(state, mapKey);
+	return setMap(state, {
+		...mapState,
+		data: {
+			...mapState.data,
+			worldWindNavigator: mapState.data.worldWindNavigator ?
+				{...mapState.data.worldWindNavigator, ...updates} : updates
+		}
+	});
 };
 
 
@@ -265,8 +294,10 @@ export default function tasksReducer(state = INITIAL_STATE, action) {
 			return addMapKeyToSet(state, action.setKey, action.mapKey);
 		case ActionTypes.MAPS.SET.REMOVE_MAP:
 			return removeMapKeyFromSet(state, action.setKey, action.mapKey);
-		case ActionTypes.MAPS.SET.SET_WORLD_WIND_NAVIGATOR:
+		case ActionTypes.MAPS.SET.WORLD_WIND_NAVIGATOR.SET:
 			return setSetWorldWindNavigator(state, action.setKey, action.worldWindNavigator);
+		case ActionTypes.MAPS.SET.WORLD_WIND_NAVIGATOR.UPDATE:
+			return updateSetWorldWindNavigator(state, action.setKey, action.worldWindNavigator);
 		case ActionTypes.MAPS.SET.SET_SYNC:
 			return setSetSync(state, action.setKey, action.sync);
 		case ActionTypes.MAPS.MAP.ADD:
@@ -277,8 +308,10 @@ export default function tasksReducer(state = INITIAL_STATE, action) {
 			return setMapName(state, action.mapKey, action.name);
 		case ActionTypes.MAPS.MAP.SET_DATA:
 			return setMapData(state, action.mapKey, action.data);
-		case ActionTypes.MAPS.MAP.SET_WORLD_WIND_NAVIGATOR:
+		case ActionTypes.MAPS.MAP.WORLD_WIND_NAVIGATOR.SET:
 			return setMapWorldWindNavigator(state, action.mapKey, action.worldWindNavigator);
+		case ActionTypes.MAPS.MAP.WORLD_WIND_NAVIGATOR.UPDATE:
+			return updateMapWorldWindNavigator(state, action.mapKey, action.worldWindNavigator);
 		case ActionTypes.MAPS.LAYERS.ADD_LAYER:
 			return addLayer(state, action.mapKey, action.layer);
 		case ActionTypes.MAPS.LAYERS.ADD_LAYERS:

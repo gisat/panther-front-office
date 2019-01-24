@@ -1,7 +1,9 @@
+import _ from 'lodash';
 import ActionTypes from '../../constants/ActionTypes';
 import Select from '../../state/Select';
 import commonActions from '../_common/actions';
-const {actionGeneralError} = commonActions
+
+const {actionGeneralError} = commonActions;
 
 // ============ creators ===========
 const setActiveMapKey = (mapKey) => {
@@ -193,15 +195,39 @@ const updateMapLayer = (mapKey, layerKey, layer) => {
 	};
 };
 
-const updateWorldWindNavigator = (mapKey, mapSetKey, updates) => {
+const updateWorldWindNavigator = (mapKey, updates) => {
 	return (dispatch, getState) => {
-		let sync = Select.maps.getMapSync(getState(), mapKey, mapSetKey);
+		let set = Select.maps.getMapSetByMapKey(getState(), mapKey);
+		let forSet = {};
+		let forMap = {};
 
+		if (set && set.sync) {
+			forSet = _.pickBy(updates, (updateVal, updateKey) => {
+				if (updateKey === 'lookAtLocation') {
+					return set.sync['location'];
+				} else {
+					return set.sync[updateKey];
+				}
+			});
 
-		// rozhodnout, zda updatovat set nebo mapu
-		// selelect, který koukne jestli, je mapa v daném setu a pokud ano, vrátí sync
+			forMap = _.omitBy(updates, (updateVal, updateKey) => {
+				if (updateKey === 'lookAtLocation') {
+					return set.sync['location'];
+				} else {
+					return set.sync[updateKey];
+				}
+			});
+		} else {
+			forMap = updates;
+		}
 
-		// podle sync se rozhodne, co updatovat kde (jestli v setu, nebo v mapě)
+		if (forSet && !_.isEmpty(forSet)) {
+			dispatch(actionUpdateSetWorldWindNavigator(set.key, forSet));
+		}
+
+		if (forMap && !_.isEmpty(forMap)) {
+			dispatch(actionUpdateMapWorldWindNavigator(mapKey, forMap));
+		}
 	}
 };
 
@@ -288,7 +314,15 @@ const actionRemoveMapKeyFromSet = (setKey, mapKey) => {
 
 const actionSetSetWorldWindNavigator = (setKey, worldWindNavigator) => {
 	return {
-		type: ActionTypes.MAPS.SET.SET_WORLD_WIND_NAVIGATOR,
+		type: ActionTypes.MAPS.SET.WORLD_WIND_NAVIGATOR.SET,
+		setKey,
+		worldWindNavigator,
+	}
+};
+
+const actionUpdateSetWorldWindNavigator = (setKey, worldWindNavigator) => {
+	return {
+		type: ActionTypes.MAPS.SET.WORLD_WIND_NAVIGATOR.UPDATE,
 		setKey,
 		worldWindNavigator,
 	}
@@ -334,11 +368,19 @@ const actionSetMapData = (mapKey, data) => {
 
 const actionSetMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
 	return {
-		type: ActionTypes.MAPS.MAP.SET_WORLD_WIND_NAVIGATOR,
+		type: ActionTypes.MAPS.MAP.WORLD_WIND_NAVIGATOR.SET,
 		mapKey,
 		worldWindNavigator,
 	}
 };
+const actionUpdateMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
+	return {
+		type: ActionTypes.MAPS.MAP.WORLD_WIND_NAVIGATOR.UPDATE,
+		mapKey,
+		worldWindNavigator,
+	}
+};
+
 
 const actionAddLayer = (mapKey, layer) => {
 	return {

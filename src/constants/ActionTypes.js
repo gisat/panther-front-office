@@ -227,7 +227,10 @@ export default utils.deepKeyMirror({
 			REMOVE: null,
 			ADD_MAP: null,
 			REMOVE_MAP: null,
-			SET_WORLD_WIND_NAVIGATOR: null,
+			WORLD_WIND_NAVIGATOR: {
+				SET: null,
+				UPDATE: null
+			},
 			SET_SYNC: null,
 		},
 		MAP: {
@@ -235,7 +238,10 @@ export default utils.deepKeyMirror({
 			REMOVE: null,
 			SET_NAME: null,
 			SET_DATA: null,
-			SET_WORLD_WIND_NAVIGATOR: null,
+			WORLD_WIND_NAVIGATOR: {
+				SET: null,
+				UPDATE: null
+			},
 		},
 		LAYERS: {
 			ADD_LAYER: null,

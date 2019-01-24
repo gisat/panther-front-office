@@ -386,7 +386,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.SET.SET_WORLD_WIND_NAVIGATOR,
+			type: ActionTypes.MAPS.SET.WORLD_WIND_NAVIGATOR.SET,
 			setKey: 'set1',
 			worldWindNavigator: null,
 		};
@@ -429,7 +429,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.SET.SET_WORLD_WIND_NAVIGATOR,
+			type: ActionTypes.MAPS.SET.WORLD_WIND_NAVIGATOR.SET,
 			setKey: 'set1',
 			worldWindNavigator: {
 				lookAtLocation: {
@@ -733,7 +733,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.MAP.SET_WORLD_WIND_NAVIGATOR,
+			type: ActionTypes.MAPS.MAP.WORLD_WIND_NAVIGATOR.SET,
 			mapKey: 'map1',
 			worldWindNavigator: {
 				location: [100, 100]
@@ -779,7 +779,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.MAP.SET_WORLD_WIND_NAVIGATOR,
+			type: ActionTypes.MAPS.MAP.WORLD_WIND_NAVIGATOR.SET,
 			mapKey: 'map1',
 			worldWindNavigator: {
 				location: [200, 200]
