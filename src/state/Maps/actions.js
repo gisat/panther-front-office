@@ -1,4 +1,5 @@
 import ActionTypes from '../../constants/ActionTypes';
+import Select from '../../state/Select';
 
 // ============ creators ===========
 const setActiveMapKey = (mapKey) => {
@@ -101,6 +102,18 @@ const updateMapLayer = (mapKey, layerKey, layer) => {
 	return dispatch => {
 		dispatch(actionUpdateMapLayer(mapKey, layerKey, layer));
 	};
+};
+
+const updateWorldWindNavigator = (mapKey, mapSetKey, updates) => {
+	return (dispatch, getState) => {
+		let sync = Select.maps.getMapSync(getState(), mapKey, mapSetKey);
+
+
+		// rozhodnout, zda updatovat set nebo mapu
+		// selelect, který koukne jestli, je mapa v daném setu a pokud ano, vrátí sync
+
+		// podle sync se rozhodne, co updatovat kde (jestli v setu, nebo v mapě)
+	}
 };
 
 const setMapScope = (mapKey, scope) => {
@@ -347,6 +360,7 @@ export default {
 	removeLayers,
 	setLayerIndex,
 	updateMapLayer,
+	updateWorldWindNavigator,
 	setMapBackgroundLayer,
 	setMapCase,
 	setMapPeriod,

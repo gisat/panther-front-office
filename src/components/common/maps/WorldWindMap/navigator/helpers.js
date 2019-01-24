@@ -1,4 +1,40 @@
 /**
+ * Get only changed navigator params
+ * @param prev {Object} Previous WorldWind.Navigator params
+ * @param next {Navigator}
+ * @returns {Object} Changed WorldWind.Navigator parameters
+ */
+function getChangedParams(prev, next) {
+	let changed = {};
+
+	if (prev.range !== next.range){
+		changed.range = next.range;
+	}
+
+	if (prev.heading !== next.heading){
+		changed.heading = next.heading;
+	}
+
+	if (prev.tilt !== next.tilt){
+		changed.tilt = next.tilt;
+	}
+
+	if (prev.roll !== next.roll){
+		changed.roll = next.roll;
+	}
+
+	if ((prev.lookAtLocation.latitude !== next.lookAtLocation.latitude) ||
+		(prev.lookAtLocation.longitude !== next.lookAtLocation.longitude) ) {
+		changed.lookAtLocation = {
+			latitude: next.lookAtLocation.latitude,
+			longitude: next.lookAtLocation.longitude
+		}
+	}
+
+	return changed;
+}
+
+/**
  * Update navigator of given World Window
  * @param wwd {WorldWindow}
  * @param update {Object}
@@ -48,5 +84,6 @@ function update(wwd, update) {
 }
 
 export default {
+	getChangedParams,
 	update
 }

@@ -58,7 +58,14 @@ export const BASIC_STATE = {
 						roll: 0
 					}
 				},
-				sync: {}
+				sync: {
+					location: true,
+					roll: false,
+					range: false,
+					tilt: false,
+					heading: false,
+					elevation: false,
+				}
 			}
 		}
 	}
@@ -77,6 +84,14 @@ export const EMPTY_SET_DATA_STATE = {
 				key: 'MapSet1',
 				maps: ['Map1', 'Map2'],
 				data: {}
+			},
+			sync: {
+				location: true,
+				roll: false,
+				range: false,
+				tilt: false,
+				heading: false,
+				elevation: false,
 			}
 		}
 	}
@@ -93,6 +108,36 @@ export const EMPTY_SET_NAVIGATOR_STATE = {
 				data: {
 					worldWindNavigator: {}
 				}
+			}
+		}
+	}
+};
+
+export const MAP_SET_WITHOUT_SYNC = {
+	...BASIC_STATE,
+	maps: {
+		...BASIC_STATE.maps,
+		sets: {
+			...BASIC_STATE.maps.sets,
+			MapSet1: {
+				key: 'MapSet1',
+				maps: ['Map1', 'Map2'],
+				data: {}
+			}
+		}
+	}
+};
+
+export const MAP_SET_EMPTY_SYNC = {
+	...BASIC_STATE,
+	maps: {
+		...BASIC_STATE.maps,
+		sets: {
+			...BASIC_STATE.maps.sets,
+			MapSet1: {
+				key: 'MapSet1',
+				maps: ['Map1', 'Map2'],
+				sync: {}
 			}
 		}
 	}

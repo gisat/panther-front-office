@@ -24,7 +24,7 @@ class WorldWindMap extends React.PureComponent {
 		layers: PropTypes.array,
 		navigator: PropTypes.object,
 		mapKey: PropTypes.string,
-		mapSetKey: PropTypes.string
+		onWorldWindNavigatorChange: PropTypes.func
 	};
 
 	constructor(props) {
@@ -51,6 +51,8 @@ class WorldWindMap extends React.PureComponent {
 
 	componentDidMount() {
 		this.wwd = new WorldWindow(this.canvasId, this.getElevationModel());
+		this.wwd.addEventListener("mousemove", this.onNavigatorChange.bind(this));
+		this.wwd.addEventListener("wheel", this.onNavigatorChange.bind(this));
 
 		if (this.props.navigator){
 			navigator.update(this.wwd, this.props.navigator);
@@ -139,6 +141,15 @@ class WorldWindMap extends React.PureComponent {
 				return null;
 			case null:
 				return new ZeroElevationModel();
+		}
+	}
+
+	onNavigatorChange(event) {
+		if (event && event.worldWindow) {
+			let changedNavigatorParams = navigator.getChangedParams(this.props.navigator, event.worldWindow.navigator);
+			if (!_.isEmpty(changedNavigatorParams)) {
+				this.props.onWorldWindNavigatorChange(changedNavigatorParams);
+			}
 		}
 	}
 

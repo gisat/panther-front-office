@@ -4,6 +4,21 @@ import _ from 'lodash';
 const getMapsAsObject = state => state.maps.maps;
 const getMapSetsAsObject = state => state.maps.sets;
 
+const getMapSets = createSelector(
+	[getMapSetsAsObject],
+	(sets) => {
+		if (sets && !_.isEmpty(sets)) {
+			return Object.values(sets);
+		} else {
+			return null;
+		}
+	}
+);
+
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ */
 const getMapByKey = createSelector(
 	[getMapsAsObject,
 	(state, key) => key],
@@ -16,12 +31,38 @@ const getMapByKey = createSelector(
 	}
 );
 
+/**
+ * @param state {Object}
+ * @param setKey {string}
+ */
 const getMapSetByKey = createSelector(
 	[getMapSetsAsObject,
 	(state, key) => key],
 	(sets, key) => {
 		if (sets && !_.isEmpty(sets) && key) {
 			return sets[key] ? sets[key] : null;
+		} else {
+			return null;
+		}
+	}
+);
+
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ */
+const getMapSetByMapKey = createSelector(
+	[getMapSets,
+	(state, mapKey) => (mapKey)],
+	(sets, mapKey) => {
+		if (sets && !_.isEmpty(sets) && mapKey) {
+			let setForMap = null;
+			sets.forEach((set) => {
+				if (set.maps && _.includes(set.maps, mapKey)) {
+					setForMap = set;
+				}
+			});
+			return setForMap;
 		} else {
 			return null;
 		}
@@ -39,23 +80,20 @@ const getMapSetMapKeys = createSelector(
 	}
 );
 
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ */
 const getMapNavigator = createSelector(
 	[getMapByKey,
-	getMapSetsAsObject,
-	(state, mapKey, setKey) => setKey],
-	(map, sets, setKey) => {
+	getMapSetByMapKey],
+	(map, set) => {
 		if (map) {
-			if (sets && setKey && sets[setKey]) {
-				let mapSet = sets[setKey];
-				if (mapSet.maps && _.includes(mapSet.maps, map.key)) {
-					let mapNavigator = map.data && map.data.worldWindNavigator;
-					let mapSetNavigator = mapSet.data && mapSet.data.worldWindNavigator;
-					let navigator = {...mapSetNavigator, ...mapNavigator};
-					return !_.isEmpty(navigator) ? navigator : null;
-				} else {
-					console.warn(`"state/Maps/selectors#getMapInSet: Map set ${map.setKey} does not contain map ${map.key}"`);
-					return null;
-				}
+			if (set) {
+				let mapNavigator = map.data && map.data.worldWindNavigator;
+				let mapSetNavigator = set.data && set.data.worldWindNavigator;
+				let navigator = {...mapSetNavigator, ...mapNavigator};
+				return !_.isEmpty(navigator) ? navigator : null;
 			} else {
 				let navigator = map.data && map.data.worldWindNavigator;
 				return navigator && !_.isEmpty(navigator) ? navigator : null;
@@ -66,11 +104,29 @@ const getMapNavigator = createSelector(
 	}
 );
 
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ */
+const getMapSync = createSelector(
+	[getMapSetByMapKey],
+	(set) => {
+		if (set && set.sync) {
+			return !_.isEmpty(set.sync) ? set.sync : null;
+		} else {
+			return null;
+		}
+	}
+);
+
 export default {
 	getMapByKey,
 	getMapNavigator,
 	getMapSetByKey,
+	getMapSetByMapKey,
 	getMapSetMapKeys,
+	getMapSets,
+	getMapSync,
 
 	getMapsAsObject,
 	getMapSetsAsObject

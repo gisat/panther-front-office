@@ -9,13 +9,15 @@ const mapStateToProps = (state, props) => {
 	return {
 		backgroundLayer: backgroundCuzk,
 		layers: layersInitial,
-		navigator: Select.maps.getMapNavigator(state, props.mapKey, props.mapSetKey)
+		navigator: Select.maps.getMapNavigator(state, props.mapKey)
 	}
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, props) => {
 	return {
-
+		onWorldWindNavigatorChange: (updates) => {
+			dispatch(Action.maps.updateWorldWindNavigator(props.mapKey, updates));
+		}
 	}
 };
 

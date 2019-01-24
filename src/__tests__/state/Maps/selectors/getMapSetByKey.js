@@ -21,7 +21,14 @@ describe('#getMapSetByKey', () => {
 					roll: 0
 				}
 			},
-			sync: {}
+			sync: {
+				location: true,
+				roll: false,
+				range: false,
+				tilt: false,
+				heading: false,
+				elevation: false,
+			}
 		};
 		Selector(Select.maps.getMapSetByKey).expect(BASIC_STATE, setKey).toReturn(expectedOutput);
 	});
