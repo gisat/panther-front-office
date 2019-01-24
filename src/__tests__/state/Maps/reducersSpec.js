@@ -743,6 +743,52 @@ describe('Maps Reducers', () => {
 		Reducer(mapsReducer).withState(defaultState).expect(action).toReturnState(expectedResult);
 	});
 	
+	it('Update map world wind navigator', () => {
+
+		const defaultState = {
+			...DEFAULT_STATE,
+			maps: {
+				map1: {
+					...INITIAL_MAP_STATE,
+					key: 'map1',
+					data: {
+						worldWindNavigator: {
+							...INITIAL_WORLDWINDNAVIGATOR,
+							location: [100, 100]
+						}
+					}
+				},
+			}
+		};
+		
+		const expectedResult = {
+			...DEFAULT_STATE,
+			maps: {
+				map1: {
+					...INITIAL_MAP_STATE,
+					key: 'map1',
+					data: {
+						...INITIAL_MAP_STATE.data,
+						worldWindNavigator: {
+							...INITIAL_WORLDWINDNAVIGATOR,
+							location: [200, 200]
+						}
+					}
+				},
+			},
+		};
+
+		const action = {
+			type: ActionTypes.MAPS.MAP.SET_WORLD_WIND_NAVIGATOR,
+			mapKey: 'map1',
+			worldWindNavigator: {
+				location: [200, 200]
+			}
+		};
+
+		Reducer(mapsReducer).withState(defaultState).expect(action).toReturnState(expectedResult);
+	});
+	
 	it('Set map data', () => {
 
 		const defaultState = {
