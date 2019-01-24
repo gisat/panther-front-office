@@ -130,6 +130,5 @@ export default {
 
 	getMapsAsObject,
 	getMapSetsAsObject,
-	getSets: getMapSetsAsObject,
-	getMapByKey,
+	getSets: getMapSetsAsObject
 };
