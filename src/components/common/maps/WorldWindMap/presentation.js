@@ -24,12 +24,14 @@ class WorldWindMap extends React.PureComponent {
 		layers: PropTypes.array,
 		navigator: PropTypes.object,
 		mapKey: PropTypes.string,
-		onWorldWindNavigatorChange: PropTypes.func
+		onWorldWindNavigatorChange: PropTypes.func,
+		delayedWorldWindNavigatorSync: PropTypes.number
 	};
 
 	constructor(props) {
 		super(props);
 		this.canvasId = utils.uuid();
+		this.changedNavigatorTimeout = false;
 
 		// TODO only for testing
 		setTimeout(() => {
@@ -145,10 +147,19 @@ class WorldWindMap extends React.PureComponent {
 	}
 
 	onNavigatorChange(event) {
-		if (event && event.worldWindow) {
+		if (event && event.worldWindow && this.props.onWorldWindNavigatorChange) {
 			let changedNavigatorParams = navigator.getChangedParams(this.props.navigator, event.worldWindow.navigator);
 			if (!_.isEmpty(changedNavigatorParams)) {
-				this.props.onWorldWindNavigatorChange(changedNavigatorParams);
+				if (this.props.delayedWorldWindNavigatorSync) {
+					if (this.changedNavigatorTimeout) {
+						clearTimeout(this.changedNavigatorTimeout);
+					}
+					this.changedNavigatorTimeout = setTimeout(() => {
+						this.props.onWorldWindNavigatorChange(changedNavigatorParams);
+					}, this.props.delayedWorldWindNavigatorSync)
+				} else {
+					this.props.onWorldWindNavigatorChange(changedNavigatorParams);
+				}
 			}
 		}
 	}
