@@ -150,15 +150,19 @@ const setMapName = (state, mapKey, name) => {
 	return {...state, maps: {[mapKey]: {...mapState, name: name}}}
 };
 
-const setMapData = (state, mapState = INITIAL_MAP_STATE) => {
+const setMap = (state, mapState = INITIAL_MAP_STATE) => {
 	const mergedMapState = _.merge(_.cloneDeep(INITIAL_MAP_STATE), mapState); //FIXME - může být?
 	return {...state, maps: {...state.maps, [mergedMapState.key]: {...mergedMapState}}};
+};
+
+const setMapData = (state, mapKey, mapData = {}) => {
+	return {...state, maps: {...state.maps, [mapKey]: {...state.maps[mapKey], data: mapData}}};
 };
 
 const setMapWorldWindNavigator = (state, mapKey, worldWindNavigator = INITIAL_WORLDWINDNAVIGATOR) => {
 	const mergedWorldWindNavigator = _.merge(_.cloneDeep(INITIAL_WORLDWINDNAVIGATOR), worldWindNavigator); //FIXME - může být?
 	const mapState = getMapByKey(state, mapKey);
-	return setMapData(state, {...mapState, data: {...mapState.data, worldWindNavigator: mergedWorldWindNavigator}})
+	return setMap(state, {...mapState, data: {...mapState.data, worldWindNavigator: mergedWorldWindNavigator}})
 };
 
 
@@ -171,7 +175,7 @@ const addLayer = (state, mapKey, layerState) => {
 	if (!mapState.data.layers) {
 		mapState = {...mapState, data: {...mapState.data, layers: []}}
 	}
-	return setMapData(state, {...mapState, data: {...mapState.data, layers: [...mapState.data.layers, layerState]}})
+	return setMap(state, {...mapState, data: {...mapState.data, layers: [...mapState.data.layers, layerState]}})
 };
 
 const addLayers = (state, mapKey, layersState = []) => {
@@ -185,7 +189,7 @@ const addLayers = (state, mapKey, layersState = []) => {
 const removeLayer = (state, mapKey, layerKey) => {
 	const mapState = getMapByKey(state, mapKey);
 	const layerIndex = mapState.data.layers.findIndex(l => l.key ===layerKey);
-	return setMapData(state, {...mapState, data: {layers: removeItemByIndex(mapState.data.layers, layerIndex)}});
+	return setMap(state, {...mapState, data: {layers: removeItemByIndex(mapState.data.layers, layerIndex)}});
 };
 
 const removeLayers = (state, mapKey, layersKeys = [])=> {
@@ -203,7 +207,7 @@ const setLayerIndex = (state, mapKey, layerKey, index) => {
 	const layerState = {...mapState.data.layers[layerIndex]};
 	const withoutLayer = removeItemByIndex(mapState.data.layers, layerIndex);
 	const onPosition = addItemToIndex(withoutLayer, index, layerState);
-	return setMapData(state, {...mapState, data: {...mapState.data, layers: onPosition}});
+	return setMap(state, {...mapState, data: {...mapState.data, layers: onPosition}});
 };
 
 const updateMapLayer = (state, mapKey, layerState = INITIAL_LAYER_STATE) => {
@@ -212,7 +216,7 @@ const updateMapLayer = (state, mapKey, layerState = INITIAL_LAYER_STATE) => {
 	const layerIndex = mapState.data.layers.findIndex(l => l.key === mergedLayerState.key);
 	if(layerIndex > -1) {
 		const updatedLayers = replaceItemOnIndex(mapState.data.layers, layerIndex, mergedLayerState)
-		return setMapData(state, {...mapState, data: {...mapState.data, layers: updatedLayers}});
+		return setMap(state, {...mapState, data: {...mapState.data, layers: updatedLayers}});
 	} else {
 		//error - layer not found
 		return state;
@@ -221,32 +225,32 @@ const updateMapLayer = (state, mapKey, layerState = INITIAL_LAYER_STATE) => {
 
 const setMapScope = (state, mapKey, scope) => {
 	const mapState = getMapByKey(state, mapKey);
-	return setMapData(state, {...mapState, scope});
+	return setMap(state, {...mapState, scope});
 };
 
 const setMapPlace = (state, mapKey, place) => {
 	const mapState = getMapByKey(state, mapKey);
-	return setMapData(state, {...mapState, place});
+	return setMap(state, {...mapState, place});
 };
 
 const setMapScenario = (state, mapKey, scenario) => {
 	const mapState = getMapByKey(state, mapKey);
-	return setMapData(state, {...mapState, scenario});
+	return setMap(state, {...mapState, scenario});
 };
 
 const setMapCase = (state, mapKey, caseKey) => {
 	const mapState = getMapByKey(state, mapKey);
-	return setMapData(state, {...mapState, case: caseKey});
+	return setMap(state, {...mapState, case: caseKey});
 };
 
 const setMapPeriod = (state, mapKey, period) => {
 	const mapState = getMapByKey(state, mapKey);
-	return setMapData(state, {...mapState, period});
+	return setMap(state, {...mapState, period});
 };
 
 const setMapBackgroundLayer = (state, mapKey, backgroundLayer) => {
 	const mapState = getMapByKey(state, mapKey);
-	return setMapData(state, {...mapState, backgroundLayer});
+	return setMap(state, {...mapState, backgroundLayer});
 };
 
 export default function tasksReducer(state = INITIAL_STATE, action) {
@@ -272,7 +276,7 @@ export default function tasksReducer(state = INITIAL_STATE, action) {
 		case ActionTypes.MAPS.MAP.SET_NAME:
 			return setMapName(state, action.mapKey, action.name);
 		case ActionTypes.MAPS.MAP.SET_DATA:
-			return setMapData(state, action.map);
+			return setMapData(state, action.mapKey, action.data);
 		case ActionTypes.MAPS.MAP.SET_WORLD_WIND_NAVIGATOR:
 			return setMapWorldWindNavigator(state, action.mapKey, action.worldWindNavigator);
 		case ActionTypes.MAPS.LAYERS.ADD_LAYER:

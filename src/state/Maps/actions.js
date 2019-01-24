@@ -1,64 +1,153 @@
 import ActionTypes from '../../constants/ActionTypes';
 import Select from '../../state/Select';
+import commonActions from '../_common/actions';
+const {actionGeneralError} = commonActions
 
 // ============ creators ===========
 const setActiveMapKey = (mapKey) => {
 	return dispatch => {
-		dispatch(actionSetActiveMapKey(mapKey));
+		return dispatch(actionSetActiveMapKey(mapKey));
 	};
 };
 
 const addSet = (set) => {
-	return dispatch => {
-		dispatch(actionAddSet(set));
+	return (dispatch, getState) => {
+		const state = getState();
+		const setKey = set.key;
+		if(!setKey) {
+			return dispatch(actionGeneralError(`Undefined setKey for set ${set}`));
+		} else {
+			const setByKey = Select.maps.getMapSetByKey(state, setKey);
+			if(setByKey) {
+				return dispatch(actionGeneralError(`Set with given setKey (${setKey}) already exists ${setByKey}`));
+			} else {
+				return dispatch(actionAddSet(set));
+			}
+		}
+
 	};
 };
 
 const removeSet = (setKey) => {
-	return dispatch => {
-		dispatch(actionRemoveSet(setKey));
+	return (dispatch, getState) => {
+		const state = getState();
+		const setByKey = Select.maps.getMapSetByKey(state, setKey);
+		if(!setByKey) {
+			return dispatch(actionGeneralError(`No set found for setKey ${setKey}.`));
+		} else {
+			return dispatch(actionRemoveSet(setKey));
+		}
 	};
 };
 
 const addMapToSet = (setKey, mapKey) => {
-	return dispatch => {
-		dispatch(actionAddMapToSet(setKey, mapKey));
+	return (dispatch, getState) => {
+		const state = getState();
+		const setByKey = Select.maps.getMapSetByKey(state, setKey);
+		if(!setByKey) {
+			return dispatch(actionGeneralError(`No set found for setKey ${setKey}.`));
+		} else {
+			//check map exist
+			if (setByKey.maps && setByKey.maps.includes(mapKey)) {
+				return dispatch(actionGeneralError(`Set ${setKey} alredy contains map ${mapKey}.`));
+			} else {
+				return dispatch(actionAddMapToSet(setKey, mapKey));
+			}
+		}
 	};
 };
 
 const removeMapKeyFromSet = (setKey, mapKey) => {
-	return dispatch => {
-		dispatch(actionRemoveMapKeyFromSet(setKey, mapKey));
-	};
+	return (dispatch, getState) => {
+		const state = getState();
+		const setByKey = Select.maps.getMapSetByKey(state, setKey);
+		if(!setByKey) {
+			return dispatch(actionGeneralError(`No set found for setKey ${setKey}.`));
+		} else {
+			//check map exist
+			if (setByKey.maps && setByKey.maps.includes(mapKey)) {
+				return dispatch(actionRemoveMapKeyFromSet(setKey, mapKey));
+			} else {
+				return dispatch(actionGeneralError(`Set ${setKey} do not contains map ${mapKey}.`));
+			}
+		}
+	}
 };
 
-const setSetWorldWindNavigatorSync = (setKey, worldWindNavigator) => {
-	return dispatch => {
-		dispatch(actionSetSetWorldWindNavigatorSync(setKey, worldWindNavigator));
-	};
+const setSetWorldWindNavigator = (setKey, worldWindNavigator) => {
+	return (dispatch, getState) => {
+		const state = getState();
+		const setByKey = Select.maps.getMapSetByKey(state, setKey);
+		if(!setByKey) {
+			return dispatch(actionGeneralError(`No set found for setKey ${setKey}.`));
+		} else {
+			return dispatch(actionSetSetWorldWindNavigator(setKey, worldWindNavigator));
+		}
+	}
+};
+
+const setSetSync = (setKey, sync) => {
+	return (dispatch, getState) => {
+		const state = getState();
+		const setByKey = Select.maps.getMapSetByKey(state, setKey);
+		if(!setByKey) {
+			return dispatch(actionGeneralError(`No set found for setKey ${setKey}.`));
+		} else {
+			return dispatch(actionSetSetSync(setKey, sync));
+		}
+	}
 };
 
 const addMap = (map) => {
-	return dispatch => {
-		dispatch(actionAddMap(map));
+	return (dispatch, getState) => {
+		if(map && !map.key) {
+			return dispatch(actionGeneralError(`Undefined mapKey for map ${map}`));
+		} else {
+			const state = getState();
+			const mapByKey = Select.maps.getMapByKey(state, map.key);
+			
+			if (mapByKey) {
+				return dispatch(actionGeneralError(`Map with given mapKey (${map.key}) already exists ${mapByKey}`));
+			} else {
+				return dispatch(actionAddMap(map));
+			}
+		}
 	};
 };
 
 const removeMap = (mapKey) => {
-	return dispatch => {
-		dispatch(actionRemoveMap(mapKey));
+	return (dispatch, getState) => {
+		const state = getState();
+		const mapByKey = Select.maps.getMapByKey(state, mapKey);
+		if(!mapByKey) {
+			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
+		} else {
+			return dispatch(actionRemoveMap(mapKey));
+		}
 	};
 };
 
-const setMapName = (mapKey,name) => {
-	return dispatch => {
-		dispatch(actionSetMapName(mapKey, name));
+const setMapName = (mapKey, name) => {
+	return (dispatch, getState) => {
+		const state = getState();
+		const mapByKey = Select.maps.getMapByKey(state, mapKey);
+		if(!mapByKey) {
+			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
+		} else {
+			dispatch(actionSetMapName(mapKey, name));
+		}
 	};
 };
 
-const setMapData = (map) => {
-	return dispatch => {
-		dispatch(actionSetMapData(map));
+const setMapData = (mapKey, data) => {
+	return (dispatch, getState) => {
+		const state = getState();
+		const mapByKey = Select.maps.getMapByKey(state, mapKey);
+		if(!mapByKey) {
+			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
+		} else {
+			dispatch(actionSetMapData(mapKey, data));
+		}
 	};
 };
 
@@ -197,11 +286,19 @@ const actionRemoveMapKeyFromSet = (setKey, mapKey) => {
 	}
 };
 
-const actionSetSetWorldWindNavigatorSync = (setKey, worldWindNavigator) => {
+const actionSetSetWorldWindNavigator = (setKey, worldWindNavigator) => {
 	return {
-		type: ActionTypes.MAPS.SET.SET_WORLD_WIND_NAVIGATOR_SYNC,
+		type: ActionTypes.MAPS.SET.SET_WORLD_WIND_NAVIGATOR,
 		setKey,
 		worldWindNavigator,
+	}
+};
+
+const actionSetSetSync = (setKey, sync) => {
+	return {
+		type: ActionTypes.MAPS.SET.SET_SYNC,
+		setKey,
+		sync,
 	}
 };
 
@@ -227,10 +324,11 @@ const actionSetMapName = (mapKey, name) => {
 	}
 };
 
-const actionSetMapData = (map) => {
+const actionSetMapData = (mapKey, data) => {
 	return {
 		type: ActionTypes.MAPS.MAP.SET_DATA,
-		map,
+		mapKey,
+		data,
 	}
 };
 
@@ -348,7 +446,8 @@ export default {
 	removeSet,
 	addMapToSet,
 	removeMapKeyFromSet,
-	setSetWorldWindNavigatorSync,
+	setSetWorldWindNavigator,
+	setSetSync,
 	addMap,
 	removeMap,
 	setMapName,
@@ -367,6 +466,4 @@ export default {
 	setMapPlace,
 	setMapScenario,
 	setMapScope
-
-
 }

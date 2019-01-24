@@ -129,5 +129,7 @@ export default {
 	getMapSync,
 
 	getMapsAsObject,
-	getMapSetsAsObject
+	getMapSetsAsObject,
+	getSets: getMapSetsAsObject,
+	getMapByKey,
 };

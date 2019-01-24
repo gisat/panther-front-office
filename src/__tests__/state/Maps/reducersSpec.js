@@ -42,7 +42,7 @@ const INITIAL_WORLDWINDNAVIGATOR = {
 	tilt: 0,
 	heading: 0,
 	elevation: 0
-}
+};
 
 const INITIAL_MAP_STATE = {
 	key: '',
@@ -722,6 +722,7 @@ describe('Maps Reducers', () => {
 					...INITIAL_MAP_STATE,
 					key: 'map1',
 					data: {
+						...INITIAL_MAP_STATE.data,
 						worldWindNavigator: {
 							...INITIAL_WORLDWINDNAVIGATOR,
 							location: [100, 100]
@@ -736,6 +737,126 @@ describe('Maps Reducers', () => {
 			mapKey: 'map1',
 			worldWindNavigator: {
 				location: [100, 100]
+			}
+		};
+
+		Reducer(mapsReducer).withState(defaultState).expect(action).toReturnState(expectedResult);
+	});
+	
+	it('Set map data', () => {
+
+		const defaultState = {
+			...DEFAULT_STATE,
+			maps: {
+				map1: {
+					...INITIAL_MAP_STATE,
+					key: 'map1',
+				},
+			}
+		};
+		
+		const expectedResult = {
+			...DEFAULT_STATE,
+			maps: {
+				map1: {
+					...INITIAL_MAP_STATE,
+					key: 'map1',
+					data: {
+						...INITIAL_MAP_STATE.data,
+						testKey: 'test'
+					}
+				},
+			},
+		};
+
+		const action = {
+			type: ActionTypes.MAPS.MAP.SET_DATA,
+			mapKey: 'map1',
+			data: {
+				testKey: 'test'
+			}
+		};
+
+		Reducer(mapsReducer).withState(defaultState).expect(action).toReturnState(expectedResult);
+	});
+	
+	it('Set map data', () => {
+
+		const defaultState = {
+			...DEFAULT_STATE,
+			maps: {
+				map1: {
+					...INITIAL_MAP_STATE,
+					key: 'map1',
+					data: {
+						...INITIAL_MAP_STATE.data,
+						testKey: 'test'
+					}
+				},
+			}
+		};
+		
+		const expectedResult = {
+			...DEFAULT_STATE,
+			maps: {
+				map1: {
+					...INITIAL_MAP_STATE,
+					key: 'map1',
+					data: {
+						...INITIAL_MAP_STATE.data,
+						testKey: 'rewrite',
+						newKey: 'new'
+					}
+				},
+			},
+		};
+
+		const action = {
+			type: ActionTypes.MAPS.MAP.SET_DATA,
+			mapKey: 'map1',
+			data: {
+				testKey: 'rewrite',
+				newKey: 'new',
+			}
+		};
+
+		Reducer(mapsReducer).withState(defaultState).expect(action).toReturnState(expectedResult);
+	});
+	it('Set map data', () => {
+
+		const defaultState = {
+			...DEFAULT_STATE,
+			maps: {
+				map1: {
+					...INITIAL_MAP_STATE,
+					key: 'map1',
+					data: {
+						...INITIAL_MAP_STATE.data,
+						testKey: 'test'
+					}
+				},
+			}
+		};
+		
+		const expectedResult = {
+			...DEFAULT_STATE,
+			maps: {
+				map1: {
+					...INITIAL_MAP_STATE,
+					key: 'map1',
+					data: {
+						...INITIAL_MAP_STATE.data,
+						testKey2: 'rewrite2',
+					}
+				},
+			},
+		};
+
+		const action = {
+			type: ActionTypes.MAPS.MAP.SET_DATA,
+			mapKey: 'map1',
+			data: {
+				testKey2: 'rewrite2',
 			}
 		};
 
