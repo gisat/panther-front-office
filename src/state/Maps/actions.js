@@ -174,7 +174,7 @@ function selectWmsLayer(layerKey, mapKey) {
 			let scope = Select.scopes.getActiveScopeData(appState);
 
 			let stateUpdate;
-			if (scope && scope.data && scope.data.oneLayerPerMap){
+			if (scope && scope.data && (scope.data.oneLayerPerMap || scope.data.configuration && scope.data.configuration.oneLayerPerMap)){
 				stateUpdate = {
 					key: mapKey,
 					wmsLayers: [layerKey],
