@@ -7,8 +7,15 @@ const {actionGeneralError} = commonActions;
 
 // ============ creators ===========
 const setActiveMapKey = (mapKey) => {
-	return dispatch => {
-		return dispatch(actionSetActiveMapKey(mapKey));
+	//check if map exist
+	return (dispatch, getState) => {
+		const state = getState();
+		const mapByKey = Select.maps.getMapByKey(state, mapKey);
+		if(mapByKey) {
+			return dispatch(actionSetActiveMapKey(mapKey));
+		} else {
+			return dispatch(actionGeneralError(`Can not set mapKey ${mapKey} as active, because map with this key dont exists.`));
+		}
 	};
 };
 
@@ -136,7 +143,7 @@ const setMapName = (mapKey, name) => {
 		if(!mapByKey) {
 			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
 		} else {
-			dispatch(actionSetMapName(mapKey, name));
+			return dispatch(actionSetMapName(mapKey, name));
 		}
 	};
 };
@@ -148,51 +155,144 @@ const setMapData = (mapKey, data) => {
 		if(!mapByKey) {
 			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
 		} else {
-			dispatch(actionSetMapData(mapKey, data));
+			return dispatch(actionSetMapData(mapKey, data));
 		}
 	};
 };
 
 const setMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
-	return dispatch => {
-		dispatch(actionSetMapWorldWindNavigator(mapKey, worldWindNavigator));
+	return (dispatch, getState) => {
+		const state = getState();
+		const mapByKey = Select.maps.getMapByKey(state, mapKey);
+		if(!mapByKey) {
+			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
+		} else {
+			return dispatch(actionSetMapWorldWindNavigator(mapKey, worldWindNavigator));
+		}
 	};
 };
 
 const addLayer = (mapKey, layer) => {
-	return dispatch => {
-		dispatch(actionAddLayer(mapKey, layer));
+	return (dispatch, getState) => {
+		const state = getState();
+		const layerKey = layer.key;
+		if(!layerKey) {
+			return dispatch(actionGeneralError(`Undefined key for layer ${layer}`));
+		} else {
+			const mapByKey = Select.maps.getMapByKey(state, mapKey);
+			if(!mapByKey) {
+				return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
+			} else {
+				return dispatch(actionAddLayer(mapKey, layer));
+			}
+		}
 	};
 };
 
 const addLayers = (mapKey, layers) => {
-	return dispatch => {
-		dispatch(actionAddLayers(mapKey, layers));
-	};
+	return (dispatch, getState) => {
+		const state = getState();
+		const mapByKey = Select.maps.getMapByKey(state, mapKey);
+		if(!mapByKey) {
+			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
+		} else {
+			return layers.map(layer => dispatch(addLayer(mapKey, layer)))
+		}
+	}
 };
 
 const removeLayer = (mapKey, layerKey) => {
-	return dispatch => {
-		dispatch(actionRemoveLayer(mapKey, layerKey));
+	return (dispatch, getState) => {
+		if(!layerKey) {
+			return dispatch(actionGeneralError(`Undefined layer key.`));
+		} else {
+			const state = getState();
+			const mapByKey = Select.maps.getMapByKey(state, mapKey);
+			if(!mapByKey) {
+				return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
+			} else {
+				//check if layer exist
+				const layer = Select.maps.getLayerByMapKeyAndLayerKey(state, mapKey, layerKey);
+				if(layer) {
+					return dispatch(actionRemoveLayer(mapKey, layerKey));
+				} else {
+					return dispatch(actionGeneralError(`No layer (${layerKey}) found in mapKey ${mapKey}.`));
+				}
+			}
+		}
 	};
 };
 
 const removeLayers = (mapKey, layersKeys) => {
-	return dispatch => {
-		dispatch(actionRemoveLayers(mapKey, layersKeys));
-	};
+	return (dispatch, getState) => {
+		const state = getState();
+		const mapByKey = Select.maps.getMapByKey(state, mapKey);
+		if(!mapByKey) {
+			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
+		} else {
+			return layersKeys.map(layerKey => dispatch(removeLayer(mapKey, layerKey)))
+		}
+	}
 };
 
 const setLayerIndex = (mapKey, layerKey, index) => {
-	return dispatch => {
-		dispatch(actionSetLayerIndex(mapKey, layerKey, index));
-	};
+	return (dispatch, getState) => {
+		const state = getState();
+		const mapByKey = Select.maps.getMapByKey(state, mapKey);
+		if(!mapByKey) {
+			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
+		} else {
+			dispatch(actionSetLayerIndex(mapKey, layerKey, index));
+		}
+	}
 };
 
+/**
+ * 
+ * Similar like add layer.
+ * It enables to set any layer property except layerKey. 
+ * Layer object is merged with default layer option.
+ */
+const setMapLayer = (mapKey, layerKey, layer) => {
+	return (dispatch, getState) => {
+		const state = getState();
+		const mapByKey = Select.maps.getMapByKey(state, mapKey);
+		if(!mapByKey) {
+			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
+		} else {
+			//check if layer exist
+			const layerExists = Select.maps.getLayerByMapKeyAndLayerKey(state, mapKey, layerKey);
+			if(layerExists) {
+				dispatch(actionSetMapLayer(mapKey, layerKey, layer));
+			} else {
+				return dispatch(actionGeneralError(`No layer (${layerKey}) found in mapKey ${mapKey}.`));
+			}
+		}
+	}
+};
+
+
+/**
+ * 
+ * It enables to update any layer property except layerKey. 
+ * Layer object is merged with actual layer option.
+ */
 const updateMapLayer = (mapKey, layerKey, layer) => {
-	return dispatch => {
-		dispatch(actionUpdateMapLayer(mapKey, layerKey, layer));
-	};
+	return (dispatch, getState) => {
+		const state = getState();
+		const mapByKey = Select.maps.getMapByKey(state, mapKey);
+		if(!mapByKey) {
+			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
+		} else {
+			//check if layer exist
+			const layerExists = Select.maps.getLayerByMapKeyAndLayerKey(state, mapKey, layerKey);
+			if(layerExists) {
+				dispatch(actionUpdateMapLayer(mapKey, layerKey, layer));
+			} else {
+				return dispatch(actionGeneralError(`No layer (${layerKey}) found in mapKey ${mapKey}.`));
+			}
+		}
+	}
 };
 
 const updateWorldWindNavigator = (mapKey, updates) => {
@@ -232,38 +332,74 @@ const updateWorldWindNavigator = (mapKey, updates) => {
 };
 
 const setMapScope = (mapKey, scope) => {
-	return dispatch => {
-		dispatch(actionSetMapScope(mapKey, scope));
+	return (dispatch, getState) => {
+		const state = getState();
+		const mapByKey = Select.maps.getMapByKey(state, mapKey);
+		if(!mapByKey) {
+			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
+		} else {
+			dispatch(actionSetMapScope(mapKey, scope));
+		}
 	};
 };
 
 const setMapScenario = (mapKey, scenario) => {
-	return dispatch => {
-		dispatch(actionSetMapScenario(mapKey, scenario));
+	return (dispatch, getState) => {
+		const state = getState();
+		const mapByKey = Select.maps.getMapByKey(state, mapKey);
+		if(!mapByKey) {
+			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
+		} else {
+			dispatch(actionSetMapScenario(mapKey, scenario));
+		}
 	};
 };
 
 const setMapPeriod = (mapKey, period) => {
-	return dispatch => {
-		dispatch(actionSetMapPeriod(mapKey, period));
+	return (dispatch, getState) => {
+		const state = getState();
+		const mapByKey = Select.maps.getMapByKey(state, mapKey);
+		if(!mapByKey) {
+			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
+		} else {
+			dispatch(actionSetMapPeriod(mapKey, period));
+		}
 	};
 };
 
 const setMapPlace = (mapKey, place) => {
-	return dispatch => {
-		dispatch(actionSetMapPlace(mapKey, place));
+	return (dispatch, getState) => {
+		const state = getState();
+		const mapByKey = Select.maps.getMapByKey(state, mapKey);
+		if(!mapByKey) {
+			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
+		} else {
+			dispatch(actionSetMapPlace(mapKey, place));
+		}
 	};
 };
 
 const setMapCase = (mapKey, caseKey) => {
-	return dispatch => {
-		dispatch(actionSetMapCase(mapKey, caseKey));
+	return (dispatch, getState) => {
+		const state = getState();
+		const mapByKey = Select.maps.getMapByKey(state, mapKey);
+		if(!mapByKey) {
+			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
+		} else {
+			dispatch(actionSetMapCase(mapKey, caseKey));
+		}
 	};
 };
 
 const setMapBackgroundLayer = (mapKey, backgroundLayer) => {
-	return dispatch => {
-		dispatch(actionSetMapBackgroundLayer(mapKey, backgroundLayer));
+	return (dispatch, getState) => {
+		const state = getState();
+		const mapByKey = Select.maps.getMapByKey(state, mapKey);
+		if(!mapByKey) {
+			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
+		} else {
+			dispatch(actionSetMapBackgroundLayer(mapKey, backgroundLayer));
+		}
 	};
 };
 
@@ -384,39 +520,23 @@ const actionUpdateMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
 
 const actionAddLayer = (mapKey, layer) => {
 	return {
-		type: ActionTypes.MAPS.LAYERS.ADD_LAYER,
+		type: ActionTypes.MAPS.LAYERS.LAYER.ADD,
 		mapKey,
 		layer,
 	}
 };
 
-const actionAddLayers = (mapKey, layers) => {
-	return {
-		type: ActionTypes.MAPS.LAYERS.ADD_LAYERS,
-		mapKey,
-		layers,
-	}
-};
-
 const actionRemoveLayer = (mapKey, layerKey) => {
 	return {
-		type: ActionTypes.MAPS.LAYERS.REMOVE_LAYER,
+		type: ActionTypes.MAPS.LAYERS.LAYER.REMOVE,
 		mapKey,
 		layerKey,
 	}
 };
 
-const actionRemoveLayers = (mapKey, layersKeys) => {
-	return {
-		type: ActionTypes.MAPS.LAYERS.REMOVE_LAYERS,
-		mapKey,
-		layersKeys,
-	}
-};
-
 const actionSetLayerIndex = (mapKey, layerKey, index) => {
 	return {
-		type: ActionTypes.MAPS.LAYERS.SET_LAYER_INDEX,
+		type: ActionTypes.MAPS.LAYERS.LAYER.SET_INDEX,
 		mapKey,
 		layerKey,
 		index,
@@ -425,7 +545,16 @@ const actionSetLayerIndex = (mapKey, layerKey, index) => {
 
 const actionUpdateMapLayer = (mapKey, layerKey, layer) => {
 	return {
-		type: ActionTypes.MAPS.LAYERS.UPDATE_MAP_LAYER,
+		type: ActionTypes.MAPS.LAYERS.LAYER.UPDATE,
+		mapKey,
+		layerKey,
+		layer,
+	}
+};
+
+const actionSetMapLayer = (mapKey, layerKey, layer) => {
+	return {
+		type: ActionTypes.MAPS.LAYERS.LAYER.SET,
 		mapKey,
 		layerKey,
 		layer,
@@ -500,6 +629,7 @@ export default {
 	removeLayer,
 	removeLayers,
 	setLayerIndex,
+	setMapLayer,
 	updateMapLayer,
 	updateWorldWindNavigator,
 	setMapBackgroundLayer,

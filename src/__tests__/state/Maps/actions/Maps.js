@@ -45,7 +45,6 @@ describe('Maps Maps Actions', () => {
 		const expectedActions = [{
 			type: 'ERROR',
 		}];
-		debugger
 		store.dispatch(Action.maps.addMap({key: 'map1'}));
 		expect(store.getActions()).toEqual(expectedActions);
 	});
@@ -168,114 +167,47 @@ describe('Maps Maps Actions', () => {
 		store.dispatch(Action.maps.setMapData('mapXXX', {}));
 		expect(store.getActions()).toEqual(expectedActions);
 	});
-
-
-
-	// setMapData,
-	// setMapWorldWindNavigator,
-
-
-		
-
-		// // addMapToSet,
-		// it('should dispatch add action', () => {
-		// 	const store = mockStore({...INITIAL_STATE, maps: {sets: {set1: {key:'set1',maps: []}}}});
-		// 	const expectedActions = [{
-		// 		type: ActionTypes.MAPS.SET.ADD_MAP,
-		// 		setKey: 'set1',
-		// 		mapKey: 'map1',
-		// 	}];
-		// 	store.dispatch(Action.maps.addMapToSet('set1', 'map1'));
-		// 	expect(store.getActions()).toEqual(expectedActions);
-		// });
-		// it('should dispatch ERROR action after try to add to undefined set', () => {
-		// 	const store = mockStore({...INITIAL_STATE, maps: {sets: {set1: {key:'set1',maps: []}}}});
-		// 	const expectedActions = [{
-		// 		type: 'ERROR',
-		// 	}];
-		// 	store.dispatch(Action.maps.addMapToSet('set2', 'map1'));
-		// 	expect(store.getActions()).toEqual(expectedActions);
-		// });
-		// it('should dispatch ERROR action after try to add existing mapKey', () => {
-		// 	const store = mockStore({...INITIAL_STATE, maps: {sets: {set1: {key:'set1',maps: ['map1']}}}});
-		// 	const expectedActions = [{
-		// 		type: 'ERROR',
-		// 	}];
-		// 	store.dispatch(Action.maps.addMapToSet('set1', 'map1'));
-		// 	expect(store.getActions()).toEqual(expectedActions);
-		// });
-		// it('should dispatch remove action removeMapKeyFromSet', () => {
-		// 	const store = mockStore({...INITIAL_STATE, maps: {sets: {set1: {key:'set1',maps: ['map1']}}}});
-		// 	const expectedActions = [{
-		// 		type: ActionTypes.MAPS.SET.REMOVE_MAP,
-		// 		setKey: 'set1',
-		// 		mapKey: 'map1',
-		// 	}];
-		// 	store.dispatch(Action.maps.removeMapKeyFromSet('set1', 'map1'));
-		// 	expect(store.getActions()).toEqual(expectedActions);
-		// });
-		// it('should dispatch ERROR action after try to remove mapKey from undefined setKey', () => {
-		// 	const store = mockStore({...INITIAL_STATE, maps: {sets: {set1: {key:'set1',maps: ['map1']}}}});
-		// 	const expectedActions = [{
-		// 		type: 'ERROR'
-		// 	}];
-		// 	store.dispatch(Action.maps.removeMapKeyFromSet('set2', 'map1'));
-		// 	expect(store.getActions()).toEqual(expectedActions);
-		// });
-		// it('should dispatch ERROR action after try to remove undefined mapKey', () => {
-		// 	const store = mockStore({...INITIAL_STATE, maps: {sets: {set1: {key:'set1',maps: ['map1']}}}});
-		// 	const expectedActions = [{
-		// 		type: 'ERROR'
-		// 	}];
-		// 	store.dispatch(Action.maps.removeMapKeyFromSet('set1', 'map2'));
-		// 	expect(store.getActions()).toEqual(expectedActions);
-		// });
-		// it('should dispatch setSetWorldWindNavigatorSync action.', () => {
-		// 	const store = mockStore({...INITIAL_STATE, maps: {sets: {set1: {key:'set1',maps: ['map1']}}}});
-		// 	const worldWindNavigator = {
-		// 		location: [0, 0]
-		// 	}
-		// 	const expectedActions = [{
-		// 		type: ActionTypes.MAPS.SET.SET_WORLD_WIND_NAVIGATOR,
-		// 		setKey: 'set1',
-		// 		worldWindNavigator,
-		// 	}];
-		// 	store.dispatch(Action.maps.setSetWorldWindNavigator('set1', worldWindNavigator));
-		// 	expect(store.getActions()).toEqual(expectedActions);
-		// });
-		// it('should dispatch ERROR action, after try to set WORLD_WIND_NAVIGATOR to undefined set.', () => {
-		// 	const store = mockStore({...INITIAL_STATE, maps: {sets: {set1: {key:'set1',maps: ['map1']}}}});
-		// 	const worldWindNavigator = {
-		// 		location: [0, 0]
-		// 	}
-		// 	const expectedActions = [{
-		// 		type: 'ERROR'
-		// 	}];
-		// 	store.dispatch(Action.maps.setSetWorldWindNavigator('set2', worldWindNavigator));
-		// 	expect(store.getActions()).toEqual(expectedActions);
-		// });
-		// it('should dispatch setSetSync action.', () => {
-		// 	const store = mockStore({...INITIAL_STATE, maps: {sets: {set1: {key:'set1'}}}});
-		// 	const sync = {
-		// 		location: true,
-		// 	}
-		// 	const expectedActions = [{
-		// 		type: ActionTypes.MAPS.SET.SET_SYNC,
-		// 		setKey: 'set1',
-		// 		sync,
-		// 	}];
-		// 	store.dispatch(Action.maps.setSetSync('set1', sync));
-		// 	expect(store.getActions()).toEqual(expectedActions);
-		// });
-		// it('should dispatch ERROR action, after try to set SYNC to undefined set.', () => {
-		// 	const store = mockStore({...INITIAL_STATE, maps: {sets: {set1: {key:'set1'}}}});
-		// 	const sync = {
-		// 		location: true,
-		// 	}
-		// 	const expectedActions = [{
-		// 		type: 'ERROR'
-		// 	}];
-		// 	store.dispatch(Action.maps.setSetSync('set2', sync));
-		// 	expect(store.getActions()).toEqual(expectedActions);
-		// });
+	it('should dispatch setMapWorldWindNavigator action.', () => {
+		const store = mockStore({...INITIAL_STATE, maps: {maps: {
+			map1: {
+				key: 'map1',
+				name: 'map'
+			}
+		}}});
+		const expectedActions = [{
+			type: ActionTypes.MAPS.MAP.WORLD_WIND_NAVIGATOR.SET,
+			mapKey: 'map1',
+			worldWindNavigator: {
+				lookAtLocation: {
+					latitude: 11,
+					longitude: 12
+				},
+			}
+		}];
+		store.dispatch(Action.maps.setMapWorldWindNavigator('map1', {
+			lookAtLocation: {
+				latitude: 11,
+				longitude: 12
+			},
+		}));
+		expect(store.getActions()).toEqual(expectedActions);
+	});
+	it('should dispatch ERROR action after try to set WWD on undefined mapKey.', () => {
+		const store = mockStore({...INITIAL_STATE, maps: {maps: {
+			map1: {
+				key: 'map1',
+				name: 'map'
+			}
+		}}});
+		const expectedActions = [{
+			type: 'ERROR',
+		}];
+		store.dispatch(Action.maps.setMapWorldWindNavigator('mapXX', {
+			lookAtLocation: {
+				latitude: 11,
+				longitude: 12
+			},
+		}));
+		expect(store.getActions()).toEqual(expectedActions);
+	});
 });

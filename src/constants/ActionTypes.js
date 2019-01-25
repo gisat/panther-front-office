@@ -244,12 +244,15 @@ export default utils.deepKeyMirror({
 			},
 		},
 		LAYERS: {
-			ADD_LAYER: null,
 			ADD_LAYERS: null,
-			REMOVE_LAYER: null,
 			REMOVE_LAYERS: null,
-			SET_LAYER_INDEX: null,
-			UPDATE_MAP_LAYER: null,
+			LAYER: {
+				ADD: null,
+				REMOVE: null,
+				SET: null,
+				UPDATE: null,
+				SET_INDEX: null,
+			}
 		},
 	},
 

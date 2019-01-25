@@ -939,7 +939,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.LAYERS.ADD_LAYER,
+			type: ActionTypes.MAPS.LAYERS.LAYER.ADD,
 			mapKey: 'map1',
 			layer: {
 				key: 'layer1'
@@ -990,59 +990,11 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.LAYERS.ADD_LAYER,
+			type: ActionTypes.MAPS.LAYERS.LAYER.ADD,
 			mapKey: 'map1',
 			layer: {
 				key: 'layer2'
 			},
-		};
-
-		Reducer(mapsReducer).withState(defaultState).expect(action).toReturnState(expectedResult);
-	});
-	
-	it('Add layers', () => {
-		const defaultState = {
-			...DEFAULT_STATE,
-			maps: {
-				map1: {
-					...INITIAL_MAP_STATE,
-					key: 'map1',
-				},
-			}
-		};
-		
-		const expectedResult = {
-			...DEFAULT_STATE,
-			maps: {
-				map1: {
-					...INITIAL_MAP_STATE,
-					key: 'map1',
-					data: {
-						...INITIAL_MAP_STATE.data,
-						layers: [
-							{
-								key: 'layer1'
-							},
-							{
-								key: 'layer2'
-							}
-						]
-					}
-				},
-			}
-		};
-
-		const action = {
-			type: ActionTypes.MAPS.LAYERS.ADD_LAYERS,
-			mapKey: 'map1',
-			layers: [
-				{
-					key: 'layer1'
-				},
-				{
-					key: 'layer2'
-				}
-			],
 		};
 
 		Reducer(mapsReducer).withState(defaultState).expect(action).toReturnState(expectedResult);
@@ -1089,7 +1041,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.LAYERS.REMOVE_LAYER,
+			type: ActionTypes.MAPS.LAYERS.LAYER.REMOVE,
 			mapKey: 'map1',
 			layerKey: 'layer1'
 		};
@@ -1131,7 +1083,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.LAYERS.REMOVE_LAYER,
+			type: ActionTypes.MAPS.LAYERS.LAYER.REMOVE,
 			mapKey: 'map1',
 			layerKey: 'layer1'
 		};
@@ -1237,7 +1189,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.LAYERS.SET_LAYER_INDEX,
+			type: ActionTypes.MAPS.LAYERS.LAYER.SET_INDEX,
 			mapKey: 'map1',
 			layerKey: 'layer3',
 			index: 0,
@@ -1296,7 +1248,7 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.LAYERS.SET_LAYER_INDEX,
+			type: ActionTypes.MAPS.LAYERS.LAYER.SET_INDEX,
 			mapKey: 'map1',
 			layerKey: 'layer1',
 			index: 2,
@@ -1304,8 +1256,8 @@ describe('Maps Reducers', () => {
 
 		Reducer(mapsReducer).withState(defaultState).expect(action).toReturnState(expectedResult);
 	});
-	
-	it('Update map layer', () => {
+	// FIXME
+	it('Set map layer', () => {
 		const defaultState = {
 			...DEFAULT_STATE,
 			maps: {
@@ -1318,6 +1270,7 @@ describe('Maps Reducers', () => {
 							{
 								...INITIAL_LAYER_STATE,
 								key: 'layer1',
+								opacity: 80
 							},
 							{
 								...INITIAL_LAYER_STATE,
@@ -1342,6 +1295,7 @@ describe('Maps Reducers', () => {
 								...INITIAL_LAYER_STATE,
 								key: 'layer1',
 								layerTemplate: 22,
+								opacity: 100, //undefined propertis are overwriten
 							},
 							{
 								...INITIAL_LAYER_STATE,
@@ -1354,24 +1308,37 @@ describe('Maps Reducers', () => {
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.LAYERS.UPDATE_MAP_LAYER,
+			type: ActionTypes.MAPS.LAYERS.LAYER.SET,
 			mapKey: 'map1',
+			layerKey: 'layer1',
 			layer: {
-				key: 'layer1',
 				layerTemplate: 22,
 			},
 		};
 
 		Reducer(mapsReducer).withState(defaultState).expect(action).toReturnState(expectedResult);
 	});
-
-	it('Update map layer', () => {
+	it('Set map layer and dont change layer key', () => {
 		const defaultState = {
 			...DEFAULT_STATE,
 			maps: {
 				map1: {
 					...INITIAL_MAP_STATE,
 					key: 'map1',
+					data: {
+						...INITIAL_MAP_STATE.data,
+						layers: [
+							{
+								...INITIAL_LAYER_STATE,
+								key: 'layer1',
+								opacity: 80
+							},
+							{
+								...INITIAL_LAYER_STATE,
+								key: 'layer2'
+							},
+						]
+					}
 				},
 			}
 		};
@@ -1382,20 +1349,100 @@ describe('Maps Reducers', () => {
 				map1: {
 					...INITIAL_MAP_STATE,
 					key: 'map1',
-					scope: 1111,
+					data: {
+						...INITIAL_MAP_STATE.data,
+						layers: [
+							{
+								...INITIAL_LAYER_STATE,
+								key: 'layer1',
+								layerTemplate: 22,
+								opacity: 100, //undefined propertis are overwriten
+							},
+							{
+								...INITIAL_LAYER_STATE,
+								key: 'layer2'
+							},
+						]
+					}
 				},
 			}
 		};
 
 		const action = {
-			type: ActionTypes.MAPS.SET_SCOPE,
+			type: ActionTypes.MAPS.LAYERS.LAYER.SET,
 			mapKey: 'map1',
-			scope: 1111
+			layerKey: 'layer1',
+			layer: {
+				key: 'layer3',
+				layerTemplate: 22,
+			},
 		};
 
 		Reducer(mapsReducer).withState(defaultState).expect(action).toReturnState(expectedResult);
 	});
+	
+	it('Update map layer', () => {
+		const defaultState = {
+			...DEFAULT_STATE,
+			maps: {
+				map1: {
+					...INITIAL_MAP_STATE,
+					key: 'map1',
+					data: {
+						...INITIAL_MAP_STATE.data,
+						layers: [
+							{
+								...INITIAL_LAYER_STATE,
+								key: 'layer1',
+								opacity: 80,
+							},
+							{
+								...INITIAL_LAYER_STATE,
+								key: 'layer2'
+							},
+						]
+					}
+				},
+			}
+		};
+		
+		const expectedResult = {
+			...DEFAULT_STATE,
+			maps: {
+				map1: {
+					...INITIAL_MAP_STATE,
+					key: 'map1',
+					data: {
+						...INITIAL_MAP_STATE.data,
+						layers: [
+							{
+								...INITIAL_LAYER_STATE,
+								key: 'layer1',
+								opacity: 80,
+								layerTemplate: 22,
+							},
+							{
+								...INITIAL_LAYER_STATE,
+								key: 'layer2'
+							},
+						]
+					}
+				},
+			}
+		};
 
+		const action = {
+			type: ActionTypes.MAPS.LAYERS.LAYER.UPDATE,
+			mapKey: 'map1',
+			layerKey: 'layer1',
+			layer: {
+				key: 'layer2',
+				layerTemplate: 22,
+			},
+		};
+
+		Reducer(mapsReducer).withState(defaultState).expect(action).toReturnState(expectedResult);
+	});
 
 	it('Set map scope', () => {
 		const defaultState = {

@@ -119,6 +119,37 @@ const getMapSync = createSelector(
 	}
 );
 
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ */
+const getLayersByMapKey = createSelector(
+	[getMapByKey],
+	(map) => {
+		if (map) {
+			return map.data && map.data.layers || [];
+		} else {
+			return null;
+		}
+	}
+);
+
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ * @param layerKey {string}
+ */
+const getLayerByMapKeyAndLayerKey = createSelector(
+	[getLayersByMapKey, (state, mapKey, layerKey) => layerKey],
+	(layers, layerKey) => {
+		if (layers && layerKey) {
+			return layers.find(l => l.key === layerKey)
+		} else {
+			return null;
+		}
+	}
+);
+
 export default {
 	getMapByKey,
 	getMapNavigator,
@@ -127,6 +158,8 @@ export default {
 	getMapSetMapKeys,
 	getMapSets,
 	getMapSync,
+	getLayersByMapKey, //TODO - test
+	getLayerByMapKeyAndLayerKey,
 
 	getMapsAsObject,
 	getMapSetsAsObject,

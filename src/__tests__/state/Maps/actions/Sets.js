@@ -140,7 +140,7 @@ describe('Maps Sets Actions', () => {
 				location: [0, 0]
 			}
 			const expectedActions = [{
-				type: ActionTypes.MAPS.SET.SET_WORLD_WIND_NAVIGATOR,
+				type: ActionTypes.MAPS.SET.WORLD_WIND_NAVIGATOR.SET,
 				setKey: 'set1',
 				worldWindNavigator,
 			}];

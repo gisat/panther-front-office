@@ -207,14 +207,6 @@ const addLayer = (state, mapKey, layerState) => {
 	return setMap(state, {...mapState, data: {...mapState.data, layers: [...mapState.data.layers, layerState]}})
 };
 
-const addLayers = (state, mapKey, layersState = []) => {
-	let newState = {...state};
-	for (const layerState of layersState) {
-		newState = {...newState, ...addLayer(newState, mapKey, layerState)};
-	}
-	return newState;
-};
-
 const removeLayer = (state, mapKey, layerKey) => {
 	const mapState = getMapByKey(state, mapKey);
 	const layerIndex = mapState.data.layers.findIndex(l => l.key ===layerKey);
@@ -239,11 +231,28 @@ const setLayerIndex = (state, mapKey, layerKey, index) => {
 	return setMap(state, {...mapState, data: {...mapState.data, layers: onPosition}});
 };
 
-const updateMapLayer = (state, mapKey, layerState = INITIAL_LAYER_STATE) => {
-	const mergedLayerState = _.merge(_.cloneDeep(INITIAL_LAYER_STATE), layerState); //FIXME - může být?
+const setMapLayer = (state, mapKey, layerState = INITIAL_LAYER_STATE, layerKey) => {
+	const mergedLayerState = _.merge(_.cloneDeep(INITIAL_LAYER_STATE), layerState); //FIXME - musí se mergnout se stavem
+	const mergedLayerStateWithoutKey = removeItemByKey(mergedLayerState, 'key');
+	mergedLayerStateWithoutKey['key'] = layerKey;
 	const mapState = getMapByKey(state, mapKey);
-	const layerIndex = mapState.data.layers.findIndex(l => l.key === mergedLayerState.key);
+	const layerIndex = mapState.data.layers.findIndex(l => l.key === layerKey);
 	if(layerIndex > -1) {
+		const updatedLayers = replaceItemOnIndex(mapState.data.layers, layerIndex, mergedLayerStateWithoutKey)
+		return setMap(state, {...mapState, data: {...mapState.data, layers: updatedLayers}});
+	} else {
+		//error - layer not found
+		return state;
+	}
+};
+
+const updateMapLayer = (state, mapKey, layerState = INITIAL_LAYER_STATE, layerKey) => {
+	// const mergedLayerState = _.merge(_.cloneDeep(INITIAL_LAYER_STATE), layerState); //FIXME - musí se mergnout se stavem
+	const mapState = getMapByKey(state, mapKey);
+	const layerIndex = mapState.data.layers.findIndex(l => l.key === layerKey);
+	if(layerIndex > -1) {
+		layerState['key'] = layerKey;
+		const mergedLayerState = _.merge(_.cloneDeep({...mapState.data.layers[layerIndex]}), layerState);
 		const updatedLayers = replaceItemOnIndex(mapState.data.layers, layerIndex, mergedLayerState)
 		return setMap(state, {...mapState, data: {...mapState.data, layers: updatedLayers}});
 	} else {
@@ -312,18 +321,18 @@ export default function tasksReducer(state = INITIAL_STATE, action) {
 			return setMapWorldWindNavigator(state, action.mapKey, action.worldWindNavigator);
 		case ActionTypes.MAPS.MAP.WORLD_WIND_NAVIGATOR.UPDATE:
 			return updateMapWorldWindNavigator(state, action.mapKey, action.worldWindNavigator);
-		case ActionTypes.MAPS.LAYERS.ADD_LAYER:
+		case ActionTypes.MAPS.LAYERS.LAYER.ADD:
 			return addLayer(state, action.mapKey, action.layer);
-		case ActionTypes.MAPS.LAYERS.ADD_LAYERS:
-			return addLayers(state, action.mapKey, action.layers);
-		case ActionTypes.MAPS.LAYERS.REMOVE_LAYER:
+		case ActionTypes.MAPS.LAYERS.LAYER.REMOVE:
 			return removeLayer(state, action.mapKey, action.layerKey);
 		case ActionTypes.MAPS.LAYERS.REMOVE_LAYERS:
 			return removeLayers(state, action.mapKey, action.layersKeys);
-		case ActionTypes.MAPS.LAYERS.SET_LAYER_INDEX:
+		case ActionTypes.MAPS.LAYERS.LAYER.SET_INDEX:
 			return setLayerIndex(state, action.mapKey, action.layerKey, action.index);
-		case ActionTypes.MAPS.LAYERS.UPDATE_MAP_LAYER:
-			return updateMapLayer(state, action.mapKey, action.layer);
+		case ActionTypes.MAPS.LAYERS.LAYER.UPDATE:
+			return updateMapLayer(state, action.mapKey, action.layer, action.layerKey);
+		case ActionTypes.MAPS.LAYERS.LAYER.SET:
+			return setMapLayer(state, action.mapKey, action.layer, action.layerKey);
 		case ActionTypes.MAPS.SET_SCOPE:
 			return setMapScope(state, action.mapKey, action.scope);
 		case ActionTypes.MAPS.SET_SCENARIO:
