@@ -449,7 +449,9 @@ class FrontOffice {
     handlePeriods(){
         let state = this._stateStore.current();
         if (state.isMapIndependentOfPeriod || state.isMapDependentOnScenario){
-            this._store.periods.notify('periods#default')
+            if (!(state.scopeFull.configuration && state.scopeFull.configuration.lpisCheckReview)){
+                this._store.periods.notify('periods#default');
+            }
         } else {
             this._store.periods.notify('periods#rebuild');
         }
