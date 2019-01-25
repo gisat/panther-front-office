@@ -86,6 +86,7 @@ class WorldWindMap {
         this._selected = false;
         this._aoiLayer = null;
         this._placeLayer = null;
+        this._lpisCheckLayer = null;
 
 		if (options.options){
 			let m = options.options;
@@ -834,6 +835,19 @@ class WorldWindMap {
         // let locations2 = this._wwd.pickTerrain({0:(this._wwd.viewport.width - 1), 1:(this._wwd.viewport.height-1)});
     };
 
+    addLpisLayer () {
+		if (!this._lpisCheckLayer){
+			let id = "lpis-check-layer";
+			this.layers.addWmsLayer({
+				id: id,
+				name: "LPIS",
+				url: "http://eagri.cz/public/app/wms/plpis.fcgi?",
+				layerPaths: "LPIS_FB4"
+			}, "place-layer", true);
+			this._lpisCheckLayer = this.layers.getLayerById(id);
+		}
+	}
+
     /**
      * @param type {string} type of event
      * @param options {Object}
@@ -841,7 +855,9 @@ class WorldWindMap {
     onEvent(type, options) {
         if (type === Actions.mapControl) {
             this._stateStore.removeLoadingOperation("DefaultMap");
-        }
+        } else if (type === "lpisCheckReview#addLpisLayer") {
+        	this.addLpisLayer();
+		}
     };
 }
 

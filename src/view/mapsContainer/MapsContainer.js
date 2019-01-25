@@ -352,6 +352,10 @@ class MapsContainer {
 						geometry: geometry,
 					});
 				}
+
+				if (state.scopeFull && state.scopeFull.configuration && state.scopeFull.configuration.lpisCheckReview) {
+					self._dispatcher.notify("lpisCheckReview#addLpisLayer");
+				}
 			});
 
 			if (selectedMap){
