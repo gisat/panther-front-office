@@ -6,11 +6,13 @@ import Select from "../Select";
 // ============ creators ===========
 
 const add = common.add(ActionTypes.LAYER_TEMPLATES);
-const useKeys = common.useKeys(Select.layerTemplates.getSubstate, 'layertemplates', ActionTypes.LAYER_TEMPLATES);
+const useKeys = common.useKeys(Select.layerTemplates.getSubstate, 'layerTemplates', ActionTypes.LAYER_TEMPLATES);
+const useIndexed = common.useIndexed(Select.layerTemplates.getSubstate, 'layerTemplates', ActionTypes.LAYER_TEMPLATES);
 
 // ============ export ===========
 
 export default {
 	add,
+	useIndexed,
 	useKeys
 }
