@@ -34,7 +34,7 @@ export const backgroundStamen = {
 
 		/* from data source */
 		key: "stamen-uuid",
-		urls: ["http://a.tile.stamen.com/terrain/{z}/{x}/{y}.png", "http://b.tile.stamen.com/terrain/{z}/{x}/{y}.png", "http://c.tile.stamen.com/terrain"],
+		urls: ["http://a.tile.stamen.com/terrain/{z}/{x}/{y}.png", "http://b.tile.stamen.com/terrain/{z}/{x}/{y}.png", "http://c.tile.stamen.com/terrain/{z}/{x}/{y}.png"],
 		attribution: "Data © <a href='https://osm.org'>OpenStreetMap contributors</a> | Map tiles by <a href='https://stamen.com/'>Stamen design</a>, under <a href='https://creativecommons.org/licenses/by/3.0/'>CC BY 3.0</a>",
 	}
 };
