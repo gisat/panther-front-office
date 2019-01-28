@@ -291,6 +291,22 @@ const setMapBackgroundLayer = (state, mapKey, backgroundLayer) => {
 	return setMap(state, {...mapState, data: {...mapState.data, backgroundLayer}});
 };
 
+const setSetBackgroundLayer = (state, setKey, backgroundLayer) => {
+	return {
+		...state,
+		sets: {
+			...state.sets,
+			[setKey]: {
+				...state.sets[setKey],
+				data: {
+					...state.sets[setKey].data,
+					backgroundLayer: backgroundLayer
+				}
+			}
+		}
+	};
+};
+
 export default function tasksReducer(state = INITIAL_STATE, action) {
 	switch (action.type) {
 		case ActionTypes.MAPS.SET_ACTIVE_MAP_KEY:
@@ -303,6 +319,8 @@ export default function tasksReducer(state = INITIAL_STATE, action) {
 			return addMapKeyToSet(state, action.setKey, action.mapKey);
 		case ActionTypes.MAPS.SET.REMOVE_MAP:
 			return removeMapKeyFromSet(state, action.setKey, action.mapKey);
+		case ActionTypes.MAPS.SET.SET_BACKGROUND_LAYER:
+			return setSetBackgroundLayer(state, action.setKey, action.backgroundLayer);
 		case ActionTypes.MAPS.SET.WORLD_WIND_NAVIGATOR.SET:
 			return setSetWorldWindNavigator(state, action.setKey, action.worldWindNavigator);
 		case ActionTypes.MAPS.SET.WORLD_WIND_NAVIGATOR.UPDATE:

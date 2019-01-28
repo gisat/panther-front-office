@@ -403,6 +403,18 @@ const setMapBackgroundLayer = (mapKey, backgroundLayer) => {
 	};
 };
 
+const setSetBackgroundLayer = (setKey, backgroundLayer) => {
+	return (dispatch, getState) => {
+		const state = getState();
+		const setByKey = Select.maps.getMapSetByKey(state, setKey);
+		if(!setByKey) {
+			return dispatch(actionGeneralError(`No map set found for setKey ${setKey}.`));
+		} else {
+			dispatch(actionSetSetBackgroundLayer(setKey, backgroundLayer));
+		}
+	};
+};
+
 
 
 
@@ -569,6 +581,14 @@ const actionSetMapBackgroundLayer = (mapKey, backgroundLayer) => {
 	}
 };
 
+const actionSetSetBackgroundLayer = (setKey, backgroundLayer) => {
+	return {
+		type: ActionTypes.MAPS.SET.SET_BACKGROUND_LAYER,
+		setKey,
+		backgroundLayer,
+	}
+};
+
 const actionSetMapCase = (mapKey, caseKey) => {
 	return {
 		type: ActionTypes.MAPS.SET_CASE,
@@ -612,30 +632,36 @@ const actionSetMapPeriod = (mapKey, period) => {
 // ============ export ===========
 
 export default {
-	setActiveMapKey,
-	addSet,
-	removeSet,
-	addMapToSet,
-	removeMapKeyFromSet,
-	setSetWorldWindNavigator,
-	setSetSync,
-	addMap,
-	removeMap,
-	setMapName,
-	setMapData,
-	setMapWorldWindNavigator,
 	addLayer,
 	addLayers,
+	addMap,
+	addMapToSet,
+	addSet,
+
 	removeLayer,
 	removeLayers,
+	removeMap,
+	removeMapKeyFromSet,
+	removeSet,
+
+	setActiveMapKey,
 	setLayerIndex,
-	setMapLayer,
-	updateMapLayer,
-	updateWorldWindNavigator,
+
 	setMapBackgroundLayer,
 	setMapCase,
+	setMapData,
+	setMapLayer,
+	setMapName,
 	setMapPeriod,
 	setMapPlace,
 	setMapScenario,
-	setMapScope
+	setMapScope,
+	setMapWorldWindNavigator,
+
+	setSetBackgroundLayer,
+	setSetSync,
+	setSetWorldWindNavigator,
+
+	updateMapLayer,
+	updateWorldWindNavigator
 }
