@@ -49,13 +49,12 @@ const useIndexed = (getSubstate, dataType, actionTypes, categoryPath = DEFAULT_C
 			let state = getState();
 			let fullFilter = commonHelpers.mergeFilters({
 				activeScopeKey: commonSelectors.getActiveKey(state => state.scopes)(state),
-				activeThemeKey: commonSelectors.getActiveKey(state => state.themes)(state),
 				activePeriodKey: commonSelectors.getActiveKey(state => state.periods)(state),
 				activePeriodKeys: commonSelectors.getActiveKey(state => state.periods)(state),
 				activePlaceKey: commonSelectors.getActiveKey(state => state.places)(state),
 				activePlaceKeys: commonSelectors.getActiveKey(state => state.places)(state),
 			}, filterByActive, filter);
-			dispatch(ensureIndexed(getSubstate, dataType, fullFilter, order, start, length, actionTypes, categoryPath));
+			return dispatch(ensureIndexed(getSubstate, dataType, fullFilter, order, start, length, actionTypes, categoryPath));
 		};
 	}
 };
@@ -194,7 +193,7 @@ function ensureIndexed(getSubstate, dataType, filter, order, start, length, acti
 				if (response && response.message){
 					// do nothing
 				} else {
-					dispatch(ensureIndexed(getSubstate, dataType, filter, order, start + PAGE_SIZE, length - PAGE_SIZE, actionTypes, categoryPath));
+					return dispatch(ensureIndexed(getSubstate, dataType, filter, order, start + PAGE_SIZE, length - PAGE_SIZE, actionTypes, categoryPath));
 				}
 			}).catch((err)=>{
 				if (err.message === 'Index outdated'){
@@ -262,7 +261,7 @@ function loadIndexedPage(dataType, filter, order, start, changedOn, actionTypes,
 
 function loadFiltered(dataType, actionTypes, filter, categoryPath = DEFAULT_CATEGORY_PATH) {
 	return dispatch => {
-		const apiPath = getAPIPath(categoryPath, dataType)
+		const apiPath = getAPIPath(categoryPath, dataType);
 		const payload = {
 			filter: filter,
 			limit: PAGE_SIZE

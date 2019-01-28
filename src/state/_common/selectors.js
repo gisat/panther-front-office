@@ -320,7 +320,6 @@ const getIndexedDataUses = (getSubstate) => {
 const getAllActiveKeys = state => {
 	return {
 		activeScopeKey: state.scopes.activeKey,
-		activeThemeKey: state.themes.activeKey,
 		activePlaceKey: state.places.activeKey,
 		activePlaceKeys: state.places.activeKeys,
 		activePeriodKey: state.periods.activeKey,

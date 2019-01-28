@@ -18,20 +18,12 @@ function mergeFilters(activeKeys, filterByActive, filter) {
 		let fullFilter = {...filter};
 		if (filterByActive.scope){
 			if (activeKeys.activeScopeKey){
-				// TODO change dataset to scope
-				fullFilter.dataset = activeKeys.activeScopeKey;
+				fullFilter.scope = activeKeys.activeScopeKey;
 			} else {
 				return null;
 			}
 		}
-		// TODO remove theme, add case, scenario, ...
-		if (filterByActive.theme){
-			if (activeKeys.activeThemeKey){
-				fullFilter.theme = activeKeys.activeThemeKey;
-			} else {
-				return null;
-			}
-		}
+		// TODO add case, scenario, ...
 		if (filterByActive.place){
 			if (activeKeys.activePlaceKey){
 				fullFilter.place = activeKeys.activePlaceKey;
