@@ -1616,7 +1616,10 @@ describe('Maps Reducers', () => {
 				map1: {
 					...INITIAL_MAP_STATE,
 					key: 'map1',
-					backgroundLayer: 1111,
+					data: {
+						...INITIAL_MAP_STATE.data,
+						backgroundLayer: 1111,
+					}
 				},
 			}
 		};
