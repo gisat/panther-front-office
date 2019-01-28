@@ -31,9 +31,19 @@ class ChangeReviewsTableRow extends React.PureComponent {
 		return (
 			<div className={classes}>
 				<div className="ptr-table-row-record">
-					{this.renderVisibleStatus()}
-					{this.renderConfirmStatus()}
-					{this.renderCaseKey()}
+					{/* {this.renderVisibleStatus()} */}
+					{/* {this.renderConfirmStatus()} */}
+					{/* {this.renderCaseKey()} */}
+					<div className="ptr-table-row-item">
+						{this.props.data.nkod_dpb}
+					</div>
+					<div className="ptr-table-row-item">
+						{this.props.data.kulturakod}
+					</div>
+					<div className="ptr-table-row-item">
+						{this.props.data.typ ? this.props.data.typ : null}
+						{this.props.data.poznamka ? this.props.data.poznamka : null}
+					</div>
 					<div className="ptr-table-row-item buttons">
 						<div className="ptr-table-row-action">
 							{showMapButton}
