@@ -288,7 +288,7 @@ const setMapPeriod = (state, mapKey, period) => {
 
 const setMapBackgroundLayer = (state, mapKey, backgroundLayer) => {
 	const mapState = getMapByKey(state, mapKey);
-	return setMap(state, {...mapState, backgroundLayer});
+	return setMap(state, {...mapState, data: {...mapState.data, backgroundLayer}});
 };
 
 export default function tasksReducer(state = INITIAL_STATE, action) {
