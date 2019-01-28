@@ -1,28 +1,34 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
+import common from "../_common/selectors";
 
-const getData = (state) => state.spatialRelations.data;
+const getSubstate = (state) => state.spatialRelations;
+const getAll = common.getAll(getSubstate);
 
-const getActivePlaceKey = (state) => state.places.activeKey;
-
-const getActivePlaceData = createSelector(
-	[getData, getActivePlaceKey],
-	(models, acitvePlaceKey) => {
-		let filteredByPlace = _.filter(models, (model) => { return model.data['place_id'] === acitvePlaceKey});
-		return filteredByPlace && filteredByPlace.length ? filteredByPlace : null;
+const getByLayerTemplateKeys = createSelector(
+	[getAll,
+	(state, layerTemplateKeys) => (layerTemplateKeys)],
+	(relations, layerTemplatesKeys) => {
+		if (relations && layerTemplatesKeys && layerTemplatesKeys.length) {
+			return _.filter(relations, relation => layerTemplatesKeys.includes(relation.data.layerTemplateKey));
+		} else {
+			return null;
+		}
 	}
 );
 
-const getActivePlaceDataSourceIds = createSelector(
-	[getData, getActivePlaceKey],
-	(models, acitvePlaceKey) => {
-		let filteredByPlace = _.filter(models, (model) => { return model.data['place_id'] === acitvePlaceKey});
-		return filteredByPlace.map(relation => {return relation.data['data_source_id']});
+const getDataSourceKeysByLayerTemplateKeys = createSelector(
+	[getByLayerTemplateKeys],
+	(relations) => {
+		if (relations && relations.length) {
+			return relations.map(relation => relation.data.dataSourceKey);
+		} else {
+			return null;
+		}
 	}
 );
 
 export default {
-	getData: getData,
-	getActivePlaceData: getActivePlaceData,
-	getActivePlaceDataSourceIds: getActivePlaceDataSourceIds,
+	getDataSourceKeysByLayerTemplateKeys,
+	getSubstate
 };
