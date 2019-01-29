@@ -1,6 +1,9 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
 
+import LayerTemplatesSelectors from '../LayerTemplates/selectors';
+import SpatialDataSourcesSelectors from '../SpatialDataSources/selectors';
+
 const getMapsAsObject = state => state.maps.maps;
 const getMapSetsAsObject = state => state.maps.sets;
 
@@ -150,7 +153,46 @@ const getLayerByMapKeyAndLayerKey = createSelector(
 	}
 );
 
+/* TODO add another params to find correct datasource (currently it is only layer template key) */
+const getMapBackgroundLayer = createSelector(
+	[LayerTemplatesSelectors.getByKey,
+	SpatialDataSourcesSelectors.getByLayerTemplateKey],
+	(layerTemplate, dataSource) => {
+		if (layerTemplate && dataSource) {
+			if (_.isArray(dataSource)) dataSource = dataSource[0];
+			let key = `${layerTemplate.key}-${dataSource.key}`;
+			return {
+				key,
+				data: {
+					...dataSource.data,
+					key,
+					name: layerTemplate.displayName ? layerTemplate.displayName : null,
+				}
+			}
+		} else {
+			return null;
+		}
+	}
+);
+
+const getBackgroundLayerKeyByMapKey = createSelector(
+	[getMapByKey,
+	getMapSetByMapKey],
+	(map, set) => {
+		if (map && map.data && map.data.backgroundLayer) {
+			return map.data.backgroundLayer;
+		} else if (set && set.data && set.data.backgroundLayer) {
+			return set.data.backgroundLayer;
+		} else {
+			return null;
+		}
+	}
+);
+
 export default {
+	getBackgroundLayerKeyByMapKey,
+
+	getMapBackgroundLayer,
 	getMapByKey,
 	getMapNavigator,
 	getMapSetByKey,
@@ -158,6 +200,7 @@ export default {
 	getMapSetMapKeys,
 	getMapSets,
 	getMapSync,
+
 	getLayersByMapKey, //TODO - test
 	getLayerByMapKeyAndLayerKey,
 

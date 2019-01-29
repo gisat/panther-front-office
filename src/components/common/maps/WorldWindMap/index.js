@@ -6,8 +6,10 @@ import presentation from './presentation';
 import {backgroundCuzk, backgroundStamen, layersInitial} from './mockData';
 
 const mapStateToProps = (state, props) => {
+	let backgroundLayerKey = Select.maps.getBackgroundLayerKeyByMapKey(state, props.mapKey);
+
 	return {
-		backgroundLayer: backgroundCuzk,
+		backgroundLayer: Select.maps.getMapBackgroundLayer(state, backgroundLayerKey),
 		layers: layersInitial,
 		navigator: Select.maps.getMapNavigator(state, props.mapKey)
 	}

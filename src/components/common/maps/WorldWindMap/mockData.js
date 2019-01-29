@@ -3,10 +3,10 @@ export const backgroundCuzk = {
 	data: {
 		/* from template */
 		name: "ČÚZK Ortofoto",
-		type: "wms",
 		opacity: 1,
 
 		/* from data source */
+		type: "wms",
 		key: "ortofoto-uuid",
 		attribution: "<a href='https://cuzk.cz'>@ČÚZK</a>",
 		url: "http://geoportal.cuzk.cz/WMS_ORTOFOTO_PUB/WMService.aspx?",

@@ -28,7 +28,7 @@ class MapSet extends React.PureComponent {
 					key={mapKey}
 					mapKey={mapKey}
 					elevationModel={null}
-					delayedWorldWindNavigatorSync={100} // miliseconds to wait until synchronize navigator change with store
+					delayedWorldWindNavigatorSync={null} // miliseconds to wait until synchronize navigator change with store
 				/>
 			});
 		} else {

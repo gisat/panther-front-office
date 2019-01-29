@@ -9,8 +9,14 @@ const getByLayerTemplateKeys = createSelector(
 	[getAll,
 	(state, layerTemplateKeys) => (layerTemplateKeys)],
 	(relations, layerTemplatesKeys) => {
-		if (relations && layerTemplatesKeys && layerTemplatesKeys.length) {
-			return _.filter(relations, relation => layerTemplatesKeys.includes(relation.data.layerTemplateKey));
+		if (relations && layerTemplatesKeys) {
+			if (!_.isArray(layerTemplatesKeys)) layerTemplatesKeys = [layerTemplatesKeys];
+
+			if (layerTemplatesKeys.length) {
+				return _.filter(relations, relation => layerTemplatesKeys.includes(relation.data.layerTemplateKey));
+			} else {
+				return null;
+			}
 		} else {
 			return null;
 		}
