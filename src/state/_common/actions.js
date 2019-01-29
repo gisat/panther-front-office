@@ -164,6 +164,7 @@ function ensureIndexed(getSubstate, dataType, filter, order, start, length, acti
 		let changedOn = commonSelectors.getIndexChangedOn(getSubstate)(state, filter, order);
 
 		if (total || total === 0){
+			let promises = [];
 			let indexPage = commonSelectors.getIndexPage(getSubstate)(state, filter, order, start, length);
 			let amount = indexPage ? Object.keys(indexPage).length : 0;
 			for (let i = 0; i < amount; i += PAGE_SIZE){
@@ -177,16 +178,18 @@ function ensureIndexed(getSubstate, dataType, filter, order, start, length, acti
 				}
 				if (requestNeeded){
 					let completeFilter = loadedKeys.length ? {...filter, key: {notin: loadedKeys}} : filter;
-					dispatch(loadIndexedPage(dataType, completeFilter, order, start + i, changedOn, actionTypes, categoryPath))
+					promises.push(
+						dispatch(loadIndexedPage(dataType, completeFilter, order, start + i, changedOn, actionTypes, categoryPath))
 						.catch((err) => {
 							if (err.message === 'Index outdated'){
 								dispatch(refreshIndex(getSubstate, dataType, filter, order, actionTypes, categoryPath));
 							}
-						});
+						})
+					);
 				}
 			}
 
-			return Promise.resolve();
+			return promises.length ? Promise.all(promises) : Promise.resolve();
 		} else {
 			// we don't have index
 			return dispatch(loadIndexedPage(dataType, filter, order, start, changedOn, actionTypes, categoryPath)).then((response) => {
