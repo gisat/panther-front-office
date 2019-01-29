@@ -15,6 +15,10 @@ export default (state = INITIAL_STATE, action) => {
 			return common.addUnreceivedKeys(state, action);
 		case ActionTypes.SPATIAL_RELATIONS.INDEX.ADD:
 			return common.addIndex(state, action);
+		case ActionTypes.SPATIAL_RELATIONS.USE.INDEXED.REGISTER:
+			return common.registerUseIndexed(state, action);
+		case ActionTypes.SPATIAL_RELATIONS.USE.INDEXED.CLEAR:
+			return common.useIndexedClear(state, action);
 		default:
 			return state;
 	}

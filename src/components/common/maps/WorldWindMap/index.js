@@ -22,7 +22,7 @@ const mapDispatchToProps = (dispatch, props) => {
 		},
 
 		onUnmount: () => {
-
+			dispatch(Action.maps.useClear(props.mapKey));
 		},
 
 		onWorldWindNavigatorChange: (updates) => {
