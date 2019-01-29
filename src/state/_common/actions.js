@@ -178,17 +178,16 @@ function ensureIndexed(getSubstate, dataType, filter, order, start, length, acti
 				}
 				if (requestNeeded){
 					let completeFilter = loadedKeys.length ? {...filter, key: {notin: loadedKeys}} : filter;
-					promises.push(
-						dispatch(loadIndexedPage(dataType, completeFilter, order, start + i, changedOn, actionTypes, categoryPath))
-						.catch((err) => {
-							if (err.message === 'Index outdated'){
-								dispatch(refreshIndex(getSubstate, dataType, filter, order, actionTypes, categoryPath));
-							}
-						})
-					);
+
+					let promise = dispatch(loadIndexedPage(dataType, completeFilter, order, start + i, changedOn, actionTypes, categoryPath))
+							.catch((err) => {
+								if (err.message === 'Index outdated'){
+									dispatch(refreshIndex(getSubstate, dataType, filter, order, actionTypes, categoryPath));
+								}
+							});
+					promises.push(promise);
 				}
 			}
-
 			return promises.length ? Promise.all(promises) : Promise.resolve();
 		} else {
 			// we don't have index
@@ -443,6 +442,10 @@ function actionUseIndexedRegister(actionTypes, componentId, filterByActive, filt
 	return action(actionTypes, 'USE.INDEXED.REGISTER', {componentId, filterByActive, filter, order, start, length});
 }
 
+function actionUseIndexedClear(actionTypes, componentId) {
+	return action(actionTypes, 'USE.INDEXED.CLEAR', {componentId});
+}
+
 function actionUseKeysRegister(actionTypes, componentId, keys) {
 	return action(actionTypes, 'USE.KEYS.REGISTER', {componentId, keys});
 }
@@ -479,6 +482,7 @@ export default {
 	useIndexed,
 
 	useIndexedRegister: actionUseIndexedRegister,
+	useIndexedClear: actionUseIndexedClear,
 	actionDataSetOutdated,
 	actionSetActiveKey
 }
