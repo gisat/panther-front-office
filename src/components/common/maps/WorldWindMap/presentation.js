@@ -25,6 +25,7 @@ class WorldWindMap extends React.PureComponent {
 		navigator: PropTypes.object,
 		mapKey: PropTypes.string,
 		onWorldWindNavigatorChange: PropTypes.func,
+		setActiveMapKey: PropTypes.func,
 		delayedWorldWindNavigatorSync: PropTypes.number
 	};
 
@@ -32,6 +33,7 @@ class WorldWindMap extends React.PureComponent {
 		super(props);
 		this.canvasId = utils.uuid();
 		this.changedNavigatorTimeout = false;
+		this.setMapKeyTimeout = false;
 
 		// TODO only for testing
 		// setTimeout(() => {
@@ -149,18 +151,28 @@ class WorldWindMap extends React.PureComponent {
 	}
 
 	onNavigatorChange(event) {
-		if (event && event.worldWindow && this.props.onWorldWindNavigatorChange) {
-			let changedNavigatorParams = navigator.getChangedParams(this.props.navigator, event.worldWindow.navigator);
+		if (event && event.worldWindow) {
+			//setActive mapKey
+			const changedNavigatorParams = navigator.getChangedParams(this.props.navigator, event.worldWindow.navigator);
 			if (!_.isEmpty(changedNavigatorParams)) {
-				if (this.props.delayedWorldWindNavigatorSync) {
-					if (this.changedNavigatorTimeout) {
-						clearTimeout(this.changedNavigatorTimeout);
-					}
-					this.changedNavigatorTimeout = setTimeout(() => {
+				if(this.setMapKeyTimeout) {
+					clearTimeout(this.setMapKeyTimeout);
+				}
+				this.setMapKeyTimeout = setTimeout(() => {this.props.setActiveMapKey()}, 100)
+			}
+
+			if(this.props.onWorldWindNavigatorChange) {
+				if (!_.isEmpty(changedNavigatorParams)) {
+					if (this.props.delayedWorldWindNavigatorSync) {
+						if (this.changedNavigatorTimeout) {
+							clearTimeout(this.changedNavigatorTimeout);
+						}
+						this.changedNavigatorTimeout = setTimeout(() => {
+							this.props.onWorldWindNavigatorChange(changedNavigatorParams);
+						}, this.props.delayedWorldWindNavigatorSync)
+					} else {
 						this.props.onWorldWindNavigatorChange(changedNavigatorParams);
-					}, this.props.delayedWorldWindNavigatorSync)
-				} else {
-					this.props.onWorldWindNavigatorChange(changedNavigatorParams);
+					}
 				}
 			}
 		}
@@ -170,7 +182,7 @@ class WorldWindMap extends React.PureComponent {
 		let attributions = this.getAttributions();
 
 		return (
-			<div className="ptr-world-wind-map">
+			<div className="ptr-world-wind-map" onClick={this.props.setActiveMapKey}>
 				<canvas className="ptr-world-wind-map-canvas" id={this.canvasId}>
 					Your browser does not support HTML5 Canvas.
 				</canvas>

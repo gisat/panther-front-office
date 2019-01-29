@@ -7,14 +7,35 @@ const {actionGeneralError} = commonActions;
 
 // ============ creators ===========
 const setActiveMapKey = (mapKey) => {
-	//check if map exist
 	return (dispatch, getState) => {
 		const state = getState();
 		const mapByKey = Select.maps.getMapByKey(state, mapKey);
 		if(mapByKey) {
-			return dispatch(actionSetActiveMapKey(mapKey));
+			const activeMapKey = Select.maps.getActiveMapKey(state);
+			if(mapKey !== activeMapKey) {
+				dispatch(actionSetActiveMapKey(mapKey));
+				const setByMapKey = Select.maps.getMapSetByMapKey(state, mapKey);
+				if(setByMapKey) {
+					dispatch(setActiveSetKey(setByMapKey.key));
+				}
+			}
 		} else {
 			return dispatch(actionGeneralError(`Can not set mapKey ${mapKey} as active, because map with this key dont exists.`));
+		}
+	};
+};
+
+const setActiveSetKey = (setKey) => {
+	return (dispatch, getState) => {
+		const state = getState();
+		const setByKey = Select.maps.getMapSetByKey(state, setKey);
+		if(setByKey) {
+			const activeSetKey = Select.maps.getActiveSetKey(state);
+			if(setKey !== activeSetKey) {
+				return dispatch(actionSetActiveSetKey(setKey));
+			}
+		} else {
+			return dispatch(actionGeneralError(`Can not set setKey ${setKey} as active, because set with this key dont exists.`));
 		}
 	};
 };
@@ -30,7 +51,12 @@ const addSet = (set) => {
 			if(setByKey) {
 				return dispatch(actionGeneralError(`Set with given setKey (${setKey}) already exists ${setByKey}`));
 			} else {
-				return dispatch(actionAddSet(set));
+				dispatch(actionAddSet(set));
+				//if no set is active, set set as active
+				const activeSetKey = Select.maps.getActiveSetKey(state);
+				if(!activeSetKey) {
+					dispatch(actionSetActiveSetKey(setKey));
+				}
 			}
 		}
 
@@ -60,7 +86,13 @@ const addMapToSet = (setKey, mapKey) => {
 			if (setByKey.maps && setByKey.maps.includes(mapKey)) {
 				return dispatch(actionGeneralError(`Set ${setKey} alredy contains map ${mapKey}.`));
 			} else {
-				return dispatch(actionAddMapToSet(setKey, mapKey));
+				dispatch(actionAddMapToSet(setKey, mapKey));
+				//if no map is active, set map as active
+				const activeMapKey = Select.maps.getActiveMapKey(state);
+				if(!activeMapKey) {
+					dispatch(actionSetActiveMapKey(mapKey));
+				}
+				
 			}
 		}
 	};
@@ -430,6 +462,13 @@ const actionSetActiveMapKey = (mapKey) => {
 	}
 };
 
+const actionSetActiveSetKey = (setKey) => {
+	return {
+		type: ActionTypes.MAPS.SET_ACTIVE_SET_KEY,
+		setKey
+	}
+};
+
 const actionAddSet = (set) => {
 	return {
 		type: ActionTypes.MAPS.SET.ADD,
@@ -645,6 +684,7 @@ export default {
 	removeSet,
 
 	setActiveMapKey,
+	setActiveSetKey, //test
 	setLayerIndex,
 
 	setMapBackgroundLayer,

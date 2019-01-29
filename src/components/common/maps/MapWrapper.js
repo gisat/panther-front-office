@@ -6,7 +6,9 @@ class MapWrapper extends React.PureComponent {
 
 	static propTypes = {
 		onMount: PropTypes.func,
-		onUnmount: PropTypes.func
+		onUnmount: PropTypes.func,
+		onWorldWindNavigatorChange: PropTypes.func,
+		setActiveMapKey: PropTypes.func,
 	};
 
 	componentDidMount() {

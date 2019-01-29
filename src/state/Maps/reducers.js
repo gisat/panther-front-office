@@ -76,6 +76,10 @@ const setActiveMapKey = (state, mapKey) => {
 	return {...state, activeMapKey: mapKey}
 };
 
+const setActiveSetKey = (state, setKey) => {
+	return {...state, activeSetKey: setKey}
+};
+
 const addSet = (state, setState) => {
 	const mergedSetState = _.merge(_.cloneDeep(INITIAL_SET_STATE), setState); //FIXME - může být?
 	
@@ -311,6 +315,8 @@ export default function tasksReducer(state = INITIAL_STATE, action) {
 	switch (action.type) {
 		case ActionTypes.MAPS.SET_ACTIVE_MAP_KEY:
 			return setActiveMapKey(state, action.mapKey);
+		case ActionTypes.MAPS.SET_ACTIVE_SET_KEY:
+			return setActiveSetKey(state, action.setKey); //TEST
 		case ActionTypes.MAPS.SET.ADD:
 			return addSet(state, action.set);
 		case ActionTypes.MAPS.SET.REMOVE:

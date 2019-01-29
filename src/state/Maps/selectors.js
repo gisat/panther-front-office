@@ -7,6 +7,9 @@ import SpatialDataSourcesSelectors from '../SpatialDataSources/selectors';
 const getMapsAsObject = state => state.maps.maps;
 const getMapSetsAsObject = state => state.maps.sets;
 
+const getActiveSetKey = state => state.maps.activeSetKey;
+const getActiveMapKey = state => state.maps.activeMapKey;
+
 const getMapSets = createSelector(
 	[getMapSetsAsObject],
 	(sets) => {
@@ -200,6 +203,8 @@ export default {
 	getMapSetMapKeys,
 	getMapSets,
 	getMapSync,
+	getActiveSetKey,
+	getActiveMapKey,
 
 	getLayersByMapKey, //TODO - test
 	getLayerByMapKeyAndLayerKey,

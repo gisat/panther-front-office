@@ -216,6 +216,7 @@ export default utils.deepKeyMirror({
 
 	MAPS: {
 		SET_ACTIVE_MAP_KEY: null,
+		SET_ACTIVE_SET_KEY: null,
 		SET_SCOPE: null,
 		SET_SCENARIO: null,
 		SET_PERIOD: null,
