@@ -145,7 +145,6 @@ const getMapLayerByMapKeyAndLayerKey = createSelector(
  * @param state {Object}
  * @param layerTemplateKey {string}
  */
-/* TODO add another params to find correct datasource (currently it is only layer template key) */
 const getBackgroundLayer = createSelector(
 	[LayerTemplatesSelectors.getByKey,
 	SpatialDataSourcesSelectors.getByLayerTemplateKey],
@@ -167,7 +166,7 @@ const getBackgroundLayer = createSelector(
 	}
 );
 
-const getBackgroundLayerKeyByMapKey = createSelector(
+const getBackgroundLayerStateByMapKey = createSelector(
 	[getMapByKey,
 	getMapSetByMapKey],
 	(map, set) => {
@@ -182,12 +181,11 @@ const getBackgroundLayerKeyByMapKey = createSelector(
 );
 
 export default {
-	getActiveSetKey,
 	getActiveMapKey,
+	getActiveSetKey,
 
 	getBackgroundLayer,
-	getBackgroundLayerKeyByMapKey,
-	getNavigator,
+	getBackgroundLayerStateByMapKey,
 
 	getMapByKey,
 	getMapSetByKey,
@@ -199,5 +197,7 @@ export default {
 	getMapLayerByMapKeyAndLayerKey,
 
 	getMapsAsObject,
-	getMapSetsAsObject
+	getMapSetsAsObject,
+
+	getNavigator
 };

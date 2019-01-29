@@ -5,6 +5,7 @@ import common from "../_common/selectors";
 const getSubstate = (state) => state.spatialRelations;
 const getAll = common.getAll(getSubstate);
 
+/* TODO other keys have to be null */
 const getByLayerTemplateKeys = createSelector(
 	[getAll,
 	(state, layerTemplateKeys) => (layerTemplateKeys)],

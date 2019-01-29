@@ -6,19 +6,19 @@ import wrapper from '../MapWrapper';
 import {layersInitial} from './mockData';
 
 const mapStateToProps = (state, props) => {
-	let backgroundLayerKey = Select.maps.getBackgroundLayerKeyByMapKey(state, props.mapKey);
+	let backgroundLayerKey = Select.maps.getBackgroundLayerStateByMapKey(state, props.mapKey);
 
 	return {
-		backgroundLayer: Select.maps.getMapBackgroundLayer(state, backgroundLayerKey),
+		backgroundLayer: Select.maps.getBackgroundLayer(state, backgroundLayerKey),
 		layers: layersInitial,
-		navigator: Select.maps.getMapNavigator(state, props.mapKey)
+		navigator: Select.maps.getNavigator(state, props.mapKey)
 	}
 };
 
 const mapDispatchToProps = (dispatch, props) => {
 	return {
 		onMount: () => {
-
+			dispatch(Action.maps.use(props.mapKey));
 		},
 
 		onUnmount: () => {
