@@ -50,9 +50,9 @@ const useIndexed = (getSubstate, dataType, actionTypes, categoryPath = DEFAULT_C
 			let fullFilter = commonHelpers.mergeFilters({
 				activeScopeKey: commonSelectors.getActiveKey(state => state.scopes)(state),
 				activePeriodKey: commonSelectors.getActiveKey(state => state.periods)(state),
-				activePeriodKeys: commonSelectors.getActiveKey(state => state.periods)(state),
+				activePeriodKeys: commonSelectors.getActiveKeys(state => state.periods)(state),
 				activePlaceKey: commonSelectors.getActiveKey(state => state.places)(state),
-				activePlaceKeys: commonSelectors.getActiveKey(state => state.places)(state),
+				activePlaceKeys: commonSelectors.getActiveKeys(state => state.places)(state),
 			}, filterByActive, filter);
 			return dispatch(ensureIndexed(getSubstate, dataType, fullFilter, order, start, length, actionTypes, categoryPath));
 		};
