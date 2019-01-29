@@ -2,8 +2,8 @@ import { connect } from 'react-redux';
 import Select from '../../../../state/Select';
 import Action from "../../../../state/Action";
 
-import presentation from './presentation';
-import {backgroundCuzk, backgroundStamen, layersInitial} from './mockData';
+import wrapper from '../MapWrapper';
+import {layersInitial} from './mockData';
 
 const mapStateToProps = (state, props) => {
 	let backgroundLayerKey = Select.maps.getBackgroundLayerKeyByMapKey(state, props.mapKey);
@@ -17,10 +17,18 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch, props) => {
 	return {
+		onMount: () => {
+
+		},
+
+		onUnmount: () => {
+
+		},
+
 		onWorldWindNavigatorChange: (updates) => {
 			dispatch(Action.maps.updateWorldWindNavigator(props.mapKey, updates));
 		}
 	}
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(presentation);
+export default connect(mapStateToProps, mapDispatchToProps)(wrapper);
