@@ -3,6 +3,9 @@ import _ from 'lodash';
 
 import LayerTemplatesSelectors from '../LayerTemplates/selectors';
 import SpatialDataSourcesSelectors from '../SpatialDataSources/selectors';
+import commonSelectors from "../_common/selectors";
+
+const getSubstate = state => state.maps;
 
 const getMapsAsObject = state => state.maps.maps;
 const getMapSetsAsObject = state => state.maps.sets;
@@ -180,12 +183,42 @@ const getBackgroundLayerStateByMapKey = createSelector(
 	}
 );
 
+const getLayersStateByMapKey = createSelector(
+	[
+		getMapByKey,
+		getMapSetByMapKey
+	],
+	(map, set) => {
+		let setLayers = (set && set.data && set.data.layers) || null;
+		let mapLayers = (map && map.data && map.data.layers) || null;
+
+		if (map && (mapLayers || setLayers)) {
+			let layers = [...(setLayers || []), ...(mapLayers || [])];
+			let modifiers = {};
+			if (set) {
+				modifiers = {...modifiers, ...set.metadataModifiers};
+			}
+			modifiers = {...modifiers, ...map.metadataModifiers};
+
+			layers = layers.map(layer => {
+				return {...modifiers, ...layer};
+			});
+
+			return layers;
+		} else {
+			return null;
+		}
+	}
+);
+
 export default {
 	getActiveMapKey,
 	getActiveSetKey,
 
 	getBackgroundLayer,
 	getBackgroundLayerStateByMapKey,
+
+	getLayersStateByMapKey,
 
 	getMapByKey,
 	getMapSetByKey,
@@ -199,5 +232,7 @@ export default {
 	getMapsAsObject,
 	getMapSetsAsObject,
 
-	getNavigator
+	getNavigator,
+
+	getSubstate
 };

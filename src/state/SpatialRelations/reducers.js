@@ -13,6 +13,8 @@ export default (state = INITIAL_STATE, action) => {
 			return common.add(state, action);
 		case ActionTypes.SPATIAL_RELATIONS.ADD_UNRECEIVED:
 			return common.addUnreceivedKeys(state, action);
+		case ActionTypes.SPATIAL_RELATIONS.INDEX.ADD:
+			return common.addIndex(state, action);
 		default:
 			return state;
 	}

@@ -318,6 +318,7 @@ const getIndexedDataUses = (getSubstate) => {
 };
 
 const getAllActiveKeys = state => {
+	// TODO add scenarios, cases
 	return {
 		activeScopeKey: state.scopes.activeKey,
 		activePlaceKey: state.places.activeKey,
@@ -507,6 +508,7 @@ export default {
 	getActiveKey,
 	getActiveKeys,
 	getAll,
+	getAllActiveKeys,
 	getAllAsObject,
 	getAllForActiveScope,
 	getAllForActiveTheme,

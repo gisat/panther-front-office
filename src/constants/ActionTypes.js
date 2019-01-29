@@ -393,6 +393,16 @@ export default utils.deepKeyMirror({
 		ADD_UNRECEIVED: null,
 		ENSURE: {
 			ERROR: null
+		},
+		INDEX: {
+			ADD: null,
+			CLEAR_ALL: null
+		},
+		USE: {
+			INDEXED: {
+				CLEAR: null,
+				REGISTER: null
+			}
 		}
 	},
 

@@ -2,6 +2,8 @@ import _ from 'lodash';
 import ActionTypes from '../../constants/ActionTypes';
 import Select from '../../state/Select';
 import commonActions from '../_common/actions';
+import commonSelectors from '../_common/selectors';
+import utils from '../../utils/utils';
 
 const {actionGeneralError} = commonActions;
 
@@ -207,16 +209,12 @@ const setMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
 const addLayer = (mapKey, layer) => {
 	return (dispatch, getState) => {
 		const state = getState();
-		const layerKey = layer.key;
-		if(!layerKey) {
-			return dispatch(actionGeneralError(`Undefined key for layer ${layer}`));
+		const layerKey = layer.key || utils.uuid();
+		const mapByKey = Select.maps.getMapByKey(state, mapKey);
+		if(!mapByKey) {
+			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
 		} else {
-			const mapByKey = Select.maps.getMapByKey(state, mapKey);
-			if(!mapByKey) {
-				return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
-			} else {
-				return dispatch(actionAddLayer(mapKey, layer));
-			}
+			return dispatch(actionAddLayer(mapKey, layer));
 		}
 	};
 };
@@ -449,7 +447,66 @@ const setSetBackgroundLayer = (setKey, backgroundLayer) => {
 
 const use = (mapKey) => {
 	return (dispatch, getState) => {
+		let state = getState();
+		let layers = Select.maps.getLayersStateByMapKey(state, mapKey);
+		let activeKeys = commonSelectors.getAllActiveKeys(state);
 
+		if (layers) {
+			layers.forEach(layer => {
+				let filter = {};
+				let filterByActive = {};
+				let mergedFilter = {};
+
+				if (layer.hasOwnProperty('scope')){
+					filter.scopeKey = layer.scope;
+				} else {
+					filterByActive.scope = true;
+					if (activeKeys.activeScopeKey) {
+						mergedFilter.scopeKey = activeKeys.activeScopeKey;
+					}
+				}
+				if (layer.hasOwnProperty('place')){
+					filter.placeKey = layer.place;
+				} else {
+					filterByActive.place = true;
+					if (activeKeys.activePlaceKey) {
+						mergedFilter.placeKey = activeKeys.activePlaceKey;
+					}
+				}
+				if (layer.hasOwnProperty('period')){
+					filter.periodKey = layer.period;
+				} else {
+					filterByActive.period = true;
+					if (activeKeys.activePeriodKey) {
+						mergedFilter.periodKey = activeKeys.activePeriodKey;
+					}
+				}
+				if (layer.hasOwnProperty('case')){
+					filter.caseKey = layer.case;
+				} else {
+					filterByActive.case = true;
+					if (activeKeys.activeCaseKey) {
+						mergedFilter.caseKey = activeKeys.activeCaseKey;
+					}
+				}
+				if (layer.hasOwnProperty('scenario')){
+					filter.scenarioKey = layer.scenario;
+				} else {
+					filterByActive.scenario = true;
+					if (activeKeys.activeScenarioKey) {
+						mergedFilter.scenarioKey = activeKeys.activeScenarioKey;
+					}
+				}
+				if (layer.hasOwnProperty('layerTemplate')){
+					filter.layerTemplateKey = layer.layerTemplate;
+				}
+
+				mergedFilter = {...filter, ...mergedFilter};
+
+				dispatch(commonActions.useIndexedRegister(ActionTypes.SPATIAL_RELATIONS, `map_${mapKey}`, filterByActive, filter, null, 1, 100));
+				dispatch(commonActions.ensureIndexed(Select.spatialRelations.getSubstate, 'spatial', mergedFilter, null, 1, 100, ActionTypes.SPATIAL_RELATIONS, 'relations'));
+			});
+		}
 	};
 };
 

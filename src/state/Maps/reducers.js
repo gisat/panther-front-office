@@ -22,7 +22,6 @@ const INITIAL_LAYER_STATE = {
 	key: null,
 	layerTemplate: null,
 	style: null,
-	period: null,
 	opacity: 100
 };
 
@@ -30,14 +29,10 @@ const INITIAL_MAP_STATE = {
 	key: '',
 	name: null,
 	data: {
-		// scope: null,
-		// place: null,
-		// scenario: null,
-		// case: null,
-		// period: null,
-		// backgroundLayer: null,
-		// layers: [],
-		// worldWindNavigator: null, // instance of INITIAL_WORLDWINDNAVIGATOR
+		backgroundLayer: null,
+		layers: null,
+		metadataModifiers: null,
+		worldWindNavigator: null
 	}
 };
 
@@ -54,14 +49,10 @@ const INITIAL_SET_STATE = {
 
 	},
 	data: {
-		// scope: null,
-		// place: null,
-		// scenario: null,
-		// case: null,
-		// period: null,
-		// backgroundLayer: null,
-		// layers: [],
-		// worldWindNavigator: null, //instance of INITIAL_WORLDWINDNAVIGATOR
+		backgroundLayer: null,
+		layers: null,
+		metadataModifiers: null,
+		worldWindNavigator: null
 	}
 };
 

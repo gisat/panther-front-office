@@ -459,7 +459,7 @@ export default {
 	actionGeneralError,
 	creator,
 	ensure: ensureKeys,
-	ensureIndex: ensureIndexed,
+	ensureIndexed,
 	ensureIndexesWithFilterByActive,
 	loadAll,
 	loadFiltered,
@@ -475,6 +475,7 @@ export default {
 	useKeys,
 	useIndexed,
 
+	useIndexedRegister: actionUseIndexedRegister,
 	actionDataSetOutdated,
 	actionSetActiveKey
 }
