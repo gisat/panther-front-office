@@ -244,7 +244,7 @@ const removeLayer = (mapKey, layerKey) => {
 				return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
 			} else {
 				//check if layer exist
-				const layer = Select.maps.getLayerByMapKeyAndLayerKey(state, mapKey, layerKey);
+				const layer = Select.maps.getMapLayerByMapKeyAndLayerKey(state, mapKey, layerKey);
 				if(layer) {
 					return dispatch(actionRemoveLayer(mapKey, layerKey));
 				} else {
@@ -293,7 +293,7 @@ const setMapLayer = (mapKey, layerKey, layer) => {
 			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
 		} else {
 			//check if layer exist
-			const layerExists = Select.maps.getLayerByMapKeyAndLayerKey(state, mapKey, layerKey);
+			const layerExists = Select.maps.getMapLayerByMapKeyAndLayerKey(state, mapKey, layerKey);
 			if(layerExists) {
 				dispatch(actionSetMapLayer(mapKey, layerKey, layer));
 			} else {
@@ -317,7 +317,7 @@ const updateMapLayer = (mapKey, layerKey, layer) => {
 			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
 		} else {
 			//check if layer exist
-			const layerExists = Select.maps.getLayerByMapKeyAndLayerKey(state, mapKey, layerKey);
+			const layerExists = Select.maps.getMapLayerByMapKeyAndLayerKey(state, mapKey, layerKey);
 			if(layerExists) {
 				dispatch(actionUpdateMapLayer(mapKey, layerKey, layer));
 			} else {
@@ -447,7 +447,11 @@ const setSetBackgroundLayer = (setKey, backgroundLayer) => {
 	};
 };
 
+const use = (mapKey) => {
+	return (dispatch, getState) => {
 
+	};
+};
 
 
 // specialized
@@ -703,5 +707,6 @@ export default {
 	setSetWorldWindNavigator,
 
 	updateMapLayer,
-	updateWorldWindNavigator
+	updateWorldWindNavigator,
+	use
 }

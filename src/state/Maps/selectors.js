@@ -90,7 +90,7 @@ const getMapSetMapKeys = createSelector(
  * @param state {Object}
  * @param mapKey {string}
  */
-const getMapNavigator = createSelector(
+const getNavigator = createSelector(
 	[getMapByKey,
 	getMapSetByMapKey],
 	(map, set) => {
@@ -114,22 +114,7 @@ const getMapNavigator = createSelector(
  * @param state {Object}
  * @param mapKey {string}
  */
-const getMapSync = createSelector(
-	[getMapSetByMapKey],
-	(set) => {
-		if (set && set.sync) {
-			return !_.isEmpty(set.sync) ? set.sync : null;
-		} else {
-			return null;
-		}
-	}
-);
-
-/**
- * @param state {Object}
- * @param mapKey {string}
- */
-const getLayersByMapKey = createSelector(
+const getMapLayersByMapKey = createSelector(
 	[getMapByKey],
 	(map) => {
 		if (map) {
@@ -145,8 +130,8 @@ const getLayersByMapKey = createSelector(
  * @param mapKey {string}
  * @param layerKey {string}
  */
-const getLayerByMapKeyAndLayerKey = createSelector(
-	[getLayersByMapKey, (state, mapKey, layerKey) => layerKey],
+const getMapLayerByMapKeyAndLayerKey = createSelector(
+	[getMapLayersByMapKey, (state, mapKey, layerKey) => layerKey],
 	(layers, layerKey) => {
 		if (layers && layerKey) {
 			return layers.find(l => l.key === layerKey)
@@ -156,8 +141,12 @@ const getLayerByMapKeyAndLayerKey = createSelector(
 	}
 );
 
+/**
+ * @param state {Object}
+ * @param layerTemplateKey {string}
+ */
 /* TODO add another params to find correct datasource (currently it is only layer template key) */
-const getMapBackgroundLayer = createSelector(
+const getBackgroundLayer = createSelector(
 	[LayerTemplatesSelectors.getByKey,
 	SpatialDataSourcesSelectors.getByLayerTemplateKey],
 	(layerTemplate, dataSource) => {
@@ -193,23 +182,22 @@ const getBackgroundLayerKeyByMapKey = createSelector(
 );
 
 export default {
-	getBackgroundLayerKeyByMapKey,
+	getActiveSetKey,
+	getActiveMapKey,
 
-	getMapBackgroundLayer,
+	getBackgroundLayer,
+	getBackgroundLayerKeyByMapKey,
+	getNavigator,
+
 	getMapByKey,
-	getMapNavigator,
 	getMapSetByKey,
 	getMapSetByMapKey,
 	getMapSetMapKeys,
 	getMapSets,
-	getMapSync,
-	getActiveSetKey,
-	getActiveMapKey,
 
-	getLayersByMapKey, //TODO - test
-	getLayerByMapKeyAndLayerKey,
+	getMapLayersByMapKey, //TODO - test
+	getMapLayerByMapKeyAndLayerKey,
 
 	getMapsAsObject,
-	getMapSetsAsObject,
-	getSets: getMapSetsAsObject
+	getMapSetsAsObject
 };
