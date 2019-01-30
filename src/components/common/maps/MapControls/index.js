@@ -7,7 +7,7 @@ import presentation from './presentation';
 const mapStateToProps = (state, props) => {
 	const activeMapKey = Select.maps.getActiveMapKey(state);
 	return {
-		navigator: Select.maps.getMapNavigator(state, activeMapKey),
+		navigator: Select.maps.getNavigator(state, activeMapKey),
 		activeMapKey: activeMapKey,
 	}
 };
