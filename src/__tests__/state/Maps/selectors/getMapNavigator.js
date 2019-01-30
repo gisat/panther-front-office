@@ -18,7 +18,7 @@ describe('#getMapNavigator', () => {
 			roll: 0
 		};
 
-		Selector(Select.maps.getMapNavigator).expect(BASIC_STATE, mapKey).toReturn(expectedOutput);
+		Selector(Select.maps.getNavigator).expect(BASIC_STATE, mapKey).toReturn(expectedOutput);
 	});
 
 	it('should return navigator from map set, if data for given map is empty', () => {
@@ -35,7 +35,7 @@ describe('#getMapNavigator', () => {
 			roll: 0
 		};
 
-		Selector(Select.maps.getMapNavigator).expect(BASIC_STATE, mapKey).toReturn(expectedOutput);
+		Selector(Select.maps.getNavigator).expect(BASIC_STATE, mapKey).toReturn(expectedOutput);
 	});
 
 	it('should return navigator from map set, if worldWindNavigor for given map is empty', () => {
@@ -52,7 +52,7 @@ describe('#getMapNavigator', () => {
 			roll: 0
 		};
 
-		Selector(Select.maps.getMapNavigator).expect(BASIC_STATE, mapKey).toReturn(expectedOutput);
+		Selector(Select.maps.getNavigator).expect(BASIC_STATE, mapKey).toReturn(expectedOutput);
 	});
 
 	it('should return navigator from map, if map is not a part of any set', () => {
@@ -66,26 +66,26 @@ describe('#getMapNavigator', () => {
 			range: 10000
 		};
 
-		Selector(Select.maps.getMapNavigator).expect(BASIC_STATE, mapKey).toReturn(expectedOutput);
+		Selector(Select.maps.getNavigator).expect(BASIC_STATE, mapKey).toReturn(expectedOutput);
 	});
 
 	it('should return null, if map does not exist', () => {
 		const mapKey = 'Map99';
 
-		expect(Selector(Select.maps.getMapNavigator).execute(BASIC_STATE, mapKey)).toBeNull();
+		expect(Selector(Select.maps.getNavigator).execute(BASIC_STATE, mapKey)).toBeNull();
 	});
 
 	it('should return navigator from map, if map set has empty data', () => {
 		const mapKey = 'Map1';
 		const expectedOutput = BASIC_STATE.maps.maps[mapKey].data.worldWindNavigator;
 
-		Selector(Select.maps.getMapNavigator).expect(EMPTY_SET_DATA_STATE, mapKey).toReturn(expectedOutput);
+		Selector(Select.maps.getNavigator).expect(EMPTY_SET_DATA_STATE, mapKey).toReturn(expectedOutput);
 	});
 
 	it('should return navigator from map, if map set has empty navigator', () => {
 		const mapKey = 'Map1';
 		const expectedOutput = BASIC_STATE.maps.maps[mapKey].data.worldWindNavigator;
 
-		Selector(Select.maps.getMapNavigator).expect(EMPTY_SET_NAVIGATOR_STATE, mapKey).toReturn(expectedOutput);
+		Selector(Select.maps.getNavigator).expect(EMPTY_SET_NAVIGATOR_STATE, mapKey).toReturn(expectedOutput);
 	});
 });

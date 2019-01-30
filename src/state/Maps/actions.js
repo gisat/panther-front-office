@@ -358,18 +358,41 @@ const updateWorldWindNavigator = (mapKey, updates) => {
 		}
 
 		if (forSet && !_.isEmpty(forSet)) {
+			//check data integrity
+			forMap = checkWorldWindNavigatorIntegrity(forSet); //TODO test
 			dispatch(actionUpdateSetWorldWindNavigator(set.key, forSet));
 		}
 
 		if (forMap && !_.isEmpty(forMap)) {
+			//check data integrity
+			forMap = checkWorldWindNavigatorIntegrity(forMap); //TODO test
 			dispatch(actionUpdateMapWorldWindNavigator(mapKey, forMap));
 		}
 	}
 };
 
+const checkWorldWindNavigatorIntegrity = (WorldWindNavigator) => {
+	if (WorldWindNavigator.heading && WorldWindNavigator.heading > 360) {
+		WorldWindNavigator.heading = WorldWindNavigator.heading - 360;
+	}
+
+	if (WorldWindNavigator.heading && WorldWindNavigator.heading < -360) {
+		WorldWindNavigator.heading = WorldWindNavigator.heading + 360;
+	}
+
+	if (WorldWindNavigator.tilt && WorldWindNavigator.tilt < 0) {
+		WorldWindNavigator.tilt = 0;
+	}
+
+	if (WorldWindNavigator.tilt && WorldWindNavigator.tilt > 90) {
+		WorldWindNavigator.tilt = 90;
+	}
+	return WorldWindNavigator;
+}
+
 const resetWorldWindNavigatorHeading = (mapKey, defaultIncrement) => {
 	return (dispatch, getState) => {
-		const mapNavigator = Select.maps.getMapNavigator(getState(), mapKey);
+		const mapNavigator = Select.maps.getNavigator(getState(), mapKey);
 
 		let headingIncrement = 1.0;
 		if (Math.abs(mapNavigator.heading) > 60) {
@@ -377,10 +400,10 @@ const resetWorldWindNavigatorHeading = (mapKey, defaultIncrement) => {
 		} else if (Math.abs(mapNavigator.heading) > 120) {
 			headingIncrement = 3.0;
 		}
-		if (mapNavigator.heading > 0) {
+		//set shortest direction based on angle
+		if (mapNavigator.heading > 0 && mapNavigator.heading < 180 || mapNavigator.heading < 0 && mapNavigator.heading < -180) {
 			headingIncrement = -headingIncrement;
 		}
-
 		headingIncrement = defaultIncrement || headingIncrement;
 
 		setTimeout(() => {
