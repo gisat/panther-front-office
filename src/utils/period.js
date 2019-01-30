@@ -12,6 +12,7 @@ const parse = string => {
 		return {
 			start: parseOne(dates[0]).start,
 			end: parseOne(dates[1]).end,
+			source: string,
 			type: 'interval'
 		};
 	}

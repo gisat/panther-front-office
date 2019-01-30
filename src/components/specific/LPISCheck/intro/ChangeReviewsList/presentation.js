@@ -32,14 +32,14 @@ class ChangeReviewsList extends React.PureComponent {
 				<div className="ptr-change-reviews-list-header">
 					<h2 className="ptr-change-reviews-list-title">Kontrola LPIS</h2>
 					<div className="ptr-change-reviews-list-buttons">
-						<InputText
+						{/* <InputText
 							placeholder="Vyhledat"
 							transparent
 							onChange={this.onSearchChange.bind(this)}
 							value={this.props.searchString}
 						>
 							<Icon icon="search"/>
-						</InputText>
+						</InputText> */}
 					</div>
 				</div>
 				<div className="ptr-change-reviews-list-body">

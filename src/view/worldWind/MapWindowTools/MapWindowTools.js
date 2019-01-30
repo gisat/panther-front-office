@@ -148,6 +148,7 @@ import _ from 'underscore';
      * @param info {string}
      */
     addLayerInfo(info) {
+        this._mapToolsSelector.find(".map-name-label").remove();
         this._mapToolsSelector.find(".layer-info-label").remove();
         var html = '<div class="layer-info-label">' + info + '</div>';
         this._mapToolsSelector.append(html);

@@ -82,9 +82,9 @@ class ChangeReviewsTable extends React.PureComponent {
 		const VisitedSelect = getSelect(VISITED_VALUES, this.props.filterVisited, 'filterVisited', this.handleInputChange);
 		const ConfirmedSelect = getSelect(CONFIRMED_VALUES, this.props.filterConfirmed, 'filterConfirmed', this.handleInputChange);
 		return (
-			<div className="ptr-table change-reviews-table">
+			<div className="ptr-table change-reviews-lpis-table">
 				<div className="ptr-table-header">
-					<div className="ptr-table-header-item">
+					{/* <div className="ptr-table-header-item">
 						<label>
                             <span>Prohlédnuto</span>
                             {VisitedSelect}
@@ -95,8 +95,10 @@ class ChangeReviewsTable extends React.PureComponent {
                             <span>Schváleno</span>
                             {ConfirmedSelect}
                         </label>
-					</div>
-					<div className="ptr-table-header-item">Název řízení</div>
+					</div> */}
+					<div className="ptr-table-header-item">Kód</div>
+					<div className="ptr-table-header-item">Kultura</div>
+					<div className="ptr-table-header-item">Poznámka</div>
 					<div className="ptr-table-header-item buttons"></div>
 				</div>
 				<div className="ptr-table-body">

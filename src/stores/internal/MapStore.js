@@ -173,7 +173,7 @@ class MapStore {
 						}
 
                         // add map title
-                        if (scope.mapLayerInfo && scope.mapLayerInfo === 'simple') {
+                        if ((scope.mapLayerInfo && scope.mapLayerInfo === 'simple') || (scope.configuration && scope.configuration.mapLayerInfo === "simple")) {
                             let content = layer.name;
                             // TODO: FIX QUICK HACK.
                             if(layerOptions && layerOptions.time) {

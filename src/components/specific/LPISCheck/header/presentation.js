@@ -50,14 +50,14 @@ class LpisCheckHeader extends React.PureComponent {
 	}
 
 	render() {
-		// TODO - poznamka + nkod_dpb + kulturakod + typ?
 		const visited = this.props.case && this.props.case.data.visited || false;
 		const confirmed = this.props.case && this.props.case.data.confirmed || false;
 
 		const infoAreaStyle = {
 			flexDirection: 'column',
-			alignItems: 'center',
+			alignItems: 'flex-start',
 			justifyContent: 'center',
+			margin: '10px'
 		}
 
 		const loginContainerStyle = {margin: '20px 8px'};
@@ -78,22 +78,53 @@ class LpisCheckHeader extends React.PureComponent {
 						</div>
 						<div className="container flex columns center" style={{alignItems: 'center'}}>
 							<div className="container flex center" style={infoAreaStyle}>
-								<h1>
-									{this.props.case.data.nkod_dpb}
-								</h1>
+								
+								 {this.props.case.data.stav ? (<div>
+									<label>
+										<span>Stav: </span>
+										{this.props.case.data.stav}
+									</label>
+								</div>) : null}
 								<div>
-									{this.props.case.data.typ}
+									<label>
+										<span>Kód: </span>
+										{this.props.case.data.nkod_dpb}
+									</label>
 								</div>
+								<div>
+									<label>
+										<span>Kultura: </span>
+										{this.props.case.data.kulturakod}
+									</label>
+								</div>
+								{
+									this.props.case.data.typ ? (
+									<div>
+										<label>
+											<span>Typ plochy: </span>
+											{this.props.case.data.typ}
+										</label>
+									</div>) : null
+								}
+								{
+									this.props.case.data.poznamka ? (
+									<div>
+										<label>
+											<span>Poznámka: </span>
+											{this.props.case.data.poznamka}
+										</label>
+									</div>) : null
+								}
 							</div>
 							<div className="container flex center">
-								<CheckButton title='Prohlédnuto' onClick={(e)=>{
+								{/* <CheckButton title='Prohlédnuto' onClick={(e)=>{
 									e.preventDefault();
 									this.props.caseVisited(this.props.case.key, !visited);
 								}} checked={visited}/>
 								<CheckButton title='Schváleno' onClick={(e)=>{
 									e.preventDefault();
 									this.props.caseConfirmed(this.props.case.key, !confirmed);
-								}} checked={confirmed}/>
+								}} checked={confirmed}/> */}
 							</div>
 						</div>
 						<div className="container flex center">
