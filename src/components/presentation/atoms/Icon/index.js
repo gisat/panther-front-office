@@ -9,11 +9,17 @@ import Edit from './Edit';
 import Expand from './Expand';
 import ExpandRow from './ExpandRow';
 import Opacity from './Opacity';
+import Minus from './Minus';
+import NorthArrow from './NorthArrow';
 import Plus from './Plus';
 import Pushpin from './Pushpin';
 import Restore from './Restore';
 import Search from './Search';
+import TiltMore from './TiltMore';
+import TiltLess from './TiltLess';
 import Upload from './Upload';
+import RotateLeftCircularArrow from './rotateLeftCircularArrow';
+import RotateRightCircularArrow from './rotateRightCircularArrow';
 
 const icon = (key, props) => {
 	switch(key) {
@@ -37,6 +43,10 @@ const icon = (key, props) => {
 			return <Expand />;
 		case 'expand-row':
 			return <ExpandRow />;
+		case 'minus':
+			return <Minus />;
+		case 'north-arrow':
+			return <NorthArrow />;
 		case 'opacity':
 			return <Opacity />;
 		case 'plus':
@@ -45,8 +55,16 @@ const icon = (key, props) => {
 			return <Pushpin />;
 		case 'restore':
 			return <Restore />;
+		case 'rotate-left-circular-arrow':
+			return <RotateLeftCircularArrow />;
+		case 'rotate-right-circular-arrow':
+			return <RotateRightCircularArrow />;
 		case 'search':
 			return <Search />;
+		case 'tilt-less':
+			return <TiltLess />;
+		case 'tilt-more':
+			return <TiltMore />;
 		case 'upload':
 			return <Upload />;
 		default:
@@ -54,19 +72,24 @@ const icon = (key, props) => {
 	}
 };
 
-export default props => (
-	<svg
+export default props => {
+
+	const width = props.width || 32;
+	const height = props.height || 32;
+	const defaultViewBox = `0 0 ${width} ${height}`;
+	return <svg
+		style={props.style}
 		version="1.1"
 		xmlns="http://www.w3.org/2000/svg"
 		xmlnsXlink="http://www.w3.org/1999/xlink"
 		x="0px"
 		y="0px"
-		width="32px"
-		height="32px"
-		viewBox="0 0 32 32"
+		width={`${width}px`}
+		height={`${height}px`}
+		viewBox={props.viewBox || defaultViewBox}
 		xmlSpace="preserve"
 		className="ptr-icon"
 	>
 		{icon(props.icon, props)}
 	</svg>
-);
+};

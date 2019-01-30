@@ -1,0 +1,103 @@
+.control {
+	background: rgba(255, 255, 255, 0.85);
+	border-radius: .3rem;
+	z-index: 15;
+	box-shadow: 0 0 0.3rem 0 rgba(0, 0, 0, 0.3);
+	margin-bottom: 7px;
+}
+
+.map-controls {
+	position: absolute;
+	bottom: 20px;
+	right: 7px;
+	z-index: 3;
+}
+.map-controls.small {
+	bottom: 13px;
+}
+.map-controls.small .control {
+	margin-bottom: 5px;
+}
+.map-controls .control > button:focus,
+.menu-control > button:focus {
+	outline: none;
+}
+
+.map-controls .control > button,
+.menu-control > button {
+	padding: 4px;
+	border-bottom: 0px;
+	user-select: none;
+	display: block;
+	width: 2rem;
+	height: 2rem;
+	text-align: center;
+	font-size: 1.125rem;
+	color: #666;
+
+	transition:
+			color .2s ease-in-out,
+			background .2s ease-in-out;
+}
+
+.map-controls .control > button:hover,
+.menu-control > button:hover {
+	cursor: pointer;
+}
+
+.map-controls.small .control > button {
+	width: 1.6rem;
+	height: 1.6rem;
+	font-size: .975rem;
+}
+
+.map-controls .control > button:not(:first-child) {
+	border-top: 1px solid rgba(0, 0, 0, .1);
+}
+
+.map-controls .control > button:first-child{
+	border-radius: .3rem .3rem 0 0;
+}
+.map-controls .control > button:last-child {
+	border-radius: 0 0 .3rem .3rem;
+}
+
+.map-controls .control > button:hover,
+.menu-control > button:hover {
+	background-color: rgba(255, 255, 255, .5);
+	color: #c92d42;
+}
+
+.rotate-needle-control i {
+	/*transition: all .2s ease-in-out;*/
+	-webkit-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+}
+
+/*#rotate-needle-control:hover i {*/
+/*transform: rotate(-45deg);*/
+/*}*/
+
+.tilt-control button {
+	/*	overflow: hidden;*/
+	background-position: center center;
+	background-size: 1.2rem;
+	background-repeat: no-repeat;
+}
+
+.control button svg path,
+.control button svg polygon,
+.control button svg rect {
+	fill: #666;
+
+	transition:
+			fill .2s ease-in-out;
+}
+
+.control button:hover svg path,
+.control button:hover svg polygon,
+.control button:hover svg rect {
+	fill: #c92d42;
+	color: #c92d42;
+	stroke: #c92d42;
+}
