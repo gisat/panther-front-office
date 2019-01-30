@@ -149,18 +149,22 @@ const getMapLayerByMapKeyAndLayerKey = createSelector(
  * @param layerTemplateKey {string}
  */
 const getBackgroundLayer = createSelector(
-	[LayerTemplatesSelectors.getByKey,
-	SpatialDataSourcesSelectors.getByLayerTemplateKey],
-	(layerTemplate, dataSource) => {
-		if (layerTemplate && dataSource) {
+	[
+		LayerTemplatesSelectors.getByKey,
+		SpatialDataSourcesSelectors.getByLayerTemplateKey,
+		(state, key) => key
+	],
+	(layerTemplate, dataSource, key) => {
+		if (dataSource) {
 			if (_.isArray(dataSource)) dataSource = dataSource[0];
-			let key = `${layerTemplate.key}-${dataSource.key}`;
+			let key = `${key}-${dataSource.key}`;
+
 			return {
 				key,
 				data: {
 					...dataSource.data,
 					key,
-					name: layerTemplate.displayName ? layerTemplate.displayName : null,
+					name: layerTemplate && layerTemplate.displayName ? layerTemplate.displayName : null,
 				}
 			}
 		} else {
