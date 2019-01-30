@@ -144,6 +144,37 @@ const getMapLayerByMapKeyAndLayerKey = createSelector(
 	}
 );
 
+/* TODO merge with template */
+const getLayers = createSelector(
+	[
+		SpatialDataSourcesSelectors.getFilteredGroupedByLayerKey,
+		(state, layers) => (layers)
+	],
+	(groupedSources, layers) => {
+		if (groupedSources && layers) {
+			let layersForMap = [];
+			layers.forEach(layer => {
+				let sourcesForLayer = groupedSources[layer.data.key];
+				if (sourcesForLayer) {
+					sourcesForLayer.forEach(source => {
+						let key = `${layer.data.key}-${source.key}`;
+						layersForMap.push({
+							key,
+							data: {
+								...source.data,
+								key
+							}
+						});
+					});
+				}
+			});
+			return layersForMap;
+		} else {
+			return null;
+		}
+	}
+);
+
 /**
  * @param state {Object}
  * @param layerTemplateKey {string}
@@ -174,9 +205,12 @@ const getBackgroundLayer = createSelector(
 );
 
 const getBackgroundLayerStateByMapKey = createSelector(
-	[getMapByKey,
-	getMapSetByMapKey],
-	(map, set) => {
+	[
+		getMapByKey,
+		getMapSetByMapKey,
+		commonSelectors.getAllActiveKeys
+	],
+	(map, set, activeKeys) => {
 		let layerTemplate = null;
 		let filter = {
 			place: null,
@@ -191,7 +225,7 @@ const getBackgroundLayerStateByMapKey = createSelector(
 		}
 
 		if (layerTemplate) {
-			return {...filter, layerTemplate: layerTemplate}
+			return getFiltersForUse({...filter, layerTemplate: layerTemplate, key: layerTemplate}, activeKeys)
 		} else {
 			return null;
 		}
@@ -201,9 +235,10 @@ const getBackgroundLayerStateByMapKey = createSelector(
 const getLayersStateByMapKey = createSelector(
 	[
 		getMapByKey,
-		getMapSetByMapKey
+		getMapSetByMapKey,
+		commonSelectors.getAllActiveKeys
 	],
-	(map, set) => {
+	(map, set, activeKeys) => {
 		let setLayers = (set && set.data && set.data.layers) || null;
 		let mapLayers = (map && map.data && map.data.layers) || null;
 
@@ -216,7 +251,7 @@ const getLayersStateByMapKey = createSelector(
 			modifiers = {...modifiers, ...map.metadataModifiers};
 
 			layers = layers.map(layer => {
-				return {...modifiers, ...layer};
+				return getFiltersForUse({...modifiers, ...layer}, activeKeys);
 			});
 
 			return layers;
@@ -226,6 +261,73 @@ const getLayersStateByMapKey = createSelector(
 	}
 );
 
+// ----- helpers ------
+
+/**
+ * Prepare filters for use from layers state
+ * @param layer {Object} layer state
+ * @param activeKeys {Object} Metadata active keys
+ * @return {{filter, filterByActive, mergedFilter}}
+ */
+function getFiltersForUse(layer, activeKeys) {
+	let filter = {};
+	let filterByActive = {};
+	let mergedFilter = {};
+
+	if (layer.hasOwnProperty('scope')){
+		filter.scopeKey = layer.scope;
+	} else {
+		filterByActive.scope = true;
+		if (activeKeys.activeScopeKey) {
+			mergedFilter.scopeKey = activeKeys.activeScopeKey;
+		}
+	}
+	if (layer.hasOwnProperty('place')){
+		filter.placeKey = layer.place;
+	} else {
+		filterByActive.place = true;
+		if (activeKeys.activePlaceKey) {
+			mergedFilter.placeKey = activeKeys.activePlaceKey;
+		}
+	}
+	if (layer.hasOwnProperty('period')){
+		filter.periodKey = layer.period;
+	} else {
+		filterByActive.period = true;
+		if (activeKeys.activePeriodKey) {
+			mergedFilter.periodKey = activeKeys.activePeriodKey;
+		}
+	}
+	if (layer.hasOwnProperty('case')){
+		filter.caseKey = layer.case;
+	} else {
+		filterByActive.case = true;
+		if (activeKeys.activeCaseKey) {
+			mergedFilter.caseKey = activeKeys.activeCaseKey;
+		}
+	}
+	if (layer.hasOwnProperty('scenario')){
+		filter.scenarioKey = layer.scenario;
+	} else {
+		filterByActive.scenario = true;
+		if (activeKeys.activeScenarioKey) {
+			mergedFilter.scenarioKey = activeKeys.activeScenarioKey;
+		}
+	}
+	if (layer.hasOwnProperty('layerTemplate')){
+		filter.layerTemplateKey = layer.layerTemplate;
+	}
+
+	mergedFilter = {...filter, ...mergedFilter};
+
+	return {
+		layer,
+		filter,
+		filterByActive,
+		mergedFilter
+	}
+}
+
 export default {
 	getActiveMapKey,
 	getActiveSetKey,
@@ -233,6 +335,7 @@ export default {
 	getBackgroundLayer,
 	getBackgroundLayerStateByMapKey,
 
+	getLayers,
 	getLayersStateByMapKey,
 
 	getMapByKey,

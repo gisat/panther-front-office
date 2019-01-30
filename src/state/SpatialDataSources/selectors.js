@@ -26,10 +26,38 @@ const getByLayerTemplateKey = createSelector(
 	}
 );
 
+const getFilteredGroupedByLayerKey = createSelector(
+	[
+		getAllAsObject,
+		SpatialRelations.getDataSourceKeysGroupedByLayerKey
+	],
+	(dataSources, groupedKeys) => {
+		if (dataSources && !_.isEmpty(dataSources) && groupedKeys) {
+			let groupedSources = {};
+			_.forIn(groupedKeys, (keys, layerKey) => {
+				let sources = [];
+				keys.forEach(key => {
+					if (dataSources[key]) {
+						sources.push(dataSources[key])
+					}
+				});
+
+				if (sources.length) {
+					groupedSources[layerKey] = sources;
+				}
+			});
+			return !_.isEmpty(groupedSources) ? groupedSources : null;
+		} else {
+			return null;
+		}
+	}
+);
+
 export default {
 	getSubstate,
 
 	getByLayerTemplateKey,
+	getFilteredGroupedByLayerKey,
 
 	vector: vectorSelectors
 };

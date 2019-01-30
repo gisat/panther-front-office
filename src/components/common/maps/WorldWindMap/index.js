@@ -6,11 +6,13 @@ import wrapper from '../MapWrapper';
 
 const mapStateToProps = (state, props) => {
 	let backgroundLayerState = Select.maps.getBackgroundLayerStateByMapKey(state, props.mapKey);
+	let backgroundLayerData = backgroundLayerState ? [{filter: backgroundLayerState.mergedFilter, data: backgroundLayerState.layer}] : null;
 
+	let layersState = Select.maps.getLayersStateByMapKey(state, props.mapKey);
+	let layersData = layersState ? layersState.map(layer => {return {filter: layer.mergedFilter, data: layer.layer}}) : null;
 	return {
-		// TODO use same selector for background layers and layers layers
-		backgroundLayer: Select.maps.getBackgroundLayer(state, backgroundLayerState ? backgroundLayerState.layerTemplate : null),
-		layers: null,
+		backgroundLayer: Select.maps.getLayers(state, backgroundLayerData),
+		layers: Select.maps.getLayers(state, layersData),
 		navigator: Select.maps.getNavigator(state, props.mapKey)
 	}
 };

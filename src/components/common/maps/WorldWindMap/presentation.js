@@ -18,7 +18,7 @@ const {WorldWindow, ZeroElevationModel} = WorldWind;
 class WorldWindMap extends React.PureComponent {
 
 	static propTypes = {
-		backgroundLayer: PropTypes.object,
+		backgroundLayer: PropTypes.array,
 		elevationModel: PropTypes.string,
 		layers: PropTypes.array,
 		navigator: PropTypes.object,
@@ -45,7 +45,9 @@ class WorldWindMap extends React.PureComponent {
 		}
 
 		if (this.props.backgroundLayer) {
-			layers.addLayer(this.wwd, this.props.backgroundLayer.data, 0);
+			this.props.backgroundLayer.forEach(layer => {
+				layers.addLayer(this.wwd, layer.data, 0);
+			});
 		}
 
 		if (this.props.layers){
@@ -69,10 +71,16 @@ class WorldWindMap extends React.PureComponent {
 
 	handleBackgroundLayers(prevLayerData, nextLayerData) {
 		if (!prevLayerData) {
-			layers.addLayer(this.wwd, this.props.backgroundLayer.data, 0);
-		} else if (nextLayerData && prevLayerData.key !== nextLayerData.key){
-			layers.addLayer(this.wwd, nextLayerData.data, 0);
-			layers.removeLayer(this.wwd, prevLayerData.key);
+			this.props.backgroundLayer.forEach(layer => {
+				layers.addLayer(this.wwd, layer.data, 0);
+			});
+		} else if (nextLayerData && !_.isEqual(prevLayerData, nextLayerData)){
+			nextLayerData.forEach(layer => {
+				layers.addLayer(this.wwd, layer.data, 0);
+			});
+			prevLayerData.forEach(layer => {
+				layers.removeLayer(this.wwd, layer.key);
+			});
 		}
 	}
 
@@ -90,9 +98,11 @@ class WorldWindMap extends React.PureComponent {
 			}
 		});
 
-		// TODO solve merge with other layer types (choropleths, AUs, ...)
 		// add background layer
-		nextLayers.unshift(this.wwd.layers[0]);
+		if (this.props.backgroundLayer) {
+			let backgroundLayer = this.wwd.layers.slice(0, this.props.backgroundLayer.length);
+			nextLayers = backgroundLayer.concat(nextLayers);
+		}
 
 		this.wwd.layers = nextLayers;
 		this.wwd.redraw();

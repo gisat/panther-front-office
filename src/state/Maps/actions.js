@@ -215,7 +215,9 @@ const setMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
 const addLayer = (mapKey, layer) => {
 	return (dispatch, getState) => {
 		const state = getState();
-		const layerKey = layer.key || utils.uuid();
+		if (!layer.key){
+			layer.key = utils.uuid();
+		}
 		const mapByKey = Select.maps.getMapByKey(state, mapKey);
 		if(!mapByKey) {
 			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
@@ -511,18 +513,16 @@ const use = (mapKey) => {
 		let layers = Select.maps.getLayersStateByMapKey(state, mapKey);
 		let backgroundLayer = Select.maps.getBackgroundLayerStateByMapKey(state, mapKey);
 
-		let activeKeys = commonSelectors.getAllActiveKeys(state);
+		// let activeKeys = commonSelectors.getAllActiveKeys(state);
 
 		if (layers) {
 			layers.forEach(layer => {
-				let filters = getFiltersForUse(layer, activeKeys);
-				useHelper(dispatch, getState, mapKey, filters);
+				useHelper(dispatch, getState, mapKey, layer);
 			});
 		}
 
 		if (backgroundLayer) {
-			let filters = getFiltersForUse(backgroundLayer, {activeScopeKey: activeKeys.activeScopeKey});
-			useHelper(dispatch, getState, mapKey, filters);
+			useHelper(dispatch, getState, mapKey, backgroundLayer);
 		}
 	};
 };
@@ -541,70 +541,6 @@ function useHelper(dispatch, getState, mapKey, filters) {
 		.catch((err) => {
 			dispatch(commonActions.actionGeneralError(err));
 		});
-}
-
-/**
- * Prepare filters for use from layers state
- * @param layer {Array} Collection of layers state
- * @param activeKeys {Object} Metadata active keys
- * @return {{filter, filterByActive, mergedFilter}}
- */
-function getFiltersForUse(layer, activeKeys) {
-	let filter = {};
-	let filterByActive = {};
-	let mergedFilter = {};
-
-	if (layer.hasOwnProperty('scope')){
-		filter.scopeKey = layer.scope;
-	} else {
-		filterByActive.scope = true;
-		if (activeKeys.activeScopeKey) {
-			mergedFilter.scopeKey = activeKeys.activeScopeKey;
-		}
-	}
-	if (layer.hasOwnProperty('place')){
-		filter.placeKey = layer.place;
-	} else {
-		filterByActive.place = true;
-		if (activeKeys.activePlaceKey) {
-			mergedFilter.placeKey = activeKeys.activePlaceKey;
-		}
-	}
-	if (layer.hasOwnProperty('period')){
-		filter.periodKey = layer.period;
-	} else {
-		filterByActive.period = true;
-		if (activeKeys.activePeriodKey) {
-			mergedFilter.periodKey = activeKeys.activePeriodKey;
-		}
-	}
-	if (layer.hasOwnProperty('case')){
-		filter.caseKey = layer.case;
-	} else {
-		filterByActive.case = true;
-		if (activeKeys.activeCaseKey) {
-			mergedFilter.caseKey = activeKeys.activeCaseKey;
-		}
-	}
-	if (layer.hasOwnProperty('scenario')){
-		filter.scenarioKey = layer.scenario;
-	} else {
-		filterByActive.scenario = true;
-		if (activeKeys.activeScenarioKey) {
-			mergedFilter.scenarioKey = activeKeys.activeScenarioKey;
-		}
-	}
-	if (layer.hasOwnProperty('layerTemplate')){
-		filter.layerTemplateKey = layer.layerTemplate;
-	}
-
-	mergedFilter = {...filter, ...mergedFilter};
-
-	return {
-		filter,
-		filterByActive,
-		mergedFilter
-	}
 }
 
 
