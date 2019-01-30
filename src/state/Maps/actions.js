@@ -459,65 +459,81 @@ const use = (mapKey) => {
 
 		if (layers) {
 			layers.forEach(layer => {
-				let filter = {};
-				let filterByActive = {};
-				let mergedFilter = {};
+				let filters = getFiltersForUse(layer, activeKeys);
 
-				if (layer.hasOwnProperty('scope')){
-					filter.scopeKey = layer.scope;
-				} else {
-					filterByActive.scope = true;
-					if (activeKeys.activeScopeKey) {
-						mergedFilter.scopeKey = activeKeys.activeScopeKey;
-					}
-				}
-				if (layer.hasOwnProperty('place')){
-					filter.placeKey = layer.place;
-				} else {
-					filterByActive.place = true;
-					if (activeKeys.activePlaceKey) {
-						mergedFilter.placeKey = activeKeys.activePlaceKey;
-					}
-				}
-				if (layer.hasOwnProperty('period')){
-					filter.periodKey = layer.period;
-				} else {
-					filterByActive.period = true;
-					if (activeKeys.activePeriodKey) {
-						mergedFilter.periodKey = activeKeys.activePeriodKey;
-					}
-				}
-				if (layer.hasOwnProperty('case')){
-					filter.caseKey = layer.case;
-				} else {
-					filterByActive.case = true;
-					if (activeKeys.activeCaseKey) {
-						mergedFilter.caseKey = activeKeys.activeCaseKey;
-					}
-				}
-				if (layer.hasOwnProperty('scenario')){
-					filter.scenarioKey = layer.scenario;
-				} else {
-					filterByActive.scenario = true;
-					if (activeKeys.activeScenarioKey) {
-						mergedFilter.scenarioKey = activeKeys.activeScenarioKey;
-					}
-				}
-				if (layer.hasOwnProperty('layerTemplate')){
-					filter.layerTemplateKey = layer.layerTemplate;
-				}
-
-				mergedFilter = {...filter, ...mergedFilter};
-
-				dispatch(commonActions.useIndexedRegister(ActionTypes.SPATIAL_RELATIONS, `map_${mapKey}`, filterByActive, filter, null, 1, 100));
-				dispatch(commonActions.ensureIndexed(Select.spatialRelations.getSubstate, 'spatial', mergedFilter, null, 1, 100, ActionTypes.SPATIAL_RELATIONS, 'relations'));
+				dispatch(commonActions.useIndexedRegister(ActionTypes.SPATIAL_RELATIONS, `map_${mapKey}`, filters.filterByActive, filters.filter, null, 1, 100));
+				dispatch(commonActions.ensureIndexed(Select.spatialRelations.getSubstate, 'spatial', filters.mergedFilter, null, 1, 100, ActionTypes.SPATIAL_RELATIONS, 'relations'));
 			});
 		}
 	};
 };
 
 
-// specialized
+// ============ helpers ===========
+
+/**
+ * Prepare filters for use from layers state
+ * @param layer {Array} Collection of layers state
+ * @param activeKeys {Object} Metadata active keys
+ * @return {{filter, filterByActive, mergedFilter}}
+ */
+function getFiltersForUse(layer, activeKeys) {
+	let filter = {};
+	let filterByActive = {};
+	let mergedFilter = {};
+
+	if (layer.hasOwnProperty('scope')){
+		filter.scopeKey = layer.scope;
+	} else {
+		filterByActive.scope = true;
+		if (activeKeys.activeScopeKey) {
+			mergedFilter.scopeKey = activeKeys.activeScopeKey;
+		}
+	}
+	if (layer.hasOwnProperty('place')){
+		filter.placeKey = layer.place;
+	} else {
+		filterByActive.place = true;
+		if (activeKeys.activePlaceKey) {
+			mergedFilter.placeKey = activeKeys.activePlaceKey;
+		}
+	}
+	if (layer.hasOwnProperty('period')){
+		filter.periodKey = layer.period;
+	} else {
+		filterByActive.period = true;
+		if (activeKeys.activePeriodKey) {
+			mergedFilter.periodKey = activeKeys.activePeriodKey;
+		}
+	}
+	if (layer.hasOwnProperty('case')){
+		filter.caseKey = layer.case;
+	} else {
+		filterByActive.case = true;
+		if (activeKeys.activeCaseKey) {
+			mergedFilter.caseKey = activeKeys.activeCaseKey;
+		}
+	}
+	if (layer.hasOwnProperty('scenario')){
+		filter.scenarioKey = layer.scenario;
+	} else {
+		filterByActive.scenario = true;
+		if (activeKeys.activeScenarioKey) {
+			mergedFilter.scenarioKey = activeKeys.activeScenarioKey;
+		}
+	}
+	if (layer.hasOwnProperty('layerTemplate')){
+		filter.layerTemplateKey = layer.layerTemplate;
+	}
+
+	mergedFilter = {...filter, ...mergedFilter};
+
+	return {
+		filter,
+		filterByActive,
+		mergedFilter
+	}
+}
 
 
 // ============ actions ===========
