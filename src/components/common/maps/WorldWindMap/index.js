@@ -5,10 +5,11 @@ import Action from "../../../../state/Action";
 import wrapper from '../MapWrapper';
 
 const mapStateToProps = (state, props) => {
-	let backgroundLayerKey = Select.maps.getBackgroundLayerStateByMapKey(state, props.mapKey);
+	let backgroundLayerState = Select.maps.getBackgroundLayerStateByMapKey(state, props.mapKey);
 
 	return {
-		backgroundLayer: Select.maps.getBackgroundLayer(state, backgroundLayerKey),
+		// TODO use same selector for background layers and layers layers
+		backgroundLayer: Select.maps.getBackgroundLayer(state, backgroundLayerState ? backgroundLayerState.layerTemplate : null),
 		layers: null,
 		navigator: Select.maps.getNavigator(state, props.mapKey)
 	}

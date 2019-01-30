@@ -177,10 +177,21 @@ const getBackgroundLayerStateByMapKey = createSelector(
 	[getMapByKey,
 	getMapSetByMapKey],
 	(map, set) => {
+		let layerTemplate = null;
+		let filter = {
+			place: null,
+			period: null,
+			case: null,
+			scenario: null
+		};
 		if (map && map.data && map.data.backgroundLayer) {
-			return map.data.backgroundLayer;
+			layerTemplate = map.data.backgroundLayer;
 		} else if (set && set.data && set.data.backgroundLayer) {
-			return set.data.backgroundLayer;
+			layerTemplate = set.data.backgroundLayer;
+		}
+
+		if (layerTemplate) {
+			return {...filter, layerTemplate: layerTemplate}
 		} else {
 			return null;
 		}
