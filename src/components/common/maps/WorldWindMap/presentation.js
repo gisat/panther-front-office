@@ -8,7 +8,6 @@ import WorldWind from '@nasaworldwind/worldwind';
 
 import layers from './layers/helpers';
 import navigator from './navigator/helpers';
-import {backgroundStamen, layersChange1, layersChange2, layersChange3} from './mockData';
 
 import Attribution from './Attribution/Attribution';
 
@@ -34,23 +33,6 @@ class WorldWindMap extends React.PureComponent {
 		this.canvasId = utils.uuid();
 		this.changedNavigatorTimeout = false;
 		this.setMapKeyTimeout = false;
-
-		// TODO only for testing
-		// setTimeout(() => {
-		// 	this.handleBackgroundLayers(this.props.backgroundLayer, backgroundStamen);
-		// }, 5000);
-
-		setTimeout(() => {
-			this.handleLayers(layersChange1);
-		}, 10000);
-
-		setTimeout(() => {
-			this.handleLayers(layersChange2);
-		}, 15000);
-
-		setTimeout(() => {
-			this.handleLayers(layersChange3);
-		}, 20000);
 	}
 
 	componentDidMount() {
