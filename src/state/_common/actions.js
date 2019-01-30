@@ -467,6 +467,7 @@ export default {
 	ensure: ensureKeys,
 	ensureIndexed,
 	ensureIndexesWithFilterByActive,
+	ensureKeys,
 	loadAll,
 	loadFiltered,
 	loadIndexedPage,

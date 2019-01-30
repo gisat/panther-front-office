@@ -493,7 +493,16 @@ const use = (mapKey) => {
 				let filters = getFiltersForUse(layer, activeKeys);
 
 				dispatch(commonActions.useIndexedRegister(ActionTypes.SPATIAL_RELATIONS, `map_${mapKey}`, filters.filterByActive, filters.filter, null, 1, 100));
-				dispatch(commonActions.ensureIndexed(Select.spatialRelations.getSubstate, 'spatial', filters.mergedFilter, null, 1, 100, ActionTypes.SPATIAL_RELATIONS, 'relations'));
+				dispatch(commonActions.ensureIndexed(Select.spatialRelations.getSubstate, 'spatial', filters.mergedFilter, null, 1, 100, ActionTypes.SPATIAL_RELATIONS, 'relations'))
+					.then(() => {
+						let dataSourcesKeys = Select.spatialRelations.getDataSourceKeysFiltered(getState(), filters.mergedFilter);
+						if (dataSourcesKeys && dataSourcesKeys.length) {
+							dispatch(commonActions.ensureKeys(Select.spatialDataSources.getSubstate, 'dataSources', ActionTypes.SPATIAL_DATA_SOURCES, dataSourcesKeys,'dataSources'));
+						}
+					})
+					.catch((err) => {
+						dispatch(commonActions.actionGeneralError(err));
+					});
 			});
 		}
 	};
