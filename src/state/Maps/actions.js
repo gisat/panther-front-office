@@ -367,6 +367,37 @@ const updateWorldWindNavigator = (mapKey, updates) => {
 	}
 };
 
+const resetWorldWindNavigatorHeading = (mapKey, defaultIncrement) => {
+	return (dispatch, getState) => {
+		const mapNavigator = Select.maps.getMapNavigator(getState(), mapKey);
+
+		let headingIncrement = 1.0;
+		if (Math.abs(mapNavigator.heading) > 60) {
+			headingIncrement = 2.0;
+		} else if (Math.abs(mapNavigator.heading) > 120) {
+			headingIncrement = 3.0;
+		}
+		if (mapNavigator.heading > 0) {
+			headingIncrement = -headingIncrement;
+		}
+
+		headingIncrement = defaultIncrement || headingIncrement;
+
+		setTimeout(() => {
+			let finalHeading;
+			if (Math.abs(mapNavigator.heading) > Math.abs(headingIncrement)) {
+				finalHeading = mapNavigator.heading + headingIncrement;
+				dispatch(updateWorldWindNavigator(mapKey, {heading: finalHeading}))
+				dispatch(resetWorldWindNavigatorHeading(mapKey, headingIncrement));
+			} else {
+				finalHeading = 0;
+				dispatch(updateWorldWindNavigator(mapKey, {heading: finalHeading}))
+			}
+		}, 20)
+
+	}
+}
+
 const setMapScope = (mapKey, scope) => {
 	return (dispatch, getState) => {
 		const state = getState();
@@ -749,6 +780,8 @@ export default {
 	removeMap,
 	removeMapKeyFromSet,
 	removeSet,
+
+	resetWorldWindNavigatorHeading,
 
 	setActiveMapKey,
 	setActiveSetKey, //test
