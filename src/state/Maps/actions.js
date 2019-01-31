@@ -361,7 +361,7 @@ const updateWorldWindNavigator = (mapKey, updates) => {
 
 		if (forSet && !_.isEmpty(forSet)) {
 			//check data integrity
-			forMap = checkWorldWindNavigatorIntegrity(forSet); //TODO test
+			forSet = checkWorldWindNavigatorIntegrity(forSet); //TODO test
 			dispatch(actionUpdateSetWorldWindNavigator(set.key, forSet));
 		}
 
@@ -390,7 +390,7 @@ const checkWorldWindNavigatorIntegrity = (WorldWindNavigator) => {
 		WorldWindNavigator.tilt = 90;
 	}
 	return WorldWindNavigator;
-}
+};
 
 const resetWorldWindNavigatorHeading = (mapKey, defaultIncrement) => {
 	return (dispatch, getState) => {
