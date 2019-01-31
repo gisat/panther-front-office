@@ -61,36 +61,6 @@ const getFilteredDataGroupedByLayerKey = createSelector(
 	}
 );
 
-/* TODO other keys have to be null */
-const getByLayerTemplateKeys = createSelector(
-	[getAll,
-	(state, layerTemplateKeys) => (layerTemplateKeys)],
-	(relations, layerTemplatesKeys) => {
-		if (relations && layerTemplatesKeys) {
-			if (!_.isArray(layerTemplatesKeys)) layerTemplatesKeys = [layerTemplatesKeys];
-
-			if (layerTemplatesKeys.length) {
-				return _.filter(relations, relation => layerTemplatesKeys.includes(relation.data.layerTemplateKey));
-			} else {
-				return null;
-			}
-		} else {
-			return null;
-		}
-	}
-);
-
-const getDataSourceKeysByLayerTemplateKeys = createSelector(
-	[getByLayerTemplateKeys],
-	(relations) => {
-		if (relations && relations.length) {
-			return relations.map(relation => relation.data.dataSourceKey);
-		} else {
-			return null;
-		}
-	}
-);
-
 const getDataSourceKeysFiltered = createSelector(
 	[getFilteredData],
 	(filteredRelations) => {
@@ -118,7 +88,6 @@ const getDataSourceKeysGroupedByLayerKey = createSelector(
 );
 
 export default {
-	getDataSourceKeysByLayerTemplateKeys,
 	getDataSourceKeysFiltered,
 	getDataSourceKeysGroupedByLayerKey,
 	getSubstate

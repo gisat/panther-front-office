@@ -8,24 +8,6 @@ import SpatialRelations from "../SpatialRelations/selectors";
 const getSubstate = (state) => state.spatialDataSources;
 const getAllAsObject = common.getAllAsObject(getSubstate);
 
-const getByLayerTemplateKey = createSelector(
-	[getAllAsObject,
-	SpatialRelations.getDataSourceKeysByLayerTemplateKeys],
-	(dataSources, keys) => {
-		if (keys && keys.length && dataSources && !_.isEmpty(dataSources)) {
-			let selectedDataSources = [];
-			keys.forEach((key) => {
-				if (dataSources[key]){
-					selectedDataSources.push(dataSources[key]);
-				}
-			});
-			return selectedDataSources.length ? selectedDataSources : null;
-		} else {
-			return null;
-		}
-	}
-);
-
 const getFilteredGroupedByLayerKey = createSelector(
 	[
 		getAllAsObject,
@@ -56,7 +38,6 @@ const getFilteredGroupedByLayerKey = createSelector(
 export default {
 	getSubstate,
 
-	getByLayerTemplateKey,
 	getFilteredGroupedByLayerKey,
 
 	vector: vectorSelectors

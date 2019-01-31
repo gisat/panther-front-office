@@ -175,35 +175,6 @@ const getLayers = createSelector(
 	}
 );
 
-/**
- * @param state {Object}
- * @param layerTemplateKey {string}
- */
-const getBackgroundLayer = createSelector(
-	[
-		LayerTemplatesSelectors.getByKey,
-		SpatialDataSourcesSelectors.getByLayerTemplateKey,
-		(state, key) => key
-	],
-	(layerTemplate, dataSource, key) => {
-		if (dataSource) {
-			if (_.isArray(dataSource)) dataSource = dataSource[0];
-			let key = `${key}-${dataSource.key}`;
-
-			return {
-				key,
-				data: {
-					...dataSource.data,
-					key,
-					name: layerTemplate && layerTemplate.displayName ? layerTemplate.displayName : null,
-				}
-			}
-		} else {
-			return null;
-		}
-	}
-);
-
 const getBackgroundLayerStateByMapKey = createSelector(
 	[
 		getMapByKey,
@@ -332,7 +303,6 @@ export default {
 	getActiveMapKey,
 	getActiveSetKey,
 
-	getBackgroundLayer,
 	getBackgroundLayerStateByMapKey,
 
 	getLayers,
