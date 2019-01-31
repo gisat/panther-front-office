@@ -512,37 +512,33 @@ const use = (mapKey) => {
 		let state = getState();
 		let layers = Select.maps.getLayersStateByMapKey(state, mapKey);
 		let backgroundLayer = Select.maps.getBackgroundLayerStateByMapKey(state, mapKey);
-
-		// let activeKeys = commonSelectors.getAllActiveKeys(state);
-
-		if (layers) {
-			layers.forEach(layer => {
-				useHelper(dispatch, getState, mapKey, layer);
-			});
-		}
+		let finalLayers = [];
 
 		if (backgroundLayer) {
-			useHelper(dispatch, getState, mapKey, backgroundLayer);
+			finalLayers.push(backgroundLayer);
+		}
+
+		if (layers) {
+			finalLayers = finalLayers.concat(layers);
+		}
+
+		if (finalLayers.length) {
+			finalLayers.forEach(filters => {
+				dispatch(commonActions.useIndexedRegister(ActionTypes.SPATIAL_RELATIONS, `map_${mapKey}`, filters.filterByActive, filters.filter, null, 1, 100));
+				dispatch(commonActions.ensureIndexed(Select.spatialRelations.getSubstate, 'spatial', filters.mergedFilter, null, 1, 100, ActionTypes.SPATIAL_RELATIONS, 'relations'))
+					.then(() => {
+						let dataSourcesKeys = Select.spatialRelations.getDataSourceKeysFiltered(getState(), filters.mergedFilter);
+						if (dataSourcesKeys && dataSourcesKeys.length) {
+							dispatch(commonActions.ensureKeys(Select.spatialDataSources.getSubstate, 'dataSources', ActionTypes.SPATIAL_DATA_SOURCES, dataSourcesKeys,'dataSources'));
+						}
+					})
+					.catch((err) => {
+						dispatch(commonActions.actionGeneralError(err));
+					});
+			});
 		}
 	};
 };
-
-
-// ============ helpers ===========
-function useHelper(dispatch, getState, mapKey, filters) {
-	dispatch(commonActions.useIndexedRegister(ActionTypes.SPATIAL_RELATIONS, `map_${mapKey}`, filters.filterByActive, filters.filter, null, 1, 100));
-	dispatch(commonActions.ensureIndexed(Select.spatialRelations.getSubstate, 'spatial', filters.mergedFilter, null, 1, 100, ActionTypes.SPATIAL_RELATIONS, 'relations'))
-		.then(() => {
-			let dataSourcesKeys = Select.spatialRelations.getDataSourceKeysFiltered(getState(), filters.mergedFilter);
-			if (dataSourcesKeys && dataSourcesKeys.length) {
-				dispatch(commonActions.ensureKeys(Select.spatialDataSources.getSubstate, 'dataSources', ActionTypes.SPATIAL_DATA_SOURCES, dataSourcesKeys,'dataSources'));
-			}
-		})
-		.catch((err) => {
-			dispatch(commonActions.actionGeneralError(err));
-		});
-}
-
 
 // ============ actions ===========
 
