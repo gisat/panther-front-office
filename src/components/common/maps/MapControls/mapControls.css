@@ -26,7 +26,8 @@
 .map-controls .control > button,
 .menu-control > button {
 	padding: 4px;
-	border-bottom: 0px;
+	background: none;
+	border: 0;
 	user-select: none;
 	display: block;
 	width: 2rem;
