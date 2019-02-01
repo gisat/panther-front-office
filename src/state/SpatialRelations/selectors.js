@@ -74,6 +74,10 @@ const getFilteredDataGroupedByLayerKey = createSelector(
 	}
 );
 
+/**
+ * @param state {Object}
+ * @param filter {Object}
+ */
 const getDataSourceKeysFiltered = createSelector(
 	[getFilteredData],
 	(filteredRelations) => {
@@ -112,7 +116,10 @@ const getDataSourceKeysGroupedByLayerKey = createSelector(
 );
 
 export default {
+	getAllData,
 	getDataSourceKeysFiltered,
 	getDataSourceKeysGroupedByLayerKey,
+	getFilteredData,
+	getFilteredDataGroupedByLayerKey,
 	getSubstate
 };
