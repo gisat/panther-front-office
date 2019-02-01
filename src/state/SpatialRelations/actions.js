@@ -4,15 +4,7 @@ import common from "../_common/actions";
 
 
 // ============ creators ===========
-const loadFilteredByTemplateKeys = (keys) => {
-	let filter = {
-		layerTemplateKey: {
-			in: keys
-		}
-	};
 
-	return common.loadFiltered('spatial', ActionTypes.SPATIAL_RELATIONS, filter, 'relations');
-};
 
 // ============ actions ===========
 
@@ -20,5 +12,4 @@ const loadFilteredByTemplateKeys = (keys) => {
 // ============ export ===========
 
 export default {
-	loadFilteredByTemplateKeys
 }
