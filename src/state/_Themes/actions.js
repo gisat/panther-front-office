@@ -35,14 +35,14 @@ function setActive(key, componentId){
 	}
 }
 
-function loadByKeys(keys){
+function loadByKeys(keys, options){
 	return dispatch => {
 		let filter = {
 			key: {
 				in: keys
 			}
 		};
-		return dispatch(common.loadFiltered('themes', ActionTypes.THEMES, filter));
+		return dispatch(common.loadFiltered('themes', ActionTypes.THEMES, filter, 'metadata', options));
 	}
 }
 

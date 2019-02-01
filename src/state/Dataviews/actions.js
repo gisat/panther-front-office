@@ -110,6 +110,9 @@ function initialMetadataLoad (){
 		// TODO fix for timeline usage
 		dispatch(Action.periods.useIndexed(null, null, null, 1, 1000, 'ActiveView'));
 
+		/* TODO for initial data load is needed to load all data for eeach metadata type in one request, because Ext :(*/
+		let options = {PAGE_SIZE: 1000};
+
 		if (data.dataset){
 			dispatch(Action.scopes.loadForKeys([data.dataset]))
 				.then(() => {
@@ -138,16 +141,16 @@ function initialMetadataLoad (){
 					// TODO move somewhere else?
 					if (activeScopeConfig && activeScopeConfig.pucsLandUseScenarios){
 						let templateKeys = Object.values(activeScopeConfig.pucsLandUseScenarios.templates);
-						dispatch(Action.layerTemplates.useKeys(templateKeys, 'ActiveView'));
+						dispatch(Action.layerTemplates.useKeys(templateKeys, 'ActiveView', options));
 					}
 
 					if ((data.locations && data.locations.length) || (data.location)){
 						if (data.locations && data.locations.length > 1){
 							dispatch(Action.places.setActive(data.locations));
-							dispatch(Action.places.useKeys(data.locations, 'ActiveView'));
+							dispatch(Action.places.useKeys(data.locations, 'ActiveView', options));
 						} else {
 							dispatch(Action.places.setActive(data.location));
-							dispatch(Action.places.useKeys([data.location], 'ActiveView'));
+							dispatch(Action.places.useKeys([data.location], 'ActiveView', options));
 						}
 					} else {
 						dispatch(Action.places.initializeForExt());
@@ -170,18 +173,18 @@ function initialMetadataLoad (){
 
 		if (data.visualization){
 			dispatch(Action.visualizations.setActiveKey(data.visualization));
-			dispatch(Action.visualizations.useKeys([data.visualization], 'ActiveView'));
+			dispatch(Action.visualizations.useKeys([data.visualization], 'ActiveView', options));
 		} else {
 			dispatch(Action.visualizations.initializeForExt());
 		}
 
 		if (data.theme){
 			dispatch(Action.themes.setActiveKey(data.theme));
-			dispatch(Action.themes.loadByKeys([data.theme]))
+			dispatch(Action.themes.loadByKeys([data.theme], options))
 				.then(() => {
 					let activeTheme = Select.themes.getActive(getState());
 					if (activeTheme && activeTheme.data && activeTheme.data.topics) {
-						return dispatch(Action.attributeSets.loadForTopics(activeTheme.data.topics));
+						return dispatch(Action.attributeSets.loadForTopics(activeTheme.data.topics, options));
 					} else {
 						throw new Error(`state/dataviews/actions#loadByKey No topics for active theme!`);
 					}
@@ -190,7 +193,7 @@ function initialMetadataLoad (){
 					let topics = Select.themes.getTopicsForActive(getState());
 					let attributeKeys = Select.attributeSets.getUniqueAttributeKeysForTopics(getState(), topics);
 					if (attributeKeys){
-						dispatch(Action.attributes.useKeys(attributeKeys, 'ActiveView'));
+						dispatch(Action.attributes.useKeys(attributeKeys, 'ActiveView', options));
 					} else {
 						dispatch(Action.attributes.initializeForExt());
 					}
