@@ -30,74 +30,6 @@ const getScopesForActiveUser = createSelector([
 	}
 );
 
-const getPucsSourceVectorLayerTemplate = createSelector(
-	[getActiveScopeConfiguration],
-	(conf) => {
-		return conf && conf.pucsLandUseScenarios && conf.pucsLandUseScenarios.templates && conf.pucsLandUseScenarios.templates.sourceVector ? conf.pucsLandUseScenarios.templates.sourceVector : null;
-	}
-);
-
-const getSymbologyForPucsSourceVectorLayerTemplate = createSelector(
-	[getPucsSourceVectorLayerTemplate,
-	(state) => Select.layerTemplates.getTemplates(state),
-	(state) => Select.styles.getAll(state)],
-	(templateKey, templates, symbologies) => {
-		if (templateKey){
-			let templateData = _.find(templates, (tmplt) => {
-				return tmplt.key === templateKey;
-			});
-			if (templateData && templateData.symbologies && templateData.symbologies.length){
-				let symbologyKey = templateData.symbologies[0];
-				let symbologyData = _.find(symbologies, (smblg) => {
-					return smblg.key === symbologyKey;
-				});
-				if (symbologyData){
-					return symbologyData.symbologyName;
-				} else {
-					return null;
-				}
-			} else {
-				return null;
-			}
-		} else {
-			console.warn('Scope selectors#getSymbologiesForPucsSourceVectorLayerTemplate: Scope does not have specified the source vector layer template');
-			return null;
-		}
-	}
-);
-
-const getPucsSourceVectorLandCoverClasses = createSelector(
-	[getPucsSourceVectorLayerTemplate,
-		(state) => Select.layerTemplates.getTemplates(state),
-		(state) => Select.attributeSets.getAttributeSets(state),
-		(state) => Select.attributes.getAttributes(state)],
-	(templateKey, templates, attributeSets, attributes) => {
-		let template = _.find(templates, (tmplt) => {
-			return tmplt.key === templateKey;
-		});
-		if (template && template.data && template.data.attributeSets && template.data.attributeSets.length && attributes && attributeSets){
-			let attributeSet = _.find(attributeSets, (as) => {
-				return as.key === template.data.attributeSets[0];
-			});
-			if (attributeSet){
-				let attribute = _.find(attributes, (attr) => {
-					return attr.key === attributeSet.data.attributes[0];
-				});
-				if (attribute && attribute.data && attribute.data.enumerationValues){
-					return attribute.data.enumerationValues;
-				} else {
-					console.warn('Scope selectors#getPucsSourceVectorLandCoverClasses: Attibute set ' + attributeSet.key + ' does not contain attributes or first attribute does not have enumeration values parameter!');
-					return null;
-				}
-			} else {
-				console.warn('Scope selectors#getPucsSourceVectorLandCoverClasses: Layer template ' + templateKey + ' does not contain attribute sets!');
-				return null;
-			}
-		} else {
-			return null;
-		}
-	}
-);
 
 export default {
 	getActiveScopeConfiguration,
@@ -114,8 +46,4 @@ export default {
 	getAllForDataviewAsObject,
 	getActive,
 	getSubstate,
-
-	getPucsSourceVectorLandCoverClasses,
-	getPucsSourceVectorLayerTemplate,
-	getSymbologyForPucsSourceVectorLayerTemplate
 };
