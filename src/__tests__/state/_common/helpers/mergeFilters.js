@@ -16,7 +16,7 @@ describe('#mergeFilters', () => {
 		const filter = null;
 
 		const expectedOutput = {
-			dataset: 1
+			scope: 1
 		};
 
 		expect(commonHelpers.mergeFilters(activeKeys, filterByActive, filter)).toEqual(expectedOutput);
@@ -35,11 +35,11 @@ describe('#mergeFilters', () => {
 			place: true
 		};
 		const filter = {
-			dataset: 2
+			scope: 2
 		};
 
 		const expectedOutput = {
-			dataset: 2,
+			scope: 2,
 			place: 3
 		};
 
@@ -60,11 +60,11 @@ describe('#mergeFilters', () => {
 			periods: true
 		};
 		const filter = {
-			dataset: 2
+			scope: 2
 		};
 
 		const expectedOutput = {
-			dataset: 1,
+			scope: 1,
 			periods: {
 				key: {
 					in: [4, 5]
@@ -86,7 +86,7 @@ describe('#mergeFilters', () => {
 		};
 		const filterByActive = null;
 		const filter = {
-			dataset: 2
+			scope: 2
 		};
 
 		expect(commonHelpers.mergeFilters(activeKeys, filterByActive, filter)).toEqual(filter);
