@@ -17,7 +17,7 @@ const getAllData = createSelector(
 );
 
 /**
- * @param relations {Array} collection of relation.data
+ * @param state {Object}
  * @param filter {Object}
  */
 const getFilteredData = createSelector(
@@ -35,22 +35,35 @@ const getFilteredData = createSelector(
 );
 
 /**
- * @param relations {Array} collection of relation.data
- * @param filter {Array}
+ * Collect and prepare relations for given filters grouped by layer key
+ *
+ * @param state {Object}
+ * @param layers {Array | null} Collection of layers data. Each object in collection contains filter property (it is used for selecting of relations) and data property (which contains data about layer from map state - e.g. key).
  */
 const getFilteredDataGroupedByLayerKey = createSelector(
 	[
 		getAllData,
 		(state, layers) => layers
 	],
+	/**
+	 * @param relations {Array | null} list of all relations data
+	 * @param layers {Array | null}
+	 * @return {Object | null} Selected relations grouped by layer key
+	 */
 	(relations, layers) => {
-		if (relations && layers && !_.isEmpty(layers)) {
+		if (layers && !_.isEmpty(layers)) {
 			let groupedRelations = {};
 			layers.forEach(layer => {
 				if (layer.data && layer.data.key) {
-					let filteredRelations = _.filter(relations, layer.filter);
-					if (!_.isEmpty(filteredRelations)) {
-						groupedRelations[layer.data.key] = filteredRelations;
+					if (relations) {
+						let filteredRelations = _.filter(relations, layer.filter);
+						if (!_.isEmpty(filteredRelations)) {
+							groupedRelations[layer.data.key] = filteredRelations;
+						} else {
+							groupedRelations[layer.data.key] = [null];
+						}
+					} else {
+						groupedRelations[layer.data.key] = [null];
 					}
 				}
 			});
@@ -72,13 +85,24 @@ const getDataSourceKeysFiltered = createSelector(
 	}
 );
 
+/**
+ * Collect and prepare data sources keys grouped by layer key
+ *
+ * @param state {Object}
+ * @param layers {Array | null} Collection of layers data. Each object in collection contains filter property (it is used for selecting of relations) and data property (which contains data about layer from map state - e.g. key).
+ */
 const getDataSourceKeysGroupedByLayerKey = createSelector(
 	[getFilteredDataGroupedByLayerKey],
+
+	/**
+	 * @param groupedRelations {null | Object} Relations grouped by layer key
+	 * @return {null | Object} Data sources keys grouped by layer key
+	 */
 	(groupedRelations) => {
 		if (groupedRelations) {
 			let groupedDataSourceKeys = {};
 			_.forIn(groupedRelations, (relationsData, layerKey) => {
-				groupedDataSourceKeys[layerKey] = relationsData.map(relationData => relationData.dataSourceKey);
+				groupedDataSourceKeys[layerKey] = relationsData.map(relationData => {return relationData ? relationData.dataSourceKey : null});
 			});
 			return !_.isEmpty(groupedDataSourceKeys) ? groupedDataSourceKeys : null;
 		} else {

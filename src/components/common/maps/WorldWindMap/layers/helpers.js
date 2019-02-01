@@ -13,12 +13,15 @@ const {Location, Sector} = WorldWind;
  */
 function addLayer(wwd, layerData, position) {
 	if (layerData){
-		if (position || position === 0){
-			wwd.insertLayer(position, getLayerByType(layerData));
-		} else {
-			wwd.addLayer(getLayerByType(layerData));
+		let layer = getLayerByType(layerData);
+		if (layer) {
+			if (position || position === 0){
+				wwd.insertLayer(position, layer);
+			} else {
+				wwd.addLayer(layer);
+			}
+			wwd.redraw();
 		}
-		wwd.redraw();
 	} else {
 		throw new Error("WorldWindMap/layers/helpers#addLayer: Layer data missing!");
 	}
@@ -49,10 +52,10 @@ function getLayerByType(layerData){
 			case "wmts":
 				return getWmtsOsmBasedLayer(layerData);
 			default:
-				throw new Error("WorldWindMap/layers/helpers#getLayerByType: Unknown type of layer: " + layerData.type)
+				return null;
 		}
 	} else {
-		throw new Error("WorldWindMap/layers/helpers#getLayerByType: Layer type is missing");
+		return null;
 	}
 }
 

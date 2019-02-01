@@ -46,7 +46,7 @@ class WorldWindMap extends React.PureComponent {
 
 		if (this.props.backgroundLayer) {
 			this.props.backgroundLayer.forEach(layer => {
-				layers.addLayer(this.wwd, layer.data, 0);
+				layers.addLayer(this.wwd, layer, 0);
 			});
 		}
 
@@ -72,11 +72,11 @@ class WorldWindMap extends React.PureComponent {
 	handleBackgroundLayers(prevLayerData, nextLayerData) {
 		if (!prevLayerData) {
 			this.props.backgroundLayer.forEach(layer => {
-				layers.addLayer(this.wwd, layer.data, 0);
+				layers.addLayer(this.wwd, layer, 0);
 			});
 		} else if (nextLayerData && !_.isEqual(prevLayerData, nextLayerData)){
 			nextLayerData.forEach(layer => {
-				layers.addLayer(this.wwd, layer.data, 0);
+				layers.addLayer(this.wwd, layer, 0);
 			});
 			prevLayerData.forEach(layer => {
 				layers.removeLayer(this.wwd, layer.key);
@@ -86,12 +86,12 @@ class WorldWindMap extends React.PureComponent {
 
 	handleLayers(nextLayersData) {
 		let nextLayers = [];
-		nextLayersData.forEach(layerData => {
-			let existingLayer = layers.findLayerByKey(this.wwd, layerData.key);
+		nextLayersData.forEach(data => {
+			let existingLayer = layers.findLayerByKey(this.wwd, data.key);
 			if (existingLayer){
 				nextLayers.push(existingLayer);
 			} else {
-				let layer = layers.getLayerByType(layerData.data);
+				let layer = layers.getLayerByType(data);
 				if (layer){
 					nextLayers.push(layer);
 				}

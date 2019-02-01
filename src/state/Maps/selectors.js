@@ -145,11 +145,22 @@ const getMapLayerByMapKeyAndLayerKey = createSelector(
 );
 
 /* TODO merge with template */
+/**
+ * Collect and prepare data for map component
+ *
+ * @param state {Object}
+ * @param layers {Array} Collection of layers data. Each object in collection contains filter property (it is used for selecting of relations) and data property (which contains data about layer from map state - e.g. key).
+ */
 const getLayers = createSelector(
 	[
 		SpatialDataSourcesSelectors.getFilteredGroupedByLayerKey,
 		(state, layers) => (layers)
 	],
+	/**
+	 * @param groupedSources {null | Object} Data sources grouped by layer key
+	 * @param layers {null | Array}
+	 * @return {null | Array} Collection of layers data for map component
+	 */
 	(groupedSources, layers) => {
 		if (groupedSources && layers) {
 			let layersForMap = [];
@@ -157,14 +168,19 @@ const getLayers = createSelector(
 				let sourcesForLayer = groupedSources[layer.data.key];
 				if (sourcesForLayer) {
 					sourcesForLayer.forEach(source => {
-						let key = `${layer.data.key}-${source.key}`;
-						layersForMap.push({
-							key,
-							data: {
+						let key = `${layer.data.key}`;
+
+						if (source) {
+							key += `-${source.key}`;
+							layersForMap.push({
 								...source.data,
 								key
-							}
-						});
+							});
+						} else {
+							layersForMap.push({
+								key
+							});
+						}
 					});
 				}
 			});
@@ -175,6 +191,10 @@ const getLayers = createSelector(
 	}
 );
 
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ */
 const getBackgroundLayerStateByMapKey = createSelector(
 	[
 		getMapByKey,
@@ -203,6 +223,10 @@ const getBackgroundLayerStateByMapKey = createSelector(
 	}
 );
 
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ */
 const getLayersStateByMapKey = createSelector(
 	[
 		getMapByKey,
@@ -238,7 +262,7 @@ const getLayersStateByMapKey = createSelector(
  * Prepare filters for use from layers state
  * @param layer {Object} layer state
  * @param activeKeys {Object} Metadata active keys
- * @return {{filter, filterByActive, mergedFilter}}
+ * @return {{filter, filterByActive, mergedFilter, layer}}
  */
 function getFiltersForUse(layer, activeKeys) {
 	let filter = {};

@@ -4,6 +4,7 @@ import Select from '../../state/Select';
 import commonActions from '../_common/actions';
 import commonSelectors from '../_common/selectors';
 import utils from '../../utils/utils';
+import Action from "../Action";
 
 const {actionGeneralError} = commonActions;
 
@@ -222,7 +223,8 @@ const addLayer = (mapKey, layer) => {
 		if(!mapByKey) {
 			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
 		} else {
-			return dispatch(actionAddLayer(mapKey, layer));
+			dispatch(actionAddLayer(mapKey, layer));
+			dispatch(Action.maps.use(mapKey));
 		}
 	};
 };
@@ -491,6 +493,7 @@ const setMapBackgroundLayer = (mapKey, backgroundLayer) => {
 			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
 		} else {
 			dispatch(actionSetMapBackgroundLayer(mapKey, backgroundLayer));
+			dispatch(Action.maps.use(mapKey));
 		}
 	};
 };
@@ -535,6 +538,8 @@ const use = (mapKey) => {
 					.catch((err) => {
 						dispatch(commonActions.actionGeneralError(err));
 					});
+
+				// TODO register and ensure layer templates
 			});
 		}
 	};
