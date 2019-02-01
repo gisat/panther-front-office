@@ -4,7 +4,6 @@ import Areas from './Areas/actions';
 import Attributes from './Attributes/actions';
 import AttributeSets from './AttributeSets/actions';
 import Components from './Components/actions';
-import Dataviews from './Dataviews/actions';
 import LayerTemplates from './LayerTemplates/actions';
 import Maps from './Maps/actions';
 import Periods from './Periods/actions';
@@ -27,7 +26,6 @@ export default {
 	attributes: Attributes,
 	attributeSets: AttributeSets,
 	components: Components,
-	dataviews: Dataviews,
 	layerTemplates: LayerTemplates,
 	maps: Maps,
 	periods: Periods,

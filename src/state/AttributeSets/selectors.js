@@ -8,8 +8,6 @@ const getSubstate = state => state.attributeSets;
 const getAll = common.getAll(getSubstate);
 const getActiveKeys = common.getActiveKeys(getSubstate);
 const getActive = common.getActive(getSubstate);
-const getAllForDataview = common.getAllForDataview(getSubstate);
-const getAllForDataviewAsObject = common.getAllForDataviewAsObject(getSubstate);
 
 const getByTopics = createSelector(
 	[getAll, (state, topics) => topics],
@@ -46,9 +44,6 @@ export default {
 	getActive,
 	getActiveKeys,
 	getAttributeSets: getAll,
-
-	getAllForDataview,
-	getAllForDataviewAsObject,
 
 	getByTopics,
 	getUniqueAttributeKeysForTopics

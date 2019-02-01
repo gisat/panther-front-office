@@ -9,8 +9,6 @@ const getSubstate = state => state.periods;
 
 const getAll = common.getAll(getSubstate);
 const getAllAsObject = common.getAllAsObject(getSubstate);
-const getAllForDataview = common.getAllForDataview(getSubstate);
-const getAllForDataviewAsObject = common.getAllForDataviewAsObject(getSubstate);
 const getActive = common.getActive(getSubstate);
 const getActiveKey = common.getActiveKey(getSubstate);
 const getActiveKeys = common.getActiveKeys(getSubstate);
@@ -65,7 +63,5 @@ export default {
 	getAll,
 	getAllAsObject,
 	getAllForActiveScope,
-	getAllForDataview,
-	getAllForDataviewAsObject,
 	getSubstate
 };

@@ -3,7 +3,6 @@ import Areas from './Areas/selectors';
 import Attributes from './Attributes/selectors';
 import AttributeSets from './AttributeSets/selectors';
 import Components from './Components/selectors';
-import Dataviews from './Dataviews/selectors';
 import LayerPeriods from './LayerPeriods/selectors';
 import LayerTemplates from './LayerTemplates/selectors';
 import Maps from './Maps/selectors';
@@ -26,7 +25,6 @@ export default {
 	attributes: Attributes,
 	attributeSets: AttributeSets,
 	components: Components,
-	dataviews: Dataviews,
 	layerPeriods: LayerPeriods,
 	layerTemplates: LayerTemplates,
 	maps: Maps,

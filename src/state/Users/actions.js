@@ -11,7 +11,6 @@ import Select from "../Select";
 
 import scopeActions from '../Scopes/actions';
 import lpisCasesActions from '../_specific/LpisChangeReviewCases/actions';
-import dataViewActions from '../Dataviews/actions';
 import overlaysActions from '../Components/Overlays/actions';
 
 import Action from '../Action';

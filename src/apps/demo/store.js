@@ -7,7 +7,6 @@ import areasReducers from '../../state/Areas/reducers';
 import attributesReducers from '../../state/Attributes/reducers';
 import attributeSetsReducers from '../../state/AttributeSets/reducers';
 import componentsReducers from '../../state/Components/reducers';
-import dataviewsReducers from '../../state/Dataviews/reducers';
 import layerPeriodsReducers from '../../state/LayerPeriods/reducers';
 import layerTemplatesReducers from '../../state/LayerTemplates/reducers';
 import mapsReducers from '../../state/Maps/reducers';
@@ -27,7 +26,6 @@ export default createStore(combineReducers({
 	attributes: attributesReducers,
 	attributeSets: attributeSetsReducers,
 	components: componentsReducers,
-	dataviews: dataviewsReducers,
 	layerPeriods: layerPeriodsReducers,
 	layerTemplates: layerTemplatesReducers,
 	maps: mapsReducers,

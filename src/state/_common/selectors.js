@@ -91,36 +91,6 @@ const getAllForActiveTheme = (getSubstate) => {
 	);
 };
 
-const getAllForDataviewAsObject = (getSubstate) => {
-	return createSelector(
-		[getAllAsObject(getSubstate)],
-		byKey => {
-			if (byKey){
-				let data = {};
-				_.forIn(byKey, (value, key) => {
-					data[key] = {
-						...value.data,
-						_id: Number(key),
-						id: Number(key)
-					}
-				});
-				return data;
-			} else {
-				return null;
-			}
-		}
-	);
-};
-
-const getAllForDataview = (getSubstate) => {
-	return createSelector(
-		[getAllForDataviewAsObject(getSubstate)],
-		byKey => {
-			return byKey ? Object.values(byKey) : null;
-		}
-	);
-};
-
 const getActiveKey = (getSubstate) => {
 	return (state) => getSubstate(state).activeKey
 };
@@ -511,8 +481,6 @@ export default {
 	getAllAsObject,
 	getAllForActiveScope,
 	getAllForActiveTheme,
-	getAllForDataview,
-	getAllForDataviewAsObject,
 
 	getByKey,
 
