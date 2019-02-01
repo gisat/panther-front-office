@@ -31,9 +31,9 @@ export default () => {
 		range: true
 	}));
 
+	ReactDOM.render(<Provider store={Store}><Demo/></Provider>,document.getElementById('ptr'));
+
 	Store.dispatch(Action.maps.addLayer('Map1', {layerTemplate: "fcbd3f6b-d376-4e83-a0e2-03bdf36c3b46"}));
 
-	Store.dispatch(Action.maps.addLayer('Map1', {layerTemplate: "54b2d81b-9cd2-4409-ac1c-464c864bd1dc"}));
-
-	ReactDOM.render(<Provider store={Store}><Demo/></Provider>,document.getElementById('ptr'));
+	Store.dispatch(Action.maps.addLayer('Map2', {layerTemplate: "54b2d81b-9cd2-4409-ac1c-464c864bd1dc"}));
 }
