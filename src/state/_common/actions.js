@@ -34,10 +34,10 @@ const addIndex = (action) => {
 };
 
 const useKeys = (getSubstate, dataType, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) => {
-	return (keys, componentId) => {
+	return (keys, componentId, options) => {
 		return dispatch => {
 			dispatch(actionUseKeysRegister(actionTypes, componentId, keys));
-			dispatch(ensureKeys(getSubstate, dataType, actionTypes, keys, categoryPath));
+			dispatch(ensureKeys(getSubstate, dataType, actionTypes, keys, categoryPath, options));
 		};
 	}
 };
@@ -144,13 +144,13 @@ function loadAll(dataType, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) {
 	};
 }
 
-function ensureKeys(getSubstate, dataType, actionTypes, keys, categoryPath = DEFAULT_CATEGORY_PATH){
+function ensureKeys(getSubstate, dataType, actionTypes, keys, categoryPath = DEFAULT_CATEGORY_PATH, options){
 	return (dispatch, getState) => {
 		let state = getState();
 
 		let keysToLoad = commonSelectors.getKeysToLoad(getSubstate)(state, keys);
 		if (keysToLoad){
-			keysToLoad = _.chunk(keysToLoad, PAGE_SIZE);
+			keysToLoad = _.chunk(keysToLoad, (options && options.PAGE_SIZE ? options.PAGE_SIZE : PAGE_SIZE));
 			_.each(keysToLoad, keysToLoadPage => {
 				dispatch(loadKeysPage(dataType, actionTypes, keysToLoadPage, categoryPath));
 			});
@@ -260,30 +260,33 @@ function loadIndexedPage(dataType, filter, order, start, changedOn, actionTypes,
 	};
 }
 
-function loadFiltered(dataType, actionTypes, filter, categoryPath = DEFAULT_CATEGORY_PATH) {
+function loadFiltered(dataType, actionTypes, filter, categoryPath = DEFAULT_CATEGORY_PATH, options) {
 	return dispatch => {
-		const apiPath = getAPIPath(categoryPath, dataType)
+		const apiPath = getAPIPath(categoryPath, dataType);
+		let pageSize = options && options.PAGE_SIZE ? options.PAGE_SIZE : PAGE_SIZE;
+
 		const payload = {
 			filter: filter,
-			limit: PAGE_SIZE
+			limit: pageSize
 		};
+
 		return request(apiPath, 'POST', null, payload)
 			.then(result => {
 				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
 					dispatch(actionGeneralError(result.errors[dataType] || new Error('no data')));
 				} else {
-					if (result.total <= PAGE_SIZE) {
+					if (result.total <= pageSize) {
 						// everything already loaded
 						return dispatch(actionAdd(actionTypes, result.data[dataType]));
 					} else {
 						// load remaining pages
 						let promises = [];
-						let remainingPageCount = Math.ceil((result.total - PAGE_SIZE) / PAGE_SIZE);
+						let remainingPageCount = Math.ceil((result.total - pageSize) / pageSize);
 						for (let i = 0; i < remainingPageCount; i++) {
 							let pagePayload = {
 								filter: filter,
-								offset: (i + 1) * PAGE_SIZE,
-								limit: PAGE_SIZE
+								offset: (i + 1) * pageSize,
+								limit: pageSize
 							};
 							promises.push(request(apiPath, 'POST', null, pagePayload)); //todo what if one fails?
 						}

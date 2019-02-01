@@ -10,14 +10,14 @@ import common from "../_common/actions";
 
 const setActiveKeys = common.setActiveKeys(ActionTypes.ATTRIBUTE_SETS);
 
-function loadForTopics(topics) {
+function loadForTopics(topics, options) {
 	return (dispatch) => {
 		let filter = {
 			topic: {
 				in: topics
 			}
 		};
-		return dispatch(common.loadFiltered('attributesets', ActionTypes.ATTRIBUTE_SETS, filter));
+		return dispatch(common.loadFiltered('attributesets', ActionTypes.ATTRIBUTE_SETS, filter, 'metadata', options));
 	}
 }
 
