@@ -9,11 +9,11 @@ import {
 
 describe('#getUsesForIndex', () => {
 	it('should select used index for given filter and order with merged uses', () => {
-		const filter = {dataset: 666};
+		const filter = {scope: 666};
 		const order = null;
 
 		const expectedBasicStateOutput = {
-			filter: {dataset: 666},
+			filter: {scope: 666},
 			order: null,
 			uses: [{
 				length: 10,
@@ -43,11 +43,11 @@ describe('#getUsesForIndex', () => {
 
 	it('should select used index for given filter and order with merged uses', () => {
 		const WITHOUT_ACTIVE_SCOPE = {...BASIC_STATE, scopes: {}};
-		const filter = {dataset: 666};
+		const filter = {scope: 666};
 		const order = null;
 
 		const expectedWithoutActiveScopeStateOutput = {
-			filter: {dataset: 666},
+			filter: {scope: 666},
 			order: null,
 			uses: [{
 				length: 5,

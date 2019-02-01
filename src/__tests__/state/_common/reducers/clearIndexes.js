@@ -13,7 +13,7 @@ describe('#clearIndexes', () => {
 				{
 					changedOn: "2018-12-03T15:25:12.745Z",
 					count: null,
-					filter: {dataset: 666},
+					filter: {scope: 666},
 					order: null,
 					index: null
 				}, {

@@ -47,7 +47,7 @@ describe('#addIndex', () => {
 		const action = {
 			changedOn: "2018-12-03T15:25:12.745Z",
 			count: 4,
-			filter: {dataset: 666},
+			filter: {scope: 666},
 			order: null,
 			start: 1,
 			data: [{key: 10}, {key: 12}, {key: 13}]
@@ -55,7 +55,7 @@ describe('#addIndex', () => {
 		const expectedStateFragment = {
 			changedOn: "2018-12-03T15:25:12.745Z",
 			count: 4,
-			filter: {dataset: 666},
+			filter: {scope: 666},
 			order: null,
 			index: {1: 10, 2: 12, 3: 13, 4: 11}
 		};

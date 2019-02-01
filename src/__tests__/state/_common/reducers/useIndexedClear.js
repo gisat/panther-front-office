@@ -12,7 +12,7 @@ describe('#useIndexedClear', () => {
 				...BASIC_STATE.sample.inUse,
 				indexes: {
 					Component_a: {
-						filter: {dataset: 666},
+						filter: {scope: 666},
 						filterByActive: null,
 						order: null,
 						start: 1,
@@ -48,7 +48,7 @@ describe('#useIndexedClear', () => {
 				...BASIC_STATE.sample.inUse,
 				indexes: {
 					Component_a: {
-						filter: {dataset: 666},
+						filter: {scope: 666},
 						filterByActive: null,
 						order: null,
 						start: 1,
@@ -88,7 +88,7 @@ describe('#useIndexedClear', () => {
 				...NO_IN_USE_INDEXES_STATE.sample.inUse,
 				indexes: {
 					Component_aa: {
-						filter: {dataset: 666},
+						filter: {scope: 666},
 						filterByActive: null,
 						order: null,
 						start: 1,

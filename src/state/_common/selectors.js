@@ -25,9 +25,8 @@ const getAllForActiveScope = (getSubstate) => {
 		[getAllAsObject(getSubstate), getIndexes(getSubstate), activeScopeKey, (state, order) => order],
 		(models, indexes, activeScopeKey, order) => {
 			if (models && indexes && activeScopeKey) {
-				// TODO change dataset to scope
 				let filter = {
-					dataset: activeScopeKey
+					scope: activeScopeKey
 				};
 				let index = commonHelpers.getIndex(indexes, filter, order);
 				if (index && index.index) {
