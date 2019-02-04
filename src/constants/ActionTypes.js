@@ -388,6 +388,19 @@ export default utils.deepKeyMirror({
 		}
 	},
 
+	SCREENS: {
+		ADD: null,
+		CLOSE: null,
+		OPEN: null,
+		REMOVE: null,
+		RETRACT: null,
+		SETS: {
+			ADD: null,
+			REMOVE: null
+		},
+		TOP_HISTORY: null
+	},
+
 	SPATIAL_RELATIONS: {
 		ADD: null,
 		ADD_UNRECEIVED: null,

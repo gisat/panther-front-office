@@ -10,17 +10,32 @@ const INITIAL_SET_STATE = {
     orderBySpace: [],
 };
 
-const INITIAL_SCREEN_STATE = {
-    lineage: null, //scope-place
+const INITIAL_SCREEN_DATA = {
     width: null,
     minActiveWidth: null,
-    state: 'open', //open/retracted/closing
+    desiredState: 'open', //open/retracted/closing
+};
+
+const add = (state, action) => {
+	let screens = {...state.screens};
+
+	screens[action.lineage] = {
+		lineage: action.lineage,
+		data: {...INITIAL_SCREEN_DATA, ...action.data}
+	};
+
+	let sets = {...state.sets};
+	sets[action.setKey] = {...INITIAL_SET_STATE, ...sets[action.setKey]};
+	sets[action.setKey].orderBySpace = [...sets[action.setKey].orderBySpace, action.lineage];
+	sets[action.setKey].orderByHistory = [...sets[action.setKey].orderByHistory, action.lineage];
+
+	return {...state, screens, sets};
 };
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		// case ActionTypes.SNAPSHOTS_ADD:
-		// 	return add(state, action);
+		case ActionTypes.SCREENS.ADD:
+			return add(state, action);
 		default:
 			return state;
 	}
