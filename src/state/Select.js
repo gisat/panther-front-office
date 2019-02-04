@@ -10,6 +10,7 @@ import Periods from './Periods/selectors';
 import Places from './Places/selectors';
 import Scenarios from './Scenarios/selectors';
 import Scopes from './Scopes/selectors';
+import Screens from './Screens/selectors';
 import Snapshots from './Snapshots/selectors';
 import SpatialDataSources from './SpatialDataSources/selectors';
 import SpatialRelations from './SpatialRelations/selectors';
@@ -32,6 +33,7 @@ export default {
 	places: Places,
 	scenarios: Scenarios,
 	scopes: Scopes,
+	screens: Screens,
 	snapshots: Snapshots,
 	spatialDataSources: SpatialDataSources,
 	spatialRelations: SpatialRelations,
