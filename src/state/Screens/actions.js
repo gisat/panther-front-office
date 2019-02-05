@@ -4,11 +4,10 @@ import Select from '../Select';
 let timeouts = {};
 
 // ============ creators ===========
-function addOrUpdate (setKey, lineage, width, minActiveWidth, desiredState, component, props) {
+function addOrUpdate (setKey, lineage, width, minActiveWidth, component, props) {
 	return (dispatch, getState) => {
 		let existingScreen = Select.screens.getScreenByLineage(getState(), lineage);
 
-		/* TODO same action or reducer ? */
 		if (existingScreen) {
 			if (timeouts[lineage]) {
 				clearTimeout(timeouts[lineage]);
@@ -18,7 +17,7 @@ function addOrUpdate (setKey, lineage, width, minActiveWidth, desiredState, comp
 				{
 					width,
 					minActiveWidth,
-					desiredState,
+					desiredState: 'open',
 					component,
 					props
 				})
@@ -30,29 +29,13 @@ function addOrUpdate (setKey, lineage, width, minActiveWidth, desiredState, comp
 				{
 					width,
 					minActiveWidth,
-					desiredState,
+					desiredState: 'open',
 					component,
 					props
 				})
 			);
 		}
-	};
-}
-
-/* TODO still needed? */
-function add(setKey, lineage, width, minActiveWidth, desiredState, component, props) {
-	return dispatch => {
-		dispatch(actionAdd(
-			setKey,
-			lineage,
-			{
-				width,
-				minActiveWidth,
-				desiredState,
-				component,
-				props
-			})
-		);
+		dispatch(actionTopHistory(setKey, lineage));
 	};
 }
 
@@ -60,6 +43,7 @@ function open(screenLineage) {
 	return (dispatch, getState) => {
 		let setKey = Select.screens.getSetKeyByScreenLineage(getState(), screenLineage);
 		dispatch(actionOpen(setKey, screenLineage));
+		dispatch(actionTopHistory(setKey, screenLineage));
 	};
 }
 
@@ -78,6 +62,7 @@ function retract(screenLineage) {
 	return (dispatch, getState) => {
 		let setKey = Select.screens.getSetKeyByScreenLineage(getState(), screenLineage);
 		dispatch(actionRetract(setKey, screenLineage));
+		dispatch(actionTopHistory(setKey, screenLineage));
 	};
 }
 
@@ -125,6 +110,14 @@ const actionRetract = (setKey, lineage) => {
 	}
 };
 
+const actionTopHistory = (setKey, lineage) => {
+	return {
+		type: ActionTypes.SCREENS.TOP_HISTORY,
+		setKey,
+		lineage
+	}
+};
+
 const actionUpdate = (setKey, lineage) => {
 	return {
 		type: ActionTypes.SCREENS.UPDATE,
@@ -140,5 +133,6 @@ export default {
 	addOrUpdate,
 	close,
 	open,
-	retract
+	retract,
+	topHistory: actionTopHistory
 }
