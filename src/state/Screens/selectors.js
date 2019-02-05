@@ -4,6 +4,38 @@ import {createSelector} from 'reselect';
 const getAllScreensAsObject = state => state.screens.screens;
 const getAllSetsAsObject = state => state.screens.sets;
 
+const getSetByKey = createSelector(
+	[
+		getAllSetsAsObject,
+		(state, key) => key
+	],
+	(sets, key) => {
+		if (sets && !_.isEmpty(sets) && key && sets[key]) {
+			return sets[key];
+		} else {
+			return null;
+		}
+	}
+);
+
+const getScreensBySetKey = createSelector(
+	[
+		getSetByKey,
+		getAllScreensAsObject
+	],
+	(set, screens) => {
+		if (set) {
+			let setScreens = {};
+			_.each(set.orderBySpace, (lineage) => {
+				setScreens[lineage] = screens[lineage];
+			});
+			return setScreens;
+		} else {
+			return null;
+		}
+	}
+);
+
 /**
  * @param state {Object}
  * @param screenLineage {string}
@@ -56,5 +88,7 @@ const getScreenByLineage = createSelector(
 
 export default {
 	getScreenByLineage,
+	getScreensBySetKey,
+	getSetByKey,
 	getSetKeyByScreenLineage
 }

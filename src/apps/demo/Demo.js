@@ -19,7 +19,7 @@ class Demo extends React.PureComponent {
 	render() {
 		return (
 			<Screens
-				set="demo"
+				setKey="demo"
 			>
 				<div id="demo">
 					<MapControls />

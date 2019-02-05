@@ -8,6 +8,9 @@ import Store from './store';
 import Demo from './Demo';
 import Select from '../../state/Select';
 
+import User from '../../components/common/controls/User';
+
+import '../../index.css';
 
 export default () => {
 	// Set language
@@ -32,6 +35,7 @@ export default () => {
 	}));
 
 	Store.dispatch(Action.screens.addSet('demo'));
+	Store.dispatch(Action.screens.addOrUpdate('demo', 'demo-User', '40', '40', User, null));
 
 	ReactDOM.render(<Provider store={Store}><Demo/></Provider>,document.getElementById('ptr'));
 

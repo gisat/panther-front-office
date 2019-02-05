@@ -10,14 +10,19 @@ class Screen extends React.PureComponent {
 			PropTypes.node,
 			PropTypes.array
 		),
+		disabled: PropTypes.bool,
 		onFocus: PropTypes.func,
 		onCloseClick: PropTypes.func,
 		onRetractClick: PropTypes.func
 	};
 
 	render() {
+		let classes = classNames("ptr-screen", {
+			disabled: this.props.disabled
+		});
+
 		return (
-			<div className="ptr-screen">
+			<div className={classes}>
 				<div className="ptr-screen-scroll">
 					{this.props.content}
 				</div>

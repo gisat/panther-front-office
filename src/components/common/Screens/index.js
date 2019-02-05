@@ -6,6 +6,8 @@ import presentation from './presentation';
 
 const mapStateToProps = (state, props) => {
 	return {
+		screens: Select.screens.getScreensBySetKey(state, props.setKey),
+		set: Select.screens.getSetByKey(state, props.setKey)
 	}
 };
 
