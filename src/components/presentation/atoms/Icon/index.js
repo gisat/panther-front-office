@@ -21,6 +21,8 @@ import Upload from './Upload';
 import RotateLeftCircularArrow from './rotateLeftCircularArrow';
 import RotateRightCircularArrow from './rotateRightCircularArrow';
 
+import './icon.css';
+
 const icon = (key, props) => {
 	switch(key) {
 		case 'arrow-left':
@@ -88,7 +90,7 @@ export default props => {
 		height={`${height}px`}
 		viewBox={props.viewBox || defaultViewBox}
 		xmlSpace="preserve"
-		className="ptr-icon"
+		className={`ptr-icon ${props.className ? props.className : ''}`}
 	>
 		{icon(props.icon, props)}
 	</svg>

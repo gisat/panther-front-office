@@ -1,6 +1,7 @@
 import React from 'react';
 import {withNamespaces} from "react-i18next";
 import utils from '../../utils/utils';
+import propTypes from 'prop-types';
 
 import Screens from '../../components/common/Screens';
 
@@ -11,6 +12,7 @@ import cz from "./locales/cz/common";
 import en from "./locales/en/common";
 import MapSet from "../../components/common/maps/MapSet";
 import MapControls from "../../components/common/maps/MapControls";
+import LayersTree from "../../components/common/maps/LayersTree";
 
 // override and extend locales in namespaces
 utils.addI18nResources('common', {cz, en});
@@ -21,7 +23,8 @@ class Demo extends React.PureComponent {
 			<Screens
 				setKey="demo"
 			>
-				<div id="demo">
+				<div id="demo" style={{display: 'flex', height: '100%'}}>
+					<LayersTree layersTreeKey={this.props.treeKey}/>
 					<MapControls />
 					<MapSet
 						mapSetKey="MapSet1"
@@ -30,6 +33,10 @@ class Demo extends React.PureComponent {
 			</Screens>
 		);
 	}
+}
+
+Demo.propTypes = {
+	treeKey: propTypes.string,
 }
 
 export default withNamespaces()(Demo);

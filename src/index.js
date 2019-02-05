@@ -4,6 +4,8 @@ import _ from 'lodash';
 import config from './config';
 import demo from './apps/demo';
 
+import './index.css';
+
 const apps = [
 	{
 		hostname: 'panther.gisat.cz',
