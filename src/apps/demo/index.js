@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import Action from '../../state/Action';
 import i18n from '../../i18n';
+import utils from '../../utils/utils';
 
 import Store from './store';
 import Demo from './Demo';
 import Select from '../../state/Select';
+import layerTree from './layersTreeConfig';
 
 import User from '../../components/common/controls/User';
 
@@ -39,9 +41,14 @@ export default () => {
 	Store.dispatch(Action.screens.addOrUpdate('demo', 'demo-User-2', 40, 40, User, null));
 	Store.dispatch(Action.screens.addOrUpdate('demo', 'demo-User-3', 40, 40, User, null));
 
-	ReactDOM.render(<Provider store={Store}><Demo/></Provider>,document.getElementById('ptr'));
+	const treeUUID = utils.uuid();
+	ReactDOM.render(<Provider store={Store}><Demo treeKey={treeUUID}/></Provider>,document.getElementById('ptr'));
 
 	Store.dispatch(Action.maps.addLayer('Map1', {layerTemplate: "fcbd3f6b-d376-4e83-a0e2-03bdf36c3b46"}));
 
 	Store.dispatch(Action.maps.addLayer('Map2', {layerTemplate: "54b2d81b-9cd2-4409-ac1c-464c864bd1dc"}));
+
+	
+	Store.dispatch(Action.components.updateLayersTree(treeUUID, layerTree));
+
 }

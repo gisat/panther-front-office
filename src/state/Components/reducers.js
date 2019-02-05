@@ -56,6 +56,7 @@ const INITIAL_STATE = {
 	share: {
 		toSave: null,
 	},
+	// layersTree:{},
 	windows: {
 		// TODO windows z-order
 		scenarios: {
@@ -80,6 +81,24 @@ function update(state, action) {
 
 function updateOverlay(state, action) {
 	return {...state, overlays: {...state.overlays, [action.overlayKey]:  state.overlays[action.overlayKey] ? {...state.overlays[action.overlayKey], ...action.update} : action.update}};
+}
+/**
+ * action.layersTreeKey
+ * action.update
+ * 
+ */
+function updateLayerTree(state, action) {
+	const layersTreesInitialized = Object.keys(state).includes('layersTrees');
+	if (!layersTreesInitialized) {
+		state = {...state, layersTrees: {}}
+	}
+	const layersTreeKey = action.layersTreeKey;
+	const layersTreeKeyInitialized = Object.keys(state.layersTrees).includes(layersTreeKey);
+	if (!layersTreeKeyInitialized) {
+		state = {...state, layersTrees: {...state.layersTrees, [layersTreeKey]: {}}}
+	}
+
+	return {...state, layersTrees: {...state.layersTrees, [layersTreeKey]: action.update}};
 }
 
 function updateWindow(state, action) {
@@ -113,6 +132,8 @@ export default (state = INITIAL_STATE, action) => {
 			return updateScenarioMapEditingMapData(state, action);
 		case ActionTypes.COMPONENTS_SHARE_SAVE_STATE:
 			return setShareSaveState(state, action);
+		case ActionTypes.COMPONENTS_LAYERSTREE_UPDATE:
+			return updateLayerTree(state, action);
 		default:
 			return state;
 	}
