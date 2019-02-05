@@ -78,6 +78,13 @@ const actionAdd = (setKey, lineage, data) => {
 	}
 };
 
+const actionAddSet = (setKey) => {
+	return {
+		type: ActionTypes.SCREENS.SETS.ADD,
+		setKey
+	}
+};
+
 const actionOpen = (setKey, lineage) => {
 	return {
 		type: ActionTypes.SCREENS.OPEN,
@@ -131,6 +138,7 @@ const actionUpdate = (setKey, lineage) => {
 
 export default {
 	addOrUpdate,
+	addSet: actionAddSet,
 	close,
 	open,
 	retract,

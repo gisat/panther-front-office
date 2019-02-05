@@ -33,6 +33,12 @@ const add = (state, action) => {
 	return {...state, screens, sets};
 };
 
+const addSet = (state, action) => {
+	let sets = {...state.sets};
+	sets[action.setKey] = {...INITIAL_SET_STATE};
+	return {...state, sets};
+};
+
 const close = (state, action) => {
 	let screens = {...state.screens};
 
@@ -111,6 +117,8 @@ export default (state = INITIAL_STATE, action) => {
 			return remove(state, action);
 		case ActionTypes.SCREENS.RETRACT:
 			return retract(state, action);
+		case ActionTypes.SCREENS.SETS.ADD:
+			return addSet(state, action);
 		case ActionTypes.SCREENS.TOP_HISTORY:
 			return topHistory(state, action);
 		case ActionTypes.SCREENS.UPDATE:
