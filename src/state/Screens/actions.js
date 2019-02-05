@@ -4,6 +4,42 @@ import Select from '../Select';
 let timeouts = {};
 
 // ============ creators ===========
+function addOrUpdate (setKey, lineage, width, minActiveWidth, desiredState, component, props) {
+	return (dispatch, getState) => {
+		let existingScreen = Select.screens.getScreenByLineage(getState(), lineage);
+
+		/* TODO same action or reducer ? */
+		if (existingScreen) {
+			if (timeouts[lineage]) {
+				clearTimeout(timeouts[lineage]);
+			}
+			dispatch(actionUpdate(setKey,
+				lineage,
+				{
+					width,
+					minActiveWidth,
+					desiredState,
+					component,
+					props
+				})
+			);
+		} else {
+			dispatch(actionAdd(
+				setKey,
+				lineage,
+				{
+					width,
+					minActiveWidth,
+					desiredState,
+					component,
+					props
+				})
+			);
+		}
+	};
+}
+
+/* TODO still needed? */
 function add(setKey, lineage, width, minActiveWidth, desiredState, component, props) {
 	return dispatch => {
 		dispatch(actionAdd(
@@ -89,11 +125,19 @@ const actionRetract = (setKey, lineage) => {
 	}
 };
 
+const actionUpdate = (setKey, lineage) => {
+	return {
+		type: ActionTypes.SCREENS.UPDATE,
+		setKey,
+		lineage
+	}
+};
+
 
 // ============ export ===========
 
 export default {
-	add,
+	addOrUpdate,
 	close,
 	open,
 	retract
