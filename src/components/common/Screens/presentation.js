@@ -13,6 +13,7 @@ class Screens extends React.PureComponent {
 	render() {
 		return (
 			<div className="ptr-screens">
+				{this.props.children}
 			</div>
 		);
 	}
