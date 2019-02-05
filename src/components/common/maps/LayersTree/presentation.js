@@ -65,7 +65,6 @@ class LayersTree extends React.PureComponent {
     }
 
     render () {
-        // console.log(this.props.layersTemplates);
         
         // const structure = this.getDescendants(this.props.layersTree);
 
