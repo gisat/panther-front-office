@@ -31,6 +31,8 @@ export default () => {
 		range: true
 	}));
 
+	Store.dispatch(Action.screens.addSet('demo'));
+
 	ReactDOM.render(<Provider store={Store}><Demo/></Provider>,document.getElementById('ptr'));
 
 	Store.dispatch(Action.maps.addLayer('Map1', {layerTemplate: "fcbd3f6b-d376-4e83-a0e2-03bdf36c3b46"}));
