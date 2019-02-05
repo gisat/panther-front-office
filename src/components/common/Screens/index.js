@@ -9,9 +9,20 @@ const mapStateToProps = (state, props) => {
 	}
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
-
+		onFocusScreen: (screenLineage) => {
+			dispatch(Action.screens.topHistory(ownProps.setKey, screenLineage))
+		},
+		onCloseScreen: (screenLineage) => {
+			dispatch(Action.screens.close(ownProps.setKey, screenLineage))
+		},
+		onOpenScreen: (screenLineage) => {
+			dispatch(Action.screens.open(ownProps.setKey, screenLineage))
+		},
+		onRetractScreen: (screenLineage) => {
+			dispatch(Action.screens.retract(ownProps.setKey, screenLineage))
+		},
 	}
 };
 
