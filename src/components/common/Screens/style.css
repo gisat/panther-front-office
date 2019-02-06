@@ -1,0 +1,24 @@
+.ptr-screens {
+	display: flex;
+}
+.ptr-screen {
+	position: relative;
+	background: #fff;
+	border: 1px solid;
+	transition: width .5s ease-in-out;
+}
+.ptr-screen p {
+	padding-top: 1rem;
+}
+.ptr-screen.disabled {
+	background: #ccc;
+}
+.ptr-screen-controls {
+	position: absolute;
+}
+.ptr-screen-controls.top{
+	top: 0;
+}
+.ptr-screen-controls.middle{
+	top: 50%;
+}

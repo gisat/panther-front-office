@@ -39,17 +39,17 @@ function addOrUpdate (setKey, lineage, width, minActiveWidth, component, props) 
 	};
 }
 
-function open(screenLineage) {
+function open(setKey, screenLineage) {
 	return (dispatch, getState) => {
-		let setKey = Select.screens.getSetKeyByScreenLineage(getState(), screenLineage);
-		dispatch(actionOpen(setKey, screenLineage));
+		if (screenLineage !== 'base') {
+			dispatch(actionOpen(setKey, screenLineage));
+		}
 		dispatch(actionTopHistory(setKey, screenLineage));
 	};
 }
 
-function close(screenLineage) {
+function close(setKey, screenLineage) {
 	return (dispatch, getState) => {
-		let setKey = Select.screens.getSetKeyByScreenLineage(getState(), screenLineage);
 		dispatch(actionClose(setKey, screenLineage));
 
 		timeouts[screenLineage] = setTimeout(() => {
@@ -58,9 +58,8 @@ function close(screenLineage) {
 	};
 }
 
-function retract(screenLineage) {
+function retract(setKey, screenLineage) {
 	return (dispatch, getState) => {
-		let setKey = Select.screens.getSetKeyByScreenLineage(getState(), screenLineage);
 		dispatch(actionRetract(setKey, screenLineage));
 		dispatch(actionTopHistory(setKey, screenLineage));
 	};

@@ -13,21 +13,41 @@ class Screen extends React.PureComponent {
 		disabled: PropTypes.bool,
 		onFocus: PropTypes.func,
 		onCloseClick: PropTypes.func,
-		onRetractClick: PropTypes.func
+		onOpenClick: PropTypes.func,
+		onRetractClick: PropTypes.func,
+		lineage: PropTypes.string,
+		width: PropTypes.number
 	};
+
+	constructor(props){
+		super(props);
+		this.onCloseClick = this.props.onCloseClick.bind(this, props.lineage);
+		this.onFocus = this.props.onFocus.bind(this, props.lineage);
+		this.onOpenClick = this.props.onOpenClick.bind(this, props.lineage);
+		this.onRetractClick = this.props.onRetractClick.bind(this, props.lineage);
+	}
 
 	render() {
 		let classes = classNames("ptr-screen", {
 			disabled: this.props.disabled
 		});
 
+		let style = {
+			width: `${this.props.width}rem`
+		};
+
 		return (
-			<div className={classes}>
+			<div className={classes} style={style}>
 				<div className="ptr-screen-scroll">
+					<p>{this.props.lineage}</p>
 					{this.props.content}
 				</div>
-				<div className="ptr-screen-controls top" onClick={this.props.onCloseClick}>Close</div>
-				<div className="ptr-screen-controls middle" onClick={this.props.onRetractClick}>Retract</div>
+				<div className="ptr-screen-controls top" onClick={this.onCloseClick}>Close</div>
+				{this.props.disabled ? (
+					<div className="ptr-screen-controls middle" onClick={this.onOpenClick}>Open</div>
+				) : (
+					<div className="ptr-screen-controls middle" onClick={this.onRetractClick}>Retract</div>
+				)}
 			</div>
 		);
 	}

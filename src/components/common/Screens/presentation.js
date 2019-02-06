@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import _ from 'lodash';
 
 import './style.css';
+import Screen from "./components/Screen";
 
 
 const RETRACTED_WIDTH = 5;
@@ -16,7 +17,11 @@ class Screens extends React.PureComponent {
 			orderBySpace: PropTypes.array,
 			orderByHistory: PropTypes.array
 		}),
-		screens: PropTypes.object
+		screens: PropTypes.object,
+		onCloseScreen: PropTypes.func,
+		onFocusScreen: PropTypes.func,
+		onOpenScreen: PropTypes.func,
+		onRetractScreen: PropTypes.func
 	};
 
 	constructor(props){
@@ -81,73 +86,87 @@ class Screens extends React.PureComponent {
 
 	renderScreens() {
 		if (this.state.width && this.props.set) {
-			let screens = {...this.props.screens};
-			let history = [...this.props.set.orderByHistory].reverse();
+			let screens = {};
+			let orderByHistory = [...this.props.set.orderByHistory].reverse();
+			let orderBySpace = [...this.props.set.orderBySpace];
 
 			// add any possible children as first screen
 			if (this.props.children) {
-				if (!_.find(history, 'base')) {
-					history.unshift('base');
+				if (!_.includes(orderByHistory, 'base')) {
+					orderByHistory.push('base');
 				}
-				screens['base'] = {lineage: 'base'};
+				if (!_.includes(orderBySpace, 'base')) {
+					orderBySpace.unshift('base');
+				}
 			}
 
 			// compute open screens
-			let overallRetractedWidth = history.length * RETRACTED_WIDTH;
+			let overallRetractedWidth = ((orderByHistory.length) * RETRACTED_WIDTH);
 			let availableWidthLeft = this.state.width - overallRetractedWidth;
 
 			// check if there is enough space for first open screen
-			let maximalizedScreen = null;
-			history.forEach(lineage => {
-				if (!maximalizedScreen) {
-					let screen = screens[lineage];
-					if (screen.data && screen.data.desiredState === 'open') {
+			let maximalizedScreenLineage = null;
+			let baseFirstOpen = false;
+			orderByHistory.forEach(lineage => {
+				screens[lineage] = {lineage};
+				let stateScreen = this.props.screens[lineage];
+
+				if (!maximalizedScreenLineage && !baseFirstOpen) {
+					if (stateScreen && stateScreen.data && stateScreen.data.desiredState === 'open') {
 						// screen does not fit
-						if ((screen.data.width + CONST_PLUS) > (availableWidthLeft + RETRACTED_WIDTH)) {
-							maximalizedScreen = screen;
+						if ((stateScreen.data.width + CONST_PLUS) > (availableWidthLeft + RETRACTED_WIDTH)) {
+							maximalizedScreenLineage = stateScreen.lineage;
 						}
 					}
+
+					if (lineage === 'base') {
+						baseFirstOpen = true;
+					}
+				}
+
+				if (stateScreen && stateScreen.data && stateScreen.data.desiredState === 'closing') {
+					availableWidthLeft += RETRACTED_WIDTH;
 				}
 			});
 
-			if (!maximalizedScreen) {
-				history.forEach(lineage => {
-					let screen = screens[lineage];
+			if (!maximalizedScreenLineage) {
+				orderByHistory.forEach(lineage => {
+					let stateScreen = this.props.screens[lineage];
 
 					if (!availableWidthLeft) {
-						screen.computedWidth = RETRACTED_WIDTH;
-						screen.computedDisabled = true;
+						screens[lineage].computedWidth = RETRACTED_WIDTH;
+						screens[lineage].computedDisabled = true;
 					} else {
-						if (screen.data && screen.data.width) {
-							if (screen.data.desiredState === 'open') {
-								if ((screen.data.width + CONST_PLUS) <= (availableWidthLeft + RETRACTED_WIDTH)) {
-									screen.computedWidth = 	screen.data.width + CONST_PLUS;
+						if (stateScreen && stateScreen.data && stateScreen.data.width) {
+							if (stateScreen.data.desiredState === 'open') {
+								if ((stateScreen.data.width + CONST_PLUS) <= (availableWidthLeft + RETRACTED_WIDTH)) {
+									screens[lineage].computedWidth = 	stateScreen.data.width + CONST_PLUS;
 								} else {
-									screen.computedWidth = availableWidthLeft + RETRACTED_WIDTH;
-									screen.computedDisabled = true;
+									screens[lineage].computedWidth = availableWidthLeft + RETRACTED_WIDTH;
+									screens[lineage].computedDisabled = true;
 								}
-								availableWidthLeft -= (screen.computedWidth - RETRACTED_WIDTH);
-							} else if (screen.data.desiredState === 'retracted') {
-								screen.computedWidth = RETRACTED_WIDTH;
-								screen.computedDisabled = true;
+								availableWidthLeft -= (screens[lineage].computedWidth - RETRACTED_WIDTH);
+							} else if (stateScreen.data.desiredState === 'retracted') {
+								screens[lineage].computedWidth = RETRACTED_WIDTH;
+								screens[lineage].computedDisabled = true;
 							} else {
-								screen.computedWidth = 0;
-								screen.computedDisabled = true;
+								screens[lineage].computedWidth = 0;
+								screens[lineage].computedDisabled = true;
 							}
 						} else {
-							if (screen.data && screen.data.desiredState === 'retracted') {
-								screen.computedWidth = RETRACTED_WIDTH;
-								screen.computedDisabled = true;
-							} else if (screen.data && screen.data.desiredState === 'closing') {
-								screen.computedWidth = 0;
-								screen.computedDisabled = true;
+							if (stateScreen && stateScreen.data && stateScreen.data.desiredState === 'retracted') {
+								screens[lineage].computedWidth = RETRACTED_WIDTH;
+								screens[lineage].computedDisabled = true;
+							} else if (stateScreen && stateScreen.data && stateScreen.data.desiredState === 'closing') {
+								screens[lineage].computedWidth = 0;
+								screens[lineage].computedDisabled = true;
 							} else {
-								screen.computedWidth = availableWidthLeft + RETRACTED_WIDTH;
+								screens[lineage].computedWidth = availableWidthLeft + RETRACTED_WIDTH;
 								availableWidthLeft = 0;
 
 								// TODO Do we want to disable base screen?
 								if (lineage === 'base') {
-									screen.computedDisabled = true;
+									screens[lineage].computedDisabled = true;
 								}
 							}
 						}
@@ -155,12 +174,56 @@ class Screens extends React.PureComponent {
 				});
 			}
 
-			// TODO replace
-			return this.props.children;
+			let screenComponents = [];
+			if (maximalizedScreenLineage) {
+				orderBySpace.forEach((screenLineage) => {
+					let screen = screens[screenLineage];
+					if (screenLineage !== maximalizedScreenLineage) {
+						screen.computedDisabled = true;
+						screen.computedWidth = 0;
+					}
+
+					let stateScreen = this.props.screens[screenLineage];
+					if (screenLineage === 'base'){
+						screenComponents.push(this.renderScreen(screen, this.props.children, true));
+					} else {
+						screenComponents.push(this.renderScreen(screen, React.createElement(stateScreen.data.component, stateScreen.data.props, null)));
+					}
+				});
+			} else {
+				orderBySpace.forEach((screenLineage) => {
+					let screen = screens[screenLineage];
+					let stateScreen = this.props.screens[screenLineage];
+					if (screenLineage === 'base'){
+						screenComponents.push(this.renderScreen(screen, this.props.children, true));
+					} else {
+						screenComponents.push(this.renderScreen(screen, React.createElement(stateScreen.data.component, stateScreen.data.props, null)));
+					}
+				});
+			}
+
+			return screenComponents;
 
 		} else {
 			return this.props.children;
 		}
+	}
+
+	renderScreen(screen, content, noControls) {
+		return (
+			<Screen
+				key={screen.lineage}
+				lineage={screen.lineage}
+				disabled={screen.computedDisabled}
+				width={screen.computedWidth}
+				content={content}
+				onFocus={this.props.onFocusScreen}
+				onCloseClick={this.props.onCloseScreen}
+				onOpenClick={this.props.onOpenScreen}
+				onRetractClick={this.props.onRetractScreen}
+				noControls={noControls}
+			/>
+		);
 	}
 }
 
