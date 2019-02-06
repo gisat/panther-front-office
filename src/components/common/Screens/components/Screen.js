@@ -6,10 +6,10 @@ import _ from 'lodash';
 class Screen extends React.PureComponent {
 
 	static propTypes = {
-		content: PropTypes.oneOfType(
-			PropTypes.node,
+		content: PropTypes.oneOfType([
+			PropTypes.element,
 			PropTypes.array
-		),
+		]),
 		disabled: PropTypes.bool,
 		onFocus: PropTypes.func,
 		onCloseClick: PropTypes.func,
