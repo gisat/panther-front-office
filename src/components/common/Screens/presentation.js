@@ -5,6 +5,10 @@ import _ from 'lodash';
 
 import './style.css';
 
+
+const RETRACTED_WIDTH = 5;
+const CONST_PLUS = 1;
+
 class Screens extends React.PureComponent {
 
 	static propTypes = {
@@ -77,8 +81,8 @@ class Screens extends React.PureComponent {
 
 	renderScreens() {
 		if (this.state.width && this.props.set) {
-			let screens = {};
-			let history = [...this.props.set.orderByHistory];
+			let screens = {...this.props.screens};
+			let history = [...this.props.set.orderByHistory].reverse();
 
 			// add any possible children as first screen
 			if (this.props.children) {
@@ -89,10 +93,70 @@ class Screens extends React.PureComponent {
 			}
 
 			// compute open screens
-			//todo count * retracted width
-			history.reverse().forEach(lineage => {
-				// todo continue
+			let overallRetractedWidth = history.length * RETRACTED_WIDTH;
+			let availableWidthLeft = this.state.width - overallRetractedWidth;
+
+			// check if there is enough space for first open screen
+			let maximalizedScreen = null;
+			history.forEach(lineage => {
+				if (!maximalizedScreen) {
+					let screen = screens[lineage];
+					if (screen.data && screen.data.desiredState === 'open') {
+						// screen does not fit
+						if ((screen.data.width + CONST_PLUS) > (availableWidthLeft + RETRACTED_WIDTH)) {
+							maximalizedScreen = screen;
+						}
+					}
+				}
 			});
+
+			if (!maximalizedScreen) {
+				history.forEach(lineage => {
+					let screen = screens[lineage];
+
+					if (!availableWidthLeft) {
+						screen.computedWidth = RETRACTED_WIDTH;
+						screen.computedDisabled = true;
+					} else {
+						if (screen.data && screen.data.width) {
+							if (screen.data.desiredState === 'open') {
+								if ((screen.data.width + CONST_PLUS) <= (availableWidthLeft + RETRACTED_WIDTH)) {
+									screen.computedWidth = 	screen.data.width + CONST_PLUS;
+								} else {
+									screen.computedWidth = availableWidthLeft + RETRACTED_WIDTH;
+									screen.computedDisabled = true;
+								}
+								availableWidthLeft -= (screen.computedWidth - RETRACTED_WIDTH);
+							} else if (screen.data.desiredState === 'retracted') {
+								screen.computedWidth = RETRACTED_WIDTH;
+								screen.computedDisabled = true;
+							} else {
+								screen.computedWidth = 0;
+								screen.computedDisabled = true;
+							}
+						} else {
+							if (screen.data && screen.data.desiredState === 'retracted') {
+								screen.computedWidth = RETRACTED_WIDTH;
+								screen.computedDisabled = true;
+							} else if (screen.data && screen.data.desiredState === 'closing') {
+								screen.computedWidth = 0;
+								screen.computedDisabled = true;
+							} else {
+								screen.computedWidth = availableWidthLeft + RETRACTED_WIDTH;
+								availableWidthLeft = 0;
+
+								// TODO Do we want to disable base screen?
+								if (lineage === 'base') {
+									screen.computedDisabled = true;
+								}
+							}
+						}
+					}
+				});
+			}
+
+			// TODO replace
+			return this.props.children;
 
 		} else {
 			return this.props.children;
