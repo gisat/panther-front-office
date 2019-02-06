@@ -4,11 +4,20 @@ import {createSelector} from 'reselect';
 const getAllScreensAsObject = state => state.screens.screens;
 const getAllSetsAsObject = state => state.screens.sets;
 
+/**
+ * @param state {Object}
+ * @param key {string} set key
+ */
 const getSetByKey = createSelector(
 	[
 		getAllSetsAsObject,
 		(state, key) => key
 	],
+	/**
+	 * @param sets {Object} all sets as object
+	 * @param key {string} set key
+	 * @return {Object | null} selected object
+	 */
 	(sets, key) => {
 		if (sets && !_.isEmpty(sets) && key && sets[key]) {
 			return sets[key];
@@ -18,11 +27,20 @@ const getSetByKey = createSelector(
 	}
 );
 
+/**
+ * @param state {Object}
+ * @param key {string} set key
+ */
 const getScreensBySetKey = createSelector(
 	[
 		getSetByKey,
 		getAllScreensAsObject
 	],
+	/**
+	 * @param set {Object} set
+	 * @param screens {Object} all screens as object
+	 * @return {null | Object} selected screen
+	 */
 	(set, screens) => {
 		if (set) {
 			let setScreens = {};

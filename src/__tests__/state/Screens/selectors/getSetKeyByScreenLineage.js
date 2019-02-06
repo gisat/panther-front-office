@@ -14,12 +14,12 @@ describe('#getSetKeyByScreenLineage', () => {
 		expect(Selector(Select.screens.getSetKeyByScreenLineage).execute(BASIC_STATE)).toBeNull();
 	});
 
-	it('should select set null if no set was found for given lineage', () => {
+	it('should select null if no set was found for given lineage', () => {
 		const screenLineage = 'screen999';
 		expect(Selector(Select.screens.getSetKeyByScreenLineage).execute(BASIC_STATE, screenLineage)).toBeNull();
 	});
 
-	it('should select set null for initial state', () => {
+	it('should select null for initial state', () => {
 		const screenLineage = 'screen1';
 		expect(Selector(Select.screens.getSetKeyByScreenLineage).execute(INITIAL_STATE, screenLineage)).toBeNull();
 	});
