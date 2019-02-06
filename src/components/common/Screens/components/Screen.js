@@ -15,6 +15,7 @@ class Screen extends React.PureComponent {
 		onCloseClick: PropTypes.func,
 		onOpenClick: PropTypes.func,
 		onRetractClick: PropTypes.func,
+		noControls: PropTypes.bool,
 		lineage: PropTypes.string,
 		width: PropTypes.number
 	};
@@ -39,15 +40,12 @@ class Screen extends React.PureComponent {
 		return (
 			<div className={classes} style={style}>
 				<div className="ptr-screen-scroll">
-					<p>{this.props.lineage}</p>
 					{this.props.content}
+					<p>{this.props.lineage}</p>
 				</div>
-				<div className="ptr-screen-controls top" onClick={this.onCloseClick}>Close</div>
-				{this.props.disabled ? (
-					<div className="ptr-screen-controls middle" onClick={this.onOpenClick}>Open</div>
-				) : (
-					<div className="ptr-screen-controls middle" onClick={this.onRetractClick}>Retract</div>
-				)}
+				{!this.props.noControls ? <div className="ptr-screen-controls top" onClick={this.onCloseClick}>Close</div> : null}
+				{!this.props.noControls && this.props.disabled ? <div className="ptr-screen-controls middle" onClick={this.onOpenClick}>Open</div> : null}
+				{!this.props.noControls && !this.props.disabled ? <div className="ptr-screen-controls middle" onClick={this.onRetractClick}>Retract</div> : null}
 			</div>
 		);
 	}
