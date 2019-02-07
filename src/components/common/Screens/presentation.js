@@ -175,37 +175,35 @@ class Screens extends React.PureComponent {
 						}
 					}
 				});
+			} else {
+				orderByHistory.forEach(lineage => {
+					if (lineage !== maximalizedScreenLineage) {
+						screens[lineage].computedDisabled = true;
+						screens[lineage].computedWidth = 0;
+					} else {
+						screens[lineage].computedWidth = this.state.width;
+					}
+				});
 			}
 
 			let screenComponents = [];
-			if (maximalizedScreenLineage) {
-				orderBySpace.forEach((screenLineage) => {
-					let screen = screens[screenLineage];
-					if (screenLineage !== maximalizedScreenLineage) {
-						screen.computedDisabled = true;
-						screen.computedWidth = 0;
-					} else {
-						screen.computedWidth = this.state.width;
-					}
+			orderBySpace.forEach((screenLineage) => {
+				let screen = screens[screenLineage];
 
-					let stateScreen = this.props.screens[screenLineage];
-					if (screenLineage === 'base'){
-						screenComponents.push(this.renderScreen(screen, this.props.children, true));
-					} else {
-						screenComponents.push(this.renderScreen(screen, React.createElement(stateScreen.data.component, stateScreen.data.props, null)));
-					}
-				});
-			} else {
-				orderBySpace.forEach((screenLineage) => {
-					let screen = screens[screenLineage];
-					let stateScreen = this.props.screens[screenLineage];
-					if (screenLineage === 'base'){
-						screenComponents.push(this.renderScreen(screen, this.props.children, true));
-					} else {
-						screenComponents.push(this.renderScreen(screen, React.createElement(stateScreen.data.component, stateScreen.data.props, null)));
-					}
-				});
-			}
+				let stateScreen = this.props.screens[screenLineage];
+				if (stateScreen && stateScreen.data && stateScreen.data.minActiveWidth) {
+					screen.minActiveWidth = stateScreen.data.minActiveWidth;
+				}
+				if (stateScreen && stateScreen.data && stateScreen.data.width) {
+					screen.contentWidth = stateScreen.data.width ? stateScreen.data.width : null;
+				}
+
+				if (screenLineage === 'base'){
+					screenComponents.push(this.renderScreen(screen, this.props.children, true));
+				} else {
+					screenComponents.push(this.renderScreen(screen, React.createElement(stateScreen.data.component, stateScreen.data.props, null)));
+				}
+			});
 
 			return screenComponents;
 
@@ -221,7 +219,9 @@ class Screens extends React.PureComponent {
 				lineage={screen.lineage}
 				disabled={screen.computedDisabled}
 				width={screen.computedWidth}
+				minWidth={screen.minActiveWidth}
 				content={content}
+				contentWidth={screen.contentWidth}
 				onFocus={this.props.onFocusScreen}
 				onCloseClick={this.props.onCloseScreen}
 				onOpenClick={this.props.onOpenScreen}
