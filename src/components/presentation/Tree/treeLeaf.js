@@ -1,21 +1,10 @@
 import React from "react";
+import PropTypes from "prop-types";
 import './tree.css';
 class TreeLeaf extends React.PureComponent {
-    constructor() {
-        super();
-    }
-
-    // props.icon
-    // props.type
-    // props.checked
-    // props.title
-    // props.onCheckClick 
-
-    // collapsed
-    // onCollapsedClick
     render() {
         return (
-            <li className = {'leaf'}>
+            <li className = {'leaf hover'} onClick={this.props.onCheckClicked}>
                 {
                     this.props.icon ? (
                         <span class="rc-tree-switcher rc-tree-switcher-noop">
@@ -31,6 +20,13 @@ class TreeLeaf extends React.PureComponent {
             </li >
         )
     }
+}
+
+
+TreeLeaf.propTypes = {
+    onCheckClicked: PropTypes.func,
+    type: PropTypes.string,
+    visible: PropTypes.bool,
 }
 
 export default TreeLeaf;

@@ -33,15 +33,13 @@ const getApplicationStyleHtmlClass = createSelector(
 );
 
 const forAllTreeItems = (layerTree = [], callback) => {
-	// if (layerTree && layerTree.items && layerTree.items.length > 0) {
-		layerTree.forEach((item) => {
-			if(item.type === 'folder') {
-				forAllTreeItems(item.items, callback);
-			} else {
-				callback(item);
-			}
-		});
-	// }
+	layerTree.forEach((item) => {
+		if(item.type === 'folder') {
+			forAllTreeItems(item.items, callback);
+		} else {
+			callback(item);
+		}
+	});
 }
 
 const getLayersTreesConfig = createSelector(
@@ -52,15 +50,13 @@ const getLayersTreesConfig = createSelector(
 	],
 	(layersTrees, layers, layersTreeKey) => {
 		const layersTree = layersTrees ? layersTrees[layersTreeKey] : [];
-		//union layers
-		//
 		forAllTreeItems(layersTree, (item) => {
 			if(item && item.type === 'layerTemplate') {
 				const layerInMap = layers.find(l => l.filter.layerTemplateKey.indexOf(item.key) === 0);
 
 				item.visible = !!layerInMap;
 				item.layerKey = layerInMap ? layerInMap.data.key : null;
-				//set layer name
+				//FIXME set layer name from template
 			}
 		})
 		return [...layersTree];

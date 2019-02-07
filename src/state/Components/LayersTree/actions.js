@@ -1,6 +1,7 @@
 import ActionTypes from '../../../constants/ActionTypes';
 import Select from '../../Select';
 import cloneDeep from 'lodash/cloneDeep';
+import {getFolderByKey} from 'utils/tree'
 
 // ============ creators ===========
 const setFolderVisibility = (layersTreeKey, folderKey, visibility) => {
@@ -28,20 +29,7 @@ function actionUpdate(layersTreeKey, tree) {
 
 
 // ============ helpers ===========
-const getFolderByKey = (layersTreeState, folderKey) => {
-    for (const item of layersTreeState) {
-        if(item.type === 'folder' && item.key === folderKey) {
-            return item;
-        }
 
-        if(item.type === 'folder') {
-            const foundFolder = getFolderByKey(item.items, folderKey);
-            if (foundFolder) {
-                return foundFolder;
-            }
-        }
-    }
-}
 
 
 // ============ export ===========

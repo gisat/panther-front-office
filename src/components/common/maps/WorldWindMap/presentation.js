@@ -50,10 +50,11 @@ class WorldWindMap extends React.PureComponent {
 			});
 		}
 
-		if (this.props.layers){
-			this.handleLayers(this.props.layers);
+		if (this.props.layers || this.props.layers === null) {
+			const layers = this.props.layers || [];
+			this.handleLayers(layers);
 		}
-	}
+}
 
 	componentDidUpdate(prevProps) {
 		if (prevProps){
@@ -63,8 +64,9 @@ class WorldWindMap extends React.PureComponent {
 			if (this.props.backgroundLayer) {
 				this.handleBackgroundLayers(prevProps.backgroundLayer, this.props.backgroundLayer);
 			}
-			if (this.props.layers) {
-				this.handleLayers(this.props.layers);
+			if (this.props.layers || this.props.layers === null) {
+				const layers = this.props.layers || [];
+				this.handleLayers(layers);
 			}
 		}
 	}
@@ -84,7 +86,7 @@ class WorldWindMap extends React.PureComponent {
 		}
 	}
 
-	handleLayers(nextLayersData) {
+	handleLayers(nextLayersData = []) {
 		let nextLayers = [];
 		nextLayersData.forEach(data => {
 			let existingLayer = layers.findLayerByKey(this.wwd, data.key);

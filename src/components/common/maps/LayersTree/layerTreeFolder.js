@@ -1,29 +1,28 @@
 import React from "react";
-import TreeFolder from "../../../presentation/Tree/treeFolder";
+import TreeFolder from "components/presentation/Tree/treeFolder";
 import PropTypes from "prop-types";
 
 class LayerTreeFolder extends React.PureComponent {
-    constructor() {
-        super();
-    }
-
     render() {
         return (
-            <TreeFolder onClickExpand={this.props.onClickExpand} {...this.props}/>
+            <TreeFolder {...this.props}/>
         )
     }
 }
 
 LayerTreeFolder.defaultProps = {
     expanded: false,
-    onClickExpand: () => {
-        
-    },
+    onClickExpand: () => {},
+    children: [],
+    title: '',
 }
 
 LayerTreeFolder.propTypes = {
     expanded: PropTypes.bool,
     onClickExpand: PropTypes.func,
+    children: PropTypes.arrayOf(PropTypes.element),
+    title: PropTypes.string,
+    // icon: PropTypes.element
 }
 
 export default LayerTreeFolder;

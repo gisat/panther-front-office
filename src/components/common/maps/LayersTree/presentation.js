@@ -7,51 +7,24 @@ import isObject from 'lodash/isObject';
 import LayerTreeLeaf from './layerTreeLeaf';
 import LayerTreeFolder from './layerTreeFolder';
 
-import Icon from '../../../presentation/atoms/Icon'
 import './layersTree.css';
 
-// const getFolderByKey = (layersTreeState, folderKey) => {
-//     for (const item of layersTreeState) {
-//         if(item.type === 'folder' && item.key === folderKey) {
-//             return item;
-//         }
-
-//         if(item.type === 'folder') {
-//             const foundFolder = getFolderByKey(item.items, folderKey);
-//             if (foundFolder) {
-//                 return foundFolder;
-//             }
-//         }
-//         // return item.type === 'folder' && item.key === folderKey ? item : getFolderByKey(item.items);
-//     }
-// }
-
-// const getLayersTreeStateAfterFolderClick = (layersTreeState, folderKey) => {
-//     // layersTreeState.
-//     //--> drill and find folder
-//     console.log(layersTreeState, folderKey, getFolderByKey(layersTreeState, folderKey));
-    
-// }
 class LayersTree extends React.PureComponent {
-    constructor() {
-        super()
-
-    }
-
-    // getLayerTemplateByKey(layerTemplates, )
-
     getDescendant (descendant, parentProps) {
         switch (descendant.type) {
             case 'folder':
-                return <LayerTreeFolder onClickExpand={() => {this.props.onLayerFolderExpandClick(this.props.layersTreeKey, descendant.key, !descendant.expanded)}} children={this.getDescendants(descendant.items, descendant)} key={descendant.id} {...descendant}/>
+                return <LayerTreeFolder 
+                            onClickExpand={() => {this.props.onLayerFolderExpandClick(this.props.layersTreeKey, descendant.key, !descendant.expanded)}} 
+                            children={this.getDescendants(descendant.items, descendant)} 
+                            key={descendant.id} 
+                            {...descendant} />
             case 'layerTemplate':
                 const {type, ...leafProps} = descendant;
                return <LayerTreeLeaf 
-                            onLayerVisibilityClick={() => {this.props.onLayerVisibilityClick(this.props.mapKey, descendant.key, descendant.layerKey, !leafProps.visible)}}
-                            layerTemplate={this.props.layersTemplates[descendant.key]} 
-                            key={descendant.key} 
+                            onLayerVisibilityClick={() => {this.props.onLayerVisibilityClick(this.props.mapKey, descendant.layerKey, descendant.key, !leafProps.visible, this.props.layersTree)}}
+                            key={descendant.key}  //layerTemplateKey
                             type={parentProps && parentProps.radio ? 'radio' : 'checkbox'}
-                            {...leafProps}/>
+                            visible={leafProps.visible} />
         }
     }
     getDescendants(structure, parentProps) {
@@ -65,9 +38,6 @@ class LayersTree extends React.PureComponent {
     }
 
     render () {
-        
-        // const structure = this.getDescendants(this.props.layersTree);
-
         return (
                 this.props.layersTemplates ? (
                     <div>
@@ -86,6 +56,7 @@ LayersTree.defaultProps = {
     layersTemplates: [],
     onLayerFolderExpandClick: () => {},
     onLayerVisibilityClick: () => {},
+    mapKey: '',
   };
   
 LayersTree.propTypes = {
@@ -95,7 +66,6 @@ LayersTree.propTypes = {
     onLayerVisibilityClick: PropTypes.func,
     mapKey: PropTypes.string,
     // layersTemplates: PropTypes.object,
-    // onLayerTamplateVisibilityChanged: PropTypes.function ,
 };
 
 export default LayersTree;

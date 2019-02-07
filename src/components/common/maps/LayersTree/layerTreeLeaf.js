@@ -1,17 +1,8 @@
 import React from "react";
-import TreeLeaf from "../../../presentation/Tree/treeLeaf";
+import TreeLeaf from "components/presentation/Tree/treeLeaf";
 import PropTypes from "prop-types";
 
 class LayerTreeNode extends React.PureComponent {
-    constructor() {
-        super();
-    }
-
-    onCheckClicked(evt) {
-        console.log("leaf clicked");
-    }
-
-
     render() {
         //FIXME - remove
         const title = this.props.layerTemplate ? this.props.layerTemplate.data.nameDisplay : 'placeholder';
@@ -22,8 +13,9 @@ class LayerTreeNode extends React.PureComponent {
 }
 
 LayerTreeNode.propTypes = {
-    layerTemplate: PropTypes.object,
     onLayerVisibilityClick: PropTypes.func,
+    type: PropTypes.string,
+    visible: PropTypes.bool,
 }
 
 export default LayerTreeNode;
