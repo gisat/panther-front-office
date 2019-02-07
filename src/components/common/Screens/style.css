@@ -11,15 +11,34 @@
 	position: absolute;
 	bottom: 0;
 }
-.ptr-screen.disabled {
-	background: #ccc;
-}
 .ptr-screen-controls {
 	position: absolute;
+	cursor: pointer;
 }
 .ptr-screen-controls.top{
 	top: 0;
 }
 .ptr-screen-controls.middle{
 	top: 50%;
+}
+
+.ptr-screen-scroll {
+	overflow-x: hidden;
+	width: 100%;
+	height: 100%;
+}
+
+.ptr-screen-overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background: rgba(120, 120, 120, .4);
+	cursor: pointer;
+	transition: background .3s ease-in-out;
+}
+
+.ptr-screen-overlay:hover {
+	background: rgba(120, 120, 120, .3);
 }
