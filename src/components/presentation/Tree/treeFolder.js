@@ -11,7 +11,7 @@ class TreeFolder extends React.PureComponent {
 
         return (
             <li className = {folderClasses}>
-                <span onClick={this.props.onClickExpand} className={'hover'}>
+                <span onClick={(evt) => {evt.preventDefault();this.props.onClickExpand()}} className={'hover'}>
                     <div className="ptr-icon-baseline ptr-icon-inline-wrap">
                         {
                             this.props.expanded ? <Icon icon={'minus'} width={18} height={18} viewBox={'0 0 34 34'} className={'ptr-inline-icon hover'} /> : <Icon icon={'plus'} width={18} height={18} viewBox={'0 0 34 34'} className={'ptr-inline-icon hover'}/>

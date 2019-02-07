@@ -52,10 +52,11 @@ const getLayersTreesConfig = createSelector(
 		const layersTree = layersTrees ? layersTrees[layersTreeKey] : [];
 		forAllTreeItems(layersTree, (item) => {
 			if(item && item.type === 'layerTemplate') {
+				//find layer with same layerTemplateKey as key in layersTree
 				const layerInMap = layers.find(l => l.filter.layerTemplateKey.indexOf(item.key) === 0);
 
 				item.visible = !!layerInMap;
-				item.layerKey = layerInMap ? layerInMap.data.key : null;
+				item.layerKey = layerInMap ? layerInMap.data.key : null; //mapLayerKey
 				//FIXME set layer name from template
 			}
 		})
