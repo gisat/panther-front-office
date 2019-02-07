@@ -35,7 +35,9 @@ export default () => {
 	}));
 
 	Store.dispatch(Action.screens.addSet('demo'));
-	Store.dispatch(Action.screens.addOrUpdate('demo', 'demo-User', '40', '40', User, null));
+	Store.dispatch(Action.screens.addOrUpdate('demo', 'demo-User', 40, 40, User, null));
+	Store.dispatch(Action.screens.addOrUpdate('demo', 'demo-User-2', 40, 40, User, null));
+	Store.dispatch(Action.screens.addOrUpdate('demo', 'demo-User-3', 40, 40, User, null));
 
 	ReactDOM.render(<Provider store={Store}><Demo/></Provider>,document.getElementById('ptr'));
 

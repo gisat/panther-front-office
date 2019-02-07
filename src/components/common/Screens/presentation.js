@@ -184,6 +184,8 @@ class Screens extends React.PureComponent {
 					if (screenLineage !== maximalizedScreenLineage) {
 						screen.computedDisabled = true;
 						screen.computedWidth = 0;
+					} else {
+						screen.computedWidth = this.state.width;
 					}
 
 					let stateScreen = this.props.screens[screenLineage];

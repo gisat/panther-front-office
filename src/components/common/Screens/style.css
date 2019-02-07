@@ -7,6 +7,9 @@
 	border: 1px solid;
 	transition: width .5s ease-in-out;
 }
+.ptr-screen.open {
+	flex-grow: 1;
+}
 .ptr-screen p {
 	position: absolute;
 	bottom: 0;

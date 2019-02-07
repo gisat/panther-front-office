@@ -30,12 +30,14 @@ class Screen extends React.PureComponent {
 
 	render() {
 		let classes = classNames("ptr-screen", {
-			disabled: this.props.disabled
+			disabled: this.props.disabled,
+			open: !this.props.disabled
 		});
 
-		let style = {
-			width: `${this.props.width}rem`
-		};
+		let style = {};
+		if (this.props.width || this.props.width === 0) {
+			style.width = `${this.props.width}rem`
+		}
 
 		return (
 			<div className={classes} style={style} onFocus={this.onFocus}>
