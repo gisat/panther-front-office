@@ -64,7 +64,7 @@ const open = (state, action) => {
 const remove = (state, action) => {
 	let sets = {...state.sets};
 	let orderByHistory = _.without([...sets[action.setKey].orderByHistory], action.lineage);
-	let orderBySpace = _.without([...sets[action.setKey].orderByHistory], action.lineage);
+	let orderBySpace = _.without([...sets[action.setKey].orderBySpace], action.lineage);
 
 	return {...state, sets: {...sets, [action.setKey]: {orderByHistory, orderBySpace}}};
 };
