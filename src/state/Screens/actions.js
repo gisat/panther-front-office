@@ -51,6 +51,7 @@ function open(setKey, screenLineage) {
 function close(setKey, screenLineage) {
 	return (dispatch, getState) => {
 		dispatch(actionClose(setKey, screenLineage));
+		dispatch(actionTopHistory(setKey, screenLineage));
 
 		timeouts[screenLineage] = setTimeout(() => {
 			dispatch(actionRemove(setKey, screenLineage))
