@@ -8,7 +8,9 @@ import utils from '../../utils/utils';
 import Store from './store';
 import Demo from './Demo';
 import Select from '../../state/Select';
-import layerTree from './layersTreeConfig';
+import layerTree from './layersTreeConfig_radio'; //test data
+// import layerTree from './layersTreeConfig'; //test data
+// import layerTree from './layersTreeConfig_root'; //test data
 
 import User from '../../components/common/controls/User';
 

@@ -30,7 +30,7 @@
 .gs-tree .ptr-icon.hover{
     cursor: pointer;
 }
-
-/* .gs-tree .folder.expandede:before {
-    content: '\E633';
-} */
+.gs-tree span.hover,
+.gs-tree li.hover{
+    cursor: pointer;
+}

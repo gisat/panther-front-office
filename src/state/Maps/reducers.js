@@ -1,6 +1,7 @@
 import ActionTypes from '../../constants/ActionTypes';
 import Action from '../Action';
 import _ from 'lodash';
+import {isNumber} from 'lodash';
 // import { removeListener } from 'cluster';
 // import { getPackedSettings } from 'http2';
 
@@ -190,16 +191,29 @@ const updateMapWorldWindNavigator = (state, mapKey, updates) => {
 };
 
 
-//FIXME - optional parametr index?
 //FIXME - define layer state
 //FIXME - unique layer by KEY check?
-const addLayer = (state, mapKey, layerState) => {
+/**
+ * 
+ * @param {Object} state 
+ * @param {string} mapKey 
+ * @param {Object} layerState 
+ * @param {number} index - position in map
+ */
+const addLayer = (state, mapKey, layerState, index) => {
 	let mapState = getMapByKey(state, mapKey);
 	//ensure that data.layers exists
 	if (!mapState.data.layers) {
 		mapState = {...mapState, data: {...mapState.data, layers: []}}
 	}
-	return setMap(state, {...mapState, data: {...mapState.data, layers: [...mapState.data.layers, layerState]}})
+	const newState = setMap(state, {...mapState, data: {...mapState.data, layers: [...mapState.data.layers, layerState]}})
+	if (isNumber(index)) {
+		// setLayerIndex
+		return setLayerIndex(newState, mapKey, layerState.key, index)
+	} else {
+		return newState
+	}
+
 };
 
 const removeLayer = (state, mapKey, layerKey) => {
@@ -337,7 +351,7 @@ export default function tasksReducer(state = INITIAL_STATE, action) {
 		case ActionTypes.MAPS.MAP.WORLD_WIND_NAVIGATOR.UPDATE:
 			return updateMapWorldWindNavigator(state, action.mapKey, action.worldWindNavigator);
 		case ActionTypes.MAPS.LAYERS.LAYER.ADD:
-			return addLayer(state, action.mapKey, action.layer);
+			return addLayer(state, action.mapKey, action.layer, action.index);
 		case ActionTypes.MAPS.LAYERS.LAYER.REMOVE:
 			return removeLayer(state, action.mapKey, action.layerKey);
 		case ActionTypes.MAPS.LAYERS.REMOVE_LAYERS:
