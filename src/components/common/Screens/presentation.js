@@ -107,15 +107,18 @@ class Screens extends React.PureComponent {
 			// check if there is enough space for first open screen
 			let maximalizedScreenLineage = null;
 			let baseFirstOpen = false;
+			let otherFirstOpen = false;
 			orderByHistory.forEach(lineage => {
 				screens[lineage] = {lineage};
 				let stateScreen = this.props.screens[lineage];
 
-				if (!maximalizedScreenLineage && !baseFirstOpen) {
+				if (!maximalizedScreenLineage && !baseFirstOpen && !otherFirstOpen) {
 					if (stateScreen && stateScreen.data && stateScreen.data.desiredState === 'open') {
 						// screen does not fit
 						if ((stateScreen.data.width + CONST_PLUS) > (availableWidthLeft + RETRACTED_WIDTH)) {
 							maximalizedScreenLineage = stateScreen.lineage;
+						} else {
+							otherFirstOpen = true;
 						}
 					}
 
@@ -165,7 +168,7 @@ class Screens extends React.PureComponent {
 								availableWidthLeft = 0;
 
 								// TODO Do we want to disable base screen?
-								if (lineage === 'base') {
+								if (lineage === 'base' && !baseFirstOpen) {
 									screens[lineage].computedDisabled = true;
 								}
 							}
