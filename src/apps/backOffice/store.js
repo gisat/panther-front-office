@@ -1,6 +1,8 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
+import { connectRouter, routerMiddleware } from 'connected-react-router';
+import { createBrowserHistory } from 'history';
 
 // base types
 import areasReducers from '../../state/Areas/reducers';
@@ -21,6 +23,8 @@ import spatialRelationsReducers from '../../state/SpatialRelations/reducers';
 import stylesReducers from '../../state/Styles/reducers';
 import usersReducers from '../../state/Users/reducers';
 
+export const history = createBrowserHistory();
+
 // Redux store
 export default createStore(combineReducers({
 	areas: areasReducers,
@@ -32,6 +36,7 @@ export default createStore(combineReducers({
 	maps: mapsReducers,
 	periods: periodsReducers,
 	places: placesReducers,
+	router: connectRouter(history),
 	scenarios: scenariosReducers,
 	scopes: scopesReducers,
 	screens: screensReducers,
@@ -40,4 +45,4 @@ export default createStore(combineReducers({
 	spatialRelations: spatialRelationsReducers,
 	styles: stylesReducers,
 	users: usersReducers,
-}), applyMiddleware(thunk, logger));
+}), applyMiddleware(thunk, logger, routerMiddleware(history)));

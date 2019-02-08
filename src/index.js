@@ -22,11 +22,11 @@ const apps = [
 function start() {
 	for (let app of apps) {
 		if (
-			url.hostname === app.hostname
-			&& (!app.path || url.pathname.startsWith(app.path))
-			|| ((url.hostname === 'localhost' || _.includes(config.devHostnames, url.hostname)) && url.pathname.startsWith(app.devPath))
+			(url.hostname === app.hostname) && (!app.path || url.pathname.startsWith(app.path))
 		) {
-			return app.app();
+			return app.app(app.path);
+		} else if (((url.hostname === 'localhost' || _.includes(config.devHostnames, url.hostname)) && url.pathname.startsWith(app.devPath))) {
+			return app.app(app.devPath);
 		}
 	}
 
