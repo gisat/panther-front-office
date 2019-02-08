@@ -22,7 +22,7 @@ class TreeLeaf extends React.PureComponent {
                         </span>) : null
                 }
                 {
-                    <input type={this.props.type} checked={this.props.visible} onClick={(evt) => {evt.stopPropagation();}} onChange={(evt) => {this.props.onCheckClicked()}} /> //FIXME - add onChecked
+                    <input type={this.props.type} className={'hover'} checked={this.props.visible} onClick={(evt) => {evt.stopPropagation();}} onChange={(evt) => {this.props.onCheckClicked()}} />
                 }
                 <span className="title">
                     {this.props.title || 'placeholder'}

@@ -10,6 +10,15 @@ import LayerTreeFolder from './layerTreeFolder';
 import './layersTree.css';
 
 class LayersTree extends React.PureComponent {
+
+    componentDidMount(){
+        this.props.onMount();
+    }
+    
+	componentWillUnmount() {
+		this.props.onUnmount();
+	}
+
     getDescendant (descendant, parentProps) {
         switch (descendant.type) {
             case 'folder':
@@ -24,6 +33,7 @@ class LayersTree extends React.PureComponent {
                             onLayerVisibilityClick={() => {this.props.onLayerVisibilityClick(this.props.mapKey, descendant.layerKey, descendant.key, !leafProps.visible, this.props.layersTree)}}
                             key={descendant.key}  //layerTemplateKey
                             type={parentProps && parentProps.radio ? 'radio' : 'checkbox'}
+                            title={leafProps.title}
                             visible={leafProps.visible} />
         }
     }
@@ -53,7 +63,7 @@ class LayersTree extends React.PureComponent {
 LayersTree.defaultProps = {
     layersTree: [],
     layersTreeKey: '',
-    layersTemplates: [],
+    layersTemplates: {},
     onLayerFolderExpandClick: () => {},
     onLayerVisibilityClick: () => {},
     mapKey: '',
@@ -64,8 +74,10 @@ LayersTree.propTypes = {
     layersTreeKey: PropTypes.string.isRequired,
     onLayerFolderExpandClick: PropTypes.func,
     onLayerVisibilityClick: PropTypes.func,
+    onMount: PropTypes.func,
+    onUnmount: PropTypes.func,
     mapKey: PropTypes.string,
-    // layersTemplates: PropTypes.object,
+    layersTemplates: PropTypes.object,
 };
 
 export default LayersTree;
