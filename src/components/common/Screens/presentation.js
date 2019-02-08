@@ -208,7 +208,7 @@ class Screens extends React.PureComponent {
 			return screenComponents;
 
 		} else {
-			return this.props.children;
+			return null;
 		}
 	}
 
