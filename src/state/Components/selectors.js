@@ -46,7 +46,7 @@ const getLayersTreesConfig = createSelector(
 	[ 
 		getLayersTrees,
 		(state, layers, layersTreeKey) => layers,
-		(state, mapKey, layersTreeKey) => layersTreeKey,
+		(state, layers, layersTreeKey) => layersTreeKey,
 	],
 	(layersTrees, layers, layersTreeKey) => {
 		const layersTree = layersTrees ? layersTrees[layersTreeKey] : [];
