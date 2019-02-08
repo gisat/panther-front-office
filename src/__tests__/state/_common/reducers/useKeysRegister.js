@@ -37,13 +37,13 @@ describe('#useKeysRegister', () => {
 		expect(commonReducers.useKeysRegister(NO_IN_USE_KEYS_STATE.sample, action)).toEqual(expectedState);
 	});
 
-	it('should replace used keys in existing object', () => {
+	it('should add used keys to existing use', () => {
 		const action = {
 			componentId: 'Component_w',
-			keys: [2]
+			keys: [4]
 		};
 		const expectedStateFragment = {
-			Component_w: [2],
+			Component_w: [1, 2, 3, 4],
 			Component_x: [3, 4]
 		};
 		let result = commonReducers.useKeysRegister(BASIC_STATE.sample, action);

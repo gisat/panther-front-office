@@ -304,40 +304,42 @@ const getUsedIndexPages = (getSubstate) => {
 		],
 		(indexedDataUses, activeKeys) => {
 			let groupedUses = [];
-			let usedIndexes = [];
-			_.each(indexedDataUses, (usedIndex) => {
-				let mergedFilter = commonHelpers.mergeFilters(activeKeys, usedIndex.filterByActive, usedIndex.filter);
+			let finalUsedIndexes = [];
+			_.each(indexedDataUses, (usedIndexes) => {
+				usedIndexes.forEach(usedIndex => {
+					let mergedFilter = commonHelpers.mergeFilters(activeKeys, usedIndex.filterByActive, usedIndex.filter);
 
-				let existingIndex = _.find(groupedUses, (use) => {
-					return _.isEqual(use.filter, mergedFilter) && _.isEqual(use.order, usedIndex.order) ;
-				});
-				if (existingIndex){
-					existingIndex.inUse.push({
-						start: usedIndex.start,
-						length: usedIndex.length
+					let existingIndex = _.find(groupedUses, (use) => {
+						return _.isEqual(use.filter, mergedFilter) && _.isEqual(use.order, usedIndex.order) ;
 					});
-				} else {
-					groupedUses.push({
-						filter: mergedFilter,
-						order: usedIndex.order,
-						inUse: [{
+					if (existingIndex){
+						existingIndex.inUse.push({
 							start: usedIndex.start,
 							length: usedIndex.length
-						}]
-					});
-				}
+						});
+					} else {
+						groupedUses.push({
+							filter: mergedFilter,
+							order: usedIndex.order,
+							inUse: [{
+								start: usedIndex.start,
+								length: usedIndex.length
+							}]
+						});
+					}
+				});
 			});
 
 			_.each(groupedUses, index => {
 				if (index.inUse && Object.keys(index.inUse).length) {
-					usedIndexes.push({
+					finalUsedIndexes.push({
 						filter: index.filter,
 						order: index.order,
 						uses: _mergeIntervals(Object.values(index.inUse))
 					});
 				}
 			});
-			return usedIndexes.length ? usedIndexes : null;
+			return finalUsedIndexes.length ? finalUsedIndexes : null;
 		}
 	);
 };
@@ -350,26 +352,28 @@ const getUsesForIndex = (getSubstate) => {
 		getAllActiveKeys,
 		(indexedDataUses, filter, order, activeKeys) => {
 			let index = null;
-			_.each(indexedDataUses, (usedIndex) => {
-				let mergedFilter = commonHelpers.mergeFilters(activeKeys, usedIndex.filterByActive, usedIndex.filter);
+			_.each(indexedDataUses, (usedIndexes) => {
+				_.each(usedIndexes, usedIndex => {
+					let mergedFilter = commonHelpers.mergeFilters(activeKeys, usedIndex.filterByActive, usedIndex.filter);
 
-				if (_.isEqual(filter, mergedFilter) && _.isEqual(order, usedIndex.order)){
-					if (index){
-						index.inUse.push({
-							start: usedIndex.start,
-							length: usedIndex.length
-						});
-					} else {
-						index = {
-							filter: filter,
-							order: usedIndex.order,
-							inUse: [{
+					if (_.isEqual(filter, mergedFilter) && _.isEqual(order, usedIndex.order)){
+						if (index){
+							index.inUse.push({
 								start: usedIndex.start,
 								length: usedIndex.length
-							}]
-						};
+							});
+						} else {
+							index = {
+								filter: filter,
+								order: usedIndex.order,
+								inUse: [{
+									start: usedIndex.start,
+									length: usedIndex.length
+								}]
+							};
+						}
 					}
-				}
+				});
 			});
 
 			if (index){
@@ -500,8 +504,8 @@ export default {
 
 	getUsesForIndex,
 	getUsedIndexPages,
-	getUsedKeys,
-	getUsesWithActiveDependency,
+	getUsedKeys, // todo write tests
+	getUsesWithActiveDependency, // todo update to collections & write tests
 
 	_mergeIntervals
 }

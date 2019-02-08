@@ -33,7 +33,7 @@ describe('#getUsesForIndex', () => {
 			filter: null,
 			order: [['name', 'ascending']],
 			uses: [{
-				length: 7,
+				length: 11,
 				start: 1
 			}]
 		};

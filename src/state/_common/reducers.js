@@ -73,8 +73,6 @@ export default {
 	},
 
 	registerUseIndexed: (state, action) => {
-		// TODO save link to index?
-		// replace use - todo option to add to use?
 		let newUse = {
 			filterByActive: action.filterByActive,
 			filter: action.filter,
@@ -82,7 +80,29 @@ export default {
 			start: action.start,
 			length: action.length
 		};
-		return {...state, inUse: {...state.inUse, indexes: {...state.inUse.indexes, [action.componentId]: newUse}}};
+
+		let existingUse = false;
+		if (state.inUse.indexes && state.inUse.indexes[action.componentId]) {
+			existingUse = _.find(state.inUse.indexes[action.componentId], newUse);
+		}
+
+		// add use if it doesn't already exist
+		if (!existingUse) {
+			return {...state,
+				inUse: {
+					...state.inUse,
+					indexes: {
+						...state.inUse.indexes,
+						[action.componentId]: (
+							(state.inUse.indexes && state.inUse.indexes[action.componentId]) ?
+								[...state.inUse.indexes[action.componentId], newUse] : [newUse]
+						)
+					}
+				}
+			};
+		} else {
+			return state;
+		}
 	},
 
 	useIndexedClear: (state, action) => {
@@ -103,7 +123,7 @@ export default {
 				...state.inUse,
 				keys: {
 					...state.inUse.keys,
-					[action.componentId]: action.keys
+					[action.componentId]: state.inUse.keys && state.inUse.keys[action.componentId] ? _.union(state.inUse.keys[action.componentId], action.keys) : action.keys
 				}
 			}
 		}

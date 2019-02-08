@@ -129,34 +129,46 @@ export const BASIC_STATE = {
 		},
 		inUse: {
 			indexes: {
-				Component_a: {
+				Component_a: [{
 					filter: {scope: 666},
 					filterByActive: null,
 					order: null,
 					start: 1,
 					length: 5
-				},
-				Component_b: {
-					filter: null,
-					filterByActive: {scope: true},
-					order: null,
-					start: 6,
-					length: 5
-				},
-				Component_c: {
+				}, {
 					filter: null,
 					filterByActive: null,
 					order: [['name', 'ascending']],
 					start: 1,
 					length: 5
-				},
-				Component_d: {
+				}],
+				Component_b: [{
+					filter: null,
+					filterByActive: {scope: true},
+					order: null,
+					start: 6,
+					length: 5
+				}],
+				Component_c: [{
+					filter: null,
+					filterByActive: null,
+					order: [['name', 'ascending']],
+					start: 1,
+					length: 5
+				}],
+				Component_d: [{
 					filter: null,
 					filterByActive: null,
 					order: [['name', 'ascending']],
 					start: 3,
 					length: 5
-				}
+				}, {
+					filter: null,
+					filterByActive: null,
+					order: [['name', 'ascending']],
+					start: 7,
+					length: 5
+				}]
 			},
 			keys: {
 				Component_w: [1, 2, 3],

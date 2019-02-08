@@ -11,27 +11,33 @@ describe('#useIndexedClear', () => {
 			inUse: {
 				...BASIC_STATE.sample.inUse,
 				indexes: {
-					Component_a: {
+					Component_a: [{
 						filter: {scope: 666},
 						filterByActive: null,
 						order: null,
 						start: 1,
 						length: 5
-					},
-					Component_b: {
-						filter: null,
-						filterByActive: {scope: true},
-						order: null,
-						start: 6,
-						length: 5
-					},
-					Component_c: {
+					}, {
 						filter: null,
 						filterByActive: null,
 						order: [['name', 'ascending']],
 						start: 1,
 						length: 5
-					},
+					}],
+					Component_b: [{
+						filter: null,
+						filterByActive: {scope: true},
+						order: null,
+						start: 6,
+						length: 5
+					}],
+					Component_c: [{
+						filter: null,
+						filterByActive: null,
+						order: [['name', 'ascending']],
+						start: 1,
+						length: 5
+					}],
 				}
 			}
 		};
@@ -42,42 +48,7 @@ describe('#useIndexedClear', () => {
 		const action = {
 			componentId: 'Component_e',
 		};
-		const expectedState = {
-			...BASIC_STATE.sample,
-			inUse: {
-				...BASIC_STATE.sample.inUse,
-				indexes: {
-					Component_a: {
-						filter: {scope: 666},
-						filterByActive: null,
-						order: null,
-						start: 1,
-						length: 5
-					},
-					Component_b: {
-						filter: null,
-						filterByActive: {scope: true},
-						order: null,
-						start: 6,
-						length: 5
-					},
-					Component_c: {
-						filter: null,
-						filterByActive: null,
-						order: [['name', 'ascending']],
-						start: 1,
-						length: 5
-					},
-					Component_d: {
-						filter: null,
-						filterByActive: null,
-						order: [['name', 'ascending']],
-						start: 3,
-						length: 5
-					}
-				}
-			}
-		};
+		const expectedState = {...BASIC_STATE.sample};
 		expect(commonReducers.useIndexedClear(BASIC_STATE.sample, action)).toEqual(expectedState);
 	});
 
@@ -87,13 +58,13 @@ describe('#useIndexedClear', () => {
 			inUse: {
 				...NO_IN_USE_INDEXES_STATE.sample.inUse,
 				indexes: {
-					Component_aa: {
+					Component_aa: [{
 						filter: {scope: 666},
 						filterByActive: null,
 						order: null,
 						start: 1,
 						length: 5
-					}
+					}]
 				}
 			}
 		};
