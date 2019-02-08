@@ -2,6 +2,7 @@ import {createSelector} from 'reselect';
 import _ from 'lodash';
 import Overlays from './Overlays/selectors';
 import MapsSelect from '../Maps/selectors';
+import LayerTemplatesSelect from 'state/LayerTemplates/selectors';
 import Windows from './Windows/selectors';
 import {stylePriorityOrder} from '../../constants/VisualsConfig';
 // import getLayersTreesConfig from
@@ -45,10 +46,11 @@ const forAllTreeItems = (layerTree = [], callback) => {
 const getLayersTreesConfig = createSelector(
 	[ 
 		getLayersTrees,
+		LayerTemplatesSelect.getAllAsObject,
 		(state, layers, layersTreeKey) => layers,
 		(state, layers, layersTreeKey) => layersTreeKey,
 	],
-	(layersTrees, layers, layersTreeKey) => {
+	(layersTrees, layerTemplates, layers, layersTreeKey) => {
 		const layersTree = layersTrees ? layersTrees[layersTreeKey] : [];
 		forAllTreeItems(layersTree, (item) => {
 			if(item && item.type === 'layerTemplate') {
@@ -57,6 +59,9 @@ const getLayersTreesConfig = createSelector(
 
 				item.visible = !!layerInMap;
 				item.layerKey = layerInMap ? layerInMap.data.key : null; //mapLayerKey
+				if(layerTemplates) {
+					item.title = layerTemplates[item.key].data.nameDisplay;
+				}
 				//FIXME set layer name from template
 			}
 		})
