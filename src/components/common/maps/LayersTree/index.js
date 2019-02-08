@@ -7,14 +7,7 @@ import presentation from './presentation';
 
 const mapStateToProps = (state, props) => {
 	const activeMapKey = Select.maps.getActiveMapKey(state);
-
-	const backgroundLayerState = Select.maps.getBackgroundLayerStateByMapKey(state, activeMapKey);
-	const backgroundLayerData = backgroundLayerState ? [{filter: backgroundLayerState.mergedFilter, data: backgroundLayerState.layer}] : [];
-
-	const layersState = Select.maps.getLayersStateByMapKey(state, activeMapKey);
-	const layersData = layersState ? layersState.map(layer => {return {filter: layer.mergedFilter, data: layer.layer}}) : [];
-	const layers = new Array(...layersData, ...backgroundLayerData);
-	
+	const layers = Select.maps.getAllLayersStateByMapKey(state, activeMapKey);
 	const layersTree = Select.components.getLayersTreesConfig(state, layers, props.layersTreeKey, activeMapKey) || [];
 	//FIXME - load layersTemplates
 	return {
@@ -40,17 +33,10 @@ const mapDispatchToProps = (dispatch) => {
 		 */
 		onLayerVisibilityClick: (mapKey, layerKey, layerTemplateKey, visibility, layersTree) => {
 			//FIXME - special behaviour for background layers?
-			const parentFolder = getFolderByLayerKey(layersTree, layerTemplateKey);
-			if(parentFolder && parentFolder.radio) {
-				const layers = getLayersInFolder(parentFolder)
-				const visibleLayers = layers.filter(l => l.visible);
-				//hide all visible layers (should be only one)
-				visibleLayers.forEach((l) => {
-					dispatch(Action.maps.removeLayer(mapKey, l.layerKey));
-				})
-			}
-
 			if (visibility) {
+				dispatch(Action.components.layersTree.hideRadioFolderLayersByLayerTemplateKey(layersTree, layerTemplateKey, mapKey));
+
+				//addLayerWithIndex
 				const zIndex = getLayerZindex(layersTree, layerTemplateKey);
 				dispatch(Action.maps.addLayer(mapKey, {layerTemplate: layerTemplateKey}, zIndex));
 			} else {

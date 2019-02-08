@@ -256,7 +256,26 @@ const getLayersStateByMapKey = createSelector(
 	}
 );
 
+
+/**
+ * @param state {Object}
+ * @param mapKey {string}
+ */
+const getAllLayersStateByMapKey = createSelector(
+	[
+		getLayersStateByMapKey,
+		getBackgroundLayerStateByMapKey
+	],
+	(layersState, backgroundLayerState) => {
+		const backgroundLayerData = backgroundLayerState ? [getLayerState(backgroundLayerState)] : [];
+		const layersData = layersState ? layersState.map(getLayerState) : [];
+		return new Array(...layersData, ...backgroundLayerData);
+	}
+)
+
 // ----- helpers ------
+const getLayerState = (layer) => ({filter: layer.mergedFilter, data: layer.layer});
+
 
 /**
  * Prepare filters for use from layers state
@@ -340,7 +359,8 @@ export default {
 
 	getMapLayersByMapKey, //TODO - test
 	getMapLayerByMapKeyAndLayerKey,
-
+	getAllLayersStateByMapKey,
+	
 	getMapsAsObject,
 	getMapSetsAsObject,
 
