@@ -2,10 +2,16 @@ import { unregister } from './registerServiceWorker';
 import _ from 'lodash';
 
 import config from './config';
+import backOffice from './apps/backOffice';
 import demo from './apps/demo';
 
 const apps = [
 	{
+		hostname: 'panther.gisat.cz',
+		path: '/backoffice',
+		devPath: '/backoffice',
+		app: backOffice
+	}, {
 		hostname: 'panther.gisat.cz',
 		path: null,
 		devPath: '/demo',
