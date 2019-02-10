@@ -13,15 +13,11 @@ import Page from './components/Page';
 
 import '../../index.css';
 
-function page(component) {
-	return ({match, ...props}) => {
-		return (
-			<Page match={match} {...props}>
-				{component}
-			</Page>
-		);
-	}
-}
+const page = component => props => (
+	<Page {...props}>
+		{component}
+	</Page>
+);
 
 export default (path) => {
 	// Set language
