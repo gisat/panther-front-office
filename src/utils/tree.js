@@ -88,7 +88,7 @@ export const getLayersInFolder = (folder = {}) => {
  * @param {*} layersTree 
  * @returns {Array}
  */
-const getFlattenLayers = (layersTree = []) => {
+export const getFlattenLayers = (layersTree = []) => {
     const layers = layersTree.reduce((acc, item) => {
         switch (item.type) {
             case 'folder':

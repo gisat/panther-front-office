@@ -60,7 +60,7 @@ const getLayersTreesConfig = createSelector(
 				item.visible = !!layerInMap;
 				item.layerKey = layerInMap ? layerInMap.data.key : null; //mapLayerKey
 				if(layerTemplates) {
-					item.title = layerTemplates[item.key].data.nameDisplay;
+					item.title = layerTemplates[item.key] ? layerTemplates[item.key].data.nameDisplay : 'placeholder';
 				}
 				//FIXME set layer name from template
 			}
