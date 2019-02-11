@@ -12,6 +12,13 @@ describe('#getMapSetByMapKey', () => {
 			key: 'MapSet1',
 			maps: ['Map1', 'Map2', 'Map3'],
 			data: {
+				metadataModifiers: {
+					period: 'period1'
+				},
+				backgroundLayer: 'background2',
+				layers: [{
+					layerTemplate: 'layerFromSet1'
+				}],
 				worldWindNavigator: {
 					lookAtLocation: {
 						longitude: 10,

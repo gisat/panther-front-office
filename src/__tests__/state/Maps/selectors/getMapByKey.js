@@ -8,7 +8,15 @@ describe('#getMapByKey', () => {
 		const setKey = 'Map2';
 		const expectedOutput = {
 			key: 'Map2',
-			data: {}
+			data: {
+				metadataModifiers: {
+					place: 'place12'
+				},
+				layers: [{
+					layerTemplate: 'template4'
+				}],
+				backgroundLayer: 'background1',
+			}
 		};
 		Selector(Select.maps.getMapByKey).expect(BASIC_STATE, setKey).toReturn(expectedOutput);
 	});

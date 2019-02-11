@@ -3,7 +3,7 @@ import Select from "../../../../state/Select";
 import {Selector} from 'redux-testkit';
 import {getSubstate, BASIC_STATE, EMPTY_MAPS_STATE, EMPTY_SET_DATA_STATE, EMPTY_SET_NAVIGATOR_STATE} from "../../../../__testUtils/sampleStates/maps";
 
-describe('#getMapNavigator', () => {
+describe('#getNavigator', () => {
 	it('should override properties in map set navigator with map navigator properties', () => {
 		const mapKey = 'Map1';
 

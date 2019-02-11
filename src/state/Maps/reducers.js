@@ -26,7 +26,7 @@ const INITIAL_LAYER_STATE = {
 };
 
 const INITIAL_MAP_STATE = {
-	key: '',
+	key: null,
 	name: null,
 	data: {
 		backgroundLayer: null,

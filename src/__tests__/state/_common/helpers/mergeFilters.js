@@ -57,7 +57,7 @@ describe('#mergeFilters', () => {
 		};
 		const filterByActive = {
 			scope: true,
-			periods: true
+			period: true
 		};
 		const filter = {
 			scope: 2
@@ -65,7 +65,7 @@ describe('#mergeFilters', () => {
 
 		const expectedOutput = {
 			scope: 1,
-			periods: {
+			period: {
 				key: {
 					in: [4, 5]
 				}

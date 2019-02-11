@@ -8,6 +8,9 @@ import ActionTypes from  '../../../../constants/ActionTypes';
 const mockStore = configureMockStore([thunk]);
 
 const INITIAL_STATE = {
+	scopes: {},
+	places: {},
+	periods: {},
 	maps: {
 		activeSetKey: null,
 		activeMapKey: null,
@@ -26,13 +29,16 @@ describe('Maps Sets Actions', () => {
 			store.dispatch(Action.maps.addSet({}));
 			expect(store.getActions()).toEqual(expectedActions);
 		});
-		it('should dispatch add action', () => {
+		it('should dispatch add action 1', () => {
 			const store = mockStore(INITIAL_STATE);
 			const expectedActions = [{
 				type: ActionTypes.MAPS.SET.ADD,
 				set: {
 					key: 'set1'
 				},
+			}, {
+				type: ActionTypes.MAPS.SET_ACTIVE_SET_KEY,
+				setKey: "set1",
 			}];
 			store.dispatch(Action.maps.addSet({key: 'set1'}));
 			expect(store.getActions()).toEqual(expectedActions);
@@ -87,8 +93,12 @@ describe('Maps Sets Actions', () => {
 			const expectedActions = [{
 				type: ActionTypes.MAPS.SET.ADD_MAP,
 				setKey: 'set1',
-				mapKey: 'map1',
-			}];
+				mapKey: 'map1'
+			}, {
+				type: ActionTypes.MAPS.SET_ACTIVE_MAP_KEY,
+				mapKey: 'map1'
+			}
+			];
 			store.dispatch(Action.maps.addMapToSet('set1', 'map1'));
 			expect(store.getActions()).toEqual(expectedActions);
 		});
