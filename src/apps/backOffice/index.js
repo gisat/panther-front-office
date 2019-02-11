@@ -12,6 +12,10 @@ import { Route, Switch } from 'react-router'
 import Page from './components/Page';
 
 import '../../index.css';
+import '../../styles/_variables.scss';
+import './styles/_variables.scss';
+
+import Test from './components/Test';
 
 const page = component => props => (
 	<Page {...props}>
@@ -37,6 +41,7 @@ export default (path) => {
 							<Route path={`${match.url}/:dataType`} render={({match}) => (<div>{match.params.dataType}</div>)} />
 						</Switch>
 					)} />
+					<Route path={path + "/test"} render={page(<Test/>)} />
 				</Switch>
 			</ConnectedRouter>
 		</Provider>,document.getElementById('ptr')

@@ -16,6 +16,7 @@
     "isomorphic-fetch": "2.2.1",
     "lodash": "4.17.11",
     "moment": "2.23.0",
+    "node-sass": "4.11.0",
     "path": "0.12.7",
     "prop-types": "15.6.2",
     "query-string": "6.2.0",
@@ -36,9 +37,9 @@
     "redux-logger": "3.0.6",
     "redux-mock-store": "1.5.3",
     "redux-thunk": "2.3.0",
+    "regenerator-runtime": "0.13.1",
     "reselect": "4.0.0",
-    "uri-templates": "0.2.0",
-    "regenerator-runtime": "0.13.1"
+    "uri-templates": "0.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
