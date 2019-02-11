@@ -33,11 +33,11 @@ function mergeFilters(activeKeys, filterByActive, filter) {
 				return null;
 			}
 		}
-		if (filterByActive.periods){
+		if (filterByActive.period){
 			if (activeKeys.activePeriodKey){
-				fullFilter.periods = activeKeys.activePeriodKey;
+				fullFilter.period = activeKeys.activePeriodKey;
 			} else if (activeKeys.activePeriodKeys){
-				fullFilter.periods = {key: {in: activeKeys.activePeriodKeys}};
+				fullFilter.period = {key: {in: activeKeys.activePeriodKeys}};
 			} else {
 				return null;
 			}

@@ -10,6 +10,7 @@ class Screen extends React.PureComponent {
 			PropTypes.element,
 			PropTypes.array
 		]),
+		contentWidth: PropTypes.number,
 		disabled: PropTypes.bool,
 		onFocus: PropTypes.func,
 		onCloseClick: PropTypes.func,
@@ -17,6 +18,7 @@ class Screen extends React.PureComponent {
 		onRetractClick: PropTypes.func,
 		noControls: PropTypes.bool,
 		lineage: PropTypes.string,
+		minWidth: PropTypes.number,
 		width: PropTypes.number
 	};
 
@@ -34,14 +36,22 @@ class Screen extends React.PureComponent {
 			open: !this.props.disabled
 		});
 
-		let style = {};
+		let screenStyle = {};
 		if (this.props.width || this.props.width === 0) {
-			style.width = `${this.props.width}rem`
+			screenStyle.width = `${this.props.width}rem`;
+		}
+
+		let screenScrollStyle = {};
+		if (this.props.contentWidth) {
+			screenScrollStyle.width = `${this.props.contentWidth}rem`;
+		}
+		if (this.props.minWidth) {
+			screenScrollStyle.minWidth = `${this.props.minWidth}rem`;
 		}
 
 		return (
-			<div className={classes} style={style} onFocus={this.onFocus}>
-				<div className="ptr-screen-scroll" tabIndex="0">
+			<div className={classes} style={screenStyle} onFocus={this.onFocus}>
+				<div className="ptr-screen-scroll" style={screenScrollStyle} tabIndex="0">
 					{this.props.content}
 					<p>{this.props.lineage}</p>
 				</div>

@@ -55,42 +55,6 @@ const getAllForActiveScope = (getSubstate) => {
 	);
 };
 
-const getAllForActiveTheme = (getSubstate) => {
-	return createSelector(
-		[getAllAsObject(getSubstate), getIndexes(getSubstate), activeThemeKey, (state, order) => order],
-		(models, indexes, activeThemeKey, order) => {
-			if (models && indexes && activeThemeKey) {
-				// TODO change dataset to scope
-				let filter = {
-					theme: activeThemeKey
-				};
-				let index = commonHelpers.getIndex(indexes, filter, order);
-				if (index && index.index) {
-					let indexedModels = [];
-					for (let i = 1; i <= index.count; i++){
-						let modelKey = index.index[i];
-						if (modelKey){
-							let indexedModel = models[modelKey];
-							if (indexedModel){
-								indexedModels.push(indexedModel);
-							} else {
-								indexedModels.push({key: modelKey});
-							}
-						} else {
-							indexedModels.push(null);
-						}
-					}
-					return indexedModels.length ? indexedModels : null;
-				} else {
-					return null;
-				}
-			} else {
-				return null;
-			}
-		}
-	);
-};
-
 const getActiveKey = (getSubstate) => {
 	return (state) => getSubstate(state).activeKey
 };
@@ -278,7 +242,12 @@ const getKeysToLoad = (getSubstate) => {
 const getUsedKeys = (getSubstate) => {
 	return (state) => {
 		let inUse = getSubstate(state).inUse.keys;
-		return inUse && _.uniq(_.flatten(Object.values(inUse)));
+		if (inUse) {
+			let keys = _.uniq(_.flatten(Object.values(inUse)));
+			return keys.length ? keys : null;
+		} else {
+			return null;
+		}
 	}
 };
 
@@ -304,40 +273,42 @@ const getUsedIndexPages = (getSubstate) => {
 		],
 		(indexedDataUses, activeKeys) => {
 			let groupedUses = [];
-			let usedIndexes = [];
-			_.each(indexedDataUses, (usedIndex) => {
-				let mergedFilter = commonHelpers.mergeFilters(activeKeys, usedIndex.filterByActive, usedIndex.filter);
+			let finalUsedIndexes = [];
+			_.each(indexedDataUses, (usedIndexes) => {
+				usedIndexes.forEach(usedIndex => {
+					let mergedFilter = commonHelpers.mergeFilters(activeKeys, usedIndex.filterByActive, usedIndex.filter);
 
-				let existingIndex = _.find(groupedUses, (use) => {
-					return _.isEqual(use.filter, mergedFilter) && _.isEqual(use.order, usedIndex.order) ;
-				});
-				if (existingIndex){
-					existingIndex.inUse.push({
-						start: usedIndex.start,
-						length: usedIndex.length
+					let existingIndex = _.find(groupedUses, (use) => {
+						return _.isEqual(use.filter, mergedFilter) && _.isEqual(use.order, usedIndex.order) ;
 					});
-				} else {
-					groupedUses.push({
-						filter: mergedFilter,
-						order: usedIndex.order,
-						inUse: [{
+					if (existingIndex){
+						existingIndex.inUse.push({
 							start: usedIndex.start,
 							length: usedIndex.length
-						}]
-					});
-				}
+						});
+					} else {
+						groupedUses.push({
+							filter: mergedFilter,
+							order: usedIndex.order,
+							inUse: [{
+								start: usedIndex.start,
+								length: usedIndex.length
+							}]
+						});
+					}
+				});
 			});
 
 			_.each(groupedUses, index => {
 				if (index.inUse && Object.keys(index.inUse).length) {
-					usedIndexes.push({
+					finalUsedIndexes.push({
 						filter: index.filter,
 						order: index.order,
 						uses: _mergeIntervals(Object.values(index.inUse))
 					});
 				}
 			});
-			return usedIndexes.length ? usedIndexes : null;
+			return finalUsedIndexes.length ? finalUsedIndexes : null;
 		}
 	);
 };
@@ -350,26 +321,28 @@ const getUsesForIndex = (getSubstate) => {
 		getAllActiveKeys,
 		(indexedDataUses, filter, order, activeKeys) => {
 			let index = null;
-			_.each(indexedDataUses, (usedIndex) => {
-				let mergedFilter = commonHelpers.mergeFilters(activeKeys, usedIndex.filterByActive, usedIndex.filter);
+			_.each(indexedDataUses, (usedIndexes) => {
+				_.each(usedIndexes, usedIndex => {
+					let mergedFilter = commonHelpers.mergeFilters(activeKeys, usedIndex.filterByActive, usedIndex.filter);
 
-				if (_.isEqual(filter, mergedFilter) && _.isEqual(order, usedIndex.order)){
-					if (index){
-						index.inUse.push({
-							start: usedIndex.start,
-							length: usedIndex.length
-						});
-					} else {
-						index = {
-							filter: filter,
-							order: usedIndex.order,
-							inUse: [{
+					if (_.isEqual(filter, mergedFilter) && _.isEqual(order, usedIndex.order)){
+						if (index){
+							index.inUse.push({
 								start: usedIndex.start,
 								length: usedIndex.length
-							}]
-						};
+							});
+						} else {
+							index = {
+								filter: filter,
+								order: usedIndex.order,
+								inUse: [{
+									start: usedIndex.start,
+									length: usedIndex.length
+								}]
+							};
+						}
 					}
-				}
+				});
 			});
 
 			if (index){
@@ -394,51 +367,70 @@ const getUsesForIndex = (getSubstate) => {
 };
 
 const getUsesWithActiveDependency = (getSubstate) => {
+	/**
+	 * @param state {Object}
+	 * @param filterByActive {Object} Something like {scope: true}
+	 */
 	return createSelector([
 			getIndexedDataUses(getSubstate),
 			getAllActiveKeys,
 			(state, filterByActive) => filterByActive
 		],
+		/**
+		 * @param indexedDataUses {Object} inUse.indexes
+		 * @param activeKeys {Object} active keys of all metadata
+		 * @param filterByActive {Object} given metadata type active key for filtering (e.g. {scope: true})
+		 */
 		(indexedDataUses, activeKeys, filterByActive) => {
-			let groupedUses = [];
+			let groupedUses = []; // uses grouped by filter
 			let usedIndexes = [];
-			_.each(indexedDataUses, (usedIndex) => {
-				if (_.reduce(filterByActive, (accumulator, value, index) => accumulator && value && usedIndex.filterByActive && usedIndex.filterByActive[index], true)) {
-					// if usedIndex.filterByActive has all the properties of filterByActive
 
-					let mergedFilter = commonHelpers.mergeFilters(activeKeys, usedIndex.filterByActive, usedIndex.filter);
+			if (filterByActive) {
+				// loop through components
+				_.each(indexedDataUses, (componentUsedIndexes) => {
+					// loop through uses for component
+					_.each(componentUsedIndexes, (usedIndex) => {
+						if (_.reduce(filterByActive, (accumulator, value, index) => accumulator && value && usedIndex.filterByActive && usedIndex.filterByActive[index], true)) {
+							// if usedIndex.filterByActive has all the properties of filterByActive
 
-					let existingIndex = _.find(groupedUses, (use) => {
-						return _.isEqual(use.filter, mergedFilter) && _.isEqual(use.order, usedIndex.order) ;
+							let mergedFilter = commonHelpers.mergeFilters(activeKeys, usedIndex.filterByActive, usedIndex.filter);
+
+							let existingIndex = _.find(groupedUses, (use) => {
+								return _.isEqual(use.filter, mergedFilter) && _.isEqual(use.order, usedIndex.order) ;
+							});
+							if (existingIndex){
+								existingIndex.inUse.push({
+									start: usedIndex.start,
+									length: usedIndex.length
+								});
+							} else {
+								groupedUses.push({
+									filter: mergedFilter,
+									order: usedIndex.order,
+									inUse: [{
+										start: usedIndex.start,
+										length: usedIndex.length
+									}]
+								});
+							}
+						}
 					});
-					if (existingIndex){
-						existingIndex.inUse.push({
-							start: usedIndex.start,
-							length: usedIndex.length
-						});
-					} else {
-						groupedUses.push({
-							filter: mergedFilter,
-							order: usedIndex.order,
-							inUse: [{
-								start: usedIndex.start,
-								length: usedIndex.length
-							}]
+				});
+
+				// loop through uses grouped by filter and merge intervals
+				_.each(groupedUses, index => {
+					if (index.inUse && Object.keys(index.inUse).length) {
+						usedIndexes.push({
+							filter: index.filter,
+							order: index.order,
+							uses: _mergeIntervals(Object.values(index.inUse))
 						});
 					}
-				}
-			});
-
-			_.each(groupedUses, index => {
-				if (index.inUse && Object.keys(index.inUse).length) {
-					usedIndexes.push({
-						filter: index.filter,
-						order: index.order,
-						uses: _mergeIntervals(Object.values(index.inUse))
-					});
-				}
-			});
-			return usedIndexes.length ? usedIndexes : null;
+				});
+				return usedIndexes.length ? usedIndexes : null;
+			} else {
+				return null;
+			}
 		}
 	);
 };
@@ -480,7 +472,6 @@ export default {
 	getAllActiveKeys,
 	getAllAsObject,
 	getAllForActiveScope,
-	getAllForActiveTheme,
 
 	getByKey,
 
@@ -501,7 +492,7 @@ export default {
 	getUsesForIndex,
 	getUsedIndexPages,
 	getUsedKeys,
-	getUsesWithActiveDependency,
+	getUsesWithActiveDependency, // todo update to collections & write tests
 
 	_mergeIntervals
 }
