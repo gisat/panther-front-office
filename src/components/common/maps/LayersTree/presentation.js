@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import isArray from 'lodash/isArray';
 import isObject from 'lodash/isObject';
+import isEqual from 'lodash/isEqual';
 
 import LayerTreeLeaf from './layerTreeLeaf';
 import LayerTreeFolder from './layerTreeFolder';
@@ -10,14 +11,16 @@ import LayerTreeFolder from './layerTreeFolder';
 import './layersTree.css';
 
 class LayersTree extends React.PureComponent {
-
-    componentDidMount(){
-        this.props.onMount();
-    }
     
 	componentWillUnmount() {
 		this.props.onUnmount();
 	}
+
+    componentDidUpdate(prevProps) {
+        if (!isEqual(prevProps.layersTemplatesKeys, this.props.layersTemplatesKeys)) {
+            this.props.ensureLayersTemplates(this.props.layersTemplatesKeys);
+        }
+    }
 
     getDescendant (descendant, parentProps) {
         switch (descendant.type) {
@@ -62,6 +65,7 @@ class LayersTree extends React.PureComponent {
 
 LayersTree.defaultProps = {
     layersTree: [],
+    layersTemplatesKeys: [],
     layersTreeKey: '',
     layersTemplates: {},
     onLayerFolderExpandClick: () => {},
@@ -70,11 +74,12 @@ LayersTree.defaultProps = {
   };
   
 LayersTree.propTypes = {
+    layersTemplatesKeys: PropTypes.array,
     layersTree: PropTypes.array.isRequired,
     layersTreeKey: PropTypes.string.isRequired,
     onLayerFolderExpandClick: PropTypes.func,
     onLayerVisibilityClick: PropTypes.func,
-    onMount: PropTypes.func,
+    ensureLayersTemplates: PropTypes.func,
     onUnmount: PropTypes.func,
     mapKey: PropTypes.string,
     layersTemplates: PropTypes.object,

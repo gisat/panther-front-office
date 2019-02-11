@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import Select from 'state/Select';
 import Action from 'state/Action';
 import utils from 'utils/utils';
-import {getFolderByLayerKey, getLayersInFolder, getLayerZindex} from 'utils/tree'
+import {getLayerZindex, getFlattenLayers} from 'utils/tree'
 
 import presentation from './presentation';
 
@@ -10,8 +10,9 @@ const mapStateToProps = (state, props) => {
 	const activeMapKey = Select.maps.getActiveMapKey(state);
 	const layers = Select.maps.getAllLayersStateByMapKey(state, activeMapKey);
 	const layersTree = Select.components.getLayersTreesConfig(state, layers, props.layersTreeKey, activeMapKey) || [];
-	//FIXME - load layersTemplates
+	const flattenLayersTree = getFlattenLayers(layersTree).map(l => l.key);
 	return {
+		layersTemplatesKeys: flattenLayersTree,
 		layersTreeKey: props.layersTreeKey,
 		layersTree: layersTree,
 		mapKey: activeMapKey,
@@ -21,7 +22,6 @@ const mapStateToProps = (state, props) => {
 
 const mapDispatchToProps = (dispatch) => {
 	const componentId = 'LayerTemplatesSelector_' + utils.randomString(6);
-	// const order = [[]];
 
 	return {
 		onLayerFolderExpandClick: (layersTreeKey, folderKey, visibility) => {
@@ -47,16 +47,13 @@ const mapDispatchToProps = (dispatch) => {
 				dispatch(Action.maps.removeLayer(mapKey, layerKey));
 			}
 		},
-
-		onMount: (layersIDs) => {
-			debugger
-			console.log("mount layersTree");
-			dispatch(Action.layerTemplates.useIndexed(null, {key: {}}, undefined, 1, 1000, componentId));
-			//load layersTree configuration
-			//does map exists?
-		},
 		onUnmount: () => {
 			dispatch(Action.layerTemplates.useIndexedClear(componentId));
+		},
+		ensureLayersTemplates: (layersTemplatesKeys) => {
+			layersTemplatesKeys.forEach(layerKey => {
+				dispatch(Action.layerTemplates.useKeys([layerKey], componentId));
+			})
 		}
 	}
 };
