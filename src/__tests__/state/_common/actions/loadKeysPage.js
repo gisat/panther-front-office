@@ -6,6 +6,7 @@ import ActionTypes from "../../../../constants/ActionTypes";
 import commonActions from "../../../../state/_common/actions";
 
 // mock module with empty function (it will be reimplemented for each test)
+jest.mock('../../../../state/Action');
 jest.mock('../../../../state/_common/request', () => {return jest.fn(() => {})});
 
 describe('#loadKeysPage', () => {

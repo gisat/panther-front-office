@@ -4,6 +4,8 @@ import thunk from 'redux-thunk';
 import ActionTypes from "../../../../constants/ActionTypes";
 import commonActions from "../../../../state/_common/actions";
 
+jest.mock('../../../../state/Action');
+
 describe('#creator', () => {
 	const mockStore = configureMockStore([thunk]);
 

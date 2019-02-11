@@ -1,6 +1,8 @@
 import ActionTypes from "../../../../constants/ActionTypes";
 import commonActions from "../../../../state/_common/actions";
 
+jest.mock('../../../../state/Action');
+
 describe('#action', () => {
 	it('should return merged action type and payload', () => {
 		const type = 'ADD';
