@@ -7,6 +7,14 @@ import ActionTypes from  '../../../../constants/ActionTypes';
 
 const mockStore = configureMockStore([thunk]);
 
+const crypto = require('crypto');
+
+Object.defineProperty(global.self, 'crypto', {
+	value: {
+		getRandomValues: arr => crypto.randomBytes(arr.length),
+	},
+});
+
 const INITIAL_STATE = {
 	scopes: {},
 	places: {},
@@ -54,11 +62,8 @@ describe('MapsStore Layers Actions', () => {
 			}
 		}}});
 
-		const expectedActions = [{
-			type: 'ERROR'
-		}];
 		store.dispatch(Action.maps.addLayer('map1', {}));
-		expect(store.getActions()).toEqual(expectedActions);
+		expect(store.getActions()[0].type).toEqual("MAPS.LAYERS.LAYER.ADD");
 	});
 	it('should dispatch addLayers action', () => {
 		const store = mockStore({...INITIAL_STATE, maps: {maps: {
@@ -88,17 +93,11 @@ describe('MapsStore Layers Actions', () => {
 			}
 		}}});
 
-		const expectedActions = [{
-				type: ActionTypes.MAPS.LAYERS.LAYER.ADD,
-				mapKey: 'map1',
-				layer: {key: 'layer1'}
-			},
-			{
-				type: 'ERROR'
-			}
-		];
 		store.dispatch(Action.maps.addLayers('map1', [{key: 'layer1'}, {}]));
-		expect(store.getActions()).toEqual(expectedActions);
+		let actions = store.getActions();
+
+		expect(actions).toHaveLength(2);
+		expect(actions[1].type).toBe("MAPS.LAYERS.LAYER.ADD");
 	});
 	it('should dispatch ERROR action', () => {
 		const store = mockStore({...INITIAL_STATE, maps: {maps: {
