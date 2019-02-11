@@ -3,12 +3,11 @@ import mapsReducer from '../../../state/Maps/reducers';
 import {Reducer} from 'redux-testkit';
 
 const INITIAL_LAYER_STATE = {
-	key: null, //FIXME - add?
+	key: null,
 	layerTemplate: null,
 	style: null,
-	period: null,
 	opacity: 100
-}
+};
 
 
 const DEFAULT_STATE = {
@@ -29,8 +28,13 @@ const INITIAL_SET_STATE = {
 		heading: false,
 		elevation: false,
 	},
-	data: {}
-}
+	data: {
+		backgroundLayer: null,
+		layers: null,
+		metadataModifiers: null,
+		worldWindNavigator: null
+	}
+};
 
 const INITIAL_WORLDWINDNAVIGATOR = {
 	lookAtLocation: {
@@ -45,23 +49,15 @@ const INITIAL_WORLDWINDNAVIGATOR = {
 };
 
 const INITIAL_MAP_STATE = {
-	key: '',
+	key: null,
 	name: null,
 	data: {
-		// scope: null,
-		// place: null,
-		// scenario: null,
-		// case: null,
-		// period: null,
-		// backgroundLayer: null,
-		// layers: [],
-		// worldWindNavigator: null,
+		backgroundLayer: null,
+		layers: null,
+		metadataModifiers: null,
+		worldWindNavigator: null
 	}
-}
-
-const INIT_LAYER_STYTE = {
-	key: null,
-}
+};
 
 // todo solve issue with window
 describe('Maps Reducers', () => {
@@ -160,7 +156,7 @@ describe('Maps Reducers', () => {
 				'set1': {...INITIAL_SET_STATE, key: 'set1'},
 				'set2': {...INITIAL_SET_STATE, key: 'set2'},
 			}
-		}
+		};
 
 		const expectedResult = {
 			...DEFAULT_STATE,
@@ -190,7 +186,7 @@ describe('Maps Reducers', () => {
 				'set2': {...INITIAL_SET_STATE},
 				'set3': {...INITIAL_SET_STATE},
 			}
-		}
+		};
 
 		const expectedResult = {
 			...DEFAULT_STATE,
@@ -213,7 +209,7 @@ describe('Maps Reducers', () => {
 			sets: {
 				'set3': {...INITIAL_SET_STATE},
 			}
-		}
+		};
 
 		const expectedResult = {
 			...DEFAULT_STATE,
@@ -230,7 +226,7 @@ describe('Maps Reducers', () => {
 	it('Remove not existing set', () => {
 		const defaultState = {
 			...DEFAULT_STATE,
-		}
+		};
 
 		const expectedResult = {
 			...DEFAULT_STATE,
@@ -250,7 +246,7 @@ describe('Maps Reducers', () => {
 			sets: {
 				'set1': {...INITIAL_SET_STATE},
 			}
-		}
+		};
 
 		const expectedResult = {
 			...DEFAULT_STATE,
@@ -280,7 +276,7 @@ describe('Maps Reducers', () => {
 				},
 				'set2': {...INITIAL_SET_STATE},
 			}
-		}
+		};
 
 		const expectedResult = {
 			...DEFAULT_STATE,
@@ -311,7 +307,7 @@ describe('Maps Reducers', () => {
 				},
 				'set2': {...INITIAL_SET_STATE},
 			}
-		}
+		};
 
 		const expectedResult = {
 			...DEFAULT_STATE,
@@ -342,7 +338,7 @@ describe('Maps Reducers', () => {
 				},
 				'set2': {...INITIAL_SET_STATE},
 			}
-		}
+		};
 
 		const expectedResult = {
 			...DEFAULT_STATE,
@@ -379,6 +375,7 @@ describe('Maps Reducers', () => {
 				'set1': {
 					...INITIAL_SET_STATE,
 					data: {
+						...INITIAL_SET_STATE.data,
 						worldWindNavigator: INITIAL_WORLDWINDNAVIGATOR
 					}
 				},
@@ -404,7 +401,7 @@ describe('Maps Reducers', () => {
 					}
 				},
 			}
-		}
+		};
 
 		const expectedResult = {
 			...DEFAULT_STATE,
@@ -454,7 +451,7 @@ describe('Maps Reducers', () => {
 					...INITIAL_SET_STATE,
 				},
 			}
-		}
+		};
 
 		const expectedResult = {
 			...DEFAULT_STATE,
@@ -482,18 +479,18 @@ describe('Maps Reducers', () => {
 	it('Set init map state', () => {
 		const defaultState = {
 			...DEFAULT_STATE,
-		}
+		};
 
 		const expectedResult = {
 			...DEFAULT_STATE,
 			maps: {
-				'': INITIAL_MAP_STATE,
+				'Map1': {...INITIAL_MAP_STATE, key: 'Map1'}
 			}
 		};
 
 		const action = {
 			type: ActionTypes.MAPS.MAP.ADD,
-			map: null
+			map: {key: 'Map1'}
 		};
 		Reducer(mapsReducer).withState(defaultState).expect(action).toReturnState(expectedResult);
 	});
@@ -501,7 +498,7 @@ describe('Maps Reducers', () => {
 	it('Add map state', () => {
 		const defaultState = {
 			...DEFAULT_STATE,
-		}
+		};
 
 		const expectedResult = {
 			...DEFAULT_STATE,
@@ -509,7 +506,7 @@ describe('Maps Reducers', () => {
 				map1: {
 					key: 'map1',
 					name: 'mapa 1',
-					data: {}
+					data: {...INITIAL_MAP_STATE.data}
 				},
 			}
 		};
@@ -530,11 +527,13 @@ describe('Maps Reducers', () => {
 					key: 'map1',
 					name: 'mapa 1',
 					data: {
-						scope: 1,
-						place: 2,
-						scenario: 3,
-						case: 4,
-						period: 5,
+						metadataModifiers: {
+							scope: 1,
+							place: 2,
+							scenario: 3,
+							case: 4,
+							period: 5
+						},
 						backgroundLayer: 6,
 						layers: [1],
 						worldWindNavigator: {},
@@ -549,7 +548,9 @@ describe('Maps Reducers', () => {
 				map1: {
 					key: 'map1',
 					name: 'map first',
-					data: {}
+					data: {
+						...INITIAL_MAP_STATE.data
+					}
 				},
 			}
 		};
@@ -807,10 +808,7 @@ describe('Maps Reducers', () => {
 				map1: {
 					...INITIAL_MAP_STATE,
 					key: 'map1',
-					data: {
-						...INITIAL_MAP_STATE.data,
-						testKey: 'test'
-					}
+					data: {testKey: 'test'}
 				},
 			},
 		};
@@ -826,7 +824,7 @@ describe('Maps Reducers', () => {
 		Reducer(mapsReducer).withState(defaultState).expect(action).toReturnState(expectedResult);
 	});
 	
-	it('Set map data', () => {
+	it('Set map data 2', () => {
 
 		const defaultState = {
 			...DEFAULT_STATE,
@@ -861,6 +859,7 @@ describe('Maps Reducers', () => {
 			type: ActionTypes.MAPS.MAP.SET_DATA,
 			mapKey: 'map1',
 			data: {
+				...INITIAL_MAP_STATE.data,
 				testKey: 'rewrite',
 				newKey: 'new',
 			}
@@ -868,7 +867,7 @@ describe('Maps Reducers', () => {
 
 		Reducer(mapsReducer).withState(defaultState).expect(action).toReturnState(expectedResult);
 	});
-	it('Set map data', () => {
+	it('Set map data 3', () => {
 
 		const defaultState = {
 			...DEFAULT_STATE,
@@ -891,7 +890,6 @@ describe('Maps Reducers', () => {
 					...INITIAL_MAP_STATE,
 					key: 'map1',
 					data: {
-						...INITIAL_MAP_STATE.data,
 						testKey2: 'rewrite2',
 					}
 				},

@@ -8,6 +8,9 @@ import ActionTypes from  '../../../../constants/ActionTypes';
 const mockStore = configureMockStore([thunk]);
 
 const INITIAL_STATE = {
+	scopes: {},
+	places: {},
+	periods: {},
 	maps: {
 		activeSetKey: null,
 		activeMapKey: null,
