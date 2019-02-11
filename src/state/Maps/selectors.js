@@ -144,7 +144,9 @@ const getMapLayerByMapKeyAndLayerKey = createSelector(
 	}
 );
 
-/* TODO merge with template */
+/* TODO merge with template
+*  TODO test
+*/
 /**
  * Collect and prepare data for map component
  *
@@ -233,17 +235,18 @@ const getLayersStateByMapKey = createSelector(
 		getMapSetByMapKey,
 		commonSelectors.getAllActiveKeys
 	],
-	(map, set, activeKeys) => {
-		let setLayers = (set && set.data && set.data.layers) || null;
+	(map, mapSet, activeKeys) => {
+		let setLayers = (mapSet && mapSet.data && mapSet.data.layers) || null;
 		let mapLayers = (map && map.data && map.data.layers) || null;
 
 		if (map && (mapLayers || setLayers)) {
 			let layers = [...(setLayers || []), ...(mapLayers || [])];
 			let modifiers = {};
-			if (set) {
-				modifiers = {...modifiers, ...set.metadataModifiers};
+			if (mapSet) {
+				let a = mapSet.data.metadataModifiers;
+				modifiers = {...modifiers, ...mapSet.data.metadataModifiers};
 			}
-			modifiers = {...modifiers, ...map.metadataModifiers};
+			modifiers = {...modifiers, ...map.data.metadataModifiers};
 
 			layers = layers.map(layer => {
 				return getFiltersForUse({...modifiers, ...layer}, activeKeys);
@@ -269,54 +272,54 @@ function getFiltersForUse(layer, activeKeys) {
 	let filterByActive = {};
 	let mergedFilter = {};
 
-	if (layer.hasOwnProperty('scope')){
+	if (layer && layer.hasOwnProperty('scope')){
 		filter.scopeKey = layer.scope;
 	} else {
 		filterByActive.scope = true;
-		if (activeKeys.activeScopeKey) {
+		if (activeKeys && activeKeys.activeScopeKey) {
 			mergedFilter.scopeKey = activeKeys.activeScopeKey;
 		}
 	}
-	if (layer.hasOwnProperty('place')){
+	if (layer && layer.hasOwnProperty('place')){
 		filter.placeKey = layer.place;
 	} else {
 		filterByActive.place = true;
-		if (activeKeys.activePlaceKey) {
+		if (activeKeys && activeKeys.activePlaceKey) {
 			mergedFilter.placeKey = activeKeys.activePlaceKey;
 		}
 	}
-	if (layer.hasOwnProperty('period')){
+	if (layer && layer.hasOwnProperty('period')){
 		filter.periodKey = layer.period;
 	} else {
 		filterByActive.period = true;
-		if (activeKeys.activePeriodKey) {
+		if (activeKeys && activeKeys.activePeriodKey) {
 			mergedFilter.periodKey = activeKeys.activePeriodKey;
 		}
 	}
-	if (layer.hasOwnProperty('case')){
+	if (layer && layer.hasOwnProperty('case')){
 		filter.caseKey = layer.case;
 	} else {
 		filterByActive.case = true;
-		if (activeKeys.activeCaseKey) {
+		if (activeKeys && activeKeys.activeCaseKey) {
 			mergedFilter.caseKey = activeKeys.activeCaseKey;
 		}
 	}
-	if (layer.hasOwnProperty('scenario')){
+	if (layer && layer.hasOwnProperty('scenario')){
 		filter.scenarioKey = layer.scenario;
 	} else {
 		filterByActive.scenario = true;
-		if (activeKeys.activeScenarioKey) {
+		if (activeKeys && activeKeys.activeScenarioKey) {
 			mergedFilter.scenarioKey = activeKeys.activeScenarioKey;
 		}
 	}
-	if (layer.hasOwnProperty('layerTemplate')){
+	if (layer && layer.hasOwnProperty('layerTemplate')){
 		filter.layerTemplateKey = layer.layerTemplate;
 	}
 
 	mergedFilter = {...filter, ...mergedFilter};
 
 	return {
-		layer,
+		layer: layer ? layer : null,
 		filter,
 		filterByActive,
 		mergedFilter
@@ -328,6 +331,8 @@ export default {
 	getActiveSetKey,
 
 	getBackgroundLayerStateByMapKey,
+
+	getFiltersForUse,
 
 	getLayers,
 	getLayersStateByMapKey,

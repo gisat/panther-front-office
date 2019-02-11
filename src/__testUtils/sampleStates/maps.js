@@ -1,6 +1,11 @@
 export const getSubstate = (state) => state.maps;
 
 export const BASIC_STATE = {
+	scopes: {
+		activeKey: 'scope1'
+	},
+	places: {},
+	periods: {},
 	maps: {
 		activeSetKey: null,
 		activeMapKey: null,
@@ -8,6 +13,17 @@ export const BASIC_STATE = {
 			Map1: {
 				key: 'Map1',
 				data: {
+					backgroundLayer: 'background1',
+					metadataModifiers: {
+						place: 'place1'
+					},
+					layers: [{
+						layerTemplate: 'template1',
+						style: 'style1'
+					}, {
+						layerTemplate: 'template2',
+						style: 'style2'
+					}],
 					worldWindNavigator: {
 						lookAtLocation: {
 							longitude: 15,
@@ -19,7 +35,15 @@ export const BASIC_STATE = {
 			},
 			Map2: {
 				key: 'Map2',
-				data: {}
+				data: {
+					metadataModifiers: {
+						place: 'place12'
+					},
+					layers: [{
+						layerTemplate: 'template4'
+					}],
+					backgroundLayer: 'background1',
+				}
 			},
 			Map3: {
 				key: 'Map3',
@@ -32,6 +56,7 @@ export const BASIC_STATE = {
 			Map4: {
 				key: 'Map4',
 				data: {
+					backgroundLayer: 'background1',
 					worldWindNavigator: {
 						lookAtLocation: {
 							longitude: 15,
@@ -47,6 +72,13 @@ export const BASIC_STATE = {
 				key: 'MapSet1',
 				maps: ['Map1', 'Map2', 'Map3'],
 				data: {
+					metadataModifiers: {
+						period: 'period1'
+					},
+					backgroundLayer: 'background2',
+					layers: [{
+						layerTemplate: 'layerFromSet1'
+					}],
 					worldWindNavigator: {
 						lookAtLocation: {
 							longitude: 10,
