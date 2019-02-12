@@ -7,6 +7,7 @@ import Select from "../Select";
 
 const add = common.add(ActionTypes.LAYER_TEMPLATES);
 const useKeys = common.useKeys(Select.layerTemplates.getSubstate, 'layerTemplates', ActionTypes.LAYER_TEMPLATES);
+const useKeysClear = common.useKeysClear(ActionTypes.LAYER_TEMPLATES);
 const useIndexed = common.useIndexed(Select.layerTemplates.getSubstate, 'layerTemplates', ActionTypes.LAYER_TEMPLATES);
 
 // ============ export ===========
@@ -14,5 +15,6 @@ const useIndexed = common.useIndexed(Select.layerTemplates.getSubstate, 'layerTe
 export default {
 	add,
 	useIndexed,
-	useKeys
+	useKeys,
+	useKeysClear
 }
