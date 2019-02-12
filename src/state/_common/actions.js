@@ -446,6 +446,10 @@ function actionUseIndexedClear(actionTypes, componentId) {
 	return action(actionTypes, 'USE.INDEXED.CLEAR', {componentId});
 }
 
+function actionUseKeysClear(actionTypes, componentId) {
+	return action(actionTypes, 'USE.KEYS.CLEAR', {componentId});
+}
+
 function actionUseKeysRegister(actionTypes, componentId, keys) {
 	return action(actionTypes, 'USE.KEYS.REGISTER', {componentId, keys});
 }
@@ -480,6 +484,7 @@ export default {
 	refreshUses,
 	request: requestWrapper,
 	useKeys,
+	useKeysClear: actionUseKeysClear,
 	useIndexed,
 
 	useIndexedRegister: actionUseIndexedRegister,
