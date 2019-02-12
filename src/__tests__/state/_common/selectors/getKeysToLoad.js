@@ -36,7 +36,7 @@ describe('#getKeysToLoad', () => {
 	});
 
 	it('should select only unloaded keys', () => {
-		let keys = [1,2,12,44];
-		expect(commonSelectors.getKeysToLoad(getSubstate)(BASIC_STATE, keys)).toEqual([12,44]);
+		let keys = [1,2,43,44];
+		expect(commonSelectors.getKeysToLoad(getSubstate)(BASIC_STATE, keys)).toEqual([43,44]);
 	});
 });

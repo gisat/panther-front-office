@@ -9,7 +9,9 @@ describe('#getAll', () => {
 	});
 
 	it('should select all models', () => {
-		expect(commonSelectors.getAll(getSubstate)(BASIC_STATE)).toHaveLength(10);
+		let substate = getSubstate(BASIC_STATE);
+		let expectedLength = Object.values(substate.byKey).length;
+		expect(commonSelectors.getAll(getSubstate)(BASIC_STATE)).toHaveLength(expectedLength);
 	});
 
 	it('it should select null, if byKey does not exist', () => {

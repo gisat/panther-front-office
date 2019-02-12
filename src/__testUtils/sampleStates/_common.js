@@ -104,6 +104,15 @@ export const BASIC_STATE = {
 					activeUser: {get: true, update: true, delete: true},
 					guest: {get: false, update: false, delete: false}
 				}
+			},
+			11: {
+				key: 11,
+			},
+			12: {
+				key: 12,
+				data: {
+
+				}
 			}
 		},
 		editedByKey: {

@@ -4,7 +4,7 @@ import {BASIC_STATE, NO_MODELS_STATE, EMPTY_MODELS_STATE} from "../../../../__te
 describe('#remove', () => {
 	it('should remove models', () => {
 		const action = {
-			keys: [2, 3, 4, 5, 6, 7, 8, 9, 10]
+			keys: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 		};
 		const expectedState = {
 			...BASIC_STATE.sample,

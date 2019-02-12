@@ -105,6 +105,19 @@ const getByKey = (getSubstate) => {
 	}
 };
 
+const getDataByKey = (getSubstate) => {
+	return createSelector(
+		[getByKey(getSubstate)],
+		(model) => {
+			if (model && model.data) {
+				return model.data;
+			} else {
+				return null;
+			}
+		}
+	);
+};
+
 const getEditedAll = (getSubstate) => {
 	return (state) => {
 		let data = getSubstate(state).editedByKey;
@@ -474,6 +487,7 @@ export default {
 	getAllForActiveScope,
 
 	getByKey,
+	getDataByKey,
 
 	getEditedActive,
 	getEditedAll,
