@@ -9,6 +9,7 @@ const setActiveKey = common.setActiveKey(ActionTypes.PERIODS);
 const setActiveKeys = common.setActiveKeys(ActionTypes.PERIODS);
 const useKeys = common.useKeys(Select.periods.getSubstate, 'periods', ActionTypes.PERIODS);
 const useIndexed = common.useIndexed(Select.periods.getSubstate, 'periods', ActionTypes.PERIODS);
+const useIndexedClear = common.useIndexedClear(ActionTypes.PERIODS);
 const refreshUses = common.refreshUses(Select.periods.getSubstate, `periods`, ActionTypes.PERIODS);
 const ensureIndexesWithFilterByActive = common.ensureIndexesWithFilterByActive(Select.periods.getSubstate, 'periods', ActionTypes.PERIODS);
 
@@ -30,6 +31,6 @@ export default {
 	setActiveKey,
 	setActiveKeys,
 	useIndexed,
-	useIndexedClear: actionClearUseIndexed,
+	useIndexedClear,
 	useKeys
 }

@@ -11,7 +11,7 @@ const {actionGeneralError} = commonActions;
 // ============ creators ===========
 const useClear = (mapKey) => {
 	return (dispatch) => {
-		dispatch(commonActions.useIndexedClear(ActionTypes.SPATIAL_RELATIONS, `map_${mapKey}`));
+		dispatch(commonActions.useIndexedClear(ActionTypes.SPATIAL_RELATIONS)(`map_${mapKey}`));
 	};
 };
 

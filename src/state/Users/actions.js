@@ -26,6 +26,7 @@ const refreshUses = () => (dispatch) => {
 	dispatch(common.refreshUses(Select.users.getGroupsSubstate, 'groups', ActionTypes.USERS.GROUPS, 'user')());
 };
 const useKeys = common.useKeys(Select.users.getSubstate, 'users', ActionTypes.USERS, 'user');
+const useKeysClear = common.useKeysClear(ActionTypes.USERS);
 const useIndexedUsers = common.useIndexed(Select.users.getSubstate, 'users', ActionTypes.USERS, 'user');
 const useIndexedGroups = common.useIndexed(Select.users.getGroupsSubstate, 'groups', ActionTypes.USERS.GROUPS, 'user');
 
@@ -271,13 +272,6 @@ function actionLogout() {
 	}
 }
 
-function actionUseKeysClear(componentId) {
-	return {
-		type: ActionTypes.USERS.USE.KEYS.CLEAR,
-		componentId
-	}
-}
-
 // ============ export ===========
 
 export default {
@@ -288,7 +282,7 @@ export default {
 	apiLogoutUser: apiLogoutUser,
 	refreshUses,
 	useKeys,
-	useKeysClear: actionUseKeysClear,
+	useKeysClear,
 	useIndexedUsers,
 	useIndexedGroups,
 	useIndexedUsersClear: actionClearUsersUseIndexed,

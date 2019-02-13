@@ -484,11 +484,11 @@ export default {
 	refreshUses,
 	request: requestWrapper,
 	useKeys,
-	useKeysClear: actionUseKeysClear,
+	useKeysClear: creator(actionUseKeysClear),
 	useIndexed,
 
 	useIndexedRegister: actionUseIndexedRegister,
-	useIndexedClear: actionUseIndexedClear,
+	useIndexedClear: creator(actionUseIndexedClear),
 	actionDataSetOutdated,
 	actionSetActiveKey
 }

@@ -15,6 +15,7 @@ import Action from "../Action";
 const setActiveKey = common.setActiveKey(ActionTypes.PLACES);
 const setActiveKeys = common.setActiveKeys(ActionTypes.PLACES);
 const useIndexed = common.useIndexed(Select.places.getSubstate, 'places', ActionTypes.PLACES);
+const useIndexedClear = common.useIndexedClear(ActionTypes.PLACES);
 const useKeys = common.useKeys(Select.places.getSubstate, 'places', ActionTypes.PLACES);
 const refreshUses = common.refreshUses(Select.places.getSubstate, `places`, ActionTypes.PLACES);
 const ensureIndexesWithFilterByActive = common.ensureIndexesWithFilterByActive(Select.places.getSubstate, 'places', ActionTypes.PLACES);
@@ -64,15 +65,6 @@ function setActive(keys) {
 	};
 }
 
-// ============ actions ===========
-
-function actionClearUseIndexed(componentId) {
-	return {
-		type: ActionTypes.PLACES.USE.INDEXED.CLEAR,
-		componentId
-	}
-}
-
 // ============ export ===========
 
 export default {
@@ -83,6 +75,6 @@ export default {
 	setActiveKey,
 	setActiveKeys,
 	useIndexed,
-	useIndexedClear: actionClearUseIndexed,
+	useIndexedClear,
 	useKeys
 }
