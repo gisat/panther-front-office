@@ -5,6 +5,8 @@ import config from './config';
 import backOffice from './apps/backOffice';
 import demo from './apps/demo';
 
+import './index.css';
+
 const apps = [
 	{
 		hostname: 'panther.gisat.cz',

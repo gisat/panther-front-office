@@ -1,5 +1,6 @@
 .ptr-screens {
 	display: flex;
+	height: 100vh;
 }
 .ptr-screen {
 	position: relative;
