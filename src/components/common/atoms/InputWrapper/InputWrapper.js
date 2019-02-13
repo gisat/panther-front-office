@@ -5,6 +5,7 @@ import utils from '../../../../utils/utils';
 import _ from 'lodash';
 
 import './style.css';
+import {withNamespaces} from "react-i18next";
 
 class InputWrapper extends React.PureComponent {
 
@@ -12,10 +13,11 @@ class InputWrapper extends React.PureComponent {
 		divInsteadOfLabel: PropTypes.bool,
 		disabled: PropTypes.bool,
 		label: PropTypes.string,
-		required: PropTypes.oneOfType([PropTypes.bool, PropTypes.string])
+		required: PropTypes.bool
 	};
 
 	render() {
+		const t = this.props.t;
 		let classes = classNames("ptr-input-wrapper", this.props.className, {
 			'disabled': this.props.disabled
 		});
@@ -29,7 +31,7 @@ class InputWrapper extends React.PureComponent {
 			return child;
 		});
 
-		let required = this.props.required ? (<div className="ptr-input-wrapper-required">{this.props.required.length ? this.props.required : "Required"}</div>) : null;
+		let required = this.props.required ? (<div className="ptr-input-wrapper-required">{t('RequiredLabel')}</div>) : null;
 
 		return this.props.divInsteadOfLabel ? (
 			<div className={classes}>
@@ -53,7 +55,7 @@ class InputWrapper extends React.PureComponent {
 	}
 }
 
-export default InputWrapper;
+export default withNamespaces()(InputWrapper);
 
 export const InputWrapperInfo = props => {
 
