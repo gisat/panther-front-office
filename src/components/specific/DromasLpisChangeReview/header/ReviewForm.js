@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import EditableText from "../../../presentation/atoms/EditableText";
+import EditableText from "../../../common/atoms/EditableText";
 import LpisCaseStatuses from "../../../../constants/LpisCaseStatuses";
 import utils from '../../../../utils/utils';
 

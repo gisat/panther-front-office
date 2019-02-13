@@ -4,7 +4,7 @@ import _ from 'lodash';
 
 import ChangeReviewsTable from "../CheckTable/ChangeReviewsTable";
 import Icon from "../../../../presentation/atoms/Icon";
-import InputText from "../../../../presentation/atoms/Input/Input";
+import InputText from "../../../../common/atoms/Input/Input";
 
 import './style.css';
 

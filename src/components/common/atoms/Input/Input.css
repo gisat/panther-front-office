@@ -3,7 +3,6 @@
 	margin: .3rem 0;
 	min-width: 10rem;
 	display: flex;
-	padding: 0 .5rem;
 	background: white;
 	border: 1px solid #aaa;
 }
@@ -16,10 +15,9 @@
 .ptr-input-text input {
 	border: 0;
 	width: 100%;
-	height: 100%;
-	color: rgba(33,38,53,1);
 	font-size: .9375rem;
 	flex: 1;
+	padding: 0 .5rem;
 }
 .ptr-input-text.multiline > div {
 	width: 100%;

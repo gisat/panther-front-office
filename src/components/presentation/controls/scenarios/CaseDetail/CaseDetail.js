@@ -8,7 +8,7 @@ import Button from '../../../atoms/Button';
 import Center from '../../../atoms/Center';
 import Icon from '../../../atoms/Icon';
 import Menu, {MenuItem} from '../../../atoms/Menu';
-import EditableText from '../../../atoms/EditableText';
+import EditableText from '../../../../common/atoms/EditableText';
 import ScenarioCard from '../../../../containers/controls/scenarios/ScenarioCard';
 import CaseDetailWorldWindMap from '../../../../presentation/maps/CaseDetailWorldWindMap/CaseDetailWorldWindMap';
 

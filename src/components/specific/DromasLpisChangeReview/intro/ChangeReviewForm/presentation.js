@@ -10,7 +10,7 @@ import utils from "../../../../../utils/utils.js";
 import Button from "../../../../presentation/atoms/Button";
 import Icon from "../../../../presentation/atoms/Icon";
 import InputFile from "../../../../common/atoms/InputFile/InputFile";
-import InputText from "../../../../presentation/atoms/Input/Input";
+import InputText from "../../../../common/atoms/Input/Input";
 import InputWrapper from "../../../../common/atoms/InputWrapper/InputWrapper";
 
 import './style.css';

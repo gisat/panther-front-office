@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import InputFile from '../../../atoms/InputFile';
 import Button from '../../../atoms/Button';
-import EditableText from '../../../atoms/EditableText';
+import EditableText from '../../../../common/atoms/EditableText';
 import Names from '../../../../../constants/Names';
 
 import Icon from '../../../atoms/Icon';

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import _ from "lodash";
 
 import Button from '../../../../atoms/Button'
-import EditableText from '../../../../atoms/EditableText';
+import EditableText from '../../../../../common/atoms/EditableText';
 import MapEditingControlPanel from '../MapEditingControlPanel/MapEditingControlPanel';
 import Names from "../../../../../../constants/Names";
 
