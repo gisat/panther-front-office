@@ -1,5 +1,78 @@
-/* $test-background: #f00; */
+$gray0: #fffefc;
+$gray1: #e5e4e2;
+$gray2: #cbcac8;
+$gray3: #b1b0ae;
+$gray4: #999896;
+$gray5: #81807e;
+$gray6: #676664;
+$gray7: #4d4c4b;
+$gray8: #353433;
+$gray9: #1f1e1d;
+$gray10: #040300;
+
+$accent0: #fffefc;
+$accent1: #dbefec;
+$accent2:  #b6e0dc;
+$accent3:  #90d1cc;
+$accent4:  #66c1bc;
+$accent5:  #2ab2ad;
+$accent6:  #2a8c88;
+$accent7:  #266864;
+$accent8:  #204643;
+$accent9:  #172624;
+$accent10:  #040300;
 
 :root {
 	--test-background: #f00;
+}
+
+.ptr-light {
+	--base0: #{$gray0};
+	--base1: #{$gray1};
+	--base2: #{$gray2};
+	--base3: #{$gray3};
+	--base4: #{$gray4};
+	--base5: #{$gray5};
+	--base6: #{$gray6};
+	--base7: #{$gray7};
+	--base8: #{$gray8};
+	--base9: #{$gray9};
+	--base10: #{$gray10};
+
+	--accent0: #{$accent0};
+	--accent1: #{$accent1};
+	--accent2: #{$accent2};
+	--accent3: #{$accent3};
+	--accent4: #{$accent4};
+	--accent5: #{$accent5};
+	--accent6: #{$accent6};
+	--accent7: #{$accent7};
+	--accent8: #{$accent8};
+	--accent9: #{$accent9};
+	--accent10: #{$accent10};
+}
+.ptr-dark {
+	--base0: #{$gray10};
+	--base1: #{$gray9};
+	--base2: #{$gray8};
+	--base3: #{$gray7};
+	--base4: #{$gray6};
+	--base5: #{$gray5};
+	--base6: #{$gray4};
+	--base7: #{$gray3};
+	--base8: #{$gray2};
+	--base9: #{$gray1};
+	--base10: #{$gray0};
+
+	--accent0: #{$accent10};
+	--accent1: #{$accent9};
+	--accent2: #{$accent8};
+	--accent3: #{$accent7};
+	--accent4: #{$accent6};
+	--accent5: #{$accent5};
+	--accent6: #{$accent4};
+	--accent7: #{$accent3};
+	--accent8: #{$accent2};
+	--accent9: #{$accent1};
+	--accent10: #{$accent0};
 }
