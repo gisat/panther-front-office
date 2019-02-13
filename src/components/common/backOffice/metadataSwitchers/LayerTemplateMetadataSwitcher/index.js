@@ -19,7 +19,7 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.layerTemplates.useIndexed(null, null, [["nameInternal", "ascending"]], 1, 1000, componentId));
 			},
 			onUnmount: () => {
-				dispatch(Action.layerTemplates.useKeysClear(componentId));
+				dispatch(Action.layerTemplates.useIndexedClear(componentId));
 			}
 		}
 	}
