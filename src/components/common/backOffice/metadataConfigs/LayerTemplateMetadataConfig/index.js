@@ -6,8 +6,8 @@ import utils from "../../../../../utils/utils";
 
 const mapStateToProps = (state, props) => {
 	return {
-		data: Select.layerTemplates.getDataByKey(state, props.layerTemplateKey)
-		// todo edited data
+		data: Select.layerTemplates.getDataByKey(state, props.layerTemplateKey),
+		editedData: Select.layerTemplates.getEditedDataByKey(state, props.layerTemplateKey)
 	}
 };
 
@@ -21,6 +21,9 @@ const mapDispatchToPropsFactory = () => {
 			},
 			onUnmount: () => {
 				dispatch(Action.layerTemplates.useKeysClear(componentId));
+			},
+			updateEdited: (modelKey, key, value) => {
+				dispatch(Action.layerTemplates.updateEdited(modelKey, key, value));
 			}
 		}
 	}
