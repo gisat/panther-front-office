@@ -35,13 +35,9 @@ function onLogin() {
 		dispatch(apiLoadCurrentUser());
 		dispatch(overlaysActions.closeOverlay('login'));
 
-		dispatch(Action.dataviews.loadActive());
-
-		dispatch(Action.dataviews.refreshUses());
 		dispatch(Action.scopes.refreshUses());
 		dispatch(Action.places.refreshUses());
 		dispatch(Action.periods.refreshUses());
-		dispatch(Action.themes.refreshUses());
 		dispatch(refreshUses());
 	}
 }
@@ -51,13 +47,9 @@ function onLogout() {
 		dispatch(actionLogout());
 		dispatch(setActiveKey(null));
 
-		dispatch(Action.dataviews.loadActive());
-
-		dispatch(Action.dataviews.refreshUses());
 		dispatch(Action.scopes.refreshUses());
 		dispatch(Action.places.refreshUses());
 		dispatch(Action.periods.refreshUses());
-		dispatch(Action.themes.refreshUses());
 		dispatch(refreshUses());
 	}
 }
