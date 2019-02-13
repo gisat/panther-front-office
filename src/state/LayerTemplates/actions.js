@@ -18,5 +18,5 @@ export default {
 	useIndexed,
 	useIndexedClear,
 	useKeys,
-	useKeysClear
+	useKeysClear,
 }

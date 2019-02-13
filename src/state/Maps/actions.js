@@ -213,7 +213,7 @@ const setMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
 	};
 };
 
-const addLayer = (mapKey, layer) => {
+const addLayer = (mapKey, layer, index) => {
 	return (dispatch, getState) => {
 		const state = getState();
 		if (!layer.key){
@@ -223,7 +223,7 @@ const addLayer = (mapKey, layer) => {
 		if(!mapByKey) {
 			return dispatch(actionGeneralError(`No map found for mapKey ${mapKey}.`));
 		} else {
-			dispatch(actionAddLayer(mapKey, layer));
+			dispatch(actionAddLayer(mapKey, layer, index));
 			dispatch(Action.maps.use(mapKey));
 		}
 	};
@@ -661,11 +661,12 @@ const actionUpdateMapWorldWindNavigator = (mapKey, worldWindNavigator) => {
 };
 
 
-const actionAddLayer = (mapKey, layer) => {
+const actionAddLayer = (mapKey, layer, index) => {
 	return {
 		type: ActionTypes.MAPS.LAYERS.LAYER.ADD,
 		mapKey,
 		layer,
+		index,
 	}
 };
 

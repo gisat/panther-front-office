@@ -4,6 +4,7 @@ import _ from 'lodash';
 
 import Overlays from './Overlays/actions';
 import Windows from './Windows/actions';
+import LayersTree from './LayersTree/actions';
 
 // ============ creators ===========
 function setApplicationStyleActiveKey(key) {
@@ -34,9 +35,20 @@ function setIntro(visibility) {
 		dispatch(update('application', updatedData));
 	};
 }
+
 function updateMapsContainer(data) {
 	return dispatch => {
 		dispatch(update('mapsContainer', data));
+	};
+}
+
+function updateLayersTree(layersTreeKey, tree) {
+	return dispatch => {
+		dispatch({
+			type: ActionTypes.COMPONENTS_LAYERSTREE_UPDATE,
+			layersTreeKey: layersTreeKey,
+			update: tree,
+		});
 	};
 }
 
@@ -110,7 +122,9 @@ export default {
 	setShareSaveState,
 	update,
 	updateMapsContainer,
+	updateLayersTree,
 
 	windows: Windows,
-	overlays: Overlays
+	overlays: Overlays,
+	layersTree: LayersTree,
 }
