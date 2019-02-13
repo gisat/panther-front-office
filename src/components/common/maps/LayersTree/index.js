@@ -51,9 +51,7 @@ const mapDispatchToProps = (dispatch) => {
 			dispatch(Action.layerTemplates.useIndexedClear(componentId));
 		},
 		ensureLayersTemplates: (layersTemplatesKeys) => {
-			layersTemplatesKeys.forEach(layerKey => {
-				dispatch(Action.layerTemplates.useKeys([layerKey], componentId));
-			})
+			dispatch(Action.layerTemplates.useKeys(layersTemplatesKeys, componentId));
 		}
 	}
 };
