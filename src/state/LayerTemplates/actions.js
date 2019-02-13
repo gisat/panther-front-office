@@ -7,14 +7,26 @@ import Select from "../Select";
 
 const add = common.add(ActionTypes.LAYER_TEMPLATES);
 const useKeys = common.useKeys(Select.layerTemplates.getSubstate, 'layerTemplates', ActionTypes.LAYER_TEMPLATES);
-const useKeysClear = common.useKeysClear(ActionTypes.LAYER_TEMPLATES);
 const useIndexed = common.useIndexed(Select.layerTemplates.getSubstate, 'layerTemplates', ActionTypes.LAYER_TEMPLATES);
+
+const useIndexedClear = (componentId) => {
+	return (dispatch) => {
+		dispatch(common.useIndexedClear(ActionTypes.LAYER_TEMPLATES, componentId));
+	}
+};
+
+const useKeysClear = (componentId) => {
+	return (dispatch) => {
+		dispatch(common.useKeysClear(ActionTypes.LAYER_TEMPLATES, componentId));
+	}
+};
 
 // ============ export ===========
 
 export default {
 	add,
 	useIndexed,
+	useIndexedClear,
 	useKeys,
 	useKeysClear
 }
