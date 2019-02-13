@@ -184,6 +184,10 @@ export default utils.deepKeyMirror({
 	LAYER_TEMPLATES: {
 		ADD: null,
 		ADD_UNRECEIVED: null,
+		EDITED: {
+			REMOVE_PROPERTY: null,
+			UPDATE: null,
+		},
 		ENSURE: {
 			ERROR: null
 		},

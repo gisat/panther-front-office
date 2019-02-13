@@ -145,8 +145,25 @@ const getEditedActive = (getSubstate) => {
 const getEditedByKey = (getSubstate) => {
 	return (state, key) => {
 		let allEditedData = getEditedAllAsObject(getSubstate)(state);
-		return key && allEditedData && allEditedData[key];
+		if (key && allEditedData && !_.isEmpty(allEditedData) && allEditedData[key]) {
+			return allEditedData[key];
+		} else {
+			return null;
+		}
 	}
+};
+
+const getEditedDataByKey = (getSubstate) => {
+	return createSelector(
+		[getEditedByKey(getSubstate)],
+		(model) => {
+			if (model && model.data) {
+				return model.data;
+			} else {
+				return null;
+			}
+		}
+	);
 };
 
 const getEditedKeys = (getSubstate) => {
@@ -493,6 +510,7 @@ export default {
 	getEditedAll,
 	getEditedAllAsObject,
 	getEditedByKey,
+	getEditedDataByKey,
 	getEditedKeys,
 
 	getIndex,

@@ -33,6 +33,21 @@ const addIndex = (action) => {
 	}
 };
 
+const updateEdited = (getSubstate, actionTypes) => {
+	return (modelKey, key, value) => {
+		return (dispatch, getState) => {
+			let originalModel = commonSelectors.getByKey(getSubstate)(getState(), modelKey);
+
+			// delete property from edited, if the value in update is the same as in state
+			if (originalModel && (value === originalModel.data[key] || (!originalModel.data[key] && value.length === 0))){
+				dispatch(actionRemovePropertyFromEdited(actionTypes, modelKey, key));
+			} else {
+				dispatch(actionUpdateEdited(actionTypes, [{key: modelKey, data: {[key]: value}}]));
+			}
+		};
+	}
+};
+
 const useKeys = (getSubstate, dataType, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) => {
 	return (keys, componentId) => {
 		return dispatch => {
@@ -438,6 +453,14 @@ function actionSetActiveKeys(actionTypes, keys) {
 	return action(actionTypes, 'SET_ACTIVE_KEYS', {keys});
 }
 
+function actionUpdateEdited(actionTypes, data) {
+	return action(actionTypes, 'EDITED.UPDATE', {data});
+}
+
+function actionRemovePropertyFromEdited(actionTypes, key, property) {
+	return action(actionTypes, 'EDITED.REMOVE_PROPERTY', {key, property});
+}
+
 function actionUseIndexedRegister(actionTypes, componentId, filterByActive, filter, order, start, length) {
 	return action(actionTypes, 'USE.INDEXED.REGISTER', {componentId, filterByActive, filter, order, start, length});
 }
@@ -483,6 +506,7 @@ export default {
 	receiveKeys,
 	refreshUses,
 	request: requestWrapper,
+	updateEdited,
 	useKeys,
 	useKeysClear: creator(actionUseKeysClear),
 	useIndexed,
