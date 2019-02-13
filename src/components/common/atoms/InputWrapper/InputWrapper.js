@@ -4,8 +4,14 @@ import classNames from 'classnames';
 import utils from '../../../../utils/utils';
 import _ from 'lodash';
 
+import cz from './locales/cz.json';
+import en from './locales/en.json';
+
 import './style.css';
 import {withNamespaces} from "react-i18next";
+
+// add locales to component namespace
+utils.addI18nResources('Atoms#InputWrapper', {cz, en});
 
 class InputWrapper extends React.PureComponent {
 
@@ -31,7 +37,7 @@ class InputWrapper extends React.PureComponent {
 			return child;
 		});
 
-		let required = this.props.required ? (<div className="ptr-input-wrapper-required">{t('RequiredLabel')}</div>) : null;
+		let required = this.props.required ? (<div className="ptr-input-wrapper-required">{t('requiredFieldLabel')}</div>) : null;
 
 		return this.props.divInsteadOfLabel ? (
 			<div className={classes}>
@@ -55,7 +61,7 @@ class InputWrapper extends React.PureComponent {
 	}
 }
 
-export default withNamespaces()(InputWrapper);
+export default withNamespaces(['Atoms#InputWrapper'])(InputWrapper);
 
 export const InputWrapperInfo = props => {
 
