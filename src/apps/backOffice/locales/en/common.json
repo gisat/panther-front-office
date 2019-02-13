@@ -1,3 +1,5 @@
 {
-  "RequiredLabel": "Required"
+  "labels": {
+    "nameInternal": "Internal name"
+  }
 }

@@ -1,4 +1,6 @@
 {
-  "RequiredLabel": "Povinné"
+  "labels": {
+    "nameInternal": "Interní název"
+  }
 }
 
