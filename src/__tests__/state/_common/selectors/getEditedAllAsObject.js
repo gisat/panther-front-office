@@ -4,27 +4,7 @@ import {getSubstate, BASIC_STATE, NO_ACTIVE_KEY_STATE, NO_EDITED_MODELS_STATE, E
 import _ from "lodash";
 
 describe('#getEditedAllAsObject', () => {
-	const expectedBasicStateOutput = {
-		1: {
-			key: 1,
-			data: {
-				name: "Svět",
-				description: "..."
-			}
-		},
-		4: {
-			key: 4,
-			data: {
-				name: "Česko"
-			}
-		},
-		'nejake-nahodne-uuid': {
-			key: 'nejake-nahodne-uuid',
-			data: {
-				name: "Gisat"
-			}
-		}
-	};
+	const expectedBasicStateOutput = {...BASIC_STATE.sample.editedByKey};
 
 	it('selected data should equal expected object', () => {
 		expect(commonSelectors.getEditedAllAsObject(getSubstate)(BASIC_STATE)).toEqual(expectedBasicStateOutput);

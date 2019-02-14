@@ -9,7 +9,8 @@ describe('#getEditedAll', () => {
 	});
 
 	it('should select all edited data', () => {
-		expect(commonSelectors.getEditedAll(getSubstate)(BASIC_STATE)).toHaveLength(3);
+		let length = Object.values({...BASIC_STATE.sample.editedByKey}).length;
+		expect(commonSelectors.getEditedAll(getSubstate)(BASIC_STATE)).toHaveLength(length);
 	});
 
 	it('it should select null, if editedByKey does not exist', () => {

@@ -12,6 +12,10 @@ describe('#removeEditedACtive', () => {
 						name: "Česko"
 					}
 				},
+				5: {
+					key: 5,
+					data: {}
+				},
 				'nejake-nahodne-uuid': {
 					key: 'nejake-nahodne-uuid',
 					data: {

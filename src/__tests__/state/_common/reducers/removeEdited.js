@@ -4,7 +4,7 @@ import {BASIC_STATE, NO_EDITED_MODELS_STATE, EMPTY_EDITED_MODELS_STATE} from "..
 describe('#removeEdited', () => {
 	it('should remove edited models', () => {
 		const action = {
-			keys: [4, 'nejake-nahodne-uuid']
+			keys: [4, 5, 'nejake-nahodne-uuid']
 		};
 		const expectedState = {
 			...BASIC_STATE.sample,

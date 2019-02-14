@@ -524,7 +524,7 @@ export default {
 	getUsesForIndex,
 	getUsedIndexPages,
 	getUsedKeys,
-	getUsesWithActiveDependency, // todo update to collections & write tests
+	getUsesWithActiveDependency,
 
 	_mergeIntervals
 }
