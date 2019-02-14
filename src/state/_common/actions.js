@@ -36,6 +36,19 @@ const addIndex = (action) => {
 const updateEdited = (getSubstate, actionTypes) => {
 	return (modelKey, key, value) => {
 		return (dispatch, getState) => {
+			if (!getSubstate) {
+				return dispatch(actionGeneralError('common/actions#updateEdited: setSubstate parameter is missing!'));
+			}
+			if (!actionTypes) {
+				return dispatch(actionGeneralError('common/actions#updateEdited: actionTypes parameter is missing!'));
+			}
+			if (!modelKey) {
+				return dispatch(actionGeneralError('common/actions#updateEdited: Model key is missing!'));
+			}
+			if (!key) {
+				return dispatch(actionGeneralError('common/actions#updateEdited: Property key is missing!'));
+			}
+
 			let originalModel = commonSelectors.getByKey(getSubstate)(getState(), modelKey);
 
 			// delete property from edited, if the value in update is the same as in state
