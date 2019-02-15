@@ -33,6 +33,28 @@ const addIndex = (action) => {
 	}
 };
 
+const apiUpdate = (getSubstate, dataType, actionTypes, categoryPath, editedData) => {
+	return dispatch => {
+		const apiPath = 'backend/rest/metadata';
+		const payload = {
+			data: {
+				[dataType]: editedData
+			}
+		};
+		return request(apiPath, 'PUT', null, payload)
+			.then(result => {
+				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
+					dispatch(actionGeneralError(result.errors[dataType] || new Error('no data')));
+				} else {
+					dispatch(receiveUpdated(getSubstate, actionTypes, result, dataType));
+				}
+			})
+			.catch(error => {
+				dispatch(actionGeneralError(error));
+			});
+	};
+};
+
 const updateEdited = (getSubstate, actionTypes) => {
 	return (modelKey, key, value) => {
 		return (dispatch, getState) => {
@@ -56,6 +78,36 @@ const updateEdited = (getSubstate, actionTypes) => {
 				dispatch(actionRemovePropertyFromEdited(actionTypes, modelKey, key));
 			} else {
 				dispatch(actionUpdateEdited(actionTypes, [{key: modelKey, data: {[key]: value}}]));
+			}
+		};
+	}
+};
+
+const saveEdited = (getSubstate, dataType, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) => {
+	return (key) => {
+		return (dispatch, getState) => {
+			if (!getSubstate) {
+				return dispatch(actionGeneralError('common/actions#saveEdited: setSubstate parameter is missing!'));
+			}
+			if (!dataType) {
+				return dispatch(actionGeneralError('common/actions#saveEdited: dataType parameter is missing!'));
+			}
+			if (!actionTypes) {
+				return dispatch(actionGeneralError('common/actions#saveEdited: actionTypes parameter is missing!'));
+			}
+			if (!key) {
+				return dispatch(actionGeneralError('common/actions#saveEdited: Model key is missing!'));
+			}
+			let state = getState();
+			let saved = commonSelectors.getByKey(getSubstate)(state, key);
+			let edited = commonSelectors.getEditedByKey(getSubstate)(state, key);
+
+			if (saved) {
+				// update
+				dispatch(apiUpdate(getSubstate, dataType, actionTypes, categoryPath, [edited]));
+			} else {
+				// create
+				debugger;
 			}
 		};
 	}
@@ -330,6 +382,27 @@ function loadFiltered(dataType, actionTypes, filter, categoryPath = DEFAULT_CATE
 	};
 }
 
+function receiveUpdated(getSubstate, actionTypes, result, dataType) {
+	return (dispatch, getState) => {
+		let data = result.data[dataType];
+		if (data.length){
+			dispatch(actionAdd(actionTypes, data));
+			let editedData = commonSelectors.getEditedAllAsObject(getSubstate)(getState());
+
+			data.forEach(model => {
+				let edited = editedData[model.key].data;
+				_.forIn(edited, (value, key) => {
+					if (model.data[key] === value) {
+						dispatch(actionRemovePropertyFromEdited(actionTypes, model.key, key));
+					}
+				});
+			});
+		} else {
+			console.warn(`No data updated for ${dataType} metadata type`);
+		}
+	};
+}
+
 function receiveKeys(actionTypes, result, dataType, keys) {
 	return dispatch => {
 		// add data to store
@@ -466,6 +539,10 @@ function actionSetActiveKeys(actionTypes, keys) {
 	return action(actionTypes, 'SET_ACTIVE_KEYS', {keys});
 }
 
+function actionRemoveEdited(actionTypes, keys) {
+	return action(actionTypes, 'EDITED.REMOVE', {keys});
+}
+
 function actionUpdateEdited(actionTypes, data) {
 	return action(actionTypes, 'EDITED.UPDATE', {data});
 }
@@ -493,7 +570,7 @@ function actionUseKeysRegister(actionTypes, componentId, keys) {
 // ============ utilities ===========
 const getAPIPath = (categoryPath = DEFAULT_CATEGORY_PATH, dataType) => {
 	return path.join('backend/rest', categoryPath ,'filtered', dataType);
-}
+};
 
 
 // ============ export ===========
@@ -519,6 +596,7 @@ export default {
 	receiveKeys,
 	refreshUses,
 	request: requestWrapper,
+	saveEdited,
 	updateEdited,
 	useKeys,
 	useKeysClear: creator(actionUseKeysClear),
