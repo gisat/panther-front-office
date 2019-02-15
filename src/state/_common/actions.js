@@ -580,6 +580,7 @@ export default {
 	action,
 	actionAdd,
 	actionGeneralError,
+	apiUpdate,
 	creator,
 	ensure: ensureKeys,
 	ensureIndexed,
