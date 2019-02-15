@@ -18,7 +18,7 @@ import '../../styles/_variables.scss';
 import './styles/_variables.scss';
 
 import Test from './components/Test';
-import LayerTemplateMetadataScreen from "../../components/common/backOffice/metadataScreens/LayerTemplateMetadataScreen";
+import MetadataBase from './components/pages/MetadataBase';
 import AppContainer from "../../components/common/AppContainer";
 import User from "../../components/common/controls/User";
 
@@ -28,11 +28,14 @@ import en from "./locales/en/common";
 // override and extend locales in namespaces
 utils.addI18nResources('common', {cz, en});
 
-const page = component => props => (
-	<Page {...props}>
-		{component}
-	</Page>
-);
+const page = (component, screenSetKey) => props => {
+	props = {...props, screenSetKey};
+	return (
+		<Page {...props}>
+			{React.createElement(component, {...props})}
+		</Page>
+	)
+};
 
 export default (path) => {
 	// Set language
@@ -48,17 +51,10 @@ export default (path) => {
 				<User/>
 				<ConnectedRouter history={history}>
 					<Switch>
-						<Route exact path={path + "/"} render={page(<div>Dashboard</div>)} />
-						<Route exact path={path + "/test"} render={page(<Test />)} />
-						<Route exact path={path + "/testselect"} render={page(<TestSelectPage />)} />
-						<Route path={path + "/metadata"} render={({ match }) => (
-							<Switch>
-								<Route exact path={match.url} render={() => (<div>Metadata</div>)} />
-								<Route exact path={`${match.url}/layerTemplate`} render={page(<LayerTemplateMetadataScreen layerTemplateKey="fcbd3f6b-d376-4e83-a0e2-03bdf36c3b46"/>)} />
-								<Route path={`${match.url}/:dataType`} render={({match}) => (<div>{match.params.dataType}</div>)} />
-							</Switch>
-						)} />
-						<Route path={path + "/test"} render={page(<Test/>)} />
+						<Route exact path={path + "/"} render={page()} />
+						<Route exact path={path + "/test"} render={page(Test)} />
+						<Route exact path={path + "/testselect"} render={page(TestSelectPage)} />
+						<Route path={path + "/metadata"} render={page(MetadataBase, "metadata")} />
 					</Switch>
 				</ConnectedRouter>
 			</AppContainer>
