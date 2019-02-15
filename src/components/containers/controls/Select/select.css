@@ -1,0 +1,287 @@
+
+.UIObjectSelect-control {
+	display: block;
+	border-radius: .25rem;
+	border: 2px dashed #9c9c9c;
+	padding: 0;
+	position: relative;
+	color: #8e8e8e;
+	cursor: text;
+}
+
+.Select.has-value:not(.Select--multi) > .UIObjectSelect-control {
+	background: #B6BCC7;
+	color: #1452A2;
+	border-style: solid;
+	border-color: #95A6C7;
+}
+.Select.has-value:not(.Select--multi) .Select-placeholder {
+	color: #1452A2;
+}
+.Select--multi.has-value .UIObjectSelect .Select-input {
+	margin: 0;
+}
+.UIObjectSelect-item {
+	display: block;
+	border-radius: .25rem;
+	border: 2px solid #95A6C7;
+	background: #ABBAD8;
+	background: #B6BCC7;
+	margin-bottom: .875rem;
+	padding: 0;
+	color: #1452A2;
+	position: relative;
+/*	cursor: pointer;*/
+
+	padding-left: 2rem;
+}
+.UIObjectSelect.is-ordered .UIObjectSelect-item {
+	padding-left: 6rem;
+}
+.UIObjectSelect.template .UIObjectSelect-item,
+.Select.template.has-value:not(.Select--multi) > .UIObjectSelect-control{
+/*	background: transparent;*/
+	background: #bebebe;
+}
+
+.UIObjectSelect-control,
+.UIObjectSelect-item {
+	transition:  all .3s ease-out;
+
+}
+.UIObjectSelect-control:hover,
+.UIObjectSelect-item:hover {
+	border-color: #4d8aff;
+}
+.Select.has-value:not(.Select--multi) > .UIObjectSelect-control:hover {
+	border-color: #4d8aff;
+}
+.UIObjectSelect-item-icon {
+	position: absolute;
+	top: 0;
+	left: 0;
+
+	width: 2rem;
+	line-height: 1.875rem;
+
+	cursor: pointer;
+	border-radius: .25rem 0 0 .25rem;
+	border-right: 1px solid #95A6C7;
+	padding: 0;
+	text-align: center;
+}
+.UIObjectSelect-ordering-controls {
+	position: absolute;
+	top: 0;
+	left: 2rem;
+	width: 4rem;
+}
+.UIObjectSelect-ordering-controls .UIObjectSelect-item-icon:nth-child(2) {
+	left: 2rem;
+}
+.UIObjectSelect-item-icon:hover {
+	background: rgba(255,255,255,.3);
+}
+.UIObjectSelect-item-a,
+.UIObjectSelect-item-a:hover,
+/*.UIObjectSelect-item span:not(.UIObjectSelect-item-icon) {*/
+.UIObjectSelect-item span.label {
+	font-size: 1.125rem;
+	line-height: 1.875rem;
+	display: block;
+	color: #1452A2;
+	border-radius: 0 .25rem .25rem 0;
+}
+.UIObjectSelect-item-a,
+.UIObjectSelect-item-a:hover {
+	cursor: pointer;
+	padding-left: .5rem;
+}
+.UIObjectSelect-item-a:after,
+.Select.has-value:not(.Select--multi) .UIObjectSelect-control > .Select-placeholder::after {
+	content: "\F101";
+	font-family: Icons;
+	font-size: 20px;
+	font-size: 1.25rem;
+	display: block;
+	position: absolute;
+	right: 6px;
+	right: .4rem;
+	top: 0;
+	/* color: #6B90BF; */
+	color: #859FBF;
+}
+.Select:not(.has-value):not(.Select--multi) .UIObjectSelect-control::before,
+.Select.Select--multi
+.UIObjectSelect-control::before {
+	content: "\F067";
+	font-family: Icons;
+	font-size: 1.125rem;
+	display: block;
+	position: absolute;
+	left: .7rem;
+	top: .07rem;
+	line-height: 1.875rem;
+	color: #919191;
+	transition: all .3s ease-out;
+}
+.Select:not(.has-value):not(.Select--multi) .UIObjectSelect-control:hover::before,
+.Select.Select--multi
+.UIObjectSelect-control:hover::before {
+	color: #797979;
+}
+.Select .UIObjectSelect-control .Select-input {
+	position: relative;
+	left: 2rem;
+}
+
+.Select.multiline .Select-control {
+	height: 72px;
+}
+
+.UIObjectSelect .Select-placeholder,
+.UIObjectSelect:not(.Select--multi) .UIObjectSelect-item-a {
+	left: 2rem;
+	padding-right: 0;
+	height: 1.875rem;
+	line-height: 1.875rem;
+}
+.UIObjectSelect:not(.Select--multi) .UIObjectSelect-item-a {
+	width: calc(100% - 2rem);
+	position: absolute;
+}
+
+.Select--multi.has-value .UIObjectSelect-control .Select-input {
+	margin-left: 0;
+}
+.Select.has-value:not(.Select--multi) .UIObjectSelect-control > .Select-placeholder {
+
+}
+.UIObjectSelect.has-value:not(.Select--multi) .Select-input {
+	pointer-events: none;
+}
+.Select .UIObjectSelect-control .Select-input {
+	height: 1.875rem;
+}
+.UIObjectSelect-control .Select-input > input,
+.UIObjectSelect-control .Select-placeholder,
+.UIObjectSelect-control .Select-input > div {
+	height: 1.875rem;
+	line-height: 1.875rem;
+}
+.UIObjectSelect-control .Select-input > input,
+.UIObjectSelect-control .Select-input > div {
+	color: #222;
+}
+.UIObjectSelect.is-focused .UIObjectSelect-control,
+.UIObjectSelect.is-focused .UIObjectSelect-control:hover,
+.UIObjectSelect.is-focused.has-value:not(.Select--multi) > .UIObjectSelect-control {
+	background: rgba(255,255,255,.4);
+	border-style: solid;
+	border-color: #4d8aff;
+}
+
+.UICustomSelect .Select-input {
+	margin-left: 2rem;
+}
+
+.UICustomSelect .Select-placeholder {
+	padding-right: 1.7rem;
+}
+
+.UICustomSelect-option.option-multiline {
+	border-bottom: 1px solid rgba(0,0,0,.07);
+}
+
+.UICustomSelect-option.special-option > div > span,
+.UICustomSelect-value.special-option > div > span {
+	font-weight: bold;
+}
+
+.UICustomSelect-option .option-secondary,
+.ui td.resetui .UICustomSelect-option .option-secondary {
+	color: #bbb;
+	font-size: .95rem;
+}
+
+.UICustomSelect-value .option-secondary,
+.ui td.resetui .UICustomSelect-value .option-secondary {
+	color: #6b7899;
+	font-size: .95rem;
+}
+
+.UIObjectSelect .option-id,
+.ui td.resetui .UIObjectSelect .option-id,
+.UIObjectSelect .option-parent,
+.ui td.resetui .UIObjectSelect .option-parent,
+.UIObjectSelect-item .option-id,
+.ui td.resetui .UIObjectSelect-item .option-id,
+.UIObjectSelect-item .option-parent,
+.ui td.resetui .UIObjectSelect-item .option-parent,
+.UICustomSelect-option .option-id,
+.ui td.resetui .UICustomSelect-option .option-id,
+.UICustomSelect-option .option-parent,
+.ui td.resetui .UICustomSelect-option .option-parent,
+.UICustomSelect-value .option-id,
+.ui td.resetui .UICustomSelect-value .option-id,
+.UICustomSelect-value .option-parent,
+.ui td.resetui .UICustomSelect-value .option-parent,
+.puma-item .item-id,
+.row-select-config .option-id {
+	font-size: .95rem;
+	color:#ccc;
+	display: inline-block;
+	/*line-height: 1;*/
+}
+.UICustomSelect-value .option-id,
+.ui td.resetui .UICustomSelect-value .option-id,
+.UICustomSelect-value .option-parent,
+.ui td.resetui .UICustomSelect-value .option-parent,
+.puma-item .item-id {
+	color: #999;
+}
+.UIObjectSelect .option-id,
+.ui td.resetui .UIObjectSelect .option-id,
+.UICustomSelect-option .option-id,
+.ui td.resetui .UICustomSelect-option .option-id,
+.UICustomSelect-value .option-id,
+.ui td.resetui .UICustomSelect-value .option-id,
+.puma-item .item-id,
+.row-select-config .option-id  {
+	width: 2rem;
+	font-size: .75rem;
+	text-align: center;
+	padding-right: .3rem;
+	line-height: 1;
+}
+.UIObjectSelect-item-a .option-id,
+.ui td.resetui .UIObjectSelect-item-a .option-id,
+.UIObjectSelect-item-a .option-parent,
+.ui td.resetui .UIObjectSelect-item-a .option-parent,
+.rsc-row.ui.radio.checkbox label span.option-id {
+	font-size: .75rem;
+	color: #888;
+}
+
+.UIObjectSelect .option-parent,
+.ui td.resetui .UIObjectSelect .option-parent,
+.UIObjectSelect-item .option-parent,
+.ui td.resetui .UIObjectSelect-item .option-parent,
+.UICustomSelect-option .option-parent,
+.ui td.resetui .UICustomSelect-option .option-parent,
+.UICustomSelect-value .option-parent,
+.ui td.resetui .UICustomSelect-value .option-parent {
+	width: 4rem;
+	float: right;
+	text-align: right;
+	padding-right: .3rem;
+}
+.UICustomSelect.SelectPlace .UICustomSelect-option .option-parent,
+.UICustomSelect.SelectPlace .UICustomSelect-value .option-parent {
+	width: 8rem;
+}
+
+.UICustomSelect-option.not-referenced:not(.is-focused),
+.UICustomSelect-option.no-scope:not(.is-focused) {
+	background: #fcf3e7;
+}
