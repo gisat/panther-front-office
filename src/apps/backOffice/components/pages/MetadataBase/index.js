@@ -2,6 +2,7 @@ import React from 'react';
 import {withNamespaces} from "react-i18next";
 import { NavLink } from 'react-router-dom'
 import {Route, Switch} from "react-router";
+import LayerTemplatesList from "../../lists/LayerTemplatesList";
 
 class MetadataBase extends React.PureComponent {
 	render() {
@@ -23,7 +24,7 @@ class MetadataBase extends React.PureComponent {
 				</div>
 				<div className="ptr-bo-metadata-base-list">
 					<Switch>
-						<Route path={this.props.match.path  + "/layerTemplates"} render={() => (<div>Layer Templates</div>)} />
+						<Route path={this.props.match.path  + "/layerTemplates"} component={LayerTemplatesList} />
 						<Route path={this.props.match.path  + "/scopes"} render={() => (<div>Scopes</div>)} />
 					</Switch>
 				</div>
