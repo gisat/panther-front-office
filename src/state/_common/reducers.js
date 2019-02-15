@@ -165,7 +165,7 @@ export default {
 			_.omit(state.editedByKey[action.key].data, action.property) : null;
 
 
-		if (newEditedModelData){
+		if (newEditedModelData && !_.isEmpty(newEditedModelData)){
 			return {
 				...state,
 				editedByKey: {
@@ -176,6 +176,11 @@ export default {
 					}
 				}
 			}
+		} else if (newEditedModelData && _.isEmpty(newEditedModelData)) {
+			let editedModels = {...state.editedByKey};
+			delete editedModels[action.key];
+
+			return {...state, editedByKey: editedModels}
 		} else {
 			return state;
 		}

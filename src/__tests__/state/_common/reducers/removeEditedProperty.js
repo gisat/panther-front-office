@@ -37,6 +37,36 @@ describe('#removeEditedProperty', () => {
 		expect(commonReducers.removeEditedProperty(BASIC_STATE.sample, action)).toEqual(expectedState);
 	});
 
+	it('should remove whole edited model, if no property left in data', () => {
+		const action = {
+			key: 4,
+			property: "name"
+		};
+		const expectedState = {
+			...BASIC_STATE.sample,
+			editedByKey: {
+				1: {
+					key: 1,
+					data: {
+						name: "Svět",
+						description: "..."
+					}
+				},
+				5: {
+					key: 5,
+					data: {}
+				},
+				'nejake-nahodne-uuid': {
+					key: 'nejake-nahodne-uuid',
+					data: {
+						name: "Gisat"
+					}
+				}
+			}
+		};
+		expect(commonReducers.removeEditedProperty(BASIC_STATE.sample, action)).toEqual(expectedState);
+	});
+
 	it('should not remove anything, if property does not exist', () => {
 		const action = {
 			key: 1,
