@@ -207,6 +207,11 @@ class Screens extends React.PureComponent {
 
 			return screenComponents;
 
+		} else if (this.props.children) {
+			let screen = {
+				lineage: 'base'
+			};
+			return this.renderScreen(screen, this.props.children, true);
 		} else {
 			return null;
 		}
