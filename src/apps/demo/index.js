@@ -14,7 +14,6 @@ import layerTree from './layersTreeConfig_radio'; //test data
 
 import User from '../../components/common/controls/User';
 
-import '../../index.css';
 
 export default () => {
 	// Set language

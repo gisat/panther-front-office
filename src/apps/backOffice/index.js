@@ -13,9 +13,8 @@ import { Route, Switch } from 'react-router';
 import Page from './components/Page';
 import TestSelectPage from './components/TestSelect';
 
-import '../../index.css';
-import '../../styles/_variables.scss';
-import './styles/_variables.scss';
+import '../../styles/reset.css';
+import '../../styles/base.scss';
 
 import Test from './components/Test';
 import MetadataBase from './components/pages/MetadataBase';
@@ -51,7 +50,7 @@ export default (path) => {
 				<User/>
 				<ConnectedRouter history={history}>
 					<Switch>
-						<Route exact path={path + "/"} render={page()} />
+						<Route exact path={path + "/"} render={page(Test)} />
 						<Route exact path={path + "/test"} render={page(Test)} />
 						<Route exact path={path + "/testselect"} render={page(TestSelectPage)} />
 						<Route path={path + "/metadata"} render={page(MetadataBase, "metadata")} />
