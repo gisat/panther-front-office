@@ -14,6 +14,7 @@ class MetadataList extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
+		this.onItemClick = this.onItemClick.bind(this);
 	}
 
 	componentDidMount() {
@@ -25,8 +26,7 @@ class MetadataList extends React.PureComponent {
 	}
 
 	onItemClick(option) {
-		console.log(option);
-		
+		this.props.onItemClick(option.key);
 	}
 
 	render() {

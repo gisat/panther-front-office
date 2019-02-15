@@ -4,6 +4,9 @@ import Action from "../../../../state/Action";
 import utils from "../../../../utils/utils";
 
 import presentation from './MetadataList';
+import User from "../../../../components/common/controls/User";
+import LayerTemplateMetadataScreen
+	from "../../../../components/common/backOffice/metadataScreens/LayerTemplateMetadataScreen";
 
 const order = [['nameDisplay', 'ascending']];
 
@@ -18,6 +21,9 @@ const mapDispatchToPropsFactory = () => {
 
 	return (dispatch, props) => {
 		return {
+			onItemClick: (key) => {
+				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-layerTemplateConfig', 40, 40, LayerTemplateMetadataScreen, {layerTemplateKey: key}))
+			},
 			onMount: () => {
 				dispatch(Action.layerTemplates.useIndexed(null, null, order, 1, 1000, componentId)); // TODO filter?
 			},
