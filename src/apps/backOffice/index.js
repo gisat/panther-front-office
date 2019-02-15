@@ -1,20 +1,20 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import Action from '../../state/Action';
-import i18n from '../../i18n';
-import utils from '../../utils/utils';
-
-import Store, {history} from './store';
-import Select from '../../state/Select';
 import { ConnectedRouter } from 'connected-react-router';
 import { Route, Switch } from 'react-router';
 
-import Page from './components/Page';
-import TestSelectPage from './components/TestSelect';
+import Action from '../../state/Action';
+import Store, {history} from './store';
+import i18n from '../../i18n';
+import utils from '../../utils/utils';
 
+// base styles need to be imported before all components
 import '../../styles/reset.css';
 import '../../styles/base.scss';
+
+import Page from './components/Page';
+import TestSelectPage from './components/TestSelect';
 
 import Test from './components/Test';
 import MetadataBase from './components/pages/MetadataBase';
