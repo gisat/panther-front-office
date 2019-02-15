@@ -4,7 +4,7 @@ a.ptr-item {
 
 .ptr-item,
 a.ptr-item {
-	display: block;
+	display: flex;
 	border-radius: .25rem;
 	border: 2px solid #95A6C7;
 	background: #ABBAD8;
@@ -63,18 +63,35 @@ a.ptr-item {
 	color: #a2a2a2;
 }
 
+.ptr-item .label{
+	margin-left: 8px;
+}
+
 .ptr-item .option-id{
 	color: #999;
 	display: inline-block;
-	width: 2rem;
 	font-size: .75rem;
 	text-align: center;
 	padding-right: .3rem;
 	line-height: 1;
+	text-overflow: ellipsis;
+    max-width: 10ch;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .ptr-item .ptr-item-actions-end{
 	flex-grow: 2;
 	display: flex;
 	justify-content: flex-end;
+}
+
+.ptr-item .ptr-item-actions-start{
+	display: flex;
+	justify-content: flex-end;
+}
+
+.ptr-item .ptr-order-placeholder{
+	width: 16px;
+	height: 16px;
 }

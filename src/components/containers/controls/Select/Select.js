@@ -50,8 +50,6 @@ class MultiSelect extends React.PureComponent {
         }
     }
 
-
-
 	renderOptionLabel (op) {
 		return op[this.props.labelKey];
     }
@@ -65,14 +63,12 @@ class MultiSelect extends React.PureComponent {
     }
     
     removeValue (valueToRemove) {
-        debugger
         this.setState({
             selectedValues: this.state.selectedValues.filter(val => val !== valueToRemove)
         }, this.onChange);
     }
     
     moveValue(item, direction) {
-        debugger
 		const values = this.state.selectedValues.slice(0);
 		const value = item[this.props.valueKey];
         const index = values.indexOf(value);
@@ -111,13 +107,13 @@ class MultiSelect extends React.PureComponent {
 		)
     }
     
-    getOrderControl (item) {
+    getOrderControl (item, moveUp, moveDown) {
         return (
             <span
                 className="ptr-icon-inline-wrap"
                 key = 'order'
             >
-                <span
+                {moveUp ? <span
                     className="ptr-icon-inline-wrap"
                     onMouseDown={this.blockEvent}
                     // onMoveUp = {this.moveValue.bind(this, item, "up")}
@@ -126,8 +122,8 @@ class MultiSelect extends React.PureComponent {
                     onTouchEnd={() => this.moveValue(item, "up")}
                     >
                     <Icon icon={'sort-up'} height={'16'}  width={'16'} viewBox={'0 -120 320 512'} className={'ptr-inline-icon hover'}/>
-                </span>
-                <span
+                </span> : <span className={'ptr-order-placeholder'}></span>}
+                {moveDown ? <span
                     className=" ptr-icon-inline-wrap"
                     onMouseDown={this.blockEvent}
                     onClick={() => this.moveValue(item, "down")}
@@ -135,40 +131,43 @@ class MultiSelect extends React.PureComponent {
                     // onMoveDown = {this.moveValue.bind(this, item, "down")}
                     >
                     <Icon icon={'sort-down'} height={'16'}  width={'16'} viewBox={'0 120 320 512'} className={'ptr-inline-icon hover'}/>
-                </span>
+                </span> : <span className={'ptr-order-placeholder'}></span>}
             </span>
         );
     }
 
     getSelectedItem(item) {
         const removeIcon = this.removeValue ? this.getRemoveIcon(item) : null;
-		const orderedControls = this.props.ordered ? this.getOrderControl(item) : null;
-
-
-        const endItems = 
-            [(<span className={'ptr-icon-inline-wrap'} key={'double-angle'}>
-                <Icon icon='angle-double-right' height={'16'}  width={'16'} className={'ptr-inline-icon'}/>
-            </span>)];
+        const itemIndex = this.state.selectedValues.findIndex(i => i === item.value);
+        const moveUp = itemIndex !== 0;
+        const moveDown = itemIndex !== this.state.selectedValues.length - 1;
+		const orderedControls = this.props.ordered ? this.getOrderControl(item, moveUp, moveDown) : null;
 
         const startItems = [
             removeIcon,
             orderedControls,
-        ]
+        ];
+
+        const endItems = [
+            <span className={'ptr-icon-inline-wrap'} key={'double-angle'}>
+                <Icon icon='angle-double-right' height={'16'}  width={'16'} className={'ptr-inline-icon'}/>
+            </span>
+        ];
         
         return (<Value 
-                key = {item[this.props.valueKey]}
-                option = {item}
-                optionLabelClick = {!!this.props.onOptionLabelClick}
-                onOptionLabelClick = {this.handleOptionLabelClick}
-                // onRemove = {this.removeValue}
-                // onMoveUp = {this.moveValue.bind(this, item, "up")}
-                // onMoveDown = {this.moveValue.bind(this, item, "down")}
-                // ordered = {this.props.ordered}
-                disabled = {this.props.disable}
-                //FIXME - loading
-                endItems = {endItems}
-                startItems = {startItems}
-        />)
+                    key = {item[this.props.valueKey]}
+                    option = {item}
+                    optionLabelClick = {!!this.props.onOptionLabelClick}
+                    onOptionLabelClick = {this.handleOptionLabelClick}
+                    // onRemove = {this.removeValue}
+                    // onMoveUp = {this.moveValue.bind(this, item, "up")}
+                    // onMoveDown = {this.moveValue.bind(this, item, "down")}
+                    // ordered = {this.props.ordered}
+                    disabled = {this.props.disable}
+                    //FIXME - loading
+                    endItems = {endItems}
+                    startItems = {startItems}
+                />)
     }
 
     /**

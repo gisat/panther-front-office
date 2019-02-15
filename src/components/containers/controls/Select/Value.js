@@ -16,44 +16,12 @@ class Value extends React.PureComponent {
 		event.stopPropagation();
 	}
 
-	// handleOnRemove (event) {
-	// 	if (!this.props.disabled) {
-	// 		this.props.onRemove(this.props.option.value);
-	// 	}
-	// }
-
-	// getOrderControl () {
-	// 	return (
-	// 		<span
-	// 			className="ptr-icon-inline-wrap"
-	// 			key = 'order'
-	// 		>
-	// 			<span
-	// 				className=" ptr-icon-inline-wrap"
-	// 				onMouseDown={this.blockEvent}
-	// 				onClick={this.props.onMoveUp}
-	// 				onTouchEnd={this.props.onMoveUp}
-	// 			>
-	// 				<Icon icon={'sort-up'} height={'16'}  width={'16'} viewBox={'0 -120 320 512'} className={'ptr-inline-icon hover'}/>
-	// 			</span>
-	// 			<span
-	// 				className=" ptr-icon-inline-wrap"
-	// 				onMouseDown={this.blockEvent}
-	// 				onClick={this.props.onMoveDown}
-	// 				onTouchEnd={this.props.onMoveDown}
-	// 			>
-	// 				<Icon icon={'sort-down'} height={'16'}  width={'16'} viewBox={'0 120 320 512'} className={'ptr-inline-icon hover'}/>
-	// 			</span>
-	// 		</span>
-	// 	);
-	// }
-
 	getLabel() {
 		const labelText = this.props.renderer ? this.props.renderer(this.props.option) : this.props.option.label;
-
+		const IDtooltip = this.props.option && this.props.option.key && this.props.option.key.length > 10 ? this.props.option.key : null;
 		return (
 			<span className="label" key='label'>
-				<span className="option-id">
+				<span className="option-id" title = {IDtooltip}>
 					{this.props.option.key}
 				</span>
 				<span>
