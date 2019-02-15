@@ -1,0 +1,80 @@
+a.ptr-item {
+	cursor: pointer;
+}
+
+.ptr-item,
+a.ptr-item {
+	display: block;
+	border-radius: .25rem;
+	border: 2px solid #95A6C7;
+	background: #ABBAD8;
+	background: #B6BCC7;
+	margin-bottom: .875rem;
+
+	padding: 0 .5rem;
+	color: #1452A2;
+
+	position: relative;
+}
+
+.ptr-item .ptr-icon.hover:hover{
+	color: rgb(48, 111, 226);
+}
+
+.ptr-item span {
+	line-height: 1.875rem;
+}
+
+.ptr-item:hover {
+	border-color: #4d8aff;
+}
+
+.ptr-item::after,
+.ptr-item:not(.simple)::after {
+	/* content: "\f101"; */
+	font-family: Icons;
+	font-size: 1.25rem;
+	display: block;
+	position: absolute;
+	right:.4rem;
+	top:0;
+/*	color: #6B90BF;*/
+	color: #859FBF;
+}
+
+.ptr-item.template {
+/*	background: transparent;*/
+	background: #bebebe;
+}
+
+.ptr-item.add {
+	border-style: dashed;
+	border-color: #9c9c9c;
+	color: #8e8e8e;
+	background: transparent;
+}
+
+.ptr-item.add:hover {
+	border-color: #4d8aff;
+	color: #797979;
+}
+
+.ptr-item.add::after {
+	color: #a2a2a2;
+}
+
+.ptr-item .option-id{
+	color: #999;
+	display: inline-block;
+	width: 2rem;
+	font-size: .75rem;
+	text-align: center;
+	padding-right: .3rem;
+	line-height: 1;
+}
+
+.ptr-item .ptr-item-actions-end{
+	flex-grow: 2;
+	display: flex;
+	justify-content: flex-end;
+}

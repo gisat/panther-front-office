@@ -11,6 +11,7 @@ import { ConnectedRouter } from 'connected-react-router';
 import { Route, Switch } from 'react-router';
 
 import Page from './components/Page';
+import TestSelectPage from './components/TestSelect';
 
 import '../../index.css';
 import '../../styles/_variables.scss';
@@ -48,6 +49,8 @@ export default (path) => {
 				<ConnectedRouter history={history}>
 					<Switch>
 						<Route exact path={path + "/"} render={page(<div>Dashboard</div>)} />
+						<Route exact path={path + "/test"} render={page(<Test />)} />
+						<Route exact path={path + "/testselect"} render={page(<TestSelectPage />)} />
 						<Route path={path + "/metadata"} render={({ match }) => (
 							<Switch>
 								<Route exact path={match.url} render={() => (<div>Metadata</div>)} />

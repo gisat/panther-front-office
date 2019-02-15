@@ -5,11 +5,15 @@
 }
 
 .ptr-icon-baseline .ptr-icon.ptr-inline-icon{
-    top: .125em;
+    top: .2em;
     position: relative;
 }
 
 .ptr-icon-inline-wrap{
     display: inline-flex;
     align-self: center;
+}
+
+.ptr-icon.hover{
+    cursor: pointer;
 }
