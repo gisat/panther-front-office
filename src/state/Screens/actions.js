@@ -12,7 +12,8 @@ function addOrUpdate (setKey, lineage, width, minActiveWidth, component, props) 
 			if (timeouts[lineage]) {
 				clearTimeout(timeouts[lineage]);
 			}
-			dispatch(actionUpdate(setKey,
+			dispatch(actionUpdate(
+				setKey,
 				lineage,
 				{
 					width,
@@ -37,6 +38,15 @@ function addOrUpdate (setKey, lineage, width, minActiveWidth, component, props) 
 		}
 		dispatch(actionTopHistory(setKey, lineage));
 	};
+}
+
+function ensureSet(setKey) {
+	return (dispatch, getState) => {
+		let existingSet = Select.screens.getSetByKey(getState(), setKey);
+		if (!existingSet) {
+			dispatch(actionAddSet(setKey));
+		}
+	}
 }
 
 function open(setKey, screenLineage) {
@@ -66,7 +76,12 @@ function retract(setKey, screenLineage) {
 	};
 }
 
-
+function topHistory(setKey, screenLineage) {
+	return (dispatch) => {
+		dispatch(ensureSet(setKey));
+		dispatch(actionTopHistory(setKey, screenLineage));
+	};
+}
 
 // ============ actions ===========
 const actionAdd = (setKey, lineage, data) => {
@@ -125,11 +140,12 @@ const actionTopHistory = (setKey, lineage) => {
 	}
 };
 
-const actionUpdate = (setKey, lineage) => {
+const actionUpdate = (setKey, lineage, data) => {
 	return {
 		type: ActionTypes.SCREENS.UPDATE,
 		setKey,
-		lineage
+		lineage,
+		data
 	}
 };
 
@@ -142,5 +158,5 @@ export default {
 	close,
 	open,
 	retract,
-	topHistory: actionTopHistory
+	topHistory
 }

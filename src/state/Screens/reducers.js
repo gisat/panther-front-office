@@ -88,6 +88,7 @@ const topHistory = (state, action) => {
 	return {...state, sets: {...sets, [action.setKey]: {...sets[action.setKey], orderByHistory}}};
 };
 
+// TODO test properly!
 const update = (state, action) => {
 	let screens = {...state.screens};
 
@@ -98,8 +99,15 @@ const update = (state, action) => {
 
 	let sets = {...state.sets};
 	sets[action.setKey] = {...INITIAL_SET_STATE, ...sets[action.setKey]};
-	sets[action.setKey].orderBySpace = [...sets[action.setKey].orderBySpace, action.lineage];
-	sets[action.setKey].orderByHistory = [...sets[action.setKey].orderByHistory, action.lineage];
+
+	let orderByHistory = _.without(...sets[action.setKey].orderBySpace, action.lineage);
+	orderByHistory.push(action.lineage);
+
+	let orderBySpace = _.without(...sets[action.setKey].orderBySpace, action.lineage);
+	orderBySpace.push(action.lineage);
+
+	sets[action.setKey].orderBySpace = orderBySpace;
+	sets[action.setKey].orderByHistory = orderByHistory;
 
 	return {...state, screens, sets};
 };

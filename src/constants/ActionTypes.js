@@ -404,7 +404,8 @@ export default utils.deepKeyMirror({
 			ADD: null,
 			REMOVE: null
 		},
-		TOP_HISTORY: null
+		TOP_HISTORY: null,
+		UPDATE: null
 	},
 
 	SPATIAL_RELATIONS: {
