@@ -15,6 +15,8 @@ export default (state = INITIAL_STATE, action) => {
 			return common.add(state, action);
 		case ActionTypes.LAYER_TEMPLATES.ADD_UNRECEIVED:
 			return common.addUnreceivedKeys(state, action);
+		case ActionTypes.LAYER_TEMPLATES.EDITED.REMOVE:
+			return common.removeEdited(state, action);
 		case ActionTypes.LAYER_TEMPLATES.EDITED.REMOVE_PROPERTY:
 			return common.removeEditedProperty(state, action);
 		case ActionTypes.LAYER_TEMPLATES.EDITED.UPDATE:

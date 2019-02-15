@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from "prop-types";
+import _ from 'lodash';
 import Input from "../../../atoms/Input/Input";
 import InputWrapper from "../../../atoms/InputWrapper/InputWrapper";
 import {withNamespaces} from "react-i18next";
@@ -11,6 +12,7 @@ class LayerTemplateMetadataConfig extends React.PureComponent {
 		layerTemplateKey: PropTypes.string,
 		onMount: PropTypes.func,
 		onUnmount: PropTypes.func,
+		onSave: PropTypes.func,
 		updateEdited: PropTypes.func
 	};
 
@@ -29,11 +31,11 @@ class LayerTemplateMetadataConfig extends React.PureComponent {
 	}
 
 	onChangeName(value) {
-		this.props.updateEdited(this.props.layerTemplateKey, 'nameDisplay', value);
+		this.props.updateEdited('nameDisplay', value);
 	}
 
 	onChangeNameInternal(value) {
-		this.props.updateEdited(this.props.layerTemplateKey, 'nameInternal', value);
+		this.props.updateEdited('nameInternal', value);
 	}
 
 	render() {
@@ -63,6 +65,7 @@ class LayerTemplateMetadataConfig extends React.PureComponent {
 						onChange={this.onChangeNameInternal}
 					/>
 				</InputWrapper>
+				{this.props.editedData && !_.isEmpty(this.props.editedData) ? <button onClick={this.props.onSave}>Save</button> : null}
 			</div>
 		);
 	}

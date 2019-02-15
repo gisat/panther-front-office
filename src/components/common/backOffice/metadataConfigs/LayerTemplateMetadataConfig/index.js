@@ -19,11 +19,15 @@ const mapDispatchToPropsFactory = () => {
 			onMount: () => {
 				dispatch(Action.layerTemplates.useKeys([props.layerTemplateKey], componentId));
 			},
+			onSave: () => {
+				dispatch(Action.layerTemplates.saveEdited(props.layerTemplateKey))
+				// todo linking
+			},
 			onUnmount: () => {
 				dispatch(Action.layerTemplates.useKeysClear(componentId));
 			},
-			updateEdited: (modelKey, key, value) => {
-				dispatch(Action.layerTemplates.updateEdited(modelKey, key, value));
+			updateEdited: (key, value) => {
+				dispatch(Action.layerTemplates.updateEdited(props.layerTemplateKey, key, value));
 			}
 		}
 	}

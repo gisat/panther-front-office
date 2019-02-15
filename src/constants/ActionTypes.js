@@ -185,6 +185,7 @@ export default utils.deepKeyMirror({
 		ADD: null,
 		ADD_UNRECEIVED: null,
 		EDITED: {
+			REMOVE: null,
 			REMOVE_PROPERTY: null,
 			UPDATE: null,
 		},
