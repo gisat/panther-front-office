@@ -34,6 +34,7 @@ class MultiSelect extends React.PureComponent {
         this.handleChange = this.handleChange.bind(this);
         this.handleOptionLabelClick = this.handleOptionLabelClick.bind(this);
         this.removeValue = this.removeValue.bind(this);
+        this.moveValue = this.moveValue.bind(this);
 
         this.state = getInitialState(props);
     }
@@ -64,14 +65,16 @@ class MultiSelect extends React.PureComponent {
     }
     
     removeValue (valueToRemove) {
+        debugger
         this.setState({
             selectedValues: this.state.selectedValues.filter(val => val !== valueToRemove)
         }, this.onChange);
     }
     
-    moveValue(valueToMove,direction) {
+    moveValue(item, direction) {
+        debugger
 		const values = this.state.selectedValues.slice(0);
-		const value = valueToMove[this.props.valueKey];
+		const value = item[this.props.valueKey];
         const index = values.indexOf(value);
 
 		switch(direction) {
@@ -87,54 +90,85 @@ class MultiSelect extends React.PureComponent {
 				break;
         }
         this.setState({selectedValues: values}, this.onChange);
+    }
+
+
+	blockEvent (event) {
+		event.stopPropagation();
 	}
+    
+    getRemoveIcon (item) {
+		return (
+			<span className=" ptr-icon-inline-wrap"
+					key='remove'
+					onMouseDown={this.blockEvent}
+					onClick={() => {this.removeValue(item.value)}}
+					onTouchEnd={() => {this.removeValue(item.value)}}
+				>
+				<Icon icon={'times'} height={'16'}  width={'16'} className={'ptr-inline-icon hover'}/>
+
+			</span>
+		)
+    }
+    
+    getOrderControl (item) {
+        return (
+            <span
+                className="ptr-icon-inline-wrap"
+                key = 'order'
+            >
+                <span
+                    className="ptr-icon-inline-wrap"
+                    onMouseDown={this.blockEvent}
+                    // onMoveUp = {this.moveValue.bind(this, item, "up")}
+                
+                    onClick={() => this.moveValue(item, "up")}
+                    onTouchEnd={() => this.moveValue(item, "up")}
+                    >
+                    <Icon icon={'sort-up'} height={'16'}  width={'16'} viewBox={'0 -120 320 512'} className={'ptr-inline-icon hover'}/>
+                </span>
+                <span
+                    className=" ptr-icon-inline-wrap"
+                    onMouseDown={this.blockEvent}
+                    onClick={() => this.moveValue(item, "down")}
+                    onTouchEnd={() => this.moveValue(item, "down")}
+                    // onMoveDown = {this.moveValue.bind(this, item, "down")}
+                    >
+                    <Icon icon={'sort-down'} height={'16'}  width={'16'} viewBox={'0 120 320 512'} className={'ptr-inline-icon hover'}/>
+                </span>
+            </span>
+        );
+    }
 
     getSelectedItem(item) {
-        
+        const removeIcon = this.removeValue ? this.getRemoveIcon(item) : null;
+		const orderedControls = this.props.ordered ? this.getOrderControl(item) : null;
+
+
         const endItems = 
             [(<span className={'ptr-icon-inline-wrap'} key={'double-angle'}>
                 <Icon icon='angle-double-right' height={'16'}  width={'16'} className={'ptr-inline-icon'}/>
             </span>)];
-        // const endItems = this.props.optionLabelClick ? (
-        //     [<span className={'ptr-icon-inline-wrap'}>
-        //         <Icon icon='angle-double-right' height={'16'}  width={'16'} className={'ptr-inline-icon'}/>
-        //     </span>]) : null;
+
+        const startItems = [
+            removeIcon,
+            orderedControls,
+        ]
         
         return (<Value 
                 key = {item[this.props.valueKey]}
                 option = {item}
                 optionLabelClick = {!!this.props.onOptionLabelClick}
                 onOptionLabelClick = {this.handleOptionLabelClick}
-                onRemove = {this.removeValue}
-                onMoveUp = {this.moveValue.bind(this, item, "up")}
-                onMoveDown = {this.moveValue.bind(this, item, "down")}
-                ordered = {this.props.ordered}
+                // onRemove = {this.removeValue}
+                // onMoveUp = {this.moveValue.bind(this, item, "up")}
+                // onMoveDown = {this.moveValue.bind(this, item, "down")}
+                // ordered = {this.props.ordered}
                 disabled = {this.props.disable}
-
+                //FIXME - loading
                 endItems = {endItems}
+                startItems = {startItems}
         />)
-        
-        // React.createElement(this.props.valueComponent, {
-        //     key: item[this.props.valueKey],
-        //     option: item,
-        //     renderer: this.props.valueRenderer || this.renderOptionLabel.bind(this),
-        //     optionLabelClick: !!this.props.onOptionLabelClick,
-        //     onOptionLabelClick: this.handleOptionLabelClick,
-        //     onRemove: this.removeValue,
-        //     onMoveUp: this.moveValue.bind(this, item, "up"),
-        //     onMoveDown: this.moveValue.bind(this, item, "down"),
-        //     ordered: this.props.ordered,
-        //     disabled: this.props.disabled
-        // });
-
-
-
-
-        // return (
-        // <div key = {item.value}>
-        //     {item.value}
-        //     {item.label}
-        // </div>)
     }
 
     /**

@@ -8,7 +8,7 @@ import './Item.css';
 class Value extends React.PureComponent {
 	constructor() {
 		super();
-		this.handleOnRemove = this.handleOnRemove.bind(this);
+		// this.handleOnRemove = this.handleOnRemove.bind(this);
 	}
 
 	
@@ -16,50 +16,37 @@ class Value extends React.PureComponent {
 		event.stopPropagation();
 	}
 
-	handleOnRemove (event) {
-		if (!this.props.disabled) {
-			this.props.onRemove(this.props.option.value);
-		}
-	}
+	// handleOnRemove (event) {
+	// 	if (!this.props.disabled) {
+	// 		this.props.onRemove(this.props.option.value);
+	// 	}
+	// }
 
-	getOrderControl () {
-		return (
-			<span
-				className="ptr-icon-inline-wrap"
-				key = 'order'
-			>
-				<span
-					className=" ptr-icon-inline-wrap"
-					onMouseDown={this.blockEvent}
-					onClick={this.props.onMoveUp}
-					onTouchEnd={this.props.onMoveUp}
-				>
-					<Icon icon={'sort-up'} height={'16'}  width={'16'} viewBox={'0 -120 320 512'} className={'ptr-inline-icon hover'}/>
-				</span>
-				<span
-					className=" ptr-icon-inline-wrap"
-					onMouseDown={this.blockEvent}
-					onClick={this.props.onMoveDown}
-					onTouchEnd={this.props.onMoveDown}
-				>
-					<Icon icon={'sort-down'} height={'16'}  width={'16'} viewBox={'0 120 320 512'} className={'ptr-inline-icon hover'}/>
-				</span>
-			</span>
-		);
-	}
-	getRemoveIcon () {
-		return (
-			<span className=" ptr-icon-inline-wrap"
-					key='remove'
-					onMouseDown={this.blockEvent}
-					onClick={this.handleOnRemove}
-					onTouchEnd={this.handleOnRemove}
-				>
-				<Icon icon={'times'} height={'16'}  width={'16'} className={'ptr-inline-icon hover'}/>
-
-			</span>
-		)
-	}
+	// getOrderControl () {
+	// 	return (
+	// 		<span
+	// 			className="ptr-icon-inline-wrap"
+	// 			key = 'order'
+	// 		>
+	// 			<span
+	// 				className=" ptr-icon-inline-wrap"
+	// 				onMouseDown={this.blockEvent}
+	// 				onClick={this.props.onMoveUp}
+	// 				onTouchEnd={this.props.onMoveUp}
+	// 			>
+	// 				<Icon icon={'sort-up'} height={'16'}  width={'16'} viewBox={'0 -120 320 512'} className={'ptr-inline-icon hover'}/>
+	// 			</span>
+	// 			<span
+	// 				className=" ptr-icon-inline-wrap"
+	// 				onMouseDown={this.blockEvent}
+	// 				onClick={this.props.onMoveDown}
+	// 				onTouchEnd={this.props.onMoveDown}
+	// 			>
+	// 				<Icon icon={'sort-down'} height={'16'}  width={'16'} viewBox={'0 120 320 512'} className={'ptr-inline-icon hover'}/>
+	// 			</span>
+	// 		</span>
+	// 	);
+	// }
 
 	getLabel() {
 		const labelText = this.props.renderer ? this.props.renderer(this.props.option) : this.props.option.label;
@@ -76,18 +63,21 @@ class Value extends React.PureComponent {
 	}
 
 	render () {
-		const removeIcon = this.props.onRemove ? this.getRemoveIcon() : null;
-		const orderedControls = this.props.ordered && this.props.onMoveUp && this.props.onMoveDown ? this.getOrderControl() : null;
+
 		const label = this.getLabel();
 
 		const itemContent = (
-				[removeIcon,
-				orderedControls,
-				label,
-				<div className={'ptr-item-actions-end'} key='items'>
-					{/* place for icons/buttons/info at the and of the item */}
-					{this.props.endItems}
-				</div>]
+				[
+					<div className={'ptr-item-actions-start'} key='items-start'>
+						{/* place for icons/buttons/info on start of the item */}
+						{this.props.startItems}
+					</div>,
+					label,
+					<div className={'ptr-item-actions-end'} key='items-end'>
+						{/* place for icons/buttons/info at the and of the item */}
+						{this.props.endItems}
+					</div>
+				]
 		)
 
 		if (this.props.optionLabelClick) {
@@ -118,12 +108,13 @@ class Value extends React.PureComponent {
 Value.propTypes = {
 	disabled: PropTypes.bool,                   // disabled prop passed to ReactSelect
 	onOptionLabelClick: PropTypes.func,         // method to handle click on value label
-	onRemove: PropTypes.func,                   // method to handle remove of that value
-	ordered: PropTypes.bool,                    // indicates if ordered values
-	onMoveUp: PropTypes.func,                   // method to handle ordering
-	onMoveDown: PropTypes.func,                 // method to handle ordering
+	// onRemove: PropTypes.func,                   // method to handle remove of that value
+	// ordered: PropTypes.bool,                    // indicates if ordered values
+	// onMoveUp: PropTypes.func,                   // method to handle ordering
+	// onMoveDown: PropTypes.func,                 // method to handle ordering
 
 	endItems: PropTypes.arrayOf(PropTypes.element),
+	startItems: PropTypes.arrayOf(PropTypes.element),
 
 	option: PropTypes.object.isRequired,        // option passed to component
 	optionLabelClick: PropTypes.bool,           // indicates if onOptionLabelClick should be handled
