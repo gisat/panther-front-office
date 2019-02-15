@@ -592,6 +592,7 @@ export default {
 	setActiveKey: creator(actionSetActiveKey),
 	setActiveKeyAndEnsureDependencies,
 	setActiveKeys: creator(actionSetActiveKeys),
+	receiveUpdated,
 	receiveIndexed,
 	receiveKeys,
 	refreshUses,
