@@ -8,12 +8,20 @@ class AppContainer extends React.PureComponent {
 
 	static propTypes = {
 		activeUser: PropTypes.object,
-		loginRequired: PropTypes.bool
+		loginRequired: PropTypes.bool,
+		light: PropTypes.bool,
+		dark: PropTypes.bool
 	};
 
 	render() {
+
+		let classes = {
+			'ptr-light': this.props.light || !this.props.dark,
+			'ptr-dark': this.props.dark
+		};
+
 		return (
-			<div className="ptr-app-container">
+			<div className={classNames("ptr-app-container", classes)}>
 				{this.renderContent()}
 			</div>
 		);

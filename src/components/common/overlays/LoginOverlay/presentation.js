@@ -51,7 +51,7 @@ class LoginOverlay extends React.PureComponent {
 	render() {
 
 		return (
-			<div className={classNames("ptr-login-overlay", "ptr-overlay", "ptr-overlay-fix", {open: this.props.open})}>
+			<div className={classNames("ptr-login-overlay", "ptr-overlay", "ptr-dark", "ptr-overlay-fix", {open: this.props.open})}>
 				<div className="ptr-login">
 					<div>
 						<InputText
