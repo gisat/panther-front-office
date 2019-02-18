@@ -12,6 +12,7 @@ import utils from '../../utils/utils';
 // base styles need to be imported before all components
 import '../../styles/reset.css';
 import '../../styles/base.scss';
+import './styles/index.scss';
 
 import Page from './components/Page';
 import TestSelectPage from './components/TestSelect';
