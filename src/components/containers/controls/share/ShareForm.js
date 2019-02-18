@@ -5,10 +5,12 @@ import ShareForm from "../../../presentation/controls/share/ShareForm";
 import utils from '../../../../utils/utils';
 
 const mapStateToProps = (state, ownProps) => {
+	const groupsForActiveUserKeys = Select.users.getGroupsWithPermissionsForActiveUser(state);
+	
 	return {
         users: Select.users.getUsers(state),
-		groups: Select.users.getGroups(state),
-		dataviewId: Select.dataviews.getActiveKey(state),
+				groups: groupsForActiveUserKeys,
+				dataviewId: Select.dataviews.getActiveKey(state),
 	}
 };
 
