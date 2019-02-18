@@ -1,7 +1,10 @@
 @import "_variables";
 
-:root {
-	--test-background: #f00;
+html {
+	font-family: 'Roboto', sans-serif;
+}
+code, pre {
+	font-family: courier new, Courier, monospace;
 }
 
 .ptr-light {

@@ -1,11 +1,38 @@
+/**
+measure unit - use whole numbers or thirds if neccessary
+ */
+@function m($amount) {
+	@return $amount * 1.5rem;
+}
+
+/**
+font sizes
+ */
+$a0: .618rem;
+$a1: 1rem;
+$a2: 1.618rem;
+$a3: 2.618rem;
+$a4: 4.236rem;
+$a5: 6.854rem;
+$a6: 11.089rem;
+$a7: 17.942rem;
+
+$b0: .5rem;
+$b1: .809rem;
+$b2: 1.309rem;
+$b3: 2.118rem;
+$b4: 3.427rem;
+$b5: 5.545rem;
+$b6: 8.971rem;
+$b7: 14.515rem;
+
+/**
+colours
+ */
 $gray0: #fffefc;
-//$gray1: #e5e4e2;
 $gray1: #f0f0ef;
-//$gray2: #cbcac8;
 $gray2: #dcdcda;
-//$gray3: #b1b0ae;
 $gray3: #bebdbb;
-//$gray4: #999896;
 $gray4: #9d9c9b;
 $gray5: #81807e;
 $gray6: #676664;
@@ -15,19 +42,13 @@ $gray9: #1f1e1d;
 $gray10: #040300;
 
 $accent0: #fffefc;
-//$accent1: #dbefec;
 $accent1: #eaf6f4;
-//$accent2:  #b6e0dc;
 $accent2:  #c9e8e5;
-//$accent3:  #90d1cc;
 $accent3:  #a2d8d3;
-//$accent4:  #66c1bc;
 $accent4:  #75c7c3;
 $accent5:  #2ab2ad;
 $accent6:  #2a8c88;
-//$accent7:  #266864;
 $accent7:  #24615d;
-//$accent8:  #204643;
 $accent8:  #1d3f3c;
 $accent9:  #172624;
 $accent10:  #040300;
