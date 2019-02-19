@@ -1,31 +1,49 @@
 import React from 'react';
 import {withNamespaces} from "react-i18next";
-import { NavLink } from 'react-router-dom'
 import {Route, Switch} from "react-router";
 import LayerTemplatesList from "../../lists/LayerTemplatesList";
+import NavList from 'components/presentation/NavList'
+
+import './metadataBase.css';
 
 class MetadataBase extends React.PureComponent {
+	constructor(props) {
+		super(props);
+
+		this.paths = {
+			layerTemplates: `${this.props.match.path}/layerTemplates`,
+			scopes: `${this.props.match.path}/scopes`,
+		}
+
+		this.navList = [
+			{
+				title: 'Base',
+				type: 'folder',
+				items: [
+					{
+						type: 'leaf',
+						title: 'Layer Templates',
+						path: this.paths.layerTemplates
+					},
+					{
+						type: 'leaf',
+						title: 'Scopes',
+						path: this.paths.scopes
+					}
+				]
+			}
+		]
+	}
 	render() {
 		return (
-			<div className="ptr-bo-metadata-base">
+			<div className="ptr-base-page ptr-bo-metadata-base">
 				<div className="ptr-bo-metadata-base-menu">
-					<NavLink
-						to={this.props.match.path + "/layerTemplates"}
-						activeClassName="selected"
-					>
-						Layer Templates
-					</NavLink>
-					<NavLink
-						to={this.props.match.path + "/scopes"}
-						activeClassName="selected"
-					>
-						Scopes
-					</NavLink>
+					<NavList items={this.navList} />
 				</div>
 				<div className="ptr-bo-metadata-base-list">
 					<Switch>
-						<Route path={this.props.match.path  + "/layerTemplates"} component={LayerTemplatesList} />
-						<Route path={this.props.match.path  + "/scopes"} render={() => (<div>Scopes</div>)} />
+						<Route path={this.paths.layerTemplates} component={LayerTemplatesList} />
+						<Route path={this.paths.scopes} render={() => (<div>Scopes</div>)} />
 					</Switch>
 				</div>
 			</div>

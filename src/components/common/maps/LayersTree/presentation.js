@@ -54,7 +54,7 @@ class LayersTree extends React.PureComponent {
         return (
                 this.props.layersTemplates ? (
                     <div>
-                        <ul className={'gs-tree layersTree'}>
+                        <ul className={'ptr-tree layersTree'}>
                             {this.getDescendants(this.props.layersTree)}
                         </ul>
                     </div>) : null

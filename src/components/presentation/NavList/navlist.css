@@ -1,0 +1,41 @@
+.ptr-navlist{
+    background-color: var(--base1);
+}
+
+.ptr-navlist ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    white-space: nowrap;
+}
+
+.ptr-navlist li.ptr-nav-item-folder {
+    margin-left: 3px;
+}
+.ptr-navlist li.ptr-nav-item {
+    border-left: 3px;
+    border-left-style: solid;
+    border-left-color: var(--base3);
+}
+.ptr-navlist li.ptr-nav-item:hover {
+    border-left-color: var(--accent5)
+}
+
+.ptr-navlist li.ptr-nav-item a, 
+.ptr-navlist li.ptr-nav-item a:link,
+.ptr-navlist li.ptr-nav-item a:visited {
+    display: block;
+    color: var(--base6);
+    text-decoration: none;
+    /* transition: all 400ms; background animation */
+}
+
+.ptr-navlist li.ptr-nav-item a:hover {
+    color: var(--accent5);
+    background-color: var(--base2);
+}
+
+.ptr-navlist li.ptr-nav-item-folder,
+.ptr-navlist li.ptr-nav-item a {
+    padding: 10px 20px;
+}

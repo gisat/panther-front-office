@@ -29,7 +29,7 @@ class TreeFolder extends React.PureComponent {
                 </span>
                 {
                     this.props.expanded && React.Children.count(this.props.children) > 0 ? (
-                        <ul className={'gs-tree'}>
+                        <ul className={'ptr-tree'}>
                             {this.props.children}
                         </ul>
                     ) : null
