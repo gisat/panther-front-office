@@ -1,6 +1,7 @@
 import React from 'react';
 // import UIObjectSelect from 'components/containers/controls/Select/Select'
 import MultiSelect from '../../../components/containers/controls/Select/Select'
+import AddValue from 'components/containers/controls/Select/AddValue';
 
 class Test extends React.PureComponent {
 	render() {
@@ -13,12 +14,18 @@ class Test extends React.PureComponent {
 
           const selectedValues = ['vanilla','strawberry'];
 
-          
 
 		return (
 			<div className={'ptr-base-page ptr-bo-metadata-base'}>
 			  <div className={'ptr-bo-metadata-base-list'}>
                 test select
+                <div>
+                  <AddValue
+                    option={{label:"Add items"}} 
+                    onOptionLabelClick={(item) => {console.log('ADD item click ', item)}}
+                    />
+                </div>
+
                 <MultiSelect
                     options = {options}
                     selectedValues = {selectedValues}

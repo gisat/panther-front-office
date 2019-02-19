@@ -65,3 +65,10 @@ a.ptr-item:hover {
 	width: 16px;
 	height: 16px;
 }
+
+
+/* SPECIFIC OPTIONS PASSED AS PROPS */
+.ptr-item.ptr-option-add{
+	border-style: dashed;
+	background: none;
+}
