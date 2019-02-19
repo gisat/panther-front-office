@@ -16,7 +16,8 @@ class Test extends React.PureComponent {
           
 
 		return (
-			<div>
+			<div className={'ptr-base-page ptr-bo-metadata-base'}>
+			  <div className={'ptr-bo-metadata-base-list'}>
                 test select
                 <MultiSelect
                     options = {options}
@@ -28,6 +29,7 @@ class Test extends React.PureComponent {
                     // creatable
 
 						/>
+			  </div>
 			</div>
 		);
 	}

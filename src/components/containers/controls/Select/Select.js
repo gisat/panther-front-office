@@ -221,6 +221,8 @@ class MultiSelect extends React.PureComponent {
                         isOptionSelected={() => false}
                         getNewOptionData={(inputValue, optionLabel) => ({value:inputValue, label:optionLabel})}
                         onCreateOption={(createValue) => {this.handleAddValue(createValue)}}
+                        className={'ptr-select-container'}
+                        classNamePrefix={'ptr-select'}
                         />
             </div>
         )
