@@ -57,3 +57,28 @@ code, pre {
 	--accent9: #{$accent1};
 	--accent10: #{$accent0};
 }
+.ptr-bo-colours {
+	--base0: #{$bo0};
+	--base1: #{$bo1};
+	--base2: #{$bo2};
+	--base3: #{$bo3};
+	--base4: #{$bo4};
+	--base5: #{$bo5};
+	--base6: #{$bo6};
+	--base7: #{$bo7};
+	--base8: #{$bo8};
+	--base9: #{$bo9};
+	--base10: #{$bo10};
+
+	--accent0: #{$bo-accent0};
+	--accent1: #{$bo-accent1};
+	--accent2: #{$bo-accent2};
+	--accent3: #{$bo-accent3};
+	--accent4: #{$bo-accent4};
+	--accent5: #{$bo-accent5};
+	--accent6: #{$bo-accent6};
+	--accent7: #{$bo-accent7};
+	--accent8: #{$bo-accent8};
+	--accent9: #{$bo-accent9};
+	--accent10: #{$bo-accent10};
+}

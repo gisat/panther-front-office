@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 
-import './style.css';
+import './style.scss';
 import Screen from "./components/Screen";
 
 

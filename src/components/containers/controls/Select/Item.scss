@@ -1,12 +1,14 @@
+@import '../../../../styles/variables';
+
 .ptr-item,
 a.ptr-item {
 	display: flex;
 	border-radius: .25rem;
-	border: 2px solid var(--base4);
-	background: var(--base3);
+	border: 2px solid $bo-accent3;
+	background: $bo-accent-lighter0;
 	margin-bottom: .875rem;
 	padding: 0 .5rem;
-	color: var(--base6);
+	color: $accent8;
 	position: relative;
 }
 
@@ -29,7 +31,7 @@ a.ptr-item:hover {
 }
 
 .ptr-item:hover {
-	border-color: var(--accent4);
+	border-color: $accent5;
 }
 
 

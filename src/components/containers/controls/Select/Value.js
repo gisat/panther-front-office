@@ -2,7 +2,7 @@ import classes from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from '../../../presentation/atoms/Icon';
-import './Item.css';
+import './Item.scss';
 
 
 class Value extends React.PureComponent {

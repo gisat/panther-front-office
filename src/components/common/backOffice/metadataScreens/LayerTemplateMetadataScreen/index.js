@@ -10,7 +10,7 @@ class LayerTemplateMetadataScreen extends React.PureComponent {
 
 	render() {
 		return (
-			<div>
+			<div className='ptr-bo-colours'>
 				<div className="ptr-screen-metadata-switcher">
 					<LayerTemplateMetadataSwitcher
 						layerTemplateKey={this.props.layerTemplateKey}

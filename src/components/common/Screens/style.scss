@@ -1,10 +1,12 @@
+@import '../../../styles/variables';
+
 .ptr-screens {
 	display: flex;
 	height: 100vh;
 }
 .ptr-screen {
 	position: relative;
-	background: #fff;
+	background: $bo0;
 	border: 1px solid;
 	transition: width .5s ease-in-out;
 }

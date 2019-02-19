@@ -4,7 +4,7 @@ import {Route, Switch} from "react-router";
 import LayerTemplatesList from "../../lists/LayerTemplatesList";
 import NavList from 'components/presentation/NavList'
 
-import './metadataBase.css';
+import './metadataBase.scss';
 
 class MetadataBase extends React.PureComponent {
 	constructor(props) {
