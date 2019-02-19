@@ -29,6 +29,13 @@ const isAdminGroupMember = createSelector(
 	}
 );
 
+const getGroupsForActiveUser = createSelector(
+	[getGroups],
+	(groups = []) => {
+		return groups.filter(g => g.permissions && g.permissions.activeUser && g.permissions.activeUser.get)
+	}
+);
+
 const getActiveUserPermissions = createSelector(
 	[getActive],
 	(user) => {
@@ -108,6 +115,7 @@ export default {
 	getActiveUser: getActive,
 	getGroupKeysForActiveUser: getGroupKeysForActiveUser,
 	getGroupsForActiveUser: getGroupKeysForActiveUser,
+	getGroupsWithPermissionsForActiveUser: getGroupsForActiveUser,
 	getUsers: getAll,
 	getGroups: getGroups,
 	getSubstate: getSubstate,
