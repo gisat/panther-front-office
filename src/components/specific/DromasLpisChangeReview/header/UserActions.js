@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import LpisCaseStatuses from "../../../../constants/LpisCaseStatuses";
 
 import User from '../../../common/controls/User';
-import Button from "../../../presentation/atoms/Button";
+import Button from "../../../common/atoms/Button";
 
 class DromasLpisChangeReviewHeader extends React.PureComponent {
 	static propTypes = {

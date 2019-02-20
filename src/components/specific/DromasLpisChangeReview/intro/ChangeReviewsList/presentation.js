@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 
-import Button from "../../../../presentation/atoms/Button";
+import Button from "../../../../common/atoms/Button";
 import ChangeReviewsTable from "../ChangeReviewsTable/ChangeReviewsTable";
-import Icon from "../../../../presentation/atoms/Icon";
+import Icon from "../../../../common/atoms/Icon";
 import InputText from "../../../../common/atoms/Input/Input";
 
 import './style.css';

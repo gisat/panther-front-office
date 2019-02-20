@@ -1,6 +1,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import './style.css';
+
 class Menu extends React.PureComponent {
 	render() {
 		return (

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 // import Select from 'react-select';
 import SelectCreatable from 'react-select/lib/Creatable';
 import Value from './Value';
-import Icon from 'components/presentation/atoms/Icon';
+import Icon from '../../../../components/common/atoms/Icon';
 
 import './select.css';
 

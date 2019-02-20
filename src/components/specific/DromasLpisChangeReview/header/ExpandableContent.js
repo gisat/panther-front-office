@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import classnames from 'classnames';
 
-import ExpandRowButton from '../../../presentation/atoms/ExpandRowButton';
+import ExpandRowButton from '../../../common/atoms/ExpandRowButton';
 
 const BASE_HEIGHT = 79.8; //todo max height!
 

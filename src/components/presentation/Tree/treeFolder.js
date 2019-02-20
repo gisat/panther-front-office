@@ -1,5 +1,5 @@
 import React from "react";
-import Icon from "../../presentation/atoms/Icon"
+import Icon from "../../common/atoms/Icon"
 import PropTypes from "prop-types";
 import './tree.css';
 import classnames from 'classnames';

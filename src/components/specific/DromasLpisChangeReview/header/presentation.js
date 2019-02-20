@@ -7,7 +7,7 @@ import Case from './Case';
 import Review from './Review';
 import UserActions from './UserActions';
 import MapTools from './MapTools';
-import Button from "../../../presentation/atoms/Button";
+import Button from "../../../common/atoms/Button";
 
 class DromasLpisChangeReviewHeader extends React.PureComponent {
 

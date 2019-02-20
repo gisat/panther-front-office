@@ -5,7 +5,7 @@ import './style.css';
 
 import ShareButton from '../../../common/controls/Share/Button';
 import User from '../../../common/controls/User';
-import Button from "../../../presentation/atoms/Button";
+import Button from "../../../common/atoms/Button";
 import CheckButton from "./CheckButton";
 
 class LpisCheckHeader extends React.PureComponent {

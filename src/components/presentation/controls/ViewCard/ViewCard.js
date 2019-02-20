@@ -5,7 +5,7 @@ import utils from '../../../../utils/utils';
 
 import './ViewCard.css';
 
-import Icon from '../../atoms/Icon';
+import Icon from '../../../common/atoms/Icon';
 import viewUtils from "../../../../util/viewUtils";
 import Names from "../../../../constants/Names";
 

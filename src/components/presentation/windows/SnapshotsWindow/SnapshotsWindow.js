@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import Window from "../../../containers/Window";
 import './SnapshotsWindow.css';
-import Button from "../../atoms/Button";
+import Button from "../../../common/atoms/Button";
 import SnapshotCard from "../../../containers/controls/SnapshotCard";
 
 let polyglot = window.polyglot;

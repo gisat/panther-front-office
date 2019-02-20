@@ -4,12 +4,12 @@ import classNames from 'classnames';
 import _ from 'lodash';
 
 import InputFile from '../../../atoms/InputFile';
-import Button from '../../../atoms/Button';
+import Button from '../../../../common/atoms/Button';
 import EditableText from '../../../../common/atoms/EditableText';
 import Names from '../../../../../constants/Names';
 
-import Icon from '../../../atoms/Icon';
-import Menu, {MenuItem} from '../../../atoms/Menu';
+import Icon from '../../../../common/atoms/Icon';
+import Menu, {MenuItem} from '../../../../common/atoms/Menu';
 
 import './ScenarioCard.css';
 import Action from "../../../../../state/Action";

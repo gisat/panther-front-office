@@ -5,10 +5,10 @@ import _ from 'lodash';
 import moment from 'moment';
 import utils from '../../../../../utils/utils';
 
-import Button from '../../../../presentation/atoms/Button';
-import ExpandRowButton from '../../../../presentation/atoms/ExpandRowButton';
-import Icon from '../../../../presentation/atoms/Icon/index';
-import Menu, {MenuItem} from "../../../../presentation/atoms/Menu";
+import Button from '../../../../common/atoms/Button';
+import ExpandRowButton from '../../../../common/atoms/ExpandRowButton';
+import Icon from '../../../../common/atoms/Icon';
+import Menu, {MenuItem} from "../../../../common/atoms/Menu";
 
 import LpisCaseStatuses, {evaluationConclusions as LpisEvaluation} from '../../../../../constants/LpisCaseStatuses';
 

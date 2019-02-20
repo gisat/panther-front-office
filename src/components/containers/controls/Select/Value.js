@@ -1,7 +1,7 @@
 import classes from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
-import Icon from '../../../presentation/atoms/Icon';
+import Icon from '../../../common/atoms/Icon';
 import './Item.scss';
 
 

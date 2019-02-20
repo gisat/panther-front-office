@@ -2,8 +2,8 @@ import React from 'react';
 import classNames from 'classnames';
 import PropTypes from 'prop-types';
 
-import Button from '../../../../presentation/atoms/Button';
-import Icon from '../../../../presentation/atoms/Icon';
+import Button from '../../../../common/atoms/Button';
+import Icon from '../../../../common/atoms/Icon';
 
 
 class ChangeReviewsTableRow extends React.PureComponent {

@@ -7,7 +7,7 @@ import Names from '../../../../constants/Names'
 
 import './style.css';
 
-import Button from '../../../presentation/atoms/Button';
+import Button from '../../atoms/Button';
 import InputText from '../../atoms/Input/Input';
 
 let polyglot = window.polyglot;

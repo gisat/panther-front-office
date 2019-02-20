@@ -6,7 +6,7 @@ import classNames from 'classnames';
 
 import './CaseList.css'
 
-import Button from '../../../atoms/Button';
+import Button from '../../../../common/atoms/Button';
 import Names from '../../../../../constants/Names';
 
 let polyglot = window.polyglot;

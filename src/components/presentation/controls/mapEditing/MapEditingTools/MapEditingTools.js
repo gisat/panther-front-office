@@ -7,7 +7,7 @@ import _ from 'lodash';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 
-import Icon from '../../../atoms/Icon';
+import Icon from '../../../../common/atoms/Icon';
 import './MapEditingTools.css';
 
 let polyglot = window.polyglot;

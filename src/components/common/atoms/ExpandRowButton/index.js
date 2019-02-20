@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 
 import classNames from 'classnames';
 
-import Button from './Button';
+import Button from '../Button';
+
+import './style.css';
 
 
 class ExpandRowButton extends React.PureComponent {

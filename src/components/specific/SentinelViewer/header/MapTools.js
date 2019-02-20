@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from "../../../presentation/atoms/Button";
+import Button from "../../../common/atoms/Button";
 import MapsGridIcon from "../../../presentation/atoms/MapsGridIcon";
 
 class MapTools extends React.PureComponent {

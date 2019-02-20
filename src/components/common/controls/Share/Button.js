@@ -5,7 +5,7 @@ import Action from "../../../../state/Action";
 import { connect } from 'react-redux';
 import classNames from 'classnames';
 
-import Button from '../../../presentation/atoms/Button';
+import Button from '../../atoms/Button';
 
 
 const mapStateToProps = (state, props) => {

@@ -4,10 +4,10 @@ import utils from '../../../../../utils/utils';
 import _ from 'lodash';
 import classNames from 'classnames';
 
-import Button from '../../../atoms/Button';
-import Center from '../../../atoms/Center';
-import Icon from '../../../atoms/Icon';
-import Menu, {MenuItem} from '../../../atoms/Menu';
+import Button from '../../../../common/atoms/Button';
+import Center from '../../../../common/atoms/Center';
+import Icon from '../../../../common/atoms/Icon';
+import Menu, {MenuItem} from '../../../../common/atoms/Menu';
 import EditableText from '../../../../common/atoms/EditableText';
 import ScenarioCard from '../../../../containers/controls/scenarios/ScenarioCard';
 import CaseDetailWorldWindMap from '../../../../presentation/maps/CaseDetailWorldWindMap/CaseDetailWorldWindMap';

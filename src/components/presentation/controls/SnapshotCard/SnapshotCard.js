@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import './SnapshotCard.css';
-import Icon from "../../atoms/Icon";
+import Icon from "../../../common/atoms/Icon";
 import viewUtils from "../../../../util/viewUtils";
 
 class SnapshotCard extends React.PureComponent {
