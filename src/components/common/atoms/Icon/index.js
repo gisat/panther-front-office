@@ -34,32 +34,29 @@ import RotateRightCircularArrow from './rotateRightCircularArrow';
 
 import './icon.css';
 
-const icon = (key, props) => {
+const icon = key => {
 	switch(key) {
-		case 'angle-double-right':
-			return getAngleDoubleRight();
-		case 'angle-double-left':
-			return getAngleDoubleLeft();
-		case 'angle-double-up':
-			return getAngleDoubleUp();
-		case 'angle-double-down':
-			return getAngleDoubleDown();
-		case 'angle-right':
-			return getAngleRight();
-		case 'angle-left':
-			return getAngleLeft();
-		case 'angle-up':
-			return getAngleUp();
-		case 'angle-down':
-			return getAngleDown();
+		// case 'angle-double-right':
+		// 	return getAngleDoubleRight();
+		// case 'angle-double-left':
+		// 	return getAngleDoubleLeft();
+		// case 'angle-double-up':
+		// 	return getAngleDoubleUp();
+		// case 'angle-double-down':
+		// 	return getAngleDoubleDown();
+		// case 'angle-right':
+		// 	return getAngleRight();
+		// case 'angle-left':
+		// 	return getAngleLeft();
+		// case 'angle-up':
+		// 	return getAngleUp();
+		// case 'angle-down':
+		// 	return getAngleDown();
 		case 'arrow-left':
 		case 'back':
 			return <ArrowLeft />;
-		case 'circle':
-			return <Circle
-				color={props.color}
-				opacity={props.opacity}
-			/>;
+		// case 'circle':
+		// 	return <Circle />;
 		case 'delete':
 			return <Delete />;
 		case 'dots':
@@ -94,41 +91,33 @@ const icon = (key, props) => {
 			return <TiltLess />;
 		case 'tilt-more':
 			return <TiltMore />;
-		case 'sort-down':
-			return getSortDown();
-		case 'sort-up':
-			return getSortUp();
+		// case 'sort-down':
+		// 	return getSortDown();
+		// case 'sort-up':
+		// 	return getSortUp();
 		case 'upload':
 			return <Upload />;
-		case 'times':
-			return getTimes();
+		// case 'times':
+		// 	return getTimes();
 		default:
 			return null;
 	}
 };
 
-export default props => {
-
-	const width = props.width || 32;
-	const height = props.height || 32;
-	const defaultViewBox = `0 0 ${width} ${height}`;
-	const Icon = icon(props.icon, props);
-	const IconElement = React.isValidElement(Icon) ? Icon : Icon.element;
-	const iconViewBox = React.isValidElement(Icon) ? null : Icon.viewBox;
-	
-	return <svg
-		style={props.style}
+export default props => (
+	<svg
+		style={props.style} //todo better solution (used for transform: rotate)
 		version="1.1"
 		xmlns="http://www.w3.org/2000/svg"
 		xmlnsXlink="http://www.w3.org/1999/xlink"
 		x="0px"
 		y="0px"
-		width={`${width}px`}
-		height={`${height}px`}
-		viewBox={props.viewBox || iconViewBox|| defaultViewBox}
+		width="32px"
+		height="32px"
+		viewBox="0 0 32 32"
 		xmlSpace="preserve"
-		className={`ptr-icon ${props.className ? props.className : ''}`}
+		className={`ptr-icon ${props.className || ''}`}
 	>
-		{IconElement}
+		{icon(props.icon)}
 	</svg>
-};
+);

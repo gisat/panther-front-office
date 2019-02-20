@@ -1,19 +1,16 @@
-.ptr-icon.ptr-inline-icon{
-    height: 1em;
-    width: 1em;
-    fill: currentColor;
+/* todo evaluate everything */
+.ptr-icon.ptr-inline-icon {
+	height: 1em;
+	width: 1em;
+	fill: currentColor;
 }
 
-.ptr-icon-baseline .ptr-icon.ptr-inline-icon{
-    top: .2em;
-    position: relative;
+.ptr-icon-baseline .ptr-icon.ptr-inline-icon {
+	top: .2em;
+	position: relative;
 }
 
-.ptr-icon-inline-wrap{
-    display: inline-flex;
-    align-self: center;
-}
-
-.ptr-icon.hover{
-    cursor: pointer;
+.ptr-icon-inline-wrap {
+	display: inline-flex;
+	align-self: center;
 }
