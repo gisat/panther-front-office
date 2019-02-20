@@ -1,17 +1,12 @@
 import classes from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
-import Icon from '../../../common/atoms/Icon';
+import Key from '../Key';
 import './Item.scss';
 
 
 class Value extends React.PureComponent {
-	constructor() {
-		super();
-		// this.handleOnRemove = this.handleOnRemove.bind(this);
-	}
 
-	
 	blockEvent (event) {
 		event.stopPropagation();
 	}
@@ -21,9 +16,7 @@ class Value extends React.PureComponent {
 		const IDtooltip = this.props.option && this.props.option.key && this.props.option.key.length > 10 ? this.props.option.key : null;
 		return (
 			<span className="label" key='label'>
-				<span className="option-id" title = {IDtooltip}>
-					{this.props.option.key}
-				</span>
+				<Key value={this.props.option.key} />
 				<span>
 					{labelText}
 				</span>
@@ -49,7 +42,6 @@ class Value extends React.PureComponent {
 		)
 
 		if (this.props.optionLabelClick) {
-			// 'ptr-item ptr-icon-inline-wrap'
 
 			return(
 				<a className={classes('ptr-item', this.props.option.className)}

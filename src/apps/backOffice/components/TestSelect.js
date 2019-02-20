@@ -1,7 +1,7 @@
 import React from 'react';
 // import UIObjectSelect from 'components/containers/controls/Select/Select'
-import MultiSelect from '../../../components/containers/controls/Select/Select'
-import AddValue from 'components/containers/controls/Select/AddValue';
+import MultiSelect from 'apps/backOffice/components/Select/Select';
+import AddValue from 'apps/backOffice/components/Select/AddValue';
 
 class Test extends React.PureComponent {
 	render() {

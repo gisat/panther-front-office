@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from "prop-types";
 import _ from 'lodash';
 import {withNamespaces} from "react-i18next";
-import Value from '../../../../components/containers/controls/Select/Value';
-import Icon from '../../../../components/common/atoms/Icon';
+import Value from '../Select/Value';
+import Icon from 'components/common/atoms/Icon';
 
 class MetadataList extends React.PureComponent {
 	static propTypes = {

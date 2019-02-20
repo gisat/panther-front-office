@@ -1,3 +1,4 @@
+@import '../../../styles/variables';
 .ptr-navlist{
     background-color: var(--base1);
 }
@@ -18,7 +19,10 @@
     border-left-color: var(--base3);
 }
 .ptr-navlist li.ptr-nav-item:hover {
-    border-left-color: var(--accent5)
+    border-left-color: $accent6;
+}
+.ptr-navlist li.ptr-nav-item.selected {
+    border-left-color: $accent6;
 }
 
 .ptr-navlist li.ptr-nav-item a, 
@@ -37,5 +41,9 @@
 
 .ptr-navlist li.ptr-nav-item-folder,
 .ptr-navlist li.ptr-nav-item a {
-    padding: 10px 20px;
+    padding: m(.5) m(1.5);
+}
+
+.ptr-navlist li.ptr-nav-item a.selected{
+    background: $accent3;
 }

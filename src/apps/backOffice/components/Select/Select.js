@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 // import Select from 'react-select';
 import SelectCreatable from 'react-select/lib/Creatable';
 import Value from './Value';
-import Icon from '../../../../components/common/atoms/Icon';
+import Option from './SelectOption';
+import Icon from 'components/common/atoms/Icon';
 
-import './select.css';
-
+import './select.scss';
 
 const getInitialState = (props) => {
     return {
@@ -215,6 +215,9 @@ class MultiSelect extends React.PureComponent {
             <div>
                 {selectedItems ? <div className='items'>{selectedItems}</div> : null}
                 <SelectCreatable
+                        components={{
+                            Option: Option,
+                        }}
                         value={''}
                         onChange={this.handleChange}
                         options={restOptions}
@@ -223,6 +226,7 @@ class MultiSelect extends React.PureComponent {
                         onCreateOption={(createValue) => {this.handleAddValue(createValue)}}
                         className={'ptr-select-container'}
                         classNamePrefix={'ptr-select'}
+                        // menuIsOpen={true}
                         />
             </div>
         )

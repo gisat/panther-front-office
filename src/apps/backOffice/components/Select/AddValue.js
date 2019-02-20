@@ -1,11 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import Select from 'react-select';
-import SelectCreatable from 'react-select/lib/Creatable';
 import Value from './Value';
 import Icon from '../../../../components/common/atoms/Icon';
-
-
 
 class AddValue extends React.PureComponent {
     render() {
@@ -29,7 +25,7 @@ class AddValue extends React.PureComponent {
             className:`${className} ptr-option-add`,
             value: this.props.option && this.props.option.value || 'itemAdd',
         }
-        debugger
+        
 
         return (
             <Value 
@@ -41,6 +37,11 @@ class AddValue extends React.PureComponent {
                 />
         )
     }
+}
+
+AddValue.propTypes = {
+    option: PropTypes.object,
+    onOptionLabelClick: PropTypes.func,
 }
 
 export default AddValue;

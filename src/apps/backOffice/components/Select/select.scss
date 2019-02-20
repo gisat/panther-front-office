@@ -1,0 +1,95 @@
+@import '../../../../styles/variables';
+@import '../../styles/variables';
+
+.ptr-select-container .ptr-select__control {
+    display: flex;
+    border-radius: $form-border-radius;
+	border: 2px dashed $bo-accent3;
+	box-shadow: none;
+    background: none;
+    margin-bottom: .875rem;
+    padding: 0 .375rem;
+    color: var(--base6);
+    position: relative;
+    line-height: $a2;
+    min-height: $a2;
+}
+
+.ptr-select-container .ptr-select__control.ptr-select__control--menu-is-focused,
+.ptr-select-container .ptr-select__control.ptr-select__control--menu-is-open {
+	box-shadow: none;
+	border-color: $accent5;
+	border-style: solid;
+}
+
+.ptr-select-container .ptr-select__value-container {
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+.ptr-select-container .ptr-select__value-container > div {
+	padding-top: 0px;
+	padding-bottom: 0px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.ptr-select-container .ptr-select__control:hover {
+	border-color: $accent5;
+}
+
+.ptr-select-container .ptr-select__indicator-separator {
+	background-color: var(--base6);
+	margin-bottom: 4px;
+    margin-top: 4px;
+}
+
+.ptr-select-container .ptr-select__dropdown-indicator {
+	color: var(--base6);
+	padding: 0px;
+	cursor: pointer;
+}
+
+.ptr-select-container .ptr-select__dropdown-indicator svg{
+	width: $a1;
+	height: $a1;
+}
+
+.ptr-select-container .ptr-select__placeholder {
+	color: var(--base6);
+}
+
+.ptr-select-container .ptr-select__menu {
+	margin-top: 0px;
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+}
+
+.ptr-select-container .ptr-select__menu .ptr-select__menu-list {
+	color: var(--base6);
+}
+.ptr-select-container .ptr-select__menu .ptr-select__option.ptr-select__option {
+	cursor: pointer;
+	padding: 0px 12px;
+}
+.ptr-select-container .ptr-select__menu .ptr-select__option.ptr-select__option--is-focused {
+	background-color: $accent2;
+}
+
+.ptr-select-container .ptr-select__menu .ptr-select__option .label{
+	display: flex;
+    margin-left: 0.5rem;
+    line-height: $a2;
+}
+
+.ptr-select-container .ptr-select__menu .ptr-select__option .option-id{
+	line-height: $a2;
+	color: var(--base4);
+	display: inline-block;
+	font-size: .75rem;
+	text-align: center;
+	margin-right: 1ch;
+	text-overflow: ellipsis;
+    max-width: 8ch;
+    white-space: nowrap;
+    overflow: hidden;
+}

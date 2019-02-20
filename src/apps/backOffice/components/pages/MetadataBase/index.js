@@ -35,10 +35,12 @@ class MetadataBase extends React.PureComponent {
 		]
 	}
 	render() {
+		const location = this.props.match.path;
+		
 		return (
 			<div className="ptr-base-page ptr-bo-metadata-base">
 				<div className="ptr-bo-metadata-base-menu">
-					<NavList items={this.navList} />
+					<NavList items={this.navList} location={location}/>
 				</div>
 				<div className="ptr-bo-metadata-base-list">
 					<Switch>

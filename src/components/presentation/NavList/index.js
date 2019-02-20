@@ -1,11 +1,12 @@
 import React from "react";
 import PropTypes from 'prop-types';
-import { NavLink } from 'react-router-dom'
+import { NavLink, withRouter } from 'react-router-dom'
+import { matchPath } from 'react-router';
 
 import isArray from 'lodash/isArray';
 import isObject from 'lodash/isObject';
 
-import './navlist.css';
+import './navlist.scss';
 
 
 class NavList extends React.PureComponent {
@@ -23,9 +24,13 @@ class NavList extends React.PureComponent {
                         </ul>]
                         )
             case 'leaf':
+                const isLeafActive = !!matchPath(
+                    this.props.location.pathname, 
+                    descendant.path
+                    ); 
                return <li 
                         key={descendant.title}
-                        className={'ptr-nav-item'}>
+                        className={`ptr-nav-item ${isLeafActive ? 'selected' : ''}`}>
                         <NavLink
                             to={descendant.path}
                             activeClassName="selected"
@@ -65,4 +70,4 @@ NavList.defaultProps = {
     items: PropTypes.array.isRequired,
 };
 
-export default NavList;
+export default withRouter(NavList);

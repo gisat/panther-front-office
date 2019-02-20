@@ -1,13 +1,14 @@
 @import '../../../../styles/variables';
+@import '../../styles/variables';
 
 .ptr-item,
 a.ptr-item {
 	display: flex;
-	border-radius: .25rem;
+	border-radius: $form-border-radius;
 	border: 2px solid $bo-accent3;
 	background: $bo-accent-lighter0;
-	margin-bottom: .875rem;
-	padding: 0 .5rem;
+	margin-bottom: $b1;
+	padding: 0 m(.25);
 	color: $accent8;
 	position: relative;
 }
@@ -16,18 +17,13 @@ a.ptr-item {
 	cursor: pointer;
 }
 
-/* .ptr-item:hover,
-a.ptr-item:hover {
-	color: var(--accent7);
-} */
-
 .ptr-item .ptr-icon.hover:hover{
-	color: var(--accent5);
+	color: $accent5;
 }
 
 .ptr-item span,
 .ptr-item .option-id{
-	line-height: 1.875rem;
+	line-height: $a2;
 }
 
 .ptr-item:hover {
@@ -37,17 +33,15 @@ a.ptr-item:hover {
 
 .ptr-item .label{
 	display: flex;
-	margin-left: 0.5rem;
+	margin-left: m(.25);
 }
 
 .ptr-item .option-id{
 	color: var(--base4);
 	display: inline-block;
-	font-size: .75rem;
+	font-size: m(.5);
 	text-align: center;
-	margin-right: 1ch;
-	text-overflow: ellipsis;
-    max-width: 8ch;
+	margin-right: $a1;
     white-space: nowrap;
     overflow: hidden;
 }
@@ -64,8 +58,8 @@ a.ptr-item:hover {
 }
 
 .ptr-item .ptr-order-placeholder{
-	width: 16px;
-	height: 16px;
+	width: $a1;
+	height: $a1;
 }
 
 
