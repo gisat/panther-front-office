@@ -2,6 +2,7 @@
 
 .ptr-screens {
 	@include positionFill;
+	overflow: hidden;
 	display: flex;
 }
 .ptr-screen {
