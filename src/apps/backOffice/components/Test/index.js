@@ -18,6 +18,15 @@ class Test extends React.PureComponent {
 				<div className="testy t2 ptr-dark">
 					<div/><div/><div/><div/><div/><div/><div/><div/><div/><div/><div/>
 				</div>
+				<div className="testy ptr-bo-colours">
+					<div/><div/><div/><div/><div/><div/><div/><div/><div/><div/><div/>
+				</div>
+				<div className="testy t2 ptr-bo-colours">
+					<div/><div/><div/><div/><div/><div/><div/><div/><div/><div/><div/>
+				</div>
+				<div className="testy t3 ptr-bo-colours">
+					<div/><div/><div/><div/><div/><div/><div/><div/><div/><div/><div/>
+				</div>
 			</div>
 		);
 	}

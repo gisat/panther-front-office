@@ -1,3 +1,5 @@
+@import "../../../../styles/variables";
+
 .ptr-bo-test {
 	width: 100%;
 }
@@ -77,4 +79,16 @@
 }
 .testy.t2 > div:nth-child(11) {
 	background-color: var(--accent10);
+}
+.testy.t3 > div {
+	background-color: var(--accent0);
+}
+.testy.t3 > div:nth-child(2) {
+	background-color: $bo-accent-lighter1;
+}
+.testy.t3 > div:nth-child(3) {
+	background-color: $bo-accent-lighter2;
+}
+.testy.t3 > div:nth-child(4) {
+	background-color: $bo-accent-lighter3;
 }
