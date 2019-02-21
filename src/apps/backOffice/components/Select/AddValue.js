@@ -32,7 +32,6 @@ class AddValue extends React.PureComponent {
                 option={option}
                 endItems = {endItems}
                 startItems = {startItems}
-                optionLabelClick = {true}
                 onOptionLabelClick={this.props.onOptionLabelClick}
                 />
         )

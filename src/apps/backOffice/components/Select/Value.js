@@ -1,7 +1,7 @@
 import classes from 'classnames';
 import React from 'react';
 import PropTypes from 'prop-types';
-import Key from '../Key';
+import {getLabel} from './utils';
 import './Item.scss';
 
 
@@ -11,21 +11,9 @@ class Value extends React.PureComponent {
 		event.stopPropagation();
 	}
 
-	getLabel() {
-		const labelText = this.props.renderer ? this.props.renderer(this.props.option) : this.props.option.label;
-		const IDtooltip = this.props.option && this.props.option.key && this.props.option.key.length > 10 ? this.props.option.key : null;
-		return (
-			<span className="label" key='label'>
-				<Key value={this.props.option.key} />
-				<span>
-					{labelText}
-				</span>
-			</span>)
-	}
-
 	render () {
 
-		const label = this.getLabel();
+		const label = getLabel({...this.props.option, renderer: this.props.renderer});
 
 		const itemContent = (
 				[
@@ -41,8 +29,7 @@ class Value extends React.PureComponent {
 				]
 		)
 
-		if (this.props.optionLabelClick) {
-
+		if (typeof this.props.onOptionLabelClick === 'function') {
 			return(
 				<a className={classes('ptr-item', this.props.option.className)}
 					style={{display:'flex'}}
@@ -68,16 +55,9 @@ class Value extends React.PureComponent {
 Value.propTypes = {
 	disabled: PropTypes.bool,                   // disabled prop passed to ReactSelect
 	onOptionLabelClick: PropTypes.func,         // method to handle click on value label
-	// onRemove: PropTypes.func,                   // method to handle remove of that value
-	// ordered: PropTypes.bool,                    // indicates if ordered values
-	// onMoveUp: PropTypes.func,                   // method to handle ordering
-	// onMoveDown: PropTypes.func,                 // method to handle ordering
-
 	endItems: PropTypes.arrayOf(PropTypes.element),
 	startItems: PropTypes.arrayOf(PropTypes.element),
-
 	option: PropTypes.object.isRequired,        // option passed to component
-	optionLabelClick: PropTypes.bool,           // indicates if onOptionLabelClick should be handled
 	renderer: PropTypes.func                    // method to render option label passed to ReactSelect
 }
 
