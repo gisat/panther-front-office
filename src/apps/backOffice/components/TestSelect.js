@@ -1,6 +1,6 @@
 import React from 'react';
 // import UIObjectSelect from 'components/containers/controls/Select/Select'
-import MultiSelect from 'apps/backOffice/components/Select/Select';
+import Select from 'apps/backOffice/components/Select/MultiSelect';
 import AddValue from 'apps/backOffice/components/Select/AddValue';
 
 class Test extends React.PureComponent {
@@ -26,7 +26,7 @@ class Test extends React.PureComponent {
                     />
                 </div>
 
-                <MultiSelect
+                <Select
                     options = {options}
                     selectedValues = {selectedValues}
                     ordered={true}
@@ -34,8 +34,7 @@ class Test extends React.PureComponent {
                     onOptionLabelClick={(item) => {console.log('item click ', item)}}
                     onAdd={(value) => {console.log('value created ', value)}}
                     // creatable
-
-						/>
+						      />
 			  </div>
 			</div>
 		);
