@@ -6,6 +6,17 @@ measure unit - use whole numbers or thirds if neccessary
 }
 
 /**
+fill container with position context
+ */
+@mixin positionFill() {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
+/**
 font sizes
  */
 $a0: .618rem;
@@ -77,6 +88,6 @@ $bo-accent8:  #19322f;
 $bo-accent9:  #131d1b;
 $bo-accent10:  #040300;
 
-$bo-accent-lighter0: #aecbc8;
-$bo-accent-lighter1: #c1d7d5;
-$bo-accent-lighter2: #d3e3e2;
+$bo-accent-lighter1: #aecbc8;
+$bo-accent-lighter2: #c1d7d5;
+$bo-accent-lighter3: #d3e3e2;

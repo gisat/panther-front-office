@@ -15,13 +15,13 @@ class AppContainer extends React.PureComponent {
 
 	render() {
 
-		let classes = {
+		let classes = classNames({
 			'ptr-light': this.props.light || !this.props.dark,
 			'ptr-dark': this.props.dark
-		};
+		});
 
 		return (
-			<div className={classNames("ptr-app-container", classes)}>
+			<div id="ptr-app" className={classes}>
 				{this.renderContent()}
 			</div>
 		);

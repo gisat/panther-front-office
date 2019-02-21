@@ -1,11 +1,7 @@
 @import '../../../styles/variables';
 
 .ptr-bo-page {
-	position: absolute;
-	top: 0;
-	right: 0;
-	bottom: 0;
-	left: 0;
+	@include positionFill;
 
 	display: flex;
 	flex-direction: column;
@@ -22,6 +18,7 @@
 
 .ptr-bo-content {
 	flex-grow: 1;
+	position: relative;
 }
 
 .ptr-base-page{

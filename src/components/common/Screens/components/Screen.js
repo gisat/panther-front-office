@@ -53,7 +53,6 @@ class Screen extends React.PureComponent {
 			<div className={classes} style={screenStyle} onFocus={this.onFocus}>
 				<div className="ptr-screen-scroll" style={screenScrollStyle} tabIndex="0">
 					{this.props.content}
-					<p>{this.props.lineage}</p>
 				</div>
 				{this.props.disabled ? <div className="ptr-screen-overlay" onClick={this.onOpenClick}></div> : null}
 				{!this.props.noControls ? <div className="ptr-screen-controls top" onClick={this.onCloseClick}>x</div> : null}

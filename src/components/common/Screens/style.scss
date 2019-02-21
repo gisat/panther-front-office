@@ -1,13 +1,12 @@
 @import '../../../styles/variables';
 
 .ptr-screens {
+	@include positionFill;
 	display: flex;
-	height: 100vh;
 }
 .ptr-screen {
 	position: relative;
 	background: $bo0;
-	border: 1px solid;
 	transition: width .5s ease-in-out;
 }
 .ptr-screen.open {

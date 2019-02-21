@@ -48,7 +48,6 @@ export default (path) => {
 	ReactDOM.render(
 		<Provider store={Store}>
 			<AppContainer loginRequired>
-				<User/>
 				<ConnectedRouter history={history}>
 					<Switch>
 						<Route exact path={path + "/"} render={page(Test)} />
