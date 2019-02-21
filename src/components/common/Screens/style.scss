@@ -9,6 +9,7 @@
 	position: relative;
 	background: $bo0;
 	transition: width .5s ease-in-out;
+	box-shadow: -5px 0 15px -5px rgba(0, 0, 0, .6)
 }
 .ptr-screen.open {
 	flex-grow: 1;
@@ -40,11 +41,56 @@
 	left: 0;
 	bottom: 0;
 	right: 0;
-	background: rgba(120, 120, 120, .4);
-	cursor: pointer;
-	transition: background .3s ease-in-out;
+	background: transparent;
+	pointer-events: none;
+	transition: background .2s ease-in-out;
 }
 
-.ptr-screen-overlay:hover {
-	background: rgba(120, 120, 120, .3);
+.ptr-screen.disabled > .ptr-screen-overlay {
+	background: rgba(120, 120, 120, .5);
+	pointer-events: all;
+	cursor: pointer;
+}
+
+.ptr-screen.disabled > .ptr-screen-overlay:hover {
+	background: rgba(120, 120, 120, .35);
+}
+
+// experimental - todo test performance (compatibility should be ok now)
+.ptr-screen.disabled > .ptr-screen-scroll {
+	filter: blur(1px);
+}
+
+
+.ptr-screen-scroll::-webkit-scrollbar {
+	width: .9375rem;
+}
+.ptr-screen-scroll::-webkit-scrollbar-button {
+	height: .9375rem;
+	background: rgba(0,0,0,.17);
+}
+.ptr-screen-scroll::-webkit-scrollbar-button:vertical:decrement {
+	/* up */
+	background-image: url(./i/triangle-up.svg);
+	background-size: contain;
+}
+.ptr-screen-scroll::-webkit-scrollbar-button:vertical:increment {
+	/* down */
+	background-image: url(./i/triangle-down.svg);
+	background-size: contain;
+}
+.ptr-screen-scroll::-webkit-scrollbar-track {
+	background: rgba(0,0,0,.1);
+}
+.ptr-screen-scroll::-webkit-scrollbar-thumb {
+	background: rgba(0,0,0,.15);
+}
+.ptr-screen-scroll::-webkit-scrollbar-thumb:hover, .ptr-screen-scroll::-webkit-scrollbar-button:hover {
+	background: rgba(60,30,0,.2);
+}
+.ptr-screen-scroll::-webkit-scrollbar-thumb:active, .ptr-screen-scroll::-webkit-scrollbar-button:active {
+	background: rgba(40,35,20,.5);
+}
+.ptr-screen-scroll::-webkit-scrollbar-thumb:window-inactive {
+	background: rgba(0,0,0,.075);
 }
