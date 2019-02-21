@@ -28,8 +28,8 @@ import en from "./locales/en/common";
 // override and extend locales in namespaces
 utils.addI18nResources('common', {cz, en});
 
-const page = (component, screenSetKey) => props => {
-	props = {...props, screenSetKey};
+const page = (component, screenSetKey, appPath) => props => {
+	props = {...props, screenSetKey, appPath};
 	return (
 		<Page {...props}>
 			{React.createElement(component, {...props})}
@@ -50,10 +50,10 @@ export default (path) => {
 			<AppContainer loginRequired>
 				<ConnectedRouter history={history}>
 					<Switch>
-						<Route exact path={path + "/"} render={page(Test)} />
-						<Route exact path={path + "/test"} render={page(Test)} />
-						<Route exact path={path + "/testselect"} render={page(TestSelectPage)} />
-						<Route path={path + "/metadata"} render={page(MetadataBase, "metadata")} />
+						<Route exact path={path + "/"} render={page(Test, "base", path)} />
+						<Route exact path={path + "/test"} render={page(Test, "test", path)} />
+						<Route exact path={path + "/testselect"} render={page(TestSelectPage, "testselect", path)} />
+						<Route path={path + "/metadata"} render={page(MetadataBase, "metadata", path)} />
 					</Switch>
 				</ConnectedRouter>
 			</AppContainer>

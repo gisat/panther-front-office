@@ -1,0 +1,48 @@
+@import '../../../../styles/variables';
+
+.ptr-bo-top-bar-quick-access {
+	height: 100%;
+}
+.ptr-bo-top-bar-quick-access > a {
+	display: inline-block;
+	height: 100%;
+	min-width: m(2);
+	transition: background .3s ease-out;
+}
+.ptr-bo-top-bar-quick-access > a > .ptr-icon {
+	width: m(1 + 2/3);
+	height: m(1 + 2/3);
+	margin: m(1/6);
+}
+.ptr-bo-top-bar-quick-access > a > .ptr-icon .line {
+	fill: var(--base2);
+	transition: fill .3s ease-out;
+}
+.ptr-bo-top-bar-quick-access > a > .ptr-icon .first {
+	fill: var(--base10);
+}
+.ptr-bo-top-bar-quick-access > a > .ptr-icon .second {
+	fill: var(--accent6);
+	transition: fill .3s ease-out;
+}
+
+
+.ptr-bo-top-bar-quick-access > a:hover {
+	background-color: var(--base8);
+}
+.ptr-bo-top-bar-quick-access > a:hover > .ptr-icon .line {
+	fill: var(--base0);
+}
+.ptr-bo-top-bar-quick-access > a:hover > .ptr-icon .second {
+	fill: var(--accent5);
+}
+
+.ptr-bo-top-bar-quick-access > a.active {
+	background-color: var(--accent4);
+}
+.ptr-bo-top-bar-quick-access > a.active > .ptr-icon .line {
+	fill: var(--base0);
+}
+.ptr-bo-top-bar-quick-access > a.active > .ptr-icon .second {
+	fill: var(--accent5);
+}
