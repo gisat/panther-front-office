@@ -7,6 +7,7 @@ import ThemeSelector from '../components/common/viewSelectors/ThemeSelector';
 import PeriodsSelector from "../components/common/viewSelectors/PeriodsSelector";
 import VisualizationSelector from "../components/common/viewSelectors/VisualizationSelector";
 import ShareButton from '../components/common/controls/Share/Button';
+import VisualizationManagement from "../components/common/viewSelectors/VisualizationManagement";
 
 const MagicSwitch = ({scope, isLoggedIn}) => {
 	if (scope && scope.data) {
@@ -23,11 +24,16 @@ const MagicSwitch = ({scope, isLoggedIn}) => {
 		} else if (!scope.data.viewSelection) {
 			return (
 				<div className="ptr-view-selection-wrapper">
-					<PlaceSelector/>
-					<ThemeSelector/>
-					<PeriodsSelector/>
-					<VisualizationSelector/>
-					{isLoggedIn ? <div className="ptr-view-selection-container"><ShareButton/></div> : null}
+					<div className="ptr-view-selection-selectors">
+						<PlaceSelector/>
+						<ThemeSelector/>
+						<PeriodsSelector/>
+						<VisualizationSelector/>
+						<VisualizationManagement/>
+					</div>
+					<div className="ptr-view-selection-tools">
+						{isLoggedIn ? <div className="ptr-view-selection-container"><ShareButton/></div> : null}
+					</div>
 				</div>
 			);
 		}

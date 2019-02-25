@@ -763,10 +763,12 @@ todo merge with overlay
 }
 
 /* == View Selector =============================================== */
+#view-selector-placeholder {
+	width: 100%;
+}
 .ptr-view-selection-wrapper {
 	align-items: center;
 	display: flex;
-	flex-wrap: wrap;
 }
 .ptr-view-selection-container {
 	align-items: center;
@@ -774,9 +776,16 @@ todo merge with overlay
 	height: 100%;
 	margin: .15rem 1rem .15rem 0;
 }
-
-.ptr-place-selector {
-
+.ptr-view-selection-selectors {
+	display: flex;
+	flex-grow: 1;
+}
+.ptr-view-selection-visualization {
+	margin-right: .5rem;
+}
+.ptr-visualization-management {
+	display: flex;
+	align-items: center;
 }
 
 .ptr-view-selection-selector.ptr-ui-select .ptr-ui-select-label {

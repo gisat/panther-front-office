@@ -1,0 +1,15 @@
+.ptr-visualization-button {
+	margin-right: .5rem;
+	width: 1.5rem;
+	font-size: .925rem;
+	background: rgba(255,255,255,.15);
+	color: rgb(153, 153, 153);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 1.8rem;
+}
+.ptr-visualization-button:hover {
+	color: rgb(153, 153, 153);
+	background: rgba(255,255,255,.25);
+}

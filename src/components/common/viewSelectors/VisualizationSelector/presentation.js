@@ -58,7 +58,7 @@ class VisualizationSelector extends React.PureComponent {
 		let classes = classNames("ptr-visualization-selector ptr-view-selection-selector", this.props.classes);
 
 		return (this.props.visualizations ? (
-			<div className="ptr-view-selection-container">
+			<div className="ptr-view-selection-container ptr-view-selection-visualization">
 				<UISelect
 					key='theme-selector'
 					clearable={false}
