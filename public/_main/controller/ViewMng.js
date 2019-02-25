@@ -92,6 +92,7 @@ Ext.define('PumaMain.controller.ViewMng', {
     },
     onDelete: function(grid,rec) {
         rec.destroy();
+		window.Stores.notify("VISUALISATIONS_REFRESH");
 	},
     onShare: function(options) {
 		const onSave = (rec,operation) => {
@@ -158,7 +159,9 @@ Ext.define('PumaMain.controller.ViewMng', {
 				data: rec.data.conf,
 				permissions: rec.data.permissions
 			}]);
-        }
+        } else {
+        	window.Stores.notify("VISUALISATIONS_REFRESH", {key: rec.data._id});
+		}
 	},
 
 	showUrl: function(baseUrl, selectedGroup, selectedUser, language){

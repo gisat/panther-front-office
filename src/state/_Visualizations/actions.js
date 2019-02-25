@@ -5,6 +5,7 @@ import common from '../_common/actions';
 import Select from "../Select";
 
 // ============ creators ===========
+const add = common.add(ActionTypes.VISUALIZATIONS);
 const setActiveKey = common.setActiveKey(ActionTypes.VISUALIZATIONS);
 const useKeys = common.useKeys(Select.visualizations.getSubstate, 'visualizations', ActionTypes.VISUALIZATIONS);
 const useIndexed = common.useIndexed(Select.visualizations.getSubstate, 'visualizations', ActionTypes.VISUALIZATIONS);
@@ -43,12 +44,14 @@ function actionInitializeForExt() {
 // ============ export ===========
 
 export default {
+	add,
 	ensureIndexesWithFilterByActive,
 	refreshUses,
 	useIndexed,
 	useIndexedClear: actionClearUseIndexed,
 	useKeys,
 	setActiveKey,
+	setOutdated: common.actionDataSetOutdated,
 
 	initializeForExt: actionInitializeForExt,
 
