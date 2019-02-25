@@ -17,16 +17,13 @@ Ext.define('PumaMain.controller.ViewMng', {
                         recdeleted: this.onDelete,
                         urlopen: this.onUrlOpen
                     },
+					'commonsaveform #save' : {
+						click: this.onSave
+					},
                     '#savevisualization': {
                         click: this.onVisSave
                     },
                     '#managevisualization': {
-                        click: this.onVisOrViewManage
-                    },
-                    '#savedataview': {
-                        click: this.onViewSave
-                    },
-                    '#managedataview': {
                         click: this.onVisOrViewManage
                     },
                     '#sharedataview': {
@@ -35,8 +32,8 @@ Ext.define('PumaMain.controller.ViewMng', {
                 })
 
         Observer.notify('ViewMng#init');
+		window.Stores.addListener(this.onEvent.bind(this));
     },
-    
     onUrlOpen: function(grid,rec) {
         var url = window.location.origin+window.location.pathname+'?id='+rec.get('_id');
 
@@ -124,6 +121,17 @@ Ext.define('PumaMain.controller.ViewMng', {
 			callback: onSave
 		});
 	},
+	onSave: function(btn) {
+		var form = btn.up('form');
+		var name = form.getComponent('name').getValue();
+		var rec = form.rec;
+		rec.set('name',name);
+		rec.save({
+			callback: this.onSaveFinish
+		});
+		btn.up('window').close();
+
+	},
 
     onSaveFinish: function(rec, operation, group, user, language) {
         var isView = rec.modelName == 'Puma.model.DataView';
@@ -169,57 +177,61 @@ Ext.define('PumaMain.controller.ViewMng', {
     },
         
     onVisOrViewManage: function(btn) {
-		if (btn.itemId == 'managevisualization') {
-			var window = Ext.widget('window',{
-				layout: 'fit',
-				width: 300,
-				title: polyglot.t('manageVisualizations'),
-				id: 'window-' + btn.itemId,
-				height: 400,
-				y: 200,
-				bodyCls: 'manageDwWindow',
-				items: [{
-					xtype: 'commonmnggrid',
-					allowReorder: true,
-					store: Ext.StoreMgr.lookup('visualization4sel')
-				}]
-			});
-			window.show();
+    	let component = Ext.getCmp('window-' + btn.itemId);
+    	if (component) {
+    		component.destroy();
 		} else {
-			var window2 = Ext.widget('window',{
-				layout: 'fit',
-				width: 300,
-				title: polyglot.t('customViews'),
-				id: 'window-' + btn.itemId,
-				itemId: 'window-customviews',
-				cls: Config.toggles.useTopToolbar ? 'detached-window' : undefined,
-				closable: !Config.toggles.useTopToolbar,
-				height: 400,
-				y: 200,
-				bodyCls: 'manageDwWindow',
-				items: [{
-					xtype: 'commonmnggrid',
-					allowReorder:false,
-					store: Ext.StoreMgr.lookup('dataview')
-				}],
-				tools: [{
-					type: 'hide',
-					cls: 'hide',
-					tooltip: polyglot.t('hide'),
-					itemId: 'hide',
-					hidden: !Config.toggles.useTopToolbar,
-					listeners: {
-						click: {
-							fn: function() {
-								Observer.notify("Tools.hideClick.customviews");
+			if (btn.itemId == 'managevisualization') {
+				var window = Ext.widget('window',{
+					layout: 'fit',
+					width: 300,
+					title: polyglot.t('manageVisualizations'),
+					id: 'window-' + btn.itemId,
+					height: 400,
+					y: 200,
+					bodyCls: 'manageDwWindow',
+					items: [{
+						xtype: 'commonmnggrid',
+						allowReorder: true,
+						store: Ext.StoreMgr.lookup('visualization4sel')
+					}]
+				});
+				window.show();
+			} else {
+				var window2 = Ext.widget('window',{
+					layout: 'fit',
+					width: 300,
+					title: polyglot.t('customViews'),
+					id: 'window-' + btn.itemId,
+					itemId: 'window-customviews',
+					cls: Config.toggles.useTopToolbar ? 'detached-window' : undefined,
+					closable: !Config.toggles.useTopToolbar,
+					height: 400,
+					y: 200,
+					bodyCls: 'manageDwWindow',
+					items: [{
+						xtype: 'commonmnggrid',
+						allowReorder:false,
+						store: Ext.StoreMgr.lookup('dataview')
+					}],
+					tools: [{
+						type: 'hide',
+						cls: 'hide',
+						tooltip: polyglot.t('hide'),
+						itemId: 'hide',
+						hidden: !Config.toggles.useTopToolbar,
+						listeners: {
+							click: {
+								fn: function() {
+									Observer.notify("Tools.hideClick.customviews");
+								}
 							}
 						}
-					}
-				}]
-			});
-			//window2.show();
+					}]
+				});
+				//window2.show();
+			}
 		}
-
     },
         
     onDataviewLoad: function() {
@@ -544,92 +556,89 @@ Ext.define('PumaMain.controller.ViewMng', {
     
     
     onVisSave: function() {
-        var theme = Ext.ComponentQuery.query('#seltheme')[0].getValue();
-        var cfgs = this.getController('Chart').gatherCfg();
-        var layerCfgs = this.getController('AttributeConfig').layerConfig;
-        if (layerCfgs){
-			layerCfgs.forEach(function(layer){
-				delete layer.control;
+		let component = Ext.getCmp('window-save-vis');
+		if (component) {
+			component.destroy();
+		} else {
+			var theme = Ext.ComponentQuery.query('#seltheme')[0].getValue();
+			var cfgs = this.getController('Chart').gatherCfg();
+			var layerCfgs = this.getController('AttributeConfig').layerConfig;
+			if (layerCfgs){
+				layerCfgs.forEach(function(layer){
+					delete layer.control;
+				});
+			}
+
+			var layers = Ext.StoreMgr.lookup('selectedlayers').getRange();
+			var visibleLayers = [];
+			for (var i=0;i<layers.length;i++) {
+				var layer = layers[i];
+				var type = layer.get('type');
+
+				if (type=='topiclayer') {
+					visibleLayers.push({
+						at: layer.get('at'),
+						symbologyId: layer.get('symbologyId')
+					})
+				}
+				if (type=='chartlayer') {
+					visibleLayers.push({
+						attributeSet: layer.get('attributeSet'),
+						attribute: layer.get('attribute')
+					})
+				}
+			}
+
+			var visOptions = ExchangeParams.options;
+			// check if sidebar with reports or sidebar with tools is open or closed
+			var isReportBoxOpen = true;
+			var isToolBoxOpen = true;
+
+			var reportsClass = Ext.get('sidebar-reports').dom.className;
+			if (reportsClass){
+				isReportBoxOpen = false;
+			}
+
+			var toolsClass = Ext.get('sidebar-tools').dom.className;
+			if (toolsClass){
+				isToolBoxOpen = false;
+			}
+
+			visOptions.openSidebars = {
+				"sidebar-reports": isReportBoxOpen,
+				"sidebar-tools": isToolBoxOpen
+			};
+
+			var vis = Ext.create('Puma.model.Visualization',{
+				theme: theme,
+				cfg: cfgs,
+				choroplethCfg: layerCfgs,
+				visibleLayers: visibleLayers,
+				attributes: ExchangeParams.attributesState,
+				options: visOptions
 			});
+			var window = Ext.widget('window',{
+				layout: 'fit',
+				width: 300,
+				id: 'window-save-vis',
+				cls: 'window-savevisualization',
+				title: polyglot.t('saveVisualization'),
+				y: 200,
+				bodyCls: 'saveaswindow',
+				items: [{
+					xtype: 'commonsaveform',
+					rec: vis
+				}]
+			});
+			window.show();
 		}
-
-        var layers = Ext.StoreMgr.lookup('selectedlayers').getRange();
-        var visibleLayers = [];
-        for (var i=0;i<layers.length;i++) {
-            var layer = layers[i];
-            var type = layer.get('type');
-            
-            if (type=='topiclayer') {
-                visibleLayers.push({
-                    at: layer.get('at'),
-                    symbologyId: layer.get('symbologyId')
-                })
-            }
-            if (type=='chartlayer') {
-                visibleLayers.push({
-                    attributeSet: layer.get('attributeSet'),
-                    attribute: layer.get('attribute')
-                })
-            }
-        }
-
-        var visOptions = ExchangeParams.options;
-        // check if sidebar with reports or sidebar with tools is open or closed
-        var isReportBoxOpen = true;
-        var isToolBoxOpen = true;
-
-        var reportsClass = Ext.get('sidebar-reports').dom.className;
-        if (reportsClass){
-            isReportBoxOpen = false;
-        }
-
-        var toolsClass = Ext.get('sidebar-tools').dom.className;
-        if (toolsClass){
-            isToolBoxOpen = false;
-        }
-
-        visOptions.openSidebars = {
-            "sidebar-reports": isReportBoxOpen,
-            "sidebar-tools": isToolBoxOpen
-        };
-        
-        var vis = Ext.create('Puma.model.Visualization',{
-            theme: theme,
-            cfg: cfgs,
-            choroplethCfg: layerCfgs,
-            visibleLayers: visibleLayers,
-            attributes: ExchangeParams.attributesState,
-            options: visOptions
-        });
-        var window = Ext.widget('window',{
-            layout: 'fit',
-            width: 300,
-            cls: 'window-savevisualization',
-            title: polyglot.t('saveVisualization'),
-            y: 200,
-            bodyCls: 'saveaswindow',
-            items: [{
-                xtype: 'commonsaveform',
-                rec: vis
-            }]
-        });
-        window.show();
     },
-    onViewSave: function() {
-        var view = Ext.create('Puma.model.DataView',this.gatherViewConfig());
-        var window = Ext.widget('window',{
-            layout: 'fit',
-            width: 300,
-            title: polyglot.t('saveDataView'),
-            y: 200,
-            cls: 'window-savedataview',
-            bodyCls: 'saveaswindow',
-            items: [{
-                xtype: 'commonsaveform',
-                rec: view
-            }]
-        });
-        window.show();
-    }
+	onEvent: function (type, options) {
+		if (type === "HANDLE_VISUALIZATION_MANAGEMENT_WINDOW"){
+			this.onVisOrViewManage({itemId: 'managevisualization'});
+		} else if (type === "HANDLE_VISUALIZATION_SAVE_WINDOW"){
+			this.onVisSave();
+		}
+	}
     
 });

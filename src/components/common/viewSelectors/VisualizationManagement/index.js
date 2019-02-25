@@ -11,13 +11,13 @@ const mapStateToProps = (state) => {
 	}
 };
 
-const mapDispatchToProps = () => {
+const mapDispatchToProps = (dispatch) => {
 	return {
 		onManage: () => {
-			debugger;
+			dispatch(Action.visualizations.handleExtManagement());
 		},
 		onSave: () => {
-
+			dispatch(Action.visualizations.handleExtSave());
 		}
 	}
 };

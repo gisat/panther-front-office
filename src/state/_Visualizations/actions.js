@@ -12,6 +12,18 @@ const refreshUses = common.refreshUses(Select.visualizations.getSubstate, 'visua
 
 const ensureIndexesWithFilterByActive = common.ensureIndexesWithFilterByActive(Select.visualizations.getSubstate, 'visualizations', ActionTypes.VISUALIZATIONS);
 
+function handleExtManagement() {
+	return (dispatch) => {
+		window.Stores.notify("HANDLE_VISUALIZATION_MANAGEMENT_WINDOW");
+	};
+}
+
+function handleExtSave() {
+	return (dispatch) => {
+		window.Stores.notify("HANDLE_VISUALIZATION_SAVE_WINDOW");
+	};
+}
+
 // ============ actions ===========
 
 function actionClearUseIndexed(componentId) {
@@ -38,5 +50,8 @@ export default {
 	useKeys,
 	setActiveKey,
 
-	initializeForExt: actionInitializeForExt
+	initializeForExt: actionInitializeForExt,
+
+	handleExtManagement,
+	handleExtSave
 }
