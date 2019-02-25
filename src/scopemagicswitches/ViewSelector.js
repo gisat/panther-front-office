@@ -9,7 +9,7 @@ import VisualizationSelector from "../components/common/viewSelectors/Visualizat
 import ShareButton from '../components/common/controls/Share/Button';
 import VisualizationManagement from "../components/common/viewSelectors/VisualizationManagement";
 
-const MagicSwitch = ({scope, isLoggedIn}) => {
+const MagicSwitch = ({scope, isLoggedIn, isAdmin}) => {
 	if (scope && scope.data) {
 		if (scope.data.featurePlaceChangeReview) {
 			return <ChangeReviewMapControl />
@@ -29,7 +29,7 @@ const MagicSwitch = ({scope, isLoggedIn}) => {
 						<ThemeSelector/>
 						<PeriodsSelector/>
 						<VisualizationSelector/>
-						<VisualizationManagement/>
+						{isAdmin ? <VisualizationManagement/> : null}
 					</div>
 					<div className="ptr-view-selection-tools">
 						{isLoggedIn ? <div className="ptr-view-selection-container"><ShareButton/></div> : null}
@@ -46,6 +46,7 @@ const mapStateToProps = state => {
 	return {
 		scope: Select.scopes.getActiveScopeData(state),
 		isLoggedIn: Select.users.isLoggedIn(state),
+		isAdmin: Select.users.isAdminOrAdminGroupMember(state)
 	};
 };
 
