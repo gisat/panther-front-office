@@ -9,6 +9,7 @@ import Select from "../Select";
 import ActionTypes from "../../constants/ActionTypes";
 
 import Action from '../Action';
+import utils from 'utils/utils';
 
 const PAGE_SIZE = 10;
 const DEFAULT_CATEGORY_PATH = 'metadata';
@@ -31,6 +32,28 @@ const addIndex = (action) => {
 			dispatch(action(filter, order, count, start, data, changedOn));
 		};
 	}
+};
+
+const apiDelete = (getSubstate, dataType, actionTypes, data) => {
+	return dispatch => {
+		const apiPath = 'backend/rest/metadata';
+		const payload = {
+			data: {
+				[dataType]: data
+			}
+		};
+		return request(apiPath, 'DELETE', null, payload)
+			.then(result => {
+				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
+					dispatch(actionGeneralError(result.errors[dataType] || new Error('no data')));
+				} else {
+					dispatch(receiveDeleted(getSubstate, actionTypes, result, dataType));
+				}
+			})
+			.catch(error => {
+				dispatch(actionGeneralError(error));
+			});
+	};
 };
 
 const apiUpdate = (getSubstate, dataType, actionTypes, categoryPath, editedData) => {
@@ -82,6 +105,14 @@ const updateEdited = (getSubstate, actionTypes) => {
 		};
 	}
 };
+
+const deleteByKey = (getSubstate, dataType, actionTypes) => {
+	return (key) => {
+		return (dispatch) => {
+			dispatch(apiDelete(getSubstate, dataType, actionTypes, [{key}]));
+		}
+	}
+}
 
 const saveEdited = (getSubstate, dataType, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) => {
 	return (key) => {
@@ -181,6 +212,26 @@ function requestWrapper(apiPath, method, query, payload, successAction, errorAct
 			.catch(error => {
 				dispatch(errorAction(error));
 			});
+	}
+}
+
+function create(dataType, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) {
+	return (key) => {
+		return dispatch => {
+			const apiPath = path.join('backend/rest', categoryPath);
+			const payload = getCreatePayload(dataType, key);
+			return request(apiPath, 'POST', null, payload).then(result => {
+				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
+					dispatch(actionGeneralError(result.errors[dataType] || new Error('no data')));
+				} else {
+					//add to indexes?
+					dispatch(actionAdd(actionTypes, result.data[dataType]));
+				}
+			})
+			.catch(error => {
+				dispatch(actionGeneralError(error));
+			});
+		}
 	}
 }
 
@@ -402,6 +453,18 @@ function receiveUpdated(getSubstate, actionTypes, result, dataType) {
 		}
 	};
 }
+function receiveDeleted(getSubstate, actionTypes, result, dataType) {
+	return (dispatch) => {
+		let data = result.data[dataType];
+		if (data.length){
+			//remove from indexes?
+			const deletedKeys = data.map(d => d.key);
+			dispatch(actionDelete(actionTypes, deletedKeys));
+		} else {
+			console.warn(`No data updated for ${dataType} metadata type`);
+		}
+	};
+}
 
 function receiveKeys(actionTypes, result, dataType, keys) {
 	return dispatch => {
@@ -531,6 +594,10 @@ function actionClearIndexes(actionTypes) {
 	return action(actionTypes, 'INDEX.CLEAR_ALL');
 }
 
+function actionDelete(actionTypes, keys) {
+	return action(actionTypes, 'DELETE', {keys});
+}
+
 function actionSetActiveKey(actionTypes, key) {
 	return action(actionTypes, 'SET_ACTIVE_KEY', {key});
 }
@@ -572,6 +639,16 @@ const getAPIPath = (categoryPath = DEFAULT_CATEGORY_PATH, dataType) => {
 	return path.join('backend/rest', categoryPath ,'filtered', dataType);
 };
 
+const getCreatePayload = (datatype, key = utils.uuid(), data = {}) => {
+	const payload = {
+		"data": {}
+	};
+	payload.data[datatype] = [{
+		key,
+		data,
+	}];
+	return payload;
+}
 
 // ============ export ===========
 
@@ -582,6 +659,8 @@ export default {
 	actionGeneralError,
 	apiUpdate,
 	creator,
+	create,
+	deleteByKey,
 	ensure: ensureKeys,
 	ensureIndexed,
 	ensureIndexesWithFilterByActive,

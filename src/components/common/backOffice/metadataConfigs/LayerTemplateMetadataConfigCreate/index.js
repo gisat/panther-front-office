@@ -16,20 +16,19 @@ const mapDispatchToPropsFactory = () => {
 
 	return (dispatch, props) => {
 		return {
-			onMount: () => {
-				dispatch(Action.layerTemplates.useKeys([props.layerTemplateKey], componentId));
+			onMount: (key) => {
+				dispatch(Action.layerTemplates.create(props.layerTemplateKey));
 			},
 			onSave: () => {
 				dispatch(Action.layerTemplates.saveEdited(props.layerTemplateKey))
-				// todo linking
 			},
 			onDelete: () => {
 				//TODO - confirm before delete
 				dispatch(Action.layerTemplates.deleteByKey(props.layerTemplateKey))
-				dispatch(Action.screens.close('metadata', 'metadata-layerTemplateConfig'));
-
+				dispatch(Action.screens.close('metadata', 'metadata-layerTemplateConfig-add'));
 			},
 			onUnmount: () => {
+				//clear edited
 				dispatch(Action.layerTemplates.useKeysClear(componentId));
 			},
 			updateEdited: (key, value) => {

@@ -35,7 +35,7 @@ Select.propTypes = {
     className: PropTypes.string,         // className for the outer element
     onChange: PropTypes.func,            // onChange handler: function (newValue) {}
     options: PropTypes.array,            // array of options
-    components: PropTypes.objectOf(PropTypes.ReactElementLike),
+    components: PropTypes.object,
     customProps: PropTypes.object,
     selectedValue: PropTypes.object,
 }

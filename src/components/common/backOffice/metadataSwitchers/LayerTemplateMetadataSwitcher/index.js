@@ -2,13 +2,13 @@ import { connect } from 'react-redux';
 import Select from '../../../../../state/Select';
 import Action from "../../../../../state/Action";
 import presentation from "./presentation";
-import utils from "../../../../../utils/utils";
+import utils from "utils/utils";
 import LayerTemplateMetadataScreen from "components/common/backOffice/metadataScreens/LayerTemplateMetadataScreen";
-import LayerTemplateAddMetadataScreen from "components/common/backOffice/metadataScreens/LayerTemplateMetadataScreen";
+import LayerTemplateAddMetadataScreen from "components/common/backOffice/metadataScreens/LayerTemplateMetadataScreenCreate";
 
 const mapStateToProps = (state, props) => {
 	return {
-		data: Select.layerTemplates.getAll(state, props.layerTemplateKey) // todo more specific selector
+		data: Select.layerTemplates.getAll(state, props.layerTemplateKey), // todo more specific selector
 	}
 };
 
@@ -27,7 +27,8 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-layerTemplateConfig', 40, 40, LayerTemplateMetadataScreen, {layerTemplateKey: item.key}))
 			},
 			onAddClick(item) {
-				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-layerTemplateAdd', 40, 40, LayerTemplateAddMetadataScreen))
+				dispatch(Action.screens.close('metadata', 'metadata-layerTemplateConfig'))
+				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-layerTemplateConfig-add', 40, 40, LayerTemplateAddMetadataScreen))
 			}
 		}
 	}

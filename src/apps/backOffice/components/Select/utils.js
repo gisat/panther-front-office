@@ -9,7 +9,7 @@ import Key from '../Key';
  * @param {*} option.data.nameDisplay 
  */
 export const getLabel = (option) => {
-    const labelText = option.renderer ? option.renderer(option) : option.label || option.data.nameDisplay;
+    const labelText = option.renderer ? option.renderer(option) : option.label || option.data && option.data.nameDisplay || '';
     const IDtooltip = option && option.key && option.key.length > 10 ? option.key : null;
     const key = option.key;
     return (

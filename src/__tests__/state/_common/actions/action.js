@@ -3,6 +3,13 @@ import commonActions from "../../../../state/_common/actions";
 
 jest.mock('../../../../state/Action');
 
+// TODO
+// actionDelete
+// receiveDeleted
+// create
+// deleteByKey
+// apiDelete
+
 describe('#action', () => {
 	it('should return merged action type and payload', () => {
 		const type = 'ADD';

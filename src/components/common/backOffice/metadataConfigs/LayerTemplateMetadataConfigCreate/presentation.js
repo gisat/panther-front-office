@@ -3,17 +3,17 @@ import PropTypes from "prop-types";
 import _ from 'lodash';
 import Input from "../../../atoms/Input/Input";
 import InputWrapper from "../../../atoms/InputWrapper/InputWrapper";
+import Key from 'apps/backOffice/components/Key'
 import {withNamespaces} from "react-i18next";
 
-class LayerTemplateMetadataConfig extends React.PureComponent {
+class LayerTemplateMetadataConfigCreate extends React.PureComponent {
 	static propTypes = {
-		data: PropTypes.object,
+        data: PropTypes.object,
 		editedData: PropTypes.object,
 		layerTemplateKey: PropTypes.string,
 		onMount: PropTypes.func,
 		onUnmount: PropTypes.func,
 		onSave: PropTypes.func,
-		onDelete: PropTypes.func,
 		updateEdited: PropTypes.func
 	};
 
@@ -24,7 +24,7 @@ class LayerTemplateMetadataConfig extends React.PureComponent {
 	}
 
 	componentDidMount() {
-		this.props.onMount();
+		this.props.onMount(this.props.layerTemplateKey);
 	}
 
 	componentWillUnmount() {
@@ -48,6 +48,9 @@ class LayerTemplateMetadataConfig extends React.PureComponent {
 
 		return (
 			<div>
+				<h2>
+					<Key value={this.props.layerTemplateKey} />
+				</h2>
 				<InputWrapper
 					required
 					label={t("nameCapitalized")}
@@ -73,4 +76,4 @@ class LayerTemplateMetadataConfig extends React.PureComponent {
 	}
 }
 
-export default withNamespaces()(LayerTemplateMetadataConfig);
+export default withNamespaces()(LayerTemplateMetadataConfigCreate);
