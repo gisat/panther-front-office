@@ -82,6 +82,9 @@ const setEventListeners = store => {
 			case 'infoLayer#remove':
 				store.dispatch(Action.maps.removeLayerTemplates(options.layerTemplates));
 				break;
+			case 'infoLayer#set':
+				store.dispatch(Action.maps.setLayerTemplates(options.layerTemplates));
+				break;
 			case 'backgroundLayer#setActive':
 				store.dispatch(Action.maps.setActiveBackgroundLayer(options.key));
 				break;

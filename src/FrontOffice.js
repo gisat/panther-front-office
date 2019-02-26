@@ -109,6 +109,11 @@ class FrontOffice {
                     self._dispatcher.notify("backgroundLayersPanel#setActiveBackgroundLayer", {key: activeLayers.background});
                 }
 
+                // show vector and raster layers
+                if (activeLayers.layers) {
+                    self._dispatcher.notify("infoLayer#set", {layerTemplates: activeLayers.layers});
+                }
+
                 self._stateStore.resetChanges();
             }).catch(function(err){
                 throw new Error(err);

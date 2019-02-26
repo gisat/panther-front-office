@@ -90,7 +90,11 @@ function removeLayerTemplates(templates) {
 		}
 	};
 }
-
+function setLayerTemplates(templates) {
+	return (dispatch, getState) => {
+		dispatch(updateDefaults({layerTemplates: templates}));
+	};
+}
 
 function selectLayerPeriod(layerKey, period, mapKey) {
 	return (dispatch, getState) => {
@@ -349,6 +353,7 @@ export default {
 	setActive: setActive,
 	setActiveBackgroundLayer: setActiveBackgroundLayer,
 	setAnalyticalUnitsVisibility: setAnalyticalUnitsVisibility,
+	setLayerTemplates,
 	update: update,
 	updateDefaults: updateDefaults,
 	updateNavigator: updateNavigator,

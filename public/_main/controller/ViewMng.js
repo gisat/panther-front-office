@@ -572,27 +572,20 @@ Ext.define('PumaMain.controller.ViewMng', {
 				});
 			}
 
-			var layers = Ext.StoreMgr.lookup('selectedlayers').getRange();
 			var visibleLayers = {};
-			// for (var i=0;i<layers.length;i++) {
-			// 	var layer = layers[i];
-			// 	var type = layer.get('type');
-			//
-			// 	if (type=='topiclayer') {
-			// 		visibleLayers.push({
-			// 			at: layer.get('at'),
-			// 			symbologyId: layer.get('symbologyId')
-			// 		})
-			// 	}
-			// }
+			let state = window.stateStore.current();
 
 			// active choropleths
-			let state = window.stateStore.current();
 			if (state.activeChoroplethKeys) {
 				visibleLayers.choropleths = state.activeChoroplethKeys;
 			}
+			// active background layers
 			if (state.mapDefaults && state.mapDefaults.activeBackgroundLayerKey) {
 				visibleLayers.background = state.mapDefaults.activeBackgroundLayerKey;
+			}
+			// active vector and raster layers
+			if (state.mapDefaults && state.mapDefaults.layerTemplates) {
+				visibleLayers.layers = state.mapDefaults.layerTemplates;
 			}
 
 			var vis = Ext.create('Puma.model.Visualization',{
