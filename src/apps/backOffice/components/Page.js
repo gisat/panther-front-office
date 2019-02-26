@@ -12,7 +12,7 @@ class Page extends React.PureComponent {
 					<TopBar {...props} />
 				</div>
 				<div className="ptr-bo-content">
-					<Screens setKey={screenSetKey}>
+					<Screens key={screenSetKey} setKey={screenSetKey}>
 						{children}
 					</Screens>
 				</div>
