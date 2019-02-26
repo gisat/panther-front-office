@@ -7,6 +7,8 @@ import presentation from './MetadataList';
 import User from "../../../../components/common/controls/User";
 import LayerTemplateMetadataScreen
 	from "../../../../components/common/backOffice/metadataScreens/LayerTemplateMetadataScreen";
+import LayerTemplateAddMetadataScreen
+	from "components/common/backOffice/metadataScreens/LayerTemplateMetadataScreenCreate";
 
 const order = [['nameDisplay', 'ascending']];
 
@@ -29,6 +31,9 @@ const mapDispatchToPropsFactory = () => {
 			},
 			onUnmount: () => {
 				dispatch(Action.layerTemplates.useIndexedClear(componentId));
+			},
+			onAddClick(item) {
+				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-layerTemplateConfig-add', 40, 40, LayerTemplateAddMetadataScreen))
 			}
 		}
 	}
