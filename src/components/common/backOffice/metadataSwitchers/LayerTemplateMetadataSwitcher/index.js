@@ -4,7 +4,6 @@ import Action from "../../../../../state/Action";
 import presentation from "./presentation";
 import utils from "utils/utils";
 import LayerTemplateMetadataScreen from "components/common/backOffice/metadataScreens/LayerTemplateMetadataScreen";
-import LayerTemplateAddMetadataScreen from "components/common/backOffice/metadataScreens/LayerTemplateMetadataScreenCreate";
 
 const mapStateToProps = (state, props) => {
 	return {
@@ -27,8 +26,9 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-layerTemplateConfig', 40, 40, LayerTemplateMetadataScreen, {layerTemplateKey: item.key}))
 			},
 			onAddClick(item) {
-				dispatch(Action.screens.close('metadata', 'metadata-layerTemplateConfig'))
-				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-layerTemplateConfig-add', 40, 40, LayerTemplateAddMetadataScreen))
+				const layerTemplateKey = utils.uuid();
+				dispatch(Action.layerTemplates.create(layerTemplateKey));
+				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-layerTemplateConfig', 40, 40, LayerTemplateMetadataScreen, {layerTemplateKey}))
 			}
 		}
 	}
