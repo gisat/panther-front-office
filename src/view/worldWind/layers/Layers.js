@@ -82,7 +82,7 @@ class Layers {
         if (!currentLayer.metadata || !currentLayer.metadata.group || !((currentLayer.metadata.group === "areaoutlines") || (currentLayer.metadata.group === "selectedareasfilled" || currentLayer.metadata.group === "selectedareas"))){
             if (position > 0){
                 layers.forEach(function(layer){
-                    if (layer.metadata && (layer.metadata.group === "areaoutlines" || layer.metadata.group === "selectedareasfilled" || layer.metadata.group === "selectedareas" || layer.metadata.group === "thematic-layers" || layer.metadata.group === "place-layer")){
+                    if (layer.metadata && (layer.metadata.group === "areaoutlines" || layer.metadata.group === "selectedareasfilled" || layer.metadata.group === "selectedareas" || layer.metadata.group === "place-layer")){
                         position--;
                     }
                 });
