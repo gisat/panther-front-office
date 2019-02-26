@@ -573,44 +573,24 @@ Ext.define('PumaMain.controller.ViewMng', {
 			}
 
 			var layers = Ext.StoreMgr.lookup('selectedlayers').getRange();
-			var visibleLayers = [];
-			for (var i=0;i<layers.length;i++) {
-				var layer = layers[i];
-				var type = layer.get('type');
+			var visibleLayers = {};
+			// for (var i=0;i<layers.length;i++) {
+			// 	var layer = layers[i];
+			// 	var type = layer.get('type');
+			//
+			// 	if (type=='topiclayer') {
+			// 		visibleLayers.push({
+			// 			at: layer.get('at'),
+			// 			symbologyId: layer.get('symbologyId')
+			// 		})
+			// 	}
+			// }
 
-				if (type=='topiclayer') {
-					visibleLayers.push({
-						at: layer.get('at'),
-						symbologyId: layer.get('symbologyId')
-					})
-				}
-				if (type=='chartlayer') {
-					visibleLayers.push({
-						attributeSet: layer.get('attributeSet'),
-						attribute: layer.get('attribute')
-					})
-				}
+			// active choropleths
+			let state = window.stateStore.current();
+			if (state.activeChoroplethKeys) {
+				visibleLayers.choropleths = state.activeChoroplethKeys
 			}
-
-			var visOptions = ExchangeParams.options;
-			// check if sidebar with reports or sidebar with tools is open or closed
-			var isReportBoxOpen = true;
-			var isToolBoxOpen = true;
-
-			var reportsClass = Ext.get('sidebar-reports').dom.className;
-			if (reportsClass){
-				isReportBoxOpen = false;
-			}
-
-			var toolsClass = Ext.get('sidebar-tools').dom.className;
-			if (toolsClass){
-				isToolBoxOpen = false;
-			}
-
-			visOptions.openSidebars = {
-				"sidebar-reports": isReportBoxOpen,
-				"sidebar-tools": isToolBoxOpen
-			};
 
 			var vis = Ext.create('Puma.model.Visualization',{
 				theme: theme,
@@ -618,9 +598,8 @@ Ext.define('PumaMain.controller.ViewMng', {
 				choroplethCfg: layerCfgs,
 				visibleLayers: visibleLayers,
 				attributes: ExchangeParams.attributesState,
-				options: visOptions
 			});
-			var window = Ext.widget('window',{
+			var wind = Ext.widget('window',{
 				layout: 'fit',
 				width: 300,
 				id: 'window-save-vis',
@@ -633,7 +612,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 					rec: vis
 				}]
 			});
-			window.show();
+			wind.show();
 		}
     },
 	onEvent: function (type, options) {

@@ -78,8 +78,9 @@ class FrontOffice {
         let self = this;
         if (visualization > 0 && this._options.changes.visualization && !this._options.changes.dataview){
             this._store.visualizations.byId(visualization).then(function(response){
-                let attributes = response[0].attributes;
-                let options = response[0].options;
+                let data = response[0];
+                let attributes = data.attributes;
+                let choropleths = data.visibleLayers && data.visibleLayers.choropleths;
 
                 if (attributes){
                     self.getAttributesMetadata().then(function(results){
@@ -97,6 +98,12 @@ class FrontOffice {
                 }
 
                 self.handlePeriods();
+
+                // show active choropleths
+                if (choropleths){
+                    self._dispatcher.notify("choropleths#setActive", choropleths);
+                }
+
                 self._stateStore.resetChanges();
             }).catch(function(err){
                 throw new Error(err);

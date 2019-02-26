@@ -27,6 +27,9 @@ class Visualization extends Model {
             },
             options: {
                 serverName: 'options'
+            },
+            visibleLayers: {
+                serverName: 'visibleLayers'
             }
         };
     };

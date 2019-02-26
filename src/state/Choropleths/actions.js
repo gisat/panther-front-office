@@ -56,6 +56,13 @@ const removeActiveKeys = (keys) => {
 	}
 };
 
+const setActiveKeys = (keys) => {
+	return (dispatch, getState) => {
+		if (!_.isArray(keys)) keys = [keys];
+		dispatch(actionSetActiveKeys(keys));
+	}
+};
+
 const removeAllActiveKeys = () => {
 	return dispatch => {
 		dispatch(actionSetActiveKeys(null));
@@ -84,5 +91,6 @@ export default {
 	updateChoropleth,
 	addActiveKeys,
 	removeActiveKeys,
+	setActiveKeys,
 	removeAllActiveKeys
 }
