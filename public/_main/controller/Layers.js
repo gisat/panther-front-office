@@ -317,14 +317,14 @@ Ext.define('PumaMain.controller.Layers', {
 						filter: filterFc,
 						maxScaleDenominator: this.scaleBorder,
 						symbolizer: {"Polygon": new OpenLayers.Symbolizer.Polygon({strokeColor: recodeFc, strokeWidth: 1, fillOpacity: 0})
-							,"Text":new OpenLayers.Symbolizer.Text({label:'${name}',fontFamily:'DejaVu Sans',fontSize:12,fontWeight:'bold',labelAnchorPointX:0.5,labelAnchorPointY:0.5})
+							,"Text":new OpenLayers.Symbolizer.Text({label:'${name}',fontFamily:'DejaVu Sans',fontSize:12,fontWeight:'bold',labelAnchorPointX:0,labelAnchorPointY:0})
 						}
 					};
 					var objFilled = {
 						filter: filterFc,
 						maxScaleDenominator: this.scaleBorder,
 						symbolizer: {"Polygon": new OpenLayers.Symbolizer.Polygon({fillColor: recodeFc, strokeWidth: 1, fillOpacity: 1})
-							,"Text":new OpenLayers.Symbolizer.Text({label:'${name}',fontFamily:'DejaVu Sans',fontSize:12,fontWeight:'bold',labelAnchorPointX:0.5,labelAnchorPointY:0.5})
+							,"Text":new OpenLayers.Symbolizer.Text({label:'${name}',fontFamily:'DejaVu Sans',fontSize:12,fontWeight:'bold',labelAnchorPointX:0,labelAnchorPointY:0})
 						}
 					};
 					var rule2 = new OpenLayers.Rule({
@@ -385,6 +385,27 @@ Ext.define('PumaMain.controller.Layers', {
 		}
 	},
 
+	formatSldText: function(sldText) {
+		let parts = sldText.split("<sld:TextSymbolizer>");
+		if (parts.length > 1){
+			let firstPart = parts[0];
+			let secondPart = parts[1];
+			let subparts = secondPart.split("</sld:TextSymbolizer>");
+			let textSymbolizer = subparts[0];
+			let lastPart = subparts[1];
+
+			// label is rendered to the polygon centroid
+			textSymbolizer = '<sld:Geometry>' +
+				'<ogc:Function name="centroid">' +
+				'<ogc:PropertyName>the_geom</ogc:PropertyName>' +
+				'</ogc:Function>' +
+				'</sld:Geometry>' + textSymbolizer;
+
+			return firstPart + "<sld:TextSymbolizer>" + textSymbolizer + "</sld:TextSymbolizer>" + lastPart;
+		} else {
+			return sldText;
+		}
+	},
 	saveSld: function(node, namedLayers, layer, params, legendNamedLayers) {
 		var sldObject = {
 			name: 'style',
@@ -396,6 +417,8 @@ Ext.define('PumaMain.controller.Layers', {
 		var xmlFormat = new OpenLayers.Format.XML();
 		var sldNode = format.write(sldObject);
 		var sldText = xmlFormat.write(sldNode);
+
+		var sldTextFormatted = this.formatSldText(sldText);
 		var legendSld =  null;
 		if (legendNamedLayers) {
 			var legendSldObject = {
@@ -428,7 +451,7 @@ Ext.define('PumaMain.controller.Layers', {
 		Ext.Ajax.request({
 			url: Config.url + 'api/proxy/saveSld',
 			params: Ext.apply({
-				sldBody: sldText,
+				sldBody: sldTextFormatted,
 				legendSld: legendSld || ''
 			}, params || {}),
 			layer: layer,
