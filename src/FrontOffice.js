@@ -80,7 +80,7 @@ class FrontOffice {
             this._store.visualizations.byId(visualization).then(function(response){
                 let data = response[0];
                 let attributes = data.attributes;
-                let choropleths = data.visibleLayers && data.visibleLayers.choropleths;
+                let activeLayers = data.visibleLayers;
 
                 if (attributes){
                     self.getAttributesMetadata().then(function(results){
@@ -100,8 +100,13 @@ class FrontOffice {
                 self.handlePeriods();
 
                 // show active choropleths
-                if (choropleths){
-                    self._dispatcher.notify("choropleths#setActive", choropleths);
+                if (activeLayers.choropleths) {
+                    self._dispatcher.notify("choropleths#setActive", activeLayers.choropleths);
+                }
+
+                // select background layer
+                if (activeLayers.background) {
+                    self._dispatcher.notify("backgroundLayersPanel#setActiveBackgroundLayer", {key: activeLayers.background});
                 }
 
                 self._stateStore.resetChanges();

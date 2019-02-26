@@ -589,7 +589,10 @@ Ext.define('PumaMain.controller.ViewMng', {
 			// active choropleths
 			let state = window.stateStore.current();
 			if (state.activeChoroplethKeys) {
-				visibleLayers.choropleths = state.activeChoroplethKeys
+				visibleLayers.choropleths = state.activeChoroplethKeys;
+			}
+			if (state.mapDefaults && state.mapDefaults.activeBackgroundLayerKey) {
+				visibleLayers.background = state.mapDefaults.activeBackgroundLayerKey;
 			}
 
 			var vis = Ext.create('Puma.model.Visualization',{
