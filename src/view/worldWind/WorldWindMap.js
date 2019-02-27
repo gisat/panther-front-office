@@ -418,7 +418,8 @@ class WorldWindMap {
 	 * @returns {WorldWind.WorldWindow}
 	 */
 	buildWorldWindow() {
-		return new WorldWind.WorldWindow(this._id + "-canvas");
+		let elevationModel = new WorldWind.ZeroElevationModel();
+		return new WorldWind.WorldWindow(this._id + "-canvas", elevationModel);
 	};
 
     /**

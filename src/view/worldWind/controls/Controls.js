@@ -2,6 +2,7 @@
 import S from 'string';
 
 import ArgumentError from '../../../error/ArgumentError';
+import WorldWind from '@nasaworldwind/worldwind';
 import Logger from '../../../util/Logger';
 
 import './Controls.css';
@@ -267,6 +268,10 @@ class Controls {
     handleExaggeratePlus() {
         var self = this;
         this.wwds.forEach(function(wwd){
+            if (wwd.globe.elevationModel.maxElevation === 0 && wwd.globe.elevationModel.minElevation === 0) {
+                wwd.globe.elevationModel = new WorldWind.EarthElevationModel();
+            }
+
             wwd.verticalExaggeration += self.exaggerationIncrement;
             wwd.redraw();
         });
@@ -275,6 +280,10 @@ class Controls {
     handleExaggerateMinus() {
         var self = this;
         this.wwds.forEach(function(wwd){
+            if (wwd.globe.elevationModel.maxElevation === 0 && wwd.globe.elevationModel.minElevation === 0) {
+                wwd.globe.elevationModel = new WorldWind.EarthElevationModel();
+            }
+
             wwd.verticalExaggeration = Math.max(1, wwd.verticalExaggeration - self.exaggerationIncrement);
             wwd.redraw();
         });
