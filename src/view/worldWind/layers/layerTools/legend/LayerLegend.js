@@ -58,7 +58,8 @@ class LayerLegend extends LayerTool {
      * Add content to a legend floater
      */
     addContent() {
-        if (this._defaultLayer){
+    	let floaterOpen = this._floater._floaterSelector.hasClass("open");
+        if (this._defaultLayer && floaterOpen){
 			let style = "";
 			let layer = this._defaultLayer.path;
 			let url = Config.url + "geoserver/wms?";
