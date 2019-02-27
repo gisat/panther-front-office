@@ -192,7 +192,7 @@ class Layers {
      */
     showBackgroundLayer(id) {
         let layer = this.getLayerById(id);
-		if (layer){
+		if (layer && !layer.enabled){
 			layer.enabled = true;
 		}
     };
@@ -203,7 +203,7 @@ class Layers {
      */
     hideBackgroundLayer(id) {
         let layer = this.getLayerById(id);
-        if(layer) {
+        if (layer && layer.enabled) {
             layer.enabled = false;
         }
     };
