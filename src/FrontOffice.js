@@ -339,6 +339,10 @@ class FrontOffice {
         let htmlBody = $("body");
         let self = this;
 
+        if (options && !options.sidebarReportsOpen) {
+            $("#sidebar-reports").addClass("hidden");
+        }
+
         this._scopesStore.byId(state.scope).then(function(scopes){
             let scope = scopes[0];
 			if (scope && scope.isMapIndependentOfPeriod && scope.isMapDependentOnScenario){

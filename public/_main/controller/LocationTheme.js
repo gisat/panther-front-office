@@ -1093,12 +1093,12 @@ Ext.define('PumaMain.controller.LocationTheme', {
             var dataset = Ext.ComponentQuery.query('#seldataset')[0].getValue();
             var only3D = (tools.indexOf('2dmap') !== -1);
 
-            if(dataset !== this._datasetId) {
-                this._datasetId = dataset;
-                if ((Config.cfg && !Config.cfg.sidebarReportsOpen) || !Config.cfg){
-                    this.getController('DomManipulation')._onReportsSidebarHide();
-                }
-            }
+            // if(dataset !== this._datasetId) {
+            //     this._datasetId = dataset;
+            //     if ((Config.cfg && !Config.cfg.sidebarReportsOpen) || !Config.cfg){
+            //         this.getController('DomManipulation')._onReportsSidebarHide();
+            //     }
+            // }
 
             if (!scope.get('hideSidebarReports')) {
                 $('#sidebar-reports').show();

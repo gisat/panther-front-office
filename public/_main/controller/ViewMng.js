@@ -345,6 +345,9 @@ Ext.define('PumaMain.controller.ViewMng', {
 
 
 		var options = {};
+
+        options.sidebarReportsOpen = Config.cfg.sidebarReportsOpen;
+
 		// set location and range of all maps
 		if (Config.cfg.worldWindState){
 			options.worldWindState = {
