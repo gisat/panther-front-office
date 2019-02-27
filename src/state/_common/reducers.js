@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import commonHelpers from './helpers';
 
 export const DEFAULT_INITIAL_STATE = {
 	activeKey: null,
@@ -223,6 +224,28 @@ export default {
 		return {
 			...state,
 			indexes: indexes.length ? indexes : null
+		}
+	},
+
+	/**
+	 * Useful for invalidate data before refresh indexes
+	 * action.order
+	 * action.filter
+	 * */
+	clearIndex: (state, action) => {
+		const indexes = state.indexes.map(index => {
+			const correspondIndex = commonHelpers.isCorrespondingIndex(index, action.filter, action.order);
+			if(correspondIndex) {
+				index.index = null;
+				index.count = null;
+				index.changedOn = null;
+			}
+			return index;
+		});
+
+		return {
+			...state,
+			indexes: [...indexes],
 		}
 	},
 

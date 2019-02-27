@@ -14,6 +14,7 @@ const useKeys = common.useKeys(Select.layerTemplates.getSubstate, 'layerTemplate
 const useKeysClear = common.useKeysClear(ActionTypes.LAYER_TEMPLATES);
 const useIndexed = common.useIndexed(Select.layerTemplates.getSubstate, 'layerTemplates', ActionTypes.LAYER_TEMPLATES);
 const useIndexedClear = common.useIndexedClear(ActionTypes.LAYER_TEMPLATES);
+const clearIndex = common.clearIndex(ActionTypes.LAYER_TEMPLATES);
 
 // ============ export ===========
 

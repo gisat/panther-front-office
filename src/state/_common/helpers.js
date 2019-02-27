@@ -4,13 +4,15 @@ import _ from "lodash";
 function getIndex(indexes, filter, order) {
 	if (indexes){
 		// TODO re-reselect?
-		let index = _.find(indexes, (index) => {
-			return _.isEqual(index.filter, filter) && _.isEqual(index.order, order);
-		});
+		let index = _.find(indexes, (index) => isCorrespondingIndex(index, filter, order));
 		return index ? index : null;
 	} else {
 		return null;
 	}
+}
+
+function isCorrespondingIndex(index, filter, order) {
+	return _.isEqual(index.filter, filter) && _.isEqual(index.order, order);
 }
 
 function mergeFilters(activeKeys, filterByActive, filter) {
@@ -50,5 +52,6 @@ function mergeFilters(activeKeys, filterByActive, filter) {
 
 export default {
 	getIndex,
-	mergeFilters
+	mergeFilters,
+	isCorrespondingIndex,
 }

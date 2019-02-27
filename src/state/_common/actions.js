@@ -34,7 +34,7 @@ const addIndex = (action) => {
 	}
 };
 
-const apiDelete = (getSubstate, dataType, actionTypes, data) => {
+const apiDelete = (getSubstate, dataType, actionTypes, data, categoryPath = DEFAULT_CATEGORY_PATH) => {
 	return dispatch => {
 		const apiPath = 'backend/rest/metadata';
 		const payload = {
@@ -47,7 +47,7 @@ const apiDelete = (getSubstate, dataType, actionTypes, data) => {
 				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
 					dispatch(actionGeneralError(result.errors[dataType] || new Error('no data')));
 				} else {
-					dispatch(receiveDeleted(getSubstate, actionTypes, result, dataType));
+					dispatch(receiveDeleted(getSubstate, actionTypes, result, dataType, categoryPath));
 				}
 			})
 			.catch(error => {
@@ -106,10 +106,10 @@ const updateEdited = (getSubstate, actionTypes) => {
 	}
 };
 
-const deleteByKey = (getSubstate, dataType, actionTypes) => {
+const deleteByKey = (getSubstate, dataType, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) => {
 	return (key) => {
 		return (dispatch) => {
-			dispatch(apiDelete(getSubstate, dataType, actionTypes, [{key}]));
+			dispatch(apiDelete(getSubstate, dataType, actionTypes, [{key}], categoryPath));
 		}
 	}
 }
@@ -178,7 +178,9 @@ const setActiveKeyAndEnsureDependencies = (actionTypes, filterKey) => {
 		};
 	};
 };
-
+/**
+ * If not refresh data, call clearIndex to invalidate data.
+ */
 function refreshIndex(getSubstate, dataType, filter, order, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) {
 	return (dispatch, getState) => {
 		let state = getState();
@@ -453,13 +455,22 @@ function receiveUpdated(getSubstate, actionTypes, result, dataType) {
 		}
 	};
 }
-function receiveDeleted(getSubstate, actionTypes, result, dataType) {
-	return (dispatch) => {
+function receiveDeleted(getSubstate, actionTypes, result, dataType, categoryPath = DEFAULT_CATEGORY_PATH) {
+	return (dispatch, getState) => {
+		const state = getState();
 		let data = result.data[dataType];
 		if (data.length){
-			//remove from indexes?
 			const deletedKeys = data.map(d => d.key);
 			dispatch(actionDelete(actionTypes, deletedKeys));
+			//FIXME - kontrola v jaké indexy odstranění ovlivní, potom refresh
+			// getIndexesByFilteredItem - přesnější!! doladit
+			const usedIndexes = commonSelectors.getIndexesByFilteredItem(getSubstate)(state);
+			usedIndexes.forEach(index => {
+				//invalidate data
+				dispatch(actionClearIndex(actionTypes, index.filter, index.order))
+				//refresh data
+				dispatch(refreshIndex(getSubstate, dataType, index.filter, index.order, actionTypes));
+			})
 		} else {
 			console.warn(`No data updated for ${dataType} metadata type`);
 		}
@@ -590,6 +601,13 @@ function actionAddIndex(actionTypes, filter, order, count, start, data, changedO
 	return action(actionTypes, 'INDEX.ADD', {filter, order, count, start, data, changedOn});
 }
 
+/**
+ * Useful for invalidate data before refresh indexes
+ */
+function actionClearIndex(actionTypes, filter, order) {
+	return action(actionTypes, 'INDEX.CLEAR_INDEX', {filter, order});
+}
+
 function actionClearIndexes(actionTypes) {
 	return action(actionTypes, 'INDEX.CLEAR_ALL');
 }
@@ -682,6 +700,7 @@ export default {
 	useKeys,
 	useKeysClear: creator(actionUseKeysClear),
 	useIndexed,
+	clearIndex: creator(actionClearIndex),
 
 	useIndexedRegister: actionUseIndexedRegister,
 	useIndexedClear: creator(actionUseIndexedClear),

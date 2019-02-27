@@ -12,12 +12,13 @@ const mapStateToProps = (state, props) => {
 };
 
 const mapDispatchToPropsFactory = () => {
+	const order = [['nameDisplay', 'ascending']];
 	const componentId = 'LayerTemplateMetadataSwitcher_' + utils.randomString(6);
 
 	return (dispatch) => {
 		return {
 			onMount: () => {
-				dispatch(Action.layerTemplates.useIndexed(null, null, [["nameInternal", "ascending"]], 1, 1000, componentId));
+				dispatch(Action.layerTemplates.useIndexed(null, null, order, 1, 1000, componentId));
 			},
 			onUnmount: () => {
 				dispatch(Action.layerTemplates.useIndexedClear(componentId));

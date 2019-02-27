@@ -33,6 +33,8 @@ export default (state = INITIAL_STATE, action) => {
 			return common.registerUseIndexed(state, action);
 		case ActionTypes.LAYER_TEMPLATES.USE.INDEXED.CLEAR:
 			return common.useIndexedClear(state, action);
+		case ActionTypes.LAYER_TEMPLATES.INDEX.CLEAR_INDEX:
+			return common.clearIndex(state, action);
 		case ActionTypes.COMMON.DATA.SET_OUTDATED:
 			return common.dataSetOutdated(state, action);
 		case ActionTypes.COMMON.DATA.CLEANUP_ON_LOGOUT:

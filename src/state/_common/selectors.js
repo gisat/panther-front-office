@@ -242,6 +242,18 @@ const getIndexTotal = (getSubstate) => {
 	);
 };
 
+const getIndexesByFilteredItem = (getSubstate) => {
+	return createSelector([
+		getIndexes(getSubstate),
+		(state, item) => item,
+		],
+		(indexes, item) => {
+			const nullFiltersIndexes = indexes.filter(index => index.filter === null);
+			return nullFiltersIndexes;
+		}
+	);
+}
+
 /**
  * Compare keys with loaded models and return which keys need to be loaded
  */
@@ -518,6 +530,7 @@ export default {
 	getIndexChangedOn,
 	getIndexPage,
 	getIndexTotal,
+	getIndexesByFilteredItem,
 
 	getKeysToLoad,
 

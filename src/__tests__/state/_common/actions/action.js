@@ -9,6 +9,9 @@ jest.mock('../../../../state/Action');
 // create
 // deleteByKey
 // apiDelete
+// actionClearIndex
+// helpers - isCorrespondingIndex
+// reducer - clearIndex
 
 describe('#action', () => {
 	it('should return merged action type and payload', () => {

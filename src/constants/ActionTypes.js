@@ -194,7 +194,8 @@ export default utils.deepKeyMirror({
 			ERROR: null
 		},
 		INDEX: {
-			ADD: null
+			ADD: null,
+			CLEAR_INDEX: null,
 		},
 		LOAD: {
 			ERROR: null,
