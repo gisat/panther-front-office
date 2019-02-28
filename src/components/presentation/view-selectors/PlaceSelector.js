@@ -64,11 +64,13 @@ class PlaceSelector extends React.PureComponent {
 
 			if (this.props.places){
 				this.props.places.map(place => {
-					options.push({
-						key: place.key,
-						value: place.key,
-						label: place.data && place.data.name
-					})
+					if (place) {
+						options.push({
+							key: place.key,
+							value: place.key,
+							label: place.data && place.data.name
+						});
+					}
 				});
 
 				if (this.props.activePlace){

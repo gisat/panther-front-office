@@ -144,7 +144,8 @@ function initialMetadataLoad (){
 						dispatch(Action.layerTemplates.useKeys(templateKeys, 'ActiveView', options));
 					}
 
-					if ((data.locations && data.locations.length) || (data.location)){
+
+					if ((data.locations && data.locations.length) || (data.location && data.location !== "custom")){
 						if (data.locations && data.locations.length > 1){
 							dispatch(Action.places.setActive(data.locations));
 							dispatch(Action.places.useKeys(data.locations, 'ActiveView', options));
