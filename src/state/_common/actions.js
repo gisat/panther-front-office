@@ -216,7 +216,8 @@ function loadKeysPage(dataType, actionTypes, keys, categoryPath = DEFAULT_CATEGO
 				key: {
 					in: keys
 				}
-			}
+			},
+			limit: 1000
 		};
 		return request(apiPath, 'POST', null, payload)
 			.then(result => {
