@@ -16,6 +16,8 @@ export default (state = INITIAL_STATE, action) => {
 			return common.addUnreceivedKeys(state, action);
 		case ActionTypes.VISUALIZATIONS.INDEX.ADD:
 			return common.addIndex(state, action);
+		case ActionTypes.VISUALIZATIONS.INDEX.CLEAR_ALL:
+			return common.clearIndexes(state, action);
 		case ActionTypes.VISUALIZATIONS.SET_ACTIVE_KEY:
 			return common.setActive(state, action);
 		case ActionTypes.VISUALIZATIONS.INITIALIZE_FOR_EXT:

@@ -45,9 +45,19 @@
 
 .ptr-views-list-description {
 	margin: 0 0 0.5rem;
+	font-size: .875rem;
+	line-height: 1.5;
+	color: rgb(33, 38, 53);
 }
-.ptr-views-list-description {
-	margin: 1rem 1.5rem 0.5rem;
+
+.ptr-views-list-description img {
+	max-width: 100%;
+}
+
+.ptr-views-list-description h2 {
+	color: rgb(33, 38, 53);
+	margin-top: 1rem;
+	font-weight: 600;
 }
 
 .ptr-views-list-description p {

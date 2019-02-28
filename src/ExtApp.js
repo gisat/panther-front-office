@@ -118,8 +118,27 @@ class ExtApp {
 	}
 
 	addVisualizationsToStore(data){
-		Ext.StoreMgr.lookup('visualization').add(data);
-		Ext.StoreMgr.lookup('visualization4sel').add(data);
+		let store = Ext.StoreMgr.lookup('visualization');
+		let storeSel = Ext.StoreMgr.lookup('visualization4sel');
+		let dataForStore = [];
+		let dataForStoreSel = [];
+
+		data.forEach(record => {
+			store.data.items.forEach((item) => {
+				if (record.id === item.id) {
+					dataForStore.push(record);
+				}
+			});
+
+			storeSel.data.items.forEach((item) => {
+				if (record.id === item.id) {
+					dataForStoreSel.push(record);
+				}
+			});
+		});
+
+		store.add(dataForStore);
+		storeSel.add(dataForStoreSel);
 	}
 
     applyDataview(data){

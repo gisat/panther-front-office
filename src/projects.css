@@ -298,11 +298,8 @@ html.urban-tep .intro-screen-title {
 .pucs.newDesign #header-view-selection > div {
 	display: flex;
 }
-.pucs.newDesign .ptr-view-selection-container {
-	align-items: flex-end;
-}
-.pucs.newDesign .ptr-view-selection-container:first-child {
-	flex: 1;
+.pucs.newDesign .ptr-view-selection-wrapper {
+	padding-left: 150px;
 }
 
 /* top-tool-bar */

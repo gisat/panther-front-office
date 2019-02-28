@@ -10,6 +10,7 @@ class VisualizationSelector extends React.PureComponent {
 		activeVisualization: PropTypes.object,
 		isInIntroMode: PropTypes.bool,
 		visualizations: PropTypes.array,
+		forceShow: PropTypes.bool,
 		onChangeVisualization: PropTypes.func,
 		onMount: PropTypes.func,
 	};
@@ -57,8 +58,8 @@ class VisualizationSelector extends React.PureComponent {
 
 		let classes = classNames("ptr-visualization-selector ptr-view-selection-selector", this.props.classes);
 
-		return (this.props.visualizations ? (
-			<div className="ptr-view-selection-container">
+		return (this.props.visualizations || this.props.forceShow ? (
+			<div className="ptr-view-selection-container ptr-view-selection-visualization">
 				<UISelect
 					key='theme-selector'
 					clearable={false}

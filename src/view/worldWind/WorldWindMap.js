@@ -418,7 +418,8 @@ class WorldWindMap {
 	 * @returns {WorldWind.WorldWindow}
 	 */
 	buildWorldWindow() {
-		return new WorldWind.WorldWindow(this._id + "-canvas");
+		let elevationModel = new WorldWind.ZeroElevationModel();
+		return new WorldWind.WorldWindow(this._id + "-canvas", elevationModel);
 	};
 
     /**
@@ -459,9 +460,11 @@ class WorldWindMap {
 	 * @param position {Position}
 	 */
 	goTo(position) {
-		this._wwd.navigator.lookAtLocation = position;
-		this._wwd.redraw();
-		this._wwd.redrawIfNeeded(); // TODO: Check with new releases. This isn't part of the public API and therefore might change.
+		let positionState = this._wwd.navigator.lookAtLocation;
+		if (positionState.latitude !== position.latitude || positionState.longitude !== position.longitude) {
+			this._wwd.navigator.lookAtLocation = position;
+			this._wwd.redraw();
+		}
 	};
 
 	/**
@@ -598,16 +601,38 @@ class WorldWindMap {
 	 */
 	setNavigator() {
 		let navigatorState = this._stateStore.getNavigatorState();
+		let navigatorChanged = false;
 
 		if (navigatorState){
-			this._wwd.navigator.heading = navigatorState.heading;
-			this._wwd.navigator.lookAtLocation = navigatorState.lookAtLocation;
-			this._wwd.navigator.range = navigatorState.range;
-			this._wwd.navigator.roll = navigatorState.roll;
-			this._wwd.navigator.tilt = navigatorState.tilt;
+			if (this._wwd.navigator.heading !== navigatorState.heading) {
+				this._wwd.navigator.heading = navigatorState.heading;
+				navigatorChanged = true;
+			}
 
-			this._goToAnimator.checkRange(navigatorState.range);
-			this.redraw();
+			if (this._wwd.navigator.range !== navigatorState.range) {
+				this._wwd.navigator.range = navigatorState.range;
+				navigatorChanged = true;
+			}
+
+			if (this._wwd.navigator.roll !== navigatorState.roll) {
+				this._wwd.navigator.roll = navigatorState.roll;
+				navigatorChanged = true;
+			}
+
+			if (this._wwd.navigator.tilt !== navigatorState.tilt) {
+				this._wwd.navigator.tilt = navigatorState.tilt;
+				navigatorChanged = true;
+			}
+
+			if (this._wwd.navigator.lookAtLocation.longitude !== navigatorState.lookAtLocation.longitude || this._wwd.navigator.lookAtLocation.latitude !== navigatorState.lookAtLocation.latitude) {
+				this._wwd.navigator.lookAtLocation = navigatorState.lookAtLocation;
+				navigatorChanged = true;
+			}
+
+			if (navigatorChanged) {
+				this._goToAnimator.checkRange(navigatorState.range);
+				this.redraw();
+			}
 		}
 	};
 
@@ -638,8 +663,10 @@ class WorldWindMap {
 	 * @param range {number}
 	 */
 	setRange(range) {
-		this._wwd.navigator.range = range;
-		this.redraw();
+		if (this._wwd.navigator.range !== range) {
+			this._wwd.navigator.range = range;
+			this.redraw();
+		}
 	};
 
 	/**

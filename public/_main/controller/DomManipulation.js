@@ -73,6 +73,7 @@ Ext.define('PumaMain.controller.DomManipulation', {
     },
 	
 	resizeMap: function() {
+		this.resizeReports();
 		var availableSize = this.getContentAvailableSize();
 		
 		var w  = availableSize.width;

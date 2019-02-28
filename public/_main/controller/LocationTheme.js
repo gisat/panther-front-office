@@ -88,6 +88,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 	setPeriodsFromRedux: function(type, options){
 		if (type === 'REDUX_SET_ACTIVE_PERIODS'){
 			if (options && options.keys){
+				ThemeYearConfParams.theme = options.key;
 				let periodsCombo = Ext.ComponentQuery.query('#selyear')[0];
 				let periodsComboValue = periodsCombo.value;
 				let activePeriodsKey = options.keys;
@@ -101,6 +102,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 	setVisualizationFromRedux: function(type, options){
 		if (type === 'REDUX_SET_ACTIVE_VISUALIZATION'){
 			if (options && options.key){
+				ThemeYearConfParams.visualization = options.key;
 				let visualizationCombo = Ext.ComponentQuery.query('#selvisualization')[0];
 				let visualizationComboValue = visualizationCombo.value;
 				let activeVisKey = options.key;
@@ -642,14 +644,16 @@ Ext.define('PumaMain.controller.LocationTheme', {
             return;
         }
         var val = Ext.ComponentQuery.query('#selvisualization')[0].getValue();
-        this.getController('Chart').loadVisualization(val);
-        this.getController('Layers').loadVisualization(val);
-        this.getController('Chart').reconfigureAll();
-        //this.getController('Layers').reconfigureAll();
-        this.getController('Layers').checkVisibilityAndStyles();
+        if (val) {
+			this.getController('Chart').loadVisualization(val);
+			this.getController('Layers').loadVisualization(val);
+			this.getController('Chart').reconfigureAll();
+			//this.getController('Layers').reconfigureAll();
+			this.getController('Layers').checkVisibilityAndStyles();
 
-        ThemeYearConfParams.visualization = val.toString();
-        Observer.notify("rebuild");
+			ThemeYearConfParams.visualization = val.toString();
+			Observer.notify("rebuild");
+		}
     },
 
     refreshVisualization: function() {
@@ -1090,12 +1094,12 @@ Ext.define('PumaMain.controller.LocationTheme', {
             var dataset = Ext.ComponentQuery.query('#seldataset')[0].getValue();
             var only3D = (tools.indexOf('2dmap') !== -1);
 
-            if(dataset !== this._datasetId) {
-                this._datasetId = dataset;
-                if ((Config.cfg && !Config.cfg.sidebarReportsOpen) || !Config.cfg){
-                    this.getController('DomManipulation')._onReportsSidebarHide();
-                }
-            }
+            // if(dataset !== this._datasetId) {
+            //     this._datasetId = dataset;
+            //     if ((Config.cfg && !Config.cfg.sidebarReportsOpen) || !Config.cfg){
+            //         this.getController('DomManipulation')._onReportsSidebarHide();
+            //     }
+            // }
 
             if (!scope.get('hideSidebarReports')) {
                 $('#sidebar-reports').show();

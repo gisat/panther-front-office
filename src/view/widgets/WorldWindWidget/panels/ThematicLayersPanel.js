@@ -80,13 +80,24 @@ class ThematicLayersPanel extends WorldWindWidgetPanel {
 	        this.rebuildControls(options);
         } else if (type === "place#setActivePlace"){
 	    	this.rebuildControls(this._choropleths);
-		} else if (type === "CHOROPLETH_CHECK_ADDED"){
-	    	options.added.forEach(key => {
-	    		let checkboxSelector = $('#checkbox-' + key);
-	    		if (!checkboxSelector.hasClass('checked')){
-	    			checkboxSelector.addClass('checked');
-				}
-			});
+		} else if (type === "CHOROPLETH_CHECK_CHANGED"){
+	    	if (options && options.added) {
+				options.added.forEach(key => {
+					let checkboxSelector = $('#checkbox-' + key);
+					if (!checkboxSelector.hasClass('checked')){
+						checkboxSelector.addClass('checked');
+					}
+				});
+			}
+
+	    	if (options && options.removed) {
+				options.removed.forEach(key => {
+					let checkboxSelector = $('#checkbox-' + key);
+					if (checkboxSelector.hasClass('checked')){
+						checkboxSelector.removeClass('checked');
+					}
+				});
+			}
 		}
     }
 }

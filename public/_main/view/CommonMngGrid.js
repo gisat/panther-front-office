@@ -8,35 +8,6 @@ Ext.define('PumaMain.view.CommonMngGrid', {
 
         var actionItems = [
             {
-                icon: 'images/icons/up.png', // Use a URL in the icon config
-                tooltip: polyglot.t('up'),
-                hidden: !this.allowReorder,
-                width: 16,
-                height: 16,
-                handler: function(grid, rowIndex, colIndex, item, e, record) {
-                    me.fireEvent('recmoved', me, record, true)
-                }
-            }, {
-                icon: 'images/icons/down.png', // Use a URL in the icon config
-                tooltip: polyglot.t('down'),
-                hidden: !this.allowReorder,
-                width: 16,
-                height: 16,
-                handler: function(grid, rowIndex, colIndex, item, e, record) {
-                    me.fireEvent('recmoved', me, record, false)
-                }
-            },
-            {
-                icon: 'images/icons/view.png', // Use a URL in the icon config
-                tooltip: polyglot.t('open'),
-                hidden: this.allowReorder ? true: false,
-                width: 16,
-                height: 16,
-                handler: function(grid, rowIndex, colIndex, item, e, record) {
-                    me.fireEvent('urlopen', me, record)
-                }
-            },
-            {
                 icon: 'images/icons/remove-16.png', // Use a URL in the icon config
                 tooltip: polyglot.t('remove'),
                 width: 16,
@@ -44,13 +15,7 @@ Ext.define('PumaMain.view.CommonMngGrid', {
                 handler: function(grid, rowIndex, colIndex, item, e, record) {
                     me.fireEvent('recdeleted', me, record)
                 }
-            }]
-        if (!me.allowReorder) {
-            actionItems = actionItems.slice(2);
-        }
-        else {
-            actionItems = [actionItems[0],actionItems[1],actionItems[3]]
-        }
+            }];
 
         this.columns = [{
                 dataIndex: 'name',
@@ -62,8 +27,9 @@ Ext.define('PumaMain.view.CommonMngGrid', {
             },
             {
                 xtype: 'actioncolumn',
-                width: this.allowReorder ? 72 : 50,
-                items: actionItems}
+                width: 30,
+                items: actionItems
+            }
         ]
         this.callParent();
 

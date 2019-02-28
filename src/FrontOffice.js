@@ -78,8 +78,9 @@ class FrontOffice {
         let self = this;
         if (visualization > 0 && this._options.changes.visualization && !this._options.changes.dataview){
             this._store.visualizations.byId(visualization).then(function(response){
-                let attributes = response[0].attributes;
-                let options = response[0].options;
+                let data = response[0];
+                let attributes = data.attributes;
+                let activeLayers = data.visibleLayers;
 
                 if (attributes){
                     self.getAttributesMetadata().then(function(results){
@@ -97,6 +98,22 @@ class FrontOffice {
                 }
 
                 self.handlePeriods();
+
+                // show active choropleths
+                if (activeLayers.choropleths) {
+                    self._dispatcher.notify("choropleths#setActive", activeLayers.choropleths);
+                }
+
+                // select background layer
+                if (activeLayers.background) {
+                    self._dispatcher.notify("backgroundLayersPanel#setActiveBackgroundLayer", {key: activeLayers.background});
+                }
+
+                // show vector and raster layers
+                if (activeLayers.layers) {
+                    self._dispatcher.notify("infoLayer#set", {layerTemplates: activeLayers.layers});
+                }
+
                 self._stateStore.resetChanges();
             }).catch(function(err){
                 throw new Error(err);
@@ -321,6 +338,10 @@ class FrontOffice {
         let state = this._stateStore.current();
         let htmlBody = $("body");
         let self = this;
+
+        if (options && !options.sidebarReportsOpen) {
+            $("#sidebar-reports").addClass("hidden");
+        }
 
         this._scopesStore.byId(state.scope).then(function(scopes){
             let scope = scopes[0];

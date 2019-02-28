@@ -121,7 +121,9 @@
 }
 .ptr-button.header-button {
 	height: 29px;
+	width: 1.5rem;
 	align-items: center;
+	justify-content: center;
 	vertical-align: middle;
 	display: flex;
 	color: rgb(153, 153, 153);

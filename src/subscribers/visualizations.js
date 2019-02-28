@@ -17,6 +17,10 @@ const setStoreWatchers = store => {
 const setEventListeners = store => {
 	window.Stores.addListener((event, options) => {
 		switch(event) {
+			case "VISUALISATIONS_REFRESH":
+				store.dispatch(Action.visualizations.setOutdated());
+				store.dispatch(Action.visualizations.refreshUses());
+				break;
 			default:
 				break;
 		}

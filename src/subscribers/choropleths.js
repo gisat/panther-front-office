@@ -27,6 +27,9 @@ const setEventListeners = store => {
 			case 'choropleths#removeActive':
 				store.dispatch(Action.choropleths.removeActiveKeys(options));
 				break;
+			case 'choropleths#setActive':
+				store.dispatch(Action.choropleths.setActiveKeys(options));
+				break;
 			default:
 				break;
 		}
@@ -61,7 +64,7 @@ const activeKeysWatcher = (value, previousValue) => {
 	let diffChoroplethKeys = compareValues(value, previousValue);
 	console.log('@@## diffChoroplethKeys', diffChoroplethKeys);
 	if (diffChoroplethKeys && diffChoroplethKeys.added){
-		window.Stores.notify("CHOROPLETH_CHECK_ADDED", diffChoroplethKeys);
+		window.Stores.notify("CHOROPLETH_CHECK_CHANGED", diffChoroplethKeys);
 	}
 };
 

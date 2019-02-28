@@ -9,6 +9,7 @@ const order = [['name', 'ascending']];
 
 const mapStateToProps = (state) => {
 	return {
+		forceShow: Select.users.isAdminOrAdminGroupMember(state),
 		isInIntroMode: Select.components.isAppInIntroMode(state),
 		activeVisualization: Select.visualizations.getActive(state),
 		visualizations: Select.visualizations.getAllForActiveTheme(state, order)
