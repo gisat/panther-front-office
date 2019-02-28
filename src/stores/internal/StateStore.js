@@ -71,7 +71,7 @@ class StateStore {
         return {
             scope: this.scope(),
             scopeFull: this.scopeFull(),
-            theme: this._theme,
+            theme: this._theme || ThemeYearConfParams.theme,
             places: this.places(),
             place: ThemeYearConfParams.place,
             allPlaces: ThemeYearConfParams.allPlaces,
@@ -475,7 +475,7 @@ class StateStore {
         } else if (type === 'CHOROPLETH_ACTIVE_KEYS_CHANGED'){
 			this._activeChoroplethKeys = options;
 		} else if (type === 'REDUX_SET_ACTIVE_THEME'){
-            this._theme = options.keys;
+            this._theme = options.key;
         }
     };
 

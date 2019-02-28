@@ -88,6 +88,7 @@ Ext.define('PumaMain.controller.LocationTheme', {
 	setPeriodsFromRedux: function(type, options){
 		if (type === 'REDUX_SET_ACTIVE_PERIODS'){
 			if (options && options.keys){
+				ThemeYearConfParams.theme = options.key;
 				let periodsCombo = Ext.ComponentQuery.query('#selyear')[0];
 				let periodsComboValue = periodsCombo.value;
 				let activePeriodsKey = options.keys;
