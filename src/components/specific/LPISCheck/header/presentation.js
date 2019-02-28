@@ -107,11 +107,11 @@ class LpisCheckHeader extends React.PureComponent {
 									</div>) : null
 								}
 								{
-									this.props.case.data.poznamka ? (
+									(this.props.case.data.poznamka || this.props.case.data.typ) ? (
 									<div>
 										<label>
 											<span>Poznámka: </span>
-											{this.props.case.data.poznamka}
+											{this.props.case.data.poznamka || this.props.case.data.typ}
 										</label>
 									</div>) : null
 								}

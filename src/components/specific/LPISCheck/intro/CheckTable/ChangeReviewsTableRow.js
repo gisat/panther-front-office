@@ -41,8 +41,7 @@ class ChangeReviewsTableRow extends React.PureComponent {
 						{this.props.data.kulturakod}
 					</div>
 					<div className="ptr-table-row-item">
-						{this.props.data.typ ? this.props.data.typ : null}
-						{this.props.data.poznamka ? this.props.data.poznamka : null}
+						{this.props.data.typ || this.props.data.poznamka || null}
 					</div>
 					<div className="ptr-table-row-item buttons">
 						<div className="ptr-table-row-action">

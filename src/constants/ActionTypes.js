@@ -484,6 +484,28 @@ export default utils.deepKeyMirror({
 		}
 	},
 
+
+	LPIS_CASES: {
+		ADD: null,
+		ADD_UNRECEIVED: null,
+		INDEX: {
+			ADD: null,
+			CLEAR_ALL: null
+		},
+		SET_ACTIVE_KEY: null,
+		INITIALIZE_FOR_EXT: null, // TODO It will be removed along with Ext
+		USE: {
+			INDEXED: {
+				CLEAR: null,
+				REGISTER: null
+			},
+			KEYS: {
+				CLEAR: null,
+				REGISTER: null
+			}
+		}
+	},
+
 	LPIS_CASES_ADD: 'LPIS_CASES_ADD',
 	LPIS_CASE_CHANGES_ADD: 'LPIS_CASE_CHANGES_ADD',
 	LPIS_CASES_SEARCH_STRING_CHANGE: 'LPIS_CASES_SEARCH_STRING_CHANGE',
