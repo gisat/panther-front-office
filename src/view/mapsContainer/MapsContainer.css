@@ -26,6 +26,7 @@ body.mode-3d .maps-container {
 	display: flex;
 	flex-grow: 1;
 	position: relative;
+	max-height: 100%;
 }
 .maps-container #maps-container-bar-bottom {
 	flex-grow: 0;
