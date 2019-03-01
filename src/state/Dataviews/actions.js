@@ -131,8 +131,7 @@ function initialMetadataLoad (){
 						dispatch(Action.specific.lpisCheckCases.loadCaseForActiveView()).then(() => {
 							dispatch(Action.specific.lpisCheckCases.setActiveCaseByActiveView());
 						});
-					}
-					if (activeScopeConfig && activeScopeConfig.hasOwnProperty(`lpisCheckCases`)){
+					}else if (activeScopeConfig && activeScopeConfig.hasOwnProperty(`lpisCheckCases`)){
 						dispatch(Action.specific.lpisCheckCases.loadCaseForActiveView()).then(() => {
 							dispatch(Action.specific.lpisCheckCases.setActiveCaseByActiveView());
 						});

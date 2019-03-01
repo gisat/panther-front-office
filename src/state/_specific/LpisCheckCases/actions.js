@@ -12,65 +12,6 @@ import LayerPeriods from "../../LayerPeriods/actions";
 
 // ============ creators ===========
 
-const LPISCHECKURL = 'backend/rest/metadata/lpischeck_cases';
-const LPISCHECKFILTEREDURL = 'backend/rest/metadata/filtered/lpischeck_cases';
-
-function load() {
-	return (dispatch) => {
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, LPISCHECKURL);
-
-		return fetch(url, {
-			method: 'GET',
-			credentials: 'include',
-			headers: {
-				'Content-Type': 'application/json',
-				'Accept': 'application/json'
-			}
-		}).then(response => {
-			if (response.status === 200) {
-				return response.json();
-			}
-		}).then((responseContent) => {
-			dispatch(_storeResponseContent(responseContent));
-		})
-	}
-}
-
-function loadFiltered(filter) {
-	return (dispatch) => {
-		let url = config.apiBackendProtocol + '://' + path.join(config.apiBackendHost, LPISCHECKFILTEREDURL);
-
-		return fetch(url, {
-			method: 'POST',
-			credentials: 'include',
-			headers: {
-				'Content-Type': 'application/json',
-				'Accept': 'application/json'
-			},
-			body: JSON.stringify(filter)
-		}).then(response => {
-			if (response.status === 200) {
-				return response.json();
-			}
-		}).then((responseContent) => {
-			return dispatch(_storeResponseContent(responseContent));
-		})
-	}
-}
-
-function _storeResponseContent(content) {
-	return (dispatch, getState) => {
-		let state = getState();
-		if (content) {
-			let lpisCases = content['data']['lpischeck_cases'];
-
-			if (lpisCases && lpisCases.length) {
-				dispatch(actionAddLpisCases(lpisCases));
-			}
-		}
-	}
-}
-
 function setActive(caseKey) {
 	return (dispatch, getState) => {
 		dispatch(actionSetActive(caseKey));
@@ -180,17 +121,12 @@ function loadCaseForActiveView() {
 		if (!activeScope) {
 			throw new Error(`LpisCheckCases#actions#loadCaseForActiveView: active scope was not found`);
 		}
-
-		return Promise
-			.resolve()
-			.then(() => {
-				if (activeScope.data.configuration && activeScope.data.configuration.lpisCheckReview) {
-					return dispatch(loadFiltered({dataview_key: Number(activeViewKey)}));
-				}
-				if (activeScope.data.configuration && activeScope.data.configuration.headerComponent === 'LPISCheck') {
-					return dispatch(loadFiltered({dataview_key: Number(activeViewKey)}));
-				}
-			});
+		
+		if (activeScope.data.configuration && activeScope.data.configuration.lpisCheckReview) {
+			return dispatch(common.loadFiltered('lpischeck_cases', ActionTypes.LPIS_CASES, {dataview_key: Number(activeViewKey)}));
+		}else if (activeScope.data.configuration && activeScope.data.configuration.headerComponent === 'LPISCheck') {
+			return dispatch(common.loadFiltered('lpischeck_cases', ActionTypes.LPIS_CASES, {dataview_key: Number(activeViewKey)}));
+		}
 	}
 }
 
@@ -207,13 +143,6 @@ function setActiveCaseByActiveView() {
 // ============ helpers ===========
 
 // ============ actions ===========
-
-function actionAddLpisCases(lpisCases) {
-	return {
-		type: ActionTypes.LPISCHECK_CASES_ADD,
-		data: lpisCases
-	}
-}
 
 function actionChangeSearch(searchParam) {
 	return {
@@ -246,7 +175,6 @@ function setChanging(changing) {
 // ============ export ===========
 
 export default {
-	load: load,
 	changeSearch: actionChangeSearch,
 	setActive,
 	setCaseVisited,

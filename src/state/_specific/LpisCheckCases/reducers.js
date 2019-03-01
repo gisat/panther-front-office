@@ -60,7 +60,7 @@ function updateCase(state, action) {
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case ActionTypes.LPISCHECK_CASES_ADD:
+		case ActionTypes.LPIS_CASES.ADD:
 			return receiveCases(state, action);
 		case ActionTypes.LPISCHECK_UPDATE_CASE:
 			return updateCase(state, action);
