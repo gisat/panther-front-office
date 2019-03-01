@@ -14,6 +14,7 @@ import scopes from './scopes';
 import snapshots from './snapshots';
 import styles from './styles';
 import themes from './themes';
+import topics from './topics';
 import users from './users';
 import views from './dataviews';
 import visualizations from './visualizations';
@@ -37,6 +38,7 @@ export default store => {
 	snapshots(store);
 	styles(store);
 	themes(store);
+	topics(store);
 	users(store);
 	views(store);
 	visualizations(store);

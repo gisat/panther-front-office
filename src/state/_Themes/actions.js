@@ -15,6 +15,7 @@ function setActive(key, componentId){
 	return (dispatch, getState) => {
 		let data = Select.themes.getByKey(getState(), key);
 		if (data.data && data.data.topics) {
+			dispatch(Action.topics.useKeys(data.data.topics), 'ActiveTheme');
 			// TODO redundant request if attribute sets for these topics were already loaded
 			dispatch(Action.attributeSets.loadForTopics(data.data.topics))
 				.then(() => {

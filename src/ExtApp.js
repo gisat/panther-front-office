@@ -68,6 +68,7 @@ class ExtApp {
 		let scopesStore = Ext.StoreMgr.lookup('dataset');
 		let placesStore = Ext.StoreMgr.lookup('location');
 		let themesStore = Ext.StoreMgr.lookup('theme');
+		let topicsStore = Ext.StoreMgr.lookup('topic');
 		let yearsStore = Ext.StoreMgr.lookup('year');
 		let visualizationsStore = Ext.StoreMgr.lookup('visualization');
 
@@ -86,6 +87,9 @@ class ExtApp {
 		if (data.themes){
 			themesStore.add(data.themes);
 			themeStore.add(data.themes);
+		}
+		if (data.topics){
+			topicsStore.add(data.topics);
 		}
 		if (data.periods){
 			yearsStore.add(data.periods);
@@ -124,21 +128,52 @@ class ExtApp {
 		let dataForStoreSel = [];
 
 		data.forEach(record => {
-			store.data.items.forEach((item) => {
-				if (record.id === item.id) {
+			if (store.data.items.length) {
+				let exists = false;
+				store.data.items.forEach((item) => {
+					if (record.id === item.data._id) {
+						exists = true;
+					}
+				});
+				if (!exists) {
 					dataForStore.push(record);
 				}
-			});
 
-			storeSel.data.items.forEach((item) => {
-				if (record.id === item.id) {
+			} else {
+				dataForStore.push(record);
+			}
+
+			if (storeSel.data.items.length) {
+				let exists = false;
+				storeSel.data.items.forEach((item) => {
+					if (record.id === item.data._id) {
+						exists = true;
+					}
+				});
+				if (!exists) {
 					dataForStoreSel.push(record);
 				}
-			});
+			} else {
+				dataForStoreSel.push(record);
+			}
 		});
 
 		store.add(dataForStore);
 		storeSel.add(dataForStoreSel);
+	}
+
+	addTopicsToStore(data){
+		let store = Ext.StoreMgr.lookup('topic');
+		let dataForStore = [];
+
+		data.forEach(record => {
+			store.data.items.forEach((item) => {
+				if (record.id !== item.data._id) {
+					dataForStore.push(record);
+				}
+			});
+		});
+		store.add(dataForStore);
 	}
 
     applyDataview(data){
@@ -263,6 +298,10 @@ class ExtApp {
 		} else if (type === "REDUX_VISUALIZATIONS_ADD"){
 			if (options.length){
 				this.addVisualizationsToStore(options);
+			}
+		} else if (type === "REDUX_TOPICS_ADD"){
+			if (options.length){
+				this.addTopicsToStore(options);
 			}
 		}
     }
