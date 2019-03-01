@@ -34,6 +34,22 @@ class VisualizationSelector extends React.PureComponent {
 		this.props.onUnmount();
 	}
 
+	componentDidUpdate() {
+		let activeKey = this.props.activeVisualization && this.props.activeVisualization.key;
+		let isActiveVisualizationAvailable = false;
+		if (this.props.visualizations) {
+			this.props.visualizations.forEach(vis => {
+				if (vis.key === activeKey) {
+					isActiveVisualizationAvailable = true;
+				}
+			});
+
+			if (!isActiveVisualizationAvailable) {
+				this.onChangeVisualization(this.props.visualizations[0]);
+			}
+		}
+	}
+
 	onChangeVisualization(object){
 		this.props.onChangeVisualization(object.key);
 	}
