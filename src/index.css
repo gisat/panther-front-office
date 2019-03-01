@@ -648,6 +648,7 @@ todo merge with overlay
 
 .ptr-overlay.open {
 	display: flex;
+	flex-direction: column;
 }
 
 /* aoi overlay */

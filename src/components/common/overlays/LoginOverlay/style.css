@@ -12,6 +12,48 @@
 	height: 15rem;
 	flex-grow:0;
 }
+
+.ptr-login-eosso {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	width: 22rem			;
+	margin-bottom: 2rem;
+	position: relative;
+}
+
+.ptr-login-eosso .ptr-button {
+	margin-bottom: 2rem;
+	font-size: 1.125rem;
+	text-decoration: none;
+	padding: .75rem 1.5rem;
+}
+
+.ptr-login-divider {
+	color: rgba(255,255,255,.3);
+	font-size: 1rem;
+	display: flex;
+	align-items: center;
+	width: 100%;
+}
+.ptr-login-divider::before,
+.ptr-login-divider::after {
+	content: "";
+	flex: 1;
+	height: 1px;
+	background-color: rgba(255,255,255,.2);
+}
+.ptr-login-divider::before {
+	left: 0;
+	margin-right: .5rem;
+}
+.ptr-login-divider::after {
+	margin-left: .5rem;
+	right: 0;
+}
+
+
 .ptr-login > div {
 	margin-bottom: .75rem;
 }
