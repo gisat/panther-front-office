@@ -18,16 +18,18 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	width: 22rem			;
+	width: 30rem;
 	margin-bottom: 2rem;
 	position: relative;
 }
 
 .ptr-login-eosso .ptr-button {
-	margin-bottom: 2rem;
 	font-size: 1.125rem;
 	text-decoration: none;
 	padding: .75rem 1.5rem;
+	margin-top: 1rem;
+	width: 20rem;
+	text-align: center;
 }
 
 .ptr-login-divider {
@@ -35,6 +37,7 @@
 	font-size: 1rem;
 	display: flex;
 	align-items: center;
+	margin-top: 2rem;
 	width: 100%;
 }
 .ptr-login-divider::before,
