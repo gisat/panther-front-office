@@ -50,7 +50,7 @@ Ext.define('Puma.model.MappedChartAttribute', {
 				else if(record.get('topic')){
 					var topicStore = Ext.StoreMgr.lookup('topic');
 					var topic = topicStore.getById(record.get('topic'));
-					return topic ? topic.get('name') : "###";
+					return topic ? topic.get('name') : record.get('topic');
 				}
 			}
 		}

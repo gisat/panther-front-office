@@ -22,6 +22,7 @@ import spatialDataSourcesReducers from './SpatialDataSources/reducers';
 import spatialRelationsReducers from './SpatialRelations/reducers';
 import stylesReducers from './Styles/reducers';
 import themesReducers from './_Themes/reducers';
+import topicsReducers from './_Topics/reducers';
 import usersReducers from './Users/reducers';
 import userGroupsReducers from './UserGroups/reducers';
 import visualizationsReducers from './_Visualizations/reducers';
@@ -54,6 +55,7 @@ const Store = createStore(combineReducers({
 	spatialRelations: spatialRelationsReducers,
 	styles: stylesReducers,
 	themes: themesReducers,
+	topics: topicsReducers,
 	users: usersReducers,
 	userGroups: userGroupsReducers,
 	visualizations: visualizationsReducers,

@@ -18,6 +18,7 @@ import SpatialDataSources from './SpatialDataSources/actions';
 import SpatialRelations from './SpatialRelations/actions';
 import Styles from './Styles/actions';
 import Themes from './_Themes/actions';
+import Topics from './_Topics/actions';
 import Users from './Users/actions';
 import UserGroups from './UserGroups/actions';
 import Visualizations from './_Visualizations/actions';
@@ -47,6 +48,7 @@ export default {
 	spatialRelations: SpatialRelations,
 	styles: Styles,
 	themes: Themes,
+	topics: Topics,
 	users: Users,
 	userGroups: UserGroups,
 	visualizations: Visualizations,

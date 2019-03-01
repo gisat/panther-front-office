@@ -185,6 +185,7 @@ function initialMetadataLoad (){
 				.then(() => {
 					let activeTheme = Select.themes.getActive(getState());
 					if (activeTheme && activeTheme.data && activeTheme.data.topics) {
+						dispatch(Action.topics.useKeys(activeTheme.data.topics, 'ActiveView', options));
 						return dispatch(Action.attributeSets.loadForTopics(activeTheme.data.topics, options));
 					} else {
 						throw new Error(`state/dataviews/actions#loadByKey No topics for active theme!`);

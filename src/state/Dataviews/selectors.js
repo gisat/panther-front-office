@@ -9,6 +9,7 @@ import PeriodsSelectors from '../Periods/selectors';
 import PlacesSelectors from '../Places/selectors';
 import ScopesSelectors from '../Scopes/selectors';
 import ThemesSelectors from '../_Themes/selectors';
+import TopicsSelectors from '../_Topics/selectors';
 import UsersSelectors from '../Users/selectors';
 import VisualizationSelectors from '../_Visualizations/selectors';
 import VisualsConfig from "../../constants/VisualsConfig";
@@ -50,11 +51,12 @@ const getDataForInitialLoad = createSelector(
 		ScopesSelectors.getAllForDataview,
 		ScopesSelectors.getActiveScopeConfiguration,
 		ThemesSelectors.getAllForDataview,
+		TopicsSelectors.getAllForDataview,
 		VisualizationSelectors.getAllForDataview,
 		VisualizationSelectors.isInitializedForExt,
 		AttributeSetsSelectors.isInitializedForExt,
 	],
-	(dataview, activeUser, attributes, attributesInitialized, attributeSets, attributeSetsInitialized, periods, places, placesInitialized, placesActiveKey, scopes, activeScopeConfig, themes, visualizations, visualizationsInitialized) => {
+	(dataview, activeUser, attributes, attributesInitialized, attributeSets, attributeSetsInitialized, periods, places, placesInitialized, placesActiveKey, scopes, activeScopeConfig, themes, topics, visualizations, visualizationsInitialized) => {
 		let attrs = null, attrSets = null, plcs = null, visual = null, activeScopeStyle = null;
 
 		if (attributes){
@@ -98,6 +100,7 @@ const getDataForInitialLoad = createSelector(
 			places: plcs,
 			scopes,
 			themes,
+			topics,
 			visualizations: visual
 		}
 	}
