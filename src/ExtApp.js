@@ -128,17 +128,34 @@ class ExtApp {
 		let dataForStoreSel = [];
 
 		data.forEach(record => {
-			store.data.items.forEach((item) => {
-				if (record.id === item.id) {
+			if (store.data.items.length) {
+				let exists = false;
+				store.data.items.forEach((item) => {
+					if (record.id === item.data._id) {
+						exists = true;
+					}
+				});
+				if (!exists) {
 					dataForStore.push(record);
 				}
-			});
 
-			storeSel.data.items.forEach((item) => {
-				if (record.id === item.id) {
+			} else {
+				dataForStore.push(record);
+			}
+
+			if (storeSel.data.items.length) {
+				let exists = false;
+				storeSel.data.items.forEach((item) => {
+					if (record.id === item.data._id) {
+						exists = true;
+					}
+				});
+				if (!exists) {
 					dataForStoreSel.push(record);
 				}
-			});
+			} else {
+				dataForStoreSel.push(record);
+			}
 		});
 
 		store.add(dataForStore);
