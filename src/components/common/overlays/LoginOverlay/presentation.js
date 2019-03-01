@@ -100,8 +100,9 @@ class LoginOverlay extends React.PureComponent {
 	renderEossoLogin() {
 		return (
 			<div className="ptr-login-eosso">
-				<a className="ptr-button primary large" href="https://eo-sso-idp.eo.esa.int/idp/umsso20/registration" target="_blank">{polyglot.t('loginViaEosso')}</a>
-				<div className="ptr-login-divider">{polyglot.t('or')}</div>
+				<a className="ptr-button primary large" href="https://eo-sso-idp.eo.esa.int/idp/umsso20/adapter?conversation=e1s1" target="_blank">{polyglot.t('loginViaEosso')}</a>
+				<a className="ptr-button inverted large" href="https://eo-sso-idp.eo.esa.int/idp/umsso20/registration" target="_blank">{polyglot.t('signup')}</a>
+				<div className="ptr-login-divider">{polyglot.t('orUseInternalLogin')}</div>
 			</div>
 		);
 	}
