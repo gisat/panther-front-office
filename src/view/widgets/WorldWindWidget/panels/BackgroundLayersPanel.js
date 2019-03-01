@@ -59,8 +59,8 @@ class BackgroundLayersPanel extends WorldWindWidgetPanel {
         this.toggleLayerWithControl('bingAerial', 'bingAerial', disabledLayers, activeBackgroundMap);
         this.toggleLayerWithControl('sentinel2', 'sentinel2', disabledLayers, activeBackgroundMap);
 
-        if (scope && scope['extraBackgroundLayers']) {
-            let extraLayers = scope['extraBackgroundLayers'];
+        if (scope && (scope['extraBackgroundLayers'] || (scope.configuration && scope.configuration.extraBackgroundLayers))) {
+            let extraLayers = scope['extraBackgroundLayers'] || scope.configuration.extraBackgroundLayers;
             for (let layer in extraLayers) {
                 if (extraLayers[layer] && extraLayers[layer] === 'cuzkOrto') {
                     this.toggleLayerWithControl('cuzkOrto', 'cuzkOrto', disabledLayers, activeBackgroundMap);
