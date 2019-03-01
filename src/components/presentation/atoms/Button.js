@@ -14,6 +14,7 @@ class Button extends React.PureComponent {
 		icon: PropTypes.string,
 		primary: PropTypes.bool,
 		secondary: PropTypes.bool,
+		large: PropTypes.bool,
 		ghost: PropTypes.bool,
 		invisible: PropTypes.bool,
 		circular: PropTypes.bool,
@@ -120,7 +121,8 @@ class Button extends React.PureComponent {
 				disabled: this.props.disabled,
 				icon: !!iconInsert && !hasContent,
 				small: this.props.small,
-				inverted: !!this.props.inverted
+				inverted: !!this.props.inverted,
+				large: !!this.props.large
 			},
 			this.props.className
 		);

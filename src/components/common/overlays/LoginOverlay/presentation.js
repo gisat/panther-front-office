@@ -15,6 +15,7 @@ let polyglot = window.polyglot;
 class LoginOverlay extends React.PureComponent {
 
 	static propTypes = {
+		eossoLogin: PropTypes.bool,
 		open: PropTypes.bool,
 		loginRequired: PropTypes.bool
 	};
@@ -52,6 +53,7 @@ class LoginOverlay extends React.PureComponent {
 
 		return (
 			<div className={classNames("ptr-login-overlay", "ptr-overlay", "ptr-overlay-fix", {open: this.props.open})}>
+				{this.props.eossoLogin ? this.renderEossoLogin() : null}
 				<div className="ptr-login">
 					<div>
 						<InputText
@@ -73,7 +75,8 @@ class LoginOverlay extends React.PureComponent {
 					</div>
 					<div>
 						<Button
-							primary
+							primary={!this.props.eossoLogin}
+							inverted={this.props.eossoLogin}
 							onClick={this.login}
 						>
 							{polyglot.t('logIn')}
@@ -92,6 +95,15 @@ class LoginOverlay extends React.PureComponent {
 			</div>
 		);
 
+	}
+
+	renderEossoLogin() {
+		return (
+			<div className="ptr-login-eosso">
+				<a className="ptr-button primary large" href="https://eo-sso-idp.eo.esa.int/idp/umsso20/registration" target="_blank">{polyglot.t('loginViaEosso')}</a>
+				<div className="ptr-login-divider">{polyglot.t('or')}</div>
+			</div>
+		);
 	}
 }
 
