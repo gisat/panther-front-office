@@ -144,18 +144,9 @@ export default {
 	},
 
 	markDeleted: (state, action) => {
-		if (state.byKey){
-			let byKey = {};
-			_.each(state.byKey, (model, key) => {
-				byKey[key] = {
-					...model,
-				}
-
-				//set removed for given key
-				if(action.key === key) {
-					byKey[key].removed = action.date;
-				}
-			});
+		if (state.byKey && state.byKey[action.key]) {
+			const byKey = {...state.byKey};
+			byKey[action.key].removed = action.deleted;
 
 			return {
 				...state,
