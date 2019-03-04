@@ -115,10 +115,15 @@ class ExtApp {
 
 	addAttributesToStore(data){
 		Ext.StoreMgr.lookup('attribute').add(data);
+		// Ext.StoreMgr.lookup('attributes2choose').add(data);
+		Ext.StoreMgr.lookup('attribute4chart').add(data);
+		Ext.StoreMgr.lookup('attribute4chart4norm').add(data);
 	}
 
     addAttributeSetsToStore(data){
 		Ext.StoreMgr.lookup('attributeset').add(data);
+		Ext.StoreMgr.lookup('attributeset2choose').add(data);
+		Ext.StoreMgr.lookup('attributeset4chart').add(data);
 	}
 
 	addVisualizationsToStore(data){
