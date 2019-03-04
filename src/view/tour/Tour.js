@@ -71,7 +71,7 @@ class Tour {
 			return `
 				<li data-el='#view-selector' data-orientation='bottom' data-align='center'>
 					<h2>View selection</h2>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+					<p>Select combination of place, theme and periods to get specific data subset or change visualization to examine data from different perspectives.</p>
 					<div class="tour-buttons">
 						<a href='#' class='tour-button primary tourbus-next'>Next</a>
 						<a href='#' class='tour-button tourbus-stop'>Quit</a>
@@ -79,25 +79,25 @@ class Tour {
 				</li>
 				<li data-el='#top-toolbar-features' data-orientation='bottom' data-align='center'>
 					<h2>Tool bar</h2>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+					<p>Use a variety of tools & widgets to work with the maps. You can choose or create map layers, filter and select areas, take map snapshots and much more.</p>
 					<div class="tour-buttons">
 						<a href='#' class='tour-button primary tourbus-next'>Next</a>
 						<a href='#' class='tour-button tourbus-stop'>Quit</a>
 					</div>
 				</li>
-				<li data-orientation="centered" data-class="force-right">
+				<li data-orientation="centered" data-class="right-arrow left-margin">
 					<h2>Maps</h2>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+					<p>Zoom, pan, rotate or tilt a map to explore displayed data, use Layers widget to change displayed layers or select multiple periods to get multiple maps.</p>
 					<div class="tour-buttons">
 						<a href='#' class='tour-button primary tourbus-next'>Next</a>
 						<a href='#' class='tour-button tourbus-stop'>Quit</a>
 					</div>
 				</li>
-				<li data-el='#sidebar-reports' data-orientation='left' data-align='center'>
-					<h2>Charts & tables</h2>
-					<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s</p>
+				<li data-el='#sidebar-reports' data-orientation='left' data-align='center' data-class="left-margin">
+					<h2>Data analysis</h2>
+					<p>It is possible to analyze data from different perspectives using various charts and tables.</p>
 					<div class="tour-buttons">
-						<a href='#' class='tour-button primary tourbus-stop'>Start browsing!</a>
+						<a href='#' class='tour-button primary tourbus-stop'>Quit tour and start exploring!</a>
 					</div>
 				</li>
 			`;
