@@ -34,7 +34,7 @@ const addIndex = (action) => {
 	}
 };
 
-const apiDelete = (getSubstate, dataType, actionTypes, data, categoryPath = DEFAULT_CATEGORY_PATH) => {
+const apiDelete = (dataType, data) => {
 	return dispatch => {
 		const apiPath = 'backend/rest/metadata';
 		const payload = {
@@ -47,7 +47,12 @@ const apiDelete = (getSubstate, dataType, actionTypes, data, categoryPath = DEFA
 				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
 					dispatch(actionGeneralError(result.errors[dataType] || new Error('no data')));
 				} else {
-					dispatch(receiveDeleted(getSubstate, actionTypes, result, dataType, categoryPath));
+					const itemsDeleted = result.data[dataType];
+					if (itemsDeleted.length > 0) {
+						return result;
+					} else {
+						console.warn(`No data updated for ${dataType} metadata type`);
+					}
 				}
 			})
 			.catch(error => {
@@ -106,10 +111,39 @@ const updateEdited = (getSubstate, actionTypes) => {
 	}
 };
 
-const deleteByKey = (getSubstate, dataType, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) => {
-	return (key) => {
-		return (dispatch) => {
-			dispatch(apiDelete(getSubstate, dataType, actionTypes, [{key}], categoryPath));
+const deleteItem = (getSubstate, dataType, actionTypes) => {
+	return (item) => {
+		return (dispatch, getState) => {
+			if (!item) {
+				return dispatch(actionGeneralError('common/actions#deleteItem: item to delete is missing!'));
+			}
+
+			if (!item.key) {
+				return dispatch(actionGeneralError('common/actions#deleteItem: item key to delete is missing!'));
+			}
+
+			dispatch(apiDelete(dataType, [{key: item.key}])).then((result) => {
+				const data = result.data[dataType];
+				const deletedKeys = data.map(d => d.key);
+				//Check if item deleted
+				if(deletedKeys.includes(item.key)) {
+					// mark deleted items by "deleted" date
+					const deleteDate = moment(new Date().toString()).utc().format();
+					deletedKeys.forEach((key) => 
+						dispatch(actionMarkAsDeleted(actionTypes, key, deleteDate))
+					);
+
+					//refresh proper indexes
+					const state = getState();
+					const indexes = commonSelectors.getIndexesByFilteredItem(getSubstate)(state, item);
+					indexes.forEach(index => {
+						//invalidate data
+						dispatch(actionClearIndex(actionTypes, index.filter, index.order))
+						//refresh data
+						dispatch(refreshIndex(getSubstate, dataType, index.filter, index.order, actionTypes));
+					})
+				}
+			});
 		}
 	}
 }
@@ -135,7 +169,10 @@ const saveEdited = (getSubstate, dataType, actionTypes, categoryPath = DEFAULT_C
 
 			if (saved) {
 				// update
-				dispatch(apiUpdate(getSubstate, dataType, actionTypes, categoryPath, [edited]));
+				dispatch(apiUpdate(getSubstate, dataType, actionTypes, categoryPath, [edited])).then(() => {
+					//FIXME - check indexes
+				})
+
 			} else {
 				// create
 				debugger;
@@ -217,17 +254,26 @@ function requestWrapper(apiPath, method, query, payload, successAction, errorAct
 	}
 }
 
-function create(dataType, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) {
+function create(getSubstate, dataType, actionTypes, categoryPath = DEFAULT_CATEGORY_PATH) {
 	return (key) => {
-		return dispatch => {
+		return (dispatch, getState) => {
 			const apiPath = path.join('backend/rest', categoryPath);
 			const payload = getCreatePayload(dataType, key);
 			return request(apiPath, 'POST', null, payload).then(result => {
 				if (result.errors && result.errors[dataType] || result.data && !result.data[dataType]) {
 					dispatch(actionGeneralError(result.errors[dataType] || new Error('no data')));
 				} else {
-					//add to indexes?
-					dispatch(actionAdd(actionTypes, result.data[dataType]));
+					const item = result.data[dataType];
+					dispatch(actionAdd(actionTypes, item));
+
+					const state = getState();
+					const indexes = commonSelectors.getIndexesByFilteredItem(getSubstate)(state, item);
+					indexes.forEach(index => {
+						//invalidate data
+						dispatch(actionClearIndex(actionTypes, index.filter, index.order))
+						//refresh data
+						dispatch(refreshIndex(getSubstate, dataType, index.filter, index.order, actionTypes));
+					})
 				}
 			})
 			.catch(error => {
@@ -455,27 +501,6 @@ function receiveUpdated(getSubstate, actionTypes, result, dataType) {
 		}
 	};
 }
-function receiveDeleted(getSubstate, actionTypes, result, dataType, categoryPath = DEFAULT_CATEGORY_PATH) {
-	return (dispatch, getState) => {
-		const state = getState();
-		let data = result.data[dataType];
-		if (data.length){
-			const deletedKeys = data.map(d => d.key);
-			dispatch(actionDelete(actionTypes, deletedKeys));
-			//FIXME - kontrola v jaké indexy odstranění ovlivní, potom refresh
-			// getIndexesByFilteredItem - přesnější!! doladit
-			const usedIndexes = commonSelectors.getIndexesByFilteredItem(getSubstate)(state);
-			usedIndexes.forEach(index => {
-				//invalidate data
-				dispatch(actionClearIndex(actionTypes, index.filter, index.order))
-				//refresh data
-				dispatch(refreshIndex(getSubstate, dataType, index.filter, index.order, actionTypes));
-			})
-		} else {
-			console.warn(`No data updated for ${dataType} metadata type`);
-		}
-	};
-}
 
 function receiveKeys(actionTypes, result, dataType, keys) {
 	return dispatch => {
@@ -608,6 +633,11 @@ function actionClearIndex(actionTypes, filter, order) {
 	return action(actionTypes, 'INDEX.CLEAR_INDEX', {filter, order});
 }
 
+
+const actionMarkAsDeleted = (actionTypes, key, date) => {
+	return action(actionTypes, 'MARK_DELETED', {key, date});
+}
+
 function actionClearIndexes(actionTypes) {
 	return action(actionTypes, 'INDEX.CLEAR_ALL');
 }
@@ -678,7 +708,7 @@ export default {
 	apiUpdate,
 	creator,
 	create,
-	deleteByKey,
+	delete: deleteItem,
 	ensure: ensureKeys,
 	ensureIndexed,
 	ensureIndexesWithFilterByActive,

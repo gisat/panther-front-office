@@ -1,15 +1,20 @@
 import {createSelector} from "reselect";
 import createCachedSelector from "re-reselect";
-import _ from "lodash";
+import _, {pickBy} from "lodash";
 import commonHelpers from './helpers';
 import Select from "../Select";
 
 const activeScopeKey = state => state.scopes.activeKey;
 const activeThemeKey = state => state.themes.activeKey;
 
-const getAllAsObject = (getSubstate) => {
-	return (state) => getSubstate(state).byKey;
+const getAllAsObjectRemoved = (getSubstate) => {
+	return (state) => {
+		const byKey = getSubstate(state).byKey;
+		return pickBy(byKey, (item) => !item.hasOwnProperty('removed'));
+	}
 };
+
+const getAllAsObject = getAllAsObjectRemoved
 
 const getAll = (getSubstate) => {
 	return createSelector(
@@ -248,7 +253,7 @@ const getIndexesByFilteredItem = (getSubstate) => {
 		(state, item) => item,
 		],
 		(indexes, item) => {
-			const nullFiltersIndexes = indexes.filter(index => index.filter === null);
+			const nullFiltersIndexes = indexes.filter((index) => commonHelpers.itemFitFilter(index.filter, item));
 			return nullFiltersIndexes;
 		}
 	);

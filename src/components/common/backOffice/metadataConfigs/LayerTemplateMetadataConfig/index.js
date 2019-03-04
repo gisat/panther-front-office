@@ -23,11 +23,10 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.layerTemplates.saveEdited(props.layerTemplateKey))
 				// todo linking
 			},
-			onDelete: () => {
+			onDelete: (item) => {
 				//TODO - confirm before delete
-				dispatch(Action.layerTemplates.deleteByKey(props.layerTemplateKey))
+				dispatch(Action.layerTemplates.delete({...item, key: props.layerTemplateKey}))
 				dispatch(Action.screens.close('metadata', 'metadata-layerTemplateConfig'));
-
 			},
 			onUnmount: () => {
 				dispatch(Action.layerTemplates.useKeysClear(componentId));

@@ -67,7 +67,7 @@ class LayerTemplateMetadataConfig extends React.PureComponent {
 					/>
 				</InputWrapper>
 				{this.props.editedData && !_.isEmpty(this.props.editedData) ? <button onClick={this.props.onSave}>Save</button> : null}
-				<button onClick={this.props.onDelete}>Delete</button>
+				<button onClick={() => this.props.onDelete(this.props.data)}>Delete</button>
 			</div>
 		);
 	}

@@ -143,6 +143,29 @@ export default {
 		}
 	},
 
+	markDeleted: (state, action) => {
+		if (state.byKey){
+			let byKey = {};
+			_.each(state.byKey, (model, key) => {
+				byKey[key] = {
+					...model,
+				}
+
+				//set removed for given key
+				if(action.key === key) {
+					byKey[key].removed = action.date;
+				}
+			});
+
+			return {
+				...state,
+				byKey
+			};
+		} else {
+			return state;
+		}
+	},
+
 	remove: (state, action) => {
 		let newData = state.byKey ? _.omit(state.byKey, action.keys) : null;
 		return {...state, byKey: newData}

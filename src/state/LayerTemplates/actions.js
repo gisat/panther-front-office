@@ -6,8 +6,8 @@ import Select from "../Select";
 // ============ creators ===========
 
 const add = common.add(ActionTypes.LAYER_TEMPLATES);
-const create = common.create('layerTemplates', ActionTypes.LAYER_TEMPLATES);
-const deleteByKey = common.deleteByKey(Select.layerTemplates.getSubstate, 'layerTemplates', ActionTypes.LAYER_TEMPLATES);
+const create = common.create(Select.layerTemplates.getSubstate, 'layerTemplates', ActionTypes.LAYER_TEMPLATES);
+const deleteItem = common.delete(Select.layerTemplates.getSubstate, 'layerTemplates', ActionTypes.LAYER_TEMPLATES);
 const saveEdited = common.saveEdited(Select.layerTemplates.getSubstate, 'layerTemplates', ActionTypes.LAYER_TEMPLATES);
 const updateEdited = common.updateEdited(Select.layerTemplates.getSubstate, ActionTypes.LAYER_TEMPLATES);
 const useKeys = common.useKeys(Select.layerTemplates.getSubstate, 'layerTemplates', ActionTypes.LAYER_TEMPLATES);
@@ -21,7 +21,7 @@ const clearIndex = common.clearIndex(ActionTypes.LAYER_TEMPLATES);
 export default {
 	add,
 	create,
-	deleteByKey,
+	delete: deleteItem,
 	saveEdited,
 	updateEdited,
 	useIndexed,
