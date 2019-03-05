@@ -87,7 +87,7 @@ class Tour {
 				</li>
 				<li data-orientation="centered" data-class="right-arrow left-margin">
 					<h2>Maps</h2>
-					<p>Zoom, pan, rotate or tilt a map to explore displayed data, use Layers widget to change displayed layers or select multiple periods to get multiple maps.</p>
+					<p>Zoom, pan, rotate or tilt the globe to explore displayed data, use Layers widget to change displayed layers or select multiple periods to get multiple maps.</p>
 					<div class="tour-buttons">
 						<a href='#' class='tour-button primary tourbus-next'>Next</a>
 						<a href='#' class='tour-button tourbus-stop'>Quit</a>
@@ -95,7 +95,7 @@ class Tour {
 				</li>
 				<li data-el='#sidebar-reports' data-orientation='left' data-align='center' data-class="left-margin">
 					<h2>Data analysis</h2>
-					<p>It is possible to analyze data from different perspectives using various charts and tables.</p>
+					<p>It is possible to analyze data from different perspectives using various charts (such as pie, column, polar or scatter) and tables.</p>
 					<div class="tour-buttons">
 						<a href='#' class='tour-button primary tourbus-stop'>Quit tour and start exploring!</a>
 					</div>
