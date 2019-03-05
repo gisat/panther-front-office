@@ -9,6 +9,7 @@ import Screen from "./components/Screen";
 
 const RETRACTED_WIDTH = 5;
 const CONST_PLUS = 1;
+const BASE_CONTENT_WIDTH = 40;
 
 class Screens extends React.PureComponent {
 
@@ -199,6 +200,7 @@ class Screens extends React.PureComponent {
 				}
 
 				if (screenLineage === 'base'){
+					screen.contentWidth = BASE_CONTENT_WIDTH;
 					screenComponents.push(this.renderScreen(screen, this.props.children, true));
 				} else {
 					screenComponents.push(this.renderScreen(screen, React.createElement(stateScreen.data.component, stateScreen.data.props, null)));
@@ -209,7 +211,8 @@ class Screens extends React.PureComponent {
 
 		} else if (this.props.children) {
 			let screen = {
-				lineage: 'base'
+				lineage: 'base',
+				contentWidth: BASE_CONTENT_WIDTH,
 			};
 			return this.renderScreen(screen, this.props.children, true);
 		} else {

@@ -33,18 +33,19 @@ class Screen extends React.PureComponent {
 	render() {
 		let classes = classNames("ptr-screen", {
 			disabled: this.props.disabled,
-			open: !this.props.disabled
+			open: !this.props.disabled,
 		});
 
 		let screenStyle = {};
 		if (this.props.width || this.props.width === 0) {
 			screenStyle.width = `${this.props.width}rem`;
 		}
+		let contentWrapStyle = {};
+		if (this.props.contentWidth) {
+			contentWrapStyle.width = `${this.props.contentWidth}rem`;
+		}
 
 		let screenScrollStyle = {};
-		if (this.props.contentWidth) {
-			screenScrollStyle.width = `${this.props.contentWidth}rem`;
-		}
 		if (this.props.minWidth) {
 			screenScrollStyle.minWidth = `${this.props.minWidth}rem`;
 		}
@@ -52,7 +53,9 @@ class Screen extends React.PureComponent {
 		return (
 			<div className={classes} style={screenStyle} onFocus={this.onFocus}>
 				<div className="ptr-screen-scroll" style={screenScrollStyle} tabIndex="0">
-					{this.props.content}
+					<div style={contentWrapStyle}>
+						{this.props.content}
+					</div>
 				</div>
 				<div className="ptr-screen-overlay" onClick={this.onOpenClick} />
 				{!this.props.noControls ? <div className="ptr-screen-controls top" onClick={this.onCloseClick}>x</div> : null}
