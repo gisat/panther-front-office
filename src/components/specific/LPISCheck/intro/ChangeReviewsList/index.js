@@ -25,7 +25,6 @@ const mapDispatchToProps = (dispatch) => {
 		},
 		showCase: (caseKey) => {
 			dispatch(Action.specific.lpisCheckCases.setActive(caseKey));
-			// dispatch(Action.components.setIntro(false));
 			dispatch(Action.specific.lpisCheckCases.redirectToActiveCaseView());
 		},
 	}

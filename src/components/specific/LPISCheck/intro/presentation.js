@@ -10,6 +10,7 @@ class intro extends React.Component{
 			<ScreenAnimator>
 				<ChangeReviewsList
 					screenKey="changeReviewsList"
+					scopeKey={this.props.scope.key}
 				/>
 			</ScreenAnimator>
 		);
