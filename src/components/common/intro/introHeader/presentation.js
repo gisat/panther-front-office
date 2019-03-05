@@ -12,6 +12,7 @@ class IntroHeader extends React.PureComponent {
 		description: PropTypes.string,
 		backgroundSource: PropTypes.string,
 		logoSource: PropTypes.string,
+		secondaryLogoSource: PropTypes.string,
 		withBackgroundOverlay: PropTypes.bool
 	};
 
@@ -30,6 +31,11 @@ class IntroHeader extends React.PureComponent {
 				{this.props.logoSource ? (
 					<div className="ptr-intro-header-logo">
 						<img src={this.props.logoSource}/>
+					</div>
+				): null}
+				{this.props.secondaryLogoSource ? (
+					<div className="ptr-intro-header-secondary-logo">
+						<img src={this.props.secondaryLogoSource}/>
 					</div>
 				): null}
 				<div className="ptr-intro-header-text">

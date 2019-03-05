@@ -64,6 +64,7 @@ class ViewsList extends React.PureComponent {
 					title={this.props.selectedScopeData && this.props.selectedScopeData.name}
 					backgroundSource={scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introHeaderBackgroundSrc}
 					logoSource={scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introLogoSrc}
+					secondaryLogoSource={scopeStyle && VisualConfig[scopeStyle] && VisualConfig[scopeStyle].introSecondaryLogoSrc}
 					withBackgroundOverlay
 				/>
 			);
