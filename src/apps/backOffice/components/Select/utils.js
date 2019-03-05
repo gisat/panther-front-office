@@ -15,9 +15,7 @@ export const getLabel = (option) => {
     return (
       <span className="label" key='label'>
         <Key value={key} toottip={IDtooltip}/>
-        <span>
-          {labelText}
-        </span>
+        {labelText}
       </span>
     )
   }

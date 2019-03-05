@@ -17,15 +17,15 @@ class Value extends React.PureComponent {
 
 		const itemContent = (
 				[
-					<div className={'ptr-item-actions-start'} key='items-start'>
+					(this.props.startItems ? <div className={'ptr-item-actions-start'} key='items-start'>
 						{/* place for icons/buttons/info on start of the item */}
 						{this.props.startItems}
-					</div>,
+					</div> : null),
 					label,
-					<div className={'ptr-item-actions-end'} key='items-end'>
+					(this.props.endItems ? <div className={'ptr-item-actions-end'} key='items-end'>
 						{/* place for icons/buttons/info at the and of the item */}
 						{this.props.endItems}
-					</div>
+					</div> : null)
 				]
 		)
 
