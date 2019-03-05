@@ -7,14 +7,14 @@ import Select from "../Select";
 const activeScopeKey = state => state.scopes.activeKey;
 const activeThemeKey = state => state.themes.activeKey;
 
-const getAllAsObjectRemoved = (getSubstate) => {
+const getAllNotRemovedAsObject = (getSubstate) => {
 	return (state) => {
 		const byKey = getSubstate(state).byKey;
 		return pickBy(byKey, (item) => !item.hasOwnProperty('removed'));
 	}
 };
 
-const getAllAsObject = getAllAsObjectRemoved
+const getAllAsObject = getAllNotRemovedAsObject;
 
 const getAll = (getSubstate) => {
 	return createSelector(
@@ -232,6 +232,22 @@ const getIndexPage = (getSubstate) => {
 };
 
 /**
+ * Get a page of data
+ * call with (state, filter, order, start, length)
+ */
+const getIndexedPage = (getSubstate) => {
+	return createSelector(
+		[
+			getIndexPage(getSubstate),
+			getAllAsObject(getSubstate)
+		],
+		(page, models) => {
+			return page && page.length && page.map(key => (models[key] || null)) || null; //todo check loading
+		}
+	);
+};
+
+/**
  * call with (state, filter, order)
  */
 const getIndexTotal = (getSubstate) => {
@@ -257,7 +273,7 @@ const getIndexesByFilteredItem = (getSubstate) => {
 			return nullFiltersIndexes;
 		}
 	);
-}
+};
 
 /**
  * Compare keys with loaded models and return which keys need to be loaded
@@ -534,6 +550,7 @@ export default {
 	getIndexes,
 	getIndexChangedOn,
 	getIndexPage,
+	getIndexedPage,
 	getIndexTotal,
 	getIndexesByFilteredItem,
 
