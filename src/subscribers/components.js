@@ -2,8 +2,10 @@ import watch from 'redux-watch';
 import Action from '../state/Action';
 import Select from '../state/Select';
 import VisualConfig from '../constants/VisualsConfig';
+import UrbanTepPortalStore from '../stores/UrbanTepPortalStore';
 import _ from 'lodash';
 
+let polyglot = window.polyglot;
 let Observer = window.Observer;
 
 let state = {};
@@ -43,6 +45,9 @@ const setEventListeners = store => {
 			case 'components#applyFromDataview':
 				store.dispatch(Action.components.update("windows", options.windows));
 				break;
+			case 'sharing#urlReceived':
+				showUrl(options)
+				break;
 			case 'components#mapsGridChanged':
 				let state = Select.components.getMapsContainer(store.getState());
 				if (state.columns !== options.columns || state.rows !== options.rows){
@@ -52,6 +57,20 @@ const setEventListeners = store => {
 		}
 	});
 };
+
+const showUrl = (options) =>  {
+	const selectedGroup = options.selectedGroup
+	const isUrbanTep = options.isUrbanTep
+	const selectedUser = options.selectedUser
+	const url = options.url
+	if(isUrbanTep && selectedGroup) {
+		if(selectedGroup.value !== '1' && selectedGroup.value !== '2' && selectedGroup.value !== '3') {
+			UrbanTepPortalStore.share(url, selectedUser.value, selectedGroup.title);
+		}
+	} else {
+		alert(polyglot.t('theStateWasCorrectlyShared') + url);
+	}
+}
 
 const applicationStyleActiveKeyWatcher = (value, previousValue) => {
 	console.log('@@ applicationStyleActiveKeyWatcher', previousValue, '->', value);

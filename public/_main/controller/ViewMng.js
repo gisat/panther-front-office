@@ -141,10 +141,12 @@ Ext.define('PumaMain.controller.ViewMng', {
         if (isView) {
         	var id = rec.get('_id');
 			var url = window.location.origin+window.location.pathname+'?id='+id;
-			this.showUrl(url, group, user, language);
+			var shareUrl = this.showUrl(url, group, user, language);
 			Stores.notify('sharing#urlReceived', {
-				dataviewId: Number(id),
-				url: url
+				isUrbanTep: Config.toggles.isUrbanTep,
+				selectedUser: user,
+				selectedGroup: group,
+				url: shareUrl
 			});
 			Stores.notify("DATAVIEWS_ADD", [{
 				id: rec.data._id,
@@ -171,12 +173,7 @@ Ext.define('PumaMain.controller.ViewMng', {
 			auth = "";
 		}
 		let url = baseUrl + auth +'&lang=' + language.value;
-		if(Config.toggles.isUrbanTep && selectedGroup) {
-			if(selectedGroup.value !== '1' && selectedGroup.value !== '2' && selectedGroup.value !== '3') {
-				UrbanTepPortalStore.share(url, selectedUser.value, selectedGroup.title);
-			}
-		}
-		alert(polyglot.t('theStateWasCorrectlyShared') + url);
+		return url;
     },
         
     onVisOrViewManage: function(btn) {

@@ -19,8 +19,8 @@ class UrbanTepPortalStore {
             name: name,
             community: community
         }, function () {
-            UrbanTepCommunitiesStore.share(url, community);
-            alert('Application was published on the portal.');
+            // UrbanTepCommunitiesStore.share(url, community);
+            alert(`Application was published on the portal. Direct URL is ${url}`);
         })
     };
 }
