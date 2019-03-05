@@ -135,7 +135,7 @@ class Screens extends React.PureComponent {
 			if (!maximalizedScreenLineage) {
 				orderByHistory.forEach(lineage => {
 					let stateScreen = this.props.screens[lineage];
-
+					//FIXME - width: 40rem 
 					if (!availableWidthLeft) {
 						screens[lineage].computedWidth = RETRACTED_WIDTH;
 						screens[lineage].computedDisabled = true;
@@ -199,6 +199,7 @@ class Screens extends React.PureComponent {
 				}
 
 				if (screenLineage === 'base'){
+					// screens.computedWidth = 40;
 					screenComponents.push(this.renderScreen(screen, this.props.children, true));
 				} else {
 					screenComponents.push(this.renderScreen(screen, React.createElement(stateScreen.data.component, stateScreen.data.props, null)));
@@ -209,7 +210,8 @@ class Screens extends React.PureComponent {
 
 		} else if (this.props.children) {
 			let screen = {
-				lineage: 'base'
+				lineage: 'base',
+				// computedWidth: 40,
 			};
 			return this.renderScreen(screen, this.props.children, true);
 		} else {
