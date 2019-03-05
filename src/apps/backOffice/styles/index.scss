@@ -32,3 +32,26 @@
 .margin-1{
 	margin: 1rem;
 }
+
+
+.ptr-input-wrapper .ptr-input-text{
+	background-color: $gray1;
+	border-radius: .25rem;
+	border: 1px solid $gray4;
+}
+.ptr-input-wrapper .ptr-input-text,
+.ptr-input-wrapper .ptr-input-text input{
+	border-radius: .25rem;
+}
+.ptr-input-wrapper .ptr-input-text input{
+	border: 0;
+}
+
+.ptr-input-wrapper textarea{
+	margin-top: 10px;
+    width: 100%;
+    height: 100px;
+	background-color: $gray1;
+	border: 1px solid $gray4;
+	border-radius: .25rem
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon from 'components/common/atoms/Icon';
+import Icon from '../../../../components/common/atoms/Icon';
 import {components} from 'react-select';
 import { css } from 'emotion';
 

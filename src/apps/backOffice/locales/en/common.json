@@ -1,5 +1,7 @@
 {
   "labels": {
-    "nameInternal": "Internal name"
+    "nameInternal": "Internal name",
+    "configuration": "Configuration",
+    "description": "Description"
   }
 }

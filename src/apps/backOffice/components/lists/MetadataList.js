@@ -39,7 +39,7 @@ class MetadataList extends React.PureComponent {
 		return (
 			<div>
 				<AddValue
-                    option={{label:"Create Layer Template"}} 
+                    option={{label:"Create"}} 
                     onOptionLabelClick={this.props.onAddClick}
                     />
 				{this.props.models ? this.props.models.map(model => <Value key={model.key} option={{label: model.data.nameDisplay, key: model.key, ...model.data}} onOptionLabelClick={this.onItemClick} optionLabelClick={true} endItems = {endItems}/>) : null}

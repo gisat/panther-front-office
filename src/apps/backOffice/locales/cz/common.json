@@ -1,6 +1,8 @@
 {
   "labels": {
-    "nameInternal": "Interní název"
+    "nameInternal": "Interní název",
+    "configuration": "Konfigurace",
+    "description": "Popis"
   }
 }
 

@@ -6,33 +6,33 @@ import utils from "../../../../../utils/utils";
 
 const mapStateToProps = (state, props) => {
 	return {
-		data: Select.layerTemplates.getDataByKey(state, props.itemKey),
-		editedData: Select.layerTemplates.getEditedDataByKey(state, props.itemKey)
+		data: Select.scopes.getDataByKey(state, props.itemKey),
+		editedData: Select.scopes.getEditedDataByKey(state, props.itemKey)
 	}
 };
 
 const mapDispatchToPropsFactory = () => {
-	const componentId = 'LayerTemplateMetadataConfig_' + utils.randomString(6);
+	const componentId = 'ScopeMetadataConfig_' + utils.randomString(6);
 
 	return (dispatch, props) => {
 		return {
 			onMount: () => {
-				dispatch(Action.layerTemplates.useKeys([props.itemKey], componentId));
+				dispatch(Action.scopes.useKeys([props.itemKey], componentId));
 			},
 			onSave: () => {
-				dispatch(Action.layerTemplates.saveEdited(props.itemKey))
+				dispatch(Action.scopes.saveEdited(props.itemKey))
 				// todo linking
 			},
 			onDelete: (item) => {
 				//TODO - confirm before delete
-				dispatch(Action.layerTemplates.delete({...item, key: props.itemKey}))
-				dispatch(Action.screens.close('metadata', 'metadata-layerTemplateConfig'));
+				dispatch(Action.scopes.delete({...item, key: props.itemKey}))
+				dispatch(Action.screens.close('metadata', 'metadata-scopeConfig'));
 			},
 			onUnmount: () => {
-				dispatch(Action.layerTemplates.useKeysClear(componentId));
+				dispatch(Action.scopes.useKeysClear(componentId));
 			},
 			updateEdited: (key, value) => {
-				dispatch(Action.layerTemplates.updateEdited(props.itemKey, key, value));
+				dispatch(Action.scopes.updateEdited(props.itemKey, key, value));
 			}
 		}
 	}

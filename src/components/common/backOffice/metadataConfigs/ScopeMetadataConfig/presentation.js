@@ -5,7 +5,7 @@ import Input from "../../../atoms/Input/Input";
 import InputWrapper from "../../../atoms/InputWrapper/InputWrapper";
 import {withNamespaces} from "react-i18next";
 
-class LayerTemplateMetadataConfig extends React.PureComponent {
+class ScopeMetadataConfig extends React.PureComponent {
 	static propTypes = {
 		data: PropTypes.object,
 		editedData: PropTypes.object,
@@ -20,6 +20,7 @@ class LayerTemplateMetadataConfig extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.onChange = this.onChange.bind(this);
+		this.onChangeJsonValue = this.onChangeJsonValue.bind(this);
 	}
 
 	componentDidMount() {
@@ -34,11 +35,31 @@ class LayerTemplateMetadataConfig extends React.PureComponent {
 		this.props.updateEdited(key, value);
 	}
 
+	onChangeJsonValue(key, value) {
+		try{
+			const parsedValue = JSON.parse(value);
+			this.onChange(key, parsedValue);
+		}
+
+		catch(e) {
+			this.onChange(key, value);
+		}
+	}
+
 	render() {
 		let t = this.props.t;
 		let data = {...this.props.data};
 		if (this.props.editedData) {
 			data = {...data, ...this.props.editedData}
+		}
+
+		const configurationObject = data && data.configuration || ""
+
+		let configuration;
+		if (configurationObject && typeof configurationObject === "object") {
+            configuration = JSON.stringify(configurationObject, null, 2)  ;
+        } else {
+			configuration = configurationObject;
 		}
 
 		return (
@@ -61,6 +82,23 @@ class LayerTemplateMetadataConfig extends React.PureComponent {
 						onChange={(val) => this.onChange('nameInternal', val)}
 					/>
 				</InputWrapper>
+				<InputWrapper
+					required
+					label={t("labels.description")}
+				>
+					<Input
+						value={data && data.description || ""}
+						onChange={(val) => this.onChange('description', val)}
+					/>
+				</InputWrapper>
+				<InputWrapper
+					label={t("labels.configuration")}
+				>
+					<textarea 
+						value={configuration} 
+						onChange={(evt) => this.onChangeJsonValue('configuration', evt.target.value)} 
+						/>
+				</InputWrapper>
 				{this.props.editedData && !_.isEmpty(this.props.editedData) ? <button onClick={this.props.onSave}>Save</button> : null}
 				<button onClick={() => this.props.onDelete(this.props.data)}>Delete</button>
 			</div>
@@ -68,4 +106,4 @@ class LayerTemplateMetadataConfig extends React.PureComponent {
 	}
 }
 
-export default withNamespaces()(LayerTemplateMetadataConfig);
+export default withNamespaces()(ScopeMetadataConfig);

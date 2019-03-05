@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import Select from 'apps/backOffice/components/Select/Select';
-import AddIndicatorsContainer from '../AddIndicatorsContainer';
+import Select from '../../../../apps/backOffice/components/Select/Select';
+import AddIndicatorsContainer from './AddIndicatorsContainer';
 
 
-class LayerTemplateMetadataSwitcher extends React.PureComponent {
+class MetadataSwitcher extends React.PureComponent {
 	componentDidMount(){
 		this.props.onMount();
 	}
@@ -14,7 +14,7 @@ class LayerTemplateMetadataSwitcher extends React.PureComponent {
 	}
 
 	render() {
-		const selectedValue = this.props.data.find(i => i.key === this.props.layerTemplateKey);
+		const selectedValue = this.props.data.find(i => i.key === this.props.itemKey);
 		
 		return (
 			<div style={{display:'flex'}}>
@@ -36,13 +36,13 @@ class LayerTemplateMetadataSwitcher extends React.PureComponent {
 	}
 }
 
-LayerTemplateMetadataSwitcher.propTypes = {
+MetadataSwitcher.propTypes = {
 	onChange: PropTypes.func,
 	data: PropTypes.array,
-	layerTemplateKey: PropTypes.string,
+	itemKey: PropTypes.string,
 	onMount: PropTypes.func,
 	onUnmount: PropTypes.func,
 	onAddClick: PropTypes.func,
 }
 
-export default LayerTemplateMetadataSwitcher;
+export default MetadataSwitcher;

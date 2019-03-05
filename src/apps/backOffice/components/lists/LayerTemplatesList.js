@@ -22,7 +22,7 @@ const mapDispatchToPropsFactory = () => {
 	return (dispatch, props) => {
 		return {
 			onItemClick: (key) => {
-				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-layerTemplateConfig', 40, 40, LayerTemplateMetadataScreen, {layerTemplateKey: key}))
+				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-layerTemplateConfig', 40, 40, LayerTemplateMetadataScreen, {itemKey: key}))
 			},
 			onMount: () => {
 				dispatch(Action.layerTemplates.useIndexed(null, null, order, 1, 1000, componentId)); // TODO filter?
@@ -31,9 +31,9 @@ const mapDispatchToPropsFactory = () => {
 				dispatch(Action.layerTemplates.useIndexedClear(componentId));
 			},
 			onAddClick(item) {
-				const layerTemplateKey = utils.uuid();
-				dispatch(Action.layerTemplates.create(layerTemplateKey));
-				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-layerTemplateConfig', 40, 40, LayerTemplateMetadataScreen, {layerTemplateKey}))
+				const itemKey = utils.uuid();
+				dispatch(Action.layerTemplates.create(itemKey));
+				dispatch(Action.screens.addOrUpdate('metadata', 'metadata-layerTemplateConfig', 40, 40, LayerTemplateMetadataScreen, {itemKey}))
 			}
 		}
 	}

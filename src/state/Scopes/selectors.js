@@ -13,6 +13,9 @@ const getActiveKey = common.getActiveKey(getSubstate);
 const getActive = common.getActive(getSubstate);
 const getByKey = common.getByKey(getSubstate);
 
+const getDataByKey = common.getDataByKey(getSubstate);
+const getEditedDataByKey = common.getEditedDataByKey(getSubstate);
+
 
 const getActiveScopeConfiguration = createSelector(
 	[getActive],
@@ -33,6 +36,8 @@ export default {
 	getActiveScopeConfiguration,
 	getActiveScopeData: getActive,
 	getActiveScopeKey: getActiveKey,
+	getDataByKey,
+	getEditedDataByKey,
 	getScopes: getAll,
 	getScopesForActiveUser,
 	getScopeData: getByKey,

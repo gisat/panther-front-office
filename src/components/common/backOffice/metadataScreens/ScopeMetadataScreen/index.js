@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from "prop-types";
-import LayerTemplateMetadataConfig from "../../metadataConfigs/LayerTemplateMetadataConfig";
-import LayerTemplateMetadataSwitcher from "../../metadataSwitchers/LayerTemplateMetadataSwitcher";
+import ScopeMetadataConfig from "../../metadataConfigs/ScopeMetadataConfig";
+import ScopeMetadataSwitcher from "../../metadataSwitchers/ScopesMetadataSwitcher";
 
-class LayerTemplateMetadataScreen extends React.PureComponent {
+class ScopeMetadataScreen extends React.PureComponent {
 	static propTypes = {
 		itemKey: PropTypes.string
 	};
@@ -12,15 +12,15 @@ class LayerTemplateMetadataScreen extends React.PureComponent {
 		return (
 			<div className='ptr-bo-colours margin-1'>
 				<h1>
-					Layer templates
+					Scope
 				</h1>
 				<div className="ptr-screen-metadata-switcher">
-					<LayerTemplateMetadataSwitcher
+					<ScopeMetadataSwitcher
 						itemKey={this.props.itemKey}
 					/>
 				</div>
 				<div className="ptr-screen-metadata-content">
-					<LayerTemplateMetadataConfig
+					<ScopeMetadataConfig
 						itemKey={this.props.itemKey}
 					/>
 				</div>
@@ -29,4 +29,4 @@ class LayerTemplateMetadataScreen extends React.PureComponent {
 	}
 }
 
-export default LayerTemplateMetadataScreen;
+export default ScopeMetadataScreen;

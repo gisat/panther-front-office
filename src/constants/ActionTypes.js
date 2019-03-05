@@ -373,11 +373,19 @@ export default utils.deepKeyMirror({
 	SCOPES: {
 		ADD: null,
 		ADD_UNRECEIVED: null,
+		DELETE: null,
+		MARK_DELETED: null,
+		EDITED: {
+			REMOVE: null,
+			REMOVE_PROPERTY: null,
+			UPDATE: null,
+		},
 		ENSURE: {
 			ERROR: null
 		},
 		INDEX: {
 			ADD: null,
+			CLEAR_INDEX: null,
 			CLEAR_ALL: null
 		},
 		LOAD: {

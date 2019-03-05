@@ -2,6 +2,7 @@ import React from 'react';
 import {withNamespaces} from "react-i18next";
 import {Route, Switch} from "react-router";
 import LayerTemplatesList from "../../lists/LayerTemplatesList";
+import ScopesList from "../../lists/ScopesList";
 import NavList from 'components/presentation/NavList'
 
 import './metadataBase.scss';
@@ -45,7 +46,7 @@ class MetadataBase extends React.PureComponent {
 				<div className="ptr-bo-metadata-base-list">
 					<Switch>
 						<Route path={this.paths.layerTemplates} component={LayerTemplatesList} />
-						<Route path={this.paths.scopes} render={() => (<div>Scopes</div>)} />
+						<Route path={this.paths.scopes} component={ScopesList} />
 					</Switch>
 				</div>
 			</div>
