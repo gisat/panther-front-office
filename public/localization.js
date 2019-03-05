@@ -56,6 +56,7 @@ var langEn = {
 
     cancel: "Cancel",
     cartoDbBasemap: "Carto DB basemap",
+    cartoDbBasemapDark: "Carto DB basemap dark",
     caseTitle: "Case title",
     cat: "Cat.",
     category: "Category",
@@ -482,6 +483,7 @@ var langCz = {
 
     cancel: "Zrušit",
     cartoDbBasemap: "Carto DB základní mapa",
+    cartoDbBasemapDark: "Carto DB základní mapa - tmavá",
     caseMapExtentInfo: "Klikněte dvakrát do mapy pro výběr oblasti.",
     caseTitle: "Název případu",
     cat: "Kat.",
