@@ -4,11 +4,15 @@ import {NavLink} from 'react-router-dom';
 
 import Icon from '../../../../components/common/atoms/Icon';
 import Metadata from './icons/Metadata';
+import AppSelect from '../AppSelect';
 
 import './style.scss';
 
 export default props => (
 	<>
+		<div className="ptr-bo-top-bar-app-select">
+			<AppSelect />
+		</div>
 		<div className="ptr-bo-top-bar-quick-access">
 			<NavLink
 				exact
