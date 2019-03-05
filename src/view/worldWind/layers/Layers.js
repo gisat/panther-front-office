@@ -248,7 +248,7 @@ class Layers {
             case "cartoDb":
                 layer = new MyOsmCartoLayer({
 				    attribution: "\u00A9 Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL",
-                    detailControl: 1.3,
+                    detailControl: 1,
 				    sourceObject: {
 				        protocol: "https",
 					    host: "global.ssl.fastly.net",
@@ -259,6 +259,21 @@ class Layers {
                         }
 				    }
 				});
+                break;
+            case "cartoDbDark":
+                layer = new MyOsmCartoLayer({
+                    attribution: "\u00A9 Map tiles by Carto, under CC BY 3.0. Data by OpenStreetMap, under ODbL",
+                    detailControl: 1,
+                    sourceObject: {
+                        protocol: "https",
+                        host: "global.ssl.fastly.net",
+                        path: "dark_all",
+                        prefixes: {
+                            prefix: "cartodb-basemaps-",
+                            data: ["a", "b", "c", "d"]
+                        }
+                    }
+                });
                 break;
 			case "stamenLite":
 				layer = new MyOsmCartoLayer({

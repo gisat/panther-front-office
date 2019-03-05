@@ -1,0 +1,91 @@
+#app-tour {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.tour-overlay {
+	visibility: hidden;
+	display: block;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	font-size: 1rem;
+	color: white;
+	opacity: 0;
+	background: rgba(0,0,0,.7);
+	transition: visibility 0s .3s, opacity .3s ease-in-out;
+	z-index: 99998;
+}
+.tour-overlay.open {
+	visibility: visible;
+	transition: opacity .3s ease-in-out;
+	opacity: 1;
+}
+
+.tourbus-leg {
+	color: white;
+	text-align: center;
+	font-size: 1rem;
+	position: absolute;
+}
+
+.tourbus-leg.left-margin {
+	margin-left: 15%;
+}
+
+.tourbus-leg h2 {
+	font-size: 2rem;
+	margin-top: 1rem;
+}
+.tourbus-leg p {
+	font-size: 1.25rem;
+	margin: .5rem 0 1.5rem;
+	max-width: 30rem;
+}
+.tour-button {
+	color: white;
+	display: inline-block;
+	padding: .5rem 1rem;
+	margin: 0 .25rem;
+	transition: background-color .3s ease-in-out;
+}
+a.tour-button {
+	text-decoration: none;
+}
+.tour-button:hover {
+	background: rgba(255,255,255,.2);
+}
+.tour-button.primary {
+	border: 2px solid white;
+	border-radius: .25rem;
+	min-width: 6rem;
+}
+
+.tourbus-arrow:before,
+.tourbus-arrow:after,
+.tourbus-leg.right-arrow:before {
+	border: 0;
+	color: white;
+	font-family: "FontAwesome";
+	font-size: 3rem;
+}
+.tourbus-arrow-bottom:before {
+	content: "\f176";
+	margin-bottom: 1rem;
+}
+.tourbus-arrow-top:after {
+	content: "\f063"
+}
+.tourbus-arrow-left:before {
+	content: "\f178";
+	margin-left: .5rem;
+}
+.tourbus-arrow-right:before,
+.tourbus-leg.right-arrow:before {
+	content: "\f177";
+	margin-right: .5rem;
+}

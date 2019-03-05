@@ -66,10 +66,11 @@ class TopToolBar {
             functionalFilrer: false,
             share: true,
             snapshot: true,
-            contextHelp: true,
+            contextHelp: false,
             osm: false,
             views: true,
             snapshots: true,
+			tour: false
         };
 
 
@@ -149,6 +150,10 @@ class TopToolBar {
             let classesViews = this._viewsWidgetIsOpen ? "item open" : "item";
             this._target.append('<div class="' + classesViews + '" id="top-toolbar-views"><span>'+polyglot.t('views')+'</span></div>');
         }
+		if (tools.tour){
+			let classesTour = "item";
+			this._target.append('<div class="' + classesTour + '" id="top-toolbar-tour"><span>'+polyglot.t('tour')+'</span></div>');
+		}
     };
 
     /**
@@ -201,6 +206,10 @@ class TopToolBar {
 
                 if (scopes[0].scenarios) {
 					tools.scenarios = true;
+				}
+
+                if (scopes[0].configuration && scopes[0].configuration.tour) {
+                	tools.tour = true;
 				}
 
 				return tools;

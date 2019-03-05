@@ -56,6 +56,7 @@ var langEn = {
 
     cancel: "Cancel",
     cartoDbBasemap: "Carto DB basemap",
+    cartoDbBasemapDark: "Carto DB basemap dark",
     caseTitle: "Case title",
     cat: "Cat.",
     category: "Category",
@@ -380,6 +381,7 @@ var langEn = {
     timedOut: "Timed out, process can still be running on server",
     title: "Title",
     tools: "Tools",
+    tour: "App tour",
     treeAll: "Tree all",
     treeLowestLevel: "Tree lowest level",
     type: "Type",
@@ -481,6 +483,7 @@ var langCz = {
 
     cancel: "Zrušit",
     cartoDbBasemap: "Carto DB základní mapa",
+    cartoDbBasemapDark: "Carto DB základní mapa - tmavá",
     caseMapExtentInfo: "Klikněte dvakrát do mapy pro výběr oblasti.",
     caseTitle: "Název případu",
     cat: "Kat.",
@@ -805,6 +808,7 @@ var langCz = {
     timedOut: "Chyba spojení, proces může stále běžet na serveru",
     title: "Titulek",
     tools: "Nástroje",
+    tour: "Průvodce aplikací",
     treeAll: "Strom vše",
     treeLowestLevel: "Strom nejdetailnější úroveň",
     type: "Typ",

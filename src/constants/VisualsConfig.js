@@ -20,7 +20,8 @@ export default {
 	"eo4sd": {
 		htmlClass: "eo4sd",
 		logoSrc: "img/eo4sd/eo4sd-light.png",
-		introLogoSrc: "img/eo4sd/eo4sd.png"
+		introHeaderBackgroundSrc: "img/eo4sd/eo4sd.jpg",
+		introLogoSrc: "img/eo4sd/eo4sd-light.png"
 	},
 	"pucs": {
 		htmlClass: "pucs",

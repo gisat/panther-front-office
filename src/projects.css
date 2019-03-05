@@ -125,12 +125,26 @@ html.urban-tep .intro-screen-title {
 }
 
 /* intro */
+.eo4sd .ptr-intro-header {
+	border: 0;
+}
+.eo4sd .ptr-intro-header-overlay {
+	background: rgba(83,24,35,.8);
+}
+.eo4sd .ptr-views-list-description {
+	padding: 1.5rem 2rem 1rem;
+}
 .eo4sd .ptr-views-list-description p,
 .eo4sd .ptr-views-list-description a {
 	font-size: 1rem;
 }
 .eo4sd .ptr-views-list-description p {
 	color: rgb(85,89,101);
+	margin-bottom: 1rem;
+}
+.eo4sd .ptr-views-list-description h2 {
+	font-size: 1.25rem;
+	margin-bottom: .2rem;
 }
 
 /* header */
@@ -434,6 +448,10 @@ html.geoinvaze .ptr-intro-header {
 	font-family: "Open Sans", sans-serif;
 }
 
+/* intro */
+.geoinvaze .ptr-intro-header-overlay {
+	background: rgba(26, 40, 0, .8);
+}
 
 /* header */
 .geoinvaze.newDesign #header {

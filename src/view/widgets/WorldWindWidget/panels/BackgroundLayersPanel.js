@@ -55,6 +55,7 @@ class BackgroundLayersPanel extends WorldWindWidgetPanel {
         let activeBackgroundMap = (scope && scope['activeBackgroundMap']) || this.getValidBackground(disabledLayers);
 
 		this.toggleLayerWithControl('cartoDb', 'cartoDbBasemap', disabledLayers, activeBackgroundMap);
+		this.toggleLayerWithControl('cartoDbDark', 'cartoDbBasemapDark', disabledLayers, activeBackgroundMap);
 		this.toggleLayerWithControl('wikimedia', 'Wikimedia', disabledLayers, activeBackgroundMap);
         this.toggleLayerWithControl('bingAerial', 'bingAerial', disabledLayers, activeBackgroundMap);
         this.toggleLayerWithControl('sentinel2', 'sentinel2', disabledLayers, activeBackgroundMap);

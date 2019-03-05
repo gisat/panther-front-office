@@ -8,6 +8,7 @@ import Logger from './util/Logger';
 import EvaluationWidget from './view/widgets/EvaluationWidget/EvaluationWidget';
 
 import WorldWind from '@nasaworldwind/worldwind';
+import Tour from "./view/tour/Tour";
 
 let Observer = window.Observer;
 let ThemeYearConfParams = window.ThemeYearConfParams;
@@ -362,6 +363,10 @@ class FrontOffice {
 				self._dispatcher.notify("fo#mapIsDependentOnPeriod");
 			}
 
+			if (scope && scope.configuration && scope.configuration.tour) {
+			    self.buildTour(scope.configuration.tour);
+            }
+
             self._dispatcher.notify("scope#aoiLayer", scope.aoiLayer);
 
             htmlBody.addClass("mode-3d");
@@ -498,6 +503,13 @@ class FrontOffice {
 
     }
 
+    buildTour(type) {
+        if (!this._tour) {
+            this._tour = new Tour();
+        }
+        this._tour.rebuild(type);
+    }
+
     /**
      * @param type {string} type of event
      * @param options {Object}
@@ -510,7 +522,9 @@ class FrontOffice {
             this.adjustConfiguration(options);
         } else if (type === "dataview#setMapsFromDataview"){
         	this.setMapsFromDataview(options);
-		}
+		} else if (type === "REDUX_TOUR_CHANGED") {
+            this.buildTour(options.tour);
+        }
     }
 }
 
