@@ -14,7 +14,7 @@ class UrbanTepPortalStore {
     };
 
     static share(url, name, community) {
-        $.post('https://urban-tep.eo.esa.int/t2api/apps/puma', {
+        $.post('https://urban-tep.eu/t2api/apps/puma', {
             url: url,
             name: name,
             community: community
