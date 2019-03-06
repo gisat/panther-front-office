@@ -18,7 +18,7 @@ function addOrUpdate (setKey, lineage, width, minActiveWidth, component, props) 
 				{
 					width,
 					minActiveWidth,
-					desiredState: 'open',
+					desiredState: 'opening',
 					component,
 					props
 				})
@@ -30,13 +30,17 @@ function addOrUpdate (setKey, lineage, width, minActiveWidth, component, props) 
 				{
 					width,
 					minActiveWidth,
-					desiredState: 'open',
+					desiredState: 'opening',
 					component,
 					props
 				})
 			);
 		}
-		dispatch(actionTopHistory(setKey, lineage));
+
+		// TODO timeout is necessary to actually trigger associated selectors twice
+		setTimeout(() => {
+			dispatch(open(setKey, lineage));
+		}, 1);
 	};
 }
 
