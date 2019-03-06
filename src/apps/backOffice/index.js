@@ -33,8 +33,8 @@ utils.addI18nResources('common', {cz, en});
  * @param managedAppKey (optional) - limits BO to managing one given app
  * @returns {function(*=, *): function(*): *}
  */
-const pageFactory = (appPath, managedAppKey) => (component, screenSetKey) => props => {
-	props = {...props, screenSetKey, appPath};
+const pageFactory = (appPath, managedAppKey) => (component, screenSetKey, baseActiveWidth = 40) => props => {
+	props = {...props, screenSetKey, appPath, baseActiveWidth};
 	return (
 		<Page {...props} managedAppKey={managedAppKey}>
 			{React.createElement(component, {...props})}
@@ -59,7 +59,7 @@ export default (path, managedAppKey) => {
 						<Route exact path={path + "/"} render={page(Test, "base")} />
 						<Route exact path={path + "/test"} render={page(Test, "test")} />
 						<Route exact path={path + "/testselect"} render={page(TestSelectPage, "testselect")} />
-						<Route path={path + "/metadata"} render={page(MetadataBase, "metadata")} />
+						<Route path={path + "/metadata"} render={page(MetadataBase, "metadata", 40)} />
 					</Switch>
 				</ConnectedRouter>
 			</AppContainer>
