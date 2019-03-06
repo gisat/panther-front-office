@@ -12,7 +12,7 @@ const MagicSwitch = ({scope, activeLpisCheckCase}) => {
 		} else if (scope.data.configuration && scope.data.configuration.sentinelViewer) {
 			return <SentinelViewer />
 		} else if (scope.data.configuration && scope.data.configuration.lpisCheckReview && activeLpisCheckCase) {
-			return <LPISCheck />
+			return <LPISCheck scope_key={scope.key}/>
 		}
 	}
 	return null;

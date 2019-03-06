@@ -1,28 +1,20 @@
 import ActionTypes from '../../../constants/ActionTypes';
 import _ from 'lodash';
+import common from '../../_common/reducers';
+
+import {DEFAULT_INITIAL_STATE} from "../../_common/reducers";
 
 const INITIAL_STATE = {
-	activeCaseKey: null,
-	cases: [],
-	searchString: '',
-	filterVisited: 'all',
-	filterConfirmed: 'all',
-	changingActive: false,
-};
-
-function receiveCases(state, action) {
-	let data;
-	if (state.cases && state.cases.length) {
-		// remove old versions of received models
-		let oldData = _.reject(state.cases, model => {
-			return _.find(action.data, {key: model.key});
-		});
-		data = [...oldData, ...action.data];
-	} else {
-		data = [...action.data];
+	...DEFAULT_INITIAL_STATE,
+	...{
+		activeCaseKey: null,
+		cases: [],
+		searchString: '',
+		filterVisited: 'all',
+		filterConfirmed: 'all',
+		changingActive: false,
 	}
-	return {...state, loading: false, cases: data};
-}
+};
 
 function changeSearch(state, action) {
 	return {
@@ -60,8 +52,6 @@ function updateCase(state, action) {
 
 export default (state = INITIAL_STATE, action) => {
 	switch (action.type) {
-		case ActionTypes.LPIS_CASES.ADD:
-			return receiveCases(state, action);
 		case ActionTypes.LPISCHECK_UPDATE_CASE:
 			return updateCase(state, action);
 		case ActionTypes.LPISCHECK_CASES_SET_ACTIVE:
@@ -70,6 +60,30 @@ export default (state = INITIAL_STATE, action) => {
 			return changeSearch(state, action);
 		case ActionTypes.LPIS_CHECK_CASES_SET_CHANGING_ACTIVE:
 			return setChangingActive(state, action);
+		case ActionTypes.LPIS_CASES.ADD:
+			return common.add(state, action);
+		case ActionTypes.LPIS_CASES.ADD_UNRECEIVED:
+			return common.addUnreceivedKeys(state, action);
+		case ActionTypes.LPIS_CASES.INDEX.ADD:
+			return common.addIndex(state, action);
+		case ActionTypes.LPIS_CASES_REMOVE:
+			return common.remove(state, action);
+		case ActionTypes.LPIS_CASES.SET_ACTIVE_KEY:
+			return common.setActive(state, action);
+		case ActionTypes.LPIS_CASES.USE.INDEXED.REGISTER:
+			return common.registerUseIndexed(state, action);
+		case ActionTypes.LPIS_CASES.USE.INDEXED.CLEAR:
+			return common.useIndexedClear(state, action);
+		case ActionTypes.LPIS_CASES.USE.KEYS.REGISTER:
+			return common.useKeysRegister(state, action);
+		case ActionTypes.LPIS_CASES.USE.KEYS.CLEAR:
+			return common.useKeysClear(state, action);
+		case ActionTypes.LPIS_CASES.INDEX.CLEAR_ALL:
+			return common.clearIndexes(state, action);
+		case ActionTypes.COMMON.DATA.SET_OUTDATED:
+			return common.dataSetOutdated(state, action);
+		case ActionTypes.COMMON.DATA.CLEANUP_ON_LOGOUT:
+			return common.cleanupOnLogout(state, action);
 		default:
 			return state;
 	}

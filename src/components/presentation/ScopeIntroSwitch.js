@@ -16,7 +16,7 @@ export default ({scope, intro, styleClass}) => {
 					);
 				case 'LPISCheck':
 					return (
-						<LpisCheckIntro scope={scope}/>
+						<LpisCheckIntro scope={scope} key={scope.key}/>
 					);
 			}
 		} else {

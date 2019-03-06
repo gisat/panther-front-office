@@ -1,13 +1,13 @@
 import {createSelector} from 'reselect';
 import _ from 'lodash';
 import fuzzysort from "fuzzysort";
+import common from "../../_common/selectors";
 
 const SEARCHABLE_CASE_KEYS = ['case_key', 'change_description'];
 const SEARCHABLE_CASE_KEYS_SOURCES = ['data.poznamka', 'data.nkod_dpb'];
 const SEARCHING_RESULTS_LIMIT = 20;
 const SEARCHING_SCORE_THRESHOLD = -10000;
 
-const getCases = state => state.specific.lpisCheckCases.cases;
 const getFilterVisited = state => state.specific.lpisCheckCases.filterVisited;
 const getFilterConfirmed = state => state.specific.lpisCheckCases.filterConfirmed;
 const getFilterSearch = state => state.specific.lpisCheckCases.searchString;
@@ -18,6 +18,8 @@ const getActiveViewKey = state => state.dataviews.activeKey;
 const getSubstate = state => state.specific.lpisCheckCases;
 const getChangingCase = state => state.specific.lpisCheckCases.changingActive;
 
+const getAll = common.getAll(getSubstate);
+
 const getFilterParams = state => ({
 	filterVisited: getFilterVisited(state),
 	filterConfirmed: getFilterConfirmed(state),
@@ -25,7 +27,7 @@ const getFilterParams = state => ({
 });
 
 const getCasesWithChanges = createSelector(
-	[getCases, getChanges],
+	[getAll, getChanges],
 	(cases, changes) => {
 		let extendedCases = [];
 		cases.map(caseItem => {
@@ -83,10 +85,11 @@ const filterCasesByConfirmed = (cases, confirmed) => {
 }
 
 const getFilteredCases = createSelector(
-	[getCases, getFilterParams, getSearchString],
-	(cases, filterParams, searchString) => {
+	[getAll, getFilterParams, getSearchString, (stete, filters, scope_key) => scope_key],
+	(cases, filterParams, searchString, scope_key) => {
 		//TODO - better filter and union?
-		const filteredByVisited = filterCasesByVisited(cases, filterParams.filterVisited);
+		const casesByScope = cases ? cases.filter((c) => c.data.scope_key == scope_key) : [];
+		const filteredByVisited = filterCasesByVisited(casesByScope, filterParams.filterVisited);
 		const filteredByConfirmed = filterCasesByConfirmed(filteredByVisited, filterParams.filterConfirmed);
 		if(searchString) {
 			return search(searchString, filteredByConfirmed);
@@ -97,7 +100,7 @@ const getFilteredCases = createSelector(
 );
 
 const getActiveCase = createSelector(
-	[getActiveCaseKey, getCases],
+	[getActiveCaseKey, getAll],
 	(activeCaseKey, cases) => {
 		return _.find(cases, {key: activeCaseKey});
 	}
@@ -138,7 +141,7 @@ const getNextCaseKey = createSelector(
 );
 
 const getCaseByActiveView = createSelector(
-	[getActiveViewKey, getCases],
+	[getActiveViewKey, getAll],
 	(activeViewKey, cases) => {
 		return cases.find(oneCase => parseInt(oneCase.data.dataview_key) === parseInt(activeViewKey));
 	}
@@ -179,7 +182,7 @@ const filterByConditions = (items, conditions, filter) => {
 }
 
 export default {
-	getCases,
+	getAll,
 	getChangingCase,
 	getSubstate,
 	getFilterVisited,
