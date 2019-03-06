@@ -21,8 +21,13 @@ class Screens extends React.PureComponent {
 		onCloseScreen: PropTypes.func,
 		onFocusScreen: PropTypes.func,
 		onOpenScreen: PropTypes.func,
-		onRetractScreen: PropTypes.func
+		onRetractScreen: PropTypes.func,
+		baseActiveWidth: PropTypes.number,
 	};
+
+	static defaultProps = {
+		baseActiveWidth: 40,
+	}
 
 	constructor(props){
 		super(props);
@@ -133,9 +138,8 @@ class Screens extends React.PureComponent {
 			});
 
 			if (!maximalizedScreenLineage) {
-				orderByHistory.forEach(lineage => {
+				orderByHistory.forEach(function(lineage) {
 					let stateScreen = this.props.screens[lineage];
-
 					if (!availableWidthLeft) {
 						screens[lineage].computedWidth = RETRACTED_WIDTH;
 						screens[lineage].computedDisabled = true;
@@ -169,12 +173,12 @@ class Screens extends React.PureComponent {
 
 								// TODO Do we want to disable base screen?
 								if (lineage === 'base' && !baseFirstOpen) {
-									screens[lineage].computedDisabled = true;
+									screens[lineage].computedDisabled = screens[lineage].computedWidth < this.props.baseActiveWidth;
 								}
 							}
 						}
 					}
-				});
+				}.bind(this));
 			} else {
 				orderByHistory.forEach(lineage => {
 					if (lineage !== maximalizedScreenLineage) {
