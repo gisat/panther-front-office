@@ -5,12 +5,14 @@ import Select from '../../../../state/Select';
 import utils from "../../../../utils/utils";
 
 import presentation from "./presentation";
+import apps from '../../../../apps';
 
 const order = [['name', 'ascending']];
 
 const mapStateToProps = () => {
 	return state => {
 		return {
+			apps,
 			// activeKey: Select.apps.getActiveKey(state),
 			// apps: Select.apps.get(null, null, order, 1, 100)
 		}

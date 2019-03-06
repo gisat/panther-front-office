@@ -17,4 +17,12 @@
 
 .ptr-bo-app-select-list {
 	position: absolute;
+	padding: m(1/3) m(1/3) 0;
+
+	transform-origin: top;
+	transition: transform .3s ease-in-out;
+	transform: scaleY(0);
+}
+.ptr-bo-app-select-list > .ptr-bo-app-select-item {
+	margin-bottom: m(1/3);
 }

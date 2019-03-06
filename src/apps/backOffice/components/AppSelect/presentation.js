@@ -3,8 +3,8 @@ import classNames from 'classnames';
 
 import './style.scss';
 
-const renderApp = app => (
-	<div className="ptr-bo-app-select-item">{app.nameDisplay}</div>
+const renderApp = app => app.backOffice ? null : (
+	<div className="ptr-bo-app-select-item"><span>{app.nameDisplay || app.key}</span></div>
 );
 
 export default props => (
@@ -13,7 +13,7 @@ export default props => (
 			<span>All apps</span>
 		</div>
 		<div className="ptr-bo-app-select-list">
-			{props.apps && props.apps.length && props.apps.forEach(renderApp) || null}
+			{props.apps && props.apps.length && props.apps.map(renderApp) || null}
 		</div>
 	</>
 );
