@@ -2,24 +2,7 @@ import { unregister } from './registerServiceWorker';
 import _ from 'lodash';
 
 import config from './config';
-
-const apps = [
-	{
-		hostname: 'panther.gisat.cz',
-		path: '/backoffice',
-		devPath: '/backoffice',
-		app: path => import(/* webpackChunkName: "backOffice" */'./apps/backOffice').then(module => {
-			module.default(path);
-		})
-	}, {
-		hostname: 'panther.gisat.cz',
-		path: null,
-		devPath: '/demo',
-		app: path => import(/* webpackChunkName: "demo" */'./apps/demo').then(module => {
-			module.default(path);
-		})
-	}
-];
+import apps from './apps';
 
 function start() {
 	for (let app of apps) {
