@@ -7,8 +7,8 @@ const mapStateToProps = (state, ownProps) => {
 	
 	return {
 		case: Select.specific.lpisCheckCases.getActiveCase(state),
-		nextCaseKey: Select.specific.lpisCheckCases.getNextCaseKey(state),
-		previousCaseKey: Select.specific.lpisCheckCases.getPreviousCaseKey(state),
+		nextCaseKey: Select.specific.lpisCheckCases.getNextCaseKey(state, null, ownProps.scope_key),
+		previousCaseKey: Select.specific.lpisCheckCases.getPreviousCaseKey(state, null, ownProps.scope_key),
 		map: Select.maps.getActiveMap(state),
 		changingCase: Select.specific.lpisCheckCases.getChangingCase(state),
 	};

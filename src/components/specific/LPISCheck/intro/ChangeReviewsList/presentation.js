@@ -14,10 +14,19 @@ class ChangeReviewsList extends React.PureComponent {
 		cases: PropTypes.array,
 		changeSearch: PropTypes.func,
 		showCase: PropTypes.func,
+		onMount: PropTypes.func,
+		onUnmount: PropTypes.func,
 		searchString: PropTypes.string,
 		filterVisited: PropTypes.string,
 		filterConfirmed: PropTypes.string,
 	};
+
+	componentDidMount() {
+		this.props.onMount();
+	}
+	componentWillUnmount() {
+		this.props.onUnmount();
+	}
 
 	onSearchChange(searchString){
 		this.props.changeSearch({

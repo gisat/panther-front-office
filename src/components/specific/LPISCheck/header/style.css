@@ -98,6 +98,10 @@
 	margin-left: .3rem;
 }
 
+.ptr-button.header-button.ptr-button-fit{
+	width: auto;	
+}
+
 #lpisCheckHeader .flex {
 	flex: 1 1 auto;
 }

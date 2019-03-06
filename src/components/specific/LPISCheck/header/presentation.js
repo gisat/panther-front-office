@@ -70,7 +70,7 @@ class LpisCheckHeader extends React.PureComponent {
 						<div className="container flex center" style={{flexFlow: 'row-reverse'}}>
 						{
 							this.props.previousCaseKey ? (
-							<Button inverted className="header-button component-button" onClick={this.goToPreviousCase}>
+							<Button inverted className="header-button component-button ptr-button-fit" onClick={this.goToPreviousCase}>
 								<i className="fa fa-chevron-left" aria-hidden="true"></i>
 								Předchozí
 							</Button>) : null
@@ -107,11 +107,11 @@ class LpisCheckHeader extends React.PureComponent {
 									</div>) : null
 								}
 								{
-									(this.props.case.data.poznamka || this.props.case.data.typ) ? (
+									this.props.case.data.poznamka ? (
 									<div>
 										<label>
 											<span>Poznámka: </span>
-											{this.props.case.data.poznamka || this.props.case.data.typ}
+											{this.props.case.data.poznamka}
 										</label>
 									</div>) : null
 								}
@@ -130,7 +130,7 @@ class LpisCheckHeader extends React.PureComponent {
 						<div className="container flex center">
 							{
 								this.props.nextCaseKey ? (
-									<Button inverted className="header-button component-button" onClick={this.goToNextCase}>
+									<Button inverted className="header-button component-button ptr-button-fit" onClick={this.goToNextCase}>
 										Následující
 										<i className="fa fa-chevron-right" aria-hidden="true"></i>
 									</Button>

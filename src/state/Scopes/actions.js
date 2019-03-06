@@ -32,12 +32,6 @@ function applyScopeConfiguration() {
 			}
 
 			if (scopeConfig.hasOwnProperty('lpisCheckReview')) {
-				//TODO - only if intro mode is active
-				const activeScopeKey = Select.scopes.getActiveKey(getState());
-				const payload = {
-					scope_key: activeScopeKey,
-				};
-				dispatch(common.loadFiltered('lpischeck_cases', ActionTypes.LPIS_CASES, payload, undefined, {PAGE_SIZE: 100}));
 			}else if (scopeConfig.style){
 				let styleToUse = VisualsConfig[scopeConfig.style];
 				htmlClass = styleToUse && styleToUse.htmlClass ? styleToUse.htmlClass : null;

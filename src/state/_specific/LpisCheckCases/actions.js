@@ -12,12 +12,14 @@ import LayerPeriods from "../../LayerPeriods/actions";
 
 // ============ creators ===========
 
+const useIndexed = common.useIndexed(Select.specific.lpisCheckCases.getSubstate, 'lpischeck_cases', ActionTypes.LPIS_CASES);
+
 function setActive(caseKey) {
 	return (dispatch, getState) => {
 		dispatch(actionSetActive(caseKey));
 
 		let state = getState();
-		let cases = Select.specific.lpisCheckCases.getCases(state);
+		let cases = Select.specific.lpisCheckCases.getAll(state);
 		let lpisCase = _.find(cases, {key: caseKey});
 		if (lpisCase && lpisCase.data && lpisCase.data.geometry) {
 			dispatch(LayerPeriods.loadForKey('lpisCase' + lpisCase.key, lpisCase.data.geometry));
@@ -29,7 +31,7 @@ function setCaseConfirmed(caseKey, confirmed) {
 	return (dispatch, getState) => {
 
 		let state = getState();
-		let cases = Select.specific.lpisCheckCases.getCases(state);
+		let cases = Select.specific.lpisCheckCases.getAll(state);
 		let lpisCase = cases.find((c) => c.key === caseKey);
 		if (lpisCase && lpisCase.data) {
 
@@ -57,7 +59,7 @@ function setCaseVisited(caseKey, visited) {
 	return (dispatch, getState) => {
 
 		let state = getState();
-		let cases = Select.specific.lpisCheckCases.getCases(state);
+		let cases = Select.specific.lpisCheckCases.getAll(state);
 		let lpisCase = cases.find((c) => c.key === caseKey);
 		if (lpisCase && lpisCase.data) {
 
@@ -144,6 +146,14 @@ function setActiveCaseByActiveView() {
 
 // ============ actions ===========
 
+function actionClearUseindexed(componentId) {
+	return {
+		type: ActionTypes.LPIS_CASES.USE.INDEXED.CLEAR,
+		componentId
+	}
+}
+
+
 function actionChangeSearch(searchParam) {
 	return {
 		type: ActionTypes.LPIS_CHECK_CASES_SEARCH_PARAM_CHANGE,
@@ -176,6 +186,8 @@ function setChanging(changing) {
 
 export default {
 	changeSearch: actionChangeSearch,
+	useIndexed,
+	useIndexedClear: actionClearUseindexed,
 	setActive,
 	setCaseVisited,
 	setCaseConfirmed,
