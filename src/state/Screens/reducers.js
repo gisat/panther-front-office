@@ -100,10 +100,10 @@ const update = (state, action) => {
 	let sets = {...state.sets};
 	sets[action.setKey] = {...INITIAL_SET_STATE, ...sets[action.setKey]};
 
-	let orderByHistory = _.without(...sets[action.setKey].orderBySpace, action.lineage);
+	let orderByHistory = _.without(sets[action.setKey].orderByHistory, action.lineage);
 	orderByHistory.push(action.lineage);
 
-	let orderBySpace = _.without(...sets[action.setKey].orderBySpace, action.lineage);
+	let orderBySpace = _.without(sets[action.setKey].orderBySpace, action.lineage);
 	orderBySpace.push(action.lineage);
 
 	sets[action.setKey].orderBySpace = orderBySpace;
