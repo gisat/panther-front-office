@@ -25,15 +25,34 @@ class Screen extends React.PureComponent {
 
 	constructor(props){
 		super(props);
+
+		this.screen = React.createRef();
+		this.state = {
+			focused: false
+		};
+
+		this.onFocus = this.onFocus.bind(this);
+		this.onBlur = this.onBlur.bind(this);
+
 		this.onCloseClick = this.props.onCloseClick.bind(this, props.lineage);
 		this.onOpenClick = this.props.onOpenClick.bind(this, props.lineage);
 		this.onRetractClick = this.props.onRetractClick.bind(this, props.lineage);
 	}
 
+	onFocus() {
+		this.props.onFocus(this.props.lineage);
+		this.setState({focused: true});
+	}
+
+	onBlur() {
+		this.setState({focused: false});
+	}
+
 	render() {
 		let classes = classNames("ptr-screen", {
 			disabled: this.props.disabled,
-			open: !this.props.disabled
+			open: !this.props.disabled,
+			focused: this.state.focused
 		});
 
 		let screenStyle = {};
@@ -47,8 +66,8 @@ class Screen extends React.PureComponent {
 		}
 
 		return (
-			<div className={classes} style={screenStyle} onFocus={this.onFocus}>
-				<div className="ptr-screen-scroll" style={screenScrollStyle} tabIndex="0">
+			<div className={classes} style={screenStyle} onFocus={this.onFocus} tabIndex={0} onBlur={this.onBlur} ref={this.screen}>
+				<div className="ptr-screen-scroll" style={screenScrollStyle}>
 					{this.props.content}
 				</div>
 				<div className="ptr-screen-overlay" onClick={this.onOpenClick} />

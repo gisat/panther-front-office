@@ -37,6 +37,7 @@ class Value extends React.PureComponent {
 					onTouchEnd={(evt) => {this.props.onOptionLabelClick(this.props.option, evt)}}
 					onClick={(evt) => {this.props.onOptionLabelClick(this.props.option, evt)}}
 					style={this.props.option.style}
+				    tabIndex={0}
 					title={this.props.option.title}
 				>
 					{itemContent}	

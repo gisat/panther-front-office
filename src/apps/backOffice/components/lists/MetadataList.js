@@ -39,6 +39,7 @@ class MetadataList extends React.PureComponent {
 		return (
 			<div>
 				<AddValue
+					tabIndex={0}
                     option={{label:"Create"}} 
                     onOptionLabelClick={this.props.onAddClick}
                     />
