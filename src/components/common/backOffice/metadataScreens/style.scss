@@ -1,0 +1,22 @@
+@import '../../../../styles/variables';
+
+.ptr-screen-metadata-header {
+	background: $bo-lighter1;
+  	border-bottom: 1px solid $bo1;
+  	padding-top: m(2/3);
+  	padding-bottom: m(2/3);
+}
+
+.ptr-screen-metadata-title {
+	font-size: $b1;
+  	color: $bo3;
+  	text-transform: uppercase;
+}
+
+.ptr-screen-metadata-switcher {
+
+}
+
+.ptr-screen-metadata-content {
+	padding-top: m(4/3);
+}
